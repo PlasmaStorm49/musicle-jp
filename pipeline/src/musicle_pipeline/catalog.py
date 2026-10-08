@@ -26,6 +26,7 @@ from musicle_pipeline.models import (
 )
 from musicle_pipeline.normalize import display, search_keys, song_key
 from musicle_pipeline.romaji_cache import RomajiCache, album_text, artist_text, track_text
+from musicle_pipeline.similarity import album_similar, track_similar
 
 SCHEMA_VERSION = 1
 MIN_PREVIEW_SEC = 16  # o trecho mais longo do jogo tem 16 s
@@ -268,5 +269,10 @@ def build_catalog(
             key=lambda r: r["id"],
         ),
     }
+    # Distratores por último: dependem da popularidade e da elegibilidade de todas as faixas.
+    for track_id, similar in track_similar(catalog["tracks"], albums).items():
+        next(t for t in catalog["tracks"] if t["id"] == track_id)["similar"] = similar
+    for album_id, similar in album_similar(catalog["albums"], catalog["tracks"]).items():
+        albums[album_id]["similar"] = similar
     catalog["catalogVersion"] = catalog_version(catalog)
     return catalog

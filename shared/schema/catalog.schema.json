@@ -95,7 +95,7 @@
         "type": { "enum": ["single", "album", "ep", "compilation"] },
         "releaseDate": { "$ref": "#/$defs/date" },
         "artworkUrl": { "oneOf": [{ "$ref": "#/$defs/url" }, { "type": "null" }] },
-        "similar": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/albumId" } },
+        "similar": { "type": "array", "maxItems": 10, "uniqueItems": true, "items": { "$ref": "#/$defs/albumId" } },
         "search": { "$ref": "#/$defs/searchKeys" }
       }
     },
@@ -183,7 +183,7 @@
         "chart": { "$ref": "#/$defs/chart" },
         "popularity": { "type": "number", "minimum": 0, "maximum": 1 },
         "eligible": { "$ref": "#/$defs/eligible" },
-        "similar": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/trackId" } },
+        "similar": { "type": "array", "maxItems": 10, "uniqueItems": true, "items": { "$ref": "#/$defs/trackId" } },
         "search": {
           "type": "object",
           "additionalProperties": false,

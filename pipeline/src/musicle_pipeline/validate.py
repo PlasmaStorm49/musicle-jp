@@ -11,6 +11,7 @@ from musicle_pipeline.catalog import catalog_version
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
 from musicle_pipeline.paths import catalog_schema_path
+from musicle_pipeline.similarity import MIN_OPTIONS, album_profiles, title_of
 
 
 @cache
@@ -81,8 +82,71 @@ def _invariant_problems(catalog: JSON) -> list[str]:
     for aid in sorted(album_ids - used_albums):
         problems.append(f"{aid}: álbum sem nenhuma faixa")
 
+    problems.extend(_similar_problems(catalog))
+
     if catalog["catalogVersion"] != catalog_version(catalog):
         problems.append("catalogVersion não bate com o conteúdo (o arquivo foi editado à mão?)")
+    return problems
+
+
+def _disjoint(groups: list[frozenset[str]]) -> bool:
+    seen: set[str] = set()
+    for g in groups:
+        if g & seen:
+            return False
+        seen |= g
+    return True
+
+
+def _similar_problems(catalog: JSON) -> list[str]:
+    """Distratores: existem, não se parecem demais com a resposta e bastam para 4 opções."""
+    problems: list[str] = []
+    tracks = {t["id"]: t for t in catalog["tracks"]}
+    albums = {a["id"]: a for a in catalog["albums"]}
+    profiles = album_profiles(catalog["albums"], catalog["tracks"])
+
+    for t in catalog["tracks"]:
+        me = frozenset(t["artistIds"])
+        groups = []
+        for sid in t["similar"]:
+            c = tracks.get(sid)
+            if c is None or sid == t["id"]:
+                problems.append(f"{t['id']}: distrator inválido {sid}")
+                continue
+            groups.append(frozenset(c["artistIds"]))
+            if me & groups[-1]:
+                problems.append(f"{t['id']}: distrator {sid} tem artista em comum")
+            if title_of(c["songKey"]) == title_of(t["songKey"]):
+                problems.append(f"{t['id']}: distrator {sid} tem o mesmo título")
+            if not c["eligible"]["daily"]:
+                problems.append(f"{t['id']}: distrator {sid} não é elegível")
+        if not _disjoint(groups):
+            problems.append(f"{t['id']}: distratores com artista repetido")
+        if t["eligible"]["daily"] and len(t["similar"]) < MIN_OPTIONS:
+            problems.append(
+                f"{t['id']}: só {len(t['similar'])} distrator(es), mínimo {MIN_OPTIONS}"
+            )
+        album = albums.get(t["albumId"])  # álbum inexistente já foi relatado acima
+        if t["eligible"]["daily"] and album and len(album["similar"]) < MIN_OPTIONS:
+            problems.append(
+                f"{t['albumId']}: álbum de resposta com menos de {MIN_OPTIONS} distratores"
+            )
+
+    for al in catalog["albums"]:
+        me = profiles[al["id"]]
+        groups = []
+        for sid in al["similar"]:
+            other = profiles.get(sid)
+            if other is None or sid == al["id"] or not albums[sid]["artworkUrl"]:
+                problems.append(f"{al['id']}: distrator inválido {sid}")
+                continue
+            groups.append(other["artists"])
+            if me["artists"] & other["artists"]:
+                problems.append(f"{al['id']}: distrator {sid} tem artista em comum")
+            if me["songKeys"] & other["songKeys"]:
+                problems.append(f"{al['id']}: distrator {sid} tem música em comum")
+        if not _disjoint(groups):
+            problems.append(f"{al['id']}: distratores com artista repetido")
     return problems
 
 
