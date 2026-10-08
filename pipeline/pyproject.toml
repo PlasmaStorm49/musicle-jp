@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "musicle-pipeline"
+version = "0.1.0"
+description = "Gera o catálogo (e, a partir do M3, a agenda) do musicle-jp"
+# Outra versão do Python traz outra versão do Unicode e mudaria bytes do catálogo.
+requires-python = ">=3.12,<3.13"
+dependencies = ["jsonschema>=4.26,<5"]
+
+[project.optional-dependencies]
+# Versões exatas: o estilo do formatador e o comportamento dos testes não podem variar entre máquinas.
+dev = ["pytest==9.1.1", "ruff==0.16.10"]
+
+[project.scripts]
+musicle-pipeline = "musicle_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "TID"]
+# RUF001 a RUF003 avisam de "caractere Unicode ambíguo"; aqui o texto japonês é proposital.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+# Caracteres japoneses contam largura 2, e os testes têm muitos literais.
+"tests/**" = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["musicle_pipeline"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"datetime.datetime.now".msg = "O build não pode depender do relógio: use a data do snapshot."
+"datetime.datetime.utcnow".msg = "O build não pode depender do relógio: use a data do snapshot."
+"datetime.date.today".msg = "O build não pode depender do relógio: use a data do snapshot."
+"time.time".msg = "O build não pode depender do relógio: use a data do snapshot."
+"random".msg = "Sorteio só com o PRNG com semente (M3)."
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]  # permite `from helpers import ...` com o modo importlib
+addopts = ["--import-mode=importlib", "-ra"]
