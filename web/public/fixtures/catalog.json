@@ -7,13 +7,16 @@
       ],
       "artworkUrl": "fixtures/art/al01.svg",
       "id": "fixture:al:al01",
+      "latinSource": "cutlet",
       "releaseDate": "2024-03-01",
       "search": [
+        "yoakenomelody",
+        "yoakenomeroji",
         "夜明けのめろでぃ"
       ],
       "similar": [],
       "title": "夜明けのメロディ - Single",
-      "titleLatin": null,
+      "titleLatin": "Yoake no merodi",
       "type": "single"
     },
     {
@@ -23,6 +26,7 @@
       ],
       "artworkUrl": "fixtures/art/al02.svg",
       "id": "fixture:al:al02",
+      "latinSource": null,
       "releaseDate": "2024-11-20",
       "search": [
         "dawncollecchion"
@@ -39,13 +43,16 @@
       ],
       "artworkUrl": "fixtures/art/al03.svg",
       "id": "fixture:al:al03",
+      "latinSource": "cutlet",
       "releaseDate": "2024-04-10",
       "search": [
+        "yoakenomelodytvshize",
+        "yoakenomerojitvshize",
         "夜明けのめろでぃtvshize"
       ],
       "similar": [],
       "title": "夜明けのメロディ (TV Size) - Single",
-      "titleLatin": null,
+      "titleLatin": "Yoake no merodi (TV Size)",
       "type": "single"
     },
     {
@@ -55,13 +62,16 @@
       ],
       "artworkUrl": "fixtures/art/al04.svg",
       "id": "fixture:al:al04",
+      "latinSource": "cutlet",
       "releaseDate": "2023-06-14",
       "search": [
+        "nanaironote",
+        "nanaironoto",
         "七色のーと"
       ],
       "similar": [],
       "title": "七色ノート",
-      "titleLatin": null,
+      "titleLatin": "Nanairo nooto",
       "type": "album"
     },
     {
@@ -72,13 +82,15 @@
       ],
       "artworkUrl": "fixtures/art/al05.svg",
       "id": "fixture:al:al05",
+      "latinSource": "cutlet",
       "releaseDate": "2025-02-14",
       "search": [
+        "futarinoyakusoku",
         "ふたりの約束"
       ],
       "similar": [],
       "title": "ふたりの約束 - Single",
-      "titleLatin": null,
+      "titleLatin": "Futari no yakusoku",
       "type": "single"
     },
     {
@@ -88,13 +100,15 @@
       ],
       "artworkUrl": "fixtures/art/al06.svg",
       "id": "fixture:al:al06",
+      "latinSource": "cutlet",
       "releaseDate": "2025-08-27",
       "search": [
+        "sakamichinomuko",
         "坂道の向こう"
       ],
       "similar": [],
       "title": "坂道の向こう - Single",
-      "titleLatin": null,
+      "titleLatin": "Sakamichi no mukou",
       "type": "single"
     },
     {
@@ -104,13 +118,16 @@
       ],
       "artworkUrl": "fixtures/art/al07.svg",
       "id": "fixture:al:al07",
+      "latinSource": "cutlet",
       "releaseDate": "2026-09-30",
       "search": [
+        "akikazenowaltz",
+        "akikazenowarutsu",
         "秋風のわるつ"
       ],
       "similar": [],
       "title": "秋風のワルツ - Single",
-      "titleLatin": null,
+      "titleLatin": "Akikaze no warutsu",
       "type": "single"
     },
     {
@@ -120,13 +137,15 @@
       ],
       "artworkUrl": "fixtures/art/al08.svg",
       "id": "fixture:al:al08",
+      "latinSource": "cutlet",
       "releaseDate": "2026-07-20",
       "search": [
+        "natsuyasumi",
         "なつやすみ"
       ],
       "similar": [],
       "title": "なつやすみ - Single",
-      "titleLatin": null,
+      "titleLatin": "Natsuyasumi",
       "type": "single"
     },
     {
@@ -136,13 +155,16 @@
       ],
       "artworkUrl": "fixtures/art/al09-v2.svg",
       "id": "fixture:al:al09",
+      "latinSource": "cutlet",
       "releaseDate": "2026-05-13",
       "search": [
+        "tomeinashignal",
+        "tomeinashigunaru",
         "透明なしぐなる"
       ],
       "similar": [],
       "title": "透明なシグナル - Single",
-      "titleLatin": null,
+      "titleLatin": "Toumei na shigunaru",
       "type": "single"
     },
     {
@@ -152,6 +174,7 @@
       ],
       "artworkUrl": "fixtures/art/al10.svg",
       "id": "fixture:al:al10",
+      "latinSource": null,
       "releaseDate": "2025-10-10",
       "search": [
         "riot"
@@ -168,13 +191,16 @@
       ],
       "artworkUrl": "fixtures/art/al11.svg",
       "id": "fixture:al:al11",
+      "latinSource": "cutlet",
       "releaseDate": "2026-04-01",
       "search": [
+        "ponpokomachi",
+        "ponpokomarch",
         "ぽんぽこまーち"
       ],
       "similar": [],
       "title": "ぽんぽこマーチ - Single",
-      "titleLatin": null,
+      "titleLatin": "Pon poko maachi",
       "type": "single"
     },
     {
@@ -184,6 +210,7 @@
       ],
       "artworkUrl": null,
       "id": "fixture:al:al12",
+      "latinSource": null,
       "releaseDate": "2022-09-09",
       "search": [
         "neonrain"
@@ -200,13 +227,15 @@
       ],
       "artworkUrl": "fixtures/art/al13.svg",
       "id": "fixture:al:al13",
+      "latinSource": "cutlet",
       "releaseDate": "2021-06-02",
       "search": [
+        "amaotonosonata",
         "雨音のそなた"
       ],
       "similar": [],
       "title": "雨音のソナタ",
-      "titleLatin": null,
+      "titleLatin": "Amaoto no sonata",
       "type": "album"
     },
     {
@@ -216,6 +245,7 @@
       ],
       "artworkUrl": "fixtures/art/al14.svg",
       "id": "fixture:al:al14",
+      "latinSource": null,
       "releaseDate": "2026-03-04",
       "search": [
         "bluejiary"
@@ -232,13 +262,15 @@
       ],
       "artworkUrl": "fixtures/art/al15.svg",
       "id": "fixture:al:al15",
+      "latinSource": "cutlet",
       "releaseDate": "2023-11-22",
       "search": [
+        "nekonome",
         "猫の目"
       ],
       "similar": [],
       "title": "猫の目",
-      "titleLatin": null,
+      "titleLatin": "Neko no me",
       "type": "album"
     },
     {
@@ -248,6 +280,7 @@
       ],
       "artworkUrl": "fixtures/art/al16.svg",
       "id": "fixture:al:al16",
+      "latinSource": null,
       "releaseDate": "2026-01-21",
       "search": [
         "prism"
@@ -264,13 +297,15 @@
       ],
       "artworkUrl": "fixtures/art/al17.svg",
       "id": "fixture:al:al17",
+      "latinSource": "cutlet",
       "releaseDate": "2025-12-03",
       "search": [
+        "hoshininegaiwo",
         "星に願いを"
       ],
       "similar": [],
       "title": "星に願いを♪ - Single",
-      "titleLatin": null,
+      "titleLatin": "Hoshi ni negai wo",
       "type": "single"
     },
     {
@@ -280,13 +315,16 @@
       ],
       "artworkUrl": "fixtures/art/al18.svg",
       "id": "fixture:al:al18",
+      "latinSource": "manual",
       "releaseDate": "2026-06-18",
       "search": [
-        "1番星"
+        "1bansei",
+        "1番星",
+        "ichibanboshi"
       ],
       "similar": [],
       "title": "①番星 - Single",
-      "titleLatin": null,
+      "titleLatin": "Ichibanboshi",
       "type": "single"
     },
     {
@@ -296,6 +334,7 @@
       ],
       "artworkUrl": "fixtures/art/al19.svg",
       "id": "fixture:al:al19",
+      "latinSource": null,
       "releaseDate": "2019-08-30",
       "search": [
         "midnightdrive"
@@ -312,13 +351,16 @@
       ],
       "artworkUrl": "fixtures/art/al20.svg",
       "id": "fixture:al:al20",
+      "latinSource": "cutlet",
       "releaseDate": "2024-07-07",
       "search": [
+        "tokyoraitsu",
+        "tokyoright",
         "東京らいつ"
       ],
       "similar": [],
       "title": "東京ライツ - Single",
-      "titleLatin": null,
+      "titleLatin": "Tokyo raitsu",
       "type": "single"
     },
     {
@@ -328,13 +370,15 @@
       ],
       "artworkUrl": "fixtures/art/al21.svg",
       "id": "fixture:al:al21",
+      "latinSource": "cutlet",
       "releaseDate": "2025-05-21",
       "search": [
+        "yokazegekijo",
         "夜風劇場"
       ],
       "similar": [],
       "title": "夜風劇場",
-      "titleLatin": null,
+      "titleLatin": "Yokaze gekijou",
       "type": "album"
     },
     {
@@ -344,6 +388,7 @@
       ],
       "artworkUrl": "fixtures/art/al22.svg",
       "id": "fixture:al:al22",
+      "latinSource": null,
       "releaseDate": "2025-09-12",
       "search": [
         "stayforever"
@@ -360,6 +405,7 @@
       ],
       "artworkUrl": "fixtures/art/al23.svg",
       "id": "fixture:al:al23",
+      "latinSource": null,
       "releaseDate": "2025-12-24",
       "search": [
         "tokyonoiselive2025"
@@ -376,13 +422,16 @@
       ],
       "artworkUrl": "fixtures/art/al24.svg",
       "id": "fixture:al:al24",
+      "latinSource": "cutlet",
       "releaseDate": "2026-08-05",
       "search": [
+        "garasugoshinohikari",
+        "glassgoshinohikari",
         "がらす越しの光"
       ],
       "similar": [],
       "title": "ガラス越しの光 - Single",
-      "titleLatin": null,
+      "titleLatin": "Garasugoshi no hikari",
       "type": "single"
     },
     {
@@ -392,13 +441,15 @@
       ],
       "artworkUrl": "fixtures/art/al25.svg",
       "id": "fixture:al:al25",
+      "latinSource": "cutlet",
       "releaseDate": "2020-02-26",
       "search": [
+        "nekozenoburusu",
         "猫背のぶるーす"
       ],
       "similar": [],
       "title": "猫背のブルース - Single",
-      "titleLatin": null,
+      "titleLatin": "Nekoze no Buruusu",
       "type": "single"
     },
     {
@@ -408,13 +459,16 @@
       ],
       "artworkUrl": "fixtures/art/al26.svg",
       "id": "fixture:al:al26",
+      "latinSource": "cutlet",
       "releaseDate": "2026-09-09",
       "search": [
+        "memoriren",
+        "memorylane",
         "めもりーれーん"
       ],
       "similar": [],
       "title": "メモリーレーン - Single",
-      "titleLatin": null,
+      "titleLatin": "Memorii reen",
       "type": "single"
     },
     {
@@ -424,13 +478,16 @@
       ],
       "artworkUrl": "fixtures/art/al27.svg",
       "id": "fixture:al:al27",
+      "latinSource": "cutlet",
       "releaseDate": "2026-03-18",
       "search": [
+        "seifukutocider",
+        "seifukutosaida",
         "制服とさいだー"
       ],
       "similar": [],
       "title": "制服とサイダー - Single",
-      "titleLatin": null,
+      "titleLatin": "Seifuku to saidaa",
       "type": "single"
     },
     {
@@ -440,13 +497,15 @@
       ],
       "artworkUrl": "fixtures/art/al28.svg",
       "id": "fixture:al:al28",
+      "latinSource": "cutlet",
       "releaseDate": "2026-06-03",
       "search": [
+        "zerokyorilove",
         "ぜろ距離love"
       ],
       "similar": [],
       "title": "ゼロ距離Love - Single",
-      "titleLatin": null,
+      "titleLatin": "Zero kyori Love",
       "type": "single"
     },
     {
@@ -456,13 +515,15 @@
       ],
       "artworkUrl": "fixtures/art/al29.svg",
       "id": "fixture:al:al29",
+      "latinSource": "cutlet",
       "releaseDate": "2024-10-16",
       "search": [
+        "oyatsunojikan",
         "おやつの時間"
       ],
       "similar": [],
       "title": "おやつの時間",
-      "titleLatin": null,
+      "titleLatin": "Oyatsu no jikan",
       "type": "album"
     },
     {
@@ -472,13 +533,15 @@
       ],
       "artworkUrl": "fixtures/art/al30.svg",
       "id": "fixture:al:al30",
+      "latinSource": "cutlet",
       "releaseDate": "2025-11-05",
       "search": [
+        "mayonakanokanransha",
         "真夜中の観覧車"
       ],
       "similar": [],
       "title": "真夜中の観覧車 - Single",
-      "titleLatin": null,
+      "titleLatin": "Mayonaka no kanransha",
       "type": "single"
     },
     {
@@ -488,13 +551,15 @@
       ],
       "artworkUrl": "fixtures/art/al31.svg",
       "id": "fixture:al:al31",
+      "latinSource": "cutlet",
       "releaseDate": "2026-08-19",
       "search": [
+        "shibuya24ji",
         "shibuya24時"
       ],
       "similar": [],
       "title": "Shibuya 24時 - Single",
-      "titleLatin": null,
+      "titleLatin": "Shibuya 24 ji",
       "type": "single"
     },
     {
@@ -504,13 +569,16 @@
       ],
       "artworkUrl": "fixtures/art/al32.svg",
       "id": "fixture:al:al32",
+      "latinSource": "cutlet",
       "releaseDate": "2026-09-16",
       "search": [
+        "harogubbai",
+        "hellogubbai",
         "はろーぐっばい"
       ],
       "similar": [],
       "title": "ハローグッバイ - Single",
-      "titleLatin": null,
+      "titleLatin": "Haroo gubbai",
       "type": "single"
     },
     {
@@ -520,19 +588,22 @@
       ],
       "artworkUrl": "fixtures/art/al33.svg",
       "id": "fixture:al:al33",
+      "latinSource": "cutlet",
       "releaseDate": "2026-07-01",
       "search": [
+        "ryuseihighway",
         "流星highway"
       ],
       "similar": [],
       "title": "流星Highway",
-      "titleLatin": null,
+      "titleLatin": "Ryuusei Highway",
       "type": "ep"
     }
   ],
   "artists": [
     {
       "id": "fixture:ar:ar01",
+      "latinSource": "provider",
       "name": "ミナト",
       "nameLatin": "Minato",
       "search": [
@@ -542,15 +613,18 @@
     },
     {
       "id": "fixture:ar:ar02",
+      "latinSource": "provider",
       "name": "夜風シアター",
       "nameLatin": "Yokaze Theater",
       "search": [
+        "yokazeshiata",
         "yokazetheater",
         "夜風しあたー"
       ]
     },
     {
       "id": "fixture:ar:ar03",
+      "latinSource": null,
       "name": "ＬＵＭＩＮＡ",
       "nameLatin": null,
       "search": [
@@ -559,24 +633,29 @@
     },
     {
       "id": "fixture:ar:ar04",
+      "latinSource": "provider",
       "name": "さくらんぼ組",
       "nameLatin": "Sakuranbo-gumi",
       "search": [
         "sakuranbogumi",
+        "sakuranbokumi",
         "さくらんぼ組"
       ]
     },
     {
       "id": "fixture:ar:ar05",
+      "latinSource": "provider",
       "name": "ｶﾞﾗｽﾉﾈｺ",
       "nameLatin": "Garasu no Neko",
       "search": [
         "garasunoneko",
+        "glassnoneko",
         "がらすのねこ"
       ]
     },
     {
       "id": "fixture:ar:ar06",
+      "latinSource": null,
       "name": "Hoshizora Drive",
       "nameLatin": null,
       "search": [
@@ -585,6 +664,7 @@
     },
     {
       "id": "fixture:ar:ar07",
+      "latinSource": "provider",
       "name": "青井ユウ",
       "nameLatin": "Aoi Yuu",
       "search": [
@@ -594,6 +674,7 @@
     },
     {
       "id": "fixture:ar:ar08",
+      "latinSource": null,
       "name": "KOTONOHA",
       "nameLatin": null,
       "search": [
@@ -602,24 +683,29 @@
     },
     {
       "id": "fixture:ar:ar09",
+      "latinSource": "provider",
       "name": "ヴィオラ・ノート",
       "nameLatin": "Viola Note",
       "search": [
         "violanote",
+        "vioranoto",
         "ゔぃおらのーと"
       ]
     },
     {
       "id": "fixture:ar:ar10",
+      "latinSource": "provider",
       "name": "月見坂46",
       "nameLatin": "Tsukimizaka46",
       "search": [
+        "tsukimisaka46",
         "tsukimizaka46",
         "月見坂46"
       ]
     },
     {
       "id": "fixture:ar:ar11",
+      "latinSource": null,
       "name": "Re:Pulse",
       "nameLatin": null,
       "search": [
@@ -628,6 +714,7 @@
     },
     {
       "id": "fixture:ar:ar12",
+      "latinSource": "provider",
       "name": "ぱぴぷ楽団",
       "nameLatin": "Papipu Gakudan",
       "search": [
@@ -637,15 +724,18 @@
     },
     {
       "id": "fixture:ar:ar13",
+      "latinSource": "provider",
       "name": "東京ノイズ",
       "nameLatin": "Tōkyō Noise",
       "search": [
         "tokyonoise",
+        "tokyonoizu",
         "東京のいず"
       ]
     },
     {
       "id": "fixture:ar:ar14",
+      "latinSource": "provider",
       "name": "ナナ",
       "nameLatin": "Nana",
       "search": [
@@ -654,7 +744,7 @@
       ]
     }
   ],
-  "catalogVersion": "2026-10-05.c296681f",
+  "catalogVersion": "2026-10-05.9e19d1a3",
   "generatedAt": "2026-10-05T00:00:00Z",
   "provider": "fixture",
   "schemaVersion": 1,
@@ -705,7 +795,7 @@
       "explicit": false,
       "id": "fixture:tr:tr01",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.9,
       "preview": {
         "durationSec": 30,
@@ -719,13 +809,15 @@
           "みなと"
         ],
         "title": [
+          "yoakenomelody",
+          "yoakenomeroji",
           "夜明けのめろでぃ"
         ]
       },
       "similar": [],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
       "title": "夜明けのメロディ",
-      "titleLatin": null
+      "titleLatin": "Yoake no merodi"
     },
     {
       "albumId": "fixture:al:al02",
@@ -749,7 +841,7 @@
       "explicit": false,
       "id": "fixture:tr:tr02",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.7667,
       "preview": {
         "durationSec": 30,
@@ -763,13 +855,15 @@
           "みなと"
         ],
         "title": [
+          "yoakenomelody",
+          "yoakenomeroji",
           "夜明けのめろでぃ"
         ]
       },
       "similar": [],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
       "title": "夜明けのメロディ",
-      "titleLatin": null
+      "titleLatin": "Yoake no merodi"
     },
     {
       "albumId": "fixture:al:al03",
@@ -793,7 +887,7 @@
       "explicit": false,
       "id": "fixture:tr:tr03",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.4585,
       "preview": {
         "durationSec": 30,
@@ -807,13 +901,15 @@
           "みなと"
         ],
         "title": [
+          "yoakenomelodytvshize",
+          "yoakenomerojitvshize",
           "夜明けのめろでぃtvshize"
         ]
       },
       "similar": [],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
       "title": "夜明けのメロディ (TV Size)",
-      "titleLatin": null
+      "titleLatin": "Yoake no merodi (TV Size)"
     },
     {
       "albumId": "fixture:al:al04",
@@ -837,7 +933,7 @@
       "explicit": false,
       "id": "fixture:tr:tr04",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.5502,
       "preview": {
         "durationSec": 30,
@@ -851,13 +947,15 @@
           "なな"
         ],
         "title": [
+          "yoakenomelody",
+          "yoakenomeroji",
           "夜明けのめろでぃ"
         ]
       },
       "similar": [],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar14",
       "title": "夜明けのメロディ",
-      "titleLatin": null
+      "titleLatin": "Yoake no merodi"
     },
     {
       "albumId": "fixture:al:al05",
@@ -882,7 +980,7 @@
       "explicit": false,
       "id": "fixture:tr:tr05",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.9333,
       "preview": {
         "durationSec": 30,
@@ -893,18 +991,20 @@
       "search": {
         "artist": [
           "aoiyu",
+          "yokazeshiata",
           "yokazetheater",
           "夜風しあたー",
           "青井ゆう"
         ],
         "title": [
+          "futarinoyakusoku",
           "ふたりの約束"
         ]
       },
       "similar": [],
       "songKey": "ふたりの約束|fixture:ar:ar02",
       "title": "ふたりの約束",
-      "titleLatin": null
+      "titleLatin": "Futari no yakusoku"
     },
     {
       "albumId": "fixture:al:al06",
@@ -928,7 +1028,7 @@
       "explicit": false,
       "id": "fixture:tr:tr06",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.7007,
       "preview": {
         "durationSec": 30,
@@ -938,17 +1038,19 @@
       "releaseDate": "2025-08-27",
       "search": {
         "artist": [
+          "tsukimisaka46",
           "tsukimizaka46",
           "月見坂46"
         ],
         "title": [
+          "sakamichinomuko",
           "坂道の向こう"
         ]
       },
       "similar": [],
       "songKey": "坂道の向こう|fixture:ar:ar10",
       "title": "坂道の向こう",
-      "titleLatin": null
+      "titleLatin": "Sakamichi no mukou"
     },
     {
       "albumId": "fixture:al:al07",
@@ -972,7 +1074,7 @@
       "explicit": false,
       "id": "fixture:tr:tr07",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 1.0,
       "preview": {
         "durationSec": 30,
@@ -983,16 +1085,19 @@
       "search": {
         "artist": [
           "violanote",
+          "vioranoto",
           "ゔぃおらのーと"
         ],
         "title": [
+          "akikazenowaltz",
+          "akikazenowarutsu",
           "秋風のわるつ"
         ]
       },
       "similar": [],
       "songKey": "秋風のわるつ|fixture:ar:ar09",
       "title": "秋風のワルツ",
-      "titleLatin": null
+      "titleLatin": "Akikaze no warutsu"
     },
     {
       "albumId": "fixture:al:al08",
@@ -1016,7 +1121,7 @@
       "explicit": false,
       "id": "fixture:tr:tr08",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.6,
       "preview": {
         "durationSec": 30,
@@ -1027,16 +1132,18 @@
       "search": {
         "artist": [
           "sakuranbogumi",
+          "sakuranbokumi",
           "さくらんぼ組"
         ],
         "title": [
+          "natsuyasumi",
           "なつやすみ"
         ]
       },
       "similar": [],
       "songKey": "なつやすみ|fixture:ar:ar04",
       "title": "なつやすみ",
-      "titleLatin": null
+      "titleLatin": "Natsuyasumi"
     },
     {
       "albumId": "fixture:al:al09",
@@ -1060,7 +1167,7 @@
       "explicit": false,
       "id": "fixture:tr:tr09",
       "isrc": "JPZZ02600009",
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.8667,
       "preview": {
         "durationSec": 30,
@@ -1073,13 +1180,15 @@
           "kotonoha"
         ],
         "title": [
+          "tomeinashignal",
+          "tomeinashigunaru",
           "透明なしぐなる"
         ]
       },
       "similar": [],
       "songKey": "透明なしぐなる|fixture:ar:ar08",
       "title": "透明なシグナル",
-      "titleLatin": null
+      "titleLatin": "Toumei na shigunaru"
     },
     {
       "albumId": "fixture:al:al10",
@@ -1103,7 +1212,7 @@
       "explicit": true,
       "id": "fixture:tr:tr10",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.5606,
       "preview": {
         "durationSec": 30,
@@ -1116,13 +1225,14 @@
           "repulse"
         ],
         "title": [
+          "kyosoriot",
           "狂騒riot"
         ]
       },
       "similar": [],
       "songKey": "狂騒riot|fixture:ar:ar11",
       "title": "狂騒Riot",
-      "titleLatin": null
+      "titleLatin": "Kyousou Riot"
     },
     {
       "albumId": "fixture:al:al11",
@@ -1146,7 +1256,7 @@
       "explicit": false,
       "id": "fixture:tr:tr11",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.1528,
       "preview": {
         "durationSec": 10,
@@ -1160,13 +1270,15 @@
           "ぱぴぷ楽団"
         ],
         "title": [
+          "ponpokomachi",
+          "ponpokomarch",
           "ぽんぽこまーち"
         ]
       },
       "similar": [],
       "songKey": "ぽんぽこまーち|fixture:ar:ar12",
       "title": "ぽんぽこマーチ",
-      "titleLatin": null
+      "titleLatin": "Pon poko maachi"
     },
     {
       "albumId": "fixture:al:al12",
@@ -1233,23 +1345,25 @@
       "explicit": false,
       "id": "fixture:tr:tr13",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.1962,
       "preview": null,
       "releaseDate": "2021-06-02",
       "search": {
         "artist": [
           "violanote",
+          "vioranoto",
           "ゔぃおらのーと"
         ],
         "title": [
+          "amaotonosonata",
           "雨音のそなた"
         ]
       },
       "similar": [],
       "songKey": "雨音のそなた|fixture:ar:ar09",
       "title": "雨音のソナタ",
-      "titleLatin": null
+      "titleLatin": "Amaoto no sonata"
     },
     {
       "albumId": "fixture:al:al04",
@@ -1315,7 +1429,7 @@
       "explicit": false,
       "id": "fixture:tr:tr15",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.6725,
       "preview": {
         "durationSec": 30,
@@ -1329,13 +1443,14 @@
           "青井ゆう"
         ],
         "title": [
+          "kimito",
           "君と"
         ]
       },
       "similar": [],
       "songKey": "君と|fixture:ar:ar07",
       "title": "君​と❤️",
-      "titleLatin": null
+      "titleLatin": "Kimi to"
     },
     {
       "albumId": "fixture:al:al15",
@@ -1359,7 +1474,7 @@
       "explicit": false,
       "id": "fixture:tr:tr16",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.6447,
       "preview": {
         "durationSec": 30,
@@ -1370,16 +1485,19 @@
       "search": {
         "artist": [
           "garasunoneko",
+          "glassnoneko",
           "がらすのねこ"
         ],
         "title": [
+          "garasunokutsu",
+          "glassnokutsu",
           "がらすの靴"
         ]
       },
       "similar": [],
       "songKey": "がらすの靴|fixture:ar:ar05",
       "title": "ガラスの靴",
-      "titleLatin": null
+      "titleLatin": "Garasu no kutsu"
     },
     {
       "albumId": "fixture:al:al16",
@@ -1446,7 +1564,7 @@
       "explicit": false,
       "id": "fixture:tr:tr18",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.1401,
       "preview": {
         "durationSec": 30,
@@ -1457,16 +1575,18 @@
       "search": {
         "artist": [
           "garasunoneko",
+          "glassnoneko",
           "がらすのねこ"
         ],
         "title": [
+          "ainota",
           "あいのうた"
         ]
       },
       "similar": [],
       "songKey": "あいのうた|fixture:ar:ar05",
       "title": "ｱｲﾉｳﾀ",
-      "titleLatin": null
+      "titleLatin": "Aino uta"
     },
     {
       "albumId": "fixture:al:al17",
@@ -1490,7 +1610,7 @@
       "explicit": false,
       "id": "fixture:tr:tr19",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.2333,
       "preview": {
         "durationSec": 30,
@@ -1501,16 +1621,18 @@
       "search": {
         "artist": [
           "sakuranbogumi",
+          "sakuranbokumi",
           "さくらんぼ組"
         ],
         "title": [
+          "hoshininegaiwo",
           "星に願いを"
         ]
       },
       "similar": [],
       "songKey": "星に願いを|fixture:ar:ar04",
       "title": "星に願いを♪",
-      "titleLatin": null
+      "titleLatin": "Hoshi ni negai wo"
     },
     {
       "albumId": "fixture:al:al18",
@@ -1534,7 +1656,7 @@
       "explicit": false,
       "id": "fixture:tr:tr20",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "manual",
       "popularity": 0.7336,
       "preview": {
         "durationSec": 30,
@@ -1544,17 +1666,20 @@
       "releaseDate": "2026-06-18",
       "search": {
         "artist": [
+          "tsukimisaka46",
           "tsukimizaka46",
           "月見坂46"
         ],
         "title": [
-          "1番星"
+          "1bansei",
+          "1番星",
+          "ichibanboshi"
         ]
       },
       "similar": [],
       "songKey": "1番星|fixture:ar:ar10",
       "title": "①番星",
-      "titleLatin": null
+      "titleLatin": "Ichibanboshi"
     },
     {
       "albumId": "fixture:al:al19",
@@ -1632,10 +1757,13 @@
       "search": {
         "artist": [
           "tokyonoise",
+          "tokyonoizu",
           "東京のいず"
         ],
         "title": [
           "tokyolights",
+          "tokyoraitsu",
+          "tokyoright",
           "東京らいつ"
         ]
       },
@@ -1666,7 +1794,7 @@
       "explicit": false,
       "id": "fixture:tr:tr23",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.0917,
       "preview": {
         "durationSec": 30,
@@ -1676,17 +1804,20 @@
       "releaseDate": "2025-05-21",
       "search": {
         "artist": [
+          "yokazeshiata",
           "yokazetheater",
           "夜風しあたー"
         ],
         "title": [
+          "kaimakubell",
+          "kaimakuberu",
           "開幕べる"
         ]
       },
       "similar": [],
       "songKey": "開幕べる|fixture:ar:ar02",
       "title": "開幕ベル",
-      "titleLatin": null
+      "titleLatin": "Kaimaku beru"
     },
     {
       "albumId": "fixture:al:al21",
@@ -1710,7 +1841,7 @@
       "explicit": false,
       "id": "fixture:tr:tr24",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.3362,
       "preview": {
         "durationSec": 30,
@@ -1720,17 +1851,20 @@
       "releaseDate": "2025-05-21",
       "search": {
         "artist": [
+          "yokazeshiata",
           "yokazetheater",
           "夜風しあたー"
         ],
         "title": [
+          "curtaincall",
+          "katenkoru",
           "かーてんこーる"
         ]
       },
       "similar": [],
       "songKey": "かーてんこーる|fixture:ar:ar02",
       "title": "カーテンコール",
-      "titleLatin": null
+      "titleLatin": "Kaaten kooru"
     },
     {
       "albumId": "fixture:al:al10",
@@ -1840,7 +1974,7 @@
       "explicit": false,
       "id": "fixture:tr:tr27",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.2751,
       "preview": {
         "durationSec": 30,
@@ -1854,13 +1988,14 @@
           "青井ゆう"
         ],
         "title": [
+          "kazeninarufeatnana",
           "風になるfeatなな"
         ]
       },
       "similar": [],
       "songKey": "風になる|fixture:ar:ar07",
       "title": "風になる (feat. ナナ)",
-      "titleLatin": null
+      "titleLatin": "Kaze ni naru (feat. Nana)"
     },
     {
       "albumId": "fixture:al:al23",
@@ -1884,7 +2019,7 @@
       "explicit": false,
       "id": "fixture:tr:tr28",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.1333,
       "preview": {
         "durationSec": 30,
@@ -1895,16 +2030,18 @@
       "search": {
         "artist": [
           "tokyonoise",
+          "tokyonoizu",
           "東京のいず"
         ],
         "title": [
+          "aoiharutvshizelive",
           "青い春tvshizelive"
         ]
       },
       "similar": [],
       "songKey": "青い春|fixture:ar:ar13",
       "title": "青い春 - TV Size (Live)",
-      "titleLatin": null
+      "titleLatin": "Aoi haru - TV Size (Live)"
     },
     {
       "albumId": "fixture:al:al16",
@@ -1928,7 +2065,7 @@
       "explicit": false,
       "id": "fixture:tr:tr29",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.7333,
       "preview": {
         "durationSec": 30,
@@ -1941,13 +2078,15 @@
           "lumina"
         ],
         "title": [
+          "supanova",
+          "supernova",
           "すーぱーのゔぁ"
         ]
       },
       "similar": [],
       "songKey": "すーぱーのゔぁ|fixture:ar:ar03",
       "title": "スーパーノヴァ",
-      "titleLatin": null
+      "titleLatin": "Suupaa nova"
     },
     {
       "albumId": "fixture:al:al24",
@@ -1971,7 +2110,7 @@
       "explicit": false,
       "id": "fixture:tr:tr30",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.3,
       "preview": {
         "durationSec": 30,
@@ -1984,13 +2123,15 @@
           "lumina"
         ],
         "title": [
+          "garasugoshinohikari",
+          "glassgoshinohikari",
           "がらす越しの光"
         ]
       },
       "similar": [],
       "songKey": "がらす越しの光|fixture:ar:ar03",
       "title": "ガラス越しの光",
-      "titleLatin": null
+      "titleLatin": "Garasugoshi no hikari"
     },
     {
       "albumId": "fixture:al:al25",
@@ -2014,7 +2155,7 @@
       "explicit": false,
       "id": "fixture:tr:tr31",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.1121,
       "preview": {
         "durationSec": 30,
@@ -2025,16 +2166,18 @@
       "search": {
         "artist": [
           "garasunoneko",
+          "glassnoneko",
           "がらすのねこ"
         ],
         "title": [
+          "nekozenoburusu",
           "猫背のぶるーす"
         ]
       },
       "similar": [],
       "songKey": "猫背のぶるーす|fixture:ar:ar05",
       "title": "猫背のブルース",
-      "titleLatin": null
+      "titleLatin": "Nekoze no Buruusu"
     },
     {
       "albumId": "fixture:al:al26",
@@ -2058,7 +2201,7 @@
       "explicit": false,
       "id": "fixture:tr:tr32",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.9667,
       "preview": {
         "durationSec": 30,
@@ -2071,13 +2214,15 @@
           "kotonoha"
         ],
         "title": [
+          "memoriren",
+          "memorylane",
           "めもりーれーん"
         ]
       },
       "similar": [],
       "songKey": "めもりーれーん|fixture:ar:ar08",
       "title": "メモリーレーン",
-      "titleLatin": null
+      "titleLatin": "Memorii reen"
     },
     {
       "albumId": "fixture:al:al13",
@@ -2101,7 +2246,7 @@
       "explicit": false,
       "id": "fixture:tr:tr33",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.0841,
       "preview": {
         "durationSec": 30,
@@ -2112,16 +2257,18 @@
       "search": {
         "artist": [
           "violanote",
+          "vioranoto",
           "ゔぃおらのーと"
         ],
         "title": [
+          "senenoshi",
           "千年の詩"
         ]
       },
       "similar": [],
       "songKey": "千年の詩|fixture:ar:ar09",
       "title": "千年の詩",
-      "titleLatin": null
+      "titleLatin": "Sen nen no shi"
     },
     {
       "albumId": "fixture:al:al27",
@@ -2145,7 +2292,7 @@
       "explicit": false,
       "id": "fixture:tr:tr34",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.3668,
       "preview": {
         "durationSec": 30,
@@ -2155,17 +2302,20 @@
       "releaseDate": "2026-03-18",
       "search": {
         "artist": [
+          "tsukimisaka46",
           "tsukimizaka46",
           "月見坂46"
         ],
         "title": [
+          "seifukutocider",
+          "seifukutosaida",
           "制服とさいだー"
         ]
       },
       "similar": [],
       "songKey": "制服とさいだー|fixture:ar:ar10",
       "title": "制服とサイダー",
-      "titleLatin": null
+      "titleLatin": "Seifuku to saidaa"
     },
     {
       "albumId": "fixture:al:al28",
@@ -2189,7 +2339,7 @@
       "explicit": false,
       "id": "fixture:tr:tr35",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.4,
       "preview": {
         "durationSec": 30,
@@ -2202,13 +2352,14 @@
           "repulse"
         ],
         "title": [
+          "zerokyorilove",
           "ぜろ距離love"
         ]
       },
       "similar": [],
       "songKey": "ぜろ距離love|fixture:ar:ar11",
       "title": "ゼロ距離Love",
-      "titleLatin": null
+      "titleLatin": "Zero kyori Love"
     },
     {
       "albumId": "fixture:al:al29",
@@ -2232,7 +2383,7 @@
       "explicit": false,
       "id": "fixture:tr:tr36",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.0561,
       "preview": {
         "durationSec": 30,
@@ -2246,13 +2397,14 @@
           "ぱぴぷ楽団"
         ],
         "title": [
+          "oyatsunojikan",
           "おやつの時間"
         ]
       },
       "similar": [],
       "songKey": "おやつの時間|fixture:ar:ar12",
       "title": "おやつの時間",
-      "titleLatin": null
+      "titleLatin": "Oyatsu no jikan"
     },
     {
       "albumId": "fixture:al:al02",
@@ -2276,7 +2428,7 @@
       "explicit": false,
       "id": "fixture:tr:tr37",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.2523,
       "preview": {
         "durationSec": 30,
@@ -2290,13 +2442,14 @@
           "みなと"
         ],
         "title": [
+          "todai",
           "灯台"
         ]
       },
       "similar": [],
       "songKey": "灯台|fixture:ar:ar01",
       "title": "灯台",
-      "titleLatin": null
+      "titleLatin": "Toudai"
     },
     {
       "albumId": "fixture:al:al30",
@@ -2320,7 +2473,7 @@
       "explicit": false,
       "id": "fixture:tr:tr38",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.028,
       "preview": {
         "durationSec": 30,
@@ -2330,17 +2483,19 @@
       "releaseDate": "2025-11-05",
       "search": {
         "artist": [
+          "yokazeshiata",
           "yokazetheater",
           "夜風しあたー"
         ],
         "title": [
+          "mayonakanokanransha",
           "真夜中の観覧車"
         ]
       },
       "similar": [],
       "songKey": "真夜中の観覧車|fixture:ar:ar02",
       "title": "真夜中の観覧車",
-      "titleLatin": null
+      "titleLatin": "Mayonaka no kanransha"
     },
     {
       "albumId": "fixture:al:al31",
@@ -2364,7 +2519,7 @@
       "explicit": false,
       "id": "fixture:tr:tr39",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.0306,
       "preview": {
         "durationSec": 30,
@@ -2375,16 +2530,18 @@
       "search": {
         "artist": [
           "tokyonoise",
+          "tokyonoizu",
           "東京のいず"
         ],
         "title": [
+          "shibuya24ji",
           "shibuya24時"
         ]
       },
       "similar": [],
       "songKey": "shibuya24時|fixture:ar:ar13",
       "title": "Shibuya 24時",
-      "titleLatin": null
+      "titleLatin": "Shibuya 24 ji"
     },
     {
       "albumId": "fixture:al:al32",
@@ -2408,7 +2565,7 @@
       "explicit": false,
       "id": "fixture:tr:tr40",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.8333,
       "preview": {
         "durationSec": 30,
@@ -2422,13 +2579,15 @@
           "なな"
         ],
         "title": [
+          "harogubbai",
+          "hellogubbai",
           "はろーぐっばい"
         ]
       },
       "similar": [],
       "songKey": "はろーぐっばい|fixture:ar:ar14",
       "title": "ハローグッバイ",
-      "titleLatin": null
+      "titleLatin": "Haroo gubbai"
     },
     {
       "albumId": "fixture:al:al14",
@@ -2452,7 +2611,7 @@
       "explicit": false,
       "id": "fixture:tr:tr41",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.1,
       "preview": {
         "durationSec": 30,
@@ -2466,13 +2625,14 @@
           "青井ゆう"
         ],
         "title": [
+          "himawaribatakedetsukamaete",
           "ひまわり畑でつかまえて"
         ]
       },
       "similar": [],
       "songKey": "ひまわり畑でつかまえて|fixture:ar:ar07",
       "title": "ひまわり畑でつかまえて",
-      "titleLatin": null
+      "titleLatin": "Himawaribatake de tsukamaete"
     },
     {
       "albumId": "fixture:al:al33",
@@ -2496,7 +2656,7 @@
       "explicit": false,
       "id": "fixture:tr:tr42",
       "isrc": null,
-      "latinSource": null,
+      "latinSource": "cutlet",
       "popularity": 0.5,
       "preview": {
         "durationSec": 30,
@@ -2509,13 +2669,14 @@
           "hoshizoradrive"
         ],
         "title": [
+          "ryuseihighway",
           "流星highway"
         ]
       },
       "similar": [],
       "songKey": "流星highway|fixture:ar:ar06",
       "title": "流星Highway",
-      "titleLatin": null
+      "titleLatin": "Ryuusei Highway"
     }
   ]
 }

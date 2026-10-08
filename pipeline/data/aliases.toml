@@ -1,0 +1,15 @@
+# Curadoria manual do catálogo. Vale sobre o provedor e sobre o romaji automático (romaji.json).
+#
+# Chave = ID do catálogo. Seções: tracks, albums, artists.
+#   latin   = título latino exibido (latinSource "manual")
+#   aliases = termos extras de busca, nunca exibidos
+#   block   = true tira a faixa do desafio diário (só em tracks)
+#
+# ID que não existe mais no catálogo é erro no build: apague a entrada junto com a faixa.
+
+# O cutlet lê 番星 como "bansei"; o nome é いちばんぼし.
+[tracks."fixture:tr:tr20"]
+latin = "Ichibanboshi"
+
+[albums."fixture:al:al18"]
+latin = "Ichibanboshi"

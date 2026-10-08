@@ -1,0 +1,172 @@
+{
+  "engine": "cutlet",
+  "entries": {
+    "Shibuya 24時": [
+      "Shibuya 24 ji"
+    ],
+    "①番星": [
+      "1 bansei"
+    ],
+    "おやつの時間": [
+      "Oyatsu no jikan"
+    ],
+    "さくらんぼ組": [
+      "Sakuranbo kumi"
+    ],
+    "なつやすみ": [
+      "Natsuyasumi"
+    ],
+    "ぱぴぷ楽団": [
+      "Pa pi pu gakudan"
+    ],
+    "ひまわり畑でつかまえて": [
+      "Himawaribatake de tsukamaete"
+    ],
+    "ふたりの約束": [
+      "Futari no yakusoku"
+    ],
+    "ぽんぽこマーチ": [
+      "Pon poko maachi",
+      "Pon poko march"
+    ],
+    "カーテンコール": [
+      "Kaaten kooru",
+      "Curtain call"
+    ],
+    "ガラスの靴": [
+      "Garasu no kutsu",
+      "Glass no kutsu"
+    ],
+    "ガラス越しの光": [
+      "Garasugoshi no hikari",
+      "Glassgoshi no hikari"
+    ],
+    "スーパーノヴァ": [
+      "Suupaa nova",
+      "Super nova"
+    ],
+    "ゼロ距離Love": [
+      "Zero kyori Love"
+    ],
+    "ナナ": [
+      "Nana"
+    ],
+    "ハローグッバイ": [
+      "Haroo gubbai",
+      "Hello gubbai"
+    ],
+    "ミナト": [
+      "Minato"
+    ],
+    "メモリーレーン": [
+      "Memorii reen",
+      "Memory lane"
+    ],
+    "ヴィオラ・ノート": [
+      "Viora nooto",
+      "Viola note"
+    ],
+    "七色ノート": [
+      "Nanairo nooto",
+      "Nanairo note"
+    ],
+    "制服とサイダー": [
+      "Seifuku to saidaa",
+      "Seifuku to cider"
+    ],
+    "千年の詩": [
+      "Sen nen no shi"
+    ],
+    "君​と❤️": [
+      "Kimi to"
+    ],
+    "坂道の向こう": [
+      "Sakamichi no mukou"
+    ],
+    "夜明けのメロディ": [
+      "Yoake no merodi",
+      "Yoake no melody"
+    ],
+    "夜明けのメロディ (TV Size)": [
+      "Yoake no merodi (TV Size)",
+      "Yoake no melody (TV Size)"
+    ],
+    "夜風シアター": [
+      "Yokaze shiataa",
+      "Yokaze theater"
+    ],
+    "夜風劇場": [
+      "Yokaze gekijou"
+    ],
+    "星に願いを♪": [
+      "Hoshi ni negai wo"
+    ],
+    "月見坂46": [
+      "Tsukimi saka 46"
+    ],
+    "東京ノイズ": [
+      "Tokyo noizu",
+      "Tokyo noise"
+    ],
+    "東京ライツ": [
+      "Tokyo raitsu",
+      "Tokyo right"
+    ],
+    "流星Highway": [
+      "Ryuusei Highway"
+    ],
+    "灯台": [
+      "Toudai"
+    ],
+    "狂騒Riot": [
+      "Kyousou Riot"
+    ],
+    "猫の目": [
+      "Neko no me"
+    ],
+    "猫背のブルース": [
+      "Nekoze no Buruusu"
+    ],
+    "真夜中の観覧車": [
+      "Mayonaka no kanransha"
+    ],
+    "秋風のワルツ": [
+      "Akikaze no warutsu",
+      "Akikaze no waltz"
+    ],
+    "透明なシグナル": [
+      "Toumei na shigunaru",
+      "Toumei na signal"
+    ],
+    "開幕ベル": [
+      "Kaimaku beru",
+      "Kaimaku bell"
+    ],
+    "雨音のソナタ": [
+      "Amaoto no sonata"
+    ],
+    "青い春 - TV Size (Live)": [
+      "Aoi haru - TV Size (Live)"
+    ],
+    "青井ユウ": [
+      "Aoi Yuu"
+    ],
+    "風になる (feat. ナナ)": [
+      "Kaze ni naru (feat. Nana)"
+    ],
+    "ｱｲﾉｳﾀ": [
+      "Aino uta"
+    ],
+    "ｶﾞﾗｽﾉﾈｺ": [
+      "Garasu no neko",
+      "Glass no neko"
+    ]
+  },
+  "versions": {
+    "cutlet": "0.5.2",
+    "fugashi": "1.5.2",
+    "jaconv": "0.5.0",
+    "mojimoji": "0.0.13",
+    "unidic-lite": "1.0.8"
+  }
+}

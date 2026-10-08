@@ -138,9 +138,26 @@ def strip_version_suffix(title: str) -> str:
         s = t
 
 
+def display(text: str) -> str:
+    """Texto de exibição: NFC (o provedor pode mandar decomposto) e sem espaço nas pontas.
+
+    É também a chave do cache de romaji: quem grava (romanize) e quem lê (build) usam esta
+    mesma função, senão um título nunca seria encontrado.
+    """
+    return ud.normalize("NFC", text).strip()
+
+
 def strip_album_suffix(title: str) -> str:
     """ "X - Single" e "X - EP" são sufixos de álbum da loja, não fazem parte do nome."""
-    return _ALBUM_SUFFIX.sub("", ud.normalize("NFKC", title).strip())
+    return _ALBUM_SUFFIX.sub("", display(title))
+
+
+_LATIN_ONLY = re.compile(r"[a-z0-9]*")
+
+
+def needs_romaji(text: str) -> bool:
+    """Depois de normalizar, sobra algo além de a-z e 0-9? Então tem kana ou kanji."""
+    return not _LATIN_ONLY.fullmatch(normalize(text))
 
 
 def title_key(title: str) -> str:

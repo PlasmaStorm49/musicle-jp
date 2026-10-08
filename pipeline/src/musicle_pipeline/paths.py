@@ -27,3 +27,11 @@ def catalog_schema_path() -> Path:
 
 def default_fixture_path() -> Path:
     return repo_root() / "pipeline" / "fixtures" / "chart_fixture.json"
+
+
+def default_romaji_path() -> Path:
+    return repo_root() / "pipeline" / "data" / "romaji.json"
+
+
+def default_aliases_path() -> Path:
+    return repo_root() / "pipeline" / "data" / "aliases.toml"

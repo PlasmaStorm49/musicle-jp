@@ -34,6 +34,7 @@
     "optionalText": { "type": ["string", "null"], "minLength": 1 },
     "url": { "type": "string", "pattern": "^[^\\s\\\\]+$" },
     "rank": { "type": "integer", "minimum": 1 },
+    "latinSource": { "enum": ["provider", "manual", "cutlet", "pykakasi", null] },
     "artistId": { "type": "string", "pattern": "^[a-z]+:ar:[A-Za-z0-9_-]+$" },
     "albumId": { "type": "string", "pattern": "^[a-z]+:al:[A-Za-z0-9_-]+$" },
     "trackId": { "type": "string", "pattern": "^[a-z]+:tr:[A-Za-z0-9_-]+$" },
@@ -59,11 +60,12 @@
     "artist": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "nameLatin", "search"],
+      "required": ["id", "name", "nameLatin", "latinSource", "search"],
       "properties": {
         "id": { "$ref": "#/$defs/artistId" },
         "name": { "$ref": "#/$defs/text" },
         "nameLatin": { "$ref": "#/$defs/optionalText" },
+        "latinSource": { "$ref": "#/$defs/latinSource" },
         "search": { "$ref": "#/$defs/searchKeys" }
       }
     },
@@ -74,6 +76,7 @@
         "id",
         "title",
         "titleLatin",
+        "latinSource",
         "artistIds",
         "artistDisplay",
         "type",
@@ -86,6 +89,7 @@
         "id": { "$ref": "#/$defs/albumId" },
         "title": { "$ref": "#/$defs/text" },
         "titleLatin": { "$ref": "#/$defs/optionalText" },
+        "latinSource": { "$ref": "#/$defs/latinSource" },
         "artistIds": { "$ref": "#/$defs/artistIds" },
         "artistDisplay": { "$ref": "#/$defs/text" },
         "type": { "enum": ["single", "album", "ep", "compilation"] },
@@ -165,7 +169,7 @@
         "songKey": { "type": "string", "pattern": "^.+\\|[a-z]+:ar:[A-Za-z0-9_-]+$" },
         "title": { "$ref": "#/$defs/text" },
         "titleLatin": { "$ref": "#/$defs/optionalText" },
-        "latinSource": { "enum": ["official", "provider", "manual", "cutlet", "pykakasi", null] },
+        "latinSource": { "$ref": "#/$defs/latinSource" },
         "artistIds": { "$ref": "#/$defs/artistIds" },
         "artistDisplay": { "$ref": "#/$defs/text" },
         "albumId": { "$ref": "#/$defs/albumId" },
