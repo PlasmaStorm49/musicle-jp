@@ -1,0 +1,2521 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "artworkUrl": "fixtures/art/al01.svg",
+      "id": "fixture:al:al01",
+      "releaseDate": "2024-03-01",
+      "search": [
+        "夜明けのめろでぃ"
+      ],
+      "similar": [],
+      "title": "夜明けのメロディ - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "artworkUrl": "fixtures/art/al02.svg",
+      "id": "fixture:al:al02",
+      "releaseDate": "2024-11-20",
+      "search": [
+        "dawncollecchion"
+      ],
+      "similar": [],
+      "title": "Dawn Collection",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "artworkUrl": "fixtures/art/al03.svg",
+      "id": "fixture:al:al03",
+      "releaseDate": "2024-04-10",
+      "search": [
+        "夜明けのめろでぃtvshize"
+      ],
+      "similar": [],
+      "title": "夜明けのメロディ (TV Size) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ナナ",
+      "artistIds": [
+        "fixture:ar:ar14"
+      ],
+      "artworkUrl": "fixtures/art/al04.svg",
+      "id": "fixture:al:al04",
+      "releaseDate": "2023-06-14",
+      "search": [
+        "七色のーと"
+      ],
+      "similar": [],
+      "title": "七色ノート",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "夜風シアター & 青井ユウ",
+      "artistIds": [
+        "fixture:ar:ar02",
+        "fixture:ar:ar07"
+      ],
+      "artworkUrl": "fixtures/art/al05.svg",
+      "id": "fixture:al:al05",
+      "releaseDate": "2025-02-14",
+      "search": [
+        "ふたりの約束"
+      ],
+      "similar": [],
+      "title": "ふたりの約束 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "月見坂46",
+      "artistIds": [
+        "fixture:ar:ar10"
+      ],
+      "artworkUrl": "fixtures/art/al06.svg",
+      "id": "fixture:al:al06",
+      "releaseDate": "2025-08-27",
+      "search": [
+        "坂道の向こう"
+      ],
+      "similar": [],
+      "title": "坂道の向こう - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ヴィオラ・ノート",
+      "artistIds": [
+        "fixture:ar:ar09"
+      ],
+      "artworkUrl": "fixtures/art/al07.svg",
+      "id": "fixture:al:al07",
+      "releaseDate": "2026-09-30",
+      "search": [
+        "秋風のわるつ"
+      ],
+      "similar": [],
+      "title": "秋風のワルツ - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "さくらんぼ組",
+      "artistIds": [
+        "fixture:ar:ar04"
+      ],
+      "artworkUrl": "fixtures/art/al08.svg",
+      "id": "fixture:al:al08",
+      "releaseDate": "2026-07-20",
+      "search": [
+        "なつやすみ"
+      ],
+      "similar": [],
+      "title": "なつやすみ - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "KOTONOHA",
+      "artistIds": [
+        "fixture:ar:ar08"
+      ],
+      "artworkUrl": "fixtures/art/al09-v2.svg",
+      "id": "fixture:al:al09",
+      "releaseDate": "2026-05-13",
+      "search": [
+        "透明なしぐなる"
+      ],
+      "similar": [],
+      "title": "透明なシグナル - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "artworkUrl": "fixtures/art/al10.svg",
+      "id": "fixture:al:al10",
+      "releaseDate": "2025-10-10",
+      "search": [
+        "riot"
+      ],
+      "similar": [],
+      "title": "RIOT",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "ぱぴぷ楽団",
+      "artistIds": [
+        "fixture:ar:ar12"
+      ],
+      "artworkUrl": "fixtures/art/al11.svg",
+      "id": "fixture:al:al11",
+      "releaseDate": "2026-04-01",
+      "search": [
+        "ぽんぽこまーち"
+      ],
+      "similar": [],
+      "title": "ぽんぽこマーチ - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "artworkUrl": null,
+      "id": "fixture:al:al12",
+      "releaseDate": "2022-09-09",
+      "search": [
+        "neonrain"
+      ],
+      "similar": [],
+      "title": "Neon Rain - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ヴィオラ・ノート",
+      "artistIds": [
+        "fixture:ar:ar09"
+      ],
+      "artworkUrl": "fixtures/art/al13.svg",
+      "id": "fixture:al:al13",
+      "releaseDate": "2021-06-02",
+      "search": [
+        "雨音のそなた"
+      ],
+      "similar": [],
+      "title": "雨音のソナタ",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "青井ユウ",
+      "artistIds": [
+        "fixture:ar:ar07"
+      ],
+      "artworkUrl": "fixtures/art/al14.svg",
+      "id": "fixture:al:al14",
+      "releaseDate": "2026-03-04",
+      "search": [
+        "bluejiary"
+      ],
+      "similar": [],
+      "title": "Blue Diary",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "ｶﾞﾗｽﾉﾈｺ",
+      "artistIds": [
+        "fixture:ar:ar05"
+      ],
+      "artworkUrl": "fixtures/art/al15.svg",
+      "id": "fixture:al:al15",
+      "releaseDate": "2023-11-22",
+      "search": [
+        "猫の目"
+      ],
+      "similar": [],
+      "title": "猫の目",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "ＬＵＭＩＮＡ",
+      "artistIds": [
+        "fixture:ar:ar03"
+      ],
+      "artworkUrl": "fixtures/art/al16.svg",
+      "id": "fixture:al:al16",
+      "releaseDate": "2026-01-21",
+      "search": [
+        "prism"
+      ],
+      "similar": [],
+      "title": "Prism",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "さくらんぼ組",
+      "artistIds": [
+        "fixture:ar:ar04"
+      ],
+      "artworkUrl": "fixtures/art/al17.svg",
+      "id": "fixture:al:al17",
+      "releaseDate": "2025-12-03",
+      "search": [
+        "星に願いを"
+      ],
+      "similar": [],
+      "title": "星に願いを♪ - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "月見坂46",
+      "artistIds": [
+        "fixture:ar:ar10"
+      ],
+      "artworkUrl": "fixtures/art/al18.svg",
+      "id": "fixture:al:al18",
+      "releaseDate": "2026-06-18",
+      "search": [
+        "1番星"
+      ],
+      "similar": [],
+      "title": "①番星 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "artworkUrl": "fixtures/art/al19.svg",
+      "id": "fixture:al:al19",
+      "releaseDate": "2019-08-30",
+      "search": [
+        "midnightdrive"
+      ],
+      "similar": [],
+      "title": "Midnight Drive - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "東京ノイズ",
+      "artistIds": [
+        "fixture:ar:ar13"
+      ],
+      "artworkUrl": "fixtures/art/al20.svg",
+      "id": "fixture:al:al20",
+      "releaseDate": "2024-07-07",
+      "search": [
+        "東京らいつ"
+      ],
+      "similar": [],
+      "title": "東京ライツ - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "artworkUrl": "fixtures/art/al21.svg",
+      "id": "fixture:al:al21",
+      "releaseDate": "2025-05-21",
+      "search": [
+        "夜風劇場"
+      ],
+      "similar": [],
+      "title": "夜風劇場",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "KOTONOHA",
+      "artistIds": [
+        "fixture:ar:ar08"
+      ],
+      "artworkUrl": "fixtures/art/al22.svg",
+      "id": "fixture:al:al22",
+      "releaseDate": "2025-09-12",
+      "search": [
+        "stayforever"
+      ],
+      "similar": [],
+      "title": "Stay (Forever) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "東京ノイズ",
+      "artistIds": [
+        "fixture:ar:ar13"
+      ],
+      "artworkUrl": "fixtures/art/al23.svg",
+      "id": "fixture:al:al23",
+      "releaseDate": "2025-12-24",
+      "search": [
+        "tokyonoiselive2025"
+      ],
+      "similar": [],
+      "title": "Tokyo Noise Live 2025",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "ＬＵＭＩＮＡ",
+      "artistIds": [
+        "fixture:ar:ar03"
+      ],
+      "artworkUrl": "fixtures/art/al24.svg",
+      "id": "fixture:al:al24",
+      "releaseDate": "2026-08-05",
+      "search": [
+        "がらす越しの光"
+      ],
+      "similar": [],
+      "title": "ガラス越しの光 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ｶﾞﾗｽﾉﾈｺ",
+      "artistIds": [
+        "fixture:ar:ar05"
+      ],
+      "artworkUrl": "fixtures/art/al25.svg",
+      "id": "fixture:al:al25",
+      "releaseDate": "2020-02-26",
+      "search": [
+        "猫背のぶるーす"
+      ],
+      "similar": [],
+      "title": "猫背のブルース - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "KOTONOHA",
+      "artistIds": [
+        "fixture:ar:ar08"
+      ],
+      "artworkUrl": "fixtures/art/al26.svg",
+      "id": "fixture:al:al26",
+      "releaseDate": "2026-09-09",
+      "search": [
+        "めもりーれーん"
+      ],
+      "similar": [],
+      "title": "メモリーレーン - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "月見坂46",
+      "artistIds": [
+        "fixture:ar:ar10"
+      ],
+      "artworkUrl": "fixtures/art/al27.svg",
+      "id": "fixture:al:al27",
+      "releaseDate": "2026-03-18",
+      "search": [
+        "制服とさいだー"
+      ],
+      "similar": [],
+      "title": "制服とサイダー - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "artworkUrl": "fixtures/art/al28.svg",
+      "id": "fixture:al:al28",
+      "releaseDate": "2026-06-03",
+      "search": [
+        "ぜろ距離love"
+      ],
+      "similar": [],
+      "title": "ゼロ距離Love - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ぱぴぷ楽団",
+      "artistIds": [
+        "fixture:ar:ar12"
+      ],
+      "artworkUrl": "fixtures/art/al29.svg",
+      "id": "fixture:al:al29",
+      "releaseDate": "2024-10-16",
+      "search": [
+        "おやつの時間"
+      ],
+      "similar": [],
+      "title": "おやつの時間",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "artworkUrl": "fixtures/art/al30.svg",
+      "id": "fixture:al:al30",
+      "releaseDate": "2025-11-05",
+      "search": [
+        "真夜中の観覧車"
+      ],
+      "similar": [],
+      "title": "真夜中の観覧車 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "東京ノイズ",
+      "artistIds": [
+        "fixture:ar:ar13"
+      ],
+      "artworkUrl": "fixtures/art/al31.svg",
+      "id": "fixture:al:al31",
+      "releaseDate": "2026-08-19",
+      "search": [
+        "shibuya24時"
+      ],
+      "similar": [],
+      "title": "Shibuya 24時 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ナナ",
+      "artistIds": [
+        "fixture:ar:ar14"
+      ],
+      "artworkUrl": "fixtures/art/al32.svg",
+      "id": "fixture:al:al32",
+      "releaseDate": "2026-09-16",
+      "search": [
+        "はろーぐっばい"
+      ],
+      "similar": [],
+      "title": "ハローグッバイ - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "artworkUrl": "fixtures/art/al33.svg",
+      "id": "fixture:al:al33",
+      "releaseDate": "2026-07-01",
+      "search": [
+        "流星highway"
+      ],
+      "similar": [],
+      "title": "流星Highway",
+      "titleLatin": null,
+      "type": "ep"
+    }
+  ],
+  "artists": [
+    {
+      "id": "fixture:ar:ar01",
+      "name": "ミナト",
+      "nameLatin": "Minato",
+      "search": [
+        "minato",
+        "みなと"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar02",
+      "name": "夜風シアター",
+      "nameLatin": "Yokaze Theater",
+      "search": [
+        "yokazetheater",
+        "夜風しあたー"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar03",
+      "name": "ＬＵＭＩＮＡ",
+      "nameLatin": null,
+      "search": [
+        "lumina"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar04",
+      "name": "さくらんぼ組",
+      "nameLatin": "Sakuranbo-gumi",
+      "search": [
+        "sakuranbogumi",
+        "さくらんぼ組"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar05",
+      "name": "ｶﾞﾗｽﾉﾈｺ",
+      "nameLatin": "Garasu no Neko",
+      "search": [
+        "garasunoneko",
+        "がらすのねこ"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar06",
+      "name": "Hoshizora Drive",
+      "nameLatin": null,
+      "search": [
+        "hoshizoradrive"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar07",
+      "name": "青井ユウ",
+      "nameLatin": "Aoi Yuu",
+      "search": [
+        "aoiyu",
+        "青井ゆう"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar08",
+      "name": "KOTONOHA",
+      "nameLatin": null,
+      "search": [
+        "kotonoha"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar09",
+      "name": "ヴィオラ・ノート",
+      "nameLatin": "Viola Note",
+      "search": [
+        "violanote",
+        "ゔぃおらのーと"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar10",
+      "name": "月見坂46",
+      "nameLatin": "Tsukimizaka46",
+      "search": [
+        "tsukimizaka46",
+        "月見坂46"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar11",
+      "name": "Re:Pulse",
+      "nameLatin": null,
+      "search": [
+        "repulse"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar12",
+      "name": "ぱぴぷ楽団",
+      "nameLatin": "Papipu Gakudan",
+      "search": [
+        "papipugakudan",
+        "ぱぴぷ楽団"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar13",
+      "name": "東京ノイズ",
+      "nameLatin": "Tōkyō Noise",
+      "search": [
+        "tokyonoise",
+        "東京のいず"
+      ]
+    },
+    {
+      "id": "fixture:ar:ar14",
+      "name": "ナナ",
+      "nameLatin": "Nana",
+      "search": [
+        "nana",
+        "なな"
+      ]
+    }
+  ],
+  "catalogVersion": "2026-10-05.c296681f",
+  "generatedAt": "2026-10-05T00:00:00Z",
+  "provider": "fixture",
+  "schemaVersion": 1,
+  "snapshots": [
+    {
+      "chart": "top-songs",
+      "date": "2026-09-21",
+      "fetchedAt": "2026-09-21T00:00:00Z",
+      "id": "2026-09-21",
+      "size": 30
+    },
+    {
+      "chart": "top-songs",
+      "date": "2026-09-28",
+      "fetchedAt": "2026-09-28T00:00:00Z",
+      "id": "2026-09-28",
+      "size": 30
+    },
+    {
+      "chart": "top-songs",
+      "date": "2026-10-05",
+      "fetchedAt": "2026-10-05T00:00:00Z",
+      "id": "2026-10-05",
+      "size": 30
+    }
+  ],
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "fixture:al:al01",
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 1,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 4,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 215000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr01",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.9,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr01.wav"
+      },
+      "releaseDate": "2024-03-01",
+      "search": {
+        "artist": [
+          "minato",
+          "みなと"
+        ],
+        "title": [
+          "夜明けのめろでぃ"
+        ]
+      },
+      "similar": [],
+      "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
+      "title": "夜明けのメロディ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al02",
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 6,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 8,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 215000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr02",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.7667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr02.wav"
+      },
+      "releaseDate": "2024-11-20",
+      "search": {
+        "artist": [
+          "minato",
+          "みなと"
+        ],
+        "title": [
+          "夜明けのめろでぃ"
+        ]
+      },
+      "similar": [],
+      "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
+      "title": "夜明けのメロディ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al03",
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 16,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 20,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 152000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr03",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.4585,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr03.wav"
+      },
+      "releaseDate": "2024-04-10",
+      "search": {
+        "artist": [
+          "minato",
+          "みなと"
+        ],
+        "title": [
+          "夜明けのめろでぃtvshize"
+        ]
+      },
+      "similar": [],
+      "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
+      "title": "夜明けのメロディ (TV Size)",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al04",
+      "artistDisplay": "ナナ",
+      "artistIds": [
+        "fixture:ar:ar14"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 12,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 17,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 238000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr04",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.5502,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr04.wav"
+      },
+      "releaseDate": "2023-06-14",
+      "search": {
+        "artist": [
+          "nana",
+          "なな"
+        ],
+        "title": [
+          "夜明けのめろでぃ"
+        ]
+      },
+      "similar": [],
+      "songKey": "夜明けのめろでぃ|fixture:ar:ar14",
+      "title": "夜明けのメロディ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al05",
+      "artistDisplay": "夜風シアター & 青井ユウ",
+      "artistIds": [
+        "fixture:ar:ar02",
+        "fixture:ar:ar07"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 1,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 3,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 254000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr05",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.9333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr05.wav"
+      },
+      "releaseDate": "2025-02-14",
+      "search": {
+        "artist": [
+          "aoiyu",
+          "yokazetheater",
+          "夜風しあたー",
+          "青井ゆう"
+        ],
+        "title": [
+          "ふたりの約束"
+        ]
+      },
+      "similar": [],
+      "songKey": "ふたりの約束|fixture:ar:ar02",
+      "title": "ふたりの約束",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al06",
+      "artistDisplay": "月見坂46",
+      "artistIds": [
+        "fixture:ar:ar10"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 6,
+        "firstSeen": "2026-09-21",
+        "inLatest": false,
+        "lastRank": 6,
+        "lastSeen": "2026-09-21"
+      },
+      "durationMs": 271000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr06",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.7007,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr06.wav"
+      },
+      "releaseDate": "2025-08-27",
+      "search": {
+        "artist": [
+          "tsukimizaka46",
+          "月見坂46"
+        ],
+        "title": [
+          "坂道の向こう"
+        ]
+      },
+      "similar": [],
+      "songKey": "坂道の向こう|fixture:ar:ar10",
+      "title": "坂道の向こう",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al07",
+      "artistDisplay": "ヴィオラ・ノート",
+      "artistIds": [
+        "fixture:ar:ar09"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 1,
+        "firstSeen": "2026-10-05",
+        "inLatest": true,
+        "lastRank": 1,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 229000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr07",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr07.wav"
+      },
+      "releaseDate": "2026-09-30",
+      "search": {
+        "artist": [
+          "violanote",
+          "ゔぃおらのーと"
+        ],
+        "title": [
+          "秋風のわるつ"
+        ]
+      },
+      "similar": [],
+      "songKey": "秋風のわるつ|fixture:ar:ar09",
+      "title": "秋風のワルツ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al08",
+      "artistDisplay": "さくらんぼ組",
+      "artistIds": [
+        "fixture:ar:ar04"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 13,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 13,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 198000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr08",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.6,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr08.wav"
+      },
+      "releaseDate": "2026-07-20",
+      "search": {
+        "artist": [
+          "sakuranbogumi",
+          "さくらんぼ組"
+        ],
+        "title": [
+          "なつやすみ"
+        ]
+      },
+      "similar": [],
+      "songKey": "なつやすみ|fixture:ar:ar04",
+      "title": "なつやすみ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al09",
+      "artistDisplay": "KOTONOHA",
+      "artistIds": [
+        "fixture:ar:ar08"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 3,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 5,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 243000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr09",
+      "isrc": "JPZZ02600009",
+      "latinSource": null,
+      "popularity": 0.8667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr09-v2.wav"
+      },
+      "releaseDate": "2026-05-13",
+      "search": {
+        "artist": [
+          "kotonoha"
+        ],
+        "title": [
+          "透明なしぐなる"
+        ]
+      },
+      "similar": [],
+      "songKey": "透明なしぐなる|fixture:ar:ar08",
+      "title": "透明なシグナル",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al10",
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 11,
+        "firstSeen": "2026-09-21",
+        "inLatest": false,
+        "lastRank": 15,
+        "lastSeen": "2026-09-28"
+      },
+      "durationMs": 187000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": true,
+      "id": "fixture:tr:tr10",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.5606,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr10.wav"
+      },
+      "releaseDate": "2025-10-10",
+      "search": {
+        "artist": [
+          "repulse"
+        ],
+        "title": [
+          "狂騒riot"
+        ]
+      },
+      "similar": [],
+      "songKey": "狂騒riot|fixture:ar:ar11",
+      "title": "狂騒Riot",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al11",
+      "artistDisplay": "ぱぴぷ楽団",
+      "artistIds": [
+        "fixture:ar:ar12"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 26,
+        "firstSeen": "2026-09-28",
+        "inLatest": false,
+        "lastRank": 26,
+        "lastSeen": "2026-09-28"
+      },
+      "durationMs": 164000,
+      "eligible": {
+        "daily": false,
+        "reason": "short-preview"
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr11",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.1528,
+      "preview": {
+        "durationSec": 10,
+        "startSec": 0,
+        "url": "fixtures/audio/tr11.wav"
+      },
+      "releaseDate": "2026-04-01",
+      "search": {
+        "artist": [
+          "papipugakudan",
+          "ぱぴぷ楽団"
+        ],
+        "title": [
+          "ぽんぽこまーち"
+        ]
+      },
+      "similar": [],
+      "songKey": "ぽんぽこまーち|fixture:ar:ar12",
+      "title": "ぽんぽこマーチ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al12",
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 5,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 12,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 262000,
+      "eligible": {
+        "daily": false,
+        "reason": "no-artwork"
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr12",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.7288,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr12.wav"
+      },
+      "releaseDate": "2022-09-09",
+      "search": {
+        "artist": [
+          "hoshizoradrive"
+        ],
+        "title": [
+          "neonrain"
+        ]
+      },
+      "similar": [],
+      "songKey": "neonrain|fixture:ar:ar06",
+      "title": "Neon Rain",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al13",
+      "artistDisplay": "ヴィオラ・ノート",
+      "artistIds": [
+        "fixture:ar:ar09"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 24,
+        "firstSeen": "2026-09-21",
+        "inLatest": false,
+        "lastRank": 24,
+        "lastSeen": "2026-09-21"
+      },
+      "durationMs": 318000,
+      "eligible": {
+        "daily": false,
+        "reason": "no-preview"
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr13",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.1962,
+      "preview": null,
+      "releaseDate": "2021-06-02",
+      "search": {
+        "artist": [
+          "violanote",
+          "ゔぃおらのーと"
+        ],
+        "title": [
+          "雨音のそなた"
+        ]
+      },
+      "similar": [],
+      "songKey": "雨音のそなた|fixture:ar:ar09",
+      "title": "雨音のソナタ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al04",
+      "artistDisplay": "ナナ",
+      "artistIds": [
+        "fixture:ar:ar14"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 18,
+        "firstSeen": "2026-09-21",
+        "inLatest": false,
+        "lastRank": 21,
+        "lastSeen": "2026-09-28"
+      },
+      "durationMs": 201000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr14",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.3644,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr14.wav"
+      },
+      "releaseDate": "2023-06-14",
+      "search": {
+        "artist": [
+          "nana",
+          "なな"
+        ],
+        "title": []
+      },
+      "similar": [],
+      "songKey": "♡|fixture:ar:ar14",
+      "title": "♡",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al14",
+      "artistDisplay": "青井ユウ",
+      "artistIds": [
+        "fixture:ar:ar07"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 9,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 11,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 233000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr15",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.6725,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr15.wav"
+      },
+      "releaseDate": "2026-03-04",
+      "search": {
+        "artist": [
+          "aoiyu",
+          "青井ゆう"
+        ],
+        "title": [
+          "君と"
+        ]
+      },
+      "similar": [],
+      "songKey": "君と|fixture:ar:ar07",
+      "title": "君​と❤️",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al15",
+      "artistDisplay": "ｶﾞﾗｽﾉﾈｺ",
+      "artistIds": [
+        "fixture:ar:ar05"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 8,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 14,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 247000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr16",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.6447,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr16.wav"
+      },
+      "releaseDate": "2023-11-22",
+      "search": {
+        "artist": [
+          "garasunoneko",
+          "がらすのねこ"
+        ],
+        "title": [
+          "がらすの靴"
+        ]
+      },
+      "similar": [],
+      "songKey": "がらすの靴|fixture:ar:ar05",
+      "title": "ガラスの靴",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al16",
+      "artistDisplay": "ＬＵＭＩＮＡ",
+      "artistIds": [
+        "fixture:ar:ar03"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 16,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 18,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 226000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr17",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.4333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr17.wav"
+      },
+      "releaseDate": "2026-01-21",
+      "search": {
+        "artist": [
+          "lumina"
+        ],
+        "title": [
+          "lovesong"
+        ]
+      },
+      "similar": [],
+      "songKey": "lovesong|fixture:ar:ar03",
+      "title": "ＬＯＶＥ　ＳＯＮＧ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al15",
+      "artistDisplay": "ｶﾞﾗｽﾉﾈｺ",
+      "artistIds": [
+        "fixture:ar:ar05"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 26,
+        "firstSeen": "2026-09-21",
+        "inLatest": false,
+        "lastRank": 27,
+        "lastSeen": "2026-09-28"
+      },
+      "durationMs": 209000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr18",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.1401,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr18.wav"
+      },
+      "releaseDate": "2023-11-22",
+      "search": {
+        "artist": [
+          "garasunoneko",
+          "がらすのねこ"
+        ],
+        "title": [
+          "あいのうた"
+        ]
+      },
+      "similar": [],
+      "songKey": "あいのうた|fixture:ar:ar05",
+      "title": "ｱｲﾉｳﾀ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al17",
+      "artistDisplay": "さくらんぼ組",
+      "artistIds": [
+        "fixture:ar:ar04"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 23,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 24,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 192000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr19",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.2333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr19.wav"
+      },
+      "releaseDate": "2025-12-03",
+      "search": {
+        "artist": [
+          "sakuranbogumi",
+          "さくらんぼ組"
+        ],
+        "title": [
+          "星に願いを"
+        ]
+      },
+      "similar": [],
+      "songKey": "星に願いを|fixture:ar:ar04",
+      "title": "星に願いを♪",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al18",
+      "artistDisplay": "月見坂46",
+      "artistIds": [
+        "fixture:ar:ar10"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 7,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 10,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 258000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr20",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.7336,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr20.wav"
+      },
+      "releaseDate": "2026-06-18",
+      "search": {
+        "artist": [
+          "tsukimizaka46",
+          "月見坂46"
+        ],
+        "title": [
+          "1番星"
+        ]
+      },
+      "similar": [],
+      "songKey": "1番星|fixture:ar:ar10",
+      "title": "①番星",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al19",
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 3,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 7,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 274000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr21",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.8,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr21.wav"
+      },
+      "releaseDate": "2019-08-30",
+      "search": {
+        "artist": [
+          "hoshizoradrive"
+        ],
+        "title": [
+          "midnightdrive"
+        ]
+      },
+      "similar": [],
+      "songKey": "midnightdrive|fixture:ar:ar06",
+      "title": "Midnight Drive",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al20",
+      "artistDisplay": "東京ノイズ",
+      "artistIds": [
+        "fixture:ar:ar13"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 13,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 15,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 236000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr22",
+      "isrc": null,
+      "latinSource": "provider",
+      "popularity": 0.5333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr22.wav"
+      },
+      "releaseDate": "2024-07-07",
+      "search": {
+        "artist": [
+          "tokyonoise",
+          "東京のいず"
+        ],
+        "title": [
+          "tokyolights",
+          "東京らいつ"
+        ]
+      },
+      "similar": [],
+      "songKey": "東京らいつ|fixture:ar:ar13",
+      "title": "東京ライツ",
+      "titleLatin": "Tōkyō Lights"
+    },
+    {
+      "albumId": "fixture:al:al21",
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 28,
+        "firstSeen": "2026-09-28",
+        "inLatest": false,
+        "lastRank": 28,
+        "lastSeen": "2026-09-28"
+      },
+      "durationMs": 289000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr23",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.0917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr23.wav"
+      },
+      "releaseDate": "2025-05-21",
+      "search": {
+        "artist": [
+          "yokazetheater",
+          "夜風しあたー"
+        ],
+        "title": [
+          "開幕べる"
+        ]
+      },
+      "similar": [],
+      "songKey": "開幕べる|fixture:ar:ar02",
+      "title": "開幕ベル",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al21",
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 20,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 23,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 302000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr24",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.3362,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr24.wav"
+      },
+      "releaseDate": "2025-05-21",
+      "search": {
+        "artist": [
+          "yokazetheater",
+          "夜風しあたー"
+        ],
+        "title": [
+          "かーてんこーる"
+        ]
+      },
+      "similar": [],
+      "songKey": "かーてんこーる|fixture:ar:ar02",
+      "title": "カーテンコール",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al10",
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 29,
+        "firstSeen": "2026-09-28",
+        "inLatest": false,
+        "lastRank": 29,
+        "lastSeen": "2026-09-28"
+      },
+      "durationMs": 178000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr25",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.0611,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr25.wav"
+      },
+      "releaseDate": "2025-10-10",
+      "search": {
+        "artist": [
+          "repulse"
+        ],
+        "title": [
+          "live"
+        ]
+      },
+      "similar": [],
+      "songKey": "live|fixture:ar:ar11",
+      "title": "Live",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al22",
+      "artistDisplay": "KOTONOHA",
+      "artistIds": [
+        "fixture:ar:ar08"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 20,
+        "firstSeen": "2026-09-21",
+        "inLatest": false,
+        "lastRank": 24,
+        "lastSeen": "2026-09-28"
+      },
+      "durationMs": 221000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr26",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.3083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr26.wav"
+      },
+      "releaseDate": "2025-09-12",
+      "search": {
+        "artist": [
+          "kotonoha"
+        ],
+        "title": [
+          "stayforever"
+        ]
+      },
+      "similar": [],
+      "songKey": "stayforever|fixture:ar:ar08",
+      "title": "Stay (Forever)",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al14",
+      "artistDisplay": "青井ユウ",
+      "artistIds": [
+        "fixture:ar:ar07"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 22,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 25,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 245000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr27",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.2751,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr27.wav"
+      },
+      "releaseDate": "2026-03-04",
+      "search": {
+        "artist": [
+          "aoiyu",
+          "青井ゆう"
+        ],
+        "title": [
+          "風になるfeatなな"
+        ]
+      },
+      "similar": [],
+      "songKey": "風になる|fixture:ar:ar07",
+      "title": "風になる (feat. ナナ)",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al23",
+      "artistDisplay": "東京ノイズ",
+      "artistIds": [
+        "fixture:ar:ar13"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 27,
+        "firstSeen": "2026-10-05",
+        "inLatest": true,
+        "lastRank": 27,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 156000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr28",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.1333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr28.wav"
+      },
+      "releaseDate": "2025-12-24",
+      "search": {
+        "artist": [
+          "tokyonoise",
+          "東京のいず"
+        ],
+        "title": [
+          "青い春tvshizelive"
+        ]
+      },
+      "similar": [],
+      "songKey": "青い春|fixture:ar:ar13",
+      "title": "青い春 - TV Size (Live)",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al16",
+      "artistDisplay": "ＬＵＭＩＮＡ",
+      "artistIds": [
+        "fixture:ar:ar03"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 9,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 9,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 213000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr29",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.7333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr29.wav"
+      },
+      "releaseDate": "2026-01-21",
+      "search": {
+        "artist": [
+          "lumina"
+        ],
+        "title": [
+          "すーぱーのゔぁ"
+        ]
+      },
+      "similar": [],
+      "songKey": "すーぱーのゔぁ|fixture:ar:ar03",
+      "title": "スーパーノヴァ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al24",
+      "artistDisplay": "ＬＵＭＩＮＡ",
+      "artistIds": [
+        "fixture:ar:ar03"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 22,
+        "firstSeen": "2026-10-05",
+        "inLatest": true,
+        "lastRank": 22,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 239000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr30",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.3,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr30.wav"
+      },
+      "releaseDate": "2026-08-05",
+      "search": {
+        "artist": [
+          "lumina"
+        ],
+        "title": [
+          "がらす越しの光"
+        ]
+      },
+      "similar": [],
+      "songKey": "がらす越しの光|fixture:ar:ar03",
+      "title": "ガラス越しの光",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al25",
+      "artistDisplay": "ｶﾞﾗｽﾉﾈｺ",
+      "artistIds": [
+        "fixture:ar:ar05"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 27,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 29,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 267000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr31",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.1121,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr31.wav"
+      },
+      "releaseDate": "2020-02-26",
+      "search": {
+        "artist": [
+          "garasunoneko",
+          "がらすのねこ"
+        ],
+        "title": [
+          "猫背のぶるーす"
+        ]
+      },
+      "similar": [],
+      "songKey": "猫背のぶるーす|fixture:ar:ar05",
+      "title": "猫背のブルース",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al26",
+      "artistDisplay": "KOTONOHA",
+      "artistIds": [
+        "fixture:ar:ar08"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 2,
+        "firstSeen": "2026-09-28",
+        "inLatest": true,
+        "lastRank": 2,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 231000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr32",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.9667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr32.wav"
+      },
+      "releaseDate": "2026-09-09",
+      "search": {
+        "artist": [
+          "kotonoha"
+        ],
+        "title": [
+          "めもりーれーん"
+        ]
+      },
+      "similar": [],
+      "songKey": "めもりーれーん|fixture:ar:ar08",
+      "title": "メモリーレーン",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al13",
+      "artistDisplay": "ヴィオラ・ノート",
+      "artistIds": [
+        "fixture:ar:ar09"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 28,
+        "firstSeen": "2026-09-21",
+        "inLatest": false,
+        "lastRank": 28,
+        "lastSeen": "2026-09-21"
+      },
+      "durationMs": 296000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr33",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.0841,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr33.wav"
+      },
+      "releaseDate": "2021-06-02",
+      "search": {
+        "artist": [
+          "violanote",
+          "ゔぃおらのーと"
+        ],
+        "title": [
+          "千年の詩"
+        ]
+      },
+      "similar": [],
+      "songKey": "千年の詩|fixture:ar:ar09",
+      "title": "千年の詩",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al27",
+      "artistDisplay": "月見坂46",
+      "artistIds": [
+        "fixture:ar:ar10"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 19,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 21,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 224000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr34",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.3668,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr34.wav"
+      },
+      "releaseDate": "2026-03-18",
+      "search": {
+        "artist": [
+          "tsukimizaka46",
+          "月見坂46"
+        ],
+        "title": [
+          "制服とさいだー"
+        ]
+      },
+      "similar": [],
+      "songKey": "制服とさいだー|fixture:ar:ar10",
+      "title": "制服とサイダー",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al28",
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 18,
+        "firstSeen": "2026-09-28",
+        "inLatest": true,
+        "lastRank": 19,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 195000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr35",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.4,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr35.wav"
+      },
+      "releaseDate": "2026-06-03",
+      "search": {
+        "artist": [
+          "repulse"
+        ],
+        "title": [
+          "ぜろ距離love"
+        ]
+      },
+      "similar": [],
+      "songKey": "ぜろ距離love|fixture:ar:ar11",
+      "title": "ゼロ距離Love",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al29",
+      "artistDisplay": "ぱぴぷ楽団",
+      "artistIds": [
+        "fixture:ar:ar12"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 29,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 30,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 171000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr36",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.0561,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr36.wav"
+      },
+      "releaseDate": "2024-10-16",
+      "search": {
+        "artist": [
+          "papipugakudan",
+          "ぱぴぷ楽団"
+        ],
+        "title": [
+          "おやつの時間"
+        ]
+      },
+      "similar": [],
+      "songKey": "おやつの時間|fixture:ar:ar12",
+      "title": "おやつの時間",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al02",
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "chart": {
+        "appearances": 3,
+        "bestRank": 22,
+        "firstSeen": "2026-09-21",
+        "inLatest": true,
+        "lastRank": 26,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 249000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr37",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.2523,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr37.wav"
+      },
+      "releaseDate": "2024-11-20",
+      "search": {
+        "artist": [
+          "minato",
+          "みなと"
+        ],
+        "title": [
+          "灯台"
+        ]
+      },
+      "similar": [],
+      "songKey": "灯台|fixture:ar:ar01",
+      "title": "灯台",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al30",
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 30,
+        "firstSeen": "2026-09-21",
+        "inLatest": false,
+        "lastRank": 30,
+        "lastSeen": "2026-09-21"
+      },
+      "durationMs": 281000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr38",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.028,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr38.wav"
+      },
+      "releaseDate": "2025-11-05",
+      "search": {
+        "artist": [
+          "yokazetheater",
+          "夜風しあたー"
+        ],
+        "title": [
+          "真夜中の観覧車"
+        ]
+      },
+      "similar": [],
+      "songKey": "真夜中の観覧車|fixture:ar:ar02",
+      "title": "真夜中の観覧車",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al31",
+      "artistDisplay": "東京ノイズ",
+      "artistIds": [
+        "fixture:ar:ar13"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 30,
+        "firstSeen": "2026-09-28",
+        "inLatest": false,
+        "lastRank": 30,
+        "lastSeen": "2026-09-28"
+      },
+      "durationMs": 207000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr39",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.0306,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr39.wav"
+      },
+      "releaseDate": "2026-08-19",
+      "search": {
+        "artist": [
+          "tokyonoise",
+          "東京のいず"
+        ],
+        "title": [
+          "shibuya24時"
+        ]
+      },
+      "similar": [],
+      "songKey": "shibuya24時|fixture:ar:ar13",
+      "title": "Shibuya 24時",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al32",
+      "artistDisplay": "ナナ",
+      "artistIds": [
+        "fixture:ar:ar14"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 6,
+        "firstSeen": "2026-09-28",
+        "inLatest": true,
+        "lastRank": 6,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 218000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr40",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.8333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr40.wav"
+      },
+      "releaseDate": "2026-09-16",
+      "search": {
+        "artist": [
+          "nana",
+          "なな"
+        ],
+        "title": [
+          "はろーぐっばい"
+        ]
+      },
+      "similar": [],
+      "songKey": "はろーぐっばい|fixture:ar:ar14",
+      "title": "ハローグッバイ",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al14",
+      "artistDisplay": "青井ユウ",
+      "artistIds": [
+        "fixture:ar:ar07"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 28,
+        "firstSeen": "2026-10-05",
+        "inLatest": true,
+        "lastRank": 28,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 264000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr41",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.1,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr41.wav"
+      },
+      "releaseDate": "2026-03-04",
+      "search": {
+        "artist": [
+          "aoiyu",
+          "青井ゆう"
+        ],
+        "title": [
+          "ひまわり畑でつかまえて"
+        ]
+      },
+      "similar": [],
+      "songKey": "ひまわり畑でつかまえて|fixture:ar:ar07",
+      "title": "ひまわり畑でつかまえて",
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al33",
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "chart": {
+        "appearances": 2,
+        "bestRank": 16,
+        "firstSeen": "2026-09-28",
+        "inLatest": true,
+        "lastRank": 16,
+        "lastSeen": "2026-10-05"
+      },
+      "durationMs": 242000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr42",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr42.wav"
+      },
+      "releaseDate": "2026-07-01",
+      "search": {
+        "artist": [
+          "hoshizoradrive"
+        ],
+        "title": [
+          "流星highway"
+        ]
+      },
+      "similar": [],
+      "songKey": "流星highway|fixture:ar:ar06",
+      "title": "流星Highway",
+      "titleLatin": null
+    }
+  ]
+}

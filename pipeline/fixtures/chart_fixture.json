@@ -1,0 +1,2013 @@
+{
+  "provider": "fixture",
+  "storefront": "jp",
+  "snapshots": [
+    {
+      "id": "2026-09-21",
+      "date": "2026-09-21",
+      "fetchedAt": "2026-09-21T00:00:00Z",
+      "chart": "top-songs",
+      "size": 30,
+      "entries": [
+        {
+          "rank": 1,
+          "track": {
+            "providerId": "tr01",
+            "title": "夜明けのメロディ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al01",
+              "title": "夜明けのメロディ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2024-03-01",
+              "artworkUrl": "fixtures/art/al01.svg"
+            },
+            "durationMs": 215000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr01.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 2,
+          "track": {
+            "providerId": "tr05",
+            "title": "ふたりの約束",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }, { "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al05",
+              "title": "ふたりの約束 - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2025-02-14",
+              "artworkUrl": "fixtures/art/al05.svg"
+            },
+            "durationMs": 254000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr05.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 3,
+          "track": {
+            "providerId": "tr21",
+            "title": "Midnight Drive",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar06", "name": "Hoshizora Drive", "nameLatin": null }],
+            "album": {
+              "providerId": "al19",
+              "title": "Midnight Drive - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2019-08-30",
+              "artworkUrl": "fixtures/art/al19.svg"
+            },
+            "durationMs": 274000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr21.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 4,
+          "track": {
+            "providerId": "tr09",
+            "title": "透明なシグナル",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar08", "name": "KOTONOHA", "nameLatin": null }],
+            "album": {
+              "providerId": "al09",
+              "title": "透明なシグナル - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-05-13",
+              "artworkUrl": "fixtures/art/al09.svg"
+            },
+            "durationMs": 243000,
+            "explicit": false,
+            "isrc": "JPZZ02600009",
+            "previewUrl": "fixtures/audio/tr09.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 5,
+          "track": {
+            "providerId": "tr12",
+            "title": "Neon Rain",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar06", "name": "Hoshizora Drive", "nameLatin": null }],
+            "album": {
+              "providerId": "al12",
+              "title": "Neon Rain - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2022-09-09",
+              "artworkUrl": null
+            },
+            "durationMs": 262000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr12.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 6,
+          "track": {
+            "providerId": "tr06",
+            "title": "坂道の向こう",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar10", "name": "月見坂46", "nameLatin": "Tsukimizaka46" }],
+            "album": {
+              "providerId": "al06",
+              "title": "坂道の向こう - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2025-08-27",
+              "artworkUrl": "fixtures/art/al06.svg"
+            },
+            "durationMs": 271000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr06.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 7,
+          "track": {
+            "providerId": "tr02",
+            "title": "夜明けのメロディ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al02",
+              "title": "Dawn Collection",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2024-11-20",
+              "artworkUrl": "fixtures/art/al02.svg"
+            },
+            "durationMs": 215000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr02.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 8,
+          "track": {
+            "providerId": "tr16",
+            "title": "\u30ab\u3099ラスの靴",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar05", "name": "ｶﾞﾗｽﾉﾈｺ", "nameLatin": "Garasu no Neko" }],
+            "album": {
+              "providerId": "al15",
+              "title": "猫の目",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-11-22",
+              "artworkUrl": "fixtures/art/al15.svg"
+            },
+            "durationMs": 247000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr16.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 9,
+          "track": {
+            "providerId": "tr20",
+            "title": "①番星",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar10", "name": "月見坂46", "nameLatin": "Tsukimizaka46" }],
+            "album": {
+              "providerId": "al18",
+              "title": "①番星 - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-06-18",
+              "artworkUrl": "fixtures/art/al18.svg"
+            },
+            "durationMs": 258000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr20.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 10,
+          "track": {
+            "providerId": "tr15",
+            "title": "君\u200bと\u2764\ufe0f",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al14",
+              "title": "Blue Diary",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2026-03-04",
+              "artworkUrl": "fixtures/art/al14.svg"
+            },
+            "durationMs": 233000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr15.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 11,
+          "track": {
+            "providerId": "tr10",
+            "title": "狂騒Riot",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar11", "name": "Re:Pulse", "nameLatin": null }],
+            "album": {
+              "providerId": "al10",
+              "title": "RIOT",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2025-10-10",
+              "artworkUrl": "fixtures/art/al10.svg"
+            },
+            "durationMs": 187000,
+            "explicit": true,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr10.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 12,
+          "track": {
+            "providerId": "tr04",
+            "title": "夜明けのメロディ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar14", "name": "ナナ", "nameLatin": "Nana" }],
+            "album": {
+              "providerId": "al04",
+              "title": "七色ノート",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-06-14",
+              "artworkUrl": "fixtures/art/al04.svg"
+            },
+            "durationMs": 238000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr04.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 13,
+          "track": {
+            "providerId": "tr22",
+            "title": "東京ライツ",
+            "titleLatin": "Tōkyō Lights",
+            "artists": [{ "providerId": "ar13", "name": "東京ノイズ", "nameLatin": "Tōkyō Noise" }],
+            "album": {
+              "providerId": "al20",
+              "title": "東京ライツ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2024-07-07",
+              "artworkUrl": "fixtures/art/al20.svg"
+            },
+            "durationMs": 236000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr22.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 14,
+          "track": {
+            "providerId": "tr29",
+            "title": "スーパーノヴァ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar03", "name": "ＬＵＭＩＮＡ", "nameLatin": null }],
+            "album": {
+              "providerId": "al16",
+              "title": "Prism",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2026-01-21",
+              "artworkUrl": "fixtures/art/al16.svg"
+            },
+            "durationMs": 213000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr29.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 15,
+          "track": {
+            "providerId": "tr08",
+            "title": "なつやすみ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar04", "name": "さくらんぼ組", "nameLatin": "Sakuranbo-gumi" }],
+            "album": {
+              "providerId": "al08",
+              "title": "なつやすみ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-07-20",
+              "artworkUrl": "fixtures/art/al08.svg"
+            },
+            "durationMs": 198000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr08.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 16,
+          "track": {
+            "providerId": "tr17",
+            "title": "ＬＯＶＥ\u3000ＳＯＮＧ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar03", "name": "ＬＵＭＩＮＡ", "nameLatin": null }],
+            "album": {
+              "providerId": "al16",
+              "title": "Prism",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2026-01-21",
+              "artworkUrl": "fixtures/art/al16.svg"
+            },
+            "durationMs": 226000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr17.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 17,
+          "track": {
+            "providerId": "tr03",
+            "title": "夜明けのメロディ (TV Size)",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al03",
+              "title": "夜明けのメロディ (TV Size) - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2024-04-10",
+              "artworkUrl": "fixtures/art/al03.svg"
+            },
+            "durationMs": 152000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr03.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 18,
+          "track": {
+            "providerId": "tr14",
+            "title": "♡",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar14", "name": "ナナ", "nameLatin": "Nana" }],
+            "album": {
+              "providerId": "al04",
+              "title": "七色ノート",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-06-14",
+              "artworkUrl": "fixtures/art/al04.svg"
+            },
+            "durationMs": 201000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr14.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 19,
+          "track": {
+            "providerId": "tr34",
+            "title": "制服とサイダー",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar10", "name": "月見坂46", "nameLatin": "Tsukimizaka46" }],
+            "album": {
+              "providerId": "al27",
+              "title": "制服とサイダー - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-03-18",
+              "artworkUrl": "fixtures/art/al27.svg"
+            },
+            "durationMs": 224000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr34.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 20,
+          "track": {
+            "providerId": "tr26",
+            "title": "Stay (Forever)",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar08", "name": "KOTONOHA", "nameLatin": null }],
+            "album": {
+              "providerId": "al22",
+              "title": "Stay (Forever) - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2025-09-12",
+              "artworkUrl": "fixtures/art/al22.svg"
+            },
+            "durationMs": 221000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr26.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 21,
+          "track": {
+            "providerId": "tr24",
+            "title": "カーテンコール",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }],
+            "album": {
+              "providerId": "al21",
+              "title": "夜風劇場",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2025-05-21",
+              "artworkUrl": "fixtures/art/al21.svg"
+            },
+            "durationMs": 302000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr24.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 22,
+          "track": {
+            "providerId": "tr37",
+            "title": "灯台",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al02",
+              "title": "Dawn Collection",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2024-11-20",
+              "artworkUrl": "fixtures/art/al02.svg"
+            },
+            "durationMs": 249000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr37.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 23,
+          "track": {
+            "providerId": "tr19",
+            "title": "星に願いを♪",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar04", "name": "さくらんぼ組", "nameLatin": "Sakuranbo-gumi" }],
+            "album": {
+              "providerId": "al17",
+              "title": "星に願いを♪ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2025-12-03",
+              "artworkUrl": "fixtures/art/al17.svg"
+            },
+            "durationMs": 192000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr19.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 24,
+          "track": {
+            "providerId": "tr13",
+            "title": "雨音のソナタ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar09", "name": "ヴィオラ・ノート", "nameLatin": "Viola Note" }],
+            "album": {
+              "providerId": "al13",
+              "title": "雨音のソナタ",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2021-06-02",
+              "artworkUrl": "fixtures/art/al13.svg"
+            },
+            "durationMs": 318000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": null,
+            "previewDurationSec": null
+          }
+        },
+        {
+          "rank": 25,
+          "track": {
+            "providerId": "tr27",
+            "title": "風になる (feat. ナナ)",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al14",
+              "title": "Blue Diary",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2026-03-04",
+              "artworkUrl": "fixtures/art/al14.svg"
+            },
+            "durationMs": 245000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr27.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 26,
+          "track": {
+            "providerId": "tr18",
+            "title": "ｱｲﾉｳﾀ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar05", "name": "ｶﾞﾗｽﾉﾈｺ", "nameLatin": "Garasu no Neko" }],
+            "album": {
+              "providerId": "al15",
+              "title": "猫の目",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-11-22",
+              "artworkUrl": "fixtures/art/al15.svg"
+            },
+            "durationMs": 209000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr18.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 27,
+          "track": {
+            "providerId": "tr31",
+            "title": "猫背のブルース",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar05", "name": "ｶﾞﾗｽﾉﾈｺ", "nameLatin": "Garasu no Neko" }],
+            "album": {
+              "providerId": "al25",
+              "title": "猫背のブルース - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2020-02-26",
+              "artworkUrl": "fixtures/art/al25.svg"
+            },
+            "durationMs": 267000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr31.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 28,
+          "track": {
+            "providerId": "tr33",
+            "title": "千年の詩",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar09", "name": "ヴィオラ・ノート", "nameLatin": "Viola Note" }],
+            "album": {
+              "providerId": "al13",
+              "title": "雨音のソナタ",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2021-06-02",
+              "artworkUrl": "fixtures/art/al13.svg"
+            },
+            "durationMs": 296000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr33.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 29,
+          "track": {
+            "providerId": "tr36",
+            "title": "おやつの時間",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar12", "name": "ぱぴぷ楽団", "nameLatin": "Papipu Gakudan" }],
+            "album": {
+              "providerId": "al29",
+              "title": "おやつの時間",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2024-10-16",
+              "artworkUrl": "fixtures/art/al29.svg"
+            },
+            "durationMs": 171000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr36.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 30,
+          "track": {
+            "providerId": "tr38",
+            "title": "真夜中の観覧車",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }],
+            "album": {
+              "providerId": "al30",
+              "title": "真夜中の観覧車 - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2025-11-05",
+              "artworkUrl": "fixtures/art/al30.svg"
+            },
+            "durationMs": 281000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr38.wav",
+            "previewDurationSec": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "2026-09-28",
+      "date": "2026-09-28",
+      "fetchedAt": "2026-09-28T00:00:00Z",
+      "chart": "top-songs",
+      "size": 30,
+      "entries": [
+        {
+          "rank": 1,
+          "track": {
+            "providerId": "tr05",
+            "title": "ふたりの約束",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }, { "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al05",
+              "title": "ふたりの約束 - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2025-02-14",
+              "artworkUrl": "fixtures/art/al05.svg"
+            },
+            "durationMs": 254000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr05.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 2,
+          "track": {
+            "providerId": "tr01",
+            "title": "夜明けのメロディ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al01",
+              "title": "夜明けのメロディ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2024-03-01",
+              "artworkUrl": "fixtures/art/al01.svg"
+            },
+            "durationMs": 215000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr01.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 3,
+          "track": {
+            "providerId": "tr09",
+            "title": "透明なシグナル",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar08", "name": "KOTONOHA", "nameLatin": null }],
+            "album": {
+              "providerId": "al09",
+              "title": "透明なシグナル - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-05-13",
+              "artworkUrl": "fixtures/art/al09-v2.svg"
+            },
+            "durationMs": 243000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr09-v2.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 4,
+          "track": {
+            "providerId": "tr32",
+            "title": "メモリーレーン",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar08", "name": "KOTONOHA", "nameLatin": null }],
+            "album": {
+              "providerId": "al26",
+              "title": "メモリーレーン - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-09-09",
+              "artworkUrl": "fixtures/art/al26.svg"
+            },
+            "durationMs": 231000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr32.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 5,
+          "track": {
+            "providerId": "tr21",
+            "title": "Midnight Drive",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar06", "name": "Hoshizora Drive", "nameLatin": null }],
+            "album": {
+              "providerId": "al19",
+              "title": "Midnight Drive - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2019-08-30",
+              "artworkUrl": "fixtures/art/al19.svg"
+            },
+            "durationMs": 274000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr21.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 6,
+          "track": {
+            "providerId": "tr02",
+            "title": "夜明けのメロディ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al02",
+              "title": "Dawn Collection",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2024-11-20",
+              "artworkUrl": "fixtures/art/al02.svg"
+            },
+            "durationMs": 215000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr02.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 7,
+          "track": {
+            "providerId": "tr20",
+            "title": "①番星",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar10", "name": "月見坂46", "nameLatin": "Tsukimizaka46" }],
+            "album": {
+              "providerId": "al18",
+              "title": "①番星 - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-06-18",
+              "artworkUrl": "fixtures/art/al18.svg"
+            },
+            "durationMs": 258000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr20.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 8,
+          "track": {
+            "providerId": "tr12",
+            "title": "Neon Rain",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar06", "name": "Hoshizora Drive", "nameLatin": null }],
+            "album": {
+              "providerId": "al12",
+              "title": "Neon Rain - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2022-09-09",
+              "artworkUrl": null
+            },
+            "durationMs": 262000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr12.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 9,
+          "track": {
+            "providerId": "tr15",
+            "title": "君\u200bと\u2764\ufe0f",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al14",
+              "title": "Blue Diary",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2026-03-04",
+              "artworkUrl": "fixtures/art/al14.svg"
+            },
+            "durationMs": 233000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr15.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 10,
+          "track": {
+            "providerId": "tr16",
+            "title": "\u30ab\u3099ラスの靴",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar05", "name": "ｶﾞﾗｽﾉﾈｺ", "nameLatin": "Garasu no Neko" }],
+            "album": {
+              "providerId": "al15",
+              "title": "猫の目",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-11-22",
+              "artworkUrl": "fixtures/art/al15.svg"
+            },
+            "durationMs": 247000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr16.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 11,
+          "track": {
+            "providerId": "tr40",
+            "title": "ハローグッバイ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar14", "name": "ナナ", "nameLatin": "Nana" }],
+            "album": {
+              "providerId": "al32",
+              "title": "ハローグッバイ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-09-16",
+              "artworkUrl": "fixtures/art/al32.svg"
+            },
+            "durationMs": 218000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr40.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 12,
+          "track": {
+            "providerId": "tr29",
+            "title": "スーパーノヴァ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar03", "name": "ＬＵＭＩＮＡ", "nameLatin": null }],
+            "album": {
+              "providerId": "al16",
+              "title": "Prism",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2026-01-21",
+              "artworkUrl": "fixtures/art/al16.svg"
+            },
+            "durationMs": 213000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr29.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 13,
+          "track": {
+            "providerId": "tr04",
+            "title": "夜明けのメロディ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar14", "name": "ナナ", "nameLatin": "Nana" }],
+            "album": {
+              "providerId": "al04",
+              "title": "七色ノート",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-06-14",
+              "artworkUrl": "fixtures/art/al04.svg"
+            },
+            "durationMs": 238000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr04.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 14,
+          "track": {
+            "providerId": "tr22",
+            "title": "東京ライツ",
+            "titleLatin": "Tōkyō Lights",
+            "artists": [{ "providerId": "ar13", "name": "東京ノイズ", "nameLatin": "Tōkyō Noise" }],
+            "album": {
+              "providerId": "al20",
+              "title": "東京ライツ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2024-07-07",
+              "artworkUrl": "fixtures/art/al20.svg"
+            },
+            "durationMs": 236000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr22.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 15,
+          "track": {
+            "providerId": "tr10",
+            "title": "狂騒Riot",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar11", "name": "Re:Pulse", "nameLatin": null }],
+            "album": {
+              "providerId": "al10",
+              "title": "RIOT",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2025-10-10",
+              "artworkUrl": "fixtures/art/al10.svg"
+            },
+            "durationMs": 187000,
+            "explicit": true,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr10.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 16,
+          "track": {
+            "providerId": "tr03",
+            "title": "夜明けのメロディ (TV Size)",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al03",
+              "title": "夜明けのメロディ (TV Size) - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2024-04-10",
+              "artworkUrl": "fixtures/art/al03.svg"
+            },
+            "durationMs": 152000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr03.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 17,
+          "track": {
+            "providerId": "tr17",
+            "title": "ＬＯＶＥ\u3000ＳＯＮＧ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar03", "name": "ＬＵＭＩＮＡ", "nameLatin": null }],
+            "album": {
+              "providerId": "al16",
+              "title": "Prism",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2026-01-21",
+              "artworkUrl": "fixtures/art/al16.svg"
+            },
+            "durationMs": 226000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr17.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 18,
+          "track": {
+            "providerId": "tr35",
+            "title": "ゼロ距離Love",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar11", "name": "Re:Pulse", "nameLatin": null }],
+            "album": {
+              "providerId": "al28",
+              "title": "ゼロ距離Love - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-06-03",
+              "artworkUrl": "fixtures/art/al28.svg"
+            },
+            "durationMs": 195000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr35.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 19,
+          "track": {
+            "providerId": "tr34",
+            "title": "制服とサイダー",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar10", "name": "月見坂46", "nameLatin": "Tsukimizaka46" }],
+            "album": {
+              "providerId": "al27",
+              "title": "制服とサイダー - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-03-18",
+              "artworkUrl": "fixtures/art/al27.svg"
+            },
+            "durationMs": 224000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr34.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 20,
+          "track": {
+            "providerId": "tr24",
+            "title": "カーテンコール",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }],
+            "album": {
+              "providerId": "al21",
+              "title": "夜風劇場",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2025-05-21",
+              "artworkUrl": "fixtures/art/al21.svg"
+            },
+            "durationMs": 302000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr24.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 21,
+          "track": {
+            "providerId": "tr14",
+            "title": "♡",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar14", "name": "ナナ", "nameLatin": "Nana" }],
+            "album": {
+              "providerId": "al04",
+              "title": "七色ノート",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-06-14",
+              "artworkUrl": "fixtures/art/al04.svg"
+            },
+            "durationMs": 201000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr14.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 22,
+          "track": {
+            "providerId": "tr27",
+            "title": "風になる (feat. ナナ)",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al14",
+              "title": "Blue Diary",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2026-03-04",
+              "artworkUrl": "fixtures/art/al14.svg"
+            },
+            "durationMs": 245000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr27.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 23,
+          "track": {
+            "providerId": "tr37",
+            "title": "灯台",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al02",
+              "title": "Dawn Collection",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2024-11-20",
+              "artworkUrl": "fixtures/art/al02.svg"
+            },
+            "durationMs": 249000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr37.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 24,
+          "track": {
+            "providerId": "tr26",
+            "title": "Stay (Forever)",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar08", "name": "KOTONOHA", "nameLatin": null }],
+            "album": {
+              "providerId": "al22",
+              "title": "Stay (Forever) - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2025-09-12",
+              "artworkUrl": "fixtures/art/al22.svg"
+            },
+            "durationMs": 221000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr26.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 25,
+          "track": {
+            "providerId": "tr42",
+            "title": "流星Highway",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar06", "name": "Hoshizora Drive", "nameLatin": null }],
+            "album": {
+              "providerId": "al33",
+              "title": "流星Highway",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2026-07-01",
+              "artworkUrl": "fixtures/art/al33.svg"
+            },
+            "durationMs": 242000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr42.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 26,
+          "track": {
+            "providerId": "tr11",
+            "title": "ぽんぽこマーチ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar12", "name": "ぱぴぷ楽団", "nameLatin": "Papipu Gakudan" }],
+            "album": {
+              "providerId": "al11",
+              "title": "ぽんぽこマーチ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-04-01",
+              "artworkUrl": "fixtures/art/al11.svg"
+            },
+            "durationMs": 164000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr11.wav",
+            "previewDurationSec": 10
+          }
+        },
+        {
+          "rank": 27,
+          "track": {
+            "providerId": "tr18",
+            "title": "ｱｲﾉｳﾀ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar05", "name": "ｶﾞﾗｽﾉﾈｺ", "nameLatin": "Garasu no Neko" }],
+            "album": {
+              "providerId": "al15",
+              "title": "猫の目",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-11-22",
+              "artworkUrl": "fixtures/art/al15.svg"
+            },
+            "durationMs": 209000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr18.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 28,
+          "track": {
+            "providerId": "tr23",
+            "title": "開幕ベル",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }],
+            "album": {
+              "providerId": "al21",
+              "title": "夜風劇場",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2025-05-21",
+              "artworkUrl": "fixtures/art/al21.svg"
+            },
+            "durationMs": 289000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr23.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 29,
+          "track": {
+            "providerId": "tr25",
+            "title": "Live",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar11", "name": "Re:Pulse", "nameLatin": null }],
+            "album": {
+              "providerId": "al10",
+              "title": "RIOT",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2025-10-10",
+              "artworkUrl": "fixtures/art/al10.svg"
+            },
+            "durationMs": 178000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr25.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 30,
+          "track": {
+            "providerId": "tr39",
+            "title": "Shibuya 24時",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar13", "name": "東京ノイズ", "nameLatin": "Tōkyō Noise" }],
+            "album": {
+              "providerId": "al31",
+              "title": "Shibuya 24時 - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-08-19",
+              "artworkUrl": "fixtures/art/al31.svg"
+            },
+            "durationMs": 207000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr39.wav",
+            "previewDurationSec": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "2026-10-05",
+      "date": "2026-10-05",
+      "fetchedAt": "2026-10-05T00:00:00Z",
+      "chart": "top-songs",
+      "size": 30,
+      "entries": [
+        {
+          "rank": 1,
+          "track": {
+            "providerId": "tr07",
+            "title": "秋風のワルツ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar09", "name": "ヴィオラ・ノート", "nameLatin": "Viola Note" }],
+            "album": {
+              "providerId": "al07",
+              "title": "秋風のワルツ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-09-30",
+              "artworkUrl": "fixtures/art/al07.svg"
+            },
+            "durationMs": 229000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr07.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 2,
+          "track": {
+            "providerId": "tr32",
+            "title": "メモリーレーン",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar08", "name": "KOTONOHA", "nameLatin": null }],
+            "album": {
+              "providerId": "al26",
+              "title": "メモリーレーン - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-09-09",
+              "artworkUrl": "fixtures/art/al26.svg"
+            },
+            "durationMs": 231000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr32.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 3,
+          "track": {
+            "providerId": "tr05",
+            "title": "ふたりの約束",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }, { "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al05",
+              "title": "ふたりの約束 - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2025-02-14",
+              "artworkUrl": "fixtures/art/al05.svg"
+            },
+            "durationMs": 254000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr05.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 4,
+          "track": {
+            "providerId": "tr01",
+            "title": "夜明けのメロディ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al01",
+              "title": "夜明けのメロディ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2024-03-01",
+              "artworkUrl": "fixtures/art/al01.svg"
+            },
+            "durationMs": 215000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr01.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 5,
+          "track": {
+            "providerId": "tr09",
+            "title": "透明なシグナル",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar08", "name": "KOTONOHA", "nameLatin": null }],
+            "album": {
+              "providerId": "al09",
+              "title": "透明なシグナル - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-05-13",
+              "artworkUrl": "fixtures/art/al09-v2.svg"
+            },
+            "durationMs": 243000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr09-v2.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 6,
+          "track": {
+            "providerId": "tr40",
+            "title": "ハローグッバイ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar14", "name": "ナナ", "nameLatin": "Nana" }],
+            "album": {
+              "providerId": "al32",
+              "title": "ハローグッバイ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-09-16",
+              "artworkUrl": "fixtures/art/al32.svg"
+            },
+            "durationMs": 218000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr40.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 7,
+          "track": {
+            "providerId": "tr21",
+            "title": "Midnight Drive",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar06", "name": "Hoshizora Drive", "nameLatin": null }],
+            "album": {
+              "providerId": "al19",
+              "title": "Midnight Drive - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2019-08-30",
+              "artworkUrl": "fixtures/art/al19.svg"
+            },
+            "durationMs": 274000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr21.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 8,
+          "track": {
+            "providerId": "tr02",
+            "title": "夜明けのメロディ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al02",
+              "title": "Dawn Collection",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2024-11-20",
+              "artworkUrl": "fixtures/art/al02.svg"
+            },
+            "durationMs": 215000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr02.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 9,
+          "track": {
+            "providerId": "tr29",
+            "title": "スーパーノヴァ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar03", "name": "ＬＵＭＩＮＡ", "nameLatin": null }],
+            "album": {
+              "providerId": "al16",
+              "title": "Prism",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2026-01-21",
+              "artworkUrl": "fixtures/art/al16.svg"
+            },
+            "durationMs": 213000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr29.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 10,
+          "track": {
+            "providerId": "tr20",
+            "title": "①番星",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar10", "name": "月見坂46", "nameLatin": "Tsukimizaka46" }],
+            "album": {
+              "providerId": "al18",
+              "title": "①番星 - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-06-18",
+              "artworkUrl": "fixtures/art/al18.svg"
+            },
+            "durationMs": 258000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr20.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 11,
+          "track": {
+            "providerId": "tr15",
+            "title": "君\u200bと\u2764\ufe0f",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al14",
+              "title": "Blue Diary",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2026-03-04",
+              "artworkUrl": "fixtures/art/al14.svg"
+            },
+            "durationMs": 233000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr15.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 12,
+          "track": {
+            "providerId": "tr12",
+            "title": "Neon Rain",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar06", "name": "Hoshizora Drive", "nameLatin": null }],
+            "album": {
+              "providerId": "al12",
+              "title": "Neon Rain - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2022-09-09",
+              "artworkUrl": null
+            },
+            "durationMs": 262000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr12.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 13,
+          "track": {
+            "providerId": "tr08",
+            "title": "なつやすみ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar04", "name": "さくらんぼ組", "nameLatin": "Sakuranbo-gumi" }],
+            "album": {
+              "providerId": "al08",
+              "title": "なつやすみ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-07-20",
+              "artworkUrl": "fixtures/art/al08.svg"
+            },
+            "durationMs": 198000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr08.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 14,
+          "track": {
+            "providerId": "tr16",
+            "title": "\u30ab\u3099ラスの靴",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar05", "name": "ｶﾞﾗｽﾉﾈｺ", "nameLatin": "Garasu no Neko" }],
+            "album": {
+              "providerId": "al15",
+              "title": "猫の目",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-11-22",
+              "artworkUrl": "fixtures/art/al15.svg"
+            },
+            "durationMs": 247000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr16.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 15,
+          "track": {
+            "providerId": "tr22",
+            "title": "東京ライツ",
+            "titleLatin": "Tōkyō Lights",
+            "artists": [{ "providerId": "ar13", "name": "東京ノイズ", "nameLatin": "Tōkyō Noise" }],
+            "album": {
+              "providerId": "al20",
+              "title": "東京ライツ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2024-07-07",
+              "artworkUrl": "fixtures/art/al20.svg"
+            },
+            "durationMs": 236000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr22.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 16,
+          "track": {
+            "providerId": "tr42",
+            "title": "流星Highway",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar06", "name": "Hoshizora Drive", "nameLatin": null }],
+            "album": {
+              "providerId": "al33",
+              "title": "流星Highway",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2026-07-01",
+              "artworkUrl": "fixtures/art/al33.svg"
+            },
+            "durationMs": 242000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr42.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 17,
+          "track": {
+            "providerId": "tr04",
+            "title": "夜明けのメロディ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar14", "name": "ナナ", "nameLatin": "Nana" }],
+            "album": {
+              "providerId": "al04",
+              "title": "七色ノート",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2023-06-14",
+              "artworkUrl": "fixtures/art/al04.svg"
+            },
+            "durationMs": 238000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr04.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 18,
+          "track": {
+            "providerId": "tr17",
+            "title": "ＬＯＶＥ\u3000ＳＯＮＧ",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar03", "name": "ＬＵＭＩＮＡ", "nameLatin": null }],
+            "album": {
+              "providerId": "al16",
+              "title": "Prism",
+              "titleLatin": null,
+              "type": "ep",
+              "releaseDate": "2026-01-21",
+              "artworkUrl": "fixtures/art/al16.svg"
+            },
+            "durationMs": 226000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr17.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 19,
+          "track": {
+            "providerId": "tr35",
+            "title": "ゼロ距離Love",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar11", "name": "Re:Pulse", "nameLatin": null }],
+            "album": {
+              "providerId": "al28",
+              "title": "ゼロ距離Love - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-06-03",
+              "artworkUrl": "fixtures/art/al28.svg"
+            },
+            "durationMs": 195000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr35.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 20,
+          "track": {
+            "providerId": "tr03",
+            "title": "夜明けのメロディ (TV Size)",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al03",
+              "title": "夜明けのメロディ (TV Size) - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2024-04-10",
+              "artworkUrl": "fixtures/art/al03.svg"
+            },
+            "durationMs": 152000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr03.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 21,
+          "track": {
+            "providerId": "tr34",
+            "title": "制服とサイダー",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar10", "name": "月見坂46", "nameLatin": "Tsukimizaka46" }],
+            "album": {
+              "providerId": "al27",
+              "title": "制服とサイダー - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-03-18",
+              "artworkUrl": "fixtures/art/al27.svg"
+            },
+            "durationMs": 224000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr34.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 22,
+          "track": {
+            "providerId": "tr30",
+            "title": "ガラス越しの光",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar03", "name": "ＬＵＭＩＮＡ", "nameLatin": null }],
+            "album": {
+              "providerId": "al24",
+              "title": "ガラス越しの光 - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2026-08-05",
+              "artworkUrl": "fixtures/art/al24.svg"
+            },
+            "durationMs": 239000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr30.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 23,
+          "track": {
+            "providerId": "tr24",
+            "title": "カーテンコール",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }],
+            "album": {
+              "providerId": "al21",
+              "title": "夜風劇場",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2025-05-21",
+              "artworkUrl": "fixtures/art/al21.svg"
+            },
+            "durationMs": 302000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr24.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 24,
+          "track": {
+            "providerId": "tr19",
+            "title": "星に願いを♪",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar04", "name": "さくらんぼ組", "nameLatin": "Sakuranbo-gumi" }],
+            "album": {
+              "providerId": "al17",
+              "title": "星に願いを♪ - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2025-12-03",
+              "artworkUrl": "fixtures/art/al17.svg"
+            },
+            "durationMs": 192000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr19.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 25,
+          "track": {
+            "providerId": "tr27",
+            "title": "風になる (feat. ナナ)",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al14",
+              "title": "Blue Diary",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2026-03-04",
+              "artworkUrl": "fixtures/art/al14.svg"
+            },
+            "durationMs": 245000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr27.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 26,
+          "track": {
+            "providerId": "tr37",
+            "title": "灯台",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "al02",
+              "title": "Dawn Collection",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2024-11-20",
+              "artworkUrl": "fixtures/art/al02.svg"
+            },
+            "durationMs": 249000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr37.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 27,
+          "track": {
+            "providerId": "tr28",
+            "title": "青い春 - TV Size (Live)",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar13", "name": "東京ノイズ", "nameLatin": "Tōkyō Noise" }],
+            "album": {
+              "providerId": "al23",
+              "title": "Tokyo Noise Live 2025",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2025-12-24",
+              "artworkUrl": "fixtures/art/al23.svg"
+            },
+            "durationMs": 156000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr28.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 28,
+          "track": {
+            "providerId": "tr41",
+            "title": "ひまわり畑でつかまえて",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "al14",
+              "title": "Blue Diary",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2026-03-04",
+              "artworkUrl": "fixtures/art/al14.svg"
+            },
+            "durationMs": 264000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr41.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 29,
+          "track": {
+            "providerId": "tr31",
+            "title": "猫背のブルース",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar05", "name": "ｶﾞﾗｽﾉﾈｺ", "nameLatin": "Garasu no Neko" }],
+            "album": {
+              "providerId": "al25",
+              "title": "猫背のブルース - Single",
+              "titleLatin": null,
+              "type": "single",
+              "releaseDate": "2020-02-26",
+              "artworkUrl": "fixtures/art/al25.svg"
+            },
+            "durationMs": 267000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr31.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": 30,
+          "track": {
+            "providerId": "tr36",
+            "title": "おやつの時間",
+            "titleLatin": null,
+            "artists": [{ "providerId": "ar12", "name": "ぱぴぷ楽団", "nameLatin": "Papipu Gakudan" }],
+            "album": {
+              "providerId": "al29",
+              "title": "おやつの時間",
+              "titleLatin": null,
+              "type": "album",
+              "releaseDate": "2024-10-16",
+              "artworkUrl": "fixtures/art/al29.svg"
+            },
+            "durationMs": 171000,
+            "explicit": false,
+            "isrc": null,
+            "previewUrl": "fixtures/audio/tr36.wav",
+            "previewDurationSec": 30
+          }
+        }
+      ]
+    }
+  ]
+}
