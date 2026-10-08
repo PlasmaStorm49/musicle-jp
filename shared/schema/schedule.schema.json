@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PlasmaStorm49/musicle-jp/shared/schema/schedule.schema.json",
+  "title": "Agenda do desafio diário do musicle-jp",
+  "description": "Só cresce: um dia gravado nunca muda. Gerado só pelo pipeline (comando schedule).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "timezone", "epoch", "days"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "timezone": { "const": "America/Sao_Paulo" },
+    "epoch": { "$ref": "#/$defs/date" },
+    "days": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/date" },
+      "additionalProperties": { "$ref": "#/$defs/day" }
+    }
+  },
+  "$defs": {
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "trackId": { "type": "string", "pattern": "^[a-z]+:tr:[A-Za-z0-9_-]+$" },
+    "albumId": { "type": "string", "pattern": "^[a-z]+:al:[A-Za-z0-9_-]+$" },
+    "songRound": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["answer", "options"],
+      "properties": {
+        "answer": { "$ref": "#/$defs/trackId" },
+        "options": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/trackId" }
+        }
+      }
+    },
+    "albumRound": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["answer", "options"],
+      "properties": {
+        "answer": { "$ref": "#/$defs/trackId" },
+        "options": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/albumId" }
+        }
+      }
+    },
+    "day": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number", "catalogVersion", "song", "album"],
+      "properties": {
+        "number": { "type": "integer", "minimum": 1 },
+        "catalogVersion": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}\\.[0-9a-f]{8}$" },
+        "song": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/songRound" }
+        },
+        "album": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/albumRound" }
+        }
+      }
+    }
+  }
+}

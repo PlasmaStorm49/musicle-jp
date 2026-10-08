@@ -25,6 +25,10 @@ def catalog_schema_path() -> Path:
     return repo_root() / "shared" / "schema" / "catalog.schema.json"
 
 
+def schedule_schema_path() -> Path:
+    return repo_root() / "shared" / "schema" / "schedule.schema.json"
+
+
 def default_fixture_path() -> Path:
     return repo_root() / "pipeline" / "fixtures" / "chart_fixture.json"
 

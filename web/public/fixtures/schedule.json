@@ -1,0 +1,1371 @@
+{
+  "days": {
+    "2026-10-08": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr02",
+          "options": [
+            "fixture:al:al02",
+            "fixture:al:al14",
+            "fixture:al:al10",
+            "fixture:al:al09"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr34",
+          "options": [
+            "fixture:al:al21",
+            "fixture:al:al27",
+            "fixture:al:al33",
+            "fixture:al:al14"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr14",
+          "options": [
+            "fixture:al:al21",
+            "fixture:al:al06",
+            "fixture:al:al13",
+            "fixture:al:al04"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 1,
+      "song": [
+        {
+          "answer": "fixture:tr:tr09",
+          "options": [
+            "fixture:tr:tr10",
+            "fixture:tr:tr40",
+            "fixture:tr:tr09",
+            "fixture:tr:tr29"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr10",
+          "options": [
+            "fixture:tr:tr04",
+            "fixture:tr:tr03",
+            "fixture:tr:tr16",
+            "fixture:tr:tr10"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr16",
+          "options": [
+            "fixture:tr:tr16",
+            "fixture:tr:tr02",
+            "fixture:tr:tr33",
+            "fixture:tr:tr04"
+          ]
+        }
+      ]
+    },
+    "2026-10-09": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr40",
+          "options": [
+            "fixture:al:al05",
+            "fixture:al:al16",
+            "fixture:al:al32",
+            "fixture:al:al02"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr20",
+          "options": [
+            "fixture:al:al16",
+            "fixture:al:al20",
+            "fixture:al:al09",
+            "fixture:al:al18"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr36",
+          "options": [
+            "fixture:al:al31",
+            "fixture:al:al22",
+            "fixture:al:al29",
+            "fixture:al:al28"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 2,
+      "song": [
+        {
+          "answer": "fixture:tr:tr21",
+          "options": [
+            "fixture:tr:tr20",
+            "fixture:tr:tr09",
+            "fixture:tr:tr22",
+            "fixture:tr:tr21"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr24",
+          "options": [
+            "fixture:tr:tr27",
+            "fixture:tr:tr37",
+            "fixture:tr:tr24",
+            "fixture:tr:tr14"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr41",
+          "options": [
+            "fixture:tr:tr41",
+            "fixture:tr:tr37",
+            "fixture:tr:tr28",
+            "fixture:tr:tr19"
+          ]
+        }
+      ]
+    },
+    "2026-10-10": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr05",
+          "options": [
+            "fixture:al:al05",
+            "fixture:al:al15",
+            "fixture:al:al26",
+            "fixture:al:al07"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr30",
+          "options": [
+            "fixture:al:al28",
+            "fixture:al:al23",
+            "fixture:al:al33",
+            "fixture:al:al24"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr22",
+          "options": [
+            "fixture:al:al21",
+            "fixture:al:al20",
+            "fixture:al:al04",
+            "fixture:al:al03"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 3,
+      "song": [
+        {
+          "answer": "fixture:tr:tr07",
+          "options": [
+            "fixture:tr:tr01",
+            "fixture:tr:tr08",
+            "fixture:tr:tr07",
+            "fixture:tr:tr10"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr06",
+          "options": [
+            "fixture:tr:tr15",
+            "fixture:tr:tr40",
+            "fixture:tr:tr09",
+            "fixture:tr:tr06"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr26",
+          "options": [
+            "fixture:tr:tr26",
+            "fixture:tr:tr19",
+            "fixture:tr:tr30",
+            "fixture:tr:tr35"
+          ]
+        }
+      ]
+    },
+    "2026-10-11": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr32",
+          "options": [
+            "fixture:al:al26",
+            "fixture:al:al18",
+            "fixture:al:al08",
+            "fixture:al:al01"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr35",
+          "options": [
+            "fixture:al:al33",
+            "fixture:al:al21",
+            "fixture:al:al28",
+            "fixture:al:al22"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr42",
+          "options": [
+            "fixture:al:al27",
+            "fixture:al:al33",
+            "fixture:al:al08",
+            "fixture:al:al24"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 4,
+      "song": [
+        {
+          "answer": "fixture:tr:tr29",
+          "options": [
+            "fixture:tr:tr07",
+            "fixture:tr:tr10",
+            "fixture:tr:tr29",
+            "fixture:tr:tr22"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr31",
+          "options": [
+            "fixture:tr:tr31",
+            "fixture:tr:tr23",
+            "fixture:tr:tr26",
+            "fixture:tr:tr28"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr38",
+          "options": [
+            "fixture:tr:tr30",
+            "fixture:tr:tr38",
+            "fixture:tr:tr36",
+            "fixture:tr:tr25"
+          ]
+        }
+      ]
+    },
+    "2026-10-12": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr09",
+          "options": [
+            "fixture:al:al16",
+            "fixture:al:al01",
+            "fixture:al:al33",
+            "fixture:al:al09"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr19",
+          "options": [
+            "fixture:al:al04",
+            "fixture:al:al23",
+            "fixture:al:al21",
+            "fixture:al:al17"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr34",
+          "options": [
+            "fixture:al:al33",
+            "fixture:al:al14",
+            "fixture:al:al28",
+            "fixture:al:al27"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 5,
+      "song": [
+        {
+          "answer": "fixture:tr:tr10",
+          "options": [
+            "fixture:tr:tr10",
+            "fixture:tr:tr24",
+            "fixture:tr:tr15",
+            "fixture:tr:tr06"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr16",
+          "options": [
+            "fixture:tr:tr16",
+            "fixture:tr:tr36",
+            "fixture:tr:tr04",
+            "fixture:tr:tr02"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr01",
+          "options": [
+            "fixture:tr:tr01",
+            "fixture:tr:tr40",
+            "fixture:tr:tr22",
+            "fixture:tr:tr20"
+          ]
+        }
+      ]
+    },
+    "2026-10-13": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr24",
+          "options": [
+            "fixture:al:al03",
+            "fixture:al:al22",
+            "fixture:al:al17",
+            "fixture:al:al21"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr27",
+          "options": [
+            "fixture:al:al33",
+            "fixture:al:al14",
+            "fixture:al:al20",
+            "fixture:al:al02"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr39",
+          "options": [
+            "fixture:al:al31",
+            "fixture:al:al30",
+            "fixture:al:al28",
+            "fixture:al:al33"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 6,
+      "song": [
+        {
+          "answer": "fixture:tr:tr08",
+          "options": [
+            "fixture:tr:tr08",
+            "fixture:tr:tr09",
+            "fixture:tr:tr22",
+            "fixture:tr:tr42"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr40",
+          "options": [
+            "fixture:tr:tr29",
+            "fixture:tr:tr20",
+            "fixture:tr:tr40",
+            "fixture:tr:tr22"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr37",
+          "options": [
+            "fixture:tr:tr34",
+            "fixture:tr:tr37",
+            "fixture:tr:tr28",
+            "fixture:tr:tr18"
+          ]
+        }
+      ]
+    },
+    "2026-10-14": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr21",
+          "options": [
+            "fixture:al:al02",
+            "fixture:al:al29",
+            "fixture:al:al25",
+            "fixture:al:al19"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr04",
+          "options": [
+            "fixture:al:al22",
+            "fixture:al:al17",
+            "fixture:al:al20",
+            "fixture:al:al04"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr30",
+          "options": [
+            "fixture:al:al17",
+            "fixture:al:al24",
+            "fixture:al:al22",
+            "fixture:al:al11"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 7,
+      "song": [
+        {
+          "answer": "fixture:tr:tr20",
+          "options": [
+            "fixture:tr:tr29",
+            "fixture:tr:tr02",
+            "fixture:tr:tr40",
+            "fixture:tr:tr20"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr26",
+          "options": [
+            "fixture:tr:tr19",
+            "fixture:tr:tr26",
+            "fixture:tr:tr34",
+            "fixture:tr:tr18"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr07",
+          "options": [
+            "fixture:tr:tr05",
+            "fixture:tr:tr07",
+            "fixture:tr:tr29",
+            "fixture:tr:tr01"
+          ]
+        }
+      ]
+    },
+    "2026-10-15": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr05",
+          "options": [
+            "fixture:al:al20",
+            "fixture:al:al08",
+            "fixture:al:al26",
+            "fixture:al:al05"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr29",
+          "options": [
+            "fixture:al:al16",
+            "fixture:al:al09",
+            "fixture:al:al14",
+            "fixture:al:al08"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr32",
+          "options": [
+            "fixture:al:al33",
+            "fixture:al:al26",
+            "fixture:al:al10",
+            "fixture:al:al18"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 8,
+      "song": [
+        {
+          "answer": "fixture:tr:tr22",
+          "options": [
+            "fixture:tr:tr22",
+            "fixture:tr:tr10",
+            "fixture:tr:tr16",
+            "fixture:tr:tr08"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr42",
+          "options": [
+            "fixture:tr:tr24",
+            "fixture:tr:tr10",
+            "fixture:tr:tr03",
+            "fixture:tr:tr42"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr06",
+          "options": [
+            "fixture:tr:tr29",
+            "fixture:tr:tr10",
+            "fixture:tr:tr06",
+            "fixture:tr:tr40"
+          ]
+        }
+      ]
+    },
+    "2026-10-16": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr10",
+          "options": [
+            "fixture:al:al04",
+            "fixture:al:al15",
+            "fixture:al:al08",
+            "fixture:al:al10"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr28",
+          "options": [
+            "fixture:al:al23",
+            "fixture:al:al03",
+            "fixture:al:al28",
+            "fixture:al:al11"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr09",
+          "options": [
+            "fixture:al:al20",
+            "fixture:al:al07",
+            "fixture:al:al05",
+            "fixture:al:al09"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 9,
+      "song": [
+        {
+          "answer": "fixture:tr:tr16",
+          "options": [
+            "fixture:tr:tr16",
+            "fixture:tr:tr06",
+            "fixture:tr:tr22",
+            "fixture:tr:tr02"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr34",
+          "options": [
+            "fixture:tr:tr24",
+            "fixture:tr:tr34",
+            "fixture:tr:tr27",
+            "fixture:tr:tr17"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr01",
+          "options": [
+            "fixture:tr:tr07",
+            "fixture:tr:tr29",
+            "fixture:tr:tr01",
+            "fixture:tr:tr08"
+          ]
+        }
+      ]
+    },
+    "2026-10-17": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr08",
+          "options": [
+            "fixture:al:al06",
+            "fixture:al:al32",
+            "fixture:al:al09",
+            "fixture:al:al08"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr35",
+          "options": [
+            "fixture:al:al03",
+            "fixture:al:al28",
+            "fixture:al:al22",
+            "fixture:al:al20"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr37",
+          "options": [
+            "fixture:al:al18",
+            "fixture:al:al15",
+            "fixture:al:al09",
+            "fixture:al:al02"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 10,
+      "song": [
+        {
+          "answer": "fixture:tr:tr40",
+          "options": [
+            "fixture:tr:tr05",
+            "fixture:tr:tr08",
+            "fixture:tr:tr09",
+            "fixture:tr:tr40"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr15",
+          "options": [
+            "fixture:tr:tr15",
+            "fixture:tr:tr22",
+            "fixture:tr:tr02",
+            "fixture:tr:tr42"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr38",
+          "options": [
+            "fixture:tr:tr36",
+            "fixture:tr:tr38",
+            "fixture:tr:tr25",
+            "fixture:tr:tr19"
+          ]
+        }
+      ]
+    },
+    "2026-10-18": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr04",
+          "options": [
+            "fixture:al:al17",
+            "fixture:al:al20",
+            "fixture:al:al04",
+            "fixture:al:al10"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr24",
+          "options": [
+            "fixture:al:al21",
+            "fixture:al:al20",
+            "fixture:al:al24",
+            "fixture:al:al28"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr26",
+          "options": [
+            "fixture:al:al22",
+            "fixture:al:al03",
+            "fixture:al:al11",
+            "fixture:al:al23"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 11,
+      "song": [
+        {
+          "answer": "fixture:tr:tr21",
+          "options": [
+            "fixture:tr:tr02",
+            "fixture:tr:tr21",
+            "fixture:tr:tr15",
+            "fixture:tr:tr31"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr19",
+          "options": [
+            "fixture:tr:tr35",
+            "fixture:tr:tr19",
+            "fixture:tr:tr34",
+            "fixture:tr:tr37"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr33",
+          "options": [
+            "fixture:tr:tr33",
+            "fixture:tr:tr31",
+            "fixture:tr:tr28",
+            "fixture:tr:tr14"
+          ]
+        }
+      ]
+    },
+    "2026-10-19": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr05",
+          "options": [
+            "fixture:al:al07",
+            "fixture:al:al10",
+            "fixture:al:al20",
+            "fixture:al:al05"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr32",
+          "options": [
+            "fixture:al:al16",
+            "fixture:al:al01",
+            "fixture:al:al26",
+            "fixture:al:al20"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr31",
+          "options": [
+            "fixture:al:al19",
+            "fixture:al:al29",
+            "fixture:al:al10",
+            "fixture:al:al25"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 12,
+      "song": [
+        {
+          "answer": "fixture:tr:tr07",
+          "options": [
+            "fixture:tr:tr20",
+            "fixture:tr:tr08",
+            "fixture:tr:tr42",
+            "fixture:tr:tr07"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr06",
+          "options": [
+            "fixture:tr:tr10",
+            "fixture:tr:tr06",
+            "fixture:tr:tr40",
+            "fixture:tr:tr15"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr29",
+          "options": [
+            "fixture:tr:tr02",
+            "fixture:tr:tr29",
+            "fixture:tr:tr20",
+            "fixture:tr:tr42"
+          ]
+        }
+      ]
+    },
+    "2026-10-20": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr20",
+          "options": [
+            "fixture:al:al18",
+            "fixture:al:al09",
+            "fixture:al:al02",
+            "fixture:al:al07"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr42",
+          "options": [
+            "fixture:al:al32",
+            "fixture:al:al24",
+            "fixture:al:al33",
+            "fixture:al:al20"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr39",
+          "options": [
+            "fixture:al:al31",
+            "fixture:al:al27",
+            "fixture:al:al24",
+            "fixture:al:al30"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 13,
+      "song": [
+        {
+          "answer": "fixture:tr:tr01",
+          "options": [
+            "fixture:tr:tr07",
+            "fixture:tr:tr05",
+            "fixture:tr:tr01",
+            "fixture:tr:tr10"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr10",
+          "options": [
+            "fixture:tr:tr10",
+            "fixture:tr:tr04",
+            "fixture:tr:tr06",
+            "fixture:tr:tr16"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr30",
+          "options": [
+            "fixture:tr:tr37",
+            "fixture:tr:tr24",
+            "fixture:tr:tr30",
+            "fixture:tr:tr19"
+          ]
+        }
+      ]
+    },
+    "2026-10-21": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr08",
+          "options": [
+            "fixture:al:al20",
+            "fixture:al:al08",
+            "fixture:al:al32",
+            "fixture:al:al10"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr22",
+          "options": [
+            "fixture:al:al14",
+            "fixture:al:al16",
+            "fixture:al:al20",
+            "fixture:al:al03"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr37",
+          "options": [
+            "fixture:al:al07",
+            "fixture:al:al02",
+            "fixture:al:al14",
+            "fixture:al:al10"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 14,
+      "song": [
+        {
+          "answer": "fixture:tr:tr40",
+          "options": [
+            "fixture:tr:tr40",
+            "fixture:tr:tr29",
+            "fixture:tr:tr42",
+            "fixture:tr:tr20"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr15",
+          "options": [
+            "fixture:tr:tr15",
+            "fixture:tr:tr22",
+            "fixture:tr:tr09",
+            "fixture:tr:tr02"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr38",
+          "options": [
+            "fixture:tr:tr36",
+            "fixture:tr:tr38",
+            "fixture:tr:tr25",
+            "fixture:tr:tr14"
+          ]
+        }
+      ]
+    },
+    "2026-10-22": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr16",
+          "options": [
+            "fixture:al:al15",
+            "fixture:al:al29",
+            "fixture:al:al22",
+            "fixture:al:al20"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr24",
+          "options": [
+            "fixture:al:al03",
+            "fixture:al:al20",
+            "fixture:al:al28",
+            "fixture:al:al21"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr19",
+          "options": [
+            "fixture:al:al33",
+            "fixture:al:al17",
+            "fixture:al:al23",
+            "fixture:al:al24"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 15,
+      "song": [
+        {
+          "answer": "fixture:tr:tr21",
+          "options": [
+            "fixture:tr:tr36",
+            "fixture:tr:tr04",
+            "fixture:tr:tr21",
+            "fixture:tr:tr20"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr35",
+          "options": [
+            "fixture:tr:tr27",
+            "fixture:tr:tr26",
+            "fixture:tr:tr03",
+            "fixture:tr:tr35"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr28",
+          "options": [
+            "fixture:tr:tr23",
+            "fixture:tr:tr19",
+            "fixture:tr:tr28",
+            "fixture:tr:tr14"
+          ]
+        }
+      ]
+    },
+    "2026-10-23": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr05",
+          "options": [
+            "fixture:al:al05",
+            "fixture:al:al16",
+            "fixture:al:al32",
+            "fixture:al:al20"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr31",
+          "options": [
+            "fixture:al:al10",
+            "fixture:al:al25",
+            "fixture:al:al29",
+            "fixture:al:al22"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr33",
+          "options": [
+            "fixture:al:al13",
+            "fixture:al:al22",
+            "fixture:al:al23",
+            "fixture:al:al11"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 16,
+      "song": [
+        {
+          "answer": "fixture:tr:tr32",
+          "options": [
+            "fixture:tr:tr29",
+            "fixture:tr:tr01",
+            "fixture:tr:tr05",
+            "fixture:tr:tr32"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr06",
+          "options": [
+            "fixture:tr:tr06",
+            "fixture:tr:tr09",
+            "fixture:tr:tr29",
+            "fixture:tr:tr08"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr29",
+          "options": [
+            "fixture:tr:tr02",
+            "fixture:tr:tr29",
+            "fixture:tr:tr09",
+            "fixture:tr:tr40"
+          ]
+        }
+      ]
+    },
+    "2026-10-24": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr01",
+          "options": [
+            "fixture:al:al01",
+            "fixture:al:al15",
+            "fixture:al:al05",
+            "fixture:al:al09"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr10",
+          "options": [
+            "fixture:al:al08",
+            "fixture:al:al20",
+            "fixture:al:al14",
+            "fixture:al:al10"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr34",
+          "options": [
+            "fixture:al:al28",
+            "fixture:al:al24",
+            "fixture:al:al27",
+            "fixture:al:al22"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 17,
+      "song": [
+        {
+          "answer": "fixture:tr:tr07",
+          "options": [
+            "fixture:tr:tr29",
+            "fixture:tr:tr07",
+            "fixture:tr:tr32",
+            "fixture:tr:tr40"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr14",
+          "options": [
+            "fixture:tr:tr10",
+            "fixture:tr:tr22",
+            "fixture:tr:tr06",
+            "fixture:tr:tr14"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr30",
+          "options": [
+            "fixture:tr:tr26",
+            "fixture:tr:tr37",
+            "fixture:tr:tr42",
+            "fixture:tr:tr30"
+          ]
+        }
+      ]
+    },
+    "2026-10-25": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr09",
+          "options": [
+            "fixture:al:al01",
+            "fixture:al:al07",
+            "fixture:al:al16",
+            "fixture:al:al09"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr42",
+          "options": [
+            "fixture:al:al22",
+            "fixture:al:al33",
+            "fixture:al:al10",
+            "fixture:al:al03"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr37",
+          "options": [
+            "fixture:al:al20",
+            "fixture:al:al15",
+            "fixture:al:al08",
+            "fixture:al:al02"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 18,
+      "song": [
+        {
+          "answer": "fixture:tr:tr15",
+          "options": [
+            "fixture:tr:tr07",
+            "fixture:tr:tr42",
+            "fixture:tr:tr40",
+            "fixture:tr:tr15"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr22",
+          "options": [
+            "fixture:tr:tr22",
+            "fixture:tr:tr42",
+            "fixture:tr:tr04",
+            "fixture:tr:tr08"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr36",
+          "options": [
+            "fixture:tr:tr38",
+            "fixture:tr:tr36",
+            "fixture:tr:tr25",
+            "fixture:tr:tr26"
+          ]
+        }
+      ]
+    },
+    "2026-10-26": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr21",
+          "options": [
+            "fixture:al:al25",
+            "fixture:al:al09",
+            "fixture:al:al14",
+            "fixture:al:al19"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr26",
+          "options": [
+            "fixture:al:al11",
+            "fixture:al:al04",
+            "fixture:al:al28",
+            "fixture:al:al22"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr40",
+          "options": [
+            "fixture:al:al20",
+            "fixture:al:al33",
+            "fixture:al:al09",
+            "fixture:al:al32"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 19,
+      "song": [
+        {
+          "answer": "fixture:tr:tr16",
+          "options": [
+            "fixture:tr:tr19",
+            "fixture:tr:tr36",
+            "fixture:tr:tr26",
+            "fixture:tr:tr16"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr08",
+          "options": [
+            "fixture:tr:tr08",
+            "fixture:tr:tr22",
+            "fixture:tr:tr42",
+            "fixture:tr:tr24"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr24",
+          "options": [
+            "fixture:tr:tr19",
+            "fixture:tr:tr24",
+            "fixture:tr:tr14",
+            "fixture:tr:tr18"
+          ]
+        }
+      ]
+    },
+    "2026-10-27": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr32",
+          "options": [
+            "fixture:al:al01",
+            "fixture:al:al26",
+            "fixture:al:al05",
+            "fixture:al:al18"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr29",
+          "options": [
+            "fixture:al:al07",
+            "fixture:al:al33",
+            "fixture:al:al02",
+            "fixture:al:al16"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr35",
+          "options": [
+            "fixture:al:al20",
+            "fixture:al:al22",
+            "fixture:al:al11",
+            "fixture:al:al28"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 20,
+      "song": [
+        {
+          "answer": "fixture:tr:tr05",
+          "options": [
+            "fixture:tr:tr20",
+            "fixture:tr:tr08",
+            "fixture:tr:tr05",
+            "fixture:tr:tr32"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr06",
+          "options": [
+            "fixture:tr:tr02",
+            "fixture:tr:tr22",
+            "fixture:tr:tr42",
+            "fixture:tr:tr06"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr39",
+          "options": [
+            "fixture:tr:tr39",
+            "fixture:tr:tr19",
+            "fixture:tr:tr34",
+            "fixture:tr:tr42"
+          ]
+        }
+      ]
+    },
+    "2026-10-28": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr04",
+          "options": [
+            "fixture:al:al29",
+            "fixture:al:al13",
+            "fixture:al:al04",
+            "fixture:al:al17"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr30",
+          "options": [
+            "fixture:al:al11",
+            "fixture:al:al03",
+            "fixture:al:al24",
+            "fixture:al:al17"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr31",
+          "options": [
+            "fixture:al:al30",
+            "fixture:al:al29",
+            "fixture:al:al22",
+            "fixture:al:al25"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 21,
+      "song": [
+        {
+          "answer": "fixture:tr:tr10",
+          "options": [
+            "fixture:tr:tr03",
+            "fixture:tr:tr17",
+            "fixture:tr:tr10",
+            "fixture:tr:tr16"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr01",
+          "options": [
+            "fixture:tr:tr08",
+            "fixture:tr:tr29",
+            "fixture:tr:tr01",
+            "fixture:tr:tr09"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr28",
+          "options": [
+            "fixture:tr:tr36",
+            "fixture:tr:tr19",
+            "fixture:tr:tr18",
+            "fixture:tr:tr28"
+          ]
+        }
+      ]
+    },
+    "2026-10-29": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr09",
+          "options": [
+            "fixture:al:al16",
+            "fixture:al:al18",
+            "fixture:al:al08",
+            "fixture:al:al09"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr41",
+          "options": [
+            "fixture:al:al14",
+            "fixture:al:al33",
+            "fixture:al:al20",
+            "fixture:al:al07"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr20",
+          "options": [
+            "fixture:al:al10",
+            "fixture:al:al18",
+            "fixture:al:al33",
+            "fixture:al:al20"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd7b0274",
+      "number": 22,
+      "song": [
+        {
+          "answer": "fixture:tr:tr22",
+          "options": [
+            "fixture:tr:tr22",
+            "fixture:tr:tr15",
+            "fixture:tr:tr24",
+            "fixture:tr:tr10"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr19",
+          "options": [
+            "fixture:tr:tr37",
+            "fixture:tr:tr28",
+            "fixture:tr:tr19",
+            "fixture:tr:tr30"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr37",
+          "options": [
+            "fixture:tr:tr37",
+            "fixture:tr:tr26",
+            "fixture:tr:tr24",
+            "fixture:tr:tr27"
+          ]
+        }
+      ]
+    }
+  },
+  "epoch": "2026-10-08",
+  "schemaVersion": 1,
+  "timezone": "America/Sao_Paulo"
+}
