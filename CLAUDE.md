@@ -30,11 +30,17 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 
 ## Comandos
 
-Ainda não existem. Esta seção é preenchida conforme os marcos:
+Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global não tem as dependências).
 
-- **Pipeline (M1):** rodar em `pipeline/`.
-- **Web (M4):** `npm run dev --prefix web`, `npm test --prefix web`.
-- **Verificação completa (M4):** skill `/verificar`.
+| Tarefa | Comando |
+|---|---|
+| Preparar o ambiente (uma vez) | `python -m venv .venv` e depois `.venv\Scripts\python -m pip install -e "pipeline[dev]"` |
+| Testes do pipeline | `.venv\Scripts\python -m pytest pipeline` |
+| Lint e formato | `.venv\Scripts\python -m ruff check pipeline` e `.venv\Scripts\python -m ruff format pipeline` |
+| Gerar o catálogo falso | `.venv\Scripts\python -m musicle_pipeline build --provider fixture --out web/public/fixtures/catalog.json` |
+| Validar um catálogo | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json` |
+
+A partir do M4: `npm run dev --prefix web`, `npm test --prefix web` e a skill `/verificar`.
 
 ## Regras invioláveis
 
@@ -42,7 +48,7 @@ Ainda não existem. Esta seção é preenchida conforme os marcos:
 2. Todo texto de tela fica em `web/src/i18n/pt-BR.ts`.
 3. Arquivos gerados (`web/public/data/`, `web/public/fixtures/*.json`, áudio sintético) não se editam à mão: rode o pipeline.
 4. A agenda (`schedule.json`) só cresce. Nunca altere um dia que já existe.
-5. Mudança de esquema: atualize `shared/schema/`, suba o `schemaVersion` e escreva migração e testes nos dois lados.
+5. Mudança de esquema: atualize `shared/schema/` e os testes nos dois lados. Até o primeiro deploy (M10), o `schemaVersion` fica 1 e não há migração; depois, suba o `schemaVersion` e escreva a migração.
 6. Normalização e PRNG mudam em Python e TS juntos, com os vetores de `shared/vectors/`.
 7. Nenhuma chave, token ou senha no repositório. Segredos só nos Secrets do GitHub.
 8. Não baixe nem guarde áudio de preview real (termos da Apple). Em disco, só os WAV sintéticos.

@@ -74,7 +74,7 @@ musicle-jp/
 | Marco | Estado | Entrega | Pronto quando | Recurso do Claude Code |
 |---|---|---|---|---|
 | M0 | Concluído em 08/10/2026 | Ambiente, esqueleto, CLAUDE.md, este plano | `node -v`, `npm -v`, `git --version`, `gh --version` num terminal novo; 1º commit em `main` | CLAUDE.md, `/memory`, permissões, agente `claude-code-guide` |
-| M1 | | Schemas, models, FixtureProvider, normalização sem romaji, merge, CLI, Ruff, pytest | `build --provider fixture` gera catálogo válido; 2 execuções dão bytes idênticos | Modo de planejamento |
+| M1 | Concluído em 08/10/2026 | Schemas, models, FixtureProvider, normalização sem romaji, merge, CLI, Ruff, pytest | `build --provider fixture` gera catálogo válido; 2 execuções dão bytes idênticos | Modo de planejamento |
 | M2 | | Romaji (cutlet × pykakasi), `aliases.toml`, vetores compartilhados | Tabela título → romaji aprovada | Subagentes em paralelo |
 | M3 | | WAV e SVG falsos, PRNG, `similarity`, agenda, `check-append-only` | 60 dias gerados; regerar não altera dia existente | Hooks (formatador), regras de negação |
 | M4 | | Vite + TS + Preact + Biome + Vitest; `core` com reducer de Música com 4 opções | Vetores passam em Python e TS; testes da virada de dia | Skill de projeto `/verificar`, TDD |
@@ -127,82 +127,87 @@ musicle-jp/
 
 ## Apêndice A. Modelo de dados
 
-**Princípios:**
+**Princípios (implementados no M1):**
 
-- O catálogo é **cumulativo**: uma faixa que sai da parada fica com `inLatest: false` e nunca é apagada, porque a agenda pode apontar para ela.
-- A escrita é determinística: chaves ordenadas, `ensure_ascii=False`, `newline="\n"`, UTF-8. Rodar no Windows e no Linux gera os mesmos bytes.
-- `schemaVersion` é inteiro e só sobe em mudança incompatível. O frontend recusa versão desconhecida e pede para atualizar a página.
+- O catálogo é uma **redução pura de todos os snapshots**, refeita do zero em todo build. O catálogo anterior só serve para comparar bytes ("sem mudanças"). Mudar uma regra atualiza todas as faixas.
+- Nunca se apaga nada: uma faixa que sai da parada fica com `inLatest: false`, porque a agenda pode apontar para ela.
+- Escrita determinística: chaves ordenadas, `ensure_ascii=False`, 2 espaços, `\n` no fim, bytes UTF-8, escrita atômica. Sem relógio nem sorteio (o Ruff barra). Popularidade em `Decimal`.
+- `schemaVersion` fica 1 até o primeiro deploy (M10). Depois, só sobe em mudança incompatível, e o frontend recusa versão desconhecida.
+- Contrato completo: `shared/schema/catalog.schema.json`. A validação soma invariantes que o schema não expressa e confere a forma canônica do arquivo.
 
-### catalog.json (forma resumida)
+### catalog.json (trecho real, gerado da parada fictícia)
 
 ```json
 {
   "schemaVersion": 1,
-  "catalogVersion": "2026-10-12.1",
-  "generatedAt": "2026-10-12T09:00:00Z",
+  "catalogVersion": "2026-10-05.c296681f",
+  "generatedAt": "2026-10-05T00:00:00Z",
   "provider": "fixture",
   "storefront": "jp",
-  "snapshots": [{ "id": "2026-10-12", "date": "2026-10-12", "chart": "top-songs", "size": 100 }],
-  "artists": [{ "id": "fixture:ar:01", "name": "ミナト", "nameLatin": "Minato",
-                "search": ["みなと", "minato"] }],
-  "albums": [{ "id": "fixture:al:01", "title": "夜明けのメロディ", "titleLatin": "Yoake no Melody",
-               "artistIds": ["fixture:ar:01"], "artistDisplay": "ミナト", "type": "single",
-               "releaseDate": "2024-03-01", "artworkUrl": "fixtures/art/al01.svg",
-               "similar": ["fixture:al:07"], "search": ["よあけのめろでぃ", "yoakenomerodi"] }],
-  "tracks": [{ "id": "fixture:tr:01", "songKey": "よあけのめろでぃ|fixture:ar:01",
-               "title": "夜明けのメロディ", "titleLatin": "Yoake no Melody", "latinSource": "cutlet",
-               "artistIds": ["fixture:ar:01"], "artistDisplay": "ミナト", "albumId": "fixture:al:01",
+  "snapshots": [{ "id": "2026-10-05", "date": "2026-10-05", "fetchedAt": "2026-10-05T00:00:00Z",
+                  "chart": "top-songs", "size": 30 }],
+  "artists": [{ "id": "fixture:ar:ar01", "name": "ミナト", "nameLatin": "Minato",
+                "search": ["minato", "みなと"] }],
+  "tracks": [{ "id": "fixture:tr:tr01", "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
+               "title": "夜明けのメロディ", "titleLatin": null, "latinSource": null,
+               "artistIds": ["fixture:ar:ar01"], "artistDisplay": "ミナト", "albumId": "fixture:al:al01",
                "releaseDate": "2024-03-01", "durationMs": 215000, "explicit": false, "isrc": null,
                "preview": { "url": "fixtures/audio/tr01.wav", "durationSec": 30, "startSec": 0 },
-               "chart": { "firstSeen": "2026-09-07", "lastSeen": "2026-10-12", "bestRank": 3,
-                          "lastRank": 5, "weeks": 6, "inLatest": true },
-               "popularity": 0.97,
+               "chart": { "firstSeen": "2026-09-21", "lastSeen": "2026-10-05", "bestRank": 1,
+                          "lastRank": 4, "appearances": 3, "inLatest": true },
+               "popularity": 0.9,
                "eligible": { "daily": true, "reason": null },
-               "similar": ["fixture:tr:09", "fixture:tr:14"],
-               "search": { "title": ["よあけのめろでぃ", "yoakenomerodi"], "artist": ["みなと", "minato"] } }]
+               "similar": [],
+               "search": { "title": ["夜明けのめろでぃ"], "artist": ["minato", "みなと"] } }]
 }
 ```
 
 **Campos:**
 
 - **`id`:** `"<provedor>:<tipo>:<id do provedor>"`, estável entre execuções. Com a Apple, o id do provedor é o `trackId`.
-- **`songKey`:** título normalizado, sem sufixos de versão como "(TV Size)" ou "- Single", mais o artista principal. Agrupa a mesma música presente em single e em álbum. Exceções vão em `aliases.toml`.
-- **`popularity`:** de 0 a 1, calculada pelo pipeline a partir da melhor posição recente. A fórmula fica documentada no código.
-- **`eligible.daily`:** exige preview com 16 s ou mais, capa e ausência de bloqueio manual. O filtro de faixas explícitas depende da P17.
-- **`similar`:** os 10 candidatos a distrator mais próximos, calculados no Python. O TS só sorteia dessa lista.
-- **`latinSource`:** `official`, `provider`, `manual`, `cutlet` ou `pykakasi`. Serve para auditar a qualidade do romaji.
+- **`catalogVersion`:** data do último snapshot + 8 hex do SHA-256 do conteúdo sem o próprio campo. Edição à mão é detectada porque a versão deixa de bater.
+- **`songKey`:** chave do título sem sufixos de versão ("(TV Size)", "feat.", " - Live"...) + `|` + artista principal. Agrupa a mesma música em single, álbum e versões. Título só de símbolos (`♡`) usa o próprio texto.
+- **`chart.appearances`:** número de snapshots em que a faixa apareceu.
+- **`popularity`:** maior nota entre as aparições: `((size − posição + 1) / size) × 0,5^(semanas atrás / 8)`, com o `size` de cada snapshot, 4 casas.
+- **`eligible`:** `{ daily, reason }`, com um motivo só, na ordem `no-preview` > `short-preview` (trecho útil < 16 s; duração desconhecida não reprova) > `no-artwork`. Os motivos `explicit` (P17) e `blocked` (aliases, M2) já existem no schema.
+- **`similar`:** vazio no M1. No M3, os 10 candidatos a distrator mais próximos, calculados no Python.
+- **`latinSource`:** `provider` quando o título latino veio do provedor; no M2 entram `official`, `manual`, `cutlet` e `pykakasi`.
 
 ### schedule.json
 
 ```json
 { "schemaVersion": 1, "timezone": "America/Sao_Paulo", "epoch": "2026-11-01",
-  "days": { "2026-11-01": { "number": 1, "catalogVersion": "2026-10-26.1",
-    "song":  [{ "answer": "fixture:tr:01", "options": ["fixture:tr:09", "fixture:tr:01", "fixture:tr:14", "fixture:tr:22"] }],
-    "album": [{ "answer": "fixture:tr:30", "options": ["fixture:al:03", "fixture:al:11", "fixture:al:05", "fixture:al:08"] }] } } }
+  "days": { "2026-11-01": { "number": 1, "catalogVersion": "2026-10-26.1a2b3c4d",
+    "song":  [{ "answer": "fixture:tr:tr01", "options": ["fixture:tr:tr09", "fixture:tr:tr01", "fixture:tr:tr14", "fixture:tr:tr22"] }],
+    "album": [{ "answer": "fixture:tr:tr30", "options": ["fixture:al:al03", "fixture:al:al11", "fixture:al:al05", "fixture:al:al08"] }] } } }
 ```
 
 Cada lista tem 3 rodadas. No modo Álbum, `answer` é a faixa que toca e `options` são álbuns. A data de `epoch` depende da P18.
 
 ## Apêndice B. Nomes japoneses no autocompletar
 
-### Normalização (idêntica em Python e TS)
+### Normalização (implementada no M1; o TS repete no M4)
+
+O contrato são os vetores de `shared/vectors/normalize.json`, escritos à mão. Revisão de 08/10/2026 testou por força bruta: 0 divergências entre Python 3.12 e Node 24 em todo o Unicode 15.0.
 
 | Passo | Exemplo | Atenção |
 |---|---|---|
-| NFKC | `ｱｲﾄﾞﾙ` → `アイドル`; `ＬＯＶＥ` → `LOVE`; `①` → `1` | `String.prototype.normalize` no TS, `unicodedata` no Python |
-| Minúsculas | `casefold()` / `toLowerCase()` | |
-| Katakana → hiragana | U+30A1 a U+30F6, menos 0x60 | Mantém `ー` (letra modificadora, não pontuação) |
-| Remover espaço, pontuação e símbolos | `♪ ☆ ・ 、 !` | Regex Unicode `[\p{P}\p{S}\s]` |
-| Remover acento latino | `ō` → `o` | Só U+0300 a U+036F. Nunca remova todas as marcas `\p{M}`: apagaria o dakuten (U+3099) e `が` viraria `か` |
+| NFKC | `ｱｲﾄﾞﾙ` → `アイドル`; `ＬＯＶＥ` → `LOVE`; `①` → `1` | `unicodedata` no Python, `String.prototype.normalize` no TS |
+| Minúsculas | `lower()` / `toLowerCase()` | **Não** usar `casefold()`: diverge do JS em 261 caracteres (ex.: `ß`) |
+| NFD + lista de permissão | Fica só letra (L), número (N) e dakuten (U+3099, U+309A) | Some de uma vez com espaço, pontuação, símbolo, emoji, ZWSP, seletor de variação e acento latino. No TS: `/[^\p{L}\p{N}゙゚]/gu` |
+| Katakana → hiragana | U+30A1 a U+30F6, U+30FD e U+30FE, menos 0x60 | Mantém `ー` |
+| NFC | `か` + `゙` → `が` | Recompõe o dakuten |
+| `ー` colado em latim some | `goー` → `go` | Regex `(?<=[a-z])ー+` |
 
-**Chave "frouxa"** (só texto latino, aplicada igual no catálogo e na consulta):
+**Chave "frouxa"** (`loose_key`), aplicada a toda chave (só mexe em `a-z`) e repetida até parar de mudar:
 
-- vogais longas colapsadas: `ou`, `oo` → `o`; `uu` → `u`;
-- Kunrei → Hepburn: `si` → `shi`, `tu` → `tsu`, `hu` → `fu`, `zi` → `ji`;
 - `m` antes de `b`/`p` → `n`;
-- remoção de `'` e `-`.
+- Kunrei → Hepburn: `sy ty cy zy jy si ti tu zi di du` → `sh ch ch j j shi chi tsu ji ji zu`; `hu` → `fu` se não vier depois de `s` ou `c`;
+- `nn+` → `n`; vogal repetida (`aa ii uu ee`) → uma; `o` seguido de `o`/`u` → `o`.
 
-Assim, `tōkyō`, `toukyou` e `tokyo` batem. Como a regra é simétrica, um falso positivo raro em palavra inglesa é aceitável.
+Assim, `tōkyō`, `toukyou` e `tokyo` viram `tokyo`. Como a regra vale para catálogo e consulta, um efeito estranho em inglês (`size` → `shize`) não atrapalha a busca.
+
+**Pendente para o M7:** a busca por prefixo perde 1 caractere quando o jogador digita Kunrei para um título em Hepburn (`t` de `tikara`); a correção prevista é comparar também `loose_key(consulta[:-1])` quando o último caractere for `t`, `h`, `z`, `d` ou `m`. E, durante a composição do IME (`とうk`), buscar só no `compositionend`.
 
 ### Romaji no pipeline (confirmar licença e tamanho no PyPI no M2)
 
