@@ -1,0 +1,14 @@
+# Tudo que for texto fica com fim de linha LF no repositório e na cópia local.
+# Isso garante que o pipeline gere os mesmos bytes no Windows e no Linux (CI).
+* text=auto eol=lf
+
+# Scripts do PowerShell preferem CRLF
+*.ps1 text eol=crlf
+
+# Binários: o git não deve tentar converter nem mostrar diff de texto
+*.wav binary
+*.m4a binary
+*.mp3 binary
+*.png binary
+*.jpg binary
+*.ico binary

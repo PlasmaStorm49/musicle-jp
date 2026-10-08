@@ -1,0 +1,30 @@
+# Dependências e ambientes
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Build e relatórios
+dist/
+coverage/
+web/playwright-report/
+web/test-results/
+
+# Gerados localmente (o script recria)
+web/public/fixtures/audio/
+
+# Segredos e configuração local
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Sistema e editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json

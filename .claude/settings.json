@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "PowerShell(git status *)",
+      "PowerShell(git diff *)",
+      "PowerShell(git log *)",
+      "PowerShell(git show *)",
+      "PowerShell(npm run *)",
+      "PowerShell(npx vitest *)",
+      "PowerShell(python -m pytest *)",
+      "PowerShell(python -m ruff *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(npm run *)",
+      "Bash(npx vitest *)",
+      "Bash(python -m pytest *)",
+      "Bash(python -m ruff *)"
+    ],
+    "ask": [
+      "PowerShell(git push *)",
+      "Bash(git push *)"
+    ],
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Edit(/web/public/data/**)",
+      "Edit(/web/public/fixtures/*.json)"
+    ]
+  },
+  "env": {
+    "PYTHONUTF8": "1"
+  }
+}
