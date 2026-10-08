@@ -34,11 +34,14 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 
 | Tarefa | Comando |
 |---|---|
-| Preparar o ambiente (uma vez) | `python -m venv .venv` e depois `.venv\Scripts\python -m pip install -e "pipeline[dev]"` |
+| Preparar o ambiente (uma vez) | `python -m venv .venv` e depois `.venv\Scripts\python -m pip install -e "pipeline[dev,romaji]"` (o extra `romaji` tem 250 MB e só serve ao `romanize`) |
 | Testes do pipeline | `.venv\Scripts\python -m pytest pipeline` |
 | Lint e formato | `.venv\Scripts\python -m ruff check pipeline` e `.venv\Scripts\python -m ruff format pipeline` |
+| Completar o romaji | `.venv\Scripts\python -m musicle_pipeline romanize --provider fixture` (conferir: `--check`) |
 | Gerar o catálogo falso | `.venv\Scripts\python -m musicle_pipeline build --provider fixture --out web/public/fixtures/catalog.json` |
 | Validar um catálogo | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json` |
+
+Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` no diff → corrigir erros em `pipeline/data/aliases.toml` → `build`.
 
 A partir do M4: `npm run dev --prefix web`, `npm test --prefix web` e a skill `/verificar`.
 

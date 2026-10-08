@@ -75,7 +75,7 @@ musicle-jp/
 |---|---|---|---|---|
 | M0 | Concluído em 08/10/2026 | Ambiente, esqueleto, CLAUDE.md, este plano | `node -v`, `npm -v`, `git --version`, `gh --version` num terminal novo; 1º commit em `main` | CLAUDE.md, `/memory`, permissões, agente `claude-code-guide` |
 | M1 | Concluído em 08/10/2026 | Schemas, models, FixtureProvider, normalização sem romaji, merge, CLI, Ruff, pytest | `build --provider fixture` gera catálogo válido; 2 execuções dão bytes idênticos | Modo de planejamento |
-| M2 | | Romaji (cutlet × pykakasi), `aliases.toml`, vetores compartilhados | Tabela título → romaji aprovada | Subagentes em paralelo |
+| M2 | Concluído em 08/10/2026 | Romaji (cutlet × pykakasi), `aliases.toml`, vetores compartilhados | Tabela título → romaji aprovada | Subagentes em paralelo |
 | M3 | | WAV e SVG falsos, PRNG, `similarity`, agenda, `check-append-only` | 60 dias gerados; regerar não altera dia existente | Hooks (formatador), regras de negação |
 | M4 | | Vite + TS + Preact + Biome + Vitest; `core` com reducer de Música com 4 opções | Vetores passam em Python e TS; testes da virada de dia | Skill de projeto `/verificar`, TDD |
 | M5 | | 1ª tela jogável: Diário Música com 4 opções, Web Audio, barra segmentada | Dia completo jogado no navegador, console limpo | Pré-visualização no navegador (`launch.json`) |
@@ -209,16 +209,25 @@ Assim, `tōkyō`, `toukyou` e `tokyo` viram `tokyo`. Como a regra vale para cat�
 
 **Pendente para o M7:** a busca por prefixo perde 1 caractere quando o jogador digita Kunrei para um título em Hepburn (`t` de `tikara`); a correção prevista é comparar também `loose_key(consulta[:-1])` quando o último caractere for `t`, `h`, `z`, `d` ou `m`. E, durante a composição do IME (`とうk`), buscar só no `compositionend`.
 
-### Romaji no pipeline (confirmar licença e tamanho no PyPI no M2)
+### Romaji no pipeline (decidido no M2, 08/10/2026)
 
-| Biblioteca | Licença | Peso | Qualidade |
-|---|---|---|---|
-| cutlet (fugashi/MeCab + unidic-lite) | MIT; dicionário UniDic com licença tripla BSD/GPL/LGPL | Dezenas de MB | Lê kanji pelo contexto; opção de grafia estrangeira para palavras em katakana |
-| pykakasi | GPL-3.0 ou posterior | Poucos MB, Python puro | Leitura por dicionário, sem contexto; erra leituras ambíguas e nomes próprios |
-| jaconv | MIT | Leve | Só kana e largura, não lê kanji |
-| kuromoji.js no navegador | n/a | Dicionário de vários MB | Descartado: pesaria para cada jogador |
+Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre 38 títulos e 15 artistas reais de J-pop com romaji esperado escrito à mão. A comparação usou a chave de busca, que ignora espaço, maiúscula e vogal longa.
 
-**Recomendação:** cutlet como extra opcional `[romaji]`, com pykakasi como plano B se o fugashi der problema no Windows. `aliases.toml` sempre prevalece (título oficial em inglês, ordem do nome, apelidos). Nomes próprios são o caso mais frágil.
+| Biblioteca | Acertos | Licença | Peso instalado | Observação |
+|---|---|---|---|---|
+| **cutlet 0.5.2** (fugashi 1.5.2 + unidic-lite 1.0.8) | **46/53** | MIT | cerca de 250 MB | Lê kanji pelo contexto (来い ≠ 恋); erra rendaku (千本桜 → "senbon sakura") e nomes próprios (米津玄師, 藤井風) |
+| pykakasi 2.3.0 | 44/53 | GPL-3.0+ | cerca de 10 MB | Lê kanji um a um (紅蓮華 → "guren hana", 君 → "kun") |
+
+**Decisão (P21 a P23):**
+
+- **cutlet**, no extra opcional `[romaji]`, com versões exatas.
+- **Romaji é cache versionado.** O comando `romanize` grava `pipeline/data/romaji.json`, que vai para o Git e é revisado no diff. O `build` só lê o cache e nunca importa a biblioteca. Assim a CI não instala os 250 MB, e o catálogo não muda quando o dicionário muda.
+- **Exibição em Hepburn.** A grafia estrangeira ("Curtain call") entra só na busca, porque às vezes erra ("Tokyo right" para 東京ライツ).
+- **Antes de romanizar,** emoji e invisíveis saem e `・` vira espaço. Sem isso, o cutlet produziria `?` e `/`.
+- **Precedência do latino exibido:** `aliases.toml` (`manual`) > provedor (`provider`) > cache (`cutlet`).
+- **Erro de romaji não muda o resultado do palpite**, que é sempre por ID. Afeta só o autocompletar do modo digitação para aquela música, e se corrige com uma linha no `aliases.toml`.
+
+**Pendente para o M7:** a regra `di`→`ji` da chave frouxa também pega o "di" de ディ ("merodi" vira a chave `meroji`). A busca funciona porque a consulta passa pela mesma regra, mas "merod" deixa de ser começo de chave no meio da digitação.
 
 **Validação do palpite:** sempre por **ID** escolhido na lista, nunca por texto livre. Na Música, acerta quem escolhe o mesmo `songKey`. No Álbum, acerta quem escolhe qualquer álbum que contenha o `songKey` da resposta.
 

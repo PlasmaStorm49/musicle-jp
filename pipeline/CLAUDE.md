@@ -8,8 +8,11 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz.
 |---|---|
 | `models.py` | Contrato do provedor (`ChartSnapshot`, `RawTrack`...) e validação da entrada (`check_snapshots`) |
 | `providers/` | Um arquivo por provedor; `fixture.py` lê `fixtures/chart_fixture.json` |
-| `normalize.py` | Normalização, chave frouxa, sufixos de versão, `songKey`. Espelho em TS no M4 |
-| `catalog.py` | Redução de todos os snapshots em catálogo; popularidade e elegibilidade |
+| `normalize.py` | Normalização, chave frouxa, sufixos de versão, `songKey`, `display`. Espelho em TS no M4 |
+| `catalog.py` | Redução de todos os snapshots em catálogo; popularidade, elegibilidade, `Curation` |
+| `romaji_cache.py` | Lê e grava `data/romaji.json`; diz quais textos precisam de romaji |
+| `romaji.py` | Invólucro do cutlet. **Só o comando `romanize` importa** |
+| `aliases.py` | Lê e valida `data/aliases.toml` (curadoria manual) |
 | `validate.py` | Schema JSON + invariantes + forma canônica |
 | `io_json.py` | JSON canônico e escrita atômica |
 | `cli.py` | `build` e `validate` |
@@ -24,3 +27,6 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz.
 6. **Texto de exibição em NFC; chave de comparação via `normalize`/`search_key`.**
 7. **Não renomeie IDs da parada fictícia.** Os testes citam os casos de borda por ID (tabela em `fixtures/README.md`).
 8. Números com casas decimais saem de `Decimal`, arredondados, para dar o mesmo resultado em Windows e Linux.
+9. **O build nunca importa `romaji.py`.** Ele lê o cache. Um teste em subprocesso confere isso.
+10. **Não edite `data/romaji.json` à mão.** Ele é saída do `romanize`. Correção vai em `data/aliases.toml`, que vence o provedor e o romaji (`manual` > `provider` > `cutlet`).
+11. **Título latino exibido = Hepburn.** A grafia estrangeira do cutlet ("Curtain call") entra só na busca, porque às vezes erra ("Tokyo right").
