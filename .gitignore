@@ -13,8 +13,9 @@ coverage/
 web/playwright-report/
 web/test-results/
 
-# Gerados localmente (o script recria)
+# Gerados localmente pelo comando fake-assets
 web/public/fixtures/audio/
+web/public/fixtures/art/
 
 # Segredos e configuração local
 .env

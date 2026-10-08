@@ -11,6 +11,7 @@ from pathlib import Path
 
 from musicle_pipeline.aliases import load_aliases
 from musicle_pipeline.catalog import Curation, build_catalog
+from musicle_pipeline.fake_assets import generate_assets
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import has_unassigned
@@ -115,6 +116,16 @@ def _schedule(args: argparse.Namespace) -> int:
     return 0
 
 
+def _fake_assets(args: argparse.Namespace) -> int:
+    catalog = read_json(resolve(args.catalog))
+    report = generate_assets(catalog, resolve(args.public))
+    print(
+        f"assets: {len(report.written)} gravado(s), {report.unchanged} sem mudança, "
+        f"{len(report.removed)} órfão(s) apagado(s)"
+    )
+    return 0
+
+
 def _schedule_check(args: argparse.Namespace) -> int:
     path = resolve(args.path)
     current = read_json(path)
@@ -205,6 +216,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     schedule.add_argument("--epoch", type=date.fromisoformat, help="desafio nº 1 (agenda nova)")
     schedule.add_argument("--days", type=int, default=21, help="dias à frente de hoje")
     schedule.set_defaults(func=_schedule)
+
+    assets = sub.add_parser("fake-assets", help="gera WAV e SVG sintéticos (só provedor fixture)")
+    assets.add_argument("--catalog", type=Path, required=True)
+    assets.add_argument("--public", type=Path, default=Path("web/public"), help="pasta pública")
+    assets.set_defaults(func=_fake_assets)
 
     check = sub.add_parser("schedule-check", help="confere que a agenda só cresceu")
     check.add_argument("--path", type=Path, default=FIXTURE_SCHEDULE)

@@ -19,12 +19,16 @@ def read_json(path: Path) -> Any:
 
 
 def write_if_changed(path: Path, text: str) -> bool:
-    """Grava só se os bytes mudaram. Devolve True se gravou.
+    """Grava o texto em UTF-8 só se os bytes mudaram. Devolve True se gravou.
 
-    Grava num arquivo temporário e troca com os.replace: quem lê nunca vê um arquivo pela
-    metade. Bytes explícitos evitam a conversão de \\n para \\r\\n do modo texto no Windows.
+    Bytes explícitos evitam a conversão de \\n para \\r\\n do modo texto no Windows.
     """
-    data = text.encode("utf-8")
+    return write_bytes_if_changed(path, text.encode("utf-8"))
+
+
+def write_bytes_if_changed(path: Path, data: bytes) -> bool:
+    """Grava num arquivo temporário e troca com os.replace: quem lê nunca vê um arquivo pela
+    metade. Devolve True se gravou."""
     if path.exists() and path.read_bytes() == data:
         return False
     path.parent.mkdir(parents=True, exist_ok=True)
