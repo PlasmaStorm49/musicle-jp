@@ -1,8 +1,13 @@
-"""Hook PostToolUse do Claude Code: formata o arquivo Python que acabou de ser editado.
+"""Hook PostToolUse do Claude Code: formata o arquivo que acabou de ser editado.
 
 O Claude Code roda este script depois de cada Edit/Write e manda, pela entrada padrão, um JSON
-com tool_input.file_path. Só mexe em arquivos .py de um projeto cujo pyproject.toml fica numa
-pasta chamada "pipeline" (subindo a partir do arquivo, o que funciona também em worktree).
+com tool_input.file_path. Sobe pastas a partir do arquivo (o que funciona também em worktree):
+
+- .py dentro de um projeto cujo pyproject.toml fica numa pasta "pipeline" → Ruff;
+- .ts/.tsx/.js/.mjs/.json/.css dentro de um projeto com package.json e biome.json → Biome.
+
+Só formatação e ordem dos imports, nunca correções de lint: o Claude costuma pôr o import numa
+edição e o uso na seguinte, e um "remover import sem uso" apagaria o import no meio do caminho.
 
 Sempre sai com código 0: formatação nunca deve bloquear o trabalho. Falhas vão para o stderr.
 """
@@ -10,9 +15,12 @@ Sempre sai com código 0: formatação nunca deve bloquear o trabalho. Falhas v�
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
+
+WEB_SUFFIXES = {".ts", ".tsx", ".js", ".mjs", ".json", ".jsonc", ".css"}
 
 
 def find_pipeline(path: Path) -> Path | None:
@@ -22,17 +30,35 @@ def find_pipeline(path: Path) -> Path | None:
     return None
 
 
-def run_ruff(project: Path, *args: str) -> None:
+def find_web(path: Path) -> Path | None:
+    for parent in path.parents:
+        if (parent / "package.json").is_file():
+            return parent if (parent / "biome.json").is_file() else None
+    return None
+
+
+def run(cmd: list[str], cwd: Path, label: str) -> None:
     result = subprocess.run(
-        [sys.executable, "-m", "ruff", *args],
-        cwd=project,
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        check=False,
+        cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", check=False
     )
     if result.returncode != 0:
-        print(f"ruff {args[0]}: {result.stdout}{result.stderr}".strip(), file=sys.stderr)
+        print(f"{label}: {result.stdout}{result.stderr}".strip(), file=sys.stderr)
+
+
+def format_python(project: Path, file_path: Path) -> None:
+    ruff = [sys.executable, "-m", "ruff"]
+    run([*ruff, "check", "--fix", "--select", "I", "--force-exclude", str(file_path)], project, "ruff")
+    run([*ruff, "format", "--force-exclude", str(file_path)], project, "ruff format")
+
+
+def format_web(project: Path, file_path: Path) -> None:
+    biome = project / "node_modules" / "@biomejs" / "biome" / "bin" / "biome"
+    node = shutil.which("node")
+    if node is None or not biome.is_file():
+        return  # worktree novo, sem npm install ainda: não há o que fazer
+    # --linter-enabled=false: só formatador e organização de imports (assist).
+    flags = ["--linter-enabled=false", "--no-errors-on-unmatched", "--files-ignore-unknown=true"]
+    run([node, str(biome), "check", "--write", *flags, str(file_path)], project, "biome")
 
 
 def main() -> int:
@@ -43,15 +69,16 @@ def main() -> int:
     except (ValueError, KeyError, TypeError) as exc:
         print(f"format_file: entrada inesperada ({exc})", file=sys.stderr)
         return 0
-    if file_path.suffix != ".py" or not file_path.is_file():
+    if not file_path.is_file():
         return 0
-    project = find_pipeline(file_path)
-    if project is None:
-        return 0
-    # Só a regra I (ordem dos imports). Nunca F401 (import sem uso): o Claude costuma pôr o
-    # import numa edição e o uso na seguinte, e o --fix apagaria o import no meio do caminho.
-    run_ruff(project, "check", "--fix", "--select", "I", "--force-exclude", str(file_path))
-    run_ruff(project, "format", "--force-exclude", str(file_path))
+    if file_path.suffix == ".py":
+        project = find_pipeline(file_path)
+        if project is not None:
+            format_python(project, file_path)
+    elif file_path.suffix in WEB_SUFFIXES:
+        project = find_web(file_path)
+        if project is not None:
+            format_web(project, file_path)
     return 0
 
 

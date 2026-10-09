@@ -5,6 +5,8 @@ import os
 import subprocess
 import sys
 
+import pytest
+
 from musicle_pipeline.io_json import read_json
 from musicle_pipeline.paths import repo_root
 
@@ -28,6 +30,38 @@ def _fake_pipeline(tmp_path):
     (project / "src").mkdir(parents=True)
     (project / "pyproject.toml").write_text("[tool.ruff]\nline-length = 100\n", "utf-8")
     return project
+
+
+WEB = repo_root() / "web"
+HAS_BIOME = (WEB / "node_modules" / "@biomejs" / "biome" / "bin" / "biome").is_file()
+
+
+@pytest.mark.skipif(not HAS_BIOME, reason="web/node_modules ausente (rode npm ci --prefix web)")
+def test_formats_typescript_inside_web_keeping_unused_imports():
+    probe = WEB / "test" / f"hook_probe_{os.getpid()}.ts"
+    probe.write_text(
+        'import { b } from "./b.ts";\nimport { a } from "./a.ts";\n'
+        'import { unused } from "./c.ts";\nexport const x=a+b\n',
+        "utf-8",
+    )
+    try:
+        assert _run_hook(_payload(probe)).returncode == 0
+        lines = probe.read_text("utf-8").splitlines()
+        assert lines[:3] == [
+            'import { a } from "./a.ts";',
+            'import { b } from "./b.ts";',
+            'import { unused } from "./c.ts";',  # import sem uso continua
+        ]
+        assert "export const x = a + b;" in lines
+    finally:
+        probe.unlink()
+
+
+def test_web_file_outside_a_biome_project_is_untouched(tmp_path):
+    target = tmp_path / "solto.ts"
+    target.write_text("export const x=1\n", "utf-8")
+    assert _run_hook(_payload(target)).returncode == 0
+    assert target.read_text("utf-8") == "export const x=1\n"
 
 
 def test_formats_python_file_inside_pipeline(tmp_path):
