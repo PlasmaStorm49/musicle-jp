@@ -17,6 +17,9 @@ web/test-results/
 web/public/fixtures/audio/
 web/public/fixtures/art/
 
+# Worktrees do Claude Code (uma pasta de trabalho por frente paralela)
+.claude/worktrees/
+
 # Segredos e configuração local
 .env
 .env.*
