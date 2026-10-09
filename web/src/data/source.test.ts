@@ -100,7 +100,8 @@ describe("datas e dias", () => {
   });
 
   it("?fakeAudio=1 liga o motor falso; qualquer outro valor não", () => {
-    expect(fakeAudioEnabled("?fakeAudio=1")).toBe(true);
+    // QUEBRADO DE PROPÓSITO (demonstração do M9; este PR não entra na main): o certo é true.
+    expect(fakeAudioEnabled("?fakeAudio=1")).toBe(false);
     expect(fakeAudioEnabled("?date=2026-10-08&fakeAudio=1")).toBe(true);
     expect(fakeAudioEnabled("?fakeAudio=0")).toBe(false);
     expect(fakeAudioEnabled("?fakeAudio")).toBe(false);
