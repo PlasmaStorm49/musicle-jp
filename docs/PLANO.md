@@ -18,6 +18,10 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P13 | Dois diários por dia (Música e Álbum), 3 rodadas cada; tipo de resposta escolhido antes da rodada 1 e travado no dia |
 | P14 | Preact com hooks, sem biblioteca de estado |
 | P15 | Repositório público no GitHub |
+| P17 | Faixas explícitas podem ser resposta; a tela mostra um aviso de conteúdo explícito (M5) |
+| P18 | Desafio nº 1 da agenda falsa em 2026-10-08 (início do projeto) |
+| P21 a P23 | Romaji com cutlet, em cache versionado; grafia estrangeira só na busca (Apêndice B) |
+| P24 | O Diário Álbum aceita singles, em definitivo |
 
 ## 3. Fonte de dados (usada só no M11)
 
@@ -43,7 +47,7 @@ musicle-jp/
   .github/workflows/   ci.yml, deploy.yml, update-catalog.yml
   docs/      PLANO.md, decisoes/ADR-*.md
   shared/    schema/*.schema.json (contrato Python↔TS), vectors/normalize.json, vectors/prng.json
-  pipeline/  pyproject.toml, data/aliases.toml, fixtures/chart_fixture.json, scripts/gen_fake_assets.py
+  pipeline/  pyproject.toml, data/aliases.toml, data/romaji.json, fixtures/chart_fixture.json
              src/musicle_pipeline/  cli, models, providers/{base,fixture}, normalize, romaji, merge,
                                     similarity, prng, schedule, io_json, validate
              tests/
@@ -76,7 +80,7 @@ musicle-jp/
 | M0 | Concluído em 08/10/2026 | Ambiente, esqueleto, CLAUDE.md, este plano | `node -v`, `npm -v`, `git --version`, `gh --version` num terminal novo; 1º commit em `main` | CLAUDE.md, `/memory`, permissões, agente `claude-code-guide` |
 | M1 | Concluído em 08/10/2026 | Schemas, models, FixtureProvider, normalização sem romaji, merge, CLI, Ruff, pytest | `build --provider fixture` gera catálogo válido; 2 execuções dão bytes idênticos | Modo de planejamento |
 | M2 | Concluído em 08/10/2026 | Romaji (cutlet × pykakasi), `aliases.toml`, vetores compartilhados | Tabela título → romaji aprovada | Subagentes em paralelo |
-| M3 | | WAV e SVG falsos, PRNG, `similarity`, agenda, `check-append-only` | 60 dias gerados; regerar não altera dia existente | Hooks (formatador), regras de negação |
+| M3 | Concluído em 08/10/2026 | WAV e SVG falsos (`fake-assets`), PRNG, `similarity`, agenda, `schedule-check` | 61 dias gerados sem afrouxar regra; regerar não altera dia existente | Hooks (formatador), regras de negação |
 | M4 | | Vite + TS + Preact + Biome + Vitest; `core` com reducer de Música com 4 opções | Vetores passam em Python e TS; testes da virada de dia | Skill de projeto `/verificar`, TDD |
 | M5 | | 1ª tela jogável: Diário Música com 4 opções, Web Audio, barra segmentada | Dia completo jogado no navegador, console limpo | Pré-visualização no navegador (`launch.json`) |
 | M6 | | Persistência, estatísticas, retomada, compartilhar, contagem regressiva | Recarregar no meio retoma; storage corrompido não quebra | Subagente `revisor` + `/code-review` |
@@ -103,8 +107,7 @@ musicle-jp/
 **Perguntas**
 
 - P16. Nome público do jogo (evitar "Musicle" no nome). Bloqueia o M10.
-- P17. Filtrar faixas marcadas como explícitas? Bloqueia o M3.
-- P18. Data de estreia (desafio nº 1). Bloqueia o M3.
+- P25. A agenda real (M11, em `public/data/`, com IDs da Apple) precisa do próprio `epoch`: a data de estreia pública. Bloqueia o M11.
 
 **Sugestões**
 
@@ -169,7 +172,7 @@ musicle-jp/
 - **`songKey`:** chave do título sem sufixos de versão ("(TV Size)", "feat.", " - Live"...) + `|` + artista principal. Agrupa a mesma música em single, álbum e versões. Título só de símbolos (`♡`) usa o próprio texto.
 - **`chart.appearances`:** número de snapshots em que a faixa apareceu.
 - **`popularity`:** maior nota entre as aparições: `((size − posição + 1) / size) × 0,5^(semanas atrás / 8)`, com o `size` de cada snapshot, 4 casas.
-- **`eligible`:** `{ daily, reason }`, com um motivo só, na ordem `no-preview` > `short-preview` (trecho útil < 16 s; duração desconhecida não reprova) > `no-artwork`. Os motivos `explicit` (P17) e `blocked` (aliases, M2) já existem no schema.
+- **`eligible`:** `{ daily, reason }`, com um motivo só, na ordem `no-preview` > `short-preview` (trecho útil < 16 s; duração desconhecida não reprova) > `no-artwork`. `blocked` (aliases, M2) vence todos. O motivo `explicit` existe no schema mas não é usado: pela P17, explícitas podem ser resposta, com aviso na tela.
 - **`similar`:** vazio no M1. No M3, os 10 candidatos a distrator mais próximos, calculados no Python.
 - **`latinSource`:** `provider` quando o título latino veio do provedor; no M2 entram `official`, `manual`, `cutlet` e `pykakasi`.
 
@@ -182,7 +185,7 @@ musicle-jp/
     "album": [{ "answer": "fixture:tr:tr30", "options": ["fixture:al:al03", "fixture:al:al11", "fixture:al:al05", "fixture:al:al08"] }] } } }
 ```
 
-Cada lista tem 3 rodadas. No modo Álbum, `answer` é a faixa que toca e `options` são álbuns. A data de `epoch` depende da P18.
+Cada lista tem 3 rodadas. No modo Álbum, `answer` é a faixa que toca e `options` são álbuns. Contrato completo em `shared/schema/schedule.schema.json`.
 
 ## Apêndice B. Nomes japoneses no autocompletar
 
@@ -238,18 +241,18 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 `America/Sao_Paulo` pelo nome IANA, nunca o deslocamento fixo de -03:00, para absorver uma eventual volta do horário de verão.
 
 - **TS:** `Intl.DateTimeFormat` com `timeZone` e `formatToParts`.
-- **Python:** `zoneinfo`, que no Windows precisa do pacote `tzdata`.
+- **Python:** não precisa de fuso. "Hoje" chega como argumento (`schedule --today`); a Action do M10 passa a data de Brasília.
 - **Número do desafio:** dias corridos desde `epoch` + 1, calculados sobre as datas em texto.
 
-### Algoritmo (pré-gerado pelo pipeline, só de acréscimo)
+### Algoritmo (implementado no M3, `schedule.py`)
 
-1. Para cada dia ausente, de hoje até hoje + 21: `rng = mulberry32(fnv1a32("musicle-jp|<data>|<alvo>"))`.
-2. **Pool:** faixas elegíveis, menos as respostas dos últimos K dias (faixa, `songKey` e álbum).
-   - K = mín(180, piso(0,5 × P / 6)), em que P é o tamanho do pool e 6 é o número de respostas por dia. Com P = 300, K = 25.
-   - Um artista não repete no mesmo dia. As respostas de Álbum não repetem álbum nem `songKey` das respostas de Música do dia.
-3. **Dificuldade (opcional):** rodada 1 no terço mais popular, rodada 2 no meio, rodada 3 em qualquer faixa.
-4. **Opções:** resposta + 3 sorteadas de `similar`, embaralhadas com o mesmo `rng`.
-5. **Imutabilidade:** o pipeline nunca reescreve um dia existente; `check-append-only` compara com `origin/main` na CI; o catálogo nunca perde faixa referenciada. Única exceção registrada em log: um dia **futuro** cuja faixa perdeu o preview pode ser refeito.
+1. Para cada dia ausente, de `max(epoch, último dia + 1)` até hoje + 21.
+2. **Janela:** K = mín(180, piso(P / 12)), com P = músicas distintas (`songKey`) entre as elegíveis e 6 respostas por dia. Com a parada fictícia, P = 37 e K = 3. Ficam de fora as faixas, músicas e álbuns respondidos nos K dias anteriores.
+3. **Por rodada:** candidatos = elegíveis fora da janela, sem repetir faixa, música, álbum ou artista do dia, ordenados por `(-popularity, id)`. A faixa de dificuldade é cortada **depois** do filtro: a rodada 1 sorteia entre os primeiros ceil(n/3), a 2 entre os primeiros ceil(2n/3) e a 3 entre todos.
+4. **rng** = `mulberry32(fnv1a32("musicle-jp|<data>|<alvo>"))`, alvo `song` ou `album`. **7 números por rodada:** 1 para a resposta, 3 para escolher os distratores (Fisher-Yates parcial sobre `similar`, sem as músicas das outras respostas do diário) e 3 para embaralhar as 4 opções.
+5. **Afrouxamento,** com log: primeiro o artista passa a valer só dentro do mesmo diário; depois a janela encolhe (K−1 … 0). Faixa, música e álbum nunca repetem no dia. Com a parada fictícia: zero afrouxamentos em 61 dias (teste).
+6. **Só acréscimo, sem exceção.** Dia gravado nunca muda. Resposta futura que deixou de ser elegível gera **aviso** e o jogo anula a rodada sem penalidade. `schedule-check --base-ref <ref>` compara com uma revisão do git (no M9, com `fetch-depth: 0` e `github.event.before`).
+7. **Validação em dois níveis:** a estrutural (contiguidade, `number`, opções, IDs) vale para todos os dias. Elegibilidade e restrições só valem na geração, para que uma regra nova não quebre o passado.
 
 **Por que não calcular no navegador:** o resultado mudaria a cada atualização semanal do catálogo.
 
@@ -270,11 +273,12 @@ Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece
 - **Dia:** de 0 a 18 pontos por diário.
 - **Treino:** rodadas ilimitadas com filtros de alvo e resposta, sorteio por "saco embaralhado" para não repetir na sessão. Exclui as respostas do Diário de hoje enquanto ele não for concluído.
 
-**Distratores** (`similarity.py`):
+**Distratores** (`similarity.py`, implementado no M3):
 
-- Candidatos: elegíveis, de **artista diferente**, com outro `songKey`. No Álbum, outra capa e nenhum álbum que contenha a música da resposta.
-- Proximidade: diferença de ano (janela de ±2, depois ±5, depois qualquer ano), diferença de popularidade, mesmo tipo de álbum.
-- Sorteio: 3 da lista dos 10 mais próximos, com 3 artistas distintos entre si. Se faltar candidato, as restrições são relaxadas em ordem documentada.
+- **Faixas:** elegíveis, sem **nenhum** artista em comum (parcerias contam), com outra música e outro título.
+- **Álbuns:** com capa, sem compilação, sem artista em comum (união dos artistas das faixas) e sem nenhuma música em comum (al01 e al02 nunca são opção um do outro). O Diário Álbum aceita singles (P24).
+- **Proximidade:** janela de ano (±2, ±5, qualquer), diferença de popularidade e tipo de lançamento; desempate por `id`.
+- **Lista de até 10, no máximo 1 por artista:** qualquer sorteio de 3 já sai com artistas distintos. O `validate` exige 3 ou mais para toda resposta possível.
 
 ## Apêndice E. Player de áudio
 
@@ -294,7 +298,7 @@ Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece
 - Falha de áudio anula a rodada sem penalidade.
 - Barra segmentada com colunas proporcionais a 1, 1, 2, 3, 4 e 5 (total de 16 s). A matemática fica em `core/rules.ts`.
 
-**Áudio sintético (fixtures):** `gen_fake_assets.py`, só com a biblioteca padrão (`wave`, `math`, `struct`), gera 30 s a 11.025 Hz, 16 bits, mono. Uma **nota por segundo** de uma escala pentatônica sorteada pelo ID da faixa: o trecho de 1 s soa como 1 nota e o de 4 s como 4 notas, o que permite conferir o corte de ouvido. O mesmo script gera capas SVG com cor e iniciais.
+**Áudio sintético (comando `fake-assets`, M3):** só biblioteca padrão. Para cada `preview.url` do catálogo, gera um WAV de 11.025 Hz, 16 bits, mono, com a duração do preview. Toca **uma nota por segundo** da pentatônica de dó, sorteada pelo ID da faixa e sem repetir a anterior: o trecho de 1 s soa como 1 nota e o de 4 s como 4 notas, o que permite conferir o corte de ouvido. Para cada capa, gera um SVG 600×600 com cor pelo hash do ID, título e artista. Só roda com o provedor `fixture`, aceita só URLs `fixtures/(audio|art)/<nome>` e apaga arquivos órfãos. Tudo fora do Git (25,4 MiB de áudio).
 
 ## Apêndice F. Persistência e compartilhamento
 

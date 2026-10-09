@@ -13,9 +13,13 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz.
 | `romaji_cache.py` | Lê e grava `data/romaji.json`; diz quais textos precisam de romaji |
 | `romaji.py` | Invólucro do cutlet. **Só o comando `romanize` importa** |
 | `aliases.py` | Lê e valida `data/aliases.toml` (curadoria manual) |
-| `validate.py` | Schema JSON + invariantes + forma canônica |
+| `similarity.py` | Distratores (`similar`) de faixas e álbuns, no fim do build |
+| `prng.py` | `fnv1a32` + `mulberry32`. Espelho em TS no M4 e referência em `shared/vectors/prng_reference.mjs` |
+| `schedule.py` | Agenda só de acréscimo: geração, validação estrutural, `compare`, leitura do git |
+| `fake_assets.py` | WAV e SVG sintéticos a partir do catálogo (só provedor `fixture`) |
+| `validate.py` | Schema JSON + invariantes (inclusive distratores) + forma canônica |
 | `io_json.py` | JSON canônico e escrita atômica |
-| `cli.py` | `build` e `validate` |
+| `cli.py` | `build`, `validate`, `romanize`, `fake-assets`, `schedule`, `schedule-check` |
 
 ## Regras
 
@@ -30,3 +34,6 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz.
 9. **O build nunca importa `romaji.py`.** Ele lê o cache. Um teste em subprocesso confere isso.
 10. **Não edite `data/romaji.json` à mão.** Ele é saída do `romanize`. Correção vai em `data/aliases.toml`, que vence o provedor e o romaji (`manual` > `provider` > `cutlet`).
 11. **Título latino exibido = Hepburn.** A grafia estrangeira do cutlet ("Curtain call") entra só na busca, porque às vezes erra ("Tokyo right").
+12. **Vetores do PRNG são a exceção à regra 3:** `shared/vectors/prng.json` é gerado por `node shared/vectors/prng_reference.mjs`, uma segunda implementação independente. Nunca edite à mão nem gere com `>` no PowerShell.
+13. **Agenda só cresce.** Nunca altere dia existente, nem para "corrigir". Mudou o consumo do rng (7 números por rodada) ou a ordem de escolha? Isso muda só os dias novos, e o `schedule-check` protege os antigos.
+14. **"Hoje" é argumento** (`--today`). O pacote nunca lê o relógio.

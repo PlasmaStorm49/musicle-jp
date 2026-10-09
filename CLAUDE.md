@@ -15,8 +15,10 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 ## Ambiente
 
 - Windows 11 com PowerShell 5.1: não existe `&&`; use `;` ou `if ($?) { ... }`.
+- **Commit com aspas duplas na mensagem:** o PowerShell 5.1 quebra o argumento do `git`. Grave a mensagem num arquivo do scratchpad e use `git commit -F <arquivo>`.
 - Python 3.12, Node.js LTS, Git e GitHub CLI (`gh`).
 - Fuso do jogo: `America/Sao_Paulo`.
+- **Hook ativo:** depois de cada `Edit`/`Write` num `.py` do `pipeline/`, o `.claude/hooks/format_file.py` ordena os imports e formata o arquivo. Releia antes de editar de novo a mesma região.
 
 ## Mapa
 
@@ -39,9 +41,12 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 | Lint e formato | `.venv\Scripts\python -m ruff check pipeline` e `.venv\Scripts\python -m ruff format pipeline` |
 | Completar o romaji | `.venv\Scripts\python -m musicle_pipeline romanize --provider fixture` (conferir: `--check`) |
 | Gerar o catálogo falso | `.venv\Scripts\python -m musicle_pipeline build --provider fixture --out web/public/fixtures/catalog.json` |
-| Validar um catálogo | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json` |
+| Gerar áudio e capas falsos | `.venv\Scripts\python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json` (fora do Git; rode depois de clonar) |
+| Acrescentar dias à agenda | `.venv\Scripts\python -m musicle_pipeline schedule --catalog web/public/fixtures/catalog.json --out web/public/fixtures/schedule.json --today AAAA-MM-DD` |
+| Validar catálogo e agenda | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` |
+| Conferir que a agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
 
-Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` no diff → corrigir erros em `pipeline/data/aliases.toml` → `build`.
+Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` no diff → corrigir erros em `pipeline/data/aliases.toml` → `build` → `fake-assets` → `schedule` → `schedule-check`.
 
 A partir do M4: `npm run dev --prefix web`, `npm test --prefix web` e a skill `/verificar`.
 
