@@ -41,6 +41,8 @@ declare global {
 }
 
 const BASE_URL = new URL(import.meta.env.BASE_URL, window.location.href).href;
+// Para as funções que recebem o modo por parâmetro (gameDate, failAudioTrack). Para tirar código
+// do build, use o literal import.meta.env.DEV no ponto da chamada (web/CLAUDE.md, regra 10).
 const DEV = import.meta.env.DEV;
 
 type Storage = {
@@ -139,7 +141,7 @@ export function App() {
     const failPreview = failTrack ? load.data.index.tracks.get(failTrack)?.preview?.url : null;
     const options = {
       failUrl: failPreview ? resolveUrl(failPreview) : null,
-      onPlayed: DEV
+      onPlayed: import.meta.env.DEV
         ? (log: PlayLog) => {
             window.__musicleAudioLog ??= [];
             window.__musicleAudioLog.push(log);

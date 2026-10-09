@@ -1,6 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const CI = Boolean(process.env.CI);
+// Só "true" ou "1" (o GitHub define CI=true): CI=false não pode ligar o modo da CI.
+const CI = ["true", "1"].includes(process.env.CI ?? "");
 
 // Testes de ponta a ponta contra o servidor de desenvolvimento: só nele existe o motor de áudio
 // falso (?fakeAudio=1). A data vem do relógio fixo de cada teste (page.clock), não do ?date=.
@@ -8,6 +9,9 @@ export default defineConfig({
   testDir: "e2e",
   forbidOnly: CI,
   retries: 0,
+  // Fora da CI, um navegador por vez: com pouca memória livre, dois workers derrubam o Chromium
+  // ("Target crashed") e o teste falha sem culpa do código.
+  workers: CI ? undefined : 1,
   reporter: CI ? [["github"], ["html", { open: "never" }]] : [["list"]],
   use: {
     ...devices["Desktop Chrome"],

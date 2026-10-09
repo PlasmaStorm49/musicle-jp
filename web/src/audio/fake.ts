@@ -1,6 +1,10 @@
 // Motor de áudio falso, só para os testes de ponta a ponta (Playwright), em desenvolvimento
 // com ?fakeAudio=1. "Toca" na hora e sem som: o teste não espera segundos reais nem depende de
 // decodificar áudio no navegador da CI. O build de produção nunca o inclui (a CI confere).
+// Simplificações (o motor de verdade faz diferente): não conhece a duração do arquivo, então
+// não corta o pedido no fim do preview; registra no __musicleAudioLog ao começar, e não ao
+// terminar; nunca é interrompido (stop não faz nada). Teste do Parar ou do corte no fim do
+// preview fica nos testes de componente, não no e2e.
 import { type AudioEngine, AudioUnavailableError, type Playback } from "./engine.ts";
 import type { WebAudioOptions } from "./webaudio.ts";
 

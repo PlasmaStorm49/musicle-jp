@@ -65,9 +65,10 @@ export function artistName(album: Album): string {
   return artist.name;
 }
 
-/** O botão de opção (4 opções) cujo título é exatamente este. */
+/** O botão de opção (4 opções) cujo título (não o romaji nem o artista) é exatamente este. */
 export function option(page: Page, title: string): Locator {
-  return page.locator(".option").filter({ has: page.getByText(title, { exact: true }) });
+  const exactTitle = page.locator(".item-title").and(page.getByText(title, { exact: true }));
+  return page.locator(".option").filter({ has: exactTitle });
 }
 
 /** Troca a área de transferência por uma que guarda o texto (o Compartilhar copia para ela). */
