@@ -1,0 +1,23 @@
+# Versões exatas de tudo o que o pipeline instala, diretas e indiretas (inclusive as do extra
+# romaji), cada uma com 14 dias ou mais de publicada no PyPI (P28 e P60).
+# Uso: pip install -c pipeline/constraints.txt -e "pipeline[dev]"
+# Mudou uma dependência no pyproject.toml? Escolha versões com 14+ dias (data em
+# pypi.org/project/<nome>/#history), atualize aqui e compare com `pip freeze --exclude-editable`.
+attrs==26.1.0
+colorama==0.4.6
+cutlet==0.5.2
+fugashi==1.5.2
+iniconfig==2.3.0
+jaconv==0.5.0
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+mojimoji==0.0.13
+packaging==26.3
+pluggy==1.6.0
+pygments==2.21.0
+pytest==9.1.1
+referencing==0.37.0
+rpds-py==2026.6.3
+ruff==0.16.9
+typing-extensions==4.16.0
+unidic-lite==1.0.8

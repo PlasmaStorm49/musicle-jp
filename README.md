@@ -31,7 +31,7 @@ Precisa de Python 3.12, Node.js 24 e Git. Comandos a partir da raiz do repositó
 
 ```bash
 python -m venv .venv
-.venv/bin/python -m pip install -e "pipeline[dev]"   # no Windows: .venv\Scripts\python
+.venv/bin/python -m pip install -c pipeline/constraints.txt -e "pipeline[dev]"   # no Windows: .venv\Scripts\python
 .venv/bin/python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json
 npm ci --prefix web
 npm run dev --prefix web
