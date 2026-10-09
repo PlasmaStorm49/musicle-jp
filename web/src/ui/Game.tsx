@@ -104,10 +104,13 @@ function playReducer(played: Played, event: GameEvent): Played {
 export function Game(props: Props) {
   const { day, date, index, initialSave, store, announce } = props;
   const id = puzzleId(date, "song");
+  // O save de onde a sessão nasce: o da abertura, ou o relido na escolha do modo (outra aba
+  // pode ter começado ou terminado o dia enquanto o seletor estava na tela).
+  const [base, setBase] = useState(initialSave);
   const [mode, setMode] = useState<AnswerMode | null>(() => lockedMode(initialSave, id));
   const session = useMemo(
-    () => (mode === null ? null : startSession(initialSave, day, date, "song", mode, index)),
-    [initialSave, day, date, index, mode],
+    () => (mode === null ? null : startSession(base, day, date, "song", mode, index)),
+    [base, day, date, index, mode],
   );
   const start = useMemo(
     () => (session?.kind === "playing" ? { game: session.state, events: session.events } : null),
@@ -132,22 +135,26 @@ export function Game(props: Props) {
   // próximos, já que vence a lista mais longa.
   useEffect(() => {
     if (!store || !session) return;
-    if (session.kind === "finished" && !initialSave.history[id]) {
+    if (session.kind === "finished" && !base.history[id]) {
       report(updateSave(store, (s) => withFinished(s, id, session.game)));
     } else if (session.kind === "playing" && session.stale) {
       const progress = { answerMode: session.state.answerMode, events: session.events };
       report(updateSave(store, (s) => replaceProgress(s, id, progress)));
     }
-  }, [session, store, id, initialSave, report]);
+  }, [session, store, id, base, report]);
 
-  // Grava a escolha e relê: se outra aba já começou o dia, vale o modo dela (P13).
+  // Grava a escolha e relê: se outra aba já começou o dia, vale o modo e o andamento dela (P13);
+  // se já terminou, a sessão nasce terminada e mostra o resultado (P39).
   const choose = useCallback(
     (chosen: AnswerMode) => {
       if (!store) return setMode(chosen);
       report(updateSave(store, (s) => withModeChoice(s, id, chosen)));
-      setMode(lockedMode(loadSave(store).save, id) ?? chosen);
+      const reread = loadSave(store);
+      const save = reread.writable ? reread.save : base;
+      setBase(save);
+      setMode(lockedMode(save, id) ?? chosen);
     },
-    [store, id, report],
+    [store, id, base, report],
   );
 
   return (
@@ -158,11 +165,13 @@ export function Game(props: Props) {
           <header>
             <h1>{t("game.header", { number: day.number })}</h1>
           </header>
-          <ModePicker preferred={initialSave.settings.answerMode} onChoose={choose} />
+          <ModePicker preferred={base.settings.answerMode} onChoose={choose} />
         </div>
       )}
-      {session?.kind === "finished" && <DaySummary {...props} game={session.game} />}
-      {start && <Playing {...props} start={start} report={report} />}
+      {session?.kind === "finished" && (
+        <DaySummary {...props} initialSave={base} game={session.game} />
+      )}
+      {start && <Playing {...props} initialSave={base} start={start} report={report} />}
     </>
   );
 }
@@ -252,13 +261,15 @@ function Playing({
 
   function guess(id: string) {
     engine.stop();
-    dispatch({ type: "GUESS", guessId: id });
+    const event = { type: "GUESS", guessId: id } as const;
+    // O reducer é puro: dá para ver o resultado antes de despachar, sem repetir as regras aqui.
+    const after = reduce(game, event).rounds[game.current];
+    dispatch(event);
     // Erro que não encerra a rodada: o foco fica no campo, então o aviso vai para o aria-live.
     // Acerto e último erro abrem a revelação, que leva o foco e se anuncia sozinha.
-    const used = round.attempts.length + 1;
-    if (!round.accepted.includes(id) && used < rules.maxAttempts) {
+    if (after?.status === "playing" && after.attempts.length > round.attempts.length) {
       const title = optionView(index, id, game.target)?.title ?? t("attempts.unknown");
-      announce(t("typing.wrong", { title, ...attemptLabel(used) }));
+      announce(t("typing.wrong", { title, ...attemptLabel(after.attempts.length) }));
     }
   }
 

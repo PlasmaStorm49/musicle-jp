@@ -38,7 +38,9 @@ const SYLLABLES = table([
   ["ま み む め も", "ma mi mu me mo"],
   ["や ゆ よ", "ya yu yo"],
   ["ら り る れ ろ", "ra ri ru re ro"],
-  ["わ ゐ ゑ を ん ゔ", "wa i e o n vu"],
+  // を é "wo", e não o "o" do Hepburn revisado: a consulta é comparada com o romaji do catálogo
+  // (cutlet), que escreve "wo" (星に願いを → "hoshininegaiwo").
+  ["わ ゐ ゑ を ん ゔ", "wa i e wo n vu"],
   // Pequenos sozinhos (fora de uma combinação) valem o som da letra.
   ["ぁ ぃ ぅ ぇ ぉ ゃ ゅ ょ ゎ ゕ ゖ", "a i u e o ya yu yo wa ka ke"],
   // ヷヸヹヺ não têm hiragana, então o normalize os deixa em katakana.

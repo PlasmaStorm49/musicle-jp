@@ -38,6 +38,17 @@ export function Player({
   const [status, setStatus] = useState<"idle" | "loading" | "playing">("idle");
   const fillRef = useRef<HTMLDivElement>(null);
   const frame = useRef(0);
+  const playButton = useRef<HTMLButtonElement>(null);
+  // O foco vai para o Tocar ao montar (o Player monta a cada rodada, inclusive logo depois da
+  // escolha do modo) e depois de um pulo: o botão que tinha o foco pode ter sumido (o "Pular"
+  // some na última tentativa), e o próximo passo natural é ouvir o trecho liberado (P46).
+  const [focusPlay, setFocusPlay] = useState(true);
+  useEffect(() => {
+    if (focusPlay && status === "idle") {
+      playButton.current?.focus();
+      setFocusPlay(false);
+    }
+  }, [focusPlay, status]);
 
   // Desmontar (troca de rodada, revelação) para o som e o laço da barra.
   useEffect(
@@ -95,6 +106,7 @@ export function Player({
     if (event.detail > 1) return; // toque duplo não gasta 2 tentativas
     stop(); // o trecho antigo para; o novo só toca no clique em Tocar (P46)
     onSkip();
+    setFocusPlay(true);
   }
 
   const extra = secondsAt(stage + 1) - secondsAt(stage);
@@ -110,6 +122,7 @@ export function Player({
           </button>
         ) : (
           <button
+            ref={playButton}
             type="button"
             class="primary"
             disabled={status === "loading"}

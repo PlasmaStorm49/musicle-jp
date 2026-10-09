@@ -17,9 +17,10 @@ type Props = {
 const LIST_ID = "guess-list";
 const HINT_ID = "guess-hint";
 const optionId = (i: number) => `guess-option-${i}`;
-// Kana seguido de letras latinas no fim: o IME ainda está montando a sílaba (とうk), então a
-// busca usa só o kana. Romaji puro em composição (teclado do celular) busca como está.
-const COMPOSING_TAIL = /(?<=[\p{Script=Hiragana}\p{Script=Katakana}])[A-Za-z]+$/u;
+// Kana (ou ー) seguido de letras latinas no fim: o IME ainda está montando a sílaba (とうk;
+// no Windows, em largura cheia: とうｋ), então a busca usa só o kana. Romaji puro em
+// composição (teclado do celular) busca como está.
+const COMPOSING_TAIL = /(?<=[\p{Script=Hiragana}\p{Script=Katakana}ー])[A-Za-zＡ-Ｚａ-ｚ]+$/u;
 // A contagem espera a digitação parar: o leitor de tela não lê a cada tecla.
 const STATUS_DELAY_MS = 600;
 
@@ -59,20 +60,28 @@ export function GuessInput({ suggest, onPick, labelledBy }: Props) {
     };
   }, []);
 
+  // Depende da quantidade, não da lista: a marca "já tentou" muda a lista depois de um pulo,
+  // e a contagem não deve ser lida de novo por cima do anúncio do jogo.
+  const count = results.length;
   useEffect(() => {
-    if (!query.trim()) {
+    if (!open || !query.trim()) {
       setStatus("");
       return;
     }
     const id = setTimeout(
-      () =>
-        setStatus(
-          results.length > 0 ? tn("typing.results", results.length) : t("typing.noResults"),
-        ),
+      () => setStatus(count > 0 ? tn("typing.results", count) : t("typing.noResults")),
       STATUS_DELAY_MS,
     );
     return () => clearTimeout(id);
-  }, [query, results]);
+  }, [open, query, count]);
+
+  // aria-activedescendant não rola a lista: a opção ativa precisa ficar à vista de quem usa
+  // o teclado (a lista tem altura máxima e rolagem).
+  useEffect(() => {
+    if (expanded && active >= 0) {
+      document.getElementById(optionId(active))?.scrollIntoView({ block: "nearest" });
+    }
+  }, [expanded, active]);
 
   function update(text: string) {
     setValue(text);
@@ -148,7 +157,12 @@ export function GuessInput({ suggest, onPick, labelledBy }: Props) {
         value={value}
         onInput={(event) => update(event.currentTarget.value)}
         onKeyDown={onKeyDown}
-        onBlur={() => setOpen(false)}
+        // Tocar de novo no campo (no celular não há setas) reabre a lista do texto que já está lá.
+        onClick={() => setOpen(true)}
+        onBlur={() => {
+          setOpen(false);
+          setActive(-1);
+        }}
       />
       <p id={HINT_ID} class="hint">
         {t("typing.hint")}

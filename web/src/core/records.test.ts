@@ -200,10 +200,9 @@ describe("mescla de saves (duas abas)", () => {
 
   it("withModeChoice não troca o modo de um dia que outra aba já começou ou terminou", () => {
     const started = withModeChoice(emptySave(), ID, "choice");
-    const other = withModeChoice(started, ID, "typing");
-    expect(other.inProgress[ID]?.answerMode).toBe("choice");
-    expect(other.settings.answerMode).toBe("typing"); // a preferência vale para os próximos dias
-    expect(lockedMode(other, ID)).toBe("choice");
+    // Nada muda: o jogador vai jogar o dia no modo travado, então ele é o "último usado" (P45).
+    expect(withModeChoice(started, ID, "typing")).toBe(started);
+    expect(lockedMode(started, ID)).toBe("choice");
 
     const finished = { ...emptySave(), history: { [ID]: done } };
     expect(withModeChoice(finished, ID, "typing").inProgress).toEqual({});

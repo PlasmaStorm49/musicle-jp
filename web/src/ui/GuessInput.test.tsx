@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ItemView } from "../core/view.ts";
 import { GuessInput, type Suggestion } from "./GuessInput.tsx";
@@ -127,6 +127,61 @@ describe("GuessInput (combobox da WAI-ARIA 1.2)", () => {
     fireEvent.compositionStart(box);
     type(box, "kaat");
     expect(suggest).toHaveBeenLastCalledWith("kaat");
+  });
+
+  it.each([
+    ["latim em largura cheia (IME do Windows)", "とうｋ", "とう"],
+    ["latim depois de ー", "かーt", "かー"],
+  ])("IME: %s também fica fora da busca", (_, typed, searched) => {
+    const { box, suggest } = setup();
+    fireEvent.compositionStart(box);
+    type(box, typed);
+    expect(suggest).toHaveBeenLastCalledWith(searched);
+  });
+
+  it("a opção ativa rola para a área visível da lista", () => {
+    const scroll = vi.fn();
+    Element.prototype.scrollIntoView = scroll;
+    const { box } = setup();
+    type(box, "x");
+    key(box, "ArrowUp");
+    expect(scroll).toHaveBeenLastCalledWith({ block: "nearest" });
+    expect(scroll.mock.contexts.at(-1)).toBe(screen.getAllByRole("option")[2]);
+  });
+
+  it("sair do campo fecha a lista e esquece a opção ativa; clicar no campo reabre", () => {
+    const { box } = setup();
+    type(box, "x");
+    key(box, "ArrowDown");
+    key(box, "ArrowDown");
+    fireEvent.blur(box);
+    expect(box.getAttribute("aria-expanded")).toBe("false");
+    fireEvent.click(box);
+    expect(box.getAttribute("aria-expanded")).toBe("true");
+    expect(box.hasAttribute("aria-activedescendant")).toBe(false);
+  });
+
+  it("a contagem de sugestões é anunciada depois de uma pausa, e não com a lista fechada", () => {
+    vi.useFakeTimers();
+    try {
+      const { box } = setup();
+      const status = screen.getByRole("status");
+      // act(): o setStatus roda no timer, e o Preact só redesenha dentro de um act.
+      type(box, "x");
+      expect(status.textContent).toBe("");
+      act(() => {
+        vi.advanceTimersByTime(600);
+      });
+      expect(status.textContent).toBe("3 sugestões");
+      type(box, "xy");
+      key(box, "Escape");
+      act(() => {
+        vi.advanceTimersByTime(600);
+      });
+      expect(status.textContent).toBe("");
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("IME: o Enter que confirma a conversão não escolhe a opção", () => {

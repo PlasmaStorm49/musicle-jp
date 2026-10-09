@@ -62,7 +62,10 @@ type Variant = {
   readonly text: string;
   /** Sem a última letra: casa pior que a consulta inteira. */
   readonly truncated: boolean;
-  /** Comparada com as chaves sem ー. */
+  /**
+   * Comparada com as chaves sem ー: também casa pior que a exata, senão "るーる" poria uma
+   * "ルル" mais popular antes de "ルール".
+   */
   readonly noBar: boolean;
 };
 
@@ -134,8 +137,8 @@ export function search(idx: SearchIndex, query: string, limit = DEFAULT_LIMIT): 
     for (const v of variants) {
       const band = bandOf(entry, v);
       if (band === undefined) continue;
-      // Na mesma faixa, a exata (par) vence a truncada (ímpar); faixa melhor vence sempre.
-      const rank = band * 2 + (v.truncated ? 1 : 0);
+      // Na mesma faixa, a exata (par) vence a truncada ou sem ー (ímpar); faixa melhor vence sempre.
+      const rank = band * 2 + (v.truncated || v.noBar ? 1 : 0);
       if (best === undefined || rank < best) best = rank;
     }
     if (best !== undefined) hits.push({ entry, rank: best });

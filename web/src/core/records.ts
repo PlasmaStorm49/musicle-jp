@@ -155,14 +155,13 @@ export function lockedMode(save: SaveV1, id: PuzzleId): AnswerMode | null {
 /**
  * Escolha do modo antes da rodada 1 (P13, P45). Grava a preferência e trava o modo com um
  * andamento vazio, para recarregar antes do 1º evento voltar no mesmo modo. Se o dia já tem
- * andamento ou resultado (outra aba escolheu antes), o modo dele fica: só a preferência muda.
+ * andamento ou resultado (outra aba escolheu antes), nada muda: vale o modo travado, que é o
+ * que o jogador vai de fato usar (o "último usado").
  */
 export function withModeChoice(save: SaveV1, id: PuzzleId, answerMode: AnswerMode): SaveV1 {
+  if (lockedMode(save, id)) return save;
   const settings =
     save.settings.answerMode === answerMode ? save.settings : { ...save.settings, answerMode };
-  if (lockedMode(save, id)) {
-    return settings === save.settings ? save : { ...save, settings };
-  }
   return {
     ...save,
     settings,

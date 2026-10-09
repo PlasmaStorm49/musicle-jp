@@ -30,7 +30,8 @@ describe("kanaToRomaji", () => {
     ["かーてんこーる", "kaatenkooru"],
     ["づ", "zu"],
     ["ぢ", "ji"],
-    ["を", "o"],
+    // "wo", como o romaji do catálogo (cutlet): 星に願いを tem a chave "hoshininegaiwo".
+    ["を", "wo"],
     ["ふぁ", "fa"],
     ["てぃ", "ti"],
   ])("%s → %s", (kana, romaji) => {
@@ -42,7 +43,7 @@ describe("kanaToRomaji", () => {
       "aiueokakikukekosashisusesotachitsutetonaninuneno",
     );
     expect(kanaToRomaji("はひふへほまみむめもやゆよらりるれろわゐゑをん")).toBe(
-      "hahifuhehomamimumemoyayuyorarirurerowaieon",
+      "hahifuhehomamimumemoyayuyorarirurerowaiewon",
     );
     expect(kanaToRomaji("がぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽゔ")).toBe(
       "gagigugegozajizuzezodajizudedobabibubebopapipupepovu",

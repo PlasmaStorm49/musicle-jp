@@ -56,6 +56,17 @@ describe("Player segue as regras do modo", () => {
     expect(engine.play).toHaveBeenCalledWith("fixtures/audio/x.wav", 0, 2);
   });
 
+  it("o foco começa no Tocar (rodada nova) e volta para ele depois de um pulo", () => {
+    const { onSkip } = setup(MODE_RULES.typing, true);
+    const play = screen.getByRole("button", { name: "Tocar 1 s" });
+    expect(document.activeElement).toBe(play);
+    const skip = screen.getByRole("button", { name: "Pular (+1 s)" });
+    skip.focus();
+    fireEvent.click(skip);
+    expect(onSkip).toHaveBeenCalledOnce();
+    expect(document.activeElement).toBe(play);
+  });
+
   it("toque duplo não gasta duas tentativas", () => {
     const { onSkip } = setup(MODE_RULES.typing, true);
     fireEvent.click(screen.getByRole("button", { name: "Pular (+1 s)" }), { detail: 2 });

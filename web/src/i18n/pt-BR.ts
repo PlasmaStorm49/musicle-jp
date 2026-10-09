@@ -57,11 +57,11 @@ export const ptBR = {
   "mode.choiceName": "4 opções",
   "mode.choiceHint": "Escolha entre 4 músicas. Um palpite só; ouvir mais custa 1 ponto.",
   "mode.typingName": "Digitação",
-  "mode.typingHint": "Digite o nome da música ou do artista. Até 6 tentativas.",
+  "mode.typingHint": "Digite o nome da música ou do artista. Até {total} tentativas.",
   "mode.lastUsed": "último usado",
 
   "typing.hint": "Título, artista, romaji ou kana. Escolha na lista com as setas e Enter.",
-  "typing.placeholder": "Ex.: カーテンコール, kaaten kooru",
+  "typing.placeholder": "Nome da música ou do artista",
   "typing.listLabel": "Sugestões",
   "typing.noResults": "Nenhuma música encontrada.",
   "typing.results.one": "{count} sugestão",

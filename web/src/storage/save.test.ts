@@ -104,6 +104,17 @@ describe("loadSave", () => {
   });
 
   it.each([
+    ["null", null],
+    ["lista", []],
+    ["texto", "typing"],
+  ])("settings que não é objeto (%s) vira {} e avisa", (_, settings) => {
+    const result = loadSave(withRaw(JSON.stringify({ ...valid, settings })));
+    expect(result.save.settings).toEqual({});
+    expect(result.save.history).toEqual(valid.history);
+    expect(result.notice).toBe("repaired");
+  });
+
+  it.each([
     ["modo inválido", { answerMode: "piano" }, {}],
     [
       "chave extra com modo válido",

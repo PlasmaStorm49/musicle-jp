@@ -87,6 +87,28 @@ describe("search: casos do catálogo falso", () => {
   it("só a variante em romaji acha かあてん", () => {
     expect(ids("かあてん")).toEqual(["tr24"]);
   });
+
+  it("partícula を em kana acha o título em kanji (o catálogo escreve wo)", () => {
+    expect(ids("ほしにねがい")).toEqual(["tr19"]);
+    expect(ids("ほしにねがいを")).toEqual(["tr19"]);
+  });
+
+  it("consulta com ー: o título com ー vem antes de um sem ー mais popular", () => {
+    const [model] = catalog.tracks;
+    if (!model) throw new Error("catálogo falso vazio");
+    const track = (id: string, title: string, popularity: number): Track => ({
+      ...model,
+      id: `x:tr:${id}`,
+      songKey: id,
+      popularity,
+      search: { title: [title], artist: [`artista${id}`] },
+    });
+    const small = buildSearchIndex(
+      indexCatalog(withTracks(catalog, [track("lulu", "るる", 0.9), track("rule", "るーる", 0.1)])),
+    );
+    expect(search(small, "るーる").map((h) => h.songKey)).toEqual(["rule", "lulu"]);
+    expect(search(small, "るる").map((h) => h.songKey)).toEqual(["lulu", "rule"]);
+  });
 });
 
 describe("search: consulta truncada no meio da digitação", () => {
