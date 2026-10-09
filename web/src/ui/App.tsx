@@ -71,6 +71,12 @@ export function App() {
   const date = useMemo(() => gameDate(new Date(), window.location.search, DEV), []);
   const saves = useMemo(() => openSaves(date), [date]);
   const resolveUrl = useCallback((url: string) => assetUrl(BASE_URL, url), []);
+  // Texto igual ao anterior não muda o DOM e o leitor de tela fica calado (copiar duas vezes,
+  // duas rodadas anuladas): alterna um espaço invisível no fim para ele ler de novo.
+  const announce = useCallback(
+    (text: string) => setMessage((prev) => (prev === text ? `${text} ` : text)),
+    [],
+  );
 
   // `attempt` muda quando o jogador clica em "Tentar de novo" e dispara uma nova carga.
   useEffect(() => {
@@ -134,7 +140,7 @@ export function App() {
           date={date}
           engine={engine}
           resolveUrl={resolveUrl}
-          announce={setMessage}
+          announce={announce}
           saves={saves}
         />
       )}

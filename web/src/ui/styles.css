@@ -418,8 +418,9 @@ h4 {
   font-size: 0.9rem;
 }
 
+/* section.void, não .void: a linha "anulada" do resumo (li.void) não vira caixa. */
 .error,
-.void,
+section.void,
 .unavailable {
   padding: 12px;
   border-radius: var(--radius);

@@ -38,9 +38,10 @@ export function computeStats(
     scores.push(score);
     distribution[score] = (distribution[score] ?? 0) + 1;
   }
+  // Multiplica antes de dividir: um arredondamento só, sem o erro de (x / n) * 10.
   const average =
     scores.length > 0
-      ? Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 10) / 10
+      ? Math.round((scores.reduce((a, b) => a + b, 0) * 10) / scores.length) / 10
       : null;
 
   const playedDates = new Set(games.map((g) => g.date));

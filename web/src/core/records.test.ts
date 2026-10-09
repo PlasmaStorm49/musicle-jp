@@ -8,6 +8,7 @@ import {
   puzzleId,
   recordMax,
   recordScore,
+  replaceProgress,
   type SaveV1,
   startSession,
   toFinishedGame,
@@ -53,9 +54,14 @@ describe("startSession", () => {
     expect(s.events).toEqual(events);
   });
 
-  it("evento que não muda o estado é descartado ao repetir", () => {
+  it("evento que não muda o estado é descartado ao repetir, e a sessão pede regravação", () => {
     const s = session(saveWith([{ type: "NEXT_ROUND" }, { type: "LISTEN_MORE" }]));
-    if (s.kind === "playing") expect(s.events).toEqual([{ type: "LISTEN_MORE" }]);
+    expect(s).toMatchObject({ kind: "playing", events: [{ type: "LISTEN_MORE" }], stale: true });
+  });
+
+  it("repetição sem descarte não pede regravação", () => {
+    expect(session(saveWith([{ type: "LISTEN_MORE" }]))).toMatchObject({ stale: false });
+    expect(session(emptySave())).toMatchObject({ stale: false });
   });
 
   it("rodada anulada por falha de áudio continua anulada ao recarregar", () => {
@@ -175,6 +181,19 @@ describe("mescla de saves (duas abas)", () => {
     const second = withFinished(first, ID, { ...done, number: 99 });
     expect(second.history[ID]).toBe(done);
     expect(second.inProgress).toEqual({});
+  });
+
+  it("término já gravado e sem andamento: devolve o mesmo save (não regrava)", () => {
+    const first = withFinished(saveWith([]), ID, done);
+    expect(withFinished(first, ID, done)).toBe(first);
+  });
+
+  it("replaceProgress troca até por uma lista mais curta, mas não mexe em dia terminado", () => {
+    const longer = saveWith([{ type: "LISTEN_MORE" }, { type: "LISTEN_MORE" }]);
+    const shorter = { answerMode: "choice" as const, events: [{ type: "LISTEN_MORE" as const }] };
+    expect(replaceProgress(longer, ID, shorter).inProgress[ID]).toEqual(shorter);
+    const finished = { ...emptySave(), history: { [ID]: done } };
+    expect(replaceProgress(finished, ID, shorter)).toBe(finished);
   });
 
   it("pruneProgress tira andamentos de outros dias", () => {

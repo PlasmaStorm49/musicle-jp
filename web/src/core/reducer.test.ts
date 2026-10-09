@@ -1,16 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { catalog, schedule } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
+import { recordMax, recordScore } from "./records.ts";
 import {
   createGame,
   currentRound,
   type GameEvent,
   type GameState,
   isFinished,
-  maxScore,
   reduce,
   roundScore,
-  totalScore,
   unlockedSeconds,
 } from "./reducer.ts";
 import type { Catalog, Day } from "./types.ts";
@@ -228,8 +227,9 @@ describe("pontuação do dia (P27)", () => {
       { type: "NEXT_ROUND" },
       { type: "GIVE_UP" },
     );
-    expect(totalScore(game)).toBe(6);
-    expect(maxScore(game)).toBe(12);
-    expect(maxScore(song())).toBe(18);
+    // A mesma conta do histórico (records.ts) vale para o jogo em andamento.
+    expect(recordScore(game)).toBe(6);
+    expect(recordMax(game)).toBe(12);
+    expect(recordMax(song())).toBe(18);
   });
 });

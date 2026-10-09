@@ -37,14 +37,17 @@ export function Stats({ stats, todayScore }: Props) {
         {stats.distribution.map((games, points) => (
           // 19 baldes fixos (0 a 18 pontos): o próprio valor é a chave.
           <li key={`bucket-${points}`} class={points === todayScore ? "bucket today" : "bucket"}>
-            <span class="bucket-label">{points}</span>
+            {/* O visível é só desenho; o leitor de tela ouve a frase completa do sr-only. */}
+            <span class="bucket-label" aria-hidden="true">
+              {points}
+            </span>
             <span
               class="bucket-bar"
               style={{ width: `${(games / biggest) * 100}%` }}
               aria-hidden="true"
             />
             <span class="sr-only">
-              {t("stats.bucket", {
+              {t(points === todayScore ? "stats.bucketToday" : "stats.bucket", {
                 points: tn("count.points", points),
                 games: tn("count.games", games),
               })}

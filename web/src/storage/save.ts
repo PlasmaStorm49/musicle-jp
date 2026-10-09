@@ -16,7 +16,6 @@ import { migrate, SAVE_SCHEMA_VERSION } from "./migrations.ts";
 
 export const SAVE_KEY = "musicle-jp:save";
 export const CORRUPT_KEY = "musicle-jp:corrupt";
-const PROBE_KEY = "musicle-jp:probe";
 
 /** O mínimo do localStorage que usamos. */
 export interface KeyValueStore {
@@ -34,7 +33,11 @@ export function memoryStore(initial: Record<string, string> = {}): KeyValueStore
   };
 }
 
-/** Abre o armazenamento do navegador; se não der (privado, bloqueado), usa a memória. */
+/**
+ * Abre o armazenamento do navegador; se nem a leitura funcionar (bloqueado, ausente), usa a
+ * memória. A sonda só LÊ: com a cota cheia gravar falha, mas o save que já existe precisa ser
+ * lido, senão o dia terminado seria jogado de novo. Falha de gravação aparece no updateSave.
+ */
 export function openStore(getStorage: () => KeyValueStore | null | undefined): {
   store: KeyValueStore;
   persistent: boolean;
@@ -42,8 +45,7 @@ export function openStore(getStorage: () => KeyValueStore | null | undefined): {
   try {
     const storage = getStorage();
     if (!storage) throw new Error("sem armazenamento");
-    storage.setItem(PROBE_KEY, "1");
-    storage.removeItem(PROBE_KEY);
+    storage.getItem(SAVE_KEY);
     return { store: storage, persistent: true };
   } catch {
     return { store: memoryStore(), persistent: false };
@@ -123,17 +125,24 @@ export function isInProgress(x: unknown): x is InProgress {
   );
 }
 
-/** Valida cada entrada; descarta só as inválidas. `dropped` diz se algo foi descartado. */
-function sanitize(data: Record<string, unknown>): { save: SaveV1; dropped: boolean } | null {
-  if (!isRecord(data.history) || !isRecord(data.inProgress)) return null;
-  let dropped = !isRecord(data.settings);
+/**
+ * Valida cada entrada; descarta só as inválidas. `dropped` diz se algo foi descartado. Um mapa
+ * ausente ou que não é objeto vira vazio, sem levar junto o resto (o histórico vale mais).
+ */
+function sanitize(data: Record<string, unknown>): { save: SaveV1; dropped: boolean } {
+  // A v1 não tem preferências: qualquer chave em settings é desconhecida (o M7 muda isto).
+  let dropped =
+    !isRecord(data.settings) ||
+    Object.keys(data.settings).length > 0 ||
+    !isRecord(data.history) ||
+    !isRecord(data.inProgress);
   const history: Record<string, FinishedGame> = {};
-  for (const [id, game] of Object.entries(data.history)) {
+  for (const [id, game] of Object.entries(isRecord(data.history) ? data.history : {})) {
     if (isPuzzleId(id) && isFinishedGame(game)) history[id] = game;
     else dropped = true;
   }
   const inProgress: Record<string, InProgress> = {};
-  for (const [id, progress] of Object.entries(data.inProgress)) {
+  for (const [id, progress] of Object.entries(isRecord(data.inProgress) ? data.inProgress : {})) {
     if (isPuzzleId(id) && isInProgress(progress)) inProgress[id] = progress;
     else dropped = true;
   }
@@ -173,7 +182,7 @@ export function loadSave(store: KeyValueStore): LoadResult {
     return { save: emptySave(), writable: false, notice: "future" };
   }
 
-  let result: ReturnType<typeof sanitize> = null;
+  let result: ReturnType<typeof sanitize> | null = null;
   if (isRecord(data) && Number.isInteger(version) && (version as number) >= 1) {
     try {
       result = sanitize(migrate(data, version as number));
@@ -187,16 +196,23 @@ export function loadSave(store: KeyValueStore): LoadResult {
   return { save: result?.save ?? emptySave(), writable: kept, notice: "repaired" };
 }
 
-/** Relê, aplica a mudança e grava. Devolve false se não conseguiu salvar. */
-export function updateSave(store: KeyValueStore, change: (save: SaveV1) => SaveV1): boolean {
+/**
+ * Resultado de uma gravação. Fora "saved", o motivo escolhe o aviso da tela: "future" (outra
+ * aba com versão mais nova gravou o save), "unavailable" (não dá para ler ou para guardar a
+ * cópia do corrompido) ou "full" (a gravação lançou: cota cheia ou armazenamento revogado).
+ */
+export type SaveStatus = "saved" | "full" | "future" | "unavailable";
+
+/** Relê, aplica a mudança e grava. */
+export function updateSave(store: KeyValueStore, change: (save: SaveV1) => SaveV1): SaveStatus {
   const current = loadSave(store);
-  if (!current.writable) return false;
+  if (!current.writable) return current.notice === "future" ? "future" : "unavailable";
   const next = change(current.save);
-  if (next === current.save && current.notice === null) return true; // nada mudou
+  if (next === current.save && current.notice === null) return "saved"; // nada mudou
   try {
     store.setItem(SAVE_KEY, JSON.stringify(next));
-    return true;
+    return "saved";
   } catch {
-    return false; // cota cheia ou armazenamento revogado
+    return "full";
   }
 }

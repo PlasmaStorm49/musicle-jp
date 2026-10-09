@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import {
   type FinishedGame,
   puzzleId,
+  replaceProgress,
   type SaveV1,
   startSession,
   toFinishedGame,
@@ -21,7 +22,7 @@ import { ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import { revealView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
-import { type KeyValueStore, updateSave } from "../storage/save.ts";
+import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
 import { Reveal } from "./Reveal.tsx";
@@ -45,22 +46,40 @@ type Props = {
   readonly shareUrl: string;
 };
 
+/** Recebe o resultado de cada gravação; na primeira falha, avisa na tela e no leitor de tela. */
+type Report = (status: SaveStatus) => void;
+
+const SAVE_NOTICE = {
+  full: "storage.full",
+  future: "storage.future",
+  unavailable: "storage.unavailable",
+} as const;
+
 /** O resumo do dia com tudo o que ele precisa; o histórico já inclui o jogo de hoje. */
 function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame }) {
-  const id = puzzleId(props.date, "song");
-  // Se o save já tem o dia (outra aba terminou antes), vale o que está salvo: o primeiro término.
-  const today = props.initialSave.history[id] ?? game;
-  const history = { ...props.initialSave.history, [id]: today };
+  const { store, initialSave, date } = props;
+  const id = puzzleId(date, "song");
+  // Relê o save: com duas abas, o que ficou gravado (o primeiro término) vale sobre o desta aba,
+  // e as estatísticas incluem o que a outra aba terminou depois que esta página abriu.
+  const history = useMemo(() => {
+    const merged = { ...initialSave.history, ...(store ? loadSave(store).save.history : {}) };
+    return { ...merged, [id]: merged[id] ?? game };
+  }, [store, initialSave, id, game]);
   return (
-    <Summary
-      game={today}
-      target="song"
-      date={props.date}
-      history={history}
-      scheduleDates={props.scheduleDates}
-      shareUrl={props.shareUrl}
-      announce={props.announce}
-    />
+    <>
+      <header>
+        <h1>{t("game.header", { number: props.day.number })}</h1>
+      </header>
+      <Summary
+        game={history[id] ?? game}
+        target="song"
+        date={date}
+        history={history}
+        scheduleDates={props.scheduleDates}
+        shareUrl={props.shareUrl}
+        announce={props.announce}
+      />
+    </>
   );
 }
 
@@ -74,44 +93,77 @@ function playReducer(played: Played, event: GameEvent): Played {
 
 /** O Diário Música no modo 4 opções. Dia já terminado mostra direto o resultado (P39). */
 export function Game(props: Props) {
-  const { day, date, index, initialSave, store } = props;
+  const { day, date, index, initialSave, store, announce } = props;
+  const id = puzzleId(date, "song");
   const session = useMemo(
     () => startSession(initialSave, day, date, "song", "choice", index),
     [initialSave, day, date, index],
   );
-  // A retomada pelos eventos pode chegar a um jogo terminado que não chegou ao histórico.
+  const start = useMemo(
+    () => (session.kind === "playing" ? { game: session.state, events: session.events } : null),
+    [session],
+  );
+
+  const [saveNotice, setSaveNotice] = useState<string | null>(null);
+  const noticed = useRef(false);
+  const report = useCallback<Report>(
+    (status) => {
+      if (status === "saved" || noticed.current) return;
+      noticed.current = true; // avisa uma vez só, mas o aviso fica na tela
+      const message = t(SAVE_NOTICE[status]);
+      setSaveNotice(message);
+      announce(message);
+    },
+    [announce],
+  );
+
+  // Ao abrir, acerta o que está salvo: a repetição pode ter chegado a um jogo terminado que não
+  // foi para o histórico, ou ter descartado eventos (catálogo novo) que impediriam gravar os
+  // próximos, já que vence a lista mais longa.
   useEffect(() => {
-    if (session.kind === "finished" && store) {
-      updateSave(store, (s) => withFinished(s, puzzleId(date, "song"), session.game));
+    if (!store) return;
+    if (session.kind === "finished" && !initialSave.history[id]) {
+      report(updateSave(store, (s) => withFinished(s, id, session.game)));
+    } else if (session.kind === "playing" && session.stale) {
+      const progress = { answerMode: session.state.answerMode, events: session.events };
+      report(updateSave(store, (s) => replaceProgress(s, id, progress)));
     }
-  }, [session, store, date]);
-  if (session.kind === "finished") return <DaySummary {...props} game={session.game} />;
-  return <Playing {...props} start={{ game: session.state, events: session.events }} />;
+  }, [session, store, id, initialSave, report]);
+
+  return (
+    <>
+      {saveNotice && <p class="notice">{saveNotice}</p>}
+      {session.kind === "finished" && <DaySummary {...props} game={session.game} />}
+      {start && <Playing {...props} start={start} report={report} />}
+    </>
+  );
 }
 
-function Playing({ start, ...props }: Props & { readonly start: Played }) {
+function Playing({
+  start,
+  report,
+  ...props
+}: Props & { readonly start: Played; readonly report: Report }) {
   const { day, date, index, engine, resolveUrl, announce, store } = props;
   const [played, dispatch] = useReducer(playReducer, start);
   const [summary, setSummary] = useState<FinishedGame | null>(null);
-  const saveFailed = useRef(false);
   const { game } = played;
   const round = currentRound(game);
   const isLast = game.current === game.rounds.length - 1;
 
-  // Salva a cada evento aceito: em andamento, a lista de eventos; terminado, o resumo.
+  // Salva a cada evento aceito: em andamento, a lista de eventos; terminado, o resumo. O estado
+  // inicial não precisa: ele acabou de sair do save.
   useEffect(() => {
-    if (!store || played.events.length === 0) return;
+    if (!store || played === start) return;
     const id = puzzleId(date, game.target);
-    const ok = isFinished(game)
-      ? updateSave(store, (s) => withFinished(s, id, toFinishedGame(game, day.number)))
-      : updateSave(store, (s) =>
-          withProgress(s, id, { answerMode: game.answerMode, events: played.events }),
-        );
-    if (!ok && !saveFailed.current) {
-      saveFailed.current = true; // avisa uma vez só
-      announce(t("storage.full"));
-    }
-  }, [store, played, game, date, day.number, announce]);
+    report(
+      isFinished(game)
+        ? updateSave(store, (s) => withFinished(s, id, toFinishedGame(game, day.number)))
+        : updateSave(store, (s) =>
+            withProgress(s, id, { answerMode: game.answerMode, events: played.events }),
+          ),
+    );
+  }, [store, played, start, game, date, day.number, report]);
 
   const urls = useMemo(
     () =>

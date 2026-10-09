@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "preact/hooks";
-import { addDays, formatHms, startOfDayInZone } from "../core/dates.ts";
+import { useEffect, useRef, useState } from "preact/hooks";
+import { formatHms, msUntilNextDay } from "../core/dates.ts";
 import { t } from "../i18n/t.ts";
 
 type Props = {
@@ -8,15 +8,22 @@ type Props = {
   readonly announce: (message: string) => void;
 };
 
+/** Endereço do jogo sem o ?date= do desenvolvimento: o novo desafio é o de hoje, não o mesmo dia. */
+function todayUrl(): string {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("date");
+  return url.href;
+}
+
 /**
  * Tempo até a virada em Brasília. O restante é recalculado do relógio a cada tique (e quando a
  * aba volta a ficar visível), porque abas em segundo plano atrasam os timers.
  */
 export function Countdown({ date, announce }: Props) {
-  const target = useMemo(() => startOfDayInZone(addDays(date, 1)), [date]);
   const [now, setNow] = useState(() => Date.now());
-  const left = Math.max(0, target - now);
-  const announced = useRef(false);
+  const left = msUntilNextDay(now, date);
+  // Já zerado ao abrir não é novidade: só a passagem de "faltando" para zero é anunciada.
+  const announced = useRef(left === 0);
 
   useEffect(() => {
     if (left === 0) return; // já zerou: não precisa mais do relógio
@@ -40,7 +47,7 @@ export function Countdown({ date, announce }: Props) {
     return (
       <section class="countdown">
         <p>{t("countdown.ready")}</p>
-        <button type="button" class="primary" onClick={() => window.location.reload()}>
+        <button type="button" class="primary" onClick={() => window.location.assign(todayUrl())}>
           {t("countdown.play")}
         </button>
       </section>

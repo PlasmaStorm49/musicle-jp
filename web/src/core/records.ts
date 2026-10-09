@@ -62,19 +62,28 @@ export function toFinishedGame(state: GameState, number: number): FinishedGame {
   };
 }
 
+/** O bastante para pontuar: status e etapa de cada rodada (serve ao FinishedGame e ao GameState). */
+type Scorable = { readonly rounds: readonly { readonly status: string; readonly stage: number }[] };
+
 /** Pontos do dia: nada derivado é gravado, então sai do status e da etapa de cada rodada. */
-export function recordScore(game: FinishedGame): number {
+export function recordScore(game: Scorable): number {
   return game.rounds.reduce((sum, r) => sum + (r.status === "won" ? pointsAtStage(r.stage) : 0), 0);
 }
 
 /** Máximo do dia: 6 por rodada não anulada (P27). */
-export function recordMax(game: FinishedGame): number {
+export function recordMax(game: Scorable): number {
   return MAX_POINTS * game.rounds.filter((r) => r.status !== "void").length;
 }
 
 export type Session =
   | { readonly kind: "finished"; readonly game: FinishedGame }
-  | { readonly kind: "playing"; readonly state: GameState; readonly events: readonly GameEvent[] };
+  | {
+      readonly kind: "playing";
+      readonly state: GameState;
+      readonly events: readonly GameEvent[];
+      /** A repetição descartou eventos salvos (ex.: catálogo novo): a lista salva precisa ser trocada. */
+      readonly stale: boolean;
+    };
 
 /**
  * Como o jogo do dia começa: já terminado (P39: mostra o resultado), retomado pelos eventos
@@ -106,19 +115,25 @@ export function startSession(
   if (isFinished(state) && events.length > 0) {
     return { kind: "finished", game: toFinishedGame(state, day.number) };
   }
-  return { kind: "playing", state, events };
+  return { kind: "playing", state, events, stale: events.length < (saved?.events.length ?? 0) };
 }
 
-/** Grava o andamento. Se outra aba já terminou este jogo, o histórico vence. */
-export function withProgress(save: SaveV1, id: PuzzleId, progress: InProgress): SaveV1 {
+/** Troca o andamento salvo pela lista dada, mesmo mais curta. Dia terminado não muda. */
+export function replaceProgress(save: SaveV1, id: PuzzleId, progress: InProgress): SaveV1 {
   if (save.history[id]) return save;
-  const current = save.inProgress[id];
-  if (current && current.events.length > progress.events.length) return save; // outra aba foi mais longe
   return { ...save, inProgress: { ...save.inProgress, [id]: progress } };
+}
+
+/** Grava o andamento. Se outra aba foi mais longe ou já terminou este jogo, ela vence. */
+export function withProgress(save: SaveV1, id: PuzzleId, progress: InProgress): SaveV1 {
+  const current = save.inProgress[id];
+  if (current && current.events.length > progress.events.length) return save;
+  return replaceProgress(save, id, progress);
 }
 
 /** Grava o jogo terminado e limpa o andamento. O primeiro término vence (duas abas). */
 export function withFinished(save: SaveV1, id: PuzzleId, game: FinishedGame): SaveV1 {
+  if (save.history[id] && !save.inProgress[id]) return save; // já gravado: nada a fazer
   const { [id]: _done, ...inProgress } = save.inProgress;
   return {
     ...save,

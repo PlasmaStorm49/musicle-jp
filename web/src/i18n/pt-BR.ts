@@ -40,7 +40,6 @@ export const ptBR = {
   "summary.won": "acertou, {points}",
   "summary.lost": "não acertou",
   "summary.void": "anulada",
-  "summary.comeBack": "Volte amanhã para o próximo desafio.",
 
   "count.points.one": "{count} ponto",
   "count.points.other": "{count} pontos",
@@ -61,7 +60,8 @@ export const ptBR = {
   "stats.bestStreak": "Melhor sequência",
   "stats.distribution": "Pontos por dia",
   "stats.bucket": "{points}: {games}",
-  "stats.none": "—",
+  "stats.bucketToday": "{points}: {games}, incluindo hoje",
+  "stats.none": "sem dados",
 
   "share.header": "{title} · {daily} nº {number} · {mode}",
   "share.button": "Compartilhar resultado",

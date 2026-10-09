@@ -2,7 +2,7 @@
 // catálogo nem tela. Evento que não faz sentido no estado atual devolve O MESMO objeto, o que
 // facilita os testes e evita redesenho à toa no Preact.
 import { acceptedIds, type CatalogIndex } from "./catalog.ts";
-import { MAX_POINTS, MAX_STAGE, MODE_RULES, pointsAtStage, secondsAt } from "./rules.ts";
+import { MAX_STAGE, MODE_RULES, pointsAtStage, secondsAt } from "./rules.ts";
 import type { AnswerMode, Day, Target } from "./types.ts";
 
 export type RoundStatus = "playing" | "won" | "lost" | "void";
@@ -155,16 +155,7 @@ export function unlockedSeconds(round: RoundState): number {
   return secondsAt(round.stage);
 }
 
+/** Pontos de uma rodada. O total e o máximo do dia ficam em records.ts (recordScore, recordMax). */
 export function roundScore(round: RoundState): number {
   return round.status === "won" ? pointsAtStage(round.stage) : 0;
-}
-
-/** Soma das rodadas válidas; rodada anulada não entra (P27). */
-export function totalScore(state: GameState): number {
-  return state.rounds.reduce((sum, r) => sum + roundScore(r), 0);
-}
-
-/** 6 pontos por rodada não anulada: 18 num dia normal, 12 com uma anulada. */
-export function maxScore(state: GameState): number {
-  return MAX_POINTS * state.rounds.filter((r) => r.status !== "void").length;
 }

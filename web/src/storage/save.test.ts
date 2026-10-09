@@ -41,7 +41,7 @@ describe("loadSave", () => {
 
   it("ida e volta", () => {
     const store = memoryStore();
-    expect(updateSave(store, () => valid)).toBe(true);
+    expect(updateSave(store, () => valid)).toBe("saved");
     expect(loadSave(store)).toEqual({ save: valid, writable: true, notice: null });
   });
 
@@ -51,7 +51,6 @@ describe("loadSave", () => {
     ["lista", "[]"],
     ["não é JSON", "{isto não é json"],
     ["versão em texto", JSON.stringify({ ...valid, schemaVersion: "1" })],
-    ["history como lista", JSON.stringify({ ...valid, history: [] })],
   ])("corrompido (%s): começa vazio e guarda o original", (_, raw) => {
     const store = withRaw(raw);
     const result = loadSave(store);
@@ -74,6 +73,44 @@ describe("loadSave", () => {
     expect(result.save.history).toEqual(valid.history);
     expect(Object.keys(result.save.inProgress)).toEqual(["2026-10-09|song"]);
     expect(result.notice).toBe("repaired");
+  });
+
+  it.each([
+    ["inProgress ausente", { schemaVersion: 1, settings: {}, history: valid.history }],
+    ["inProgress como lista", { ...valid, inProgress: [] }],
+  ])("mapa inválido (%s) vira vazio sem apagar o histórico", (_, data) => {
+    const store = withRaw(JSON.stringify(data));
+    const result = loadSave(store);
+    expect(result.save.history).toEqual(valid.history);
+    expect(result.save.inProgress).toEqual({});
+    expect(result.notice).toBe("repaired");
+    expect(store.getItem(CORRUPT_KEY)).toBe(JSON.stringify(data));
+  });
+
+  it("history como lista: o andamento válido fica", () => {
+    const result = loadSave(withRaw(JSON.stringify({ ...valid, history: [] })));
+    expect(result.save.history).toEqual({});
+    expect(result.save.inProgress).toEqual(valid.inProgress);
+    expect(result.notice).toBe("repaired");
+  });
+
+  it("preferência desconhecida na v1 é descartada com aviso de reparo", () => {
+    const result = loadSave(withRaw(JSON.stringify({ ...valid, settings: { mode: "typing" } })));
+    expect(result.save.settings).toEqual({});
+    expect(result.save.history).toEqual(valid.history);
+    expect(result.notice).toBe("repaired");
+  });
+
+  it("se nem a cópia do corrompido der para gravar, não grava nada nesta sessão", () => {
+    const readOnly: KeyValueStore = {
+      getItem: (key) => (key === SAVE_KEY ? "lixo" : null),
+      setItem: () => {
+        throw new DOMException("cheio", "QuotaExceededError");
+      },
+      removeItem: () => {},
+    };
+    expect(loadSave(readOnly)).toMatchObject({ writable: false, notice: "repaired" });
+    expect(updateSave(readOnly, () => valid)).toBe("unavailable");
   });
 
   it("rodada com etapa fora do intervalo invalida o jogo terminado", () => {
@@ -99,7 +136,7 @@ describe("loadSave", () => {
     const raw = JSON.stringify({ ...valid, schemaVersion: 2 });
     const store = withRaw(raw);
     expect(loadSave(store)).toMatchObject({ writable: false, notice: "future" });
-    expect(updateSave(store, () => valid)).toBe(false);
+    expect(updateSave(store, () => valid)).toBe("future");
     expect(store.getItem(SAVE_KEY)).toBe(raw);
   });
 
@@ -124,7 +161,21 @@ describe("updateSave", () => {
         throw new DOMException("cheio", "QuotaExceededError");
       },
     };
-    expect(updateSave(full, () => valid)).toBe(false);
+    expect(updateSave(full, () => valid)).toBe("full");
+  });
+
+  it("save reparado é regravado limpo mesmo sem mudança", () => {
+    const raw = JSON.stringify({
+      ...valid,
+      inProgress: { "2026-10-10|song": { answerMode: "choice", events: [{ type: "DANCE" }] } },
+    });
+    const store = withRaw(raw);
+    expect(updateSave(store, (s) => s)).toBe("saved");
+    expect(loadSave(store)).toEqual({
+      save: { ...valid, inProgress: {} },
+      writable: true,
+      notice: null,
+    });
   });
 
   it("relê antes de gravar: mudança de outra aba não se perde", () => {
@@ -146,6 +197,21 @@ describe("openStore", () => {
   it("usa o armazenamento quando a sonda funciona", () => {
     const real = memoryStore();
     expect(openStore(() => real)).toEqual({ store: real, persistent: true });
+  });
+
+  it("cota cheia: a sonda só lê, então o save que já existe continua valendo", () => {
+    const saved = JSON.stringify(valid);
+    const full: KeyValueStore = {
+      getItem: (key) => (key === SAVE_KEY ? saved : null),
+      setItem: () => {
+        throw new DOMException("cheio", "QuotaExceededError");
+      },
+      removeItem: () => {},
+    };
+    const { store, persistent } = openStore(() => full);
+    expect(persistent).toBe(true);
+    expect(loadSave(store).save).toEqual(valid);
+    expect(updateSave(store, (s) => ({ ...s, history: {} }))).toBe("full");
   });
 
   it.each([
