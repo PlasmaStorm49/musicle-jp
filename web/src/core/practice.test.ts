@@ -153,6 +153,34 @@ describe("sorteio (drawPractice)", () => {
     }
   });
 
+  it("virada com uma excluída no começo do saco novo: a última tocada não repete de cara", () => {
+    // A última vai para o FIM do saco novo; trocada só com a 2ª, ela tocaria de novo sempre que
+    // a nova 1ª estivesse excluída e fosse pulada.
+    const small = onlyEligible(["fixture:tr:tr05", "fixture:tr:tr07", "fixture:tr:tr08"]);
+    const excluded = new Set([songOf("fixture:tr:tr08")]);
+    for (let seed = 1; seed <= 30; seed++) {
+      const ids = answers(drawMany(newPractice(seed), "song", 40, excluded, small).draws);
+      for (let i = 1; i < ids.length; i++) expect(ids[i]).not.toBe(ids[i - 1]);
+    }
+  });
+
+  it("no meio do ciclo, com o resto excluído: acha a única faixa liberada no ciclo seguinte", () => {
+    const small = onlyEligible([
+      "fixture:tr:tr05",
+      "fixture:tr:tr07",
+      "fixture:tr:tr08",
+      "fixture:tr:tr09",
+    ]);
+    for (let seed = 1; seed <= 20; seed++) {
+      const first = drawPractice(newPractice(seed), small, "song", NONE);
+      if (!first) throw new Error("sem rodada");
+      const played = first.round.planned.answer;
+      const others = practicePool(small, "song").filter((id) => id !== played);
+      const draw = drawPractice(first.state, small, "song", new Set(others.map(songOf)));
+      expect(draw?.round.planned.answer).toBe(played);
+    }
+  });
+
   it("saco de 1: repete (não há outra), sem travar", () => {
     const one = onlyEligible(["fixture:tr:tr05"]);
     const ids = answers(drawMany(newPractice(3), "song", 4, NONE, one).draws);

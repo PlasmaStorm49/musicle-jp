@@ -85,7 +85,18 @@ const byId = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
  * saco (a mesma música pode estar em vários álbuns); os álbuns vão em ordem de id e cada um
  * leva a sua faixa mais popular cuja música ainda não entrou.
  */
-export function practicePool(index: CatalogIndex, target: Target): string[] {
+export function practicePool(index: CatalogIndex, target: Target): readonly string[] {
+  // O saco só depende do catálogo: calculado uma vez por catálogo e alvo, não a cada sorteio.
+  const cached = pools.get(index)?.[target];
+  if (cached) return cached;
+  const pool = buildPool(index, target);
+  pools.set(index, { ...pools.get(index), [target]: pool });
+  return pool;
+}
+
+const pools = new WeakMap<CatalogIndex, Partial<Record<Target, readonly string[]>>>();
+
+function buildPool(index: CatalogIndex, target: Target): readonly string[] {
   const eligible = index.catalog.tracks.filter((t) => t.eligible.daily);
   if (target === "song") {
     const best = new Map<string, Track>();
@@ -112,7 +123,11 @@ export function practicePool(index: CatalogIndex, target: Target): string[] {
   return pool;
 }
 
-/** O saco do ciclo, embaralhado; se começaria pela última tocada, troca a 1ª com a 2ª. */
+/**
+ * O saco do ciclo, embaralhado, com a última tocada do ciclo anterior SEMPRE no fim. Só trocá-la
+ * quando caísse na 1ª posição não basta: com as primeiras excluídas (puladas), ela voltaria de
+ * cara. No fim, só repete seguida se for a única liberada (aí não há como evitar).
+ */
 function bagFor(
   pool: readonly string[],
   seed: number,
@@ -122,7 +137,8 @@ function bagFor(
 ): string[] {
   const bag = [...pool];
   seeded(`treino|${seed}|${target}|${cycle}`).shuffle(bag);
-  if (bag.length > 1 && bag[0] === carry) [bag[0], bag[1]] = [bag[1] as string, bag[0]];
+  const at = carry === null ? -1 : bag.indexOf(carry);
+  if (at >= 0 && bag.length > 1) bag.push(...bag.splice(at, 1));
   return bag;
 }
 
@@ -148,8 +164,23 @@ export function pendingDailySongKeys(
   return keys;
 }
 
+/** Músicas (songKey) de cada álbum, montado uma vez por catálogo (não a cada distrator). */
+const albumSongs = new WeakMap<CatalogIndex, ReadonlyMap<string, ReadonlySet<string>>>();
+
 function albumHasSong(index: CatalogIndex, albumId: string, songs: ReadonlySet<string>): boolean {
-  return index.catalog.tracks.some((t) => t.albumId === albumId && songs.has(t.songKey));
+  let map = albumSongs.get(index);
+  if (!map) {
+    const built = new Map<string, Set<string>>();
+    for (const t of index.catalog.tracks) {
+      const set = built.get(t.albumId) ?? new Set<string>();
+      set.add(t.songKey);
+      built.set(t.albumId, set);
+    }
+    map = built;
+    albumSongs.set(index, map);
+  }
+  for (const song of map.get(albumId) ?? []) if (songs.has(song)) return true;
+  return false;
 }
 
 /** Fisher-Yates parcial, como o pipeline (schedule.py): até 3 trocas, um número cada. */
@@ -207,7 +238,9 @@ export function drawPractice(
   let bag = bagFor(pool, state.seed, target, cycle, carry);
   // A última tocada é a de antes da posição: as puladas só vêm depois dela.
   const last = position > 0 ? (bag[position - 1] ?? null) : null;
-  for (let step = 0; step < pool.length; step++) {
+  // Até dois ciclos: começando no meio de um, a única faixa liberada pode estar no começo dele e
+  // só aparecer no fim do seguinte (lá a última tocada vai para o fim do saco).
+  for (let step = 0; step < 2 * pool.length; step++) {
     if (position >= bag.length) {
       cycle += 1;
       position = 0;

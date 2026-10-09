@@ -204,6 +204,36 @@ export function loadSave(store: KeyValueStore): LoadResult {
 }
 
 /**
+ * O armazenamento desta sessão de jogo. Cada aba de diário remonta lendo o save, então a sessão
+ * precisa reler o próprio andamento mesmo quando o navegador não grava:
+ * - não gravável (versão futura, sem acesso): tudo em memória, a partir do que foi lido, sem
+ *   tocar no navegador;
+ * - gravável: grava no navegador; só o que NÃO conseguiu gravar (cota cheia) fica em memória,
+ *   e a sessão lê dali. O que foi gravado não fica em memória: senão esta aba deixaria de ver o
+ *   que outra aba gravou depois, e a mescla das duas abas (updateSave) apagaria o dia dela.
+ */
+export function sessionStore(store: KeyValueStore, loaded: LoadResult): KeyValueStore {
+  if (!loaded.writable) return memoryStore({ [SAVE_KEY]: JSON.stringify(loaded.save) });
+  const unsaved = memoryStore();
+  return {
+    getItem: (key) => unsaved.getItem(key) ?? store.getItem(key),
+    setItem: (key, value) => {
+      try {
+        store.setItem(key, value);
+        unsaved.removeItem(key);
+      } catch (error) {
+        unsaved.setItem(key, value);
+        throw error; // o updateSave transforma em "full" e a tela avisa
+      }
+    },
+    removeItem: (key) => {
+      unsaved.removeItem(key);
+      store.removeItem(key);
+    },
+  };
+}
+
+/**
  * Resultado de uma gravação. Fora "saved", o motivo escolhe o aviso da tela: "future" (outra
  * aba com versão mais nova gravou o save), "unavailable" (não dá para ler ou para guardar a
  * cópia do corrompido) ou "full" (a gravação lançou: cota cheia ou armazenamento revogado).

@@ -12,6 +12,11 @@ export const ptBR = {
   "day.practiceLink": "Enquanto isso, jogue o Treino",
 
   "nav.label": "Jogos",
+  "nav.song": "Música",
+  "nav.album": "Álbum",
+  "nav.practice": "Treino",
+  "nav.done": ", terminado",
+  "nav.doneMark": "✓",
 
   "game.header": "{daily} · nº {number}",
   "game.round": "Rodada {current} de {total}",
@@ -108,11 +113,6 @@ export const ptBR = {
     "Há uma versão mais nova do jogo aberta. Recarregue a página para salvar seu progresso.",
   "storage.full": "Não foi possível salvar o progresso: o armazenamento do navegador está cheio.",
 
-  "nav.song": "Música",
-  "nav.album": "Álbum",
-  "nav.done": ", terminado",
-
-  "practice.tab": "Treino",
   "practice.title": "Treino",
   "practice.round": "Rodada {number}",
   "practice.score": "{points} em {rounds}",
@@ -125,6 +125,7 @@ export const ptBR = {
   "practice.filtersHint": "Vale a partir da próxima rodada.",
   "practice.empty":
     "Não há rodada para sortear agora. As respostas dos diários de hoje voltam ao Treino quando eles terminarem.",
+  "practice.retry": "Sortear de novo",
 } as const;
 
 export type MessageKey = keyof typeof ptBR;

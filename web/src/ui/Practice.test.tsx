@@ -246,8 +246,11 @@ describe("Practice (modo Treino)", () => {
     expect(screen.queryByText(/^Rodada/)).toBeNull();
     expect(score()).toBe("0 pontos em 0 rodadas");
 
-    // O diário terminou (o App relê o save ao trocar de aba): a rodada sai.
+    // O diário terminou (o App relê o save ao trocar de aba). A rodada sai no clique, e não
+    // sozinha: sortear sozinho puxaria o foco de quem está mexendo nos filtros.
     rerender({ save: finishedBoth, day: fullDay, show: true });
+    expect(screen.getByText(/Não há rodada para sortear agora/)).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Sortear de novo" }));
     expect(screen.queryByText(/Não há rodada para sortear agora/)).toBeNull();
     expect(screen.getByText("Rodada 1")).toBeTruthy();
     expect(screen.getAllByRole("button", { name: /^Música \d/ })).toHaveLength(4);

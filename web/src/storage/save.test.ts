@@ -7,6 +7,7 @@ import {
   memoryStore,
   openStore,
   SAVE_KEY,
+  sessionStore,
   updateSave,
 } from "./save.ts";
 
@@ -223,6 +224,52 @@ describe("updateSave", () => {
       "2026-10-08|song",
       "2026-10-09|song",
     ]);
+  });
+});
+
+describe("sessionStore (o save da sessão, mesmo quando o navegador não grava)", () => {
+  const full = (initial: Record<string, string>): KeyValueStore => {
+    const real = memoryStore(initial);
+    return {
+      ...real,
+      setItem: () => {
+        throw new DOMException("cheio", "QuotaExceededError");
+      },
+    };
+  };
+
+  it("gravável: grava no navegador normalmente", () => {
+    const real = memoryStore();
+    const store = sessionStore(real, loadSave(real));
+    expect(updateSave(store, () => valid)).toBe("saved");
+    expect(loadSave(real).save).toEqual(valid);
+  });
+
+  it("gravável: o que outra aba gravou depois continua visível (a memória não esconde)", () => {
+    const real = memoryStore();
+    const store = sessionStore(real, loadSave(real));
+    updateSave(store, () => valid);
+    const other = { ...valid, history: { ...valid.history, "2026-10-09|song": finished } };
+    real.setItem(SAVE_KEY, JSON.stringify(other)); // "outra aba"
+    expect(Object.keys(loadSave(store).save.history)).toContain("2026-10-09|song");
+  });
+
+  it("cota cheia: avisa 'full', mas a sessão continua lendo o que tentou gravar", () => {
+    const real = full({});
+    const store = sessionStore(real, loadSave(real));
+    expect(updateSave(store, () => valid)).toBe("full");
+    // Trocar de aba relê o save: o andamento desta sessão tem de estar lá.
+    expect(loadSave(store).save).toEqual(valid);
+  });
+
+  it("não gravável (versão futura): a sessão grava em memória, sem tocar no navegador", () => {
+    const raw = JSON.stringify({ ...valid, schemaVersion: 2 });
+    const real = withRaw(raw);
+    const loaded = loadSave(real);
+    const store = sessionStore(real, loaded);
+    expect(updateSave(store, (s) => ({ ...s, history: valid.history }))).toBe("saved");
+    expect(loadSave(store).save.history).toEqual(valid.history);
+    expect(real.getItem(SAVE_KEY)).toBe(raw);
   });
 });
 

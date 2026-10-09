@@ -67,6 +67,38 @@ describe("Player segue as regras do modo", () => {
     expect(document.activeElement).toBe(play);
   });
 
+  it("falha de áudio que chega depois de o Player sair da tela é ignorada (não anula a próxima)", async () => {
+    let fail: (reason: Error) => void = () => {};
+    const engine: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      play: vi.fn(() => new Promise<null>((_, reject) => (fail = reject))),
+      stop: vi.fn(),
+      retain: vi.fn(),
+    };
+    const onAudioError = vi.fn();
+    const { unmount } = render(
+      <Player
+        engine={engine}
+        url="fixtures/audio/x.wav"
+        offset={0}
+        stage={0}
+        explicit={false}
+        rules={MODE_RULES.choice}
+        skippable={false}
+        onListenMore={vi.fn()}
+        onSkip={vi.fn()}
+        onAudioError={onAudioError}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }));
+    unmount(); // a rodada acabou (ou trocou) enquanto o áudio carregava
+    fail(new Error("rede"));
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(onAudioError).not.toHaveBeenCalled();
+  });
+
   it("toque duplo não gasta duas tentativas", () => {
     const { onSkip } = setup(MODE_RULES.typing, true);
     fireEvent.click(screen.getByRole("button", { name: "Pular (+1 s)" }), { detail: 2 });

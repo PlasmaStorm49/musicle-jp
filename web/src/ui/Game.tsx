@@ -37,7 +37,7 @@ type Props = {
   readonly store: KeyValueStore | null;
   /** O save lido quando esta aba abriu (o App relê a cada troca de aba). Só vale na montagem. */
   readonly initialSave: SaveV1;
-  /** Avisa o App que o save mudou (✓ das abas, exclusão do Treino). */
+  /** Avisa o App que o dia terminou e foi gravado (✓ da aba, exclusão do Treino). */
   readonly onSaved: () => void;
   /** Dias que existem na agenda (a sequência só conta estes, P40). */
   readonly scheduleDates: readonly string[];
@@ -45,8 +45,11 @@ type Props = {
   readonly shareUrl: string;
 };
 
-/** Recebe o resultado de cada gravação; na primeira falha, avisa na tela e no leitor de tela. */
-type Report = (status: SaveStatus) => void;
+/**
+ * Recebe o resultado de cada gravação; na primeira falha, avisa na tela e no leitor de tela.
+ * `finished`: a gravação foi o fim do dia, e o App precisa saber (✓ da aba, exclusão do Treino).
+ */
+type Report = (status: SaveStatus, finished?: boolean) => void;
 
 const SAVE_NOTICE = {
   full: "storage.full",
@@ -120,12 +123,10 @@ export function Game(props: Props) {
   const [saveNotice, setSaveNotice] = useState<string | null>(null);
   const noticed = useRef(false);
   const report = useCallback<Report>(
-    (status) => {
-      if (status === "saved") {
-        onSaved();
-        return;
-      }
-      if (noticed.current) return;
+    (status, finished = false) => {
+      // Com a cota cheia o fim do dia fica na memória da sessão (sessionStore): o App relê dali.
+      if (finished && (status === "saved" || status === "full")) onSaved();
+      if (status === "saved" || noticed.current) return;
       noticed.current = true; // avisa uma vez só, mas o aviso fica na tela
       const message = t(SAVE_NOTICE[status]);
       setSaveNotice(message);
@@ -140,7 +141,10 @@ export function Game(props: Props) {
   useEffect(() => {
     if (!store || !session) return;
     if (session.kind === "finished" && !base.history[id]) {
-      report(updateSave(store, (s) => withFinished(s, id, session.game)));
+      report(
+        updateSave(store, (s) => withFinished(s, id, session.game)),
+        true,
+      );
     } else if (session.kind === "playing" && session.stale) {
       const progress = { answerMode: session.state.answerMode, events: session.events };
       report(updateSave(store, (s) => replaceProgress(s, id, progress)));
@@ -196,13 +200,18 @@ function Playing({
   useEffect(() => {
     if (!store || played === start) return;
     const id = puzzleId(date, game.target);
-    report(
-      isFinished(game)
-        ? updateSave(store, (s) => withFinished(s, id, toFinishedGame(game, day.number)))
-        : updateSave(store, (s) =>
-            withProgress(s, id, { answerMode: game.answerMode, events: played.events }),
-          ),
-    );
+    if (isFinished(game)) {
+      report(
+        updateSave(store, (s) => withFinished(s, id, toFinishedGame(game, day.number))),
+        true,
+      );
+    } else {
+      report(
+        updateSave(store, (s) =>
+          withProgress(s, id, { answerMode: game.answerMode, events: played.events }),
+        ),
+      );
+    }
   }, [store, played, start, game, date, day.number, report]);
 
   const urls = useMemo(

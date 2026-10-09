@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { formatHms, msUntilNextDay } from "../core/dates.ts";
+import { todayHref } from "../core/routes.ts";
 import { t } from "../i18n/t.ts";
 
 type Props = {
@@ -8,15 +9,11 @@ type Props = {
   readonly announce: (message: string) => void;
 };
 
-/**
- * Vai ao desafio de hoje: tira o ?date= do desenvolvimento (senão abriria o mesmo dia). Se o
- * endereço não mudar, recarrega: com abas (#album), trocar só o fragmento não recarrega a página.
- */
+/** Vai ao desafio de hoje (a regra do endereço e o porquê do reload estão em core/routes.ts). */
 function goToToday() {
-  const url = new URL(window.location.href);
-  url.searchParams.delete("date");
-  if (url.href === window.location.href) window.location.reload();
-  else window.location.assign(url.href);
+  const href = todayHref(window.location.href);
+  if (href === null) window.location.reload();
+  else window.location.assign(href);
 }
 
 /**

@@ -171,9 +171,13 @@ ul.options {
   gap: 8px;
 }
 
+/* Em linha: a capa (só no Álbum, P51) ao lado do texto. */
 .option {
   width: 100%;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .item {
@@ -543,7 +547,8 @@ h4 {
 /* section.void, não .void: a linha "anulada" do resumo (li.void) não vira caixa. */
 .error,
 section.void,
-.unavailable {
+.unavailable,
+.practice-empty {
   padding: 12px;
   border-radius: var(--radius);
   background: var(--surface);
@@ -582,12 +587,6 @@ section.void,
 }
 
 /* Capas nas opções do Álbum (P51) */
-.option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 .cover {
   flex-shrink: 0;
   border-radius: 6px;
@@ -657,10 +656,6 @@ section.void,
 
 .practice-empty {
   margin-top: 16px;
-  padding: 12px;
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--border);
 }
 
 .practice-empty p {

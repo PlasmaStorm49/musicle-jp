@@ -134,6 +134,13 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(onNext).toHaveBeenCalledOnce();
   });
 
+  it("revelação do Álbum: as 4 opções mostram a capa (P51), com alt vazio", () => {
+    setup(game("album", "choice", { status: "lost" }));
+    const covers = [...document.querySelectorAll(".reveal img.cover")];
+    expect(covers).toHaveLength(4);
+    expect(covers.every((img) => img.getAttribute("alt") === "")).toBe(true);
+  });
+
   it("revelação: o botão de seguir usa o texto pedido (no Treino, nunca 'Ver resultado')", () => {
     setup(game("song", "choice", { status: "won" }));
     expect(screen.getByRole("button", { name: "Próxima rodada" })).toBeTruthy();

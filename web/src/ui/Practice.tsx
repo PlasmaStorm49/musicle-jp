@@ -118,11 +118,6 @@ export function Practice({
     peek ? previewUrl(index, peek.round.planned.answer, resolveUrl) : null,
   );
 
-  // Sem rodada (tudo excluído ou filtro sem músicas): sorteia assim que houver o que tocar.
-  useEffect(() => {
-    if (game === null && peek) update((s) => (s.game ? s : nextPracticeRound(s, index, excluded)));
-  }, [game, peek, update, index, excluded]);
-
   const score = practiceScore(current.score, game);
 
   return (
@@ -156,7 +151,7 @@ export function Practice({
           onNext={next}
         />
       ) : (
-        <Empty />
+        <Empty onRetry={next} />
       )}
     </div>
   );
@@ -240,8 +235,12 @@ function RadioGroup<T extends string>({
   );
 }
 
-/** Nada para sortear: o aviso leva o foco (o botão de seguir pode ter acabado de sumir). */
-function Empty() {
+/**
+ * Nada para sortear: o aviso leva o foco (o botão de seguir pode ter acabado de sumir). Sortear
+ * de novo é um clique, e não automático ao trocar o filtro: senão o Player novo puxaria o foco
+ * de quem está escolhendo nos botões de opção.
+ */
+function Empty({ onRetry }: { readonly onRetry: () => void }) {
   const message = useRef<HTMLParagraphElement>(null);
   useEffect(() => message.current?.focus(), []);
   return (
@@ -249,6 +248,9 @@ function Empty() {
       <p ref={message} tabIndex={-1}>
         {t("practice.empty")}
       </p>
+      <button type="button" class="primary" onClick={onRetry}>
+        {t("practice.retry")}
+      </button>
     </section>
   );
 }

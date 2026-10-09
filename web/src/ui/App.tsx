@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { type PlayLog, WebAudioEngine } from "../audio/webaudio.ts";
 import { emptySave, pruneProgress, puzzleId, type SaveV1 } from "../core/records.ts";
+import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
 import {
   assetUrl,
   failAudioTrack,
@@ -17,6 +18,8 @@ import {
   type LoadResult,
   loadSave,
   openStore,
+  SAVE_KEY,
+  sessionStore,
   updateSave,
 } from "../storage/save.ts";
 import { Game } from "./Game.tsx";
@@ -36,26 +39,14 @@ declare global {
 }
 
 const BASE_URL = new URL(import.meta.env.BASE_URL, window.location.href).href;
-
-/** As abas do jogo (P49). O endereço é o estado: voltar e recarregar funcionam. */
-type Tab = "song" | "album" | "practice";
-
-// Nenhum elemento da página pode ter id igual a uma rota: o navegador rolaria até ele.
-const ROUTES: Readonly<Record<Tab, string>> = {
-  song: "#musica",
-  album: "#album",
-  practice: "#treino",
-};
-
-/** Endereço desconhecido (ou vazio) abre a Música. */
-function tabFromHash(hash: string): Tab {
-  return (Object.keys(ROUTES) as Tab[]).find((tab) => ROUTES[tab] === hash) ?? "song";
-}
 const DEV = import.meta.env.DEV;
 
 type Storage = {
-  /** null = não grava nesta sessão (versão mais nova aberta, ou cópia do corrompido falhou). */
-  readonly store: KeyValueStore | null;
+  /**
+   * O save desta sessão (sessionStore): grava no navegador quando dá e sempre guarda em memória,
+   * para cada aba de diário reler o próprio andamento mesmo com o navegador sem gravar.
+   */
+  readonly store: KeyValueStore;
   readonly save: SaveV1;
   readonly notice: string | null;
 };
@@ -77,7 +68,8 @@ function openSaves(date: string): Storage {
       : !persistent || !loaded.writable
         ? t("storage.unavailable")
         : null;
-  return { store: loaded.writable ? store : null, save: pruneProgress(loaded.save, today), notice };
+  const save = pruneProgress(loaded.save, today);
+  return { store: sessionStore(store, { ...loaded, save }), save, notice };
 }
 
 export function App() {
@@ -95,7 +87,6 @@ export function App() {
   // na memória (P50): recarregar a página começa outra.
   const [practice, setPractice] = useState<PracticeSession | null>(null);
   const refresh = useCallback(() => {
-    if (!saves.store) return;
     const read = loadSave(saves.store);
     if (read.writable) setLatest(read.save);
   }, [saves]);
@@ -104,8 +95,16 @@ export function App() {
       setTab(tabFromHash(window.location.hash));
       refresh();
     };
+    // Outra aba do navegador gravou (terminou um diário): o ✓ e o Treino acompanham.
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === SAVE_KEY) refresh();
+    };
     window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("hashchange", onHashChange);
+      window.removeEventListener("storage", onStorage);
+    };
   }, [refresh]);
   // Texto igual ao anterior não muda o DOM e o leitor de tela fica calado (copiar duas vezes,
   // duas rodadas anuladas): alterna um espaço invisível no fim para ele ler de novo.
@@ -158,7 +157,7 @@ export function App() {
                 {t(daily === "song" ? "nav.song" : "nav.album")}
                 {latest.history[puzzleId(date, daily)] && (
                   <>
-                    <span aria-hidden="true"> ✓</span>
+                    <span aria-hidden="true"> {t("nav.doneMark")}</span>
                     <span class="sr-only">{t("nav.done")}</span>
                   </>
                 )}
@@ -167,7 +166,7 @@ export function App() {
           ))}
           <li>
             <a href={ROUTES.practice} aria-current={tab === "practice" ? "page" : undefined}>
-              {t("practice.tab")}
+              {t("nav.practice")}
             </a>
           </li>
         </ul>
@@ -266,22 +265,19 @@ function Ready({
       />
     );
   }
-  if (tab === "practice") {
-    return (
-      <Practice
-        index={data.index}
-        day={day}
-        date={date}
-        save={latest}
-        engine={engine}
-        resolveUrl={resolveUrl}
-        announce={announce}
-        session={practice}
-        onSession={onPractice}
-      />
-    );
-  }
-  return null;
+  return (
+    <Practice
+      index={data.index}
+      day={day}
+      date={date}
+      save={latest}
+      engine={engine}
+      resolveUrl={resolveUrl}
+      announce={announce}
+      session={practice}
+      onSession={onPractice}
+    />
+  );
 }
 
 /** Dia sem desafio na agenda: o Treino continua (PLANO, Apêndice C). */

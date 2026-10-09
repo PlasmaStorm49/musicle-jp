@@ -50,9 +50,13 @@ export function Player({
     }
   }, [focusPlay, status]);
 
-  // Desmontar (troca de rodada, revelação) para o som e o laço da barra.
+  // Desmontar (troca de rodada, revelação) para o som e o laço da barra. `alive` evita que uma
+  // falha de áudio que chega depois (rede lenta) anule a rodada seguinte: no Treino toda rodada
+  // é a de número 0, e o reducer não teria como saber que o VOID era da anterior.
+  const alive = useRef(true);
   useEffect(
     () => () => {
+      alive.current = false;
       cancelAnimationFrame(frame.current);
       engine.stop();
     },
@@ -84,6 +88,7 @@ export function Player({
         });
       })
       .catch(() => {
+        if (!alive.current) return;
         cancelAnimationFrame(frame.current);
         setStatus("idle");
         onAudioError();
