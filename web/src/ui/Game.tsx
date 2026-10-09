@@ -21,11 +21,13 @@ import {
   reduce,
 } from "../core/reducer.ts";
 import { canSkip, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
+import { buildSearchIndex, search } from "../core/search.ts";
 import type { AnswerMode, Day } from "../core/types.ts";
-import { revealView } from "../core/view.ts";
+import { optionView, revealView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { Attempts } from "./Attempts.tsx";
+import { GuessInput, type Suggestion } from "./GuessInput.tsx";
 import { ModePicker } from "./ModePicker.tsx";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
@@ -203,6 +205,27 @@ function Playing({
   const nextUrl = urls[game.current + 1] ?? null;
   const preview = revealView(index, round.trackId)?.preview ?? null;
 
+  // A busca do autocompletar: o índice sai do catálogo uma vez; "já tentou" é por música
+  // (songKey), não por faixa, para outra versão da mesma música errada não parecer nova.
+  const searchIndex = useMemo(() => buildSearchIndex(index), [index]);
+  const triedSongs = useMemo(
+    () =>
+      new Set(
+        round.attempts.flatMap((a) =>
+          a.kind === "guess" ? [index.tracks.get(a.guessId)?.songKey ?? a.guessId] : [],
+        ),
+      ),
+    [round.attempts, index],
+  );
+  const suggest = useCallback(
+    (query: string): Suggestion[] =>
+      search(searchIndex, query).flatMap((hit) => {
+        const item = optionView(index, hit.id, "song");
+        return item ? [{ id: hit.id, item, tried: triedSongs.has(hit.songKey) }] : [];
+      }),
+    [searchIndex, index, triedSongs],
+  );
+
   // A cada rodada: guarda só o áudio dela e o da próxima, e já começa a baixar os dois.
   useEffect(() => {
     const keep = [url, nextUrl].filter((u): u is string => u !== null);
@@ -225,6 +248,18 @@ function Playing({
   function giveUp() {
     engine.stop();
     dispatch({ type: "GIVE_UP" });
+  }
+
+  function guess(id: string) {
+    engine.stop();
+    dispatch({ type: "GUESS", guessId: id });
+    // Erro que não encerra a rodada: o foco fica no campo, então o aviso vai para o aria-live.
+    // Acerto e último erro abrem a revelação, que leva o foco e se anuncia sozinha.
+    const used = round.attempts.length + 1;
+    if (!round.accepted.includes(id) && used < rules.maxAttempts) {
+      const title = optionView(index, id, game.target)?.title ?? t("attempts.unknown");
+      announce(t("typing.wrong", { title, ...attemptLabel(used) }));
+    }
   }
 
   return (
@@ -270,6 +305,7 @@ function Playing({
             <section class="typing" aria-labelledby="question">
               <h2 id="question">{t("game.question")}</h2>
               <p class="hint">{t("typing.attempt", attemptLabel(round.attempts.length))}</p>
+              <GuessInput suggest={suggest} onPick={guess} labelledBy="question" />
               <Attempts index={index} round={round} target={game.target} />
               <button type="button" class="link" onClick={giveUp}>
                 {t("typing.giveUp")}
