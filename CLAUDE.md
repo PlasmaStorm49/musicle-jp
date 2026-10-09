@@ -56,7 +56,7 @@ Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` n
 | Instalar dependências (uma vez, ou após mudar o lockfile) | `npm ci --prefix web` |
 | Lint, tipos e testes com cobertura | `npm run check --prefix web` |
 | Só os testes | `npm test --prefix web` |
-| Servidor de desenvolvimento | `npm run dev --prefix web` (porta 5173) |
+| Servidor de desenvolvimento | `npm run dev --prefix web` (porta 5173; precisa do `fake-assets` já rodado). No Claude: pré-visualização `web` do `.claude/launch.json` |
 | Build de produção | `npm run build --prefix web` |
 | Regerar tipos depois de mudar `shared/schema` | `npm run types --prefix web` |
 

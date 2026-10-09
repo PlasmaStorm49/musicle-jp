@@ -24,6 +24,11 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P24 | O Diário Álbum aceita singles, em definitivo |
 | P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
 | P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2 |
+| P31 | Aviso de faixa explícita no player antes de tocar e na revelação |
+| P32 | Romaji menor embaixo do título japonês nas opções |
+| P33 | "Ouvir mais" libera a etapa e toca o trecho maior na hora |
+| P34 | A revelação toca o preview inteiro |
+| P35 | Tema escuro fica para a ME7 |
 
 ## 3. Fonte de dados (usada só no M11)
 
@@ -84,7 +89,7 @@ musicle-jp/
 | M2 | Concluído em 08/10/2026 | Romaji (cutlet × pykakasi), `aliases.toml`, vetores compartilhados | Tabela título → romaji aprovada | Subagentes em paralelo |
 | M3 | Concluído em 08/10/2026 | WAV e SVG falsos (`fake-assets`), PRNG, `similarity`, agenda, `schedule-check` | 61 dias gerados sem afrouxar regra; regerar não altera dia existente | Hooks (formatador), regras de negação |
 | M4 | Concluído em 08/10/2026 | Vite + TS + Preact + Biome + Vitest; `core` com reducer de Música com 4 opções | Vetores passam em Python e TS; testes da virada de dia | Skill de projeto `/verificar`, TDD |
-| M5 | | 1ª tela jogável: Diário Música com 4 opções, Web Audio, barra segmentada | Dia completo jogado no navegador, console limpo | Pré-visualização no navegador (`launch.json`) |
+| M5 | Concluído em 08/10/2026 | 1ª tela jogável: Diário Música com 4 opções, Web Audio, barra segmentada | Dia completo jogado no navegador, console limpo | Pré-visualização no navegador (`launch.json`) |
 | M6 | | Persistência, estatísticas, retomada, compartilhar, contagem regressiva | Recarregar no meio retoma; storage corrompido não quebra | Subagente `revisor` + `/code-review` |
 | M7 | | Digitação com autocompletar (kana, kanji, romaji, alias, teclado, ARIA) | Busca acha por todas as grafias | Git worktree, sessão paralela |
 | M8 | | Alvo Álbum + modo Treino | As 4 combinações jogáveis | 2º worktree, merge e conflito |
@@ -110,6 +115,7 @@ musicle-jp/
 
 - P16. Nome público do jogo (evitar "Musicle" no nome). Bloqueia o M10.
 - P25. A agenda real (M11, em `public/data/`, com IDs da Apple) precisa do próprio `epoch`: a data de estreia pública. Bloqueia o M11.
+- P36. Achado no M5: dois distratores podem ter o mesmo título entre si (dia 1, rodada 2: 夜明けのメロディ de ナナ e 夜明けのメロディ (TV Size) de ミナト). A resposta não fica ambígua, mas confunde. Correção no `similarity.py`: diversificar por título além de artista. Os dias já gravados não mudam (agenda só cresce).
 
 **Sugestões**
 
@@ -291,14 +297,19 @@ Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece
 | Repetir trecho | Precisa de seek; pode travar | Instantâneo |
 | Memória | Baixa | Cerca de 11 MB por preview decodificado |
 
-**Desenho:**
+**Implementado no M5** (`web/src/audio/`):
 
-- Interface `AudioEngine` com `unlock()`, `load()`, `play(duração)`, `stop()` e `onProgress()`.
-- Implementação principal em `webaudio.ts`, com rampa de ganho de 10 ms contra estalos. `htmlaudio.ts` é a reserva. `fake.ts` serve aos testes de ponta a ponta.
-- Pré-carrega a rodada atual e depois a próxima; no máximo 2 buffers em memória. Nada é gravado em disco (termos da Apple).
-- O `AudioContext` só é criado dentro do clique de "Tocar", por causa do bloqueio de autoplay.
-- Falha de áudio anula a rodada sem penalidade.
-- Barra segmentada com colunas proporcionais a 1, 1, 2, 3, 4 e 5 (total de 16 s). A matemática fica em `core/rules.ts`.
+- Contrato `AudioEngine { unlock, preload, play(url, offset, segundos) → Playback | null, stop, retain }`. `Playback` expõe `elapsed()` (a barra lê a cada quadro) e `done` (pedido, tocado, interrompido).
+- `WebAudioEngine`:
+  - `unlock()` síncrono dentro do clique (bloqueio de autoplay);
+  - cache da `Promise<AudioBuffer>` por URL, com no máximo a rodada atual e a próxima (`retain`);
+  - uma ficha por reprodução, para ignorar resultados velhos;
+  - envelope de 10 ms (`core/envelope.ts`) que termina exatamente no corte;
+  - para quando a aba fica oculta.
+- **Medido no navegador:** cortes de 1, 2, 4 e 7 s a menos de 10 ms do pedido (a diferença é o atraso do evento `ended`, não do som).
+- Falha de áudio anula a rodada sem penalidade (`VOID { round }`).
+- Barra segmentada com pesos 1, 1, 2, 3, 4 e 5 (total de 16 s), em `core/player.ts`.
+- Pendentes: reserva com `<audio>` (M11, se o CORS da Apple falhar) e motor falso para o Playwright (M9). Nada é gravado em disco (termos da Apple).
 
 **Áudio sintético (comando `fake-assets`, M3):** só biblioteca padrão. Para cada `preview.url` do catálogo, gera um WAV de 11.025 Hz, 16 bits, mono, com a duração do preview. Toca **uma nota por segundo** da pentatônica de dó, sorteada pelo ID da faixa e sem repetir a anterior: o trecho de 1 s soa como 1 nota e o de 4 s como 4 notas, o que permite conferir o corte de ouvido. Para cada capa, gera um SVG 600×600 com cor pelo hash do ID, título e artista. Só roda com o provedor `fixture`, aceita só URLs `fixtures/(audio|art)/<nome>` e apaga arquivos órfãos. Tudo fora do Git (25,4 MiB de áudio).
 
