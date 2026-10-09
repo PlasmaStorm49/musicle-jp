@@ -73,6 +73,13 @@ export function startOfDayInZone(day: string, zone: string = GAME_TIME_ZONE): nu
   return hi;
 }
 
+/** Duração em HH:MM:SS (horas podem passar de 24), arredondando o segundo para baixo. */
+export function formatHms(ms: number): string {
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${pad(Math.floor(total / 3600))}:${pad(Math.floor((total % 3600) / 60))}:${pad(total % 60)}`;
+}
+
 /** Milissegundos até o próximo desafio (o dia seguinte a `date`), nunca negativo. */
 export function msUntilNextDay(nowMs: number, date: string, zone: string = GAME_TIME_ZONE): number {
   return Math.max(0, startOfDayInZone(addDays(date, 1), zone) - nowMs);

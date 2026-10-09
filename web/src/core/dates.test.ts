@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { addDays, dateInZone, isValidDate, msUntilNextDay, startOfDayInZone } from "./dates.ts";
+import {
+  addDays,
+  dateInZone,
+  formatHms,
+  isValidDate,
+  msUntilNextDay,
+  startOfDayInZone,
+} from "./dates.ts";
 
 const HOUR = 3_600_000;
 const iso = (ms: number) => new Date(ms).toISOString();
@@ -38,6 +45,18 @@ describe("msUntilNextDay", () => {
 
   it("quem joga o dia 8 depois da meia-noite vê zero: o dia 9 já está liberado", () => {
     expect(msUntilNextDay(Date.parse("2026-10-09T03:01:00Z"), "2026-10-08")).toBe(0);
+  });
+});
+
+describe("formatHms", () => {
+  it.each([
+    [15 * HOUR, "15:00:00"],
+    [HOUR + 61_000, "01:01:01"],
+    [999, "00:00:00"],
+    [25 * HOUR, "25:00:00"],
+    [-5, "00:00:00"],
+  ])("%i ms → %s", (ms, text) => {
+    expect(formatHms(ms)).toBe(text);
   });
 });
 
