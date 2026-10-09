@@ -1,0 +1,36 @@
+{
+  "name": "musicle-jp-web",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Jogo de adivinhar música japonesa: frontend (Vite + TypeScript + Preact)",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "typecheck": "tsc -p tsconfig.node.json && tsc -p tsconfig.json",
+    "lint": "biome ci .",
+    "format": "biome check --write --linter-enabled=false .",
+    "types": "node scripts/gen-types.ts",
+    "check": "npm run lint && npm run typecheck && npm run coverage"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@preact/preset-vite": "2.10.6",
+    "@types/node": "24.13.6",
+    "@vitest/coverage-v8": "5.0.1",
+    "json-schema-to-typescript": "16.0.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.3",
+    "vitest": "5.0.1"
+  },
+  "dependencies": {
+    "preact": "10.29.8"
+  }
+}

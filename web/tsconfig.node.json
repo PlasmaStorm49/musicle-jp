@@ -1,0 +1,20 @@
+{
+  // Núcleo do jogo, scripts e testes: roda também direto no Node 24 (type stripping).
+  // Sem DOM: se o núcleo usar document ou window, este tsconfig acusa (regra inviolável 1).
+  // nodenext obriga a extensão .ts nos imports, que é o que o Node exige.
+  "compilerOptions": {
+    "target": "ES2024",
+    "lib": ["ES2024"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/core/**/*.ts", "scripts/**/*.ts", "vite.config.ts"]
+}
