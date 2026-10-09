@@ -107,6 +107,10 @@ export const ptBR = {
   "storage.future":
     "Há uma versão mais nova do jogo aberta. Recarregue a página para salvar seu progresso.",
   "storage.full": "Não foi possível salvar o progresso: o armazenamento do navegador está cheio.",
+
+  "nav.song": "Música",
+  "nav.album": "Álbum",
+  "nav.done": ", terminado",
 } as const;
 
 export type MessageKey = keyof typeof ptBR;

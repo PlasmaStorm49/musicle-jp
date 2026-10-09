@@ -549,3 +549,51 @@ section.void,
   background: var(--surface);
   border: 1px solid var(--border);
 }
+
+/* Abas do topo (P49): links, com a ativa marcada por aria-current */
+.tabs ul {
+  list-style: none;
+  display: flex;
+  gap: 4px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 12px 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tabs a {
+  display: block;
+  min-height: 44px;
+  padding: 10px 14px;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+
+.tabs a[aria-current="page"] {
+  color: var(--text);
+  font-weight: 700;
+  border-bottom-color: var(--accent);
+}
+
+.tabs a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Capas nas opções do Álbum (P51) */
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cover {
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: var(--border);
+}
+
+.options.done li .item {
+  margin-right: auto;
+}

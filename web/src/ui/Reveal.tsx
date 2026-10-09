@@ -6,7 +6,7 @@ import type { AnswerMode, Target } from "../core/types.ts";
 import { optionView, revealView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
-import { ItemLabel } from "./ItemLabel.tsx";
+import { Cover, ItemLabel } from "./ItemLabel.tsx";
 
 type Props = {
   readonly index: CatalogIndex;
@@ -60,6 +60,7 @@ export function Reveal({
             return (
               item && (
                 <li key={id} class={isCorrect ? "correct" : isPicked ? "wrong" : ""}>
+                  {target === "album" && <Cover item={item} resolveUrl={resolveUrl} />}
                   <ItemLabel item={item} />
                   {tag && <span class="tag">{tag}</span>}
                 </li>

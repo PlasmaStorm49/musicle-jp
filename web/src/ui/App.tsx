@@ -146,7 +146,22 @@ export function App() {
   return (
     <>
       <nav class="tabs" aria-label={t("nav.label")}>
-        <ul>{/* Uma aba por link (#musica, #album, #treino), com aria-current na ativa. */}</ul>
+        <ul>
+          {/* Uma aba por link (#musica, #album, #treino), com aria-current na ativa. */}
+          {(["song", "album"] as const).map((daily) => (
+            <li key={daily}>
+              <a href={ROUTES[daily]} aria-current={tab === daily ? "page" : undefined}>
+                {t(daily === "song" ? "nav.song" : "nav.album")}
+                {latest.history[puzzleId(date, daily)] && (
+                  <>
+                    <span aria-hidden="true"> ✓</span>
+                    <span class="sr-only">{t("nav.done")}</span>
+                  </>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
       </nav>
       <main class="app">
         <p class="sr-only" aria-live="polite">
