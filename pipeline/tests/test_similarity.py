@@ -35,6 +35,23 @@ def test_same_title_by_another_artist_is_not_a_distractor(fixture_catalog):
     assert "fixture:tr:tr03" not in track_by_id(fixture_catalog, "tr04")["similar"]
 
 
+def test_distractors_never_repeat_a_title_among_themselves(fixture_catalog):
+    # P36: no dia 1, rodada 2, tr03 e tr04 (os dois "夜明けのメロディ") eram opções juntas.
+    tracks = _tracks(fixture_catalog)
+    for t in fixture_catalog["tracks"]:
+        titles = [title_of(tracks[s]["songKey"]) for s in t["similar"]]
+        assert len(titles) == len(set(titles)), t["id"]
+        assert not {"fixture:tr:tr03", "fixture:tr:tr04"} <= set(t["similar"]), t["id"]
+
+
+def test_album_distractors_never_repeat_a_title(fixture_catalog):
+    profiles = album_profiles(fixture_catalog["albums"], fixture_catalog["tracks"])
+    for al in fixture_catalog["albums"]:
+        titles = [profiles[s]["title"] for s in al["similar"]]
+        assert len(titles) == len(set(titles)), al["id"]
+        assert profiles[al["id"]]["title"] not in titles, al["id"]
+
+
 def test_every_eligible_track_has_enough_distractors(fixture_catalog):
     for t in fixture_catalog["tracks"]:
         if t["eligible"]["daily"]:

@@ -1107,7 +1107,7 @@
       ]
     }
   ],
-  "catalogVersion": "2026-10-05.bd7b0274",
+  "catalogVersion": "2026-10-05.9d3e2d91",
   "generatedAt": "2026-10-05T00:00:00Z",
   "provider": "fixture",
   "schemaVersion": 1,
@@ -1697,11 +1697,11 @@
         "fixture:tr:tr08",
         "fixture:tr:tr42",
         "fixture:tr:tr16",
-        "fixture:tr:tr03",
         "fixture:tr:tr15",
         "fixture:tr:tr17",
         "fixture:tr:tr06",
-        "fixture:tr:tr24"
+        "fixture:tr:tr24",
+        "fixture:tr:tr26"
       ],
       "songKey": "狂騒riot|fixture:ar:ar11",
       "title": "狂騒Riot",
@@ -1805,8 +1805,8 @@
       "similar": [
         "fixture:tr:tr02",
         "fixture:tr:tr16",
-        "fixture:tr:tr04",
         "fixture:tr:tr22",
+        "fixture:tr:tr14",
         "fixture:tr:tr33",
         "fixture:tr:tr36",
         "fixture:tr:tr29",
@@ -2027,9 +2027,9 @@
         "fixture:tr:tr10",
         "fixture:tr:tr04",
         "fixture:tr:tr22",
-        "fixture:tr:tr02",
         "fixture:tr:tr05",
         "fixture:tr:tr26",
+        "fixture:tr:tr37",
         "fixture:tr:tr19",
         "fixture:tr:tr33",
         "fixture:tr:tr36"
@@ -2306,8 +2306,8 @@
         "fixture:tr:tr31",
         "fixture:tr:tr33",
         "fixture:tr:tr02",
-        "fixture:tr:tr04",
         "fixture:tr:tr22",
+        "fixture:tr:tr14",
         "fixture:tr:tr36",
         "fixture:tr:tr20",
         "fixture:tr:tr09",
@@ -2366,12 +2366,12 @@
         "fixture:tr:tr10",
         "fixture:tr:tr42",
         "fixture:tr:tr08",
-        "fixture:tr:tr03",
         "fixture:tr:tr17",
         "fixture:tr:tr16",
         "fixture:tr:tr15",
         "fixture:tr:tr34",
-        "fixture:tr:tr24"
+        "fixture:tr:tr24",
+        "fixture:tr:tr26"
       ],
       "songKey": "東京らいつ|fixture:ar:ar13",
       "title": "東京ライツ",

@@ -1,8 +1,9 @@
 """Distratores do modo 4 opções: para cada faixa e álbum, os candidatos mais parecidos.
 
 "Parecido" = mesma época, popularidade próxima e mesmo tipo de lançamento, de artista diferente.
-Cada lista tem no máximo 1 candidato por artista: qualquer sorteio de 3 já sai com artistas
-distintos. A agenda (schedule.py) só sorteia dentro destas listas.
+Cada lista tem no máximo 1 candidato por artista e por título: qualquer sorteio de 3 já sai
+com artistas e títulos distintos (duas opções "夜明けのメロディ" confundiriam o jogador, P36).
+A agenda (schedule.py) só sorteia dentro destas listas.
 """
 
 from __future__ import annotations
@@ -11,6 +12,7 @@ from collections import defaultdict
 from collections.abc import Iterable
 
 from musicle_pipeline.models import JSON
+from musicle_pipeline.normalize import strip_album_suffix, title_key
 
 MAX_SIMILAR = 10
 MIN_OPTIONS = 3  # o modo 4 opções precisa da resposta + 3 distratores
@@ -35,15 +37,22 @@ def title_of(song_key: str) -> str:
     return song_key.rsplit("|", 1)[0]
 
 
-def _diversify(ordered: Iterable[tuple[str, frozenset[str]]]) -> list[str]:
-    """Percorre em ordem de proximidade pulando quem tem artista já usado."""
+def album_title_key(album: JSON) -> str:
+    """Chave do título do álbum sem " - Single" e sem sufixos de versão."""
+    return title_key(strip_album_suffix(album["title"]))
+
+
+def _diversify(ordered: Iterable[tuple[str, frozenset[str], str]]) -> list[str]:
+    """Percorre em ordem de proximidade pulando quem tem artista ou título já usado."""
     chosen: list[str] = []
-    used: set[str] = set()
-    for entity_id, artists in ordered:
-        if artists & used:
+    used_artists: set[str] = set()
+    used_titles: set[str] = set()
+    for entity_id, artists, title in ordered:
+        if artists & used_artists or title in used_titles:
             continue
         chosen.append(entity_id)
-        used |= artists
+        used_artists |= artists
+        used_titles.add(title)
         if len(chosen) == MAX_SIMILAR:
             break
     return chosen
@@ -72,7 +81,9 @@ def track_similar(tracks: list[JSON], albums: dict[str, JSON]) -> dict[str, list
                 c["id"],
             )
         )
-        result[t["id"]] = _diversify((c["id"], frozenset(c["artistIds"])) for c in candidates)
+        result[t["id"]] = _diversify(
+            (c["id"], frozenset(c["artistIds"]), title_of(c["songKey"])) for c in candidates
+        )
     return result
 
 
@@ -89,6 +100,7 @@ def album_profiles(albums: list[JSON], tracks: list[JSON]) -> dict[str, dict]:
             "songKeys": frozenset(t["songKey"] for t in own),
             "pop": max((_pop(t["popularity"]) for t in own), default=0),
             "playable": any(t["eligible"]["reason"] != "blocked" for t in own),
+            "title": album_title_key(al),
         }
     return profiles
 
@@ -110,6 +122,7 @@ def album_similar(albums: list[JSON], tracks: list[JSON]) -> dict[str, list[str]
             if c["id"] != al["id"]
             and not me["artists"] & profiles[c["id"]]["artists"]
             and not me["songKeys"] & profiles[c["id"]]["songKeys"]
+            and profiles[c["id"]]["title"] != me["title"]
         ]
         candidates.sort(
             key=lambda c: (
@@ -119,5 +132,7 @@ def album_similar(albums: list[JSON], tracks: list[JSON]) -> dict[str, list[str]
                 c["id"],
             )
         )
-        result[al["id"]] = _diversify((c["id"], profiles[c["id"]]["artists"]) for c in candidates)
+        result[al["id"]] = _diversify(
+            (c["id"], profiles[c["id"]]["artists"], profiles[c["id"]]["title"]) for c in candidates
+        )
     return result

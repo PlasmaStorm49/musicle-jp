@@ -122,6 +122,9 @@ def _similar_problems(catalog: JSON) -> list[str]:
                 problems.append(f"{t['id']}: distrator {sid} não é elegível")
         if not _disjoint(groups):
             problems.append(f"{t['id']}: distratores com artista repetido")
+        titles = [title_of(tracks[s]["songKey"]) for s in t["similar"] if s in tracks]
+        if len(set(titles)) != len(titles):
+            problems.append(f"{t['id']}: distratores com título repetido entre si")
         if t["eligible"]["daily"] and len(t["similar"]) < MIN_OPTIONS:
             problems.append(
                 f"{t['id']}: só {len(t['similar'])} distrator(es), mínimo {MIN_OPTIONS}"
@@ -145,8 +148,13 @@ def _similar_problems(catalog: JSON) -> list[str]:
                 problems.append(f"{al['id']}: distrator {sid} tem artista em comum")
             if me["songKeys"] & other["songKeys"]:
                 problems.append(f"{al['id']}: distrator {sid} tem música em comum")
+            if me["title"] == other["title"]:
+                problems.append(f"{al['id']}: distrator {sid} tem o mesmo título")
         if not _disjoint(groups):
             problems.append(f"{al['id']}: distratores com artista repetido")
+        titles = [profiles[s]["title"] for s in al["similar"] if s in profiles]
+        if len(set(titles)) != len(titles):
+            problems.append(f"{al['id']}: distratores com título repetido entre si")
     return problems
 
 
