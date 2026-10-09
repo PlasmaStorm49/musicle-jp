@@ -5,8 +5,9 @@ export default defineConfig({
   plugins: [preact()],
   server: { port: 5173, strictPort: true },
   test: {
+    // Componentes (.test.tsx) pedem DOM no próprio arquivo: // @vitest-environment happy-dom
     environment: "node",
-    include: ["src/**/*.test.ts", "scripts/**/*.test.ts"],
+    include: ["src/**/*.test.ts", "src/**/*.test.tsx", "scripts/**/*.test.ts"],
     // Fuso propositalmente diferente do Brasil: código que use a hora local por engano
     // falha aqui na máquina, e não só na CI.
     env: { TZ: "Asia/Tokyo" },

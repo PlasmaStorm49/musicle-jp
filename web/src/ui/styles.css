@@ -418,6 +418,128 @@ h4 {
   font-size: 0.9rem;
 }
 
+/* Escolha do modo */
+.hint {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.mode-options {
+  display: grid;
+  gap: 8px;
+}
+
+.mode {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+
+.mode.preferred {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.mode-name {
+  font-weight: 700;
+}
+
+.mode-hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.mode .tag {
+  justify-self: start;
+  color: var(--accent);
+}
+
+/* Campo com autocompletar */
+.guess {
+  position: relative;
+}
+
+.guess-input {
+  font: inherit;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.guess-input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.guess ul[role="listbox"] {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.suggestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.suggestion.active {
+  background: var(--accent-soft);
+  outline: 2px solid var(--accent);
+}
+
+.suggestion[aria-disabled="true"] {
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* Tentativas da digitação */
+.attempt-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.attempt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.attempt.wrong {
+  border-color: var(--bad);
+  background: var(--bad-soft);
+}
+
+.attempt.right {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.attempt.skip {
+  color: var(--muted);
+}
+
 /* section.void, não .void: a linha "anulada" do resumo (li.void) não vira caixa. */
 .error,
 section.void,

@@ -1,6 +1,7 @@
 {
-  // Aplicação no navegador (Vite + Preact). Os testes ficam no tsconfig.node.json.
-  // Sem tipos do Node: se o código do jogo importar node:*, este tsconfig acusa.
+  // Aplicação no navegador (Vite + Preact). Os testes do núcleo ficam no tsconfig.node.json;
+  // os de componente (.test.tsx) ficam aqui, com DOM. Sem tipos do Node: se o código do jogo
+  // importar node:*, este tsconfig acusa; por isso teste de componente não importa test/*.ts.
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
