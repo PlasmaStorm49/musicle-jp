@@ -38,6 +38,10 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P45 | O modo de resposta é escolhido todo dia antes da rodada 1, com o último usado marcado e com o foco |
 | P46 | Na digitação nada toca sozinho: pulo e erro só liberam a etapa; o jogador clica em Tocar |
 | M7 | Na última tentativa da digitação o "Pular" some e fica só o "Desistir" (os dois dariam 0 ponto) |
+| P49 | Abas no topo (Música, Álbum, Treino), com a aba no endereço (`#musica`, `#album`, `#treino`) e ✓ no diário terminado |
+| P50 | O Treino não salva nada: só o placar da sessão, e recarregar a página começa outra |
+| P51 | No Álbum, as opções mostram capa, título e artista (também na lista da revelação) |
+| M8 | A sessão do Treino dura enquanto a página está aberta: trocar de aba não zera placar nem saco |
 
 ## 3. Fonte de dados (usada só no M11)
 
@@ -101,7 +105,7 @@ musicle-jp/
 | M5 | Concluído em 08/10/2026 | 1ª tela jogável: Diário Música com 4 opções, Web Audio, barra segmentada | Dia completo jogado no navegador, console limpo | Pré-visualização no navegador (`launch.json`) |
 | M6 | Concluído em 09/10/2026 | Persistência, estatísticas, retomada, compartilhar, contagem regressiva | Recarregar no meio retoma; storage corrompido não quebra | Subagente `revisor` + `/code-review` |
 | M7 | Concluído em 09/10/2026 | Digitação com autocompletar (kana, kanji, romaji, alias, teclado, ARIA) | Busca acha por todas as grafias | Git worktree, sessão paralela |
-| M8 | | Alvo Álbum + modo Treino | As 4 combinações jogáveis | 2º worktree, merge e conflito |
+| M8 | Concluído em 09/10/2026 | Alvo Álbum + modo Treino | As 4 combinações jogáveis | 2º worktree, merge e conflito |
 | M9 | | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review` |
 | M10 | | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions |
 | M11 | | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
@@ -231,7 +235,11 @@ Assim, `tōkyō`, `toukyou` e `tokyo` viram `tokyo`. Como a regra vale para cat�
 
 Compara a consulta com as chaves que o catálogo já traz; nada muda no pipeline nem nos vetores.
 
-- **Uma linha por música** (`songKey`): single, versão de álbum e "TV Size" viram uma só, porque qualquer uma é acerto. Mostra a faixa mais popular do grupo. Busca no catálogo inteiro, inclusive faixas que não podem ser sorteadas (restringir daria pista).
+- **Uma linha por música ou por álbum** (`buildSearchIndex(index, alvo)`):
+  - **Música:** uma linha por `songKey`; single, versão de álbum e "TV Size" viram uma só, porque qualquer uma é acerto. Mostra a faixa mais popular do grupo.
+  - **Álbum** (M8): uma linha por álbum; título de `album.search` (já sem " - Single"), artista das chaves de cada `artistIds`, popularidade = a da faixa mais popular do álbum (o critério de `similarity.py`).
+  - "Já tentou" compara pela chave da linha (`hitKey`): o `songKey` na Música, o id do álbum no Álbum.
+  - Busca no catálogo inteiro, inclusive faixas que não podem ser sorteadas (restringir daria pista).
 - **Variantes da consulta:**
   - a `searchKey` dela;
   - **kana → romaji** Hepburn, só na consulta: `とうきょう` acha 東京ライツ e `かあてん` acha カーテンコール. Segue o romaji do catálogo (cutlet): `を` vira "wo";
@@ -285,7 +293,7 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 
 **Por que não calcular no navegador:** o resultado mudaria a cada atualização semanal do catálogo.
 
-Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece o Treino.
+Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponível" com um link para o Treino, que continua funcionando (implementado no M8).
 
 ## Apêndice D. Regras dos modos
 
@@ -302,7 +310,12 @@ Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece
 - **Escolha do modo** (M7, P13, P45): antes da rodada 1, todo dia, com o último usado marcado. Escolher grava `inProgress` com `events: []`, então o modo fica travado mesmo recarregando antes do 1º palpite. Se outra aba já começou ou terminou o dia, vale o modo e o andamento dela.
 - **Palpite da digitação:** sempre por ID escolhido na lista (Apêndice B), uma linha por música; a música já tentada aparece marcada e não pode ser escolhida de novo.
 - **Dia:** de 0 a 18 pontos por diário.
-- **Treino:** rodadas ilimitadas com filtros de alvo e resposta, sorteio por "saco embaralhado" para não repetir na sessão. Exclui as respostas do Diário de hoje enquanto ele não for concluído.
+- **Treino** (M8, `core/practice.ts` e `ui/Practice.tsx`): rodadas sem fim, geradas no navegador.
+  - **Saco por alvo:** Música, uma faixa elegível por `songKey` (a mais popular); Álbum, uma faixa elegível por álbum, sem repetir música no saco. Embaralhado por ciclo com `seeded("treino|<semente>|<alvo>|<ciclo>")`; a semente vem de `crypto.getRandomValues` na tela. O estado guarda só semente, ciclo, posição e a última tocada, nunca o gerador. No ciclo novo, a última tocada vai para o fim do saco.
+  - **Exclusão:** as músicas (`songKey`) das respostas dos diários de hoje que ainda não têm resultado, nos dois alvos, porque a faixa toca nos dois. A faixa excluída é pulada no sorteio, sem sair do saco, e pode voltar a partir de então, quando o diário terminar. Sem nada para sortear, a tela avisa e oferece "Sortear de novo".
+  - **Opções:** a certa e 3 distratores do `similar` (faixa na Música, álbum no Álbum), sem as músicas excluídas; com menos de 3, a lista inteira, como em `schedule.py`. Embaralhadas.
+  - **Filtros** de alvo e de resposta valem a partir da próxima rodada. **Placar** só da sessão (P50); rodada anulada não conta. A sessão fica no `App` enquanto a página está aberta.
+  - **Limitação aceita:** a data do jogo é fixada ao abrir a página; quem a deixa aberta depois da meia-noite continua com a exclusão do dia anterior até recarregar (o mesmo vale para os diários, Apêndice F).
 
 **Distratores** (`similarity.py`, implementado no M3):
 
@@ -325,7 +338,7 @@ Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece
 - Contrato `AudioEngine { unlock, preload, play(url, offset, segundos) → Playback | null, stop, retain }`. `Playback` expõe `elapsed()` (a barra lê a cada quadro) e `done` (pedido, tocado, interrompido).
 - `WebAudioEngine`:
   - `unlock()` síncrono dentro do clique (bloqueio de autoplay);
-  - cache da `Promise<AudioBuffer>` por URL, com no máximo a rodada atual e a próxima (`retain`);
+  - cache da `Promise<AudioBuffer>` por URL, com no máximo a rodada atual e a próxima (`retain`, chamado pelo gancho `usePreload` do diário e do Treino, que pré-sorteia a próxima rodada);
   - uma ficha por reprodução, para ignorar resultados velhos;
   - envelope de 10 ms (`core/envelope.ts`) que termina exatamente no corte;
   - para quando a aba fica oculta.
@@ -354,6 +367,8 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
   - Falha ao gravar: `updateSave` devolve o motivo (`full`, `future` ou `unavailable`), e a tela mostra o aviso certo uma vez, visível e na região `aria-live`.
   - Migrações em `storage/migrations.ts`, uma função por versão (vazio na v1).
 - **Duas abas:** `updateSave` relê, mescla e grava. No histórico, o primeiro término vence; no andamento do mesmo jogo, vence a lista de eventos mais longa. O resumo relê o save, então mostra o resultado que ficou gravado. **Limitação aceita:** com duas abas dá para refazer uma rodada (uma erra e vê a resposta, a outra acerta); o jogo é pessoal e não há ranking.
+- **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`) e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura, então voltar à Música terminada mostra o resultado (P39). O Treino não grava nada (P50).
+- **Save da sessão** (`sessionStore`, M8): grava no navegador quando dá; o que não consegue gravar (cota cheia) fica em memória, e sem gravação nenhuma (versão futura, sem acesso) tudo fica em memória. Assim trocar de aba não perde o andamento nem nesses casos. O que foi gravado não fica em memória, para a mescla das duas abas continuar vendo o que a outra gravou.
 - **Estatísticas:** função pura sobre o histórico, por alvo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Limite da P40:** a agenda é contígua, então um dia que faltou (Action parada por mais de 21 dias) entra depois, quando o pipeline preenche o atraso, e quebra a sequência de quem não pôde jogá-lo (P44).
 - **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no modo 4 opções, um ⬛ por "ouvir mais" e depois ✅ ou ❌. Exemplo:
   ```
@@ -378,6 +393,9 @@ Implementado no M4 (`web/src/core/`):
 - **Rodada anulada** (`void`): nasce assim se a resposta sumiu ou perdeu a elegibilidade; sai do total (P27).
 - **Tipos** do contrato gerados de `shared/schema` (`npm run types`).
 - **UI:** `useReducer` do Preact recebe o reducer do `core` (M5), embrulhado no M6 pelo `playReducer` do `Game.tsx`, que guarda também a lista de eventos aceitos para o save.
+- **Rodadas soltas** (M8): `createRounds(planejadas, alvo, índice)` monta as rodadas da agenda (via `createGame`) e as do Treino (`practiceGame`: um `GameState` de 1 rodada, `puzzleId` `treino|...`), com o mesmo reducer.
+- **Rodada na tela** (M8): `RoundView.tsx` (Player, opções ou digitação, rodada anulada, revelação) serve ao diário e ao Treino; quem chama cuida do cabeçalho, do save e do que vem depois (`nextLabel`, `onNext`). Ganchos comuns em `ui/hooks.ts`: `useSuggest`, `usePreload`, `previewUrl`.
+- **Rotas** (M8): `core/routes.ts` (`Tab`, `ROUTES`, `tabFromHash`, `todayHref`), puro e testado.
 - **i18n:** `pt-BR.ts` exporta um objeto de textos; `t(chave, parâmetros)` é tipado por `keyof`. Plural com `tn(chave, n)` sobre chaves `.one` e `.other` (M6): usa `Intl.PluralRules('pt-BR')`, mas força o zero no plural, porque o `Intl` diz "one" para 0 em português ("0 ponto").
 
 ## Apêndice H. Testes e qualidade
@@ -386,7 +404,7 @@ Implementado no M4 (`web/src/core/`):
 |---|---|---|
 | Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos); schema; bytes idênticos em duas execuções; CLI |
 | Núcleo web | Vitest | Reducer nas 4 combinações; pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Meta: 90% de linhas no `core` |
-| Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco) e `ModePicker` (M7) |
+| Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7); `RoundView`, `Practice` e `Options` (capas) (M8) |
 | Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; Treino |
 | Exploratório | Navegador do Claude | Visual, console e cliques durante o desenvolvimento |
 | Lint e formato | Ruff (Python), Biome (TS), `tsc --noEmit` estrito | |

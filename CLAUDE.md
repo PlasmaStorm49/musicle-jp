@@ -20,7 +20,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 - Fuso do jogo: `America/Sao_Paulo`.
 - **Hook ativo:** depois de cada `Edit`/`Write`, o `.claude/hooks/format_file.py` ordena os imports e formata o arquivo: `.py` do `pipeline/` com Ruff; `.ts`, `.tsx`, `.json` e `.css` do `web/` com Biome. Releia antes de editar de novo a mesma região.
 - O Node 24 roda `.ts` direto (type stripping); o núcleo do `web/` usa isso no teste cruzado.
-- **Worktrees** (frentes em paralelo, M7 e M8): ficam em `.claude/worktrees/` (ignorada no Git); sem remoto, partem do `HEAD` local. Cada uma precisa de `npm ci --prefix web` (o `node_modules` não é compartilhado). Duas frentes rodando testes ao mesmo tempo pedem memória livre: com pouca, o Git falha com "out of memory" ao criar a worktree. Depois do merge: `git worktree remove` e `git branch -d`.
+- **Worktrees** (frentes em paralelo, M7 e M8): ficam em `.claude/worktrees/` (ignorada no Git); sem remoto, partem do `HEAD` local. Cada uma precisa de `npm ci --prefix web` (o `node_modules` não é compartilhado). Duas frentes rodando testes ao mesmo tempo pedem memória livre: com pouca, o Git falha com "out of memory" ao criar a worktree. Na worktree, Vitest com `--maxWorkers=2` e nada de servidor de desenvolvimento (a porta 5173 é fixa e o áudio falso não está lá). Para o conflito no merge ser pequeno, combine antes quais trechos e chaves de texto são de cada frente (M8). Depois do merge: `git worktree remove` (com `git worktree unlock` antes, se estiver travada) e `git branch -d`.
 
 ## Mapa
 
