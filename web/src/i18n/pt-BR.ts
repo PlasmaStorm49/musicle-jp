@@ -15,7 +15,7 @@ export const ptBR = {
   "nav.song": "Música",
   "nav.album": "Álbum",
   "nav.practice": "Treino",
-  "nav.done": ", terminado",
+  "nav.done": "(terminado)",
   "nav.doneMark": "✓",
 
   "game.header": "{daily} · nº {number}",

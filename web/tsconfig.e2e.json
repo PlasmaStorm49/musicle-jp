@@ -1,0 +1,20 @@
+{
+  // Testes de ponta a ponta (Playwright): rodam no Node e mandam código para o navegador
+  // (page.evaluate), então precisam dos tipos do Node e do DOM. Num tsconfig próprio para não
+  // afrouxar as travas do núcleo (sem DOM) e da aplicação (sem Node).
+  "compilerOptions": {
+    "target": "ES2024",
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["e2e/**/*.ts", "playwright.config.ts"]
+}

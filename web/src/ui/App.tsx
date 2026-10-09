@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
+import { FakeAudioEngine } from "../audio/fake.ts";
 import { type PlayLog, WebAudioEngine } from "../audio/webaudio.ts";
 import { emptySave, pruneProgress, puzzleId, type SaveV1 } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
 import {
   assetUrl,
   failAudioTrack,
+  fakeAudioEnabled,
   type GameData,
   gameDate,
   loadGameData,
@@ -135,15 +137,20 @@ export function App() {
     if (load.status !== "ready") return null;
     const failTrack = failAudioTrack(window.location.search, DEV);
     const failPreview = failTrack ? load.data.index.tracks.get(failTrack)?.preview?.url : null;
-    return new WebAudioEngine({
+    const options = {
       failUrl: failPreview ? resolveUrl(failPreview) : null,
       onPlayed: DEV
-        ? (log) => {
+        ? (log: PlayLog) => {
             window.__musicleAudioLog ??= [];
             window.__musicleAudioLog.push(log);
           }
         : undefined,
-    });
+    };
+    // DEV no próprio ponto da escolha: no build vira `false && ...`, e o Vite tira o motor falso
+    // do pacote (a CI procura a marca dele no dist).
+    return DEV && fakeAudioEnabled(window.location.search)
+      ? new FakeAudioEngine(options)
+      : new WebAudioEngine(options);
   }, [load, resolveUrl]);
 
   return (

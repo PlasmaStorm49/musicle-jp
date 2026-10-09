@@ -9,7 +9,7 @@ import { RoundView } from "./RoundView.tsx";
 
 afterEach(cleanup);
 
-// Catálogo mínimo no próprio arquivo (web/CLAUDE.md, regra 13): 4 faixas, cada uma num álbum.
+// Catálogo mínimo no próprio arquivo (web/CLAUDE.md, regra 14): 4 faixas, cada uma num álbum.
 const track = (n: number): Track => ({
   id: `t:tr:${n}`,
   songKey: `musica${n}|t:ar:1`,
