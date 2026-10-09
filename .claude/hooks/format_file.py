@@ -47,7 +47,11 @@ def run(cmd: list[str], cwd: Path, label: str) -> None:
 
 def format_python(project: Path, file_path: Path) -> None:
     ruff = [sys.executable, "-m", "ruff"]
-    run([*ruff, "check", "--fix", "--select", "I", "--force-exclude", str(file_path)], project, "ruff")
+    run(
+        [*ruff, "check", "--fix", "--select", "I", "--force-exclude", str(file_path)],
+        project,
+        "ruff",
+    )
     run([*ruff, "format", "--force-exclude", str(file_path)], project, "ruff format")
 
 

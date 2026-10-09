@@ -2,24 +2,16 @@
 // disco para saber, pela faixa que o motor falso "tocou", qual é a resposta certa.
 import { readFileSync } from "node:fs";
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
+import type { Album, Catalog, Schedule, Target, Track } from "../src/core/types.ts";
 
-type Track = {
-  readonly id: string;
-  readonly title: string;
-  readonly albumId: string;
-  readonly preview: { readonly url: string } | null;
-};
-type Album = { readonly id: string; readonly title: string; readonly artistIds: readonly string[] };
-type Artist = { readonly id: string; readonly name: string };
-type Catalog = {
-  readonly tracks: readonly Track[];
-  readonly albums: readonly Album[];
-  readonly artists: readonly Artist[];
-};
+/** Lê um arquivo de dados falso. Os tipos são os do contrato: mudou o schema, o tsc acusa aqui. */
+function fixture<T>(name: string): T {
+  const url = new URL(`../public/fixtures/${name}`, import.meta.url);
+  return JSON.parse(readFileSync(url, "utf8")) as T;
+}
 
-const catalog = JSON.parse(
-  readFileSync(new URL("../public/fixtures/catalog.json", import.meta.url), "utf8"),
-) as Catalog;
+const catalog = fixture<Catalog>("catalog.json");
+const schedule = fixture<Schedule>("schedule.json");
 
 declare global {
   interface Window {
@@ -33,10 +25,24 @@ declare global {
 /**
  * Abre o jogo com o relógio fixo e o motor de áudio falso. A hora é de Brasília (com -03:00):
  * o navegador está no fuso de Tóquio, então a data só sai certa se o jogo usar o fuso do jogo.
+ * `failAudio`: id da faixa cujo áudio falha (simula a prévia indisponível).
  */
-export async function open(page: Page, brasilia: string, hash = "#musica"): Promise<void> {
+export async function open(
+  page: Page,
+  brasilia: string,
+  hash = "#musica",
+  failAudio?: string,
+): Promise<void> {
+  const fail = failAudio ? `&failAudio=${encodeURIComponent(failAudio)}` : "";
   await page.clock.setFixedTime(new Date(brasilia));
-  await page.goto(`/?fakeAudio=1${hash}`);
+  await page.goto(`/?fakeAudio=1${fail}${hash}`);
+}
+
+/** A faixa-resposta de uma rodada do diário, lida da agenda falsa. */
+export function dailyAnswer(date: string, target: Target, round: number): string {
+  const answer = schedule.days[date]?.[target][round]?.answer;
+  if (!answer) throw new Error(`a agenda não tem a rodada ${round} de ${target} em ${date}`);
+  return answer;
 }
 
 /** A faixa que acabou de "tocar" (último registro do __musicleAudioLog). */

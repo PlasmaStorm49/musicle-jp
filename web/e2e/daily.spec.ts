@@ -1,7 +1,10 @@
+import type { SaveV1 } from "../src/core/records.ts";
+import { SAVE_KEY } from "../src/storage/save.ts";
 import {
   albumOf,
   artistName,
   captureClipboard,
+  dailyAnswer,
   expect,
   lastPlayed,
   open,
@@ -47,12 +50,11 @@ test("recarregar no meio retoma o modo e as tentativas", async ({ page }) => {
   await page.getByRole("button", { name: "Pular (+1 s)" }).click();
   // O save é gravado num efeito depois da pintura: espera ele chegar ao localStorage.
   await expect
-    .poll(() =>
-      page.evaluate(() => {
-        const save = JSON.parse(localStorage.getItem("musicle-jp:save") ?? "{}");
-        return save.inProgress?.["2026-10-09|song"]?.events?.length ?? 0;
-      }),
-    )
+    .poll(async () => {
+      const raw = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
+      const save = raw ? (JSON.parse(raw) as SaveV1) : null;
+      return save?.inProgress["2026-10-09|song"]?.events.length ?? 0;
+    })
     .toBe(1);
 
   await page.reload();
@@ -74,6 +76,25 @@ test("Diário Álbum na digitação: busca pelo artista e acerta", async ({ page
     .filter({ has: page.getByText(album.title, { exact: true }) })
     .click();
   await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
+});
+
+test("áudio indisponível anula a rodada, que fica fora da conta", async ({ page }) => {
+  await open(page, "2026-10-08T12:00:00-03:00", "#musica", dailyAnswer("2026-10-08", "song", 0));
+  await page.getByRole("button", { name: /^4 opções/ }).click();
+  await page.getByRole("button", { name: "Tocar 1 s" }).click();
+  // O aviso aparece na tela e é anunciado ao leitor de tela (região aria-live).
+  const voided = "Áudio indisponível: esta rodada foi anulada e não conta.";
+  await expect(page.locator("p:not(.sr-only)", { hasText: voided })).toBeVisible();
+  await expect(page.locator(".sr-only[aria-live]")).toHaveText(voided);
+  await page.getByRole("button", { name: "Próxima rodada" }).click();
+
+  // As outras duas rodadas tocam normalmente.
+  for (const next of ["Próxima rodada", "Ver resultado"]) {
+    await page.getByRole("button", { name: "Não sei" }).click();
+    await page.getByRole("button", { name: next }).click();
+  }
+  await expect(page.getByText("Rodada 1: anulada")).toBeVisible();
+  await expect(page.getByText("0 de 12 pontos")).toBeVisible();
 });
 
 test.describe("a virada é à meia-noite de Brasília, não no fuso do navegador (Tóquio)", () => {

@@ -9,12 +9,13 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz com `-
 | `src/core/` | Lógica pura do jogo: tipos, catálogo, normalização, PRNG, datas, regras, reducer (`createRounds`), save (`records`), estatísticas, compartilhar, busca do autocompletar por alvo (`search`, `kana`), Treino (`practice`), rotas das abas (`routes`) |
 | `src/core/generated/` | Tipos gerados de `shared/schema` por `npm run types`. **Nunca à mão** (negado no `settings.json`) |
 | `src/data/` | Carrega catálogo e agenda e escolhe o dia. Sem DOM e sem `import.meta.env`: recebe `fetch` e a URL base |
-| `src/audio/` | Contrato `AudioEngine` e o motor Web Audio |
+| `src/audio/` | Contrato `AudioEngine`, o motor Web Audio e o motor falso (`fake.ts`, só em DEV, dos testes de ponta a ponta) |
 | `src/storage/` | Save no localStorage (`save.ts`, com o `sessionStore` da sessão) e migrações. Sem DOM: recebe um `KeyValueStore` |
 | `src/i18n/` | Todos os textos de tela (`pt-BR.ts`), `t()` tipado por chave e `tn()` para plural |
 | `src/ui/` | Componentes Preact: `App` (carga, save vivo, abas), `Game` (um diário por alvo), `Practice` (Treino), `RoundView` (uma rodada, do diário ou do Treino), `ModePicker`, `Player`, `Options` (4 opções, com `Cover` no Álbum), `GuessInput` e `Attempts` (digitação), `Reveal`, `Summary` com `Stats`, `ShareButton` e `Countdown`; ganchos em `hooks.ts`. Testes de componente em `*.test.tsx` |
 | `scripts/` | `gen-types.ts` e `dump-normalize.ts` (ponte do teste cruzado com o Python) |
 | `test/` | Ajudantes de teste que usam o Node (`fs`): vetores e fixtures |
+| `e2e/` | Testes de ponta a ponta (Playwright) e `helpers.ts`; tipos no `tsconfig.e2e.json` |
 
 ## Regras
 
@@ -27,7 +28,7 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz com `-
 7. **Dependências:** versão exata, com 14 dias ou mais de publicada (`.npmrc`, também nas indiretas). Exceção só para patch de segurança com aviso publicado, registrada em `docs/PLANO.md` (P28, P29).
 8. **Textos de tela só via `t()`** (regra inviolável 2).
 9. **Áudio:** `engine.unlock()` (ou `play()`, que o chama) só **dentro de um clique**, antes de qualquer `await`. Contexto criado antes de interação nasce suspenso e suja o console. Falha de áudio despacha `VOID { round: atual }`; falha no pré-carregamento é silenciosa.
-10. **Só em desenvolvimento** (`npm run dev`): `?date=AAAA-MM-DD` troca o dia; `?failAudio=<id da faixa>` simula falha de áudio; `?fakeAudio=1` troca o Web Audio pelo motor falso (`audio/fake.ts`, dos testes de ponta a ponta); `window.__musicleAudioLog` registra pedido × tocado de cada reprodução. Recurso só de DEV confere `import.meta.env.DEV` **no ponto da chamada** (`DEV && ...`): passado como parâmetro, o Vite não consegue tirá-lo do build.
+10. **Só em desenvolvimento** (`npm run dev`): `?date=AAAA-MM-DD` troca o dia; `?failAudio=<id da faixa>` simula falha de áudio; `?fakeAudio=1` troca o Web Audio pelo motor falso (`audio/fake.ts`, dos testes de ponta a ponta); `window.__musicleAudioLog` registra pedido × tocado de cada reprodução. Código que precisa **sair do build** (o motor falso) confere o literal `import.meta.env.DEV` no ponto da chamada (`import.meta.env.DEV && ...`). Recebido como parâmetro (`dev`, caso do `?date` e do `?failAudio`), o código fica no pacote, inofensivo porque `dev` vale `false`.
 11. **Testes de ponta a ponta** (`e2e/`, Playwright): relógio fixo com `page.clock.setFixedTime` antes do `goto` (sem `?date=`), motor falso, fuso do navegador em Tóquio; a resposta certa sai do `__musicleAudioLog` cruzado com o catálogo (`e2e/helpers.ts`). Todo teste falha com erro no console. Tipos no `tsconfig.e2e.json` (DOM e Node), à parte das travas do núcleo e da aplicação.
 12. **Save:** grave só por `updateSave` (relê, mescla e grava, por causa de duas abas) e nunca guarde nada derivado: pontos, máximo e estatísticas saem do `FinishedGame`. O andamento é a lista de eventos aceitos, não o `GameState`. Mudou o formato? Ajuste os guards de `save.ts` e, depois do M10, suba `SAVE_SCHEMA_VERSION` com a migração e um teste.
 13. **"Hoje" é a data do jogo** (`gameDate`), não o relógio: estatísticas, sequência e contagem usam essa data.

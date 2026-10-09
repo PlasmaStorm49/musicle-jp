@@ -12,10 +12,11 @@ on:
 permissions:
   contents: read
 
-# Um push novo no mesmo PR cancela a execução anterior (na main, todas terminam).
+# Um push novo no mesmo PR cancela a execução anterior. Cada push na main tem grupo próprio
+# (run_id): num grupo compartilhado, a execução pendente seria cancelada pela seguinte.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
 
 env:
   PYTHONUTF8: "1"
@@ -35,7 +36,9 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: pipeline/pyproject.toml
+          cache-dependency-path: |
+            pipeline/pyproject.toml
+            pipeline/constraints.txt
       # O teste cruzado Python × TS e o do PRNG rodam o núcleo no Node; sem ele, pulam.
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -45,9 +48,10 @@ jobs:
       # Antes do pytest: o teste do hook formata com o Biome do web/node_modules.
       - run: npm ci --prefix web
       # Sem o extra romaji (250 MB): o teste dele pula e o romanize --check não precisa dele.
-      - run: python -m pip install -e "pipeline[dev]"
+      # Versões exatas, inclusive as indiretas, com 14 dias ou mais (P60).
+      - run: python -m pip install -c pipeline/constraints.txt -e "pipeline[dev]"
       - run: python -m ruff check pipeline .claude/hooks
-      - run: python -m ruff format --check pipeline
+      - run: python -m ruff format --check pipeline .claude/hooks
       - run: python -m pytest pipeline -q
       - run: python -m musicle_pipeline romanize --provider fixture --check
       - run: python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json
@@ -55,12 +59,13 @@ jobs:
         # Valores do evento entram por env, nunca direto no script (injeção de comando).
         env:
           EVENT: ${{ github.event_name }}
-          BASE_REF: ${{ github.base_ref }}
           BEFORE: ${{ github.event.before }}
           CREATED: ${{ github.event.created }}
         run: |
           if [ "$EVENT" = "pull_request" ]; then
-            base="origin/$BASE_REF"
+            # O PR roda no commit de merge de teste: o 1º pai é a base exata do que foi testado
+            # (a ponta da main pode ter andado depois).
+            base="HEAD^1"
           elif [ "$CREATED" != "true" ] && git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
             base="$BEFORE"
           else
@@ -89,6 +94,8 @@ jobs:
       - run: npm run build
       - name: Motor de áudio falso fora do build
         run: |
+          # Sem dist, o grep sairia com erro e o if leria "não achou": a checagem passaria calada.
+          test -d dist || { echo "::error::dist não existe"; exit 1; }
           if grep -rq "musicle-fake-audio" dist; then
             echo "::error::o motor de áudio falso foi parar no build de produção"
             exit 1
@@ -105,14 +112,16 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: pipeline/pyproject.toml
+          cache-dependency-path: |
+            pipeline/pyproject.toml
+            pipeline/constraints.txt
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "24"
           cache: npm
           cache-dependency-path: web/package-lock.json
       # Áudio e capas falsos (fora do Git): as capas aparecem na tela e erro 404 sujaria o console.
-      - run: python -m pip install -e pipeline
+      - run: python -m pip install -c pipeline/constraints.txt -e pipeline
       - run: python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json
       - run: npm ci --prefix web
       - run: npx playwright install --with-deps --only-shell chromium

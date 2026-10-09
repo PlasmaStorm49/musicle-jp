@@ -146,9 +146,10 @@ export function App() {
           }
         : undefined,
     };
-    // DEV no próprio ponto da escolha: no build vira `false && ...`, e o Vite tira o motor falso
-    // do pacote (a CI procura a marca dele no dist).
-    return DEV && fakeAudioEnabled(window.location.search)
+    // O literal import.meta.env.DEV no próprio ponto da escolha: no build vira `false && ...`, e
+    // o Vite tira o motor falso do pacote sem depender de o minificador propagar a constante DEV
+    // (a CI procura a marca dele no dist).
+    return import.meta.env.DEV && fakeAudioEnabled(window.location.search)
       ? new FakeAudioEngine(options)
       : new WebAudioEngine(options);
   }, [load, resolveUrl]);

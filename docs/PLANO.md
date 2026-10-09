@@ -24,6 +24,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P24 | O Diário Álbum aceita singles, em definitivo |
 | P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
 | P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2 |
+| P60 | A regra da P28 vale também para o Python (M9): versões exatas de tudo, diretas e indiretas, em `pipeline/constraints.txt`, e o `setuptools` do build fixo no `pyproject.toml`. Na adoção, três caíram para a versão anterior: ruff 0.16.9, rpds-py 2026.6.3 e iniconfig 2.3.0 |
 | P31 | Aviso de faixa explícita no player antes de tocar e na revelação |
 | P32 | Romaji menor embaixo do título japonês nas opções |
 | P33 | "Ouvir mais" libera a etapa e toca o trecho maior na hora |
@@ -406,7 +407,7 @@ Implementado no M4 (`web/src/core/`):
 | Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos); schema; bytes idênticos em duas execuções; CLI |
 | Núcleo web | Vitest | Reducer nas 4 combinações; pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Meta: 90% de linhas no `core` |
 | Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7); `RoundView`, `Practice` e `Options` (capas) (M8) |
-| Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; Treino |
+| Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; falha de áudio anula a rodada; virada à meia-noite de Brasília; Treino |
 | Exploratório | Navegador do Claude | Visual, console e cliques durante o desenvolvimento |
 | Lint e formato | Ruff (Python), Biome (TS), `tsc --noEmit` estrito | |
 | Contrato Python × TS | pytest chamando o Node | Teste cruzado (M4): `normalize` e `looseKey` em TS comparados com o Python em todos os 62.034 caracteres do plano básico do Unicode 15.0 e 88.740 strings |
@@ -416,7 +417,7 @@ Implementado no M4 (`web/src/core/`):
 Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`).
 
 - **CI** (`.github/workflows/ci.yml`), em todo PR e push na `main`, sem filtro de caminho (workflow pulado deixaria a checagem obrigatória pendente). Três tarefas, que são as checagens obrigatórias:
-  - **`pipeline`:** Python 3.12 e Node 24 (o teste cruzado e o do PRNG pulam sem Node), `npm ci --prefix web` antes do pytest (o teste do hook usa o Biome), `pip install -e "pipeline[dev]"` (sem o extra `romaji`, cujo teste pula), Ruff, pytest, `romanize --check`, `validate` e `schedule-check`. O checkout tem `fetch-depth: 0`; a agenda é comparada com `origin/<base>` no PR e com o `before` no push (`HEAD^1` em branch novo).
+  - **`pipeline`:** Python 3.12 e Node 24 (o teste cruzado e o do PRNG pulam sem Node), `npm ci --prefix web` antes do pytest (o teste do hook usa o Biome), `pip install -c pipeline/constraints.txt -e "pipeline[dev]"` (versões exatas, P60; sem o extra `romaji`, cujo teste pula), Ruff, pytest, `romanize --check`, `validate` e `schedule-check`. O checkout tem `fetch-depth: 0`; a agenda é comparada, no PR, com o 1º pai do commit de merge de teste (`HEAD^1`, a base exata do que foi testado) e, no push, com o `before` (`HEAD^1` em branch novo). O Ruff cobre também o `.claude/hooks`, com a configuração do pipeline.
   - **`web`:** `npm ci`, `npm run check`, `npm run build` e a conferência de que o motor de áudio falso não está no `dist`.
   - **`e2e`:** `fake-assets`, Chromium do Playwright e `npm run e2e`; o relatório sobe como artefato quando falha.
 - **Segurança da CI:**
@@ -424,7 +425,8 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`).
   - actions pinadas por SHA, com a versão no comentário, e só versões com 14 dias ou mais (a regra da P28 vale também para as actions);
   - `persist-credentials: false`;
   - valores do evento passados por `env:`, nunca direto no script;
-  - `ubuntu-24.04` fixo.
+  - `ubuntu-24.04` fixo;
+  - o `pull_request` roda o `ci.yml` do próprio PR: um PR que mexe em `.github/` pode afrouxar as checagens e ainda assim ficar verde. Leia o diff do workflow antes do merge. O ruleset prende as checagens à origem GitHub Actions (`integration_id`): um status com o mesmo nome vindo de outra origem não vale.
 - **Ponta a ponta** (Playwright, `web/e2e/`): contra o servidor de desenvolvimento, com o motor de áudio falso (`?fakeAudio=1`, só em DEV) e o relógio fixo (`page.clock.setFixedTime`, antes do `goto`), no fuso de Tóquio, para pegar uso da hora local.
 - **Proteção da `main`** por ruleset, sem bypass:
   - PR obrigatório, sem exigir aprovação (dono único);

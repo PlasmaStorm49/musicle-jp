@@ -5,7 +5,10 @@ test("Treino: rodadas seguidas, placar e filtro que vale na próxima rodada", as
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treino");
 
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
-  await option(page, (await lastPlayed(page)).title).click();
+  // O Treino sorteia com crypto, sem semente: a faixa vai no relatório, para reproduzir uma falha.
+  const played = await lastPlayed(page);
+  test.info().annotations.push({ type: "faixa sorteada", description: played.id });
+  await option(page, played.title).click();
   await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
   await expect(page.getByText("6 pontos em 1 rodada")).toBeVisible();
 
