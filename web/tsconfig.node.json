@@ -16,5 +16,11 @@
     "noEmit": true,
     "skipLibCheck": true
   },
-  "include": ["src/core/**/*.ts", "scripts/**/*.ts", "test/**/*.ts", "vite.config.ts"]
+  "include": [
+    "src/core/**/*.ts",
+    "src/data/**/*.ts",
+    "scripts/**/*.ts",
+    "test/**/*.ts",
+    "vite.config.ts"
+  ]
 }

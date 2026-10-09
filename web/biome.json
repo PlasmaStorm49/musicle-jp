@@ -20,7 +20,7 @@
   },
   "overrides": [
     {
-      "includes": ["src/core/**"],
+      "includes": ["src/core/**", "src/data/**"],
       "linter": {
         "rules": {
           "style": {
