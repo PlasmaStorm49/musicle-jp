@@ -94,6 +94,28 @@ describe("loadSave", () => {
     expect(result.notice).toBe("repaired");
   });
 
+  it("modo preferido válido fica, sem aviso (M7, P45)", () => {
+    const data = { ...valid, settings: { answerMode: "typing" } };
+    expect(loadSave(withRaw(JSON.stringify(data)))).toEqual({
+      save: data,
+      writable: true,
+      notice: null,
+    });
+  });
+
+  it.each([
+    ["modo inválido", { answerMode: "piano" }, {}],
+    [
+      "chave extra com modo válido",
+      { answerMode: "typing", theme: "dark" },
+      { answerMode: "typing" },
+    ],
+  ])("preferência com %s: guarda só o que vale e avisa", (_, settings, kept) => {
+    const result = loadSave(withRaw(JSON.stringify({ ...valid, settings })));
+    expect(result.save.settings).toEqual(kept);
+    expect(result.notice).toBe("repaired");
+  });
+
   it("preferência desconhecida na v1 é descartada com aviso de reparo", () => {
     const result = loadSave(withRaw(JSON.stringify({ ...valid, settings: { mode: "typing" } })));
     expect(result.save.settings).toEqual({});

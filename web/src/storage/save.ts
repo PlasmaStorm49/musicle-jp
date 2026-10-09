@@ -7,7 +7,7 @@
 // - um save de versão MAIOR que a nossa (aba antiga, cache) nunca é sobrescrito;
 // - cada gravação relê, mescla e grava: duas abas abertas não apagam um dia terminado.
 import { isValidDate } from "../core/dates.ts";
-import type { FinishedGame, InProgress, SaveV1 } from "../core/records.ts";
+import type { FinishedGame, InProgress, SaveV1, Settings } from "../core/records.ts";
 import { emptySave } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
 import { MAX_STAGE, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
@@ -130,12 +130,8 @@ export function isInProgress(x: unknown): x is InProgress {
  * ausente ou que não é objeto vira vazio, sem levar junto o resto (o histórico vale mais).
  */
 function sanitize(data: Record<string, unknown>): { save: SaveV1; dropped: boolean } {
-  // A v1 não tem preferências: qualquer chave em settings é desconhecida (o M7 muda isto).
-  let dropped =
-    !isRecord(data.settings) ||
-    Object.keys(data.settings).length > 0 ||
-    !isRecord(data.history) ||
-    !isRecord(data.inProgress);
+  const read = readSettings(data.settings);
+  let dropped = read.dropped || !isRecord(data.history) || !isRecord(data.inProgress);
   const history: Record<string, FinishedGame> = {};
   for (const [id, game] of Object.entries(isRecord(data.history) ? data.history : {})) {
     if (isPuzzleId(id) && isFinishedGame(game)) history[id] = game;
@@ -146,7 +142,18 @@ function sanitize(data: Record<string, unknown>): { save: SaveV1; dropped: boole
     if (isPuzzleId(id) && isInProgress(progress)) inProgress[id] = progress;
     else dropped = true;
   }
-  return { save: { schemaVersion: 1, settings: {}, history, inProgress }, dropped };
+  return { save: { schemaVersion: 1, settings: read.settings, history, inProgress }, dropped };
+}
+
+/** Preferências: guarda só o que conhece e vale; o resto conta como descartado (aviso de reparo). */
+function readSettings(x: unknown): { settings: Settings; dropped: boolean } {
+  if (!isRecord(x)) return { settings: {}, dropped: true };
+  const { answerMode, ...others } = x;
+  const valid = isAnswerMode(answerMode);
+  return {
+    settings: valid ? { answerMode } : {},
+    dropped: Object.keys(others).length > 0 || (answerMode !== undefined && !valid),
+  };
 }
 
 // ---- leitura e gravação ----

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  canSkip,
   MAX_POINTS,
   MAX_STAGE,
   MODE_RULES,
@@ -8,6 +9,18 @@ import {
   STAGES,
   secondsAt,
 } from "./rules.ts";
+
+describe("canSkip", () => {
+  it("digitação: pula até a 5ª tentativa; na última, só desistir (o pulo daria +0 s)", () => {
+    expect(canSkip(MODE_RULES.typing, 0)).toBe(true);
+    expect(canSkip(MODE_RULES.typing, 4)).toBe(true);
+    expect(canSkip(MODE_RULES.typing, 5)).toBe(false);
+  });
+
+  it("4 opções nunca pula", () => {
+    expect(canSkip(MODE_RULES.choice, 0)).toBe(false);
+  });
+});
 
 describe("etapas", () => {
   it("seguem a progressão do Heardle", () => {

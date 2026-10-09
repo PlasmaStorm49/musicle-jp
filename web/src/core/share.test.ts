@@ -42,6 +42,19 @@ describe("shareGrid", () => {
     };
     expect(shareGrid(typing)).toEqual(["❌⬛✅", "⬛❌", "❌❌⬛❌⬛❌"]);
   });
+
+  it("digitação: 6 pulos ficam só ⬛; desistir sem tentar é um ❌", () => {
+    const typing: FinishedGame = {
+      answerMode: "typing",
+      number: 1,
+      rounds: [
+        { status: "lost", stage: 5, attempts: ["skip", "skip", "skip", "skip", "skip", "skip"] },
+        { status: "lost", stage: 0, attempts: [] },
+        { status: "void", stage: 0, attempts: [] },
+      ],
+    };
+    expect(shareGrid(typing)).toEqual(["⬛⬛⬛⬛⬛⬛", "❌", "⬜"]);
+  });
 });
 
 describe("shareText", () => {

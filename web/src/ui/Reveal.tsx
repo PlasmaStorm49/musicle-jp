@@ -2,15 +2,18 @@ import { useEffect, useRef } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import { type RoundState, roundScore } from "../core/reducer.ts";
-import type { Target } from "../core/types.ts";
+import type { AnswerMode, Target } from "../core/types.ts";
 import { optionView, revealView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
+import { Attempts } from "./Attempts.tsx";
 import { ItemLabel } from "./ItemLabel.tsx";
 
 type Props = {
   readonly index: CatalogIndex;
   readonly round: RoundState;
   readonly target: Target;
+  /** 4 opções mostra as opções marcadas; digitação, a lista de tentativas. */
+  readonly answerMode: AnswerMode;
   readonly engine: AudioEngine;
   readonly resolveUrl: (url: string) => string;
   readonly isLast: boolean;
@@ -18,7 +21,16 @@ type Props = {
 };
 
 /** Depois do palpite: certo e errado (cor e texto), cartão da faixa e a prévia inteira (P34). */
-export function Reveal({ index, round, target, engine, resolveUrl, isLast, onNext }: Props) {
+export function Reveal({
+  index,
+  round,
+  target,
+  answerMode,
+  engine,
+  resolveUrl,
+  isLast,
+  onNext,
+}: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   const won = round.status === "won";
   const picked = round.attempts.filter((a) => a.kind === "guess").at(-1);
@@ -35,22 +47,26 @@ export function Reveal({ index, round, target, engine, resolveUrl, isLast, onNex
         {won ? t("reveal.won", { points: roundScore(round) }) : t("reveal.lost")}
       </h2>
 
-      <ul class="options done">
-        {round.options.map((id) => {
-          const item = optionView(index, id, target);
-          const isCorrect = round.accepted.includes(id);
-          const isPicked = id === pickedId;
-          const tag = isCorrect ? t("reveal.correct") : isPicked ? t("reveal.yourPick") : null;
-          return (
-            item && (
-              <li key={id} class={isCorrect ? "correct" : isPicked ? "wrong" : ""}>
-                <ItemLabel item={item} />
-                {tag && <span class="tag">{tag}</span>}
-              </li>
-            )
-          );
-        })}
-      </ul>
+      {answerMode === "typing" ? (
+        <Attempts index={index} round={round} target={target} />
+      ) : (
+        <ul class="options done">
+          {round.options.map((id) => {
+            const item = optionView(index, id, target);
+            const isCorrect = round.accepted.includes(id);
+            const isPicked = id === pickedId;
+            const tag = isCorrect ? t("reveal.correct") : isPicked ? t("reveal.yourPick") : null;
+            return (
+              item && (
+                <li key={id} class={isCorrect ? "correct" : isPicked ? "wrong" : ""}>
+                  <ItemLabel item={item} />
+                  {tag && <span class="tag">{tag}</span>}
+                </li>
+              )
+            );
+          })}
+        </ul>
+      )}
 
       {track && (
         <article class="card">

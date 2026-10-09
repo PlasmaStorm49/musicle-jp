@@ -3,12 +3,14 @@ import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import {
   type FinishedGame,
+  lockedMode,
   puzzleId,
   replaceProgress,
   type SaveV1,
   startSession,
   toFinishedGame,
   withFinished,
+  withModeChoice,
   withProgress,
 } from "../core/records.ts";
 import {
@@ -18,11 +20,13 @@ import {
   isFinished,
   reduce,
 } from "../core/reducer.ts";
-import { ROUNDS_PER_DAY } from "../core/rules.ts";
-import type { Day } from "../core/types.ts";
+import { canSkip, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
+import type { AnswerMode, Day } from "../core/types.ts";
 import { revealView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
+import { Attempts } from "./Attempts.tsx";
+import { ModePicker } from "./ModePicker.tsx";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
 import { Reveal } from "./Reveal.tsx";
@@ -91,16 +95,20 @@ function playReducer(played: Played, event: GameEvent): Played {
   return game === played.game ? played : { game, events: [...played.events, event] };
 }
 
-/** O Diário Música no modo 4 opções. Dia já terminado mostra direto o resultado (P39). */
+/**
+ * O Diário Música. Dia sem começar pede o modo (P13, P45); dia começado retoma no modo salvo;
+ * dia terminado mostra direto o resultado (P39).
+ */
 export function Game(props: Props) {
   const { day, date, index, initialSave, store, announce } = props;
   const id = puzzleId(date, "song");
+  const [mode, setMode] = useState<AnswerMode | null>(() => lockedMode(initialSave, id));
   const session = useMemo(
-    () => startSession(initialSave, day, date, "song", "choice", index),
-    [initialSave, day, date, index],
+    () => (mode === null ? null : startSession(initialSave, day, date, "song", mode, index)),
+    [initialSave, day, date, index, mode],
   );
   const start = useMemo(
-    () => (session.kind === "playing" ? { game: session.state, events: session.events } : null),
+    () => (session?.kind === "playing" ? { game: session.state, events: session.events } : null),
     [session],
   );
 
@@ -121,7 +129,7 @@ export function Game(props: Props) {
   // foi para o histórico, ou ter descartado eventos (catálogo novo) que impediriam gravar os
   // próximos, já que vence a lista mais longa.
   useEffect(() => {
-    if (!store) return;
+    if (!store || !session) return;
     if (session.kind === "finished" && !initialSave.history[id]) {
       report(updateSave(store, (s) => withFinished(s, id, session.game)));
     } else if (session.kind === "playing" && session.stale) {
@@ -130,10 +138,28 @@ export function Game(props: Props) {
     }
   }, [session, store, id, initialSave, report]);
 
+  // Grava a escolha e relê: se outra aba já começou o dia, vale o modo dela (P13).
+  const choose = useCallback(
+    (chosen: AnswerMode) => {
+      if (!store) return setMode(chosen);
+      report(updateSave(store, (s) => withModeChoice(s, id, chosen)));
+      setMode(lockedMode(loadSave(store).save, id) ?? chosen);
+    },
+    [store, id, report],
+  );
+
   return (
     <>
       {saveNotice && <p class="notice">{saveNotice}</p>}
-      {session.kind === "finished" && <DaySummary {...props} game={session.game} />}
+      {session === null && (
+        <div class="game">
+          <header>
+            <h1>{t("game.header", { number: day.number })}</h1>
+          </header>
+          <ModePicker preferred={initialSave.settings.answerMode} onChoose={choose} />
+        </div>
+      )}
+      {session?.kind === "finished" && <DaySummary {...props} game={session.game} />}
       {start && <Playing {...props} start={start} report={report} />}
     </>
   );
@@ -192,6 +218,15 @@ function Playing({
   if (summary) return <DaySummary {...props} game={summary} />;
 
   const track = revealView(index, round.trackId);
+  const rules = MODE_RULES[game.answerMode];
+  // Próxima tentativa, contando a que acabou de ser gasta (para os anúncios de pulo e erro).
+  const attemptLabel = (used: number) => ({ current: used + 1, total: rules.maxAttempts });
+
+  function giveUp() {
+    engine.stop();
+    dispatch({ type: "GIVE_UP" });
+  }
+
   return (
     <div class="game">
       <header>
@@ -208,25 +243,39 @@ function Playing({
             offset={preview.startSec}
             stage={round.stage}
             explicit={track?.explicit ?? false}
+            rules={rules}
+            skippable={canSkip(rules, round.attempts.length)}
             onListenMore={() => dispatch({ type: "LISTEN_MORE" })}
+            onSkip={() => {
+              dispatch({ type: "SKIP" });
+              announce(t("typing.skipped", attemptLabel(round.attempts.length + 1)));
+            }}
             onAudioError={() => {
               dispatch({ type: "VOID", round: game.current, reason: "audio" });
               announce(t("void.message"));
             }}
           />
-          <Options
-            index={index}
-            round={round}
-            target={game.target}
-            onPick={(id) => {
-              engine.stop();
-              dispatch({ type: "GUESS", guessId: id });
-            }}
-            onGiveUp={() => {
-              engine.stop();
-              dispatch({ type: "GIVE_UP" });
-            }}
-          />
+          {game.answerMode === "choice" ? (
+            <Options
+              index={index}
+              round={round}
+              target={game.target}
+              onPick={(id) => {
+                engine.stop();
+                dispatch({ type: "GUESS", guessId: id });
+              }}
+              onGiveUp={giveUp}
+            />
+          ) : (
+            <section class="typing" aria-labelledby="question">
+              <h2 id="question">{t("game.question")}</h2>
+              <p class="hint">{t("typing.attempt", attemptLabel(round.attempts.length))}</p>
+              <Attempts index={index} round={round} target={game.target} />
+              <button type="button" class="link" onClick={giveUp}>
+                {t("typing.giveUp")}
+              </button>
+            </section>
+          )}
         </>
       )}
 
@@ -245,6 +294,7 @@ function Playing({
           index={index}
           round={round}
           target={game.target}
+          answerMode={game.answerMode}
           engine={engine}
           resolveUrl={resolveUrl}
           isLast={isLast}

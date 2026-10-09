@@ -30,6 +30,14 @@ export const MODE_RULES: Readonly<Record<AnswerMode, ModeRules>> = {
   typing: { maxAttempts: MAX_POINTS, wrongGuess: "advance", listenMore: false, skip: true },
 };
 
+/**
+ * O botão "Pular" aparece? Só no modo que pula e enquanto sobra tentativa depois do pulo: na
+ * última, pular daria o mesmo que desistir (0 ponto) e "+0 s" de trecho.
+ */
+export function canSkip(rules: ModeRules, attemptsUsed: number): boolean {
+  return rules.skip && attemptsUsed + 1 < rules.maxAttempts;
+}
+
 /** Segundos que o jogador pode ouvir na etapa `stage`. */
 export function secondsAt(stage: number): number {
   return STAGES[Math.min(Math.max(stage, 0), MAX_STAGE)] ?? STAGES[0];

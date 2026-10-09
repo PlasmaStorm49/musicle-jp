@@ -4,6 +4,7 @@ import { indexCatalog } from "./catalog.ts";
 import {
   emptySave,
   type FinishedGame,
+  lockedMode,
   pruneProgress,
   puzzleId,
   recordMax,
@@ -13,6 +14,7 @@ import {
   startSession,
   toFinishedGame,
   withFinished,
+  withModeChoice,
   withProgress,
 } from "./records.ts";
 import { type GameEvent, reduce } from "./reducer.ts";
@@ -186,6 +188,27 @@ describe("mescla de saves (duas abas)", () => {
   it("término já gravado e sem andamento: devolve o mesmo save (não regrava)", () => {
     const first = withFinished(saveWith([]), ID, done);
     expect(withFinished(first, ID, done)).toBe(first);
+  });
+
+  it("withModeChoice grava a preferência e trava o modo com um andamento vazio", () => {
+    const save = withModeChoice(emptySave(), ID, "typing");
+    expect(save.settings).toEqual({ answerMode: "typing" });
+    expect(save.inProgress[ID]).toEqual({ answerMode: "typing", events: [] });
+    expect(lockedMode(save, ID)).toBe("typing");
+    expect(withModeChoice(save, ID, "typing")).toBe(save);
+  });
+
+  it("withModeChoice não troca o modo de um dia que outra aba já começou ou terminou", () => {
+    const started = withModeChoice(emptySave(), ID, "choice");
+    const other = withModeChoice(started, ID, "typing");
+    expect(other.inProgress[ID]?.answerMode).toBe("choice");
+    expect(other.settings.answerMode).toBe("typing"); // a preferência vale para os próximos dias
+    expect(lockedMode(other, ID)).toBe("choice");
+
+    const finished = { ...emptySave(), history: { [ID]: done } };
+    expect(withModeChoice(finished, ID, "typing").inProgress).toEqual({});
+    expect(lockedMode(finished, ID)).toBe("choice");
+    expect(lockedMode(emptySave(), ID)).toBeNull();
   });
 
   it("replaceProgress troca até por uma lista mais curta, mas não mexe em dia terminado", () => {

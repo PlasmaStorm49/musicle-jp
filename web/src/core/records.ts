@@ -32,10 +32,15 @@ export type InProgress = {
   readonly events: readonly GameEvent[];
 };
 
+/** Preferências do jogador. */
+export type Settings = {
+  /** O último modo de resposta escolhido: vem marcado na escolha do dia seguinte (P45). */
+  readonly answerMode?: AnswerMode;
+};
+
 export type SaveV1 = {
   readonly schemaVersion: 1;
-  /** Preferências (o M7 grava aqui o modo de resposta preferido). */
-  readonly settings: Readonly<Record<string, never>>;
+  readonly settings: Settings;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
 };
@@ -139,6 +144,29 @@ export function withFinished(save: SaveV1, id: PuzzleId, game: FinishedGame): Sa
     ...save,
     history: save.history[id] ? save.history : { ...save.history, [id]: game },
     inProgress,
+  };
+}
+
+/** Modo travado do dia: o do resultado ou o do andamento; null se o dia ainda não começou. */
+export function lockedMode(save: SaveV1, id: PuzzleId): AnswerMode | null {
+  return save.history[id]?.answerMode ?? save.inProgress[id]?.answerMode ?? null;
+}
+
+/**
+ * Escolha do modo antes da rodada 1 (P13, P45). Grava a preferência e trava o modo com um
+ * andamento vazio, para recarregar antes do 1º evento voltar no mesmo modo. Se o dia já tem
+ * andamento ou resultado (outra aba escolheu antes), o modo dele fica: só a preferência muda.
+ */
+export function withModeChoice(save: SaveV1, id: PuzzleId, answerMode: AnswerMode): SaveV1 {
+  const settings =
+    save.settings.answerMode === answerMode ? save.settings : { ...save.settings, answerMode };
+  if (lockedMode(save, id)) {
+    return settings === save.settings ? save : { ...save, settings };
+  }
+  return {
+    ...save,
+    settings,
+    inProgress: { ...save.inProgress, [id]: { answerMode, events: [] } },
   };
 }
 
