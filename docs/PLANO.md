@@ -29,6 +29,12 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P33 | "Ouvir mais" libera a etapa e toca o trecho maior na hora |
 | P34 | A revelação toca o preview inteiro |
 | P35 | Tema escuro fica para a ME7 |
+| P36 | Distratores não repetem artista nem título entre si (`similarity.py`); os dias já gravados não mudam |
+| P38 | Sequência = dias seguidos com o diário terminado |
+| P39 | Dia terminado abre direto no resultado (estatísticas, compartilhar e contagem), sem jogar de novo |
+| P40 | Dia sem agenda não quebra a sequência |
+| P41 | Média e distribuição com pontos brutos; dia todo anulado fica fora delas, mas conta em jogos e na sequência |
+| P42 | Compartilhar com formas, não só cores: ⬛ ouvir mais, ✅ acerto, ❌ erro, ⬜ anulada |
 
 ## 3. Fonte de dados (usada só no M11)
 
@@ -62,7 +68,7 @@ musicle-jp/
              src/core/     TS puro, sem DOM, Preact ou áudio
              src/data/     carrega catálogo e agenda
              src/audio/    engine, webaudio, htmlaudio, fake
-             src/storage/  storage, migrations
+             src/storage/  save, migrations
              src/i18n/     pt-BR, t
              src/ui/       App, screens, components
              public/data/      catálogo real (gerado)
@@ -90,7 +96,7 @@ musicle-jp/
 | M3 | Concluído em 08/10/2026 | WAV e SVG falsos (`fake-assets`), PRNG, `similarity`, agenda, `schedule-check` | 61 dias gerados sem afrouxar regra; regerar não altera dia existente | Hooks (formatador), regras de negação |
 | M4 | Concluído em 08/10/2026 | Vite + TS + Preact + Biome + Vitest; `core` com reducer de Música com 4 opções | Vetores passam em Python e TS; testes da virada de dia | Skill de projeto `/verificar`, TDD |
 | M5 | Concluído em 08/10/2026 | 1ª tela jogável: Diário Música com 4 opções, Web Audio, barra segmentada | Dia completo jogado no navegador, console limpo | Pré-visualização no navegador (`launch.json`) |
-| M6 | | Persistência, estatísticas, retomada, compartilhar, contagem regressiva | Recarregar no meio retoma; storage corrompido não quebra | Subagente `revisor` + `/code-review` |
+| M6 | Concluído em 09/10/2026 | Persistência, estatísticas, retomada, compartilhar, contagem regressiva | Recarregar no meio retoma; storage corrompido não quebra | Subagente `revisor` + `/code-review` |
 | M7 | | Digitação com autocompletar (kana, kanji, romaji, alias, teclado, ARIA) | Busca acha por todas as grafias | Git worktree, sessão paralela |
 | M8 | | Alvo Álbum + modo Treino | As 4 combinações jogáveis | 2º worktree, merge e conflito |
 | M9 | | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review` |
@@ -115,7 +121,7 @@ musicle-jp/
 
 - P16. Nome público do jogo (evitar "Musicle" no nome). Bloqueia o M10.
 - P25. A agenda real (M11, em `public/data/`, com IDs da Apple) precisa do próprio `epoch`: a data de estreia pública. Bloqueia o M11.
-- P36. Achado no M5: dois distratores podem ter o mesmo título entre si (dia 1, rodada 2: 夜明けのメロディ de ナナ e 夜明けのメロディ (TV Size) de ミナト). A resposta não fica ambígua, mas confunde. Correção no `similarity.py`: diversificar por título além de artista. Os dias já gravados não mudam (agenda só cresce).
+- P44. Achado do revisor no M6: um dia que só entrou na agenda depois (Action parada por mais de 21 dias) quebra a sequência, contra a P40. Opções: (a) o pipeline não gera dia anterior a `--today` e o `validate` passa a aceitar buraco; (b) o schema marca o dia gerado atrasado e as estatísticas o ignoram. Recomendação: decidir no M10, quando a Action existir. Bloqueia o M10.
 
 **Sugestões**
 
@@ -315,12 +321,34 @@ Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece
 
 ## Apêndice F. Persistência e compartilhamento
 
+Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `core/share.ts`).
+
 - **Chave:** `musicle-jp:save`. O prefixo é obrigatório porque todos os sites de projeto em `<usuario>.github.io` compartilham o mesmo localStorage.
-- **Conteúdo:** `{ schemaVersion, settings, history, inProgress }`. Exemplo de chave do histórico: `history["2026-11-01|song"]`.
-- **Estatísticas:** calculadas do histórico por função pura (jogos, média, distribuição de 0 a 18, sequência atual e melhor). Nada derivado é gravado.
-- **Tolerância a falha:** leitura em `try/catch` com validação por type guards; JSON ilegível é copiado para `musicle-jp:corrupt:<data>` e o jogo recomeça; versão maior que a suportada não é sobrescrita; escrita protegida contra cota cheia e modo privado. Migrações em `migrations.ts`, uma função por versão.
-- **Retomada:** `inProgress` de outro dia, ou que não bate com a agenda, é descartado.
-- **Compartilhar:** texto montado em `core/share.ts` (função pura com teste de snapshot). Uma linha por rodada: ⬛ pulo ou "ouvir mais", 🟥 erro, 🟩 acerto. Inclui número do dia, alvo, tipo de resposta, pontos e URL, nunca o título. Usa `navigator.clipboard.writeText`, com textarea selecionada como reserva.
+- **Conteúdo (`SaveV1`):** `{ schemaVersion: 1, settings, history, inProgress }`, os dois mapas por `"2026-10-08|song"`.
+  - `history`: o `FinishedGame` de cada dia, `{ answerMode, number, rounds: [{ status, stage, attempts }] }`. Pontos e máximo saem de `status` e `stage`; nada derivado é gravado.
+  - `inProgress`: `{ answerMode, events }`, só os eventos que o reducer aceitou.
+  - `settings` fica vazio até o M7.
+- **Retomada por eventos:** `startSession` repete os eventos sobre o jogo novo do dia. Como o reducer é puro, recarregar retoma igual, inclusive rodada anulada. Se a repetição chegar ao fim, o jogo vira histórico. Se ela descartar eventos (catálogo novo no mesmo dia), a sessão sai com `stale` e a aba regrava a lista aceita com `replaceProgress`; sem isso, a regra da lista mais longa impediria gravar os próximos eventos.
+- **Virada do dia:** ao abrir, o `inProgress` de outros dias é descartado. Quem começou o dia D com a aba aberta termina o dia D, mas recarregar depois da meia-noite perde esse andamento.
+- **Tolerância a falha:**
+  - `openStore` testa o armazenamento só com uma **leitura**; se ela lançar ou o armazenamento não existir, o jogo segue em memória, com aviso. A sonda não grava: com a cota cheia, o save que já existe ainda é lido (dia terminado continua terminado).
+  - JSON ilegível ou fora da forma: o texto original vai para `musicle-jp:corrupt` (só se a chave estiver vazia) e o jogo recomeça. Entrada inválida dentro de um save bom é descartada sozinha; mapa ausente vira vazio sem levar o histórico junto.
+  - Versão maior que a suportada: não é sobrescrita; o jogo segue sem salvar, com aviso.
+  - Falha ao gravar: `updateSave` devolve o motivo (`full`, `future` ou `unavailable`), e a tela mostra o aviso certo uma vez, visível e na região `aria-live`.
+  - Migrações em `storage/migrations.ts`, uma função por versão (vazio na v1).
+- **Duas abas:** `updateSave` relê, mescla e grava. No histórico, o primeiro término vence; no andamento do mesmo jogo, vence a lista de eventos mais longa. O resumo relê o save, então mostra o resultado que ficou gravado. **Limitação aceita:** com duas abas dá para refazer uma rodada (uma erra e vê a resposta, a outra acerta); o jogo é pessoal e não há ranking.
+- **Estatísticas:** função pura sobre o histórico, por alvo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Limite da P40:** a agenda é contígua, então um dia que faltou (Action parada por mais de 21 dias) entra depois, quando o pipeline preenche o atraso, e quebra a sequência de quem não pôde jogá-lo (P44).
+- **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no modo 4 opções, um ⬛ por "ouvir mais" e depois ✅ ou ❌. Exemplo:
+  ```
+  musicle-jp · Diário Música nº 1 · 4 opções
+  11/18
+  ✅
+  ❌
+  ⬛✅
+  https://<usuario>.github.io/musicle-jp/
+  ```
+  `navigator.clipboard.writeText` é chamado dentro do clique; sem ele (fora de HTTPS), aparece um campo só de leitura com o texto selecionado.
+- **Contagem regressiva:** mira `startOfDayInZone(addDays(data do jogo, 1))` e recalcula pelo relógio a cada segundo e quando a aba volta a ficar visível. Ao zerar, oferece "Jogar o novo desafio".
 
 ## Apêndice G. Organização do código TS
 
@@ -332,8 +360,8 @@ Implementado no M4 (`web/src/core/`):
 - **Regras por modo** em `MODE_RULES` (`rules.ts`): palpites, o que um erro faz, se pode ouvir mais ou pular. Pontos = 6 − etapa nos dois modos.
 - **Rodada anulada** (`void`): nasce assim se a resposta sumiu ou perdeu a elegibilidade; sai do total (P27).
 - **Tipos** do contrato gerados de `shared/schema` (`npm run types`).
-- **UI:** `useReducer` do Preact recebe o reducer do `core` diretamente (M5).
-- **i18n:** `pt-BR.ts` exporta um objeto de textos; `t(chave, parâmetros)` é tipado por `keyof`. Plural com `Intl.PluralRules('pt-BR')` quando aparecer o primeiro texto com plural.
+- **UI:** `useReducer` do Preact recebe o reducer do `core` (M5), embrulhado no M6 pelo `playReducer` do `Game.tsx`, que guarda também a lista de eventos aceitos para o save.
+- **i18n:** `pt-BR.ts` exporta um objeto de textos; `t(chave, parâmetros)` é tipado por `keyof`. Plural com `tn(chave, n)` sobre chaves `.one` e `.other` (M6): usa `Intl.PluralRules('pt-BR')`, mas força o zero no plural, porque o `Intl` diz "one" para 0 em português ("0 ponto").
 
 ## Apêndice H. Testes e qualidade
 
