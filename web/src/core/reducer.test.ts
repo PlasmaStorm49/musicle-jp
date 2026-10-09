@@ -115,9 +115,14 @@ describe("modo 4 opções", () => {
   });
 
   it("anular (falha de áudio) encerra como void", () => {
-    const game = reduce(song(), { type: "VOID", reason: "audio" });
+    const game = reduce(song(), { type: "VOID", round: 0, reason: "audio" });
     expect(round(game).status).toBe("void");
     expect(round(game).voidReason).toBe("audio");
+  });
+
+  it("anular outra rodada que não a atual é ignorado (falha de pré-carregamento)", () => {
+    const start = song();
+    expect(reduce(start, { type: "VOID", round: 1, reason: "audio" })).toBe(start);
   });
 
   it("avança de rodada só depois de encerrar", () => {
@@ -165,7 +170,7 @@ describe("eventos inválidos devolvem o mesmo objeto", () => {
       { type: "GUESS", guessId: day.song[0].answer },
       { type: "LISTEN_MORE" },
       { type: "GIVE_UP" },
-      { type: "VOID", reason: "audio" },
+      { type: "VOID", round: 0, reason: "audio" },
     ] as const) {
       expect(reduce(ended, event)).toBe(ended);
     }
@@ -219,7 +224,7 @@ describe("pontuação do dia (P27)", () => {
       song(),
       { type: "GUESS", guessId: day.song[0].answer },
       { type: "NEXT_ROUND" },
-      { type: "VOID", reason: "audio" },
+      { type: "VOID", round: 1, reason: "audio" },
       { type: "NEXT_ROUND" },
       { type: "GIVE_UP" },
     );

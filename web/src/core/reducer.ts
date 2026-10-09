@@ -42,7 +42,8 @@ export type GameEvent =
   | { readonly type: "LISTEN_MORE" }
   | { readonly type: "SKIP" }
   | { readonly type: "GIVE_UP" }
-  | { readonly type: "VOID"; readonly reason: string }
+  /** Anula a rodada `round` (ex.: falha de áudio). Ignorado se não for a rodada atual. */
+  | { readonly type: "VOID"; readonly round: number; readonly reason: string }
   | { readonly type: "NEXT_ROUND" };
 
 /** Monta o jogo do dia. Rodada cuja resposta sumiu ou deixou de ser elegível nasce anulada. */
@@ -130,6 +131,9 @@ export function reduce(state: GameState, event: GameEvent): GameState {
     case "GIVE_UP":
       return withRound(state, { ...round, status: "lost" });
     case "VOID":
+      // Uma falha de áudio que chega atrasada (pré-carregamento de outra rodada) não pode
+      // anular a rodada em jogo.
+      if (event.round !== state.current) return state;
       return withRound(state, { ...round, status: "void", voidReason: event.reason });
   }
 }
