@@ -94,7 +94,7 @@ musicle-jp/
 
 ## 5. Marcos
 
-**Ritual de cada marco:** modo de planejamento → aprovação → implementação → `/verificar` → revisar diff → commit.
+**Ritual de cada marco:** modo de planejamento → aprovação → branch do marco → implementação → `/verificar` → revisar diff → commits → PR → `pipeline`, `web` e `e2e` verdes → merge commit. Até o M8, o commit ia direto na `main`; desde o M9, o ruleset só aceita PR.
 
 | Marco | Estado | Entrega | Pronto quando | Recurso do Claude Code |
 |---|---|---|---|---|
@@ -107,7 +107,7 @@ musicle-jp/
 | M6 | Concluído em 09/10/2026 | Persistência, estatísticas, retomada, compartilhar, contagem regressiva | Recarregar no meio retoma; storage corrompido não quebra | Subagente `revisor` + `/code-review` |
 | M7 | Concluído em 09/10/2026 | Digitação com autocompletar (kana, kanji, romaji, alias, teclado, ARIA) | Busca acha por todas as grafias | Git worktree, sessão paralela |
 | M8 | Concluído em 09/10/2026 | Alvo Álbum + modo Treino | As 4 combinações jogáveis | 2º worktree, merge e conflito |
-| M9 | | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review` |
+| M9 | Concluído em 09/10/2026 | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review`, ferramentas de PR do app (Auto-fix) |
 | M10 | | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions |
 | M11 | | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
 
@@ -147,6 +147,10 @@ musicle-jp/
 - ME6. App do Claude no GitHub para revisar PR.
 - ME7. Tema escuro e revisão de acessibilidade.
 - ME8. Tolerância a erro de digitação (distância de edição) no autocompletar.
+- ME9. Partículas `は` e `へ` lidas como "wa" e "e" na consulta em kana, se o cutlet as escrever assim nos títulos reais (Apêndice B, M11).
+- ME10. `actionlint` ou `zizmor` na CI, para revisar o próprio workflow a cada PR (revisor do M9).
+- ME11. Fixar também a versão do `pip` na CI (`/code-review` do M9).
+- ME12. Levar a escolha da revisão base do `schedule-check` do YAML para o Python, com teste (`/code-review` do M9).
 
 ---
 
@@ -432,7 +436,17 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`).
   - PR obrigatório, sem exigir aprovação (dono único);
   - checagens `pipeline`, `web` e `e2e` obrigatórias e atualizadas com a base;
   - só merge commit;
-  - não se apaga nem se reescreve a `main`.
+  - não se apaga nem se reescreve a `main`;
+  - as checagens ficam presas ao GitHub Actions (`integration_id` 15368).
+- **Repositório e Actions** (configurados no M9 por `gh api`):
+  - histórico reescrito antes de publicar (P54, P58): e-mail noreply do GitHub em todos os commits e o perfil genérico no `CLAUDE.md` em todas as versões; backup em bundle, fora do repositório;
+  - só actions do próprio GitHub, com pinagem por SHA obrigatória;
+  - token padrão só de leitura e Actions sem poder de aprovar PR;
+  - PR de colaborador externo só roda a CI depois de aprovado;
+  - só merge commit, com o branch apagado depois do merge.
+- **Critério de pronto conferido** (09/10/2026):
+  - PR #1 (o M9): `pipeline`, `web` e `e2e` verdes; enquanto rodavam, o PR ficou `BLOCKED`; merge commit pela proteção;
+  - PR #2 (demonstração, teste quebrado de propósito no `web`): `web` vermelha e PR `BLOCKED`. O `gh pr merge` foi recusado (`the base branch policy prohibits the merge`), e o `gh pr merge --admin` também (`Repository rule violations found: Required status check "web" is failing`). Fechado sem merge.
 - **Para o M10:**
   - o cron do Actions é em UTC: `0 9 * * 1` dispara segunda às 06:00 de Brasília;
   - push feito com o `GITHUB_TOKEN` não dispara outro workflow, por isso a atualização do catálogo abre PR e o merge humano dispara o deploy;
