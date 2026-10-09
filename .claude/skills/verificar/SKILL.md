@@ -15,13 +15,15 @@ Rode da raiz do repositório, **um comando por vez** (PowerShell 5.1: não use `
 | 4 | Cobertura do romaji | `.venv\Scripts\python -m musicle_pipeline romanize --provider fixture --check` |
 | 5 | Catálogo e agenda | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` |
 | 6 | Agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
-| 7 | Web: Biome, os dois tsconfig, Vitest com cobertura ≥ 90% no núcleo | `npm run check --prefix web` |
+| 7 | Web: Biome, os três tsconfig, Vitest com cobertura ≥ 90% no núcleo | `npm run check --prefix web` |
 | 8 | Web: build de produção | `npm run build --prefix web` |
+| 9 | Ponta a ponta (opcional; a CI sempre roda) | `npm run e2e --prefix web` |
 
 Antes de começar:
 
 - Sem `.venv`: avise o usuário e pare (o ambiente está em `CLAUDE.md`, seção Comandos).
 - Sem `web/node_modules`: rode `npm ci --prefix web` e diga que rodou.
+- Passo 9: precisa do `fake-assets` já rodado e do Chromium do Playwright (`npx --prefix web playwright install chromium`). Sem eles, marque o passo como "não rodado" e diga por quê. Ele reaproveita o servidor da porta 5173, se houver.
 
 ## Relatório
 

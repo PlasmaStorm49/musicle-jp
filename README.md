@@ -43,6 +43,9 @@ Testes:
 
 - pipeline: `.venv/bin/python -m pytest pipeline`
 - web (lint, tipos, testes com cobertura): `npm run check --prefix web`
+- ponta a ponta (Playwright, precisa do `fake-assets`): `npx --prefix web playwright install chromium` uma vez, depois `npm run e2e --prefix web`
+
+A CI do GitHub roda tudo isso em cada PR, e a `main` só aceita merge com as três checagens verdes (`pipeline`, `web` e `e2e`).
 
 ## Licença
 

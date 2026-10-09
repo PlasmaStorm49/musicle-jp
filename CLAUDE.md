@@ -59,6 +59,7 @@ Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` n
 | Só os testes | `npm test --prefix web` |
 | Servidor de desenvolvimento | `npm run dev --prefix web` (porta 5173; precisa do `fake-assets` já rodado). No Claude: pré-visualização `web` do `.claude/launch.json` |
 | Build de produção | `npm run build --prefix web` |
+| Testes de ponta a ponta (Playwright; precisa do `fake-assets` e de `npx --prefix web playwright install chromium` uma vez) | `npm run e2e --prefix web` |
 | Regerar tipos depois de mudar `shared/schema` | `npm run types --prefix web` |
 
 **Verificação completa** (pipeline + web, só relata, não corrige): skill **`/verificar`**.
