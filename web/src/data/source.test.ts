@@ -5,6 +5,7 @@ import {
   DataLoadError,
   type FetchLike,
   failAudioTrack,
+  fakeAudioEnabled,
   gameDate,
   isValidDate,
   loadGameData,
@@ -96,6 +97,14 @@ describe("datas e dias", () => {
   it("?failAudio= só em desenvolvimento", () => {
     expect(failAudioTrack("?failAudio=fixture:tr:tr01", true)).toBe("fixture:tr:tr01");
     expect(failAudioTrack("?failAudio=fixture:tr:tr01", false)).toBeNull();
+  });
+
+  it("?fakeAudio=1 liga o motor falso; qualquer outro valor não", () => {
+    expect(fakeAudioEnabled("?fakeAudio=1")).toBe(true);
+    expect(fakeAudioEnabled("?date=2026-10-08&fakeAudio=1")).toBe(true);
+    expect(fakeAudioEnabled("?fakeAudio=0")).toBe(false);
+    expect(fakeAudioEnabled("?fakeAudio")).toBe(false);
+    expect(fakeAudioEnabled("")).toBe(false);
   });
 
   it("pickDay devolve o dia ou null", async () => {

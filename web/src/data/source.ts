@@ -82,6 +82,15 @@ export function failAudioTrack(search: string, dev: boolean): string | null {
   return dev ? new URLSearchParams(search).get("failAudio") : null;
 }
 
+/**
+ * Só em desenvolvimento (quem chama confere import.meta.env.DEV no próprio ponto, para o Vite
+ * tirar o motor falso do build): ?fakeAudio=1 troca o Web Audio pelo motor falso dos testes de
+ * ponta a ponta, que "toca" na hora e sem som.
+ */
+export function fakeAudioEnabled(search: string): boolean {
+  return new URLSearchParams(search).get("fakeAudio") === "1";
+}
+
 export function pickDay(schedule: Schedule, date: string): Day | null {
   return schedule.days[date] ?? null;
 }

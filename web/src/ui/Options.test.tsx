@@ -8,7 +8,7 @@ import { Options } from "./Options.tsx";
 
 afterEach(cleanup);
 
-// Catálogo mínimo no próprio arquivo (web/CLAUDE.md, regra 13).
+// Catálogo mínimo no próprio arquivo (web/CLAUDE.md, regra 14).
 const track = (n: number): Track => ({
   id: `t:tr:${n}`,
   songKey: `musica${n}|t:ar:1`,

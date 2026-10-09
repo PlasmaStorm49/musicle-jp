@@ -31,7 +31,7 @@ Precisa de Python 3.12, Node.js 24 e Git. Comandos a partir da raiz do repositó
 
 ```bash
 python -m venv .venv
-.venv/bin/python -m pip install -e "pipeline[dev]"   # no Windows: .venv\Scripts\python
+.venv/bin/python -m pip install -c pipeline/constraints.txt -e "pipeline[dev]"   # no Windows: .venv\Scripts\python
 .venv/bin/python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json
 npm ci --prefix web
 npm run dev --prefix web
@@ -43,6 +43,9 @@ Testes:
 
 - pipeline: `.venv/bin/python -m pytest pipeline`
 - web (lint, tipos, testes com cobertura): `npm run check --prefix web`
+- ponta a ponta (Playwright, precisa do `fake-assets`): `npx --prefix web playwright install chromium` uma vez, depois `npm run e2e --prefix web`
+
+A CI do GitHub roda tudo isso em cada PR, e a `main` só aceita merge com as três checagens verdes (`pipeline`, `web` e `e2e`).
 
 ## Licença
 

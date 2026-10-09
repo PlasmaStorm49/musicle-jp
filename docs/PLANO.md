@@ -24,6 +24,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P24 | O Diário Álbum aceita singles, em definitivo |
 | P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
 | P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2 |
+| P60 | A regra da P28 vale também para o Python (M9): versões exatas de tudo, diretas e indiretas, em `pipeline/constraints.txt`, e o `setuptools` do build fixo no `pyproject.toml`. Na adoção, três caíram para a versão anterior: ruff 0.16.9, rpds-py 2026.6.3 e iniconfig 2.3.0 |
 | P31 | Aviso de faixa explícita no player antes de tocar e na revelação |
 | P32 | Romaji menor embaixo do título japonês nas opções |
 | P33 | "Ouvir mais" libera a etapa e toca o trecho maior na hora |
@@ -134,7 +135,7 @@ musicle-jp/
 
 - S5. Ativar o estilo de saída "Learning" ou "Explanatory" nas sessões deste projeto.
 - S6. Registrar cada decisão como ADR em `docs/decisoes/`.
-- S7. A partir do M9, um marco por branch e por PR.
+- S7. A partir do M9, um marco por branch e por PR. (Adotada no M9: a proteção da `main` exige PR.)
 
 **Melhorias futuras**
 
@@ -345,7 +346,8 @@ Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponív
 - **Medido no navegador:** cortes de 1, 2, 4 e 7 s a menos de 10 ms do pedido (a diferença é o atraso do evento `ended`, não do som).
 - Falha de áudio anula a rodada sem penalidade (`VOID { round }`).
 - Barra segmentada com pesos 1, 1, 2, 3, 4 e 5 (total de 16 s), em `core/player.ts`.
-- Pendentes: reserva com `<audio>` (M11, se o CORS da Apple falhar) e motor falso para o Playwright (M9). Nada é gravado em disco (termos da Apple).
+- Motor falso (`audio/fake.ts`, M9): só em desenvolvimento com `?fakeAudio=1`, para os testes de ponta a ponta; "toca" na hora, sem som, e falha na faixa de `?failAudio`. O `DEV` é conferido no ponto da escolha, então o Vite o tira do build (a CI confere).
+- Pendente: reserva com `<audio>` (M11, se o CORS da Apple falhar). Nada é gravado em disco (termos da Apple).
 
 **Áudio sintético (comando `fake-assets`, M3):** só biblioteca padrão. Para cada `preview.url` do catálogo, gera um WAV de 11.025 Hz, 16 bits, mono, com a duração do preview. Toca **uma nota por segundo** da pentatônica de dó, sorteada pelo ID da faixa e sem repetir a anterior: o trecho de 1 s soa como 1 nota e o de 4 s como 4 notas, o que permite conferir o corte de ouvido. Para cada capa, gera um SVG 600×600 com cor pelo hash do ID, título e artista. Só roda com o provedor `fixture`, aceita só URLs `fixtures/(audio|art)/<nome>` e apaga arquivos órfãos. Tudo fora do Git (25,4 MiB de áudio).
 
@@ -405,18 +407,38 @@ Implementado no M4 (`web/src/core/`):
 | Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos); schema; bytes idênticos em duas execuções; CLI |
 | Núcleo web | Vitest | Reducer nas 4 combinações; pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Meta: 90% de linhas no `core` |
 | Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7); `RoundView`, `Practice` e `Options` (capas) (M8) |
-| Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; Treino |
+| Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; falha de áudio anula a rodada; virada à meia-noite de Brasília; Treino |
 | Exploratório | Navegador do Claude | Visual, console e cliques durante o desenvolvimento |
 | Lint e formato | Ruff (Python), Biome (TS), `tsc --noEmit` estrito | |
 | Contrato Python × TS | pytest chamando o Node | Teste cruzado (M4): `normalize` e `looseKey` em TS comparados com o Python em todos os 62.034 caracteres do plano básico do Unicode 15.0 e 88.740 strings |
 
-## Apêndice I. GitHub e CI (confirmar na documentação no M9 e no M10)
+## Apêndice I. GitHub e CI
 
-- O cron do GitHub Actions é em UTC: `0 9 * * 1` dispara segunda-feira às 06:00 de Brasília.
-- Push feito com `GITHUB_TOKEN` não dispara outro workflow. Por isso a atualização do catálogo abre PR, e o merge humano dispara o deploy.
-- Para a Action criar PR, é preciso ativar "Allow GitHub Actions to create and approve pull requests" no repositório.
-- O `schedule-check --base-ref` precisa do histórico: `actions/checkout` com `fetch-depth: 0` e, no push, comparar com `github.event.before`.
-- Instalar o web com `npm ci --prefix web`, que respeita o lockfile e o `.npmrc`.
+Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`).
+
+- **CI** (`.github/workflows/ci.yml`), em todo PR e push na `main`, sem filtro de caminho (workflow pulado deixaria a checagem obrigatória pendente). Três tarefas, que são as checagens obrigatórias:
+  - **`pipeline`:** Python 3.12 e Node 24 (o teste cruzado e o do PRNG pulam sem Node), `npm ci --prefix web` antes do pytest (o teste do hook usa o Biome), `pip install -c pipeline/constraints.txt -e "pipeline[dev]"` (versões exatas, P60; sem o extra `romaji`, cujo teste pula), Ruff, pytest, `romanize --check`, `validate` e `schedule-check`. O checkout tem `fetch-depth: 0`; a agenda é comparada, no PR, com o 1º pai do commit de merge de teste (`HEAD^1`, a base exata do que foi testado) e, no push, com o `before` (`HEAD^1` em branch novo). O Ruff cobre também o `.claude/hooks`, com a configuração do pipeline.
+  - **`web`:** `npm ci`, `npm run check`, `npm run build` e a conferência de que o motor de áudio falso não está no `dist`.
+  - **`e2e`:** `fake-assets`, Chromium do Playwright e `npm run e2e`; o relatório sobe como artefato quando falha.
+- **Segurança da CI:**
+  - token só de leitura (`permissions: contents: read`);
+  - actions pinadas por SHA, com a versão no comentário, e só versões com 14 dias ou mais (a regra da P28 vale também para as actions);
+  - `persist-credentials: false`;
+  - valores do evento passados por `env:`, nunca direto no script;
+  - `ubuntu-24.04` fixo;
+  - o `pull_request` roda o `ci.yml` do próprio PR: um PR que mexe em `.github/` pode afrouxar as checagens e ainda assim ficar verde. Leia o diff do workflow antes do merge. O ruleset prende as checagens à origem GitHub Actions (`integration_id`): um status com o mesmo nome vindo de outra origem não vale.
+- **Ponta a ponta** (Playwright, `web/e2e/`): contra o servidor de desenvolvimento, com o motor de áudio falso (`?fakeAudio=1`, só em DEV) e o relógio fixo (`page.clock.setFixedTime`, antes do `goto`), no fuso de Tóquio, para pegar uso da hora local.
+- **Proteção da `main`** por ruleset, sem bypass:
+  - PR obrigatório, sem exigir aprovação (dono único);
+  - checagens `pipeline`, `web` e `e2e` obrigatórias e atualizadas com a base;
+  - só merge commit;
+  - não se apaga nem se reescreve a `main`.
+- **Para o M10:**
+  - o cron do Actions é em UTC: `0 9 * * 1` dispara segunda às 06:00 de Brasília;
+  - push feito com o `GITHUB_TOKEN` não dispara outro workflow, por isso a atualização do catálogo abre PR e o merge humano dispara o deploy;
+  - para a Action abrir PR é preciso ligar "Allow GitHub Actions to create and approve pull requests", que o M9 deixou desligado;
+  - um PR aberto pelo `GITHUB_TOKEN` espera "Approve workflows to run" antes de rodar as checagens;
+  - um job novo com o nome `pipeline`, `web` ou `e2e` viraria checagem com o mesmo nome.
 
 ## Origem
 

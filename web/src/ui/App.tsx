@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
+import { FakeAudioEngine } from "../audio/fake.ts";
 import { type PlayLog, WebAudioEngine } from "../audio/webaudio.ts";
 import { emptySave, pruneProgress, puzzleId, type SaveV1 } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
 import {
   assetUrl,
   failAudioTrack,
+  fakeAudioEnabled,
   type GameData,
   gameDate,
   loadGameData,
@@ -39,6 +41,8 @@ declare global {
 }
 
 const BASE_URL = new URL(import.meta.env.BASE_URL, window.location.href).href;
+// Para as funções que recebem o modo por parâmetro (gameDate, failAudioTrack). Para tirar código
+// do build, use o literal import.meta.env.DEV no ponto da chamada (web/CLAUDE.md, regra 10).
 const DEV = import.meta.env.DEV;
 
 type Storage = {
@@ -135,15 +139,21 @@ export function App() {
     if (load.status !== "ready") return null;
     const failTrack = failAudioTrack(window.location.search, DEV);
     const failPreview = failTrack ? load.data.index.tracks.get(failTrack)?.preview?.url : null;
-    return new WebAudioEngine({
+    const options = {
       failUrl: failPreview ? resolveUrl(failPreview) : null,
-      onPlayed: DEV
-        ? (log) => {
+      onPlayed: import.meta.env.DEV
+        ? (log: PlayLog) => {
             window.__musicleAudioLog ??= [];
             window.__musicleAudioLog.push(log);
           }
         : undefined,
-    });
+    };
+    // O literal import.meta.env.DEV no próprio ponto da escolha: no build vira `false && ...`, e
+    // o Vite tira o motor falso do pacote sem depender de o minificador propagar a constante DEV
+    // (a CI procura a marca dele no dist).
+    return import.meta.env.DEV && fakeAudioEnabled(window.location.search)
+      ? new FakeAudioEngine(options)
+      : new WebAudioEngine(options);
   }, [load, resolveUrl]);
 
   return (

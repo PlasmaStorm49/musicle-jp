@@ -20,7 +20,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 - Fuso do jogo: `America/Sao_Paulo`.
 - **Hook ativo:** depois de cada `Edit`/`Write`, o `.claude/hooks/format_file.py` ordena os imports e formata o arquivo: `.py` do `pipeline/` com Ruff; `.ts`, `.tsx`, `.json` e `.css` do `web/` com Biome. Releia antes de editar de novo a mesma região.
 - O Node 24 roda `.ts` direto (type stripping); o núcleo do `web/` usa isso no teste cruzado.
-- **Worktrees** (frentes em paralelo, M7 e M8): ficam em `.claude/worktrees/` (ignorada no Git); sem remoto, partem do `HEAD` local. Cada uma precisa de `npm ci --prefix web` (o `node_modules` não é compartilhado). Duas frentes rodando testes ao mesmo tempo pedem memória livre: com pouca, o Git falha com "out of memory" ao criar a worktree. Na worktree, Vitest com `--maxWorkers=2` e nada de servidor de desenvolvimento (a porta 5173 é fixa e o áudio falso não está lá). Para o conflito no merge ser pequeno, combine antes quais trechos e chaves de texto são de cada frente (M8). Depois do merge: `git worktree remove` (com `git worktree unlock` antes, se estiver travada) e `git branch -d`.
+- **Worktrees** (frentes em paralelo, M7 e M8): ficam em `.claude/worktrees/` (ignorada no Git); sem remoto, partem do `HEAD` local. Cada uma precisa de `npm ci --prefix web` (o `node_modules` não é compartilhado). Duas frentes rodando testes ao mesmo tempo pedem memória livre: com pouca, o Git falha com "out of memory" ao criar a worktree. Na worktree, Vitest com `--maxWorkers=2` e nada de servidor de desenvolvimento nem de `npm run e2e`: a porta 5173 é fixa (o e2e reaproveitaria o servidor de outra pasta e testaria outro código) e o áudio sintético do `fake-assets` não está lá. Para o conflito no merge ser pequeno, combine antes quais trechos e chaves de texto são de cada frente (M8). Depois do merge: `git worktree remove` (com `git worktree unlock` antes, se estiver travada) e `git branch -d`.
 
 ## Mapa
 
@@ -30,6 +30,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 | `web/` | TypeScript + Vite + Preact; `src/core/` é a lógica pura do jogo |
 | `shared/` | Schemas JSON e vetores de teste usados pelos dois lados |
 | `docs/` | `PLANO.md` (decisões na seção 2) |
+| `.github/` | CI (`workflows/ci.yml`): as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main` |
 | `.claude/` | Configuração do Claude Code deste projeto |
 
 ## Comandos
@@ -38,9 +39,9 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 
 | Tarefa | Comando |
 |---|---|
-| Preparar o ambiente (uma vez) | `python -m venv .venv` e depois `.venv\Scripts\python -m pip install -e "pipeline[dev,romaji]"` (o extra `romaji` tem 250 MB e só serve ao `romanize`) |
+| Preparar o ambiente (uma vez) | `python -m venv .venv` e depois `.venv\Scripts\python -m pip install -c pipeline/constraints.txt -e "pipeline[dev,romaji]"` (o extra `romaji` tem 250 MB e só serve ao `romanize`; o `constraints.txt` fixa todas as versões, P60) |
 | Testes do pipeline | `.venv\Scripts\python -m pytest pipeline` |
-| Lint e formato | `.venv\Scripts\python -m ruff check pipeline` e `.venv\Scripts\python -m ruff format pipeline` |
+| Lint e formato (o hook segue a configuração do pipeline) | `.venv\Scripts\python -m ruff check pipeline .claude/hooks` e `.venv\Scripts\python -m ruff format pipeline .claude/hooks` |
 | Completar o romaji | `.venv\Scripts\python -m musicle_pipeline romanize --provider fixture` (conferir: `--check`) |
 | Gerar o catálogo falso | `.venv\Scripts\python -m musicle_pipeline build --provider fixture --out web/public/fixtures/catalog.json` |
 | Gerar áudio e capas falsos | `.venv\Scripts\python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json` (fora do Git; rode depois de clonar) |
@@ -59,6 +60,7 @@ Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` n
 | Só os testes | `npm test --prefix web` |
 | Servidor de desenvolvimento | `npm run dev --prefix web` (porta 5173; precisa do `fake-assets` já rodado). No Claude: pré-visualização `web` do `.claude/launch.json` |
 | Build de produção | `npm run build --prefix web` |
+| Testes de ponta a ponta (Playwright; precisa do `fake-assets` e de `npx --prefix web playwright install chromium` uma vez) | `npm run e2e --prefix web` |
 | Regerar tipos depois de mudar `shared/schema` | `npm run types --prefix web` |
 
 **Verificação completa** (pipeline + web, só relata, não corrige): skill **`/verificar`**.
@@ -84,4 +86,4 @@ Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` n
 
 ## Fluxo de cada marco
 
-Modo de planejamento → aprovação → implementação → verificação → revisão do diff → commit. Ao fechar um marco, atualize a coluna "Estado" em `docs/PLANO.md`.
+Modo de planejamento → aprovação → branch do marco → implementação → verificação → revisão do diff → commits → PR → `pipeline`, `web` e `e2e` verdes → merge (merge commit). A `main` só aceita PR (ruleset sem exceção): nada de commit direto nela. Ao fechar um marco, atualize a coluna "Estado" em `docs/PLANO.md`.
