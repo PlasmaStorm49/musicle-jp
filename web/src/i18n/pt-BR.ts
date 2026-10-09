@@ -111,6 +111,20 @@ export const ptBR = {
   "nav.song": "Música",
   "nav.album": "Álbum",
   "nav.done": ", terminado",
+
+  "practice.tab": "Treino",
+  "practice.title": "Treino",
+  "practice.round": "Rodada {number}",
+  "practice.score": "{points} em {rounds}",
+  "practice.rounds.one": "{count} rodada",
+  "practice.rounds.other": "{count} rodadas",
+  "practice.target": "Alvo",
+  "practice.targetSong": "Música",
+  "practice.targetAlbum": "Álbum",
+  "practice.answer": "Resposta",
+  "practice.filtersHint": "Vale a partir da próxima rodada.",
+  "practice.empty":
+    "Não há rodada para sortear agora. As respostas dos diários de hoje voltam ao Treino quando eles terminarem.",
 } as const;
 
 export type MessageKey = keyof typeof ptBR;
