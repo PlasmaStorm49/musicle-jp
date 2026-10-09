@@ -20,6 +20,7 @@ import {
   updateSave,
 } from "../storage/save.ts";
 import { Game } from "./Game.tsx";
+import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
 
 type Load =
   | { readonly status: "loading" }
@@ -90,6 +91,9 @@ export function App() {
   // A última leitura do save, para o ✓ das abas e o Treino. Cada diário recebe a leitura do
   // momento em que a aba abre: voltar à Música terminada mostra o resultado (P39).
   const [latest, setLatest] = useState(saves.save);
+  // A sessão do Treino mora aqui, e não no Practice: trocar de aba e voltar não a zera. Só
+  // na memória (P50): recarregar a página começa outra.
+  const [practice, setPractice] = useState<PracticeSession | null>(null);
   const refresh = useCallback(() => {
     if (!saves.store) return;
     const read = loadSave(saves.store);
@@ -146,7 +150,14 @@ export function App() {
   return (
     <>
       <nav class="tabs" aria-label={t("nav.label")}>
-        <ul>{/* Uma aba por link (#musica, #album, #treino), com aria-current na ativa. */}</ul>
+        <ul>
+          {/* Uma aba por link (#musica, #album, #treino), com aria-current na ativa. */}
+          <li>
+            <a href={ROUTES.practice} aria-current={tab === "practice" ? "page" : undefined}>
+              {t("practice.tab")}
+            </a>
+          </li>
+        </ul>
       </nav>
       <main class="app">
         <p class="sr-only" aria-live="polite">
@@ -181,6 +192,8 @@ export function App() {
             saves={saves}
             latest={latest}
             onSaved={refresh}
+            practice={practice}
+            onPractice={setPractice}
           />
         )}
       </main>
@@ -199,6 +212,9 @@ type ReadyProps = {
   /** A última leitura do save. */
   readonly latest: SaveV1;
   readonly onSaved: () => void;
+  /** A sessão do Treino, guardada no App. */
+  readonly practice: PracticeSession | null;
+  readonly onPractice: PracticeSessionSetter;
 };
 
 /** A tela da aba ativa. Uma por vez: os ids dos títulos (question, result...) não se repetem. */
@@ -212,6 +228,8 @@ function Ready({
   saves,
   latest,
   onSaved,
+  practice,
+  onPractice,
 }: ReadyProps) {
   const day = pickDay(data.schedule, date);
   if (tab === "song" || tab === "album") {
@@ -232,6 +250,21 @@ function Ready({
         onSaved={onSaved}
         scheduleDates={Object.keys(data.schedule.days)}
         shareUrl={BASE_URL}
+      />
+    );
+  }
+  if (tab === "practice") {
+    return (
+      <Practice
+        index={data.index}
+        day={day}
+        date={date}
+        save={latest}
+        engine={engine}
+        resolveUrl={resolveUrl}
+        announce={announce}
+        session={practice}
+        onSession={onPractice}
       />
     );
   }

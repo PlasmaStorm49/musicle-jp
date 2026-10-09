@@ -549,3 +549,77 @@ section.void,
   background: var(--surface);
   border: 1px solid var(--border);
 }
+
+/* Treino */
+.practice .practice-score {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.practice-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+
+.practice-filters fieldset {
+  flex: 1 1 180px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0;
+  padding: 4px 12px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.practice-filters legend {
+  padding: 0 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* Área de toque de 44 px, como os botões. */
+.practice-filters label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.practice-filters input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.practice-filters input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.practice-filters .hint {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.practice-empty {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.practice-empty p {
+  margin: 0;
+}
+
+.practice-empty p:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}

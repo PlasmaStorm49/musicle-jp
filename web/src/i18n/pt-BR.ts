@@ -107,6 +107,20 @@ export const ptBR = {
   "storage.future":
     "Há uma versão mais nova do jogo aberta. Recarregue a página para salvar seu progresso.",
   "storage.full": "Não foi possível salvar o progresso: o armazenamento do navegador está cheio.",
+
+  "practice.tab": "Treino",
+  "practice.title": "Treino",
+  "practice.round": "Rodada {number}",
+  "practice.score": "{points} em {rounds}",
+  "practice.rounds.one": "{count} rodada",
+  "practice.rounds.other": "{count} rodadas",
+  "practice.target": "Alvo",
+  "practice.targetSong": "Música",
+  "practice.targetAlbum": "Álbum",
+  "practice.answer": "Resposta",
+  "practice.filtersHint": "Vale a partir da próxima rodada.",
+  "practice.empty":
+    "Não há rodada para sortear agora. As respostas dos diários de hoje voltam ao Treino quando eles terminarem.",
 } as const;
 
 export type MessageKey = keyof typeof ptBR;
