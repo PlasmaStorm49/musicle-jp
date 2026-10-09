@@ -23,11 +23,30 @@ Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade
 
 ## Estado
 
-Em construção. Veja o andamento por marco em [docs/PLANO.md](docs/PLANO.md).
+Em construção, ainda com dados fictícios: uma parada inventada e áudio sintético (cada segundo toca uma nota). Os diários Música e Álbum e o Treino já são jogáveis. Andamento por marco em [docs/PLANO.md](docs/PLANO.md).
 
 ## Como rodar
 
-Será preenchido a partir do M1 (pipeline) e do M4 (web).
+Precisa de Python 3.12, Node.js 24 e Git. Comandos a partir da raiz do repositório:
+
+```bash
+python -m venv .venv
+.venv/bin/python -m pip install -e "pipeline[dev]"   # no Windows: .venv\Scripts\python
+.venv/bin/python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json
+npm ci --prefix web
+npm run dev --prefix web
+```
+
+Depois, abra http://localhost:5173. O `fake-assets` gera o áudio e as capas falsos, que ficam fora do Git.
+
+Testes:
+
+- pipeline: `.venv/bin/python -m pytest pipeline`
+- web (lint, tipos, testes com cobertura): `npm run check --prefix web`
+
+## Licença
+
+[MIT](LICENSE).
 
 ## Créditos
 

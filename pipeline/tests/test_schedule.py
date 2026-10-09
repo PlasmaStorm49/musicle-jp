@@ -195,5 +195,6 @@ def test_cli_schedule_check_with_files(tmp_path, sixty_one_days, capsys):
 def test_read_base_ref_handles_missing_ref_and_missing_file():
     with pytest.raises(ScheduleError, match="inexistente"):
         read_base_ref("revisao-que-nao-existe", "web/public/fixtures/schedule.json")
-    # O primeiro commit do projeto não tinha agenda: base vazia.
-    assert read_base_ref("0a94e6c", "web/public/fixtures/schedule.json") is None
+    # Arquivo que não existe na revisão (como a agenda antes do M3): base vazia. Não cita um
+    # commit pelo hash: o histórico pode ser reescrito e a CI pode clonar sem ele.
+    assert read_base_ref("HEAD", "web/public/fixtures/nao-existe.json") is None

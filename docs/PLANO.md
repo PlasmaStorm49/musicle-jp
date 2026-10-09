@@ -65,7 +65,7 @@ musicle-jp/
   CLAUDE.md  README.md  .gitignore  .gitattributes  .editorconfig
   .claude/   settings.json, launch.json, hooks/format_file.py, skills/verificar/SKILL.md, agents/revisor.md
   .github/workflows/   ci.yml, deploy.yml, update-catalog.yml
-  docs/      PLANO.md, decisoes/ADR-*.md
+  docs/      PLANO.md
   shared/    schema/*.schema.json (contrato Python↔TS), vectors/normalize.json, vectors/prng.json
   pipeline/  pyproject.toml, data/aliases.toml, data/romaji.json, fixtures/chart_fixture.json
              src/musicle_pipeline/  cli, models, providers/{base,fixture}, normalize, romaji, merge,

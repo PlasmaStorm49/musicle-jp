@@ -8,7 +8,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 
 ## Sobre o usuário
 
-- Formado em Ciência da Computação, com pouca experiência prática. Está aprendendo.
+- Estudante de computação, aprendendo na prática.
 - Explique cada decisão técnica em 2 ou 3 linhas. Quando algo for complexo, explique o porquê.
 - Ao usar um recurso do Claude Code (subagente, hook, skill, worktree, modo de planejamento), diga qual é e para que serve.
 
@@ -29,7 +29,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 | `pipeline/` | Python: busca a parada, gera `catalog.json` e `schedule.json` |
 | `web/` | TypeScript + Vite + Preact; `src/core/` é a lógica pura do jogo |
 | `shared/` | Schemas JSON e vetores de teste usados pelos dois lados |
-| `docs/` | `PLANO.md` e decisões (`decisoes/ADR-*.md`) |
+| `docs/` | `PLANO.md` (decisões na seção 2) |
 | `.claude/` | Configuração do Claude Code deste projeto |
 
 ## Comandos
