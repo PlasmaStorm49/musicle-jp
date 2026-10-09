@@ -34,7 +34,10 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P39 | Dia terminado abre direto no resultado (estatísticas, compartilhar e contagem), sem jogar de novo |
 | P40 | Dia sem agenda não quebra a sequência |
 | P41 | Média e distribuição com pontos brutos; dia todo anulado fica fora delas, mas conta em jogos e na sequência |
-| P42 | Compartilhar com formas, não só cores: ⬛ ouvir mais, ✅ acerto, ❌ erro, ⬜ anulada |
+| P42 | Compartilhar com formas, não só cores: ⬛ ouvir mais (na digitação, pulou), ✅ acerto, ❌ erro, ⬜ anulada |
+| P45 | O modo de resposta é escolhido todo dia antes da rodada 1, com o último usado marcado e com o foco |
+| P46 | Na digitação nada toca sozinho: pulo e erro só liberam a etapa; o jogador clica em Tocar |
+| M7 | Na última tentativa da digitação o "Pular" some e fica só o "Desistir" (os dois dariam 0 ponto) |
 
 ## 3. Fonte de dados (usada só no M11)
 
@@ -97,7 +100,7 @@ musicle-jp/
 | M4 | Concluído em 08/10/2026 | Vite + TS + Preact + Biome + Vitest; `core` com reducer de Música com 4 opções | Vetores passam em Python e TS; testes da virada de dia | Skill de projeto `/verificar`, TDD |
 | M5 | Concluído em 08/10/2026 | 1ª tela jogável: Diário Música com 4 opções, Web Audio, barra segmentada | Dia completo jogado no navegador, console limpo | Pré-visualização no navegador (`launch.json`) |
 | M6 | Concluído em 09/10/2026 | Persistência, estatísticas, retomada, compartilhar, contagem regressiva | Recarregar no meio retoma; storage corrompido não quebra | Subagente `revisor` + `/code-review` |
-| M7 | | Digitação com autocompletar (kana, kanji, romaji, alias, teclado, ARIA) | Busca acha por todas as grafias | Git worktree, sessão paralela |
+| M7 | Concluído em 09/10/2026 | Digitação com autocompletar (kana, kanji, romaji, alias, teclado, ARIA) | Busca acha por todas as grafias | Git worktree, sessão paralela |
 | M8 | | Alvo Álbum + modo Treino | As 4 combinações jogáveis | 2º worktree, merge e conflito |
 | M9 | | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review` |
 | M10 | | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions |
@@ -224,7 +227,19 @@ O contrato são os vetores de `shared/vectors/normalize.json`, escritos à mão.
 
 Assim, `tōkyō`, `toukyou` e `tokyo` viram `tokyo`. Como a regra vale para catálogo e consulta, um efeito estranho em inglês (`size` → `shize`) não atrapalha a busca.
 
-**Pendente para o M7:** a busca por prefixo perde 1 caractere quando o jogador digita Kunrei para um título em Hepburn (`t` de `tikara`); a correção prevista é comparar também `loose_key(consulta[:-1])` quando o último caractere for `t`, `h`, `z`, `d` ou `m`. E, durante a composição do IME (`とうk`), buscar só no `compositionend`.
+### Busca do autocompletar (implementada no M7, `web/src/core/search.ts` e `kana.ts`)
+
+Compara a consulta com as chaves que o catálogo já traz; nada muda no pipeline nem nos vetores.
+
+- **Uma linha por música** (`songKey`): single, versão de álbum e "TV Size" viram uma só, porque qualquer uma é acerto. Mostra a faixa mais popular do grupo. Busca no catálogo inteiro, inclusive faixas que não podem ser sorteadas (restringir daria pista).
+- **Variantes da consulta:**
+  - a `searchKey` dela;
+  - **kana → romaji** Hepburn, só na consulta: `とうきょう` acha 東京ライツ e `かあてん` acha カーテンコール. Segue o romaji do catálogo (cutlet): `を` vira "wo";
+  - **sem a última letra** quando a chave tem 2+ caracteres e termina em `t`, `z`, `d`, `m` ou em `h` fora de `sh`/`ch`: o Kunrei (`ti`→`chi`, `zi`, `di`, `du`, `hu`) e o `m` antes de `b`/`p` só se resolvem na letra seguinte, então `sakamit`, `merod` e `ichibam` continuam achando;
+  - **sem `ー`**, comparada com as chaves sem `ー`: `かてん` acha `かーてんこーる`.
+- **Ordem:** começo do título > começo do artista > meio do título > meio do artista ("meio" só com 2+ caracteres); dentro da mesma faixa, a consulta exata vence a truncada e a sem `ー`; depois popularidade e `id` (comparação por code unit). Até 8 linhas. Uma letra só busca por prefixo.
+- **IME:** o campo escuta `compositionstart`/`compositionend` por `addEventListener` (o `onCompositionEnd` do Preact não dispara no Chrome). Durante a composição, a busca ignora o latim que ainda está virando kana no fim (`とうk`, `とうｋ`, `かーt`); romaji puro em composição (teclado do celular) busca como está. O Enter que confirma a conversão não escolhe opção.
+- **Pendente para o M11:** conferir com títulos reais se o cutlet escreve as partículas `は` e `へ` como "wa" e "e". Se sim, a consulta em kana precisa de uma variante com essa leitura (hoje `は` vira "ha").
 
 ### Romaji no pipeline (decidido no M2, 08/10/2026)
 
@@ -244,7 +259,7 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 - **Precedência do latino exibido:** `aliases.toml` (`manual`) > provedor (`provider`) > cache (`cutlet`).
 - **Erro de romaji não muda o resultado do palpite**, que é sempre por ID. Afeta só o autocompletar do modo digitação para aquela música, e se corrige com uma linha no `aliases.toml`.
 
-**Pendente para o M7:** a regra `di`→`ji` da chave frouxa também pega o "di" de ディ ("merodi" vira a chave `meroji`). A busca funciona porque a consulta passa pela mesma regra, mas "merod" deixa de ser começo de chave no meio da digitação.
+**Resolvido no M7:** a regra `di`→`ji` da chave frouxa também pega o "di" de ディ ("merodi" vira a chave `meroji`), e "merod" deixava de ser começo de chave no meio da digitação. A variante sem a última letra (`d`) resolve.
 
 **Validação do palpite:** sempre por **ID** escolhido na lista, nunca por texto livre. Na Música, acerta quem escolhe o mesmo `songKey`. No Álbum, acerta quem escolhe qualquer álbum que contenha o `songKey` da resposta.
 
@@ -278,12 +293,14 @@ Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece
 |---|---|---|
 | Etapas do trecho | 1, 2, 4, 7, 11, 16 s | 1, 2, 4, 7, 11, 16 s |
 | Tentativas por rodada | 1 palpite | 6 |
-| Liberar mais trecho | "Ouvir mais" (custa 1 ponto) | Erro ou "Pular" consomem tentativa e liberam a etapa seguinte |
+| Liberar mais trecho | "Ouvir mais" (custa 1 ponto) e toca na hora (P33) | Erro ou "Pular" consomem tentativa e liberam a etapa seguinte; nada toca sozinho (P46); na 6ª tentativa o "Pular" some |
 | Pontos da rodada | 6 menos etapas extras; erro = 0 | 7 menos o número da tentativa que acertou; falhar = 0 |
-| Desistir | "Não sei" = 0 | Revela a resposta, 0 pontos |
+| Desistir | "Não sei" = 0 | "Desistir": revela a resposta, 0 pontos |
 | Repetir o trecho | Livre na etapa atual | Livre na etapa atual |
-| Fim da rodada | Revela capa, título, artista, preview inteiro e link para a loja | Igual |
+| Fim da rodada | Revela capa, título, artista, preview inteiro e link para a loja; marca a certa e a escolhida | Igual, com a lista de tentativas (❌, ⬛, ✅) no lugar das opções |
 
+- **Escolha do modo** (M7, P13, P45): antes da rodada 1, todo dia, com o último usado marcado. Escolher grava `inProgress` com `events: []`, então o modo fica travado mesmo recarregando antes do 1º palpite. Se outra aba já começou ou terminou o dia, vale o modo e o andamento dela.
+- **Palpite da digitação:** sempre por ID escolhido na lista (Apêndice B), uma linha por música; a música já tentada aparece marcada e não pode ser escolhida de novo.
 - **Dia:** de 0 a 18 pontos por diário.
 - **Treino:** rodadas ilimitadas com filtros de alvo e resposta, sorteio por "saco embaralhado" para não repetir na sessão. Exclui as respostas do Diário de hoje enquanto ele não for concluído.
 
@@ -327,7 +344,7 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
 - **Conteúdo (`SaveV1`):** `{ schemaVersion: 1, settings, history, inProgress }`, os dois mapas por `"2026-10-08|song"`.
   - `history`: o `FinishedGame` de cada dia, `{ answerMode, number, rounds: [{ status, stage, attempts }] }`. Pontos e máximo saem de `status` e `stage`; nada derivado é gravado.
   - `inProgress`: `{ answerMode, events }`, só os eventos que o reducer aceitou.
-  - `settings` fica vazio até o M7.
+  - `settings`: `{ answerMode? }`, o último modo usado (M7, P45). O `sanitize` guarda um modo válido sem aviso; modo inválido, chave desconhecida ou `settings` que não é objeto contam como reparo. A preferência só muda quando o modo escolhido é o que fica travado no dia (`withModeChoice`).
 - **Retomada por eventos:** `startSession` repete os eventos sobre o jogo novo do dia. Como o reducer é puro, recarregar retoma igual, inclusive rodada anulada. Se a repetição chegar ao fim, o jogo vira histórico. Se ela descartar eventos (catálogo novo no mesmo dia), a sessão sai com `stale` e a aba regrava a lista aceita com `replaceProgress`; sem isso, a regra da lista mais longa impediria gravar os próximos eventos.
 - **Virada do dia:** ao abrir, o `inProgress` de outros dias é descartado. Quem começou o dia D com a aba aberta termina o dia D, mas recarregar depois da meia-noite perde esse andamento.
 - **Tolerância a falha:**
@@ -369,7 +386,7 @@ Implementado no M4 (`web/src/core/`):
 |---|---|---|
 | Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos); schema; bytes idênticos em duas execuções; CLI |
 | Núcleo web | Vitest | Reducer nas 4 combinações; pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Meta: 90% de linhas no `core` |
-| Componentes | Vitest + Testing Library | Autocompletar (teclado, ARIA combobox) e barra segmentada |
+| Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco) e `ModePicker` (M7) |
 | Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; Treino |
 | Exploratório | Navegador do Claude | Visual, console e cliques durante o desenvolvimento |
 | Lint e formato | Ruff (Python), Biome (TS), `tsc --noEmit` estrito | |

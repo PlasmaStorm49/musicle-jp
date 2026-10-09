@@ -6,13 +6,13 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz com `-
 
 | Caminho | Papel |
 |---|---|
-| `src/core/` | Lógica pura do jogo: tipos, catálogo, normalização, PRNG, datas, regras, reducer |
+| `src/core/` | Lógica pura do jogo: tipos, catálogo, normalização, PRNG, datas, regras, reducer, save (`records`), estatísticas, compartilhar, busca do autocompletar (`search`, `kana`) |
 | `src/core/generated/` | Tipos gerados de `shared/schema` por `npm run types`. **Nunca à mão** (negado no `settings.json`) |
 | `src/data/` | Carrega catálogo e agenda e escolhe o dia. Sem DOM e sem `import.meta.env`: recebe `fetch` e a URL base |
 | `src/audio/` | Contrato `AudioEngine` e o motor Web Audio |
 | `src/storage/` | Save no localStorage (`save.ts`) e migrações. Sem DOM: recebe um `KeyValueStore` |
 | `src/i18n/` | Todos os textos de tela (`pt-BR.ts`), `t()` tipado por chave e `tn()` para plural |
-| `src/ui/` | Componentes Preact: `App` (carga e save), `Game` (reducer), `Player`, `Options`, `Reveal`, `Summary` com `Stats`, `ShareButton` e `Countdown` |
+| `src/ui/` | Componentes Preact: `App` (carga e save), `Game` (sessão e reducer), `ModePicker`, `Player`, `Options` (4 opções), `GuessInput` e `Attempts` (digitação), `Reveal`, `Summary` com `Stats`, `ShareButton` e `Countdown`. Testes de componente em `*.test.tsx` |
 | `scripts/` | `gen-types.ts` e `dump-normalize.ts` (ponte do teste cruzado com o Python) |
 | `test/` | Ajudantes de teste que usam o Node (`fs`): vetores e fixtures |
 
@@ -30,4 +30,7 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz com `-
 10. **Só em desenvolvimento** (`npm run dev`): `?date=AAAA-MM-DD` troca o dia; `?failAudio=<id da faixa>` simula falha de áudio; `window.__musicleAudioLog` registra pedido × tocado de cada reprodução.
 11. **Save:** grave só por `updateSave` (relê, mescla e grava, por causa de duas abas) e nunca guarde nada derivado: pontos, máximo e estatísticas saem do `FinishedGame`. O andamento é a lista de eventos aceitos, não o `GameState`. Mudou o formato? Ajuste os guards de `save.ts` e, depois do M10, suba `SAVE_SCHEMA_VERSION` com a migração e um teste.
 12. **"Hoje" é a data do jogo** (`gameDate`), não o relógio: estatísticas, sequência e contagem usam essa data.
-13. **Pré-visualização no navegador do Claude:** servidor `web` do `.claude/launch.json`. Para testar áudio, use **clique real** no botão (não `el.click()` por script, que não conta como gesto). Se as capturas de tela expirarem, a janela do Claude está atrás de outra: confira pelo texto da página ou pelo DOM. O save é gravado num `useEffect`, que roda depois da pintura: espere uns 300 ms antes de ler o `localStorage` após um clique. Para testar o compartilhar, troque `navigator.clipboard` por um objeto que guarde o texto. Limpe o `localStorage` ao terminar.
+13. **Teste de componente** (`src/ui/*.test.tsx`): `// @vitest-environment happy-dom` na 1ª linha e `afterEach(cleanup)` (sem globais, a Testing Library não limpa sozinha). Dados no próprio arquivo, **nunca** `test/*.ts` (importa `node:fs` e quebraria o `tsconfig.json` do app, que não tem tipos do Node). Atualização de estado fora de evento (timer) vai dentro de `act()`.
+14. **Busca e IME:** a busca (`core/search.ts`) segue as chaves do catálogo; o `kana.ts` segue o romaji do catálogo (cutlet), não o Hepburn de livro (`を` = "wo"). Eventos de composição do IME por `addEventListener`: o `onCompositionEnd` do Preact não dispara no Chrome.
+15. **Foco:** cada tela nova leva o foco ao seu elemento principal (o Player ao "Tocar", a revelação e o resumo ao título). Botão que some não pode deixar o foco no `body`.
+16. **Pré-visualização no navegador do Claude:** servidor `web` do `.claude/launch.json`. Para testar áudio, use **clique real** no botão (não `el.click()` por script, que não conta como gesto). Se as capturas de tela expirarem, a janela do Claude está atrás de outra: confira pelo texto da página ou pelo DOM. O save é gravado num `useEffect`, que roda depois da pintura: espere uns 300 ms antes de ler o `localStorage` após um clique. Para testar o compartilhar, troque `navigator.clipboard` por um objeto que guarde o texto. Para digitar no campo por script, mude `value` e despache `input`; o IME se simula com `CompositionEvent` (`compositionstart`/`compositionend`). Use uma aba só sua (`tabs_create`): outra frente pode estar usando a aba padrão. Limpe o `localStorage` ao terminar.
