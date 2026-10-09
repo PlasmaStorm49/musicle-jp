@@ -46,15 +46,19 @@ export type GameEvent =
   | { readonly type: "VOID"; readonly round: number; readonly reason: string }
   | { readonly type: "NEXT_ROUND" };
 
-/** Monta o jogo do dia. Rodada cuja resposta sumiu ou deixou de ser elegível nasce anulada. */
-export function createGame(
-  day: Day,
-  date: string,
+/** Uma rodada planejada: a faixa que toca e as opções (faixas na Música, álbuns no Álbum). */
+export type PlannedRound = { readonly answer: string; readonly options: readonly string[] };
+
+/**
+ * Estado inicial de rodadas planejadas, venham da agenda (3 por diário) ou do Treino (uma de
+ * cada vez). Rodada cuja resposta sumiu ou deixou de ser elegível nasce anulada.
+ */
+export function createRounds(
+  planned: readonly PlannedRound[],
   target: Target,
-  answerMode: AnswerMode,
   index: CatalogIndex,
-): GameState {
-  const rounds = day[target].map((planned): RoundState => {
+): RoundState[] {
+  return planned.map((planned): RoundState => {
     const track = index.tracks.get(planned.answer);
     const base = {
       trackId: planned.answer,
@@ -79,6 +83,17 @@ export function createGame(
       voidReason: null,
     };
   });
+}
+
+/** Monta o jogo do dia a partir da agenda. */
+export function createGame(
+  day: Day,
+  date: string,
+  target: Target,
+  answerMode: AnswerMode,
+  index: CatalogIndex,
+): GameState {
+  const rounds = createRounds(day[target], target, index);
   return { puzzleId: `${date}|${target}`, target, answerMode, rounds, current: 0 };
 }
 

@@ -28,7 +28,7 @@ function setup() {
   render(
     <>
       <h2 id="question">Qual é a música?</h2>
-      <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" />
+      <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" target="song" />
     </>,
   );
   const box = screen.getByRole("combobox", { name: "Qual é a música?" }) as HTMLInputElement;

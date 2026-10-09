@@ -35,6 +35,21 @@ declare global {
 }
 
 const BASE_URL = new URL(import.meta.env.BASE_URL, window.location.href).href;
+
+/** As abas do jogo (P49). O endereço é o estado: voltar e recarregar funcionam. */
+type Tab = "song" | "album" | "practice";
+
+// Nenhum elemento da página pode ter id igual a uma rota: o navegador rolaria até ele.
+const ROUTES: Readonly<Record<Tab, string>> = {
+  song: "#musica",
+  album: "#album",
+  practice: "#treino",
+};
+
+/** Endereço desconhecido (ou vazio) abre a Música. */
+function tabFromHash(hash: string): Tab {
+  return (Object.keys(ROUTES) as Tab[]).find((tab) => ROUTES[tab] === hash) ?? "song";
+}
 const DEV = import.meta.env.DEV;
 
 type Storage = {
@@ -71,6 +86,23 @@ export function App() {
   const date = useMemo(() => gameDate(new Date(), window.location.search, DEV), []);
   const saves = useMemo(() => openSaves(date), [date]);
   const resolveUrl = useCallback((url: string) => assetUrl(BASE_URL, url), []);
+  const [tab, setTab] = useState<Tab>(() => tabFromHash(window.location.hash));
+  // A última leitura do save, para o ✓ das abas e o Treino. Cada diário recebe a leitura do
+  // momento em que a aba abre: voltar à Música terminada mostra o resultado (P39).
+  const [latest, setLatest] = useState(saves.save);
+  const refresh = useCallback(() => {
+    if (!saves.store) return;
+    const read = loadSave(saves.store);
+    if (read.writable) setLatest(read.save);
+  }, [saves]);
+  useEffect(() => {
+    const onHashChange = () => {
+      setTab(tabFromHash(window.location.hash));
+      refresh();
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, [refresh]);
   // Texto igual ao anterior não muda o DOM e o leitor de tela fica calado (copiar duas vezes,
   // duas rodadas anuladas): alterna um espaço invisível no fim para ele ler de novo.
   const announce = useCallback(
@@ -112,66 +144,106 @@ export function App() {
   }, [load, resolveUrl]);
 
   return (
-    <main class="app">
-      <p class="sr-only" aria-live="polite">
-        {message}
-      </p>
-      {saves.notice && <p class="notice">{saves.notice}</p>}
-      {load.status === "loading" && <p>{t("load.loading")}</p>}
-      {load.status === "retry" && (
-        <section class="error">
-          <p>{t("load.retry")}</p>
-          <button type="button" class="primary" onClick={() => setAttempt((n) => n + 1)}>
-            {t("load.retryButton")}
-          </button>
-        </section>
-      )}
-      {load.status === "update" && (
-        <section class="error">
-          <p>{t("load.update")}</p>
-          <button type="button" class="primary" onClick={() => window.location.reload()}>
-            {t("load.updateButton")}
-          </button>
-        </section>
-      )}
-      {load.status === "ready" && engine && (
-        <Ready
-          data={load.data}
-          date={date}
-          engine={engine}
-          resolveUrl={resolveUrl}
-          announce={announce}
-          saves={saves}
-        />
-      )}
-    </main>
+    <>
+      <nav class="tabs" aria-label={t("nav.label")}>
+        <ul>{/* Uma aba por link (#musica, #album, #treino), com aria-current na ativa. */}</ul>
+      </nav>
+      <main class="app">
+        <p class="sr-only" aria-live="polite">
+          {message}
+        </p>
+        {saves.notice && <p class="notice">{saves.notice}</p>}
+        {load.status === "loading" && <p>{t("load.loading")}</p>}
+        {load.status === "retry" && (
+          <section class="error">
+            <p>{t("load.retry")}</p>
+            <button type="button" class="primary" onClick={() => setAttempt((n) => n + 1)}>
+              {t("load.retryButton")}
+            </button>
+          </section>
+        )}
+        {load.status === "update" && (
+          <section class="error">
+            <p>{t("load.update")}</p>
+            <button type="button" class="primary" onClick={() => window.location.reload()}>
+              {t("load.updateButton")}
+            </button>
+          </section>
+        )}
+        {load.status === "ready" && engine && (
+          <Ready
+            tab={tab}
+            data={load.data}
+            date={date}
+            engine={engine}
+            resolveUrl={resolveUrl}
+            announce={announce}
+            saves={saves}
+            latest={latest}
+            onSaved={refresh}
+          />
+        )}
+      </main>
+    </>
   );
 }
 
 type ReadyProps = {
+  readonly tab: Tab;
   readonly data: GameData;
   readonly date: string;
   readonly engine: AudioEngine;
   readonly resolveUrl: (url: string) => string;
   readonly announce: (message: string) => void;
   readonly saves: Storage;
+  /** A última leitura do save. */
+  readonly latest: SaveV1;
+  readonly onSaved: () => void;
 };
 
-function Ready({ data, date, engine, resolveUrl, announce, saves }: ReadyProps) {
+/** A tela da aba ativa. Uma por vez: os ids dos títulos (question, result...) não se repetem. */
+function Ready({
+  tab,
+  data,
+  date,
+  engine,
+  resolveUrl,
+  announce,
+  saves,
+  latest,
+  onSaved,
+}: ReadyProps) {
   const day = pickDay(data.schedule, date);
-  if (!day) return <p class="unavailable">{t("day.unavailable")}</p>;
+  if (tab === "song" || tab === "album") {
+    if (!day) return <Unavailable />;
+    return (
+      // key: cada diário monta do zero ao trocar de aba, com o save daquele momento.
+      <Game
+        key={tab}
+        target={tab}
+        day={day}
+        date={date}
+        index={data.index}
+        engine={engine}
+        resolveUrl={resolveUrl}
+        announce={announce}
+        store={saves.store}
+        initialSave={latest}
+        onSaved={onSaved}
+        scheduleDates={Object.keys(data.schedule.days)}
+        shareUrl={BASE_URL}
+      />
+    );
+  }
+  return null;
+}
+
+/** Dia sem desafio na agenda: o Treino continua (PLANO, Apêndice C). */
+function Unavailable() {
   return (
-    <Game
-      day={day}
-      date={date}
-      index={data.index}
-      engine={engine}
-      resolveUrl={resolveUrl}
-      announce={announce}
-      store={saves.store}
-      initialSave={saves.save}
-      scheduleDates={Object.keys(data.schedule.days)}
-      shareUrl={BASE_URL}
-    />
+    <section class="unavailable">
+      <p>{t("day.unavailable")}</p>
+      <a href={ROUTES.practice}>{t("day.practiceLink")}</a>
+    </section>
   );
 }

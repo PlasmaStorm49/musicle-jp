@@ -9,6 +9,8 @@ type Props = {
   readonly index: CatalogIndex;
   readonly round: RoundState;
   readonly target: Target;
+  /** Resolve o endereço das capas (alvo Álbum). */
+  readonly resolveUrl: (url: string) => string;
   readonly onPick: (id: string) => void;
   readonly onGiveUp: () => void;
 };
@@ -17,7 +19,7 @@ type Props = {
 export function Options({ index, round, target, onPick, onGiveUp }: Props) {
   return (
     <section class="options" aria-labelledby="question">
-      <h2 id="question">{t("game.question")}</h2>
+      <h2 id="question">{t(target === "song" ? "question.song" : "question.album")}</h2>
       <ul>
         {round.options.map((id) => {
           const item = optionView(index, id, target);

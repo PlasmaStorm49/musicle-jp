@@ -13,28 +13,19 @@ import {
   withModeChoice,
   withProgress,
 } from "../core/records.ts";
-import {
-  currentRound,
-  type GameEvent,
-  type GameState,
-  isFinished,
-  reduce,
-} from "../core/reducer.ts";
-import { canSkip, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
-import { buildSearchIndex, search } from "../core/search.ts";
-import type { AnswerMode, Day } from "../core/types.ts";
-import { optionView, revealView } from "../core/view.ts";
+import { type GameEvent, type GameState, isFinished, reduce } from "../core/reducer.ts";
+import { ROUNDS_PER_DAY } from "../core/rules.ts";
+import type { AnswerMode, Day, Target } from "../core/types.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
-import { Attempts } from "./Attempts.tsx";
-import { GuessInput, type Suggestion } from "./GuessInput.tsx";
+import { previewUrl, usePreload } from "./hooks.ts";
 import { ModePicker } from "./ModePicker.tsx";
-import { Options } from "./Options.tsx";
-import { Player } from "./Player.tsx";
-import { Reveal } from "./Reveal.tsx";
+import { RoundView } from "./RoundView.tsx";
 import { Summary } from "./Summary.tsx";
 
 type Props = {
+  /** Qual diário: Música ou Álbum. */
+  readonly target: Target;
   readonly day: Day;
   readonly date: string;
   readonly index: CatalogIndex;
@@ -44,8 +35,10 @@ type Props = {
   readonly announce: (message: string) => void;
   /** Onde o progresso é salvo; null = não salva nesta sessão. */
   readonly store: KeyValueStore | null;
-  /** O save lido ao abrir a página. */
+  /** O save lido quando esta aba abriu (o App relê a cada troca de aba). Só vale na montagem. */
   readonly initialSave: SaveV1;
+  /** Avisa o App que o save mudou (✓ das abas, exclusão do Treino). */
+  readonly onSaved: () => void;
   /** Dias que existem na agenda (a sequência só conta estes, P40). */
   readonly scheduleDates: readonly string[];
   /** Endereço do jogo no texto compartilhado (sem parâmetros). */
@@ -61,10 +54,17 @@ const SAVE_NOTICE = {
   unavailable: "storage.unavailable",
 } as const;
 
+function header(target: Target, number: number): string {
+  return t("game.header", {
+    daily: t(target === "song" ? "target.song" : "target.album"),
+    number,
+  });
+}
+
 /** O resumo do dia com tudo o que ele precisa; o histórico já inclui o jogo de hoje. */
 function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame }) {
-  const { store, initialSave, date } = props;
-  const id = puzzleId(date, "song");
+  const { store, initialSave, date, target } = props;
+  const id = puzzleId(date, target);
   // Relê o save: com duas abas, o que ficou gravado (o primeiro término) vale sobre o desta aba,
   // e as estatísticas incluem o que a outra aba terminou depois que esta página abriu.
   const history = useMemo(() => {
@@ -74,11 +74,11 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
   return (
     <>
       <header>
-        <h1>{t("game.header", { number: props.day.number })}</h1>
+        <h1>{header(target, props.day.number)}</h1>
       </header>
       <Summary
         game={history[id] ?? game}
-        target="song"
+        target={target}
         date={date}
         history={history}
         scheduleDates={props.scheduleDates}
@@ -98,19 +98,19 @@ function playReducer(played: Played, event: GameEvent): Played {
 }
 
 /**
- * O Diário Música. Dia sem começar pede o modo (P13, P45); dia começado retoma no modo salvo;
- * dia terminado mostra direto o resultado (P39).
+ * Um diário (Música ou Álbum). Dia sem começar pede o modo (P13, P45); dia começado retoma no
+ * modo salvo; dia terminado mostra direto o resultado (P39).
  */
 export function Game(props: Props) {
-  const { day, date, index, initialSave, store, announce } = props;
-  const id = puzzleId(date, "song");
-  // O save de onde a sessão nasce: o da abertura, ou o relido na escolha do modo (outra aba
-  // pode ter começado ou terminado o dia enquanto o seletor estava na tela).
+  const { target, day, date, index, initialSave, store, announce, onSaved } = props;
+  const id = puzzleId(date, target);
+  // O save de onde a sessão nasce: o da abertura da aba, ou o relido na escolha do modo (outra
+  // aba pode ter começado ou terminado o dia enquanto o seletor estava na tela).
   const [base, setBase] = useState(initialSave);
   const [mode, setMode] = useState<AnswerMode | null>(() => lockedMode(initialSave, id));
   const session = useMemo(
-    () => (mode === null ? null : startSession(base, day, date, "song", mode, index)),
-    [base, day, date, index, mode],
+    () => (mode === null ? null : startSession(base, day, date, target, mode, index)),
+    [base, day, date, target, index, mode],
   );
   const start = useMemo(
     () => (session?.kind === "playing" ? { game: session.state, events: session.events } : null),
@@ -121,13 +121,17 @@ export function Game(props: Props) {
   const noticed = useRef(false);
   const report = useCallback<Report>(
     (status) => {
-      if (status === "saved" || noticed.current) return;
+      if (status === "saved") {
+        onSaved();
+        return;
+      }
+      if (noticed.current) return;
       noticed.current = true; // avisa uma vez só, mas o aviso fica na tela
       const message = t(SAVE_NOTICE[status]);
       setSaveNotice(message);
       announce(message);
     },
-    [announce],
+    [announce, onSaved],
   );
 
   // Ao abrir, acerta o que está salvo: a repetição pode ter chegado a um jogo terminado que não
@@ -163,7 +167,7 @@ export function Game(props: Props) {
       {session === null && (
         <div class="game">
           <header>
-            <h1>{t("game.header", { number: day.number })}</h1>
+            <h1>{header(target, day.number)}</h1>
           </header>
           <ModePicker preferred={base.settings.answerMode} onChoose={choose} />
         </div>
@@ -185,7 +189,6 @@ function Playing({
   const [played, dispatch] = useReducer(playReducer, start);
   const [summary, setSummary] = useState<FinishedGame | null>(null);
   const { game } = played;
-  const round = currentRound(game);
   const isLast = game.current === game.rounds.length - 1;
 
   // Salva a cada evento aceito: em andamento, a lista de eventos; terminado, o resumo. O estado
@@ -203,44 +206,10 @@ function Playing({
   }, [store, played, start, game, date, day.number, report]);
 
   const urls = useMemo(
-    () =>
-      game.rounds.map((r) => {
-        const preview = revealView(index, r.trackId)?.preview;
-        return preview ? resolveUrl(preview.url) : null;
-      }),
+    () => game.rounds.map((r) => previewUrl(index, r.trackId, resolveUrl)),
     [game.rounds, index, resolveUrl],
   );
-  const url = urls[game.current] ?? null;
-  const nextUrl = urls[game.current + 1] ?? null;
-  const preview = revealView(index, round.trackId)?.preview ?? null;
-
-  // A busca do autocompletar: o índice sai do catálogo uma vez; "já tentou" é por música
-  // (songKey), não por faixa, para outra versão da mesma música errada não parecer nova.
-  const searchIndex = useMemo(() => buildSearchIndex(index), [index]);
-  const triedSongs = useMemo(
-    () =>
-      new Set(
-        round.attempts.flatMap((a) =>
-          a.kind === "guess" ? [index.tracks.get(a.guessId)?.songKey ?? a.guessId] : [],
-        ),
-      ),
-    [round.attempts, index],
-  );
-  const suggest = useCallback(
-    (query: string): Suggestion[] =>
-      search(searchIndex, query).flatMap((hit) => {
-        const item = optionView(index, hit.id, "song");
-        return item ? [{ id: hit.id, item, tried: triedSongs.has(hit.songKey) }] : [];
-      }),
-    [searchIndex, index, triedSongs],
-  );
-
-  // A cada rodada: guarda só o áudio dela e o da próxima, e já começa a baixar os dois.
-  useEffect(() => {
-    const keep = [url, nextUrl].filter((u): u is string => u !== null);
-    engine.retain(keep);
-    for (const u of keep) engine.preload(u);
-  }, [engine, url, nextUrl]);
+  usePreload(engine, urls[game.current] ?? null, urls[game.current + 1] ?? null);
 
   function next() {
     if (isLast && isFinished(game)) setSummary(toFinishedGame(game, day.number));
@@ -249,105 +218,23 @@ function Playing({
 
   if (summary) return <DaySummary {...props} game={summary} />;
 
-  const track = revealView(index, round.trackId);
-  const rules = MODE_RULES[game.answerMode];
-  // Próxima tentativa, contando a que acabou de ser gasta (para os anúncios de pulo e erro).
-  const attemptLabel = (used: number) => ({ current: used + 1, total: rules.maxAttempts });
-
-  function giveUp() {
-    engine.stop();
-    dispatch({ type: "GIVE_UP" });
-  }
-
-  function guess(id: string) {
-    engine.stop();
-    const event = { type: "GUESS", guessId: id } as const;
-    // O reducer é puro: dá para ver o resultado antes de despachar, sem repetir as regras aqui.
-    const after = reduce(game, event).rounds[game.current];
-    dispatch(event);
-    // Erro que não encerra a rodada: o foco fica no campo, então o aviso vai para o aria-live.
-    // Acerto e último erro abrem a revelação, que leva o foco e se anuncia sozinha.
-    if (after?.status === "playing" && after.attempts.length > round.attempts.length) {
-      const title = optionView(index, id, game.target)?.title ?? t("attempts.unknown");
-      announce(t("typing.wrong", { title, ...attemptLabel(after.attempts.length) }));
-    }
-  }
-
   return (
     <div class="game">
       <header>
-        <h1>{t("game.header", { number: day.number })}</h1>
+        <h1>{header(game.target, day.number)}</h1>
         <p>{t("game.round", { current: game.current + 1, total: ROUNDS_PER_DAY })}</p>
       </header>
-
-      {round.status === "playing" && url && preview && (
-        <>
-          <Player
-            key={game.current}
-            engine={engine}
-            url={url}
-            offset={preview.startSec}
-            stage={round.stage}
-            explicit={track?.explicit ?? false}
-            rules={rules}
-            skippable={canSkip(rules, round.attempts.length)}
-            onListenMore={() => dispatch({ type: "LISTEN_MORE" })}
-            onSkip={() => {
-              dispatch({ type: "SKIP" });
-              announce(t("typing.skipped", attemptLabel(round.attempts.length + 1)));
-            }}
-            onAudioError={() => {
-              dispatch({ type: "VOID", round: game.current, reason: "audio" });
-              announce(t("void.message"));
-            }}
-          />
-          {game.answerMode === "choice" ? (
-            <Options
-              index={index}
-              round={round}
-              target={game.target}
-              onPick={(id) => {
-                engine.stop();
-                dispatch({ type: "GUESS", guessId: id });
-              }}
-              onGiveUp={giveUp}
-            />
-          ) : (
-            <section class="typing" aria-labelledby="question">
-              <h2 id="question">{t("game.question")}</h2>
-              <p class="hint">{t("typing.attempt", attemptLabel(round.attempts.length))}</p>
-              <GuessInput suggest={suggest} onPick={guess} labelledBy="question" />
-              <Attempts index={index} round={round} target={game.target} />
-              <button type="button" class="link" onClick={giveUp}>
-                {t("typing.giveUp")}
-              </button>
-            </section>
-          )}
-        </>
-      )}
-
-      {round.status === "void" && (
-        <section class="void">
-          <p>{t("void.message")}</p>
-          <button type="button" class="primary" onClick={next}>
-            {isLast ? t("reveal.finish") : t("reveal.next")}
-          </button>
-        </section>
-      )}
-
-      {(round.status === "won" || round.status === "lost") && (
-        <Reveal
-          key={game.current}
-          index={index}
-          round={round}
-          target={game.target}
-          answerMode={game.answerMode}
-          engine={engine}
-          resolveUrl={resolveUrl}
-          isLast={isLast}
-          onNext={next}
-        />
-      )}
+      <RoundView
+        game={game}
+        dispatch={dispatch}
+        index={index}
+        engine={engine}
+        resolveUrl={resolveUrl}
+        announce={announce}
+        roundKey={game.current}
+        nextLabel={isLast ? t("reveal.finish") : t("reveal.next")}
+        onNext={next}
+      />
     </div>
   );
 }

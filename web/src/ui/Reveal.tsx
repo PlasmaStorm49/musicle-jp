@@ -16,7 +16,8 @@ type Props = {
   readonly answerMode: AnswerMode;
   readonly engine: AudioEngine;
   readonly resolveUrl: (url: string) => string;
-  readonly isLast: boolean;
+  /** Texto do botão de seguir: "Próxima rodada" ou "Ver resultado" (diário). */
+  readonly nextLabel: string;
   readonly onNext: () => void;
 };
 
@@ -28,7 +29,7 @@ export function Reveal({
   answerMode,
   engine,
   resolveUrl,
-  isLast,
+  nextLabel,
   onNext,
 }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
@@ -97,7 +98,7 @@ export function Reveal({
       )}
 
       <button type="button" class="primary" onClick={onNext}>
-        {isLast ? t("reveal.finish") : t("reveal.next")}
+        {nextLabel}
       </button>
     </section>
   );

@@ -8,11 +8,15 @@ type Props = {
   readonly announce: (message: string) => void;
 };
 
-/** Endereço do jogo sem o ?date= do desenvolvimento: o novo desafio é o de hoje, não o mesmo dia. */
-function todayUrl(): string {
+/**
+ * Vai ao desafio de hoje: tira o ?date= do desenvolvimento (senão abriria o mesmo dia). Se o
+ * endereço não mudar, recarrega: com abas (#album), trocar só o fragmento não recarrega a página.
+ */
+function goToToday() {
   const url = new URL(window.location.href);
   url.searchParams.delete("date");
-  return url.href;
+  if (url.href === window.location.href) window.location.reload();
+  else window.location.assign(url.href);
 }
 
 /**
@@ -47,7 +51,7 @@ export function Countdown({ date, announce }: Props) {
     return (
       <section class="countdown">
         <p>{t("countdown.ready")}</p>
-        <button type="button" class="primary" onClick={() => window.location.assign(todayUrl())}>
+        <button type="button" class="primary" onClick={goToToday}>
           {t("countdown.play")}
         </button>
       </section>

@@ -1,16 +1,22 @@
-// Busca do autocompletar (modo digitar, alvo Música). Compara a consulta, em algumas variantes,
-// com as chaves que o pipeline gravou em track.search (já em searchKey). Tudo determinístico:
-// o mesmo texto dá a mesma lista em qualquer máquina e em qualquer ordem do catálogo.
+// Busca do autocompletar (modo digitação, alvos Música e Álbum). Compara a consulta, em algumas
+// variantes, com as chaves que o pipeline gravou no catálogo (já em searchKey). Tudo
+// determinístico: o mesmo texto dá a mesma lista em qualquer máquina e em qualquer ordem do
+// catálogo.
 import type { CatalogIndex } from "./catalog.ts";
 import { hasKana, kanaToRomaji } from "./kana.ts";
 import { looseKey, normalize } from "./normalize.ts";
+import type { Target } from "./types.ts";
 
-export type SearchHit = { readonly id: string; readonly songKey: string };
+/**
+ * `key` identifica a linha para "já tentou": o songKey na Música (todas as versões da música
+ * são a mesma linha) e o id do álbum no Álbum.
+ */
+export type SearchHit = { readonly id: string; readonly key: string };
 
 type SearchEntry = {
-  /** Faixa que representa a música na lista (a mais popular do grupo). */
+  /** O que vai para o palpite: a faixa mais popular do grupo (Música) ou o álbum (Álbum). */
   readonly id: string;
-  readonly songKey: string;
+  readonly key: string;
   readonly popularity: number;
   readonly title: readonly string[];
   readonly artist: readonly string[];
@@ -30,11 +36,54 @@ const unique = (keys: readonly string[]): string[] => [...new Set(keys)].filter(
 /** Comparação por code unit (<), igual em qualquer locale; localeCompare variaria. */
 const byCodeUnit = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0);
 
+/** A `key` da linha de um palpite já feito, para marcar "já tentou" na lista. */
+export function hitKey(index: CatalogIndex, target: Target, guessId: string): string {
+  return target === "song" ? (index.tracks.get(guessId)?.songKey ?? guessId) : guessId;
+}
+
+function entry(
+  id: string,
+  key: string,
+  popularity: number,
+  titleKeys: readonly string[],
+  artistKeys: readonly string[],
+): SearchEntry {
+  const title = unique(titleKeys);
+  const artist = unique(artistKeys);
+  return {
+    id,
+    key,
+    popularity,
+    title,
+    artist,
+    titleNoBar: unique(title.map(stripBar)),
+    artistNoBar: unique(artist.map(stripBar)),
+  };
+}
+
 /**
- * Uma entrada por songKey: single, versão de álbum e "TV Size" da mesma música viram uma linha
- * só, porque qualquer uma delas é acerto. As chaves são a união das do grupo.
+ * Música: uma entrada por songKey (single, versão de álbum e "TV Size" viram uma linha só,
+ * porque qualquer uma é acerto), com a união das chaves do grupo.
+ * Álbum: uma entrada por álbum; artistas pelas chaves de cada artista; popularidade = a da
+ * faixa mais popular do álbum (o mesmo critério do pipeline, similarity.py).
  */
-export function buildSearchIndex(index: CatalogIndex): SearchIndex {
+export function buildSearchIndex(index: CatalogIndex, target: Target): SearchIndex {
+  if (target === "album") {
+    const popularity = new Map<string, number>();
+    for (const t of index.catalog.tracks) {
+      popularity.set(t.albumId, Math.max(popularity.get(t.albumId) ?? 0, t.popularity));
+    }
+    const entries = index.catalog.albums.map((album) =>
+      entry(
+        album.id,
+        album.id,
+        popularity.get(album.id) ?? 0,
+        album.search,
+        album.artistIds.flatMap((id) => index.artists.get(id)?.search ?? []),
+      ),
+    );
+    return { entries };
+  }
   const entries: SearchEntry[] = [];
   for (const [songKey, group] of index.tracksBySong) {
     const rep = group.reduce((best, t) =>
@@ -43,17 +92,15 @@ export function buildSearchIndex(index: CatalogIndex): SearchIndex {
         ? t
         : best,
     );
-    const title = unique(group.flatMap((t) => t.search.title));
-    const artist = unique(group.flatMap((t) => t.search.artist));
-    entries.push({
-      id: rep.id,
-      songKey,
-      popularity: rep.popularity,
-      title,
-      artist,
-      titleNoBar: unique(title.map(stripBar)),
-      artistNoBar: unique(artist.map(stripBar)),
-    });
+    entries.push(
+      entry(
+        rep.id,
+        songKey,
+        rep.popularity,
+        group.flatMap((t) => t.search.title),
+        group.flatMap((t) => t.search.artist),
+      ),
+    );
   }
   return { entries };
 }
@@ -149,7 +196,5 @@ export function search(idx: SearchIndex, query: string, limit = DEFAULT_LIMIT): 
       b.entry.popularity - a.entry.popularity ||
       byCodeUnit(a.entry.id, b.entry.id),
   );
-  return hits
-    .slice(0, Math.max(0, limit))
-    .map(({ entry }) => ({ id: entry.id, songKey: entry.songKey }));
+  return hits.slice(0, Math.max(0, limit)).map(({ entry }) => ({ id: entry.id, key: entry.key }));
 }

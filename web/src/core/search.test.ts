@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { catalog } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
-import { buildSearchIndex, search } from "./search.ts";
+import { buildSearchIndex, hitKey, search } from "./search.ts";
 import type { Catalog, Track } from "./types.ts";
 
-const idx = buildSearchIndex(indexCatalog(catalog));
+const idx = buildSearchIndex(indexCatalog(catalog), "song");
 
 /** IDs curtos (tr01) para as listas ficarem legíveis. */
 const ids = (query: string, limit?: number) =>
@@ -31,16 +31,16 @@ describe("buildSearchIndex", () => {
   it("uma entrada por songKey, representada pela faixa mais popular", () => {
     const index = indexCatalog(catalog);
     expect(idx.entries).toHaveLength(index.tracksBySong.size);
-    const dawn = idx.entries.filter((e) => e.songKey === "夜明けのめろでぃ|fixture:ar:ar01");
+    const dawn = idx.entries.filter((e) => e.key === "夜明けのめろでぃ|fixture:ar:ar01");
     expect(dawn.map((e) => e.id)).toEqual(["fixture:tr:tr01"]);
   });
 
   it("empate de popularidade: vence o menor id", () => {
-    const tied = buildSearchIndex(indexCatalog(withPopularity({ tr02: 0.9 })));
-    const dawn = tied.entries.find((e) => e.songKey === "夜明けのめろでぃ|fixture:ar:ar01");
+    const tied = buildSearchIndex(indexCatalog(withPopularity({ tr02: 0.9 })), "song");
+    const dawn = tied.entries.find((e) => e.key === "夜明けのめろでぃ|fixture:ar:ar01");
     expect(dawn?.id).toBe("fixture:tr:tr01");
-    const other = buildSearchIndex(indexCatalog(withPopularity({ tr03: 0.95 })));
-    const dawn3 = other.entries.find((e) => e.songKey === "夜明けのめろでぃ|fixture:ar:ar01");
+    const other = buildSearchIndex(indexCatalog(withPopularity({ tr03: 0.95 })), "song");
+    const dawn3 = other.entries.find((e) => e.key === "夜明けのめろでぃ|fixture:ar:ar01");
     expect(dawn3?.id).toBe("fixture:tr:tr03");
   });
 
@@ -52,8 +52,8 @@ describe("buildSearchIndex", () => {
 describe("search: casos do catálogo falso", () => {
   it("夜明け: as três versões viram uma linha; a do outro artista vem depois", () => {
     expect(search(idx, "夜明け")).toEqual([
-      { id: "fixture:tr:tr01", songKey: "夜明けのめろでぃ|fixture:ar:ar01" },
-      { id: "fixture:tr:tr04", songKey: "夜明けのめろでぃ|fixture:ar:ar14" },
+      { id: "fixture:tr:tr01", key: "夜明けのめろでぃ|fixture:ar:ar01" },
+      { id: "fixture:tr:tr04", key: "夜明けのめろでぃ|fixture:ar:ar14" },
     ]);
   });
 
@@ -105,9 +105,53 @@ describe("search: casos do catálogo falso", () => {
     });
     const small = buildSearchIndex(
       indexCatalog(withTracks(catalog, [track("lulu", "るる", 0.9), track("rule", "るーる", 0.1)])),
+      "song",
     );
-    expect(search(small, "るーる").map((h) => h.songKey)).toEqual(["rule", "lulu"]);
-    expect(search(small, "るる").map((h) => h.songKey)).toEqual(["lulu", "rule"]);
+    expect(search(small, "るーる").map((h) => h.key)).toEqual(["rule", "lulu"]);
+    expect(search(small, "るる").map((h) => h.key)).toEqual(["lulu", "rule"]);
+  });
+});
+
+describe("search: alvo Álbum (M8)", () => {
+  const albums = buildSearchIndex(indexCatalog(catalog), "album");
+  const albumIds = (query: string, limit?: number) =>
+    search(albums, query, limit).map((hit) => hit.id.replace("fixture:al:", ""));
+
+  it("uma entrada por álbum; a chave de 'já tentou' é o próprio id do álbum", () => {
+    expect(albums.entries).toHaveLength(catalog.albums.length);
+    expect(search(albums, "dawn")).toEqual([{ id: "fixture:al:al02", key: "fixture:al:al02" }]);
+  });
+
+  it("pelo artista, na ordem da faixa mais popular de cada álbum", () => {
+    expect(albumIds("ミナト")).toEqual(["al01", "al02", "al03"]);
+    expect(albumIds("minato")).toEqual(["al01", "al02", "al03"]);
+  });
+
+  it("pelo título e pelo romaji", () => {
+    expect(albumIds("夜明け").slice(0, 2)).toEqual(["al01", "al03"]);
+    expect(albumIds("ichiban")).toEqual(["al18"]);
+  });
+
+  it("hitKey: o palpite cai na mesma linha da busca (música por songKey, álbum pelo id)", () => {
+    const index = indexCatalog(catalog);
+    // tr02 é a versão de álbum de tr01: mesma linha da Música.
+    expect(hitKey(index, "song", "fixture:tr:tr02")).toBe("夜明けのめろでぃ|fixture:ar:ar01");
+    expect(hitKey(index, "song", "x:tr:sumiu")).toBe("x:tr:sumiu");
+    expect(hitKey(index, "album", "fixture:al:al02")).toBe("fixture:al:al02");
+  });
+
+  it("o sufixo ' - Single' não entra na busca", () => {
+    expect(albumIds("single")).toEqual([]);
+  });
+
+  it("mesma resposta com os álbuns em outra ordem", () => {
+    const reversed = buildSearchIndex(
+      indexCatalog({ ...catalog, albums: [...catalog.albums].reverse() as Catalog["albums"] }),
+      "album",
+    );
+    for (const query of ["ミナト", "no", "a"]) {
+      expect(search(reversed, query, 100)).toEqual(search(albums, query, 100));
+    }
   });
 });
 
@@ -161,6 +205,7 @@ describe("search: limites e casos vazios", () => {
   it("ordem determinística, independente da ordem do catálogo", () => {
     const reversed = buildSearchIndex(
       indexCatalog(withTracks(catalog, [...catalog.tracks].reverse())),
+      "song",
     );
     for (const query of ["no", "t", "a", "ナナ", "sakuram"]) {
       expect(search(idx, query, 100)).toEqual(search(idx, query, 100));
@@ -173,7 +218,10 @@ describe("search: limites e casos vazios", () => {
     const tied = withPopularity({ tr28: 0.6, tr39: 0.6 });
     const expected = ["tr28", "tr39", "tr22"];
     for (const tracks of [tied.tracks, [...tied.tracks].reverse()]) {
-      const found = search(buildSearchIndex(indexCatalog(withTracks(tied, tracks))), "tokyonoise");
+      const found = search(
+        buildSearchIndex(indexCatalog(withTracks(tied, tracks)), "song"),
+        "tokyonoise",
+      );
       expect(found.map((h) => h.id.replace("fixture:tr:", ""))).toEqual(expected);
     }
   });

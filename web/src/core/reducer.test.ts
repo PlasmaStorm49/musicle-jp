@@ -4,6 +4,7 @@ import { indexCatalog } from "./catalog.ts";
 import { recordMax, recordScore } from "./records.ts";
 import {
   createGame,
+  createRounds,
   currentRound,
   type GameEvent,
   type GameState,
@@ -59,6 +60,34 @@ describe("createGame", () => {
     expect(r.trackId).toBe(day.album[0].answer);
     expect(r.correctOptionId).toBe(track?.albumId);
     expect(r.options).toContain(track?.albumId);
+  });
+
+  it("createRounds monta as mesmas rodadas que o createGame (M8: o Treino usa só ele)", () => {
+    expect(createRounds(day.song, "song", index)).toEqual(song().rounds);
+    expect(createRounds(day.album, "album", index)).toEqual(
+      createGame(day, DATE, "album", "choice", index).rounds,
+    );
+  });
+
+  it("jogo de uma rodada só (Treino) termina no palpite, e avançar não faz nada", () => {
+    const one: GameState = { ...song(), rounds: createRounds([day.song[0]], "song", index) };
+    const done = play(one, { type: "GUESS", guessId: day.song[0].answer });
+    expect(isFinished(done)).toBe(true);
+    expect(roundScore(round(done))).toBe(6);
+    expect(reduce(done, { type: "NEXT_ROUND" })).toBe(done);
+  });
+
+  it("Álbum na digitação: outro álbum com a mesma música também é acerto", () => {
+    const tr01 = index.tracks.get("fixture:tr:tr01");
+    if (!tr01) throw new Error("tr01 ausente");
+    // tr01 (single al01) tem versões em al02 (álbum) e al03 (TV Size).
+    const planned = [{ answer: tr01.id, options: [tr01.albumId] }];
+    const game: GameState = {
+      ...createGame(day, DATE, "album", "typing", index),
+      rounds: createRounds(planned, "album", index),
+    };
+    const won = play(game, { type: "GUESS", guessId: "fixture:al:al02" });
+    expect(round(won).status).toBe("won");
   });
 
   it("rodada já nasce anulada se a resposta deixou de ser elegível (P27)", () => {
