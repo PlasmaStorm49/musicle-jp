@@ -18,7 +18,8 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 - **Commit com aspas duplas na mensagem:** o PowerShell 5.1 quebra o argumento do `git`. Grave a mensagem num arquivo do scratchpad e use `git commit -F <arquivo>`.
 - Python 3.12, Node.js LTS, Git e GitHub CLI (`gh`).
 - Fuso do jogo: `America/Sao_Paulo`.
-- **Hook ativo:** depois de cada `Edit`/`Write` num `.py` do `pipeline/`, o `.claude/hooks/format_file.py` ordena os imports e formata o arquivo. Releia antes de editar de novo a mesma região.
+- **Hook ativo:** depois de cada `Edit`/`Write`, o `.claude/hooks/format_file.py` ordena os imports e formata o arquivo: `.py` do `pipeline/` com Ruff; `.ts`, `.tsx`, `.json` e `.css` do `web/` com Biome. Releia antes de editar de novo a mesma região.
+- O Node 24 roda `.ts` direto (type stripping); o núcleo do `web/` usa isso no teste cruzado.
 
 ## Mapa
 
@@ -48,7 +49,18 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 
 Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` no diff → corrigir erros em `pipeline/data/aliases.toml` → `build` → `fake-assets` → `schedule` → `schedule-check`.
 
-A partir do M4: `npm run dev --prefix web`, `npm test --prefix web` e a skill `/verificar`.
+**Web** (regras próprias em `web/CLAUDE.md`):
+
+| Tarefa | Comando |
+|---|---|
+| Instalar dependências (uma vez, ou após mudar o lockfile) | `npm ci --prefix web` |
+| Lint, tipos e testes com cobertura | `npm run check --prefix web` |
+| Só os testes | `npm test --prefix web` |
+| Servidor de desenvolvimento | `npm run dev --prefix web` (porta 5173) |
+| Build de produção | `npm run build --prefix web` |
+| Regerar tipos depois de mudar `shared/schema` | `npm run types --prefix web` |
+
+**Verificação completa** (pipeline + web, só relata, não corrige): skill **`/verificar`**.
 
 ## Regras invioláveis
 

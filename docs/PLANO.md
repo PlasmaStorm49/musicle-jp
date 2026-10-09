@@ -22,6 +22,8 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P18 | Desafio nº 1 da agenda falsa em 2026-10-08 (início do projeto) |
 | P21 a P23 | Romaji com cutlet, em cache versionado; grafia estrangeira só na busca (Apêndice B) |
 | P24 | O Diário Álbum aceita singles, em definitivo |
+| P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
+| P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2 |
 
 ## 3. Fonte de dados (usada só no M11)
 
@@ -81,7 +83,7 @@ musicle-jp/
 | M1 | Concluído em 08/10/2026 | Schemas, models, FixtureProvider, normalização sem romaji, merge, CLI, Ruff, pytest | `build --provider fixture` gera catálogo válido; 2 execuções dão bytes idênticos | Modo de planejamento |
 | M2 | Concluído em 08/10/2026 | Romaji (cutlet × pykakasi), `aliases.toml`, vetores compartilhados | Tabela título → romaji aprovada | Subagentes em paralelo |
 | M3 | Concluído em 08/10/2026 | WAV e SVG falsos (`fake-assets`), PRNG, `similarity`, agenda, `schedule-check` | 61 dias gerados sem afrouxar regra; regerar não altera dia existente | Hooks (formatador), regras de negação |
-| M4 | | Vite + TS + Preact + Biome + Vitest; `core` com reducer de Música com 4 opções | Vetores passam em Python e TS; testes da virada de dia | Skill de projeto `/verificar`, TDD |
+| M4 | Concluído em 08/10/2026 | Vite + TS + Preact + Biome + Vitest; `core` com reducer de Música com 4 opções | Vetores passam em Python e TS; testes da virada de dia | Skill de projeto `/verificar`, TDD |
 | M5 | | 1ª tela jogável: Diário Música com 4 opções, Web Audio, barra segmentada | Dia completo jogado no navegador, console limpo | Pré-visualização no navegador (`launch.json`) |
 | M6 | | Persistência, estatísticas, retomada, compartilhar, contagem regressiva | Recarregar no meio retoma; storage corrompido não quebra | Subagente `revisor` + `/code-review` |
 | M7 | | Digitação com autocompletar (kana, kanji, romaji, alias, teclado, ARIA) | Busca acha por todas as grafias | Git worktree, sessão paralela |
@@ -311,12 +313,16 @@ Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece
 
 ## Apêndice G. Organização do código TS
 
-- **Estado:** `GameState { mode, puzzleId, rounds: RoundState[], current, status }`.
-- **Rodada:** `RoundState { answerId, options?, attempts: ('skip' | { guessId, correct })[], stage, status }`.
-- **Eventos:** `GUESS`, `SKIP`, `LISTEN_MORE`, `GIVE_UP`, `NEXT_ROUND`.
-- **Transição:** `reduce(state, event, rules)`, função pura. Tempo e sorteio entram como parâmetro (`now`, `rng`).
-- **UI:** `useReducer` do Preact recebe o reducer do `core` diretamente.
-- **i18n:** `pt-BR.ts` exporta um objeto de textos; `t(chave, parâmetros)` é tipado por `keyof`; plural com `Intl.PluralRules('pt-BR')`.
+Implementado no M4 (`web/src/core/`):
+
+- **Estado:** `GameState { puzzleId, target, answerMode, rounds, current }`. Não há campo `status`: `isFinished` é derivado (nenhuma rodada em andamento), então fechar a aba depois da 3ª rodada não deixa o jogo "em andamento".
+- **Rodada:** `RoundState { trackId, correctOptionId, accepted, options, stage, attempts, status, voidReason }`. `trackId` é o que toca; `correctOptionId` é a opção a destacar (a faixa, ou o álbum dela); `accepted` são os IDs que contam como acerto, calculados ao criar a rodada (versões da mesma música), para o reducer não consultar o catálogo.
+- **Eventos:** `GUESS`, `LISTEN_MORE`, `SKIP`, `GIVE_UP`, `VOID` (falha de áudio) e `NEXT_ROUND`. Evento inválido devolve **o mesmo objeto**.
+- **Regras por modo** em `MODE_RULES` (`rules.ts`): palpites, o que um erro faz, se pode ouvir mais ou pular. Pontos = 6 − etapa nos dois modos.
+- **Rodada anulada** (`void`): nasce assim se a resposta sumiu ou perdeu a elegibilidade; sai do total (P27).
+- **Tipos** do contrato gerados de `shared/schema` (`npm run types`).
+- **UI:** `useReducer` do Preact recebe o reducer do `core` diretamente (M5).
+- **i18n:** `pt-BR.ts` exporta um objeto de textos; `t(chave, parâmetros)` é tipado por `keyof`. Plural com `Intl.PluralRules('pt-BR')` quando aparecer o primeiro texto com plural.
 
 ## Apêndice H. Testes e qualidade
 
@@ -328,12 +334,15 @@ Se faltar o dia na agenda, a v1 mostra "desafio de hoje indisponível" e oferece
 | Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; Treino |
 | Exploratório | Navegador do Claude | Visual, console e cliques durante o desenvolvimento |
 | Lint e formato | Ruff (Python), Biome (TS), `tsc --noEmit` estrito | |
+| Contrato Python × TS | pytest chamando o Node | Teste cruzado (M4): `normalize` e `looseKey` em TS comparados com o Python em todos os 62.034 caracteres do plano básico do Unicode 15.0 e 88.740 strings |
 
 ## Apêndice I. GitHub e CI (confirmar na documentação no M9 e no M10)
 
 - O cron do GitHub Actions é em UTC: `0 9 * * 1` dispara segunda-feira às 06:00 de Brasília.
 - Push feito com `GITHUB_TOKEN` não dispara outro workflow. Por isso a atualização do catálogo abre PR, e o merge humano dispara o deploy.
 - Para a Action criar PR, é preciso ativar "Allow GitHub Actions to create and approve pull requests" no repositório.
+- O `schedule-check --base-ref` precisa do histórico: `actions/checkout` com `fetch-depth: 0` e, no push, comparar com `github.event.before`.
+- Instalar o web com `npm ci --prefix web`, que respeita o lockfile e o `.npmrc`.
 
 ## Origem
 
