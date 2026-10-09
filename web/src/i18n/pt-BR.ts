@@ -37,10 +37,18 @@ export const ptBR = {
   "summary.title": "Resultado do dia",
   "summary.score": "{score} de {max} pontos",
   "summary.round": "Rodada {number}: {result}",
-  "summary.won": "acertou, {points} pontos",
+  "summary.won": "acertou, {points}",
   "summary.lost": "não acertou",
   "summary.void": "anulada",
   "summary.comeBack": "Volte amanhã para o próximo desafio.",
+
+  "count.points.one": "{count} ponto",
+  "count.points.other": "{count} pontos",
+
+  "storage.unavailable": "Seu progresso não será salvo neste navegador.",
+  "storage.future":
+    "Há uma versão mais nova do jogo aberta. Recarregue a página para salvar seu progresso.",
+  "storage.full": "Não foi possível salvar o progresso: o armazenamento do navegador está cheio.",
 } as const;
 
 export type MessageKey = keyof typeof ptBR;

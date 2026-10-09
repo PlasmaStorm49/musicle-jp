@@ -271,6 +271,15 @@ ul.options {
   color: var(--muted);
 }
 
+.notice {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 0.9rem;
+}
+
 .error,
 .void,
 .unavailable {

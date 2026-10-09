@@ -1,7 +1,7 @@
 // Carrega catálogo e agenda e decide qual dia jogar. Sem DOM e sem import.meta.env: recebe
 // fetch, URL base e data de fora, então roda e é testado no Node (tsconfig.node.json).
 import { type CatalogIndex, indexCatalog, UnsupportedCatalogError } from "../core/catalog.ts";
-import { addDays, dateInZone } from "../core/dates.ts";
+import { dateInZone, isValidDate } from "../core/dates.ts";
 import type { Catalog, Day, Schedule } from "../core/types.ts";
 
 export { UnsupportedCatalogError };
@@ -66,12 +66,7 @@ export function assetUrl(baseUrl: string, url: string): string {
   return new URL(url, baseUrl).href;
 }
 
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-
-/** AAAA-MM-DD que existe no calendário (recusa 2026-02-30). */
-export function isValidDate(text: string): boolean {
-  return ISO_DATE.test(text) && addDays(text, 0) === text;
-}
+export { isValidDate }; // mora em core/dates.ts; reexportado para quem já importava daqui
 
 /** Data do desafio: hoje em Brasília; em desenvolvimento, ?date=AAAA-MM-DD troca o dia. */
 export function gameDate(now: Date, search: string, dev: boolean): string {

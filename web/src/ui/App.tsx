@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { type PlayLog, WebAudioEngine } from "../audio/webaudio.ts";
+import { emptySave, pruneProgress, puzzleId, type SaveV1 } from "../core/records.ts";
 import {
   assetUrl,
   failAudioTrack,
@@ -11,6 +12,13 @@ import {
   UnsupportedCatalogError,
 } from "../data/source.ts";
 import { t } from "../i18n/t.ts";
+import {
+  type KeyValueStore,
+  type LoadResult,
+  loadSave,
+  openStore,
+  updateSave,
+} from "../storage/save.ts";
 import { Game } from "./Game.tsx";
 
 type Load =
@@ -29,11 +37,39 @@ declare global {
 const BASE_URL = new URL(import.meta.env.BASE_URL, window.location.href).href;
 const DEV = import.meta.env.DEV;
 
+type Storage = {
+  /** null = não grava nesta sessão (versão mais nova aberta, ou cópia do corrompido falhou). */
+  readonly store: KeyValueStore | null;
+  readonly save: SaveV1;
+  readonly notice: string | null;
+};
+
+/** Abre o armazenamento uma vez: lê, limpa andamentos de outros dias e diz se vai salvar. */
+function openSaves(date: string): Storage {
+  const { store, persistent } = openStore(() => window.localStorage);
+  let loaded: LoadResult;
+  try {
+    loaded = loadSave(store);
+  } catch {
+    loaded = { save: emptySave(), writable: false, notice: "unavailable" };
+  }
+  const today = [puzzleId(date, "song"), puzzleId(date, "album")];
+  if (loaded.writable) updateSave(store, (s) => pruneProgress(s, today));
+  const notice =
+    loaded.notice === "future"
+      ? t("storage.future")
+      : !persistent || !loaded.writable
+        ? t("storage.unavailable")
+        : null;
+  return { store: loaded.writable ? store : null, save: pruneProgress(loaded.save, today), notice };
+}
+
 export function App() {
   const [load, setLoad] = useState<Load>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
   const [message, setMessage] = useState(t("load.loading"));
   const date = useMemo(() => gameDate(new Date(), window.location.search, DEV), []);
+  const saves = useMemo(() => openSaves(date), [date]);
   const resolveUrl = useCallback((url: string) => assetUrl(BASE_URL, url), []);
 
   // `attempt` muda quando o jogador clica em "Tentar de novo" e dispara uma nova carga.
@@ -43,7 +79,7 @@ export function App() {
     loadGameData((url, init) => fetch(url, init), BASE_URL, controller.signal)
       .then((data) => {
         setLoad({ status: "ready", data });
-        setMessage("");
+        setMessage(saves.notice ?? "");
       })
       .catch((error: unknown) => {
         if (controller.signal.aborted) return;
@@ -52,7 +88,7 @@ export function App() {
         setMessage(t(status === "update" ? "load.update" : "load.retry"));
       });
     return () => controller.abort();
-  }, [attempt]);
+  }, [attempt, saves]);
 
   const engine = useMemo<AudioEngine | null>(() => {
     if (load.status !== "ready") return null;
@@ -74,6 +110,7 @@ export function App() {
       <p class="sr-only" aria-live="polite">
         {message}
       </p>
+      {saves.notice && <p class="notice">{saves.notice}</p>}
       {load.status === "loading" && <p>{t("load.loading")}</p>}
       {load.status === "retry" && (
         <section class="error">
@@ -98,6 +135,7 @@ export function App() {
           engine={engine}
           resolveUrl={resolveUrl}
           announce={setMessage}
+          saves={saves}
         />
       )}
     </main>
@@ -110,9 +148,10 @@ type ReadyProps = {
   readonly engine: AudioEngine;
   readonly resolveUrl: (url: string) => string;
   readonly announce: (message: string) => void;
+  readonly saves: Storage;
 };
 
-function Ready({ data, date, engine, resolveUrl, announce }: ReadyProps) {
+function Ready({ data, date, engine, resolveUrl, announce, saves }: ReadyProps) {
   const day = pickDay(data.schedule, date);
   if (!day) return <p class="unavailable">{t("day.unavailable")}</p>;
   return (
@@ -123,6 +162,8 @@ function Ready({ data, date, engine, resolveUrl, announce }: ReadyProps) {
       engine={engine}
       resolveUrl={resolveUrl}
       announce={announce}
+      store={saves.store}
+      initialSave={saves.save}
     />
   );
 }

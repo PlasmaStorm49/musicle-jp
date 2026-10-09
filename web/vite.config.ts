@@ -12,7 +12,7 @@ export default defineConfig({
     env: { TZ: "Asia/Tokyo" },
     coverage: {
       provider: "v8",
-      include: ["src/core/**/*.ts", "src/data/**/*.ts"],
+      include: ["src/core/**/*.ts", "src/data/**/*.ts", "src/storage/**/*.ts"],
       exclude: ["src/**/*.test.ts", "src/core/generated/**"],
       thresholds: { lines: 90, statements: 90 },
     },

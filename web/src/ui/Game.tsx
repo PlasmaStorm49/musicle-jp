@@ -1,11 +1,27 @@
-import { useEffect, useMemo, useReducer, useState } from "preact/hooks";
+import { useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
-import { createGame, currentRound, reduce } from "../core/reducer.ts";
+import {
+  type FinishedGame,
+  puzzleId,
+  type SaveV1,
+  startSession,
+  toFinishedGame,
+  withFinished,
+  withProgress,
+} from "../core/records.ts";
+import {
+  currentRound,
+  type GameEvent,
+  type GameState,
+  isFinished,
+  reduce,
+} from "../core/reducer.ts";
 import { ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import { revealView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
+import { type KeyValueStore, updateSave } from "../storage/save.ts";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
 import { Reveal } from "./Reveal.tsx";
@@ -19,16 +35,62 @@ type Props = {
   readonly resolveUrl: (url: string) => string;
   /** Mensagem para a região aria-live (eventos assíncronos). */
   readonly announce: (message: string) => void;
+  /** Onde o progresso é salvo; null = não salva nesta sessão. */
+  readonly store: KeyValueStore | null;
+  /** O save lido ao abrir a página. */
+  readonly initialSave: SaveV1;
 };
 
-/** O Diário Música no modo 4 opções (M5). Os outros modos entram no M7 e no M8. */
-export function Game({ day, date, index, engine, resolveUrl, announce }: Props) {
-  const [game, dispatch] = useReducer(reduce, undefined, () =>
-    createGame(day, date, "song", "choice", index),
+type Played = { readonly game: GameState; readonly events: readonly GameEvent[] };
+
+/** Só guarda o evento se ele mudou o estado: é a lista que permite retomar ao recarregar. */
+function playReducer(played: Played, event: GameEvent): Played {
+  const game = reduce(played.game, event);
+  return game === played.game ? played : { game, events: [...played.events, event] };
+}
+
+/** O Diário Música no modo 4 opções. Dia já terminado mostra direto o resultado (P39). */
+export function Game(props: Props) {
+  const { day, date, index, initialSave } = props;
+  const session = useMemo(
+    () => startSession(initialSave, day, date, "song", "choice", index),
+    [initialSave, day, date, index],
   );
-  const [showSummary, setShowSummary] = useState(false);
+  if (session.kind === "finished") return <Summary game={session.game} />;
+  return <Playing {...props} start={{ game: session.state, events: session.events }} />;
+}
+
+function Playing({
+  day,
+  date,
+  index,
+  engine,
+  resolveUrl,
+  announce,
+  store,
+  start,
+}: Props & { readonly start: Played }) {
+  const [played, dispatch] = useReducer(playReducer, start);
+  const [summary, setSummary] = useState<FinishedGame | null>(null);
+  const saveFailed = useRef(false);
+  const { game } = played;
   const round = currentRound(game);
   const isLast = game.current === game.rounds.length - 1;
+
+  // Salva a cada evento aceito: em andamento, a lista de eventos; terminado, o resumo.
+  useEffect(() => {
+    if (!store || played.events.length === 0) return;
+    const id = puzzleId(date, game.target);
+    const ok = isFinished(game)
+      ? updateSave(store, (s) => withFinished(s, id, toFinishedGame(game, day.number)))
+      : updateSave(store, (s) =>
+          withProgress(s, id, { answerMode: game.answerMode, events: played.events }),
+        );
+    if (!ok && !saveFailed.current) {
+      saveFailed.current = true; // avisa uma vez só
+      announce(t("storage.full"));
+    }
+  }, [store, played, game, date, day.number, announce]);
 
   const urls = useMemo(
     () =>
@@ -50,11 +112,11 @@ export function Game({ day, date, index, engine, resolveUrl, announce }: Props) 
   }, [engine, url, nextUrl]);
 
   function next() {
-    if (isLast) setShowSummary(true);
+    if (isLast && isFinished(game)) setSummary(toFinishedGame(game, day.number));
     else dispatch({ type: "NEXT_ROUND" });
   }
 
-  if (showSummary) return <Summary game={game} />;
+  if (summary) return <Summary game={summary} />;
 
   const track = revealView(index, round.trackId);
   return (
