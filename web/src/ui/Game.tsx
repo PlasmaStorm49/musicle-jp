@@ -39,7 +39,30 @@ type Props = {
   readonly store: KeyValueStore | null;
   /** O save lido ao abrir a página. */
   readonly initialSave: SaveV1;
+  /** Dias que existem na agenda (a sequência só conta estes, P40). */
+  readonly scheduleDates: readonly string[];
+  /** Endereço do jogo no texto compartilhado (sem parâmetros). */
+  readonly shareUrl: string;
 };
+
+/** O resumo do dia com tudo o que ele precisa; o histórico já inclui o jogo de hoje. */
+function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame }) {
+  const id = puzzleId(props.date, "song");
+  // Se o save já tem o dia (outra aba terminou antes), vale o que está salvo: o primeiro término.
+  const today = props.initialSave.history[id] ?? game;
+  const history = { ...props.initialSave.history, [id]: today };
+  return (
+    <Summary
+      game={today}
+      target="song"
+      date={props.date}
+      history={history}
+      scheduleDates={props.scheduleDates}
+      shareUrl={props.shareUrl}
+      announce={props.announce}
+    />
+  );
+}
 
 type Played = { readonly game: GameState; readonly events: readonly GameEvent[] };
 
@@ -51,25 +74,23 @@ function playReducer(played: Played, event: GameEvent): Played {
 
 /** O Diário Música no modo 4 opções. Dia já terminado mostra direto o resultado (P39). */
 export function Game(props: Props) {
-  const { day, date, index, initialSave } = props;
+  const { day, date, index, initialSave, store } = props;
   const session = useMemo(
     () => startSession(initialSave, day, date, "song", "choice", index),
     [initialSave, day, date, index],
   );
-  if (session.kind === "finished") return <Summary game={session.game} />;
+  // A retomada pelos eventos pode chegar a um jogo terminado que não chegou ao histórico.
+  useEffect(() => {
+    if (session.kind === "finished" && store) {
+      updateSave(store, (s) => withFinished(s, puzzleId(date, "song"), session.game));
+    }
+  }, [session, store, date]);
+  if (session.kind === "finished") return <DaySummary {...props} game={session.game} />;
   return <Playing {...props} start={{ game: session.state, events: session.events }} />;
 }
 
-function Playing({
-  day,
-  date,
-  index,
-  engine,
-  resolveUrl,
-  announce,
-  store,
-  start,
-}: Props & { readonly start: Played }) {
+function Playing({ start, ...props }: Props & { readonly start: Played }) {
+  const { day, date, index, engine, resolveUrl, announce, store } = props;
   const [played, dispatch] = useReducer(playReducer, start);
   const [summary, setSummary] = useState<FinishedGame | null>(null);
   const saveFailed = useRef(false);
@@ -116,7 +137,7 @@ function Playing({
     else dispatch({ type: "NEXT_ROUND" });
   }
 
-  if (summary) return <Summary game={summary} />;
+  if (summary) return <DaySummary {...props} game={summary} />;
 
   const track = revealView(index, round.trackId);
   return (

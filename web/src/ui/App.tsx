@@ -164,6 +164,8 @@ function Ready({ data, date, engine, resolveUrl, announce, saves }: ReadyProps) 
       announce={announce}
       store={saves.store}
       initialSave={saves.save}
+      scheduleDates={Object.keys(data.schedule.days)}
+      shareUrl={BASE_URL}
     />
   );
 }

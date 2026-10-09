@@ -44,6 +44,33 @@ export const ptBR = {
 
   "count.points.one": "{count} ponto",
   "count.points.other": "{count} pontos",
+  "count.days.one": "{count} dia",
+  "count.days.other": "{count} dias",
+  "count.games.one": "{count} jogo",
+  "count.games.other": "{count} jogos",
+
+  "target.song": "Diário Música",
+  "target.album": "Diário Álbum",
+  "mode.choice": "4 opções",
+  "mode.typing": "digitação",
+
+  "stats.title": "Estatísticas",
+  "stats.played": "Jogos",
+  "stats.average": "Média",
+  "stats.currentStreak": "Sequência atual",
+  "stats.bestStreak": "Melhor sequência",
+  "stats.distribution": "Pontos por dia",
+  "stats.bucket": "{points}: {games}",
+  "stats.none": "—",
+
+  "share.header": "{title} · {daily} nº {number} · {mode}",
+  "share.button": "Compartilhar resultado",
+  "share.copied": "Resultado copiado. É só colar onde quiser.",
+  "share.manual": "Não foi possível copiar sozinho. Copie o texto abaixo:",
+
+  "countdown.label": "Próximo desafio em",
+  "countdown.ready": "O novo desafio já está disponível.",
+  "countdown.play": "Jogar o novo desafio",
 
   "storage.unavailable": "Seu progresso não será salvo neste navegador.",
   "storage.future":
