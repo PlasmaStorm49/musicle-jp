@@ -100,6 +100,15 @@ jobs:
             echo "::error::o motor de áudio falso foi parar no build de produção"
             exit 1
           fi
+      - name: Base do GitHub Pages no build
+        run: |
+          # O Pages publica em /musicle-jp/: sem a base, os assets dariam 404 e a página ficaria
+          # em branco (web/vite.config.ts).
+          grep -Eq '(src|href)="/musicle-jp/assets/' dist/index.html || { echo "::error::dist/index.html não usa /musicle-jp/assets/"; exit 1; }
+          if grep -Eq '(src|href)="/assets/' dist/index.html; then
+            echo "::error::dist/index.html tem caminho /assets/ sem a base"
+            exit 1
+          fi
 
   e2e:
     runs-on: ubuntu-24.04

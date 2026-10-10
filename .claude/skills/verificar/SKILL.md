@@ -18,13 +18,14 @@ Rode da raiz do repositório, **um comando por vez** (PowerShell 5.1: não use `
 | 7 | Web: Biome, os três tsconfig, Vitest com cobertura ≥ 90% no núcleo | `npm run check --prefix web` |
 | 8 | Web: build de produção | `npm run build --prefix web` |
 | 9 | Motor de áudio falso fora do build (nenhuma linha = passou) | `Get-ChildItem web\dist -Recurse -File \| Select-String -Pattern musicle-fake-audio -List` |
-| 10 | Ponta a ponta (opcional; a CI sempre roda) | `npm run e2e --prefix web` |
+| 10 | Base do GitHub Pages no build (precisa dar `True`) | `Select-String -Path web\dist\index.html -Pattern '/musicle-jp/assets/' -Quiet` |
+| 11 | Ponta a ponta (opcional; a CI sempre roda) | `npm run e2e --prefix web` |
 
 Antes de começar:
 
 - Sem `.venv`: avise o usuário e pare (o ambiente está em `CLAUDE.md`, seção Comandos).
 - Sem `web/node_modules`: rode `npm ci --prefix web` e diga que rodou.
-- Passo 10: precisa do `fake-assets` já rodado e do Chromium do Playwright (`npx --prefix web playwright install chromium`). Sem eles, marque o passo como "não rodado" e diga por quê. Ele reaproveita o servidor da porta 5173, se houver (por isso, numa worktree, não rode).
+- Passo 11: precisa do `fake-assets` já rodado e do Chromium do Playwright (`npx --prefix web playwright install chromium`). Sem eles, marque o passo como "não rodado" e diga por quê. Ele reaproveita o servidor da porta 5173, se houver (por isso, numa worktree, não rode).
 
 ## Relatório
 

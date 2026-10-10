@@ -1,7 +1,12 @@
 import preact from "@preact/preset-vite";
 import { defineConfig } from "vitest/config";
 
-export default defineConfig({
+// O GitHub Pages publica o site em /musicle-jp/. Só o build e o preview (que serve o dist) usam
+// esse caminho: desenvolvimento, e2e e Vitest ficam na raiz (o e2e espera localhost:5173/).
+const PAGES_BASE = "/musicle-jp/";
+
+export default defineConfig(({ command, isPreview }) => ({
+  base: command === "build" || isPreview ? PAGES_BASE : "/",
   plugins: [preact()],
   server: { port: 5173, strictPort: true },
   test: {
@@ -18,4 +23,4 @@ export default defineConfig({
       thresholds: { lines: 90, statements: 90 },
     },
   },
-});
+}));
