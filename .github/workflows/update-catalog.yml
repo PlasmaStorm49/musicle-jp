@@ -1,0 +1,204 @@
+# Toda segunda, acrescenta à agenda os dias até hoje + 21 e abre um PR só com eles. O merge desse
+# PR, feito por uma pessoa, dispara o deploy (rotina no README, "Atualização da agenda").
+#
+# Duas tarefas: quem roda o código do pipeline (e os pacotes do pip) só lê o repositório; quem
+# escreve (push e PR) não roda código do projeto nem instala nada. Um pacote comprometido não
+# chega perto do token que escreve. Os nomes fogem de pipeline, web e e2e (checagens da main).
+name: Atualizar agenda
+
+on:
+  schedule:
+    - cron: "17 9 * * 1" # segunda 09:17 UTC = 06:17 de Brasília; fora do minuto zero (pico)
+  # Sem entradas: um --today errado no futuro deixaria um buraco para sempre (P44).
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: update-catalog
+  cancel-in-progress: false
+
+env:
+  PYTHONUTF8: "1"
+  CATALOG: web/public/fixtures/catalog.json
+  SCHEDULE: web/public/fixtures/schedule.json
+
+# Actions pinadas por SHA, em versões com 14 dias ou mais de publicadas (P28). Versão no comentário.
+jobs:
+  catalog-generate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+      today: ${{ steps.today.outputs.today }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            pipeline/pyproject.toml
+            pipeline/constraints.txt
+      - run: python -m pip install -c pipeline/constraints.txt -e pipeline
+      - id: today
+        name: Data de hoje em Brasília
+        run: |
+          today="$(TZ=America/Sao_Paulo date +%F)"
+          echo "Agora: $(date -u +%FT%TZ) (UTC); hoje em Brasília: $today"
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+      # Parada fictícia estática (M10): o catálogo não muda. No M11, com a parada real, ele muda.
+      - run: python -m musicle_pipeline build --provider fixture --out "$CATALOG"
+      - name: Acrescentar os dias
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: python -m musicle_pipeline schedule --catalog "$CATALOG" --out "$SCHEDULE" --today "$TODAY"
+      - run: python -m musicle_pipeline validate "$CATALOG" --schedule "$SCHEDULE"
+      - run: python -m musicle_pipeline schedule-check --base-ref HEAD
+      - id: diff
+        name: Só a agenda pode mudar
+        run: |
+          status="$(git status --porcelain --untracked-files=all)"
+          if [ -z "$status" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Nada novo: a agenda já cobre hoje + 21 dias." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ "$status" != " M $SCHEDULE" ]; then
+            echo "::error::mudou mais que a agenda:"
+            echo "$status"
+            exit 1
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - if: steps.diff.outputs.changed == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: schedule
+          path: web/public/fixtures/schedule.json
+          retention-days: 1
+          if-no-files-found: error
+
+  catalog-pr:
+    needs: catalog-generate
+    if: needs.catalog-generate.outputs.changed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write # enviar o branch catalogo/<data>
+      pull-requests: write # abrir o PR e fechar o anterior
+    env:
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: schedule
+          path: ${{ runner.temp }}/artifact
+      - id: prep
+        name: Conferir a agenda nova e montar o PR (sem token)
+        env:
+          TODAY: ${{ needs.catalog-generate.outputs.today }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          [[ "$TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::data inválida: $TODAY"; exit 1; }
+          new="$RUNNER_TEMP/artifact/schedule.json"
+          # Só acréscimo, conferido de novo aqui (o arquivo veio de outra tarefa): o mesmo
+          # cabeçalho, e todo dia da main igual na agenda nova.
+          jq -e -n --slurpfile b "$SCHEDULE" --slurpfile n "$new" \
+            '($b[0] | del(.days)) == ($n[0] | del(.days))
+             and ($b[0].days | to_entries | all(.value == $n[0].days[.key]))' > /dev/null \
+            || { echo "::error::a agenda nova altera o que já existe"; exit 1; }
+          base_last="$(jq -r '.days | keys | last' "$SCHEDULE")"
+          mapfile -t added < <(jq -r -n --slurpfile b "$SCHEDULE" --slurpfile n "$new" \
+            '($n[0].days | keys) - ($b[0].days | keys) | .[]')
+          [ "${#added[@]}" -gt 0 ] || { echo "::error::nenhum dia novo"; exit 1; }
+          first="${added[0]}"
+          last="${added[-1]}"
+          # Dia novo só depois do fim da agenda atual: o buraco nunca é preenchido (P44).
+          [[ "$first" > "$base_last" ]] || { echo "::error::dia novo antes de $base_last"; exit 1; }
+          gap=$(( ( $(date -ud "$first" +%s) - $(date -ud "$base_last" +%s) ) / 86400 - 1 ))
+          cp "$new" "$SCHEDULE"
+          count="${#added[@]}"
+          {
+            echo "Agenda do desafio diário: **$count dia(s) novo(s)**, de $first a $last."
+            echo
+            echo "- **Hoje em produção:** a agenda vai até $base_last."
+            echo "- **Depois do merge:** até $last (hoje em Brasília, $TODAY, mais 21 dias)."
+            echo "- Só o \`$SCHEDULE\` mudou, sem alterar nenhum dia existente (conferido aqui e pelo \`schedule-check\` da CI)."
+            if [ "$gap" -gt 0 ]; then
+              echo
+              echo "> **Atenção:** $gap dia(s) ficaram sem desafio depois de $base_last: dia que já passou não é gerado (P44). Faça o merge hoje: a espera deixa o dia de hoje indisponível."
+            fi
+            echo
+            echo "**Para publicar:** aprove as checagens em \"Approve workflows to run\"; com \`pipeline\`, \`web\` e \`e2e\` verdes, faça o merge (merge commit). O merge dispara o deploy."
+            echo
+            echo "Execução que gerou este PR: $RUN_URL"
+          } > "$RUNNER_TEMP/pr-body.md"
+          {
+            echo "branch=catalogo/$TODAY"
+            echo "title=chore: agenda até $last ($count dia(s) novo(s))"
+          } >> "$GITHUB_OUTPUT"
+      - id: branch
+        name: O branch de hoje já existe?
+        env:
+          BRANCH: ${{ steps.prep.outputs.branch }}
+        run: |
+          if git ls-remote --exit-code --heads origin "refs/heads/$BRANCH" > /dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Commit
+        if: steps.branch.outputs.exists == 'false'
+        env:
+          BRANCH: ${{ steps.prep.outputs.branch }}
+          TITLE: ${{ steps.prep.outputs.title }}
+        run: |
+          git switch -c "$BRANCH"
+          git add "$SCHEDULE"
+          git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "$TITLE" -m "Gerado pela Action update-catalog.yml."
+      - name: Enviar o branch
+        if: steps.branch.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.prep.outputs.branch }}
+        run: |
+          # O token entra só neste passo e no seguinte, por um auxiliar de credencial que o lê do
+          # ambiente na hora: não vai para o .git/config nem para a linha de comando de ninguém.
+          git -c credential.helper= \
+            -c 'credential.helper=!f() { test "$1" = get && echo username=x-access-token && echo "password=$GH_TOKEN"; }; f' \
+            push origin "HEAD:refs/heads/$BRANCH"
+      - name: Abrir o PR e fechar o anterior
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.prep.outputs.branch }}
+          TITLE: ${{ steps.prep.outputs.title }}
+          EXISTS: ${{ steps.branch.outputs.exists }}
+        run: |
+          if [ "$EXISTS" = "true" ]; then
+            pr="$(gh pr list --head "$BRANCH" --state open --json url --jq '.[0].url // empty')"
+            if [ -n "$pr" ]; then
+              echo "::notice::o PR de hoje já está aberto: $pr"
+              exit 0
+            fi
+            echo "::error::o branch $BRANCH existe sem PR (uma execução parou no meio). Apague com: git push origin --delete $BRANCH"
+            exit 1
+          fi
+          url="$(gh pr create --base main --head "$BRANCH" --title "$TITLE" --body-file "$RUNNER_TEMP/pr-body.md")"
+          echo "PR aberto: $url" >> "$GITHUB_STEP_SUMMARY"
+          # Um PR anterior que ficou sem merge está contido neste (a geração é determinística):
+          # fechá-lo evita conflito no merge.
+          gh pr list --state open --json number,headRefName \
+            --jq ".[] | select(.headRefName | startswith(\"catalogo/\")) | select(.headRefName != \"$BRANCH\") | .number" |
+            while read -r old; do
+              gh pr close "$old" --delete-branch --comment "Substituído por $url, que já traz estes dias."
+            done
