@@ -21,6 +21,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 from functools import cache
+from itertools import pairwise
 
 from jsonschema import Draft202012Validator
 
@@ -354,6 +355,18 @@ def compare(base: JSON | None, current: JSON) -> list[str]:
         for day_str in sorted(current["days"]):
             if day_str not in base["days"] and day_str < base_last:
                 problems.append(f"{day_str}: dia novo antes do fim da agenda da base ({base_last})")
+    # Os dias novos de uma geração formam um bloco seguido (o generate acrescenta de um dia até
+    # hoje + horizonte). Um dia solto mais à frente, com buraco antes, congelaria a agenda: o
+    # buraco nunca mais poderia ser preenchido.
+    try:
+        added = sorted(date.fromisoformat(d) for d in current["days"] if d not in base["days"])
+    except ValueError as exc:
+        return [*problems, f"data inválida: {exc}"]
+    problems.extend(
+        f"dias novos com buraco entre eles: {prev} e {nxt}"
+        for prev, nxt in pairwise(added)
+        if (nxt - prev).days != 1
+    )
     return problems
 
 

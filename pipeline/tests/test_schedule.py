@@ -262,6 +262,14 @@ def test_compare_refuses_filling_the_gap(gapped):
     ]
 
 
+def test_compare_refuses_new_days_with_a_gap_between_them(first_22):
+    # Um dia solto lá na frente congelaria a agenda: o buraco antes dele nunca seria preenchido.
+    stray = copy.deepcopy(first_22)
+    stray["days"]["2026-10-30"] = copy.deepcopy(first_22["days"]["2026-10-29"])
+    stray["days"]["2027-06-01"] = copy.deepcopy(first_22["days"]["2026-10-29"])
+    assert compare(first_22, stray) == ["dias novos com buraco entre eles: 2026-10-30 e 2027-06-01"]
+
+
 def test_compare_with_an_empty_base_accepts_any_day(first_22):
     empty = {**first_22, "days": {}}
     assert compare(empty, first_22) == []

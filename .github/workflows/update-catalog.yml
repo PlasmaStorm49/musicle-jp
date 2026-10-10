@@ -213,7 +213,7 @@ jobs:
           # repositório (nunca o de uma pessoa nem o de um fork).
           gh pr list --state open --json number,headRefName,author,isCrossRepository \
             --jq ".[] | select(.isCrossRepository | not)
-                      | select(.author.login == \"app/github-actions\" or .author.login == \"github-actions[bot]\")
+                      | select(.author.login | contains(\"github-actions\"))
                       | select(.headRefName | startswith(\"catalogo/\"))
                       | select(.headRefName != \"$BRANCH\") | .number" |
             while read -r old; do
