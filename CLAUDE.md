@@ -1,6 +1,6 @@
 # musicle-jp
 
-Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade do Musicle. Projeto pessoal para aprender o Claude Code.
+Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade do Musicle. Projeto pessoal para aprender o Claude Code. No ar, com dados fictícios, em https://plasmastorm49.github.io/musicle-jp/ (M10).
 
 **Projeto pessoal:** sem relação com trabalho; não usa modelos nem padrões de documentação externos.
 
@@ -30,7 +30,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 | `web/` | TypeScript + Vite + Preact; `src/core/` é a lógica pura do jogo |
 | `shared/` | Schemas JSON e vetores de teste usados pelos dois lados |
 | `docs/` | `PLANO.md` (decisões na seção 2) |
-| `.github/` | CI (`workflows/ci.yml`): as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main` |
+| `.github/` | `workflows/ci.yml`: as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main`. `deploy.yml` (`pages-build`, `pages-deploy`): publica no Pages a cada merge. `update-catalog.yml` (`catalog-generate`, `catalog-pr`): toda segunda abre o PR com os dias novos da agenda. Nenhuma tarefa nova pode se chamar `pipeline`, `web` ou `e2e` |
 | `.claude/` | Configuração do Claude Code deste projeto |
 
 ## Comandos
@@ -45,7 +45,7 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 | Completar o romaji | `.venv\Scripts\python -m musicle_pipeline romanize --provider fixture` (conferir: `--check`) |
 | Gerar o catálogo falso | `.venv\Scripts\python -m musicle_pipeline build --provider fixture --out web/public/fixtures/catalog.json` |
 | Gerar áudio e capas falsos | `.venv\Scripts\python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json` (fora do Git; rode depois de clonar) |
-| Acrescentar dias à agenda | `.venv\Scripts\python -m musicle_pipeline schedule --catalog web/public/fixtures/catalog.json --out web/public/fixtures/schedule.json --today AAAA-MM-DD` |
+| Acrescentar dias à agenda (nunca gera dia passado, P44: um `--today` no futuro deixaria buraco para sempre) | `.venv\Scripts\python -m musicle_pipeline schedule --catalog web/public/fixtures/catalog.json --out web/public/fixtures/schedule.json --today AAAA-MM-DD` |
 | Validar catálogo e agenda | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` |
 | Conferir que a agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
 
@@ -60,6 +60,7 @@ Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` n
 | Só os testes | `npm test --prefix web` |
 | Servidor de desenvolvimento | `npm run dev --prefix web` (porta 5173; precisa do `fake-assets` já rodado). No Claude: pré-visualização `web` do `.claude/launch.json` |
 | Build de produção | `npm run build --prefix web` |
+| Ver o build como no Pages (depois do `build` e do `fake-assets`) | `npm run preview --prefix web`, em http://localhost:4173/musicle-jp/ |
 | Testes de ponta a ponta (Playwright; precisa do `fake-assets` e de `npx --prefix web playwright install chromium` uma vez) | `npm run e2e --prefix web` |
 | Regerar tipos depois de mudar `shared/schema` | `npm run types --prefix web` |
 
@@ -71,7 +72,7 @@ Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` n
 2. Todo texto de tela fica em `web/src/i18n/pt-BR.ts`.
 3. Arquivos gerados (`web/public/data/`, `web/public/fixtures/*.json`, áudio sintético) não se editam à mão: rode o pipeline.
 4. A agenda (`schedule.json`) só cresce. Nunca altere um dia que já existe.
-5. Mudança de esquema: atualize `shared/schema/` e os testes nos dois lados. Até o primeiro deploy (M10), o `schemaVersion` fica 1 e não há migração; depois, suba o `schemaVersion` e escreva a migração.
+5. Mudança de esquema: atualize `shared/schema/` e os testes nos dois lados. Desde o primeiro deploy (M10), o jogo está no ar: mudança incompatível sobe o `schemaVersion` e leva migração.
 6. Normalização e PRNG mudam em Python e TS juntos, com os vetores de `shared/vectors/`.
 7. Nenhuma chave, token ou senha no repositório. Segredos só nos Secrets do GitHub.
 8. Não baixe nem guarde áudio de preview real (termos da Apple). Em disco, só os WAV sintéticos.
@@ -87,3 +88,5 @@ Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` n
 ## Fluxo de cada marco
 
 Modo de planejamento → aprovação → branch do marco → implementação → verificação → revisão do diff → commits → PR → `pipeline`, `web` e `e2e` verdes → merge (merge commit). A `main` só aceita PR (ruleset sem exceção): nada de commit direto nela. Ao fechar um marco, atualize a coluna "Estado" em `docs/PLANO.md`.
+
+Todo merge na `main` publica no Pages (`deploy.yml`). **PR semanal do robô** (`catalogo/<data>`, segunda de manhã): confira que só o `schedule.json` mudou, aprove as checagens em "Approve workflows to run", espere `pipeline`, `web` e `e2e` verdes e faça o merge no mesmo dia. Enquanto ele estiver aberto, evite outro merge: o `strict` do ruleset o deixaria desatualizado.

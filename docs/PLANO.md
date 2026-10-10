@@ -25,6 +25,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
 | P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2 |
 | P60 | A regra da P28 vale também para o Python (M9): versões exatas de tudo, diretas e indiretas, em `pipeline/constraints.txt`, e o `setuptools` do build fixo no `pyproject.toml`. Na adoção, três caíram para a versão anterior: ruff 0.16.9, rpds-py 2026.6.3 e iniconfig 2.3.0 |
+| P64 | PR semanal da agenda aberto pela Action com o `GITHUB_TOKEN` (M10): as checagens rodam depois de "Approve workflows to run", e o merge é humano (o push dele dispara o deploy). Sem segredo; exige "Allow GitHub Actions to create and approve pull requests" ligado |
 | P31 | Aviso de faixa explícita no player antes de tocar e na revelação |
 | P32 | Romaji menor embaixo do título japonês nas opções |
 | P33 | "Ouvir mais" libera a etapa e toca o trecho maior na hora |
@@ -36,6 +37,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P40 | Dia sem agenda não quebra a sequência |
 | P41 | Média e distribuição com pontos brutos; dia todo anulado fica fora delas, mas conta em jogos e na sequência |
 | P42 | Compartilhar com formas, não só cores: ⬛ ouvir mais (na digitação, pulou), ✅ acerto, ❌ erro, ⬜ anulada |
+| P44 | (a) A agenda nunca gera dia passado (M10): a geração começa em `max(epoch, último + 1, hoje)`. O dia que não foi gerado a tempo vira buraco ("indisponível"), que não quebra a sequência (P40) e nunca é preenchido (o `compare` recusa) |
 | P45 | O modo de resposta é escolhido todo dia antes da rodada 1, com o último usado marcado e com o foco |
 | P46 | Na digitação nada toca sozinho: pulo e erro só liberam a etapa; o jogador clica em Tocar |
 | M7 | Na última tentativa da digitação o "Pular" some e fica só o "Desistir" (os dois dariam 0 ponto) |
@@ -121,15 +123,17 @@ musicle-jp/
 | Catálogo pequeno repete música | Catálogo cumulativo; janela K ajustada ao tamanho |
 | Romaji errado em nomes próprios | `aliases.toml` + `latinSource` para auditoria |
 | CRLF e codificação no Windows | `.gitattributes` com eol=lf, `newline="\n"`, `PYTHONUTF8=1` |
-| Cron desativado após 60 dias sem atividade no repositório (confirmar) | Aviso no README; execução manual |
+| Cron desativado após 60 dias sem atividade no repositório (documentação do GitHub) | Aviso no README; `gh workflow enable update-catalog.yml` e execução manual |
+| PR da agenda sem merge por mais de 21 dias | O dia que passa sem agenda vira buraco (P44); o corpo do PR avisa o buraco e pede o merge no mesmo dia |
+| `--today` errado (data no futuro deixaria buraco para sempre) | A Action não aceita entradas; a data vem de `TZ=America/Sao_Paulo date +%F` |
+| Cache do Pages: JSON velho por alguns minutos depois do deploy (a conferir) | A agenda é gerada 21 dias à frente; no M11, `fetch` sem cache (ME13) |
 
 ## 7. Em aberto
 
 **Perguntas**
 
-- P16. Nome público do jogo (evitar "Musicle" no nome). Bloqueia o M10.
+- P16. Nome público do jogo (evitar "Musicle" no nome). No M10, o usuário decidiu publicar como `musicle-jp` por ora. Trocar depois muda a URL (quebra links compartilhados), mas não o save (o `localStorage` é por origem). Não bloqueia mais. Ao trocar, a base `/musicle-jp/` muda em `web/vite.config.ts`, nas checagens do `ci.yml` e do `deploy.yml`, no passo 10 do `/verificar` e na documentação.
 - P25. A agenda real (M11, em `public/data/`, com IDs da Apple) precisa do próprio `epoch`: a data de estreia pública. Bloqueia o M11.
-- P44. Achado do revisor no M6: um dia que só entrou na agenda depois (Action parada por mais de 21 dias) quebra a sequência, contra a P40. Opções: (a) o pipeline não gera dia anterior a `--today` e o `validate` passa a aceitar buraco; (b) o schema marca o dia gerado atrasado e as estatísticas o ignoram. Recomendação: decidir no M10, quando a Action existir. Bloqueia o M10.
 
 **Sugestões**
 
@@ -151,6 +155,9 @@ musicle-jp/
 - ME10. `actionlint` ou `zizmor` na CI, para revisar o próprio workflow a cada PR (revisor do M9).
 - ME11. Fixar também a versão do `pip` na CI (`/code-review` do M9).
 - ME12. Levar a escolha da revisão base do `schedule-check` do YAML para o Python, com teste (`/code-review` do M9).
+- ME13. No M11, buscar `catalog.json` e `schedule.json` com `fetch(..., { cache: "no-cache" })`: com a parada real, catálogo novo e agenda velha em cache não podem se misturar (subagente Plan do M10).
+- ME14. Aviso de folga da agenda (menos de 7 dias à frente) no resumo do deploy (subagente Plan do M10).
+- ME15. Teste de fumaça contra o `vite preview` em `/musicle-jp/` (a página abre, os JSON e um WAV respondem 200, console limpo), para pegar caminho absoluto no código, que a checagem do `dist/index.html` não vê (revisor do M10).
 
 ---
 
@@ -161,7 +168,7 @@ musicle-jp/
 - O catálogo é uma **redução pura de todos os snapshots**, refeita do zero em todo build. O catálogo anterior só serve para comparar bytes ("sem mudanças"). Mudar uma regra atualiza todas as faixas.
 - Nunca se apaga nada: uma faixa que sai da parada fica com `inLatest: false`, porque a agenda pode apontar para ela.
 - Escrita determinística: chaves ordenadas, `ensure_ascii=False`, 2 espaços, `\n` no fim, bytes UTF-8, escrita atômica. Sem relógio nem sorteio (o Ruff barra). Popularidade em `Decimal`.
-- `schemaVersion` fica 1 até o primeiro deploy (M10). Depois, só sobe em mudança incompatível, e o frontend recusa versão desconhecida.
+- `schemaVersion` ficou 1 até o primeiro deploy (M10). Desde então, só sobe em mudança incompatível, com migração, e o frontend recusa versão desconhecida.
 - Contrato completo: `shared/schema/catalog.schema.json`. A validação soma invariantes que o schema não expressa e confere a forma canônica do arquivo.
 
 ### catalog.json (trecho real, gerado da parada fictícia)
@@ -283,18 +290,18 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 `America/Sao_Paulo` pelo nome IANA, nunca o deslocamento fixo de -03:00, para absorver uma eventual volta do horário de verão.
 
 - **TS:** `Intl.DateTimeFormat` com `timeZone` e `formatToParts`.
-- **Python:** não precisa de fuso. "Hoje" chega como argumento (`schedule --today`); a Action do M10 passa a data de Brasília.
+- **Python:** não precisa de fuso. "Hoje" chega como argumento (`schedule --today`); a Action (`update-catalog.yml`) calcula a data de Brasília com `TZ=America/Sao_Paulo date +%F`.
 - **Número do desafio:** dias corridos desde `epoch` + 1, calculados sobre as datas em texto.
 
 ### Algoritmo (implementado no M3, `schedule.py`)
 
-1. Para cada dia ausente, de `max(epoch, último dia + 1)` até hoje + 21.
+1. Para cada dia de `max(epoch, último dia + 1, hoje)` até hoje + 21. **Dia que já passou nunca é gerado** (P44 (a), M10): se a geração atrasou, o intervalo fica como buraco, com aviso no CLI e no PR do robô.
 2. **Janela:** K = mín(180, piso(P / 12)), com P = músicas distintas (`songKey`) entre as elegíveis e 6 respostas por dia. Com a parada fictícia, P = 37 e K = 3. Ficam de fora as faixas, músicas e álbuns respondidos nos K dias anteriores.
 3. **Por rodada:** candidatos = elegíveis fora da janela, sem repetir faixa, música, álbum ou artista do dia, ordenados por `(-popularity, id)`. A faixa de dificuldade é cortada **depois** do filtro: a rodada 1 sorteia entre os primeiros ceil(n/3), a 2 entre os primeiros ceil(2n/3) e a 3 entre todos.
 4. **rng** = `mulberry32(fnv1a32("musicle-jp|<data>|<alvo>"))`, alvo `song` ou `album`. **7 números por rodada:** 1 para a resposta, 3 para escolher os distratores (Fisher-Yates parcial sobre `similar`, sem as músicas das outras respostas do diário) e 3 para embaralhar as 4 opções.
 5. **Afrouxamento,** com log: primeiro o artista passa a valer só dentro do mesmo diário; depois a janela encolhe (K−1 … 0). Faixa, música e álbum nunca repetem no dia. Com a parada fictícia: zero afrouxamentos em 61 dias (teste).
-6. **Só acréscimo, sem exceção.** Dia gravado nunca muda. Resposta futura que deixou de ser elegível gera **aviso** e o jogo anula a rodada sem penalidade. `schedule-check --base-ref <ref>` compara com uma revisão do git (no M9, com `fetch-depth: 0` e `github.event.before`).
-7. **Validação em dois níveis:** a estrutural (contiguidade, `number`, opções, IDs) vale para todos os dias. Elegibilidade e restrições só valem na geração, para que uma regra nova não quebre o passado.
+6. **Só acréscimo, sem exceção.** Dia gravado nunca muda. Resposta futura que deixou de ser elegível gera **aviso** e o jogo anula a rodada sem penalidade. `schedule-check --base-ref <ref>` compara com uma revisão do git (no M9, com `fetch-depth: 0` e `github.event.before`). O `compare` também recusa dia novo antes do último dia da base (o buraco nunca é preenchido) e dias novos com buraco entre eles (um dia solto mais à frente congelaria a agenda) (M10).
+7. **Validação em dois níveis:** a estrutural (nenhum dia antes do `epoch`, `number`, opções, IDs; buraco é válido desde o M10) vale para todos os dias. Elegibilidade e restrições só valem na geração, para que uma regra nova não quebre o passado.
 
 **Por que não calcular no navegador:** o resultado mudaria a cada atualização semanal do catálogo.
 
@@ -375,7 +382,7 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
 - **Duas abas:** `updateSave` relê, mescla e grava. No histórico, o primeiro término vence; no andamento do mesmo jogo, vence a lista de eventos mais longa. O resumo relê o save, então mostra o resultado que ficou gravado. **Limitação aceita:** com duas abas dá para refazer uma rodada (uma erra e vê a resposta, a outra acerta); o jogo é pessoal e não há ranking.
 - **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`) e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura, então voltar à Música terminada mostra o resultado (P39). O Treino não grava nada (P50).
 - **Save da sessão** (`sessionStore`, M8): grava no navegador quando dá; o que não consegue gravar (cota cheia) fica em memória, e sem gravação nenhuma (versão futura, sem acesso) tudo fica em memória. Assim trocar de aba não perde o andamento nem nesses casos. O que foi gravado não fica em memória, para a mescla das duas abas continuar vendo o que a outra gravou.
-- **Estatísticas:** função pura sobre o histórico, por alvo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Limite da P40:** a agenda é contígua, então um dia que faltou (Action parada por mais de 21 dias) entra depois, quando o pipeline preenche o atraso, e quebra a sequência de quem não pôde jogá-lo (P44).
+- **Estatísticas:** função pura sobre o histórico, por alvo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Dia que faltou** (Action ou merge parados por mais de 21 dias): desde a P44 (a), no M10, ele vira buraco e não quebra a sequência. Risco residual: dias gerados durante uma parada e publicados só no merge entram na agenda sem que ninguém os tenha podido jogar.
 - **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no modo 4 opções, um ⬛ por "ouvir mais" e depois ✅ ou ❌. Exemplo:
   ```
   musicle-jp · Diário Música nº 1 · 4 opções
@@ -408,7 +415,7 @@ Implementado no M4 (`web/src/core/`):
 
 | Camada | Ferramenta | Cobertura |
 |---|---|---|
-| Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos); schema; bytes idênticos em duas execuções; CLI |
+| Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos, buraco da P44: nunca gera passado nem preenche o buraco); schema; bytes idênticos em duas execuções; CLI |
 | Núcleo web | Vitest | Reducer nas 4 combinações; pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Meta: 90% de linhas no `core` |
 | Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7); `RoundView`, `Practice` e `Options` (capas) (M8) |
 | Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; falha de áudio anula a rodada; virada à meia-noite de Brasília; Treino |
@@ -418,7 +425,7 @@ Implementado no M4 (`web/src/core/`):
 
 ## Apêndice I. GitHub e CI
 
-Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`).
+Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e proteção) e no M10 (deploy e agenda semanal).
 
 - **CI** (`.github/workflows/ci.yml`), em todo PR e push na `main`, sem filtro de caminho (workflow pulado deixaria a checagem obrigatória pendente). Três tarefas, que são as checagens obrigatórias:
   - **`pipeline`:** Python 3.12 e Node 24 (o teste cruzado e o do PRNG pulam sem Node), `npm ci --prefix web` antes do pytest (o teste do hook usa o Biome), `pip install -c pipeline/constraints.txt -e "pipeline[dev]"` (versões exatas, P60; sem o extra `romaji`, cujo teste pula), Ruff, pytest, `romanize --check`, `validate` e `schedule-check`. O checkout tem `fetch-depth: 0`; a agenda é comparada, no PR, com o 1º pai do commit de merge de teste (`HEAD^1`, a base exata do que foi testado) e, no push, com o `before` (`HEAD^1` em branch novo). O Ruff cobre também o `.claude/hooks`, com a configuração do pipeline.
@@ -441,22 +448,31 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`).
 - **Repositório e Actions** (configurados no M9 por `gh api`):
   - histórico reescrito antes de publicar (P54, P58): e-mail noreply do GitHub em todos os commits e o perfil genérico no `CLAUDE.md` em todas as versões; backup em bundle, fora do repositório;
   - só actions do próprio GitHub, com pinagem por SHA obrigatória;
-  - token padrão só de leitura e Actions sem poder de aprovar PR;
+  - token padrão só de leitura e Actions sem poder de criar nem aprovar PR (no M10, a P64 ligou essa chave);
   - PR de colaborador externo só roda a CI depois de aprovado;
   - só merge commit, com o branch apagado depois do merge.
 - **Critério de pronto conferido** (09/10/2026):
   - PR #1 (o M9): `pipeline`, `web` e `e2e` verdes; enquanto rodavam, o PR ficou `BLOCKED`; merge commit pela proteção;
   - PR #2 (demonstração, teste quebrado de propósito no `web`): `web` vermelha e PR `BLOCKED`. O `gh pr merge` foi recusado (`the base branch policy prohibits the merge`), e o `gh pr merge --admin` também (`Repository rule violations found: Required status check "web" is failing`). Fechado sem merge.
-- **Para o M10:**
-  - o cron do Actions é em UTC: `0 9 * * 1` dispara segunda às 06:00 de Brasília;
-  - push feito com o `GITHUB_TOKEN` não dispara outro workflow, por isso a atualização do catálogo abre PR e o merge humano dispara o deploy;
-  - para a Action abrir PR é preciso ligar "Allow GitHub Actions to create and approve pull requests", que o M9 deixou desligado;
-  - um PR aberto pelo `GITHUB_TOKEN` espera "Approve workflows to run" antes de rodar as checagens;
-  - um job novo com o nome `pipeline`, `web` ou `e2e` viraria checagem com o mesmo nome.
+- **Deploy** (`.github/workflows/deploy.yml`, M10), a cada push na `main` (o merge de um PR) e sob demanda, em `https://plasmastorm49.github.io/musicle-jp/`:
+  - `pages-build` (só leitura): `fake-assets` e `npm run build` com a base `/musicle-jp/`, que só vale no build e no preview (o desenvolvimento e o e2e ficam na raiz); confere o site (base, sem o motor falso, todo áudio e capa do catálogo no `dist`) e sobe o artefato;
+  - `pages-deploy`: `pages: write` e `id-token: write`, no ambiente `github-pages`, que só aceita a `main`;
+  - um deploy por vez, sem cancelar no meio. Roda junto com a CI do push, porque o `strict` do ruleset garante que a árvore do merge já foi testada no PR;
+  - a tarefa `web` da CI confere a base no `dist/index.html`: sem ela, a página publicada ficaria em branco.
+- **Atualização da agenda** (`.github/workflows/update-catalog.yml`, M10):
+  - segunda às 06:17 de Brasília (`cron: "17 9 * * 1"`: o cron é em UTC, e o minuto zero é horário de pico) e sob demanda, sem entradas;
+  - `catalog-generate` (só leitura): `build`, `schedule --today` com a data de Brasília, `validate` e `schedule-check`. Sem dia novo, termina sem PR; se mudar algo além da agenda, falha;
+  - `catalog-pr` (`contents: write`, `pull-requests: write`): não roda código do projeto nem instala pacotes, então um pacote comprometido do pip nunca chega perto do token que escreve. Confere de novo com `jq` que só entram dias depois do fim da agenda, envia o branch `catalogo/<data>` com o token num auxiliar de credencial (fora do `.git/config`), abre o PR e fecha o anterior que ficou sem merge;
+  - o PR do `GITHUB_TOKEN` não roda a CI sozinho: as checagens esperam "Approve workflows to run" (P64). O merge humano dispara o deploy; um push feito com o `GITHUB_TOKEN` não dispararia;
+  - "Allow GitHub Actions to create and approve pull requests" ligado (P64). Criar e aprovar são a mesma chave: qualquer workflow com `pull-requests: write` poderia aprovar um PR. Hoje o ruleset não exige aprovação, então a `main` não fica mais aberta; rever se um dia exigir;
+  - o workflow agendado é desligado depois de 60 dias sem atividade no repositório: `gh workflow enable update-catalog.yml`;
+  - nenhuma tarefa nova se chama `pipeline`, `web` ou `e2e`: viraria checagem com o mesmo nome.
+- **Configurações do M10** (por `gh api`): Pages com origem "GitHub Actions"; ambiente `github-pages` com regra de branch só para a `main`; a chave da P64.
 
 ## Origem
 
 - **Musicle**, observado no navegador em 08/10/2026: `musicle.app/hitparade/jp` (3 rodadas, 4 capas, previews em `audio-ssl.itunes.apple.com`, capas em `mzstatic.com`).
 - **Pesquisa de APIs** (subagente, 08/10/2026): developer.apple.com/programs/enroll, performance-partners.apple.com/search-api, developer.spotify.com/policy, developer.spotify.com/blog/2024-11-27-changes-to-the-web-api, developers.deezer.com/termsofuse, developers.google.com/youtube/terms/developer-policies. Endpoints testados na seção 3.
 - **Desenho técnico:** subagente Plan, revisado pelo Claude.
+- **Pesquisa do GitHub para o M10** (subagente, 09/10/2026): docs.github.com (Pages com workflow próprio, `POST /repos/{owner}/{repo}/pages`, ambientes e regras de branch, eventos do `GITHUB_TOKEN`, cron e a desativação após 60 dias), github.blog/changelog/2026-06-11-bot-created-pull-requests-can-run-workflows-if-approved, e as releases e o `action.yml` de `actions/upload-pages-artifact`, `actions/deploy-pages` e `actions/download-artifact`.
 - **Decisões P6 a P15:** respondidas pelo usuário na sessão de 08/10/2026.

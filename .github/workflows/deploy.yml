@@ -1,0 +1,95 @@
+# Publica o site no GitHub Pages a cada push na main (o merge de um PR) e sob demanda.
+# Os nomes das tarefas fogem de pipeline, web e e2e: esses são as checagens obrigatórias da main,
+# e uma tarefa com o mesmo nome viraria checagem com o mesmo nome.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Nada por padrão: cada tarefa pede só o que usa.
+permissions: {}
+
+# Um deploy por vez. O que chega enquanto outro roda espera (o mais novo substitui o pendente);
+# cancelar um deploy no meio poderia deixar o site pela metade.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  PYTHONUTF8: "1"
+
+# Actions pinadas por SHA, em versões com 14 dias ou mais de publicadas (P28). Versão no comentário.
+jobs:
+  pages-build:
+    # O workflow_dispatch aceita qualquer branch; só a main publica (o ambiente github-pages
+    # também só aceita a main).
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            pipeline/pyproject.toml
+            pipeline/constraints.txt
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      # Áudio e capas falsos ficam fora do Git: sem eles, o site publicado não tocaria nada.
+      - run: python -m pip install -c pipeline/constraints.txt -e pipeline
+      - run: python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json
+      - run: npm ci --prefix web
+      - run: npm run build --prefix web
+      - name: Conferir o site antes de publicar
+        working-directory: web
+        run: |
+          grep -Eq '(src|href)="/musicle-jp/assets/' dist/index.html || { echo "::error::dist/index.html sem a base /musicle-jp/"; exit 1; }
+          if grep -Eq '(src|href)="/assets/' dist/index.html; then
+            echo "::error::dist/index.html tem caminho /assets/ sem a base"
+            exit 1
+          fi
+          if grep -rq "musicle-fake-audio" dist; then
+            echo "::error::o motor de áudio falso foi parar no build"
+            exit 1
+          fi
+          # Todo áudio e toda capa citados no catálogo precisam estar no site. A lista vai para um
+          # arquivo: se o jq falhar, a tarefa para (num "for ... in $(jq ...)", passaria calada).
+          # No M11, com o áudio da Apple (URL absoluta), esta conferência muda.
+          jq -r '[.tracks[].preview.url, .albums[].artworkUrl] | .[] | select(. != null)' \
+            public/fixtures/catalog.json > "$RUNNER_TEMP/assets.txt"
+          [ -s "$RUNNER_TEMP/assets.txt" ] || { echo "::error::catálogo sem áudio nem capa"; exit 1; }
+          missing=0
+          while read -r url; do
+            [ -f "dist/$url" ] || { echo "::error::falta dist/$url"; missing=1; }
+          done < "$RUNNER_TEMP/assets.txt"
+          echo "$(wc -l < "$RUNNER_TEMP/assets.txt") arquivos de áudio e capa conferidos"
+          du -sh dist
+          exit "$missing"
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: web/dist
+
+  pages-deploy:
+    needs: pages-build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write # publicar no Pages
+      id-token: write # o deploy-pages prova a origem do artefato com um token OIDC
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
