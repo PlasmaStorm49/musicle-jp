@@ -35,6 +35,6 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz.
 10. **Não edite `data/romaji.json` à mão.** Ele é saída do `romanize`. Correção vai em `data/aliases.toml`, que vence o provedor e o romaji (`manual` > `provider` > `cutlet`).
 11. **Título latino exibido = Hepburn.** A grafia estrangeira do cutlet ("Curtain call") entra só na busca, porque às vezes erra ("Tokyo right").
 12. **Vetores do PRNG são a exceção à regra 3:** `shared/vectors/prng.json` é gerado por `node shared/vectors/prng_reference.mjs`, uma segunda implementação independente. Nunca edite à mão nem gere com `>` no PowerShell.
-13. **Agenda só cresce.** Nunca altere dia existente, nem para "corrigir". Mudou o consumo do rng (7 números por rodada) ou a ordem de escolha? Isso muda só os dias novos, e o `schedule-check` protege os antigos.
-14. **"Hoje" é argumento** (`--today`). O pacote nunca lê o relógio.
+13. **Agenda só cresce.** Nunca altere dia existente, nem para "corrigir". Mudou o consumo do rng (7 números por rodada) ou a ordem de escolha? Isso muda só os dias novos, e o `schedule-check` protege os antigos. **Dia que já passou nunca é gerado** (P44): a geração começa em `max(epoch, último + 1, hoje)`, o buraco é válido, e o `compare` recusa preenchê-lo.
+14. **"Hoje" é argumento** (`--today`). O pacote nunca lê o relógio; a Action passa a data de Brasília (`TZ=America/Sao_Paulo date +%F`).
 15. **Dependências** (P28 e P60): versão com 14 dias ou mais de publicada no PyPI, fixada em `constraints.txt`, inclusive as indiretas. Mudou o `pyproject.toml`? Atualize o `constraints.txt` e reinstale com `-c pipeline/constraints.txt` (comando em `CLAUDE.md` da raiz).

@@ -2,6 +2,8 @@
 
 Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade do [Musicle](https://musicle.app/). Projeto pessoal de aprendizado do Claude Code.
 
+**[Jogar](https://plasmastorm49.github.io/musicle-jp/)** (por enquanto com dados fictícios: uma parada inventada e áudio sintético).
+
 > Nome provisório. O nome público do jogo ainda vai ser definido.
 
 ## Como funciona
@@ -23,7 +25,7 @@ Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade
 
 ## Estado
 
-Em construção, ainda com dados fictícios: uma parada inventada e áudio sintético (cada segundo toca uma nota). Os diários Música e Álbum e o Treino já são jogáveis. Andamento por marco em [docs/PLANO.md](docs/PLANO.md).
+No ar no GitHub Pages, ainda com dados fictícios: uma parada inventada e áudio sintético (cada segundo toca uma nota). Os diários Música e Álbum e o Treino já são jogáveis. Falta ligar a parada real do Japão (M11). Andamento por marco em [docs/PLANO.md](docs/PLANO.md).
 
 ## Como rodar
 
@@ -46,6 +48,18 @@ Testes:
 - ponta a ponta (Playwright, precisa do `fake-assets`): `npx --prefix web playwright install chromium` uma vez, depois `npm run e2e --prefix web`
 
 A CI do GitHub roda tudo isso em cada PR, e a `main` só aceita merge com as três checagens verdes (`pipeline`, `web` e `e2e`).
+
+Para ver o build como ele fica publicado: `npm run build --prefix web` e depois `npm run preview --prefix web`, em http://localhost:4173/musicle-jp/.
+
+## Publicação e atualização da agenda
+
+- **Deploy:** todo merge na `main` publica o site no GitHub Pages (`.github/workflows/deploy.yml`).
+- **Agenda:** toda segunda às 06:17 de Brasília, a Action `update-catalog.yml` acrescenta os dias até hoje + 21 e abre um PR (`catalogo/<data>`) só com eles. Para publicar:
+  1. confira que só o `web/public/fixtures/schedule.json` mudou;
+  2. clique em "Approve workflows to run" (PR aberto por Action precisa dessa aprovação para rodar as checagens);
+  3. com `pipeline`, `web` e `e2e` verdes, faça o merge no mesmo dia. Dia que passa sem agenda fica sem desafio para sempre: a agenda nunca gera dia passado.
+- **Rodar fora de hora:** `gh workflow run update-catalog.yml`.
+- **Se a Action agendada parar:** o GitHub desliga workflows agendados depois de 60 dias sem atividade no repositório. Para religar: `gh workflow enable update-catalog.yml`.
 
 ## Licença
 
