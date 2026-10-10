@@ -27,7 +27,21 @@ EPOCH = date(2026, 10, 8)
 
 @pytest.fixture(scope="module")
 def sixty_one_days(fixture_catalog):
-    return generate(fixture_catalog, None, EPOCH + timedelta(days=39), EPOCH)
+    # Hoje = epoch e horizonte de 60: os mesmos 61 dias de gerar 39 dias depois (cada dia
+    # depende só dos anteriores e da semente da data), sem gerar dia passado (P44).
+    return generate(fixture_catalog, None, EPOCH, EPOCH, horizon=60)
+
+
+@pytest.fixture(scope="module")
+def first_22(fixture_catalog):
+    """Agenda nova no epoch: hoje + 21, de 08/10 a 29/10."""
+    return generate(fixture_catalog, None, EPOCH, EPOCH).schedule
+
+
+@pytest.fixture(scope="module")
+def gapped(fixture_catalog, first_22):
+    """A Action parada até 07/11: a agenda pula de 29/10 para 07/11 (buraco de 30/10 a 06/11)."""
+    return generate(fixture_catalog, first_22, EPOCH + timedelta(days=30))
 
 
 def _answers(day):
@@ -92,7 +106,7 @@ def test_first_round_leans_popular(sixty_one_days, fixture_catalog):
 
 
 def test_same_input_same_schedule(fixture_catalog, sixty_one_days):
-    again = generate(fixture_catalog, None, EPOCH + timedelta(days=39), EPOCH)
+    again = generate(fixture_catalog, None, EPOCH, EPOCH, horizon=60)
     assert dumps(again.schedule) == dumps(sixty_one_days.schedule)
 
 
@@ -163,11 +177,83 @@ def test_structural_validation_catches_broken_files(sixty_one_days, fixture_cata
     broken["days"]["2026-10-09"]["number"] = 7
     rnd = broken["days"]["2026-10-11"]["song"][0]
     rnd["options"] = [o for o in rnd["options"] if o != rnd["answer"]] + ["fixture:tr:tr06"]
-    del broken["days"]["2026-10-15"]
     problems = validate_schedule(broken, fixture_catalog)
-    assert "os dias precisam ser contíguos a partir do epoch" in problems
     assert "2026-10-09: number deveria ser 2" in problems
     assert "2026-10-11 song rodada 1: a resposta não está nas opções" in problems
+
+
+def test_never_generates_a_past_day(gapped, first_22):
+    days = gapped.schedule["days"]
+    assert (gapped.added[0], gapped.added[-1], len(gapped.added)) == (
+        "2026-11-07",
+        "2026-11-28",
+        22,
+    )
+    hole = [(date(2026, 10, 30) + timedelta(days=i)).isoformat() for i in range(8)]
+    assert not [d for d in hole if d in days]
+    assert compare(first_22, gapped.schedule) == []
+    assert "buraco: 2026-10-30 a 2026-11-06 ficam sem desafio (P44)" in gapped.warnings
+    assert gapped.relaxations == []
+
+
+def test_new_schedule_with_past_epoch_starts_today(fixture_catalog):
+    result = generate(fixture_catalog, None, EPOCH + timedelta(days=5), EPOCH)
+    days = result.schedule["days"]
+    assert min(days) == "2026-10-13"
+    assert days["2026-10-13"]["number"] == 6
+    assert "buraco: 2026-10-08 a 2026-10-12 ficam sem desafio (P44)" in result.warnings
+
+
+def test_gap_is_structurally_valid(gapped, fixture_catalog, tmp_path):
+    assert validate_schedule(gapped.schedule, fixture_catalog) == []
+    path = tmp_path / "schedule.json"
+    path.write_bytes(dumps(gapped.schedule).encode("utf-8"))
+    assert main(["validate", "web/public/fixtures/catalog.json", "--schedule", str(path)]) == 0
+
+
+def test_number_counts_from_epoch_after_a_gap(gapped):
+    assert gapped.schedule["days"]["2026-10-29"]["number"] == 22
+    assert gapped.schedule["days"]["2026-11-07"]["number"] == 31
+
+
+def test_gap_is_never_filled(fixture_catalog, gapped):
+    # Rodar de novo com "hoje" dentro do buraco (31/10) não preenche nada.
+    again = generate(fixture_catalog, gapped.schedule, EPOCH + timedelta(days=23))
+    assert again.added == []
+    assert "2026-10-31" not in again.schedule["days"]
+
+
+def test_day_before_epoch_is_refused(first_22, fixture_catalog):
+    broken = copy.deepcopy(first_22)
+    broken["days"]["2026-10-07"] = copy.deepcopy(broken["days"]["2026-10-08"])
+    assert "dias antes do epoch: 2026-10-07" in validate_schedule(broken, fixture_catalog)
+
+
+def test_compare_after_a_gap_still_catches_changes(gapped):
+    edited = copy.deepcopy(gapped.schedule)
+    del edited["days"]["2026-11-07"]
+    edited["days"]["2026-11-08"]["song"][0]["options"].reverse()
+    problems = compare(gapped.schedule, edited)
+    assert "2026-11-07: dia removido" in problems
+    assert "2026-11-08: dia alterado" in problems
+
+
+def test_compare_refuses_filling_the_gap(gapped):
+    filled = copy.deepcopy(gapped.schedule)
+    filled["days"]["2026-10-31"] = copy.deepcopy(filled["days"]["2026-11-07"])
+    assert compare(gapped.schedule, filled) == [
+        "2026-10-31: dia novo antes do fim da agenda da base (2026-11-28)"
+    ]
+
+
+def test_cli_warns_about_the_gap(tmp_path, capsys, first_22):
+    out = tmp_path / "schedule.json"
+    out.write_bytes(dumps(first_22).encode("utf-8"))
+    args = ["schedule", "--catalog", "web/public/fixtures/catalog.json", "--out", str(out)]
+    assert main([*args, "--today", "2026-11-07"]) == 0
+    captured = capsys.readouterr()
+    assert "aviso: buraco: 2026-10-30 a 2026-11-06 ficam sem desafio (P44)" in captured.err
+    assert "22 dia(s) novo(s) (2026-11-07 a 2026-11-28), 44 no total" in captured.out
 
 
 def test_existing_invalid_schedule_is_refused(sixty_one_days, fixture_catalog):

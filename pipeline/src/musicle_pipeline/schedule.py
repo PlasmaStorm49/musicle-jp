@@ -3,7 +3,8 @@
 Regra de ouro: a agenda SÓ CRESCE. Um dia gravado nunca muda, nem quando o catálogo muda;
 quem jogou o dia 5 ontem e quem joga hoje viram o mesmo desafio. Por isso:
 
-- a geração parte dos dias que já existem e só acrescenta os que faltam;
+- a geração parte do último dia gravado e só acrescenta dias de hoje em diante: dia que já
+  passou nunca é gerado (P44), e o buraco que sobra fica sem desafio para sempre;
 - "hoje" é argumento (--today), nunca o relógio, e o fuso do jogo é America/Sao_Paulo;
 - a validação de dias antigos é só estrutural; elegibilidade e restrições valem na geração.
 
@@ -254,7 +255,13 @@ def generate(
 
     result = Result(schedule=schedule, warnings=_future_warnings(schedule, today, idx))
     last = max(map(date.fromisoformat, schedule["days"]), default=start_epoch - timedelta(days=1))
-    d = max(start_epoch, last + timedelta(days=1))
+    first_missing = max(start_epoch, last + timedelta(days=1))
+    # P44 (a): dia que já passou nunca é gerado. Ninguém mais poderia jogá-lo, e ele entraria na
+    # agenda como dia não jogado, quebrando a sequência de quem jogou todos os dias disponíveis.
+    d = max(first_missing, today)
+    if d > first_missing:
+        gap_end = d - timedelta(days=1)
+        result.warnings.append(f"buraco: {first_missing} a {gap_end} ficam sem desafio (P44)")
     while d <= today + timedelta(days=horizon):
         day, relaxations = _generate_day(schedule["days"], d, start_epoch, idx)
         schedule["days"][d.isoformat()] = day
@@ -294,9 +301,10 @@ def validate_schedule(schedule: JSON, catalog: JSON) -> list[str]:
         dates = sorted(date.fromisoformat(d) for d in schedule["days"])
     except ValueError as exc:
         return [f"data inválida: {exc}"]
-    expected = [epoch + timedelta(days=i) for i in range(len(dates))]
-    if dates != expected:
-        problems.append("os dias precisam ser contíguos a partir do epoch")
+    # Buraco é válido (P44): um dia que não foi gerado a tempo fica sem desafio.
+    before = [d.isoformat() for d in dates if d < epoch]
+    if before:
+        problems.append(f"dias antes do epoch: {', '.join(before)}")
     for d in dates:
         day = schedule["days"][d.isoformat()]
         where = d.isoformat()
@@ -323,7 +331,8 @@ def validate_schedule(schedule: JSON, catalog: JSON) -> list[str]:
 
 
 def compare(base: JSON | None, current: JSON) -> list[str]:
-    """Problemas de "só acréscimo": dia que sumiu ou mudou, ou cabeçalho alterado."""
+    """Problemas de "só acréscimo": dia que sumiu ou mudou, dia novo no meio da agenda da base
+    (preencheria um buraco com um dia que já passou, P44) ou cabeçalho alterado."""
     if base is None:
         return []
     problems = [
@@ -336,6 +345,12 @@ def compare(base: JSON | None, current: JSON) -> list[str]:
             problems.append(f"{day_str}: dia removido")
         elif current["days"][day_str] != day:
             problems.append(f"{day_str}: dia alterado")
+    if base["days"]:
+        # Datas ISO (AAAA-MM-DD) comparam certo como texto.
+        base_last = max(base["days"])
+        for day_str in sorted(current["days"]):
+            if day_str not in base["days"] and day_str < base_last:
+                problems.append(f"{day_str}: dia novo antes do fim da agenda da base ({base_last})")
     return problems
 
 
