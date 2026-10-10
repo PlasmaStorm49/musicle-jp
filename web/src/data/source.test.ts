@@ -110,7 +110,9 @@ describe("datas e dias", () => {
   it("pickDay devolve o dia ou null", async () => {
     const { schedule } = await loadGameData(fakeFetch(), BASE);
     expect(pickDay(schedule, "2026-10-08")?.number).toBe(1);
-    expect(pickDay(schedule, "2027-01-01")).toBeNull();
+    // Um dia antes do epoch: a agenda real cresce toda semana, então uma data futura um dia
+    // passaria a existir e o teste quebraria no PR do robô.
+    expect(pickDay(schedule, "2026-10-07")).toBeNull();
   });
 
   it("assetUrl resolve contra a base e aceita URL absoluta", () => {
