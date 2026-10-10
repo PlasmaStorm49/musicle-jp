@@ -157,6 +157,7 @@ musicle-jp/
 - ME12. Levar a escolha da revisão base do `schedule-check` do YAML para o Python, com teste (`/code-review` do M9).
 - ME13. No M11, buscar `catalog.json` e `schedule.json` com `fetch(..., { cache: "no-cache" })`: com a parada real, catálogo novo e agenda velha em cache não podem se misturar (subagente Plan do M10).
 - ME14. Aviso de folga da agenda (menos de 7 dias à frente) no resumo do deploy (subagente Plan do M10).
+- ME15. Teste de fumaça contra o `vite preview` em `/musicle-jp/` (a página abre, os JSON e um WAV respondem 200, console limpo), para pegar caminho absoluto no código, que a checagem do `dist/index.html` não vê (revisor do M10).
 
 ---
 

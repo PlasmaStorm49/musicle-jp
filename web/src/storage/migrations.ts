@@ -1,6 +1,6 @@
 // Migrações do formato salvo: uma função por versão, de N para N+1. Hoje só existe a v1.
-// Quando o formato mudar (depois do primeiro deploy, regra inviolável 5), a v2 entra aqui com
-// a função 1 → 2 e um teste que lê um save v1 real e chega no v2.
+// Quando o formato mudar (desde o primeiro deploy, no M10; web/CLAUDE.md, regra 12), a v2 entra
+// aqui com a função 1 → 2 e um teste que lê um save v1 real e chega no v2.
 
 export const SAVE_SCHEMA_VERSION = 1;
 

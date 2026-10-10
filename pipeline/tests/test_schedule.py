@@ -192,8 +192,22 @@ def test_never_generates_a_past_day(gapped, first_22):
     hole = [(date(2026, 10, 30) + timedelta(days=i)).isoformat() for i in range(8)]
     assert not [d for d in hole if d in days]
     assert compare(first_22, gapped.schedule) == []
-    assert "buraco: 2026-10-30 a 2026-11-06 ficam sem desafio (P44)" in gapped.warnings
+    assert "buraco de 8 dia(s) sem desafio: 2026-10-30 a 2026-11-06 (P44)" in gapped.warnings
     assert gapped.relaxations == []
+
+
+def test_one_day_gap(fixture_catalog, first_22):
+    # A agenda acaba em 29/10 e "hoje" é 31/10: só o dia 30 fica sem desafio.
+    result = generate(fixture_catalog, first_22, EPOCH + timedelta(days=23))
+    assert result.added[0] == "2026-10-31"
+    assert "2026-10-30" not in result.schedule["days"]
+    assert "buraco de 1 dia(s) sem desafio: 2026-10-30 a 2026-10-30 (P44)" in result.warnings
+
+
+def test_new_schedule_before_the_epoch_starts_at_the_epoch(fixture_catalog):
+    result = generate(fixture_catalog, None, EPOCH - timedelta(days=3), EPOCH)
+    assert min(result.schedule["days"]) == "2026-10-08"
+    assert not [w for w in result.warnings if w.startswith("buraco")]
 
 
 def test_new_schedule_with_past_epoch_starts_today(fixture_catalog):
@@ -201,7 +215,7 @@ def test_new_schedule_with_past_epoch_starts_today(fixture_catalog):
     days = result.schedule["days"]
     assert min(days) == "2026-10-13"
     assert days["2026-10-13"]["number"] == 6
-    assert "buraco: 2026-10-08 a 2026-10-12 ficam sem desafio (P44)" in result.warnings
+    assert "buraco de 5 dia(s) sem desafio: 2026-10-08 a 2026-10-12 (P44)" in result.warnings
 
 
 def test_gap_is_structurally_valid(gapped, fixture_catalog, tmp_path):
@@ -217,10 +231,12 @@ def test_number_counts_from_epoch_after_a_gap(gapped):
 
 
 def test_gap_is_never_filled(fixture_catalog, gapped):
-    # Rodar de novo com "hoje" dentro do buraco (31/10) não preenche nada.
-    again = generate(fixture_catalog, gapped.schedule, EPOCH + timedelta(days=23))
-    assert again.added == []
-    assert "2026-10-31" not in again.schedule["days"]
+    # Rodar de novo com "hoje" dentro do buraco (31/10) e horizonte longo: gera, mas só depois
+    # do fim da agenda (28/11), nunca dentro do buraco.
+    again = generate(fixture_catalog, gapped.schedule, EPOCH + timedelta(days=23), horizon=60)
+    assert again.added[0] == "2026-11-29"
+    hole = [(date(2026, 10, 30) + timedelta(days=i)).isoformat() for i in range(8)]
+    assert not [d for d in hole if d in again.schedule["days"]]
 
 
 def test_day_before_epoch_is_refused(first_22, fixture_catalog):
@@ -246,13 +262,18 @@ def test_compare_refuses_filling_the_gap(gapped):
     ]
 
 
+def test_compare_with_an_empty_base_accepts_any_day(first_22):
+    empty = {**first_22, "days": {}}
+    assert compare(empty, first_22) == []
+
+
 def test_cli_warns_about_the_gap(tmp_path, capsys, first_22):
     out = tmp_path / "schedule.json"
     out.write_bytes(dumps(first_22).encode("utf-8"))
     args = ["schedule", "--catalog", "web/public/fixtures/catalog.json", "--out", str(out)]
     assert main([*args, "--today", "2026-11-07"]) == 0
     captured = capsys.readouterr()
-    assert "aviso: buraco: 2026-10-30 a 2026-11-06 ficam sem desafio (P44)" in captured.err
+    assert "aviso: buraco de 8 dia(s) sem desafio: 2026-10-30 a 2026-11-06 (P44)" in captured.err
     assert "22 dia(s) novo(s) (2026-11-07 a 2026-11-28), 44 no total" in captured.out
 
 

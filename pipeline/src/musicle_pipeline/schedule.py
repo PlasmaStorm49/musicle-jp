@@ -260,8 +260,11 @@ def generate(
     # agenda como dia não jogado, quebrando a sequência de quem jogou todos os dias disponíveis.
     d = max(first_missing, today)
     if d > first_missing:
+        gap = (d - first_missing).days
         gap_end = d - timedelta(days=1)
-        result.warnings.append(f"buraco: {first_missing} a {gap_end} ficam sem desafio (P44)")
+        result.warnings.append(
+            f"buraco de {gap} dia(s) sem desafio: {first_missing} a {gap_end} (P44)"
+        )
     while d <= today + timedelta(days=horizon):
         day, relaxations = _generate_day(schedule["days"], d, start_epoch, idx)
         schedule["days"][d.isoformat()] = day

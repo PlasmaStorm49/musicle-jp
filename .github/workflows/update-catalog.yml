@@ -66,7 +66,7 @@ jobs:
           status="$(git status --porcelain --untracked-files=all)"
           if [ -z "$status" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Nada novo: a agenda já cobre hoje + 21 dias." >> "$GITHUB_STEP_SUMMARY"
+            echo "Nada novo: a agenda já cobre o horizonte do pipeline a partir de hoje." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           if [ "$status" != " M $SCHEDULE" ]; then
@@ -109,28 +109,38 @@ jobs:
         run: |
           [[ "$TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::data inválida: $TODAY"; exit 1; }
           new="$RUNNER_TEMP/artifact/schedule.json"
-          # Só acréscimo, conferido de novo aqui (o arquivo veio de outra tarefa): o mesmo
-          # cabeçalho, e todo dia da main igual na agenda nova.
+          # Conferência independente: o arquivo veio da outra tarefa, que roda pacotes do pip. O
+          # mesmo cabeçalho, todo dia da main igual, e todo dia novo com data AAAA-MM-DD.
           jq -e -n --slurpfile b "$SCHEDULE" --slurpfile n "$new" \
             '($b[0] | del(.days)) == ($n[0] | del(.days))
-             and ($b[0].days | to_entries | all(.value == $n[0].days[.key]))' > /dev/null \
-            || { echo "::error::a agenda nova altera o que já existe"; exit 1; }
-          base_last="$(jq -r '.days | keys | last' "$SCHEDULE")"
+             and ($b[0].days | to_entries | all(.value == $n[0].days[.key]))
+             and ((($n[0].days | keys) - ($b[0].days | keys)) | all(test("^[0-9]{4}-[0-9]{2}-[0-9]{2}$")))' > /dev/null \
+            || { echo "::error::a agenda nova altera o que já existe ou traz data inválida"; exit 1; }
+          base_last="$(jq -r '.days | keys | last // empty' "$SCHEDULE")"
+          [ -n "$base_last" ] || { echo "::error::a agenda da main não tem dias (caso não suportado)"; exit 1; }
           mapfile -t added < <(jq -r -n --slurpfile b "$SCHEDULE" --slurpfile n "$new" \
             '($n[0].days | keys) - ($b[0].days | keys) | .[]')
           [ "${#added[@]}" -gt 0 ] || { echo "::error::nenhum dia novo"; exit 1; }
           first="${added[0]}"
           last="${added[-1]}"
-          # Dia novo só depois do fim da agenda atual: o buraco nunca é preenchido (P44).
-          [[ "$first" > "$base_last" ]] || { echo "::error::dia novo antes de $base_last"; exit 1; }
-          gap=$(( ( $(date -ud "$first" +%s) - $(date -ud "$base_last" +%s) ) / 86400 - 1 ))
-          cp "$new" "$SCHEDULE"
           count="${#added[@]}"
+          # P44: o 1º dia novo é o seguinte ao fim da agenda, ou hoje, se esse dia já passou (o
+          # buraco nunca é preenchido nem cresce além do necessário).
+          expected="$(date -ud "$base_last + 1 day" +%F)"
+          if [[ "$TODAY" > "$expected" ]]; then expected="$TODAY"; fi
+          [ "$first" = "$expected" ] || { echo "::error::o 1º dia novo deveria ser $expected, e não $first (P44)"; exit 1; }
+          # Cada data numa variável: se o date falhar, a tarefa para (em vez de a conta sair errada).
+          base_s="$(date -ud "$base_last" +%s)"
+          first_s="$(date -ud "$first" +%s)"
+          last_s="$(date -ud "$last" +%s)"
+          [ "$count" -eq $(( (last_s - first_s) / 86400 + 1 )) ] || { echo "::error::há buraco entre os dias novos"; exit 1; }
+          gap=$(( (first_s - base_s) / 86400 - 1 ))
+          cp "$new" "$SCHEDULE"
           {
             echo "Agenda do desafio diário: **$count dia(s) novo(s)**, de $first a $last."
             echo
             echo "- **Hoje em produção:** a agenda vai até $base_last."
-            echo "- **Depois do merge:** até $last (hoje em Brasília, $TODAY, mais 21 dias)."
+            echo "- **Depois do merge:** até $last (hoje em Brasília: $TODAY)."
             echo "- Só o \`$SCHEDULE\` mudou, sem alterar nenhum dia existente (conferido aqui e pelo \`schedule-check\` da CI)."
             if [ "$gap" -gt 0 ]; then
               echo
@@ -150,11 +160,14 @@ jobs:
         env:
           BRANCH: ${{ steps.prep.outputs.branch }}
         run: |
-          if git ls-remote --exit-code --heads origin "refs/heads/$BRANCH" > /dev/null; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
+          # --exit-code: 0 = existe, 2 = não existe; outro código é erro (rede, por exemplo).
+          code=0
+          git ls-remote --exit-code --heads origin "refs/heads/$BRANCH" > /dev/null || code=$?
+          case "$code" in
+            0) echo "exists=true" >> "$GITHUB_OUTPUT" ;;
+            2) echo "exists=false" >> "$GITHUB_OUTPUT" ;;
+            *) echo "::error::git ls-remote falhou (código $code)"; exit 1 ;;
+          esac
       - name: Commit
         if: steps.branch.outputs.exists == 'false'
         env:
@@ -190,15 +203,19 @@ jobs:
               echo "::notice::o PR de hoje já está aberto: $pr"
               exit 0
             fi
-            echo "::error::o branch $BRANCH existe sem PR (uma execução parou no meio). Apague com: git push origin --delete $BRANCH"
+            echo "::error::o branch $BRANCH existe sem PR aberto (execução interrompida ou PR fechado sem merge). Apague com: git push origin --delete $BRANCH"
             exit 1
           fi
           url="$(gh pr create --base main --head "$BRANCH" --title "$TITLE" --body-file "$RUNNER_TEMP/pr-body.md")"
           echo "PR aberto: $url" >> "$GITHUB_STEP_SUMMARY"
-          # Um PR anterior que ficou sem merge está contido neste (a geração é determinística):
-          # fechá-lo evita conflito no merge.
-          gh pr list --state open --json number,headRefName \
-            --jq ".[] | select(.headRefName | startswith(\"catalogo/\")) | select(.headRefName != \"$BRANCH\") | .number" |
+          # Um PR anterior do robô que ficou sem merge foi gerado de uma main mais antiga: este o
+          # substitui, e fechá-lo evita conflito no merge. Só PR da própria Action, deste
+          # repositório (nunca o de uma pessoa nem o de um fork).
+          gh pr list --state open --json number,headRefName,author,isCrossRepository \
+            --jq ".[] | select(.isCrossRepository | not)
+                      | select(.author.login == \"app/github-actions\" or .author.login == \"github-actions[bot]\")
+                      | select(.headRefName | startswith(\"catalogo/\"))
+                      | select(.headRefName != \"$BRANCH\") | .number" |
             while read -r old; do
-              gh pr close "$old" --delete-branch --comment "Substituído por $url, que já traz estes dias."
+              gh pr close "$old" --delete-branch --comment "Substituído por $url, gerado de novo a partir da main de hoje."
             done

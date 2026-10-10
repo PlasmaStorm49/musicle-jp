@@ -55,15 +55,25 @@ jobs:
         working-directory: web
         run: |
           grep -Eq '(src|href)="/musicle-jp/assets/' dist/index.html || { echo "::error::dist/index.html sem a base /musicle-jp/"; exit 1; }
+          if grep -Eq '(src|href)="/assets/' dist/index.html; then
+            echo "::error::dist/index.html tem caminho /assets/ sem a base"
+            exit 1
+          fi
           if grep -rq "musicle-fake-audio" dist; then
             echo "::error::o motor de áudio falso foi parar no build"
             exit 1
           fi
-          # Todo áudio e toda capa citados no catálogo precisam estar no site.
+          # Todo áudio e toda capa citados no catálogo precisam estar no site. A lista vai para um
+          # arquivo: se o jq falhar, a tarefa para (num "for ... in $(jq ...)", passaria calada).
+          # No M11, com o áudio da Apple (URL absoluta), esta conferência muda.
+          jq -r '[.tracks[].preview.url, .albums[].artworkUrl] | .[] | select(. != null)' \
+            public/fixtures/catalog.json > "$RUNNER_TEMP/assets.txt"
+          [ -s "$RUNNER_TEMP/assets.txt" ] || { echo "::error::catálogo sem áudio nem capa"; exit 1; }
           missing=0
-          for url in $(jq -r '[.tracks[].preview.url, .albums[].artworkUrl] | .[] | select(. != null)' public/fixtures/catalog.json); do
+          while read -r url; do
             [ -f "dist/$url" ] || { echo "::error::falta dist/$url"; missing=1; }
-          done
+          done < "$RUNNER_TEMP/assets.txt"
+          echo "$(wc -l < "$RUNNER_TEMP/assets.txt") arquivos de áudio e capa conferidos"
           du -sh dist
           exit "$missing"
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
