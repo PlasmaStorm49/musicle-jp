@@ -1,6 +1,6 @@
 // Todos os textos da tela ficam aqui (regra inviolável 2). Parâmetros entre chaves: {nome}.
 export const ptBR = {
-  "app.title": "musicle-jp",
+  "app.title": "AteMusic",
   "app.tagline": "Adivinhe a música japonesa do dia",
 
   "load.loading": "Carregando o desafio…",

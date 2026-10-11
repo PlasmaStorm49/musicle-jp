@@ -37,7 +37,7 @@ test("Diário Música no 4 opções: do seletor de modo ao compartilhar", async 
   await expect(page.getByText("11 de 18 pontos")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toBe(
-    "musicle-jp · Diário Música nº 1 · 4 opções\n11/18\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
+    "AteMusic · Diário Música nº 1 · 4 opções\n11/18\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
   );
   // O ✓ é aria-hidden; o texto para leitor de tela vem num span à parte, e o navegador junta os
   // dois com um espaço: "Música (terminado)".
