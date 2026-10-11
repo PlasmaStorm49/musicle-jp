@@ -21,20 +21,21 @@ export const ptBR = {
   "nav.done": "(terminado)",
   "nav.doneMark": "✓",
 
-  "home.modesTitle": "Escolha o modo",
+  "home.modesTitle": "Escolha o jogo",
   "home.songHint": "Ouça o trecho e acerte o nome da música. {rounds} rodadas por dia.",
   "home.albumHint": "Ouça o trecho e acerte o álbum ou single. {rounds} rodadas por dia.",
   "home.practiceHint": "Rodadas sem fim, de Música ou Álbum, em 4 opções ou digitação.",
   "home.statusNew": "nº {number} · novo",
-  "home.statusPlaying": "nº {number} · em andamento, {mode}",
+  "home.statusPlaying": "nº {number} · em andamento ({mode})",
   "home.statusDone": "nº {number} · terminado, {score} de {max} pontos",
   "home.statusDoneVoid": "nº {number} · terminado",
   "home.statusUnavailable": "Não há desafio hoje",
   "home.practiceSession": "Nesta sessão: {score}",
   "home.howTitle": "Como funciona",
   "home.howClip":
-    "Você ouve um trecho de um sucesso no Japão. Ele começa com {first} s e cresce até {last} s.",
-  "home.howDaily": "Os diários são iguais para todos e viram à meia-noite de Brasília.",
+    //  : espaço que não quebra a linha entre o número e o "s".
+    "Você ouve um trecho de um sucesso no Japão. Ele começa com {first} s e cresce até {last} s.",
+  "home.howDaily": "Os diários são iguais para todos e mudam à meia-noite, horário de Brasília.",
   "home.howPractice": "O Treino não fica salvo: jogue quantas rodadas quiser.",
 
   "game.header": "{daily} · nº {number}",

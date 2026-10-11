@@ -25,7 +25,7 @@ const finished: FinishedGame = {
   rounds: [
     { status: "won", stage: 0, attempts: ["right"] },
     { status: "lost", stage: 0, attempts: ["wrong"] },
-    { status: "won", stage: 1, attempts: ["skip", "right"] },
+    { status: "won", stage: 1, attempts: ["right"] }, // no 4 opções, "Ouvir mais" não é tentativa
   ],
 };
 
@@ -67,7 +67,19 @@ describe("Home", () => {
     };
     setup(save);
     expect(card(/^Diário Música/).textContent).toContain("nº 7 · terminado, 11 de 18 pontos");
-    expect(card(/^Diário Álbum/).textContent).toContain("nº 7 · em andamento, digitação");
+    expect(card(/^Diário Álbum/).textContent).toContain("nº 7 · em andamento (digitação)");
+  });
+
+  it("outra aba grava (o save relido muda): o cartão atualiza, e o foco fica onde está", () => {
+    // O App relê o save no evento storage e desenha a mesma Home com o save novo. O foco não
+    // pode voltar ao título: o efeito só roda ao montar, e o link continua o mesmo elemento.
+    const { rerender } = render(<Home day={DAY} date={DATE} save={emptySave()} practice={null} />);
+    const song = card(/^Diário Música/);
+    song.focus();
+    const done: Save = { ...emptySave(), history: { [puzzleId(DATE, "song")]: finished } };
+    rerender(<Home day={DAY} date={DATE} save={done} practice={null} />);
+    expect(document.activeElement).toBe(song);
+    expect(song.textContent).toContain("terminado, 11 de 18 pontos");
   });
 
   it('dia todo anulado: terminado, sem "0 de 0 pontos"', () => {
