@@ -19,6 +19,9 @@ Antes de revisar, leia `CLAUDE.md`, `web/CLAUDE.md` e `pipeline/CLAUDE.md` para 
 6. **Acessibilidade:** botões com `type="button"`, foco gerenciado ao trocar de tela, cor nunca é a única pista, `aria-live` só para eventos assíncronos.
 7. **Testes:** cada regra nova tem teste; casos de borda citados no plano estão cobertos.
 8. **Segurança:** nenhum segredo, token ou chave; nenhuma URL montada a partir de dado não confiável sem validação.
+9. **Parada real (M11):** todo player e toda revelação com `provider === "apple"` levam o `Attribution`; na rodada, o link é a playlist, nunca a música; URL do catálogo que vai para `href` ou `src` passa por `isAppleUrl`.
+10. **Áudio:** `unlock()`/`play()` dentro do clique, antes de qualquer `await`; corte com `setTimeout`, não `requestAnimationFrame`; motor com elemento de mídia toma as ações da `mediaSession`; reprodução na tela com ficha (só a mais nova mexe no estado).
+11. **Workflows:** `permissions` mínimas por tarefa, actions pinadas por SHA (com 14 dias ou mais), `persist-credentials: false`, valores do evento por `env:` e nenhuma tarefa nova chamada `pipeline`, `web` ou `e2e`.
 
 ## Relatório
 

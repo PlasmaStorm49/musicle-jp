@@ -1,6 +1,6 @@
 # Plano do projeto musicle-jp
 
-> **Nota de validação:** documento gerado por IA (Claude Code) a partir da exploração do Musicle, de pesquisa de APIs e das decisões do usuário. Itens marcados "confirmar" são conhecimento geral ainda não verificado. Revise antes de tomar como verdade.
+> **Nota de validação:** documento gerado por IA (Claude Code) a partir da exploração do Musicle, de pesquisa de APIs e das decisões do usuário. O que ainda não foi conferido aparece como "hipótese" no texto. Revise antes de tomar como verdade.
 
 ## 1. Objetivo
 
@@ -24,7 +24,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P24 | O Diário Álbum aceita singles, em definitivo |
 | P25 | `epoch` da agenda real (M11, em `public/data/`, com IDs da Apple): 2026-10-10, decidido nesse dia. Se ela for publicada depois, o 1º desafio real sai com nº maior que 1, e os dias entre o `epoch` e a publicação ficam como buraco (P44) |
 | P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
-| P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2 |
+| P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2. No `.npmrc` a exceção é **por nome** do pacote, então vale para qualquer versão nova deles: sai depois de 20/10/2026, quando o vite 8.3.3 completa 14 dias (ME29) |
 | P31 | Aviso de faixa explícita no player antes de tocar e na revelação |
 | P32 | Romaji menor embaixo do título japonês nas opções |
 | P33 | "Ouvir mais" libera a etapa e toca o trecho maior na hora |
@@ -36,21 +36,21 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P40 | Dia sem agenda não quebra a sequência |
 | P41 | Média e distribuição com pontos brutos; dia todo anulado fica fora delas, mas conta em jogos e na sequência |
 | P42 | Compartilhar com formas, não só cores: ⬛ ouvir mais (na digitação, pulou), ✅ acerto, ❌ erro, ⬜ anulada |
-| P44 | (a) A agenda nunca gera dia passado (M10): a geração começa em `max(epoch, último + 1, hoje)`. O dia que não foi gerado a tempo vira buraco ("indisponível"), que não quebra a sequência (P40) e nunca é preenchido (o `compare` recusa) |
+| P44 | A agenda nunca gera dia passado (M10): a geração começa em `max(epoch, último + 1, hoje)`. O dia que não foi gerado a tempo vira buraco ("indisponível"), que não quebra a sequência (P40) e nunca é preenchido (o `compare` recusa) |
 | P45 | O modo de resposta é escolhido todo dia antes da rodada 1, com o último usado marcado e com o foco |
 | P46 | Na digitação nada toca sozinho: pulo e erro só liberam a etapa; o jogador clica em Tocar |
-| M7 | Na última tentativa da digitação o "Pular" some e fica só o "Desistir" (os dois dariam 0 ponto) |
+| Dec. M7 | Na última tentativa da digitação o "Pular" some e fica só o "Desistir" (os dois dariam 0 ponto) |
 | P49 | Abas no topo (Música, Álbum, Treino), com a aba no endereço (`#musica`, `#album`, `#treino`) e ✓ no diário terminado |
 | P50 | O Treino não salva nada: só o placar da sessão, e recarregar a página começa outra |
 | P51 | No Álbum, as opções mostram capa, título e artista (também na lista da revelação) |
-| M8 | A sessão do Treino dura enquanto a página está aberta: trocar de aba não zera placar nem saco |
-| M11 | O robô semanal acrescenta dias também à agenda das fixtures (só desenvolvimento e testes), para o `npm run dev` continuar com o desafio de hoje: a lista fechada do PR do robô tem 5 arquivos, e não os 4 do plano (PR C) |
+| Dec. M8 | A sessão do Treino dura enquanto a página está aberta: trocar de aba não zera placar nem saco |
+| Dec. M11 | O robô semanal acrescenta dias também à agenda das fixtures (só desenvolvimento e testes), para o `npm run dev` continuar com o desafio de hoje: a lista fechada do PR do robô tem 5 arquivos, e não os 4 do plano (PR C) |
 | P60 | A regra da P28 vale também para o Python (M9): versões exatas de tudo, diretas e indiretas, em `pipeline/constraints.txt`, e o `setuptools` do build fixo no `pyproject.toml`. Na adoção, três caíram para a versão anterior: ruff 0.16.9, rpds-py 2026.6.3 e iniconfig 2.3.0 |
 | P64 | PR semanal da agenda aberto pela Action com o `GITHUB_TOKEN` (M10): as checagens rodam depois de "Approve workflows to run", e o merge é humano (o push dele dispara o deploy). Sem segredo; exige "Allow GitHub Actions to create and approve pull requests" ligado |
 | P68 | Os saves fictícios (desde 08/10) são zerados na troca para a parada real (M11): migração do save v1 → v2 que mantém só as preferências |
 | P69 | Previews da Apple com as exigências escritas: selo oficial "Listen on Apple Music" (sem alteração), "provided courtesy of iTunes" junto ao player e link direto à loja; na rodada, o selo leva à playlist "Top 100: Japão" (não entrega a resposta), na revelação, à música. Zona cinzenta aceita (o preview é "not for entertainment purposes"); se a Apple pedir, sai do ar |
 | P70 | A reserva de áudio é um motor composto: Web Audio → `<audio>` na mesma URL; lookup que falha → `previewUrl` guardado no catálogo. O Deezer sai do plano (termos de "uso privado familiar" e casamento por texto que erra) |
-| P71 | A Action semanal instala o extra `romaji` e o `romaji.json` entra no PR do robô, para revisão junto com a agenda |
+| P71 | A Action semanal romaniza os textos novos e o `romaji.json` entra no PR do robô, para revisão junto com a agenda. O extra `romaji` (250 MB) só é instalado quando o `romanize --check` acusa texto novo |
 | P72 | O snapshot real guarda a resposta da Apple aparada; o mapeamento para o contrato neutro fica na leitura (`providers/apple.py`) |
 | P73 | Campo `storeUrl` na faixa (`url` ou `null`), mudança compatível: o `schemaVersion` continua 1 |
 | P74 | O `fetch` busca também os artistas: o nome do lookup de artista (romanizado ou em inglês) vira o latino oficial (`latinSource` "provider"); a grafia de parceria da faixa ("A & B") vira o `artistDisplay` e entra na busca |
@@ -59,6 +59,12 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P77 | A 1ª agenda real nasce no PR da troca do site (PR B do M11), com o `--today` do dia do merge |
 | P80 | O `fetch` (único comando com rede) pede confirmação no Claude Code, mesmo no modo automático (`ask` no `.claude/settings.json`) |
 | P81 | O selo do Apple Music é a variante `badge` em pt-BR, baixada do Toolbox da Apple e guardada sem alteração em `web/src/ui/assets/`. O ZIP traz todas as variantes, e só essa entra no repositório; o Biome não analisa a pasta, para não pedir mudança no SVG |
+| P87 | グッタイム exibido como "Guttaimu", corrigido no `aliases.toml` (PR #11): o primeiro romaji novo trazido pelo robô, revisado pelo passo 2 da rotina do README |
+| P90 | Correções do checkup de 11/10/2026 (ME19 a ME29 e ME35) antes do M12; o M12 (visual) absorve de ME30 a ME34. A escolha do M12 (P89) fica para depois das correções |
+| P91 | No Treino, a exclusão das respostas pendentes do diário vale também pelo álbum, nos dois alvos (checkup, ME23): a revelação sempre mostra o álbum |
+| P92 | Alertas do Dependabot ligados, sem PR automático de versão (furaria a P28). É configuração do repositório: o usuário liga em Settings > Code security > Dependabot alerts |
+| P93 | O modo Álbum fica como está, mesmo com a resposta quase sempre um single com o nome da música (46 de 66 rodadas da agenda real no checkup) |
+| P94 | No 4 opções dá para responder sem tocar nada e levar 6 pontos: fica assim |
 
 ## 3. Fonte de dados (ligada no M11)
 
@@ -88,23 +94,24 @@ Pesquisa de 10/10/2026 (subagente; JSON lido de verdade, nenhum áudio baixado):
 ```
 musicle-jp/
   CLAUDE.md  README.md  .gitignore  .gitattributes  .editorconfig
-  .claude/   settings.json, launch.json, hooks/format_file.py, skills/verificar/SKILL.md, agents/revisor.md
-  .github/workflows/   ci.yml, deploy.yml, update-catalog.yml
-  docs/      PLANO.md
-  shared/    schema/*.schema.json (contrato Python↔TS), vectors/normalize.json, vectors/prng.json
+  .claude/   settings.json, launch.json, hooks/{format_file.py, ruff.toml}, skills/verificar/SKILL.md, agents/revisor.md
+  .github/   workflows/{ci.yml, deploy.yml, update-catalog.yml}, scripts/check-catalog-pr.sh
+  docs/      PLANO.md, HISTORICO.md
+  shared/    schema/*.schema.json (contrato Python↔TS), vectors/{normalize.json, prng.json, prng_reference.mjs}
   pipeline/  pyproject.toml, constraints.txt, data/apple/{aliases.toml, romaji.json, snapshots/}, fixtures/{chart_fixture.json, aliases.toml, romaji.json}
-             src/musicle_pipeline/  cli, models, providers/{base,fixture,apple}, fetch, normalize, romaji, catalog,
-                                    similarity, prng, schedule, io_json, validate
+             src/musicle_pipeline/  cli, models, paths, providers/{base,fixture,apple}, fetch, normalize, romaji,
+                                    romaji_cache, aliases, catalog, similarity, prng, schedule, fake_assets,
+                                    io_json, validate
              tests/
   web/       Vite + TS + Preact + Biome + Vitest + Playwright
              src/core/     TS puro, sem DOM, Preact ou áudio
-             src/data/     carrega catálogo e agenda
-             src/audio/    engine, webaudio, htmlaudio, fake
+             src/data/     carrega catálogo e agenda (source) e resolve as prévias (previews)
+             src/audio/    engine, webaudio, htmlaudio, fallback, session, fake
              src/storage/  save, migrations
              src/i18n/     pt-BR, t
-             src/ui/       App, screens, components
-             public/data/      catálogo real (gerado)
-             public/fixtures/  catálogo falso (WAV gerado, fora do git)
+             src/ui/       componentes Preact (uma pasta só) e assets/ (o selo da Apple)
+             public/data/      parada real (gerada)
+             public/fixtures/  parada falsa (WAV e SVG gerados, fora do git)
              e2e/
 ```
 
@@ -135,6 +142,10 @@ musicle-jp/
 | M10 | Concluído em 10/10/2026 | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions, navegador do Claude na URL pública |
 | M11 | Concluído em 11/10/2026 | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
 
+**Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
+
+Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
+
 ## 6. Riscos
 
 | Risco | Mitigação |
@@ -146,9 +157,9 @@ musicle-jp/
 | Romaji errado em nomes próprios | `aliases.toml` + `latinSource` para auditoria |
 | CRLF e codificação no Windows | `.gitattributes` com eol=lf, `newline="\n"`, `PYTHONUTF8=1` |
 | Cron desativado após 60 dias sem atividade no repositório (documentação do GitHub) | Aviso no README; `gh workflow enable update-catalog.yml` e execução manual |
-| PR da agenda sem merge por mais de 21 dias | O dia que passa sem agenda vira buraco (P44); o corpo do PR avisa o buraco e pede o merge no mesmo dia |
+| PR da agenda sem merge por mais de 21 dias | O dia que passa sem agenda vira buraco (P44); o corpo do PR avisa o buraco e pede o merge no mesmo dia. Desde o checkup, a tarefa `catalog-runway` fica vermelha (e o GitHub manda e-mail) quando a agenda da `main` tem menos de 10 dias à frente. Um PR do robô sem merge é fechado pelo da semana seguinte, e o snapshot daquela semana se perde |
 | `--today` errado (data no futuro deixaria buraco para sempre) | A Action não aceita entradas; a data vem de `TZ=America/Sao_Paulo date +%F` |
-| Cache do Pages: JSON velho por alguns minutos depois do deploy (a conferir) | A agenda é gerada 21 dias à frente; desde o M11, o jogo busca catálogo e agenda com `cache: "no-cache"` (ME13) |
+| Cache do Pages: `max-age=600` (medido no M10), JSON velho por até 10 minutos depois do deploy | A agenda é gerada 21 dias à frente; desde o M11, o jogo busca catálogo e agenda com `cache: "no-cache"` (ME13) |
 
 ## 7. Em aberto
 
@@ -160,7 +171,6 @@ musicle-jp/
 
 - S5. Ativar o estilo de saída "Learning" ou "Explanatory" nas sessões deste projeto.
 - S6. Registrar cada decisão como ADR em `docs/decisoes/`.
-- S7. A partir do M9, um marco por branch e por PR. (Adotada no M9: a proteção da `main` exige PR.)
 - S8. Tirar o `fetchedAt` do cabeçalho `Date` da resposta do RSS, em vez de argumento (subagente Plan do M11).
 - S9. Teste e2e da reserva com `<audio>` de verdade, usando os WAV das fixtures (subagente Plan do M11).
 - S10. Hashes no `constraints.txt` (`--require-hashes`), ao menos na Action (subagente Plan do M11).
@@ -176,16 +186,40 @@ musicle-jp/
 - ME6. App do Claude no GitHub para revisar PR.
 - ME7. Tema escuro e revisão de acessibilidade.
 - ME8. Tolerância a erro de digitação (distância de edição) no autocompletar.
-- ME9. Partículas `は` e `へ` lidas como "wa" e "e" na consulta em kana: o cutlet as escreve assim nos títulos reais (conferido no M11, Apêndice B). Feita no PR B do M11.
 - ME10. `actionlint` ou `zizmor` na CI, para revisar o próprio workflow a cada PR (revisor do M9).
-- ME11. Fixar também a versão do `pip` na CI (`/code-review` do M9).
+- ME11. Fixar também a versão do `pip` na CI (`/code-review` do M9). O checkup achou soltos também o patch do Python (3.12.x), o minor do Node 24 e as dependências de build do sdist do unidic-lite (hipótese).
 - ME12. Levar a escolha da revisão base do `schedule-check` do YAML para o Python, com teste (`/code-review` do M9).
-- ME13. No M11, buscar `catalog.json` e `schedule.json` com `fetch(..., { cache: "no-cache" })`: com a parada real, catálogo novo e agenda velha em cache não podem se misturar (subagente Plan do M10). Feita no PR B do M11.
-- ME14. Aviso de folga da agenda (menos de 7 dias à frente) no resumo do deploy (subagente Plan do M10). Feita no PR B do M11.
-- ME15. Teste de fumaça contra o `vite preview` em `/musicle-jp/` (a página abre, os JSON e um WAV respondem 200, console limpo), para pegar caminho absoluto no código, que a checagem do `dist/index.html` não vê (revisor do M10).
-- ME16. Separar a grafia de parceria em vários artistas (`artistId`), casando com nomes já conhecidos (subagente Plan do M11).
-- ME17. Dividir ou podar o catálogo real quando passar de cerca de 1 MB (hoje 245 KB com 100 faixas).
-- ME18. Medir a latência do 1º "Tocar" no site publicado (lookup + cerca de 1 MB + decodificação).
+- ME15. Teste de fumaça contra o `vite preview` em `/musicle-jp/` (a página abre, os JSON de `data/` respondem 200, console limpo), para pegar caminho absoluto no código, que a checagem do `dist/index.html` não vê (revisor do M10).
+- ME17. Dividir ou podar o catálogo real quando passar de cerca de 1 MB (pela conta do checkup, perto de 420 faixas).
+- ME18. Medir a latência do 1º "Tocar" no site publicado (lookup + cerca de 1 MB + decodificação). Já medido: o download da prévia, cerca de 440 ms no site publicado; o lookup, 435 ms, e a prévia, 800 ms, no desenvolvimento. Falta o tempo total até o som, com a decodificação.
+
+**Do checkup de 11/10/2026** (P90). As feitas estão em "Feitas", abaixo.
+
+- ME29. Tirar do `web/.npmrc` as exceções do vite e do source-map-js a partir de 20/10/2026, quando o vite 8.3.3 completa 14 dias (P29): do jeito que estão, qualquer versão nova deles entra sem a carência.
+- ME30. Contraste baixo na barra segmentada, na etiqueta "último usado" e nas barras da distribuição (cerca de 1,2:1). Vai com o M12.
+- ME33. Textos: "- Single" na revelação, dia todo anulado mostrando "0/0", a dica de "setas e Enter" no celular e a rodada anulada sempre como "Áudio indisponível" (também quando a resposta perdeu a elegibilidade). Vai com o M12.
+- ME34. Celular: opções com títulos enormes ("Yes! 東京 (feat. …)" passa de 6 linhas), os filtros do Treino com 200 px antes do player e a distribuição de pontos com 19 linhas. Vai com o M12.
+- ME36. Atualizar as 3 actions que têm versão nova quando ela completar 14 dias, a partir de 22/10/2026 (P28; checkup).
+- ME37. `aria-disabled` no lugar de `disabled` nos botões do Player durante o "Carregando…" (o navegador tira o foco do botão desabilitado) e um gancho comum de reprodução com ficha para o Player e a revelação (`/code-review` do PR #13).
+- ME38. Ligar no pipeline os álbuns do mesmo lançamento (o EP "A / B", os dois "ROSE - Single"), em vez da regra de nome do `acceptedIds` no web; juntaria também as linhas iguais da busca. Pede mudança de esquema (`/code-review` do PR #13).
+- ME39. Teste de componente do `Game`: o lote de prévias só dos diários pendentes, a escolha do modo com outra aba já começada e a sessão `stale` regravada (checkup e `/code-review` do PR #13).
+
+**Feitas:**
+
+- S7 (M9): um marco por branch e por PR.
+- No PR B do M11: ME9 (partículas `は` e `へ` na consulta em kana), ME13 (`cache: "no-cache"`) e ME14 (folga da agenda no resumo do deploy).
+- No checkup de 11/10/2026:
+  - ME16 e ME22: parceiros conhecidos nos `artistIds` da faixa (PR #12);
+  - ME19, ME20 e ME32: o Player com uma ficha por reprodução, a volta ao Tocar e o foco (PR #13);
+  - ME21: o álbum do mesmo lançamento conta como acerto no Álbum (PR #13);
+  - ME23: o Treino exclui o álbum de uma resposta pendente (PR #13, P91);
+  - ME24: romaji e busca da parada real, no `aliases.toml` (PR #12);
+  - ME25: o robô cai no "PR só com a agenda" quando a parada nova quebra o pipeline (PR #12);
+  - ME26: uma faixa com host estranho ou data impossível conta como sem lookup (PR #12);
+  - ME27: a prévia conhecida vale por uma semana sem prévia (PR #12);
+  - ME28: a tarefa `catalog-runway` avisa quando a agenda tem menos de 10 dias (PR #12);
+  - ME31: o `lang` próprio do artista e do álbum (PR #13);
+  - ME35: a documentação conferida contra o código (PR #14).
 
 ---
 
@@ -199,7 +233,9 @@ musicle-jp/
 - `schemaVersion` ficou 1 até o primeiro deploy (M10). Desde então, só sobe em mudança incompatível, com migração, e o frontend recusa versão desconhecida.
 - Contrato completo: `shared/schema/catalog.schema.json`. A validação soma invariantes que o schema não expressa e confere a forma canônica do arquivo.
 
-### catalog.json (trecho real, gerado da parada fictícia)
+### catalog.json (trecho do M1, gerado da parada fictícia)
+
+O arquivo de hoje tem também `albums`, o `storeUrl`, o `similar` preenchido e o romaji (`titleLatin` e `latinSource`). O contrato completo está no schema.
 
 ```json
 {
@@ -246,7 +282,14 @@ musicle-jp/
 - `releaseDate` + 9 h antes de cortar. Na 1ª parada, as horas vistas foram 07:00Z, 08:00Z e 12:00Z (nenhuma em 15:00Z, a meia-noite do Japão): o +9 h não mudou nenhuma data e segue como hipótese;
 - capa em `300x300bb`; explícita por `trackExplicitness`; prévia de 30 s;
 - nome do artista: o japonês das faixas; o do lookup de artista vira o latino (P74); parceria vira o `artistDisplay`;
-- faixa sem lookup fica fora do dia, com as posições recompactadas; álbum fixo por faixa (o primeiro que apareceu), com aviso.
+- **parceiros** (checkup, ME22): os nomes da grafia da loja ("A & B", "A, B", "A × B", "feat.") e do "(feat. …)" do título que são artistas de alguma faixa entram nos `artistIds`, depois do 1º (o `songKey` usa o 1º e não pode mudar):
+  - a chave é estrita (largura, caixa e espaços), e não a de busca, que casaria "=LOVE" com "Love". Ela precisa de 2 caracteres ou mais, e nome de dois artistas fica sem ligação, com aviso;
+  - duas passadas: os artistas de todos os dias primeiro, então a ordem dos dias não muda o resultado;
+  - com parceiro, o `artistDisplay` é a grafia da loja;
+  - num álbum completo, o convidado não vira artista do álbum: fica o principal;
+- faixa sem lookup fica fora do dia, com as posições recompactadas; álbum fixo por faixa (o primeiro que apareceu), com aviso;
+- faixa com URL fora dos hosts da Apple ou data de lançamento que não converte conta como sem lookup, dentro do limite de 20% (ME26): recusar a parada inteira por uma faixa a congelaria;
+- **prévia que some** (ME27): a última conhecida vale por uma aparição sem prévia, com aviso. Na segunda seguida, a faixa fica sem prévia e inelegível, porque a guardada pode estar morta. Só o snapshot mais novo gera aviso.
 
 ### schedule.json
 
@@ -320,7 +363,12 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 
 **Resolvido no M7:** a regra `di`→`ji` da chave frouxa também pega o "di" de ディ ("merodi" vira a chave `meroji`), e "merod" deixava de ser começo de chave no meio da digitação. A variante sem a última letra (`d`) resolve.
 
-**Validação do palpite:** sempre por **ID** escolhido na lista, nunca por texto livre. Na Música, acerta quem escolhe o mesmo `songKey`. No Álbum, acerta quem escolhe qualquer álbum que contenha o `songKey` da resposta.
+**Validação do palpite:** sempre por **ID** escolhido na lista, nunca por texto livre. Na Música, acerta quem escolhe o mesmo `songKey`. No Álbum, acerta quem escolhe qualquer álbum que contenha o `songKey` da resposta e, desde o checkup (ME21, `acceptedIds` em `core/catalog.ts`), o do mesmo lançamento que o catálogo não liga à música, porque o lookup traz um álbum só por faixa. Do mesmo artista de um álbum certo, vale:
+
+- o álbum com a música numa parte do nome: o EP "爆裂愛してる / 好きすぎて滅! - EP" tem 好きすぎて滅!;
+- o álbum com o nome inteiro de um álbum certo (sem " - Single" ou " - EP"): os dois "ROSE - Single" da HANA aparecem iguais na busca, e recusar um seria injusto, mesmo para o lado B (Tiger).
+
+Uma parte só do nome de um álbum certo não basta (a resposta 爆裂愛してる, do EP, não está no "好きすぎて滅! - Single"), e um nome que a normalização esvazia ("♡") não casa. O cálculo é feito na tela, então vale também para os dias já gravados. O histórico guarda o resultado, e jogo terminado não muda.
 
 ## Apêndice C. Agenda diária
 
@@ -334,7 +382,7 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 
 ### Algoritmo (implementado no M3, `schedule.py`)
 
-1. Para cada dia de `max(epoch, último dia + 1, hoje)` até hoje + 21. **Dia que já passou nunca é gerado** (P44 (a), M10): se a geração atrasou, o intervalo fica como buraco, com aviso no CLI e no PR do robô.
+1. Para cada dia de `max(epoch, último dia + 1, hoje)` até hoje + 21. **Dia que já passou nunca é gerado** (P44, M10): se a geração atrasou, o intervalo fica como buraco, com aviso no CLI e no PR do robô.
 2. **Janela:** K = mín(180, piso(P / 12)), com P = músicas distintas (`songKey`) entre as elegíveis e 6 respostas por dia. Com a parada fictícia, P = 37 e K = 3. Ficam de fora as faixas, músicas e álbuns respondidos nos K dias anteriores.
 3. **Por rodada:** candidatos = elegíveis fora da janela, sem repetir faixa, música, álbum ou artista do dia, ordenados por `(-popularity, id)`. A faixa de dificuldade é cortada **depois** do filtro: a rodada 1 sorteia entre os primeiros ceil(n/3), a 2 entre os primeiros ceil(2n/3) e a 3 entre todos.
 4. **rng** = `mulberry32(fnv1a32("musicle-jp|<data>|<alvo>"))`, alvo `song` ou `album`. **7 números por rodada:** 1 para a resposta, 3 para escolher os distratores (Fisher-Yates parcial sobre `similar`, sem as músicas das outras respostas do diário) e 3 para embaralhar as 4 opções.
@@ -346,7 +394,7 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 
 **1ª agenda real** (PR B do M11, P77): `web/public/data/schedule.json`, com `epoch` 2026-10-10 e `--today` 2026-10-11, tem 22 dias, do nº 2 (11/10) ao nº 23 (01/11). O 10/10 ficou como buraco (P44), com aviso no CLI. O site publicado lê esta agenda; a das fixtures continua no desenvolvimento e no e2e.
 
-Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponível" com um link para o Treino, que continua funcionando (implementado no M8).
+Se faltar o dia na agenda, Música e Álbum mostram "Não há desafio diário hoje." com um link para o Treino, que continua funcionando (implementado no M8; o texto antigo, "volte mais tarde", era falso pela P44).
 
 ## Apêndice D. Regras dos modos
 
@@ -365,8 +413,8 @@ Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponív
 - **Dia:** de 0 a 18 pontos por diário.
 - **Treino** (M8, `core/practice.ts` e `ui/Practice.tsx`): rodadas sem fim, geradas no navegador.
   - **Saco por alvo:** Música, uma faixa elegível por `songKey` (a mais popular); Álbum, uma faixa elegível por álbum, sem repetir música no saco. Embaralhado por ciclo com `seeded("treino|<semente>|<alvo>|<ciclo>")`; a semente vem de `crypto.getRandomValues` na tela. O estado guarda só semente, ciclo, posição e a última tocada, nunca o gerador. No ciclo novo, a última tocada vai para o fim do saco.
-  - **Exclusão:** as músicas (`songKey`) das respostas dos diários de hoje que ainda não têm resultado, nos dois alvos, porque a faixa toca nos dois. A faixa excluída é pulada no sorteio, sem sair do saco, e pode voltar a partir de então, quando o diário terminar. Sem nada para sortear, a tela avisa e oferece "Sortear de novo".
-  - **Opções:** a certa e 3 distratores do `similar` (faixa na Música, álbum no Álbum), sem as músicas excluídas; com menos de 3, a lista inteira, como em `schedule.py`. Embaralhadas.
+  - **Exclusão:** as músicas (`songKey`) das respostas dos diários de hoje que ainda não têm resultado, nos dois alvos, porque a faixa toca nos dois. Desde o checkup (ME23, P91), também pelo álbum: fica de fora a faixa de todo álbum que a resposta do Álbum aceitaria por uma música excluída (o próprio `acceptedIds`: os álbuns que a contêm e os do mesmo lançamento), porque a revelação mostra o álbum. A faixa excluída é pulada no sorteio, sem sair do saco, e pode voltar a partir de então, quando o diário terminar. Sem nada para sortear, a tela avisa e oferece "Sortear de novo".
+  - **Opções:** a certa e 3 distratores do `similar` (faixa na Música, álbum no Álbum), sem as músicas excluídas (no Álbum, sem os álbuns que as entregariam); com menos de 3, a lista inteira, como em `schedule.py`. Embaralhadas.
   - **Filtros** de alvo e de resposta valem a partir da próxima rodada. **Placar** só da sessão (P50); rodada anulada não conta. A sessão fica no `App` enquanto a página está aberta.
   - **Limitação aceita:** a data do jogo é fixada ao abrir a página; quem a deixa aberta depois da meia-noite continua com a exclusão do dia anterior até recarregar (o mesmo vale para os diários, Apêndice F).
 
@@ -391,7 +439,7 @@ Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponív
 - Contrato `AudioEngine { unlock, preload, play(url, offset, segundos) → Playback | null, stop, retain }`. `Playback` expõe `elapsed()` (a barra lê a cada quadro) e `done` (pedido, tocado, interrompido).
 - `WebAudioEngine`:
   - `unlock()` síncrono dentro do clique (bloqueio de autoplay);
-  - cache da `Promise<AudioBuffer>` por URL, com no máximo a rodada atual e a próxima (`retain`, chamado pelo gancho `usePreload` do diário e do Treino, que pré-sorteia a próxima rodada);
+  - cache da `Promise<AudioBuffer>` por URL, com no máximo a rodada atual e a próxima (`retain`, chamado pelo gancho `usePreviews` do diário e do Treino, que pré-sorteia a próxima rodada);
   - uma ficha por reprodução, para ignorar resultados velhos;
   - envelope de 10 ms (`core/envelope.ts`) que termina exatamente no corte;
   - para quando a aba fica oculta.
@@ -412,7 +460,12 @@ Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponív
   - O foco vai para o Tocar quando a URL chega, mas só se o jogador ainda não foi para outro lugar (o campo de digitação, uma opção).
   - Se a resposta chega entre a pintura e o efeito, o efeito assina mesmo assim e desenha de novo.
   - Faixa sem prévia nenhuma (nem o lookup nem a reserva) anula a rodada, como uma falha de áudio.
-  - O diário pede as 6 faixas do dia (Música e Álbum) numa consulta só, já na carga, antes da escolha do modo; o Treino pede de 2 em 2.
+  - O diário pede as faixas do dia (Música e Álbum) numa consulta só, já na carga, antes da escolha do modo; o Treino pede de 2 em 2. Desde o checkup, só as dos diários sem resultado (`pendingDayTracks`): o diário terminado mostra o resumo e gastava a cota do lookup.
+- **Player** (checkup, ME19, ME20 e ME32, PR #13):
+  - uma ficha por reprodução: só a mais nova mexe na tela. No Web Audio, o fim de um trecho interrompido chega uns 10 ms depois do stop, quando o trecho do "Ouvir mais" já começou, e parava a barra e devolvia o "Tocar" com o som tocando. O motor falso do e2e nunca é interrompido, por isso o bug passou desde o M5; o teste de componente usa um motor como o Web Audio;
+  - o motor parado antes de o som começar (um palpite na digitação, a aba oculta) devolve `null`, e a tela volta ao "Tocar";
+  - quando o som começa, o foco volta ao botão principal só se tiver caído no `body` (o "Ouvir mais" que some na última etapa, o botão desabilitado no "Carregando…"). Num "Ouvir mais" do meio, o foco fica nele;
+  - a revelação usa a mesma ficha: "Ouvir a prévia inteira" alterna com "Parar" (também no carregamento), ignora toque duplo e mostra a falha na tela e no `aria-live`.
 - **Motor composto** (`audio/fallback.ts`), conforme o motivo da falha (`AudioUnavailableError.kind`):
   - `decode` (codec ausente): a sessão passa para o `<audio>`;
   - `network` e `http` (rede caiu, CORS barrado, 404, 403): a reserva vale só para aquela URL. Uma queda de sinal passageira não tira o corte exato do resto do dia (revisão do PR B);
@@ -459,7 +512,7 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
 - **Duas abas:** `updateSave` relê, mescla e grava. No histórico, o primeiro término vence; no andamento do mesmo jogo, vence a lista de eventos mais longa. O resumo relê o save, então mostra o resultado que ficou gravado. **Limitação aceita:** com duas abas dá para refazer uma rodada (uma erra e vê a resposta, a outra acerta); o jogo é pessoal e não há ranking.
 - **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`) e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura, então voltar à Música terminada mostra o resultado (P39). O Treino não grava nada (P50).
 - **Save da sessão** (`sessionStore`, M8): grava no navegador quando dá; o que não consegue gravar (cota cheia) fica em memória, e sem gravação nenhuma (versão futura, sem acesso) tudo fica em memória. Assim trocar de aba não perde o andamento nem nesses casos. O que foi gravado não fica em memória, para a mescla das duas abas continuar vendo o que a outra gravou.
-- **Estatísticas:** função pura sobre o histórico, por alvo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Dia que faltou** (Action ou merge parados por mais de 21 dias): desde a P44 (a), no M10, ele vira buraco e não quebra a sequência. Risco residual: dias gerados durante uma parada e publicados só no merge entram na agenda sem que ninguém os tenha podido jogar.
+- **Estatísticas:** função pura sobre o histórico, por alvo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Dia que faltou** (Action ou merge parados por mais de 21 dias): desde a P44, no M10, ele vira buraco e não quebra a sequência. Risco residual: dias gerados durante uma parada e publicados só no merge entram na agenda sem que ninguém os tenha podido jogar.
 - **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no modo 4 opções, um ⬛ por "ouvir mais" e depois ✅ ou ❌. Exemplo:
   ```
   musicle-jp · Diário Música nº 1 · 4 opções
@@ -477,14 +530,14 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
 Implementado no M4 (`web/src/core/`):
 
 - **Estado:** `GameState { puzzleId, target, answerMode, rounds, current }`. Não há campo `status`: `isFinished` é derivado (nenhuma rodada em andamento), então fechar a aba depois da 3ª rodada não deixa o jogo "em andamento".
-- **Rodada:** `RoundState { trackId, correctOptionId, accepted, options, stage, attempts, status, voidReason }`. `trackId` é o que toca; `correctOptionId` é a opção a destacar (a faixa, ou o álbum dela); `accepted` são os IDs que contam como acerto, calculados ao criar a rodada (versões da mesma música), para o reducer não consultar o catálogo.
+- **Rodada:** `RoundState { trackId, correctOptionId, accepted, options, stage, attempts, status, voidReason }`. `trackId` é o que toca; `correctOptionId` é a opção a destacar (a faixa, ou o álbum dela); `accepted` são os IDs que contam como acerto, calculados ao criar a rodada (versões da mesma música; no Álbum, também os álbuns do mesmo lançamento, ME21), para o reducer não consultar o catálogo.
 - **Eventos:** `GUESS`, `LISTEN_MORE`, `SKIP`, `GIVE_UP`, `VOID` (falha de áudio) e `NEXT_ROUND`. Evento inválido devolve **o mesmo objeto**.
 - **Regras por modo** em `MODE_RULES` (`rules.ts`): palpites, o que um erro faz, se pode ouvir mais ou pular. Pontos = 6 − etapa nos dois modos.
 - **Rodada anulada** (`void`): nasce assim se a resposta sumiu ou perdeu a elegibilidade; sai do total (P27).
 - **Tipos** do contrato gerados de `shared/schema` (`npm run types`).
 - **UI:** `useReducer` do Preact recebe o reducer do `core` (M5), embrulhado no M6 pelo `playReducer` do `Game.tsx`, que guarda também a lista de eventos aceitos para o save.
 - **Rodadas soltas** (M8): `createRounds(planejadas, alvo, índice)` monta as rodadas da agenda (via `createGame`) e as do Treino (`practiceGame`: um `GameState` de 1 rodada, `puzzleId` `treino|...`), com o mesmo reducer.
-- **Rodada na tela** (M8): `RoundView.tsx` (Player, opções ou digitação, rodada anulada, revelação) serve ao diário e ao Treino; quem chama cuida do cabeçalho, do save e do que vem depois (`nextLabel`, `onNext`). Ganchos comuns em `ui/hooks.ts`: `useSuggest`, `usePreload`, `previewUrl`.
+- **Rodada na tela** (M8): `RoundView.tsx` (Player, opções ou digitação, rodada anulada, revelação) serve ao diário e ao Treino; quem chama cuida do cabeçalho, do save e do que vem depois (`nextLabel`, `onNext`). Ganchos comuns em `ui/hooks.ts`: `useResolvedUrl`, `usePreviews` e `useSuggest`.
 - **Rotas** (M8): `core/routes.ts` (`Tab`, `ROUTES`, `tabFromHash`, `todayHref`), puro e testado.
 - **i18n:** `pt-BR.ts` exporta um objeto de textos; `t(chave, parâmetros)` é tipado por `keyof`. Plural com `tn(chave, n)` sobre chaves `.one` e `.other` (M6): usa `Intl.PluralRules('pt-BR')`, mas força o zero no plural, porque o `Intl` diz "one" para 0 em português ("0 ponto").
 
@@ -492,9 +545,9 @@ Implementado no M4 (`web/src/core/`):
 
 | Camada | Ferramenta | Cobertura |
 |---|---|---|
-| Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos, buraco da P44: nunca gera passado nem preenche o buraco); schema; bytes idênticos em duas execuções; CLI |
-| Núcleo web | Vitest | Reducer nas 4 combinações; pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Meta: 90% de linhas no `core` |
-| Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7); `RoundView`, `Practice` e `Options` (capas) (M8) |
+| Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos, buraco da P44: nunca gera passado nem preenche o buraco); schema; bytes idênticos em duas execuções; CLI. Desde o M11: `test_fetch` (transporte falso, limiares, hosts, datas), `test_apple_provider` (cada regra do mapeamento, parceiros), `test_romaji_cache` e `test_catalog_pr_script` (o script da tarefa com token, que precisa de `jq`: pula no Windows, e a CI roda) |
+| Núcleo web | Vitest | Reducer nas 4 combinações; pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Desde o M11: `core/apple` e `view` (hosts), `data/previews` (cada reserva, lote, disjuntor, cota), `source`, `audio/htmlaudio` e `fallback`. Meta: 90% de linhas e de statements em `core`, `data` e `storage` (`vite.config.ts`) |
+| Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7); `RoundView`, `Practice` e `Options` (capas) (M8); no checkup, o `Player` com um motor como o Web Audio (o fim do trecho chega depois do seguinte) e a prévia inteira da revelação. Sem teste: `App`, `Game`, `Summary` (ME39) |
 | Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; falha de áudio anula a rodada; virada à meia-noite de Brasília; Treino |
 | Exploratório | Navegador do Claude | Visual, console e cliques durante o desenvolvimento |
 | Lint e formato | Ruff (Python), Biome (TS), `tsc --noEmit` estrito | |
@@ -521,28 +574,27 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
   - checagens `pipeline`, `web` e `e2e` obrigatórias e atualizadas com a base;
   - só merge commit;
   - não se apaga nem se reescreve a `main`;
-  - as checagens ficam presas ao GitHub Actions (`integration_id` 15368).
+  - as checagens ficam presas ao GitHub Actions (`integration_id` 15368);
+  - `require_extra_approval_for_unattributed_changes: true` (visto no checkup): hoje não bloqueia nada, porque o PR #10 do robô, sem revisão, entrou normalmente.
 - **Repositório e Actions** (configurados no M9 por `gh api`):
   - histórico reescrito antes de publicar (P54, P58): e-mail noreply do GitHub em todos os commits e o perfil genérico no `CLAUDE.md` em todas as versões; backup em bundle, fora do repositório;
   - só actions do próprio GitHub, com pinagem por SHA obrigatória;
   - token padrão só de leitura e Actions sem poder de criar nem aprovar PR (no M10, a P64 ligou essa chave);
   - PR de colaborador externo só roda a CI depois de aprovado;
   - só merge commit, com o branch apagado depois do merge.
-- **Critério de pronto conferido** (09/10/2026):
-  - PR #1 (o M9): `pipeline`, `web` e `e2e` verdes; enquanto rodavam, o PR ficou `BLOCKED`; merge commit pela proteção;
-  - PR #2 (demonstração, teste quebrado de propósito no `web`): `web` vermelha e PR `BLOCKED`. O `gh pr merge` foi recusado (`the base branch policy prohibits the merge`), e o `gh pr merge --admin` também (`Repository rule violations found: Required status check "web" is failing`). Fechado sem merge.
 - **Deploy** (`.github/workflows/deploy.yml`, M10), a cada push na `main` (o merge de um PR) e sob demanda, em `https://plasmastorm49.github.io/musicle-jp/`:
   - `pages-build` (só leitura): `npm run build` com a base `/musicle-jp/`, que só vale no build e no preview (o desenvolvimento e o e2e ficam na raiz). Desde o M11, sem Python nem `fake-assets`: o site lê a parada real (`data/`), e o `dist/fixtures` é apagado depois do build. Confere o site (base, sem o motor falso, sem fixtures nem WAV, `data/catalog.json` com `provider` "apple"), avisa se a agenda não tem o dia de hoje ou tem menos de 7 dias à frente (ME14, aviso no resumo, sem travar o deploy) e sobe o artefato;
-  - `pages-deploy`: `pages: write` e `id-token: write`, no ambiente `github-pages`, que só aceita a `main`;
+  - `pages-deploy`: `pages: write` e `id-token: write`, no ambiente `github-pages`, com regra de branch só para a `main`. Admins podem ignorar a regra (`can_admins_bypass: true`, visto no checkup); o `if: github.ref == 'refs/heads/main'` do `pages-build` compensa;
   - um deploy por vez, sem cancelar no meio. Roda junto com a CI do push, porque o `strict` do ruleset garante que a árvore do merge já foi testada no PR;
   - a tarefa `web` da CI confere a base no `dist/index.html`: sem ela, a página publicada ficaria em branco.
 - **Atualização da parada e da agenda** (`.github/workflows/update-catalog.yml`, M10; com a Apple desde o PR C do M11):
   - segunda às 06:17 de Brasília (`cron: "17 9 * * 1"`: o cron é em UTC, e o minuto zero é horário de pico) e sob demanda, sem entradas;
   - `catalog-generate` (só leitura, 20 min):
-    - instala o pipeline com o extra `romaji` (P71);
+    - instala o pipeline sem o extra `romaji`, que só entra quando há texto novo (abaixo, P71);
     - `fetch` da Apple, com `continue-on-error`: se a busca falhar, segue com aviso e o PR traz só a agenda;
     - o `fetch` recusa parada com mais de 100 itens, como o robô recusaria depois: o caminho é "PR só com a agenda", que não trava;
     - `romanize --provider apple` (só textos novos, sem `--refresh`) e `--check`. O extra `romaji` (250 MB) só é instalado quando o `--check` acusa texto novo;
+    - o passo "Parada nova" (`romanize`, `build`, `schedule` e `validate` da parada real) tem `continue-on-error` (checkup, ME25). Se a parada nova quebrar o pipeline (um texto que o cutlet não lê, um dado estranho, distratores que não fecham), o passo "Reserva" a descarta: volta o romaji, o catálogo e a agenda da `main`, apaga o snapshot novo (nunca um que já está na `main`) e refaz só a agenda. O PR traz só os dias novos, com o aviso, e a agenda não trava toda semana enquanto a faixa estiver na parada. A saída `chart` só vira `failure` quando a reserva descartou um snapshot novo;
     - `build` e `schedule` das duas paradas: a real e a das fixtures, que só serve ao desenvolvimento e cresce junto para o `npm run dev` ter o dia de hoje;
     - `validate` das duas e `schedule-check`;
     - **lista fechada** do que pode mudar: o snapshot de hoje (novo), o `romaji.json` da Apple, o catálogo real e as duas agendas. Qualquer outra mudança falha. Sem mudança, termina sem PR;
@@ -553,42 +605,30 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
       - snapshot do dia, da Apple, com até 100 faixas;
       - romaji só de acréscimo, com o mesmo motor;
       - catálogo sem perder id, com URLs só nos hosts da Apple (regex com `\A` e `\z`) e os snapshots da main intactos, com o de hoje espelhando o arquivo do dia;
-      - agendas só com dias novos em sequência (P44).
+      - agendas só com dias novos em sequência (P44);
+      - `CHART=failure` com o snapshot no artefato é recusado (a reserva o apaga).
     - Monta o PR com a parada nova (faixas novas no catálogo), os dias novos, o aviso de buraco, o aviso de parada velha (mais de 13 dias sem snapshot: a busca pode estar quebrada), o romaji novo e os avisos do pipeline para revisão, em blocos de código (título com `@` não vira menção);
     - se o PR do dia já está aberto: com o mesmo conteúdo, não faz nada; com outro (a busca falhou de manhã e voltou à tarde, ou o PR veio do robô antigo), falha em vermelho com a instrução de fechar o PR, apagar o branch e rodar de novo;
     - envia o branch `catalogo/<data>` com o token num auxiliar de credencial (fora do `.git/config`), abre o PR e fecha o anterior que ficou sem merge;
   - o PR do `GITHUB_TOKEN` não roda a CI sozinho: as checagens esperam "Approve workflows to run" (P64). O merge humano dispara o deploy; um push feito com o `GITHUB_TOKEN` não dispararia;
   - "Allow GitHub Actions to create and approve pull requests" ligado (P64). Criar e aprovar são a mesma chave: qualquer workflow com `pull-requests: write` poderia aprovar um PR. Hoje o ruleset não exige aprovação, então a `main` não fica mais aberta; rever se um dia exigir;
   - o workflow agendado é desligado depois de 60 dias sem atividade no repositório: `gh workflow enable update-catalog.yml`;
+  - `catalog-runway` (checkup, ME28; só leitura): depois das outras duas, mesmo quando elas falham (`!cancelled()`), confere a agenda da `main` com a data de Brasília calculada por ela mesma. Fica vermelha, e o GitHub manda e-mail, com menos de 10 dias à frente: numa semana normal são 14 antes do merge de segunda; com uma semana sem merge, 7. O aviso do deploy (ME14) só sai quando há deploy;
   - nenhuma tarefa nova se chama `pipeline`, `web` ou `e2e`: viraria checagem com o mesmo nome.
+- **Critérios de pronto conferidos** (M9 a M11) e o checkup: `docs/HISTORICO.md`.
 - **Configurações do M10** (por `gh api`, 10/10/2026):
   - Pages com origem "GitHub Actions": o `POST /pages` funcionou só com `build_type=workflow`;
   - ambiente `github-pages`: o GitHub o criou ao ligar o Pages, já com regra de branch só para a `main`;
   - a chave da P64 ligada, com o token padrão ainda só de leitura.
-- **Critério de pronto do M10 conferido** (10/10/2026):
-  - PR #4 (o M10): três checagens verdes, merge, e o deploy `pages-build` e `pages-deploy` verde;
-  - URL pública no navegador do Claude:
-    - abre o "Diário Música · nº 3", a data certa;
-    - página, JS, CSS, JSON, WAV e SVG respondem 200 sob `/musicle-jp/`, com `Cache-Control: max-age=600`;
-    - clique real em "Tocar 1 s" baixa o WAV e toca sem "Áudio indisponível";
-    - console sem erros;
-    - o compartilhar termina na URL pública;
-    - capas do Álbum, Treino e ✓ do diário terminado funcionam;
-    - `__musicleAudioLog` indefinido (o código de DEV saiu do build);
-  - 1ª execução manual do `update-catalog`: as duas tarefas verdes, e o PR #5 aberto por `app/github-actions`, só com o `schedule.json` (30 e 31/10). A CI dele ficou `action_required` até "Approve workflows to run"; depois, as três checagens verdes contaram para o ruleset. O merge humano disparou o deploy, e a agenda publicada passou a ir até 31/10;
-  - 2ª execução no mesmo dia: "0 dia(s) novo(s); sem mudanças", e `catalog-pr` pulada, sem PR;
-  - no Windows, o Git Bash ignora `TZ=America/Sao_Paulo` (não tem o banco de fusos) e mostra UTC. A hora de Brasília local sai do PowerShell (`TimeZoneInfo`); o runner Ubuntu calcula certo.
-- **Critério de pronto do M11 conferido** (11/10/2026, "Diário com previews reais; reserva de áudio testada"):
-  - PR #7 (pipeline e 1ª parada real) e PR #8 (o site com a parada real): três checagens verdes e merge; os deploys, verdes;
-  - URL pública no navegador do Claude, depois do deploy do PR #8:
-    - abre o "Diário Música · nº 2" (o 10/10 é buraco, P44);
-    - `data/catalog.json` e `data/schedule.json` respondem 200, e sai uma consulta só ao lookup, com as 6 faixas do dia, antes da escolha do modo;
-    - clique real em "Tocar 1 s": a prévia vem da Apple (cerca de 440 ms para baixar), sem "Áudio indisponível";
-    - selo "Ouça no Apple Music" com link para a playlist e a frase "provided courtesy of iTunes";
-    - nenhum WAV, o site inteiro com 384 KB, `__musicleAudioLog` indefinido, save em v2 e console limpo;
-  - a reserva com `<audio>` (`?htmlAudio=1`) e o `?failLookup=1`, medidos no desenvolvimento com a parada real (Apêndice E);
-  - PR #9 (o robô com a Apple): os testes do script da tarefa com token (`test_catalog_pr_script.py`) rodam na CI, com `jq`;
-  - **falta conferir:** o som de ouvido em Chrome, Firefox, Android e iPhone (este com o silencioso, P75), e o 1º PR real do robô com a Apple, depois do merge do PR #9.
+
+## Apêndice J. Worktrees (frentes em paralelo, M7 e M8)
+
+- Ficam em `.claude/worktrees/` (ignorada no Git); sem remoto, partem do `HEAD` local.
+- Cada uma precisa de `npm ci --prefix web`: o `node_modules` não é compartilhado.
+- Duas frentes rodando testes ao mesmo tempo pedem memória livre: com pouca, o Git falha com "out of memory" ao criar a worktree.
+- Na worktree, Vitest com `--maxWorkers=2` e nada de servidor de desenvolvimento nem de `npm run e2e`: a porta 5173 é fixa (o e2e reaproveitaria o servidor de outra pasta e testaria outro código), e o áudio sintético do `fake-assets` não está lá.
+- Para o conflito no merge ser pequeno, combine antes quais trechos e chaves de texto são de cada frente (M8).
+- Depois do merge: `git worktree remove` (com `git worktree unlock` antes, se estiver travada) e `git branch -d`.
 
 ## Origem
 
@@ -599,3 +639,4 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
 - **Decisões P6 a P15:** respondidas pelo usuário na sessão de 08/10/2026.
 - **Pesquisa do selo e da playlist da Apple** (subagente, 11/10/2026, só leitura; o selo foi baixado depois, com permissão do usuário, P81): toolbox.marketingtools.apple.com (página da faixa em pt-BR e o JavaScript do código de incorporação), marketing.services.apple/apple-music-identity-guidelines, artists.apple.com/support/1117-apple-music-marketing-tools, music.apple.com/jp/playlist/top-100-japan/pl.043a2c9876114d95a4659988497567be, rss.marketingtools.apple.com (comparação com a playlist), performance-partners.apple.com/search-api e o arquivo da documentação do iTunes Search API em developer.apple.com.
 - **Medições do PR B do M11:** navegador do Claude em 11/10/2026, no servidor de desenvolvimento com `?data=real` (Apêndice E).
+- **Checkup de 11/10/2026:** seis subagentes, só leitura (site publicado, dados reais, pipeline, operação por `gh api`, jogo e documentação), e as revisões dos PRs #12 e #13 (subagente revisor, `/code-review` e `/security-review`).

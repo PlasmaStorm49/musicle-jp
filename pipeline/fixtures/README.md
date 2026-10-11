@@ -1,6 +1,6 @@
 # Parada fictícia
 
-`chart_fixture.json` é uma parada japonesa **inventada** (nenhum artista ou música real), usada até o M11 no lugar da API. Três snapshots semanais (21/09, 28/09 e 05/10/2026), 30 posições cada, 42 faixas, 14 artistas e 33 álbuns.
+`chart_fixture.json` é uma parada japonesa **inventada** (nenhum artista ou música real), usada no `npm run dev`, no e2e e nos testes (o site publicado lê a parada real desde o M11). A agenda dela cresce toda semana com o robô. Três snapshots semanais (21/09, 28/09 e 05/10/2026), 30 posições cada, 42 faixas, 14 artistas e 33 álbuns.
 
 Os testes citam os casos de borda pelo ID. **Não renomeie os IDs.**
 
