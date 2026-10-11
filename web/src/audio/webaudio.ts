@@ -157,7 +157,13 @@ export class WebAudioEngine implements AudioEngine {
       throw new AudioUnavailableError("network", `falha de rede ao baixar ${url}`);
     }
     if (!response.ok) throw new AudioUnavailableError("http", `HTTP ${response.status} em ${url}`);
-    return response.arrayBuffer();
+    try {
+      return await response.arrayBuffer();
+    } catch {
+      // A conexão caiu no meio do download: é falha de rede, não um erro qualquer (que o motor
+      // composto repassaria sem tentar o <audio>).
+      throw new AudioUnavailableError("network", `download interrompido em ${url}`);
+    }
   }
 
   #decoded(url: string, entry: Entry): Promise<AudioBuffer> {

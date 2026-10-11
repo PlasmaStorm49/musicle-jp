@@ -1,12 +1,15 @@
 // Motor composto (P70): o Web Audio primeiro (corte exato); se ele falhar, o <audio> toca a
 // mesma URL. A reserva depende do motivo (AudioUnavailableError.kind):
-// - decode ou network (codec ausente, CORS barrado): o Web Audio não vai funcionar nesta
-//   sessão, e tudo passa para o <audio>;
-// - http (404, 403): a reserva vale só para aquela URL;
+// - decode (o navegador não decodifica o AAC): o Web Audio não vai funcionar nesta sessão, e
+//   tudo passa para o <audio>;
+// - network e http (rede caiu, CORS barrado, 404, 403): a reserva vale só para aquela URL. Uma
+//   queda de sinal passageira não tira o corte exato do resto do dia; com o CORS barrado de vez,
+//   cada prévia nova tenta o Web Audio uma vez (falha rápida) e vai para o <audio>;
 // - blocked e simulated (?failAudio=): não troca; a falha segue para a tela.
 import { type AudioEngine, AudioUnavailableError, type Playback } from "./engine.ts";
 
-const SESSION_WIDE = new Set(["decode", "network"]);
+const SESSION_WIDE = new Set(["decode"]);
+const THIS_URL = new Set(["network", "http"]);
 
 export class FallbackAudioEngine implements AudioEngine {
   readonly #primary: AudioEngine;
@@ -48,7 +51,7 @@ export class FallbackAudioEngine implements AudioEngine {
       if (token !== this.#token) return null;
       if (!(error instanceof AudioUnavailableError)) throw error;
       if (SESSION_WIDE.has(error.kind)) this.#reserveOnly = true;
-      else if (error.kind === "http") this.#reserveUrls.add(url);
+      else if (THIS_URL.has(error.kind)) this.#reserveUrls.add(url);
       else throw error;
       return this.#reserve.play(url, offset, seconds);
     }

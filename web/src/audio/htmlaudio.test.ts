@@ -80,6 +80,58 @@ describe("HtmlAudioEngine (a reserva com <audio>)", () => {
     expect(logs[0]).toMatchObject({ url: URL_A, offset: 10, engine: "html" });
   });
 
+  it("teclas de mídia e tela de bloqueio não tocam além do corte; pausar é o Parar", async () => {
+    const handlers = new Map<string, (() => void) | null>();
+    Object.defineProperty(navigator, "mediaSession", {
+      configurable: true,
+      value: {
+        metadata: null,
+        setActionHandler: (action: string, handler: (() => void) | null) => {
+          if (action === "previoustrack") throw new TypeError("ação desconhecida"); // segue
+          handlers.set(action, handler);
+        },
+      },
+    });
+    try {
+      const { element, engine, started } = setup();
+      const playing = engine.play(URL_A, 0, 4);
+      started();
+      const playback = await playing;
+      vi.mocked(element.play).mockClear();
+      handlers.get("play")?.();
+      handlers.get("seekto")?.();
+      expect(element.play).not.toHaveBeenCalled(); // o tratador próprio troca a ação padrão
+      handlers.get("pause")?.();
+      await expect(playback?.done).resolves.toMatchObject({ interrupted: true });
+      expect(handlers.has("nexttrack")).toBe(true);
+    } finally {
+      Reflect.deleteProperty(navigator, "mediaSession");
+    }
+  });
+
+  it("refaz o seek quando o navegador ignorou o início pedido (Safari)", async () => {
+    const { element, engine, started } = setup();
+    const playing = engine.play(URL_A, 12, 2);
+    element.currentTime = 0; // o pedido de 12 s foi ignorado antes dos metadados
+    started();
+    await playing;
+    expect(element.currentTime).toBe(12);
+  });
+
+  it("aba oculta para o som", async () => {
+    const { engine, started } = setup();
+    const playing = engine.play(URL_A, 0, 7);
+    started();
+    const playback = await playing;
+    Object.defineProperty(document, "hidden", { configurable: true, value: true });
+    try {
+      document.dispatchEvent(new Event("visibilitychange"));
+      await expect(playback?.done).resolves.toMatchObject({ interrupted: true });
+    } finally {
+      Reflect.deleteProperty(document, "hidden");
+    }
+  });
+
   it("o pedido para no fim da prévia", async () => {
     const { engine, started } = setup();
     const playing = engine.play(URL_A, 25, 16);

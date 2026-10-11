@@ -32,6 +32,8 @@ export type HtmlAudioOptions = EngineOptions & {
 // O laço do corte acorda um pouco antes do fim e depois confere de 5 em 5 ms.
 const EARLY_MS = 25;
 const MIN_CHECK_MS = 5;
+// Diferença entre o início pedido e o real a partir da qual o seek é refeito.
+const SEEK_SLACK_SEC = 0.25;
 
 // Códigos do MediaError: o arquivo veio, mas o navegador não sabe tocar.
 const MEDIA_ERR_DECODE = 3;
@@ -70,6 +72,34 @@ export class HtmlAudioEngine implements AudioEngine {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) this.stop();
     });
+    this.#takeMediaKeys();
+  }
+
+  /**
+   * Teclas de mídia, botão do fone e a tela de bloqueio dão play no <audio> pelo navegador, sem
+   * passar pelo jogo: tocariam além do corte e entregariam a música. Com um tratador próprio o
+   * navegador não faz a ação padrão: tocar e avançar não fazem nada; pausar é o Parar.
+   */
+  #takeMediaKeys(): void {
+    if (!("mediaSession" in navigator)) return;
+    const ignore = () => {};
+    const handlers: [MediaSessionAction, () => void][] = [
+      ["play", ignore],
+      ["pause", () => this.stop()],
+      ["stop", () => this.stop()],
+      ["seekbackward", ignore],
+      ["seekforward", ignore],
+      ["seekto", ignore],
+      ["previoustrack", ignore],
+      ["nexttrack", ignore],
+    ];
+    for (const [action, handler] of handlers) {
+      try {
+        navigator.mediaSession.setActionHandler(action, handler);
+      } catch {
+        // Ação que este navegador não conhece: segue com as outras.
+      }
+    }
   }
 
   /** A reserva não guarda nada na memória: baixa ao tocar. */
@@ -95,6 +125,9 @@ export class HtmlAudioEngine implements AudioEngine {
       throw failureOf(error, audio);
     }
     if (token !== this.#token) return null;
+    // Há Safari que ignora o currentTime pedido antes de os metadados chegarem (tocaria do 0):
+    // com o play() já começado, eles chegaram, e o pedido vale.
+    if (Math.abs(audio.currentTime - offset) > SEEK_SLACK_SEC) audio.currentTime = offset;
 
     const left = Number.isFinite(audio.duration) ? audio.duration - offset : seconds;
     const duration = Math.max(0, Math.min(seconds, left));

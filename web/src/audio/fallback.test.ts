@@ -41,40 +41,53 @@ describe("FallbackAudioEngine (Web Audio, depois <audio>)", () => {
     expect(primary.play).toHaveBeenCalledWith(A, 0, 1);
     expect(reserve.play).not.toHaveBeenCalled();
     expect(primary.preload).toHaveBeenCalledWith(B);
-    expect(reserve.unlock).toHaveBeenCalled(); // o <audio> nasce no clique, pronto para a reserva
+    // O unlock repassa aos dois. A tela não o chama: cada motor destrava no próprio play().
+    expect(reserve.unlock).toHaveBeenCalled();
   });
 
-  it.each(["decode", "network"] as const)(
-    "falha %s: toca no <audio> e fica nele a sessão inteira",
+  it("falha decode: toca no <audio> e fica nele a sessão inteira", async () => {
+    const primary = engine(failing("decode"));
+    const reserve = engine();
+    const composite = new FallbackAudioEngine(primary, reserve);
+    await expect(composite.play(A, 3, 2)).resolves.toMatchObject({ seconds: 2 });
+    expect(reserve.play).toHaveBeenCalledWith(A, 3, 2);
+    await composite.play(B, 0, 1);
+    composite.preload(B);
+    expect(primary.play).toHaveBeenCalledOnce(); // não tenta mais o Web Audio
+    expect(primary.preload).not.toHaveBeenCalled();
+    expect(reserve.play).toHaveBeenLastCalledWith(B, 0, 1);
+  });
+
+  it.each(["http", "network"] as const)(
+    "falha %s: a reserva vale só para aquela URL",
     async (kind) => {
-      const primary = engine(failing(kind));
+      // Uma queda de sinal passageira não pode tirar o corte exato do resto do dia.
+      const primary = engine(async (url, _, s) => {
+        if (url === A) throw new AudioUnavailableError(kind, kind);
+        return playback(s);
+      });
       const reserve = engine();
       const composite = new FallbackAudioEngine(primary, reserve);
-      await expect(composite.play(A, 3, 2)).resolves.toMatchObject({ seconds: 2 });
-      expect(reserve.play).toHaveBeenCalledWith(A, 3, 2);
+      await composite.play(A, 0, 1);
       await composite.play(B, 0, 1);
-      composite.preload(B);
-      expect(primary.play).toHaveBeenCalledOnce(); // não tenta mais o Web Audio
-      expect(primary.preload).not.toHaveBeenCalled();
-      expect(reserve.play).toHaveBeenLastCalledWith(B, 0, 1);
+      await composite.play(A, 0, 2);
+      expect(primary.play).toHaveBeenCalledTimes(2); // A uma vez, B uma vez
+      expect(reserve.play.mock.calls).toEqual([
+        [A, 0, 1],
+        [A, 0, 2],
+      ]);
     },
   );
 
-  it("falha http: a reserva vale só para aquela URL", async () => {
-    const primary = engine(async (url, _, s) => {
-      if (url === A) throw new AudioUnavailableError("http", "HTTP 404");
-      return playback(s);
-    });
+  it("só na reserva: o Parar chega aos dois motores", async () => {
+    const primary = engine(failing("decode"));
     const reserve = engine();
     const composite = new FallbackAudioEngine(primary, reserve);
-    await composite.play(A, 0, 1);
+    await composite.play(A, 0, 1); // decode: a sessão vai para a reserva
     await composite.play(B, 0, 1);
-    await composite.play(A, 0, 2);
-    expect(primary.play).toHaveBeenCalledTimes(2); // A uma vez, B uma vez
-    expect(reserve.play.mock.calls).toEqual([
-      [A, 0, 1],
-      [A, 0, 2],
-    ]);
+    composite.stop();
+    expect(reserve.stop).toHaveBeenCalled();
+    expect(primary.stop).toHaveBeenCalled();
   });
 
   it.each(["simulated", "blocked"] as const)("falha %s não troca de motor", async (kind) => {
