@@ -1,13 +1,14 @@
 # musicle-jp
 
-Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade do [Musicle](https://musicle.app/). Projeto pessoal de aprendizado do Claude Code.
+**AteMusic** (当てる, ateru: acertar): jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade do [Musicle](https://musicle.app/). Projeto pessoal de aprendizado do Claude Code. O repositório e a URL ainda se chamam `musicle-jp`.
 
 **[Jogar](https://plasmastorm49.github.io/musicle-jp/)**: a parada real do Japão (Apple Music, as 100 mais tocadas), com as prévias de 30 s da Apple.
 
-> Nome provisório. O nome público do jogo ainda vai ser definido.
+> O nome AteMusic já está na tela. Mudar a URL e o repositório ainda está em aberto.
 
 ## Como funciona
 
+- A home mostra os modos e o estado do dia de cada um.
 - Você ouve um trecho de uma música popular no Japão e tenta adivinhar.
 - **O que adivinhar:** a música (título) ou o álbum.
 - **Como responder:** escolhendo entre 4 opções ou digitando com autocompletar. O trecho começa com 1 s. No 4 opções, ele cresce com "Ouvir mais" (custa 1 ponto); na digitação, a cada erro ou pulo.

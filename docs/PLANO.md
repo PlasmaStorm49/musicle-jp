@@ -40,7 +40,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P45 | O modo de resposta é escolhido todo dia antes da rodada 1, com o último usado marcado e com o foco |
 | P46 | Na digitação nada toca sozinho: pulo e erro só liberam a etapa; o jogador clica em Tocar |
 | Dec. M7 | Na última tentativa da digitação o "Pular" some e fica só o "Desistir" (os dois dariam 0 ponto) |
-| P49 | Abas no topo (Música, Álbum, Treino), com a aba no endereço (`#musica`, `#album`, `#treino`) e ✓ no diário terminado |
+| P49 | Abas no topo (Início, Música, Álbum, Treino), com a aba no endereço (`#inicio`, `#musica`, `#album`, `#treino`) e ✓ no diário terminado. Desde a home, o endereço vazio ou desconhecido abre a home (antes, a Música) |
 | P50 | O Treino não salva nada: só o placar da sessão, e recarregar a página começa outra |
 | P51 | No Álbum, as opções mostram capa, título e artista (também na lista da revelação) |
 | Dec. M8 | A sessão do Treino dura enquanto a página está aberta: trocar de aba não zera placar nem saco |
@@ -65,6 +65,11 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P92 | Alertas do Dependabot ligados, sem PR automático de versão (furaria a P28). É configuração do repositório: o usuário liga em Settings > Code security > Dependabot alerts |
 | P93 | O modo Álbum fica como está, mesmo com a resposta quase sempre um single com o nome da música (46 de 66 rodadas da agenda real no checkup) |
 | P94 | No 4 opções dá para responder sem tocar nada e levar 6 pontos: fica assim |
+| P95 | Logo: o rascunho A, o 当 de 当てる (ateru: acertar, adivinhar) num círculo vermelho |
+| P96 | Nome público: **AteMusic** |
+| P97 | Por enquanto só o nome na tela: a URL (`/musicle-jp/`), o repositório e a chave do save continuam `musicle-jp` até o nome ser decidido em definitivo |
+| P98 | "AteMusic" em toda a tela: a home, o texto do compartilhar, a tela de bloqueio e o `<title>`. A semente do PRNG (`"musicle-jp\|<data>\|<alvo>"`) não muda: ela gera a agenda |
+| P99 | O rascunho A do logo já entra na home (`ui/Logo.tsx`, kanji em texto) e é trocado pelo design final, com o kanji em contorno |
 
 ## 3. Fonte de dados (ligada no M11)
 
@@ -165,7 +170,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 
 **Perguntas**
 
-- P16. Nome público do jogo (evitar "Musicle" no nome). No M10, o usuário decidiu publicar como `musicle-jp` por ora, e em 10/10/2026 decidiu escolher o nome junto com o visual e a identidade do jogo, num marco futuro. Trocar depois muda a URL (quebra links compartilhados), mas não o save (o `localStorage` é por origem). Não bloqueia mais. Ao trocar, a base `/musicle-jp/` muda em `web/vite.config.ts`, nas checagens do `ci.yml` e do `deploy.yml`, no passo 10 do `/verificar` e na documentação.
+- P16. Nome público do jogo (evitar "Musicle" no nome). No M10, o usuário decidiu publicar como `musicle-jp` por ora, e em 10/10/2026 decidiu escolher o nome junto com o visual e a identidade do jogo, num marco futuro. Em 11/10/2026 o nome na tela virou AteMusic (P96 a P98); falta decidir se a URL e o repositório mudam (P97). Trocar depois muda a URL (quebra links compartilhados), mas não o save (o `localStorage` é por origem). Não bloqueia mais. Ao trocar, a base `/musicle-jp/` muda em `web/vite.config.ts`, nas checagens do `ci.yml` e do `deploy.yml`, no passo 10 do `/verificar` e na documentação.
 
 **Sugestões**
 
@@ -175,6 +180,10 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - S9. Teste e2e da reserva com `<audio>` de verdade, usando os WAV das fixtures (subagente Plan do M11).
 - S10. Hashes no `constraints.txt` (`--require-hashes`), ao menos na Action (subagente Plan do M11).
 - S11. `build --check`: sai com código 1 se o arquivo mudaria (subagente Plan do M11).
+- S13. Treino por artista: uma lista curta de artistas no repositório, com o catálogo de cada um gerado pelo pipeline (romaji, `aliases.toml` e revisão por PR). O lookup por artista traz a lista pronta (`lookup?id=<artista>&entity=song&country=jp`, até 200 faixas, todas com prévia no teste de 11/10/2026), mas com muitas versões repetidas (das 200 da Utada, 92 músicas). Um quiz montado na hora no navegador ficaria sem romaji.
+- S14. Nomes para os modos, se eles forem juntados: **Normal** ("acerte o álbum ou single") e **Desafio** ("digite o nome exato da música"); alternativas: Ouvinte e Fã, Lado A e Lado B.
+- S15. Se os modos forem juntados, o Treino mantém as 4 combinações nos filtros.
+- **Em decisão:** juntar em dois modos, Normal (Álbum + 4 opções) e Desafio (Música + digitação). Simplifica a escolha (sai o seletor de modo do dia, P13 e P45), não muda a agenda nem o esquema, e pede uma migração pequena das estatísticas. A home já está pronta para isso (`HOME_MODES`).
 
 **Melhorias futuras**
 
@@ -510,7 +519,7 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
   - Falha ao gravar: `updateSave` devolve o motivo (`full`, `future` ou `unavailable`), e a tela mostra o aviso certo uma vez, visível e na região `aria-live`.
   - Migrações em `storage/migrations.ts`, uma função por versão, cada uma com o teste de um save real da versão anterior. **v1 → v2** (M11, P68): o jogo trocou a parada fictícia pela real, e as chaves são por data, então o dia fictício e o real do mesmo dia se misturariam. A migração zera o histórico e o andamento e mantém só a preferência do modo. Uma aba antiga, ainda com o código v1, lê o v2 como "future" e para de gravar.
 - **Duas abas:** `updateSave` relê, mescla e grava. No histórico, o primeiro término vence; no andamento do mesmo jogo, vence a lista de eventos mais longa. O resumo relê o save, então mostra o resultado que ficou gravado. **Limitação aceita:** com duas abas dá para refazer uma rodada (uma erra e vê a resposta, a outra acerta); o jogo é pessoal e não há ranking.
-- **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`) e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura, então voltar à Música terminada mostra o resultado (P39). O Treino não grava nada (P50).
+- **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`), que a home também lê para os cartões, e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura, então voltar à Música terminada mostra o resultado (P39). O Treino não grava nada (P50).
 - **Save da sessão** (`sessionStore`, M8): grava no navegador quando dá; o que não consegue gravar (cota cheia) fica em memória, e sem gravação nenhuma (versão futura, sem acesso) tudo fica em memória. Assim trocar de aba não perde o andamento nem nesses casos. O que foi gravado não fica em memória, para a mescla das duas abas continuar vendo o que a outra gravou.
 - **Estatísticas:** função pura sobre o histórico, por alvo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Dia que faltou** (Action ou merge parados por mais de 21 dias): desde a P44, no M10, ele vira buraco e não quebra a sequência. Risco residual: dias gerados durante uma parada e publicados só no merge entram na agenda sem que ninguém os tenha podido jogar.
 - **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no modo 4 opções, um ⬛ por "ouvir mais" e depois ✅ ou ❌. Exemplo:
@@ -539,6 +548,7 @@ Implementado no M4 (`web/src/core/`):
 - **Rodadas soltas** (M8): `createRounds(planejadas, alvo, índice)` monta as rodadas da agenda (via `createGame`) e as do Treino (`practiceGame`: um `GameState` de 1 rodada, `puzzleId` `treino|...`), com o mesmo reducer.
 - **Rodada na tela** (M8): `RoundView.tsx` (Player, opções ou digitação, rodada anulada, revelação) serve ao diário e ao Treino; quem chama cuida do cabeçalho, do save e do que vem depois (`nextLabel`, `onNext`). Ganchos comuns em `ui/hooks.ts`: `useResolvedUrl`, `usePreviews` e `useSuggest`.
 - **Rotas** (M8): `core/routes.ts` (`Tab`, `ROUTES`, `tabFromHash`, `todayHref`), puro e testado.
+- **Home** (`ui/Home.tsx`, depois do checkup): o nome, o logo provisório (`ui/Logo.tsx`), um cartão-link por modo e "Como funciona". O estado de cada diário (novo, em andamento, terminado com os pontos, ou sem desafio) sai de `dailyStatus` (`core/home.ts`, puro). Os cartões vêm de uma lista (`HOME_MODES`), para a troca dos modos mexer só nela e nos textos.
 - **i18n:** `pt-BR.ts` exporta um objeto de textos; `t(chave, parâmetros)` é tipado por `keyof`. Plural com `tn(chave, n)` sobre chaves `.one` e `.other` (M6): usa `Intl.PluralRules('pt-BR')`, mas força o zero no plural, porque o `Intl` diz "one" para 0 em português ("0 ponto").
 
 ## Apêndice H. Testes e qualidade
@@ -547,8 +557,8 @@ Implementado no M4 (`web/src/core/`):
 |---|---|---|
 | Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos, buraco da P44: nunca gera passado nem preenche o buraco); schema; bytes idênticos em duas execuções; CLI. Desde o M11: `test_fetch` (transporte falso, limiares, hosts, datas), `test_apple_provider` (cada regra do mapeamento, parceiros), `test_romaji_cache` e `test_catalog_pr_script` (o script da tarefa com token, que precisa de `jq`: pula no Windows, e a CI roda) |
 | Núcleo web | Vitest | Reducer nas 4 combinações; pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Desde o M11: `core/apple` e `view` (hosts), `data/previews` (cada reserva, lote, disjuntor, cota), `source`, `audio/htmlaudio` e `fallback`. Meta: 90% de linhas e de statements em `core`, `data` e `storage` (`vite.config.ts`) |
-| Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7); `RoundView`, `Practice` e `Options` (capas) (M8); no checkup, o `Player` com um motor como o Web Audio (o fim do trecho chega depois do seguinte) e a prévia inteira da revelação. Sem teste: `App`, `Game`, `Summary` (ME39) |
-| Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; falha de áudio anula a rodada; virada à meia-noite de Brasília; Treino |
+| Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7); `RoundView`, `Practice` e `Options` (capas) (M8); `Home` (cartões, estados, dia sem agenda, foco e nenhum `id` igual a uma rota); no checkup, o `Player` com um motor como o Web Audio (o fim do trecho chega depois do seguinte) e a prévia inteira da revelação. Sem teste: `App`, `Game`, `Summary` (ME39) |
+| Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; falha de áudio anula a rodada; virada à meia-noite de Brasília; Treino; a home (sem fragmento, cartões, Voltar, dia sem agenda) |
 | Exploratório | Navegador do Claude | Visual, console e cliques durante o desenvolvimento |
 | Lint e formato | Ruff (Python), Biome (TS), `tsc --noEmit` estrito | |
 | Contrato Python × TS | pytest chamando o Node | Teste cruzado (M4): `normalize` e `looseKey` em TS comparados com o Python em todos os 62.034 caracteres do plano básico do Unicode 15.0 e 88.740 strings |
