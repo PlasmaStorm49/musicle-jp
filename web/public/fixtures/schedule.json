@@ -1487,6 +1487,68 @@
           ]
         }
       ]
+    },
+    "2026-11-01": {
+      "album": [
+        {
+          "answer": "fixture:tr:tr14",
+          "options": [
+            "fixture:al:al04",
+            "fixture:al:al29",
+            "fixture:al:al13",
+            "fixture:al:al20"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr31",
+          "options": [
+            "fixture:al:al13",
+            "fixture:al:al23",
+            "fixture:al:al19",
+            "fixture:al:al25"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr36",
+          "options": [
+            "fixture:al:al27",
+            "fixture:al:al03",
+            "fixture:al:al29",
+            "fixture:al:al28"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-05.bd37a10a",
+      "number": 25,
+      "song": [
+        {
+          "answer": "fixture:tr:tr29",
+          "options": [
+            "fixture:tr:tr10",
+            "fixture:tr:tr02",
+            "fixture:tr:tr29",
+            "fixture:tr:tr09"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr10",
+          "options": [
+            "fixture:tr:tr06",
+            "fixture:tr:tr04",
+            "fixture:tr:tr10",
+            "fixture:tr:tr24"
+          ]
+        },
+        {
+          "answer": "fixture:tr:tr01",
+          "options": [
+            "fixture:tr:tr22",
+            "fixture:tr:tr20",
+            "fixture:tr:tr40",
+            "fixture:tr:tr01"
+          ]
+        }
+      ]
     }
   },
   "epoch": "2026-10-08",
