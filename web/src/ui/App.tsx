@@ -6,6 +6,7 @@ import { emptySave, pruneProgress, puzzleId, type SaveV1 } from "../core/records
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
 import {
   assetUrl,
+  dataDirFor,
   failAudioTrack,
   fakeAudioEnabled,
   type GameData,
@@ -44,6 +45,8 @@ const BASE_URL = new URL(import.meta.env.BASE_URL, window.location.href).href;
 // Para as funções que recebem o modo por parâmetro (gameDate, failAudioTrack). Para tirar código
 // do build, use o literal import.meta.env.DEV no ponto da chamada (web/CLAUDE.md, regra 10).
 const DEV = import.meta.env.DEV;
+// O site publicado lê a parada real (data/); o desenvolvimento, as fixtures, ou a real com ?data=real.
+const DATA_DIR = dataDirFor(DEV, window.location.search);
 
 type Storage = {
   /**
@@ -121,7 +124,7 @@ export function App() {
   useEffect(() => {
     const controller = new AbortController();
     setLoad({ status: "loading" });
-    loadGameData((url, init) => fetch(url, init), BASE_URL, controller.signal)
+    loadGameData((url, init) => fetch(url, init), BASE_URL, DATA_DIR, controller.signal)
       .then((data) => {
         setLoad({ status: "ready", data });
         setMessage(saves.notice ?? "");
