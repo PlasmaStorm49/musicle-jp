@@ -91,7 +91,7 @@ describe("kanaToRomaji", () => {
         "ゔぃ",
         "ゔぇ",
         "ゔぉ",
-      ].map(kanaToRomaji),
+      ].map((kana) => kanaToRomaji(kana)),
     ).toEqual([
       "fa",
       "fi",
