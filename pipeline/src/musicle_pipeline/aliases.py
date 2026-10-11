@@ -1,4 +1,7 @@
-"""Curadoria manual em pipeline/data/aliases.toml: corrige romaji, acrescenta apelidos e bloqueia.
+"""Curadoria manual: corrige romaji, acrescenta apelidos e bloqueia.
+
+Um aliases.toml por provedor (pipeline/fixtures/ e pipeline/data/apple/): os IDs de um não
+existem no outro.
 
 Formato (por ID do catálogo):
 

@@ -1,4 +1,7 @@
-"""Cache de romaji em pipeline/data/romaji.json (versionado no Git).
+"""Cache de romaji em romaji.json, versionado no Git.
+
+Um por provedor (pipeline/fixtures/ e pipeline/data/apple/): --refresh refaz só os textos do
+provedor da vez e apagaria os do outro num arquivo compartilhado.
 
 Quem escreve: o comando `romanize`, que usa a biblioteca de romanização (extra [romaji]).
 Quem lê: o `build`, que NUNCA importa a biblioteca. Assim o build continua puro e a CI não

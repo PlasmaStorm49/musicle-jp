@@ -57,3 +57,19 @@ def test_committed_catalog_is_up_to_date(tmp_path):
     fresh = tmp_path / "catalog.json"
     _build(fresh)
     assert fresh.read_bytes() == COMMITTED.read_bytes()
+
+
+def test_build_refuses_another_providers_public_dir(capsys):
+    # A fixture nunca sobrescreve o catálogo real (nem o contrário).
+    real = repo_root() / "web" / "public" / "data" / "catalog.json"
+    before = real.read_bytes() if real.exists() else None
+    assert main(["build", "--provider", "fixture", "--out", str(real)]) == 1
+    assert "grava em" in capsys.readouterr().err
+    assert (real.read_bytes() if real.exists() else None) == before
+
+
+def test_schedule_check_needs_one_path_with_base(tmp_path, capsys):
+    first, second = tmp_path / "a.json", tmp_path / "b.json"
+    args = ["schedule-check", "--path", str(first), "--path", str(second)]
+    assert main([*args, "--base", str(tmp_path / "base.json")]) == 1
+    assert "exatamente um --path" in capsys.readouterr().err
