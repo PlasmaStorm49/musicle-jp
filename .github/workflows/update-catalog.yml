@@ -1,6 +1,6 @@
 # Toda segunda: busca a parada real do Japão (Apple), refaz o catálogo, acrescenta à agenda os
 # dias até hoje + 21 e abre um PR com isso. O merge desse PR, feito por uma pessoa, dispara o
-# deploy (rotina no README, "Atualização da parada e da agenda").
+# deploy (rotina no README, "Publicação e atualização da parada e da agenda").
 #
 # Duas tarefas: quem roda o código do pipeline (a rede da Apple e os pacotes do pip) só lê o
 # repositório; quem escreve (push e PR) não roda o pipeline nem instala nada: só confere de novo,
