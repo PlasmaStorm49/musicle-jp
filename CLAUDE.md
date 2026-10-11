@@ -30,7 +30,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 | `web/` | TypeScript + Vite + Preact; `src/core/` é a lógica pura do jogo |
 | `shared/` | Schemas JSON e vetores de teste usados pelos dois lados |
 | `docs/` | `PLANO.md` (decisões na seção 2) |
-| `.github/` | `workflows/ci.yml`: as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main`. `deploy.yml` (`pages-build`, `pages-deploy`): publica no Pages a cada merge, com a parada real (`data/`) e sem as fixtures. `update-catalog.yml` (`catalog-generate`, `catalog-pr`): toda segunda abre o PR com os dias novos da agenda. Nenhuma tarefa nova pode se chamar `pipeline`, `web` ou `e2e` |
+| `.github/` | `workflows/ci.yml`: as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main`. `deploy.yml` (`pages-build`, `pages-deploy`): publica no Pages a cada merge, com a parada real (`data/`) e sem as fixtures. `update-catalog.yml` (`catalog-generate`, `catalog-pr`): toda segunda busca a parada da Apple e abre o PR com ela e os dias novos das agendas; as conferências da tarefa que escreve ficam em `scripts/check-catalog-pr.sh`, com teste em `pipeline/tests/`. Nenhuma tarefa nova pode se chamar `pipeline`, `web` ou `e2e` |
 | `.claude/` | Configuração do Claude Code deste projeto |
 
 ## Comandos
@@ -91,4 +91,4 @@ Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → rev
 
 Modo de planejamento → aprovação → branch do marco → implementação → verificação → revisão do diff → commits → PR → `pipeline`, `web` e `e2e` verdes → merge (merge commit). A `main` só aceita PR (ruleset sem exceção): nada de commit direto nela. Ao fechar um marco, atualize a coluna "Estado" em `docs/PLANO.md`.
 
-Todo merge na `main` publica no Pages (`deploy.yml`). **PR semanal do robô** (`catalogo/<data>`, segunda de manhã): confira que só o `schedule.json` mudou, aprove as checagens em "Approve workflows to run", espere `pipeline`, `web` e `e2e` verdes e faça o merge no mesmo dia. Enquanto ele estiver aberto, evite outro merge: o `strict` do ruleset o deixaria desatualizado.
+Todo merge na `main` publica no Pages (`deploy.yml`). **PR semanal do robô** (`catalogo/<data>`, segunda de manhã): confira que mudou só a lista fechada (o snapshot do dia, o `romaji.json` da Apple, o catálogo real e as duas agendas), leia o romaji novo listado no corpo (erro se corrige no `aliases.toml`, num PR à parte), aprove as checagens em "Approve workflows to run", espere `pipeline`, `web` e `e2e` verdes e faça o merge no mesmo dia. Enquanto ele estiver aberto, evite outro merge: o `strict` do ruleset o deixaria desatualizado.

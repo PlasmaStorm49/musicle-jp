@@ -44,6 +44,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P50 | O Treino não salva nada: só o placar da sessão, e recarregar a página começa outra |
 | P51 | No Álbum, as opções mostram capa, título e artista (também na lista da revelação) |
 | M8 | A sessão do Treino dura enquanto a página está aberta: trocar de aba não zera placar nem saco |
+| M11 | O robô semanal acrescenta dias também à agenda das fixtures (só desenvolvimento e testes), para o `npm run dev` continuar com o desafio de hoje: a lista fechada do PR do robô tem 5 arquivos, e não os 4 do plano (PR C) |
 | P60 | A regra da P28 vale também para o Python (M9): versões exatas de tudo, diretas e indiretas, em `pipeline/constraints.txt`, e o `setuptools` do build fixo no `pyproject.toml`. Na adoção, três caíram para a versão anterior: ruff 0.16.9, rpds-py 2026.6.3 e iniconfig 2.3.0 |
 | P64 | PR semanal da agenda aberto pela Action com o `GITHUB_TOKEN` (M10): as checagens rodam depois de "Approve workflows to run", e o merge é humano (o push dele dispara o deploy). Sem segredo; exige "Allow GitHub Actions to create and approve pull requests" ligado |
 | P68 | Os saves fictícios (desde 08/10) são zerados na troca para a parada real (M11): migração do save v1 → v2 que mantém só as preferências |
@@ -535,10 +536,24 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
   - `pages-deploy`: `pages: write` e `id-token: write`, no ambiente `github-pages`, que só aceita a `main`;
   - um deploy por vez, sem cancelar no meio. Roda junto com a CI do push, porque o `strict` do ruleset garante que a árvore do merge já foi testada no PR;
   - a tarefa `web` da CI confere a base no `dist/index.html`: sem ela, a página publicada ficaria em branco.
-- **Atualização da agenda** (`.github/workflows/update-catalog.yml`, M10):
+- **Atualização da parada e da agenda** (`.github/workflows/update-catalog.yml`, M10; com a Apple desde o PR C do M11):
   - segunda às 06:17 de Brasília (`cron: "17 9 * * 1"`: o cron é em UTC, e o minuto zero é horário de pico) e sob demanda, sem entradas;
-  - `catalog-generate` (só leitura): `build`, `schedule --today` com a data de Brasília, `validate` e `schedule-check`. Sem dia novo, termina sem PR; se mudar algo além da agenda, falha;
-  - `catalog-pr` (`contents: write`, `pull-requests: write`): não roda código do projeto nem instala pacotes, então um pacote comprometido do pip nunca chega perto do token que escreve. Confere de novo com `jq` que só entram dias depois do fim da agenda, envia o branch `catalogo/<data>` com o token num auxiliar de credencial (fora do `.git/config`), abre o PR e fecha o anterior que ficou sem merge;
+  - `catalog-generate` (só leitura, 20 min):
+    - instala o pipeline com o extra `romaji` (P71);
+    - `fetch` da Apple, com `continue-on-error`: se a busca falhar, segue com aviso e o PR traz só a agenda;
+    - `romanize --provider apple` (só textos novos, sem `--refresh`) e `--check`;
+    - `build` e `schedule` das duas paradas: a real e a das fixtures, que só serve ao desenvolvimento e cresce junto para o `npm run dev` ter o dia de hoje;
+    - `validate` das duas e `schedule-check`;
+    - **lista fechada** do que pode mudar: o snapshot de hoje (novo), o `romaji.json` da Apple, o catálogo real e as duas agendas. Qualquer outra mudança falha. Sem mudança, termina sem PR;
+  - `catalog-pr` (`contents: write`, `pull-requests: write`): não roda o pipeline nem instala pacotes, então um pacote comprometido do pip nunca chega perto do token que escreve.
+    - Confere de novo, só com `jq`, cada arquivo do artefato (`.github/scripts/check-catalog-pr.sh`, que vem da main e tem teste: `pipeline/tests/test_catalog_pr_script.py`, que pula sem `jq`):
+      - só arquivos comuns da lista fechada;
+      - snapshot do dia, da Apple, com até 100 faixas;
+      - romaji só de acréscimo, com o mesmo motor;
+      - catálogo sem perder id, com URLs só nos hosts da Apple e os snapshots da main intactos;
+      - agendas só com dias novos em sequência (P44).
+    - Monta o PR com a parada nova (faixas novas no catálogo), os dias novos, o aviso de buraco e o romaji novo para revisão, num bloco de código (título com `@` não vira menção);
+    - envia o branch `catalogo/<data>` com o token num auxiliar de credencial (fora do `.git/config`), abre o PR e fecha o anterior que ficou sem merge;
   - o PR do `GITHUB_TOKEN` não roda a CI sozinho: as checagens esperam "Approve workflows to run" (P64). O merge humano dispara o deploy; um push feito com o `GITHUB_TOKEN` não dispararia;
   - "Allow GitHub Actions to create and approve pull requests" ligado (P64). Criar e aprovar são a mesma chave: qualquer workflow com `pull-requests: write` poderia aprovar um PR. Hoje o ruleset não exige aprovação, então a `main` não fica mais aberta; rever se um dia exigir;
   - o workflow agendado é desligado depois de 60 dias sem atividade no repositório: `gh workflow enable update-catalog.yml`;
