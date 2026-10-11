@@ -142,3 +142,22 @@ def test_repeated_snapshot_date_is_rejected():
     s = make_snapshot("2026-01-05", [make_track("a")])
     with pytest.raises(InputError, match="repetidas"):
         build_catalog([s, s], "fixture", "jp")
+
+
+def test_store_url_and_provider_artist_display():
+    # Parceria vinda da Apple: um artistId só, mas a grafia "A & B" é a que aparece e a que acha.
+    track = replace(
+        make_track("t1"),
+        store_url="https://music.apple.com/jp/album/x/1?i=2",
+        artist_display="Artist ar1 & Guest",
+    )
+    catalog = build_catalog([make_snapshot("2026-10-10", [track])], "fixture", "jp")
+    t = track_by_id(catalog, "t1")
+    assert t["storeUrl"] == "https://music.apple.com/jp/album/x/1?i=2"
+    assert t["artistDisplay"] == "Artist ar1 & Guest"
+    assert album_by_id(catalog, t["albumId"])["artistDisplay"] == "Artist ar1 & Guest"
+    assert any("guest" in key for key in t["search"]["artist"])
+
+
+def test_store_url_defaults_to_null(fixture_catalog):
+    assert all(t["storeUrl"] is None for t in fixture_catalog["tracks"])

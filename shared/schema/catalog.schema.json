@@ -158,6 +158,7 @@
         "explicit",
         "isrc",
         "preview",
+        "storeUrl",
         "chart",
         "popularity",
         "eligible",
@@ -180,6 +181,10 @@
           "oneOf": [{ "type": "string", "pattern": "^[A-Z]{2}[A-Z0-9]{3}[0-9]{7}$" }, { "type": "null" }]
         },
         "preview": { "oneOf": [{ "$ref": "#/$defs/preview" }, { "type": "null" }] },
+        "storeUrl": {
+          "description": "Página da faixa na loja (link \"Ouvir no Apple Music\" da revelação); null sem loja.",
+          "oneOf": [{ "$ref": "#/$defs/url" }, { "type": "null" }]
+        },
         "chart": { "$ref": "#/$defs/chart" },
         "popularity": { "type": "number", "minimum": 0, "maximum": 1 },
         "eligible": { "$ref": "#/$defs/eligible" },

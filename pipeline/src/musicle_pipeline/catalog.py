@@ -95,7 +95,17 @@ def _artist_record(provider: str, a: RawArtist, cur: Curation) -> JSON:
     }
 
 
-def _album_record(provider: str, al: RawAlbum, artists: Sequence[RawArtist], cur: Curation) -> JSON:
+def artist_display_of(t: RawTrack) -> str:
+    """Como os artistas da faixa aparecem: a grafia do provedor, ou a junção dos nomes."""
+    return display(t.artist_display) if t.artist_display else _joined(t.artists)
+
+
+def _joined(artists: Sequence[RawArtist]) -> str:
+    return " & ".join(display(a.name) for a in artists)
+
+
+def _album_record(provider: str, al: RawAlbum, t: RawTrack, cur: Curation) -> JSON:
+    artists = t.artists
     album_id = _id(provider, "al", al.provider_id)
     text = album_text(al.title)
     latin, source = cur.latin("albums", album_id, text, al.title_latin)
@@ -105,7 +115,7 @@ def _album_record(provider: str, al: RawAlbum, artists: Sequence[RawArtist], cur
         "titleLatin": latin,
         "latinSource": source,
         "artistIds": [_id(provider, "ar", a.provider_id) for a in artists],
-        "artistDisplay": " & ".join(display(a.name) for a in artists),
+        "artistDisplay": artist_display_of(t),
         "type": al.type,
         "releaseDate": al.release_date,
         "artworkUrl": al.artwork_url,
@@ -167,6 +177,10 @@ def _track_record(
         for a, aid in zip(t.artists, artist_ids, strict=True)
         for s in cur.search_texts("artists", aid, artist_text(a.name), a.name_latin)
     ]
+    if t.artist_display:
+        # A grafia de parceria ("A & B") também acha a faixa, com o romaji dela.
+        shown = artist_text(t.artist_display)
+        artist_texts += [shown, *cur.romaji.variants(shown)]
     return {
         "id": track_id,
         "songKey": song_key(t.title, artist_ids[0]),
@@ -174,13 +188,14 @@ def _track_record(
         "titleLatin": latin,
         "latinSource": source,
         "artistIds": artist_ids,
-        "artistDisplay": " & ".join(display(a.name) for a in t.artists),
+        "artistDisplay": artist_display_of(t),
         "albumId": album["id"],
         "releaseDate": t.album.release_date,
         "durationMs": t.duration_ms,
         "explicit": t.explicit,
         "isrc": acc.isrc,
         "preview": preview,
+        "storeUrl": t.store_url,
         "chart": {
             "firstSeen": min(dates),
             "lastSeen": last.date,
@@ -232,7 +247,7 @@ def build_catalog(
             for a in t.artists:
                 artists[_id(provider, "ar", a.provider_id)] = _artist_record(provider, a, cur)
             albums[_id(provider, "al", t.album.provider_id)] = _album_record(
-                provider, t.album, t.artists, cur
+                provider, t.album, t, cur
             )
             acc = tracks.get(t.provider_id)
             if acc is None:

@@ -64,6 +64,8 @@ def collect_texts(snapshots: Iterable[ChartSnapshot]) -> list[str]:
             texts.add(track_text(t.title))
             texts.add(album_text(t.album.title))
             texts.update(artist_text(a.name) for a in t.artists)
+            if t.artist_display:
+                texts.add(artist_text(t.artist_display))
     return sorted(t for t in texts if needs_romaji(t))
 
 
