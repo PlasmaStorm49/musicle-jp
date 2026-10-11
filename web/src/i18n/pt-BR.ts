@@ -47,7 +47,9 @@ export const ptBR = {
   // inglês é a exigida pelos termos do iTunes Search API.
   "attribution.badge": "Ouça no Apple Music",
   "attribution.newTab": "(abre em outra aba)",
-  "attribution.courtesy": "Prévias cedidas pelo iTunes (provided courtesy of iTunes).",
+  "attribution.courtesy": "Prévias cedidas pelo iTunes",
+  // Em inglês, como os termos pedem: a tela o marca com lang="en" (pronúncia do leitor de tela).
+  "attribution.courtesyEn": "(provided courtesy of iTunes).",
 
   "summary.title": "Resultado do dia",
   "summary.score": "{score} de {max} pontos",

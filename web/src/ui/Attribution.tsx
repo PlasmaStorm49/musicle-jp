@@ -17,7 +17,9 @@ export function Attribution({ href }: Props) {
         <img src={badge} alt={t("attribution.badge")} width={140} height={40} />
         <span class="sr-only"> {t("attribution.newTab")}</span>
       </a>
-      <span>{t("attribution.courtesy")}</span>
+      <span>
+        {t("attribution.courtesy")} <span lang="en">{t("attribution.courtesyEn")}</span>
+      </span>
     </p>
   );
 }
