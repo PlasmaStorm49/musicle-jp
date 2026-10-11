@@ -491,7 +491,7 @@ h4 {
   text-decoration: none;
 }
 
-.home-card:hover {
+a.home-card:hover {
   border-color: var(--accent);
 }
 
@@ -544,7 +544,13 @@ h4 {
   color: var(--accent);
 }
 
-/* Home: diário sem desafio hoje (o cartão não é link). Depois do .mode .tag, que ele sobrepõe. */
+/* Home: o estado no cartão é mais longo que as etiquetas do seletor e quebra a linha em 320 px.
+   Depois do .mode .tag, que ele sobrepõe. */
+.home-card .tag {
+  white-space: normal;
+}
+
+/* Home: diário sem desafio hoje (o cartão não é link) */
 .home-card.off,
 .home-card.off .tag {
   color: var(--muted);
