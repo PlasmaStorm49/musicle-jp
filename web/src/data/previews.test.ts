@@ -11,11 +11,14 @@ import {
 import type { FetchLike } from "./source.ts";
 
 const real = indexCatalog(realCatalog);
-const [A, B, C] = realCatalog.tracks.map((t) => t.id);
+// Só faixas com prévia: o catálogo real é regerado toda semana, e uma faixa que perder a prévia
+// não pode quebrar estes testes no PR do robô.
+const withPreview = realCatalog.tracks.filter((t) => t.preview).map((t) => t.id);
+const [A, B, C, D] = withPreview;
 const FRESH = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview9/v4/novo.m4a";
 
-function stored(id: string | undefined): string | undefined {
-  return realCatalog.tracks.find((t) => t.id === id)?.preview?.url;
+function stored(id: string | undefined): string | null {
+  return realCatalog.tracks.find((t) => t.id === id)?.preview?.url ?? null;
 }
 
 type Reply = { status: number; body?: unknown } | "network" | "hang";
@@ -113,7 +116,7 @@ describe("appleResolver (parada real)", () => {
       const { fetchFn, urls } = fakeLookup(reply);
       const resolver = appleResolver({ index: real, fetchFn });
       for (let i = 0; i < FAILURES_TO_OPEN; i++) {
-        const id = realCatalog.tracks[i]?.id ?? "";
+        const id = withPreview[i] ?? "";
         await expect(resolver.resolve(id)).resolves.toBe(stored(id));
       }
       await expect(resolver.resolve(C ?? "")).resolves.toBe(stored(C));
@@ -127,7 +130,7 @@ describe("appleResolver (parada real)", () => {
     await resolver.resolve(A ?? "");
     await expect(resolver.resolve(B ?? "")).resolves.toBe(FRESH);
     await resolver.resolve(C ?? "");
-    await resolver.resolve(realCatalog.tracks[3]?.id ?? "");
+    await resolver.resolve(D ?? "");
     expect(urls).toHaveLength(4);
   });
 
@@ -153,12 +156,23 @@ describe("appleResolver (parada real)", () => {
     const { fetchFn, urls } = fakeLookup(found());
     let now = 0;
     const resolver = appleResolver({ index: real, fetchFn, now: () => now });
-    const ids = realCatalog.tracks.map((t) => t.id);
+    const ids = withPreview;
     for (const id of ids.slice(0, LOOKUP_QUOTA + 1)) await resolver.resolve(id);
     expect(urls).toHaveLength(LOOKUP_QUOTA);
     now += 60_000;
     await resolver.resolve(ids[LOOKUP_QUOTA + 1] ?? "");
     expect(urls).toHaveLength(LOOKUP_QUOTA + 1);
+  });
+
+  it("um 2º lote pedido com o 1º ainda no ar sai numa consulta própria", async () => {
+    const { fetchFn, urls } = fakeLookup(found([A, FRESH], [B, FRESH]));
+    const resolver = appleResolver({ index: real, fetchFn });
+    const first = resolver.resolve(A ?? "");
+    await Promise.resolve(); // a fila do 1º lote já saiu e o lookup está no ar
+    const second = resolver.resolve(B ?? "");
+    await expect(first).resolves.toBe(FRESH);
+    await expect(second).resolves.toBe(FRESH);
+    expect(urls).toHaveLength(2);
   });
 
   it("?failLookup=1: nunca consulta", async () => {

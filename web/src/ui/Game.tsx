@@ -107,7 +107,11 @@ function playReducer(played: Played, event: GameEvent): Played {
  * modo salvo; dia terminado mostra direto o resultado (P39).
  */
 export function Game(props: Props) {
-  const { target, day, date, index, initialSave, store, announce, onSaved } = props;
+  const { target, day, date, index, initialSave, store, announce, onSaved, resolver } = props;
+  // As 6 faixas do dia (Música e Álbum) numa consulta só, já na carga, antes da escolha do modo
+  // (decisão 7 do plano): no clique a URL quase sempre já chegou, e o Tocar nasce liberado.
+  const dayTracks = useMemo(() => [...day.song, ...day.album].map((r) => r.answer), [day]);
+  useEffect(() => resolver.prefetch(dayTracks), [resolver, dayTracks]);
   const id = puzzleId(date, target);
   // O save de onde a sessão nasce: o da abertura da aba, ou o relido na escolha do modo (outra
   // aba pode ter começado ou terminado o dia enquanto o seletor estava na tela).
@@ -216,7 +220,8 @@ function Playing({
     }
   }, [store, played, start, game, date, day.number, report]);
 
-  // As 6 faixas do dia saem numa consulta só, logo na 1ª rodada (o lookup da Apple).
+  // As 3 rodadas deste diário: o lote do dia inteiro já saiu na carga do Game; aqui só garante
+  // as que faltarem e pré-carrega a atual e a próxima.
   const trackIds = useMemo(() => game.rounds.map((r) => r.trackId), [game.rounds]);
   usePreviews(
     engine,

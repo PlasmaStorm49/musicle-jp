@@ -129,6 +129,39 @@ describe("Player segue as regras do modo", () => {
     expect(document.activeElement).toBe(play);
   });
 
+  it("a prévia que chega depois não tira o foco de quem já foi para o campo", () => {
+    const engine: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      play: vi.fn(() => Promise.resolve(null)),
+      stop: vi.fn(),
+      retain: vi.fn(),
+    };
+    const player = (url: string | null) => (
+      <>
+        <Player
+          engine={engine}
+          url={url}
+          offset={0}
+          stage={0}
+          explicit={false}
+          rules={MODE_RULES.typing}
+          skippable={true}
+          onListenMore={vi.fn()}
+          onSkip={vi.fn()}
+          onAudioError={vi.fn()}
+        />
+        <input aria-label="palpite" />
+      </>
+    );
+    const { rerender } = render(player(null));
+    const field = screen.getByRole("textbox", { name: "palpite" });
+    field.focus(); // o jogador começou a digitar enquanto o lookup respondia
+    rerender(player("https://audio-ssl.itunes.apple.com/x.m4a"));
+    expect(screen.getByRole("button", { name: "Tocar 1 s" })).toBeTruthy();
+    expect(document.activeElement).toBe(field);
+  });
+
   it("toque duplo não gasta duas tentativas", () => {
     const { onSkip } = setup(MODE_RULES.typing, true);
     fireEvent.click(screen.getByRole("button", { name: "Pular (+1 s)" }), { detail: 2 });

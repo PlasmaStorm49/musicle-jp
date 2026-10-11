@@ -122,6 +122,72 @@ function setup(
 }
 
 describe("RoundView (a rodada do diário e do Treino)", () => {
+  it("a prévia que fica pronta entre a pintura e o efeito também libera o Tocar", async () => {
+    // O peek ainda não sabia quando a tela foi desenhada; quando o efeito roda, já sabe.
+    const url = "https://audio-ssl.itunes.apple.com/itunes-assets/pronta.m4a";
+    let calls = 0;
+    const resolver: PreviewResolver = {
+      peek: () => (calls++ === 0 ? null : url),
+      resolve: async () => url,
+      prefetch: vi.fn(),
+    };
+    setup(game("song", "choice"), resolver);
+    await act(async () => {});
+    expect(screen.getByRole("button", { name: "Tocar 1 s" })).toBeTruthy();
+  });
+
+  it("faixa sem prévia nenhuma: a rodada é anulada, como numa falha de áudio", async () => {
+    const resolver: PreviewResolver = {
+      peek: () => null,
+      resolve: async () => null, // nem o lookup nem a reserva do catálogo
+      prefetch: vi.fn(),
+    };
+    const { dispatch } = setup(game("song", "choice"), resolver);
+    await act(async () => {});
+    expect(dispatch).toHaveBeenCalledWith({ type: "VOID", round: 0, reason: "audio" });
+  });
+
+  it("a resposta atrasada da rodada anterior não vale para a rodada nova", async () => {
+    const deliveries = new Map<string, (url: string | null) => void>();
+    const waiting = new Map<string, Promise<string | null>>();
+    const resolver: PreviewResolver = {
+      peek: () => null,
+      resolve: (id) => {
+        const known = waiting.get(id);
+        if (known) return known;
+        const promise = new Promise<string | null>((resolve) => deliveries.set(id, resolve));
+        waiting.set(id, promise);
+        return promise;
+      },
+      prefetch: vi.fn(),
+    };
+    const props = {
+      dispatch: vi.fn(),
+      index,
+      engine: {
+        unlock: vi.fn(),
+        preload: vi.fn(),
+        play: vi.fn(() => Promise.resolve(null)),
+        stop: vi.fn(),
+        retain: vi.fn(),
+      },
+      resolver,
+      resolveUrl: (url: string) => `/${url}`,
+      announce: vi.fn(),
+      nextLabel: "Próxima rodada",
+      onNext: vi.fn(),
+    };
+    const first = game("song", "choice");
+    const second = game("song", "choice", { trackId: "t:tr:2" });
+    const { rerender } = render(<RoundView {...props} game={first} roundKey={0} />);
+    rerender(<RoundView {...props} game={second} roundKey={1} />);
+    await act(async () =>
+      deliveries.get("t:tr:1")?.("https://audio-ssl.itunes.apple.com/velha.m4a"),
+    );
+    expect(screen.getByRole("button", { name: "Carregando…" })).toBeTruthy(); // a nova ainda espera
+    expect(props.dispatch).not.toHaveBeenCalled();
+  });
+
   it("parada real: o selo junto do player leva à playlist, nunca à música da rodada (P69)", () => {
     const resolver = catalogResolver(appleIndex, (url) => `/${url}`);
     setup(game("song", "choice"), resolver, appleIndex);
@@ -147,9 +213,11 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
 
   it("parada real: o Tocar espera a prévia, e o foco vai para ele quando ela chega", async () => {
     let deliver: (url: string | null) => void = () => {};
+    // Como o resolvedor de verdade: a mesma promessa pendente para quem pedir a mesma faixa.
+    const pending = new Promise<string | null>((resolve) => (deliver = resolve));
     const resolver: PreviewResolver = {
       peek: () => null, // força o caminho da espera (o lookup da Apple)
-      resolve: () => new Promise((resolve) => (deliver = resolve)),
+      resolve: () => pending,
       prefetch: vi.fn(),
     };
     const { engine } = setup(game("song", "choice"), resolver);

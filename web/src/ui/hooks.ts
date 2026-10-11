@@ -15,18 +15,25 @@ import type { Suggestion } from "./GuessInput.tsx";
  */
 export function useResolvedUrl(resolver: PreviewResolver, trackId: string | null): string | null {
   const [late, setLate] = useState<{ readonly trackId: string; readonly url: string | null }>();
+  const url =
+    trackId === null
+      ? null
+      : (resolver.peek(trackId) ?? (late?.trackId === trackId ? late.url : null));
+  // Desenhou sem a URL: o efeito sempre assina a resposta. Não confere o peek de novo aqui: se a
+  // resposta chegou entre a pintura e o efeito, o resolve devolve uma promessa já resolvida, e o
+  // setLate desenha de novo (senão a tela ficaria em "Carregando…" com a URL já pronta).
+  const shownWithout = url === null;
   useEffect(() => {
-    if (trackId === null || resolver.peek(trackId) !== null) return;
+    if (trackId === null || !shownWithout) return;
     let live = true; // a rodada pode mudar antes da resposta
-    void resolver.resolve(trackId).then((url) => {
-      if (live) setLate({ trackId, url });
+    void resolver.resolve(trackId).then((resolved) => {
+      if (live) setLate({ trackId, url: resolved });
     });
     return () => {
       live = false;
     };
-  }, [resolver, trackId]);
-  if (trackId === null) return null;
-  return resolver.peek(trackId) ?? (late?.trackId === trackId ? late.url : null);
+  }, [resolver, trackId, shownWithout]);
+  return url;
 }
 
 /**

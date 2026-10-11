@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "preact/hooks";
+import { useCallback, useEffect, useRef } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
@@ -57,6 +57,25 @@ export function RoundView({
   // Próxima tentativa, contando a que acabou de ser gasta (para os anúncios de pulo e erro).
   const attemptLabel = (used: number) => ({ current: used + 1, total: rules.maxAttempts });
 
+  const voidForAudio = useCallback(() => {
+    dispatch({ type: "VOID", round: game.current, reason: "audio" });
+    announce(t("void.message"));
+  }, [dispatch, announce, game.current]);
+
+  // Faixa sem prévia nenhuma (nem o lookup nem a reserva do catálogo): a rodada não tem som e é
+  // anulada, como numa falha de áudio. Sem isso o Tocar ficaria em "Carregando…" para sempre.
+  const playing = round.status === "playing";
+  useEffect(() => {
+    if (!playing) return;
+    let live = true;
+    void resolver.resolve(round.trackId).then((resolved) => {
+      if (live && resolved === null) voidForAudio();
+    });
+    return () => {
+      live = false;
+    };
+  }, [resolver, round.trackId, playing, voidForAudio]);
+
   function giveUp() {
     engine.stop();
     dispatch({ type: "GIVE_UP" });
@@ -96,10 +115,7 @@ export function RoundView({
               dispatch({ type: "SKIP" });
               announce(t("typing.skipped", attemptLabel(round.attempts.length + 1)));
             }}
-            onAudioError={() => {
-              dispatch({ type: "VOID", round: game.current, reason: "audio" });
-              announce(t("void.message"));
-            }}
+            onAudioError={voidForAudio}
           />
           {/* Junto do player, como pedem os termos; o link é a playlist, não a resposta. */}
           {index.catalog.provider === APPLE_PROVIDER && <Attribution href={PLAYLIST_URL} />}

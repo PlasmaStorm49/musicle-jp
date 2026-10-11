@@ -43,13 +43,18 @@ export function Player({
   // O foco vai para o Tocar ao montar (o Player monta a cada rodada, inclusive logo depois da
   // escolha do modo) e depois de um pulo: o botão que tinha o foco pode ter sumido (o "Pular"
   // some na última tentativa), e o próximo passo natural é ouvir o trecho liberado (P46). Com a
-  // prévia ainda em busca o botão está desabilitado e não recebe foco: ele vai quando a URL chega.
+  // prévia ainda em busca o botão está desabilitado e não recebe foco: ele vai quando a URL chega
+  // (até 3 s depois), mas só se o jogador não foi para outro lugar enquanto isso (o campo de
+  // digitação, uma opção): o foco fica onde ele está.
   const [focusPlay, setFocusPlay] = useState(true);
+  const section = useRef<HTMLElement>(null);
   const waiting = url === null;
   useEffect(() => {
-    if (focusPlay && status === "idle" && !waiting) {
+    if (!focusPlay || status !== "idle" || waiting) return;
+    setFocusPlay(false);
+    const active = document.activeElement;
+    if (!active || active === document.body || section.current?.contains(active)) {
       playButton.current?.focus();
-      setFocusPlay(false);
     }
   }, [focusPlay, status, waiting]);
 
@@ -128,7 +133,7 @@ export function Player({
   const busy = status === "loading" || waiting;
 
   return (
-    <section class="player">
+    <section class="player" ref={section}>
       {explicit && <p class="badge explicit">{t("player.explicit")}</p>}
       <SegmentBar stage={stage} fillRef={fillRef} />
       <div class="player-actions">
