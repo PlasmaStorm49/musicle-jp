@@ -24,7 +24,7 @@ from musicle_pipeline.models import (
     RawArtist,
     RawTrack,
 )
-from musicle_pipeline.normalize import needs_romaji
+from musicle_pipeline.normalize import needs_romaji, search_key
 from musicle_pipeline.paths import apple_snapshots_dir
 
 NAME = "apple"
@@ -39,6 +39,8 @@ _ARTWORK_SIZE = re.compile(r"/\d+x\d+bb\.(jpg|png|webp)$")
 _DATE_FILE = re.compile(r"^\d{4}-\d{2}-\d{2}\.json$")
 # Separadores de parceria no nome do artista da faixa ("A & B", "A, B", "A × B", "A feat. B").
 _COLLAB = re.compile(r" & |, | × | ＆ |、| feat\. | Feat\. ")
+# Convidados no título: "777 (feat. Awich, ONE OK ROCK & Paledusk)".
+_FEAT_IN_TITLE = re.compile(r"\((?:feat\.|ft\.|with) ([^)]+)\)", re.IGNORECASE)
 # Nome de coletânea no collectionArtistName. O campo também aparece em parceria (a faixa
 # "ILLIT & HANA" vem com collectionArtistName "ILLIT"), então só ele não basta.
 _VARIOUS = {"various artists", "ヴァリアス・アーティスト"}
@@ -106,6 +108,14 @@ def store_url(track_view_url: str) -> str:
     return urlunsplit(parts._replace(query=urlencode(query)))
 
 
+def credited_names(artist_name: str, track_name: str) -> list[str]:
+    """Os nomes creditados na faixa, na ordem: os da grafia do artista e os convidados do título."""
+    names = _COLLAB.split(artist_name)
+    for match in _FEAT_IN_TITLE.finditer(track_name):
+        names.extend(_COLLAB.split(match.group(1)))
+    return [n.strip() for n in names if n.strip()]
+
+
 def artist_names(
     lookups: JSON, official: JSON, known_latin: dict[str, str] | None = None
 ) -> dict[str, RawArtist]:
@@ -164,10 +174,16 @@ class AppleProvider:
         self.warnings = []
         albums: dict[str, RawAlbum] = {}  # álbum fixo por faixa: vale o primeiro que apareceu
         latins: dict[str, str] = {}  # último latino oficial de cada artista
-        return [self._snapshot(read_json(path), path, albums, latins) for path in files]
+        known: dict[str, RawArtist] = {}  # chave de busca do nome → artista já visto
+        return [self._snapshot(read_json(path), path, albums, latins, known) for path in files]
 
     def _snapshot(
-        self, data: JSON, path: Path, albums: dict[str, RawAlbum], latins: dict[str, str]
+        self,
+        data: JSON,
+        path: Path,
+        albums: dict[str, RawAlbum],
+        latins: dict[str, str],
+        known: dict[str, RawArtist],
     ) -> ChartSnapshot:
         where = str(path)
         if data.get("provider") != NAME or data.get("storefront") != STOREFRONT:
@@ -177,6 +193,12 @@ class AppleProvider:
             raise InputError(f"{where}: date {day!r} não bate com o nome do arquivo")
         lookups: JSON = data["tracks"]
         artists = artist_names(lookups, data["artists"], latins)
+        # Os parceiros de uma faixa só ganham id se já são artistas de alguma faixa (deste ou de
+        # um snapshot anterior): o lookup traz um artistId por faixa, o do 1º nome.
+        for artist in artists.values():
+            for name in (artist.name, artist.name_latin):
+                if name:
+                    known[search_key(name)] = artist
         tracks: list[RawTrack] = []
         placed: set[str] = set()
         for item in data["rss"]:
@@ -189,7 +211,7 @@ class AppleProvider:
                 self.warnings.append(f"{day}: faixa {track_id} repetida na parada; ficou a 1ª")
                 continue
             placed.add(track_id)
-            tracks.append(self._track(found, artists, albums, day))
+            tracks.append(self._track(found, artists, albums, known, day))
         # Posições recompactadas (1..n): a faixa sem lookup some e as de baixo sobem.
         entries = tuple(ChartEntry(rank=i, track=t) for i, t in enumerate(tracks, start=1))
         return ChartSnapshot(
@@ -201,16 +223,38 @@ class AppleProvider:
             entries=entries,
         )
 
+    @staticmethod
+    def _release_date(iso: str, track_id: str, day: str) -> str:
+        try:
+            return japan_date(iso)
+        except ValueError as exc:
+            # O fetch já recusa data impossível; um snapshot antigo ainda poderia ter uma.
+            raise InputError(f"{day}: faixa {track_id}: releaseDate inválida ({iso!r})") from exc
+
     def _track(
-        self, t: JSON, artists: dict[str, RawArtist], albums: dict[str, RawAlbum], day: str
+        self,
+        t: JSON,
+        artists: dict[str, RawArtist],
+        albums: dict[str, RawAlbum],
+        known: dict[str, RawArtist],
+        day: str,
     ) -> RawTrack:
         track_id = str(t["trackId"])
         artist = artists[str(t["artistId"])]
+        # O artista do lookup vem em 1º (o songKey usa o 1º id); depois, os parceiros conhecidos,
+        # na ordem do crédito. Sem eles, o distrator poderia ter o mesmo artista da resposta
+        # (JANE DOE, de 米津玄師 & 宇多田ヒカル, contra First Love), e a busca pelo
+        # parceiro falharia.
+        credited = [artist]
+        for name in credited_names(t["artistName"], t["trackName"]):
+            partner = known.get(search_key(name))
+            if partner is not None and partner.provider_id not in {a.provider_id for a in credited}:
+                credited.append(partner)
         album = RawAlbum(
             provider_id=str(t["collectionId"]),
             title=t["collectionName"],
             type=album_type(t["collectionName"], t.get("collectionArtistName")),
-            release_date=japan_date(t["releaseDate"]),
+            release_date=self._release_date(t["releaseDate"], track_id, day),
             artwork_url=artwork_at(t["artworkUrl100"]) if t.get("artworkUrl100") else None,
         )
         first = albums.setdefault(track_id, album)
@@ -225,7 +269,7 @@ class AppleProvider:
         return RawTrack(
             provider_id=track_id,
             title=t["trackName"],
-            artists=(artist,),
+            artists=tuple(credited),
             album=album,
             duration_ms=int(t["trackTimeMillis"]),
             explicit=t.get("trackExplicitness") == "explicit",

@@ -123,6 +123,59 @@ def test_collaboration_keeps_the_canonical_artist_and_the_store_spelling(tmp_pat
     assert t.artist_display == "アーティスト & ゲスト"
 
 
+def _artists(track_id: str, tmp_path, tracks: list[dict], artists: dict) -> list[str]:
+    write_snapshot(tmp_path, "2026-10-10", tracks, artists=artists)
+    snap = AppleProvider(tmp_path).snapshots()[0]
+    track = next(e.track for e in snap.entries if e.track.provider_id == track_id)
+    return [a.provider_id for a in track.artists]
+
+
+def test_collaboration_links_partners_that_are_known_artists(tmp_path):
+    # JANE DOE (米津玄師 & 宇多田ヒカル): o lookup traz o id do 1º nome; o 2º vira parceiro porque
+    # tem faixa própria. O 1º continua em 1º (o songKey usa o 1º id e não pode mudar).
+    tracks = [
+        lookup("1", artistId="530", artistName="米津玄師 & 宇多田ヒカル", trackName="JANE DOE"),
+        lookup("2", artistId="187", artistName="宇多田ヒカル", trackName="First Love"),
+    ]
+    artists = {"530": {"artistName": "Kenshi Yonezu"}, "187": {"artistName": "Hikaru Utada"}}
+    assert _artists("1", tmp_path, tracks, artists) == ["530", "187"]
+
+
+def test_partner_in_the_title_and_unknown_partners(tmp_path):
+    # "(feat. …)" no título também conta; nome sem faixa própria (sem id) fica de fora.
+    tracks = [
+        lookup("1", artistId="64", trackName="777 (feat. Awich, ONE OK ROCK & Paledusk)"),
+        lookup("2", artistId="252", artistName="ONE OK ROCK"),
+    ]
+    artists = {"64": {"artistName": "YAO"}, "252": {"artistName": "ONE OK ROCK"}}
+    tracks[0]["artistName"] = "YAO"
+    assert _artists("1", tmp_path, tracks, artists) == ["64", "252"]
+
+
+def test_partner_matches_by_latin_name_and_from_an_earlier_snapshot(tmp_path):
+    # O parceiro aparece pelo nome latino, e só tinha faixa própria num snapshot anterior.
+    write_snapshot(
+        tmp_path,
+        "2026-10-10",
+        [lookup("2", artistId="187", artistName="宇多田ヒカル")],
+        artists={"187": {"artistName": "Hikaru Utada"}},
+    )
+    write_snapshot(
+        tmp_path,
+        "2026-10-17",
+        [lookup("1", artistId="530", artistName="米津玄師 & Hikaru Utada")],
+        artists={"530": {"artistName": "Kenshi Yonezu"}},
+    )
+    last = AppleProvider(tmp_path).snapshots()[-1]
+    assert [a.provider_id for a in last.entries[0].track.artists] == ["530", "187"]
+
+
+def test_impossible_release_date_in_an_old_snapshot_is_an_input_error(tmp_path):
+    write_snapshot(tmp_path, "2026-10-10", [lookup("1", releaseDate="2026-02-30T07:00:00Z")])
+    with pytest.raises(InputError, match="releaseDate inválida"):
+        AppleProvider(tmp_path).snapshots()
+
+
 def test_track_without_lookup_is_left_out_and_ranks_are_compacted(tmp_path):
     write_snapshot(tmp_path, "2026-10-10", [lookup("1"), lookup("3")], rss_ids=["1", "2", "3"])
     snap = AppleProvider(tmp_path).snapshots()[0]

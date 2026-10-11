@@ -168,5 +168,23 @@ def test_single_takes_the_collaboration_spelling():
     assert album["artistDisplay"] == "Artist ar1 & Guest"
 
 
+def test_partner_joins_a_single_but_not_a_full_album():
+    # Parceiro conhecido (Apple, faixa "feat."): entra no single; no álbum completo, não.
+    guest = make_track("g1", artist="ar9", album="al9")
+    duet = replace(make_track("t1"), artists=(*make_track("t1").artists, *guest.artists))
+    single = replace(duet, album=replace(duet.album, type="single"))
+    catalog = build_catalog([make_snapshot("2026-10-10", [single, guest])], "fixture", "jp")
+    assert album_by_id(catalog, track_by_id(catalog, "t1")["albumId"])["artistIds"] == [
+        "fixture:ar:ar1",
+        "fixture:ar:ar9",
+    ]
+    full = replace(duet, album=replace(duet.album, type="album"))
+    catalog = build_catalog([make_snapshot("2026-10-10", [full, guest])], "fixture", "jp")
+    assert track_by_id(catalog, "t1")["artistIds"] == ["fixture:ar:ar1", "fixture:ar:ar9"]
+    assert album_by_id(catalog, track_by_id(catalog, "t1")["albumId"])["artistIds"] == [
+        "fixture:ar:ar1"
+    ]
+
+
 def test_store_url_defaults_to_null(fixture_catalog):
     assert all(t["storeUrl"] is None for t in fixture_catalog["tracks"])

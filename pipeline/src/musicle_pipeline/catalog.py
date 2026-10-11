@@ -105,9 +105,13 @@ def _joined(artists: Sequence[RawArtist]) -> str:
 
 def _album_record(provider: str, t: RawTrack, cur: Curation) -> JSON:
     al, artists = t.album, t.artists
-    # Single e EP são a própria faixa: herdam a grafia de parceria. Num álbum completo, uma
-    # faixa "feat." não pode virar o artista do álbum inteiro.
-    shown = artist_display_of(t) if al.type in ("single", "ep") else _joined(artists)
+    # Single e EP são a própria faixa: herdam a grafia e os parceiros da parceria. Num álbum
+    # completo, o convidado de uma faixa ("feat.") não vira artista do álbum inteiro: fica o
+    # artista principal da faixa.
+    single = al.type in ("single", "ep")
+    if not single:
+        artists = artists[:1]
+    shown = artist_display_of(t) if single else _joined(artists)
     album_id = _id(provider, "al", al.provider_id)
     text = album_text(al.title)
     latin, source = cur.latin("albums", album_id, text, al.title_latin)
