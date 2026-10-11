@@ -109,11 +109,22 @@ def _lookup_url(ids: Sequence[str]) -> str:
     return f"{LOOKUP_URL}?{urlencode({'id': ','.join(sorted(ids)), 'country': STOREFRONT})}"
 
 
-def _check_hosts(track: JSON) -> None:
-    for key, kind in URL_KINDS.items():
-        url = track.get(key)
-        if url is not None and not (isinstance(url, str) and is_apple_url(kind, url)):
-            raise FetchError(f"faixa {track['trackId']}: {key} com host inesperado: {url}")
+def _hosts_ok(track: JSON) -> bool:
+    """URLs só nos hosts da Apple. Uma faixa fora disso conta como sem lookup (entra no limite
+    de 20%): recusar a parada inteira por uma faixa a congelaria até alguém mudar o código."""
+    return all(
+        track.get(key) is None or (isinstance(track[key], str) and is_apple_url(kind, track[key]))
+        for key, kind in URL_KINDS.items()
+    )
+
+
+def _real_date(text: str) -> bool:
+    """A regex aceita 2026-02-30; a data tem de existir (o provedor a converte depois)."""
+    try:
+        date.fromisoformat(text[:10])
+    except ValueError:
+        return False
+    return True
 
 
 _ISO_INSTANT = re.compile(r"\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}Z)?")
@@ -131,8 +142,10 @@ def _valid(result: JSON) -> bool:
     texts_ok = all(isinstance(result[k], str) and result[k].strip() for k in _TEXT)
     millis = result["trackTimeMillis"]
     millis_ok = isinstance(millis, int) and not isinstance(millis, bool) and millis > 0
-    date_ok = isinstance(result["releaseDate"], str) and _ISO_INSTANT.fullmatch(
-        result["releaseDate"]
+    date_ok = (
+        isinstance(result["releaseDate"], str)
+        and _ISO_INSTANT.fullmatch(result["releaseDate"]) is not None
+        and _real_date(result["releaseDate"])
     )
     optional_ok = all(result.get(k) is None or isinstance(result[k], str) for k in OPTIONAL)
     return bool(ids_ok and texts_ok and millis_ok and date_ok and optional_ok)
@@ -146,8 +159,7 @@ def _trim(result: JSON) -> JSON | None:
     trimmed["trackId"] = str(trimmed["trackId"])
     trimmed["artistId"] = str(trimmed["artistId"])
     trimmed["collectionId"] = str(trimmed["collectionId"])
-    _check_hosts(trimmed)
-    return trimmed
+    return trimmed if _hosts_ok(trimmed) else None
 
 
 def _results(found: JSON) -> list[JSON]:
