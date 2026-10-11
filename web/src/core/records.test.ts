@@ -5,6 +5,7 @@ import {
   emptySave,
   type FinishedGame,
   lockedMode,
+  pendingDayTracks,
   pruneProgress,
   puzzleId,
   recordMax,
@@ -229,5 +230,24 @@ describe("mescla de saves (duas abas)", () => {
     expect(Object.keys(pruneProgress(save, [ID]).inProgress)).toEqual([ID]);
     const clean = pruneProgress(save, [ID]);
     expect(pruneProgress(clean, [ID])).toBe(clean);
+  });
+});
+
+describe("pendingDayTracks", () => {
+  it("só as faixas dos diários sem resultado: o terminado não gasta a cota do lookup", () => {
+    const answers = (target: "song" | "album") => day[target].map((r) => r.answer);
+    const done: FinishedGame = { answerMode: "choice", number: day.number, rounds: [] };
+    const finished = (...ids: string[]): Save => ({
+      ...emptySave(),
+      history: Object.fromEntries(ids.map((id) => [id, done])),
+    });
+    expect(pendingDayTracks(emptySave(), day, DATE)).toEqual([
+      ...answers("song"),
+      ...answers("album"),
+    ]);
+    expect(pendingDayTracks(finished(ID), day, DATE)).toEqual(answers("album"));
+    expect(pendingDayTracks(finished(ID, puzzleId(DATE, "album")), day, DATE)).toEqual([]);
+    // Resultado de outro dia não conta.
+    expect(pendingDayTracks(finished("2026-10-07|song"), day, DATE)).toHaveLength(6);
   });
 });

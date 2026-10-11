@@ -8,8 +8,8 @@ export const ptBR = {
   "load.retryButton": "Tentar de novo",
   "load.update": "O jogo foi atualizado desde que esta página abriu.",
   "load.updateButton": "Recarregar a página",
-  "day.unavailable": "O desafio de hoje ainda não está disponível. Volte mais tarde.",
-  "day.practiceLink": "Enquanto isso, jogue o Treino",
+  "day.unavailable": "Não há desafio diário hoje.",
+  "day.practiceLink": "O Treino continua disponível: jogar agora",
 
   "nav.label": "Jogos",
   "nav.song": "Música",
@@ -36,8 +36,9 @@ export const ptBR = {
   "reveal.lost": "Não foi dessa vez.",
   "reveal.correct": "Resposta certa",
   "reveal.yourPick": "Sua escolha",
-  "reveal.album": "Álbum: {album}",
+  "reveal.albumLabel": "Álbum:",
   "reveal.listenFull": "Ouvir a prévia inteira",
+  "reveal.listenFailed": "Não deu para tocar a prévia agora.",
   "reveal.next": "Próxima rodada",
   "reveal.finish": "Ver resultado",
 

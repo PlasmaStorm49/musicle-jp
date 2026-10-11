@@ -1,8 +1,9 @@
 // @vitest-environment happy-dom
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { useState } from "preact/hooks";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { type AudioEngine, AudioUnavailableError } from "../audio/engine.ts";
-import { MODE_RULES, type ModeRules } from "../core/rules.ts";
+import { type AudioEngine, AudioUnavailableError, type PlaybackResult } from "../audio/engine.ts";
+import { MAX_STAGE, MODE_RULES, type ModeRules } from "../core/rules.ts";
 import { Player } from "./Player.tsx";
 
 afterEach(cleanup);
@@ -166,5 +167,92 @@ describe("Player segue as regras do modo", () => {
     const { onSkip } = setup(MODE_RULES.typing, true);
     fireEvent.click(screen.getByRole("button", { name: "Pular (+1 s)" }), { detail: 2 });
     expect(onSkip).not.toHaveBeenCalled();
+  });
+});
+
+/**
+ * Motor como o Web Audio: cada trecho só termina quando o teste manda (`ends[i]()`), e o fim de
+ * um trecho interrompido pode chegar depois que o seguinte começou (o onended vem uns 10 ms
+ * depois do stop).
+ */
+function webAudioLike() {
+  const ends: Array<() => void> = [];
+  const engine: AudioEngine = {
+    unlock: vi.fn(),
+    preload: vi.fn(),
+    stop: vi.fn(),
+    retain: vi.fn(),
+    play: vi.fn((_url: string, _offset: number, seconds: number) => {
+      let end: (result: PlaybackResult) => void = () => {};
+      const done = new Promise<PlaybackResult>((resolve) => (end = resolve));
+      ends.push(() => end({ requested: seconds, played: seconds, interrupted: false }));
+      return Promise.resolve({ t0: 0, seconds, elapsed: () => 0, done });
+    }),
+  };
+  return { engine, ends };
+}
+
+/** O Player com a etapa no estado, como no jogo: o "Ouvir mais" a sobe. */
+function Controlled({ engine, start }: { readonly engine: AudioEngine; readonly start: number }) {
+  const [stage, setStage] = useState(start);
+  return (
+    <Player
+      engine={engine}
+      url="fixtures/audio/x.wav"
+      offset={0}
+      stage={stage}
+      explicit={false}
+      rules={MODE_RULES.choice}
+      skippable={false}
+      onListenMore={() => setStage((s) => s + 1)}
+      onSkip={vi.fn()}
+      onAudioError={vi.fn()}
+    />
+  );
+}
+
+describe("Player com o som tocando", () => {
+  it("o fim do trecho antigo não devolve o Tocar com o trecho do Ouvir mais tocando", async () => {
+    const { engine, ends } = webAudioLike();
+    render(<Controlled engine={engine} start={0} />);
+    fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }));
+    await act(async () => {});
+    fireEvent.click(screen.getByRole("button", { name: /Ouvir mais/ }));
+    await act(async () => {});
+    expect(engine.play).toHaveBeenCalledTimes(2);
+    await act(async () => ends[0]?.()); // o fim do 1º trecho chega com o 2º tocando
+    expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
+    await act(async () => ends[1]?.());
+    expect(screen.getByRole("button", { name: "Tocar 2 s" })).toBeTruthy();
+  });
+
+  it("motor parado antes de o som começar: volta ao Tocar, e não fica em Carregando…", async () => {
+    setup(MODE_RULES.typing, true); // play devolve null, como depois de um palpite na digitação
+    fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }));
+    await act(async () => {});
+    const play = screen.getByRole("button", { name: "Tocar 1 s" });
+    expect(play.hasAttribute("disabled")).toBe(false);
+  });
+
+  it("Ouvir mais de uma etapa do meio: o foco fica nele, para o Enter seguinte ouvir mais", async () => {
+    const { engine } = webAudioLike();
+    render(<Controlled engine={engine} start={0} />);
+    const more = screen.getByRole("button", { name: /Ouvir mais/ });
+    more.focus();
+    fireEvent.click(more);
+    await act(async () => {});
+    expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: /Ouvir mais/ }));
+  });
+
+  it("o último Ouvir mais some, e o foco vai para o Parar (não cai no body)", async () => {
+    const { engine } = webAudioLike();
+    render(<Controlled engine={engine} start={MAX_STAGE - 1} />);
+    const more = screen.getByRole("button", { name: /Ouvir mais/ });
+    more.focus();
+    fireEvent.click(more);
+    await act(async () => {});
+    expect(screen.queryByRole("button", { name: /Ouvir mais/ })).toBeNull();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Parar" }));
   });
 });

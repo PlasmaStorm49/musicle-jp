@@ -15,10 +15,13 @@ export type ItemView = {
   readonly artworkUrl: string | null;
   /** "ja" quando o título tem kana ou kanji: leitores de tela pronunciam em japonês. */
   readonly lang: "ja" | undefined;
+  /** O mesmo para o artista, que tem o seu: "IRIS OUT" é de 米津玄師. */
+  readonly artistLang: "ja" | undefined;
 };
 
 export type RevealView = ItemView & {
   readonly albumTitle: string;
+  readonly albumLang: "ja" | undefined;
   readonly explicit: boolean;
   readonly preview: {
     readonly url: string;
@@ -56,6 +59,7 @@ export function optionView(index: CatalogIndex, id: string, target: Target): Ite
       artist: track.artistDisplay,
       artworkUrl: artworkOf(index, album?.artworkUrl),
       lang: langOf(track.title),
+      artistLang: langOf(track.artistDisplay),
     };
   }
   const album = index.albums.get(id);
@@ -67,6 +71,7 @@ export function optionView(index: CatalogIndex, id: string, target: Target): Ite
     artist: album.artistDisplay,
     artworkUrl: artworkOf(index, album.artworkUrl),
     lang: langOf(album.title),
+    artistLang: langOf(album.artistDisplay),
   };
 }
 
@@ -80,6 +85,7 @@ export function revealView(index: CatalogIndex, trackId: string): RevealView | n
   return {
     ...base,
     albumTitle: album?.title ?? "",
+    albumLang: langOf(album?.title ?? ""),
     explicit: track.explicit,
     preview: track.preview
       ? {

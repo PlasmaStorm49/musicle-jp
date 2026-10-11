@@ -4,6 +4,7 @@ import type { CatalogIndex } from "../core/catalog.ts";
 import {
   type FinishedGame,
   lockedMode,
+  pendingDayTracks,
   puzzleId,
   replaceProgress,
   type Save,
@@ -108,9 +109,13 @@ function playReducer(played: Played, event: GameEvent): Played {
  */
 export function Game(props: Props) {
   const { target, day, date, index, initialSave, store, announce, onSaved, resolver } = props;
-  // As 6 faixas do dia (Música e Álbum) numa consulta só, já na carga, antes da escolha do modo
-  // (decisão 7 do plano): no clique a URL quase sempre já chegou, e o Tocar nasce liberado.
-  const dayTracks = useMemo(() => [...day.song, ...day.album].map((r) => r.answer), [day]);
+  // As faixas do dia (Música e Álbum) numa consulta só, já na carga, antes da escolha do modo
+  // (decisão 7 do plano): no clique a URL quase sempre já chegou, e o Tocar nasce liberado. Só
+  // as dos diários sem resultado: o terminado mostra o resumo, que não toca nada.
+  const dayTracks = useMemo(
+    () => pendingDayTracks(initialSave, day, date),
+    [initialSave, day, date],
+  );
   useEffect(() => resolver.prefetch(dayTracks), [resolver, dayTracks]);
   const id = puzzleId(date, target);
   // O save de onde a sessão nasce: o da abertura da aba, ou o relido na escolha do modo (outra

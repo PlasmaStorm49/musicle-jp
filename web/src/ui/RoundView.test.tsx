@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { AudioEngine } from "../audio/engine.ts";
+import { type AudioEngine, AudioUnavailableError, type PlaybackResult } from "../audio/engine.ts";
 import { PLAYLIST_URL } from "../core/apple.ts";
 import { type CatalogIndex, indexCatalog } from "../core/catalog.ts";
 import { createRounds, type GameState, type RoundState } from "../core/reducer.ts";
@@ -94,16 +94,17 @@ function setup(
   state: GameState,
   resolver: PreviewResolver = catalogResolver(index, (url) => `/${url}`),
   catalogIndex: CatalogIndex = index,
-) {
-  const engine: AudioEngine = {
+  engine: AudioEngine = {
     unlock: vi.fn(),
     preload: vi.fn(),
     play: vi.fn(() => Promise.resolve(null)),
     stop: vi.fn(),
     retain: vi.fn(),
-  };
+  },
+) {
   const dispatch = vi.fn();
   const onNext = vi.fn();
+  const announce = vi.fn();
   render(
     <RoundView
       game={state}
@@ -112,13 +113,13 @@ function setup(
       engine={engine}
       resolver={resolver}
       resolveUrl={(url) => `/${url}`}
-      announce={vi.fn()}
+      announce={announce}
       roundKey={0}
       nextLabel="Próxima rodada"
       onNext={onNext}
     />,
   );
-  return { dispatch, onNext, engine };
+  return { dispatch, onNext, engine, announce };
 }
 
 describe("RoundView (a rodada do diário e do Treino)", () => {
@@ -273,5 +274,72 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     setup(game("song", "choice", { status: "won" }));
     expect(screen.getByRole("button", { name: "Próxima rodada" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: "Ver resultado" })).toBeNull();
+  });
+});
+
+describe("revelação: a prévia inteira", () => {
+  const listen = () => screen.getByRole("button", { name: "Ouvir a prévia inteira" });
+
+  it("um botão só alterna Ouvir e Parar, e o fim da reprodução parada não o desfaz", async () => {
+    const ends: Array<() => void> = [];
+    const engine: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      stop: vi.fn(),
+      retain: vi.fn(),
+      play: vi.fn((_url: string, _offset: number, seconds: number) => {
+        let end: (result: PlaybackResult) => void = () => {};
+        const done = new Promise<PlaybackResult>((resolve) => (end = resolve));
+        ends.push(() => end({ requested: seconds, played: seconds, interrupted: true }));
+        return Promise.resolve({ t0: 0, seconds, elapsed: () => 0, done });
+      }),
+    };
+    setup(game("song", "choice", { status: "won" }), undefined, index, engine);
+    fireEvent.click(listen());
+    await act(async () => {});
+    expect(engine.play).toHaveBeenCalledWith("/audio/1.wav", 0, 30);
+    fireEvent.click(screen.getByRole("button", { name: "Parar" }));
+    expect(engine.stop).toHaveBeenCalled();
+    fireEvent.click(listen()); // de novo, antes do fim da 1ª chegar
+    await act(async () => {});
+    await act(async () => ends[0]?.()); // o fim da 1ª, parada, chega com a 2ª tocando
+    expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
+    await act(async () => ends[1]?.());
+    expect(listen()).toBeTruthy();
+  });
+
+  it("no Carregando… o botão já é Parar, e o som que chega depois não volta a tocar", async () => {
+    let deliver: (playback: null) => void = () => {};
+    const engine: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      stop: vi.fn(),
+      retain: vi.fn(),
+      play: vi.fn(() => new Promise<null>((resolve) => (deliver = resolve))),
+    };
+    setup(game("song", "choice", { status: "won" }), undefined, index, engine);
+    fireEvent.click(listen());
+    await act(async () => {});
+    fireEvent.click(screen.getByRole("button", { name: "Parar" })); // antes de o som começar
+    expect(engine.stop).toHaveBeenCalled();
+    await act(async () => deliver(null));
+    expect(listen()).toBeTruthy();
+    fireEvent.click(listen(), { detail: 2 }); // toque duplo: o 2º clique não para o 1º
+    expect(engine.play).toHaveBeenCalledTimes(1);
+  });
+
+  it("falha ao tocar: avisa na tela e no aria-live, em vez de não fazer nada", async () => {
+    const engine: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      stop: vi.fn(),
+      retain: vi.fn(),
+      play: vi.fn(() => Promise.reject(new AudioUnavailableError("blocked", "fora do gesto"))),
+    };
+    const { announce } = setup(game("song", "choice", { status: "won" }), undefined, index, engine);
+    fireEvent.click(listen());
+    expect(await screen.findByText("Não deu para tocar a prévia agora.")).toBeTruthy();
+    expect(announce).toHaveBeenCalledWith("Não deu para tocar a prévia agora.");
+    expect(listen()).toBeTruthy(); // dá para tentar de novo
   });
 });
