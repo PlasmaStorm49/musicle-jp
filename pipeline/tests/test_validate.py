@@ -65,3 +65,10 @@ def test_unknown_provider_has_no_url_rule(fixture_catalog):
     cat = copy.deepcopy(fixture_catalog)
     cat["provider"] = "outro"
     assert "provider 'outro' sem regra de URLs" in validate_catalog(cat)
+
+
+def test_fixture_paths_cannot_climb_folders(fixture_catalog):
+    cat = copy.deepcopy(fixture_catalog)
+    track = next(t for t in cat["tracks"] if t["preview"] is not None)
+    track["preview"]["url"] = "fixtures/audio/..x.wav"
+    assert any("prévia fora dos hosts" in p for p in validate_catalog(cat))

@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from datetime import date
-from functools import cache
+from functools import cache, partial
 
 from jsonschema import Draft202012Validator
 
@@ -12,6 +13,7 @@ from musicle_pipeline.catalog import catalog_version
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
 from musicle_pipeline.paths import catalog_schema_path
+from musicle_pipeline.providers.apple import is_apple_url
 from musicle_pipeline.similarity import MIN_OPTIONS, album_profiles, title_of
 
 
@@ -159,19 +161,22 @@ def _similar_problems(catalog: JSON) -> list[str]:
     return problems
 
 
+def _relative(pattern: str) -> Callable[[str], bool]:
+    rx = re.compile(pattern)
+    return lambda url: rx.fullmatch(url) is not None
+
+
 # Onde cada provedor pode apontar. As URLs vão parar em <img>, no áudio e num href: sem esta
-# lista, o schema aceitaria até "javascript:...".
-_URL_RULES = {
+# lista, o schema aceitaria até "javascript:...". Os hosts da Apple têm fonte única no provedor
+# (o fetch usa a mesma função antes de gravar o snapshot).
+_URL_RULES: dict[str, dict[str, Callable[[str], bool] | None]] = {
     "fixture": {
-        "preview": re.compile(r"^fixtures/audio/[\w.-]+$"),
-        "artwork": re.compile(r"^fixtures/art/[\w.-]+$"),
+        # Nome de arquivo sem "..": nada de subir de pasta (fixtures/audio/../x).
+        "preview": _relative(r"fixtures/audio/(?!.*\.\.)[\w.-]+"),
+        "artwork": _relative(r"fixtures/art/(?!.*\.\.)[\w.-]+"),
         "store": None,  # a parada fictícia não tem loja
     },
-    "apple": {
-        "preview": re.compile(r"^https://audio-ssl\.itunes\.apple\.com/\S+$"),
-        "artwork": re.compile(r"^https://is\d+-ssl\.mzstatic\.com/\S+$"),
-        "store": re.compile(r"^https://music\.apple\.com/\S+$"),
-    },
+    "apple": {kind: partial(is_apple_url, kind) for kind in ("preview", "artwork", "store")},
 }
 
 
@@ -184,7 +189,7 @@ def _url_problems(catalog: JSON) -> list[str]:
         rule = rules[kind]
         if url is None:
             return False
-        return rule is None or not rule.match(url)
+        return rule is None or not rule(url)
 
     problems = [
         f"{a['id']}: capa fora dos hosts do provedor: {a['artworkUrl']}"

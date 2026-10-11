@@ -15,7 +15,12 @@ def dumps(data: Any) -> str:
 
 def read_json(path: Path) -> Any:
     # Decodifica como UTF-8 estrito: um arquivo com BOM (gravado pelo PowerShell) falha aqui.
-    return json.loads(path.read_bytes().decode("utf-8"))
+    return loads(path.read_bytes())
+
+
+def loads(data: bytes) -> Any:
+    """JSON de bytes em UTF-8 estrito (arquivo ou resposta de rede, no fetch)."""
+    return json.loads(data.decode("utf-8"))
 
 
 def write_if_changed(path: Path, text: str) -> bool:

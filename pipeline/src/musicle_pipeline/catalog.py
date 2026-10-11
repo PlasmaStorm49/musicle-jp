@@ -19,7 +19,6 @@ from musicle_pipeline.models import (
     JSON,
     ChartSnapshot,
     InputError,
-    RawAlbum,
     RawArtist,
     RawTrack,
     check_snapshots,
@@ -104,8 +103,11 @@ def _joined(artists: Sequence[RawArtist]) -> str:
     return " & ".join(display(a.name) for a in artists)
 
 
-def _album_record(provider: str, al: RawAlbum, t: RawTrack, cur: Curation) -> JSON:
-    artists = t.artists
+def _album_record(provider: str, t: RawTrack, cur: Curation) -> JSON:
+    al, artists = t.album, t.artists
+    # Single e EP são a própria faixa: herdam a grafia de parceria. Num álbum completo, uma
+    # faixa "feat." não pode virar o artista do álbum inteiro.
+    shown = artist_display_of(t) if al.type in ("single", "ep") else _joined(artists)
     album_id = _id(provider, "al", al.provider_id)
     text = album_text(al.title)
     latin, source = cur.latin("albums", album_id, text, al.title_latin)
@@ -115,7 +117,7 @@ def _album_record(provider: str, al: RawAlbum, t: RawTrack, cur: Curation) -> JS
         "titleLatin": latin,
         "latinSource": source,
         "artistIds": [_id(provider, "ar", a.provider_id) for a in artists],
-        "artistDisplay": artist_display_of(t),
+        "artistDisplay": shown,
         "type": al.type,
         "releaseDate": al.release_date,
         "artworkUrl": al.artwork_url,
@@ -246,9 +248,7 @@ def build_catalog(
             t = entry.track
             for a in t.artists:
                 artists[_id(provider, "ar", a.provider_id)] = _artist_record(provider, a, cur)
-            albums[_id(provider, "al", t.album.provider_id)] = _album_record(
-                provider, t.album, t, cur
-            )
+            albums[_id(provider, "al", t.album.provider_id)] = _album_record(provider, t, cur)
             acc = tracks.get(t.provider_id)
             if acc is None:
                 acc = tracks[t.provider_id] = _TrackAcc(meta=t, isrc=t.isrc)

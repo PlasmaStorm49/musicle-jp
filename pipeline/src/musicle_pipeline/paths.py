@@ -68,10 +68,7 @@ def apple_snapshots_dir() -> Path:
     return repo_root() / _CURATION_DIRS["apple"] / "snapshots"
 
 
-def public_schedules() -> list[Path]:
-    """As agendas publicadas que existem (fictícia e real), para o schedule-check padrão."""
-    return [
-        path
-        for path in (repo_root() / d / "schedule.json" for d in _PUBLIC_DIRS.values())
-        if path.exists()
-    ]
+def known_schedules() -> list[Path]:
+    """As agendas publicadas (fictícia e real), existam ou não: o schedule-check padrão confere
+    as duas, e uma que existia na base e sumiu também é erro."""
+    return [repo_root() / d / "schedule.json" for d in _PUBLIC_DIRS.values()]

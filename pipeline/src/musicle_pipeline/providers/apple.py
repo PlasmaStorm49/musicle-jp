@@ -37,7 +37,44 @@ ARTWORK_PX = 300  # as capas aparecem com 56 e 96 px: 300 cobre telas de até 3x
 JST = timedelta(hours=9)
 _ARTWORK_SIZE = re.compile(r"/\d+x\d+bb\.(jpg|png|webp)$")
 _DATE_FILE = re.compile(r"^\d{4}-\d{2}-\d{2}\.json$")
-_COLLAB = re.compile(r" & |, | × ")  # separadores de parceria no nome do artista da faixa
+# Separadores de parceria no nome do artista da faixa ("A & B", "A, B", "A × B", "A feat. B").
+_COLLAB = re.compile(r" & |, | × | ＆ |、| feat\. | Feat\. ")
+# Nome de coletânea no collectionArtistName. O campo também aparece em parceria (a faixa
+# "ILLIT & HANA" vem com collectionArtistName "ILLIT"), então só ele não basta.
+_VARIOUS = {"various artists", "ヴァリアス・アーティスト"}
+
+# Hosts da Apple: fonte única para o fetch (antes de gravar) e o validate (no catálogo). As URLs
+# vão parar em <img>, no áudio e num href.
+HOSTS = {
+    "preview": re.compile(r"^audio-ssl\.itunes\.apple\.com$"),
+    "artwork": re.compile(r"^is\d+-ssl\.mzstatic\.com$"),
+    "store": re.compile(r"^music\.apple\.com$"),
+}
+
+
+def is_apple_url(kind: str, url: str) -> bool:
+    """https, sem usuário nem senha, sem espaço, com caminho e com o host da lista."""
+    if any(c.isspace() for c in url) or "\\" in url:
+        return False
+    try:
+        parts = urlsplit(url)
+        host = parts.hostname or ""
+    except ValueError:  # ex.: colchete de IPv6 malformado
+        return False
+    return (
+        parts.scheme == "https"
+        and parts.username is None
+        and parts.password is None
+        and parts.path not in ("", "/")
+        and HOSTS[kind].match(host) is not None
+    )
+
+
+def snapshot_days(directory: Path) -> list[str]:
+    """Datas dos snapshots gravados, em ordem (só arquivos AAAA-MM-DD.json)."""
+    if not directory.is_dir():
+        return []
+    return sorted(p.stem for p in directory.glob("*.json") if _DATE_FILE.match(p.name))
 
 
 def album_type(collection_name: str, collection_artist: str | None) -> str:
@@ -46,7 +83,7 @@ def album_type(collection_name: str, collection_artist: str | None) -> str:
         return "single"
     if collection_name.endswith(" - EP"):
         return "ep"
-    if collection_artist:  # "Various Artists" e afins: coletânea (hipótese, ver o PLANO)
+    if collection_artist and collection_artist.strip().casefold() in _VARIOUS:
         return "compilation"
     return "album"
 
@@ -69,7 +106,9 @@ def store_url(track_view_url: str) -> str:
     return urlunsplit(parts._replace(query=urlencode(query)))
 
 
-def artist_names(lookups: JSON, official: JSON) -> dict[str, RawArtist]:
+def artist_names(
+    lookups: JSON, official: JSON, known_latin: dict[str, str] | None = None
+) -> dict[str, RawArtist]:
     """Nome exibido e latino de cada artista do snapshot.
 
     O lookup de ARTISTA devolve o nome romanizado ou em inglês ("Kenshi Yonezu"), mesmo com a
@@ -78,7 +117,10 @@ def artist_names(lookups: JSON, official: JSON) -> dict[str, RawArtist]:
     1. o do lookup, se ele é o começo de alguma grafia das faixas (o nome limpo de uma parceria);
     2. senão, a grafia solo mais frequente das faixas (sem " & ", ", " ou " × ");
     3. senão (o artista só aparece em parcerias), o primeiro nome da parceria mais frequente.
-    O latino é o nome do lookup, quando é todo em letras latinas (latinSource "provider").
+    O latino é o nome do lookup, quando é todo em letras latinas (latinSource "provider");
+    se o lookup do artista faltou neste snapshot, vale o último latino conhecido (`known_latin`,
+    que é atualizado aqui), para um lookup incompleto não trocar "Kenshi Yonezu" pelo cutlet.
+    Suposição (vale nas parcerias da 1ª parada real): o `artistId` da faixa é o do 1º nome.
     """
     seen: dict[str, Counter[str]] = {}
     for t in lookups.values():
@@ -96,6 +138,11 @@ def artist_names(lookups: JSON, official: JSON) -> dict[str, RawArtist]:
         latin = lookup_name if lookup_name and lookup_name != name else None
         if latin is not None and needs_romaji(latin):
             latin = None  # o lookup trouxe outra grafia não latina: não serve de latino
+        if known_latin is not None:
+            if latin is None and lookup_name is None:
+                latin = known_latin.get(artist_id)
+            elif latin is not None:
+                known_latin[artist_id] = latin
         result[artist_id] = RawArtist(provider_id=artist_id, name=name, name_latin=latin)
     return result
 
@@ -111,18 +158,17 @@ class AppleProvider:
         self.warnings: list[str] = []
 
     def snapshots(self) -> list[ChartSnapshot]:
-        files = (
-            sorted(p for p in self.directory.glob("*.json") if _DATE_FILE.match(p.name))
-            if self.directory.is_dir()
-            else []
-        )
+        files = [self.directory / f"{day}.json" for day in snapshot_days(self.directory)]
         if not files:
             raise InputError(f"{self.directory}: nenhum snapshot (rode o comando fetch)")
         self.warnings = []
         albums: dict[str, RawAlbum] = {}  # álbum fixo por faixa: vale o primeiro que apareceu
-        return [self._snapshot(read_json(path), path, albums) for path in files]
+        latins: dict[str, str] = {}  # último latino oficial de cada artista
+        return [self._snapshot(read_json(path), path, albums, latins) for path in files]
 
-    def _snapshot(self, data: JSON, path: Path, albums: dict[str, RawAlbum]) -> ChartSnapshot:
+    def _snapshot(
+        self, data: JSON, path: Path, albums: dict[str, RawAlbum], latins: dict[str, str]
+    ) -> ChartSnapshot:
         where = str(path)
         if data.get("provider") != NAME or data.get("storefront") != STOREFRONT:
             raise InputError(f"{where}: provider/storefront deveriam ser {NAME}/{STOREFRONT}")
@@ -130,12 +176,19 @@ class AppleProvider:
         if f"{day}.json" != path.name:
             raise InputError(f"{where}: date {day!r} não bate com o nome do arquivo")
         lookups: JSON = data["tracks"]
-        artists = artist_names(lookups, data["artists"])
+        artists = artist_names(lookups, data["artists"], latins)
         tracks: list[RawTrack] = []
+        placed: set[str] = set()
         for item in data["rss"]:
-            found = lookups.get(str(item["id"]))
+            track_id = str(item["id"])
+            found = lookups.get(track_id)
             if found is None or not found.get("trackTimeMillis"):
                 continue  # sem lookup não há álbum nem duração: a faixa fica fora deste dia
+            if track_id in placed:
+                # Faixa repetida travaria o build para sempre (snapshot não se edita): fica a 1ª.
+                self.warnings.append(f"{day}: faixa {track_id} repetida na parada; ficou a 1ª")
+                continue
+            placed.add(track_id)
             tracks.append(self._track(found, artists, albums, day))
         # Posições recompactadas (1..n): a faixa sem lookup some e as de baixo sobem.
         entries = tuple(ChartEntry(rank=i, track=t) for i, t in enumerate(tracks, start=1))

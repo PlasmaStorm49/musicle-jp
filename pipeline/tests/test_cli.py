@@ -56,10 +56,9 @@ def test_committed_catalog_is_up_to_date(tmp_path, provider):
     """O catalog.json versionado tem de ser exatamente o que o pipeline gera hoje.
 
     Se falhar depois de mudar regras do pipeline, regenere o arquivo com o comando build
-    (dos dois provedores: as fixtures e a Apple, a partir dos snapshots versionados).
+    (dos dois provedores: as fixtures e a Apple, a partir dos snapshots versionados). Sem
+    `skip`: os dois catálogos são versionados, e um apagado tem de falhar aqui.
     """
-    if not COMMITTED[provider].exists():
-        pytest.skip("catálogo ainda não gerado")
     fresh = tmp_path / "catalog.json"
     assert _build(fresh, provider) == 0
     assert fresh.read_bytes() == COMMITTED[provider].read_bytes()
@@ -79,3 +78,22 @@ def test_schedule_check_needs_one_path_with_base(tmp_path, capsys):
     args = ["schedule-check", "--path", str(first), "--path", str(second)]
     assert main([*args, "--base", str(tmp_path / "base.json")]) == 1
     assert "exatamente um --path" in capsys.readouterr().err
+
+
+def test_schedule_check_without_path_needs_one_with_base(tmp_path, capsys):
+    assert main(["schedule-check", "--base", str(tmp_path / "base.json")]) == 1
+    assert "exatamente um --path" in capsys.readouterr().err
+
+
+def test_schedule_check_catches_a_deleted_schedule(tmp_path, capsys):
+    base = tmp_path / "base.json"
+    base.write_bytes((repo_root() / "web" / "public" / "fixtures" / "schedule.json").read_bytes())
+    missing = tmp_path / "apagada.json"
+    assert main(["schedule-check", "--path", str(missing), "--base", str(base)]) == 1
+    assert "foi apagada" in capsys.readouterr().out
+
+
+def test_schedule_check_with_nothing_on_either_side(tmp_path, capsys):
+    args = ["schedule-check", "--path", str(tmp_path / "a.json")]
+    assert main([*args, "--base", str(tmp_path / "b.json")]) == 0
+    assert "nenhuma agenda" in capsys.readouterr().out

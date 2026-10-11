@@ -12,6 +12,7 @@ from musicle_pipeline.providers.apple import (
     AppleProvider,
     album_type,
     artwork_at,
+    is_apple_url,
     japan_date,
     store_url,
 )
@@ -183,3 +184,46 @@ def test_real_sample_from_the_first_chart():
         assert "i=" in t.store_url
         assert t.preview_url.startswith("https://audio-ssl.itunes.apple.com/")
         assert t.album.artwork_url.endswith("/300x300bb.jpg")
+
+
+@pytest.mark.parametrize(
+    ("kind", "url", "ok"),
+    [
+        ("store", "https://music.apple.com/jp/album/x/1?i=2", True),
+        ("store", "javascript:alert(1)", False),
+        ("store", "http://music.apple.com/jp/album/x/1", False),
+        ("store", "https://music.apple.com.evil.example/x", False),
+        ("store", "https://evil@music.apple.com/x", False),
+        ("store", "https://music.apple.com/", False),
+        ("store", "https://music.apple.com/x\n", False),
+        ("preview", "https://audio-ssl.itunes.apple.com/p/1.m4a", True),
+        ("preview", "https://audio-ssl.itunes.apple.com.evil/p.m4a", False),
+        ("artwork", "https://is1-ssl.mzstatic.com/a/300x300bb.jpg", True),
+        ("artwork", "https://isx-ssl.mzstatic.com/a.jpg", False),
+    ],
+)
+def test_apple_url_allowlist(kind, url, ok):
+    assert is_apple_url(kind, url) is ok
+
+
+def test_collection_artist_alone_is_not_a_compilation():
+    # A faixa "ILLIT & HANA" vem com collectionArtistName "ILLIT": parceria, não coletânea.
+    assert album_type("Album", "ILLIT") == "album"
+    assert album_type("Hits", "ヴァリアス・アーティスト") == "compilation"
+
+
+def test_artist_latin_survives_a_snapshot_without_the_artist_lookup(tmp_path):
+    write_snapshot(
+        tmp_path, "2026-10-10", [lookup("1")], artists={"900": {"artistName": "Artisuto"}}
+    )
+    write_snapshot(tmp_path, "2026-10-17", [lookup("1")], artists={"901": {"artistName": "x"}})
+    later = AppleProvider(tmp_path).snapshots()[1].entries[0].track
+    assert later.artists[0].name_latin == "Artisuto"
+
+
+def test_repeated_track_in_the_chart_keeps_the_first(tmp_path):
+    write_snapshot(tmp_path, "2026-10-10", [lookup("1"), lookup("2")], rss_ids=["1", "2", "1"])
+    provider = AppleProvider(tmp_path)
+    snap = provider.snapshots()[0]
+    assert [e.track.provider_id for e in snap.entries] == ["1", "2"]
+    assert any("repetida" in w for w in provider.warnings)

@@ -18,12 +18,13 @@ from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import has_unassigned
 from musicle_pipeline.paths import (
     apple_snapshots_dir,
+    known_schedules,
     provider_paths,
-    public_schedules,
     repo_root,
     resolve,
 )
 from musicle_pipeline.providers import PROVIDERS
+from musicle_pipeline.providers.apple import snapshot_days
 from musicle_pipeline.romaji_cache import RomajiCache, collect_texts, load_cache, save_cache
 from musicle_pipeline.schedule import (
     HORIZON_DAYS,
@@ -46,11 +47,11 @@ def _utf8_console() -> None:
 
 def _build(args: argparse.Namespace) -> int:
     paths = provider_paths(args.provider)
-    out = resolve(args.out)
+    out = resolve(args.out).resolve()  # resolvido: "pipeline/../web/..." não escapa da trava
     # Trava: dentro de web/public, o catálogo de um provedor só vai para a pasta dele (o
     # fictício nunca sobrescreve o real, nem o contrário). Fora dali (testes), tanto faz.
-    public = repo_root() / "web" / "public"
-    if out.is_relative_to(public) and out.parent != paths.public_dir:
+    public = (repo_root() / "web" / "public").resolve()
+    if out.is_relative_to(public) and out.parent != paths.public_dir.resolve():
         print(
             f"o provedor {args.provider} grava em {paths.public_dir}, não em {out.parent}",
             file=sys.stderr,
@@ -146,15 +147,19 @@ def _fake_assets(args: argparse.Namespace) -> int:
 
 
 def _schedule_check(args: argparse.Namespace) -> int:
-    paths = [resolve(p) for p in args.path] if args.path else public_schedules()
-    if args.base is not None and len(paths) != 1:
+    if args.base is not None and len(args.path or []) != 1:
         print("--base compara com um arquivo só: passe exatamente um --path", file=sys.stderr)
         return 1
-    return max((_check_one(path, args) for path in paths), default=0)
+    paths = [resolve(p) for p in args.path] if args.path else known_schedules()
+    results = [code for code in (_check_one(path, args) for path in paths) if code is not None]
+    if not results:
+        print("nenhuma agenda para conferir (nem aqui nem na base)")
+        return 0
+    return max(results)
 
 
-def _check_one(path: Path, args: argparse.Namespace) -> int:
-    current = read_json(path)
+def _check_one(path: Path, args: argparse.Namespace) -> int | None:
+    """0 = só cresceu, 1 = quebrou, None = a agenda não existe aqui nem na base."""
     if args.base is not None:
         base_path = resolve(args.base)
         base = read_json(base_path) if base_path.exists() else None
@@ -163,6 +168,13 @@ def _check_one(path: Path, args: argparse.Namespace) -> int:
         relative = path.relative_to(repo_root()).as_posix()
         base = read_base_ref(args.base_ref, relative)
         origin = f"{args.base_ref}:{relative}"
+    if not path.exists():
+        if base is None:
+            return None
+        # Apagar a agenda inteira também quebra o só-acréscimo (regra inviolável 4).
+        print(f"{path}: existe em {origin} e foi apagada (a agenda só cresce)")
+        return 1
+    current = read_json(path)
     problems = compare(base, current)
     if problems:
         print(f"{path} quebra o só-acréscimo em relação a {origin}:", *problems, sep="\n  ")
@@ -181,7 +193,7 @@ def _fetch(args: argparse.Namespace) -> int:
     if out.exists():
         print(f"{out}: já existe; nada a buscar")
         return 0
-    days = sorted(p.stem for p in directory.glob("*.json")) if directory.is_dir() else []
+    days = snapshot_days(directory)  # o mesmo filtro (AAAA-MM-DD.json) que o provedor usa
     if days and days[-1] >= args.today.isoformat():
         print(
             f"--today {args.today} não é posterior ao último snapshot ({days[-1]})", file=sys.stderr
@@ -292,7 +304,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--path",
         type=Path,
         action="append",
-        help="agenda a conferir; repita para várias (padrão: todas as publicadas que existem)",
+        help="agenda a conferir; repita para várias (padrão: a fictícia e a real)",
     )
     base = check.add_mutually_exclusive_group(required=True)
     base.add_argument("--base-ref", help="revisão do git, ex.: origin/main")
