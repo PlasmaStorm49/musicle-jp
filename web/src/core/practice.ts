@@ -223,9 +223,9 @@ export function planRound(
 }
 
 /**
- * Sorteia a próxima rodada do alvo. A faixa cuja música está excluída é pulada (fica no saco
- * e volta no ciclo seguinte). Saco vazio: novo ciclo. Uma volta inteira sem achar nenhuma
- * devolve null, e o estado fica como estava.
+ * Sorteia a próxima rodada do alvo. A faixa cujo álbum tem uma música excluída (a dela ou outra)
+ * é pulada (fica no saco e volta no ciclo seguinte). Saco vazio: novo ciclo. Uma volta inteira
+ * sem achar nenhuma devolve null, e o estado fica como estava.
  */
 export function drawPractice(
   state: PracticeState,
@@ -249,7 +249,10 @@ export function drawPractice(
     }
     const trackId = bag[position] as string;
     position += 1;
-    if (excluded.has(index.tracks.get(trackId)?.songKey ?? "")) continue;
+    const track = index.tracks.get(trackId);
+    // Fica de fora também a faixa de um álbum que tem uma música excluída: a revelação mostra o
+    // álbum (título e capa), e no Álbum ele pode ser a própria resposta do diário.
+    if (!track || albumHasSong(index, track.albumId, excluded)) continue;
     const rng = seeded(`treino|${state.seed}|${target}|${cycle}|${position - 1}`);
     return {
       round: {

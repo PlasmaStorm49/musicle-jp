@@ -72,6 +72,9 @@ function saveWith(...targets: Target[]): Save {
   return { ...emptySave(), history };
 }
 const dailySongs = (target: Target) => new Set(day[target].map((r) => songOf(r.answer)));
+/** A faixa é de um álbum que tem uma música excluída (a dela ou outra)? */
+const albumBlocked = (id: string, excluded: ReadonlySet<string>) =>
+  catalog.tracks.some((t) => t.albumId === albumOf(id) && excluded.has(t.songKey));
 
 describe("saco do Treino (practicePool)", () => {
   it("Música: uma faixa elegível por música, a mais popular", () => {
@@ -240,12 +243,12 @@ describe("exclusão das respostas do diário de hoje", () => {
     (target) => {
       const excluded = pendingDailySongKeys(emptySave(), day, DATE, index);
       const pool = practicePool(index, target);
-      const blocked = pool.filter((id) => excluded.has(songOf(id)));
+      const blocked = pool.filter((id) => albumBlocked(id, excluded));
       expect(blocked.length).toBeGreaterThan(0);
 
       const lap = drawMany(newPractice(11), target, pool.length - blocked.length, excluded);
       const ids = answers(lap.draws);
-      expect(ids.some((id) => excluded.has(songOf(id)))).toBe(false);
+      expect(ids.some((id) => albumBlocked(id, excluded))).toBe(false);
       expect(new Set(ids).size).toBe(ids.length);
       // Pular não é tirar: a volta inteira ainda é o ciclo 0.
       expect(lap.draws.every((d) => d.round.cycle === 0)).toBe(true);
@@ -254,6 +257,19 @@ describe("exclusão das respostas do diário de hoje", () => {
       const done = pendingDailySongKeys(saveWith("song", "album"), day, DATE, index);
       const after = answers(drawMany(lap.state, target, 2 * pool.length, done).draws);
       for (const id of blocked) expect(after).toContain(id);
+    },
+  );
+
+  it.each<Target>(["song", "album"])(
+    "%s: a outra faixa do álbum de uma resposta pendente também é pulada",
+    (target) => {
+      // al14 tem tr15, tr27 e tr41, três músicas. Com a de tr27 pendente no diário, tr15 ou tr41
+      // no Treino mostrariam o álbum na revelação, e no Álbum ele seria a própria resposta.
+      const excluded = new Set([songOf("fixture:tr:tr27")]);
+      const pool = practicePool(index, target);
+      const ids = answers(drawMany(newPractice(5), target, 3 * pool.length, excluded).draws);
+      expect(ids.map(albumOf)).not.toContain("fixture:al:al14");
+      expect(ids).not.toContain("fixture:tr:tr15");
     },
   );
 
