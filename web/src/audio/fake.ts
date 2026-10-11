@@ -5,15 +5,19 @@
 // não corta o pedido no fim do preview; registra no __musicleAudioLog ao começar, e não ao
 // terminar; nunca é interrompido (stop não faz nada). Teste do Parar ou do corte no fim do
 // preview fica nos testes de componente, não no e2e.
-import { type AudioEngine, AudioUnavailableError, type Playback } from "./engine.ts";
-import type { WebAudioOptions } from "./webaudio.ts";
+import {
+  type AudioEngine,
+  AudioUnavailableError,
+  type EngineOptions,
+  type Playback,
+} from "./engine.ts";
 
 export class FakeAudioEngine implements AudioEngine {
   /** Marca que a CI procura no build: este motor não pode chegar à produção. */
   readonly kind = "musicle-fake-audio";
-  readonly #options: WebAudioOptions;
+  readonly #options: EngineOptions;
 
-  constructor(options: WebAudioOptions = {}) {
+  constructor(options: EngineOptions = {}) {
     this.#options = options;
   }
 
@@ -27,9 +31,11 @@ export class FakeAudioEngine implements AudioEngine {
 
   async play(url: string, offset: number, seconds: number): Promise<Playback | null> {
     // A mesma falha do motor de verdade, para a rodada ser anulada (?failAudio=).
-    if (url === this.#options.failUrl) throw new AudioUnavailableError(`falha simulada: ${url}`);
+    if (this.#options.fails?.(url)) {
+      throw new AudioUnavailableError("simulated", `falha simulada: ${url}`);
+    }
     const result = { requested: seconds, played: seconds, interrupted: false };
-    this.#options.onPlayed?.({ ...result, url, offset });
+    this.#options.onPlayed?.({ ...result, url, offset, engine: "fake" });
     return { t0: 0, seconds, elapsed: () => seconds, done: Promise.resolve(result) };
   }
 }

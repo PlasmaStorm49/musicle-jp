@@ -1,12 +1,16 @@
-// Migrações do formato salvo: uma função por versão, de N para N+1. Hoje só existe a v1.
-// Quando o formato mudar (desde o primeiro deploy, no M10; web/CLAUDE.md, regra 12), a v2 entra
-// aqui com a função 1 → 2 e um teste que lê um save v1 real e chega no v2.
+// Migrações do formato salvo: uma função por versão, de N para N+1, cada uma com um teste que
+// lê um save real da versão anterior (web/CLAUDE.md, regra 12).
 
-export const SAVE_SCHEMA_VERSION = 1;
+export const SAVE_SCHEMA_VERSION = 2;
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 
-export const MIGRATIONS: Readonly<Record<number, Migration>> = {};
+export const MIGRATIONS: Readonly<Record<number, Migration>> = {
+  // v1 → v2 (M11, P68): o jogo trocou a parada fictícia pela real. As chaves são por data
+  // ("2026-10-12|song"), então o dia fictício e o real do mesmo dia se misturariam, e as
+  // estatísticas contariam jogos de outra parada. Fica só a preferência do modo de resposta.
+  1: (data) => ({ settings: data.settings ?? {}, history: {}, inProgress: {} }),
+};
 
 /** Leva um save da versão `from` até a atual. Versão sem migração conhecida: erro. */
 export function migrate(data: Record<string, unknown>, from: number): Record<string, unknown> {

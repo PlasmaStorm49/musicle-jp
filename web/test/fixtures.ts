@@ -11,3 +11,8 @@ function readJson<T>(path: string): T {
 
 export const catalog = readJson<Catalog>("catalog.json");
 export const schedule = readJson<Schedule>("schedule.json");
+
+/** A 1ª parada real (web/public/data), para os testes do provedor Apple. */
+export const realCatalog = JSON.parse(
+  readFileSync(new URL("../public/data/catalog.json", import.meta.url), "utf8"),
+) as Catalog;

@@ -6,7 +6,7 @@ import {
   lockedMode,
   puzzleId,
   replaceProgress,
-  type SaveV1,
+  type Save,
   startSession,
   toFinishedGame,
   withFinished,
@@ -16,9 +16,10 @@ import {
 import { type GameEvent, type GameState, isFinished, reduce } from "../core/reducer.ts";
 import { ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { AnswerMode, Day, Target } from "../core/types.ts";
+import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
-import { previewUrl, usePreload } from "./hooks.ts";
+import { usePreviews } from "./hooks.ts";
 import { ModePicker } from "./ModePicker.tsx";
 import { RoundView } from "./RoundView.tsx";
 import { Summary } from "./Summary.tsx";
@@ -30,13 +31,14 @@ type Props = {
   readonly date: string;
   readonly index: CatalogIndex;
   readonly engine: AudioEngine;
+  readonly resolver: PreviewResolver;
   readonly resolveUrl: (url: string) => string;
   /** Mensagem para a região aria-live (eventos assíncronos). */
   readonly announce: (message: string) => void;
   /** Onde o progresso é salvo; null = não salva nesta sessão. */
   readonly store: KeyValueStore | null;
   /** O save lido quando esta aba abriu (o App relê a cada troca de aba). Só vale na montagem. */
-  readonly initialSave: SaveV1;
+  readonly initialSave: Save;
   /** Avisa o App que o dia terminou e foi gravado (✓ da aba, exclusão do Treino). */
   readonly onSaved: () => void;
   /** Dias que existem na agenda (a sequência só conta estes, P40). */
@@ -105,7 +107,11 @@ function playReducer(played: Played, event: GameEvent): Played {
  * modo salvo; dia terminado mostra direto o resultado (P39).
  */
 export function Game(props: Props) {
-  const { target, day, date, index, initialSave, store, announce, onSaved } = props;
+  const { target, day, date, index, initialSave, store, announce, onSaved, resolver } = props;
+  // As 6 faixas do dia (Música e Álbum) numa consulta só, já na carga, antes da escolha do modo
+  // (decisão 7 do plano): no clique a URL quase sempre já chegou, e o Tocar nasce liberado.
+  const dayTracks = useMemo(() => [...day.song, ...day.album].map((r) => r.answer), [day]);
+  useEffect(() => resolver.prefetch(dayTracks), [resolver, dayTracks]);
   const id = puzzleId(date, target);
   // O save de onde a sessão nasce: o da abertura da aba, ou o relido na escolha do modo (outra
   // aba pode ter começado ou terminado o dia enquanto o seletor estava na tela).
@@ -189,7 +195,7 @@ function Playing({
   report,
   ...props
 }: Props & { readonly start: Played; readonly report: Report }) {
-  const { day, date, index, engine, resolveUrl, announce, store } = props;
+  const { day, date, index, engine, resolver, resolveUrl, announce, store } = props;
   const [played, dispatch] = useReducer(playReducer, start);
   const [summary, setSummary] = useState<FinishedGame | null>(null);
   const { game } = played;
@@ -214,11 +220,16 @@ function Playing({
     }
   }, [store, played, start, game, date, day.number, report]);
 
-  const urls = useMemo(
-    () => game.rounds.map((r) => previewUrl(index, r.trackId, resolveUrl)),
-    [game.rounds, index, resolveUrl],
+  // As 3 rodadas deste diário: o lote do dia inteiro já saiu na carga do Game; aqui só garante
+  // as que faltarem e pré-carrega a atual e a próxima.
+  const trackIds = useMemo(() => game.rounds.map((r) => r.trackId), [game.rounds]);
+  usePreviews(
+    engine,
+    resolver,
+    trackIds,
+    trackIds[game.current] ?? null,
+    trackIds[game.current + 1] ?? null,
   );
-  usePreload(engine, urls[game.current] ?? null, urls[game.current + 1] ?? null);
 
   function next() {
     if (isLast && isFinished(game)) setSummary(toFinishedGame(game, day.number));
@@ -238,6 +249,7 @@ function Playing({
         dispatch={dispatch}
         index={index}
         engine={engine}
+        resolver={resolver}
         resolveUrl={resolveUrl}
         announce={announce}
         roundKey={game.current}

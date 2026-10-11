@@ -1,4 +1,4 @@
-import type { SaveV1 } from "../src/core/records.ts";
+import type { Save } from "../src/core/records.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
 import {
   albumOf,
@@ -52,7 +52,7 @@ test("recarregar no meio retoma o modo e as tentativas", async ({ page }) => {
   await expect
     .poll(async () => {
       const raw = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
-      const save = raw ? (JSON.parse(raw) as SaveV1) : null;
+      const save = raw ? (JSON.parse(raw) as Save) : null;
       return save?.inProgress["2026-10-09|song"]?.events.length ?? 0;
     })
     .toBe(1);

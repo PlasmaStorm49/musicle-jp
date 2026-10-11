@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { catalog } from "../../test/fixtures.ts";
+import { catalog, realCatalog } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
 import { buildSearchIndex, hitKey, search } from "./search.ts";
 import type { Catalog, Track } from "./types.ts";
@@ -152,6 +152,18 @@ describe("search: alvo Álbum (M8)", () => {
     for (const query of ["ミナト", "no", "a"]) {
       expect(search(reversed, query, 100)).toEqual(search(albums, query, 100));
     }
+  });
+});
+
+describe("search: parada real (ME9)", () => {
+  const real = buildSearchIndex(indexCatalog(realCatalog), "song");
+  const titles = (query: string) => search(real, query).map((h) => h.id);
+  const KIMI_WA = "apple:tr:1273709797"; // 君はロックを聴かない: "Kimi wa rokku wo kikanai"
+
+  it("は no meio da consulta em kana também vale como a partícula wa", () => {
+    expect(titles("きみはろっく")).toContain(KIMI_WA);
+    expect(titles("キミハロック")).toContain(KIMI_WA);
+    expect(titles("kimiwarokku")).toContain(KIMI_WA);
   });
 });
 

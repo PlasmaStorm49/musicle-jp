@@ -7,7 +7,8 @@
 // - um save de versão MAIOR que a nossa (aba antiga, cache) nunca é sobrescrito;
 // - cada gravação relê, mescla e grava: duas abas abertas não apagam um dia terminado.
 import { isValidDate } from "../core/dates.ts";
-import type { FinishedGame, InProgress, SaveV1, Settings } from "../core/records.ts";
+import { isRecord } from "../core/guards.ts";
+import type { FinishedGame, InProgress, Save, Settings } from "../core/records.ts";
 import { emptySave } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
 import { MAX_STAGE, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
@@ -53,7 +54,7 @@ export function openStore(getStorage: () => KeyValueStore | null | undefined): {
 }
 
 export type LoadResult = {
-  readonly save: SaveV1;
+  readonly save: Save;
   /** false = não grava nesta sessão (versão futura, ou cópia do corrompido falhou). */
   readonly writable: boolean;
   readonly notice: "future" | "repaired" | "unavailable" | null;
@@ -64,10 +65,6 @@ export type LoadResult = {
 const PUZZLE_ID = /^(\d{4}-\d{2}-\d{2})\|(song|album)$/;
 const STATUSES = new Set(["won", "lost", "void"]);
 const MARKS = new Set(["skip", "wrong", "right"]);
-
-function isRecord(x: unknown): x is Record<string, unknown> {
-  return typeof x === "object" && x !== null && !Array.isArray(x);
-}
 
 function isPuzzleId(id: string): boolean {
   const match = PUZZLE_ID.exec(id);
@@ -129,7 +126,7 @@ export function isInProgress(x: unknown): x is InProgress {
  * Valida cada entrada; descarta só as inválidas. `dropped` diz se algo foi descartado. Um mapa
  * ausente ou que não é objeto vira vazio, sem levar junto o resto (o histórico vale mais).
  */
-function sanitize(data: Record<string, unknown>): { save: SaveV1; dropped: boolean } {
+function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean } {
   const read = readSettings(data.settings);
   let dropped = read.dropped || !isRecord(data.history) || !isRecord(data.inProgress);
   const history: Record<string, FinishedGame> = {};
@@ -142,7 +139,7 @@ function sanitize(data: Record<string, unknown>): { save: SaveV1; dropped: boole
     if (isPuzzleId(id) && isInProgress(progress)) inProgress[id] = progress;
     else dropped = true;
   }
-  return { save: { schemaVersion: 1, settings: read.settings, history, inProgress }, dropped };
+  return { save: { schemaVersion: 2, settings: read.settings, history, inProgress }, dropped };
 }
 
 /** Preferências: guarda só o que conhece e vale; o resto conta como descartado (aviso de reparo). */
@@ -241,7 +238,7 @@ export function sessionStore(store: KeyValueStore, loaded: LoadResult): KeyValue
 export type SaveStatus = "saved" | "full" | "future" | "unavailable";
 
 /** Relê, aplica a mudança e grava. */
-export function updateSave(store: KeyValueStore, change: (save: SaveV1) => SaveV1): SaveStatus {
+export function updateSave(store: KeyValueStore, change: (save: Save) => Save): SaveStatus {
   const current = loadSave(store);
   if (!current.writable) return current.notice === "future" ? "future" : "unavailable";
   const next = change(current.save);

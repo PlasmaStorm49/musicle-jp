@@ -7,7 +7,7 @@
 // de cada ciclo é refeito da semente quando preciso, sempre igual.
 import type { CatalogIndex } from "./catalog.ts";
 import { type Mulberry32, seeded } from "./prng.ts";
-import { puzzleId, type SaveV1 } from "./records.ts";
+import { puzzleId, type Save } from "./records.ts";
 import { createRounds, type GameState, type PlannedRound, roundScore } from "./reducer.ts";
 import type { AnswerMode, Day, Target, Track } from "./types.ts";
 
@@ -147,7 +147,7 @@ function bagFor(
  * que ainda não têm resultado gravado. Quando o diário termina, elas voltam.
  */
 export function pendingDailySongKeys(
-  save: SaveV1,
+  save: Save,
   day: Day | null,
   date: string,
   index: CatalogIndex,

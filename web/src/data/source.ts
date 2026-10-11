@@ -9,21 +9,33 @@ export { UnsupportedCatalogError };
 /** O mínimo de fetch que usamos; o fetch do navegador e o do Node servem. */
 export type FetchLike = (
   url: string,
-  init?: { signal?: AbortSignal },
+  init?: { signal?: AbortSignal; cache?: "no-cache" },
 ) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>;
 
 /** Falha de rede ou resposta inválida: vale tentar de novo. */
 export class DataLoadError extends Error {}
 
-/** Pasta dos dados, relativa à base do site. No M11 passa a ser "data/". */
-export const DATA_DIR = "fixtures/";
+/** Pastas dos dados, relativas à base do site: a parada real e a fictícia. */
+export const REAL_DATA_DIR = "data/";
+export const FIXTURE_DATA_DIR = "fixtures/";
+
+/**
+ * De onde vêm os dados. O site publicado lê a parada real. O desenvolvimento (e com ele o e2e)
+ * lê as fixtures, que têm áudio sintético; ?data=real troca pela parada real.
+ */
+export function dataDirFor(dev: boolean, search: string): string {
+  if (!dev) return REAL_DATA_DIR;
+  return new URLSearchParams(search).get("data") === "real" ? REAL_DATA_DIR : FIXTURE_DATA_DIR;
+}
 
 export type GameData = { readonly index: CatalogIndex; readonly schedule: Schedule };
 
 async function getJson(fetchFn: FetchLike, url: string, signal?: AbortSignal): Promise<unknown> {
   let response: Awaited<ReturnType<FetchLike>>;
   try {
-    response = await fetchFn(url, signal ? { signal } : {});
+    // no-cache: revalida sempre (304 quando nada mudou). Sem isso o cache do Pages (10 min)
+    // poderia juntar um catálogo novo com uma agenda velha logo depois do merge semanal (ME13).
+    response = await fetchFn(url, signal ? { signal, cache: "no-cache" } : { cache: "no-cache" });
   } catch (error) {
     if (signal?.aborted) throw error; // cancelamento não é erro de rede
     throw new DataLoadError(`falha de rede ao buscar ${url}`);
@@ -46,9 +58,10 @@ function schemaVersionOf(data: unknown): unknown {
 export async function loadGameData(
   fetchFn: FetchLike,
   baseUrl: string,
+  dataDir: string,
   signal?: AbortSignal,
 ): Promise<GameData> {
-  const dir = new URL(DATA_DIR, baseUrl);
+  const dir = new URL(dataDir, baseUrl);
   const [catalog, schedule] = await Promise.all([
     getJson(fetchFn, new URL("catalog.json", dir).href, signal),
     getJson(fetchFn, new URL("schedule.json", dir).href, signal),
@@ -61,7 +74,7 @@ export async function loadGameData(
   return { index: indexCatalog(catalog as Catalog), schedule: schedule as Schedule };
 }
 
-/** URL absoluta de um asset do catálogo (relativa à base) ou já absoluta (Apple, no M11). */
+/** URL absoluta de um asset do catálogo: relativa à base (fixtures) ou já absoluta (Apple). */
 export function assetUrl(baseUrl: string, url: string): string {
   return new URL(url, baseUrl).href;
 }
@@ -89,6 +102,19 @@ export function failAudioTrack(search: string, dev: boolean): string | null {
  */
 export function fakeAudioEnabled(search: string): boolean {
   return new URLSearchParams(search).get("fakeAudio") === "1";
+}
+
+/**
+ * Valem também no site publicado (P76), para conferir a reserva onde ela importa:
+ * ?htmlAudio=1 faz o Web Audio falhar de propósito (a troca para o <audio> acontece de verdade);
+ * ?failLookup=1 faz o lookup da Apple falhar (vale o previewUrl guardado no catálogo).
+ */
+export function htmlAudioForced(search: string): boolean {
+  return new URLSearchParams(search).get("htmlAudio") === "1";
+}
+
+export function lookupFailForced(search: string): boolean {
+  return new URLSearchParams(search).get("failLookup") === "1";
 }
 
 export function pickDay(schedule: Schedule, date: string): Day | null {

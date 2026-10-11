@@ -26,7 +26,10 @@
     ],
     "ask": [
       "PowerShell(git push *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "PowerShell(.venv\\Scripts\\python -m musicle_pipeline fetch *)",
+      "PowerShell(.venv/Scripts/python -m musicle_pipeline fetch *)",
+      "Bash(.venv/Scripts/python -m musicle_pipeline fetch *)"
     ],
     "deny": [
       "Read(**/.env)",

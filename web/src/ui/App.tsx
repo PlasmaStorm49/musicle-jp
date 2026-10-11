@@ -1,16 +1,23 @@
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
-import type { AudioEngine } from "../audio/engine.ts";
+import type { AudioEngine, EngineOptions, PlayLog } from "../audio/engine.ts";
 import { FakeAudioEngine } from "../audio/fake.ts";
-import { type PlayLog, WebAudioEngine } from "../audio/webaudio.ts";
-import { emptySave, pruneProgress, puzzleId, type SaveV1 } from "../core/records.ts";
+import { FallbackAudioEngine } from "../audio/fallback.ts";
+import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
+import { WebAudioEngine } from "../audio/webaudio.ts";
+import { APPLE_PROVIDER } from "../core/apple.ts";
+import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
+import { appleResolver, catalogResolver, type PreviewResolver } from "../data/previews.ts";
 import {
   assetUrl,
+  dataDirFor,
   failAudioTrack,
   fakeAudioEnabled,
   type GameData,
   gameDate,
+  htmlAudioForced,
   loadGameData,
+  lookupFailForced,
   pickDay,
   UnsupportedCatalogError,
 } from "../data/source.ts";
@@ -44,6 +51,8 @@ const BASE_URL = new URL(import.meta.env.BASE_URL, window.location.href).href;
 // Para as funções que recebem o modo por parâmetro (gameDate, failAudioTrack). Para tirar código
 // do build, use o literal import.meta.env.DEV no ponto da chamada (web/CLAUDE.md, regra 10).
 const DEV = import.meta.env.DEV;
+// O site publicado lê a parada real (data/); o desenvolvimento, as fixtures, ou a real com ?data=real.
+const DATA_DIR = dataDirFor(DEV, window.location.search);
 
 type Storage = {
   /**
@@ -51,7 +60,7 @@ type Storage = {
    * para cada aba de diário reler o próprio andamento mesmo com o navegador sem gravar.
    */
   readonly store: KeyValueStore;
-  readonly save: SaveV1;
+  readonly save: Save;
   readonly notice: string | null;
 };
 
@@ -121,7 +130,7 @@ export function App() {
   useEffect(() => {
     const controller = new AbortController();
     setLoad({ status: "loading" });
-    loadGameData((url, init) => fetch(url, init), BASE_URL, controller.signal)
+    loadGameData((url, init) => fetch(url, init), BASE_URL, DATA_DIR, controller.signal)
       .then((data) => {
         setLoad({ status: "ready", data });
         setMessage(saves.notice ?? "");
@@ -135,12 +144,29 @@ export function App() {
     return () => controller.abort();
   }, [attempt, saves]);
 
-  const engine = useMemo<AudioEngine | null>(() => {
+  // Fixtures: o endereço do catálogo. Parada real: o lookup da Apple, com a reserva do catálogo.
+  const resolver = useMemo<PreviewResolver | null>(() => {
     if (load.status !== "ready") return null;
-    const failTrack = failAudioTrack(window.location.search, DEV);
-    const failPreview = failTrack ? load.data.index.tracks.get(failTrack)?.preview?.url : null;
-    const options = {
-      failUrl: failPreview ? resolveUrl(failPreview) : null,
+    const { index } = load.data;
+    return index.catalog.provider === APPLE_PROVIDER
+      ? appleResolver({
+          index,
+          fetchFn: (url, init) => fetch(url, init),
+          disabled: lookupFailForced(window.location.search),
+        })
+      : catalogResolver(index, resolveUrl);
+  }, [load, resolveUrl]);
+
+  const engine = useMemo<AudioEngine | null>(() => {
+    if (load.status !== "ready" || !resolver) return null;
+    const search = window.location.search;
+    const failTrack = failAudioTrack(search, DEV);
+    const stored = failTrack ? load.data.index.tracks.get(failTrack)?.preview?.url : undefined;
+    const options: EngineOptions = {
+      // A faixa de ?failAudio= falha no endereço do lookup e no do catálogo.
+      fails: failTrack
+        ? (url) => url === resolver.peek(failTrack) || (!!stored && url === resolveUrl(stored))
+        : undefined,
       onPlayed: import.meta.env.DEV
         ? (log: PlayLog) => {
             window.__musicleAudioLog ??= [];
@@ -151,10 +177,13 @@ export function App() {
     // O literal import.meta.env.DEV no próprio ponto da escolha: no build vira `false && ...`, e
     // o Vite tira o motor falso do pacote sem depender de o minificador propagar a constante DEV
     // (a CI procura a marca dele no dist).
-    return import.meta.env.DEV && fakeAudioEnabled(window.location.search)
+    return import.meta.env.DEV && fakeAudioEnabled(search)
       ? new FakeAudioEngine(options)
-      : new WebAudioEngine(options);
-  }, [load, resolveUrl]);
+      : new FallbackAudioEngine(
+          new WebAudioEngine({ ...options, disabled: htmlAudioForced(search) }),
+          new HtmlAudioEngine({ ...options, mediaTitle: t("app.title") }),
+        );
+  }, [load, resolver, resolveUrl]);
 
   return (
     <>
@@ -203,12 +232,13 @@ export function App() {
             </button>
           </section>
         )}
-        {load.status === "ready" && engine && (
+        {load.status === "ready" && engine && resolver && (
           <Ready
             tab={tab}
             data={load.data}
             date={date}
             engine={engine}
+            resolver={resolver}
             resolveUrl={resolveUrl}
             announce={announce}
             saves={saves}
@@ -228,11 +258,12 @@ type ReadyProps = {
   readonly data: GameData;
   readonly date: string;
   readonly engine: AudioEngine;
+  readonly resolver: PreviewResolver;
   readonly resolveUrl: (url: string) => string;
   readonly announce: (message: string) => void;
   readonly saves: Storage;
   /** A última leitura do save. */
-  readonly latest: SaveV1;
+  readonly latest: Save;
   readonly onSaved: () => void;
   /** A sessão do Treino, guardada no App. */
   readonly practice: PracticeSession | null;
@@ -245,6 +276,7 @@ function Ready({
   data,
   date,
   engine,
+  resolver,
   resolveUrl,
   announce,
   saves,
@@ -265,6 +297,7 @@ function Ready({
         date={date}
         index={data.index}
         engine={engine}
+        resolver={resolver}
         resolveUrl={resolveUrl}
         announce={announce}
         store={saves.store}
@@ -282,6 +315,7 @@ function Ready({
       date={date}
       save={latest}
       engine={engine}
+      resolver={resolver}
       resolveUrl={resolveUrl}
       announce={announce}
       session={practice}

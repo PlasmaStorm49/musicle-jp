@@ -2,7 +2,7 @@
 
 Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade do [Musicle](https://musicle.app/). Projeto pessoal de aprendizado do Claude Code.
 
-**[Jogar](https://plasmastorm49.github.io/musicle-jp/)** (por enquanto com dados fictícios: uma parada inventada e áudio sintético).
+**[Jogar](https://plasmastorm49.github.io/musicle-jp/)**: a parada real do Japão (Apple Music, as 100 mais tocadas), com as prévias de 30 s da Apple.
 
 > Nome provisório. O nome público do jogo ainda vai ser definido.
 
@@ -25,7 +25,7 @@ Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade
 
 ## Estado
 
-No ar no GitHub Pages, ainda com dados fictícios: uma parada inventada e áudio sintético (cada segundo toca uma nota). Os diários Música e Álbum e o Treino já são jogáveis. Falta ligar a parada real do Japão (M11). Andamento por marco em [docs/PLANO.md](docs/PLANO.md).
+No ar no GitHub Pages com a parada real do Japão desde 11/10/2026 (M11): os diários Música e Álbum e o Treino. A atualização semanal da parada real pela Action é o último passo do M11. No desenvolvimento, o jogo usa uma parada inventada com áudio sintético (cada segundo toca uma nota). Andamento por marco em [docs/PLANO.md](docs/PLANO.md).
 
 ## Como rodar
 
@@ -39,7 +39,7 @@ npm ci --prefix web
 npm run dev --prefix web
 ```
 
-Depois, abra http://localhost:5173. O `fake-assets` gera o áudio e as capas falsos, que ficam fora do Git.
+Depois, abra http://localhost:5173. O `fake-assets` gera o áudio e as capas falsos, que ficam fora do Git. Para jogar a parada real no desenvolvimento, abra http://localhost:5173/?data=real (as prévias vêm da Apple, pela rede).
 
 Testes:
 
@@ -67,4 +67,8 @@ Para ver o build como ele fica publicado: `npm run build --prefix web` e depois 
 
 ## Créditos
 
-Quando a fonte de dados real for ligada (M11), dados e trechos de áudio virão da Apple (iTunes), com atribuição e link para a loja junto ao player. Projeto sem fins comerciais.
+Parada, metadados, capas e prévias de áudio: Apple (RSS do Apple Music e iTunes Search API), provided courtesy of iTunes. Junto de cada player fica o selo oficial "Ouça no Apple Music", com link para a loja. Projeto sem fins comerciais. Nenhum áudio fica guardado no site: o navegador toca as prévias direto do servidor da Apple.
+
+## Privacidade
+
+O jogo não tem conta nem servidor próprio. O progresso fica só no seu navegador (`localStorage`). Para tocar uma rodada, o navegador busca na Apple o endereço da prévia (`itunes.apple.com`), o áudio (`audio-ssl.itunes.apple.com`) e as capas (`mzstatic.com`). Como em todo site que carrega conteúdo de outro servidor, a Apple recebe esses pedidos com o endereço IP do seu navegador.

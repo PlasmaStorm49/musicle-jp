@@ -3,13 +3,18 @@ import { describe, expect, it } from "vitest";
 import {
   assetUrl,
   DataLoadError,
+  dataDirFor,
   type FetchLike,
+  FIXTURE_DATA_DIR,
   failAudioTrack,
   fakeAudioEnabled,
   gameDate,
+  htmlAudioForced,
   isValidDate,
   loadGameData,
+  lookupFailForced,
   pickDay,
+  REAL_DATA_DIR,
   UnsupportedCatalogError,
 } from "./source.ts";
 
@@ -36,24 +41,41 @@ function fakeFetch(overrides: Record<string, unknown> = {}): FetchLike {
 
 describe("loadGameData", () => {
   it("carrega e indexa catálogo e agenda", async () => {
-    const data = await loadGameData(fakeFetch(), BASE);
+    const data = await loadGameData(fakeFetch(), BASE, FIXTURE_DATA_DIR);
     expect(data.index.tracks.size).toBe(42);
     expect(data.schedule.epoch).toBe("2026-10-08");
   });
 
+  it("busca os dois JSON da pasta pedida, sempre revalidando o cache", async () => {
+    const calls: { url: string; cache: string | undefined }[] = [];
+    const serve = fakeFetch();
+    const recording: FetchLike = (url, init) => {
+      calls.push({ url, cache: init?.cache });
+      return serve(url.replace("/data/", "/fixtures/"), init);
+    };
+    await loadGameData(recording, BASE, REAL_DATA_DIR);
+    expect(calls.map((c) => c.url).sort()).toEqual([
+      `${BASE}data/catalog.json`,
+      `${BASE}data/schedule.json`,
+    ]);
+    expect(calls.every((c) => c.cache === "no-cache")).toBe(true);
+  });
+
   it("versão de schema desconhecida pede para atualizar a página", async () => {
     const future = { "fixtures/schedule.json": { schemaVersion: 2, days: {} } };
-    await expect(loadGameData(fakeFetch(future), BASE)).rejects.toBeInstanceOf(
+    await expect(loadGameData(fakeFetch(future), BASE, FIXTURE_DATA_DIR)).rejects.toBeInstanceOf(
       UnsupportedCatalogError,
     );
   });
 
   it("falha de rede e 404 pedem para tentar de novo", async () => {
     const offline = { "fixtures/catalog.json": new TypeError("Failed to fetch") };
-    await expect(loadGameData(fakeFetch(offline), BASE)).rejects.toBeInstanceOf(DataLoadError);
-    await expect(loadGameData(fakeFetch(), "http://localhost:5173/outra/")).rejects.toBeInstanceOf(
+    await expect(loadGameData(fakeFetch(offline), BASE, FIXTURE_DATA_DIR)).rejects.toBeInstanceOf(
       DataLoadError,
     );
+    await expect(
+      loadGameData(fakeFetch(), "http://localhost:5173/outra/", FIXTURE_DATA_DIR),
+    ).rejects.toBeInstanceOf(DataLoadError);
   });
 
   it("resposta que não é JSON pede para tentar de novo", async () => {
@@ -64,7 +86,7 @@ describe("loadGameData", () => {
         throw new SyntaxError("Unexpected token <");
       },
     });
-    await expect(loadGameData(html, BASE)).rejects.toBeInstanceOf(DataLoadError);
+    await expect(loadGameData(html, BASE, FIXTURE_DATA_DIR)).rejects.toBeInstanceOf(DataLoadError);
   });
 
   it("cancelamento não vira erro de rede", async () => {
@@ -73,9 +95,9 @@ describe("loadGameData", () => {
     const aborting: FetchLike = async () => {
       throw new DOMException("aborted", "AbortError");
     };
-    await expect(loadGameData(aborting, BASE, controller.signal)).rejects.not.toBeInstanceOf(
-      DataLoadError,
-    );
+    await expect(
+      loadGameData(aborting, BASE, FIXTURE_DATA_DIR, controller.signal),
+    ).rejects.not.toBeInstanceOf(DataLoadError);
   });
 });
 
@@ -99,6 +121,21 @@ describe("datas e dias", () => {
     expect(failAudioTrack("?failAudio=fixture:tr:tr01", false)).toBeNull();
   });
 
+  it("o build lê a parada real; o desenvolvimento, as fixtures (ou a real com ?data=real)", () => {
+    expect(dataDirFor(false, "")).toBe(REAL_DATA_DIR);
+    expect(dataDirFor(false, "?data=fixtures")).toBe(REAL_DATA_DIR);
+    expect(dataDirFor(true, "")).toBe(FIXTURE_DATA_DIR);
+    expect(dataDirFor(true, "?data=real")).toBe(REAL_DATA_DIR);
+    expect(dataDirFor(true, "?data=outra")).toBe(FIXTURE_DATA_DIR);
+  });
+
+  it("?htmlAudio=1 e ?failLookup=1 valem também fora do desenvolvimento (P76)", () => {
+    expect(htmlAudioForced("?htmlAudio=1")).toBe(true);
+    expect(htmlAudioForced("?htmlAudio=0")).toBe(false);
+    expect(lookupFailForced("?data=real&failLookup=1")).toBe(true);
+    expect(lookupFailForced("")).toBe(false);
+  });
+
   it("?fakeAudio=1 liga o motor falso; qualquer outro valor não", () => {
     expect(fakeAudioEnabled("?fakeAudio=1")).toBe(true);
     expect(fakeAudioEnabled("?date=2026-10-08&fakeAudio=1")).toBe(true);
@@ -108,7 +145,7 @@ describe("datas e dias", () => {
   });
 
   it("pickDay devolve o dia ou null", async () => {
-    const { schedule } = await loadGameData(fakeFetch(), BASE);
+    const { schedule } = await loadGameData(fakeFetch(), BASE, FIXTURE_DATA_DIR);
     expect(pickDay(schedule, "2026-10-08")?.number).toBe(1);
     // Um dia antes do epoch: a agenda real cresce toda semana, então uma data futura um dia
     // passaria a existir e o teste quebraria no PR do robô.

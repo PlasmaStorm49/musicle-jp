@@ -15,7 +15,7 @@ import {
   startPracticeSession,
 } from "./practice.ts";
 import { seeded } from "./prng.ts";
-import { emptySave, type FinishedGame, puzzleId, type SaveV1 } from "./records.ts";
+import { emptySave, type FinishedGame, puzzleId, type Save } from "./records.ts";
 import { reduce } from "./reducer.ts";
 import type { Catalog, Day, Target, Track } from "./types.ts";
 
@@ -67,7 +67,7 @@ function onlyEligible(ids: readonly string[]): CatalogIndex {
 
 /** Jogo terminado do histórico (o conteúdo não importa à exclusão, só a existência). */
 const finished: FinishedGame = { answerMode: "choice", number: 1, rounds: [] };
-function saveWith(...targets: Target[]): SaveV1 {
+function saveWith(...targets: Target[]): Save {
   const history = Object.fromEntries(targets.map((t) => [puzzleId(DATE, t), finished]));
   return { ...emptySave(), history };
 }

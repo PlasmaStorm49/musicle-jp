@@ -1,5 +1,5 @@
 // O que fica salvo de cada jogo e como uma sessão começa. Funções puras: o armazenamento
-// (src/storage) só lê e grava o objeto SaveV1; as regras de retomar e mesclar ficam aqui.
+// (src/storage) só lê e grava o objeto Save; as regras de retomar e mesclar ficam aqui.
 //
 // Retomada por EVENTOS, não por estado: guardamos a lista de eventos aceitos e, ao recarregar,
 // repetimos tudo no reducer. Como o reducer é puro e determinístico, o jogo volta exatamente
@@ -38,15 +38,16 @@ export type Settings = {
   readonly answerMode?: AnswerMode;
 };
 
-export type SaveV1 = {
-  readonly schemaVersion: 1;
+/** O formato salvo. v2 (M11): a parada real começa do zero (P68; storage/migrations.ts). */
+export type Save = {
+  readonly schemaVersion: 2;
   readonly settings: Settings;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
 };
 
-export function emptySave(): SaveV1 {
-  return { schemaVersion: 1, settings: {}, history: {}, inProgress: {} };
+export function emptySave(): Save {
+  return { schemaVersion: 2, settings: {}, history: {}, inProgress: {} };
 }
 
 export function puzzleId(date: string, target: Target): PuzzleId {
@@ -95,7 +96,7 @@ export type Session =
  * salvos, ou novo. O modo de resposta salvo vale sobre o pedido: ele fica travado no dia (P13).
  */
 export function startSession(
-  save: SaveV1,
+  save: Save,
   day: Day,
   date: string,
   target: Target,
@@ -124,20 +125,20 @@ export function startSession(
 }
 
 /** Troca o andamento salvo pela lista dada, mesmo mais curta. Dia terminado não muda. */
-export function replaceProgress(save: SaveV1, id: PuzzleId, progress: InProgress): SaveV1 {
+export function replaceProgress(save: Save, id: PuzzleId, progress: InProgress): Save {
   if (save.history[id]) return save;
   return { ...save, inProgress: { ...save.inProgress, [id]: progress } };
 }
 
 /** Grava o andamento. Se outra aba foi mais longe ou já terminou este jogo, ela vence. */
-export function withProgress(save: SaveV1, id: PuzzleId, progress: InProgress): SaveV1 {
+export function withProgress(save: Save, id: PuzzleId, progress: InProgress): Save {
   const current = save.inProgress[id];
   if (current && current.events.length > progress.events.length) return save;
   return replaceProgress(save, id, progress);
 }
 
 /** Grava o jogo terminado e limpa o andamento. O primeiro término vence (duas abas). */
-export function withFinished(save: SaveV1, id: PuzzleId, game: FinishedGame): SaveV1 {
+export function withFinished(save: Save, id: PuzzleId, game: FinishedGame): Save {
   if (save.history[id] && !save.inProgress[id]) return save; // já gravado: nada a fazer
   const { [id]: _done, ...inProgress } = save.inProgress;
   return {
@@ -148,7 +149,7 @@ export function withFinished(save: SaveV1, id: PuzzleId, game: FinishedGame): Sa
 }
 
 /** Modo travado do dia: o do resultado ou o do andamento; null se o dia ainda não começou. */
-export function lockedMode(save: SaveV1, id: PuzzleId): AnswerMode | null {
+export function lockedMode(save: Save, id: PuzzleId): AnswerMode | null {
   return save.history[id]?.answerMode ?? save.inProgress[id]?.answerMode ?? null;
 }
 
@@ -158,7 +159,7 @@ export function lockedMode(save: SaveV1, id: PuzzleId): AnswerMode | null {
  * andamento ou resultado (outra aba escolheu antes), nada muda: vale o modo travado, que é o
  * que o jogador vai de fato usar (o "último usado").
  */
-export function withModeChoice(save: SaveV1, id: PuzzleId, answerMode: AnswerMode): SaveV1 {
+export function withModeChoice(save: Save, id: PuzzleId, answerMode: AnswerMode): Save {
   if (lockedMode(save, id)) return save;
   const settings =
     save.settings.answerMode === answerMode ? save.settings : { ...save.settings, answerMode };
@@ -170,7 +171,7 @@ export function withModeChoice(save: SaveV1, id: PuzzleId, answerMode: AnswerMod
 }
 
 /** Andamentos de outros dias não podem mais ser retomados: limpa ao abrir o jogo. */
-export function pruneProgress(save: SaveV1, keep: readonly PuzzleId[]): SaveV1 {
+export function pruneProgress(save: Save, keep: readonly PuzzleId[]): Save {
   const ids = Object.keys(save.inProgress);
   if (ids.every((id) => keep.includes(id))) return save;
   const inProgress = Object.fromEntries(

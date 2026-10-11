@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { catalog } from "../../test/fixtures.ts";
+import { catalog, realCatalog } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
 import type { Catalog } from "./types.ts";
 import { optionView, revealView } from "./view.ts";
@@ -68,5 +68,36 @@ describe("revealView", () => {
 
   it("id inexistente devolve null", () => {
     expect(revealView(index, "fixture:tr:nada")).toBeNull();
+  });
+
+  it("capa da parada real: só no host da Apple; a da fixture, relativa, passa", () => {
+    const real = indexCatalog(realCatalog);
+    const album = realCatalog.albums[0];
+    expect(optionView(real, album?.id ?? "", "album")?.artworkUrl).toBe(album?.artworkUrl);
+    const foreign = indexCatalog({
+      ...realCatalog,
+      albums: realCatalog.albums.map((a) =>
+        a.id === album?.id ? { ...a, artworkUrl: "https://evil.test/capa.jpg" } : a,
+      ) as Catalog["albums"],
+    });
+    expect(optionView(foreign, album?.id ?? "", "album")?.artworkUrl).toBeNull();
+    expect(optionView(index, "fixture:al:al02", "album")?.artworkUrl).toBe("fixtures/art/al02.svg");
+  });
+
+  it("link da loja: o da Apple passa; javascript: e outro host viram null (P69)", () => {
+    const real = indexCatalog(realCatalog);
+    const track = realCatalog.tracks[0];
+    expect(revealView(real, track?.id ?? "")?.storeUrl).toBe(track?.storeUrl);
+    expect(revealView(index, "fixture:tr:tr01")?.storeUrl).toBeNull(); // a fixture não tem loja
+
+    const withLink = (storeUrl: string): Catalog => ({
+      ...catalog,
+      tracks: catalog.tracks.map((t) =>
+        t.id === "fixture:tr:tr01" ? { ...t, storeUrl } : t,
+      ) as Catalog["tracks"],
+    });
+    for (const bad of ["javascript:alert(1)", "https://evil.test/jp/song/1"]) {
+      expect(revealView(indexCatalog(withLink(bad)), "fixture:tr:tr01")?.storeUrl).toBeNull();
+    }
   });
 });

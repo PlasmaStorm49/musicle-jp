@@ -1,13 +1,16 @@
-import { useEffect, useRef } from "preact/hooks";
+import { useCallback, useEffect, useRef } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
+import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import { currentRound, type GameEvent, type GameState, reduce } from "../core/reducer.ts";
 import { canSkip, MODE_RULES } from "../core/rules.ts";
 import { optionView, revealView } from "../core/view.ts";
+import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
+import { Attribution } from "./Attribution.tsx";
 import { GuessInput } from "./GuessInput.tsx";
-import { previewUrl, useSuggest } from "./hooks.ts";
+import { useResolvedUrl, useSuggest } from "./hooks.ts";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
 import { Reveal } from "./Reveal.tsx";
@@ -17,6 +20,9 @@ type Props = {
   readonly dispatch: (event: GameEvent) => void;
   readonly index: CatalogIndex;
   readonly engine: AudioEngine;
+  /** Endereço da prévia de cada faixa (catálogo ou lookup da Apple). */
+  readonly resolver: PreviewResolver;
+  /** Endereço das capas, resolvido contra a base do site. */
   readonly resolveUrl: (url: string) => string;
   /** Mensagem para a região aria-live (erro, pulo, falha de áudio). */
   readonly announce: (message: string) => void;
@@ -36,6 +42,7 @@ export function RoundView({
   dispatch,
   index,
   engine,
+  resolver,
   resolveUrl,
   announce,
   roundKey,
@@ -46,9 +53,28 @@ export function RoundView({
   const rules = MODE_RULES[game.answerMode];
   const suggest = useSuggest(index, game.target, round);
   const track = revealView(index, round.trackId);
-  const url = previewUrl(index, round.trackId, resolveUrl);
+  const url = useResolvedUrl(resolver, round.trackId);
   // Próxima tentativa, contando a que acabou de ser gasta (para os anúncios de pulo e erro).
   const attemptLabel = (used: number) => ({ current: used + 1, total: rules.maxAttempts });
+
+  const voidForAudio = useCallback(() => {
+    dispatch({ type: "VOID", round: game.current, reason: "audio" });
+    announce(t("void.message"));
+  }, [dispatch, announce, game.current]);
+
+  // Faixa sem prévia nenhuma (nem o lookup nem a reserva do catálogo): a rodada não tem som e é
+  // anulada, como numa falha de áudio. Sem isso o Tocar ficaria em "Carregando…" para sempre.
+  const playing = round.status === "playing";
+  useEffect(() => {
+    if (!playing) return;
+    let live = true;
+    void resolver.resolve(round.trackId).then((resolved) => {
+      if (live && resolved === null) voidForAudio();
+    });
+    return () => {
+      live = false;
+    };
+  }, [resolver, round.trackId, playing, voidForAudio]);
 
   function giveUp() {
     engine.stop();
@@ -73,7 +99,7 @@ export function RoundView({
 
   return (
     <>
-      {round.status === "playing" && url && track?.preview && (
+      {round.status === "playing" && track?.preview && (
         <>
           <Player
             key={roundKey}
@@ -89,11 +115,10 @@ export function RoundView({
               dispatch({ type: "SKIP" });
               announce(t("typing.skipped", attemptLabel(round.attempts.length + 1)));
             }}
-            onAudioError={() => {
-              dispatch({ type: "VOID", round: game.current, reason: "audio" });
-              announce(t("void.message"));
-            }}
+            onAudioError={voidForAudio}
           />
+          {/* Junto do player, como pedem os termos; o link é a playlist, não a resposta. */}
+          {index.catalog.provider === APPLE_PROVIDER && <Attribution href={PLAYLIST_URL} />}
           {game.answerMode === "choice" ? (
             <Options
               index={index}
@@ -134,6 +159,7 @@ export function RoundView({
           target={game.target}
           answerMode={game.answerMode}
           engine={engine}
+          resolver={resolver}
           resolveUrl={resolveUrl}
           nextLabel={nextLabel}
           onNext={onNext}

@@ -91,7 +91,7 @@ describe("kanaToRomaji", () => {
         "ゔぃ",
         "ゔぇ",
         "ゔぉ",
-      ].map(kanaToRomaji),
+      ].map((kana) => kanaToRomaji(kana)),
     ).toEqual([
       "fa",
       "fi",
@@ -134,6 +134,15 @@ describe("kanaToRomaji", () => {
     expect(kanaToRomaji("ー")).toBe("");
     expect(kanaToRomaji("んー")).toBe("n");
     expect(kanaToRomaji("東ー")).toBe("東");
+  });
+
+  it("partículas (ME9): は e へ fora do começo viram wa e e, só quando pedido", () => {
+    expect(kanaToRomaji("きみはろっく")).toBe("kimiharokku");
+    expect(kanaToRomaji("きみはろっく", true)).toBe("kimiwarokku");
+    expect(kanaToRomaji("みらいへ", true)).toBe("miraie");
+    expect(kanaToRomaji("はなび", true)).toBe("hanabi"); // no começo nunca é partícula
+    expect(kanaToRomaji("へや", true)).toBe("heya");
+    expect(kanaToRomaji("ごはん", true)).toBe("gowan"); // falso positivo inofensivo: a leitura normal também entra
   });
 
   it("o que não é kana passa igual", () => {

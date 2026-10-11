@@ -250,6 +250,29 @@ ul.options {
   flex-shrink: 0;
 }
 
+/* Atribuição da Apple (P69): o selo sem alteração, com o espaço livre de 1/10 da altura em
+   volta e pelo menos 30 px de altura (diretrizes da Apple Music). */
+.attribution {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin: 8px 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.attribution a {
+  display: inline-block;
+  padding: 4px;
+  line-height: 0;
+}
+
+.attribution img {
+  height: 40px;
+  width: auto;
+}
+
 .album {
   margin: 4px 0 8px;
   font-size: 0.85rem;

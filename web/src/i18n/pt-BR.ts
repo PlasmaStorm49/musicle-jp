@@ -43,6 +43,14 @@ export const ptBR = {
 
   "void.message": "Áudio indisponível: esta rodada foi anulada e não conta.",
 
+  // Atribuição da Apple (P69): o texto alternativo é o do selo oficial em pt-BR, e a frase em
+  // inglês é a exigida pelos termos do iTunes Search API.
+  "attribution.badge": "Ouça no Apple Music",
+  "attribution.newTab": "(abre em outra aba)",
+  "attribution.courtesy": "Prévias cedidas pelo iTunes",
+  // Em inglês, como os termos pedem: a tela o marca com lang="en" (pronúncia do leitor de tela).
+  "attribution.courtesyEn": "(provided courtesy of iTunes).",
+
   "summary.title": "Resultado do dia",
   "summary.score": "{score} de {max} pontos",
   "summary.round": "Rodada {number}: {result}",

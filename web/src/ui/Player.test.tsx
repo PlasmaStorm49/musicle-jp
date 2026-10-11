@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
-import { cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { AudioEngine } from "../audio/engine.ts";
+import { type AudioEngine, AudioUnavailableError } from "../audio/engine.ts";
 import { MODE_RULES, type ModeRules } from "../core/rules.ts";
 import { Player } from "./Player.tsx";
 
@@ -97,6 +97,69 @@ describe("Player segue as regras do modo", () => {
     await Promise.resolve();
     await Promise.resolve();
     expect(onAudioError).not.toHaveBeenCalled();
+  });
+
+  it("som barrado pelo navegador: volta ao Tocar sem anular a rodada", async () => {
+    const engine: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      play: vi.fn(() => Promise.reject(new AudioUnavailableError("blocked", "fora do gesto"))),
+      stop: vi.fn(),
+      retain: vi.fn(),
+    };
+    const onAudioError = vi.fn();
+    render(
+      <Player
+        engine={engine}
+        url="fixtures/audio/x.wav"
+        offset={0}
+        stage={0}
+        explicit={false}
+        rules={MODE_RULES.choice}
+        skippable={false}
+        onListenMore={vi.fn()}
+        onSkip={vi.fn()}
+        onAudioError={onAudioError}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }));
+    const play = await screen.findByRole("button", { name: "Tocar 1 s" });
+    await act(async () => {}); // o efeito do foco roda depois da pintura
+    expect(onAudioError).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(play);
+  });
+
+  it("a prévia que chega depois não tira o foco de quem já foi para o campo", () => {
+    const engine: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      play: vi.fn(() => Promise.resolve(null)),
+      stop: vi.fn(),
+      retain: vi.fn(),
+    };
+    const player = (url: string | null) => (
+      <>
+        <Player
+          engine={engine}
+          url={url}
+          offset={0}
+          stage={0}
+          explicit={false}
+          rules={MODE_RULES.typing}
+          skippable={true}
+          onListenMore={vi.fn()}
+          onSkip={vi.fn()}
+          onAudioError={vi.fn()}
+        />
+        <input aria-label="palpite" />
+      </>
+    );
+    const { rerender } = render(player(null));
+    const field = screen.getByRole("textbox", { name: "palpite" });
+    field.focus(); // o jogador começou a digitar enquanto o lookup respondia
+    rerender(player("https://audio-ssl.itunes.apple.com/x.m4a"));
+    expect(screen.getByRole("button", { name: "Tocar 1 s" })).toBeTruthy();
+    expect(document.activeElement).toBe(field);
   });
 
   it("toque duplo não gasta duas tentativas", () => {

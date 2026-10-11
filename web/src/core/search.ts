@@ -134,8 +134,11 @@ function variantsOf(query: string): Variant[] {
   // Vazia, só símbolo (♡) ou só ー: não há o que buscar.
   if (stripBar(base) === "") return [];
   const exact = [base];
-  // Kana vira romaji: "とうきょう" acha "tokyo" e "かあてん" acha "katenkoru".
-  if (hasKana(normalized)) exact.push(looseKey(kanaToRomaji(normalized)));
+  // Kana vira romaji: "とうきょう" acha "tokyo" e "かあてん" acha "katenkoru". A 2ª leitura trata
+  // は e へ como partícula ("きみはろっく" acha "kimi wa rokku", ME9).
+  if (hasKana(normalized)) {
+    exact.push(looseKey(kanaToRomaji(normalized)), looseKey(kanaToRomaji(normalized, true)));
+  }
   const candidates: Variant[] = [
     ...exact.map((text) => ({ text, truncated: false, noBar: false })),
     ...exact.flatMap((text) => {
