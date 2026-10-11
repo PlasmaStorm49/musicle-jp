@@ -407,10 +407,14 @@ Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponív
   - parada real: o lookup do iTunes no navegador, em lote, com o `previewUrl` do catálogo como reserva;
   - quando a reserva vale: erro de rede, HTTP 403 ou 429 (que abrem o disjuntor na hora), 3 s sem resposta, resposta sem `results`, faixa ausente, prévia fora do host da Apple, cota (12 consultas por minuto, abaixo das cerca de 20 da Apple) e disjuntor (2 falhas seguidas);
   - os pedidos do mesmo ciclo saem numa consulta só. A fila sai numa microtarefa, porque os efeitos do filho (a rodada pede a sua faixa) rodam antes dos do pai (o diário pede o dia inteiro). O navegador mostrou o lote partido em dois antes dessa fila.
-- **`useResolvedUrl`:** o Tocar fica em "Carregando…", desabilitado, até a URL chegar, e o foco vai para ele quando ela chega. As opções já aparecem. O diário resolve as 3 faixas do dia de uma vez; o Treino, de 2 em 2.
+- **`useResolvedUrl`:** o Tocar fica em "Carregando…", desabilitado, até a URL chegar. As opções já aparecem.
+  - O foco vai para o Tocar quando a URL chega, mas só se o jogador ainda não foi para outro lugar (o campo de digitação, uma opção).
+  - Se a resposta chega entre a pintura e o efeito, o efeito assina mesmo assim e desenha de novo.
+  - Faixa sem prévia nenhuma (nem o lookup nem a reserva) anula a rodada, como uma falha de áudio.
+  - O diário pede as 6 faixas do dia (Música e Álbum) numa consulta só, já na carga, antes da escolha do modo; o Treino pede de 2 em 2.
 - **Motor composto** (`audio/fallback.ts`), conforme o motivo da falha (`AudioUnavailableError.kind`):
-  - `decode` ou `network` (codec ausente, CORS barrado): a sessão passa para o `<audio>`;
-  - `http`: a reserva vale só para aquela URL;
+  - `decode` (codec ausente): a sessão passa para o `<audio>`;
+  - `network` e `http` (rede caiu, CORS barrado, 404, 403): a reserva vale só para aquela URL. Uma queda de sinal passageira não tira o corte exato do resto do dia (revisão do PR B);
   - `blocked` e `simulated`: não troca. `blocked` (som barrado fora do gesto) volta ao Tocar sem anular a rodada;
   - um Parar durante a espera não liga a reserva.
 - **`<audio>` de reserva** (`audio/htmlaudio.ts`):
@@ -418,7 +422,9 @@ Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponív
   - `play()` antes de qualquer `await`, por causa do gesto no Safari;
   - o corte é conferido no `currentTime` por um laço de `setTimeout`, que dorme até perto do fim. O `requestAnimationFrame` não serve: ele para quando a página não pinta (janela encoberta), mesmo com a aba visível, e o som passava do corte;
   - para quando a aba fica oculta ou quando há erro no meio;
-  - a `mediaSession` mostra o nome do jogo, para a tela de bloqueio não mostrar a resposta.
+  - a `mediaSession` mostra o nome do jogo, para a tela de bloqueio não mostrar a resposta;
+  - as ações da `mediaSession` (tecla de mídia, botão do fone, tela de bloqueio) têm tratador próprio: tocar e avançar não fazem nada, e pausar é o Parar. Sem isso, o navegador tocaria o `<audio>` além do corte e entregaria a música (achado do `/code-review`);
+  - refaz o seek depois do `play()` se o navegador ignorou o início pedido (há Safari que ignora antes dos metadados).
 - **`navigator.audioSession.type = "playback"`** no destravamento (P75).
 - **Chaves do site publicado** (P76): `?htmlAudio=1` faz o Web Audio falhar como `decode`, e a troca acontece de verdade; `?failLookup=1` nunca consulta.
 - **Medido no navegador do Claude** (11/10/2026, desenvolvimento com `?data=real`):

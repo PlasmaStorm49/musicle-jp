@@ -1,6 +1,6 @@
 # musicle-jp
 
-Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade do Musicle. Projeto pessoal para aprender o Claude Code. No ar, com dados fictícios, em https://plasmastorm49.github.io/musicle-jp/ (M10).
+Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade do Musicle. Projeto pessoal para aprender o Claude Code. No ar em https://plasmastorm49.github.io/musicle-jp/ (M10) com a parada real do Japão (M11): o site publicado lê `web/public/data/`; o desenvolvimento e os testes usam a parada fictícia de `web/public/fixtures/`.
 
 **Projeto pessoal:** sem relação com trabalho; não usa modelos nem padrões de documentação externos.
 
