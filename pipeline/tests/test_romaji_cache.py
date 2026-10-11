@@ -11,7 +11,7 @@ from musicle_pipeline.cli import main
 from musicle_pipeline.io_json import dumps
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import needs_romaji
-from musicle_pipeline.paths import provider_paths
+from musicle_pipeline.paths import provider_paths, repo_root
 from musicle_pipeline.romaji_cache import RomajiCache, collect_texts, load_cache, save_cache
 from musicle_pipeline.validate import validate_catalog
 
@@ -113,3 +113,23 @@ def test_build_never_imports_the_romaji_library(tmp_path):
         [sys.executable, "-c", code], capture_output=True, text=True, encoding="utf-8", check=True
     )
     assert result.stdout.strip().splitlines()[-1] == "[]"
+
+
+@pytest.mark.parametrize("provider", ["fixture", "apple"])
+def test_cache_versions_match_the_pinned_libraries(provider):
+    # O robô semanal recusa um romaji.json que muda o que já existe, inclusive as versões gravadas.
+    # Trocar a versão de uma biblioteca do romaji no constraints.txt sem rodar romanize --refresh
+    # travaria o robô na segunda seguinte: este teste roda na CI (sem o extra) e acusa antes.
+    pins = {}
+    for line in (
+        (repo_root() / "pipeline" / "constraints.txt").read_text(encoding="utf-8").splitlines()
+    ):
+        name, sep, version = line.split("#")[0].strip().partition("==")
+        if sep:
+            pins[name.lower()] = version
+    cache = load_cache(provider_paths(provider).romaji)
+    assert cache.versions, "o cache não gravou as versões"
+    for name, version in cache.versions.items():
+        assert pins.get(name.lower()) == version, (
+            f"{name}: cache {version}, constraints {pins.get(name.lower())}"
+        )
