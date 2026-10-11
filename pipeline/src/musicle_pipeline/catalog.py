@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import hashlib
 from collections.abc import Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import date
 from decimal import ROUND_HALF_EVEN, Decimal, localcontext
 
@@ -256,7 +256,16 @@ def build_catalog(
             acc = tracks.get(t.provider_id)
             if acc is None:
                 acc = tracks[t.provider_id] = _TrackAcc(meta=t, isrc=t.isrc)
-            acc.meta = t  # previewUrl nulo sobrescreve: afeta a elegibilidade de propósito
+            if t.preview_url is None and acc.meta.preview_url is not None:
+                # Prévia que sumiu numa semana não apaga a conhecida: a faixa ficaria inelegível e
+                # anularia rodadas futuras já gravadas na agenda. O navegador acha a atual pelo
+                # lookup; a guardada é só a reserva.
+                t = replace(
+                    t,
+                    preview_url=acc.meta.preview_url,
+                    preview_duration_sec=acc.meta.preview_duration_sec,
+                )
+            acc.meta = t
             acc.isrc = t.isrc or acc.isrc  # isrc nulo não apaga um código já conhecido
             acc.appearances.append(_Appearance(snap.date, entry.rank, snap.size))
 

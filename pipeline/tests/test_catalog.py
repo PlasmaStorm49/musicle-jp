@@ -186,5 +186,19 @@ def test_partner_joins_a_single_but_not_a_full_album():
     ]
 
 
+def test_preview_lost_for_a_week_keeps_the_known_one():
+    # Uma semana sem prévia deixaria a faixa inelegível e anularia rodadas já gravadas.
+    week1 = make_track("t1")
+    week2 = replace(week1, preview_url=None, preview_duration_sec=None)
+    catalog = build_catalog(
+        [make_snapshot("2026-10-10", [week1]), make_snapshot("2026-10-17", [week2])],
+        "fixture",
+        "jp",
+    )
+    t = track_by_id(catalog, "t1")
+    assert t["preview"]["url"] == week1.preview_url
+    assert t["eligible"]["daily"] is True
+
+
 def test_store_url_defaults_to_null(fixture_catalog):
     assert all(t["storeUrl"] is None for t in fixture_catalog["tracks"])
