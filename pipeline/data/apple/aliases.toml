@@ -40,6 +40,7 @@ latin = "Yuuzutsu"
 
 [tracks."apple:tr:1273710101"]  # 愛を伝えたいだとか (あいみょん); cutlet: "tsutaetaida to ka"
 latin = "Ai wo tsutaetai da toka"
+aliases = ["Ai o tsutaetai da toka"]
 
 [tracks."apple:tr:6793456212"]  # 罪と罰と雨とキス (佐野勇斗&吉田仁人); nomes próprios errados
 latin = "Tsumi to batsu to ame to kisu (Sano Hayato & Yoshida Jinto)"
@@ -52,6 +53,7 @@ latin = "Kaijuu no hanauta"
 
 [tracks."apple:tr:1627629624"]  # ブルーアンビエンス (feat. asmi); cutlet colou tudo
 latin = "Buruu anbiensu (feat. asmi)"
+aliases = ["Blue Ambience"]
 
 [albums."apple:al:1869537741"]  # 爆裂愛してる / 好きすぎて滅! - EP; cutlet perdeu os espaços
 latin = "Bakuretsu aishiteru / Suki sugite metsu!"
@@ -66,3 +68,32 @@ latin = "Guttaimu"
 
 [albums."apple:al:6785411719"]
 latin = "Guttaimu"
+
+# --- Auditoria dos dados reais (11/10/2026): romaji na tela e grafias que a busca não achava ---
+
+[tracks."apple:tr:6782749979"]  # Yes! 東京; o cutlet tirou o ★ e colou: "SUPERDRAGON"
+latin = "Yes! Tokyo (feat. SUPER★DRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel)"
+
+[albums."apple:al:6782749976"]
+latin = "Yes! Tokyo (feat. SUPER★DRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel)"
+
+[tracks."apple:tr:1451567963"]  # 高嶺の花子さん (back number); cutlet: "Takane no Hanakosan"
+latin = "Takane no Hanako-san"
+
+[tracks."apple:tr:6808173143"]  # ア・ポステリオリ; "a posteriori" não achava
+aliases = ["a posteriori"]
+
+[tracks."apple:tr:6803798494"]  # 時空超えてユニバース; "universe" não achava
+aliases = ["Jikuu koete universe"]
+
+[tracks."apple:tr:1273709797"]  # 君はロックを聴かない; o "o" do Hepburn e "rock" não achavam
+aliases = ["Kimi wa rokku o kikanai", "Kimi wa rock wo kikanai"]
+
+[albums."apple:al:6803798492"]  # LOVE ENG!NE; "love engine" não achava
+aliases = ["LOVE ENGINE"]
+
+[artists."apple:ar:1356706755"]  # M!LK; "milk" não achava
+aliases = ["milk", "ミルク"]
+
+[artists."apple:ar:1273762750"]  # =LOVE; "equal love" e イコラブ não achavam
+aliases = ["Equal Love", "イコラブ"]

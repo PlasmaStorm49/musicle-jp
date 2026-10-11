@@ -6,7 +6,7 @@ import argparse
 import contextlib
 import re
 import sys
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from datetime import date
 from pathlib import Path
 
@@ -79,7 +79,10 @@ def _build(args: argparse.Namespace) -> int:
         )
     aliases = load_aliases(resolve(args.aliases) if args.aliases else paths.aliases)
     curation = Curation(romaji=romaji, aliases=aliases)
-    catalog = build_catalog(snapshots, provider.name, provider.storefront, curation)
+    notes: list[str] = []
+    catalog = build_catalog(snapshots, provider.name, provider.storefront, curation, notes)
+    for message in notes:
+        print(f"aviso: {message}", file=sys.stderr)
     problems = validate_catalog(catalog)
     if problems:
         print("catálogo inválido, nada foi gravado:", *problems, sep="\n  ", file=sys.stderr)
@@ -220,6 +223,24 @@ def _fetched_at(text: str) -> str:
     return text
 
 
+def romanize_each(
+    texts: Sequence[str], romanize: Callable[[str], tuple[str, ...]]
+) -> tuple[dict[str, tuple[str, ...]], list[str]]:
+    """Romaji de cada texto. O que a biblioteca não lê (um 々 sozinho, um alfabeto que ela não
+    conhece) fica com o próprio texto, que serve à busca e o build não usa como latino
+    (Curation.latin), e vai para a lista de avisos: corrija no aliases.toml. Um texto assim não
+    pode travar o robô semanal toda semana enquanto a faixa estiver na parada."""
+    done: dict[str, tuple[str, ...]] = {}
+    failed: list[str] = []
+    for text in texts:
+        try:
+            done[text] = romanize(text)
+        except ValueError:
+            done[text] = (text,)
+            failed.append(text)
+    return done, failed
+
+
 def _romanize(args: argparse.Namespace) -> int:
     path = resolve(args.cache) if args.cache else provider_paths(args.provider).romaji
     cache = load_cache(path)
@@ -250,7 +271,13 @@ def _romanize(args: argparse.Namespace) -> int:
     # Sem --refresh, nunca apaga. Com --refresh, refaz do zero só com os textos atuais, para
     # não misturar saídas de bibliotecas ou versões diferentes no mesmo arquivo.
     entries = {} if args.refresh else dict(cache.entries)
-    entries.update({t: romaji.romanize(t) for t in todo})
+    done, failed = romanize_each(todo, romaji.romanize)
+    entries.update(done)
+    for text in failed:
+        print(
+            f"aviso: o romaji não leu {text!r}; ficou o próprio texto (corrija no aliases.toml)",
+            file=sys.stderr,
+        )
     new = RomajiCache(
         engine=romaji.ENGINE,
         versions=romaji.versions(),

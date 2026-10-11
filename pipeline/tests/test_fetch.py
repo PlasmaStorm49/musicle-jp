@@ -49,8 +49,12 @@ def track(i: str, **over) -> dict:
 class FakeApple:
     """Responde como a Apple: RSS, lookup de faixas e de artistas. Guarda as URLs pedidas."""
 
-    def __init__(self, n: int = 60, skip: set[str] = frozenset(), **over) -> None:
+    def __init__(
+        self, n: int = 60, skip: set[str] = frozenset(), per: dict | None = None, **over
+    ) -> None:
+        # over vale para todas as faixas; per, só para a faixa de cada id.
         self.n, self.skip, self.over, self.urls = n, skip, over, []
+        self.per = per or {}
 
     def __call__(self, url: str) -> bytes:
         self.urls.append(url)
@@ -61,7 +65,9 @@ class FakeApple:
             return json.dumps(
                 {"results": [{"wrapperType": "artist", "artistId": 9, "artistName": "Aa"}]}
             ).encode()
-        results = [track(i, **self.over) for i in ids if i not in self.skip]
+        results = [
+            track(i, **{**self.over, **self.per.get(i, {})}) for i in ids if i not in self.skip
+        ]
         return json.dumps({"results": results}).encode()
 
 
@@ -115,10 +121,29 @@ def test_a_few_tracks_without_lookup_are_listed():
     assert "3" not in snap["tracks"]
 
 
-def test_unexpected_host_is_refused():
+def test_one_unexpected_host_counts_as_missing_lookup():
+    # Recusar a parada inteira por uma faixa a congelaria até alguém mudar o código.
+    apple = FakeApple(per={"3": {"previewUrl": "https://evil.example/p.m4a"}})
+    snap = fetch.fetch_snapshot(TODAY, NOW, transport=apple, sleep=no_sleep)
+    assert snap["missing"] == ["3"]
+    assert "3" not in snap["tracks"]
+
+
+def test_unexpected_host_everywhere_is_refused():
+    # A Apple trocou de host para todas: mais de 20% sem lookup, nada é gravado.
     apple = FakeApple(previewUrl="https://evil.example/p.m4a")
-    with pytest.raises(fetch.FetchError, match="host inesperado"):
+    with pytest.raises(fetch.FetchError, match="sem lookup"):
         fetch.fetch_snapshot(TODAY, NOW, transport=apple, sleep=no_sleep)
+
+
+@pytest.mark.parametrize(
+    "release", ["2026-02-30T07:00:00Z", "2026-10-01T24:00:00Z", "２０２６-10-01T07:00:00Z"]
+)
+def test_impossible_release_date_counts_as_missing_lookup(release):
+    # A regex aceitaria 30/02 e 24:00; o provedor quebraria depois, ao converter a data.
+    apple = FakeApple(per={"4": {"releaseDate": release}})
+    snap = fetch.fetch_snapshot(TODAY, NOW, transport=apple, sleep=no_sleep)
+    assert snap["missing"] == ["4"]
 
 
 def test_network_errors_are_retried_with_growing_waits():

@@ -44,6 +44,8 @@ jobs:
       changed: ${{ steps.diff.outputs.changed }}
       today: ${{ steps.today.outputs.today }}
       fetch: ${{ steps.fetch.outcome }}
+      # failure só quando a parada nova veio e ficou de fora (a reserva a descartou).
+      chart: ${{ steps.reserve.outputs.dropped == 'true' && 'failure' || 'success' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -75,33 +77,48 @@ jobs:
         run: python -m musicle_pipeline fetch --provider apple --today "$TODAY" --fetched-at "$NOW"
       - if: steps.fetch.outcome == 'failure'
         run: echo "::warning::a parada de hoje não veio da Apple; o PR traz só a agenda"
-      # Romaji só dos textos novos: sem --refresh, o que já foi revisado não muda. O extra romaji
-      # (cutlet, cerca de 250 MB, P71) só é instalado quando há texto novo; o --check não precisa
-      # dele.
-      - id: romaji
-        name: Há texto sem romaji?
-        run: |
-          if python -m musicle_pipeline romanize --provider apple --check; then
-            echo "missing=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "missing=true" >> "$GITHUB_OUTPUT"
-          fi
-      - if: steps.romaji.outputs.missing == 'true'
-        run: python -m pip install -c pipeline/constraints.txt -e "pipeline[romaji]"
-      - if: steps.romaji.outputs.missing == 'true'
-        run: python -m musicle_pipeline romanize --provider apple
-      - run: python -m musicle_pipeline romanize --provider apple --check
-      # Os avisos (resposta futura que deixou de ser elegível, faixa que mudou de álbum, buraco)
-      # vão para o corpo do PR: o tee guarda a saída, e o pipefail mantém a falha do comando.
-      - name: Refazer o catálogo real
-        run: |
-          set -o pipefail
-          python -m musicle_pipeline build --provider apple --out "$CATALOG" 2>&1 | tee -a "$RUNNER_TEMP/pipeline.log"
-      - name: Acrescentar os dias (parada real)
+      # A parada nova passa pelo pipeline inteiro neste passo. Se algo quebrar com ela (um texto
+      # que o cutlet não lê, um dado estranho da Apple, distratores que não fecham), o robô não
+      # pode travar a agenda toda semana enquanto a faixa estiver na parada: o passo seguinte
+      # descarta a parada nova e segue só com os dias novos, com aviso no PR.
+      # O tee guarda os avisos (resposta futura inelegível, faixa que mudou de álbum, buraco) para
+      # o corpo do PR, e o pipefail mantém a falha do comando.
+      - id: chart
+        name: "Parada nova: romaji, catálogo e agenda"
+        continue-on-error: true
         env:
           TODAY: ${{ steps.today.outputs.today }}
         run: |
           set -o pipefail
+          log="$RUNNER_TEMP/pipeline.log"
+          # Romaji só dos textos novos (sem --refresh, o revisado não muda). O extra romaji
+          # (cutlet, cerca de 250 MB, P71) só é instalado quando há texto novo.
+          if ! python -m musicle_pipeline romanize --provider apple --check; then
+            python -m pip install -c pipeline/constraints.txt -e "pipeline[romaji]"
+            python -m musicle_pipeline romanize --provider apple 2>&1 | tee -a "$log"
+            python -m musicle_pipeline romanize --provider apple --check
+          fi
+          python -m musicle_pipeline build --provider apple --out "$CATALOG" 2>&1 | tee -a "$log"
+          python -m musicle_pipeline schedule --catalog "$CATALOG" --out "$SCHEDULE" --today "$TODAY" 2>&1 | tee -a "$log"
+          python -m musicle_pipeline validate "$CATALOG" --schedule "$SCHEDULE"
+      - id: reserve
+        if: steps.chart.outcome == 'failure'
+        name: "Reserva: sem a parada nova, só a agenda"
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: |
+          set -o pipefail
+          git checkout -- "$ROMAJI" "$CATALOG" "$SCHEDULE"
+          snapshot="$SNAPSHOTS/$TODAY.json"
+          # Só o snapshot novo (fora do Git) sai; um que já está na main fica.
+          if [ -f "$snapshot" ] && ! git ls-files --error-unmatch -- "$snapshot" > /dev/null 2>&1; then
+            rm -- "$snapshot"
+            echo "dropped=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::a parada de hoje quebrou o pipeline (veja o passo anterior); o PR traz só a agenda"
+          else
+            echo "::warning::o pipeline quebrou sem parada nova (veja o passo anterior; erro no código?); o PR traz só a agenda"
+          fi
+          : > "$RUNNER_TEMP/pipeline.log" # os avisos da tentativa não valem mais
           python -m musicle_pipeline schedule --catalog "$CATALOG" --out "$SCHEDULE" --today "$TODAY" 2>&1 | tee -a "$RUNNER_TEMP/pipeline.log"
       # A parada fictícia é estática e só serve ao desenvolvimento e aos testes; a agenda dela
       # cresce junto, para o npm run dev continuar com o desafio de hoje.
@@ -181,6 +198,7 @@ jobs:
         env:
           TODAY: ${{ needs.catalog-generate.outputs.today }}
           FETCH: ${{ needs.catalog-generate.outputs.fetch }}
+          CHART: ${{ needs.catalog-generate.outputs.chart }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         # Só jq e coreutils, num script da main com teste (pipeline/tests/test_catalog_pr_script.py).
         run: bash .github/scripts/check-catalog-pr.sh
@@ -262,3 +280,29 @@ jobs:
             while read -r old; do
               gh pr close "$old" --delete-branch --comment "Substituído por $url, gerado de novo a partir da main de hoje."
             done
+
+  catalog-runway:
+    # Folga da agenda. Se o PR semanal ficar sem merge, a agenda acaba e o dia vira buraco para
+    # sempre (P44); o aviso do deploy só sai quando há deploy. Esta tarefa fica vermelha (e o
+    # GitHub manda e-mail) quando a agenda da main tem menos de 10 dias à frente: numa semana
+    # normal ela tem 14 antes do merge de segunda; com uma semana sem merge, 7. Roda mesmo se as
+    # outras falharem (é quando mais importa), depois delas, e calcula a própria data.
+    needs: [catalog-generate, catalog-pr]
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: A agenda da main tem folga?
+        run: |
+          today="$(TZ=America/Sao_Paulo date +%F)"
+          ahead="$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' "$SCHEDULE")"
+          echo "Agenda da main: $ahead dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
+          if [ "$ahead" -lt 10 ]; then
+            echo "::error::a agenda da main só tem $ahead dia(s) à frente: faça hoje o merge do PR semanal (catalogo/...)"
+            exit 1
+          fi
