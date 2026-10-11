@@ -5,6 +5,7 @@ import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
+import { practiceSummary } from "../core/home.ts";
 import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
 import { appleResolver, catalogResolver, type PreviewResolver } from "../data/previews.ts";
@@ -32,6 +33,7 @@ import {
   updateSave,
 } from "../storage/save.ts";
 import { Game } from "./Game.tsx";
+import { Home } from "./Home.tsx";
 import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
 
 type Load =
@@ -189,7 +191,12 @@ export function App() {
     <>
       <nav class="tabs" aria-label={t("nav.label")}>
         <ul>
-          {/* Uma aba por link (#musica, #album, #treino), com aria-current na ativa. */}
+          {/* Uma aba por link (#inicio, #musica, #album, #treino), com aria-current na ativa. */}
+          <li>
+            <a href={ROUTES.home} aria-current={tab === "home" ? "page" : undefined}>
+              {t("nav.home")}
+            </a>
+          </li>
           {(["song", "album"] as const).map((daily) => (
             <li key={daily}>
               <a href={ROUTES[daily]} aria-current={tab === daily ? "page" : undefined}>
@@ -286,42 +293,51 @@ function Ready({
   onPractice,
 }: ReadyProps) {
   const day = pickDay(data.schedule, date);
-  if (tab === "song" || tab === "album") {
-    if (!day) return <Unavailable />;
-    return (
-      // key: cada diário monta do zero ao trocar de aba, com o save daquele momento.
-      <Game
-        key={tab}
-        target={tab}
-        day={day}
-        date={date}
-        index={data.index}
-        engine={engine}
-        resolver={resolver}
-        resolveUrl={resolveUrl}
-        announce={announce}
-        store={saves.store}
-        initialSave={latest}
-        onSaved={onSaved}
-        scheduleDates={Object.keys(data.schedule.days)}
-        shareUrl={BASE_URL}
-      />
-    );
+  // Uma tela por aba, sem caso esquecido: uma aba nova sem tela vira erro de compilação.
+  switch (tab) {
+    case "home":
+      // Antes da agenda: sem o dia de hoje, a home avisa no cartão e o Treino continua.
+      return <Home day={day} date={date} save={latest} practice={practiceSummary(practice)} />;
+    case "song":
+    case "album":
+      if (!day) return <Unavailable />;
+      return (
+        // key: cada diário monta do zero ao trocar de aba, com o save daquele momento.
+        <Game
+          key={tab}
+          target={tab}
+          day={day}
+          date={date}
+          index={data.index}
+          engine={engine}
+          resolver={resolver}
+          resolveUrl={resolveUrl}
+          announce={announce}
+          store={saves.store}
+          initialSave={latest}
+          onSaved={onSaved}
+          scheduleDates={Object.keys(data.schedule.days)}
+          shareUrl={BASE_URL}
+        />
+      );
+    case "practice":
+      return (
+        <Practice
+          index={data.index}
+          day={day}
+          date={date}
+          save={latest}
+          engine={engine}
+          resolver={resolver}
+          resolveUrl={resolveUrl}
+          announce={announce}
+          session={practice}
+          onSession={onPractice}
+        />
+      );
+    default:
+      return tab satisfies never;
   }
-  return (
-    <Practice
-      index={data.index}
-      day={day}
-      date={date}
-      save={latest}
-      engine={engine}
-      resolver={resolver}
-      resolveUrl={resolveUrl}
-      announce={announce}
-      session={practice}
-      onSession={onPractice}
-    />
-  );
 }
 
 /** Dia sem desafio na agenda: o Treino continua (PLANO, Apêndice C). */

@@ -37,11 +37,17 @@ test("Diário Música no 4 opções: do seletor de modo ao compartilhar", async 
   await expect(page.getByText("11 de 18 pontos")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toBe(
-    "musicle-jp · Diário Música nº 1 · 4 opções\n11/18\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
+    "AteMusic · Diário Música nº 1 · 4 opções\n11/18\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
   );
   // O ✓ é aria-hidden; o texto para leitor de tela vem num span à parte, e o navegador junta os
   // dois com um espaço: "Música (terminado)".
   await expect(page.getByRole("link", { name: "Música (terminado)" })).toBeVisible();
+
+  // A home mostra o dia terminado, com os pontos.
+  await page.getByRole("link", { name: "Início" }).click();
+  await expect(page.getByRole("link", { name: /^Diário Música/ })).toContainText(
+    "nº 1 · terminado, 11 de 18 pontos",
+  );
 });
 
 test("recarregar no meio retoma o modo e as tentativas", async ({ page }) => {

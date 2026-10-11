@@ -12,6 +12,7 @@ import type { CatalogIndex } from "../core/catalog.ts";
 import {
   drawPractice,
   nextPracticeRound,
+  type PracticeScore,
   type PracticeSession,
   pendingDailySongKeys,
   practiceScore,
@@ -131,12 +132,7 @@ export function Practice({
       <header>
         <h1>{t("practice.title")}</h1>
         {game && <p>{t("practice.round", { number: current.number })}</p>}
-        <p class="practice-score">
-          {t("practice.score", {
-            points: tn("count.points", score.points),
-            rounds: tn("practice.rounds", score.rounds),
-          })}
-        </p>
+        <p class="practice-score">{practiceScoreText(score)}</p>
       </header>
       <Filters
         target={current.target}
@@ -162,6 +158,14 @@ export function Practice({
       )}
     </div>
   );
+}
+
+/** "11 pontos em 3 rodadas": o placar da sessão, no cabeçalho do Treino e no cartão da home. */
+export function practiceScoreText(score: PracticeScore): string {
+  return t("practice.score", {
+    points: tn("count.points", score.points),
+    rounds: tn("practice.rounds", score.rounds),
+  });
 }
 
 type Choice<T> = { readonly value: T; readonly label: MessageKey };
