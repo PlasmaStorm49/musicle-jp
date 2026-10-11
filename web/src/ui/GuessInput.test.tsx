@@ -14,6 +14,7 @@ const item = (id: string, title: string): ItemView => ({
   artist: "Artista",
   artworkUrl: null,
   lang: undefined,
+  artistLang: undefined,
 });
 
 const SUGGESTIONS: Suggestion[] = [

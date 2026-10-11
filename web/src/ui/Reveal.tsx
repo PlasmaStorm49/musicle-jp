@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
@@ -24,6 +24,8 @@ type Props = {
   /** Texto do botão de seguir: "Próxima rodada" ou "Ver resultado" (diário). */
   readonly nextLabel: string;
   readonly onNext: () => void;
+  /** Mensagem para a região aria-live (a prévia inteira que não tocou). */
+  readonly announce: (message: string) => void;
 };
 
 /** Depois do palpite: certo e errado (cor e texto), cartão da faixa e a prévia inteira (P34). */
@@ -37,6 +39,7 @@ export function Reveal({
   resolveUrl,
   nextLabel,
   onNext,
+  announce,
 }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   const won = round.status === "won";
@@ -48,7 +51,51 @@ export function Reveal({
 
   // O foco vai para o resultado: quem usa teclado ou leitor de tela sabe o que aconteceu.
   useEffect(() => heading.current?.focus(), []);
-  useEffect(() => () => engine.stop(), [engine]);
+  const alive = useRef(true);
+  useEffect(
+    () => () => {
+      alive.current = false;
+      engine.stop();
+    },
+    [engine],
+  );
+
+  // A prévia inteira (P34) num botão só, que alterna Ouvir e Parar, como o Tocar do Player: a
+  // ficha impede que o fim de uma reprodução parada mexa na seguinte.
+  const [full, setFull] = useState<"idle" | "loading" | "playing" | "failed">("idle");
+  const fullId = useRef(0);
+  function toggleFull() {
+    const preview = track?.preview;
+    if (!preview || !url) return;
+    const id = ++fullId.current;
+    if (full === "loading" || full === "playing") {
+      engine.stop();
+      setFull("idle");
+      return;
+    }
+    const current = () => alive.current && fullId.current === id;
+    setFull("loading");
+    engine
+      .play(url, preview.startSec, preview.durationSec)
+      .then((playback) => {
+        if (!current()) return;
+        if (!playback) {
+          setFull("idle");
+          return;
+        }
+        setFull("playing");
+        return playback.done.then(() => {
+          if (current()) setFull("idle");
+        });
+      })
+      .catch(() => {
+        if (!current()) return;
+        // A rodada já acabou: não há o que anular. Antes a falha era engolida e o clique não
+        // fazia nada (no iPhone, um som barrado fora do gesto).
+        setFull("failed");
+        announce(t("reveal.listenFailed"));
+      });
+  }
 
   return (
     <section class="reveal" aria-labelledby="result">
@@ -85,21 +132,20 @@ export function Reveal({
           )}
           <div>
             <ItemLabel item={track} />
-            <p class="album">{t("reveal.album", { album: track.albumTitle })}</p>
+            <p class="album">
+              {t("reveal.albumLabel")} <span lang={track.albumLang}>{track.albumTitle}</span>
+            </p>
             {track.explicit && <p class="badge explicit">{t("player.explicit")}</p>}
             {track.preview && url && (
-              <button
-                type="button"
-                onClick={() => {
-                  const preview = track.preview;
-                  if (preview) {
-                    void engine.play(url, preview.startSec, preview.durationSec).catch(() => {});
-                  }
-                }}
-              >
-                {t("reveal.listenFull")}
+              <button type="button" onClick={toggleFull}>
+                {full === "playing"
+                  ? t("player.stop")
+                  : full === "loading"
+                    ? t("player.loading")
+                    : t("reveal.listenFull")}
               </button>
             )}
+            {full === "failed" && <p class="hint">{t("reveal.listenFailed")}</p>}
           </div>
         </article>
       )}

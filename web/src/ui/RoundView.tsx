@@ -163,6 +163,7 @@ export function RoundView({
           resolveUrl={resolveUrl}
           nextLabel={nextLabel}
           onNext={onNext}
+          announce={announce}
         />
       )}
     </>
