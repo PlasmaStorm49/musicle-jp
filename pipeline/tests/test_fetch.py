@@ -97,6 +97,12 @@ def test_too_few_items_is_refused():
         fetch.fetch_snapshot(TODAY, NOW, transport=FakeApple(n=10), sleep=no_sleep)
 
 
+def test_too_many_items_is_refused():
+    # O robô semanal recusaria a parada no PR (mais de 100) e travaria a agenda: recusa aqui.
+    with pytest.raises(fetch.FetchError, match="o máximo é 100"):
+        fetch.fetch_snapshot(TODAY, NOW, transport=FakeApple(n=101), sleep=no_sleep)
+
+
 def test_too_many_tracks_without_lookup_is_refused():
     skip = {str(i) for i in range(20)}  # 20 de 60 = 33%
     with pytest.raises(fetch.FetchError, match="sem lookup"):
@@ -208,13 +214,16 @@ def test_other_commands_never_import_the_network_module(tmp_path):
     assert result.stdout.strip().splitlines()[-1] == "False"
 
 
-def test_more_than_200_ids_are_split_in_batches():
-    apple = FakeApple(n=250)
+def test_ids_beyond_the_batch_size_are_split(monkeypatch):
+    # A parada tem no máximo 100 itens (MAX_ITEMS) e o lote é de 200: com o lote menor, o corte
+    # em lotes continua testado.
+    monkeypatch.setattr(fetch, "LOOKUP_BATCH", 40)
+    apple = FakeApple(n=60)
     snap = fetch.fetch_snapshot(TODAY, NOW, transport=apple, sleep=no_sleep)
     track_lookups = [u for u in apple.urls if u.startswith(fetch.LOOKUP_URL) and "%2C" in u]
     sizes = [len(parse_qs(urlsplit(u).query)["id"][0].split(",")) for u in track_lookups]
-    assert sizes == [200, 50]
-    assert len(snap["tracks"]) == 250
+    assert sizes[:2] == [40, 20]
+    assert len(snap["tracks"]) == 60
 
 
 def test_timeout_is_retried():

@@ -32,6 +32,9 @@ TIMEOUT_SEC = 30
 MAX_BYTES = 5 * 1024 * 1024
 LOOKUP_BATCH = 200  # o lookup aceitou 200 ids numa chamada (pesquisa de 10/10/2026)
 MIN_ITEMS = 50  # parada com menos itens que isto é resposta quebrada
+# O endereço pede 100. Mais que isso é resposta estranha, e o robô semanal também recusaria (a
+# conferência com jq do PR): recusar aqui leva ao caminho "PR só com a agenda", que não trava.
+MAX_ITEMS = 100
 MAX_MISSING = 0.2  # mais que 20% sem lookup: algo mudou na Apple; nada é gravado
 
 # Campos guardados do lookup (o resto da resposta é jogado fora).
@@ -176,6 +179,8 @@ def fetch_snapshot(
     items = feed.get("feed", {}).get("results") if isinstance(feed, dict) else None
     if not isinstance(items, list) or len(items) < MIN_ITEMS:
         raise FetchError(f"RSS com forma inesperada ou menos de {MIN_ITEMS} itens")
+    if len(items) > MAX_ITEMS:
+        raise FetchError(f"RSS com {len(items)} itens; o máximo é {MAX_ITEMS}")
     rss = []
     for item in items:
         if (
