@@ -524,7 +524,7 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
 - **Estatísticas:** função pura sobre o histórico, por alvo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Dia que faltou** (Action ou merge parados por mais de 21 dias): desde a P44, no M10, ele vira buraco e não quebra a sequência. Risco residual: dias gerados durante uma parada e publicados só no merge entram na agenda sem que ninguém os tenha podido jogar.
 - **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no modo 4 opções, um ⬛ por "ouvir mais" e depois ✅ ou ❌. Exemplo:
   ```
-  musicle-jp · Diário Música nº 1 · 4 opções
+  AteMusic · Diário Música nº 1 · 4 opções
   11/18
   ✅
   ❌
