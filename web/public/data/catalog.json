@@ -2108,7 +2108,7 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a5/42/4b/a5424b45-7eca-05af-0e20-e93539e193dd/ANTCD-A0000020458.jpg/300x300bb.jpg",
       "id": "apple:al:6785411719",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2026-07-06",
       "search": [
         "godchime",
@@ -2128,7 +2128,7 @@
         "apple:al:1733129984"
       ],
       "title": "グッタイム - Single",
-      "titleLatin": "Gut taimu",
+      "titleLatin": "Guttaimu",
       "type": "single"
     },
     {
@@ -2862,7 +2862,7 @@
       ]
     }
   ],
-  "catalogVersion": "2026-10-11.2ee56e2f",
+  "catalogVersion": "2026-10-11.92543ea3",
   "generatedAt": "2026-10-11T17:01:50Z",
   "provider": "apple",
   "schemaVersion": 1,
@@ -7264,7 +7264,7 @@
       "explicit": false,
       "id": "apple:tr:6785411720",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.02,
       "preview": {
         "durationSec": 30,
@@ -7297,7 +7297,7 @@
       "songKey": "ぐったいむ|apple:ar:1772019148",
       "storeUrl": "https://music.apple.com/jp/album/%E3%82%B0%E3%83%83%E3%82%BF%E3%82%A4%E3%83%A0/6785411719?i=6785411720",
       "title": "グッタイム",
-      "titleLatin": "Gut taimu"
+      "titleLatin": "Guttaimu"
     },
     {
       "albumId": "apple:al:6785734869",

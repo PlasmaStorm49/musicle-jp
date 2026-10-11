@@ -58,3 +58,11 @@ latin = "Bakuretsu aishiteru / Suki sugite metsu!"
 
 [artists."apple:ar:530814268"]  # 米津玄師: o latino da Apple é "Kenshi Yonezu"; busca na ordem japonesa
 aliases = ["yonezu kenshi"]
+
+# --- Revisão da parada de 11/10/2026 (1º PR do robô) ---
+
+[tracks."apple:tr:6785411720"]  # グッタイム (Snow Man); cutlet: "Gut taimu" (separou o っ)
+latin = "Guttaimu"
+
+[albums."apple:al:6785411719"]
+latin = "Guttaimu"
