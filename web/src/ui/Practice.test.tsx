@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { AudioEngine } from "../audio/engine.ts";
 import { indexCatalog } from "../core/catalog.ts";
 import type { PracticeSession } from "../core/practice.ts";
-import { emptySave, type SaveV1 } from "../core/records.ts";
+import { emptySave, type Save } from "../core/records.ts";
 import type { Album, Artist, Catalog, Day, Track } from "../core/types.ts";
 import { catalogResolver } from "../data/previews.ts";
 import { Practice } from "./Practice.tsx";
@@ -88,7 +88,7 @@ const fullDay: Day = {
   song: [round("t:tr:1", songs), round("t:tr:2", songs), round("t:tr:3", songs)],
   album: [round("t:tr:4", albums), round("t:tr:1", albums), round("t:tr:2", albums)],
 };
-const finishedBoth: SaveV1 = {
+const finishedBoth: Save = {
   ...emptySave(),
   history: {
     [`${DATE}|song`]: { answerMode: "choice", number: 1, rounds: [] },
@@ -96,9 +96,9 @@ const finishedBoth: SaveV1 = {
   },
 };
 
-type HarnessProps = { readonly save: SaveV1; readonly day: Day | null; readonly show: boolean };
+type HarnessProps = { readonly save: Save; readonly day: Day | null; readonly show: boolean };
 
-function setup(save: SaveV1 = emptySave(), day: Day | null = null) {
+function setup(save: Save = emptySave(), day: Day | null = null) {
   const engine: AudioEngine = {
     unlock: vi.fn(),
     preload: vi.fn(),

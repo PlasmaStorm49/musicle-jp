@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { emptySave, type FinishedGame, type SaveV1 } from "../core/records.ts";
+import { emptySave, type FinishedGame, type Save } from "../core/records.ts";
+import { SAVE_SCHEMA_VERSION } from "./migrations.ts";
 import {
   CORRUPT_KEY,
   type KeyValueStore,
@@ -21,8 +22,8 @@ const finished: FinishedGame = {
   ],
 };
 
-const valid: SaveV1 = {
-  schemaVersion: 1,
+const valid: Save = {
+  schemaVersion: 2,
   settings: {},
   history: { "2026-10-08|song": finished },
   inProgress: {
@@ -77,7 +78,7 @@ describe("loadSave", () => {
   });
 
   it.each([
-    ["inProgress ausente", { schemaVersion: 1, settings: {}, history: valid.history }],
+    ["inProgress ausente", { schemaVersion: 2, settings: {}, history: valid.history }],
     ["inProgress como lista", { ...valid, inProgress: [] }],
   ])("mapa inválido (%s) vira vazio sem apagar o histórico", (_, data) => {
     const store = withRaw(JSON.stringify(data));
@@ -166,8 +167,31 @@ describe("loadSave", () => {
     expect(store.getItem(CORRUPT_KEY)).toBe("lixo 1");
   });
 
+  it("save v1 (parada fictícia) vira v2 só com a preferência, sem aviso nem cópia (P68)", () => {
+    // Um save v1 de verdade, como o site publicado gravava antes do M11.
+    const v1 = {
+      schemaVersion: 1,
+      settings: { answerMode: "typing" },
+      history: { "2026-10-11|song": finished },
+      inProgress: { "2026-10-12|album": { answerMode: "choice", events: [{ type: "SKIP" }] } },
+    };
+    const store = withRaw(JSON.stringify(v1));
+    expect(loadSave(store)).toEqual({
+      save: { schemaVersion: 2, settings: { answerMode: "typing" }, history: {}, inProgress: {} },
+      writable: true,
+      notice: null,
+    });
+    expect(store.getItem(CORRUPT_KEY)).toBeNull();
+    // A 1ª gravação do jogo novo já sai em v2.
+    expect(updateSave(store, (s) => ({ ...s, history: valid.history }))).toBe("saved");
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
+      schemaVersion: 2,
+      history: valid.history,
+    });
+  });
+
   it("versão futura: não lê e não grava por cima", () => {
-    const raw = JSON.stringify({ ...valid, schemaVersion: 2 });
+    const raw = JSON.stringify({ ...valid, schemaVersion: SAVE_SCHEMA_VERSION + 1 });
     const store = withRaw(raw);
     expect(loadSave(store)).toMatchObject({ writable: false, notice: "future" });
     expect(updateSave(store, () => valid)).toBe("future");
@@ -263,7 +287,7 @@ describe("sessionStore (o save da sessão, mesmo quando o navegador não grava)"
   });
 
   it("não gravável (versão futura): a sessão grava em memória, sem tocar no navegador", () => {
-    const raw = JSON.stringify({ ...valid, schemaVersion: 2 });
+    const raw = JSON.stringify({ ...valid, schemaVersion: SAVE_SCHEMA_VERSION + 1 });
     const real = withRaw(raw);
     const loaded = loadSave(real);
     const store = sessionStore(real, loaded);

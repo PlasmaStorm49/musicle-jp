@@ -13,6 +13,22 @@ describe("migrate", () => {
     }
   });
 
+  it("v1 → v2 guarda só a preferência (P68)", () => {
+    const v1 = {
+      schemaVersion: 1,
+      settings: { answerMode: "typing" },
+      history: { x: 1 },
+      inProgress: { y: 2 },
+    };
+    expect(migrate(v1, 1)).toEqual({
+      schemaVersion: 2,
+      settings: { answerMode: "typing" },
+      history: {},
+      inProgress: {},
+    });
+    expect(migrate({ schemaVersion: 1 }, 1)).toMatchObject({ settings: {} });
+  });
+
   it("versão sem migração conhecida dá erro", () => {
     expect(() => migrate({}, 0)).toThrow(/migração/);
   });

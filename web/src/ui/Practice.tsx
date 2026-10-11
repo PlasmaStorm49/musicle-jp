@@ -17,7 +17,7 @@ import {
   practiceScore,
   startPracticeSession,
 } from "../core/practice.ts";
-import type { SaveV1 } from "../core/records.ts";
+import type { Save } from "../core/records.ts";
 import { currentRound, type GameEvent, reduce } from "../core/reducer.ts";
 import type { AnswerMode, Day, Target } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
@@ -37,7 +37,7 @@ type Props = {
   readonly day: Day | null;
   readonly date: string;
   /** A última leitura do save, feita pelo App. O Treino não grava nada (P50). */
-  readonly save: SaveV1;
+  readonly save: Save;
   readonly engine: AudioEngine;
   readonly resolver: PreviewResolver;
   readonly resolveUrl: (url: string) => string;

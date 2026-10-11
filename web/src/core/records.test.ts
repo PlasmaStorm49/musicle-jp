@@ -10,7 +10,7 @@ import {
   recordMax,
   recordScore,
   replaceProgress,
-  type SaveV1,
+  type Save,
   startSession,
   toFinishedGame,
   withFinished,
@@ -25,8 +25,8 @@ const DATE = "2026-10-08";
 const day = schedule.days[DATE] as Day;
 const ID = puzzleId(DATE, "song");
 
-const session = (save: SaveV1) => startSession(save, day, DATE, "song", "choice", index);
-const saveWith = (events: GameEvent[]): SaveV1 => ({
+const session = (save: Save) => startSession(save, day, DATE, "song", "choice", index);
+const saveWith = (events: GameEvent[]): Save => ({
   ...emptySave(),
   inProgress: { [ID]: { answerMode: "choice", events } },
 });
@@ -72,7 +72,7 @@ describe("startSession", () => {
   });
 
   it("andamento de outro dia não é retomado", () => {
-    const other: SaveV1 = {
+    const other: Save = {
       ...emptySave(),
       inProgress: { "2026-10-07|song": { answerMode: "choice", events: [{ type: "GIVE_UP" }] } },
     };
@@ -219,7 +219,7 @@ describe("mescla de saves (duas abas)", () => {
   });
 
   it("pruneProgress tira andamentos de outros dias", () => {
-    const save: SaveV1 = {
+    const save: Save = {
       ...emptySave(),
       inProgress: {
         [ID]: { answerMode: "choice", events: [] },

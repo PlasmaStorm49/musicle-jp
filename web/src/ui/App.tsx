@@ -5,7 +5,7 @@ import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
-import { emptySave, pruneProgress, puzzleId, type SaveV1 } from "../core/records.ts";
+import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
 import { appleResolver, catalogResolver, type PreviewResolver } from "../data/previews.ts";
 import {
@@ -60,7 +60,7 @@ type Storage = {
    * para cada aba de diário reler o próprio andamento mesmo com o navegador sem gravar.
    */
   readonly store: KeyValueStore;
-  readonly save: SaveV1;
+  readonly save: Save;
   readonly notice: string | null;
 };
 
@@ -263,7 +263,7 @@ type ReadyProps = {
   readonly announce: (message: string) => void;
   readonly saves: Storage;
   /** A última leitura do save. */
-  readonly latest: SaveV1;
+  readonly latest: Save;
   readonly onSaved: () => void;
   /** A sessão do Treino, guardada no App. */
   readonly practice: PracticeSession | null;

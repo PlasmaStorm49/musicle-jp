@@ -6,7 +6,7 @@ import {
   lockedMode,
   puzzleId,
   replaceProgress,
-  type SaveV1,
+  type Save,
   startSession,
   toFinishedGame,
   withFinished,
@@ -38,7 +38,7 @@ type Props = {
   /** Onde o progresso é salvo; null = não salva nesta sessão. */
   readonly store: KeyValueStore | null;
   /** O save lido quando esta aba abriu (o App relê a cada troca de aba). Só vale na montagem. */
-  readonly initialSave: SaveV1;
+  readonly initialSave: Save;
   /** Avisa o App que o dia terminou e foi gravado (✓ da aba, exclusão do Treino). */
   readonly onSaved: () => void;
   /** Dias que existem na agenda (a sequência só conta estes, P40). */
