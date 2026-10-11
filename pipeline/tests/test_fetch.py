@@ -136,9 +136,12 @@ def test_unexpected_host_everywhere_is_refused():
         fetch.fetch_snapshot(TODAY, NOW, transport=apple, sleep=no_sleep)
 
 
-def test_impossible_release_date_counts_as_missing_lookup():
-    # A regex aceitaria 30/02; o provedor quebraria depois, ao converter a data.
-    apple = FakeApple(per={"4": {"releaseDate": "2026-02-30T07:00:00Z"}})
+@pytest.mark.parametrize(
+    "release", ["2026-02-30T07:00:00Z", "2026-10-01T24:00:00Z", "２０２６-10-01T07:00:00Z"]
+)
+def test_impossible_release_date_counts_as_missing_lookup(release):
+    # A regex aceitaria 30/02 e 24:00; o provedor quebraria depois, ao converter a data.
+    apple = FakeApple(per={"4": {"releaseDate": release}})
     snap = fetch.fetch_snapshot(TODAY, NOW, transport=apple, sleep=no_sleep)
     assert snap["missing"] == ["4"]
 

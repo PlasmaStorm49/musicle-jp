@@ -21,7 +21,7 @@ from urllib.parse import urlencode
 
 from musicle_pipeline.io_json import loads
 from musicle_pipeline.models import JSON
-from musicle_pipeline.providers.apple import CHART, STOREFRONT, is_apple_url
+from musicle_pipeline.providers.apple import CHART, STOREFRONT, is_apple_url, japan_date
 
 RSS_URL = (
     "https://rss.marketingtools.apple.com/api/v2/{storefront}/music/most-played/100/songs.json"
@@ -56,7 +56,7 @@ OPTIONAL = (
     "trackViewUrl",
 )
 # URL guardada → tipo de host aceito (fonte única em providers/apple.py, a mesma que o
-# validate usa no catálogo). Qualquer outro host recusa o snapshot inteiro.
+# validate usa no catálogo). A faixa com outro host conta como sem lookup (_hosts_ok).
 URL_KINDS = {"previewUrl": "preview", "artworkUrl100": "artwork", "trackViewUrl": "store"}
 
 Transport = Callable[[str], bytes]
@@ -119,15 +119,17 @@ def _hosts_ok(track: JSON) -> bool:
 
 
 def _real_date(text: str) -> bool:
-    """A regex aceita 2026-02-30; a data tem de existir (o provedor a converte depois)."""
+    """A regex aceita 2026-02-30 e 25:00; a data tem de passar pela mesma conversão que o
+    provedor faz depois (japan_date), senão o snapshot gravado quebraria o build."""
     try:
-        date.fromisoformat(text[:10])
+        japan_date(text)
     except ValueError:
         return False
     return True
 
 
-_ISO_INSTANT = re.compile(r"\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}Z)?")
+# [0-9], e não \d: no Python, \d também casa dígitos de outras escritas ("١").
+_ISO_INSTANT = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}:[0-9]{2}Z)?")
 _TEXT = ("trackName", "artistName", "collectionName")
 
 
@@ -137,7 +139,7 @@ def _valid(result: JSON) -> bool:
     if any(result.get(k) in (None, "") for k in REQUIRED):
         return False
     ids_ok = all(
-        re.fullmatch(r"\d+", str(result[k])) for k in ("trackId", "artistId", "collectionId")
+        re.fullmatch(r"[0-9]+", str(result[k])) for k in ("trackId", "artistId", "collectionId")
     )
     texts_ok = all(isinstance(result[k], str) and result[k].strip() for k in _TEXT)
     millis = result["trackTimeMillis"]

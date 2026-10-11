@@ -152,6 +152,76 @@ def test_partner_in_the_title_and_unknown_partners(tmp_path):
     assert _artists("1", tmp_path, tracks, artists) == ["64", "252"]
 
 
+def test_partner_only_in_the_title_keeps_the_store_spelling(tmp_path):
+    # Sem a grafia da loja, o catálogo juntaria os nomes: "YAO & ONE OK ROCK", que a loja não usa.
+    tracks = [
+        lookup("1", artistId="64", artistName="YAO", trackName="777 (feat. ONE OK ROCK)"),
+        lookup("2", artistId="252", artistName="ONE OK ROCK"),
+    ]
+    write_snapshot(
+        tmp_path,
+        "2026-10-10",
+        tracks,
+        artists={"64": {"artistName": "YAO"}, "252": {"artistName": "ONE OK ROCK"}},
+    )
+    snap = AppleProvider(tmp_path).snapshots()[0]
+    assert snap.entries[0].track.artist_display == "YAO"
+    assert snap.entries[1].track.artist_display is None  # solo: nada a guardar
+
+
+@pytest.mark.parametrize(
+    ("credit", "title"),
+    [
+        ("アーティスト & Love", "曲1"),  # "=LOVE" na chave frouxa viraria "love"
+        ("アーティスト", "曲1 (with =LOVE)"),  # "(with …)" é letra mais vezes que crédito
+        ("アーティスト & A", "曲1"),  # chave de 1 caractere casaria por acaso
+    ],
+)
+def test_partner_needs_a_strict_match(tmp_path, credit, title):
+    tracks = [
+        lookup("1", artistName=credit, trackName=title),
+        lookup("2", artistId="127", artistName="=LOVE"),
+        lookup("3", artistId="8", artistName="A"),
+    ]
+    artists = {"900": {"artistName": "アーティスト"}, "127": {"artistName": "=LOVE"}}
+    assert _artists("1", tmp_path, tracks, artists) == ["900"]
+
+
+def test_partner_shared_by_two_artists_is_left_out_with_a_warning(tmp_path):
+    tracks = [
+        lookup("1", artistName="アーティスト & ミク"),
+        lookup("2", artistId="11", artistName="ミク"),
+        lookup("3", artistId="12", artistName="ミク"),
+    ]
+    write_snapshot(tmp_path, "2026-10-10", tracks, artists={})
+    provider = AppleProvider(tmp_path)
+    first = provider.snapshots()[0].entries[0].track
+    assert [a.provider_id for a in first.artists] == ["900"]
+    assert provider.warnings == ["parceiro 'ミク' é nome de mais de um artista: ficou sem ligação"]
+
+
+def test_partner_known_only_from_a_later_snapshot_links_the_earlier_days(tmp_path):
+    # Duas passadas: o resultado não depende da ordem em que cada artista apareceu. O parceiro
+    # vale pelo registro mais novo (o latino de 17/10), o mesmo que fica no catálogo.
+    write_snapshot(
+        tmp_path,
+        "2026-10-10",
+        [lookup("1", artistId="530", artistName="米津玄師 & 宇多田ヒカル")],
+        artists={"530": {"artistName": "Kenshi Yonezu"}},
+    )
+    write_snapshot(
+        tmp_path,
+        "2026-10-17",
+        [lookup("2", artistId="187", artistName="宇多田ヒカル")],
+        artists={"187": {"artistName": "Hikaru Utada"}},
+    )
+    first = AppleProvider(tmp_path).snapshots()[0].entries[0].track
+    assert [(a.provider_id, a.name_latin) for a in first.artists] == [
+        ("530", "Kenshi Yonezu"),
+        ("187", "Hikaru Utada"),
+    ]
+
+
 def test_partner_matches_by_latin_name_and_from_an_earlier_snapshot(tmp_path):
     # O parceiro aparece pelo nome latino, e só tinha faixa própria num snapshot anterior.
     write_snapshot(
@@ -253,6 +323,12 @@ def test_real_sample_from_the_first_chart():
         ("preview", "https://audio-ssl.itunes.apple.com.evil/p.m4a", False),
         ("artwork", "https://is1-ssl.mzstatic.com/a/300x300bb.jpg", True),
         ("artwork", "https://isx-ssl.mzstatic.com/a.jpg", False),
+        # As mesmas regras do jq do robô e do web: sem porta, host em minúsculas, dígito ASCII.
+        ("store", "https://music.apple.com:8443/jp/album/x/1", False),
+        ("store", "https://music.apple.com:443/jp/album/x/1", False),
+        ("store", "https://Music.Apple.com/jp/album/x/1", False),
+        ("store", "https://music.apple.com./jp/album/x/1", False),
+        ("artwork", "https://is١-ssl.mzstatic.com/a.jpg", False),
     ],
 )
 def test_apple_url_allowlist(kind, url, ok):

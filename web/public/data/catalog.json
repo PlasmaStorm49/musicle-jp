@@ -2018,7 +2018,7 @@
       "type": "single"
     },
     {
-      "artistDisplay": "YAO & ONE OK ROCK",
+      "artistDisplay": "YAO",
       "artistIds": [
         "apple:ar:6776451469",
         "apple:ar:252239625"
@@ -2368,7 +2368,7 @@
       "type": "album"
     },
     {
-      "artistDisplay": "YAO & ONE OK ROCK",
+      "artistDisplay": "YAO",
       "artistIds": [
         "apple:ar:6776451469",
         "apple:ar:252239625"
@@ -2872,7 +2872,7 @@
       ]
     }
   ],
-  "catalogVersion": "2026-10-11.b4b20958",
+  "catalogVersion": "2026-10-11.c868107f",
   "generatedAt": "2026-10-11T17:01:50Z",
   "provider": "apple",
   "schemaVersion": 1,
@@ -7103,7 +7103,7 @@
     },
     {
       "albumId": "apple:al:6776482572",
-      "artistDisplay": "YAO & ONE OK ROCK",
+      "artistDisplay": "YAO",
       "artistIds": [
         "apple:ar:6776451469",
         "apple:ar:252239625"
@@ -7796,7 +7796,7 @@
     },
     {
       "albumId": "apple:al:6803148720",
-      "artistDisplay": "YAO & ONE OK ROCK",
+      "artistDisplay": "YAO",
       "artistIds": [
         "apple:ar:6776451469",
         "apple:ar:252239625"
