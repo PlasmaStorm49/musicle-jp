@@ -56,6 +56,8 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P75 | No iPhone, `navigator.audioSession.type = "playback"`: o jogo toca com a chave de silêncio ligada (pausa a música de fundo) |
 | P76 | `?htmlAudio=1` e `?failLookup=1` valem também no site publicado (testar a reserva no celular); `?fakeAudio`, `?date` e `?failAudio` seguem só em desenvolvimento |
 | P77 | A 1ª agenda real nasce no PR da troca do site (PR B do M11), com o `--today` do dia do merge |
+| P80 | O `fetch` (único comando com rede) pede confirmação no Claude Code, mesmo no modo automático (`ask` no `.claude/settings.json`) |
+| P81 | O selo do Apple Music é a variante `badge` em pt-BR, baixada do Toolbox da Apple e guardada sem alteração em `web/src/ui/assets/`. O ZIP traz todas as variantes, e só essa entra no repositório; o Biome não analisa a pasta, para não pedir mudança no SVG |
 
 ## 3. Fonte de dados (ligada no M11)
 
@@ -74,6 +76,11 @@ Pesquisa de 10/10/2026 (subagente; JSON lido de verdade, nenhum áudio baixado):
 - O `fetch` (único comando com rede) grava um snapshot por dia em `pipeline/data/apple/snapshots/`; o resto do pipeline lê arquivos.
 - O pipeline guarda o `trackId` (no `id`), o `previewUrl` como reserva e o `storeUrl`; o navegador resolve a prévia na hora com o lookup, em lote (PR B do M11).
 - **Termos da Apple** (Search API, seção Legal): uso "only to promote store content and not for entertainment purposes"; prévia "proximate to a store badge" com link direto à loja; atribuição "provided courtesy of iTunes"; só streaming, sem guardar. Um jogo usa a prévia como entretenimento: zona cinzenta aceita (P69), a mesma do Musicle.
+- **Atribuição** (pesquisa do subagente, 11/10/2026, só leitura):
+  - **Selo:** fica no Toolbox da Apple, em `toolbox.marketingtools.apple.com/api/v2/badges/listen-on-apple-music/<variante>/pt-br`. O `/download` entrega um ZIP com todas as variantes em SVG (P81). O texto do selo em pt-BR é "Ouça no Apple Music".
+  - **Diretrizes da Apple Music** (`marketing.services.apple/apple-music-identity-guidelines`): o selo não pode ser alterado, tem no mínimo 30 px de altura no digital, leva espaço livre de 1/10 da altura em volta e é sempre link para o Apple Music.
+  - **Lacuna nos termos:** o Search API pede a prévia "proximate to a store badge" e cita os selos "Download on iTunes" e "App Store". O "Listen on Apple Music" não aparece ali. Isso fica na zona cinzenta da P69.
+  - **Playlist "Top 100: Japan"** (`pl.043a2c9876114d95a4659988497567be`): em 11/10/2026 tinha as mesmas 100 faixas do RSS most-played, com pequenas trocas de ordem depois da 31ª. É o link do selo durante a rodada.
 
 ## 4. Arquitetura
 
@@ -132,15 +139,15 @@ musicle-jp/
 | Risco | Mitigação |
 |---|---|
 | Resposta do dia visível no JSON público | Aceito na v1; só 21 dias à frente; ofuscar depois (ME3) |
-| Termos da Apple para preview em jogo | Atribuição, link para a loja, sem guardar áudio, não comercial |
-| Preview que some ou URL que muda | Resolver na hora via `lookup`; rodada anulada sem penalidade |
+| Termos da Apple para preview em jogo | Selo oficial do Apple Music e "provided courtesy of iTunes" junto de todo player (P69), link para a loja, sem guardar áudio, não comercial. Os termos citam os selos do iTunes e da App Store, não o do Apple Music (§3) |
+| Preview que some ou URL que muda | Lookup no navegador, em lote, com cota e disjuntor; o `previewUrl` do catálogo como reserva; `<audio>` quando o Web Audio falha; rodada anulada sem penalidade (Apêndice E) |
 | Catálogo pequeno repete música | Catálogo cumulativo; janela K ajustada ao tamanho |
 | Romaji errado em nomes próprios | `aliases.toml` + `latinSource` para auditoria |
 | CRLF e codificação no Windows | `.gitattributes` com eol=lf, `newline="\n"`, `PYTHONUTF8=1` |
 | Cron desativado após 60 dias sem atividade no repositório (documentação do GitHub) | Aviso no README; `gh workflow enable update-catalog.yml` e execução manual |
 | PR da agenda sem merge por mais de 21 dias | O dia que passa sem agenda vira buraco (P44); o corpo do PR avisa o buraco e pede o merge no mesmo dia |
 | `--today` errado (data no futuro deixaria buraco para sempre) | A Action não aceita entradas; a data vem de `TZ=America/Sao_Paulo date +%F` |
-| Cache do Pages: JSON velho por alguns minutos depois do deploy (a conferir) | A agenda é gerada 21 dias à frente; no M11, `fetch` sem cache (ME13) |
+| Cache do Pages: JSON velho por alguns minutos depois do deploy (a conferir) | A agenda é gerada 21 dias à frente; desde o M11, o jogo busca catálogo e agenda com `cache: "no-cache"` (ME13) |
 
 ## 7. Em aberto
 
@@ -168,12 +175,12 @@ musicle-jp/
 - ME6. App do Claude no GitHub para revisar PR.
 - ME7. Tema escuro e revisão de acessibilidade.
 - ME8. Tolerância a erro de digitação (distância de edição) no autocompletar.
-- ME9. Partículas `は` e `へ` lidas como "wa" e "e" na consulta em kana: o cutlet as escreve assim nos títulos reais (conferido no M11, Apêndice B). Entra no PR B do M11.
+- ME9. Partículas `は` e `へ` lidas como "wa" e "e" na consulta em kana: o cutlet as escreve assim nos títulos reais (conferido no M11, Apêndice B). Feita no PR B do M11.
 - ME10. `actionlint` ou `zizmor` na CI, para revisar o próprio workflow a cada PR (revisor do M9).
 - ME11. Fixar também a versão do `pip` na CI (`/code-review` do M9).
 - ME12. Levar a escolha da revisão base do `schedule-check` do YAML para o Python, com teste (`/code-review` do M9).
-- ME13. No M11, buscar `catalog.json` e `schedule.json` com `fetch(..., { cache: "no-cache" })`: com a parada real, catálogo novo e agenda velha em cache não podem se misturar (subagente Plan do M10).
-- ME14. Aviso de folga da agenda (menos de 7 dias à frente) no resumo do deploy (subagente Plan do M10).
+- ME13. No M11, buscar `catalog.json` e `schedule.json` com `fetch(..., { cache: "no-cache" })`: com a parada real, catálogo novo e agenda velha em cache não podem se misturar (subagente Plan do M10). Feita no PR B do M11.
+- ME14. Aviso de folga da agenda (menos de 7 dias à frente) no resumo do deploy (subagente Plan do M10). Feita no PR B do M11.
 - ME15. Teste de fumaça contra o `vite preview` em `/musicle-jp/` (a página abre, os JSON e um WAV respondem 200, console limpo), para pegar caminho absoluto no código, que a checagem do `dist/index.html` não vê (revisor do M10).
 - ME16. Separar a grafia de parceria em vários artistas (`artistId`), casando com nomes já conhecidos (subagente Plan do M11).
 - ME17. Dividir ou podar o catálogo real quando passar de cerca de 1 MB (hoje 245 KB com 100 faixas).
@@ -290,7 +297,7 @@ Compara a consulta com as chaves que o catálogo já traz; nada muda no pipeline
   - **sem `ー`**, comparada com as chaves sem `ー`: `かてん` acha `かーてんこーる`.
 - **Ordem:** começo do título > começo do artista > meio do título > meio do artista ("meio" só com 2+ caracteres); dentro da mesma faixa, a consulta exata vence a truncada e a sem `ー`; depois popularidade e `id` (comparação por code unit). Até 8 linhas. Uma letra só busca por prefixo.
 - **IME:** o campo escuta `compositionstart`/`compositionend` por `addEventListener` (o `onCompositionEnd` do Preact não dispara no Chrome). Durante a composição, a busca ignora o latim que ainda está virando kana no fim (`とうk`, `とうｋ`, `かーt`); romaji puro em composição (teclado do celular) busca como está. O Enter que confirma a conversão não escolhe opção.
-- **Conferido no M11** (1ª parada real, 10/10/2026): o cutlet escreve a partícula `は` como "wa" ("Kimi wa rokku wo kikanai", "gen'in wa") e `を` como "wo". A consulta em kana ainda transforma `は` em "ha": a variante com "wa" é a ME9, a fazer no PR B do M11.
+- **Conferido no M11** (1ª parada real, 10/10/2026): o cutlet escreve a partícula `は` como "wa" ("Kimi wa rokku wo kikanai", "gen'in wa") e `を` como "wo". Desde o PR B do M11 (ME9), a consulta em kana ganha uma 2ª leitura com `は` e `へ` como partícula ("wa" e "e"), nunca no começo: `きみはろっく` acha 君はロックを聴かない. A leitura normal continua valendo (`ごはん` = "gohan").
 
 ### Romaji no pipeline (decidido no M2, 08/10/2026)
 
@@ -335,6 +342,8 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 7. **Validação em dois níveis:** a estrutural (nenhum dia antes do `epoch`, `number`, opções, IDs; buraco é válido desde o M10) vale para todos os dias. Elegibilidade e restrições só valem na geração, para que uma regra nova não quebre o passado.
 
 **Por que não calcular no navegador:** o resultado mudaria a cada atualização semanal do catálogo.
+
+**1ª agenda real** (PR B do M11, P77): `web/public/data/schedule.json`, com `epoch` 2026-10-10 e `--today` 2026-10-11, tem 22 dias, do nº 2 (11/10) ao nº 23 (01/11). O 10/10 ficou como buraco (P44), com aviso no CLI. O site publicado lê esta agenda; a das fixtures continua no desenvolvimento e no e2e.
 
 Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponível" com um link para o Treino, que continua funcionando (implementado no M8).
 
@@ -389,7 +398,37 @@ Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponív
 - Falha de áudio anula a rodada sem penalidade (`VOID { round }`).
 - Barra segmentada com pesos 1, 1, 2, 3, 4 e 5 (total de 16 s), em `core/player.ts`.
 - Motor falso (`audio/fake.ts`, M9): só em desenvolvimento com `?fakeAudio=1`, para os testes de ponta a ponta; "toca" na hora, sem som, e falha na faixa de `?failAudio`. O `DEV` é conferido no ponto da escolha, então o Vite o tira do build (a CI confere).
-- Pendente: reserva com `<audio>` (M11, se o CORS da Apple falhar). Nada é gravado em disco (termos da Apple).
+- Nada é gravado em disco (termos da Apple): o navegador toca a prévia direto do servidor da Apple.
+
+**Implementado no M11 (PR B): prévias reais e reserva (P70, P75, P76).**
+
+- **Resolvedor de prévias** (`data/previews.ts`, sem DOM: recebe o `fetch`):
+  - fixtures: o endereço do catálogo, na hora (o `peek` sempre responde);
+  - parada real: o lookup do iTunes no navegador, em lote, com o `previewUrl` do catálogo como reserva;
+  - quando a reserva vale: erro de rede, HTTP 403 ou 429 (que abrem o disjuntor na hora), 3 s sem resposta, resposta sem `results`, faixa ausente, prévia fora do host da Apple, cota (12 consultas por minuto, abaixo das cerca de 20 da Apple) e disjuntor (2 falhas seguidas);
+  - os pedidos do mesmo ciclo saem numa consulta só. A fila sai numa microtarefa, porque os efeitos do filho (a rodada pede a sua faixa) rodam antes dos do pai (o diário pede o dia inteiro). O navegador mostrou o lote partido em dois antes dessa fila.
+- **`useResolvedUrl`:** o Tocar fica em "Carregando…", desabilitado, até a URL chegar, e o foco vai para ele quando ela chega. As opções já aparecem. O diário resolve as 3 faixas do dia de uma vez; o Treino, de 2 em 2.
+- **Motor composto** (`audio/fallback.ts`), conforme o motivo da falha (`AudioUnavailableError.kind`):
+  - `decode` ou `network` (codec ausente, CORS barrado): a sessão passa para o `<audio>`;
+  - `http`: a reserva vale só para aquela URL;
+  - `blocked` e `simulated`: não troca. `blocked` (som barrado fora do gesto) volta ao Tocar sem anular a rodada;
+  - um Parar durante a espera não liga a reserva.
+- **`<audio>` de reserva** (`audio/htmlaudio.ts`):
+  - um elemento só, reaproveitado, sem `crossOrigin` (não exige CORS);
+  - `play()` antes de qualquer `await`, por causa do gesto no Safari;
+  - o corte é conferido no `currentTime` por um laço de `setTimeout`, que dorme até perto do fim. O `requestAnimationFrame` não serve: ele para quando a página não pinta (janela encoberta), mesmo com a aba visível, e o som passava do corte;
+  - para quando a aba fica oculta ou quando há erro no meio;
+  - a `mediaSession` mostra o nome do jogo, para a tela de bloqueio não mostrar a resposta.
+- **`navigator.audioSession.type = "playback"`** no destravamento (P75).
+- **Chaves do site publicado** (P76): `?htmlAudio=1` faz o Web Audio falhar como `decode`, e a troca acontece de verdade; `?failLookup=1` nunca consulta.
+- **Medido no navegador do Claude** (11/10/2026, desenvolvimento com `?data=real`):
+  - lookup único com as 3 faixas do dia, em 435 ms;
+  - prévia baixada em cerca de 800 ms;
+  - Web Audio: 1 s pedido, 0,998 s tocado;
+  - `?htmlAudio=1`: motor `html`, 1 s pedido, 1,010 s tocado;
+  - `?failLookup=1`: nenhuma consulta, e a prévia do catálogo tocou;
+  - console limpo.
+- **Falta conferir de ouvido:** o som em Chrome, Firefox, Android e iPhone, este com o silencioso ligado (P75).
 
 **Áudio sintético (comando `fake-assets`, M3):** só biblioteca padrão. Para cada `preview.url` do catálogo, gera um WAV de 11.025 Hz, 16 bits, mono, com a duração do preview. Toca **uma nota por segundo** da pentatônica de dó, sorteada pelo ID da faixa e sem repetir a anterior: o trecho de 1 s soa como 1 nota e o de 4 s como 4 notas, o que permite conferir o corte de ouvido. Para cada capa, gera um SVG 600×600 com cor pelo hash do ID, título e artista. Só roda com o provedor `fixture`, aceita só URLs `fixtures/(audio|art)/<nome>` e apaga arquivos órfãos. Tudo fora do Git (25,4 MiB de áudio).
 
@@ -398,7 +437,7 @@ Se faltar o dia na agenda, Música e Álbum mostram "desafio de hoje indisponív
 Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `core/share.ts`).
 
 - **Chave:** `musicle-jp:save`. O prefixo é obrigatório porque todos os sites de projeto em `<usuario>.github.io` compartilham o mesmo localStorage.
-- **Conteúdo (`SaveV1`):** `{ schemaVersion: 1, settings, history, inProgress }`, os dois mapas por `"2026-10-08|song"`.
+- **Conteúdo (`Save`, v2 desde o M11):** `{ schemaVersion: 2, settings, history, inProgress }`, os dois mapas por `"2026-10-08|song"`.
   - `history`: o `FinishedGame` de cada dia, `{ answerMode, number, rounds: [{ status, stage, attempts }] }`. Pontos e máximo saem de `status` e `stage`; nada derivado é gravado.
   - `inProgress`: `{ answerMode, events }`, só os eventos que o reducer aceitou.
   - `settings`: `{ answerMode? }`, o último modo usado (M7, P45). O `sanitize` guarda um modo válido sem aviso; modo inválido, chave desconhecida ou `settings` que não é objeto contam como reparo. A preferência só muda quando o modo escolhido é o que fica travado no dia (`withModeChoice`).
@@ -409,7 +448,7 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
   - JSON ilegível ou fora da forma: o texto original vai para `musicle-jp:corrupt` (só se a chave estiver vazia) e o jogo recomeça. Entrada inválida dentro de um save bom é descartada sozinha; mapa ausente vira vazio sem levar o histórico junto.
   - Versão maior que a suportada: não é sobrescrita; o jogo segue sem salvar, com aviso.
   - Falha ao gravar: `updateSave` devolve o motivo (`full`, `future` ou `unavailable`), e a tela mostra o aviso certo uma vez, visível e na região `aria-live`.
-  - Migrações em `storage/migrations.ts`, uma função por versão (vazio na v1).
+  - Migrações em `storage/migrations.ts`, uma função por versão, cada uma com o teste de um save real da versão anterior. **v1 → v2** (M11, P68): o jogo trocou a parada fictícia pela real, e as chaves são por data, então o dia fictício e o real do mesmo dia se misturariam. A migração zera o histórico e o andamento e mantém só a preferência do modo. Uma aba antiga, ainda com o código v1, lê o v2 como "future" e para de gravar.
 - **Duas abas:** `updateSave` relê, mescla e grava. No histórico, o primeiro término vence; no andamento do mesmo jogo, vence a lista de eventos mais longa. O resumo relê o save, então mostra o resultado que ficou gravado. **Limitação aceita:** com duas abas dá para refazer uma rodada (uma erra e vê a resposta, a outra acerta); o jogo é pessoal e não há ranking.
 - **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`) e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura, então voltar à Música terminada mostra o resultado (P39). O Treino não grava nada (P50).
 - **Save da sessão** (`sessionStore`, M8): grava no navegador quando dá; o que não consegue gravar (cota cheia) fica em memória, e sem gravação nenhuma (versão futura, sem acesso) tudo fica em memória. Assim trocar de aba não perde o andamento nem nesses casos. O que foi gravado não fica em memória, para a mescla das duas abas continuar vendo o que a outra gravou.
@@ -459,7 +498,7 @@ Implementado no M4 (`web/src/core/`):
 Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e proteção) e no M10 (deploy e agenda semanal).
 
 - **CI** (`.github/workflows/ci.yml`), em todo PR e push na `main`, sem filtro de caminho (workflow pulado deixaria a checagem obrigatória pendente). Três tarefas, que são as checagens obrigatórias:
-  - **`pipeline`:** Python 3.12 e Node 24 (o teste cruzado e o do PRNG pulam sem Node), `npm ci --prefix web` antes do pytest (o teste do hook usa o Biome), `pip install -c pipeline/constraints.txt -e "pipeline[dev]"` (versões exatas, P60; sem o extra `romaji`, cujo teste pula), Ruff, pytest, `romanize --check`, `validate` e `schedule-check`. O checkout tem `fetch-depth: 0`; a agenda é comparada, no PR, com o 1º pai do commit de merge de teste (`HEAD^1`, a base exata do que foi testado) e, no push, com o `before` (`HEAD^1` em branch novo). O Ruff cobre também o `.claude/hooks`, com a configuração do pipeline.
+  - **`pipeline`:** Python 3.12 e Node 24 (o teste cruzado e o do PRNG pulam sem Node), `npm ci --prefix web` antes do pytest (o teste do hook usa o Biome), `pip install -c pipeline/constraints.txt -e "pipeline[dev]"` (versões exatas, P60; sem o extra `romaji`, cujo teste pula), Ruff, pytest, `romanize --check` e `validate` das duas paradas (fixtures e real, cada catálogo com a sua agenda) e `schedule-check` das duas agendas. O checkout tem `fetch-depth: 0`; a agenda é comparada, no PR, com o 1º pai do commit de merge de teste (`HEAD^1`, a base exata do que foi testado) e, no push, com o `before` (`HEAD^1` em branch novo). O Ruff cobre também o `.claude/hooks`, com a configuração do pipeline.
   - **`web`:** `npm ci`, `npm run check`, `npm run build` e a conferência de que o motor de áudio falso não está no `dist`.
   - **`e2e`:** `fake-assets`, Chromium do Playwright e `npm run e2e`; o relatório sobe como artefato quando falha.
 - **Segurança da CI:**
@@ -486,7 +525,7 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
   - PR #1 (o M9): `pipeline`, `web` e `e2e` verdes; enquanto rodavam, o PR ficou `BLOCKED`; merge commit pela proteção;
   - PR #2 (demonstração, teste quebrado de propósito no `web`): `web` vermelha e PR `BLOCKED`. O `gh pr merge` foi recusado (`the base branch policy prohibits the merge`), e o `gh pr merge --admin` também (`Repository rule violations found: Required status check "web" is failing`). Fechado sem merge.
 - **Deploy** (`.github/workflows/deploy.yml`, M10), a cada push na `main` (o merge de um PR) e sob demanda, em `https://plasmastorm49.github.io/musicle-jp/`:
-  - `pages-build` (só leitura): `fake-assets` e `npm run build` com a base `/musicle-jp/`, que só vale no build e no preview (o desenvolvimento e o e2e ficam na raiz); confere o site (base, sem o motor falso, todo áudio e capa do catálogo no `dist`) e sobe o artefato;
+  - `pages-build` (só leitura): `npm run build` com a base `/musicle-jp/`, que só vale no build e no preview (o desenvolvimento e o e2e ficam na raiz). Desde o M11, sem Python nem `fake-assets`: o site lê a parada real (`data/`), e o `dist/fixtures` é apagado depois do build. Confere o site (base, sem o motor falso, sem fixtures nem WAV, `data/catalog.json` com `provider` "apple"), avisa se a agenda não tem o dia de hoje ou tem menos de 7 dias à frente (ME14, aviso no resumo, sem travar o deploy) e sobe o artefato;
   - `pages-deploy`: `pages: write` e `id-token: write`, no ambiente `github-pages`, que só aceita a `main`;
   - um deploy por vez, sem cancelar no meio. Roda junto com a CI do push, porque o `strict` do ruleset garante que a árvore do merge já foi testada no PR;
   - a tarefa `web` da CI confere a base no `dist/index.html`: sem ela, a página publicada ficaria em branco.
@@ -523,3 +562,5 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
 - **Desenho técnico:** subagente Plan, revisado pelo Claude.
 - **Pesquisa do GitHub para o M10** (subagente, 09/10/2026): docs.github.com (Pages com workflow próprio, `POST /repos/{owner}/{repo}/pages`, ambientes e regras de branch, eventos do `GITHUB_TOKEN`, cron e a desativação após 60 dias), github.blog/changelog/2026-06-11-bot-created-pull-requests-can-run-workflows-if-approved, e as releases e o `action.yml` de `actions/upload-pages-artifact`, `actions/deploy-pages` e `actions/download-artifact`.
 - **Decisões P6 a P15:** respondidas pelo usuário na sessão de 08/10/2026.
+- **Pesquisa do selo e da playlist da Apple** (subagente, 11/10/2026, só leitura; o selo foi baixado depois, com permissão do usuário, P81): toolbox.marketingtools.apple.com (página da faixa em pt-BR e o JavaScript do código de incorporação), marketing.services.apple/apple-music-identity-guidelines, artists.apple.com/support/1117-apple-music-marketing-tools, music.apple.com/jp/playlist/top-100-japan/pl.043a2c9876114d95a4659988497567be, rss.marketingtools.apple.com (comparação com a playlist), performance-partners.apple.com/search-api e o arquivo da documentação do iTunes Search API em developer.apple.com.
+- **Medições do PR B do M11:** navegador do Claude em 11/10/2026, no servidor de desenvolvimento com `?data=real` (Apêndice E).

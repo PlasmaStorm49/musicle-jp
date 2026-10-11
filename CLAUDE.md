@@ -30,7 +30,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 | `web/` | TypeScript + Vite + Preact; `src/core/` é a lógica pura do jogo |
 | `shared/` | Schemas JSON e vetores de teste usados pelos dois lados |
 | `docs/` | `PLANO.md` (decisões na seção 2) |
-| `.github/` | `workflows/ci.yml`: as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main`. `deploy.yml` (`pages-build`, `pages-deploy`): publica no Pages a cada merge. `update-catalog.yml` (`catalog-generate`, `catalog-pr`): toda segunda abre o PR com os dias novos da agenda. Nenhuma tarefa nova pode se chamar `pipeline`, `web` ou `e2e` |
+| `.github/` | `workflows/ci.yml`: as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main`. `deploy.yml` (`pages-build`, `pages-deploy`): publica no Pages a cada merge, com a parada real (`data/`) e sem as fixtures. `update-catalog.yml` (`catalog-generate`, `catalog-pr`): toda segunda abre o PR com os dias novos da agenda. Nenhuma tarefa nova pode se chamar `pipeline`, `web` ou `e2e` |
 | `.claude/` | Configuração do Claude Code deste projeto |
 
 ## Comandos
@@ -47,8 +47,8 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 | Gerar o catálogo real | `.venv\Scripts\python -m musicle_pipeline build --provider apple --out web/public/data/catalog.json` |
 | Gerar o catálogo falso | `.venv\Scripts\python -m musicle_pipeline build --provider fixture --out web/public/fixtures/catalog.json` |
 | Gerar áudio e capas falsos | `.venv\Scripts\python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json` (fora do Git; rode depois de clonar) |
-| Acrescentar dias à agenda (nunca gera dia passado, P44: um `--today` no futuro deixaria buraco para sempre) | `.venv\Scripts\python -m musicle_pipeline schedule --catalog web/public/fixtures/catalog.json --out web/public/fixtures/schedule.json --today AAAA-MM-DD` |
-| Validar catálogo e agenda | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` (real: `validate web/public/data/catalog.json`) |
+| Acrescentar dias à agenda (nunca gera dia passado, P44: um `--today` no futuro deixaria buraco para sempre) | `.venv\Scripts\python -m musicle_pipeline schedule --catalog web/public/fixtures/catalog.json --out web/public/fixtures/schedule.json --today AAAA-MM-DD` (real: `--catalog web/public/data/catalog.json --out web/public/data/schedule.json`; a data de Brasília sai do PowerShell) |
+| Validar catálogo e agenda | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` (real: `validate web/public/data/catalog.json --schedule web/public/data/schedule.json`) |
 | Conferir que a agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
 
 Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → revisar `pipeline/data/apple/romaji.json` no diff → corrigir erros em `pipeline/data/apple/aliases.toml` → `build --provider apple` → `validate` → `schedule` → `schedule-check`. Nas fixtures, a curadoria fica em `pipeline/fixtures/` e entra o `fake-assets` depois do `build`.
@@ -60,7 +60,7 @@ Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → rev
 | Instalar dependências (uma vez, ou após mudar o lockfile) | `npm ci --prefix web` |
 | Lint, tipos e testes com cobertura | `npm run check --prefix web` |
 | Só os testes | `npm test --prefix web` |
-| Servidor de desenvolvimento | `npm run dev --prefix web` (porta 5173; precisa do `fake-assets` já rodado). No Claude: pré-visualização `web` do `.claude/launch.json` |
+| Servidor de desenvolvimento | `npm run dev --prefix web` (porta 5173; precisa do `fake-assets` já rodado). Lê as fixtures; `?data=real` troca pela parada real, com áudio da Apple. No Claude: pré-visualização `web` do `.claude/launch.json` |
 | Build de produção | `npm run build --prefix web` |
 | Ver o build como no Pages (depois do `build` e do `fake-assets`) | `npm run preview --prefix web`, em http://localhost:4173/musicle-jp/ |
 | Testes de ponta a ponta (Playwright; precisa do `fake-assets` e de `npx --prefix web playwright install chromium` uma vez) | `npm run e2e --prefix web` |
