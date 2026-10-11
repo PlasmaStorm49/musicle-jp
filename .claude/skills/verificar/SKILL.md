@@ -11,11 +11,11 @@ Rode da raiz do repositório, **um comando por vez** (PowerShell 5.1: não use `
 |---|---|---|
 | 1 | Lint do pipeline e do hook | `.venv\Scripts\python -m ruff check pipeline .claude/hooks` |
 | 2 | Formato do pipeline e do hook | `.venv\Scripts\python -m ruff format --check pipeline .claude/hooks` |
-| 3 | Testes do pipeline (inclui o teste cruzado Python × TS e o do hook) | `.venv\Scripts\python -m pytest pipeline -q` |
+| 3 | Testes do pipeline (inclui o teste cruzado Python × TS e o do hook; os do script do robô pulam sem `jq`, como no Windows, e a CI os roda) | `.venv\Scripts\python -m pytest pipeline -q` |
 | 4 | Cobertura do romaji (fixtures e parada real) | `.venv\Scripts\python -m musicle_pipeline romanize --provider fixture --check` e `... romanize --provider apple --check` |
 | 5 | Catálogo e agenda (fixtures e parada real) | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` e `... validate web/public/data/catalog.json --schedule web/public/data/schedule.json` |
 | 6 | Agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
-| 7 | Web: Biome, os três tsconfig, Vitest com cobertura ≥ 90% no núcleo | `npm run check --prefix web` |
+| 7 | Web: Biome, os três tsconfig, Vitest com cobertura ≥ 90% (linhas e statements) em `core`, `data` e `storage` | `npm run check --prefix web` |
 | 8 | Web: build de produção | `npm run build --prefix web` |
 | 9 | Motor de áudio falso fora do build (nenhuma linha = passou) | `Get-ChildItem web\dist -Recurse -File \| Select-String -Pattern musicle-fake-audio -List` |
 | 10 | Base do GitHub Pages no build (precisa dar `True`) | `Select-String -Path web\dist\index.html -Pattern '/musicle-jp/assets/' -Quiet` |
@@ -29,7 +29,7 @@ Antes de começar:
 
 ## Relatório
 
-1. Tabela: **Passo | Resultado | Detalhe** (ex.: "242 passaram", "cobertura 99,2%", a primeira linha do erro).
+1. Tabela: **Passo | Resultado | Detalhe** (ex.: "N passaram, M pulados", "cobertura de X%", a primeira linha do erro).
 2. Se algo falhou: a causa provável e a correção sugerida, numeradas.
 
 **Não corrija nada sem perguntar.** Esta skill só verifica: o usuário decide o que fazer com o resultado.
