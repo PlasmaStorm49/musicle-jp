@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { catalog, schedule } from "../../test/fixtures.ts";
-import { type CatalogIndex, indexCatalog } from "./catalog.ts";
+import { acceptedIds, type CatalogIndex, indexCatalog } from "./catalog.ts";
 import {
   drawPractice,
   newPractice,
@@ -17,7 +17,7 @@ import {
 import { seeded } from "./prng.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "./records.ts";
 import { reduce } from "./reducer.ts";
-import type { Catalog, Day, Target, Track } from "./types.ts";
+import type { Album, Catalog, Day, Target, Track } from "./types.ts";
 
 const index = indexCatalog(catalog);
 const DATE = "2026-10-08";
@@ -72,9 +72,11 @@ function saveWith(...targets: Target[]): Save {
   return { ...emptySave(), history };
 }
 const dailySongs = (target: Target) => new Set(day[target].map((r) => songOf(r.answer)));
-/** A faixa é de um álbum que tem uma música excluída (a dela ou outra)? */
+/** A faixa é de um álbum que o Álbum aceitaria por uma música excluída (a dela ou outra)? */
 const albumBlocked = (id: string, excluded: ReadonlySet<string>) =>
-  catalog.tracks.some((t) => t.albumId === albumOf(id) && excluded.has(t.songKey));
+  catalog.tracks.some(
+    (t) => excluded.has(t.songKey) && acceptedIds(index, t, "album").includes(albumOf(id)),
+  );
 
 describe("saco do Treino (practicePool)", () => {
   it("Música: uma faixa elegível por música, a mais popular", () => {
@@ -269,6 +271,33 @@ describe("exclusão das respostas do diário de hoje", () => {
       const pool = practicePool(index, target);
       const ids = answers(drawMany(newPractice(5), target, 3 * pool.length, excluded).draws);
       expect(ids.map(albumOf)).not.toContain("fixture:al:al14");
+      expect(ids).not.toContain("fixture:tr:tr15");
+    },
+  );
+
+  it.each<Target>(["song", "album"])(
+    "%s: o álbum que só a regra do mesmo lançamento liga à resposta também é pulado",
+    (target) => {
+      // Como o EP "爆裂愛してる / 好きすぎて滅! - EP", ligado no catálogo só a 爆裂愛してる: com
+      // 好きすぎて滅! pendente no diário, a revelação do EP entregaria a resposta.
+      const pending = track("fixture:tr:tr05"); // ふたりの約束, de ar02 e ar07
+      const ep: Album = {
+        ...(index.albums.get(pending.albumId) as Album),
+        id: "fixture:al:ep",
+        title: `Outra / ${pending.title} - EP`,
+        artistIds: ["fixture:ar:ar07"],
+      };
+      const grown = indexCatalog({
+        ...catalog,
+        albums: [...catalog.albums, ep],
+        tracks: catalog.tracks.map((t) =>
+          t.id === "fixture:tr:tr15" ? { ...t, albumId: ep.id } : t,
+        ) as Catalog["tracks"],
+      });
+      const excluded = new Set([pending.songKey]);
+      const pool = practicePool(grown, target);
+      expect(pool).toContain("fixture:tr:tr15");
+      const ids = answers(drawMany(newPractice(3), target, 3 * pool.length, excluded, grown).draws);
       expect(ids).not.toContain("fixture:tr:tr15");
     },
   );

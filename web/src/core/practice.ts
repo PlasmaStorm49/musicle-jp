@@ -5,16 +5,14 @@
 // cada música (ou álbum) uma vez; embaralhado, toca até esvaziar e então começa um novo ciclo.
 // O estado guarda só números e IDs (semente, ciclo, posição), nunca o gerador: o embaralhamento
 // de cada ciclo é refeito da semente quando preciso, sempre igual.
-import type { CatalogIndex } from "./catalog.ts";
+import { acceptedIds, type CatalogIndex } from "./catalog.ts";
 import { type Mulberry32, seeded } from "./prng.ts";
-import { puzzleId, type Save } from "./records.ts";
+import { pendingDayTracks, type Save } from "./records.ts";
 import { createRounds, type GameState, type PlannedRound, roundScore } from "./reducer.ts";
 import type { AnswerMode, Day, Target, Track } from "./types.ts";
 
 /** Distratores por rodada: com a certa, 4 opções. */
 const DISTRACTORS = 3;
-
-const TARGETS: readonly Target[] = ["song", "album"];
 
 /** Onde o jogador está no saco de um alvo. */
 export type BagCursor = {
@@ -152,35 +150,24 @@ export function pendingDailySongKeys(
   date: string,
   index: CatalogIndex,
 ): Set<string> {
-  const keys = new Set<string>();
-  if (!day) return keys;
-  for (const target of TARGETS) {
-    if (save.history[puzzleId(date, target)]) continue;
-    for (const round of day[target]) {
-      const track = index.tracks.get(round.answer);
-      if (track) keys.add(track.songKey);
-    }
-  }
-  return keys;
+  if (!day) return new Set();
+  const tracks = pendingDayTracks(save, day, date).map((id) => index.tracks.get(id));
+  return new Set(tracks.flatMap((track) => (track ? [track.songKey] : [])));
 }
 
-/** Músicas (songKey) de cada álbum, montado uma vez por catálogo (não a cada distrator). */
-const albumSongs = new WeakMap<CatalogIndex, ReadonlyMap<string, ReadonlySet<string>>>();
-
-function albumHasSong(index: CatalogIndex, albumId: string, songs: ReadonlySet<string>): boolean {
-  let map = albumSongs.get(index);
-  if (!map) {
-    const built = new Map<string, Set<string>>();
-    for (const t of index.catalog.tracks) {
-      const set = built.get(t.albumId) ?? new Set<string>();
-      set.add(t.songKey);
-      built.set(t.albumId, set);
+/**
+ * Álbuns que entregariam uma música excluída: todo álbum que a resposta do Álbum aceitaria
+ * por ela (acceptedIds), ou seja, os que a contêm e os do mesmo lançamento (o EP "A / B", o
+ * outro single de mesmo nome), que o catálogo não liga à música.
+ */
+function blockedAlbums(index: CatalogIndex, excluded: ReadonlySet<string>): ReadonlySet<string> {
+  const albums = new Set<string>();
+  for (const key of excluded) {
+    for (const track of index.tracksBySong.get(key) ?? []) {
+      for (const id of acceptedIds(index, track, "album")) albums.add(id);
     }
-    map = built;
-    albumSongs.set(index, map);
   }
-  for (const song of map.get(albumId) ?? []) if (songs.has(song)) return true;
-  return false;
+  return albums;
 }
 
 /** Fisher-Yates parcial, como o pipeline (schedule.py): até 3 trocas, um número cada. */
@@ -196,8 +183,8 @@ function pickDistractors(rng: Mulberry32, pool: readonly string[]): string[] {
 
 /**
  * As opções de uma rodada: a certa (a faixa na Música, o álbum dela no Álbum) e 3 distratores
- * do `similar`, sem as músicas excluídas (no Álbum, sem álbuns que as contenham). Se sobrarem
- * menos de 3, vale a lista inteira, como no pipeline. As 4 saem embaralhadas.
+ * do `similar`, sem as músicas excluídas (no Álbum, sem os álbuns que as entregariam). Se
+ * sobrarem menos de 3, vale a lista inteira, como no pipeline. As 4 saem embaralhadas.
  */
 export function planRound(
   index: CatalogIndex,
@@ -205,6 +192,7 @@ export function planRound(
   trackId: string,
   excluded: ReadonlySet<string>,
   rng: Mulberry32,
+  blocked: ReadonlySet<string> = blockedAlbums(index, excluded),
 ): PlannedRound {
   const track = index.tracks.get(trackId);
   if (!track) throw new RangeError(`faixa ${trackId} não está no catálogo`);
@@ -214,7 +202,7 @@ export function planRound(
   const allowed =
     target === "song"
       ? (id: string) => !excluded.has(index.tracks.get(id)?.songKey ?? "")
-      : (id: string) => !albumHasSong(index, id, excluded);
+      : (id: string) => !blocked.has(id);
   const filtered = similar.filter(allowed);
   const pool = filtered.length < DISTRACTORS ? similar : filtered;
   const options = [correct, ...pickDistractors(rng, pool)];
@@ -223,9 +211,9 @@ export function planRound(
 }
 
 /**
- * Sorteia a próxima rodada do alvo. A faixa cujo álbum tem uma música excluída (a dela ou outra)
- * é pulada (fica no saco e volta no ciclo seguinte). Saco vazio: novo ciclo. Uma volta inteira
- * sem achar nenhuma devolve null, e o estado fica como estava.
+ * Sorteia a próxima rodada do alvo. A faixa cujo álbum entregaria uma música excluída (a dela
+ * ou outra: blockedAlbums) é pulada (fica no saco e volta no ciclo seguinte). Saco vazio: novo
+ * ciclo. Uma volta inteira sem achar nenhuma devolve null, e o estado fica como estava.
  */
 export function drawPractice(
   state: PracticeState,
@@ -234,6 +222,7 @@ export function drawPractice(
   excluded: ReadonlySet<string>,
 ): PracticeDraw | null {
   const pool = practicePool(index, target);
+  const blocked = blockedAlbums(index, excluded);
   let { cycle, position, carry } = state.cursors[target];
   let bag = bagFor(pool, state.seed, target, cycle, carry);
   // A última tocada é a de antes da posição: as puladas só vêm depois dela.
@@ -250,16 +239,16 @@ export function drawPractice(
     const trackId = bag[position] as string;
     position += 1;
     const track = index.tracks.get(trackId);
-    // Fica de fora também a faixa de um álbum que tem uma música excluída: a revelação mostra o
-    // álbum (título e capa), e no Álbum ele pode ser a própria resposta do diário.
-    if (!track || albumHasSong(index, track.albumId, excluded)) continue;
+    // Fica de fora também a faixa de um álbum que entregaria uma música excluída: a revelação
+    // mostra o álbum (título e capa), e no Álbum ele pode ser a própria resposta do diário.
+    if (!track || blocked.has(track.albumId)) continue;
     const rng = seeded(`treino|${state.seed}|${target}|${cycle}|${position - 1}`);
     return {
       round: {
         target,
         cycle,
         position: position - 1,
-        planned: planRound(index, target, trackId, excluded, rng),
+        planned: planRound(index, target, trackId, excluded, rng, blocked),
       },
       state: { ...state, cursors: { ...state.cursors, [target]: { cycle, position, carry } } },
     };
