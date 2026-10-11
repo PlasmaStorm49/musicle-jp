@@ -73,6 +73,16 @@ const DIGRAPHS: ReadonlyMap<string, string> = new Map([
 const SOKUON = "っ";
 const LONG_MARK = "ー";
 
+/**
+ * Partículas: o cutlet escreve は e へ como "wa" e "e" quando são partícula (君はロックを聴かない →
+ * "kimi wa rokku wo kikanai"). Na consulta não dá para saber qual é partícula, então a busca
+ * tenta as duas leituras (ME9). Nunca no começo: partícula vem depois de uma palavra.
+ */
+const PARTICLES: ReadonlyMap<string, string> = new Map([
+  ["は", "wa"],
+  ["へ", "e"],
+]);
+
 /** Tem hiragana ou katakana (o ー sozinho não conta). */
 export function hasKana(text: string): boolean {
   return KANA.test(text);
@@ -89,9 +99,10 @@ function geminate(syllable: string): string {
 /**
  * Romaji Hepburn, em minúsculas, de um texto JÁ normalizado (normalize() converteu katakana em
  * hiragana e tirou espaços e símbolos). Sem apóstrofo depois de ん (ほんや → honya), porque a
- * consulta é comparada com chaves que também não o têm. O que não é kana passa igual.
+ * consulta é comparada com chaves que também não o têm. O que não é kana passa igual. Com
+ * `particles`, は e へ fora do começo viram "wa" e "e".
  */
-export function kanaToRomaji(text: string): string {
+export function kanaToRomaji(text: string, particles = false): string {
   const chars = [...text]; // code points, não unidades UTF-16
   let out = "";
   let sokuon = false; // っ esperando a próxima sílaba
@@ -112,7 +123,8 @@ export function kanaToRomaji(text: string): string {
       continue;
     }
     const pair = DIGRAPHS.get(c + (chars[i + 1] ?? ""));
-    const syllable = pair ?? SYLLABLES.get(c);
+    const particle = particles && i > 0 ? PARTICLES.get(c) : undefined;
+    const syllable = pair ?? particle ?? SYLLABLES.get(c);
     if (syllable === undefined) {
       // Latim, número ou kanji: passa igual, e um っ pendente some (não há o que dobrar).
       out += c;
