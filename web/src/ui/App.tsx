@@ -2,8 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { FakeAudioEngine } from "../audio/fake.ts";
 import { type PlayLog, WebAudioEngine } from "../audio/webaudio.ts";
+import { APPLE_PROVIDER } from "../core/apple.ts";
 import { emptySave, pruneProgress, puzzleId, type SaveV1 } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
+import { appleResolver, catalogResolver, type PreviewResolver } from "../data/previews.ts";
 import {
   assetUrl,
   dataDirFor,
@@ -12,6 +14,7 @@ import {
   type GameData,
   gameDate,
   loadGameData,
+  lookupFailForced,
   pickDay,
   UnsupportedCatalogError,
 } from "../data/source.ts";
@@ -138,6 +141,19 @@ export function App() {
     return () => controller.abort();
   }, [attempt, saves]);
 
+  // Fixtures: o endereço do catálogo. Parada real: o lookup da Apple, com a reserva do catálogo.
+  const resolver = useMemo<PreviewResolver | null>(() => {
+    if (load.status !== "ready") return null;
+    const { index } = load.data;
+    return index.catalog.provider === APPLE_PROVIDER
+      ? appleResolver({
+          index,
+          fetchFn: (url, init) => fetch(url, init),
+          disabled: lookupFailForced(window.location.search),
+        })
+      : catalogResolver(index, resolveUrl);
+  }, [load, resolveUrl]);
+
   const engine = useMemo<AudioEngine | null>(() => {
     if (load.status !== "ready") return null;
     const failTrack = failAudioTrack(window.location.search, DEV);
@@ -206,12 +222,13 @@ export function App() {
             </button>
           </section>
         )}
-        {load.status === "ready" && engine && (
+        {load.status === "ready" && engine && resolver && (
           <Ready
             tab={tab}
             data={load.data}
             date={date}
             engine={engine}
+            resolver={resolver}
             resolveUrl={resolveUrl}
             announce={announce}
             saves={saves}
@@ -231,6 +248,7 @@ type ReadyProps = {
   readonly data: GameData;
   readonly date: string;
   readonly engine: AudioEngine;
+  readonly resolver: PreviewResolver;
   readonly resolveUrl: (url: string) => string;
   readonly announce: (message: string) => void;
   readonly saves: Storage;
@@ -248,6 +266,7 @@ function Ready({
   data,
   date,
   engine,
+  resolver,
   resolveUrl,
   announce,
   saves,
@@ -268,6 +287,7 @@ function Ready({
         date={date}
         index={data.index}
         engine={engine}
+        resolver={resolver}
         resolveUrl={resolveUrl}
         announce={announce}
         store={saves.store}
@@ -285,6 +305,7 @@ function Ready({
       date={date}
       save={latest}
       engine={engine}
+      resolver={resolver}
       resolveUrl={resolveUrl}
       announce={announce}
       session={practice}

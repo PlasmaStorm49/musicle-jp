@@ -7,6 +7,7 @@ import { indexCatalog } from "../core/catalog.ts";
 import type { PracticeSession } from "../core/practice.ts";
 import { emptySave, type SaveV1 } from "../core/records.ts";
 import type { Album, Artist, Catalog, Day, Track } from "../core/types.ts";
+import { catalogResolver } from "../data/previews.ts";
 import { Practice } from "./Practice.tsx";
 
 afterEach(cleanup);
@@ -105,6 +106,7 @@ function setup(save: SaveV1 = emptySave(), day: Day | null = null) {
     stop: vi.fn(),
     retain: vi.fn(),
   };
+  const resolver = catalogResolver(index, (url) => `/${url}`);
   let latest: PracticeSession | null = null;
   // Faz o papel do App: guarda a sessão fora do Treino (trocar de aba não zera).
   function Harness({ save, day, show }: HarnessProps) {
@@ -118,6 +120,7 @@ function setup(save: SaveV1 = emptySave(), day: Day | null = null) {
         date={DATE}
         save={save}
         engine={engine}
+        resolver={resolver}
         resolveUrl={(url) => `/${url}`}
         announce={vi.fn()}
         session={session}

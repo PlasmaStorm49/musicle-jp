@@ -4,8 +4,10 @@ import type { CatalogIndex } from "../core/catalog.ts";
 import { type RoundState, roundScore } from "../core/reducer.ts";
 import type { AnswerMode, Target } from "../core/types.ts";
 import { optionView, revealView } from "../core/view.ts";
+import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
+import { useResolvedUrl } from "./hooks.ts";
 import { Cover, ItemLabel } from "./ItemLabel.tsx";
 
 type Props = {
@@ -15,6 +17,7 @@ type Props = {
   /** 4 opções mostra as opções marcadas; digitação, a lista de tentativas. */
   readonly answerMode: AnswerMode;
   readonly engine: AudioEngine;
+  readonly resolver: PreviewResolver;
   readonly resolveUrl: (url: string) => string;
   /** Texto do botão de seguir: "Próxima rodada" ou "Ver resultado" (diário). */
   readonly nextLabel: string;
@@ -28,6 +31,7 @@ export function Reveal({
   target,
   answerMode,
   engine,
+  resolver,
   resolveUrl,
   nextLabel,
   onNext,
@@ -37,6 +41,8 @@ export function Reveal({
   const picked = round.attempts.filter((a) => a.kind === "guess").at(-1);
   const pickedId = picked?.kind === "guess" ? picked.guessId : null;
   const track = revealView(index, round.trackId);
+  // A mesma prévia da rodada, já resolvida enquanto ela tocava.
+  const url = useResolvedUrl(resolver, round.trackId);
 
   // O foco vai para o resultado: quem usa teclado ou leitor de tela sabe o que aconteceu.
   useEffect(() => heading.current?.focus(), []);
@@ -79,15 +85,13 @@ export function Reveal({
             <ItemLabel item={track} />
             <p class="album">{t("reveal.album", { album: track.albumTitle })}</p>
             {track.explicit && <p class="badge explicit">{t("player.explicit")}</p>}
-            {track.preview && (
+            {track.preview && url && (
               <button
                 type="button"
                 onClick={() => {
                   const preview = track.preview;
                   if (preview) {
-                    void engine
-                      .play(resolveUrl(preview.url), preview.startSec, preview.durationSec)
-                      .catch(() => {});
+                    void engine.play(url, preview.startSec, preview.durationSec).catch(() => {});
                   }
                 }}
               >

@@ -1,10 +1,11 @@
 // @vitest-environment happy-dom
-import { cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { AudioEngine } from "../audio/engine.ts";
 import { indexCatalog } from "../core/catalog.ts";
 import { createRounds, type GameState, type RoundState } from "../core/reducer.ts";
 import type { Album, AnswerMode, Catalog, Target, Track } from "../core/types.ts";
+import { catalogResolver, type PreviewResolver } from "../data/previews.ts";
 import { RoundView } from "./RoundView.tsx";
 
 afterEach(cleanup);
@@ -78,7 +79,10 @@ function game(target: Target, answerMode: AnswerMode, change?: Partial<RoundStat
   return { puzzleId: "teste", target, answerMode, rounds: [{ ...round, ...change }], current: 0 };
 }
 
-function setup(state: GameState) {
+function setup(
+  state: GameState,
+  resolver: PreviewResolver = catalogResolver(index, (url) => `/${url}`),
+) {
   const engine: AudioEngine = {
     unlock: vi.fn(),
     preload: vi.fn(),
@@ -94,6 +98,7 @@ function setup(state: GameState) {
       dispatch={dispatch}
       index={index}
       engine={engine}
+      resolver={resolver}
       resolveUrl={(url) => `/${url}`}
       announce={vi.fn()}
       roundKey={0}
@@ -101,10 +106,29 @@ function setup(state: GameState) {
       onNext={onNext}
     />,
   );
-  return { dispatch, onNext };
+  return { dispatch, onNext, engine };
 }
 
 describe("RoundView (a rodada do diário e do Treino)", () => {
+  it("parada real: o Tocar espera a prévia, e o foco vai para ele quando ela chega", async () => {
+    let deliver: (url: string | null) => void = () => {};
+    const resolver: PreviewResolver = {
+      peek: () => null, // força o caminho da espera (o lookup da Apple)
+      resolve: () => new Promise((resolve) => (deliver = resolve)),
+      prefetch: vi.fn(),
+    };
+    const { engine } = setup(game("song", "choice"), resolver);
+    const waiting = screen.getByRole("button", { name: "Carregando…" });
+    expect(waiting.hasAttribute("disabled")).toBe(true);
+    expect(screen.getByRole("button", { name: /Música 1/ })).toBeTruthy(); // as opções já aparecem
+    const url = "https://audio-ssl.itunes.apple.com/itunes-assets/x.m4a";
+    await act(async () => deliver(url));
+    const play = screen.getByRole("button", { name: "Tocar 1 s" });
+    expect(document.activeElement).toBe(play);
+    fireEvent.click(play);
+    expect(engine.play).toHaveBeenCalledWith(url, 0, 1);
+  });
+
   it("4 opções da Música: pergunta, 4 opções, e escolher despacha o palpite", () => {
     const { dispatch } = setup(game("song", "choice"));
     expect(screen.getByRole("heading", { name: "Qual é a música?" })).toBeTruthy();

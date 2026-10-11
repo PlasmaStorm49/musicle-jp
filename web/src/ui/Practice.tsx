@@ -20,9 +20,10 @@ import {
 import type { SaveV1 } from "../core/records.ts";
 import { currentRound, type GameEvent, reduce } from "../core/reducer.ts";
 import type { AnswerMode, Day, Target } from "../core/types.ts";
+import type { PreviewResolver } from "../data/previews.ts";
 import type { MessageKey } from "../i18n/pt-BR.ts";
 import { t, tn } from "../i18n/t.ts";
-import { previewUrl, usePreload } from "./hooks.ts";
+import { usePreviews } from "./hooks.ts";
 import { RoundView } from "./RoundView.tsx";
 
 export type { PracticeSession };
@@ -38,6 +39,7 @@ type Props = {
   /** A última leitura do save, feita pelo App. O Treino não grava nada (P50). */
   readonly save: SaveV1;
   readonly engine: AudioEngine;
+  readonly resolver: PreviewResolver;
   readonly resolveUrl: (url: string) => string;
   readonly announce: (message: string) => void;
   /** A sessão mora no App: trocar de aba e voltar não a zera. null = ainda não começou. */
@@ -60,6 +62,7 @@ export function Practice({
   date,
   save,
   engine,
+  resolver,
   resolveUrl,
   announce,
   session,
@@ -112,11 +115,14 @@ export function Practice({
     [current.practice, current.target, index, excluded],
   );
   const { game } = current;
-  usePreload(
-    engine,
-    game ? previewUrl(index, currentRound(game).trackId, resolveUrl) : null,
-    peek ? previewUrl(index, peek.round.planned.answer, resolveUrl) : null,
+  // De 2 em 2: a rodada em jogo (quase sempre já resolvida) e a próxima.
+  const currentId = game ? currentRound(game).trackId : null;
+  const nextId = peek ? peek.round.planned.answer : null;
+  const batch = useMemo(
+    () => [currentId, nextId].filter((id): id is string => id !== null),
+    [currentId, nextId],
   );
+  usePreviews(engine, resolver, batch, currentId, nextId);
 
   const score = practiceScore(current.score, game);
 
@@ -144,6 +150,7 @@ export function Practice({
           dispatch={dispatch}
           index={index}
           engine={engine}
+          resolver={resolver}
           resolveUrl={resolveUrl}
           announce={announce}
           roundKey={game.puzzleId}

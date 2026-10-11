@@ -7,7 +7,8 @@ import { SegmentBar } from "./SegmentBar.tsx";
 
 type Props = {
   readonly engine: AudioEngine;
-  readonly url: string;
+  /** Endereço da prévia; null enquanto o resolvedor busca (o Tocar fica em "Carregando…"). */
+  readonly url: string | null;
   readonly offset: number;
   readonly stage: number;
   readonly explicit: boolean;
@@ -41,14 +42,16 @@ export function Player({
   const playButton = useRef<HTMLButtonElement>(null);
   // O foco vai para o Tocar ao montar (o Player monta a cada rodada, inclusive logo depois da
   // escolha do modo) e depois de um pulo: o botão que tinha o foco pode ter sumido (o "Pular"
-  // some na última tentativa), e o próximo passo natural é ouvir o trecho liberado (P46).
+  // some na última tentativa), e o próximo passo natural é ouvir o trecho liberado (P46). Com a
+  // prévia ainda em busca o botão está desabilitado e não recebe foco: ele vai quando a URL chega.
   const [focusPlay, setFocusPlay] = useState(true);
+  const waiting = url === null;
   useEffect(() => {
-    if (focusPlay && status === "idle") {
+    if (focusPlay && status === "idle" && !waiting) {
       playButton.current?.focus();
       setFocusPlay(false);
     }
-  }, [focusPlay, status]);
+  }, [focusPlay, status, waiting]);
 
   // Desmontar (troca de rodada, revelação) para o som e o laço da barra. `alive` evita que uma
   // falha de áudio que chega depois (rede lenta) anule a rodada seguinte: no Treino toda rodada
@@ -75,6 +78,7 @@ export function Player({
   }
 
   function play(atStage: number) {
+    if (url === null) return;
     setStatus("loading");
     engine
       .play(url, offset, secondsAt(atStage))
@@ -115,6 +119,7 @@ export function Player({
   }
 
   const extra = secondsAt(stage + 1) - secondsAt(stage);
+  const busy = status === "loading" || waiting;
 
   return (
     <section class="player">
@@ -130,16 +135,14 @@ export function Player({
             ref={playButton}
             type="button"
             class="primary"
-            disabled={status === "loading"}
+            disabled={busy}
             onClick={() => play(stage)}
           >
-            {status === "loading"
-              ? t("player.loading")
-              : t("player.play", { seconds: secondsAt(stage) })}
+            {busy ? t("player.loading") : t("player.play", { seconds: secondsAt(stage) })}
           </button>
         )}
         {rules.listenMore && stage < MAX_STAGE && (
-          <button type="button" onClick={listenMore} disabled={status === "loading"}>
+          <button type="button" onClick={listenMore} disabled={busy}>
             {t("player.listenMore", { seconds: extra })}
           </button>
         )}

@@ -16,9 +16,10 @@ import {
 import { type GameEvent, type GameState, isFinished, reduce } from "../core/reducer.ts";
 import { ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { AnswerMode, Day, Target } from "../core/types.ts";
+import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
-import { previewUrl, usePreload } from "./hooks.ts";
+import { usePreviews } from "./hooks.ts";
 import { ModePicker } from "./ModePicker.tsx";
 import { RoundView } from "./RoundView.tsx";
 import { Summary } from "./Summary.tsx";
@@ -30,6 +31,7 @@ type Props = {
   readonly date: string;
   readonly index: CatalogIndex;
   readonly engine: AudioEngine;
+  readonly resolver: PreviewResolver;
   readonly resolveUrl: (url: string) => string;
   /** Mensagem para a região aria-live (eventos assíncronos). */
   readonly announce: (message: string) => void;
@@ -189,7 +191,7 @@ function Playing({
   report,
   ...props
 }: Props & { readonly start: Played; readonly report: Report }) {
-  const { day, date, index, engine, resolveUrl, announce, store } = props;
+  const { day, date, index, engine, resolver, resolveUrl, announce, store } = props;
   const [played, dispatch] = useReducer(playReducer, start);
   const [summary, setSummary] = useState<FinishedGame | null>(null);
   const { game } = played;
@@ -214,11 +216,15 @@ function Playing({
     }
   }, [store, played, start, game, date, day.number, report]);
 
-  const urls = useMemo(
-    () => game.rounds.map((r) => previewUrl(index, r.trackId, resolveUrl)),
-    [game.rounds, index, resolveUrl],
+  // As 6 faixas do dia saem numa consulta só, logo na 1ª rodada (o lookup da Apple).
+  const trackIds = useMemo(() => game.rounds.map((r) => r.trackId), [game.rounds]);
+  usePreviews(
+    engine,
+    resolver,
+    trackIds,
+    trackIds[game.current] ?? null,
+    trackIds[game.current + 1] ?? null,
   );
-  usePreload(engine, urls[game.current] ?? null, urls[game.current + 1] ?? null);
 
   function next() {
     if (isLast && isFinished(game)) setSummary(toFinishedGame(game, day.number));
@@ -238,6 +244,7 @@ function Playing({
         dispatch={dispatch}
         index={index}
         engine={engine}
+        resolver={resolver}
         resolveUrl={resolveUrl}
         announce={announce}
         roundKey={game.current}
