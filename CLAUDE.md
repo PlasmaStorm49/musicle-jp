@@ -16,11 +16,11 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 
 - Windows 11 com PowerShell 5.1: não existe `&&`; use `;` ou `if ($?) { ... }`.
 - **Commit com aspas duplas na mensagem:** o PowerShell 5.1 quebra o argumento do `git`. Grave a mensagem num arquivo do scratchpad e use `git commit -F <arquivo>`.
-- Python 3.12, Node.js LTS, Git e GitHub CLI (`gh`).
+- Python 3.12, Node.js 24, Git e GitHub CLI (`gh`).
 - Fuso do jogo: `America/Sao_Paulo`.
-- **Hook ativo:** depois de cada `Edit`/`Write`, o `.claude/hooks/format_file.py` ordena os imports e formata o arquivo: `.py` do `pipeline/` com Ruff; `.ts`, `.tsx`, `.json` e `.css` do `web/` com Biome. Releia antes de editar de novo a mesma região.
+- **Hook ativo:** depois de cada `Edit`/`Write`, o `.claude/hooks/format_file.py` ordena os imports e formata o arquivo: `.py` do `pipeline/` com Ruff; `.ts`, `.tsx`, `.js`, `.mjs`, `.json`, `.jsonc` e `.css` do `web/` com Biome. Releia antes de editar de novo a mesma região. Ele não formata o próprio `.claude/hooks/`: depois de editar o hook, rode o `ruff format` (a CI confere).
 - O Node 24 roda `.ts` direto (type stripping); o núcleo do `web/` usa isso no teste cruzado.
-- **Worktrees** (frentes em paralelo, M7 e M8): ficam em `.claude/worktrees/` (ignorada no Git); sem remoto, partem do `HEAD` local. Cada uma precisa de `npm ci --prefix web` (o `node_modules` não é compartilhado). Duas frentes rodando testes ao mesmo tempo pedem memória livre: com pouca, o Git falha com "out of memory" ao criar a worktree. Na worktree, Vitest com `--maxWorkers=2` e nada de servidor de desenvolvimento nem de `npm run e2e`: a porta 5173 é fixa (o e2e reaproveitaria o servidor de outra pasta e testaria outro código) e o áudio sintético do `fake-assets` não está lá. Para o conflito no merge ser pequeno, combine antes quais trechos e chaves de texto são de cada frente (M8). Depois do merge: `git worktree remove` (com `git worktree unlock` antes, se estiver travada) e `git branch -d`.
+- **Worktrees** (frentes em paralelo, M7 e M8): ficam em `.claude/worktrees/`. Os cuidados (o `npm ci` em cada uma, memória, sem servidor de desenvolvimento nem e2e, o merge) estão no `docs/PLANO.md`, Apêndice J.
 
 ## Mapa
 
@@ -30,7 +30,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 | `web/` | TypeScript + Vite + Preact; `src/core/` é a lógica pura do jogo |
 | `shared/` | Schemas JSON e vetores de teste usados pelos dois lados |
 | `docs/` | `PLANO.md` (decisões na seção 2) |
-| `.github/` | `workflows/ci.yml`: as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main`. `deploy.yml` (`pages-build`, `pages-deploy`): publica no Pages a cada merge, com a parada real (`data/`) e sem as fixtures. `update-catalog.yml` (`catalog-generate`, `catalog-pr`): toda segunda busca a parada da Apple e abre o PR com ela e os dias novos das agendas; as conferências da tarefa que escreve ficam em `scripts/check-catalog-pr.sh`, com teste em `pipeline/tests/`. Nenhuma tarefa nova pode se chamar `pipeline`, `web` ou `e2e` |
+| `.github/` | `workflows/ci.yml`: as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main`. `deploy.yml` (`pages-build`, `pages-deploy`): publica no Pages a cada merge, com a parada real (`data/`) e sem as fixtures. `update-catalog.yml` (`catalog-generate`, `catalog-pr`, `catalog-runway`): toda segunda busca a parada da Apple e abre o PR com ela e os dias novos das agendas; as conferências da tarefa que escreve ficam em `scripts/check-catalog-pr.sh`, com teste em `pipeline/tests/`; a `catalog-runway` fica vermelha com menos de 10 dias de agenda. Nenhuma tarefa nova pode se chamar `pipeline`, `web` ou `e2e` |
 | `.claude/` | Configuração do Claude Code deste projeto |
 
 ## Comandos
@@ -51,7 +51,7 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 | Validar catálogo e agenda | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` (real: `validate web/public/data/catalog.json --schedule web/public/data/schedule.json`) |
 | Conferir que a agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
 
-Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → revisar `pipeline/data/apple/romaji.json` no diff → corrigir erros em `pipeline/data/apple/aliases.toml` → `build --provider apple` → `validate` → `schedule` → `schedule-check`. Nas fixtures, a curadoria fica em `pipeline/fixtures/` e entra o `fake-assets` depois do `build`.
+Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → revisar `pipeline/data/apple/romaji.json` no diff → corrigir erros em `pipeline/data/apple/aliases.toml` → `build --provider apple` → `schedule` → `validate` (confere também a agenda nova) → `schedule-check`. Nas fixtures, a curadoria fica em `pipeline/fixtures/` e entra o `fake-assets` depois do `build`.
 
 **Web** (regras próprias em `web/CLAUDE.md`):
 
@@ -62,7 +62,7 @@ Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → rev
 | Só os testes | `npm test --prefix web` |
 | Servidor de desenvolvimento | `npm run dev --prefix web` (porta 5173; precisa do `fake-assets` já rodado). Lê as fixtures; `?data=real` troca pela parada real, com áudio da Apple. No Claude: pré-visualização `web` do `.claude/launch.json` |
 | Build de produção | `npm run build --prefix web` |
-| Ver o build como no Pages (depois do `build` e do `fake-assets`) | `npm run preview --prefix web`, em http://localhost:4173/musicle-jp/ |
+| Ver o build como no Pages (depois do `build`; usa a parada real e a rede da Apple, e o `dist` local ainda tem `fixtures/`) | `npm run preview --prefix web`, em http://localhost:4173/musicle-jp/ |
 | Testes de ponta a ponta (Playwright; precisa do `fake-assets` e de `npx --prefix web playwright install chromium` uma vez) | `npm run e2e --prefix web` |
 | Regerar tipos depois de mudar `shared/schema` | `npm run types --prefix web` |
 
@@ -72,9 +72,9 @@ Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → rev
 
 1. `web/src/core/` é TypeScript puro: não importa DOM, Preact nem áudio.
 2. Todo texto de tela fica em `web/src/i18n/pt-BR.ts`.
-3. Arquivos gerados (`web/public/data/`, `web/public/fixtures/*.json`, os `romaji.json`, os snapshots em `pipeline/data/apple/snapshots/`, áudio sintético) não se editam à mão: rode o pipeline.
+3. Arquivos gerados (`web/public/data/`, `web/public/fixtures/*.json`, os `romaji.json`, os snapshots em `pipeline/data/apple/snapshots/`, áudio sintético) não se editam à mão: rode o pipeline. O mesmo vale para os que têm gerador próprio: `shared/vectors/prng.json` (`node shared/vectors/prng_reference.mjs`), `web/src/core/generated/` (`npm run types`) e `web/package-lock.json` (o `npm`). O `settings.json` nega a edição de todos.
 4. A agenda (`schedule.json`) só cresce. Nunca altere um dia que já existe.
-5. Mudança de esquema: atualize `shared/schema/` e os testes nos dois lados. Desde o primeiro deploy (M10), o jogo está no ar: mudança incompatível sobe o `schemaVersion` e leva migração.
+5. Mudança de esquema: atualize `shared/schema/` e os testes nos dois lados. Desde o primeiro deploy (M10), o jogo está no ar: mudança incompatível sobe o `schemaVersion` e leva migração. O `.github/scripts/check-catalog-pr.sh` recusa `schemaVersion` diferente no PR do robô (mudança de esquema nunca passa por ele), e um campo novo de URL precisa de conferência nele, no `validate.py` e no `core/apple.ts`.
 6. Normalização e PRNG mudam em Python e TS juntos, com os vetores de `shared/vectors/`.
 7. Nenhuma chave, token ou senha no repositório. Segredos só nos Secrets do GitHub.
 8. Não baixe nem guarde áudio de preview real (termos da Apple). Em disco, só os WAV sintéticos. O pipeline nunca acessa o `previewUrl`: o áudio é só do navegador.
@@ -89,6 +89,6 @@ Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → rev
 
 ## Fluxo de cada marco
 
-Modo de planejamento → aprovação → branch do marco → implementação → verificação → revisão do diff → commits → PR → `pipeline`, `web` e `e2e` verdes → merge (merge commit). A `main` só aceita PR (ruleset sem exceção): nada de commit direto nela. Ao fechar um marco, atualize a coluna "Estado" em `docs/PLANO.md`.
+Modo de planejamento → aprovação → branch do marco → implementação → verificação → revisão do diff → commits → PR → `pipeline`, `web` e `e2e` verdes → merge (merge commit). A `main` só aceita PR (ruleset sem exceção): nada de commit direto nela. Ao fechar um marco, atualize a coluna "Estado" em `docs/PLANO.md` e o "Estado" do README. PR que mexe em `.github/` roda o `ci.yml` do próprio PR, que pode afrouxar as checagens e ficar verde: leia o diff do workflow antes do merge.
 
-Todo merge na `main` publica no Pages (`deploy.yml`). **PR semanal do robô** (`catalogo/<data>`, segunda de manhã): confira que mudou só a lista fechada (o snapshot do dia, o `romaji.json` da Apple, o catálogo real e as duas agendas), leia o romaji novo listado no corpo (erro se corrige no `aliases.toml`, num PR à parte), aprove as checagens em "Approve workflows to run", espere `pipeline`, `web` e `e2e` verdes e faça o merge no mesmo dia. Enquanto ele estiver aberto, evite outro merge: o `strict` do ruleset o deixaria desatualizado.
+Todo merge na `main` publica no Pages (`deploy.yml`). **PR semanal do robô** (`catalogo/<data>`, segunda de manhã): a rotina está no README ("Publicação e atualização da parada e da agenda"). Faça o merge no mesmo dia e, enquanto ele estiver aberto, evite outro merge: o `strict` do ruleset o deixaria desatualizado.
