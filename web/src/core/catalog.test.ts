@@ -43,4 +43,37 @@ describe("acceptedIds", () => {
       "fixture:al:al03",
     ]);
   });
+
+  it("Álbum: o mesmo lançamento em outro álbum do mesmo artista também conta", () => {
+    // O lookup da Apple traz um álbum só por faixa: há dois "ROSE - Single" da HANA, e o EP
+    // "爆裂愛してる / 好きすぎて滅! - EP" tem a música 好きすぎて滅!.
+    const answer = track("tr05");
+    const album = index.albums.get(answer.albumId);
+    if (!album) throw new Error("álbum da tr05 não existe");
+    const extra = [
+      { ...album, id: "fixture:al:twin" }, // "ふたりの約束 - Single" de novo, como o ROSE
+      { ...album, id: "fixture:al:ep", title: `Outra / ${answer.title} - EP` },
+      { ...album, id: "fixture:al:other", artistIds: ["fixture:ar:outro"] },
+      { ...album, id: "fixture:al:unrelated", title: "Nada a ver" },
+    ];
+    const albums = [...catalog.albums, ...extra] as Catalog["albums"];
+    const grown = indexCatalog({ ...catalog, albums });
+    expect(acceptedIds(grown, answer, "album")).toEqual(
+      [answer.albumId, "fixture:al:ep", "fixture:al:twin"].sort(),
+    );
+    expect(acceptedIds(grown, answer, "song")).toEqual(acceptedIds(index, answer, "song"));
+  });
+
+  it("Álbum: uma parte só do nome do álbum certo não basta", () => {
+    // 19/10: a resposta 爆裂愛してる é do EP "爆裂愛してる / 好きすぎて滅! - EP", e o
+    // "好きすぎて滅! - Single" não tem essa música.
+    const answer = track("tr05");
+    const album = index.albums.get(answer.albumId);
+    if (!album) throw new Error("álbum da tr05 não existe");
+    const ep = { ...album, title: `${answer.title} / Outra - EP` };
+    const single = { ...album, id: "fixture:al:outra", title: "Outra - Single" };
+    const albums = [...catalog.albums.map((a) => (a.id === album.id ? ep : a)), single];
+    const grown = indexCatalog({ ...catalog, albums: albums as Catalog["albums"] });
+    expect(acceptedIds(grown, answer, "album")).toEqual([answer.albumId]);
+  });
 });
