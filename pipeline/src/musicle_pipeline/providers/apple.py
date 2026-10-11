@@ -9,6 +9,7 @@ corrige no código e refaz o catálogo inteiro, sem regravar o histórico.
 from __future__ import annotations
 
 import re
+from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
@@ -23,6 +24,7 @@ from musicle_pipeline.models import (
     RawArtist,
     RawTrack,
 )
+from musicle_pipeline.normalize import needs_romaji
 from musicle_pipeline.paths import apple_snapshots_dir
 
 NAME = "apple"
@@ -35,6 +37,7 @@ ARTWORK_PX = 300  # as capas aparecem com 56 e 96 px: 300 cobre telas de até 3x
 JST = timedelta(hours=9)
 _ARTWORK_SIZE = re.compile(r"/\d+x\d+bb\.(jpg|png|webp)$")
 _DATE_FILE = re.compile(r"^\d{4}-\d{2}-\d{2}\.json$")
+_COLLAB = re.compile(r" & |, | × ")  # separadores de parceria no nome do artista da faixa
 
 
 def album_type(collection_name: str, collection_artist: str | None) -> str:
@@ -64,6 +67,37 @@ def store_url(track_view_url: str) -> str:
     parts = urlsplit(track_view_url)
     query = [(k, v) for k, v in parse_qsl(parts.query) if k != "uo"]
     return urlunsplit(parts._replace(query=urlencode(query)))
+
+
+def artist_names(lookups: JSON, official: JSON) -> dict[str, RawArtist]:
+    """Nome exibido e latino de cada artista do snapshot.
+
+    O lookup de ARTISTA devolve o nome romanizado ou em inglês ("Kenshi Yonezu"), mesmo com a
+    loja do Japão; o nome nas FAIXAS vem em japonês ("米津玄師"), às vezes com parceiros
+    ("A, B & C"). Então, o nome exibido é:
+    1. o do lookup, se ele é o começo de alguma grafia das faixas (o nome limpo de uma parceria);
+    2. senão, a grafia solo mais frequente das faixas (sem " & ", ", " ou " × ");
+    3. senão (o artista só aparece em parcerias), o primeiro nome da parceria mais frequente.
+    O latino é o nome do lookup, quando é todo em letras latinas (latinSource "provider").
+    """
+    seen: dict[str, Counter[str]] = {}
+    for t in lookups.values():
+        seen.setdefault(str(t["artistId"]), Counter())[t["artistName"]] += 1
+    result: dict[str, RawArtist] = {}
+    for artist_id, counts in seen.items():
+        lookup_name = official.get(artist_id, {}).get("artistName")
+        solo = Counter({n: c for n, c in counts.items() if not _COLLAB.search(n)})
+        if lookup_name and any(n.startswith(lookup_name) for n in counts):
+            name = lookup_name
+        elif solo:
+            name = min(solo, key=lambda n: (-solo[n], len(n), n))
+        else:
+            name = _COLLAB.split(min(counts, key=lambda n: (-counts[n], len(n), n)))[0]
+        latin = lookup_name if lookup_name and lookup_name != name else None
+        if latin is not None and needs_romaji(latin):
+            latin = None  # o lookup trouxe outra grafia não latina: não serve de latino
+        result[artist_id] = RawArtist(provider_id=artist_id, name=name, name_latin=latin)
+    return result
 
 
 class AppleProvider:
@@ -96,7 +130,7 @@ class AppleProvider:
         if f"{day}.json" != path.name:
             raise InputError(f"{where}: date {day!r} não bate com o nome do arquivo")
         lookups: JSON = data["tracks"]
-        artists: JSON = data["artists"]
+        artists = artist_names(lookups, data["artists"])
         tracks: list[RawTrack] = []
         for item in data["rss"]:
             found = lookups.get(str(item["id"]))
@@ -114,10 +148,11 @@ class AppleProvider:
             entries=entries,
         )
 
-    def _track(self, t: JSON, artists: JSON, albums: dict[str, RawAlbum], day: str) -> RawTrack:
+    def _track(
+        self, t: JSON, artists: dict[str, RawArtist], albums: dict[str, RawAlbum], day: str
+    ) -> RawTrack:
         track_id = str(t["trackId"])
-        artist_id = str(t["artistId"])
-        canonical = artists.get(artist_id, {}).get("artistName") or t["artistName"]
+        artist = artists[str(t["artistId"])]
         album = RawAlbum(
             provider_id=str(t["collectionId"]),
             title=t["collectionName"],
@@ -137,12 +172,12 @@ class AppleProvider:
         return RawTrack(
             provider_id=track_id,
             title=t["trackName"],
-            artists=(RawArtist(provider_id=artist_id, name=canonical),),
+            artists=(artist,),
             album=album,
             duration_ms=int(t["trackTimeMillis"]),
             explicit=t.get("trackExplicitness") == "explicit",
             preview_url=preview,
             preview_duration_sec=PREVIEW_SEC if preview else None,
             store_url=store_url(t["trackViewUrl"]) if t.get("trackViewUrl") else None,
-            artist_display=t["artistName"] if t["artistName"] != canonical else None,
+            artist_display=t["artistName"] if t["artistName"] != artist.name else None,
         )

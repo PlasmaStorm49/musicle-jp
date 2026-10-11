@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
 from musicle_pipeline.io_json import dumps
@@ -36,7 +38,9 @@ def lookup(track_id: str, **over) -> dict:
     return {**base, **over}
 
 
-def write_snapshot(directory, day: str, tracks: list[dict], rss_ids: list[str] | None = None):
+def write_snapshot(
+    directory, day: str, tracks: list[dict], rss_ids: list[str] | None = None, artists=None
+):
     rss_ids = rss_ids or [t["trackId"] for t in tracks]
     snapshot = {
         "provider": "apple",
@@ -46,15 +50,15 @@ def write_snapshot(directory, day: str, tracks: list[dict], rss_ids: list[str] |
         "fetchedAt": f"{day}T22:00:00Z",
         "rss": [{"id": i, "name": f"曲{i}", "artistName": "x"} for i in rss_ids],
         "tracks": {t["trackId"]: t for t in tracks},
-        "artists": {"900": {"artistName": "アーティスト"}},
+        "artists": artists or {"900": {"artistName": "アーティスト"}},
         "missing": [i for i in rss_ids if i not in {t["trackId"] for t in tracks}],
     }
     directory.mkdir(parents=True, exist_ok=True)
     (directory / f"{day}.json").write_bytes(dumps(snapshot).encode("utf-8"))
 
 
-def only_track(tmp_path, **over):
-    write_snapshot(tmp_path, "2026-10-10", [lookup("1", **over)])
+def only_track(tmp_path, artists=None, **over):
+    write_snapshot(tmp_path, "2026-10-10", [lookup("1", **over)], artists=artists)
     return AppleProvider(tmp_path).snapshots()[0].entries[0].track
 
 
@@ -150,3 +154,32 @@ def test_file_name_must_match_the_date(tmp_path):
 def test_no_snapshot_is_an_error(tmp_path):
     with pytest.raises(InputError, match="fetch"):
         AppleProvider(tmp_path / "vazio").snapshots()
+
+
+def test_romanized_artist_lookup_becomes_the_latin_name(tmp_path):
+    # O lookup de artista vem romanizado ("Kenshi Yonezu"); o nome exibido continua o japonês.
+    t = only_track(tmp_path, artists={"900": {"artistName": "Artisuto"}})
+    assert t.artists[0].name == "アーティスト"
+    assert t.artists[0].name_latin == "Artisuto"
+    assert t.artist_display is None
+
+
+def test_real_sample_from_the_first_chart():
+    """Amostra reduzida da parada real de 10/10/2026 (só metadados): regressão do mapeamento."""
+    directory = Path(__file__).parent / "data" / "apple"
+    snap = AppleProvider(directory).snapshots()[0]
+    by_title = {e.track.title: e.track for e in snap.entries}
+    assert [e.rank for e in snap.entries] == [1, 2, 3, 4, 5]
+    assert by_title["結び"].album.type == "single"
+    assert by_title["わたがし"].album.type == "ep"
+    assert by_title["スパークル"].album.type == "album"
+    assert by_title["SAD SONG"].explicit is True
+    jane = by_title["JANE DOE"]
+    assert [a.name for a in jane.artists] == ["米津玄師"]
+    assert jane.artists[0].name_latin == "Kenshi Yonezu"
+    assert jane.artist_display == "米津玄師 & 宇多田ヒカル"
+    for t in by_title.values():
+        assert t.store_url.startswith("https://music.apple.com/jp/") and "uo=" not in t.store_url
+        assert "i=" in t.store_url
+        assert t.preview_url.startswith("https://audio-ssl.itunes.apple.com/")
+        assert t.album.artwork_url.endswith("/300x300bb.jpg")
