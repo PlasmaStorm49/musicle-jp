@@ -1,5 +1,5 @@
 // O que a tela mostra de cada opção e da revelação. Função pura: os componentes só desenham.
-import { isAppleUrl } from "./apple.ts";
+import { APPLE_PROVIDER, isAppleUrl } from "./apple.ts";
 import type { CatalogIndex } from "./catalog.ts";
 import { searchKey } from "./normalize.ts";
 import type { Target } from "./types.ts";
@@ -37,6 +37,12 @@ function langOf(text: string): "ja" | undefined {
   return JAPANESE.test(text) ? "ja" : undefined;
 }
 
+/** Capa que vai para um <img>: na parada real, só no host da Apple (as fixtures são relativas). */
+function artworkOf(index: CatalogIndex, url: string | null | undefined): string | null {
+  if (!url) return null;
+  return index.catalog.provider !== APPLE_PROVIDER || isAppleUrl("artwork", url) ? url : null;
+}
+
 /** Uma opção do modo 4 opções: faixa (Música) ou álbum (Álbum). */
 export function optionView(index: CatalogIndex, id: string, target: Target): ItemView | null {
   if (target === "song") {
@@ -48,7 +54,7 @@ export function optionView(index: CatalogIndex, id: string, target: Target): Ite
       title: track.title,
       titleLatin: latinIfDifferent(track.title, track.titleLatin),
       artist: track.artistDisplay,
-      artworkUrl: album?.artworkUrl ?? null,
+      artworkUrl: artworkOf(index, album?.artworkUrl),
       lang: langOf(track.title),
     };
   }
@@ -59,7 +65,7 @@ export function optionView(index: CatalogIndex, id: string, target: Target): Ite
     title: album.title,
     titleLatin: latinIfDifferent(album.title, album.titleLatin),
     artist: album.artistDisplay,
-    artworkUrl: album.artworkUrl,
+    artworkUrl: artworkOf(index, album.artworkUrl),
     lang: langOf(album.title),
   };
 }

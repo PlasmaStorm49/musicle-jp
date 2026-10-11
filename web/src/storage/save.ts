@@ -7,6 +7,7 @@
 // - um save de versão MAIOR que a nossa (aba antiga, cache) nunca é sobrescrito;
 // - cada gravação relê, mescla e grava: duas abas abertas não apagam um dia terminado.
 import { isValidDate } from "../core/dates.ts";
+import { isRecord } from "../core/guards.ts";
 import type { FinishedGame, InProgress, Save, Settings } from "../core/records.ts";
 import { emptySave } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
@@ -64,10 +65,6 @@ export type LoadResult = {
 const PUZZLE_ID = /^(\d{4}-\d{2}-\d{2})\|(song|album)$/;
 const STATUSES = new Set(["won", "lost", "void"]);
 const MARKS = new Set(["skip", "wrong", "right"]);
-
-function isRecord(x: unknown): x is Record<string, unknown> {
-  return typeof x === "object" && x !== null && !Array.isArray(x);
-}
 
 function isPuzzleId(id: string): boolean {
   const match = PUZZLE_ID.exec(id);

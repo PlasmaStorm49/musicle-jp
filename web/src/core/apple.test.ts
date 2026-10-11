@@ -16,7 +16,7 @@ describe("isAppleUrl", () => {
     ["artwork", "https://is1-ssl.mzstatic.com/image/thumb/Music/x/300x300bb.jpg"],
     ["artwork", "https://is5-ssl.mzstatic.com/image/thumb/a.jpg"],
     ["store", "https://music.apple.com/jp/song/x/1706829387"],
-    ["store", "https://music.apple.com:443/jp/song/x/1"],
+    ["store", "https://MUSIC.apple.com/jp/song/x/1"],
   ] as const)("aceita %s: %s", (kind, url) => {
     expect(isAppleUrl(kind, url)).toBe(true);
   });
@@ -38,6 +38,11 @@ describe("isAppleUrl", () => {
     ["artwork", "https://isx-ssl.mzstatic.com/a.jpg"],
     ["artwork", "fixtures/art/al01.svg"],
     ["preview", "https://[::1/x"],
+    ["store", "https:///music.apple.com/jp/song/1"],
+    ["store", "https://music%2Eapple.com/jp/song/1"],
+    ["store", "https://music.apple.com:443/jp/song/1"],
+    ["store", "https://music.apple.com:8443/jp/song/1"],
+    ["store", "HTTPS://music.apple.com/jp/song/1"],
   ] as const)("recusa %s: %j", (kind, url) => {
     expect(isAppleUrl(kind, url)).toBe(false);
   });

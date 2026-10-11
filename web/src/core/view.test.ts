@@ -70,6 +70,20 @@ describe("revealView", () => {
     expect(revealView(index, "fixture:tr:nada")).toBeNull();
   });
 
+  it("capa da parada real: só no host da Apple; a da fixture, relativa, passa", () => {
+    const real = indexCatalog(realCatalog);
+    const album = realCatalog.albums[0];
+    expect(optionView(real, album?.id ?? "", "album")?.artworkUrl).toBe(album?.artworkUrl);
+    const foreign = indexCatalog({
+      ...realCatalog,
+      albums: realCatalog.albums.map((a) =>
+        a.id === album?.id ? { ...a, artworkUrl: "https://evil.test/capa.jpg" } : a,
+      ) as Catalog["albums"],
+    });
+    expect(optionView(foreign, album?.id ?? "", "album")?.artworkUrl).toBeNull();
+    expect(optionView(index, "fixture:al:al02", "album")?.artworkUrl).toBe("fixtures/art/al02.svg");
+  });
+
   it("link da loja: o da Apple passa; javascript: e outro host viram null (P69)", () => {
     const real = indexCatalog(realCatalog);
     const track = realCatalog.tracks[0];

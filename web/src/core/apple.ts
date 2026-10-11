@@ -5,6 +5,8 @@
 // pipeline já confere antes de gravar; a tela confere de novo porque as URLs vão parar em
 // <img>, no áudio e num href (um "javascript:" num href executaria código).
 
+import { isRecord } from "./guards.ts";
+
 export const APPLE_PROVIDER = "apple";
 
 const TRACK_PREFIX = "apple:tr:";
@@ -28,19 +30,29 @@ const HOSTS: Readonly<Record<AppleUrlKind, RegExp>> = {
 
 const SCHEME = "https://";
 
-/** https, sem usuário nem senha, sem espaço nem barra invertida, com caminho e host da lista. */
+/**
+ * https, sem usuário nem senha, sem espaço nem barra invertida, sem porta, com caminho e host da
+ * lista. Um pouco mais estrito que o Python nas bordas (porta explícita, esquema em maiúsculas),
+ * que o pipeline nunca produz.
+ */
 export function isAppleUrl(kind: AppleUrlKind, url: string): boolean {
   // O parser de URL do navegador apaga espaços e troca "\" por "/": a checagem vem antes dele.
   if (/[\s\\]/u.test(url) || !url.startsWith(SCHEME)) return false;
   const authority = url.slice(SCHEME.length).split(/[/?#]/, 1)[0] ?? "";
-  if (authority.includes("@")) return false;
   let parsed: URL;
   try {
     parsed = new URL(url);
   } catch {
     return false;
   }
-  return parsed.pathname !== "/" && HOSTS[kind].test(parsed.hostname);
+  // A authority escrita tem de ser o host que o parser entendeu: fecha "https:///host", o
+  // "%2E" no nome, usuário ("@") e porta, que o parser normalizaria em silêncio.
+  return (
+    authority.toLowerCase() === parsed.host &&
+    parsed.port === "" &&
+    parsed.pathname !== "/" &&
+    HOSTS[kind].test(parsed.hostname)
+  );
 }
 
 /** Número da faixa no iTunes ("apple:tr:123" → "123"); null se não é faixa da Apple. */
@@ -56,10 +68,6 @@ export function appleTrackNumber(id: string): string | null {
 export function lookupUrl(numbers: readonly string[]): string {
   const ids = [...new Set(numbers)].sort().join(",");
   return `${LOOKUP_URL}?id=${ids}&country=jp`;
-}
-
-function isRecord(x: unknown): x is Record<string, unknown> {
-  return typeof x === "object" && x !== null && !Array.isArray(x);
 }
 
 /**

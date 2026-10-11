@@ -129,7 +129,7 @@ describe("loadSave", () => {
     expect(result.notice).toBe("repaired");
   });
 
-  it("preferência desconhecida na v1 é descartada com aviso de reparo", () => {
+  it("preferência desconhecida é descartada com aviso de reparo", () => {
     const result = loadSave(withRaw(JSON.stringify({ ...valid, settings: { mode: "typing" } })));
     expect(result.save.settings).toEqual({});
     expect(result.save.history).toEqual(valid.history);
