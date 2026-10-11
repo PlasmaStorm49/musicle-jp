@@ -50,6 +50,10 @@ class RawTrack:
     isrc: str | None = None
     preview_url: str | None = None
     preview_duration_sec: int | float | None = None  # None = desconhecido
+    store_url: str | None = None  # página da faixa na loja (link "Ouvir no Apple Music")
+    # Grafia do provedor para os artistas da faixa (ex.: "A & B"), quando difere da junção dos
+    # nomes canônicos; None = usar a junção.
+    artist_display: str | None = None
 
 
 @dataclass(frozen=True)
@@ -114,6 +118,8 @@ def track_from_dict(data: JSON, where: str) -> RawTrack:
         isrc=data.get("isrc"),
         preview_url=data.get("previewUrl"),
         preview_duration_sec=_number(data.get("previewDurationSec")),
+        store_url=data.get("storeUrl"),
+        artist_display=data.get("artistDisplay"),
     )
 
 

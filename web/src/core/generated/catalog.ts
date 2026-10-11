@@ -96,6 +96,10 @@ export interface Track {
   explicit: boolean;
   isrc: string | null;
   preview: Preview | null;
+  /**
+   * Página da faixa na loja (link "Ouvir no Apple Music" da revelação); null sem loja.
+   */
+  storeUrl: AssetUrl | null;
   chart: Chart;
   popularity: number;
   eligible: Eligible;

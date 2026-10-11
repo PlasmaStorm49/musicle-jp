@@ -25,8 +25,6 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P25 | `epoch` da agenda real (M11, em `public/data/`, com IDs da Apple): 2026-10-10, decidido nesse dia. Se ela for publicada depois, o 1º desafio real sai com nº maior que 1, e os dias entre o `epoch` e a publicação ficam como buraco (P44) |
 | P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
 | P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2 |
-| P60 | A regra da P28 vale também para o Python (M9): versões exatas de tudo, diretas e indiretas, em `pipeline/constraints.txt`, e o `setuptools` do build fixo no `pyproject.toml`. Na adoção, três caíram para a versão anterior: ruff 0.16.9, rpds-py 2026.6.3 e iniconfig 2.3.0 |
-| P64 | PR semanal da agenda aberto pela Action com o `GITHUB_TOKEN` (M10): as checagens rodam depois de "Approve workflows to run", e o merge é humano (o push dele dispara o deploy). Sem segredo; exige "Allow GitHub Actions to create and approve pull requests" ligado |
 | P31 | Aviso de faixa explícita no player antes de tocar e na revelação |
 | P32 | Romaji menor embaixo do título japonês nas opções |
 | P33 | "Ouvir mais" libera a etapa e toca o trecho maior na hora |
@@ -46,21 +44,36 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P50 | O Treino não salva nada: só o placar da sessão, e recarregar a página começa outra |
 | P51 | No Álbum, as opções mostram capa, título e artista (também na lista da revelação) |
 | M8 | A sessão do Treino dura enquanto a página está aberta: trocar de aba não zera placar nem saco |
+| P60 | A regra da P28 vale também para o Python (M9): versões exatas de tudo, diretas e indiretas, em `pipeline/constraints.txt`, e o `setuptools` do build fixo no `pyproject.toml`. Na adoção, três caíram para a versão anterior: ruff 0.16.9, rpds-py 2026.6.3 e iniconfig 2.3.0 |
+| P64 | PR semanal da agenda aberto pela Action com o `GITHUB_TOKEN` (M10): as checagens rodam depois de "Approve workflows to run", e o merge é humano (o push dele dispara o deploy). Sem segredo; exige "Allow GitHub Actions to create and approve pull requests" ligado |
+| P68 | Os saves fictícios (desde 08/10) são zerados na troca para a parada real (M11): migração do save v1 → v2 que mantém só as preferências |
+| P69 | Previews da Apple com as exigências escritas: selo oficial "Listen on Apple Music" (sem alteração), "provided courtesy of iTunes" junto ao player e link direto à loja; na rodada, o selo leva à playlist "Top 100: Japão" (não entrega a resposta), na revelação, à música. Zona cinzenta aceita (o preview é "not for entertainment purposes"); se a Apple pedir, sai do ar |
+| P70 | A reserva de áudio é um motor composto: Web Audio → `<audio>` na mesma URL; lookup que falha → `previewUrl` guardado no catálogo. O Deezer sai do plano (termos de "uso privado familiar" e casamento por texto que erra) |
+| P71 | A Action semanal instala o extra `romaji` e o `romaji.json` entra no PR do robô, para revisão junto com a agenda |
+| P72 | O snapshot real guarda a resposta da Apple aparada; o mapeamento para o contrato neutro fica na leitura (`providers/apple.py`) |
+| P73 | Campo `storeUrl` na faixa (`url` ou `null`), mudança compatível: o `schemaVersion` continua 1 |
+| P74 | O `fetch` busca também os artistas: o nome do lookup de artista (romanizado ou em inglês) vira o latino oficial (`latinSource` "provider"); a grafia de parceria da faixa ("A & B") vira o `artistDisplay` e entra na busca |
+| P75 | No iPhone, `navigator.audioSession.type = "playback"`: o jogo toca com a chave de silêncio ligada (pausa a música de fundo) |
+| P76 | `?htmlAudio=1` e `?failLookup=1` valem também no site publicado (testar a reserva no celular); `?fakeAudio`, `?date` e `?failAudio` seguem só em desenvolvimento |
+| P77 | A 1ª agenda real nasce no PR da troca do site (PR B do M11), com o `--today` do dia do merge |
 
-## 3. Fonte de dados (usada só no M11)
+## 3. Fonte de dados (ligada no M11)
 
-| Uso | Fonte | Fato verificado em 08/10/2026 |
+Pesquisa de 10/10/2026 (subagente; JSON lido de verdade, nenhum áudio baixado):
+
+| Uso | Fonte | Fatos |
 |---|---|---|
-| Parada do Japão | `https://rss.marketingtools.apple.com/api/v2/jp/music/most-played/100/songs.json` | Grátis, sem autenticação, 100 itens, `id` igual ao `trackId` do iTunes. **Sem CORS**: só o pipeline lê |
-| Preview e metadados | `https://itunes.apple.com/lookup?id=<ids>&country=jp` | Grátis, sem autenticação, `previewUrl` m4a de 30 s, `Access-Control-Allow-Origin: *` na API e no servidor de áudio. Limite de cerca de 20 chamadas/min |
-| Reserva de preview | Deezer API via JSONP | URL do preview expira em cerca de 15 min; termos só para uso não comercial |
-| Descartados | Spotify, YouTube, Apple Music API | Spotify proíbe jogos e quiz (política de 15/05/2025) e cortou previews para apps novos (27/11/2024). YouTube proíbe isolar o áudio. Apple Music API custa US$ 99/ano |
+| Parada do Japão | `https://rss.marketingtools.apple.com/api/v2/jp/music/most-played/100/songs.json` | 100 itens com `id` (= `trackId` do iTunes), `name`, `artistName`, `artistId`, `artworkUrl100`, `releaseDate`, `genres`, `url`; `contentAdvisoryRating` só nas explícitas, escrito "Explict". Sem álbum nem duração. Atualizada todo dia; `updated` e ETag mudam a cada pedido (mudança se detecta pela lista de ids). Limite 200 dá HTTP 500. **Sem CORS**: só o pipeline lê |
+| Metadados e prévia | `https://itunes.apple.com/lookup?id=<até 200>&country=jp` | `country=jp` obrigatório (`us` omite faixas e romaniza). Faixa: `trackName`, `collectionName` (com " - Single"/" - EP"), `trackViewUrl` (com `?uo=4`), `previewUrl` (m4a AAC de 30 s, estável, sem token), `artworkUrl100` (tamanho trocável no nome), `releaseDate` com hora (UTC), `trackTimeMillis`, `trackExplicitness`; sem ISRC. O registro de **artista** (e às vezes o de álbum) vem romanizado. Cerca de 20 consultas/min; `max-age=86400`. CORS `*` |
+| Áudio e capas | `audio-ssl.itunes.apple.com`, `isN-ssl.mzstatic.com` | CORS `*` nos dois; o áudio tem cerca de 1 MB por prévia |
+| Decodificação | Web Audio (`decodeAudioData`) | AAC no Chrome, Edge e Safari; no Firefox depende do sistema; o Chromium do Playwright não tem AAC (o e2e usa o motor falso) |
+| Descartados | Deezer (P70), Spotify, YouTube, Apple Music API | Spotify proíbe jogos e quiz e cortou previews para apps novos; YouTube proíbe isolar o áudio; Apple Music API custa US$ 99/ano |
 
 **Consequências no desenho:**
 
-- O pipeline guarda o `trackId` e um `previewUrl` de reserva.
-- O navegador resolve o preview na hora com o `lookup`, uma chamada por rodada.
-- Termos da Apple (Promo Content): atribuição, link "Ouvir no Apple Music" junto ao player, sem baixar nem guardar o áudio, projeto não comercial. Há zona cinzenta (o preview não deveria ter "valor de entretenimento independente"), o mesmo risco que o Musicle assume.
+- O `fetch` (único comando com rede) grava um snapshot por dia em `pipeline/data/apple/snapshots/`; o resto do pipeline lê arquivos.
+- O pipeline guarda o `trackId` (no `id`), o `previewUrl` como reserva e o `storeUrl`; o navegador resolve a prévia na hora com o lookup, em lote (PR B do M11).
+- **Termos da Apple** (Search API, seção Legal): uso "only to promote store content and not for entertainment purposes"; prévia "proximate to a store badge" com link direto à loja; atribuição "provided courtesy of iTunes"; só streaming, sem guardar. Um jogo usa a prévia como entretenimento: zona cinzenta aceita (P69), a mesma do Musicle.
 
 ## 4. Arquitetura
 
@@ -71,8 +84,8 @@ musicle-jp/
   .github/workflows/   ci.yml, deploy.yml, update-catalog.yml
   docs/      PLANO.md
   shared/    schema/*.schema.json (contrato Python↔TS), vectors/normalize.json, vectors/prng.json
-  pipeline/  pyproject.toml, data/aliases.toml, data/romaji.json, fixtures/chart_fixture.json
-             src/musicle_pipeline/  cli, models, providers/{base,fixture}, normalize, romaji, merge,
+  pipeline/  pyproject.toml, constraints.txt, data/apple/{aliases.toml, romaji.json, snapshots/}, fixtures/{chart_fixture.json, aliases.toml, romaji.json}
+             src/musicle_pipeline/  cli, models, providers/{base,fixture,apple}, fetch, normalize, romaji, catalog,
                                     similarity, prng, schedule, io_json, validate
              tests/
   web/       Vite + TS + Preact + Biome + Vitest + Playwright
@@ -140,6 +153,10 @@ musicle-jp/
 - S5. Ativar o estilo de saída "Learning" ou "Explanatory" nas sessões deste projeto.
 - S6. Registrar cada decisão como ADR em `docs/decisoes/`.
 - S7. A partir do M9, um marco por branch e por PR. (Adotada no M9: a proteção da `main` exige PR.)
+- S8. Tirar o `fetchedAt` do cabeçalho `Date` da resposta do RSS, em vez de argumento (subagente Plan do M11).
+- S9. Teste e2e da reserva com `<audio>` de verdade, usando os WAV das fixtures (subagente Plan do M11).
+- S10. Hashes no `constraints.txt` (`--require-hashes`), ao menos na Action (subagente Plan do M11).
+- S11. `build --check`: sai com código 1 se o arquivo mudaria (subagente Plan do M11).
 
 **Melhorias futuras**
 
@@ -151,13 +168,16 @@ musicle-jp/
 - ME6. App do Claude no GitHub para revisar PR.
 - ME7. Tema escuro e revisão de acessibilidade.
 - ME8. Tolerância a erro de digitação (distância de edição) no autocompletar.
-- ME9. Partículas `は` e `へ` lidas como "wa" e "e" na consulta em kana, se o cutlet as escrever assim nos títulos reais (Apêndice B, M11).
+- ME9. Partículas `は` e `へ` lidas como "wa" e "e" na consulta em kana: o cutlet as escreve assim nos títulos reais (conferido no M11, Apêndice B). Entra no PR B do M11.
 - ME10. `actionlint` ou `zizmor` na CI, para revisar o próprio workflow a cada PR (revisor do M9).
 - ME11. Fixar também a versão do `pip` na CI (`/code-review` do M9).
 - ME12. Levar a escolha da revisão base do `schedule-check` do YAML para o Python, com teste (`/code-review` do M9).
 - ME13. No M11, buscar `catalog.json` e `schedule.json` com `fetch(..., { cache: "no-cache" })`: com a parada real, catálogo novo e agenda velha em cache não podem se misturar (subagente Plan do M10).
 - ME14. Aviso de folga da agenda (menos de 7 dias à frente) no resumo do deploy (subagente Plan do M10).
 - ME15. Teste de fumaça contra o `vite preview` em `/musicle-jp/` (a página abre, os JSON e um WAV respondem 200, console limpo), para pegar caminho absoluto no código, que a checagem do `dist/index.html` não vê (revisor do M10).
+- ME16. Separar a grafia de parceria em vários artistas (`artistId`), casando com nomes já conhecidos (subagente Plan do M11).
+- ME17. Dividir ou podar o catálogo real quando passar de cerca de 1 MB (hoje 245 KB com 100 faixas).
+- ME18. Medir a latência do 1º "Tocar" no site publicado (lookup + cerca de 1 MB + decodificação).
 
 ---
 
@@ -207,7 +227,18 @@ musicle-jp/
 - **`popularity`:** maior nota entre as aparições: `((size − posição + 1) / size) × 0,5^(semanas atrás / 8)`, com o `size` de cada snapshot, 4 casas.
 - **`eligible`:** `{ daily, reason }`, com um motivo só, na ordem `no-preview` > `short-preview` (trecho útil < 16 s; duração desconhecida não reprova) > `no-artwork`. `blocked` (aliases, M2) vence todos. O motivo `explicit` existe no schema mas não é usado: pela P17, explícitas podem ser resposta, com aviso na tela.
 - **`similar`:** vazio no M1. No M3, os 10 candidatos a distrator mais próximos, calculados no Python.
-- **`latinSource`:** `provider` quando o título latino veio do provedor; no M2 entram `official`, `manual`, `cutlet` e `pykakasi`.
+- **`latinSource`:** `provider` quando o latino veio do provedor (na Apple, o nome do artista no lookup de artista, P74); no M2 entram `manual` e `cutlet`.
+- **`storeUrl`** (M11, P73): página da faixa na loja, sem o parâmetro de rastreio `uo` (o `i=` fica: sem ele o link abre o álbum); `null` nas fixtures.
+
+### Snapshot da parada real (M11)
+
+`pipeline/data/apple/snapshots/AAAA-MM-DD.json`, gravado pelo `fetch` e só de acréscimo: `{provider, storefront, chart, date, fetchedAt, rss: [{id, name, artistName}], tracks: {<trackId>: campos aparados do lookup}, artists: {<artistId>: {artistName}}, missing: [...]}`. O `providers/apple.py` mapeia na leitura (P72):
+
+- tipo do álbum pelo sufixo do `collectionName` (" - Single", " - EP"; com `collectionArtistName`, coletânea);
+- `releaseDate` + 9 h antes de cortar. Na 1ª parada, as horas vistas foram 07:00Z, 08:00Z e 12:00Z (nenhuma em 15:00Z, a meia-noite do Japão): o +9 h não mudou nenhuma data e segue como hipótese;
+- capa em `300x300bb`; explícita por `trackExplicitness`; prévia de 30 s;
+- nome do artista: o japonês das faixas; o do lookup de artista vira o latino (P74); parceria vira o `artistDisplay`;
+- faixa sem lookup fica fora do dia, com as posições recompactadas; álbum fixo por faixa (o primeiro que apareceu), com aviso.
 
 ### schedule.json
 
@@ -259,7 +290,7 @@ Compara a consulta com as chaves que o catálogo já traz; nada muda no pipeline
   - **sem `ー`**, comparada com as chaves sem `ー`: `かてん` acha `かーてんこーる`.
 - **Ordem:** começo do título > começo do artista > meio do título > meio do artista ("meio" só com 2+ caracteres); dentro da mesma faixa, a consulta exata vence a truncada e a sem `ー`; depois popularidade e `id` (comparação por code unit). Até 8 linhas. Uma letra só busca por prefixo.
 - **IME:** o campo escuta `compositionstart`/`compositionend` por `addEventListener` (o `onCompositionEnd` do Preact não dispara no Chrome). Durante a composição, a busca ignora o latim que ainda está virando kana no fim (`とうk`, `とうｋ`, `かーt`); romaji puro em composição (teclado do celular) busca como está. O Enter que confirma a conversão não escolhe opção.
-- **Pendente para o M11:** conferir com títulos reais se o cutlet escreve as partículas `は` e `へ` como "wa" e "e". Se sim, a consulta em kana precisa de uma variante com essa leitura (hoje `は` vira "ha").
+- **Conferido no M11** (1ª parada real, 10/10/2026): o cutlet escreve a partícula `は` como "wa" ("Kimi wa rokku wo kikanai", "gen'in wa") e `を` como "wo". A consulta em kana ainda transforma `は` em "ha": a variante com "wa" é a ME9, a fazer no PR B do M11.
 
 ### Romaji no pipeline (decidido no M2, 08/10/2026)
 
@@ -273,7 +304,7 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 **Decisão (P21 a P23):**
 
 - **cutlet**, no extra opcional `[romaji]`, com versões exatas.
-- **Romaji é cache versionado.** O comando `romanize` grava `pipeline/data/romaji.json`, que vai para o Git e é revisado no diff. O `build` só lê o cache e nunca importa a biblioteca. Assim a CI não instala os 250 MB, e o catálogo não muda quando o dicionário muda.
+- **Romaji é cache versionado.** O comando `romanize` grava o `romaji.json` do provedor (`pipeline/fixtures/` ou `pipeline/data/apple/`), que vai para o Git e é revisado no diff. O `build` só lê o cache e nunca importa a biblioteca. Assim a CI não instala os 250 MB, e o catálogo não muda quando o dicionário muda.
 - **Exibição em Hepburn.** A grafia estrangeira ("Curtain call") entra só na busca, porque às vezes erra ("Tokyo right" para 東京ライツ).
 - **Antes de romanizar,** emoji e invisíveis saem e `・` vira espaço. Sem isso, o cutlet produziria `?` e `/`.
 - **Precedência do latino exibido:** `aliases.toml` (`manual`) > provedor (`provider`) > cache (`cutlet`).

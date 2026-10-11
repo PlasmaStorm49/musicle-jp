@@ -142,3 +142,31 @@ def test_repeated_snapshot_date_is_rejected():
     s = make_snapshot("2026-01-05", [make_track("a")])
     with pytest.raises(InputError, match="repetidas"):
         build_catalog([s, s], "fixture", "jp")
+
+
+def test_store_url_and_provider_artist_display():
+    # Parceria vinda da Apple: um artistId só, mas a grafia "A & B" é a que aparece e a que acha.
+    track = replace(
+        make_track("t1"),
+        store_url="https://music.apple.com/jp/album/x/1?i=2",
+        artist_display="Artist ar1 & Guest",
+    )
+    catalog = build_catalog([make_snapshot("2026-10-10", [track])], "fixture", "jp")
+    t = track_by_id(catalog, "t1")
+    assert t["storeUrl"] == "https://music.apple.com/jp/album/x/1?i=2"
+    assert t["artistDisplay"] == "Artist ar1 & Guest"
+    # Álbum completo: uma faixa "feat." não vira o artista do álbum inteiro.
+    assert album_by_id(catalog, t["albumId"])["artistDisplay"] == "Artist ar1"
+    assert any("guest" in key for key in t["search"]["artist"])
+
+
+def test_single_takes_the_collaboration_spelling():
+    track = replace(make_track("t1"), artist_display="Artist ar1 & Guest")
+    single = replace(track, album=replace(track.album, type="single"))
+    catalog = build_catalog([make_snapshot("2026-10-10", [single])], "fixture", "jp")
+    album = album_by_id(catalog, track_by_id(catalog, "t1")["albumId"])
+    assert album["artistDisplay"] == "Artist ar1 & Guest"
+
+
+def test_store_url_defaults_to_null(fixture_catalog):
+    assert all(t["storeUrl"] is None for t in fixture_catalog["tracks"])

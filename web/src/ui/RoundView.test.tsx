@@ -24,6 +24,7 @@ const track = (n: number): Track => ({
   explicit: false,
   isrc: null,
   preview: { url: `audio/${n}.wav`, durationSec: 30, startSec: 0 },
+  storeUrl: null,
   chart: {
     firstSeen: "2026-01-01",
     lastSeen: "2026-01-01",
