@@ -6,10 +6,11 @@ describe("tabFromHash (P49)", () => {
     ["#musica", "song"],
     ["#album", "album"],
     ["#treino", "practice"],
-    ["", "song"],
-    ["#", "song"],
-    ["#nada", "song"],
-    ["#ALBUM", "song"],
+    ["#inicio", "home"],
+    ["", "home"],
+    ["#", "home"],
+    ["#nada", "home"],
+    ["#ALBUM", "home"],
   ])("%j → %s", (hash, tab) => {
     expect(tabFromHash(hash)).toBe(tab);
   });

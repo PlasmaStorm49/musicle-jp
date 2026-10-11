@@ -2,19 +2,23 @@
 // ler window.location (quem chama passa o endereço).
 import type { Target } from "./types.ts";
 
-/** As abas do jogo: os dois diários e o Treino. */
-export type Tab = Target | "practice";
+/** As abas do jogo: a home, os dois diários e o Treino. */
+export type Tab = "home" | Target | "practice";
 
 // Nenhum elemento da página pode ter id igual a uma rota: o navegador rolaria até ele.
 export const ROUTES: Readonly<Record<Tab, string>> = {
+  home: "#inicio",
   song: "#musica",
   album: "#album",
   practice: "#treino",
 };
 
-/** A aba de um endereço. Desconhecido ou vazio abre a Música. */
+/**
+ * A aba de um endereço. Vazio ou desconhecido abre a home: é onde caem o endereço do site, o link
+ * do compartilhar e os links antigos.
+ */
 export function tabFromHash(hash: string): Tab {
-  return (Object.keys(ROUTES) as Tab[]).find((tab) => ROUTES[tab] === hash) ?? "song";
+  return (Object.keys(ROUTES) as Tab[]).find((tab) => ROUTES[tab] === hash) ?? "home";
 }
 
 /**
