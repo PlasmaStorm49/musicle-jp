@@ -234,6 +234,17 @@ describe("Player com o som tocando", () => {
     expect(play.hasAttribute("disabled")).toBe(false);
   });
 
+  it("Ouvir mais de uma etapa do meio: o foco fica nele, para o Enter seguinte ouvir mais", async () => {
+    const { engine } = webAudioLike();
+    render(<Controlled engine={engine} start={0} />);
+    const more = screen.getByRole("button", { name: /Ouvir mais/ });
+    more.focus();
+    fireEvent.click(more);
+    await act(async () => {});
+    expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: /Ouvir mais/ }));
+  });
+
   it("o último Ouvir mais some, e o foco vai para o Parar (não cai no body)", async () => {
     const { engine } = webAudioLike();
     render(<Controlled engine={engine} start={MAX_STAGE - 1} />);
