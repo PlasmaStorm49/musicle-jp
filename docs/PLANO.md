@@ -133,7 +133,7 @@ musicle-jp/
 | M8 | Concluído em 09/10/2026 | Alvo Álbum + modo Treino | As 4 combinações jogáveis | 2º worktree, merge e conflito |
 | M9 | Concluído em 09/10/2026 | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review`, ferramentas de PR do app (Auto-fix) |
 | M10 | Concluído em 10/10/2026 | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions, navegador do Claude na URL pública |
-| M11 | | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
+| M11 | Concluído em 11/10/2026 | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
 
 ## 6. Riscos
 
@@ -541,18 +541,21 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
   - `catalog-generate` (só leitura, 20 min):
     - instala o pipeline com o extra `romaji` (P71);
     - `fetch` da Apple, com `continue-on-error`: se a busca falhar, segue com aviso e o PR traz só a agenda;
-    - `romanize --provider apple` (só textos novos, sem `--refresh`) e `--check`;
+    - o `fetch` recusa parada com mais de 100 itens, como o robô recusaria depois: o caminho é "PR só com a agenda", que não trava;
+    - `romanize --provider apple` (só textos novos, sem `--refresh`) e `--check`. O extra `romaji` (250 MB) só é instalado quando o `--check` acusa texto novo;
     - `build` e `schedule` das duas paradas: a real e a das fixtures, que só serve ao desenvolvimento e cresce junto para o `npm run dev` ter o dia de hoje;
     - `validate` das duas e `schedule-check`;
     - **lista fechada** do que pode mudar: o snapshot de hoje (novo), o `romaji.json` da Apple, o catálogo real e as duas agendas. Qualquer outra mudança falha. Sem mudança, termina sem PR;
+    - os avisos do `build` e do `schedule` da parada real (`aviso: ...`) vão no artefato, fora da lista, para o corpo do PR;
   - `catalog-pr` (`contents: write`, `pull-requests: write`): não roda o pipeline nem instala pacotes, então um pacote comprometido do pip nunca chega perto do token que escreve.
-    - Confere de novo, só com `jq`, cada arquivo do artefato (`.github/scripts/check-catalog-pr.sh`, que vem da main e tem teste: `pipeline/tests/test_catalog_pr_script.py`, que pula sem `jq`):
-      - só arquivos comuns da lista fechada;
+    - Confere de novo, só com `jq`, cada arquivo do artefato (`.github/scripts/check-catalog-pr.sh`, que vem da main e tem teste: `pipeline/tests/test_catalog_pr_script.py`, que pula sem `jq` fora da CI):
+      - só arquivos comuns da lista fechada, cada um com um JSON só;
       - snapshot do dia, da Apple, com até 100 faixas;
       - romaji só de acréscimo, com o mesmo motor;
-      - catálogo sem perder id, com URLs só nos hosts da Apple e os snapshots da main intactos;
+      - catálogo sem perder id, com URLs só nos hosts da Apple (regex com `\A` e `\z`) e os snapshots da main intactos, com o de hoje espelhando o arquivo do dia;
       - agendas só com dias novos em sequência (P44).
-    - Monta o PR com a parada nova (faixas novas no catálogo), os dias novos, o aviso de buraco e o romaji novo para revisão, num bloco de código (título com `@` não vira menção);
+    - Monta o PR com a parada nova (faixas novas no catálogo), os dias novos, o aviso de buraco, o aviso de parada velha (mais de 13 dias sem snapshot: a busca pode estar quebrada), o romaji novo e os avisos do pipeline para revisão, em blocos de código (título com `@` não vira menção);
+    - se o PR do dia já está aberto: com o mesmo conteúdo, não faz nada; com outro (a busca falhou de manhã e voltou à tarde, ou o PR veio do robô antigo), falha em vermelho com a instrução de fechar o PR, apagar o branch e rodar de novo;
     - envia o branch `catalogo/<data>` com o token num auxiliar de credencial (fora do `.git/config`), abre o PR e fecha o anterior que ficou sem merge;
   - o PR do `GITHUB_TOKEN` não roda a CI sozinho: as checagens esperam "Approve workflows to run" (P64). O merge humano dispara o deploy; um push feito com o `GITHUB_TOKEN` não dispararia;
   - "Allow GitHub Actions to create and approve pull requests" ligado (P64). Criar e aprovar são a mesma chave: qualquer workflow com `pull-requests: write` poderia aprovar um PR. Hoje o ruleset não exige aprovação, então a `main` não fica mais aberta; rever se um dia exigir;
@@ -575,6 +578,17 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
   - 1ª execução manual do `update-catalog`: as duas tarefas verdes, e o PR #5 aberto por `app/github-actions`, só com o `schedule.json` (30 e 31/10). A CI dele ficou `action_required` até "Approve workflows to run"; depois, as três checagens verdes contaram para o ruleset. O merge humano disparou o deploy, e a agenda publicada passou a ir até 31/10;
   - 2ª execução no mesmo dia: "0 dia(s) novo(s); sem mudanças", e `catalog-pr` pulada, sem PR;
   - no Windows, o Git Bash ignora `TZ=America/Sao_Paulo` (não tem o banco de fusos) e mostra UTC. A hora de Brasília local sai do PowerShell (`TimeZoneInfo`); o runner Ubuntu calcula certo.
+- **Critério de pronto do M11 conferido** (11/10/2026, "Diário com previews reais; reserva de áudio testada"):
+  - PR #7 (pipeline e 1ª parada real) e PR #8 (o site com a parada real): três checagens verdes e merge; os deploys, verdes;
+  - URL pública no navegador do Claude, depois do deploy do PR #8:
+    - abre o "Diário Música · nº 2" (o 10/10 é buraco, P44);
+    - `data/catalog.json` e `data/schedule.json` respondem 200, e sai uma consulta só ao lookup, com as 6 faixas do dia, antes da escolha do modo;
+    - clique real em "Tocar 1 s": a prévia vem da Apple (cerca de 440 ms para baixar), sem "Áudio indisponível";
+    - selo "Ouça no Apple Music" com link para a playlist e a frase "provided courtesy of iTunes";
+    - nenhum WAV, o site inteiro com 384 KB, `__musicleAudioLog` indefinido, save em v2 e console limpo;
+  - a reserva com `<audio>` (`?htmlAudio=1`) e o `?failLookup=1`, medidos no desenvolvimento com a parada real (Apêndice E);
+  - PR #9 (o robô com a Apple): os testes do script da tarefa com token (`test_catalog_pr_script.py`) rodam na CI, com `jq`;
+  - **falta conferir:** o som de ouvido em Chrome, Firefox, Android e iPhone (este com o silencioso, P75), e o 1º PR real do robô com a Apple, depois do merge do PR #9.
 
 ## Origem
 

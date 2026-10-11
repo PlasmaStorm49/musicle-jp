@@ -55,8 +55,8 @@ jobs:
             exit 1
           fi
           # Nenhum áudio no site: as prévias tocam do servidor da Apple (termos da Apple). O
-          # -print -quit, e não "find | grep -q": com o pipefail do runner, o SIGPIPE do find
-          # faria o if achar que não havia WAV.
+          # -print -quit, e não "find | grep -q": com pipefail ligado (shell: bash), o SIGPIPE do
+          # find faria o if achar que não havia WAV; assim não depende do shell.
           if [ -e dist/fixtures ] || [ -n "$(find dist -name '*.wav' -print -quit)" ]; then
             echo "::error::fixtures ou WAV no build"
             exit 1
