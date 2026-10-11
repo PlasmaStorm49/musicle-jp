@@ -1,4 +1,5 @@
 // O que a tela mostra de cada opção e da revelação. Função pura: os componentes só desenham.
+import { isAppleUrl } from "./apple.ts";
 import type { CatalogIndex } from "./catalog.ts";
 import { searchKey } from "./normalize.ts";
 import type { Target } from "./types.ts";
@@ -24,6 +25,8 @@ export type RevealView = ItemView & {
     readonly startSec: number;
     readonly durationSec: number;
   } | null;
+  /** Link da música na loja (P69), só no host da Apple: vai parar num href. */
+  readonly storeUrl: string | null;
 };
 
 function latinIfDifferent(title: string, latin: string | null): string | null {
@@ -79,5 +82,6 @@ export function revealView(index: CatalogIndex, trackId: string): RevealView | n
           durationSec: track.preview.durationSec ?? 30,
         }
       : null,
+    storeUrl: track.storeUrl && isAppleUrl("store", track.storeUrl) ? track.storeUrl : null,
   };
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { catalog } from "../../test/fixtures.ts";
+import { catalog, realCatalog } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
 import type { Catalog } from "./types.ts";
 import { optionView, revealView } from "./view.ts";
@@ -68,5 +68,22 @@ describe("revealView", () => {
 
   it("id inexistente devolve null", () => {
     expect(revealView(index, "fixture:tr:nada")).toBeNull();
+  });
+
+  it("link da loja: o da Apple passa; javascript: e outro host viram null (P69)", () => {
+    const real = indexCatalog(realCatalog);
+    const track = realCatalog.tracks[0];
+    expect(revealView(real, track?.id ?? "")?.storeUrl).toBe(track?.storeUrl);
+    expect(revealView(index, "fixture:tr:tr01")?.storeUrl).toBeNull(); // a fixture não tem loja
+
+    const withLink = (storeUrl: string): Catalog => ({
+      ...catalog,
+      tracks: catalog.tracks.map((t) =>
+        t.id === "fixture:tr:tr01" ? { ...t, storeUrl } : t,
+      ) as Catalog["tracks"],
+    });
+    for (const bad of ["javascript:alert(1)", "https://evil.test/jp/song/1"]) {
+      expect(revealView(indexCatalog(withLink(bad)), "fixture:tr:tr01")?.storeUrl).toBeNull();
+    }
   });
 });
