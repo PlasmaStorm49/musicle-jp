@@ -41,6 +41,12 @@ describe("lang do artista", () => {
     expect(view?.artistLang).toBe("ja");
   });
 
+  it("revelação: álbum com título japonês leva lang ja", () => {
+    const view = revealView(index, "fixture:tr:tr05"); // do álbum ふたりの約束 - Single
+    expect(view?.albumTitle).toBe("ふたりの約束 - Single");
+    expect(view?.albumLang).toBe("ja");
+  });
+
   it("revelação: o álbum também tem o seu", () => {
     const view = revealView(index, "fixture:tr:tr37"); // 灯台, do álbum Dawn Collection
     expect(view?.lang).toBe("ja");
