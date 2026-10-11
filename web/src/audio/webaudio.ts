@@ -10,17 +10,18 @@ import { type GainPoint, playbackEnvelope, stopEnvelope } from "../core/envelope
 import {
   type AudioEngine,
   AudioUnavailableError,
+  type EngineOptions,
   type Playback,
   type PlaybackResult,
 } from "./engine.ts";
+import { enablePlaybackSession } from "./session.ts";
 
-export type PlayLog = PlaybackResult & { readonly url: string; readonly offset: number };
-
-export type WebAudioOptions = {
-  /** Só em desenvolvimento: força falha de áudio nesta URL (?failAudio=). */
-  readonly failUrl?: string | null;
-  /** Avisado ao fim de cada reprodução (em DEV vai para window.__musicleAudioLog). */
-  readonly onPlayed?: (log: PlayLog) => void;
+export type WebAudioOptions = EngineOptions & {
+  /**
+   * ?htmlAudio=1 (P76): toda reprodução falha como se o navegador não decodificasse o arquivo,
+   * e o motor composto troca de verdade para o <audio>.
+   */
+  readonly disabled?: boolean;
 };
 
 type Entry = { bytes: Promise<ArrayBuffer>; buffer?: Promise<AudioBuffer> };
@@ -54,6 +55,7 @@ export class WebAudioEngine implements AudioEngine {
 
   unlock(): void {
     if (!this.#ctx) {
+      enablePlaybackSession();
       this.#ctx = new AudioContext();
       // Aba oculta: o rAF da barra para, então o som também para.
       document.addEventListener("visibilitychange", () => {
@@ -64,11 +66,15 @@ export class WebAudioEngine implements AudioEngine {
   }
 
   preload(url: string): void {
+    if (this.#options.disabled) return;
     const entry = this.#entry(url);
     if (this.#ctx) this.#decoded(url, entry).catch(() => {}); // falha aparece só ao tocar
   }
 
   async play(url: string, offset: number, seconds: number): Promise<Playback | null> {
+    if (this.#options.disabled) {
+      throw new AudioUnavailableError("decode", "Web Audio desligado (?htmlAudio=1)");
+    }
     this.unlock(); // síncrono, ainda dentro do clique
     this.stop();
     const token = this.#token;
@@ -101,7 +107,7 @@ export class WebAudioEngine implements AudioEngine {
         source.disconnect();
         gain.disconnect();
         if (this.#current === current) this.#current = null;
-        this.#options.onPlayed?.({ ...result, url, offset });
+        this.#options.onPlayed?.({ ...result, url, offset, engine: "webaudio" });
         resolve(result);
       };
     });
@@ -140,27 +146,29 @@ export class WebAudioEngine implements AudioEngine {
   }
 
   async #fetchBytes(url: string): Promise<ArrayBuffer> {
-    if (this.#options.failUrl && url === this.#options.failUrl) {
-      throw new AudioUnavailableError(`falha simulada em ${url}`);
+    if (this.#options.fails?.(url)) {
+      throw new AudioUnavailableError("simulated", `falha simulada em ${url}`);
     }
     let response: Response;
     try {
       response = await fetch(url);
     } catch {
-      throw new AudioUnavailableError(`falha de rede ao baixar ${url}`);
+      // Inclui o CORS barrado: o fetch não diz qual foi, e o <audio> não precisa de CORS.
+      throw new AudioUnavailableError("network", `falha de rede ao baixar ${url}`);
     }
-    if (!response.ok) throw new AudioUnavailableError(`HTTP ${response.status} em ${url}`);
+    if (!response.ok) throw new AudioUnavailableError("http", `HTTP ${response.status} em ${url}`);
     return response.arrayBuffer();
   }
 
   #decoded(url: string, entry: Entry): Promise<AudioBuffer> {
     const ctx = this.#ctx;
-    if (!ctx) return Promise.reject(new AudioUnavailableError("áudio ainda não destravado"));
+    if (!ctx)
+      return Promise.reject(new AudioUnavailableError("blocked", "áudio ainda não destravado"));
     entry.buffer ??= entry.bytes.then(async (bytes) => {
       try {
         return await ctx.decodeAudioData(bytes);
       } catch {
-        throw new AudioUnavailableError(`não foi possível decodificar ${url}`);
+        throw new AudioUnavailableError("decode", `não foi possível decodificar ${url}`);
       }
     });
     if (!this.#cache.has(url)) this.#cache.set(url, entry);

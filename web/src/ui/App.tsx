@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
-import type { AudioEngine } from "../audio/engine.ts";
+import type { AudioEngine, EngineOptions, PlayLog } from "../audio/engine.ts";
 import { FakeAudioEngine } from "../audio/fake.ts";
-import { type PlayLog, WebAudioEngine } from "../audio/webaudio.ts";
+import { FallbackAudioEngine } from "../audio/fallback.ts";
+import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
+import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
 import { emptySave, pruneProgress, puzzleId, type SaveV1 } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
@@ -13,6 +15,7 @@ import {
   fakeAudioEnabled,
   type GameData,
   gameDate,
+  htmlAudioForced,
   loadGameData,
   lookupFailForced,
   pickDay,
@@ -155,11 +158,15 @@ export function App() {
   }, [load, resolveUrl]);
 
   const engine = useMemo<AudioEngine | null>(() => {
-    if (load.status !== "ready") return null;
-    const failTrack = failAudioTrack(window.location.search, DEV);
-    const failPreview = failTrack ? load.data.index.tracks.get(failTrack)?.preview?.url : null;
-    const options = {
-      failUrl: failPreview ? resolveUrl(failPreview) : null,
+    if (load.status !== "ready" || !resolver) return null;
+    const search = window.location.search;
+    const failTrack = failAudioTrack(search, DEV);
+    const stored = failTrack ? load.data.index.tracks.get(failTrack)?.preview?.url : undefined;
+    const options: EngineOptions = {
+      // A faixa de ?failAudio= falha no endereço do lookup e no do catálogo.
+      fails: failTrack
+        ? (url) => url === resolver.peek(failTrack) || (!!stored && url === resolveUrl(stored))
+        : undefined,
       onPlayed: import.meta.env.DEV
         ? (log: PlayLog) => {
             window.__musicleAudioLog ??= [];
@@ -170,10 +177,13 @@ export function App() {
     // O literal import.meta.env.DEV no próprio ponto da escolha: no build vira `false && ...`, e
     // o Vite tira o motor falso do pacote sem depender de o minificador propagar a constante DEV
     // (a CI procura a marca dele no dist).
-    return import.meta.env.DEV && fakeAudioEnabled(window.location.search)
+    return import.meta.env.DEV && fakeAudioEnabled(search)
       ? new FakeAudioEngine(options)
-      : new WebAudioEngine(options);
-  }, [load, resolveUrl]);
+      : new FallbackAudioEngine(
+          new WebAudioEngine({ ...options, disabled: htmlAudioForced(search) }),
+          new HtmlAudioEngine({ ...options, mediaTitle: t("app.title") }),
+        );
+  }, [load, resolver, resolveUrl]);
 
   return (
     <>

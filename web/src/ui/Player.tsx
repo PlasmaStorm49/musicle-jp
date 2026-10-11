@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import type { AudioEngine, Playback } from "../audio/engine.ts";
+import { type AudioEngine, AudioUnavailableError, type Playback } from "../audio/engine.ts";
 import { fillFraction } from "../core/player.ts";
 import { MAX_STAGE, type ModeRules, secondsAt } from "../core/rules.ts";
 import { t } from "../i18n/t.ts";
@@ -91,10 +91,16 @@ export function Player({
           setStatus((s) => (s === "playing" ? "idle" : s));
         });
       })
-      .catch(() => {
+      .catch((error: unknown) => {
         if (!alive.current) return;
         cancelAnimationFrame(frame.current);
         setStatus("idle");
+        // O navegador barrou o som fora do gesto (a reserva entrou depois de uma espera): a
+        // rodada continua, e o próximo clique toca direto no <audio>, dentro do gesto.
+        if (error instanceof AudioUnavailableError && error.kind === "blocked") {
+          setFocusPlay(true);
+          return;
+        }
         onAudioError();
       });
   }

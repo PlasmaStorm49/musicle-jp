@@ -19,5 +19,7 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["src/**/*.test.ts"]
+  // Os testes do núcleo, dos dados e do save usam o Node (test/*.ts) e ficam no tsconfig.node.json;
+  // os outros (áudio, i18n) usam o DOM e ficam aqui.
+  "exclude": ["src/core/**/*.test.ts", "src/data/**/*.test.ts", "src/storage/**/*.test.ts"]
 }

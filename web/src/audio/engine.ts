@@ -1,5 +1,6 @@
-// Contrato do motor de áudio. A tela conversa só com isto; a implementação (Web Audio hoje,
-// <audio> como reserva no M11, um falso nos testes de ponta a ponta no M9) pode mudar.
+// Contrato do motor de áudio. A tela conversa só com isto; a implementação pode mudar: Web
+// Audio (webaudio.ts), <audio> de reserva (htmlaudio.ts), os dois juntos (fallback.ts, P70) e um
+// falso nos testes de ponta a ponta (fake.ts).
 
 export type PlaybackResult = {
   /** Segundos pedidos (já limitados ao fim do preview). */
@@ -31,5 +32,38 @@ export interface AudioEngine {
   retain(urls: readonly string[]): void;
 }
 
-/** O áudio não pôde ser baixado ou decodificado: a rodada é anulada sem penalidade. */
-export class AudioUnavailableError extends Error {}
+/**
+ * Por que o áudio falhou. O motor composto (fallback.ts) decide a reserva por isto:
+ * - network: rede ou CORS (o fetch do Web Audio exige CORS; o <audio> não);
+ * - http: o servidor respondeu com erro (404, 403);
+ * - decode: o navegador não decodifica o arquivo (AAC no Firefox de alguns sistemas);
+ * - blocked: o navegador barrou o som fora do gesto (o próximo clique toca);
+ * - simulated: ?failAudio=, só em desenvolvimento.
+ */
+export type AudioFailure = "network" | "http" | "decode" | "blocked" | "simulated";
+
+/** O áudio não pôde ser baixado, decodificado ou tocado: a rodada é anulada sem penalidade. */
+export class AudioUnavailableError extends Error {
+  readonly kind: AudioFailure;
+
+  constructor(kind: AudioFailure, message: string) {
+    super(message);
+    this.kind = kind;
+  }
+}
+
+/** Qual motor tocou (vai para o __musicleAudioLog, em desenvolvimento). */
+export type EngineName = "webaudio" | "html" | "fake";
+
+export type PlayLog = PlaybackResult & {
+  readonly url: string;
+  readonly offset: number;
+  readonly engine: EngineName;
+};
+
+export type EngineOptions = {
+  /** Só em desenvolvimento (?failAudio=): força falha de áudio nas URLs desta faixa. */
+  readonly fails?: (url: string) => boolean;
+  /** Avisado ao fim de cada reprodução (em DEV vai para window.__musicleAudioLog). */
+  readonly onPlayed?: (log: PlayLog) => void;
+};
