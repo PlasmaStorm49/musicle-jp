@@ -8,8 +8,8 @@ export const ptBR = {
   "load.retryButton": "Tentar de novo",
   "load.update": "O jogo foi atualizado desde que esta página abriu.",
   "load.updateButton": "Recarregar a página",
-  "day.unavailable": "Não há desafio diário hoje. O Treino continua disponível.",
-  "day.practiceLink": "Enquanto isso, jogue o Treino",
+  "day.unavailable": "Não há desafio diário hoje.",
+  "day.practiceLink": "O Treino continua disponível: jogar agora",
 
   "nav.label": "Jogos",
   "nav.song": "Música",
