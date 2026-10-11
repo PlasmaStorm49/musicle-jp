@@ -52,19 +52,20 @@ export function Reveal({
   // O foco vai para o resultado: quem usa teclado ou leitor de tela sabe o que aconteceu.
   useEffect(() => heading.current?.focus(), []);
   const alive = useRef(true);
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    alive.current = true; // um motor novo (outra carga) vale de novo
+    return () => {
       alive.current = false;
       engine.stop();
-    },
-    [engine],
-  );
+    };
+  }, [engine]);
 
   // A prévia inteira (P34) num botão só, que alterna Ouvir e Parar, como o Tocar do Player: a
   // ficha impede que o fim de uma reprodução parada mexa na seguinte.
   const [full, setFull] = useState<"idle" | "loading" | "playing" | "failed">("idle");
   const fullId = useRef(0);
-  function toggleFull() {
+  function toggleFull(event: MouseEvent) {
+    if (event.detail > 1) return; // toque duplo tocaria e pararia em seguida
     const preview = track?.preview;
     if (!preview || !url) return;
     const id = ++fullId.current;
@@ -138,11 +139,10 @@ export function Reveal({
             {track.explicit && <p class="badge explicit">{t("player.explicit")}</p>}
             {track.preview && url && (
               <button type="button" onClick={toggleFull}>
-                {full === "playing"
+                {/* No "Carregando…" o clique também para: o nome diz o que ele faz. */}
+                {full === "playing" || full === "loading"
                   ? t("player.stop")
-                  : full === "loading"
-                    ? t("player.loading")
-                    : t("reveal.listenFull")}
+                  : t("reveal.listenFull")}
               </button>
             )}
             {full === "failed" && <p class="hint">{t("reveal.listenFailed")}</p>}

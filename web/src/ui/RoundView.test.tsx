@@ -308,6 +308,26 @@ describe("revelação: a prévia inteira", () => {
     expect(listen()).toBeTruthy();
   });
 
+  it("no Carregando… o botão já é Parar, e o som que chega depois não volta a tocar", async () => {
+    let deliver: (playback: null) => void = () => {};
+    const engine: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      stop: vi.fn(),
+      retain: vi.fn(),
+      play: vi.fn(() => new Promise<null>((resolve) => (deliver = resolve))),
+    };
+    setup(game("song", "choice", { status: "won" }), undefined, index, engine);
+    fireEvent.click(listen());
+    await act(async () => {});
+    fireEvent.click(screen.getByRole("button", { name: "Parar" })); // antes de o som começar
+    expect(engine.stop).toHaveBeenCalled();
+    await act(async () => deliver(null));
+    expect(listen()).toBeTruthy();
+    fireEvent.click(listen(), { detail: 2 }); // toque duplo: o 2º clique não para o 1º
+    expect(engine.play).toHaveBeenCalledTimes(1);
+  });
+
   it("falha ao tocar: avisa na tela e no aria-live, em vez de não fazer nada", async () => {
     const engine: AudioEngine = {
       unlock: vi.fn(),
