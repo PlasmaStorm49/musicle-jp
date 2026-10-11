@@ -65,7 +65,17 @@ def new_snapshot() -> JSON:
 def new_catalog() -> JSON:
     """O catálogo da main com o snapshot de hoje no fim e uma faixa nova."""
     cat = copy.deepcopy(_base("CATALOG"))
-    cat["snapshots"].append({**cat["snapshots"][-1], "date": TODAY})
+    # A entrada do catálogo espelha o arquivo do dia (id, data, chart, fetchedAt, size).
+    snap = new_snapshot()
+    cat["snapshots"].append(
+        {
+            "id": TODAY,
+            "date": TODAY,
+            "chart": snap["chart"],
+            "fetchedAt": snap["fetchedAt"],
+            "size": len(snap["rss"]),
+        }
+    )
     cat["tracks"].append({**cat["tracks"][0], "id": "apple:tr:999999999"})
     return cat
 
@@ -253,7 +263,7 @@ def test_rejects_urls_outside_the_apple_hosts(tmp_path, where, url):
 def test_rejects_a_catalog_that_rewrites_old_snapshots(tmp_path):
     changes = full_change()
     changes[PATHS["CATALOG"]]["snapshots"][0]["size"] = 1
-    _rejects(tmp_path, changes, "mexe nos snapshots")
+    _rejects(tmp_path, changes, "não bate com os snapshots")
 
 
 def test_rejects_a_catalog_change_without_a_new_chart(tmp_path):
@@ -296,6 +306,53 @@ def test_rejects_a_backfill_before_the_end(tmp_path):
     days = _new_days(_base("SCHEDULE"), 9)[1:]
     changes[PATHS["SCHEDULE"]] = grown(_base("SCHEDULE"), days)
     _rejects(tmp_path, changes, "o 1º dia novo deveria ser")
+
+
+def test_same_chart_brings_only_the_schedules(tmp_path):
+    changes = full_change()
+    keep = {k: changes[k] for k in (PATHS["SCHEDULE"], PATHS["FIXTURE_SCHEDULE"])}
+    done, _, temp = run(tmp_path, keep)  # a busca deu certo, mas a parada é a mesma
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "igual à da última busca" in body(temp)
+    assert "Atenção" not in body(temp)
+
+
+def test_warns_when_the_chart_is_weeks_old(tmp_path):
+    changes = full_change()
+    keep = {k: changes[k] for k in (PATHS["SCHEDULE"], PATHS["FIXTURE_SCHEDULE"])}
+    old = tmp_path / "repo" / PATHS["SNAPSHOTS"] / "2026-10-01.json"
+    old.parent.mkdir(parents=True, exist_ok=True)
+    old.write_bytes(b"{}")
+    done, _, temp = run(tmp_path, keep, fetch="failure")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "a última parada guardada é de 2026-10-01 (18 dias)" in body(temp)
+
+
+def test_rejects_a_snapshot_that_already_exists_in_main(tmp_path):
+    existing = tmp_path / "repo" / SNAPSHOT
+    existing.parent.mkdir(parents=True, exist_ok=True)
+    existing.write_bytes(b"{}")
+    _rejects(tmp_path, full_change(), "já existe na main")
+
+
+def test_rejects_a_catalog_snapshot_entry_that_does_not_match_the_file(tmp_path):
+    changes = full_change()
+    changes[PATHS["CATALOG"]]["snapshots"][-1]["size"] = 101  # a parada tem 100 itens
+    _rejects(tmp_path, changes, "não bate com os snapshots")
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "javascript:alert(1)\nhttps://music.apple.com/jp/song/1",
+        "https://music.apple.com/jp/song/1\njavascript:alert(1)",
+    ],
+)
+def test_rejects_a_url_with_a_line_break(tmp_path, url):
+    # As âncoras \A e \z: com ^ e $ o jq poderia casar uma linha só do valor.
+    changes = full_change()
+    changes[PATHS["CATALOG"]]["tracks"][0]["storeUrl"] = url
+    _rejects(tmp_path, changes, "hosts da Apple")
 
 
 def test_rejects_an_odd_today(tmp_path):

@@ -54,8 +54,7 @@ jobs:
           cache-dependency-path: |
             pipeline/pyproject.toml
             pipeline/constraints.txt
-      # O extra romaji (cutlet, cerca de 250 MB) completa o romaji dos títulos novos (P71).
-      - run: python -m pip install -c pipeline/constraints.txt -e "pipeline[romaji]"
+      - run: python -m pip install -c pipeline/constraints.txt -e pipeline
       - id: today
         name: Hoje em Brasília e agora em UTC
         run: |
@@ -75,8 +74,21 @@ jobs:
         run: python -m musicle_pipeline fetch --provider apple --today "$TODAY" --fetched-at "$NOW"
       - if: steps.fetch.outcome == 'failure'
         run: echo "::warning::a parada de hoje não veio da Apple; o PR traz só a agenda"
-      # Romaji só dos textos novos: sem --refresh, o que já foi revisado não muda.
-      - run: python -m musicle_pipeline romanize --provider apple
+      # Romaji só dos textos novos: sem --refresh, o que já foi revisado não muda. O extra romaji
+      # (cutlet, cerca de 250 MB, P71) só é instalado quando há texto novo; o --check não precisa
+      # dele.
+      - id: romaji
+        name: Há texto sem romaji?
+        run: |
+          if python -m musicle_pipeline romanize --provider apple --check; then
+            echo "missing=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "missing=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.romaji.outputs.missing == 'true'
+        run: python -m pip install -c pipeline/constraints.txt -e "pipeline[romaji]"
+      - if: steps.romaji.outputs.missing == 'true'
+        run: python -m musicle_pipeline romanize --provider apple
       - run: python -m musicle_pipeline romanize --provider apple --check
       - run: python -m musicle_pipeline build --provider apple --out "$CATALOG"
       - name: Acrescentar os dias (parada real)

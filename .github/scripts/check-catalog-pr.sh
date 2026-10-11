@@ -80,10 +80,13 @@ fi
 #    (vão para href, src e áudio) e os snapshots da main seguem intactos, com o de hoje no fim.
 catalog_line=""
 if has "$CATALOG"; then
-  jq -e -n --slurpfile b "$CATALOG" --slurpfile n "$(new "$CATALOG")" --arg d "$TODAY" '
+  # \A e \z, e não ^ e $: no jq (Oniguruma) estes podem casar no começo e no fim de cada linha, e
+  # um valor com quebra de linha passaria.
+  jq -e -n --slurpfile b "$CATALOG" --slurpfile n "$(new "$CATALOG")" \
+    --slurpfile s "$(new "$snapshot")" --arg d "$TODAY" '
     def ids($k): [.[$k][].id];
-    def apple($host): type == "string" and test("^https://" + $host + "/[^\\s\\\\]+$");
-    $b[0] as $b | $n[0] as $n
+    def apple($host): type == "string" and test("\\Ahttps://" + $host + "/[^\\s\\\\]+\\z");
+    $b[0] as $b | $n[0] as $n | $s[0] as $s | ($n.snapshots | last) as $l
     | $n.schemaVersion == $b.schemaVersion and $n.provider == "apple"
       and (["tracks", "albums", "artists"] | all(. as $k | ($b | ids($k)) - ($n | ids($k)) == []))
       and ($n.tracks | all(
@@ -92,8 +95,9 @@ if has "$CATALOG"; then
       and ($n.albums | all(.artworkUrl == null or (.artworkUrl | apple("is[0-9]+-ssl\\.mzstatic\\.com"))))
       and ($n.snapshots | length) == ($b.snapshots | length) + 1
       and $n.snapshots[: ($b.snapshots | length)] == $b.snapshots
-      and ($n.snapshots | last | .date) == $d' > /dev/null \
-    || fail "o catálogo novo perde ids, sai dos hosts da Apple ou mexe nos snapshots"
+      and $l.id == $d and $l.date == $d and $l.chart == $s.chart and $l.fetchedAt == $s.fetchedAt
+      and ($l.size | type == "number" and . >= 1 and . <= ($s.rss | length))' > /dev/null \
+    || fail "o catálogo novo perde ids, sai dos hosts da Apple ou não bate com os snapshots"
   catalog_line="$(jq -r -n --slurpfile b "$CATALOG" --slurpfile n "$(new "$CATALOG")" \
     --slurpfile s "$(new "$snapshot")" '
     ($n[0].tracks | length) as $total
@@ -103,6 +107,23 @@ elif [ "$FETCH" = "failure" ]; then
   catalog_line="- **Parada da Apple:** não veio hoje (a busca falhou; veja a execução). O PR traz só a agenda; a parada vem na semana que vem."
 else
   catalog_line="- **Parada da Apple:** igual à da última busca; o catálogo não muda."
+fi
+
+# A busca falhar uma semana é normal (a Apple fora do ar); falhar várias seguidas sugere que o
+# fetch quebrou. O PR avisa, sem travar a agenda, que precisa continuar crescendo.
+stale_line=""
+if ! has "$snapshot"; then
+  last_snap="$(find "$SNAPSHOTS" -maxdepth 1 -type f -name '????-??-??.json' -printf '%f\n' | sort | tail -n 1)"
+  last_snap="${last_snap%.json}"
+  if [ -n "$last_snap" ]; then
+    today_s="$(date -ud "$TODAY" +%s)"
+    snap_s="$(date -ud "$last_snap" +%s)"
+    age=$(( (today_s - snap_s) / 86400 ))
+    if [ "$age" -gt 13 ]; then
+      stale_line="> **Atenção:** a última parada guardada é de $last_snap ($age dias). Confira a execução: a busca da Apple pode estar quebrada."
+      echo "::warning::a última parada guardada é de $last_snap ($age dias)"
+    fi
+  fi
 fi
 
 # 5. Agendas: o mesmo cabeçalho, todo dia da main igual e os dias novos em sequência, a partir do
@@ -118,7 +139,7 @@ check_schedule() {
   jq -e -n --slurpfile b "$base" --slurpfile n "$fresh" \
     '($b[0] | del(.days)) == ($n[0] | del(.days))
      and ($b[0].days | to_entries | all(.value == $n[0].days[.key]))
-     and ((($n[0].days | keys) - ($b[0].days | keys)) | all(test("^[0-9]{4}-[0-9]{2}-[0-9]{2}$")))' > /dev/null \
+     and ((($n[0].days | keys) - ($b[0].days | keys)) | all(test("\\A[0-9]{4}-[0-9]{2}-[0-9]{2}\\z")))' > /dev/null \
     || fail "$base: a agenda nova altera o que já existe ou traz data inválida"
   base_last="$(jq -r '.days | keys | last // empty' "$base")"
   [ -n "$base_last" ] || fail "$base: a agenda da main não tem dias (caso não suportado)"
@@ -160,6 +181,10 @@ done
   if [ -n "$gap_lines" ]; then
     echo
     printf '%s' "$gap_lines"
+  fi
+  if [ -n "$stale_line" ]; then
+    echo
+    echo "$stale_line"
   fi
   if [ -n "$romaji_list" ]; then
     echo
