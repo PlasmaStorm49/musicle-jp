@@ -1,4 +1,7 @@
-"""Cache de romaji em pipeline/data/romaji.json (versionado no Git).
+"""Cache de romaji em romaji.json, versionado no Git.
+
+Um por provedor (pipeline/fixtures/ e pipeline/data/apple/): --refresh refaz só os textos do
+provedor da vez e apagaria os do outro num arquivo compartilhado.
 
 Quem escreve: o comando `romanize`, que usa a biblioteca de romanização (extra [romaji]).
 Quem lê: o `build`, que NUNCA importa a biblioteca. Assim o build continua puro e a CI não
@@ -61,6 +64,8 @@ def collect_texts(snapshots: Iterable[ChartSnapshot]) -> list[str]:
             texts.add(track_text(t.title))
             texts.add(album_text(t.album.title))
             texts.update(artist_text(a.name) for a in t.artists)
+            if t.artist_display:
+                texts.add(artist_text(t.artist_display))
     return sorted(t for t in texts if needs_romaji(t))
 
 

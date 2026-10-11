@@ -11,7 +11,7 @@ from musicle_pipeline.cli import main
 from musicle_pipeline.io_json import dumps
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import needs_romaji
-from musicle_pipeline.paths import default_romaji_path
+from musicle_pipeline.paths import provider_paths
 from musicle_pipeline.romaji_cache import RomajiCache, collect_texts, load_cache, save_cache
 from musicle_pipeline.validate import validate_catalog
 
@@ -95,7 +95,7 @@ def test_romanize_check_without_library(tmp_path, fixture_snapshots, capsys):
 
 
 def test_committed_cache_covers_the_fixture():
-    if not default_romaji_path().exists():
+    if not provider_paths("fixture").romaji.exists():
         pytest.skip("cache de romaji ainda não gerado")
     assert main(["romanize", "--provider", "fixture", "--check"]) == 0
 

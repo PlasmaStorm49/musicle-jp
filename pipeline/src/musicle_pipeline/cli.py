@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import re
 import sys
 from collections.abc import Sequence
 from datetime import date
@@ -15,8 +16,15 @@ from musicle_pipeline.fake_assets import generate_assets
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import has_unassigned
-from musicle_pipeline.paths import default_aliases_path, default_romaji_path, repo_root, resolve
+from musicle_pipeline.paths import (
+    apple_snapshots_dir,
+    known_schedules,
+    provider_paths,
+    repo_root,
+    resolve,
+)
 from musicle_pipeline.providers import PROVIDERS
+from musicle_pipeline.providers.apple import snapshot_days
 from musicle_pipeline.romaji_cache import RomajiCache, collect_texts, load_cache, save_cache
 from musicle_pipeline.schedule import (
     HORIZON_DAYS,
@@ -28,8 +36,6 @@ from musicle_pipeline.schedule import (
 )
 from musicle_pipeline.validate import validate_catalog
 
-FIXTURE_SCHEDULE = Path("web/public/fixtures/schedule.json")
-
 
 def _utf8_console() -> None:
     # Sem isto, imprimir japonês com a saída redirecionada quebra no Windows (cp1252).
@@ -40,8 +46,21 @@ def _utf8_console() -> None:
 
 
 def _build(args: argparse.Namespace) -> int:
+    paths = provider_paths(args.provider)
+    out = resolve(args.out).resolve()  # resolvido: "pipeline/../web/..." não escapa da trava
+    # Trava: dentro de web/public, o catálogo de um provedor só vai para a pasta dele (o
+    # fictício nunca sobrescreve o real, nem o contrário). Fora dali (testes), tanto faz.
+    public = (repo_root() / "web" / "public").resolve()
+    if out.is_relative_to(public) and out.parent != paths.public_dir.resolve():
+        print(
+            f"o provedor {args.provider} grava em {paths.public_dir}, não em {out.parent}",
+            file=sys.stderr,
+        )
+        return 1
     provider = PROVIDERS[args.provider]()
     snapshots = provider.snapshots()
+    for message in getattr(provider, "warnings", []):
+        print(f"aviso: {message}", file=sys.stderr)
     for snap in snapshots:
         for e in snap.entries:
             texts = [e.track.title, e.track.album.title, *(a.name for a in e.track.artists)]
@@ -51,20 +70,20 @@ def _build(args: argparse.Namespace) -> int:
                     "Unicode 15.0; ele some da busca",
                     file=sys.stderr,
                 )
-    romaji = load_cache(resolve(args.romaji))
+    romaji = load_cache(resolve(args.romaji) if args.romaji else paths.romaji)
     missing = [t for t in collect_texts(snapshots) if not romaji.variants(t)]
     if missing:
         print(
             f"aviso: {len(missing)} texto(s) sem romaji; rode o comando romanize",
             file=sys.stderr,
         )
-    curation = Curation(romaji=romaji, aliases=load_aliases(resolve(args.aliases)))
+    aliases = load_aliases(resolve(args.aliases) if args.aliases else paths.aliases)
+    curation = Curation(romaji=romaji, aliases=aliases)
     catalog = build_catalog(snapshots, provider.name, provider.storefront, curation)
     problems = validate_catalog(catalog)
     if problems:
         print("catálogo inválido, nada foi gravado:", *problems, sep="\n  ", file=sys.stderr)
         return 1
-    out = resolve(args.out)
     if write_if_changed(out, dumps(catalog)):
         print(
             f"catálogo gravado: {out} ({len(catalog['tracks'])} faixas, "
@@ -128,8 +147,19 @@ def _fake_assets(args: argparse.Namespace) -> int:
 
 
 def _schedule_check(args: argparse.Namespace) -> int:
-    path = resolve(args.path)
-    current = read_json(path)
+    if args.base is not None and len(args.path or []) != 1:
+        print("--base compara com um arquivo só: passe exatamente um --path", file=sys.stderr)
+        return 1
+    paths = [resolve(p) for p in args.path] if args.path else known_schedules()
+    results = [code for code in (_check_one(path, args) for path in paths) if code is not None]
+    if not results:
+        print("nenhuma agenda para conferir (nem aqui nem na base)")
+        return 0
+    return max(results)
+
+
+def _check_one(path: Path, args: argparse.Namespace) -> int | None:
+    """0 = só cresceu, 1 = quebrou, None = a agenda não existe aqui nem na base."""
     if args.base is not None:
         base_path = resolve(args.base)
         base = read_json(base_path) if base_path.exists() else None
@@ -138,6 +168,13 @@ def _schedule_check(args: argparse.Namespace) -> int:
         relative = path.relative_to(repo_root()).as_posix()
         base = read_base_ref(args.base_ref, relative)
         origin = f"{args.base_ref}:{relative}"
+    if not path.exists():
+        if base is None:
+            return None
+        # Apagar a agenda inteira também quebra o só-acréscimo (regra inviolável 4).
+        print(f"{path}: existe em {origin} e foi apagada (a agenda só cresce)")
+        return 1
+    current = read_json(path)
     problems = compare(base, current)
     if problems:
         print(f"{path} quebra o só-acréscimo em relação a {origin}:", *problems, sep="\n  ")
@@ -147,8 +184,44 @@ def _schedule_check(args: argparse.Namespace) -> int:
     return 0
 
 
+def _fetch(args: argparse.Namespace) -> int:
+    # Só aqui: os outros comandos nunca carregam o módulo de rede (teste em subprocesso).
+    from musicle_pipeline import fetch
+
+    directory = apple_snapshots_dir()
+    out = directory / f"{args.today.isoformat()}.json"
+    if out.exists():
+        print(f"{out}: já existe; nada a buscar")
+        return 0
+    days = snapshot_days(directory)  # o mesmo filtro (AAAA-MM-DD.json) que o provedor usa
+    if days and days[-1] >= args.today.isoformat():
+        print(
+            f"--today {args.today} não é posterior ao último snapshot ({days[-1]})", file=sys.stderr
+        )
+        return 1
+    try:
+        snapshot = fetch.fetch_snapshot(args.today, args.fetched_at)
+    except fetch.FetchError as exc:
+        print(f"fetch: {exc}; nada foi gravado", file=sys.stderr)
+        return 1
+    if days:
+        previous = read_json(directory / f"{days[-1]}.json")
+        if [r["id"] for r in previous["rss"]] == [r["id"] for r in snapshot["rss"]]:
+            print(f"parada igual à de {days[-1]}; nada foi gravado")
+            return 0
+    write_if_changed(out, dumps(snapshot))
+    print(f"{out}: {len(snapshot['rss'])} faixas na parada, {len(snapshot['missing'])} sem lookup")
+    return 0
+
+
+def _fetched_at(text: str) -> str:
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", text):
+        raise argparse.ArgumentTypeError("use AAAA-MM-DDTHH:MM:SSZ (UTC)")
+    return text
+
+
 def _romanize(args: argparse.Namespace) -> int:
-    path = resolve(args.cache)
+    path = resolve(args.cache) if args.cache else provider_paths(args.provider).romaji
     cache = load_cache(path)
     texts = collect_texts(PROVIDERS[args.provider]().snapshots())
     todo = texts if args.refresh else [t for t in texts if not cache.variants(t)]
@@ -199,8 +272,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     build = sub.add_parser("build", help="gera o catálogo a partir das paradas")
     build.add_argument("--provider", choices=sorted(PROVIDERS), required=True)
     build.add_argument("--out", type=Path, required=True, help="arquivo catalog.json de saída")
-    build.add_argument("--romaji", type=Path, default=default_romaji_path(), help="cache de romaji")
-    build.add_argument("--aliases", type=Path, default=default_aliases_path(), help="curadoria")
+    build.add_argument("--romaji", type=Path, help="cache de romaji (padrão: o do provedor)")
+    build.add_argument("--aliases", type=Path, help="curadoria (padrão: a do provedor)")
     build.set_defaults(func=_build)
 
     validate = sub.add_parser("validate", help="confere um catalog.json (e a agenda, se pedir)")
@@ -227,15 +300,28 @@ def main(argv: Sequence[str] | None = None) -> int:
     assets.set_defaults(func=_fake_assets)
 
     check = sub.add_parser("schedule-check", help="confere que a agenda só cresceu")
-    check.add_argument("--path", type=Path, default=FIXTURE_SCHEDULE)
+    check.add_argument(
+        "--path",
+        type=Path,
+        action="append",
+        help="agenda a conferir; repita para várias (padrão: a fictícia e a real)",
+    )
     base = check.add_mutually_exclusive_group(required=True)
     base.add_argument("--base-ref", help="revisão do git, ex.: origin/main")
     base.add_argument("--base", type=Path, help="arquivo de base (ausente = vazio)")
     check.set_defaults(func=_schedule_check)
 
+    fetch = sub.add_parser("fetch", help="busca a parada real do dia (único comando com rede)")
+    fetch.add_argument("--provider", choices=["apple"], required=True)
+    fetch.add_argument("--today", type=date.fromisoformat, required=True, help="hoje em Brasília")
+    fetch.add_argument(
+        "--fetched-at", type=_fetched_at, required=True, help="agora em UTC: AAAA-MM-DDTHH:MM:SSZ"
+    )
+    fetch.set_defaults(func=_fetch)
+
     romanize = sub.add_parser("romanize", help="completa o cache de romaji (extra [romaji])")
     romanize.add_argument("--provider", choices=sorted(PROVIDERS), required=True)
-    romanize.add_argument("--cache", type=Path, default=default_romaji_path())
+    romanize.add_argument("--cache", type=Path, help="cache de romaji (padrão: o do provedor)")
     mode = romanize.add_mutually_exclusive_group()
     mode.add_argument("--check", action="store_true", help="só confere se falta texto (código 1)")
     mode.add_argument("--refresh", action="store_true", help="refaz todas as entradas")

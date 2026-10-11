@@ -33,7 +33,9 @@
       "Read(**/.env.local)",
       "Edit(/web/public/data/**)",
       "Edit(/web/public/fixtures/*.json)",
-      "Edit(/pipeline/data/romaji.json)",
+      "Edit(/pipeline/fixtures/romaji.json)",
+      "Edit(/pipeline/data/apple/romaji.json)",
+      "Edit(/pipeline/data/apple/snapshots/**)",
       "Edit(/shared/vectors/prng.json)",
       "Edit(/web/src/core/generated/**)",
       "Edit(/web/package-lock.json)"

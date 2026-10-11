@@ -55,6 +55,10 @@ jobs:
       - run: python -m pytest pipeline -q
       - run: python -m musicle_pipeline romanize --provider fixture --check
       - run: python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json
+      # Parada real (Apple): romaji em dia e catálogo válido. Sem rede: tudo sai dos snapshots
+      # versionados em pipeline/data/apple/ (o pytest confere que o catálogo está em dia com eles).
+      - run: python -m musicle_pipeline romanize --provider apple --check
+      - run: python -m musicle_pipeline validate web/public/data/catalog.json
       - name: Agenda só cresceu
         # Valores do evento entram por env, nunca direto no script (injeção de comando).
         env:

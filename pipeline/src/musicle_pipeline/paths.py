@@ -1,5 +1,6 @@
 """Caminhos do repositório, independentes da pasta de onde o comando é chamado."""
 
+from dataclasses import dataclass
 from pathlib import Path
 
 # pipeline/src/musicle_pipeline/paths.py → parents[3] é a raiz do repositório.
@@ -33,9 +34,41 @@ def default_fixture_path() -> Path:
     return repo_root() / "pipeline" / "fixtures" / "chart_fixture.json"
 
 
-def default_romaji_path() -> Path:
-    return repo_root() / "pipeline" / "data" / "romaji.json"
+@dataclass(frozen=True)
+class ProviderPaths:
+    """Curadoria e cache de cada provedor, separados: os IDs de um não existem no outro."""
+
+    romaji: Path
+    aliases: Path
+    # Onde o catálogo publicado desse provedor fica (o build recusa gravar em outro lugar).
+    public_dir: Path
 
 
-def default_aliases_path() -> Path:
-    return repo_root() / "pipeline" / "data" / "aliases.toml"
+_CURATION_DIRS = {
+    "fixture": Path("pipeline") / "fixtures",
+    "apple": Path("pipeline") / "data" / "apple",
+}
+_PUBLIC_DIRS = {
+    "fixture": Path("web") / "public" / "fixtures",
+    "apple": Path("web") / "public" / "data",
+}
+
+
+def provider_paths(provider: str) -> ProviderPaths:
+    curation = repo_root() / _CURATION_DIRS[provider]
+    return ProviderPaths(
+        romaji=curation / "romaji.json",
+        aliases=curation / "aliases.toml",
+        public_dir=repo_root() / _PUBLIC_DIRS[provider],
+    )
+
+
+def apple_snapshots_dir() -> Path:
+    """Snapshots da parada real, um por dia (gravados pelo comando fetch; só crescem)."""
+    return repo_root() / _CURATION_DIRS["apple"] / "snapshots"
+
+
+def known_schedules() -> list[Path]:
+    """As agendas publicadas (fictícia e real), existam ou não: o schedule-check padrão confere
+    as duas, e uma que existia na base e sumiu também é erro."""
+    return [repo_root() / d / "schedule.json" for d in _PUBLIC_DIRS.values()]

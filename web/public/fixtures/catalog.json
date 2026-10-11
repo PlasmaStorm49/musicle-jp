@@ -1107,7 +1107,7 @@
       ]
     }
   ],
-  "catalogVersion": "2026-10-05.9d3e2d91",
+  "catalogVersion": "2026-10-05.bd37a10a",
   "generatedAt": "2026-10-05T00:00:00Z",
   "provider": "fixture",
   "schemaVersion": 1,
@@ -1190,6 +1190,7 @@
         "fixture:tr:tr22"
       ],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
+      "storeUrl": null,
       "title": "夜明けのメロディ",
       "titleLatin": "Yoake no merodi"
     },
@@ -1247,6 +1248,7 @@
         "fixture:tr:tr22"
       ],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
+      "storeUrl": null,
       "title": "夜明けのメロディ",
       "titleLatin": "Yoake no merodi"
     },
@@ -1304,6 +1306,7 @@
         "fixture:tr:tr27"
       ],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
+      "storeUrl": null,
       "title": "夜明けのメロディ (TV Size)",
       "titleLatin": "Yoake no merodi (TV Size)"
     },
@@ -1361,6 +1364,7 @@
         "fixture:tr:tr36"
       ],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar14",
+      "storeUrl": null,
       "title": "夜明けのメロディ",
       "titleLatin": "Yoake no merodi"
     },
@@ -1421,6 +1425,7 @@
         "fixture:tr:tr22"
       ],
       "songKey": "ふたりの約束|fixture:ar:ar02",
+      "storeUrl": null,
       "title": "ふたりの約束",
       "titleLatin": "Futari no yakusoku"
     },
@@ -1478,6 +1483,7 @@
         "fixture:tr:tr42"
       ],
       "songKey": "坂道の向こう|fixture:ar:ar10",
+      "storeUrl": null,
       "title": "坂道の向こう",
       "titleLatin": "Sakamichi no mukou"
     },
@@ -1536,6 +1542,7 @@
         "fixture:tr:tr42"
       ],
       "songKey": "秋風のわるつ|fixture:ar:ar09",
+      "storeUrl": null,
       "title": "秋風のワルツ",
       "titleLatin": "Akikaze no warutsu"
     },
@@ -1593,6 +1600,7 @@
         "fixture:tr:tr09"
       ],
       "songKey": "なつやすみ|fixture:ar:ar04",
+      "storeUrl": null,
       "title": "なつやすみ",
       "titleLatin": "Natsuyasumi"
     },
@@ -1649,6 +1657,7 @@
         "fixture:tr:tr42"
       ],
       "songKey": "透明なしぐなる|fixture:ar:ar08",
+      "storeUrl": null,
       "title": "透明なシグナル",
       "titleLatin": "Toumei na shigunaru"
     },
@@ -1704,6 +1713,7 @@
         "fixture:tr:tr26"
       ],
       "songKey": "狂騒riot|fixture:ar:ar11",
+      "storeUrl": null,
       "title": "狂騒Riot",
       "titleLatin": "Kyousou Riot"
     },
@@ -1761,6 +1771,7 @@
         "fixture:tr:tr42"
       ],
       "songKey": "ぽんぽこまーち|fixture:ar:ar12",
+      "storeUrl": null,
       "title": "ぽんぽこマーチ",
       "titleLatin": "Pon poko maachi"
     },
@@ -1815,6 +1826,7 @@
         "fixture:tr:tr08"
       ],
       "songKey": "neonrain|fixture:ar:ar06",
+      "storeUrl": null,
       "title": "Neon Rain",
       "titleLatin": null
     },
@@ -1868,6 +1880,7 @@
         "fixture:tr:tr26"
       ],
       "songKey": "雨音のそなた|fixture:ar:ar09",
+      "storeUrl": null,
       "title": "雨音のソナタ",
       "titleLatin": "Amaoto no sonata"
     },
@@ -1921,6 +1934,7 @@
         "fixture:tr:tr06"
       ],
       "songKey": "♡|fixture:ar:ar14",
+      "storeUrl": null,
       "title": "♡",
       "titleLatin": null
     },
@@ -1977,6 +1991,7 @@
         "fixture:tr:tr07"
       ],
       "songKey": "君と|fixture:ar:ar07",
+      "storeUrl": null,
       "title": "君​と❤️",
       "titleLatin": "Kimi to"
     },
@@ -2035,6 +2050,7 @@
         "fixture:tr:tr36"
       ],
       "songKey": "がらすの靴|fixture:ar:ar05",
+      "storeUrl": null,
       "title": "ガラスの靴",
       "titleLatin": "Garasu no kutsu"
     },
@@ -2089,6 +2105,7 @@
         "fixture:tr:tr36"
       ],
       "songKey": "lovesong|fixture:ar:ar03",
+      "storeUrl": null,
       "title": "ＬＯＶＥ　ＳＯＮＧ",
       "titleLatin": null
     },
@@ -2146,6 +2163,7 @@
         "fixture:tr:tr06"
       ],
       "songKey": "あいのうた|fixture:ar:ar05",
+      "storeUrl": null,
       "title": "ｱｲﾉｳﾀ",
       "titleLatin": "Aino uta"
     },
@@ -2203,6 +2221,7 @@
         "fixture:tr:tr35"
       ],
       "songKey": "星に願いを|fixture:ar:ar04",
+      "storeUrl": null,
       "title": "星に願いを♪",
       "titleLatin": "Hoshi ni negai wo"
     },
@@ -2261,6 +2280,7 @@
         "fixture:tr:tr07"
       ],
       "songKey": "1番星|fixture:ar:ar10",
+      "storeUrl": null,
       "title": "①番星",
       "titleLatin": "Ichibanboshi"
     },
@@ -2315,6 +2335,7 @@
         "fixture:tr:tr15"
       ],
       "songKey": "midnightdrive|fixture:ar:ar06",
+      "storeUrl": null,
       "title": "Midnight Drive",
       "titleLatin": null
     },
@@ -2374,6 +2395,7 @@
         "fixture:tr:tr26"
       ],
       "songKey": "東京らいつ|fixture:ar:ar13",
+      "storeUrl": null,
       "title": "東京ライツ",
       "titleLatin": "Tōkyō Lights"
     },
@@ -2432,6 +2454,7 @@
         "fixture:tr:tr14"
       ],
       "songKey": "開幕べる|fixture:ar:ar02",
+      "storeUrl": null,
       "title": "開幕ベル",
       "titleLatin": "Kaimaku beru"
     },
@@ -2490,6 +2513,7 @@
         "fixture:tr:tr18"
       ],
       "songKey": "かーてんこーる|fixture:ar:ar02",
+      "storeUrl": null,
       "title": "カーテンコール",
       "titleLatin": "Kaaten kooru"
     },
@@ -2544,6 +2568,7 @@
         "fixture:tr:tr14"
       ],
       "songKey": "live|fixture:ar:ar11",
+      "storeUrl": null,
       "title": "Live",
       "titleLatin": null
     },
@@ -2598,6 +2623,7 @@
         "fixture:tr:tr28"
       ],
       "songKey": "stayforever|fixture:ar:ar08",
+      "storeUrl": null,
       "title": "Stay (Forever)",
       "titleLatin": null
     },
@@ -2654,6 +2680,7 @@
         "fixture:tr:tr42"
       ],
       "songKey": "風になる|fixture:ar:ar07",
+      "storeUrl": null,
       "title": "風になる (feat. ナナ)",
       "titleLatin": "Kaze ni naru (feat. Nana)"
     },
@@ -2711,6 +2738,7 @@
         "fixture:tr:tr14"
       ],
       "songKey": "青い春|fixture:ar:ar13",
+      "storeUrl": null,
       "title": "青い春 - TV Size (Live)",
       "titleLatin": "Aoi haru - TV Size (Live)"
     },
@@ -2767,6 +2795,7 @@
         "fixture:tr:tr07"
       ],
       "songKey": "すーぱーのゔぁ|fixture:ar:ar03",
+      "storeUrl": null,
       "title": "スーパーノヴァ",
       "titleLatin": "Suupaa nova"
     },
@@ -2823,6 +2852,7 @@
         "fixture:tr:tr36"
       ],
       "songKey": "がらす越しの光|fixture:ar:ar03",
+      "storeUrl": null,
       "title": "ガラス越しの光",
       "titleLatin": "Garasugoshi no hikari"
     },
@@ -2880,6 +2910,7 @@
         "fixture:tr:tr14"
       ],
       "songKey": "猫背のぶるーす|fixture:ar:ar05",
+      "storeUrl": null,
       "title": "猫背のブルース",
       "titleLatin": "Nekoze no Buruusu"
     },
@@ -2936,6 +2967,7 @@
         "fixture:tr:tr42"
       ],
       "songKey": "めもりーれーん|fixture:ar:ar08",
+      "storeUrl": null,
       "title": "メモリーレーン",
       "titleLatin": "Memorii reen"
     },
@@ -2993,6 +3025,7 @@
         "fixture:tr:tr37"
       ],
       "songKey": "千年の詩|fixture:ar:ar09",
+      "storeUrl": null,
       "title": "千年の詩",
       "titleLatin": "Sen nen no shi"
     },
@@ -3051,6 +3084,7 @@
         "fixture:tr:tr36"
       ],
       "songKey": "制服とさいだー|fixture:ar:ar10",
+      "storeUrl": null,
       "title": "制服とサイダー",
       "titleLatin": "Seifuku to saidaa"
     },
@@ -3106,6 +3140,7 @@
         "fixture:tr:tr36"
       ],
       "songKey": "ぜろ距離love|fixture:ar:ar11",
+      "storeUrl": null,
       "title": "ゼロ距離Love",
       "titleLatin": "Zero kyori Love"
     },
@@ -3162,6 +3197,7 @@
         "fixture:tr:tr14"
       ],
       "songKey": "おやつの時間|fixture:ar:ar12",
+      "storeUrl": null,
       "title": "おやつの時間",
       "titleLatin": "Oyatsu no jikan"
     },
@@ -3218,6 +3254,7 @@
         "fixture:tr:tr35"
       ],
       "songKey": "灯台|fixture:ar:ar01",
+      "storeUrl": null,
       "title": "灯台",
       "titleLatin": "Toudai"
     },
@@ -3275,6 +3312,7 @@
         "fixture:tr:tr14"
       ],
       "songKey": "真夜中の観覧車|fixture:ar:ar02",
+      "storeUrl": null,
       "title": "真夜中の観覧車",
       "titleLatin": "Mayonaka no kanransha"
     },
@@ -3332,6 +3370,7 @@
         "fixture:tr:tr42"
       ],
       "songKey": "shibuya24時|fixture:ar:ar13",
+      "storeUrl": null,
       "title": "Shibuya 24時",
       "titleLatin": "Shibuya 24 ji"
     },
@@ -3389,6 +3428,7 @@
         "fixture:tr:tr42"
       ],
       "songKey": "はろーぐっばい|fixture:ar:ar14",
+      "storeUrl": null,
       "title": "ハローグッバイ",
       "titleLatin": "Haroo gubbai"
     },
@@ -3445,6 +3485,7 @@
         "fixture:tr:tr42"
       ],
       "songKey": "ひまわり畑でつかまえて|fixture:ar:ar07",
+      "storeUrl": null,
       "title": "ひまわり畑でつかまえて",
       "titleLatin": "Himawaribatake de tsukamaete"
     },
@@ -3500,6 +3541,7 @@
         "fixture:tr:tr40"
       ],
       "songKey": "流星highway|fixture:ar:ar06",
+      "storeUrl": null,
       "title": "流星Highway",
       "titleLatin": "Ryuusei Highway"
     }

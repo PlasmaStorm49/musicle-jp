@@ -42,14 +42,16 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 | Preparar o ambiente (uma vez) | `python -m venv .venv` e depois `.venv\Scripts\python -m pip install -c pipeline/constraints.txt -e "pipeline[dev,romaji]"` (o extra `romaji` tem 250 MB e só serve ao `romanize`; o `constraints.txt` fixa todas as versões, P60) |
 | Testes do pipeline | `.venv\Scripts\python -m pytest pipeline` |
 | Lint e formato (o hook segue a configuração do pipeline) | `.venv\Scripts\python -m ruff check pipeline .claude/hooks` e `.venv\Scripts\python -m ruff format pipeline .claude/hooks` |
-| Completar o romaji | `.venv\Scripts\python -m musicle_pipeline romanize --provider fixture` (conferir: `--check`) |
+| Buscar a parada real do dia (único comando com rede) | `.venv\Scripts\python -m musicle_pipeline fetch --provider apple --today AAAA-MM-DD --fetched-at AAAA-MM-DDTHH:MM:SSZ` (hoje em Brasília e agora em UTC; no Windows, pegue os dois pelo `TimeZoneInfo` do PowerShell: o Git Bash ignora o fuso) |
+| Completar o romaji | `.venv\Scripts\python -m musicle_pipeline romanize --provider apple` (ou `fixture`; conferir: `--check`) |
+| Gerar o catálogo real | `.venv\Scripts\python -m musicle_pipeline build --provider apple --out web/public/data/catalog.json` |
 | Gerar o catálogo falso | `.venv\Scripts\python -m musicle_pipeline build --provider fixture --out web/public/fixtures/catalog.json` |
 | Gerar áudio e capas falsos | `.venv\Scripts\python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json` (fora do Git; rode depois de clonar) |
 | Acrescentar dias à agenda (nunca gera dia passado, P44: um `--today` no futuro deixaria buraco para sempre) | `.venv\Scripts\python -m musicle_pipeline schedule --catalog web/public/fixtures/catalog.json --out web/public/fixtures/schedule.json --today AAAA-MM-DD` |
-| Validar catálogo e agenda | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` |
+| Validar catálogo e agenda | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` (real: `validate web/public/data/catalog.json`) |
 | Conferir que a agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
 
-Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` no diff → corrigir erros em `pipeline/data/aliases.toml` → `build` → `fake-assets` → `schedule` → `schedule-check`.
+Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → revisar `pipeline/data/apple/romaji.json` no diff → corrigir erros em `pipeline/data/apple/aliases.toml` → `build --provider apple` → `validate` → `schedule` → `schedule-check`. Nas fixtures, a curadoria fica em `pipeline/fixtures/` e entra o `fake-assets` depois do `build`.
 
 **Web** (regras próprias em `web/CLAUDE.md`):
 
@@ -70,12 +72,12 @@ Ordem quando a parada muda: `romanize` → revisar `pipeline/data/romaji.json` n
 
 1. `web/src/core/` é TypeScript puro: não importa DOM, Preact nem áudio.
 2. Todo texto de tela fica em `web/src/i18n/pt-BR.ts`.
-3. Arquivos gerados (`web/public/data/`, `web/public/fixtures/*.json`, áudio sintético) não se editam à mão: rode o pipeline.
+3. Arquivos gerados (`web/public/data/`, `web/public/fixtures/*.json`, os `romaji.json`, os snapshots em `pipeline/data/apple/snapshots/`, áudio sintético) não se editam à mão: rode o pipeline.
 4. A agenda (`schedule.json`) só cresce. Nunca altere um dia que já existe.
 5. Mudança de esquema: atualize `shared/schema/` e os testes nos dois lados. Desde o primeiro deploy (M10), o jogo está no ar: mudança incompatível sobe o `schemaVersion` e leva migração.
 6. Normalização e PRNG mudam em Python e TS juntos, com os vetores de `shared/vectors/`.
 7. Nenhuma chave, token ou senha no repositório. Segredos só nos Secrets do GitHub.
-8. Não baixe nem guarde áudio de preview real (termos da Apple). Em disco, só os WAV sintéticos.
+8. Não baixe nem guarde áudio de preview real (termos da Apple). Em disco, só os WAV sintéticos. O pipeline nunca acessa o `previewUrl`: o áudio é só do navegador.
 9. O pipeline grava os próprios arquivos em UTF-8 com `\n`. Não gere arquivo de dados com `>` ou `Out-File` no PowerShell.
 
 ## Convenções

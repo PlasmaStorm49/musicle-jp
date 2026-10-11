@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import re
+from collections.abc import Callable
 from datetime import date
-from functools import cache
+from functools import cache, partial
 
 from jsonschema import Draft202012Validator
 
@@ -11,6 +13,7 @@ from musicle_pipeline.catalog import catalog_version
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
 from musicle_pipeline.paths import catalog_schema_path
+from musicle_pipeline.providers.apple import is_apple_url
 from musicle_pipeline.similarity import MIN_OPTIONS, album_profiles, title_of
 
 
@@ -158,6 +161,49 @@ def _similar_problems(catalog: JSON) -> list[str]:
     return problems
 
 
+def _relative(pattern: str) -> Callable[[str], bool]:
+    rx = re.compile(pattern)
+    return lambda url: rx.fullmatch(url) is not None
+
+
+# Onde cada provedor pode apontar. As URLs vão parar em <img>, no áudio e num href: sem esta
+# lista, o schema aceitaria até "javascript:...". Os hosts da Apple têm fonte única no provedor
+# (o fetch usa a mesma função antes de gravar o snapshot).
+_URL_RULES: dict[str, dict[str, Callable[[str], bool] | None]] = {
+    "fixture": {
+        # Nome de arquivo sem "..": nada de subir de pasta (fixtures/audio/../x).
+        "preview": _relative(r"fixtures/audio/(?!.*\.\.)[\w.-]+"),
+        "artwork": _relative(r"fixtures/art/(?!.*\.\.)[\w.-]+"),
+        "store": None,  # a parada fictícia não tem loja
+    },
+    "apple": {kind: partial(is_apple_url, kind) for kind in ("preview", "artwork", "store")},
+}
+
+
+def _url_problems(catalog: JSON) -> list[str]:
+    rules = _URL_RULES.get(catalog["provider"])
+    if rules is None:
+        return [f"provider {catalog['provider']!r} sem regra de URLs"]
+
+    def bad(kind: str, url: str | None) -> bool:
+        rule = rules[kind]
+        if url is None:
+            return False
+        return rule is None or not rule(url)
+
+    problems = [
+        f"{a['id']}: capa fora dos hosts do provedor: {a['artworkUrl']}"
+        for a in catalog["albums"]
+        if bad("artwork", a["artworkUrl"])
+    ]
+    for t in catalog["tracks"]:
+        if t["preview"] is not None and bad("preview", t["preview"]["url"]):
+            problems.append(f"{t['id']}: prévia fora dos hosts do provedor: {t['preview']['url']}")
+        if bad("store", t["storeUrl"]):
+            problems.append(f"{t['id']}: link da loja fora dos hosts do provedor: {t['storeUrl']}")
+    return problems
+
+
 def validate_catalog(catalog: JSON, raw: bytes | None = None) -> list[str]:
     """Lista de problemas; vazia quando está tudo certo.
 
@@ -167,7 +213,7 @@ def validate_catalog(catalog: JSON, raw: bytes | None = None) -> list[str]:
     problems = _schema_problems(catalog)
     if problems:
         return problems  # sem a forma certa, as invariantes quebrariam com KeyError
-    problems = _invariant_problems(catalog)
+    problems = _invariant_problems(catalog) + _url_problems(catalog)
     if raw is not None and dumps(catalog).encode("utf-8") != raw:
         problems.append("arquivo fora da forma canônica (regere com o pipeline)")
     return problems
