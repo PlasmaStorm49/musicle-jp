@@ -11,6 +11,8 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
   await expect(song).toContainText("nº 1 · novo");
   await song.click();
   await expect(page.getByRole("heading", { name: "Como você quer responder hoje?" })).toBeVisible();
+  // O cartão some com a home, e o foco vai para a tela de destino, não para o body (regra 16).
+  await expect(page.getByRole("button", { name: /^4 opções/ })).toBeFocused();
 
   // O Voltar do navegador também volta à home (é só o fragmento que muda).
   await page.goBack();
@@ -24,6 +26,7 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
     .getByRole("link", { name: /^Treino/ })
     .click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treino");
+  await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
 });
 
 test("dia fora da agenda: os diários avisam sem link, e o Treino abre", async ({ page }) => {

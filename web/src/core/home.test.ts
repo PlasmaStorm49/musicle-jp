@@ -17,7 +17,7 @@ const finished: FinishedGame = {
   rounds: [
     { status: "won", stage: 0, attempts: ["right"] },
     { status: "lost", stage: 0, attempts: ["wrong"] },
-    { status: "won", stage: 1, attempts: ["skip", "right"] },
+    { status: "won", stage: 1, attempts: ["right"] }, // no 4 opções, "Ouvir mais" não é tentativa
   ],
 };
 

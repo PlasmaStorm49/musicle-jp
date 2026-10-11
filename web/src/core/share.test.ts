@@ -58,15 +58,11 @@ describe("shareGrid", () => {
 });
 
 describe("shareText", () => {
-  const text = shareText(
-    "musicle-jp · Diário Música nº 1 · 4 opções",
-    choiceGame,
-    "https://x.test/",
-  );
+  const text = shareText("AteMusic · Diário Música nº 1 · 4 opções", choiceGame, "https://x.test/");
 
   it("cabeçalho, pontos sobre o máximo, rodadas e endereço", () => {
     expect(text).toBe(
-      "musicle-jp · Diário Música nº 1 · 4 opções\n5/12\n⬛✅\n❌\n⬜\nhttps://x.test/",
+      "AteMusic · Diário Música nº 1 · 4 opções\n5/12\n⬛✅\n❌\n⬜\nhttps://x.test/",
     );
   });
 
