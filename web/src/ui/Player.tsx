@@ -40,17 +40,18 @@ export function Player({
   const fillRef = useRef<HTMLDivElement>(null);
   const frame = useRef(0);
   const playButton = useRef<HTMLButtonElement>(null);
-  // O foco vai para o Tocar ao montar (o Player monta a cada rodada, inclusive logo depois da
-  // escolha do modo) e depois de um pulo: o botão que tinha o foco pode ter sumido (o "Pular"
-  // some na última tentativa), e o próximo passo natural é ouvir o trecho liberado (P46). Com a
-  // prévia ainda em busca o botão está desabilitado e não recebe foco: ele vai quando a URL chega
-  // (até 3 s depois), mas só se o jogador não foi para outro lugar enquanto isso (o campo de
-  // digitação, uma opção): o foco fica onde ele está.
+  // O foco vai para o botão principal (Tocar ou Parar) ao montar (o Player monta a cada rodada,
+  // inclusive logo depois da escolha do modo), depois de um pulo e quando o som começa: o botão
+  // que tinha o foco pode ter sumido (o "Pular" na última tentativa, o "Ouvir mais" na última
+  // etapa) ou ter ficado desabilitado no "Carregando…", e o navegador então o joga no body. Com
+  // a prévia ainda em busca o botão está desabilitado e não recebe foco: ele vai quando a URL
+  // chega (até 3 s depois), mas só se o jogador não foi para outro lugar enquanto isso (o campo
+  // de digitação, uma opção): o foco fica onde ele está.
   const [focusPlay, setFocusPlay] = useState(true);
   const section = useRef<HTMLElement>(null);
   const waiting = url === null;
   useEffect(() => {
-    if (!focusPlay || status !== "idle" || waiting) return;
+    if (!focusPlay || status === "loading" || waiting) return;
     setFocusPlay(false);
     const active = document.activeElement;
     if (!active || active === document.body || section.current?.contains(active)) {
@@ -82,22 +83,37 @@ export function Player({
     draw();
   }
 
+  // Uma ficha por reprodução: só a mais nova mexe na tela. No Web Audio, o fim de um trecho
+  // interrompido chega uns 10 ms depois do stop, quando o trecho do "Ouvir mais" já começou; sem
+  // a ficha, ele parava a barra do novo e devolvia o Tocar com o som tocando.
+  const playId = useRef(0);
+
   function play(atStage: number) {
     if (url === null) return;
+    const id = ++playId.current;
+    const current = () => alive.current && playId.current === id;
     setStatus("loading");
+    setFocusPlay(true);
     engine
       .play(url, offset, secondsAt(atStage))
       .then((playback) => {
-        if (!playback) return; // outra ação tomou o lugar
+        if (!current()) return;
+        if (!playback) {
+          // O motor foi parado antes de o som começar (um palpite na digitação, a aba oculta):
+          // sem isto, o botão ficava em "Carregando…" até o fim da rodada.
+          setStatus("idle");
+          return;
+        }
         setStatus("playing");
         animate(playback, atStage);
         return playback.done.then(() => {
+          if (!current()) return;
           cancelAnimationFrame(frame.current);
-          setStatus((s) => (s === "playing" ? "idle" : s));
+          setStatus("idle");
         });
       })
       .catch((error: unknown) => {
-        if (!alive.current) return;
+        if (!current()) return; // a falha de um trecho que já foi substituído
         cancelAnimationFrame(frame.current);
         setStatus("idle");
         // O navegador barrou o som fora do gesto (a reserva entrou depois de uma espera): a
@@ -111,6 +127,7 @@ export function Player({
   }
 
   function stop() {
+    playId.current++; // o fim do trecho parado não mexe em mais nada
     engine.stop();
     cancelAnimationFrame(frame.current);
     setStatus("idle");
@@ -138,7 +155,7 @@ export function Player({
       <SegmentBar stage={stage} fillRef={fillRef} />
       <div class="player-actions">
         {status === "playing" ? (
-          <button type="button" class="primary" onClick={stop}>
+          <button ref={playButton} type="button" class="primary" onClick={stop}>
             {t("player.stop")}
           </button>
         ) : (
