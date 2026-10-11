@@ -6,8 +6,9 @@ import { ROUTES, type Tab } from "../core/routes.ts";
 import { MAX_STAGE, ROUNDS_PER_DAY, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import type { MessageKey } from "../i18n/pt-BR.ts";
-import { t, tn } from "../i18n/t.ts";
+import { t } from "../i18n/t.ts";
 import { Logo } from "./Logo.tsx";
+import { practiceScoreText } from "./Practice.tsx";
 
 type Props = {
   /** O dia de hoje na agenda; null quando não há (P44). */
@@ -56,13 +57,7 @@ function dailyText(status: DailyStatus): string {
 }
 
 function practiceText(score: PracticeScore | null): string | null {
-  if (!score) return null;
-  return t("home.practiceSession", {
-    score: t("practice.score", {
-      points: tn("count.points", score.points),
-      rounds: tn("practice.rounds", score.rounds),
-    }),
-  });
+  return score ? t("home.practiceSession", { score: practiceScoreText(score) }) : null;
 }
 
 /** A home: o nome do jogo, um cartão por modo (com o estado de hoje) e como jogar. */
