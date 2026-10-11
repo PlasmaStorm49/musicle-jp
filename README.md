@@ -10,7 +10,7 @@ Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade
 
 - Você ouve um trecho de uma música popular no Japão e tenta adivinhar.
 - **O que adivinhar:** a música (título) ou o álbum.
-- **Como responder:** escolhendo entre 4 opções ou digitando com autocompletar. O trecho começa com 1 s e cresce a cada erro.
+- **Como responder:** escolhendo entre 4 opções ou digitando com autocompletar. O trecho começa com 1 s. No 4 opções, ele cresce com "Ouvir mais" (custa 1 ponto); na digitação, a cada erro ou pulo.
 - **Diário:** dois desafios por dia (Música e Álbum), iguais para todos, com virada à meia-noite de Brasília.
 - **Treino:** rodadas ilimitadas.
 
@@ -25,7 +25,7 @@ Jogo web de "adivinhe a música" com sucessos japoneses, inspirado no Hit Parade
 
 ## Estado
 
-No ar no GitHub Pages com a parada real do Japão desde 11/10/2026 (M11): os diários Música e Álbum e o Treino. A atualização semanal da parada real pela Action é o último passo do M11. No desenvolvimento, o jogo usa uma parada inventada com áudio sintético (cada segundo toca uma nota). Andamento por marco em [docs/PLANO.md](docs/PLANO.md).
+No ar no GitHub Pages com a parada real do Japão desde 11/10/2026 (M11): os diários Música e Álbum e o Treino. Toda segunda, a Action atualiza a parada e a agenda por PR (abaixo, em Publicação). Depois do M11, um checkup geral corrigiu o jogo, o pipeline e o robô (PRs #12 a #14). No desenvolvimento, o jogo usa uma parada inventada com áudio sintético (cada segundo toca uma nota). Andamento por marco em [docs/PLANO.md](docs/PLANO.md).
 
 ## Como rodar
 
@@ -49,17 +49,21 @@ Testes:
 
 A CI do GitHub roda tudo isso em cada PR, e a `main` só aceita merge com as três checagens verdes (`pipeline`, `web` e `e2e`).
 
-Para ver o build como ele fica publicado: `npm run build --prefix web` e depois `npm run preview --prefix web`, em http://localhost:4173/musicle-jp/.
+Para ver o build como ele fica publicado: `npm run build --prefix web` e depois `npm run preview --prefix web`, em http://localhost:4173/musicle-jp/. Ele usa a parada real e a rede da Apple; o `dist` local ainda tem a pasta `fixtures/`, que só o deploy apaga.
 
 ## Publicação e atualização da parada e da agenda
 
 - **Deploy:** todo merge na `main` publica o site no GitHub Pages (`.github/workflows/deploy.yml`).
 - **Parada e agenda:** toda segunda às 06:17 de Brasília, a Action `update-catalog.yml` busca a parada da Apple, refaz o catálogo, acrescenta os dias até hoje + 21 e abre um PR (`catalogo/<data>`). Para publicar:
-  1. confira que mudou só o que a lista fechada permite: `pipeline/data/apple/snapshots/<data>.json` (novo), `pipeline/data/apple/romaji.json`, `web/public/data/catalog.json`, `web/public/data/schedule.json` e `web/public/fixtures/schedule.json` (a Action já recusa qualquer outra coisa);
+  1. confira que mudou só o que a lista fechada permite: `pipeline/data/apple/snapshots/<data>.json` (novo), `pipeline/data/apple/romaji.json`, `web/public/data/catalog.json`, `web/public/data/schedule.json` e `web/public/fixtures/schedule.json` (a Action já recusa qualquer outra coisa). Um diff grande no `catalog.json` é esperado: popularidade, posições e distratores mudam em quase todas as faixas a cada parada;
   2. leia o romaji novo listado no PR. Se algum estiver errado, corrija no `pipeline/data/apple/aliases.toml` num PR à parte, que pode entrar depois;
   3. clique em "Approve workflows to run" (PR aberto por Action precisa dessa aprovação para rodar as checagens);
   4. com `pipeline`, `web` e `e2e` verdes, faça o merge no mesmo dia. Dia que passa sem agenda fica sem desafio para sempre: a agenda nunca gera dia passado.
+
+  Enquanto o PR do robô estiver aberto, evite outro merge: o `strict` do ruleset o deixaria desatualizado.
 - **Se a Apple falhar:** o PR traz só a agenda, com o aviso; a parada vem na semana seguinte.
+- **Se a parada nova quebrar o pipeline** (um texto que o romaji não lê, um dado estranho): o PR também traz só a agenda, com o aviso. Corrija o código ou o `aliases.toml` para ela entrar na semana seguinte.
+- **Se o merge atrasar:** a tarefa `catalog-runway` fica vermelha (e o GitHub manda e-mail) quando a agenda da `main` tem menos de 10 dias à frente. Um PR do robô sem merge é fechado pelo da semana seguinte, e a parada daquela semana se perde.
 - **Rodar fora de hora:** `gh workflow run update-catalog.yml`.
 - **Se a Action agendada parar:** o GitHub desliga workflows agendados depois de 60 dias sem atividade no repositório. Para religar: `gh workflow enable update-catalog.yml`.
 
