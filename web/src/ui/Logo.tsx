@@ -9,7 +9,14 @@ export function Logo() {
   return (
     <svg class="logo" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
       <circle class="logo-disc" cx="50" cy="50" r="50" />
-      <text class="logo-mark" x="50" y="52" text-anchor="middle" dominant-baseline="central">
+      <text
+        class="logo-mark"
+        lang="ja"
+        x="50"
+        y="52"
+        text-anchor="middle"
+        dominant-baseline="central"
+      >
         {t("app.logoMark")}
       </text>
     </svg>
