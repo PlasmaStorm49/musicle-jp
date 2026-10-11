@@ -23,7 +23,11 @@ from musicle_pipeline.paths import repo_root
 SCRIPT = repo_root() / ".github" / "scripts" / "check-catalog-pr.sh"
 BASH = shutil.which("bash")
 JQ = shutil.which("jq")
-pytestmark = pytest.mark.skipif(not (BASH and JQ), reason="precisa de bash e jq (a CI tem)")
+# Na CI (CI=true) não pula: se a imagem do runner perder o jq, a falha aparece, em vez de a
+# proteção da tarefa com token sumir em silêncio.
+pytestmark = pytest.mark.skipif(
+    not (BASH and JQ) and not os.environ.get("CI"), reason="precisa de bash e jq (a CI tem)"
+)
 
 TODAY = "2026-10-19"
 PATHS = {
@@ -41,10 +45,10 @@ def _base(key: str) -> JSON:
     return read_json(repo_root() / PATHS[key])
 
 
-def _new_days(schedule: JSON, count: int) -> list[str]:
+def _new_days(schedule: JSON, count: int, today: str = TODAY) -> list[str]:
     """Os dias que a geração acrescentaria: do dia seguinte ao fim, ou de hoje (P44)."""
     after_last = date.fromisoformat(max(schedule["days"])) + timedelta(days=1)
-    start = max(after_last, date.fromisoformat(TODAY))
+    start = max(after_last, date.fromisoformat(today))
     return [(start + timedelta(days=i)).isoformat() for i in range(count)]
 
 
@@ -106,6 +110,7 @@ def run(
     extra_files: dict[str, str] | None = None,
     fetch: str = "success",
     today: str = TODAY,
+    avisos: str | None = None,
 ) -> tuple[subprocess.CompletedProcess[str], Path, Path]:
     """Monta a main (cópias dos arquivos de verdade) e o artefato, e roda o script."""
     repo = tmp_path / "repo"
@@ -123,6 +128,8 @@ def run(
     for path, text in (extra_files or {}).items():
         (files / path).parent.mkdir(parents=True, exist_ok=True)
         (files / path).write_bytes(text.encode("utf-8"))
+    if avisos is not None:
+        (temp / "artifact" / "avisos.txt").write_bytes(avisos.encode("utf-8"))
     listed = declared if declared is not None else list(changes)
     (temp / "artifact" / "changed.txt").write_bytes("".join(f"{p}\n" for p in listed).encode())
 
@@ -300,7 +307,7 @@ def test_rejects_a_gap_between_new_days(tmp_path):
     _rejects(tmp_path, changes, "buraco entre os dias novos")
 
 
-def test_rejects_a_backfill_before_the_end(tmp_path):
+def test_rejects_new_days_that_skip_the_expected_first(tmp_path):
     # P44: o 1º dia novo é o seguinte ao fim (ou hoje); começar depois disso deixaria buraco.
     changes = full_change()
     days = _new_days(_base("SCHEDULE"), 9)[1:]
@@ -353,6 +360,81 @@ def test_rejects_a_url_with_a_line_break(tmp_path, url):
     changes = full_change()
     changes[PATHS["CATALOG"]]["tracks"][0]["storeUrl"] = url
     _rejects(tmp_path, changes, "hosts da Apple")
+
+
+def schedules_only(today: str = TODAY) -> dict[str, JSON]:
+    return {
+        PATHS["SCHEDULE"]: grown(_base("SCHEDULE"), _new_days(_base("SCHEDULE"), 3, today)),
+        PATHS["FIXTURE_SCHEDULE"]: grown(
+            _base("FIXTURE_SCHEDULE"), _new_days(_base("FIXTURE_SCHEDULE"), 3, today)
+        ),
+    }
+
+
+def test_warns_about_the_gap_when_the_schedule_ran_out(tmp_path):
+    # A agenda acabou antes de hoje (o robô ficou parado): os dias que passaram ficam buraco.
+    late = "2026-11-05"
+    done, _, temp = run(tmp_path, schedules_only(late), today=late, fetch="failure")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert (
+        "> **Atenção (Agenda do site):** 3 dia(s) ficaram sem desafio depois de 2026-11-01"
+        in body(temp)
+    )
+
+
+def test_new_chart_without_new_romaji_passes(tmp_path):
+    changes = full_change()
+    del changes[PATHS["ROMAJI"]]
+    done, _, temp = run(tmp_path, changes)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "Romaji novo" not in body(temp)
+
+
+def test_pipeline_warnings_go_to_the_body_in_a_code_block(tmp_path):
+    avisos = "aviso: 2026-11-03|song: a resposta não é mais elegível\naviso: x ~~~ @alguém\n"
+    done, _, temp = run(tmp_path, full_change(), avisos=avisos)
+    assert done.returncode == 0, done.stdout + done.stderr
+    text = body(temp)
+    assert "a resposta não é mais elegível" in text
+    assert "aviso: x --- @alguém" in text
+    assert text.count("~~~") == 4  # dois blocos: romaji e avisos
+
+
+def test_rejects_a_snapshot_without_a_new_catalog(tmp_path):
+    changes = full_change()
+    del changes[PATHS["CATALOG"]]
+    _rejects(tmp_path, changes, "snapshot novo sem catálogo novo")
+
+
+def test_rejects_romaji_without_a_new_chart(tmp_path):
+    changes = {**schedules_only(), PATHS["ROMAJI"]: new_romaji()}
+    _rejects(tmp_path, changes, "romaji mudou sem parada nova")
+
+
+def test_rejects_a_schedule_listed_without_new_days(tmp_path):
+    changes = full_change()
+    changes[PATHS["SCHEDULE"]] = _base("SCHEDULE")
+    _rejects(tmp_path, changes, "mudou sem dia novo")
+
+
+def test_rejects_a_declared_file_that_did_not_come(tmp_path):
+    changes = full_change()
+    declared = list(changes)
+    del changes[PATHS["ROMAJI"]]
+    _rejects(tmp_path, changes, "não batem com a lista declarada", declared=declared)
+
+
+def test_rejects_a_file_with_two_json_documents(tmp_path):
+    changes = full_change()
+    catalog = changes.pop(PATHS["CATALOG"])
+    twice = dumps(catalog) + dumps(catalog)
+    _rejects(
+        tmp_path,
+        changes,
+        "precisa ser um JSON só",
+        declared=[*changes, PATHS["CATALOG"]],
+        extra_files={PATHS["CATALOG"]: twice},
+    )
 
 
 def test_rejects_an_odd_today(tmp_path):

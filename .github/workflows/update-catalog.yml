@@ -21,15 +21,16 @@ concurrency:
   group: update-catalog
   cancel-in-progress: false
 
-# A lista fechada do que o robô pode mudar (o snapshot leva a data de hoje no nome).
 env:
   PYTHONUTF8: "1"
+  # A lista fechada do que o robô pode mudar (o snapshot leva a data de hoje no nome).
   SNAPSHOTS: pipeline/data/apple/snapshots
   ROMAJI: pipeline/data/apple/romaji.json
   CATALOG: web/public/data/catalog.json
   SCHEDULE: web/public/data/schedule.json
-  FIXTURE_CATALOG: web/public/fixtures/catalog.json
   FIXTURE_SCHEDULE: web/public/fixtures/schedule.json
+  # Refeito só para a agenda das fixtures; ele mesmo não pode mudar (fica fora da lista).
+  FIXTURE_CATALOG: web/public/fixtures/catalog.json
 
 # Actions pinadas por SHA, em versões com 14 dias ou mais de publicadas (P28). Versão no comentário.
 jobs:
@@ -90,11 +91,18 @@ jobs:
       - if: steps.romaji.outputs.missing == 'true'
         run: python -m musicle_pipeline romanize --provider apple
       - run: python -m musicle_pipeline romanize --provider apple --check
-      - run: python -m musicle_pipeline build --provider apple --out "$CATALOG"
+      # Os avisos (resposta futura que deixou de ser elegível, faixa que mudou de álbum, buraco)
+      # vão para o corpo do PR: o tee guarda a saída, e o pipefail mantém a falha do comando.
+      - name: Refazer o catálogo real
+        run: |
+          set -o pipefail
+          python -m musicle_pipeline build --provider apple --out "$CATALOG" 2>&1 | tee -a "$RUNNER_TEMP/pipeline.log"
       - name: Acrescentar os dias (parada real)
         env:
           TODAY: ${{ steps.today.outputs.today }}
-        run: python -m musicle_pipeline schedule --catalog "$CATALOG" --out "$SCHEDULE" --today "$TODAY"
+        run: |
+          set -o pipefail
+          python -m musicle_pipeline schedule --catalog "$CATALOG" --out "$SCHEDULE" --today "$TODAY" 2>&1 | tee -a "$RUNNER_TEMP/pipeline.log"
       # A parada fictícia é estática e só serve ao desenvolvimento e aos testes; a agenda dela
       # cresce junto, para o npm run dev continuar com o desafio de hoje.
       - run: python -m musicle_pipeline build --provider fixture --out "$FIXTURE_CATALOG"
@@ -140,6 +148,7 @@ jobs:
             cp "$path" "$out/files/$path"
             echo "$path" >> "$out/changed.txt"
           done <<< "$status"
+          grep '^aviso: ' "$RUNNER_TEMP/pipeline.log" > "$out/avisos.txt" || true
           echo "changed=true" >> "$GITHUB_OUTPUT"
       - if: steps.diff.outputs.changed == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -221,8 +230,21 @@ jobs:
           if [ "$EXISTS" = "true" ]; then
             pr="$(gh pr list --head "$BRANCH" --state open --json url --jq '.[0].url // empty')"
             if [ -n "$pr" ]; then
-              echo "::notice::o PR de hoje já está aberto: $pr"
-              exit 0
+              # Mesmo conteúdo: nada a fazer. Outro conteúdo (a busca falhou de manhã e voltou à
+              # tarde, ou o PR veio do robô antigo): avisa em vermelho, para não ficar o velho.
+              git fetch -q --depth=1 origin "refs/heads/$BRANCH"
+              mapfile -t changed < "$RUNNER_TEMP/artifact/changed.txt"
+              same=true
+              [ "$(git diff --name-only HEAD FETCH_HEAD | sort)" = "$(printf '%s\n' "${changed[@]}" | sort)" ] || same=false
+              for path in "${changed[@]}"; do
+                git show "FETCH_HEAD:$path" 2> /dev/null | cmp -s - "$path" || same=false
+              done
+              if [ "$same" = true ]; then
+                echo "::notice::o PR de hoje já está aberto, com este mesmo conteúdo: $pr"
+                exit 0
+              fi
+              echo "::error::o PR de hoje ($pr) tem outro conteúdo. Feche-o, apague o branch (git push origin --delete $BRANCH) e rode de novo: gh workflow run update-catalog.yml"
+              exit 1
             fi
             echo "::error::o branch $BRANCH existe sem PR aberto (execução interrompida ou PR fechado sem merge). Apague com: git push origin --delete $BRANCH"
             exit 1

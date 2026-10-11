@@ -46,6 +46,13 @@ has() {
 }
 new() { echo "$art/files/$1"; }
 
+# Cada arquivo é um JSON só: com dois documentos colados, o --slurpfile das conferências abaixo
+# olharia só o 1º, e o resto entraria na árvore sem conferência.
+for path in "${changed[@]}"; do
+  jq -e -n --slurpfile x "$(new "$path")" '$x | length == 1' > /dev/null \
+    || fail "$path: o arquivo precisa ser um JSON só"
+done
+
 # 2. Snapshot, catálogo e romaji andam juntos: só a parada nova muda o catálogo e traz texto novo.
 if has "$snapshot"; then
   has "$CATALOG" || fail "snapshot novo sem catálogo novo"
@@ -74,6 +81,14 @@ if has "$ROMAJI"; then
   romaji_list="$(jq -r -n --slurpfile b "$ROMAJI" --slurpfile n "$(new "$ROMAJI")" '
     ($n[0].entries | keys) - ($b[0].entries | keys) | .[]
     | "\(.) → \($n[0].entries[.] | join(" / "))" | gsub("~"; "-")')"
+fi
+
+# Avisos do pipeline (resposta futura que deixou de ser elegível, faixa que mudou de álbum,
+# buraco): antes só apareciam no log. Vão para o corpo, num bloco de código com o mesmo cuidado do
+# romaji, para quem revisa ver antes do merge. Fora de files/: não entram na árvore.
+warnings=""
+if [ -f "$art/avisos.txt" ] && [ ! -L "$art/avisos.txt" ]; then
+  warnings="$(head -n 50 "$art/avisos.txt" | tr -d '\r' | tr '~' '-')"
 fi
 
 # 4. Catálogo: nenhum id da main some (o catálogo é cumulativo), as URLs ficam nos hosts da Apple
@@ -185,6 +200,14 @@ done
   if [ -n "$stale_line" ]; then
     echo
     echo "$stale_line"
+  fi
+  if [ -n "$warnings" ]; then
+    echo
+    echo "**Avisos do pipeline** (do log da execução; revise antes do merge):"
+    echo
+    echo "~~~text"
+    echo "$warnings"
+    echo "~~~"
   fi
   if [ -n "$romaji_list" ]; then
     echo
