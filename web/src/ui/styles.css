@@ -15,6 +15,8 @@
   --warn: #8a5a00;
   --warn-soft: #fff1d6;
   --radius: 12px;
+  /* Vermelho do logo provisório (P95); o visual do M12 define a paleta. */
+  --brand: #d7263d;
   font-family: system-ui, "Segoe UI", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
   color: var(--text);
   background: var(--bg);
@@ -68,6 +70,7 @@ button:disabled {
 }
 
 button:focus-visible,
+h1:focus-visible,
 h2:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
@@ -445,6 +448,65 @@ h4 {
   font-size: 0.9rem;
 }
 
+/* Home: o nome do jogo, os cartões dos modos e como jogar */
+.home-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 56px;
+  height: 56px;
+  flex: none;
+}
+
+.logo-disc {
+  fill: var(--brand);
+}
+
+.logo-mark {
+  fill: #ffffff;
+  font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", "Meiryo", sans-serif;
+  font-size: 62px;
+  font-weight: 700;
+}
+
+.home-modes {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cartão-link com a aparência dos botões do seletor de modo (.mode) */
+.home-card {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.home-card:hover {
+  border-color: var(--accent);
+}
+
+.home-card:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.home-how {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 /* Escolha do modo */
 .hint {
   margin: 4px 0 12px;
@@ -480,6 +542,17 @@ h4 {
 .mode .tag {
   justify-self: start;
   color: var(--accent);
+}
+
+/* Home: diário sem desafio hoje (o cartão não é link). Depois do .mode .tag, que ele sobrepõe. */
+.home-card.off,
+.home-card.off .tag {
+  color: var(--muted);
+}
+
+.home-card.off {
+  background: transparent;
+  border-style: dashed;
 }
 
 /* Campo com autocompletar */
@@ -582,6 +655,8 @@ section.void,
 .tabs ul {
   list-style: none;
   display: flex;
+  /* Quatro abas com dois ✓ não cabem em 320 px: quebram a linha em vez de rolar a página. */
+  flex-wrap: wrap;
   gap: 4px;
   max-width: 480px;
   margin: 0 auto;

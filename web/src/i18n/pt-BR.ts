@@ -2,6 +2,8 @@
 export const ptBR = {
   "app.title": "AteMusic",
   "app.tagline": "Adivinhe a música japonesa do dia",
+  // O 当 de 当てる (ateru: acertar), no logo provisório (P95).
+  "app.logoMark": "当",
 
   "load.loading": "Carregando o desafio…",
   "load.retry": "Não foi possível carregar o desafio. Confira a conexão.",
@@ -12,11 +14,28 @@ export const ptBR = {
   "day.practiceLink": "O Treino continua disponível: jogar agora",
 
   "nav.label": "Jogos",
+  "nav.home": "Início",
   "nav.song": "Música",
   "nav.album": "Álbum",
   "nav.practice": "Treino",
   "nav.done": "(terminado)",
   "nav.doneMark": "✓",
+
+  "home.modesTitle": "Escolha o modo",
+  "home.songHint": "Ouça o trecho e acerte o nome da música. {rounds} rodadas por dia.",
+  "home.albumHint": "Ouça o trecho e acerte o álbum ou single. {rounds} rodadas por dia.",
+  "home.practiceHint": "Rodadas sem fim, de Música ou Álbum, em 4 opções ou digitação.",
+  "home.statusNew": "nº {number} · novo",
+  "home.statusPlaying": "nº {number} · em andamento, {mode}",
+  "home.statusDone": "nº {number} · terminado, {score} de {max} pontos",
+  "home.statusDoneVoid": "nº {number} · terminado",
+  "home.statusUnavailable": "Não há desafio hoje",
+  "home.practiceSession": "Nesta sessão: {score}",
+  "home.howTitle": "Como funciona",
+  "home.howClip":
+    "Você ouve um trecho de um sucesso no Japão. Ele começa com {first} s e cresce até {last} s.",
+  "home.howDaily": "Os diários são iguais para todos e viram à meia-noite de Brasília.",
+  "home.howPractice": "O Treino não fica salvo: jogue quantas rodadas quiser.",
 
   "game.header": "{daily} · nº {number}",
   "game.round": "Rodada {current} de {total}",
