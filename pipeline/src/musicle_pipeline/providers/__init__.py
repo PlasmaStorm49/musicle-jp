@@ -2,9 +2,13 @@
 
 from collections.abc import Callable
 
+from musicle_pipeline.providers.apple import AppleProvider
 from musicle_pipeline.providers.base import ChartProvider
 from musicle_pipeline.providers.fixture import FixtureProvider
 
-PROVIDERS: dict[str, Callable[[], ChartProvider]] = {"fixture": FixtureProvider}
+PROVIDERS: dict[str, Callable[[], ChartProvider]] = {
+    "fixture": FixtureProvider,
+    "apple": AppleProvider,
+}
 
-__all__ = ["PROVIDERS", "ChartProvider", "FixtureProvider"]
+__all__ = ["PROVIDERS", "AppleProvider", "ChartProvider", "FixtureProvider"]

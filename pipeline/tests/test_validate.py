@@ -47,3 +47,21 @@ def test_in_latest_must_match_last_seen(fixture_catalog):
     track = next(t for t in cat["tracks"] if t["chart"]["inLatest"] is False)
     track["chart"]["inLatest"] = True
     assert any("inLatest" in p for p in validate_catalog(cat))
+
+
+def test_urls_must_stay_on_the_provider_hosts(fixture_catalog):
+    cat = copy.deepcopy(fixture_catalog)
+    track = next(t for t in cat["tracks"] if t["preview"] is not None)
+    track["preview"]["url"] = "javascript:alert(1)"
+    track["storeUrl"] = "https://music.apple.com/jp/song/1"  # a fixture não tem loja
+    cat["albums"][0]["artworkUrl"] = "https://evil.example/a.svg"
+    problems = validate_catalog(cat)
+    assert any("prévia fora dos hosts" in p for p in problems)
+    assert any("link da loja fora dos hosts" in p for p in problems)
+    assert any("capa fora dos hosts" in p for p in problems)
+
+
+def test_unknown_provider_has_no_url_rule(fixture_catalog):
+    cat = copy.deepcopy(fixture_catalog)
+    cat["provider"] = "outro"
+    assert "provider 'outro' sem regra de URLs" in validate_catalog(cat)

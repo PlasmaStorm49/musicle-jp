@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from datetime import date
 from functools import cache
 
@@ -158,6 +159,46 @@ def _similar_problems(catalog: JSON) -> list[str]:
     return problems
 
 
+# Onde cada provedor pode apontar. As URLs vão parar em <img>, no áudio e num href: sem esta
+# lista, o schema aceitaria até "javascript:...".
+_URL_RULES = {
+    "fixture": {
+        "preview": re.compile(r"^fixtures/audio/[\w.-]+$"),
+        "artwork": re.compile(r"^fixtures/art/[\w.-]+$"),
+        "store": None,  # a parada fictícia não tem loja
+    },
+    "apple": {
+        "preview": re.compile(r"^https://audio-ssl\.itunes\.apple\.com/\S+$"),
+        "artwork": re.compile(r"^https://is\d+-ssl\.mzstatic\.com/\S+$"),
+        "store": re.compile(r"^https://music\.apple\.com/\S+$"),
+    },
+}
+
+
+def _url_problems(catalog: JSON) -> list[str]:
+    rules = _URL_RULES.get(catalog["provider"])
+    if rules is None:
+        return [f"provider {catalog['provider']!r} sem regra de URLs"]
+
+    def bad(kind: str, url: str | None) -> bool:
+        rule = rules[kind]
+        if url is None:
+            return False
+        return rule is None or not rule.match(url)
+
+    problems = [
+        f"{a['id']}: capa fora dos hosts do provedor: {a['artworkUrl']}"
+        for a in catalog["albums"]
+        if bad("artwork", a["artworkUrl"])
+    ]
+    for t in catalog["tracks"]:
+        if t["preview"] is not None and bad("preview", t["preview"]["url"]):
+            problems.append(f"{t['id']}: prévia fora dos hosts do provedor: {t['preview']['url']}")
+        if bad("store", t["storeUrl"]):
+            problems.append(f"{t['id']}: link da loja fora dos hosts do provedor: {t['storeUrl']}")
+    return problems
+
+
 def validate_catalog(catalog: JSON, raw: bytes | None = None) -> list[str]:
     """Lista de problemas; vazia quando está tudo certo.
 
@@ -167,7 +208,7 @@ def validate_catalog(catalog: JSON, raw: bytes | None = None) -> list[str]:
     problems = _schema_problems(catalog)
     if problems:
         return problems  # sem a forma certa, as invariantes quebrariam com KeyError
-    problems = _invariant_problems(catalog)
+    problems = _invariant_problems(catalog) + _url_problems(catalog)
     if raw is not None and dumps(catalog).encode("utf-8") != raw:
         problems.append("arquivo fora da forma canônica (regere com o pipeline)")
     return problems

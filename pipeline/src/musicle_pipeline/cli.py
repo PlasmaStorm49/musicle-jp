@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import re
 import sys
 from collections.abc import Sequence
 from datetime import date
@@ -15,7 +16,13 @@ from musicle_pipeline.fake_assets import generate_assets
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import has_unassigned
-from musicle_pipeline.paths import provider_paths, public_schedules, repo_root, resolve
+from musicle_pipeline.paths import (
+    apple_snapshots_dir,
+    provider_paths,
+    public_schedules,
+    repo_root,
+    resolve,
+)
 from musicle_pipeline.providers import PROVIDERS
 from musicle_pipeline.romaji_cache import RomajiCache, collect_texts, load_cache, save_cache
 from musicle_pipeline.schedule import (
@@ -51,6 +58,8 @@ def _build(args: argparse.Namespace) -> int:
         return 1
     provider = PROVIDERS[args.provider]()
     snapshots = provider.snapshots()
+    for message in getattr(provider, "warnings", []):
+        print(f"aviso: {message}", file=sys.stderr)
     for snap in snapshots:
         for e in snap.entries:
             texts = [e.track.title, e.track.album.title, *(a.name for a in e.track.artists)]
@@ -163,6 +172,42 @@ def _check_one(path: Path, args: argparse.Namespace) -> int:
     return 0
 
 
+def _fetch(args: argparse.Namespace) -> int:
+    # Só aqui: os outros comandos nunca carregam o módulo de rede (teste em subprocesso).
+    from musicle_pipeline import fetch
+
+    directory = apple_snapshots_dir()
+    out = directory / f"{args.today.isoformat()}.json"
+    if out.exists():
+        print(f"{out}: já existe; nada a buscar")
+        return 0
+    days = sorted(p.stem for p in directory.glob("*.json")) if directory.is_dir() else []
+    if days and days[-1] >= args.today.isoformat():
+        print(
+            f"--today {args.today} não é posterior ao último snapshot ({days[-1]})", file=sys.stderr
+        )
+        return 1
+    try:
+        snapshot = fetch.fetch_snapshot(args.today, args.fetched_at)
+    except fetch.FetchError as exc:
+        print(f"fetch: {exc}; nada foi gravado", file=sys.stderr)
+        return 1
+    if days:
+        previous = read_json(directory / f"{days[-1]}.json")
+        if [r["id"] for r in previous["rss"]] == [r["id"] for r in snapshot["rss"]]:
+            print(f"parada igual à de {days[-1]}; nada foi gravado")
+            return 0
+    write_if_changed(out, dumps(snapshot))
+    print(f"{out}: {len(snapshot['rss'])} faixas na parada, {len(snapshot['missing'])} sem lookup")
+    return 0
+
+
+def _fetched_at(text: str) -> str:
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", text):
+        raise argparse.ArgumentTypeError("use AAAA-MM-DDTHH:MM:SSZ (UTC)")
+    return text
+
+
 def _romanize(args: argparse.Namespace) -> int:
     path = resolve(args.cache) if args.cache else provider_paths(args.provider).romaji
     cache = load_cache(path)
@@ -253,6 +298,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     base.add_argument("--base-ref", help="revisão do git, ex.: origin/main")
     base.add_argument("--base", type=Path, help="arquivo de base (ausente = vazio)")
     check.set_defaults(func=_schedule_check)
+
+    fetch = sub.add_parser("fetch", help="busca a parada real do dia (único comando com rede)")
+    fetch.add_argument("--provider", choices=["apple"], required=True)
+    fetch.add_argument("--today", type=date.fromisoformat, required=True, help="hoje em Brasília")
+    fetch.add_argument(
+        "--fetched-at", type=_fetched_at, required=True, help="agora em UTC: AAAA-MM-DDTHH:MM:SSZ"
+    )
+    fetch.set_defaults(func=_fetch)
 
     romanize = sub.add_parser("romanize", help="completa o cache de romaji (extra [romaji])")
     romanize.add_argument("--provider", choices=sorted(PROVIDERS), required=True)
