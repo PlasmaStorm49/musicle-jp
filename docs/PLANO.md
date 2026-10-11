@@ -22,6 +22,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P18 | Desafio nº 1 da agenda falsa em 2026-10-08 (início do projeto) |
 | P21 a P23 | Romaji com cutlet, em cache versionado; grafia estrangeira só na busca (Apêndice B) |
 | P24 | O Diário Álbum aceita singles, em definitivo |
+| P25 | `epoch` da agenda real (M11, em `public/data/`, com IDs da Apple): 2026-10-10, decidido nesse dia. Se ela for publicada depois, o 1º desafio real sai com nº maior que 1, e os dias entre o `epoch` e a publicação ficam como buraco (P44) |
 | P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
 | P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2 |
 | P60 | A regra da P28 vale também para o Python (M9): versões exatas de tudo, diretas e indiretas, em `pipeline/constraints.txt`, e o `setuptools` do build fixo no `pyproject.toml`. Na adoção, três caíram para a versão anterior: ruff 0.16.9, rpds-py 2026.6.3 e iniconfig 2.3.0 |
@@ -110,7 +111,7 @@ musicle-jp/
 | M7 | Concluído em 09/10/2026 | Digitação com autocompletar (kana, kanji, romaji, alias, teclado, ARIA) | Busca acha por todas as grafias | Git worktree, sessão paralela |
 | M8 | Concluído em 09/10/2026 | Alvo Álbum + modo Treino | As 4 combinações jogáveis | 2º worktree, merge e conflito |
 | M9 | Concluído em 09/10/2026 | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review`, ferramentas de PR do app (Auto-fix) |
-| M10 | | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions |
+| M10 | Concluído em 10/10/2026 | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions, navegador do Claude na URL pública |
 | M11 | | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
 
 ## 6. Riscos
@@ -132,8 +133,7 @@ musicle-jp/
 
 **Perguntas**
 
-- P16. Nome público do jogo (evitar "Musicle" no nome). No M10, o usuário decidiu publicar como `musicle-jp` por ora. Trocar depois muda a URL (quebra links compartilhados), mas não o save (o `localStorage` é por origem). Não bloqueia mais. Ao trocar, a base `/musicle-jp/` muda em `web/vite.config.ts`, nas checagens do `ci.yml` e do `deploy.yml`, no passo 10 do `/verificar` e na documentação.
-- P25. A agenda real (M11, em `public/data/`, com IDs da Apple) precisa do próprio `epoch`: a data de estreia pública. Bloqueia o M11.
+- P16. Nome público do jogo (evitar "Musicle" no nome). No M10, o usuário decidiu publicar como `musicle-jp` por ora, e em 10/10/2026 decidiu escolher o nome junto com o visual e a identidade do jogo, num marco futuro. Trocar depois muda a URL (quebra links compartilhados), mas não o save (o `localStorage` é por origem). Não bloqueia mais. Ao trocar, a base `/musicle-jp/` muda em `web/vite.config.ts`, nas checagens do `ci.yml` e do `deploy.yml`, no passo 10 do `/verificar` e na documentação.
 
 **Sugestões**
 
@@ -467,7 +467,23 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
   - "Allow GitHub Actions to create and approve pull requests" ligado (P64). Criar e aprovar são a mesma chave: qualquer workflow com `pull-requests: write` poderia aprovar um PR. Hoje o ruleset não exige aprovação, então a `main` não fica mais aberta; rever se um dia exigir;
   - o workflow agendado é desligado depois de 60 dias sem atividade no repositório: `gh workflow enable update-catalog.yml`;
   - nenhuma tarefa nova se chama `pipeline`, `web` ou `e2e`: viraria checagem com o mesmo nome.
-- **Configurações do M10** (por `gh api`): Pages com origem "GitHub Actions"; ambiente `github-pages` com regra de branch só para a `main`; a chave da P64.
+- **Configurações do M10** (por `gh api`, 10/10/2026):
+  - Pages com origem "GitHub Actions": o `POST /pages` funcionou só com `build_type=workflow`;
+  - ambiente `github-pages`: o GitHub o criou ao ligar o Pages, já com regra de branch só para a `main`;
+  - a chave da P64 ligada, com o token padrão ainda só de leitura.
+- **Critério de pronto do M10 conferido** (10/10/2026):
+  - PR #4 (o M10): três checagens verdes, merge, e o deploy `pages-build` e `pages-deploy` verde;
+  - URL pública no navegador do Claude:
+    - abre o "Diário Música · nº 3", a data certa;
+    - página, JS, CSS, JSON, WAV e SVG respondem 200 sob `/musicle-jp/`, com `Cache-Control: max-age=600`;
+    - clique real em "Tocar 1 s" baixa o WAV e toca sem "Áudio indisponível";
+    - console sem erros;
+    - o compartilhar termina na URL pública;
+    - capas do Álbum, Treino e ✓ do diário terminado funcionam;
+    - `__musicleAudioLog` indefinido (o código de DEV saiu do build);
+  - 1ª execução manual do `update-catalog`: as duas tarefas verdes, e o PR #5 aberto por `app/github-actions`, só com o `schedule.json` (30 e 31/10). A CI dele ficou `action_required` até "Approve workflows to run"; depois, as três checagens verdes contaram para o ruleset. O merge humano disparou o deploy, e a agenda publicada passou a ir até 31/10;
+  - 2ª execução no mesmo dia: "0 dia(s) novo(s); sem mudanças", e `catalog-pr` pulada, sem PR;
+  - no Windows, o Git Bash ignora `TZ=America/Sao_Paulo` (não tem o banco de fusos) e mostra UTC. A hora de Brasília local sai do PowerShell (`TimeZoneInfo`); o runner Ubuntu calcula certo.
 
 ## Origem
 
