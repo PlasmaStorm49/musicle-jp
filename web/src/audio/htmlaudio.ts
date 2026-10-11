@@ -1,11 +1,11 @@
 // Reserva do Web Audio (P70): um <audio> só, reaproveitado, tocando a mesma URL. Não exige CORS
 // (sem crossOrigin) nem guarda o áudio decodificado na memória, mas corta com menos precisão:
-// o corte sai do currentTime, conferido a cada quadro (cerca de 20 ms de erro, contra menos de
-// 10 ms do Web Audio), e sem a rampa de volume (o iPhone não deixa mudar o volume pelo código).
-// Cuidados, um a um:
+// o corte sai do currentTime, conferido por um laço de setTimeout (alguns ms de erro, contra
+// menos de 10 ms do Web Audio), e sem a rampa de volume (o iPhone não deixa mudar o volume pelo
+// código). Cuidados, um a um:
 // - play() é chamado antes de qualquer await: o Safari só deixa tocar dentro do gesto;
 // - uma ficha por reprodução, como no Web Audio: o que chega depois de um Parar é ignorado;
-// - aba oculta para o som (o laço de quadros para junto);
+// - aba oculta para o som;
 // - a tela de bloqueio do celular mostra os metadados da mídia, e o nome da música é a
 //   resposta: o título vira o nome do jogo (mediaSession).
 import {
@@ -28,6 +28,10 @@ export type HtmlAudioOptions = EngineOptions & {
   readonly mediaTitle?: string;
   readonly createElement?: () => MediaElement;
 };
+
+// O laço do corte acorda um pouco antes do fim e depois confere de 5 em 5 ms.
+const EARLY_MS = 25;
+const MIN_CHECK_MS = 5;
 
 // Códigos do MediaError: o arquivo veio, mas o navegador não sabe tocar.
 const MEDIA_ERR_DECODE = 3;
@@ -95,11 +99,11 @@ export class HtmlAudioEngine implements AudioEngine {
     const left = Number.isFinite(audio.duration) ? audio.duration - offset : seconds;
     const duration = Math.max(0, Math.min(seconds, left));
     const elapsed = () => Math.min(Math.max(audio.currentTime - offset, 0), duration);
-    let frame = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
     let finish: (interrupted: boolean) => void = () => {};
     const done = new Promise<PlaybackResult>((resolve) => {
       finish = (interrupted) => {
-        cancelAnimationFrame(frame);
+        clearTimeout(timer);
         audio.pause();
         if (this.#current?.token === token) this.#current = null;
         const result = {
@@ -112,13 +116,18 @@ export class HtmlAudioEngine implements AudioEngine {
         finish = () => {}; // termina uma vez só
       };
     });
+    // Dorme até perto do fim do trecho e confere de novo. Com setTimeout, e não com quadros: o
+    // requestAnimationFrame para quando a página não pinta (janela encoberta), mesmo visível,
+    // e o som passaria do corte. Se o áudio travar para carregar, o currentTime para e o laço
+    // só espera mais.
     const tick = () => {
+      const left = offset + duration - audio.currentTime;
       // Fim do trecho, fim do arquivo ou erro no meio: termina (senão a tela ficaria tocando).
-      if (audio.currentTime - offset >= duration || audio.ended || audio.error) finish(false);
-      else frame = requestAnimationFrame(tick);
+      if (left <= 0 || audio.ended || audio.error) finish(false);
+      else timer = setTimeout(tick, Math.max(MIN_CHECK_MS, left * 1000 - EARLY_MS));
     };
     this.#current = { token, finish: (interrupted) => finish(interrupted) };
-    frame = requestAnimationFrame(tick);
+    tick();
     return { t0: 0, seconds: duration, elapsed, done };
   }
 

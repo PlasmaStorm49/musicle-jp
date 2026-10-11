@@ -84,6 +84,17 @@ describe("appleResolver (parada real)", () => {
     expect(urls).toHaveLength(1); // já resolvida: não consulta de novo
   });
 
+  it("a rodada pede a sua faixa e o diário o dia inteiro no mesmo ciclo: uma consulta só", async () => {
+    // Os efeitos do filho (RoundView) rodam antes dos do pai (Playing): o resolve chega primeiro.
+    const { fetchFn, urls } = fakeLookup(found([A, FRESH], [B, FRESH], [C, FRESH]));
+    const resolver = appleResolver({ index: real, fetchFn });
+    const first = resolver.resolve(A ?? "");
+    resolver.prefetch([A ?? "", B ?? "", C ?? ""]);
+    await expect(first).resolves.toBe(FRESH);
+    expect(urls).toHaveLength(1);
+    expect(urls[0]?.split("id=")[1]?.split("&")[0]?.split(",")).toHaveLength(3);
+  });
+
   it("faixa ausente ou prévia fora do host da Apple: vale a reserva do catálogo", async () => {
     const { fetchFn } = fakeLookup(found([A, "https://evil.test/a.m4a"]));
     const resolver = appleResolver({ index: real, fetchFn });

@@ -97,24 +97,38 @@ export function appleResolver({
     }
   }
 
+  // Fila do próximo lote. Os pedidos do mesmo ciclo (a rodada pede a sua faixa e o diário pede
+  // o dia inteiro, em efeitos diferentes) viram uma consulta só: a fila só sai numa microtarefa,
+  // depois de todos os efeitos daquela pintura. Sem isso a ordem dos efeitos (o do filho roda
+  // antes do do pai) partiria o lote em dois.
+  let queue: string[] = [];
+  let batch: Promise<void> = Promise.resolve();
+
+  async function flush(): Promise<void> {
+    const todo = queue;
+    queue = [];
+    const numbers = todo.flatMap((id) => appleTrackNumber(id) ?? []);
+    const found = numbers.length > 0 && !open && withinQuota() ? await lookup(numbers) : null;
+    for (const id of todo) {
+      resolved.set(id, found?.get(id) ?? reserve(id)); // falha ou faixa ausente: reserva
+      pending.delete(id);
+    }
+  }
+
   function prefetch(trackIds: readonly string[]): void {
     const todo = [...new Set(trackIds)].filter((id) => !resolved.has(id) && !pending.has(id));
-    const numbers = todo.flatMap((id) => appleTrackNumber(id) ?? []);
     if (todo.length === 0) return;
-    if (numbers.length === 0 || open || !withinQuota()) {
-      for (const id of todo) resolved.set(id, reserve(id));
+    if (open) {
+      for (const id of todo) resolved.set(id, reserve(id)); // disjuntor aberto: reserva na hora
       return;
     }
-    const batch = lookup(numbers).then((found) => {
-      for (const id of todo) {
-        resolved.set(id, found?.get(id) ?? reserve(id)); // faixa ausente: reserva
-        pending.delete(id);
-      }
-    });
+    if (queue.length === 0) batch = Promise.resolve().then(flush);
+    queue.push(...todo);
+    const ready = batch;
     for (const id of todo)
       pending.set(
         id,
-        batch.then(() => resolved.get(id) ?? null),
+        ready.then(() => resolved.get(id) ?? null),
       );
   }
 

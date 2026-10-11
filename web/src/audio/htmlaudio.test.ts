@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AudioUnavailableError, type PlayLog } from "./engine.ts";
 import { HtmlAudioEngine, type MediaElement } from "./htmlaudio.ts";
 
@@ -49,9 +49,11 @@ function setup(options: { fails?: (url: string) => boolean } = {}) {
   return { ...fake, engine, logs };
 }
 
-const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
-
 describe("HtmlAudioEngine (a reserva com <audio>)", () => {
+  // O corte é um laço de setTimeout (o rAF para quando a página não pinta): relógio falso.
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => vi.useRealTimers());
+
   it("chama o play() na hora, ainda dentro do clique, a partir do offset", () => {
     const { element, engine } = setup();
     void engine.play(URL_A, 12, 2);
@@ -65,11 +67,14 @@ describe("HtmlAudioEngine (a reserva com <audio>)", () => {
     const playing = engine.play(URL_A, 10, 2);
     started();
     const playback = await playing;
+    vi.mocked(element.pause).mockClear(); // o play() já para o que tocava antes de começar
     expect(playback?.seconds).toBe(2);
     element.currentTime = 11;
     expect(playback?.elapsed()).toBe(1);
-    element.currentTime = 12.02;
-    await nextFrame();
+    await vi.advanceTimersByTimeAsync(1900);
+    expect(element.pause).not.toHaveBeenCalled(); // o laço acordou, mas o trecho não acabou
+    element.currentTime = 12.004;
+    await vi.advanceTimersByTimeAsync(100);
     await expect(playback?.done).resolves.toMatchObject({ requested: 2, interrupted: false });
     expect(element.pause).toHaveBeenCalled();
     expect(logs[0]).toMatchObject({ url: URL_A, offset: 10, engine: "html" });
@@ -125,7 +130,7 @@ describe("HtmlAudioEngine (a reserva com <audio>)", () => {
     started();
     const playback = await playing;
     element.error = { code: 2 } as MediaError;
-    await nextFrame();
+    await vi.advanceTimersByTimeAsync(7000);
     await expect(playback?.done).resolves.toMatchObject({ interrupted: false });
   });
 });
