@@ -1,0 +1,48 @@
+# Curadoria manual da parada real (Apple). Vale sobre o provedor e sobre o romaji automático.
+#
+# Chave = ID do catálogo. Seções: tracks, albums, artists.
+#   latin   = título latino exibido (Hepburn; latinSource "manual")
+#   aliases = termos extras de busca, nunca exibidos
+#   block   = true tira a faixa do desafio diário
+#
+# Revise o diff de pipeline/data/apple/romaji.json a cada parada nova e corrija aqui o que o
+# cutlet errou. Nome de artista quase nunca precisa: o lookup da Apple traz o latino oficial.
+
+# --- Revisão da 1ª parada real (10/10/2026) ---
+
+[tracks."apple:tr:1706829387"]  # しわあわせ (Vaundy); cutlet: "Shiwa awase"
+latin = "Shiwaawase"
+
+[albums."apple:al:1706829225"]
+latin = "Shiwaawase"
+
+[tracks."apple:tr:1794066813"]  # とくべチュ、して (=LOVE); cutlet: "To kube Chu, shite"
+latin = "Tokubechu, shite"
+
+[albums."apple:al:1794066812"]
+latin = "Tokubechu, shite"
+
+[tracks."apple:tr:1451567084"]  # わたがし (back number); cutlet: "Wata ga shi"
+latin = "Watagashi"
+
+[albums."apple:al:1451567083"]
+latin = "Watagashi"
+
+[tracks."apple:tr:1518845612"]  # スパークル (RADWIMPS); cutlet: "Supaa kuru"
+latin = "Supaakuru"
+aliases = ["sparkle"]
+
+[tracks."apple:tr:6815505071"]  # 夕星-ゆうづつ- (RADWIMPS); cutlet repete a leitura
+latin = "Yuuzutsu"
+
+[albums."apple:al:6815505067"]
+latin = "Yuuzutsu"
+
+[tracks."apple:tr:1273710101"]  # 愛を伝えたいだとか (あいみょん); cutlet: "tsutaetaida to ka"
+latin = "Ai wo tsutaetai da toka"
+
+[tracks."apple:tr:6793456212"]  # 罪と罰と雨とキス (佐野勇斗&吉田仁人); nomes próprios errados
+latin = "Tsumi to batsu to ame to kisu (Sano Hayato & Yoshida Jinto)"
+
+[albums."apple:al:6793456209"]
+latin = "Tsumi to batsu to ame to kisu (Sano Hayato & Yoshida Jinto)"
