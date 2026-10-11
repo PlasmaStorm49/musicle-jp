@@ -333,6 +333,13 @@ def test_a_chart_that_broke_the_pipeline_brings_only_the_schedules(tmp_path):
     assert f"title=chore: agenda de {TODAY}" in outputs(temp)
 
 
+def test_a_chart_left_out_cannot_bring_its_snapshot(tmp_path):
+    # A reserva apaga o snapshot que quebrou o pipeline: se ele veio, o caminho falhou.
+    done, _, _ = run(tmp_path, full_change(), chart="failure")
+    assert done.returncode == 1, done.stdout + done.stderr
+    assert "ficou de fora (CHART=failure)" in done.stdout
+
+
 def test_warns_when_the_chart_is_weeks_old(tmp_path):
     changes = full_change()
     keep = {k: changes[k] for k in (PATHS["SCHEDULE"], PATHS["FIXTURE_SCHEDULE"])}

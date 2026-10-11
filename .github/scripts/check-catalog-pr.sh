@@ -5,7 +5,7 @@
 # vem da main. Testado em pipeline/tests/test_catalog_pr_script.py (precisa de jq).
 #
 # Entrada (ambiente): TODAY, FETCH (resultado do passo de busca: success ou failure), CHART
-# (resultado do passo da parada nova: failure quando ela quebrou o pipeline e ficou de fora), RUN_URL, os
+# (failure quando a parada nova veio, quebrou o pipeline e ficou de fora), RUN_URL, os
 # caminhos SNAPSHOTS, ROMAJI, CATALOG, SCHEDULE e FIXTURE_SCHEDULE (relativos à raiz, que é a
 # pasta atual, um checkout da main), RUNNER_TEMP (com o artefato em artifact/) e GITHUB_OUTPUT.
 # Saída: os arquivos na árvore, $RUNNER_TEMP/pr-body.md e branch/title no GITHUB_OUTPUT.
@@ -66,6 +66,11 @@ if has "$snapshot"; then
 else
   if has "$CATALOG"; then fail "catálogo mudou sem parada nova"; fi
   if has "$ROMAJI"; then fail "romaji mudou sem parada nova"; fi
+fi
+# A reserva apaga o snapshot que quebrou o pipeline; se ele veio mesmo assim, algo no caminho
+# não fez o que diz.
+if [ "${CHART:-success}" = "failure" ] && has "$snapshot"; then
+  fail "a parada de hoje ficou de fora (CHART=failure), mas o snapshot veio no artefato"
 fi
 
 # 3. Romaji: só acréscimo, com o mesmo motor e as mesmas versões; o já revisado não muda.

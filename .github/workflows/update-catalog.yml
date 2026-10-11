@@ -44,7 +44,8 @@ jobs:
       changed: ${{ steps.diff.outputs.changed }}
       today: ${{ steps.today.outputs.today }}
       fetch: ${{ steps.fetch.outcome }}
-      chart: ${{ steps.chart.outcome }}
+      # failure só quando a parada nova veio e ficou de fora (a reserva a descartou).
+      chart: ${{ steps.reserve.outputs.dropped == 'true' && 'failure' || 'success' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -100,15 +101,23 @@ jobs:
           python -m musicle_pipeline build --provider apple --out "$CATALOG" 2>&1 | tee -a "$log"
           python -m musicle_pipeline schedule --catalog "$CATALOG" --out "$SCHEDULE" --today "$TODAY" 2>&1 | tee -a "$log"
           python -m musicle_pipeline validate "$CATALOG" --schedule "$SCHEDULE"
-      - if: steps.chart.outcome == 'failure'
+      - id: reserve
+        if: steps.chart.outcome == 'failure'
         name: "Reserva: sem a parada nova, só a agenda"
         env:
           TODAY: ${{ steps.today.outputs.today }}
         run: |
           set -o pipefail
-          echo "::warning::a parada de hoje quebrou o pipeline (veja o passo anterior); o PR traz só a agenda"
           git checkout -- "$ROMAJI" "$CATALOG" "$SCHEDULE"
-          rm -f "$SNAPSHOTS/$TODAY.json"
+          snapshot="$SNAPSHOTS/$TODAY.json"
+          # Só o snapshot novo (fora do Git) sai; um que já está na main fica.
+          if [ -f "$snapshot" ] && ! git ls-files --error-unmatch -- "$snapshot" > /dev/null 2>&1; then
+            rm -- "$snapshot"
+            echo "dropped=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::a parada de hoje quebrou o pipeline (veja o passo anterior); o PR traz só a agenda"
+          else
+            echo "::warning::o pipeline quebrou sem parada nova (veja o passo anterior; erro no código?); o PR traz só a agenda"
+          fi
           : > "$RUNNER_TEMP/pipeline.log" # os avisos da tentativa não valem mais
           python -m musicle_pipeline schedule --catalog "$CATALOG" --out "$SCHEDULE" --today "$TODAY" 2>&1 | tee -a "$RUNNER_TEMP/pipeline.log"
       # A parada fictícia é estática e só serve ao desenvolvimento e aos testes; a agenda dela
@@ -276,9 +285,10 @@ jobs:
     # Folga da agenda. Se o PR semanal ficar sem merge, a agenda acaba e o dia vira buraco para
     # sempre (P44); o aviso do deploy só sai quando há deploy. Esta tarefa fica vermelha (e o
     # GitHub manda e-mail) quando a agenda da main tem menos de 10 dias à frente: numa semana
-    # normal ela tem 14 antes do merge de segunda; com uma semana sem merge, 7.
+    # normal ela tem 14 antes do merge de segunda; com uma semana sem merge, 7. Roda mesmo se as
+    # outras falharem (é quando mais importa), depois delas, e calcula a própria data.
     needs: [catalog-generate, catalog-pr]
-    if: always() && needs.catalog-generate.result == 'success'
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -288,12 +298,10 @@ jobs:
         with:
           persist-credentials: false
       - name: A agenda da main tem folga?
-        env:
-          TODAY: ${{ needs.catalog-generate.outputs.today }}
         run: |
-          [[ "$TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::data inválida: $TODAY"; exit 1; }
-          ahead="$(jq --arg d "$TODAY" '[.days | keys[] | select(. > $d)] | length' "$SCHEDULE")"
-          echo "Agenda da main: $ahead dia(s) depois de hoje ($TODAY)." >> "$GITHUB_STEP_SUMMARY"
+          today="$(TZ=America/Sao_Paulo date +%F)"
+          ahead="$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' "$SCHEDULE")"
+          echo "Agenda da main: $ahead dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
           if [ "$ahead" -lt 10 ]; then
             echo "::error::a agenda da main só tem $ahead dia(s) à frente: faça hoje o merge do PR semanal (catalogo/...)"
             exit 1
