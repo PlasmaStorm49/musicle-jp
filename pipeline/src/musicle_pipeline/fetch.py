@@ -21,7 +21,7 @@ from urllib.parse import urlencode
 
 from musicle_pipeline.io_json import loads
 from musicle_pipeline.models import JSON
-from musicle_pipeline.providers.apple import CHART, STOREFRONT, is_apple_url
+from musicle_pipeline.providers.apple import CHART, STOREFRONT, is_apple_url, japan_date
 
 RSS_URL = (
     "https://rss.marketingtools.apple.com/api/v2/{storefront}/music/most-played/100/songs.json"
@@ -56,7 +56,7 @@ OPTIONAL = (
     "trackViewUrl",
 )
 # URL guardada → tipo de host aceito (fonte única em providers/apple.py, a mesma que o
-# validate usa no catálogo). Qualquer outro host recusa o snapshot inteiro.
+# validate usa no catálogo). A faixa com outro host conta como sem lookup (_hosts_ok).
 URL_KINDS = {"previewUrl": "preview", "artworkUrl100": "artwork", "trackViewUrl": "store"}
 
 Transport = Callable[[str], bytes]
@@ -109,14 +109,27 @@ def _lookup_url(ids: Sequence[str]) -> str:
     return f"{LOOKUP_URL}?{urlencode({'id': ','.join(sorted(ids)), 'country': STOREFRONT})}"
 
 
-def _check_hosts(track: JSON) -> None:
-    for key, kind in URL_KINDS.items():
-        url = track.get(key)
-        if url is not None and not (isinstance(url, str) and is_apple_url(kind, url)):
-            raise FetchError(f"faixa {track['trackId']}: {key} com host inesperado: {url}")
+def _hosts_ok(track: JSON) -> bool:
+    """URLs só nos hosts da Apple. Uma faixa fora disso conta como sem lookup (entra no limite
+    de 20%): recusar a parada inteira por uma faixa a congelaria até alguém mudar o código."""
+    return all(
+        track.get(key) is None or (isinstance(track[key], str) and is_apple_url(kind, track[key]))
+        for key, kind in URL_KINDS.items()
+    )
 
 
-_ISO_INSTANT = re.compile(r"\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}Z)?")
+def _real_date(text: str) -> bool:
+    """A regex aceita 2026-02-30 e 25:00; a data tem de passar pela mesma conversão que o
+    provedor faz depois (japan_date), senão o snapshot gravado quebraria o build."""
+    try:
+        japan_date(text)
+    except ValueError:
+        return False
+    return True
+
+
+# [0-9], e não \d: no Python, \d também casa dígitos de outras escritas ("١").
+_ISO_INSTANT = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}:[0-9]{2}Z)?")
 _TEXT = ("trackName", "artistName", "collectionName")
 
 
@@ -126,13 +139,15 @@ def _valid(result: JSON) -> bool:
     if any(result.get(k) in (None, "") for k in REQUIRED):
         return False
     ids_ok = all(
-        re.fullmatch(r"\d+", str(result[k])) for k in ("trackId", "artistId", "collectionId")
+        re.fullmatch(r"[0-9]+", str(result[k])) for k in ("trackId", "artistId", "collectionId")
     )
     texts_ok = all(isinstance(result[k], str) and result[k].strip() for k in _TEXT)
     millis = result["trackTimeMillis"]
     millis_ok = isinstance(millis, int) and not isinstance(millis, bool) and millis > 0
-    date_ok = isinstance(result["releaseDate"], str) and _ISO_INSTANT.fullmatch(
-        result["releaseDate"]
+    date_ok = (
+        isinstance(result["releaseDate"], str)
+        and _ISO_INSTANT.fullmatch(result["releaseDate"]) is not None
+        and _real_date(result["releaseDate"])
     )
     optional_ok = all(result.get(k) is None or isinstance(result[k], str) for k in OPTIONAL)
     return bool(ids_ok and texts_ok and millis_ok and date_ok and optional_ok)
@@ -146,8 +161,7 @@ def _trim(result: JSON) -> JSON | None:
     trimmed["trackId"] = str(trimmed["trackId"])
     trimmed["artistId"] = str(trimmed["artistId"])
     trimmed["collectionId"] = str(trimmed["collectionId"])
-    _check_hosts(trimmed)
-    return trimmed
+    return trimmed if _hosts_ok(trimmed) else None
 
 
 def _results(found: JSON) -> list[JSON]:

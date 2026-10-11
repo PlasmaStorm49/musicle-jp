@@ -51,7 +51,7 @@
         "apple:al:1438144187",
         "apple:al:1874221478",
         "apple:al:273169161",
-        "apple:al:6792947885"
+        "apple:al:1585848047"
       ],
       "title": "SUPERMARKET FANTASY",
       "titleLatin": null,
@@ -1176,12 +1176,12 @@
         "apple:al:1837658528",
         "apple:al:6803148720",
         "apple:al:6799944399",
-        "apple:al:6782749976",
         "apple:al:1894837142",
         "apple:al:6817260750",
         "apple:al:6785734869",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "ライラック - Single",
       "titleLatin": "Rairakku",
@@ -1350,10 +1350,10 @@
         "apple:al:6778272101",
         "apple:al:6776482572",
         "apple:al:6785411719",
-        "apple:al:6792947885",
         "apple:al:1821087726",
         "apple:al:1831207782",
-        "apple:al:1733129984"
+        "apple:al:1733129984",
+        "apple:al:1771366340"
       ],
       "title": "ROSE - Single",
       "titleLatin": null,
@@ -1407,12 +1407,12 @@
         "apple:al:6792947885",
         "apple:al:1840081735",
         "apple:al:1733129984",
-        "apple:al:1884257488",
         "apple:al:1874221478",
         "apple:al:1771366340",
         "apple:al:6793456209",
         "apple:al:1860538546",
-        "apple:al:6778272101"
+        "apple:al:6778272101",
+        "apple:al:6776482572"
       ],
       "title": "革命道中 - On The Way - Single",
       "titleLatin": "Kakumei douchuu - On The Way",
@@ -1492,12 +1492,12 @@
         "apple:al:6792947885",
         "apple:al:1840081735",
         "apple:al:1733129984",
-        "apple:al:1884257488",
         "apple:al:1874221478",
         "apple:al:1771366340",
         "apple:al:6793456209",
         "apple:al:1860538546",
-        "apple:al:6778272101"
+        "apple:al:6778272101",
+        "apple:al:6776482572"
       ],
       "title": "夏の影 - Single",
       "titleLatin": "Natsu no kage",
@@ -1522,10 +1522,10 @@
         "apple:al:1867354077",
         "apple:al:6785734869",
         "apple:al:6803148720",
-        "apple:al:6782749976",
         "apple:al:6817260750",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "IRIS OUT - Single",
       "titleLatin": null,
@@ -1564,7 +1564,8 @@
     {
       "artistDisplay": "米津玄師 & 宇多田ヒカル",
       "artistIds": [
-        "apple:ar:530814268"
+        "apple:ar:530814268",
+        "apple:ar:18756224"
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/73/91/aa/7391aabc-81d8-2bcb-3b0f-8e24bc855745/4547366775211.jpg/300x300bb.jpg",
       "id": "apple:al:1840081735",
@@ -1575,7 +1576,6 @@
       ],
       "similar": [
         "apple:al:6792947885",
-        "apple:al:1884257488",
         "apple:al:1874221478",
         "apple:al:1821087726",
         "apple:al:1831207782",
@@ -1583,7 +1583,8 @@
         "apple:al:6778272101",
         "apple:al:6776482572",
         "apple:al:6785411719",
-        "apple:al:1733129984"
+        "apple:al:1733129984",
+        "apple:al:1771366340"
       ],
       "title": "JANE DOE - Single",
       "titleLatin": null,
@@ -1636,11 +1637,11 @@
         "apple:al:6799944399",
         "apple:al:1894837142",
         "apple:al:6803148720",
-        "apple:al:6782749976",
         "apple:al:6817260750",
         "apple:al:6785734869",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "好きすぎて滅! - Single",
       "titleLatin": "Suki sugite metsu!",
@@ -1692,11 +1693,11 @@
         "apple:al:6799944399",
         "apple:al:1894837142",
         "apple:al:6803148720",
-        "apple:al:6782749976",
         "apple:al:6817260750",
         "apple:al:6785734869",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "lulu. - Single",
       "titleLatin": null,
@@ -1724,8 +1725,8 @@
         "apple:al:1808852878",
         "apple:al:6792630528",
         "apple:al:6803148720",
-        "apple:al:6782749976",
-        "apple:al:6817260750"
+        "apple:al:6817260750",
+        "apple:al:1821849174"
       ],
       "title": "爆裂愛してる / 好きすぎて滅! - EP",
       "titleLatin": "Bakuretsu aishiteru / Suki sugite metsu!",
@@ -1751,10 +1752,10 @@
         "apple:al:6776482572",
         "apple:al:6785411719",
         "apple:al:1840081735",
-        "apple:al:6792947885",
         "apple:al:1821087726",
         "apple:al:1831207782",
-        "apple:al:1733129984"
+        "apple:al:1733129984",
+        "apple:al:1771366340"
       ],
       "title": "劇薬中毒 - Single",
       "titleLatin": "Gekiyaku chuudoku",
@@ -1807,10 +1808,10 @@
         "apple:al:6778272101",
         "apple:al:6776482572",
         "apple:al:6785411719",
-        "apple:al:6792947885",
         "apple:al:1821087726",
         "apple:al:1831207782",
-        "apple:al:1733129984"
+        "apple:al:1733129984",
+        "apple:al:1771366340"
       ],
       "title": "Bad Girl - Single",
       "titleLatin": null,
@@ -1893,9 +1894,9 @@
         "apple:al:6785734869",
         "apple:al:6803148720",
         "apple:al:1808852878",
-        "apple:al:6782749976",
         "apple:al:6792630528",
-        "apple:al:6817260750"
+        "apple:al:6817260750",
+        "apple:al:1821849174"
       ],
       "title": "MAMIHLAPINATAPAI - EP",
       "titleLatin": null,
@@ -2019,7 +2020,8 @@
     {
       "artistDisplay": "YAO",
       "artistIds": [
-        "apple:ar:6776451469"
+        "apple:ar:6776451469",
+        "apple:ar:252239625"
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/23/77/29/23772906-4f49-00e1-175d-d342021ea40a/4550757299845_cover.jpg/300x300bb.jpg",
       "id": "apple:al:6776482572",
@@ -2035,10 +2037,10 @@
         "apple:al:1874221478",
         "apple:al:1808822132",
         "apple:al:1840081735",
-        "apple:al:6792947885",
         "apple:al:1821087726",
         "apple:al:1831207782",
-        "apple:al:1733129984"
+        "apple:al:1733129984",
+        "apple:al:1771366340"
       ],
       "title": "777 (feat. Awich, CHICO CARLITO, ONE OK ROCK & Paledusk) - Single",
       "titleLatin": null,
@@ -2063,10 +2065,10 @@
         "apple:al:1874221478",
         "apple:al:1808822132",
         "apple:al:1840081735",
-        "apple:al:6792947885",
         "apple:al:1821087726",
         "apple:al:1831207782",
-        "apple:al:1733129984"
+        "apple:al:1733129984",
+        "apple:al:1771366340"
       ],
       "title": "GOLDEN HOUR : Part.5 - EP",
       "titleLatin": null,
@@ -2075,11 +2077,12 @@
     {
       "artistDisplay": "EBiDAN (恵比寿学園男子部), 超特急, M!LK & 原因は自分にある。",
       "artistIds": [
-        "apple:ar:1677543534"
+        "apple:ar:1677543534",
+        "apple:ar:1356706755"
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a4/db/f8/a4dbf830-ec1e-e5af-723a-2ef5e4dac674/4580789774065.png/300x300bb.jpg",
       "id": "apple:al:6782749976",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2026-07-02",
       "search": [
         "yestokyofeatsuperdragonsakurashimejionenonlybudjishicexlienel",
@@ -2089,16 +2092,16 @@
         "apple:al:6803148720",
         "apple:al:6817260750",
         "apple:al:6788211807",
-        "apple:al:1846753945",
         "apple:al:1837658528",
         "apple:al:6799944399",
         "apple:al:1894837142",
         "apple:al:6785734869",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "Yes! 東京 (feat. SUPER★DRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel) - Single",
-      "titleLatin": "Yes! Tokyo (feat. SUPERDRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel)",
+      "titleLatin": "Yes! Tokyo (feat. SUPER★DRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel)",
       "type": "single"
     },
     {
@@ -2122,10 +2125,10 @@
         "apple:al:1874221478",
         "apple:al:1808822132",
         "apple:al:1840081735",
-        "apple:al:6792947885",
         "apple:al:1821087726",
         "apple:al:1831207782",
-        "apple:al:1733129984"
+        "apple:al:1733129984",
+        "apple:al:1771366340"
       ],
       "title": "グッタイム - Single",
       "titleLatin": "Guttaimu",
@@ -2155,7 +2158,7 @@
         "apple:al:6799944399",
         "apple:al:1821849174",
         "apple:al:6803148720",
-        "apple:al:6782749976"
+        "apple:al:6817260750"
       ],
       "title": "マイオンリー - Single",
       "titleLatin": "Mai onrii",
@@ -2176,14 +2179,14 @@
       "similar": [
         "apple:al:6803148720",
         "apple:al:1846753945",
-        "apple:al:6782749976",
         "apple:al:6817260750",
         "apple:al:1837658528",
         "apple:al:6799944399",
         "apple:al:1894837142",
         "apple:al:6785734869",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "Brand New - Single",
       "titleLatin": null,
@@ -2249,7 +2252,8 @@
     {
       "artistDisplay": "ILLIT & HANA",
       "artistIds": [
-        "apple:ar:1734551937"
+        "apple:ar:1734551937",
+        "apple:ar:1792783458"
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a2/07/0e/a2070e8c-686c-26a9-2c8c-dfbd7586f7c4/26UMGIM79032.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:6792947885",
@@ -2262,13 +2266,13 @@
         "apple:al:1840081735",
         "apple:al:1821087726",
         "apple:al:1831207782",
-        "apple:al:1884257488",
         "apple:al:1874221478",
         "apple:al:6793456209",
         "apple:al:6778272101",
         "apple:al:6776482572",
         "apple:al:6785411719",
-        "apple:al:1733129984"
+        "apple:al:1733129984",
+        "apple:al:1771366340"
       ],
       "title": "I Got Your Back - Single",
       "titleLatin": null,
@@ -2296,10 +2300,10 @@
         "apple:al:6776482572",
         "apple:al:6785411719",
         "apple:al:1840081735",
-        "apple:al:6792947885",
         "apple:al:1821087726",
         "apple:al:1831207782",
-        "apple:al:1733129984"
+        "apple:al:1733129984",
+        "apple:al:1771366340"
       ],
       "title": "罪と罰と雨とキス (佐野勇斗&吉田仁人) - Single",
       "titleLatin": "Tsumi to batsu to ame to kisu (Sano Hayato & Yoshida Jinto)",
@@ -2354,10 +2358,10 @@
         "apple:al:1867354077",
         "apple:al:6785734869",
         "apple:al:6803148720",
-        "apple:al:6782749976",
         "apple:al:6817260750",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "運命さがし EP",
       "titleLatin": "Unmei sagashi EP",
@@ -2366,7 +2370,8 @@
     {
       "artistDisplay": "YAO",
       "artistIds": [
-        "apple:ar:6776451469"
+        "apple:ar:6776451469",
+        "apple:ar:252239625"
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fa/d5/a6/fad5a6d5-60b1-4ba3-3da9-be47bb3b7d68/4550759798070_cover.jpg/300x300bb.jpg",
       "id": "apple:al:6803148720",
@@ -2380,13 +2385,13 @@
         "apple:al:6782749976",
         "apple:al:6788211807",
         "apple:al:6817260750",
-        "apple:al:1846753945",
         "apple:al:1837658528",
         "apple:al:6799944399",
         "apple:al:1894837142",
         "apple:al:6785734869",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "ありふれた世界の果てに (feat. Awich, CHICO CARLITO, ONE OK ROCK & Paledusk) - Single",
       "titleLatin": "Arifureta sekai no hate ni (feat. Awich, CHICO CARLITO, ONE OK ROCK & Paledusk)",
@@ -2402,6 +2407,7 @@
       "latinSource": null,
       "releaseDate": "2026-09-07",
       "search": [
+        "lovengine",
         "lovengne"
       ],
       "similar": [
@@ -2414,7 +2420,7 @@
         "apple:al:1837658528",
         "apple:al:1821849174",
         "apple:al:6803148720",
-        "apple:al:6782749976"
+        "apple:al:6817260750"
       ],
       "title": "LOVE ENG!NE",
       "titleLatin": null,
@@ -2435,14 +2441,14 @@
       "similar": [
         "apple:al:1846753945",
         "apple:al:6803148720",
-        "apple:al:6782749976",
         "apple:al:6799944399",
         "apple:al:1837658528",
         "apple:al:6817260750",
         "apple:al:1894837142",
         "apple:al:6785734869",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "POPS",
       "titleLatin": null,
@@ -2495,13 +2501,13 @@
         "apple:al:6782749976",
         "apple:al:6803148720",
         "apple:al:6788211807",
-        "apple:al:1846753945",
         "apple:al:1837658528",
         "apple:al:6799944399",
         "apple:al:1894837142",
         "apple:al:6785734869",
         "apple:al:1808852878",
-        "apple:al:6792630528"
+        "apple:al:6792630528",
+        "apple:al:1821849174"
       ],
       "title": "結び - Single",
       "titleLatin": "Musubi",
@@ -2573,7 +2579,9 @@
       "name": "=LOVE",
       "nameLatin": null,
       "search": [
-        "love"
+        "equallove",
+        "love",
+        "いこらぶ"
       ]
     },
     {
@@ -2582,7 +2590,9 @@
       "name": "M!LK",
       "nameLatin": null,
       "search": [
-        "mlk"
+        "milk",
+        "mlk",
+        "みるく"
       ]
     },
     {
@@ -2862,7 +2872,7 @@
       ]
     }
   ],
-  "catalogVersion": "2026-10-11.92543ea3",
+  "catalogVersion": "2026-10-11.c868107f",
   "generatedAt": "2026-10-11T17:01:50Z",
   "provider": "apple",
   "schemaVersion": 1,
@@ -2921,6 +2931,8 @@
           "あいみょん"
         ],
         "title": [
+          "kimiwarockwokikanai",
+          "kimiwarokkuokikanai",
           "kimiwarokkuwokikanai",
           "君はろっくを聴かない"
         ]
@@ -2979,6 +2991,7 @@
           "あいみょん"
         ],
         "title": [
+          "aiotsutaetaidatoka",
           "aiwotsutaetaidatoka",
           "愛を伝えたいだとか"
         ]
@@ -3044,11 +3057,11 @@
         "apple:tr:1451567084",
         "apple:tr:604748203",
         "apple:tr:1440763358",
-        "apple:tr:1840081736",
         "apple:tr:1884257489",
         "apple:tr:1438144188",
         "apple:tr:1874221480",
-        "apple:tr:273169347"
+        "apple:tr:273169347",
+        "apple:tr:1585848051"
       ],
       "songKey": "hanabi|apple:ar:428909573",
       "storeUrl": "https://music.apple.com/jp/album/hanabi/1375007287?i=1375007474",
@@ -3446,11 +3459,11 @@
         "apple:tr:1440747285",
         "apple:tr:1375007474",
         "apple:tr:1884257489",
-        "apple:tr:1840081736",
         "apple:tr:1874221480",
         "apple:tr:1438144188",
         "apple:tr:1471459432",
-        "apple:tr:6793456212"
+        "apple:tr:6793456212",
+        "apple:tr:1585848051"
       ],
       "songKey": "firstlove|apple:ar:18756224",
       "storeUrl": "https://music.apple.com/jp/album/first-love-remastered-2014/1440763349?i=1440763358",
@@ -3764,7 +3777,7 @@
       "explicit": false,
       "id": "apple:tr:1451567963",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.84,
       "preview": {
         "durationSec": 30,
@@ -3796,7 +3809,7 @@
       "songKey": "高嶺の花子さん|apple:ar:302361237",
       "storeUrl": "https://music.apple.com/jp/album/%E9%AB%98%E5%B6%BA%E3%81%AE%E8%8A%B1%E5%AD%90%E3%81%95%E3%82%93/1451567957?i=1451567963",
       "title": "高嶺の花子さん",
-      "titleLatin": "Takane no Hanakosan"
+      "titleLatin": "Takane no Hanako-san"
     },
     {
       "albumId": "apple:al:1451570468",
@@ -4913,6 +4926,7 @@
           "mrsgrenapple"
         ],
         "title": [
+          "blueanbience",
           "buruanbiensufeatasmi",
           "ぶるーあんびえんすfeatasmi"
         ]
@@ -5430,12 +5444,12 @@
         "apple:tr:1837658529",
         "apple:tr:6803148739",
         "apple:tr:6799944400",
-        "apple:tr:6782749979",
         "apple:tr:1894837345",
         "apple:tr:6817260751",
         "apple:tr:6785734870",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "らいらっく|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%82%A4%E3%83%A9%E3%83%83%E3%82%AF/1739088465?i=1739088799",
@@ -5586,7 +5600,9 @@
       "releaseDate": "2025-02-10",
       "search": {
         "artist": [
-          "love"
+          "equallove",
+          "love",
+          "いこらぶ"
         ],
         "title": [
           "tokubechushite",
@@ -5768,10 +5784,10 @@
         "apple:tr:6778272103",
         "apple:tr:6776482882",
         "apple:tr:6785411720",
-        "apple:tr:6792947886",
         "apple:tr:1821087731",
         "apple:tr:1831207784",
-        "apple:tr:1733130377"
+        "apple:tr:1733130377",
+        "apple:tr:1771366342"
       ],
       "songKey": "tiger|apple:ar:1792783458",
       "storeUrl": "https://music.apple.com/jp/album/tiger/1808822132?i=1808822211",
@@ -5882,12 +5898,12 @@
         "apple:tr:6792947886",
         "apple:tr:1840081736",
         "apple:tr:1733130377",
-        "apple:tr:1884257489",
         "apple:tr:1874221480",
         "apple:tr:1771366342",
         "apple:tr:6793456212",
         "apple:tr:1860538548",
-        "apple:tr:6778272103"
+        "apple:tr:6778272103",
+        "apple:tr:6776482882"
       ],
       "songKey": "革命道中ontheway|apple:ar:991663287",
       "storeUrl": "https://music.apple.com/jp/album/%E9%9D%A9%E5%91%BD%E9%81%93%E4%B8%AD-on-the-way/1821087726?i=1821087731",
@@ -6048,12 +6064,12 @@
         "apple:tr:6792947886",
         "apple:tr:1840081736",
         "apple:tr:1733130377",
-        "apple:tr:1884257489",
         "apple:tr:1874221480",
         "apple:tr:1771366342",
         "apple:tr:6793456212",
         "apple:tr:1860538548",
-        "apple:tr:6778272103"
+        "apple:tr:6778272103",
+        "apple:tr:6776482882"
       ],
       "songKey": "夏の影|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/%E5%A4%8F%E3%81%AE%E5%BD%B1/1831207782?i=1831207784",
@@ -6108,10 +6124,10 @@
         "apple:tr:1867354081",
         "apple:tr:6785734870",
         "apple:tr:6803148739",
-        "apple:tr:6782749979",
         "apple:tr:6817260751",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "irisout|apple:ar:530814268",
       "storeUrl": "https://music.apple.com/jp/album/iris-out/1837658528?i=1837658529",
@@ -6177,7 +6193,8 @@
       "albumId": "apple:al:1840081735",
       "artistDisplay": "米津玄師 & 宇多田ヒカル",
       "artistIds": [
-        "apple:ar:530814268"
+        "apple:ar:530814268",
+        "apple:ar:18756224"
       ],
       "chart": {
         "appearances": 2,
@@ -6205,10 +6222,13 @@
       "releaseDate": "2025-09-22",
       "search": {
         "artist": [
+          "hikarutada",
           "kenshiyonezu",
+          "utadahikaru",
           "yonetsugenshi",
           "yonetsugenshiutadahikaru",
           "yonezukenshi",
+          "宇多田ひかる",
           "米津玄師",
           "米津玄師宇多田ひかる"
         ],
@@ -6218,7 +6238,6 @@
       },
       "similar": [
         "apple:tr:6792947886",
-        "apple:tr:1884257489",
         "apple:tr:1874221480",
         "apple:tr:1821087731",
         "apple:tr:1831207784",
@@ -6226,7 +6245,8 @@
         "apple:tr:6778272103",
         "apple:tr:6776482882",
         "apple:tr:6785411720",
-        "apple:tr:1733130377"
+        "apple:tr:1733130377",
+        "apple:tr:1771366342"
       ],
       "songKey": "janedoe|apple:ar:530814268",
       "storeUrl": "https://music.apple.com/jp/album/jane-doe/1840081735?i=1840081736",
@@ -6320,7 +6340,9 @@
       "releaseDate": "2025-10-27",
       "search": {
         "artist": [
-          "mlk"
+          "milk",
+          "mlk",
+          "みるく"
         ],
         "title": [
           "sukisugitemetsu",
@@ -6333,11 +6355,11 @@
         "apple:tr:6799944400",
         "apple:tr:1894837345",
         "apple:tr:6803148739",
-        "apple:tr:6782749979",
         "apple:tr:6817260751",
         "apple:tr:6785734870",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "好きすぎて滅|apple:ar:1356706755",
       "storeUrl": "https://music.apple.com/jp/album/%E5%A5%BD%E3%81%8D%E3%81%99%E3%81%8E%E3%81%A6%E6%BB%85/1846753945?i=1846753946",
@@ -6443,11 +6465,11 @@
         "apple:tr:6799944400",
         "apple:tr:1894837345",
         "apple:tr:6803148739",
-        "apple:tr:6782749979",
         "apple:tr:6817260751",
         "apple:tr:6785734870",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "lulu|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/lulu/1867354077?i=1867354081",
@@ -6486,7 +6508,9 @@
       "releaseDate": "2026-02-18",
       "search": {
         "artist": [
-          "mlk"
+          "milk",
+          "mlk",
+          "みるく"
         ],
         "title": [
           "bakuretsuaishiteru",
@@ -6502,8 +6526,8 @@
         "apple:tr:1808852932",
         "apple:tr:6792630529",
         "apple:tr:6803148739",
-        "apple:tr:6782749979",
-        "apple:tr:6817260751"
+        "apple:tr:6817260751",
+        "apple:tr:1821849522"
       ],
       "songKey": "爆裂愛してる|apple:ar:1356706755",
       "storeUrl": "https://music.apple.com/jp/album/%E7%88%86%E8%A3%82%E6%84%9B%E3%81%97%E3%81%A6%E3%82%8B/1869537741?i=1869537742",
@@ -6542,7 +6566,9 @@
       "releaseDate": "2026-02-17",
       "search": {
         "artist": [
-          "love"
+          "equallove",
+          "love",
+          "いこらぶ"
         ],
         "title": [
           "gekiyakuchudoku",
@@ -6556,10 +6582,10 @@
         "apple:tr:6776482882",
         "apple:tr:6785411720",
         "apple:tr:1840081736",
-        "apple:tr:6792947886",
         "apple:tr:1821087731",
         "apple:tr:1831207784",
-        "apple:tr:1733130377"
+        "apple:tr:1733130377",
+        "apple:tr:1771366342"
       ],
       "songKey": "劇薬中毒|apple:ar:1273762750",
       "storeUrl": "https://music.apple.com/jp/album/%E5%8A%87%E8%96%AC%E4%B8%AD%E6%AF%92/1874221478?i=1874221480",
@@ -6667,10 +6693,10 @@
         "apple:tr:6778272103",
         "apple:tr:6776482882",
         "apple:tr:6785411720",
-        "apple:tr:6792947886",
         "apple:tr:1821087731",
         "apple:tr:1831207784",
-        "apple:tr:1733130377"
+        "apple:tr:1733130377",
+        "apple:tr:1771366342"
       ],
       "songKey": "badgirl|apple:ar:1792783458",
       "storeUrl": "https://music.apple.com/jp/album/bad-girl/1884257488?i=1884257489",
@@ -6834,9 +6860,9 @@
         "apple:tr:6785734870",
         "apple:tr:6803148739",
         "apple:tr:1808852932",
-        "apple:tr:6782749979",
         "apple:tr:6792630529",
-        "apple:tr:6817260751"
+        "apple:tr:6817260751",
+        "apple:tr:1821849522"
       ],
       "songKey": "itsme|apple:ar:1734551937",
       "storeUrl": "https://music.apple.com/jp/album/its-me/1894837142?i=1894837345",
@@ -6989,7 +7015,9 @@
       "releaseDate": "2026-09-07",
       "search": {
         "artist": [
-          "mlk"
+          "milk",
+          "mlk",
+          "みるく"
         ],
         "title": [
           "aidorupawa",
@@ -7077,7 +7105,8 @@
       "albumId": "apple:al:6776482572",
       "artistDisplay": "YAO",
       "artistIds": [
-        "apple:ar:6776451469"
+        "apple:ar:6776451469",
+        "apple:ar:252239625"
       ],
       "chart": {
         "appearances": 2,
@@ -7105,6 +7134,7 @@
       "releaseDate": "2026-07-07",
       "search": {
         "artist": [
+          "oneokrock",
           "yao"
         ],
         "title": [
@@ -7118,10 +7148,10 @@
         "apple:tr:1874221480",
         "apple:tr:1808822211",
         "apple:tr:1840081736",
-        "apple:tr:6792947886",
         "apple:tr:1821087731",
         "apple:tr:1831207784",
-        "apple:tr:1733130377"
+        "apple:tr:1733130377",
+        "apple:tr:1771366342"
       ],
       "songKey": "777|apple:ar:6776451469",
       "storeUrl": "https://music.apple.com/jp/album/777-feat-awich-chico-carlito-one-ok-rock-paledusk/6776482572?i=6776482882",
@@ -7173,10 +7203,10 @@
         "apple:tr:1874221480",
         "apple:tr:1808822211",
         "apple:tr:1840081736",
-        "apple:tr:6792947886",
         "apple:tr:1821087731",
         "apple:tr:1831207784",
-        "apple:tr:1733130377"
+        "apple:tr:1733130377",
+        "apple:tr:1771366342"
       ],
       "songKey": "bad|apple:ar:1439301205",
       "storeUrl": "https://music.apple.com/jp/album/bad/6778272101?i=6778272103",
@@ -7187,7 +7217,8 @@
       "albumId": "apple:al:6782749976",
       "artistDisplay": "EBiDAN (恵比寿学園男子部), 超特急, M!LK & 原因は自分にある。",
       "artistIds": [
-        "apple:ar:1677543534"
+        "apple:ar:1677543534",
+        "apple:ar:1356706755"
       ],
       "chart": {
         "appearances": 2,
@@ -7205,7 +7236,7 @@
       "explicit": false,
       "id": "apple:tr:6782749979",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.99,
       "preview": {
         "durationSec": 30,
@@ -7218,7 +7249,10 @@
           "ebidanebisugakuendanshibu",
           "ebidanebisugakuendanshibuchotokkyumlkgeninwajibuniaru",
           "ebidan恵比寿学園男子部",
-          "ebidan恵比寿学園男子部超特急mlk原因は自分にある"
+          "ebidan恵比寿学園男子部超特急mlk原因は自分にある",
+          "milk",
+          "mlk",
+          "みるく"
         ],
         "title": [
           "yestokyofeatsuperdragonsakurashimejionenonlybudjishicexlienel",
@@ -7229,18 +7263,18 @@
         "apple:tr:6803148739",
         "apple:tr:6817260751",
         "apple:tr:6788211810",
-        "apple:tr:1846753946",
         "apple:tr:1837658529",
         "apple:tr:6799944400",
         "apple:tr:1894837345",
         "apple:tr:6785734870",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "yes東京|apple:ar:1677543534",
       "storeUrl": "https://music.apple.com/jp/album/yes-%E6%9D%B1%E4%BA%AC-feat-super-dragon-sakurashimeji-one-n-only-buddiis/6782749976?i=6782749979",
       "title": "Yes! 東京 (feat. SUPER★DRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel)",
-      "titleLatin": "Yes! Tokyo (feat. SUPERDRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel)"
+      "titleLatin": "Yes! Tokyo (feat. SUPER★DRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel)"
     },
     {
       "albumId": "apple:al:6785411719",
@@ -7289,10 +7323,10 @@
         "apple:tr:1874221480",
         "apple:tr:1808822211",
         "apple:tr:1840081736",
-        "apple:tr:6792947886",
         "apple:tr:1821087731",
         "apple:tr:1831207784",
-        "apple:tr:1733130377"
+        "apple:tr:1733130377",
+        "apple:tr:1771366342"
       ],
       "songKey": "ぐったいむ|apple:ar:1772019148",
       "storeUrl": "https://music.apple.com/jp/album/%E3%82%B0%E3%83%83%E3%82%BF%E3%82%A4%E3%83%A0/6785411719?i=6785411720",
@@ -7349,7 +7383,7 @@
         "apple:tr:6799944400",
         "apple:tr:1821849522",
         "apple:tr:6803148739",
-        "apple:tr:6782749979"
+        "apple:tr:6817260751"
       ],
       "songKey": "まいおんりー|apple:ar:1808322699",
       "storeUrl": "https://music.apple.com/jp/album/%E3%83%9E%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%AA%E3%83%BC/6785734869?i=6785734870",
@@ -7397,14 +7431,14 @@
       "similar": [
         "apple:tr:6803148739",
         "apple:tr:1846753946",
-        "apple:tr:6782749979",
         "apple:tr:6817260751",
         "apple:tr:1837658529",
         "apple:tr:6799944400",
         "apple:tr:1894837345",
         "apple:tr:6785734870",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "brandnew|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/brand-new/6788211807?i=6788211810",
@@ -7443,7 +7477,9 @@
       "releaseDate": "2026-09-07",
       "search": {
         "artist": [
-          "mlk"
+          "milk",
+          "mlk",
+          "みるく"
         ],
         "title": [
           "yojoyparade"
@@ -7498,7 +7534,9 @@
       "releaseDate": "2026-08-04",
       "search": {
         "artist": [
-          "love"
+          "equallove",
+          "love",
+          "いこらぶ"
         ],
         "title": [
           "koihajimemashita",
@@ -7526,7 +7564,8 @@
       "albumId": "apple:al:6792947885",
       "artistDisplay": "ILLIT & HANA",
       "artistIds": [
-        "apple:ar:1734551937"
+        "apple:ar:1734551937",
+        "apple:ar:1792783458"
       ],
       "chart": {
         "appearances": 2,
@@ -7554,6 +7593,7 @@
       "releaseDate": "2026-07-26",
       "search": {
         "artist": [
+          "hana",
           "illit",
           "illithana"
         ],
@@ -7565,13 +7605,13 @@
         "apple:tr:1840081736",
         "apple:tr:1821087731",
         "apple:tr:1831207784",
-        "apple:tr:1884257489",
         "apple:tr:1874221480",
         "apple:tr:6793456212",
         "apple:tr:6778272103",
         "apple:tr:6776482882",
         "apple:tr:6785411720",
-        "apple:tr:1733130377"
+        "apple:tr:1733130377",
+        "apple:tr:1771366342"
       ],
       "songKey": "igotyourback|apple:ar:1734551937",
       "storeUrl": "https://music.apple.com/jp/album/i-got-your-back/6792947885?i=6792947886",
@@ -7610,7 +7650,9 @@
       "releaseDate": "2026-08-03",
       "search": {
         "artist": [
-          "mlk"
+          "milk",
+          "mlk",
+          "みるく"
         ],
         "title": [
           "tsumitobatsutoametokisssanoisamutoyoshidajinjin",
@@ -7626,10 +7668,10 @@
         "apple:tr:6776482882",
         "apple:tr:6785411720",
         "apple:tr:1840081736",
-        "apple:tr:6792947886",
         "apple:tr:1821087731",
         "apple:tr:1831207784",
-        "apple:tr:1733130377"
+        "apple:tr:1733130377",
+        "apple:tr:1771366342"
       ],
       "songKey": "罪と罰と雨ときす佐野勇斗吉田仁人|apple:ar:1356706755",
       "storeUrl": "https://music.apple.com/jp/album/%E7%BD%AA%E3%81%A8%E7%BD%B0%E3%81%A8%E9%9B%A8%E3%81%A8%E3%82%AD%E3%82%B9-%E4%BD%90%E9%87%8E%E5%8B%87%E6%96%97-%E5%90%89%E7%94%B0%E4%BB%81%E4%BA%BA/6793456209?i=6793456212",
@@ -7742,10 +7784,10 @@
         "apple:tr:6808173126",
         "apple:tr:6785734870",
         "apple:tr:6803148739",
-        "apple:tr:6782749979",
         "apple:tr:6817260751",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "運命さがし|apple:ar:956011835",
       "storeUrl": "https://music.apple.com/jp/album/%E9%81%8B%E5%91%BD%E3%81%95%E3%81%8C%E3%81%97/6799944399?i=6799944400",
@@ -7756,7 +7798,8 @@
       "albumId": "apple:al:6803148720",
       "artistDisplay": "YAO",
       "artistIds": [
-        "apple:ar:6776451469"
+        "apple:ar:6776451469",
+        "apple:ar:252239625"
       ],
       "chart": {
         "appearances": 2,
@@ -7784,6 +7827,7 @@
       "releaseDate": "2026-09-04",
       "search": {
         "artist": [
+          "oneokrock",
           "yao"
         ],
         "title": [
@@ -7795,13 +7839,13 @@
         "apple:tr:6782749979",
         "apple:tr:6788211810",
         "apple:tr:6817260751",
-        "apple:tr:1846753946",
         "apple:tr:1837658529",
         "apple:tr:6799944400",
         "apple:tr:1894837345",
         "apple:tr:6785734870",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "ありふれた世界の果てに|apple:ar:6776451469",
       "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%82%8A%E3%81%B5%E3%82%8C%E3%81%9F%E4%B8%96%E7%95%8C%E3%81%AE%E6%9E%9C%E3%81%A6%E3%81%AB-feat-awich-chico-carlito-one-ok-rock-paledusk/6803148720?i=6803148739",
@@ -7840,9 +7884,12 @@
       "releaseDate": "2026-09-07",
       "search": {
         "artist": [
-          "mlk"
+          "milk",
+          "mlk",
+          "みるく"
         ],
         "title": [
+          "jikukoeteuniverse",
           "jikukoeteyunibasu",
           "時空超えてゆにばーす"
         ]
@@ -7857,7 +7904,7 @@
         "apple:tr:1837658529",
         "apple:tr:1821849522",
         "apple:tr:6803148739",
-        "apple:tr:6782749979"
+        "apple:tr:6817260751"
       ],
       "songKey": "時空超えてゆにばーす|apple:ar:1356706755",
       "storeUrl": "https://music.apple.com/jp/album/%E6%99%82%E7%A9%BA%E8%B6%85%E3%81%88%E3%81%A6%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B9/6803798492?i=6803798494",
@@ -7906,14 +7953,14 @@
       "similar": [
         "apple:tr:1846753946",
         "apple:tr:6803148739",
-        "apple:tr:6782749979",
         "apple:tr:6799944400",
         "apple:tr:1837658529",
         "apple:tr:6817260751",
         "apple:tr:1894837345",
         "apple:tr:6785734870",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "共犯|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/%E5%85%B1%E7%8A%AF/6808172946?i=6808172970",
@@ -7970,7 +8017,7 @@
         "apple:tr:6792630529",
         "apple:tr:6803148739",
         "apple:tr:1821849522",
-        "apple:tr:6782749979"
+        "apple:tr:6817260751"
       ],
       "songKey": "しんでれら|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%B3%E3%83%87%E3%83%AC%E3%83%A9/6808172946?i=6808173126",
@@ -8068,6 +8115,7 @@
           "mrsgrenapple"
         ],
         "title": [
+          "aposteriori",
           "aposuteriori",
           "あぽすてりおり"
         ]
@@ -8082,7 +8130,7 @@
         "apple:tr:6799944400",
         "apple:tr:1837658529",
         "apple:tr:6803148739",
-        "apple:tr:6782749979"
+        "apple:tr:6793888335"
       ],
       "songKey": "あぽすてりおり|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2-%E3%83%9D%E3%82%B9%E3%83%86%E3%83%AA%E3%82%AA%E3%83%AA/6808172946?i=6808173143",
@@ -8250,8 +8298,8 @@
         "apple:tr:1795905600",
         "apple:tr:6815505071",
         "apple:tr:6792947886",
-        "apple:tr:1884257489",
-        "apple:tr:1892738152"
+        "apple:tr:1892738152",
+        "apple:tr:1874221480"
       ],
       "songKey": "ぷろじぇくと4|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%884/6808172946?i=6808173277",
@@ -8525,13 +8573,13 @@
         "apple:tr:6782749979",
         "apple:tr:6803148739",
         "apple:tr:6788211810",
-        "apple:tr:1846753946",
         "apple:tr:1837658529",
         "apple:tr:6799944400",
         "apple:tr:1894837345",
         "apple:tr:6785734870",
         "apple:tr:1808852932",
-        "apple:tr:6792630529"
+        "apple:tr:6792630529",
+        "apple:tr:1821849522"
       ],
       "songKey": "結び|apple:ar:1497146276",
       "storeUrl": "https://music.apple.com/jp/album/%E7%B5%90%E3%81%B3/6817260750?i=6817260751",

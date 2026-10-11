@@ -4,7 +4,8 @@
 # o token de escrita por perto, então não chama Python nem nada do projeto além deste script, que
 # vem da main. Testado em pipeline/tests/test_catalog_pr_script.py (precisa de jq).
 #
-# Entrada (ambiente): TODAY, FETCH (resultado do passo de busca: success ou failure), RUN_URL, os
+# Entrada (ambiente): TODAY, FETCH (resultado do passo de busca: success ou failure), CHART
+# (failure quando a parada nova veio, quebrou o pipeline e ficou de fora), RUN_URL, os
 # caminhos SNAPSHOTS, ROMAJI, CATALOG, SCHEDULE e FIXTURE_SCHEDULE (relativos à raiz, que é a
 # pasta atual, um checkout da main), RUNNER_TEMP (com o artefato em artifact/) e GITHUB_OUTPUT.
 # Saída: os arquivos na árvore, $RUNNER_TEMP/pr-body.md e branch/title no GITHUB_OUTPUT.
@@ -66,6 +67,11 @@ else
   if has "$CATALOG"; then fail "catálogo mudou sem parada nova"; fi
   if has "$ROMAJI"; then fail "romaji mudou sem parada nova"; fi
 fi
+# A reserva apaga o snapshot que quebrou o pipeline; se ele veio mesmo assim, algo no caminho
+# não fez o que diz.
+if [ "${CHART:-success}" = "failure" ] && has "$snapshot"; then
+  fail "a parada de hoje ficou de fora (CHART=failure), mas o snapshot veio no artefato"
+fi
 
 # 3. Romaji: só acréscimo, com o mesmo motor e as mesmas versões; o já revisado não muda.
 romaji_list=""
@@ -118,6 +124,9 @@ if has "$CATALOG"; then
     ($n[0].tracks | length) as $total
     | (($n[0].tracks | map(.id)) - ($b[0].tracks | map(.id)) | length) as $fresh
     | "- **Parada da Apple de hoje:** \($s[0].rss | length) faixas; **\($fresh) nova(s)** no catálogo, que passa a ter \($total)."')"
+elif [ "${CHART:-success}" = "failure" ]; then
+  catalog_line="- **Parada da Apple:** a de hoje veio, mas quebrou o pipeline (romaji, catálogo ou agenda; veja o passo \"Parada nova\" da execução) e ficou de fora. O PR traz só a agenda; corrija o código ou o aliases.toml para ela entrar na semana que vem."
+  echo "::warning::a parada de hoje quebrou o pipeline e ficou de fora do PR"
 elif [ "$FETCH" = "failure" ]; then
   catalog_line="- **Parada da Apple:** não veio hoje (a busca falhou; veja a execução). O PR traz só a agenda; a parada vem na semana que vem."
 else
