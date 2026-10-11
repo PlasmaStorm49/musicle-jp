@@ -7,7 +7,7 @@ import pytest
 
 from helpers import track_by_id
 from musicle_pipeline.catalog import Curation, build_catalog
-from musicle_pipeline.cli import main
+from musicle_pipeline.cli import main, romanize_each
 from musicle_pipeline.io_json import dumps
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import needs_romaji
@@ -133,3 +133,16 @@ def test_cache_versions_match_the_pinned_libraries(provider):
         assert pins.get(name.lower()) == version, (
             f"{name}: cache {version}, constraints {pins.get(name.lower())}"
         )
+
+
+def test_a_text_the_library_cannot_read_does_not_stop_the_others():
+    # O cutlet devolve vazio para um 々 sozinho, e o romaji.py lança ValueError: antes, nada era
+    # gravado e o robô semanal parava toda semana enquanto a faixa estivesse na parada.
+    def fake(text: str) -> tuple[str, ...]:
+        if text == "々":
+            raise ValueError("vazio")
+        return (f"r-{text}",)
+
+    done, failed = romanize_each(["曲", "々", "歌"], fake)
+    assert done == {"曲": ("r-曲",), "々": ("々",), "歌": ("r-歌",)}
+    assert failed == ["々"]
