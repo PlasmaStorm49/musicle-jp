@@ -1,10 +1,13 @@
-# Toda segunda, acrescenta à agenda os dias até hoje + 21 e abre um PR só com eles. O merge desse
-# PR, feito por uma pessoa, dispara o deploy (rotina no README, "Atualização da agenda").
+# Toda segunda: busca a parada real do Japão (Apple), refaz o catálogo, acrescenta à agenda os
+# dias até hoje + 21 e abre um PR com isso. O merge desse PR, feito por uma pessoa, dispara o
+# deploy (rotina no README, "Atualização da parada e da agenda").
 #
-# Duas tarefas: quem roda o código do pipeline (e os pacotes do pip) só lê o repositório; quem
-# escreve (push e PR) não roda código do projeto nem instala nada. Um pacote comprometido não
-# chega perto do token que escreve. Os nomes fogem de pipeline, web e e2e (checagens da main).
-name: Atualizar agenda
+# Duas tarefas: quem roda o código do pipeline (a rede da Apple e os pacotes do pip) só lê o
+# repositório; quem escreve (push e PR) não roda o pipeline nem instala nada: só confere de novo,
+# com jq, cada arquivo que veio da outra (.github/scripts/check-catalog-pr.sh, da main). Um pacote
+# comprometido não chega perto do token que escreve. Os nomes fogem de pipeline, web e e2e
+# (checagens da main).
+name: Atualizar parada e agenda
 
 on:
   schedule:
@@ -18,22 +21,28 @@ concurrency:
   group: update-catalog
   cancel-in-progress: false
 
+# A lista fechada do que o robô pode mudar (o snapshot leva a data de hoje no nome).
 env:
   PYTHONUTF8: "1"
-  CATALOG: web/public/fixtures/catalog.json
-  SCHEDULE: web/public/fixtures/schedule.json
+  SNAPSHOTS: pipeline/data/apple/snapshots
+  ROMAJI: pipeline/data/apple/romaji.json
+  CATALOG: web/public/data/catalog.json
+  SCHEDULE: web/public/data/schedule.json
+  FIXTURE_CATALOG: web/public/fixtures/catalog.json
+  FIXTURE_SCHEDULE: web/public/fixtures/schedule.json
 
 # Actions pinadas por SHA, em versões com 14 dias ou mais de publicadas (P28). Versão no comentário.
 jobs:
   catalog-generate:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     permissions:
       contents: read
     outputs:
       changed: ${{ steps.diff.outputs.changed }}
       today: ${{ steps.today.outputs.today }}
+      fetch: ${{ steps.fetch.outcome }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -45,41 +54,86 @@ jobs:
           cache-dependency-path: |
             pipeline/pyproject.toml
             pipeline/constraints.txt
-      - run: python -m pip install -c pipeline/constraints.txt -e pipeline
+      # O extra romaji (cutlet, cerca de 250 MB) completa o romaji dos títulos novos (P71).
+      - run: python -m pip install -c pipeline/constraints.txt -e "pipeline[romaji]"
       - id: today
-        name: Data de hoje em Brasília
+        name: Hoje em Brasília e agora em UTC
         run: |
           today="$(TZ=America/Sao_Paulo date +%F)"
-          echo "Agora: $(date -u +%FT%TZ) (UTC); hoje em Brasília: $today"
+          now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Agora: $now (UTC); hoje em Brasília: $today"
           echo "today=$today" >> "$GITHUB_OUTPUT"
-      # Parada fictícia estática (M10): o catálogo não muda. No M11, com a parada real, ele muda.
-      - run: python -m musicle_pipeline build --provider fixture --out "$CATALOG"
-      - name: Acrescentar os dias
+          echo "now=$now" >> "$GITHUB_OUTPUT"
+      # A única rede do pipeline. Se a Apple falhar, o robô segue sem a parada nova: o PR traz só
+      # os dias novos da agenda, e a parada vem na semana seguinte.
+      - id: fetch
+        name: Buscar a parada da Apple
+        continue-on-error: true
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+          NOW: ${{ steps.today.outputs.now }}
+        run: python -m musicle_pipeline fetch --provider apple --today "$TODAY" --fetched-at "$NOW"
+      - if: steps.fetch.outcome == 'failure'
+        run: echo "::warning::a parada de hoje não veio da Apple; o PR traz só a agenda"
+      # Romaji só dos textos novos: sem --refresh, o que já foi revisado não muda.
+      - run: python -m musicle_pipeline romanize --provider apple
+      - run: python -m musicle_pipeline romanize --provider apple --check
+      - run: python -m musicle_pipeline build --provider apple --out "$CATALOG"
+      - name: Acrescentar os dias (parada real)
         env:
           TODAY: ${{ steps.today.outputs.today }}
         run: python -m musicle_pipeline schedule --catalog "$CATALOG" --out "$SCHEDULE" --today "$TODAY"
+      # A parada fictícia é estática e só serve ao desenvolvimento e aos testes; a agenda dela
+      # cresce junto, para o npm run dev continuar com o desafio de hoje.
+      - run: python -m musicle_pipeline build --provider fixture --out "$FIXTURE_CATALOG"
+      - name: Acrescentar os dias (fixtures)
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: python -m musicle_pipeline schedule --catalog "$FIXTURE_CATALOG" --out "$FIXTURE_SCHEDULE" --today "$TODAY"
       - run: python -m musicle_pipeline validate "$CATALOG" --schedule "$SCHEDULE"
+      - run: python -m musicle_pipeline validate "$FIXTURE_CATALOG" --schedule "$FIXTURE_SCHEDULE"
       - run: python -m musicle_pipeline schedule-check --base-ref HEAD
       - id: diff
-        name: Só a agenda pode mudar
+        name: Só a lista fechada pode mudar
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
         run: |
           status="$(git status --porcelain --untracked-files=all)"
           if [ -z "$status" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Nada novo: a agenda já cobre o horizonte do pipeline a partir de hoje." >> "$GITHUB_STEP_SUMMARY"
+            echo "Nada novo: a parada é a mesma e a agenda já cobre o horizonte a partir de hoje." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          if [ "$status" != " M $SCHEDULE" ]; then
-            echo "::error::mudou mais que a agenda:"
-            echo "$status"
-            exit 1
-          fi
+          allowed=(
+            "?? $SNAPSHOTS/$TODAY.json"
+            " M $ROMAJI"
+            " M $CATALOG"
+            " M $SCHEDULE"
+            " M $FIXTURE_SCHEDULE"
+          )
+          out="$RUNNER_TEMP/out"
+          mkdir -p "$out/files"
+          : > "$out/changed.txt"
+          while IFS= read -r line; do
+            ok=false
+            for a in "${allowed[@]}"; do
+              if [ "$line" = "$a" ]; then ok=true; fi
+            done
+            if [ "$ok" != true ]; then
+              echo "::error::mudança fora da lista fechada: $line"
+              exit 1
+            fi
+            path="${line:3}"
+            mkdir -p "$out/files/$(dirname "$path")"
+            cp "$path" "$out/files/$path"
+            echo "$path" >> "$out/changed.txt"
+          done <<< "$status"
           echo "changed=true" >> "$GITHUB_OUTPUT"
       - if: steps.diff.outputs.changed == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: schedule
-          path: web/public/fixtures/schedule.json
+          name: catalog
+          path: ${{ runner.temp }}/out
           retention-days: 1
           if-no-files-found: error
 
@@ -99,62 +153,16 @@ jobs:
           persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: schedule
+          name: catalog
           path: ${{ runner.temp }}/artifact
       - id: prep
-        name: Conferir a agenda nova e montar o PR (sem token)
+        name: Conferir cada arquivo novo e montar o PR (sem token)
         env:
           TODAY: ${{ needs.catalog-generate.outputs.today }}
+          FETCH: ${{ needs.catalog-generate.outputs.fetch }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          [[ "$TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::data inválida: $TODAY"; exit 1; }
-          new="$RUNNER_TEMP/artifact/schedule.json"
-          # Conferência independente: o arquivo veio da outra tarefa, que roda pacotes do pip. O
-          # mesmo cabeçalho, todo dia da main igual, e todo dia novo com data AAAA-MM-DD.
-          jq -e -n --slurpfile b "$SCHEDULE" --slurpfile n "$new" \
-            '($b[0] | del(.days)) == ($n[0] | del(.days))
-             and ($b[0].days | to_entries | all(.value == $n[0].days[.key]))
-             and ((($n[0].days | keys) - ($b[0].days | keys)) | all(test("^[0-9]{4}-[0-9]{2}-[0-9]{2}$")))' > /dev/null \
-            || { echo "::error::a agenda nova altera o que já existe ou traz data inválida"; exit 1; }
-          base_last="$(jq -r '.days | keys | last // empty' "$SCHEDULE")"
-          [ -n "$base_last" ] || { echo "::error::a agenda da main não tem dias (caso não suportado)"; exit 1; }
-          mapfile -t added < <(jq -r -n --slurpfile b "$SCHEDULE" --slurpfile n "$new" \
-            '($n[0].days | keys) - ($b[0].days | keys) | .[]')
-          [ "${#added[@]}" -gt 0 ] || { echo "::error::nenhum dia novo"; exit 1; }
-          first="${added[0]}"
-          last="${added[-1]}"
-          count="${#added[@]}"
-          # P44: o 1º dia novo é o seguinte ao fim da agenda, ou hoje, se esse dia já passou (o
-          # buraco nunca é preenchido nem cresce além do necessário).
-          expected="$(date -ud "$base_last + 1 day" +%F)"
-          if [[ "$TODAY" > "$expected" ]]; then expected="$TODAY"; fi
-          [ "$first" = "$expected" ] || { echo "::error::o 1º dia novo deveria ser $expected, e não $first (P44)"; exit 1; }
-          # Cada data numa variável: se o date falhar, a tarefa para (em vez de a conta sair errada).
-          base_s="$(date -ud "$base_last" +%s)"
-          first_s="$(date -ud "$first" +%s)"
-          last_s="$(date -ud "$last" +%s)"
-          [ "$count" -eq $(( (last_s - first_s) / 86400 + 1 )) ] || { echo "::error::há buraco entre os dias novos"; exit 1; }
-          gap=$(( (first_s - base_s) / 86400 - 1 ))
-          cp "$new" "$SCHEDULE"
-          {
-            echo "Agenda do desafio diário: **$count dia(s) novo(s)**, de $first a $last."
-            echo
-            echo "- **Hoje em produção:** a agenda vai até $base_last."
-            echo "- **Depois do merge:** até $last (hoje em Brasília: $TODAY)."
-            echo "- Só o \`$SCHEDULE\` mudou, sem alterar nenhum dia existente (conferido aqui e pelo \`schedule-check\` da CI)."
-            if [ "$gap" -gt 0 ]; then
-              echo
-              echo "> **Atenção:** $gap dia(s) ficaram sem desafio depois de $base_last: dia que já passou não é gerado (P44). Faça o merge hoje: a espera deixa o dia de hoje indisponível."
-            fi
-            echo
-            echo "**Para publicar:** aprove as checagens em \"Approve workflows to run\"; com \`pipeline\`, \`web\` e \`e2e\` verdes, faça o merge (merge commit). O merge dispara o deploy."
-            echo
-            echo "Execução que gerou este PR: $RUN_URL"
-          } > "$RUNNER_TEMP/pr-body.md"
-          {
-            echo "branch=catalogo/$TODAY"
-            echo "title=chore: agenda até $last ($count dia(s) novo(s))"
-          } >> "$GITHUB_OUTPUT"
+        # Só jq e coreutils, num script da main com teste (pipeline/tests/test_catalog_pr_script.py).
+        run: bash .github/scripts/check-catalog-pr.sh
       - id: branch
         name: O branch de hoje já existe?
         env:
@@ -174,8 +182,9 @@ jobs:
           BRANCH: ${{ steps.prep.outputs.branch }}
           TITLE: ${{ steps.prep.outputs.title }}
         run: |
+          mapfile -t changed < "$RUNNER_TEMP/artifact/changed.txt"
           git switch -c "$BRANCH"
-          git add "$SCHEDULE"
+          git add -- "${changed[@]}"
           git -c user.name="github-actions[bot]" \
             -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
             commit -q -m "$TITLE" -m "Gerado pela Action update-catalog.yml."
