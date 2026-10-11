@@ -23,7 +23,7 @@ export function ItemLabel({ item }: { readonly item: ItemView }) {
         {item.title}
       </span>
       {item.titleLatin && <span class="item-latin">{item.titleLatin}</span>}
-      <span class="item-artist" lang={item.lang}>
+      <span class="item-artist" lang={item.artistLang}>
         {item.artist}
       </span>
     </span>

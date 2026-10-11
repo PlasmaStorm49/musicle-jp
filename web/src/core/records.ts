@@ -54,6 +54,16 @@ export function puzzleId(date: string, target: Target): PuzzleId {
   return `${date}|${target}`;
 }
 
+/**
+ * As faixas dos diários do dia que ainda não têm resultado: o lote de prévias que a carga
+ * resolve. Um diário terminado só mostra o resumo, e consultar a Apple por ele gastaria a cota.
+ */
+export function pendingDayTracks(save: Save, day: Day, date: string): string[] {
+  return (["song", "album"] as const)
+    .filter((target) => !save.history[puzzleId(date, target)])
+    .flatMap((target) => day[target].map((round) => round.answer));
+}
+
 /** Converte um jogo terminado no resumo que vai para o histórico. */
 export function toFinishedGame(state: GameState, number: number): FinishedGame {
   if (!isFinished(state)) throw new Error("toFinishedGame recebeu um jogo em andamento");

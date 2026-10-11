@@ -32,6 +32,29 @@ describe("optionView (Música)", () => {
   });
 });
 
+describe("lang do artista", () => {
+  it("é o do artista, não o do título: título latino com artista japonês", () => {
+    // Como "IRIS OUT", de 米津玄師: o leitor de tela leria o kanji com a voz em português.
+    const view = optionView(index, "fixture:al:al02", "album");
+    expect(view).toMatchObject({ title: "Dawn Collection", artist: "ミナト" });
+    expect(view?.lang).toBeUndefined();
+    expect(view?.artistLang).toBe("ja");
+  });
+
+  it("revelação: álbum com título japonês leva lang ja", () => {
+    const view = revealView(index, "fixture:tr:tr05"); // do álbum ふたりの約束 - Single
+    expect(view?.albumTitle).toBe("ふたりの約束 - Single");
+    expect(view?.albumLang).toBe("ja");
+  });
+
+  it("revelação: o álbum também tem o seu", () => {
+    const view = revealView(index, "fixture:tr:tr37"); // 灯台, do álbum Dawn Collection
+    expect(view?.lang).toBe("ja");
+    expect(view?.albumTitle).toBe("Dawn Collection");
+    expect(view?.albumLang).toBeUndefined();
+  });
+});
+
 describe("optionView (Álbum)", () => {
   it("mostra o título do álbum e a capa", () => {
     expect(optionView(index, "fixture:al:al02", "album")).toMatchObject({
