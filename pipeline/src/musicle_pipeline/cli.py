@@ -79,7 +79,10 @@ def _build(args: argparse.Namespace) -> int:
         )
     aliases = load_aliases(resolve(args.aliases) if args.aliases else paths.aliases)
     curation = Curation(romaji=romaji, aliases=aliases)
-    catalog = build_catalog(snapshots, provider.name, provider.storefront, curation)
+    notes: list[str] = []
+    catalog = build_catalog(snapshots, provider.name, provider.storefront, curation, notes)
+    for message in notes:
+        print(f"aviso: {message}", file=sys.stderr)
     problems = validate_catalog(catalog)
     if problems:
         print("catálogo inválido, nada foi gravado:", *problems, sep="\n  ", file=sys.stderr)
@@ -224,9 +227,9 @@ def romanize_each(
     texts: Sequence[str], romanize: Callable[[str], tuple[str, ...]]
 ) -> tuple[dict[str, tuple[str, ...]], list[str]]:
     """Romaji de cada texto. O que a biblioteca não lê (um 々 sozinho, um alfabeto que ela não
-    conhece) fica com o próprio texto, que a tela não mostra como latino (é igual ao título), e
-    vai para a lista de avisos: corrija no aliases.toml. Um texto assim não pode travar o robô
-    semanal toda semana enquanto a faixa estiver na parada."""
+    conhece) fica com o próprio texto, que serve à busca e o build não usa como latino
+    (Curation.latin), e vai para a lista de avisos: corrija no aliases.toml. Um texto assim não
+    pode travar o robô semanal toda semana enquanto a faixa estiver na parada."""
     done: dict[str, tuple[str, ...]] = {}
     failed: list[str] = []
     for text in texts:
@@ -271,7 +274,10 @@ def _romanize(args: argparse.Namespace) -> int:
     done, failed = romanize_each(todo, romaji.romanize)
     entries.update(done)
     for text in failed:
-        print(f"aviso: o romaji não leu {text!r}; ficou o próprio texto (corrija no aliases.toml)")
+        print(
+            f"aviso: o romaji não leu {text!r}; ficou o próprio texto (corrija no aliases.toml)",
+            file=sys.stderr,
+        )
     new = RomajiCache(
         engine=romaji.ENGINE,
         versions=romaji.versions(),

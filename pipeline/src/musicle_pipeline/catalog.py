@@ -49,7 +49,9 @@ class Curation:
         if from_provider:
             return from_provider, "provider"
         variants = self.romaji.variants(text)
-        if variants:
+        # O texto que o cutlet não leu fica guardado como ele mesmo (romanize_each): serve à
+        # busca, mas exibido seria um "latino" em japonês.
+        if variants and variants[0] != text:
             return variants[0], self.romaji.engine
         return None, None
 
@@ -79,6 +81,12 @@ class _TrackAcc:
     meta: RawTrack
     isrc: str | None
     appearances: list[_Appearance] = field(default_factory=list)
+    preview_misses: int = 0  # aparições seguidas sem prévia
+
+
+# Aparições seguidas sem prévia em que a última conhecida ainda vale. Uma semana sem prévia é
+# soluço da Apple; duas, a prévia saiu mesmo (e a guardada pode estar morta).
+PREVIEW_GRACE = 1
 
 
 def _artist_record(provider: str, a: RawArtist, cur: Curation) -> JSON:
@@ -234,7 +242,10 @@ def build_catalog(
     provider: str,
     storefront: str,
     curation: Curation | None = None,
+    warnings: list[str] | None = None,
 ) -> JSON:
+    """Catálogo a partir de todos os snapshots. Os avisos (prévia guardada ou perdida) vão para
+    `warnings`, quando a lista é passada."""
     cur = curation or Curation()
     check_snapshots(snapshots)
     ordered = sorted(snapshots, key=lambda s: s.date)
@@ -256,15 +267,23 @@ def build_catalog(
             acc = tracks.get(t.provider_id)
             if acc is None:
                 acc = tracks[t.provider_id] = _TrackAcc(meta=t, isrc=t.isrc)
+            acc.preview_misses = 0 if t.preview_url else acc.preview_misses + 1
             if t.preview_url is None and acc.meta.preview_url is not None:
                 # Prévia que sumiu numa semana não apaga a conhecida: a faixa ficaria inelegível e
                 # anularia rodadas futuras já gravadas na agenda. O navegador acha a atual pelo
                 # lookup; a guardada é só a reserva.
-                t = replace(
-                    t,
-                    preview_url=acc.meta.preview_url,
-                    preview_duration_sec=acc.meta.preview_duration_sec,
-                )
+                track_id = _id(provider, "tr", t.provider_id)
+                if acc.preview_misses <= PREVIEW_GRACE:
+                    t = replace(
+                        t,
+                        preview_url=acc.meta.preview_url,
+                        preview_duration_sec=acc.meta.preview_duration_sec,
+                    )
+                    note = f"{snap.date}: {track_id} veio sem prévia; ficou a da semana anterior"
+                else:
+                    note = f"{snap.date}: {track_id} sem prévia de novo; ficou inelegível"
+                if warnings is not None and snap is latest:  # o histórico repetiria toda semana
+                    warnings.append(note)
             acc.meta = t
             acc.isrc = t.isrc or acc.isrc  # isrc nulo não apaga um código já conhecido
             acc.appearances.append(_Appearance(snap.date, entry.rank, snap.size))

@@ -146,3 +146,11 @@ def test_a_text_the_library_cannot_read_does_not_stop_the_others():
     done, failed = romanize_each(["曲", "々", "歌"], fake)
     assert done == {"曲": ("r-曲",), "々": ("々",), "歌": ("r-歌",)}
     assert failed == ["々"]
+
+
+def test_an_unread_text_is_searchable_but_never_shown_as_latin():
+    # O "latino" guardado é o próprio texto em japonês: não pode virar titleLatin (cutlet).
+    cur = Curation(romaji=RomajiCache(engine="cutlet", entries={"々": ("々",), "歌": ("uta",)}))
+    assert cur.latin("tracks", "x:tr:1", "々", None) == (None, None)
+    assert cur.latin("tracks", "x:tr:2", "歌", None) == ("uta", "cutlet")
+    assert "々" in cur.search_texts("tracks", "x:tr:1", "々", None)

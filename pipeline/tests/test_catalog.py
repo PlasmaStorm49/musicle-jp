@@ -6,7 +6,7 @@ import pytest
 
 from helpers import album_by_id, make_snapshot, make_track, track_by_id
 from musicle_pipeline.catalog import build_catalog, popularity
-from musicle_pipeline.models import InputError
+from musicle_pipeline.models import JSON, InputError
 from musicle_pipeline.validate import validate_catalog
 
 
@@ -186,18 +186,41 @@ def test_partner_joins_a_single_but_not_a_full_album():
     ]
 
 
+def _weeks(*with_preview: bool) -> tuple[JSON, list[str]]:
+    """Catálogo de uma faixa que aparece uma vez por semana, com ou sem prévia."""
+    week = make_track("t1")
+    lost = replace(week, preview_url=None, preview_duration_sec=None)
+    days = [f"2026-10-{10 + 7 * i:02d}" for i in range(len(with_preview))]
+    snaps = [
+        make_snapshot(d, [week if p else lost]) for d, p in zip(days, with_preview, strict=True)
+    ]
+    notes: list[str] = []
+    return build_catalog(snaps, "fixture", "jp", warnings=notes), notes
+
+
 def test_preview_lost_for_a_week_keeps_the_known_one():
     # Uma semana sem prévia deixaria a faixa inelegível e anularia rodadas já gravadas.
-    week1 = make_track("t1")
-    week2 = replace(week1, preview_url=None, preview_duration_sec=None)
-    catalog = build_catalog(
-        [make_snapshot("2026-10-10", [week1]), make_snapshot("2026-10-17", [week2])],
-        "fixture",
-        "jp",
-    )
+    catalog, notes = _weeks(True, False)
     t = track_by_id(catalog, "t1")
-    assert t["preview"]["url"] == week1.preview_url
+    assert t["preview"]["url"] == make_track("t1").preview_url
     assert t["eligible"]["daily"] is True
+    assert notes == ["2026-10-17: fixture:tr:t1 veio sem prévia; ficou a da semana anterior"]
+
+
+def test_preview_lost_twice_in_a_row_makes_the_track_ineligible():
+    # Duas semanas seguidas: a prévia saiu mesmo, e a guardada pode estar morta.
+    catalog, notes = _weeks(True, False, False)
+    t = track_by_id(catalog, "t1")
+    assert t["preview"] is None
+    assert t["eligible"] == {"daily": False, "reason": "no-preview"}
+    assert notes == ["2026-10-24: fixture:tr:t1 sem prévia de novo; ficou inelegível"]
+
+
+def test_preview_that_comes_back_resets_the_grace():
+    # Só o último snapshot gera aviso: o histórico se repetiria em todo build.
+    catalog, notes = _weeks(True, False, True, False)
+    assert track_by_id(catalog, "t1")["eligible"]["daily"] is True
+    assert notes == ["2026-10-31: fixture:tr:t1 veio sem prévia; ficou a da semana anterior"]
 
 
 def test_store_url_defaults_to_null(fixture_catalog):
