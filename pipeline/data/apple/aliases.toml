@@ -46,3 +46,15 @@ latin = "Tsumi to batsu to ame to kisu (Sano Hayato & Yoshida Jinto)"
 
 [albums."apple:al:6793456209"]
 latin = "Tsumi to batsu to ame to kisu (Sano Hayato & Yoshida Jinto)"
+
+[tracks."apple:tr:1706832137"]  # 怪獣の花唄 (Vaundy); cutlet: "hana uta"
+latin = "Kaijuu no hanauta"
+
+[tracks."apple:tr:1627629624"]  # ブルーアンビエンス (feat. asmi); cutlet colou tudo
+latin = "Buruu anbiensu (feat. asmi)"
+
+[albums."apple:al:1869537741"]  # 爆裂愛してる / 好きすぎて滅! - EP; cutlet perdeu os espaços
+latin = "Bakuretsu aishiteru / Suki sugite metsu!"
+
+[artists."apple:ar:530814268"]  # 米津玄師: o latino da Apple é "Kenshi Yonezu"; busca na ordem japonesa
+aliases = ["yonezu kenshi"]

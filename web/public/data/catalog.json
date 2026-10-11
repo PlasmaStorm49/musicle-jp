@@ -1709,7 +1709,7 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/45/b1/53/45b153d5-e943-6cd9-620e-0a4c66b7525b/VEATP-45199.jpg/300x300bb.jpg",
       "id": "apple:al:1869537741",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2026-02-18",
       "search": [
         "bakuretsuaishiterusukisugitemetsu",
@@ -1728,7 +1728,7 @@
         "apple:al:6782749976"
       ],
       "title": "爆裂愛してる / 好きすぎて滅! - EP",
-      "titleLatin": "Bakuretsu aishiteru/suki sugite metsu!",
+      "titleLatin": "Bakuretsu aishiteru / Suki sugite metsu!",
       "type": "ep"
     },
     {
@@ -2724,6 +2724,7 @@
       "search": [
         "kenshiyonezu",
         "yonetsugenshi",
+        "yonezukenshi",
         "米津玄師"
       ]
     },
@@ -2822,7 +2823,7 @@
       ]
     }
   ],
-  "catalogVersion": "2026-10-10.8ea17fbb",
+  "catalogVersion": "2026-10-10.2dbd8b64",
   "generatedAt": "2026-10-11T02:48:17Z",
   "provider": "apple",
   "schemaVersion": 1,
@@ -4523,6 +4524,7 @@
         "artist": [
           "kenshiyonezu",
           "yonetsugenshi",
+          "yonezukenshi",
           "米津玄師"
         ],
         "title": [
@@ -4852,7 +4854,7 @@
       "explicit": false,
       "id": "apple:tr:1627629624",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.29,
       "preview": {
         "durationSec": 30,
@@ -4884,7 +4886,7 @@
       "songKey": "ぶるーあんびえんす|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%A2%E3%83%B3%E3%83%93%E3%82%A8%E3%83%B3%E3%82%B9-feat-asmi/1627629613?i=1627629624",
       "title": "ブルーアンビエンス (feat. asmi)",
-      "titleLatin": "Buruuanbiensu (feat. asmi)"
+      "titleLatin": "Buruu anbiensu (feat. asmi)"
     },
     {
       "albumId": "apple:al:1648108987",
@@ -5245,7 +5247,7 @@
       "explicit": false,
       "id": "apple:tr:1706832137",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.64,
       "preview": {
         "durationSec": 30,
@@ -5277,7 +5279,7 @@
       "songKey": "怪獣の花唄|apple:ar:1487570516",
       "storeUrl": "https://music.apple.com/jp/album/%E6%80%AA%E7%8D%A3%E3%81%AE%E8%8A%B1%E5%94%84/1706831732?i=1706832137",
       "title": "怪獣の花唄",
-      "titleLatin": "Kaijuu no hana uta"
+      "titleLatin": "Kaijuu no hanauta"
     },
     {
       "albumId": "apple:al:1733129984",
@@ -6046,6 +6048,7 @@
         "artist": [
           "kenshiyonezu",
           "yonetsugenshi",
+          "yonezukenshi",
           "米津玄師"
         ],
         "title": [
@@ -6159,6 +6162,7 @@
           "kenshiyonezu",
           "yonetsugenshi",
           "yonetsugenshiutadahikaru",
+          "yonezukenshi",
           "米津玄師",
           "米津玄師宇多田ひかる"
         ],
@@ -6998,6 +7002,7 @@
         "artist": [
           "kenshiyonezu",
           "yonetsugenshi",
+          "yonezukenshi",
           "米津玄師"
         ],
         "title": [
