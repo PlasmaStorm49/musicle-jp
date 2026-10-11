@@ -2,7 +2,8 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { AudioEngine } from "../audio/engine.ts";
-import { indexCatalog } from "../core/catalog.ts";
+import { PLAYLIST_URL } from "../core/apple.ts";
+import { type CatalogIndex, indexCatalog } from "../core/catalog.ts";
 import { createRounds, type GameState, type RoundState } from "../core/reducer.ts";
 import type { Album, AnswerMode, Catalog, Target, Track } from "../core/types.ts";
 import { catalogResolver, type PreviewResolver } from "../data/previews.ts";
@@ -69,6 +70,16 @@ const catalog: Catalog = {
 };
 const index = indexCatalog(catalog);
 
+// A mesma rodada na parada real: a faixa 1 (a resposta) tem link na loja.
+const STORE = "https://music.apple.com/jp/album/x/1?i=1";
+const appleIndex = indexCatalog({
+  ...catalog,
+  provider: "apple",
+  tracks: catalog.tracks.map((t) =>
+    t.id === "t:tr:1" ? { ...t, storeUrl: STORE } : t,
+  ) as Catalog["tracks"],
+});
+
 function game(target: Target, answerMode: AnswerMode, change?: Partial<RoundState>): GameState {
   const options =
     target === "song"
@@ -82,6 +93,7 @@ function game(target: Target, answerMode: AnswerMode, change?: Partial<RoundStat
 function setup(
   state: GameState,
   resolver: PreviewResolver = catalogResolver(index, (url) => `/${url}`),
+  catalogIndex: CatalogIndex = index,
 ) {
   const engine: AudioEngine = {
     unlock: vi.fn(),
@@ -96,7 +108,7 @@ function setup(
     <RoundView
       game={state}
       dispatch={dispatch}
-      index={index}
+      index={catalogIndex}
       engine={engine}
       resolver={resolver}
       resolveUrl={(url) => `/${url}`}
@@ -110,6 +122,29 @@ function setup(
 }
 
 describe("RoundView (a rodada do diário e do Treino)", () => {
+  it("parada real: o selo junto do player leva à playlist, nunca à música da rodada (P69)", () => {
+    const resolver = catalogResolver(appleIndex, (url) => `/${url}`);
+    setup(game("song", "choice"), resolver, appleIndex);
+    const badge = screen.getByRole("link", { name: /Ouça no Apple Music/ });
+    expect(badge.getAttribute("href")).toBe(PLAYLIST_URL);
+    expect(badge.getAttribute("rel")).toBe("noopener noreferrer");
+    expect(document.querySelector(`a[href="${STORE}"]`)).toBeNull(); // não entrega a resposta
+    expect(screen.getByText(/provided courtesy of iTunes/)).toBeTruthy();
+  });
+
+  it("parada real: na revelação, o selo leva à música", () => {
+    const resolver = catalogResolver(appleIndex, (url) => `/${url}`);
+    setup(game("song", "choice", { status: "won" }), resolver, appleIndex);
+    const badge = screen.getByRole("link", { name: /Ouça no Apple Music/ });
+    expect(badge.getAttribute("href")).toBe(STORE);
+  });
+
+  it("parada fictícia: sem selo da Apple", () => {
+    setup(game("song", "choice"));
+    expect(screen.queryByRole("link", { name: /Ouça no Apple Music/ })).toBeNull();
+    expect(screen.queryByText(/iTunes/)).toBeNull();
+  });
+
   it("parada real: o Tocar espera a prévia, e o foco vai para ele quando ela chega", async () => {
     let deliver: (url: string | null) => void = () => {};
     const resolver: PreviewResolver = {

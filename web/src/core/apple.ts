@@ -11,6 +11,13 @@ const TRACK_PREFIX = "apple:tr:";
 
 export const LOOKUP_URL = "https://itunes.apple.com/lookup";
 
+/**
+ * Playlist "Top 100: Japan" da Apple Music, a mesma parada do RSS most-played (conferido em
+ * 11/10/2026: as mesmas 100 faixas). É o link do selo durante a rodada: não entrega a resposta.
+ */
+export const PLAYLIST_URL =
+  "https://music.apple.com/jp/playlist/%E3%83%88%E3%83%83%E3%83%97100-%E6%97%A5%E6%9C%AC/pl.043a2c9876114d95a4659988497567be";
+
 export type AppleUrlKind = "preview" | "artwork" | "store";
 
 const HOSTS: Readonly<Record<AppleUrlKind, RegExp>> = {

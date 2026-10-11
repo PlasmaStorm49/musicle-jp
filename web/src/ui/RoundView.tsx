@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
+import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import { currentRound, type GameEvent, type GameState, reduce } from "../core/reducer.ts";
 import { canSkip, MODE_RULES } from "../core/rules.ts";
@@ -7,6 +8,7 @@ import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
+import { Attribution } from "./Attribution.tsx";
 import { GuessInput } from "./GuessInput.tsx";
 import { useResolvedUrl, useSuggest } from "./hooks.ts";
 import { Options } from "./Options.tsx";
@@ -99,6 +101,8 @@ export function RoundView({
               announce(t("void.message"));
             }}
           />
+          {/* Junto do player, como pedem os termos; o link é a playlist, não a resposta. */}
+          {index.catalog.provider === APPLE_PROVIDER && <Attribution href={PLAYLIST_URL} />}
           {game.answerMode === "choice" ? (
             <Options
               index={index}

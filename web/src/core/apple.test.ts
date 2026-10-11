@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { appleTrackNumber, isAppleUrl, lookupUrl, previewsFromLookup } from "./apple.ts";
+import {
+  appleTrackNumber,
+  isAppleUrl,
+  lookupUrl,
+  PLAYLIST_URL,
+  previewsFromLookup,
+} from "./apple.ts";
 
 const PREVIEW =
   "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview/aa/bb/mzaf_1.plus.aac.p.m4a";
@@ -38,6 +44,10 @@ describe("isAppleUrl", () => {
 });
 
 describe("faixas e lookup", () => {
+  it("o link da playlist da rodada passa na regra da loja", () => {
+    expect(isAppleUrl("store", PLAYLIST_URL)).toBe(true);
+  });
+
   it("número da faixa só de id da Apple", () => {
     expect(appleTrackNumber("apple:tr:1706829387")).toBe("1706829387");
     expect(appleTrackNumber("apple:al:1706829387")).toBeNull();

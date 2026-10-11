@@ -4,6 +4,7 @@
     "includes": [
       "**",
       "!src/core/generated",
+      "!src/ui/assets",
       "!dist",
       "!coverage",
       "!public",

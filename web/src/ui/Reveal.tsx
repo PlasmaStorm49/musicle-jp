@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
+import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import { type RoundState, roundScore } from "../core/reducer.ts";
 import type { AnswerMode, Target } from "../core/types.ts";
@@ -7,6 +8,7 @@ import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
+import { Attribution } from "./Attribution.tsx";
 import { useResolvedUrl } from "./hooks.ts";
 import { Cover, ItemLabel } from "./ItemLabel.tsx";
 
@@ -100,6 +102,10 @@ export function Reveal({
             )}
           </div>
         </article>
+      )}
+      {/* Fora do cartão: o estilo das imagens dele (cantos arredondados) alteraria o selo. */}
+      {track && index.catalog.provider === APPLE_PROVIDER && (
+        <Attribution href={track.storeUrl ?? PLAYLIST_URL} />
       )}
 
       <button type="button" class="primary" onClick={onNext}>
