@@ -32,6 +32,11 @@ export type RoundState = {
    * só aumenta o trecho (P163).
    */
   readonly help: readonly string[] | null;
+  /**
+   * Quantas tentativas já tinham sido gastas quando a ajuda foi pedida (o `help` do histórico):
+   * depois dela podem vir pulos (P163), então não dá para deduzir das tentativas. Null sem ajuda.
+   */
+  readonly helpAt: number | null;
 };
 
 export type GameState = {
@@ -80,6 +85,7 @@ export function createRounds(
       stage: 0,
       attempts: [],
       help: null,
+      helpAt: null,
     };
     if (!track?.eligible.daily) {
       return {
@@ -152,7 +158,9 @@ function help(state: GameState, round: RoundState, options: readonly string[]): 
     new Set(options).size === options.length &&
     options.every((id) => typeof id === "string" && !tried.has(id)) &&
     options.some((id) => round.accepted.includes(id));
-  return valid ? withRound(state, { ...round, help: [...options] }) : state;
+  return valid
+    ? withRound(state, { ...round, help: [...options], helpAt: round.attempts.length })
+    : state;
 }
 
 export function reduce(state: GameState, event: GameEvent): GameState {

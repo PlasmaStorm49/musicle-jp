@@ -165,6 +165,16 @@ describe("loadSave", () => {
       { status: "won", stage: 2, attempts: ["skip", "right", "skip"], help: 1 },
     ],
     [
+      "perdeu com a opção certa",
+      "2026-10-07|song",
+      { status: "lost", stage: 1, attempts: ["skip", "right"], help: 1 },
+    ],
+    [
+      "anulada depois de escolher",
+      "2026-10-07|song",
+      { status: "void", stage: 1, attempts: ["skip", "wrong"], help: 1 },
+    ],
+    [
       "acerto sem opção",
       "2026-10-07|song",
       { status: "won", stage: 1, attempts: ["skip"], help: 1 },
@@ -224,6 +234,41 @@ describe("loadSave", () => {
     // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(5);
+  });
+
+  it("um save v4 de verdade, com a ajuda, chega à v5 sem aviso, sem cópia e sem perder nada", () => {
+    // Como os que estão no ar desde a P149: a ajuda com e sem acerto e um andamento com ela.
+    const v4 = {
+      schemaVersion: 4,
+      history: {
+        "2026-10-12|album": finished,
+        "2026-10-12|song": {
+          number: 5,
+          rounds: [
+            { status: "won", stage: 3, attempts: ["skip", "wrong", "skip", "right"], help: 3 },
+            { status: "lost", stage: 1, attempts: ["wrong", "wrong"], help: 1 },
+            { status: "lost", stage: 3, attempts: ["skip", "skip", "skip"], help: 3 },
+          ],
+        },
+      },
+      inProgress: {
+        "2026-10-13|song": {
+          events: [
+            { type: "SKIP" },
+            { type: "SKIP" },
+            { type: "SKIP" },
+            { type: "HELP", options: ["apple:tr:1", "apple:tr:2", "apple:tr:3", "apple:tr:4"] },
+          ],
+        },
+      },
+    };
+    const store = withRaw(JSON.stringify(v4));
+    expect(loadSave(store)).toEqual({
+      save: { ...v4, schemaVersion: 5 },
+      writable: true,
+      notice: null,
+    });
+    expect(store.getItem(CORRUPT_KEY)).toBeNull();
   });
 
   it("Desafio: até 6 tentativas; a 7ª invalida o jogo terminado", () => {

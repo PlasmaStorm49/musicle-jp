@@ -368,6 +368,18 @@ describe("RoundView: a ajuda (P149)", () => {
     expect(event?.options).toContain("t:tr:1");
     expect(event?.options).toHaveLength(4);
   });
+
+  it("com a ajuda na tela, o Pular continua e anuncia o trecho novo, sem o contador (P163)", () => {
+    const { dispatch } = setup(skipped(3), undefined, undefined, undefined, daily);
+    fireEvent.click(helpButton() as HTMLElement);
+    const event = dispatch.mock.calls.at(-1)?.[0];
+    if (event?.type !== "HELP") throw new Error("esperava o HELP");
+    cleanup();
+    const { announce } = setup(reduce(skipped(3), event), undefined, undefined, undefined, daily);
+    expect(screen.getByRole("list", { name: "Opções da ajuda" })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Pular (+4 s)" }));
+    expect(announce).toHaveBeenCalledWith("Pulou. O trecho agora tem 11 s.");
+  });
 });
 
 describe("revelação: a prévia inteira", () => {

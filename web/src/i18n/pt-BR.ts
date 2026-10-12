@@ -112,6 +112,8 @@ export const ptBR = {
   "typing.giveUp": "Desistir",
   "typing.wrong": "Errou: {title}. Tentativa {current} de {total}.",
   "typing.skipped": "Pulou. Tentativa {current} de {total}.",
+  // Com a ajuda na tela (P163), o contador de tentativas some: o pulo diz o trecho novo.
+  "typing.skippedHelp": "Pulou. O trecho agora tem {seconds} s.",
   // A ajuda do Desafio (P149 a P152): opções no lugar do campo.
   "help.button": "Pedir ajuda ({count} opções, vale {points})",
   "help.hint": "Escolha entre as opções: errar encerra a rodada, e acertar vale {points}.",

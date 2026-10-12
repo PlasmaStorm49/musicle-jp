@@ -17,6 +17,7 @@ import {
   withProgress,
 } from "./records.ts";
 import { type GameEvent, reduce } from "./reducer.ts";
+import { shareGrid } from "./share.ts";
 import type { Day } from "./types.ts";
 
 const index = indexCatalog(catalog);
@@ -241,6 +242,40 @@ describe("a ajuda no diário (P149)", () => {
       help: 3,
     });
     expect(recordScore(s.game)).toBe(1);
+  });
+
+  it("com pulos depois da ajuda (P163), o help é onde ela foi pedida, e não antes da opção", () => {
+    const third = day.song[2].answer;
+    const s = desafio([
+      ...helped,
+      { type: "SKIP" },
+      { type: "GUESS", guessId: answer },
+      { type: "NEXT_ROUND" },
+      { type: "GIVE_UP" },
+      { type: "NEXT_ROUND" },
+      { type: "SKIP" },
+      { type: "SKIP" },
+      { type: "SKIP" },
+      { type: "HELP", options: [third, ...others.filter((id) => id !== third)] },
+      { type: "SKIP" },
+      { type: "GIVE_UP" },
+    ]);
+    if (s.kind !== "finished") throw new Error("esperava o dia terminado");
+    expect(s.game.rounds[0]).toEqual({
+      status: "won",
+      stage: 4,
+      attempts: ["skip", "skip", "skip", "skip", "right"],
+      help: 3,
+    });
+    expect(s.game.rounds[2]).toEqual({
+      status: "lost",
+      stage: 4,
+      attempts: ["skip", "skip", "skip", "skip"],
+      help: 3,
+    });
+    expect(recordScore(s.game)).toBe(1);
+    // E o compartilhar: o 💡 antes do pulo; desistir depois dele fecha com ❌.
+    expect(shareGrid(s.game, "song")).toEqual(["⬛⬛⬛💡⬛✅", "❌", "⬛⬛⬛💡⬛❌"]);
   });
 });
 

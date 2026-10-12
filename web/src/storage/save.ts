@@ -103,12 +103,16 @@ export function isGameEvent(x: unknown): x is GameEvent {
 
 /**
  * O que vem depois da ajuda: pulos, que só aumentam o trecho (P163), e no fim no máximo a opção
- * escolhida. O acerto é sempre ela.
+ * escolhida. Acertou: a opção é a certa. Perdeu: errou a opção ou desistiu sem escolher.
+ * Anulada (falha de áudio): nenhuma opção escolhida.
  */
 function isHelpTail(after: readonly unknown[], status: unknown): boolean {
   const pick = after.findIndex((a) => a !== "skip");
   if (pick !== -1 && pick !== after.length - 1) return false;
-  return status !== "won" || after.at(-1) === "right";
+  const last = pick === -1 ? null : after[pick];
+  if (status === "won") return last === "right";
+  if (status === "void") return last === null;
+  return last !== "right";
 }
 
 /**

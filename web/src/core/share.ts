@@ -5,7 +5,7 @@ import { MODE_RULES } from "./rules.ts";
 import type { Target } from "./types.ts";
 
 // Formas diferentes, não só cores (P42): quem não distingue verde e vermelho entende.
-// A ajuda (P149) entra como 💡 antes da opção escolhida.
+// A ajuda (P149) entra como 💡 no ponto em que foi pedida (P155).
 export const SYMBOLS = { more: "⬛", right: "✅", wrong: "❌", void: "⬜", help: "💡" } as const;
 
 function line(round: RoundRecord, target: Target): string {
@@ -18,16 +18,15 @@ function line(round: RoundRecord, target: Target): string {
     );
   }
   // Desafio: uma marca por tentativa; desistir antes do fim fecha com ❌. A ajuda (P149) entra
-  // no ponto em que foi pedida; com ela, desistir é não escolher opção nenhuma.
+  // no ponto em que foi pedida; com ela, desistir é não escolher opção nenhuma (depois dela, só
+  // pulos, P163).
   const marks: string[] = round.attempts.map((a) =>
     a === "skip" ? SYMBOLS.more : a === "wrong" ? SYMBOLS.wrong : SYMBOLS.right,
   );
   if (round.help !== undefined) marks.splice(round.help, 0, SYMBOLS.help);
-  const left =
-    round.help !== undefined
-      ? round.attempts.length === round.help
-      : round.attempts.length < rules.maxAttempts;
-  const gaveUp = round.status === "lost" && left;
+  const picked =
+    round.help !== undefined && round.attempts.slice(round.help).some((a) => a !== "skip");
+  const gaveUp = round.status === "lost" && !picked && round.attempts.length < rules.maxAttempts;
   return marks.join("") + (gaveUp ? SYMBOLS.wrong : "");
 }
 

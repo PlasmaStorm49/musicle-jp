@@ -78,22 +78,11 @@ export function toFinishedGame(state: GameState, number: number): FinishedGame {
       status: r.status as RoundRecord["status"],
       stage: r.stage,
       attempts: r.attempts.map((a) => (a.kind === "skip" ? "skip" : a.correct ? "right" : "wrong")),
-      ...(r.help ? { help: helpAt(r.help, r.attempts) } : {}),
+      // O ponto em que a ajuda foi pedida, guardado pelo reducer: os pulos depois dela (P163)
+      // não deixam deduzir das tentativas.
+      ...(r.help && r.helpAt !== null ? { help: r.helpAt } : {}),
     })),
   };
-}
-
-/**
- * Quando a ajuda foi pedida: depois dela, a única tentativa é a opção escolhida, que está entre
- * as opções (o reducer não deixa uma já tentada entrar nelas). Sem ela (desistiu), foi agora.
- */
-function helpAt(
-  options: readonly string[],
-  attempts: GameState["rounds"][number]["attempts"],
-): number {
-  const last = attempts.at(-1);
-  const picked = last?.kind === "guess" && options.includes(last.guessId);
-  return picked ? attempts.length - 1 : attempts.length;
 }
 
 /** O bastante para pontuar uma rodada: status, etapa e a ajuda (do FinishedGame ou do jogo). */
