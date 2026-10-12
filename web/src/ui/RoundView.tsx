@@ -312,17 +312,18 @@ function Typing({
         </>
       )}
       <Attempts index={index} round={round} />
-      {helpCount > 0 && (
-        <button type="button" class="help" onClick={singleClick(onHelp)}>
-          {t("help.button", {
-            count: helpCount,
-            points: tn("count.points", rules.helpPoints),
-          })}
+      {/* A ajuda à esquerda e o desistir à direita, longe um do outro: um toque não cai no
+          botão errado. */}
+      <div class="typing-actions">
+        {helpCount > 0 && (
+          <button type="button" class="help" onClick={singleClick(onHelp)}>
+            {t("help.button")}
+          </button>
+        )}
+        <button type="button" class="give-up" onClick={singleClick(onGiveUp)}>
+          {giveUpLabel}
         </button>
-      )}
-      <button type="button" class="give-up" onClick={singleClick(onGiveUp)}>
-        {giveUpLabel}
-      </button>
+      </div>
     </section>
   );
 }

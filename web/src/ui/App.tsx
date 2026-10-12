@@ -226,7 +226,10 @@ export function App() {
                 {modeName(daily)}
                 {latest.history[puzzleId(date, daily)] && (
                   <>
-                    <span aria-hidden="true"> {t("nav.doneMark")}</span>
+                    <span class="done-mark" aria-hidden="true">
+                      {" "}
+                      {t("nav.doneMark")}
+                    </span>
                     <span class="sr-only">{t("nav.done")}</span>
                   </>
                 )}

@@ -1,4 +1,33 @@
+import type { Save } from "../src/core/records.ts";
+import { SAVE_KEY } from "../src/storage/save.ts";
 import { expect, open, test } from "./helpers.ts";
+
+test("no celular (360 px, o Android comum), as cinco abas cabem numa linha, também com os dois ✓ (ME70)", async ({
+  page,
+}) => {
+  // A fonte muda com o sistema (a CI é Linux): o teste mede, e o CSS tem folga para isso.
+  await page.setViewportSize({ width: 360, height: 800 });
+  // Os dois diários de 08/10 já terminados: as abas ganham o ✓, o caso mais largo.
+  const lost = { status: "lost", stage: 0, attempts: [] } as const;
+  const day = { number: 1, rounds: [lost, lost, lost] };
+  const save = {
+    schemaVersion: 5,
+    history: { "2026-10-08|album": day, "2026-10-08|song": day },
+    inProgress: {},
+  } satisfies Save;
+  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
+    SAVE_KEY,
+    JSON.stringify(save),
+  ] as const);
+  await open(page, "2026-10-08T12:00:00-03:00", "");
+  const tabs = page.getByRole("navigation").getByRole("link");
+  await expect(tabs).toHaveCount(5);
+  await expect(tabs.filter({ hasText: "✓" })).toHaveCount(2);
+  const rows = await tabs.evaluateAll(
+    (links) => new Set(links.map((a) => Math.round(a.getBoundingClientRect().top))).size,
+  );
+  expect(rows).toBe(1);
+});
 
 test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", async ({ page }) => {
   await open(page, "2026-10-08T12:00:00-03:00", "");

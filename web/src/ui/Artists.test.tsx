@@ -358,7 +358,7 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     expect(helpButton()).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
     const help = helpButton();
-    expect(help?.textContent).toBe("Pedir ajuda (3 opções, vale 1 ponto)");
+    expect(help?.textContent).toBe("Pedir ajuda"); // sem os pontos no botão
     if (!help) throw new Error("sem o botão da ajuda");
     help.focus(); // o clique do navegador leva o foco ao botão, que some em seguida
     fireEvent.click(help);
@@ -560,9 +560,7 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(score()).toBe("Placar: 0 pontos");
     expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 0 de 3");
     expect(screen.getByRole("button", { name: "Pular (+3 s)" })).toBeTruthy();
-    expect(
-      screen.getByRole("button", { name: /^Pedir ajuda \(3 opções, vale -1 ponto\)/ }),
-    ).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Pedir ajuda" })).toBeTruthy();
     // O trecho começa num ponto sorteado da prévia de 30 s, até os 19 s, e os trechos seguintes
     // da mesma música começam no mesmo ponto.
     const game = run(store).session.game;
@@ -668,8 +666,9 @@ describe("Artists: o Superfan (ME61)", () => {
     setup(today);
     await screen.findByRole("heading", { name: "Artistas" });
     await superfan(/^夜風/);
-    fireEvent.click(screen.getByRole("button", { name: /^Pedir ajuda \(2 opções/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Pedir ajuda" }));
     const list = screen.getByRole("list", { name: "Opções da ajuda" });
+    expect(list.querySelectorAll("button")).toHaveLength(2); // a resposta e a outra que sobrou
     expect(list.textContent).not.toContain("Música 1");
     expect(
       screen.getByText(

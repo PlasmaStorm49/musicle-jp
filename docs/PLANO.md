@@ -118,6 +118,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P161 | Escolher o artista leva a um passo com os dois submodos (o sem fim e o Superfan); a sessão começa no cartão escolhido |
 | P162 | No Superfan, a música anulada (falha de áudio) não conta para a partida: os erros e a ajuda pedida nela voltam (recomendação do revisor, confirmada) |
 | P163 | Com a ajuda na tela, o "Pular" continua: a pontuação já está no mínimo, e ouvir mais não custa nada. Ele gasta a tentativa e libera o trecho seguinte, como sem a ajuda, e some na última tentativa, que fica para a opção (pedido de 12/10/2026, depois do merge da ajuda; save v5) |
+| P164 | Botão não leva número de pontos (pedido de 12/10/2026): "Pedir ajuda", sem as opções nem o que vale (o custo fica na dica, quando as opções aparecem); a descrição do cartão do Superfan, que é um botão, sem os números. O "Pedir ajuda" fica mais afastado do "Desistir" |
 | P166 | Entram no modo por artista o Unlimits (311230779) e o 松田聖子 (Seiko Matsuda, 76115834), no fim da lista (pedido de 12/10/2026) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
@@ -244,6 +245,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - S20. Chamar de "Livre" o submodo sem fim do modo por artista quando o Superfan (ME61) chegar: "Normal" já é o modo do álbum (P100). Feita no branch do Superfan (o cartão "Livre" da P161).
 - S22. O selo da rodada no modo por artista levando à página do artista na loja (pede um campo de URL novo, com a conferência no validate e no `core/apple.ts`, regra inviolável 5).
 - S23. A capa da música mais conhecida no cartão de cada artista da lista.
+- S24. Conferir a duração real das prévias da Apple: o pipeline grava sempre 30 s, e no Superfan um começo perto de 19 s numa prévia mais curta deixaria menos de 9 s (o Web Audio corta sem erro). Como: registrar o `buffer.duration` com `?data=real` (revisor do Superfan).
 
 **Melhorias futuras**
 
@@ -289,6 +291,16 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME66. Modo por artista: o sorteio tira todo álbum do índice do artista com uma música excluída (Apêndice K, Exclusão), e não só os que entregariam o diário. Ficou assim por ser o lado seguro; se um dia pesar (canônicas de álbum de estúdio), a troca é o sorteio pular a música excluída pelo `songKey` e receber de fora só os álbuns de mesmo nome (`/code-review` e revisor do PR C).
 - ME67. O `?failAudio=` (desenvolvimento) só conhece o resolvedor e o índice da parada: não faz falhar a faixa que só existe no arquivo de um artista, com `?data=real` (nas fixtures, os artistas citam faixas da parada, e funciona) (`/code-review` do PR C).
 - ME68. O `lang="ja"` no nome do artista também no cartão da home ("Nesta sessão (米津玄師): …") e nos avisos de carga e de falha do artista: hoje o texto sai inteiro do `t()`, e o `FocusedNotice` só aceita texto (revisor do PR C).
+- ME69. Teste de tela do "Pedir ajuda" sumindo depois da 3ª ajuda do Superfan: hoje só o núcleo cobre, porque os dados do teste não têm artista com 4 músicas ou mais (revisor do Superfan).
+- ME70 a ME75 (check-up da interface em 12/10/2026, feitas no branch `m13-ui`):
+  - ME70. As cinco abas numa linha a partir de 360 px (o Android comum), também com os dois ✓ (menos espaço lateral, a fonte das abas um pouco menor até 400 px e o ✓ menor); em 320 px ainda quebram. A 1ª versão tinha 10 px de folga com a Segoe UI e quebrava no Linux da CI, de fonte mais larga: a folga agora vale até para a Verdana (317 de 328 px).
+  - ME71. "Pedir ajuda" sem pontos (P164), com a cor do destaque, à esquerda; o "Desistir" sempre à direita, longe dele.
+  - ME72. Nas tentativas, o pulo tracejado e sem fundo (não pesa como um erro), e as linhas mais baixas.
+  - ME73. "Voltar à lista" afastado dos cartões da escolha do submodo.
+  - ME74. A descrição do Superfan curta e sem números (P164).
+  - ME75. No título da partida, "Superfan" vira uma etiqueta ao lado do nome do artista (o título não quebra no meio).
+- ME76. O aviso do aria-live (o `announce`) continua no DOM ao trocar de aba ("Pulou. Tentativa 4 de 6." aparece no texto da escolha do submodo). Não aparece na tela, mas um leitor de tela pode reler; limpar ao trocar de aba (check-up de 12/10/2026).
+- ME77. Nas estatísticas do Desafio, a distribuição tem 19 linhas (0 a 18 pontos), longa no celular: agrupar em faixas ou desenhar em colunas (check-up de 12/10/2026).
 
 **Feitas:**
 
@@ -528,7 +540,7 @@ Dois modos (P100): o **Normal** acerta o álbum ou single entre 4 opções; o **
 - **Modo por artista** (M13, `ui/Artists.tsx`, Apêndice K): o Treino do Desafio sobre o arquivo de um artista, com as mesmas regras (P125). A busca é só pelo título, e a exclusão dos diários de hoje passa pelo título e pelo álbum (P141).
 - **Superfan** (ME61, `core/superfan.ts`, Apêndice K): a variante do Desafio no modo por artista, com regras próprias (`VARIANT_RULES`, sem `Target` novo). Uma partida com as músicas do artista, cada uma uma vez, em 3 trechos (1, 4 e 9 s). O acerto vale 3, 2 ou 1; cada palpite errado tira 5 e passa ao trecho seguinte; 3 erros acabam a partida; a ajuda (até 3) vale logo de cara e −1.
 - **Ajuda do Desafio** (P149 a P152, P155 a P157; `core/help.ts`, o evento `HELP` do reducer):
-  - O botão "Pedir ajuda (4 opções, vale 1 ponto)" aparece depois de `HELP_AFTER` tentativas gastas: 1 no Treino e no Livre do modo por artista, 3 nos diários. No Superfan, logo de cara (`helpFrom` 0, P159), até 3 por partida e valendo −1. Ele troca o campo por até 4 músicas, a certa entre elas, com o foco na 1ª.
+  - O botão "Pedir ajuda" (sem pontos, P164) aparece depois de `HELP_AFTER` tentativas gastas: 1 no Treino e no Livre do modo por artista, 3 nos diários. No Superfan, logo de cara (`helpFrom` 0, P159), até 3 por partida e valendo −1. Ele troca o campo por até 4 músicas, a certa entre elas, com o foco na 1ª.
   - O evento traz as opções prontas: o reducer não sorteia nem lê o catálogo, e o evento salvo refaz a rodada igual. Ele confere a forma (de 2 a 4 ids distintos, nenhum já tentado, ao menos um aceito), uma vez por rodada e depois das tentativas que as regras pedem (`helpFrom`: 1 no Desafio, 0 no Superfan).
   - Com a ajuda, o palpite sai das opções, errar encerra (P151), e acertar vale os `helpPoints` das regras em qualquer etapa (P152): 1 no Desafio, −1 no Superfan (P153). No Superfan, a dica diz também quanto custa errar (−5). Pular continua (P163): só aumenta o trecho, até a última tentativa, que fica para a opção. Por isso o reducer guarda o ponto da ajuda (`RoundState.helpAt`), que vira o `help` do histórico: os pulos depois dela não deixam deduzir das tentativas. Com a ajuda, o anúncio do pulo diz o trecho novo ("Pulou. O trecho agora tem 11 s."), porque o contador de tentativas não está na tela.
   - As opções: a resposta e até 3 outras músicas, cada uma pela faixa que a busca sugere (`songRepresentative`: a resposta não se destaca por um "(TV Size)"); nunca outra versão da resposta, outra música de mesmo título, uma já tentada ou uma resposta dos diários de hoje (no Treino e no modo por artista, a mesma exclusão do sorteio; no diário, as respostas dos dois modos do dia, `dayAnswerKeys`).

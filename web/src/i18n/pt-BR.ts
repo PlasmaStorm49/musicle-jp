@@ -120,7 +120,8 @@ export const ptBR = {
   // Com a ajuda na tela (P163), o contador de tentativas some: o pulo diz o trecho novo.
   "typing.skippedHelp": "Pulou. O trecho agora tem {seconds} s.",
   // A ajuda do Desafio (P149 a P152): opções no lugar do campo.
-  "help.button": "Pedir ajuda ({count} opções, vale {points})",
+  // Sem número de pontos no botão: o custo está na dica, quando as opções aparecem.
+  "help.button": "Pedir ajuda",
   "help.hint": "Escolha entre as opções: errar encerra a rodada, e acertar vale {points}.",
   "help.hintWrong":
     "Escolha entre as opções: errar encerra a rodada e vale {wrong}, e acertar vale {points}.",
@@ -192,7 +193,7 @@ export const ptBR = {
   "artists.free": "Livre",
   "artists.freeHint": "Rodadas sem fim do Desafio, com o placar da sessão.",
   "artists.superfanHint":
-    "Para quem conhece tudo: trechos de 1, 3 e 5 s, a partir de um ponto sorteado da música. Acertar vale 3, 2 ou 1 ponto; cada palpite errado tira 5, e 3 erros acabam a partida. Na dúvida, pule ou peça ajuda (até 3 por partida; a música com ajuda vale −1).",
+    "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. Errar custa caro, e 3 erros acabam a partida. Na dúvida, pule ou peça ajuda.",
   "superfan.name": "Superfan",
   "superfan.song": "Música {number}",
   "superfan.score": "Placar: {points}",
