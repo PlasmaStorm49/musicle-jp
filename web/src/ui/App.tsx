@@ -101,7 +101,7 @@ export function App() {
   // momento em que a aba abre: voltar ao Desafio terminado mostra o resultado (P39).
   const [latest, setLatest] = useState(saves.save);
   // A sessão do Treino mora aqui, e não no Practice: trocar de aba e voltar não a zera. Só
-  // na memória (P50): recarregar a página começa outra.
+  // na memória (P50): recarregar a página começa outra. null = a escolha do modo (P105).
   const [practice, setPractice] = useState<PracticeSession | null>(null);
   const refresh = useCallback(() => {
     const read = loadSave(saves.store);

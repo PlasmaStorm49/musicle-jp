@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "preact/hooks";
-import { type DailyStatus, dailyStatus } from "../core/home.ts";
-import type { PracticeScore } from "../core/practice.ts";
+import { type DailyStatus, dailyStatus, type PracticeSummary } from "../core/home.ts";
 import type { Save } from "../core/records.ts";
 import { ROUTES, type Tab } from "../core/routes.ts";
 import { MAX_STAGE, MODE_RULES, MODES, ROUNDS_PER_DAY, secondsAt } from "../core/rules.ts";
@@ -17,8 +16,8 @@ type Props = {
   readonly date: string;
   /** A última leitura do save. */
   readonly save: Save;
-  /** Placar da sessão do Treino; null antes da 1ª rodada (`practiceSummary`). */
-  readonly practice: PracticeScore | null;
+  /** O modo e o placar da sessão do Treino; null antes da 1ª rodada (`practiceSummary`). */
+  readonly practice: PracticeSummary | null;
 };
 
 type HomeCard = {
@@ -58,8 +57,12 @@ function dailyText(status: DailyStatus): string {
   }
 }
 
-function practiceText(score: PracticeScore | null): string | null {
-  return score ? t("home.practiceSession", { score: practiceScoreText(score) }) : null;
+function practiceText(summary: PracticeSummary | null): string | null {
+  if (!summary) return null;
+  return t("home.practiceSession", {
+    mode: modeName(summary.target),
+    score: practiceScoreText(summary.score),
+  });
 }
 
 /** A home: o nome do jogo, um cartão por modo (com o estado de hoje) e como jogar. */

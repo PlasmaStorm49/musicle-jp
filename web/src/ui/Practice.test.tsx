@@ -93,8 +93,17 @@ const finishedBoth: Save = {
 };
 
 type HarnessProps = { readonly save: Save; readonly day: Day | null; readonly show: boolean };
+type ModeName = "Normal" | "Desafio";
 
-function setup(save: Save = emptySave(), day: Day | null = null) {
+const choose = (mode: ModeName, init: MouseEventInit = {}) =>
+  fireEvent.click(screen.getByRole("button", { name: mode }), init);
+const restart = (init: MouseEventInit = {}) =>
+  fireEvent.click(screen.getByRole("button", { name: "Reiniciar o Treino" }), init);
+const score = () => document.querySelector(".practice-score")?.textContent;
+const title = () => screen.getByRole("heading", { level: 1 });
+
+/** Monta o Treino como o App; com `mode`, já escolhe o modo (o clique no cartão). */
+function setup(save: Save = emptySave(), day: Day | null = null, mode: ModeName | null = "Normal") {
   const engine: AudioEngine = {
     unlock: vi.fn(),
     preload: vi.fn(),
@@ -126,6 +135,7 @@ function setup(save: Save = emptySave(), day: Day | null = null) {
   }
   const view = render(<Harness save={save} day={day} show={true} />);
   const rerender = (props: HarnessProps) => view.rerender(<Harness {...props} />);
+  const current = () => latest;
   const session = () => {
     if (!latest) throw new Error("sessão não começou");
     return latest;
@@ -133,33 +143,64 @@ function setup(save: Save = emptySave(), day: Day | null = null) {
   /** O nome (título) da opção certa da rodada em jogo, para achar o botão. */
   const correctTitle = () => {
     const id = session().game?.rounds[0]?.correctOptionId ?? "";
-    const n = id.split(":").at(-1);
-    return new RegExp(`^(Música|Álbum) ${n}`);
+    return new RegExp(`^Álbum ${id.split(":").at(-1)}`);
   };
-  return { engine, rerender, session, correctTitle };
+  if (mode) choose(mode);
+  return { engine, rerender, current, session, correctTitle };
 }
 
-const score = () => document.querySelector(".practice-score")?.textContent;
+describe("Practice: a escolha do modo (P105)", () => {
+  it("abre na escolha: o título com o foco, Normal e Desafio, sem rodada nem áudio", () => {
+    const { engine, current } = setup(emptySave(), null, null);
+    expect(title().textContent).toBe("Treino");
+    expect(document.activeElement).toBe(title());
+    // O nome acessível de cada cartão é só o do modo; a dica é a descrição.
+    expect(screen.getAllByRole("button").map((b) => b.getAttribute("aria-labelledby"))).toEqual([
+      "practice-album-name",
+      "practice-song-name",
+    ]);
+    expect(screen.getByRole("button", { name: "Normal" }).getAttribute("aria-describedby")).toBe(
+      "practice-album-hint",
+    );
+    expect(screen.getByRole("button", { name: "Desafio" })).toBeTruthy();
+    expect(screen.queryByText(/^Rodada/)).toBeNull();
+    expect(score()).toBeUndefined();
+    expect(screen.queryByRole("radio")).toBeNull();
+    expect(current()).toBeNull();
+    expect(engine.retain).not.toHaveBeenCalled();
+  });
 
-describe("Practice (modo Treino)", () => {
-  it("abre no Normal, com a rodada 1, o placar zerado e o foco no Tocar", () => {
-    setup();
-    expect(screen.getByRole("heading", { level: 1, name: "Treino" })).toBeTruthy();
+  it("Normal: o modo no título, a rodada 1, o placar zerado, 4 opções e o foco no Tocar", () => {
+    setup(emptySave(), null, "Normal");
+    expect(title().textContent).toBe("Treino · Normal");
     expect(screen.getByText("Rodada 1")).toBeTruthy();
     expect(screen.queryByText(/de 3/)).toBeNull();
     expect(score()).toBe("0 pontos em 0 rodadas");
-    const group = screen.getByRole("group", { name: "Modo" });
-    expect([...group.querySelectorAll("label")].map((l) => l.textContent)).toEqual([
-      "Normal",
-      "Desafio",
-    ]);
-    expect(screen.getByText("Vale a partir da próxima rodada.")).toBeTruthy();
-    expect((screen.getByRole("radio", { name: "Normal" }) as HTMLInputElement).checked).toBe(true);
     expect(screen.getByRole("heading", { name: "Qual é o álbum?" })).toBeTruthy();
     expect(screen.getAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(4);
     expect(document.activeElement?.textContent).toMatch(/^Tocar/);
   });
 
+  it("Desafio: o campo da música, e a próxima rodada continua no Desafio", () => {
+    setup(emptySave(), null, "Desafio");
+    expect(title().textContent).toBe("Treino · Desafio");
+    expect(screen.getByRole("combobox", { name: "Qual é a música?" })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Desistir" }));
+    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
+    expect(screen.getByText("Rodada 2")).toBeTruthy();
+    expect(screen.getByRole("combobox", { name: "Qual é a música?" })).toBeTruthy();
+    expect(screen.queryAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(0);
+  });
+
+  it("toque duplo no cartão não começa a sessão", () => {
+    const { current } = setup(emptySave(), null, null);
+    choose("Normal", { detail: 2 });
+    expect(current()).toBeNull();
+    expect(title().textContent).toBe("Treino");
+  });
+});
+
+describe("Practice: a sessão", () => {
   it("pré-sorteia a próxima rodada: guarda o áudio da atual e o da próxima", () => {
     const { engine, session } = setup();
     const retain = vi.mocked(engine.retain);
@@ -202,47 +243,114 @@ describe("Practice (modo Treino)", () => {
     expect(score()).toBe("0 pontos em 1 rodada");
   });
 
-  it("trocar o modo não interrompe a rodada atual; vale na próxima", () => {
-    setup();
-    fireEvent.click(screen.getByRole("radio", { name: "Desafio" }));
-    expect((screen.getByRole("radio", { name: "Desafio" }) as HTMLInputElement).checked).toBe(true);
-    // A rodada em jogo continua: Normal, 4 opções.
-    expect(screen.getByRole("heading", { name: "Qual é o álbum?" })).toBeTruthy();
-    expect(screen.getAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(4);
-    expect(screen.queryByRole("combobox")).toBeNull();
-
-    fireEvent.click(screen.getByRole("button", { name: "Não sei" }));
-    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
-    expect(screen.getByText("Rodada 2")).toBeTruthy();
-    expect(screen.getByRole("combobox", { name: "Qual é a música?" })).toBeTruthy();
-    expect(screen.queryAllByRole("button", { name: /^(Música|Álbum) \d/ })).toHaveLength(0);
-  });
-
-  it("sair da aba e voltar mantém a sessão (rodada e placar)", () => {
+  it("sair da aba e voltar mantém a sessão (modo, rodada e placar)", () => {
     const { rerender, correctTitle } = setup();
     fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
     fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
     rerender({ save: emptySave(), day: null, show: false });
-    expect(screen.queryByText("Treino")).toBeNull();
+    expect(screen.queryByText(/Treino/)).toBeNull();
     rerender({ save: emptySave(), day: null, show: true });
+    expect(title().textContent).toBe("Treino · Normal");
     expect(screen.getByText("Rodada 2")).toBeTruthy();
     expect(score()).toBe("6 pontos em 1 rodada");
   });
 
-  it("sem rodada possível (diário de hoje pendente): aviso com foco; volta quando o diário termina", () => {
+  it("sem rodada possível (diário de hoje pendente): aviso com foco, o modo e o Reiniciar", () => {
     const { rerender } = setup(emptySave(), fullDay);
     const message = screen.getByText(/Não há rodada para sortear agora/);
     expect(document.activeElement).toBe(message);
+    expect(title().textContent).toBe("Treino · Normal");
     expect(screen.queryByText(/^Rodada/)).toBeNull();
     expect(score()).toBe("0 pontos em 0 rodadas");
+    expect(screen.getByRole("button", { name: "Reiniciar o Treino" })).toBeTruthy();
 
     // O diário terminou (o App relê o save ao trocar de aba). A rodada sai no clique, e não
-    // sozinha: sortear sozinho puxaria o foco de quem está mexendo no modo.
+    // sozinha: a tela não muda debaixo de quem lê o aviso.
     rerender({ save: finishedBoth, day: fullDay, show: true });
     expect(screen.getByText(/Não há rodada para sortear agora/)).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "Sortear de novo" }));
     expect(screen.queryByText(/Não há rodada para sortear agora/)).toBeNull();
     expect(screen.getByText("Rodada 1")).toBeTruthy();
     expect(screen.getAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(4);
+  });
+});
+
+describe("Practice: reiniciar (P105)", () => {
+  it("sem rodada jogada: volta direto à escolha, com o foco no título", () => {
+    const { current } = setup();
+    restart();
+    expect(current()).toBeNull();
+    expect(title().textContent).toBe("Treino");
+    expect(document.activeElement).toBe(title());
+    // E dá para escolher o outro modo.
+    choose("Desafio");
+    expect(screen.getByRole("combobox", { name: "Qual é a música?" })).toBeTruthy();
+  });
+
+  it("depois de uma rodada anulada também (ela não conta)", async () => {
+    const { engine, current } = setup();
+    vi.mocked(engine.play).mockRejectedValue(new Error("sem áudio"));
+    fireEvent.click(screen.getByRole("button", { name: /^Tocar/ }));
+    await screen.findByRole("button", { name: "Próxima rodada" });
+    restart();
+    expect(current()).toBeNull();
+  });
+
+  it("com rodada jogada: pergunta antes; Cancelar e Esc devolvem o foco e mantêm a sessão", () => {
+    const { current, correctTitle } = setup();
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() })); // revelação na tela
+    restart();
+    const warning = screen.getByText(/O placar desta sessão \(6 pontos em 1 rodada\) será perdido/);
+    expect(document.activeElement).toBe(warning);
+
+    fireEvent.click(screen.getByRole("button", { name: "Cancelar" }));
+    expect(screen.queryByText(/será perdido/)).toBeNull();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Reiniciar o Treino" }));
+    expect(current()).not.toBeNull();
+
+    restart();
+    fireEvent.keyDown(screen.getByText(/será perdido/), { key: "Escape" });
+    expect(screen.queryByText(/será perdido/)).toBeNull();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Reiniciar o Treino" }));
+    // O Esc vale em todo o grupo, também com o foco num dos botões.
+    restart();
+    fireEvent.keyDown(screen.getByRole("button", { name: "Cancelar" }), { key: "Escape" });
+    expect(screen.queryByText(/será perdido/)).toBeNull();
+    expect(score()).toBe("6 pontos em 1 rodada");
+  });
+
+  it("aviso aberto: o 2º clique no Reiniciar devolve o foco a ele; a rodada nova o fecha", () => {
+    const { correctTitle } = setup();
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    restart();
+    const warning = screen.getByText(/será perdido/);
+    screen.getByRole("button", { name: "Reiniciar o Treino" }).focus();
+    restart();
+    expect(document.activeElement).toBe(warning);
+    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
+    expect(screen.getByText("Rodada 2")).toBeTruthy();
+    expect(screen.queryByText(/será perdido/)).toBeNull();
+  });
+
+  it("confirmar: volta à escolha, com o foco no título, e o som para", () => {
+    const { engine, current, correctTitle } = setup();
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    restart();
+    const stops = vi.mocked(engine.stop).mock.calls.length;
+    fireEvent.click(screen.getByRole("button", { name: "Sim, reiniciar" }));
+    expect(current()).toBeNull();
+    expect(document.activeElement).toBe(title());
+    expect(title().textContent).toBe("Treino");
+    expect(vi.mocked(engine.stop).mock.calls.length).toBeGreaterThan(stops);
+  });
+
+  it("toque duplo no Reiniciar e no Sim não age", () => {
+    const { current, correctTitle } = setup();
+    restart({ detail: 2 });
+    expect(current()).not.toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    restart();
+    fireEvent.click(screen.getByRole("button", { name: "Sim, reiniciar" }), { detail: 2 });
+    expect(current()).not.toBeNull();
   });
 });

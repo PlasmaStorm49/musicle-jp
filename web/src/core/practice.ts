@@ -1,6 +1,6 @@
-// Modo Treino: rodadas sem fim do Normal ou do Desafio, sorteadas de um "saco embaralhado" por
-// modo. Funções puras:
-// a semente vem de fora (a tela usa crypto.getRandomValues) e nada daqui é salvo (P50).
+// Modo Treino: rodadas sem fim de um modo só (Normal ou Desafio, escolhido ao começar; trocar
+// pede outra sessão, P105), sorteadas de um "saco embaralhado". Funções puras: a semente vem de
+// fora (a tela usa crypto.getRandomValues) e nada daqui é salvo (P50).
 //
 // Por que saco, e não sorteio solto: com sorteio solto a mesma música volta logo. O saco tem
 // cada música (ou álbum) uma vez; embaralhado, toca até esvaziar e então começa um novo ciclo.
@@ -16,7 +16,7 @@ import type { Day, Target, Track } from "./types.ts";
 /** Distratores por rodada do Normal: com a certa, 4 opções. */
 const DISTRACTORS = 3;
 
-/** Onde o jogador está no saco de um modo. */
+/** Onde o jogador está no saco. */
 export type BagCursor = {
   /** Volta no saco: cada ciclo tem o seu embaralhamento. */
   readonly cycle: number;
@@ -31,8 +31,9 @@ export type BagCursor = {
 
 export type PracticeState = {
   readonly seed: number;
-  /** Um saco por modo: trocar de modo e voltar continua de onde parou. */
-  readonly cursors: Readonly<Record<Target, BagCursor>>;
+  /** O modo da sessão: o saco é dele, e ele não muda (trocar pede outra sessão, P105). */
+  readonly target: Target;
+  readonly cursor: BagCursor;
 };
 
 /** Uma rodada sorteada: de que saco, ciclo e posição saiu, e o que toca e se responde. */
@@ -54,9 +55,8 @@ export type PracticeScore = { readonly points: number; readonly rounds: number }
 
 /** Tudo o que a sessão do Treino lembra enquanto a página estiver aberta. */
 export type PracticeSession = {
+  /** O saco e o modo da sessão (`practice.target`). */
   readonly practice: PracticeState;
-  /** O modo (Normal ou Desafio): vale a partir da próxima rodada. */
-  readonly target: Target;
   /** Placar das rodadas encerradas antes da atual. */
   readonly score: PracticeScore;
   /** Quantas rodadas já saíram (a atual é a de número `number`). */
@@ -65,9 +65,8 @@ export type PracticeSession = {
   readonly game: GameState | null;
 };
 
-export function newPractice(seed: number): PracticeState {
-  const start: BagCursor = { cycle: 0, position: 0, carry: null };
-  return { seed, cursors: { song: start, album: start } };
+export function newPractice(seed: number, target: Target): PracticeState {
+  return { seed, target, cursor: { cycle: 0, position: 0, carry: null } };
 }
 
 /** Ordem de preferência dentro de um grupo: mais popular primeiro; empate pelo id. */
@@ -207,19 +206,20 @@ export function planRound(
 }
 
 /**
- * Sorteia a próxima rodada do modo. A faixa cujo álbum entregaria uma música excluída (a dela
- * ou outra: blockedAlbums) é pulada (fica no saco e volta no ciclo seguinte). Saco vazio: novo
- * ciclo. Uma volta inteira sem achar nenhuma devolve null, e o estado fica como estava.
+ * Sorteia a próxima rodada, no modo do estado. A faixa cujo álbum entregaria uma música excluída
+ * (a dela ou outra: blockedAlbums) é pulada (fica no saco e volta no ciclo seguinte). Saco
+ * vazio: novo ciclo. Uma volta inteira sem achar nenhuma devolve null, e o estado fica como
+ * estava.
  */
 export function drawPractice(
   state: PracticeState,
   index: CatalogIndex,
-  target: Target,
   excluded: ReadonlySet<string>,
 ): PracticeDraw | null {
+  const { target } = state;
   const pool = practicePool(index, target);
   const blocked = blockedAlbums(index, excluded);
-  let { cycle, position, carry } = state.cursors[target];
+  let { cycle, position, carry } = state.cursor;
   let bag = bagFor(pool, state.seed, target, cycle, carry);
   // A última tocada é a de antes da posição: as puladas só vêm depois dela.
   const last = position > 0 ? (bag[position - 1] ?? null) : null;
@@ -246,7 +246,7 @@ export function drawPractice(
         position: position - 1,
         planned: planRound(index, target, trackId, excluded, rng, blocked),
       },
-      state: { ...state, cursors: { ...state.cursors, [target]: { cycle, position, carry } } },
+      state: { ...state, cursor: { cycle, position, carry } },
     };
   }
   return null;
@@ -270,8 +270,8 @@ export function practiceScore(score: PracticeScore, game: GameState | null): Pra
 }
 
 /**
- * Fecha a rodada atual no placar e sorteia a próxima com o modo de agora. Sem rodada
- * possível, `game` fica null e o número não anda.
+ * Fecha a rodada atual no placar e sorteia a próxima, no modo da sessão. Sem rodada possível,
+ * `game` fica null e o número não anda.
  */
 export function nextPracticeRound(
   session: PracticeSession,
@@ -279,7 +279,7 @@ export function nextPracticeRound(
   excluded: ReadonlySet<string>,
 ): PracticeSession {
   const score = practiceScore(session.score, session.game);
-  const draw = drawPractice(session.practice, index, session.target, excluded);
+  const draw = drawPractice(session.practice, index, excluded);
   if (!draw) return { ...session, score, game: null };
   return {
     ...session,
@@ -290,7 +290,7 @@ export function nextPracticeRound(
   };
 }
 
-/** Começa a sessão já com a 1ª rodada sorteada. */
+/** Começa a sessão no modo escolhido, já com a 1ª rodada sorteada. */
 export function startPracticeSession(
   seed: number,
   target: Target,
@@ -298,8 +298,7 @@ export function startPracticeSession(
   excluded: ReadonlySet<string>,
 ): PracticeSession {
   const session: PracticeSession = {
-    practice: newPractice(seed),
-    target,
+    practice: newPractice(seed, target),
     score: { points: 0, rounds: 0 },
     number: 0,
     game: null,

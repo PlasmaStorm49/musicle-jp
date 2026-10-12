@@ -41,9 +41,12 @@ export function dailyStatus(
   return { kind: "new", number: day.number };
 }
 
-/** O placar da sessão do Treino, com a rodada em jogo se ela já terminou; null antes da 1ª. */
-export function practiceSummary(session: PracticeSession | null): PracticeScore | null {
+/** O cartão do Treino: o modo da sessão (P106) e o placar dela. */
+export type PracticeSummary = { readonly target: Target; readonly score: PracticeScore };
+
+/** O resumo da sessão do Treino, com a rodada em jogo se ela já terminou; null antes da 1ª. */
+export function practiceSummary(session: PracticeSession | null): PracticeSummary | null {
   if (!session) return null;
   const score = practiceScore(session.score, session.game);
-  return score.rounds > 0 ? score : null;
+  return score.rounds > 0 ? { target: session.practice.target, score } : null;
 }
