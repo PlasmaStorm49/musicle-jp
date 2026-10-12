@@ -126,6 +126,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P170 | A capa fora da rodada, na lista, entra na zona da P69, com o selo no fim da tela |
 | P171 | Sem capa, ou se ela não carregar, um monograma: a 1ª letra do nome (米, 松), num disco de cor fixa pelo id |
 | P172 | As 200 de cada artista são as mais populares (pedido de 12/10/2026): depois da ordem do lookup, os singles (lado A) de uma lista curada no `artists.toml` vêm antes da reserva, e a faixa tirada pela curadoria deixa a posição para a música dela (Apêndice K) |
+| P174 | Entram no modo por artista o 新しい学校のリーダーズ (1231338664) e o 幾田りら (1489581870), no fim da lista (pedido de 12/10/2026) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -816,6 +817,23 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
   - `aliases.toml`: 28 latinos que o cutlet errou. Entre eles, a kana ウィ ignorada ("Tenshi no inku", "Intaa gaaden"), leituras erradas (風は秋色 como "shuushoku", 抱いて… como "Idaite", 七月 como "Nana gatsu", 小径 como "shoukei") e espaços partidos ("Furanji a", "Shinki rou"). As leituras sem certeza ficaram (時風の鼓動, 夢冬の彩月, 夜唄).
   - `providers/apple.py`: o latino do artista que só muda a caixa do nome ("Unlimits" no lookup, "UNLIMITS" nas faixas) não entra, e a tela deixa de mostrar "UNLIMITS · Unlimits". Valeu também para um parceiro da Aimer ("GROWN KIDS"). O catálogo da parada não mudou.
   - Hipóteses conferidas: o THE FIRST TAKE vem como " - From THE FIRST TAKE"; o filtro de álbuns deixou de 0 a 5 faixas de coletânea por artista, que nunca são a canônica; o lookup de músicas começa pelos sucessos (アイドル e 夜に駆ける; 唱 e 新時代; 打上花火 e KICK BACK), o que sustenta a P133 (indício, não prova).
+- **Acréscimo de 12/10/2026, à noite** (P174, busca às 23:36 UTC): 新しい学校のリーダーズ e 幾田りら, no fim da lista. São 10 artistas e 1171 músicas.
+  - Os ids, pela Search API e pelo lookup da loja JP:
+    - 新しい学校のリーダーズ (ATARASHII GAKKO!, 1231338664): o único id do grupo na busca; as faixas vêm com o nome em japonês (オトナブルー, Tokyo Calling, マ人間).
+    - 幾田りら (Lilas Ikuta, 1489581870): スパークル, 蒲公英, ロマンスの約束.
+    - Ficaram de fora: o "Lilas" 1704820090 (o nome em japonês também é 幾田りら, mas são 9 faixas de 2021 a 2026, quase todas com título em francês, como Magnifique e Étrangère), o IKURA 1461727771 (covers de sucessos da era Shōwa, como 少女A e 異邦人) e o KANON 1825528925 (2 faixas de 2026, sem nada que o ligue ao grupo).
+  - 新しい学校のリーダーズ: 103 faixas, todas no lookup de músicas, e 34 álbuns dele; 77 músicas, todas publicadas. Capa do cartão: a de オトナブルー - Single.
+  - 幾田りら: 95 faixas, todas no lookup, e 30 álbuns; 54 músicas, todas publicadas. Capa do cartão: a de Answer - Single (a mais popular, おもかげ, é de milet, Aimer & 幾田りら: P168).
+  - Os snapshots têm 88 KB e 82 KB; os arquivos publicados, 102 KB e 82 KB.
+  - Curadoria, numa volta de `build-artists` (as outras versões, como o THE FIRST TAKE, o remix e o "Cafe Latte (English Version)", as regras já tiravam):
+    - 新しい学校のリーダーズ: 恋の遮断機 no `same_song` (o single "feat. H ZETTRIO" e a faixa do álbum マエナラワナイ, "(feat.H ZETTRIO)", com o feat. colado, que a chave não tira);
+    - 幾田りら: "Nameless Faces (feat. Lilas Ikuta) [英語版]", a versão em inglês do tema de 崩壊:スターレイル (o `_OUT` só conhece "English ver."), no `exclude_tracks`, e não no `same_song`: a [Japanese Ver.] tem o sufixo de versão, e a canônica seria a em inglês (P132).
+  - `aliases.toml`: 14 latinos de faixa e o de uma parceria.
+    - O crédito 幾田りら em 9 títulos: o cutlet leu "feat. ikuden ri ra" (Hepburn: "feat. Ikuta Rira").
+    - Leituras erradas (席替 como "Seki kae", 絶絶絶絶対聖域 como "Zezzezzezzettai"), espaços partidos ("Supaa kuru", "shadan ki") e o til fora do lugar (チラチラチラミー ~試験当日~, ロケット・トゥ・ザ・ムーン~信じた世界へ~).
+    - "Sheena Ringo & ATARASHII GAKKO!" para 椎名林檎と新しい学校のリーダーズ (ドラ1独走, no id do 椎名林檎): a Apple deu só "Sheena Ringo", como no DAOKO×米津玄師.
+    - As leituras sem certeza ficaram (狼の詩, 雨夜の接吻, まさ毛カンナヴァーロ, 赤春花).
+  - Ficaram como estão: o crédito 新しい学校のリーダーズ em Hepburn ("feat. atarashii gakkou no riidaazu"), como os créditos dos outros artistas; e as participações em outras línguas que estão no id dela (Plus rien, do Orelsan; Perfectos imperfectos, do Pablo Alborán; Here, Tomorrow, do League of Legends).
 - **Web** (PR C):
   - Aba `#artistas`, na nav e na home até o site ficar público (P117, P126): um `<li>` da nav e um cartão, fáceis de tirar.
   - A lista carrega ao entrar na aba e cada artista ao ser escolhido (`loadArtistList` e `loadArtist`, em `data/source.ts`, com `no-cache` e a versão de cada arquivo); o estado (`useArtistStore`) fica no `App`, então trocar de aba não perde a sessão, e recarregar volta à lista (P116). Uma falha mostra "Tentar de novo" só na aba (P144).
