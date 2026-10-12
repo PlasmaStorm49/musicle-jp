@@ -57,9 +57,7 @@ describe("Summary (o fim do dia)", () => {
     // 12:00 em Brasília: faltam 12 h para o próximo diário.
     expect(screen.getByRole("timer").textContent).toBe("12:00:00");
   });
-});
 
-describe("Countdown (P39: a virada à meia-noite de Brasília)", () => {
   it("a rodada com a ajuda (P149): acertou com ajuda, 1 ponto", () => {
     const helped: FinishedGame = {
       number: 3,
@@ -85,7 +83,9 @@ describe("Countdown (P39: a virada à meia-noite de Brasília)", () => {
       "Rodada 1: acertou com ajuda, 1 ponto",
     );
   });
+});
 
+describe("Countdown (P39: a virada à meia-noite de Brasília)", () => {
   it("chega a zero: anuncia uma vez só e oferece o novo diário", () => {
     vi.useFakeTimers();
     vi.setSystemTime(TWO_SECONDS_BEFORE);

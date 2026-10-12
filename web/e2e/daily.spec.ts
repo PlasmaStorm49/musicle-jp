@@ -110,6 +110,8 @@ test("Desafio: a ajuda só depois da 3ª tentativa, volta igual ao recarregar e 
   await page.reload();
   await expect(options).toHaveText(shown);
   await expect(page.getByRole("combobox")).toHaveCount(0);
+  // Voltar à rodada com a ajuda já pedida: o foco vai ao Tocar, como em toda rodada (regra 16).
+  await expect(page.getByRole("button", { name: /^Tocar/ })).toBeFocused();
 
   // A faixa certa sai do que tocou (o motor falso registra), como nos outros testes.
   await page.getByRole("button", { name: /^Tocar/ }).click();

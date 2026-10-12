@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest";
 import { artists } from "../../test/artists.ts";
 import { catalog, schedule } from "../../test/fixtures.ts";
 import { indexArtist, indexCatalog } from "./catalog.ts";
-import { helpOptions, helpSeed } from "./help.ts";
+import { dayAnswerKeys, helpOptions, helpSeed } from "./help.ts";
 import { startPracticeSession } from "./practice.ts";
 import { seeded } from "./prng.ts";
 import { createGame, currentRound, type GameState, reduce } from "./reducer.ts";
 import { songRepresentative } from "./search.ts";
-import type { Day } from "./types.ts";
+import type { Catalog, Day } from "./types.ts";
 
 const index = indexCatalog(catalog);
 const DATE = "2026-10-08";
@@ -22,6 +22,16 @@ function desafio(): GameState {
 
 const songOf = (id: string) => index.tracks.get(id)?.songKey;
 const rng = () => seeded(helpSeed("teste", 0));
+
+describe("dayAnswerKeys", () => {
+  it("as respostas dos dois diários do dia, de todas as rodadas", () => {
+    const day = schedule.days[DATE] as Day;
+    const keys = dayAnswerKeys(day, index);
+    for (const r of [...day.song, ...day.album])
+      expect(keys.has(songOf(r.answer) ?? "")).toBe(true);
+    expect(keys.size).toBeLessThanOrEqual(6);
+  });
+});
 
 describe("helpOptions (P149)", () => {
   it("4 músicas diferentes, uma delas a resposta, pela faixa que a busca sugere", () => {
@@ -57,6 +67,46 @@ describe("helpOptions (P149)", () => {
         expect(songOf(id)).not.toBe(songOf("fixture:tr:tr21"));
         expect(avoid.has(songOf(id) ?? "")).toBe(false);
       }
+    }
+  });
+
+  it("no Treino, a semente da sessão muda a posição da resposta na mesma rodada (S1)", () => {
+    const round = currentRound(reduce(desafio(), { type: "SKIP" }));
+    const positions = new Set<number>();
+    for (let session = 0; session < 12; session++) {
+      const seed = seeded(helpSeed("treino|song|0|0", 0, session));
+      const options = helpOptions(index, round, NONE, seed);
+      positions.add(options.findIndex((id) => round.accepted.includes(id)));
+    }
+    expect(positions.size).toBeGreaterThan(1);
+  });
+
+  it("nunca mostra uma homônima de uma resposta de hoje: entregaria o título", () => {
+    // A tr04 tem o título da tr01, de outro artista (pipeline/fixtures/README.md).
+    const day = schedule.days[DATE] as Day;
+    const song: Day["song"] = [{ answer: "fixture:tr:tr21" }, day.song[1], day.song[2]];
+    const round = currentRound(
+      reduce(createGame({ ...day, song }, DATE, "song", index), { type: "SKIP" }),
+    );
+    const avoid = new Set([songOf("fixture:tr:tr01") ?? ""]);
+    for (let seed = 0; seed < 40; seed++) {
+      const options = helpOptions(index, round, avoid, seeded(`z|${seed}`));
+      expect(options).not.toContain("fixture:tr:tr04");
+    }
+  });
+
+  it('nunca mostra outra música de mesmo título que a resposta (dois "Lemon")', () => {
+    const answer = catalog.tracks.find((t) => t.id === "fixture:tr:tr01");
+    if (!answer) throw new Error("tr01 ausente");
+    const [title] = answer.songKey.split("|");
+    const twin = { ...answer, id: "fixture:tr:twin", songKey: `${title}|fixture:ar:outro` };
+    const grown = indexCatalog({
+      ...catalog,
+      tracks: [...catalog.tracks, twin] as Catalog["tracks"],
+    });
+    const round = currentRound(reduce(desafio(), { type: "SKIP" }));
+    for (let seed = 0; seed < 30; seed++) {
+      expect(helpOptions(grown, round, NONE, seeded(`y|${seed}`))).not.toContain(twin.id);
     }
   });
 

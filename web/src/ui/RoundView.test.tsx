@@ -4,10 +4,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { type AudioEngine, AudioUnavailableError, type PlaybackResult } from "../audio/engine.ts";
 import { PLAYLIST_URL } from "../core/apple.ts";
 import { type CatalogIndex, indexCatalog } from "../core/catalog.ts";
-import { createRounds, type GameState, type RoundState } from "../core/reducer.ts";
+import { createRounds, type GameState, type RoundState, reduce } from "../core/reducer.ts";
 import type { Album, Catalog, Target, Track } from "../core/types.ts";
 import { catalogResolver, type PreviewResolver } from "../data/previews.ts";
-import { RoundView } from "./RoundView.tsx";
+import { type HelpSetup, RoundView } from "./RoundView.tsx";
 
 afterEach(cleanup);
 
@@ -99,6 +99,7 @@ function setup(
     stop: vi.fn(),
     retain: vi.fn(),
   },
+  help?: HelpSetup,
 ) {
   const dispatch = vi.fn();
   const onNext = vi.fn();
@@ -115,6 +116,7 @@ function setup(
       roundKey={0}
       nextLabel="Próxima rodada"
       onNext={onNext}
+      help={help}
     />,
   );
   return { dispatch, onNext, engine, announce };
@@ -327,6 +329,44 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     const { dispatch } = setup(game("song"));
     fireEvent.click(screen.getByRole("button", { name: "Desistir" }), { detail: 2 });
     expect(dispatch).not.toHaveBeenCalled();
+  });
+});
+
+describe("RoundView: a ajuda (P149)", () => {
+  const daily: HelpSetup = { after: 3, avoid: new Set() };
+  const skipped = (n: number) => {
+    let state = game("song");
+    for (let i = 0; i < n; i++) state = reduce(state, { type: "SKIP" });
+    return state;
+  };
+  const helpButton = () => screen.queryByRole("button", { name: /^Pedir ajuda/ });
+
+  it("no diário, o botão só aparece depois da 3ª tentativa gasta", () => {
+    setup(skipped(2), undefined, undefined, undefined, daily);
+    expect(helpButton()).toBeNull();
+    cleanup();
+    setup(skipped(3), undefined, undefined, undefined, daily);
+    expect(helpButton()?.textContent).toBe("Pedir ajuda (4 opções, vale 1 ponto)");
+  });
+
+  it("sem a ajuda (Normal ou sem a prop), nunca há botão", () => {
+    setup(skipped(5));
+    expect(helpButton()).toBeNull();
+  });
+
+  it("o pulo que libera a ajuda avisa no aria-live", () => {
+    const { announce } = setup(skipped(2), undefined, undefined, undefined, daily);
+    fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    expect(announce).toHaveBeenCalledWith("Pulou. Tentativa 4 de 6. A ajuda já pode ser pedida.");
+  });
+
+  it("pedir a ajuda despacha as opções, com a resposta entre elas", () => {
+    const { dispatch } = setup(skipped(3), undefined, undefined, undefined, daily);
+    fireEvent.click(helpButton() as HTMLElement);
+    const event = dispatch.mock.calls.at(-1)?.[0];
+    expect(event?.type).toBe("HELP");
+    expect(event?.options).toContain("t:tr:1");
+    expect(event?.options).toHaveLength(4);
   });
 });
 

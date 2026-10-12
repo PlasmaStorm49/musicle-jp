@@ -116,7 +116,7 @@ export const ptBR = {
   "help.button": "Pedir ajuda ({count} opções, vale {points})",
   "help.hint": "Escolha entre as opções: errar encerra a rodada, e acertar vale {points}.",
   "help.listLabel": "Opções da ajuda",
-  "help.announce": "Ajuda: {count} opções. Errar encerra a rodada.",
+  "help.available": "A ajuda já pode ser pedida.",
 
   "attempts.title": "Suas tentativas",
   "attempts.wrong": "Errou:",

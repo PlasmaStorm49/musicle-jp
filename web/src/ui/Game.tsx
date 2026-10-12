@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
+import { dayAnswerKeys } from "../core/help.ts";
 import {
   type FinishedGame,
   pendingDayTracks,
@@ -176,14 +177,11 @@ function Playing({
   const { game } = played;
   const isLast = game.current === game.rounds.length - 1;
   // A ajuda do Desafio só depois da 3ª tentativa gasta (P149), e nunca com uma resposta de
-  // hoje (as dos dois diários): as opções são as mesmas para todo mundo (helpSeed).
-  const help = useMemo<HelpSetup>(() => {
-    const answers = [...day.song, ...day.album].map((r) => index.tracks.get(r.answer)?.songKey);
-    return {
-      after: HELP_AFTER.daily,
-      avoid: new Set(answers.filter((key): key is string => key !== undefined)),
-    };
-  }, [day, index]);
+  // hoje (as dos dois diários), e as mesmas ao recarregar (helpSeed e o evento salvo).
+  const help = useMemo<HelpSetup>(
+    () => ({ after: HELP_AFTER.daily, avoid: dayAnswerKeys(day, index) }),
+    [day, index],
+  );
 
   // Salva a cada evento aceito: em andamento, a lista de eventos; terminado, o resumo. O estado
   // inicial não precisa: ele acabou de sair do save.

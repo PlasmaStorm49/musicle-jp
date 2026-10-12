@@ -348,6 +348,7 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     const help = helpButton();
     expect(help?.textContent).toBe("Pedir ajuda (3 opções, vale 1 ponto)");
     if (!help) throw new Error("sem o botão da ajuda");
+    help.focus(); // o clique do navegador leva o foco ao botão, que some em seguida
     fireEvent.click(help);
     expect(screen.queryByRole("combobox")).toBeNull();
     expect(screen.queryByRole("button", { name: /^Pular/ })).toBeNull();
@@ -377,6 +378,47 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     fireEvent.click(wrong as HTMLElement);
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
     expect(score()).toBe("1 ponto em 2 rodadas");
+  });
+
+  it("voltar à aba com a ajuda já pedida deixa o foco ir ao Tocar (regra 16)", async () => {
+    const { rerender } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await choose(/^夜風/);
+    fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    fireEvent.click(helpButton() as HTMLElement);
+    // O link da nav de onde a pessoa volta, fora da tela do modo.
+    const nav = document.body.appendChild(document.createElement("a"));
+    nav.href = "#artistas";
+    nav.focus();
+    rerender({ show: false, save: emptySave(), day: null });
+    rerender({ show: true, save: emptySave(), day: null });
+    await waitFor(() => expect(document.activeElement?.textContent).toMatch(/^Tocar/));
+    expect(options()).toHaveLength(3);
+    nav.remove();
+  });
+
+  it("toque duplo no Pedir ajuda: o 2º clique, numa opção, não vale como palpite", async () => {
+    const { store } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await choose(/^夜風/);
+    fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    fireEvent.click(helpButton() as HTMLElement, { detail: 1 });
+    fireEvent.click(options()[0] as HTMLElement, { detail: 2 });
+    const game = store().play?.session.game;
+    expect(game?.rounds[0]?.status).toBe("playing");
+    expect(game?.rounds[0]?.attempts).toHaveLength(1);
+  });
+
+  it("sem outra música para mostrar, não há botão (com uma opção só, nada a escolher)", async () => {
+    const { playing } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    const input = await choose(/^Banda/);
+    // A Banda tem duas músicas: errar a outra deixa só a resposta.
+    const other = playing() === "t:tr:4" ? "Música 5" : "Música 4";
+    fireEvent.input(input, { target: { value: other } });
+    fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
+    expect(screen.getByText(/^Errou/)).toBeTruthy();
+    expect(helpButton()).toBeNull();
   });
 
   it("nunca mostra a resposta de um diário pendente", async () => {

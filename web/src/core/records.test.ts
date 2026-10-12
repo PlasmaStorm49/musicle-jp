@@ -186,6 +186,26 @@ describe("a ajuda no diário (P149)", () => {
     expect(s.events).toEqual(helped);
   });
 
+  it("a rodada anulada depois da ajuda guarda a ajuda e fica fora da conta", () => {
+    const s = desafio([
+      ...helped,
+      { type: "VOID", round: 0, reason: "audio" },
+      { type: "NEXT_ROUND" },
+      { type: "GIVE_UP" },
+      { type: "NEXT_ROUND" },
+      { type: "GIVE_UP" },
+    ]);
+    if (s.kind !== "finished") throw new Error("esperava o dia terminado");
+    expect(s.game.rounds[0]).toEqual({
+      status: "void",
+      stage: 3,
+      attempts: ["skip", "skip", "skip"],
+      help: 3,
+    });
+    expect(recordScore(s.game)).toBe(0);
+    expect(recordMax(s.game)).toBe(12);
+  });
+
   it("o resultado guarda quando a ajuda foi pedida, e a rodada vale 1 ponto", () => {
     const rest: GameEvent[] = [
       { type: "NEXT_ROUND" },

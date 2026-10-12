@@ -114,9 +114,10 @@ export function PracticeRun({
 
   const score = practiceScore(session.score, game);
   // A ajuda depois da 1ª tentativa (P149, P150), sem nunca mostrar uma resposta de hoje.
+  const seed = session.practice.seed;
   const help = useMemo<HelpSetup>(
-    () => ({ after: HELP_AFTER.practice, avoid: excluded }),
-    [excluded],
+    () => ({ after: HELP_AFTER.practice, avoid: excluded, session: seed }),
+    [excluded, seed],
   );
 
   return (
