@@ -73,6 +73,9 @@ def test_a_participation_without_a_known_credit_still_belongs_to_the_artist(tmp_
     snap = write(tmp_path, data).snapshot("18756224")
     jane = next(e.track for e in snap.entries if e.track.provider_id == "2")
     assert "18756224" in {a.provider_id for a in jane.artists}
+    # A exibição é o crédito da loja, sem o artista escolhido juntado ("米津玄師 & 宇多田ヒカル"
+    # seria um crédito que a loja não mostra; e com "DAOKO×米津玄師", o nome sairia duas vezes).
+    assert jane.artist_display == "米津玄師"
 
 
 @pytest.mark.parametrize(

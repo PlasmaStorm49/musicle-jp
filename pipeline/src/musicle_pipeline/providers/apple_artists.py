@@ -77,7 +77,13 @@ class AppleArtistProvider:
             track = map_track(found, artists, partners, where, self.warnings)
             if artist_id not in {a.provider_id for a in track.artists}:
                 # Participação com um crédito que a chave estrita não reconheceu: a faixa veio no
-                # lookup do artista, então é dele também (o validate exige ele nos artistIds).
-                track = replace(track, artists=(*track.artists, chosen))
+                # lookup do artista, então é dele também (o validate exige ele nos artistIds). A
+                # exibição fica a da loja: o crédito já cita o artista ("DAOKO×米津玄師"), e juntar
+                # os nomes daria "DAOKO×米津玄師 & 米津玄師".
+                track = replace(
+                    track,
+                    artists=(*track.artists, chosen),
+                    artist_display=track.artist_display or found["artistName"],
+                )
             entries.append(ArtistEntry(rank=rank.get(track_id), track=track))
         return ArtistSnapshot(artist=chosen, fetched_at=data["fetchedAt"], entries=tuple(entries))
