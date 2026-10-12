@@ -10,7 +10,7 @@ import { acceptedIds, type CatalogIndex } from "./catalog.ts";
 import { type Mulberry32, seeded } from "./prng.ts";
 import { pendingDayTracks, type Save } from "./records.ts";
 import { createRounds, type GameState, type PlannedRound, roundScore } from "./reducer.ts";
-import { MODE_RULES } from "./rules.ts";
+import { MODE_RULES, rulesOf, type Variant } from "./rules.ts";
 import type { Day, PlayableTrack, Target } from "./types.ts";
 
 /** Distratores por rodada do Normal: com a certa, 4 opções. */
@@ -33,6 +33,8 @@ export type PracticeState = {
   readonly seed: number;
   /** O modo da sessão: o saco é dele, e ele não muda (trocar pede outra sessão, P105). */
   readonly target: Target;
+  /** A variante das rodadas (o Superfan, ME61), com as regras dela; o saco é o mesmo. */
+  readonly variant?: Variant;
   readonly cursor: BagCursor;
 };
 
@@ -65,8 +67,9 @@ export type PracticeSession = {
   readonly game: GameState | null;
 };
 
-export function newPractice(seed: number, target: Target): PracticeState {
-  return { seed, target, cursor: { cycle: 0, position: 0, carry: null } };
+export function newPractice(seed: number, target: Target, variant?: Variant): PracticeState {
+  const cursor = { cycle: 0, position: 0, carry: null };
+  return variant ? { seed, target, variant, cursor } : { seed, target, cursor };
 }
 
 /** Ordem de preferência dentro de um grupo: mais popular primeiro; empate pelo id. */
@@ -262,21 +265,29 @@ export function drawPractice(
   return null;
 }
 
-/** O jogo de uma rodada só, com o reducer de sempre. O puzzleId identifica a rodada. */
-export function practiceGame(round: PracticeRound, index: CatalogIndex): GameState {
-  return {
+/**
+ * O jogo de uma rodada só, com o reducer de sempre (e as regras da variante, se houver). O
+ * puzzleId identifica a rodada.
+ */
+export function practiceGame(
+  round: PracticeRound,
+  index: CatalogIndex,
+  variant?: Variant,
+): GameState {
+  const game: GameState = {
     puzzleId: `treino|${round.target}|${round.cycle}|${round.position}`,
     target: round.target,
     rounds: createRounds([round.planned], round.target, index),
     current: 0,
   };
+  return variant ? { ...game, variant } : game;
 }
 
-/** Placar com a rodada dada, se ela já terminou e não foi anulada. */
+/** Placar com a rodada dada, se ela já terminou e não foi anulada (pelas regras do jogo). */
 export function practiceScore(score: PracticeScore, game: GameState | null): PracticeScore {
   const round = game?.rounds[game.current];
-  if (!round || round.status === "playing" || round.status === "void") return score;
-  return { points: score.points + roundScore(round), rounds: score.rounds + 1 };
+  if (!game || !round || round.status === "playing" || round.status === "void") return score;
+  return { points: score.points + roundScore(round, rulesOf(game)), rounds: score.rounds + 1 };
 }
 
 /**
@@ -296,19 +307,20 @@ export function nextPracticeRound(
     score,
     practice: draw.state,
     number: session.number + 1,
-    game: practiceGame(draw.round, index),
+    game: practiceGame(draw.round, index, session.practice.variant),
   };
 }
 
-/** Começa a sessão no modo escolhido, já com a 1ª rodada sorteada. */
+/** Começa a sessão no modo escolhido (e na variante), já com a 1ª rodada sorteada. */
 export function startPracticeSession(
   seed: number,
   target: Target,
   index: CatalogIndex,
   excluded: ReadonlySet<string>,
+  variant?: Variant,
 ): PracticeSession {
   const session: PracticeSession = {
-    practice: newPractice(seed, target),
+    practice: newPractice(seed, target, variant),
     score: { points: 0, rounds: 0 },
     number: 0,
     game: null,
