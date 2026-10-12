@@ -74,7 +74,7 @@ Para ver o build como ele fica publicado: `npm run build --prefix web` e depois 
 
 ## Créditos
 
-Parada, metadados, capas e prévias de áudio: Apple (RSS do Apple Music e iTunes Search API), provided courtesy of iTunes. Junto de cada player fica o selo oficial "Ouça no Apple Music", com link para a loja. Projeto sem fins comerciais. Nenhum áudio fica guardado no site: o navegador toca as prévias direto do servidor da Apple.
+Parada, metadados, capas e prévias de áudio: Apple (RSS do Apple Music e iTunes Search API), provided courtesy of iTunes. No fim de cada tela com prévia (a rodada e a revelação) fica o selo oficial "Ouça no Apple Music", com link para a loja. Projeto sem fins comerciais. Nenhum áudio fica guardado no site: o navegador toca as prévias direto do servidor da Apple.
 
 ## Privacidade
 
