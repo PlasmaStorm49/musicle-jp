@@ -108,7 +108,17 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P145 | O selo da rodada no modo por artista continua levando à playlist da parada (`PLAYLIST_URL`): sem campo de URL novo |
 | P146 | O botão e o pop-up do modo por artista dizem "Trocar de artista" |
 | P147 | Cartão da lista: o nome, o latino ao lado (como na ME55) e o número de músicas |
+| P149 | A ajuda do Desafio: um botão troca a digitação por 4 opções de nome de música, a certa entre elas. No Treino do Desafio e no modo por artista, depois da 1ª tentativa gasta; nos diários, só depois da 3ª (pedido de 12/10/2026) |
+| P150 | Conta como tentativa gasta o palpite errado e o pulo |
+| P151 | Com a ajuda, errar a opção encerra a rodada |
+| P152 | Acertar com a ajuda vale 1 ponto, em qualquer etapa |
 | P160 | Fora do modo por artista a faixa em que o artista só aparece creditado por um sample ("the NOISE", do LE SSERAFIM, com o 夜に駆ける do YOASOBI) |
+
+**Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
+
+- P155. No compartilhar, a ajuda é um 💡 no ponto em que foi pedida: `⬛⬛⬛💡✅`.
+- P156. As opções saem de uma semente da rodada (`helpSeed`, com a semente da sessão no Treino e no modo por artista, para a resposta não cair sempre na mesma posição): a mesma rodada, com as mesmas tentativas, dá as mesmas opções, e recarregar mostra as mesmas (estão no evento salvo). As outras músicas são sorteadas entre todas do catálogo (ou do artista), nunca outra versão da resposta, outra de mesmo título, uma já tentada, uma resposta dos diários de hoje ou uma homônima dela.
+- P157. Com a ajuda na tela, some o "Pular" (as opções já estão dadas) e fica o "Desistir"; as opções vêm sem capa, que entregaria o álbum.
 
 ## 3. Fonte de dados (ligada no M11)
 
@@ -502,6 +512,11 @@ Dois modos (P100): o **Normal** acerta o álbum ou single entre 4 opções; o **
   - **Toque duplo:** o Preact redesenha antes do 2º clique, que cai no botão da tela seguinte. Por isso os cartões ignoram o 2º clique de um toque duplo no "Reiniciar" ou no "Sim" (`event.detail > 1`), e o "Reiniciar" e o "Tocar" ignoram o de um toque duplo num cartão. O "Tocar" ignora também o próprio 2º clique, que pararia o som.
   - **Limitação aceita:** a data do jogo é fixada ao abrir a página; quem a deixa aberta depois da meia-noite continua com a exclusão do dia anterior até recarregar (o mesmo vale para os diários, Apêndice F).
 - **Modo por artista** (M13, `ui/Artists.tsx`, Apêndice K): o Treino do Desafio sobre o arquivo de um artista, com as mesmas regras (P125). A busca é só pelo título, e a exclusão dos diários de hoje passa pelo título e pelo álbum (P141).
+- **Ajuda do Desafio** (P149 a P152, P155 a P157; `core/help.ts`, o evento `HELP` do reducer):
+  - O botão "Pedir ajuda (4 opções, vale 1 ponto)" aparece depois de `HELP_AFTER` tentativas gastas: 1 no Treino e no modo por artista, 3 nos diários. Ele troca o campo por até 4 músicas, a certa entre elas, com o foco na 1ª.
+  - O evento traz as opções prontas: o reducer não sorteia nem lê o catálogo, e o evento salvo refaz a rodada igual. Ele confere a forma (de 2 a 4 ids distintos, nenhum já tentado, ao menos um aceito), uma vez por rodada e depois de uma tentativa.
+  - Com a ajuda, o palpite sai das opções, errar encerra (P151), pular não vale, e acertar vale `HELP_POINTS` (1) em qualquer etapa (P152).
+  - As opções: a resposta e até 3 outras músicas, cada uma pela faixa que a busca sugere (`songRepresentative`: a resposta não se destaca por um "(TV Size)"); nunca outra versão da resposta, outra música de mesmo título, uma já tentada ou uma resposta dos diários de hoje (no Treino e no modo por artista, a mesma exclusão do sorteio; no diário, as respostas dos dois modos do dia, `dayAnswerKeys`).
 
 **Distratores** (`similarity.py`, implementado no M3):
 
@@ -581,23 +596,24 @@ Dois modos (P100): o **Normal** acerta o álbum ou single entre 4 opções; o **
 Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `core/share.ts`).
 
 - **Chave:** `musicle-jp:save`. O prefixo é obrigatório porque todos os sites de projeto em `<usuario>.github.io` compartilham o mesmo localStorage.
-- **Conteúdo (`Save`, v3 desde a P100):** `{ schemaVersion: 3, history, inProgress }`, os dois mapas por `"2026-10-08|album"` (o Normal) ou `"2026-10-08|song"` (o Desafio).
-  - `history`: o `FinishedGame` de cada dia, `{ number, rounds: [{ status, stage, attempts }] }`. Pontos e máximo saem de `status` e `stage`; nada derivado é gravado. O `isFinishedGame` confere as tentativas pelas regras do modo, que sai do id: no Normal, no máximo 1 e nunca um pulo.
+- **Conteúdo (`Save`, v4 desde a P149):** `{ schemaVersion: 4, history, inProgress }`, os dois mapas por `"2026-10-08|album"` (o Normal) ou `"2026-10-08|song"` (o Desafio).
+  - `history`: o `FinishedGame` de cada dia, `{ number, rounds: [{ status, stage, attempts, help? }] }`. Pontos e máximo saem de `status`, `stage` e `help`; nada derivado é gravado. O `help` (P149) só existe na rodada com ajuda: quantas tentativas tinham sido gastas quando ela foi pedida (depois dela vem no máximo uma, a opção). O `isFinishedGame` confere as tentativas pelas regras do modo, que sai do id: no Normal, no máximo 1, nunca um pulo nem ajuda.
   - `inProgress`: `{ events }`, só os eventos que o reducer aceitou. O cartão da home mostra "em andamento" desde o 1º evento.
   - O `settings` (a preferência do modo de resposta, M7) saiu com a P100. Um campo que o save não usa mais é ignorado sem aviso.
 - **Retomada por eventos:** `startSession` repete os eventos sobre o jogo novo do dia. Como o reducer é puro, recarregar retoma igual, inclusive rodada anulada. Se a repetição chegar ao fim, o jogo vira histórico. Se ela descartar eventos (catálogo novo no mesmo dia), a sessão sai com `stale` e a aba regrava a lista aceita com `replaceProgress`; sem isso, a regra da lista mais longa impediria gravar os próximos eventos.
+- **Ajuda salva** (P149): o evento `HELP` guarda as opções. **Limitação aceita:** se o catálogo novo do mesmo dia mudar o `songKey` da resposta, a repetição recusa o `HELP` (a resposta não está mais entre os aceitos), e a escolha seguinte volta como palpite comum; é o mesmo risco que os palpites já têm (`stale`).
 - **Virada do dia:** ao abrir, o `inProgress` de outros dias é descartado. Quem começou o dia D com a aba aberta termina o dia D, mas recarregar depois da meia-noite perde esse andamento.
 - **Tolerância a falha:**
   - `openStore` testa o armazenamento só com uma **leitura**; se ela lançar ou o armazenamento não existir, o jogo segue em memória, com aviso. A sonda não grava: com a cota cheia, o save que já existe ainda é lido (dia terminado continua terminado).
   - JSON ilegível ou fora da forma: o texto original vai para `musicle-jp:corrupt` (só se a chave estiver vazia) e o jogo recomeça. Entrada inválida dentro de um save bom é descartada sozinha; mapa ausente vira vazio sem levar o histórico junto.
   - Versão maior que a suportada: não é sobrescrita; o jogo segue sem salvar, com aviso.
   - Falha ao gravar: `updateSave` devolve o motivo (`full`, `future` ou `unavailable`), e a tela mostra o aviso certo uma vez, visível e na região `aria-live`.
-  - Migrações em `storage/migrations.ts`, uma função por versão, cada uma com o teste de um save real da versão anterior. **v1 → v2** (M11, P68): o jogo trocou a parada fictícia pela real, e as chaves são por data, então o dia fictício e o real do mesmo dia se misturariam. A migração zera o histórico e o andamento e mantém só a preferência do modo. Uma aba antiga, ainda com o código v1, lê o v2 como "future" e para de gravar. **v2 → v3** (P100): saiu o modo de resposta, e a migração zera tudo, a preferência junto (eram só jogos de teste).
+  - Migrações em `storage/migrations.ts`, uma função por versão, cada uma com o teste de um save real da versão anterior. **v1 → v2** (M11, P68): o jogo trocou a parada fictícia pela real, e as chaves são por data, então o dia fictício e o real do mesmo dia se misturariam. A migração zera o histórico e o andamento e mantém só a preferência do modo. Uma aba antiga, ainda com o código v1, lê o v2 como "future" e para de gravar. **v2 → v3** (P100): saiu o modo de resposta, e a migração zera tudo, a preferência junto (eram só jogos de teste). **v3 → v4** (P149): a ajuda, com o evento `HELP` no andamento e o `help` da rodada. Nada muda no que existe; a versão sobe para que uma aba com o código v3 (que recusaria o `HELP` e jogaria fora o andamento) leia o v4 como "future" e pare de gravar.
 - **Duas abas:** `updateSave` relê, mescla e grava. No histórico, o primeiro término vence; no andamento do mesmo jogo, vence a lista de eventos mais longa. O resumo relê o save, então mostra o resultado que ficou gravado. **Limitação aceita:** com duas abas dá para refazer uma rodada (uma erra e vê a resposta, a outra acerta); o jogo é pessoal e não há ranking.
 - **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`), que a home também lê para os cartões, e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura e a guarda na montagem (o `latest` muda a cada gravação, e recalcular a sessão com ele pularia a revelação da última rodada), então voltar ao Desafio terminado mostra o resultado (P39). O Treino não grava nada (P50).
 - **Save da sessão** (`sessionStore`, M8): grava no navegador quando dá; o que não consegue gravar (cota cheia) fica em memória, e sem gravação nenhuma (versão futura ao abrir, sem acesso) tudo fica em memória. Assim trocar de aba não perde o andamento nem nesses casos. O que foi gravado não fica em memória, para a mescla das duas abas continuar vendo o que a outra gravou. **Limitação aceita** (revisão de 12/10, ME48): se outra aba, com uma versão mais nova do jogo, grava no meio da sessão, o `updateSave` para de gravar (nunca sobrescreve a versão maior) e o aviso pede para recarregar; trocar de aba antes disso relê o save mais novo, que este código não lê, e o andamento da sessão se perde.
 - **Estatísticas:** função pura sobre o histórico, por modo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Dia que faltou** (Action ou merge parados por mais de 21 dias): desde a P44, no M10, ele vira buraco e não quebra a sequência. Risco residual: dias gerados durante uma parada e publicados só no merge entram na agenda sem que ninguém os tenha podido jogar.
-- **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no Normal, um ⬛ por "ouvir mais" e depois ✅ ou ❌; no Desafio, uma marca por tentativa. Exemplo:
+- **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no Normal, um ⬛ por "ouvir mais" e depois ✅ ou ❌; no Desafio, uma marca por tentativa, e o 💡 da ajuda no ponto em que foi pedida (P155). Exemplo:
   ```
   AteMusic · Normal nº 1
   11/18
