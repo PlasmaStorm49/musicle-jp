@@ -5,7 +5,6 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
 } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
@@ -193,8 +192,7 @@ function PracticeRun({
         <h1>{t("practice.header", { mode: modeName(session.practice.target) })}</h1>
         {game && <p>{t("practice.round", { number: session.number })}</p>}
         <p class="practice-score">{practiceScoreText(score)}</p>
-        {/* key: a rodada nova fecha a pergunta, que era sobre o placar de antes. */}
-        <Restart key={session.number} score={score} onRestart={restart} />
+        <Restart score={score} onRestart={restart} />
       </header>
       {game ? (
         <RoundView
@@ -218,8 +216,13 @@ function PracticeRun({
 
 /**
  * "Reiniciar o Treino": volta à escolha do modo. Com rodada jogada (a mesma conta do placar),
- * pergunta antes, porque o placar se perde (P105). O aviso leva o foco; "Cancelar" e o Esc o
- * devolvem ao botão, que nunca fica desabilitado (o navegador tiraria o foco dele).
+ * pergunta antes, num pop-up modal (P105, ME56): o <dialog> com showModal() deixa o resto da tela
+ * inerte. O foco vai ao "Cancelar", a escolha que não perde nada; ao fechar, volta ao botão, que
+ * nunca fica desabilitado (o navegador tiraria o foco dele).
+ *
+ * Sem estado: o <dialog> fica sempre na página (fechado, ele some) e quem diz se está aberto é
+ * ele. Um estado "perguntando" dependeria do evento close para voltar a false, e no painel do
+ * Claude ele não chega: o pop-up fechava, e o "Reiniciar" não o abria de novo.
  */
 function Restart({
   score,
@@ -228,14 +231,11 @@ function Restart({
   readonly score: PracticeScore;
   readonly onRestart: () => void;
 }) {
-  const [asking, setAsking] = useState(false);
   const button = useRef<HTMLButtonElement>(null);
-  const warning = useRef<HTMLParagraphElement>(null);
-  useEffect(() => {
-    if (asking) warning.current?.focus();
-  }, [asking]);
-  const cancel = () => {
-    setAsking(false);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const cancel = useRef<HTMLButtonElement>(null);
+  const close = () => {
+    dialog.current?.close();
     button.current?.focus();
   };
   return (
@@ -243,40 +243,45 @@ function Restart({
       <button
         ref={button}
         type="button"
-        class="link"
         // O 2º clique de um toque duplo num cartão de modo cai aqui (a tela já mudou).
         onClick={singleClick(() => {
           if (score.rounds === 0) {
             onRestart();
-          } else if (asking) {
-            warning.current?.focus(); // já aberto: o efeito não roda de novo
-          } else {
-            setAsking(true);
+            return;
           }
+          if (!dialog.current?.open) dialog.current?.showModal();
+          cancel.current?.focus();
         })}
       >
         {t("practice.restart")}
       </button>
-      {asking && (
-        // Um grupo (fieldset) da pergunta e dos botões; o Esc vale em todo ele. Sem rótulo:
-        // o aviso já é lido ao receber o foco, e o rótulo o faria ser lido duas vezes.
-        <fieldset
-          class="practice-restart"
-          onKeyDown={(event) => {
-            if (event.key === "Escape") cancel();
-          }}
-        >
-          <p ref={warning} tabIndex={-1}>
-            {t("practice.restartWarning", { score: practiceScoreText(score) })}
-          </p>
-          <button type="button" class="primary" onClick={onRestart}>
+      {/* O nome do pop-up é o próprio aviso, lido quando o foco entra nele. */}
+      <dialog
+        ref={dialog}
+        class="practice-restart"
+        aria-labelledby="practice-restart-warning"
+        // O Esc fecha aqui, e não pelo navegador: o foco volta ao botão em todo navegador.
+        onKeyDown={(event) => {
+          if (event.key !== "Escape") return;
+          event.preventDefault();
+          close();
+        }}
+        // Outro jeito de fechar (o "voltar" do Android): o foco também volta ao botão.
+        onClose={() => button.current?.focus()}
+      >
+        <p id="practice-restart-warning">
+          {t("practice.restartWarning", { score: practiceScoreText(score) })}
+        </p>
+        <div class="practice-restart-actions">
+          <button type="button" class="primary" onClick={singleClick(onRestart)}>
             {t("practice.restartConfirm")}
           </button>
-          <button type="button" onClick={cancel}>
+          {/* Fecha o pop-up: o 2º clique cairia no que está embaixo (regra 23). */}
+          <button ref={cancel} type="button" onClick={singleClick(close)}>
             {t("practice.restartCancel")}
           </button>
-        </fieldset>
-      )}
+        </div>
+      </dialog>
     </>
   );
 }

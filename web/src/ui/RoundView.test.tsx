@@ -84,6 +84,10 @@ function game(target: Target, change?: Partial<RoundState>): GameState {
   return { puzzleId: "teste", target, rounds: [{ ...round, ...change }], current: 0 };
 }
 
+/** `b` vem depois de `a` na página. */
+const follows = (a: Node, b: Node) =>
+  (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+
 function setup(
   state: GameState,
   resolver: PreviewResolver = catalogResolver(index, (url) => `/${url}`),
@@ -183,21 +187,51 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(props.dispatch).not.toHaveBeenCalled();
   });
 
-  it("parada real: o selo junto do player leva à playlist, nunca à música da rodada (P69)", () => {
+  it("parada real: o selo no fim da rodada leva à playlist, nunca à música (P69, P112)", () => {
     const resolver = catalogResolver(appleIndex, (url) => `/${url}`);
     setup(game("album"), resolver, appleIndex);
     const badge = screen.getByRole("link", { name: /Ouça no Apple Music/ });
+    // No fim da página (ME58): depois do "Não sei", e nada depois dele.
+    expect(follows(screen.getByRole("button", { name: "Não sei" }), badge)).toBe(true);
+    expect(badge.closest(".attribution")?.nextElementSibling).toBeNull();
     expect(badge.getAttribute("href")).toBe(PLAYLIST_URL);
     expect(badge.getAttribute("rel")).toBe("noopener noreferrer");
     expect(document.querySelector(`a[href="${STORE}"]`)).toBeNull(); // não entrega a resposta
     expect(screen.getByText(/provided courtesy of iTunes/)).toBeTruthy();
   });
 
-  it("parada real: na revelação, o selo leva à música", () => {
+  it("parada real: na revelação, o selo no fim leva à música", () => {
     const resolver = catalogResolver(appleIndex, (url) => `/${url}`);
     setup(game("album", { status: "won" }), resolver, appleIndex);
     const badge = screen.getByRole("link", { name: /Ouça no Apple Music/ });
+    expect(follows(screen.getByRole("button", { name: "Próxima rodada" }), badge)).toBe(true);
+    expect(badge.closest(".attribution")?.nextElementSibling).toBeNull();
     expect(badge.getAttribute("href")).toBe(STORE);
+  });
+
+  it("parada real, Desafio: o selo vem depois do Desistir", () => {
+    const resolver = catalogResolver(appleIndex, (url) => `/${url}`);
+    setup(game("song"), resolver, appleIndex);
+    const badge = screen.getByRole("link", { name: /Ouça no Apple Music/ });
+    expect(follows(screen.getByRole("button", { name: "Desistir" }), badge)).toBe(true);
+  });
+
+  it("o selo ignora o 2º clique de um toque duplo: no fim, fica onde estava o Próxima rodada", () => {
+    const resolver = catalogResolver(appleIndex, (url) => `/${url}`);
+    setup(game("album"), resolver, appleIndex);
+    const badge = screen.getByRole("link", { name: /Ouça no Apple Music/ });
+    // Na bolha, depois do selo: anota se ele barrou o clique e barra todos (o happy-dom abriria
+    // a aba de verdade).
+    const prevented: boolean[] = [];
+    const watch = (event: Event) => {
+      prevented.push(event.defaultPrevented);
+      event.preventDefault();
+    };
+    document.addEventListener("click", watch);
+    fireEvent.click(badge, { detail: 2 });
+    fireEvent.click(badge, { detail: 1 });
+    document.removeEventListener("click", watch);
+    expect(prevented).toEqual([true, false]);
   });
 
   it("parada fictícia: sem selo da Apple", () => {

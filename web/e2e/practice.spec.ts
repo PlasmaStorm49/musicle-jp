@@ -16,18 +16,31 @@ test("Treino: escolhe o modo, joga e segue nele; reiniciar pede confirmação (P
   test.info().annotations.push({ type: "faixa sorteada", description: played.id });
   await option(page, albumOf(played).title).click();
   await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
-  await expect(page.getByText("6 pontos em 1 rodada")).toBeVisible();
+  await expect(page.getByText("6 pontos em 1 rodada", { exact: true })).toBeVisible();
 
   // A próxima rodada continua no Normal.
   await page.getByRole("button", { name: "Próxima rodada" }).click();
   await expect(page.getByText("Rodada 2")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Qual é o álbum?" })).toBeVisible();
 
-  // Com rodada jogada, reiniciar pergunta antes; Cancelar mantém a sessão.
+  // Com rodada jogada, reiniciar pergunta antes, num pop-up modal (ME56); Cancelar e Esc mantêm
+  // a sessão e devolvem o foco ao botão.
   const restart = page.getByRole("button", { name: "Reiniciar o Treino" });
+  const dialog = page.getByRole("dialog", {
+    name: /O placar desta sessão \(6 pontos em 1 rodada\)/,
+  });
+  const cancel = page.getByRole("button", { name: "Cancelar" });
   await restart.click();
-  await expect(page.getByText(/O placar desta sessão \(6 pontos em 1 rodada\)/)).toBeFocused();
-  await page.getByRole("button", { name: "Cancelar" }).click();
+  await expect(dialog).toBeVisible();
+  await expect(page.locator("dialog:modal")).toHaveCount(1); // showModal: o fundo fica inerte
+  await expect(cancel).toBeFocused();
+  await cancel.click();
+  await expect(dialog).toBeHidden();
+  await expect(restart).toBeFocused();
+  await restart.click();
+  await expect(cancel).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
   await expect(restart).toBeFocused();
   await expect(page.getByText("Rodada 2")).toBeVisible();
 
@@ -39,7 +52,7 @@ test("Treino: escolhe o modo, joga e segue nele; reiniciar pede confirmação (P
   await page.getByRole("button", { name: "Desafio" }).click();
   await expect(title).toHaveText("Treino · Desafio");
   await expect(page.getByRole("combobox", { name: "Qual é a música?" })).toBeVisible();
-  await expect(page.getByText("0 pontos em 0 rodadas")).toBeVisible();
+  await expect(page.getByText("0 pontos em 0 rodadas", { exact: true })).toBeVisible();
 
   // Sem rodada jogada, reinicia direto.
   await restart.click();
@@ -56,7 +69,7 @@ test("toque duplo num cartão, no celular: começa a sessão sem tocar, jogar ne
     await page.getByRole("button", { name: mode }).dblclick();
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(`Treino · ${mode}`);
     await expect(page.getByText("Rodada 1")).toBeVisible();
-    await expect(page.getByText("0 pontos em 0 rodadas")).toBeVisible();
+    await expect(page.getByText("0 pontos em 0 rodadas", { exact: true })).toBeVisible();
     expect(await page.evaluate(() => window.__musicleAudioLog?.length ?? 0)).toBe(0);
     // Nada jogado: reinicia direto, sem aviso.
     await page.getByRole("button", { name: "Reiniciar o Treino" }).click();
@@ -82,7 +95,7 @@ test("o Treino continua ao trocar de aba, a home mostra o modo, e recarregar vol
   await page.getByRole("link", { name: "Treino" }).first().click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treino · Normal");
   await expect(page.getByText("Rodada 2")).toBeVisible();
-  await expect(page.getByText("0 pontos em 1 rodada")).toBeVisible();
+  await expect(page.getByText("0 pontos em 1 rodada", { exact: true })).toBeVisible();
 
   // O Treino não salva nada (P50): recarregar começa da escolha.
   await page.reload();

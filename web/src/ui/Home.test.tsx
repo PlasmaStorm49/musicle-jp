@@ -59,6 +59,11 @@ describe("Home", () => {
     expect(screen.queryAllByRole("button")).toHaveLength(0);
   });
 
+  it("a dica do Normal explica o custo do Ouvir mais, que saiu do botão (ME59)", () => {
+    setup();
+    expect(card(/^Normal/).textContent).toContain("Cada trecho a mais vale 1 ponto a menos.");
+  });
+
   it("dia novo: o número do diário", () => {
     setup();
     expect(card(/^Normal/).textContent).toContain("nº 7 · novo");

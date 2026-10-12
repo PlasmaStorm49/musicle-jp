@@ -11,6 +11,8 @@ import { catalogResolver } from "../data/previews.ts";
 import { Practice } from "./Practice.tsx";
 
 afterEach(cleanup);
+// Os testes do pop-up trocam métodos do HTMLDialogElement: voltam mesmo quando um falha.
+afterEach(() => vi.restoreAllMocks());
 
 // Catálogo mínimo no próprio arquivo (web/CLAUDE.md, regra 14): 4 faixas, cada uma num álbum.
 const track = (n: number): Track => ({
@@ -331,40 +333,67 @@ describe("Practice: reiniciar (P105)", () => {
     expect(current()).toBeNull();
   });
 
-  it("com rodada jogada: pergunta antes; Cancelar e Esc devolvem o foco e mantêm a sessão", () => {
+  it("com rodada jogada: pergunta num pop-up modal (ME56); Cancelar e Esc devolvem o foco", () => {
+    const showModal = vi.spyOn(HTMLDialogElement.prototype, "showModal");
     const { current, correctTitle } = setup();
     fireEvent.click(screen.getByRole("button", { name: correctTitle() })); // revelação na tela
+    expect(screen.queryByRole("dialog")).toBeNull(); // fechado, ele some
     restart();
-    const warning = screen.getByText(/O placar desta sessão \(6 pontos em 1 rodada\) será perdido/);
-    expect(document.activeElement).toBe(warning);
+    // O nome do pop-up é o aviso; modal (showModal, e não show): o resto da tela fica inerte.
+    const dialog = screen.getByRole("dialog", {
+      name: /O placar desta sessão \(6 pontos em 1 rodada\)/,
+    }) as HTMLDialogElement;
+    expect(showModal).toHaveBeenCalledOnce();
+    // O foco vai à escolha que não perde nada.
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Cancelar" }));
 
     fireEvent.click(screen.getByRole("button", { name: "Cancelar" }));
-    expect(screen.queryByText(/será perdido/)).toBeNull();
+    expect(dialog.open).toBe(false);
     expect(document.activeElement).toBe(screen.getByRole("button", { name: "Reiniciar o Treino" }));
     expect(current()).not.toBeNull();
 
+    // O Esc: o pop-up fecha por aqui, e não pelo navegador.
     restart();
-    fireEvent.keyDown(screen.getByText(/será perdido/), { key: "Escape" });
-    expect(screen.queryByText(/será perdido/)).toBeNull();
+    expect(dialog.open).toBe(true);
+    const esc = fireEvent.keyDown(screen.getByRole("button", { name: "Cancelar" }), {
+      key: "Escape",
+    });
+    expect(esc).toBe(false); // preventDefault: o navegador não fecha de novo
+    expect(dialog.open).toBe(false);
     expect(document.activeElement).toBe(screen.getByRole("button", { name: "Reiniciar o Treino" }));
-    // O Esc vale em todo o grupo, também com o foco num dos botões.
+
+    // Outro jeito de fechar (o "voltar" do Android): o foco também volta.
     restart();
-    fireEvent.keyDown(screen.getByRole("button", { name: "Cancelar" }), { key: "Escape" });
-    expect(screen.queryByText(/será perdido/)).toBeNull();
+    screen.getByRole("button", { name: "Sim, reiniciar" }).focus();
+    act(() => dialog.close());
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Reiniciar o Treino" }));
     expect(score()).toBe("6 pontos em 1 rodada");
   });
 
-  it("aviso aberto: o 2º clique no Reiniciar devolve o foco a ele; a rodada nova o fecha", () => {
+  it("reabre mesmo quando o close não chega como evento (no painel do Claude não chegava)", () => {
+    // Sem estado: quem diz se está aberto é o <dialog>. Um "perguntando" ficaria preso em true.
+    vi.spyOn(HTMLDialogElement.prototype, "close").mockImplementation(function (
+      this: HTMLDialogElement,
+    ) {
+      this.removeAttribute("open");
+    });
     const { correctTitle } = setup();
     fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
     restart();
-    const warning = screen.getByText(/será perdido/);
-    screen.getByRole("button", { name: "Reiniciar o Treino" }).focus();
+    fireEvent.click(screen.getByRole("button", { name: "Cancelar" }));
+    expect(screen.queryByRole("dialog")).toBeNull();
     restart();
-    expect(document.activeElement).toBe(warning);
-    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
-    expect(screen.getByText("Rodada 2")).toBeTruthy();
-    expect(screen.queryByText(/será perdido/)).toBeNull();
+    expect(screen.getByRole("dialog")).toBeTruthy();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Cancelar" }));
+  });
+
+  it("no pop-up, o 2º clique de um toque duplo não confirma o reinício", () => {
+    const { current, correctTitle } = setup();
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    restart();
+    fireEvent.click(screen.getByRole("button", { name: "Sim, reiniciar" }), { detail: 2 });
+    expect(current()).not.toBeNull();
+    expect(screen.getByRole("dialog")).toBeTruthy();
   });
 
   it("confirmar: volta à escolha, com o foco no título, e o som para", () => {

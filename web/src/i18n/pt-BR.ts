@@ -26,7 +26,7 @@ export const ptBR = {
 
   "home.modesTitle": "Escolha o jogo",
   "home.albumHint":
-    "Ouça o trecho e escolha o álbum ou single entre 4 opções. {rounds} rodadas por dia.",
+    "Ouça o trecho e escolha o álbum ou single entre 4 opções. Cada trecho a mais vale 1 ponto a menos. {rounds} rodadas por dia.",
   "home.songHint":
     "Ouça o trecho e digite o nome exato da música, em até {total} tentativas. {rounds} rodadas por dia.",
   "home.practiceHint": "Rodadas sem fim do Normal ou do Desafio, um modo por vez.",
@@ -51,11 +51,13 @@ export const ptBR = {
   "player.play": "Tocar {seconds} s",
   "player.stop": "Parar",
   "player.loading": "Carregando…",
-  "player.listenMore": "Ouvir mais (+{seconds} s, −1 ponto)",
+  "player.listenMore": "Ouvir mais (+{seconds} s)",
   "player.explicit": "Conteúdo explícito",
   "player.bar": "{unlocked} de {total} segundos liberados",
 
   "options.giveUp": "Não sei",
+
+  "item.artistSeparator": "·",
 
   "reveal.won": "Acertou! {points} de {max} pontos.",
   "reveal.lost": "Não foi dessa vez.",

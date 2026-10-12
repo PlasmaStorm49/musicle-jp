@@ -34,7 +34,7 @@ export function Options({ index, round, resolveUrl, onPick, onGiveUp }: Props) {
           );
         })}
       </ul>
-      <button type="button" class="link" onClick={singleClick(onGiveUp)}>
+      <button type="button" class="give-up" onClick={singleClick(onGiveUp)}>
         {t("options.giveUp")}
       </button>
     </section>
