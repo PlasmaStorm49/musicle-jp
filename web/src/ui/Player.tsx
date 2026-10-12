@@ -165,7 +165,12 @@ export function Player({
             type="button"
             class="primary"
             disabled={busy}
-            onClick={() => play(stage)}
+            onClick={(event) => {
+              // Toque duplo: o 2º clique pararia o som (o botão vira Parar no mesmo lugar). Também
+              // é o 2º clique de um toque duplo no cartão de modo do Treino, que cai aqui.
+              if (event.detail > 1) return;
+              play(stage);
+            }}
           >
             {busy ? t("player.loading") : t("player.play", { seconds: secondsAt(stage) })}
           </button>
