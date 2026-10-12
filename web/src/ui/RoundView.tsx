@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useRef } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useRef } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
+import { helpOptions, helpSeed } from "../core/help.ts";
+import { seeded } from "../core/prng.ts";
 import {
   currentRound,
   type GameEvent,
@@ -9,18 +11,25 @@ import {
   type RoundState,
   reduce,
 } from "../core/reducer.ts";
-import { canSkip, MODE_RULES } from "../core/rules.ts";
+import { canSkip, HELP_POINTS, MODE_RULES } from "../core/rules.ts";
 import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
-import { t } from "../i18n/t.ts";
+import { t, tn } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { GuessInput, type SearchScope } from "./GuessInput.tsx";
 import { useResolvedUrl, useSuggest } from "./hooks.ts";
+import { ItemLabel } from "./ItemLabel.tsx";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
 import { Reveal } from "./Reveal.tsx";
 import { singleClick } from "./singleClick.ts";
+
+/**
+ * A ajuda do Desafio (P149): depois de quantas tentativas gastas o botão aparece (HELP_AFTER) e
+ * as músicas que ela nunca mostra (as respostas dos diários de hoje). Sem ela, não há botão.
+ */
+export type HelpSetup = { readonly after: number; readonly avoid: ReadonlySet<string> };
 
 type Props = {
   readonly game: GameState;
@@ -39,6 +48,7 @@ type Props = {
   readonly nextLabel: string;
   readonly onNext: () => void;
   readonly scope?: SearchScope;
+  readonly help?: HelpSetup;
 };
 
 /**
@@ -57,6 +67,7 @@ export function RoundView({
   nextLabel,
   onNext,
   scope = "song",
+  help,
 }: Props) {
   const round = currentRound(game);
   const rules = MODE_RULES[game.target];
@@ -83,6 +94,24 @@ export function RoundView({
       live = false;
     };
   }, [resolver, round.trackId, playing, voidForAudio]);
+
+  // As opções da ajuda, já sorteadas (a mesma rodada dá as mesmas): o botão só aparece com 2 ou
+  // mais, porque com uma só não há o que escolher.
+  const canHelp =
+    !!help && rules.help && round.help === null && round.attempts.length >= help.after;
+  const helpChoices = useMemo(
+    () =>
+      canHelp && help
+        ? helpOptions(index, round, help.avoid, seeded(helpSeed(game.puzzleId, game.current)))
+        : [],
+    [canHelp, help, index, round, game.puzzleId, game.current],
+  );
+
+  function askHelp() {
+    if (helpChoices.length < 2) return;
+    dispatch({ type: "HELP", options: helpChoices });
+    announce(t("help.announce", { count: helpChoices.length }));
+  }
 
   function giveUp() {
     engine.stop();
@@ -115,7 +144,7 @@ export function RoundView({
             stage={round.stage}
             explicit={track.explicit}
             rules={rules}
-            skippable={canSkip(rules, round.attempts.length)}
+            skippable={canSkip(rules, round.attempts.length) && round.help === null}
             onListenMore={() => dispatch({ type: "LISTEN_MORE" })}
             onSkip={() => {
               dispatch({ type: "SKIP" });
@@ -137,6 +166,8 @@ export function RoundView({
               round={round}
               attempt={attemptLabel(round.attempts.length)}
               scope={scope}
+              helpCount={helpChoices.length >= 2 ? helpChoices.length : 0}
+              onHelp={askHelp}
               onPick={guess}
               onGiveUp={giveUp}
             />
@@ -178,6 +209,8 @@ function Typing({
   round,
   attempt,
   scope,
+  helpCount,
+  onHelp,
   onPick,
   onGiveUp,
 }: {
@@ -185,6 +218,9 @@ function Typing({
   readonly round: RoundState;
   readonly attempt: { readonly current: number; readonly total: number };
   readonly scope: SearchScope;
+  /** Quantas opções a ajuda daria agora; 0 = sem o botão. */
+  readonly helpCount: number;
+  readonly onHelp: () => void;
   readonly onPick: (id: string) => void;
   readonly onGiveUp: () => void;
 }) {
@@ -192,13 +228,69 @@ function Typing({
   return (
     <section class="typing" aria-labelledby="question">
       <h2 id="question">{t("question.song")}</h2>
-      <p class="hint">{t("typing.attempt", attempt)}</p>
-      <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" scope={scope} />
+      {round.help ? (
+        <>
+          <p class="hint">{t("help.hint", { points: tn("count.points", HELP_POINTS) })}</p>
+          <HelpOptions index={index} options={round.help} onPick={onPick} />
+        </>
+      ) : (
+        <>
+          <p class="hint">{t("typing.attempt", attempt)}</p>
+          <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" scope={scope} />
+        </>
+      )}
       <Attempts index={index} round={round} />
+      {helpCount > 0 && (
+        <button type="button" class="help" onClick={singleClick(onHelp)}>
+          {t("help.button", {
+            count: helpCount,
+            points: tn("count.points", HELP_POINTS),
+          })}
+        </button>
+      )}
       <button type="button" class="give-up" onClick={singleClick(onGiveUp)}>
         {t("typing.giveUp")}
       </button>
     </section>
+  );
+}
+
+/**
+ * As opções da ajuda (P149), no lugar do campo: músicas, sem capa (a capa entregaria o álbum).
+ * O botão da ajuda sumiu com o foco: ele vai para a 1ª opção (regra 16).
+ */
+function HelpOptions({
+  index,
+  options,
+  onPick,
+}: {
+  readonly index: CatalogIndex;
+  readonly options: readonly string[];
+  readonly onPick: (id: string) => void;
+}) {
+  const first = useRef<HTMLButtonElement>(null);
+  useEffect(() => first.current?.focus(), []);
+  return (
+    <ul class="options help-options" aria-label={t("help.listLabel")}>
+      {options.map((id, i) => {
+        const item = optionView(index, id, "song");
+        return (
+          item && (
+            <li key={id}>
+              <button
+                ref={i === 0 ? first : undefined}
+                type="button"
+                class="option"
+                // O 2º clique do toque duplo no "Pedir ajuda" pode cair aqui (regra 23).
+                onClick={singleClick(() => onPick(id))}
+              >
+                <ItemLabel item={item} />
+              </button>
+            </li>
+          )
+        );
+      })}
+    </ul>
   );
 }
 

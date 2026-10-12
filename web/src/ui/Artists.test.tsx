@@ -334,6 +334,63 @@ describe("Artists: a sessão (P125)", () => {
   });
 });
 
+describe("Artists: a ajuda (P149 a P152)", () => {
+  const helpButton = () => screen.queryByRole("button", { name: /^Pedir ajuda/ });
+  const options = () =>
+    screen.getByRole("list", { name: "Opções da ajuda" }).querySelectorAll("button");
+
+  it("aparece depois da 1ª tentativa gasta e troca o campo pelas opções, com o foco na 1ª", async () => {
+    setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await choose(/^夜風/);
+    expect(helpButton()).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    const help = helpButton();
+    expect(help?.textContent).toBe("Pedir ajuda (3 opções, vale 1 ponto)");
+    if (!help) throw new Error("sem o botão da ajuda");
+    fireEvent.click(help);
+    expect(screen.queryByRole("combobox")).toBeNull();
+    expect(screen.queryByRole("button", { name: /^Pular/ })).toBeNull();
+    expect(helpButton()).toBeNull();
+    expect(options()).toHaveLength(3);
+    expect(document.activeElement).toBe(options()[0]);
+    expect(screen.getByText(/^Escolha entre as opções: errar encerra a rodada/)).toBeTruthy();
+  });
+
+  it("acertar com a ajuda vale 1 ponto; errar encerra a rodada com 0", async () => {
+    const { playing } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await choose(/^夜風/);
+    fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    fireEvent.click(helpButton() as HTMLElement);
+    const answer = `Música ${playing()?.split(":").at(-1)}`;
+    const right = [...options()].find((b) => b.textContent?.startsWith(answer));
+    fireEvent.click(right as HTMLElement);
+    expect(screen.getByText("Acertou! 1 de 6 pontos.")).toBeTruthy();
+    expect(score()).toBe("1 ponto em 1 rodada");
+
+    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
+    fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    fireEvent.click(helpButton() as HTMLElement);
+    const next = `Música ${playing()?.split(":").at(-1)}`;
+    const wrong = [...options()].find((b) => !b.textContent?.startsWith(next));
+    fireEvent.click(wrong as HTMLElement);
+    expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
+    expect(score()).toBe("1 ponto em 2 rodadas");
+  });
+
+  it("nunca mostra a resposta de um diário pendente", async () => {
+    setup(today);
+    await screen.findByRole("heading", { name: "Artistas" });
+    await choose(/^夜風/);
+    fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    fireEvent.click(helpButton() as HTMLElement);
+    const titles = [...options()].map((b) => b.textContent ?? "");
+    expect(titles).toHaveLength(2); // as músicas 2 e 3: a 1 é o diário de hoje
+    expect(titles.some((text) => text.startsWith("Música 1"))).toBe(false);
+  });
+});
+
 describe("Artists: trocar de artista (P127, P146)", () => {
   it("sem rodada jogada: volta direto à lista; escolher de novo não busca de novo", async () => {
     const { net, store } = setup();

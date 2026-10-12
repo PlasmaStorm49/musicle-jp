@@ -10,12 +10,13 @@ import {
   practiceScore,
 } from "../core/practice.ts";
 import { currentRound, type GameEvent, reduce } from "../core/reducer.ts";
+import { HELP_AFTER } from "../core/rules.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import type { SearchScope } from "./GuessInput.tsx";
 import { usePreviews } from "./hooks.ts";
-import { RoundView } from "./RoundView.tsx";
+import { type HelpSetup, RoundView } from "./RoundView.tsx";
 import { singleClick } from "./singleClick.ts";
 
 /**
@@ -112,6 +113,11 @@ export function PracticeRun({
   usePreviews(engine, resolver, batch, currentId, nextId);
 
   const score = practiceScore(session.score, game);
+  // A ajuda depois da 1ª tentativa (P149, P150), sem nunca mostrar uma resposta de hoje.
+  const help = useMemo<HelpSetup>(
+    () => ({ after: HELP_AFTER.practice, avoid: excluded }),
+    [excluded],
+  );
 
   return (
     <div class="game practice">
@@ -134,6 +140,7 @@ export function PracticeRun({
           nextLabel={t("reveal.next")}
           onNext={next}
           scope={scope}
+          help={help}
         />
       ) : (
         <Empty text={texts.empty} onRetry={next} />

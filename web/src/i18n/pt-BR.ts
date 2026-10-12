@@ -111,6 +111,11 @@ export const ptBR = {
   "typing.giveUp": "Desistir",
   "typing.wrong": "Errou: {title}. Tentativa {current} de {total}.",
   "typing.skipped": "Pulou. Tentativa {current} de {total}.",
+  // A ajuda do Desafio (P149 a P152): opções no lugar do campo.
+  "help.button": "Pedir ajuda ({count} opções, vale {points})",
+  "help.hint": "Escolha entre as opções: errar encerra a rodada, e acertar vale {points}.",
+  "help.listLabel": "Opções da ajuda",
+  "help.announce": "Ajuda: {count} opções. Errar encerra a rodada.",
 
   "attempts.title": "Suas tentativas",
   "attempts.wrong": "Errou:",
