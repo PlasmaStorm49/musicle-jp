@@ -679,6 +679,27 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 1 de 3");
   });
 
+  it("com a ajuda, o Pular aumenta o trecho sem contar erro, e a 3ª tentativa fica para a opção (P163)", async () => {
+    const { store } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await superfan(/^夜風/);
+    fireEvent.click(screen.getByRole("button", { name: /^Pedir ajuda/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Pular (+3 s)" }));
+    fireEvent.click(screen.getByRole("button", { name: "Pular (+5 s)" }));
+    expect(screen.getByRole("button", { name: "Tocar 9 s" })).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /^Pular/ })).toBeNull();
+    expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 1 de 3");
+    expect(score()).toBe("Placar: 0 pontos");
+    const game = run(store).session.game;
+    const answer = `Música ${game ? currentRound(game).trackId.split(":").at(-1) : ""}`;
+    const list = screen.getByRole("list", { name: "Opções da ajuda" });
+    const right = [...list.querySelectorAll("button")].find((b) =>
+      b.textContent?.startsWith(answer),
+    );
+    fireEvent.click(right as HTMLElement);
+    expect(screen.getByText("Acertou com ajuda: -1 ponto.")).toBeTruthy();
+  });
+
   it("toque duplo no cartão do Superfan: o 2º clique não toca nem pula", async () => {
     const { engine } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
