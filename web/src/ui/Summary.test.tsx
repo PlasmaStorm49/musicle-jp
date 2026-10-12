@@ -60,6 +60,32 @@ describe("Summary (o fim do dia)", () => {
 });
 
 describe("Countdown (P39: a virada à meia-noite de Brasília)", () => {
+  it("a rodada com a ajuda (P149): acertou com ajuda, 1 ponto", () => {
+    const helped: FinishedGame = {
+      number: 3,
+      rounds: [
+        { status: "won", stage: 3, attempts: ["skip", "skip", "skip", "right"], help: 3 },
+        { status: "lost", stage: 0, attempts: ["wrong"] },
+        { status: "won", stage: 0, attempts: ["right"] },
+      ],
+    };
+    render(
+      <Summary
+        game={helped}
+        target="song"
+        date={DATE}
+        history={{ [`${DATE}|song`]: helped }}
+        scheduleDates={[DATE]}
+        shareUrl="https://x.test/"
+        announce={vi.fn()}
+      />,
+    );
+    expect(screen.getByText("7 de 18 pontos")).toBeTruthy();
+    expect(screen.getAllByRole("listitem").map((li) => li.textContent)).toContain(
+      "Rodada 1: acertou com ajuda, 1 ponto",
+    );
+  });
+
   it("chega a zero: anuncia uma vez só e oferece o novo diário", () => {
     vi.useFakeTimers();
     vi.setSystemTime(TWO_SECONDS_BEFORE);

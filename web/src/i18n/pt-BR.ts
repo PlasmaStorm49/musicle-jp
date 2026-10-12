@@ -86,6 +86,7 @@ export const ptBR = {
   "summary.score": "{score} de {max} pontos",
   "summary.round": "Rodada {number}: {result}",
   "summary.won": "acertou, {points}",
+  "summary.wonHelp": "acertou com ajuda, {points}",
   "summary.lost": "não acertou",
   "summary.void": "anulada",
 
