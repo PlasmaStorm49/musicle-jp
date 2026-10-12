@@ -8,6 +8,7 @@ import { nextPracticeRound, pendingDailySongKeys, startPracticeSession } from ".
 import { emptySave } from "./records.ts";
 import { currentRound, reduce } from "./reducer.ts";
 import { buildSearchIndex, search } from "./search.ts";
+import { startSuperfan, superfanStep } from "./superfan.ts";
 import type { ArtistCatalog, Day } from "./types.ts";
 
 const chart = indexCatalog(catalog);
@@ -150,7 +151,7 @@ describe("artistSummary (cartão da home)", () => {
   const session = startPracticeSession(1, "song", index, NONE);
   const entry = artists.list.artists[0];
   if (!entry || !session.game) throw new Error("fixtures sem artista ou sem rodada");
-  const play: ArtistPlay = { artist: entry, session };
+  const play: ArtistPlay = { kind: "free", artist: entry, session };
 
   it("sem sessão ou antes da 1ª rodada terminada: nada a mostrar", () => {
     expect(artistSummary(null)).toBeNull();
@@ -163,7 +164,23 @@ describe("artistSummary (cartão da home)", () => {
     const won = reduce(game, { type: "GUESS", guessId: currentRound(game).trackId });
     expect(artistSummary({ ...play, session: { ...session, game: won } })).toEqual({
       artist: entry.name,
+      superfan: false,
       score: { points: 6, rounds: 1 },
+    });
+  });
+
+  it("no Superfan: o placar da partida, com o erro da música em jogo, que conta na hora", () => {
+    const run = startSuperfan(1, index, NONE);
+    const fresh: ArtistPlay = { kind: "superfan", artist: entry, run };
+    expect(artistSummary(fresh)).toBeNull();
+    const game = run.session.game;
+    if (!game) throw new Error("sem música");
+    const other = [...index.tracks.keys()].find((id) => id !== currentRound(game).trackId) ?? "";
+    const erred = superfanStep(run, { type: "GUESS", guessId: other });
+    expect(artistSummary({ ...fresh, run: erred })).toEqual({
+      artist: entry.name,
+      superfan: true,
+      score: { points: -5, rounds: 0 },
     });
   });
 });

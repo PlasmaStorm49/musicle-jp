@@ -4,10 +4,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { AudioEngine } from "../audio/engine.ts";
 import { indexCatalog } from "../core/catalog.ts";
 import { searchKey } from "../core/normalize.ts";
-import { startPracticeSession } from "../core/practice.ts";
 import { emptySave, type Save } from "../core/records.ts";
 import { currentRound } from "../core/reducer.ts";
 import { ROUTES } from "../core/routes.ts";
+import { superfanOffset } from "../core/superfan.ts";
 import type {
   Artist,
   ArtistAlbum,
@@ -19,7 +19,7 @@ import type {
   Track,
 } from "../core/types.ts";
 import { lookupBudget } from "../data/previews.ts";
-import type { ArtistData, FetchLike } from "../data/source.ts";
+import type { FetchLike } from "../data/source.ts";
 import { type ArtistStore, Artists, useArtistStore } from "./Artists.tsx";
 
 afterEach(cleanup);
@@ -175,6 +175,7 @@ function setup(day: Day | null = null, net = server()) {
     retain: vi.fn(),
   };
   const budget = lookupBudget({ now: () => 0 });
+  const announce = vi.fn();
   let latest: ArtistStore | null = null;
   function Harness({ show, save, day }: HarnessProps) {
     const store = useArtistStore({
@@ -195,7 +196,7 @@ function setup(day: Day | null = null, net = server()) {
         save={save}
         engine={engine}
         resolveUrl={(url) => `/${url}`}
-        announce={vi.fn()}
+        announce={announce}
       />
     );
   }
@@ -205,12 +206,17 @@ function setup(day: Day | null = null, net = server()) {
     if (!latest) throw new Error("o estado não montou");
     return latest;
   };
+  /** A sessão Livre em jogo. */
+  const session = () => {
+    const play = store().play;
+    return play?.kind === "free" ? play.session : null;
+  };
   /** A faixa da rodada em jogo. */
   const playing = () => {
-    const game = store().play?.session.game;
+    const game = session()?.game;
     return game ? currentRound(game).trackId : null;
   };
-  return { engine, net, rerender, store, playing };
+  return { engine, net, rerender, store, session, playing, announce };
 }
 
 const title = () => screen.getByRole("heading", { level: 1 });
@@ -218,10 +224,16 @@ const card = (name: RegExp) => screen.getByRole("button", { name });
 const score = () => document.querySelector(".practice-score")?.textContent;
 const field = () => screen.getByRole("combobox", { name: "Qual é a música?" });
 
-/** Escolhe o artista e espera a rodada (o arquivo dele chega numa microtarefa). */
+/** Escolhe o modo Livre na tela de escolha (P161), que vem depois do artista. */
+async function free() {
+  fireEvent.click(await screen.findByRole("button", { name: "Livre" }));
+  return screen.findByRole("combobox", { name: "Qual é a música?" });
+}
+
+/** Escolhe o artista e o Livre, e espera a rodada (o arquivo dele chega numa microtarefa). */
 async function choose(name: RegExp, init: MouseEventInit = {}) {
   fireEvent.click(card(name), init);
-  return screen.findByRole("combobox", { name: "Qual é a música?" });
+  return free();
 }
 
 describe("Artists: a lista (P147)", () => {
@@ -259,7 +271,7 @@ describe("Artists: a sessão (P125)", () => {
     fireEvent.click(card(/^夜風/));
     const loading = screen.getByText("Carregando as músicas de 夜風…");
     expect(document.activeElement).toBe(loading);
-    const input = await screen.findByRole("combobox", { name: "Qual é a música?" });
+    const input = await free();
     expect(title().textContent).toBe("夜風 · Yokaze");
     expect(screen.getByText("Rodada 1")).toBeTruthy();
     expect(score()).toBe("0 pontos em 0 rodadas");
@@ -367,7 +379,7 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     const answer = `Música ${playing()?.split(":").at(-1)}`;
     const right = [...options()].find((b) => b.textContent?.startsWith(answer));
     fireEvent.click(right as HTMLElement);
-    expect(screen.getByText("Acertou! 1 de 6 pontos.")).toBeTruthy();
+    expect(screen.getByText("Acertou com ajuda: 1 ponto.")).toBeTruthy();
     expect(score()).toBe("1 ponto em 1 rodada");
 
     fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
@@ -417,13 +429,13 @@ describe("Artists: a ajuda (P149 a P152)", () => {
   });
 
   it("toque duplo no Pedir ajuda: o 2º clique, numa opção, não vale como palpite", async () => {
-    const { store } = setup();
+    const { session } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     await choose(/^夜風/);
     fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
     fireEvent.click(helpButton() as HTMLElement, { detail: 1 });
     fireEvent.click(options()[0] as HTMLElement, { detail: 2 });
-    const game = store().play?.session.game;
+    const game = session()?.game;
     expect(game?.rounds[0]?.status).toBe("playing");
     expect(game?.rounds[0]?.attempts).toHaveLength(1);
   });
@@ -461,8 +473,8 @@ describe("Artists: trocar de artista (P127, P146)", () => {
     expect(store().play).toBeNull();
     expect(document.activeElement).toBe(title());
     const calls = net.calls.length;
-    fireEvent.click(card(/^夜風/)); // já baixado: a sessão começa na hora
-    expect(field()).toBeTruthy();
+    fireEvent.click(card(/^夜風/)); // já baixado: a escolha do modo vem na hora
+    expect(screen.getByRole("button", { name: "Livre" })).toBeTruthy();
     expect(net.calls).toHaveLength(calls);
   });
 
@@ -501,6 +513,244 @@ describe("Artists: trocar de artista (P127, P146)", () => {
   });
 });
 
+describe("Artists: a escolha do modo (P161)", () => {
+  it("depois do artista: o título com o nome e o foco, Livre e Superfan, e Voltar à lista", async () => {
+    setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    fireEvent.click(card(/^夜風/));
+    const heading = await screen.findByRole("heading", { level: 1, name: /^夜風/ });
+    await waitFor(() => expect(document.activeElement).toBe(heading));
+    expect(screen.getByRole("button", { name: "Livre" }).getAttribute("aria-describedby")).toBe(
+      "artist-mode-free-hint",
+    );
+    expect(screen.getByRole("button", { name: "Superfan" })).toBeTruthy();
+    expect(screen.getByText(/3 erros acabam a partida/)).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Voltar à lista" }));
+    expect(title().textContent).toBe("Artistas");
+  });
+});
+
+describe("Artists: o Superfan (ME61)", () => {
+  /** Escolhe o artista e o Superfan, e espera a partida. */
+  async function superfan(name: RegExp) {
+    fireEvent.click(card(name));
+    fireEvent.click(await screen.findByRole("button", { name: "Superfan" }));
+    return screen.findByRole("combobox", { name: "Qual é a música?" });
+  }
+  const run = (store: () => ArtistStore) => {
+    const play = store().play;
+    if (play?.kind !== "superfan") throw new Error("sem partida");
+    return play.run;
+  };
+  const text = (selector: string) => document.querySelector(selector)?.textContent;
+
+  it("o cabeçalho da partida, os 3 trechos e a ajuda logo de cara (P159)", async () => {
+    // Uma semente cujo começo não é o 0 do catálogo: o teste vê se o sorteado chega ao motor.
+    const first = "treino|song|0|0"; // o puzzleId da 1ª música
+    const seed = [1, 2, 3, 4, 5].find((s) => superfanOffset(s, first, 30) > 0) ?? 0;
+    vi.spyOn(crypto, "getRandomValues").mockImplementation(((array: Uint32Array) => {
+      array[0] = seed;
+      return array;
+    }) as typeof crypto.getRandomValues);
+    const { engine, store } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await superfan(/^夜風/);
+    expect(title().textContent).toBe("夜風 · Yokaze · Superfan");
+    expect(screen.getByText("Música 1")).toBeTruthy();
+    expect(score()).toBe("Placar: 0 pontos");
+    expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 0 de 3");
+    expect(screen.getByRole("button", { name: "Pular (+3 s)" })).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: /^Pedir ajuda \(3 opções, vale -1 ponto\)/ }),
+    ).toBeTruthy();
+    // O trecho começa num ponto sorteado da prévia de 30 s, até os 19 s, e os trechos seguintes
+    // da mesma música começam no mesmo ponto.
+    const game = run(store).session.game;
+    expect(game?.puzzleId).toBe(first);
+    expect(run(store).session.practice.seed).toBe(seed);
+    const expected = superfanOffset(seed, first, 30);
+    expect(expected).toBeGreaterThan(0);
+    fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }));
+    expect(vi.mocked(engine.play).mock.calls.at(-1)?.slice(1)).toEqual([expected, 1]);
+    // O Pular fica desabilitado enquanto o trecho carrega.
+    const skip = screen.getByRole("button", { name: "Pular (+3 s)" }) as HTMLButtonElement;
+    await waitFor(() => expect(skip.disabled).toBe(false));
+    fireEvent.click(skip);
+    fireEvent.click(await screen.findByRole("button", { name: "Tocar 4 s" }));
+    expect(vi.mocked(engine.play).mock.calls.at(-1)?.slice(1)).toEqual([expected, 4]);
+  });
+
+  it("o palpite errado é um erro, −5, e passa para o trecho seguinte (P158)", async () => {
+    const { store } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    const input = await superfan(/^夜風/);
+    const game = run(store).session.game;
+    const answer = game ? currentRound(game).trackId : "";
+    const other = answer === "t:tr:2" ? "Música 3" : "Música 2";
+    fireEvent.input(input, { target: { value: other } });
+    fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
+    expect(text(".superfan-limits")).toBe("Erros: 1 de 3 · Ajudas: 0 de 3");
+    expect(score()).toBe("Placar: -5 pontos");
+    expect(screen.getByRole("button", { name: "Tocar 4 s" })).toBeTruthy();
+  });
+
+  it("o 3º erro, na música seguinte, a revela na hora, e o resultado vem no lugar da próxima", async () => {
+    const { store, engine } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await superfan(/^夜風/);
+    const answer = () => {
+      const game = run(store).session.game;
+      return game ? currentRound(game).trackId : "";
+    };
+    const titleOf = (id: string) => `Música ${id.split(":").at(-1)}`;
+    const pick = (id: string) => {
+      fireEvent.input(field(), { target: { value: titleOf(id) } });
+      fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
+    };
+    const songs = ["t:tr:1", "t:tr:2", "t:tr:3"];
+    // 1ª música: os dois errados e o acerto, na 3ª etapa.
+    for (const id of songs.filter((id) => id !== answer())) pick(id);
+    pick(answer());
+    expect(screen.getByText("Acertou! 1 de 3 pontos.")).toBeTruthy();
+    expect(screen.getByText("2 erros: -10 pontos.")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Próxima música" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    // 2ª música: o 3º erro encerra a música na hora.
+    pick(songs.find((id) => id !== answer()) ?? "");
+    expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
+    expect(screen.getByText("1 erro: -5 pontos.")).toBeTruthy();
+    // A revelação diz que a partida acabou, e o motor só guarda o áudio desta música: o da
+    // seguinte, que não vai tocar, sai.
+    expect(screen.getByText("3 erros: a partida acabou. Veja o resultado.")).toBeTruthy();
+    const current = `/audio/${answer().split(":").at(-1)}.wav`;
+    await waitFor(() => expect(vi.mocked(engine.retain).mock.calls.at(-1)?.[0]).toEqual([current]));
+    fireEvent.click(screen.getByRole("button", { name: "Ver resultado" }));
+    expect(screen.getByText("3 erros: a partida acabou.")).toBeTruthy();
+    expect(score()).toBe("Placar: -14 pontos"); // 1 − 10 − 5
+    expect(screen.getByText("Acertou 1 de 2 músicas.")).toBeTruthy();
+  });
+
+  it("o palpite errado anuncia o erro da partida; o 3º, que encerra a música, não promete outra tentativa", async () => {
+    const { store, announce } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await superfan(/^夜風/);
+    const answer = () => {
+      const game = run(store).session.game;
+      return game ? currentRound(game).trackId : "";
+    };
+    const pick = (id: string) => {
+      fireEvent.input(field(), { target: { value: `Música ${id.split(":").at(-1)}` } });
+      fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
+    };
+    const songs = ["t:tr:1", "t:tr:2", "t:tr:3"];
+    const [w1, w2] = songs.filter((id) => id !== answer());
+    pick(w1 ?? "");
+    expect(announce).toHaveBeenLastCalledWith(
+      expect.stringMatching(/Tentativa 2 de 3\. Erro 1 de 3: -5 pontos\.$/),
+    );
+    pick(w2 ?? "");
+    pick(answer());
+    fireEvent.click(screen.getByRole("button", { name: "Próxima música" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    announce.mockClear();
+    pick(songs.find((id) => id !== answer()) ?? "");
+    expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
+    // A revelação se anuncia sozinha: nada de "Tentativa 2 de 3" para uma música encerrada.
+    expect(announce).not.toHaveBeenCalledWith(expect.stringMatching(/Tentativa/));
+    // E encerrar a partida agora é o fim por erros.
+    fireEvent.click(screen.getByRole("button", { name: "Encerrar a partida" }));
+    fireEvent.click(screen.getByRole("button", { name: "Sim, encerrar" }));
+    expect(screen.getByText("3 erros: a partida acabou.")).toBeTruthy();
+  });
+
+  it("a ajuda nunca mostra a resposta de um diário pendente, e a dica diz quanto custa errar", async () => {
+    // Hoje a faixa 1 é a resposta dos diários: a partida e a ajuda ficam com as faixas 2 e 3.
+    setup(today);
+    await screen.findByRole("heading", { name: "Artistas" });
+    await superfan(/^夜風/);
+    fireEvent.click(screen.getByRole("button", { name: /^Pedir ajuda \(2 opções/ }));
+    const list = screen.getByRole("list", { name: "Opções da ajuda" });
+    expect(list.textContent).not.toContain("Música 1");
+    expect(
+      screen.getByText(
+        "Escolha entre as opções: errar encerra a rodada e vale -5 pontos, e acertar vale -1 ponto.",
+      ),
+    ).toBeTruthy();
+    expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 1 de 3");
+  });
+
+  it("toque duplo no cartão do Superfan: o 2º clique não toca nem pula", async () => {
+    const { engine } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    fireEvent.click(card(/^夜風/));
+    const superfanCard = await screen.findByRole("button", { name: "Superfan" });
+    // O 2º clique de um toque duplo sozinho (o 1º caiu no cartão do artista) não começa a partida.
+    fireEvent.click(superfanCard, { detail: 2 });
+    expect(screen.getByRole("button", { name: "Superfan" })).toBe(superfanCard);
+    fireEvent.click(superfanCard, { detail: 1 });
+    // O 2º clique cai no que estiver no mesmo lugar da tela nova: aqui, no próprio Tocar.
+    fireEvent.click(await screen.findByRole("button", { name: "Tocar 1 s" }), { detail: 2 });
+    expect(engine.play).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Tocar 1 s" })).toBeTruthy();
+  });
+
+  it("o desistir da rodada diz que é só a música", async () => {
+    setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await superfan(/^夜風/);
+    expect(screen.getByRole("button", { name: "Desistir da música" })).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Desistir" })).toBeNull();
+  });
+
+  it("encerrar a partida pergunta antes, com erro cometido; o fim mostra o motivo e o placar", async () => {
+    const { store } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    const input = await superfan(/^Banda/);
+    const game = run(store).session.game;
+    const answer = game ? currentRound(game).trackId : "";
+    const other = answer === "t:tr:4" ? "Música 5" : "Música 4";
+    fireEvent.input(input, { target: { value: other } });
+    fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
+    fireEvent.click(screen.getByRole("button", { name: "Encerrar a partida" }));
+    expect(
+      screen.getByRole("dialog", { name: "Encerrar a partida? O placar fica em -5 pontos." }),
+    ).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Sim, encerrar" }));
+    const end = screen.getByRole("heading", { level: 1, name: "Fim da partida" });
+    await waitFor(() => expect(document.activeElement).toBe(end));
+    expect(screen.getByText("Você encerrou a partida.")).toBeTruthy();
+    expect(score()).toBe("Placar: -5 pontos");
+    expect(screen.getByText("Acertou 0 de 1 música.")).toBeTruthy();
+
+    fireEvent.click(screen.getByRole("button", { name: "Jogar de novo" }));
+    expect(screen.getByText("Música 1")).toBeTruthy();
+    expect(score()).toBe("Placar: 0 pontos");
+    fireEvent.click(screen.getByRole("button", { name: "Encerrar a partida" })); // nada a perder
+    fireEvent.click(screen.getByRole("button", { name: "Trocar de artista" }));
+    expect(title().textContent).toBe("Artistas");
+  });
+
+  it("acertar todas: a partida acaba, com os acertos", async () => {
+    const { store } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    let input = await superfan(/^Banda/);
+    for (let i = 0; i < 2; i++) {
+      const game = run(store).session.game;
+      const answer = game ? currentRound(game).trackId : "";
+      fireEvent.input(input, { target: { value: `Música ${answer.split(":").at(-1)}` } });
+      fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
+      expect(screen.getByText("Acertou! 3 de 3 pontos.")).toBeTruthy();
+      fireEvent.click(
+        screen.getByRole("button", { name: i === 0 ? "Próxima música" : "Ver resultado" }),
+      );
+      if (i === 0) input = await screen.findByRole("combobox", { name: "Qual é a música?" });
+    }
+    expect(screen.getByText("Todas as músicas da partida tocaram.")).toBeTruthy();
+    expect(score()).toBe("Placar: 6 pontos");
+    expect(screen.getByText("Acertou 2 de 2 músicas.")).toBeTruthy();
+  });
+});
+
 describe("Artists: falhas ao carregar (P144)", () => {
   it("a lista que falha: o aviso com o foco, e o Tentar de novo busca outra vez", async () => {
     const net = server();
@@ -530,7 +780,7 @@ describe("Artists: falhas ao carregar (P144)", () => {
     await screen.findByText(/Não foi possível carregar as músicas de Banda/);
     net.failing.clear();
     fireEvent.click(screen.getByRole("button", { name: "Tentar de novo" }));
-    expect(await screen.findByRole("combobox", { name: "Qual é a música?" })).toBeTruthy();
+    expect(await free()).toBeTruthy();
     expect(title().textContent).toBe("Banda");
   });
 
@@ -548,10 +798,10 @@ describe("Artists: falhas ao carregar (P144)", () => {
     });
     expect(store().play).toBeNull();
     expect(title().textContent).toBe("Artistas");
-    // Ficou guardado: escolher de novo começa na hora, sem buscar outra vez.
+    // Ficou guardado: escolher de novo leva à escolha do modo na hora, sem buscar outra vez.
     const calls = net.calls.length;
     fireEvent.click(card(/^夜風/));
-    expect(field()).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Livre" })).toBeTruthy();
     expect(net.calls).toHaveLength(calls);
   });
 
@@ -564,7 +814,7 @@ describe("Artists: falhas ao carregar (P144)", () => {
     ).toBeTruthy();
   });
 
-  it("a carga que termina com a aba escondida começa a sessão, que aparece ao voltar", async () => {
+  it("a carga que termina com a aba escondida leva à escolha do modo, que aparece ao voltar", async () => {
     const { net, rerender } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     const release = net.hold("2.json");
@@ -576,7 +826,7 @@ describe("Artists: falhas ao carregar (P144)", () => {
     });
     rerender({ show: true, save: emptySave(), day: null });
     expect(title().textContent).toBe("Banda");
-    expect(field()).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Livre" })).toBeTruthy();
     expect(net.calls.filter((url) => url.endsWith("/2.json"))).toHaveLength(1);
   });
 
@@ -589,19 +839,18 @@ describe("Artists: falhas ao carregar (P144)", () => {
     if (list.status !== "ready") throw new Error("a lista não carregou");
     const [yokaze, banda] = list.list.artists;
     if (!banda) throw new Error("lista sem os dois artistas");
-    const start = ({ index }: ArtistData) => startPracticeSession(1, "song", index, new Set());
     const release = net.hold("1.json");
     act(() => {
-      store().choose(yokaze, start);
-      store().choose(yokaze, start);
-      store().choose(banda, start);
+      store().choose(yokaze);
+      store().choose(yokaze);
+      store().choose(banda);
     });
-    expect(store().play).toBeNull();
+    expect(store().picked).toBeNull();
     await act(async () => {
       release();
       await new Promise((resolve) => setTimeout(resolve, 10));
     });
-    expect(store().play?.artist.id).toBe(YOKAZE.id);
+    expect(store().picked?.entry.id).toBe(YOKAZE.id);
     expect(net.calls.filter((url) => url.endsWith("/1.json"))).toHaveLength(1);
   });
 

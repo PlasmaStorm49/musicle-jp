@@ -9,7 +9,7 @@ import type { Save } from "../core/records.ts";
 import { ROUTES, type Tab } from "../core/routes.ts";
 import { MAX_STAGE, MODE_RULES, MODES, ROUNDS_PER_DAY, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
-import { t } from "../i18n/t.ts";
+import { t, tn } from "../i18n/t.ts";
 import { Logo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
 import { practiceScoreText } from "./PracticeRun.tsx";
@@ -76,6 +76,14 @@ function practiceText(summary: PracticeSummary | null): string | null {
 
 function artistsText(summary: ArtistSummary | null): string | null {
   if (!summary) return null;
+  // O Superfan conta em músicas, como a partida: "-7 pontos em 2 músicas".
+  if (summary.superfan) {
+    return t("home.artistsSuperfan", {
+      artist: summary.artist,
+      points: tn("count.points", summary.score.points),
+      songs: tn("superfan.songs", summary.score.rounds),
+    });
+  }
   return t("home.artistsSession", {
     artist: summary.artist,
     score: practiceScoreText(summary.score),

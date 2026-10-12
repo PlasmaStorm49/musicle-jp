@@ -11,7 +11,7 @@ import {
   type RoundState,
   reduce,
 } from "../core/reducer.ts";
-import { canSkip, HELP_POINTS, MODE_RULES, secondsAt } from "../core/rules.ts";
+import { canSkip, type ModeRules, rulesOf, secondsAt } from "../core/rules.ts";
 import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
@@ -54,6 +54,19 @@ type Props = {
   readonly onNext: () => void;
   readonly scope?: SearchScope;
   readonly help?: HelpSetup;
+  /** Onde o trecho começa na prévia; sem dizer, o do catálogo (o Superfan sorteia, ME61). */
+  readonly offset?: number;
+  /**
+   * Como quem chama aplica um evento, se não for o reducer puro: o Superfan encerra a música no
+   * 3º erro da partida. A rodada usa para saber o que anunciar depois de um palpite.
+   */
+  readonly step?: (game: GameState, event: GameEvent) => GameState;
+  /** Uma nota a mais no anúncio do palpite errado (o Superfan: "Erro 1 de 3: -5 pontos."). */
+  readonly wrongNote?: () => string;
+  /** O texto do botão de desistir da rodada (o Superfan: "Desistir da música"). */
+  readonly giveUpLabel?: string;
+  /** Uma linha a mais na revelação (o Superfan: "3 erros: a partida acabou."). */
+  readonly revealNote?: string;
 };
 
 /**
@@ -73,9 +86,14 @@ export function RoundView({
   onNext,
   scope = "song",
   help,
+  offset,
+  step = reduce,
+  wrongNote,
+  giveUpLabel,
+  revealNote,
 }: Props) {
   const round = currentRound(game);
-  const rules = MODE_RULES[game.target];
+  const rules = rulesOf(game);
   const track = revealView(index, round.trackId);
   const url = useResolvedUrl(resolver, round.trackId);
   // Próxima tentativa, contando a que acabou de ser gasta (para os anúncios de pulo e erro).
@@ -145,7 +163,7 @@ export function RoundView({
     engine.stop();
     const event = { type: "GUESS", guessId: id } as const;
     // O reducer é puro: dá para ver o resultado antes de despachar, sem repetir as regras aqui.
-    const after = reduce(game, event).rounds[game.current];
+    const after = step(game, event).rounds[game.current];
     dispatch(event);
     // Erro que não encerra a rodada: o foco fica no campo, então o aviso vai para o aria-live.
     // Acerto e último erro abrem a revelação, que leva o foco e se anuncia sozinha.
@@ -153,6 +171,7 @@ export function RoundView({
       const title = optionView(index, id, game.target)?.title ?? t("attempts.unknown");
       announce(
         t("typing.wrong", { title, ...attemptLabel(after.attempts.length) }) +
+          (wrongNote ? ` ${wrongNote()}` : "") +
           helpNote(after.attempts.length),
       );
     }
@@ -166,7 +185,7 @@ export function RoundView({
             key={roundKey}
             engine={engine}
             url={url}
-            offset={track.preview.startSec}
+            offset={offset ?? track.preview.startSec}
             stage={round.stage}
             explicit={track.explicit}
             rules={rules}
@@ -177,7 +196,9 @@ export function RoundView({
               dispatch({ type: "SKIP" });
               announce(
                 round.help
-                  ? t("typing.skippedHelp", { seconds: secondsAt(round.stage + 1) })
+                  ? t("typing.skippedHelp", {
+                      seconds: secondsAt(round.stage + 1, rules.stages),
+                    })
                   : t("typing.skipped", attemptLabel(round.attempts.length + 1)) +
                       helpNote(round.attempts.length + 1),
               );
@@ -198,8 +219,10 @@ export function RoundView({
               round={round}
               attempt={attemptLabel(round.attempts.length)}
               scope={scope}
+              rules={rules}
               helpCount={helpChoices.length >= 2 ? helpChoices.length : 0}
               helpFocus={asked.current}
+              giveUpLabel={giveUpLabel ?? t("typing.giveUp")}
               onHelp={askHelp}
               onPick={guess}
               onGiveUp={giveUp}
@@ -221,12 +244,14 @@ export function RoundView({
           index={index}
           round={round}
           target={game.target}
+          rules={rules}
           engine={engine}
           resolver={resolver}
           resolveUrl={resolveUrl}
           nextLabel={nextLabel}
           onNext={onNext}
           announce={announce}
+          note={revealNote}
         />
       )}
     </>
@@ -242,8 +267,10 @@ function Typing({
   round,
   attempt,
   scope,
+  rules,
   helpCount,
   helpFocus,
+  giveUpLabel,
   onHelp,
   onPick,
   onGiveUp,
@@ -252,10 +279,12 @@ function Typing({
   readonly round: RoundState;
   readonly attempt: { readonly current: number; readonly total: number };
   readonly scope: SearchScope;
+  readonly rules: ModeRules;
   /** Quantas opções a ajuda daria agora; 0 = sem o botão. */
   readonly helpCount: number;
   /** As opções da ajuda levam o foco (a ajuda foi pedida agora). */
   readonly helpFocus: boolean;
+  readonly giveUpLabel: string;
   readonly onHelp: () => void;
   readonly onPick: (id: string) => void;
   readonly onGiveUp: () => void;
@@ -267,7 +296,12 @@ function Typing({
       {round.help ? (
         <>
           <p id="help-hint" class="hint">
-            {t("help.hint", { points: tn("count.points", HELP_POINTS) })}
+            {rules.wrongPoints < 0
+              ? t("help.hintWrong", {
+                  wrong: tn("count.points", rules.wrongPoints),
+                  points: tn("count.points", rules.helpPoints),
+                })
+              : t("help.hint", { points: tn("count.points", rules.helpPoints) })}
           </p>
           <HelpOptions index={index} options={round.help} focus={helpFocus} onPick={onPick} />
         </>
@@ -282,12 +316,12 @@ function Typing({
         <button type="button" class="help" onClick={singleClick(onHelp)}>
           {t("help.button", {
             count: helpCount,
-            points: tn("count.points", HELP_POINTS),
+            points: tn("count.points", rules.helpPoints),
           })}
         </button>
       )}
       <button type="button" class="give-up" onClick={singleClick(onGiveUp)}>
-        {t("typing.giveUp")}
+        {giveUpLabel}
       </button>
     </section>
   );
