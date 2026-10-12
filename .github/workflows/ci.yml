@@ -55,6 +55,10 @@ jobs:
       - run: python -m pytest pipeline -q
       - run: python -m musicle_pipeline romanize --provider fixture --check
       - run: python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json
+      # Modo por artista (M13), fictício: romaji em dia e a pasta publicada válida (o pytest
+      # confere que ela é exatamente o que o build-artists gera).
+      - run: python -m musicle_pipeline romanize --provider fixture --artists --check
+      - run: python -m musicle_pipeline validate-artists --provider fixture
       # Parada real (Apple): romaji em dia, catálogo e agenda válidos. Sem rede: tudo sai dos
       # snapshots versionados em pipeline/data/apple/ (o pytest confere que o catálogo está em dia
       # com eles). O schedule-check abaixo confere as duas agendas.
