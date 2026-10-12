@@ -29,7 +29,6 @@ pytestmark = pytest.mark.skipif(
     not (BASH and JQ) and not os.environ.get("CI"), reason="precisa de bash e jq (a CI tem)"
 )
 
-TODAY = "2026-10-19"
 PATHS = {
     "SNAPSHOTS": "pipeline/data/apple/snapshots",
     "ROMAJI": "pipeline/data/apple/romaji.json",
@@ -37,6 +36,16 @@ PATHS = {
     "SCHEDULE": "web/public/data/schedule.json",
     "FIXTURE_SCHEDULE": "web/public/fixtures/schedule.json",
 }
+# Hoje como o robô da semana que vem veria: a agenda da main vai até a geração anterior + 21,
+# então hoje é o fim dela − 14, e os 7 dias novos vão até hoje + 21 (o horizonte). Datas fixas
+# quebravam no PR do robô que faz a agenda crescer (o PR #16 foi isso).
+# O fim mais tardio das duas: a mais curta só ganha os seus 7 dias antes do limite.
+_LAST = max(
+    date.fromisoformat(max(read_json(repo_root() / PATHS[key])["days"]))
+    for key in ("SCHEDULE", "FIXTURE_SCHEDULE")
+)
+TODAY = (_LAST - timedelta(days=14)).isoformat()
+NEW_DAYS = 7
 SNAPSHOT = f"{PATHS['SNAPSHOTS']}/{TODAY}.json"
 FIRST_SNAPSHOT = repo_root() / PATHS["SNAPSHOTS"] / "2026-10-10.json"
 
@@ -95,9 +104,9 @@ def full_change() -> dict[str, JSON]:
         SNAPSHOT: new_snapshot(),
         PATHS["ROMAJI"]: new_romaji(),
         PATHS["CATALOG"]: new_catalog(),
-        PATHS["SCHEDULE"]: grown(_base("SCHEDULE"), _new_days(_base("SCHEDULE"), 8)),
+        PATHS["SCHEDULE"]: grown(_base("SCHEDULE"), _new_days(_base("SCHEDULE"), NEW_DAYS)),
         PATHS["FIXTURE_SCHEDULE"]: grown(
-            _base("FIXTURE_SCHEDULE"), _new_days(_base("FIXTURE_SCHEDULE"), 8)
+            _base("FIXTURE_SCHEDULE"), _new_days(_base("FIXTURE_SCHEDULE"), NEW_DAYS)
         ),
     }
 
@@ -111,6 +120,7 @@ def run(
     fetch: str = "success",
     chart: str = "success",
     today: str = TODAY,
+    generated: str | None = None,
     avisos: str | None = None,
 ) -> tuple[subprocess.CompletedProcess[str], Path, Path]:
     """Monta a main (cópias dos arquivos de verdade) e o artefato, e roda o script."""
@@ -140,6 +150,7 @@ def run(
         **os.environ,
         **PATHS,
         "TODAY": today,
+        "GENERATED_TODAY": today if generated is None else generated,
         "FETCH": fetch,
         "CHART": chart,
         "RUN_URL": "https://github.com/x/y/actions/runs/1",
@@ -164,7 +175,7 @@ def test_full_week_passes_and_lands_in_the_tree(tmp_path):
     changes = full_change()
     done, repo, temp = run(tmp_path, changes)
     assert done.returncode == 0, done.stdout + done.stderr
-    real_last = _new_days(_base("SCHEDULE"), 8)[-1]
+    real_last = _new_days(_base("SCHEDULE"), NEW_DAYS)[-1]
     assert f"branch=catalogo/{TODAY}" in outputs(temp)
     assert f"title=chore: parada de {TODAY} (agenda até {real_last})" in outputs(temp)
     text = body(temp)
@@ -225,6 +236,7 @@ def test_rejects_a_symlink_or_odd_file(tmp_path):
         **os.environ,
         **PATHS,
         "TODAY": TODAY,
+        "GENERATED_TODAY": TODAY,
         "FETCH": "success",
         "RUN_URL": "x",
         "RUNNER_TEMP": str(temp),
@@ -283,7 +295,7 @@ def test_rejects_a_catalog_change_without_a_new_chart(tmp_path):
 
 def test_rejects_a_snapshot_for_another_day(tmp_path):
     changes = full_change()
-    changes[SNAPSHOT]["date"] = "2026-10-18"
+    changes[SNAPSHOT]["date"] = (date.fromisoformat(TODAY) - timedelta(days=1)).isoformat()
     _rejects(tmp_path, changes, "forma esperada")
 
 
@@ -304,7 +316,7 @@ def test_rejects_a_schedule_that_changes_a_past_day(tmp_path):
 
 def test_rejects_a_gap_between_new_days(tmp_path):
     changes = full_change()
-    days = _new_days(_base("SCHEDULE"), 8)
+    days = _new_days(_base("SCHEDULE"), NEW_DAYS)
     changes[PATHS["SCHEDULE"]] = grown(_base("SCHEDULE"), days[:3] + days[4:])
     _rejects(tmp_path, changes, "buraco entre os dias novos")
 
@@ -312,7 +324,7 @@ def test_rejects_a_gap_between_new_days(tmp_path):
 def test_rejects_new_days_that_skip_the_expected_first(tmp_path):
     # P44: o 1º dia novo é o seguinte ao fim (ou hoje); começar depois disso deixaria buraco.
     changes = full_change()
-    days = _new_days(_base("SCHEDULE"), 9)[1:]
+    days = _new_days(_base("SCHEDULE"), NEW_DAYS)[1:]
     changes[PATHS["SCHEDULE"]] = grown(_base("SCHEDULE"), days)
     _rejects(tmp_path, changes, "o 1º dia novo deveria ser")
 
@@ -343,12 +355,13 @@ def test_a_chart_left_out_cannot_bring_its_snapshot(tmp_path):
 def test_warns_when_the_chart_is_weeks_old(tmp_path):
     changes = full_change()
     keep = {k: changes[k] for k in (PATHS["SCHEDULE"], PATHS["FIXTURE_SCHEDULE"])}
-    old = tmp_path / "repo" / PATHS["SNAPSHOTS"] / "2026-10-01.json"
+    day = (date.fromisoformat(TODAY) - timedelta(days=18)).isoformat()
+    old = tmp_path / "repo" / PATHS["SNAPSHOTS"] / f"{day}.json"
     old.parent.mkdir(parents=True, exist_ok=True)
     old.write_bytes(b"{}")
     done, _, temp = run(tmp_path, keep, fetch="failure")
     assert done.returncode == 0, done.stdout + done.stderr
-    assert "a última parada guardada é de 2026-10-01 (18 dias)" in body(temp)
+    assert f"a última parada guardada é de {day} (18 dias)" in body(temp)
 
 
 def test_rejects_a_snapshot_that_already_exists_in_main(tmp_path):
@@ -399,6 +412,18 @@ def test_warns_about_the_gap_when_the_schedule_ran_out(tmp_path):
         f"> **Atenção (Agenda do site):** 3 dia(s) ficaram sem desafio depois de {last.isoformat()}"
         in body(temp)
     )
+
+
+def test_warns_to_merge_today_when_the_schedule_ended_yesterday(tmp_path):
+    # Sem buraco, mas o 1º dia novo é hoje: o merge amanhã levaria um dia passado.
+    last = date.fromisoformat(max(_base("SCHEDULE")["days"]))
+    next_day = (last + timedelta(days=1)).isoformat()
+    done, _, temp = run(tmp_path, schedules_only(next_day), today=next_day, fetch="failure")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "> **Atenção (Agenda do site):** a agenda acabou ontem e o 1º dia novo é hoje" in body(
+        temp
+    )
+    assert f"sem desafio depois de {last.isoformat()}" not in body(temp)
 
 
 def test_new_chart_without_new_romaji_passes(tmp_path):
@@ -457,4 +482,33 @@ def test_rejects_a_file_with_two_json_documents(tmp_path):
 
 
 def test_rejects_an_odd_today(tmp_path):
-    _rejects(tmp_path, full_change(), "data inválida", today="2026-10-19; rm -rf /")
+    _rejects(tmp_path, full_change(), "data inválida", today=f"{TODAY}; rm -rf /")
+
+
+# --- ME44 e ME53: o "hoje" desta tarefa, o horizonte e conferências mais estritas ---
+
+
+def test_rejects_a_generation_day_that_is_not_today(tmp_path):
+    # A tarefa do pipeline (com os pacotes do pip) mandou outra data.
+    tomorrow = (date.fromisoformat(TODAY) + timedelta(days=1)).isoformat()
+    _rejects(tmp_path, full_change(), "a tarefa do pipeline gerou para", generated=tomorrow)
+
+
+def test_rejects_new_days_beyond_the_horizon(tmp_path):
+    changes = full_change()
+    changes[PATHS["SCHEDULE"]] = grown(_base("SCHEDULE"), _new_days(_base("SCHEDULE"), 30))
+    _rejects(tmp_path, changes, "passa de hoje + 21")
+
+
+def test_rejects_an_empty_romaji_text(tmp_path):
+    changes = full_change()
+    changes[PATHS["ROMAJI"]] = new_romaji({"テスト曲": [""]})
+    _rejects(tmp_path, changes, "o romaji novo altera o que já existe")
+
+
+def test_rejects_a_snapshot_not_after_the_last_in_main(tmp_path):
+    later = (date.fromisoformat(TODAY) + timedelta(days=2)).isoformat()
+    newer = tmp_path / "repo" / PATHS["SNAPSHOTS"] / f"{later}.json"
+    newer.parent.mkdir(parents=True, exist_ok=True)
+    newer.write_bytes(b"{}")
+    _rejects(tmp_path, full_change(), "não vem depois do último da main")
