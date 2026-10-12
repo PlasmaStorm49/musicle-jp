@@ -389,11 +389,14 @@ def schedules_only(today: str = TODAY) -> dict[str, JSON]:
 
 def test_warns_about_the_gap_when_the_schedule_ran_out(tmp_path):
     # A agenda acabou antes de hoje (o robô ficou parado): os dias que passaram ficam buraco.
-    late = "2026-11-05"
+    # As datas saem da agenda versionada, que o próprio robô faz crescer toda semana: fixas, o
+    # teste quebraria no PR do robô que acrescenta o dia seguinte.
+    last = date.fromisoformat(max(_base("SCHEDULE")["days"]))
+    late = (last + timedelta(days=4)).isoformat()
     done, _, temp = run(tmp_path, schedules_only(late), today=late, fetch="failure")
     assert done.returncode == 0, done.stdout + done.stderr
     assert (
-        "> **Atenção (Agenda do site):** 3 dia(s) ficaram sem desafio depois de 2026-11-01"
+        f"> **Atenção (Agenda do site):** 3 dia(s) ficaram sem desafio depois de {last.isoformat()}"
         in body(temp)
     )
 
