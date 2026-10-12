@@ -44,6 +44,9 @@
       "Hz (Herutsu)",
       "Hz (Hertz)"
     ],
+    "I Love You !! ~あなたの微笑みに~": [
+      "I Love You !! ~ anata no hohoemi ni~"
+    ],
     "I'll fall in love 愛的禮物": [
       "I'll fall in love aiteki reibutsu"
     ],
@@ -191,6 +194,9 @@
     ],
     "あてもなく(Special Edition)": [
       "Ate mo naku (Special Edition)"
+    ],
+    "あなたしか見えない": [
+      "Anata shika mienai"
     ],
     "あなたにありがとう": [
       "Anata ni arigatou"
@@ -1794,6 +1800,9 @@
     "怪物": [
       "Kaibutsu"
     ],
+    "恋する想い~Fall in love~": [
+      "Koi suru omoi~Fall in love~"
+    ],
     "恋と病熱": [
       "Koi to byounetsu"
     ],
@@ -1814,9 +1823,15 @@
       "Kanashimi wa oorora ni",
       "Kanashimi wa aurora ni"
     ],
+    "惑星になりたい": [
+      "Wakusei ni naritai"
+    ],
     "惑星ループ": [
       "Wakusei ruupu",
       "Wakusei loop"
+    ],
+    "愛 愛 ~100% Pure Love~": [
+      "Ai ai~100% Pure Love~"
     ],
     "愛されたいの": [
       "Aisaretai no"
@@ -1986,6 +2001,10 @@
     ],
     "松田 聖子": [
       "Matsuda Seiko"
+    ],
+    "松田 聖子 & ドニー・ウォールバーグ": [
+      "Matsuda Seiko& Donii Oorubaagu",
+      "Matsuda Seiko& Donii Wahlberg"
     ],
     "松田 聖子 & 大滝詠一": [
       "Matsuda Seiko& Ootaki Eiichi"

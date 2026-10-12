@@ -44,6 +44,84 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/ef/ad/50/efad502d-1cf8-f7c1-7a2b-d90dc6dd391d/00600406195579.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1443404536",
+      "latinSource": null,
+      "releaseDate": "2012-01-01",
+      "title": "Very Very",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/80/bd/74/80bd7481-b2cf-58ed-4f5c-db90b1a8863b/00600406464613.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1443410549",
+      "latinSource": null,
+      "releaseDate": "2014-05-21",
+      "title": "Dream & Fantasy",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/ac/e2/7a/ace27ac0-57da-bf5a-ae3e-165f80e5d669/00600406305954.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1443419983",
+      "latinSource": null,
+      "releaseDate": "2013-01-01",
+      "title": "A Girl in the Wonder Land",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/11/e7/cd/11e7cd6c-bbf8-878d-70dd-0a1eceae2c9a/00600406675453.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1443543324",
+      "latinSource": null,
+      "releaseDate": "1998-01-01",
+      "title": "Forever",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/1f/4d/33/1f4d3389-57be-8941-f943-03fcd362b5ac/00600406675446.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1443548645",
+      "latinSource": null,
+      "releaseDate": "1997-01-01",
+      "title": "Sweetest Time",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/22/83/f3/2283f383-f2d7-bf6b-a014-5dcdaadc9830/00600406675507.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1443554800",
+      "latinSource": null,
+      "releaseDate": "2001-11-28",
+      "title": "LOVE & EMOTION VOL.2",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/49/2f/88/492f88b9-f777-7ad6-7943-e5cf6d5610e6/00600406675187.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1443556434",
       "latinSource": null,
@@ -96,11 +174,37 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/df/8a/dc/df8adc3e-058c-0898-c784-44e5d6d90292/00600406675491.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1443606226",
+      "latinSource": null,
+      "releaseDate": "2001-06-13",
+      "title": "LOVE & EMOTION VOL.1",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/aa/89/99/aa89997a-ce93-b424-e604-dbf11e599073/00600406675217.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1443608908",
       "latinSource": null,
       "releaseDate": "1997-01-01",
       "title": "My Story",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/dd/2d/46/dd2d46eb-f1ad-36ad-4d2c-cb68c82cffee/00600406719782.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1444188075",
+      "latinSource": null,
+      "releaseDate": "2015-10-23",
+      "title": "Shining Star",
       "titleLatin": null,
       "type": "album"
     },
@@ -181,19 +285,6 @@
       "title": "SEIKO JAZZ 2",
       "titleLatin": null,
       "type": "album"
-    },
-    {
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
-      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/58/e1/28/58e128eb-0cde-70fd-3b8e-a829e354f1d1/20UMGIM48650.rgb.jpg/300x300bb.jpg",
-      "id": "apple:al:1521582103",
-      "latinSource": "cutlet",
-      "releaseDate": "2020-07-15",
-      "title": "瑠璃色の地球 2020 - Single",
-      "titleLatin": "Ruri iro no chikyuu 2020",
-      "type": "single"
     },
     {
       "artistDisplay": "松田 聖子",
@@ -463,7 +554,7 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/34/1b/7d/341b7d5f-854e-7357-68ea-516d01707798/jacket_MHCL30478B00Z_550.jpg/300x300bb.jpg",
       "id": "apple:al:1536797171",
       "latinSource": null,
-      "releaseDate": "1981-01-01",
+      "releaseDate": "1980-01-01",
       "title": "Seiko Matsuda sweet days",
       "titleLatin": null,
       "type": "album"
@@ -707,6 +798,19 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/3c/3d/aa/3c3daa9e-bda3-3fe8-7898-138b63de6dcf/jacket_SRCL05894B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537381752",
+      "latinSource": null,
+      "releaseDate": "2005-04-06",
+      "title": "fairy",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/d4/d4/df/d4d4df1c-04b2-5e02-0111-a698f4607979/jacket_SRCL06286B00Z_550.jpg/300x300bb.jpg",
       "id": "apple:al:1537387925",
       "latinSource": null,
@@ -781,19 +885,6 @@
       "type": "album"
     },
     {
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
-      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/a3/9c/73/a39c73bb-d20e-330b-56eb-32594bce530a/jacket_SRCL05624B00Z_550.jpg/300x300bb.jpg",
-      "id": "apple:al:1538918002",
-      "latinSource": null,
-      "releaseDate": "1986-01-01",
-      "title": "Another side of Seiko 27",
-      "titleLatin": null,
-      "type": "album"
-    },
-    {
       "artistDisplay": "郷 ひろみ & 松田 聖子",
       "artistIds": [
         "apple:ar:988624744",
@@ -856,6 +947,19 @@
       "latinSource": null,
       "releaseDate": "2025-04-01",
       "title": "Shapes Of Happiness - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6f/3f/1a/6f3f1a81-5218-96df-3972-b79cf45908fa/25UMGIM57698.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1811935950",
+      "latinSource": null,
+      "releaseDate": "2025-05-14",
+      "title": "Stardust - Single",
       "titleLatin": null,
       "type": "single"
     },
@@ -998,6 +1102,41 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
+      "durationMs": 299733,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1443187406",
+      "latinSource": null,
+      "popularity": 0.42,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview118/v4/c7/81/0c/c7810ca1-dc2b-c9a7-4e3e-8983e7e007bd/mzaf_1900561572876532726.plus.aac.p.m4a"
+      },
+      "releaseDate": "2001-06-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "thesondoffire2001"
+        ]
+      },
+      "songKey": "thesoundoffire2001|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/the-sound-of-fire-2001/1443187402?i=1443187406",
+      "title": "The Sound of Fire 2001",
+      "titleKeys": [
+        "thesoundoffire2001"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1443187402",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
       "durationMs": 278307,
       "eligible": {
         "daily": true,
@@ -1006,7 +1145,7 @@
       "explicit": false,
       "id": "apple:tr:1443187409",
       "latinSource": null,
-      "popularity": 0.35,
+      "popularity": 0.205,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1028,6 +1167,222 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1443404536",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 252720,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1443404553",
+      "latinSource": "cutlet",
+      "popularity": 0.41,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/06/64/da/0664da40-e778-03c5-bce4-456f360ccca2/mzaf_2194151452816524405.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "namidanoshizuku",
+          "涙のしずく"
+        ]
+      },
+      "songKey": "涙のしずく|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B6%99%E3%81%AE%E3%81%97%E3%81%9A%E3%81%8F/1443404536?i=1443404553",
+      "title": "涙のしずく",
+      "titleKeys": [
+        "涙のしずく"
+      ],
+      "titleLatin": "Namida no shizuku"
+    },
+    {
+      "albumId": "apple:al:1443410549",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 284360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1443410553",
+      "latinSource": "manual",
+      "popularity": 0.4,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/a4/32/20/a43220bd-3c56-86ba-e6d8-41817e7035a8/mzaf_6310273530190663942.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-05-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "iloveyoanatanohohoemini",
+          "iloveyoあなたの微笑みに"
+        ]
+      },
+      "songKey": "iloveyouあなたの微笑みに|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/i-love-you-%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AE%E5%BE%AE%E7%AC%91%E3%81%BF%E3%81%AB/1443410549?i=1443410553",
+      "title": "I Love You !! ~あなたの微笑みに~",
+      "titleKeys": [
+        "iloveyouあなたの微笑みに",
+        "iloveyouあなたの微笑みにkaraoke"
+      ],
+      "titleLatin": "I Love You !! ~Anata no hohoemi ni~"
+    },
+    {
+      "albumId": "apple:al:1443419983",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 242400,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1443420324",
+      "latinSource": null,
+      "popularity": 0.405,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f5/ed/3f/f5ed3fe3-becd-698e-fe99-081220d1a69d/mzaf_9556355700206302426.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "lulu"
+        ]
+      },
+      "songKey": "lulu|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/lulu/1443419983?i=1443420324",
+      "title": "LuLu!!",
+      "titleKeys": [
+        "lulu",
+        "lulukaraoke"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1443543324",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 287160,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1443543335",
+      "latinSource": "manual",
+      "popularity": 0.425,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f2/e2/16/f2e21624-7c5a-2be2-5712-6a40743ba5da/mzaf_10905858191629010679.plus.aac.p.m4a"
+      },
+      "releaseDate": "1998-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "koisuruomoifallinlove",
+          "恋する想いfallinlove"
+        ]
+      },
+      "songKey": "恋する想いfallinlove|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%8B%E3%81%99%E3%82%8B%E6%83%B3%E3%81%84-fall-in-love/1443543324?i=1443543335",
+      "title": "恋する想い~Fall in love~",
+      "titleKeys": [
+        "恋する想いfallinlove"
+      ],
+      "titleLatin": "Koi suru omoi ~Fall in love~"
+    },
+    {
+      "albumId": "apple:al:1443548645",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 283333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1443548738",
+      "latinSource": null,
+      "popularity": 0.43,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/43/46/a0/4346a09a-51b3-250a-48df-8a428d6283ab/mzaf_11178959087518424014.plus.aac.p.m4a"
+      },
+      "releaseDate": "1997-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "gonewiththerain"
+        ]
+      },
+      "songKey": "gonewiththerain|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/gone-with-the-rain/1443548645?i=1443548738",
+      "title": "Gone with the rain",
+      "titleKeys": [
+        "gonewiththerain"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1443554800",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 297867,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1443555183",
+      "latinSource": "manual",
+      "popularity": 0.365,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a5/56/46/a5564686-2ffe-9fba-3226-6b8a075a8945/mzaf_6440066970481352267.plus.aac.p.m4a"
+      },
+      "releaseDate": "2001-11-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "aiai100purelove",
+          "愛愛100purelove"
+        ]
+      },
+      "songKey": "愛愛100purelove|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%84%9B-%E6%84%9B-100-pure-love/1443554800?i=1443555183",
+      "title": "愛 愛 ~100% Pure Love~",
+      "titleKeys": [
+        "愛愛100purelove"
+      ],
+      "titleLatin": "Ai ai ~100% Pure Love~"
+    },
+    {
       "albumId": "apple:al:1443556434",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -1041,7 +1396,7 @@
       "explicit": false,
       "id": "apple:tr:1443556437",
       "latinSource": "cutlet",
-      "popularity": 0.755,
+      "popularity": 0.75,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1095,6 +1450,7 @@
       "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AB%E9%80%A2%E3%81%84%E3%81%9F%E3%81%8F%E3%81%A6-missing-you/1443556434?i=1443556444",
       "title": "あなたに逢いたくて~Missing You~",
       "titleKeys": [
+        "あなたに逢いたくて2004",
         "あなたに逢いたくてmissingyou"
       ],
       "titleLatin": "Anata ni aitakute ~Missing You~"
@@ -1135,6 +1491,41 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1443560486",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 250907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1443560891",
+      "latinSource": null,
+      "popularity": 0.375,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5e/a9/a8/5ea9a8c1-76a6-5c11-15bd-314e53a93fde/mzaf_14150594836851116980.plus.aac.p.m4a"
+      },
+      "releaseDate": "2000-06-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "unseasonableshore"
+        ]
+      },
+      "songKey": "unseasonableshore|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/unseasonable-shore/1443560486?i=1443560891",
+      "title": "Unseasonable Shore",
+      "titleKeys": [
+        "unseasonableshore"
+      ],
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1443592861",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -1148,7 +1539,7 @@
       "explicit": false,
       "id": "apple:tr:1443593027",
       "latinSource": "cutlet",
-      "popularity": 0.62,
+      "popularity": 0.61,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1184,7 +1575,7 @@
       "explicit": false,
       "id": "apple:tr:1443594828",
       "latinSource": "cutlet",
-      "popularity": 0.655,
+      "popularity": 0.64,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1221,7 +1612,7 @@
       "explicit": false,
       "id": "apple:tr:1443594833",
       "latinSource": "cutlet",
-      "popularity": 0.705,
+      "popularity": 0.695,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1244,6 +1635,42 @@
       "titleLatin": "Sakura no sono"
     },
     {
+      "albumId": "apple:al:1443606226",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 307693,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1443606806",
+      "latinSource": "cutlet",
+      "popularity": 0.37,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/21/10/76/211076bb-edab-e050-13ab-8ec7a64224dd/mzaf_4704726146884853145.plus.aac.p.m4a"
+      },
+      "releaseDate": "2001-06-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "anatashikamienai",
+          "あなたしか見えない"
+        ]
+      },
+      "songKey": "あなたしか見えない|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%81%AA%E3%81%9F%E3%81%97%E3%81%8B%E8%A6%8B%E3%81%88%E3%81%AA%E3%81%84/1443606226?i=1443606806",
+      "title": "あなたしか見えない",
+      "titleKeys": [
+        "あなたしか見えない"
+      ],
+      "titleLatin": "Anata shika mienai"
+    },
+    {
       "albumId": "apple:al:1443608908",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -1257,7 +1684,7 @@
       "explicit": false,
       "id": "apple:tr:1443609684",
       "latinSource": "manual",
-      "popularity": 0.94,
+      "popularity": 0.945,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1294,7 +1721,7 @@
       "explicit": false,
       "id": "apple:tr:1443609700",
       "latinSource": "cutlet",
-      "popularity": 0.69,
+      "popularity": 0.675,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1317,6 +1744,42 @@
       "titleLatin": "Anata no sono mune ni"
     },
     {
+      "albumId": "apple:al:1444188075",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 193253,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1444188094",
+      "latinSource": "cutlet",
+      "popularity": 0.395,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c1/91/3a/c1913a5d-cc60-ec56-c8d1-7b300a9e7cd2/mzaf_10074141166390784807.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "wakuseininaritai",
+          "惑星になりたい"
+        ]
+      },
+      "songKey": "惑星になりたい|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%83%91%E6%98%9F%E3%81%AB%E3%81%AA%E3%82%8A%E3%81%9F%E3%81%84/1444188075?i=1444188094",
+      "title": "惑星になりたい",
+      "titleKeys": [
+        "惑星になりたい"
+      ],
+      "titleLatin": "Wakusei ni naritai"
+    },
+    {
       "albumId": "apple:al:1444606783",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -1330,7 +1793,7 @@
       "explicit": false,
       "id": "apple:tr:1444606786",
       "latinSource": "cutlet",
-      "popularity": 0.18,
+      "popularity": 0.455,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1366,7 +1829,7 @@
       "explicit": false,
       "id": "apple:tr:1444844185",
       "latinSource": "cutlet",
-      "popularity": 0.675,
+      "popularity": 0.66,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1402,7 +1865,7 @@
       "explicit": false,
       "id": "apple:tr:1444999410",
       "latinSource": "cutlet",
-      "popularity": 0.805,
+      "popularity": 0.8,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1440,7 +1903,7 @@
       "explicit": false,
       "id": "apple:tr:1444999420",
       "latinSource": "manual",
-      "popularity": 0.61,
+      "popularity": 0.6,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1476,7 +1939,7 @@
       "explicit": false,
       "id": "apple:tr:1445002858",
       "latinSource": "cutlet",
-      "popularity": 0.085,
+      "popularity": 0.445,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1513,7 +1976,7 @@
       "explicit": false,
       "id": "apple:tr:1445044730",
       "latinSource": "cutlet",
-      "popularity": 0.795,
+      "popularity": 0.785,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1549,7 +2012,7 @@
       "explicit": false,
       "id": "apple:tr:1452773118",
       "latinSource": "cutlet",
-      "popularity": 0.6,
+      "popularity": 0.59,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1573,42 +2036,6 @@
       "titleLatin": "Furai mii tuu za muun"
     },
     {
-      "albumId": "apple:al:1521582103",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
-      "durationMs": 262547,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1521582112",
-      "latinSource": "manual",
-      "popularity": 0.975,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/34/90/43/34904380-97c9-bdfa-6613-20f052c3ac1f/mzaf_14054002741143366147.plus.aac.p.m4a"
-      },
-      "releaseDate": "2020-07-15",
-      "search": {
-        "artist": [],
-        "title": [
-          "rurironochikyu2020",
-          "瑠璃色の地球2020"
-        ]
-      },
-      "songKey": "瑠璃色の地球2020|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E7%91%A0%E7%92%83%E8%89%B2%E3%81%AE%E5%9C%B0%E7%90%83-2020/1521582103?i=1521582112",
-      "title": "瑠璃色の地球 2020",
-      "titleKeys": [
-        "瑠璃色の地球2020"
-      ],
-      "titleLatin": "Ruriiro no chikyuu 2020"
-    },
-    {
       "albumId": "apple:al:1526177849",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -1622,7 +2049,7 @@
       "explicit": false,
       "id": "apple:tr:1526178147",
       "latinSource": null,
-      "popularity": 0.335,
+      "popularity": 0.5,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1676,6 +2103,8 @@
       "title": "瑠璃色の地球",
       "titleKeys": [
         "瑠璃色の地球",
+        "瑠璃色の地球2003",
+        "瑠璃色の地球2020",
         "瑠璃色の地球おりじなるからおけ"
       ],
       "titleLatin": "Ruriiro no chikyuu"
@@ -1769,7 +2198,7 @@
       "explicit": false,
       "id": "apple:tr:1532002474",
       "latinSource": "cutlet",
-      "popularity": 0.695,
+      "popularity": 0.68,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1805,7 +2234,7 @@
       "explicit": false,
       "id": "apple:tr:1532002837",
       "latinSource": null,
-      "popularity": 0.67,
+      "popularity": 0.655,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1840,7 +2269,7 @@
       "explicit": false,
       "id": "apple:tr:1536092167",
       "latinSource": null,
-      "popularity": 0.175,
+      "popularity": 0.45,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1863,6 +2292,41 @@
     },
     {
       "albumId": "apple:al:1536092166",
+      "artistDisplay": "松田 聖子 & ドニー・ウォールバーグ",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 267867,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1536092170",
+      "latinSource": null,
+      "popularity": 0.385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/5c/02/bb/5c02bbc3-d296-589c-a1b4-e9690430b1ad/mzaf_14958104062732249506.plus.aac.p.m4a"
+      },
+      "releaseDate": "1990-06-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "therightconbinachion"
+        ]
+      },
+      "songKey": "therightcombination|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/the-right-combination/1536092166?i=1536092170",
+      "title": "THE RIGHT COMBINATION",
+      "titleKeys": [
+        "therightcombination"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1536092166",
       "artistDisplay": "松田 聖子",
       "artistIds": [
         "apple:ar:76115834"
@@ -1875,7 +2339,7 @@
       "explicit": false,
       "id": "apple:tr:1536092171",
       "latinSource": null,
-      "popularity": 0.15,
+      "popularity": 0.07,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1897,6 +2361,41 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1536092166",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 244173,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1536092173",
+      "latinSource": null,
+      "popularity": 0.38,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/4b/0d/e9/4b0de941-450d-c13e-e0ec-09daef225f13/mzaf_1094406621806384710.plus.aac.p.m4a"
+      },
+      "releaseDate": "1990-06-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "whosthatboy"
+        ]
+      },
+      "songKey": "whosthatboy|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/whos-that-boy/1536092166?i=1536092173",
+      "title": "WHO'S THAT BOY",
+      "titleKeys": [
+        "whosthatboy"
+      ],
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1536095455",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -1910,7 +2409,7 @@
       "explicit": false,
       "id": "apple:tr:1536095456",
       "latinSource": null,
-      "popularity": 0.135,
+      "popularity": 0.055,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1945,7 +2444,7 @@
       "explicit": false,
       "id": "apple:tr:1536096740",
       "latinSource": null,
-      "popularity": 0.525,
+      "popularity": 0.53,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2018,7 +2517,7 @@
       "explicit": false,
       "id": "apple:tr:1536759999",
       "latinSource": "cutlet",
-      "popularity": 0.89,
+      "popularity": 0.895,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2095,7 +2594,7 @@
       "explicit": false,
       "id": "apple:tr:1536760002",
       "latinSource": "cutlet",
-      "popularity": 0.665,
+      "popularity": 0.65,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2132,7 +2631,7 @@
       "explicit": false,
       "id": "apple:tr:1536760003",
       "latinSource": "cutlet",
-      "popularity": 0.86,
+      "popularity": 0.865,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2169,7 +2668,7 @@
       "explicit": false,
       "id": "apple:tr:1536760009",
       "latinSource": "cutlet",
-      "popularity": 0.97,
+      "popularity": 0.975,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2208,7 +2707,7 @@
       "explicit": false,
       "id": "apple:tr:1536760019",
       "latinSource": null,
-      "popularity": 0.865,
+      "popularity": 0.87,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2244,7 +2743,7 @@
       "explicit": false,
       "id": "apple:tr:1536760022",
       "latinSource": "cutlet",
-      "popularity": 0.785,
+      "popularity": 0.775,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2282,7 +2781,7 @@
       "explicit": false,
       "id": "apple:tr:1536760541",
       "latinSource": null,
-      "popularity": 0.555,
+      "popularity": 0.565,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2318,7 +2817,7 @@
       "explicit": false,
       "id": "apple:tr:1536760548",
       "latinSource": "cutlet",
-      "popularity": 0.315,
+      "popularity": 0.185,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2354,7 +2853,7 @@
       "explicit": false,
       "id": "apple:tr:1536760912",
       "latinSource": "cutlet",
-      "popularity": 0.615,
+      "popularity": 0.605,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2390,7 +2889,7 @@
       "explicit": false,
       "id": "apple:tr:1536760916",
       "latinSource": "manual",
-      "popularity": 0.885,
+      "popularity": 0.89,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2428,7 +2927,7 @@
       "explicit": false,
       "id": "apple:tr:1536760917",
       "latinSource": null,
-      "popularity": 0.55,
+      "popularity": 0.725,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2464,7 +2963,7 @@
       "explicit": false,
       "id": "apple:tr:1536760919",
       "latinSource": null,
-      "popularity": 0.725,
+      "popularity": 0.71,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2500,7 +2999,7 @@
       "explicit": false,
       "id": "apple:tr:1536760920",
       "latinSource": "manual",
-      "popularity": 0.325,
+      "popularity": 0.195,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2538,7 +3037,7 @@
       "explicit": false,
       "id": "apple:tr:1536760922",
       "latinSource": "cutlet",
-      "popularity": 0.105,
+      "popularity": 0.025,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2574,7 +3073,7 @@
       "explicit": false,
       "id": "apple:tr:1536761076",
       "latinSource": null,
-      "popularity": 0.42,
+      "popularity": 0.275,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2601,78 +3100,6 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
-      "durationMs": 286520,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1536761079",
-      "latinSource": "cutlet",
-      "popularity": 0.07,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/38/66/a7/3866a712-ee2e-c889-6274-116f989e67a5/mzaf_17602957245005754047.plus.aac.p.m4a"
-      },
-      "releaseDate": "1981-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "anatanotegami",
-          "あなたの手紙"
-        ]
-      },
-      "songKey": "あなたの手紙|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E3%81%82-%E3%81%AA-%E3%81%9F%E3%81%AE%E6%89%8B%E7%B4%99/1536760647?i=1536761079",
-      "title": "あ・な・たの手紙",
-      "titleKeys": [
-        "あなたの手紙"
-      ],
-      "titleLatin": "A nata no tegami"
-    },
-    {
-      "albumId": "apple:al:1536760647",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
-      "durationMs": 235893,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1536761082",
-      "latinSource": "cutlet",
-      "popularity": 0.06,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c4/c5/f9/c4c5f9d3-c59d-4009-63cb-502de6f9743a/mzaf_4956355355648453292.plus.aac.p.m4a"
-      },
-      "releaseDate": "1981-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "hanabira",
-          "花びら"
-        ]
-      },
-      "songKey": "花びら|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E8%8A%B1%E3%81%B3%E3%82%89/1536760647?i=1536761082",
-      "title": "花びら",
-      "titleKeys": [
-        "花びら"
-      ],
-      "titleLatin": "Hanabira"
-    },
-    {
-      "albumId": "apple:al:1536760647",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
       "durationMs": 262867,
       "eligible": {
         "daily": true,
@@ -2681,7 +3108,7 @@
       "explicit": false,
       "id": "apple:tr:1536761083",
       "latinSource": "cutlet",
-      "popularity": 0.305,
+      "popularity": 0.175,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2717,7 +3144,7 @@
       "explicit": false,
       "id": "apple:tr:1536761440",
       "latinSource": "cutlet",
-      "popularity": 0.645,
+      "popularity": 0.63,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2754,7 +3181,7 @@
       "explicit": false,
       "id": "apple:tr:1536761441",
       "latinSource": "cutlet",
-      "popularity": 0.7,
+      "popularity": 0.685,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2790,7 +3217,7 @@
       "explicit": false,
       "id": "apple:tr:1536761442",
       "latinSource": null,
-      "popularity": 0.185,
+      "popularity": 0.095,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2825,7 +3252,7 @@
       "explicit": false,
       "id": "apple:tr:1536761445",
       "latinSource": "cutlet",
-      "popularity": 0.57,
+      "popularity": 0.555,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2862,7 +3289,7 @@
       "explicit": false,
       "id": "apple:tr:1536761448",
       "latinSource": "cutlet",
-      "popularity": 0.58,
+      "popularity": 0.57,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2899,7 +3326,7 @@
       "explicit": false,
       "id": "apple:tr:1536761449",
       "latinSource": null,
-      "popularity": 0.54,
+      "popularity": 0.535,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2934,7 +3361,7 @@
       "explicit": false,
       "id": "apple:tr:1536761599",
       "latinSource": "cutlet",
-      "popularity": 0.64,
+      "popularity": 0.625,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2971,7 +3398,7 @@
       "explicit": false,
       "id": "apple:tr:1536761824",
       "latinSource": "cutlet",
-      "popularity": 0.39,
+      "popularity": 0.245,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3009,7 +3436,7 @@
       "explicit": false,
       "id": "apple:tr:1536761840",
       "latinSource": null,
-      "popularity": 0.28,
+      "popularity": 0.15,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3044,7 +3471,7 @@
       "explicit": false,
       "id": "apple:tr:1536761952",
       "latinSource": "manual",
-      "popularity": 0.65,
+      "popularity": 0.635,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3081,7 +3508,7 @@
       "explicit": false,
       "id": "apple:tr:1536761953",
       "latinSource": "cutlet",
-      "popularity": 0.4,
+      "popularity": 0.255,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3147,41 +3574,6 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
-      "durationMs": 258360,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1536762127",
-      "latinSource": null,
-      "popularity": 0.035,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/21/7d/0f/217d0f40-95ba-82ef-3d15-bd4e8a827348/mzaf_16720555007005645274.plus.aac.p.m4a"
-      },
-      "releaseDate": "1983-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "byebyeplayboy"
-        ]
-      },
-      "songKey": "byebyeplayboy|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/bye-bye-playboy/1536761818?i=1536762127",
-      "title": "Bye-bye Playboy",
-      "titleKeys": [
-        "byebyeplayboy"
-      ],
-      "titleLatin": null
-    },
-    {
-      "albumId": "apple:al:1536761818",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
       "durationMs": 260987,
       "eligible": {
         "daily": true,
@@ -3190,7 +3582,7 @@
       "explicit": false,
       "id": "apple:tr:1536762128",
       "latinSource": "cutlet",
-      "popularity": 0.63,
+      "popularity": 0.615,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3227,7 +3619,7 @@
       "explicit": false,
       "id": "apple:tr:1536762130",
       "latinSource": "cutlet",
-      "popularity": 0.59,
+      "popularity": 0.58,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3264,7 +3656,7 @@
       "explicit": false,
       "id": "apple:tr:1536762343",
       "latinSource": "cutlet",
-      "popularity": 0.08,
+      "popularity": 0.005,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3300,7 +3692,7 @@
       "explicit": false,
       "id": "apple:tr:1536762344",
       "latinSource": "cutlet",
-      "popularity": 0.895,
+      "popularity": 0.9,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3338,7 +3730,7 @@
       "explicit": false,
       "id": "apple:tr:1536762348",
       "latinSource": null,
-      "popularity": 0.505,
+      "popularity": 0.355,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3373,7 +3765,7 @@
       "explicit": false,
       "id": "apple:tr:1536762570",
       "latinSource": "cutlet",
-      "popularity": 0.545,
+      "popularity": 0.54,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3410,7 +3802,7 @@
       "explicit": false,
       "id": "apple:tr:1536762637",
       "latinSource": "cutlet",
-      "popularity": 0.575,
+      "popularity": 0.56,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3447,7 +3839,7 @@
       "explicit": false,
       "id": "apple:tr:1536762639",
       "latinSource": null,
-      "popularity": 0.27,
+      "popularity": 0.14,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3482,7 +3874,7 @@
       "explicit": false,
       "id": "apple:tr:1536762791",
       "latinSource": "manual",
-      "popularity": 0.83,
+      "popularity": 0.935,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3560,7 +3952,7 @@
       "explicit": false,
       "id": "apple:tr:1536763139",
       "latinSource": null,
-      "popularity": 0.605,
+      "popularity": 0.595,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3582,43 +3974,6 @@
       "titleLatin": null
     },
     {
-      "albumId": "apple:al:1536763133",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
-      "durationMs": 225827,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1536763141",
-      "latinSource": "cutlet",
-      "popularity": 0.005,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/db/ea/e9/dbeae903-67a0-7001-ae8b-14c8e7c26d09/mzaf_11839416788299068979.plus.aac.p.m4a"
-      },
-      "releaseDate": "1987-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "cherborgwakirisame",
-          "sheruburuwakirisame",
-          "しぇるぶーるは霧雨"
-        ]
-      },
-      "songKey": "しぇるぶーるは霧雨|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%82%A7%E3%83%AB%E3%83%96%E3%83%BC%E3%83%AB%E3%81%AF%E9%9C%A7%E9%9B%A8/1536763133?i=1536763141",
-      "title": "シェルブールは霧雨",
-      "titleKeys": [
-        "しぇるぶーるは霧雨"
-      ],
-      "titleLatin": "Sherubuuru wa kirisame"
-    },
-    {
       "albumId": "apple:al:1536763324",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -3632,7 +3987,7 @@
       "explicit": false,
       "id": "apple:tr:1536763506",
       "latinSource": null,
-      "popularity": 0.485,
+      "popularity": 0.515,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3669,7 +4024,7 @@
       "explicit": false,
       "id": "apple:tr:1536763509",
       "latinSource": "manual",
-      "popularity": 0.945,
+      "popularity": 0.95,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3707,7 +4062,7 @@
       "explicit": false,
       "id": "apple:tr:1536763511",
       "latinSource": "manual",
-      "popularity": 0.585,
+      "popularity": 0.575,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3744,7 +4099,7 @@
       "explicit": false,
       "id": "apple:tr:1536797185",
       "latinSource": "manual",
-      "popularity": 0.68,
+      "popularity": 0.665,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3781,7 +4136,7 @@
       "explicit": false,
       "id": "apple:tr:1536797193",
       "latinSource": "cutlet",
-      "popularity": 0.46,
+      "popularity": 0.315,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3818,7 +4173,7 @@
       "explicit": false,
       "id": "apple:tr:1536797260",
       "latinSource": "cutlet",
-      "popularity": 0.535,
+      "popularity": 0.855,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3856,7 +4211,7 @@
       "explicit": false,
       "id": "apple:tr:1536797277",
       "latinSource": null,
-      "popularity": 0.225,
+      "popularity": 0.1,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3891,7 +4246,7 @@
       "explicit": false,
       "id": "apple:tr:1536797281",
       "latinSource": "cutlet",
-      "popularity": 0.445,
+      "popularity": 0.3,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3927,7 +4282,7 @@
       "explicit": false,
       "id": "apple:tr:1536797284",
       "latinSource": null,
-      "popularity": 0.255,
+      "popularity": 0.125,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3962,7 +4317,7 @@
       "explicit": false,
       "id": "apple:tr:1536797346",
       "latinSource": null,
-      "popularity": 0.245,
+      "popularity": 0.115,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3998,7 +4353,7 @@
       "explicit": false,
       "id": "apple:tr:1536798058",
       "latinSource": "cutlet",
-      "popularity": 0.405,
+      "popularity": 0.26,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4036,7 +4391,7 @@
       "explicit": false,
       "id": "apple:tr:1536798475",
       "latinSource": "cutlet",
-      "popularity": 0.965,
+      "popularity": 0.97,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4073,7 +4428,7 @@
       "explicit": false,
       "id": "apple:tr:1536798481",
       "latinSource": "cutlet",
-      "popularity": 0.875,
+      "popularity": 0.88,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4098,41 +4453,6 @@
       "titleLatin": "Haato no iaringu"
     },
     {
-      "albumId": "apple:al:1536798054",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
-      "durationMs": 206880,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1536798532",
-      "latinSource": null,
-      "popularity": 0.015,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/77/2d/fe/772dfe9d-f6d3-7c5f-a0fe-60d6371873f5/mzaf_1876089003292438312.plus.aac.p.m4a"
-      },
-      "releaseDate": "1985-06-21",
-      "search": {
-        "artist": [],
-        "title": [
-          "mushicallife"
-        ]
-      },
-      "songKey": "musicallife|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/musical-life/1536798054?i=1536798532",
-      "title": "Musical Life",
-      "titleKeys": [
-        "musicallife"
-      ],
-      "titleLatin": null
-    },
-    {
       "albumId": "apple:al:1536801706",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -4146,7 +4466,7 @@
       "explicit": false,
       "id": "apple:tr:1536801717",
       "latinSource": "cutlet",
-      "popularity": 0.595,
+      "popularity": 0.585,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4174,6 +4494,41 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
+      "durationMs": 280240,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1536801718",
+      "latinSource": null,
+      "popularity": 0.435,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b4/8d/bc/b48dbcb2-b3c7-80fe-e14c-b17544ac4f24/mzaf_12239351082027792941.plus.aac.p.m4a"
+      },
+      "releaseDate": "1992-03-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "shininshinin"
+        ]
+      },
+      "songKey": "shininshinin|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/shinin-shinin/1536801706?i=1536801718",
+      "title": "Shinin' Shinin'",
+      "titleKeys": [
+        "shininshinin"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1536801706",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
       "durationMs": 256360,
       "eligible": {
         "daily": true,
@@ -4182,7 +4537,7 @@
       "explicit": false,
       "id": "apple:tr:1536801719",
       "latinSource": "cutlet",
-      "popularity": 0.515,
+      "popularity": 0.525,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4257,7 +4612,7 @@
       "explicit": false,
       "id": "apple:tr:1536801723",
       "latinSource": null,
-      "popularity": 0.235,
+      "popularity": 0.495,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4292,7 +4647,7 @@
       "explicit": false,
       "id": "apple:tr:1536801725",
       "latinSource": "manual",
-      "popularity": 0.51,
+      "popularity": 0.52,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4328,7 +4683,7 @@
       "explicit": false,
       "id": "apple:tr:1536801879",
       "latinSource": "cutlet",
-      "popularity": 0.22,
+      "popularity": 0.49,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4364,7 +4719,7 @@
       "explicit": false,
       "id": "apple:tr:1536801880",
       "latinSource": null,
-      "popularity": 0.215,
+      "popularity": 0.485,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4399,7 +4754,7 @@
       "explicit": false,
       "id": "apple:tr:1536801881",
       "latinSource": "cutlet",
-      "popularity": 0.345,
+      "popularity": 0.51,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4427,42 +4782,6 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
-      "durationMs": 342627,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1536801882",
-      "latinSource": "cutlet",
-      "popularity": 0.9,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b6/76/6c/b6766c56-76b0-a16a-18fd-f57cff3eab97/mzaf_12718035324081225207.plus.aac.p.m4a"
-      },
-      "releaseDate": "2004-04-14",
-      "search": {
-        "artist": [],
-        "title": [
-          "anataniaitakute2004",
-          "あなたに逢いたくて2004"
-        ]
-      },
-      "songKey": "あなたに逢いたくて2004|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AB%E9%80%A2%E3%81%84%E3%81%9F%E3%81%8F%E3%81%A6-2004/1536801706?i=1536801882",
-      "title": "あなたに逢いたくて 2004",
-      "titleKeys": [
-        "あなたに逢いたくて2004"
-      ],
-      "titleLatin": "Anata ni aitakute 2004"
-    },
-    {
-      "albumId": "apple:al:1536801706",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
       "durationMs": 280120,
       "eligible": {
         "daily": true,
@@ -4471,7 +4790,7 @@
       "explicit": false,
       "id": "apple:tr:1536801883",
       "latinSource": "cutlet",
-      "popularity": 0.34,
+      "popularity": 0.505,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4507,7 +4826,7 @@
       "explicit": false,
       "id": "apple:tr:1536801885",
       "latinSource": "cutlet",
-      "popularity": 0.205,
+      "popularity": 0.475,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4543,7 +4862,7 @@
       "explicit": false,
       "id": "apple:tr:1536801889",
       "latinSource": "cutlet",
-      "popularity": 0.81,
+      "popularity": 0.805,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4579,7 +4898,7 @@
       "explicit": false,
       "id": "apple:tr:1536801891",
       "latinSource": "cutlet",
-      "popularity": 0.2,
+      "popularity": 0.47,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4616,7 +4935,7 @@
       "explicit": false,
       "id": "apple:tr:1536801892",
       "latinSource": "cutlet",
-      "popularity": 0.195,
+      "popularity": 0.465,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4652,7 +4971,7 @@
       "explicit": false,
       "id": "apple:tr:1536801893",
       "latinSource": "cutlet",
-      "popularity": 0.33,
+      "popularity": 0.2,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4680,6 +4999,41 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
+      "durationMs": 332707,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1536801894",
+      "latinSource": null,
+      "popularity": 0.415,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/65/b4/1a/65b41a80-abc6-0633-d7ee-2f6fc68210f5/mzaf_12930052078367088272.plus.aac.p.m4a"
+      },
+      "releaseDate": "2008-06-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "loveisall"
+        ]
+      },
+      "songKey": "loveisall|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/love-is-all/1536801706?i=1536801894",
+      "title": "Love is all",
+      "titleKeys": [
+        "loveisall"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1536801706",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
       "durationMs": 272453,
       "eligible": {
         "daily": true,
@@ -4688,7 +5042,7 @@
       "explicit": false,
       "id": "apple:tr:1536801895",
       "latinSource": "cutlet",
-      "popularity": 0.19,
+      "popularity": 0.46,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4763,7 +5117,7 @@
       "explicit": false,
       "id": "apple:tr:1536877726",
       "latinSource": null,
-      "popularity": 0.935,
+      "popularity": 0.94,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4799,7 +5153,7 @@
       "explicit": false,
       "id": "apple:tr:1536877734",
       "latinSource": "cutlet",
-      "popularity": 0.775,
+      "popularity": 0.81,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4837,7 +5191,7 @@
       "explicit": false,
       "id": "apple:tr:1536877735",
       "latinSource": "cutlet",
-      "popularity": 0.95,
+      "popularity": 0.955,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4874,7 +5228,7 @@
       "explicit": false,
       "id": "apple:tr:1536877736",
       "latinSource": "cutlet",
-      "popularity": 0.5,
+      "popularity": 0.35,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4911,7 +5265,7 @@
       "explicit": false,
       "id": "apple:tr:1536877741",
       "latinSource": null,
-      "popularity": 0.13,
+      "popularity": 0.05,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4946,7 +5300,7 @@
       "explicit": false,
       "id": "apple:tr:1536877742",
       "latinSource": null,
-      "popularity": 0.17,
+      "popularity": 0.09,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4981,7 +5335,7 @@
       "explicit": false,
       "id": "apple:tr:1536877743",
       "latinSource": null,
-      "popularity": 0.14,
+      "popularity": 0.06,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5016,7 +5370,7 @@
       "explicit": false,
       "id": "apple:tr:1536877744",
       "latinSource": null,
-      "popularity": 0.145,
+      "popularity": 0.065,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5051,7 +5405,7 @@
       "explicit": false,
       "id": "apple:tr:1536877745",
       "latinSource": null,
-      "popularity": 0.155,
+      "popularity": 0.075,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5086,7 +5440,7 @@
       "explicit": false,
       "id": "apple:tr:1536877836",
       "latinSource": "cutlet",
-      "popularity": 0.32,
+      "popularity": 0.19,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5123,7 +5477,7 @@
       "explicit": false,
       "id": "apple:tr:1536877837",
       "latinSource": null,
-      "popularity": 0.44,
+      "popularity": 0.295,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5158,7 +5512,7 @@
       "explicit": false,
       "id": "apple:tr:1536877838",
       "latinSource": "cutlet",
-      "popularity": 0.48,
+      "popularity": 0.335,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5186,41 +5540,6 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
-      "durationMs": 256173,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1536882169",
-      "latinSource": null,
-      "popularity": 0.025,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/63/0d/cb/630dcbe9-24a7-5fb0-a148-2c100e39410c/mzaf_4314541782410285848.plus.aac.p.m4a"
-      },
-      "releaseDate": "1985-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "crajmecrajforyo"
-        ]
-      },
-      "songKey": "crazymecrazyforyou|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/crazy-me-crazy-for-you/1536882167?i=1536882169",
-      "title": "CRAZY ME, CRAZY FOR YOU",
-      "titleKeys": [
-        "crazymecrazyforyou"
-      ],
-      "titleLatin": null
-    },
-    {
-      "albumId": "apple:al:1536882167",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
       "durationMs": 248840,
       "eligible": {
         "daily": true,
@@ -5229,7 +5548,7 @@
       "explicit": false,
       "id": "apple:tr:1536882181",
       "latinSource": null,
-      "popularity": 0.265,
+      "popularity": 0.135,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5256,42 +5575,6 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
-      "durationMs": 186027,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1536882655",
-      "latinSource": "cutlet",
-      "popularity": 0.03,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cf/c1/1b/cfc11b6f-1ad1-ab18-f4d3-e790adc42e35/mzaf_16414579498404896653.plus.aac.p.m4a"
-      },
-      "releaseDate": "1984-03-15",
-      "search": {
-        "artist": [],
-        "title": [
-          "truelovesottokuchizukete",
-          "trueloveそっとくちづけて"
-        ]
-      },
-      "songKey": "trueloveそっとくちづけて|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/true-love-%E3%81%9D%E3%81%A3%E3%81%A8%E3%81%8F%E3%81%A1%E3%81%A5%E3%81%91%E3%81%A6/1536882653?i=1536882655",
-      "title": "TRUE LOVE〜そっとくちづけて",
-      "titleKeys": [
-        "trueloveそっとくちづけて"
-      ],
-      "titleLatin": "TRUE LOVE sotto kuchizukete"
-    },
-    {
-      "albumId": "apple:al:1536882653",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
       "durationMs": 239000,
       "eligible": {
         "daily": true,
@@ -5300,7 +5583,7 @@
       "explicit": false,
       "id": "apple:tr:1536882657",
       "latinSource": "cutlet",
-      "popularity": 0.87,
+      "popularity": 0.875,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5338,7 +5621,7 @@
       "explicit": false,
       "id": "apple:tr:1536882962",
       "latinSource": "cutlet",
-      "popularity": 0.115,
+      "popularity": 0.035,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5374,7 +5657,7 @@
       "explicit": false,
       "id": "apple:tr:1536882965",
       "latinSource": "cutlet",
-      "popularity": 0.365,
+      "popularity": 0.22,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5448,7 +5731,7 @@
       "explicit": false,
       "id": "apple:tr:1536883556",
       "latinSource": "cutlet",
-      "popularity": 0.96,
+      "popularity": 0.965,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5524,7 +5807,7 @@
       "explicit": false,
       "id": "apple:tr:1536883560",
       "latinSource": null,
-      "popularity": 0.79,
+      "popularity": 0.78,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5559,7 +5842,7 @@
       "explicit": false,
       "id": "apple:tr:1536883562",
       "latinSource": "cutlet",
-      "popularity": 0.685,
+      "popularity": 0.67,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5596,7 +5879,7 @@
       "explicit": false,
       "id": "apple:tr:1536883565",
       "latinSource": "cutlet",
-      "popularity": 0.71,
+      "popularity": 0.735,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5673,7 +5956,7 @@
       "explicit": false,
       "id": "apple:tr:1536883779",
       "latinSource": null,
-      "popularity": 0.73,
+      "popularity": 0.715,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5708,7 +5991,7 @@
       "explicit": false,
       "id": "apple:tr:1536883784",
       "latinSource": "cutlet",
-      "popularity": 0.52,
+      "popularity": 0.83,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5746,7 +6029,7 @@
       "explicit": false,
       "id": "apple:tr:1536883787",
       "latinSource": "cutlet",
-      "popularity": 0.53,
+      "popularity": 0.795,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5784,7 +6067,7 @@
       "explicit": false,
       "id": "apple:tr:1536883790",
       "latinSource": null,
-      "popularity": 0.88,
+      "popularity": 0.885,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5820,7 +6103,7 @@
       "explicit": false,
       "id": "apple:tr:1536885203",
       "latinSource": null,
-      "popularity": 0.02,
+      "popularity": 0.44,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5856,7 +6139,7 @@
       "explicit": false,
       "id": "apple:tr:1536937814",
       "latinSource": null,
-      "popularity": 0.395,
+      "popularity": 0.25,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5891,7 +6174,7 @@
       "explicit": false,
       "id": "apple:tr:1536941950",
       "latinSource": "cutlet",
-      "popularity": 0.455,
+      "popularity": 0.31,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5927,7 +6210,7 @@
       "explicit": false,
       "id": "apple:tr:1536992316",
       "latinSource": null,
-      "popularity": 0.375,
+      "popularity": 0.23,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5962,7 +6245,7 @@
       "explicit": false,
       "id": "apple:tr:1536992322",
       "latinSource": "cutlet",
-      "popularity": 0.36,
+      "popularity": 0.215,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5999,7 +6282,7 @@
       "explicit": false,
       "id": "apple:tr:1536992326",
       "latinSource": "cutlet",
-      "popularity": 0.26,
+      "popularity": 0.13,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6035,7 +6318,7 @@
       "explicit": false,
       "id": "apple:tr:1537340347",
       "latinSource": null,
-      "popularity": 0.16,
+      "popularity": 0.08,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6057,42 +6340,6 @@
       "titleLatin": null
     },
     {
-      "albumId": "apple:al:1537340252",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
-      "durationMs": 264427,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1537340348",
-      "latinSource": "cutlet",
-      "popularity": 0.045,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/be/81/ca/be81ca6a-33ad-f453-6836-3d74ccf46b97/mzaf_12010172106429981465.plus.aac.p.m4a"
-      },
-      "releaseDate": "1982-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "eienoshima",
-          "永遠の島"
-        ]
-      },
-      "songKey": "永遠の島|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E6%B0%B8%E9%81%A0%E3%81%AE%E5%B3%B6/1537340252?i=1537340348",
-      "title": "永遠の島",
-      "titleKeys": [
-        "永遠の島"
-      ],
-      "titleLatin": "Eien no shima"
-    },
-    {
       "albumId": "apple:al:1537341749",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -6106,7 +6353,7 @@
       "explicit": false,
       "id": "apple:tr:1537341754",
       "latinSource": null,
-      "popularity": 0.165,
+      "popularity": 0.085,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6141,7 +6388,7 @@
       "explicit": false,
       "id": "apple:tr:1537342611",
       "latinSource": "cutlet",
-      "popularity": 0.1,
+      "popularity": 0.02,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6177,7 +6424,7 @@
       "explicit": false,
       "id": "apple:tr:1537344848",
       "latinSource": "cutlet",
-      "popularity": 0.855,
+      "popularity": 0.86,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6214,7 +6461,7 @@
       "explicit": false,
       "id": "apple:tr:1537344850",
       "latinSource": "cutlet",
-      "popularity": 0.355,
+      "popularity": 0.21,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6250,7 +6497,7 @@
       "explicit": false,
       "id": "apple:tr:1537344851",
       "latinSource": "cutlet",
-      "popularity": 0.565,
+      "popularity": 0.55,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6278,43 +6525,6 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
-      "durationMs": 285293,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1537344852",
-      "latinSource": "cutlet",
-      "popularity": 0.04,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/0c/bd/08/0cbd0881-e347-6a35-66a4-cb8ca5899ff8/mzaf_14430294508480154220.plus.aac.p.m4a"
-      },
-      "releaseDate": "1982-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "shiroisandaltomugiwaraboshi",
-          "shiroisandarutomugiwaraboshi",
-          "白いさんだると麦わら帽子"
-        ]
-      },
-      "songKey": "白いさんだると麦わら帽子|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E7%99%BD%E3%81%84%E3%82%B5%E3%83%B3%E3%83%80%E3%83%AB%E3%81%A8%E9%BA%A6%E3%82%8F%E3%82%89%E5%B8%BD%E5%AD%90/1537344605?i=1537344852",
-      "title": "白いサンダルと麦わら帽子",
-      "titleKeys": [
-        "白いさんだると麦わら帽子"
-      ],
-      "titleLatin": "Shiroi sandaru to mugiwara boushi"
-    },
-    {
-      "albumId": "apple:al:1537344605",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
       "durationMs": 311800,
       "eligible": {
         "daily": true,
@@ -6323,7 +6533,7 @@
       "explicit": false,
       "id": "apple:tr:1537344854",
       "latinSource": "manual",
-      "popularity": 0.23,
+      "popularity": 0.105,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6360,7 +6570,7 @@
       "explicit": false,
       "id": "apple:tr:1537344856",
       "latinSource": null,
-      "popularity": 0.12,
+      "popularity": 0.04,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6395,7 +6605,7 @@
       "explicit": false,
       "id": "apple:tr:1537347751",
       "latinSource": "cutlet",
-      "popularity": 0.49,
+      "popularity": 0.34,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6432,7 +6642,7 @@
       "explicit": false,
       "id": "apple:tr:1537347754",
       "latinSource": "cutlet",
-      "popularity": 0.8,
+      "popularity": 0.79,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6470,7 +6680,7 @@
       "explicit": false,
       "id": "apple:tr:1537347876",
       "latinSource": "cutlet",
-      "popularity": 0.955,
+      "popularity": 0.96,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6508,7 +6718,7 @@
       "explicit": false,
       "id": "apple:tr:1537348555",
       "latinSource": null,
-      "popularity": 0.24,
+      "popularity": 0.11,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6531,6 +6741,41 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1537381752",
+      "artistDisplay": "松田 聖子",
+      "artistIds": [
+        "apple:ar:76115834"
+      ],
+      "durationMs": 261867,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537381761",
+      "latinSource": null,
+      "popularity": 0.36,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/3f/7b/d1/3f7bd18c-e6af-4fce-d1bc-c8b0356b16d0/mzaf_14302470242112165054.plus.aac.p.m4a"
+      },
+      "releaseDate": "2005-04-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "justfortonight"
+        ]
+      },
+      "songKey": "justfortonight|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/just-for-tonight/1537381752?i=1537381761",
+      "title": "Just for tonight",
+      "titleKeys": [
+        "justfortonight"
+      ],
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1537387925",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -6544,7 +6789,7 @@
       "explicit": false,
       "id": "apple:tr:1537388295",
       "latinSource": null,
-      "popularity": 0.21,
+      "popularity": 0.48,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6579,7 +6824,7 @@
       "explicit": false,
       "id": "apple:tr:1537412366",
       "latinSource": "cutlet",
-      "popularity": 0.56,
+      "popularity": 0.545,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6616,7 +6861,7 @@
       "explicit": false,
       "id": "apple:tr:1537412372",
       "latinSource": "cutlet",
-      "popularity": 0.38,
+      "popularity": 0.235,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6654,7 +6899,7 @@
       "explicit": false,
       "id": "apple:tr:1537412409",
       "latinSource": "cutlet",
-      "popularity": 0.37,
+      "popularity": 0.225,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6692,7 +6937,7 @@
       "explicit": false,
       "id": "apple:tr:1537412414",
       "latinSource": null,
-      "popularity": 0.74,
+      "popularity": 0.73,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6728,7 +6973,7 @@
       "explicit": false,
       "id": "apple:tr:1537516112",
       "latinSource": "cutlet",
-      "popularity": 0.3,
+      "popularity": 0.17,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6765,7 +7010,7 @@
       "explicit": false,
       "id": "apple:tr:1537516114",
       "latinSource": null,
-      "popularity": 0.495,
+      "popularity": 0.345,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6800,7 +7045,7 @@
       "explicit": false,
       "id": "apple:tr:1537516115",
       "latinSource": "cutlet",
-      "popularity": 0.465,
+      "popularity": 0.32,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6837,7 +7082,7 @@
       "explicit": false,
       "id": "apple:tr:1537516173",
       "latinSource": null,
-      "popularity": 0.385,
+      "popularity": 0.24,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6872,7 +7117,7 @@
       "explicit": false,
       "id": "apple:tr:1537516183",
       "latinSource": "cutlet",
-      "popularity": 0.275,
+      "popularity": 0.145,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6908,7 +7153,7 @@
       "explicit": false,
       "id": "apple:tr:1537516296",
       "latinSource": "cutlet",
-      "popularity": 0.41,
+      "popularity": 0.265,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6945,7 +7190,7 @@
       "explicit": false,
       "id": "apple:tr:1537516299",
       "latinSource": "cutlet",
-      "popularity": 0.295,
+      "popularity": 0.165,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7006,43 +7251,6 @@
       "titleLatin": "Tengoku no kissu"
     },
     {
-      "albumId": "apple:al:1537516111",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
-      "durationMs": 241000,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1537516302",
-      "latinSource": "cutlet",
-      "popularity": 0.055,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c2/54/10/c254104d-cbdd-5685-3e95-85606a3b2cf0/mzaf_6412076032700416254.plus.aac.p.m4a"
-      },
-      "releaseDate": "1982-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "pacific",
-          "pashifikku",
-          "ぱしふぃっく"
-        ]
-      },
-      "songKey": "ぱしふぃっく|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E3%83%91%E3%82%B7%E3%83%95%E3%82%A3%E3%83%83%E3%82%AF/1537516111?i=1537516302",
-      "title": "パシフィック",
-      "titleKeys": [
-        "ぱしふぃっく"
-      ],
-      "titleLatin": "Pashifikku"
-    },
-    {
       "albumId": "apple:al:1538457847",
       "artistDisplay": "松田 聖子",
       "artistIds": [
@@ -7056,7 +7264,7 @@
       "explicit": false,
       "id": "apple:tr:1538457861",
       "latinSource": "manual",
-      "popularity": 0.11,
+      "popularity": 0.03,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7093,7 +7301,7 @@
       "explicit": false,
       "id": "apple:tr:1538457863",
       "latinSource": "cutlet",
-      "popularity": 0.765,
+      "popularity": 0.76,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7129,7 +7337,7 @@
       "explicit": false,
       "id": "apple:tr:1538457866",
       "latinSource": "cutlet",
-      "popularity": 0.625,
+      "popularity": 0.69,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7166,7 +7374,7 @@
       "explicit": false,
       "id": "apple:tr:1538457868",
       "latinSource": "cutlet",
-      "popularity": 0.76,
+      "popularity": 0.755,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7203,7 +7411,7 @@
       "explicit": false,
       "id": "apple:tr:1538457869",
       "latinSource": null,
-      "popularity": 0.43,
+      "popularity": 0.285,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7230,43 +7438,6 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
-      "durationMs": 269760,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1538457871",
-      "latinSource": "cutlet",
-      "popularity": 0.075,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/5d/a9/98/5da998a7-49e2-e63d-9862-df93caeb0fb8/mzaf_9011346648438428319.plus.aac.p.m4a"
-      },
-      "releaseDate": "1980-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "makkanaroadster",
-          "makkanarodosuta",
-          "真っ赤なろーどすたー"
-        ]
-      },
-      "songKey": "真っ赤なろーどすたー|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E7%9C%9F%E3%81%A3%E8%B5%A4%E3%81%AA%E3%83%AD%E3%83%BC%E3%83%89%E3%82%B9%E3%82%BF%E3%83%BC/1538457847?i=1538457871",
-      "title": "真っ赤なロードスター",
-      "titleKeys": [
-        "真っ赤なろーどすたー"
-      ],
-      "titleLatin": "Makka na roodosutaa"
-    },
-    {
-      "albumId": "apple:al:1538457847",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
       "durationMs": 284733,
       "eligible": {
         "daily": true,
@@ -7275,7 +7446,7 @@
       "explicit": false,
       "id": "apple:tr:1538457875",
       "latinSource": null,
-      "popularity": 0.125,
+      "popularity": 0.045,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7310,7 +7481,7 @@
       "explicit": false,
       "id": "apple:tr:1538457936",
       "latinSource": "cutlet",
-      "popularity": 0.715,
+      "popularity": 0.7,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7346,7 +7517,7 @@
       "explicit": false,
       "id": "apple:tr:1538457937",
       "latinSource": "cutlet",
-      "popularity": 0.09,
+      "popularity": 0.01,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7370,42 +7541,6 @@
       "titleLatin": "Marionetto no namida"
     },
     {
-      "albumId": "apple:al:1538918002",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
-      "durationMs": 254160,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1538918200",
-      "latinSource": "cutlet",
-      "popularity": 0.01,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/93/67/14/93671455-a945-72ae-4f15-b9d29ee3a58c/mzaf_17417384892934698787.plus.aac.p.m4a"
-      },
-      "releaseDate": "1986-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "rurironochikyu2003",
-          "瑠璃色の地球2003"
-        ]
-      },
-      "songKey": "瑠璃色の地球2003|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E7%91%A0%E7%92%83%E8%89%B2%E3%81%AE%E5%9C%B0%E7%90%83-2003/1538918002?i=1538918200",
-      "title": "瑠璃色の地球 2003",
-      "titleKeys": [
-        "瑠璃色の地球2003"
-      ],
-      "titleLatin": "Ruri iro no chikyuu 2003"
-    },
-    {
       "albumId": "apple:al:1575896006",
       "artistDisplay": "郷 ひろみ & 松田 聖子",
       "artistIds": [
@@ -7420,7 +7555,7 @@
       "explicit": false,
       "id": "apple:tr:1575896318",
       "latinSource": null,
-      "popularity": 0.77,
+      "popularity": 0.765,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7455,7 +7590,7 @@
       "explicit": false,
       "id": "apple:tr:1586906794",
       "latinSource": "manual",
-      "popularity": 0.72,
+      "popularity": 0.705,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7529,7 +7664,7 @@
       "explicit": false,
       "id": "apple:tr:1712834756",
       "latinSource": "cutlet",
-      "popularity": 0.425,
+      "popularity": 0.28,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7567,7 +7702,7 @@
       "explicit": false,
       "id": "apple:tr:1712834762",
       "latinSource": null,
-      "popularity": 0.47,
+      "popularity": 0.325,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7604,7 +7739,7 @@
       "explicit": false,
       "id": "apple:tr:1712834913",
       "latinSource": null,
-      "popularity": 0.435,
+      "popularity": 0.29,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7640,7 +7775,7 @@
       "explicit": false,
       "id": "apple:tr:1712834920",
       "latinSource": "cutlet",
-      "popularity": 0.31,
+      "popularity": 0.18,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7676,7 +7811,7 @@
       "explicit": false,
       "id": "apple:tr:1712835062",
       "latinSource": "cutlet",
-      "popularity": 0.735,
+      "popularity": 0.72,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7713,7 +7848,7 @@
       "explicit": false,
       "id": "apple:tr:1712835063",
       "latinSource": "cutlet",
-      "popularity": 0.415,
+      "popularity": 0.27,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7750,7 +7885,7 @@
       "explicit": false,
       "id": "apple:tr:1712835187",
       "latinSource": null,
-      "popularity": 0.25,
+      "popularity": 0.12,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7785,7 +7920,7 @@
       "explicit": false,
       "id": "apple:tr:1712835548",
       "latinSource": "manual",
-      "popularity": 0.66,
+      "popularity": 0.645,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7821,7 +7956,7 @@
       "explicit": false,
       "id": "apple:tr:1726162416",
       "latinSource": null,
-      "popularity": 0.75,
+      "popularity": 0.745,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7856,7 +7991,7 @@
       "explicit": false,
       "id": "apple:tr:1801664131",
       "latinSource": null,
-      "popularity": 0.78,
+      "popularity": 0.77,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7878,41 +8013,39 @@
       "titleLatin": null
     },
     {
-      "albumId": "apple:al:1844835480",
+      "albumId": "apple:al:1811935950",
       "artistDisplay": "松田 聖子",
       "artistIds": [
         "apple:ar:76115834"
       ],
-      "durationMs": 217947,
+      "durationMs": 219800,
       "eligible": {
         "daily": true,
         "reason": null
       },
       "explicit": false,
-      "id": "apple:tr:1844835494",
-      "latinSource": "cutlet",
-      "popularity": 0.065,
+      "id": "apple:tr:1811935953",
+      "latinSource": null,
+      "popularity": 0.39,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c2/1b/b3/c21bb3aa-1efa-3601-4b58-2cccc248ffac/mzaf_6822632875886897395.plus.aac.p.m4a"
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/99/73/c6/9973c62f-67df-0fab-1a75-00a6e6109e09/mzaf_4004317713406935114.plus.aac.p.m4a"
       },
-      "releaseDate": "1981-01-01",
+      "releaseDate": "2025-05-14",
       "search": {
         "artist": [],
         "title": [
-          "garasunoirie",
-          "glassnoirie",
-          "がらすの入江"
+          "starzust"
         ]
       },
-      "songKey": "がらすの入江|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AC%E3%83%A9%E3%82%B9%E3%81%AE%E5%85%A5%E6%B1%9F/1844835480?i=1844835494",
-      "title": "ガラスの入江",
+      "songKey": "stardust|apple:ar:76115834",
+      "storeUrl": "https://music.apple.com/jp/album/stardust/1811935950?i=1811935953",
+      "title": "Stardust",
       "titleKeys": [
-        "がらすの入江"
+        "stardust"
       ],
-      "titleLatin": "Garasu no irie"
+      "titleLatin": null
     },
     {
       "albumId": "apple:al:1844835480",
@@ -7928,7 +8061,7 @@
       "explicit": false,
       "id": "apple:tr:1844835827",
       "latinSource": "cutlet",
-      "popularity": 0.745,
+      "popularity": 0.74,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7956,44 +8089,6 @@
       "artistIds": [
         "apple:ar:76115834"
       ],
-      "durationMs": 183187,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1844835829",
-      "latinSource": "cutlet",
-      "popularity": 0.05,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7b/a2/ea/7ba2eac4-965c-c8dc-bf3a-16373782c7ca/mzaf_8716161864678060489.plus.aac.p.m4a"
-      },
-      "releaseDate": "1982-01-01",
-      "search": {
-        "artist": [],
-        "title": [
-          "yongatsunoloveletter",
-          "yongatsunorabureta",
-          "四月のらぶれたー"
-        ]
-      },
-      "songKey": "四月のらぶれたー|apple:ar:76115834",
-      "storeUrl": "https://music.apple.com/jp/album/%E5%9B%9B%E6%9C%88%E3%81%AE%E3%83%A9%E3%83%96%E3%83%AC%E3%82%BF%E3%83%BC/1844835480?i=1844835829",
-      "title": "四月のラブレター",
-      "titleKeys": [
-        "四月のらぶれたー",
-        "四月のらぶれたーおりじなるからおけ"
-      ],
-      "titleLatin": "Yon gatsu no rabu retaa"
-    },
-    {
-      "albumId": "apple:al:1844835480",
-      "artistDisplay": "松田 聖子",
-      "artistIds": [
-        "apple:ar:76115834"
-      ],
       "durationMs": 191373,
       "eligible": {
         "daily": true,
@@ -8002,7 +8097,7 @@
       "explicit": false,
       "id": "apple:tr:1844835831",
       "latinSource": null,
-      "popularity": 0.635,
+      "popularity": 0.62,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -8037,7 +8132,7 @@
       "explicit": false,
       "id": "apple:tr:1845049067",
       "latinSource": null,
-      "popularity": 0.475,
+      "popularity": 0.33,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -8072,7 +8167,7 @@
       "explicit": false,
       "id": "apple:tr:1845049212",
       "latinSource": "manual",
-      "popularity": 0.29,
+      "popularity": 0.16,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -8109,7 +8204,7 @@
       "explicit": false,
       "id": "apple:tr:1845383486",
       "latinSource": "cutlet",
-      "popularity": 0.285,
+      "popularity": 0.155,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -8145,7 +8240,7 @@
       "explicit": false,
       "id": "apple:tr:1845383489",
       "latinSource": "cutlet",
-      "popularity": 0.45,
+      "popularity": 0.305,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -8182,7 +8277,7 @@
       "explicit": false,
       "id": "apple:tr:1845383490",
       "latinSource": "cutlet",
-      "popularity": 0.095,
+      "popularity": 0.015,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
