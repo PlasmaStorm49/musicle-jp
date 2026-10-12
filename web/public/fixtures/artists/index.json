@@ -1,0 +1,28 @@
+{
+  "artists": [
+    {
+      "file": "ar02.json",
+      "id": "fixture:ar:ar02",
+      "name": "夜風シアター",
+      "nameLatin": "Yokaze Theater",
+      "songs": 4
+    },
+    {
+      "file": "ar07.json",
+      "id": "fixture:ar:ar07",
+      "name": "青井ユウ",
+      "nameLatin": "Aoi Yuu",
+      "songs": 4
+    },
+    {
+      "file": "ar01.json",
+      "id": "fixture:ar:ar01",
+      "name": "ミナト",
+      "nameLatin": "Minato",
+      "songs": 2
+    }
+  ],
+  "provider": "fixture",
+  "schemaVersion": 1,
+  "storefront": "jp"
+}

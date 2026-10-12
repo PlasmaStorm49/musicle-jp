@@ -1,0 +1,164 @@
+{
+  "provider": "fixture",
+  "storefront": "jp",
+  "fetchedAt": "2026-10-05T12:00:00Z",
+  "artists": {
+    "ar02": {
+      "entries": [
+        { "rank": 1, "ref": "tr05" },
+        { "rank": 2, "ref": "tr23" },
+        { "rank": 3, "ref": "tr38" },
+        { "rank": null, "ref": "tr24" },
+        {
+          "rank": 4,
+          "track": {
+            "providerId": "trx01",
+            "title": "開幕ベル (Karaoke)",
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }],
+            "album": {
+              "providerId": "alx01",
+              "title": "開幕ベル (Karaoke) - Single",
+              "type": "single",
+              "releaseDate": "2025-06-01",
+              "artworkUrl": "fixtures/art/al21.svg"
+            },
+            "durationMs": 289000,
+            "explicit": false,
+            "previewUrl": "fixtures/audio/tr23.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": null,
+          "track": {
+            "providerId": "trx02",
+            "title": "真夜中の観覧車",
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }],
+            "album": {
+              "providerId": "alx02",
+              "title": "夜風シアター LIVE TOUR 2026",
+              "type": "album",
+              "releaseDate": "2026-08-01",
+              "artworkUrl": "fixtures/art/al30.svg"
+            },
+            "durationMs": 290000,
+            "explicit": false,
+            "previewUrl": "fixtures/audio/tr38.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": null,
+          "track": {
+            "providerId": "trx03",
+            "title": "夜風ワルツ (Karaoke)",
+            "artists": [{ "providerId": "ar02", "name": "夜風シアター", "nameLatin": "Yokaze Theater" }],
+            "album": {
+              "providerId": "alx01",
+              "title": "開幕ベル (Karaoke) - Single",
+              "type": "single",
+              "releaseDate": "2025-06-01",
+              "artworkUrl": "fixtures/art/al21.svg"
+            },
+            "durationMs": 200000,
+            "explicit": false,
+            "previewUrl": "fixtures/audio/tr24.wav",
+            "previewDurationSec": 30
+          }
+        }
+      ]
+    },
+    "ar07": {
+      "entries": [
+        { "rank": 1, "ref": "tr27" },
+        { "rank": 2, "ref": "tr05" },
+        { "rank": 3, "ref": "tr15" },
+        { "rank": null, "ref": "tr41" },
+        {
+          "rank": null,
+          "track": {
+            "providerId": "trx04",
+            "title": "Becoming the Wind",
+            "artists": [{ "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "alx03",
+              "title": "BLUE SIDE",
+              "type": "album",
+              "releaseDate": "2026-07-01",
+              "artworkUrl": "fixtures/art/al14.svg"
+            },
+            "durationMs": 245000,
+            "explicit": false,
+            "previewUrl": "fixtures/audio/tr27.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": null,
+          "track": {
+            "providerId": "trx05",
+            "title": "Kimi to ❤️",
+            "artists": [{ "providerId": "ar07", "name": "青井ユウ", "nameLatin": "Aoi Yuu" }],
+            "album": {
+              "providerId": "alx04",
+              "title": "Blue Diary Deluxe",
+              "type": "album",
+              "releaseDate": "2026-09-01",
+              "artworkUrl": "fixtures/art/al14.svg"
+            },
+            "durationMs": 233000,
+            "explicit": false,
+            "previewUrl": "fixtures/audio/tr15.wav",
+            "previewDurationSec": 30
+          }
+        }
+      ]
+    },
+    "ar01": {
+      "entries": [
+        { "rank": 1, "ref": "tr01" },
+        { "rank": 2, "ref": "tr02" },
+        { "rank": null, "ref": "tr03" },
+        { "rank": 3, "ref": "tr37" },
+        {
+          "rank": null,
+          "track": {
+            "providerId": "trx06",
+            "title": "灯台 (ミナト from Dawn Collection)",
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "alx05",
+              "title": "灯台 (ミナト from Dawn Collection) - Single",
+              "type": "single",
+              "releaseDate": "2025-01-10",
+              "artworkUrl": "fixtures/art/al02.svg"
+            },
+            "durationMs": 249000,
+            "explicit": false,
+            "previewUrl": "fixtures/audio/tr37.wav",
+            "previewDurationSec": 30
+          }
+        },
+        {
+          "rank": null,
+          "track": {
+            "providerId": "trx07",
+            "title": "灯台 (Demo)",
+            "artists": [{ "providerId": "ar01", "name": "ミナト", "nameLatin": "Minato" }],
+            "album": {
+              "providerId": "alx05",
+              "title": "灯台 (ミナト from Dawn Collection) - Single",
+              "type": "single",
+              "releaseDate": "2025-01-10",
+              "artworkUrl": "fixtures/art/al02.svg"
+            },
+            "durationMs": 180000,
+            "explicit": false,
+            "previewUrl": "fixtures/audio/tr37.wav",
+            "previewDurationSec": 30
+          }
+        }
+      ]
+    }
+  }
+}

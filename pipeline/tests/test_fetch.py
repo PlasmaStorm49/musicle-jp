@@ -211,6 +211,8 @@ def test_cli_skips_an_unchanged_chart(snapshots_dir, monkeypatch, capsys):
 def test_other_commands_never_import_the_network_module(tmp_path):
     # Os comandos de todo dia, nos dois provedores: nenhum pode carregar o módulo de rede.
     fixture_out, real_out, schedule_out = (tmp_path / n for n in ("f.json", "r.json", "s.json"))
+    artists_out = tmp_path / "artists"
+    build_artists = ["build-artists", "--provider", "fixture", "--out-dir", str(artists_out)]
     schedule = [
         "schedule",
         "--catalog",
@@ -231,6 +233,10 @@ def test_other_commands_never_import_the_network_module(tmp_path):
         "assert main(['romanize', '--provider', 'apple', '--check']) == 0\n"
         "assert main(['validate', 'web/public/data/catalog.json']) == 0\n"
         f"assert main({schedule!r}) == 0\n"
+        # O modo por artista (M13): só o fetch --artists usa a rede.
+        "assert main(['romanize', '--provider', 'fixture', '--artists', '--check']) == 0\n"
+        f"assert main({build_artists!r}) == 0\n"
+        "assert main(['validate-artists', '--provider', 'fixture']) == 0\n"
         "print('musicle_pipeline.fetch' in sys.modules)\n"
     )
     result = subprocess.run(

@@ -1,0 +1,18 @@
+# Artistas fictícios do modo por artista (M13), na ordem da tela. Curadoria manual: o id é o do
+# provedor (aqui, o da parada fictícia), e as regras corrigem o que a limpeza automática não pega.
+#   exclude_albums: collectionId de álbum que não entra (ex.: um álbum em inglês sem sufixo)
+#   exclude_tracks: trackId de faixa que não entra
+#   same_song: pares de trackId da mesma música com títulos que a chave não junta (o 2º vai
+#     para o grupo do 1º)
+
+[[artists]]
+id = "ar02"  # 夜風シアター: karaokê, ao vivo e música só em karaokê
+
+[[artists]]
+id = "ar07"  # 青井ユウ: participação (tr05, de ar02), álbum em inglês e título em romaji
+exclude_albums = ["alx03"]
+same_song = [["tr15", "trx05"]]
+
+[[artists]]
+id = "ar01"  # ミナト: versões do mesmo título, TV Size, crédito "(… from …)" e faixa excluída
+exclude_tracks = ["trx07"]

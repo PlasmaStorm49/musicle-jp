@@ -1,0 +1,119 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "artworkUrl": "fixtures/art/al01.svg",
+      "id": "fixture:al:al01",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-03-01",
+      "title": "夜明けのメロディ - Single",
+      "titleLatin": "Yoake no merodi",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "artworkUrl": "fixtures/art/al02.svg",
+      "id": "fixture:al:al02",
+      "latinSource": null,
+      "releaseDate": "2024-11-20",
+      "title": "Dawn Collection",
+      "titleLatin": null,
+      "type": "album"
+    }
+  ],
+  "artistId": "fixture:ar:ar01",
+  "artists": [
+    {
+      "id": "fixture:ar:ar01",
+      "latinSource": "provider",
+      "name": "ミナト",
+      "nameLatin": "Minato"
+    }
+  ],
+  "fetchedAt": "2026-10-05T12:00:00Z",
+  "provider": "fixture",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "fixture:al:al01",
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "durationMs": 215000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr01",
+      "latinSource": "cutlet",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr01.wav"
+      },
+      "releaseDate": "2024-03-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "yoakenomelody",
+          "yoakenomeroji",
+          "夜明けのめろでぃ"
+        ]
+      },
+      "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
+      "storeUrl": null,
+      "title": "夜明けのメロディ",
+      "titleKeys": [
+        "夜明けのめろでぃ"
+      ],
+      "titleLatin": "Yoake no merodi"
+    },
+    {
+      "albumId": "fixture:al:al02",
+      "artistDisplay": "ミナト",
+      "artistIds": [
+        "fixture:ar:ar01"
+      ],
+      "durationMs": 249000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr37",
+      "latinSource": "cutlet",
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr37.wav"
+      },
+      "releaseDate": "2024-11-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "todai",
+          "灯台"
+        ]
+      },
+      "songKey": "灯台|fixture:ar:ar01",
+      "storeUrl": null,
+      "title": "灯台",
+      "titleKeys": [
+        "灯台",
+        "灯台みなとfromdawncollection"
+      ],
+      "titleLatin": "Toudai"
+    }
+  ]
+}
