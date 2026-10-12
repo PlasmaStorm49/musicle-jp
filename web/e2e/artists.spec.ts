@@ -29,6 +29,9 @@ test("Artistas: a lista na ordem, a busca só pelo título e um ciclo sem repeti
   ]);
 
   await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  // A escolha do submodo (P161): o Livre é o Desafio sem fim.
+  await expect(title).toHaveText("夜風シアター · Yokaze Theater");
+  await page.getByRole("button", { name: "Livre" }).click();
   await expect(title).toHaveText("夜風シアター · Yokaze Theater");
   const field = page.getByRole("combobox", { name: "Qual é a música?" });
   await expect(field).toHaveAttribute("placeholder", "Nome da música");
@@ -65,6 +68,7 @@ test("trocar de artista pede confirmação; a sessão segue entre as abas e some
 }) => {
   await open(page, DAY, "#artistas");
   await page.getByRole("button", { name: /^青井ユウ/ }).click();
+  await page.getByRole("button", { name: "Livre" }).click();
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
   await page.getByRole("button", { name: "Desistir" }).click();
   await expect(page.getByText("0 pontos em 1 rodada", { exact: true })).toBeVisible();
@@ -104,21 +108,88 @@ test("o diário de hoje sem resultado tira as músicas dele do artista (P141)", 
   // 08/10: a resposta tr02 é uma versão de 夜明けのめろでぃ (tr01), e o álbum dela entrega 灯台.
   await open(page, DAY, "#artistas");
   await page.getByRole("button", { name: /^ミナト/ }).click();
+  await page.getByRole("button", { name: "Livre" }).click();
   const notice = page.getByText(/^Não há rodada para sortear agora/);
   await expect(notice).toBeVisible();
   await expect(notice).toBeFocused();
   await expect(page.getByRole("button", { name: "Trocar de artista" })).toBeVisible();
+
+  // No Superfan, a partida acaba antes de começar, e o fim diz por quê.
+  await page.getByRole("button", { name: "Trocar de artista" }).click();
+  await page.getByRole("button", { name: /^ミナト/ }).click();
+  await page.getByRole("button", { name: "Superfan" }).click();
+  const title = page.getByRole("heading", { level: 1 });
+  await expect(title).toHaveText("Fim da partida");
+  await expect(title).toBeFocused();
+  await expect(page.getByText(/^Não há música para sortear agora/)).toBeVisible();
+  await expect(page.getByText("Placar: 0 pontos", { exact: true })).toBeVisible();
 });
 
-test("toque duplo num artista, no celular: começa a sessão sem tocar nem trocar", async ({
+test("toque duplo num artista, no Livre e no Superfan, no celular: cada um abre a tela seguinte, sem tocar", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 640 });
   await open(page, DAY, "#artistas");
+  const title = page.getByRole("heading", { level: 1 });
+  // O 2º clique no artista cai num cartão da escolha do modo, que o ignora.
   await page.getByRole("button", { name: /^青井ユウ/ }).dblclick();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("青井ユウ · Aoi Yuu");
+  await expect(title).toHaveText("青井ユウ · Aoi Yuu");
+  await expect(page.getByRole("button", { name: "Livre" })).toBeVisible();
+  await expect(page.getByText("Rodada 1")).toHaveCount(0);
+  await page.getByRole("button", { name: "Livre" }).dblclick();
   await expect(page.getByText("Rodada 1")).toBeVisible();
   expect(await page.evaluate(() => window.__musicleAudioLog?.length ?? 0)).toBe(0);
   await page.getByRole("button", { name: "Trocar de artista" }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Artistas");
+  await expect(title).toHaveText("Artistas");
+
+  // O mesmo no cartão do Superfan: o 2º clique, no Tocar da partida, não toca.
+  await page.getByRole("button", { name: /^青井ユウ/ }).click();
+  await page.getByRole("button", { name: "Superfan" }).dblclick();
+  await expect(page.getByText("Música 1", { exact: true })).toBeVisible();
+  expect(await page.evaluate(() => window.__musicleAudioLog?.length ?? 0)).toBe(0);
+});
+
+test("Superfan: o trecho de 1 s sorteado na prévia, o erro que custa 5 e o fim da partida (ME61)", async ({
+  page,
+}) => {
+  await open(page, DAY, "#artistas");
+  const title = page.getByRole("heading", { level: 1 });
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await page.getByRole("button", { name: "Superfan" }).click();
+  await expect(title).toHaveText("夜風シアター · Yokaze Theater · Superfan");
+  await expect(page.locator(".superfan-limits")).toHaveText("Erros: 0 de 3 · Ajudas: 0 de 3");
+  await expect(page.getByRole("button", { name: /^Pedir ajuda/ })).toBeVisible(); // logo de cara
+
+  await page.getByRole("button", { name: "Tocar 1 s" }).click();
+  const played = await lastPlayed(page);
+  test.info().annotations.push({ type: "faixa sorteada", description: played.id });
+  const offset = await page.evaluate(() => window.__musicleAudioLog?.at(-1)?.offset ?? -1);
+  expect(offset).toBeGreaterThanOrEqual(0);
+  expect(offset).toBeLessThanOrEqual(19);
+
+  // Um palpite errado: −5, um erro, e o trecho de 4 s (P158).
+  const other = artistFile("ar02.json").tracks.find((t) => t.id !== played.id);
+  if (!other) throw new Error("ar02 sem outra música");
+  const field = page.getByRole("combobox", { name: "Qual é a música?" });
+  await field.fill(other.title);
+  await page.getByRole("option").filter({ hasText: other.title }).first().click();
+  await expect(page.locator(".superfan-limits")).toHaveText("Erros: 1 de 3 · Ajudas: 0 de 3");
+  await expect(page.getByText("Placar: -5 pontos", { exact: true })).toBeVisible();
+  // O trecho de 4 s da mesma música começa no mesmo ponto sorteado.
+  await page.getByRole("button", { name: "Tocar 4 s" }).click();
+  await expect
+    .poll(() => page.evaluate(() => window.__musicleAudioLog?.length ?? 0))
+    .toBeGreaterThan(1);
+  expect(await page.evaluate(() => window.__musicleAudioLog?.at(-1)?.offset)).toBe(offset);
+  expect((await lastPlayed(page)).id).toBe(played.id);
+
+  // Encerrar pergunta antes (há um erro a perder) e mostra o resultado.
+  await page.getByRole("button", { name: "Encerrar a partida" }).click();
+  await page.getByRole("button", { name: "Sim, encerrar" }).click();
+  await expect(title).toHaveText("Fim da partida");
+  await expect(title).toBeFocused();
+  await expect(page.getByText("Você encerrou a partida.")).toBeVisible();
+  await expect(page.getByText("Placar: -5 pontos", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Trocar de artista" }).click();
+  await expect(title).toHaveText("Artistas");
 });
