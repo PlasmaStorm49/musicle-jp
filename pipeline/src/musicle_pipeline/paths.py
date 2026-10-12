@@ -63,6 +63,41 @@ def provider_paths(provider: str) -> ProviderPaths:
     )
 
 
+def artist_schema_path() -> Path:
+    return repo_root() / "shared" / "schema" / "artist.schema.json"
+
+
+def artist_list_schema_path() -> Path:
+    return repo_root() / "shared" / "schema" / "artist-list.schema.json"
+
+
+@dataclass(frozen=True)
+class ArtistPaths:
+    """O modo por artista (M13) tem curadoria, cache e pasta próprios, separados dos da parada:
+    um aliases.toml compartilhado quebraria o build da parada (ID que ela não tem), e o
+    --refresh do romaji de um apagaria os textos do outro."""
+
+    artists: Path  # artists.toml: a lista curada, na ordem da tela, e as regras de cada artista
+    aliases: Path
+    romaji: Path
+    source: Path  # snapshots/ (apple, um por artista) ou artists_fixture.json (fixture)
+    public_dir: Path  # onde ficam o index.json e um arquivo por artista
+
+
+_ARTIST_SOURCES = {"fixture": "artists_fixture.json", "apple": "snapshots"}
+
+
+def artist_paths(provider: str) -> ArtistPaths:
+    curation = repo_root() / _CURATION_DIRS[provider] / "artists"
+    return ArtistPaths(
+        artists=curation / "artists.toml",
+        aliases=curation / "aliases.toml",
+        romaji=curation / "romaji.json",
+        source=curation / _ARTIST_SOURCES[provider],
+        public_dir=repo_root() / _PUBLIC_DIRS[provider] / "artists",
+    )
+
+
 def apple_snapshots_dir() -> Path:
     """Snapshots da parada real, um por dia (gravados pelo comando fetch; só crescem)."""
     return repo_root() / _CURATION_DIRS["apple"] / "snapshots"
