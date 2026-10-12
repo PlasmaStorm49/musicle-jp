@@ -9,7 +9,12 @@ import { practiceSummary } from "../core/home.ts";
 import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
 import { MODES } from "../core/rules.ts";
-import { appleResolver, catalogResolver, type PreviewResolver } from "../data/previews.ts";
+import {
+  appleResolver,
+  catalogResolver,
+  lookupBudget,
+  type PreviewResolver,
+} from "../data/previews.ts";
 import {
   assetUrl,
   dataDirFor,
@@ -104,6 +109,11 @@ export function App() {
   // A sessão do Treino mora aqui, e não no Practice: trocar de aba e voltar não a zera. Só
   // na memória (P50): recarregar a página começa outra. null = a escolha do modo (P105).
   const [practice, setPractice] = useState<PracticeSession | null>(null);
+  // A cota e o disjuntor do lookup da Apple, um só para todos os resolvedores (P142).
+  const budget = useMemo(
+    () => lookupBudget({ now: Date.now, disabled: lookupFailForced(window.location.search) }),
+    [],
+  );
   const refresh = useCallback(() => {
     const read = loadSave(saves.store);
     if (read.writable) setLatest(read.save);
@@ -155,14 +165,9 @@ export function App() {
     if (load.status !== "ready") return null;
     const { index } = load.data;
     return index.catalog.provider === APPLE_PROVIDER
-      ? appleResolver({
-          index,
-          fetchFn: (url, init) => fetch(url, init),
-          disabled: lookupFailForced(window.location.search),
-          now: Date.now,
-        })
+      ? appleResolver({ index, fetchFn: (url, init) => fetch(url, init), budget })
       : catalogResolver(index, resolveUrl);
-  }, [load, resolveUrl]);
+  }, [load, resolveUrl, budget]);
 
   const engine = useMemo<AudioEngine | null>(() => {
     if (load.status !== "ready" || !resolver) return null;

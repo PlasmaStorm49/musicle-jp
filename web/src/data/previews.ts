@@ -38,40 +38,72 @@ export const LOOKUP_QUOTA = 12;
 export const FAILURES_TO_OPEN = 2;
 const MINUTE_MS = 60_000;
 
+/**
+ * A cota e o disjuntor do lookup (P142). A Apple conta por IP, e não por catálogo: a parada e
+ * cada artista (M13) têm o seu resolvedor, mas dividem um orçamento só, o da sessão.
+ */
+export interface LookupBudget {
+  /** Pode consultar agora? Gasta uma da cota; false com o disjuntor aberto ou a cota cheia. */
+  take(): boolean;
+  /** Disjuntor aberto: não consulta mais nesta sessão. */
+  isOpen(): boolean;
+  succeeded(): void;
+  /** Mais uma falha seguida; a FAILURES_TO_OPEN-ésima abre o disjuntor. */
+  failed(): void;
+  /** A Apple pediu para parar (403 ou 429): abre na hora, porque insistir só pioraria. */
+  stop(): void;
+}
+
+export type LookupBudgetOptions = {
+  /** Relógio para a cota: o App passa o Date.now, os testes passam o seu. */
+  readonly now: () => number;
+  /** ?failLookup=1 (P76): nunca consulta, e tudo vai para a reserva. */
+  readonly disabled?: boolean;
+};
+
+export function lookupBudget({ now, disabled = false }: LookupBudgetOptions): LookupBudget {
+  const recent: number[] = []; // instantes das consultas do último minuto
+  let failures = 0;
+  let open = disabled;
+  return {
+    take() {
+      if (open) return false;
+      const t = now();
+      while (recent.length > 0 && (recent[0] ?? t) <= t - MINUTE_MS) recent.shift();
+      if (recent.length >= LOOKUP_QUOTA) return false;
+      recent.push(t);
+      return true;
+    },
+    isOpen: () => open,
+    succeeded() {
+      failures = 0;
+    },
+    failed() {
+      failures += 1;
+      if (failures >= FAILURES_TO_OPEN) open = true;
+    },
+    stop() {
+      open = true;
+    },
+  };
+}
+
 export type AppleResolverOptions = {
   readonly index: CatalogIndex;
   readonly fetchFn: FetchLike;
-  /** ?failLookup=1 (P76): nunca consulta, e tudo vai para a reserva. */
-  readonly disabled?: boolean;
-  /** Relógio para a cota: o App passa o Date.now, os testes passam o seu. */
-  readonly now: () => number;
+  /** O orçamento da sessão, o mesmo para todos os resolvedores. */
+  readonly budget: LookupBudget;
 };
 
-/** Parada real: lookup do iTunes no navegador, com a reserva do catálogo. */
-export function appleResolver({
-  index,
-  fetchFn,
-  disabled = false,
-  now,
-}: AppleResolverOptions): PreviewResolver {
+/** Parada real ou artista (M13): lookup do iTunes no navegador, com a reserva do catálogo. */
+export function appleResolver({ index, fetchFn, budget }: AppleResolverOptions): PreviewResolver {
   const resolved = new Map<string, string | null>();
   const pending = new Map<string, Promise<string | null>>();
-  const recent: number[] = []; // instantes das consultas do último minuto
-  let failures = 0;
-  let open = disabled; // disjuntor aberto: não consulta mais nesta sessão
 
   /** O previewUrl guardado no catálogo (o pipeline já conferiu o host; aqui, de novo). */
   function reserve(trackId: string): string | null {
     const url = index.tracks.get(trackId)?.preview?.url;
     return url && isAppleUrl("preview", url) ? url : null;
-  }
-
-  function withinQuota(): boolean {
-    const t = now();
-    while (recent.length > 0 && (recent[0] ?? t) <= t - MINUTE_MS) recent.shift();
-    if (recent.length >= LOOKUP_QUOTA) return false;
-    recent.push(t);
-    return true;
   }
 
   /** O mapa faixa → previewUrl da Apple, ou null se a consulta falhou. */
@@ -81,16 +113,15 @@ export function appleResolver({
     try {
       const response = await fetchFn(lookupUrl(numbers), { signal: controller.signal });
       if (response.status === 403 || response.status === 429) {
-        open = true; // a Apple pediu para parar: insistir só pioraria
+        budget.stop();
         return null;
       }
       const found = response.ok ? previewsFromLookup(await response.json()) : null;
       if (!found) throw new Error("resposta inesperada do lookup");
-      failures = 0;
+      budget.succeeded();
       return found;
     } catch {
-      failures += 1;
-      if (failures >= FAILURES_TO_OPEN) open = true;
+      budget.failed();
       return null;
     } finally {
       clearTimeout(timer);
@@ -108,7 +139,7 @@ export function appleResolver({
     const todo = queue;
     queue = [];
     const numbers = todo.flatMap((id) => appleTrackNumber(id) ?? []);
-    const found = numbers.length > 0 && !open && withinQuota() ? await lookup(numbers) : null;
+    const found = numbers.length > 0 && budget.take() ? await lookup(numbers) : null;
     for (const id of todo) {
       resolved.set(id, found?.get(id) ?? reserve(id)); // falha ou faixa ausente: reserva
       pending.delete(id);
@@ -118,7 +149,7 @@ export function appleResolver({
   function prefetch(trackIds: readonly string[]): void {
     const todo = [...new Set(trackIds)].filter((id) => !resolved.has(id) && !pending.has(id));
     if (todo.length === 0) return;
-    if (open) {
+    if (budget.isOpen()) {
       for (const id of todo) resolved.set(id, reserve(id)); // disjuntor aberto: reserva na hora
       return;
     }
