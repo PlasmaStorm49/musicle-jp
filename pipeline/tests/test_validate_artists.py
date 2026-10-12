@@ -93,6 +93,12 @@ def test_the_list():
         (lambda f: f["ar02.json"].update(provider="apple"), "provider/storefront"),
         (lambda f: f["index.json"]["artists"][0].update(id="fixture:ar:zz"), "artistId"),
         (lambda f: f.pop("index.json"), "index.json ausente"),
+        # A capa do cartão (P168) é sempre a que a regra escolhe entre os álbuns do arquivo.
+        (
+            lambda f: f["index.json"]["artists"][0].update(artworkUrl="https://evil.test/x.jpg"),
+            "a capa do index.json",
+        ),
+        (lambda f: f["index.json"]["artists"][0].update(artworkUrl=None), "a capa do index.json"),
     ],
 )
 def test_the_set(change, message):

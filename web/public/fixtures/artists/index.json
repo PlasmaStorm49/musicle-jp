@@ -1,6 +1,7 @@
 {
   "artists": [
     {
+      "artworkUrl": "fixtures/art/al21.svg",
       "file": "ar02.json",
       "id": "fixture:ar:ar02",
       "name": "夜風シアター",
@@ -8,6 +9,7 @@
       "songs": 4
     },
     {
+      "artworkUrl": "fixtures/art/al14.svg",
       "file": "ar07.json",
       "id": "fixture:ar:ar07",
       "name": "青井ユウ",
@@ -15,6 +17,7 @@
       "songs": 4
     },
     {
+      "artworkUrl": "fixtures/art/al01.svg",
       "file": "ar01.json",
       "id": "fixture:ar:ar01",
       "name": "ミナト",

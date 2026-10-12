@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -288,6 +289,28 @@ class FakeProvider:
 
     def snapshot(self, artist_id: str) -> ArtistSnapshot:
         return self.snapshots[artist_id]
+
+
+def _with_art(t: RawTrack, url: str | None) -> RawTrack:
+    return replace(t, album=replace(t.album, artwork_url=url))
+
+
+def _card(*entries: tuple[int | None, RawTrack]) -> str | None:
+    s = snap(*entries)
+    songs, _ = pick(s)
+    return artists.card_artwork(build_artist_file("fixture", "jp", s, songs, Curation()))
+
+
+def test_the_card_cover_is_the_most_popular_song_on_an_album_of_the_artist_alone():
+    # A mais popular é um single em parceria (a capa seria a do outro artista também): vale a
+    # seguinte, de um álbum só dele (P168).
+    collab = _with_art(track("1", "共演", kind="single", by=(ME, OTHER)), "fixtures/art/c.svg")
+    solo = _with_art(track("2", "ソロ"), "fixtures/art/s.svg")
+    third = _with_art(track("3", "三番"), "fixtures/art/t.svg")
+    assert _card((1, collab), (2, solo), (3, third)) == "fixtures/art/s.svg"
+    # Só parcerias: a capa da mais popular. Sem capa nenhuma: None (a tela mostra o monograma).
+    assert _card((1, collab)) == "fixtures/art/c.svg"
+    assert _card((1, _with_art(solo, None))) is None
 
 
 def test_build_artists_lists_in_order_and_warns_about_romaji_twins():

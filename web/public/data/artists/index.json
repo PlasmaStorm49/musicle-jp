@@ -1,6 +1,7 @@
 {
   "artists": [
     {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/3a/17/eb/3a17eb30-eacb-82eb-51df-d1321dbb55bc/197188492205.jpg/300x300bb.jpg",
       "file": "1490256993.json",
       "id": "apple:ar:1490256993",
       "name": "YOASOBI",
@@ -8,6 +9,7 @@
       "songs": 37
     },
     {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/88/ce/67/88ce6774-3358-e238-5244-1b0788adea50/4547366475562.jpg/300x300bb.jpg",
       "file": "573943518.json",
       "id": "apple:ar:573943518",
       "name": "LiSA",
@@ -15,6 +17,7 @@
       "songs": 200
     },
     {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/0b/81/ae/0b81aee7-d566-06c1-bb6c-70a36ffe5e29/TFDS-00621WW.jpg/300x300bb.jpg",
       "file": "1080967231.json",
       "id": "apple:ar:1080967231",
       "name": "Eve",
@@ -22,6 +25,7 @@
       "songs": 124
     },
     {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/80/e8/82/80e8826c-f877-9a74-0e7b-a142108feda0/23UMGIM92958.rgb.jpg/300x300bb.jpg",
       "file": "1492604670.json",
       "id": "apple:ar:1492604670",
       "name": "Ado",
@@ -29,6 +33,7 @@
       "songs": 96
     },
     {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/c9/40/9e/c9409e84-c0ea-c389-3be3-2343ec3dfb3b/4547366539806.jpg/300x300bb.jpg",
       "file": "569972619.json",
       "id": "apple:ar:569972619",
       "name": "Aimer",
@@ -36,6 +41,7 @@
       "songs": 178
     },
     {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/4e/a8/75/4ea875d1-bdb6-9b83-185a-646391cbffbd/4547366589849.jpg/300x300bb.jpg",
       "file": "530814268.json",
       "id": "apple:ar:530814268",
       "name": "米津玄師",
@@ -43,6 +49,7 @@
       "songs": 120
     },
     {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/48/f4/c1/48f4c1f1-0322-4655-cd37-c76f294ee8c9/jacket_SRCL07713B00Z_550.jpg/300x300bb.jpg",
       "file": "311230779.json",
       "id": "apple:ar:311230779",
       "name": "UNLIMITS",
@@ -50,6 +57,7 @@
       "songs": 85
     },
     {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/b9/2e/9e/b92e9e05-4edb-d607-6812-da9b491ca43f/4560427458618.jpg/300x300bb.jpg",
       "file": "76115834.json",
       "id": "apple:ar:76115834",
       "name": "松田 聖子",
