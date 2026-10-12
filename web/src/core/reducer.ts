@@ -2,7 +2,7 @@
 // catálogo nem tela. Evento que não faz sentido no estado atual devolve O MESMO objeto, o que
 // facilita os testes e evita redesenho à toa no Preact.
 import { acceptedIds, type CatalogIndex } from "./catalog.ts";
-import { MAX_STAGE, MODE_RULES, pointsAtStage } from "./rules.ts";
+import { HELP_OPTIONS, HELP_POINTS, MAX_STAGE, MODE_RULES, pointsAtStage } from "./rules.ts";
 import type { Day, Target } from "./types.ts";
 
 export type RoundStatus = "playing" | "won" | "lost" | "void";
@@ -26,6 +26,11 @@ export type RoundState = {
   readonly status: RoundStatus;
   /** Por que foi anulada: "unavailable" (catálogo) ou o motivo do evento VOID. */
   readonly voidReason: string | null;
+  /**
+   * As opções da ajuda (P149), quando pedida: faixas, a certa entre elas. Daí em diante o
+   * palpite sai delas, errar encerra a rodada (P151) e acertar vale HELP_POINTS (P152).
+   */
+  readonly help: readonly string[] | null;
 };
 
 export type GameState = {
@@ -42,6 +47,11 @@ export type GameEvent =
   | { readonly type: "LISTEN_MORE" }
   | { readonly type: "SKIP" }
   | { readonly type: "GIVE_UP" }
+  /**
+   * Pede a ajuda, com as opções já sorteadas por quem pede (core/help.ts): o reducer não
+   * consulta o catálogo nem sorteia, e o evento salvo refaz a mesma rodada.
+   */
+  | { readonly type: "HELP"; readonly options: readonly string[] }
   /** Anula a rodada `round` (ex.: falha de áudio). Ignorado se não for a rodada atual. */
   | { readonly type: "VOID"; readonly round: number; readonly reason: string }
   | { readonly type: "NEXT_ROUND" };
@@ -68,6 +78,7 @@ export function createRounds(
       options: MODE_RULES[target].guessFromOptions ? [...(planned.options ?? [])] : [],
       stage: 0,
       attempts: [],
+      help: null,
     };
     if (!track?.eligible.daily) {
       return {
@@ -102,11 +113,13 @@ function withRound(state: GameState, round: RoundState): GameState {
 function guess(state: GameState, round: RoundState, guessId: string): GameState {
   const rules = MODE_RULES[state.target];
   if (rules.guessFromOptions && !round.options.includes(guessId)) return state;
+  if (round.help && !round.help.includes(guessId)) return state;
   if (round.attempts.some((a) => a.kind === "guess" && a.guessId === guessId)) return state;
   const correct = round.accepted.includes(guessId);
   const attempts = [...round.attempts, { kind: "guess", guessId, correct } as const];
   if (correct) return withRound(state, { ...round, attempts, status: "won" });
-  if (rules.wrongGuess === "end" || attempts.length >= rules.maxAttempts) {
+  // Com a ajuda, errou, acabou (P151).
+  if (rules.wrongGuess === "end" || round.help || attempts.length >= rules.maxAttempts) {
     return withRound(state, { ...round, attempts, status: "lost" });
   }
   return withRound(state, { ...round, attempts, stage: Math.min(round.stage + 1, MAX_STAGE) });
@@ -114,12 +127,30 @@ function guess(state: GameState, round: RoundState, guessId: string): GameState 
 
 function skip(state: GameState, round: RoundState): GameState {
   const rules = MODE_RULES[state.target];
-  if (!rules.skip) return state;
+  // Com a ajuda na tela, pular só trocaria o trecho: as opções já estão dadas.
+  if (!rules.skip || round.help) return state;
   const attempts = [...round.attempts, { kind: "skip" } as const];
   if (attempts.length >= rules.maxAttempts) {
     return withRound(state, { ...round, attempts, status: "lost" });
   }
   return withRound(state, { ...round, attempts, stage: Math.min(round.stage + 1, MAX_STAGE) });
+}
+
+/**
+ * A ajuda: só no modo que a tem, uma vez por rodada e depois de gastar ao menos uma tentativa
+ * (P150). As opções vêm de quem pede; o reducer só confere a forma: de 2 a HELP_OPTIONS ids
+ * distintos, nenhum já tentado, e um deles aceito (a ajuda nunca esconde a resposta).
+ */
+function help(state: GameState, round: RoundState, options: readonly string[]): GameState {
+  if (!MODE_RULES[state.target].help || round.help || round.attempts.length === 0) return state;
+  const tried = new Set(round.attempts.flatMap((a) => (a.kind === "guess" ? [a.guessId] : [])));
+  const valid =
+    options.length >= 2 &&
+    options.length <= HELP_OPTIONS &&
+    new Set(options).size === options.length &&
+    options.every((id) => typeof id === "string" && !tried.has(id)) &&
+    options.some((id) => round.accepted.includes(id));
+  return valid ? withRound(state, { ...round, help: [...options] }) : state;
 }
 
 export function reduce(state: GameState, event: GameEvent): GameState {
@@ -140,6 +171,8 @@ export function reduce(state: GameState, event: GameEvent): GameState {
       return guess(state, round, event.guessId);
     case "SKIP":
       return skip(state, round);
+    case "HELP":
+      return help(state, round, event.options);
     case "GIVE_UP":
       return withRound(state, { ...round, status: "lost" });
     case "VOID":
@@ -163,7 +196,11 @@ export function isFinished(state: GameState): boolean {
   return state.rounds.every((r) => r.status !== "playing");
 }
 
-/** Pontos de uma rodada. O total e o máximo do dia ficam em records.ts (recordScore, recordMax). */
+/**
+ * Pontos de uma rodada: com a ajuda, HELP_POINTS em qualquer etapa (P152). O total e o máximo
+ * do dia ficam em records.ts (recordScore, recordMax).
+ */
 export function roundScore(round: RoundState): number {
-  return round.status === "won" ? pointsAtStage(round.stage) : 0;
+  if (round.status !== "won") return 0;
+  return round.help ? HELP_POINTS : pointsAtStage(round.stage);
 }

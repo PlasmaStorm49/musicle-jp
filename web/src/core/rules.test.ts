@@ -64,16 +64,18 @@ describe("regras por modo (P100)", () => {
       listenMore: true,
       skip: false,
       guessFromOptions: true,
+      help: false,
     });
   });
 
-  it("Desafio (música): 6 tentativas digitadas, errar avança, pode pular", () => {
+  it("Desafio (música): 6 tentativas digitadas, errar avança, pode pular e pedir ajuda", () => {
     expect(MODE_RULES.song).toEqual({
       maxAttempts: 6,
       wrongGuess: "advance",
       listenMore: false,
       skip: true,
       guessFromOptions: false,
+      help: true,
     });
   });
 

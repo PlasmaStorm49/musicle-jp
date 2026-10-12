@@ -8,6 +8,15 @@ export const MAX_STAGE = STAGES.length - 1;
 export const ROUNDS_PER_DAY = 3;
 /** Pontos de uma rodada acertada na primeira etapa; cada etapa a mais custa 1. */
 export const MAX_POINTS = STAGES.length;
+/** Pontos de uma rodada acertada com a ajuda, em qualquer etapa (P152). */
+export const HELP_POINTS = 1;
+/** Quantas opções a ajuda mostra, a certa entre elas (P149). */
+export const HELP_OPTIONS = 4;
+/**
+ * Depois de quantas tentativas gastas (erradas ou puladas, P150) o botão da ajuda aparece: no
+ * Treino e no modo por artista, depois da 1ª; nos diários, só depois da 3ª (P149).
+ */
+export const HELP_AFTER = { practice: 1, daily: 3 } as const;
 
 /** Largura de cada pedaço da barra de progresso: quanto cada etapa acrescenta (1,1,2,3,4,5). */
 export const SEGMENT_WEIGHTS: readonly number[] = STAGES.map(
@@ -25,6 +34,11 @@ export type ModeRules = {
   readonly skip: boolean;
   /** O palpite tem de ser uma das opções da rodada (4 opções); senão, vale qualquer da busca. */
   readonly guessFromOptions: boolean;
+  /**
+   * A ajuda (P149 a P152): trocar a digitação por opções de música, depois de gastar uma
+   * tentativa (P150). Quem mostra o botão decide depois de quantas: o diário espera 3.
+   */
+  readonly help: boolean;
 };
 
 /** Os modos na ordem da nav, da home e dos diários: o Normal (álbum) primeiro. */
@@ -38,6 +52,7 @@ export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
     listenMore: true,
     skip: false,
     guessFromOptions: true,
+    help: false,
   },
   song: {
     maxAttempts: MAX_POINTS,
@@ -45,6 +60,7 @@ export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
     listenMore: false,
     skip: true,
     guessFromOptions: false,
+    help: true,
   },
 };
 

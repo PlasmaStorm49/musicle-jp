@@ -57,6 +57,24 @@ function entry(
   };
 }
 
+/**
+ * A faixa que representa uma música (um grupo de songKey) na tela: a mais popular, e o menor
+ * id no empate. A busca sugere essa, e a ajuda mostra essa.
+ */
+export function songRepresentative<T extends { readonly id: string; readonly popularity: number }>(
+  group: readonly T[],
+): T | undefined {
+  return group.reduce<T | undefined>(
+    (best, t) =>
+      !best ||
+      t.popularity > best.popularity ||
+      (t.popularity === best.popularity && byCodeUnit(t.id, best.id) < 0)
+        ? t
+        : best,
+    undefined,
+  );
+}
+
 /** Montado uma vez por catálogo: cada rodada do Desafio pede o seu. */
 const searchIndexes = new WeakMap<CatalogIndex, SearchIndex>();
 
@@ -69,12 +87,8 @@ export function buildSearchIndex(index: CatalogIndex): SearchIndex {
   if (cached) return cached;
   const entries: SearchEntry[] = [];
   for (const [songKey, group] of index.tracksBySong) {
-    const rep = group.reduce((best, t) =>
-      t.popularity > best.popularity ||
-      (t.popularity === best.popularity && byCodeUnit(t.id, best.id) < 0)
-        ? t
-        : best,
-    );
+    const rep = songRepresentative(group);
+    if (!rep) continue;
     entries.push(
       entry(
         rep.id,
