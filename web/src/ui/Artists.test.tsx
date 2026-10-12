@@ -2,6 +2,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { AudioEngine } from "../audio/engine.ts";
+import { PLAYLIST_URL } from "../core/apple.ts";
 import { indexCatalog } from "../core/catalog.ts";
 import { searchKey } from "../core/normalize.ts";
 import { emptySave, type Save } from "../core/records.ts";
@@ -95,8 +96,23 @@ const FILES: Record<string, unknown> = {
     provider: "teste",
     storefront: "jp",
     artists: [
-      { id: YOKAZE.id, name: YOKAZE.name, nameLatin: "Yokaze", file: "1.json", songs: 3 },
-      { id: BANDA.id, name: BANDA.name, nameLatin: null, file: "2.json", songs: 2 },
+      {
+        id: YOKAZE.id,
+        name: YOKAZE.name,
+        nameLatin: "Yokaze",
+        file: "1.json",
+        songs: 3,
+        artworkUrl: "fixtures/art/al1.svg",
+      },
+      // Sem capa: o monograma (P171).
+      {
+        id: BANDA.id,
+        name: BANDA.name,
+        nameLatin: null,
+        file: "2.json",
+        songs: 2,
+        artworkUrl: null,
+      },
     ],
   } satisfies ArtistList,
   "1.json": artistFile(YOKAZE, [1, 2, 3]),
@@ -244,12 +260,51 @@ describe("Artists: a lista (P147)", () => {
     // O foco vem num efeito, depois da pintura da lista que chegou pela rede.
     await waitFor(() => expect(document.activeElement).toBe(heading));
     const cards = screen.getAllByRole("button");
-    expect(cards.map((b) => b.textContent)).toEqual(["夜風 · Yokaze3 músicas", "Banda2 músicas"]);
+    // O "B" é o monograma da Banda, que não tem capa (escondido do leitor de tela).
+    expect(cards.map((b) => b.textContent)).toEqual(["夜風 · Yokaze3 músicas", "BBanda2 músicas"]);
     // O nome acessível é o do artista; a contagem é a descrição.
     expect(card(/^夜風/).getAttribute("aria-describedby")).toBe("artist-0-songs");
     expect(screen.getByText("夜風").getAttribute("lang")).toBe("ja");
     expect(screen.getByText("Banda").getAttribute("lang")).toBeNull();
     expect(net.calls).toEqual([`${BASE}${DIR}artists/index.json`]);
+  });
+
+  it("a capa no cartão (P168); sem ela, ou se não carregar, o monograma (P171)", async () => {
+    setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    const cover = card(/^夜風/).querySelector("img");
+    expect(cover?.getAttribute("src")).toBe("/fixtures/art/al1.svg");
+    expect(cover?.getAttribute("alt")).toBe(""); // decorativa: o nome já está no cartão
+    const letter = card(/^Banda/).querySelector(".monogram");
+    expect(letter?.textContent).toBe("B");
+    expect(letter?.getAttribute("aria-hidden")).toBe("true");
+    // A capa que não carrega vira o monograma, com a 1ª letra do nome (P171).
+    fireEvent.error(cover as HTMLImageElement);
+    expect(card(/^夜風/).querySelector("img")).toBeNull();
+    expect(card(/^夜風/).querySelector(".monogram")?.textContent).toBe("夜");
+    // Fora da lista real, sem o selo da Apple.
+    expect(screen.queryByRole("link", { name: /Apple Music/ })).toBeNull();
+  });
+
+  it("na lista real: só capa do host da Apple, e o selo no fim, com a playlist (P169, P170)", async () => {
+    const net = server();
+    const index = FILES["index.json"] as ArtistList;
+    const apple = "https://is1-ssl.mzstatic.com/image/thumb/x/300x300bb.jpg";
+    net.replaced.set("index.json", {
+      ...index,
+      provider: "apple",
+      artists: [
+        { ...index.artists[0], artworkUrl: apple },
+        { ...index.artists[1], artworkUrl: "https://evil.test/x.jpg" },
+      ],
+    });
+    setup(null, net);
+    await screen.findByRole("heading", { name: "Artistas" });
+    expect(card(/^夜風/).querySelector("img")?.getAttribute("src")).toBe(`/${apple}`);
+    expect(card(/^Banda/).querySelector("img")).toBeNull(); // o host de fora vira o monograma
+    expect(card(/^Banda/).querySelector(".monogram")).not.toBeNull();
+    const badge = screen.getByRole("link", { name: /Apple Music/ });
+    expect(badge.getAttribute("href")).toBe(PLAYLIST_URL);
   });
 
   it("nenhum id igual a uma rota (regra 17), na lista e na rodada", async () => {

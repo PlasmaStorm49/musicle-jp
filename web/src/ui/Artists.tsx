@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
-import { APPLE_PROVIDER } from "../core/apple.ts";
+import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import { type ArtistPlay, excludedForArtist } from "../core/artists.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import {
@@ -25,7 +25,9 @@ import {
   UnsupportedCatalogError,
 } from "../data/source.ts";
 import { t, tn } from "../i18n/t.ts";
+import { ArtistCover } from "./ArtistCover.tsx";
 import { ArtistName } from "./ArtistName.tsx";
+import { Attribution } from "./Attribution.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { PracticeRun, type RunTexts, randomSeed } from "./PracticeRun.tsx";
 import { SuperfanView } from "./Superfan.tsx";
@@ -329,7 +331,7 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
     case "update":
       return <UpdateNotice />;
     case "ready":
-      return <ArtistChoice list={list.list} onChoose={store.choose} />;
+      return <ArtistChoice list={list.list} resolveUrl={resolveUrl} onChoose={store.choose} />;
     default:
       return list satisfies never;
   }
@@ -388,12 +390,18 @@ function Choosing({
   );
 }
 
-/** A lista dos artistas, na ordem do artists.toml. Tela nova: o foco vai para o título. */
+/**
+ * A lista dos artistas, na ordem do artists.toml, com a capa de cada um (P168). Tela nova: o foco
+ * vai para o título. Na lista real, o selo da Apple fecha a página (P170), com o link da playlist
+ * da parada (P169).
+ */
 function ArtistChoice({
   list,
+  resolveUrl,
   onChoose,
 }: {
   readonly list: ArtistList;
+  readonly resolveUrl: (url: string) => string;
   readonly onChoose: (entry: ArtistListEntry) => void;
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
@@ -412,22 +420,26 @@ function ArtistChoice({
             {/* O nome acessível é só o do artista; a contagem vem como descrição. */}
             <button
               type="button"
-              class="mode home-card"
+              class="mode home-card artist-card"
               aria-labelledby={`artist-${i}-name`}
               aria-describedby={`artist-${i}-songs`}
               // O 2º clique de um toque duplo no "Trocar de artista" ou no "Sim" cai aqui.
               onClick={singleClick(() => onChoose(entry))}
             >
-              <span id={`artist-${i}-name`} class="mode-name">
-                <ArtistName entry={entry} />
-              </span>
-              <span id={`artist-${i}-songs`} class="mode-hint">
-                {tn("artists.songs", entry.songs)}
+              <ArtistCover list={list} entry={entry} resolveUrl={resolveUrl} />
+              <span class="artist-card-text">
+                <span id={`artist-${i}-name`} class="mode-name">
+                  <ArtistName entry={entry} />
+                </span>
+                <span id={`artist-${i}-songs`} class="mode-hint">
+                  {tn("artists.songs", entry.songs)}
+                </span>
               </span>
             </button>
           </li>
         ))}
       </ul>
+      {list.provider === APPLE_PROVIDER && <Attribution href={PLAYLIST_URL} />}
     </div>
   );
 }

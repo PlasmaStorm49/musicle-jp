@@ -789,6 +789,63 @@ dialog.practice-restart::backdrop {
   margin: 0;
 }
 
+/* O cartão de cada artista na lista (P168): a capa (ou o monograma) à esquerda do nome. */
+.mode.artist-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.artist-card-text {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.artist-cover {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background: var(--border);
+}
+
+/* Sem capa (P171): a 1ª letra do nome num disco. As 8 cores têm contraste de 4,5:1 ou mais com o
+   branco; a de cada artista sai do id (core/artists.ts, monogram). */
+.monogram {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.monogram-0 {
+  background: #2f7d79;
+}
+.monogram-1 {
+  background: #b3261e;
+}
+.monogram-2 {
+  background: #5b4bb7;
+}
+.monogram-3 {
+  background: #1f6fb2;
+}
+.monogram-4 {
+  background: #8a5a00;
+}
+.monogram-5 {
+  background: #3d7a2f;
+}
+.monogram-6 {
+  background: #a3326b;
+}
+.monogram-7 {
+  background: #4a5568;
+}
+
 /* "Voltar à lista" na escolha do submodo: afastado dos cartões (ME73). */
 button.back {
   margin-top: 16px;
