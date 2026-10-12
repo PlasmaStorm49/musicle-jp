@@ -333,6 +333,44 @@ def test_the_card_cover_skips_albums_without_artwork():
     assert artists.card_artwork(data) is None  # nenhuma tem: a tela mostra o monograma
 
 
+def test_singles_come_before_the_other_songs_without_a_lookup_position():
+    # P172: sem posição no lookup, o single da curadoria passa à frente da música em mais álbuns
+    # e mais antiga; a posição no lookup continua vindo antes de tudo.
+    ranked = track("1", "Ranked")
+    deep = track("2", "Deep cut", date="1980-01-01")
+    deep_again = track("3", "Deep cut", album_id="alcompilation", date="1981-01-01")
+    single = track("4", "Hit single", date="1999-01-01")
+    s = snap((1, ranked), (None, deep), (None, deep_again), (None, single))
+    before, _ = pick(s)
+    assert [x.canonical.title for x in before] == ["Ranked", "Deep cut", "Hit single"]
+    after, _ = pick(s, ArtistRules("77", singles=frozenset({"4"})))
+    assert [x.canonical.title for x in after] == ["Ranked", "Hit single", "Deep cut"]
+
+
+def test_a_single_the_snapshot_does_not_have_is_an_error():
+    # O id velho na curadoria não pode passar calado (o mesmo das outras chaves).
+    with pytest.raises(InputError, match="singles: 404"):
+        pick(snap((1, track("1", "光"))), ArtistRules("77", singles=frozenset({"404"})))
+
+
+def test_an_excluded_track_leaves_its_lookup_position_to_its_song():
+    # P172: a curadoria tira a versão da coletânea (com o nome dela no título), não o sucesso. A
+    # posição vai para a música do título sem o sufixo, e não para outra edição com o mesmo
+    # sufixo (que viraria uma música repetida entre as publicadas).
+    original = track("1", "ガラスの林檎", date="1983-01-01")
+    story = track("2", "ガラスの林檎(SEIKO STORY)", album="SEIKO STORY", date="1983-01-01")
+    other_edition = track(
+        "3", "ガラスの林檎(SEIKO STORY)", album="SEIKO STORY 2", date="1983-01-01"
+    )
+    filler = track("4", "Filler")
+    s = snap((None, original), (5, story), (None, other_edition), (9, filler))
+    songs, _ = pick(s, ArtistRules("77", exclude_tracks=frozenset({"2"})))
+    by_title = {x.canonical.title: x.rank for x in songs}
+    assert by_title["ガラスの林檎"] == 5
+    assert by_title["ガラスの林檎(SEIKO STORY)"] is None  # a cópia fica sem a posição
+    assert by_title["Filler"] == 9
+
+
 def test_build_artists_lists_in_order_and_warns_about_romaji_twins():
     provider = FakeProvider(
         {
@@ -360,7 +398,8 @@ def test_build_artists_refuses_a_stale_alias():
 def test_load_artist_list(tmp_path: Path):
     path = tmp_path / "artists.toml"
     path.write_text(
-        '[[artists]]\nid = "2"\nexclude_albums = ["9"]\nsame_song = [["1", "3"]]\n\n'
+        '[[artists]]\nid = "2"\nexclude_albums = ["9"]\nsame_song = [["1", "3"]]\n'
+        'singles = ["4", "5"]\n\n'
         '[[artists]]\nid = "1"\n',
         encoding="utf-8",
     )
@@ -368,6 +407,8 @@ def test_load_artist_list(tmp_path: Path):
     assert [r.id for r in rules] == ["2", "1"]  # a ordem do arquivo é a da tela
     assert rules[0].exclude_albums == {"9"}
     assert rules[0].same_song == (("1", "3"),)
+    assert rules[0].singles == {"4", "5"}
+    assert rules[1].singles == frozenset()
 
 
 @pytest.mark.parametrize(
@@ -379,6 +420,7 @@ def test_load_artist_list(tmp_path: Path):
         ('[[artists]]\nid = "1"\n\n[[artists]]\nid = "1"\n', "repetido"),
         ('[[artists]]\nid = "1"\nsame_song = [["1"]]\n', "pares"),
         ('[[artists]]\nid = "1"\nexclude_tracks = [1]\n', "lista de ids"),
+        ('[[artists]]\nid = "1"\nsingles = "4"\n', "singles"),
         ("[[artists]\n", "TOML inválido"),
     ],
 )

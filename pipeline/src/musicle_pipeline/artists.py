@@ -14,7 +14,7 @@ from __future__ import annotations
 import re
 import tomllib
 import unicodedata
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from decimal import ROUND_HALF_EVEN, Decimal
 from pathlib import Path
@@ -124,9 +124,12 @@ class ArtistRules:
     # Pares de trackId da mesma música com títulos que a chave não junta (o título em romaji):
     # o 2º entra no grupo do 1º (P134).
     same_song: tuple[tuple[str, str], ...] = ()
+    # trackId de uma faixa de cada música lançada como single (lado A, P172): entre as sem posição
+    # no lookup de músicas, elas vêm antes das outras (o lookup só ordena 200 faixas).
+    singles: frozenset[str] = frozenset()
 
 
-_RULE_KEYS = {"id", "exclude_albums", "exclude_tracks", "same_song"}
+_RULE_KEYS = {"id", "exclude_albums", "exclude_tracks", "same_song", "singles"}
 
 
 def _ids(value: object, where: str) -> frozenset[str]:
@@ -165,6 +168,7 @@ def load_artist_list(path: Path) -> list[ArtistRules]:
                 exclude_albums=_ids(item.get("exclude_albums", []), f"{where} exclude_albums"),
                 exclude_tracks=_ids(item.get("exclude_tracks", []), f"{where} exclude_tracks"),
                 same_song=tuple((a, b) for a, b in pairs),
+                singles=_ids(item.get("singles", []), f"{where} singles"),
             )
         )
     ids = [r.id for r in rules]
@@ -254,6 +258,7 @@ def _stale_rules(snap: ArtistSnapshot, rules: ArtistRules) -> list[str]:
         *(f"exclude_albums: {a}" for a in sorted(rules.exclude_albums - albums)),
         *(f"exclude_tracks: {t}" for t in sorted(rules.exclude_tracks - tracks)),
         *(f"same_song: {t}" for t in sorted(paired - tracks)),
+        *(f"singles: {t}" for t in sorted(rules.singles - tracks)),
     ]
 
 
@@ -275,6 +280,30 @@ def _join_undelimited_versions(entries: Sequence[ArtistEntry], key_of: dict[str,
             if prefix != key_of[e.track.provider_id] and prefix in keys:
                 key_of[e.track.provider_id] = prefix
                 break
+
+
+def _inherited_ranks(
+    snap: ArtistSnapshot, rules: ArtistRules, groups: Mapping[str, object]
+) -> dict[str, list[int]]:
+    """As posições no lookup das faixas do exclude_tracks, para a música delas (P172).
+
+    A curadoria tira a versão (a da coletânea com o nome dela no título), não o sucesso: sem
+    isso, ガラスの林檎 perdia a posição 42 do Seiko Matsuda. A música é a do título sem o sufixo
+    que a chave não tira ("(SEIKO STORY〜80's HITS COLLECTION〜)"), como no aviso de "pode ser
+    versão de outra música", e só sem ela a da chave da própria faixa: outra edição da coletânea
+    tem a mesma faixa, com o mesmo sufixo, e a posição iria para essa cópia, uma música repetida.
+    """
+    out: dict[str, list[int]] = {}
+    for e in snap.entries:
+        if e.rank is None or e.track.provider_id not in rules.exclude_tracks:
+            continue
+        cut = _last_tail(unicodedata.normalize("NFKC", e.track.title))
+        base = artist_title_key(cut[0]) if cut and cut[0] else None
+        for key in (base, artist_title_key(e.track.title)):
+            if key in groups:
+                out.setdefault(key, []).append(e.rank)
+                break
+    return out
 
 
 def select_songs(
@@ -310,6 +339,7 @@ def select_songs(
     groups: dict[str, list[tuple[int | None, RawTrack]]] = {}
     for e in kept:
         groups.setdefault(key_of[e.track.provider_id], []).append((e.rank, e.track))
+    inherited = _inherited_ranks(snap, rules, groups)
 
     songs: list[Song] = []
     for key in sorted(groups):
@@ -326,16 +356,19 @@ def select_songs(
         if not playable:
             notes.append(f"{where}: sem prévia tocável: {good[0].title!r}")
             continue
-        ranks = [r for r, _ in groups[key] if r is not None]
+        ranks = [r for r, _ in groups[key] if r is not None] + inherited.get(key, [])
         canonical = min(playable, key=_canonical_order)
         songs.append(Song(key, canonical, members, min(ranks) if ranks else None))
 
-    # P133: (1) a posição no lookup de músicas; (2) quantos álbuns têm a música (o sucesso volta
-    # nas coletâneas e nos ao vivo); (3) a mais antiga; (4) a chave.
+    # P133: (1) a posição no lookup de músicas; (2) o single (lado A) da curadoria, P172: o lookup
+    # só ordena 200 faixas, e no resto o sucesso não se distingue pelos álbuns nem pela data; (3)
+    # quantos álbuns têm a música (o sucesso volta nas coletâneas e nos ao vivo); (4) a mais
+    # antiga; (5) a chave.
     songs.sort(
         key=lambda s: (
             s.rank is None,
             s.rank or 0,
+            not any(t.provider_id in rules.singles for t in s.members),
             -len({t.album.provider_id for t in s.members}),
             min(t.album.release_date for t in s.members),
             s.key,
