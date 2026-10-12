@@ -680,11 +680,13 @@ describe("Artists: o Superfan (ME61)", () => {
   });
 
   it("com a ajuda, o Pular aumenta o trecho sem contar erro, e a 3ª tentativa fica para a opção (P163)", async () => {
-    const { store } = setup();
+    const { store, announce } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     await superfan(/^夜風/);
     fireEvent.click(screen.getByRole("button", { name: /^Pedir ajuda/ }));
     fireEvent.click(screen.getByRole("button", { name: "Pular (+3 s)" }));
+    // O trecho novo pela barra do Superfan (1, 4 e 9 s), e não pela dos diários.
+    expect(announce).toHaveBeenLastCalledWith("Pulou. O trecho agora tem 4 s.");
     fireEvent.click(screen.getByRole("button", { name: "Pular (+5 s)" }));
     expect(screen.getByRole("button", { name: "Tocar 9 s" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /^Pular/ })).toBeNull();
