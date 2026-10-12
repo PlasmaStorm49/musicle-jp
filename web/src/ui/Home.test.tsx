@@ -1,8 +1,9 @@
 // @vitest-environment happy-dom
 import { cleanup, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it } from "vitest";
-import type { PracticeSummary } from "../core/home.ts";
+import type { ArtistSummary, PracticeSummary } from "../core/home.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
+import { ROUTES } from "../core/routes.ts";
 import type { AlbumRound, Day } from "../core/types.ts";
 import { Home } from "./Home.tsx";
 
@@ -33,8 +34,9 @@ function setup(
   save: Save = emptySave(),
   day: Day | null = DAY,
   practice: PracticeSummary | null = null,
+  artists: ArtistSummary | null = null,
 ) {
-  render(<Home day={day} date={DATE} save={save} practice={practice} />);
+  render(<Home day={day} date={DATE} save={save} practice={practice} artists={artists} />);
 }
 
 const card = (name: RegExp) => screen.getByRole("link", { name });
@@ -46,15 +48,17 @@ describe("Home", () => {
     expect(document.activeElement).toBe(title);
   });
 
-  it("um cartão-link por modo, para a aba de cada um, na ordem Normal, Desafio, Treino", () => {
+  it("um cartão-link por modo, para a aba de cada um, na ordem Normal, Desafio, Treino, Artistas", () => {
     setup();
     expect(card(/^Normal/).getAttribute("href")).toBe("#normal");
     expect(card(/^Desafio/).getAttribute("href")).toBe("#desafio");
     expect(card(/^Treino/).getAttribute("href")).toBe("#treino");
+    expect(card(/^Artistas/).getAttribute("href")).toBe("#artistas");
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
       "#normal",
       "#desafio",
       "#treino",
+      "#artistas",
     ]);
     expect(screen.queryAllByRole("button")).toHaveLength(0);
   });
@@ -84,11 +88,13 @@ describe("Home", () => {
   it("outra aba grava (o save relido muda): o cartão atualiza, e o foco fica onde está", () => {
     // O App relê o save no evento storage e desenha a mesma Home com o save novo. O foco não
     // pode voltar ao título: o efeito só roda ao montar, e o link continua o mesmo elemento.
-    const { rerender } = render(<Home day={DAY} date={DATE} save={emptySave()} practice={null} />);
+    const { rerender } = render(
+      <Home day={DAY} date={DATE} save={emptySave()} practice={null} artists={null} />,
+    );
     const song = card(/^Desafio/);
     song.focus();
     const done: Save = { ...emptySave(), history: { [puzzleId(DATE, "song")]: finished } };
-    rerender(<Home day={DAY} date={DATE} save={done} practice={null} />);
+    rerender(<Home day={DAY} date={DATE} save={done} practice={null} artists={null} />);
     expect(document.activeElement).toBe(song);
     expect(song.textContent).toContain("terminado, 11 de 18 pontos");
   });
@@ -112,7 +118,8 @@ describe("Home", () => {
 
   it("nenhum id igual a uma rota (o navegador rolaria até ele, regra 17)", () => {
     setup();
-    for (const route of ["#inicio", "#normal", "#desafio", "#treino"]) {
+    // Todas as rotas, e não uma lista à mão: uma aba nova entra sozinha.
+    for (const route of Object.values(ROUTES)) {
       expect(document.querySelector(route)).toBeNull();
     }
   });
@@ -126,5 +133,16 @@ describe("Home", () => {
     cleanup();
     setup(emptySave(), DAY, { target: "song", score: { points: 1, rounds: 1 } });
     expect(card(/^Treino/).textContent).toContain("Nesta sessão (Desafio): 1 ponto em 1 rodada");
+  });
+
+  it("o placar da sessão do modo por artista, com o artista, só depois da 1ª rodada (M13)", () => {
+    setup();
+    expect(card(/^Artistas/).textContent).not.toContain("Nesta sessão");
+    cleanup();
+    setup(emptySave(), DAY, null, { artist: "米津玄師", score: { points: 5, rounds: 2 } });
+    expect(card(/^Artistas/).textContent).toContain(
+      "Nesta sessão (米津玄師): 5 pontos em 2 rodadas",
+    );
+    expect(card(/^Treino/).textContent).not.toContain("Nesta sessão");
   });
 });

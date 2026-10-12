@@ -652,7 +652,7 @@ section.void,
 .tabs ul {
   list-style: none;
   display: flex;
-  /* Quatro abas com dois ✓ não cabem em 320 px: quebram a linha em vez de rolar a página. */
+  /* Cinco abas (com dois ✓) não cabem em 320 px: quebram a linha em vez de rolar a página. */
   flex-wrap: wrap;
   gap: 4px;
   max-width: 480px;
@@ -748,6 +748,13 @@ dialog.practice-restart::backdrop {
 
 .practice-empty p {
   margin: 0;
+}
+
+/* O artista que não carregou (M13): "Tentar de novo" e "Voltar à lista", lado a lado. */
+.artists-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 /* Avisos que levam o foco ao montar (FocusedNotice, regra 16) */

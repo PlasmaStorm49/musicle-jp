@@ -15,7 +15,7 @@ import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
 import { Attribution } from "./Attribution.tsx";
-import { GuessInput } from "./GuessInput.tsx";
+import { GuessInput, type SearchScope } from "./GuessInput.tsx";
 import { useResolvedUrl, useSuggest } from "./hooks.ts";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
@@ -38,6 +38,7 @@ type Props = {
   /** Texto do botão depois da rodada: "Próxima rodada" ou "Ver resultado". */
   readonly nextLabel: string;
   readonly onNext: () => void;
+  readonly scope?: SearchScope;
 };
 
 /**
@@ -55,6 +56,7 @@ export function RoundView({
   roundKey,
   nextLabel,
   onNext,
+  scope = "song",
 }: Props) {
   const round = currentRound(game);
   const rules = MODE_RULES[game.target];
@@ -134,6 +136,7 @@ export function RoundView({
               index={index}
               round={round}
               attempt={attemptLabel(round.attempts.length)}
+              scope={scope}
               onPick={guess}
               onGiveUp={giveUp}
             />
@@ -174,12 +177,14 @@ function Typing({
   index,
   round,
   attempt,
+  scope,
   onPick,
   onGiveUp,
 }: {
   readonly index: CatalogIndex;
   readonly round: RoundState;
   readonly attempt: { readonly current: number; readonly total: number };
+  readonly scope: SearchScope;
   readonly onPick: (id: string) => void;
   readonly onGiveUp: () => void;
 }) {
@@ -188,7 +193,7 @@ function Typing({
     <section class="typing" aria-labelledby="question">
       <h2 id="question">{t("question.song")}</h2>
       <p class="hint">{t("typing.attempt", attempt)}</p>
-      <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" />
+      <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" scope={scope} />
       <Attempts index={index} round={round} />
       <button type="button" class="give-up" onClick={singleClick(onGiveUp)}>
         {t("typing.giveUp")}
