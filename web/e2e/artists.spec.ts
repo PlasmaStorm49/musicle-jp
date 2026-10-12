@@ -27,6 +27,16 @@ test("Artistas: a lista na ordem, a busca só pelo título e um ciclo sem repeti
     "4 músicas",
     "2 músicas",
   ]);
+  // A capa de cada um (P168), carregada de verdade (as capas falsas do fake-assets).
+  const covers = page.locator(".artist-card img.artist-cover");
+  await expect(covers).toHaveCount(3);
+  await expect
+    .poll(() =>
+      covers.evaluateAll(
+        (imgs) => imgs.filter((i) => (i as HTMLImageElement).naturalWidth > 0).length,
+      ),
+    )
+    .toBe(3);
 
   await page.getByRole("button", { name: /^夜風シアター/ }).click();
   // A escolha do submodo (P161): o Livre é o Desafio sem fim.

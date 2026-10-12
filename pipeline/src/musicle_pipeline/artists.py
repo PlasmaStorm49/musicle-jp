@@ -441,6 +441,19 @@ def file_name(rules: ArtistRules) -> str:
     return f"{rules.id}.json"
 
 
+def card_artwork(data: JSON) -> str | None:
+    """A capa do cartão da lista (P168): a do álbum da música mais popular, de preferência um
+    álbum só do artista (a capa de uma parceria, como o 打上花火 do DAOKO×米津玄師, seria a de
+    outro artista). Sem nenhum álbum só dele, a do álbum da mais popular; sem capa nenhuma, None,
+    e a tela mostra o monograma (P171)."""
+    albums = {a["id"]: a for a in data["albums"]}
+    ranked = sorted(data["tracks"], key=lambda t: (-t["popularity"], t["id"]))
+    covered = [albums[t["albumId"]] for t in ranked if albums[t["albumId"]]["artworkUrl"]]
+    solo = [a for a in covered if a["artistIds"] == [data["artistId"]]]
+    chosen = (solo or covered)[:1]
+    return chosen[0]["artworkUrl"] if chosen else None
+
+
 def build_artist_list(provider: str, storefront: str, files: Sequence[tuple[str, JSON]]) -> JSON:
     """O índice, na ordem recebida (a do artists.toml)."""
     entries = []
@@ -455,6 +468,7 @@ def build_artist_list(provider: str, storefront: str, files: Sequence[tuple[str,
                 "nameLatin": me["nameLatin"],
                 "file": name,
                 "songs": len(data["tracks"]),
+                "artworkUrl": card_artwork(data),
             }
         )
     return {

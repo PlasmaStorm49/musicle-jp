@@ -120,6 +120,11 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P163 | Com a ajuda na tela, o "Pular" continua: a pontuação já está no mínimo, e ouvir mais não custa nada. Ele gasta a tentativa e libera o trecho seguinte, como sem a ajuda, e some na última tentativa, que fica para a opção (pedido de 12/10/2026, depois do merge da ajuda; save v5) |
 | P164 | Botão não leva número de pontos (pedido de 12/10/2026): "Pedir ajuda", sem as opções nem o que vale (o custo fica na dica, quando as opções aparecem); a descrição do cartão do Superfan, que é um botão, sem os números. O "Pedir ajuda" fica mais afastado do "Desistir" |
 | P166 | Entram no modo por artista o Unlimits (311230779) e o 松田聖子 (Seiko Matsuda, 76115834), no fim da lista (pedido de 12/10/2026) |
+| P167 | O teto de 200 músicas por artista fica, por enquanto (as consequências de quebrá-lo: sorteio uniforme, mais curadoria, arquivo maior; 12/10/2026) |
+| P168 | Cada artista da lista tem uma imagem: a capa do álbum da música mais popular, de preferência um álbum só dele (a opção que os termos da Apple permitem: a foto da página do artista e a da Apple Music API ficaram fora) |
+| P169 | O selo da tela da lista leva à playlist da parada, como o da rodada (P145) |
+| P170 | A capa fora da rodada, na lista, entra na zona da P69, com o selo no fim da tela |
+| P171 | Sem capa, ou se ela não carregar, um monograma: a 1ª letra do nome (米, 松), num disco de cor fixa pelo id |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -244,7 +249,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - S18. "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal na escolha do modo do Treino: desde a ME59, quem entra direto no Treino não vê o custo.
 - S20. Chamar de "Livre" o submodo sem fim do modo por artista quando o Superfan (ME61) chegar: "Normal" já é o modo do álbum (P100). Feita no branch do Superfan (o cartão "Livre" da P161).
 - S22. O selo da rodada no modo por artista levando à página do artista na loja (pede um campo de URL novo, com a conferência no validate e no `core/apple.ts`, regra inviolável 5).
-- S23. A capa da música mais conhecida no cartão de cada artista da lista.
+- S23. A capa da música mais conhecida no cartão de cada artista da lista. Feita (P168), no branch `m13-artistas-capas`.
 - S24. Conferir a duração real das prévias da Apple: o pipeline grava sempre 30 s, e no Superfan um começo perto de 19 s numa prévia mais curta deixaria menos de 9 s (o Web Audio corta sem erro). Como: registrar o `buffer.duration` com `?data=real` (revisor do Superfan).
 
 **Melhorias futuras**
@@ -776,6 +781,12 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 - **Curadoria** (`artists.toml`, P136): a ordem da tela, `exclude_albums` (ex.: os E-SIDE), `exclude_tracks` e `same_song`. Os avisos do `build-artists` (descartes, corte, possível música repetida) são a lista de revisão do PR.
 - **Arquivos** (P129 e P130): `index.json` e um `<id>.json` por artista, cada um abaixo de 1 MB (o `validate-artists` confere, com o schema, as referências, os hosts e a forma canônica).
 - **Robô semanal**: não toca em nada disso. A lista fechada dele continua a mesma, e a atualização dos artistas é à mão.
+- **Imagem da lista** (P168 a P171, S23):
+  - O `build-artists` grava no índice o `artworkUrl` de cada artista (`card_artwork` em `artists.py`): a capa do álbum da música de maior `popularity`, de preferência um álbum só dele. Assim o 米津玄師 fica com a de KICK BACK, e não com a de 打上花火 (DAOKO×米津玄師).
+  - O `validate-artists` exige que ela seja exatamente essa, entre os álbuns do arquivo, cujos hosts ele já confere: nunca uma URL de fora. O campo novo é compatível (o código velho o ignora), sem `schemaVersion` nova.
+  - Na tela (`ui/ArtistCover.tsx`), a capa só do host da Apple na lista real (`cardArtwork`, `core/artists.ts`). Sem capa, com o índice antigo do cache (sem o campo) ou se a imagem falhar, o monograma (`monogram`): a 1ª letra do nome e uma de 8 cores, todas com contraste de 4,85:1 ou mais com o branco, fixa pelo id.
+  - O selo da Apple fecha a lista real, com o link da playlist da parada (P169, P170).
+  - Pesquisa das opções (subagente, 12/10/2026): o lookup de artista não tem imagem; a foto da página do Apple Music (`og:image`) existe para os 8, mas os termos do site da Apple proíbem tirar conteúdo das páginas, e a licença da foto é só da Apple; a Apple Music API pede o Apple Developer Program (US$ 99 por ano) e só permite a arte junto da reprodução; o Commons tem foto livre de só 2 ou 3 dos 8.
 - **Fixtures** (P139): `pipeline/fixtures/artists/`, com a tabela de casos no README de lá.
 - **Dados reais** (PR B, busca de 12/10/2026, 16:15 UTC): 755 músicas.
   - YOASOBI 37, LiSA 200 (9 cortadas pelo teto), Eve 124, Ado 96, Aimer 178 e 米津玄師 120.

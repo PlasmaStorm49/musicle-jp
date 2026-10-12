@@ -1,8 +1,38 @@
 // Modo por artista (M13): o que liga o arquivo de um artista à parada. Puro, como o resto do core.
+import { APPLE_PROVIDER, isAppleUrl } from "./apple.ts";
 import type { CatalogIndex } from "./catalog.ts";
 import { answerAlbums, type PracticeSession } from "./practice.ts";
+import { fnv1a32 } from "./prng.ts";
 import type { SuperfanRun } from "./superfan.ts";
-import type { ArtistCatalog, ArtistListEntry } from "./types.ts";
+import type { ArtistCatalog, ArtistList, ArtistListEntry } from "./types.ts";
+
+/**
+ * A capa do cartão de um artista na lista (P168) que pode ir para um <img>: na lista real, só no
+ * host da Apple (regra 22 do web); nas fixtures, o caminho relativo. Null: o monograma (P171).
+ * O índice antigo, ainda no cache do Pages por alguns minutos, vem sem o campo.
+ */
+export function cardArtwork(list: ArtistList, entry: ArtistListEntry): string | null {
+  // O `loadArtistList` não confere as entradas: um índice corrompido não pode quebrar a lista.
+  const url: unknown = entry.artworkUrl;
+  if (typeof url !== "string" || !url) return null;
+  return list.provider !== APPLE_PROVIDER || isAppleUrl("artwork", url) ? url : null;
+}
+
+/** Quantas cores tem o monograma (as classes .monogram-0 a .monogram-7 do CSS). */
+export const MONOGRAM_COLORS = 8;
+
+/**
+ * O monograma do artista sem capa (P171): a 1ª letra do nome (米, 松, Y), inteira mesmo fora do
+ * plano básico do Unicode, e uma das cores, fixa pelo id (o nome muda, "Unlimits" virou
+ * "UNLIMITS"; o id não).
+ */
+export function monogram(entry: ArtistListEntry): {
+  readonly letter: string;
+  readonly color: number;
+} {
+  const [letter = "?"] = Array.from(String(entry.name ?? "").trim());
+  return { letter, color: fnv1a32(entry.id) % MONOGRAM_COLORS };
+}
 
 /**
  * A sessão do modo por artista: o artista escolhido e o submodo (P161). A Livre é o Desafio em

@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { artists, realArtists } from "../../test/artists.ts";
 import { catalog, schedule } from "../../test/fixtures.ts";
-import { type ArtistPlay, excludedForArtist, songTitleKey } from "./artists.ts";
+import {
+  type ArtistPlay,
+  cardArtwork,
+  excludedForArtist,
+  MONOGRAM_COLORS,
+  monogram,
+  songTitleKey,
+} from "./artists.ts";
 import { indexArtist, indexCatalog, UnsupportedCatalogError } from "./catalog.ts";
 import { artistSummary } from "./home.ts";
 import { nextPracticeRound, pendingDailySongKeys, startPracticeSession } from "./practice.ts";
@@ -34,6 +41,47 @@ describe("songTitleKey", () => {
     ["sem artista", "sem artista"],
   ])("%j → %j", (songKey, title) => {
     expect(songTitleKey(songKey)).toBe(title);
+  });
+});
+
+describe("a imagem do cartão (P168, P171)", () => {
+  const [first] = artists.list.artists;
+  if (!first) throw new Error("lista de fixtures vazia");
+
+  it("nas fixtures, a capa relativa; na lista real, só a do host da Apple", () => {
+    expect(cardArtwork(artists.list, first)).toBe(first.artworkUrl);
+    const apple = { ...artists.list, provider: "apple" };
+    const ok = "https://is1-ssl.mzstatic.com/image/thumb/x/300x300bb.jpg";
+    expect(cardArtwork(apple, { ...first, artworkUrl: ok })).toBe(ok);
+    expect(cardArtwork(apple, { ...first, artworkUrl: "https://evil.test/x.jpg" })).toBeNull();
+    expect(cardArtwork(apple, { ...first, artworkUrl: "fixtures/art/al1.svg" })).toBeNull();
+  });
+
+  it("sem capa, ou no índice antigo sem o campo, nada: a tela mostra o monograma", () => {
+    expect(cardArtwork(artists.list, { ...first, artworkUrl: null })).toBeNull();
+    const { artworkUrl: _, ...old } = first;
+    expect(cardArtwork(artists.list, old as typeof first)).toBeNull();
+    // Um índice corrompido (o loadArtistList não confere as entradas) não quebra a lista.
+    const broken = { ...first, artworkUrl: 42 } as unknown as typeof first;
+    expect(cardArtwork({ ...artists.list, provider: "apple" }, broken)).toBeNull();
+  });
+
+  it("os 8 artistas reais têm capa, e todas do host da Apple", () => {
+    for (const entry of realArtists.list.artists) {
+      expect(cardArtwork(realArtists.list, entry), entry.name).not.toBeNull();
+    }
+  });
+
+  it("o monograma: a 1ª letra do nome e uma cor fixa pelo id", () => {
+    expect(monogram({ ...first, name: "米津玄師" }).letter).toBe("米");
+    expect(monogram({ ...first, name: " UNLIMITS" }).letter).toBe("U");
+    expect(monogram({ ...first, name: "𠮷野家" }).letter).toBe("𠮷"); // fora do plano básico
+    expect(monogram({ ...first, name: "  " }).letter).toBe("?"); // sem letra
+    expect(monogram({ ...first, name: null } as unknown as typeof first).letter).toBe("?");
+    const color = monogram(first).color;
+    expect(color).toBeGreaterThanOrEqual(0);
+    expect(color).toBeLessThan(MONOGRAM_COLORS);
+    expect(monogram({ ...first, name: "Outro nome" }).color).toBe(color); // o id decide
   });
 });
 

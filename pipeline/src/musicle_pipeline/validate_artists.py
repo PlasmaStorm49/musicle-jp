@@ -8,7 +8,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from musicle_pipeline.artists import INDEX
+from musicle_pipeline.artists import INDEX, card_artwork
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
 from musicle_pipeline.normalize import title_key
@@ -130,6 +130,10 @@ def validate_artist_set(files: Mapping[str, JSON]) -> list[str]:
         me = next((a for a in data["artists"] if a["id"] == data["artistId"]), None)
         if me and (me["name"], me["nameLatin"]) != (e["name"], e["nameLatin"]):
             problems.append(f"{where}: nome diferente do {INDEX}")
+        # A capa do cartão (P168) é a que a regra escolhe entre os álbuns do arquivo, cujos hosts
+        # o validate_artist_file já conferiu: nunca uma URL de fora.
+        if e["artworkUrl"] != card_artwork(data):
+            problems.append(f"{where}: a capa do {INDEX} não é a do álbum da música mais popular")
     return problems
 
 

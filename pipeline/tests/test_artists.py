@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -288,6 +289,48 @@ class FakeProvider:
 
     def snapshot(self, artist_id: str) -> ArtistSnapshot:
         return self.snapshots[artist_id]
+
+
+def _with_art(t: RawTrack, url: str | None) -> RawTrack:
+    return replace(t, album=replace(t.album, artwork_url=url))
+
+
+def _card(*entries: tuple[int | None, RawTrack]) -> str | None:
+    s = snap(*entries)
+    songs, _ = pick(s)
+    return artists.card_artwork(build_artist_file("fixture", "jp", s, songs, Curation()))
+
+
+def test_the_card_cover_is_the_most_popular_song_on_an_album_of_the_artist_alone():
+    # A mais popular é um single em parceria (a capa seria a do outro artista também): vale a
+    # seguinte, de um álbum só dele (P168).
+    collab = _with_art(track("1", "共演", kind="single", by=(ME, OTHER)), "fixtures/art/c.svg")
+    solo = _with_art(track("2", "ソロ"), "fixtures/art/s.svg")
+    third = _with_art(track("3", "三番"), "fixtures/art/t.svg")
+    assert _card((1, collab), (2, solo), (3, third)) == "fixtures/art/s.svg"
+    # Só parcerias: a capa da mais popular.
+    assert _card((1, collab)) == "fixtures/art/c.svg"
+
+
+def test_the_card_cover_skips_albums_without_artwork():
+    # Direto na função, com o arquivo montado à mão: a faixa sem capa não passaria do
+    # select_songs (é inelegível), e o filtro da capa vazia ficaria sem teste.
+    me = "fixture:ar:77"
+
+    def album(n: str, art: str | None, by: list[str]) -> dict:
+        return {"id": f"fixture:al:{n}", "artistIds": by, "artworkUrl": art}
+
+    def song(n: str, popularity: float) -> dict:
+        return {"id": f"fixture:tr:{n}", "albumId": f"fixture:al:{n}", "popularity": popularity}
+
+    data = {
+        "artistId": me,
+        "albums": [album("1", None, [me]), album("2", "fixtures/art/2.svg", [me])],
+        "tracks": [song("1", 1.0), song("2", 0.5)],
+    }
+    assert artists.card_artwork(data) == "fixtures/art/2.svg"  # a mais popular não tem capa
+    data["albums"][1]["artworkUrl"] = None
+    assert artists.card_artwork(data) is None  # nenhuma tem: a tela mostra o monograma
 
 
 def test_build_artists_lists_in_order_and_warns_about_romaji_twins():

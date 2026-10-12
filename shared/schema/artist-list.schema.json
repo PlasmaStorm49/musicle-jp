@@ -15,12 +15,13 @@
   "$defs": {
     "text": { "type": "string", "minLength": 1 },
     "optionalText": { "type": ["string", "null"], "minLength": 1 },
+    "url": { "type": "string", "pattern": "^[^\\s\\\\]+$" },
     "artistId": { "type": "string", "pattern": "^[a-z]+:ar:[A-Za-z0-9_-]+$" },
     "entry": {
       "title": "Artista da lista do musicle-jp",
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "nameLatin", "file", "songs"],
+      "required": ["id", "name", "nameLatin", "file", "songs", "artworkUrl"],
       "properties": {
         "id": { "$ref": "#/$defs/artistId" },
         "name": { "$ref": "#/$defs/text" },
@@ -30,7 +31,11 @@
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]+\\.json$"
         },
-        "songs": { "type": "integer", "minimum": 1 }
+        "songs": { "type": "integer", "minimum": 1 },
+        "artworkUrl": {
+          "description": "A capa do cartão da lista (P168): a do álbum da música mais popular, de preferência um álbum só do artista; sempre a capa de um álbum do arquivo dele. Null sem capa (a tela mostra o monograma, P171).",
+          "oneOf": [{ "$ref": "#/$defs/url" }, { "type": "null" }]
+        }
       }
     }
   }
