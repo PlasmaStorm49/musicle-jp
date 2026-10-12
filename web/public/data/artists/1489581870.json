@@ -60,10 +60,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/23/d7/2c/23d72c87-c6ef-b02d-b8fd-44aa8332192a/4547366499063.jpg/300x300bb.jpg",
       "id": "apple:al:1552701824",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2021-02-23",
       "title": "たりないすくない (feat. 幾田りら) - Single",
-      "titleLatin": "Tarinai sukunai (feat. ikuden ri ra)",
+      "titleLatin": "Tarinai sukunai (feat. Lilas Ikuta)",
       "type": "single"
     },
     {
@@ -167,10 +167,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/bd/c7/87/bdc7876f-a7b1-c603-1311-069525463040/ANTCD-A0000007624.jpg/300x300bb.jpg",
       "id": "apple:al:1635658532",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2022-07-25",
       "title": "Free Free Free feat. 幾田りら",
-      "titleLatin": "Free Free Free feat. ikuden ri ra",
+      "titleLatin": "Free Free Free feat. Lilas Ikuta",
       "type": "album"
     },
     {
@@ -220,10 +220,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/0a/a3/f9/0aa3f9a6-1bf5-f5d6-17ca-77f17082c4ff/ANTCD-A0000010331.jpg/300x300bb.jpg",
       "id": "apple:al:1690015439",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2023-06-14",
       "title": "線香花火 (feat. 幾田りら) - Single",
-      "titleLatin": "Senkou hanabi (feat. ikuden ri ra)",
+      "titleLatin": "Senkou hanabi (feat. Lilas Ikuta)",
       "type": "single"
     },
     {
@@ -286,10 +286,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/a0/89/c1/a089c154-bd09-808d-da97-391bdf99a946/4547366674415.jpg/300x300bb.jpg",
       "id": "apple:al:1733586086",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2024-03-27",
       "title": "LIKE、重ねていく (feat. 幾田りら) - Single",
-      "titleLatin": "LIKE, kasanete iku (feat. ikuden ri ra)",
+      "titleLatin": "LIKE, kasanete iku (feat. Lilas Ikuta)",
       "type": "single"
     },
     {
@@ -1022,7 +1022,7 @@
         "artist": [],
         "title": [
           "tarinaisukunaifeachikudenrira",
-          "tarinaisukunaifeachikutarira",
+          "tarinaisukunaifeatlilashikuta",
           "たりないすくないfeat幾田りら"
         ]
       },
@@ -1032,7 +1032,7 @@
       "titleKeys": [
         "たりないすくない"
       ],
-      "titleLatin": "Tarinai sukunai (feat. Ikuta Rira)"
+      "titleLatin": "Tarinai sukunai (feat. Lilas Ikuta)"
     },
     {
       "albumId": "apple:al:1554085893",
@@ -1130,7 +1130,7 @@
         "artist": [],
         "title": [
           "0x1lovesongiknowiloveyofeachikudenrirajapanesever",
-          "0x1lovesongiknowiloveyofeachikutarirajapanesever",
+          "0x1lovesongiknowiloveyofeatlilashikutajapanesever",
           "0x1lovesongiknowiloveyofeat幾田りらjapanesever"
         ]
       },
@@ -1140,7 +1140,7 @@
       "titleKeys": [
         "0x1lovesongiknowiloveyou"
       ],
-      "titleLatin": "0X1=LOVESONG (I Know I Love You) [feat. Ikuta Rira] [Japanese Ver.]"
+      "titleLatin": "0X1=LOVESONG (I Know I Love You) [feat. Lilas Ikuta] [Japanese Ver.]"
     },
     {
       "albumId": "apple:al:1598330550",
@@ -1317,7 +1317,7 @@
         "artist": [],
         "title": [
           "frefrefrefeachikudenrira",
-          "frefrefrefeachikutarira",
+          "frefrefrefeatlilashikuta",
           "frefrefrefeat幾田りら"
         ]
       },
@@ -1327,7 +1327,7 @@
       "titleKeys": [
         "freefreefree"
       ],
-      "titleLatin": "Free Free Free feat. Ikuta Rira"
+      "titleLatin": "Free Free Free feat. Lilas Ikuta"
     },
     {
       "albumId": "apple:al:1653552785",
@@ -1570,7 +1570,7 @@
         "artist": [],
         "title": [
           "senkohanabifeachikudenrira",
-          "senkohanabifeachikutarira",
+          "senkohanabifeatlilashikuta",
           "線香花火feat幾田りら"
         ]
       },
@@ -1580,7 +1580,7 @@
       "titleKeys": [
         "線香花火"
       ],
-      "titleLatin": "Senkou hanabi (feat. Ikuta Rira)"
+      "titleLatin": "Senkou hanabi (feat. Lilas Ikuta)"
     },
     {
       "albumId": "apple:al:1693168540",
@@ -1752,7 +1752,7 @@
         "artist": [],
         "title": [
           "likekasaneteikufeachikudenrira",
-          "likekasaneteikufeachikutarira",
+          "likekasaneteikufeatlilashikuta",
           "like重ねていくfeat幾田りら"
         ]
       },
@@ -1762,7 +1762,7 @@
       "titleKeys": [
         "like重ねていく"
       ],
-      "titleLatin": "LIKE, kasanete iku (feat. Ikuta Rira)"
+      "titleLatin": "LIKE, kasanete iku (feat. Lilas Ikuta)"
     },
     {
       "albumId": "apple:al:1735958266",
@@ -2077,7 +2077,7 @@
         "artist": [],
         "title": [
           "shingalongfeachikudenrira",
-          "shingalongfeachikutarira",
+          "shingalongfeatlilashikuta",
           "shingalongfeat幾田りら"
         ]
       },
@@ -2087,7 +2087,7 @@
       "titleKeys": [
         "singalong"
       ],
-      "titleLatin": "Sing along!!! (feat. Ikuta Rira)"
+      "titleLatin": "Sing along!!! (feat. Lilas Ikuta)"
     },
     {
       "albumId": "apple:al:1805325620",
@@ -2187,7 +2187,7 @@
         "artist": [],
         "title": [
           "chimetoluvfeachikudenrira",
-          "chimetoluvfeachikutarira",
+          "chimetoluvfeatlilashikuta",
           "chimetoluvfeat幾田りら"
         ]
       },
@@ -2197,7 +2197,7 @@
       "titleKeys": [
         "timetoluv"
       ],
-      "titleLatin": "TIME TO LUV (feat. Ikuta Rira)"
+      "titleLatin": "TIME TO LUV (feat. Lilas Ikuta)"
     },
     {
       "albumId": "apple:al:1834319353",
@@ -2583,7 +2583,7 @@
         "artist": [],
         "title": [
           "akaharukafeachikudenrira",
-          "akaharukafeachikutarira",
+          "akaharukafeatlilashikuta",
           "赤春花feat幾田りら"
         ]
       },
@@ -2593,7 +2593,7 @@
       "titleKeys": [
         "赤春花"
       ],
-      "titleLatin": "Aka Haruka (feat. Ikuta Rira)"
+      "titleLatin": "Aka Haruka (feat. Lilas Ikuta)"
     },
     {
       "albumId": "apple:al:1887508212",
@@ -2655,7 +2655,7 @@
       "search": {
         "artist": [],
         "title": [
-          "zetsuzetsuzetsuzettaiseikifeachikutarira",
+          "zetsuzetsuzetsuzettaiseikifeatlilashikuta",
           "zezzezzezzettaiseikifeachikudenrira",
           "絶絶絶絶対聖域feat幾田りら"
         ]
@@ -2666,7 +2666,7 @@
       "titleKeys": [
         "絶絶絶絶対聖域"
       ],
-      "titleLatin": "Zetsuzetsuzetsuzettai seiiki (feat. Ikuta Rira)"
+      "titleLatin": "Zetsuzetsuzetsuzettai seiiki (feat. Lilas Ikuta)"
     }
   ]
 }

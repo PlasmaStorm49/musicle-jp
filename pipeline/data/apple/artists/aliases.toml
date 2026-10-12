@@ -135,29 +135,65 @@ latin = "Supaakuru"
 latin = 'Roketto tu za muun ~Shinjita sekai e~ (Netflix eiga "Feifei to tsuki no bouken" yori)'
 
 [tracks."apple:tr:1888081425"]  # 絶絶絶絶対聖域 (feat. 幾田りら); cutlet: "Zezzezzezzettai seiiki (feat. ikuden ri ra)"
-latin = "Zetsuzetsuzetsuzettai seiiki (feat. Ikuta Rira)"
+latin = "Zetsuzetsuzetsuzettai seiiki (feat. Lilas Ikuta)"
 
-# O crédito 幾田りら nos títulos: o cutlet leu "ikuden ri ra" (Hepburn: Ikuta Rira).
+# O crédito 幾田りら nos títulos: o cutlet leu "ikuden ri ra"; vale o nome latino dela, Lilas Ikuta (P181).
 [tracks."apple:tr:1635658533"]  # Free Free Free feat. 幾田りら
-latin = "Free Free Free feat. Ikuta Rira"
+latin = "Free Free Free feat. Lilas Ikuta"
 
 [tracks."apple:tr:1591860076"]  # 0X1=LOVESONG (I Know I Love You) [feat. 幾田りら] [Japanese Ver.]; cutlet: "[feat. ikuden rira ]"
-latin = "0X1=LOVESONG (I Know I Love You) [feat. Ikuta Rira] [Japanese Ver.]"
+latin = "0X1=LOVESONG (I Know I Love You) [feat. Lilas Ikuta] [Japanese Ver.]"
 
 [tracks."apple:tr:1690015442"]  # 線香花火 (feat. 幾田りら)
-latin = "Senkou hanabi (feat. Ikuta Rira)"
+latin = "Senkou hanabi (feat. Lilas Ikuta)"
 
 [tracks."apple:tr:1876930488"]  # 赤春花 (feat. 幾田りら); a leitura do título é a do cutlet
-latin = "Aka Haruka (feat. Ikuta Rira)"
+latin = "Aka Haruka (feat. Lilas Ikuta)"
 
 [tracks."apple:tr:1552701827"]  # たりないすくない (feat. 幾田りら)
-latin = "Tarinai sukunai (feat. Ikuta Rira)"
+latin = "Tarinai sukunai (feat. Lilas Ikuta)"
 
 [tracks."apple:tr:1804805344"]  # Sing along!!! (feat. 幾田りら)
-latin = "Sing along!!! (feat. Ikuta Rira)"
+latin = "Sing along!!! (feat. Lilas Ikuta)"
 
 [tracks."apple:tr:1833839026"]  # TIME TO LUV (feat. 幾田りら)
-latin = "TIME TO LUV (feat. Ikuta Rira)"
+latin = "TIME TO LUV (feat. Lilas Ikuta)"
 
 [tracks."apple:tr:1733586093"]  # LIKE、重ねていく (feat. 幾田りら)
-latin = "LIKE, kasanete iku (feat. Ikuta Rira)"
+latin = "LIKE, kasanete iku (feat. Lilas Ikuta)"
+
+# O crédito 新しい学校のリーダーズ nos títulos: o cutlet leu "atarashii gakkou no riidaazu"; vale o
+# nome latino do grupo, ATARASHII GAKKO! (P181).
+[tracks."apple:tr:1613883291"]  # 東京タワー (feat. 新しい学校のリーダーズ)
+latin = "Tokyo tawaa (feat. ATARASHII GAKKO!)"
+
+[tracks."apple:tr:1801097951"]  # Free Yourself feat. 新しい学校のリーダーズ
+latin = "Free Yourself feat. ATARASHII GAKKO!"
+
+[tracks."apple:tr:1818245458"]  # Narani Narani (feat. 新しい学校のリーダーズ)
+latin = "Narani Narani (feat. ATARASHII GAKKO!)"
+
+[tracks."apple:tr:1839373113"]  # 青春永遠 (feat. 新しい学校のリーダーズ)
+latin = "Seishun eien (feat. ATARASHII GAKKO!)"
+
+# Os mesmos créditos nos títulos dos álbuns (singles), que a revelação mostra (P181).
+[albums."apple:al:1801097949"]  # Free Yourself feat. 新しい学校のリーダーズ - Single
+latin = "Free Yourself feat. ATARASHII GAKKO!"
+
+[albums."apple:al:1818245457"]  # Narani Narani (feat. 新しい学校のリーダーズ) - Single
+latin = "Narani Narani (feat. ATARASHII GAKKO!)"
+
+[albums."apple:al:1839373107"]  # 青春永遠 (feat. 新しい学校のリーダーズ) - Single
+latin = "Seishun eien (feat. ATARASHII GAKKO!)"
+
+[albums."apple:al:1552701824"]  # たりないすくない (feat. 幾田りら) - Single
+latin = "Tarinai sukunai (feat. Lilas Ikuta)"
+
+[albums."apple:al:1635658532"]  # Free Free Free feat. 幾田りら
+latin = "Free Free Free feat. Lilas Ikuta"
+
+[albums."apple:al:1690015439"]  # 線香花火 (feat. 幾田りら) - Single
+latin = "Senkou hanabi (feat. Lilas Ikuta)"
+
+[albums."apple:al:1733586086"]  # LIKE、重ねていく (feat. 幾田りら) - Single
+latin = "LIKE, kasanete iku (feat. Lilas Ikuta)"

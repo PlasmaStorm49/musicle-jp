@@ -388,10 +388,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/51/ac/98/51ac9874-be73-6537-6457-3bd5e1d7aaf7/4560365713619.jpg/300x300bb.jpg",
       "id": "apple:al:1801097949",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2025-04-11",
       "title": "Free Yourself feat. 新しい学校のリーダーズ - Single",
-      "titleLatin": "Free Yourself feat. atarashii gakkou no riidaazu",
+      "titleLatin": "Free Yourself feat. ATARASHII GAKKO!",
       "type": "single"
     },
     {
@@ -402,10 +402,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/46/95/a7/4695a779-327a-c44f-45ca-13e2e524e063/4571653885284.jpg/300x300bb.jpg",
       "id": "apple:al:1818245457",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2025-06-20",
       "title": "Narani Narani (feat. 新しい学校のリーダーズ) - Single",
-      "titleLatin": "Narani Narani (feat. atarashii gakkou no riidaazu)",
+      "titleLatin": "Narani Narani (feat. ATARASHII GAKKO!)",
       "type": "single"
     },
     {
@@ -429,10 +429,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ab/be/cb/abbecbee-0589-14e0-6c85-b3dfe8f64c3b/25UM1IM37624.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1839373107",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2025-09-24",
       "title": "青春永遠 (feat. 新しい学校のリーダーズ) - Single",
-      "titleLatin": "Seishun eien (feat. atarashii gakkou no riidaazu)",
+      "titleLatin": "Seishun eien (feat. ATARASHII GAKKO!)",
       "type": "single"
     },
     {
@@ -1660,7 +1660,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1613883291",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.4805,
       "preview": {
         "durationSec": 30,
@@ -1671,6 +1671,7 @@
       "search": {
         "artist": [],
         "title": [
+          "tokyotawafeatatarashigakko",
           "tokyotawafeatatarashigakkonoridazu",
           "tokyotowerfeatatarashigakkonoreader",
           "東京たわーfeat新しい学校のりーだーず"
@@ -1682,7 +1683,7 @@
       "titleKeys": [
         "東京たわー"
       ],
-      "titleLatin": "Tokyo tawaa (feat. atarashii gakkou no riidaazu)"
+      "titleLatin": "Tokyo tawaa (feat. ATARASHII GAKKO!)"
     },
     {
       "albumId": "apple:al:1670265941",
@@ -2692,7 +2693,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1801097951",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.4416,
       "preview": {
         "durationSec": 30,
@@ -2703,6 +2704,7 @@
       "search": {
         "artist": [],
         "title": [
+          "freyorselffeatatarashigakko",
           "freyorselffeatatarashigakkonoreader",
           "freyorselffeatatarashigakkonoridazu",
           "freyorselffeat新しい学校のりーだーず"
@@ -2714,7 +2716,7 @@
       "titleKeys": [
         "freeyourself"
       ],
-      "titleLatin": "Free Yourself feat. atarashii gakkou no riidaazu"
+      "titleLatin": "Free Yourself feat. ATARASHII GAKKO!"
     },
     {
       "albumId": "apple:al:1818245457",
@@ -2730,7 +2732,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1818245458",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.3247,
       "preview": {
         "durationSec": 30,
@@ -2741,6 +2743,7 @@
       "search": {
         "artist": [],
         "title": [
+          "naraninaranifeatatarashigakko",
           "naraninaranifeatatarashigakkonoreader",
           "naraninaranifeatatarashigakkonoridazu",
           "naraninaranifeat新しい学校のりーだーず"
@@ -2752,7 +2755,7 @@
       "titleKeys": [
         "naraninarani"
       ],
-      "titleLatin": "Narani Narani (feat. atarashii gakkou no riidaazu)"
+      "titleLatin": "Narani Narani (feat. ATARASHII GAKKO!)"
     },
     {
       "albumId": "apple:al:1820960492",
@@ -2804,7 +2807,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1839373113",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.7922,
       "preview": {
         "durationSec": 30,
@@ -2815,6 +2818,7 @@
       "search": {
         "artist": [],
         "title": [
+          "seishuneienfeatatarashigakko",
           "seishuneienfeatatarashigakkonoreader",
           "seishuneienfeatatarashigakkonoridazu",
           "青春永遠feat新しい学校のりーだーず"
@@ -2826,7 +2830,7 @@
       "titleKeys": [
         "青春永遠"
       ],
-      "titleLatin": "Seishun eien (feat. atarashii gakkou no riidaazu)"
+      "titleLatin": "Seishun eien (feat. ATARASHII GAKKO!)"
     },
     {
       "albumId": "apple:al:1856036580",
