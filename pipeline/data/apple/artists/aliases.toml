@@ -112,3 +112,52 @@ latin = "I Love You !! ~Anata no hohoemi ni~"
 
 [tracks."apple:tr:1443555183"]  # 愛 愛 ~100% Pure Love~; cutlet: "Ai ai~100% Pure Love~"
 latin = "Ai ai ~100% Pure Love~"
+
+# --- 新しい学校のリーダーズ e 幾田りら (12/10/2026, P174): o romaji que o cutlet errou ---
+
+# A parceria com nome próprio na loja, no id do 椎名林檎: a Apple deu só "Sheena Ringo".
+[artists."apple:ar:74576999"]  # 椎名林檎と新しい学校のリーダーズ (ドラ1独走)
+latin = "Sheena Ringo & ATARASHII GAKKO!"
+
+[tracks."apple:tr:1348202944"]  # 恋の遮断機 (feat.H ZETTRIO); cutlet: "Koi no shadan ki (feat.H ZETTRIO)"
+latin = "Koi no shadanki (feat.H ZETTRIO)"
+
+[tracks."apple:tr:1348202866"]  # 席替ガットゥーゾ; cutlet: "Seki kae Gattuuzo"
+latin = "Sekigae Gattuuzo"
+
+[tracks."apple:tr:1450156946"]  # チラチラチラミー ~試験当日~; cutlet: "Chirachirachiramii~ shiken toujitsu~"
+latin = "Chirachirachiramii ~Shiken toujitsu~"
+
+[tracks."apple:tr:1602544173"]  # スパークル (幾田りら); cutlet: "Supaa kuru"
+latin = "Supaakuru"
+
+[tracks."apple:tr:1531215663"]  # ロケット・トゥ・ザ・ムーン~信じた世界へ~ (Netflix 映画『フェイフェイと月の冒険』より)
+latin = 'Roketto tu za muun ~Shinjita sekai e~ (Netflix eiga "Feifei to tsuki no bouken" yori)'
+
+[tracks."apple:tr:1888081425"]  # 絶絶絶絶対聖域 (feat. 幾田りら); cutlet: "Zezzezzezzettai seiiki (feat. ikuden ri ra)"
+latin = "Zetsuzetsuzetsuzettai seiiki (feat. Ikuta Rira)"
+
+# O crédito 幾田りら nos títulos: o cutlet leu "ikuden ri ra" (Hepburn: Ikuta Rira).
+[tracks."apple:tr:1635658533"]  # Free Free Free feat. 幾田りら
+latin = "Free Free Free feat. Ikuta Rira"
+
+[tracks."apple:tr:1591860076"]  # 0X1=LOVESONG (I Know I Love You) [feat. 幾田りら] [Japanese Ver.]; cutlet: "[feat. ikuden rira ]"
+latin = "0X1=LOVESONG (I Know I Love You) [feat. Ikuta Rira] [Japanese Ver.]"
+
+[tracks."apple:tr:1690015442"]  # 線香花火 (feat. 幾田りら)
+latin = "Senkou hanabi (feat. Ikuta Rira)"
+
+[tracks."apple:tr:1876930488"]  # 赤春花 (feat. 幾田りら); a leitura do título é a do cutlet
+latin = "Aka Haruka (feat. Ikuta Rira)"
+
+[tracks."apple:tr:1552701827"]  # たりないすくない (feat. 幾田りら)
+latin = "Tarinai sukunai (feat. Ikuta Rira)"
+
+[tracks."apple:tr:1804805344"]  # Sing along!!! (feat. 幾田りら)
+latin = "Sing along!!! (feat. Ikuta Rira)"
+
+[tracks."apple:tr:1833839026"]  # TIME TO LUV (feat. 幾田りら)
+latin = "TIME TO LUV (feat. Ikuta Rira)"
+
+[tracks."apple:tr:1733586093"]  # LIKE、重ねていく (feat. 幾田りら)
+latin = "LIKE, kasanete iku (feat. Ikuta Rira)"

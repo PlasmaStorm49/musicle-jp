@@ -187,3 +187,14 @@ singles = [
   "1801664131",  # Shapes Of Happiness (DL 8th)
   "1811935953",  # Stardust (DL 9th)  [fora das 200 hoje]
 ]
+
+[[artists]]
+id = "1231338664"  # 新しい学校のリーダーズ (ATARASHII GAKKO!; オトナブルー, Tokyo Calling)
+# O feat. do single e o do álbum (マエナラワナイ) vêm escritos de jeitos diferentes, e o
+# "(feat.H …)", colado, a chave não tira.
+same_song = [["1332972950", "1348202944"]]  # 恋の遮断機 feat. H ZETTRIO / 恋の遮断機 (feat.H ZETTRIO)
+
+[[artists]]
+id = "1489581870"  # 幾田りら (Lilas Ikuta; não o "Lilas" 1704820090, de títulos em francês)
+# A versão em inglês (英語版) do tema do 崩壊:スターレイル; a [Japanese Ver.] fica.
+exclude_tracks = ["1786299392"]  # Nameless Faces (feat. Lilas Ikuta) [英語版]
