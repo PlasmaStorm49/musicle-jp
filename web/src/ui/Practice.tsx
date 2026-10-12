@@ -243,7 +243,6 @@ function Restart({
       <button
         ref={button}
         type="button"
-        class="link"
         // O 2º clique de um toque duplo num cartão de modo cai aqui (a tela já mudou).
         onClick={singleClick(() => {
           if (score.rounds === 0) {

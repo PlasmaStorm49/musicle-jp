@@ -83,13 +83,6 @@ button.primary {
   font-weight: 600;
 }
 
-button.link {
-  border: none;
-  background: none;
-  color: var(--accent);
-  text-decoration: underline;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -181,6 +174,12 @@ ul.options {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+/* "Não sei" e "Desistir" (ME57): botão secundário com a largura do texto, para não parecer uma
+   5ª opção. Eram links, mas fazem uma ação. */
+button.give-up {
+  margin-top: 8px;
 }
 
 .item {
@@ -707,6 +706,11 @@ button.home-card {
 
 button.home-card:hover {
   border-color: var(--accent);
+}
+
+/* "Reiniciar o Treino": um botão secundário (ME57), abaixo do placar */
+.practice header > button {
+  margin-top: 8px;
 }
 
 /* Confirmação de "Reiniciar o Treino" */

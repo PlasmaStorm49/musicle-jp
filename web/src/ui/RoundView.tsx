@@ -189,7 +189,7 @@ function Typing({
       <p class="hint">{t("typing.attempt", attempt)}</p>
       <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" />
       <Attempts index={index} round={round} />
-      <button type="button" class="link" onClick={singleClick(onGiveUp)}>
+      <button type="button" class="give-up" onClick={singleClick(onGiveUp)}>
         {t("typing.giveUp")}
       </button>
     </section>
