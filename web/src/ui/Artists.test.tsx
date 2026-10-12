@@ -351,7 +351,7 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     help.focus(); // o clique do navegador leva o foco ao botão, que some em seguida
     fireEvent.click(help);
     expect(screen.queryByRole("combobox")).toBeNull();
-    expect(screen.queryByRole("button", { name: /^Pular/ })).toBeNull();
+    expect(screen.getByRole("button", { name: /^Pular/ })).toBeTruthy(); // continua (P163)
     expect(helpButton()).toBeNull();
     expect(options()).toHaveLength(3);
     expect(document.activeElement).toBe(options()[0]);
@@ -378,6 +378,25 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     fireEvent.click(wrong as HTMLElement);
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
     expect(score()).toBe("1 ponto em 2 rodadas");
+  });
+
+  it("com a ajuda, o Pular aumenta o trecho até a última tentativa, que fica para a opção (P163)", async () => {
+    const { playing } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await choose(/^夜風/);
+    fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    fireEvent.click(helpButton() as HTMLElement);
+    const before = [...options()].map((b) => b.textContent);
+    fireEvent.click(screen.getByRole("button", { name: "Pular (+2 s)" }));
+    expect(screen.getByRole("button", { name: "Tocar 4 s" })).toBeTruthy();
+    // Até a 5ª tentativa gasta: na 6ª, o botão some, e a opção ainda pode ser escolhida.
+    for (let i = 0; i < 3; i++) fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    expect(screen.queryByRole("button", { name: /^Pular/ })).toBeNull();
+    expect(screen.getByRole("button", { name: "Tocar 16 s" })).toBeTruthy();
+    expect([...options()].map((b) => b.textContent)).toEqual(before);
+    const answer = `Música ${playing()?.split(":").at(-1)}`;
+    fireEvent.click([...options()].find((b) => b.textContent?.startsWith(answer)) as HTMLElement);
+    expect(score()).toBe("1 ponto em 1 rodada"); // os pontos da ajuda, em qualquer etapa
   });
 
   it("voltar à aba com a ajuda já pedida deixa o foco ir ao Tocar (regra 16)", async () => {

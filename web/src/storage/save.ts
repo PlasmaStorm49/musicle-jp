@@ -102,9 +102,19 @@ export function isGameEvent(x: unknown): x is GameEvent {
 }
 
 /**
+ * O que vem depois da ajuda: pulos, que só aumentam o trecho (P163), e no fim no máximo a opção
+ * escolhida. O acerto é sempre ela.
+ */
+function isHelpTail(after: readonly unknown[], status: unknown): boolean {
+  const pick = after.findIndex((a) => a !== "skip");
+  if (pick !== -1 && pick !== after.length - 1) return false;
+  return status !== "won" || after.at(-1) === "right";
+}
+
+/**
  * Um jogo terminado do modo `target`, pelas regras dele: no Normal, no máximo 1 tentativa e
  * nunca um pulo (só o Desafio pula). A ajuda, só no modo que a tem, depois de ao menos uma
- * tentativa e com no máximo uma (a opção) depois dela.
+ * tentativa; depois dela, pulos e no máximo a opção, no fim (`isHelpTail`).
  */
 export function isFinishedGame(x: unknown, target: Target): x is FinishedGame {
   if (!isRecord(x) || !Number.isInteger(x.number)) return false;
@@ -125,10 +135,7 @@ export function isFinishedGame(x: unknown, target: Target): x is FinishedGame {
           isNonNegativeInt(r.help) &&
           r.help >= 1 &&
           r.help <= r.attempts.length &&
-          r.attempts.length - r.help <= 1 &&
-          // Depois da ajuda só vem a opção (nunca um pulo), e o acerto é ela.
-          !r.attempts.slice(r.help).includes("skip") &&
-          (r.status !== "won" || r.attempts.length - r.help === 1))),
+          isHelpTail(r.attempts.slice(r.help), r.status))),
   );
 }
 
@@ -153,7 +160,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     if (modeOf(id) && isInProgress(progress)) inProgress[id] = progress;
     else dropped = true;
   }
-  return { save: { schemaVersion: 4, history, inProgress }, dropped };
+  return { save: { schemaVersion: 5, history, inProgress }, dropped };
 }
 
 // ---- leitura e gravação ----

@@ -170,7 +170,8 @@ export function RoundView({
             stage={round.stage}
             explicit={track.explicit}
             rules={rules}
-            skippable={canSkip(rules, round.attempts.length) && round.help === null}
+            // Com a ajuda também (P163): os pontos já são os dela, e pular só aumenta o trecho.
+            skippable={canSkip(rules, round.attempts.length)}
             onListenMore={() => dispatch({ type: "LISTEN_MORE" })}
             onSkip={() => {
               dispatch({ type: "SKIP" });

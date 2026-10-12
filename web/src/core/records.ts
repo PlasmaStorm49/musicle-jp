@@ -20,7 +20,8 @@ export type RoundRecord = {
   readonly attempts: readonly AttemptMark[];
   /**
    * Com a ajuda (P149, v4 do save): quantas tentativas já tinham sido gastas quando ela foi
-   * pedida. Depois dela vem no máximo uma, a opção escolhida. Sem ajuda, o campo não existe.
+   * pedida. Depois dela vêm só pulos, que aumentam o trecho (P163, v5), e no fim no máximo a
+   * opção escolhida. Sem ajuda, o campo não existe.
    */
   readonly help?: number;
 };
@@ -41,17 +42,17 @@ export type InProgress = {
 
 /**
  * O formato salvo. v3 (P100): os dois modos fixos começam do zero, e sai a preferência do modo
- * de resposta, que não existe mais. v4 (P149): a ajuda, no evento HELP e no `help` da rodada
- * (storage/migrations.ts).
+ * de resposta, que não existe mais. v4 (P149): a ajuda, no evento HELP e no `help` da rodada.
+ * v5 (P163): o pulo depois da ajuda (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 4;
+  readonly schemaVersion: 5;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
 };
 
 export function emptySave(): Save {
-  return { schemaVersion: 4, history: {}, inProgress: {} };
+  return { schemaVersion: 5, history: {}, inProgress: {} };
 }
 
 export function puzzleId(date: string, target: Target): PuzzleId {
