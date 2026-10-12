@@ -1,0 +1,4548 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "くじら",
+      "artistIds": [
+        "apple:ar:1486302053",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e6/ef/09/e6ef09ea-ddfa-d5f5-b1ce-0487ba5badfe/859755317464_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1492606163",
+      "latinSource": "cutlet",
+      "releaseDate": "2019-12-23",
+      "title": "金木犀 (feat. Ado) - Single",
+      "titleLatin": "Kin mokusei (feat. Ado)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/3a/15/d4/3a15d498-440b-dd66-b396-30dd85475b8f/859755560679_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1505073923",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-03-29",
+      "title": "シカバネーゼ (feat. Ado) - Single",
+      "titleLatin": "Shikabaneeze (feat. Ado)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/a1/6d/02/a16d0255-ac78-b6a3-692e-b43ced90ce06/PCSP_02959.jpg/300x300bb.jpg",
+      "id": "apple:al:1509680604",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-05-06",
+      "title": "Ado/PARED/まひる/ゆっけ presents PALETTE4",
+      "titleLatin": "Ado/PARED/mahiru/yu kke presents PALETTE4",
+      "type": "compilation"
+    },
+    {
+      "artistDisplay": "吐息.",
+      "artistIds": [
+        "apple:ar:122533005",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5d/51/cc/5d51ccad-74b3-c392-8767-a33829ead1a0/859755750056_cover.png/300x300bb.jpg",
+      "id": "apple:al:1512698891",
+      "latinSource": null,
+      "releaseDate": "2020-05-11",
+      "title": "ANEMONE (feat. Ado) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "南雲ゆうき",
+      "artistIds": [
+        "apple:ar:1504044348",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/df/57/ff/df57ff38-6ead-8dc8-c528-d8bf2f0eea37/859755950425_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1521198932",
+      "latinSource": null,
+      "releaseDate": "2020-06-30",
+      "title": "Stick Candy (feat. Ado) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "biz",
+      "artistIds": [
+        "apple:ar:1581930510",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/f6/b0/7e/f6b07e1d-f319-3333-602f-64328a7c049d/859756062707_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1527560467",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-08-14",
+      "title": "東亰カニバリズム (feat. Ado) - Single",
+      "titleLatin": "Higashi 亰 kanibarizumu (feat. Ado)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/56/77/8b/56778b9a-c5c5-1532-35ac-3ea997464569/859756064787_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1527723545",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-08-28",
+      "title": "イート (feat. Ado) - Single",
+      "titleLatin": "Iito (feat. Ado)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "泣き虫",
+      "artistIds": [
+        "apple:ar:1479534522",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/bc/7d/19/bc7d19f2-cf4d-592c-6683-ff6472cee851/PCSP_03170.jpg/300x300bb.jpg",
+      "id": "apple:al:1530913155",
+      "latinSource": null,
+      "releaseDate": "2020-09-23",
+      "title": "Shake It Now. (feat. Ado) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "biz",
+      "artistIds": [
+        "apple:ar:1581930510",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/9a/09/fe/9a09fe6a-fa09-0075-225b-5cfa38486954/859756159797_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1531462886",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-09-11",
+      "title": "フロイトメタ (feat. Ado) - Single",
+      "titleLatin": "Furoito meta (feat. Ado)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Linmu",
+      "artistIds": [
+        "apple:ar:1470597821",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/47/29/fb/4729fb3e-2d22-2bab-1c2c-69776057a9e5/859756178941_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1532632396",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-09-18",
+      "title": "お洒落番長 (feat. Ado) - Single",
+      "titleLatin": "Oshare banchou (feat. Ado)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/cb/82/41/cb8241a3-5324-bbaa-8da2-33c5b29b1c7d/20UMGIM76771.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1535123741",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-10-23",
+      "title": "うっせぇわ - Single",
+      "titleLatin": "Ussee wa",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "柊キライ",
+      "artistIds": [
+        "apple:ar:1455321114",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/6d/98/59/6d9859c3-8b03-db99-f23b-0edd228ecfd4/859756395355_cover.png/300x300bb.jpg",
+      "id": "apple:al:1543680669",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-12-11",
+      "title": "ラブカ? (feat. Ado) - Single",
+      "titleLatin": "Rabuka? (feat. Ado)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/84/e8/53/84e85340-3e7e-8e7c-a012-c54208fa1850/20UM1IM05906.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1544173500",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-12-24",
+      "title": "レディメイド - Single",
+      "titleLatin": "Redi meido",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/25/fe/82/25fe82c6-20b1-baa3-5641-a165148db612/859756431282_cover.png/300x300bb.jpg",
+      "id": "apple:al:1544944109",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-12-15",
+      "title": "フェイキング・オブ・コメディ - Single",
+      "titleLatin": "Feikingu obu komedi",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ミコ吉",
+      "artistIds": [
+        "apple:ar:1547919142",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a2/0a/75/a20a751c-9b71-3436-e523-4abe4a2d3250/859756524724_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1547959890",
+      "latinSource": null,
+      "releaseDate": "2021-02-01",
+      "title": "Radio Noise (feat. Ado) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/2b/fc/69/2bfc69c8-1c1b-2b1c-6a52-2d5d610a9ce8/21UMGIM02074.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1551508118",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-02-14",
+      "title": "ギラギラ - Single",
+      "titleLatin": "Giragira",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/44/a8/97/44a897a0-b0bf-c539-a699-e070ebf4726a/21UMGIM28348.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1562772199",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-04-27",
+      "title": "踊 - Single",
+      "titleLatin": "Odori",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/33/99/cc/3399ccdc-b3e0-fd1d-665a-e70cdda4a763/21UMGIM44272.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1570062994",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-06-14",
+      "title": "夜のピエロ - Single",
+      "titleLatin": "Yoru no piero",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/cd/29/d7/cd29d730-14c7-9914-afb6-045d877b55a5/859757079100_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1575533115",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-07-16",
+      "title": "アンチシステム's - Single",
+      "titleLatin": "Anchi shisutemu's",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/d1/50/0e/d1500e5f-c58e-c984-e486-1dbb1258f3c7/21UMGIM67891.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1579273515",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-08-12",
+      "title": "会いたくて - Single",
+      "titleLatin": "Aitakute",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a8/f2/96/a8f296ca-7d67-0c4a-d6cd-81bf4cacdb3b/859757296873_cover.png/300x300bb.jpg",
+      "id": "apple:al:1583882746",
+      "latinSource": null,
+      "releaseDate": "2021-09-17",
+      "title": "蝸旋 (feat. Ado) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/6d/38/ae/6d38ae1d-fe70-c64c-fca4-5d4043cf9270/21UM1IM28583.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1590781509",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-10-28",
+      "title": "阿修羅ちゃん - Single",
+      "titleLatin": "Ashurachan",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/72/21/9e/72219e69-8be3-b67e-f357-1e60a552a7ab/21UM1IM44484.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1598877054",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-12-29",
+      "title": "千本桜 - Single",
+      "titleLatin": "Senbon sakura",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/24/e9/c2/24e9c269-bee0-62e0-6de6-257db163ee5a/21UM1IM54074.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1603820296",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-01-16",
+      "title": "狂言",
+      "titleLatin": "Kyougen",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/86/d4/64/86d464b0-500a-2c81-c587-9e4d39f3d058/22UMGIM16609.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1612050562",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-03-14",
+      "title": "永遠のあくる日 - Single",
+      "titleLatin": "Eien no akuruhi",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/42/a3/cc/42a3cc35-fdb7-2ae7-02f3-e5a90f32eb8e/22UMGIM74128.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1636446787",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-06-08",
+      "title": "ウタの歌 ONE PIECE FILM RED",
+      "titleLatin": "Uta no uta ONE PIECE FILM RED",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/64/ce/7c/64ce7cf0-f5a3-d1ab-f122-d69f6888a64d/22UMGIM91217.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1643108770",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-09-19",
+      "title": "リベリオン - Single",
+      "titleLatin": "Ri beri on",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/d8/a3/76/d8a37659-f142-1ad2-1345-ae02731abf25/22UM1IM01274.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1645273152",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-10-10",
+      "title": "行方知れず - Single",
+      "titleLatin": "Yukue shirezu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/ab/b3/bb/abb3bb90-b42f-1fe3-42eb-e26898f0e4b7/23UMGIM05087.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1670021415",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-02-20",
+      "title": "アタシは問題作 - Single",
+      "titleLatin": "Atashi wa mondaisaku",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "おくのほそみち",
+      "artistIds": [
+        "apple:ar:1286579764",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/d5/34/e3/d534e3c2-23a5-9b1d-59c0-7e025875c38d/PA00083743_0_121913_jacket.jpg/300x300bb.jpg",
+      "id": "apple:al:1675191049",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-03-07",
+      "title": "フールフールフール (feat. Ado) - Single",
+      "titleLatin": "Fuuru fuuru fuuru (feat. Ado)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/ff/ac/9a/ffac9ad5-f1f9-e5eb-f7eb-4bab8e638607/23UMGIM40786.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1684477577",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-05-09",
+      "title": "いばら - Single",
+      "titleLatin": "Ibara",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/0c/73/93/0c73931f-ac6b-53a1-fc95-6b6b9b8bea1f/23UMGIM72171.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1694654874",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-07-11",
+      "title": "向日葵 - Single",
+      "titleLatin": "Himawari",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "LE SSERAFIM",
+      "artistIds": [
+        "apple:ar:1616740364",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/78/6e/68/786e68cb-25a3-2df7-c95f-1efc8ea42f01/23UMGIM84425.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1701142677",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-08-08",
+      "title": "UNFORGIVEN (Japanese ver.) [feat. ナイル・ロジャース & Ado] - Single",
+      "titleLatin": "UNFORGIVEN (Japanese ver.) [feat. Nairu Rojaasu& Ado]",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/80/e8/82/80e8826c-f877-9a74-0e7b-a142108feda0/23UMGIM92958.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1704093802",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-09-06",
+      "title": "唱 - Single",
+      "titleLatin": "Shou",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/04/1a/18/041a18f0-4839-35db-cfe5-604a00049f82/23UM1IM03431.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1706454341",
+      "latinSource": null,
+      "releaseDate": "2023-09-18",
+      "title": "DIGNITY - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/b0/cb/ad/b0cbad88-e4ad-d171-2bff-522798da6565/23UM1IM05243.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1708177122",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-10-05",
+      "title": "クラクラ - Single",
+      "titleLatin": "Kurakura",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a0/ed/03/a0ed035a-3be7-e125-eb50-0e2f03a1e5a5/23UM1IM18155.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1711196318",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-10-14",
+      "title": "オールナイトレディオ - Single",
+      "titleLatin": "Ooru naito redio",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/43/03/6a/43036a64-2420-eec4-0355-145009fdd9d1/23UM1IM29288.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1715243157",
+      "latinSource": null,
+      "releaseDate": "2023-11-15",
+      "title": "unravel - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/da/f9/71/daf9718d-6877-6852-c6e3-897f5b9e064a/23UM1IM45773.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1717377142",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-11-29",
+      "title": "ブリキノダンス - Single",
+      "titleLatin": "Buriki no dansu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/fa/e9/42/fae942a7-dca5-6cc0-9e49-4a4f2da6b81e/23UM1IM45777.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1718531990",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-12-13",
+      "title": "Adoの歌ってみたアルバム",
+      "titleLatin": "Ado no utatte mita arubamu",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/51/97/13/51971380-856f-c92c-f00f-bad7b087d918/23UM1IM68262.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1727050830",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-01-31",
+      "title": "ショコラカタブラ - Single",
+      "titleLatin": "Shokorakatabura",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/41/9e/05/419e0537-c476-ea3d-3260-5c1f8b9c2f5d/24UMGIM53505.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1746901884",
+      "latinSource": null,
+      "releaseDate": "2024-05-31",
+      "title": "MIRROR - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/98/49/cf/9849cf3b-7c93-c86c-edd7-bfa0c83eb65f/24UMGIM65725.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1753644115",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-07-05",
+      "title": "ルル - Single",
+      "titleLatin": "Ruru",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c9/3d/3e/c93d3e8a-cce6-aac8-c544-bead75a03cbc/24UMGIM62188.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1754263364",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-02-23",
+      "title": "残夢",
+      "titleLatin": "Zanmu",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/43/bc/c5/43bcc5e0-0c87-0116-7edf-f268efd6d648/24UM1IM06707.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1771805210",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-10-14",
+      "title": "初夏 - Single",
+      "titleLatin": "Shoka",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado & 初音ミク",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0c/1d/a2/0c1da2a4-1e6f-271b-5761-15a7c3373eec/24UM1IM03248.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1771966813",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-10-24",
+      "title": "桜日和とタイムマシン/初夏 - Single",
+      "titleLatin": "Sakura hiyori to taimu mashin/shoka",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/21/78/25/21782502-5ce1-e6a9-e6fe-72978829cb09/24UM1IM10009.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1774616786",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-11-01",
+      "title": "きっとコースター - Single",
+      "titleLatin": "Kitto koosutaa",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8b/65/dd/8b65dd2a-63d0-01ea-056b-9ac25b1c5e01/24UM1IM28951.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1781190969",
+      "latinSource": null,
+      "releaseDate": "2024-12-06",
+      "title": "Episode X - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "イマジン・ドラゴンズ",
+      "artistIds": [
+        "apple:ar:358714030",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8b/01/52/8b01522a-787e-a865-86b9-469fff6b5de5/24UM1IM24355.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1783452555",
+      "latinSource": null,
+      "releaseDate": "2024-12-16",
+      "title": "Take Me to the Beach (feat. Ado) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/60/60/a8/6060a8ff-20af-af89-c875-8c796800e7cc/24UM1IM43438.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1789478391",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-01-24",
+      "title": "エルフ - Single",
+      "titleLatin": "Erufu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/05/0d/4f/050d4fcb-ea6f-9d0a-1216-e17e38fc7aa4/25UMGIM33373.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1799216463",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-03-10",
+      "title": "わたしに花束 - Single",
+      "titleLatin": "Watashi ni hanataba",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a6/be/c3/a6bec30f-8698-b206-73ad-a559e3f3edc6/25UMGIM35010.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1802573171",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-04-09",
+      "title": "Adoのベストアドバム",
+      "titleLatin": "Ado no besuto ado Bamu",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e7/02/9e/e7029eaf-9141-fda1-7f5f-fb4f5d67bc91/25UMGIM44235.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1805514498",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-04-16",
+      "title": "シャルル - Single",
+      "titleLatin": "Sharuru",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/87/34/0a/87340a34-6915-2901-5c45-9a1f1d43d0ec/25UMGIM51815.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1808613986",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-05-01",
+      "title": "十戒(1984) - Single",
+      "titleLatin": "Juu kai (1984)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8b/2a/78/8b2a78d7-a9ab-c9f0-e0e6-99b4cf72c83d/25UMGIM60166.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1813109786",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-05-16",
+      "title": "ゲゲゲの鬼太郎 - Single",
+      "titleLatin": "Gegege no Onitarou",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ジャックス・ジョーンズ & Ado",
+      "artistIds": [
+        "apple:ar:1201228278",
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/06/40/d9/0640d902-884f-105e-f83d-4f80823ae357/25UMGIM78873.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1819485765",
+      "latinSource": null,
+      "releaseDate": "2025-06-13",
+      "title": "Stay Gold (From \"BEYBLADE X\") - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado×りぶ",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6a/bb/36/6abb362d-0248-2451-6e3c-bff115532e20/VEATP-44246.jpg/300x300bb.jpg",
+      "id": "apple:al:1828133935",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-05-14",
+      "title": "Ratimeria -初回限定盤「コラボ歌ってみた」- - EP",
+      "titleLatin": "Ratimeria - shokai gentei ban \"korabo utatte mita\" -",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/77/e3/41/77e341c8-eecf-daf1-17bf-4cc6c22b9d59/25UM1IM23369.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1837058087",
+      "latinSource": null,
+      "releaseDate": "2025-09-12",
+      "title": "CAT'S EYE - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8f/4f/e9/8f4fe91a-4783-7799-d5ac-af8b1a57422e/25UM1IM34698.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1838991862",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-09-26",
+      "title": "風と私の物語 - Single",
+      "titleLatin": "Kaze to watakushi no monogatari",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ayase",
+      "artistIds": [
+        "apple:ar:1487088719"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/89/ba/a5/89baa5a7-e84f-a8e6-9993-b37fbe6144f3/25UM1IM19613.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1839173046",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-03-30",
+      "title": "まふまふ トリビュートアルバム 〜転生〜",
+      "titleLatin": "Ma fuma futoribyuuto arubamu tenshou",
+      "type": "compilation"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/15/e4/0b/15e40bd6-541b-0b58-8efa-2cdcdd80d160/25UM1IM36507.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1845132013",
+      "latinSource": null,
+      "releaseDate": "2025-10-31",
+      "title": "MAGIC - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/53/c3/37/53c3379c-8ce7-7cbd-6214-23e5e5bcecf4/4540774747726.png/300x300bb.jpg",
+      "id": "apple:al:1859927059",
+      "latinSource": null,
+      "releaseDate": "2026-01-14",
+      "title": "soldier game - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/04/45/7d/04457d33-6ae2-edcd-dccd-debaab0e6a4a/25UM2IM02318.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1860193693",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-12-29",
+      "title": "おどるポンポコリン - Single",
+      "titleLatin": "Odoru ponpokorin",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d7/e7/c7/d7e7c713-ee54-42ac-3b61-b58f07373308/26UMGIM00080.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1869214292",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-01-26",
+      "title": "エンゼルシーク - Single",
+      "titleLatin": "Enzeru shiiku",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9b/eb/f0/9bebf048-a1af-4489-f75a-e943b09d83b5/26UMGIM06978.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1876761745",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-02-18",
+      "title": "ビバリウム - Single",
+      "titleLatin": "Bi bariumu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/60/68/a9/6068a939-a1de-f661-c027-ee51752dff66/26UMGIM22590.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1883638582",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-03-16",
+      "title": "アイ・アイ・ア - Single",
+      "titleLatin": "Ai ai a",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/72/6e/c9/726ec907-d29b-7336-c20d-ec471e737ee7/26UMGIM31573.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1891928911",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-04-22",
+      "title": "綺羅 - Single",
+      "titleLatin": "Kira",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a1/5f/d0/a15fd068-f6fd-7938-8153-e8579f55020f/26UMGIM33590.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1896234640",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-05-12",
+      "title": "春に舞う - Single",
+      "titleLatin": "Haru ni mau",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/15/73/d3/1573d3a8-be25-3f4e-4707-4b9851792de7/26UMGIM70377.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:6781882526",
+      "latinSource": null,
+      "releaseDate": "2026-07-03",
+      "title": "Love me forever! - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/aa/c4/ab/aac4ab69-4af5-db18-4ffd-0199ae43188c/26UMGIM92689.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:6793398195",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-08-07",
+      "title": "モンストロ - Single",
+      "titleLatin": "Monsutoro",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c1/a8/4a/c1a84a2e-3bf3-084a-9f6b-f5ee8e058a9a/26UMGIM41445.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:6806106475",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-09-07",
+      "title": "好きでいて - Single",
+      "titleLatin": "Suki de ite",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ef/42/e1/ef42e1fc-e9bf-7c24-00c2-80701b9ed197/26UM1IM12697.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:6812997394",
+      "latinSource": null,
+      "releaseDate": "2026-09-25",
+      "title": "DND (feat. KUROMI) - Single",
+      "titleLatin": null,
+      "type": "single"
+    }
+  ],
+  "artistId": "apple:ar:1492604670",
+  "artists": [
+    {
+      "id": "apple:ar:1201228278",
+      "latinSource": "provider",
+      "name": "ジャックス・ジョーンズ",
+      "nameLatin": "Jax Jones"
+    },
+    {
+      "id": "apple:ar:122533005",
+      "latinSource": "cutlet",
+      "name": "吐息.",
+      "nameLatin": "Toiki."
+    },
+    {
+      "id": "apple:ar:1286579764",
+      "latinSource": "cutlet",
+      "name": "おくのほそみち",
+      "nameLatin": "Oku no hoso michi"
+    },
+    {
+      "id": "apple:ar:1455321114",
+      "latinSource": "cutlet",
+      "name": "柊キライ",
+      "nameLatin": "Hiiragi kirai"
+    },
+    {
+      "id": "apple:ar:1470597821",
+      "latinSource": null,
+      "name": "Linmu",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1479534522",
+      "latinSource": "provider",
+      "name": "泣き虫",
+      "nameLatin": "Nakimushi"
+    },
+    {
+      "id": "apple:ar:1486302053",
+      "latinSource": "provider",
+      "name": "くじら",
+      "nameLatin": "WhaleDontSleep"
+    },
+    {
+      "id": "apple:ar:1487088719",
+      "latinSource": null,
+      "name": "Ayase",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1492604670",
+      "latinSource": null,
+      "name": "Ado",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1501118886",
+      "latinSource": null,
+      "name": "jon-YAKITORY",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1504044348",
+      "latinSource": "cutlet",
+      "name": "南雲ゆうき",
+      "nameLatin": "Nagumo Yuuki"
+    },
+    {
+      "id": "apple:ar:1547919142",
+      "latinSource": "cutlet",
+      "name": "ミコ吉",
+      "nameLatin": "Miko kichi"
+    },
+    {
+      "id": "apple:ar:1581930510",
+      "latinSource": null,
+      "name": "biz",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1616740364",
+      "latinSource": null,
+      "name": "LE SSERAFIM",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:358714030",
+      "latinSource": "provider",
+      "name": "イマジン・ドラゴンズ",
+      "nameLatin": "Imagine Dragons"
+    }
+  ],
+  "fetchedAt": "2026-10-12T16:15:51Z",
+  "provider": "apple",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "apple:al:1492606163",
+      "artistDisplay": "くじら",
+      "artistIds": [
+        "apple:ar:1486302053",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 140488,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1492606164",
+      "latinSource": "cutlet",
+      "popularity": 0.6875,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b2/5c/0e/b25c0e34-3294-4702-f27d-b970aa6b21b1/mzaf_126963559743896609.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-12-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "kinmokuseifeatado",
+          "金木犀featado"
+        ]
+      },
+      "songKey": "金木犀|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%87%91%E6%9C%A8%E7%8A%80-feat-ado/1492606163?i=1492606164",
+      "title": "金木犀 (feat. Ado)",
+      "titleKeys": [
+        "金木犀"
+      ],
+      "titleLatin": "Kin mokusei (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1505073923",
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 256000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": true,
+      "id": "apple:tr:1505073925",
+      "latinSource": "cutlet",
+      "popularity": 0.4271,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2e/2e/36/2e2e36fb-1e78-7175-721e-78a9dc9f2539/mzaf_3737739385999346393.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-03-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "shikabanezefeatado",
+          "しかばねーぜfeatado"
+        ]
+      },
+      "songKey": "しかばねーぜ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%82%AB%E3%83%90%E3%83%8D%E3%83%BC%E3%82%BC-feat-ado/1505073923?i=1505073925",
+      "title": "シカバネーゼ (feat. Ado)",
+      "titleKeys": [
+        "しかばねーぜ"
+      ],
+      "titleLatin": "Shikabaneeze (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1509680604",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 209890,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1509680605",
+      "latinSource": "cutlet",
+      "popularity": 0.6562,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0b/b0/51/0bb051f0-59cf-296a-3957-d58b563d687c/mzaf_8645400239614753587.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-05-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "callboy",
+          "koruboi",
+          "こーるぼーい"
+        ]
+      },
+      "songKey": "こーるぼーい|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B3%E3%83%BC%E3%83%AB%E3%83%9C%E3%83%BC%E3%82%A4/1509680604?i=1509680605",
+      "title": "コールボーイ",
+      "titleKeys": [
+        "こーるぼーい"
+      ],
+      "titleLatin": "Kooru booi"
+    },
+    {
+      "albumId": "apple:al:1509680604",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 221360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1509680607",
+      "latinSource": "cutlet",
+      "popularity": 0.5312,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b8/42/b6/b842b6d7-d004-fe04-c419-b03d8fdbba5b/mzaf_9609963458687699336.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-05-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "taemanakuairo",
+          "絶え間なく藍色"
+        ]
+      },
+      "songKey": "絶え間なく藍色|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%B5%B6%E3%81%88%E9%96%93%E3%81%AA%E3%81%8F%E8%97%8D%E8%89%B2/1509680604?i=1509680607",
+      "title": "絶え間なく藍色",
+      "titleKeys": [
+        "絶え間なく藍色"
+      ],
+      "titleLatin": "Taema naku aiiro"
+    },
+    {
+      "albumId": "apple:al:1512698891",
+      "artistDisplay": "吐息.",
+      "artistIds": [
+        "apple:ar:122533005",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 142262,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1512698899",
+      "latinSource": null,
+      "popularity": 0.3229,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e3/80/16/e3801606-e761-ec9a-bbfa-f9207122fc5a/mzaf_3778674458148880170.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-05-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "anemonefeatado"
+        ]
+      },
+      "songKey": "anemone|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/anemone-feat-ado/1512698891?i=1512698899",
+      "title": "ANEMONE (feat. Ado)",
+      "titleKeys": [
+        "anemone"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1521198932",
+      "artistDisplay": "南雲ゆうき",
+      "artistIds": [
+        "apple:ar:1504044348",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 101217,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1521198935",
+      "latinSource": null,
+      "popularity": 0.0938,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d9/10/08/d910088c-945a-b168-b6c2-34cf547e3546/mzaf_11684514800141220630.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-06-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "schickcandyfeatado"
+        ]
+      },
+      "songKey": "stickcandy|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/stick-candy-feat-ado/1521198932?i=1521198935",
+      "title": "Stick Candy (feat. Ado)",
+      "titleKeys": [
+        "stickcandy"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1527560467",
+      "artistDisplay": "biz",
+      "artistIds": [
+        "apple:ar:1581930510",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 191229,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1527560468",
+      "latinSource": "cutlet",
+      "popularity": 0.1667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/14/b7/12/14b712d7-6ce8-235e-68b2-ff3cdb496747/mzaf_4225521796125027241.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "higashi亰canibalismfeatado",
+          "higashi亰kanibarizumufeatado",
+          "東亰かにばりずむfeatado"
+        ]
+      },
+      "songKey": "東亰かにばりずむ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%9D%B1%E4%BA%B0%E3%82%AB%E3%83%8B%E3%83%90%E3%83%AA%E3%82%BA%E3%83%A0-feat-ado/1527560467?i=1527560468",
+      "title": "東亰カニバリズム (feat. Ado)",
+      "titleKeys": [
+        "東亰かにばりずむ"
+      ],
+      "titleLatin": "Higashi 亰 kanibarizumu (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1527723545",
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 204857,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1527723998",
+      "latinSource": "cutlet",
+      "popularity": 0.2812,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fd/44/7f/fd447f9b-be72-fd16-6a3c-f677f0702b50/mzaf_2842756176908780680.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "eatfeatado",
+          "itofeatado",
+          "いーとfeatado"
+        ]
+      },
+      "songKey": "いーと|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A4%E3%83%BC%E3%83%88-feat-ado/1527723545?i=1527723998",
+      "title": "イート (feat. Ado)",
+      "titleKeys": [
+        "いーと"
+      ],
+      "titleLatin": "Iito (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1530913155",
+      "artistDisplay": "泣き虫",
+      "artistIds": [
+        "apple:ar:1479534522",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 198919,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1530913156",
+      "latinSource": null,
+      "popularity": 0.1354,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/62/b2/ab/62b2ab79-c159-4aa1-ecad-027d08c1281e/mzaf_4024508632037079499.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-09-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "shakeitnowfeatado"
+        ]
+      },
+      "songKey": "shakeitnow|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/shake-it-now-feat-ado/1530913155?i=1530913156",
+      "title": "Shake It Now. (feat. Ado)",
+      "titleKeys": [
+        "shakeitnow"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1531462886",
+      "artistDisplay": "biz",
+      "artistIds": [
+        "apple:ar:1581930510",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 192941,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1531462890",
+      "latinSource": "cutlet",
+      "popularity": 0.1458,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/30/a7/05/30a70575-273f-d4ca-06c4-e0ba79ca6fc2/mzaf_14816202703006647620.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-09-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "freudmetafeatado",
+          "furoitometafeatado",
+          "ふろいとめたfeatado"
+        ]
+      },
+      "songKey": "ふろいとめた|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%95%E3%83%AD%E3%82%A4%E3%83%88%E3%83%A1%E3%82%BF-feat-ado/1531462886?i=1531462890",
+      "title": "フロイトメタ (feat. Ado)",
+      "titleKeys": [
+        "ふろいとめた"
+      ],
+      "titleLatin": "Furoito meta (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1532632396",
+      "artistDisplay": "Linmu",
+      "artistIds": [
+        "apple:ar:1470597821",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 280066,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1532632397",
+      "latinSource": "cutlet",
+      "popularity": 0.2083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/22/c6/8d/22c68d78-a997-d119-dd80-487dbc79cedc/mzaf_8092942046519656098.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "osharebanchofeatado",
+          "お洒落番長featado"
+        ]
+      },
+      "songKey": "お洒落番長|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8A%E6%B4%92%E8%90%BD%E7%95%AA%E9%95%B7-feat-ado/1532632396?i=1532632397",
+      "title": "お洒落番長 (feat. Ado)",
+      "titleKeys": [
+        "お洒落番長"
+      ],
+      "titleLatin": "Oshare banchou (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1535123741",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 204920,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535123742",
+      "latinSource": "cutlet",
+      "popularity": 0.9792,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0c/8d/33/0c8d339b-db50-ce5a-8f20-bdbec6df3f6c/mzaf_10409401370931580642.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "ussewa",
+          "うっせぇわ"
+        ]
+      },
+      "songKey": "うっせぇわ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%86%E3%81%A3%E3%81%9B%E3%81%87%E3%82%8F/1535123741?i=1535123742",
+      "title": "うっせぇわ",
+      "titleKeys": [
+        "うっせぇわ"
+      ],
+      "titleLatin": "Ussee wa"
+    },
+    {
+      "albumId": "apple:al:1543680669",
+      "artistDisplay": "柊キライ",
+      "artistIds": [
+        "apple:ar:1455321114",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 185236,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1543680670",
+      "latinSource": "cutlet",
+      "popularity": 0.6979,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c2/3b/a7/c23ba77a-d7ff-be58-317e-96f871db045f/mzaf_17860299040794311800.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "rabukafeatado",
+          "らぶかfeatado"
+        ]
+      },
+      "songKey": "らぶか|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%83%96%E3%82%AB-feat-ado/1543680669?i=1543680670",
+      "title": "ラブカ? (feat. Ado)",
+      "titleKeys": [
+        "らぶか"
+      ],
+      "titleLatin": "Rabuka? (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1544173500",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 244378,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1544173501",
+      "latinSource": "cutlet",
+      "popularity": 0.8646,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d4/58/3c/d4583c99-7745-5d0c-cf93-0c8ccb9bc565/mzaf_4145991785488590313.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "ladymade",
+          "rejimeido",
+          "れでぃめいど"
+        ]
+      },
+      "songKey": "れでぃめいど|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%AC%E3%83%87%E3%82%A3%E3%83%A1%E3%82%A4%E3%83%89/1544173500?i=1544173501",
+      "title": "レディメイド",
+      "titleKeys": [
+        "れでぃめいど"
+      ],
+      "titleLatin": "Redi meido"
+    },
+    {
+      "albumId": "apple:al:1544944109",
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 190016,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1544944115",
+      "latinSource": "cutlet",
+      "popularity": 0.3854,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cc/a9/c4/cca9c4c2-453c-4471-ea35-4bb4e9affaff/mzaf_15360594333841759595.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "feikinguobukomejifeatado",
+          "feikinguofcomedyfeatado",
+          "ふぇいきんぐおぶこめでぃfeatado"
+        ]
+      },
+      "songKey": "ふぇいきんぐおぶこめでぃ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%95%E3%82%A7%E3%82%A4%E3%82%AD%E3%83%B3%E3%82%B0-%E3%82%AA%E3%83%96-%E3%82%B3%E3%83%A1%E3%83%87%E3%82%A3-feat-ado/1544944109?i=1544944115",
+      "title": "フェイキング・オブ・コメディ (feat. Ado)",
+      "titleKeys": [
+        "ふぇいきんぐおぶこめでぃ"
+      ],
+      "titleLatin": "Feikingu obu komedi (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1547959890",
+      "artistDisplay": "ミコ吉",
+      "artistIds": [
+        "apple:ar:1547919142",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 288300,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1547959891",
+      "latinSource": null,
+      "popularity": 0.0833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ed/ba/07/edba07f0-2688-24d0-e90a-1ff1e8360217/mzaf_11147499063821964169.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-02-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "rajionoisefeatado"
+        ]
+      },
+      "songKey": "radionoise|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/radio-noise-feat-ado/1547959890?i=1547959891",
+      "title": "Radio Noise (feat. Ado)",
+      "titleKeys": [
+        "radionoise"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1551508118",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 276213,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1551508124",
+      "latinSource": "cutlet",
+      "popularity": 0.9375,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0f/11/d7/0f11d793-a669-d5eb-7afb-2fcf54ec5239/mzaf_10784059055061717466.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-02-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "giragira",
+          "ぎらぎら"
+        ]
+      },
+      "songKey": "ぎらぎら|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AE%E3%83%A9%E3%82%AE%E3%83%A9/1551508118?i=1551508124",
+      "title": "ギラギラ",
+      "titleKeys": [
+        "ぎらぎら"
+      ],
+      "titleLatin": "Giragira"
+    },
+    {
+      "albumId": "apple:al:1562772199",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 208271,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1562772211",
+      "latinSource": "cutlet",
+      "popularity": 0.9688,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4b/54/2f/4b542f87-93f1-6aca-f7fe-8de81f5677a6/mzaf_12839391637581824166.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-04-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "odori",
+          "踊"
+        ]
+      },
+      "songKey": "踊|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%B8%8A/1562772199?i=1562772211",
+      "title": "踊",
+      "titleKeys": [
+        "踊",
+        "踊bonodoremixliveat日本武道館2023"
+      ],
+      "titleLatin": "Odori"
+    },
+    {
+      "albumId": "apple:al:1570062994",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 200713,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1570063123",
+      "latinSource": "cutlet",
+      "popularity": 0.8438,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/97/9e/8b/979e8bf1-70be-7560-8ce4-bb101a3e382b/mzaf_9379373441831793359.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-06-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "yorunopiero",
+          "yorunopierrot",
+          "夜のぴえろ"
+        ]
+      },
+      "songKey": "夜のぴえろ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%9C%E3%81%AE%E3%83%94%E3%82%A8%E3%83%AD/1570062994?i=1570063123",
+      "title": "夜のピエロ",
+      "titleKeys": [
+        "夜のぴえろ",
+        "夜のぴえろteddyloidremixliveatpeacocktheaterlosangeles2024"
+      ],
+      "titleLatin": "Yoru no piero"
+    },
+    {
+      "albumId": "apple:al:1575533115",
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 211684,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1575533121",
+      "latinSource": "cutlet",
+      "popularity": 0.3542,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/95/81/0a/95810aec-4424-1761-3b5d-55203166cef8/mzaf_5627785694560896527.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-07-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "anchishisutemusfeatado",
+          "anchishstemsfeatado",
+          "あんちしすてむsfeatado"
+        ]
+      },
+      "songKey": "あんちしすてむs|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%B3%E3%83%81%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0s-feat-ado/1575533115?i=1575533121",
+      "title": "アンチシステム's (feat. Ado)",
+      "titleKeys": [
+        "あんちしすてむs"
+      ],
+      "titleLatin": "Anchi shisutemu's (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1579273515",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 294543,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1579273516",
+      "latinSource": "cutlet",
+      "popularity": 0.8125,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7d/62/d7/7d62d7b5-48ce-b3a3-95f4-d4779d9e8094/mzaf_5653760016992897226.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-08-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "aitakute",
+          "会いたくて"
+        ]
+      },
+      "songKey": "会いたくて|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%BC%9A%E3%81%84%E3%81%9F%E3%81%8F%E3%81%A6/1579273515?i=1579273516",
+      "title": "会いたくて",
+      "titleKeys": [
+        "会いたくて"
+      ],
+      "titleLatin": "Aitakute"
+    },
+    {
+      "albumId": "apple:al:1583882746",
+      "artistDisplay": "jon-YAKITORY",
+      "artistIds": [
+        "apple:ar:1501118886",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 231247,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1583882756",
+      "latinSource": null,
+      "popularity": 0.7812,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c0/83/ee/c083ee7b-b889-78d4-28fb-92f3479985ef/mzaf_8970820649319238897.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-09-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "蝸旋featado"
+        ]
+      },
+      "songKey": "蝸旋|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%9D%B8%E6%97%8B-feat-ado/1583882746?i=1583882756",
+      "title": "蝸旋 (feat. Ado)",
+      "titleKeys": [
+        "蝸旋"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1590781509",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 196285,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1590781513",
+      "latinSource": "cutlet",
+      "popularity": 0.9479,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5e/16/37/5e163730-b98b-f420-0b2b-58131abca65c/mzaf_16358391245027962058.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-10-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "ashurachan",
+          "阿修羅ちゃん"
+        ]
+      },
+      "songKey": "阿修羅ちゃん|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%98%BF%E4%BF%AE%E7%BE%85%E3%81%A1%E3%82%83%E3%82%93/1590781509?i=1590781513",
+      "title": "阿修羅ちゃん",
+      "titleKeys": [
+        "阿修羅ちゃん"
+      ],
+      "titleLatin": "Ashurachan"
+    },
+    {
+      "albumId": "apple:al:1598877054",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 241558,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1598877322",
+      "latinSource": "cutlet",
+      "popularity": 0.8229,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/64/74/44/64744413-8322-f6df-1296-8436f9fd7739/mzaf_7560650662758026512.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-12-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "senbonsakura",
+          "千本桜"
+        ]
+      },
+      "songKey": "千本桜|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%8D%83%E6%9C%AC%E6%A1%9C/1598877054?i=1598877322",
+      "title": "千本桜",
+      "titleKeys": [
+        "千本桜"
+      ],
+      "titleLatin": "Senbon sakura"
+    },
+    {
+      "albumId": "apple:al:1603820296",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 158480,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1603820300",
+      "latinSource": "cutlet",
+      "popularity": 0.4792,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c2/46/9a/c2469aec-604e-e716-1279-eacba2cf6cda/mzaf_7647033136047474221.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-01-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "domeschicdeviolence",
+          "domesuchikkudebaiorensu",
+          "どめすてぃっくでばいおれんす"
+        ]
+      },
+      "songKey": "どめすてぃっくでばいおれんす|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%89%E3%83%A1%E3%82%B9%E3%83%86%E3%82%A3%E3%83%83%E3%82%AF%E3%81%A7%E3%83%90%E3%82%A4%E3%82%AA%E3%83%AC%E3%83%B3%E3%82%B9/1603820296?i=1603820300",
+      "title": "ドメスティックでバイオレンス",
+      "titleKeys": [
+        "どめすてぃっくでばいおれんす"
+      ],
+      "titleLatin": "Domesutikku de baiorensu"
+    },
+    {
+      "albumId": "apple:al:1603820296",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 186107,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1603820301",
+      "latinSource": null,
+      "popularity": 0.4896,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/12/a6/76/12a6766b-52c0-4c53-16c3-448923c85631/mzaf_16026892168243903270.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-01-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "fredom"
+        ]
+      },
+      "songKey": "freedom|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/freedom/1603820296?i=1603820301",
+      "title": "FREEDOM",
+      "titleKeys": [
+        "freedom"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1603820296",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 212373,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1603820302",
+      "latinSource": "cutlet",
+      "popularity": 0.4479,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/80/24/0e/80240eeb-bf06-3cdf-ec24-6d6da0b8fe48/mzaf_12233342981392912608.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-01-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "hanabi",
+          "花火"
+        ]
+      },
+      "songKey": "花火|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%8A%B1%E7%81%AB/1603820296?i=1603820302",
+      "title": "花火",
+      "titleKeys": [
+        "花火"
+      ],
+      "titleLatin": "Hanabi"
+    },
+    {
+      "albumId": "apple:al:1603820296",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 209613,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1603820304",
+      "latinSource": "cutlet",
+      "popularity": 0.2396,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1f/ca/cb/1fcacbee-81f7-359e-95b6-2453dfa6807b/mzaf_16097710906946558478.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-01-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "luckybrute",
+          "rakkiburuto",
+          "らっきーぶるーと"
+        ]
+      },
+      "songKey": "らっきーぶるーと|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%83%83%E3%82%AD%E3%83%BC-%E3%83%96%E3%83%AB%E3%83%BC%E3%83%88/1603820296?i=1603820304",
+      "title": "ラッキー・ブルート",
+      "titleKeys": [
+        "らっきーぶるーと"
+      ],
+      "titleLatin": "Rakkii buruuto"
+    },
+    {
+      "albumId": "apple:al:1603820296",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 269893,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1603820307",
+      "latinSource": "cutlet",
+      "popularity": 0.9167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d3/dd/6b/d3dd6bb8-421f-7f03-6252-d4fc09548c76/mzaf_8194396506394272122.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-01-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "kokorotoiunanofukakai",
+          "心という名の不可解"
+        ]
+      },
+      "songKey": "心という名の不可解|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%BF%83%E3%81%A8%E3%81%84%E3%81%86%E5%90%8D%E3%81%AE%E4%B8%8D%E5%8F%AF%E8%A7%A3/1603820296?i=1603820307",
+      "title": "心という名の不可解",
+      "titleKeys": [
+        "心という名の不可解"
+      ],
+      "titleLatin": "Kokoro to iu na no fukakai"
+    },
+    {
+      "albumId": "apple:al:1603820296",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 260067,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1603820310",
+      "latinSource": "cutlet",
+      "popularity": 0.6042,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/89/a9/94/89a994ed-81b1-44a4-7977-69a9425de7b4/mzaf_9028342336377799105.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-01-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "mazarando",
+          "motherland",
+          "まざーらんど"
+        ]
+      },
+      "songKey": "まざーらんど|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9E%E3%82%B6%E3%83%BC%E3%83%A9%E3%83%B3%E3%83%89/1603820296?i=1603820310",
+      "title": "マザーランド",
+      "titleKeys": [
+        "まざーらんど"
+      ],
+      "titleLatin": "Mazaa rando"
+    },
+    {
+      "albumId": "apple:al:1603820296",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 215853,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1603820311",
+      "latinSource": "cutlet",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/20/0e/b6/200eb6b7-056c-c137-7e82-56cb5669fd22/mzaf_5246060082310426413.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-01-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "kagakushu",
+          "過学習"
+        ]
+      },
+      "songKey": "過学習|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%81%8E%E5%AD%A6%E7%BF%92/1603820296?i=1603820311",
+      "title": "過学習",
+      "titleKeys": [
+        "過学習"
+      ],
+      "titleLatin": "Kagakushuu"
+    },
+    {
+      "albumId": "apple:al:1612050562",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 246333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1612050564",
+      "latinSource": "cutlet",
+      "popularity": 0.7604,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6f/29/04/6f2904ae-f57a-5087-ee5e-c1ad1da2152f/mzaf_17856423939565602585.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-03-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "eienoakuruhi",
+          "永遠のあくる日"
+        ]
+      },
+      "songKey": "永遠のあくる日|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B0%B8%E9%81%A0%E3%81%AE%E3%81%82%E3%81%8F%E3%82%8B%E6%97%A5/1612050562?i=1612050564",
+      "title": "永遠のあくる日",
+      "titleKeys": [
+        "永遠のあくる日"
+      ],
+      "titleLatin": "Eien no akuruhi"
+    },
+    {
+      "albumId": "apple:al:1636446787",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 226813,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1636446946",
+      "latinSource": "cutlet",
+      "popularity": 0.9896,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ba/99/c7/ba99c7c7-e89f-925f-3a40-6b078f3dd182/mzaf_9096013844103066202.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-06-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "shinjidai",
+          "新時代"
+        ]
+      },
+      "songKey": "新時代|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%96%B0%E6%99%82%E4%BB%A3/1636446787?i=1636446946",
+      "title": "新時代",
+      "titleKeys": [
+        "新時代",
+        "新時代うたfromonepiecefilmred"
+      ],
+      "titleLatin": "Shinjidai"
+    },
+    {
+      "albumId": "apple:al:1636446787",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 257080,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1636446959",
+      "latinSource": "cutlet",
+      "popularity": 0.9583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7c/c6/af/7cc6af79-91a0-477c-e2fd-357d590d66b3/mzaf_4446807511761732671.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-06-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "watakushiwasaikyo",
+          "私は最強"
+        ]
+      },
+      "songKey": "私は最強|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%A7%81%E3%81%AF%E6%9C%80%E5%BC%B7/1636446787?i=1636446959",
+      "title": "私は最強",
+      "titleKeys": [
+        "私は最強",
+        "私は最強うたfromonepiecefilmred"
+      ],
+      "titleLatin": "Watakushi wa saikyou"
+    },
+    {
+      "albumId": "apple:al:1636446787",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 237667,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1636446964",
+      "latinSource": "cutlet",
+      "popularity": 0.9271,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/81/23/0d/81230da3-c765-7294-010d-933bcf84f951/mzaf_9632608710399869009.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-07-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "gyakko",
+          "逆光"
+        ]
+      },
+      "songKey": "逆光|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%80%86%E5%85%89/1636446787?i=1636446964",
+      "title": "逆光",
+      "titleKeys": [
+        "逆光",
+        "逆光うたfromonepiecefilmred"
+      ],
+      "titleLatin": "Gyakkou"
+    },
+    {
+      "albumId": "apple:al:1636446787",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 173373,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1636446966",
+      "latinSource": "cutlet",
+      "popularity": 0.8542,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9e/b2/6c/9eb26c5f-8339-014b-7518-ae886026d6e2/mzaf_10515626977245235495.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-08-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "utakatararabai",
+          "うたかたららばい"
+        ]
+      },
+      "songKey": "うたかたららばい|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A6%E3%82%BF%E3%82%AB%E3%82%BF%E3%83%A9%E3%83%A9%E3%83%90%E3%82%A4/1636446787?i=1636446966",
+      "title": "ウタカタララバイ",
+      "titleKeys": [
+        "うたかたららばい"
+      ],
+      "titleLatin": "Utakatararabai"
+    },
+    {
+      "albumId": "apple:al:1636446787",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 195227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1636446970",
+      "latinSource": null,
+      "popularity": 0.875,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/00/d8/42/00d84225-3c00-20bc-bbc5-6668de64305d/mzaf_14164959674282725536.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-08-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "totmushica"
+        ]
+      },
+      "songKey": "totmusica|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/tot-musica/1636446787?i=1636446970",
+      "title": "Tot Musica",
+      "titleKeys": [
+        "totmusica"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1636446787",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 287987,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1636447276",
+      "latinSource": "cutlet",
+      "popularity": 0.8333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/37/bf/23/37bf2341-5149-f1aa-0227-12b3ad89552f/mzaf_14035511891618453627.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-08-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "sekainotsuzuki",
+          "世界のつづき"
+        ]
+      },
+      "songKey": "世界のつづき|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%B8%96%E7%95%8C%E3%81%AE%E3%81%A4%E3%81%A5%E3%81%8D/1636446787?i=1636447276",
+      "title": "世界のつづき",
+      "titleKeys": [
+        "世界のつづき"
+      ],
+      "titleLatin": "Sekai no tsuzuki"
+    },
+    {
+      "albumId": "apple:al:1636446787",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 272467,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1636447280",
+      "latinSource": "cutlet",
+      "popularity": 0.9062,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3c/24/66/3c246668-5c1d-d679-26d5-7571d734259a/mzaf_12771052485212706555.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-08-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "kazenoyukue",
+          "風のゆくえ"
+        ]
+      },
+      "songKey": "風のゆくえ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%A2%A8%E3%81%AE%E3%82%86%E3%81%8F%E3%81%88/1636446787?i=1636447280",
+      "title": "風のゆくえ",
+      "titleKeys": [
+        "風のゆくえ"
+      ],
+      "titleLatin": "Kaze no yukue"
+    },
+    {
+      "albumId": "apple:al:1636446787",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 207760,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1636447287",
+      "latinSource": "cutlet",
+      "popularity": 0.625,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/41/2a/f1/412af13b-13c1-56f5-e806-219c882e625c/mzaf_10174978656843863250.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-08-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "binkusunosake",
+          "びんくすの酒"
+        ]
+      },
+      "songKey": "びんくすの酒|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%93%E3%83%B3%E3%82%AF%E3%82%B9%E3%81%AE%E9%85%92/1636446787?i=1636447287",
+      "title": "ビンクスの酒",
+      "titleKeys": [
+        "びんくすの酒"
+      ],
+      "titleLatin": "Bin kusu no sake"
+    },
+    {
+      "albumId": "apple:al:1643108770",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 178065,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1643108771",
+      "latinSource": "cutlet",
+      "popularity": 0.7917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/40/e6/11/40e611d0-5a58-4dac-014f-d5e0612b3ea1/mzaf_13902318629237409202.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-09-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "riberion",
+          "risveryon",
+          "りべりおん"
+        ]
+      },
+      "songKey": "りべりおん|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%AA%E3%83%99%E3%83%AA%E3%82%AA%E3%83%B3/1643108770?i=1643108771",
+      "title": "リベリオン",
+      "titleKeys": [
+        "りべりおん"
+      ],
+      "titleLatin": "Ri beri on"
+    },
+    {
+      "albumId": "apple:al:1645273152",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 189565,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1645273153",
+      "latinSource": "cutlet",
+      "popularity": 0.7188,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/dc/c1/7b/dcc17be6-2b48-fb8e-a662-ba3f0c1f2890/mzaf_2735546454512666292.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-10-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "yukueshirezu",
+          "行方知れず"
+        ]
+      },
+      "songKey": "行方知れず|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%A1%8C%E6%96%B9%E7%9F%A5%E3%82%8C%E3%81%9A/1645273152?i=1645273153",
+      "title": "行方知れず",
+      "titleKeys": [
+        "行方知れず"
+      ],
+      "titleLatin": "Yukue shirezu"
+    },
+    {
+      "albumId": "apple:al:1670021415",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 194516,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1670021477",
+      "latinSource": "cutlet",
+      "popularity": 0.7292,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9e/1b/da/9e1bda8f-63f6-5f7a-98b7-4b9f8561fcda/mzaf_961427187792178427.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "atashiwamondaisaku",
+          "あたしは問題作"
+        ]
+      },
+      "songKey": "あたしは問題作|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%BF%E3%82%B7%E3%81%AF%E5%95%8F%E9%A1%8C%E4%BD%9C/1670021415?i=1670021477",
+      "title": "アタシは問題作",
+      "titleKeys": [
+        "あたしは問題作"
+      ],
+      "titleLatin": "Atashi wa mondaisaku"
+    },
+    {
+      "albumId": "apple:al:1675191049",
+      "artistDisplay": "おくのほそみち",
+      "artistIds": [
+        "apple:ar:1286579764",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 193000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1675191050",
+      "latinSource": "cutlet",
+      "popularity": 0.0312,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2e/06/20/2e062089-0af3-dd7b-279c-98f81e1b9704/mzaf_8399784955512821415.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "forforforfeatado",
+          "furufurufurufeatado",
+          "ふーるふーるふーるfeatado"
+        ]
+      },
+      "songKey": "ふーるふーるふーる|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%95%E3%83%BC%E3%83%AB%E3%83%95%E3%83%BC%E3%83%AB%E3%83%95%E3%83%BC%E3%83%AB-feat-ado/1675191049?i=1675191050",
+      "title": "フールフールフール (feat. Ado)",
+      "titleKeys": [
+        "ふーるふーるふーる"
+      ],
+      "titleLatin": "Fuuru fuuru fuuru (feat. Ado)"
+    },
+    {
+      "albumId": "apple:al:1684477577",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 261046,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1684477585",
+      "latinSource": "cutlet",
+      "popularity": 0.7708,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/77/89/15/77891521-d2e2-8bf4-7ce9-15c1f71f59ca/mzaf_13992879798382410987.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-05-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "ibara",
+          "いばら"
+        ]
+      },
+      "songKey": "いばら|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%84%E3%81%B0%E3%82%89/1684477577?i=1684477585",
+      "title": "いばら",
+      "titleKeys": [
+        "いばら"
+      ],
+      "titleLatin": "Ibara"
+    },
+    {
+      "albumId": "apple:al:1694654874",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 259586,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1694654875",
+      "latinSource": "cutlet",
+      "popularity": 0.8854,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c4/b6/02/c4b60223-c6e3-a9d9-012c-13cc698b5b8c/mzaf_17539536342299589402.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-07-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "himawari",
+          "向日葵"
+        ]
+      },
+      "songKey": "向日葵|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%90%91%E6%97%A5%E8%91%B5/1694654874?i=1694654875",
+      "title": "向日葵",
+      "titleKeys": [
+        "向日葵"
+      ],
+      "titleLatin": "Himawari"
+    },
+    {
+      "albumId": "apple:al:1701142677",
+      "artistDisplay": "LE SSERAFIM",
+      "artistIds": [
+        "apple:ar:1616740364",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 182933,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1701142689",
+      "latinSource": "cutlet",
+      "popularity": 0.4688,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/14/47/e4/1447e40f-75d1-c749-537d-32cda619ddb9/mzaf_13096762517834069806.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-08-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "unforgivenfeatnairurojasuadojapanesever",
+          "unforgivenfeatnilerodgersadojapanesever",
+          "unforgivenfeatないるろじゃーすadojapanesever"
+        ]
+      },
+      "songKey": "unforgiven|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/unforgiven-feat-%E3%83%8A%E3%82%A4%E3%83%AB-%E3%83%AD%E3%82%B8%E3%83%A3%E3%83%BC%E3%82%B9-ado-japanese-ver/1701142677?i=1701142689",
+      "title": "UNFORGIVEN (feat. ナイル・ロジャース & Ado) [Japanese ver.]",
+      "titleKeys": [
+        "unforgiven"
+      ],
+      "titleLatin": "UNFORGIVEN (feat. Nairu Rojaasu& Ado) [Japanese ver.]"
+    },
+    {
+      "albumId": "apple:al:1704093802",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 189773,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1704093812",
+      "latinSource": "cutlet",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cb/3c/81/cb3c81aa-7e19-61a3-5aaa-fc521b81d27a/mzaf_11772413152923766264.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-09-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "sho",
+          "唱"
+        ]
+      },
+      "songKey": "唱|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%94%B1/1704093802?i=1704093812",
+      "title": "唱",
+      "titleKeys": [
+        "唱",
+        "唱acappella",
+        "唱jaxjonesremixextendedmix",
+        "唱sloweddown",
+        "唱spedup",
+        "唱stripped"
+      ],
+      "titleLatin": "Shou"
+    },
+    {
+      "albumId": "apple:al:1706454341",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 252397,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1706454342",
+      "latinSource": null,
+      "popularity": 0.8021,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/58/75/71/58757162-890f-a82f-1466-3380b95374ae/mzaf_17988920879974963371.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "jignich"
+        ]
+      },
+      "songKey": "dignity|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/dignity/1706454341?i=1706454342",
+      "title": "DIGNITY",
+      "titleKeys": [
+        "dignity"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1708177122",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 191105,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1708177336",
+      "latinSource": "cutlet",
+      "popularity": 0.8958,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1f/f5/7c/1ff57c55-c4fb-b3f9-5c47-c30113eae7b0/mzaf_4586119715915097532.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-10-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "kurakura",
+          "くらくら"
+        ]
+      },
+      "songKey": "くらくら|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AF%E3%83%A9%E3%82%AF%E3%83%A9/1708177122?i=1708177336",
+      "title": "クラクラ",
+      "titleKeys": [
+        "くらくら"
+      ],
+      "titleLatin": "Kurakura"
+    },
+    {
+      "albumId": "apple:al:1711196318",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 213000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1711196511",
+      "latinSource": "cutlet",
+      "popularity": 0.6771,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6c/58/da/6c58dad8-8a47-a669-9cc6-01485f4d20f3/mzaf_12064353130287517275.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-10-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "allnightrajio",
+          "orunaitorejio",
+          "おーるないとれでぃお"
+        ]
+      },
+      "songKey": "おーるないとれでぃお|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AA%E3%83%BC%E3%83%AB%E3%83%8A%E3%82%A4%E3%83%88%E3%83%AC%E3%83%87%E3%82%A3%E3%82%AA/1711196318?i=1711196511",
+      "title": "オールナイトレディオ",
+      "titleKeys": [
+        "おーるないとれでぃお"
+      ],
+      "titleLatin": "Ooru naito redio"
+    },
+    {
+      "albumId": "apple:al:1715243157",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 239400,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1715243170",
+      "latinSource": null,
+      "popularity": 0.7396,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/95/b3/4f/95b34f99-1f68-ab04-c46b-5dadb26dcfd9/mzaf_847349322057026479.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-11-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "unravel"
+        ]
+      },
+      "songKey": "unravel|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/unravel/1715243157?i=1715243170",
+      "title": "unravel",
+      "titleKeys": [
+        "unravel"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1717377142",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 199000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1717377144",
+      "latinSource": "cutlet",
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b1/41/18/b141189b-2add-98d2-85a2-305f7db2c6af/mzaf_5526269849574217752.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-11-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "bliknodance",
+          "burikinodansu",
+          "ぶりきのだんす"
+        ]
+      },
+      "songKey": "ぶりきのだんす|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%96%E3%83%AA%E3%82%AD%E3%83%8E%E3%83%80%E3%83%B3%E3%82%B9/1717377142?i=1717377144",
+      "title": "ブリキノダンス",
+      "titleKeys": [
+        "ぶりきのだんす"
+      ],
+      "titleLatin": "Buriki no dansu"
+    },
+    {
+      "albumId": "apple:al:1718531990",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 288800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1718531994",
+      "latinSource": "cutlet",
+      "popularity": 0.6458,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b1/51/e4/b151e4a0-2037-4bbd-e455-709e728bd341/mzaf_1623886885319203000.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "doraifurawa",
+          "dryflower",
+          "どらいふらわー"
+        ]
+      },
+      "songKey": "どらいふらわー|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%89%E3%83%A9%E3%82%A4%E3%83%95%E3%83%A9%E3%83%AF%E3%83%BC/1718531990?i=1718531994",
+      "title": "ドライフラワー",
+      "titleKeys": [
+        "どらいふらわー"
+      ],
+      "titleLatin": "Dorai furawaa"
+    },
+    {
+      "albumId": "apple:al:1718531990",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 252573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1718531997",
+      "latinSource": "cutlet",
+      "popularity": 0.5208,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1c/2b/38/1c2b382a-5acb-cead-d8df-6dc84023f452/mzaf_17233546795901987460.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "kazarijanainoyonamidawa",
+          "飾りじゃないのよ涙は"
+        ]
+      },
+      "songKey": "飾りじゃないのよ涙は|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%A3%BE%E3%82%8A%E3%81%98%E3%82%83%E3%81%AA%E3%81%84%E3%81%AE%E3%82%88-%E6%B6%99%E3%81%AF/1718531990?i=1718531997",
+      "title": "飾りじゃないのよ 涙は",
+      "titleKeys": [
+        "飾りじゃないのよ涙は"
+      ],
+      "titleLatin": "Kazari ja nai no yo namida wa"
+    },
+    {
+      "albumId": "apple:al:1718531990",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 258373,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1718531998",
+      "latinSource": "cutlet",
+      "popularity": 0.1146,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f1/13/0e/f1130e9d-ddeb-7a7e-3604-45c4e5ae1baa/mzaf_15255893531059963284.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "aishiteaishiteaishite",
+          "愛して愛して愛して"
+        ]
+      },
+      "songKey": "愛して愛して愛して|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%84%9B%E3%81%97%E3%81%A6%E6%84%9B%E3%81%97%E3%81%A6%E6%84%9B%E3%81%97%E3%81%A6/1718531990?i=1718531998",
+      "title": "愛して愛して愛して",
+      "titleKeys": [
+        "愛して愛して愛して"
+      ],
+      "titleLatin": "Aishite aishite aishite"
+    },
+    {
+      "albumId": "apple:al:1718531990",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 290720,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1718531999",
+      "latinSource": "cutlet",
+      "popularity": 0.5104,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/12/36/da/1236da12-5d38-a434-14ed-a2d964a0027d/mzaf_17020047206652547203.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "tsumitobatsu",
+          "罪と罰"
+        ]
+      },
+      "songKey": "罪と罰|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%BD%AA%E3%81%A8%E7%BD%B0/1718531990?i=1718531999",
+      "title": "罪と罰",
+      "titleKeys": [
+        "罪と罰"
+      ],
+      "titleLatin": "Tsumi to batsu"
+    },
+    {
+      "albumId": "apple:al:1718531990",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 219133,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1718532003",
+      "latinSource": "cutlet",
+      "popularity": 0.6354,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/69/d1/0f/69d10f9b-e3d7-7cea-030c-6e02c051815c/mzaf_12271462117879560529.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "kawaikutegomen",
+          "可愛くてごめん"
+        ]
+      },
+      "songKey": "可愛くてごめん|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%8F%AF%E6%84%9B%E3%81%8F%E3%81%A6%E3%81%94%E3%82%81%E3%82%93/1718531990?i=1718532003",
+      "title": "可愛くてごめん",
+      "titleKeys": [
+        "可愛くてごめん"
+      ],
+      "titleLatin": "Kawaikute gomen"
+    },
+    {
+      "albumId": "apple:al:1718531990",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 199800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1718532006",
+      "latinSource": "cutlet",
+      "popularity": 0.2188,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/02/53/e6/0253e6ee-1f06-467e-82b5-0f5585f25904/mzaf_188874129084524636.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "villain",
+          "viran",
+          "ゔぃらん"
+        ]
+      },
+      "songKey": "ゔぃらん|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%B4%E3%82%A3%E3%83%A9%E3%83%B3/1718531990?i=1718532006",
+      "title": "ヴィラン",
+      "titleKeys": [
+        "ゔぃらん"
+      ],
+      "titleLatin": "Viran"
+    },
+    {
+      "albumId": "apple:al:1718531990",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 204507,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1718532011",
+      "latinSource": "cutlet",
+      "popularity": 0.5417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5f/13/1e/5f131e6d-990b-1552-1662-459b4f0bc328/mzaf_2164014766300013126.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "kamippoina",
+          "神っぽいな"
+        ]
+      },
+      "songKey": "神っぽいな|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%A5%9E%E3%81%A3%E3%81%BD%E3%81%84%E3%81%AA/1718531990?i=1718532011",
+      "title": "神っぽいな",
+      "titleKeys": [
+        "神っぽいな"
+      ],
+      "titleLatin": "Kamippoi na"
+    },
+    {
+      "albumId": "apple:al:1718531990",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 308840,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1718532016",
+      "latinSource": "cutlet",
+      "popularity": 0.25,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/92/fa/d0/92fad022-1715-63c7-26b3-384df8b7448c/mzaf_7230888306608461158.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "yoaketohotaru",
+          "夜明けと蛍"
+        ]
+      },
+      "songKey": "夜明けと蛍|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%9C%E6%98%8E%E3%81%91%E3%81%A8%E8%9B%8D/1718531990?i=1718532016",
+      "title": "夜明けと蛍",
+      "titleKeys": [
+        "夜明けと蛍"
+      ],
+      "titleLatin": "Yoake to hotaru"
+    },
+    {
+      "albumId": "apple:al:1727050830",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 183881,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1727050837",
+      "latinSource": "cutlet",
+      "popularity": 0.7083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6e/99/0a/6e990ac8-3176-52af-0f9a-ad169f53846d/mzaf_9418964601191140276.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-01-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "shokorakatabura",
+          "しょこらかたぶら"
+        ]
+      },
+      "songKey": "しょこらかたぶら|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%A7%E3%82%B3%E3%83%A9%E3%82%AB%E3%82%BF%E3%83%96%E3%83%A9/1727050830?i=1727050837",
+      "title": "ショコラカタブラ",
+      "titleKeys": [
+        "しょこらかたぶら"
+      ],
+      "titleLatin": "Shokorakatabura"
+    },
+    {
+      "albumId": "apple:al:1746901884",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 178000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1746901893",
+      "latinSource": null,
+      "popularity": 0.5938,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8d/b0/a7/8db0a76f-546a-5364-106a-71c750ab1838/mzaf_5082546230014284375.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-05-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "mirror"
+        ]
+      },
+      "songKey": "mirror|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/mirror/1746901884?i=1746901893",
+      "title": "MIRROR",
+      "titleKeys": [
+        "mirror"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1753644115",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 197854,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1753644116",
+      "latinSource": "cutlet",
+      "popularity": 0.5729,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c6/5a/3d/c65a3d99-7f09-73c8-cd87-16c0f2daa64e/mzaf_16519808206670186253.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-07-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "ruru",
+          "るる"
+        ]
+      },
+      "songKey": "るる|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%AB%E3%83%AB/1753644115?i=1753644116",
+      "title": "ルル",
+      "titleKeys": [
+        "るる"
+      ],
+      "titleLatin": "Ruru"
+    },
+    {
+      "albumId": "apple:al:1754263364",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 188273,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1754263366",
+      "latinSource": "cutlet",
+      "popularity": 0.2292,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ae/1a/c1/ae1ac1a3-c896-b203-6c17-4900040909c0/mzaf_4055788465136428442.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-07-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "nukesora",
+          "抜け空"
+        ]
+      },
+      "songKey": "抜け空|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%8A%9C%E3%81%91%E7%A9%BA/1754263364?i=1754263366",
+      "title": "抜け空",
+      "titleKeys": [
+        "抜け空"
+      ],
+      "titleLatin": "Nuke sora"
+    },
+    {
+      "albumId": "apple:al:1754263364",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 184205,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1754263837",
+      "latinSource": null,
+      "popularity": 0.5833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ba/55/ed/ba55edbc-1513-0ba0-73d6-ca059245dae1/mzaf_2962198112236430332.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-02-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "value"
+        ]
+      },
+      "songKey": "value|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/value/1754263364?i=1754263837",
+      "title": "Value",
+      "titleKeys": [
+        "value"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1754263364",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 180066,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1754263838",
+      "latinSource": null,
+      "popularity": 0.1875,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1a/e2/ad/1ae2ad2e-6609-f666-c9c5-934331110989/mzaf_11243893196429428609.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-07-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "0"
+        ]
+      },
+      "songKey": "0|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/0/1754263364?i=1754263838",
+      "title": "0",
+      "titleKeys": [
+        "0"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1771805210",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 228467,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1771805213",
+      "latinSource": "cutlet",
+      "popularity": 0.3125,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c4/76/f5/c476f5af-1b2f-d9ba-8764-4eff19c27f81/mzaf_15043260259263594266.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-10-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "shoka",
+          "初夏"
+        ]
+      },
+      "songKey": "初夏|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%88%9D%E5%A4%8F/1771805210?i=1771805213",
+      "title": "初夏",
+      "titleKeys": [
+        "初夏"
+      ],
+      "titleLatin": "Shoka"
+    },
+    {
+      "albumId": "apple:al:1771966813",
+      "artistDisplay": "Ado & 初音ミク",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 331560,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1771967021",
+      "latinSource": "cutlet",
+      "popularity": 0.4167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4e/26/9c/4e269c87-f49b-c33b-101c-b8ab817a838d/mzaf_1651535963157436895.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-10-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "sakurahiyoritochimemachine",
+          "sakurahiyoritotaimumashin",
+          "桜日和とたいむましん"
+        ]
+      },
+      "songKey": "桜日和とたいむましん|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%A1%9C%E6%97%A5%E5%92%8C%E3%81%A8%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%9E%E3%82%B7%E3%83%B3/1771966813?i=1771967021",
+      "title": "桜日和とタイムマシン",
+      "titleKeys": [
+        "桜日和とたいむましん"
+      ],
+      "titleLatin": "Sakura hiyori to taimu mashin"
+    },
+    {
+      "albumId": "apple:al:1774616786",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 178420,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1774616788",
+      "latinSource": "cutlet",
+      "popularity": 0.125,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d4/de/1b/d4de1b51-b32a-4e93-4de4-41a6f73fec8b/mzaf_7743300437965650089.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "kittocoaster",
+          "kittokosuta",
+          "きっとこーすたー"
+        ]
+      },
+      "songKey": "きっとこーすたー|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8D%E3%81%A3%E3%81%A8%E3%82%B3%E3%83%BC%E3%82%B9%E3%82%BF%E3%83%BC/1774616786?i=1774616788",
+      "title": "きっとコースター",
+      "titleKeys": [
+        "きっとこーすたー"
+      ],
+      "titleLatin": "Kitto koosutaa"
+    },
+    {
+      "albumId": "apple:al:1781190969",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 202962,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1781190972",
+      "latinSource": null,
+      "popularity": 0.6146,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/01/1e/b6/011eb6b8-9640-7acf-6989-a9a86d91bae0/mzaf_8235567585648599523.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-12-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "episodex"
+        ]
+      },
+      "songKey": "episodex|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/episode-x/1781190969?i=1781190972",
+      "title": "Episode X",
+      "titleKeys": [
+        "episodex"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1783452555",
+      "artistDisplay": "イマジン・ドラゴンズ",
+      "artistIds": [
+        "apple:ar:358714030",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 167067,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1783452556",
+      "latinSource": null,
+      "popularity": 0.0625,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b5/18/70/b518709a-278a-4abf-ceaf-ee01b5da2fc4/mzaf_9775456333888799536.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-12-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "takemetothebeachfeatado"
+        ]
+      },
+      "songKey": "takemetothebeach|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/take-me-to-the-beach-feat-ado/1783452555?i=1783452556",
+      "title": "Take Me to the Beach (feat. Ado)",
+      "titleKeys": [
+        "takemetothebeach"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1789478391",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 260369,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1789478393",
+      "latinSource": "cutlet",
+      "popularity": 0.75,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/49/d3/ae/49d3ae06-e3fc-6558-9634-888126916af4/mzaf_11920217055945111432.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-01-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "elf",
+          "erufu",
+          "えるふ"
+        ]
+      },
+      "songKey": "えるふ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A8%E3%83%AB%E3%83%95/1789478391?i=1789478393",
+      "title": "エルフ",
+      "titleKeys": [
+        "えるふ"
+      ],
+      "titleLatin": "Erufu"
+    },
+    {
+      "albumId": "apple:al:1799216463",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 228612,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1799216471",
+      "latinSource": "cutlet",
+      "popularity": 0.5521,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/50/19/4f/50194fc2-c96e-2e29-968d-1e45ac6f7c0b/mzaf_9293480407809787683.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-03-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "watashinihanataba",
+          "わたしに花束"
+        ]
+      },
+      "songKey": "わたしに花束|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%8F%E3%81%9F%E3%81%97%E3%81%AB%E8%8A%B1%E6%9D%9F/1799216463?i=1799216471",
+      "title": "わたしに花束",
+      "titleKeys": [
+        "わたしに花束"
+      ],
+      "titleLatin": "Watashi ni hanataba"
+    },
+    {
+      "albumId": "apple:al:1802573171",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 223154,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1802574373",
+      "latinSource": "cutlet",
+      "popularity": 0.3438,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/59/58/51/595851a3-532e-9a06-489c-2ecb0b95ed9d/mzaf_5090190273132873866.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-04-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "rokkustar",
+          "rokkusuta",
+          "ろっくすたー"
+        ]
+      },
+      "songKey": "ろっくすたー|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%AD%E3%83%83%E3%82%AF%E3%82%B9%E3%82%BF%E3%83%BC/1802573171?i=1802574373",
+      "title": "ロックスター",
+      "titleKeys": [
+        "ろっくすたー"
+      ],
+      "titleLatin": "Rokku sutaa"
+    },
+    {
+      "albumId": "apple:al:1802573171",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 198374,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1802574555",
+      "latinSource": null,
+      "popularity": 0.0417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c6/f1/ef/c6f1efbb-7795-84d0-1dae-a3593b58615d/mzaf_6685019499513586369.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "helloshignals"
+        ]
+      },
+      "songKey": "hellosignals|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/hello-signals/1802573171?i=1802574555",
+      "title": "Hello Signals",
+      "titleKeys": [
+        "hellosignals"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1805514498",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 224281,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1805514711",
+      "latinSource": "cutlet",
+      "popularity": 0.2917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d6/b0/42/d6b04248-9c4d-b9f3-beb4-c1f74d369d91/mzaf_2311436669535574018.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-04-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "charles",
+          "sharuru",
+          "しゃるる"
+        ]
+      },
+      "songKey": "しゃるる|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%A3%E3%83%AB%E3%83%AB/1805514498?i=1805514711",
+      "title": "シャルル",
+      "titleKeys": [
+        "しゃるる"
+      ],
+      "titleLatin": "Sharuru"
+    },
+    {
+      "albumId": "apple:al:1808613986",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 214307,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1808613989",
+      "latinSource": "cutlet",
+      "popularity": 0.1042,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3d/d7/b5/3dd7b5a9-9e82-ed04-c685-79d8e4ae6a8c/mzaf_2163705073557577993.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-05-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "jukai1984",
+          "十戒1984"
+        ]
+      },
+      "songKey": "十戒1984|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%8D%81%E6%88%92-1984/1808613986?i=1808613989",
+      "title": "十戒(1984)",
+      "titleKeys": [
+        "十戒1984"
+      ],
+      "titleLatin": "Juu kai (1984)"
+    },
+    {
+      "albumId": "apple:al:1813109786",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 134682,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1813109793",
+      "latinSource": "cutlet",
+      "popularity": 0.0729,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/97/bb/b7/97bbb7a8-13e3-ec8a-c28b-0b0b6a282477/mzaf_11999002723430804362.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "gegegenonitaro",
+          "げげげの鬼太郎"
+        ]
+      },
+      "songKey": "げげげの鬼太郎|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B2%E3%82%B2%E3%82%B2%E3%81%AE%E9%AC%BC%E5%A4%AA%E9%83%8E/1813109786?i=1813109793",
+      "title": "ゲゲゲの鬼太郎",
+      "titleKeys": [
+        "げげげの鬼太郎"
+      ],
+      "titleLatin": "Gegege no Onitarou"
+    },
+    {
+      "albumId": "apple:al:1819485765",
+      "artistDisplay": "ジャックス・ジョーンズ & Ado",
+      "artistIds": [
+        "apple:ar:1201228278",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 206176,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1819485766",
+      "latinSource": null,
+      "popularity": 0.1979,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/49/36/9f/49369fc8-1fb3-733f-fee0-7de41193c5fd/mzaf_5386188892608232975.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-06-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "staygoldfronbeybladex"
+        ]
+      },
+      "songKey": "staygold|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/stay-gold-from-beyblade-x/1819485765?i=1819485766",
+      "title": "Stay Gold (From \"Beyblade X\")",
+      "titleKeys": [
+        "staygold",
+        "staygoldfrombeybladex"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1828133935",
+      "artistDisplay": "Ado×りぶ",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 202333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1828133936",
+      "latinSource": "cutlet",
+      "popularity": 0.0208,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ec/e5/65/ece565d6-5046-1f01-829d-95129879068c/mzaf_5723873712129761726.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-05-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "matoryoshika",
+          "まとりょしか"
+        ]
+      },
+      "songKey": "まとりょしか|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9E%E3%83%88%E3%83%AA%E3%83%A7%E3%82%B7%E3%82%AB/1828133935?i=1828133936",
+      "title": "マトリョシカ",
+      "titleKeys": [
+        "まとりょしか"
+      ],
+      "titleLatin": "Matoryoshika"
+    },
+    {
+      "albumId": "apple:al:1837058087",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 180631,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1837058092",
+      "latinSource": null,
+      "popularity": 0.3958,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c3/d5/b5/c3d5b55c-53aa-b6e7-8302-59d03f978b07/mzaf_11164475355951519932.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-09-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "catseye"
+        ]
+      },
+      "songKey": "catseye|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/cats-eye/1837058087?i=1837058092",
+      "title": "CAT'S EYE",
+      "titleKeys": [
+        "catseye"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1838991862",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 348368,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1838991863",
+      "latinSource": "cutlet",
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/74/77/7f/74777fe1-297b-e176-c5fb-57764045dfa6/mzaf_13007256694554060612.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-09-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "kazetowatakushinomonogatari",
+          "風と私の物語"
+        ]
+      },
+      "songKey": "風と私の物語|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%A2%A8%E3%81%A8%E7%A7%81%E3%81%AE%E7%89%A9%E8%AA%9E/1838991862?i=1838991863",
+      "title": "風と私の物語",
+      "titleKeys": [
+        "風と私の物語"
+      ],
+      "titleLatin": "Kaze to watakushi no monogatari"
+    },
+    {
+      "albumId": "apple:al:1839173046",
+      "artistDisplay": "Ayase & Ado",
+      "artistIds": [
+        "apple:ar:1487088719",
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 208827,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1839173051",
+      "latinSource": "cutlet",
+      "popularity": 0.0104,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b3/a0/fc/b3a0fc5c-7cf4-20d8-55f5-0f8c7efb195f/mzaf_409121984043837867.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-03-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "tachirikinshi",
+          "立ち入り禁止"
+        ]
+      },
+      "songKey": "立ち入り禁止|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%AB%8B%E3%81%A1%E5%85%A5%E3%82%8A%E7%A6%81%E6%AD%A2/1839173046?i=1839173051",
+      "title": "立ち入り禁止",
+      "titleKeys": [
+        "立ち入り禁止"
+      ],
+      "titleLatin": "Tachiiri kinshi"
+    },
+    {
+      "albumId": "apple:al:1845132013",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 172292,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1845132018",
+      "latinSource": null,
+      "popularity": 0.4583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/90/2a/82/902a82f2-e2ff-286f-1943-6cfcbe1aac10/mzaf_9452582827350408966.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-10-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "magic"
+        ]
+      },
+      "songKey": "magic|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/magic/1845132013?i=1845132018",
+      "title": "MAGIC",
+      "titleKeys": [
+        "magic"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1859927059",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 221360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1859927060",
+      "latinSource": null,
+      "popularity": 0.0521,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b5/d7/6a/b5d76a76-30c6-dd64-9184-218e8bf7c9d5/mzaf_468330071946733200.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-01-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "soljiergame"
+        ]
+      },
+      "songKey": "soldiergame|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/soldier-game/1859927059?i=1859927060",
+      "title": "soldier game",
+      "titleKeys": [
+        "soldiergame"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1860193693",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 194530,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1860193695",
+      "latinSource": "cutlet",
+      "popularity": 0.1562,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ce/6b/86/ce6b86d7-98f8-192b-83c5-8d0c50d4b71c/mzaf_3337049560957939941.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-12-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "odoruponpokorin",
+          "おどるぽんぽこりん"
+        ]
+      },
+      "songKey": "おどるぽんぽこりん|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8A%E3%81%A9%E3%82%8B%E3%83%9D%E3%83%B3%E3%83%9D%E3%82%B3%E3%83%AA%E3%83%B3/1860193693?i=1860193695",
+      "title": "おどるポンポコリン",
+      "titleKeys": [
+        "おどるぽんぽこりん"
+      ],
+      "titleLatin": "Odoru ponpokorin"
+    },
+    {
+      "albumId": "apple:al:1869214292",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 229399,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1869214296",
+      "latinSource": "cutlet",
+      "popularity": 0.3021,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1b/3a/24/1b3a2404-c511-4feb-c334-1a0640af0c9b/mzaf_6364288330914701183.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-01-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "angelshikh",
+          "enzerushiku",
+          "えんぜるしーく"
+        ]
+      },
+      "songKey": "えんぜるしーく|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A8%E3%83%B3%E3%82%BC%E3%83%AB%E3%82%B7%E3%83%BC%E3%82%AF/1869214292?i=1869214296",
+      "title": "エンゼルシーク",
+      "titleKeys": [
+        "えんぜるしーく"
+      ],
+      "titleLatin": "Enzeru shiiku"
+    },
+    {
+      "albumId": "apple:al:1876761745",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 243318,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1876761748",
+      "latinSource": "cutlet",
+      "popularity": 0.4375,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fa/75/82/fa7582cf-73e2-37c3-64ee-a1c722d12cae/mzaf_5881888358243091653.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-02-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "bibarium",
+          "bibariumu",
+          "びばりうむ"
+        ]
+      },
+      "songKey": "びばりうむ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%93%E3%83%90%E3%83%AA%E3%82%A6%E3%83%A0/1876761745?i=1876761748",
+      "title": "ビバリウム",
+      "titleKeys": [
+        "びばりうむ"
+      ],
+      "titleLatin": "Bi bariumu"
+    },
+    {
+      "albumId": "apple:al:1883638582",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 254348,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1883638583",
+      "latinSource": "cutlet",
+      "popularity": 0.375,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/96/b0/26/96b02695-a9ce-0830-28a1-9e101176bd81/mzaf_9673956774271947785.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-03-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "aiaia",
+          "eyeyea",
+          "あいあいあ"
+        ]
+      },
+      "songKey": "あいあいあ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%A4-%E3%82%A2%E3%82%A4-%E3%82%A2/1883638582?i=1883638583",
+      "title": "アイ・アイ・ア",
+      "titleKeys": [
+        "あいあいあ"
+      ],
+      "titleLatin": "Ai ai a"
+    },
+    {
+      "albumId": "apple:al:1891928911",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 188982,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1891928913",
+      "latinSource": "cutlet",
+      "popularity": 0.3646,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1c/0b/5b/1c0b5b8c-2e95-1955-2411-745271c166e3/mzaf_4639681417610972592.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-04-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "kira",
+          "綺羅"
+        ]
+      },
+      "songKey": "綺羅|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%B6%BA%E7%BE%85/1891928911?i=1891928913",
+      "title": "綺羅",
+      "titleKeys": [
+        "綺羅"
+      ],
+      "titleLatin": "Kira"
+    },
+    {
+      "albumId": "apple:al:1896234640",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 238180,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6766202664",
+      "latinSource": "cutlet",
+      "popularity": 0.4062,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a2/a9/4c/a2a94c0b-a7c9-1abb-38b9-fe37c0b324d3/mzaf_3474445879534942165.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-05-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "harunimau",
+          "春に舞う"
+        ]
+      },
+      "songKey": "春に舞う|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%98%A5%E3%81%AB%E8%88%9E%E3%81%86/1896234640?i=6766202664",
+      "title": "春に舞う",
+      "titleKeys": [
+        "春に舞う"
+      ],
+      "titleLatin": "Haru ni mau"
+    },
+    {
+      "albumId": "apple:al:6781882526",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 249333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6781882535",
+      "latinSource": null,
+      "popularity": 0.2604,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/88/1e/bd/881ebdbb-3bb5-5b51-ea76-a6a1f7bdebbd/mzaf_13998358218723810435.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-07-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "lovemeforever"
+        ]
+      },
+      "songKey": "lovemeforever|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/love-me-forever/6781882526?i=6781882535",
+      "title": "Love me forever!",
+      "titleKeys": [
+        "lovemeforever"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6793398195",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 189500,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6793398196",
+      "latinSource": "cutlet",
+      "popularity": 0.5625,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/47/73/89/477389a8-b095-2bbd-d3f3-301fb658ad4d/mzaf_1478379556090845923.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-08-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "monsutoro",
+          "もんすとろ"
+        ]
+      },
+      "songKey": "もんすとろ|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A2%E3%83%B3%E3%82%B9%E3%83%88%E3%83%AD/6793398195?i=6793398196",
+      "title": "モンストロ",
+      "titleKeys": [
+        "もんすとろ"
+      ],
+      "titleLatin": "Monsutoro"
+    },
+    {
+      "albumId": "apple:al:6806106475",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 245262,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6806106478",
+      "latinSource": "cutlet",
+      "popularity": 0.2708,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fe/32/05/fe320567-0aa8-c4c5-f7f5-fc0e855a2f66/mzaf_5043694019224068937.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-09-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "sukideite",
+          "好きでいて"
+        ]
+      },
+      "songKey": "好きでいて|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A5%BD%E3%81%8D%E3%81%A7%E3%81%84%E3%81%A6/6806106475?i=6806106478",
+      "title": "好きでいて",
+      "titleKeys": [
+        "好きでいて"
+      ],
+      "titleLatin": "Suki de ite"
+    },
+    {
+      "albumId": "apple:al:6812997394",
+      "artistDisplay": "Ado",
+      "artistIds": [
+        "apple:ar:1492604670"
+      ],
+      "durationMs": 185032,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6812997401",
+      "latinSource": null,
+      "popularity": 0.1771,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fc/1a/17/fc1a1793-f0b7-7189-1d29-80c6394b1ff9/mzaf_1593238187501666703.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-09-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "dndfeatkuromi"
+        ]
+      },
+      "songKey": "dnd|apple:ar:1492604670",
+      "storeUrl": "https://music.apple.com/jp/album/dnd-feat-kuromi/6812997394?i=6812997401",
+      "title": "DND (feat. KUROMI)",
+      "titleKeys": [
+        "dnd"
+      ],
+      "titleLatin": null
+    }
+  ]
+}

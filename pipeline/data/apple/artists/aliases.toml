@@ -1,0 +1,17 @@
+# Curadoria manual do modo por artista real (M13), separada da parada: os mesmos campos do
+# aliases.toml da parada (tracks: latin, aliases, block; albums: latin; artists: latin,
+# aliases). A chave é o id do catálogo (apple:tr:123). ID que nenhum artista tem é erro no
+# build-artists. Romaji errado se corrige aqui, nunca no romaji.json (regra 10).
+
+# --- Revisão dos dados reais (PR B do M13, 12/10/2026) ---
+
+[tracks."apple:tr:1861370949"]  # アドレナ (YOASOBI); cutlet: "Ado Rena"
+latin = "Adorena"
+
+# Parcerias com nome próprio na loja, cujo latino veio errado (a Apple deu só "Daoko"; o cutlet leu
+# os nomes dos utaite pelo kanji).
+[artists."apple:ar:547853144"]  # DAOKO×米津玄師 (打上花火)
+latin = "DAOKO×Kenshi Yonezu"
+
+[artists."apple:ar:614405787"]  # os 14 utaite de ワールドドミネイション (Eve)
+latin = "Amatsuki/Aho no Sakata./Araki/Eve/un:c/Uratanuki/Sakou Tomohisa (Shounen T)/Shima/Senra/Sou/Soraru/nqrse/Mafumafu/luz"

@@ -67,6 +67,10 @@ Para ver o build como ele fica publicado: `npm run build --prefix web` e depois 
 - **Se o merge atrasar:** a tarefa `catalog-runway` fica vermelha (e o GitHub manda e-mail) quando a agenda da `main` tem menos de 10 dias à frente. Um PR do robô sem merge é fechado pelo da semana seguinte, e a parada daquela semana se perde.
 - **Rodar fora de hora:** `gh workflow run update-catalog.yml`.
 - **Se a Action agendada parar:** o GitHub desliga workflows agendados depois de 60 dias sem atividade no repositório. Para religar: `gh workflow enable update-catalog.yml`.
+- **Modo por artista (M13), à mão e fora do robô:** a lista está em `pipeline/data/apple/artists/artists.toml`, por id da loja (os nomes são ambíguos). Para atualizar ou acrescentar um artista, num PR próprio e fora da segunda de manhã:
+  1. `fetch --provider apple --artists --fetched-at <agora em UTC>` (pede confirmação; `--artist ID` busca só um). Confira o nome que a Apple devolveu para cada id;
+  2. `romanize --provider apple --artists`, depois `build-artists --provider apple`. Os avisos são a lista de revisão: versões em inglês com outro título e coletâneas vão para o `exclude_albums`, a mesma música com títulos diferentes para o `same_song`, e o romaji errado para o `aliases.toml` dos artistas;
+  3. `validate-artists --provider apple` e o `/verificar`. O `romanize --refresh` (troca de versão do romaji) vale também para o cache dos artistas.
 
 ## Licença
 

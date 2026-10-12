@@ -63,6 +63,18 @@ jobs:
           fi
           jq -e '.provider == "apple"' dist/data/catalog.json > /dev/null \
             || { echo "::error::dist/data/catalog.json não é a parada real"; exit 1; }
+          # Modo por artista (M13): a lista é a real e não está vazia, cada arquivo dela existe e
+          # nenhum passa de 1 MB (o validate-artists da CI confere o resto). O "não vazia" é do
+          # jq -e: uma falha dentro do $(...) do for não pararia o passo, e o laço passaria calado.
+          jq -e '.provider == "apple" and (.artists | length > 0)' dist/data/artists/index.json \
+            > /dev/null || { echo "::error::dist/data/artists/index.json não é a lista real"; exit 1; }
+          for file in $(jq -r '.artists[].file' dist/data/artists/index.json); do
+            [ -f "dist/data/artists/$file" ] || { echo "::error::falta dist/data/artists/$file"; exit 1; }
+          done
+          if [ -n "$(find dist/data/artists -size +1024k -print -quit)" ]; then
+            echo "::error::arquivo do modo por artista com mais de 1 MB"
+            exit 1
+          fi
           # Folga da agenda (ME14): o PR semanal do robô acrescenta os dias. Aviso, não erro: um
           # deploy de correção não pode travar porque a agenda está curta.
           today=$(TZ=America/Sao_Paulo date +%F)

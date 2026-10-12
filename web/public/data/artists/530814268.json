@@ -1,0 +1,4826 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "中田ヤスタカ",
+      "artistIds": [
+        "apple:ar:307054368",
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/c5/d0/f5/c5d0f5a1-212a-d7d7-1c4f-c4029689dfd1/190295899776.jpg/300x300bb.jpg",
+      "id": "apple:al:1153140035",
+      "latinSource": null,
+      "releaseDate": "2016-10-05",
+      "title": "NANIMONO - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music117/v4/60/bf/34/60bf34af-a381-79f9-936a-2ac7d64013db/4571192983229.jpg/300x300bb.jpg",
+      "id": "apple:al:1238071672",
+      "latinSource": null,
+      "releaseDate": "2012-03-21",
+      "title": "diorama",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "DAOKO×米津玄師",
+      "artistIds": [
+        "apple:ar:547853144",
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a8/cf/1f/a8cf1f9a-d988-7c3d-b618-6ab53d12bc0d/TFCC-89632WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1263790414",
+      "latinSource": "cutlet",
+      "releaseDate": "2017-08-16",
+      "title": "打上花火 - Single",
+      "titleLatin": "Uchiage hanabi",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/2a/9a/1d/2a9a1d98-3bb0-069e-a6ea-6abaecee2ba8/00600406356673.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1440648404",
+      "latinSource": "cutlet",
+      "releaseDate": "2013-10-23",
+      "title": "MAD HEAD LOVE/ポッピンアパシー - Single",
+      "titleLatin": "MAD HEAD LOVE/poppin apashii",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/7e/7e/da/7e7eda2a-9a22-6557-472c-3d57cdbd6d96/00600406634559.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1440740509",
+      "latinSource": null,
+      "releaseDate": "2015-10-07",
+      "title": "Bremen",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/9d/1e/4d/9d1e4da0-f56e-5375-a780-7dd04f06479b/00600406441225.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1440791809",
+      "latinSource": null,
+      "releaseDate": "2014-04-23",
+      "title": "YANKEE",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/50/35/88/5035881c-7707-e972-6b5a-924c9ee18dd6/00600406546081.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1445022054",
+      "latinSource": null,
+      "releaseDate": "2015-01-14",
+      "title": "Flowerwall - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/f8/52/c4/f852c418-dd01-8850-c3bd-d2465aa9af4b/00600406308764.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1445023275",
+      "latinSource": "cutlet",
+      "releaseDate": "2013-05-29",
+      "title": "サンタマリア - Single",
+      "titleLatin": "Santamaria",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/cf/13/4f/cf134f3c-5839-4172-915e-b946302091ed/00600406621948.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1445057246",
+      "latinSource": "cutlet",
+      "releaseDate": "2015-09-02",
+      "title": "アンビリーバーズ - Single",
+      "titleLatin": "Anbiriibaazu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/5f/8b/86/5f8b86ec-5ee5-fe35-5691-6a63951039a5/jacket_SECL02497B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537258547",
+      "latinSource": "cutlet",
+      "releaseDate": "2019-08-12",
+      "title": "馬と鹿 - Single",
+      "titleLatin": "Uma to shika",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/99/a0/8c/99a08c86-6971-9580-7a5a-79cc9b5a7578/4547366443981.jpg/300x300bb.jpg",
+      "id": "apple:al:1537279276",
+      "latinSource": null,
+      "releaseDate": "2017-02-15",
+      "title": "orion - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/aa/bc/03/aabc0399-bc01-16b5-05cf-199921c04079/jacket_SEXX01946B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537279544",
+      "latinSource": "cutlet",
+      "releaseDate": "2016-09-26",
+      "title": "LOSER / ナンバーナイン - Single",
+      "titleLatin": "LOSER /nanbaa nain",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/a2/60/65/a260650f-8967-2697-ff52-ef65589ab38f/jacket_SRCL09458B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537458309",
+      "latinSource": "cutlet",
+      "releaseDate": "2017-06-21",
+      "title": "ピースサイン - Peace Sign - EP",
+      "titleLatin": "Piisu sain - Peace Sign",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/86/b0/9d/86b09d63-367a-563a-1e24-d5d62c220ac8/jacket_SRCL09749B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537460610",
+      "latinSource": null,
+      "releaseDate": "2018-02-12",
+      "title": "Lemon - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/bd/4c/05/bd4c0558-11fa-eeab-7882-d5485020015e/jacket_SRXX02886B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537766932",
+      "latinSource": null,
+      "releaseDate": "2018-10-31",
+      "title": "Flamingo / TEENAGE RIOT - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/6b/0f/0b/6b0f0b3d-e842-5ee1-83a8-1b12142a9dfd/dj.bpfbtyiy.jpg/300x300bb.jpg",
+      "id": "apple:al:1538265733",
+      "latinSource": null,
+      "releaseDate": "2020-07-06",
+      "title": "STRAY SHEEP",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/1b/7a/5e/1b7a5e77-b0c4-6e32-f3ee-c09c70f8378e/jacket_SRCL09571B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1538275115",
+      "latinSource": null,
+      "releaseDate": "2017-10-11",
+      "title": "BOOTLEG",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/7b/8f/5e/7b8f5e3b-17f0-4b0c-8c80-c4491a5991a7/4547366515183.jpg/300x300bb.jpg",
+      "id": "apple:al:1568993234",
+      "latinSource": null,
+      "releaseDate": "2021-05-31",
+      "title": "Pale Blue - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/83/6a/a2/836aa298-4442-2178-cbf7-03fed785d53f/4547366551730.jpg/300x300bb.jpg",
+      "id": "apple:al:1606890884",
+      "latinSource": null,
+      "releaseDate": "2022-02-07",
+      "title": "POP SONG - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/dc/13/5d/dc135dc3-b52d-0dd5-5f14-01be88758245/4547366564693.jpg/300x300bb.jpg",
+      "id": "apple:al:1621463789",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-05-13",
+      "title": "M八七 - Single",
+      "titleLatin": "M hachi nana",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/4e/a8/75/4ea875d1-bdb6-9b83-185a-646391cbffbd/4547366589849.jpg/300x300bb.jpg",
+      "id": "apple:al:1648272179",
+      "latinSource": null,
+      "releaseDate": "2022-10-12",
+      "title": "KICK BACK - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/15/32/da/1532da94-cc8b-6653-38c0-f537d34b6016/4547366595604.jpg/300x300bb.jpg",
+      "id": "apple:al:1653922186",
+      "latinSource": null,
+      "releaseDate": "2022-11-23",
+      "title": "KICK BACK - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/82/50/a6/8250a6be-37d9-60d8-c741-5b36302c248f/4547366614275.jpg/300x300bb.jpg",
+      "id": "apple:al:1676871797",
+      "latinSource": null,
+      "releaseDate": "2023-03-21",
+      "title": "LADY - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/0a/4d/0d/0a4d0d76-2fe5-e3ac-00b1-1d6bfa8ffd41/4547366628548.jpg/300x300bb.jpg",
+      "id": "apple:al:1691843901",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-06-26",
+      "title": "月を見ていた - Moongazing - Single",
+      "titleLatin": "Tsuki wo mite ita - Moongazing",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/45/5a/c9/455ac9fc-e38b-09c2-7e8f-79beeca04375/4547366634242.jpg/300x300bb.jpg",
+      "id": "apple:al:1695666889",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-07-17",
+      "title": "地球儀 - Spinning Globe - Single",
+      "titleLatin": "Chikyuugi - Spinning Globe",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2b/d1/33/2bd13372-77d7-63c0-3f10-65f497c9aec3/4547366679601.jpg/300x300bb.jpg",
+      "id": "apple:al:1737134871",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-04-08",
+      "title": "さよーならまたいつか!- Sayonara - Single",
+      "titleLatin": "Sa you nara mata itsu ka!- Sayonara",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/13/30/e1/1330e1c2-be26-b960-8c94-896cbda4e6f4/4547366686784.jpg/300x300bb.jpg",
+      "id": "apple:al:1746214379",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-05-27",
+      "title": "毎日 - Every Day - Single",
+      "titleLatin": "Mainichi - Every Day",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3e/b2/13/3eb21367-be26-2634-d90f-bc8182d3d0b2/4547366699760.jpg/300x300bb.jpg",
+      "id": "apple:al:1759899363",
+      "latinSource": null,
+      "releaseDate": "2024-08-20",
+      "title": "LOST CORNER",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c3/28/23/c3282346-916d-9e07-7c73-5a52d731d242/4547366717532.jpg/300x300bb.jpg",
+      "id": "apple:al:1776984409",
+      "latinSource": null,
+      "releaseDate": "2024-11-18",
+      "title": "Azalea - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c4/c7/15/c4c7150a-c72d-c6ba-f07f-c9c4342ec764/4547366728958.jpg/300x300bb.jpg",
+      "id": "apple:al:1789465886",
+      "latinSource": null,
+      "releaseDate": "2025-01-20",
+      "title": "Plazma - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/93/f9/ff/93f9ff5a-a2d1-6804-8efc-772adde30067/4547366731170.jpg/300x300bb.jpg",
+      "id": "apple:al:1790607805",
+      "latinSource": null,
+      "releaseDate": "2025-01-27",
+      "title": "BOW AND ARROW - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e0/f9/f1/e0f9f1f3-a088-b28d-6760-a28accabc705/4547366775181.jpg/300x300bb.jpg",
+      "id": "apple:al:1837658528",
+      "latinSource": null,
+      "releaseDate": "2025-09-15",
+      "title": "IRIS OUT - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師 & 宇多田ヒカル",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/73/91/aa/7391aabc-81d8-2bcb-3b0f-8e24bc855745/4547366775211.jpg/300x300bb.jpg",
+      "id": "apple:al:1840081735",
+      "latinSource": null,
+      "releaseDate": "2025-09-22",
+      "title": "JANE DOE - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b1/32/91/b132915f-7e8b-4729-f9b1-3b4734d87269/4547366782493.jpg/300x300bb.jpg",
+      "id": "apple:al:1844274882",
+      "latinSource": null,
+      "releaseDate": "2025-10-13",
+      "title": "1991 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ad/4b/b8/ad4bb84d-85f9-8902-6876-c7dd2f93c24a/25UM1IM78298.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1852929105",
+      "latinSource": null,
+      "releaseDate": "2025-11-19",
+      "title": "Dear Jubilee -RADWIMPS TRIBUTE-",
+      "titleLatin": null,
+      "type": "compilation"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/66/89/10/668910f4-2f09-12c7-200a-104eee77cb48/4547366827767.jpg/300x300bb.jpg",
+      "id": "apple:al:6774039193",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-06-15",
+      "title": "烏 - Raven - Single",
+      "titleLatin": "Karasu - Raven",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ef/41/20/ef41201c-8d3b-5110-b198-c978c281b288/4547366836165.jpg/300x300bb.jpg",
+      "id": "apple:al:6785367850",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-07-13",
+      "title": "夜鷹 - Yodaka - Single",
+      "titleLatin": "Yotaka - Yodaka",
+      "type": "single"
+    }
+  ],
+  "artistId": "apple:ar:530814268",
+  "artists": [
+    {
+      "id": "apple:ar:307054368",
+      "latinSource": "provider",
+      "name": "中田ヤスタカ",
+      "nameLatin": "Yasutaka Nakata"
+    },
+    {
+      "id": "apple:ar:530814268",
+      "latinSource": "provider",
+      "name": "米津玄師",
+      "nameLatin": "Kenshi Yonezu"
+    },
+    {
+      "id": "apple:ar:547853144",
+      "latinSource": "manual",
+      "name": "DAOKO×米津玄師",
+      "nameLatin": "DAOKO×Kenshi Yonezu"
+    }
+  ],
+  "fetchedAt": "2026-10-12T16:15:51Z",
+  "provider": "apple",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "apple:al:1153140035",
+      "artistDisplay": "中田ヤスタカ",
+      "artistIds": [
+        "apple:ar:307054368",
+        "apple:ar:530814268"
+      ],
+      "durationMs": 246133,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1153140086",
+      "latinSource": "cutlet",
+      "popularity": 0.95,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6a/84/76/6a84766a-0309-a02d-5059-fe34e23ecdef/mzaf_10775901930322093838.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "nanimonofeachonetsugenshi",
+          "nanimonofeat米津玄師"
+        ]
+      },
+      "songKey": "nanimono|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/nanimono-feat-%E7%B1%B3%E6%B4%A5%E7%8E%84%E5%B8%AB/1153140035?i=1153140086",
+      "title": "NANIMONO (feat. 米津玄師)",
+      "titleKeys": [
+        "nanimono",
+        "nanimonofeat米津玄師banvoxremix",
+        "nanimonofeat米津玄師dannylharleremix",
+        "nanimonofeat米津玄師extendedmix",
+        "nanimonofeat米津玄師teddyloidremix"
+      ],
+      "titleLatin": "NANIMONO (feat. Yonetsu Genshi)"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 340320,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071673",
+      "latinSource": "cutlet",
+      "popularity": 0.1583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/60/57/de/6057de26-1512-91c2-5f16-51f136f1a141/mzaf_9944879577195277105.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "machi",
+          "街"
+        ]
+      },
+      "songKey": "街|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%A1%97/1238071672?i=1238071673",
+      "title": "街",
+      "titleKeys": [
+        "街"
+      ],
+      "titleLatin": "Machi"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 229640,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071678",
+      "latinSource": "cutlet",
+      "popularity": 0.85,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0f/91/73/0f9173c4-54ef-7310-bbdb-fa1fab57527f/mzaf_13120781025556353728.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-03-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "gogoyureisen",
+          "ごーごー幽霊船"
+        ]
+      },
+      "songKey": "ごーごー幽霊船|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B4%E3%83%BC%E3%82%B4%E3%83%BC%E5%B9%BD%E9%9C%8A%E8%88%B9/1238071672?i=1238071678",
+      "title": "ゴーゴー幽霊船",
+      "titleKeys": [
+        "ごーごー幽霊船"
+      ],
+      "titleLatin": "Gougou yuureisen"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 274533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071679",
+      "latinSource": "cutlet",
+      "popularity": 0.4917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6b/db/f3/6bdbf3a8-275a-a232-00a1-0aa784d151c4/mzaf_9330763672529526451.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "dakashiyashobai",
+          "駄菓子屋商売"
+        ]
+      },
+      "songKey": "駄菓子屋商売|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%A7%84%E8%8F%93%E5%AD%90%E5%B1%8B%E5%95%86%E5%A3%B2/1238071672?i=1238071679",
+      "title": "駄菓子屋商売",
+      "titleKeys": [
+        "駄菓子屋商売"
+      ],
+      "titleLatin": "Dakashiya shoubai"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 255480,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071680",
+      "latinSource": null,
+      "popularity": 0.0417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/95/56/f7/9556f7b7-d25f-1662-d0fb-20d963451bcb/mzaf_15690744899500183222.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "caribo"
+        ]
+      },
+      "songKey": "caribou|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/caribou/1238071672?i=1238071680",
+      "title": "caribou",
+      "titleKeys": [
+        "caribou"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 179467,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071681",
+      "latinSource": "cutlet",
+      "popularity": 0.375,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/63/91/15/63911553-d616-9414-b9ab-d27af96c0858/mzaf_16151223681258935384.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "amefurifujin",
+          "あめふり婦人"
+        ]
+      },
+      "songKey": "あめふり婦人|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%82%81%E3%81%B5%E3%82%8A%E5%A9%A6%E4%BA%BA/1238071672?i=1238071681",
+      "title": "あめふり婦人",
+      "titleKeys": [
+        "あめふり婦人"
+      ],
+      "titleLatin": "Amefuri fujin"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 263680,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071682",
+      "latinSource": "cutlet",
+      "popularity": 0.175,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2c/be/dc/2cbedc60-8c49-3e72-0229-ec50b42b6d27/mzaf_1291392442974076887.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "jiscoballon",
+          "jisukobarun",
+          "でぃすこばるーん"
+        ]
+      },
+      "songKey": "でぃすこばるーん|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%87%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%90%E3%83%AB%E3%83%BC%E3%83%B3/1238071672?i=1238071682",
+      "title": "ディスコバルーン",
+      "titleKeys": [
+        "でぃすこばるーん"
+      ],
+      "titleLatin": "Disuko baruun"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 270733,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071683",
+      "latinSource": null,
+      "popularity": 0.825,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2f/fe/d4/2ffed4d1-38e4-17ed-b9d1-9efbea327f1c/mzaf_5373818012140700816.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "vivi"
+        ]
+      },
+      "songKey": "vivi|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/vivi/1238071672?i=1238071683",
+      "title": "vivi",
+      "titleKeys": [
+        "vivi"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 253627,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071684",
+      "latinSource": "cutlet",
+      "popularity": 0.0667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f3/42/7d/f3427d97-a1d6-ce39-2f1f-2982de3eb47f/mzaf_1730306213147983768.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "toipatoriotto",
+          "toypatriot",
+          "といぱとりおっと"
+        ]
+      },
+      "songKey": "といぱとりおっと|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%88%E3%82%A4%E3%83%91%E3%83%88%E3%83%AA%E3%82%AA%E3%83%83%E3%83%88/1238071672?i=1238071684",
+      "title": "トイパトリオット",
+      "titleKeys": [
+        "といぱとりおっと"
+      ],
+      "titleLatin": "Toi patoriotto"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 262533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071685",
+      "latinSource": "cutlet",
+      "popularity": 0.625,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fe/ad/0a/fead0a62-af09-f2fd-8713-7d4c8f82f6ca/mzaf_7562918703508603523.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "koitobyonetsu",
+          "恋と病熱"
+        ]
+      },
+      "songKey": "恋と病熱|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%8B%E3%81%A8%E7%97%85%E7%86%B1/1238071672?i=1238071685",
+      "title": "恋と病熱",
+      "titleKeys": [
+        "恋と病熱"
+      ],
+      "titleLatin": "Koi to byounetsu"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 309827,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071686",
+      "latinSource": null,
+      "popularity": 0.0917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/79/b2/ed/79b2edd1-6154-352c-06f7-0a6b1e766682/mzaf_16077559836878723147.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "blackshep"
+        ]
+      },
+      "songKey": "blacksheep|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/black-sheep/1238071672?i=1238071686",
+      "title": "Black Sheep",
+      "titleKeys": [
+        "blacksheep"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 308773,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071687",
+      "latinSource": "cutlet",
+      "popularity": 0.2,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/87/57/01/875701b7-378d-3ebe-ee62-c9caf31dc2fa/mzaf_4154107414339567705.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "hikarabitabasuhitotsu",
+          "hikarabitabushitotsu",
+          "乾涸びたばすひとつ"
+        ]
+      },
+      "songKey": "乾涸びたばすひとつ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%B9%BE%E6%B6%B8%E3%81%B3%E3%81%9F%E3%83%90%E3%82%B9%E3%81%B2%E3%81%A8%E3%81%A4/1238071672?i=1238071687",
+      "title": "乾涸びたバスひとつ",
+      "titleKeys": [
+        "乾涸びたばすひとつ"
+      ],
+      "titleLatin": "Hikarabita basu hitotsu"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 263707,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071688",
+      "latinSource": "cutlet",
+      "popularity": 0.1833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5a/5a/f8/5a5af827-f862-7f10-d0c3-422ccff68d90/mzaf_5085282116655948382.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "kubinashikankocho",
+          "首なし閑古鳥"
+        ]
+      },
+      "songKey": "首なし閑古鳥|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%A6%96%E3%81%AA%E3%81%97%E9%96%91%E5%8F%A4%E9%B3%A5/1238071672?i=1238071688",
+      "title": "首なし閑古鳥",
+      "titleKeys": [
+        "首なし閑古鳥"
+      ],
+      "titleLatin": "Kubi nashi kankochou"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 244000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071689",
+      "latinSource": "cutlet",
+      "popularity": 0.0833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/05/87/43/058743fa-ea84-0572-bb49-17c59264d003/mzaf_7641451393888345026.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "shinzohoei",
+          "心像放映"
+        ]
+      },
+      "songKey": "心像放映|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%BF%83%E5%83%8F%E6%94%BE%E6%98%A0/1238071672?i=1238071689",
+      "title": "心像放映",
+      "titleKeys": [
+        "心像放映"
+      ],
+      "titleLatin": "Shinzou houei"
+    },
+    {
+      "albumId": "apple:al:1238071672",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 244653,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1238071690",
+      "latinSource": "cutlet",
+      "popularity": 0.0083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e0/24/4d/e0244ddc-ee46-5584-08ec-9849248df797/mzaf_11188853871591973767.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "shohon",
+          "抄本"
+        ]
+      },
+      "songKey": "抄本|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%8A%84%E6%9C%AC/1238071672?i=1238071690",
+      "title": "抄本",
+      "titleKeys": [
+        "抄本"
+      ],
+      "titleLatin": "Shouhon"
+    },
+    {
+      "albumId": "apple:al:1263790414",
+      "artistDisplay": "DAOKO×米津玄師",
+      "artistIds": [
+        "apple:ar:547853144",
+        "apple:ar:530814268"
+      ],
+      "durationMs": 289335,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1263790415",
+      "latinSource": "cutlet",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/30/f3/40/30f3401c-b70e-b4a2-cf6f-5fd38d77e331/mzaf_2519243056549729566.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "uchiagehanabi",
+          "打上花火"
+        ]
+      },
+      "songKey": "打上花火|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%89%93%E4%B8%8A%E8%8A%B1%E7%81%AB/1263790414?i=1263790415",
+      "title": "打上花火",
+      "titleKeys": [
+        "打上花火"
+      ],
+      "titleLatin": "Uchiage hanabi"
+    },
+    {
+      "albumId": "apple:al:1440648404",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 218227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440648421",
+      "latinSource": null,
+      "popularity": 0.675,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e3/f4/17/e3f4173b-0c9f-d0eb-5e95-3eebd85cc697/mzaf_13826503747591281287.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "madheadlove"
+        ]
+      },
+      "songKey": "madheadlove|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/mad-head-love/1440648404?i=1440648421",
+      "title": "MAD HEAD LOVE",
+      "titleKeys": [
+        "madheadlove"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1440648404",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 227440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440648429",
+      "latinSource": "cutlet",
+      "popularity": 0.5333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/71/1d/70/711d7099-47ab-f85d-e49f-49835214e289/mzaf_15780710831619494994.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "poppinapashi",
+          "poppingapathy",
+          "ぽっぴんあぱしー"
+        ]
+      },
+      "songKey": "ぽっぴんあぱしー|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9D%E3%83%83%E3%83%94%E3%83%B3%E3%82%A2%E3%83%91%E3%82%B7%E3%83%BC/1440648404?i=1440648429",
+      "title": "ポッピンアパシー",
+      "titleKeys": [
+        "ぽっぴんあぱしー"
+      ],
+      "titleLatin": "Poppin apashii"
+    },
+    {
+      "albumId": "apple:al:1440648404",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 162533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440648646",
+      "latinSource": "cutlet",
+      "popularity": 0.4833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fb/8e/ad/fb8ead77-41f4-acc9-0b47-a3bafb1108e7/mzaf_16518375320273326986.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "torinidemonaritai",
+          "鳥にでもなりたい"
+        ]
+      },
+      "songKey": "鳥にでもなりたい|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%B3%A5%E3%81%AB%E3%81%A7%E3%82%82%E3%81%AA%E3%82%8A%E3%81%9F%E3%81%84/1440648404?i=1440648646",
+      "title": "鳥にでもなりたい",
+      "titleKeys": [
+        "鳥にでもなりたい"
+      ],
+      "titleLatin": "Tori ni de mo naritai"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 282880,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740510",
+      "latinSource": "cutlet",
+      "popularity": 0.5917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/81/7d/86/817d86d7-eba6-d00f-df4d-79d422210790/mzaf_6209196431802447425.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-09-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "anbiribazu",
+          "あんびりーばーず"
+        ]
+      },
+      "songKey": "あんびりーばーず|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%B3%E3%83%93%E3%83%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%82%BA/1440740509?i=1440740510",
+      "title": "アンビリーバーズ",
+      "titleKeys": [
+        "あんびりーばーず"
+      ],
+      "titleLatin": "Anbiriibaazu"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 282360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740511",
+      "latinSource": "cutlet",
+      "popularity": 0.4333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8d/3a/b5/8d3ab54c-0658-796a-b429-530a8d2f145c/mzaf_5221899885934267763.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "furoraito",
+          "ふろーらいと"
+        ]
+      },
+      "songKey": "ふろーらいと|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%95%E3%83%AD%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%88/1440740509?i=1440740511",
+      "title": "フローライト",
+      "titleKeys": [
+        "ふろーらいと"
+      ],
+      "titleLatin": "Furooraito"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 212173,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740512",
+      "latinSource": "cutlet",
+      "popularity": 0.0583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/dd/a1/ba/dda1ba69-b783-d835-70d2-b6c9634e80f3/mzaf_16705179550405284248.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "saijoei",
+          "再上映"
+        ]
+      },
+      "songKey": "再上映|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%86%8D%E4%B8%8A%E6%98%A0/1440740509?i=1440740512",
+      "title": "再上映",
+      "titleKeys": [
+        "再上映"
+      ],
+      "titleLatin": "Saijouei"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 298360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740513",
+      "latinSource": null,
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fd/62/6f/fd626fc2-d376-cfe4-0ffd-ba2b361a2726/mzaf_5164906620081509752.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "flowerwall"
+        ]
+      },
+      "songKey": "flowerwall|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/flowerwall/1440740509?i=1440740513",
+      "title": "Flowerwall",
+      "titleKeys": [
+        "flowerwall"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 243507,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740514",
+      "latinSource": "cutlet",
+      "popularity": 0.1333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/13/04/64/13046460-d863-7eeb-74ad-2ce85bedaa5e/mzaf_511163000384875907.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "atashiwayurei",
+          "あたしはゆうれい"
+        ]
+      },
+      "songKey": "あたしはゆうれい|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%81%9F%E3%81%97%E3%81%AF%E3%82%86%E3%81%86%E3%82%8C%E3%81%84/1440740509?i=1440740514",
+      "title": "あたしはゆうれい",
+      "titleKeys": [
+        "あたしはゆうれい"
+      ],
+      "titleLatin": "Atashi wa yuurei"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 307493,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740516",
+      "latinSource": "cutlet",
+      "popularity": 0.0167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/03/16/7c/03167cd0-6f25-a699-feac-d50aa4535617/mzaf_17901112970334332532.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "iruoisupu",
+          "うぃるおうぃすぷ"
+        ]
+      },
+      "songKey": "うぃるおうぃすぷ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A6%E3%82%A3%E3%83%AB%E3%82%AA%E3%82%A6%E3%82%A3%E3%82%B9%E3%83%97/1440740509?i=1440740516",
+      "title": "ウィルオウィスプ",
+      "titleKeys": [
+        "うぃるおうぃすぷ"
+      ],
+      "titleLatin": "Iruoisupu"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 238293,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740517",
+      "latinSource": null,
+      "popularity": 0.475,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/dc/b6/fb/dcb6fb5c-e6b6-9ec0-c05c-b78a7faf542c/mzaf_1235155038679937231.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "undercover"
+        ]
+      },
+      "songKey": "undercover|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/undercover/1440740509?i=1440740517",
+      "title": "Undercover",
+      "titleKeys": [
+        "undercover"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 246640,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740518",
+      "latinSource": null,
+      "popularity": 0.25,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9f/d4/66/9fd4665b-e945-48a9-fa52-62c3e2fef00e/mzaf_13823042512737944470.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "neonshign"
+        ]
+      },
+      "songKey": "neonsign|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/neon-sign/1440740509?i=1440740518",
+      "title": "Neon Sign",
+      "titleKeys": [
+        "neonsign"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 259893,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740519",
+      "latinSource": "cutlet",
+      "popularity": 0.7833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/af/2a/a7/af2aa7e8-d7d8-2b3a-5de9-ed0b654bde83/mzaf_6060739022481517016.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "metoronomu",
+          "metronom",
+          "めとろのーむ"
+        ]
+      },
+      "songKey": "めとろのーむ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A1%E3%83%88%E3%83%AD%E3%83%8E%E3%83%BC%E3%83%A0/1440740509?i=1440740519",
+      "title": "メトロノーム",
+      "titleKeys": [
+        "めとろのーむ"
+      ],
+      "titleLatin": "Metoronoomu"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 229560,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740520",
+      "latinSource": "cutlet",
+      "popularity": 0.2083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b9/de/72/b9de72bf-69e7-8f50-93e7-73e6ffcf8534/mzaf_7405218436132804704.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "amenogaironiyakomushi",
+          "雨の街路に夜光蟲"
+        ]
+      },
+      "songKey": "雨の街路に夜光蟲|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%9B%A8%E3%81%AE%E8%A1%97%E8%B7%AF%E3%81%AB%E5%A4%9C%E5%85%89%E8%9F%B2/1440740509?i=1440740520",
+      "title": "雨の街路に夜光蟲",
+      "titleKeys": [
+        "雨の街路に夜光蟲"
+      ],
+      "titleLatin": "Ame no gairo ni yakou mushi"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 251120,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740521",
+      "latinSource": "cutlet",
+      "popularity": 0.5083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8c/f9/58/8cf9581a-5aa7-095e-f2d2-d6b5bbcbdf64/mzaf_11105303990261700263.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "cinderellagrey",
+          "shindereragurei",
+          "しんでれらぐれい"
+        ]
+      },
+      "songKey": "しんでれらぐれい|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%B3%E3%83%87%E3%83%AC%E3%83%A9%E3%82%B0%E3%83%AC%E3%82%A4/1440740509?i=1440740521",
+      "title": "シンデレラグレイ",
+      "titleKeys": [
+        "しんでれらぐれい"
+      ],
+      "titleLatin": "Shinderera Gurei"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 293560,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740522",
+      "latinSource": "cutlet",
+      "popularity": 0.05,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/16/7d/a1/167da106-3676-0644-664c-017eed92a40e/mzaf_7642653643332109243.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "miragesong",
+          "mirajusongu",
+          "みらーじゅそんぐ"
+        ]
+      },
+      "songKey": "みらーじゅそんぐ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9F%E3%83%A9%E3%83%BC%E3%82%B8%E3%83%A5%E3%82%BD%E3%83%B3%E3%82%B0/1440740509?i=1440740522",
+      "title": "ミラージュソング",
+      "titleKeys": [
+        "みらーじゅそんぐ"
+      ],
+      "titleLatin": "Miraaju songu"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 301240,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740524",
+      "latinSource": "cutlet",
+      "popularity": 0.1667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/43/fb/65/43fb6586-66d9-d911-0da8-6bdd8f8f5138/mzaf_6410679054895471301.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "hopeland",
+          "hopurando",
+          "ほーぷらんど"
+        ]
+      },
+      "songKey": "ほーぷらんど|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9B%E3%83%BC%E3%83%97%E3%83%A9%E3%83%B3%E3%83%89/1440740509?i=1440740524",
+      "title": "ホープランド",
+      "titleKeys": [
+        "ほーぷらんど"
+      ],
+      "titleLatin": "Hoopu rando"
+    },
+    {
+      "albumId": "apple:al:1440740509",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 279293,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440740525",
+      "latinSource": null,
+      "popularity": 0.35,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/33/41/8e/33418ee2-466f-8084-e63f-62a7993cf59c/mzaf_952784829535372898.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "bluejasmine"
+        ]
+      },
+      "songKey": "bluejasmine|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/blue-jasmine/1440740509?i=1440740525",
+      "title": "Blue Jasmine",
+      "titleKeys": [
+        "bluejasmine"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 251573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440791829",
+      "latinSource": "cutlet",
+      "popularity": 0.5583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/64/c0/17/64c01731-0b43-29f8-4dc5-a0e82d1771ad/mzaf_6777034380757170965.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "livingdeadyoth",
+          "ribingudeddoyusu",
+          "りびんぐでっどゆーす"
+        ]
+      },
+      "songKey": "りびんぐでっどゆーす|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%AA%E3%83%93%E3%83%B3%E3%82%B0%E3%83%87%E3%83%83%E3%83%89-%E3%83%A6%E3%83%BC%E3%82%B9/1440791809?i=1440791829",
+      "title": "リビングデッド・ユース",
+      "titleKeys": [
+        "りびんぐでっどゆーす"
+      ],
+      "titleLatin": "Ribingu deddo yuusu"
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 247120,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792109",
+      "latinSource": null,
+      "popularity": 0.4667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3f/f1/3d/3ff13d32-ef7c-a276-9089-f465f8cfec20/mzaf_6448662387741269099.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "wodendoll"
+        ]
+      },
+      "songKey": "woodendoll|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/wooden-doll/1440791809?i=1440792109",
+      "title": "WOODEN DOLL",
+      "titleKeys": [
+        "woodendoll"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 288013,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792118",
+      "latinSource": "cutlet",
+      "popularity": 0.9333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e3/6a/1f/e36a1f91-be02-7fb8-8746-8d597a9d9d59/mzaf_16933272335344906902.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "ainekuraine",
+          "einekleine",
+          "あいねくらいね"
+        ]
+      },
+      "songKey": "あいねくらいね|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%A4%E3%83%8D%E3%82%AF%E3%83%A9%E3%82%A4%E3%83%8D/1440791809?i=1440792118",
+      "title": "アイネクライネ",
+      "titleKeys": [
+        "あいねくらいね"
+      ],
+      "titleLatin": "Aine kuraine"
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 218653,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792261",
+      "latinSource": "cutlet",
+      "popularity": 0.775,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2c/00/6d/2c006d43-d10b-2638-3db1-622d68cdd26c/mzaf_4586595428715769618.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "melancholykitchen",
+          "merankorikitchin",
+          "めらんこりーきっちん"
+        ]
+      },
+      "songKey": "めらんこりーきっちん|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A1%E3%83%A9%E3%83%B3%E3%82%B3%E3%83%AA%E3%83%BC%E3%82%AD%E3%83%83%E3%83%81%E3%83%B3/1440791809?i=1440792261",
+      "title": "メランコリーキッチン",
+      "titleKeys": [
+        "めらんこりーきっちん"
+      ],
+      "titleLatin": "Merankorii kitchin"
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 284560,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792463",
+      "latinSource": "cutlet",
+      "popularity": 0.3833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5a/d2/b1/5ad2b1a9-fc7d-e8d6-96ca-9ad31d210629/mzaf_8751862453825646248.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "hananiarashi",
+          "花に嵐"
+        ]
+      },
+      "songKey": "花に嵐|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%8A%B1%E3%81%AB%E5%B5%90/1440791809?i=1440792463",
+      "title": "花に嵐",
+      "titleKeys": [
+        "花に嵐"
+      ],
+      "titleLatin": "Hana ni arashi"
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 313507,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792466",
+      "latinSource": "cutlet",
+      "popularity": 0.45,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2b/06/fd/2b06fda4-7e38-5fe5-917f-106ae209c361/mzaf_2250146298892601525.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "umitosanshogyo",
+          "海と山椒魚"
+        ]
+      },
+      "songKey": "海と山椒魚|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B5%B7%E3%81%A8%E5%B1%B1%E6%A4%92%E9%AD%9A/1440791809?i=1440792466",
+      "title": "海と山椒魚",
+      "titleKeys": [
+        "海と山椒魚"
+      ],
+      "titleLatin": "Umi to sanshougyo"
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 227973,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792468",
+      "latinSource": "cutlet",
+      "popularity": 0.5833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/78/4c/67/784c6720-f332-442a-c0b0-ffa38f69350d/mzaf_11430703786281004326.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "shitodoseitendaimeiwaku",
+          "しとど晴天大迷惑"
+        ]
+      },
+      "songKey": "しとど晴天大迷惑|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%97%E3%81%A8%E3%81%A9%E6%99%B4%E5%A4%A9%E5%A4%A7%E8%BF%B7%E6%83%91/1440791809?i=1440792468",
+      "title": "しとど晴天大迷惑",
+      "titleKeys": [
+        "しとど晴天大迷惑"
+      ],
+      "titleLatin": "Shitodo seitendai meiwaku"
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 264933,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792478",
+      "latinSource": "cutlet",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a7/ec/c2/a7ecc265-bc7b-0084-6b7f-8524dc33d000/mzaf_15222000347682886335.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "ganpuku",
+          "眼福"
+        ]
+      },
+      "songKey": "眼福|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%9C%BC%E7%A6%8F/1440791809?i=1440792478",
+      "title": "眼福",
+      "titleKeys": [
+        "眼福"
+      ],
+      "titleLatin": "Ganpuku"
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 272853,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792481",
+      "latinSource": "cutlet",
+      "popularity": 0.2167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2e/a9/32/2ea932c9-3c8a-569a-8776-69559ac7485e/mzaf_8146885162348722474.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "horafukinekoyaro",
+          "ほら吹き猫野郎"
+        ]
+      },
+      "songKey": "ほら吹き猫野郎|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9B%E3%83%A9%E5%90%B9%E3%81%8D%E7%8C%AB%E9%87%8E%E9%83%8E/1440791809?i=1440792481",
+      "title": "ホラ吹き猫野郎",
+      "titleKeys": [
+        "ほら吹き猫野郎"
+      ],
+      "titleLatin": "Horafuki neko yarou"
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 237093,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792485",
+      "latinSource": null,
+      "popularity": 0.2667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/29/a1/85/29a18591-3d8a-00c3-f8ae-55b1dba464ea/mzaf_10801812282391607524.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "toxicboy"
+        ]
+      },
+      "songKey": "toxicboy|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/toxic-boy/1440791809?i=1440792485",
+      "title": "TOXIC BOY",
+      "titleKeys": [
+        "toxicboy"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 224707,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792854",
+      "latinSource": null,
+      "popularity": 0.075,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a9/ed/4e/a9ed4e09-4577-d02e-cfa1-a83cccfc0bd2/mzaf_2038370334767653129.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "karmacich"
+        ]
+      },
+      "songKey": "karmacity|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/karma-city/1440791809?i=1440792854",
+      "title": "KARMA CITY",
+      "titleKeys": [
+        "karmacity"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1440791809",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 205093,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1440792859",
+      "latinSource": "cutlet",
+      "popularity": 0.7667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/43/df/08/43df0806-83a3-bab1-adbe-39487f13940d/mzaf_6049044545553872358.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "doghnuthallcover",
+          "donatsuhorucover",
+          "どーなつほーるcover"
+        ]
+      },
+      "songKey": "どーなつほーる|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%89%E3%83%BC%E3%83%8A%E3%83%84%E3%83%9B%E3%83%BC%E3%83%AB-cover/1440791809?i=1440792859",
+      "title": "ドーナツホール (COVER)",
+      "titleKeys": [
+        "どーなつほーる",
+        "どーなつほーるcover"
+      ],
+      "titleLatin": "Doonatsu hooru (COVER)"
+    },
+    {
+      "albumId": "apple:al:1445022054",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 257547,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1445022063",
+      "latinSource": "cutlet",
+      "popularity": 0.525,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/37/c0/06/37c00619-3723-6fa3-abf1-0e328e3f5b0c/mzaf_8372815227438931574.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "zangenomachi",
+          "懺悔の街"
+        ]
+      },
+      "songKey": "懺悔の街|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%87%BA%E6%82%94%E3%81%AE%E8%A1%97/1445022054?i=1445022063",
+      "title": "懺悔の街",
+      "titleKeys": [
+        "懺悔の街"
+      ],
+      "titleLatin": "Zange no machi"
+    },
+    {
+      "albumId": "apple:al:1445022054",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 259920,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1445022066",
+      "latinSource": "cutlet",
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/91/e6/cd/91e6cd85-8872-bbf2-49ab-e7e8c607be95/mzaf_9108043016270348175.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "petorecall",
+          "petorikoru",
+          "ぺとりこーる"
+        ]
+      },
+      "songKey": "ぺとりこーる|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9A%E3%83%88%E3%83%AA%E3%82%B3%E3%83%BC%E3%83%AB/1445022054?i=1445022066",
+      "title": "ペトリコール",
+      "titleKeys": [
+        "ぺとりこーる"
+      ],
+      "titleLatin": "Peto rikooru"
+    },
+    {
+      "albumId": "apple:al:1445023275",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 334147,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1445023277",
+      "latinSource": "cutlet",
+      "popularity": 0.4083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1d/5d/2e/1d5d2e49-0b59-8ba4-93a1-945d9372ee60/mzaf_3581007950561891951.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-05-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "santamaria",
+          "さんたまりあ"
+        ]
+      },
+      "songKey": "さんたまりあ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B5%E3%83%B3%E3%82%BF%E3%83%9E%E3%83%AA%E3%82%A2/1445023275?i=1445023277",
+      "title": "サンタマリア",
+      "titleKeys": [
+        "さんたまりあ"
+      ],
+      "titleLatin": "Santamaria"
+    },
+    {
+      "albumId": "apple:al:1445023275",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 276453,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1445023281",
+      "latinSource": "cutlet",
+      "popularity": 0.2833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6b/4d/3c/6b4d3c0d-61be-8675-c4f9-c54ee5b7c372/mzaf_1651980059228206803.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-05-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "hyakkiyako",
+          "百鬼夜行"
+        ]
+      },
+      "songKey": "百鬼夜行|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%99%BE%E9%AC%BC%E5%A4%9C%E8%A1%8C/1445023275?i=1445023281",
+      "title": "百鬼夜行",
+      "titleKeys": [
+        "百鬼夜行"
+      ],
+      "titleLatin": "Hyakki yakou"
+    },
+    {
+      "albumId": "apple:al:1445023275",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 186613,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1445023282",
+      "latinSource": "cutlet",
+      "popularity": 0.575,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/96/28/1c/96281c6c-bc5c-9c84-1822-348f622d6fe4/mzaf_12003200056344876087.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-05-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "fuefukikedomodorazu",
+          "笛吹けども踊らず"
+        ]
+      },
+      "songKey": "笛吹けども踊らず|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%AC%9B%E5%90%B9%E3%81%91%E3%81%A9%E3%82%82%E8%B8%8A%E3%82%89%E3%81%9A/1445023275?i=1445023282",
+      "title": "笛吹けども踊らず",
+      "titleKeys": [
+        "笛吹けども踊らず"
+      ],
+      "titleLatin": "Fuefukikedo mo odorazu"
+    },
+    {
+      "albumId": "apple:al:1445057246",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 259387,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1445057252",
+      "latinSource": "cutlet",
+      "popularity": 0.4417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/48/13/49/481349f8-3727-15fe-6cc4-42edde3df0ec/mzaf_1254495292440056909.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-09-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "tabibitodento",
+          "旅人電燈"
+        ]
+      },
+      "songKey": "旅人電燈|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%97%85%E4%BA%BA%E9%9B%BB%E7%87%88/1445057246?i=1445057252",
+      "title": "旅人電燈",
+      "titleKeys": [
+        "旅人電燈"
+      ],
+      "titleLatin": "Tabibito dentou"
+    },
+    {
+      "albumId": "apple:al:1445057246",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 246840,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1445057253",
+      "latinSource": "cutlet",
+      "popularity": 0.4583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8d/49/0b/8d490b39-2b7e-b180-c7d0-d9521978d8a7/mzaf_4603338946271011322.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-09-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "kokoronikudamono",
+          "こころにくだもの"
+        ]
+      },
+      "songKey": "こころにくだもの|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%93%E3%81%93%E3%82%8D%E3%81%AB%E3%81%8F%E3%81%A0%E3%82%82%E3%81%AE/1445057246?i=1445057253",
+      "title": "こころにくだもの",
+      "titleKeys": [
+        "こころにくだもの"
+      ],
+      "titleLatin": "Kokoro ni kudamono"
+    },
+    {
+      "albumId": "apple:al:1537258547",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 268760,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537258548",
+      "latinSource": "cutlet",
+      "popularity": 0.7917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7c/23/77/7c2377db-eb18-8a9c-2cd0-c6f45f0c5675/mzaf_12295463010070088744.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-08-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "umatoshika",
+          "馬と鹿"
+        ]
+      },
+      "songKey": "馬と鹿|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%A6%AC%E3%81%A8%E9%B9%BF/1537258547?i=1537258548",
+      "title": "馬と鹿",
+      "titleKeys": [
+        "馬と鹿"
+      ],
+      "titleLatin": "Uma to shika"
+    },
+    {
+      "albumId": "apple:al:1537258547",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 237187,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537258549",
+      "latinSource": "cutlet",
+      "popularity": 0.6083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3b/a8/6a/3ba86afb-d535-0cb5-d4aa-a491692dfd5b/mzaf_9463748532414155452.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-06-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "uminoyurei",
+          "海の幽霊"
+        ]
+      },
+      "songKey": "海の幽霊|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B5%B7%E3%81%AE%E5%B9%BD%E9%9C%8A/1537258547?i=1537258549",
+      "title": "海の幽霊",
+      "titleKeys": [
+        "海の幽霊"
+      ],
+      "titleLatin": "Umi no yuurei"
+    },
+    {
+      "albumId": "apple:al:1537258547",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 172520,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537258550",
+      "latinSource": "cutlet",
+      "popularity": 0.225,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1d/29/25/1d2925de-d489-50c8-cf32-89991a5af1b9/mzaf_8713601476852766213.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-08-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "deshomasho",
+          "でしょましょ"
+        ]
+      },
+      "songKey": "でしょましょ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%A7%E3%81%97%E3%82%87%E3%81%BE%E3%81%97%E3%82%87/1537258547?i=1537258550",
+      "title": "でしょましょ",
+      "titleKeys": [
+        "でしょましょ"
+      ],
+      "titleLatin": "Deshomasho"
+    },
+    {
+      "albumId": "apple:al:1537279276",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 283333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537279277",
+      "latinSource": null,
+      "popularity": 0.65,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/26/82/2a/26822ac5-92c5-ece6-f61e-bfb91ada9175/mzaf_11373330987020048349.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-02-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "orion"
+        ]
+      },
+      "songKey": "orion|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/orion/1537279276?i=1537279277",
+      "title": "orion",
+      "titleKeys": [
+        "orion"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537279276",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 228707,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537279278",
+      "latinSource": "cutlet",
+      "popularity": 0.2583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/94/bd/0f/94bd0f81-4547-697e-a3fa-a06b46940b1c/mzaf_2476601692007892529.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-02-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "lullabysayonara",
+          "rarabaisayonara",
+          "ららばいさよなら"
+        ]
+      },
+      "songKey": "ららばいさよなら|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%83%A9%E3%83%90%E3%82%A4%E3%81%95%E3%82%88%E3%81%AA%E3%82%89/1537279276?i=1537279278",
+      "title": "ララバイさよなら",
+      "titleKeys": [
+        "ららばいさよなら"
+      ],
+      "titleLatin": "Rarabai sayonara"
+    },
+    {
+      "albumId": "apple:al:1537279276",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 230547,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537279279",
+      "latinSource": "cutlet",
+      "popularity": 0.3417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/30/31/3f/30313f0e-f10c-6cb8-1966-4f58c24bea65/mzaf_7807497232704620102.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-02-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "hisuinokami",
+          "翡翠の狼"
+        ]
+      },
+      "songKey": "翡翠の狼|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%BF%A1%E7%BF%A0%E3%81%AE%E7%8B%BC/1537279276?i=1537279279",
+      "title": "翡翠の狼",
+      "titleKeys": [
+        "翡翠の狼"
+      ],
+      "titleLatin": "Hisui no ookami"
+    },
+    {
+      "albumId": "apple:al:1537279544",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 245227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537279545",
+      "latinSource": null,
+      "popularity": 0.7333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/bc/2e/fd/bc2efd5c-663e-c5eb-fa74-764cc67e647b/mzaf_7116989628534144510.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-09-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "loser"
+        ]
+      },
+      "songKey": "loser|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/loser/1537279544?i=1537279545",
+      "title": "LOSER",
+      "titleKeys": [
+        "loser"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537279544",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 263080,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537279546",
+      "latinSource": "cutlet",
+      "popularity": 0.15,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d3/7f/ff/d37fffa8-cb97-095d-b122-7d6928886c21/mzaf_3823283742469156498.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-09-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "nanbanain",
+          "nunbernine",
+          "なんばーないん"
+        ]
+      },
+      "songKey": "なんばーないん|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8A%E3%83%B3%E3%83%90%E3%83%BC%E3%83%8A%E3%82%A4%E3%83%B3/1537279544?i=1537279546",
+      "title": "ナンバーナイン",
+      "titleKeys": [
+        "なんばーないん"
+      ],
+      "titleLatin": "Nanbaa nain"
+    },
+    {
+      "albumId": "apple:al:1537279544",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 274200,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537279547",
+      "latinSource": null,
+      "popularity": 0.3167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/94/4c/b0/944cb09c-3eb3-0705-edbd-1959142ee08e/mzaf_4118186334920124527.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-09-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "amen"
+        ]
+      },
+      "songKey": "amen|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/amen/1537279544?i=1537279547",
+      "title": "amen",
+      "titleKeys": [
+        "amen"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537458309",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 237290,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537458310",
+      "latinSource": "cutlet",
+      "popularity": 0.8417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b9/fd/52/b9fd5217-fff9-2b2e-4868-7612d1625e1f/mzaf_618230796667663233.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "pieceshignpeaceshign",
+          "pisusainpeaceshign",
+          "ぴーすさいんpeaceshign"
+        ]
+      },
+      "songKey": "ぴーすさいんpeacesign|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%94%E3%83%BC%E3%82%B9%E3%82%B5%E3%82%A4%E3%83%B3-peace-sign/1537458309?i=1537458310",
+      "title": "ピースサイン - Peace Sign",
+      "titleKeys": [
+        "ぴーすさいんpeacesign"
+      ],
+      "titleLatin": "Piisu sain - Peace Sign"
+    },
+    {
+      "albumId": "apple:al:1537458309",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 237589,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537458311",
+      "latinSource": null,
+      "popularity": 0.275,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4f/cd/55/4fcd55b4-9517-c11a-9781-1b9cd514f40d/mzaf_9991907542818543279.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "neighborhod"
+        ]
+      },
+      "songKey": "neighbourhood|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/neighbourhood/1537458309?i=1537458311",
+      "title": "Neighbourhood",
+      "titleKeys": [
+        "neighbourhood"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537458309",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 283420,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537458312",
+      "latinSource": "cutlet",
+      "popularity": 0.3,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/df/23/62/df236200-bc1b-2ff5-d726-9ca4ab1f4e7a/mzaf_15078327488356706358.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "yumekuishiyojo",
+          "ゆめくいしょうじょ"
+        ]
+      },
+      "songKey": "ゆめくいしょうじょ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%86%E3%82%81%E3%81%8F%E3%81%84%E3%81%97%E3%82%87%E3%81%86%E3%81%98%E3%82%87/1537458309?i=1537458312",
+      "title": "ゆめくいしょうじょ",
+      "titleKeys": [
+        "ゆめくいしょうじょ"
+      ],
+      "titleLatin": "Yume kui shiyoo jo"
+    },
+    {
+      "albumId": "apple:al:1537460610",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 256116,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537460612",
+      "latinSource": null,
+      "popularity": 0.8833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/27/17/9b/27179b15-2153-25e8-d035-35fdb4d059d8/mzaf_757024838235216109.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "lemon"
+        ]
+      },
+      "songKey": "lemon|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/lemon/1537460610?i=1537460612",
+      "title": "Lemon",
+      "titleKeys": [
+        "lemon"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537460610",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 210545,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537460613",
+      "latinSource": "cutlet",
+      "popularity": 0.3667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a6/70/d9/a670d94e-0a64-b4c2-c541-d3a0bee3288c/mzaf_763760632395149594.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "cranberrytopancake",
+          "kuranberitopankeki",
+          "くらんべりーとぱんけーき"
+        ]
+      },
+      "songKey": "くらんべりーとぱんけーき|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AF%E3%83%A9%E3%83%B3%E3%83%99%E3%83%AA%E3%83%BC%E3%81%A8%E3%83%91%E3%83%B3%E3%82%B1%E3%83%BC%E3%82%AD/1537460610?i=1537460613",
+      "title": "クランベリーとパンケーキ",
+      "titleKeys": [
+        "くらんべりーとぱんけーき"
+      ],
+      "titleLatin": "Kuranberii to pankeeki"
+    },
+    {
+      "albumId": "apple:al:1537460610",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 275341,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537460614",
+      "latinSource": null,
+      "popularity": 0.2333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0d/95/1a/0d951a52-b1fb-68ef-82d7-730969ff0127/mzaf_7101537990557216440.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "paperflower"
+        ]
+      },
+      "songKey": "paperflower|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/paper-flower/1537460610?i=1537460614",
+      "title": "Paper Flower",
+      "titleKeys": [
+        "paperflower"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537766932",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 195293,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537766933",
+      "latinSource": null,
+      "popularity": 0.6333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a2/e3/de/a2e3de5f-c2ee-e9f9-1960-b049656e7c6d/mzaf_4971069505399201093.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-10-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "flamingo"
+        ]
+      },
+      "songKey": "flamingo|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/flamingo/1537766932?i=1537766933",
+      "title": "Flamingo",
+      "titleKeys": [
+        "flamingo"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537766932",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 225333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537766934",
+      "latinSource": null,
+      "popularity": 0.2417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/93/7f/bc/937fbcca-28a1-9c10-6dfe-bd2420d34e7c/mzaf_9353925698169222011.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-10-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "tenageriot"
+        ]
+      },
+      "songKey": "teenageriot|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/teenage-riot/1537766932?i=1537766934",
+      "title": "TEENAGE RIOT",
+      "titleKeys": [
+        "teenageriot"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537766932",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 211667,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537766935",
+      "latinSource": "cutlet",
+      "popularity": 0.4,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cd/76/0d/cd760dd0-fe6b-87e3-513c-44e47f66e0eb/mzaf_4211728049295752667.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-10-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "gomene",
+          "ごめんね"
+        ]
+      },
+      "songKey": "ごめんね|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%94%E3%82%81%E3%82%93%E3%81%AD/1537766932?i=1537766935",
+      "title": "ごめんね",
+      "titleKeys": [
+        "ごめんね"
+      ],
+      "titleLatin": "Gomen ne"
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 235723,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265734",
+      "latinSource": "cutlet",
+      "popularity": 0.6167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8f/38/83/8f388347-722e-b433-e247-527f5010093f/mzaf_4507334825482221814.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "canpanella",
+          "kamupanerura",
+          "かむぱねるら"
+        ]
+      },
+      "songKey": "かむぱねるら|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AB%E3%83%A0%E3%83%91%E3%83%8D%E3%83%AB%E3%83%A9/1538265733?i=1538265734",
+      "title": "カムパネルラ",
+      "titleKeys": [
+        "かむぱねるら"
+      ],
+      "titleLatin": "Kamupanerura"
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 264545,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265736",
+      "latinSource": "cutlet",
+      "popularity": 0.9083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0b/e2/a2/0be2a241-e96a-70dc-9b30-4a8c6f117d6d/mzaf_15493764385041817945.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-07-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "kanden",
+          "感電"
+        ]
+      },
+      "songKey": "感電|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%84%9F%E9%9B%BB/1538265733?i=1538265736",
+      "title": "感電",
+      "titleKeys": [
+        "感電"
+      ],
+      "titleLatin": "Kanden"
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師 & 野田洋次郎",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 240254,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265737",
+      "latinSource": "cutlet",
+      "popularity": 0.55,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5c/98/d5/5c98d5a1-de91-31d2-108e-eda8ff53a34f/mzaf_10235069395882135874.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "placebonodayojiro",
+          "placebo野田洋次郎"
+        ]
+      },
+      "songKey": "placebo野田洋次郎|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/placebo-%E9%87%8E%E7%94%B0%E6%B4%8B%E6%AC%A1%E9%83%8E/1538265733?i=1538265737",
+      "title": "PLACEBO + 野田洋次郎",
+      "titleKeys": [
+        "placebo野田洋次郎"
+      ],
+      "titleLatin": "PLACEBO + Noda Youjirou"
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 202810,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265738",
+      "latinSource": "cutlet",
+      "popularity": 0.6917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/15/86/f3/1586f35a-9ca8-cce7-e02c-508cfbd9e654/mzaf_15074691165763677068.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-08-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "paprika",
+          "papurika",
+          "ぱぷりか"
+        ]
+      },
+      "songKey": "ぱぷりか|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%91%E3%83%97%E3%83%AA%E3%82%AB/1538265733?i=1538265738",
+      "title": "パプリカ",
+      "titleKeys": [
+        "ぱぷりか"
+      ],
+      "titleLatin": "Papurika"
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 208860,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265740",
+      "latinSource": "cutlet",
+      "popularity": 0.2917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/27/6d/bc/276dbcf8-a596-f6b7-396d-dd2e03c5fb74/mzaf_12032172152101648034.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "yasashihito",
+          "優しい人"
+        ]
+      },
+      "songKey": "優しい人|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%84%AA%E3%81%97%E3%81%84%E4%BA%BA/1538265733?i=1538265740",
+      "title": "優しい人",
+      "titleKeys": [
+        "優しい人"
+      ],
+      "titleLatin": "Yasashii hito"
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 267448,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265742",
+      "latinSource": "cutlet",
+      "popularity": 0.7083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5b/a5/0c/5ba50c9e-d726-e6c0-2f6a-82d68980e004/mzaf_6323591299026793560.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-05-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "machigaisagashi",
+          "まちがいさがし"
+        ]
+      },
+      "songKey": "まちがいさがし|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%BE%E3%81%A1%E3%81%8C%E3%81%84%E3%81%95%E3%81%8C%E3%81%97/1538265733?i=1538265742",
+      "title": "まちがいさがし",
+      "titleKeys": [
+        "まちがいさがし"
+      ],
+      "titleLatin": "Machigai sagashi"
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 242036,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265743",
+      "latinSource": "cutlet",
+      "popularity": 0.325,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/32/0a/50/320a50c7-865a-f190-a307-9fcac2847f3a/mzaf_3255546261252867551.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "himawari",
+          "ひまわり"
+        ]
+      },
+      "songKey": "ひまわり|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%B2%E3%81%BE%E3%82%8F%E3%82%8A/1538265733?i=1538265743",
+      "title": "ひまわり",
+      "titleKeys": [
+        "ひまわり"
+      ],
+      "titleLatin": "Himawari"
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 226723,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265744",
+      "latinSource": "cutlet",
+      "popularity": 0.3583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cb/e2/d4/cbe2d428-3ec1-cedc-c13e-8704a5d4c79a/mzaf_11993059329706191563.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "mayoeruhitsuji",
+          "迷える羊"
+        ]
+      },
+      "songKey": "迷える羊|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%BF%B7%E3%81%88%E3%82%8B%E7%BE%8A/1538265733?i=1538265744",
+      "title": "迷える羊",
+      "titleKeys": [
+        "迷える羊"
+      ],
+      "titleLatin": "Mayoeru hitsuji"
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 209585,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265745",
+      "latinSource": null,
+      "popularity": 0.1917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3b/2d/8f/3b2d8f3a-7d94-2eae-d64e-756bd1fd244b/mzaf_17502719960199462127.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "decollete"
+        ]
+      },
+      "songKey": "decollete|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/d%C3%A9collet%C3%A9/1538265733?i=1538265745",
+      "title": "Décolleté",
+      "titleKeys": [
+        "decollete"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538265733",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 298363,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538265748",
+      "latinSource": "cutlet",
+      "popularity": 0.6417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/52/9e/95/529e95d1-2f8e-9be2-cd9b-de3ca3129b6d/mzaf_2329503938333523453.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "canaria",
+          "kanariya",
+          "かなりや"
+        ]
+      },
+      "songKey": "かなりや|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AB%E3%83%8A%E3%83%AA%E3%83%A4/1538265733?i=1538265748",
+      "title": "カナリヤ",
+      "titleKeys": [
+        "かなりや"
+      ],
+      "titleLatin": "Kanariya"
+    },
+    {
+      "albumId": "apple:al:1538275115",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 243336,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538275658",
+      "latinSource": "cutlet",
+      "popularity": 0.5417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5a/f5/10/5af51011-03cc-41fe-bba7-d16d63da52cd/mzaf_7081394394805227924.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "hien",
+          "飛燕"
+        ]
+      },
+      "songKey": "飛燕|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%A3%9B%E7%87%95/1538275115?i=1538275658",
+      "title": "飛燕",
+      "titleKeys": [
+        "飛燕"
+      ],
+      "titleLatin": "Hien"
+    },
+    {
+      "albumId": "apple:al:1538275115",
+      "artistDisplay": "米津玄師 & 初音ミク",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 240030,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538275661",
+      "latinSource": "cutlet",
+      "popularity": 0.6833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b9/46/24/b946241a-efa8-e500-3d2d-66bbbea5410f/mzaf_17167093904270199288.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "sunanowakuseihatsunemiku",
+          "砂の惑星初音みく"
+        ]
+      },
+      "songKey": "砂の惑星初音みく|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%A0%82%E3%81%AE%E6%83%91%E6%98%9F-%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF/1538275115?i=1538275661",
+      "title": "砂の惑星 ( + 初音ミク )",
+      "titleKeys": [
+        "砂の惑星初音みく"
+      ],
+      "titleLatin": "Suna no wakusei (+ Hatsune Miku)"
+    },
+    {
+      "albumId": "apple:al:1538275115",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 295730,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538275663",
+      "latinSource": "cutlet",
+      "popularity": 0.4167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3d/6a/8d/3d6a8df2-41b4-b988-8b64-fc610af51fed/mzaf_15224722324482547039.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "kaijunomachi",
+          "kaijunomarch",
+          "かいじゅうのまーち"
+        ]
+      },
+      "songKey": "かいじゅうのまーち|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8B%E3%81%84%E3%81%98%E3%82%85%E3%81%86%E3%81%AE%E3%83%9E%E3%83%BC%E3%83%81/1538275115?i=1538275663",
+      "title": "かいじゅうのマーチ",
+      "titleKeys": [
+        "かいじゅうのまーち"
+      ],
+      "titleLatin": "Kaijuu no maachi"
+    },
+    {
+      "albumId": "apple:al:1538275115",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 224701,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538275664",
+      "latinSource": null,
+      "popularity": 0.0333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cb/ef/14/cbef148e-0479-c26f-ac93-c0e6f8adc682/mzaf_10017130787473983196.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "monlight"
+        ]
+      },
+      "songKey": "moonlight|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/moonlight/1538275115?i=1538275664",
+      "title": "Moonlight",
+      "titleKeys": [
+        "moonlight"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538275115",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 288888,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538275665",
+      "latinSource": "cutlet",
+      "popularity": 0.7583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2f/eb/74/2feb7426-be2c-821e-1564-5071c60908a3/mzaf_2565949032972736858.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "shunrai",
+          "春雷"
+        ]
+      },
+      "songKey": "春雷|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%98%A5%E9%9B%B7/1538275115?i=1538275665",
+      "title": "春雷",
+      "titleKeys": [
+        "春雷"
+      ],
+      "titleLatin": "Shunrai"
+    },
+    {
+      "albumId": "apple:al:1538275115",
+      "artistDisplay": "米津玄師 & 池田エライザ",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 255250,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538275666",
+      "latinSource": "cutlet",
+      "popularity": 0.025,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/70/2f/80/702f8092-1da8-62e2-b6c6-e634c218bd1b/mzaf_15912268555037741204.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "fogbond池田えらいざ",
+          "fogbonjikedaeraiza"
+        ]
+      },
+      "songKey": "fogbound池田えらいざ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/fogbound-%E6%B1%A0%E7%94%B0%E3%82%A8%E3%83%A9%E3%82%A4%E3%82%B6/1538275115?i=1538275666",
+      "title": "fogbound ( + 池田エライザ )",
+      "titleKeys": [
+        "fogbound池田えらいざ"
+      ],
+      "titleLatin": "Fogbound (+ Ikeda eraiza)"
+    },
+    {
+      "albumId": "apple:al:1538275115",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 189765,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538275668",
+      "latinSource": "cutlet",
+      "popularity": 0.5167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/68/b8/d6/68b8d65a-7d48-82a6-35e2-e4aff53f42ca/mzaf_7067520358508058539.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "爱丽丝"
+        ]
+      },
+      "songKey": "爱丽丝|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%88%B1%E4%B8%BD%E4%B8%9D/1538275115?i=1538275668",
+      "title": "爱丽丝",
+      "titleKeys": [
+        "爱丽丝"
+      ],
+      "titleLatin": "爱丽 丝"
+    },
+    {
+      "albumId": "apple:al:1538275115",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 260405,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538275669",
+      "latinSource": null,
+      "popularity": 0.3917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d9/d3/fc/d9d3fc9f-a537-b75c-670e-2808b289bc44/mzaf_2886275440960995956.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "nighthawks"
+        ]
+      },
+      "songKey": "nighthawks|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/nighthawks/1538275115?i=1538275669",
+      "title": "Nighthawks",
+      "titleKeys": [
+        "nighthawks"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538275115",
+      "artistDisplay": "米津玄師 & 菅田 将暉",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 332132,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538275671",
+      "latinSource": "cutlet",
+      "popularity": 0.8083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6b/b0/c6/6bb0c60b-58c7-334a-bcb1-433a7cfe8738/mzaf_13589590510101005825.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-10-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "hairotoaosugatasusumuakira",
+          "灰色と青菅田将暉"
+        ]
+      },
+      "songKey": "灰色と青菅田将暉|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%81%B0%E8%89%B2%E3%81%A8%E9%9D%92-%E8%8F%85%E7%94%B0%E5%B0%86%E6%9A%89/1538275115?i=1538275671",
+      "title": "灰色と青 ( + 菅田将暉 )",
+      "titleKeys": [
+        "灰色と青菅田将暉"
+      ],
+      "titleLatin": "Haiiro to ao (+ Sugata Susumu Akira)"
+    },
+    {
+      "albumId": "apple:al:1568993234",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 296555,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1568993237",
+      "latinSource": null,
+      "popularity": 0.9833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c6/82/42/c68242ce-c572-afba-18d2-c42867debd32/mzaf_18080166557325971658.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-05-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "paleblue"
+        ]
+      },
+      "songKey": "paleblue|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/pale-blue/1568993234?i=1568993237",
+      "title": "Pale Blue",
+      "titleKeys": [
+        "paleblue"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1568993234",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 304694,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1568993238",
+      "latinSource": "cutlet",
+      "popularity": 0.7167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/61/95/76/619576c3-d91a-2e20-cd83-8a0b8ed7ee33/mzaf_10417994255055548067.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-06-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "yumeutsutsudaydream",
+          "ゆめうつつdaydream"
+        ]
+      },
+      "songKey": "ゆめうつつdaydream|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%86%E3%82%81%E3%81%86%E3%81%A4%E3%81%A4-daydream/1568993234?i=1568993238",
+      "title": "ゆめうつつ - Daydream",
+      "titleKeys": [
+        "ゆめうつつdaydream"
+      ],
+      "titleLatin": "Yume utsutsu - Daydream"
+    },
+    {
+      "albumId": "apple:al:1568993234",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 180710,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1568993239",
+      "latinSource": "cutlet",
+      "popularity": 0.8667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a6/0a/8b/a60a8b47-f3ad-51db-1bd2-959c6146b01d/mzaf_14888757117200802307.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-06-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "shinigami",
+          "死神"
+        ]
+      },
+      "songKey": "死神|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%AD%BB%E7%A5%9E/1568993234?i=1568993239",
+      "title": "死神",
+      "titleKeys": [
+        "死神"
+      ],
+      "titleLatin": "Shinigami"
+    },
+    {
+      "albumId": "apple:al:1606890884",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 199187,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606890892",
+      "latinSource": null,
+      "popularity": 0.9167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/65/ee/7f/65ee7f6d-ae58-9abc-a9f4-1fdd3853505c/mzaf_4782801107744505955.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-02-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "popsong"
+        ]
+      },
+      "songKey": "popsong|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/pop-song/1606890884?i=1606890892",
+      "title": "POP SONG",
+      "titleKeys": [
+        "popsong"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1621463789",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 263123,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1621463792",
+      "latinSource": "cutlet",
+      "popularity": 0.975,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/bc/f3/48/bcf348b0-7bdb-9f03-688e-211a4ee23eb9/mzaf_1008786234615776517.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-05-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "mhachinana",
+          "m八七"
+        ]
+      },
+      "songKey": "m八七|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/m%E5%85%AB%E4%B8%83/1621463789?i=1621463792",
+      "title": "M八七",
+      "titleKeys": [
+        "m八七"
+      ],
+      "titleLatin": "M hachi nana"
+    },
+    {
+      "albumId": "apple:al:1621463789",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 287787,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1621463794",
+      "latinSource": null,
+      "popularity": 0.6583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/41/4e/64/414e64ec-8e5a-6b69-9ec4-e857966dca4c/mzaf_4866898109614047988.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-05-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "eta"
+        ]
+      },
+      "songKey": "eta|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/eta/1621463789?i=1621463794",
+      "title": "ETA",
+      "titleKeys": [
+        "eta"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1648272179",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 193495,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1648272180",
+      "latinSource": null,
+      "popularity": 0.9917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/86/2d/45/862d4572-805c-3a72-49a4-905a8c327888/mzaf_14805576631717868964.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-10-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "kickback"
+        ]
+      },
+      "songKey": "kickback|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/kick-back/1648272179?i=1648272180",
+      "title": "KICK BACK",
+      "titleKeys": [
+        "kickback",
+        "kickbackanimeedit"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1653922186",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 221781,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1653922189",
+      "latinSource": "cutlet",
+      "popularity": 0.5667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7e/77/7b/7e777bd1-1e26-3219-98e3-27a2da7f138b/mzaf_13298719829884026159.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-11-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "hazukashikutteshogane",
+          "恥ずかしくってしょうがねえ"
+        ]
+      },
+      "songKey": "恥ずかしくってしょうがねえ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%A5%E3%81%9A%E3%81%8B%E3%81%97%E3%81%8F%E3%81%A3%E3%81%A6%E3%81%97%E3%82%87%E3%81%86%E3%81%8C%E3%81%AD%E3%81%88/1653922186?i=1653922189",
+      "title": "恥ずかしくってしょうがねえ",
+      "titleKeys": [
+        "恥ずかしくってしょうがねえ"
+      ],
+      "titleLatin": "Hazukashiku tte shou ga nee"
+    },
+    {
+      "albumId": "apple:al:1676871797",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 207167,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1676871814",
+      "latinSource": null,
+      "popularity": 0.9,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5c/5b/1b/5c5b1b6e-4054-6bd9-54ea-dab044a9a99b/mzaf_14354974032468270921.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-03-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "lady"
+        ]
+      },
+      "songKey": "lady|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/lady/1676871797?i=1676871814",
+      "title": "LADY",
+      "titleKeys": [
+        "lady"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1691843901",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 252340,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1691843910",
+      "latinSource": "cutlet",
+      "popularity": 0.8917,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3c/ff/91/3cff9176-53f2-f49b-baa8-fd61d8c06385/mzaf_737173979975291900.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-06-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "tsukiwomiteitamongajing",
+          "月を見ていたmongajing"
+        ]
+      },
+      "songKey": "月を見ていたmoongazing|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%9C%88%E3%82%92%E8%A6%8B%E3%81%A6%E3%81%84%E3%81%9F-moongazing/1691843901?i=1691843910",
+      "title": "月を見ていた - Moongazing",
+      "titleKeys": [
+        "月を見ていたmoongazing"
+      ],
+      "titleLatin": "Tsuki wo mite ita - Moongazing"
+    },
+    {
+      "albumId": "apple:al:1695666889",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 273438,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1695666895",
+      "latinSource": "cutlet",
+      "popularity": 0.9417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8f/51/47/8f51474f-e527-46b9-9755-07d0b409129e/mzaf_13829245682652945491.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-07-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "chikyugispiningglobe",
+          "地球儀spiningglobe"
+        ]
+      },
+      "songKey": "地球儀spinningglobe|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%9C%B0%E7%90%83%E5%84%80-spinning-globe/1695666889?i=1695666895",
+      "title": "地球儀 - Spinning Globe",
+      "titleKeys": [
+        "地球儀spinningglobe"
+      ],
+      "titleLatin": "Chikyuugi - Spinning Globe"
+    },
+    {
+      "albumId": "apple:al:1737134871",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 201252,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1737134872",
+      "latinSource": "cutlet",
+      "popularity": 0.9583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/25/42/c6/2542c67e-a056-c0d3-2b66-ba0ca7fd14d8/mzaf_7061566651028477765.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-04-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "sayonaramataitsukasayonara",
+          "さよーならまたいつかsayonara"
+        ]
+      },
+      "songKey": "さよーならまたいつかsayonara|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%95%E3%82%88%E3%83%BC%E3%81%AA%E3%82%89%E3%81%BE%E3%81%9F%E3%81%84%E3%81%A4%E3%81%8B-sayonara/1737134871?i=1737134872",
+      "title": "さよーならまたいつか!- Sayonara",
+      "titleKeys": [
+        "さよーならまたいつかsayonara"
+      ],
+      "titleLatin": "Sa you nara mata itsu ka!- Sayonara"
+    },
+    {
+      "albumId": "apple:al:1746214379",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 182140,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1746214390",
+      "latinSource": "cutlet",
+      "popularity": 0.8167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/eb/c5/77/ebc57714-88f6-d8e6-7d43-099f36fe0191/mzaf_14786411521429622565.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-05-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "mainichieveryday",
+          "毎日everyday"
+        ]
+      },
+      "songKey": "毎日everyday|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%AF%8E%E6%97%A5-every-day/1746214379?i=1746214390",
+      "title": "毎日 - Every Day",
+      "titleKeys": [
+        "毎日everyday"
+      ],
+      "titleLatin": "Mainichi - Every Day"
+    },
+    {
+      "albumId": "apple:al:1759899363",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 151627,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759899364",
+      "latinSource": null,
+      "popularity": 0.7,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/03/c2/1c/03c21c72-ff58-122b-03a8-d5b423ac5147/mzaf_14689360318245542423.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "redot"
+        ]
+      },
+      "songKey": "redout|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/red-out/1759899363?i=1759899364",
+      "title": "RED OUT",
+      "titleKeys": [
+        "redout"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1759899363",
+      "artistDisplay": "米津玄師 & アイナ・ジ・エンド",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 183120,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759899366",
+      "latinSource": "cutlet",
+      "popularity": 0.425,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/09/3a/5d/093a5d9e-8317-d2e1-479a-b5517f03383c/mzaf_3199796677909489014.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "marugeritainajiend",
+          "marugeritainajiendo",
+          "まるげりーたあいなじえんど"
+        ]
+      },
+      "songKey": "まるげりーたあいなじえんど|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9E%E3%83%AB%E3%82%B2%E3%83%AA%E3%83%BC%E3%82%BF-%E3%82%A2%E3%82%A4%E3%83%8A-%E3%82%B8-%E3%82%A8%E3%83%B3%E3%83%89/1759899363?i=1759899366",
+      "title": "マルゲリータ + アイナ・ジ・エンド",
+      "titleKeys": [
+        "まるげりーたあいなじえんど"
+      ],
+      "titleLatin": "Marugeriita+ Aina ji endo"
+    },
+    {
+      "albumId": "apple:al:1759899363",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 170640,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759899373",
+      "latinSource": "cutlet",
+      "popularity": 0.1417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fa/95/85/fa9585d7-9865-fd61-963d-1db2fad585d2/mzaf_863906623746801660.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "tomaremiyostoplokbothways",
+          "とまれみよstoplokbothways"
+        ]
+      },
+      "songKey": "とまれみよstoplookbothways|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%A8%E3%81%BE%E3%82%8C%E3%81%BF%E3%82%88-stop-look-both-ways/1759899363?i=1759899373",
+      "title": "とまれみよ - Stop Look Both Ways",
+      "titleKeys": [
+        "とまれみよstoplookbothways"
+      ],
+      "titleLatin": "Tomare miyo - Stop Look Both Ways"
+    },
+    {
+      "albumId": "apple:al:1759899363",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 174907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759899374",
+      "latinSource": null,
+      "popularity": 0.1167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a1/c3/72/a1c372f4-60f1-0f04-93d9-fc5961b2b478/mzaf_12392860288528074810.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "lensflare"
+        ]
+      },
+      "songKey": "lensflare|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/lens-flare/1759899363?i=1759899374",
+      "title": "LENS FLARE",
+      "titleKeys": [
+        "lensflare"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1759899363",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 237600,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759899378",
+      "latinSource": "cutlet",
+      "popularity": 0.8,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/97/86/ff/9786ffe0-4d41-6b75-9cae-740d309821b9/mzaf_12691685362962680957.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "garakutajunk",
+          "がらくたjunk"
+        ]
+      },
+      "songKey": "がらくたjunk|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8C%E3%82%89%E3%81%8F%E3%81%9F-junk/1759899363?i=1759899378",
+      "title": "がらくた - JUNK",
+      "titleKeys": [
+        "がらくたjunk"
+      ],
+      "titleLatin": "Garakuta - JUNK"
+    },
+    {
+      "albumId": "apple:al:1759899363",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 172520,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759899439",
+      "latinSource": null,
+      "popularity": 0.125,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c2/53/23/c25323ec-169a-bac8-7fc0-b0c36201aff2/mzaf_9506421927239703266.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "yellowghost"
+        ]
+      },
+      "songKey": "yellowghost|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/yellow-ghost/1759899363?i=1759899439",
+      "title": "YELLOW GHOST",
+      "titleKeys": [
+        "yellowghost"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1759899363",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 244773,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759899440",
+      "latinSource": null,
+      "popularity": 0.1,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/33/87/0f/33870f78-07da-68a3-8d3a-9f8c59fdefad/mzaf_7726253240825299660.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "postfuman"
+        ]
+      },
+      "songKey": "posthuman|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/post-human/1759899363?i=1759899440",
+      "title": "POST HUMAN",
+      "titleKeys": [
+        "posthuman"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1759899363",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 223213,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759899442",
+      "latinSource": null,
+      "popularity": 0.3083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9a/35/d6/9a35d69b-100d-b604-8df4-9e361574c587/mzaf_10174034607257305889.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "lostcorner"
+        ]
+      },
+      "songKey": "lostcorner|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/lost-corner/1759899363?i=1759899442",
+      "title": "LOST CORNER",
+      "titleKeys": [
+        "lostcorner"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1759899363",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 140360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759899443",
+      "latinSource": "cutlet",
+      "popularity": 0.1083,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d3/d3/8d/d3d38db7-4d3e-f1b4-6986-974d6c12d13f/mzaf_10968423635507074363.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "ohayo",
+          "おはよう"
+        ]
+      },
+      "songKey": "おはよう|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8A%E3%81%AF%E3%82%88%E3%81%86/1759899363?i=1759899443",
+      "title": "おはよう",
+      "titleKeys": [
+        "おはよう"
+      ],
+      "titleLatin": "Ohayou"
+    },
+    {
+      "albumId": "apple:al:1776984409",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 208294,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1776984411",
+      "latinSource": null,
+      "popularity": 0.7417,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2d/05/1e/2d051e74-c948-91af-9366-8e2229233621/mzaf_5690843007139597457.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "azalea"
+        ]
+      },
+      "songKey": "azalea|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/azalea/1776984409?i=1776984411",
+      "title": "Azalea",
+      "titleKeys": [
+        "azalea"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1789465886",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 180833,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1789465887",
+      "latinSource": null,
+      "popularity": 0.925,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e5/af/15/e5af153c-f2c4-6d71-5f00-8b3859fa9f5b/mzaf_5366638015237275202.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-01-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "plazma"
+        ]
+      },
+      "songKey": "plazma|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/plazma/1789465886?i=1789465887",
+      "title": "Plazma",
+      "titleKeys": [
+        "plazma"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1790607805",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 175727,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1790607807",
+      "latinSource": null,
+      "popularity": 0.8583,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/94/ec/1f/94ec1fc7-1c11-4533-26f6-8ef4a850c8de/mzaf_16063990749607158601.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-01-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "bowandarrow"
+        ]
+      },
+      "songKey": "bowandarrow|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/bow-and-arrow/1790607805?i=1790607807",
+      "title": "BOW AND ARROW",
+      "titleKeys": [
+        "bowandarrow"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1837658528",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 151573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1837658529",
+      "latinSource": null,
+      "popularity": 0.9667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/90/85/cb/9085cb94-33c8-78bc-b8a6-4750232a210d/mzaf_5526054165895597852.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-09-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "irisot"
+        ]
+      },
+      "songKey": "irisout|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/iris-out/1837658528?i=1837658529",
+      "title": "IRIS OUT",
+      "titleKeys": [
+        "irisout"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1840081735",
+      "artistDisplay": "米津玄師 & 宇多田ヒカル",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 235947,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1840081736",
+      "latinSource": null,
+      "popularity": 0.875,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e5/62/c4/e562c413-da81-e035-012b-4b66a15905f3/mzaf_11070624371709155420.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-09-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "janedoe"
+        ]
+      },
+      "songKey": "janedoe|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/jane-doe/1840081735?i=1840081736",
+      "title": "JANE DOE",
+      "titleKeys": [
+        "janedoe"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1844274882",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 227392,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1844275014",
+      "latinSource": null,
+      "popularity": 0.75,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/32/91/dd/3291dd13-6b32-e0ba-7d11-1f427249069e/mzaf_18361477939632910025.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-10-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "1991"
+        ]
+      },
+      "songKey": "1991|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/1991/1844274882?i=1844275014",
+      "title": "1991",
+      "titleKeys": [
+        "1991"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1852929105",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 199800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1852929108",
+      "latinSource": "cutlet",
+      "popularity": 0.6,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e8/0d/18/e80d18c2-e5a0-90bc-2fee-fdc2ca84df11/mzaf_3117990360199610548.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-11-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "toremoro",
+          "tremolo",
+          "とれもろ"
+        ]
+      },
+      "songKey": "とれもろ|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%88%E3%83%AC%E3%83%A2%E3%83%AD/1852929105?i=1852929108",
+      "title": "トレモロ",
+      "titleKeys": [
+        "とれもろ"
+      ],
+      "titleLatin": "Toremoro"
+    },
+    {
+      "albumId": "apple:al:6774039193",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 248495,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6774039202",
+      "latinSource": "cutlet",
+      "popularity": 0.8333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1e/1a/8e/1e1a8e3d-5249-1e67-6a45-1a8520756653/mzaf_16789981099640879663.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-06-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "karasuraven",
+          "烏raven"
+        ]
+      },
+      "songKey": "烏raven|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%83%8F-raven/6774039193?i=6774039202",
+      "title": "烏 - Raven",
+      "titleKeys": [
+        "烏raven"
+      ],
+      "titleLatin": "Karasu - Raven"
+    },
+    {
+      "albumId": "apple:al:6785367850",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "durationMs": 198051,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6785367852",
+      "latinSource": "cutlet",
+      "popularity": 0.725,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/43/a6/43/43a64357-bd32-27df-82c9-6cfa3cd2b458/mzaf_6484176859060895757.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-07-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "yotakayodaka",
+          "夜鷹yodaka"
+        ]
+      },
+      "songKey": "夜鷹yodaka|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%9C%E9%B7%B9-yodaka/6785367850?i=6785367852",
+      "title": "夜鷹 - Yodaka",
+      "titleKeys": [
+        "夜鷹yodaka"
+      ],
+      "titleLatin": "Yotaka - Yodaka"
+    }
+  ]
+}

@@ -108,6 +108,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P145 | O selo da rodada no modo por artista continua levando à playlist da parada (`PLAYLIST_URL`): sem campo de URL novo |
 | P146 | O botão e o pop-up do modo por artista dizem "Trocar de artista" |
 | P147 | Cartão da lista: o nome, o latino ao lado (como na ME55) e o número de músicas |
+| P160 | Fora do modo por artista a faixa em que o artista só aparece creditado por um sample ("the NOISE", do LE SSERAFIM, com o 夜に駆ける do YOASOBI) |
 
 ## 3. Fonte de dados (ligada no M11)
 
@@ -185,7 +186,7 @@ musicle-jp/
 | M9 | Concluído em 09/10/2026 | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review`, ferramentas de PR do app (Auto-fix) |
 | M10 | Concluído em 10/10/2026 | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions, navegador do Claude na URL pública |
 | M11 | Concluído em 11/10/2026 | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
-| M13 | Em andamento (PR A) | Modo por artista: a lista de artistas e rodadas sem fim do Desafio com as músicas de um deles (Apêndice K). Feito antes do M12 (o visual) | 3 PRs: pipeline e fixtures (A), dados reais dos 6 artistas (B), web (C) | Planejamento com 3 subagentes Explore e um Plan |
+| M13 | Em andamento (PRs A e B) | Modo por artista: a lista de artistas e rodadas sem fim do Desafio com as músicas de um deles (Apêndice K). Feito antes do M12 (o visual) | 3 PRs: pipeline e fixtures (A), dados reais dos 6 artistas (B), web (C) | Planejamento com 3 subagentes Explore e um Plan |
 
 **Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
 
@@ -726,6 +727,17 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 - **Arquivos** (P129 e P130): `index.json` e um `<id>.json` por artista, cada um abaixo de 1 MB (o `validate-artists` confere, com o schema, as referências, os hosts e a forma canônica).
 - **Robô semanal**: não toca em nada disso. A lista fechada dele continua a mesma, e a atualização dos artistas é à mão.
 - **Fixtures** (P139): `pipeline/fixtures/artists/`, com a tabela de casos no README de lá.
+- **Dados reais** (PR B, busca de 12/10/2026, 16:15 UTC): 755 músicas.
+  - YOASOBI 37, LiSA 200 (9 cortadas pelo teto), Eve 124, Ado 96, Aimer 178 e 米津玄師 120.
+  - Os snapshots têm de 109 KB (YOASOBI) a 575 KB (LiSA, 671 faixas); os arquivos publicados, de 58 a 260 KB.
+  - O lookup de músicas veio no limite de 200 para LiSA, Ado e Aimer: o resto vem pelos álbuns.
+  - Curadoria:
+    - YOASOBI: os E-SIDE 1 a 4 e 7 singles em inglês sem o sufixo (Idol, Adventure, Monotone, On the Stage, The Blessing, The Brave, The Swallow) no `exclude_albums`, e "the NOISE" (do LE SSERAFIM, com o YOASOBI creditado só pelo sample de 夜に駆ける, P160) no `exclude_tracks`;
+    - LiSA: "ROCK-mode'18" (a regravação de 2018) no `same_song` de "ROCK-mode";
+    - Aimer: "bL∞dy f8 -eUC-", "ninelie <cry-v>" e "i-mage <in/AR>" (o "<…>" do SawanoHiroyuki[nZk]) no `same_song`, e "After Dark -prologue-" (a abertura de 68 s, sem a música inteira na loja) no `exclude_tracks`;
+    - `aliases.toml`: o latino de アドレナ ("Adorena"; o cutlet deu "Ado Rena").
+  - A revisão do PR B achou versões que escaparam das regras; duas viraram regra no `artists.py`: o "-X-" grudado no nome, de uma palavra só ("Empty MERMAiD-Instrumental-"), e a versão que não entra no fim do título sem delimitador ("六等星の夜 Tvsize"). O teste `test_published_artist_titles_are_not_out_versions` recusa título publicado com instrumental, karaokê, off vocal ou TV size.
+  - Hipóteses conferidas: o THE FIRST TAKE vem como " - From THE FIRST TAKE"; o filtro de álbuns deixou de 0 a 5 faixas de coletânea por artista, que nunca são a canônica; o lookup de músicas começa pelos sucessos (アイドル e 夜に駆ける; 唱 e 新時代; 打上花火 e KICK BACK), o que sustenta a P133 (indício, não prova).
 
 ## Origem
 

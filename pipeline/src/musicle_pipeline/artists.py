@@ -79,6 +79,15 @@ _ARTIST_TAILS = (
     # O hífen sem o de fechamento, só quando o sufixo é uma versão ("-short size ver.",
     # "-ANIME edit").
     re.compile(r"\s+-(\S[^-]*\b(?:ver(?:sion)?\.?|edit))\s*$", re.IGNORECASE),
+    # O "-X-" grudado no nome, sem o espaço antes ("Empty MERMAiD-Instrumental-", da LiSA), de
+    # uma palavra só: com espaço, o "-NiNE Live ver.-" de "ADAMAS -ONLiNE LEO-NiNE Live ver.-"
+    # partiria o sufixo inteiro. Só um sufixo conhecido muda a chave ("ROCK-mode" fica igual).
+    re.compile(r"(?<=\S)-([^\s-]+)-\s*$"),
+)
+# Versão que não entra, no fim do título e sem delimitador: "六等星の夜 Tvsize" (Aimer). A
+# música que só tem essa versão sai da lista, como as outras de "out".
+_UNDELIMITED_OUT = re.compile(
+    r"\s(?:tv\s*-?\s*(?:size|サイズ)|instrumental|karaoke|off\s*vocal)$", re.IGNORECASE
 )
 # Álbum ao vivo (o título da faixa às vezes não diz) e em inglês (P135, P124). Só com marcador
 # de show: "Live to Survive - Single" (Aimer) é um single de estúdio. O que escapar vai para o
@@ -197,7 +206,7 @@ def version_kind(track: RawTrack) -> Literal["out", "secondary"] | None:
     if _LIVE_ALBUM.search(album) or _ENGLISH_ALBUM.search(album):
         return "out"
     nfkc = unicodedata.normalize("NFKC", track.title).strip()
-    if _NOT_A_SONG.match(nfkc):
+    if _NOT_A_SONG.match(nfkc) or _UNDELIMITED_OUT.search(nfkc):
         return "out"
     credit = False
     s = nfkc

@@ -117,16 +117,17 @@ def test_build_never_imports_the_romaji_library(tmp_path):
     assert result.stdout.strip().splitlines()[-1] == "[]"
 
 
-def test_committed_artist_cache_covers_the_fixture_artists():
-    assert main(["romanize", "--provider", "fixture", "--artists", "--check"]) == 0
+@pytest.mark.parametrize("provider", ["fixture", "apple"])
+def test_committed_artist_cache_covers_the_artists(provider):
+    assert main(["romanize", "--provider", provider, "--artists", "--check"]) == 0
 
 
-# Os quatro caches: a parada e o modo por artista (M13) de cada provedor (o de artistas da Apple
-# entra com os dados reais).
+# Os quatro caches: a parada e o modo por artista (M13) de cada provedor.
 CACHES = {
     "fixture": provider_paths("fixture").romaji,
     "apple": provider_paths("apple").romaji,
     "fixture-artists": artist_paths("fixture").romaji,
+    "apple-artists": artist_paths("apple").romaji,
 }
 
 
