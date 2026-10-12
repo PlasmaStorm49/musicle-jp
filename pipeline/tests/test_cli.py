@@ -16,7 +16,7 @@ COMMITTED = {
 
 
 # Os arquivos do modo por artista (M13), separados: a pasta inteira, não um arquivo.
-COMMITTED_ARTISTS = {"fixture": artist_paths("fixture").public_dir}
+COMMITTED_ARTISTS = {p: artist_paths(p).public_dir for p in ("fixture", "apple")}
 
 
 def _build(out, provider: str = "fixture") -> int:
