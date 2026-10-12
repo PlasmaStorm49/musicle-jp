@@ -76,8 +76,11 @@ jobs:
           else
             base="HEAD^1" # branch novo (before = 000...) ou revisão inalcançável
           fi
-          echo "Comparando a agenda com: $base"
-          python -m musicle_pipeline schedule-check --base-ref "$base"
+          # Hoje em Brasília (P44): dia novo não pode ter passado. E os dias novos precisam ser os
+          # que o gerador daria com o catálogo do mesmo commit (regra inviolável 3, ME45 e ME51).
+          today="$(TZ=America/Sao_Paulo date +%F)"
+          echo "Comparando a agenda com: $base (hoje em Brasília: $today)"
+          python -m musicle_pipeline schedule-check --base-ref "$base" --today "$today"
 
   web:
     runs-on: ubuntu-24.04

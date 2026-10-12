@@ -106,7 +106,7 @@ Pesquisa de 10/10/2026 (subagente; JSON lido de verdade, nenhum áudio baixado):
 musicle-jp/
   CLAUDE.md  README.md  .gitignore  .gitattributes  .editorconfig
   .claude/   settings.json, launch.json, hooks/{format_file.py, ruff.toml}, skills/verificar/SKILL.md, agents/revisor.md
-  .github/   workflows/{ci.yml, deploy.yml, update-catalog.yml}, scripts/check-catalog-pr.sh
+  .github/   workflows/{ci.yml, deploy.yml, update-catalog.yml}, scripts/{check-catalog-pr.sh, catalog-reserve.sh, catalog-collect.sh}
   docs/      PLANO.md, HISTORICO.md
   shared/    schema/*.schema.json (contrato Python↔TS), vectors/{normalize.json, prng.json, prng_reference.mjs}
   pipeline/  pyproject.toml, constraints.txt, data/apple/{aliases.toml, romaji.json, snapshots/}, fixtures/{chart_fixture.json, aliases.toml, romaji.json}
@@ -215,7 +215,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME36. Atualizar as 3 actions que têm versão nova quando ela completar 14 dias, a partir de 22/10/2026 (P28; checkup).
 - ME37. `aria-disabled` no lugar de `disabled` nos botões do Player durante o "Carregando…" (o navegador tira o foco do botão desabilitado) e um gancho comum de reprodução com ficha para o Player e a revelação (`/code-review` do PR #13).
 - ME38. Ligar no pipeline os álbuns do mesmo lançamento (o EP "A / B", os dois "ROSE - Single"), em vez da regra de nome do `acceptedIds` no web; juntaria também as linhas iguais da busca. Pede mudança de esquema (`/code-review` do PR #13).
-- ME39. Teste de componente do `Game`: o lote de prévias só dos diários pendentes, a sessão `stale` regravada e o save da abertura guardado na montagem (checkup e `/code-review` do PR #13). Nos dois modos, trocar esse retrato pelo save vivo do `App` fez a revelação da última rodada sumir, e só o e2e pegou.
+- ME39. Teste de componente do `Game` e do `App`: o lote de prévias só dos diários pendentes, a sessão `stale` regravada, o save da abertura guardado na montagem e, no `App`, a releitura do save no `hashchange` e no evento `storage` (checkup, `/code-review` do PR #13 e revisão de 12/10). Nos dois modos, trocar o retrato pelo save vivo do `App` fez a revelação da última rodada sumir, e só o e2e pegou. O resumo, a contagem e o compartilhar ganharam teste em 12/10 (ME47).
 - ME40. `RoundState.correctOptionId` é gravado, mas só os testes o leem: a tela usa o `accepted`. Tirar, ou usar no lugar do `accepted[0]` (dois modos).
 - ME41. Trocar "sem desafio" por "sem diário" nos avisos do pipeline (`schedule.py`) e do robô (`check-catalog-pr.sh`, com o teste dele) e no título do `schedule.schema.json`, como na tela (P103). O título vira o nome do tipo gerado: mudar pede o mapa de `web/scripts/gen-types.ts` e o `npm run types`.
 - ME42. Na escolha do modo do Treino, gerar a semente ao montar e pré-carregar a 1ª rodada de cada modo, para o 1º "Tocar" responder mais rápido (liga à ME18; subagente Plan da P105).
@@ -224,6 +224,19 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 
 - S7 (M9): um marco por branch e por PR.
 - Nos dois modos (P100): S14 (os nomes Normal e Desafio) e ME1 (o Desafio é o modo difícil). A S15 foi descartada: o Treino ficou só com os dois modos.
+- Na revisão noturna de 12/10/2026 (num PR só, P107):
+  - ME43: toque duplo. O 2º clique cai no botão da tela nova (o "Não sei" da rodada seguinte, em 320 px); `ui/singleClick.ts` em todo botão que troca a tela ou fica onde outro some;
+  - ME44: o robô usa o "hoje" da tarefa com token, confere o da geração e limita o último dia novo a hoje + 21;
+  - ME45: `schedule-check --today` (P44 na CI e no robô);
+  - ME46: teste de cada regra dos distratores do Normal;
+  - ME47: testes do resumo, da contagem, do compartilhar e do aviso com foco (o `App` ficou na ME39);
+  - ME48: o texto do Apêndice F sobre o save da sessão com a versão futura;
+  - ME49: foco ao entrar num diário pela nav e nas telas de erro e de dia sem diário (`ui/FocusedNotice.tsx`);
+  - ME50: o lookup de artista com as regras das faixas;
+  - ME51: o `schedule-check` regera os dias novos e exige que sejam os do gerador;
+  - ME52: a reserva e a lista fechada do robô em scripts com teste;
+  - ME53: romaji sem texto vazio, snapshot sempre depois do último da `main` e `[0-9]` no id do RSS;
+  - ME54: o máximo de pontos do i18n vindo de `MAX_POINTS`, o código morto (`unlockedSeconds`, a reexportação de `isValidDate`), o relógio do resolvedor recebido do `App` e o `pykakasi` fora do schema (sem subir o `schemaVersion`: nenhum catálogo publicado usou esse valor, e o robô recusa versão diferente).
 - No PR B do M11: ME9 (partículas `は` e `へ` na consulta em kana), ME13 (`cache: "no-cache"`) e ME14 (folga da agenda no resumo do deploy).
 - No checkup de 11/10/2026:
   - ME16 e ME22: parceiros conhecidos nos `artistIds` da faixa (PR #12);
@@ -402,7 +415,7 @@ Uma parte só do nome de um álbum certo não basta (a resposta 爆裂愛して�
 3. **Por rodada:** candidatos = elegíveis fora da janela, sem repetir faixa, música, álbum ou artista do dia, ordenados por `(-popularity, id)`. A faixa de dificuldade é cortada **depois** do filtro: a rodada 1 sorteia entre os primeiros ceil(n/3), a 2 entre os primeiros ceil(2n/3) e a 3 entre todos.
 4. **rng** = `mulberry32(fnv1a32("musicle-jp|<data>|<alvo>"))`, alvo `song` ou `album`. No Normal (`album`), **7 números por rodada:** 1 para a resposta, 3 para escolher os distratores (Fisher-Yates parcial sobre o `similar` do álbum, sem os álbuns e as músicas das outras respostas do diário) e 3 para embaralhar as 4 opções. No Desafio (`song`), desde a P102, só 1: o da resposta (antes, 7, com distratores de faixa). A mudança vale só para os dias novos; o `schedule-check` protege os gravados.
 5. **Afrouxamento,** com log: primeiro o artista passa a valer só dentro do mesmo diário; depois a janela encolhe (K−1 … 0). Faixa, música e álbum nunca repetem no dia. Com a parada fictícia: zero afrouxamentos em 61 dias (teste).
-6. **Só acréscimo, sem exceção.** Dia gravado nunca muda. Resposta futura que deixou de ser elegível gera **aviso** e o jogo anula a rodada sem penalidade. `schedule-check --base-ref <ref>` compara com uma revisão do git (no M9, com `fetch-depth: 0` e `github.event.before`). O `compare` também recusa dia novo antes do último dia da base (o buraco nunca é preenchido) e dias novos com buraco entre eles (um dia solto mais à frente congelaria a agenda) (M10).
+6. **Só acréscimo, sem exceção.** Dia gravado nunca muda. Resposta futura que deixou de ser elegível gera **aviso** e o jogo anula a rodada sem penalidade. `schedule-check --base-ref <ref>` compara com uma revisão do git (no M9, com `fetch-depth: 0` e `github.event.before`). O `compare` também recusa dia novo antes do último dia da base (o buraco nunca é preenchido) e dias novos com buraco entre eles (um dia solto mais à frente congelaria a agenda) (M10). Desde a revisão de 12/10: com `--today` (a CI e o robô passam a data de Brasília), recusa dia novo que já passou e 1º dia novo depois de `max(epoch, último + 1, hoje)`, que deixaria buraco para sempre (ME45); e regera os dias novos a partir da base, com o catálogo ao lado da agenda, exigindo que saiam iguais (ME51). Cada dia só depende dos anteriores, da data e do catálogo, então regerar do 1º ao último dia novo dá o mesmo resultado, seja qual for o `--today` da geração. Consequência: o PR do robô precisa do merge no mesmo dia. A CI dele roda quando as checagens são aprovadas (P64): aprovada num dia seguinte, ela recusa o dia que passou. Aprovada no dia e mergeada depois, a CI não roda de novo (o `strict` não reroda), e o dia passado entra; só a CI do push na `main` fica vermelha, depois do fato (limitação aceita: travar o deploy seria pior, porque a agenda só cresce).
 7. **Validação em dois níveis:** a estrutural (nenhum dia antes do `epoch`, `number`, opções, IDs; buraco é válido desde o M10) vale para todos os dias. Elegibilidade e restrições só valem na geração, para que uma regra nova não quebre o passado.
 
 **Por que não calcular no navegador:** o resultado mudaria a cada atualização semanal do catálogo.
@@ -528,7 +541,7 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
   - Migrações em `storage/migrations.ts`, uma função por versão, cada uma com o teste de um save real da versão anterior. **v1 → v2** (M11, P68): o jogo trocou a parada fictícia pela real, e as chaves são por data, então o dia fictício e o real do mesmo dia se misturariam. A migração zera o histórico e o andamento e mantém só a preferência do modo. Uma aba antiga, ainda com o código v1, lê o v2 como "future" e para de gravar. **v2 → v3** (P100): saiu o modo de resposta, e a migração zera tudo, a preferência junto (eram só jogos de teste).
 - **Duas abas:** `updateSave` relê, mescla e grava. No histórico, o primeiro término vence; no andamento do mesmo jogo, vence a lista de eventos mais longa. O resumo relê o save, então mostra o resultado que ficou gravado. **Limitação aceita:** com duas abas dá para refazer uma rodada (uma erra e vê a resposta, a outra acerta); o jogo é pessoal e não há ranking.
 - **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`), que a home também lê para os cartões, e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura e a guarda na montagem (o `latest` muda a cada gravação, e recalcular a sessão com ele pularia a revelação da última rodada), então voltar ao Desafio terminado mostra o resultado (P39). O Treino não grava nada (P50).
-- **Save da sessão** (`sessionStore`, M8): grava no navegador quando dá; o que não consegue gravar (cota cheia) fica em memória, e sem gravação nenhuma (versão futura, sem acesso) tudo fica em memória. Assim trocar de aba não perde o andamento nem nesses casos. O que foi gravado não fica em memória, para a mescla das duas abas continuar vendo o que a outra gravou.
+- **Save da sessão** (`sessionStore`, M8): grava no navegador quando dá; o que não consegue gravar (cota cheia) fica em memória, e sem gravação nenhuma (versão futura ao abrir, sem acesso) tudo fica em memória. Assim trocar de aba não perde o andamento nem nesses casos. O que foi gravado não fica em memória, para a mescla das duas abas continuar vendo o que a outra gravou. **Limitação aceita** (revisão de 12/10, ME48): se outra aba, com uma versão mais nova do jogo, grava no meio da sessão, o `updateSave` para de gravar (nunca sobrescreve a versão maior) e o aviso pede para recarregar; trocar de aba antes disso relê o save mais novo, que este código não lê, e o andamento da sessão se perde.
 - **Estatísticas:** função pura sobre o histórico, por modo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Dia que faltou** (Action ou merge parados por mais de 21 dias): desde a P44, no M10, ele vira buraco e não quebra a sequência. Risco residual: dias gerados durante uma parada e publicados só no merge entram na agenda sem que ninguém os tenha podido jogar.
 - **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no Normal, um ⬛ por "ouvir mais" e depois ✅ ou ❌; no Desafio, uma marca por tentativa. Exemplo:
   ```
@@ -612,25 +625,27 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
     - `fetch` da Apple, com `continue-on-error`: se a busca falhar, segue com aviso e o PR traz só a agenda;
     - o `fetch` recusa parada com mais de 100 itens, como o robô recusaria depois: o caminho é "PR só com a agenda", que não trava;
     - `romanize --provider apple` (só textos novos, sem `--refresh`) e `--check`. O extra `romaji` (250 MB) só é instalado quando o `--check` acusa texto novo;
-    - o passo "Parada nova" (`romanize`, `build`, `schedule` e `validate` da parada real) tem `continue-on-error` (checkup, ME25). Se a parada nova quebrar o pipeline (um texto que o cutlet não lê, um dado estranho, distratores que não fecham), o passo "Reserva" a descarta: volta o romaji, o catálogo e a agenda da `main`, apaga o snapshot novo (nunca um que já está na `main`) e refaz só a agenda. O PR traz só os dias novos, com o aviso, e a agenda não trava toda semana enquanto a faixa estiver na parada. A saída `chart` só vira `failure` quando a reserva descartou um snapshot novo;
+    - o passo "Parada nova" (`romanize`, `build`, `schedule` e `validate` da parada real) tem `continue-on-error` (checkup, ME25). Se a parada nova quebrar o pipeline (um texto que o cutlet não lê, um dado estranho, distratores que não fecham), o passo "Reserva" (`.github/scripts/catalog-reserve.sh`, com teste desde a revisão de 12/10, ME52) a descarta: volta o romaji, o catálogo e a agenda da `main`, apaga o snapshot novo (nunca um que já está na `main`) e refaz só a agenda. O PR traz só os dias novos, com o aviso, e a agenda não trava toda semana enquanto a faixa estiver na parada. A saída `chart` só vira `failure` quando a reserva descartou um snapshot novo;
     - `build` e `schedule` das duas paradas: a real e a das fixtures, que só serve ao desenvolvimento e cresce junto para o `npm run dev` ter o dia de hoje;
-    - `validate` das duas e `schedule-check`;
-    - **lista fechada** do que pode mudar: o snapshot de hoje (novo), o `romaji.json` da Apple, o catálogo real e as duas agendas. Qualquer outra mudança falha. Sem mudança, termina sem PR;
+    - `validate` das duas e `schedule-check --today` (só acréscimo, sem dia passado e os dias novos iguais aos do gerador);
+    - **lista fechada** do que pode mudar (`.github/scripts/catalog-collect.sh`, com teste, ME52): o snapshot de hoje (novo), o `romaji.json` da Apple, o catálogo real e as duas agendas. Qualquer outra mudança falha. Sem mudança, termina sem PR;
     - os avisos do `build` e do `schedule` da parada real (`aviso: ...`) vão no artefato, fora da lista, para o corpo do PR;
   - `catalog-pr` (`contents: write`, `pull-requests: write`): não roda o pipeline nem instala pacotes, então um pacote comprometido do pip nunca chega perto do token que escreve.
     - Confere de novo, só com `jq`, cada arquivo do artefato (`.github/scripts/check-catalog-pr.sh`, que vem da main e tem teste: `pipeline/tests/test_catalog_pr_script.py`, que pula sem `jq` fora da CI):
+      - o "hoje" calculado nesta tarefa, e o da geração (que saiu depois do `pip install`) tem de bater com ele (ME44);
       - só arquivos comuns da lista fechada, cada um com um JSON só;
-      - snapshot do dia, da Apple, com até 100 faixas;
-      - romaji só de acréscimo, com o mesmo motor;
+      - snapshot do dia, da Apple, com até 100 faixas e depois do último da `main` (ME53);
+      - romaji só de acréscimo, com o mesmo motor e sem texto vazio (ME53);
       - catálogo sem perder id, com URLs só nos hosts da Apple (regex com `\A` e `\z`) e os snapshots da main intactos, com o de hoje espelhando o arquivo do dia;
-      - agendas só com dias novos em sequência (P44);
+      - agendas só com dias novos em sequência (P44), até hoje + 21 (ME44);
       - `CHART=failure` com o snapshot no artefato é recusado (a reserva o apaga).
-    - Monta o PR com a parada nova (faixas novas no catálogo), os dias novos, o aviso de buraco, o aviso de parada velha (mais de 13 dias sem snapshot: a busca pode estar quebrada), o romaji novo e os avisos do pipeline para revisão, em blocos de código (título com `@` não vira menção);
-    - se o PR do dia já está aberto: com o mesmo conteúdo, não faz nada; com outro (a busca falhou de manhã e voltou à tarde, ou o PR veio do robô antigo), falha em vermelho com a instrução de fechar o PR, apagar o branch e rodar de novo;
+    - Monta o PR com a parada nova (faixas novas no catálogo), os dias novos, o aviso de buraco (e o de "merge hoje" quando a agenda acabou ontem: o 1º dia novo é hoje, e um merge no dia seguinte levaria um dia passado; revisão de 12/10), o aviso de parada velha (mais de 13 dias sem snapshot: a busca pode estar quebrada), o romaji novo e os avisos do pipeline para revisão, em blocos de código (título com `@` não vira menção);
+    - se o PR do dia já está aberto: com o mesmo conteúdo, não faz nada; com outro (a busca falhou de manhã e voltou à tarde, ou o PR veio do robô antigo), falha em vermelho com a instrução de fechar o PR, apagar o branch e rodar de novo. Branch sem PR (aconteceu em 12/10: o GitHub deu 504 ao criar o PR) também falha, com a instrução de apagar o branch e rodar de novo;
     - envia o branch `catalogo/<data>` com o token num auxiliar de credencial (fora do `.git/config`), abre o PR e fecha o anterior que ficou sem merge;
   - o PR do `GITHUB_TOKEN` não roda a CI sozinho: as checagens esperam "Approve workflows to run" (P64). O merge humano dispara o deploy; um push feito com o `GITHUB_TOKEN` não dispararia;
   - "Allow GitHub Actions to create and approve pull requests" ligado (P64). Criar e aprovar são a mesma chave: qualquer workflow com `pull-requests: write` poderia aprovar um PR. Hoje o ruleset não exige aprovação, então a `main` não fica mais aberta; rever se um dia exigir;
   - o workflow agendado é desligado depois de 60 dias sem atividade no repositório: `gh workflow enable update-catalog.yml`;
+  - o cron do GitHub pode atrasar ou ser descartado em horário de muita carga: em 12/10/2026, a 1ª segunda do robô com a Apple, ele não disparou, e o robô rodou à mão (`gh workflow run update-catalog.yml`, P108). O `catalog-runway` avisa se a agenda ficar curta;
   - `catalog-runway` (checkup, ME28; só leitura): depois das outras duas, mesmo quando elas falham (`!cancelled()`), confere a agenda da `main` com a data de Brasília calculada por ela mesma. Fica vermelha, e o GitHub manda e-mail, com menos de 10 dias à frente: numa semana normal são 14 antes do merge de segunda; com uma semana sem merge, 7. O aviso do deploy (ME14) só sai quando há deploy;
   - nenhuma tarefa nova se chama `pipeline`, `web` ou `e2e`: viraria checagem com o mesmo nome.
 - **Critérios de pronto conferidos** (M9 a M11) e o checkup: `docs/HISTORICO.md`.

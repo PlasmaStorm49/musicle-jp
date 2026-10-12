@@ -24,9 +24,11 @@ import { MODE_RULES, MODES } from "../core/rules.ts";
 import type { Day, Target } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
+import { FocusedNotice } from "./FocusedNotice.tsx";
 import { usePreviews } from "./hooks.ts";
 import { modeName } from "./modes.ts";
 import { RoundView } from "./RoundView.tsx";
+import { singleClick } from "./singleClick.ts";
 
 export type { PracticeSession };
 
@@ -115,12 +117,8 @@ function PracticeStart({ onChoose }: { readonly onChoose: (target: Target) => vo
               class="mode home-card"
               aria-labelledby={`practice-${mode}-name`}
               aria-describedby={`practice-${mode}-hint`}
-              onClick={(event) => {
-                // O Preact redesenha antes do 2º clique de um toque duplo, que cai na tela nova.
-                // Este é o 2º clique de um toque duplo no Reiniciar ou no Sim: não começa outra.
-                if (event.detail > 1) return;
-                onChoose(mode);
-              }}
+              // O 2º clique de um toque duplo no Reiniciar ou no Sim cai aqui: não começa outra.
+              onClick={singleClick(() => onChoose(mode))}
             >
               <span id={`practice-${mode}-name`} class="mode-name">
                 {modeName(mode)}
@@ -246,9 +244,8 @@ function Restart({
         ref={button}
         type="button"
         class="link"
-        onClick={(event) => {
-          // O 2º clique de um toque duplo num cartão de modo cai aqui (a tela já mudou).
-          if (event.detail > 1) return;
+        // O 2º clique de um toque duplo num cartão de modo cai aqui (a tela já mudou).
+        onClick={singleClick(() => {
           if (score.rounds === 0) {
             onRestart();
           } else if (asking) {
@@ -256,7 +253,7 @@ function Restart({
           } else {
             setAsking(true);
           }
-        }}
+        })}
       >
         {t("practice.restart")}
       </button>
@@ -290,14 +287,10 @@ function Restart({
  * muda sozinha debaixo de quem lê o aviso. Para jogar o outro modo, "Reiniciar o Treino".
  */
 function Empty({ onRetry }: { readonly onRetry: () => void }) {
-  const message = useRef<HTMLParagraphElement>(null);
-  useEffect(() => message.current?.focus(), []);
   return (
     <section class="practice-empty">
-      <p ref={message} tabIndex={-1}>
-        {t("practice.empty")}
-      </p>
-      <button type="button" class="primary" onClick={onRetry}>
+      <FocusedNotice text={t("practice.empty")} />
+      <button type="button" class="primary" onClick={singleClick(onRetry)}>
         {t("practice.retry")}
       </button>
     </section>

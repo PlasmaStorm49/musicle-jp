@@ -6,7 +6,7 @@ export type NonEmptyText = string;
 export type IsoDate = string;
 export type ArtistId = string;
 export type OptionalText = string | null;
-export type LatinSource = "provider" | "manual" | "cutlet" | "pykakasi" | null;
+export type LatinSource = "provider" | "manual" | "cutlet" | null;
 export type AlbumId = string;
 /**
  * @minItems 1

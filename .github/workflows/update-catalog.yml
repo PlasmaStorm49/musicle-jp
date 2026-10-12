@@ -106,20 +106,8 @@ jobs:
         name: "Reserva: sem a parada nova, só a agenda"
         env:
           TODAY: ${{ steps.today.outputs.today }}
-        run: |
-          set -o pipefail
-          git checkout -- "$ROMAJI" "$CATALOG" "$SCHEDULE"
-          snapshot="$SNAPSHOTS/$TODAY.json"
-          # Só o snapshot novo (fora do Git) sai; um que já está na main fica.
-          if [ -f "$snapshot" ] && ! git ls-files --error-unmatch -- "$snapshot" > /dev/null 2>&1; then
-            rm -- "$snapshot"
-            echo "dropped=true" >> "$GITHUB_OUTPUT"
-            echo "::warning::a parada de hoje quebrou o pipeline (veja o passo anterior); o PR traz só a agenda"
-          else
-            echo "::warning::o pipeline quebrou sem parada nova (veja o passo anterior; erro no código?); o PR traz só a agenda"
-          fi
-          : > "$RUNNER_TEMP/pipeline.log" # os avisos da tentativa não valem mais
-          python -m musicle_pipeline schedule --catalog "$CATALOG" --out "$SCHEDULE" --today "$TODAY" 2>&1 | tee -a "$RUNNER_TEMP/pipeline.log"
+        # Volta ao da main e gera só os dias novos (script com teste, ME52).
+        run: bash .github/scripts/catalog-reserve.sh
       # A parada fictícia é estática e só serve ao desenvolvimento e aos testes; a agenda dela
       # cresce junto, para o npm run dev continuar com o desafio de hoje.
       - run: python -m musicle_pipeline build --provider fixture --out "$FIXTURE_CATALOG"
@@ -129,44 +117,16 @@ jobs:
         run: python -m musicle_pipeline schedule --catalog "$FIXTURE_CATALOG" --out "$FIXTURE_SCHEDULE" --today "$TODAY"
       - run: python -m musicle_pipeline validate "$CATALOG" --schedule "$SCHEDULE"
       - run: python -m musicle_pipeline validate "$FIXTURE_CATALOG" --schedule "$FIXTURE_SCHEDULE"
-      - run: python -m musicle_pipeline schedule-check --base-ref HEAD
+      - name: Agenda só cresceu, sem dia passado, e os dias novos são os do gerador
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: python -m musicle_pipeline schedule-check --base-ref HEAD --today "$TODAY"
       - id: diff
         name: Só a lista fechada pode mudar
         env:
           TODAY: ${{ steps.today.outputs.today }}
-        run: |
-          status="$(git status --porcelain --untracked-files=all)"
-          if [ -z "$status" ]; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Nada novo: a parada é a mesma e a agenda já cobre o horizonte a partir de hoje." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          allowed=(
-            "?? $SNAPSHOTS/$TODAY.json"
-            " M $ROMAJI"
-            " M $CATALOG"
-            " M $SCHEDULE"
-            " M $FIXTURE_SCHEDULE"
-          )
-          out="$RUNNER_TEMP/out"
-          mkdir -p "$out/files"
-          : > "$out/changed.txt"
-          while IFS= read -r line; do
-            ok=false
-            for a in "${allowed[@]}"; do
-              if [ "$line" = "$a" ]; then ok=true; fi
-            done
-            if [ "$ok" != true ]; then
-              echo "::error::mudança fora da lista fechada: $line"
-              exit 1
-            fi
-            path="${line:3}"
-            mkdir -p "$out/files/$(dirname "$path")"
-            cp "$path" "$out/files/$path"
-            echo "$path" >> "$out/changed.txt"
-          done <<< "$status"
-          grep '^aviso: ' "$RUNNER_TEMP/pipeline.log" > "$out/avisos.txt" || true
-          echo "changed=true" >> "$GITHUB_OUTPUT"
+        # Copia a lista fechada para o artefato (script com teste, ME52).
+        run: bash .github/scripts/catalog-collect.sh
       - if: steps.diff.outputs.changed == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -196,12 +156,14 @@ jobs:
       - id: prep
         name: Conferir cada arquivo novo e montar o PR (sem token)
         env:
-          TODAY: ${{ needs.catalog-generate.outputs.today }}
+          # O "hoje" que vale é o desta tarefa: o da outra saiu depois do pip install (ME44).
+          GENERATED_TODAY: ${{ needs.catalog-generate.outputs.today }}
           FETCH: ${{ needs.catalog-generate.outputs.fetch }}
           CHART: ${{ needs.catalog-generate.outputs.chart }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         # Só jq e coreutils, num script da main com teste (pipeline/tests/test_catalog_pr_script.py).
-        run: bash .github/scripts/check-catalog-pr.sh
+        run: |
+          TODAY="$(TZ=America/Sao_Paulo date +%F)" bash .github/scripts/check-catalog-pr.sh
       - id: branch
         name: O branch de hoje já existe?
         env:

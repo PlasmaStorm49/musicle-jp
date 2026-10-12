@@ -11,8 +11,8 @@ import {
   isFinished,
   reduce,
   roundScore,
-  unlockedSeconds,
 } from "./reducer.ts";
+import { secondsAt } from "./rules.ts";
 import type { Catalog, Day } from "./types.ts";
 
 const index = indexCatalog(catalog);
@@ -112,7 +112,7 @@ describe("Normal (4 opções)", () => {
   it("ouvir mais libera a próxima etapa", () => {
     const game = play(normal(), { type: "LISTEN_MORE" }, { type: "LISTEN_MORE" });
     expect(round(game).stage).toBe(2);
-    expect(unlockedSeconds(round(game))).toBe(4);
+    expect(secondsAt(round(game).stage)).toBe(4);
   });
 
   it("acertar encerra com 6 menos a etapa", () => {

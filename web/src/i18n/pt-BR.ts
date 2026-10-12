@@ -57,7 +57,7 @@ export const ptBR = {
 
   "options.giveUp": "Não sei",
 
-  "reveal.won": "Acertou! {points} de 6 pontos.",
+  "reveal.won": "Acertou! {points} de {max} pontos.",
   "reveal.lost": "Não foi dessa vez.",
   "reveal.correct": "Resposta certa",
   "reveal.yourPick": "Sua escolha",

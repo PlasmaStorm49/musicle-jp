@@ -10,7 +10,6 @@ import {
   fakeAudioEnabled,
   gameDate,
   htmlAudioForced,
-  isValidDate,
   loadGameData,
   lookupFailForced,
   pickDay,
@@ -102,12 +101,6 @@ describe("loadGameData", () => {
 });
 
 describe("datas e dias", () => {
-  it("valida datas de calendário", () => {
-    expect(isValidDate("2026-10-08")).toBe(true);
-    expect(isValidDate("2026-02-30")).toBe(false);
-    expect(isValidDate("08/10/2026")).toBe(false);
-  });
-
   it("?date= só vale em desenvolvimento e com data válida", () => {
     const now = new Date("2026-10-09T02:00:00Z"); // ainda dia 8 em Brasília
     expect(gameDate(now, "?date=2026-10-12", true)).toBe("2026-10-12");

@@ -76,7 +76,7 @@ describe("appleResolver (parada real)", () => {
 
   it("as faixas do dia saem numa consulta só, com o endereço novo da Apple", async () => {
     const { fetchFn, urls } = fakeLookup(found([A, FRESH], [B, FRESH]));
-    const resolver = appleResolver({ index: real, fetchFn });
+    const resolver = appleResolver({ index: real, fetchFn, now: Date.now });
     resolver.prefetch([A ?? "", B ?? "", A ?? ""]);
     expect(resolver.peek(A ?? "")).toBeNull(); // ainda consultando
     await expect(resolver.resolve(A ?? "")).resolves.toBe(FRESH);
@@ -90,7 +90,7 @@ describe("appleResolver (parada real)", () => {
   it("a rodada pede a sua faixa e o diário o dia inteiro no mesmo ciclo: uma consulta só", async () => {
     // Os efeitos do filho (RoundView) rodam antes dos do pai (Playing): o resolve chega primeiro.
     const { fetchFn, urls } = fakeLookup(found([A, FRESH], [B, FRESH], [C, FRESH]));
-    const resolver = appleResolver({ index: real, fetchFn });
+    const resolver = appleResolver({ index: real, fetchFn, now: Date.now });
     const first = resolver.resolve(A ?? "");
     resolver.prefetch([A ?? "", B ?? "", C ?? ""]);
     await expect(first).resolves.toBe(FRESH);
@@ -100,7 +100,7 @@ describe("appleResolver (parada real)", () => {
 
   it("faixa ausente ou prévia fora do host da Apple: vale a reserva do catálogo", async () => {
     const { fetchFn } = fakeLookup(found([A, "https://evil.test/a.m4a"]));
-    const resolver = appleResolver({ index: real, fetchFn });
+    const resolver = appleResolver({ index: real, fetchFn, now: Date.now });
     resolver.prefetch([A ?? "", B ?? ""]);
     await expect(resolver.resolve(A ?? "")).resolves.toBe(stored(A));
     await expect(resolver.resolve(B ?? "")).resolves.toBe(stored(B));
@@ -114,7 +114,7 @@ describe("appleResolver (parada real)", () => {
     `%s: reserva; ${FAILURES_TO_OPEN} falhas seguidas abrem o disjuntor`,
     async (_, reply) => {
       const { fetchFn, urls } = fakeLookup(reply);
-      const resolver = appleResolver({ index: real, fetchFn });
+      const resolver = appleResolver({ index: real, fetchFn, now: Date.now });
       for (let i = 0; i < FAILURES_TO_OPEN; i++) {
         const id = withPreview[i] ?? "";
         await expect(resolver.resolve(id)).resolves.toBe(stored(id));
@@ -126,7 +126,7 @@ describe("appleResolver (parada real)", () => {
 
   it("um acerto no meio zera a contagem de falhas", async () => {
     const { fetchFn, urls } = fakeLookup("network", found([B, FRESH]), "network");
-    const resolver = appleResolver({ index: real, fetchFn });
+    const resolver = appleResolver({ index: real, fetchFn, now: Date.now });
     await resolver.resolve(A ?? "");
     await expect(resolver.resolve(B ?? "")).resolves.toBe(FRESH);
     await resolver.resolve(C ?? "");
@@ -136,7 +136,7 @@ describe("appleResolver (parada real)", () => {
 
   it.each([403, 429])("HTTP %i abre o disjuntor na hora", async (status) => {
     const { fetchFn, urls } = fakeLookup({ status });
-    const resolver = appleResolver({ index: real, fetchFn });
+    const resolver = appleResolver({ index: real, fetchFn, now: Date.now });
     await expect(resolver.resolve(A ?? "")).resolves.toBe(stored(A));
     await expect(resolver.resolve(B ?? "")).resolves.toBe(stored(B));
     expect(urls).toHaveLength(1);
@@ -144,7 +144,7 @@ describe("appleResolver (parada real)", () => {
 
   it(`${LOOKUP_TIMEOUT_MS} ms sem resposta: reserva`, async () => {
     const { fetchFn } = fakeLookup("hang");
-    const resolver = appleResolver({ index: real, fetchFn });
+    const resolver = appleResolver({ index: real, fetchFn, now: Date.now });
     const url = resolver.resolve(A ?? "");
     await vi.advanceTimersByTimeAsync(LOOKUP_TIMEOUT_MS - 1);
     expect(resolver.peek(A ?? "")).toBeNull();
@@ -166,7 +166,7 @@ describe("appleResolver (parada real)", () => {
 
   it("um 2º lote pedido com o 1º ainda no ar sai numa consulta própria", async () => {
     const { fetchFn, urls } = fakeLookup(found([A, FRESH], [B, FRESH]));
-    const resolver = appleResolver({ index: real, fetchFn });
+    const resolver = appleResolver({ index: real, fetchFn, now: Date.now });
     const first = resolver.resolve(A ?? "");
     await Promise.resolve(); // a fila do 1º lote já saiu e o lookup está no ar
     const second = resolver.resolve(B ?? "");
@@ -177,7 +177,7 @@ describe("appleResolver (parada real)", () => {
 
   it("?failLookup=1: nunca consulta", async () => {
     const { fetchFn, urls } = fakeLookup(found([A, FRESH]));
-    const resolver = appleResolver({ index: real, fetchFn, disabled: true });
+    const resolver = appleResolver({ index: real, fetchFn, disabled: true, now: Date.now });
     resolver.prefetch([A ?? ""]);
     expect(resolver.peek(A ?? "")).toBe(stored(A)); // a reserva já sai na hora
     expect(urls).toHaveLength(0);
@@ -185,7 +185,7 @@ describe("appleResolver (parada real)", () => {
 
   it("faixa que não é da Apple não consulta e fica sem prévia", async () => {
     const { fetchFn, urls } = fakeLookup(found());
-    const resolver = appleResolver({ index: real, fetchFn });
+    const resolver = appleResolver({ index: real, fetchFn, now: Date.now });
     await expect(resolver.resolve("fixture:tr:tr01")).resolves.toBeNull();
     expect(urls).toHaveLength(0);
   });

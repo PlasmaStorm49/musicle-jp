@@ -342,3 +342,46 @@ def test_http_get_refuses_a_response_over_the_limit(monkeypatch):
     monkeypatch.setattr(fetch.urllib.request, "urlopen", lambda *_a, **_k: Big())
     with pytest.raises(fetch.FetchError, match="maior que"):
         fetch.http_get("https://itunes.apple.com/lookup?id=1")
+
+
+# --- ME50 e ME53: o lookup de artista e o id do RSS com as mesmas regras das faixas ---
+
+
+@pytest.mark.parametrize(
+    "artist",
+    [
+        {"wrapperType": "artist", "artistId": 9, "artistName": 123},  # nome que não é texto
+        {"wrapperType": "artist", "artistId": 9, "artistName": "   "},  # nome em branco
+        {"wrapperType": "artist", "artistId": "9a", "artistName": "Aa"},  # id torto
+        {"wrapperType": "artist", "artistId": 8, "artistName": "Aa"},  # id fora do lote
+    ],
+)
+def test_an_odd_artist_lookup_is_left_out(artist):
+    # Um valor torto gravado no snapshot (que nunca muda) quebraria o build para sempre: o
+    # artista fica sem latino, e a parada segue.
+    apple = FakeApple()
+
+    def odd(url: str) -> bytes:
+        ids = parse_qs(urlsplit(url).query).get("id", [""])[0].split(",")
+        if ids == ["9"]:
+            return json.dumps({"results": [artist]}).encode()
+        return apple(url)
+
+    snap = fetch.fetch_snapshot(TODAY, NOW, transport=odd, sleep=no_sleep)
+    assert snap["artists"] == {}
+    assert snap["missing"] == []
+
+
+def test_rss_id_with_digits_of_another_script_is_refused():
+    # \d casaria "١٢" (dígitos árabes); o id vai para a URL e para o nome dos arquivos. Só o
+    # RSS é torto: o lookup responde como a Apple, para a recusa ser mesmo a do id.
+    apple = FakeApple()
+
+    def arabic(url: str) -> bytes:
+        if not url.startswith("https://rss.marketingtools.apple.com/"):
+            return apple(url)
+        results = [{"id": f"{i}", "name": "x"} for i in range(59)] + [{"id": "١٢", "name": "x"}]
+        return json.dumps({"feed": {"results": results}}).encode()
+
+    with pytest.raises(fetch.FetchError, match="forma inesperada"):
+        fetch.fetch_snapshot(TODAY, NOW, transport=arabic, sleep=no_sleep)

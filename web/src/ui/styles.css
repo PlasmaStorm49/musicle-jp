@@ -743,7 +743,8 @@ button.home-card:hover {
   margin: 0;
 }
 
-.practice-empty p:focus-visible {
+/* Avisos que levam o foco ao montar (FocusedNotice, regra 16) */
+.focused-notice:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
 }

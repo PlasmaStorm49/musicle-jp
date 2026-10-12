@@ -102,6 +102,30 @@ test("áudio indisponível anula a rodada, que fica fora da conta", async ({ pag
   await expect(page.getByText("0 de 12 pontos")).toBeVisible();
 });
 
+test("Normal no celular: toque duplo em Próxima rodada não gasta a rodada seguinte (ME43)", async ({
+  page,
+}) => {
+  // O 2º clique cai na rodada nova, que o Preact já desenhou: em 320 px, no "Não sei".
+  await page.setViewportSize({ width: 320, height: 640 });
+  await open(page, "2026-10-08T12:00:00-03:00");
+  await page.getByRole("button", { name: "Não sei" }).click();
+  await page.getByRole("button", { name: "Próxima rodada" }).dblclick();
+  await expect(page.getByText("Rodada 2 de 3")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Qual é o álbum?" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Não sei" })).toBeVisible();
+  await expect(page.locator(".reveal")).toHaveCount(0);
+});
+
+test("entrar num diário pela nav, com o teclado, leva o foco ao Tocar (regra 16, ME49)", async ({
+  page,
+}) => {
+  await open(page, "2026-10-08T12:00:00-03:00", "#inicio");
+  await page.getByRole("navigation").getByRole("link", { name: "Desafio" }).focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Desafio · nº 1");
+  await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
+});
+
 test.describe("a virada é à meia-noite de Brasília, não no fuso do navegador (Tóquio)", () => {
   test("23:30 de 15/10 em Brasília (já 16/10 em Tóquio) ainda é o dia 15", async ({ page }) => {
     await open(page, "2026-10-15T23:30:00-03:00");

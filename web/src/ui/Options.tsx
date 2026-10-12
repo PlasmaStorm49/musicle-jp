@@ -3,6 +3,7 @@ import type { RoundState } from "../core/reducer.ts";
 import { optionView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
 import { Cover, ItemLabel } from "./ItemLabel.tsx";
+import { singleClick } from "./singleClick.ts";
 
 type Props = {
   readonly index: CatalogIndex;
@@ -24,7 +25,7 @@ export function Options({ index, round, resolveUrl, onPick, onGiveUp }: Props) {
           return (
             item && (
               <li key={id}>
-                <button type="button" class="option" onClick={() => onPick(id)}>
+                <button type="button" class="option" onClick={singleClick(() => onPick(id))}>
                   <Cover item={item} resolveUrl={resolveUrl} />
                   <ItemLabel item={item} />
                 </button>
@@ -33,7 +34,7 @@ export function Options({ index, round, resolveUrl, onPick, onGiveUp }: Props) {
           );
         })}
       </ul>
-      <button type="button" class="link" onClick={onGiveUp}>
+      <button type="button" class="link" onClick={singleClick(onGiveUp)}>
         {t("options.giveUp")}
       </button>
     </section>

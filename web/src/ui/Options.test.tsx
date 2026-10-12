@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { cleanup, render, screen } from "@testing-library/preact";
+import { cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { indexCatalog } from "../core/catalog.ts";
 import { createRounds } from "../core/reducer.ts";
@@ -67,26 +67,38 @@ function setup() {
   const options = [1, 2, 3, 4].map((n) => `t:al:${n}`);
   const [round] = createRounds([{ answer: "t:tr:1", options }], "album", index);
   if (!round) throw new Error("rodada não montada");
+  const onPick = vi.fn();
+  const onGiveUp = vi.fn();
   const { container } = render(
     <Options
       index={index}
       round={round}
       resolveUrl={(url) => `/base/${url}`}
-      onPick={vi.fn()}
-      onGiveUp={vi.fn()}
+      onPick={onPick}
+      onGiveUp={onGiveUp}
     />,
   );
-  return container;
+  return { container, onPick, onGiveUp };
 }
 
 describe("Options: as 4 opções do Normal, com capa (P51)", () => {
   it("cada opção mostra a capa, com alt vazio (o texto ao lado já nomeia)", () => {
-    const container = setup();
+    const { container } = setup();
     // alt="" tira a imagem da árvore de acessibilidade: getByRole("img") não a acha.
     const covers = [...container.querySelectorAll("img")];
     expect(covers).toHaveLength(4);
     expect(covers.map((img) => img.getAttribute("src"))).toContain("/base/art/1.svg");
     expect(covers.every((img) => img.getAttribute("alt") === "")).toBe(true);
     expect(screen.getAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(4);
+  });
+
+  it("o 2º clique de um toque duplo (o de Próxima rodada, que cai aqui) não conta (ME43)", () => {
+    const { onPick, onGiveUp } = setup();
+    fireEvent.click(screen.getByRole("button", { name: /^Álbum 2/ }), { detail: 2 });
+    fireEvent.click(screen.getByRole("button", { name: "Não sei" }), { detail: 2 });
+    expect(onPick).not.toHaveBeenCalled();
+    expect(onGiveUp).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: /^Álbum 2/ }));
+    expect(onPick).toHaveBeenCalledWith("t:al:2");
   });
 });

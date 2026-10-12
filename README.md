@@ -59,7 +59,7 @@ Para ver o build como ele fica publicado: `npm run build --prefix web` e depois 
   1. confira que mudou só o que a lista fechada permite: `pipeline/data/apple/snapshots/<data>.json` (novo), `pipeline/data/apple/romaji.json`, `web/public/data/catalog.json`, `web/public/data/schedule.json` e `web/public/fixtures/schedule.json` (a Action já recusa qualquer outra coisa). Um diff grande no `catalog.json` é esperado: popularidade, posições e distratores mudam em quase todas as faixas a cada parada;
   2. leia o romaji novo listado no PR. Se algum estiver errado, corrija no `pipeline/data/apple/aliases.toml` num PR à parte, que pode entrar depois;
   3. clique em "Approve workflows to run" (PR aberto por Action precisa dessa aprovação para rodar as checagens);
-  4. com `pipeline`, `web` e `e2e` verdes, faça o merge no mesmo dia. Dia que passa sem agenda fica sem desafio para sempre: a agenda nunca gera dia passado.
+  4. com `pipeline`, `web` e `e2e` verdes, faça o merge no mesmo dia. Dia que passa sem agenda fica sem desafio para sempre: a agenda nunca gera dia passado. Se as checagens só forem aprovadas num dia seguinte, a CI recusa o dia que passou: feche o PR, apague o branch (`git push origin --delete catalogo/<data>`) e rode o robô de novo (`gh workflow run update-catalog.yml`).
 
   Enquanto o PR do robô estiver aberto, evite outro merge: o `strict` do ruleset o deixaria desatualizado.
 - **Se a Apple falhar:** o PR traz só a agenda, com o aviso; a parada vem na semana seguinte.

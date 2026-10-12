@@ -4,7 +4,8 @@
 # o token de escrita por perto, então não chama Python nem nada do projeto além deste script, que
 # vem da main. Testado em pipeline/tests/test_catalog_pr_script.py (precisa de jq).
 #
-# Entrada (ambiente): TODAY, FETCH (resultado do passo de busca: success ou failure), CHART
+# Entrada (ambiente): TODAY (calculado nesta tarefa, sem passar pelo pip), GENERATED_TODAY (o da
+# tarefa que roda o pipeline, que precisa bater), FETCH (resultado do passo de busca), CHART
 # (failure quando a parada nova veio, quebrou o pipeline e ficou de fora), RUN_URL, os
 # caminhos SNAPSHOTS, ROMAJI, CATALOG, SCHEDULE e FIXTURE_SCHEDULE (relativos à raiz, que é a
 # pasta atual, um checkout da main), RUNNER_TEMP (com o artefato em artifact/) e GITHUB_OUTPUT.
@@ -17,6 +18,14 @@ fail() {
 }
 
 [[ "$TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || fail "data inválida: $TODAY"
+# O "hoje" da outra tarefa saiu depois do pip install: um pacote comprometido poderia mandar uma
+# data no futuro, que deixaria um buraco para sempre (P44). Vale o desta tarefa (ME44). O valor
+# não vai para a mensagem: uma quebra de linha nele viraria comando do Actions (::add-mask:: etc.).
+# "Re-run failed jobs" reaproveitaria a saída da outra tarefa: só uma execução nova serve.
+[ "${GENERATED_TODAY:-}" = "$TODAY" ] \
+  || fail "a tarefa do pipeline gerou para outro dia (hoje é $TODAY): rode uma execução nova (gh workflow run update-catalog.yml)"
+# O horizonte da agenda (HORIZON_DAYS em schedule.py): nenhum dia novo passa de hoje + 21.
+limit="$(date -ud "$TODAY + 21 days" +%F)"
 art="$RUNNER_TEMP/artifact"
 snapshot="$SNAPSHOTS/$TODAY.json"
 allowed=("$snapshot" "$ROMAJI" "$CATALOG" "$SCHEDULE" "$FIXTURE_SCHEDULE")
@@ -58,6 +67,11 @@ done
 if has "$snapshot"; then
   has "$CATALOG" || fail "snapshot novo sem catálogo novo"
   [ ! -e "$snapshot" ] || fail "o snapshot de hoje já existe na main"
+  # O de hoje vem depois do último da main (o fetch também recusa um --today anterior).
+  last_main="$(find "$SNAPSHOTS" -maxdepth 1 -type f -name '????-??-??.json' -printf '%f\n' | sort | tail -n 1)"
+  last_main="${last_main%.json}"
+  [ -z "$last_main" ] || [[ "$TODAY" > "$last_main" ]] \
+    || fail "o snapshot de hoje ($TODAY) não vem depois do último da main ($last_main)"
   jq -e --arg d "$TODAY" '.provider == "apple" and .storefront == "jp" and .date == $d
     and (.rss | type == "array" and length > 0 and length <= 100)
     and (.tracks | type == "object") and (.artists | type == "object")
@@ -80,7 +94,8 @@ if has "$ROMAJI"; then
     ($b[0] | del(.entries)) == ($n[0] | del(.entries))
     and ($b[0].entries | to_entries | all(.value == $n[0].entries[.key]))
     and ($n[0].entries | to_entries
-         | all(.value | type == "array" and length > 0 and all(type == "string")))' > /dev/null \
+         | all(.value | type == "array" and length > 0
+               and all(type == "string" and length > 0)))' > /dev/null \
     || fail "o romaji novo altera o que já existe"
   # Vai num bloco de código no PR: título com @ ou ] não vira menção nem link, e o ~ sai para não
   # fechar o bloco.
@@ -181,10 +196,15 @@ check_schedule() {
   first_s="$(date -ud "$first" +%s)"
   last_s="$(date -ud "$last" +%s)"
   [ "$count" -eq $(( (last_s - first_s) / 86400 + 1 )) ] || fail "$base: há buraco entre os dias novos"
+  [[ ! "$last" > "$limit" ]] || fail "$base: o último dia novo ($last) passa de hoje + 21 ($limit)"
   gap=$(( (first_s - base_s) / 86400 - 1 ))
   schedule_lines+="- **$label:** $count dia(s) novo(s), de $first a $last (a da main vai até $base_last)."$'\n'
+  # Com o 1º dia novo hoje, um merge amanhã levaria um dia passado: a CI deste PR não roda de novo
+  # (o strict não reroda) e só a do push na main ficaria vermelha, depois do deploy.
   if [ "$gap" -gt 0 ]; then
     gap_lines+="> **Atenção ($label):** $gap dia(s) ficaram sem desafio depois de $base_last: dia que já passou não é gerado (P44). Faça o merge hoje."$'\n'
+  elif [ "$first" = "$TODAY" ]; then
+    gap_lines+="> **Atenção ($label):** a agenda acabou ontem e o 1º dia novo é hoje: faça o merge hoje, ou o dia fica sem desafio (P44)."$'\n'
   fi
   if [ "$base" = "$SCHEDULE" ]; then real_last="$last"; fi
 }

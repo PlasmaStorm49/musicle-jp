@@ -20,6 +20,7 @@ import { useResolvedUrl, useSuggest } from "./hooks.ts";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
 import { Reveal } from "./Reveal.tsx";
+import { singleClick } from "./singleClick.ts";
 
 type Props = {
   readonly game: GameState;
@@ -188,7 +189,7 @@ function Typing({
       <p class="hint">{t("typing.attempt", attempt)}</p>
       <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" />
       <Attempts index={index} round={round} />
-      <button type="button" class="link" onClick={onGiveUp}>
+      <button type="button" class="link" onClick={singleClick(onGiveUp)}>
         {t("typing.giveUp")}
       </button>
     </section>
@@ -208,7 +209,7 @@ function VoidRound({
   return (
     <section class="void">
       <p>{t("void.message")}</p>
-      <button ref={button} type="button" class="primary" onClick={onNext}>
+      <button ref={button} type="button" class="primary" onClick={singleClick(onNext)}>
         {nextLabel}
       </button>
     </section>
