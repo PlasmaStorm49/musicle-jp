@@ -33,7 +33,7 @@ def test_validate_command(tmp_path, capsys):
     out = tmp_path / "catalog.json"
     _build(out)
     assert main(["validate", str(out)]) == 0
-    out.write_bytes(out.read_bytes().replace(b'"schemaVersion": 1', b'"schemaVersion": 2'))
+    out.write_bytes(out.read_bytes().replace(b'"schemaVersion": 2', b'"schemaVersion": 3'))
     assert main(["validate", str(out)]) == 1
     assert "schemaVersion" in capsys.readouterr().err
 

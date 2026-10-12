@@ -2,8 +2,8 @@
 #
 # Chave = ID do catálogo. Seções: tracks, albums, artists.
 #   latin   = título latino exibido (Hepburn; latinSource "manual")
-#   aliases = termos extras de busca, nunca exibidos
-#   block   = true tira a faixa do desafio diário
+#   aliases = termos extras da busca de músicas, nunca exibidos (tracks e artists)
+#   block   = true tira a faixa dos diários (só em tracks)
 #
 # Revise o diff de pipeline/data/apple/romaji.json a cada parada nova e corrija aqui o que o
 # cutlet errou. Nome de artista quase nunca precisa: o lookup da Apple traz o latino oficial.
@@ -88,9 +88,6 @@ aliases = ["Jikuu koete universe"]
 
 [tracks."apple:tr:1273709797"]  # 君はロックを聴かない; o "o" do Hepburn e "rock" não achavam
 aliases = ["Kimi wa rokku o kikanai", "Kimi wa rock wo kikanai"]
-
-[albums."apple:al:6803798492"]  # LOVE ENG!NE; "love engine" não achava
-aliases = ["LOVE ENGINE"]
 
 [artists."apple:ar:1356706755"]  # M!LK; "milk" não achava
 aliases = ["milk", "ミルク"]

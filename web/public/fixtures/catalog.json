@@ -9,11 +9,6 @@
       "id": "fixture:al:al01",
       "latinSource": "cutlet",
       "releaseDate": "2024-03-01",
-      "search": [
-        "yoakenomelody",
-        "yoakenomeroji",
-        "夜明けのめろでぃ"
-      ],
       "similar": [
         "fixture:al:al05",
         "fixture:al:al09",
@@ -39,9 +34,6 @@
       "id": "fixture:al:al02",
       "latinSource": null,
       "releaseDate": "2024-11-20",
-      "search": [
-        "dawncollecchion"
-      ],
       "similar": [
         "fixture:al:al18",
         "fixture:al:al16",
@@ -67,11 +59,6 @@
       "id": "fixture:al:al03",
       "latinSource": "cutlet",
       "releaseDate": "2024-04-10",
-      "search": [
-        "yoakenomelodytvshize",
-        "yoakenomerojitvshize",
-        "夜明けのめろでぃtvshize"
-      ],
       "similar": [
         "fixture:al:al33",
         "fixture:al:al28",
@@ -97,11 +84,6 @@
       "id": "fixture:al:al04",
       "latinSource": "cutlet",
       "releaseDate": "2023-06-14",
-      "search": [
-        "nanaironote",
-        "nanaironoto",
-        "七色のーと"
-      ],
       "similar": [
         "fixture:al:al10",
         "fixture:al:al20",
@@ -128,10 +110,6 @@
       "id": "fixture:al:al05",
       "latinSource": "cutlet",
       "releaseDate": "2025-02-14",
-      "search": [
-        "futarinoyakusoku",
-        "ふたりの約束"
-      ],
       "similar": [
         "fixture:al:al01",
         "fixture:al:al26",
@@ -157,10 +135,6 @@
       "id": "fixture:al:al06",
       "latinSource": "cutlet",
       "releaseDate": "2025-08-27",
-      "search": [
-        "sakamichinomuko",
-        "坂道の向こう"
-      ],
       "similar": [
         "fixture:al:al14",
         "fixture:al:al16",
@@ -186,11 +160,6 @@
       "id": "fixture:al:al07",
       "latinSource": "cutlet",
       "releaseDate": "2026-09-30",
-      "search": [
-        "akikazenowaltz",
-        "akikazenowarutsu",
-        "秋風のわるつ"
-      ],
       "similar": [
         "fixture:al:al26",
         "fixture:al:al05",
@@ -216,10 +185,6 @@
       "id": "fixture:al:al08",
       "latinSource": "cutlet",
       "releaseDate": "2026-07-20",
-      "search": [
-        "natsuyasumi",
-        "なつやすみ"
-      ],
       "similar": [
         "fixture:al:al10",
         "fixture:al:al20",
@@ -245,11 +210,6 @@
       "id": "fixture:al:al09",
       "latinSource": "cutlet",
       "releaseDate": "2026-05-13",
-      "search": [
-        "tomeinashignal",
-        "tomeinashigunaru",
-        "透明なしぐなる"
-      ],
       "similar": [
         "fixture:al:al01",
         "fixture:al:al32",
@@ -275,9 +235,6 @@
       "id": "fixture:al:al10",
       "latinSource": null,
       "releaseDate": "2025-10-10",
-      "search": [
-        "riot"
-      ],
       "similar": [
         "fixture:al:al04",
         "fixture:al:al20",
@@ -303,11 +260,6 @@
       "id": "fixture:al:al11",
       "latinSource": "cutlet",
       "releaseDate": "2026-04-01",
-      "search": [
-        "ponpokomachi",
-        "ponpokomarch",
-        "ぽんぽこまーち"
-      ],
       "similar": [
         "fixture:al:al23",
         "fixture:al:al17",
@@ -333,9 +285,6 @@
       "id": "fixture:al:al12",
       "latinSource": null,
       "releaseDate": "2022-09-09",
-      "search": [
-        "neonrain"
-      ],
       "similar": [
         "fixture:al:al02",
         "fixture:al:al15",
@@ -361,10 +310,6 @@
       "id": "fixture:al:al13",
       "latinSource": "cutlet",
       "releaseDate": "2021-06-02",
-      "search": [
-        "amaotonosonata",
-        "雨音のそなた"
-      ],
       "similar": [
         "fixture:al:al25",
         "fixture:al:al04",
@@ -390,9 +335,6 @@
       "id": "fixture:al:al14",
       "latinSource": null,
       "releaseDate": "2026-03-04",
-      "search": [
-        "bluejiary"
-      ],
       "similar": [
         "fixture:al:al06",
         "fixture:al:al16",
@@ -418,10 +360,6 @@
       "id": "fixture:al:al15",
       "latinSource": "cutlet",
       "releaseDate": "2023-11-22",
-      "search": [
-        "nekonome",
-        "猫の目"
-      ],
       "similar": [
         "fixture:al:al06",
         "fixture:al:al10",
@@ -447,9 +385,6 @@
       "id": "fixture:al:al16",
       "latinSource": null,
       "releaseDate": "2026-01-21",
-      "search": [
-        "prism"
-      ],
       "similar": [
         "fixture:al:al18",
         "fixture:al:al02",
@@ -475,10 +410,6 @@
       "id": "fixture:al:al17",
       "latinSource": "cutlet",
       "releaseDate": "2025-12-03",
-      "search": [
-        "hoshininegaiwo",
-        "星に願いを"
-      ],
       "similar": [
         "fixture:al:al24",
         "fixture:al:al22",
@@ -504,11 +435,6 @@
       "id": "fixture:al:al18",
       "latinSource": "manual",
       "releaseDate": "2026-06-18",
-      "search": [
-        "1bansei",
-        "1番星",
-        "ichibanboshi"
-      ],
       "similar": [
         "fixture:al:al16",
         "fixture:al:al02",
@@ -534,9 +460,6 @@
       "id": "fixture:al:al19",
       "latinSource": null,
       "releaseDate": "2019-08-30",
-      "search": [
-        "midnightdrive"
-      ],
       "similar": [
         "fixture:al:al13",
         "fixture:al:al25",
@@ -562,11 +485,6 @@
       "id": "fixture:al:al20",
       "latinSource": "cutlet",
       "releaseDate": "2024-07-07",
-      "search": [
-        "tokyoraitsu",
-        "tokyoright",
-        "東京らいつ"
-      ],
       "similar": [
         "fixture:al:al04",
         "fixture:al:al10",
@@ -592,10 +510,6 @@
       "id": "fixture:al:al21",
       "latinSource": "cutlet",
       "releaseDate": "2025-05-21",
-      "search": [
-        "yokazegekijo",
-        "夜風劇場"
-      ],
       "similar": [
         "fixture:al:al22",
         "fixture:al:al27",
@@ -621,9 +535,6 @@
       "id": "fixture:al:al22",
       "latinSource": null,
       "releaseDate": "2025-09-12",
-      "search": [
-        "stayforever"
-      ],
       "similar": [
         "fixture:al:al24",
         "fixture:al:al21",
@@ -649,9 +560,6 @@
       "id": "fixture:al:al23",
       "latinSource": null,
       "releaseDate": "2025-12-24",
-      "search": [
-        "tokyonoiselive2025"
-      ],
       "similar": [
         "fixture:al:al11",
         "fixture:al:al17",
@@ -677,11 +585,6 @@
       "id": "fixture:al:al24",
       "latinSource": "cutlet",
       "releaseDate": "2026-08-05",
-      "search": [
-        "garasugoshinohikari",
-        "glassgoshinohikari",
-        "がらす越しの光"
-      ],
       "similar": [
         "fixture:al:al22",
         "fixture:al:al21",
@@ -707,10 +610,6 @@
       "id": "fixture:al:al25",
       "latinSource": "cutlet",
       "releaseDate": "2020-02-26",
-      "search": [
-        "nekozenoburusu",
-        "猫背のぶるーす"
-      ],
       "similar": [
         "fixture:al:al13",
         "fixture:al:al19",
@@ -736,11 +635,6 @@
       "id": "fixture:al:al26",
       "latinSource": "cutlet",
       "releaseDate": "2026-09-09",
-      "search": [
-        "memoriren",
-        "memorylane",
-        "めもりーれーん"
-      ],
       "similar": [
         "fixture:al:al07",
         "fixture:al:al05",
@@ -766,11 +660,6 @@
       "id": "fixture:al:al27",
       "latinSource": "cutlet",
       "releaseDate": "2026-03-18",
-      "search": [
-        "seifukutocider",
-        "seifukutosaida",
-        "制服とさいだー"
-      ],
       "similar": [
         "fixture:al:al21",
         "fixture:al:al28",
@@ -796,10 +685,6 @@
       "id": "fixture:al:al28",
       "latinSource": "cutlet",
       "releaseDate": "2026-06-03",
-      "search": [
-        "zerokyorilove",
-        "ぜろ距離love"
-      ],
       "similar": [
         "fixture:al:al27",
         "fixture:al:al03",
@@ -825,10 +710,6 @@
       "id": "fixture:al:al29",
       "latinSource": "cutlet",
       "releaseDate": "2024-10-16",
-      "search": [
-        "oyatsunojikan",
-        "おやつの時間"
-      ],
       "similar": [
         "fixture:al:al31",
         "fixture:al:al30",
@@ -854,10 +735,6 @@
       "id": "fixture:al:al30",
       "latinSource": "cutlet",
       "releaseDate": "2025-11-05",
-      "search": [
-        "mayonakanokanransha",
-        "真夜中の観覧車"
-      ],
       "similar": [
         "fixture:al:al31",
         "fixture:al:al29",
@@ -883,10 +760,6 @@
       "id": "fixture:al:al31",
       "latinSource": "cutlet",
       "releaseDate": "2026-08-19",
-      "search": [
-        "shibuya24ji",
-        "shibuya24時"
-      ],
       "similar": [
         "fixture:al:al30",
         "fixture:al:al29",
@@ -912,11 +785,6 @@
       "id": "fixture:al:al32",
       "latinSource": "cutlet",
       "releaseDate": "2026-09-16",
-      "search": [
-        "harogubbai",
-        "hellogubbai",
-        "はろーぐっばい"
-      ],
       "similar": [
         "fixture:al:al09",
         "fixture:al:al02",
@@ -942,10 +810,6 @@
       "id": "fixture:al:al33",
       "latinSource": "cutlet",
       "releaseDate": "2026-07-01",
-      "search": [
-        "ryuseihighway",
-        "流星highway"
-      ],
       "similar": [
         "fixture:al:al20",
         "fixture:al:al03",
@@ -968,149 +832,91 @@
       "id": "fixture:ar:ar01",
       "latinSource": "provider",
       "name": "ミナト",
-      "nameLatin": "Minato",
-      "search": [
-        "minato",
-        "みなと"
-      ]
+      "nameLatin": "Minato"
     },
     {
       "id": "fixture:ar:ar02",
       "latinSource": "provider",
       "name": "夜風シアター",
-      "nameLatin": "Yokaze Theater",
-      "search": [
-        "yokazeshiata",
-        "yokazetheater",
-        "夜風しあたー"
-      ]
+      "nameLatin": "Yokaze Theater"
     },
     {
       "id": "fixture:ar:ar03",
       "latinSource": null,
       "name": "ＬＵＭＩＮＡ",
-      "nameLatin": null,
-      "search": [
-        "lumina"
-      ]
+      "nameLatin": null
     },
     {
       "id": "fixture:ar:ar04",
       "latinSource": "provider",
       "name": "さくらんぼ組",
-      "nameLatin": "Sakuranbo-gumi",
-      "search": [
-        "sakuranbogumi",
-        "sakuranbokumi",
-        "さくらんぼ組"
-      ]
+      "nameLatin": "Sakuranbo-gumi"
     },
     {
       "id": "fixture:ar:ar05",
       "latinSource": "provider",
       "name": "ｶﾞﾗｽﾉﾈｺ",
-      "nameLatin": "Garasu no Neko",
-      "search": [
-        "garasunoneko",
-        "glassnoneko",
-        "がらすのねこ"
-      ]
+      "nameLatin": "Garasu no Neko"
     },
     {
       "id": "fixture:ar:ar06",
       "latinSource": null,
       "name": "Hoshizora Drive",
-      "nameLatin": null,
-      "search": [
-        "hoshizoradrive"
-      ]
+      "nameLatin": null
     },
     {
       "id": "fixture:ar:ar07",
       "latinSource": "provider",
       "name": "青井ユウ",
-      "nameLatin": "Aoi Yuu",
-      "search": [
-        "aoiyu",
-        "青井ゆう"
-      ]
+      "nameLatin": "Aoi Yuu"
     },
     {
       "id": "fixture:ar:ar08",
       "latinSource": null,
       "name": "KOTONOHA",
-      "nameLatin": null,
-      "search": [
-        "kotonoha"
-      ]
+      "nameLatin": null
     },
     {
       "id": "fixture:ar:ar09",
       "latinSource": "provider",
       "name": "ヴィオラ・ノート",
-      "nameLatin": "Viola Note",
-      "search": [
-        "violanote",
-        "vioranoto",
-        "ゔぃおらのーと"
-      ]
+      "nameLatin": "Viola Note"
     },
     {
       "id": "fixture:ar:ar10",
       "latinSource": "provider",
       "name": "月見坂46",
-      "nameLatin": "Tsukimizaka46",
-      "search": [
-        "tsukimisaka46",
-        "tsukimizaka46",
-        "月見坂46"
-      ]
+      "nameLatin": "Tsukimizaka46"
     },
     {
       "id": "fixture:ar:ar11",
       "latinSource": null,
       "name": "Re:Pulse",
-      "nameLatin": null,
-      "search": [
-        "repulse"
-      ]
+      "nameLatin": null
     },
     {
       "id": "fixture:ar:ar12",
       "latinSource": "provider",
       "name": "ぱぴぷ楽団",
-      "nameLatin": "Papipu Gakudan",
-      "search": [
-        "papipugakudan",
-        "ぱぴぷ楽団"
-      ]
+      "nameLatin": "Papipu Gakudan"
     },
     {
       "id": "fixture:ar:ar13",
       "latinSource": "provider",
       "name": "東京ノイズ",
-      "nameLatin": "Tōkyō Noise",
-      "search": [
-        "tokyonoise",
-        "tokyonoizu",
-        "東京のいず"
-      ]
+      "nameLatin": "Tōkyō Noise"
     },
     {
       "id": "fixture:ar:ar14",
       "latinSource": "provider",
       "name": "ナナ",
-      "nameLatin": "Nana",
-      "search": [
-        "nana",
-        "なな"
-      ]
+      "nameLatin": "Nana"
     }
   ],
-  "catalogVersion": "2026-10-05.bd37a10a",
+  "catalogVersion": "2026-10-05.04565998",
   "generatedAt": "2026-10-05T00:00:00Z",
   "provider": "fixture",
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "snapshots": [
     {
       "chart": "top-songs",
@@ -1177,18 +983,6 @@
           "夜明けのめろでぃ"
         ]
       },
-      "similar": [
-        "fixture:tr:tr05",
-        "fixture:tr:tr09",
-        "fixture:tr:tr40",
-        "fixture:tr:tr07",
-        "fixture:tr:tr20",
-        "fixture:tr:tr29",
-        "fixture:tr:tr16",
-        "fixture:tr:tr08",
-        "fixture:tr:tr10",
-        "fixture:tr:tr22"
-      ],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
       "storeUrl": null,
       "title": "夜明けのメロディ",
@@ -1235,18 +1029,6 @@
           "夜明けのめろでぃ"
         ]
       },
-      "similar": [
-        "fixture:tr:tr20",
-        "fixture:tr:tr29",
-        "fixture:tr:tr40",
-        "fixture:tr:tr15",
-        "fixture:tr:tr09",
-        "fixture:tr:tr16",
-        "fixture:tr:tr08",
-        "fixture:tr:tr10",
-        "fixture:tr:tr07",
-        "fixture:tr:tr22"
-      ],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
       "storeUrl": null,
       "title": "夜明けのメロディ",
@@ -1293,18 +1075,6 @@
           "夜明けのめろでぃtvshize"
         ]
       },
-      "similar": [
-        "fixture:tr:tr17",
-        "fixture:tr:tr42",
-        "fixture:tr:tr35",
-        "fixture:tr:tr22",
-        "fixture:tr:tr34",
-        "fixture:tr:tr14",
-        "fixture:tr:tr24",
-        "fixture:tr:tr08",
-        "fixture:tr:tr26",
-        "fixture:tr:tr27"
-      ],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
       "storeUrl": null,
       "title": "夜明けのメロディ (TV Size)",
@@ -1351,18 +1121,6 @@
           "夜明けのめろでぃ"
         ]
       },
-      "similar": [
-        "fixture:tr:tr10",
-        "fixture:tr:tr22",
-        "fixture:tr:tr16",
-        "fixture:tr:tr06",
-        "fixture:tr:tr24",
-        "fixture:tr:tr26",
-        "fixture:tr:tr37",
-        "fixture:tr:tr19",
-        "fixture:tr:tr33",
-        "fixture:tr:tr36"
-      ],
       "songKey": "夜明けのめろでぃ|fixture:ar:ar14",
       "storeUrl": null,
       "title": "夜明けのメロディ",
@@ -1412,18 +1170,6 @@
           "ふたりの約束"
         ]
       },
-      "similar": [
-        "fixture:tr:tr01",
-        "fixture:tr:tr32",
-        "fixture:tr:tr07",
-        "fixture:tr:tr40",
-        "fixture:tr:tr20",
-        "fixture:tr:tr29",
-        "fixture:tr:tr16",
-        "fixture:tr:tr08",
-        "fixture:tr:tr10",
-        "fixture:tr:tr22"
-      ],
       "songKey": "ふたりの約束|fixture:ar:ar02",
       "storeUrl": null,
       "title": "ふたりの約束",
@@ -1470,18 +1216,6 @@
           "坂道の向こう"
         ]
       },
-      "similar": [
-        "fixture:tr:tr15",
-        "fixture:tr:tr29",
-        "fixture:tr:tr16",
-        "fixture:tr:tr02",
-        "fixture:tr:tr08",
-        "fixture:tr:tr40",
-        "fixture:tr:tr10",
-        "fixture:tr:tr09",
-        "fixture:tr:tr22",
-        "fixture:tr:tr42"
-      ],
       "songKey": "坂道の向こう|fixture:ar:ar10",
       "storeUrl": null,
       "title": "坂道の向こう",
@@ -1529,18 +1263,6 @@
           "秋風のわるつ"
         ]
       },
-      "similar": [
-        "fixture:tr:tr32",
-        "fixture:tr:tr05",
-        "fixture:tr:tr01",
-        "fixture:tr:tr40",
-        "fixture:tr:tr20",
-        "fixture:tr:tr29",
-        "fixture:tr:tr08",
-        "fixture:tr:tr10",
-        "fixture:tr:tr22",
-        "fixture:tr:tr42"
-      ],
       "songKey": "秋風のわるつ|fixture:ar:ar09",
       "storeUrl": null,
       "title": "秋風のワルツ",
@@ -1587,18 +1309,6 @@
           "なつやすみ"
         ]
       },
-      "similar": [
-        "fixture:tr:tr10",
-        "fixture:tr:tr22",
-        "fixture:tr:tr15",
-        "fixture:tr:tr42",
-        "fixture:tr:tr06",
-        "fixture:tr:tr29",
-        "fixture:tr:tr03",
-        "fixture:tr:tr40",
-        "fixture:tr:tr24",
-        "fixture:tr:tr09"
-      ],
       "songKey": "なつやすみ|fixture:ar:ar04",
       "storeUrl": null,
       "title": "なつやすみ",
@@ -1644,18 +1354,6 @@
           "透明なしぐなる"
         ]
       },
-      "similar": [
-        "fixture:tr:tr01",
-        "fixture:tr:tr40",
-        "fixture:tr:tr05",
-        "fixture:tr:tr20",
-        "fixture:tr:tr07",
-        "fixture:tr:tr29",
-        "fixture:tr:tr08",
-        "fixture:tr:tr10",
-        "fixture:tr:tr22",
-        "fixture:tr:tr42"
-      ],
       "songKey": "透明なしぐなる|fixture:ar:ar08",
       "storeUrl": null,
       "title": "透明なシグナル",
@@ -1700,18 +1398,6 @@
           "狂騒riot"
         ]
       },
-      "similar": [
-        "fixture:tr:tr04",
-        "fixture:tr:tr22",
-        "fixture:tr:tr08",
-        "fixture:tr:tr42",
-        "fixture:tr:tr16",
-        "fixture:tr:tr15",
-        "fixture:tr:tr17",
-        "fixture:tr:tr06",
-        "fixture:tr:tr24",
-        "fixture:tr:tr26"
-      ],
       "songKey": "狂騒riot|fixture:ar:ar11",
       "storeUrl": null,
       "title": "狂騒Riot",
@@ -1758,18 +1444,6 @@
           "ぽんぽこまーち"
         ]
       },
-      "similar": [
-        "fixture:tr:tr28",
-        "fixture:tr:tr41",
-        "fixture:tr:tr23",
-        "fixture:tr:tr19",
-        "fixture:tr:tr25",
-        "fixture:tr:tr37",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr34",
-        "fixture:tr:tr42"
-      ],
       "songKey": "ぽんぽこまーち|fixture:ar:ar12",
       "storeUrl": null,
       "title": "ぽんぽこマーチ",
@@ -1813,18 +1487,6 @@
           "neonrain"
         ]
       },
-      "similar": [
-        "fixture:tr:tr02",
-        "fixture:tr:tr16",
-        "fixture:tr:tr22",
-        "fixture:tr:tr14",
-        "fixture:tr:tr33",
-        "fixture:tr:tr36",
-        "fixture:tr:tr29",
-        "fixture:tr:tr20",
-        "fixture:tr:tr15",
-        "fixture:tr:tr08"
-      ],
       "songKey": "neonrain|fixture:ar:ar06",
       "storeUrl": null,
       "title": "Neon Rain",
@@ -1867,18 +1529,6 @@
           "雨音のそなた"
         ]
       },
-      "similar": [
-        "fixture:tr:tr18",
-        "fixture:tr:tr14",
-        "fixture:tr:tr21",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr28",
-        "fixture:tr:tr27",
-        "fixture:tr:tr30",
-        "fixture:tr:tr23",
-        "fixture:tr:tr26"
-      ],
       "songKey": "雨音のそなた|fixture:ar:ar09",
       "storeUrl": null,
       "title": "雨音のソナタ",
@@ -1921,18 +1571,6 @@
         ],
         "title": []
       },
-      "similar": [
-        "fixture:tr:tr24",
-        "fixture:tr:tr26",
-        "fixture:tr:tr03",
-        "fixture:tr:tr19",
-        "fixture:tr:tr22",
-        "fixture:tr:tr10",
-        "fixture:tr:tr18",
-        "fixture:tr:tr33",
-        "fixture:tr:tr36",
-        "fixture:tr:tr06"
-      ],
       "songKey": "♡|fixture:ar:ar14",
       "storeUrl": null,
       "title": "♡",
@@ -1978,18 +1616,6 @@
           "君と"
         ]
       },
-      "similar": [
-        "fixture:tr:tr06",
-        "fixture:tr:tr29",
-        "fixture:tr:tr08",
-        "fixture:tr:tr02",
-        "fixture:tr:tr10",
-        "fixture:tr:tr22",
-        "fixture:tr:tr40",
-        "fixture:tr:tr42",
-        "fixture:tr:tr09",
-        "fixture:tr:tr07"
-      ],
       "songKey": "君と|fixture:ar:ar07",
       "storeUrl": null,
       "title": "君​と❤️",
@@ -2037,18 +1663,6 @@
           "がらすの靴"
         ]
       },
-      "similar": [
-        "fixture:tr:tr06",
-        "fixture:tr:tr10",
-        "fixture:tr:tr04",
-        "fixture:tr:tr22",
-        "fixture:tr:tr05",
-        "fixture:tr:tr26",
-        "fixture:tr:tr37",
-        "fixture:tr:tr19",
-        "fixture:tr:tr33",
-        "fixture:tr:tr36"
-      ],
       "songKey": "がらすの靴|fixture:ar:ar05",
       "storeUrl": null,
       "title": "ガラスの靴",
@@ -2092,18 +1706,6 @@
           "lovesong"
         ]
       },
-      "similar": [
-        "fixture:tr:tr03",
-        "fixture:tr:tr35",
-        "fixture:tr:tr34",
-        "fixture:tr:tr42",
-        "fixture:tr:tr24",
-        "fixture:tr:tr22",
-        "fixture:tr:tr26",
-        "fixture:tr:tr27",
-        "fixture:tr:tr08",
-        "fixture:tr:tr36"
-      ],
       "songKey": "lovesong|fixture:ar:ar03",
       "storeUrl": null,
       "title": "ＬＯＶＥ　ＳＯＮＧ",
@@ -2150,18 +1752,6 @@
           "あいのうた"
         ]
       },
-      "similar": [
-        "fixture:tr:tr28",
-        "fixture:tr:tr23",
-        "fixture:tr:tr33",
-        "fixture:tr:tr25",
-        "fixture:tr:tr36",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr26",
-        "fixture:tr:tr14",
-        "fixture:tr:tr06"
-      ],
       "songKey": "あいのうた|fixture:ar:ar05",
       "storeUrl": null,
       "title": "ｱｲﾉｳﾀ",
@@ -2208,18 +1798,6 @@
           "星に願いを"
         ]
       },
-      "similar": [
-        "fixture:tr:tr37",
-        "fixture:tr:tr27",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr18",
-        "fixture:tr:tr28",
-        "fixture:tr:tr24",
-        "fixture:tr:tr14",
-        "fixture:tr:tr34",
-        "fixture:tr:tr35"
-      ],
       "songKey": "星に願いを|fixture:ar:ar04",
       "storeUrl": null,
       "title": "星に願いを♪",
@@ -2267,18 +1845,6 @@
           "ichibanboshi"
         ]
       },
-      "similar": [
-        "fixture:tr:tr29",
-        "fixture:tr:tr02",
-        "fixture:tr:tr15",
-        "fixture:tr:tr40",
-        "fixture:tr:tr09",
-        "fixture:tr:tr08",
-        "fixture:tr:tr10",
-        "fixture:tr:tr22",
-        "fixture:tr:tr42",
-        "fixture:tr:tr07"
-      ],
       "songKey": "1番星|fixture:ar:ar10",
       "storeUrl": null,
       "title": "①番星",
@@ -2322,18 +1888,6 @@
           "midnightdrive"
         ]
       },
-      "similar": [
-        "fixture:tr:tr31",
-        "fixture:tr:tr33",
-        "fixture:tr:tr02",
-        "fixture:tr:tr22",
-        "fixture:tr:tr14",
-        "fixture:tr:tr36",
-        "fixture:tr:tr20",
-        "fixture:tr:tr09",
-        "fixture:tr:tr29",
-        "fixture:tr:tr15"
-      ],
       "songKey": "midnightdrive|fixture:ar:ar06",
       "storeUrl": null,
       "title": "Midnight Drive",
@@ -2382,18 +1936,6 @@
           "東京らいつ"
         ]
       },
-      "similar": [
-        "fixture:tr:tr04",
-        "fixture:tr:tr10",
-        "fixture:tr:tr42",
-        "fixture:tr:tr08",
-        "fixture:tr:tr17",
-        "fixture:tr:tr16",
-        "fixture:tr:tr15",
-        "fixture:tr:tr34",
-        "fixture:tr:tr24",
-        "fixture:tr:tr26"
-      ],
       "songKey": "東京らいつ|fixture:ar:ar13",
       "storeUrl": null,
       "title": "東京ライツ",
@@ -2441,18 +1983,6 @@
           "開幕べる"
         ]
       },
-      "similar": [
-        "fixture:tr:tr41",
-        "fixture:tr:tr25",
-        "fixture:tr:tr36",
-        "fixture:tr:tr28",
-        "fixture:tr:tr18",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr14"
-      ],
       "songKey": "開幕べる|fixture:ar:ar02",
       "storeUrl": null,
       "title": "開幕ベル",
@@ -2500,18 +2030,6 @@
           "かーてんこーる"
         ]
       },
-      "similar": [
-        "fixture:tr:tr26",
-        "fixture:tr:tr14",
-        "fixture:tr:tr34",
-        "fixture:tr:tr30",
-        "fixture:tr:tr27",
-        "fixture:tr:tr35",
-        "fixture:tr:tr37",
-        "fixture:tr:tr19",
-        "fixture:tr:tr42",
-        "fixture:tr:tr18"
-      ],
       "songKey": "かーてんこーる|fixture:ar:ar02",
       "storeUrl": null,
       "title": "カーテンコール",
@@ -2555,18 +2073,6 @@
           "live"
         ]
       },
-      "similar": [
-        "fixture:tr:tr36",
-        "fixture:tr:tr39",
-        "fixture:tr:tr23",
-        "fixture:tr:tr41",
-        "fixture:tr:tr18",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr14"
-      ],
       "songKey": "live|fixture:ar:ar11",
       "storeUrl": null,
       "title": "Live",
@@ -2610,18 +2116,6 @@
           "stayforever"
         ]
       },
-      "similar": [
-        "fixture:tr:tr30",
-        "fixture:tr:tr24",
-        "fixture:tr:tr27",
-        "fixture:tr:tr37",
-        "fixture:tr:tr14",
-        "fixture:tr:tr34",
-        "fixture:tr:tr19",
-        "fixture:tr:tr35",
-        "fixture:tr:tr18",
-        "fixture:tr:tr28"
-      ],
       "songKey": "stayforever|fixture:ar:ar08",
       "storeUrl": null,
       "title": "Stay (Forever)",
@@ -2667,18 +2161,6 @@
           "風になるfeatなな"
         ]
       },
-      "similar": [
-        "fixture:tr:tr37",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr19",
-        "fixture:tr:tr24",
-        "fixture:tr:tr34",
-        "fixture:tr:tr35",
-        "fixture:tr:tr28",
-        "fixture:tr:tr36",
-        "fixture:tr:tr42"
-      ],
       "songKey": "風になる|fixture:ar:ar07",
       "storeUrl": null,
       "title": "風になる (feat. ナナ)",
@@ -2725,18 +2207,6 @@
           "青い春tvshizelive"
         ]
       },
-      "similar": [
-        "fixture:tr:tr18",
-        "fixture:tr:tr41",
-        "fixture:tr:tr23",
-        "fixture:tr:tr25",
-        "fixture:tr:tr36",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr14"
-      ],
       "songKey": "青い春|fixture:ar:ar13",
       "storeUrl": null,
       "title": "青い春 - TV Size (Live)",
@@ -2782,18 +2252,6 @@
           "すーぱーのゔぁ"
         ]
       },
-      "similar": [
-        "fixture:tr:tr20",
-        "fixture:tr:tr02",
-        "fixture:tr:tr15",
-        "fixture:tr:tr40",
-        "fixture:tr:tr08",
-        "fixture:tr:tr09",
-        "fixture:tr:tr10",
-        "fixture:tr:tr22",
-        "fixture:tr:tr42",
-        "fixture:tr:tr07"
-      ],
       "songKey": "すーぱーのゔぁ|fixture:ar:ar03",
       "storeUrl": null,
       "title": "スーパーノヴァ",
@@ -2839,18 +2297,6 @@
           "がらす越しの光"
         ]
       },
-      "similar": [
-        "fixture:tr:tr26",
-        "fixture:tr:tr27",
-        "fixture:tr:tr24",
-        "fixture:tr:tr37",
-        "fixture:tr:tr19",
-        "fixture:tr:tr34",
-        "fixture:tr:tr35",
-        "fixture:tr:tr28",
-        "fixture:tr:tr42",
-        "fixture:tr:tr36"
-      ],
       "songKey": "がらす越しの光|fixture:ar:ar03",
       "storeUrl": null,
       "title": "ガラス越しの光",
@@ -2897,18 +2343,6 @@
           "猫背のぶるーす"
         ]
       },
-      "similar": [
-        "fixture:tr:tr33",
-        "fixture:tr:tr21",
-        "fixture:tr:tr23",
-        "fixture:tr:tr28",
-        "fixture:tr:tr25",
-        "fixture:tr:tr36",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr26",
-        "fixture:tr:tr14"
-      ],
       "songKey": "猫背のぶるーす|fixture:ar:ar05",
       "storeUrl": null,
       "title": "猫背のブルース",
@@ -2954,18 +2388,6 @@
           "めもりーれーん"
         ]
       },
-      "similar": [
-        "fixture:tr:tr07",
-        "fixture:tr:tr05",
-        "fixture:tr:tr01",
-        "fixture:tr:tr40",
-        "fixture:tr:tr20",
-        "fixture:tr:tr29",
-        "fixture:tr:tr08",
-        "fixture:tr:tr10",
-        "fixture:tr:tr22",
-        "fixture:tr:tr42"
-      ],
       "songKey": "めもりーれーん|fixture:ar:ar08",
       "storeUrl": null,
       "title": "メモリーレーン",
@@ -3012,18 +2434,6 @@
           "千年の詩"
         ]
       },
-      "similar": [
-        "fixture:tr:tr31",
-        "fixture:tr:tr14",
-        "fixture:tr:tr21",
-        "fixture:tr:tr23",
-        "fixture:tr:tr41",
-        "fixture:tr:tr25",
-        "fixture:tr:tr36",
-        "fixture:tr:tr28",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37"
-      ],
       "songKey": "千年の詩|fixture:ar:ar09",
       "storeUrl": null,
       "title": "千年の詩",
@@ -3071,18 +2481,6 @@
           "制服とさいだー"
         ]
       },
-      "similar": [
-        "fixture:tr:tr24",
-        "fixture:tr:tr35",
-        "fixture:tr:tr26",
-        "fixture:tr:tr17",
-        "fixture:tr:tr03",
-        "fixture:tr:tr27",
-        "fixture:tr:tr42",
-        "fixture:tr:tr19",
-        "fixture:tr:tr22",
-        "fixture:tr:tr36"
-      ],
       "songKey": "制服とさいだー|fixture:ar:ar10",
       "storeUrl": null,
       "title": "制服とサイダー",
@@ -3127,18 +2525,6 @@
           "ぜろ距離love"
         ]
       },
-      "similar": [
-        "fixture:tr:tr34",
-        "fixture:tr:tr17",
-        "fixture:tr:tr03",
-        "fixture:tr:tr24",
-        "fixture:tr:tr26",
-        "fixture:tr:tr42",
-        "fixture:tr:tr27",
-        "fixture:tr:tr22",
-        "fixture:tr:tr19",
-        "fixture:tr:tr36"
-      ],
       "songKey": "ぜろ距離love|fixture:ar:ar11",
       "storeUrl": null,
       "title": "ゼロ距離Love",
@@ -3184,18 +2570,6 @@
           "おやつの時間"
         ]
       },
-      "similar": [
-        "fixture:tr:tr25",
-        "fixture:tr:tr39",
-        "fixture:tr:tr38",
-        "fixture:tr:tr41",
-        "fixture:tr:tr18",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr14"
-      ],
       "songKey": "おやつの時間|fixture:ar:ar12",
       "storeUrl": null,
       "title": "おやつの時間",
@@ -3241,18 +2615,6 @@
           "灯台"
         ]
       },
-      "similar": [
-        "fixture:tr:tr19",
-        "fixture:tr:tr27",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr24",
-        "fixture:tr:tr14",
-        "fixture:tr:tr18",
-        "fixture:tr:tr34",
-        "fixture:tr:tr28",
-        "fixture:tr:tr35"
-      ],
       "songKey": "灯台|fixture:ar:ar01",
       "storeUrl": null,
       "title": "灯台",
@@ -3299,18 +2661,6 @@
           "真夜中の観覧車"
         ]
       },
-      "similar": [
-        "fixture:tr:tr39",
-        "fixture:tr:tr36",
-        "fixture:tr:tr25",
-        "fixture:tr:tr41",
-        "fixture:tr:tr18",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr14"
-      ],
       "songKey": "真夜中の観覧車|fixture:ar:ar02",
       "storeUrl": null,
       "title": "真夜中の観覧車",
@@ -3357,18 +2707,6 @@
           "shibuya24時"
         ]
       },
-      "similar": [
-        "fixture:tr:tr38",
-        "fixture:tr:tr36",
-        "fixture:tr:tr25",
-        "fixture:tr:tr41",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr34",
-        "fixture:tr:tr42"
-      ],
       "songKey": "shibuya24時|fixture:ar:ar13",
       "storeUrl": null,
       "title": "Shibuya 24時",
@@ -3415,18 +2753,6 @@
           "はろーぐっばい"
         ]
       },
-      "similar": [
-        "fixture:tr:tr09",
-        "fixture:tr:tr02",
-        "fixture:tr:tr20",
-        "fixture:tr:tr05",
-        "fixture:tr:tr29",
-        "fixture:tr:tr07",
-        "fixture:tr:tr08",
-        "fixture:tr:tr10",
-        "fixture:tr:tr22",
-        "fixture:tr:tr42"
-      ],
       "songKey": "はろーぐっばい|fixture:ar:ar14",
       "storeUrl": null,
       "title": "ハローグッバイ",
@@ -3472,18 +2798,6 @@
           "ひまわり畑でつかまえて"
         ]
       },
-      "similar": [
-        "fixture:tr:tr23",
-        "fixture:tr:tr28",
-        "fixture:tr:tr25",
-        "fixture:tr:tr36",
-        "fixture:tr:tr19",
-        "fixture:tr:tr37",
-        "fixture:tr:tr30",
-        "fixture:tr:tr26",
-        "fixture:tr:tr34",
-        "fixture:tr:tr42"
-      ],
       "songKey": "ひまわり畑でつかまえて|fixture:ar:ar07",
       "storeUrl": null,
       "title": "ひまわり畑でつかまえて",
@@ -3528,18 +2842,6 @@
           "流星highway"
         ]
       },
-      "similar": [
-        "fixture:tr:tr22",
-        "fixture:tr:tr03",
-        "fixture:tr:tr10",
-        "fixture:tr:tr17",
-        "fixture:tr:tr08",
-        "fixture:tr:tr34",
-        "fixture:tr:tr24",
-        "fixture:tr:tr15",
-        "fixture:tr:tr26",
-        "fixture:tr:tr40"
-      ],
       "songKey": "流星highway|fixture:ar:ar06",
       "storeUrl": null,
       "title": "流星Highway",

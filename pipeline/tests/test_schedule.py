@@ -12,7 +12,8 @@ import pytest
 from musicle_pipeline.aliases import parse_aliases
 from musicle_pipeline.catalog import Curation, build_catalog
 from musicle_pipeline.cli import main
-from musicle_pipeline.io_json import dumps
+from musicle_pipeline.io_json import dumps, read_json
+from musicle_pipeline.paths import repo_root
 from musicle_pipeline.schedule import (
     ScheduleError,
     compare,
@@ -75,9 +76,8 @@ def test_generation_rules_hold_every_day(sixty_one_days, fixture_catalog):
         assert len({t["albumId"] for t in answers}) == 6
         artists = [a for t in answers for a in t["artistIds"]]
         assert len(artists) == len(set(artists)), f"{day_str}: artista repetido no dia"
-        for rnd in day["song"]:
-            allowed = {rnd["answer"], *tracks[rnd["answer"]]["similar"]}
-            assert set(rnd["options"]) <= allowed
+        # O Desafio é digitado: os dias novos não têm opções de música (P100).
+        assert all(set(rnd) == {"answer"} for rnd in day["song"]), day_str
         for rnd in day["album"]:
             album_id = tracks[rnd["answer"]]["albumId"]
             assert set(rnd["options"]) <= {album_id, *albums[album_id]["similar"]}
@@ -154,7 +154,7 @@ def test_old_day_with_ineligible_answer_is_still_structurally_valid(
 def test_compare_catches_changed_and_removed_days(sixty_one_days):
     base = sixty_one_days.schedule
     edited = copy.deepcopy(base)
-    edited["days"]["2026-10-09"]["song"][0]["options"].reverse()
+    edited["days"]["2026-10-09"]["album"][0]["options"].reverse()
     del edited["days"]["2026-10-10"]
     edited["epoch"] = "2026-10-01"
     problems = compare(base, edited)
@@ -175,11 +175,37 @@ def test_epoch_is_required_for_a_new_schedule_and_cannot_change(fixture_catalog)
 def test_structural_validation_catches_broken_files(sixty_one_days, fixture_catalog):
     broken = copy.deepcopy(sixty_one_days.schedule)
     broken["days"]["2026-10-09"]["number"] = 7
-    rnd = broken["days"]["2026-10-11"]["song"][0]
-    rnd["options"] = [o for o in rnd["options"] if o != rnd["answer"]] + ["fixture:tr:tr06"]
+    tracks = {t["id"]: t for t in fixture_catalog["tracks"]}
+    rnd = broken["days"]["2026-10-11"]["album"][0]
+    right = tracks[rnd["answer"]]["albumId"]
+    other = next(a["id"] for a in fixture_catalog["albums"] if a["id"] not in rnd["options"])
+    rnd["options"] = [o for o in rnd["options"] if o != right] + [other]
+    broken["days"]["2026-10-12"]["song"][0]["answer"] = "fixture:tr:fantasma"
+    # Um dia de antes dos dois modos, com opções de música: elas ainda são conferidas.
+    old = broken["days"]["2026-10-13"]["song"][0]
+    old["options"] = [t for t in sorted(tracks) if t != old["answer"]][:4]
     problems = validate_schedule(broken, fixture_catalog)
     assert "2026-10-09: number deveria ser 2" in problems
-    assert "2026-10-11 song rodada 1: a resposta não está nas opções" in problems
+    assert "2026-10-11 album rodada 1: o álbum da resposta não está nas opções" in problems
+    assert "2026-10-12 song rodada 1: resposta inexistente fixture:tr:fantasma" in problems
+    assert "2026-10-13 song rodada 1: a resposta não está nas opções" in problems
+
+
+def test_days_from_before_the_two_modes_stay_and_new_ones_come_without_song_options(
+    fixture_catalog,
+):
+    # A agenda versionada das fixtures começou com opções de música (antes do P100), e o robô
+    # acrescenta dias sem elas toda semana. Os dias novos saem sem opções, os gravados ficam como
+    # estão, e a agenda mista é válida. Só o 1º dia (08/10) é fixo: os de depois do P100 não têm.
+    existing = read_json(repo_root() / "web/public/fixtures/schedule.json")
+    assert all("options" in rnd for rnd in existing["days"]["2026-10-08"]["song"])
+    last = date.fromisoformat(max(existing["days"]))
+    result = generate(fixture_catalog, existing, last + timedelta(days=1))
+    assert result.added[0] == (last + timedelta(days=1)).isoformat()
+    assert compare(existing, result.schedule) == []
+    assert validate_schedule(result.schedule, fixture_catalog) == []
+    for day_str in result.added:
+        assert all(set(rnd) == {"answer"} for rnd in result.schedule["days"][day_str]["song"])
 
 
 def test_never_generates_a_past_day(gapped, first_22):
@@ -248,7 +274,7 @@ def test_day_before_epoch_is_refused(first_22, fixture_catalog):
 def test_compare_after_a_gap_still_catches_changes(gapped):
     edited = copy.deepcopy(gapped.schedule)
     del edited["days"]["2026-11-07"]
-    edited["days"]["2026-11-08"]["song"][0]["options"].reverse()
+    edited["days"]["2026-11-08"]["album"][0]["options"].reverse()
     problems = compare(gapped.schedule, edited)
     assert "2026-11-07: dia removido" in problems
     assert "2026-11-08: dia alterado" in problems

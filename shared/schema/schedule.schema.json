@@ -21,9 +21,10 @@
     "trackId": { "type": "string", "pattern": "^[a-z]+:tr:[A-Za-z0-9_-]+$" },
     "albumId": { "type": "string", "pattern": "^[a-z]+:al:[A-Za-z0-9_-]+$" },
     "songRound": {
+      "description": "Rodada do Desafio (digitação). Só os dias de antes dos dois modos (P100) têm options, que o jogo ignora.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["answer", "options"],
+      "required": ["answer"],
       "properties": {
         "answer": { "$ref": "#/$defs/trackId" },
         "options": {
@@ -36,6 +37,7 @@
       }
     },
     "albumRound": {
+      "description": "Rodada do Normal: a resposta é o álbum da faixa, entre as 4 opções.",
       "type": "object",
       "additionalProperties": false,
       "required": ["answer", "options"],

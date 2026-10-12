@@ -1,47 +1,22 @@
 from __future__ import annotations
 
 from helpers import album_by_id, track_by_id
-from musicle_pipeline.similarity import MAX_SIMILAR, MIN_OPTIONS, album_profiles, title_of
+from musicle_pipeline.similarity import MAX_SIMILAR, MIN_OPTIONS, album_profiles
 
 
-def _tracks(catalog):
-    return {t["id"]: t for t in catalog["tracks"]}
-
-
-def test_track_distractors_never_share_artist_title_or_song(fixture_catalog):
-    tracks = _tracks(fixture_catalog)
-    for t in fixture_catalog["tracks"]:
-        assert len(t["similar"]) <= MAX_SIMILAR
-        seen: set[str] = set()
-        for sid in t["similar"]:
-            c = tracks[sid]
-            assert not set(c["artistIds"]) & set(t["artistIds"]), (t["id"], sid)
-            assert c["songKey"] != t["songKey"]
-            assert title_of(c["songKey"]) != title_of(t["songKey"])
-            assert c["eligible"]["daily"], (t["id"], sid)
-            assert not set(c["artistIds"]) & seen, "artista repetido entre distratores"
-            seen |= set(c["artistIds"])
+def test_only_albums_have_distractors(fixture_catalog):
+    # P100: o Desafio é digitado; só o Normal (4 opções de álbum) usa distratores.
+    assert all("similar" not in t for t in fixture_catalog["tracks"])
+    assert all(len(al["similar"]) <= MAX_SIMILAR for al in fixture_catalog["albums"])
 
 
 def test_collaboration_counts_every_artist(fixture_catalog):
-    # tr05 é de ar02 e ar07: nenhum distrator dela pode ser de qualquer um dos dois.
-    tracks = _tracks(fixture_catalog)
-    for sid in track_by_id(fixture_catalog, "tr05")["similar"]:
-        assert not {"fixture:ar:ar02", "fixture:ar:ar07"} & set(tracks[sid]["artistIds"])
-
-
-def test_same_title_by_another_artist_is_not_a_distractor(fixture_catalog):
-    assert "fixture:tr:tr04" not in track_by_id(fixture_catalog, "tr03")["similar"]
-    assert "fixture:tr:tr03" not in track_by_id(fixture_catalog, "tr04")["similar"]
-
-
-def test_distractors_never_repeat_a_title_among_themselves(fixture_catalog):
-    # P36: no dia 1, rodada 2, tr03 e tr04 (os dois "夜明けのメロディ") eram opções juntas.
-    tracks = _tracks(fixture_catalog)
-    for t in fixture_catalog["tracks"]:
-        titles = [title_of(tracks[s]["songKey"]) for s in t["similar"]]
-        assert len(titles) == len(set(titles)), t["id"]
-        assert not {"fixture:tr:tr03", "fixture:tr:tr04"} <= set(t["similar"]), t["id"]
+    # tr05 é de ar02 e ar07: nenhum distrator do álbum dela pode ter qualquer um dos dois.
+    profiles = album_profiles(fixture_catalog["albums"], fixture_catalog["tracks"])
+    album = album_by_id(fixture_catalog, track_by_id(fixture_catalog, "tr05")["albumId"])
+    assert album["similar"]
+    for sid in album["similar"]:
+        assert not {"fixture:ar:ar02", "fixture:ar:ar07"} & profiles[sid]["artists"], sid
 
 
 def test_album_distractors_never_repeat_a_title(fixture_catalog):
@@ -52,10 +27,9 @@ def test_album_distractors_never_repeat_a_title(fixture_catalog):
         assert profiles[al["id"]]["title"] not in titles, al["id"]
 
 
-def test_every_eligible_track_has_enough_distractors(fixture_catalog):
+def test_every_eligible_track_has_an_album_with_enough_distractors(fixture_catalog):
     for t in fixture_catalog["tracks"]:
         if t["eligible"]["daily"]:
-            assert len(t["similar"]) >= MIN_OPTIONS, t["id"]
             assert len(album_by_id(fixture_catalog, t["albumId"])["similar"]) >= MIN_OPTIONS
 
 
@@ -83,11 +57,11 @@ def test_album_distractors_are_disjoint_by_artist(fixture_catalog):
 
 def test_distractors_come_ordered_by_era(fixture_catalog):
     # A janela de ano (0: até 2 anos, 1: até 5, 2: mais) nunca diminui ao longo da lista.
-    tracks = _tracks(fixture_catalog)
-    for t in fixture_catalog["tracks"]:
-        year = int(t["releaseDate"][:4])
+    albums = {al["id"]: al for al in fixture_catalog["albums"]}
+    for al in fixture_catalog["albums"]:
+        year = int(al["releaseDate"][:4])
         windows = []
-        for sid in t["similar"]:
-            gap = abs(int(tracks[sid]["releaseDate"][:4]) - year)
+        for sid in al["similar"]:
+            gap = abs(int(albums[sid]["releaseDate"][:4]) - year)
             windows.append(0 if gap <= 2 else 1 if gap <= 5 else 2)
-        assert windows == sorted(windows), t["id"]
+        assert windows == sorted(windows), al["id"]

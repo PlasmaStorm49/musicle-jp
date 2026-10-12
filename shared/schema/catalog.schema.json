@@ -17,7 +17,7 @@
     "tracks"
   ],
   "properties": {
-    "schemaVersion": { "const": 1 },
+    "schemaVersion": { "const": 2 },
     "catalogVersion": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}\\.[0-9a-f]{8}$" },
     "generatedAt": { "$ref": "#/$defs/timestamp" },
     "provider": { "type": "string", "pattern": "^[a-z]+$" },
@@ -60,13 +60,12 @@
     "artist": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "nameLatin", "latinSource", "search"],
+      "required": ["id", "name", "nameLatin", "latinSource"],
       "properties": {
         "id": { "$ref": "#/$defs/artistId" },
         "name": { "$ref": "#/$defs/text" },
         "nameLatin": { "$ref": "#/$defs/optionalText" },
-        "latinSource": { "$ref": "#/$defs/latinSource" },
-        "search": { "$ref": "#/$defs/searchKeys" }
+        "latinSource": { "$ref": "#/$defs/latinSource" }
       }
     },
     "album": {
@@ -82,8 +81,7 @@
         "type",
         "releaseDate",
         "artworkUrl",
-        "similar",
-        "search"
+        "similar"
       ],
       "properties": {
         "id": { "$ref": "#/$defs/albumId" },
@@ -95,8 +93,13 @@
         "type": { "enum": ["single", "album", "ep", "compilation"] },
         "releaseDate": { "$ref": "#/$defs/date" },
         "artworkUrl": { "oneOf": [{ "$ref": "#/$defs/url" }, { "type": "null" }] },
-        "similar": { "type": "array", "maxItems": 10, "uniqueItems": true, "items": { "$ref": "#/$defs/albumId" } },
-        "search": { "$ref": "#/$defs/searchKeys" }
+        "similar": {
+          "description": "Distratores do Normal (4 opções de álbum).",
+          "type": "array",
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/albumId" }
+        }
       }
     },
     "preview": {
@@ -162,7 +165,6 @@
         "chart",
         "popularity",
         "eligible",
-        "similar",
         "search"
       ],
       "properties": {
@@ -188,8 +190,8 @@
         "chart": { "$ref": "#/$defs/chart" },
         "popularity": { "type": "number", "minimum": 0, "maximum": 1 },
         "eligible": { "$ref": "#/$defs/eligible" },
-        "similar": { "type": "array", "maxItems": 10, "uniqueItems": true, "items": { "$ref": "#/$defs/trackId" } },
         "search": {
+          "description": "Chaves da busca do Desafio (digitação).",
           "type": "object",
           "additionalProperties": false,
           "required": ["title", "artist"],

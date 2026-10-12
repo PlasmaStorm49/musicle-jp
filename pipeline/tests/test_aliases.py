@@ -42,6 +42,8 @@ def test_parse_valid_file():
     [
         ("[musicas.x]\nlatin = 'a'", "seção desconhecida"),
         ("[albums.'fixture:al:al01']\nblock = true", "chave desconhecida"),
+        # P102: só a busca de músicas ficou; apelido de álbum não acharia nada.
+        ("[albums.'fixture:al:al01']\naliases = ['x']", "chave desconhecida"),
         ("[tracks.'fixture:tr:tr01']\nlatin = 3", "latin deveria"),
         ("[tracks.'fixture:tr:tr01']\nlatin = '  '", "latin deveria"),
         ("[tracks.'fixture:tr:tr01']\naliases = 'um só'", "aliases deveria"),

@@ -8,7 +8,10 @@ Formato (por ID do catálogo):
     [tracks."fixture:tr:tr22"]
     latin = "Tokyo Lights"       # título latino exibido; vence o provedor e o romaji automático
     aliases = ["tokyo raitsu"]   # termos extras de busca
-    block = true                 # tira a faixa do desafio diário (reason "blocked")
+    block = true                 # tira a faixa dos diários (reason "blocked")
+
+Busca só existe para músicas (o Desafio, P100): faixa e artista aceitam `aliases` (o do artista
+entra na busca das faixas dele); álbum, só `latin`.
 """
 
 from __future__ import annotations
@@ -24,7 +27,7 @@ from musicle_pipeline.models import InputError
 KINDS = ("tracks", "albums", "artists")
 _ALLOWED_KEYS = {
     "tracks": {"latin", "aliases", "block"},
-    "albums": {"latin", "aliases"},
+    "albums": {"latin"},
     "artists": {"latin", "aliases"},
 }
 

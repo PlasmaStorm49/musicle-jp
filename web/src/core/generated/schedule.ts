@@ -30,14 +30,20 @@ export interface Day {
    */
   album: [AlbumRound, AlbumRound, AlbumRound];
 }
+/**
+ * Rodada do Desafio (digitação). Só os dias de antes dos dois modos (P100) têm options, que o jogo ignora.
+ */
 export interface SongRound {
   answer: TrackId;
   /**
    * @minItems 4
    * @maxItems 4
    */
-  options: [TrackId, TrackId, TrackId, TrackId];
+  options?: [TrackId, TrackId, TrackId, TrackId];
 }
+/**
+ * Rodada do Normal: a resposta é o álbum da faixa, entre as 4 opções.
+ */
 export interface AlbumRound {
   answer: TrackId;
   /**

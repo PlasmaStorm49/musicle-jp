@@ -25,9 +25,11 @@ from musicle_pipeline.models import (
 )
 from musicle_pipeline.normalize import display, search_keys, song_key
 from musicle_pipeline.romaji_cache import RomajiCache, album_text, artist_text, track_text
-from musicle_pipeline.similarity import album_similar, track_similar
+from musicle_pipeline.similarity import album_similar
 
-SCHEMA_VERSION = 1
+# v2 (P102): saíram o similar da faixa e a busca de álbum e de artista, que só serviam às
+# combinações removidas pelos dois modos (Música com 4 opções, Álbum com digitação).
+SCHEMA_VERSION = 2
 MIN_PREVIEW_SEC = 16  # o trecho mais longo do jogo tem 16 s
 POPULARITY_HALF_LIFE_WEEKS = 8
 
@@ -98,7 +100,6 @@ def _artist_record(provider: str, a: RawArtist, cur: Curation) -> JSON:
         "name": display(a.name),
         "nameLatin": latin,
         "latinSource": source,
-        "search": search_keys(cur.search_texts("artists", artist_id, text, a.name_latin)),
     }
 
 
@@ -134,7 +135,6 @@ def _album_record(provider: str, t: RawTrack, cur: Curation) -> JSON:
         "releaseDate": al.release_date,
         "artworkUrl": al.artwork_url,
         "similar": [],
-        "search": search_keys(cur.search_texts("albums", album_id, text, al.title_latin)),
     }
 
 
@@ -222,7 +222,6 @@ def _track_record(
         "eligible": eligibility(
             preview, album["artworkUrl"], blocked=cur.aliases.get("tracks", track_id).block
         ),
-        "similar": [],
         "search": {
             "title": search_keys(cur.search_texts("tracks", track_id, text, t.title_latin)),
             "artist": search_keys(artist_texts),
@@ -316,9 +315,8 @@ def build_catalog(
             key=lambda r: r["id"],
         ),
     }
-    # Distratores por último: dependem da popularidade e da elegibilidade de todas as faixas.
-    for track_id, similar in track_similar(catalog["tracks"], albums).items():
-        next(t for t in catalog["tracks"] if t["id"] == track_id)["similar"] = similar
+    # Distratores do Normal por último: dependem da popularidade e da elegibilidade de todas as
+    # faixas.
     for album_id, similar in album_similar(catalog["albums"], catalog["tracks"]).items():
         albums[album_id]["similar"] = similar
     catalog["catalogVersion"] = catalog_version(catalog)
