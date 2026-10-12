@@ -1363,6 +1363,50 @@
           ]
         }
       ]
+    },
+    "2026-11-02": {
+      "album": [
+        {
+          "answer": "apple:tr:6782749979",
+          "options": [
+            "apple:al:1894837142",
+            "apple:al:6782749976",
+            "apple:al:1821849174",
+            "apple:al:6792630528"
+          ]
+        },
+        {
+          "answer": "apple:tr:1691229801",
+          "options": [
+            "apple:al:1803063207",
+            "apple:al:1794066812",
+            "apple:al:1691229798",
+            "apple:al:1771366340"
+          ]
+        },
+        {
+          "answer": "apple:tr:1733130377",
+          "options": [
+            "apple:al:1821087726",
+            "apple:al:1733129984",
+            "apple:al:1860538546",
+            "apple:al:1892738151"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-10-12.58eada1c",
+      "number": 24,
+      "song": [
+        {
+          "answer": "apple:tr:6803148739"
+        },
+        {
+          "answer": "apple:tr:1490256995"
+        },
+        {
+          "answer": "apple:tr:1795905600"
+        }
+      ]
     }
   },
   "epoch": "2026-10-10",
