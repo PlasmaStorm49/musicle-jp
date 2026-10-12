@@ -173,6 +173,71 @@ describe("a partida (P119, P153)", () => {
     const run = startSuperfan(7, ar02, NONE);
     expect(next(run)).toBe(run);
   });
+
+  it("a música anulada (falha de áudio) não conta: nem os erros, nem a ajuda (P162)", () => {
+    let run = startSuperfan(10, ar02, NONE);
+    const [w1, w2] = wrongs(run);
+    // As opções da ajuda não podem repetir o palpite já tentado.
+    run = step(run, guess(w1 ?? ""), { type: "HELP", options: [answer(run), w2 ?? ""] });
+    expect(superfanErrors(run)).toBe(1);
+    expect(superfanHelps(run)).toBe(1);
+    run = step(run, { type: "VOID", round: 0, reason: "audio" });
+    expect(superfanErrors(run)).toBe(0);
+    expect(superfanHelps(run)).toBe(0);
+    expect(superfanScore(run)).toEqual({ points: 0, rounds: 0 });
+    run = next(run);
+    expect(run).toMatchObject({ errors: 0, helps: 0, right: 0, end: null });
+    expect(superfanScore(run)).toEqual({ points: 0, rounds: 0 });
+  });
+
+  it("errar a opção da ajuda como 3º erro encerra a partida", () => {
+    let run = startSuperfan(3, ar02, NONE);
+    const [w1, w2] = wrongs(run);
+    run = step(run, guess(w1 ?? ""), guess(w2 ?? ""), guess(answer(run)));
+    run = next(run);
+    run = step(run, help(run), guess(wrong(run)));
+    expect(superfanErrors(run)).toBe(3);
+    expect(superfanOver(run)).toBe(true);
+    run = next(run);
+    expect(run.end).toBe("errors");
+    expect(superfanScore(run).points).toBe(1 - 15);
+  });
+
+  it("com uma música de fora (diário de hoje): ela e as do álbum dela não tocam, e a partida acaba nas outras", () => {
+    // 開幕ベル e カーテンコール são do mesmo álbum (al21): a revelação de uma mostraria a capa da outra.
+    const key = (title: string) => `${title}|fixture:ar:ar02`;
+    const excluded = new Set([key("開幕べる")]);
+    let run = startSuperfan(11, ar02, excluded);
+    const seen: string[] = [];
+    while (run.end === null) {
+      seen.push(ar02.tracks.get(answer(run))?.songKey ?? "");
+      run = step(run, guess(answer(run)));
+      run = superfanNext(run, ar02, excluded);
+    }
+    expect(run.end).toBe("done");
+    expect(seen.sort()).toEqual([key("ふたりの約束"), key("真夜中の観覧車")].sort());
+    expect(superfanScore(run)).toEqual({ points: 6, rounds: 2 });
+  });
+});
+
+describe("a partida sem música", () => {
+  it("todas as músicas excluídas (os diários de hoje): acaba antes de começar, sem rodada", () => {
+    const all = new Set(ar01.tracksBySong.keys());
+    const run = startSuperfan(8, ar01, all);
+    expect(run.end).toBe("done");
+    expect(run.session.game).toBeNull();
+    expect(superfanScore(run)).toEqual({ points: 0, rounds: 0 });
+  });
+
+  it("encerrar depois do 3º erro fecha a partida pelos erros, e não por encerrar", () => {
+    let run = startSuperfan(3, ar02, NONE);
+    const [w1, w2] = wrongs(run);
+    run = step(run, guess(w1 ?? ""), guess(w2 ?? ""), guess(answer(run)));
+    run = next(run);
+    run = step(run, guess(wrong(run)));
+    expect(superfanOver(run)).toBe(true);
+    expect(quitSuperfan(run).end).toBe("errors");
+  });
 });
 
 describe("superfanOffset (o começo sorteado do trecho)", () => {

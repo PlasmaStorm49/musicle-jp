@@ -27,7 +27,7 @@ export type RoundState = {
   readonly accepted: readonly string[];
   /** As 4 opções do Normal; vazio no Desafio, que é digitado. */
   readonly options: readonly string[];
-  /** Etapa do trecho: 0 = 1 s ... 5 = 16 s. */
+  /** Etapa do trecho, na barra do modo (`stages`): nos diários, 0 = 1 s ... 5 = 16 s. */
   readonly stage: number;
   readonly attempts: readonly Attempt[];
   readonly status: RoundStatus;
@@ -162,9 +162,10 @@ function skip(state: GameState, round: RoundState): GameState {
 }
 
 /**
- * A ajuda: só no modo que a tem, uma vez por rodada e depois de gastar ao menos uma tentativa
- * (P150). As opções vêm de quem pede; o reducer só confere a forma: de 2 a HELP_OPTIONS ids
- * distintos, nenhum já tentado, e um deles aceito (a ajuda nunca esconde a resposta).
+ * A ajuda: só no modo que a tem, uma vez por rodada e depois das tentativas que as regras pedem
+ * (`helpFrom`: 1 no Desafio, P150; 0 no Superfan, P159). As opções vêm de quem pede; o reducer
+ * só confere a forma: de 2 a HELP_OPTIONS ids distintos, nenhum já tentado, e um deles aceito (a
+ * ajuda nunca esconde a resposta).
  */
 function help(state: GameState, round: RoundState, options: readonly string[]): GameState {
   const rules = rulesOf(state);
@@ -226,6 +227,12 @@ export function isFinished(state: GameState): boolean {
   return state.rounds.every((r) => r.status !== "playing");
 }
 
+/** Palpites errados da rodada (os erros do Superfan, P119); a anulada não tem nenhum. */
+export function roundErrors(round: RoundState): number {
+  if (round.status === "void") return 0;
+  return round.attempts.filter((a) => a.kind === "guess" && !a.correct).length;
+}
+
 /**
  * Pontos de uma rodada, pelas regras do jogo: o acerto vale os pontos da etapa, ou os da ajuda
  * (P152, P153), e cada palpite errado soma `wrongPoints` (0; −5 no Superfan, P119). A anulada
@@ -234,8 +241,7 @@ export function isFinished(state: GameState): boolean {
  */
 export function roundScore(round: RoundState, rules: ModeRules = MODE_RULES.song): number {
   if (round.status === "void") return 0;
-  const wrong = round.attempts.filter((a) => a.kind === "guess" && !a.correct).length;
-  const errors = wrong * rules.wrongPoints;
+  const errors = roundErrors(round) * rules.wrongPoints;
   if (round.status !== "won") return errors;
   const stage = Math.min(Math.max(round.stage, 0), rules.points.length - 1);
   return errors + (round.help ? rules.helpPoints : (rules.points[stage] ?? 0));

@@ -21,7 +21,7 @@ export const HELP_OPTIONS = 4;
  * Depois de quantas tentativas gastas (erradas ou puladas, P150) o botão da ajuda aparece: no
  * Treino e no modo por artista, depois da 1ª; nos diários, só depois da 3ª (P149).
  */
-export const HELP_AFTER = { practice: 1, daily: 3, superfan: 0 } as const;
+export const HELP_AFTER = { practice: 1, daily: 3 } as const;
 
 /** Largura de cada pedaço da barra: quanto cada etapa acrescenta (1, 1, 2, 3, 4, 5 nos de hoje). */
 export function segmentWeights(stages: readonly number[]): number[] {

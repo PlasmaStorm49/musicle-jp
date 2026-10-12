@@ -15,7 +15,7 @@ import {
   startPracticeSession,
 } from "./practice.ts";
 import { seeded } from "./prng.ts";
-import { currentRound, type GameEvent, type RoundState, reduce } from "./reducer.ts";
+import { currentRound, type GameEvent, type RoundState, reduce, roundErrors } from "./reducer.ts";
 import { VARIANT_RULES } from "./rules.ts";
 
 /** Erros na partida inteira que a encerram (P119). */
@@ -42,10 +42,9 @@ export type SuperfanRun = {
   readonly end: SuperfanEnd | null;
 };
 
-const wrongIn = (round: RoundState) =>
-  round.status === "void"
-    ? 0
-    : round.attempts.filter((a) => a.kind === "guess" && !a.correct).length;
+const wrongIn = roundErrors;
+/** A ajuda da música. A anulada (falha de áudio) não conta, como os erros dela (P162). */
+const helpIn = (round: RoundState) => (round.help && round.status !== "void" ? 1 : 0);
 
 function playing(run: SuperfanRun): RoundState | null {
   const game = run.session.game;
@@ -60,7 +59,8 @@ export function superfanErrors(run: SuperfanRun): number {
 
 /** As ajudas da partida, com a da música em jogo. */
 export function superfanHelps(run: SuperfanRun): number {
-  return run.helps + (playing(run)?.help ? 1 : 0);
+  const round = playing(run);
+  return run.helps + (round ? helpIn(round) : 0);
 }
 
 /**
@@ -147,9 +147,13 @@ export function superfanNext(
   };
 }
 
-/** Encerrar a partida: a música em jogo termina como desistida, e os erros dela contam. */
+/**
+ * Encerrar a partida: a música em jogo termina como desistida, e os erros dela contam. Com os 3
+ * erros já cometidos (a revelação do último na tela), o fim é por erros, e não por encerrar.
+ */
 export function quitSuperfan(run: SuperfanRun): SuperfanRun {
   if (run.end !== null) return run;
+  if (superfanErrors(run) >= SUPERFAN_ERRORS) return close(run, "errors");
   const game = run.session.game;
   const ended =
     game && currentRound(game).status === "playing" ? reduce(game, { type: "GIVE_UP" }) : game;
