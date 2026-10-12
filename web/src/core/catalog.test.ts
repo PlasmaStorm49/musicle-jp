@@ -4,8 +4,9 @@ import { acceptedIds, indexCatalog, UnsupportedCatalogError } from "./catalog.ts
 import type { Album, Catalog } from "./types.ts";
 
 const index = indexCatalog(catalog);
+// Do catálogo, e não do índice: os testes montam catálogos com a faixa e o álbum inteiros.
 const track = (id: string) => {
-  const t = index.tracks.get(`fixture:tr:${id}`);
+  const t = catalog.tracks.find((x) => x.id === `fixture:tr:${id}`);
   if (!t) throw new Error(`faixa ${id} não existe no catálogo`);
   return t;
 };
@@ -49,7 +50,7 @@ describe("acceptedIds", () => {
     // O lookup da Apple traz um álbum só por faixa: há dois "ROSE - Single" da HANA, e o EP
     // "爆裂愛してる / 好きすぎて滅! - EP" tem a música 好きすぎて滅!.
     const answer = track("tr05");
-    const album = index.albums.get(answer.albumId);
+    const album = catalog.albums.find((a) => a.id === answer.albumId);
     if (!album) throw new Error("álbum da tr05 não existe");
     const extra = [
       { ...album, id: "fixture:al:twin" }, // "ふたりの約束 - Single" de novo, como o ROSE
@@ -69,7 +70,7 @@ describe("acceptedIds", () => {
     // Tiger está no 2º "ROSE - Single" da HANA; o 1º tem o mesmo nome na tela.
     // Só a regra do nome inteiro cobre: o título da música é outro.
     const answer = track("tr37"); // 灯台, do álbum Dawn Collection
-    const album = index.albums.get(answer.albumId);
+    const album = catalog.albums.find((a) => a.id === answer.albumId);
     if (!album) throw new Error("álbum da tr37 não existe");
     const twin = { ...album, id: "fixture:al:twin" };
     const grown = indexCatalog({
@@ -81,7 +82,7 @@ describe("acceptedIds", () => {
 
   it("Normal: nome que a normalização esvazia (só símbolos) não casa com outro", () => {
     const answer = track("tr05");
-    const album = index.albums.get(answer.albumId);
+    const album = catalog.albums.find((a) => a.id === answer.albumId);
     if (!album) throw new Error("álbum da tr05 não existe");
     const symbols = { ...answer, id: "fixture:tr:sym", songKey: "sym", title: "♡" };
     const albums: Album[] = [
@@ -98,7 +99,7 @@ describe("acceptedIds", () => {
     // 19/10: a resposta 爆裂愛してる é do EP "爆裂愛してる / 好きすぎて滅! - EP", e o
     // "好きすぎて滅! - Single" não tem essa música.
     const answer = track("tr05");
-    const album = index.albums.get(answer.albumId);
+    const album = catalog.albums.find((a) => a.id === answer.albumId);
     if (!album) throw new Error("álbum da tr05 não existe");
     const ep = { ...album, title: `${answer.title} / Outra - EP` };
     const single = { ...album, id: "fixture:al:outra", title: "Outra - Single" };

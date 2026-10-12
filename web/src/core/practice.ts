@@ -11,7 +11,7 @@ import { type Mulberry32, seeded } from "./prng.ts";
 import { pendingDayTracks, type Save } from "./records.ts";
 import { createRounds, type GameState, type PlannedRound, roundScore } from "./reducer.ts";
 import { MODE_RULES } from "./rules.ts";
-import type { Day, Target, Track } from "./types.ts";
+import type { Day, PlayableTrack, Target } from "./types.ts";
 
 /** Distratores por rodada do Normal: com a certa, 4 opções. */
 const DISTRACTORS = 3;
@@ -70,7 +70,7 @@ export function newPractice(seed: number, target: Target): PracticeState {
 }
 
 /** Ordem de preferência dentro de um grupo: mais popular primeiro; empate pelo id. */
-function byPopularity(a: Track, b: Track): number {
+function byPopularity(a: PlayableTrack, b: PlayableTrack): number {
   if (a.popularity !== b.popularity) return b.popularity - a.popularity;
   return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
 }
@@ -97,14 +97,14 @@ const pools = new WeakMap<CatalogIndex, Partial<Record<Target, readonly string[]
 function buildPool(index: CatalogIndex, target: Target): readonly string[] {
   const eligible = index.catalog.tracks.filter((t) => t.eligible.daily);
   if (target === "song") {
-    const best = new Map<string, Track>();
+    const best = new Map<string, PlayableTrack>();
     for (const track of eligible) {
       const current = best.get(track.songKey);
       if (!current || byPopularity(track, current) < 0) best.set(track.songKey, track);
     }
     return [...best.values()].map((t) => t.id).sort(byId);
   }
-  const byAlbum = new Map<string, Track[]>();
+  const byAlbum = new Map<string, PlayableTrack[]>();
   for (const track of eligible) {
     const group = byAlbum.get(track.albumId) ?? [];
     group.push(track);
@@ -160,7 +160,10 @@ export function pendingDailySongKeys(
  * por ela (acceptedIds), ou seja, os que a contêm e os do mesmo lançamento (o EP "A / B", o
  * outro single de mesmo nome), que o catálogo não liga à música.
  */
-function blockedAlbums(index: CatalogIndex, excluded: ReadonlySet<string>): ReadonlySet<string> {
+export function answerAlbums(
+  index: CatalogIndex,
+  excluded: ReadonlySet<string>,
+): ReadonlySet<string> {
   const albums = new Set<string>();
   for (const key of excluded) {
     for (const track of index.tracksBySong.get(key) ?? []) {
@@ -192,7 +195,7 @@ export function planRound(
   trackId: string,
   excluded: ReadonlySet<string>,
   rng: Mulberry32,
-  blocked: ReadonlySet<string> = blockedAlbums(index, excluded),
+  blocked: ReadonlySet<string> = answerAlbums(index, excluded),
 ): PlannedRound {
   const track = index.tracks.get(trackId);
   if (!track) throw new RangeError(`faixa ${trackId} não está no catálogo`);
@@ -207,7 +210,7 @@ export function planRound(
 
 /**
  * Sorteia a próxima rodada, no modo do estado. A faixa cujo álbum entregaria uma música excluída
- * (a dela ou outra: blockedAlbums) é pulada (fica no saco e volta no ciclo seguinte). Saco
+ * (a dela ou outra: answerAlbums) é pulada (fica no saco e volta no ciclo seguinte). Saco
  * vazio: novo ciclo. Uma volta inteira sem achar nenhuma devolve null, e o estado fica como
  * estava.
  */
@@ -218,7 +221,7 @@ export function drawPractice(
 ): PracticeDraw | null {
   const { target } = state;
   const pool = practicePool(index, target);
-  const blocked = blockedAlbums(index, excluded);
+  const blocked = answerAlbums(index, excluded);
   let { cycle, position, carry } = state.cursor;
   let bag = bagFor(pool, state.seed, target, cycle, carry);
   // A última tocada é a de antes da posição: as puladas só vêm depois dela.

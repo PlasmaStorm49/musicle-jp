@@ -376,7 +376,7 @@ describe("rodada do Treino (planRound)", () => {
 
   it("similar com menos de 3 nem na lista inteira: usa o que houver", () => {
     const answer = track("fixture:tr:tr05");
-    const album = index.albums.get(answer.albumId);
+    const album = catalog.albums.find((a) => a.id === answer.albumId);
     if (!album) throw new Error("álbum da tr05 ausente");
     const short = indexCatalog({
       ...catalog,

@@ -1,18 +1,29 @@
 // Acesso rápido ao catálogo e respostas aceitas de cada rodada.
 import { normalize } from "./normalize.ts";
-import type { Album, Artist, Catalog, Target, Track } from "./types.ts";
+import type {
+  Artist,
+  ArtistCatalog,
+  Catalog,
+  PlayableAlbum,
+  PlayableCatalog,
+  PlayableTrack,
+  Target,
+} from "./types.ts";
 
 export const SUPPORTED_SCHEMA_VERSION = 2;
+/** A versão do arquivo de um artista (M13), separada da do catálogo da parada. */
+export const SUPPORTED_ARTIST_SCHEMA_VERSION = 1;
 
 /** Catálogo de uma versão que este código não conhece: o jogo pede para atualizar a página. */
 export class UnsupportedCatalogError extends Error {}
 
+/** O índice de um catálogo jogável: o da parada ou o de um artista (M13). */
 export type CatalogIndex = {
-  readonly catalog: Catalog;
-  readonly tracks: ReadonlyMap<string, Track>;
-  readonly albums: ReadonlyMap<string, Album>;
+  readonly catalog: PlayableCatalog;
+  readonly tracks: ReadonlyMap<string, PlayableTrack>;
+  readonly albums: ReadonlyMap<string, PlayableAlbum>;
   readonly artists: ReadonlyMap<string, Artist>;
-  readonly tracksBySong: ReadonlyMap<string, readonly Track[]>;
+  readonly tracksBySong: ReadonlyMap<string, readonly PlayableTrack[]>;
 };
 
 export function indexCatalog(catalog: Catalog): CatalogIndex {
@@ -21,7 +32,21 @@ export function indexCatalog(catalog: Catalog): CatalogIndex {
       `catálogo com schemaVersion ${String(catalog.schemaVersion)}; esperado ${SUPPORTED_SCHEMA_VERSION}`,
     );
   }
-  const tracksBySong = new Map<string, Track[]>();
+  return indexPlayable(catalog);
+}
+
+/** O arquivo de um artista vira um índice como o da parada: o Treino e a rodada servem (M13). */
+export function indexArtist(file: ArtistCatalog): CatalogIndex {
+  if (file.schemaVersion !== SUPPORTED_ARTIST_SCHEMA_VERSION) {
+    throw new UnsupportedCatalogError(
+      `artista com schemaVersion ${String(file.schemaVersion)}; esperado ${SUPPORTED_ARTIST_SCHEMA_VERSION}`,
+    );
+  }
+  return indexPlayable(file);
+}
+
+function indexPlayable(catalog: PlayableCatalog): CatalogIndex {
+  const tracksBySong = new Map<string, PlayableTrack[]>();
   for (const track of catalog.tracks) {
     const group = tracksBySong.get(track.songKey) ?? [];
     group.push(track);
@@ -41,7 +66,7 @@ export function indexCatalog(catalog: Catalog): CatalogIndex {
  * (single, álbum e "TV Size" da mesma música). No Normal, todo álbum que contém essa música e,
  * do mesmo artista, o álbum com o mesmo nome ou com a música no nome (`sameRelease`).
  */
-export function acceptedIds(index: CatalogIndex, track: Track, target: Target): string[] {
+export function acceptedIds(index: CatalogIndex, track: PlayableTrack, target: Target): string[] {
   const sameSong = index.tracksBySong.get(track.songKey) ?? [track];
   if (target === "song") return [...new Set(sameSong.map((t) => t.id))].sort();
   const albums = new Set(sameSong.map((t) => t.albumId));
@@ -83,7 +108,11 @@ function namesOf(index: CatalogIndex): ReadonlyMap<string, AlbumName> {
  * Uma parte só do nome de um álbum certo não basta: a resposta 爆裂愛してる, do EP, não está no
  * "好きすぎて滅! - Single". Nome que a normalização esvazia ("♡", só símbolos) nunca casa.
  */
-function sameRelease(index: CatalogIndex, track: Track, albums: ReadonlySet<string>): string[] {
+function sameRelease(
+  index: CatalogIndex,
+  track: PlayableTrack,
+  albums: ReadonlySet<string>,
+): string[] {
   const names = namesOf(index);
   const song = normalize(track.title);
   const wholes = new Set<string>();

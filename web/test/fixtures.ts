@@ -3,9 +3,10 @@
 import { readFileSync } from "node:fs";
 import type { Catalog, Schedule } from "../src/core/types.ts";
 
-function readJson<T>(path: string): T {
+/** Um JSON de web/public: das fixtures, ou de `data` (a parada real). */
+export function readJson<T>(path: string, dir = "fixtures"): T {
   return JSON.parse(
-    readFileSync(new URL(`../public/fixtures/${path}`, import.meta.url), "utf8"),
+    readFileSync(new URL(`../public/${dir}/${path}`, import.meta.url), "utf8"),
   ) as T;
 }
 
@@ -13,6 +14,4 @@ export const catalog = readJson<Catalog>("catalog.json");
 export const schedule = readJson<Schedule>("schedule.json");
 
 /** A 1ª parada real (web/public/data), para os testes do provedor Apple. */
-export const realCatalog = JSON.parse(
-  readFileSync(new URL("../public/data/catalog.json", import.meta.url), "utf8"),
-) as Catalog;
+export const realCatalog = readJson<Catalog>("catalog.json", "data");
