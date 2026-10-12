@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useRef } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
+import { helpOptions, helpSeed } from "../core/help.ts";
+import { seeded } from "../core/prng.ts";
 import {
   currentRound,
   type GameEvent,
@@ -9,18 +11,30 @@ import {
   type RoundState,
   reduce,
 } from "../core/reducer.ts";
-import { canSkip, MODE_RULES } from "../core/rules.ts";
+import { canSkip, HELP_POINTS, MODE_RULES } from "../core/rules.ts";
 import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
-import { t } from "../i18n/t.ts";
+import { t, tn } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { GuessInput, type SearchScope } from "./GuessInput.tsx";
 import { useResolvedUrl, useSuggest } from "./hooks.ts";
+import { ItemLabel } from "./ItemLabel.tsx";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
 import { Reveal } from "./Reveal.tsx";
 import { singleClick } from "./singleClick.ts";
+
+/**
+ * A ajuda do Desafio (P149): depois de quantas tentativas gastas o botão aparece (HELP_AFTER), as
+ * músicas que ela nunca mostra (as respostas dos diários de hoje) e, no Treino e no modo por
+ * artista, a semente da sessão (helpSeed). Sem ela, não há botão.
+ */
+export type HelpSetup = {
+  readonly after: number;
+  readonly avoid: ReadonlySet<string>;
+  readonly session?: number;
+};
 
 type Props = {
   readonly game: GameState;
@@ -39,6 +53,7 @@ type Props = {
   readonly nextLabel: string;
   readonly onNext: () => void;
   readonly scope?: SearchScope;
+  readonly help?: HelpSetup;
 };
 
 /**
@@ -57,6 +72,7 @@ export function RoundView({
   nextLabel,
   onNext,
   scope = "song",
+  help,
 }: Props) {
   const round = currentRound(game);
   const rules = MODE_RULES[game.target];
@@ -84,6 +100,42 @@ export function RoundView({
     };
   }, [resolver, round.trackId, playing, voidForAudio]);
 
+  // As opções da ajuda, já sorteadas (a mesma rodada dá as mesmas): o botão só aparece com 2 ou
+  // mais, porque com uma só não há o que escolher.
+  const canHelp =
+    !!help &&
+    rules.help &&
+    round.status === "playing" &&
+    round.help === null &&
+    round.attempts.length >= help.after;
+  const helpChoices = useMemo(
+    () =>
+      canHelp && help
+        ? helpOptions(
+            index,
+            round,
+            help.avoid,
+            seeded(helpSeed(game.puzzleId, game.current, help.session)),
+          )
+        : [],
+    [canHelp, help, index, round, game.puzzleId, game.current],
+  );
+
+  // A ajuda pedida nesta montagem: só aí as opções levam o foco (o botão sumiu com ele). Voltar à
+  // rodada com a ajuda já pedida (outra aba, recarregar) deixa o Player levá-lo ao Tocar.
+  const asked = useRef(false);
+  function askHelp() {
+    if (helpChoices.length < 2) return;
+    asked.current = true;
+    dispatch({ type: "HELP", options: helpChoices });
+  }
+
+  /** " A ajuda já pode ser pedida." quando a tentativa gasta agora é a que libera o botão. */
+  const helpNote = (used: number) =>
+    help && rules.help && round.help === null && used === help.after
+      ? ` ${t("help.available")}`
+      : "";
+
   function giveUp() {
     engine.stop();
     dispatch({ type: "GIVE_UP" });
@@ -99,7 +151,10 @@ export function RoundView({
     // Acerto e último erro abrem a revelação, que leva o foco e se anuncia sozinha.
     if (after?.status === "playing" && after.attempts.length > round.attempts.length) {
       const title = optionView(index, id, game.target)?.title ?? t("attempts.unknown");
-      announce(t("typing.wrong", { title, ...attemptLabel(after.attempts.length) }));
+      announce(
+        t("typing.wrong", { title, ...attemptLabel(after.attempts.length) }) +
+          helpNote(after.attempts.length),
+      );
     }
   }
 
@@ -115,11 +170,14 @@ export function RoundView({
             stage={round.stage}
             explicit={track.explicit}
             rules={rules}
-            skippable={canSkip(rules, round.attempts.length)}
+            skippable={canSkip(rules, round.attempts.length) && round.help === null}
             onListenMore={() => dispatch({ type: "LISTEN_MORE" })}
             onSkip={() => {
               dispatch({ type: "SKIP" });
-              announce(t("typing.skipped", attemptLabel(round.attempts.length + 1)));
+              announce(
+                t("typing.skipped", attemptLabel(round.attempts.length + 1)) +
+                  helpNote(round.attempts.length + 1),
+              );
             }}
             onAudioError={voidForAudio}
           />
@@ -137,6 +195,9 @@ export function RoundView({
               round={round}
               attempt={attemptLabel(round.attempts.length)}
               scope={scope}
+              helpCount={helpChoices.length >= 2 ? helpChoices.length : 0}
+              helpFocus={asked.current}
+              onHelp={askHelp}
               onPick={guess}
               onGiveUp={giveUp}
             />
@@ -178,6 +239,9 @@ function Typing({
   round,
   attempt,
   scope,
+  helpCount,
+  helpFocus,
+  onHelp,
   onPick,
   onGiveUp,
 }: {
@@ -185,6 +249,11 @@ function Typing({
   readonly round: RoundState;
   readonly attempt: { readonly current: number; readonly total: number };
   readonly scope: SearchScope;
+  /** Quantas opções a ajuda daria agora; 0 = sem o botão. */
+  readonly helpCount: number;
+  /** As opções da ajuda levam o foco (a ajuda foi pedida agora). */
+  readonly helpFocus: boolean;
+  readonly onHelp: () => void;
   readonly onPick: (id: string) => void;
   readonly onGiveUp: () => void;
 }) {
@@ -192,13 +261,83 @@ function Typing({
   return (
     <section class="typing" aria-labelledby="question">
       <h2 id="question">{t("question.song")}</h2>
-      <p class="hint">{t("typing.attempt", attempt)}</p>
-      <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" scope={scope} />
+      {round.help ? (
+        <>
+          <p id="help-hint" class="hint">
+            {t("help.hint", { points: tn("count.points", HELP_POINTS) })}
+          </p>
+          <HelpOptions index={index} options={round.help} focus={helpFocus} onPick={onPick} />
+        </>
+      ) : (
+        <>
+          <p class="hint">{t("typing.attempt", attempt)}</p>
+          <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" scope={scope} />
+        </>
+      )}
       <Attempts index={index} round={round} />
+      {helpCount > 0 && (
+        <button type="button" class="help" onClick={singleClick(onHelp)}>
+          {t("help.button", {
+            count: helpCount,
+            points: tn("count.points", HELP_POINTS),
+          })}
+        </button>
+      )}
       <button type="button" class="give-up" onClick={singleClick(onGiveUp)}>
         {t("typing.giveUp")}
       </button>
     </section>
+  );
+}
+
+/**
+ * As opções da ajuda (P149), no lugar do campo: músicas, sem capa (a capa entregaria o álbum).
+ * Pedida agora, o botão sumiu com o foco: ele vai para a 1ª opção na tela (regra 16). Voltar à
+ * rodada com a ajuda já pedida (outra aba, recarregar) deixa o Player levá-lo ao Tocar. A dica
+ * (errar encerra, acertar vale 1) descreve a lista, sem anúncio à parte: o foco já a lê.
+ */
+function HelpOptions({
+  index,
+  options,
+  focus,
+  onPick,
+}: {
+  readonly index: CatalogIndex;
+  readonly options: readonly string[];
+  readonly focus: boolean;
+  readonly onPick: (id: string) => void;
+}) {
+  const list = useRef<HTMLUListElement>(null);
+  // Só na montagem: o valor do 1º desenho diz se a ajuda acabou de ser pedida.
+  const [focusOnMount] = useState(focus);
+  useEffect(() => {
+    if (focusOnMount) list.current?.querySelector("button")?.focus();
+  }, [focusOnMount]);
+  return (
+    <ul
+      ref={list}
+      class="options help-options"
+      aria-label={t("help.listLabel")}
+      aria-describedby="help-hint"
+    >
+      {options.map((id) => {
+        const item = optionView(index, id, "song");
+        return (
+          item && (
+            <li key={id}>
+              <button
+                type="button"
+                class="option"
+                // O 2º clique do toque duplo no "Pedir ajuda" pode cair aqui (regra 23).
+                onClick={singleClick(() => onPick(id))}
+              >
+                <ItemLabel item={item} />
+              </button>
+            </li>
+          )
+        );
+      })}
+    </ul>
   );
 }
 

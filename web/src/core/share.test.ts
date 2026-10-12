@@ -42,6 +42,36 @@ describe("shareGrid", () => {
     expect(shareGrid(desafio, "song")).toEqual(["❌⬛✅", "⬛❌", "❌❌⬛❌⬛❌"]);
   });
 
+  it("Desafio com a ajuda (P149): 💡 onde foi pedida; desistir com ela fecha com ❌", () => {
+    const desafio: FinishedGame = {
+      number: 1,
+      rounds: [
+        { status: "won", stage: 3, attempts: ["skip", "wrong", "skip", "right"], help: 3 },
+        { status: "lost", stage: 3, attempts: ["skip", "skip", "skip", "wrong"], help: 3 },
+        { status: "lost", stage: 3, attempts: ["skip", "skip", "skip"], help: 3 },
+      ],
+    };
+    expect(shareGrid(desafio, "song")).toEqual(["⬛❌⬛💡✅", "⬛⬛⬛💡❌", "⬛⬛⬛💡❌"]);
+    expect(shareText("h", desafio, "song", "u").split("\n")[1]).toBe("1/18");
+  });
+
+  it("Desafio: a ajuda na 5ª tentativa e o erro na 6ª, sem ❌ a mais", () => {
+    const desafio: FinishedGame = {
+      number: 1,
+      rounds: [
+        {
+          status: "lost",
+          stage: 5,
+          attempts: ["skip", "skip", "skip", "skip", "skip", "wrong"],
+          help: 5,
+        },
+        { status: "void", stage: 0, attempts: [] },
+        { status: "void", stage: 0, attempts: [] },
+      ],
+    };
+    expect(shareGrid(desafio, "song")[0]).toBe("⬛⬛⬛⬛⬛💡❌");
+  });
+
   it("Desafio: 6 pulos ficam só ⬛; desistir sem tentar é um ❌", () => {
     const desafio: FinishedGame = {
       number: 1,

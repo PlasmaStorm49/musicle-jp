@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
+import { dayAnswerKeys } from "../core/help.ts";
 import {
   type FinishedGame,
   pendingDayTracks,
@@ -13,14 +14,14 @@ import {
   withProgress,
 } from "../core/records.ts";
 import { type GameEvent, type GameState, isFinished, reduce } from "../core/reducer.ts";
-import { ROUNDS_PER_DAY } from "../core/rules.ts";
+import { HELP_AFTER, ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { Day, Target } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { usePreviews } from "./hooks.ts";
 import { modeName } from "./modes.ts";
-import { RoundView } from "./RoundView.tsx";
+import { type HelpSetup, RoundView } from "./RoundView.tsx";
 import { Summary } from "./Summary.tsx";
 
 type Props = {
@@ -175,6 +176,12 @@ function Playing({
   const [summary, setSummary] = useState<FinishedGame | null>(null);
   const { game } = played;
   const isLast = game.current === game.rounds.length - 1;
+  // A ajuda do Desafio só depois da 3ª tentativa gasta (P149), e nunca com uma resposta de
+  // hoje (as dos dois diários), e as mesmas ao recarregar (helpSeed e o evento salvo).
+  const help = useMemo<HelpSetup>(
+    () => ({ after: HELP_AFTER.daily, avoid: dayAnswerKeys(day, index) }),
+    [day, index],
+  );
 
   // Salva a cada evento aceito: em andamento, a lista de eventos; terminado, o resumo. O estado
   // inicial não precisa: ele acabou de sair do save.
@@ -226,6 +233,7 @@ function Playing({
         roundKey={game.current}
         nextLabel={isLast ? t("reveal.finish") : t("reveal.next")}
         onNext={next}
+        help={help}
       />
     </div>
   );

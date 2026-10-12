@@ -1,6 +1,11 @@
 import { useEffect, useRef } from "preact/hooks";
-import { type FinishedGame, type PuzzleId, recordMax, recordScore } from "../core/records.ts";
-import { pointsAtStage } from "../core/rules.ts";
+import {
+  type FinishedGame,
+  type PuzzleId,
+  recordMax,
+  recordScore,
+  roundRecordScore,
+} from "../core/records.ts";
 import { shareText } from "../core/share.ts";
 import { computeStats } from "../core/stats.ts";
 import type { Target } from "../core/types.ts";
@@ -44,7 +49,9 @@ export function Summary({ game, target, date, history, scheduleDates, shareUrl, 
         {game.rounds.map((round, i) => {
           const result =
             round.status === "won"
-              ? t("summary.won", { points: tn("count.points", pointsAtStage(round.stage)) })
+              ? t(round.help !== undefined ? "summary.wonHelp" : "summary.won", {
+                  points: tn("count.points", roundRecordScore(round)),
+                })
               : round.status === "void"
                 ? t("summary.void")
                 : t("summary.lost");

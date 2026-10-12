@@ -6,7 +6,7 @@
 // igual, e o dado salvo é pequeno e fácil de validar.
 import type { CatalogIndex } from "./catalog.ts";
 import { createGame, type GameEvent, type GameState, isFinished, reduce } from "./reducer.ts";
-import { MAX_POINTS, MODES, pointsAtStage } from "./rules.ts";
+import { HELP_POINTS, MAX_POINTS, MODES, pointsAtStage } from "./rules.ts";
 import type { Day, Target } from "./types.ts";
 
 /** "<data>|<modo>", ex.: "2026-10-08|album" (o Normal) ou "2026-10-08|song" (o Desafio). */
@@ -18,6 +18,11 @@ export type RoundRecord = {
   readonly status: "won" | "lost" | "void";
   readonly stage: number;
   readonly attempts: readonly AttemptMark[];
+  /**
+   * Com a ajuda (P149, v4 do save): quantas tentativas já tinham sido gastas quando ela foi
+   * pedida. Depois dela vem no máximo uma, a opção escolhida. Sem ajuda, o campo não existe.
+   */
+  readonly help?: number;
 };
 
 /**
@@ -36,16 +41,17 @@ export type InProgress = {
 
 /**
  * O formato salvo. v3 (P100): os dois modos fixos começam do zero, e sai a preferência do modo
- * de resposta, que não existe mais (storage/migrations.ts).
+ * de resposta, que não existe mais. v4 (P149): a ajuda, no evento HELP e no `help` da rodada
+ * (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 3;
+  readonly schemaVersion: 4;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
 };
 
 export function emptySave(): Save {
-  return { schemaVersion: 3, history: {}, inProgress: {} };
+  return { schemaVersion: 4, history: {}, inProgress: {} };
 }
 
 export function puzzleId(date: string, target: Target): PuzzleId {
@@ -71,16 +77,37 @@ export function toFinishedGame(state: GameState, number: number): FinishedGame {
       status: r.status as RoundRecord["status"],
       stage: r.stage,
       attempts: r.attempts.map((a) => (a.kind === "skip" ? "skip" : a.correct ? "right" : "wrong")),
+      ...(r.help ? { help: helpAt(r.help, r.attempts) } : {}),
     })),
   };
 }
 
-/** O bastante para pontuar: status e etapa de cada rodada (serve ao FinishedGame e ao GameState). */
-type Scorable = { readonly rounds: readonly { readonly status: string; readonly stage: number }[] };
+/**
+ * Quando a ajuda foi pedida: depois dela, a única tentativa é a opção escolhida, que está entre
+ * as opções (o reducer não deixa uma já tentada entrar nelas). Sem ela (desistiu), foi agora.
+ */
+function helpAt(
+  options: readonly string[],
+  attempts: GameState["rounds"][number]["attempts"],
+): number {
+  const last = attempts.at(-1);
+  const picked = last?.kind === "guess" && options.includes(last.guessId);
+  return picked ? attempts.length - 1 : attempts.length;
+}
 
-/** Pontos do dia: nada derivado é gravado, então sai do status e da etapa de cada rodada. */
+/** O bastante para pontuar uma rodada: status, etapa e a ajuda (do FinishedGame ou do jogo). */
+type ScorableRound = { readonly status: string; readonly stage: number; readonly help?: unknown };
+type Scorable = { readonly rounds: readonly ScorableRound[] };
+
+/** Pontos de uma rodada: 6 menos a etapa, ou HELP_POINTS com a ajuda (P152); errou, 0. */
+export function roundRecordScore(round: ScorableRound): number {
+  if (round.status !== "won") return 0;
+  return round.help !== undefined && round.help !== null ? HELP_POINTS : pointsAtStage(round.stage);
+}
+
+/** Pontos do dia: nada derivado é gravado, então sai do status, da etapa e da ajuda. */
 export function recordScore(game: Scorable): number {
-  return game.rounds.reduce((sum, r) => sum + (r.status === "won" ? pointsAtStage(r.stage) : 0), 0);
+  return game.rounds.reduce((sum, r) => sum + roundRecordScore(r), 0);
 }
 
 /** Máximo do dia: 6 por rodada não anulada (P27). */

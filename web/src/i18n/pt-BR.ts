@@ -86,6 +86,7 @@ export const ptBR = {
   "summary.score": "{score} de {max} pontos",
   "summary.round": "Rodada {number}: {result}",
   "summary.won": "acertou, {points}",
+  "summary.wonHelp": "acertou com ajuda, {points}",
   "summary.lost": "não acertou",
   "summary.void": "anulada",
 
@@ -111,6 +112,11 @@ export const ptBR = {
   "typing.giveUp": "Desistir",
   "typing.wrong": "Errou: {title}. Tentativa {current} de {total}.",
   "typing.skipped": "Pulou. Tentativa {current} de {total}.",
+  // A ajuda do Desafio (P149 a P152): opções no lugar do campo.
+  "help.button": "Pedir ajuda ({count} opções, vale {points})",
+  "help.hint": "Escolha entre as opções: errar encerra a rodada, e acertar vale {points}.",
+  "help.listLabel": "Opções da ajuda",
+  "help.available": "A ajuda já pode ser pedida.",
 
   "attempts.title": "Suas tentativas",
   "attempts.wrong": "Errou:",

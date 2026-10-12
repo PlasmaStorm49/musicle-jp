@@ -5,7 +5,8 @@ import { MODE_RULES } from "./rules.ts";
 import type { Target } from "./types.ts";
 
 // Formas diferentes, não só cores (P42): quem não distingue verde e vermelho entende.
-export const SYMBOLS = { more: "⬛", right: "✅", wrong: "❌", void: "⬜" } as const;
+// A ajuda (P149) entra como 💡 antes da opção escolhida.
+export const SYMBOLS = { more: "⬛", right: "✅", wrong: "❌", void: "⬜", help: "💡" } as const;
 
 function line(round: RoundRecord, target: Target): string {
   if (round.status === "void") return SYMBOLS.void;
@@ -16,11 +17,17 @@ function line(round: RoundRecord, target: Target): string {
       SYMBOLS.more.repeat(round.stage) + (round.status === "won" ? SYMBOLS.right : SYMBOLS.wrong)
     );
   }
-  // Desafio: uma marca por tentativa; desistir antes do fim fecha com ❌.
-  const marks = round.attempts.map((a) =>
+  // Desafio: uma marca por tentativa; desistir antes do fim fecha com ❌. A ajuda (P149) entra
+  // no ponto em que foi pedida; com ela, desistir é não escolher opção nenhuma.
+  const marks: string[] = round.attempts.map((a) =>
     a === "skip" ? SYMBOLS.more : a === "wrong" ? SYMBOLS.wrong : SYMBOLS.right,
   );
-  const gaveUp = round.status === "lost" && round.attempts.length < rules.maxAttempts;
+  if (round.help !== undefined) marks.splice(round.help, 0, SYMBOLS.help);
+  const left =
+    round.help !== undefined
+      ? round.attempts.length === round.help
+      : round.attempts.length < rules.maxAttempts;
+  const gaveUp = round.status === "lost" && left;
   return marks.join("") + (gaveUp ? SYMBOLS.wrong : "");
 }
 

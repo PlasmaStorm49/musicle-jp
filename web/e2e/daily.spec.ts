@@ -84,6 +84,42 @@ test("Desafio: recarregar no meio retoma as tentativas", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Tocar 2 s" })).toBeVisible();
 });
 
+test("Desafio: a ajuda só depois da 3ª tentativa, volta igual ao recarregar e vale 1 ponto (P149)", async ({
+  page,
+}) => {
+  await open(page, "2026-10-09T10:00:00-03:00", "#desafio");
+  const help = page.getByRole("button", { name: /^Pedir ajuda/ });
+  for (let i = 0; i < 3; i++) {
+    await expect(help).toHaveCount(0);
+    await page.getByRole("button", { name: /^Pular/ }).click();
+  }
+  await help.click();
+  const options = page.getByRole("list", { name: "Opções da ajuda" }).getByRole("button");
+  await expect(options).toHaveCount(4);
+  await expect(options.first()).toBeFocused();
+  const shown = await options.allTextContents();
+
+  // O save leva o evento HELP: recarregar mostra as mesmas opções.
+  await expect
+    .poll(async () => {
+      const raw = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
+      const save = raw ? (JSON.parse(raw) as Save) : null;
+      return save?.inProgress["2026-10-09|song"]?.events.at(-1)?.type;
+    })
+    .toBe("HELP");
+  await page.reload();
+  await expect(options).toHaveText(shown);
+  await expect(page.getByRole("combobox")).toHaveCount(0);
+  // Voltar à rodada com a ajuda já pedida: o foco vai ao Tocar, como em toda rodada (regra 16).
+  await expect(page.getByRole("button", { name: /^Tocar/ })).toBeFocused();
+
+  // A faixa certa sai do que tocou (o motor falso registra), como nos outros testes.
+  await page.getByRole("button", { name: /^Tocar/ }).click();
+  const track = await lastPlayed(page);
+  await options.filter({ hasText: track.title }).first().click();
+  await expect(page.getByRole("heading", { name: "Acertou! 1 de 6 pontos." })).toBeVisible();
+});
+
 test("áudio indisponível anula a rodada, que fica fora da conta", async ({ page }) => {
   await open(page, "2026-10-08T12:00:00-03:00", "#normal", dailyAnswer("2026-10-08", "album", 0));
   await page.getByRole("button", { name: "Tocar 1 s" }).click();

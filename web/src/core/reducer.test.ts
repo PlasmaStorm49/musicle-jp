@@ -240,6 +240,59 @@ describe("Desafio (digitação)", () => {
   });
 });
 
+describe("ajuda do Desafio (P149 a P152)", () => {
+  const desafio = () => createGame(dayWithVersions(), DATE, "song", index);
+  const OPTIONS = ["fixture:tr:tr21", "fixture:tr:tr02", "fixture:tr:tr30", "fixture:tr:tr40"];
+  const helped = () => play(desafio(), { type: "SKIP" }, { type: "HELP", options: OPTIONS });
+
+  it("depois de uma tentativa gasta, troca a digitação pelas opções (P150)", () => {
+    const game = helped();
+    expect(round(game).help).toEqual(OPTIONS);
+    expect(round(game).status).toBe("playing");
+  });
+
+  it("acertar com a ajuda vale 1 ponto, em qualquer etapa (P152)", () => {
+    const game = reduce(helped(), { type: "GUESS", guessId: "fixture:tr:tr02" });
+    expect(round(game).status).toBe("won");
+    expect(roundScore(round(game))).toBe(1);
+  });
+
+  it("errar com a ajuda encerra a rodada, mesmo sobrando tentativas (P151)", () => {
+    const game = reduce(helped(), { type: "GUESS", guessId: "fixture:tr:tr21" });
+    expect(round(game).status).toBe("lost");
+    expect(round(game).attempts).toHaveLength(2);
+    expect(roundScore(round(game))).toBe(0);
+  });
+
+  it("com a ajuda, palpite fora das opções e pular são ignorados", () => {
+    const game = helped();
+    expect(reduce(game, { type: "GUESS", guessId: "fixture:tr:tr01" })).toBe(game);
+    expect(reduce(game, { type: "SKIP" })).toBe(game);
+  });
+
+  it("sem tentativa gasta, e uma 2ª vez na rodada, a ajuda é ignorada", () => {
+    const fresh = desafio();
+    expect(reduce(fresh, { type: "HELP", options: OPTIONS })).toBe(fresh);
+    const game = helped();
+    expect(reduce(game, { type: "HELP", options: OPTIONS })).toBe(game);
+  });
+
+  it.each([
+    ["sem a resposta", ["fixture:tr:tr21", "fixture:tr:tr30", "fixture:tr:tr40"]],
+    ["com uma opção só", ["fixture:tr:tr01"]],
+    ["com 5 opções", [...OPTIONS, "fixture:tr:tr05"]],
+    ["com opção repetida", ["fixture:tr:tr01", "fixture:tr:tr01", "fixture:tr:tr21"]],
+  ])("opções inválidas (%s) são ignoradas", (_, options) => {
+    const skipped = reduce(desafio(), { type: "SKIP" });
+    expect(reduce(skipped, { type: "HELP", options })).toBe(skipped);
+  });
+
+  it("uma opção já tentada na rodada não vale", () => {
+    const tried = reduce(desafio(), { type: "GUESS", guessId: "fixture:tr:tr21" });
+    expect(reduce(tried, { type: "HELP", options: OPTIONS })).toBe(tried);
+  });
+});
+
 describe("pontuação do dia (P27)", () => {
   it("rodada anulada sai do total: máximo cai de 18 para 12", () => {
     const start = normal();

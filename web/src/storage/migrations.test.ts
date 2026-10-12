@@ -42,12 +42,42 @@ describe("migrate", () => {
       },
       inProgress: { "2026-10-12|song": { answerMode: "typing", events: [{ type: "SKIP" }] } },
     };
-    expect(migrate(v2, 2)).toEqual({ schemaVersion: 3, history: {}, inProgress: {} });
+    expect(MIGRATIONS[2]?.(v2)).toEqual({ history: {}, inProgress: {} });
+    expect(migrate(v2, 2)).toEqual({ schemaVersion: 4, history: {}, inProgress: {} });
   });
 
-  it("v1 vai até a v3 passando pela v2", () => {
-    expect(migrate({ schemaVersion: 1, settings: { answerMode: "typing" } }, 1)).toEqual({
+  it("v3 → v4 guarda tudo como está: a ajuda (P149) só acrescenta", () => {
+    // Um save v3 de verdade: dois dias terminados (3 rodadas cada) e um em andamento.
+    const v3 = {
       schemaVersion: 3,
+      history: {
+        "2026-10-11|album": {
+          number: 1,
+          rounds: [
+            { status: "won", stage: 0, attempts: ["right"] },
+            { status: "lost", stage: 1, attempts: ["wrong"] },
+            { status: "void", stage: 0, attempts: [] },
+          ],
+        },
+        "2026-10-11|song": {
+          number: 1,
+          rounds: [
+            { status: "lost", stage: 5, attempts: [] },
+            { status: "won", stage: 0, attempts: ["right"] },
+            { status: "won", stage: 1, attempts: ["skip", "right"] },
+          ],
+        },
+      },
+      inProgress: {
+        "2026-10-12|song": { events: [{ type: "SKIP" }, { type: "GUESS", guessId: "x" }] },
+      },
+    };
+    expect(migrate(v3, 3)).toEqual({ ...v3, schemaVersion: 4 });
+  });
+
+  it("v1 vai até a atual passando por todas", () => {
+    expect(migrate({ schemaVersion: 1, settings: { answerMode: "typing" } }, 1)).toEqual({
+      schemaVersion: 4,
       history: {},
       inProgress: {},
     });

@@ -57,6 +57,32 @@ describe("Summary (o fim do dia)", () => {
     // 12:00 em Brasília: faltam 12 h para o próximo diário.
     expect(screen.getByRole("timer").textContent).toBe("12:00:00");
   });
+
+  it("a rodada com a ajuda (P149): acertou com ajuda, 1 ponto", () => {
+    const helped: FinishedGame = {
+      number: 3,
+      rounds: [
+        { status: "won", stage: 3, attempts: ["skip", "skip", "skip", "right"], help: 3 },
+        { status: "lost", stage: 0, attempts: ["wrong"] },
+        { status: "won", stage: 0, attempts: ["right"] },
+      ],
+    };
+    render(
+      <Summary
+        game={helped}
+        target="song"
+        date={DATE}
+        history={{ [`${DATE}|song`]: helped }}
+        scheduleDates={[DATE]}
+        shareUrl="https://x.test/"
+        announce={vi.fn()}
+      />,
+    );
+    expect(screen.getByText("7 de 18 pontos")).toBeTruthy();
+    expect(screen.getAllByRole("listitem").map((li) => li.textContent)).toContain(
+      "Rodada 1: acertou com ajuda, 1 ponto",
+    );
+  });
 });
 
 describe("Countdown (P39: a virada à meia-noite de Brasília)", () => {

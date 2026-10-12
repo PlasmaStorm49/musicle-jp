@@ -1,7 +1,7 @@
 // Migrações do formato salvo: uma função por versão, de N para N+1, cada uma com um teste que
 // lê um save real da versão anterior (web/CLAUDE.md, regra 12).
 
-export const SAVE_SCHEMA_VERSION = 3;
+export const SAVE_SCHEMA_VERSION = 4;
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 
@@ -14,6 +14,10 @@ export const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // modo de resposta saiu do save. Era tudo jogo de teste: começa do zero, e a preferência do
   // modo some junto.
   2: () => ({ history: {}, inProgress: {} }),
+  // v3 → v4 (P149): a ajuda do Desafio, com o evento HELP no andamento e o `help` da rodada no
+  // histórico. Nada muda no que já existe: a versão sobe para que uma aba com o código velho
+  // (que recusaria o HELP e jogaria fora o andamento) veja "versão mais nova" e não grave.
+  3: (data) => data,
 };
 
 /** Leva um save da versão `from` até a atual. Versão sem migração conhecida: erro. */

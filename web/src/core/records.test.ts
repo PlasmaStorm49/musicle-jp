@@ -161,6 +161,89 @@ describe("FinishedGame", () => {
   });
 });
 
+describe("a ajuda no diário (P149)", () => {
+  const SONG = puzzleId(DATE, "song");
+  const desafio = (events: GameEvent[]) =>
+    startSession({ ...emptySave(), inProgress: { [SONG]: { events } } }, day, DATE, "song", index);
+  // As opções: a resposta da rodada 1 e outras três faixas do catálogo.
+  const answer = day.song[0].answer;
+  const others = catalog.tracks
+    .map((t) => t.id)
+    .filter((id) => index.tracks.get(id)?.songKey !== index.tracks.get(answer)?.songKey)
+    .slice(0, 3);
+  const options = [others[0] ?? "", answer, others[1] ?? "", others[2] ?? ""];
+  const helped: GameEvent[] = [
+    { type: "SKIP" },
+    { type: "SKIP" },
+    { type: "SKIP" },
+    { type: "HELP", options },
+  ];
+
+  it("o evento HELP salvo volta com as mesmas opções ao recarregar", () => {
+    const s = desafio(helped);
+    if (s.kind !== "playing") throw new Error("esperava jogo em andamento");
+    expect(s.state.rounds[0]?.help).toEqual(options);
+    expect(s.events).toEqual(helped);
+  });
+
+  it("a rodada anulada depois da ajuda guarda a ajuda e fica fora da conta", () => {
+    const s = desafio([
+      ...helped,
+      { type: "VOID", round: 0, reason: "audio" },
+      { type: "NEXT_ROUND" },
+      { type: "GIVE_UP" },
+      { type: "NEXT_ROUND" },
+      { type: "GIVE_UP" },
+    ]);
+    if (s.kind !== "finished") throw new Error("esperava o dia terminado");
+    expect(s.game.rounds[0]).toEqual({
+      status: "void",
+      stage: 3,
+      attempts: ["skip", "skip", "skip"],
+      help: 3,
+    });
+    expect(recordScore(s.game)).toBe(0);
+    expect(recordMax(s.game)).toBe(12);
+  });
+
+  it("o resultado guarda quando a ajuda foi pedida, e a rodada vale 1 ponto", () => {
+    const rest: GameEvent[] = [
+      { type: "NEXT_ROUND" },
+      { type: "GIVE_UP" },
+      { type: "NEXT_ROUND" },
+      { type: "SKIP" },
+      { type: "SKIP" },
+      { type: "SKIP" },
+      { type: "HELP", options },
+      { type: "GIVE_UP" },
+    ];
+    // Na 3ª rodada a resposta é outra: as opções servem, se uma delas for aceita.
+    const third = day.song[2].answer;
+    const s = desafio([
+      ...helped,
+      { type: "GUESS", guessId: answer },
+      ...rest.map((e) =>
+        e.type === "HELP" ? { ...e, options: [third, ...others.filter((id) => id !== third)] } : e,
+      ),
+    ]);
+    if (s.kind !== "finished") throw new Error("esperava o dia terminado");
+    expect(s.game.rounds[0]).toEqual({
+      status: "won",
+      stage: 3,
+      attempts: ["skip", "skip", "skip", "right"],
+      help: 3,
+    });
+    expect(s.game.rounds[1]).not.toHaveProperty("help");
+    expect(s.game.rounds[2]).toEqual({
+      status: "lost",
+      stage: 3,
+      attempts: ["skip", "skip", "skip"],
+      help: 3,
+    });
+    expect(recordScore(s.game)).toBe(1);
+  });
+});
+
 describe("mescla de saves (duas abas)", () => {
   const done: FinishedGame = { number: 1, rounds: [] };
 

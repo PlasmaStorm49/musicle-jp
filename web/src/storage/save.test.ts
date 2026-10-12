@@ -23,7 +23,7 @@ const finished: FinishedGame = {
 };
 
 const valid: Save = {
-  schemaVersion: 3,
+  schemaVersion: 4,
   history: { "2026-10-08|song": finished },
   inProgress: { "2026-10-09|song": { events: [{ type: "SKIP" }, { type: "GIVE_UP" }] } },
 };
@@ -104,6 +104,118 @@ describe("loadSave", () => {
     expect(result.notice).toBe("repaired");
   });
 
+  it("a ajuda (P149): o evento HELP no andamento e o help da rodada no Desafio", () => {
+    const help = {
+      ...finished,
+      rounds: [
+        { status: "won", stage: 3, attempts: ["skip", "wrong", "skip", "right"], help: 3 },
+        { status: "lost", stage: 3, attempts: ["skip", "skip", "skip"], help: 3 }, // desistiu
+        { status: "void", stage: 0, attempts: [] },
+      ],
+    };
+    const events = [{ type: "SKIP" }, { type: "HELP", options: ["a", "b", "c", "d"] }];
+    const data = {
+      ...valid,
+      history: { "2026-10-07|song": help },
+      inProgress: { "2026-10-09|song": { events } },
+    };
+    expect(loadSave(withRaw(JSON.stringify(data)))).toEqual({
+      save: data,
+      writable: true,
+      notice: null,
+    });
+  });
+
+  it.each([
+    ["no Normal", "2026-10-07|album", { status: "won", stage: 0, attempts: ["right"], help: 1 }],
+    [
+      "sem tentativa antes",
+      "2026-10-07|song",
+      { status: "won", stage: 0, attempts: ["right"], help: 0 },
+    ],
+    [
+      "duas depois",
+      "2026-10-07|song",
+      { status: "lost", stage: 2, attempts: ["skip", "wrong", "wrong"], help: 1 },
+    ],
+    [
+      "além das tentativas",
+      "2026-10-07|song",
+      { status: "won", stage: 0, attempts: ["right"], help: 2 },
+    ],
+    [
+      "em texto",
+      "2026-10-07|song",
+      { status: "won", stage: 1, attempts: ["skip", "right"], help: "1" },
+    ],
+    // Depois da ajuda só vem a opção: nunca um pulo, e o acerto é ela.
+    [
+      "pulo depois",
+      "2026-10-07|song",
+      { status: "lost", stage: 2, attempts: ["wrong", "skip"], help: 1 },
+    ],
+    [
+      "acerto sem opção",
+      "2026-10-07|song",
+      { status: "won", stage: 1, attempts: ["skip"], help: 1 },
+    ],
+  ])("ajuda inválida (%s) invalida o jogo terminado", (_, id, round) => {
+    const game = { ...finished, rounds: [round, ...finished.rounds.slice(1)] };
+    const result = loadSave(withRaw(JSON.stringify({ ...valid, history: { [id]: game } })));
+    expect(result.save.history).toEqual({});
+    expect(result.notice).toBe("repaired");
+  });
+
+  it.each([
+    ["sem opções", { type: "HELP", options: [] }],
+    ["uma opção só", { type: "HELP", options: ["a"] }],
+    ["5 opções", { type: "HELP", options: ["a", "b", "c", "d", "e"] }],
+    ["opção vazia", { type: "HELP", options: ["a", ""] }],
+    ["sem a lista", { type: "HELP" }],
+  ])("evento HELP inválido (%s) descarta o andamento", (_, event) => {
+    const data = {
+      ...valid,
+      inProgress: { "2026-10-09|song": { events: [{ type: "SKIP" }, event] } },
+    };
+    const result = loadSave(withRaw(JSON.stringify(data)));
+    expect(result.save.inProgress).toEqual({});
+    expect(result.notice).toBe("repaired");
+  });
+
+  it("um save v3 de verdade passa pelo v4 sem aviso, sem cópia e sem perder nada", () => {
+    const v3 = {
+      schemaVersion: 3,
+      history: {
+        "2026-10-11|album": finished,
+        "2026-10-11|song": {
+          number: 4,
+          rounds: [
+            { status: "won", stage: 2, attempts: ["wrong", "skip", "right"] },
+            {
+              status: "lost",
+              stage: 5,
+              attempts: ["skip", "skip", "skip", "skip", "skip", "skip"],
+            },
+            { status: "void", stage: 0, attempts: [] },
+          ],
+        },
+      },
+      inProgress: {
+        "2026-10-12|song": { events: [{ type: "SKIP" }, { type: "GUESS", guessId: "apple:tr:1" }] },
+      },
+    };
+    const store = withRaw(JSON.stringify(v3));
+    expect(loadSave(store)).toEqual({
+      save: { ...v3, schemaVersion: 4 },
+      writable: true,
+      notice: null,
+    });
+    expect(store.getItem(CORRUPT_KEY)).toBeNull();
+    // A 1ª gravação já sai em v4.
+    expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(4);
+  });
+
   it("Desafio: até 6 tentativas; a 7ª invalida o jogo terminado", () => {
     const withAttempts = (n: number) => ({
       ...finished,
@@ -177,14 +289,14 @@ describe("loadSave", () => {
         inProgress: { "2026-10-12|song": { answerMode: "typing", events: [{ type: "SKIP" }] } },
       },
     ],
-  ])("save %s vira v3 vazio, sem aviso nem cópia", (_, old) => {
+  ])("save %s vira o atual vazio, sem aviso nem cópia", (_, old) => {
     const store = withRaw(JSON.stringify(old));
     expect(loadSave(store)).toEqual({ save: emptySave(), writable: true, notice: null });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
-    // A 1ª gravação do jogo novo já sai em v3.
+    // A 1ª gravação do jogo novo já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, history: valid.history }))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toEqual({
-      schemaVersion: 3,
+      schemaVersion: 4,
       history: valid.history,
       inProgress: {},
     });

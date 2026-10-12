@@ -173,10 +173,17 @@ export function answerAlbums(
   return albums;
 }
 
-/** Fisher-Yates parcial, como o pipeline (schedule.py): até 3 trocas, um número cada. */
-function pickDistractors(rng: Mulberry32, pool: readonly string[]): string[] {
+/**
+ * Fisher-Yates parcial, como o pipeline (schedule.py): até `wanted` trocas, um número cada.
+ * Também sorteia as opções da ajuda (core/help.ts).
+ */
+export function pickDistractors(
+  rng: Mulberry32,
+  pool: readonly string[],
+  wanted: number = DISTRACTORS,
+): string[] {
   const items = [...pool];
-  const count = Math.min(DISTRACTORS, items.length);
+  const count = Math.min(wanted, items.length);
   for (let i = 0; i < count; i++) {
     const j = i + rng.randint(items.length - i);
     [items[i], items[j]] = [items[j] as string, items[i] as string];
