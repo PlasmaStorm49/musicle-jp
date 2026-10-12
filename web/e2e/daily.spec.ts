@@ -88,11 +88,17 @@ test("Desafio: a ajuda só depois da 3ª tentativa, volta igual ao recarregar e 
   page,
 }) => {
   await open(page, "2026-10-09T10:00:00-03:00", "#desafio");
-  const help = page.getByRole("button", { name: /^Pedir ajuda/ });
+  const help = page.getByRole("button", { name: "Pedir ajuda", exact: true });
   for (let i = 0; i < 3; i++) {
     await expect(help).toHaveCount(0);
     await page.getByRole("button", { name: /^Pular/ }).click();
   }
+  // Sem pontos no botão, e o "Desistir" do outro lado, longe dele (ME71): um toque não cai no
+  // botão errado.
+  const helpBox = await help.boundingBox();
+  const giveUpBox = await page.getByRole("button", { name: "Desistir", exact: true }).boundingBox();
+  if (!helpBox || !giveUpBox) throw new Error("sem os dois botões");
+  expect(giveUpBox.x - (helpBox.x + helpBox.width)).toBeGreaterThan(24);
   await help.click();
   const options = page.getByRole("list", { name: "Opções da ajuda" }).getByRole("button");
   await expect(options).toHaveCount(4);
