@@ -118,6 +118,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P161 | Escolher o artista leva a um passo com os dois submodos (o sem fim e o Superfan); a sessão começa no cartão escolhido |
 | P162 | No Superfan, a música anulada (falha de áudio) não conta para a partida: os erros e a ajuda pedida nela voltam (recomendação do revisor, confirmada) |
 | P163 | Com a ajuda na tela, o "Pular" continua: a pontuação já está no mínimo, e ouvir mais não custa nada. Ele gasta a tentativa e libera o trecho seguinte, como sem a ajuda, e some na última tentativa, que fica para a opção (pedido de 12/10/2026, depois do merge da ajuda; save v5) |
+| P166 | Entram no modo por artista o Unlimits (311230779) e o 松田聖子 (Seiko Matsuda, 76115834), no fim da lista (pedido de 12/10/2026) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -775,6 +776,14 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
     - `aliases.toml`: o latino de アドレナ ("Adorena"; o cutlet deu "Ado Rena").
   - A revisão do PR B achou versões que escaparam das regras; duas viraram regra no `artists.py`: o "-X-" grudado no nome, de uma palavra só ("Empty MERMAiD-Instrumental-"), e a versão que não entra no fim do título sem delimitador ("六等星の夜 Tvsize"). O teste `test_published_artist_titles_are_not_out_versions` recusa título publicado com instrumental, karaokê, off vocal ou TV size.
   - A pré-visualização com `?data=real` achou o crédito repetido nas participações ("DAOKO×米津玄師 & 米津玄師"): a exibição passou a ser a da loja.
+- **Acréscimo de 12/10/2026** (P166, busca às 21:52 UTC): Unlimits e 松田聖子, no fim da lista. São 8 artistas e 1040 músicas.
+  - Unlimits (311230779): 101 faixas em 13 álbuns, 85 músicas, sem curadoria.
+  - 松田聖子 (Seiko Matsuda, 76115834; não a "Seiko" 286640008): 1545 faixas em 126 álbuns, cerca de 614 músicas, 200 publicadas (414 cortadas pelo teto). É o maior snapshot (1,3 MB, fora do site); o arquivo publicado tem 255 KB.
+  - Curadoria do Seiko Matsuda, em três voltas de `build-artists` até nenhuma das 200 se repetir:
+    - 11 pares no `same_song`: as regravações dos 40 anos (2020 e 2021), com o ano ou um subtítulo em inglês ("青い珊瑚礁 (Blue Lagoon)", "チェリーブラッサム (2021)"), a grafia ウイ/ウィ de 天使のウィンク e faixas com o nome do álbum no título ("Romance(金色のリボン)", "(Seiko・Avenue)", "(LPテイク)");
+    - 13 faixas da coletânea SEIKO STORY com o nome dela no título ("風立ちぬ(SEIKO STORY〜80's HITS COLLECTION〜)") no `exclude_tracks`, e não no `same_song`: a original tem a mesma data, e no empate da P132 o id menor (o da coletânea) seria a canônica, com o sufixo na tela.
+  - `aliases.toml`: 28 latinos que o cutlet errou. Entre eles, a kana ウィ ignorada ("Tenshi no inku", "Intaa gaaden"), leituras erradas (風は秋色 como "shuushoku", 抱いて… como "Idaite", 七月 como "Nana gatsu", 小径 como "shoukei") e espaços partidos ("Furanji a", "Shinki rou"). As leituras sem certeza ficaram (時風の鼓動, 夢冬の彩月, 夜唄).
+  - `providers/apple.py`: o latino do artista que só muda a caixa do nome ("Unlimits" no lookup, "UNLIMITS" nas faixas) não entra, e a tela deixa de mostrar "UNLIMITS · Unlimits". Valeu também para um parceiro da Aimer ("GROWN KIDS"). O catálogo da parada não mudou.
   - Hipóteses conferidas: o THE FIRST TAKE vem como " - From THE FIRST TAKE"; o filtro de álbuns deixou de 0 a 5 faixas de coletânea por artista, que nunca são a canônica; o lookup de músicas começa pelos sucessos (アイドル e 夜に駆ける; 唱 e 新時代; 打上花火 e KICK BACK), o que sustenta a P133 (indício, não prova).
 - **Web** (PR C):
   - Aba `#artistas`, na nav e na home até o site ficar público (P117, P126): um `<li>` da nav e um cartão, fáceis de tirar.
