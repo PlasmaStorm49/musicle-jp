@@ -3,7 +3,8 @@ import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import { type RoundState, roundScore } from "../core/reducer.ts";
-import type { AnswerMode, Target } from "../core/types.ts";
+import { MODE_RULES } from "../core/rules.ts";
+import type { Target } from "../core/types.ts";
 import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
@@ -15,9 +16,8 @@ import { Cover, ItemLabel } from "./ItemLabel.tsx";
 type Props = {
   readonly index: CatalogIndex;
   readonly round: RoundState;
+  /** O Normal mostra as opções marcadas; o Desafio, a lista de tentativas. */
   readonly target: Target;
-  /** 4 opções mostra as opções marcadas; digitação, a lista de tentativas. */
-  readonly answerMode: AnswerMode;
   readonly engine: AudioEngine;
   readonly resolver: PreviewResolver;
   readonly resolveUrl: (url: string) => string;
@@ -33,7 +33,6 @@ export function Reveal({
   index,
   round,
   target,
-  answerMode,
   engine,
   resolver,
   resolveUrl,
@@ -104,8 +103,8 @@ export function Reveal({
         {won ? t("reveal.won", { points: roundScore(round) }) : t("reveal.lost")}
       </h2>
 
-      {answerMode === "typing" ? (
-        <Attempts index={index} round={round} target={target} />
+      {!MODE_RULES[target].guessFromOptions ? (
+        <Attempts index={index} round={round} />
       ) : (
         <ul class="options done">
           {round.options.map((id) => {
@@ -116,7 +115,7 @@ export function Reveal({
             return (
               item && (
                 <li key={id} class={isCorrect ? "correct" : isPicked ? "wrong" : ""}>
-                  {target === "album" && <Cover item={item} resolveUrl={resolveUrl} />}
+                  <Cover item={item} resolveUrl={resolveUrl} />
                   <ItemLabel item={item} />
                   {tag && <span class="tag">{tag}</span>}
                 </li>

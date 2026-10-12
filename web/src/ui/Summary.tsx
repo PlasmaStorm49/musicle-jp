@@ -6,6 +6,7 @@ import { computeStats } from "../core/stats.ts";
 import type { Target } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
 import { Countdown } from "./Countdown.tsx";
+import { modeName } from "./modes.ts";
 import { ShareButton } from "./ShareButton.tsx";
 import { Stats } from "./Stats.tsx";
 
@@ -29,9 +30,8 @@ export function Summary({ game, target, date, history, scheduleDates, shareUrl, 
   const max = recordMax(game);
   const header = t("share.header", {
     title: t("app.title"),
-    daily: t(target === "song" ? "target.song" : "target.album"),
+    mode: modeName(target),
     number: game.number,
-    mode: t(game.answerMode === "choice" ? "mode.choice" : "mode.typing"),
   });
 
   return (
@@ -56,7 +56,7 @@ export function Summary({ game, target, date, history, scheduleDates, shareUrl, 
           );
         })}
       </ol>
-      <ShareButton text={shareText(header, game, shareUrl)} announce={announce} />
+      <ShareButton text={shareText(header, game, target, shareUrl)} announce={announce} />
       <Countdown date={date} announce={announce} />
       <Stats stats={stats} todayScore={max > 0 ? recordScore(game) : null} />
     </section>

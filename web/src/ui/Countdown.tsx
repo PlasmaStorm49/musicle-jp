@@ -4,12 +4,12 @@ import { todayHref } from "../core/routes.ts";
 import { t } from "../i18n/t.ts";
 
 type Props = {
-  /** Data do jogo terminado; o próximo desafio é o dia seguinte. */
+  /** Data do jogo terminado; o próximo diário é o dia seguinte. */
   readonly date: string;
   readonly announce: (message: string) => void;
 };
 
-/** Vai ao desafio de hoje (a regra do endereço e o porquê do reload estão em core/routes.ts). */
+/** Vai ao diário de hoje (a regra do endereço e o porquê do reload estão em core/routes.ts). */
 function goToToday() {
   const href = todayHref(window.location.href);
   if (href === null) window.location.reload();

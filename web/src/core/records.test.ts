@@ -4,7 +4,6 @@ import { indexCatalog } from "./catalog.ts";
 import {
   emptySave,
   type FinishedGame,
-  lockedMode,
   pendingDayTracks,
   pruneProgress,
   puzzleId,
@@ -15,7 +14,6 @@ import {
   startSession,
   toFinishedGame,
   withFinished,
-  withModeChoice,
   withProgress,
 } from "./records.ts";
 import { type GameEvent, reduce } from "./reducer.ts";
@@ -24,12 +22,15 @@ import type { Day } from "./types.ts";
 const index = indexCatalog(catalog);
 const DATE = "2026-10-08";
 const day = schedule.days[DATE] as Day;
-const ID = puzzleId(DATE, "song");
+// O Normal (álbum, 4 opções): os eventos usam o "ouvir mais" e o palpite único.
+const ID = puzzleId(DATE, "album");
+/** O álbum certo da rodada `n` (0 a 2): a opção que acerta no Normal. */
+const albumOf = (n: 0 | 1 | 2) => index.tracks.get(day.album[n].answer)?.albumId ?? "";
 
-const session = (save: Save) => startSession(save, day, DATE, "song", "choice", index);
+const session = (save: Save) => startSession(save, day, DATE, "album", index);
 const saveWith = (events: GameEvent[]): Save => ({
   ...emptySave(),
-  inProgress: { [ID]: { answerMode: "choice", events } },
+  inProgress: { [ID]: { events } },
 });
 
 describe("startSession", () => {
@@ -43,7 +44,7 @@ describe("startSession", () => {
     const events: GameEvent[] = [
       { type: "LISTEN_MORE" },
       { type: "LISTEN_MORE" },
-      { type: "GUESS", guessId: day.song[0].answer },
+      { type: "GUESS", guessId: albumOf(0) },
       { type: "NEXT_ROUND" },
       { type: "LISTEN_MORE" },
     ];
@@ -75,7 +76,7 @@ describe("startSession", () => {
   it("andamento de outro dia não é retomado", () => {
     const other: Save = {
       ...emptySave(),
-      inProgress: { "2026-10-07|song": { answerMode: "choice", events: [{ type: "GIVE_UP" }] } },
+      inProgress: { "2026-10-07|album": { events: [{ type: "GIVE_UP" }] } },
     };
     const s = session(other);
     if (s.kind === "playing") expect(s.events).toEqual([]);
@@ -115,7 +116,6 @@ describe("startSession", () => {
 
 describe("FinishedGame", () => {
   const game: FinishedGame = {
-    answerMode: "choice",
     number: 1,
     rounds: [
       { status: "won", stage: 1, attempts: ["right"] },
@@ -130,19 +130,17 @@ describe("FinishedGame", () => {
   });
 
   it("toFinishedGame recusa jogo em andamento", () => {
-    const s = session(
-      saveWith([{ type: "LISTEN_MORE" }, { type: "GUESS", guessId: day.song[0].answer }]),
-    );
+    const s = session(saveWith([{ type: "LISTEN_MORE" }, { type: "GUESS", guessId: albumOf(0) }]));
     if (s.kind !== "playing") throw new Error("esperava jogo em andamento");
     expect(() => toFinishedGame(s.state, 1)).toThrow();
   });
 
   it("toFinishedGame converte o jogo em status, etapa e marcas por tentativa", () => {
-    const wrong = day.song[1].options.find((o) => o !== day.song[1].answer) as string;
+    const wrong = day.album[1].options.find((o) => o !== albumOf(1)) as string;
     const s = session(
       saveWith([
         { type: "LISTEN_MORE" },
-        { type: "GUESS", guessId: day.song[0].answer },
+        { type: "GUESS", guessId: albumOf(0) },
         { type: "NEXT_ROUND" },
         { type: "GUESS", guessId: wrong },
         { type: "NEXT_ROUND" },
@@ -152,7 +150,6 @@ describe("FinishedGame", () => {
     expect(s).toEqual({
       kind: "finished",
       game: {
-        answerMode: "choice",
         number: 1,
         rounds: [
           { status: "won", stage: 1, attempts: ["right"] },
@@ -165,18 +162,16 @@ describe("FinishedGame", () => {
 });
 
 describe("mescla de saves (duas abas)", () => {
-  const done: FinishedGame = { answerMode: "choice", number: 1, rounds: [] };
+  const done: FinishedGame = { number: 1, rounds: [] };
 
   it("andamento não sobrescreve um dia já terminado", () => {
     const save = { ...emptySave(), history: { [ID]: done } };
-    expect(withProgress(save, ID, { answerMode: "choice", events: [] })).toBe(save);
+    expect(withProgress(save, ID, { events: [] })).toBe(save);
   });
 
   it("andamento mais curto não apaga um mais longo", () => {
     const longer = saveWith([{ type: "LISTEN_MORE" }, { type: "LISTEN_MORE" }]);
-    expect(
-      withProgress(longer, ID, { answerMode: "choice", events: [{ type: "LISTEN_MORE" }] }),
-    ).toBe(longer);
+    expect(withProgress(longer, ID, { events: [{ type: "LISTEN_MORE" }] })).toBe(longer);
   });
 
   it("o primeiro término vence e o andamento é limpo", () => {
@@ -191,29 +186,9 @@ describe("mescla de saves (duas abas)", () => {
     expect(withFinished(first, ID, done)).toBe(first);
   });
 
-  it("withModeChoice grava a preferência e trava o modo com um andamento vazio", () => {
-    const save = withModeChoice(emptySave(), ID, "typing");
-    expect(save.settings).toEqual({ answerMode: "typing" });
-    expect(save.inProgress[ID]).toEqual({ answerMode: "typing", events: [] });
-    expect(lockedMode(save, ID)).toBe("typing");
-    expect(withModeChoice(save, ID, "typing")).toBe(save);
-  });
-
-  it("withModeChoice não troca o modo de um dia que outra aba já começou ou terminou", () => {
-    const started = withModeChoice(emptySave(), ID, "choice");
-    // Nada muda: o jogador vai jogar o dia no modo travado, então ele é o "último usado" (P45).
-    expect(withModeChoice(started, ID, "typing")).toBe(started);
-    expect(lockedMode(started, ID)).toBe("choice");
-
-    const finished = { ...emptySave(), history: { [ID]: done } };
-    expect(withModeChoice(finished, ID, "typing").inProgress).toEqual({});
-    expect(lockedMode(finished, ID)).toBe("choice");
-    expect(lockedMode(emptySave(), ID)).toBeNull();
-  });
-
   it("replaceProgress troca até por uma lista mais curta, mas não mexe em dia terminado", () => {
     const longer = saveWith([{ type: "LISTEN_MORE" }, { type: "LISTEN_MORE" }]);
-    const shorter = { answerMode: "choice" as const, events: [{ type: "LISTEN_MORE" as const }] };
+    const shorter = { events: [{ type: "LISTEN_MORE" as const }] };
     expect(replaceProgress(longer, ID, shorter).inProgress[ID]).toEqual(shorter);
     const finished = { ...emptySave(), history: { [ID]: done } };
     expect(replaceProgress(finished, ID, shorter)).toBe(finished);
@@ -223,8 +198,8 @@ describe("mescla de saves (duas abas)", () => {
     const save: Save = {
       ...emptySave(),
       inProgress: {
-        [ID]: { answerMode: "choice", events: [] },
-        "2026-10-07|song": { answerMode: "choice", events: [] },
+        [ID]: { events: [] },
+        "2026-10-07|album": { events: [] },
       },
     };
     expect(Object.keys(pruneProgress(save, [ID]).inProgress)).toEqual([ID]);
@@ -236,18 +211,18 @@ describe("mescla de saves (duas abas)", () => {
 describe("pendingDayTracks", () => {
   it("só as faixas dos diários sem resultado: o terminado não gasta a cota do lookup", () => {
     const answers = (target: "song" | "album") => day[target].map((r) => r.answer);
-    const done: FinishedGame = { answerMode: "choice", number: day.number, rounds: [] };
+    const done: FinishedGame = { number: day.number, rounds: [] };
     const finished = (...ids: string[]): Save => ({
       ...emptySave(),
       history: Object.fromEntries(ids.map((id) => [id, done])),
     });
     expect(pendingDayTracks(emptySave(), day, DATE)).toEqual([
-      ...answers("song"),
       ...answers("album"),
+      ...answers("song"),
     ]);
-    expect(pendingDayTracks(finished(ID), day, DATE)).toEqual(answers("album"));
-    expect(pendingDayTracks(finished(ID, puzzleId(DATE, "album")), day, DATE)).toEqual([]);
+    expect(pendingDayTracks(finished(ID), day, DATE)).toEqual(answers("song"));
+    expect(pendingDayTracks(finished(ID, puzzleId(DATE, "song")), day, DATE)).toEqual([]);
     // Resultado de outro dia não conta.
-    expect(pendingDayTracks(finished("2026-10-07|song"), day, DATE)).toHaveLength(6);
+    expect(pendingDayTracks(finished("2026-10-07|album"), day, DATE)).toHaveLength(6);
   });
 });

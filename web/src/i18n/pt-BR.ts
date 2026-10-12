@@ -5,40 +5,45 @@ export const ptBR = {
   // O 当 de 当てる (ateru: acertar), no logo provisório (P95).
   "app.logoMark": "当",
 
-  "load.loading": "Carregando o desafio…",
-  "load.retry": "Não foi possível carregar o desafio. Confira a conexão.",
+  "load.loading": "Carregando…",
+  "load.retry": "Não foi possível carregar o jogo. Confira a conexão.",
   "load.retryButton": "Tentar de novo",
   "load.update": "O jogo foi atualizado desde que esta página abriu.",
   "load.updateButton": "Recarregar a página",
-  "day.unavailable": "Não há desafio diário hoje.",
+  // "Diário" é o jogo de cada dia; "Desafio" é um dos modos (P103).
+  "day.unavailable": "Não há diário hoje.",
   "day.practiceLink": "O Treino continua disponível: jogar agora",
+
+  // Os dois modos (P100), pelo alvo: o Normal (álbum, 4 opções) e o Desafio (música, digitada).
+  "mode.album": "Normal",
+  "mode.song": "Desafio",
 
   "nav.label": "Jogos",
   "nav.home": "Início",
-  "nav.song": "Música",
-  "nav.album": "Álbum",
   "nav.practice": "Treino",
   "nav.done": "(terminado)",
   "nav.doneMark": "✓",
 
   "home.modesTitle": "Escolha o jogo",
-  "home.songHint": "Ouça o trecho e acerte o nome da música. {rounds} rodadas por dia.",
-  "home.albumHint": "Ouça o trecho e acerte o álbum ou single. {rounds} rodadas por dia.",
-  "home.practiceHint": "Rodadas sem fim, de Música ou Álbum, em 4 opções ou digitação.",
+  "home.albumHint":
+    "Ouça o trecho e escolha o álbum ou single entre 4 opções. {rounds} rodadas por dia.",
+  "home.songHint":
+    "Ouça o trecho e digite o nome exato da música, em até {total} tentativas. {rounds} rodadas por dia.",
+  "home.practiceHint": "Rodadas sem fim do Normal ou do Desafio.",
   "home.statusNew": "nº {number} · novo",
-  "home.statusPlaying": "nº {number} · em andamento ({mode})",
+  "home.statusPlaying": "nº {number} · em andamento",
   "home.statusDone": "nº {number} · terminado, {score} de {max} pontos",
   "home.statusDoneVoid": "nº {number} · terminado",
-  "home.statusUnavailable": "Não há desafio hoje",
+  "home.statusUnavailable": "Não há diário hoje",
   "home.practiceSession": "Nesta sessão: {score}",
   "home.howTitle": "Como funciona",
+  // Espaço que não quebra (U+00A0) entre o número e o "s".
   "home.howClip":
-    //  : espaço que não quebra a linha entre o número e o "s".
     "Você ouve um trecho de um sucesso no Japão. Ele começa com {first} s e cresce até {last} s.",
   "home.howDaily": "Os diários são iguais para todos e mudam à meia-noite, horário de Brasília.",
   "home.howPractice": "O Treino não fica salvo: jogue quantas rodadas quiser.",
 
-  "game.header": "{daily} · nº {number}",
+  "game.header": "{mode} · nº {number}",
   "game.round": "Rodada {current} de {total}",
   "question.song": "Qual é a música?",
   "question.album": "Qual é o álbum?",
@@ -86,21 +91,8 @@ export const ptBR = {
   "count.games.one": "{count} jogo",
   "count.games.other": "{count} jogos",
 
-  "target.song": "Diário Música",
-  "target.album": "Diário Álbum",
-  "mode.choice": "4 opções",
-  "mode.typing": "digitação",
-  "mode.title": "Como você quer responder hoje?",
-  "mode.locked": "O modo vale para o dia inteiro.",
-  "mode.choiceName": "4 opções",
-  "mode.choiceHint": "Escolha entre 4 opções. Um palpite só; ouvir mais custa 1 ponto.",
-  "mode.typingName": "Digitação",
-  "mode.typingHint": "Digite o nome ou o artista. Até {total} tentativas.",
-  "mode.lastUsed": "último usado",
-
   "typing.hint": "Título, artista, romaji ou kana. Escolha na lista com as setas e Enter.",
-  "typing.placeholder.song": "Nome da música ou do artista",
-  "typing.placeholder.album": "Nome do álbum ou do artista",
+  "typing.placeholder": "Nome da música ou do artista",
   "typing.listLabel": "Sugestões",
   "typing.noResults": "Nada encontrado.",
   "typing.results.one": "{count} sugestão",
@@ -128,14 +120,14 @@ export const ptBR = {
   "stats.bucketToday": "{points}: {games}, incluindo hoje",
   "stats.none": "sem dados",
 
-  "share.header": "{title} · {daily} nº {number} · {mode}",
+  "share.header": "{title} · {mode} nº {number}",
   "share.button": "Compartilhar resultado",
   "share.copied": "Resultado copiado. É só colar onde quiser.",
   "share.manual": "Não foi possível copiar sozinho. Copie o texto abaixo:",
 
-  "countdown.label": "Próximo desafio em",
-  "countdown.ready": "O novo desafio já está disponível.",
-  "countdown.play": "Jogar o novo desafio",
+  "countdown.label": "Próximo diário em",
+  "countdown.ready": "O novo diário já está disponível.",
+  "countdown.play": "Jogar o novo diário",
 
   "storage.unavailable": "Seu progresso não será salvo neste navegador.",
   "storage.future":
@@ -147,11 +139,8 @@ export const ptBR = {
   "practice.score": "{points} em {rounds}",
   "practice.rounds.one": "{count} rodada",
   "practice.rounds.other": "{count} rodadas",
-  "practice.target": "Alvo",
-  "practice.targetSong": "Música",
-  "practice.targetAlbum": "Álbum",
-  "practice.answer": "Resposta",
-  "practice.filtersHint": "Vale a partir da próxima rodada.",
+  "practice.mode": "Modo",
+  "practice.modeHint": "Vale a partir da próxima rodada.",
   "practice.empty":
     "Não há rodada para sortear agora. As respostas dos diários de hoje voltam ao Treino quando eles terminarem.",
   "practice.retry": "Sortear de novo",

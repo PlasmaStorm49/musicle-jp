@@ -3,29 +3,29 @@ import { cleanup, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it } from "vitest";
 import type { PracticeScore } from "../core/practice.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
-import type { Day, SongRound } from "../core/types.ts";
+import type { AlbumRound, Day } from "../core/types.ts";
 import { Home } from "./Home.tsx";
 
 afterEach(cleanup);
 
 // Dia mínimo no próprio arquivo (web/CLAUDE.md, regra 14): a home só lê o número.
-const round: SongRound = { answer: "t:tr:1", options: ["t:tr:1", "t:tr:2", "t:tr:3", "t:tr:4"] };
+const song = { answer: "t:tr:1" };
+const album: AlbumRound = { answer: "t:tr:1", options: ["t:al:1", "t:al:2", "t:al:3", "t:al:4"] };
 const DAY: Day = {
   number: 7,
   catalogVersion: "teste",
-  song: [round, round, round],
-  album: [round, round, round],
+  song: [song, song, song],
+  album: [album, album, album],
 };
 const DATE = "2026-10-17";
 
 // 6 + 0 + 5 = 11 de 18.
 const finished: FinishedGame = {
-  answerMode: "choice",
   number: 7,
   rounds: [
     { status: "won", stage: 0, attempts: ["right"] },
     { status: "lost", stage: 0, attempts: ["wrong"] },
-    { status: "won", stage: 1, attempts: ["right"] }, // no 4 opções, "Ouvir mais" não é tentativa
+    { status: "won", stage: 1, attempts: ["right"] }, // no Normal, "Ouvir mais" não é tentativa
   ],
 };
 
@@ -46,35 +46,41 @@ describe("Home", () => {
     expect(document.activeElement).toBe(title);
   });
 
-  it("um cartão-link por modo, para a aba de cada um", () => {
+  it("um cartão-link por modo, para a aba de cada um, na ordem Normal, Desafio, Treino", () => {
     setup();
-    expect(card(/^Diário Música/).getAttribute("href")).toBe("#musica");
-    expect(card(/^Diário Álbum/).getAttribute("href")).toBe("#album");
+    expect(card(/^Normal/).getAttribute("href")).toBe("#normal");
+    expect(card(/^Desafio/).getAttribute("href")).toBe("#desafio");
     expect(card(/^Treino/).getAttribute("href")).toBe("#treino");
+    expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
+      "#normal",
+      "#desafio",
+      "#treino",
+    ]);
     expect(screen.queryAllByRole("button")).toHaveLength(0);
   });
 
-  it("dia novo: o número do desafio", () => {
+  it("dia novo: o número do diário", () => {
     setup();
-    expect(card(/^Diário Música/).textContent).toContain("nº 7 · novo");
+    expect(card(/^Normal/).textContent).toContain("nº 7 · novo");
+    expect(card(/^Desafio/).textContent).toContain("nº 7 · novo");
   });
 
   it("o estado de cada diário: em andamento e terminado com os pontos", () => {
     const save: Save = {
       ...emptySave(),
       history: { [puzzleId(DATE, "song")]: finished },
-      inProgress: { [puzzleId(DATE, "album")]: { answerMode: "typing", events: [] } },
+      inProgress: { [puzzleId(DATE, "album")]: { events: [{ type: "LISTEN_MORE" }] } },
     };
     setup(save);
-    expect(card(/^Diário Música/).textContent).toContain("nº 7 · terminado, 11 de 18 pontos");
-    expect(card(/^Diário Álbum/).textContent).toContain("nº 7 · em andamento (digitação)");
+    expect(card(/^Desafio/).textContent).toContain("nº 7 · terminado, 11 de 18 pontos");
+    expect(card(/^Normal/).textContent).toContain("nº 7 · em andamento");
   });
 
   it("outra aba grava (o save relido muda): o cartão atualiza, e o foco fica onde está", () => {
     // O App relê o save no evento storage e desenha a mesma Home com o save novo. O foco não
     // pode voltar ao título: o efeito só roda ao montar, e o link continua o mesmo elemento.
     const { rerender } = render(<Home day={DAY} date={DATE} save={emptySave()} practice={null} />);
-    const song = card(/^Diário Música/);
+    const song = card(/^Desafio/);
     song.focus();
     const done: Save = { ...emptySave(), history: { [puzzleId(DATE, "song")]: finished } };
     rerender(<Home day={DAY} date={DATE} save={done} practice={null} />);
@@ -88,20 +94,20 @@ describe("Home", () => {
       rounds: finished.rounds.map(() => ({ status: "void", stage: 0, attempts: [] })),
     };
     setup({ ...emptySave(), history: { [puzzleId(DATE, "song")]: voided } });
-    expect(card(/^Diário Música/).textContent).toContain("nº 7 · terminado");
-    expect(card(/^Diário Música/).textContent).not.toContain("pontos");
+    expect(card(/^Desafio/).textContent).toContain("nº 7 · terminado");
+    expect(card(/^Desafio/).textContent).not.toContain("pontos");
   });
 
   it("dia fora da agenda: os diários avisam sem link (não há para onde ir), e o Treino continua", () => {
     setup(emptySave(), null);
-    expect(screen.queryByRole("link", { name: /^Diário/ })).toBeNull();
-    expect(screen.getAllByText("Não há desafio hoje")).toHaveLength(2);
+    expect(screen.queryByRole("link", { name: /^(Normal|Desafio)/ })).toBeNull();
+    expect(screen.getAllByText("Não há diário hoje")).toHaveLength(2);
     expect(card(/^Treino/).getAttribute("href")).toBe("#treino");
   });
 
   it("nenhum id igual a uma rota (o navegador rolaria até ele, regra 17)", () => {
     setup();
-    for (const route of ["#inicio", "#musica", "#album", "#treino"]) {
+    for (const route of ["#inicio", "#normal", "#desafio", "#treino"]) {
       expect(document.querySelector(route)).toBeNull();
     }
   });

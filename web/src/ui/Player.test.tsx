@@ -36,21 +36,21 @@ function setup(rules: ModeRules, skippable: boolean) {
 }
 
 describe("Player segue as regras do modo", () => {
-  it("digitação: Pular libera a etapa sem tocar nada (P46); sem Ouvir mais", () => {
-    const { engine, onSkip } = setup(MODE_RULES.typing, true);
+  it("Desafio: Pular libera a etapa sem tocar nada (P46); sem Ouvir mais", () => {
+    const { engine, onSkip } = setup(MODE_RULES.song, true);
     expect(screen.queryByRole("button", { name: /Ouvir mais/ })).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Pular (+1 s)" }));
     expect(onSkip).toHaveBeenCalledOnce();
     expect(engine.play).not.toHaveBeenCalled();
   });
 
-  it("digitação na última tentativa: sem Pular", () => {
-    setup(MODE_RULES.typing, false);
+  it("Desafio na última tentativa: sem Pular", () => {
+    setup(MODE_RULES.song, false);
     expect(screen.queryByRole("button", { name: /Pular/ })).toBeNull();
   });
 
-  it("4 opções: Ouvir mais libera e já toca o trecho maior (P33); sem Pular", () => {
-    const { engine, onListenMore } = setup(MODE_RULES.choice, false);
+  it("Normal: Ouvir mais libera e já toca o trecho maior (P33); sem Pular", () => {
+    const { engine, onListenMore } = setup(MODE_RULES.album, false);
     expect(screen.queryByRole("button", { name: /Pular/ })).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: /Ouvir mais/ }));
     expect(onListenMore).toHaveBeenCalledOnce();
@@ -58,7 +58,7 @@ describe("Player segue as regras do modo", () => {
   });
 
   it("o foco começa no Tocar (rodada nova) e volta para ele depois de um pulo", () => {
-    const { onSkip } = setup(MODE_RULES.typing, true);
+    const { onSkip } = setup(MODE_RULES.song, true);
     const play = screen.getByRole("button", { name: "Tocar 1 s" });
     expect(document.activeElement).toBe(play);
     const skip = screen.getByRole("button", { name: "Pular (+1 s)" });
@@ -85,7 +85,7 @@ describe("Player segue as regras do modo", () => {
         offset={0}
         stage={0}
         explicit={false}
-        rules={MODE_RULES.choice}
+        rules={MODE_RULES.album}
         skippable={false}
         onListenMore={vi.fn()}
         onSkip={vi.fn()}
@@ -116,7 +116,7 @@ describe("Player segue as regras do modo", () => {
         offset={0}
         stage={0}
         explicit={false}
-        rules={MODE_RULES.choice}
+        rules={MODE_RULES.album}
         skippable={false}
         onListenMore={vi.fn()}
         onSkip={vi.fn()}
@@ -146,7 +146,7 @@ describe("Player segue as regras do modo", () => {
           offset={0}
           stage={0}
           explicit={false}
-          rules={MODE_RULES.typing}
+          rules={MODE_RULES.song}
           skippable={true}
           onListenMore={vi.fn()}
           onSkip={vi.fn()}
@@ -164,7 +164,7 @@ describe("Player segue as regras do modo", () => {
   });
 
   it("toque duplo não gasta duas tentativas", () => {
-    const { onSkip } = setup(MODE_RULES.typing, true);
+    const { onSkip } = setup(MODE_RULES.song, true);
     fireEvent.click(screen.getByRole("button", { name: "Pular (+1 s)" }), { detail: 2 });
     expect(onSkip).not.toHaveBeenCalled();
   });
@@ -202,7 +202,7 @@ function Controlled({ engine, start }: { readonly engine: AudioEngine; readonly 
       offset={0}
       stage={stage}
       explicit={false}
-      rules={MODE_RULES.choice}
+      rules={MODE_RULES.album}
       skippable={false}
       onListenMore={() => setStage((s) => s + 1)}
       onSkip={vi.fn()}
@@ -227,7 +227,7 @@ describe("Player com o som tocando", () => {
   });
 
   it("motor parado antes de o som começar: volta ao Tocar, e não fica em Carregando…", async () => {
-    setup(MODE_RULES.typing, true); // play devolve null, como depois de um palpite na digitação
+    setup(MODE_RULES.song, true); // play devolve null, como depois de um palpite na digitação
     fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }));
     await act(async () => {});
     const play = screen.getByRole("button", { name: "Tocar 1 s" });

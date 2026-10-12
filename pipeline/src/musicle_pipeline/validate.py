@@ -14,7 +14,7 @@ from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
 from musicle_pipeline.paths import catalog_schema_path
 from musicle_pipeline.providers.apple import is_apple_url
-from musicle_pipeline.similarity import MIN_OPTIONS, album_profiles, title_of
+from musicle_pipeline.similarity import MIN_OPTIONS, album_profiles
 
 
 @cache
@@ -102,36 +102,13 @@ def _disjoint(groups: list[frozenset[str]]) -> bool:
 
 
 def _similar_problems(catalog: JSON) -> list[str]:
-    """Distratores: existem, não se parecem demais com a resposta e bastam para 4 opções."""
+    """Distratores do Normal: existem, não se parecem demais com o álbum certo e bastam para 4
+    opções. O Desafio é digitado e não tem distratores (P100)."""
     problems: list[str] = []
-    tracks = {t["id"]: t for t in catalog["tracks"]}
     albums = {a["id"]: a for a in catalog["albums"]}
     profiles = album_profiles(catalog["albums"], catalog["tracks"])
 
     for t in catalog["tracks"]:
-        me = frozenset(t["artistIds"])
-        groups = []
-        for sid in t["similar"]:
-            c = tracks.get(sid)
-            if c is None or sid == t["id"]:
-                problems.append(f"{t['id']}: distrator inválido {sid}")
-                continue
-            groups.append(frozenset(c["artistIds"]))
-            if me & groups[-1]:
-                problems.append(f"{t['id']}: distrator {sid} tem artista em comum")
-            if title_of(c["songKey"]) == title_of(t["songKey"]):
-                problems.append(f"{t['id']}: distrator {sid} tem o mesmo título")
-            if not c["eligible"]["daily"]:
-                problems.append(f"{t['id']}: distrator {sid} não é elegível")
-        if not _disjoint(groups):
-            problems.append(f"{t['id']}: distratores com artista repetido")
-        titles = [title_of(tracks[s]["songKey"]) for s in t["similar"] if s in tracks]
-        if len(set(titles)) != len(titles):
-            problems.append(f"{t['id']}: distratores com título repetido entre si")
-        if t["eligible"]["daily"] and len(t["similar"]) < MIN_OPTIONS:
-            problems.append(
-                f"{t['id']}: só {len(t['similar'])} distrator(es), mínimo {MIN_OPTIONS}"
-            )
         album = albums.get(t["albumId"])  # álbum inexistente já foi relatado acima
         if t["eligible"]["daily"] and album and len(album["similar"]) < MIN_OPTIONS:
             problems.append(

@@ -2,7 +2,7 @@
 import { normalize } from "./normalize.ts";
 import type { Album, Artist, Catalog, Target, Track } from "./types.ts";
 
-export const SUPPORTED_SCHEMA_VERSION = 1;
+export const SUPPORTED_SCHEMA_VERSION = 2;
 
 /** Catálogo de uma versão que este código não conhece: o jogo pede para atualizar a página. */
 export class UnsupportedCatalogError extends Error {}
@@ -37,8 +37,8 @@ export function indexCatalog(catalog: Catalog): CatalogIndex {
 }
 
 /**
- * IDs que contam como acerto para a faixa que toca. Na Música, toda faixa com o mesmo songKey
- * (single, álbum e "TV Size" da mesma música). No Álbum, todo álbum que contém essa música e,
+ * IDs que contam como acerto para a faixa que toca. No Desafio, toda faixa com o mesmo songKey
+ * (single, álbum e "TV Size" da mesma música). No Normal, todo álbum que contém essa música e,
  * do mesmo artista, o álbum com o mesmo nome ou com a música no nome (`sameRelease`).
  */
 export function acceptedIds(index: CatalogIndex, track: Track, target: Target): string[] {
@@ -78,7 +78,7 @@ function namesOf(index: CatalogIndex): ReadonlyMap<string, AlbumName> {
  * - o álbum com a música numa parte do nome: o EP "爆裂愛してる / 好きすぎて滅! - EP" tem
  *   好きすぎて滅!;
  * - o álbum com o nome inteiro de um álbum certo: há dois "ROSE - Single" da HANA, um só com
- *   ROSE e outro com Tiger no lado B. Na busca eles aparecem iguais, e recusar um deles seria
+ *   ROSE e outro com Tiger no lado B. Na tela eles têm o mesmo nome, e recusar um deles seria
  *   injusto, mesmo para a resposta Tiger.
  * Uma parte só do nome de um álbum certo não basta: a resposta 爆裂愛してる, do EP, não está no
  * "好きすぎて滅! - Single". Nome que a normalização esvazia ("♡", só símbolos) nunca casa.

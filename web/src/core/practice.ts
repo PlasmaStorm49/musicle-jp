@@ -1,4 +1,5 @@
-// Modo Treino: rodadas sem fim, sorteadas de um "saco embaralhado" por alvo. Funções puras:
+// Modo Treino: rodadas sem fim do Normal ou do Desafio, sorteadas de um "saco embaralhado" por
+// modo. Funções puras:
 // a semente vem de fora (a tela usa crypto.getRandomValues) e nada daqui é salvo (P50).
 //
 // Por que saco, e não sorteio solto: com sorteio solto a mesma música volta logo. O saco tem
@@ -9,12 +10,13 @@ import { acceptedIds, type CatalogIndex } from "./catalog.ts";
 import { type Mulberry32, seeded } from "./prng.ts";
 import { pendingDayTracks, type Save } from "./records.ts";
 import { createRounds, type GameState, type PlannedRound, roundScore } from "./reducer.ts";
-import type { AnswerMode, Day, Target, Track } from "./types.ts";
+import { MODE_RULES } from "./rules.ts";
+import type { Day, Target, Track } from "./types.ts";
 
-/** Distratores por rodada: com a certa, 4 opções. */
+/** Distratores por rodada do Normal: com a certa, 4 opções. */
 const DISTRACTORS = 3;
 
-/** Onde o jogador está no saco de um alvo. */
+/** Onde o jogador está no saco de um modo. */
 export type BagCursor = {
   /** Volta no saco: cada ciclo tem o seu embaralhamento. */
   readonly cycle: number;
@@ -29,7 +31,7 @@ export type BagCursor = {
 
 export type PracticeState = {
   readonly seed: number;
-  /** Um saco por alvo: trocar de alvo e voltar continua de onde parou. */
+  /** Um saco por modo: trocar de modo e voltar continua de onde parou. */
   readonly cursors: Readonly<Record<Target, BagCursor>>;
 };
 
@@ -53,9 +55,8 @@ export type PracticeScore = { readonly points: number; readonly rounds: number }
 /** Tudo o que a sessão do Treino lembra enquanto a página estiver aberta. */
 export type PracticeSession = {
   readonly practice: PracticeState;
-  /** Filtros: valem a partir da próxima rodada. */
+  /** O modo (Normal ou Desafio): vale a partir da próxima rodada. */
   readonly target: Target;
-  readonly answerMode: AnswerMode;
   /** Placar das rodadas encerradas antes da atual. */
   readonly score: PracticeScore;
   /** Quantas rodadas já saíram (a atual é a de número `number`). */
@@ -78,13 +79,13 @@ function byPopularity(a: Track, b: Track): number {
 const byId = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
 
 /**
- * O saco de um alvo, antes de embaralhar, em ordem fixa. Música: uma faixa elegível por música
- * (songKey), a mais popular. Álbum: uma faixa elegível por álbum, sem repetir música dentro do
+ * O saco de um modo, antes de embaralhar, em ordem fixa. Desafio: uma faixa elegível por música
+ * (songKey), a mais popular. Normal: uma faixa elegível por álbum, sem repetir música dentro do
  * saco (a mesma música pode estar em vários álbuns); os álbuns vão em ordem de id e cada um
  * leva a sua faixa mais popular cuja música ainda não entrou.
  */
 export function practicePool(index: CatalogIndex, target: Target): readonly string[] {
-  // O saco só depende do catálogo: calculado uma vez por catálogo e alvo, não a cada sorteio.
+  // O saco só depende do catálogo: calculado uma vez por catálogo e modo, não a cada sorteio.
   const cached = pools.get(index)?.[target];
   if (cached) return cached;
   const pool = buildPool(index, target);
@@ -141,7 +142,7 @@ function bagFor(
 }
 
 /**
- * Músicas (songKey) a esconder do Treino: as respostas dos diários de hoje (Música e Álbum)
+ * Músicas (songKey) a esconder do Treino: as respostas dos diários de hoje (Normal e Desafio)
  * que ainda não têm resultado gravado. Quando o diário termina, elas voltam.
  */
 export function pendingDailySongKeys(
@@ -156,7 +157,7 @@ export function pendingDailySongKeys(
 }
 
 /**
- * Álbuns que entregariam uma música excluída: todo álbum que a resposta do Álbum aceitaria
+ * Álbuns que entregariam uma música excluída: todo álbum que a resposta do Normal aceitaria
  * por ela (acceptedIds), ou seja, os que a contêm e os do mesmo lançamento (o EP "A / B", o
  * outro single de mesmo nome), que o catálogo não liga à música.
  */
@@ -182,9 +183,9 @@ function pickDistractors(rng: Mulberry32, pool: readonly string[]): string[] {
 }
 
 /**
- * As opções de uma rodada: a certa (a faixa na Música, o álbum dela no Álbum) e 3 distratores
- * do `similar`, sem as músicas excluídas (no Álbum, sem os álbuns que as entregariam). Se
- * sobrarem menos de 3, vale a lista inteira, como no pipeline. As 4 saem embaralhadas.
+ * A rodada sorteada. No Normal, as 4 opções: o álbum certo e 3 distratores do `similar` do
+ * álbum, sem os álbuns que entregariam uma música excluída; se sobrarem menos de 3, vale a lista
+ * inteira, como no pipeline. As 4 saem embaralhadas. O Desafio é digitado: sem opções.
  */
 export function planRound(
   index: CatalogIndex,
@@ -196,22 +197,17 @@ export function planRound(
 ): PlannedRound {
   const track = index.tracks.get(trackId);
   if (!track) throw new RangeError(`faixa ${trackId} não está no catálogo`);
-  const correct = target === "song" ? track.id : track.albumId;
-  const similar =
-    target === "song" ? track.similar : (index.albums.get(track.albumId)?.similar ?? []);
-  const allowed =
-    target === "song"
-      ? (id: string) => !excluded.has(index.tracks.get(id)?.songKey ?? "")
-      : (id: string) => !blocked.has(id);
-  const filtered = similar.filter(allowed);
+  if (!MODE_RULES[target].guessFromOptions) return { answer: track.id, options: [] };
+  const similar = index.albums.get(track.albumId)?.similar ?? [];
+  const filtered = similar.filter((id) => !blocked.has(id));
   const pool = filtered.length < DISTRACTORS ? similar : filtered;
-  const options = [correct, ...pickDistractors(rng, pool)];
+  const options = [track.albumId, ...pickDistractors(rng, pool)];
   rng.shuffle(options);
   return { answer: track.id, options };
 }
 
 /**
- * Sorteia a próxima rodada do alvo. A faixa cujo álbum entregaria uma música excluída (a dela
+ * Sorteia a próxima rodada do modo. A faixa cujo álbum entregaria uma música excluída (a dela
  * ou outra: blockedAlbums) é pulada (fica no saco e volta no ciclo seguinte). Saco vazio: novo
  * ciclo. Uma volta inteira sem achar nenhuma devolve null, e o estado fica como estava.
  */
@@ -240,7 +236,7 @@ export function drawPractice(
     position += 1;
     const track = index.tracks.get(trackId);
     // Fica de fora também a faixa de um álbum que entregaria uma música excluída: a revelação
-    // mostra o álbum (título e capa), e no Álbum ele pode ser a própria resposta do diário.
+    // mostra o álbum (título e capa), e no Normal ele pode ser a própria resposta do diário.
     if (!track || blocked.has(track.albumId)) continue;
     const rng = seeded(`treino|${state.seed}|${target}|${cycle}|${position - 1}`);
     return {
@@ -257,15 +253,10 @@ export function drawPractice(
 }
 
 /** O jogo de uma rodada só, com o reducer de sempre. O puzzleId identifica a rodada. */
-export function practiceGame(
-  round: PracticeRound,
-  answerMode: AnswerMode,
-  index: CatalogIndex,
-): GameState {
+export function practiceGame(round: PracticeRound, index: CatalogIndex): GameState {
   return {
     puzzleId: `treino|${round.target}|${round.cycle}|${round.position}`,
     target: round.target,
-    answerMode,
     rounds: createRounds([round.planned], round.target, index),
     current: 0,
   };
@@ -279,7 +270,7 @@ export function practiceScore(score: PracticeScore, game: GameState | null): Pra
 }
 
 /**
- * Fecha a rodada atual no placar e sorteia a próxima com os filtros de agora. Sem rodada
+ * Fecha a rodada atual no placar e sorteia a próxima com o modo de agora. Sem rodada
  * possível, `game` fica null e o número não anda.
  */
 export function nextPracticeRound(
@@ -295,7 +286,7 @@ export function nextPracticeRound(
     score,
     practice: draw.state,
     number: session.number + 1,
-    game: practiceGame(draw.round, session.answerMode, index),
+    game: practiceGame(draw.round, index),
   };
 }
 
@@ -303,14 +294,12 @@ export function nextPracticeRound(
 export function startPracticeSession(
   seed: number,
   target: Target,
-  answerMode: AnswerMode,
   index: CatalogIndex,
   excluded: ReadonlySet<string>,
 ): PracticeSession {
   const session: PracticeSession = {
     practice: newPractice(seed),
     target,
-    answerMode,
     score: { points: 0, rounds: 0 },
     number: 0,
     game: null,

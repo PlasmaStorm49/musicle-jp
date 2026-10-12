@@ -2,14 +2,14 @@
 // pontos) e o placar da sessão do Treino. Puro: lê só o que quem chama passa.
 import { type PracticeScore, type PracticeSession, practiceScore } from "./practice.ts";
 import { puzzleId, recordMax, recordScore, type Save } from "./records.ts";
-import type { AnswerMode, Day, Target } from "./types.ts";
+import type { Day, Target } from "./types.ts";
 
 export type DailyStatus =
   /** O dia não está na agenda (P44): o cartão avisa, e o Treino continua. */
   | { readonly kind: "unavailable" }
   | { readonly kind: "new"; readonly number: number }
-  /** O modo já foi escolhido e travado (P13): há andamento salvo, mesmo sem palpite ainda. */
-  | { readonly kind: "playing"; readonly number: number; readonly answerMode: AnswerMode }
+  /** Há andamento salvo: o 1º evento aceito (um palpite, ouvir mais, pular) já foi gravado. */
+  | { readonly kind: "playing"; readonly number: number }
   /** `max` 0: todas as rodadas anuladas (P27), e a tela não mostra "0 de 0". */
   | {
       readonly kind: "done";
@@ -36,8 +36,8 @@ export function dailyStatus(
       max: recordMax(finished),
     };
   }
-  const progress = save.inProgress[id];
-  if (progress) return { kind: "playing", number: day.number, answerMode: progress.answerMode };
+  // Andamento vazio (a repetição descartou todos os eventos, com catálogo novo) ainda é dia novo.
+  if (save.inProgress[id]?.events.length) return { kind: "playing", number: day.number };
   return { kind: "new", number: day.number };
 }
 

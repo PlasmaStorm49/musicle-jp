@@ -20,11 +20,12 @@ import {
 } from "../core/practice.ts";
 import type { Save } from "../core/records.ts";
 import { currentRound, type GameEvent, reduce } from "../core/reducer.ts";
-import type { AnswerMode, Day, Target } from "../core/types.ts";
+import { MODES } from "../core/rules.ts";
+import type { Day, Target } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
-import type { MessageKey } from "../i18n/pt-BR.ts";
 import { t, tn } from "../i18n/t.ts";
 import { usePreviews } from "./hooks.ts";
+import { modeName } from "./modes.ts";
 import { RoundView } from "./RoundView.tsx";
 
 export type { PracticeSession };
@@ -54,8 +55,8 @@ function randomSeed(): number {
 }
 
 /**
- * Modo Treino: rodadas sem fim, com filtros de alvo e de resposta que valem a partir da
- * próxima rodada. Usa a mesma rodada do diário (RoundView) e não salva nada.
+ * Modo Treino: rodadas sem fim do Normal ou do Desafio, com o modo valendo a partir da próxima
+ * rodada. Usa a mesma rodada do diário (RoundView) e não salva nada.
  */
 export function Practice({
   index,
@@ -75,17 +76,10 @@ export function Practice({
     [save, day, date, index],
   );
 
-  // 1ª visita: a sessão nasce aqui (precisa do catálogo e do save) e sobe para o App.
+  // 1ª visita: a sessão nasce aqui (precisa do catálogo e do save) e sobe para o App. Começa
+  // no Normal, o primeiro modo.
   const [fresh] = useState(
-    () =>
-      session ??
-      startPracticeSession(
-        randomSeed(),
-        "song",
-        save.settings.answerMode ?? "choice",
-        index,
-        excluded,
-      ),
+    () => session ?? startPracticeSession(randomSeed(), MODES[0] ?? "album", index, excluded),
   );
   const current = session ?? fresh;
   useEffect(() => {
@@ -110,7 +104,7 @@ export function Practice({
     [update, index, excluded],
   );
 
-  // A próxima rodada, já sorteada com os filtros de agora: o áudio dela começa a baixar antes.
+  // A próxima rodada, já sorteada com o modo de agora: o áudio dela começa a baixar antes.
   const peek = useMemo(
     () => drawPractice(current.practice, index, current.target, excluded),
     [current.practice, current.target, index, excluded],
@@ -134,12 +128,7 @@ export function Practice({
         {game && <p>{t("practice.round", { number: current.number })}</p>}
         <p class="practice-score">{practiceScoreText(score)}</p>
       </header>
-      <Filters
-        target={current.target}
-        answerMode={current.answerMode}
-        onTarget={(target) => update((s) => ({ ...s, target }))}
-        onAnswerMode={(answerMode) => update((s) => ({ ...s, answerMode }))}
-      />
+      <ModeChoice value={current.target} onChange={(target) => update((s) => ({ ...s, target }))} />
       {game ? (
         <RoundView
           game={game}
@@ -168,87 +157,41 @@ export function practiceScoreText(score: PracticeScore): string {
   });
 }
 
-type Choice<T> = { readonly value: T; readonly label: MessageKey };
-
-const TARGETS: readonly Choice<Target>[] = [
-  { value: "song", label: "practice.targetSong" },
-  { value: "album", label: "practice.targetAlbum" },
-];
-
-const MODES: readonly Choice<AnswerMode>[] = [
-  { value: "choice", label: "mode.choiceName" },
-  { value: "typing", label: "mode.typingName" },
-];
-
-type FiltersProps = {
-  readonly target: Target;
-  readonly answerMode: AnswerMode;
-  readonly onTarget: (target: Target) => void;
-  readonly onAnswerMode: (answerMode: AnswerMode) => void;
-};
-
-/** Os dois filtros, como botões de opção. Mudar não mexe na rodada em jogo. */
-function Filters({ target, answerMode, onTarget, onAnswerMode }: FiltersProps) {
+/** O modo do Treino (P100), como botões de opção. Mudar não mexe na rodada em jogo. */
+function ModeChoice({
+  value,
+  onChange,
+}: {
+  readonly value: Target;
+  readonly onChange: (target: Target) => void;
+}) {
   return (
-    <section class="practice-filters">
-      <RadioGroup
-        name="practice-target"
-        legend="practice.target"
-        choices={TARGETS}
-        value={target}
-        onChange={onTarget}
-      />
-      <RadioGroup
-        name="practice-answer"
-        legend="practice.answer"
-        choices={MODES}
-        value={answerMode}
-        onChange={onAnswerMode}
-      />
-      <p id="practice-filters-hint" class="hint">
-        {t("practice.filtersHint")}
+    <section class="practice-mode">
+      <fieldset aria-describedby="practice-mode-hint">
+        <legend>{t("practice.mode")}</legend>
+        {MODES.map((mode) => (
+          <label key={mode}>
+            <input
+              type="radio"
+              name="practice-mode"
+              value={mode}
+              checked={mode === value}
+              onChange={() => onChange(mode)}
+            />
+            {modeName(mode)}
+          </label>
+        ))}
+      </fieldset>
+      <p id="practice-mode-hint" class="hint">
+        {t("practice.modeHint")}
       </p>
     </section>
   );
 }
 
-type RadioGroupProps<T extends string> = {
-  readonly name: string;
-  readonly legend: MessageKey;
-  readonly choices: readonly Choice<T>[];
-  readonly value: T;
-  readonly onChange: (value: T) => void;
-};
-
-function RadioGroup<T extends string>({
-  name,
-  legend,
-  choices,
-  value,
-  onChange,
-}: RadioGroupProps<T>) {
-  return (
-    <fieldset aria-describedby="practice-filters-hint">
-      <legend>{t(legend)}</legend>
-      {choices.map((choice) => (
-        <label key={choice.value}>
-          <input
-            type="radio"
-            name={name}
-            value={choice.value}
-            checked={choice.value === value}
-            onChange={() => onChange(choice.value)}
-          />
-          {t(choice.label)}
-        </label>
-      ))}
-    </fieldset>
-  );
-}
-
 /**
  * Nada para sortear: o aviso leva o foco (o botão de seguir pode ter acabado de sumir). Sortear
- * de novo é um clique, e não automático ao trocar o filtro: senão o Player novo puxaria o foco
+ * de novo é um clique, e não automático ao trocar o modo: senão o Player novo puxaria o foco
  * de quem está escolhendo nos botões de opção.
  */
 function Empty({ onRetry }: { readonly onRetry: () => void }) {

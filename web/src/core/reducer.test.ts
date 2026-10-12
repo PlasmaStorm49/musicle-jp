@@ -19,24 +19,25 @@ const index = indexCatalog(catalog);
 const DATE = "2026-10-08";
 const day = schedule.days[DATE] as Day;
 
-const song = () => createGame(day, DATE, "song", "choice", index);
+/** O Normal: o álbum, entre 4 opções. */
+const normal = () => createGame(day, DATE, "album", index);
 const play = (state: GameState, ...events: GameEvent[]) => events.reduce(reduce, state);
 const round = (state: GameState) => currentRound(state);
+const right = (state: GameState) => round(state).correctOptionId;
 const wrongOption = (state: GameState) =>
   round(state).options.find((o) => !round(state).accepted.includes(o)) as string;
 
-/** Dia sintético cuja rodada 1 tem a faixa tr01, que tem outras versões (tr02 e tr03). */
+/** Dia sintético cuja rodada 1 do Desafio é a tr01, que tem outras versões (tr02 e tr03). */
 function dayWithVersions(): Day {
   const tr01 = index.tracks.get("fixture:tr:tr01");
   if (!tr01) throw new Error("tr01 ausente");
-  const options = [tr01.id, ...tr01.similar.slice(0, 3)] as Day["song"][0]["options"];
-  return { ...day, song: [{ answer: tr01.id, options }, day.song[1], day.song[2]] };
+  return { ...day, song: [{ ...day.song[0], answer: tr01.id }, day.song[1], day.song[2]] };
 }
 
 describe("createGame", () => {
   it("monta 3 rodadas em andamento, na primeira etapa", () => {
-    const game = song();
-    expect(game.puzzleId).toBe("2026-10-08|song");
+    const game = normal();
+    expect(game.puzzleId).toBe("2026-10-08|album");
     expect(game.rounds).toHaveLength(3);
     expect(game.current).toBe(0);
     for (const r of game.rounds) {
@@ -46,59 +47,54 @@ describe("createGame", () => {
     }
   });
 
-  it("Música: a opção certa é a própria faixa", () => {
-    const r = round(song());
-    expect(r.trackId).toBe(day.song[0].answer);
-    expect(r.correctOptionId).toBe(day.song[0].answer);
-    expect(r.options).toEqual(day.song[0].options);
-    expect(r.accepted).toContain(r.trackId);
-  });
-
-  it("Álbum: toca a faixa, mas a opção certa é o álbum dela", () => {
-    const r = round(createGame(day, DATE, "album", "choice", index));
+  it("Normal: toca a faixa, e a resposta é o álbum dela, entre as 4 opções", () => {
+    const r = round(normal());
     const track = index.tracks.get(day.album[0].answer);
     expect(r.trackId).toBe(day.album[0].answer);
     expect(r.correctOptionId).toBe(track?.albumId);
-    expect(r.options).toContain(track?.albumId);
+    expect(r.options).toEqual(day.album[0].options);
   });
 
-  it("createRounds monta as mesmas rodadas que o createGame (M8: o Treino usa só ele)", () => {
-    expect(createRounds(day.song, "song", index)).toEqual(song().rounds);
-    expect(createRounds(day.album, "album", index)).toEqual(
-      createGame(day, DATE, "album", "choice", index).rounds,
+  it("Desafio: a resposta é a própria faixa, sem opções (é digitado)", () => {
+    // Os dias antigos da agenda ainda trazem opções de música (a agenda só cresce): o Desafio
+    // as ignora.
+    const r = round(createGame(day, DATE, "song", index));
+    expect(r.trackId).toBe(day.song[0].answer);
+    expect(r.correctOptionId).toBe(day.song[0].answer);
+    expect(r.options).toEqual([]);
+    expect(r.accepted).toContain(r.trackId);
+  });
+
+  it("Desafio: rodada de música sem opções, como nos dias novos da agenda", () => {
+    const [r] = createRounds([{ answer: day.song[0].answer }], "song", index);
+    expect(r?.status).toBe("playing");
+    expect(r?.options).toEqual([]);
+  });
+
+  it("createRounds monta as mesmas rodadas que o createGame (o Treino usa só ele)", () => {
+    expect(createRounds(day.song, "song", index)).toEqual(
+      createGame(day, DATE, "song", index).rounds,
     );
+    expect(createRounds(day.album, "album", index)).toEqual(normal().rounds);
   });
 
   it("jogo de uma rodada só (Treino) termina no palpite, e avançar não faz nada", () => {
-    const one: GameState = { ...song(), rounds: createRounds([day.song[0]], "song", index) };
-    const done = play(one, { type: "GUESS", guessId: day.song[0].answer });
+    const one: GameState = { ...normal(), rounds: createRounds([day.album[0]], "album", index) };
+    const done = play(one, { type: "GUESS", guessId: right(one) });
     expect(isFinished(done)).toBe(true);
     expect(roundScore(round(done))).toBe(6);
     expect(reduce(done, { type: "NEXT_ROUND" })).toBe(done);
   });
 
-  it("Álbum na digitação: outro álbum com a mesma música também é acerto", () => {
-    const tr01 = index.tracks.get("fixture:tr:tr01");
-    if (!tr01) throw new Error("tr01 ausente");
-    // tr01 (single al01) tem versões em al02 (álbum) e al03 (TV Size).
-    const planned = [{ answer: tr01.id, options: [tr01.albumId] }];
-    const game: GameState = {
-      ...createGame(day, DATE, "album", "typing", index),
-      rounds: createRounds(planned, "album", index),
-    };
-    const won = play(game, { type: "GUESS", guessId: "fixture:al:al02" });
-    expect(round(won).status).toBe("won");
-  });
-
   it("rodada já nasce anulada se a resposta deixou de ser elegível (P27)", () => {
-    const answer = day.song[1].answer;
+    const answer = day.album[1].answer;
     const changed: Catalog = {
       ...catalog,
       tracks: catalog.tracks.map((t) =>
         t.id === answer ? { ...t, eligible: { daily: false, reason: "blocked" } } : t,
       ) as Catalog["tracks"],
     };
-    const game = createGame(day, DATE, "song", "choice", indexCatalog(changed));
+    const game = createGame(day, DATE, "album", indexCatalog(changed));
     expect(game.rounds[1]?.status).toBe("void");
     expect(game.rounds[1]?.voidReason).toBe("unavailable");
   });
@@ -108,53 +104,50 @@ describe("createGame", () => {
       ...day,
       song: [{ ...day.song[0], answer: "fixture:tr:fantasma" }, day.song[1], day.song[2]],
     };
-    expect(createGame(ghost, DATE, "song", "choice", index).rounds[0]?.status).toBe("void");
+    expect(createGame(ghost, DATE, "song", index).rounds[0]?.status).toBe("void");
   });
 });
 
-describe("modo 4 opções", () => {
+describe("Normal (4 opções)", () => {
   it("ouvir mais libera a próxima etapa", () => {
-    const game = play(song(), { type: "LISTEN_MORE" }, { type: "LISTEN_MORE" });
+    const game = play(normal(), { type: "LISTEN_MORE" }, { type: "LISTEN_MORE" });
     expect(round(game).stage).toBe(2);
     expect(unlockedSeconds(round(game))).toBe(4);
   });
 
   it("acertar encerra com 6 menos a etapa", () => {
-    const game = play(
-      song(),
-      { type: "LISTEN_MORE" },
-      { type: "GUESS", guessId: day.song[0].answer },
-    );
+    const start = normal();
+    const game = play(start, { type: "LISTEN_MORE" }, { type: "GUESS", guessId: right(start) });
     expect(round(game).status).toBe("won");
     expect(roundScore(round(game))).toBe(5);
   });
 
   it("errar encerra a rodada com 0", () => {
-    const start = song();
+    const start = normal();
     const game = reduce(start, { type: "GUESS", guessId: wrongOption(start) });
     expect(round(game).status).toBe("lost");
     expect(roundScore(round(game))).toBe(0);
   });
 
   it("desistir encerra com 0", () => {
-    const game = reduce(song(), { type: "GIVE_UP" });
+    const game = reduce(normal(), { type: "GIVE_UP" });
     expect(round(game).status).toBe("lost");
     expect(roundScore(round(game))).toBe(0);
   });
 
   it("anular (falha de áudio) encerra como void", () => {
-    const game = reduce(song(), { type: "VOID", round: 0, reason: "audio" });
+    const game = reduce(normal(), { type: "VOID", round: 0, reason: "audio" });
     expect(round(game).status).toBe("void");
     expect(round(game).voidReason).toBe("audio");
   });
 
   it("anular outra rodada que não a atual é ignorado (falha de pré-carregamento)", () => {
-    const start = song();
+    const start = normal();
     expect(reduce(start, { type: "VOID", round: 1, reason: "audio" })).toBe(start);
   });
 
   it("avança de rodada só depois de encerrar", () => {
-    const start = song();
+    const start = normal();
     expect(reduce(start, { type: "NEXT_ROUND" })).toBe(start);
     const next = play(start, { type: "GIVE_UP" }, { type: "NEXT_ROUND" });
     expect(next.current).toBe(1);
@@ -162,7 +155,7 @@ describe("modo 4 opções", () => {
 
   it("o jogo termina quando as 3 rodadas encerram, mesmo sem o último NEXT_ROUND", () => {
     const game = play(
-      song(),
+      normal(),
       { type: "GIVE_UP" },
       { type: "NEXT_ROUND" },
       { type: "GIVE_UP" },
@@ -175,17 +168,17 @@ describe("modo 4 opções", () => {
 });
 
 describe("eventos inválidos devolvem o mesmo objeto", () => {
-  it.each<[string, (s: GameState) => GameEvent]>([
-    ["palpite fora das opções", () => ({ type: "GUESS", guessId: "fixture:tr:tr99" })],
-    ["pular no modo 4 opções", () => ({ type: "SKIP" })],
+  it.each<[string, GameEvent]>([
+    ["palpite fora das opções no Normal", { type: "GUESS", guessId: "fixture:al:al99" }],
+    ["pular no Normal", { type: "SKIP" }],
   ])("%s", (_, event) => {
-    const start = song();
-    expect(reduce(start, event(start))).toBe(start);
+    const start = normal();
+    expect(reduce(start, event)).toBe(start);
   });
 
   it("ouvir mais na última etapa", () => {
     const last = play(
-      song(),
+      normal(),
       ...Array.from({ length: 5 }, () => ({ type: "LISTEN_MORE" }) as const),
     );
     expect(round(last).stage).toBe(5);
@@ -193,9 +186,10 @@ describe("eventos inválidos devolvem o mesmo objeto", () => {
   });
 
   it("qualquer evento numa rodada encerrada (menos avançar)", () => {
-    const ended = reduce(song(), { type: "GIVE_UP" });
+    const start = normal();
+    const ended = reduce(start, { type: "GIVE_UP" });
     for (const event of [
-      { type: "GUESS", guessId: day.song[0].answer },
+      { type: "GUESS", guessId: right(start) },
       { type: "LISTEN_MORE" },
       { type: "GIVE_UP" },
       { type: "VOID", round: 0, reason: "audio" },
@@ -205,25 +199,25 @@ describe("eventos inválidos devolvem o mesmo objeto", () => {
   });
 
   it("não altera o estado recebido (imutável)", () => {
-    const start = song();
+    const start = normal();
     const snapshot = structuredClone(start);
-    play(start, { type: "LISTEN_MORE" }, { type: "GUESS", guessId: day.song[0].answer });
+    play(start, { type: "LISTEN_MORE" }, { type: "GUESS", guessId: right(start) });
     expect(start).toEqual(snapshot);
   });
 });
 
-describe("modo digitação (regras prontas para o M7)", () => {
-  const typing = () => createGame(dayWithVersions(), DATE, "song", "typing", index);
+describe("Desafio (digitação)", () => {
+  const desafio = () => createGame(dayWithVersions(), DATE, "song", index);
 
   it("outra versão da mesma música conta como acerto", () => {
-    const game = reduce(typing(), { type: "GUESS", guessId: "fixture:tr:tr02" });
+    const game = reduce(desafio(), { type: "GUESS", guessId: "fixture:tr:tr02" });
     expect(round(game).status).toBe("won");
     expect(roundScore(round(game))).toBe(6);
   });
 
   it("errar e pular avançam a etapa; acertar na 3ª tentativa vale 4", () => {
     const game = play(
-      typing(),
+      desafio(),
       { type: "GUESS", guessId: "fixture:tr:tr21" },
       { type: "SKIP" },
       { type: "GUESS", guessId: "fixture:tr:tr01" },
@@ -234,13 +228,13 @@ describe("modo digitação (regras prontas para o M7)", () => {
   });
 
   it("a 6ª tentativa errada encerra com 0", () => {
-    const game = play(typing(), ...Array.from({ length: 6 }, () => ({ type: "SKIP" }) as const));
+    const game = play(desafio(), ...Array.from({ length: 6 }, () => ({ type: "SKIP" }) as const));
     expect(round(game).status).toBe("lost");
     expect(round(game).stage).toBe(5);
   });
 
   it("palpite repetido e ouvir mais são ignorados", () => {
-    const once = reduce(typing(), { type: "GUESS", guessId: "fixture:tr:tr21" });
+    const once = reduce(desafio(), { type: "GUESS", guessId: "fixture:tr:tr21" });
     expect(reduce(once, { type: "GUESS", guessId: "fixture:tr:tr21" })).toBe(once);
     expect(reduce(once, { type: "LISTEN_MORE" })).toBe(once);
   });
@@ -248,9 +242,10 @@ describe("modo digitação (regras prontas para o M7)", () => {
 
 describe("pontuação do dia (P27)", () => {
   it("rodada anulada sai do total: máximo cai de 18 para 12", () => {
+    const start = normal();
     const game = play(
-      song(),
-      { type: "GUESS", guessId: day.song[0].answer },
+      start,
+      { type: "GUESS", guessId: right(start) },
       { type: "NEXT_ROUND" },
       { type: "VOID", round: 1, reason: "audio" },
       { type: "NEXT_ROUND" },
@@ -259,6 +254,6 @@ describe("pontuação do dia (P27)", () => {
     // A mesma conta do histórico (records.ts) vale para o jogo em andamento.
     expect(recordScore(game)).toBe(6);
     expect(recordMax(game)).toBe(12);
-    expect(recordMax(song())).toBe(18);
+    expect(recordMax(normal())).toBe(18);
   });
 });

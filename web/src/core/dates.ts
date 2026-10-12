@@ -1,4 +1,4 @@
-// Datas do jogo. O desafio vira à meia-noite de Brasília para todo mundo, então a data do dia
+// Datas do jogo. O diário vira à meia-noite de Brasília para todo mundo, então a data do dia
 // sai do fuso pelo NOME IANA (America/Sao_Paulo), nunca de -03:00 fixo nem da hora local.
 
 export const GAME_TIME_ZONE = "America/Sao_Paulo";
@@ -80,7 +80,7 @@ export function formatHms(ms: number): string {
   return `${pad(Math.floor(total / 3600))}:${pad(Math.floor((total % 3600) / 60))}:${pad(total % 60)}`;
 }
 
-/** Milissegundos até o próximo desafio (o dia seguinte a `date`), nunca negativo. */
+/** Milissegundos até o próximo diário (o dia seguinte a `date`), nunca negativo. */
 export function msUntilNextDay(nowMs: number, date: string, zone: string = GAME_TIME_ZONE): number {
   return Math.max(0, startOfDayInZone(addDays(date, 1), zone) - nowMs);
 }

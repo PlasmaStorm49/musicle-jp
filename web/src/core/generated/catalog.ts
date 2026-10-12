@@ -7,7 +7,6 @@ export type IsoDate = string;
 export type ArtistId = string;
 export type OptionalText = string | null;
 export type LatinSource = "provider" | "manual" | "cutlet" | "pykakasi" | null;
-export type SearchKeys = NonEmptyText[];
 export type AlbumId = string;
 /**
  * @minItems 1
@@ -25,12 +24,13 @@ export type Eligible =
       daily: false;
       reason: "no-preview" | "short-preview" | "no-artwork" | "explicit" | "blocked";
     };
+export type SearchKeys = NonEmptyText[];
 
 /**
  * Contrato entre o pipeline (Python) e o jogo (TypeScript). Gerado só pelo pipeline.
  */
 export interface Catalog {
-  schemaVersion: 1;
+  schemaVersion: 2;
   catalogVersion: string;
   generatedAt: IsoTimestamp;
   provider: string;
@@ -64,7 +64,6 @@ export interface Artist {
   name: NonEmptyText;
   nameLatin: OptionalText;
   latinSource: LatinSource;
-  search: SearchKeys;
 }
 export interface Album {
   id: AlbumId;
@@ -77,10 +76,11 @@ export interface Album {
   releaseDate: IsoDate;
   artworkUrl: AssetUrl | null;
   /**
+   * Distratores do Normal (4 opções de álbum).
+   *
    * @maxItems 10
    */
   similar: AlbumId[];
-  search: SearchKeys;
 }
 export interface Track {
   id: TrackId;
@@ -104,9 +104,8 @@ export interface Track {
   popularity: number;
   eligible: Eligible;
   /**
-   * @maxItems 10
+   * Chaves da busca do Desafio (digitação).
    */
-  similar: TrackId[];
   search: {
     title: SearchKeys;
     artist: SearchKeys;

@@ -1,7 +1,6 @@
 import type { CatalogIndex } from "../core/catalog.ts";
 import type { RoundState } from "../core/reducer.ts";
 import { SYMBOLS } from "../core/share.ts";
-import type { Target } from "../core/types.ts";
 import { optionView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
 import { ItemLabel } from "./ItemLabel.tsx";
@@ -9,14 +8,13 @@ import { ItemLabel } from "./ItemLabel.tsx";
 type Props = {
   readonly index: CatalogIndex;
   readonly round: RoundState;
-  readonly target: Target;
 };
 
 /**
- * As tentativas da digitação, na ordem: ❌ errou, ⬛ pulou, ✅ acertou. Os símbolos são só
+ * As tentativas do Desafio, na ordem: ❌ errou, ⬛ pulou, ✅ acertou. Os símbolos são só
  * desenho (aria-hidden); o leitor de tela ouve "Errou:", "Pulou" ou "Acertou:" e o nome.
  */
-export function Attempts({ index, round, target }: Props) {
+export function Attempts({ index, round }: Props) {
   if (round.attempts.length === 0) return null;
   return (
     <section class="attempts" aria-labelledby="attempts-title">
@@ -32,7 +30,7 @@ export function Attempts({ index, round, target }: Props) {
               </li>
             );
           }
-          const item = optionView(index, attempt.guessId, target);
+          const item = optionView(index, attempt.guessId, "song");
           return (
             <li key={key} class={attempt.correct ? "attempt right" : "attempt wrong"}>
               <span aria-hidden="true">{attempt.correct ? SYMBOLS.right : SYMBOLS.wrong}</span>

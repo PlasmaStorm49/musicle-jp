@@ -2,7 +2,13 @@ import { useCallback, useEffect, useRef } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
-import { currentRound, type GameEvent, type GameState, reduce } from "../core/reducer.ts";
+import {
+  currentRound,
+  type GameEvent,
+  type GameState,
+  type RoundState,
+  reduce,
+} from "../core/reducer.ts";
 import { canSkip, MODE_RULES } from "../core/rules.ts";
 import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
@@ -34,8 +40,8 @@ type Props = {
 };
 
 /**
- * Uma rodada, do trecho à revelação, nos dois modos e nos dois alvos. Não sabe se é diário ou
- * Treino: quem chama cuida de salvar, do cabeçalho e do que vem depois.
+ * Uma rodada, do trecho à revelação, nos dois modos (Normal em 4 opções, Desafio digitado). Não
+ * sabe se é diário ou Treino: quem chama cuida de salvar, do cabeçalho e do que vem depois.
  */
 export function RoundView({
   game,
@@ -50,8 +56,7 @@ export function RoundView({
   onNext,
 }: Props) {
   const round = currentRound(game);
-  const rules = MODE_RULES[game.answerMode];
-  const suggest = useSuggest(index, game.target, round);
+  const rules = MODE_RULES[game.target];
   const track = revealView(index, round.trackId);
   const url = useResolvedUrl(resolver, round.trackId);
   // Próxima tentativa, contando a que acabou de ser gasta (para os anúncios de pulo e erro).
@@ -95,8 +100,6 @@ export function RoundView({
     }
   }
 
-  const question = t(game.target === "song" ? "question.song" : "question.album");
-
   return (
     <>
       {round.status === "playing" && track?.preview && (
@@ -119,30 +122,22 @@ export function RoundView({
           />
           {/* Junto do player, como pedem os termos; o link é a playlist, não a resposta. */}
           {index.catalog.provider === APPLE_PROVIDER && <Attribution href={PLAYLIST_URL} />}
-          {game.answerMode === "choice" ? (
+          {rules.guessFromOptions ? (
             <Options
               index={index}
               round={round}
-              target={game.target}
               resolveUrl={resolveUrl}
               onPick={guess}
               onGiveUp={giveUp}
             />
           ) : (
-            <section class="typing" aria-labelledby="question">
-              <h2 id="question">{question}</h2>
-              <p class="hint">{t("typing.attempt", attemptLabel(round.attempts.length))}</p>
-              <GuessInput
-                suggest={suggest}
-                onPick={guess}
-                labelledBy="question"
-                target={game.target}
-              />
-              <Attempts index={index} round={round} target={game.target} />
-              <button type="button" class="link" onClick={giveUp}>
-                {t("typing.giveUp")}
-              </button>
-            </section>
+            <Typing
+              index={index}
+              round={round}
+              attempt={attemptLabel(round.attempts.length)}
+              onPick={guess}
+              onGiveUp={giveUp}
+            />
           )}
         </>
       )}
@@ -157,7 +152,6 @@ export function RoundView({
           index={index}
           round={round}
           target={game.target}
-          answerMode={game.answerMode}
           engine={engine}
           resolver={resolver}
           resolveUrl={resolveUrl}
@@ -167,6 +161,37 @@ export function RoundView({
         />
       )}
     </>
+  );
+}
+
+/**
+ * O Desafio: o campo com autocompletar e as tentativas. Componente próprio para só ele montar
+ * o índice de busca (o Normal não precisa).
+ */
+function Typing({
+  index,
+  round,
+  attempt,
+  onPick,
+  onGiveUp,
+}: {
+  readonly index: CatalogIndex;
+  readonly round: RoundState;
+  readonly attempt: { readonly current: number; readonly total: number };
+  readonly onPick: (id: string) => void;
+  readonly onGiveUp: () => void;
+}) {
+  const suggest = useSuggest(index, round);
+  return (
+    <section class="typing" aria-labelledby="question">
+      <h2 id="question">{t("question.song")}</h2>
+      <p class="hint">{t("typing.attempt", attempt)}</p>
+      <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" />
+      <Attempts index={index} round={round} />
+      <button type="button" class="link" onClick={onGiveUp}>
+        {t("typing.giveUp")}
+      </button>
+    </section>
   );
 }
 

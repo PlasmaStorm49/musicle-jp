@@ -1,20 +1,16 @@
-// Busca do autocompletar (modo digitação, alvos Música e Álbum). Compara a consulta, em algumas
+// Busca do autocompletar (o Desafio, digitado: só músicas). Compara a consulta, em algumas
 // variantes, com as chaves que o pipeline gravou no catálogo (já em searchKey). Tudo
 // determinístico: o mesmo texto dá a mesma lista em qualquer máquina e em qualquer ordem do
 // catálogo.
 import type { CatalogIndex } from "./catalog.ts";
 import { hasKana, kanaToRomaji } from "./kana.ts";
 import { looseKey, normalize } from "./normalize.ts";
-import type { Target } from "./types.ts";
 
-/**
- * `key` identifica a linha para "já tentou": o songKey na Música (todas as versões da música
- * são a mesma linha) e o id do álbum no Álbum.
- */
+/** `key` identifica a linha para "já tentou": o songKey (todas as versões são a mesma linha). */
 export type SearchHit = { readonly id: string; readonly key: string };
 
 type SearchEntry = {
-  /** O que vai para o palpite: a faixa mais popular do grupo (Música) ou o álbum (Álbum). */
+  /** O que vai para o palpite: a faixa mais popular do grupo. */
   readonly id: string;
   readonly key: string;
   readonly popularity: number;
@@ -37,8 +33,8 @@ const unique = (keys: readonly string[]): string[] => [...new Set(keys)].filter(
 const byCodeUnit = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0);
 
 /** A `key` da linha de um palpite já feito, para marcar "já tentou" na lista. */
-export function hitKey(index: CatalogIndex, target: Target, guessId: string): string {
-  return target === "song" ? (index.tracks.get(guessId)?.songKey ?? guessId) : guessId;
+export function hitKey(index: CatalogIndex, guessId: string): string {
+  return index.tracks.get(guessId)?.songKey ?? guessId;
 }
 
 function entry(
@@ -61,29 +57,16 @@ function entry(
   };
 }
 
+/** Montado uma vez por catálogo: cada rodada do Desafio pede o seu. */
+const searchIndexes = new WeakMap<CatalogIndex, SearchIndex>();
+
 /**
- * Música: uma entrada por songKey (single, versão de álbum e "TV Size" viram uma linha só,
- * porque qualquer uma é acerto), com a união das chaves do grupo.
- * Álbum: uma entrada por álbum; artistas pelas chaves de cada artista; popularidade = a da
- * faixa mais popular do álbum (o mesmo critério do pipeline, similarity.py).
+ * Uma entrada por songKey (single, versão de álbum e "TV Size" viram uma linha só, porque
+ * qualquer uma é acerto), com a união das chaves do grupo.
  */
-export function buildSearchIndex(index: CatalogIndex, target: Target): SearchIndex {
-  if (target === "album") {
-    const popularity = new Map<string, number>();
-    for (const t of index.catalog.tracks) {
-      popularity.set(t.albumId, Math.max(popularity.get(t.albumId) ?? 0, t.popularity));
-    }
-    const entries = index.catalog.albums.map((album) =>
-      entry(
-        album.id,
-        album.id,
-        popularity.get(album.id) ?? 0,
-        album.search,
-        album.artistIds.flatMap((id) => index.artists.get(id)?.search ?? []),
-      ),
-    );
-    return { entries };
-  }
+export function buildSearchIndex(index: CatalogIndex): SearchIndex {
+  const cached = searchIndexes.get(index);
+  if (cached) return cached;
   const entries: SearchEntry[] = [];
   for (const [songKey, group] of index.tracksBySong) {
     const rep = group.reduce((best, t) =>
@@ -102,7 +85,9 @@ export function buildSearchIndex(index: CatalogIndex, target: Target): SearchInd
       ),
     );
   }
-  return { entries };
+  const built = { entries };
+  searchIndexes.set(index, built);
+  return built;
 }
 
 type Variant = {

@@ -1,4 +1,4 @@
-"""Agenda do desafio diário: quais músicas tocam em cada dia e com quais opções.
+"""Agenda dos diários: quais músicas tocam em cada dia e, no Normal, com quais opções.
 
 Regra de ouro: a agenda SÓ CRESCE. Um dia gravado nunca muda, nem quando o catálogo muda;
 quem jogou o dia 5 ontem e quem joga hoje viram o mesmo desafio. Por isso:
@@ -8,8 +8,12 @@ quem jogou o dia 5 ontem e quem joga hoje viram o mesmo desafio. Por isso:
 - "hoje" é argumento (--today), nunca o relógio, e o fuso do jogo é America/Sao_Paulo;
 - a validação de dias antigos é só estrutural; elegibilidade e restrições valem na geração.
 
-Cada rodada consome exatamente 7 números do rng: 1 para a resposta, 3 para escolher os
-distratores (Fisher-Yates parcial) e 3 para embaralhar as 4 opções.
+Dois modos (P100): o Normal (lista "album") escolhe o álbum entre 4 opções; o Desafio (lista
+"song") digita o nome da música, sem opções. Cada rodada do Normal consome exatamente 7 números
+do rng: 1 para a resposta, 3 para escolher os distratores (Fisher-Yates parcial) e 3 para
+embaralhar as 4 opções. A do Desafio consome só 1, o da resposta. Os dias gravados antes dos
+dois modos têm opções também na lista "song" e continuam assim (a agenda só cresce): o jogo as
+ignora.
 """
 
 from __future__ import annotations
@@ -179,12 +183,8 @@ def _generate_day(days: dict[str, JSON], d: date, epoch: date, idx: _Index) -> t
             answer = candidates[rng.randint(tier)]
 
             if target == "song":
-                pool = [
-                    s for s in answer["similar"] if idx.tracks[s]["songKey"] not in answered_songs
-                ]
-                if len(pool) < MIN_OPTIONS:
-                    pool = list(answer["similar"])
-                correct = answer["id"]
+                # Desafio: digitado, sem opções.
+                day[target].append({"answer": answer["id"]})
             else:
                 correct = answer["albumId"]
                 pool = [
@@ -194,10 +194,9 @@ def _generate_day(days: dict[str, JSON], d: date, epoch: date, idx: _Index) -> t
                 ]
                 if len(pool) < MIN_OPTIONS:
                     pool = list(idx.albums[correct]["similar"])
-            options = [correct, *_pick_distractors(rng, pool)]
-            rng.shuffle(options)
-
-            day[target].append({"answer": answer["id"], "options": options})
+                options = [correct, *_pick_distractors(rng, pool)]
+                rng.shuffle(options)
+                day[target].append({"answer": answer["id"], "options": options})
             day_used.add(answer)
             artists_by_target[target] |= set(answer["artistIds"])
             answered_songs.add(answer["songKey"])
@@ -216,14 +215,6 @@ def _future_warnings(schedule: JSON, today: date, idx: _Index) -> list[str]:
                 track = idx.tracks.get(rnd["answer"])
                 if track is None or not track["eligible"]["daily"]:
                     warnings.append(f"{day_str} {target} rodada {n}: resposta não é mais elegível")
-                if target == "song":
-                    blocked = [
-                        o
-                        for o in rnd["options"]
-                        if o in idx.tracks and idx.tracks[o]["eligible"]["reason"] == "blocked"
-                    ]
-                    if blocked:
-                        warnings.append(f"{day_str} song rodada {n}: opção bloqueada {blocked}")
     return warnings
 
 
@@ -315,9 +306,15 @@ def validate_schedule(schedule: JSON, catalog: JSON) -> list[str]:
         if day["number"] != (d - epoch).days + 1:
             problems.append(f"{where}: number deveria ser {(d - epoch).days + 1}")
         for n, rnd in enumerate(day["song"], start=1):
-            if rnd["answer"] not in rnd["options"]:
+            if rnd["answer"] not in tracks:
+                problems.append(f"{where} song rodada {n}: resposta inexistente {rnd['answer']}")
+            # Só os dias de antes dos dois modos (P100) têm opções na lista "song".
+            options = rnd.get("options")
+            if options is None:
+                continue
+            if rnd["answer"] not in options:
                 problems.append(f"{where} song rodada {n}: a resposta não está nas opções")
-            missing = [o for o in rnd["options"] if o not in tracks]
+            missing = [o for o in options if o not in tracks]
             if missing:
                 problems.append(f"{where} song rodada {n}: faixas inexistentes {missing}")
         for n, rnd in enumerate(day["album"], start=1):

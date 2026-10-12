@@ -46,7 +46,7 @@ function artworkOf(index: CatalogIndex, url: string | null | undefined): string 
   return index.catalog.provider !== APPLE_PROVIDER || isAppleUrl("artwork", url) ? url : null;
 }
 
-/** Uma opção do modo 4 opções: faixa (Música) ou álbum (Álbum). */
+/** Um item na tela: faixa (tentativa do Desafio) ou álbum (opção do Normal). */
 export function optionView(index: CatalogIndex, id: string, target: Target): ItemView | null {
   if (target === "song") {
     const track = index.tracks.get(id);

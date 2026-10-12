@@ -14,12 +14,12 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz.
 | `catalog.py` | Redução de todos os snapshots em catálogo; popularidade, elegibilidade, `Curation` |
 | `romaji_cache.py` | Lê e grava o `romaji.json` do provedor (`fixtures/` ou `data/apple/`); diz quais textos precisam de romaji |
 | `romaji.py` | Invólucro do cutlet. **Só o comando `romanize` importa** |
-| `aliases.py` | Lê e valida o `aliases.toml` do provedor (curadoria manual) |
-| `similarity.py` | Distratores (`similar`) de faixas e álbuns, no fim do build |
+| `aliases.py` | Lê e valida o `aliases.toml` do provedor (curadoria manual). Álbum só aceita `latin`: a busca é só de músicas (P102) |
+| `similarity.py` | Distratores (`similar`) dos álbuns, para o Normal, no fim do build. O Desafio é digitado e não tem distratores (P100) |
 | `prng.py` | `fnv1a32` + `mulberry32`. Espelho em TS no M4 e referência em `shared/vectors/prng_reference.mjs` |
 | `schedule.py` | Agenda só de acréscimo: geração, validação estrutural, `compare`, leitura do git |
 | `fake_assets.py` | WAV e SVG sintéticos a partir do catálogo (só provedor `fixture`) |
-| `validate.py` | Schema JSON + invariantes (inclusive distratores) + hosts de URL por provedor + forma canônica |
+| `validate.py` | Schema JSON + invariantes (inclusive os distratores dos álbuns) + hosts de URL por provedor + forma canônica |
 | `io_json.py` | JSON canônico e escrita atômica |
 | `cli.py` | `fetch`, `build`, `validate`, `romanize`, `fake-assets`, `schedule`, `schedule-check` |
 
@@ -37,7 +37,7 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz.
 10. **Não edite `romaji.json` à mão** (nem os snapshots). Ele é saída do `romanize`. Correção vai no `aliases.toml` do mesmo provedor, que vence o provedor e o romaji (`manual` > `provider` > `cutlet`). Curadoria e cache são por provedor: fixtures em `fixtures/`, Apple em `data/apple/`.
 11. **Título latino exibido = Hepburn.** A grafia estrangeira do cutlet ("Curtain call") entra só na busca, porque às vezes erra ("Tokyo right").
 12. **Vetores do PRNG são a exceção à regra 3:** `shared/vectors/prng.json` é gerado por `node shared/vectors/prng_reference.mjs`, uma segunda implementação independente. Nunca edite à mão nem gere com `>` no PowerShell.
-13. **Agenda só cresce.** Nunca altere dia existente, nem para "corrigir". Mudou o consumo do rng (7 números por rodada) ou a ordem de escolha? Isso muda só os dias novos, e o `schedule-check` protege os antigos. **Dia que já passou nunca é gerado** (P44): a geração começa em `max(epoch, último + 1, hoje)`, o buraco é válido, e o `compare` recusa preenchê-lo.
+13. **Agenda só cresce.** Nunca altere dia existente, nem para "corrigir". Mudou o consumo do rng (7 números por rodada do Normal, 1 por rodada do Desafio, P102) ou a ordem de escolha? Isso muda só os dias novos, e o `schedule-check` protege os antigos. **Dia que já passou nunca é gerado** (P44): a geração começa em `max(epoch, último + 1, hoje)`, o buraco é válido, e o `compare` recusa preenchê-lo.
 14. **"Hoje" é argumento** (`--today`). O pacote nunca lê o relógio; a Action passa a data de Brasília (`TZ=America/Sao_Paulo date +%F`).
 15. **Dependências** (P28 e P60): versão com 14 dias ou mais de publicada no PyPI, fixada em `constraints.txt`, inclusive as indiretas. Mudou o `pyproject.toml`? Atualize o `constraints.txt` e reinstale com `-c pipeline/constraints.txt` (comando em `CLAUDE.md` da raiz). Mudou a versão de uma biblioteca do romaji (cutlet, fugashi, unidic-lite, jaconv, mojimoji)? No mesmo PR, rode `romanize --refresh` nos dois provedores e revise o diff: o `romaji.json` grava as versões, e o robô semanal recusa um romaji que muda o que já existe.
 16. **Rede só no `fetch`** (M11). `build`, `validate`, `schedule` e `romanize --check` leem arquivos e ficam determinísticos; um teste em subprocesso confere que eles não importam o `fetch`. Biblioteca padrão (`urllib`): nada de pacote HTTP novo (P60).

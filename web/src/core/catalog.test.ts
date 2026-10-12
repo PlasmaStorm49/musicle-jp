@@ -17,14 +17,15 @@ describe("indexCatalog", () => {
     expect(index.artists.size).toBe(14);
   });
 
-  it("recusa versão de schema desconhecida", () => {
-    const future = { ...catalog, schemaVersion: 2 } as unknown as Catalog;
-    expect(() => indexCatalog(future)).toThrow(UnsupportedCatalogError);
+  // A v1 (antes do P102) também: o JS novo não lê o catálogo antigo, e vice-versa.
+  it.each([1, 3])("recusa versão de schema desconhecida (%i)", (version) => {
+    const other = { ...catalog, schemaVersion: version } as unknown as Catalog;
+    expect(() => indexCatalog(other)).toThrow(UnsupportedCatalogError);
   });
 });
 
 describe("acceptedIds", () => {
-  it("Música: versões da mesma música contam como acerto", () => {
+  it("Desafio: versões da mesma música contam como acerto", () => {
     expect(acceptedIds(index, track("tr03"), "song")).toEqual([
       "fixture:tr:tr01",
       "fixture:tr:tr02",
@@ -32,11 +33,11 @@ describe("acceptedIds", () => {
     ]);
   });
 
-  it("Música: mesmo título de outro artista não conta", () => {
+  it("Desafio: mesmo título de outro artista não conta", () => {
     expect(acceptedIds(index, track("tr04"), "song")).toEqual(["fixture:tr:tr04"]);
   });
 
-  it("Álbum: todo álbum que contém a música conta", () => {
+  it("Normal: todo álbum que contém a música conta", () => {
     expect(acceptedIds(index, track("tr01"), "album")).toEqual([
       "fixture:al:al01",
       "fixture:al:al02",
@@ -44,7 +45,7 @@ describe("acceptedIds", () => {
     ]);
   });
 
-  it("Álbum: o mesmo lançamento em outro álbum do mesmo artista também conta", () => {
+  it("Normal: o mesmo lançamento em outro álbum do mesmo artista também conta", () => {
     // O lookup da Apple traz um álbum só por faixa: há dois "ROSE - Single" da HANA, e o EP
     // "爆裂愛してる / 好きすぎて滅! - EP" tem a música 好きすぎて滅!.
     const answer = track("tr05");
@@ -64,8 +65,8 @@ describe("acceptedIds", () => {
     expect(acceptedIds(grown, answer, "song")).toEqual(acceptedIds(index, answer, "song"));
   });
 
-  it("Álbum: o outro álbum de mesmo nome vale também para o lado B", () => {
-    // Tiger está no 2º "ROSE - Single" da HANA; o 1º, de mesmo nome, aparece igual na busca.
+  it("Normal: o outro álbum de mesmo nome vale também para o lado B", () => {
+    // Tiger está no 2º "ROSE - Single" da HANA; o 1º tem o mesmo nome na tela.
     // Só a regra do nome inteiro cobre: o título da música é outro.
     const answer = track("tr37"); // 灯台, do álbum Dawn Collection
     const album = index.albums.get(answer.albumId);
@@ -78,7 +79,7 @@ describe("acceptedIds", () => {
     expect(acceptedIds(grown, answer, "album")).toContain("fixture:al:twin");
   });
 
-  it("Álbum: nome que a normalização esvazia (só símbolos) não casa com outro", () => {
+  it("Normal: nome que a normalização esvazia (só símbolos) não casa com outro", () => {
     const answer = track("tr05");
     const album = index.albums.get(answer.albumId);
     if (!album) throw new Error("álbum da tr05 não existe");
@@ -93,7 +94,7 @@ describe("acceptedIds", () => {
     expect(acceptedIds(grown, symbols, "album")).toEqual([album.id]);
   });
 
-  it("Álbum: uma parte só do nome do álbum certo não basta", () => {
+  it("Normal: uma parte só do nome do álbum certo não basta", () => {
     // 19/10: a resposta 爆裂愛してる é do EP "爆裂愛してる / 好きすぎて滅! - EP", e o
     // "好きすぎて滅! - Single" não tem essa música.
     const answer = track("tr05");

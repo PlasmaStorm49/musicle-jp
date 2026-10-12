@@ -82,8 +82,11 @@ def test_search_keys_cover_kana_and_latin(fixture_catalog):
     assert "あいのうた" in track_by_id(fixture_catalog, "tr18")["search"]["title"]
 
 
-def test_album_search_drops_store_suffix(fixture_catalog):
-    assert album_by_id(fixture_catalog, "fixture:al:al01")["search"] == ["夜明けのめろでぃ"]
+def test_only_tracks_have_search_keys(fixture_catalog):
+    # P102: a busca é só do Desafio (músicas); álbum e artista não têm mais chaves próprias. O
+    # nome do artista continua achando a faixa, pelo search.artist dela.
+    assert all("search" not in al for al in fixture_catalog["albums"])
+    assert all("search" not in ar for ar in fixture_catalog["artists"])
 
 
 def test_popularity_falls_with_rank_and_with_time():

@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
-import type { Target } from "../core/types.ts";
 import type { ItemView } from "../core/view.ts";
 import { t, tn } from "../i18n/t.ts";
 import { ItemLabel } from "./ItemLabel.tsx";
@@ -13,8 +12,6 @@ type Props = {
   readonly onPick: (id: string) => void;
   /** id do título da pergunta, que serve de rótulo ao campo. */
   readonly labelledBy: string;
-  /** Muda só o exemplo do campo ("nome da música" ou "do álbum"). */
-  readonly target: Target;
 };
 
 const LIST_ID = "guess-list";
@@ -31,7 +28,7 @@ const STATUS_DELAY_MS = 600;
  * Campo com autocompletar no padrão combobox com listbox da WAI-ARIA 1.2. O foco fica sempre
  * no campo; a opção ativa é indicada por aria-activedescendant.
  */
-export function GuessInput({ suggest, onPick, labelledBy, target }: Props) {
+export function GuessInput({ suggest, onPick, labelledBy }: Props) {
   const input = useRef<HTMLInputElement>(null);
   const composing = useRef(false);
   const [value, setValue] = useState("");
@@ -156,7 +153,7 @@ export function GuessInput({ suggest, onPick, labelledBy, target }: Props) {
         autocomplete="off"
         autocapitalize="off"
         spellcheck={false}
-        placeholder={t(target === "song" ? "typing.placeholder.song" : "typing.placeholder.album")}
+        placeholder={t("typing.placeholder")}
         value={value}
         onInput={(event) => update(event.currentTarget.value)}
         onKeyDown={onKeyDown}

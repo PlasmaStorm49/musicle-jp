@@ -5,7 +5,7 @@ import { type AudioEngine, AudioUnavailableError, type PlaybackResult } from "..
 import { PLAYLIST_URL } from "../core/apple.ts";
 import { type CatalogIndex, indexCatalog } from "../core/catalog.ts";
 import { createRounds, type GameState, type RoundState } from "../core/reducer.ts";
-import type { Album, AnswerMode, Catalog, Target, Track } from "../core/types.ts";
+import type { Album, Catalog, Target, Track } from "../core/types.ts";
 import { catalogResolver, type PreviewResolver } from "../data/previews.ts";
 import { RoundView } from "./RoundView.tsx";
 
@@ -37,7 +37,6 @@ const track = (n: number): Track => ({
   },
   popularity: 1 - n / 10,
   eligible: { daily: true, reason: null },
-  similar: [1, 2, 3, 4].filter((m) => m !== n).map((m) => `t:tr:${m}`),
   search: { title: [`musica${n}`], artist: ["artista"] },
 });
 const album = (n: number): Album => ({
@@ -51,10 +50,9 @@ const album = (n: number): Album => ({
   releaseDate: "2026-01-01",
   artworkUrl: `art/${n}.svg`,
   similar: [1, 2, 3, 4].filter((m) => m !== n).map((m) => `t:al:${m}`),
-  search: [`album${n}`],
 });
 const catalog: Catalog = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   catalogVersion: "teste",
   generatedAt: "2026-01-01T00:00:00Z",
   provider: "teste",
@@ -62,9 +60,7 @@ const catalog: Catalog = {
   snapshots: [
     { id: "s", date: "2026-01-01", fetchedAt: "2026-01-01T00:00:00Z", chart: "c", size: 4 },
   ],
-  artists: [
-    { id: "t:ar:1", name: "Artista", nameLatin: null, latinSource: null, search: ["artista"] },
-  ],
+  artists: [{ id: "t:ar:1", name: "Artista", nameLatin: null, latinSource: null }],
   albums: [album(1), album(2), album(3), album(4)],
   tracks: [track(1), track(2), track(3), track(4)],
 };
@@ -80,14 +76,12 @@ const appleIndex = indexCatalog({
   ) as Catalog["tracks"],
 });
 
-function game(target: Target, answerMode: AnswerMode, change?: Partial<RoundState>): GameState {
-  const options =
-    target === "song"
-      ? ["t:tr:1", "t:tr:2", "t:tr:3", "t:tr:4"]
-      : ["t:al:1", "t:al:2", "t:al:3", "t:al:4"];
+/** Uma rodada da faixa 1: no Normal (album), entre os 4 álbuns; no Desafio (song), digitada. */
+function game(target: Target, change?: Partial<RoundState>): GameState {
+  const options = target === "album" ? ["t:al:1", "t:al:2", "t:al:3", "t:al:4"] : undefined;
   const [round] = createRounds([{ answer: "t:tr:1", options }], target, index);
   if (!round) throw new Error("rodada não montada");
-  return { puzzleId: "teste", target, answerMode, rounds: [{ ...round, ...change }], current: 0 };
+  return { puzzleId: "teste", target, rounds: [{ ...round, ...change }], current: 0 };
 }
 
 function setup(
@@ -132,7 +126,7 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
       resolve: async () => url,
       prefetch: vi.fn(),
     };
-    setup(game("song", "choice"), resolver);
+    setup(game("album"), resolver);
     await act(async () => {});
     expect(screen.getByRole("button", { name: "Tocar 1 s" })).toBeTruthy();
   });
@@ -143,7 +137,7 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
       resolve: async () => null, // nem o lookup nem a reserva do catálogo
       prefetch: vi.fn(),
     };
-    const { dispatch } = setup(game("song", "choice"), resolver);
+    const { dispatch } = setup(game("album"), resolver);
     await act(async () => {});
     expect(dispatch).toHaveBeenCalledWith({ type: "VOID", round: 0, reason: "audio" });
   });
@@ -178,8 +172,8 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
       nextLabel: "Próxima rodada",
       onNext: vi.fn(),
     };
-    const first = game("song", "choice");
-    const second = game("song", "choice", { trackId: "t:tr:2" });
+    const first = game("album");
+    const second = game("album", { trackId: "t:tr:2" });
     const { rerender } = render(<RoundView {...props} game={first} roundKey={0} />);
     rerender(<RoundView {...props} game={second} roundKey={1} />);
     await act(async () =>
@@ -191,7 +185,7 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
 
   it("parada real: o selo junto do player leva à playlist, nunca à música da rodada (P69)", () => {
     const resolver = catalogResolver(appleIndex, (url) => `/${url}`);
-    setup(game("song", "choice"), resolver, appleIndex);
+    setup(game("album"), resolver, appleIndex);
     const badge = screen.getByRole("link", { name: /Ouça no Apple Music/ });
     expect(badge.getAttribute("href")).toBe(PLAYLIST_URL);
     expect(badge.getAttribute("rel")).toBe("noopener noreferrer");
@@ -201,13 +195,13 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
 
   it("parada real: na revelação, o selo leva à música", () => {
     const resolver = catalogResolver(appleIndex, (url) => `/${url}`);
-    setup(game("song", "choice", { status: "won" }), resolver, appleIndex);
+    setup(game("album", { status: "won" }), resolver, appleIndex);
     const badge = screen.getByRole("link", { name: /Ouça no Apple Music/ });
     expect(badge.getAttribute("href")).toBe(STORE);
   });
 
   it("parada fictícia: sem selo da Apple", () => {
-    setup(game("song", "choice"));
+    setup(game("album"));
     expect(screen.queryByRole("link", { name: /Ouça no Apple Music/ })).toBeNull();
     expect(screen.queryByText(/iTunes/)).toBeNull();
   });
@@ -221,10 +215,10 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
       resolve: () => pending,
       prefetch: vi.fn(),
     };
-    const { engine } = setup(game("song", "choice"), resolver);
+    const { engine } = setup(game("album"), resolver);
     const waiting = screen.getByRole("button", { name: "Carregando…" });
     expect(waiting.hasAttribute("disabled")).toBe(true);
-    expect(screen.getByRole("button", { name: /Música 1/ })).toBeTruthy(); // as opções já aparecem
+    expect(screen.getByRole("button", { name: /Álbum 1/ })).toBeTruthy(); // as opções já aparecem
     const url = "https://audio-ssl.itunes.apple.com/itunes-assets/x.m4a";
     await act(async () => deliver(url));
     const play = screen.getByRole("button", { name: "Tocar 1 s" });
@@ -233,45 +227,50 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(engine.play).toHaveBeenCalledWith(url, 0, 1);
   });
 
-  it("4 opções da Música: pergunta, 4 opções, e escolher despacha o palpite", () => {
-    const { dispatch } = setup(game("song", "choice"));
-    expect(screen.getByRole("heading", { name: "Qual é a música?" })).toBeTruthy();
-    const options = screen.getAllByRole("button", { name: /^Música \d/ });
-    expect(options).toHaveLength(4);
-    fireEvent.click(options[1] as HTMLElement);
-    expect(dispatch).toHaveBeenCalledWith({ type: "GUESS", guessId: "t:tr:2" });
-  });
-
-  it("Álbum: a pergunta muda", () => {
-    setup(game("album", "choice"));
+  it("Normal: a pergunta do álbum, 4 opções com capa, e escolher despacha o palpite", () => {
+    const { dispatch } = setup(game("album"));
     expect(screen.getByRole("heading", { name: "Qual é o álbum?" })).toBeTruthy();
+    const options = screen.getAllByRole("button", { name: /^Álbum \d/ });
+    expect(options).toHaveLength(4);
+    expect(document.querySelectorAll(".options img.cover")).toHaveLength(4);
+    expect(screen.queryByRole("combobox")).toBeNull();
+    fireEvent.click(options[1] as HTMLElement);
+    expect(dispatch).toHaveBeenCalledWith({ type: "GUESS", guessId: "t:al:2" });
   });
 
-  it("digitação: campo com o exemplo do alvo, e Desistir despacha GIVE_UP", () => {
-    const { dispatch } = setup(game("album", "typing"));
-    const box = screen.getByRole("combobox", { name: "Qual é o álbum?" });
-    expect(box.getAttribute("placeholder")).toBe("Nome do álbum ou do artista");
+  it("Desafio: campo da música, sem opções, e Desistir despacha GIVE_UP", () => {
+    const { dispatch } = setup(game("song"));
+    const box = screen.getByRole("combobox", { name: "Qual é a música?" });
+    expect(box.getAttribute("placeholder")).toBe("Nome da música ou do artista");
+    expect(screen.queryAllByRole("button", { name: /^(Música|Álbum) \d/ })).toHaveLength(0);
     fireEvent.click(screen.getByRole("button", { name: "Desistir" }));
     expect(dispatch).toHaveBeenCalledWith({ type: "GIVE_UP" });
   });
 
   it("rodada anulada: o foco vai para o botão de seguir, com o texto pedido", () => {
-    const { onNext } = setup(game("song", "choice", { status: "void" }));
+    const { onNext } = setup(game("album", { status: "void" }));
     const next = screen.getByRole("button", { name: "Próxima rodada" });
     expect(document.activeElement).toBe(next);
     fireEvent.click(next);
     expect(onNext).toHaveBeenCalledOnce();
   });
 
-  it("revelação do Álbum: as 4 opções mostram a capa (P51), com alt vazio", () => {
-    setup(game("album", "choice", { status: "lost" }));
+  it("revelação do Normal: as 4 opções mostram a capa (P51), com alt vazio", () => {
+    setup(game("album", { status: "lost" }));
     const covers = [...document.querySelectorAll(".reveal img.cover")];
     expect(covers).toHaveLength(4);
     expect(covers.every((img) => img.getAttribute("alt") === "")).toBe(true);
   });
 
+  it("revelação do Desafio: as tentativas, sem a lista de opções", () => {
+    setup(game("song", { status: "lost", attempts: [{ kind: "skip" }] }));
+    expect(document.querySelector(".reveal .options")).toBeNull();
+    expect(document.querySelectorAll(".reveal .attempt")).toHaveLength(1);
+    expect(document.querySelectorAll(".reveal .card img")).toHaveLength(1); // a capa da resposta
+  });
+
   it("revelação: o botão de seguir usa o texto pedido (no Treino, nunca 'Ver resultado')", () => {
-    setup(game("song", "choice", { status: "won" }));
+    setup(game("album", { status: "won" }));
     expect(screen.getByRole("button", { name: "Próxima rodada" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: "Ver resultado" })).toBeNull();
   });
@@ -294,7 +293,7 @@ describe("revelação: a prévia inteira", () => {
         return Promise.resolve({ t0: 0, seconds, elapsed: () => 0, done });
       }),
     };
-    setup(game("song", "choice", { status: "won" }), undefined, index, engine);
+    setup(game("album", { status: "won" }), undefined, index, engine);
     fireEvent.click(listen());
     await act(async () => {});
     expect(engine.play).toHaveBeenCalledWith("/audio/1.wav", 0, 30);
@@ -317,7 +316,7 @@ describe("revelação: a prévia inteira", () => {
       retain: vi.fn(),
       play: vi.fn(() => new Promise<null>((resolve) => (deliver = resolve))),
     };
-    setup(game("song", "choice", { status: "won" }), undefined, index, engine);
+    setup(game("album", { status: "won" }), undefined, index, engine);
     fireEvent.click(listen());
     await act(async () => {});
     fireEvent.click(screen.getByRole("button", { name: "Parar" })); // antes de o som começar
@@ -336,7 +335,7 @@ describe("revelação: a prévia inteira", () => {
       retain: vi.fn(),
       play: vi.fn(() => Promise.reject(new AudioUnavailableError("blocked", "fora do gesto"))),
     };
-    const { announce } = setup(game("song", "choice", { status: "won" }), undefined, index, engine);
+    const { announce } = setup(game("album", { status: "won" }), undefined, index, engine);
     fireEvent.click(listen());
     expect(await screen.findByText("Não deu para tocar a prévia agora.")).toBeTruthy();
     expect(announce).toHaveBeenCalledWith("Não deu para tocar a prévia agora.");

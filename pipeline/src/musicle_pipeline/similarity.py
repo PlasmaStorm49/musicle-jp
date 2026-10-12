@@ -1,9 +1,10 @@
-"""Distratores do modo 4 opções: para cada faixa e álbum, os candidatos mais parecidos.
+"""Distratores do Normal (4 opções de álbum): para cada álbum, os candidatos mais parecidos.
 
 "Parecido" = mesma época, popularidade próxima e mesmo tipo de lançamento, de artista diferente.
 Cada lista tem no máximo 1 candidato por artista e por título: qualquer sorteio de 3 já sai
 com artistas e títulos distintos (duas opções "夜明けのメロディ" confundiriam o jogador, P36).
-A agenda (schedule.py) só sorteia dentro destas listas.
+A agenda (schedule.py) e o Treino só sorteiam dentro destas listas. O Desafio é digitado e não
+tem distratores (P100).
 """
 
 from __future__ import annotations
@@ -15,7 +16,7 @@ from musicle_pipeline.models import JSON
 from musicle_pipeline.normalize import strip_album_suffix, title_key
 
 MAX_SIMILAR = 10
-MIN_OPTIONS = 3  # o modo 4 opções precisa da resposta + 3 distratores
+MIN_OPTIONS = 3  # o Normal precisa da resposta + 3 distratores
 
 
 def _year(release_date: str) -> int:
@@ -30,11 +31,6 @@ def _year_window(a: int, b: int) -> int:
 def _pop(value: float) -> int:
     # Popularidade tem 4 casas; em inteiro, a diferença não sofre arredondamento de float.
     return round(value * 10000)
-
-
-def title_of(song_key: str) -> str:
-    """A parte do songKey antes do "|": o título sem sufixos, sem o artista."""
-    return song_key.rsplit("|", 1)[0]
 
 
 def album_title_key(album: JSON) -> str:
@@ -56,35 +52,6 @@ def _diversify(ordered: Iterable[tuple[str, frozenset[str], str]]) -> list[str]:
         if len(chosen) == MAX_SIMILAR:
             break
     return chosen
-
-
-def track_similar(tracks: list[JSON], albums: dict[str, JSON]) -> dict[str, list[str]]:
-    eligible = [t for t in tracks if t["eligible"]["daily"]]
-    result: dict[str, list[str]] = {}
-    for t in tracks:
-        artists = frozenset(t["artistIds"])
-        year, pop = _year(t["releaseDate"]), _pop(t["popularity"])
-        kind = albums[t["albumId"]]["type"]
-        candidates = [
-            c
-            for c in eligible
-            if c["id"] != t["id"]
-            and not artists & set(c["artistIds"])
-            and c["songKey"] != t["songKey"]
-            and title_of(c["songKey"]) != title_of(t["songKey"])
-        ]
-        candidates.sort(
-            key=lambda c: (
-                _year_window(year, _year(c["releaseDate"])),
-                abs(pop - _pop(c["popularity"])),
-                albums[c["albumId"]]["type"] != kind,
-                c["id"],
-            )
-        )
-        result[t["id"]] = _diversify(
-            (c["id"], frozenset(c["artistIds"]), title_of(c["songKey"])) for c in candidates
-        )
-    return result
 
 
 def album_profiles(albums: list[JSON], tracks: list[JSON]) -> dict[str, dict]:

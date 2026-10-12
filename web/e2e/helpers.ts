@@ -30,7 +30,7 @@ declare global {
 export async function open(
   page: Page,
   brasilia: string,
-  hash = "#musica",
+  hash = "#normal",
   failAudio?: string,
 ): Promise<void> {
   const fail = failAudio ? `&failAudio=${encodeURIComponent(failAudio)}` : "";
@@ -59,13 +59,7 @@ export function albumOf(track: Track): Album {
   return album;
 }
 
-export function artistName(album: Album): string {
-  const artist = catalog.artists.find((a) => a.id === album.artistIds[0]);
-  if (!artist) throw new Error(`artista de ${album.id} não está no catálogo`);
-  return artist.name;
-}
-
-/** O botão de opção (4 opções) cujo título (não o romaji nem o artista) é exatamente este. */
+/** O botão de opção do Normal cujo título (não o romaji nem o artista) é exatamente este. */
 export function option(page: Page, title: string): Locator {
   const exactTitle = page.locator(".item-title").and(page.getByText(title, { exact: true }));
   return page.locator(".option").filter({ has: exactTitle });
