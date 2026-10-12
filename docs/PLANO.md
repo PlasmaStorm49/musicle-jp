@@ -293,7 +293,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME68. O `lang="ja"` no nome do artista também no cartão da home ("Nesta sessão (米津玄師): …") e nos avisos de carga e de falha do artista: hoje o texto sai inteiro do `t()`, e o `FocusedNotice` só aceita texto (revisor do PR C).
 - ME69. Teste de tela do "Pedir ajuda" sumindo depois da 3ª ajuda do Superfan: hoje só o núcleo cobre, porque os dados do teste não têm artista com 4 músicas ou mais (revisor do Superfan).
 - ME70 a ME75 (check-up da interface em 12/10/2026, feitas no branch `m13-ui`):
-  - ME70. As cinco abas numa linha a partir de 375 px, também com os dois ✓ (menos espaço lateral e o ✓ menor); em 320 px ainda quebram.
+  - ME70. As cinco abas numa linha a partir de 360 px (o Android comum), também com os dois ✓ (menos espaço lateral, a fonte das abas um pouco menor até 400 px e o ✓ menor); em 320 px ainda quebram. A 1ª versão tinha 10 px de folga com a Segoe UI e quebrava no Linux da CI, de fonte mais larga: a folga agora vale até para a Verdana (317 de 328 px).
   - ME71. "Pedir ajuda" sem pontos (P164), com a cor do destaque, à esquerda; o "Desistir" sempre à direita, longe dele.
   - ME72. Nas tentativas, o pulo tracejado e sem fundo (não pesa como um erro), e as linhas mais baixas.
   - ME73. "Voltar à lista" afastado dos cartões da escolha do submodo.

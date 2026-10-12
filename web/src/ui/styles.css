@@ -694,10 +694,14 @@ section.void,
   border-bottom: 3px solid transparent;
 }
 
-/* No celular, ainda mais justo: os dois ✓ dos diários terminados também cabem em 375 px. */
+/* No celular, ainda mais justo: os dois ✓ dos diários terminados também cabem de 360 px para
+   cima. Com folga para a fonte do aparelho (San Francisco, Roboto) e a do Linux da CI, mais larga
+   que a Segoe UI: com 6 px de lado e o tamanho normal, a folga em 375 px era de 10 px, e a CI
+   quebrava a linha. */
 @media (max-width: 400px) {
   .tabs a {
-    padding: 10px 6px;
+    padding: 10px 4px;
+    font-size: 0.9rem;
   }
 }
 
