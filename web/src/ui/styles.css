@@ -713,30 +713,32 @@ button.home-card:hover {
   margin-top: 8px;
 }
 
-/* Confirmação de "Reiniciar o Treino" */
-.practice-restart {
-  min-width: 0; /* o fieldset não encolhe sem isto */
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-  padding: 8px 12px;
+/* A confirmação do reinício, num pop-up modal (ME56): o fundo escurece e fica inerte. */
+dialog.practice-restart {
+  width: min(400px, calc(100vw - 32px));
+  padding: 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
+  color: var(--text);
+}
+
+/* A cor do --text, escrita: o ::backdrop só herda variáveis desde o Chrome 122 e o Safari 17.4. */
+dialog.practice-restart::backdrop {
+  background: rgb(31 36 48 / 0.45);
 }
 
 /* Dentro do <header>, cujo p é cinza: o aviso de perda do placar fica com a cor do texto. */
 .practice-restart p {
-  flex-basis: 100%;
-  margin: 0;
+  margin: 0 0 12px;
   color: var(--text);
 }
 
-.practice-restart p:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
+.practice-restart-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 .practice-empty {
