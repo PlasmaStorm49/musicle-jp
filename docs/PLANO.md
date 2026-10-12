@@ -77,6 +77,37 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P105 | O Treino abre na escolha do modo (Normal ou Desafio), e a sessão roda só nele; trocar de modo é "Reiniciar o Treino", que zera o placar e volta à escolha. Com alguma rodada jogada (a mesma conta do placar: anulada não conta), o reinício pede confirmação antes |
 | P106 | O cartão do Treino na home mostra o modo da sessão: "Nesta sessão (Normal): 11 pontos em 3 rodadas" |
 | P112 | O selo do Apple Music e o "provided courtesy of iTunes" ficam no fim da página, em toda tela com prévia (a rodada e a revelação), e não junto ao player (ME58, revisa a P69). A proximidade serve para o selo tratar daquela música, e a página inteira é dela: só o que toca vem do iTunes. No celular, o selo fica fora da tela durante a rodada até a página perder a rolagem (ME60): limitação aceita, num projeto pessoal e sem fins comerciais (se a Apple pedir, sai do ar, P69). Telas sem prévia (home, resumo, escolha do modo) continuam sem selo |
+| P114 | Modo por artista: o desenho aguenta dezenas de artistas (pedidos, peso no site e CI sobram); o gargalo é a curadoria (romaji e duplicatas, ~190 títulos por artista). Começar com 5 a 10 |
+| P115 | Entram as participações (a faixa de outro artista principal com ele no crédito): o lookup do artista já as traz |
+| P116 | O placar do modo por artista é só da sessão, como o do Treino (P50): nada é salvo |
+| P117 | O modo por artista fica na nav (e na home, P126) enquanto o site não é divulgado; quando ficar público de fato, sai |
+| P118 | Lista inicial, por id da loja JP (os nomes são ambíguos): YOASOBI 1490256993, LiSA 573943518 (não a LISA do BLACKPINK), Eve 1080967231, Ado 1492604670, Aimer 569972619 e 米津玄師 530814268 |
+| P122 | Entram os covers ("se o artista cantou e publicou, tem que saber") |
+| P123 | O Hachi (727267782, o nome do 米津玄師 no Vocaloid) é outro artista e não entra |
+| P124 | Saem as versões em inglês (são as mesmas músicas traduzidas): os E-SIDE do YOASOBI e os singles "(English Version)" |
+| P125 | As regras do modo por artista são as do Desafio (`MODE_RULES.song`): digitar o nome, 6 tentativas, a mesma barra e os mesmos pontos. A busca procura só pelo título, nos daquele artista |
+| P126 | A home ganha um cartão "Artistas", como o do Treino |
+| P127 | Trocar de artista volta à lista, com o pop-up de confirmação quando houver rodada jogada (como a P105) |
+| P128 | O M13 vai em 3 PRs: A (pipeline, schemas e fixtures, sem rede), B (os dados reais dos 6 artistas, revisados como o PR do robô) e C (a web). Nessa ordem: a aba só aparece com os dados no ar |
+| P129 | Publicado em `<public>/artists/`: `index.json` (os artistas na ordem do `artists.toml`, com o arquivo e o número de músicas) e um arquivo por artista, com uma faixa por música (a canônica) e os ids `apple:` da parada |
+| P130 | Schemas próprios e autocontidos (`artist.schema.json`, `artist-list.schema.json`), com os `$defs` comuns copiados do catálogo (um teste exige que sejam iguais): a faixa sem `chart` nem `isrc`, com `titleKeys`; o álbum sem `similar`; `search.artist` sempre vazio |
+| P131 | A música é o grupo da `artist_title_key` dentro do artista (não o `song_key` do principal, por causa das participações); o `songKey` termina com o artista do arquivo. `titleKeys` guarda o `title_key` (o da parada) de todas as versões, para a exclusão dos diários |
+| P132 | A faixa canônica nunca é versão que não entra (karaokê, instrumental, ao vivo, inglês, THE FIRST TAKE...); depois: a original, de álbum que não é coletânea, a mais antiga, o menor id |
+| P133 | Teto de 200 músicas, na ordem: a posição no lookup de músicas do artista, o número de álbuns com a música, a mais antiga. A `popularity` do arquivo é essa ordem (1 a 1/N), e a busca ordena por ela. Hipótese: a ordem do lookup é a de popularidade (conferir no PR B) |
+| P134 | Título em romaji igual ao romaji de outra música não é juntado sozinho (o cutlet erra nome próprio): o build avisa e a junção é manual (`same_song`) |
+| P135 | Ao vivo: pelo sufixo do título ("Live", "Live at …", "Live ver.") ou pelo nome do álbum com marcador de show ("Live at/in/is …", "(Live …)", ライブ, tour, ツアー, 武道館, budokan, THE FIRST TAKE). Só "live" no nome não basta: "Live to Survive - Single" (Aimer) é de estúdio. O que escapar vai para o `exclude_albums` |
+| P136 | Curadoria própria dos artistas (`artists.toml` com a ordem, `exclude_albums`, `exclude_tracks` e `same_song`; `aliases.toml` e `romaji.json` próprios), sem ler os da parada: compartilhados, um quebraria o build do outro, e o `--refresh` apagaria textos |
+| P137 | Comandos: `fetch --artists` (uma opção do `fetch`, para cair no `ask` do `settings.json`), `romanize --artists`, `build-artists` (sempre todos os artistas; apaga os órfãos) e `validate-artists` |
+| P138 | `snapshots/<artistId>.json`, substituído a cada busca (nada depende do anterior, ao contrário da parada), com uma guarda de encolhimento: com menos de 80% das faixas do anterior, só com `--force` |
+| P139 | Fixtures: três artistas da parada fictícia (ar02, ar07, ar01) que citam as faixas dela pelo id (sem WAV novo), mais versões sintéticas que caem nas regras e nunca são publicadas |
+| P140 | Web: tipos do núcleo estreitados ao que ele usa, e um `indexArtist` com versão própria; versão desconhecida pede para atualizar, só na aba |
+| P141 | Exclusão dos diários de hoje no modo por artista: sai a música com algum `titleKey` igual ao título de uma resposta pendente (pega covers, créditos e participações), ou cujo álbum entregaria a resposta |
+| P142 | Um orçamento de lookup só (a cota de 12 por minuto e o disjuntor), dividido pelos resolvedores de prévia da parada e dos artistas |
+| P143 | Rota `#artistas` (aba `artists`); o campo do Desafio diz "Nome da música" nesse modo |
+| P144 | A lista carrega ao entrar na aba e o artista ao ser escolhido; os dois ficam no `App` enquanto a página está aberta. A falha mostra "Tentar de novo" só na aba |
+| P145 | O selo da rodada no modo por artista continua levando à playlist da parada (`PLAYLIST_URL`): sem campo de URL novo |
+| P146 | O botão e o pop-up do modo por artista dizem "Trocar de artista" |
+| P147 | Cartão da lista: o nome, o latino ao lado (como na ME55) e o número de músicas |
 
 ## 3. Fonte de dados (ligada no M11)
 
@@ -111,10 +142,10 @@ musicle-jp/
   .github/   workflows/{ci.yml, deploy.yml, update-catalog.yml}, scripts/{check-catalog-pr.sh, catalog-reserve.sh, catalog-collect.sh}
   docs/      PLANO.md, HISTORICO.md
   shared/    schema/*.schema.json (contrato Python↔TS), vectors/{normalize.json, prng.json, prng_reference.mjs}
-  pipeline/  pyproject.toml, constraints.txt, data/apple/{aliases.toml, romaji.json, snapshots/}, fixtures/{chart_fixture.json, aliases.toml, romaji.json}
-             src/musicle_pipeline/  cli, models, paths, providers/{base,fixture,apple}, fetch, normalize, romaji,
-                                    romaji_cache, aliases, catalog, similarity, prng, schedule, fake_assets,
-                                    io_json, validate
+  pipeline/  pyproject.toml, constraints.txt, data/apple/{aliases.toml, romaji.json, snapshots/, artists/}, fixtures/{chart_fixture.json, aliases.toml, romaji.json, artists/}
+             src/musicle_pipeline/  cli, models, paths, providers/{base,fixture,apple,fixture_artists,apple_artists},
+                                    fetch, normalize, romaji, romaji_cache, aliases, catalog, similarity, prng,
+                                    schedule, fake_assets, io_json, validate, artists, validate_artists
              tests/
   web/       Vite + TS + Preact + Biome + Vitest + Playwright
              src/core/     TS puro, sem DOM, Preact ou áudio
@@ -123,8 +154,8 @@ musicle-jp/
              src/storage/  save, migrations
              src/i18n/     pt-BR, t
              src/ui/       componentes Preact (uma pasta só) e assets/ (o selo da Apple)
-             public/data/      parada real (gerada)
-             public/fixtures/  parada falsa (WAV e SVG gerados, fora do git)
+             public/data/      parada real (gerada); artists/ do modo por artista (M13)
+             public/fixtures/  parada falsa (WAV e SVG gerados, fora do git); artists/ fictícios
              e2e/
 ```
 
@@ -154,6 +185,7 @@ musicle-jp/
 | M9 | Concluído em 09/10/2026 | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review`, ferramentas de PR do app (Auto-fix) |
 | M10 | Concluído em 10/10/2026 | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions, navegador do Claude na URL pública |
 | M11 | Concluído em 11/10/2026 | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
+| M13 | Em andamento (PR A) | Modo por artista: a lista de artistas e rodadas sem fim do Desafio com as músicas de um deles (Apêndice K). Feito antes do M12 (o visual) | 3 PRs: pipeline e fixtures (A), dados reais dos 6 artistas (B), web (C) | Planejamento com 3 subagentes Explore e um Plan |
 
 **Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
 
@@ -190,7 +222,11 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - S9. Teste e2e da reserva com `<audio>` de verdade, usando os WAV das fixtures (subagente Plan do M11).
 - S10. Hashes no `constraints.txt` (`--require-hashes`), ao menos na Action (subagente Plan do M11).
 - S11. `build --check`: sai com código 1 se o arquivo mudaria (subagente Plan do M11).
-- S13. Treino por artista: uma lista curta de artistas no repositório, com o catálogo de cada um gerado pelo pipeline (romaji, `aliases.toml` e revisão por PR). O lookup por artista traz a lista pronta (`lookup?id=<artista>&entity=song&country=jp`, até 200 faixas, todas com prévia no teste de 11/10/2026), mas com muitas versões repetidas (das 200 da Utada, 92 músicas). Um quiz montado na hora no navegador ficaria sem romaji.
+- S16. O `--today AAAA-MM-DD` no comando "Conferir que a agenda só cresceu" do `CLAUDE.md` e no passo 6 do `/verificar`: sem ele, a conferência de dia passado (P44) só roda na CI (revisão de 12/10/2026).
+- S18. "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal na escolha do modo do Treino: desde a ME59, quem entra direto no Treino não vê o custo.
+- S20. Chamar de "Livre" o submodo sem fim do modo por artista quando o Superfan (ME61) chegar: "Normal" já é o modo do álbum (P100).
+- S22. O selo da rodada no modo por artista levando à página do artista na loja (pede um campo de URL novo, com a conferência no validate e no `core/apple.ts`, regra inviolável 5).
+- S23. A capa da música mais conhecida no cartão de cada artista da lista.
 
 **Melhorias futuras**
 
@@ -222,11 +258,14 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME41. Trocar "sem desafio" por "sem diário" nos avisos do pipeline (`schedule.py`) e do robô (`check-catalog-pr.sh`, com o teste dele) e no título do `schedule.schema.json`, como na tela (P103). O título vira o nome do tipo gerado: mudar pede o mapa de `web/scripts/gen-types.ts` e o `npm run types`.
 - ME42. Na escolha do modo do Treino, gerar a semente ao montar e pré-carregar a 1ª rodada de cada modo, para o 1º "Tocar" responder mais rápido (liga à ME18; subagente Plan da P105).
 - ME60. A rodada sem rolagem no celular, cabendo na tela: o selo do Apple Music, no fim da página (P112, ME58), fica sempre visível junto do player. Ideia do usuário em 12/10/2026, para antes de mostrar o jogo a outras pessoas.
+- ME61. Superfan, o 2º submodo do modo por artista (pedido em 12/10/2026, para depois do M13): só o Desafio, até 3 erros na partida (no 3º, recomeça), barra menor (1 s, depois +3 s, depois +5 s: 1, 4 e 9 s acumulados, a confirmar), ordem sorteada a cada começo e a prévia começando num ponto sorteado do clipe de 30 s (até ~19 s, com folga para o fade do fim; os dois motores de áudio já aceitam o `offset`). Em aberto: P119 (o que é erro: cada palpite ou cada música perdida; recomendação: a música, com 3 palpites, um por etapa), P120 (pular conta como palpite; recomendação: sim), P121 (pontos 3, 2 e 1 pela etapa; recomendação), o fim por vitória e o nome do submodo sem fim (S20: "Livre"). Pede regras próprias sem um `Target` novo (P125 vale para o sem fim).
+- ME62. A exclusão por título (`titleKeys`, P141) também no Treino da parada: hoje um cover de outro artista escapa dela.
 
 **Feitas:**
 
 - S7 (M9): um marco por branch e por PR.
 - Nos dois modos (P100): S14 (os nomes Normal e Desafio) e ME1 (o Desafio é o modo difícil). A S15 foi descartada: o Treino ficou só com os dois modos.
+- S13 (Treino por artista) virou o M13 (P128): o modo por artista.
 - Nas melhorias de interface de 12/10/2026 (num PR só, aprovadas item a item):
   - ME55: o artista em latim ao lado do japonês ("あいみょん · aimyon"), com o nome latino do catálogo (P74). Na parceria, cada artista conhecido é trocado pelo seu; se sobrar japonês (parceiro fora do catálogo), nada;
   - ME56: a confirmação do "Reiniciar o Treino" num pop-up modal (`<dialog>`). Sem estado de aberto: o próprio `<dialog>` diz, porque o evento `close` não chegava no painel do Claude e o pop-up não reabria;
@@ -671,6 +710,22 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
 - Na worktree, Vitest com `--maxWorkers=2` e nada de servidor de desenvolvimento nem de `npm run e2e`: a porta 5173 é fixa (o e2e reaproveitaria o servidor de outra pasta e testaria outro código), e o áudio sintético do `fake-assets` não está lá.
 - Para o conflito no merge ser pequeno, combine antes quais trechos e chaves de texto são de cada frente (M8).
 - Depois do merge: `git worktree remove` (com `git worktree unlock` antes, se estiver travada) e `git branch -d`.
+
+## Apêndice K. Modo por artista (M13)
+
+Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as músicas dele (P125), pela lógica do Treino (P116). Os dados saem do pipeline, como a parada: o romaji e a curadoria valem para a busca (S13).
+
+- **Busca** (`fetch --artists`, só com rede, pede confirmação): um snapshot por artista em `pipeline/data/apple/artists/snapshots/<artistId>.json`, substituído a cada busca (P138):
+  - o lookup de músicas do artista (até 200; traz as participações e dá a ordem das músicas);
+  - os álbuns dele (só os com o artistId dele) e as músicas desses álbuns, em lotes de 50 (o limite de 200 vale por álbum);
+  - o lookup dos artistas das faixas (o latino oficial);
+  - pausa de 4 s entre os pedidos, também de um artista para o seguinte (a Apple documenta cerca de 20 por minuto); a falha de um artista não apaga o snapshot anterior dele.
+  - Medido em 12/10/2026 na Utada: 110 músicas pelo lookup de músicas, cerca de 190 com os álbuns (sem o karaokê), contadas pelo `song_key` de hoje. A S13 registrou 92 em 11/10, com outra contagem; a diferença não foi conferida.
+- **Seleção** (`artists.py`, puro): a chave da música (`artist_title_key`, o `title_key` da parada depois de tirar karaokê, inglês, THE FIRST TAKE e o crédito "(… from …)") junta as versões; a música que só existe em versão que não entra sai; a canônica segue a P132; a ordem e o teto, a P133. O `normalize.py` não muda (mexeria nos dias já jogados).
+- **Curadoria** (`artists.toml`, P136): a ordem da tela, `exclude_albums` (ex.: os E-SIDE), `exclude_tracks` e `same_song`. Os avisos do `build-artists` (descartes, corte, possível música repetida) são a lista de revisão do PR.
+- **Arquivos** (P129 e P130): `index.json` e um `<id>.json` por artista, cada um abaixo de 1 MB (o `validate-artists` confere, com o schema, as referências, os hosts e a forma canônica).
+- **Robô semanal**: não toca em nada disso. A lista fechada dele continua a mesma, e a atualização dos artistas é à mão.
+- **Fixtures** (P139): `pipeline/fixtures/artists/`, com a tabela de casos no README de lá.
 
 ## Origem
 

@@ -10,6 +10,8 @@ const ROOT = new URL("../../", import.meta.url);
 export const SCHEMAS = [
   { schema: "shared/schema/catalog.schema.json", out: "web/src/core/generated/catalog.ts" },
   { schema: "shared/schema/schedule.schema.json", out: "web/src/core/generated/schedule.ts" },
+  { schema: "shared/schema/artist.schema.json", out: "web/src/core/generated/artist.ts" },
+  { schema: "shared/schema/artist-list.schema.json", out: "web/src/core/generated/artist-list.ts" },
 ] as const;
 
 // Títulos dos schemas → nomes curtos. $defs genéricos ganham nomes que não escondem os
@@ -17,6 +19,11 @@ export const SCHEMAS = [
 const BY_TITLE: Record<string, string> = {
   "Catálogo do musicle-jp": "Catalog",
   "Agenda do desafio diário do musicle-jp": "Schedule",
+  "Catálogo de artista do musicle-jp": "ArtistCatalog",
+  "Lista de artistas do musicle-jp": "ArtistList",
+  "Artista da lista do musicle-jp": "ArtistListEntry",
+  "Álbum do catálogo de artista do musicle-jp": "ArtistAlbum",
+  "Faixa do catálogo de artista do musicle-jp": "ArtistTrack",
 };
 const BY_KEY: Record<string, string> = {
   date: "IsoDate",

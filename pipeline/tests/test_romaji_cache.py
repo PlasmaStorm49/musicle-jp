@@ -11,7 +11,7 @@ from musicle_pipeline.cli import main, romanize_each
 from musicle_pipeline.io_json import dumps
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import needs_romaji
-from musicle_pipeline.paths import provider_paths, repo_root
+from musicle_pipeline.paths import artist_paths, provider_paths, repo_root
 from musicle_pipeline.romaji_cache import RomajiCache, collect_texts, load_cache, save_cache
 from musicle_pipeline.validate import validate_catalog
 
@@ -102,11 +102,13 @@ def test_committed_cache_covers_the_fixture():
 
 def test_build_never_imports_the_romaji_library(tmp_path):
     out = tmp_path / "catalog.json"
+    artists = tmp_path / "artists"
     code = (
         "import sys\n"
         "from musicle_pipeline.cli import main\n"
         f"assert main(['build', '--provider', 'fixture', '--out', {str(out)!r}]) == 0\n"
-        "heavy = ('cutlet', 'fugashi', 'unidic_lite', 'pykakasi', 'musicle_pipeline.romaji')\n"
+        f"assert main(['build-artists', '--provider', 'fixture', '--out-dir', {str(artists)!r}]) == 0\n"
+        "heavy =('cutlet', 'fugashi', 'unidic_lite', 'pykakasi', 'musicle_pipeline.romaji')\n"
         "print(sorted(m for m in sys.modules if m in heavy or m.split('.')[0] in heavy))\n"
     )
     result = subprocess.run(
@@ -115,8 +117,21 @@ def test_build_never_imports_the_romaji_library(tmp_path):
     assert result.stdout.strip().splitlines()[-1] == "[]"
 
 
-@pytest.mark.parametrize("provider", ["fixture", "apple"])
-def test_cache_versions_match_the_pinned_libraries(provider):
+def test_committed_artist_cache_covers_the_fixture_artists():
+    assert main(["romanize", "--provider", "fixture", "--artists", "--check"]) == 0
+
+
+# Os quatro caches: a parada e o modo por artista (M13) de cada provedor (o de artistas da Apple
+# entra com os dados reais).
+CACHES = {
+    "fixture": provider_paths("fixture").romaji,
+    "apple": provider_paths("apple").romaji,
+    "fixture-artists": artist_paths("fixture").romaji,
+}
+
+
+@pytest.mark.parametrize("cache_name", sorted(CACHES))
+def test_cache_versions_match_the_pinned_libraries(cache_name):
     # O robô semanal recusa um romaji.json que muda o que já existe, inclusive as versões gravadas.
     # Trocar a versão de uma biblioteca do romaji no constraints.txt sem rodar romanize --refresh
     # travaria o robô na segunda seguinte: este teste roda na CI (sem o extra) e acusa antes.
@@ -127,7 +142,7 @@ def test_cache_versions_match_the_pinned_libraries(provider):
         name, sep, version = line.split("#")[0].strip().partition("==")
         if sep:
             pins[name.lower()] = version
-    cache = load_cache(provider_paths(provider).romaji)
+    cache = load_cache(CACHES[cache_name])
     assert cache.versions, "o cache não gravou as versões"
     for name, version in cache.versions.items():
         assert pins.get(name.lower()) == version, (

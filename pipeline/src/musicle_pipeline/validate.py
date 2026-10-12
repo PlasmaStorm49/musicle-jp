@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from datetime import date
 from functools import cache, partial
 
@@ -158,9 +158,14 @@ _URL_RULES: dict[str, dict[str, Callable[[str], bool] | None]] = {
 
 
 def _url_problems(catalog: JSON) -> list[str]:
-    rules = _URL_RULES.get(catalog["provider"])
+    return url_problems(catalog["provider"], catalog["albums"], catalog["tracks"])
+
+
+def url_problems(provider: str, albums: Sequence[JSON], tracks: Sequence[JSON]) -> list[str]:
+    """URLs fora dos hosts do provedor; serve também aos arquivos do modo por artista (M13)."""
+    rules = _URL_RULES.get(provider)
     if rules is None:
-        return [f"provider {catalog['provider']!r} sem regra de URLs"]
+        return [f"provider {provider!r} sem regra de URLs"]
 
     def bad(kind: str, url: str | None) -> bool:
         rule = rules[kind]
@@ -170,10 +175,10 @@ def _url_problems(catalog: JSON) -> list[str]:
 
     problems = [
         f"{a['id']}: capa fora dos hosts do provedor: {a['artworkUrl']}"
-        for a in catalog["albums"]
+        for a in albums
         if bad("artwork", a["artworkUrl"])
     ]
-    for t in catalog["tracks"]:
+    for t in tracks:
         if t["preview"] is not None and bad("preview", t["preview"]["url"]):
             problems.append(f"{t['id']}: prévia fora dos hosts do provedor: {t['preview']['url']}")
         if bad("store", t["storeUrl"]):

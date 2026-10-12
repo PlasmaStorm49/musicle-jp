@@ -9,8 +9,16 @@ import sys
 from collections.abc import Callable, Sequence
 from datetime import date
 from pathlib import Path
+from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
+from musicle_pipeline.artists import (
+    INDEX,
+    artist_snapshots,
+    build_artists,
+    load_artist_list,
+    selections,
+)
 from musicle_pipeline.catalog import Curation, build_catalog
 from musicle_pipeline.fake_assets import generate_assets
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
@@ -18,14 +26,21 @@ from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import has_unassigned
 from musicle_pipeline.paths import (
     apple_snapshots_dir,
+    artist_paths,
     known_schedules,
     provider_paths,
     repo_root,
     resolve,
 )
-from musicle_pipeline.providers import PROVIDERS
+from musicle_pipeline.providers import ARTIST_PROVIDERS, PROVIDERS
 from musicle_pipeline.providers.apple import snapshot_days
-from musicle_pipeline.romaji_cache import RomajiCache, collect_texts, load_cache, save_cache
+from musicle_pipeline.romaji_cache import (
+    RomajiCache,
+    collect_texts,
+    collect_track_texts,
+    load_cache,
+    save_cache,
+)
 from musicle_pipeline.schedule import (
     HORIZON_DAYS,
     ScheduleError,
@@ -37,6 +52,12 @@ from musicle_pipeline.schedule import (
     validate_schedule,
 )
 from musicle_pipeline.validate import validate_catalog
+from musicle_pipeline.validate_artists import (
+    validate_artist_dir,
+    validate_artist_file,
+    validate_artist_list,
+    validate_artist_set,
+)
 
 
 def _utf8_console() -> None:
@@ -119,6 +140,67 @@ def _validate(args: argparse.Namespace) -> int:
     if not problems and dumps(schedule).encode("utf-8") != spath.read_bytes():
         problems.append("arquivo fora da forma canônica (regere com o pipeline)")
     return _report(spath, problems)
+
+
+def _artist_curation(provider: str) -> Curation:
+    paths = artist_paths(provider)
+    return Curation(romaji=load_cache(paths.romaji), aliases=load_aliases(paths.aliases))
+
+
+def _build_artists(args: argparse.Namespace) -> int:
+    paths = artist_paths(args.provider)
+    out_dir = (resolve(args.out_dir) if args.out_dir else paths.public_dir).resolve()
+    # A mesma trava do build: dentro de web/public, cada provedor só grava na pasta dele.
+    public = (repo_root() / "web" / "public").resolve()
+    if out_dir.is_relative_to(public) and out_dir != paths.public_dir.resolve():
+        print(
+            f"o provedor {args.provider} grava em {paths.public_dir}, não em {out_dir}",
+            file=sys.stderr,
+        )
+        return 1
+    provider = ARTIST_PROVIDERS[args.provider]()
+    rules = load_artist_list(paths.artists)
+    notes: list[str] = []
+    cur = _artist_curation(args.provider)
+    files = build_artists(provider, rules, cur, notes)
+    for message in [*provider.warnings, *notes]:
+        print(f"aviso: {message}", file=sys.stderr)
+    missing = [t for t in _artist_texts(args.provider) if not cur.romaji.variants(t)]
+    if missing:
+        print(
+            f"aviso: {len(missing)} texto(s) sem romaji; rode o romanize --artists",
+            file=sys.stderr,
+        )
+    texts = {name: dumps(data) for name, data in files.items()}
+    problems = [
+        f"{name}: {problem}"
+        for name, data in files.items()
+        for problem in (validate_artist_list if name == INDEX else validate_artist_file)(
+            data, texts[name].encode("utf-8")
+        )
+    ] + validate_artist_set(files)
+    if problems:
+        print("arquivos inválidos, nada foi gravado:", *problems, sep="\n  ", file=sys.stderr)
+        return 1
+    # Artista que saiu da lista: o arquivo dele ficaria publicado sem estar no índice. Só numa
+    # pasta publicada (a do provedor, ou uma que já tem índice): um --out-dir errado (a pasta da
+    # curadoria também se chama artists/) não pode apagar o que não é dele.
+    owned = out_dir == paths.public_dir.resolve() or (out_dir / INDEX).exists()
+    written = [n for n in files if write_if_changed(out_dir / n, texts[n])]
+    removed = sorted(p.name for p in out_dir.glob("*.json") if p.name not in files) if owned else []
+    for name in removed:
+        (out_dir / name).unlink()
+    songs = sum(len(data["tracks"]) for n, data in files.items() if n != INDEX)
+    print(
+        f"{out_dir}: {len(files) - 1} artista(s), {songs} música(s); "
+        f"{len(written)} gravado(s), {len(removed)} órfão(s) apagado(s)"
+    )
+    return 0
+
+
+def _validate_artists(args: argparse.Namespace) -> int:
+    directory = resolve(args.dir) if args.dir else artist_paths(args.provider).public_dir
+    return _report(directory, validate_artist_dir(directory))
 
 
 def _schedule(args: argparse.Namespace) -> int:
@@ -210,6 +292,17 @@ def _fetch(args: argparse.Namespace) -> int:
     # Só aqui: os outros comandos nunca carregam o módulo de rede (teste em subprocesso).
     from musicle_pipeline import fetch
 
+    if args.artists:
+        if args.today is not None:
+            print("--today é da parada; com --artists, não passe", file=sys.stderr)
+            return 1
+        return _fetch_artists(args, fetch)
+    if args.today is None:
+        print("--today é obrigatório na busca da parada", file=sys.stderr)
+        return 1
+    if args.artist or args.force:
+        print("--artist e --force só valem com --artists", file=sys.stderr)
+        return 1
     directory = apple_snapshots_dir()
     out = directory / f"{args.today.isoformat()}.json"
     if out.exists():
@@ -236,6 +329,54 @@ def _fetch(args: argparse.Namespace) -> int:
     return 0
 
 
+def _fetch_artists(args: argparse.Namespace, fetch: Any) -> int:
+    """Um snapshot por artista do artists.toml (ou só os de --artist), substituído a cada busca.
+    A falha de um artista não apaga o snapshot anterior dele, e o comando sai com 1."""
+    paths = artist_paths("apple")
+    listed = [r.id for r in load_artist_list(paths.artists)]
+    chosen = list(dict.fromkeys(args.artist or listed))  # sem repetir, na ordem
+    unknown = [a for a in chosen if a not in listed]
+    if unknown:
+        print(f"fora do {paths.artists.name}: {', '.join(unknown)}", file=sys.stderr)
+        return 1
+    failed = 0
+    for position, artist_id in enumerate(chosen):
+        try:
+            # A pausa entre os pedidos vale também de um artista para o seguinte.
+            snapshot = fetch.fetch_artist_snapshot(
+                artist_id, args.fetched_at, wait_first=position > 0
+            )
+        except fetch.FetchError as exc:
+            print(f"fetch {artist_id}: {exc}; o snapshot anterior fica", file=sys.stderr)
+            failed += 1
+            continue
+        out = paths.source / f"{artist_id}.json"
+        if out.exists() and not args.force:
+            previous = read_json(out)
+            before = len(previous.get("tracks", {})) if isinstance(previous, dict) else 0
+            if len(snapshot["tracks"]) < fetch.SHRINK_MIN * before:
+                print(
+                    f"{out}: {len(snapshot['tracks'])} faixas contra {before} do anterior; "
+                    "nada foi gravado (confira e use --force)",
+                    file=sys.stderr,
+                )
+                failed += 1
+                continue
+        for kind, found in (("músicas", snapshot["songs"]), ("álbuns", snapshot["albums"])):
+            if len(found) >= fetch.ARTIST_LIMIT:
+                print(
+                    f"aviso: {artist_id}: o lookup de {kind} veio no limite ({fetch.ARTIST_LIMIT});"
+                    " pode haver mais",
+                    file=sys.stderr,
+                )
+        changed = write_if_changed(out, dumps(snapshot))
+        print(
+            f"{out}: {len(snapshot['tracks'])} faixas, {len(snapshot['albums'])} álbuns, "
+            f"{len(snapshot['songs'])} no lookup de músicas" + ("" if changed else "; sem mudanças")
+        )
+    return 1 if failed else 0
+
+
 def _fetched_at(text: str) -> str:
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", text):
         raise argparse.ArgumentTypeError("use AAAA-MM-DDTHH:MM:SSZ (UTC)")
@@ -260,10 +401,28 @@ def romanize_each(
     return done, failed
 
 
+def _artist_texts(provider_name: str) -> list[str]:
+    """Os textos das músicas que ficam no modo por artista (as canônicas de cada um)."""
+    provider = ARTIST_PROVIDERS[provider_name]()
+    rules = load_artist_list(artist_paths(provider_name).artists)
+    picked = selections(
+        provider_name, artist_snapshots(provider, rules), _artist_curation(provider_name), []
+    )
+    return collect_track_texts(song.canonical for _, _, songs in picked for song in songs)
+
+
 def _romanize(args: argparse.Namespace) -> int:
-    path = resolve(args.cache) if args.cache else provider_paths(args.provider).romaji
+    if args.cache:
+        path = resolve(args.cache)
+    elif args.artists:
+        path = artist_paths(args.provider).romaji
+    else:
+        path = provider_paths(args.provider).romaji
     cache = load_cache(path)
-    texts = collect_texts(PROVIDERS[args.provider]().snapshots())
+    if args.artists:
+        texts = _artist_texts(args.provider)
+    else:
+        texts = collect_texts(PROVIDERS[args.provider]().snapshots())
     todo = texts if args.refresh else [t for t in texts if not cache.variants(t)]
 
     if args.check:
@@ -369,7 +528,18 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     fetch = sub.add_parser("fetch", help="busca a parada real do dia (único comando com rede)")
     fetch.add_argument("--provider", choices=["apple"], required=True)
-    fetch.add_argument("--today", type=date.fromisoformat, required=True, help="hoje em Brasília")
+    fetch.add_argument(
+        "--today", type=date.fromisoformat, help="hoje em Brasília (obrigatório na parada)"
+    )
+    fetch.add_argument(
+        "--artists", action="store_true", help="busca os artistas do modo por artista (M13)"
+    )
+    fetch.add_argument(
+        "--artist", action="append", help="com --artists: só este id (repita para vários)"
+    )
+    fetch.add_argument(
+        "--force", action="store_true", help="com --artists: grava mesmo se o snapshot encolheu"
+    )
     fetch.add_argument(
         "--fetched-at", type=_fetched_at, required=True, help="agora em UTC: AAAA-MM-DDTHH:MM:SSZ"
     )
@@ -378,10 +548,25 @@ def main(argv: Sequence[str] | None = None) -> int:
     romanize = sub.add_parser("romanize", help="completa o cache de romaji (extra [romaji])")
     romanize.add_argument("--provider", choices=sorted(PROVIDERS), required=True)
     romanize.add_argument("--cache", type=Path, help="cache de romaji (padrão: o do provedor)")
+    romanize.add_argument(
+        "--artists", action="store_true", help="os textos do modo por artista (cache próprio)"
+    )
     mode = romanize.add_mutually_exclusive_group()
     mode.add_argument("--check", action="store_true", help="só confere se falta texto (código 1)")
     mode.add_argument("--refresh", action="store_true", help="refaz todas as entradas")
     romanize.set_defaults(func=_romanize)
+
+    artists = sub.add_parser("build-artists", help="gera os arquivos do modo por artista (M13)")
+    artists.add_argument("--provider", choices=sorted(ARTIST_PROVIDERS), required=True)
+    artists.add_argument("--out-dir", type=Path, help="pasta de saída (padrão: a do provedor)")
+    artists.set_defaults(func=_build_artists)
+
+    check_artists = sub.add_parser(
+        "validate-artists", help="confere a pasta publicada do modo por artista"
+    )
+    check_artists.add_argument("--provider", choices=sorted(ARTIST_PROVIDERS), required=True)
+    check_artists.add_argument("--dir", type=Path, help="pasta (padrão: a do provedor)")
+    check_artists.set_defaults(func=_validate_artists)
 
     args = parser.parse_args(argv)
     try:

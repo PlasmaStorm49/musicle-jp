@@ -14,7 +14,8 @@ from typing import Any
 
 JSON = dict[str, Any]
 
-_TIMESTAMP = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z")
+# Instante em UTC dos snapshots (fetchedAt): o mesmo formato na parada e nos artistas.
+TIMESTAMP = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z")
 
 
 class InputError(ValueError):
@@ -70,6 +71,25 @@ class ChartSnapshot:
     chart: str
     size: int
     entries: tuple[ChartEntry, ...]
+
+
+@dataclass(frozen=True)
+class ArtistEntry:
+    """Uma faixa do artista (M13). `rank` é a posição no lookup de músicas do artista (1 =
+    primeira), que dá a ordem das músicas; None quando a faixa veio só pelos álbuns."""
+
+    rank: int | None
+    track: RawTrack
+
+
+@dataclass(frozen=True)
+class ArtistSnapshot:
+    """Todas as faixas conhecidas de um artista da lista, numa busca só (o snapshot do artista é
+    substituído a cada busca: nada depende do anterior)."""
+
+    artist: RawArtist
+    fetched_at: str
+    entries: tuple[ArtistEntry, ...]
 
 
 def _get(data: JSON, key: str, where: str) -> Any:
@@ -139,7 +159,7 @@ def check_snapshots(snapshots: Sequence[ChartSnapshot]) -> None:
             problems.append(f"{where}: data inválida {s.date!r}")
         if s.id != s.date:
             problems.append(f"{where}: id deveria ser igual à data {s.date}")
-        if not _TIMESTAMP.fullmatch(s.fetched_at):
+        if not TIMESTAMP.fullmatch(s.fetched_at):
             problems.append(f"{where}: fetchedAt fora do formato AAAA-MM-DDTHH:MM:SSZ")
         if len(s.entries) != s.size:
             problems.append(f"{where}: {len(s.entries)} entradas para size {s.size}")

@@ -1,0 +1,3 @@
+# Curadoria manual do modo por artista fictício (M13), separada da parada: os mesmos campos do
+# aliases.toml da parada (tracks: latin, aliases, block; albums: latin; artists: latin, aliases).
+# ID que nenhum artista tem é erro no build-artists.

@@ -1,0 +1,213 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "夜風シアター & 青井ユウ",
+      "artistIds": [
+        "fixture:ar:ar02",
+        "fixture:ar:ar07"
+      ],
+      "artworkUrl": "fixtures/art/al05.svg",
+      "id": "fixture:al:al05",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-02-14",
+      "title": "ふたりの約束 - Single",
+      "titleLatin": "Futari no yakusoku",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "artworkUrl": "fixtures/art/al21.svg",
+      "id": "fixture:al:al21",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-05-21",
+      "title": "夜風劇場",
+      "titleLatin": "Yokaze gekijou",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "artworkUrl": "fixtures/art/al30.svg",
+      "id": "fixture:al:al30",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-11-05",
+      "title": "真夜中の観覧車 - Single",
+      "titleLatin": "Mayonaka no kanransha",
+      "type": "single"
+    }
+  ],
+  "artistId": "fixture:ar:ar02",
+  "artists": [
+    {
+      "id": "fixture:ar:ar02",
+      "latinSource": "provider",
+      "name": "夜風シアター",
+      "nameLatin": "Yokaze Theater"
+    },
+    {
+      "id": "fixture:ar:ar07",
+      "latinSource": "provider",
+      "name": "青井ユウ",
+      "nameLatin": "Aoi Yuu"
+    }
+  ],
+  "fetchedAt": "2026-10-05T12:00:00Z",
+  "provider": "fixture",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "fixture:al:al05",
+      "artistDisplay": "夜風シアター & 青井ユウ",
+      "artistIds": [
+        "fixture:ar:ar02",
+        "fixture:ar:ar07"
+      ],
+      "durationMs": 254000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr05",
+      "latinSource": "cutlet",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr05.wav"
+      },
+      "releaseDate": "2025-02-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "futarinoyakusoku",
+          "ふたりの約束"
+        ]
+      },
+      "songKey": "ふたりの約束|fixture:ar:ar02",
+      "storeUrl": null,
+      "title": "ふたりの約束",
+      "titleKeys": [
+        "ふたりの約束"
+      ],
+      "titleLatin": "Futari no yakusoku"
+    },
+    {
+      "albumId": "fixture:al:al21",
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "durationMs": 289000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr23",
+      "latinSource": "cutlet",
+      "popularity": 0.75,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr23.wav"
+      },
+      "releaseDate": "2025-05-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "kaimakubell",
+          "kaimakuberu",
+          "開幕べる"
+        ]
+      },
+      "songKey": "開幕べる|fixture:ar:ar02",
+      "storeUrl": null,
+      "title": "開幕ベル",
+      "titleKeys": [
+        "開幕べる",
+        "開幕べるkaraoke"
+      ],
+      "titleLatin": "Kaimaku beru"
+    },
+    {
+      "albumId": "fixture:al:al21",
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "durationMs": 302000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr24",
+      "latinSource": "cutlet",
+      "popularity": 0.25,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr24.wav"
+      },
+      "releaseDate": "2025-05-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "curtaincall",
+          "katenkoru",
+          "かーてんこーる"
+        ]
+      },
+      "songKey": "かーてんこーる|fixture:ar:ar02",
+      "storeUrl": null,
+      "title": "カーテンコール",
+      "titleKeys": [
+        "かーてんこーる"
+      ],
+      "titleLatin": "Kaaten kooru"
+    },
+    {
+      "albumId": "fixture:al:al30",
+      "artistDisplay": "夜風シアター",
+      "artistIds": [
+        "fixture:ar:ar02"
+      ],
+      "durationMs": 281000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr38",
+      "latinSource": "cutlet",
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr38.wav"
+      },
+      "releaseDate": "2025-11-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "mayonakanokanransha",
+          "真夜中の観覧車"
+        ]
+      },
+      "songKey": "真夜中の観覧車|fixture:ar:ar02",
+      "storeUrl": null,
+      "title": "真夜中の観覧車",
+      "titleKeys": [
+        "真夜中の観覧車"
+      ],
+      "titleLatin": "Mayonaka no kanransha"
+    }
+  ]
+}

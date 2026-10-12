@@ -7,12 +7,16 @@ import sys
 import pytest
 
 from musicle_pipeline.cli import main
-from musicle_pipeline.paths import repo_root
+from musicle_pipeline.paths import artist_paths, repo_root
 
 COMMITTED = {
     "fixture": repo_root() / "web" / "public" / "fixtures" / "catalog.json",
     "apple": repo_root() / "web" / "public" / "data" / "catalog.json",
 }
+
+
+# Os arquivos do modo por artista (M13), separados: a pasta inteira, não um arquivo.
+COMMITTED_ARTISTS = {"fixture": artist_paths("fixture").public_dir}
 
 
 def _build(out, provider: str = "fixture") -> int:
@@ -97,3 +101,69 @@ def test_schedule_check_with_nothing_on_either_side(tmp_path, capsys):
     args = ["schedule-check", "--path", str(tmp_path / "a.json")]
     assert main([*args, "--base", str(tmp_path / "b.json")]) == 0
     assert "nenhuma agenda" in capsys.readouterr().out
+
+
+def _build_artists(out_dir, provider: str = "fixture") -> int:
+    return main(["build-artists", "--provider", provider, "--out-dir", str(out_dir)])
+
+
+@pytest.mark.parametrize("provider", sorted(COMMITTED_ARTISTS))
+def test_committed_artists_are_up_to_date(tmp_path, provider):
+    """A pasta versionada do modo por artista é exatamente o que o build-artists gera hoje, sem
+    arquivo a mais nem a menos. Se falhar, regere com o build-artists do provedor."""
+    fresh = tmp_path / "artists"
+    assert _build_artists(fresh, provider) == 0
+    committed = COMMITTED_ARTISTS[provider]
+    assert sorted(p.name for p in fresh.iterdir()) == sorted(p.name for p in committed.iterdir())
+    for path in fresh.iterdir():
+        assert path.read_bytes() == (committed / path.name).read_bytes(), path.name
+
+
+@pytest.mark.parametrize("seed", ["1", "2"])
+def test_artist_bytes_do_not_depend_on_hash_seed(tmp_path, seed):
+    out = tmp_path / f"artists-{seed}"
+    env = {**os.environ, "PYTHONHASHSEED": seed}
+    cmd = [sys.executable, "-m", "musicle_pipeline", "build-artists", "--provider", "fixture"]
+    subprocess.run([*cmd, "--out-dir", str(out)], check=True, env=env, capture_output=True)
+    reference = tmp_path / "reference"
+    assert _build_artists(reference) == 0
+    for path in reference.iterdir():
+        assert (out / path.name).read_bytes() == path.read_bytes(), path.name
+
+
+def test_build_artists_removes_orphans_and_refuses_another_dir(tmp_path, capsys):
+    out = tmp_path / "artists"
+    assert _build_artists(out) == 0  # a pasta passa a ter o índice: é uma pasta publicada
+    (out / "saiu-da-lista.json").write_text("{}", encoding="utf-8")
+    assert _build_artists(out) == 0
+    assert not (out / "saiu-da-lista.json").exists()
+    assert "1 órfão(s) apagado(s)" in capsys.readouterr().out
+    # Numa pasta sem índice (um --out-dir errado, como a da curadoria), nada é apagado.
+    other = tmp_path / "curadoria"
+    other.mkdir()
+    (other / "artists_fixture.json").write_text("{}", encoding="utf-8")
+    assert _build_artists(other) == 0
+    assert (other / "artists_fixture.json").exists()
+    real = repo_root() / "web" / "public" / "data" / "artists"
+    existed = real.exists()
+    assert _build_artists(real) == 1
+    assert "grava em" in capsys.readouterr().err
+    assert real.exists() == existed
+
+
+def test_validate_artists_command(tmp_path, capsys):
+    assert main(["validate-artists", "--provider", "fixture"]) == 0
+    out = tmp_path / "artists"
+    _build_artists(out)
+    (out / "ar01.json").write_bytes((out / "ar01.json").read_bytes() + b" ")
+    assert main(["validate-artists", "--provider", "fixture", "--dir", str(out)]) == 1
+    assert "canônica" in capsys.readouterr().err
+
+
+def test_build_artists_warns_about_missing_romaji(tmp_path, monkeypatch, capsys):
+    from musicle_pipeline import cli
+    from musicle_pipeline.catalog import Curation
+
+    monkeypatch.setattr(cli, "_artist_curation", lambda _provider: Curation())
+    assert _build_artists(tmp_path / "artists") == 0
+    assert "sem romaji; rode o romanize --artists" in capsys.readouterr().err

@@ -1,7 +1,8 @@
 """Cache de romaji em romaji.json, versionado no Git.
 
-Um por provedor (pipeline/fixtures/ e pipeline/data/apple/): --refresh refaz só os textos do
-provedor da vez e apagaria os do outro num arquivo compartilhado.
+Um por provedor (pipeline/fixtures/ e pipeline/data/apple/), e outro para os artistas de cada
+provedor (M13, na subpasta artists/): --refresh refaz só os textos da vez e apagaria os do outro
+num arquivo compartilhado.
 
 Quem escreve: o comando `romanize`, que usa a biblioteca de romanização (extra [romaji]).
 Quem lê: o `build`, que NUNCA importa a biblioteca. Assim o build continua puro e a CI não
@@ -22,7 +23,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
-from musicle_pipeline.models import ChartSnapshot, InputError
+from musicle_pipeline.models import ChartSnapshot, InputError, RawTrack
 from musicle_pipeline.normalize import display, needs_romaji, strip_album_suffix
 
 
@@ -57,15 +58,18 @@ def artist_text(name: str) -> str:
 
 def collect_texts(snapshots: Iterable[ChartSnapshot]) -> list[str]:
     """Textos com kana ou kanji que precisam de romaji, sem repetição, ordenados."""
+    return collect_track_texts(e.track for snap in snapshots for e in snap.entries)
+
+
+def collect_track_texts(tracks: Iterable[RawTrack]) -> list[str]:
+    """O mesmo, a partir das faixas (o modo por artista coleta só as músicas que ficam)."""
     texts: set[str] = set()
-    for snap in snapshots:
-        for e in snap.entries:
-            t = e.track
-            texts.add(track_text(t.title))
-            texts.add(album_text(t.album.title))
-            texts.update(artist_text(a.name) for a in t.artists)
-            if t.artist_display:
-                texts.add(artist_text(t.artist_display))
+    for t in tracks:
+        texts.add(track_text(t.title))
+        texts.add(album_text(t.album.title))
+        texts.update(artist_text(a.name) for a in t.artists)
+        if t.artist_display:
+            texts.add(artist_text(t.artist_display))
     return sorted(t for t in texts if needs_romaji(t))
 
 

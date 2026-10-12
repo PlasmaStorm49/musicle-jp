@@ -11,6 +11,7 @@ from __future__ import annotations
 import re
 import unicodedata
 from collections import Counter
+from dataclasses import replace
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
@@ -169,6 +170,85 @@ def artist_names(
     return result
 
 
+def partners_of(seen: list[RawArtist]) -> dict[str, RawArtist | None]:
+    """Chave estrita do nome → artista; None quando a chave é de mais de um artista.
+
+    Os parceiros de uma faixa só ganham id se são artistas de alguma faixa: o lookup traz
+    um artistId por faixa, o do 1º nome. Cada id vale pelo registro mais novo (`seen` está
+    na ordem dos dias), o mesmo que fica no catálogo.
+    """
+    latest = {a.provider_id: a for a in seen}
+    owners: dict[str, set[str]] = {}
+    for a in latest.values():
+        for name in (a.name, a.name_latin):
+            key = partner_key(name) if name else ""
+            if len(key) >= _PARTNER_MIN:
+                owners.setdefault(key, set()).add(a.provider_id)
+    return {key: latest[next(iter(ids))] if len(ids) == 1 else None for key, ids in owners.items()}
+
+
+def _release_date(iso: str, track_id: str, where: str) -> str:
+    try:
+        return japan_date(iso)
+    except ValueError as exc:
+        # O fetch já recusa data impossível; um snapshot antigo ainda poderia ter uma.
+        raise InputError(f"{where}: faixa {track_id}: releaseDate inválida ({iso!r})") from exc
+
+
+def map_track(
+    t: JSON,
+    artists: dict[str, RawArtist],
+    partners: dict[str, RawArtist | None],
+    where: str,
+    warnings: list[str],
+) -> RawTrack:
+    """Uma faixa aparada do lookup → contrato neutro. Serve à parada e ao modo por artista (M13);
+    o álbum fixo por faixa é regra só da parada (AppleProvider._track)."""
+    track_id = str(t["trackId"])
+    artist = artists[str(t["artistId"])]
+    # O artista do lookup vem em 1º (o songKey usa o 1º id); depois, os parceiros conhecidos,
+    # na ordem do crédito. Sem eles, o distrator poderia ter o mesmo artista da resposta
+    # (JANE DOE, de 米津玄師 & 宇多田ヒカル, contra First Love), e a busca pelo
+    # parceiro falharia.
+    credited = [artist]
+    own = {partner_key(n) for n in (artist.name, artist.name_latin) if n}
+    for name in credited_names(t["artistName"], t["trackName"]):
+        key = partner_key(name)
+        if key in own or key not in partners:
+            continue  # o próprio artista (mesmo com nome repetido) ou nome sem faixa
+        partner = partners[key]
+        if partner is None:
+            warning = f"parceiro {name!r} é nome de mais de um artista: ficou sem ligação"
+            if warning not in warnings:
+                warnings.append(warning)
+        elif partner.provider_id not in {a.provider_id for a in credited}:
+            credited.append(partner)
+    album = RawAlbum(
+        provider_id=str(t["collectionId"]),
+        title=t["collectionName"],
+        type=album_type(t["collectionName"], t.get("collectionArtistName")),
+        release_date=_release_date(t["releaseDate"], track_id, where),
+        artwork_url=artwork_at(t["artworkUrl100"]) if t.get("artworkUrl100") else None,
+    )
+    preview = t.get("previewUrl")
+    return RawTrack(
+        provider_id=track_id,
+        title=t["trackName"],
+        artists=tuple(credited),
+        album=album,
+        duration_ms=int(t["trackTimeMillis"]),
+        explicit=t.get("trackExplicitness") == "explicit",
+        preview_url=preview,
+        preview_duration_sec=PREVIEW_SEC if preview else None,
+        store_url=store_url(t["trackViewUrl"]) if t.get("trackViewUrl") else None,
+        # Com parceiro, vale a grafia da loja: o parceiro só do título ("YAO", com "(feat.
+        # ONE OK ROCK)") não vira "YAO & ONE OK ROCK", um crédito que a loja não mostra.
+        artist_display=(
+            t["artistName"] if len(credited) > 1 or t["artistName"] != artist.name else None
+        ),
+    )
+
+
 class AppleProvider:
     """Snapshots reais gravados pelo `fetch`. Sem rede: build e testes ficam determinísticos."""
 
@@ -193,7 +273,7 @@ class AppleProvider:
             days.append((data, artist_names(data["tracks"], data["artists"], latins)))
         # 2ª passada: as faixas, com os parceiros procurados entre TODOS os artistas. Numa
         # passada só, o resultado dependeria da ordem em que cada artista apareceu.
-        partners = self._partners([a for _, artists in days for a in artists.values()])
+        partners = partners_of([a for _, artists in days for a in artists.values()])
         albums: dict[str, RawAlbum] = {}  # álbum fixo por faixa: vale o primeiro que apareceu
         return [self._snapshot(data, artists, albums, partners) for data, artists in days]
 
@@ -203,25 +283,6 @@ class AppleProvider:
             raise InputError(f"{path}: provider/storefront deveriam ser {NAME}/{STOREFRONT}")
         if f"{data.get('date')}.json" != path.name:
             raise InputError(f"{path}: date {data.get('date')!r} não bate com o nome do arquivo")
-
-    @staticmethod
-    def _partners(seen: list[RawArtist]) -> dict[str, RawArtist | None]:
-        """Chave estrita do nome → artista; None quando a chave é de mais de um artista.
-
-        Os parceiros de uma faixa só ganham id se são artistas de alguma faixa: o lookup traz
-        um artistId por faixa, o do 1º nome. Cada id vale pelo registro mais novo (`seen` está
-        na ordem dos dias), o mesmo que fica no catálogo.
-        """
-        latest = {a.provider_id: a for a in seen}
-        owners: dict[str, set[str]] = {}
-        for a in latest.values():
-            for name in (a.name, a.name_latin):
-                key = partner_key(name) if name else ""
-                if len(key) >= _PARTNER_MIN:
-                    owners.setdefault(key, set()).add(a.provider_id)
-        return {
-            key: latest[next(iter(ids))] if len(ids) == 1 else None for key, ids in owners.items()
-        }
 
     def _snapshot(
         self,
@@ -256,14 +317,6 @@ class AppleProvider:
             entries=entries,
         )
 
-    @staticmethod
-    def _release_date(iso: str, track_id: str, day: str) -> str:
-        try:
-            return japan_date(iso)
-        except ValueError as exc:
-            # O fetch já recusa data impossível; um snapshot antigo ainda poderia ter uma.
-            raise InputError(f"{day}: faixa {track_id}: releaseDate inválida ({iso!r})") from exc
-
     def _track(
         self,
         t: JSON,
@@ -272,54 +325,13 @@ class AppleProvider:
         partners: dict[str, RawArtist | None],
         day: str,
     ) -> RawTrack:
-        track_id = str(t["trackId"])
-        artist = artists[str(t["artistId"])]
-        # O artista do lookup vem em 1º (o songKey usa o 1º id); depois, os parceiros conhecidos,
-        # na ordem do crédito. Sem eles, o distrator poderia ter o mesmo artista da resposta
-        # (JANE DOE, de 米津玄師 & 宇多田ヒカル, contra First Love), e a busca pelo
-        # parceiro falharia.
-        credited = [artist]
-        own = {partner_key(n) for n in (artist.name, artist.name_latin) if n}
-        for name in credited_names(t["artistName"], t["trackName"]):
-            key = partner_key(name)
-            if key in own or key not in partners:
-                continue  # o próprio artista (mesmo com nome repetido) ou nome sem faixa
-            partner = partners[key]
-            if partner is None:
-                warning = f"parceiro {name!r} é nome de mais de um artista: ficou sem ligação"
-                if warning not in self.warnings:
-                    self.warnings.append(warning)
-            elif partner.provider_id not in {a.provider_id for a in credited}:
-                credited.append(partner)
-        album = RawAlbum(
-            provider_id=str(t["collectionId"]),
-            title=t["collectionName"],
-            type=album_type(t["collectionName"], t.get("collectionArtistName")),
-            release_date=self._release_date(t["releaseDate"], track_id, day),
-            artwork_url=artwork_at(t["artworkUrl100"]) if t.get("artworkUrl100") else None,
-        )
-        first = albums.setdefault(track_id, album)
-        if first.provider_id != album.provider_id:
+        track = map_track(t, artists, partners, day, self.warnings)
+        first = albums.setdefault(track.provider_id, track.album)
+        if first.provider_id != track.album.provider_id:
             # Trocar de álbum deixaria o álbum antigo sem faixa e quebraria dias já jogados.
             self.warnings.append(
-                f"{day}: faixa {track_id} mudou de álbum ({first.provider_id} → "
-                f"{album.provider_id}); mantido o primeiro"
+                f"{day}: faixa {track.provider_id} mudou de álbum ({first.provider_id} → "
+                f"{track.album.provider_id}); mantido o primeiro"
             )
-            album = first
-        preview = t.get("previewUrl")
-        return RawTrack(
-            provider_id=track_id,
-            title=t["trackName"],
-            artists=tuple(credited),
-            album=album,
-            duration_ms=int(t["trackTimeMillis"]),
-            explicit=t.get("trackExplicitness") == "explicit",
-            preview_url=preview,
-            preview_duration_sec=PREVIEW_SEC if preview else None,
-            store_url=store_url(t["trackViewUrl"]) if t.get("trackViewUrl") else None,
-            # Com parceiro, vale a grafia da loja: o parceiro só do título ("YAO", com "(feat.
-            # ONE OK ROCK)") não vira "YAO & ONE OK ROCK", um crédito que a loja não mostra.
-            artist_display=(
-                t["artistName"] if len(credited) > 1 or t["artistName"] != artist.name else None
-            ),
-        )
+            track = replace(track, album=first)
+        return track

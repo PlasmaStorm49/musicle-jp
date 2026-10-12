@@ -1,0 +1,55 @@
+{
+  "engine": "cutlet",
+  "entries": {
+    "ひまわり畑でつかまえて": [
+      "Himawaribatake de tsukamaete"
+    ],
+    "ふたりの約束": [
+      "Futari no yakusoku"
+    ],
+    "カーテンコール": [
+      "Kaaten kooru",
+      "Curtain call"
+    ],
+    "ミナト": [
+      "Minato"
+    ],
+    "君​と❤️": [
+      "Kimi to"
+    ],
+    "夜明けのメロディ": [
+      "Yoake no merodi",
+      "Yoake no melody"
+    ],
+    "夜風シアター": [
+      "Yokaze shiataa",
+      "Yokaze theater"
+    ],
+    "夜風劇場": [
+      "Yokaze gekijou"
+    ],
+    "灯台": [
+      "Toudai"
+    ],
+    "真夜中の観覧車": [
+      "Mayonaka no kanransha"
+    ],
+    "開幕ベル": [
+      "Kaimaku beru",
+      "Kaimaku bell"
+    ],
+    "青井ユウ": [
+      "Aoi Yuu"
+    ],
+    "風になる (feat. ナナ)": [
+      "Kaze ni naru (feat. Nana)"
+    ]
+  },
+  "versions": {
+    "cutlet": "0.5.2",
+    "fugashi": "1.5.2",
+    "jaconv": "0.5.0",
+    "mojimoji": "0.0.13",
+    "unidic-lite": "1.0.8"
+  }
+}

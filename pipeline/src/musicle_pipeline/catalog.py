@@ -65,7 +65,8 @@ class Curation:
         return [text, from_provider, alias.latin, *alias.aliases, *self.romaji.variants(text)]
 
 
-def _id(provider: str, kind: str, provider_id: str) -> str:
+def entity_id(provider: str, kind: str, provider_id: str) -> str:
+    """Id do catálogo: "apple:tr:123". O modo por artista usa os mesmos (M13)."""
     return f"{provider}:{kind}:{provider_id}"
 
 
@@ -91,8 +92,8 @@ class _TrackAcc:
 PREVIEW_GRACE = 1
 
 
-def _artist_record(provider: str, a: RawArtist, cur: Curation) -> JSON:
-    artist_id = _id(provider, "ar", a.provider_id)
+def artist_record(provider: str, a: RawArtist, cur: Curation) -> JSON:
+    artist_id = entity_id(provider, "ar", a.provider_id)
     text = artist_text(a.name)
     latin, source = cur.latin("artists", artist_id, text, a.name_latin)
     return {
@@ -112,7 +113,7 @@ def _joined(artists: Sequence[RawArtist]) -> str:
     return " & ".join(display(a.name) for a in artists)
 
 
-def _album_record(provider: str, t: RawTrack, cur: Curation) -> JSON:
+def album_record(provider: str, t: RawTrack, cur: Curation) -> JSON:
     al, artists = t.album, t.artists
     # Single e EP são a própria faixa: herdam a grafia e os parceiros da parceria. Num álbum
     # completo, o convidado de uma faixa ("feat.") não vira artista do álbum inteiro: fica o
@@ -121,7 +122,7 @@ def _album_record(provider: str, t: RawTrack, cur: Curation) -> JSON:
     if not single:
         artists = artists[:1]
     shown = artist_display_of(t) if single else _joined(artists)
-    album_id = _id(provider, "al", al.provider_id)
+    album_id = entity_id(provider, "al", al.provider_id)
     text = album_text(al.title)
     latin, source = cur.latin("albums", album_id, text, al.title_latin)
     return {
@@ -129,7 +130,7 @@ def _album_record(provider: str, t: RawTrack, cur: Curation) -> JSON:
         "title": display(al.title),
         "titleLatin": latin,
         "latinSource": source,
-        "artistIds": [_id(provider, "ar", a.provider_id) for a in artists],
+        "artistIds": [entity_id(provider, "ar", a.provider_id) for a in artists],
         "artistDisplay": shown,
         "type": al.type,
         "releaseDate": al.release_date,
@@ -174,9 +175,9 @@ def _track_record(
     provider: str, acc: _TrackAcc, albums: dict[str, JSON], latest: str, cur: Curation
 ) -> JSON:
     t = acc.meta
-    track_id = _id(provider, "tr", t.provider_id)
-    artist_ids = [_id(provider, "ar", a.provider_id) for a in t.artists]
-    album = albums[_id(provider, "al", t.album.provider_id)]
+    track_id = entity_id(provider, "tr", t.provider_id)
+    artist_ids = [entity_id(provider, "ar", a.provider_id) for a in t.artists]
+    album = albums[entity_id(provider, "al", t.album.provider_id)]
     text = track_text(t.title)
     latin, source = cur.latin("tracks", track_id, text, t.title_latin)
     preview = (
@@ -261,8 +262,8 @@ def build_catalog(
         for entry in sorted(snap.entries, key=lambda e: -e.rank):
             t = entry.track
             for a in t.artists:
-                artists[_id(provider, "ar", a.provider_id)] = _artist_record(provider, a, cur)
-            albums[_id(provider, "al", t.album.provider_id)] = _album_record(provider, t, cur)
+                artists[entity_id(provider, "ar", a.provider_id)] = artist_record(provider, a, cur)
+            albums[entity_id(provider, "al", t.album.provider_id)] = album_record(provider, t, cur)
             acc = tracks.get(t.provider_id)
             if acc is None:
                 acc = tracks[t.provider_id] = _TrackAcc(meta=t, isrc=t.isrc)
@@ -271,7 +272,7 @@ def build_catalog(
                 # Prévia que sumiu numa semana não apaga a conhecida: a faixa ficaria inelegível e
                 # anularia rodadas futuras já gravadas na agenda. O navegador acha a atual pelo
                 # lookup; a guardada é só a reserva.
-                track_id = _id(provider, "tr", t.provider_id)
+                track_id = entity_id(provider, "tr", t.provider_id)
                 if acc.preview_misses <= PREVIEW_GRACE:
                     t = replace(
                         t,
@@ -287,7 +288,7 @@ def build_catalog(
             acc.isrc = t.isrc or acc.isrc  # isrc nulo não apaga um código já conhecido
             acc.appearances.append(_Appearance(snap.date, entry.rank, snap.size))
 
-    track_ids = {_id(provider, "tr", pid) for pid in tracks}
+    track_ids = {entity_id(provider, "tr", pid) for pid in tracks}
     existing = {"tracks": track_ids, "albums": set(albums), "artists": set(artists)}
     stale = [f"{k}: {eid}" for k in KINDS for eid in sorted(cur.aliases.ids(k) - existing[k])]
     if stale:

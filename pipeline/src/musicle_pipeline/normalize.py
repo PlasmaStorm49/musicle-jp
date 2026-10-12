@@ -93,7 +93,8 @@ def search_keys(texts: Iterable[str | None]) -> list[str]:
     return sorted({k for t in texts if t for k in [search_key(t)] if k})
 
 
-_TAILS = tuple(
+# Os delimitadores de sufixo; o modo por artista (artists.py) usa os mesmos.
+TAILS = tuple(
     re.compile(p)
     for p in (
         r"\s*\(([^()]*)\)\s*$",
@@ -127,7 +128,7 @@ def strip_version_suffix(title: str) -> str:
     """
     s = ud.normalize("NFKC", title).strip()
     while True:
-        tails = [m for r in _TAILS if (m := r.search(s))]
+        tails = [m for r in TAILS if (m := r.search(s))]
         last = max(tails, key=lambda m: m.start(), default=None)
         if last is not None and _VERSION_WORDS.fullmatch(last.group(1).strip()):
             t = s[: last.start()].strip()
