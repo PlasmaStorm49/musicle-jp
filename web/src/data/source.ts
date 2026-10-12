@@ -1,8 +1,21 @@
 // Carrega catálogo e agenda e decide qual dia jogar. Sem DOM e sem import.meta.env: recebe
 // fetch, URL base e data de fora, então roda e é testado no Node (tsconfig.node.json).
-import { type CatalogIndex, indexCatalog, UnsupportedCatalogError } from "../core/catalog.ts";
+import {
+  type CatalogIndex,
+  indexArtist,
+  indexCatalog,
+  SUPPORTED_ARTIST_SCHEMA_VERSION,
+  UnsupportedCatalogError,
+} from "../core/catalog.ts";
 import { dateInZone, isValidDate } from "../core/dates.ts";
-import type { Catalog, Day, Schedule } from "../core/types.ts";
+import type {
+  ArtistCatalog,
+  ArtistList,
+  ArtistListEntry,
+  Catalog,
+  Day,
+  Schedule,
+} from "../core/types.ts";
 
 export { UnsupportedCatalogError };
 
@@ -72,6 +85,62 @@ export async function loadGameData(
     );
   }
   return { index: indexCatalog(catalog as Catalog), schedule: schedule as Schedule };
+}
+
+/** A lista e os arquivos do modo por artista (M13), numa subpasta dos dados. */
+export const ARTISTS_DIR = "artists/";
+const ARTIST_LIST_SCHEMA_VERSION = 1;
+/** O nome do arquivo de um artista, como o schema da lista exige: nada de "../" nem de "/". */
+const ARTIST_FILE = /^[A-Za-z0-9_-]+\.json$/;
+
+function artistsUrl(baseUrl: string, dataDir: string, file: string): string {
+  return new URL(`${ARTISTS_DIR}${file}`, new URL(dataDir, baseUrl)).href;
+}
+
+/** A lista dos artistas (só ela: cada artista carrega quando é escolhido, P144). */
+export async function loadArtistList(
+  fetchFn: FetchLike,
+  baseUrl: string,
+  dataDir: string,
+  signal?: AbortSignal,
+): Promise<ArtistList> {
+  const list = await getJson(fetchFn, artistsUrl(baseUrl, dataDir, "index.json"), signal);
+  if (schemaVersionOf(list) !== ARTIST_LIST_SCHEMA_VERSION) {
+    throw new UnsupportedCatalogError(
+      `lista de artistas com schemaVersion ${String(schemaVersionOf(list))}`,
+    );
+  }
+  // A tela percorre a lista: sem ela, "Tentar de novo" na aba, e não o jogo inteiro quebrado.
+  if (!Array.isArray((list as { artists?: unknown }).artists)) {
+    throw new DataLoadError("lista de artistas sem a lista artists");
+  }
+  return list as ArtistList;
+}
+
+/** Um artista carregado: o arquivo (com os titleKeys da exclusão, P141) e o índice do jogo. */
+export type ArtistData = { readonly file: ArtistCatalog; readonly index: CatalogIndex };
+
+/** O arquivo de um artista da lista. Arquivo de outro artista: DataLoadError. */
+export async function loadArtist(
+  fetchFn: FetchLike,
+  baseUrl: string,
+  dataDir: string,
+  entry: ArtistListEntry,
+  signal?: AbortSignal,
+): Promise<ArtistData> {
+  if (!ARTIST_FILE.test(entry.file)) {
+    throw new DataLoadError(`nome de arquivo de artista inesperado: ${entry.file}`);
+  }
+  const url = artistsUrl(baseUrl, dataDir, entry.file);
+  const data = await getJson(fetchFn, url, signal);
+  if (schemaVersionOf(data) !== SUPPORTED_ARTIST_SCHEMA_VERSION) {
+    throw new UnsupportedCatalogError(`artista com schemaVersion ${String(schemaVersionOf(data))}`);
+  }
+  const file = data as ArtistCatalog;
+  if (file.artistId !== entry.id) {
+    throw new DataLoadError(`${url} é do artista ${file.artistId}, e não de ${entry.id}`);
+  }
+  return { file, index: indexArtist(file) };
 }
 
 /** URL absoluta de um asset do catálogo: relativa à base (fixtures) ou já absoluta (Apple). */

@@ -10,6 +10,8 @@ import {
   fakeAudioEnabled,
   gameDate,
   htmlAudioForced,
+  loadArtist,
+  loadArtistList,
   loadGameData,
   lookupFailForced,
   pickDay,
@@ -97,6 +99,87 @@ describe("loadGameData", () => {
     await expect(
       loadGameData(aborting, BASE, FIXTURE_DATA_DIR, controller.signal),
     ).rejects.not.toBeInstanceOf(DataLoadError);
+  });
+});
+
+describe("loadArtistList e loadArtist (M13)", () => {
+  const firstEntry = async () => {
+    const list = await loadArtistList(fakeFetch(), BASE, FIXTURE_DATA_DIR);
+    const entry = list.artists[0];
+    if (!entry) throw new Error("lista sem artistas");
+    return entry;
+  };
+
+  it("a lista e um artista, da subpasta artists/ dos dados, sempre revalidando o cache", async () => {
+    const calls: { url: string; cache: string | undefined }[] = [];
+    const serve = fakeFetch();
+    const recording: FetchLike = (url, init) => {
+      calls.push({ url, cache: init?.cache });
+      return serve(url, init);
+    };
+    const list = await loadArtistList(recording, BASE, FIXTURE_DATA_DIR);
+    const entry = list.artists[0];
+    if (!entry) throw new Error("lista sem artistas");
+    const { file, index } = await loadArtist(recording, BASE, FIXTURE_DATA_DIR, entry);
+    expect(file.artistId).toBe(entry.id);
+    expect(index.tracks.size).toBe(entry.songs);
+    expect(calls.map((c) => c.url)).toEqual([
+      `${BASE}fixtures/artists/index.json`,
+      `${BASE}fixtures/artists/${entry.file}`,
+    ]);
+    expect(calls.every((c) => c.cache === "no-cache")).toBe(true);
+  });
+
+  it("versão desconhecida da lista ou do artista pede para atualizar a página", async () => {
+    const list = { "fixtures/artists/index.json": { schemaVersion: 2, artists: [] } };
+    await expect(loadArtistList(fakeFetch(list), BASE, FIXTURE_DATA_DIR)).rejects.toBeInstanceOf(
+      UnsupportedCatalogError,
+    );
+    const entry = await firstEntry();
+    const artist = { [`fixtures/artists/${entry.file}`]: { schemaVersion: 2 } };
+    await expect(
+      loadArtist(fakeFetch(artist), BASE, FIXTURE_DATA_DIR, entry),
+    ).rejects.toBeInstanceOf(UnsupportedCatalogError);
+  });
+
+  it("nome de arquivo fora do padrão nem chega a buscar", async () => {
+    const entry = await firstEntry();
+    const calls: string[] = [];
+    const recording: FetchLike = (url, init) => {
+      calls.push(url);
+      return fakeFetch()(url, init);
+    };
+    for (const name of ["../catalog.json", "a/b.json", "x.js"]) {
+      await expect(
+        loadArtist(recording, BASE, FIXTURE_DATA_DIR, { ...entry, file: name }),
+      ).rejects.toBeInstanceOf(DataLoadError);
+    }
+    expect(calls).toEqual([]);
+  });
+
+  it("arquivo de outro artista, falha de rede e 404 pedem para tentar de novo", async () => {
+    const entry = await firstEntry();
+    const other = { ...entry, id: "fixture:ar:outro" };
+    await expect(loadArtist(fakeFetch(), BASE, FIXTURE_DATA_DIR, other)).rejects.toBeInstanceOf(
+      DataLoadError,
+    );
+    const offline = { [`fixtures/artists/${entry.file}`]: new TypeError("Failed to fetch") };
+    await expect(
+      loadArtist(fakeFetch(offline), BASE, FIXTURE_DATA_DIR, entry),
+    ).rejects.toBeInstanceOf(DataLoadError);
+    const missing = { ...entry, file: "nao-existe.json" };
+    await expect(loadArtist(fakeFetch(), BASE, FIXTURE_DATA_DIR, missing)).rejects.toBeInstanceOf(
+      DataLoadError,
+    );
+  });
+
+  it("a lista real tem um arquivo para cada artista", async () => {
+    const list = await loadArtistList(fakeFetch(), BASE, REAL_DATA_DIR);
+    expect(list.provider).toBe("apple");
+    for (const entry of list.artists) {
+      const { index } = await loadArtist(fakeFetch(), BASE, REAL_DATA_DIR, entry);
+      expect(index.catalog.provider).toBe("apple");
+    }
   });
 });
 
