@@ -99,13 +99,17 @@ def pick(s: ArtistSnapshot, rules: ArtistRules | None = None, blocked=frozenset(
         ("夜に駆ける (English Version)", "夜に駆ける"),
         ("Song (TV Size)", "Song"),  # o title_key da parada já tira
         ("Song (Remastered 2022)", "Song"),
+        ("Empty MERMAiD-Instrumental-", "Empty MERMAiD"),  # o "-X-" grudado (LiSA)
+        ("紅蓮華 -ONLiNE LEO-NiNE Live ver.-", "紅蓮華"),  # um hífen dentro não o confunde
     ],
 )
 def test_the_key_joins_versions_of_the_same_song(title, same):
     assert artist_title_key(title) == artist_title_key(same)
 
 
-@pytest.mark.parametrize("title", ["Stay (Forever)", "Deep (EPIC)", "Alive"])
+@pytest.mark.parametrize(
+    "title", ["Stay (Forever)", "Deep (EPIC)", "Alive", "ROCK-mode", "Chill-Chill-Dal-Da", "X-Y-"]
+)
 def test_the_key_keeps_tails_that_are_part_of_the_name(title):
     assert artist_title_key(title) == title_key(title)
 
@@ -153,6 +157,11 @@ def test_the_key_keeps_tails_that_are_part_of_the_name(title):
         ("光 (ライヴ)", "Album", "out"),
         ("Song", "Album（Live）", "out"),  # largura total no nome do álbum
         ("Song", "Tour Final LIVE", "out"),
+        ("Empty MERMAiD-Instrumental-", "Album", "out"),  # o "-X-" grudado (LiSA)
+        ("六等星の夜 Tvsize", "Album", "out"),  # sem delimitador (Aimer)
+        ("Re:pray TV Size", "Album", "out"),
+        ("Song Instrumental", "Album", "out"),
+        ("Size", "Album", None),  # só no fim e depois de um espaço
     ],
 )
 def test_version_kind(title, album, kind):
