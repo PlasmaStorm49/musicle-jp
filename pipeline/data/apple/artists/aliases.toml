@@ -1,0 +1,4 @@
+# Curadoria manual do modo por artista real (M13), separada da parada: os mesmos campos do
+# aliases.toml da parada (tracks: latin, aliases, block; albums: latin; artists: latin,
+# aliases). A chave é o id do catálogo (apple:tr:123). ID que nenhum artista tem é erro no
+# build-artists. Romaji errado se corrige aqui, nunca no romaji.json (regra 10).

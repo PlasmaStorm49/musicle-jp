@@ -1,0 +1,49 @@
+{
+  "artists": [
+    {
+      "file": "1490256993.json",
+      "id": "apple:ar:1490256993",
+      "name": "YOASOBI",
+      "nameLatin": null,
+      "songs": 38
+    },
+    {
+      "file": "573943518.json",
+      "id": "apple:ar:573943518",
+      "name": "LiSA",
+      "nameLatin": null,
+      "songs": 200
+    },
+    {
+      "file": "1080967231.json",
+      "id": "apple:ar:1080967231",
+      "name": "Eve",
+      "nameLatin": null,
+      "songs": 124
+    },
+    {
+      "file": "1492604670.json",
+      "id": "apple:ar:1492604670",
+      "name": "Ado",
+      "nameLatin": null,
+      "songs": 96
+    },
+    {
+      "file": "569972619.json",
+      "id": "apple:ar:569972619",
+      "name": "Aimer",
+      "nameLatin": null,
+      "songs": 183
+    },
+    {
+      "file": "530814268.json",
+      "id": "apple:ar:530814268",
+      "name": "米津玄師",
+      "nameLatin": "Kenshi Yonezu",
+      "songs": 120
+    }
+  ],
+  "provider": "apple",
+  "schemaVersion": 1,
+  "storefront": "jp"
+}

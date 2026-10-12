@@ -1,0 +1,5200 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music7/v4/df/27/f9/df27f992-d880-dbdf-1327-0c9d10889b58/eve-0001_1.jpg/300x300bb.jpg",
+      "id": "apple:al:1017657757",
+      "latinSource": null,
+      "releaseDate": "2014-08-17",
+      "title": "Wonder Word (Wonder Word)",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/8b/4e/75/8b4e75c8-edce-df20-68ab-f61266ad206c/EVE-0002.jpg/300x300bb.jpg",
+      "id": "apple:al:1036722430",
+      "latinSource": null,
+      "releaseDate": "2015-08-16",
+      "title": "Round Robin",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music30/v4/ea/da/ac/eadaacd2-b381-612e-254b-9cc88ef31b62/QWCE_00585.jpg/300x300bb.jpg",
+      "id": "apple:al:1107828339",
+      "latinSource": null,
+      "releaseDate": "2016-05-18",
+      "title": "EXIT TUNES PRESENTS PALETTE",
+      "titleLatin": null,
+      "type": "compilation"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/01/de/e7/01dee7ec-2575-1c3c-5ae4-97fc590c0270/4562250641458_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1280276669",
+      "latinSource": "cutlet",
+      "releaseDate": "2017-09-29",
+      "title": "ナンセンス文学 - Single",
+      "titleLatin": "Nansensu bungaku",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/5f/9f/70/5f9f70f2-f3b1-5392-e2bb-650c7bb5902f/4562250641465_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1280277346",
+      "latinSource": "cutlet",
+      "releaseDate": "2017-09-29",
+      "title": "あの娘シークレット - Single",
+      "titleLatin": "Ano musume shiikuretto",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/95/4f/a7/954fa762-540c-afd0-50b1-2fc52d920cb1/4988004145858_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1312575491",
+      "latinSource": "cutlet",
+      "releaseDate": "2017-12-13",
+      "title": "文化",
+      "titleLatin": "Bunka",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/09/f9/7d/09f97dd0-5751-c336-5271-441e467172cf/4562250641526_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1351881902",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-03-07",
+      "title": "蒼",
+      "titleLatin": "Ao",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/7b/70/0e/7b700e6c-c679-567c-e1f8-5c89a25172e8/4562250641496_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1351884166",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-03-07",
+      "title": "蒼",
+      "titleLatin": "Ao",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/f8/aa/0e/f8aa0ed9-237e-f3eb-98e5-79f816cc5013/TFCC-86665WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1449549681",
+      "latinSource": "cutlet",
+      "releaseDate": "2019-02-06",
+      "title": "おとぎ",
+      "titleLatin": "Otogi",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/30/55/3f/30553f12-eed6-875c-4bd1-5a7b470f9573/TFDS-00535WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1467728598",
+      "latinSource": "cutlet",
+      "releaseDate": "2019-06-25",
+      "title": "闇夜 - Single",
+      "titleLatin": "An'ya",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a6/46/93/a646934e-3587-1356-a00a-a67df0bb1296/4988004141355_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1477822494",
+      "latinSource": null,
+      "releaseDate": "2016-10-19",
+      "title": "OFFICIAL NUMBER",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/52/a8/c5/52a8c59b-c6ef-1147-2c23-475a2c762778/TFDS-00562WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1481536400",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-01-31",
+      "title": "レーゾンデートル - Single",
+      "titleLatin": "Reezon deetoru",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/e6/03/43/e6034353-5cb3-423f-2977-8cf34ece09b6/TFDS-00574WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1490080163",
+      "latinSource": "cutlet",
+      "releaseDate": "2019-12-19",
+      "title": "白銀 - Single",
+      "titleLatin": "Hakugin",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/ae/1d/db/ae1ddb7e-8148-3c47-5090-118825882513/TFCC-86703WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1495748435",
+      "latinSource": null,
+      "releaseDate": "2020-01-31",
+      "title": "Smile",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/0b/81/ae/0b81aee7-d566-06c1-bb6c-70a36ffe5e29/TFDS-00621WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1533208084",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-10-03",
+      "title": "廻廻奇譚 - Single",
+      "titleLatin": "Meguru Meguru kitan",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/35/4b/b8/354bb8ae-d9f3-6658-05e7-65e27457d13a/TFDS-00628WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1535752902",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-10-24",
+      "title": "約束 - Single",
+      "titleLatin": "Yakusoku",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/5f/ea/9c/5fea9cde-e147-a106-116f-c402d54f0693/TFDS-00633WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1541782635",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-12-04",
+      "title": "心海 - Single",
+      "titleLatin": "Shinkai",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/38/11/a8/3811a893-27cf-62b5-b874-a52abd578753/TFCC-86743WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1542572215",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-12-16",
+      "title": "廻廻奇譚 / 蒼のワルツ",
+      "titleLatin": "Meguru Meguru kitan/ao no warutsu",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve × suis from ヨルシカ",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/44/40/83/444083d0-6352-e91a-5f49-b4b9fe2cb642/TFDS-00646WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1549612261",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-02-05",
+      "title": "平行線 - Single",
+      "titleLatin": "Heikou sen",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/99/47/25/994725af-3d91-f4bd-7222-1fc616d456fa/TFDS-00662WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1562636506",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-04-30",
+      "title": "夜は仄か - Single",
+      "titleLatin": "Yoru wa honoka",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "天月-あまつき/あほの坂田。/あらき/Eve/un:c/うらたぬき/佐香智久(少年T)/志麻/センラ/Sou/そらる/nqrse/まふまふ/luz & Eve",
+      "artistIds": [
+        "apple:ar:614405787",
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/50/fc/49/50fc4979-e3c8-27e5-191e-3a90796f7b65/PCSP_03684.jpg/300x300bb.jpg",
+      "id": "apple:al:1575901296",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-07-28",
+      "title": "ワールドドミネイション - Single",
+      "titleLatin": "Waarudo domi neishon",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Lanndo",
+      "artistIds": [
+        "apple:ar:1542307331",
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/52/53/75/52537593-d5e8-34bd-8fb4-90386156a0f4/4517331072348.jpg/300x300bb.jpg",
+      "id": "apple:al:1575901986",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-07-26",
+      "title": "宇宙の季節 (feat. Eve & suis from ヨルシカ) - Single",
+      "titleLatin": "Uchuu no kisetsu (feat. Eve & suis from yorushika)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e0/b3/91/e0b39172-2825-642b-079f-3e5f79c4cc6f/TFDS-00705WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1583190904",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-09-30",
+      "title": "群青讃歌 / 遊生夢死 - EP",
+      "titleLatin": "Gunjou sanka/yuusei mushi",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/85/77/6f/85776f67-7e54-b290-ac7f-e80319f62bc2/TFDS-00736WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1595519996",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-12-03",
+      "title": "藍才 - Single",
+      "titleLatin": "Ran sai",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/52/04/6a/52046aef-03e7-2fd8-d2f7-09badbd710f2/TFDS-00750WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1609036969",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-03-08",
+      "title": "アヴァン - Single",
+      "titleLatin": "Avan",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/8d/15/7c/8d157ce9-94ee-0023-de8f-5cf3e72f7dca/TFCC-86830WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1611017834",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-03-11",
+      "title": "廻人",
+      "titleLatin": "Megurunin",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/68/2e/f9/682ef9f2-8138-04c6-2e87-95913d9018b4/TFDS-00786WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1618714014",
+      "latinSource": null,
+      "releaseDate": "2022-04-21",
+      "title": "Bubble (feat. Uta) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/70/ed/d9/70edd9eb-922d-3819-2e45-ce899d6eae55/TFDS-00845WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1653516000",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-12-01",
+      "title": "白雪 - Single",
+      "titleLatin": "Shirayuki",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/9d/60/3e/9d603ede-dbb0-5403-efeb-415f28dd5e39/TFDS-00847WW.jpg/300x300bb.jpg",
+      "id": "apple:al:1656364306",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-12-28",
+      "title": "ファイトソング - Single",
+      "titleLatin": "Faito songu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/78/92/83/789283a2-be60-6dbd-1720-f50f8a64d6f2/4517331075318.jpg/300x300bb.jpg",
+      "id": "apple:al:1660194282",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-01-08",
+      "title": "ぼくらの - Single",
+      "titleLatin": "Bokura no",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/cf/df/35/cfdf35ff-a39a-5e28-3038-fc99331ac89b/4517331075592.jpg/300x300bb.jpg",
+      "id": "apple:al:1676404219",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-03-22",
+      "title": "ぼくらの - EP",
+      "titleLatin": "Bokura no",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "キタニタツヤ",
+      "artistIds": [
+        "apple:ar:1289607378",
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/e6/8b/ef/e68bef92-81fc-5228-3196-eb5c2c325128/4547366628142.jpg/300x300bb.jpg",
+      "id": "apple:al:1691266446",
+      "latinSource": null,
+      "releaseDate": "2023-06-14",
+      "title": "LOVE: AMPLIFIED - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "ナナヲアカリ",
+      "artistIds": [
+        "apple:ar:1326067929",
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e4/0a/8c/e40a8c6e-b2a0-3e38-5da3-9d0e58c43a1e/4547366629538.jpg/300x300bb.jpg",
+      "id": "apple:al:1692528527",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-10-02",
+      "title": "いろいろいうけど「▽」(いいね)がほしい - EP",
+      "titleLatin": "Iroiro iukedo \"\" (ii ne) ga hoshii",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/52/2f/42/522f423d-06ce-d13e-501c-67e41e07519a/4517331076148.jpg/300x300bb.jpg",
+      "id": "apple:al:1699525625",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-08-11",
+      "title": "冒険録 - Single",
+      "titleLatin": "Boukenroku",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a4/df/78/a4df7851-020e-1d28-d97c-8bb882fee0e7/4517331076315.jpg/300x300bb.jpg",
+      "id": "apple:al:1707277887",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-10-01",
+      "title": "花嵐 - Single",
+      "titleLatin": "Hanaarashi",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/13/38/75/13387575-7749-2ea3-4cbe-2589cd7d0060/4517331079897.jpg/300x300bb.jpg",
+      "id": "apple:al:1719249551",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-12-25",
+      "title": "逃避行 - Single",
+      "titleLatin": "Touhi gyou",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/74/cc/9a/74cc9aeb-1e89-ab76-7ac5-dbaeb0dfde28/4517331084143.jpg/300x300bb.jpg",
+      "id": "apple:al:1721850002",
+      "latinSource": null,
+      "releaseDate": "2024-01-13",
+      "title": "pray - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/2d/1e/b2/2d1eb20d-88c2-e9ba-d0e5-5784e891acc2/4517331086239.jpg/300x300bb.jpg",
+      "id": "apple:al:1730930926",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-03-01",
+      "title": "インソムニア - Single",
+      "titleLatin": "Insomunia",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve & 初音ミク",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/f5/e5/ff/f5e5ff31-3a19-0c74-d135-08421dc1dbbe/4511820-60131.jpg/300x300bb.jpg",
+      "id": "apple:al:1734543658",
+      "latinSource": null,
+      "releaseDate": "2024-03-10",
+      "title": "Glorious Day - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve & Deu",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fc/52/b7/fc52b762-3f0b-1d55-2826-665f10f66027/4517331086635.jpg/300x300bb.jpg",
+      "id": "apple:al:1740881112",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-05-03",
+      "title": "フラットウッズのモンスターみたいに - Single",
+      "titleLatin": "Furatto Uzzu no monsutaa mitai ni",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/21/15/6a/21156aca-5430-fc5d-b5b5-64a73942acdf/4517331087090.jpg/300x300bb.jpg",
+      "id": "apple:al:1753209872",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-07-07",
+      "title": "スイートメモリー - Single",
+      "titleLatin": "Suiito memorii",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/20/cf/b7/20cfb736-77ba-9e2d-b356-75d835008960/4517331087373.jpg/300x300bb.jpg",
+      "id": "apple:al:1759312687",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-08-01",
+      "title": "巻物語 - Single",
+      "titleLatin": "Maki monogatari",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6f/28/23/6f28233c-bdc7-842b-ae4b-42d201d147e2/4517331090649.jpg/300x300bb.jpg",
+      "id": "apple:al:1768910463",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-10-04",
+      "title": "ティーンエイジブルー - Single",
+      "titleLatin": "Tiin eiji buruu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0b/38/0a/0b380a21-952b-d8e2-6677-03ebfcc664f4/4517331093572.jpg/300x300bb.jpg",
+      "id": "apple:al:1779658110",
+      "latinSource": null,
+      "releaseDate": "2024-11-27",
+      "title": "Under Blue",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b2/be/d0/b2bed0d4-0575-0a86-4ae3-e99defea3dc8/4517331095781.jpg/300x300bb.jpg",
+      "id": "apple:al:1814017969",
+      "latinSource": null,
+      "releaseDate": "2025-05-23",
+      "title": "feel like - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e0/b9/04/e0b904ba-b6cd-0bc5-4fa2-2191ed7b0ca7/4517331096078.jpg/300x300bb.jpg",
+      "id": "apple:al:1823816260",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-07-11",
+      "title": "ゴーストアベニュー - Single",
+      "titleLatin": "Goosuto abenyuu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b3/d3/45/b3d34590-7f38-0639-44a7-79aa58ccad3b/4517331098195.jpg/300x300bb.jpg",
+      "id": "apple:al:1846576554",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-10-31",
+      "title": "アイオライト - Single",
+      "titleLatin": "Aioraito",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/af/8a/a0/af8aa04f-132e-03b5-f6fd-2f9fc9831458/4517331098669.jpg/300x300bb.jpg",
+      "id": "apple:al:1852695260",
+      "latinSource": null,
+      "releaseDate": "2025-11-28",
+      "title": "Underdog - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d1/7c/7b/d17c7b99-365a-0f5d-a3f7-b93c4766e4d2/4517331100713.jpg/300x300bb.jpg",
+      "id": "apple:al:1887808018",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-04-14",
+      "title": "風のアンセム (feat. suis from ヨルシカ) - Single",
+      "titleLatin": "Kaze no ansemu (feat. suis from yorushika)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f4/47/8e/f4478ebb-7ddd-ef33-1b1d-f43ec8fafa5a/820233795210.jpg/300x300bb.jpg",
+      "id": "apple:al:6778821952",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-06-26",
+      "title": "あびすいんざわーるど - Single",
+      "titleLatin": "A bi sui n zawa- rudo",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a2/7c/6b/a27c6b19-fd28-8d99-2fae-c324213515d0/4573623373876.jpg/300x300bb.jpg",
+      "id": "apple:al:6811917350",
+      "latinSource": null,
+      "releaseDate": "2026-10-02",
+      "title": "AIYOU - Single",
+      "titleLatin": null,
+      "type": "single"
+    }
+  ],
+  "artistId": "apple:ar:1080967231",
+  "artists": [
+    {
+      "id": "apple:ar:1080967231",
+      "latinSource": null,
+      "name": "Eve",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1289607378",
+      "latinSource": "provider",
+      "name": "キタニタツヤ",
+      "nameLatin": "Tatsuya Kitani"
+    },
+    {
+      "id": "apple:ar:1326067929",
+      "latinSource": "provider",
+      "name": "ナナヲアカリ",
+      "nameLatin": "NANAOAKARI"
+    },
+    {
+      "id": "apple:ar:1542307331",
+      "latinSource": null,
+      "name": "Lanndo",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:614405787",
+      "latinSource": "cutlet",
+      "name": "天月-あまつき/あほの坂田。/あらき/Eve/un:c/うらたぬき/佐香智久(少年T)/志麻/センラ/Sou/そらる/nqrse/まふまふ/luz",
+      "nameLatin": "Ten gatsu - amatsuki/aho no Sakata./Araki/Eve/un:c/ura tanuki/suke kou Tomohisa (shounen T)/Shima/senra/Sou/sora ru/nqrse/ma fuma fu/luz"
+    }
+  ],
+  "fetchedAt": "2026-10-12T16:15:51Z",
+  "provider": "apple",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "apple:al:1017657757",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 224907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1017657783",
+      "latinSource": "cutlet",
+      "popularity": 0.2016,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ce/88/fa/ce88fa23-a092-743d-e2bf-c07023bf9ced/mzaf_6331046814096677569.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-08-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "yorunoyume",
+          "よるのゆめ"
+        ]
+      },
+      "songKey": "よるのゆめ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%88%E3%82%8B%E3%81%AE%E3%82%86%E3%82%81/1017657757?i=1017657783",
+      "title": "よるのゆめ",
+      "titleKeys": [
+        "よるのゆめ"
+      ],
+      "titleLatin": "Yoru no yume"
+    },
+    {
+      "albumId": "apple:al:1017657757",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 228347,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1017657815",
+      "latinSource": "cutlet",
+      "popularity": 0.3065,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5b/ff/e4/5bffe4d5-edfa-989f-4d57-0e5b5fe099e3/mzaf_18032590217634404548.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-08-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "alkaliseijin",
+          "arukariseijin",
+          "あるかり成人"
+        ]
+      },
+      "songKey": "あるかり成人|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%AA%E6%88%90%E4%BA%BA/1017657757?i=1017657815",
+      "title": "アルカリ成人",
+      "titleKeys": [
+        "あるかり成人"
+      ],
+      "titleLatin": "Arukari seijin"
+    },
+    {
+      "albumId": "apple:al:1017657757",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 253960,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1017657816",
+      "latinSource": "cutlet",
+      "popularity": 0.2419,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6e/c8/d7/6ec8d789-8d8a-b5ce-6748-7a03043e706a/mzaf_16283986254398202426.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-08-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "senkohanabi",
+          "線香花火"
+        ]
+      },
+      "songKey": "線香花火|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%B7%9A%E9%A6%99%E8%8A%B1%E7%81%AB/1017657757?i=1017657816",
+      "title": "線香花火",
+      "titleKeys": [
+        "線香花火"
+      ],
+      "titleLatin": "Senkou hanabi"
+    },
+    {
+      "albumId": "apple:al:1017657757",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 216893,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1017657817",
+      "latinSource": "cutlet",
+      "popularity": 0.0161,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e0/87/0e/e0870e40-7ae3-e7f1-0809-db15f1ec0b13/mzaf_299543800909944879.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-08-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "heromero",
+          "へろうめろう"
+        ]
+      },
+      "songKey": "へろうめろう|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%98%E3%83%AD%E3%82%A6%E3%83%A1%E3%83%AD%E3%82%A6/1017657757?i=1017657817",
+      "title": "ヘロウメロウ",
+      "titleKeys": [
+        "へろうめろう"
+      ],
+      "titleLatin": "Heroumerou"
+    },
+    {
+      "albumId": "apple:al:1017657757",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 222440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1017657818",
+      "latinSource": "cutlet",
+      "popularity": 0.0565,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ab/21/8f/ab218fe1-82cd-2c61-6a9b-06c93d981e2d/mzaf_14036933786970093514.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-08-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "shinkiro",
+          "蜃気楼"
+        ]
+      },
+      "songKey": "蜃気楼|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%9C%83%E6%B0%97%E6%A5%BC/1017657757?i=1017657818",
+      "title": "蜃気楼",
+      "titleKeys": [
+        "蜃気楼"
+      ],
+      "titleLatin": "Shinki rou"
+    },
+    {
+      "albumId": "apple:al:1017657757",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 193347,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1017657819",
+      "latinSource": "cutlet",
+      "popularity": 0.0726,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4e/a3/f0/4ea3f0e9-b7f6-f8cf-bc43-6866e630b5be/mzaf_17025197549429334561.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-08-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "matashita",
+          "またあした"
+        ]
+      },
+      "songKey": "またあした|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%BE%E3%81%9F%E3%81%82%E3%81%97%E3%81%9F/1017657757?i=1017657819",
+      "title": "またあした",
+      "titleKeys": [
+        "またあした"
+      ],
+      "titleLatin": "Mata ashita"
+    },
+    {
+      "albumId": "apple:al:1017657757",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 199147,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1017657820",
+      "latinSource": "cutlet",
+      "popularity": 0.0403,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b6/e9/3c/b6e93c9a-a745-18e7-4db6-6ea4c2cc795b/mzaf_667912917805910220.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-08-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "yoruwokoero",
+          "夜を超えろ"
+        ]
+      },
+      "songKey": "夜を超えろ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%9C%E3%82%92%E8%B6%85%E3%81%88%E3%82%8D/1017657757?i=1017657820",
+      "title": "夜を超えろ",
+      "titleKeys": [
+        "夜を超えろ"
+      ],
+      "titleLatin": "Yoru wo koero"
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 193627,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722436",
+      "latinSource": "cutlet",
+      "popularity": 0.1694,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/56/21/46/5621466a-3d36-5ca9-245c-3091bd552ca8/mzaf_6890391963396633933.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "namaemoshiranaianatanikoiwoshita",
+          "名前も知らないあなたに恋をした"
+        ]
+      },
+      "songKey": "名前も知らないあなたに恋をした|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%90%8D%E5%89%8D%E3%82%82%E7%9F%A5%E3%82%89%E3%81%AA%E3%81%84%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AB%E6%81%8B%E3%82%92%E3%81%97%E3%81%9F/1036722430?i=1036722436",
+      "title": "名前も知らないあなたに恋をした",
+      "titleKeys": [
+        "名前も知らないあなたに恋をした"
+      ],
+      "titleLatin": "Namae mo shiranai anata ni koi wo shita"
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 254867,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722437",
+      "latinSource": null,
+      "popularity": 0.2339,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/11/02/42/11024228-c249-1823-d016-acd1cc434f49/mzaf_334530252475793405.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "rondrobin"
+        ]
+      },
+      "songKey": "roundrobin|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/round-robin/1036722430?i=1036722437",
+      "title": "Round Robin",
+      "titleKeys": [
+        "roundrobin"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 236413,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722442",
+      "latinSource": "cutlet",
+      "popularity": 0.5484,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/53/89/f8/5389f80f-e463-2d7a-20b8-c72cf397c715/mzaf_9298629777275512844.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "miginikyokugaru",
+          "miginikyokugirl",
+          "右に曲がーる"
+        ]
+      },
+      "songKey": "右に曲がーる|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%8F%B3%E3%81%AB%E6%9B%B2%E3%82%AC%E3%83%BC%E3%83%AB/1036722430?i=1036722442",
+      "title": "右に曲ガール",
+      "titleKeys": [
+        "右に曲がーる"
+      ],
+      "titleLatin": "Migi ni kyoku gaaru"
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 203133,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722443",
+      "latinSource": "cutlet",
+      "popularity": 0.3548,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/46/87/2b/46872b07-f796-3a74-6aa6-58f25d47e77b/mzaf_17149060509577453465.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "fukanzenashogu",
+          "不完全な処遇"
+        ]
+      },
+      "songKey": "不完全な処遇|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%B8%8D%E5%AE%8C%E5%85%A8%E3%81%AA%E5%87%A6%E9%81%87/1036722430?i=1036722443",
+      "title": "不完全な処遇",
+      "titleKeys": [
+        "不完全な処遇"
+      ],
+      "titleLatin": "Fukanzen na shoguu"
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 210267,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722444",
+      "latinSource": "cutlet",
+      "popularity": 0.0806,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2b/ea/a1/2beaa1f1-a45c-7397-5a52-f83fffcfd58b/mzaf_17438589316882906188.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "hantaishasen",
+          "反対車線"
+        ]
+      },
+      "songKey": "反対車線|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%8F%8D%E5%AF%BE%E8%BB%8A%E7%B7%9A/1036722430?i=1036722444",
+      "title": "反対車線",
+      "titleKeys": [
+        "反対車線"
+      ],
+      "titleLatin": "Hantai shasen"
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 226653,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722445",
+      "latinSource": "cutlet",
+      "popularity": 0.0323,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/11/22/00/11220091-f485-6e1b-1a57-a7d58fd9e9ff/mzaf_10386895427240961010.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "foreignmyworld",
+          "forinmaiwarudo",
+          "ふぉーりんまいわーるど"
+        ]
+      },
+      "songKey": "ふぉーりんまいわーるど|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%95%E3%82%A9%E3%83%BC%E3%83%AA%E3%83%B3%E3%83%9E%E3%82%A4%E3%83%AF%E3%83%BC%E3%83%AB%E3%83%89/1036722430?i=1036722445",
+      "title": "フォーリンマイワールド",
+      "titleKeys": [
+        "ふぉーりんまいわーるど"
+      ],
+      "titleLatin": "Foorin mai waarudo"
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 298973,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722446",
+      "latinSource": "cutlet",
+      "popularity": 0.1774,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c7/5b/1e/c75b1e73-0fa7-67fc-33d1-ba68c14cf8a8/mzaf_7107857592525745082.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "melfactory",
+          "merufakutori",
+          "めるふぁくとりー"
+        ]
+      },
+      "songKey": "めるふぁくとりー|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A1%E3%83%AB%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/1036722430?i=1036722446",
+      "title": "メルファクトリー",
+      "titleKeys": [
+        "めるふぁくとりー"
+      ],
+      "titleLatin": "Meru fakutorii"
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 235707,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722447",
+      "latinSource": "cutlet",
+      "popularity": 0.2661,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/27/87/9b/27879bd0-7cc3-d775-90d6-3522cffe0050/mzaf_1069670241408526077.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "shinjukuchic",
+          "shinjukushikku",
+          "新宿しっく"
+        ]
+      },
+      "songKey": "新宿しっく|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%96%B0%E5%AE%BF%E3%82%B7%E3%83%83%E3%82%AF/1036722430?i=1036722447",
+      "title": "新宿シック",
+      "titleKeys": [
+        "新宿しっく"
+      ],
+      "titleLatin": "Shinjuku shikku"
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 195147,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722448",
+      "latinSource": "cutlet",
+      "popularity": 0.6935,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5f/75/67/5f75671f-9629-59cc-a5bb-d3d72a9408d5/mzaf_2764485025775875939.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "ikanaide",
+          "いかないで"
+        ]
+      },
+      "songKey": "いかないで|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%84%E3%81%8B%E3%81%AA%E3%81%84%E3%81%A7/1036722430?i=1036722448",
+      "title": "いかないで",
+      "titleKeys": [
+        "いかないで"
+      ],
+      "titleLatin": "Ikanaide"
+    },
+    {
+      "albumId": "apple:al:1036722430",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 351547,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1036722449",
+      "latinSource": "cutlet",
+      "popularity": 0.121,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/26/71/bc/2671bc2f-7385-c74e-e1bc-74960bdce739/mzaf_4790057550891719341.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "gubbaiday",
+          "gubbaidei",
+          "ぐっばいでい"
+        ]
+      },
+      "songKey": "ぐっばいでい|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B0%E3%83%83%E3%83%90%E3%82%A4%E3%83%87%E3%82%A4/1036722430?i=1036722449",
+      "title": "グッバイデイ",
+      "titleKeys": [
+        "ぐっばいでい"
+      ],
+      "titleLatin": "Gubbai dei"
+    },
+    {
+      "albumId": "apple:al:1107828339",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 263573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1107828986",
+      "latinSource": "cutlet",
+      "popularity": 0.129,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2f/fe/49/2ffe49dd-2624-911f-8ee3-9d5e5c301980/mzaf_3962923108788910643.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-05-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "berugamonoshojocover",
+          "berugamonoshojokaba",
+          "べるがもの少女かばー"
+        ]
+      },
+      "songKey": "べるがもの少女|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%99%E3%83%AB%E3%82%AC%E3%83%A2%E3%81%AE%E5%B0%91%E5%A5%B3-%E3%82%AB%E3%83%90%E3%83%BC/1107828339?i=1107828986",
+      "title": "ベルガモの少女(カバー)",
+      "titleKeys": [
+        "べるがもの少女",
+        "べるがもの少女かばー"
+      ],
+      "titleLatin": "Berugamo no shoujo (kabaa)"
+    },
+    {
+      "albumId": "apple:al:1107828339",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 276427,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1107829004",
+      "latinSource": "cutlet",
+      "popularity": 0.0887,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/aa/44/4b/aa444b80-3dba-faa0-1848-c2c612a50477/mzaf_15691904121906946917.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-05-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "akenaiyoruwokowasecover",
+          "akenaiyoruwokowasekaba",
+          "明けない夜を壊せかばー"
+        ]
+      },
+      "songKey": "明けない夜を壊せ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%98%8E%E3%81%91%E3%81%AA%E3%81%84%E5%A4%9C%E3%82%92%E5%A3%8A%E3%81%9B-%E3%82%AB%E3%83%90%E3%83%BC/1107828339?i=1107829004",
+      "title": "明けない夜を壊せ(カバー)",
+      "titleKeys": [
+        "明けない夜を壊せ",
+        "明けない夜を壊せかばー"
+      ],
+      "titleLatin": "Akenai yoru wo kowase (kabaa)"
+    },
+    {
+      "albumId": "apple:al:1280276669",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 206493,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1280276676",
+      "latinSource": "cutlet",
+      "popularity": 0.9435,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/67/2c/7b/672c7b2c-1916-248b-2e11-50305e155501/mzaf_5573479867304782908.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-09-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "nansensubungaku",
+          "nonsensebungaku",
+          "なんせんす文学"
+        ]
+      },
+      "songKey": "なんせんす文学|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8A%E3%83%B3%E3%82%BB%E3%83%B3%E3%82%B9%E6%96%87%E5%AD%A6/1280276669?i=1280276676",
+      "title": "ナンセンス文学",
+      "titleKeys": [
+        "なんせんす文学"
+      ],
+      "titleLatin": "Nansensu bungaku"
+    },
+    {
+      "albumId": "apple:al:1280277346",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 234375,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1280277347",
+      "latinSource": "cutlet",
+      "popularity": 0.8468,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ff/9a/21/ff9a214d-a75d-3f38-1f73-d4be01eed025/mzaf_15175275137462456971.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-09-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "anomusumesecret",
+          "anomusumeshikuretto",
+          "あの娘しーくれっと"
+        ]
+      },
+      "songKey": "あの娘しーくれっと|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%81%AE%E5%A8%98%E3%82%B7%E3%83%BC%E3%82%AF%E3%83%AC%E3%83%83%E3%83%88/1280277346?i=1280277347",
+      "title": "あの娘シークレット",
+      "titleKeys": [
+        "あの娘しーくれっと"
+      ],
+      "titleLatin": "Ano musume shiikuretto"
+    },
+    {
+      "albumId": "apple:al:1312575491",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 238180,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1312575495",
+      "latinSource": "cutlet",
+      "popularity": 0.9919,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5f/a9/6d/5fa96ddc-feb6-9a06-5ae7-f6ba91d4fb97/mzaf_7282977440251524074.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "doramatsurugi",
+          "dramatsurgie",
+          "どらまつるぎー"
+        ]
+      },
+      "songKey": "どらまつるぎー|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%89%E3%83%A9%E3%83%9E%E3%83%84%E3%83%AB%E3%82%AE%E3%83%BC/1312575491?i=1312575495",
+      "title": "ドラマツルギー",
+      "titleKeys": [
+        "どらまつるぎー"
+      ],
+      "titleLatin": "Doramatsurugii"
+    },
+    {
+      "albumId": "apple:al:1312575491",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 291321,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1312575496",
+      "latinSource": "cutlet",
+      "popularity": 0.4839,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/41/d9/70/41d97034-60cf-a0c8-3e52-4394a0f9b5c1/mzaf_12606391926290430273.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "homeshick",
+          "homushikku",
+          "ほーむしっく"
+        ]
+      },
+      "songKey": "ほーむしっく|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9B%E3%83%BC%E3%83%A0%E3%82%B7%E3%83%83%E3%82%AF/1312575491?i=1312575496",
+      "title": "ホームシック",
+      "titleKeys": [
+        "ほーむしっく"
+      ],
+      "titleLatin": "Hoomushikku"
+    },
+    {
+      "albumId": "apple:al:1312575491",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 276387,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1312575498",
+      "latinSource": "cutlet",
+      "popularity": 0.5645,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/69/31/e6/6931e609-724d-3cc4-c9f7-12d26a943903/mzaf_8850799649293528487.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "kaishingeki",
+          "会心劇"
+        ]
+      },
+      "songKey": "会心劇|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%BC%9A%E5%BF%83%E5%8A%87/1312575491?i=1312575498",
+      "title": "会心劇",
+      "titleKeys": [
+        "会心劇"
+      ],
+      "titleLatin": "Kaishin geki"
+    },
+    {
+      "albumId": "apple:al:1312575491",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 235387,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1312575499",
+      "latinSource": "cutlet",
+      "popularity": 0.5565,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/74/30/a2/7430a2d3-316d-39a4-1a00-cf73c657f66f/mzaf_11059976092925326323.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "furiwoshita",
+          "ふりをした"
+        ]
+      },
+      "songKey": "ふりをした|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%B5%E3%82%8A%E3%82%92%E3%81%97%E3%81%9F/1312575491?i=1312575499",
+      "title": "ふりをした。",
+      "titleKeys": [
+        "ふりをした"
+      ],
+      "titleLatin": "Furi wo shita."
+    },
+    {
+      "albumId": "apple:al:1312575491",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 270280,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1312576055",
+      "latinSource": "cutlet",
+      "popularity": 0.5161,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8b/42/cb/8b42cb89-ab4f-c200-2faa-8206c8c12de8/mzaf_7740910406820683060.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "hitsujiwokazoete",
+          "羊を数えて"
+        ]
+      },
+      "songKey": "羊を数えて|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%BE%8A%E3%82%92%E6%95%B0%E3%81%88%E3%81%A6/1312575491?i=1312576055",
+      "title": "羊を数えて",
+      "titleKeys": [
+        "羊を数えて"
+      ],
+      "titleLatin": "Hitsuji wo kazoete"
+    },
+    {
+      "albumId": "apple:al:1312575491",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 246713,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1312576056",
+      "latinSource": "cutlet",
+      "popularity": 0.9677,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/71/80/3c/71803c37-bdc8-27db-5d54-972bcd16da35/mzaf_12059103177066323948.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-12-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "okinimesumama",
+          "お気に召すまま"
+        ]
+      },
+      "songKey": "お気に召すまま|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8A%E6%B0%97%E3%81%AB%E5%8F%AC%E3%81%99%E3%81%BE%E3%81%BE/1312575491?i=1312576056",
+      "title": "お気に召すまま",
+      "titleKeys": [
+        "お気に召すまま"
+      ],
+      "titleLatin": "Oki ni mesu mama"
+    },
+    {
+      "albumId": "apple:al:1351881902",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 188002,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351881906",
+      "latinSource": "cutlet",
+      "popularity": 0.7177,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/10/96/2b/10962b45-7b36-b7ab-7af7-7df269b51dae/mzaf_2209738263334458203.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "myojogalacchica",
+          "myojogyarakuchika",
+          "明星ぎゃらくてぃか"
+        ]
+      },
+      "songKey": "明星ぎゃらくてぃか|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%98%8E%E6%98%9F%E3%82%AE%E3%83%A3%E3%83%A9%E3%82%AF%E3%83%86%E3%82%A3%E3%82%AB/1351881902?i=1351881906",
+      "title": "明星ギャラクティカ",
+      "titleKeys": [
+        "明星ぎゃらくてぃか"
+      ],
+      "titleLatin": "Myoujou gyarakutika"
+    },
+    {
+      "albumId": "apple:al:1351881902",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 201097,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351882346",
+      "latinSource": "cutlet",
+      "popularity": 0.4516,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/03/2f/4d/032f4d5e-4eb8-c7ff-cc2c-4f15881b2cae/mzaf_10481455238321154919.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "chocolatetown",
+          "chokoretotaun",
+          "ちょこれーとたうん"
+        ]
+      },
+      "songKey": "ちょこれーとたうん|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%81%E3%83%A7%E3%82%B3%E3%83%AC%E3%83%BC%E3%83%88%E3%82%BF%E3%82%A6%E3%83%B3/1351881902?i=1351882346",
+      "title": "チョコレートタウン",
+      "titleKeys": [
+        "ちょこれーとたうん"
+      ],
+      "titleLatin": "Chokoreeto taun"
+    },
+    {
+      "albumId": "apple:al:1351881902",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 233602,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351882348",
+      "latinSource": null,
+      "popularity": 0.3306,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fe/b8/d6/feb8d628-9988-351f-c3d6-e98574627f4a/mzaf_13257876623443301233.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "dr"
+        ]
+      },
+      "songKey": "dr|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/dr/1351881902?i=1351882348",
+      "title": "Dr.",
+      "titleKeys": [
+        "dr"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1351881902",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 252607,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351882813",
+      "latinSource": null,
+      "popularity": 0.25,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8d/85/7f/8d857f86-61b1-b789-f15e-1140778f89e3/mzaf_2518760658056977945.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "chigfug"
+        ]
+      },
+      "songKey": "tighug|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/tig-hug/1351881902?i=1351882813",
+      "title": "tig-hug",
+      "titleKeys": [
+        "tighug"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1351881902",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 219524,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351882816",
+      "latinSource": "cutlet",
+      "popularity": 0.3629,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9a/60/c3/9a60c36e-0de4-04c4-b1e5-859456180904/mzaf_18125043375518349316.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "fake",
+          "feiku",
+          "ふぇいく"
+        ]
+      },
+      "songKey": "ふぇいく|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%95%E3%82%A7%E3%82%A4%E3%82%AF/1351881902?i=1351882816",
+      "title": "フェイク",
+      "titleKeys": [
+        "ふぇいく"
+      ],
+      "titleLatin": "Feiku"
+    },
+    {
+      "albumId": "apple:al:1351881902",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 269149,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351882820",
+      "latinSource": "cutlet",
+      "popularity": 0.2742,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/30/a2/93/30a293b8-f280-19d6-5b70-be415d315336/mzaf_4507913183928433715.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "wakushinoharu",
+          "はくしの春"
+        ]
+      },
+      "songKey": "はくしの春|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%AF%E3%81%8F%E3%81%97%E3%81%AE%E6%98%A5/1351881902?i=1351882820",
+      "title": "はくしの春",
+      "titleKeys": [
+        "はくしの春"
+      ],
+      "titleLatin": "Wa kushi no haru"
+    },
+    {
+      "albumId": "apple:al:1351884166",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 212109,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351884170",
+      "latinSource": "cutlet",
+      "popularity": 0.8548,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/74/93/ba/7493baf8-0d1a-7a5a-8525-231fba127394/mzaf_11089553850501521781.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "ametopetora",
+          "雨とぺとら"
+        ]
+      },
+      "songKey": "雨とぺとら|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%9B%A8%E3%81%A8%E3%83%9A%E3%83%88%E3%83%A9/1351884166?i=1351884170",
+      "title": "雨とペトラ",
+      "titleKeys": [
+        "雨とぺとら"
+      ],
+      "titleLatin": "Ame to Petora"
+    },
+    {
+      "albumId": "apple:al:1351884166",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 201035,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351884175",
+      "latinSource": "cutlet",
+      "popularity": 0.6855,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2d/c3/ff/2dc3ffa3-e946-6d81-96f7-ff5a7163e74d/mzaf_989671630640161831.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "odoryanse",
+          "おどりゃんせ"
+        ]
+      },
+      "songKey": "おどりゃんせ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8A%E3%81%A9%E3%82%8A%E3%82%83%E3%82%93%E3%81%9B/1351884166?i=1351884175",
+      "title": "おどりゃんせ",
+      "titleKeys": [
+        "おどりゃんせ"
+      ],
+      "titleLatin": "Odoryanse"
+    },
+    {
+      "albumId": "apple:al:1351884166",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 252893,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351884178",
+      "latinSource": "cutlet",
+      "popularity": 0.7419,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/dc/68/36/dc683617-3020-1631-47af-e30d9803e5af/mzaf_10186223940863894594.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "teikokushojo",
+          "帝国少女"
+        ]
+      },
+      "songKey": "帝国少女|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%B8%9D%E5%9B%BD%E5%B0%91%E5%A5%B3/1351884166?i=1351884178",
+      "title": "帝国少女",
+      "titleKeys": [
+        "帝国少女"
+      ],
+      "titleLatin": "Teikoku shoujo"
+    },
+    {
+      "albumId": "apple:al:1351884166",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 189807,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351884182",
+      "latinSource": "cutlet",
+      "popularity": 0.75,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/65/e2/e9/65e2e948-96e9-e4be-90d8-ddd0f360ebe0/mzaf_6568734211013158208.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "meberu",
+          "めーべる"
+        ]
+      },
+      "songKey": "めーべる|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A1%E3%83%BC%E3%83%99%E3%83%AB/1351884166?i=1351884182",
+      "title": "メーベル",
+      "titleKeys": [
+        "めーべる"
+      ],
+      "titleLatin": "Meeberu"
+    },
+    {
+      "albumId": "apple:al:1351884166",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 251204,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351884190",
+      "latinSource": "cutlet",
+      "popularity": 0.7984,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3d/82/d4/3d82d436-e7af-e8ff-c054-bbcc491d31e3/mzaf_16670909776120903640.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "inochibakkari",
+          "命ばっかり"
+        ]
+      },
+      "songKey": "命ばっかり|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%91%BD%E3%81%B0%E3%81%A3%E3%81%8B%E3%82%8A/1351884166?i=1351884190",
+      "title": "命ばっかり",
+      "titleKeys": [
+        "命ばっかり"
+      ],
+      "titleLatin": "Inochi bakkari"
+    },
+    {
+      "albumId": "apple:al:1351884166",
+      "artistDisplay": "Eve×Sou",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 231296,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1351884613",
+      "latinSource": "cutlet",
+      "popularity": 0.4032,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8b/82/7f/8b827f1c-b500-7505-8b77-eebeb2d93146/mzaf_17359785770568687034.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "haita",
+          "はいた"
+        ]
+      },
+      "songKey": "はいた|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8F%E3%82%A4%E3%82%BF/1351884166?i=1351884613",
+      "title": "ハイタ",
+      "titleKeys": [
+        "はいた"
+      ],
+      "titleLatin": "Hai ta"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 109446,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549682",
+      "latinSource": null,
+      "popularity": 0.1935,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5c/42/92/5c42925d-7cce-59ee-12c8-1b1d729fb53a/mzaf_9175522229315927598.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "slunber"
+        ]
+      },
+      "songKey": "slumber|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/slumber/1449549681?i=1449549682",
+      "title": "slumber",
+      "titleKeys": [
+        "slumber"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 240324,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549685",
+      "latinSource": "cutlet",
+      "popularity": 0.8145,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/52/8d/41/528d41e0-8c5f-03fd-c6f7-35b8b892bac6/mzaf_7925132265216830356.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "tokyogetto",
+          "tokyoghetto",
+          "とーきょーげっとー"
+        ]
+      },
+      "songKey": "とーきょーげっとー|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%88%E3%83%BC%E3%82%AD%E3%83%A7%E3%83%BC%E3%82%B2%E3%83%83%E3%83%88%E3%83%BC/1449549681?i=1449549685",
+      "title": "トーキョーゲットー",
+      "titleKeys": [
+        "とーきょーげっとー"
+      ],
+      "titleLatin": "Tookyoo gettoo"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 207647,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549926",
+      "latinSource": "cutlet",
+      "popularity": 0.9758,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a8/50/ca/a850cae3-18fb-36c6-98b5-cccd898539d9/mzaf_1830781317887316873.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "autosaida",
+          "otshider",
+          "あうとさいだー"
+        ]
+      },
+      "songKey": "あうとさいだー|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%A6%E3%83%88%E3%82%B5%E3%82%A4%E3%83%80%E3%83%BC/1449549681?i=1449549926",
+      "title": "アウトサイダー",
+      "titleKeys": [
+        "あうとさいだー"
+      ],
+      "titleLatin": "Autosaidaa"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 320436,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549927",
+      "latinSource": "cutlet",
+      "popularity": 0.4435,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fb/95/ec/fb95ec30-8120-8457-419c-ee10eb06ad8e/mzaf_9205171243139619498.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "maigo",
+          "迷い子"
+        ]
+      },
+      "songKey": "迷い子|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%BF%B7%E3%81%84%E5%AD%90/1449549681?i=1449549927",
+      "title": "迷い子",
+      "titleKeys": [
+        "迷い子"
+      ],
+      "titleLatin": "Maigo"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 230211,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549928",
+      "latinSource": "cutlet",
+      "popularity": 0.7339,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f7/73/e6/f773e68c-2dbc-3e48-7601-e577cd248d94/mzaf_16121388230070199343.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "yadorigi",
+          "やどりぎ"
+        ]
+      },
+      "songKey": "やどりぎ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%84%E3%81%A9%E3%82%8A%E3%81%8E/1449549681?i=1449549928",
+      "title": "やどりぎ",
+      "titleKeys": [
+        "やどりぎ"
+      ],
+      "titleLatin": "Yadorigi"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 221868,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549929",
+      "latinSource": "cutlet",
+      "popularity": 0.5968,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/10/e7/19/10e719f2-a617-adef-a2c5-36b735bcf640/mzaf_15863740800450627155.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "anbibarento",
+          "anbivalent",
+          "あんびばれんと"
+        ]
+      },
+      "songKey": "あんびばれんと|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%B3%E3%83%93%E3%83%90%E3%83%AC%E3%83%B3%E3%83%88/1449549681?i=1449549929",
+      "title": "アンビバレント",
+      "titleKeys": [
+        "あんびばれんと"
+      ],
+      "titleLatin": "Anbibarento"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 286084,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549930",
+      "latinSource": "cutlet",
+      "popularity": 0.4677,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ab/e7/47/abe747a3-e8bb-7642-4911-cc63fe8efcc8/mzaf_17935176080063151915.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "fu",
+          "楓"
+        ]
+      },
+      "songKey": "楓|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%A5%93/1449549681?i=1449549930",
+      "title": "楓",
+      "titleKeys": [
+        "楓"
+      ],
+      "titleLatin": "Fuu"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 240497,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549931",
+      "latinSource": "cutlet",
+      "popularity": 0.9274,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/05/69/83/05698342-9031-ffc6-838e-caaee5b3d1d4/mzaf_7042374762880397198.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "lastdance",
+          "rasutodansu",
+          "らすとだんす"
+        ]
+      },
+      "songKey": "らすとだんす|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%82%B9%E3%83%88%E3%83%80%E3%83%B3%E3%82%B9/1449549681?i=1449549931",
+      "title": "ラストダンス",
+      "titleKeys": [
+        "らすとだんす"
+      ],
+      "titleLatin": "Rasuto dansu"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 284338,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549932",
+      "latinSource": "cutlet",
+      "popularity": 0.9032,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4e/33/c5/4e33c518-d3aa-d5af-31a2-b3b1644a39ce/mzaf_10801649832124310818.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "bokuramadandaguraundo",
+          "bokuramadaundergrond",
+          "僕らまだあんだーぐらうんど"
+        ]
+      },
+      "songKey": "僕らまだあんだーぐらうんど|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%83%95%E3%82%89%E3%81%BE%E3%81%A0%E3%82%A2%E3%83%B3%E3%83%80%E3%83%BC%E3%82%B0%E3%83%A9%E3%82%A6%E3%83%B3%E3%83%89/1449549681?i=1449549932",
+      "title": "僕らまだアンダーグラウンド",
+      "titleKeys": [
+        "僕らまだあんだーぐらうんど"
+      ],
+      "titleLatin": "Bokura mada andaaguraundo"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 235175,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549933",
+      "latinSource": "cutlet",
+      "popularity": 0.6048,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/11/9b/74/119b7461-d513-c718-1c8b-4552484aa2c1/mzaf_15949972060937472713.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "kiminisekai",
+          "君に世界"
+        ]
+      },
+      "songKey": "君に世界|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%90%9B%E3%81%AB%E4%B8%96%E7%95%8C/1449549681?i=1449549933",
+      "title": "君に世界",
+      "titleKeys": [
+        "君に世界"
+      ],
+      "titleLatin": "Kimi ni sekai"
+    },
+    {
+      "albumId": "apple:al:1449549681",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 140071,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1449549934",
+      "latinSource": null,
+      "popularity": 0.1048,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6b/42/6d/6b426d6b-437a-82e3-fb26-d21dc230a6e7/mzaf_18308882427344591191.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "dawn"
+        ]
+      },
+      "songKey": "dawn|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/dawn/1449549681?i=1449549934",
+      "title": "dawn",
+      "titleKeys": [
+        "dawn"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1467728598",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 229394,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1467728599",
+      "latinSource": "cutlet",
+      "popularity": 0.8306,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/38/61/c8/3861c8dc-922f-1ddc-ded3-5ae9de9fc7c3/mzaf_15961069866310918571.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-06-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "anya",
+          "闇夜"
+        ]
+      },
+      "songKey": "闇夜|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%97%87%E5%A4%9C/1467728598?i=1467728599",
+      "title": "闇夜",
+      "titleKeys": [
+        "闇夜"
+      ],
+      "titleLatin": "An'ya"
+    },
+    {
+      "albumId": "apple:al:1477822494",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 197029,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1477822707",
+      "latinSource": "cutlet",
+      "popularity": 0.2823,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/40/27/25/40272530-c451-6ff2-c872-e669de2dad14/mzaf_7961220474157063824.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "doshiyomonaikurainikimigasuki",
+          "どうしようもないくらいに君が好き"
+        ]
+      },
+      "songKey": "どうしようもないくらいに君が好き|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%A9%E3%81%86%E3%81%97%E3%82%88%E3%81%86%E3%82%82%E3%81%AA%E3%81%84%E3%81%8F%E3%82%89%E3%81%84%E3%81%AB%E5%90%9B%E3%81%8C%E5%A5%BD%E3%81%8D/1477822494?i=1477822707",
+      "title": "どうしようもないくらいに君が好き",
+      "titleKeys": [
+        "どうしようもないくらいに君が好き"
+      ],
+      "titleLatin": "Dou shiyou mo nai kurai ni kimi ga suki"
+    },
+    {
+      "albumId": "apple:al:1477822494",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 278546,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1477822710",
+      "latinSource": "cutlet",
+      "popularity": 0.2984,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/29/e0/1a/29e01adc-7406-1e58-e3af-ef8dd2179e52/mzaf_3608213072799013869.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "caravan",
+          "kyaraban",
+          "きゃらばん"
+        ]
+      },
+      "songKey": "きゃらばん|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AD%E3%83%A3%E3%83%A9%E3%83%90%E3%83%B3/1477822494?i=1477822710",
+      "title": "キャラバン",
+      "titleKeys": [
+        "きゃらばん"
+      ],
+      "titleLatin": "Kyaraban"
+    },
+    {
+      "albumId": "apple:al:1477822494",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 207505,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1477822716",
+      "latinSource": "cutlet",
+      "popularity": 0.8387,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ef/6d/55/ef6d5536-f68b-e2d7-5f69-873d2370d25c/mzaf_2099064443060465267.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "wakuseilop",
+          "wakuseirupu",
+          "惑星るーぷ"
+        ]
+      },
+      "songKey": "惑星るーぷ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%83%91%E6%98%9F%E3%83%AB%E3%83%BC%E3%83%97/1477822494?i=1477822716",
+      "title": "惑星ループ",
+      "titleKeys": [
+        "惑星るーぷ"
+      ],
+      "titleLatin": "Wakusei ruupu"
+    },
+    {
+      "albumId": "apple:al:1477822494",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 240320,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1477822719",
+      "latinSource": "cutlet",
+      "popularity": 0.5242,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/24/f3/c0/24f3c0b2-d5e3-4731-4bbe-1817ba970773/mzaf_924089639818254033.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "demondancetokyo",
+          "demondansutokyo",
+          "でーもんだんすとーきょー"
+        ]
+      },
+      "songKey": "でーもんだんすとーきょー|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3%E3%83%80%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AD%E3%83%A7%E3%83%BC/1477822494?i=1477822719",
+      "title": "デーモンダンストーキョー",
+      "titleKeys": [
+        "でーもんだんすとーきょー"
+      ],
+      "titleLatin": "Deemon dansu Tookyoo"
+    },
+    {
+      "albumId": "apple:al:1477822494",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 206880,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1477822720",
+      "latinSource": "cutlet",
+      "popularity": 0.2258,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/89/60/6b/89606b32-028c-ae21-1132-f46b642c02d2/mzaf_13004862675396643272.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "fuyukan",
+          "浮遊感"
+        ]
+      },
+      "songKey": "浮遊感|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B5%AE%E9%81%8A%E6%84%9F/1477822494?i=1477822720",
+      "title": "浮遊感",
+      "titleKeys": [
+        "浮遊感"
+      ],
+      "titleLatin": "Fuyuu kan"
+    },
+    {
+      "albumId": "apple:al:1477822494",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 188773,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1477822723",
+      "latinSource": "cutlet",
+      "popularity": 0.0645,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bf/e1/d6/bfe1d6a5-1235-78cd-e949-7a77b222f002/mzaf_2937169586027442330.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "shortsunbrella",
+          "shotoanburera",
+          "しょーとあんぶれら"
+        ]
+      },
+      "songKey": "しょーとあんぶれら|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%A7%E3%83%BC%E3%83%88%E3%82%A2%E3%83%B3%E3%83%96%E3%83%AC%E3%83%A9/1477822494?i=1477822723",
+      "title": "ショートアンブレラ",
+      "titleKeys": [
+        "しょーとあんぶれら"
+      ],
+      "titleLatin": "Shooto anburera"
+    },
+    {
+      "albumId": "apple:al:1477822494",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 221311,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1477822724",
+      "latinSource": "cutlet",
+      "popularity": 0.1452,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/47/59/21/475921d6-aa67-b3c4-4843-baa209180da5/mzaf_17947122684184935646.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "rabbitgrey",
+          "rabittogurei",
+          "らびっとぐれい"
+        ]
+      },
+      "songKey": "らびっとぐれい|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%83%93%E3%83%83%E3%83%88%E3%82%B0%E3%83%AC%E3%82%A4/1477822494?i=1477822724",
+      "title": "ラビットグレイ",
+      "titleKeys": [
+        "らびっとぐれい"
+      ],
+      "titleLatin": "Rabitto Gurei"
+    },
+    {
+      "albumId": "apple:al:1477822494",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 184958,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1477822725",
+      "latinSource": "cutlet",
+      "popularity": 0.1532,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/83/f2/48/83f24875-4395-a4d6-599a-4ef4502e0303/mzaf_4548248938192564325.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "pafekutoseimei",
+          "perfectseimei",
+          "ぱーふぇくと生命"
+        ]
+      },
+      "songKey": "ぱーふぇくと生命|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%91%E3%83%BC%E3%83%95%E3%82%A7%E3%82%AF%E3%83%88%E7%94%9F%E5%91%BD/1477822494?i=1477822725",
+      "title": "パーフェクト生命",
+      "titleKeys": [
+        "ぱーふぇくと生命",
+        "ぱーふぇくと生命かばー"
+      ],
+      "titleLatin": "Paafekuto seimei"
+    },
+    {
+      "albumId": "apple:al:1477822494",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 247327,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1477822729",
+      "latinSource": null,
+      "popularity": 0.4355,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/de/9d/29/de9d2954-dcd3-9aeb-1a31-2f6dcb252dee/mzaf_7493979118172581102.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-10-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "shister"
+        ]
+      },
+      "songKey": "sister|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/sister/1477822494?i=1477822729",
+      "title": "sister",
+      "titleKeys": [
+        "sister"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1481536400",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 222489,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1481536401",
+      "latinSource": "cutlet",
+      "popularity": 0.879,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a2/e3/91/a2e3916c-dc6a-dd60-579b-04d38c073805/mzaf_11755751956375672546.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-01-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "rezondetoru",
+          "れーぞんでーとる"
+        ]
+      },
+      "songKey": "れーぞんでーとる|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%AC%E3%83%BC%E3%82%BE%E3%83%B3%E3%83%87%E3%83%BC%E3%83%88%E3%83%AB/1481536400?i=1481536401",
+      "title": "レーゾンデートル",
+      "titleKeys": [
+        "れーぞんでーとる"
+      ],
+      "titleLatin": "Reezon deetoru"
+    },
+    {
+      "albumId": "apple:al:1490080163",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 247585,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1490080164",
+      "latinSource": "cutlet",
+      "popularity": 0.7258,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ac/a2/0d/aca20d35-9c5b-4fa6-9a37-a8c8a9726e19/mzaf_12089633732345014077.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-12-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "hakugin",
+          "白銀"
+        ]
+      },
+      "songKey": "白銀|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%99%BD%E9%8A%80/1490080163?i=1490080164",
+      "title": "白銀",
+      "titleKeys": [
+        "白銀"
+      ],
+      "titleLatin": "Hakugin"
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 74360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748556",
+      "latinSource": null,
+      "popularity": 0.1129,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a4/9f/56/a49f56a1-26f3-5ab0-d18e-36a866caa030/mzaf_7436689652107101272.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "doblet"
+        ]
+      },
+      "songKey": "doublet|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/doublet/1495748435?i=1495748556",
+      "title": "doublet",
+      "titleKeys": [
+        "doublet"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 247413,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748557",
+      "latinSource": null,
+      "popularity": 0.5403,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f2/76/16/f276161b-1398-70c7-4d29-a94e33e0c1e5/mzaf_17682493441402473641.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "leo"
+        ]
+      },
+      "songKey": "leo|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/leo/1495748435?i=1495748557",
+      "title": "LEO",
+      "titleKeys": [
+        "leo"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 229250,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748559",
+      "latinSource": "cutlet",
+      "popularity": 0.3468,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a4/ab/e3/a4abe3c1-6f47-e115-56fb-4521d85c275f/mzaf_3694329599947975509.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "kyonokioku",
+          "虚の記憶"
+        ]
+      },
+      "songKey": "虚の記憶|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%99%9A%E3%81%AE%E8%A8%98%E6%86%B6/1495748435?i=1495748559",
+      "title": "虚の記憶",
+      "titleKeys": [
+        "虚の記憶"
+      ],
+      "titleLatin": "Kyo no kioku"
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 224218,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748560",
+      "latinSource": "cutlet",
+      "popularity": 0.8226,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/aa/64/80/aa64806e-10b4-4b4a-d88e-a5a694269ca7/mzaf_8504785775151682601.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "inochinotabekata",
+          "いのちの食べ方"
+        ]
+      },
+      "songKey": "いのちの食べ方|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%84%E3%81%AE%E3%81%A1%E3%81%AE%E9%A3%9F%E3%81%B9%E6%96%B9/1495748435?i=1495748560",
+      "title": "いのちの食べ方",
+      "titleKeys": [
+        "いのちの食べ方"
+      ],
+      "titleLatin": "Inochi no tabekata"
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 244981,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748562",
+      "latinSource": "cutlet",
+      "popularity": 0.2903,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e8/c7/30/e8c73025-01e0-b70a-b3d5-aeb4c439c60e/mzaf_1872382933689104793.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "asagafuru",
+          "朝が降る"
+        ]
+      },
+      "songKey": "朝が降る|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%9C%9D%E3%81%8C%E9%99%8D%E3%82%8B/1495748435?i=1495748562",
+      "title": "朝が降る",
+      "titleKeys": [
+        "朝が降る"
+      ],
+      "titleLatin": "Asa ga furu"
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 199995,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748563",
+      "latinSource": "cutlet",
+      "popularity": 0.9516,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/69/bd/69/69bd69df-f400-e6a3-eb64-9c6cb069dc22/mzaf_5820278921751129410.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-01-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "shinyoho",
+          "心予報"
+        ]
+      },
+      "songKey": "心予報|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%BF%83%E4%BA%88%E5%A0%B1/1495748435?i=1495748563",
+      "title": "心予報",
+      "titleKeys": [
+        "心予報"
+      ],
+      "titleLatin": "Shinyohou"
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 209901,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748565",
+      "latinSource": "cutlet",
+      "popularity": 0.5887,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/70/17/4f/70174ffe-950d-d8b7-b911-9d78b1ec5488/mzaf_16655341434314220779.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "baumkuchenend",
+          "baumukuhenendo",
+          "ばうむくーへんえんど"
+        ]
+      },
+      "songKey": "ばうむくーへんえんど|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%90%E3%82%A6%E3%83%A0%E3%82%AF%E3%83%BC%E3%83%98%E3%83%B3%E3%82%A8%E3%83%B3%E3%83%89/1495748435?i=1495748565",
+      "title": "バウムクーヘンエンド",
+      "titleKeys": [
+        "ばうむくーへんえんど"
+      ],
+      "titleLatin": "Baumukuuhen endo"
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 286865,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748566",
+      "latinSource": null,
+      "popularity": 0.2097,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/08/3c/97/083c976c-6736-4e65-e79e-f5d5a9002a5c/mzaf_15712922110659868939.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "mellow"
+        ]
+      },
+      "songKey": "mellow|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/mellow/1495748435?i=1495748566",
+      "title": "mellow",
+      "titleKeys": [
+        "mellow"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 45296,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748567",
+      "latinSource": null,
+      "popularity": 0.0242,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/09/fa/16/09fa1645-f06d-cf16-b793-59dcc38b1936/mzaf_8229292908518906643.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "ognanje"
+        ]
+      },
+      "songKey": "ognanje|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/ognanje/1495748435?i=1495748567",
+      "title": "ognanje",
+      "titleKeys": [
+        "ognanje"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1495748435",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 118438,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1495748568",
+      "latinSource": "cutlet",
+      "popularity": 0.2177,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/83/59/77/835977d4-b58c-2322-d36f-0622e93c0c03/mzaf_13582077887003617015.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "uronashokutaku",
+          "胡乱な食卓"
+        ]
+      },
+      "songKey": "胡乱な食卓|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%83%A1%E4%B9%B1%E3%81%AA%E9%A3%9F%E5%8D%93/1495748435?i=1495748568",
+      "title": "胡乱な食卓",
+      "titleKeys": [
+        "胡乱な食卓"
+      ],
+      "titleLatin": "Uron na shokutaku"
+    },
+    {
+      "albumId": "apple:al:1533208084",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 219234,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1533208085",
+      "latinSource": "cutlet",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/17/47/ca/1747ca2b-1ab8-a43f-35d5-e0d01d9be305/mzaf_17560760129565806208.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-10-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "megurumegurukitan",
+          "廻廻奇譚"
+        ]
+      },
+      "songKey": "廻廻奇譚|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%BB%BB%E5%BB%BB%E5%A5%87%E8%AD%9A/1533208084?i=1533208085",
+      "title": "廻廻奇譚",
+      "titleKeys": [
+        "廻廻奇譚"
+      ],
+      "titleLatin": "Meguru Meguru kitan"
+    },
+    {
+      "albumId": "apple:al:1535752902",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 245658,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535752903",
+      "latinSource": "cutlet",
+      "popularity": 0.4758,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0c/76/83/0c768352-cd79-283a-9a9e-4c8846f3af81/mzaf_15057908429191258447.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-10-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "yakusoku",
+          "約束"
+        ]
+      },
+      "songKey": "約束|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%B4%84%E6%9D%9F/1535752902?i=1535752903",
+      "title": "約束",
+      "titleKeys": [
+        "約束"
+      ],
+      "titleLatin": "Yakusoku"
+    },
+    {
+      "albumId": "apple:al:1541782635",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 264000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1541782636",
+      "latinSource": "cutlet",
+      "popularity": 0.7016,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ab/80/ea/ab80ea27-d241-12fc-6028-9cf215515895/mzaf_4694971090549272425.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "shinkai",
+          "心海"
+        ]
+      },
+      "songKey": "心海|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%BF%83%E6%B5%B7/1541782635?i=1541782636",
+      "title": "心海",
+      "titleKeys": [
+        "心海"
+      ],
+      "titleLatin": "Shinkai"
+    },
+    {
+      "albumId": "apple:al:1542572215",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 277337,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1542572218",
+      "latinSource": "cutlet",
+      "popularity": 0.871,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a1/17/b4/a117b473-ffb1-6c7e-771f-b50804b4004f/mzaf_3218237334022403632.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "aonowaltz",
+          "aonowarutsu",
+          "蒼のわるつ"
+        ]
+      },
+      "songKey": "蒼のわるつ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%92%BC%E3%81%AE%E3%83%AF%E3%83%AB%E3%83%84/1542572215?i=1542572218",
+      "title": "蒼のワルツ",
+      "titleKeys": [
+        "蒼のわるつ"
+      ],
+      "titleLatin": "Ao no warutsu"
+    },
+    {
+      "albumId": "apple:al:1542572215",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 256529,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1542572220",
+      "latinSource": "cutlet",
+      "popularity": 0.371,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/79/38/51/7938511b-8e8c-c7f5-48bf-328c098d717f/mzaf_4319072536985724973.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "yoinomyojo",
+          "宵の明星"
+        ]
+      },
+      "songKey": "宵の明星|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%AE%B5%E3%81%AE%E6%98%8E%E6%98%9F/1542572215?i=1542572220",
+      "title": "宵の明星",
+      "titleKeys": [
+        "宵の明星"
+      ],
+      "titleLatin": "Yoi no myoujou"
+    },
+    {
+      "albumId": "apple:al:1542572215",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 209356,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1542572221",
+      "latinSource": "cutlet",
+      "popularity": 0.3952,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6c/b7/49/6cb74969-e20d-4586-19e8-022fc7d85cc9/mzaf_10980333083171840384.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "yuyumeimei",
+          "遊遊冥冥"
+        ]
+      },
+      "songKey": "遊遊冥冥|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%81%8A%E9%81%8A%E5%86%A5%E5%86%A5/1542572215?i=1542572221",
+      "title": "遊遊冥冥",
+      "titleKeys": [
+        "遊遊冥冥"
+      ],
+      "titleLatin": "Yuu yuu meimei"
+    },
+    {
+      "albumId": "apple:al:1542572215",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 244364,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1542572223",
+      "latinSource": null,
+      "popularity": 0.3871,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f5/15/04/f51504b7-adda-e923-1d97-9c63a55b358e/mzaf_18153321198736534137.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "杪夏"
+        ]
+      },
+      "songKey": "杪夏|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%9D%AA%E5%A4%8F/1542572215?i=1542572223",
+      "title": "杪夏",
+      "titleKeys": [
+        "杪夏"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1549612261",
+      "artistDisplay": "Eve × suis from ヨルシカ",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 275090,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1549612263",
+      "latinSource": "cutlet",
+      "popularity": 0.9113,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c8/43/70/c8437001-2cf9-81a8-989f-e118c6e2e0d7/mzaf_18043769700778932235.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-02-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "heikosen",
+          "平行線"
+        ]
+      },
+      "songKey": "平行線|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%B9%B3%E8%A1%8C%E7%B7%9A/1549612261?i=1549612263",
+      "title": "平行線",
+      "titleKeys": [
+        "平行線"
+      ],
+      "titleLatin": "Heikou sen"
+    },
+    {
+      "albumId": "apple:al:1562636506",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 191850,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1562636507",
+      "latinSource": "cutlet",
+      "popularity": 0.8871,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/47/8e/3a/478e3a43-e43f-5dbc-f831-7032e104810f/mzaf_14910653977150320250.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-04-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "yoruwahonoka",
+          "夜は仄か"
+        ]
+      },
+      "songKey": "夜は仄か|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%9C%E3%81%AF%E4%BB%84%E3%81%8B/1562636506?i=1562636507",
+      "title": "夜は仄か",
+      "titleKeys": [
+        "夜は仄か"
+      ],
+      "titleLatin": "Yoru wa honoka"
+    },
+    {
+      "albumId": "apple:al:1575901296",
+      "artistDisplay": "天月-あまつき/あほの坂田。/あらき/Eve/un:c/うらたぬき/佐香智久(少年T)/志麻/センラ/Sou/そらる/nqrse/まふまふ/luz & Eve",
+      "artistIds": [
+        "apple:ar:614405787",
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 262480,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1575901299",
+      "latinSource": "cutlet",
+      "popularity": 0.0081,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a0/e4/0e/a0e40e5a-0942-79f4-ce64-4f33b3ad49bb/mzaf_18382563421693641700.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-07-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "warudodomineishon",
+          "worlddeminachion",
+          "わーるどどみねいしょん"
+        ]
+      },
+      "songKey": "わーるどどみねいしょん|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%AF%E3%83%BC%E3%83%AB%E3%83%89%E3%83%89%E3%83%9F%E3%83%8D%E3%82%A4%E3%82%B7%E3%83%A7%E3%83%B3/1575901296?i=1575901299",
+      "title": "ワールドドミネイション",
+      "titleKeys": [
+        "わーるどどみねいしょん"
+      ],
+      "titleLatin": "Waarudo domi neishon"
+    },
+    {
+      "albumId": "apple:al:1575901986",
+      "artistDisplay": "Lanndo",
+      "artistIds": [
+        "apple:ar:1542307331",
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 262718,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1575901996",
+      "latinSource": "cutlet",
+      "popularity": 0.8065,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e4/3e/3c/e43e3cf8-ee4d-2c61-4d1d-d4d1946b781a/mzaf_3688445582635287615.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "uchunokisetsufeatevesuisfromyorushika",
+          "宇宙の季節featevesuisfromよるしか"
+        ]
+      },
+      "songKey": "宇宙の季節|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%AE%87%E5%AE%99%E3%81%AE%E5%AD%A3%E7%AF%80-feat-eve-suis-from-%E3%83%A8%E3%83%AB%E3%82%B7%E3%82%AB/1575901986?i=1575901996",
+      "title": "宇宙の季節 (feat. Eve & suis from ヨルシカ)",
+      "titleKeys": [
+        "宇宙の季節"
+      ],
+      "titleLatin": "Uchuu no kisetsu (feat. Eve & suis from yorushika)"
+    },
+    {
+      "albumId": "apple:al:1583190904",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 275265,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1583190905",
+      "latinSource": "cutlet",
+      "popularity": 0.8952,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ec/30/9b/ec309bf1-0f3d-bee7-e3ba-65abac97cbc6/mzaf_11652140814071289967.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-09-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "gunjosanka",
+          "群青讃歌"
+        ]
+      },
+      "songKey": "群青讃歌|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%BE%A4%E9%9D%92%E8%AE%83%E6%AD%8C/1583190904?i=1583190905",
+      "title": "群青讃歌",
+      "titleKeys": [
+        "群青讃歌"
+      ],
+      "titleLatin": "Gunjou sanka"
+    },
+    {
+      "albumId": "apple:al:1583190904",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 194258,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1583191176",
+      "latinSource": "cutlet",
+      "popularity": 0.7661,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ea/62/9a/ea629a56-ec50-2323-2e9f-55e88e65439b/mzaf_14556921579095175359.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-09-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "yuseimushi",
+          "遊生夢死"
+        ]
+      },
+      "songKey": "遊生夢死|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%81%8A%E7%94%9F%E5%A4%A2%E6%AD%BB/1583190904?i=1583191176",
+      "title": "遊生夢死",
+      "titleKeys": [
+        "遊生夢死"
+      ],
+      "titleLatin": "Yuusei mushi"
+    },
+    {
+      "albumId": "apple:al:1595519996",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 256213,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1595519997",
+      "latinSource": "cutlet",
+      "popularity": 0.8629,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/98/5b/55/985b55a4-3aac-c39d-f550-d5daa6e00f50/mzaf_3346340492218636374.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-12-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "ransai",
+          "藍才"
+        ]
+      },
+      "songKey": "藍才|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%97%8D%E6%89%8D/1595519996?i=1595519997",
+      "title": "藍才",
+      "titleKeys": [
+        "藍才"
+      ],
+      "titleLatin": "Ran sai"
+    },
+    {
+      "albumId": "apple:al:1609036969",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 206685,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1609036970",
+      "latinSource": "cutlet",
+      "popularity": 0.9194,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/27/76/ae/2776ae7f-c3ce-637e-2278-5f4891350574/mzaf_1898831159552246223.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-03-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "avan",
+          "avant",
+          "あゔぁん"
+        ]
+      },
+      "songKey": "あゔぁん|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%B4%E3%82%A1%E3%83%B3/1609036969?i=1609036970",
+      "title": "アヴァン",
+      "titleKeys": [
+        "あゔぁん"
+      ],
+      "titleLatin": "Avan"
+    },
+    {
+      "albumId": "apple:al:1611017834",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 58826,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1611017835",
+      "latinSource": "cutlet",
+      "popularity": 0.1613,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/95/50/e4/9550e49d-7311-6868-4d6a-d9ae5ddc1548/mzaf_11606307578845445308.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-03-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "megurunin",
+          "廻人"
+        ]
+      },
+      "songKey": "廻人|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%BB%BB%E4%BA%BA/1611017834?i=1611017835",
+      "title": "廻人",
+      "titleKeys": [
+        "廻人"
+      ],
+      "titleLatin": "Megurunin"
+    },
+    {
+      "albumId": "apple:al:1611017834",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 225179,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1611017839",
+      "latinSource": "cutlet",
+      "popularity": 0.6371,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5a/20/98/5a209838-e321-5f56-665d-f02cae3592d9/mzaf_6723233384864307152.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-03-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "boto",
+          "暴徒"
+        ]
+      },
+      "songKey": "暴徒|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%9A%B4%E5%BE%92/1611017834?i=1611017839",
+      "title": "暴徒",
+      "titleKeys": [
+        "暴徒"
+      ],
+      "titleLatin": "Bouto"
+    },
+    {
+      "albumId": "apple:al:1611017834",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 168209,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1611017841",
+      "latinSource": null,
+      "popularity": 0.5726,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/23/5b/ce/235bce48-1636-ae7a-9b5e-0d182d41ebb5/mzaf_770070261498142670.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-03-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "yoku"
+        ]
+      },
+      "songKey": "yoku|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/yoku/1611017834?i=1611017841",
+      "title": "YOKU",
+      "titleKeys": [
+        "yoku"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1611017834",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 282172,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1611017845",
+      "latinSource": "cutlet",
+      "popularity": 0.4194,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/be/e8/aa/bee8aae1-d2ff-cb4b-3c16-52c0ac7994d5/mzaf_17032743020290377543.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-03-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "kotonoha",
+          "言の葉"
+        ]
+      },
+      "songKey": "言の葉|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%A8%80%E3%81%AE%E8%91%89/1611017834?i=1611017845",
+      "title": "言の葉",
+      "titleKeys": [
+        "言の葉"
+      ],
+      "titleLatin": "Kotonoha"
+    },
+    {
+      "albumId": "apple:al:1611017834",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 228729,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1611017847",
+      "latinSource": "cutlet",
+      "popularity": 0.6694,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b8/7f/79/b87f791c-9aaf-1817-afc5-f9b0446d0668/mzaf_12785369944720417781.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-03-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "taikutsuwosaienshinaide",
+          "退屈を再演しないで"
+        ]
+      },
+      "songKey": "退屈を再演しないで|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%80%80%E5%B1%88%E3%82%92%E5%86%8D%E6%BC%94%E3%81%97%E3%81%AA%E3%81%84%E3%81%A7/1611017834?i=1611017847",
+      "title": "退屈を再演しないで",
+      "titleKeys": [
+        "退屈を再演しないで"
+      ],
+      "titleLatin": "Taikutsu wo saien shinaide"
+    },
+    {
+      "albumId": "apple:al:1618714014",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 226874,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1618714015",
+      "latinSource": null,
+      "popularity": 0.9355,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/06/19/de/0619de67-bad9-3023-edb6-e2cb62593129/mzaf_16225617776830926577.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-04-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "bubblefeatsuta"
+        ]
+      },
+      "songKey": "bubble|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/bubble-feat-uta/1618714014?i=1618714015",
+      "title": "Bubble (feat. Uta)",
+      "titleKeys": [
+        "bubble",
+        "bubblefeatuta"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1653516000",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 221643,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1653516001",
+      "latinSource": "cutlet",
+      "popularity": 0.7097,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d7/f4/52/d7f45253-f0cc-5752-ed74-5ade14d659cb/mzaf_15712383785217979220.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-12-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "shirayuki",
+          "白雪"
+        ]
+      },
+      "songKey": "白雪|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%99%BD%E9%9B%AA/1653516000?i=1653516001",
+      "title": "白雪",
+      "titleKeys": [
+        "白雪"
+      ],
+      "titleLatin": "Shirayuki"
+    },
+    {
+      "albumId": "apple:al:1656364306",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 208964,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1656364307",
+      "latinSource": "cutlet",
+      "popularity": 0.9839,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/42/e6/a8/42e6a8c2-2247-d8f1-3d26-5d28639bbed0/mzaf_11569603815317713490.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-12-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "faitosongu",
+          "fightsong",
+          "ふぁいとそんぐ"
+        ]
+      },
+      "songKey": "ふぁいとそんぐ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%88%E3%82%BD%E3%83%B3%E3%82%B0/1656364306?i=1656364307",
+      "title": "ファイトソング",
+      "titleKeys": [
+        "ふぁいとそんぐ"
+      ],
+      "titleLatin": "Faito songu"
+    },
+    {
+      "albumId": "apple:al:1660194282",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 212708,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1660194283",
+      "latinSource": "cutlet",
+      "popularity": 0.9597,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6c/ea/84/6cea8491-2972-abe3-b352-e3570c6fdc2c/mzaf_18000451556450531987.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-01-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "bokurano",
+          "ぼくらの"
+        ]
+      },
+      "songKey": "ぼくらの|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%BC%E3%81%8F%E3%82%89%E3%81%AE/1660194282?i=1660194283",
+      "title": "ぼくらの",
+      "titleKeys": [
+        "ぼくらの"
+      ],
+      "titleLatin": "Bokura no"
+    },
+    {
+      "albumId": "apple:al:1676404219",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 235797,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1676404221",
+      "latinSource": "cutlet",
+      "popularity": 0.6452,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0a/f2/37/0af23721-1df6-4cfd-a84c-4609596a6010/mzaf_8058213255466743122.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-03-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "kororai",
+          "虎狼来"
+        ]
+      },
+      "songKey": "虎狼来|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%99%8E%E7%8B%BC%E6%9D%A5/1676404219?i=1676404221",
+      "title": "虎狼来",
+      "titleKeys": [
+        "虎狼来"
+      ],
+      "titleLatin": "Korourai"
+    },
+    {
+      "albumId": "apple:al:1676404219",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 206037,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1676404222",
+      "latinSource": "cutlet",
+      "popularity": 0.4919,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/45/87/b2/4587b25e-c28d-10a8-3b1b-11f19af9a1b9/mzaf_17574143164832254614.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-03-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "ogonohibi",
+          "黄金の日々"
+        ]
+      },
+      "songKey": "黄金の日々|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%BB%84%E9%87%91%E3%81%AE%E6%97%A5%E3%80%85/1676404219?i=1676404222",
+      "title": "黄金の日々",
+      "titleKeys": [
+        "黄金の日々"
+      ],
+      "titleLatin": "Ougon no hibi"
+    },
+    {
+      "albumId": "apple:al:1691266446",
+      "artistDisplay": "キタニタツヤ",
+      "artistIds": [
+        "apple:ar:1289607378",
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 164918,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1691266451",
+      "latinSource": "cutlet",
+      "popularity": 0.6613,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e8/41/35/e8413563-7b44-913c-e1c1-7af32d79a684/mzaf_10046830770641147538.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-06-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "lovesongfeateve",
+          "rabusongufeateve",
+          "らぶそんぐfeateve"
+        ]
+      },
+      "songKey": "らぶそんぐ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%83%96%E3%82%BD%E3%83%B3%E3%82%B0-feat-eve/1691266446?i=1691266451",
+      "title": "ラブソング (feat. Eve)",
+      "titleKeys": [
+        "らぶそんぐ"
+      ],
+      "titleLatin": "Rabu songu (feat. Eve)"
+    },
+    {
+      "albumId": "apple:al:1692528527",
+      "artistDisplay": "ナナヲアカリ",
+      "artistIds": [
+        "apple:ar:1326067929",
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 227200,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1692528529",
+      "latinSource": "cutlet",
+      "popularity": 0.5081,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/91/a9/b1/91a9b16d-154e-6f30-0a5d-f1793e6d832e/mzaf_2977729584438230182.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-10-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "instanthevunfeateve",
+          "insutantohevunfeateve",
+          "いんすたんとへゔんfeateve"
+        ]
+      },
+      "songKey": "いんすたんとへゔん|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%88%E3%83%98%E3%83%B4%E3%83%B3-feat-eve/1692528527?i=1692528529",
+      "title": "インスタントヘヴン (feat. Eve)",
+      "titleKeys": [
+        "いんすたんとへゔん"
+      ],
+      "titleLatin": "Insutanto Hevun (feat. Eve)"
+    },
+    {
+      "albumId": "apple:al:1699525625",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 227324,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1699525626",
+      "latinSource": "cutlet",
+      "popularity": 0.6129,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/87/a6/d4/87a6d46d-2dca-16c3-5613-a384b57d8d87/mzaf_6170577071820723029.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-08-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "bokenroku",
+          "冒険録"
+        ]
+      },
+      "songKey": "冒険録|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%86%92%E9%99%BA%E9%8C%B2/1699525625?i=1699525626",
+      "title": "冒険録",
+      "titleKeys": [
+        "冒険録"
+      ],
+      "titleLatin": "Boukenroku"
+    },
+    {
+      "albumId": "apple:al:1707277887",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 223601,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1707277888",
+      "latinSource": "cutlet",
+      "popularity": 0.629,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8f/b3/4b/8fb34b80-9f63-a2ae-4c0a-078574a2d668/mzaf_2559788674427037532.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-10-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "hanarashi",
+          "花嵐"
+        ]
+      },
+      "songKey": "花嵐|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%8A%B1%E5%B5%90/1707277887?i=1707277888",
+      "title": "花嵐",
+      "titleKeys": [
+        "花嵐"
+      ],
+      "titleLatin": "Hanaarashi"
+    },
+    {
+      "albumId": "apple:al:1719249551",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 176313,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1719249552",
+      "latinSource": "cutlet",
+      "popularity": 0.5806,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9e/2c/db/9e2cdb43-b3eb-c320-75ba-9fbc9a5a08f7/mzaf_616716079795448322.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "tohigyo",
+          "逃避行"
+        ]
+      },
+      "songKey": "逃避行|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%80%83%E9%81%BF%E8%A1%8C/1719249551?i=1719249552",
+      "title": "逃避行",
+      "titleKeys": [
+        "逃避行"
+      ],
+      "titleLatin": "Touhi gyou"
+    },
+    {
+      "albumId": "apple:al:1721850002",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 184787,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1721850003",
+      "latinSource": null,
+      "popularity": 0.7581,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/b8/38/72/b8387259-8803-64d3-cd9b-cdcaeaa84c78/mzaf_10410143449952566809.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-01-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "pray"
+        ]
+      },
+      "songKey": "pray|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/pray/1721850002?i=1721850003",
+      "title": "pray",
+      "titleKeys": [
+        "pray"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1730930926",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 204916,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1730930987",
+      "latinSource": "cutlet",
+      "popularity": 0.6774,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ea/50/b0/ea50b046-9a95-7700-2d0e-2085e0bf97c4/mzaf_1928827239800220965.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-03-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "insomnia",
+          "insomunia",
+          "いんそむにあ"
+        ]
+      },
+      "songKey": "いんそむにあ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A4%E3%83%B3%E3%82%BD%E3%83%A0%E3%83%8B%E3%82%A2/1730930926?i=1730930987",
+      "title": "インソムニア",
+      "titleKeys": [
+        "いんそむにあ"
+      ],
+      "titleLatin": "Insomunia"
+    },
+    {
+      "albumId": "apple:al:1734543658",
+      "artistDisplay": "Eve & 初音ミク",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 202613,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1734543659",
+      "latinSource": null,
+      "popularity": 0.5323,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f3/b9/97/f3b9976c-6196-3b74-de9a-f3f253e479e4/mzaf_11677146576539689700.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-03-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "gloriosday"
+        ]
+      },
+      "songKey": "gloriousday|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/glorious-day/1734543658?i=1734543659",
+      "title": "Glorious Day",
+      "titleKeys": [
+        "gloriousday"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1740881112",
+      "artistDisplay": "Eve & Deu",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 181880,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1740881113",
+      "latinSource": "cutlet",
+      "popularity": 0.4597,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9c/fe/6f/9cfe6fd8-8925-8f53-2a9e-8e0712ddea60/mzaf_3134796066612412688.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-05-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "flatwodsnomonstermitaini",
+          "furattozzunomonsutamitaini",
+          "ふらっとうっずのもんすたーみたいに"
+        ]
+      },
+      "songKey": "ふらっとうっずのもんすたーみたいに|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%95%E3%83%A9%E3%83%83%E3%83%88%E3%82%A6%E3%83%83%E3%82%BA%E3%81%AE%E3%83%A2%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%BC%E3%81%BF%E3%81%9F%E3%81%84%E3%81%AB/1740881112?i=1740881113",
+      "title": "フラットウッズのモンスターみたいに",
+      "titleKeys": [
+        "ふらっとうっずのもんすたーみたいに"
+      ],
+      "titleLatin": "Furatto Uzzu no monsutaa mitai ni"
+    },
+    {
+      "albumId": "apple:al:1753209872",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 199187,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1753209885",
+      "latinSource": "cutlet",
+      "popularity": 0.6532,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/90/1a/93/901a93c0-c849-7303-f33d-68c896193744/mzaf_9374066021018469893.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-07-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "suitomemori",
+          "swetmemory",
+          "すいーとめもりー"
+        ]
+      },
+      "songKey": "すいーとめもりー|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B9%E3%82%A4%E3%83%BC%E3%83%88%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%BC/1753209872?i=1753209885",
+      "title": "スイートメモリー",
+      "titleKeys": [
+        "すいーとめもりー"
+      ],
+      "titleLatin": "Suiito memorii"
+    },
+    {
+      "albumId": "apple:al:1759312687",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 145454,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1759312688",
+      "latinSource": "cutlet",
+      "popularity": 0.4113,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a6/6c/a6/a66ca69b-6da2-f34f-aa55-412e7446c151/mzaf_6303580704506817078.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "makimonogatari",
+          "巻物語"
+        ]
+      },
+      "songKey": "巻物語|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%B7%BB%E7%89%A9%E8%AA%9E/1759312687?i=1759312688",
+      "title": "巻物語",
+      "titleKeys": [
+        "巻物語"
+      ],
+      "titleLatin": "Maki monogatari"
+    },
+    {
+      "albumId": "apple:al:1768910463",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 225645,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1768910464",
+      "latinSource": "cutlet",
+      "popularity": 0.7823,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e0/c5/c3/e0c5c3c5-8210-77eb-6bad-26340af6864e/mzaf_18080367014943291307.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-10-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "chineijiburu",
+          "tenageblue",
+          "てぃーんえいじぶるー"
+        ]
+      },
+      "songKey": "てぃーんえいじぶるー|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%86%E3%82%A3%E3%83%BC%E3%83%B3%E3%82%A8%E3%82%A4%E3%82%B8%E3%83%96%E3%83%AB%E3%83%BC/1768910463?i=1768910464",
+      "title": "ティーンエイジブルー",
+      "titleKeys": [
+        "てぃーんえいじぶるー"
+      ],
+      "titleLatin": "Tiin eiji buruu"
+    },
+    {
+      "albumId": "apple:al:1779658110",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 155640,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1779658111",
+      "latinSource": null,
+      "popularity": 0.2581,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0b/42/08/0b4208ac-8093-258e-6881-571350202303/mzaf_17734551197566374014.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "lajcat"
+        ]
+      },
+      "songKey": "lazycat|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/lazy-cat/1779658110?i=1779658111",
+      "title": "lazy cat",
+      "titleKeys": [
+        "lazycat"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1779658110",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 234133,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1779658116",
+      "latinSource": "cutlet",
+      "popularity": 0.3226,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ce/38/a1/ce38a107-9a64-95bd-27bc-481245a8d1f3/mzaf_7116033231871475916.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "hanahoshi",
+          "花星"
+        ]
+      },
+      "songKey": "花星|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%8A%B1%E6%98%9F/1779658110?i=1779658116",
+      "title": "花星",
+      "titleKeys": [
+        "花星"
+      ],
+      "titleLatin": "Hana hoshi"
+    },
+    {
+      "albumId": "apple:al:1779658110",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 195947,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1779658118",
+      "latinSource": null,
+      "popularity": 0.0968,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9e/c9/e8/9ec9e8c0-3f0d-a0ea-a248-21eb70a7b490/mzaf_4480149321675181062.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "byme"
+        ]
+      },
+      "songKey": "byme|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/byme/1779658110?i=1779658118",
+      "title": "Byme",
+      "titleKeys": [
+        "byme"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1779658110",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 180480,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1779658125",
+      "latinSource": null,
+      "popularity": 0.1855,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/28/62/31/28623151-ff4e-375c-f5e1-59ee5997d58d/mzaf_10958800398334781858.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "midnightrunway"
+        ]
+      },
+      "songKey": "midnightrunway|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/midnight-runway/1779658110?i=1779658125",
+      "title": "Midnight Runway",
+      "titleKeys": [
+        "midnightrunway"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1779658110",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 210533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1779658128",
+      "latinSource": "cutlet",
+      "popularity": 0.3145,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/63/26/e1/6326e14d-b0a9-4224-e04a-58291f25adea/mzaf_11097386817076731748.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "sayonaraendororu",
+          "sayonaraendroll",
+          "さよならえんどろーる"
+        ]
+      },
+      "songKey": "さよならえんどろーる|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%95%E3%82%88%E3%81%AA%E3%82%89%E3%82%A8%E3%83%B3%E3%83%89%E3%83%AD%E3%83%BC%E3%83%AB/1779658110?i=1779658128",
+      "title": "さよならエンドロール",
+      "titleKeys": [
+        "さよならえんどろーる"
+      ],
+      "titleLatin": "Sayonara endo rooru"
+    },
+    {
+      "albumId": "apple:al:1779658110",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 90067,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1779658279",
+      "latinSource": null,
+      "popularity": 0.0484,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e4/7f/b1/e47fb121-24c1-f7ae-472a-64f652fa62ea/mzaf_12813911440148554334.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "underblue"
+        ]
+      },
+      "songKey": "underblue|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/under-blue/1779658110?i=1779658279",
+      "title": "Under Blue",
+      "titleKeys": [
+        "underblue"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1779658110",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 212640,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1779658280",
+      "latinSource": "cutlet",
+      "popularity": 0.1371,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/09/d4/02/09d402d3-0945-98b2-919c-8f7a957fe2f8/mzaf_11200575180781635086.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "yumeniaetara",
+          "夢に逢えたら"
+        ]
+      },
+      "songKey": "夢に逢えたら|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%A2%E3%81%AB%E9%80%A2%E3%81%88%E3%81%9F%E3%82%89/1779658110?i=1779658280",
+      "title": "夢に逢えたら",
+      "titleKeys": [
+        "夢に逢えたら"
+      ],
+      "titleLatin": "Yume ni aetara"
+    },
+    {
+      "albumId": "apple:al:1814017969",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 179177,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1814017970",
+      "latinSource": null,
+      "popularity": 0.3387,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8a/64/1e/8a641ed4-2787-7f4f-1937-d176d5c7ff93/mzaf_10578577727727222453.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-05-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "fellike"
+        ]
+      },
+      "songKey": "feellike|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/feel-like/1814017969?i=1814017970",
+      "title": "feel like",
+      "titleKeys": [
+        "feellike"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1823816260",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 173607,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1823816261",
+      "latinSource": "cutlet",
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e1/63/01/e16301f7-bd5b-8430-6ad3-a8f00a265497/mzaf_14034434207081315190.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-07-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "ghostavenue",
+          "gosutoabenyu",
+          "ごーすとあべにゅー"
+        ]
+      },
+      "songKey": "ごーすとあべにゅー|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B4%E3%83%BC%E3%82%B9%E3%83%88%E3%82%A2%E3%83%99%E3%83%8B%E3%83%A5%E3%83%BC/1823816260?i=1823816261",
+      "title": "ゴーストアベニュー",
+      "titleKeys": [
+        "ごーすとあべにゅー"
+      ],
+      "titleLatin": "Goosuto abenyuu"
+    },
+    {
+      "albumId": "apple:al:1846576554",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 217760,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1846576556",
+      "latinSource": "cutlet",
+      "popularity": 0.621,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f6/9b/3b/f69b3bc0-0c2d-d79d-5323-0c109318b653/mzaf_17315169226758434825.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-10-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "aioraito",
+          "あいおらいと"
+        ]
+      },
+      "songKey": "あいおらいと|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%A4%E3%82%AA%E3%83%A9%E3%82%A4%E3%83%88/1846576554?i=1846576556",
+      "title": "アイオライト",
+      "titleKeys": [
+        "あいおらいと"
+      ],
+      "titleLatin": "Aioraito"
+    },
+    {
+      "albumId": "apple:al:1852695260",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 193750,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1852695411",
+      "latinSource": null,
+      "popularity": 0.4274,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/45/3f/01/453f0109-456b-9a25-7dd4-34cd302a4c65/mzaf_323234027454445192.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-11-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "underdog"
+        ]
+      },
+      "songKey": "underdog|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/underdog/1852695260?i=1852695411",
+      "title": "Underdog",
+      "titleKeys": [
+        "underdog"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1887808018",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 222492,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1887808019",
+      "latinSource": "cutlet",
+      "popularity": 0.7742,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/36/c5/17/36c51707-47b1-48a0-c9fc-16786cdf05ad/mzaf_1946369685844015416.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-04-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "kazenoansemufeatsuisfromyorushika",
+          "kazenoanthemfeatsuisfromyorushika",
+          "風のあんせむfeatsuisfromよるしか"
+        ]
+      },
+      "songKey": "風のあんせむ|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%A2%A8%E3%81%AE%E3%82%A2%E3%83%B3%E3%82%BB%E3%83%A0-feat-suis-from-%E3%83%A8%E3%83%AB%E3%82%B7%E3%82%AB/1887808018?i=1887808019",
+      "title": "風のアンセム (feat. suis from ヨルシカ)",
+      "titleKeys": [
+        "風のあんせむ"
+      ],
+      "titleLatin": "Kaze no ansemu (feat. suis from yorushika)"
+    },
+    {
+      "albumId": "apple:al:6778821952",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 235174,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6778821963",
+      "latinSource": "cutlet",
+      "popularity": 0.379,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4f/88/c4/4f88c495-a144-9d9e-b5c6-791d23de37d3/mzaf_13594149136894146289.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-06-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "abisuinzawarudo",
+          "あびすいんざわーるど"
+        ]
+      },
+      "songKey": "あびすいんざわーるど|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%81%B3%E3%81%99%E3%81%84%E3%82%93%E3%81%96%E3%82%8F%E3%83%BC%E3%82%8B%E3%81%A9/6778821952?i=6778821963",
+      "title": "あびすいんざわーるど",
+      "titleKeys": [
+        "あびすいんざわーるど"
+      ],
+      "titleLatin": "A bi sui n zawa- rudo"
+    },
+    {
+      "albumId": "apple:al:6811917350",
+      "artistDisplay": "Eve",
+      "artistIds": [
+        "apple:ar:1080967231"
+      ],
+      "durationMs": 159896,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6811917449",
+      "latinSource": null,
+      "popularity": 0.7903,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/02/91/9d/02919d45-e9c3-e60f-ac9b-b45d1173aecd/mzaf_4507834398239403482.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-10-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "aiyo"
+        ]
+      },
+      "songKey": "aiyou|apple:ar:1080967231",
+      "storeUrl": "https://music.apple.com/jp/album/aiyou/6811917350?i=6811917449",
+      "title": "AIYOU",
+      "titleKeys": [
+        "aiyou"
+      ],
+      "titleLatin": null
+    }
+  ]
+}

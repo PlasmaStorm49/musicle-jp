@@ -1,0 +1,44 @@
+# Artistas do modo por artista (M13), na ordem da tela (P118). O id é o da loja JP da Apple: os
+# nomes são ambíguos na loja (há uma LISA do BLACKPINK, um Eve do rap, outros Aimer), então a
+# lista nunca usa o nome. Regras de curadoria (P136):
+#   exclude_albums: collectionId de álbum que não entra (ex.: os E-SIDE do YOASOBI, em inglês)
+#   exclude_tracks: trackId de faixa que não entra
+#   same_song: pares de trackId da mesma música com títulos que a chave não junta (o 2º vai para
+#     o grupo do 1º)
+
+[[artists]]
+id = "1490256993"  # YOASOBI
+# Os E-SIDE 1 a 4 são as mesmas músicas em inglês (P124), com títulos sem sufixo ("Idol" é アイドル).
+# E também os singles em inglês sem o sufixo: Idol, Adventure e Monotone (- Single).
+exclude_albums = [
+  "1590852953",
+  "1652016295",
+  "1737193089",
+  "1894825130",
+  "1688334284",
+  "1728037259",
+  "1770010365",
+  # e os singles das traduções com outro título: On the Stage, The Blessing, The Brave e
+  # The Swallow (feat. Midories).
+  "1760460644",
+  "1652014298",
+  "1717130268",
+  "1650746027",
+]
+
+[[artists]]
+id = "573943518"  # LiSA (アニメ; não a LISA do BLACKPINK)
+
+[[artists]]
+id = "1080967231"  # Eve (J-Pop; não o Eve do rap)
+
+[[artists]]
+id = "1492604670"  # Ado
+
+[[artists]]
+id = "569972619"  # Aimer
+# "bL∞dy f8 -eUC-" é uma versão de "bL∞dy f8" (as duas são participações dela).
+same_song = [["1536128787", "1538258118"]]
+
+[[artists]]
+id = "530814268"  # 米津玄師 (o Hachi, 727267782, é outro artista e não entra, P123)

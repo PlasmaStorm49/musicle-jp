@@ -1,0 +1,1892 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/fe/58/79/fe58795c-1628-230a-9ffe-300c04b6627c/194491717186.jpg/300x300bb.jpg",
+      "id": "apple:al:1490256978",
+      "latinSource": "cutlet",
+      "releaseDate": "2019-12-15",
+      "title": "夜に駆ける - Single",
+      "titleLatin": "Yoru ni kakeru",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/e2/b2/7b/e2b27bda-dfcd-323d-da30-894f646f3ed1/194491839147.jpg/300x300bb.jpg",
+      "id": "apple:al:1494399110",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-01-18",
+      "title": "あの夢をなぞって - Single",
+      "titleLatin": "Ano yume wo nazotte",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d3/23/ac/d323ac61-2d0b-2d15-6907-fdf994be8ba1/195081470399.jpg/300x300bb.jpg",
+      "id": "apple:al:1509494398",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-05-11",
+      "title": "ハルジオン - Single",
+      "titleLatin": "Haruji on",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/bf/1c/3b/bf1c3bdd-a128-2843-776a-35bf3c879d98/195081850498.jpg/300x300bb.jpg",
+      "id": "apple:al:1520198755",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-07-20",
+      "title": "たぶん - Single",
+      "titleLatin": "Tabun",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/ae/7e/4a/ae7e4a28-fd46-9617-1066-fcbd124303d6/195497105656.jpg/300x300bb.jpg",
+      "id": "apple:al:1528119626",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-09-01",
+      "title": "群青 - Single",
+      "titleLatin": "Gunjou",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/6f/92/2d/6f922d2d-735d-59bd-00a0-d845371bb99c/195497666263.jpg/300x300bb.jpg",
+      "id": "apple:al:1541850602",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-12-18",
+      "title": "ハルカ - Single",
+      "titleLatin": "Haruka",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7f/8c/90/7f8c90dd-e11f-30d5-271d-4b72eee970bd/195497666737.jpg/300x300bb.jpg",
+      "id": "apple:al:1542182291",
+      "latinSource": null,
+      "releaseDate": "2021-01-06",
+      "title": "THE BOOK",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9e/ab/2c/9eab2c24-8289-1bd7-548d-e6b871fcf169/195497732630.jpg/300x300bb.jpg",
+      "id": "apple:al:1544083976",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-01-06",
+      "title": "怪物 - Single",
+      "titleLatin": "Kaibutsu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/fc/2a/2a/fc2a2ae6-f971-0b82-efe7-fad4981efe68/195497842889.jpg/300x300bb.jpg",
+      "id": "apple:al:1547210421",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-01-20",
+      "title": "優しい彗星 - Single",
+      "titleLatin": "Yasashii suisei",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/f8/03/83/f803837d-7056-6983-f1be-b0f03ff3ad6d/196006562731.jpg/300x300bb.jpg",
+      "id": "apple:al:1564444109",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-05-10",
+      "title": "もう少しだけ - Single",
+      "titleLatin": "Mou sukoshi dake",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/88/cb/41/88cb41ab-cc3c-831b-84be-7b66436a23b8/196006849979.jpg/300x300bb.jpg",
+      "id": "apple:al:1571739414",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-07-02",
+      "title": "三原色 - Single",
+      "titleLatin": "San genshoku",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/b4/c0/09/b4c009cd-2642-f10b-49d7-782d1b8145e1/196292091472.jpg/300x300bb.jpg",
+      "id": "apple:al:1579050872",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-08-09",
+      "title": "ラブレター - Single",
+      "titleLatin": "Rabu retaa",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/d6/06/84/d60684a9-7267-f77c-d07a-9724c846722d/196292313369.jpg/300x300bb.jpg",
+      "id": "apple:al:1582913798",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-09-15",
+      "title": "大正浪漫 - Single",
+      "titleLatin": "Taishou roman",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/5a/66/8d/5a668da4-c94d-b208-19cd-8bc649f725e2/196292629439.jpg/300x300bb.jpg",
+      "id": "apple:al:1588668622",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-10-25",
+      "title": "ツバメ (feat. ミドリーズ) - Single",
+      "titleLatin": "Tsubame (feat. midoriizu)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/37/2b/1a/372b1a1d-ab10-4a92-7a78-2c5470c44084/196292816631.jpg/300x300bb.jpg",
+      "id": "apple:al:1593438479",
+      "latinSource": null,
+      "releaseDate": "2021-12-01",
+      "title": "THE BOOK 2",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/0b/00/25/0b00259a-1677-2c5b-aaf4-533003967ebb/196626258571.jpg/300x300bb.jpg",
+      "id": "apple:al:1607976608",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-02-16",
+      "title": "ミスター - Single",
+      "titleLatin": "Misutaa",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/e6/2b/c4/e62bc4fe-b044-0026-db66-ca1eb23542a6/196925025676.jpg/300x300bb.jpg",
+      "id": "apple:al:1624775154",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-05-30",
+      "title": "好きだ - Single",
+      "titleLatin": "Suki da",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/5c/45/a9/5c45a9cf-678a-a945-3544-923382e5d1c4/197186993001.jpg/300x300bb.jpg",
+      "id": "apple:al:1645308325",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-10-01",
+      "title": "祝福 - Single",
+      "titleLatin": "Shukufuku",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/af/54/11/af541115-4674-c7a4-b0a8-76fad0276408/197187296699.jpg/300x300bb.jpg",
+      "id": "apple:al:1652280447",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-11-18",
+      "title": "海のまにまに - Single",
+      "titleLatin": "Umi no manimani",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/46/8e/a8/468ea804-012a-2872-d141-98def4aeb6d6/197188059262.jpg/300x300bb.jpg",
+      "id": "apple:al:1669698267",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-02-15",
+      "title": "アドベンチャー - Single",
+      "titleLatin": "Adobenchaa",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/c3/93/65/c393653a-e44f-f723-f82b-500b8fb49d09/197188385958.jpg/300x300bb.jpg",
+      "id": "apple:al:1678049663",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-03-27",
+      "title": "セブンティーン - Single",
+      "titleLatin": "Sebuntiin",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/3a/17/eb/3a17eb30-eacb-82eb-51df-d1321dbb55bc/197188492205.jpg/300x300bb.jpg",
+      "id": "apple:al:1679278166",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-04-12",
+      "title": "アイドル - Single",
+      "titleLatin": "Aidoru",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/d5/fb/70/d5fb7086-9fbe-feca-215e-da448bcf4596/197189862939.jpg/300x300bb.jpg",
+      "id": "apple:al:1707001460",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-09-29",
+      "title": "勇者 - Single",
+      "titleLatin": "Yuusha",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/db/5e/13/db5e1360-edff-7b85-9dea-e61e2385f4f8/197190337402.jpg/300x300bb.jpg",
+      "id": "apple:al:1716254217",
+      "latinSource": null,
+      "releaseDate": "2023-11-18",
+      "title": "Biri-Biri - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/ed/83/ec/ed83ec75-818c-5f22-d368-41210d2e8bd0/23UM1IM62514.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1721164117",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-12-20",
+      "title": "ユーミン乾杯!!～松任谷由実50周年記念コラボベストアルバム～",
+      "titleLatin": "Yuumin kanpai!!~ Matsutouya Yumi 50 shuunen kinen korabo besuto arubamu~",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/9c/db/11/9cdb11a0-2542-e1a1-cd45-252ed19ecef1/197190657173.jpg/300x300bb.jpg",
+      "id": "apple:al:1721294801",
+      "latinSource": null,
+      "releaseDate": "2023-12-26",
+      "title": "HEART BEAT - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4f/b3/fb/4fb3fb99-7c8b-f028-8683-6128f3e20caf/198588375464.jpg/300x300bb.jpg",
+      "id": "apple:al:1752838718",
+      "latinSource": null,
+      "releaseDate": "2024-07-01",
+      "title": "UNDEAD - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2e/ff/65/2eff654c-e200-4c1a-590d-2695c9bba6de/198588722404.jpg/300x300bb.jpg",
+      "id": "apple:al:1757556947",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-07-26",
+      "title": "舞台に立って - Single",
+      "titleLatin": "Butai ni tatte",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/df/05/a9/df05a94d-ff41-e0e1-f156-f40ee7c9922b/198846242873.jpg/300x300bb.jpg",
+      "id": "apple:al:1767332870",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-10-01",
+      "title": "モノトーン - Single",
+      "titleLatin": "Monotoon",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2f/97/8c/2f978cc6-ca98-f6f8-5907-3d39ac6f63d3/198846810805.jpg/300x300bb.jpg",
+      "id": "apple:al:1778233023",
+      "latinSource": null,
+      "releaseDate": "2024-11-11",
+      "title": "New me - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/28/e2/b5/28e2b5ec-e940-2f52-ea0b-38e102c1ec74/199350091568.jpg/300x300bb.jpg",
+      "id": "apple:al:1802134769",
+      "latinSource": null,
+      "releaseDate": "2025-03-21",
+      "title": "PLAYERS - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5f/e1/ef/5fe1ef35-2ee9-f6cf-6eb6-97eab00e53a2/199350611605.jpg/300x300bb.jpg",
+      "id": "apple:al:1813364850",
+      "latinSource": null,
+      "releaseDate": "2025-05-18",
+      "title": "Watch me! - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ca/7b/d3/ca7bd3dc-6e1e-f6bc-91ed-a9222284ab1a/199538817348.jpg/300x300bb.jpg",
+      "id": "apple:al:1840585343",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-10-02",
+      "title": "劇上 - Single",
+      "titleLatin": "Gekijou",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "LE SSERAFIM & YOASOBI",
+      "artistIds": [
+        "apple:ar:1616740364",
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8e/5d/98/8e5d9852-546d-1d02-aa9f-e47ca359f5a6/25UM1IM49064.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1841835715",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-09-26",
+      "title": "the NOISE (Contains a Samples of 夜に駆ける) - Single",
+      "titleLatin": "The NOISE (Contains a Samples ofya ni kakeru)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7b/74/12/7b741277-744a-e758-7ca5-67fd3adf6566/199806415856.jpg/300x300bb.jpg",
+      "id": "apple:al:1852183577",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-11-19",
+      "title": "会心の一撃 - Single",
+      "titleLatin": "Kaishin no ichigeki",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f0/3b/bc/f03bbca1-68a7-530d-9904-e447d0024ddd/199806749012.jpg/300x300bb.jpg",
+      "id": "apple:al:1861370948",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-01-04",
+      "title": "アドレナ - Single",
+      "titleLatin": "Ado Rena",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b5/d3/d9/b5d3d9f2-cda4-646d-a9cf-0ad26f623903/199806763940.jpg/300x300bb.jpg",
+      "id": "apple:al:1861370983",
+      "latinSource": null,
+      "releaseDate": "2026-01-11",
+      "title": "BABY - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a3/8e/41/a38e4173-a495-1c1f-aa2f-c7831c9c01a9/820233543187.jpg/300x300bb.jpg",
+      "id": "apple:al:6775750598",
+      "latinSource": null,
+      "releaseDate": "2026-06-26",
+      "title": "THE BOOK for,",
+      "titleLatin": null,
+      "type": "album"
+    }
+  ],
+  "artistId": "apple:ar:1490256993",
+  "artists": [
+    {
+      "id": "apple:ar:1490256993",
+      "latinSource": null,
+      "name": "YOASOBI",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1616740364",
+      "latinSource": null,
+      "name": "LE SSERAFIM",
+      "nameLatin": null
+    }
+  ],
+  "fetchedAt": "2026-10-12T16:15:51Z",
+  "provider": "apple",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "apple:al:1490256978",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 261013,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1490256995",
+      "latinSource": "cutlet",
+      "popularity": 0.9737,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4e/73/ae/4e73ae7f-96d6-5100-d3d3-3c50c28a1f19/mzaf_6031201848020469124.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-12-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "yorunikakeru",
+          "夜に駆ける"
+        ]
+      },
+      "songKey": "夜に駆ける|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%9C%E3%81%AB%E9%A7%86%E3%81%91%E3%82%8B/1490256978?i=1490256995",
+      "title": "夜に駆ける",
+      "titleKeys": [
+        "夜に駆ける",
+        "夜に駆けるfromthefirsttake"
+      ],
+      "titleLatin": "Yoru ni kakeru"
+    },
+    {
+      "albumId": "apple:al:1494399110",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 242667,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1494399118",
+      "latinSource": "cutlet",
+      "popularity": 0.6579,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/eb/ea/b0/ebeab0e0-775f-4497-854d-1a98aef0d0cd/mzaf_9035867845237005552.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-01-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "anoyumewonazotte",
+          "あの夢をなぞって"
+        ]
+      },
+      "songKey": "あの夢をなぞって|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%81%AE%E5%A4%A2%E3%82%92%E3%81%AA%E3%81%9E%E3%81%A3%E3%81%A6/1494399110?i=1494399118",
+      "title": "あの夢をなぞって",
+      "titleKeys": [
+        "あの夢をなぞって"
+      ],
+      "titleLatin": "Ano yume wo nazotte"
+    },
+    {
+      "albumId": "apple:al:1509494398",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 198000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1509494402",
+      "latinSource": "cutlet",
+      "popularity": 0.7895,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/96/6b/b2/966bb2e4-c6f6-7a55-f674-64f659305481/mzaf_728390891790536279.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-05-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "harujion",
+          "はるじおん"
+        ]
+      },
+      "songKey": "はるじおん|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8F%E3%83%AB%E3%82%B8%E3%82%AA%E3%83%B3/1509494398?i=1509494402",
+      "title": "ハルジオン",
+      "titleKeys": [
+        "はるじおん"
+      ],
+      "titleLatin": "Haruji on"
+    },
+    {
+      "albumId": "apple:al:1520198755",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 258667,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1520198760",
+      "latinSource": "cutlet",
+      "popularity": 0.5789,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/90/2f/a7/902fa7eb-a6f2-2ea4-6fc8-ea609b5a69bd/mzaf_8772585538653242854.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-07-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "tabun",
+          "たぶん"
+        ]
+      },
+      "songKey": "たぶん|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%9F%E3%81%B6%E3%82%93/1520198755?i=1520198760",
+      "title": "たぶん",
+      "titleKeys": [
+        "たぶん"
+      ],
+      "titleLatin": "Tabun"
+    },
+    {
+      "albumId": "apple:al:1528119626",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 248444,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1528119630",
+      "latinSource": "cutlet",
+      "popularity": 0.8947,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/08/0d/94/080d94eb-4af2-1416-d4fe-4aaa2fb2919d/mzaf_17295798808182675603.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-09-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "gunjo",
+          "群青"
+        ]
+      },
+      "songKey": "群青|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%BE%A4%E9%9D%92/1528119626?i=1528119630",
+      "title": "群青",
+      "titleKeys": [
+        "群青"
+      ],
+      "titleLatin": "Gunjou"
+    },
+    {
+      "albumId": "apple:al:1541850602",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 243613,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1541851056",
+      "latinSource": "cutlet",
+      "popularity": 0.6316,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/89/4a/e3/894ae300-0a58-33f4-cf49-ae44c9db6766/mzaf_2363171927683121874.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "haruka",
+          "はるか"
+        ]
+      },
+      "songKey": "はるか|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8F%E3%83%AB%E3%82%AB/1541850602?i=1541851056",
+      "title": "ハルカ",
+      "titleKeys": [
+        "はるか"
+      ],
+      "titleLatin": "Haruka"
+    },
+    {
+      "albumId": "apple:al:1542182291",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 271440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1542182311",
+      "latinSource": "cutlet",
+      "popularity": 0.7368,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/83/54/1e/83541ec7-9495-2885-40dc-f0b7714518c5/mzaf_10210180579934227710.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-01-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "ankoru",
+          "encore",
+          "あんこーる"
+        ]
+      },
+      "songKey": "あんこーる|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%AB/1542182291?i=1542182311",
+      "title": "アンコール",
+      "titleKeys": [
+        "あんこーる"
+      ],
+      "titleLatin": "Ankooru"
+    },
+    {
+      "albumId": "apple:al:1544083976",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 206000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1544083979",
+      "latinSource": "cutlet",
+      "popularity": 0.9474,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ed/35/8f/ed358f20-baf2-7b27-d1e5-eeb9fa4f4498/mzaf_2838285223197932486.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-01-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "kaibutsu",
+          "怪物"
+        ]
+      },
+      "songKey": "怪物|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%80%AA%E7%89%A9/1544083976?i=1544083979",
+      "title": "怪物",
+      "titleKeys": [
+        "怪物"
+      ],
+      "titleLatin": "Kaibutsu"
+    },
+    {
+      "albumId": "apple:al:1547210421",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 215333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1547210425",
+      "latinSource": "cutlet",
+      "popularity": 0.6842,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/78/d9/5e/78d95ee2-7e4c-3b72-34f6-6fb920979b60/mzaf_3527355424964107711.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-01-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "yasashisuisei",
+          "優しい彗星"
+        ]
+      },
+      "songKey": "優しい彗星|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%84%AA%E3%81%97%E3%81%84%E5%BD%97%E6%98%9F/1547210421?i=1547210425",
+      "title": "優しい彗星",
+      "titleKeys": [
+        "優しい彗星"
+      ],
+      "titleLatin": "Yasashii suisei"
+    },
+    {
+      "albumId": "apple:al:1564444109",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 220201,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1564444512",
+      "latinSource": "cutlet",
+      "popularity": 0.8158,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d0/a9/87/d0a987f1-cd41-163d-fd21-c178fc45fe68/mzaf_12638488483124659449.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-05-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "mosukoshidake",
+          "もう少しだけ"
+        ]
+      },
+      "songKey": "もう少しだけ|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%82%E3%81%86%E5%B0%91%E3%81%97%E3%81%A0%E3%81%91/1564444109?i=1564444512",
+      "title": "もう少しだけ",
+      "titleKeys": [
+        "もう少しだけ"
+      ],
+      "titleLatin": "Mou sukoshi dake"
+    },
+    {
+      "albumId": "apple:al:1571739414",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 224067,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1571739589",
+      "latinSource": "cutlet",
+      "popularity": 0.8684,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/84/c2/6c/84c26c6e-e67b-71dd-a2cf-b4e821f5293e/mzaf_8955518623151806058.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-07-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "sangenshoku",
+          "三原色"
+        ]
+      },
+      "songKey": "三原色|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%B8%89%E5%8E%9F%E8%89%B2/1571739414?i=1571739589",
+      "title": "三原色",
+      "titleKeys": [
+        "三原色"
+      ],
+      "titleLatin": "San genshoku"
+    },
+    {
+      "albumId": "apple:al:1579050872",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 212401,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1579051058",
+      "latinSource": "cutlet",
+      "popularity": 0.7632,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/89/cf/1b/89cf1bd5-8737-04bc-daa6-bcd757f51cf0/mzaf_14498684470029315918.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-08-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "loveletter",
+          "rabureta",
+          "らぶれたー"
+        ]
+      },
+      "songKey": "らぶれたー|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%83%96%E3%83%AC%E3%82%BF%E3%83%BC/1579050872?i=1579051058",
+      "title": "ラブレター",
+      "titleKeys": [
+        "らぶれたー"
+      ],
+      "titleLatin": "Rabu retaa"
+    },
+    {
+      "albumId": "apple:al:1582913798",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 168462,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1582913800",
+      "latinSource": "cutlet",
+      "popularity": 0.7105,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/aa/06/65/aa06655f-672a-6063-26f6-d6064c3eb922/mzaf_13425059487982096067.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-09-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "taishoroman",
+          "大正浪漫"
+        ]
+      },
+      "songKey": "大正浪漫|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%A7%E6%AD%A3%E6%B5%AA%E6%BC%AB/1582913798?i=1582913800",
+      "title": "大正浪漫",
+      "titleKeys": [
+        "大正浪漫"
+      ],
+      "titleLatin": "Taishou roman"
+    },
+    {
+      "albumId": "apple:al:1588668622",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 217429,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1588668629",
+      "latinSource": "cutlet",
+      "popularity": 0.6053,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8e/99/73/8e9973f6-cb0b-fae5-0c2f-b9b2d930ec41/mzaf_18280208354989890726.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-10-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "tsubamefeatmidorizu",
+          "つばめfeatみどりーず"
+        ]
+      },
+      "songKey": "つばめ|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%84%E3%83%90%E3%83%A1-feat-%E3%83%9F%E3%83%89%E3%83%AA%E3%83%BC%E3%82%BA/1588668622?i=1588668629",
+      "title": "ツバメ (feat. ミドリーズ)",
+      "titleKeys": [
+        "つばめ"
+      ],
+      "titleLatin": "Tsubame (feat. midoriizu)"
+    },
+    {
+      "albumId": "apple:al:1593438479",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 201627,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1593438809",
+      "latinSource": "cutlet",
+      "popularity": 0.4737,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1f/c5/10/1fc5109c-4b32-80d3-5fcd-85cf43310c19/mzaf_1914844252171726722.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-12-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "moshimoinochigaegaketara",
+          "もしも命が描けたら"
+        ]
+      },
+      "songKey": "もしも命が描けたら|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%82%E3%81%97%E3%82%82%E5%91%BD%E3%81%8C%E6%8F%8F%E3%81%91%E3%81%9F%E3%82%89/1593438479?i=1593438809",
+      "title": "もしも命が描けたら",
+      "titleKeys": [
+        "もしも命が描けたら"
+      ],
+      "titleLatin": "Moshi mo inochi ga egaketara"
+    },
+    {
+      "albumId": "apple:al:1607976608",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 187000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1607976611",
+      "latinSource": "cutlet",
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e7/70/1a/e7701a15-9ad8-0e64-3915-135462953d89/mzaf_10000207126805022904.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-02-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "mister",
+          "misuta",
+          "みすたー"
+        ]
+      },
+      "songKey": "みすたー|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9F%E3%82%B9%E3%82%BF%E3%83%BC/1607976608?i=1607976611",
+      "title": "ミスター",
+      "titleKeys": [
+        "みすたー"
+      ],
+      "titleLatin": "Misutaa"
+    },
+    {
+      "albumId": "apple:al:1624775154",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 217512,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1624775158",
+      "latinSource": "cutlet",
+      "popularity": 0.3947,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/39/15/17/3915178e-c720-50a9-cf94-51430186fc97/mzaf_4408518967117387297.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-05-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "sukida",
+          "好きだ"
+        ]
+      },
+      "songKey": "好きだ|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A5%BD%E3%81%8D%E3%81%A0/1624775154?i=1624775158",
+      "title": "好きだ",
+      "titleKeys": [
+        "好きだ"
+      ],
+      "titleLatin": "Suki da"
+    },
+    {
+      "albumId": "apple:al:1645308325",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 196235,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1645308331",
+      "latinSource": "cutlet",
+      "popularity": 0.9211,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0d/be/da/0dbeda3d-29d0-a2ae-ec11-161ceb896481/mzaf_7186255124424987338.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-10-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "shukufuku",
+          "祝福"
+        ]
+      },
+      "songKey": "祝福|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%A5%9D%E7%A6%8F/1645308325?i=1645308331",
+      "title": "祝福",
+      "titleKeys": [
+        "祝福"
+      ],
+      "titleLatin": "Shukufuku"
+    },
+    {
+      "albumId": "apple:al:1652280447",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 255918,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1652280454",
+      "latinSource": "cutlet",
+      "popularity": 0.3158,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/2d/da/d3/2ddad3a9-9578-191a-b817-30b773c6c3e4/mzaf_17029701979400488849.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-11-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "uminomanimani",
+          "海のまにまに"
+        ]
+      },
+      "songKey": "海のまにまに|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B5%B7%E3%81%AE%E3%81%BE%E3%81%AB%E3%81%BE%E3%81%AB/1652280447?i=1652280454",
+      "title": "海のまにまに",
+      "titleKeys": [
+        "海のまにまに"
+      ],
+      "titleLatin": "Umi no manimani"
+    },
+    {
+      "albumId": "apple:al:1669698267",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 199965,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1669698270",
+      "latinSource": "cutlet",
+      "popularity": 0.5526,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/71/d0/7b/71d07b3d-85ab-a737-ad5b-6d7448041b8b/mzaf_7538257013785783057.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-02-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "adobencha",
+          "adventsure",
+          "あどべんちゃー"
+        ]
+      },
+      "songKey": "あどべんちゃー|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%89%E3%83%99%E3%83%B3%E3%83%81%E3%83%A3%E3%83%BC/1669698267?i=1669698270",
+      "title": "アドベンチャー",
+      "titleKeys": [
+        "あどべんちゃー"
+      ],
+      "titleLatin": "Adobenchaa"
+    },
+    {
+      "albumId": "apple:al:1678049663",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 199586,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1678049671",
+      "latinSource": "cutlet",
+      "popularity": 0.4474,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/47/33/83/47338307-bce3-df22-8957-334c0f2cc5dc/mzaf_8879940241102613873.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-03-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "sebunchin",
+          "seventen",
+          "せぶんてぃーん"
+        ]
+      },
+      "songKey": "せぶんてぃーん|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%BB%E3%83%96%E3%83%B3%E3%83%86%E3%82%A3%E3%83%BC%E3%83%B3/1678049663?i=1678049671",
+      "title": "セブンティーン",
+      "titleKeys": [
+        "せぶんてぃーん"
+      ],
+      "titleLatin": "Sebuntiin"
+    },
+    {
+      "albumId": "apple:al:1679278166",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 213234,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1679278167",
+      "latinSource": "cutlet",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f0/db/16/f0db16be-457e-f10f-98b6-f30b11de34e4/mzaf_5189430943078523093.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "aidoru",
+          "idol",
+          "あいどる"
+        ]
+      },
+      "songKey": "あいどる|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB/1679278166?i=1679278167",
+      "title": "アイドル",
+      "titleKeys": [
+        "あいどる"
+      ],
+      "titleLatin": "Aidoru"
+    },
+    {
+      "albumId": "apple:al:1707001460",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 194164,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1707001466",
+      "latinSource": "cutlet",
+      "popularity": 0.8421,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/61/86/50/618650a6-af0f-600a-95ef-e1dcfbf00408/mzaf_8571805456869798591.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-09-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "yusha",
+          "勇者"
+        ]
+      },
+      "songKey": "勇者|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%8B%87%E8%80%85/1707001460?i=1707001466",
+      "title": "勇者",
+      "titleKeys": [
+        "勇者"
+      ],
+      "titleLatin": "Yuusha"
+    },
+    {
+      "albumId": "apple:al:1716254217",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 187326,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1716254220",
+      "latinSource": null,
+      "popularity": 0.4211,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0f/32/0b/0f320bdf-92db-95ee-5ce6-aa9927e0fd75/mzaf_1321906315655045480.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-11-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "biribiri"
+        ]
+      },
+      "songKey": "biribiri|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/biri-biri/1716254217?i=1716254220",
+      "title": "Biri-Biri",
+      "titleKeys": [
+        "biribiri"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1721164117",
+      "artistDisplay": "YOASOBI cheers 松任谷由実",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 202880,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1721164433",
+      "latinSource": "cutlet",
+      "popularity": 0.1579,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/45/e0/64/45e0647f-2ea2-94ab-0d03-eb01159e8f18/mzaf_14858695649936317473.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "chuofreway",
+          "chuofuriei",
+          "中央ふりーうぇい"
+        ]
+      },
+      "songKey": "中央ふりーうぇい|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%B8%AD%E5%A4%AE%E3%83%95%E3%83%AA%E3%83%BC%E3%82%A6%E3%82%A7%E3%82%A4/1721164117?i=1721164433",
+      "title": "中央フリーウェイ",
+      "titleKeys": [
+        "中央ふりーうぇい"
+      ],
+      "titleLatin": "Chuuou furiiei"
+    },
+    {
+      "albumId": "apple:al:1721294801",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 335465,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1721295079",
+      "latinSource": null,
+      "popularity": 0.3421,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/53/f1/3a/53f13a7a-349b-3e07-1c09-cba251dc8050/mzaf_3493767173680759011.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "heartbeat"
+        ]
+      },
+      "songKey": "heartbeat|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/heart-beat/1721294801?i=1721295079",
+      "title": "HEART BEAT",
+      "titleKeys": [
+        "heartbeat"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1752838718",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 182702,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1752838890",
+      "latinSource": null,
+      "popularity": 0.5263,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/33/cb/1e/33cb1e97-5bfc-39cb-3152-78fa5a3442f1/mzaf_10845217300211652825.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-07-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "undead"
+        ]
+      },
+      "songKey": "undead|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/undead/1752838718?i=1752838890",
+      "title": "UNDEAD",
+      "titleKeys": [
+        "undead"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1757556947",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 207959,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1757557244",
+      "latinSource": "cutlet",
+      "popularity": 0.3684,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a4/13/27/a41327ec-33a7-bfe4-f1dc-6d5dbcdc9a84/mzaf_16588879624359994347.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "butainitatte",
+          "舞台に立って"
+        ]
+      },
+      "songKey": "舞台に立って|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%88%9E%E5%8F%B0%E3%81%AB%E7%AB%8B%E3%81%A3%E3%81%A6/1757556947?i=1757557244",
+      "title": "舞台に立って",
+      "titleKeys": [
+        "舞台に立って"
+      ],
+      "titleLatin": "Butai ni tatte"
+    },
+    {
+      "albumId": "apple:al:1767332870",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 210870,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1767332878",
+      "latinSource": "cutlet",
+      "popularity": 0.1842,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f8/e1/c1/f8e1c1b5-8bed-ae0d-e22e-4afabea4745b/mzaf_11253167180673152447.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-10-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "monoton",
+          "monotone",
+          "ものとーん"
+        ]
+      },
+      "songKey": "ものとーん|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A2%E3%83%8E%E3%83%88%E3%83%BC%E3%83%B3/1767332870?i=1767332878",
+      "title": "モノトーン",
+      "titleKeys": [
+        "ものとーん"
+      ],
+      "titleLatin": "Monotoon"
+    },
+    {
+      "albumId": "apple:al:1778233023",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 206129,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1778233191",
+      "latinSource": null,
+      "popularity": 0.0789,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c8/5b/8b/c85b8bb5-0ea7-70ac-2ef5-1373c79503fa/mzaf_12458881952938533375.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-11-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "newme"
+        ]
+      },
+      "songKey": "newme|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/new-me/1778233023?i=1778233191",
+      "title": "New me",
+      "titleKeys": [
+        "newme"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1802134769",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 201155,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1802134777",
+      "latinSource": null,
+      "popularity": 0.2632,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4a/30/01/4a300186-957b-f8ce-ec7a-b818f3ddb7d2/mzaf_10405678695346918357.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-03-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "players"
+        ]
+      },
+      "songKey": "players|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/players/1802134769?i=1802134777",
+      "title": "PLAYERS",
+      "titleKeys": [
+        "players"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1813364850",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 186194,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1813364855",
+      "latinSource": null,
+      "popularity": 0.2895,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/91/a4/e5/91a4e5b9-31ed-2dfa-dd06-5a12d848aa62/mzaf_17698572058901217626.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-05-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "watchme"
+        ]
+      },
+      "songKey": "watchme|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/watch-me/1813364850?i=1813364855",
+      "title": "Watch me!",
+      "titleKeys": [
+        "watchme"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1840585343",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 198882,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1840585345",
+      "latinSource": "cutlet",
+      "popularity": 0.2368,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b4/82/63/b4826323-b3e0-7a83-d4fe-8adfaf6d48fd/mzaf_12482597887546738751.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-10-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "gekijo",
+          "劇上"
+        ]
+      },
+      "songKey": "劇上|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%8A%87%E4%B8%8A/1840585343?i=1840585345",
+      "title": "劇上",
+      "titleKeys": [
+        "劇上"
+      ],
+      "titleLatin": "Gekijou"
+    },
+    {
+      "albumId": "apple:al:1841835715",
+      "artistDisplay": "LE SSERAFIM & YOASOBI",
+      "artistIds": [
+        "apple:ar:1616740364",
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 224280,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1841835717",
+      "latinSource": "cutlet",
+      "popularity": 0.0263,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/dd/7e/80/dd7e804f-0c82-e8c4-ff05-cee6cca314c2/mzaf_3242615643502579077.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-09-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "thenoisecontainsasanplesofyanikakeru",
+          "thenoisecontainsasanplesof夜に駆ける"
+        ]
+      },
+      "songKey": "thenoisecontainsasamplesof夜に駆ける|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/the-noise-contains-a-samples-of-%E5%A4%9C%E3%81%AB%E9%A7%86%E3%81%91%E3%82%8B/1841835715?i=1841835717",
+      "title": "the NOISE (Contains a Samples of 夜に駆ける)",
+      "titleKeys": [
+        "thenoisecontainsasamplesof夜に駆ける"
+      ],
+      "titleLatin": "The NOISE (Contains a Samples ofya ni kakeru)"
+    },
+    {
+      "albumId": "apple:al:1852183577",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 239533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1852183579",
+      "latinSource": "cutlet",
+      "popularity": 0.1316,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9d/b8/72/9db872f3-db1d-39cf-9544-4c0335120d2b/mzaf_1846137514917302616.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-11-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "kaishinoichigeki",
+          "会心の一撃"
+        ]
+      },
+      "songKey": "会心の一撃|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%BC%9A%E5%BF%83%E3%81%AE%E4%B8%80%E6%92%83/1852183577?i=1852183579",
+      "title": "会心の一撃",
+      "titleKeys": [
+        "会心の一撃"
+      ],
+      "titleLatin": "Kaishin no ichigeki"
+    },
+    {
+      "albumId": "apple:al:1861370948",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 185825,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1861370949",
+      "latinSource": "cutlet",
+      "popularity": 0.2105,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/98/1e/c2/981ec271-e35b-0d93-a2f0-97299a0b7fe6/mzaf_4790000565561118316.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-01-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "addresslena",
+          "adorena",
+          "あどれな"
+        ]
+      },
+      "songKey": "あどれな|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%89%E3%83%AC%E3%83%8A/1861370948?i=1861370949",
+      "title": "アドレナ",
+      "titleKeys": [
+        "あどれな"
+      ],
+      "titleLatin": "Ado Rena"
+    },
+    {
+      "albumId": "apple:al:1861370983",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 230751,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1861370984",
+      "latinSource": null,
+      "popularity": 0.0526,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/08/4c/31/084c3161-8916-dbf4-6e75-37df5a8165b3/mzaf_13304028046787184607.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-01-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "baby"
+        ]
+      },
+      "songKey": "baby|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/baby/1861370983?i=1861370984",
+      "title": "BABY",
+      "titleKeys": [
+        "baby"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6775750598",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "durationMs": 206587,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6775750604",
+      "latinSource": "cutlet",
+      "popularity": 0.1053,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/17/78/65/17786552-aad8-5435-269f-158ee4036ad6/mzaf_7304449267074337351.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-06-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "orion",
+          "おりおん"
+        ]
+      },
+      "songKey": "おりおん|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AA%E3%83%AA%E3%82%AA%E3%83%B3/6775750598?i=6775750604",
+      "title": "オリオン",
+      "titleKeys": [
+        "おりおん"
+      ],
+      "titleLatin": "Orion"
+    }
+  ]
+}
