@@ -61,6 +61,9 @@ describe("a imagem do cartão (P168, P171)", () => {
     expect(cardArtwork(artists.list, { ...first, artworkUrl: null })).toBeNull();
     const { artworkUrl: _, ...old } = first;
     expect(cardArtwork(artists.list, old as typeof first)).toBeNull();
+    // Um índice corrompido (o loadArtistList não confere as entradas) não quebra a lista.
+    const broken = { ...first, artworkUrl: 42 } as unknown as typeof first;
+    expect(cardArtwork({ ...artists.list, provider: "apple" }, broken)).toBeNull();
   });
 
   it("os 8 artistas reais têm capa, e todas do host da Apple", () => {
@@ -73,6 +76,8 @@ describe("a imagem do cartão (P168, P171)", () => {
     expect(monogram({ ...first, name: "米津玄師" }).letter).toBe("米");
     expect(monogram({ ...first, name: " UNLIMITS" }).letter).toBe("U");
     expect(monogram({ ...first, name: "𠮷野家" }).letter).toBe("𠮷"); // fora do plano básico
+    expect(monogram({ ...first, name: "  " }).letter).toBe("?"); // sem letra
+    expect(monogram({ ...first, name: null } as unknown as typeof first).letter).toBe("?");
     const color = monogram(first).color;
     expect(color).toBeGreaterThanOrEqual(0);
     expect(color).toBeLessThan(MONOGRAM_COLORS);

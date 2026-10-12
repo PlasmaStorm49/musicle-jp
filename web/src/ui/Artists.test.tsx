@@ -305,6 +305,9 @@ describe("Artists: a lista (P147)", () => {
     expect(card(/^Banda/).querySelector(".monogram")).not.toBeNull();
     const badge = screen.getByRole("link", { name: /Apple Music/ });
     expect(badge.getAttribute("href")).toBe(PLAYLIST_URL);
+    // O selo fecha a página (P112, P170): depois do último cartão.
+    const last = card(/^Banda/);
+    expect(last.compareDocumentPosition(badge) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it("nenhum id igual a uma rota (regra 17), na lista e na rodada", async () => {

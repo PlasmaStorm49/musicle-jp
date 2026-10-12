@@ -12,8 +12,9 @@ import type { ArtistCatalog, ArtistList, ArtistListEntry } from "./types.ts";
  * O índice antigo, ainda no cache do Pages por alguns minutos, vem sem o campo.
  */
 export function cardArtwork(list: ArtistList, entry: ArtistListEntry): string | null {
-  const url = entry.artworkUrl ?? null;
-  if (!url) return null;
+  // O `loadArtistList` não confere as entradas: um índice corrompido não pode quebrar a lista.
+  const url: unknown = entry.artworkUrl;
+  if (typeof url !== "string" || !url) return null;
   return list.provider !== APPLE_PROVIDER || isAppleUrl("artwork", url) ? url : null;
 }
 
@@ -29,7 +30,7 @@ export function monogram(entry: ArtistListEntry): {
   readonly letter: string;
   readonly color: number;
 } {
-  const [letter = "?"] = Array.from(entry.name.trim());
+  const [letter = "?"] = Array.from(String(entry.name ?? "").trim());
   return { letter, color: fnv1a32(entry.id) % MONOGRAM_COLORS };
 }
 
