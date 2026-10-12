@@ -46,6 +46,24 @@ test("Treino: escolhe o modo, joga e segue nele; reiniciar pede confirmação (P
   await expect(title).toHaveText("Treino");
 });
 
+test("toque duplo num cartão, no celular: começa a sessão sem tocar, jogar nem reiniciar", async ({
+  page,
+}) => {
+  // O 2º clique cai na tela da sessão, que o Preact já desenhou no lugar dos cartões.
+  await page.setViewportSize({ width: 320, height: 640 });
+  await open(page, "2026-10-08T12:00:00-03:00", "#treino");
+  for (const mode of ["Normal", "Desafio"] as const) {
+    await page.getByRole("button", { name: mode }).dblclick();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(`Treino · ${mode}`);
+    await expect(page.getByText("Rodada 1")).toBeVisible();
+    await expect(page.getByText("0 pontos em 0 rodadas")).toBeVisible();
+    expect(await page.evaluate(() => window.__musicleAudioLog?.length ?? 0)).toBe(0);
+    // Nada jogado: reinicia direto, sem aviso.
+    await page.getByRole("button", { name: "Reiniciar o Treino" }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treino");
+  }
+});
+
 test("o Treino continua ao trocar de aba, a home mostra o modo, e recarregar volta à escolha", async ({
   page,
 }) => {

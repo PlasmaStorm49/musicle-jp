@@ -116,7 +116,8 @@ function PracticeStart({ onChoose }: { readonly onChoose: (target: Target) => vo
               aria-labelledby={`practice-${mode}-name`}
               aria-describedby={`practice-${mode}-hint`}
               onClick={(event) => {
-                // Toque duplo: o 2º clique cairia na tela da sessão, que já está no lugar.
+                // O Preact redesenha antes do 2º clique de um toque duplo, que cai na tela nova.
+                // Este é o 2º clique de um toque duplo no Reiniciar ou no Sim: não começa outra.
                 if (event.detail > 1) return;
                 onChoose(mode);
               }}
@@ -246,36 +247,32 @@ function Restart({
         type="button"
         class="link"
         onClick={(event) => {
-          // Toque duplo: sem rodada jogada, o 2º clique cairia na escolha do modo.
+          // O 2º clique de um toque duplo num cartão de modo cai aqui (a tela já mudou).
           if (event.detail > 1) return;
-          if (score.rounds === 0) onRestart();
-          else if (asking)
+          if (score.rounds === 0) {
+            onRestart();
+          } else if (asking) {
             warning.current?.focus(); // já aberto: o efeito não roda de novo
-          else setAsking(true);
+          } else {
+            setAsking(true);
+          }
         }}
       >
         {t("practice.restart")}
       </button>
       {asking && (
-        // Um grupo (fieldset) de botões sobre a pergunta, que o rotula; o Esc vale em todo ele.
+        // Um grupo (fieldset) da pergunta e dos botões; o Esc vale em todo ele. Sem rótulo:
+        // o aviso já é lido ao receber o foco, e o rótulo o faria ser lido duas vezes.
         <fieldset
           class="practice-restart"
-          aria-labelledby="practice-restart-warning"
           onKeyDown={(event) => {
             if (event.key === "Escape") cancel();
           }}
         >
-          <p id="practice-restart-warning" ref={warning} tabIndex={-1}>
+          <p ref={warning} tabIndex={-1}>
             {t("practice.restartWarning", { score: practiceScoreText(score) })}
           </p>
-          <button
-            type="button"
-            class="primary"
-            onClick={(event) => {
-              if (event.detail > 1) return;
-              onRestart();
-            }}
-          >
+          <button type="button" class="primary" onClick={onRestart}>
             {t("practice.restartConfirm")}
           </button>
           <button type="button" onClick={cancel}>

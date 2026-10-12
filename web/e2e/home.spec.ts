@@ -25,7 +25,7 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
   await expect(title).toBeFocused();
   await cards.getByRole("link", { name: /^Treino/ }).click();
   // O Treino abre na escolha do modo (P105), com o foco no título.
-  const practice = page.getByRole("heading", { level: 1, name: "Treino" });
+  const practice = page.getByRole("heading", { level: 1, name: "Treino", exact: true });
   await expect(practice).toBeFocused();
 });
 

@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { useState } from "preact/hooks";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { AudioEngine } from "../audio/engine.ts";
@@ -192,11 +192,46 @@ describe("Practice: a escolha do modo (P105)", () => {
     expect(screen.queryAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(0);
   });
 
-  it("toque duplo no cartão não começa a sessão", () => {
-    const { current } = setup(emptySave(), null, null);
+  it("nenhum id igual a uma rota (regra 17), na escolha e com o aviso aberto", () => {
+    const { correctTitle } = setup(emptySave(), null, null);
+    const routes = ["#inicio", "#normal", "#desafio", "#treino"];
+    const noRouteIds = () => {
+      for (const route of routes) expect(document.querySelector(route)).toBeNull();
+    };
+    noRouteIds();
+    choose("Normal");
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    restart();
+    expect(screen.getByText(/será perdido/)).toBeTruthy();
+    noRouteIds();
+  });
+});
+
+// O Preact redesenha antes do 2º clique de um toque duplo, que cai no botão da tela nova: cada
+// trava protege o toque duplo que começou no botão da tela anterior.
+describe("Practice: toque duplo entre as telas", () => {
+  it("no Reiniciar (sem rodada): o 2º clique cai num cartão e não começa outra sessão", () => {
+    const { current } = setup();
+    restart();
     choose("Normal", { detail: 2 });
     expect(current()).toBeNull();
     expect(title().textContent).toBe("Treino");
+  });
+
+  it("num cartão: o 2º clique cai no Reiniciar e não volta à escolha", () => {
+    const { current } = setup();
+    restart({ detail: 2 });
+    expect(current()).not.toBeNull();
+    expect(title().textContent).toBe("Treino · Normal");
+  });
+
+  it("no Sim, reiniciar: o 2º clique cai num cartão e não começa outra sessão", () => {
+    const { current, correctTitle } = setup();
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    restart();
+    fireEvent.click(screen.getByRole("button", { name: "Sim, reiniciar" }));
+    choose("Desafio", { detail: 2 });
+    expect(current()).toBeNull();
   });
 });
 
@@ -344,13 +379,17 @@ describe("Practice: reiniciar (P105)", () => {
     expect(vi.mocked(engine.stop).mock.calls.length).toBeGreaterThan(stops);
   });
 
-  it("toque duplo no Reiniciar e no Sim não age", () => {
-    const { current, correctTitle } = setup();
-    restart({ detail: 2 });
-    expect(current()).not.toBeNull();
-    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
-    restart();
-    fireEvent.click(screen.getByRole("button", { name: "Sim, reiniciar" }), { detail: 2 });
-    expect(current()).not.toBeNull();
+  it("a falha de áudio que chega depois de reiniciar não traz a sessão de volta", async () => {
+    const { engine, current } = setup();
+    let fail: (error: Error) => void = () => {};
+    vi.mocked(engine.play).mockReturnValue(new Promise<null>((_, reject) => (fail = reject)));
+    fireEvent.click(screen.getByRole("button", { name: /^Tocar/ }));
+    restart(); // sem rodada jogada: direto
+    await act(async () => fail(new Error("sem áudio")));
+    expect(current()).toBeNull();
+    // A sessão nova começa limpa: a falha da antiga não anula a rodada 1.
+    choose("Normal");
+    expect(screen.getByText("Rodada 1")).toBeTruthy();
+    expect(screen.queryByText(/Áudio indisponível/)).toBeNull();
   });
 });

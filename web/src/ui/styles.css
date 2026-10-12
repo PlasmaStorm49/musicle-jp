@@ -723,9 +723,11 @@ button.home-card:hover {
   background: var(--surface);
 }
 
+/* Dentro do <header>, cujo p é cinza: o aviso de perda do placar fica com a cor do texto. */
 .practice-restart p {
   flex-basis: 100%;
   margin: 0;
+  color: var(--text);
 }
 
 .practice-restart p:focus-visible {
