@@ -185,7 +185,7 @@ musicle-jp/
 | M9 | Concluído em 09/10/2026 | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review`, ferramentas de PR do app (Auto-fix) |
 | M10 | Concluído em 10/10/2026 | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions, navegador do Claude na URL pública |
 | M11 | Concluído em 11/10/2026 | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
-| M13 | Em andamento (PR A) | Modo por artista: a lista de artistas e rodadas sem fim do Desafio com as músicas de um deles (Apêndice K). Feito antes do M12 (o visual) | 3 PRs: pipeline e fixtures (A), dados reais dos 6 artistas (B), web (C) | Planejamento com 3 subagentes Explore e um Plan |
+| M13 | Em andamento (PRs A e B) | Modo por artista: a lista de artistas e rodadas sem fim do Desafio com as músicas de um deles (Apêndice K). Feito antes do M12 (o visual) | 3 PRs: pipeline e fixtures (A), dados reais dos 6 artistas (B), web (C) | Planejamento com 3 subagentes Explore e um Plan |
 
 **Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
 
@@ -726,6 +726,12 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 - **Arquivos** (P129 e P130): `index.json` e um `<id>.json` por artista, cada um abaixo de 1 MB (o `validate-artists` confere, com o schema, as referências, os hosts e a forma canônica).
 - **Robô semanal**: não toca em nada disso. A lista fechada dele continua a mesma, e a atualização dos artistas é à mão.
 - **Fixtures** (P139): `pipeline/fixtures/artists/`, com a tabela de casos no README de lá.
+- **Dados reais** (PR B, busca de 12/10/2026, 16:15 UTC): 761 músicas.
+  - YOASOBI 38, LiSA 200 (11 cortadas pelo teto), Eve 124, Ado 96, Aimer 183 e 米津玄師 120.
+  - Os snapshots têm de 109 KB (YOASOBI) a 575 KB (LiSA, 671 faixas); os arquivos publicados, de 58 a 266 KB.
+  - O lookup de músicas veio no limite de 200 para LiSA, Ado e Aimer: o resto vem pelos álbuns.
+  - Curadoria: os E-SIDE 1 a 4 e 7 singles em inglês sem o sufixo (Idol, Adventure, Monotone, On the Stage, The Blessing, The Brave, The Swallow) no `exclude_albums` do YOASOBI; "bL∞dy f8 -eUC-" no `same_song` da Aimer.
+  - Hipóteses conferidas: o THE FIRST TAKE vem como " - From THE FIRST TAKE"; o filtro de álbuns deixou de 0 a 5 faixas de coletânea por artista, que nunca são a canônica; o lookup de músicas começa pelos sucessos (アイドル e 夜に駆ける; 唱 e 新時代; 打上花火 e KICK BACK), o que sustenta a P133 (indício, não prova).
 
 ## Origem
 
