@@ -346,7 +346,7 @@ describe("RoundView: a ajuda (P149)", () => {
     expect(helpButton()).toBeNull();
     cleanup();
     setup(skipped(3), undefined, undefined, undefined, daily);
-    expect(helpButton()?.textContent).toBe("Pedir ajuda (4 opções, vale 1 ponto)");
+    expect(helpButton()?.textContent).toBe("Pedir ajuda");
   });
 
   it("sem a ajuda (Normal ou sem a prop), nunca há botão", () => {

@@ -487,7 +487,7 @@ function ModeChoice({
           </li>
         ))}
       </ul>
-      <button type="button" onClick={singleClick(onBack)}>
+      <button type="button" class="back" onClick={singleClick(onBack)}>
         {t("artists.back")}
       </button>
     </div>

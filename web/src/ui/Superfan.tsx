@@ -130,9 +130,14 @@ export function SuperfanView({
   return (
     <div class="game practice superfan">
       <header>
+        {/* O submodo vira uma etiqueta ao lado do nome (o separador some na tela, e o leitor de
+            tela ouve "… Superfan"): o título cabe melhor no celular. */}
         <h1>
-          <ArtistName entry={artist} /> <span aria-hidden="true">{t("item.artistSeparator")}</span>{" "}
-          {t("superfan.name")}
+          <ArtistName entry={artist} />{" "}
+          <span class="title-sep" aria-hidden="true">
+            {t("item.artistSeparator")}
+          </span>{" "}
+          <span class="variant-tag">{t("superfan.name")}</span>
         </h1>
         <p>{t("superfan.song", { number: run.session.number })}</p>
         <p class="practice-score">{t("superfan.score", { points: points(score.points) })}</p>
