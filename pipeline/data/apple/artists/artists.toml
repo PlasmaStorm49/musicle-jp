@@ -53,3 +53,41 @@ exclude_tracks = ["1536151528"]
 
 [[artists]]
 id = "530814268"  # 米津玄師 (o Hachi, 727267782, é outro artista e não entra, P123)
+
+[[artists]]
+id = "311230779"  # Unlimits (rock; ハルカカナタ, カスケード)
+
+[[artists]]
+id = "76115834"  # 松田聖子 (Seiko Matsuda; não a "Seiko" 286640008)
+# As regravações dos 40 anos (2020 e 2021) e algumas faixas de coletânea trazem o ano, um
+# subtítulo em inglês ou o nome do álbum: a mesma música da original.
+same_song = [
+  ["1536763506", "1536797282"],  # Marrakech / Marrakech 〜マラケッシュ〜
+  ["1536883778", "1504422103"],  # SWEET MEMORIES / SWEET MEMORIES (甘い記憶)
+  ["1536883565", "1532002462"],  # セイシェルの夕陽 / セイシェルの夕陽 (40th Anniversary)
+  ["1536883556", "1588678052"],  # チェリーブラッサム / チェリーブラッサム (2021)
+  ["1536762791", "1536883786"],  # 天使のウィンク / 天使のウインク
+  ["1536762344", "1568227321"],  # 時間の国のアリス / 時間の国のアリス (Alice in the world of time)
+  ["1536763099", "1588678178"],  # 時間旅行 / 時間旅行 (I still miss you)
+  ["1536760009", "1585907147"],  # 瞳はダイアモンド / 瞳はダイアモンド (Diamond Eyes)
+  ["1536877719", "1558948287"],  # 青い珊瑚礁 / 青い珊瑚礁 (Blue Lagoon)
+  ["1712834762", "1536797187"],  # Romance / Romance(金色のリボン)
+  ["1712834756", "1536760655"],  # 白い貝のブローチ / 白い貝のブローチ(金色のリボン)
+  ["1536797185", "1537516298"],  # 花一色 〜野菊のささやき〜 / 花一色 〜野菊のささやき〜(Seiko・Avenue)
+  ["1536760000", "1536937822"],  # 野ばらのエチュード / 野ばらのエチュード (LPテイク)
+]
+# A coletânea SEIKO STORY põe o nome dela no título de algumas faixas. A original tem a mesma
+# data, e no empate o id menor (o da coletânea) seria a canônica, com o sufixo na tela.
+exclude_tracks = [
+  "1536760020",  # Marrakech 〜マラケッシュ〜(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536759780",  # Only My Love(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536759777",  # SQUALL(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536760007",  # ガラスの林檎(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536760005",  # セイシェルの夕陽(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536760013",  # ピンクのモーツァルト(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536760016",  # ボーイの季節(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536760004",  # マイアミ午前5時(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536760015",  # 天使のウィンク(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536760001",  # 未来の花嫁(SEIKO STORY〜80's HITS COLLECTION〜)
+  "1536759784",  # 風立ちぬ(SEIKO STORY〜80's HITS COLLECTION〜)
+]

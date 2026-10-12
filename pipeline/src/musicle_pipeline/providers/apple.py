@@ -158,7 +158,9 @@ def artist_names(
             name = min(solo, key=lambda n: (-solo[n], len(n), n))
         else:
             name = _COLLAB.split(min(counts, key=lambda n: (-counts[n], len(n), n)))[0]
-        latin = lookup_name if lookup_name and lookup_name != name else None
+        # Só a caixa diferente ("Unlimits" no lookup, "UNLIMITS" nas faixas) não é outro nome: a
+        # tela mostraria "UNLIMITS · Unlimits".
+        latin = lookup_name if lookup_name and lookup_name.casefold() != name.casefold() else None
         if latin is not None and needs_romaji(latin):
             latin = None  # o lookup trouxe outra grafia não latina: não serve de latino
         if known_latin is not None:

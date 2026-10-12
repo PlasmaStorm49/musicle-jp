@@ -288,6 +288,13 @@ def test_romanized_artist_lookup_becomes_the_latin_name(tmp_path):
     assert t.artist_display is None
 
 
+def test_artist_lookup_that_only_changes_the_case_is_not_a_latin_name(tmp_path):
+    # "Unlimits" no lookup e "UNLIMITS" nas faixas: o mesmo nome, e não um latino ao lado.
+    t = only_track(tmp_path, artists={"900": {"artistName": "Unlimits"}}, artistName="UNLIMITS")
+    assert t.artists[0].name == "UNLIMITS"
+    assert t.artists[0].name_latin is None
+
+
 def test_real_sample_from_the_first_chart():
     """Amostra reduzida da parada real de 10/10/2026 (só metadados): regressão do mapeamento."""
     directory = Path(__file__).parent / "data" / "apple"
