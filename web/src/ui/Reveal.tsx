@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
-import { type RoundState, roundScore } from "../core/reducer.ts";
-import { MAX_POINTS, MODE_RULES } from "../core/rules.ts";
+import { type RoundState, roundErrors, roundScore } from "../core/reducer.ts";
+import type { ModeRules } from "../core/rules.ts";
 import type { Target } from "../core/types.ts";
 import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
-import { t } from "../i18n/t.ts";
+import { t, tn } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { useResolvedUrl } from "./hooks.ts";
@@ -19,6 +19,8 @@ type Props = {
   readonly round: RoundState;
   /** O Normal mostra as opções marcadas; o Desafio, a lista de tentativas. */
   readonly target: Target;
+  /** As regras do jogo: os pontos do acerto e os dos erros (o Superfan tem os seus). */
+  readonly rules: ModeRules;
   readonly engine: AudioEngine;
   readonly resolver: PreviewResolver;
   readonly resolveUrl: (url: string) => string;
@@ -27,6 +29,8 @@ type Props = {
   readonly onNext: () => void;
   /** Mensagem para a região aria-live (a prévia inteira que não tocou). */
   readonly announce: (message: string) => void;
+  /** Uma linha a mais, depois do resultado (o Superfan: a partida acabou no 3º erro). */
+  readonly note?: string;
 };
 
 /** Depois do palpite: certo e errado (cor e texto), cartão da faixa e a prévia inteira (P34). */
@@ -34,12 +38,14 @@ export function Reveal({
   index,
   round,
   target,
+  rules,
   engine,
   resolver,
   resolveUrl,
   nextLabel,
   onNext,
   announce,
+  note,
 }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   const won = round.status === "won";
@@ -98,13 +104,30 @@ export function Reveal({
       });
   }
 
+  // O acerto e os erros à parte: "Acertou! 2 de 3 pontos." e "1 erro: −5 pontos.".
+  const errors = roundErrors(round);
+  const points = roundScore(round, rules) - errors * rules.wrongPoints;
+
   return (
     <section class="reveal" aria-labelledby="result">
       <h2 id="result" ref={heading} tabIndex={-1} class={won ? "won" : "lost"}>
-        {won ? t("reveal.won", { points: roundScore(round), max: MAX_POINTS }) : t("reveal.lost")}
+        {won
+          ? round.help
+            ? t("reveal.wonHelp", { points: tn("count.points", points) })
+            : t("reveal.won", { points, max: rules.points[0] ?? points })
+          : t("reveal.lost")}
       </h2>
+      {/* O Superfan tira pontos por palpite errado (P119): a conta à parte, depois do resultado. */}
+      {errors > 0 && rules.wrongPoints !== 0 && (
+        <p class="reveal-errors">
+          {tn("reveal.errors", errors, {
+            points: tn("count.points", errors * rules.wrongPoints),
+          })}
+        </p>
+      )}
+      {note && <p class="reveal-note">{note}</p>}
 
-      {!MODE_RULES[target].guessFromOptions ? (
+      {!rules.guessFromOptions ? (
         <Attempts index={index} round={round} />
       ) : (
         <ul class="options done">

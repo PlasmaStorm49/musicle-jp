@@ -4,6 +4,7 @@
 import type { ArtistPlay } from "./artists.ts";
 import { type PracticeScore, type PracticeSession, practiceScore } from "./practice.ts";
 import { puzzleId, recordMax, recordScore, type Save } from "./records.ts";
+import { superfanScore } from "./superfan.ts";
 import type { Day, Target } from "./types.ts";
 
 export type DailyStatus =
@@ -53,11 +54,25 @@ export function practiceSummary(session: PracticeSession | null): PracticeSummar
   return score.rounds > 0 ? { target: session.practice.target, score } : null;
 }
 
-/** O cartão do modo por artista (M13): de quem é a sessão e o placar dela. */
-export type ArtistSummary = { readonly artist: string; readonly score: PracticeScore };
+/** O cartão do modo por artista (M13): de quem é a sessão, o submodo e o placar. */
+export type ArtistSummary = {
+  readonly artist: string;
+  readonly superfan: boolean;
+  readonly score: PracticeScore;
+};
 
-/** O resumo da sessão do modo por artista; null antes da 1ª rodada terminada, como no Treino. */
+/**
+ * O resumo da sessão do modo por artista; null antes da 1ª rodada terminada, como no Treino.
+ * No Superfan, o placar da partida (com os erros da música em jogo, que contam na hora).
+ */
 export function artistSummary(play: ArtistPlay | null): ArtistSummary | null {
-  const summary = practiceSummary(play?.session ?? null);
-  return play && summary ? { artist: play.artist.name, score: summary.score } : null;
+  if (!play) return null;
+  if (play.kind === "superfan") {
+    const score = superfanScore(play.run);
+    return score.rounds > 0 || score.points !== 0
+      ? { artist: play.artist.name, superfan: true, score }
+      : null;
+  }
+  const summary = practiceSummary(play.session);
+  return summary ? { artist: play.artist.name, superfan: false, score: summary.score } : null;
 }

@@ -9,9 +9,8 @@ import {
   startPracticeSession,
 } from "../core/practice.ts";
 import type { Save } from "../core/records.ts";
-import { MODE_RULES } from "../core/rules.ts";
+import { type SuperfanRun, startSuperfan } from "../core/superfan.ts";
 import type { ArtistList, ArtistListEntry, Day } from "../core/types.ts";
-import { langOf } from "../core/view.ts";
 import {
   appleResolver,
   catalogResolver,
@@ -26,8 +25,10 @@ import {
   UnsupportedCatalogError,
 } from "../data/source.ts";
 import { t, tn } from "../i18n/t.ts";
+import { ArtistName } from "./ArtistName.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { PracticeRun, type RunTexts, randomSeed } from "./PracticeRun.tsx";
+import { SuperfanView } from "./Superfan.tsx";
 import { singleClick } from "./singleClick.ts";
 
 /** Uma carga em andamento ou que falhou: "update" é versão de dados que o código não conhece. */
@@ -60,15 +61,24 @@ export type ArtistStore = {
   readonly loadList: () => void;
   /** O artista escolhido que ainda está carregando, ou cuja carga falhou. */
   readonly choosing: (Pending & { readonly entry: ArtistListEntry }) | null;
-  /** Começa a sessão do artista, já com a 1ª rodada (`start`), carregando-o se preciso. */
-  readonly choose: (entry: ArtistListEntry, start: (data: ArtistData) => PracticeSession) => void;
+  /** Escolhe o artista, carregando-o se preciso; carregado, vem a escolha do submodo (P161). */
+  readonly choose: (entry: ArtistListEntry) => void;
   /** Desiste do artista que carrega ou que falhou e volta à lista. */
   readonly cancelChoice: () => void;
+  /** O artista carregado, à espera da escolha do submodo (Livre ou Superfan). */
+  readonly picked: { readonly entry: ArtistListEntry; readonly loaded: Loaded } | null;
+  /** Começa a sessão do artista escolhido (`start` monta a 1ª rodada, com o artista carregado). */
+  readonly begin: (start: (data: ArtistData) => ArtistPlay) => void;
+  /** Troca a sessão em jogo por outra (o "Jogar de novo" do Superfan). */
+  readonly replay: (play: ArtistPlay) => void;
   readonly play: ArtistPlay | null;
   /** O artista da sessão, carregado. */
   readonly loaded: Loaded | null;
+  /** Mudança sobre a sessão Livre de agora. */
   readonly change: (change: (session: PracticeSession) => PracticeSession) => void;
-  /** "Trocar de artista": volta à lista (P127). */
+  /** Mudança sobre a partida do Superfan de agora. */
+  readonly changeRun: (change: (run: SuperfanRun) => SuperfanRun) => void;
+  /** "Trocar de artista" (ou voltar da escolha do submodo): volta à lista (P127). */
   readonly restart: () => void;
 };
 
@@ -86,6 +96,7 @@ export function useArtistStore({
   const [list, setList] = useState<ListLoad>({ status: "idle" });
   const [choosing, setChoosing] = useState<ArtistStore["choosing"]>(null);
   const [play, setPlay] = useState<ArtistPlay | null>(null);
+  const [pickedEntry, setPickedEntry] = useState<ArtistListEntry | null>(null);
   // Os artistas já baixados, com o resolvedor de cada um: escolher de novo não busca de novo.
   const cache = useRef(new Map<string, Loaded>());
   // O artista que está carregando (o estado só muda na próxima pintura: um 2º Enter não busca
@@ -101,18 +112,12 @@ export function useArtistStore({
   }, [fetchFn, baseUrl, dataDir]);
 
   const choose = useCallback<ArtistStore["choose"]>(
-    (entry, start) => {
-      const begin = (loaded: Loaded) => {
-        const session = start(loaded);
-        // `??`: um 2º clique antes da pintura não troca a sessão que acabou de começar.
-        setPlay((current) => current ?? { artist: entry, session });
-      };
+    (entry) => {
       // Com uma carga em andamento, nenhuma outra escolha vale (nem a de um artista em cache):
-      // a falha dela ficaria guardada atrás da sessão e apareceria depois do "Trocar".
+      // a falha dela ficaria guardada atrás da escolha e apareceria depois.
       if (loading.current) return;
-      const cached = cache.current.get(entry.id);
-      if (cached) {
-        begin(cached);
+      if (cache.current.has(entry.id)) {
+        setPickedEntry(entry);
         return;
       }
       loading.current = entry.id;
@@ -123,13 +128,12 @@ export function useArtistStore({
             data.index.catalog.provider === APPLE_PROVIDER
               ? appleResolver({ index: data.index, fetchFn, budget })
               : catalogResolver(data.index, resolveUrl);
-          const loaded = { ...data, resolver };
           // Guardado mesmo se a pessoa voltou à lista: escolher de novo não busca de novo.
-          cache.current.set(entry.id, loaded);
+          cache.current.set(entry.id, { ...data, resolver });
           if (loading.current !== entry.id) return;
           loading.current = null;
           setChoosing(null);
-          begin(loaded);
+          setPickedEntry(entry);
         },
         (error: unknown) => {
           if (loading.current !== entry.id) return;
@@ -141,19 +145,60 @@ export function useArtistStore({
     [fetchFn, baseUrl, dataDir, budget, resolveUrl],
   );
 
+  const begin = useCallback<ArtistStore["begin"]>(
+    (start) => {
+      const loaded = pickedEntry ? cache.current.get(pickedEntry.id) : undefined;
+      if (!pickedEntry || !loaded) return;
+      const next = start(loaded);
+      // `??`: um 2º clique antes da pintura não troca a sessão que acabou de começar.
+      setPlay((current) => current ?? next);
+      setPickedEntry(null);
+    },
+    [pickedEntry],
+  );
+  const replay = useCallback((next: ArtistPlay) => setPlay(next), []);
+
   const change = useCallback<ArtistStore["change"]>(
     (update) =>
-      setPlay((current) => (current ? { ...current, session: update(current.session) } : current)),
+      setPlay((current) =>
+        current?.kind === "free" ? { ...current, session: update(current.session) } : current,
+      ),
     [],
   );
-  const restart = useCallback(() => setPlay(null), []);
+  const changeRun = useCallback<ArtistStore["changeRun"]>(
+    (update) =>
+      setPlay((current) =>
+        current?.kind === "superfan" ? { ...current, run: update(current.run) } : current,
+      ),
+    [],
+  );
+  const restart = useCallback(() => {
+    setPlay(null);
+    setPickedEntry(null);
+  }, []);
   const cancelChoice = useCallback(() => {
     loading.current = null;
     setChoosing(null);
   }, []);
   const loaded = play ? (cache.current.get(play.artist.id) ?? null) : null;
+  const pickedLoaded = pickedEntry ? cache.current.get(pickedEntry.id) : undefined;
+  const picked = pickedEntry && pickedLoaded ? { entry: pickedEntry, loaded: pickedLoaded } : null;
 
-  return { list, loadList, choosing, choose, cancelChoice, play, loaded, change, restart };
+  return {
+    list,
+    loadList,
+    choosing,
+    choose,
+    cancelChoice,
+    picked,
+    begin,
+    replay,
+    play,
+    loaded,
+    change,
+    changeRun,
+    restart,
+  };
 }
 
 type Props = {
@@ -172,9 +217,9 @@ type Props = {
 const NOTHING: ReadonlySet<string> = new Set();
 
 /**
- * Modo por artista (M13): a lista e, escolhido um artista, rodadas sem fim do Desafio com as
- * músicas dele (o PracticeRun do Treino, com a busca só pelo título). Trocar de artista é
- * reiniciar (P127).
+ * Modo por artista (M13): a lista; escolhido um artista, a escolha do submodo (P161); e a sessão,
+ * no Livre (rodadas sem fim do Desafio, o PracticeRun do Treino, com a busca só pelo título) ou
+ * no Superfan (a partida, ME61). Trocar de artista volta à lista (P127).
  */
 export function Artists({ store, chart, day, date, save, engine, resolveUrl, announce }: Props) {
   const { list, loadList, choosing, play, loaded } = store;
@@ -192,15 +237,56 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
     if (list.status === "idle") loadList();
   }, [list.status, loadList]);
 
-  const choose = (entry: ArtistListEntry) => {
-    // A semente sai daqui, e não do setter, que fica puro.
+  // A semente sai daqui, e não do setter, que fica puro.
+  const picked = store.picked;
+  const startFree = () => {
+    if (!picked) return;
     const seed = randomSeed();
-    store.choose(entry, ({ file, index }) =>
-      startPracticeSession(seed, "song", index, excludedForArtist(file, chart, pendingSongs)),
-    );
+    store.begin(({ file, index }) => ({
+      kind: "free",
+      artist: picked.entry,
+      session: startPracticeSession(
+        seed,
+        "song",
+        index,
+        excludedForArtist(file, chart, pendingSongs),
+      ),
+    }));
+  };
+  const startSuperfanRun = () => {
+    if (!picked) return;
+    const seed = randomSeed();
+    store.begin(({ file, index }) => ({
+      kind: "superfan",
+      artist: picked.entry,
+      run: startSuperfan(seed, index, excludedForArtist(file, chart, pendingSongs)),
+    }));
   };
 
   if (play && loaded) {
+    if (play.kind === "superfan") {
+      return (
+        <SuperfanView
+          artist={play.artist}
+          run={play.run}
+          index={loaded.index}
+          resolver={loaded.resolver}
+          excluded={excluded}
+          engine={engine}
+          resolveUrl={resolveUrl}
+          announce={announce}
+          onChange={store.changeRun}
+          onAgain={() =>
+            store.replay({
+              kind: "superfan",
+              artist: play.artist,
+              run: startSuperfan(randomSeed(), loaded.index, excluded),
+            })
+          }
+          onSwitch={store.restart}
+        />
+      );
+    }
     return (
       <ArtistRun
         play={play}
@@ -213,8 +299,18 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
       />
     );
   }
+  if (picked) {
+    return (
+      <ModeChoice
+        entry={picked.entry}
+        onFree={startFree}
+        onSuperfan={startSuperfanRun}
+        onBack={store.restart}
+      />
+    );
+  }
   if (choosing) {
-    return <Choosing choosing={choosing} onRetry={choose} onBack={store.cancelChoice} />;
+    return <Choosing choosing={choosing} onRetry={store.choose} onBack={store.cancelChoice} />;
   }
   switch (list.status) {
     case "idle":
@@ -233,7 +329,7 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
     case "update":
       return <UpdateNotice />;
     case "ready":
-      return <ArtistChoice list={list.list} onChoose={choose} />;
+      return <ArtistChoice list={list.list} onChoose={store.choose} />;
     default:
       return list satisfies never;
   }
@@ -308,7 +404,7 @@ function ArtistChoice({
         <h1 ref={heading} tabIndex={-1}>
           {t("artists.title")}
         </h1>
-        <p class="hint">{t("artists.chooseHint", { total: MODE_RULES.song.maxAttempts })}</p>
+        <p class="hint">{t("artists.chooseHint")}</p>
       </header>
       <ul class="home-modes">
         {list.artists.map((entry, i) => (
@@ -336,18 +432,65 @@ function ArtistChoice({
   );
 }
 
-/** O nome, com o latino ao lado quando há (como o artista da revelação, ME55, P147). */
-function ArtistName({ entry }: { readonly entry: ArtistListEntry }) {
+/**
+ * A escolha do submodo, depois do artista (P161): o Livre (o Desafio sem fim) ou o Superfan (a
+ * partida difícil, ME61). Tela nova: o foco vai para o título, o nome do artista.
+ */
+function ModeChoice({
+  entry,
+  onFree,
+  onSuperfan,
+  onBack,
+}: {
+  readonly entry: ArtistListEntry;
+  readonly onFree: () => void;
+  readonly onSuperfan: () => void;
+  readonly onBack: () => void;
+}) {
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => heading.current?.focus(), []);
+  const modes = [
+    { id: "free", name: t("artists.free"), hint: t("artists.freeHint"), start: onFree },
+    {
+      id: "superfan",
+      name: t("superfan.name"),
+      hint: t("artists.superfanHint"),
+      start: onSuperfan,
+    },
+  ] as const;
   return (
-    <>
-      <span lang={langOf(entry.name)}>{entry.name}</span>
-      {entry.nameLatin && (
-        <>
-          {" "}
-          <span aria-hidden="true">{t("item.artistSeparator")}</span> <span>{entry.nameLatin}</span>
-        </>
-      )}
-    </>
+    <div class="game practice artists">
+      <header>
+        <h1 ref={heading} tabIndex={-1}>
+          <ArtistName entry={entry} />
+        </h1>
+        <p class="hint">{t("artists.modeHint")}</p>
+      </header>
+      <ul class="home-modes">
+        {modes.map((mode) => (
+          <li key={mode.id}>
+            <button
+              type="button"
+              class="mode home-card"
+              aria-labelledby={`artist-mode-${mode.id}-name`}
+              aria-describedby={`artist-mode-${mode.id}-hint`}
+              // O 2º clique do toque duplo no cartão do artista cai aqui: não começa a sessão.
+              onClick={singleClick(mode.start)}
+            >
+              <span id={`artist-mode-${mode.id}-name`} class="mode-name">
+                {mode.name}
+              </span>
+              <span id={`artist-mode-${mode.id}-hint`} class="mode-hint">
+                {mode.hint}
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      <button type="button" onClick={singleClick(onBack)}>
+        {t("artists.back")}
+      </button>
+    </div>
   );
 }
 
@@ -361,7 +504,7 @@ function ArtistRun({
   resolveUrl,
   announce,
 }: {
-  readonly play: ArtistPlay;
+  readonly play: Extract<ArtistPlay, { kind: "free" }>;
   readonly loaded: Loaded;
   readonly excluded: ReadonlySet<string>;
   readonly store: ArtistStore;

@@ -2,7 +2,14 @@
 // catálogo nem tela. Evento que não faz sentido no estado atual devolve O MESMO objeto, o que
 // facilita os testes e evita redesenho à toa no Preact.
 import { acceptedIds, type CatalogIndex } from "./catalog.ts";
-import { HELP_OPTIONS, HELP_POINTS, MAX_STAGE, MODE_RULES, pointsAtStage } from "./rules.ts";
+import {
+  HELP_OPTIONS,
+  lastStage,
+  MODE_RULES,
+  type ModeRules,
+  rulesOf,
+  type Variant,
+} from "./rules.ts";
 import type { Day, Target } from "./types.ts";
 
 export type RoundStatus = "playing" | "won" | "lost" | "void";
@@ -20,7 +27,7 @@ export type RoundState = {
   readonly accepted: readonly string[];
   /** As 4 opções do Normal; vazio no Desafio, que é digitado. */
   readonly options: readonly string[];
-  /** Etapa do trecho: 0 = 1 s ... 5 = 16 s. */
+  /** Etapa do trecho, na barra do modo (`stages`): nos diários, 0 = 1 s ... 5 = 16 s. */
   readonly stage: number;
   readonly attempts: readonly Attempt[];
   readonly status: RoundStatus;
@@ -28,8 +35,8 @@ export type RoundState = {
   readonly voidReason: string | null;
   /**
    * As opções da ajuda (P149), quando pedida: faixas, a certa entre elas. Daí em diante o
-   * palpite sai delas, errar encerra a rodada (P151), acertar vale HELP_POINTS (P152) e pular
-   * só aumenta o trecho (P163).
+   * palpite sai delas, errar encerra a rodada (P151), acertar vale os pontos da ajuda (P152) e
+   * pular só aumenta o trecho (P163).
    */
   readonly help: readonly string[] | null;
   /**
@@ -44,6 +51,8 @@ export type GameState = {
   readonly puzzleId: string;
   /** O modo: decide as regras (MODE_RULES) e o que se adivinha. */
   readonly target: Target;
+  /** Uma variante do modo, com regras próprias (VARIANT_RULES): o Superfan (ME61). */
+  readonly variant?: Variant;
   readonly rounds: readonly RoundState[];
   readonly current: number;
 };
@@ -118,7 +127,7 @@ function withRound(state: GameState, round: RoundState): GameState {
 }
 
 function guess(state: GameState, round: RoundState, guessId: string): GameState {
-  const rules = MODE_RULES[state.target];
+  const rules = rulesOf(state);
   if (rules.guessFromOptions && !round.options.includes(guessId)) return state;
   if (round.help && !round.help.includes(guessId)) return state;
   if (round.attempts.some((a) => a.kind === "guess" && a.guessId === guessId)) return state;
@@ -129,11 +138,15 @@ function guess(state: GameState, round: RoundState, guessId: string): GameState 
   if (rules.wrongGuess === "end" || round.help || attempts.length >= rules.maxAttempts) {
     return withRound(state, { ...round, attempts, status: "lost" });
   }
-  return withRound(state, { ...round, attempts, stage: Math.min(round.stage + 1, MAX_STAGE) });
+  return withRound(state, {
+    ...round,
+    attempts,
+    stage: Math.min(round.stage + 1, lastStage(rules)),
+  });
 }
 
 function skip(state: GameState, round: RoundState): GameState {
-  const rules = MODE_RULES[state.target];
+  const rules = rulesOf(state);
   // Com a ajuda na tela, pular continua (P163): só aumenta o trecho, porque os pontos já são os
   // da ajuda, e a última tentativa fica para a opção (o canSkip some com o botão antes dela).
   if (!rules.skip) return state;
@@ -141,16 +154,22 @@ function skip(state: GameState, round: RoundState): GameState {
   if (attempts.length >= rules.maxAttempts) {
     return withRound(state, { ...round, attempts, status: "lost" });
   }
-  return withRound(state, { ...round, attempts, stage: Math.min(round.stage + 1, MAX_STAGE) });
+  return withRound(state, {
+    ...round,
+    attempts,
+    stage: Math.min(round.stage + 1, lastStage(rules)),
+  });
 }
 
 /**
- * A ajuda: só no modo que a tem, uma vez por rodada e depois de gastar ao menos uma tentativa
- * (P150). As opções vêm de quem pede; o reducer só confere a forma: de 2 a HELP_OPTIONS ids
- * distintos, nenhum já tentado, e um deles aceito (a ajuda nunca esconde a resposta).
+ * A ajuda: só no modo que a tem, uma vez por rodada e depois das tentativas que as regras pedem
+ * (`helpFrom`: 1 no Desafio, P150; 0 no Superfan, P159). As opções vêm de quem pede; o reducer
+ * só confere a forma: de 2 a HELP_OPTIONS ids distintos, nenhum já tentado, e um deles aceito (a
+ * ajuda nunca esconde a resposta).
  */
 function help(state: GameState, round: RoundState, options: readonly string[]): GameState {
-  if (!MODE_RULES[state.target].help || round.help || round.attempts.length === 0) return state;
+  const rules = rulesOf(state);
+  if (!rules.help || round.help || round.attempts.length < rules.helpFrom) return state;
   const tried = new Set(round.attempts.flatMap((a) => (a.kind === "guess" ? [a.guessId] : [])));
   const valid =
     options.length >= 2 &&
@@ -175,7 +194,9 @@ export function reduce(state: GameState, event: GameEvent): GameState {
 
   switch (event.type) {
     case "LISTEN_MORE":
-      if (!MODE_RULES[state.target].listenMore || round.stage >= MAX_STAGE) return state;
+      if (!rulesOf(state).listenMore || round.stage >= lastStage(rulesOf(state))) {
+        return state;
+      }
       return withRound(state, { ...round, stage: round.stage + 1 });
     case "GUESS":
       return guess(state, round, event.guessId);
@@ -206,11 +227,22 @@ export function isFinished(state: GameState): boolean {
   return state.rounds.every((r) => r.status !== "playing");
 }
 
+/** Palpites errados da rodada (os erros do Superfan, P119); a anulada não tem nenhum. */
+export function roundErrors(round: RoundState): number {
+  if (round.status === "void") return 0;
+  return round.attempts.filter((a) => a.kind === "guess" && !a.correct).length;
+}
+
 /**
- * Pontos de uma rodada: com a ajuda, HELP_POINTS em qualquer etapa (P152). O total e o máximo
- * do dia ficam em records.ts (recordScore, recordMax).
+ * Pontos de uma rodada, pelas regras do jogo: o acerto vale os pontos da etapa, ou os da ajuda
+ * (P152, P153), e cada palpite errado soma `wrongPoints` (0; −5 no Superfan, P119). A anulada
+ * (falha de áudio) não conta, nem os erros dela. Sem dizer as regras, as do Desafio, iguais às
+ * do Normal nos pontos. O total e o máximo do dia ficam em records.ts (recordScore, recordMax).
  */
-export function roundScore(round: RoundState): number {
-  if (round.status !== "won") return 0;
-  return round.help ? HELP_POINTS : pointsAtStage(round.stage);
+export function roundScore(round: RoundState, rules: ModeRules = MODE_RULES.song): number {
+  if (round.status === "void") return 0;
+  const errors = roundErrors(round) * rules.wrongPoints;
+  if (round.status !== "won") return errors;
+  const stage = Math.min(Math.max(round.stage, 0), rules.points.length - 1);
+  return errors + (round.help ? rules.helpPoints : (rules.points[stage] ?? 0));
 }

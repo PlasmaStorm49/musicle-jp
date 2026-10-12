@@ -126,7 +126,14 @@ export function PracticeRun({
         <h1>{texts.title}</h1>
         {game && <p>{t("practice.round", { number: session.number })}</p>}
         <p class="practice-score">{practiceScoreText(score)}</p>
-        <Restart score={score} texts={texts} onRestart={onRestart} />
+        {/* Com rodada jogada (a mesma conta do placar), pergunta antes. */}
+        <ConfirmButton
+          label={texts.restart}
+          warning={texts.restartWarning(practiceScoreText(score))}
+          confirm={texts.restartConfirm}
+          ask={score.rounds > 0}
+          onConfirm={onRestart}
+        />
       </header>
       {game ? (
         <RoundView
@@ -151,28 +158,34 @@ export function PracticeRun({
 }
 
 /**
- * Encerra a sessão. Com rodada jogada (a mesma conta do placar), pergunta antes, num pop-up modal
- * (P105, ME56): o <dialog> com showModal() deixa o resto da tela inerte. O foco vai ao
- * "Cancelar", a escolha que não perde nada; ao fechar, volta ao botão, que nunca fica
- * desabilitado (o navegador tiraria o foco dele).
+ * Um botão que pergunta antes, num pop-up modal (P105, ME56), quando `ask`: o <dialog> com
+ * showModal() deixa o resto da tela inerte. O foco vai ao "Cancelar", a escolha que não perde
+ * nada; ao fechar, volta ao botão, que nunca fica desabilitado (o navegador tiraria o foco dele).
+ * Serve ao "Reiniciar o Treino", ao "Trocar de artista" e ao "Encerrar a partida" do Superfan.
  *
  * Sem estado: o <dialog> fica sempre na página (fechado, ele some) e quem diz se está aberto é
  * ele. Um estado "perguntando" dependeria do evento close para voltar a false, e no painel do
  * Claude ele não chega: o pop-up fechava, e o "Reiniciar" não o abria de novo.
  */
-function Restart({
-  score,
-  texts,
-  onRestart,
+export function ConfirmButton({
+  label,
+  warning,
+  confirm,
+  ask,
+  onConfirm,
 }: {
-  readonly score: PracticeScore;
-  readonly texts: RunTexts;
-  readonly onRestart: () => void;
+  readonly label: string;
+  /** O aviso do pop-up, que também é o nome dele. */
+  readonly warning: string;
+  readonly confirm: string;
+  /** Pergunta antes (com algo a perder); senão, confirma direto. */
+  readonly ask: boolean;
+  readonly onConfirm: () => void;
 }) {
   const button = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const cancel = useRef<HTMLButtonElement>(null);
-  const warning = useId();
+  const warningId = useId();
   const close = () => {
     dialog.current?.close();
     button.current?.focus();
@@ -184,21 +197,21 @@ function Restart({
         type="button"
         // O 2º clique de um toque duplo num cartão de modo cai aqui (a tela já mudou).
         onClick={singleClick(() => {
-          if (score.rounds === 0) {
-            onRestart();
+          if (!ask) {
+            onConfirm();
             return;
           }
           if (!dialog.current?.open) dialog.current?.showModal();
           cancel.current?.focus();
         })}
       >
-        {texts.restart}
+        {label}
       </button>
       {/* O nome do pop-up é o próprio aviso, lido quando o foco entra nele. */}
       <dialog
         ref={dialog}
         class="practice-restart"
-        aria-labelledby={warning}
+        aria-labelledby={warningId}
         // O Esc fecha aqui, e não pelo navegador: o foco volta ao botão em todo navegador.
         onKeyDown={(event) => {
           if (event.key !== "Escape") return;
@@ -208,10 +221,10 @@ function Restart({
         // Outro jeito de fechar (o "voltar" do Android): o foco também volta ao botão.
         onClose={() => button.current?.focus()}
       >
-        <p id={warning}>{texts.restartWarning(practiceScoreText(score))}</p>
+        <p id={warningId}>{warning}</p>
         <div class="practice-restart-actions">
-          <button type="button" class="primary" onClick={singleClick(onRestart)}>
-            {texts.restartConfirm}
+          <button type="button" class="primary" onClick={singleClick(onConfirm)}>
+            {confirm}
           </button>
           {/* Fecha o pop-up: o 2º clique cairia no que está embaixo (regra 23). */}
           <button ref={cancel} type="button" onClick={singleClick(close)}>

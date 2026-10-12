@@ -139,10 +139,22 @@ describe("Home", () => {
     setup();
     expect(card(/^Artistas/).textContent).not.toContain("Nesta sessão");
     cleanup();
-    setup(emptySave(), DAY, null, { artist: "米津玄師", score: { points: 5, rounds: 2 } });
+    setup(emptySave(), DAY, null, {
+      artist: "米津玄師",
+      superfan: false,
+      score: { points: 5, rounds: 2 },
+    });
     expect(card(/^Artistas/).textContent).toContain(
       "Nesta sessão (米津玄師): 5 pontos em 2 rodadas",
     );
     expect(card(/^Treino/).textContent).not.toContain("Nesta sessão");
+    cleanup();
+    // A partida do Superfan (ME61): o placar dela, que pode ser negativo.
+    setup(emptySave(), DAY, null, {
+      artist: "Ado",
+      superfan: true,
+      score: { points: -7, rounds: 2 },
+    });
+    expect(card(/^Artistas/).textContent).toContain("Superfan (Ado): -7 pontos em 2 músicas");
   });
 });

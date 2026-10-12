@@ -125,7 +125,7 @@ test("Desafio: a ajuda só depois da 3ª tentativa, volta igual ao recarregar e 
   await page.getByRole("button", { name: /^Tocar/ }).click();
   const track = await lastPlayed(page);
   await options.filter({ hasText: track.title }).first().click();
-  await expect(page.getByRole("heading", { name: "Acertou! 1 de 6 pontos." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou com ajuda: 1 ponto." })).toBeVisible();
 });
 
 test("áudio indisponível anula a rodada, que fica fora da conta", async ({ page }) => {

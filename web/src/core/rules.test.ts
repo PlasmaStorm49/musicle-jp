@@ -6,9 +6,11 @@ import {
   MODE_RULES,
   MODES,
   pointsAtStage,
+  rulesOf,
   SEGMENT_WEIGHTS,
   STAGES,
   secondsAt,
+  VARIANT_RULES,
 } from "./rules.ts";
 
 describe("canSkip", () => {
@@ -59,24 +61,52 @@ describe("pontos", () => {
 describe("regras por modo (P100)", () => {
   it("Normal (álbum): 1 palpite entre as opções, errar encerra, pode ouvir mais, não pula", () => {
     expect(MODE_RULES.album).toEqual({
+      stages: [1, 2, 4, 7, 11, 16],
       maxAttempts: 1,
       wrongGuess: "end",
       listenMore: true,
       skip: false,
       guessFromOptions: true,
       help: false,
+      helpFrom: 0,
+      points: [6, 5, 4, 3, 2, 1],
+      helpPoints: 1,
+      wrongPoints: 0,
     });
   });
 
   it("Desafio (música): 6 tentativas digitadas, errar avança, pode pular e pedir ajuda", () => {
     expect(MODE_RULES.song).toEqual({
+      stages: [1, 2, 4, 7, 11, 16],
       maxAttempts: 6,
       wrongGuess: "advance",
       listenMore: false,
       skip: true,
       guessFromOptions: false,
       help: true,
+      helpFrom: 1,
+      points: [6, 5, 4, 3, 2, 1],
+      helpPoints: 1,
+      wrongPoints: 0,
     });
+  });
+
+  it("Superfan (ME61): 3 trechos, 3 tentativas, −5 por erro, a ajuda logo de cara e valendo −1", () => {
+    expect(VARIANT_RULES.superfan).toEqual({
+      stages: [1, 4, 9],
+      maxAttempts: 3,
+      wrongGuess: "advance",
+      listenMore: false,
+      skip: true,
+      guessFromOptions: false,
+      help: true,
+      helpFrom: 0,
+      points: [3, 2, 1],
+      helpPoints: -1,
+      wrongPoints: -5,
+    });
+    expect(rulesOf({ target: "song", variant: "superfan" })).toBe(VARIANT_RULES.superfan);
+    expect(rulesOf({ target: "song" })).toBe(MODE_RULES.song);
   });
 
   it("a ordem dos modos na tela: o Normal primeiro", () => {

@@ -1,13 +1,21 @@
 // Modo por artista (M13): o que liga o arquivo de um artista à parada. Puro, como o resto do core.
 import type { CatalogIndex } from "./catalog.ts";
 import { answerAlbums, type PracticeSession } from "./practice.ts";
+import type { SuperfanRun } from "./superfan.ts";
 import type { ArtistCatalog, ArtistListEntry } from "./types.ts";
 
 /**
- * A sessão do modo por artista: o artista escolhido e as rodadas, as do Desafio (P125). Como o
- * Treino, só na memória (P116): recarregar a página volta à lista.
+ * A sessão do modo por artista: o artista escolhido e o submodo (P161). A Livre é o Desafio em
+ * rodadas sem fim (P125); a do Superfan é uma partida (ME61). Como o Treino, só na memória
+ * (P116): recarregar a página volta à lista.
  */
-export type ArtistPlay = { readonly artist: ArtistListEntry; readonly session: PracticeSession };
+export type ArtistPlay =
+  | {
+      readonly kind: "free";
+      readonly artist: ArtistListEntry;
+      readonly session: PracticeSession;
+    }
+  | { readonly kind: "superfan"; readonly artist: ArtistListEntry; readonly run: SuperfanRun };
 
 /** A chave do título de um songKey ("夜に駆ける|apple:ar:1" → "夜に駆ける"). */
 export function songTitleKey(songKey: string): string {

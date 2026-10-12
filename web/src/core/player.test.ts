@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BAR_SECONDS, fillFraction, segments, unlockedFraction } from "./player.ts";
+import { BAR_SECONDS, barSeconds, fillFraction, segments, unlockedFraction } from "./player.ts";
 
 describe("segments", () => {
   it("na primeira etapa só o primeiro pedaço está liberado", () => {
@@ -31,5 +31,25 @@ describe("frações da barra", () => {
     expect(fillFraction(2, 2)).toBe(2 / 16);
     expect(fillFraction(9, 2)).toBe(4 / 16);
     expect(fillFraction(-1, 2)).toBe(0);
+  });
+});
+
+describe("a barra de outro modo (o Superfan, ME61: 1, 4 e 9 s)", () => {
+  const SUPERFAN = [1, 4, 9];
+
+  it("os pedaços somam o que cada etapa acrescenta: 1, 3 e 5 s", () => {
+    expect(segments(1, SUPERFAN)).toEqual([
+      { weight: 1, unlocked: true },
+      { weight: 3, unlocked: true },
+      { weight: 5, unlocked: false },
+    ]);
+    expect(barSeconds(SUPERFAN)).toBe(9);
+  });
+
+  it("o liberado e o preenchimento são frações dos 9 s", () => {
+    expect(unlockedFraction(0, SUPERFAN)).toBe(1 / 9);
+    expect(unlockedFraction(1, SUPERFAN)).toBe(4 / 9);
+    expect(unlockedFraction(9, SUPERFAN)).toBe(1); // além da última, fica nela
+    expect(fillFraction(6, 1, SUPERFAN)).toBe(4 / 9);
   });
 });

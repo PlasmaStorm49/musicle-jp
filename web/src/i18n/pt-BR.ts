@@ -37,8 +37,10 @@ export const ptBR = {
   "home.statusDoneVoid": "nº {number} · terminado",
   "home.statusUnavailable": "Não há diário hoje",
   "home.practiceSession": "Nesta sessão ({mode}): {score}",
-  "home.artistsHint": "O Desafio com as músicas de um artista, em rodadas sem fim.",
+  "home.artistsHint":
+    "O Desafio com as músicas de um artista: rodadas sem fim no Livre, ou a partida do Superfan.",
   "home.artistsSession": "Nesta sessão ({artist}): {score}",
+  "home.artistsSuperfan": "Superfan ({artist}): {points} em {songs}",
   "home.howTitle": "Como funciona",
   // Espaço que não quebra (U+00A0) entre o número e o "s".
   "home.howClip":
@@ -63,6 +65,9 @@ export const ptBR = {
   "item.artistSeparator": "·",
 
   "reveal.won": "Acertou! {points} de {max} pontos.",
+  "reveal.wonHelp": "Acertou com ajuda: {points}.",
+  "reveal.errors.one": "{count} erro: {points}.",
+  "reveal.errors.other": "{count} erros: {points}.",
   "reveal.lost": "Não foi dessa vez.",
   "reveal.correct": "Resposta certa",
   "reveal.yourPick": "Sua escolha",
@@ -117,6 +122,8 @@ export const ptBR = {
   // A ajuda do Desafio (P149 a P152): opções no lugar do campo.
   "help.button": "Pedir ajuda ({count} opções, vale {points})",
   "help.hint": "Escolha entre as opções: errar encerra a rodada, e acertar vale {points}.",
+  "help.hintWrong":
+    "Escolha entre as opções: errar encerra a rodada e vale {wrong}, e acertar vale {points}.",
   "help.listLabel": "Opções da ajuda",
   "help.available": "A ajuda já pode ser pedida.",
 
@@ -170,7 +177,7 @@ export const ptBR = {
   // Modo por artista (M13): o Desafio, em rodadas sem fim, com as músicas de um artista.
   "artists.title": "Artistas",
   "artists.chooseHint":
-    "Escolha o artista. Ouça o trecho e digite o nome exato da música, em até {total} tentativas.",
+    "Escolha o artista e depois o modo: ouça o trecho e digite o nome exato da música.",
   "artists.songs.one": "{count} música",
   "artists.songs.other": "{count} músicas",
   "artists.loadingArtist": "Carregando as músicas de {artist}…",
@@ -180,6 +187,35 @@ export const ptBR = {
   "artists.restart": "Trocar de artista",
   "artists.restartWarning": "Trocar de artista? O placar desta sessão ({score}) será perdido.",
   "artists.restartConfirm": "Sim, trocar",
+  // A escolha do submodo, depois do artista (P161), e o Superfan (ME61).
+  "artists.modeHint": "Escolha o modo.",
+  "artists.free": "Livre",
+  "artists.freeHint": "Rodadas sem fim do Desafio, com o placar da sessão.",
+  "artists.superfanHint":
+    "Para quem conhece tudo: trechos de 1, 3 e 5 s, a partir de um ponto sorteado da música. Acertar vale 3, 2 ou 1 ponto; cada palpite errado tira 5, e 3 erros acabam a partida. Na dúvida, pule ou peça ajuda (até 3 por partida; a música com ajuda vale −1).",
+  "superfan.name": "Superfan",
+  "superfan.song": "Música {number}",
+  "superfan.score": "Placar: {points}",
+  "superfan.errors": "Erros: {count} de {total}",
+  "superfan.helps": "Ajudas: {count} de {total}",
+  "superfan.quit": "Encerrar a partida",
+  "superfan.quitWarning": "Encerrar a partida? O placar fica em {points}.",
+  "superfan.quitConfirm": "Sim, encerrar",
+  "superfan.next": "Próxima música",
+  "superfan.result": "Ver resultado",
+  "superfan.endTitle": "Fim da partida",
+  "superfan.endErrors": "{total} erros: a partida acabou.",
+  "superfan.endQuit": "Você encerrou a partida.",
+  "superfan.endDone": "Todas as músicas da partida tocaram.",
+  "superfan.endEmpty":
+    "Não há música para sortear agora. As músicas dos diários de hoje voltam quando eles terminarem.",
+  "superfan.right": "Acertou {right} de {played}.",
+  "superfan.songs.one": "{count} música",
+  "superfan.songs.other": "{count} músicas",
+  "superfan.again": "Jogar de novo",
+  "superfan.errorNote": "Erro {count} de {total}: {points}.",
+  "superfan.over": "{total} erros: a partida acabou. Veja o resultado.",
+  "superfan.giveUp": "Desistir da música",
   "artists.empty":
     "Não há rodada para sortear agora. As músicas dos diários de hoje voltam quando eles terminarem.",
 } as const;
