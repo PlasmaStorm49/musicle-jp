@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import os
+import re
 import subprocess
 import sys
 
 import pytest
 
 from musicle_pipeline.cli import main
+from musicle_pipeline.io_json import read_json
 from musicle_pipeline.paths import artist_paths, repo_root
 
 COMMITTED = {
@@ -117,6 +119,22 @@ def test_committed_artists_are_up_to_date(tmp_path, provider):
     assert sorted(p.name for p in fresh.iterdir()) == sorted(p.name for p in committed.iterdir())
     for path in fresh.iterdir():
         assert path.read_bytes() == (committed / path.name).read_bytes(), path.name
+
+
+# Uma versão que não entra e escapou das regras do artists.py (como o "-Instrumental-" grudado
+# e o "Tvsize" sem delimitador, vistos no PR B do M13): a faixa publicada nunca fala nisso.
+_OUT_IN_TITLE = re.compile(r"instrumental|karaoke|カラオケ|off\s*-?\s*vocal|tv\s*-?\s*size", re.I)
+
+
+@pytest.mark.parametrize("provider", sorted(COMMITTED_ARTISTS))
+def test_published_artist_titles_are_not_out_versions(provider):
+    files = [
+        p for p in sorted(COMMITTED_ARTISTS[provider].glob("*.json")) if p.name != "index.json"
+    ]
+    assert files
+    for path in files:
+        for track in read_json(path)["tracks"]:
+            assert not _OUT_IN_TITLE.search(track["title"]), (path.name, track["title"])
 
 
 @pytest.mark.parametrize("seed", ["1", "2"])
