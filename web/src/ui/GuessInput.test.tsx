@@ -12,6 +12,7 @@ const item = (id: string, title: string): ItemView => ({
   title,
   titleLatin: null,
   artist: "Artista",
+  artistLatin: null,
   artworkUrl: null,
   lang: undefined,
   artistLang: undefined,

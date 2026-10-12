@@ -55,6 +55,69 @@ describe("lang do artista", () => {
   });
 });
 
+describe("artista em latim ao lado do japonês (ME55)", () => {
+  /** O catálogo das fixtures com uma faixa trocada (e artistas a mais, se preciso). */
+  const changed = (
+    trackId: string,
+    track: Partial<Catalog["tracks"][number]>,
+    artists: readonly Catalog["artists"][number][] = [],
+  ) =>
+    indexCatalog({
+      ...catalog,
+      artists: [...catalog.artists, ...artists] as Catalog["artists"],
+      tracks: catalog.tracks.map((t) =>
+        t.id === trackId ? { ...t, ...track } : t,
+      ) as Catalog["tracks"],
+    });
+
+  it("um artista: o nome latino do catálogo, também com katakana de meia largura", () => {
+    expect(optionView(index, "fixture:al:al02", "album")?.artistLatin).toBe("Minato");
+    expect(optionView(index, "fixture:tr:tr16", "song")?.artistLatin).toBe("Garasu no Neko");
+    expect(revealView(index, "fixture:tr:tr16")?.artistLatin).toBe("Garasu no Neko");
+  });
+
+  it("parceria com os dois no catálogo: cada nome trocado pelo seu", () => {
+    expect(optionView(index, "fixture:tr:tr05", "song")?.artistLatin).toBe(
+      "Yokaze Theater & Aoi Yuu",
+    );
+  });
+
+  it("artista já latino (também em largura total): nada a mostrar", () => {
+    expect(optionView(index, "fixture:tr:tr12", "song")?.artistLatin).toBeNull(); // Hoshizora Drive
+    expect(optionView(index, "fixture:tr:tr17", "song")?.artistLatin).toBeNull(); // ＬＵＭＩＮＡ
+  });
+
+  it("parceiro fora do catálogo: nada, em vez de meio traduzido", () => {
+    const view = optionView(
+      changed("fixture:tr:tr05", { artistDisplay: "夜風シアター & 青井ユウ & 超特急" }),
+      "fixture:tr:tr05",
+      "song",
+    );
+    expect(view?.artistLatin).toBeNull();
+  });
+
+  it("o nome latino entra como está, também com $ (não vira padrão de substituição)", () => {
+    const cash = { id: "fixture:ar:ar98", name: "現金", nameLatin: "Ca$$h $& $'" };
+    const index2 = changed(
+      "fixture:tr:tr05",
+      { artistDisplay: "現金", artistIds: ["fixture:ar:ar98"] },
+      [{ ...cash, latinSource: "provider" }] as Catalog["artists"][number][],
+    );
+    expect(optionView(index2, "fixture:tr:tr05", "song")?.artistLatin).toBe("Ca$$h $& $'");
+  });
+
+  it("um nome dentro de outro: o mais longo é trocado primeiro", () => {
+    // Trocar "ナナ" antes deixaria "Nana星", e o japonês que sobra apagaria o latino.
+    const star = { id: "fixture:ar:ar99", name: "ナナ星", nameLatin: "Nana Hoshi" };
+    const index2 = changed(
+      "fixture:tr:tr05",
+      { artistDisplay: "ナナ & ナナ星", artistIds: ["fixture:ar:ar14", "fixture:ar:ar99"] },
+      [{ ...star, latinSource: "provider" }] as Catalog["artists"][number][],
+    );
+    expect(optionView(index2, "fixture:tr:tr05", "song")?.artistLatin).toBe("Nana & Nana Hoshi");
+  });
+});
+
 describe("optionView (álbum: opções do Normal)", () => {
   it("mostra o título do álbum e a capa", () => {
     expect(optionView(index, "fixture:al:al02", "album")).toMatchObject({

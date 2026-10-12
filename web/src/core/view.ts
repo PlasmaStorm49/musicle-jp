@@ -12,6 +12,8 @@ export type ItemView = {
   /** Romaji ou título oficial em latim; só quando é de fato diferente do título (P32). */
   readonly titleLatin: string | null;
   readonly artist: string;
+  /** O artista em latim (ME55), ao lado do japonês; null sem japonês ou com parceiro sem latino. */
+  readonly artistLatin: string | null;
   readonly artworkUrl: string | null;
   /** "ja" quando o título tem kana ou kanji: leitores de tela pronunciam em japonês. */
   readonly lang: "ja" | undefined;
@@ -40,6 +42,30 @@ function langOf(text: string): "ja" | undefined {
   return JAPANESE.test(text) ? "ja" : undefined;
 }
 
+/**
+ * Cada artista conhecido da faixa ou do álbum trocado pelo nome latino dele: "米津玄師 & 宇多田ヒカル"
+ * vira "Kenshi Yonezu & Hikaru Utada". O nome exibido é texto livre e pode citar um parceiro fora
+ * do catálogo (超特急): se sobrar japonês, nada, porque meio traduzido confundiria.
+ */
+function artistLatinOf(
+  index: CatalogIndex,
+  display: string,
+  artistIds: readonly string[],
+): string | null {
+  if (!JAPANESE.test(display)) return null;
+  const known: { readonly name: string; readonly latin: string }[] = [];
+  for (const id of artistIds) {
+    const artist = index.artists.get(id);
+    if (artist?.nameLatin) known.push({ name: artist.name, latin: artist.nameLatin });
+  }
+  // O nome mais longo primeiro: um nome curto dentro de um longo não o quebra ao meio.
+  known.sort((x, y) => y.name.length - x.name.length);
+  let text = display;
+  // Função, e não string: numa string, "$&", "$'" e "$$" do nome latino virariam padrões.
+  for (const { name, latin } of known) text = text.replaceAll(name, () => latin);
+  return JAPANESE.test(text) ? null : text;
+}
+
 /** Capa que vai para um <img>: na parada real, só no host da Apple (as fixtures são relativas). */
 function artworkOf(index: CatalogIndex, url: string | null | undefined): string | null {
   if (!url) return null;
@@ -57,6 +83,7 @@ export function optionView(index: CatalogIndex, id: string, target: Target): Ite
       title: track.title,
       titleLatin: latinIfDifferent(track.title, track.titleLatin),
       artist: track.artistDisplay,
+      artistLatin: artistLatinOf(index, track.artistDisplay, track.artistIds),
       artworkUrl: artworkOf(index, album?.artworkUrl),
       lang: langOf(track.title),
       artistLang: langOf(track.artistDisplay),
@@ -69,6 +96,7 @@ export function optionView(index: CatalogIndex, id: string, target: Target): Ite
     title: album.title,
     titleLatin: latinIfDifferent(album.title, album.titleLatin),
     artist: album.artistDisplay,
+    artistLatin: artistLatinOf(index, album.artistDisplay, album.artistIds),
     artworkUrl: artworkOf(index, album.artworkUrl),
     lang: langOf(album.title),
     artistLang: langOf(album.artistDisplay),

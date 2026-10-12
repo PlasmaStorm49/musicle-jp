@@ -57,6 +57,8 @@ export const ptBR = {
 
   "options.giveUp": "Não sei",
 
+  "item.artistSeparator": "·",
+
   "reveal.won": "Acertou! {points} de {max} pontos.",
   "reveal.lost": "Não foi dessa vez.",
   "reveal.correct": "Resposta certa",
