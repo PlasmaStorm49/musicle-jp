@@ -2,7 +2,7 @@
 // catálogo nem tela. Evento que não faz sentido no estado atual devolve O MESMO objeto, o que
 // facilita os testes e evita redesenho à toa no Preact.
 import { acceptedIds, type CatalogIndex } from "./catalog.ts";
-import { MAX_STAGE, MODE_RULES, pointsAtStage, secondsAt } from "./rules.ts";
+import { MAX_STAGE, MODE_RULES, pointsAtStage } from "./rules.ts";
 import type { Day, Target } from "./types.ts";
 
 export type RoundStatus = "playing" | "won" | "lost" | "void";
@@ -161,10 +161,6 @@ export function currentRound(state: GameState): RoundState {
 /** O jogo acabou quando nenhuma rodada está em andamento (não depende do último NEXT_ROUND). */
 export function isFinished(state: GameState): boolean {
   return state.rounds.every((r) => r.status !== "playing");
-}
-
-export function unlockedSeconds(round: RoundState): number {
-  return secondsAt(round.stage);
 }
 
 /** Pontos de uma rodada. O total e o máximo do dia ficam em records.ts (recordScore, recordMax). */

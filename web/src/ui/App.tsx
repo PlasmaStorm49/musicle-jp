@@ -159,6 +159,7 @@ export function App() {
           index,
           fetchFn: (url, init) => fetch(url, init),
           disabled: lookupFailForced(window.location.search),
+          now: Date.now,
         })
       : catalogResolver(index, resolveUrl);
   }, [load, resolveUrl]);

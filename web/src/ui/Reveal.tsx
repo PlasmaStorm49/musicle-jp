@@ -3,7 +3,7 @@ import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import { type RoundState, roundScore } from "../core/reducer.ts";
-import { MODE_RULES } from "../core/rules.ts";
+import { MAX_POINTS, MODE_RULES } from "../core/rules.ts";
 import type { Target } from "../core/types.ts";
 import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
@@ -101,7 +101,7 @@ export function Reveal({
   return (
     <section class="reveal" aria-labelledby="result">
       <h2 id="result" ref={heading} tabIndex={-1} class={won ? "won" : "lost"}>
-        {won ? t("reveal.won", { points: roundScore(round) }) : t("reveal.lost")}
+        {won ? t("reveal.won", { points: roundScore(round), max: MAX_POINTS }) : t("reveal.lost")}
       </h2>
 
       {!MODE_RULES[target].guessFromOptions ? (

@@ -34,7 +34,7 @@
     "optionalText": { "type": ["string", "null"], "minLength": 1 },
     "url": { "type": "string", "pattern": "^[^\\s\\\\]+$" },
     "rank": { "type": "integer", "minimum": 1 },
-    "latinSource": { "enum": ["provider", "manual", "cutlet", "pykakasi", null] },
+    "latinSource": { "enum": ["provider", "manual", "cutlet", null] },
     "artistId": { "type": "string", "pattern": "^[a-z]+:ar:[A-Za-z0-9_-]+$" },
     "albumId": { "type": "string", "pattern": "^[a-z]+:al:[A-Za-z0-9_-]+$" },
     "trackId": { "type": "string", "pattern": "^[a-z]+:tr:[A-Za-z0-9_-]+$" },

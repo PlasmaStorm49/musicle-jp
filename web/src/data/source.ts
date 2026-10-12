@@ -79,8 +79,6 @@ export function assetUrl(baseUrl: string, url: string): string {
   return new URL(url, baseUrl).href;
 }
 
-export { isValidDate }; // mora em core/dates.ts; reexportado para quem já importava daqui
-
 /** Data do diário: hoje em Brasília; em desenvolvimento, ?date=AAAA-MM-DD troca o dia. */
 export function gameDate(now: Date, search: string, dev: boolean): string {
   if (dev) {

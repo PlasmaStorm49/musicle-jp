@@ -157,7 +157,7 @@ def popularity(appearances: Sequence[_Appearance], latest: str) -> float:
 
 
 def eligibility(preview: JSON | None, artwork_url: str | None, blocked: bool = False) -> JSON:
-    """Pode ser resposta do desafio diário? Um só motivo, na ordem de gravidade."""
+    """Pode ser resposta dos diários? Um só motivo, na ordem de gravidade."""
     if blocked:
         return {"daily": False, "reason": "blocked"}  # decisão manual vence as outras
     if preview is None:

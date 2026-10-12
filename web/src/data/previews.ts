@@ -43,8 +43,8 @@ export type AppleResolverOptions = {
   readonly fetchFn: FetchLike;
   /** ?failLookup=1 (P76): nunca consulta, e tudo vai para a reserva. */
   readonly disabled?: boolean;
-  /** Relógio para a cota; os testes trocam. */
-  readonly now?: () => number;
+  /** Relógio para a cota: o App passa o Date.now, os testes passam o seu. */
+  readonly now: () => number;
 };
 
 /** Parada real: lookup do iTunes no navegador, com a reserva do catálogo. */
@@ -52,7 +52,7 @@ export function appleResolver({
   index,
   fetchFn,
   disabled = false,
-  now = Date.now,
+  now,
 }: AppleResolverOptions): PreviewResolver {
   const resolved = new Map<string, string | null>();
   const pending = new Map<string, Promise<string | null>>();
