@@ -1,5 +1,10 @@
 import { useEffect, useRef } from "preact/hooks";
-import { type DailyStatus, dailyStatus, type PracticeSummary } from "../core/home.ts";
+import {
+  type ArtistSummary,
+  type DailyStatus,
+  dailyStatus,
+  type PracticeSummary,
+} from "../core/home.ts";
 import type { Save } from "../core/records.ts";
 import { ROUTES, type Tab } from "../core/routes.ts";
 import { MAX_STAGE, MODE_RULES, MODES, ROUNDS_PER_DAY, secondsAt } from "../core/rules.ts";
@@ -7,7 +12,7 @@ import type { Day } from "../core/types.ts";
 import { t } from "../i18n/t.ts";
 import { Logo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
-import { practiceScoreText } from "./Practice.tsx";
+import { practiceScoreText } from "./PracticeRun.tsx";
 
 type Props = {
   /** O dia de hoje na agenda; null quando não há (P44). */
@@ -18,6 +23,8 @@ type Props = {
   readonly save: Save;
   /** O modo e o placar da sessão do Treino; null antes da 1ª rodada (`practiceSummary`). */
   readonly practice: PracticeSummary | null;
+  /** O artista e o placar da sessão do modo por artista; null antes da 1ª rodada. */
+  readonly artists: ArtistSummary | null;
 };
 
 type HomeCard = {
@@ -26,7 +33,7 @@ type HomeCard = {
   readonly hint: string;
 };
 
-/** Os cartões, na ordem das abas: os modos (MODES, o Normal primeiro) e o Treino. */
+/** Os cartões, na ordem das abas: os modos (MODES, o Normal primeiro), o Treino e os artistas. */
 function homeCards(): HomeCard[] {
   return [
     ...MODES.map((mode) => ({
@@ -38,6 +45,8 @@ function homeCards(): HomeCard[] {
       }),
     })),
     { tab: "practice", name: t("practice.title"), hint: t("home.practiceHint") },
+    // O cartão sai junto com o <li> da nav quando o site ficar público (P117, P126).
+    { tab: "artists", name: t("artists.title"), hint: t("home.artistsHint") },
   ];
 }
 
@@ -65,8 +74,16 @@ function practiceText(summary: PracticeSummary | null): string | null {
   });
 }
 
+function artistsText(summary: ArtistSummary | null): string | null {
+  if (!summary) return null;
+  return t("home.artistsSession", {
+    artist: summary.artist,
+    score: practiceScoreText(summary.score),
+  });
+}
+
 /** A home: o nome do jogo, um cartão por modo (com o estado de hoje) e como jogar. */
-export function Home({ day, date, save, practice }: Props) {
+export function Home({ day, date, save, practice, artists }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   // Tela nova: o foco vai para o título (regra 16), como no resumo do dia. Só ao montar: o save
   // relido (outra aba gravou) muda os cartões, mas não pode tirar o foco de onde ele está.
@@ -88,8 +105,13 @@ export function Home({ day, date, save, practice }: Props) {
         <h2 id="home-modes">{t("home.modesTitle")}</h2>
         <ul class="home-modes">
           {homeCards().map(({ tab, name, hint }) => {
-            const status = tab === "practice" ? null : dailyStatus(save, day, date, tab);
-            const text = status ? dailyText(status) : practiceText(practice);
+            const status =
+              tab === "practice" || tab === "artists" ? null : dailyStatus(save, day, date, tab);
+            const text = status
+              ? dailyText(status)
+              : tab === "artists"
+                ? artistsText(artists)
+                : practiceText(practice);
             // Nome, estado e dica, nessa ordem: o leitor de tela ouve o estado logo.
             const content = (
               <>
@@ -104,7 +126,8 @@ export function Home({ day, date, save, practice }: Props) {
                   // Sem diário hoje: não há para onde ir, então o cartão não é link.
                   <div class="mode home-card off">{content}</div>
                 ) : (
-                  // Link, e não botão: cada cartão leva a outra aba (#normal, #desafio, #treino).
+                  // Link, e não botão: cada cartão leva a outra aba (#normal, #desafio, #treino,
+                  // #artistas).
                   <a class="mode home-card" href={ROUTES[tab]}>
                     {content}
                   </a>

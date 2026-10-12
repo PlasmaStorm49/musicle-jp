@@ -6,6 +6,7 @@ describe("tabFromHash (P49)", () => {
     ["#normal", "album"],
     ["#desafio", "song"],
     ["#treino", "practice"],
+    ["#artistas", "artists"],
     ["#inicio", "home"],
     ["", "home"],
     ["#", "home"],

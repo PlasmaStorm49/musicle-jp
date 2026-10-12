@@ -1,0 +1,169 @@
+import { describe, expect, it } from "vitest";
+import { artists, realArtists } from "../../test/artists.ts";
+import { catalog, schedule } from "../../test/fixtures.ts";
+import { type ArtistPlay, excludedForArtist, songTitleKey } from "./artists.ts";
+import { indexArtist, indexCatalog, UnsupportedCatalogError } from "./catalog.ts";
+import { artistSummary } from "./home.ts";
+import { nextPracticeRound, pendingDailySongKeys, startPracticeSession } from "./practice.ts";
+import { emptySave } from "./records.ts";
+import { currentRound, reduce } from "./reducer.ts";
+import { buildSearchIndex, search } from "./search.ts";
+import type { ArtistCatalog, Day } from "./types.ts";
+
+const chart = indexCatalog(catalog);
+const NONE: ReadonlySet<string> = new Set();
+
+function file(id: string): ArtistCatalog {
+  const found = artists.files.find((a) => a.artistId === `fixture:ar:${id}`);
+  if (!found) throw new Error(`artista ${id} não está nas fixtures`);
+  return found;
+}
+
+/** As respostas dos dois diários de uma data, ainda sem resultado (o save vazio). */
+function pending(date: string): Set<string> {
+  return pendingDailySongKeys(emptySave(), schedule.days[date] as Day, date, chart);
+}
+
+const keys = (set: ReadonlySet<string>) => [...set].sort();
+
+describe("songTitleKey", () => {
+  it.each([
+    ["夜に駆ける|apple:ar:1490256993", "夜に駆ける"],
+    ["a|b|fixture:ar:ar07", "a|b"], // corta só no último "|"
+    ["sem artista", "sem artista"],
+  ])("%j → %j", (songKey, title) => {
+    expect(songTitleKey(songKey)).toBe(title);
+  });
+});
+
+describe("indexArtist (P140)", () => {
+  it("o arquivo de um artista vira um índice do jogo, com uma faixa por música", () => {
+    const index = indexArtist(file("ar07"));
+    expect(index.catalog.provider).toBe("fixture");
+    expect(index.tracks.size).toBe(file("ar07").tracks.length);
+    for (const group of index.tracksBySong.values()) expect(group).toHaveLength(1);
+  });
+
+  it("versão de arquivo desconhecida: pede para atualizar a página", () => {
+    const newer = { ...file("ar07"), schemaVersion: 2 } as unknown as ArtistCatalog;
+    expect(() => indexArtist(newer)).toThrow(UnsupportedCatalogError);
+  });
+
+  it("os arquivos reais também servem (os 6 artistas do PR B)", () => {
+    expect(realArtists.files.length).toBeGreaterThan(0);
+    for (const real of realArtists.files) {
+      const index = indexArtist(real);
+      expect(index.catalog.provider).toBe("apple");
+      expect(index.tracksBySong.size).toBe(real.tracks.length);
+    }
+  });
+});
+
+describe("excludedForArtist (P141)", () => {
+  it("sem diário pendente, nada sai", () => {
+    expect(excludedForArtist(file("ar07"), chart, NONE).size).toBe(0);
+  });
+
+  it("a participação sai pelo título: o songKey dela no artista é outro", () => {
+    // 10/10: a tr05 é resposta, com o ar02 como principal; no ar07 ela é participação.
+    const today = pending("2026-10-10");
+    expect(today.has("ふたりの約束|fixture:ar:ar07")).toBe(false);
+    expect(keys(excludedForArtist(file("ar07"), chart, today))).toEqual([
+      "ふたりの約束|fixture:ar:ar07",
+    ]);
+    expect(keys(excludedForArtist(file("ar02"), chart, today))).toEqual([
+      "ふたりの約束|fixture:ar:ar02",
+    ]);
+  });
+
+  it("sai também a música de um álbum que entregaria a resposta, como no Treino", () => {
+    // 09/10: a tr41 é resposta, e o álbum dela (al14) tem as outras duas do ar07.
+    expect(keys(excludedForArtist(file("ar07"), chart, pending("2026-10-09")))).toEqual([
+      "ひまわり畑でつかまえて|fixture:ar:ar07",
+      "君と|fixture:ar:ar07",
+      "風になる|fixture:ar:ar07",
+    ]);
+  });
+
+  it("vale qualquer título de uma versão da música (o same_song em romaji)", () => {
+    // "Kimi to ❤️" (trx05) é a tr15 pelo same_song: o titleKeys guarda os dois títulos.
+    const cover = new Set(["kimito|fixture:ar:ar99"]);
+    expect(keys(excludedForArtist(file("ar07"), chart, cover))).toEqual(["君と|fixture:ar:ar07"]);
+  });
+});
+
+describe("as rodadas do Treino sobre um artista (P125)", () => {
+  const index = indexArtist(file("ar02"));
+
+  it("um ciclo inteiro sem repetir, só com as músicas do artista, no Desafio", () => {
+    let session = startPracticeSession(7, "song", index, NONE);
+    const played: string[] = [];
+    for (let i = 0; i < file("ar02").tracks.length; i++) {
+      const game = session.game;
+      if (!game) throw new Error("o sorteio parou");
+      expect(game.target).toBe("song");
+      played.push(currentRound(game).trackId);
+      session = nextPracticeRound(session, index, NONE);
+    }
+    expect([...played].sort()).toEqual(
+      file("ar02")
+        .tracks.map((t) => t.id)
+        .sort(),
+    );
+  });
+
+  it("a música de um diário pendente não sai", () => {
+    const today = excludedForArtist(file("ar02"), chart, pending("2026-10-10"));
+    let session = startPracticeSession(3, "song", index, today);
+    for (let i = 0; i < 8; i++) {
+      const id = session.game ? currentRound(session.game).trackId : null;
+      expect(id).not.toBe("fixture:tr:tr05");
+      session = nextPracticeRound(session, index, today);
+    }
+  });
+
+  it("o sorteio pula também o álbum da música excluída no artista (o lado seguro)", () => {
+    // Só 君と sai pelo título, mas as três do al14 (君と, 風になる, ひまわり畑) saem do sorteio:
+    // sobra ふたりの約束, do al05.
+    const ar07 = indexArtist(file("ar07"));
+    const cover = excludedForArtist(file("ar07"), chart, new Set(["kimito|fixture:ar:ar99"]));
+    expect(keys(cover)).toEqual(["君と|fixture:ar:ar07"]);
+    let session = startPracticeSession(5, "song", ar07, cover);
+    for (let i = 0; i < 6; i++) {
+      expect(session.game ? currentRound(session.game).trackId : null).toBe("fixture:tr:tr05");
+      session = nextPracticeRound(session, ar07, cover);
+    }
+  });
+
+  it("a busca acha a música só pelo título, e o nome do artista não acha nada", () => {
+    const idx = buildSearchIndex(index);
+    const artist = chart.artists.get("fixture:ar:ar02");
+    const first = file("ar02").tracks[0];
+    if (!artist || !first) throw new Error("ar02 ausente ou sem faixas");
+    expect(search(idx, artist.name)).toEqual([]);
+    expect(search(idx, first.title).map((hit) => hit.id)).toContain(first.id);
+  });
+});
+
+describe("artistSummary (cartão da home)", () => {
+  const index = indexArtist(file("ar02"));
+  const session = startPracticeSession(1, "song", index, NONE);
+  const entry = artists.list.artists[0];
+  if (!entry || !session.game) throw new Error("fixtures sem artista ou sem rodada");
+  const play: ArtistPlay = { artist: entry, session };
+
+  it("sem sessão ou antes da 1ª rodada terminada: nada a mostrar", () => {
+    expect(artistSummary(null)).toBeNull();
+    expect(artistSummary(play)).toBeNull();
+  });
+
+  it("depois da 1ª rodada: o nome do artista e o placar", () => {
+    const game = session.game;
+    if (!game) throw new Error("sem rodada");
+    const won = reduce(game, { type: "GUESS", guessId: currentRound(game).trackId });
+    expect(artistSummary({ ...play, session: { ...session, game: won } })).toEqual({
+      artist: entry.name,
+      score: { points: 6, rounds: 1 },
+    });
+  });
+});

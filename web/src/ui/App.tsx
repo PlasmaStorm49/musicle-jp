@@ -5,14 +5,20 @@ import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
-import { practiceSummary } from "../core/home.ts";
+import { artistSummary, practiceSummary } from "../core/home.ts";
 import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
 import { MODES } from "../core/rules.ts";
-import { appleResolver, catalogResolver, type PreviewResolver } from "../data/previews.ts";
+import {
+  appleResolver,
+  catalogResolver,
+  lookupBudget,
+  type PreviewResolver,
+} from "../data/previews.ts";
 import {
   assetUrl,
   dataDirFor,
+  type FetchLike,
   failAudioTrack,
   fakeAudioEnabled,
   type GameData,
@@ -33,6 +39,7 @@ import {
   sessionStore,
   updateSave,
 } from "../storage/save.ts";
+import { type ArtistStore, Artists, useArtistStore } from "./Artists.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
 import { Home } from "./Home.tsx";
@@ -58,6 +65,8 @@ const BASE_URL = new URL(import.meta.env.BASE_URL, window.location.href).href;
 const DEV = import.meta.env.DEV;
 // O site publicado lê a parada real (data/); o desenvolvimento, as fixtures, ou a real com ?data=real.
 const DATA_DIR = dataDirFor(DEV, window.location.search);
+// Fora do componente: a mesma função a cada render (as cargas do modo por artista dependem dela).
+const FETCH: FetchLike = (url, init) => fetch(url, init);
 
 type Storage = {
   /**
@@ -104,6 +113,19 @@ export function App() {
   // A sessão do Treino mora aqui, e não no Practice: trocar de aba e voltar não a zera. Só
   // na memória (P50): recarregar a página começa outra. null = a escolha do modo (P105).
   const [practice, setPractice] = useState<PracticeSession | null>(null);
+  // A cota e o disjuntor do lookup da Apple, um só para a parada e os artistas (P142).
+  const budget = useMemo(
+    () => lookupBudget({ now: Date.now, disabled: lookupFailForced(window.location.search) }),
+    [],
+  );
+  // O modo por artista (M13): a lista, os artistas baixados e a sessão, como a do Treino.
+  const artists = useArtistStore({
+    fetchFn: FETCH,
+    baseUrl: BASE_URL,
+    dataDir: DATA_DIR,
+    budget,
+    resolveUrl,
+  });
   const refresh = useCallback(() => {
     const read = loadSave(saves.store);
     if (read.writable) setLatest(read.save);
@@ -135,7 +157,7 @@ export function App() {
   useEffect(() => {
     const controller = new AbortController();
     setLoad({ status: "loading" });
-    loadGameData((url, init) => fetch(url, init), BASE_URL, DATA_DIR, controller.signal)
+    loadGameData(FETCH, BASE_URL, DATA_DIR, controller.signal)
       .then((data) => {
         setLoad({ status: "ready", data });
         setMessage(saves.notice ?? "");
@@ -155,14 +177,9 @@ export function App() {
     if (load.status !== "ready") return null;
     const { index } = load.data;
     return index.catalog.provider === APPLE_PROVIDER
-      ? appleResolver({
-          index,
-          fetchFn: (url, init) => fetch(url, init),
-          disabled: lookupFailForced(window.location.search),
-          now: Date.now,
-        })
+      ? appleResolver({ index, fetchFn: FETCH, budget })
       : catalogResolver(index, resolveUrl);
-  }, [load, resolveUrl]);
+  }, [load, resolveUrl, budget]);
 
   const engine = useMemo<AudioEngine | null>(() => {
     if (load.status !== "ready" || !resolver) return null;
@@ -196,7 +213,8 @@ export function App() {
     <>
       <nav class="tabs" aria-label={t("nav.label")}>
         <ul>
-          {/* Uma aba por link (#inicio, #normal, #desafio, #treino), com aria-current na ativa. */}
+          {/* Uma aba por link (#inicio, #normal, #desafio, #treino, #artistas), com aria-current
+              na ativa. */}
           <li>
             <a href={ROUTES.home} aria-current={tab === "home" ? "page" : undefined}>
               {t("nav.home")}
@@ -218,6 +236,12 @@ export function App() {
           <li>
             <a href={ROUTES.practice} aria-current={tab === "practice" ? "page" : undefined}>
               {t("nav.practice")}
+            </a>
+          </li>
+          {/* O modo por artista fica na nav até o site ficar público (P117): é só tirar o <li>. */}
+          <li>
+            <a href={ROUTES.artists} aria-current={tab === "artists" ? "page" : undefined}>
+              {t("nav.artists")}
             </a>
           </li>
         </ul>
@@ -258,6 +282,7 @@ export function App() {
             onSaved={refresh}
             practice={practice}
             onPractice={setPractice}
+            artists={artists}
           />
         )}
       </main>
@@ -280,6 +305,8 @@ type ReadyProps = {
   /** A sessão do Treino, guardada no App. */
   readonly practice: PracticeSession | null;
   readonly onPractice: PracticeSessionSetter;
+  /** O modo por artista, também guardado no App. */
+  readonly artists: ArtistStore;
 };
 
 /** A tela da aba ativa. Uma por vez: os ids dos títulos (question, result...) não se repetem. */
@@ -296,13 +323,22 @@ function Ready({
   onSaved,
   practice,
   onPractice,
+  artists,
 }: ReadyProps) {
   const day = pickDay(data.schedule, date);
   // Uma tela por aba, sem caso esquecido: uma aba nova sem tela vira erro de compilação.
   switch (tab) {
     case "home":
       // Antes da agenda: sem o dia de hoje, a home avisa no cartão e o Treino continua.
-      return <Home day={day} date={date} save={latest} practice={practiceSummary(practice)} />;
+      return (
+        <Home
+          day={day}
+          date={date}
+          save={latest}
+          practice={practiceSummary(practice)}
+          artists={artistSummary(artists.play)}
+        />
+      );
     case "song":
     case "album":
       if (!day) return <Unavailable />;
@@ -338,6 +374,19 @@ function Ready({
           announce={announce}
           session={practice}
           onSession={onPractice}
+        />
+      );
+    case "artists":
+      return (
+        <Artists
+          store={artists}
+          chart={data.index}
+          day={day}
+          date={date}
+          save={latest}
+          engine={engine}
+          resolveUrl={resolveUrl}
+          announce={announce}
         />
       );
     default:

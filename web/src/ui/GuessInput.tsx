@@ -3,6 +3,13 @@ import type { ItemView } from "../core/view.ts";
 import { t, tn } from "../i18n/t.ts";
 import { ItemLabel } from "./ItemLabel.tsx";
 
+/**
+ * O que a busca do Desafio procura: o título e o artista (a parada) ou só o título (o modo por
+ * artista, M13, em que o artista é sempre o mesmo). Muda só os textos do campo: o arquivo do
+ * artista já vem sem chaves de artista na busca.
+ */
+export type SearchScope = "song" | "title";
+
 /** Uma linha da lista: a música, como desenhar, e se já foi tentada nesta rodada. */
 export type Suggestion = { readonly id: string; readonly item: ItemView; readonly tried: boolean };
 
@@ -12,7 +19,14 @@ type Props = {
   readonly onPick: (id: string) => void;
   /** id do título da pergunta, que serve de rótulo ao campo. */
   readonly labelledBy: string;
+  /** Só o título (modo por artista): o campo não fala em artista. */
+  readonly scope?: SearchScope;
 };
+
+const TEXTS = {
+  song: { placeholder: "typing.placeholder", hint: "typing.hint" },
+  title: { placeholder: "typing.titlePlaceholder", hint: "typing.titleHint" },
+} as const;
 
 const LIST_ID = "guess-list";
 const HINT_ID = "guess-hint";
@@ -28,7 +42,7 @@ const STATUS_DELAY_MS = 600;
  * Campo com autocompletar no padrão combobox com listbox da WAI-ARIA 1.2. O foco fica sempre
  * no campo; a opção ativa é indicada por aria-activedescendant.
  */
-export function GuessInput({ suggest, onPick, labelledBy }: Props) {
+export function GuessInput({ suggest, onPick, labelledBy, scope = "song" }: Props) {
   const input = useRef<HTMLInputElement>(null);
   const composing = useRef(false);
   const [value, setValue] = useState("");
@@ -153,7 +167,7 @@ export function GuessInput({ suggest, onPick, labelledBy }: Props) {
         autocomplete="off"
         autocapitalize="off"
         spellcheck={false}
-        placeholder={t("typing.placeholder")}
+        placeholder={t(TEXTS[scope].placeholder)}
         value={value}
         onInput={(event) => update(event.currentTarget.value)}
         onKeyDown={onKeyDown}
@@ -165,7 +179,7 @@ export function GuessInput({ suggest, onPick, labelledBy }: Props) {
         }}
       />
       <p id={HINT_ID} class="hint">
-        {t("typing.hint")}
+        {t(TEXTS[scope].hint)}
       </p>
       {/* biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: padrão combobox da WAI-ARIA 1.2 (ul com role listbox) */}
       <ul id={LIST_ID} role="listbox" aria-label={t("typing.listLabel")} hidden={!expanded}>

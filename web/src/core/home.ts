@@ -1,5 +1,7 @@
 // O que a home mostra de cada modo: o estado do diário (novo, em andamento ou terminado, com os
-// pontos) e o placar da sessão do Treino. Puro: lê só o que quem chama passa.
+// pontos) e o placar das sessões do Treino e do modo por artista. Puro: lê só o que quem chama
+// passa.
+import type { ArtistPlay } from "./artists.ts";
 import { type PracticeScore, type PracticeSession, practiceScore } from "./practice.ts";
 import { puzzleId, recordMax, recordScore, type Save } from "./records.ts";
 import type { Day, Target } from "./types.ts";
@@ -49,4 +51,13 @@ export function practiceSummary(session: PracticeSession | null): PracticeSummar
   if (!session) return null;
   const score = practiceScore(session.score, session.game);
   return score.rounds > 0 ? { target: session.practice.target, score } : null;
+}
+
+/** O cartão do modo por artista (M13): de quem é a sessão e o placar dela. */
+export type ArtistSummary = { readonly artist: string; readonly score: PracticeScore };
+
+/** O resumo da sessão do modo por artista; null antes da 1ª rodada terminada, como no Treino. */
+export function artistSummary(play: ArtistPlay | null): ArtistSummary | null {
+  const summary = practiceSummary(play?.session ?? null);
+  return play && summary ? { artist: play.artist.name, score: summary.score } : null;
 }

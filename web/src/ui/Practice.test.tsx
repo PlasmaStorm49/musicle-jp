@@ -6,6 +6,7 @@ import type { AudioEngine } from "../audio/engine.ts";
 import { indexCatalog } from "../core/catalog.ts";
 import type { PracticeSession } from "../core/practice.ts";
 import { emptySave, type Save } from "../core/records.ts";
+import { ROUTES } from "../core/routes.ts";
 import type { Album, Artist, Catalog, Day, Track } from "../core/types.ts";
 import { catalogResolver } from "../data/previews.ts";
 import { Practice } from "./Practice.tsx";
@@ -196,9 +197,8 @@ describe("Practice: a escolha do modo (P105)", () => {
 
   it("nenhum id igual a uma rota (regra 17), na escolha e com o aviso aberto", () => {
     const { correctTitle } = setup(emptySave(), null, null);
-    const routes = ["#inicio", "#normal", "#desafio", "#treino"];
     const noRouteIds = () => {
-      for (const route of routes) expect(document.querySelector(route)).toBeNull();
+      for (const route of Object.values(ROUTES)) expect(document.querySelector(route)).toBeNull();
     };
     noRouteIds();
     choose("Normal");

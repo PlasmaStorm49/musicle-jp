@@ -2,8 +2,11 @@
 // ler window.location (quem chama passa o endereço).
 import type { Target } from "./types.ts";
 
-/** As abas do jogo: a home, os diários do Normal (album) e do Desafio (song) e o Treino. */
-export type Tab = "home" | Target | "practice";
+/**
+ * As abas do jogo: a home, os diários do Normal (album) e do Desafio (song), o Treino e o modo
+ * por artista (M13).
+ */
+export type Tab = "home" | Target | "practice" | "artists";
 
 // Nenhum elemento da página pode ter id igual a uma rota: o navegador rolaria até ele.
 export const ROUTES: Readonly<Record<Tab, string>> = {
@@ -11,6 +14,7 @@ export const ROUTES: Readonly<Record<Tab, string>> = {
   album: "#normal",
   song: "#desafio",
   practice: "#treino",
+  artists: "#artistas",
 };
 
 /**

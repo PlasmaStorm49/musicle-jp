@@ -26,7 +26,7 @@
 
 ## Estado
 
-No ar no GitHub Pages com a parada real do Japão desde 11/10/2026 (M11): os diários do Normal e do Desafio e o Treino. Toda segunda, a Action atualiza a parada e a agenda por PR (abaixo, em Publicação). Depois do M11, um checkup geral corrigiu o jogo, o pipeline e o robô (PRs #12 a #14). No desenvolvimento, o jogo usa uma parada inventada com áudio sintético (cada segundo toca uma nota). Andamento por marco em [docs/PLANO.md](docs/PLANO.md).
+No ar no GitHub Pages com a parada real do Japão desde 11/10/2026 (M11): os diários do Normal e do Desafio e o Treino. Em andamento, o modo por artista (M13): o Desafio, em rodadas sem fim, com as músicas de um de 6 artistas. Toda segunda, a Action atualiza a parada e a agenda por PR (abaixo, em Publicação). Depois do M11, um checkup geral corrigiu o jogo, o pipeline e o robô (PRs #12 a #14). No desenvolvimento, o jogo usa uma parada inventada com áudio sintético (cada segundo toca uma nota). Andamento por marco em [docs/PLANO.md](docs/PLANO.md).
 
 ## Como rodar
 

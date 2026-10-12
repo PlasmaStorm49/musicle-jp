@@ -21,6 +21,7 @@ export const ptBR = {
   "nav.label": "Jogos",
   "nav.home": "Início",
   "nav.practice": "Treino",
+  "nav.artists": "Artistas",
   "nav.done": "(terminado)",
   "nav.doneMark": "✓",
 
@@ -36,6 +37,8 @@ export const ptBR = {
   "home.statusDoneVoid": "nº {number} · terminado",
   "home.statusUnavailable": "Não há diário hoje",
   "home.practiceSession": "Nesta sessão ({mode}): {score}",
+  "home.artistsHint": "O Desafio com as músicas de um artista, em rodadas sem fim.",
+  "home.artistsSession": "Nesta sessão ({artist}): {score}",
   "home.howTitle": "Como funciona",
   // Espaço que não quebra (U+00A0) entre o número e o "s".
   "home.howClip":
@@ -95,6 +98,9 @@ export const ptBR = {
 
   "typing.hint": "Título, artista, romaji ou kana. Escolha na lista com as setas e Enter.",
   "typing.placeholder": "Nome da música ou do artista",
+  // Modo por artista (M13): a busca é só pelo título, entre as músicas dele.
+  "typing.titleHint": "Título, romaji ou kana. Escolha na lista com as setas e Enter.",
+  "typing.titlePlaceholder": "Nome da música",
   "typing.listLabel": "Sugestões",
   "typing.noResults": "Nada encontrado.",
   "typing.results.one": "{count} sugestão",
@@ -152,6 +158,22 @@ export const ptBR = {
   "practice.empty":
     "Não há rodada para sortear agora. As respostas dos diários de hoje voltam ao Treino quando eles terminarem.",
   "practice.retry": "Sortear de novo",
+
+  // Modo por artista (M13): o Desafio, em rodadas sem fim, com as músicas de um artista.
+  "artists.title": "Artistas",
+  "artists.chooseHint":
+    "Escolha o artista. Ouça o trecho e digite o nome exato da música, em até {total} tentativas.",
+  "artists.songs.one": "{count} música",
+  "artists.songs.other": "{count} músicas",
+  "artists.loadingArtist": "Carregando as músicas de {artist}…",
+  "artists.retry": "Não foi possível carregar os artistas. Confira a conexão.",
+  "artists.retryArtist": "Não foi possível carregar as músicas de {artist}. Confira a conexão.",
+  "artists.back": "Voltar à lista",
+  "artists.restart": "Trocar de artista",
+  "artists.restartWarning": "Trocar de artista? O placar desta sessão ({score}) será perdido.",
+  "artists.restartConfirm": "Sim, trocar",
+  "artists.empty":
+    "Não há rodada para sortear agora. As músicas dos diários de hoje voltam quando eles terminarem.",
 } as const;
 
 export type MessageKey = keyof typeof ptBR;

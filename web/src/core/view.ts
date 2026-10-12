@@ -38,7 +38,8 @@ function latinIfDifferent(title: string, latin: string | null): string | null {
   return latin && searchKey(latin) !== searchKey(title) ? latin : null;
 }
 
-function langOf(text: string): "ja" | undefined {
+/** "ja" quando o texto tem kana ou kanji: o leitor de tela pronuncia em japonês. */
+export function langOf(text: string): "ja" | undefined {
   return JAPANESE.test(text) ? "ja" : undefined;
 }
 
