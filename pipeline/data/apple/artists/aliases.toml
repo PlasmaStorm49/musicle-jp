@@ -101,3 +101,14 @@ latin = "Hoho wo tsutau namida ga yozora no hoshi ni kawaru toki"
 
 [tracks."apple:tr:1536797185"]  # 花一色 〜野菊のささやき〜 (Seiko Matsuda); cutlet: "Hana isshoku nogiku no sasayaki"
 latin = "Hana isshoku ~Nogiku no sasayaki~"
+
+# --- Os singles do Seiko Matsuda que entraram pela P172 (12/10/2026) ---
+
+[tracks."apple:tr:1443543335"]  # 恋する想い~Fall in love~; cutlet: "Koi suru omoi~Fall in love~"
+latin = "Koi suru omoi ~Fall in love~"
+
+[tracks."apple:tr:1443410553"]  # I Love You !! ~あなたの微笑みに~; cutlet: "I Love You !! ~ anata no hohoemi ni~"
+latin = "I Love You !! ~Anata no hohoemi ni~"
+
+[tracks."apple:tr:1443555183"]  # 愛 愛 ~100% Pure Love~; cutlet: "Ai ai~100% Pure Love~"
+latin = "Ai ai ~100% Pure Love~"

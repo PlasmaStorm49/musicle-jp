@@ -5,6 +5,9 @@
 #   exclude_tracks: trackId de faixa que não entra
 #   same_song: pares de trackId da mesma música com títulos que a chave não junta (o 2º vai para
 #     o grupo do 1º)
+#   singles: um trackId de cada música lançada como single (lado A), P172. Só para artista com
+#     catálogo maior que o teto: o lookup de músicas só ordena 200 faixas, e no resto o single
+#     vem antes das faixas de álbum
 
 [[artists]]
 id = "1490256993"  # YOASOBI
@@ -75,6 +78,9 @@ same_song = [
   ["1712834756", "1536760655"],  # 白い貝のブローチ / 白い貝のブローチ(金色のリボン)
   ["1536797185", "1537516298"],  # 花一色 〜野菊のささやき〜 / 花一色 〜野菊のささやき〜(Seiko・Avenue)
   ["1536760000", "1536937822"],  # 野ばらのエチュード / 野ばらのエチュード (LPテイク)
+  ["1526178155", "1521582112"],  # 瑠璃色の地球 / 瑠璃色の地球 2020 (a regravação, single digital)
+  ["1526178155", "1538918200"],  # 瑠璃色の地球 / 瑠璃色の地球 2003
+  ["1443556444", "1536801882"],  # あなたに逢いたくて~Missing You~ / あなたに逢いたくて 2004
 ]
 # A coletânea SEIKO STORY põe o nome dela no título de algumas faixas. A original tem a mesma
 # data, e no empate o id menor (o da coletânea) seria a canônica, com o sufixo na tela.
@@ -90,4 +96,94 @@ exclude_tracks = [
   "1536760015",  # 天使のウィンク(SEIKO STORY〜80's HITS COLLECTION〜)
   "1536760001",  # 未来の花嫁(SEIKO STORY〜80's HITS COLLECTION〜)
   "1536759784",  # 風立ちぬ(SEIKO STORY〜80's HITS COLLECTION〜)
+]
+# Os lados A da discografia da Wikipédia japonesa (松田聖子の作品一覧) que estão na loja, uma
+# faixa de cada (P172): o lookup de músicas só ordena 93 músicas dela, e no resto os álbuns e
+# a data (1980-01-01 em 264 faixas que não são de 1980) deixavam 16 singles de fora.
+singles = [
+  "1712834595",  # 裸足の季節 (CD 1st)
+  "1536877719",  # 青い珊瑚礁 (CD 2nd)
+  "1536760916",  # 風は秋色 (CD 3rd)
+  "1536760919",  # Eighteen (CD 3rd)
+  "1536883556",  # チェリーブラッサム (CD 4th)
+  "1536798475",  # 夏の扉 (CD 5th)
+  "1536759783",  # 白いパラソル (CD 6th)
+  "1536883559",  # 風立ちぬ (CD 7th)
+  "1526178289",  # 赤いスイートピー (CD 8th)
+  "1537347876",  # 渚のバルコニー (CD 9th)
+  "1536759999",  # 小麦色のマーメイド (CD 10th)
+  "1536760000",  # 野ばらのエチュード (CD 11th)
+  "1536760003",  # 秘密の花園 (CD 12th)
+  "1537516301",  # 天国のキッス (CD 13th)
+  "1536797260",  # ガラスの林檎 (CD 14th)
+  "1536883778",  # SWEET MEMORIES (CD 14th)
+  "1536760009",  # 瞳はダイアモンド (CD 15th)
+  "1536882657",  # 蒼いフォトグラフ (CD 15th)
+  "1536877726",  # Rock'n Rouge (CD 16th)
+  "1536762344",  # 時間の国のアリス (CD 17th)
+  "1537412366",  # 夏服のイヴ (CD 17th)
+  "1536883784",  # ピンクのモーツァルト (CD 18th)
+  "1536798481",  # ハートのイアリング (CD 19th)
+  "1536762791",  # 天使のウィンク (CD 20th)
+  "1536883787",  # ボーイの季節 (CD 21st)
+  "1536885203",  # DANCING SHOES (CD 22nd)
+  "1536883790",  # Strawberry Time (CD 23rd)
+  "1536760019",  # Pearl-White Eve (CD 24th)
+  "1536763506",  # Marrakech (CD 25th)
+  "1536760022",  # 旅立ちはフリージア (CD 26th)
+  "1537412414",  # Precious Heart (CD 27th)
+  "1536092167",  # ALL THE WAY TO HEAVEN (CD 28th)
+  "1536092170",  # THE RIGHT COMBINATION (CD 29th)  [fora das 200 hoje]
+  "1536092173",  # WHO'S THAT BOY (CD 30th)  [fora das 200 hoje]
+  "1536096740",  # We Are Love (CD 31st)
+  "1536801717",  # きっと、また逢える… (CD 32nd)
+  "1536801719",  # あなたのすべてになりたい (CD 33rd)
+  "1536801718",  # Shinin' Shinin' (CD 33rd)  [fora das 200 hoje]
+  "1536801721",  # 大切なあなた (CD 34th)
+  "1536801723",  # A Touch of Destiny (CD 35th)
+  "1536801725",  # もう一度、初めから (CD 37th)
+  "1537344848",  # 輝いた季節へ旅立とう (CD 38th)
+  "1537344851",  # 素敵にOnce Again (CD 39th)
+  "1443556444",  # あなたに逢いたくて~Missing You~ (CD 40th)
+  "1443556437",  # 明日へと駆け出してゆこう (CD 40th)
+  "1443593027",  # さよならの瞬間 (CD 43rd)
+  "1443609684",  # 私だけの天使~Angel~ (CD 45th)
+  "1443609700",  # あなたのその胸に (CD 45th)
+  "1443548738",  # Gone with the rain (CD 46th)  [fora das 200 hoje]
+  "1443543335",  # 恋する想い~Fall in love~ (CD 47th)  [fora das 200 hoje]
+  "1443594828",  # 哀しみのボート (CD 49th)
+  "1443560490",  # 20th Party (CD 50th)
+  "1445002858",  # 上海ラヴソング (CD 51st)
+  "1443560891",  # Unseasonable Shore (CD 52nd)  [fora das 200 hoje]
+  "1575896318",  # True Love Story (CD 53rd)
+  "1443187406",  # The Sound of Fire 2001 (CD 54th)  [fora das 200 hoje]
+  "1443606806",  # あなたしか見えない (CD 55th)  [fora das 200 hoje]
+  "1443555183",  # 愛 愛 ~100% Pure Love~ (CD 56th)  [fora das 200 hoje]
+  "1536801879",  # 素敵な明日 (CD 58th)
+  "1537381761",  # Just for tonight (CD 59th)  [fora das 200 hoje]
+  "1536801880",  # Call me (CD 60th)
+  "1536801881",  # 逢いたい (CD 61st)
+  "1536801883",  # 永遠さえ感じた夜 (CD 63rd)
+  "1526178147",  # I'll fall in love (CD 64th)
+  "1536801885",  # しあわせな気持ち (CD 65th)
+  "1537388295",  # bless you (CD 66th)
+  "1536801889",  # 涙がただこぼれるだけ (CD 68th)
+  "1536801891",  # クリスマスの夜 (CD 70th)
+  "1536801892",  # 花びら舞う季節に (CD 71st)
+  "1536801894",  # Love is all (CD 72nd)  [fora das 200 hoje]
+  "1536801895",  # あの輝いた季節 (CD 73rd)
+  "1442213496",  # いくつの夜明けを数えたら (CD 75th)
+  "1444844185",  # 特別な恋人 (CD 76th)
+  "1443404553",  # 涙のしずく (CD 77th)  [fora das 200 hoje]
+  "1443420324",  # LuLu!! (CD 78th)  [fora das 200 hoje]
+  "1444999410",  # 夢がさめて (CD 79th)
+  "1443410553",  # I Love You !! ~あなたの微笑みに~ (CD 80th)  [fora das 200 hoje]
+  "1444606786",  # 永遠のもっと果てまで (CD 81st)
+  "1444188094",  # 惑星になりたい (CD 81st)  [fora das 200 hoje]
+  "1440896020",  # 薔薇のように咲いて 桜のように散って (CD 82nd)
+  "1521582112",  # 瑠璃色の地球 2020 (DL 2nd)
+  "1532002473",  # 風に向かう一輪の花 (DL 3rd)
+  "1726162416",  # Tears In Heaven (DL 7th)
+  "1801664131",  # Shapes Of Happiness (DL 8th)
+  "1811935953",  # Stardust (DL 9th)  [fora das 200 hoje]
 ]

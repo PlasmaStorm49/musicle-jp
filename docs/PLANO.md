@@ -125,6 +125,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P169 | O selo da tela da lista leva à playlist da parada, como o da rodada (P145) |
 | P170 | A capa fora da rodada, na lista, entra na zona da P69, com o selo no fim da tela |
 | P171 | Sem capa, ou se ela não carregar, um monograma: a 1ª letra do nome (米, 松), num disco de cor fixa pelo id |
+| P172 | As 200 de cada artista são as mais populares (pedido de 12/10/2026): depois da ordem do lookup, os singles (lado A) de uma lista curada no `artists.toml` vêm antes da reserva, e a faixa tirada pela curadoria deixa a posição para a música dela (Apêndice K) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -801,10 +802,17 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
   - A pré-visualização com `?data=real` achou o crédito repetido nas participações ("DAOKO×米津玄師 & 米津玄師"): a exibição passou a ser a da loja.
 - **Acréscimo de 12/10/2026** (P166, busca às 21:52 UTC): Unlimits e 松田聖子, no fim da lista. São 8 artistas e 1040 músicas.
   - Unlimits (311230779): 101 faixas em 13 álbuns, 85 músicas, sem curadoria.
-  - 松田聖子 (Seiko Matsuda, 76115834; não a "Seiko" 286640008): 1545 faixas em 126 álbuns, cerca de 614 músicas, 200 publicadas (414 cortadas pelo teto). É o maior snapshot (1,3 MB, fora do site); o arquivo publicado tem 255 KB.
+  - 松田聖子 (Seiko Matsuda, 76115834; não a "Seiko" 286640008): 1545 faixas em 126 álbuns, 619 músicas pela chave do pipeline, 200 publicadas (419 cortadas pelo teto; o "414" do 1º texto era de uma volta anterior da curadoria; 416 desde a P172). É o maior snapshot (1,3 MB, fora do site); o arquivo publicado tem 255 KB.
   - Curadoria do Seiko Matsuda, em três voltas de `build-artists` até nenhuma das 200 se repetir:
-    - 11 pares no `same_song`: as regravações dos 40 anos (2020 e 2021), com o ano ou um subtítulo em inglês ("青い珊瑚礁 (Blue Lagoon)", "チェリーブラッサム (2021)"), a grafia ウイ/ウィ de 天使のウィンク e faixas com o nome do álbum no título ("Romance(金色のリボン)", "(Seiko・Avenue)", "(LPテイク)");
-    - 13 faixas da coletânea SEIKO STORY com o nome dela no título ("風立ちぬ(SEIKO STORY〜80's HITS COLLECTION〜)") no `exclude_tracks`, e não no `same_song`: a original tem a mesma data, e no empate da P132 o id menor (o da coletânea) seria a canônica, com o sufixo na tela.
+    - 13 pares no `same_song` (o 1º texto dizia 11, trocado com o `exclude_tracks`; mais 3 na P172): as regravações dos 40 anos (2020 e 2021), com o ano ou um subtítulo em inglês ("青い珊瑚礁 (Blue Lagoon)", "チェリーブラッサム (2021)"), a grafia ウイ/ウィ de 天使のウィンク e faixas com o nome do álbum no título ("Romance(金色のリボン)", "(Seiko・Avenue)", "(LPテイク)");
+    - 11 faixas da coletânea SEIKO STORY com o nome dela no título ("風立ちぬ(SEIKO STORY〜80's HITS COLLECTION〜)") no `exclude_tracks` (o 1º texto dizia 13), e não no `same_song`: a original tem a mesma data, e no empate da P132 o id menor (o da coletânea) seria a canônica, com o sufixo na tela.
+  - **A popularidade das 200** (P172; subagentes de 12/10/2026: a contagem das músicas únicas e a ordem, comparada com a busca do iTunes e a discografia da Wikipédia japonesa):
+    - LiSA: as 200 são as mais populares. Os 41 lados A estão dentro, e as 9 cortadas são faixas de álbum ou de EP.
+    - Seiko Matsuda: 16 lados A ficavam de fora. O lookup de músicas só devolve 200 faixas, que cobrem 93 músicas dela (as outras posições se gastam com versões repetidas). A ordem dele concorda com a busca do iTunes (Spearman de 0,82 a 0,84) e com as vendas, mas o resto das 200 saía da reserva (álbuns e data), e a Apple põe 1980-01-01 em 264 faixas que não são de 1980.
+    - A chave `singles` do `artists.toml`: uma faixa de cada lado A da discografia (85 do Seiko Matsuda, dos 100 da Wikipédia; os outros estão em outro id de artista na loja, como o 286640008, ou não estão). Entre as músicas sem posição no lookup, o single vem antes da reserva. Entraram os 16 (Shinin' Shinin', 涙のしずく, 惑星になりたい, Gone with the rain…) e saíram 13 faixas sem sinal de sucesso.
+    - A faixa do `exclude_tracks` deixa a posição no lookup para a música dela (`_inherited_ranks`), pelo título sem o sufixo que a chave não tira, e só sem ele pela chave da própria faixa: outra edição da SEIKO STORY tem a mesma faixa com o mesmo sufixo, e a posição ia para essa cópia (uma música repetida entre as 200, achada na comparação antes e depois). ガラスの林檎 foi do 94º ao 30º lugar; ピンクのモーツァルト, do 97º ao 35º; 天使のウィンク, do 35º ao 14º.
+    - 3 regravações com o ano sem parênteses juntaram com a original no `same_song`: 瑠璃色の地球 2003 e 2020 (single digital) e あなたに逢いたくて 2004.
+    - Ficou de fora, por ora: ignorar a data 1980-01-01 no desempate (sozinha, tirava um lado A) e usar a busca do iTunes como 2º sinal (piorava: entravam covers de jazz).
   - `aliases.toml`: 28 latinos que o cutlet errou. Entre eles, a kana ウィ ignorada ("Tenshi no inku", "Intaa gaaden"), leituras erradas (風は秋色 como "shuushoku", 抱いて… como "Idaite", 七月 como "Nana gatsu", 小径 como "shoukei") e espaços partidos ("Furanji a", "Shinki rou"). As leituras sem certeza ficaram (時風の鼓動, 夢冬の彩月, 夜唄).
   - `providers/apple.py`: o latino do artista que só muda a caixa do nome ("Unlimits" no lookup, "UNLIMITS" nas faixas) não entra, e a tela deixa de mostrar "UNLIMITS · Unlimits". Valeu também para um parceiro da Aimer ("GROWN KIDS"). O catálogo da parada não mudou.
   - Hipóteses conferidas: o THE FIRST TAKE vem como " - From THE FIRST TAKE"; o filtro de álbuns deixou de 0 a 5 faixas de coletânea por artista, que nunca são a canônica; o lookup de músicas começa pelos sucessos (アイドル e 夜に駆ける; 唱 e 新時代; 打上花火 e KICK BACK), o que sustenta a P133 (indício, não prova).
