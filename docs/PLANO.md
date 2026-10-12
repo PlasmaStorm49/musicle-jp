@@ -115,6 +115,11 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P163 | Com a ajuda na tela, o "Pular" continua: a pontuação já está no mínimo, e ouvir mais não custa nada. Ele gasta a tentativa e libera o trecho seguinte, como sem a ajuda, e some na última tentativa, que fica para a opção (pedido de 12/10/2026, depois do merge da ajuda; save v5) |
 | P160 | Fora do modo por artista a faixa em que o artista só aparece creditado por um sample ("the NOISE", do LE SSERAFIM, com o 夜に駆ける do YOASOBI) |
 
+**Perguntas do Superfan (ME61), em aberto:**
+
+- P158. O palpite errado encerra a música (revela a resposta) ou passa para a etapa seguinte, como no Desafio? Recomendação: encerra. Com 3 etapas e o erro valendo −5, seguir na mesma música deixaria "chutar até acertar" barato no começo da partida, e "não tem certeza, escute mais ou peça ajuda" (P119) fica mais claro.
+- P159. A ajuda pode ser pedida logo de cara, ou só depois de uma tentativa gasta, como no Treino (P150)? Recomendação: logo de cara. Ela já custa caro (−1 e uma das 3 da partida), e pular para liberar o botão só gastaria trecho.
+
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
 - P155. No compartilhar, a ajuda é um 💡 no ponto em que foi pedida: `⬛⬛⬛💡✅`.
@@ -270,7 +275,15 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME41. Trocar "sem desafio" por "sem diário" nos avisos do pipeline (`schedule.py`) e do robô (`check-catalog-pr.sh`, com o teste dele) e no título do `schedule.schema.json`, como na tela (P103). O título vira o nome do tipo gerado: mudar pede o mapa de `web/scripts/gen-types.ts` e o `npm run types`.
 - ME42. Na escolha do modo do Treino, gerar a semente ao montar e pré-carregar a 1ª rodada de cada modo, para o 1º "Tocar" responder mais rápido (liga à ME18; subagente Plan da P105).
 - ME60. A rodada sem rolagem no celular, cabendo na tela: o selo do Apple Music, no fim da página (P112, ME58), fica sempre visível junto do player. Ideia do usuário em 12/10/2026, para antes de mostrar o jogo a outras pessoas.
-- ME61. Superfan, o 2º submodo do modo por artista (pedido em 12/10/2026, para depois do M13): só o Desafio, até 3 erros na partida (no 3º, recomeça), barra menor (1 s, depois +3 s, depois +5 s: 1, 4 e 9 s acumulados, a confirmar), ordem sorteada a cada começo e a prévia começando num ponto sorteado do clipe de 30 s (até ~19 s, com folga para o fade do fim; os dois motores de áudio já aceitam o `offset`). Em aberto: P119 (o que é erro: cada palpite ou cada música perdida; recomendação: a música, com 3 palpites, um por etapa), P120 (pular conta como palpite; recomendação: sim), P121 (pontos 3, 2 e 1 pela etapa; recomendação), o fim por vitória e o nome do submodo sem fim (S20: "Livre"). Pede regras próprias sem um `Target` novo (P125 vale para o sem fim).
+- ME61. Superfan, o 2º submodo do modo por artista ("para quem for muito tryhard"; o sem fim é para quem só quer jogar), especificado em 12/10/2026 (P119 a P123, P153), em construção no branch `m13-superfan`:
+  - Só o Desafio. A barra tem 3 etapas, de 1 s, 3 s e 5 s (1, 4 e 9 s acumulados); a prévia começa num ponto sorteado do clipe de 30 s (até ~19 s, com folga para o fade). Desde o branch, cada modo tem a sua barra (`ModeRules.stages`).
+  - P119: cada palpite errado é um erro, que tira 5 pontos; com 3 erros na partida inteira, ela acaba.
+  - P120: pular é permitido e aconselhado (as informações do modo dizem isso). Pular a última etapa encerra a música com 0, sem erro (suposição, não contestada).
+  - P121: o acerto vale 3, 2 ou 1 ponto, pela etapa.
+  - P122 e P123: os covers entram; o Hachi é outro artista.
+  - P153: a ajuda vale no máximo 3 vezes por partida, e a música com ajuda vale −1 ponto. A ajuda que erra conta como erro (−5) e encerra a música (suposição, não contestada).
+  - Partida: as músicas do artista em ordem sorteada, cada uma uma vez; acaba no 3º erro, ao desistir ou quando todas forem acertadas (suposição, não contestada). O placar pode ficar negativo.
+  - Em aberto: P158 e P159 (seção 2). O nome do submodo sem fim continua na S20 ("Livre").
 - ME62. A exclusão por título (`titleKeys`, P141) também no Treino da parada: hoje um cover de outro artista escapa dela.
 - ME63 a ME65 (revisão do PR B do M13, feitas): o "-X-" grudado no nome ("Empty MERMAiD-Instrumental-"), a versão que não entra no fim do título sem delimitador ("六等星の夜 Tvsize") e o teste que recusa título publicado de artista com instrumental, karaokê, off vocal ou TV size.
 - ME66. Modo por artista: o sorteio tira todo álbum do índice do artista com uma música excluída (Apêndice K, Exclusão), e não só os que entregariam o diário. Ficou assim por ser o lado seguro; se um dia pesar (canônicas de álbum de estúdio), a troca é o sorteio pular a música excluída pelo `songKey` e receber de fora só os álbuns de mesmo nome (`/code-review` e revisor do PR C).
