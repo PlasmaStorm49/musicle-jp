@@ -2,7 +2,7 @@
 // catálogo nem tela. Evento que não faz sentido no estado atual devolve O MESMO objeto, o que
 // facilita os testes e evita redesenho à toa no Preact.
 import { acceptedIds, type CatalogIndex } from "./catalog.ts";
-import { HELP_OPTIONS, HELP_POINTS, MAX_STAGE, MODE_RULES, pointsAtStage } from "./rules.ts";
+import { HELP_OPTIONS, HELP_POINTS, lastStage, MODE_RULES, pointsAtStage } from "./rules.ts";
 import type { Day, Target } from "./types.ts";
 
 export type RoundStatus = "playing" | "won" | "lost" | "void";
@@ -129,7 +129,11 @@ function guess(state: GameState, round: RoundState, guessId: string): GameState 
   if (rules.wrongGuess === "end" || round.help || attempts.length >= rules.maxAttempts) {
     return withRound(state, { ...round, attempts, status: "lost" });
   }
-  return withRound(state, { ...round, attempts, stage: Math.min(round.stage + 1, MAX_STAGE) });
+  return withRound(state, {
+    ...round,
+    attempts,
+    stage: Math.min(round.stage + 1, lastStage(rules)),
+  });
 }
 
 function skip(state: GameState, round: RoundState): GameState {
@@ -141,7 +145,11 @@ function skip(state: GameState, round: RoundState): GameState {
   if (attempts.length >= rules.maxAttempts) {
     return withRound(state, { ...round, attempts, status: "lost" });
   }
-  return withRound(state, { ...round, attempts, stage: Math.min(round.stage + 1, MAX_STAGE) });
+  return withRound(state, {
+    ...round,
+    attempts,
+    stage: Math.min(round.stage + 1, lastStage(rules)),
+  });
 }
 
 /**
@@ -175,7 +183,12 @@ export function reduce(state: GameState, event: GameEvent): GameState {
 
   switch (event.type) {
     case "LISTEN_MORE":
-      if (!MODE_RULES[state.target].listenMore || round.stage >= MAX_STAGE) return state;
+      if (
+        !MODE_RULES[state.target].listenMore ||
+        round.stage >= lastStage(MODE_RULES[state.target])
+      ) {
+        return state;
+      }
       return withRound(state, { ...round, stage: round.stage + 1 });
     case "GUESS":
       return guess(state, round, event.guessId);

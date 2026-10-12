@@ -59,6 +59,7 @@ describe("pontos", () => {
 describe("regras por modo (P100)", () => {
   it("Normal (álbum): 1 palpite entre as opções, errar encerra, pode ouvir mais, não pula", () => {
     expect(MODE_RULES.album).toEqual({
+      stages: [1, 2, 4, 7, 11, 16],
       maxAttempts: 1,
       wrongGuess: "end",
       listenMore: true,
@@ -70,6 +71,7 @@ describe("regras por modo (P100)", () => {
 
   it("Desafio (música): 6 tentativas digitadas, errar avança, pode pular e pedir ajuda", () => {
     expect(MODE_RULES.song).toEqual({
+      stages: [1, 2, 4, 7, 11, 16],
       maxAttempts: 6,
       wrongGuess: "advance",
       listenMore: false,

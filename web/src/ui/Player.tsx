@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { type AudioEngine, AudioUnavailableError, type Playback } from "../audio/engine.ts";
 import { fillFraction } from "../core/player.ts";
-import { MAX_STAGE, type ModeRules, secondsAt } from "../core/rules.ts";
+import { lastStage, type ModeRules, secondsAt } from "../core/rules.ts";
 import { t } from "../i18n/t.ts";
 import { SegmentBar } from "./SegmentBar.tsx";
 import { singleClick } from "./singleClick.ts";
@@ -85,7 +85,7 @@ export function Player({
   function animate(playback: Playback, atStage: number) {
     const draw = () => {
       if (fillRef.current) {
-        fillRef.current.style.width = `${fillFraction(playback.elapsed(), atStage) * 100}%`;
+        fillRef.current.style.width = `${fillFraction(playback.elapsed(), atStage, rules.stages) * 100}%`;
       }
       frame.current = requestAnimationFrame(draw);
     };
@@ -105,7 +105,7 @@ export function Player({
     setStatus("loading");
     setFocusPlay("lost");
     engine
-      .play(url, offset, secondsAt(atStage))
+      .play(url, offset, secondsAt(atStage, rules.stages))
       .then((playback) => {
         if (!current()) return;
         if (!playback) {
@@ -153,13 +153,13 @@ export function Player({
     setFocusPlay("section");
   }
 
-  const extra = secondsAt(stage + 1) - secondsAt(stage);
+  const extra = secondsAt(stage + 1, rules.stages) - secondsAt(stage, rules.stages);
   const busy = status === "loading" || waiting;
 
   return (
     <section class="player" ref={section}>
       {explicit && <p class="badge explicit">{t("player.explicit")}</p>}
-      <SegmentBar stage={stage} fillRef={fillRef} />
+      <SegmentBar stage={stage} stages={rules.stages} fillRef={fillRef} />
       <div class="player-actions">
         {status === "playing" ? (
           // O 2º clique de um toque duplo no Tocar cairia aqui (o mesmo botão, que vira Parar) e
@@ -176,10 +176,12 @@ export function Player({
             // O 2º clique de um toque duplo no Parar (ou num botão da tela anterior) tocaria de novo.
             onClick={singleClick(() => play(stage))}
           >
-            {busy ? t("player.loading") : t("player.play", { seconds: secondsAt(stage) })}
+            {busy
+              ? t("player.loading")
+              : t("player.play", { seconds: secondsAt(stage, rules.stages) })}
           </button>
         )}
-        {rules.listenMore && stage < MAX_STAGE && (
+        {rules.listenMore && stage < lastStage(rules) && (
           <button type="button" onClick={singleClick(listenMore)} disabled={busy}>
             {t("player.listenMore", { seconds: extra })}
           </button>

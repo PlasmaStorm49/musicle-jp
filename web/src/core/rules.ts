@@ -2,7 +2,10 @@
 // e um modo novo entra aqui sem espalhar if pelo reducer.
 import type { Target } from "./types.ts";
 
-/** Segundos do trecho liberados em cada etapa. */
+/**
+ * Segundos do trecho liberados em cada etapa, nos dois modos de hoje (os diários e o Treino).
+ * Cada modo tem a sua barra (`ModeRules.stages`): o Superfan (ME61) terá 1, 4 e 9 s.
+ */
 export const STAGES = [1, 2, 4, 7, 11, 16] as const;
 export const MAX_STAGE = STAGES.length - 1;
 export const ROUNDS_PER_DAY = 3;
@@ -18,12 +21,16 @@ export const HELP_OPTIONS = 4;
  */
 export const HELP_AFTER = { practice: 1, daily: 3 } as const;
 
-/** Largura de cada pedaço da barra de progresso: quanto cada etapa acrescenta (1,1,2,3,4,5). */
-export const SEGMENT_WEIGHTS: readonly number[] = STAGES.map(
-  (seconds, i) => seconds - (i === 0 ? 0 : (STAGES[i - 1] ?? 0)),
-);
+/** Largura de cada pedaço da barra: quanto cada etapa acrescenta (1, 1, 2, 3, 4, 5 nos de hoje). */
+export function segmentWeights(stages: readonly number[]): number[] {
+  return stages.map((seconds, i) => seconds - (i === 0 ? 0 : (stages[i - 1] ?? 0)));
+}
+
+export const SEGMENT_WEIGHTS: readonly number[] = segmentWeights(STAGES);
 
 export type ModeRules = {
+  /** Segundos acumulados do trecho em cada etapa: a barra do modo. */
+  readonly stages: readonly number[];
   /** Quantos palpites ou pulos cabem numa rodada. */
   readonly maxAttempts: number;
   /** Palpite errado encerra a rodada ("end") ou libera a etapa seguinte ("advance"). */
@@ -47,6 +54,7 @@ export const MODES: readonly Target[] = ["album", "song"];
 /** Os dois modos (P100): o Normal (álbum) em 4 opções e o Desafio (música) digitado. */
 export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
   album: {
+    stages: STAGES,
     maxAttempts: 1,
     wrongGuess: "end",
     listenMore: true,
@@ -55,6 +63,7 @@ export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
     help: false,
   },
   song: {
+    stages: STAGES,
     maxAttempts: MAX_POINTS,
     wrongGuess: "advance",
     listenMore: false,
@@ -72,9 +81,14 @@ export function canSkip(rules: ModeRules, attemptsUsed: number): boolean {
   return rules.skip && attemptsUsed + 1 < rules.maxAttempts;
 }
 
-/** Segundos que o jogador pode ouvir na etapa `stage`. */
-export function secondsAt(stage: number): number {
-  return STAGES[Math.min(Math.max(stage, 0), MAX_STAGE)] ?? STAGES[0];
+/** A última etapa da barra do modo. */
+export function lastStage(rules: ModeRules): number {
+  return rules.stages.length - 1;
+}
+
+/** Segundos que o jogador pode ouvir na etapa `stage` (da barra dos diários, se não disser outra). */
+export function secondsAt(stage: number, stages: readonly number[] = STAGES): number {
+  return stages[Math.min(Math.max(stage, 0), stages.length - 1)] ?? stages[0] ?? 0;
 }
 
 /**

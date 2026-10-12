@@ -55,6 +55,15 @@ describe("Player segue as regras do modo", () => {
     expect(engine.play).not.toHaveBeenCalled();
   });
 
+  it("a barra e os botões seguem as etapas do modo (1, 4 e 9 s no Superfan, ME61)", () => {
+    const superfan: ModeRules = { ...MODE_RULES.song, stages: [1, 4, 9], maxAttempts: 3 };
+    setup(superfan, true);
+    expect(screen.getByRole("button", { name: "Tocar 1 s" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Pular (+3 s)" })).toBeTruthy();
+    expect(screen.getByRole("progressbar").getAttribute("aria-valuemax")).toBe("9");
+    expect(document.querySelectorAll(".bar-segments .seg")).toHaveLength(3);
+  });
+
   it("Desafio na última tentativa: sem Pular", () => {
     setup(MODE_RULES.song, false);
     expect(screen.queryByRole("button", { name: /Pular/ })).toBeNull();
