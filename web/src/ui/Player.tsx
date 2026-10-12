@@ -4,6 +4,7 @@ import { fillFraction } from "../core/player.ts";
 import { MAX_STAGE, type ModeRules, secondsAt } from "../core/rules.ts";
 import { t } from "../i18n/t.ts";
 import { SegmentBar } from "./SegmentBar.tsx";
+import { singleClick } from "./singleClick.ts";
 
 type Props = {
   readonly engine: AudioEngine;
@@ -42,8 +43,10 @@ export function Player({
   const playButton = useRef<HTMLButtonElement>(null);
   // O foco vai para o botão principal (Tocar ou Parar):
   // - "section": ao montar (o Player monta a cada rodada, inclusive logo depois da escolha do
-  //   modo) e depois de um pulo, se o foco está no body ou no próprio Player: o "Pular" pode ter
-  //   sumido (última tentativa), e o próximo passo natural é ouvir o trecho liberado (P46);
+  //   modo) e depois de um pulo, se o foco está no body, no próprio Player ou ainda no lugar de
+  //   fora do jogo onde estava ao montar (a nav: quem entra num diário pelo link da aba fica com o
+  //   foco nele, regra 16): o "Pular" pode ter sumido (última tentativa), e o próximo passo
+  //   natural é ouvir o trecho liberado (P46);
   // - "lost": quando o som começa (ou falha), só se o foco se perdeu. O "Ouvir mais" da última
   //   etapa some, e o botão desabilitado no "Carregando…" o navegador joga no body; já o "Ouvir
   //   mais" de uma etapa do meio continua na tela, e quem usa teclado aperta Enter de novo nele.
@@ -52,13 +55,16 @@ export function Player({
   // campo de digitação, uma opção): o foco fica onde ele está.
   const [focusPlay, setFocusPlay] = useState<"section" | "lost" | null>("section");
   const section = useRef<HTMLElement>(null);
+  // Quem foi para outro link da nav enquanto a prévia chegava não é puxado de volta.
+  const [entryFocus] = useState(() => document.activeElement);
   const waiting = url === null;
   useEffect(() => {
     if (focusPlay === null || status === "loading" || waiting) return;
     setFocusPlay(null);
     const active = document.activeElement;
     const lost = !active || active === document.body || !active.isConnected;
-    if (lost || (focusPlay === "section" && section.current?.contains(active))) {
+    const outside = active === entryFocus && !active?.closest("main");
+    if (lost || (focusPlay === "section" && (outside || section.current?.contains(active)))) {
       playButton.current?.focus();
     }
   }, [focusPlay, status, waiting]);
@@ -134,14 +140,14 @@ export function Player({
     setStatus("idle");
   }
 
-  function listenMore(event: MouseEvent) {
-    if (event.detail > 1) return; // toque duplo não gasta 2 pontos
+  // Com singleClick: o toque duplo não gasta 2 pontos.
+  function listenMore() {
     onListenMore();
     play(stage + 1);
   }
 
-  function skip(event: MouseEvent) {
-    if (event.detail > 1) return; // toque duplo não gasta 2 tentativas
+  // Com singleClick: o toque duplo não gasta 2 tentativas.
+  function skip() {
     stop(); // o trecho antigo para; o novo só toca no clique em Tocar (P46)
     onSkip();
     setFocusPlay("section");
@@ -156,7 +162,9 @@ export function Player({
       <SegmentBar stage={stage} fillRef={fillRef} />
       <div class="player-actions">
         {status === "playing" ? (
-          <button ref={playButton} type="button" class="primary" onClick={stop}>
+          // O 2º clique de um toque duplo no Tocar cairia aqui (o mesmo botão, que vira Parar) e
+          // pararia o som que acabou de começar.
+          <button ref={playButton} type="button" class="primary" onClick={singleClick(stop)}>
             {t("player.stop")}
           </button>
         ) : (
@@ -165,23 +173,19 @@ export function Player({
             type="button"
             class="primary"
             disabled={busy}
-            onClick={(event) => {
-              // Toque duplo: o 2º clique pararia o som (o botão vira Parar no mesmo lugar). Também
-              // é o 2º clique de um toque duplo no cartão de modo do Treino, que cai aqui.
-              if (event.detail > 1) return;
-              play(stage);
-            }}
+            // O 2º clique de um toque duplo no Parar (ou num botão da tela anterior) tocaria de novo.
+            onClick={singleClick(() => play(stage))}
           >
             {busy ? t("player.loading") : t("player.play", { seconds: secondsAt(stage) })}
           </button>
         )}
         {rules.listenMore && stage < MAX_STAGE && (
-          <button type="button" onClick={listenMore} disabled={busy}>
+          <button type="button" onClick={singleClick(listenMore)} disabled={busy}>
             {t("player.listenMore", { seconds: extra })}
           </button>
         )}
         {skippable && (
-          <button type="button" onClick={skip} disabled={status === "loading"}>
+          <button type="button" onClick={singleClick(skip)} disabled={status === "loading"}>
             {t("typing.skip", { seconds: extra })}
           </button>
         )}

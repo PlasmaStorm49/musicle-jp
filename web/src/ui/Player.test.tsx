@@ -8,6 +8,17 @@ import { Player } from "./Player.tsx";
 
 afterEach(cleanup);
 
+// Nós que um teste põe no body (a nav, o <main>): saem mesmo quando uma asserção falha antes.
+const attached: HTMLElement[] = [];
+const attach = <T extends HTMLElement>(el: T): T => {
+  document.body.append(el);
+  attached.push(el);
+  return el;
+};
+afterEach(() => {
+  for (const el of attached.splice(0)) el.remove();
+});
+
 function setup(rules: ModeRules, skippable: boolean) {
   const engine: AudioEngine = {
     unlock: vi.fn(),
@@ -55,6 +66,69 @@ describe("Player segue as regras do modo", () => {
     fireEvent.click(screen.getByRole("button", { name: /Ouvir mais/ }));
     expect(onListenMore).toHaveBeenCalledOnce();
     expect(engine.play).toHaveBeenCalledWith("fixtures/audio/x.wav", 0, 2);
+  });
+
+  it("entrando pela nav (o foco no link, fora do jogo), o foco vai ao Tocar (ME49)", () => {
+    // O link da aba continua na tela depois do Enter nele: sem isto, o foco ficava na nav.
+    const nav = attach(document.createElement("a"));
+    nav.href = "#desafio";
+    nav.textContent = "Desafio";
+    nav.focus();
+    expect(document.activeElement).toBe(nav);
+    const main = attach(document.createElement("main"));
+    render(
+      <Player
+        engine={{
+          unlock: vi.fn(),
+          preload: vi.fn(),
+          play: vi.fn(),
+          stop: vi.fn(),
+          retain: vi.fn(),
+        }}
+        url="fixtures/audio/x.wav"
+        offset={0}
+        stage={0}
+        explicit={false}
+        rules={MODE_RULES.song}
+        skippable={true}
+        onListenMore={vi.fn()}
+        onSkip={vi.fn()}
+        onAudioError={vi.fn()}
+      />,
+      { container: main },
+    );
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Tocar 1 s" }));
+  });
+
+  it("ao montar, o foco que já está no jogo (o campo, uma opção) fica onde está", () => {
+    const main = attach(document.createElement("main"));
+    const field = document.createElement("input");
+    main.append(field);
+    field.focus();
+    const host = document.createElement("div");
+    main.append(host);
+    render(
+      <Player
+        engine={{
+          unlock: vi.fn(),
+          preload: vi.fn(),
+          play: vi.fn(),
+          stop: vi.fn(),
+          retain: vi.fn(),
+        }}
+        url="fixtures/audio/x.wav"
+        offset={0}
+        stage={0}
+        explicit={false}
+        rules={MODE_RULES.song}
+        skippable={true}
+        onListenMore={vi.fn()}
+        onSkip={vi.fn()}
+        onAudioError={vi.fn()}
+      />,
+      { container: host },
+    );
+    expect(document.activeElement).toBe(field);
   });
 
   it("o foco começa no Tocar (rodada nova) e volta para ele depois de um pulo", () => {
@@ -138,8 +212,9 @@ describe("Player segue as regras do modo", () => {
       stop: vi.fn(),
       retain: vi.fn(),
     };
+    // Dentro do <main>, como no App: o campo é do jogo, e o foco nele fica (ME49).
     const player = (url: string | null) => (
-      <>
+      <main>
         <Player
           engine={engine}
           url={url}
@@ -153,7 +228,7 @@ describe("Player segue as regras do modo", () => {
           onAudioError={vi.fn()}
         />
         <input aria-label="palpite" />
-      </>
+      </main>
     );
     const { rerender } = render(player(null));
     const field = screen.getByRole("textbox", { name: "palpite" });
@@ -163,14 +238,50 @@ describe("Player segue as regras do modo", () => {
     expect(document.activeElement).toBe(field);
   });
 
+  it("a prévia que chega depois não puxa de volta quem foi para outro link da nav", () => {
+    const entry = attach(document.createElement("a"));
+    entry.href = "#normal";
+    entry.textContent = "Normal";
+    entry.focus(); // entrou pelo link da aba
+    const other = attach(document.createElement("a"));
+    other.href = "#treino";
+    other.textContent = "Treino";
+    const main = attach(document.createElement("main"));
+    const player = (url: string | null) => (
+      <Player
+        engine={{
+          unlock: vi.fn(),
+          preload: vi.fn(),
+          play: vi.fn(),
+          stop: vi.fn(),
+          retain: vi.fn(),
+        }}
+        url={url}
+        offset={0}
+        stage={0}
+        explicit={false}
+        rules={MODE_RULES.song}
+        skippable={true}
+        onListenMore={vi.fn()}
+        onSkip={vi.fn()}
+        onAudioError={vi.fn()}
+      />
+    );
+    const { rerender } = render(player(null), { container: main });
+    other.focus(); // seguiu pela nav enquanto o lookup respondia
+    rerender(player("https://audio-ssl.itunes.apple.com/x.m4a"));
+    expect(screen.getByRole("button", { name: "Tocar 1 s" })).toBeTruthy();
+    expect(document.activeElement).toBe(other);
+  });
+
   it("toque duplo não gasta duas tentativas", () => {
     const { onSkip } = setup(MODE_RULES.song, true);
     fireEvent.click(screen.getByRole("button", { name: "Pular (+1 s)" }), { detail: 2 });
     expect(onSkip).not.toHaveBeenCalled();
   });
 
-  it("o 2º clique de um toque duplo no Tocar é ignorado (pararia o som)", () => {
-    // Também é o que cai aqui num toque duplo no cartão de modo do Treino.
+  it("o 2º clique de um toque duplo que cai no Tocar é ignorado (tocaria de novo)", () => {
+    // É o que cai aqui num toque duplo no Parar ou no cartão de modo do Treino.
     const { engine } = setup(MODE_RULES.song, true);
     fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }), { detail: 2 });
     expect(engine.play).not.toHaveBeenCalled();
@@ -233,6 +344,19 @@ describe("Player com o som tocando", () => {
     expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
     await act(async () => ends[1]?.());
     expect(screen.getByRole("button", { name: "Tocar 2 s" })).toBeTruthy();
+  });
+
+  it("toque duplo no Tocar: o 2º clique cai no Parar e é ignorado (o som continua)", async () => {
+    const { engine } = webAudioLike();
+    render(<Controlled engine={engine} start={0} />);
+    fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }), { detail: 1 });
+    await act(async () => {}); // o som começou antes do 2º clique
+    fireEvent.click(screen.getByRole("button", { name: "Parar" }), { detail: 2 });
+    await act(async () => {});
+    expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Parar" })); // um clique de verdade para
+    await act(async () => {});
+    expect(screen.getByRole("button", { name: "Tocar 1 s" })).toBeTruthy();
   });
 
   it("motor parado antes de o som começar: volta ao Tocar, e não fica em Carregando…", async () => {

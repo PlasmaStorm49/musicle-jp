@@ -33,6 +33,7 @@ import {
   sessionStore,
   updateSave,
 } from "../storage/save.ts";
+import { FocusedNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
 import { Home } from "./Home.tsx";
 import { modeName } from "./modes.ts";
@@ -143,7 +144,8 @@ export function App() {
         if (controller.signal.aborted) return;
         const status = error instanceof UnsupportedCatalogError ? "update" : "retry";
         setLoad({ status });
-        setMessage(t(status === "update" ? "load.update" : "load.retry"));
+        // O aviso da tela leva o foco (FocusedNotice) e já é lido: o aria-live repetiria.
+        setMessage("");
       });
     return () => controller.abort();
   }, [attempt, saves]);
@@ -227,7 +229,7 @@ export function App() {
         {load.status === "loading" && <p>{t("load.loading")}</p>}
         {load.status === "retry" && (
           <section class="error">
-            <p>{t("load.retry")}</p>
+            <FocusedNotice text={t("load.retry")} />
             <button type="button" class="primary" onClick={() => setAttempt((n) => n + 1)}>
               {t("load.retryButton")}
             </button>
@@ -235,7 +237,7 @@ export function App() {
         )}
         {load.status === "update" && (
           <section class="error">
-            <p>{t("load.update")}</p>
+            <FocusedNotice text={t("load.update")} />
             <button type="button" class="primary" onClick={() => window.location.reload()}>
               {t("load.updateButton")}
             </button>
@@ -346,7 +348,7 @@ function Ready({
 function Unavailable() {
   return (
     <section class="unavailable">
-      <p>{t("day.unavailable")}</p>
+      <FocusedNotice text={t("day.unavailable")} />
       <a href={ROUTES.practice}>{t("day.practiceLink")}</a>
     </section>
   );

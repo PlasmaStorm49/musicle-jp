@@ -274,6 +274,26 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(screen.getByRole("button", { name: "Próxima rodada" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: "Ver resultado" })).toBeNull();
   });
+
+  // O Preact redesenha antes do 2º clique de um toque duplo, que cai no botão da tela nova: em
+  // "Próxima rodada", ele caía no "Não sei" da rodada seguinte e a gastava (ME43).
+  it.each([
+    ["revelação", { status: "won" } as const],
+    ["rodada anulada", { status: "void" } as const],
+  ])("%s: o 2º clique de um toque duplo em Próxima rodada é ignorado", (_, change) => {
+    const { onNext } = setup(game("album", change));
+    const next = screen.getByRole("button", { name: "Próxima rodada" });
+    fireEvent.click(next, { detail: 2 });
+    expect(onNext).not.toHaveBeenCalled();
+    fireEvent.click(next, { detail: 1 });
+    expect(onNext).toHaveBeenCalledOnce();
+  });
+
+  it("Desafio: o 2º clique de um toque duplo no Desistir é ignorado", () => {
+    const { dispatch } = setup(game("song"));
+    fireEvent.click(screen.getByRole("button", { name: "Desistir" }), { detail: 2 });
+    expect(dispatch).not.toHaveBeenCalled();
+  });
 });
 
 describe("revelação: a prévia inteira", () => {

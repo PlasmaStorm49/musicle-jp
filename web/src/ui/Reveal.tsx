@@ -12,6 +12,7 @@ import { Attempts } from "./Attempts.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { useResolvedUrl } from "./hooks.ts";
 import { Cover, ItemLabel } from "./ItemLabel.tsx";
+import { singleClick } from "./singleClick.ts";
 
 type Props = {
   readonly index: CatalogIndex;
@@ -63,8 +64,8 @@ export function Reveal({
   // ficha impede que o fim de uma reprodução parada mexa na seguinte.
   const [full, setFull] = useState<"idle" | "loading" | "playing" | "failed">("idle");
   const fullId = useRef(0);
-  function toggleFull(event: MouseEvent) {
-    if (event.detail > 1) return; // toque duplo tocaria e pararia em seguida
+  // Com singleClick: o toque duplo tocaria e pararia em seguida.
+  function toggleFull() {
     const preview = track?.preview;
     if (!preview || !url) return;
     const id = ++fullId.current;
@@ -137,7 +138,7 @@ export function Reveal({
             </p>
             {track.explicit && <p class="badge explicit">{t("player.explicit")}</p>}
             {track.preview && url && (
-              <button type="button" onClick={toggleFull}>
+              <button type="button" onClick={singleClick(toggleFull)}>
                 {/* No "Carregando…" o clique também para: o nome diz o que ele faz. */}
                 {full === "playing" || full === "loading"
                   ? t("player.stop")
@@ -153,7 +154,8 @@ export function Reveal({
         <Attribution href={track.storeUrl ?? PLAYLIST_URL} />
       )}
 
-      <button type="button" class="primary" onClick={onNext}>
+      {/* O 2º clique de um toque duplo cairia na rodada seguinte (no "Não sei", ME43). */}
+      <button type="button" class="primary" onClick={singleClick(onNext)}>
         {nextLabel}
       </button>
     </section>
