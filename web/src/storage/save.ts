@@ -11,7 +11,7 @@ import { isRecord } from "../core/guards.ts";
 import type { FinishedGame, InProgress, Save } from "../core/records.ts";
 import { emptySave } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
-import { MAX_STAGE, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
+import { HELP_OPTIONS, MAX_STAGE, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { Target } from "../core/types.ts";
 import { migrate, SAVE_SCHEMA_VERSION } from "./migrations.ts";
 
@@ -84,6 +84,13 @@ export function isGameEvent(x: unknown): x is GameEvent {
       return typeof x.guessId === "string" && x.guessId.length > 0;
     case "VOID":
       return isNonNegativeInt(x.round) && typeof x.reason === "string";
+    case "HELP":
+      return (
+        Array.isArray(x.options) &&
+        x.options.length >= 1 &&
+        x.options.length <= HELP_OPTIONS &&
+        x.options.every((id: unknown) => typeof id === "string" && id.length > 0)
+      );
     case "LISTEN_MORE":
     case "SKIP":
     case "GIVE_UP":
@@ -96,7 +103,8 @@ export function isGameEvent(x: unknown): x is GameEvent {
 
 /**
  * Um jogo terminado do modo `target`, pelas regras dele: no Normal, no máximo 1 tentativa e
- * nunca um pulo (só o Desafio pula).
+ * nunca um pulo (só o Desafio pula). A ajuda, só no modo que a tem, depois de ao menos uma
+ * tentativa e com no máximo uma (a opção) depois dela.
  */
 export function isFinishedGame(x: unknown, target: Target): x is FinishedGame {
   if (!isRecord(x) || !Number.isInteger(x.number)) return false;
@@ -111,7 +119,13 @@ export function isFinishedGame(x: unknown, target: Target): x is FinishedGame {
       isNonNegativeInt(r.stage, MAX_STAGE) &&
       Array.isArray(r.attempts) &&
       r.attempts.length <= rules.maxAttempts &&
-      r.attempts.every((a: unknown) => MARKS.has(a as string) && (rules.skip || a !== "skip")),
+      r.attempts.every((a: unknown) => MARKS.has(a as string) && (rules.skip || a !== "skip")) &&
+      (r.help === undefined ||
+        (rules.help &&
+          isNonNegativeInt(r.help) &&
+          r.help >= 1 &&
+          r.help <= r.attempts.length &&
+          r.attempts.length - r.help <= 1)),
   );
 }
 
@@ -136,7 +150,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     if (modeOf(id) && isInProgress(progress)) inProgress[id] = progress;
     else dropped = true;
   }
-  return { save: { schemaVersion: 3, history, inProgress }, dropped };
+  return { save: { schemaVersion: 4, history, inProgress }, dropped };
 }
 
 // ---- leitura e gravação ----
