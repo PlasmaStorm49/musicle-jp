@@ -60,6 +60,11 @@ describe("Player segue as regras do modo", () => {
     expect(screen.queryByRole("button", { name: /Pular/ })).toBeNull();
   });
 
+  it("Normal: o Ouvir mais diz só os segundos; o custo fica na dica da home (ME59)", () => {
+    setup(MODE_RULES.album, false);
+    expect(screen.getByRole("button", { name: "Ouvir mais (+1 s)" })).toBeTruthy();
+  });
+
   it("Normal: Ouvir mais libera e já toca o trecho maior (P33); sem Pular", () => {
     const { engine, onListenMore } = setup(MODE_RULES.album, false);
     expect(screen.queryByRole("button", { name: /Pular/ })).toBeNull();
