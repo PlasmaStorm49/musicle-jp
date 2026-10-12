@@ -41,6 +41,20 @@
       "name": "米津玄師",
       "nameLatin": "Kenshi Yonezu",
       "songs": 120
+    },
+    {
+      "file": "311230779.json",
+      "id": "apple:ar:311230779",
+      "name": "UNLIMITS",
+      "nameLatin": null,
+      "songs": 85
+    },
+    {
+      "file": "76115834.json",
+      "id": "apple:ar:76115834",
+      "name": "松田 聖子",
+      "nameLatin": "Seiko Matsuda",
+      "songs": 200
     }
   ],
   "provider": "apple",

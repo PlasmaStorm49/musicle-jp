@@ -15,3 +15,89 @@ latin = "DAOKO×Kenshi Yonezu"
 
 [artists."apple:ar:614405787"]  # os 14 utaite de ワールドドミネイション (Eve)
 latin = "Amatsuki/Aho no Sakata./Araki/Eve/un:c/Uratanuki/Sakou Tomohisa (Shounen T)/Shima/Senra/Sou/Soraru/nqrse/Mafumafu/luz"
+
+# --- Unlimits e Seiko Matsuda (12/10/2026): o romaji que o cutlet errou ---
+
+[tracks."apple:tr:1482898813"]  # 月アカリサイレース (Unlimits); cutlet: "Gatsu akarisaireesu"
+latin = "Tsuki akari saireesu"
+
+[tracks."apple:tr:1483123580"]  # フランジア (Unlimits); cutlet: "Furanji a"
+latin = "Furanjia"
+
+[tracks."apple:tr:1483123788"]  # カナシミノセカイ (Unlimits); cutlet: "Kana shimi no sekai"
+latin = "Kanashimi no sekai"
+
+[tracks."apple:tr:1483128669"]  # 蜃気楼 (Unlimits); cutlet: "Shinki rou"
+latin = "Shinkirou"
+
+[tracks."apple:tr:1483130304"]  # 七月の風 (Unlimits); cutlet: "Nana gatsu no kaze"
+latin = "Shichigatsu no kaze"
+
+[tracks."apple:tr:1537430793"]  # ディスコード (Unlimits); cutlet: "Disu koodo"
+latin = "Disukoodo"
+
+[tracks."apple:tr:1537442536"]  # エレジスタ (Unlimits); cutlet: "E rejisuta"
+latin = "Erejisuta"
+
+[tracks."apple:tr:1763583482"]  # プリズム&ブルース (Unlimits); cutlet: "Purizumu& Buruusu"
+latin = "Purizumu & Buruusu"
+
+[tracks."apple:tr:1763583623"]  # ひこうき雲 (Unlimits); cutlet: "Hikouki kumo"
+latin = "Hikoukigumo"
+
+[tracks."apple:tr:1536760920"]  # ウィンター・ガーデン (Seiko Matsuda); cutlet: "Intaa gaaden"
+latin = "Wintaa gaaden"
+
+[tracks."apple:tr:1536762791"]  # 天使のウィンク (Seiko Matsuda); cutlet: "Tenshi no inku"
+latin = "Tenshi no winku"
+
+[tracks."apple:tr:1536760916"]  # 風は秋色 (Seiko Matsuda); cutlet: "Kaze wa shuushoku"
+latin = "Kaze wa akiiro"
+
+[tracks."apple:tr:1536763509"]  # 抱いて… (Seiko Matsuda); cutlet: "Idaite..."
+latin = "Daite..."
+
+[tracks."apple:tr:1845049212"]  # レンガの小径 (Seiko Matsuda); cutlet: "Renga no shoukei"
+latin = "Renga no komichi"
+
+[tracks."apple:tr:1536761952"]  # モッキンバード (Seiko Matsuda); cutlet: "Mok kin baado"
+latin = "Mokkinbaado"
+
+[tracks."apple:tr:1536763511"]  # 続・赤いスイートピー (Seiko Matsuda); cutlet: "Zokuakai suiito pii"
+latin = "Zoku akai suiito pii"
+
+[tracks."apple:tr:1526178155"]  # 瑠璃色の地球 (Seiko Matsuda); cutlet: "Ruri iro no chikyuu"
+latin = "Ruriiro no chikyuu"
+
+[tracks."apple:tr:1521582112"]  # 瑠璃色の地球 2020 (Seiko Matsuda); cutlet: "Ruri iro no chikyuu 2020"
+latin = "Ruriiro no chikyuu 2020"
+
+[tracks."apple:tr:1536877719"]  # 青い珊瑚礁 (Seiko Matsuda); cutlet: "Aoi sango shou"
+latin = "Aoi sangoshou"
+
+[tracks."apple:tr:1444999420"]  # もう一度抱きしめたい (Seiko Matsuda); cutlet: "Mou ichi do dakishimetai"
+latin = "Mou ichido dakishimetai"
+
+[tracks."apple:tr:1536801725"]  # もう一度、初めから (Seiko Matsuda); cutlet: "Mou ichi do, hajime kara"
+latin = "Mou ichido, hajime kara"
+
+[tracks."apple:tr:1443609684"]  # 私だけの天使~Angel~ (Seiko Matsuda); cutlet: "Watakushi dake no tenshi~Angel~"
+latin = "Watashi dake no tenshi ~Angel~"
+
+[tracks."apple:tr:1586906794"]  # 私の愛 (Seiko Matsuda); cutlet: "Watakushi no ai"
+latin = "Watashi no ai"
+
+[tracks."apple:tr:1443556444"]  # あなたに逢いたくて~Missing You~ (Seiko Matsuda); cutlet: "Anata ni aitakute~Missing You~"
+latin = "Anata ni aitakute ~Missing You~"
+
+[tracks."apple:tr:1538457861"]  # 〜オレンジの香り〜Summer Beach (Seiko Matsuda); cutlet: "orenji no kaori Summer Beach"
+latin = "~Orenji no kaori~ Summer Beach"
+
+[tracks."apple:tr:1712835548"]  # いちご畑でFUN×4 (Seiko Matsuda); cutlet: "Ichigobatake de Fun× 4"
+latin = "Ichigobatake de FUN×4"
+
+[tracks."apple:tr:1537344854"]  # 頬をつたう涙が夜空の星に変わる時 (Seiko Matsuda); cutlet: "Hoo wo tsutau namida ga yozora no hoshi ni kawaru toki"
+latin = "Hoho wo tsutau namida ga yozora no hoshi ni kawaru toki"
+
+[tracks."apple:tr:1536797185"]  # 花一色 〜野菊のささやき〜 (Seiko Matsuda); cutlet: "Hana isshoku nogiku no sasayaki"
+latin = "Hana isshoku ~Nogiku no sasayaki~"

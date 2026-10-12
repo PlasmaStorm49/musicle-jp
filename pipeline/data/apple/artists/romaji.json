@@ -1,6 +1,9 @@
 {
   "engine": "cutlet",
   "entries": {
+    "19時の空白": [
+      "19 ji no kuuhaku"
+    ],
     "1センチ": [
       "1 senchi",
       "1 centimetre"
@@ -41,6 +44,9 @@
       "Hz (Herutsu)",
       "Hz (Hertz)"
     ],
+    "I'll fall in love 愛的禮物": [
+      "I'll fall in love aiteki reibutsu"
+    ],
     "INSPIRE -加藤ミリヤTRIBUTE-": [
       "INSPIRE - Katou Miriya TRIBUTE-"
     ],
@@ -51,6 +57,9 @@
     "LOSER 〜希望と未来に無縁のカタルシス〜": [
       "LOSER kibou to mirai ni muen no katarushisu",
       "LOSER kibou to mirai ni muen no katharsis"
+    ],
+    "La La!! 明日に向かって": [
+      "La La!! asu ni mukatte"
     ],
     "MAD HEAD LOVE/ポッピンアパシー": [
       "MAD HEAD LOVE/poppin apashii",
@@ -63,6 +72,14 @@
     "MEKAKUCITY M’s 2 ~メカクシティアクターズ・ヴォーカル&サウンド コレクション~": [
       "MEKAKUCITY M's 2 ~ mekakushitiakutaazu vookaru& saundo korekushon~",
       "MEKAKUCITY M's 2 ~ mekakushitiakutaazu vocal& sound collection~"
+    ],
+    "Marrakech 〜マラケッシュ〜": [
+      "Marrakech Marakesshu",
+      "Marrakech Marrakesh"
+    ],
+    "Marrakech 〜マラケッシュ〜(SEIKO STORY〜80's HITS COLLECTION〜)": [
+      "Marrakech Marakesshu (SEIKO STORY 80's HITS COLLECTION )",
+      "Marrakech Marrakesh (SEIKO STORY 80's HITS COLLECTION )"
     ],
     "M八七": [
       "M hachi nana"
@@ -90,6 +107,20 @@
     "Ref:rain / 眩いばかり": [
       "Ref:rain /mabayui bakari"
     ],
+    "Romance(金色のリボン)": [
+      "Romance (kin'iro no ribon)",
+      "Romance (kin'iro no ribbon)"
+    ],
+    "SILHOUETTE〜シルエット〜": [
+      "SILHOUETTE shiruetto",
+      "SILHOUETTE silhouette"
+    ],
+    "SWEET MEMORIES (甘い記憶)": [
+      "SWEET MEMORIES (amai kioku)"
+    ],
+    "TRUE LOVE〜そっとくちづけて": [
+      "TRUE LOVE sotto kuchizukete"
+    ],
     "TVアニメーション『Angel Beats!』Girls Dead Monster STARRING LiSA「一番の宝物 -Yui final ver.-」": [
       "TV animeeshon \"Angel Beats!\" Girls Dead Monster STARRING LiSA \"ichi ban no houmotsu -Yui final ver .-」",
       "TV animation \"Angel Beats!\" Girls Dead Monster STARRING LiSA \"ichi ban no houmotsu -Yui final ver .-」"
@@ -105,6 +136,9 @@
     "TVアニメーション『Angel Beats!』劇中歌 Girls Dead Monster「Thousand Enemies」": [
       "TV animeeshon \"Angel Beats!\" gekichuuka Girls Dead Monster \"Thousand Enemies\"",
       "TV animation \"Angel Beats!\" gekichuuka Girls Dead Monster \"Thousand Enemies\""
+    ],
+    "True Love Story / さよならのKISSを忘れない": [
+      "True Love Story /sayonara no KISS wo wasurenai"
     ],
     "UNFORGIVEN (Japanese ver.) [feat. ナイル・ロジャース & Ado]": [
       "UNFORGIVEN (Japanese ver.) [feat. Nairu Rojaasu& Ado]",
@@ -141,6 +175,14 @@
     "the NOISE (Contains a Samples of 夜に駆ける)": [
       "The NOISE (Contains a Samples ofya ni kakeru)"
     ],
+    "α": [
+      "Arufaa",
+      "Alpha"
+    ],
+    "〜オレンジの香り〜Summer Beach": [
+      "orenji no kaori Summer Beach",
+      "orange no kaori Summer Beach"
+    ],
     "あたしはゆうれい": [
       "Atashi wa yuurei"
     ],
@@ -150,12 +192,33 @@
     "あてもなく(Special Edition)": [
       "Ate mo naku (Special Edition)"
     ],
+    "あなたにありがとう": [
+      "Anata ni arigatou"
+    ],
     "あなたに出会わなければ〜夏雪冬花〜": [
       "Anata ni deawanakerebaa natsu yuki fuyu hana"
     ],
     "あなたに出会わなければ〜夏雪冬花〜 / 星屑ビーナス": [
       "Anata ni deawanakerebaa natsu yuki fuyu hana /hoshikuzu Biinasu",
       "Anata ni deawanakerebaa natsu yuki fuyu hana /hoshikuzu Venus"
+    ],
+    "あなたに逢いたくて 2004": [
+      "Anata ni aitakute 2004"
+    ],
+    "あなたに逢いたくて~Missing You~": [
+      "Anata ni aitakute~Missing You~"
+    ],
+    "あなたのすべてになりたい": [
+      "Anata no subete ni naritai"
+    ],
+    "あなたのその胸に": [
+      "Anata no sono mune ni"
+    ],
+    "あなたへの月": [
+      "Anata e no tsuki"
+    ],
+    "あなたを、愛したこと": [
+      "Anata wo, aishita koto"
     ],
     "あの夢をなぞって": [
       "Ano yume wo nazotte"
@@ -164,14 +227,29 @@
       "Ano musume shiikuretto",
       "Ano musume secret"
     ],
+    "あの輝いた季節": [
+      "Ano kagayaita kisetsu"
+    ],
     "あびすいんざわーるど": [
       "A bi sui n zawa- rudo"
     ],
     "あめふり婦人": [
       "Amefuri fujin"
     ],
+    "あ・な・たの手紙": [
+      "A nata no tegami"
+    ],
     "いかないで": [
       "Ikanaide"
+    ],
+    "いくつの夜明けを数えたら": [
+      "Ikutsu no yoake wo kazoetara"
+    ],
+    "いちご畑でFUN×4": [
+      "Ichigobatake de Fun× 4"
+    ],
+    "いちご畑でつかまえて": [
+      "Ichigobatake de tsukamaete"
     ],
     "いつかその道へ (原神ショートアニメ「いつかその道へ」挿入歌)": [
       "Itsu ka sono michi e (genshin shooto anime \"itsu ka sono michi e\" sounyuuka)",
@@ -189,11 +267,17 @@
     "いばら": [
       "Ibara"
     ],
+    "いまのこと": [
+      "Ima no koto"
+    ],
     "いろいろいうけど「▽」(いいね)がほしい": [
       "Iroiro iukedo \"\" (ii ne) ga hoshii"
     ],
     "うぃっちくらふと": [
       "Ui chikura futo"
+    ],
+    "うそつき": [
+      "Usotsuki"
     ],
     "うそつきの涙": [
       "Usotsuki no namida"
@@ -235,6 +319,9 @@
     "がらくた - JUNK": [
       "Garakuta - JUNK"
     ],
+    "きっと、また逢える…": [
+      "Kitto, mata aeru..."
+    ],
     "きっとコースター": [
       "Kitto koosutaa",
       "Kitto coaster"
@@ -248,15 +335,28 @@
     "ごめんね": [
       "Gomen ne"
     ],
+    "さよならの瞬間": [
+      "Sayonara no shunkan"
+    ],
     "さよならエンドロール": [
       "Sayonara endo rooru",
       "Sayonara end roll"
     ],
+    "さよならバタフライ": [
+      "Sayonara batafurai",
+      "Sayonara butterfly"
+    ],
     "さよーならまたいつか!- Sayonara": [
       "Sa you nara mata itsu ka!- Sayonara"
     ],
+    "しあわせな気持ち": [
+      "Shiawase na kimochi"
+    ],
     "しとど晴天大迷惑": [
       "Shitodo seitendai meiwaku"
+    ],
+    "しなやかな夜": [
+      "Shinayaka na yoru"
     ],
     "じん": [
       "Jin"
@@ -288,14 +388,26 @@
     "とまれみよ - Stop Look Both Ways": [
       "Tomare miyo - Stop Look Both Ways"
     ],
+    "とんがり屋根の花屋さん": [
+      "Tongariyane no hanayasan"
+    ],
     "どうしようもないくらいに君が好き": [
       "Dou shiyou mo nai kurai ni kimi ga suki"
     ],
     "はくしの春": [
       "Wa kushi no haru"
     ],
+    "はじまりは Break Up": [
+      "Hajimari wa Break Up"
+    ],
+    "ひこうき雲": [
+      "Hikouki kumo"
+    ],
     "ひまわり": [
       "Himawari"
+    ],
+    "ひまわりの丘": [
+      "Himawari no oka"
     ],
     "ふりをした。": [
       "Furi wo shita."
@@ -315,6 +427,12 @@
     "まふまふ トリビュートアルバム 〜転生〜": [
       "Ma fuma futoribyuuto arubamu tenshou",
       "Ma fuma futoribyuuto album tenshou"
+    ],
+    "もう一度、初めから": [
+      "Mou ichi do, hajime kara"
+    ],
+    "もう一度抱きしめたい": [
+      "Mou ichi do dakishimetai"
     ],
     "もう少しだけ": [
       "Mou sukoshi dake"
@@ -340,9 +458,15 @@
     "よるのゆめ": [
       "Yoru no yume"
     ],
+    "わがままな片想い": [
+      "Wagamama na kataomoi"
+    ],
     "わがままケット・シー": [
       "Wagamama ketto shii",
       "Wagamama blanket sea"
+    ],
+    "わたしにできるすべてのこと": [
+      "Watashi ni dekiru subete no koto"
     ],
     "わたしに花束": [
       "Watashi ni hanataba"
@@ -383,6 +507,13 @@
     "アドレナ": [
       "Ado Rena",
       "Address Lena"
+    ],
+    "アネモネの夢": [
+      "Anemone no yume"
+    ],
+    "アメジスト": [
+      "Amejisuto",
+      "Amethyst"
     ],
     "アルカリ成人": [
       "Arukari seijin",
@@ -434,6 +565,10 @@
     "ウィルオウィスプ": [
       "Iruoisupu"
     ],
+    "ウィンター・ガーデン": [
+      "Intaa gaaden",
+      "Winter garden"
+    ],
     "ウタの歌 ONE PIECE FILM RED": [
       "Uta no uta ONE PIECE FILM RED"
     ],
@@ -444,6 +579,14 @@
       "Esukeepu geemu",
       "Escape game"
     ],
+    "エターナル": [
+      "Etaanaru",
+      "Eternal"
+    ],
+    "エバーグリーン": [
+      "Ebaaguriin",
+      "Evergreen"
+    ],
     "エルフ": [
       "Erufu",
       "Elf"
@@ -451,6 +594,10 @@
     "エレクトリリカル": [
       "Erekuto ririkaru",
       "Erect lyrical"
+    ],
+    "エレジスタ": [
+      "E rejisuta",
+      "Et register"
     ],
     "エンゼルシーク": [
       "Enzeru shiiku",
@@ -473,8 +620,19 @@
       "Ooru naito redio",
       "All night radio"
     ],
+    "カスケード": [
+      "Kasukeedo",
+      "Cascade"
+    ],
     "カタオモイ": [
       "Kataomoi"
+    ],
+    "カナシミノセカイ": [
+      "Kana shimi no sekai"
+    ],
+    "カナリアの夢": [
+      "Kanaria no yume",
+      "Canaria no yume"
     ],
     "カナリヤ": [
       "Kanariya",
@@ -483,6 +641,22 @@
     "カムパネルラ": [
       "Kamupanerura",
       "Campanella"
+    ],
+    "カーマイン": [
+      "Kaamain",
+      "Carmine"
+    ],
+    "ガラスの入江": [
+      "Garasu no irie",
+      "Glass no irie"
+    ],
+    "ガラスの林檎": [
+      "Garasu no ringo",
+      "Glass no ringo"
+    ],
+    "ガラスの林檎(SEIKO STORY〜80's HITS COLLECTION〜)": [
+      "Garasu no ringo (SEIKO STORY 80's HITS COLLECTION )",
+      "Glass no ringo (SEIKO STORY 80's HITS COLLECTION )"
     ],
     "キズナ": [
       "Kizuna"
@@ -511,6 +685,18 @@
     "クランベリーとパンケーキ": [
       "Kuranberii to pankeeki",
       "Cranberry to pancake"
+    ],
+    "クリスマスの夜": [
+      "Kurisumasu no yoru",
+      "Christmas no yoru"
+    ],
+    "クリスマスメドレー": [
+      "Kurisumasu medoree",
+      "Christmas medley"
+    ],
+    "クローバー": [
+      "Kuroobaa",
+      "Clover"
     ],
     "グッバイデイ": [
       "Gubbai dei",
@@ -541,18 +727,36 @@
       "Goosuto abenyuu",
       "Ghost avenue"
     ],
+    "サテライト": [
+      "Sateraito",
+      "Satellite"
+    ],
     "サプライズ": [
       "Sapuraizu",
       "Surprise"
     ],
+    "サヨナラの跡": [
+      "Sayonara no ato"
+    ],
     "サンタマリア": [
       "Santamaria"
+    ],
+    "シェルブールは霧雨": [
+      "Sherubuuru wa kirisame",
+      "Cherbourg wa kirisame"
+    ],
+    "シオン": [
+      "Shion"
     ],
     "シカバネーゼ (feat. Ado)": [
       "Shikabaneeze (feat. Ado)"
     ],
     "シフクノトキ": [
       "Shifuku no toki"
+    ],
+    "シャットアウト": [
+      "Shattoauto",
+      "Shut-out"
     ],
     "シャッフル": [
       "Shaffuru",
@@ -565,6 +769,10 @@
     "シャンプーソング": [
       "Shanpuu songu",
       "Shampoo song"
+    ],
+    "シャーベット": [
+      "Shaabetto",
+      "Sherbet"
     ],
     "ショコラカタブラ": [
       "Shokorakatabura"
@@ -595,9 +803,17 @@
       "Jakkusu Joonzu& Ado",
       "Jacks Jones& Ado"
     ],
+    "ジングルベルも聞こえない": [
+      "Jinguru beru mo kikoenai",
+      "Jingle bell mo kikoenai"
+    ],
     "スイートメモリー": [
       "Suiito memorii",
       "Sweet memory"
+    ],
+    "スターライト": [
+      "Sutaa raito",
+      "Star raito"
     ],
     "スパイシーワールド": [
       "Supaishii waarudo",
@@ -606,6 +822,22 @@
     "スピカ": [
       "Supika",
       "Spica"
+    ],
+    "スピード・ボート": [
+      "Supiido booto",
+      "Speed boat"
+    ],
+    "セイシェルの夕陽": [
+      "Seisheru no yuuhi",
+      "Seychelles no yuuhi"
+    ],
+    "セイシェルの夕陽 (40th Anniversary)": [
+      "Seisheru no yuuhi (40th Anniversary)",
+      "Seychelles no yuuhi (40th Anniversary)"
+    ],
+    "セイシェルの夕陽(SEIKO STORY〜80's HITS COLLECTION〜)": [
+      "Seisheru no yuuhi (SEIKO STORY 80's HITS COLLECTION )",
+      "Seychelles no yuuhi (SEIKO STORY 80's HITS COLLECTION )"
     ],
     "セブンティーン": [
       "Sebuntiin",
@@ -617,6 +849,14 @@
     "ソフィリア": [
       "So firia",
       "Soviet firia"
+    ],
+    "チェリーブラッサム": [
+      "Cherii Burassamu",
+      "Cherry Burassamu"
+    ],
+    "チェリーブラッサム (2021)": [
+      "Cherii Burassamu (2021)",
+      "Cherry Burassamu (2021)"
     ],
     "チョコレートタウン": [
       "Chokoreeto taun",
@@ -637,6 +877,14 @@
       "Disuko baruun",
       "Disco balloon"
     ],
+    "ディスコード": [
+      "Disu koodo",
+      "This code"
+    ],
+    "ディスティニー": [
+      "Disutinii",
+      "Destiny"
+    ],
     "デーモンダンストーキョー": [
       "Deemon dansu Tookyoo",
       "Demon dance Tookyoo"
@@ -644,6 +892,10 @@
     "トイパトリオット": [
       "Toi patoriotto",
       "Toy patriot"
+    ],
+    "トランキライザー": [
+      "Torankiraizaa",
+      "Tranquilizer"
     ],
     "トリル": [
       "Toriru",
@@ -673,6 +925,10 @@
       "Doonatsu hooru (COVER)",
       "Doughnut hall (COVER)"
     ],
+    "ナイトクルーズ": [
+      "Naito kuruuzu",
+      "Night cruise"
+    ],
     "ナナヲアカリ": [
       "Nanawoakari"
     ],
@@ -699,15 +955,30 @@
     "ハルカ": [
       "Haruka"
     ],
+    "ハルカカナタ": [
+      "Harukakanata"
+    ],
     "ハルシネイト": [
       "Harushineito"
     ],
     "ハルジオン": [
       "Haruji on"
     ],
+    "ハロー": [
+      "Haroo",
+      "Hello"
+    ],
     "ハローグッデイ": [
       "Haroo gud dei",
       "Hello good day"
+    ],
+    "ハートのイアリング": [
+      "Haato no iaringu",
+      "Heart no earring"
+    ],
+    "ハートをRock": [
+      "Haato wo Rock",
+      "Heart wo Rock"
     ],
     "バウムクーヘンエンド": [
       "Baumukuuhen endo",
@@ -716,6 +987,18 @@
     "バナナフィッシュの浜辺と黒い虹 (with Aimer)": [
       "Banana fisshu no hamabe to kuroi niji (with Aimer)",
       "Banana fish no hamabe to kuroi niji (with Aimer)"
+    ],
+    "パイナップル・アイランド": [
+      "Painappuru airando",
+      "Pineapple island"
+    ],
+    "パシフィック": [
+      "Pashifikku",
+      "Pacific"
+    ],
+    "パズル": [
+      "Pazuru",
+      "Puzzle"
     ],
     "パプリカ": [
       "Papurika",
@@ -728,6 +1011,10 @@
     "ヒトリワラッテ": [
       "Hitoriwaratte"
     ],
+    "ヒーロー": [
+      "Hiiroo",
+      "Hero"
+    ],
     "ビバリウム": [
       "Bi bariumu",
       "Bi barium"
@@ -735,13 +1022,33 @@
     "ビンクスの酒": [
       "Bin kusu no sake"
     ],
+    "ピンクのスクーター": [
+      "Pinku no sukuutaa",
+      "Pink no scooter"
+    ],
+    "ピンクのモーツァルト": [
+      "Pinku no Mootsaruto",
+      "Pink no Mozart"
+    ],
+    "ピンクのモーツァルト(SEIKO STORY〜80's HITS COLLECTION〜)": [
+      "Pinku no Mootsaruto (SEIKO STORY 80's HITS COLLECTION )",
+      "Pink no Mozart (SEIKO STORY 80's HITS COLLECTION )"
+    ],
     "ピースサイン - Peace Sign": [
       "Piisu sain - Peace Sign",
       "Piece sign - Peace Sign"
     ],
+    "ピーチ・シャーベット": [
+      "Piichi shaabetto",
+      "Peach sherbet"
+    ],
     "ファイトソング": [
       "Faito songu",
       "Fight song"
+    ],
+    "ファンタジーファンタジー": [
+      "Fantajii fantajii",
+      "Fantasy fantasy"
     ],
     "フェイキング・オブ・コメディ": [
       "Feikingu obu komedi",
@@ -759,9 +1066,17 @@
       "Foorin mai waarudo",
       "Foreign my world"
     ],
+    "フライ・ミー・トゥー・ザ・ムーン": [
+      "Furai mii tuu za muun",
+      "Fly mii to the moon"
+    ],
     "フラットウッズのモンスターみたいに": [
       "Furatto Uzzu no monsutaa mitai ni",
       "Flat Woods no monster mitai ni"
+    ],
+    "フランジア": [
+      "Furanji a",
+      "Flange a"
     ],
     "フロイトメタ (feat. Ado)": [
       "Furoito meta (feat. Ado)",
@@ -782,6 +1097,17 @@
       "Buriki no dansu",
       "Blik no dance"
     ],
+    "ブルージュの鐘": [
+      "Buruuju no kane"
+    ],
+    "プリズム&ブルース": [
+      "Purizumu& Buruusu",
+      "Prism& Buruusu"
+    ],
+    "プルメリアの花": [
+      "Purumeria no hana",
+      "Plumeria no hana"
+    ],
     "プロローグ (feat. Aimer)": [
       "Puroroogu (feat. Aimer)",
       "Prologue (feat. Aimer)"
@@ -796,6 +1122,10 @@
     "ベルガモの少女(カバー)": [
       "Berugamo no shoujo (kabaa)",
       "Berugamo no shoujo (cover)"
+    ],
+    "ベルベット・フラワー": [
+      "Berubetto furawaa",
+      "Velvet flower"
     ],
     "ペトリコール": [
       "Peto rikooru",
@@ -812,6 +1142,22 @@
       "Hoomushikku",
       "Homesick"
     ],
+    "ボン・ボヤージュ": [
+      "Bon boyaaju",
+      "Bonn voyage"
+    ],
+    "ボーイの季節": [
+      "Booi no kisetsu",
+      "Boy no kisetsu"
+    ],
+    "ボーイの季節(SEIKO STORY〜80's HITS COLLECTION〜)": [
+      "Booi no kisetsu (SEIKO STORY 80's HITS COLLECTION )",
+      "Boy no kisetsu (SEIKO STORY 80's HITS COLLECTION )"
+    ],
+    "ボーダーライン": [
+      "Boodaarain",
+      "Borderline"
+    ],
     "ポッピンアパシー": [
       "Poppin apashii",
       "Popping apathy"
@@ -824,6 +1170,14 @@
       "Pookaa feisu",
       "Poker face"
     ],
+    "マイアミ午前5時": [
+      "Maiami gozen 5 ji",
+      "Miami gozen 5 ji"
+    ],
+    "マイアミ午前5時(SEIKO STORY〜80's HITS COLLECTION〜)": [
+      "Maiami gozen 5 ji (SEIKO STORY 80's HITS COLLECTION )",
+      "Miami gozen 5 ji (SEIKO STORY 80's HITS COLLECTION )"
+    ],
     "マコトシヤカ": [
       "Makotoshiyaka"
     ],
@@ -834,9 +1188,21 @@
     "マトリョシカ": [
       "Matoryoshika"
     ],
+    "マドラス・チェックの恋人": [
+      "Madorasu chekku no koibito",
+      "Madras check no koibito"
+    ],
+    "マリオネットの涙": [
+      "Marionetto no namida",
+      "Marionnette no namida"
+    ],
     "マルゲリータ + アイナ・ジ・エンド": [
       "Marugeriita+ Aina ji endo",
       "Marugeriita+ Aina ji end"
+    ],
+    "マンハッタンでブレックファスト": [
+      "Manhattan de burekkufasuto",
+      "Manhattan de breakfast"
     ],
     "ミコ吉": [
       "Miko kichi"
@@ -852,8 +1218,20 @@
       "Miraaju songu",
       "Mirage song"
     ],
+    "ミラーボール": [
+      "Miraa booru",
+      "Mirror ball"
+    ],
     "ムーンライト伝説": [
       "Muunraito densetsu"
+    ],
+    "メッセージ": [
+      "Messeeji",
+      "Message"
+    ],
+    "メディテーション": [
+      "Mediteeshon",
+      "Meditation"
     ],
     "メトロノーム": [
       "Metoronoomu",
@@ -870,6 +1248,14 @@
     "メーベル": [
       "Meeberu"
     ],
+    "モッキンバード": [
+      "Mok kin baado",
+      "Mok kin bird"
+    ],
+    "モノクローム": [
+      "Monokuroomu",
+      "Monochrome"
+    ],
     "モノトーン": [
       "Monotoon",
       "Monotone"
@@ -877,9 +1263,17 @@
     "モンストロ": [
       "Monsutoro"
     ],
+    "ユートピア": [
+      "Yuutopia",
+      "Utopia"
+    ],
     "ユーミン乾杯!!～松任谷由実50周年記念コラボベストアルバム～": [
       "Yuumin kanpai!!~ Matsutouya Yumi 50 shuunen kinen korabo besuto arubamu~",
       "Yuming kanpai!!~ Matsutouya Yumi 50 shuunen kinen collaboration best album~"
+    ],
+    "ライムライト": [
+      "Raimuraito",
+      "Limelight"
     ],
     "ラストダンス": [
       "Rasuto dansu",
@@ -912,6 +1306,10 @@
       "Rarabai sayonara",
       "Lullaby sayonara"
     ],
+    "リグレット": [
+      "Riguretto",
+      "Regret"
+    ],
     "リスキー": [
       "Risukii",
       "Risky"
@@ -919,6 +1317,10 @@
     "リビングデッド・ユース": [
       "Ribingu deddo yuusu",
       "Living dead youth"
+    ],
+    "リフレイン": [
+      "Rifurein",
+      "Refrain"
     ],
     "リフレインが叫んでる": [
       "Rifurein ga sakenderu",
@@ -928,6 +1330,9 @@
       "Ri beri on",
       "Ris very on"
     ],
+    "リリー": [
+      "Ririi"
+    ],
     "リングアベル": [
       "Ringu Aberu",
       "Ring Abel"
@@ -935,9 +1340,20 @@
     "ルル": [
       "Ruru"
     ],
+    "ループ": [
+      "Ruupu",
+      "Loop"
+    ],
     "レディメイド": [
       "Redi meido",
       "Lady made"
+    ],
+    "レモネードの夏": [
+      "Remoneedo no natsu",
+      "Lemonade no natsu"
+    ],
+    "レンガの小径": [
+      "Renga no shoukei"
     ],
     "レーゾンデートル": [
       "Reezon deetoru"
@@ -950,6 +1366,10 @@
       "Rokku sutaa",
       "Rokku star"
     ],
+    "ロンリーブルー": [
+      "Ronrii buruu",
+      "Lonely blue"
+    ],
     "ワールドドミネイション": [
       "Waarudo domi neishon",
       "World demi nation"
@@ -958,17 +1378,37 @@
       "Viran",
       "Villain"
     ],
+    "一千一秒物語": [
+      "Issen ichi byou monogatari"
+    ],
     "一斉ノ喝采": [
       "Issei no kassai"
     ],
     "一番の宝物 (Yui ver.)": [
       "Ichiban no houmotsu (Yui ver.)"
     ],
+    "七月の風": [
+      "Nana gatsu no kaze"
+    ],
+    "七色のパドル": [
+      "Nanairo no padoru",
+      "Nanairo no paddle"
+    ],
+    "七色の記憶": [
+      "Nanairo no kioku"
+    ],
     "三原色": [
       "San genshoku"
     ],
     "三日月": [
       "Mikka tsuki"
+    ],
+    "上を向いて歩こう / duet with Sayaka Kanda": [
+      "Ue wo muite arukou/duet with Sayaka Kanda"
+    ],
+    "上海ラヴソング": [
+      "Shanhai ravu songu",
+      "Shanhai love song"
     ],
     "不完全な処遇": [
       "Fukanzen na shoguu"
@@ -987,6 +1427,9 @@
       "Hikarabita basu hitotsu",
       "Hikarabita bus hitotsu"
     ],
+    "二人だけのChristmas": [
+      "Futari dake no Christmas"
+    ],
     "人魚": [
       "Ningyo"
     ],
@@ -1004,6 +1447,12 @@
     ],
     "会心劇": [
       "Kaishin geki"
+    ],
+    "偽りの世界": [
+      "Itsuwari no sekai"
+    ],
+    "僕の在り処": [
+      "Boku no arika"
     ],
     "僕の言葉で": [
       "Boku no kotoba de"
@@ -1047,11 +1496,20 @@
       "Fuyu no daiyamondo",
       "Fuyu no diamond"
     ],
+    "冬の妖精": [
+      "Fuyu no yousei"
+    ],
     "凍えそうな季節から": [
       "Kogoe sou na kisetsu kara"
     ],
+    "凍った息": [
+      "Kootta iki"
+    ],
     "初夏": [
       "Shoka"
+    ],
+    "制服": [
+      "Seifuku"
     ],
     "劇上": [
       "Gekijou"
@@ -1097,6 +1555,12 @@
     "君に世界": [
       "Kimi ni sekai"
     ],
+    "君に読む物語": [
+      "Kimi ni yomu monogatari"
+    ],
+    "君のうた": [
+      "Kimi no uta"
+    ],
     "君を待つ": [
       "Kimi wo matsu"
     ],
@@ -1106,8 +1570,20 @@
     "命ばっかり": [
       "Inochi bakkari"
     ],
+    "哀しみのボート": [
+      "Kanashimi no booto",
+      "Kanashimi no boat"
+    ],
     "唱": [
       "Shou"
+    ],
+    "四月のラブレター": [
+      "Yon gatsu no rabu retaa",
+      "Yon gatsu no love letter"
+    ],
+    "国境線のワルツ": [
+      "Kokkyousen no warutsu",
+      "Kokkyousen no waltz"
     ],
     "土曜日のわたしたちは": [
       "Doyou hi no watashitachi wa"
@@ -1124,6 +1600,13 @@
     "変わらない青": [
       "Kawaranai ao"
     ],
+    "夏の扉": [
+      "Natsu no tobira"
+    ],
+    "夏服のイヴ": [
+      "Natsufuku no ivu",
+      "Natsufuku no eve"
+    ],
     "夏草に君を想う": [
       "Natsukusa ni kimi wo omou"
     ],
@@ -1134,6 +1617,9 @@
     "夕焼けノスタルジア": [
       "Yuuyake nosutarujia",
       "Yuuyake nostalgia"
+    ],
+    "外は白い雪": [
+      "Soto wa shiroi yuki"
     ],
     "夜に駆ける": [
       "Yoru ni kakeru"
@@ -1152,20 +1638,59 @@
       "Yobanashi diseibu (feat. mei ria& LiSA)",
       "Yobanashi diseibu (feat. May rear& LiSA)"
     ],
+    "夜唄": [
+      "Yoru uta"
+    ],
     "夜明けと蛍": [
       "Yoake to hotaru"
     ],
     "夜行列車〜nothing to lose〜": [
       "Yakou ressha nothing to lose"
     ],
+    "夜風ドライブ": [
+      "Yokaze doraibu",
+      "Yokaze drive"
+    ],
     "夜鷹 - Yodaka": [
       "Yotaka - Yodaka"
+    ],
+    "夢がさめて": [
+      "Yume ga samete"
     ],
     "夢に逢えたら": [
       "Yume ni aetara"
     ],
+    "夢冬の彩月": [
+      "Yume fuyu no irodori tsuki"
+    ],
+    "夢幻シンドローム": [
+      "Mugen shindoroomu",
+      "Mugen syndrome"
+    ],
+    "夢物語": [
+      "Yume monogatari"
+    ],
+    "大切なあなた": [
+      "Taisetsu na anata"
+    ],
     "大正浪漫": [
       "Taishou roman"
+    ],
+    "天使のウィンク": [
+      "Tenshi no inku",
+      "Tenshi no wink"
+    ],
+    "天使のウィンク(SEIKO STORY〜80's HITS COLLECTION〜)": [
+      "Tenshi no inku (SEIKO STORY 80's HITS COLLECTION )",
+      "Tenshi no wink (SEIKO STORY 80's HITS COLLECTION )"
+    ],
+    "天使のウインク": [
+      "Tenshi no uinku",
+      "Tenshi no wink"
+    ],
+    "天国のキッス": [
+      "Tengoku no kissu",
+      "Tengoku no kiss"
     ],
     "天月-あまつき/あほの坂田。/あらき/Eve/un:c/うらたぬき/佐香智久(少年T)/志麻/センラ/Sou/そらる/nqrse/まふまふ/luz": [
       "Ten gatsu - amatsuki/aho no Sakata./Araki/Eve/un:c/ura tanuki/suke kou Tomohisa (shounen T)/Shima/senra/Sou/sora ru/nqrse/ma fuma fu/luz"
@@ -1186,6 +1711,10 @@
     "季路": [
       "Kiro"
     ],
+    "孤独へのシグナル": [
+      "Kodoku e no shigunaru",
+      "Kodoku e no signal"
+    ],
     "宇宙の季節 (feat. Eve & suis from ヨルシカ)": [
       "Uchuu no kisetsu (feat. Eve & suis from yorushika)"
     ],
@@ -1195,6 +1724,13 @@
     "寂しくて眠れない夜は": [
       "Sabishikute nemurenai yoru wa"
     ],
+    "密林少女": [
+      "Mitsurin shoujo"
+    ],
+    "小さなラブソング": [
+      "Chiisana rabu songu",
+      "Chiisana love song"
+    ],
     "小さな星のメロディー": [
       "Chiisana hoshi no merodii",
       "Chiisana hoshi no melody"
@@ -1202,11 +1738,21 @@
     "小豆あらい (feat. MAISONdes & ケンモチヒデフミ)": [
       "Azuki Arai (feat. MAISONdes & kenmochihidefumi)"
     ],
+    "小麦色のマーメイド": [
+      "Komugi iro no maameido",
+      "Komugi iro no mermaid"
+    ],
+    "少しずつ春": [
+      "Sukoshi zutsu haru"
+    ],
     "巻物語": [
       "Maki monogatari"
     ],
     "帝国少女": [
       "Teikoku shoujo"
+    ],
+    "帰り道": [
+      "Kaerimichi"
     ],
     "平行線": [
       "Heikou sen"
@@ -1230,6 +1776,9 @@
     "心という名の不可解": [
       "Kokoro to iu na no fukakai"
     ],
+    "心の糸": [
+      "Kokoro no ito"
+    ],
     "心予報": [
       "Shinyohou"
     ],
@@ -1248,6 +1797,10 @@
     "恋と病熱": [
       "Koi to byounetsu"
     ],
+    "恋人がサンタクロース": [
+      "Koibito ga Santakuroosu",
+      "Koibito ga Santa Claus"
+    ],
     "恥ずかしくってしょうがねえ": [
       "Hazukashiku tte shou ga nee"
     ],
@@ -1265,8 +1818,14 @@
       "Wakusei ruupu",
       "Wakusei loop"
     ],
+    "愛されたいの": [
+      "Aisaretai no"
+    ],
     "愛して愛して愛して": [
       "Aishite aishite aishite"
+    ],
+    "愛の神話": [
+      "Ai no shinwa"
     ],
     "愛錠": [
       "Aijou"
@@ -1286,6 +1845,9 @@
     "抜け空": [
       "Nuke sora"
     ],
+    "抱いて…": [
+      "Idaite..."
+    ],
     "拝啓、わたしへ": [
       "Haikei, watashi e"
     ],
@@ -1302,6 +1864,10 @@
     "旅人電燈": [
       "Tabibito dentou"
     ],
+    "旅立ちはフリージア": [
+      "Tabidachi wa furiijia",
+      "Tabidachi wa freesia"
+    ],
     "明けない夜を壊せ(カバー)": [
       "Akenai yoru wo kowase (kabaa)",
       "Akenai yoru wo kowase (cover)"
@@ -1309,9 +1875,16 @@
     "明け星": [
       "Ake hoshi"
     ],
+    "明日へと駆け出してゆこう": [
+      "Asu e to kakedashite yukou"
+    ],
     "明星ギャラクティカ": [
       "Myoujou gyarakutika",
       "Myoujou galactica"
+    ],
+    "星のファンタジー": [
+      "Hoshi no fantajii",
+      "Hoshi no fantasy"
     ],
     "星の消えた夜に": [
       "Hoshi no kieta yoru ni"
@@ -1319,6 +1892,13 @@
     "星屑ビーナス": [
       "Hoshikuzu Biinasu",
       "Hoshikuzu Venus"
+    ],
+    "星空のドライブ": [
+      "Hoshizora no doraibu",
+      "Hoshizora no drive"
+    ],
+    "星空の下の君へ": [
+      "Hoshizora no shita no kimi e"
     ],
     "春に舞う": [
       "Haru ni mau"
@@ -1332,17 +1912,48 @@
     "春雷": [
       "Shunrai"
     ],
+    "時間の国のアリス": [
+      "Jikan no kuni no Arisu"
+    ],
+    "時間の国のアリス (Alice in the world of time)": [
+      "Jikan no kuni no Arisu (Alice in the world of time)"
+    ],
+    "時間旅行": [
+      "Jikan ryokou"
+    ],
+    "時間旅行 (I still miss you)": [
+      "Jikan ryokou (I still miss you)"
+    ],
+    "時風の鼓動": [
+      "Jifuu no kodou"
+    ],
     "晴れたらいいね": [
       "Haretara ii ne"
     ],
     "晴レ舞台": [
       "Hare re butai"
     ],
+    "暗闇ノイローゼ": [
+      "Kurayami noirooze",
+      "Kurayami Neurose"
+    ],
     "暴徒": [
       "Bouto"
     ],
+    "最後の言葉": [
+      "Saigo no kotoba"
+    ],
+    "最終列車": [
+      "Saishuu ressha"
+    ],
     "月を見ていた - Moongazing": [
       "Tsuki wo mite ita - Moongazing"
+    ],
+    "月アカリサイレース": [
+      "Gatsu akarisaireesu"
+    ],
+    "月光": [
+      "Gekkou"
     ],
     "月影": [
       "Tsukikage"
@@ -1352,6 +1963,12 @@
     ],
     "朝が降る": [
       "Asa ga furu"
+    ],
+    "未来の花嫁": [
+      "Mirai no hanayome"
+    ],
+    "未来の花嫁(SEIKO STORY〜80's HITS COLLECTION〜)": [
+      "Mirai no hanayome (SEIKO STORY 80's HITS COLLECTION )"
     ],
     "杪夏": [
       "杪夏"
@@ -1366,6 +1983,19 @@
     ],
     "松本孝弘,LiSA": [
       "Matsumoto Takahiro,LiSA"
+    ],
+    "松田 聖子": [
+      "Matsuda Seiko"
+    ],
+    "松田 聖子 & 大滝詠一": [
+      "Matsuda Seiko& Ootaki Eiichi"
+    ],
+    "松田 聖子 & 神田沙也加": [
+      "Matsuda Seiko& Kanda Sayaka"
+    ],
+    "松田聖子&クリス・ハート": [
+      "Matsuda Seiko& Kurisu haato",
+      "Matsuda Seiko& Kurisu heart"
     ],
     "柊キライ": [
       "Hiiragi kirai"
@@ -1383,6 +2013,9 @@
     ],
     "櫂 (feat. Aimer)": [
       "Kai (feat. Aimer)"
+    ],
+    "櫻の園": [
+      "Sakura no sono"
     ],
     "歌鳥風月": [
       "Uta tori fuugetsu"
@@ -1405,17 +2038,39 @@
     "毎日 - Every Day": [
       "Mainichi - Every Day"
     ],
+    "水槽": [
+      "Suisou"
+    ],
+    "水色の朝": [
+      "Mizuiro no asa"
+    ],
     "永遠": [
       "Eien"
     ],
+    "永遠さえ感じた夜": [
+      "Eien sae kanjita yoru"
+    ],
     "永遠のあくる日": [
       "Eien no akuruhi"
+    ],
+    "永遠のもっと果てまで": [
+      "Eien no motto hate made"
+    ],
+    "永遠の少女": [
+      "Eien no shoujo"
+    ],
+    "永遠の島": [
+      "Eien no shima"
     ],
     "泣き虫": [
       "Nakimushi"
     ],
     "洗脳": [
       "Sennou"
+    ],
+    "流星ナイト": [
+      "Ryuusei naito",
+      "Ryuusei night"
     ],
     "浮遊感": [
       "Fuyuu kan"
@@ -1429,8 +2084,25 @@
     "海の幽霊": [
       "Umi no yuurei"
     ],
+    "海辺のカフェテラス": [
+      "Umibe no kafe terasu",
+      "Umibe no cafe terrace"
+    ],
+    "涙がただこぼれるだけ": [
+      "Namida ga tada koboreru dake"
+    ],
+    "涙のしずく": [
+      "Namida no shizuku"
+    ],
     "清水 翔太": [
       "Shimizu Shouta"
+    ],
+    "渚のバルコニー": [
+      "Nagisa no barukonii",
+      "Nagisa no balcony"
+    ],
+    "潮騒": [
+      "Shiosai"
     ],
     "灰色と青 ( + 菅田将暉 )": [
       "Haiiro to ao (+ Sugata Susumu Akira)"
@@ -1447,12 +2119,46 @@
     "爱丽丝": [
       "爱丽 丝"
     ],
+    "特別な恋人": [
+      "Tokubetsu na koibito"
+    ],
     "狂言": [
       "Kyougen"
     ],
     "狼とミサンガ": [
       "Ookami to misanga",
       "Ookami to micanga"
+    ],
+    "瑠璃色の地球": [
+      "Ruri iro no chikyuu"
+    ],
+    "瑠璃色の地球 2003": [
+      "Ruri iro no chikyuu 2003"
+    ],
+    "瑠璃色の地球 2020": [
+      "Ruri iro no chikyuu 2020"
+    ],
+    "生命のカノン": [
+      "Seimei no kanon",
+      "Seimei no cannon"
+    ],
+    "白いサンダルと麦わら帽子": [
+      "Shiroi sandaru to mugiwara boushi",
+      "Shiroi sandal to mugiwara boushi"
+    ],
+    "白いパラソル": [
+      "Shiroi parasoru",
+      "Shiroi parasol"
+    ],
+    "白い太陽": [
+      "Shiroi taiyou"
+    ],
+    "白い恋人": [
+      "Shiroi koibito"
+    ],
+    "白い貝のブローチ": [
+      "Shiroi kai no buroochi",
+      "Shiroi kai no brooch"
     ],
     "白昼夢": [
       "Hakuchuumu"
@@ -1469,6 +2175,13 @@
     "百鬼夜行": [
       "Hyakki yakou"
     ],
+    "真っ赤なロードスター": [
+      "Makka na roodosutaa",
+      "Makka na roadster"
+    ],
+    "真冬の恋人たち": [
+      "Mafuyu no koibitotachi"
+    ],
     "眠りの森": [
       "Nemuri no mori"
     ],
@@ -1478,8 +2191,20 @@
     "眼福": [
       "Ganpuku"
     ],
+    "瞳はダイアモンド": [
+      "Hitomi wa daiamondo",
+      "Hitomi wa diamond"
+    ],
+    "瞳はダイアモンド (Diamond Eyes)": [
+      "Hitomi wa daiamondo (Diamond Eyes)",
+      "Hitomi wa diamond (Diamond Eyes)"
+    ],
     "砂の惑星 ( + 初音ミク )": [
       "Suna no wakusei (+ Hatsune Miku)"
+    ],
+    "硝子のプリズム": [
+      "Garasu no purizumu",
+      "Glass no prism"
     ],
     "祝福": [
       "Shukufuku"
@@ -1487,12 +2212,21 @@
     "神っぽいな": [
       "Kamippoi na"
     ],
+    "私だけの天使~Angel~": [
+      "Watakushi dake no tenshi~Angel~"
+    ],
     "私とドリカム2-ドリカムワンダーランド2015 開催記念BEST COVERS-": [
       "Watakushi to dorikamu 2- dorikamu wandaarando 2015 kaisai kinen BEST COVERS-",
       "Watakushi to dorikamu 2- dorikamu wonderland 2015 kaisai kinen BEST COVERS-"
     ],
+    "私の愛": [
+      "Watakushi no ai"
+    ],
     "私は最強": [
       "Watakushi wa saikyou"
+    ],
+    "秘密の花園": [
+      "Himitsu no Hanazono"
     ],
     "空噪wired": [
       "Sora 噪 wired"
@@ -1534,6 +2268,10 @@
     "米津玄師 & 野田洋次郎": [
       "Yonetsu Genshi& Noda Youjirou"
     ],
+    "粉雪のメロディー": [
+      "Konayuki no merodii",
+      "Konayuki no melody"
+    ],
     "糸": [
       "Ito"
     ],
@@ -1543,6 +2281,12 @@
     "紅蓮華": [
       "Gurenka"
     ],
+    "素敵な明日": [
+      "Suteki na asu"
+    ],
+    "素敵にOnce Again": [
+      "Suteki ni Once Again"
+    ],
     "終わらない冒険": [
       "Owaranai bouken"
     ],
@@ -1551,6 +2295,14 @@
     ],
     "絶え間なく藍色": [
       "Taema naku aiiro"
+    ],
+    "続・40周年記念アルバム 「SEIKO MATSUDA 2021」": [
+      "Zoku40 shuunen kinen arubamu \"SEIKO MATSUDA 2021\"",
+      "Zoku40 shuunen kinen album \"SEIKO MATSUDA 2021\""
+    ],
+    "続・赤いスイートピー": [
+      "Zokuakai suiito pii",
+      "Zokuakai sweet pea"
     ],
     "綺羅": [
       "Kira"
@@ -1603,9 +2355,18 @@
     "花の唄 / I beg you / 春はゆく": [
       "Hana no uta/I beg you /haru wa yuku"
     ],
+    "花びら": [
+      "Hanabira"
+    ],
     "花びらたちのマーチ": [
       "Hanabiratachi no maachi",
       "Hanabiratachi no march"
+    ],
+    "花びら舞う季節に": [
+      "Hanabira mau kisetsu ni"
+    ],
+    "花一色 〜野菊のささやき〜": [
+      "Hana isshoku nogiku no sasayaki"
     ],
     "花嵐": [
       "Hanaarashi"
@@ -1620,18 +2381,34 @@
     "花火": [
       "Hanabi"
     ],
+    "茜 -アカネ-": [
+      "Akane - Akane -"
+    ],
     "茜さす": [
       "Akane sasu"
     ],
     "茜さす/everlasting snow": [
       "Akane sasu/everlasting snow"
     ],
+    "茜唄": [
+      "Akane uta"
+    ],
     "蒼": [
       "Ao"
+    ],
+    "蒼 -アオイ-": [
+      "Ao - aoi -"
+    ],
+    "蒼いフォトグラフ": [
+      "Aoi fotogurafu",
+      "Aoi photograph"
     ],
     "蒼のワルツ": [
       "Ao no warutsu",
       "Ao no waltz"
+    ],
+    "薔薇のように咲いて 桜のように散って": [
+      "Bara no you ni saite sakura no you ni chitte"
     ],
     "藍才": [
       "Ran sai"
@@ -1645,6 +2422,9 @@
     "虚無": [
       "Kyomu"
     ],
+    "虚空と影": [
+      "Kokuu to kage"
+    ],
     "蜃気楼": [
       "Shinki rou"
     ],
@@ -1657,11 +2437,17 @@
     "蝸旋 (feat. Ado)": [
       "蝸旋 (feat. Ado)"
     ],
+    "螢の草原": [
+      "Hotaru no sougen"
+    ],
     "行方知れず": [
       "Yukue shirezu"
     ],
     "街": [
       "Machi"
+    ],
+    "裸足の季節": [
+      "Hadashi no kisetsu"
     ],
     "覚醒屋": [
       "Kakuseiya"
@@ -1675,20 +2461,41 @@
     "誰か、海を。 EP": [
       "Dare ka, umi wo. EP"
     ],
+    "赤いスイートピー": [
+      "Akai suiito pii",
+      "Akai sweet pea"
+    ],
     "赤い罠(who loves it?)": [
       "Akai wana (who loves it?)"
     ],
     "赤い罠(who loves it?) / ADAMAS": [
       "Akai wana (who loves it?) /ADAMAS"
     ],
+    "赤い靴のバレリーナ": [
+      "Akai kutsu no bareriina",
+      "Akai kutsu no ballerina"
+    ],
     "踊": [
       "Odori"
+    ],
+    "軌跡": [
+      "Kiseki"
+    ],
+    "輝いた季節へ旅立とう": [
+      "Kagayaita kisetsu e tabidatou"
     ],
     "迷い子": [
       "Maigo"
     ],
     "迷える羊": [
       "Mayoeru hitsuji"
+    ],
+    "迷走スパイラル": [
+      "Meisou supairaru",
+      "Meisou spiral"
+    ],
+    "追憶の未来": [
+      "Tsuioku no mirai"
     ],
     "退屈を再演しないで": [
       "Taikutsu wo saien shinaide"
@@ -1706,6 +2513,9 @@
       "Gyakkou ookesutora",
       "Gyakkou orchestra"
     ],
+    "逢いたい": [
+      "Aitai"
+    ],
     "遊生夢死": [
       "Yuusei mushi"
     ],
@@ -1715,14 +2525,38 @@
     "過学習": [
       "Kagakushuu"
     ],
+    "道しるべ": [
+      "Michishirube"
+    ],
     "遥か": [
       "Haruka"
     ],
     "遥か / 800 / End of All / Ref:rain -3 nuits ver.-": [
       "Haruka/800 /End of All /Ref:rain -3 nuits ver.-"
     ],
+    "郷 ひろみ": [
+      "Gou Hiromi"
+    ],
+    "郷 ひろみ & 松田 聖子": [
+      "Gou Hiromi& Matsuda Seiko"
+    ],
+    "野の花にそよ風〜サブテーマ「雲」": [
+      "No no hana ni soyokaze sabuteema \"kumo\""
+    ],
+    "野ばらのエチュード": [
+      "Nobara no echuudo",
+      "Nobara no etude"
+    ],
     "金木犀 (feat. Ado)": [
       "Kin mokusei (feat. Ado)"
+    ],
+    "金色のリボン": [
+      "Kin'iro no ribon",
+      "Kin'iro no ribbon"
+    ],
+    "銀色のオートバイ": [
+      "Gin'iro no ootobai",
+      "Gin'iro no auto bicycle"
     ],
     "闇夜": [
       "An'ya"
@@ -1733,6 +2567,10 @@
     "雨とペトラ": [
       "Ame to Petora"
     ],
+    "雨のリゾート": [
+      "Ame no rizooto",
+      "Ame no resort"
+    ],
     "雨の街路に夜光蟲": [
       "Ame no gairo ni yakou mushi"
     ],
@@ -1742,6 +2580,13 @@
     "雨待ち風": [
       "Ame machi kaze"
     ],
+    "雨音": [
+      "Amaoto"
+    ],
+    "雪のファンタジー (Winter Tales)": [
+      "Yuki no fantajii (Winter Tales)",
+      "Yuki no fantasy (Winter Tales)"
+    ],
     "雪の降る街": [
       "Yuki no furu machi"
     ],
@@ -1749,8 +2594,23 @@
       "Yuki no furu machi/fuyu no daiyamondo",
       "Yuki no furu machi/fuyu no diamond"
     ],
+    "青い珊瑚礁": [
+      "Aoi sango shou"
+    ],
+    "青い珊瑚礁 (Blue Lagoon)": [
+      "Aoi sango shou (Blue Lagoon)"
+    ],
+    "頬をつたう涙が夜空の星に変わる時": [
+      "Hoo wo tsutau namida ga yozora no hoshi ni kawaru toki"
+    ],
+    "願い": [
+      "Negai"
+    ],
     "風と私の物語": [
       "Kaze to watakushi no monogatari"
+    ],
+    "風に向かう一輪の花": [
+      "Kaze ni mukau ichirin no hana"
     ],
     "風のゆくえ": [
       "Kaze no yukue"
@@ -1758,6 +2618,15 @@
     "風のアンセム (feat. suis from ヨルシカ)": [
       "Kaze no ansemu (feat. suis from yorushika)",
       "Kaze no anthem (feat. suis from yorushika)"
+    ],
+    "風は秋色": [
+      "Kaze wa shuushoku"
+    ],
+    "風立ちぬ": [
+      "Kaze tachinu"
+    ],
+    "風立ちぬ(SEIKO STORY〜80's HITS COLLECTION〜)": [
+      "Kaze tachinu (SEIKO STORY 80's HITS COLLECTION )"
     ],
     "飛燕": [
       "Hien"
@@ -1776,6 +2645,10 @@
     ],
     "鳥にでもなりたい": [
       "Tori ni de mo naritai"
+    ],
+    "黄色いカーディガン": [
+      "Kiiroi kaadigan",
+      "Kiiroi cardigan"
     ],
     "黄金の日々": [
       "Ougon no hibi"
