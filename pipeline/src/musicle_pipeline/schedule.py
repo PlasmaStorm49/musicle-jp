@@ -356,7 +356,7 @@ def compare(base: JSON | None, current: JSON) -> list[str]:
     # hoje + horizonte). Um dia solto mais à frente, com buraco antes, congelaria a agenda: o
     # buraco nunca mais poderia ser preenchido.
     try:
-        added = sorted(date.fromisoformat(d) for d in current["days"] if d not in base["days"])
+        added = [date.fromisoformat(d) for d in _added_days(base, current)]
     except ValueError as exc:
         return [*problems, f"data inválida: {exc}"]
     problems.extend(
@@ -364,6 +364,58 @@ def compare(base: JSON | None, current: JSON) -> list[str]:
         for prev, nxt in pairwise(added)
         if (nxt - prev).days != 1
     )
+    return problems
+
+
+def _added_days(base: JSON | None, current: JSON) -> list[str]:
+    """Os dias da agenda que a base não tem, em ordem (datas ISO comparam certo como texto)."""
+    known = base["days"] if base else {}
+    return sorted(d for d in current["days"] if d not in known)
+
+
+def check_dates(base: JSON | None, current: JSON, today: date) -> list[str]:
+    """P44 na CI, que sabe que dia é hoje: dia novo nunca já passou, e o 1º dia novo é o 1º que a
+    geração daria hoje. Um --today no futuro deixaria um buraco que nunca mais se preenche; um PR
+    com o merge só no dia seguinte traria um dia que ninguém pôde jogar."""
+    added = _added_days(base, current)
+    if not added:
+        return []
+    problems = [
+        f"{d}: dia novo antes de hoje ({today}), P44" for d in added if d < today.isoformat()
+    ]
+    try:
+        floor = date.fromisoformat(current["epoch"])
+        if base and base["days"]:
+            floor = max(floor, date.fromisoformat(max(base["days"])) + timedelta(days=1))
+    except (KeyError, ValueError) as exc:
+        return [*problems, f"data inválida: {exc}"]
+    expected = max(floor, today).isoformat()
+    if added[0] > expected:
+        problems.append(
+            f"o 1º dia novo deveria ser {expected}, e não {added[0]}: o buraco ficaria para sempre"
+            " (P44)"
+        )
+    return problems
+
+
+def regenerate_problems(base: JSON | None, current: JSON, catalog: JSON) -> list[str]:
+    """Os dias novos são os que o gerador daria (regra inviolável 3): o generate os refaz a partir
+    da base, do 1º ao último. Cada dia só depende dos anteriores, da data e do catálogo, então o
+    resultado não depende do --today da geração. Agenda nova (sem base) fica com o validate."""
+    added = _added_days(base, current)
+    if not base or not base["days"] or not added:
+        return []
+    first, last = date.fromisoformat(added[0]), date.fromisoformat(added[-1])
+    try:
+        again = generate(catalog, base, first, horizon=(last - first).days).schedule
+    except ScheduleError as exc:
+        return [f"não deu para regerar os dias novos: {exc}"]
+    problems = [
+        f"{d}: dia novo diferente do que o gerador daria (editado à mão, ou o catálogo mudou"
+        " depois do schedule?)"
+        for d in added
+        if again["days"].get(d) != current["days"][d]
+    ]
     return problems
 
 

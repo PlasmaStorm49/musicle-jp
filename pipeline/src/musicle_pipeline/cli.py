@@ -29,9 +29,11 @@ from musicle_pipeline.romaji_cache import RomajiCache, collect_texts, load_cache
 from musicle_pipeline.schedule import (
     HORIZON_DAYS,
     ScheduleError,
+    check_dates,
     compare,
     generate,
     read_base_ref,
+    regenerate_problems,
     validate_schedule,
 )
 from musicle_pipeline.validate import validate_catalog
@@ -153,6 +155,9 @@ def _schedule_check(args: argparse.Namespace) -> int:
     if args.base is not None and len(args.path or []) != 1:
         print("--base compara com um arquivo só: passe exatamente um --path", file=sys.stderr)
         return 1
+    if args.catalog is not None and len(args.path or []) != 1:
+        print("--catalog vale para uma agenda só: passe exatamente um --path", file=sys.stderr)
+        return 1
     paths = [resolve(p) for p in args.path] if args.path else known_schedules()
     results = [code for code in (_check_one(path, args) for path in paths) if code is not None]
     if not results:
@@ -179,6 +184,20 @@ def _check_one(path: Path, args: argparse.Namespace) -> int | None:
         return 1
     current = read_json(path)
     problems = compare(base, current)
+    if args.today is not None:
+        problems += check_dates(base, current, args.today)
+    # Os dias novos precisam ser os do gerador, com o catálogo ao lado da agenda (o do mesmo PR).
+    catalog_path = resolve(args.catalog) if args.catalog else path.with_name("catalog.json")
+    if not problems:
+        if catalog_path.exists():
+            problems += regenerate_problems(base, current, read_json(catalog_path))
+        elif args.catalog:
+            problems.append(f"{catalog_path}: catálogo não encontrado")
+        else:
+            # Uma agenda avulsa (--path), sem catálogo ao lado: o resto vale, mas é bom saber.
+            print(
+                f"{path}: aviso: sem {catalog_path.name} ao lado, os dias novos não foram regerados"
+            )
     if problems:
         print(f"{path} quebra o só-acréscimo em relação a {origin}:", *problems, sep="\n  ")
         return 1
@@ -336,6 +355,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     base = check.add_mutually_exclusive_group(required=True)
     base.add_argument("--base-ref", help="revisão do git, ex.: origin/main")
     base.add_argument("--base", type=Path, help="arquivo de base (ausente = vazio)")
+    check.add_argument(
+        "--today",
+        type=date.fromisoformat,
+        help="hoje em Brasília: dia novo não pode ter passado nem deixar buraco a mais (P44)",
+    )
+    check.add_argument(
+        "--catalog",
+        type=Path,
+        help="catálogo para regerar os dias novos (padrão: o catalog.json ao lado da agenda)",
+    )
     check.set_defaults(func=_schedule_check)
 
     fetch = sub.add_parser("fetch", help="busca a parada real do dia (único comando com rede)")

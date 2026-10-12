@@ -16,9 +16,11 @@ from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.paths import repo_root
 from musicle_pipeline.schedule import (
     ScheduleError,
+    check_dates,
     compare,
     generate,
     read_base_ref,
+    regenerate_problems,
     validate_schedule,
     window_size,
 )
@@ -323,6 +325,11 @@ def test_cli_schedule_check_with_files(tmp_path, sixty_one_days, capsys):
     current.write_bytes(dumps(sixty_one_days.schedule).encode("utf-8"))
     missing = tmp_path / "nao-existe.json"
     assert main(["schedule-check", "--path", str(current), "--base", str(missing)]) == 0
+    # Sem catalog.json ao lado: passa, com aviso; com --catalog que não existe, quebra.
+    assert "os dias novos não foram regerados" in capsys.readouterr().out
+    args = ["schedule-check", "--path", str(current), "--base", str(missing)]
+    assert main([*args, "--catalog", str(tmp_path / "catalog.json")]) == 1
+    assert "catálogo não encontrado" in capsys.readouterr().out
     edited = copy.deepcopy(sixty_one_days.schedule)
     del edited["days"]["2026-12-07"]
     base = tmp_path / "base.json"
@@ -339,3 +346,81 @@ def test_read_base_ref_handles_missing_ref_and_missing_file():
     # Arquivo que não existe na revisão (como a agenda antes do M3): base vazia. Não cita um
     # commit pelo hash: o histórico pode ser reescrito e a CI pode clonar sem ele.
     assert read_base_ref("HEAD", "web/public/fixtures/nao-existe.json") is None
+
+
+# --- P44 na CI (ME45) e os dias novos iguais aos do gerador (ME51) ---
+
+
+def test_check_dates_accepts_the_days_generated_today(fixture_catalog, first_22):
+    today = date(2026, 10, 30)  # a agenda vai até 29/10: o 1º dia novo é hoje
+    grown = generate(fixture_catalog, first_22, today).schedule
+    assert check_dates(first_22, grown, today) == []
+    # Sem dia novo, nada a conferir.
+    assert check_dates(first_22, first_22, date(2027, 1, 1)) == []
+
+
+def test_check_dates_refuses_a_day_that_already_passed(fixture_catalog, first_22):
+    # Gerado no dia 30 e conferido (o merge) no dia 31: o dia 30 entraria já passado.
+    grown = generate(fixture_catalog, first_22, date(2026, 10, 30)).schedule
+    problems = check_dates(first_22, grown, date(2026, 10, 31))
+    assert problems == ["2026-10-30: dia novo antes de hoje (2026-10-31), P44"]
+
+
+def test_check_dates_refuses_a_hole_bigger_than_needed(fixture_catalog, first_22):
+    # Um --today no futuro (05/11) pula 30/10 a 04/11, que nunca mais se preenchem.
+    grown = generate(fixture_catalog, first_22, date(2026, 11, 5)).schedule
+    problems = check_dates(first_22, grown, date(2026, 10, 30))
+    assert problems == [
+        "o 1º dia novo deveria ser 2026-10-30, e não 2026-11-05: o buraco ficaria para sempre (P44)"
+    ]
+    # O mesmo buraco é o certo quando hoje é mesmo 05/11 (a Action parada uma semana).
+    assert check_dates(first_22, grown, date(2026, 11, 5)) == []
+
+
+def test_regenerate_accepts_the_generator_days_with_or_without_a_gap(fixture_catalog, first_22):
+    for today in (date(2026, 10, 30), date(2026, 11, 7)):
+        grown = generate(fixture_catalog, first_22, today).schedule
+        assert regenerate_problems(first_22, grown, fixture_catalog) == []
+    # Sem dia novo, ou agenda nova (sem base), não há o que regerar.
+    assert regenerate_problems(first_22, first_22, fixture_catalog) == []
+    assert regenerate_problems(None, first_22, fixture_catalog) == []
+
+
+def test_regenerate_catches_a_new_day_edited_by_hand(fixture_catalog, first_22):
+    grown = copy.deepcopy(generate(fixture_catalog, first_22, date(2026, 10, 30)).schedule)
+    grown["days"]["2026-10-31"]["album"][0]["options"].reverse()
+    problems = regenerate_problems(first_22, grown, fixture_catalog)
+    assert len(problems) == 1
+    assert problems[0].startswith("2026-10-31: dia novo diferente do que o gerador daria")
+
+
+def test_cli_schedule_check_with_today_and_catalog(tmp_path, capsys, fixture_catalog, first_22):
+    base = tmp_path / "base.json"
+    base.write_bytes(dumps(first_22).encode("utf-8"))
+    current = tmp_path / "schedule.json"
+    grown = generate(fixture_catalog, first_22, date(2026, 10, 30)).schedule
+    current.write_bytes(dumps(grown).encode("utf-8"))
+    # O mesmo catálogo da geração: cada dia guarda o catalogVersion dele.
+    catalog = tmp_path / "catalog.json"
+    catalog.write_bytes(dumps(fixture_catalog).encode("utf-8"))
+    args = [
+        "schedule-check",
+        "--path",
+        str(current),
+        "--base",
+        str(base),
+        "--catalog",
+        str(catalog),
+    ]
+    assert main([*args, "--today", "2026-10-30"]) == 0
+    assert main([*args, "--today", "2026-10-31"]) == 1
+    assert "dia novo antes de hoje" in capsys.readouterr().out
+    edited = copy.deepcopy(grown)
+    edited["days"]["2026-11-01"]["song"][0]["answer"] = edited["days"]["2026-11-02"]["song"][0][
+        "answer"
+    ]
+    current.write_bytes(dumps(edited).encode("utf-8"))
+    assert main(args) == 1
+    assert "diferente do que o gerador daria" in capsys.readouterr().out
+    # --catalog só com uma agenda.
+    assert main(["schedule-check", "--base-ref", "HEAD", "--catalog", str(catalog)]) == 1
