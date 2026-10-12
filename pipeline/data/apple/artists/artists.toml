@@ -28,6 +28,8 @@ exclude_albums = [
 
 [[artists]]
 id = "573943518"  # LiSA (アニメ; não a LISA do BLACKPINK)
+# "ROCK-mode'18" é a regravação de 2018 de "ROCK-mode" (LiSA BEST -Way-).
+same_song = [["1537786186", "1538286198"]]
 
 [[artists]]
 id = "1080967231"  # Eve (J-Pop; não o Eve do rap)
@@ -37,8 +39,15 @@ id = "1492604670"  # Ado
 
 [[artists]]
 id = "569972619"  # Aimer
-# "bL∞dy f8 -eUC-" é uma versão de "bL∞dy f8" (as duas são participações dela).
-same_song = [["1536128787", "1538258118"]]
+# "bL∞dy f8 -eUC-" é uma versão de "bL∞dy f8" (as duas são participações dela), e as do
+# SawanoHiroyuki[nZk] com o "<…>" no nome também: "ninelie <cry-v>" e "i-mage <in/AR>".
+same_song = [
+  ["1536128787", "1538258118"],
+  ["1537269176", "1537271700"],
+  ["1537902969", "1538261263"],
+]
+# "After Dark -prologue-" (68 s) é a abertura do álbum, e a música inteira não está na loja.
+exclude_tracks = ["1536151528"]
 
 [[artists]]
 id = "530814268"  # 米津玄師 (o Hachi, 727267782, é outro artista e não entra, P123)

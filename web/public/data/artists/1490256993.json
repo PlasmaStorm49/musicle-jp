@@ -1721,7 +1721,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1841835717",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.0263,
       "preview": {
         "durationSec": 30,
@@ -1733,6 +1733,7 @@
         "artist": [],
         "title": [
           "thenoisecontainsasanplesofyanikakeru",
+          "thenoisecontainsasanplesofyorunikakeru",
           "thenoisecontainsasanplesof夜に駆ける"
         ]
       },
@@ -1742,7 +1743,7 @@
       "titleKeys": [
         "thenoisecontainsasamplesof夜に駆ける"
       ],
-      "titleLatin": "The NOISE (Contains a Samples ofya ni kakeru)"
+      "titleLatin": "the NOISE (Contains a Samples of Yoru ni Kakeru)"
     },
     {
       "albumId": "apple:al:1852183577",
@@ -1793,7 +1794,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1861370949",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.2105,
       "preview": {
         "durationSec": 30,
@@ -1815,7 +1816,7 @@
       "titleKeys": [
         "あどれな"
       ],
-      "titleLatin": "Ado Rena"
+      "titleLatin": "Adorena"
     },
     {
       "albumId": "apple:al:1861370983",

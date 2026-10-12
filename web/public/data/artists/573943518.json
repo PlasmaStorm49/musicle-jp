@@ -1509,7 +1509,7 @@
       "explicit": false,
       "id": "apple:tr:1529543498",
       "latinSource": null,
-      "popularity": 0.495,
+      "popularity": 0.5,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1583,7 +1583,7 @@
       "explicit": false,
       "id": "apple:tr:1529543501",
       "latinSource": "cutlet",
-      "popularity": 0.565,
+      "popularity": 0.57,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1622,7 +1622,7 @@
       "explicit": false,
       "id": "apple:tr:1529543502",
       "latinSource": "cutlet",
-      "popularity": 0.535,
+      "popularity": 0.54,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1701,7 +1701,7 @@
       "explicit": false,
       "id": "apple:tr:1529543507",
       "latinSource": "cutlet",
-      "popularity": 0.38,
+      "popularity": 0.385,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1739,7 +1739,7 @@
       "explicit": false,
       "id": "apple:tr:1529543509",
       "latinSource": null,
-      "popularity": 0.54,
+      "popularity": 0.545,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1924,7 +1924,7 @@
       "explicit": false,
       "id": "apple:tr:1535636919",
       "latinSource": "cutlet",
-      "popularity": 0.395,
+      "popularity": 0.4,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1961,7 +1961,7 @@
       "explicit": false,
       "id": "apple:tr:1535637069",
       "latinSource": "cutlet",
-      "popularity": 0.28,
+      "popularity": 0.285,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2034,7 +2034,7 @@
       "explicit": false,
       "id": "apple:tr:1535786264",
       "latinSource": "cutlet",
-      "popularity": 0.065,
+      "popularity": 0.07,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2071,7 +2071,7 @@
       "explicit": false,
       "id": "apple:tr:1535787942",
       "latinSource": "cutlet",
-      "popularity": 0.04,
+      "popularity": 0.045,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2107,7 +2107,7 @@
       "explicit": false,
       "id": "apple:tr:1535789601",
       "latinSource": "cutlet",
-      "popularity": 0.185,
+      "popularity": 0.19,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2145,7 +2145,7 @@
       "explicit": false,
       "id": "apple:tr:1535790296",
       "latinSource": null,
-      "popularity": 0.345,
+      "popularity": 0.35,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2163,6 +2163,7 @@
       "title": "Empty MERMAiD",
       "titleKeys": [
         "emptymermaid",
+        "emptymermaidinstrumental",
         "emptymermaidlittledevilparadelivever"
       ],
       "titleLatin": null
@@ -2181,7 +2182,7 @@
       "explicit": false,
       "id": "apple:tr:1535790701",
       "latinSource": "cutlet",
-      "popularity": 0.18,
+      "popularity": 0.185,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2218,7 +2219,7 @@
       "explicit": false,
       "id": "apple:tr:1535790702",
       "latinSource": "cutlet",
-      "popularity": 0.175,
+      "popularity": 0.18,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2241,41 +2242,6 @@
       "titleLatin": "Kyomu"
     },
     {
-      "albumId": "apple:al:1535790699",
-      "artistDisplay": "LiSA",
-      "artistIds": [
-        "apple:ar:573943518"
-      ],
-      "durationMs": 220573,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1535790703",
-      "latinSource": null,
-      "popularity": 0.02,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c5/86/1f/c5861f15-588f-9a92-1b60-a9e92db81f43/mzaf_6107851234891195616.plus.aac.p.m4a"
-      },
-      "releaseDate": "2015-09-30",
-      "search": {
-        "artist": [],
-        "title": [
-          "enpchmermaijinstrumental"
-        ]
-      },
-      "songKey": "emptymermaidinstrumental|apple:ar:573943518",
-      "storeUrl": "https://music.apple.com/jp/album/empty-mermaid-instrumental/1535790699?i=1535790703",
-      "title": "Empty MERMAiD-Instrumental-",
-      "titleKeys": [
-        "emptymermaidinstrumental"
-      ],
-      "titleLatin": null
-    },
-    {
       "albumId": "apple:al:1535790711",
       "artistDisplay": "LiSA",
       "artistIds": [
@@ -2289,7 +2255,7 @@
       "explicit": false,
       "id": "apple:tr:1535790714",
       "latinSource": null,
-      "popularity": 0.17,
+      "popularity": 0.175,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2325,7 +2291,7 @@
       "explicit": false,
       "id": "apple:tr:1535790715",
       "latinSource": "cutlet",
-      "popularity": 0.015,
+      "popularity": 0.025,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2363,7 +2329,7 @@
       "explicit": false,
       "id": "apple:tr:1535791976",
       "latinSource": null,
-      "popularity": 0.575,
+      "popularity": 0.58,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2403,7 +2369,7 @@
       "explicit": false,
       "id": "apple:tr:1535791977",
       "latinSource": null,
-      "popularity": 0.455,
+      "popularity": 0.46,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2438,7 +2404,7 @@
       "explicit": false,
       "id": "apple:tr:1535791978",
       "latinSource": "cutlet",
-      "popularity": 0.24,
+      "popularity": 0.245,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2476,7 +2442,7 @@
       "explicit": false,
       "id": "apple:tr:1535791979",
       "latinSource": "cutlet",
-      "popularity": 0.005,
+      "popularity": 0.015,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2548,7 +2514,7 @@
       "explicit": false,
       "id": "apple:tr:1536311905",
       "latinSource": "cutlet",
-      "popularity": 0.39,
+      "popularity": 0.395,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2620,7 +2586,7 @@
       "explicit": false,
       "id": "apple:tr:1537785111",
       "latinSource": null,
-      "popularity": 0.34,
+      "popularity": 0.345,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2658,7 +2624,7 @@
       "explicit": false,
       "id": "apple:tr:1537785112",
       "latinSource": "cutlet",
-      "popularity": 0.29,
+      "popularity": 0.295,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2696,7 +2662,7 @@
       "explicit": false,
       "id": "apple:tr:1537785113",
       "latinSource": "cutlet",
-      "popularity": 0.23,
+      "popularity": 0.235,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2733,7 +2699,7 @@
       "explicit": false,
       "id": "apple:tr:1537785114",
       "latinSource": "cutlet",
-      "popularity": 0.42,
+      "popularity": 0.425,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2771,7 +2737,7 @@
       "explicit": false,
       "id": "apple:tr:1537785115",
       "latinSource": "cutlet",
-      "popularity": 0.285,
+      "popularity": 0.29,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2808,7 +2774,7 @@
       "explicit": false,
       "id": "apple:tr:1537785116",
       "latinSource": "cutlet",
-      "popularity": 0.445,
+      "popularity": 0.45,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2847,7 +2813,7 @@
       "explicit": false,
       "id": "apple:tr:1537785117",
       "latinSource": "cutlet",
-      "popularity": 0.225,
+      "popularity": 0.23,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2922,7 +2888,7 @@
       "explicit": false,
       "id": "apple:tr:1537785553",
       "latinSource": null,
-      "popularity": 0.44,
+      "popularity": 0.445,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2959,7 +2925,7 @@
       "explicit": false,
       "id": "apple:tr:1537785554",
       "latinSource": null,
-      "popularity": 0.11,
+      "popularity": 0.115,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3036,7 +3002,7 @@
       "explicit": false,
       "id": "apple:tr:1537785963",
       "latinSource": "cutlet",
-      "popularity": 0.08,
+      "popularity": 0.085,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3072,7 +3038,7 @@
       "explicit": false,
       "id": "apple:tr:1537785964",
       "latinSource": null,
-      "popularity": 0.21,
+      "popularity": 0.215,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3108,7 +3074,7 @@
       "explicit": false,
       "id": "apple:tr:1537786180",
       "latinSource": "cutlet",
-      "popularity": 0.1,
+      "popularity": 0.105,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3144,7 +3110,7 @@
       "explicit": false,
       "id": "apple:tr:1537786182",
       "latinSource": null,
-      "popularity": 0.215,
+      "popularity": 0.22,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3180,7 +3146,7 @@
       "explicit": false,
       "id": "apple:tr:1537786183",
       "latinSource": null,
-      "popularity": 0.33,
+      "popularity": 0.335,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3218,7 +3184,7 @@
       "explicit": false,
       "id": "apple:tr:1537786184",
       "latinSource": null,
-      "popularity": 0.325,
+      "popularity": 0.33,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3256,7 +3222,7 @@
       "explicit": false,
       "id": "apple:tr:1537786185",
       "latinSource": "cutlet",
-      "popularity": 0.085,
+      "popularity": 0.09,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3310,6 +3276,12 @@
       "title": "ROCK-mode",
       "titleKeys": [
         "rockmode",
+        "rockmode18",
+        "rockmode18364jokerlivever",
+        "rockmode18enlivever",
+        "rockmode18ladybuglivever",
+        "rockmode18landerlivever",
+        "rockmode18thebirthlivever",
         "rockmode2015武道館livechocolatever",
         "rockmode2015武道館liveichigover",
         "rockmodelittledevilparadelivever",
@@ -3331,7 +3303,7 @@
       "explicit": false,
       "id": "apple:tr:1537786187",
       "latinSource": "cutlet",
-      "popularity": 0.095,
+      "popularity": 0.1,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3367,7 +3339,7 @@
       "explicit": false,
       "id": "apple:tr:1537786188",
       "latinSource": "cutlet",
-      "popularity": 0.105,
+      "popularity": 0.11,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3404,7 +3376,7 @@
       "explicit": false,
       "id": "apple:tr:1537786189",
       "latinSource": "cutlet",
-      "popularity": 0.4,
+      "popularity": 0.405,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3444,7 +3416,7 @@
       "explicit": false,
       "id": "apple:tr:1537786190",
       "latinSource": null,
-      "popularity": 0.22,
+      "popularity": 0.225,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3480,7 +3452,7 @@
       "explicit": false,
       "id": "apple:tr:1537786191",
       "latinSource": "cutlet",
-      "popularity": 0.09,
+      "popularity": 0.095,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3516,7 +3488,7 @@
       "explicit": false,
       "id": "apple:tr:1537786612",
       "latinSource": null,
-      "popularity": 0.37,
+      "popularity": 0.375,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3552,7 +3524,7 @@
       "explicit": false,
       "id": "apple:tr:1537786613",
       "latinSource": "cutlet",
-      "popularity": 0.205,
+      "popularity": 0.21,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3589,7 +3561,7 @@
       "explicit": false,
       "id": "apple:tr:1537787472",
       "latinSource": null,
-      "popularity": 0.515,
+      "popularity": 0.52,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3629,7 +3601,7 @@
       "explicit": false,
       "id": "apple:tr:1537787473",
       "latinSource": null,
-      "popularity": 0.075,
+      "popularity": 0.08,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3664,7 +3636,7 @@
       "explicit": false,
       "id": "apple:tr:1537787474",
       "latinSource": null,
-      "popularity": 0.07,
+      "popularity": 0.075,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3744,7 +3716,7 @@
       "explicit": false,
       "id": "apple:tr:1537788874",
       "latinSource": "cutlet",
-      "popularity": 0.045,
+      "popularity": 0.05,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3781,7 +3753,7 @@
       "explicit": false,
       "id": "apple:tr:1537788875",
       "latinSource": "cutlet",
-      "popularity": 0.385,
+      "popularity": 0.39,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3945,7 +3917,7 @@
       "explicit": false,
       "id": "apple:tr:1537791347",
       "latinSource": "cutlet",
-      "popularity": 0.525,
+      "popularity": 0.53,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3983,7 +3955,7 @@
       "explicit": false,
       "id": "apple:tr:1537791348",
       "latinSource": null,
-      "popularity": 0.025,
+      "popularity": 0.03,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4018,7 +3990,7 @@
       "explicit": false,
       "id": "apple:tr:1537793973",
       "latinSource": "cutlet",
-      "popularity": 0.165,
+      "popularity": 0.17,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4056,7 +4028,7 @@
       "explicit": false,
       "id": "apple:tr:1537793975",
       "latinSource": null,
-      "popularity": 0.36,
+      "popularity": 0.365,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4095,7 +4067,7 @@
       "explicit": false,
       "id": "apple:tr:1537794186",
       "latinSource": null,
-      "popularity": 0.465,
+      "popularity": 0.47,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4135,7 +4107,7 @@
       "explicit": false,
       "id": "apple:tr:1537794187",
       "latinSource": null,
-      "popularity": 0.31,
+      "popularity": 0.315,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4173,7 +4145,7 @@
       "explicit": false,
       "id": "apple:tr:1537794188",
       "latinSource": null,
-      "popularity": 0.245,
+      "popularity": 0.25,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4209,7 +4181,7 @@
       "explicit": false,
       "id": "apple:tr:1537794189",
       "latinSource": null,
-      "popularity": 0.01,
+      "popularity": 0.02,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4244,7 +4216,7 @@
       "explicit": false,
       "id": "apple:tr:1537794190",
       "latinSource": "cutlet",
-      "popularity": 0.305,
+      "popularity": 0.31,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4327,7 +4299,7 @@
       "explicit": false,
       "id": "apple:tr:1537798031",
       "latinSource": "cutlet",
-      "popularity": 0.47,
+      "popularity": 0.475,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4365,7 +4337,7 @@
       "explicit": false,
       "id": "apple:tr:1537798032",
       "latinSource": null,
-      "popularity": 0.485,
+      "popularity": 0.49,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4443,7 +4415,7 @@
       "explicit": false,
       "id": "apple:tr:1537899081",
       "latinSource": null,
-      "popularity": 0.14,
+      "popularity": 0.145,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4461,6 +4433,41 @@
       "title": "sweet friendship",
       "titleKeys": [
         "sweetfriendship"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537899079",
+      "artistDisplay": "LiSA",
+      "artistIds": [
+        "apple:ar:573943518"
+      ],
+      "durationMs": 238107,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537899082",
+      "latinSource": null,
+      "popularity": 0.005,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ca/53/e4/ca53e40e-27e2-5cc8-b297-57ef519d82a3/mzaf_10288032491020945617.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-08-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "sailorsparkoperachion"
+        ]
+      },
+      "songKey": "sailorsparkoperation|apple:ar:573943518",
+      "storeUrl": "https://music.apple.com/jp/album/sailor-spark-operation/1537899079?i=1537899082",
+      "title": "Sailor Spark Operation!",
+      "titleKeys": [
+        "sailorsparkoperation"
       ],
       "titleLatin": null
     },
@@ -4516,7 +4523,7 @@
       "explicit": false,
       "id": "apple:tr:1537899544",
       "latinSource": "cutlet",
-      "popularity": 0.555,
+      "popularity": 0.56,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4593,7 +4600,7 @@
       "explicit": false,
       "id": "apple:tr:1537901888",
       "latinSource": "cutlet",
-      "popularity": 0.125,
+      "popularity": 0.13,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4667,7 +4674,7 @@
       "explicit": false,
       "id": "apple:tr:1537906495",
       "latinSource": null,
-      "popularity": 0.57,
+      "popularity": 0.575,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4705,7 +4712,7 @@
       "explicit": false,
       "id": "apple:tr:1537907132",
       "latinSource": null,
-      "popularity": 0.375,
+      "popularity": 0.38,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4777,7 +4784,7 @@
       "explicit": false,
       "id": "apple:tr:1537909902",
       "latinSource": null,
-      "popularity": 0.43,
+      "popularity": 0.435,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4813,7 +4820,7 @@
       "explicit": false,
       "id": "apple:tr:1537910229",
       "latinSource": "cutlet",
-      "popularity": 0.56,
+      "popularity": 0.565,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4852,7 +4859,7 @@
       "explicit": false,
       "id": "apple:tr:1538284652",
       "latinSource": null,
-      "popularity": 0.06,
+      "popularity": 0.065,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4887,7 +4894,7 @@
       "explicit": false,
       "id": "apple:tr:1538284653",
       "latinSource": "cutlet",
-      "popularity": 0.35,
+      "popularity": 0.355,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4928,7 +4935,7 @@
       "explicit": false,
       "id": "apple:tr:1538284825",
       "latinSource": null,
-      "popularity": 0.335,
+      "popularity": 0.34,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4965,7 +4972,7 @@
       "explicit": false,
       "id": "apple:tr:1538284826",
       "latinSource": null,
-      "popularity": 0.365,
+      "popularity": 0.37,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5004,7 +5011,7 @@
       "explicit": false,
       "id": "apple:tr:1538284827",
       "latinSource": "cutlet",
-      "popularity": 0.19,
+      "popularity": 0.195,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5042,7 +5049,7 @@
       "explicit": false,
       "id": "apple:tr:1538284870",
       "latinSource": null,
-      "popularity": 0.32,
+      "popularity": 0.325,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5079,7 +5086,7 @@
       "explicit": false,
       "id": "apple:tr:1538284872",
       "latinSource": "cutlet",
-      "popularity": 0.26,
+      "popularity": 0.265,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5118,7 +5125,7 @@
       "explicit": false,
       "id": "apple:tr:1538284873",
       "latinSource": "cutlet",
-      "popularity": 0.315,
+      "popularity": 0.32,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5156,7 +5163,7 @@
       "explicit": false,
       "id": "apple:tr:1538284874",
       "latinSource": "cutlet",
-      "popularity": 0.255,
+      "popularity": 0.26,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5194,7 +5201,7 @@
       "explicit": false,
       "id": "apple:tr:1538284877",
       "latinSource": null,
-      "popularity": 0.035,
+      "popularity": 0.04,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5229,7 +5236,7 @@
       "explicit": false,
       "id": "apple:tr:1538284878",
       "latinSource": null,
-      "popularity": 0.27,
+      "popularity": 0.275,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5265,7 +5272,7 @@
       "explicit": false,
       "id": "apple:tr:1538284879",
       "latinSource": null,
-      "popularity": 0.265,
+      "popularity": 0.27,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5301,7 +5308,7 @@
       "explicit": false,
       "id": "apple:tr:1538284880",
       "latinSource": "cutlet",
-      "popularity": 0.25,
+      "popularity": 0.255,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5340,7 +5347,7 @@
       "explicit": false,
       "id": "apple:tr:1538284881",
       "latinSource": "cutlet",
-      "popularity": 0.03,
+      "popularity": 0.035,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5377,7 +5384,7 @@
       "explicit": false,
       "id": "apple:tr:1538284896",
       "latinSource": null,
-      "popularity": 0.48,
+      "popularity": 0.485,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5418,7 +5425,7 @@
       "explicit": false,
       "id": "apple:tr:1538284899",
       "latinSource": "cutlet",
-      "popularity": 0.275,
+      "popularity": 0.28,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5456,7 +5463,7 @@
       "explicit": false,
       "id": "apple:tr:1538284900",
       "latinSource": null,
-      "popularity": 0.45,
+      "popularity": 0.455,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5499,7 +5506,7 @@
       "explicit": false,
       "id": "apple:tr:1538284901",
       "latinSource": "cutlet",
-      "popularity": 0.2,
+      "popularity": 0.205,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5578,7 +5585,7 @@
       "explicit": false,
       "id": "apple:tr:1538284903",
       "latinSource": "cutlet",
-      "popularity": 0.05,
+      "popularity": 0.055,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5614,7 +5621,7 @@
       "explicit": false,
       "id": "apple:tr:1538284904",
       "latinSource": "cutlet",
-      "popularity": 0.195,
+      "popularity": 0.2,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5652,7 +5659,7 @@
       "explicit": false,
       "id": "apple:tr:1538284906",
       "latinSource": null,
-      "popularity": 0.055,
+      "popularity": 0.06,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5687,7 +5694,7 @@
       "explicit": false,
       "id": "apple:tr:1538285605",
       "latinSource": null,
-      "popularity": 0.355,
+      "popularity": 0.36,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5726,7 +5733,7 @@
       "explicit": false,
       "id": "apple:tr:1538285607",
       "latinSource": "cutlet",
-      "popularity": 0.3,
+      "popularity": 0.305,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5765,7 +5772,7 @@
       "explicit": false,
       "id": "apple:tr:1538285608",
       "latinSource": null,
-      "popularity": 0.235,
+      "popularity": 0.24,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5802,7 +5809,7 @@
       "explicit": false,
       "id": "apple:tr:1538285609",
       "latinSource": null,
-      "popularity": 0.155,
+      "popularity": 0.16,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5830,6 +5837,43 @@
       "artistIds": [
         "apple:ar:573943518"
       ],
+      "durationMs": 264920,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538285610",
+      "latinSource": "cutlet",
+      "popularity": 0.01,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b3/2f/34/b32f3482-a171-8a1c-17a6-030bc71737ae/mzaf_7540690142869478813.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-05-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "okamitomicanga",
+          "okamitomisanga",
+          "狼とみさんが"
+        ]
+      },
+      "songKey": "狼とみさんが|apple:ar:573943518",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%8B%BC%E3%81%A8%E3%83%9F%E3%82%B5%E3%83%B3%E3%82%AC/1538285604?i=1538285610",
+      "title": "狼とミサンガ",
+      "titleKeys": [
+        "狼とみさんが"
+      ],
+      "titleLatin": "Ookami to misanga"
+    },
+    {
+      "albumId": "apple:al:1538285604",
+      "artistDisplay": "LiSA",
+      "artistIds": [
+        "apple:ar:573943518"
+      ],
       "durationMs": 250813,
       "eligible": {
         "daily": true,
@@ -5838,7 +5882,7 @@
       "explicit": false,
       "id": "apple:tr:1538285613",
       "latinSource": null,
-      "popularity": 0.15,
+      "popularity": 0.155,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5874,7 +5918,7 @@
       "explicit": false,
       "id": "apple:tr:1538285614",
       "latinSource": null,
-      "popularity": 0.16,
+      "popularity": 0.165,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5910,7 +5954,7 @@
       "explicit": false,
       "id": "apple:tr:1538285736",
       "latinSource": null,
-      "popularity": 0.295,
+      "popularity": 0.3,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5948,7 +5992,7 @@
       "explicit": false,
       "id": "apple:tr:1538285737",
       "latinSource": "cutlet",
-      "popularity": 0.145,
+      "popularity": 0.15,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5986,7 +6030,7 @@
       "explicit": false,
       "id": "apple:tr:1538286193",
       "latinSource": "cutlet",
-      "popularity": 0.13,
+      "popularity": 0.135,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6016,46 +6060,6 @@
       "artistIds": [
         "apple:ar:573943518"
       ],
-      "durationMs": 332040,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1538286198",
-      "latinSource": null,
-      "popularity": 0.58,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ed/7a/93/ed7a93a9-56c1-1236-ad52-0ddc70418997/mzaf_10577508819148333988.plus.aac.p.m4a"
-      },
-      "releaseDate": "2018-05-09",
-      "search": {
-        "artist": [],
-        "title": [
-          "rockmode18"
-        ]
-      },
-      "songKey": "rockmode18|apple:ar:573943518",
-      "storeUrl": "https://music.apple.com/jp/album/rock-mode18/1538286187?i=1538286198",
-      "title": "ROCK-mode'18",
-      "titleKeys": [
-        "rockmode18",
-        "rockmode18364jokerlivever",
-        "rockmode18enlivever",
-        "rockmode18ladybuglivever",
-        "rockmode18landerlivever",
-        "rockmode18thebirthlivever"
-      ],
-      "titleLatin": null
-    },
-    {
-      "albumId": "apple:al:1538286187",
-      "artistDisplay": "LiSA",
-      "artistIds": [
-        "apple:ar:573943518"
-      ],
       "durationMs": 287920,
       "eligible": {
         "daily": true,
@@ -6064,7 +6068,7 @@
       "explicit": false,
       "id": "apple:tr:1538286200",
       "latinSource": null,
-      "popularity": 0.135,
+      "popularity": 0.14,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6100,7 +6104,7 @@
       "explicit": false,
       "id": "apple:tr:1538286724",
       "latinSource": null,
-      "popularity": 0.12,
+      "popularity": 0.125,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6135,7 +6139,7 @@
       "explicit": false,
       "id": "apple:tr:1538286725",
       "latinSource": "cutlet",
-      "popularity": 0.41,
+      "popularity": 0.415,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6432,7 +6436,7 @@
       "explicit": false,
       "id": "apple:tr:1560925589",
       "latinSource": null,
-      "popularity": 0.505,
+      "popularity": 0.51,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6468,7 +6472,7 @@
       "explicit": false,
       "id": "apple:tr:1560925590",
       "latinSource": "cutlet",
-      "popularity": 0.51,
+      "popularity": 0.515,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6913,7 +6917,7 @@
       "explicit": false,
       "id": "apple:tr:1647502615",
       "latinSource": null,
-      "popularity": 0.53,
+      "popularity": 0.535,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6949,7 +6953,7 @@
       "explicit": false,
       "id": "apple:tr:1647502616",
       "latinSource": "cutlet",
-      "popularity": 0.52,
+      "popularity": 0.525,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7026,7 +7030,7 @@
       "explicit": false,
       "id": "apple:tr:1647502627",
       "latinSource": "cutlet",
-      "popularity": 0.475,
+      "popularity": 0.48,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7063,7 +7067,7 @@
       "explicit": false,
       "id": "apple:tr:1647502913",
       "latinSource": "cutlet",
-      "popularity": 0.55,
+      "popularity": 0.555,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7463,7 +7467,7 @@
       "explicit": false,
       "id": "apple:tr:1755730740",
       "latinSource": null,
-      "popularity": 0.5,
+      "popularity": 0.505,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7535,7 +7539,7 @@
       "explicit": false,
       "id": "apple:tr:1761083087",
       "latinSource": "cutlet",
-      "popularity": 0.545,
+      "popularity": 0.55,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7647,7 +7651,7 @@
       "explicit": false,
       "id": "apple:tr:1795912066",
       "latinSource": null,
-      "popularity": 0.49,
+      "popularity": 0.495,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7682,7 +7686,7 @@
       "explicit": false,
       "id": "apple:tr:1795912219",
       "latinSource": "cutlet",
-      "popularity": 0.405,
+      "popularity": 0.41,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7755,7 +7759,7 @@
       "explicit": false,
       "id": "apple:tr:1850916204",
       "latinSource": null,
-      "popularity": 0.425,
+      "popularity": 0.43,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7790,7 +7794,7 @@
       "explicit": false,
       "id": "apple:tr:1871086949",
       "latinSource": null,
-      "popularity": 0.46,
+      "popularity": 0.465,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7825,7 +7829,7 @@
       "explicit": false,
       "id": "apple:tr:1887178360",
       "latinSource": null,
-      "popularity": 0.415,
+      "popularity": 0.42,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7860,7 +7864,7 @@
       "explicit": false,
       "id": "apple:tr:1890170477",
       "latinSource": "cutlet",
-      "popularity": 0.115,
+      "popularity": 0.12,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -7896,7 +7900,7 @@
       "explicit": false,
       "id": "apple:tr:1890170712",
       "latinSource": null,
-      "popularity": 0.435,
+      "popularity": 0.44,
       "preview": {
         "durationSec": 30,
         "startSec": 0,

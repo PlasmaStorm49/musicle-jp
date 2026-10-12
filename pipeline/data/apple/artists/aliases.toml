@@ -2,3 +2,11 @@
 # aliases.toml da parada (tracks: latin, aliases, block; albums: latin; artists: latin,
 # aliases). A chave é o id do catálogo (apple:tr:123). ID que nenhum artista tem é erro no
 # build-artists. Romaji errado se corrige aqui, nunca no romaji.json (regra 10).
+
+# --- Revisão dos dados reais (PR B do M13, 12/10/2026) ---
+
+[tracks."apple:tr:1861370949"]  # アドレナ (YOASOBI); cutlet: "Ado Rena"
+latin = "Adorena"
+
+[tracks."apple:tr:1841835717"]  # the NOISE (LE SSERAFIM & YOASOBI); cutlet: "Samples ofya ni kakeru"
+latin = "the NOISE (Contains a Samples of Yoru ni Kakeru)"
