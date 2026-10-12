@@ -148,6 +148,17 @@ describe("loadSave", () => {
       "2026-10-07|song",
       { status: "won", stage: 1, attempts: ["skip", "right"], help: "1" },
     ],
+    // Depois da ajuda só vem a opção: nunca um pulo, e o acerto é ela.
+    [
+      "pulo depois",
+      "2026-10-07|song",
+      { status: "lost", stage: 2, attempts: ["wrong", "skip"], help: 1 },
+    ],
+    [
+      "acerto sem opção",
+      "2026-10-07|song",
+      { status: "won", stage: 1, attempts: ["skip"], help: 1 },
+    ],
   ])("ajuda inválida (%s) invalida o jogo terminado", (_, id, round) => {
     const game = { ...finished, rounds: [round, ...finished.rounds.slice(1)] };
     const result = loadSave(withRaw(JSON.stringify({ ...valid, history: { [id]: game } })));
@@ -157,6 +168,7 @@ describe("loadSave", () => {
 
   it.each([
     ["sem opções", { type: "HELP", options: [] }],
+    ["uma opção só", { type: "HELP", options: ["a"] }],
     ["5 opções", { type: "HELP", options: ["a", "b", "c", "d", "e"] }],
     ["opção vazia", { type: "HELP", options: ["a", ""] }],
     ["sem a lista", { type: "HELP" }],
@@ -168,6 +180,40 @@ describe("loadSave", () => {
     const result = loadSave(withRaw(JSON.stringify(data)));
     expect(result.save.inProgress).toEqual({});
     expect(result.notice).toBe("repaired");
+  });
+
+  it("um save v3 de verdade passa pelo v4 sem aviso, sem cópia e sem perder nada", () => {
+    const v3 = {
+      schemaVersion: 3,
+      history: {
+        "2026-10-11|album": finished,
+        "2026-10-11|song": {
+          number: 4,
+          rounds: [
+            { status: "won", stage: 2, attempts: ["wrong", "skip", "right"] },
+            {
+              status: "lost",
+              stage: 5,
+              attempts: ["skip", "skip", "skip", "skip", "skip", "skip"],
+            },
+            { status: "void", stage: 0, attempts: [] },
+          ],
+        },
+      },
+      inProgress: {
+        "2026-10-12|song": { events: [{ type: "SKIP" }, { type: "GUESS", guessId: "apple:tr:1" }] },
+      },
+    };
+    const store = withRaw(JSON.stringify(v3));
+    expect(loadSave(store)).toEqual({
+      save: { ...v3, schemaVersion: 4 },
+      writable: true,
+      notice: null,
+    });
+    expect(store.getItem(CORRUPT_KEY)).toBeNull();
+    // A 1ª gravação já sai em v4.
+    expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(4);
   });
 
   it("Desafio: até 6 tentativas; a 7ª invalida o jogo terminado", () => {

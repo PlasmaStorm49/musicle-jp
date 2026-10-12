@@ -47,15 +47,26 @@ describe("migrate", () => {
   });
 
   it("v3 → v4 guarda tudo como está: a ajuda (P149) só acrescenta", () => {
-    // Um save v3 de verdade: dois dias terminados e um em andamento.
+    // Um save v3 de verdade: dois dias terminados (3 rodadas cada) e um em andamento.
     const v3 = {
       schemaVersion: 3,
       history: {
         "2026-10-11|album": {
           number: 1,
-          rounds: [{ status: "won", stage: 0, attempts: ["right"] }],
+          rounds: [
+            { status: "won", stage: 0, attempts: ["right"] },
+            { status: "lost", stage: 1, attempts: ["wrong"] },
+            { status: "void", stage: 0, attempts: [] },
+          ],
         },
-        "2026-10-11|song": { number: 1, rounds: [{ status: "lost", stage: 5, attempts: [] }] },
+        "2026-10-11|song": {
+          number: 1,
+          rounds: [
+            { status: "lost", stage: 5, attempts: [] },
+            { status: "won", stage: 0, attempts: ["right"] },
+            { status: "won", stage: 1, attempts: ["skip", "right"] },
+          ],
+        },
       },
       inProgress: {
         "2026-10-12|song": { events: [{ type: "SKIP" }, { type: "GUESS", guessId: "x" }] },

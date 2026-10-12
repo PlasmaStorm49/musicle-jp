@@ -87,7 +87,7 @@ export function isGameEvent(x: unknown): x is GameEvent {
     case "HELP":
       return (
         Array.isArray(x.options) &&
-        x.options.length >= 1 &&
+        x.options.length >= 2 &&
         x.options.length <= HELP_OPTIONS &&
         x.options.every((id: unknown) => typeof id === "string" && id.length > 0)
       );
@@ -125,7 +125,10 @@ export function isFinishedGame(x: unknown, target: Target): x is FinishedGame {
           isNonNegativeInt(r.help) &&
           r.help >= 1 &&
           r.help <= r.attempts.length &&
-          r.attempts.length - r.help <= 1)),
+          r.attempts.length - r.help <= 1 &&
+          // Depois da ajuda só vem a opção (nunca um pulo), e o acerto é ela.
+          !r.attempts.slice(r.help).includes("skip") &&
+          (r.status !== "won" || r.attempts.length - r.help === 1))),
   );
 }
 
