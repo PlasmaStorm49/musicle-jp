@@ -43,7 +43,7 @@ describe("migrate", () => {
       inProgress: { "2026-10-12|song": { answerMode: "typing", events: [{ type: "SKIP" }] } },
     };
     expect(MIGRATIONS[2]?.(v2)).toEqual({ history: {}, inProgress: {} });
-    expect(migrate(v2, 2)).toEqual({ schemaVersion: 4, history: {}, inProgress: {} });
+    expect(migrate(v2, 2)).toEqual({ schemaVersion: 5, history: {}, inProgress: {} });
   });
 
   it("v3 → v4 guarda tudo como está: a ajuda (P149) só acrescenta", () => {
@@ -72,12 +72,42 @@ describe("migrate", () => {
         "2026-10-12|song": { events: [{ type: "SKIP" }, { type: "GUESS", guessId: "x" }] },
       },
     };
-    expect(migrate(v3, 3)).toEqual({ ...v3, schemaVersion: 4 });
+    expect(MIGRATIONS[3]?.(v3)).toEqual(v3);
+    expect(migrate(v3, 3)).toEqual({ ...v3, schemaVersion: 5 });
+  });
+
+  it("v4 → v5 guarda tudo como está: o pulo depois da ajuda (P163) só acrescenta", () => {
+    // Um save v4 de verdade: um dia do Desafio com a ajuda e um em andamento com ela pedida.
+    const v4 = {
+      schemaVersion: 4,
+      history: {
+        "2026-10-12|song": {
+          number: 2,
+          rounds: [
+            { status: "won", stage: 3, attempts: ["skip", "wrong", "skip", "right"], help: 3 },
+            { status: "lost", stage: 3, attempts: ["wrong", "wrong", "wrong", "wrong"], help: 3 },
+            { status: "won", stage: 0, attempts: ["right"] },
+          ],
+        },
+      },
+      inProgress: {
+        "2026-10-13|song": {
+          events: [
+            { type: "SKIP" },
+            { type: "SKIP" },
+            { type: "SKIP" },
+            { type: "HELP", options: ["a", "b", "c", "d"] },
+          ],
+        },
+      },
+    };
+    expect(MIGRATIONS[4]?.(v4)).toEqual(v4);
+    expect(migrate(v4, 4)).toEqual({ ...v4, schemaVersion: 5 });
   });
 
   it("v1 vai até a atual passando por todas", () => {
     expect(migrate({ schemaVersion: 1, settings: { answerMode: "typing" } }, 1)).toEqual({
-      schemaVersion: 4,
+      schemaVersion: 5,
       history: {},
       inProgress: {},
     });

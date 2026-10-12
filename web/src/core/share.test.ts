@@ -55,6 +55,31 @@ describe("shareGrid", () => {
     expect(shareText("h", desafio, "song", "u").split("\n")[1]).toBe("1/18");
   });
 
+  it("Desafio com pulos depois da ajuda (P163): o 💡 antes deles; desistir fecha com ❌", () => {
+    const desafio: FinishedGame = {
+      number: 1,
+      rounds: [
+        { status: "won", stage: 4, attempts: ["skip", "skip", "skip", "skip", "right"], help: 3 },
+        { status: "lost", stage: 4, attempts: ["skip", "skip", "skip", "skip"], help: 3 },
+        { status: "lost", stage: 4, attempts: ["skip", "skip", "skip", "skip", "wrong"], help: 3 },
+      ],
+    };
+    expect(shareGrid(desafio, "song")).toEqual(["⬛⬛⬛💡⬛✅", "⬛⬛⬛💡⬛❌", "⬛⬛⬛💡⬛❌"]);
+  });
+
+  it("Desafio: pular até a 6ª tentativa com a ajuda não ganha ❌ a mais, como sem ela", () => {
+    const six = ["skip", "skip", "skip", "skip", "skip", "skip"] as const;
+    const desafio: FinishedGame = {
+      number: 1,
+      rounds: [
+        { status: "lost", stage: 5, attempts: [...six], help: 1 },
+        { status: "lost", stage: 5, attempts: [...six] },
+        { status: "void", stage: 0, attempts: [] },
+      ],
+    };
+    expect(shareGrid(desafio, "song")).toEqual(["⬛💡⬛⬛⬛⬛⬛", "⬛⬛⬛⬛⬛⬛", "⬜"]);
+  });
+
   it("Desafio: a ajuda na 5ª tentativa e o erro na 6ª, sem ❌ a mais", () => {
     const desafio: FinishedGame = {
       number: 1,

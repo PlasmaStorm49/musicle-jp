@@ -100,18 +100,26 @@ test("Desafio: a ajuda só depois da 3ª tentativa, volta igual ao recarregar e 
   const shown = await options.allTextContents();
 
   // O save leva o evento HELP: recarregar mostra as mesmas opções.
-  await expect
-    .poll(async () => {
-      const raw = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
-      const save = raw ? (JSON.parse(raw) as Save) : null;
-      return save?.inProgress["2026-10-09|song"]?.events.at(-1)?.type;
-    })
-    .toBe("HELP");
+  const lastEvent = async () => {
+    const raw = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
+    const save = raw ? (JSON.parse(raw) as Save) : null;
+    return save?.inProgress["2026-10-09|song"]?.events.at(-1)?.type;
+  };
+  await expect.poll(lastEvent).toBe("HELP");
   await page.reload();
   await expect(options).toHaveText(shown);
   await expect(page.getByRole("combobox")).toHaveCount(0);
   // Voltar à rodada com a ajuda já pedida: o foco vai ao Tocar, como em toda rodada (regra 16).
   await expect(page.getByRole("button", { name: /^Tocar/ })).toBeFocused();
+
+  // Com a ajuda, o Pular continua (P163): o trecho cresce, e as opções ficam as mesmas, também
+  // depois de recarregar (o SKIP depois do HELP refaz a rodada igual).
+  await page.getByRole("button", { name: "Pular (+4 s)" }).click();
+  await expect(page.getByRole("button", { name: "Tocar 11 s" })).toBeVisible();
+  await expect.poll(lastEvent).toBe("SKIP");
+  await page.reload();
+  await expect(options).toHaveText(shown);
+  await expect(page.getByRole("button", { name: "Tocar 11 s" })).toBeVisible();
 
   // A faixa certa sai do que tocou (o motor falso registra), como nos outros testes.
   await page.getByRole("button", { name: /^Tocar/ }).click();

@@ -23,7 +23,7 @@ const finished: FinishedGame = {
 };
 
 const valid: Save = {
-  schemaVersion: 4,
+  schemaVersion: 5,
   history: { "2026-10-08|song": finished },
   inProgress: { "2026-10-09|song": { events: [{ type: "SKIP" }, { type: "GIVE_UP" }] } },
 };
@@ -109,11 +109,16 @@ describe("loadSave", () => {
       ...finished,
       rounds: [
         { status: "won", stage: 3, attempts: ["skip", "wrong", "skip", "right"], help: 3 },
-        { status: "lost", stage: 3, attempts: ["skip", "skip", "skip"], help: 3 }, // desistiu
-        { status: "void", stage: 0, attempts: [] },
+        // Pulou depois da ajuda (P163) e acertou; pulou e desistiu.
+        { status: "won", stage: 4, attempts: ["skip", "skip", "skip", "skip", "right"], help: 1 },
+        { status: "lost", stage: 4, attempts: ["wrong", "skip", "skip", "skip"], help: 1 },
       ],
     };
-    const events = [{ type: "SKIP" }, { type: "HELP", options: ["a", "b", "c", "d"] }];
+    const events = [
+      { type: "SKIP" },
+      { type: "HELP", options: ["a", "b", "c", "d"] },
+      { type: "SKIP" },
+    ];
     const data = {
       ...valid,
       history: { "2026-10-07|song": help },
@@ -148,11 +153,26 @@ describe("loadSave", () => {
       "2026-10-07|song",
       { status: "won", stage: 1, attempts: ["skip", "right"], help: "1" },
     ],
-    // Depois da ajuda só vem a opção: nunca um pulo, e o acerto é ela.
+    // Depois da ajuda, pulos (P163) e, no fim, no máximo a opção; o acerto é ela.
     [
-      "pulo depois",
+      "pulo depois da opção",
       "2026-10-07|song",
-      { status: "lost", stage: 2, attempts: ["wrong", "skip"], help: 1 },
+      { status: "lost", stage: 3, attempts: ["skip", "wrong", "skip"], help: 1 },
+    ],
+    [
+      "acerto antes do pulo",
+      "2026-10-07|song",
+      { status: "won", stage: 2, attempts: ["skip", "right", "skip"], help: 1 },
+    ],
+    [
+      "perdeu com a opção certa",
+      "2026-10-07|song",
+      { status: "lost", stage: 1, attempts: ["skip", "right"], help: 1 },
+    ],
+    [
+      "anulada depois de escolher",
+      "2026-10-07|song",
+      { status: "void", stage: 1, attempts: ["skip", "wrong"], help: 1 },
     ],
     [
       "acerto sem opção",
@@ -182,7 +202,7 @@ describe("loadSave", () => {
     expect(result.notice).toBe("repaired");
   });
 
-  it("um save v3 de verdade passa pelo v4 sem aviso, sem cópia e sem perder nada", () => {
+  it("um save v3 de verdade chega à v5 sem aviso, sem cópia e sem perder nada", () => {
     const v3 = {
       schemaVersion: 3,
       history: {
@@ -206,14 +226,49 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v3));
     expect(loadSave(store)).toEqual({
-      save: { ...v3, schemaVersion: 4 },
+      save: { ...v3, schemaVersion: 5 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
-    // A 1ª gravação já sai em v4.
+    // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(4);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(5);
+  });
+
+  it("um save v4 de verdade, com a ajuda, chega à v5 sem aviso, sem cópia e sem perder nada", () => {
+    // Como os que estão no ar desde a P149: a ajuda com e sem acerto e um andamento com ela.
+    const v4 = {
+      schemaVersion: 4,
+      history: {
+        "2026-10-12|album": finished,
+        "2026-10-12|song": {
+          number: 5,
+          rounds: [
+            { status: "won", stage: 3, attempts: ["skip", "wrong", "skip", "right"], help: 3 },
+            { status: "lost", stage: 1, attempts: ["wrong", "wrong"], help: 1 },
+            { status: "lost", stage: 3, attempts: ["skip", "skip", "skip"], help: 3 },
+          ],
+        },
+      },
+      inProgress: {
+        "2026-10-13|song": {
+          events: [
+            { type: "SKIP" },
+            { type: "SKIP" },
+            { type: "SKIP" },
+            { type: "HELP", options: ["apple:tr:1", "apple:tr:2", "apple:tr:3", "apple:tr:4"] },
+          ],
+        },
+      },
+    };
+    const store = withRaw(JSON.stringify(v4));
+    expect(loadSave(store)).toEqual({
+      save: { ...v4, schemaVersion: 5 },
+      writable: true,
+      notice: null,
+    });
+    expect(store.getItem(CORRUPT_KEY)).toBeNull();
   });
 
   it("Desafio: até 6 tentativas; a 7ª invalida o jogo terminado", () => {
@@ -296,7 +351,7 @@ describe("loadSave", () => {
     // A 1ª gravação do jogo novo já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, history: valid.history }))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toEqual({
-      schemaVersion: 4,
+      schemaVersion: 5,
       history: valid.history,
       inProgress: {},
     });

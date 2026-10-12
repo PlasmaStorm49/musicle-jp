@@ -11,7 +11,7 @@ import {
   type RoundState,
   reduce,
 } from "../core/reducer.ts";
-import { canSkip, HELP_POINTS, MODE_RULES } from "../core/rules.ts";
+import { canSkip, HELP_POINTS, MODE_RULES, secondsAt } from "../core/rules.ts";
 import { optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
@@ -170,13 +170,16 @@ export function RoundView({
             stage={round.stage}
             explicit={track.explicit}
             rules={rules}
-            skippable={canSkip(rules, round.attempts.length) && round.help === null}
+            // Com a ajuda também (P163): os pontos já são os dela, e pular só aumenta o trecho.
+            skippable={canSkip(rules, round.attempts.length)}
             onListenMore={() => dispatch({ type: "LISTEN_MORE" })}
             onSkip={() => {
               dispatch({ type: "SKIP" });
               announce(
-                t("typing.skipped", attemptLabel(round.attempts.length + 1)) +
-                  helpNote(round.attempts.length + 1),
+                round.help
+                  ? t("typing.skippedHelp", { seconds: secondsAt(round.stage + 1) })
+                  : t("typing.skipped", attemptLabel(round.attempts.length + 1)) +
+                      helpNote(round.attempts.length + 1),
               );
             }}
             onAudioError={voidForAudio}

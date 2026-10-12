@@ -28,9 +28,15 @@ export type RoundState = {
   readonly voidReason: string | null;
   /**
    * As opções da ajuda (P149), quando pedida: faixas, a certa entre elas. Daí em diante o
-   * palpite sai delas, errar encerra a rodada (P151) e acertar vale HELP_POINTS (P152).
+   * palpite sai delas, errar encerra a rodada (P151), acertar vale HELP_POINTS (P152) e pular
+   * só aumenta o trecho (P163).
    */
   readonly help: readonly string[] | null;
+  /**
+   * Quantas tentativas já tinham sido gastas quando a ajuda foi pedida (o `help` do histórico):
+   * depois dela podem vir pulos (P163), então não dá para deduzir das tentativas. Null sem ajuda.
+   */
+  readonly helpAt: number | null;
 };
 
 export type GameState = {
@@ -79,6 +85,7 @@ export function createRounds(
       stage: 0,
       attempts: [],
       help: null,
+      helpAt: null,
     };
     if (!track?.eligible.daily) {
       return {
@@ -127,8 +134,9 @@ function guess(state: GameState, round: RoundState, guessId: string): GameState 
 
 function skip(state: GameState, round: RoundState): GameState {
   const rules = MODE_RULES[state.target];
-  // Com a ajuda na tela, pular só trocaria o trecho: as opções já estão dadas.
-  if (!rules.skip || round.help) return state;
+  // Com a ajuda na tela, pular continua (P163): só aumenta o trecho, porque os pontos já são os
+  // da ajuda, e a última tentativa fica para a opção (o canSkip some com o botão antes dela).
+  if (!rules.skip) return state;
   const attempts = [...round.attempts, { kind: "skip" } as const];
   if (attempts.length >= rules.maxAttempts) {
     return withRound(state, { ...round, attempts, status: "lost" });
@@ -150,7 +158,9 @@ function help(state: GameState, round: RoundState, options: readonly string[]): 
     new Set(options).size === options.length &&
     options.every((id) => typeof id === "string" && !tried.has(id)) &&
     options.some((id) => round.accepted.includes(id));
-  return valid ? withRound(state, { ...round, help: [...options] }) : state;
+  return valid
+    ? withRound(state, { ...round, help: [...options], helpAt: round.attempts.length })
+    : state;
 }
 
 export function reduce(state: GameState, event: GameEvent): GameState {

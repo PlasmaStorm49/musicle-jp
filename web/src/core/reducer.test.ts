@@ -264,10 +264,20 @@ describe("ajuda do Desafio (P149 a P152)", () => {
     expect(roundScore(round(game))).toBe(0);
   });
 
-  it("com a ajuda, palpite fora das opções e pular são ignorados", () => {
+  it("com a ajuda, palpite fora das opções é ignorado", () => {
     const game = helped();
     expect(reduce(game, { type: "GUESS", guessId: "fixture:tr:tr01" })).toBe(game);
-    expect(reduce(game, { type: "SKIP" })).toBe(game);
+  });
+
+  it("com a ajuda, pular continua: só aumenta o trecho, e acertar depois vale 1 ponto (P163)", () => {
+    const game = reduce(helped(), { type: "SKIP" });
+    expect(round(game).stage).toBe(2);
+    expect(round(game).attempts).toHaveLength(2);
+    expect(round(game).help).toEqual(OPTIONS);
+    expect(round(game).status).toBe("playing");
+    const won = reduce(game, { type: "GUESS", guessId: "fixture:tr:tr02" });
+    expect(round(won).status).toBe("won");
+    expect(roundScore(round(won))).toBe(1);
   });
 
   it("sem tentativa gasta, e uma 2ª vez na rodada, a ajuda é ignorada", () => {
