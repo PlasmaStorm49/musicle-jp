@@ -168,6 +168,15 @@ describe("Player segue as regras do modo", () => {
     fireEvent.click(screen.getByRole("button", { name: "Pular (+1 s)" }), { detail: 2 });
     expect(onSkip).not.toHaveBeenCalled();
   });
+
+  it("o 2º clique de um toque duplo no Tocar é ignorado (pararia o som)", () => {
+    // Também é o que cai aqui num toque duplo no cartão de modo do Treino.
+    const { engine } = setup(MODE_RULES.song, true);
+    fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }), { detail: 2 });
+    expect(engine.play).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }));
+    expect(engine.play).toHaveBeenCalledOnce();
+  });
 });
 
 /**

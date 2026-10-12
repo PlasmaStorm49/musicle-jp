@@ -35,7 +35,6 @@ const albumOf = (id: string) => track(id).albumId;
 /** Sorteia `count` rodadas seguidas, como o jogador apertando "Próxima rodada". */
 function drawMany(
   state: PracticeState,
-  target: Target,
   count: number,
   excluded: ReadonlySet<string> = NONE,
   from: CatalogIndex = index,
@@ -43,7 +42,7 @@ function drawMany(
   const draws: PracticeDraw[] = [];
   let current = state;
   for (let i = 0; i < count; i++) {
-    const draw = drawPractice(current, from, target, excluded);
+    const draw = drawPractice(current, from, excluded);
     if (!draw) throw new Error(`sem rodada no sorteio ${i + 1}`);
     draws.push(draw);
     current = draw.state;
@@ -119,14 +118,14 @@ describe("saco do Treino (practicePool)", () => {
     const empty = onlyEligible([]);
     expect(practicePool(empty, "song")).toEqual([]);
     expect(practicePool(empty, "album")).toEqual([]);
-    expect(drawPractice(newPractice(1), empty, "song", NONE)).toBeNull();
+    expect(drawPractice(newPractice(1, "song"), empty, NONE)).toBeNull();
   });
 });
 
 describe("sorteio (drawPractice)", () => {
   it.each<Target>(["song", "album"])("%s: uma volta inteira sem repetir", (target) => {
     const pool = practicePool(index, target);
-    const { draws } = drawMany(newPractice(42), target, pool.length);
+    const { draws } = drawMany(newPractice(42, target), pool.length);
     const ids = answers(draws);
     expect(new Set(ids)).toEqual(new Set(pool));
     expect(new Set(ids.map(songOf)).size).toBe(pool.length);
@@ -137,7 +136,7 @@ describe("sorteio (drawPractice)", () => {
 
   it("saco vazio: novo ciclo, outro embaralhamento, e não repete a última tocada", () => {
     const pool = practicePool(index, "song");
-    const { draws } = drawMany(newPractice(7), "song", pool.length * 3);
+    const { draws } = drawMany(newPractice(7, "song"), pool.length * 3);
     const ids = answers(draws);
     for (let c = 0; c < 3; c++) {
       const cycle = draws.slice(c * pool.length, (c + 1) * pool.length);
@@ -152,7 +151,7 @@ describe("sorteio (drawPractice)", () => {
     // Sem a troca, metade das viradas repetiria a música (50% por ciclo, 30 ciclos).
     const tiny = onlyEligible(["fixture:tr:tr05", "fixture:tr:tr07"]);
     for (const seed of [1, 2, 3, 4, 5]) {
-      const { draws } = drawMany(newPractice(seed), "song", 60, NONE, tiny);
+      const { draws } = drawMany(newPractice(seed, "song"), 60, NONE, tiny);
       const ids = answers(draws);
       for (let i = 1; i < ids.length; i++) expect(ids[i]).not.toBe(ids[i - 1]);
     }
@@ -164,7 +163,7 @@ describe("sorteio (drawPractice)", () => {
     const small = onlyEligible(["fixture:tr:tr05", "fixture:tr:tr07", "fixture:tr:tr08"]);
     const excluded = new Set([songOf("fixture:tr:tr08")]);
     for (let seed = 1; seed <= 30; seed++) {
-      const ids = answers(drawMany(newPractice(seed), "song", 40, excluded, small).draws);
+      const ids = answers(drawMany(newPractice(seed, "song"), 40, excluded, small).draws);
       for (let i = 1; i < ids.length; i++) expect(ids[i]).not.toBe(ids[i - 1]);
     }
   });
@@ -177,45 +176,42 @@ describe("sorteio (drawPractice)", () => {
       "fixture:tr:tr09",
     ]);
     for (let seed = 1; seed <= 20; seed++) {
-      const first = drawPractice(newPractice(seed), small, "song", NONE);
+      const first = drawPractice(newPractice(seed, "song"), small, NONE);
       if (!first) throw new Error("sem rodada");
       const played = first.round.planned.answer;
       const others = practicePool(small, "song").filter((id) => id !== played);
-      const draw = drawPractice(first.state, small, "song", new Set(others.map(songOf)));
+      const draw = drawPractice(first.state, small, new Set(others.map(songOf)));
       expect(draw?.round.planned.answer).toBe(played);
     }
   });
 
   it("saco de 1: repete (não há outra), sem travar", () => {
     const one = onlyEligible(["fixture:tr:tr05"]);
-    const ids = answers(drawMany(newPractice(3), "song", 4, NONE, one).draws);
+    const ids = answers(drawMany(newPractice(3, "song"), 4, NONE, one).draws);
     expect(ids).toEqual(Array(4).fill("fixture:tr:tr05"));
   });
 
   it("determinístico pela semente: mesma semente, mesma sequência; outra, outra", () => {
     const run = (seed: number, target: Target) =>
-      answers(drawMany(newPractice(seed), target, 20).draws);
+      answers(drawMany(newPractice(seed, target), 20).draws);
     expect(run(123, "song")).toEqual(run(123, "song"));
     expect(run(123, "album")).toEqual(run(123, "album"));
     expect(run(123, "song")).not.toEqual(run(124, "song"));
     const options = (seed: number) =>
-      drawMany(newPractice(seed), "album", 5).draws.map((d) => d.round.planned.options);
+      drawMany(newPractice(seed, "album"), 5).draws.map((d) => d.round.planned.options);
     expect(options(9)).toEqual(options(9));
   });
 
-  it("cada alvo tem o seu saco: trocar de alvo não mexe no outro", () => {
-    const start = newPractice(5);
-    const songsOnly = answers(drawMany(start, "song", 4).draws);
-    let state = start;
-    const mixed: string[] = [];
-    for (const target of ["song", "album", "song", "album", "song", "song"] as const) {
-      const draw = drawPractice(state, index, target, NONE);
-      if (!draw) throw new Error("sem rodada");
-      if (target === "song") mixed.push(draw.round.planned.answer);
-      state = draw.state;
-    }
-    expect(mixed).toEqual(songsOnly);
-  });
+  it.each<Target>(["song", "album"])(
+    "%s: o modo fica no estado, e todo sorteio sai dele",
+    (target) => {
+      const { draws, state } = drawMany(newPractice(5, target), 10);
+      expect(state.target).toBe(target);
+      expect(draws.every((d) => d.round.target === target && d.state.target === target)).toBe(true);
+      const pool = new Set(practicePool(index, target));
+      expect(answers(draws).every((id) => pool.has(id))).toBe(true);
+    },
+  );
 });
 
 describe("exclusão das respostas do diário de hoje", () => {
@@ -248,7 +244,7 @@ describe("exclusão das respostas do diário de hoje", () => {
       const blocked = pool.filter((id) => albumBlocked(id, excluded));
       expect(blocked.length).toBeGreaterThan(0);
 
-      const lap = drawMany(newPractice(11), target, pool.length - blocked.length, excluded);
+      const lap = drawMany(newPractice(11, target), pool.length - blocked.length, excluded);
       const ids = answers(lap.draws);
       expect(ids.some((id) => albumBlocked(id, excluded))).toBe(false);
       expect(new Set(ids).size).toBe(ids.length);
@@ -257,7 +253,7 @@ describe("exclusão das respostas do diário de hoje", () => {
 
       // O diário terminou: as músicas puladas voltam ao sorteio.
       const done = pendingDailySongKeys(saveWith("song", "album"), day, DATE, index);
-      const after = answers(drawMany(lap.state, target, 2 * pool.length, done).draws);
+      const after = answers(drawMany(lap.state, 2 * pool.length, done).draws);
       for (const id of blocked) expect(after).toContain(id);
     },
   );
@@ -269,7 +265,7 @@ describe("exclusão das respostas do diário de hoje", () => {
       // no Treino mostrariam o álbum na revelação, e no Normal ele seria a própria resposta.
       const excluded = new Set([songOf("fixture:tr:tr27")]);
       const pool = practicePool(index, target);
-      const ids = answers(drawMany(newPractice(5), target, 3 * pool.length, excluded).draws);
+      const ids = answers(drawMany(newPractice(5, target), 3 * pool.length, excluded).draws);
       expect(ids.map(albumOf)).not.toContain("fixture:al:al14");
       expect(ids).not.toContain("fixture:tr:tr15");
     },
@@ -297,7 +293,7 @@ describe("exclusão das respostas do diário de hoje", () => {
       const excluded = new Set([pending.songKey]);
       const pool = practicePool(grown, target);
       expect(pool).toContain("fixture:tr:tr15");
-      const ids = answers(drawMany(newPractice(3), target, 3 * pool.length, excluded, grown).draws);
+      const ids = answers(drawMany(newPractice(3, target), 3 * pool.length, excluded, grown).draws);
       expect(ids).not.toContain("fixture:tr:tr15");
     },
   );
@@ -305,18 +301,18 @@ describe("exclusão das respostas do diário de hoje", () => {
   it("uma volta inteira sem nada liberado: sem rodada, e o estado não muda", () => {
     const tiny = onlyEligible(["fixture:tr:tr05", "fixture:tr:tr07"]);
     const all = new Set([songOf("fixture:tr:tr05"), songOf("fixture:tr:tr07")]);
-    expect(drawPractice(newPractice(1), tiny, "song", all)).toBeNull();
+    expect(drawPractice(newPractice(1, "song"), tiny, all)).toBeNull();
     // Mesmo no meio de um ciclo.
-    const first = drawPractice(newPractice(1), tiny, "song", NONE);
+    const first = drawPractice(newPractice(1, "song"), tiny, NONE);
     if (!first) throw new Error("sem rodada");
-    expect(drawPractice(first.state, tiny, "song", all)).toBeNull();
+    expect(drawPractice(first.state, tiny, all)).toBeNull();
   });
 });
 
 describe("rodada do Treino (planRound)", () => {
   it("Normal: 4 opções distintas, o álbum certo e 3 do similar dele", () => {
     const pool = practicePool(index, "album");
-    const { draws } = drawMany(newPractice(99), "album", pool.length);
+    const { draws } = drawMany(newPractice(99, "album"), pool.length);
     for (const { round } of draws) {
       const answer = track(round.planned.answer);
       const similar = index.albums.get(answer.albumId)?.similar ?? [];
@@ -341,7 +337,7 @@ describe("rodada do Treino (planRound)", () => {
   });
 
   it("as opções saem embaralhadas (a certa não fica sempre no mesmo lugar)", () => {
-    const { draws } = drawMany(newPractice(8), "album", 20);
+    const { draws } = drawMany(newPractice(8, "album"), 20);
     const places = new Set(
       draws.map((d) => (d.round.planned.options ?? []).indexOf(albumOf(d.round.planned.answer))),
     );
@@ -395,7 +391,7 @@ describe("rodada do Treino (planRound)", () => {
 
 describe("jogo de uma rodada e sessão", () => {
   const firstDraw = (target: Target) => {
-    const draw = drawPractice(newPractice(21), index, target, NONE);
+    const draw = drawPractice(newPractice(21, target), index, NONE);
     if (!draw) throw new Error("sem rodada");
     return draw;
   };
@@ -410,7 +406,7 @@ describe("jogo de uma rodada e sessão", () => {
     expect(game.rounds[0]?.trackId).toBe(draw.round.planned.answer);
     expect(game.rounds[0]?.correctOptionId).toBe(albumOf(draw.round.planned.answer));
     expect(game.puzzleId).toBe(`treino|album|0|0`);
-    const next = drawPractice(draw.state, index, "album", NONE);
+    const next = drawPractice(draw.state, index, NONE);
     if (!next) throw new Error("sem rodada");
     expect(practiceGame(next.round, index).puzzleId).not.toBe(game.puzzleId);
   });
@@ -436,24 +432,31 @@ describe("jogo de uma rodada e sessão", () => {
     expect(practiceScore(zero, voided)).toEqual(zero);
   });
 
-  it("sessão: a 1ª rodada sai no começo; a próxima soma o placar e usa o modo atual", () => {
+  it("sessão: a 1ª rodada sai no começo; a próxima soma o placar, no mesmo modo", () => {
     const session = startPracticeSession(77, "album", index, NONE);
     expect(session.number).toBe(1);
     expect(session.score).toEqual({ points: 0, rounds: 0 });
+    expect(session.practice.target).toBe("album");
     const game = session.game;
     if (!game) throw new Error("sem rodada");
     expect(game.target).toBe("album");
 
-    // Acerta e troca para o Desafio no meio: a rodada atual não muda.
     const won = reduce(game, { type: "GUESS", guessId: game.rounds[0]?.correctOptionId ?? "" });
-    const next = nextPracticeRound({ ...session, game: won, target: "song" }, index, NONE);
+    const next = nextPracticeRound({ ...session, game: won }, index, NONE);
     expect(next.number).toBe(2);
     expect(next.score).toEqual({ points: 6, rounds: 1 });
-    expect(next.game?.target).toBe("song");
-    expect(next.game?.rounds[0]?.options).toEqual([]);
-    // O saco do Normal andou uma casa; o do Desafio também, agora.
-    expect(next.practice.cursors.album.position).toBe(1);
-    expect(next.practice.cursors.song.position).toBe(1);
+    expect(next.game?.target).toBe("album");
+    expect(next.game?.rounds[0]?.options).toHaveLength(4);
+    expect(next.practice.cursor.position).toBe(2);
+  });
+
+  it.each<Target>(["song", "album"])("sessão no modo %s: só sorteia dele (P105)", (target) => {
+    let session = startPracticeSession(31, target, index, NONE);
+    for (let i = 0; i < 6; i++) {
+      expect(session.game?.target).toBe(target);
+      session = nextPracticeRound(session, index, NONE);
+    }
+    expect(session.practice.target).toBe(target);
   });
 
   it("sessão sem rodada possível: game null, número e placar ficam", () => {

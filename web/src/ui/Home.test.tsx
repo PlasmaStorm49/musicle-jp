@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { cleanup, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it } from "vitest";
-import type { PracticeScore } from "../core/practice.ts";
+import type { PracticeSummary } from "../core/home.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
 import type { AlbumRound, Day } from "../core/types.ts";
 import { Home } from "./Home.tsx";
@@ -32,7 +32,7 @@ const finished: FinishedGame = {
 function setup(
   save: Save = emptySave(),
   day: Day | null = DAY,
-  practice: PracticeScore | null = null,
+  practice: PracticeSummary | null = null,
 ) {
   render(<Home day={day} date={DATE} save={save} practice={practice} />);
 }
@@ -112,11 +112,14 @@ describe("Home", () => {
     }
   });
 
-  it("o placar da sessão do Treino aparece só depois da 1ª rodada", () => {
+  it("o placar da sessão do Treino, com o modo (P106), aparece só depois da 1ª rodada", () => {
     setup(emptySave(), DAY, null); // practiceSummary devolve null antes disso
     expect(card(/^Treino/).textContent).not.toContain("Nesta sessão");
     cleanup();
-    setup(emptySave(), DAY, { points: 11, rounds: 3 });
-    expect(card(/^Treino/).textContent).toContain("Nesta sessão: 11 pontos em 3 rodadas");
+    setup(emptySave(), DAY, { target: "album", score: { points: 11, rounds: 3 } });
+    expect(card(/^Treino/).textContent).toContain("Nesta sessão (Normal): 11 pontos em 3 rodadas");
+    cleanup();
+    setup(emptySave(), DAY, { target: "song", score: { points: 1, rounds: 1 } });
+    expect(card(/^Treino/).textContent).toContain("Nesta sessão (Desafio): 1 ponto em 1 rodada");
   });
 });

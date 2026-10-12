@@ -29,13 +29,13 @@ export const ptBR = {
     "Ouça o trecho e escolha o álbum ou single entre 4 opções. {rounds} rodadas por dia.",
   "home.songHint":
     "Ouça o trecho e digite o nome exato da música, em até {total} tentativas. {rounds} rodadas por dia.",
-  "home.practiceHint": "Rodadas sem fim do Normal ou do Desafio.",
+  "home.practiceHint": "Rodadas sem fim do Normal ou do Desafio, um modo por vez.",
   "home.statusNew": "nº {number} · novo",
   "home.statusPlaying": "nº {number} · em andamento",
   "home.statusDone": "nº {number} · terminado, {score} de {max} pontos",
   "home.statusDoneVoid": "nº {number} · terminado",
   "home.statusUnavailable": "Não há diário hoje",
-  "home.practiceSession": "Nesta sessão: {score}",
+  "home.practiceSession": "Nesta sessão ({mode}): {score}",
   "home.howTitle": "Como funciona",
   // Espaço que não quebra (U+00A0) entre o número e o "s".
   "home.howClip":
@@ -139,8 +139,14 @@ export const ptBR = {
   "practice.score": "{points} em {rounds}",
   "practice.rounds.one": "{count} rodada",
   "practice.rounds.other": "{count} rodadas",
-  "practice.mode": "Modo",
-  "practice.modeHint": "Vale a partir da próxima rodada.",
+  "practice.header": "Treino · {mode}",
+  "practice.chooseHint": "Escolha o modo. Para trocar depois, reinicie o Treino.",
+  "practice.albumHint": "Ouça o trecho e escolha o álbum ou single entre 4 opções.",
+  "practice.songHint": "Ouça o trecho e digite o nome exato da música, em até {total} tentativas.",
+  "practice.restart": "Reiniciar o Treino",
+  "practice.restartWarning": "Reiniciar o Treino? O placar desta sessão ({score}) será perdido.",
+  "practice.restartConfirm": "Sim, reiniciar",
+  "practice.restartCancel": "Cancelar",
   "practice.empty":
     "Não há rodada para sortear agora. As respostas dos diários de hoje voltam ao Treino quando eles terminarem.",
   "practice.retry": "Sortear de novo",

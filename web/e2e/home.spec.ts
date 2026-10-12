@@ -24,8 +24,9 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
   await page.getByRole("link", { name: "Início" }).click();
   await expect(title).toBeFocused();
   await cards.getByRole("link", { name: /^Treino/ }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treino");
-  await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
+  // O Treino abre na escolha do modo (P105), com o foco no título.
+  const practice = page.getByRole("heading", { level: 1, name: "Treino", exact: true });
+  await expect(practice).toBeFocused();
 });
 
 test("links de antes dos dois modos (#musica, #album) abrem a home", async ({ page }) => {
@@ -44,4 +45,6 @@ test("dia fora da agenda: os diários avisam sem link, e o Treino abre", async (
   await expect(cards.getByRole("link", { name: /^(Normal|Desafio)/ })).toHaveCount(0);
   await cards.getByRole("link", { name: /^Treino/ }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treino");
+  await page.getByRole("button", { name: "Normal" }).click();
+  await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeVisible();
 });

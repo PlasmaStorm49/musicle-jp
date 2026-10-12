@@ -88,10 +88,19 @@ describe("practiceSummary (cartão do Treino)", () => {
     expect(practiceSummary(session)).toBeNull();
   });
 
-  it("a rodada em jogo conta quando termina; as anteriores vêm do placar", () => {
+  it("a rodada em jogo conta quando termina; as anteriores vêm do placar; vem o modo (P106)", () => {
     const won = reduce(game, { type: "GUESS", guessId: round.correctOptionId });
-    expect(practiceSummary({ ...session, game: won })).toEqual({ points: 6, rounds: 1 });
+    expect(practiceSummary({ ...session, game: won })).toEqual({
+      target: "album",
+      score: { points: 6, rounds: 1 },
+    });
     const later = { ...session, score: { points: 11, rounds: 3 }, game: won };
-    expect(practiceSummary(later)).toEqual({ points: 17, rounds: 4 });
+    expect(practiceSummary(later)?.score).toEqual({ points: 17, rounds: 4 });
+  });
+
+  it("o modo é o da sessão: no Desafio, song", () => {
+    const desafio = startPracticeSession(2, "song", index, new Set());
+    const played = { ...desafio, score: { points: 3, rounds: 1 } };
+    expect(practiceSummary(played)?.target).toBe("song");
   });
 });
