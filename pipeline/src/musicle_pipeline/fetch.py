@@ -199,7 +199,7 @@ def fetch_snapshot(
     for item in items:
         if (
             not isinstance(item, dict)
-            or not re.fullmatch(r"\d+", str(item.get("id", "")))
+            or not re.fullmatch(r"[0-9]+", str(item.get("id", "")))  # [0-9]: veja _ISO_INSTANT
             or not isinstance(item.get("name"), str)
         ):
             raise FetchError(f"item do RSS com forma inesperada: {item!r}")
@@ -225,8 +225,18 @@ def fetch_snapshot(
     artists: JSON = {}
     for batch in _batches(sorted({t["artistId"] for t in tracks.values()})):
         for result in _results(_get_json(_lookup_url(batch), transport, sleep, tries)):
-            if result.get("wrapperType") == "artist" and result.get("artistName"):
-                artists[str(result["artistId"])] = {"artistName": result["artistName"]}
+            # Como nas faixas (_valid): um valor torto gravado no snapshot, que nunca muda,
+            # quebraria o build para sempre. Artista fora disso fica sem latino, e só (ME50).
+            name = result.get("artistName")
+            artist_id = str(result.get("artistId", ""))
+            if (
+                result.get("wrapperType") == "artist"
+                and isinstance(name, str)
+                and name.strip()
+                and re.fullmatch(r"[0-9]+", artist_id)
+                and artist_id in batch
+            ):
+                artists[artist_id] = {"artistName": name}
 
     return {
         "provider": "apple",
