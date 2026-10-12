@@ -13,7 +13,7 @@
 - **Normal:** escolha o álbum ou single entre 4 opções, com capa. O trecho cresce com "Ouvir mais" (custa 1 ponto).
 - **Desafio:** digite o nome exato da música, com autocompletar, em até 6 tentativas. O trecho cresce a cada erro ou pulo.
 - **Diário:** um jogo por dia em cada modo, igual para todos, com virada à meia-noite de Brasília.
-- **Treino:** rodadas ilimitadas do Normal ou do Desafio.
+- **Treino:** rodadas ilimitadas de um modo, escolhido ao começar; para trocar, reinicie o Treino.
 
 ## Estrutura
 
