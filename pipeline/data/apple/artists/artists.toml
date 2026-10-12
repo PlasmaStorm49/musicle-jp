@@ -25,6 +25,8 @@ exclude_albums = [
   "1717130268",
   "1650746027",
 ]
+# "the NOISE" é do LE SSERAFIM, com o YOASOBI creditado só por um sample de 夜に駆ける (P160).
+exclude_tracks = ["1841835717"]
 
 [[artists]]
 id = "573943518"  # LiSA (アニメ; não a LISA do BLACKPINK)

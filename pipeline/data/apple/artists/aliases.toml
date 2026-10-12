@@ -8,9 +8,6 @@
 [tracks."apple:tr:1861370949"]  # アドレナ (YOASOBI); cutlet: "Ado Rena"
 latin = "Adorena"
 
-[tracks."apple:tr:1841835717"]  # the NOISE (LE SSERAFIM & YOASOBI); cutlet: "Samples ofya ni kakeru"
-latin = "the NOISE (Contains a Samples of Yoru ni Kakeru)"
-
 # Parcerias com nome próprio na loja, cujo latino veio errado (a Apple deu só "Daoko"; o cutlet leu
 # os nomes dos utaite pelo kanji).
 [artists."apple:ar:547853144"]  # DAOKO×米津玄師 (打上花火)

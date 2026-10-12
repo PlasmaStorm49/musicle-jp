@@ -430,20 +430,6 @@
       "type": "single"
     },
     {
-      "artistDisplay": "LE SSERAFIM & YOASOBI",
-      "artistIds": [
-        "apple:ar:1616740364",
-        "apple:ar:1490256993"
-      ],
-      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8e/5d/98/8e5d9852-546d-1d02-aa9f-e47ca359f5a6/25UM1IM49064.rgb.jpg/300x300bb.jpg",
-      "id": "apple:al:1841835715",
-      "latinSource": "cutlet",
-      "releaseDate": "2025-09-26",
-      "title": "the NOISE (Contains a Samples of 夜に駆ける) - Single",
-      "titleLatin": "The NOISE (Contains a Samples ofya ni kakeru)",
-      "type": "single"
-    },
-    {
       "artistDisplay": "YOASOBI",
       "artistIds": [
         "apple:ar:1490256993"
@@ -503,12 +489,6 @@
       "latinSource": null,
       "name": "YOASOBI",
       "nameLatin": null
-    },
-    {
-      "id": "apple:ar:1616740364",
-      "latinSource": null,
-      "name": "LE SSERAFIM",
-      "nameLatin": null
     }
   ],
   "fetchedAt": "2026-10-12T16:15:51Z",
@@ -530,7 +510,7 @@
       "explicit": false,
       "id": "apple:tr:1490256995",
       "latinSource": "cutlet",
-      "popularity": 0.9737,
+      "popularity": 0.973,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -567,7 +547,7 @@
       "explicit": false,
       "id": "apple:tr:1494399118",
       "latinSource": "cutlet",
-      "popularity": 0.6579,
+      "popularity": 0.6486,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -603,7 +583,7 @@
       "explicit": false,
       "id": "apple:tr:1509494402",
       "latinSource": "cutlet",
-      "popularity": 0.7895,
+      "popularity": 0.7838,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -639,7 +619,7 @@
       "explicit": false,
       "id": "apple:tr:1520198760",
       "latinSource": "cutlet",
-      "popularity": 0.5789,
+      "popularity": 0.5676,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -675,7 +655,7 @@
       "explicit": false,
       "id": "apple:tr:1528119630",
       "latinSource": "cutlet",
-      "popularity": 0.8947,
+      "popularity": 0.8919,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -711,7 +691,7 @@
       "explicit": false,
       "id": "apple:tr:1541851056",
       "latinSource": "cutlet",
-      "popularity": 0.6316,
+      "popularity": 0.6216,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -747,7 +727,7 @@
       "explicit": false,
       "id": "apple:tr:1542182311",
       "latinSource": "cutlet",
-      "popularity": 0.7368,
+      "popularity": 0.7297,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -784,7 +764,7 @@
       "explicit": false,
       "id": "apple:tr:1544083979",
       "latinSource": "cutlet",
-      "popularity": 0.9474,
+      "popularity": 0.9459,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -820,7 +800,7 @@
       "explicit": false,
       "id": "apple:tr:1547210425",
       "latinSource": "cutlet",
-      "popularity": 0.6842,
+      "popularity": 0.6757,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -856,7 +836,7 @@
       "explicit": false,
       "id": "apple:tr:1564444512",
       "latinSource": "cutlet",
-      "popularity": 0.8158,
+      "popularity": 0.8108,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -892,7 +872,7 @@
       "explicit": false,
       "id": "apple:tr:1571739589",
       "latinSource": "cutlet",
-      "popularity": 0.8684,
+      "popularity": 0.8649,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -928,7 +908,7 @@
       "explicit": false,
       "id": "apple:tr:1579051058",
       "latinSource": "cutlet",
-      "popularity": 0.7632,
+      "popularity": 0.7568,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -965,7 +945,7 @@
       "explicit": false,
       "id": "apple:tr:1582913800",
       "latinSource": "cutlet",
-      "popularity": 0.7105,
+      "popularity": 0.7027,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1001,7 +981,7 @@
       "explicit": false,
       "id": "apple:tr:1588668629",
       "latinSource": "cutlet",
-      "popularity": 0.6053,
+      "popularity": 0.5946,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1037,7 +1017,7 @@
       "explicit": false,
       "id": "apple:tr:1593438809",
       "latinSource": "cutlet",
-      "popularity": 0.4737,
+      "popularity": 0.4595,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1073,7 +1053,7 @@
       "explicit": false,
       "id": "apple:tr:1607976611",
       "latinSource": "cutlet",
-      "popularity": 0.5,
+      "popularity": 0.4865,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1110,7 +1090,7 @@
       "explicit": false,
       "id": "apple:tr:1624775158",
       "latinSource": "cutlet",
-      "popularity": 0.3947,
+      "popularity": 0.3784,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1146,7 +1126,7 @@
       "explicit": false,
       "id": "apple:tr:1645308331",
       "latinSource": "cutlet",
-      "popularity": 0.9211,
+      "popularity": 0.9189,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1182,7 +1162,7 @@
       "explicit": false,
       "id": "apple:tr:1652280454",
       "latinSource": "cutlet",
-      "popularity": 0.3158,
+      "popularity": 0.2973,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1218,7 +1198,7 @@
       "explicit": false,
       "id": "apple:tr:1669698270",
       "latinSource": "cutlet",
-      "popularity": 0.5526,
+      "popularity": 0.5405,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1255,7 +1235,7 @@
       "explicit": false,
       "id": "apple:tr:1678049671",
       "latinSource": "cutlet",
-      "popularity": 0.4474,
+      "popularity": 0.4324,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1329,7 +1309,7 @@
       "explicit": false,
       "id": "apple:tr:1707001466",
       "latinSource": "cutlet",
-      "popularity": 0.8421,
+      "popularity": 0.8378,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1365,7 +1345,7 @@
       "explicit": false,
       "id": "apple:tr:1716254220",
       "latinSource": null,
-      "popularity": 0.4211,
+      "popularity": 0.4054,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1400,7 +1380,7 @@
       "explicit": false,
       "id": "apple:tr:1721164433",
       "latinSource": "cutlet",
-      "popularity": 0.1579,
+      "popularity": 0.1351,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1437,7 +1417,7 @@
       "explicit": false,
       "id": "apple:tr:1721295079",
       "latinSource": null,
-      "popularity": 0.3421,
+      "popularity": 0.3243,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1472,7 +1452,7 @@
       "explicit": false,
       "id": "apple:tr:1752838890",
       "latinSource": null,
-      "popularity": 0.5263,
+      "popularity": 0.5135,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1507,7 +1487,7 @@
       "explicit": false,
       "id": "apple:tr:1757557244",
       "latinSource": "cutlet",
-      "popularity": 0.3684,
+      "popularity": 0.3514,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1543,7 +1523,7 @@
       "explicit": false,
       "id": "apple:tr:1767332878",
       "latinSource": "cutlet",
-      "popularity": 0.1842,
+      "popularity": 0.1622,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1580,7 +1560,7 @@
       "explicit": false,
       "id": "apple:tr:1778233191",
       "latinSource": null,
-      "popularity": 0.0789,
+      "popularity": 0.0541,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1615,7 +1595,7 @@
       "explicit": false,
       "id": "apple:tr:1802134777",
       "latinSource": null,
-      "popularity": 0.2632,
+      "popularity": 0.2432,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1650,7 +1630,7 @@
       "explicit": false,
       "id": "apple:tr:1813364855",
       "latinSource": null,
-      "popularity": 0.2895,
+      "popularity": 0.2703,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1685,7 +1665,7 @@
       "explicit": false,
       "id": "apple:tr:1840585345",
       "latinSource": "cutlet",
-      "popularity": 0.2368,
+      "popularity": 0.2162,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1708,44 +1688,6 @@
       "titleLatin": "Gekijou"
     },
     {
-      "albumId": "apple:al:1841835715",
-      "artistDisplay": "LE SSERAFIM & YOASOBI",
-      "artistIds": [
-        "apple:ar:1616740364",
-        "apple:ar:1490256993"
-      ],
-      "durationMs": 224280,
-      "eligible": {
-        "daily": true,
-        "reason": null
-      },
-      "explicit": false,
-      "id": "apple:tr:1841835717",
-      "latinSource": "manual",
-      "popularity": 0.0263,
-      "preview": {
-        "durationSec": 30,
-        "startSec": 0,
-        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/dd/7e/80/dd7e804f-0c82-e8c4-ff05-cee6cca314c2/mzaf_3242615643502579077.plus.aac.p.m4a"
-      },
-      "releaseDate": "2025-09-26",
-      "search": {
-        "artist": [],
-        "title": [
-          "thenoisecontainsasanplesofyanikakeru",
-          "thenoisecontainsasanplesofyorunikakeru",
-          "thenoisecontainsasanplesof夜に駆ける"
-        ]
-      },
-      "songKey": "thenoisecontainsasamplesof夜に駆ける|apple:ar:1490256993",
-      "storeUrl": "https://music.apple.com/jp/album/the-noise-contains-a-samples-of-%E5%A4%9C%E3%81%AB%E9%A7%86%E3%81%91%E3%82%8B/1841835715?i=1841835717",
-      "title": "the NOISE (Contains a Samples of 夜に駆ける)",
-      "titleKeys": [
-        "thenoisecontainsasamplesof夜に駆ける"
-      ],
-      "titleLatin": "the NOISE (Contains a Samples of Yoru ni Kakeru)"
-    },
-    {
       "albumId": "apple:al:1852183577",
       "artistDisplay": "YOASOBI",
       "artistIds": [
@@ -1759,7 +1701,7 @@
       "explicit": false,
       "id": "apple:tr:1852183579",
       "latinSource": "cutlet",
-      "popularity": 0.1316,
+      "popularity": 0.1081,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1795,7 +1737,7 @@
       "explicit": false,
       "id": "apple:tr:1861370949",
       "latinSource": "manual",
-      "popularity": 0.2105,
+      "popularity": 0.1892,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1832,7 +1774,7 @@
       "explicit": false,
       "id": "apple:tr:1861370984",
       "latinSource": null,
-      "popularity": 0.0526,
+      "popularity": 0.027,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1867,7 +1809,7 @@
       "explicit": false,
       "id": "apple:tr:6775750604",
       "latinSource": "cutlet",
-      "popularity": 0.1053,
+      "popularity": 0.0811,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
