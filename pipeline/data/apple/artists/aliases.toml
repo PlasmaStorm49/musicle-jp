@@ -10,3 +10,11 @@ latin = "Adorena"
 
 [tracks."apple:tr:1841835717"]  # the NOISE (LE SSERAFIM & YOASOBI); cutlet: "Samples ofya ni kakeru"
 latin = "the NOISE (Contains a Samples of Yoru ni Kakeru)"
+
+# Parcerias com nome próprio na loja, cujo latino veio errado (a Apple deu só "Daoko"; o cutlet leu
+# os nomes dos utaite pelo kanji).
+[artists."apple:ar:547853144"]  # DAOKO×米津玄師 (打上花火)
+latin = "DAOKO×Kenshi Yonezu"
+
+[artists."apple:ar:614405787"]  # os 14 utaite de ワールドドミネイション (Eve)
+latin = "Amatsuki/Aho no Sakata./Araki/Eve/un:c/Uratanuki/Sakou Tomohisa (Shounen T)/Shima/Senra/Sou/Soraru/nqrse/Mafumafu/luz"

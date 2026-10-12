@@ -28,7 +28,7 @@
       "type": "album"
     },
     {
-      "artistDisplay": "DAOKO×米津玄師 & 米津玄師",
+      "artistDisplay": "DAOKO×米津玄師",
       "artistIds": [
         "apple:ar:547853144",
         "apple:ar:530814268"
@@ -500,9 +500,9 @@
     },
     {
       "id": "apple:ar:547853144",
-      "latinSource": "provider",
+      "latinSource": "manual",
       "name": "DAOKO×米津玄師",
-      "nameLatin": "Daoko"
+      "nameLatin": "DAOKO×Kenshi Yonezu"
     }
   ],
   "fetchedAt": "2026-10-12T16:15:51Z",
@@ -1057,7 +1057,7 @@
     },
     {
       "albumId": "apple:al:1263790414",
-      "artistDisplay": "DAOKO×米津玄師 & 米津玄師",
+      "artistDisplay": "DAOKO×米津玄師",
       "artistIds": [
         "apple:ar:547853144",
         "apple:ar:530814268"

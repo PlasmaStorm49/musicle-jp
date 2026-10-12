@@ -261,7 +261,7 @@
       "type": "single"
     },
     {
-      "artistDisplay": "天月-あまつき/あほの坂田。/あらき/Eve/un:c/うらたぬき/佐香智久(少年T)/志麻/センラ/Sou/そらる/nqrse/まふまふ/luz & Eve",
+      "artistDisplay": "天月-あまつき/あほの坂田。/あらき/Eve/un:c/うらたぬき/佐香智久(少年T)/志麻/センラ/Sou/そらる/nqrse/まふまふ/luz",
       "artistIds": [
         "apple:ar:614405787",
         "apple:ar:1080967231"
@@ -696,9 +696,9 @@
     },
     {
       "id": "apple:ar:614405787",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "name": "天月-あまつき/あほの坂田。/あらき/Eve/un:c/うらたぬき/佐香智久(少年T)/志麻/センラ/Sou/そらる/nqrse/まふまふ/luz",
-      "nameLatin": "Ten gatsu - amatsuki/aho no Sakata./Araki/Eve/un:c/ura tanuki/suke kou Tomohisa (shounen T)/Shima/senra/Sou/sora ru/nqrse/ma fuma fu/luz"
+      "nameLatin": "Amatsuki/Aho no Sakata./Araki/Eve/un:c/Uratanuki/Sakou Tomohisa (Shounen T)/Shima/Senra/Sou/Soraru/nqrse/Mafumafu/luz"
     }
   ],
   "fetchedAt": "2026-10-12T16:15:51Z",
@@ -3644,7 +3644,7 @@
     },
     {
       "albumId": "apple:al:1575901296",
-      "artistDisplay": "天月-あまつき/あほの坂田。/あらき/Eve/un:c/うらたぬき/佐香智久(少年T)/志麻/センラ/Sou/そらる/nqrse/まふまふ/luz & Eve",
+      "artistDisplay": "天月-あまつき/あほの坂田。/あらき/Eve/un:c/うらたぬき/佐香智久(少年T)/志麻/センラ/Sou/そらる/nqrse/まふまふ/luz",
       "artistIds": [
         "apple:ar:614405787",
         "apple:ar:1080967231"
