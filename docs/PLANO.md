@@ -127,6 +127,9 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P171 | Sem capa, ou se ela não carregar, um monograma: a 1ª letra do nome (米, 松), num disco de cor fixa pelo id |
 | P172 | As 200 de cada artista são as mais populares (pedido de 12/10/2026): depois da ordem do lookup, os singles (lado A) de uma lista curada no `artists.toml` vêm antes da reserva, e a faixa tirada pela curadoria deixa a posição para a música dela (Apêndice K) |
 | P174 | Entram no modo por artista o 新しい学校のリーダーズ (1231338664) e o 幾田りら (1489581870), no fim da lista (pedido de 12/10/2026) |
+| P181 | No crédito de um título ("feat. …"), o nome da pessoa ou do grupo sai no latino que ela usa, e não em Hepburn: "Lilas Ikuta", "ATARASHII GAKKO!". Um nome próprio não é leitura; a regra 11 do `pipeline/CLAUDE.md` vale para o resto do título |
+| P182 | O id 1704820090 ("Lilas", títulos em francês) não entra: sem evidência de que seja o 幾田りら |
+| P183 | Parceria com nome próprio na loja: os latinos dos artistas ligados por "&" ("Sheena Ringo & ATARASHII GAKKO!"), como no DAOKO×米津玄師 |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -828,12 +831,13 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
   - Curadoria, numa volta de `build-artists` (as outras versões, como o THE FIRST TAKE, o remix e o "Cafe Latte (English Version)", as regras já tiravam):
     - 新しい学校のリーダーズ: 恋の遮断機 no `same_song` (o single "feat. H ZETTRIO" e a faixa do álbum マエナラワナイ, "(feat.H ZETTRIO)", com o feat. colado, que a chave não tira);
     - 幾田りら: "Nameless Faces (feat. Lilas Ikuta) [英語版]", a versão em inglês do tema de 崩壊:スターレイル (o `_OUT` só conhece "English ver."), no `exclude_tracks`, e não no `same_song`: a [Japanese Ver.] tem o sufixo de versão, e a canônica seria a em inglês (P132).
-  - `aliases.toml`: 14 latinos de faixa e o de uma parceria.
-    - O crédito 幾田りら em 9 títulos: o cutlet leu "feat. ikuden ri ra" (Hepburn: "feat. Ikuta Rira").
+  - `aliases.toml`: 18 latinos de faixa, 7 de álbum e o de uma parceria.
+    - O crédito 幾田りら em 9 faixas e 4 álbuns: o cutlet leu "feat. ikuden ri ra"; ficou "feat. Lilas Ikuta" (P181).
+    - O crédito 新しい学校のリーダーズ em 4 faixas e 3 álbuns: o cutlet leu "feat. atarashii gakkou no riidaazu"; ficou "feat. ATARASHII GAKKO!" (P181).
     - Leituras erradas (席替 como "Seki kae", 絶絶絶絶対聖域 como "Zezzezzezzettai"), espaços partidos ("Supaa kuru", "shadan ki") e o til fora do lugar (チラチラチラミー ~試験当日~, ロケット・トゥ・ザ・ムーン~信じた世界へ~).
     - "Sheena Ringo & ATARASHII GAKKO!" para 椎名林檎と新しい学校のリーダーズ (ドラ1独走, no id do 椎名林檎): a Apple deu só "Sheena Ringo", como no DAOKO×米津玄師.
-    - As leituras sem certeza ficaram (狼の詩, 雨夜の接吻, まさ毛カンナヴァーロ, 赤春花).
-  - Ficaram como estão: o crédito 新しい学校のリーダーズ em Hepburn ("feat. atarashii gakkou no riidaazu"), como os créditos dos outros artistas; e as participações em outras línguas que estão no id dela (Plus rien, do Orelsan; Perfectos imperfectos, do Pablo Alborán; Here, Tomorrow, do League of Legends).
+    - As leituras sem certeza ficaram (狼の詩, 雨夜の接吻, まさ毛カンナヴァーロ, 赤春花); a leitura oficial vai num PR à parte.
+  - Ficaram como estão as participações em outras línguas que estão no id dela (Plus rien, do Orelsan; Perfectos imperfectos, do Pablo Alborán; Here, Tomorrow, do League of Legends): a P115 põe as participações dentro.
 - **Web** (PR C):
   - Aba `#artistas`, na nav e na home até o site ficar público (P117, P126): um `<li>` da nav e um cartão, fáceis de tirar.
   - A lista carrega ao entrar na aba e cada artista ao ser escolhido (`loadArtistList` e `loadArtist`, em `data/source.ts`, com `no-cache` e a versão de cada arquivo); o estado (`useArtistStore`) fica no `App`, então trocar de aba não perde a sessão, e recarregar volta à lista (P116). Uma falha mostra "Tentar de novo" só na aba (P144).
