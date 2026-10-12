@@ -6,7 +6,7 @@ import { optionView, revealView } from "./view.ts";
 
 const index = indexCatalog(catalog);
 
-describe("optionView (Música)", () => {
+describe("optionView (música: tentativas e sugestões do Desafio)", () => {
   it("título japonês com romaji embaixo e lang ja", () => {
     expect(optionView(index, "fixture:tr:tr16", "song")).toMatchObject({
       title: "ガラスの靴",
@@ -55,7 +55,7 @@ describe("lang do artista", () => {
   });
 });
 
-describe("optionView (Álbum)", () => {
+describe("optionView (álbum: opções do Normal)", () => {
   it("mostra o título do álbum e a capa", () => {
     expect(optionView(index, "fixture:al:al02", "album")).toMatchObject({
       title: "Dawn Collection",

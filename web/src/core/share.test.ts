@@ -3,8 +3,8 @@ import { catalog } from "../../test/fixtures.ts";
 import type { FinishedGame } from "./records.ts";
 import { shareGrid, shareText } from "./share.ts";
 
-const choiceGame: FinishedGame = {
-  answerMode: "choice",
+/** Um dia do Normal: ouviu mais e acertou, errou, anulada. */
+const normalGame: FinishedGame = {
   number: 1,
   rounds: [
     { status: "won", stage: 1, attempts: ["right"] },
@@ -14,21 +14,20 @@ const choiceGame: FinishedGame = {
 };
 
 describe("shareGrid", () => {
-  it("4 opções: ⬛ por ouvir mais, ✅ ou ❌, ⬜ anulada (P42)", () => {
-    expect(shareGrid(choiceGame)).toEqual(["⬛✅", "❌", "⬜"]);
+  it("Normal: ⬛ por ouvir mais, ✅ ou ❌, ⬜ anulada (P42)", () => {
+    expect(shareGrid(normalGame, "album")).toEqual(["⬛✅", "❌", "⬜"]);
   });
 
-  it("4 opções: desistir depois de ouvir mais fecha com ❌", () => {
+  it("Normal: desistir depois de ouvir mais fecha com ❌", () => {
     const gaveUp: FinishedGame = {
-      ...choiceGame,
-      rounds: [{ status: "lost", stage: 2, attempts: [] }, ...choiceGame.rounds.slice(1)],
+      ...normalGame,
+      rounds: [{ status: "lost", stage: 2, attempts: [] }, ...normalGame.rounds.slice(1)],
     };
-    expect(shareGrid(gaveUp)[0]).toBe("⬛⬛❌");
+    expect(shareGrid(gaveUp, "album")[0]).toBe("⬛⬛❌");
   });
 
-  it("digitação: uma marca por tentativa; desistir fecha com ❌", () => {
-    const typing: FinishedGame = {
-      answerMode: "typing",
+  it("Desafio: uma marca por tentativa; desistir fecha com ❌", () => {
+    const desafio: FinishedGame = {
       number: 1,
       rounds: [
         { status: "won", stage: 2, attempts: ["wrong", "skip", "right"] },
@@ -40,12 +39,11 @@ describe("shareGrid", () => {
         },
       ],
     };
-    expect(shareGrid(typing)).toEqual(["❌⬛✅", "⬛❌", "❌❌⬛❌⬛❌"]);
+    expect(shareGrid(desafio, "song")).toEqual(["❌⬛✅", "⬛❌", "❌❌⬛❌⬛❌"]);
   });
 
-  it("digitação: 6 pulos ficam só ⬛; desistir sem tentar é um ❌", () => {
-    const typing: FinishedGame = {
-      answerMode: "typing",
+  it("Desafio: 6 pulos ficam só ⬛; desistir sem tentar é um ❌", () => {
+    const desafio: FinishedGame = {
       number: 1,
       rounds: [
         { status: "lost", stage: 5, attempts: ["skip", "skip", "skip", "skip", "skip", "skip"] },
@@ -53,17 +51,15 @@ describe("shareGrid", () => {
         { status: "void", stage: 0, attempts: [] },
       ],
     };
-    expect(shareGrid(typing)).toEqual(["⬛⬛⬛⬛⬛⬛", "❌", "⬜"]);
+    expect(shareGrid(desafio, "song")).toEqual(["⬛⬛⬛⬛⬛⬛", "❌", "⬜"]);
   });
 });
 
 describe("shareText", () => {
-  const text = shareText("AteMusic · Diário Música nº 1 · 4 opções", choiceGame, "https://x.test/");
+  const text = shareText("AteMusic · Normal nº 1", normalGame, "album", "https://x.test/");
 
   it("cabeçalho, pontos sobre o máximo, rodadas e endereço", () => {
-    expect(text).toBe(
-      "AteMusic · Diário Música nº 1 · 4 opções\n5/12\n⬛✅\n❌\n⬜\nhttps://x.test/",
-    );
+    expect(text).toBe("AteMusic · Normal nº 1\n5/12\n⬛✅\n❌\n⬜\nhttps://x.test/");
   });
 
   it("nunca contém título, artista nem ID do catálogo", () => {

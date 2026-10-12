@@ -8,11 +8,11 @@
 // - cada gravação relê, mescla e grava: duas abas abertas não apagam um dia terminado.
 import { isValidDate } from "../core/dates.ts";
 import { isRecord } from "../core/guards.ts";
-import type { FinishedGame, InProgress, Save, Settings } from "../core/records.ts";
+import type { FinishedGame, InProgress, Save } from "../core/records.ts";
 import { emptySave } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
 import { MAX_STAGE, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
-import type { AnswerMode } from "../core/types.ts";
+import type { Target } from "../core/types.ts";
 import { migrate, SAVE_SCHEMA_VERSION } from "./migrations.ts";
 
 export const SAVE_KEY = "musicle-jp:save";
@@ -66,13 +66,11 @@ const PUZZLE_ID = /^(\d{4}-\d{2}-\d{2})\|(song|album)$/;
 const STATUSES = new Set(["won", "lost", "void"]);
 const MARKS = new Set(["skip", "wrong", "right"]);
 
-function isPuzzleId(id: string): boolean {
+/** O modo de um id válido ("2026-10-08|album" → "album"); null se o id não vale. */
+function modeOf(id: string): Target | null {
   const match = PUZZLE_ID.exec(id);
-  return match !== null && isValidDate(match[1] ?? "");
-}
-
-function isAnswerMode(x: unknown): x is AnswerMode {
-  return typeof x === "string" && Object.hasOwn(MODE_RULES, x);
+  if (match === null || !isValidDate(match[1] ?? "")) return null;
+  return match[2] === "song" ? "song" : "album";
 }
 
 function isNonNegativeInt(x: unknown, max = Number.MAX_SAFE_INTEGER): x is number {
@@ -96,30 +94,29 @@ export function isGameEvent(x: unknown): x is GameEvent {
   }
 }
 
-export function isFinishedGame(x: unknown): x is FinishedGame {
-  if (!isRecord(x) || !isAnswerMode(x.answerMode) || !Number.isInteger(x.number)) return false;
+/**
+ * Um jogo terminado do modo `target`, pelas regras dele: no Normal, no máximo 1 tentativa e
+ * nunca um pulo (só o Desafio pula).
+ */
+export function isFinishedGame(x: unknown, target: Target): x is FinishedGame {
+  if (!isRecord(x) || !Number.isInteger(x.number)) return false;
   if ((x.number as number) < 1 || !Array.isArray(x.rounds) || x.rounds.length !== ROUNDS_PER_DAY) {
     return false;
   }
-  const maxAttempts = MODE_RULES[x.answerMode].maxAttempts;
+  const rules = MODE_RULES[target];
   return x.rounds.every(
     (r: unknown) =>
       isRecord(r) &&
       STATUSES.has(r.status as string) &&
       isNonNegativeInt(r.stage, MAX_STAGE) &&
       Array.isArray(r.attempts) &&
-      r.attempts.length <= maxAttempts &&
-      r.attempts.every((a: unknown) => MARKS.has(a as string)),
+      r.attempts.length <= rules.maxAttempts &&
+      r.attempts.every((a: unknown) => MARKS.has(a as string) && (rules.skip || a !== "skip")),
   );
 }
 
 export function isInProgress(x: unknown): x is InProgress {
-  return (
-    isRecord(x) &&
-    isAnswerMode(x.answerMode) &&
-    Array.isArray(x.events) &&
-    x.events.every(isGameEvent)
-  );
+  return isRecord(x) && Array.isArray(x.events) && x.events.every(isGameEvent);
 }
 
 /**
@@ -127,30 +124,19 @@ export function isInProgress(x: unknown): x is InProgress {
  * ausente ou que não é objeto vira vazio, sem levar junto o resto (o histórico vale mais).
  */
 function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean } {
-  const read = readSettings(data.settings);
-  let dropped = read.dropped || !isRecord(data.history) || !isRecord(data.inProgress);
+  let dropped = !isRecord(data.history) || !isRecord(data.inProgress);
   const history: Record<string, FinishedGame> = {};
   for (const [id, game] of Object.entries(isRecord(data.history) ? data.history : {})) {
-    if (isPuzzleId(id) && isFinishedGame(game)) history[id] = game;
+    const mode = modeOf(id);
+    if (mode && isFinishedGame(game, mode)) history[id] = game;
     else dropped = true;
   }
   const inProgress: Record<string, InProgress> = {};
   for (const [id, progress] of Object.entries(isRecord(data.inProgress) ? data.inProgress : {})) {
-    if (isPuzzleId(id) && isInProgress(progress)) inProgress[id] = progress;
+    if (modeOf(id) && isInProgress(progress)) inProgress[id] = progress;
     else dropped = true;
   }
-  return { save: { schemaVersion: 2, settings: read.settings, history, inProgress }, dropped };
-}
-
-/** Preferências: guarda só o que conhece e vale; o resto conta como descartado (aviso de reparo). */
-function readSettings(x: unknown): { settings: Settings; dropped: boolean } {
-  if (!isRecord(x)) return { settings: {}, dropped: true };
-  const { answerMode, ...others } = x;
-  const valid = isAnswerMode(answerMode);
-  return {
-    settings: valid ? { answerMode } : {},
-    dropped: Object.keys(others).length > 0 || (answerMode !== undefined && !valid),
-  };
+  return { save: { schemaVersion: 3, history, inProgress }, dropped };
 }
 
 // ---- leitura e gravação ----

@@ -66,20 +66,20 @@ function onlyEligible(ids: readonly string[]): CatalogIndex {
 }
 
 /** Jogo terminado do histórico (o conteúdo não importa à exclusão, só a existência). */
-const finished: FinishedGame = { answerMode: "choice", number: 1, rounds: [] };
+const finished: FinishedGame = { number: 1, rounds: [] };
 function saveWith(...targets: Target[]): Save {
   const history = Object.fromEntries(targets.map((t) => [puzzleId(DATE, t), finished]));
   return { ...emptySave(), history };
 }
 const dailySongs = (target: Target) => new Set(day[target].map((r) => songOf(r.answer)));
-/** A faixa é de um álbum que o Álbum aceitaria por uma música excluída (a dela ou outra)? */
+/** A faixa é de um álbum que o Normal aceitaria por uma música excluída (a dela ou outra)? */
 const albumBlocked = (id: string, excluded: ReadonlySet<string>) =>
   catalog.tracks.some(
     (t) => excluded.has(t.songKey) && acceptedIds(index, t, "album").includes(albumOf(id)),
   );
 
 describe("saco do Treino (practicePool)", () => {
-  it("Música: uma faixa elegível por música, a mais popular", () => {
+  it("Desafio: uma faixa elegível por música, a mais popular", () => {
     const pool = practicePool(index, "song");
     const eligible = catalog.tracks.filter((t) => t.eligible.daily);
     expect(pool).toHaveLength(new Set(eligible.map((t) => t.songKey)).size);
@@ -100,7 +100,7 @@ describe("saco do Treino (practicePool)", () => {
     }
   });
 
-  it("Álbum: uma faixa por álbum, sem repetir música dentro do saco", () => {
+  it("Normal: uma faixa por álbum, sem repetir música dentro do saco", () => {
     const pool = practicePool(index, "album");
     expect(new Set(pool.map(albumOf)).size).toBe(pool.length);
     expect(new Set(pool.map(songOf)).size).toBe(pool.length);
@@ -199,7 +199,7 @@ describe("sorteio (drawPractice)", () => {
     expect(run(123, "album")).toEqual(run(123, "album"));
     expect(run(123, "song")).not.toEqual(run(124, "song"));
     const options = (seed: number) =>
-      drawMany(newPractice(seed), "song", 5).draws.map((d) => d.round.planned.options);
+      drawMany(newPractice(seed), "album", 5).draws.map((d) => d.round.planned.options);
     expect(options(9)).toEqual(options(9));
   });
 
@@ -266,7 +266,7 @@ describe("exclusão das respostas do diário de hoje", () => {
     "%s: a outra faixa do álbum de uma resposta pendente também é pulada",
     (target) => {
       // al14 tem tr15, tr27 e tr41, três músicas. Com a de tr27 pendente no diário, tr15 ou tr41
-      // no Treino mostrariam o álbum na revelação, e no Álbum ele seria a própria resposta.
+      // no Treino mostrariam o álbum na revelação, e no Normal ele seria a própria resposta.
       const excluded = new Set([songOf("fixture:tr:tr27")]);
       const pool = practicePool(index, target);
       const ids = answers(drawMany(newPractice(5), target, 3 * pool.length, excluded).draws);
@@ -314,53 +314,41 @@ describe("exclusão das respostas do diário de hoje", () => {
 });
 
 describe("rodada do Treino (planRound)", () => {
-  it.each<Target>(["song", "album"])("%s: 4 opções distintas, a certa e 3 do similar", (target) => {
-    const pool = practicePool(index, target);
-    const { draws } = drawMany(newPractice(99), target, pool.length);
+  it("Normal: 4 opções distintas, o álbum certo e 3 do similar dele", () => {
+    const pool = practicePool(index, "album");
+    const { draws } = drawMany(newPractice(99), "album", pool.length);
     for (const { round } of draws) {
       const answer = track(round.planned.answer);
-      const correct = target === "song" ? answer.id : answer.albumId;
-      const similar =
-        target === "song" ? answer.similar : (index.albums.get(answer.albumId)?.similar ?? []);
-      const { options } = round.planned;
+      const similar = index.albums.get(answer.albumId)?.similar ?? [];
+      const options = round.planned.options ?? [];
       expect(options).toHaveLength(4);
       expect(new Set(options).size).toBe(4);
-      expect(options).toContain(correct);
-      for (const option of options.filter((o) => o !== correct)) {
+      expect(options).toContain(answer.albumId);
+      for (const option of options.filter((o) => o !== answer.albumId)) {
         expect(similar).toContain(option);
       }
     }
   });
 
+  it("Desafio: sem opções (é digitado) e sem gastar o rng", () => {
+    const rng = seeded("x");
+    const before = seeded("x").nextU32();
+    expect(planRound(index, "song", "fixture:tr:tr05", NONE, rng)).toEqual({
+      answer: "fixture:tr:tr05",
+      options: [],
+    });
+    expect(rng.nextU32()).toBe(before);
+  });
+
   it("as opções saem embaralhadas (a certa não fica sempre no mesmo lugar)", () => {
-    const { draws } = drawMany(newPractice(8), "song", 20);
+    const { draws } = drawMany(newPractice(8), "album", 20);
     const places = new Set(
-      draws.map((d) => d.round.planned.options.indexOf(d.round.planned.answer)),
+      draws.map((d) => (d.round.planned.options ?? []).indexOf(albumOf(d.round.planned.answer))),
     );
     expect(places.size).toBeGreaterThan(1);
   });
 
-  it("Música: distratores sem as músicas excluídas; com menos de 3, a lista inteira", () => {
-    const answer = track("fixture:tr:tr05");
-    const similarSongs = answer.similar.map(songOf);
-    // Sobram 3: os distratores são exatamente eles.
-    const leaves3 = new Set(similarSongs.slice(0, 7));
-    for (const seed of ["a", "b", "c"]) {
-      const { options } = planRound(index, "song", answer.id, leaves3, seeded(seed));
-      expect(new Set(options)).toEqual(new Set([answer.id, ...answer.similar.slice(7)]));
-    }
-    // Sobram 2: recua para a lista inteira (como o pipeline), mesmo com músicas excluídas.
-    const leaves2 = new Set(similarSongs.slice(0, 8));
-    const picked = new Set<string>();
-    for (const seed of ["a", "b", "c", "d", "e", "f"]) {
-      const { options } = planRound(index, "song", answer.id, leaves2, seeded(seed));
-      expect(options).toHaveLength(4);
-      for (const o of options.filter((o) => o !== answer.id)) picked.add(o);
-    }
-    expect([...picked].some((o) => leaves2.has(songOf(o)))).toBe(true);
-  });
-
-  it("Álbum: distratores sem álbuns com música excluída; com menos de 3, a lista inteira", () => {
+  it("distratores sem álbuns com música excluída; com menos de 3, a lista inteira", () => {
     const answer = track("fixture:tr:tr05");
     const similar = index.albums.get(answer.albumId)?.similar ?? [];
     const songsOf = (albumId: string) =>
@@ -372,7 +360,7 @@ describe("rodada do Treino (planRound)", () => {
     const leaves3 = blocking(similar.slice(0, 7));
     expect(allowed(leaves3).length).toBeGreaterThanOrEqual(3);
     for (const seed of ["a", "b", "c"]) {
-      const { options } = planRound(index, "album", answer.id, leaves3, seeded(seed));
+      const options = planRound(index, "album", answer.id, leaves3, seeded(seed)).options ?? [];
       expect(options).toContain(answer.albumId);
       for (const o of options.filter((o) => o !== answer.albumId)) {
         expect(allowed(leaves3)).toContain(o);
@@ -383,7 +371,7 @@ describe("rodada do Treino (planRound)", () => {
     expect(allowed(leaves2).length).toBeLessThan(3);
     const picked = new Set<string>();
     for (const seed of ["a", "b", "c", "d", "e", "f"]) {
-      const { options } = planRound(index, "album", answer.id, leaves2, seeded(seed));
+      const options = planRound(index, "album", answer.id, leaves2, seeded(seed)).options ?? [];
       expect(new Set(options).size).toBe(4);
       for (const o of options.filter((o) => o !== answer.albumId)) picked.add(o);
     }
@@ -392,11 +380,16 @@ describe("rodada do Treino (planRound)", () => {
 
   it("similar com menos de 3 nem na lista inteira: usa o que houver", () => {
     const answer = track("fixture:tr:tr05");
-    const short = withTracks((t) =>
-      t.id === answer.id ? { ...t, similar: t.similar.slice(0, 2) } : t,
-    );
-    const { options } = planRound(short, "song", answer.id, NONE, seeded("x"));
-    expect(new Set(options)).toEqual(new Set([answer.id, ...answer.similar.slice(0, 2)]));
+    const album = index.albums.get(answer.albumId);
+    if (!album) throw new Error("álbum da tr05 ausente");
+    const short = indexCatalog({
+      ...catalog,
+      albums: catalog.albums.map((a) =>
+        a.id === album.id ? { ...a, similar: a.similar.slice(0, 2) } : a,
+      ) as Catalog["albums"],
+    });
+    const { options } = planRound(short, "album", answer.id, NONE, seeded("x"));
+    expect(new Set(options)).toEqual(new Set([answer.albumId, ...album.similar.slice(0, 2)]));
   });
 });
 
@@ -407,11 +400,10 @@ describe("jogo de uma rodada e sessão", () => {
     return draw;
   };
 
-  it("practiceGame: uma rodada em jogo, no alvo e no modo pedidos", () => {
+  it("practiceGame: uma rodada em jogo, no modo pedido", () => {
     const draw = firstDraw("album");
-    const game = practiceGame(draw.round, "typing", index);
+    const game = practiceGame(draw.round, index);
     expect(game.target).toBe("album");
-    expect(game.answerMode).toBe("typing");
     expect(game.current).toBe(0);
     expect(game.rounds).toHaveLength(1);
     expect(game.rounds[0]?.status).toBe("playing");
@@ -420,11 +412,11 @@ describe("jogo de uma rodada e sessão", () => {
     expect(game.puzzleId).toBe(`treino|album|0|0`);
     const next = drawPractice(draw.state, index, "album", NONE);
     if (!next) throw new Error("sem rodada");
-    expect(practiceGame(next.round, "typing", index).puzzleId).not.toBe(game.puzzleId);
+    expect(practiceGame(next.round, index).puzzleId).not.toBe(game.puzzleId);
   });
 
   it("practiceScore: soma a rodada terminada; anulada e em jogo não contam", () => {
-    const game = practiceGame(firstDraw("song").round, "choice", index);
+    const game = practiceGame(firstDraw("album").round, index);
     const zero = { points: 0, rounds: 0 };
     expect(practiceScore(zero, null)).toEqual(zero);
     expect(practiceScore(zero, game)).toEqual(zero);
@@ -444,37 +436,30 @@ describe("jogo de uma rodada e sessão", () => {
     expect(practiceScore(zero, voided)).toEqual(zero);
   });
 
-  it("sessão: a 1ª rodada sai no começo; a próxima soma o placar e usa os filtros atuais", () => {
-    const session = startPracticeSession(77, "song", "choice", index, NONE);
+  it("sessão: a 1ª rodada sai no começo; a próxima soma o placar e usa o modo atual", () => {
+    const session = startPracticeSession(77, "album", index, NONE);
     expect(session.number).toBe(1);
     expect(session.score).toEqual({ points: 0, rounds: 0 });
     const game = session.game;
     if (!game) throw new Error("sem rodada");
-    expect(game.target).toBe("song");
-    expect(game.answerMode).toBe("choice");
+    expect(game.target).toBe("album");
 
-    // Acerta e troca os filtros no meio: a rodada atual não muda.
+    // Acerta e troca para o Desafio no meio: a rodada atual não muda.
     const won = reduce(game, { type: "GUESS", guessId: game.rounds[0]?.correctOptionId ?? "" });
-    const changed = {
-      ...session,
-      game: won,
-      target: "album" as const,
-      answerMode: "typing" as const,
-    };
-    const next = nextPracticeRound(changed, index, NONE);
+    const next = nextPracticeRound({ ...session, game: won, target: "song" }, index, NONE);
     expect(next.number).toBe(2);
     expect(next.score).toEqual({ points: 6, rounds: 1 });
-    expect(next.game?.target).toBe("album");
-    expect(next.game?.answerMode).toBe("typing");
-    // O saco da Música andou uma casa; o do Álbum também, agora.
-    expect(next.practice.cursors.song.position).toBe(1);
+    expect(next.game?.target).toBe("song");
+    expect(next.game?.rounds[0]?.options).toEqual([]);
+    // O saco do Normal andou uma casa; o do Desafio também, agora.
     expect(next.practice.cursors.album.position).toBe(1);
+    expect(next.practice.cursors.song.position).toBe(1);
   });
 
   it("sessão sem rodada possível: game null, número e placar ficam", () => {
     const tiny = onlyEligible(["fixture:tr:tr05"]);
     const all = new Set([songOf("fixture:tr:tr05")]);
-    const empty = startPracticeSession(1, "song", "choice", tiny, all);
+    const empty = startPracticeSession(1, "song", tiny, all);
     expect(empty.game).toBeNull();
     expect(empty.number).toBe(0);
     const again = nextPracticeRound(empty, tiny, all);

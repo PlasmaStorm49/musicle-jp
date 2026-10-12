@@ -1,6 +1,6 @@
 // Regras do jogo (PLANO, Apêndice D). Dados, não código: o reducer consulta estas tabelas,
 // e um modo novo entra aqui sem espalhar if pelo reducer.
-import type { AnswerMode } from "./types.ts";
+import type { Target } from "./types.ts";
 
 /** Segundos do trecho liberados em cada etapa. */
 export const STAGES = [1, 2, 4, 7, 11, 16] as const;
@@ -23,11 +23,29 @@ export type ModeRules = {
   readonly listenMore: boolean;
   /** O jogador pode pular (gasta uma tentativa e libera a etapa seguinte). */
   readonly skip: boolean;
+  /** O palpite tem de ser uma das opções da rodada (4 opções); senão, vale qualquer da busca. */
+  readonly guessFromOptions: boolean;
 };
 
-export const MODE_RULES: Readonly<Record<AnswerMode, ModeRules>> = {
-  choice: { maxAttempts: 1, wrongGuess: "end", listenMore: true, skip: false },
-  typing: { maxAttempts: MAX_POINTS, wrongGuess: "advance", listenMore: false, skip: true },
+/** Os modos na ordem da nav, da home e dos diários: o Normal (álbum) primeiro. */
+export const MODES: readonly Target[] = ["album", "song"];
+
+/** Os dois modos (P100): o Normal (álbum) em 4 opções e o Desafio (música) digitado. */
+export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
+  album: {
+    maxAttempts: 1,
+    wrongGuess: "end",
+    listenMore: true,
+    skip: false,
+    guessFromOptions: true,
+  },
+  song: {
+    maxAttempts: MAX_POINTS,
+    wrongGuess: "advance",
+    listenMore: false,
+    skip: true,
+    guessFromOptions: false,
+  },
 };
 
 /**
@@ -44,8 +62,8 @@ export function secondsAt(stage: number): number {
 }
 
 /**
- * Pontos de uma rodada acertada na etapa `stage`. Vale para os dois modos: no 4 opções a etapa
- * sobe com "ouvir mais"; na digitação, com cada erro ou pulo (7 − número da tentativa).
+ * Pontos de uma rodada acertada na etapa `stage`. Vale para os dois modos: no Normal a etapa
+ * sobe com "ouvir mais"; no Desafio, com cada erro ou pulo (7 − número da tentativa).
  */
 export function pointsAtStage(stage: number): number {
   return MAX_POINTS - Math.min(Math.max(stage, 0), MAX_STAGE);

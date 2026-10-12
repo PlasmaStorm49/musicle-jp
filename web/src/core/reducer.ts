@@ -3,7 +3,7 @@
 // facilita os testes e evita redesenho à toa no Preact.
 import { acceptedIds, type CatalogIndex } from "./catalog.ts";
 import { MAX_STAGE, MODE_RULES, pointsAtStage, secondsAt } from "./rules.ts";
-import type { AnswerMode, Day, Target } from "./types.ts";
+import type { Day, Target } from "./types.ts";
 
 export type RoundStatus = "playing" | "won" | "lost" | "void";
 
@@ -14,11 +14,11 @@ export type Attempt =
 export type RoundState = {
   /** Faixa que toca e é revelada no fim. */
   readonly trackId: string;
-  /** Opção a destacar como certa: a faixa (Música) ou o álbum dela (Álbum). */
+  /** O que conta como a resposta certa: a faixa (Desafio) ou o álbum dela (Normal). */
   readonly correctOptionId: string;
-  /** IDs que contam como acerto (versões da mesma música; no Álbum, álbuns com a música). */
+  /** IDs que contam como acerto (versões da mesma música; no Normal, álbuns com a música). */
   readonly accepted: readonly string[];
-  /** As 4 opções do modo 4 opções (na digitação, só informativo). */
+  /** As 4 opções do Normal; vazio no Desafio, que é digitado. */
   readonly options: readonly string[];
   /** Etapa do trecho: 0 = 1 s ... 5 = 16 s. */
   readonly stage: number;
@@ -31,8 +31,8 @@ export type RoundState = {
 export type GameState = {
   /** "<data>|<alvo>", ex.: "2026-10-08|song". */
   readonly puzzleId: string;
+  /** O modo: decide as regras (MODE_RULES) e o que se adivinha. */
   readonly target: Target;
-  readonly answerMode: AnswerMode;
   readonly rounds: readonly RoundState[];
   readonly current: number;
 };
@@ -46,8 +46,11 @@ export type GameEvent =
   | { readonly type: "VOID"; readonly round: number; readonly reason: string }
   | { readonly type: "NEXT_ROUND" };
 
-/** Uma rodada planejada: a faixa que toca e as opções (faixas na Música, álbuns no Álbum). */
-export type PlannedRound = { readonly answer: string; readonly options: readonly string[] };
+/**
+ * Uma rodada planejada: a faixa que toca e, no Normal, os 4 álbuns. As rodadas de música dos
+ * dias antigos da agenda ainda trazem opções (a agenda só cresce), mas o Desafio as ignora.
+ */
+export type PlannedRound = { readonly answer: string; readonly options?: readonly string[] };
 
 /**
  * Estado inicial de rodadas planejadas, venham da agenda (3 por diário) ou do Treino (uma de
@@ -62,7 +65,7 @@ export function createRounds(
     const track = index.tracks.get(planned.answer);
     const base = {
       trackId: planned.answer,
-      options: [...planned.options],
+      options: MODE_RULES[target].guessFromOptions ? [...(planned.options ?? [])] : [],
       stage: 0,
       attempts: [],
     };
@@ -86,15 +89,9 @@ export function createRounds(
 }
 
 /** Monta o jogo do dia a partir da agenda. */
-export function createGame(
-  day: Day,
-  date: string,
-  target: Target,
-  answerMode: AnswerMode,
-  index: CatalogIndex,
-): GameState {
+export function createGame(day: Day, date: string, target: Target, index: CatalogIndex): GameState {
   const rounds = createRounds(day[target], target, index);
-  return { puzzleId: `${date}|${target}`, target, answerMode, rounds, current: 0 };
+  return { puzzleId: `${date}|${target}`, target, rounds, current: 0 };
 }
 
 function withRound(state: GameState, round: RoundState): GameState {
@@ -103,8 +100,8 @@ function withRound(state: GameState, round: RoundState): GameState {
 }
 
 function guess(state: GameState, round: RoundState, guessId: string): GameState {
-  const rules = MODE_RULES[state.answerMode];
-  if (state.answerMode === "choice" && !round.options.includes(guessId)) return state;
+  const rules = MODE_RULES[state.target];
+  if (rules.guessFromOptions && !round.options.includes(guessId)) return state;
   if (round.attempts.some((a) => a.kind === "guess" && a.guessId === guessId)) return state;
   const correct = round.accepted.includes(guessId);
   const attempts = [...round.attempts, { kind: "guess", guessId, correct } as const];
@@ -116,7 +113,7 @@ function guess(state: GameState, round: RoundState, guessId: string): GameState 
 }
 
 function skip(state: GameState, round: RoundState): GameState {
-  const rules = MODE_RULES[state.answerMode];
+  const rules = MODE_RULES[state.target];
   if (!rules.skip) return state;
   const attempts = [...round.attempts, { kind: "skip" } as const];
   if (attempts.length >= rules.maxAttempts) {
@@ -137,7 +134,7 @@ export function reduce(state: GameState, event: GameEvent): GameState {
 
   switch (event.type) {
     case "LISTEN_MORE":
-      if (!MODE_RULES[state.answerMode].listenMore || round.stage >= MAX_STAGE) return state;
+      if (!MODE_RULES[state.target].listenMore || round.stage >= MAX_STAGE) return state;
       return withRound(state, { ...round, stage: round.stage + 1 });
     case "GUESS":
       return guess(state, round, event.guessId);

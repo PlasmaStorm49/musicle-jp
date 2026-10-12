@@ -3,11 +3,11 @@ import { type DailyStatus, dailyStatus } from "../core/home.ts";
 import type { PracticeScore } from "../core/practice.ts";
 import type { Save } from "../core/records.ts";
 import { ROUTES, type Tab } from "../core/routes.ts";
-import { MAX_STAGE, ROUNDS_PER_DAY, secondsAt } from "../core/rules.ts";
+import { MAX_STAGE, MODE_RULES, MODES, ROUNDS_PER_DAY, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
-import type { MessageKey } from "../i18n/pt-BR.ts";
 import { t } from "../i18n/t.ts";
 import { Logo } from "./Logo.tsx";
+import { modeName } from "./modes.ts";
 import { practiceScoreText } from "./Practice.tsx";
 
 type Props = {
@@ -21,21 +21,26 @@ type Props = {
   readonly practice: PracticeScore | null;
 };
 
-type HomeMode = {
+type HomeCard = {
   readonly tab: Exclude<Tab, "home">;
-  readonly name: MessageKey;
-  readonly hint: MessageKey;
+  readonly name: string;
+  readonly hint: string;
 };
 
-/**
- * Os cartões, na ordem das abas. Juntar ou trocar os modos (ex.: Normal e Desafio) mexe só nesta
- * lista e nos textos.
- */
-const HOME_MODES: readonly HomeMode[] = [
-  { tab: "song", name: "target.song", hint: "home.songHint" },
-  { tab: "album", name: "target.album", hint: "home.albumHint" },
-  { tab: "practice", name: "practice.title", hint: "home.practiceHint" },
-];
+/** Os cartões, na ordem das abas: os modos (MODES, o Normal primeiro) e o Treino. */
+function homeCards(): HomeCard[] {
+  return [
+    ...MODES.map((mode) => ({
+      tab: mode,
+      name: modeName(mode),
+      hint: t(`home.${mode}Hint`, {
+        rounds: ROUNDS_PER_DAY,
+        total: MODE_RULES[mode].maxAttempts,
+      }),
+    })),
+    { tab: "practice", name: t("practice.title"), hint: t("home.practiceHint") },
+  ];
+}
 
 function dailyText(status: DailyStatus): string {
   switch (status.kind) {
@@ -44,10 +49,7 @@ function dailyText(status: DailyStatus): string {
     case "new":
       return t("home.statusNew", { number: status.number });
     case "playing":
-      return t("home.statusPlaying", {
-        number: status.number,
-        mode: t(status.answerMode === "choice" ? "mode.choice" : "mode.typing"),
-      });
+      return t("home.statusPlaying", { number: status.number });
     case "done":
       // Dia todo anulado (P27): "terminado", sem "0 de 0 pontos".
       return status.max === 0
@@ -82,24 +84,24 @@ export function Home({ day, date, save, practice }: Props) {
       <section aria-labelledby="home-modes">
         <h2 id="home-modes">{t("home.modesTitle")}</h2>
         <ul class="home-modes">
-          {HOME_MODES.map(({ tab, name, hint }) => {
+          {homeCards().map(({ tab, name, hint }) => {
             const status = tab === "practice" ? null : dailyStatus(save, day, date, tab);
             const text = status ? dailyText(status) : practiceText(practice);
             // Nome, estado e dica, nessa ordem: o leitor de tela ouve o estado logo.
             const content = (
               <>
-                <span class="mode-name">{t(name)}</span>
+                <span class="mode-name">{name}</span>
                 {text && <span class="tag">{text}</span>}
-                <span class="mode-hint">{t(hint, { rounds: ROUNDS_PER_DAY })}</span>
+                <span class="mode-hint">{hint}</span>
               </>
             );
             return (
               <li key={tab}>
                 {status?.kind === "unavailable" ? (
-                  // Sem desafio hoje: não há para onde ir, então o cartão não é link.
+                  // Sem diário hoje: não há para onde ir, então o cartão não é link.
                   <div class="mode home-card off">{content}</div>
                 ) : (
-                  // Link, e não botão: cada cartão leva a outra aba (#musica, #album, #treino).
+                  // Link, e não botão: cada cartão leva a outra aba (#normal, #desafio, #treino).
                   <a class="mode home-card" href={ROUTES[tab]}>
                     {content}
                   </a>

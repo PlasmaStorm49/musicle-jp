@@ -4,7 +4,6 @@ import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import type { RoundState } from "../core/reducer.ts";
 import { buildSearchIndex, hitKey, search } from "../core/search.ts";
-import type { Target } from "../core/types.ts";
 import { optionView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import type { Suggestion } from "./GuessInput.tsx";
@@ -59,30 +58,28 @@ export function usePreviews(
 }
 
 /**
- * Sugestões do autocompletar para a rodada: o índice sai do catálogo uma vez por alvo, e
- * "já tentou" é por linha da busca (música inteira ou álbum), não por faixa.
+ * Sugestões do autocompletar do Desafio: o índice de músicas sai do catálogo uma vez, e "já
+ * tentou" é por linha da busca (a música inteira), não por faixa.
  */
 export function useSuggest(
   index: CatalogIndex,
-  target: Target,
   round: RoundState,
 ): (query: string) => Suggestion[] {
-  const searchIndex = useMemo(() => buildSearchIndex(index, target), [index, target]);
+  // O próprio buildSearchIndex guarda o índice por catálogo: aqui não precisa de memo.
+  const searchIndex = buildSearchIndex(index);
   const tried = useMemo(
     () =>
       new Set(
-        round.attempts.flatMap((a) =>
-          a.kind === "guess" ? [hitKey(index, target, a.guessId)] : [],
-        ),
+        round.attempts.flatMap((a) => (a.kind === "guess" ? [hitKey(index, a.guessId)] : [])),
       ),
-    [round.attempts, index, target],
+    [round.attempts, index],
   );
   return useCallback(
     (query: string): Suggestion[] =>
       search(searchIndex, query).flatMap((hit) => {
-        const item = optionView(index, hit.id, target);
+        const item = optionView(index, hit.id, "song");
         return item ? [{ id: hit.id, item, tried: tried.has(hit.key) }] : [];
       }),
-    [searchIndex, index, target, tried],
+    [searchIndex, index, tried],
   );
 }

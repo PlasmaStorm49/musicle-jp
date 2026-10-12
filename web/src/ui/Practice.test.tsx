@@ -38,7 +38,6 @@ const track = (n: number): Track => ({
   },
   popularity: 1 - n / 10,
   eligible: { daily: true, reason: null },
-  similar: [1, 2, 3, 4].filter((m) => m !== n).map((m) => `t:tr:${m}`),
   search: { title: [`musica${n}`], artist: [`artista${n}`] },
 });
 const album = (n: number): Album => ({
@@ -52,17 +51,15 @@ const album = (n: number): Album => ({
   releaseDate: "2026-01-01",
   artworkUrl: `art/${n}.svg`,
   similar: [1, 2, 3, 4].filter((m) => m !== n).map((m) => `t:al:${m}`),
-  search: [`album${n}`],
 });
 const artist = (n: number): Artist => ({
   id: `t:ar:${n}`,
   name: `Artista ${n}`,
   nameLatin: null,
   latinSource: null,
-  search: [`artista${n}`],
 });
 const catalog: Catalog = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   catalogVersion: "teste",
   generatedAt: "2026-01-01T00:00:00Z",
   provider: "teste",
@@ -79,20 +76,19 @@ const DATE = "2026-10-08";
 
 /** Diário de hoje cujas respostas cobrem as 4 músicas: enquanto ele não termina, o Treino fica vazio. */
 type Four = [string, string, string, string];
-const songs: Four = ["t:tr:1", "t:tr:2", "t:tr:3", "t:tr:4"];
 const albums: Four = ["t:al:1", "t:al:2", "t:al:3", "t:al:4"];
-const round = (answer: string, options: Four) => ({ answer, options });
+const round = (answer: string) => ({ answer, options: albums });
 const fullDay: Day = {
   number: 1,
   catalogVersion: "teste",
-  song: [round("t:tr:1", songs), round("t:tr:2", songs), round("t:tr:3", songs)],
-  album: [round("t:tr:4", albums), round("t:tr:1", albums), round("t:tr:2", albums)],
+  song: [{ answer: "t:tr:1" }, { answer: "t:tr:2" }, { answer: "t:tr:3" }],
+  album: [round("t:tr:4"), round("t:tr:1"), round("t:tr:2")],
 };
 const finishedBoth: Save = {
   ...emptySave(),
   history: {
-    [`${DATE}|song`]: { answerMode: "choice", number: 1, rounds: [] },
-    [`${DATE}|album`]: { answerMode: "choice", number: 1, rounds: [] },
+    [`${DATE}|song`]: { number: 1, rounds: [] },
+    [`${DATE}|album`]: { number: 1, rounds: [] },
   },
 };
 
@@ -146,29 +142,22 @@ function setup(save: Save = emptySave(), day: Day | null = null) {
 const score = () => document.querySelector(".practice-score")?.textContent;
 
 describe("Practice (modo Treino)", () => {
-  it("abre com a rodada 1, o placar zerado, os filtros e o foco no Tocar", () => {
+  it("abre no Normal, com a rodada 1, o placar zerado e o foco no Tocar", () => {
     setup();
     expect(screen.getByRole("heading", { level: 1, name: "Treino" })).toBeTruthy();
     expect(screen.getByText("Rodada 1")).toBeTruthy();
     expect(screen.queryByText(/de 3/)).toBeNull();
     expect(score()).toBe("0 pontos em 0 rodadas");
-    expect(screen.getByRole("group", { name: "Alvo" })).toBeTruthy();
-    expect(screen.getByRole("group", { name: "Resposta" })).toBeTruthy();
+    const group = screen.getByRole("group", { name: "Modo" });
+    expect([...group.querySelectorAll("label")].map((l) => l.textContent)).toEqual([
+      "Normal",
+      "Desafio",
+    ]);
     expect(screen.getByText("Vale a partir da próxima rodada.")).toBeTruthy();
-    expect((screen.getByRole("radio", { name: "Música" }) as HTMLInputElement).checked).toBe(true);
-    expect((screen.getByRole("radio", { name: "4 opções" }) as HTMLInputElement).checked).toBe(
-      true,
-    );
-    expect(screen.getAllByRole("button", { name: /^Música \d/ })).toHaveLength(4);
+    expect((screen.getByRole("radio", { name: "Normal" }) as HTMLInputElement).checked).toBe(true);
+    expect(screen.getByRole("heading", { name: "Qual é o álbum?" })).toBeTruthy();
+    expect(screen.getAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(4);
     expect(document.activeElement?.textContent).toMatch(/^Tocar/);
-  });
-
-  it("começa no modo de resposta usado por último nos diários", () => {
-    setup({ ...emptySave(), settings: { answerMode: "typing" } });
-    expect((screen.getByRole("radio", { name: "Digitação" }) as HTMLInputElement).checked).toBe(
-      true,
-    );
-    expect(screen.getByRole("combobox", { name: "Qual é a música?" })).toBeTruthy();
   });
 
   it("pré-sorteia a próxima rodada: guarda o áudio da atual e o da próxima", () => {
@@ -213,23 +202,20 @@ describe("Practice (modo Treino)", () => {
     expect(score()).toBe("0 pontos em 1 rodada");
   });
 
-  it("trocar o filtro não interrompe a rodada atual; vale na próxima", () => {
+  it("trocar o modo não interrompe a rodada atual; vale na próxima", () => {
     setup();
-    fireEvent.click(screen.getByRole("radio", { name: "Álbum" }));
-    fireEvent.click(screen.getByRole("radio", { name: "Digitação" }));
-    expect((screen.getByRole("radio", { name: "Álbum" }) as HTMLInputElement).checked).toBe(true);
-    expect((screen.getByRole("radio", { name: "Digitação" }) as HTMLInputElement).checked).toBe(
-      true,
-    );
-    // A rodada em jogo continua: Música, 4 opções.
-    expect(screen.getByRole("heading", { name: "Qual é a música?" })).toBeTruthy();
-    expect(screen.getAllByRole("button", { name: /^Música \d/ })).toHaveLength(4);
+    fireEvent.click(screen.getByRole("radio", { name: "Desafio" }));
+    expect((screen.getByRole("radio", { name: "Desafio" }) as HTMLInputElement).checked).toBe(true);
+    // A rodada em jogo continua: Normal, 4 opções.
+    expect(screen.getByRole("heading", { name: "Qual é o álbum?" })).toBeTruthy();
+    expect(screen.getAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(4);
     expect(screen.queryByRole("combobox")).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "Não sei" }));
     fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
     expect(screen.getByText("Rodada 2")).toBeTruthy();
-    expect(screen.getByRole("combobox", { name: "Qual é o álbum?" })).toBeTruthy();
+    expect(screen.getByRole("combobox", { name: "Qual é a música?" })).toBeTruthy();
+    expect(screen.queryAllByRole("button", { name: /^(Música|Álbum) \d/ })).toHaveLength(0);
   });
 
   it("sair da aba e voltar mantém a sessão (rodada e placar)", () => {
@@ -251,12 +237,12 @@ describe("Practice (modo Treino)", () => {
     expect(score()).toBe("0 pontos em 0 rodadas");
 
     // O diário terminou (o App relê o save ao trocar de aba). A rodada sai no clique, e não
-    // sozinha: sortear sozinho puxaria o foco de quem está mexendo nos filtros.
+    // sozinha: sortear sozinho puxaria o foco de quem está mexendo no modo.
     rerender({ save: finishedBoth, day: fullDay, show: true });
     expect(screen.getByText(/Não há rodada para sortear agora/)).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "Sortear de novo" }));
     expect(screen.queryByText(/Não há rodada para sortear agora/)).toBeNull();
     expect(screen.getByText("Rodada 1")).toBeTruthy();
-    expect(screen.getAllByRole("button", { name: /^Música \d/ })).toHaveLength(4);
+    expect(screen.getAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(4);
   });
 });

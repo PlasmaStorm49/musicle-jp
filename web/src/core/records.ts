@@ -6,10 +6,10 @@
 // igual, e o dado salvo é pequeno e fácil de validar.
 import type { CatalogIndex } from "./catalog.ts";
 import { createGame, type GameEvent, type GameState, isFinished, reduce } from "./reducer.ts";
-import { MAX_POINTS, pointsAtStage } from "./rules.ts";
-import type { AnswerMode, Day, Target } from "./types.ts";
+import { MAX_POINTS, MODES, pointsAtStage } from "./rules.ts";
+import type { Day, Target } from "./types.ts";
 
-/** "<data>|<alvo>", ex.: "2026-10-08|song". */
+/** "<data>|<modo>", ex.: "2026-10-08|album" (o Normal) ou "2026-10-08|song" (o Desafio). */
 export type PuzzleId = string;
 
 export type AttemptMark = "skip" | "wrong" | "right";
@@ -20,34 +20,32 @@ export type RoundRecord = {
   readonly attempts: readonly AttemptMark[];
 };
 
-/** Resumo de um jogo terminado. Sem IDs de faixa: não tem como revelar a resposta. */
+/**
+ * Resumo de um jogo terminado. Sem IDs de faixa: não tem como revelar a resposta. O modo vem do
+ * id (`PuzzleId`), não daqui.
+ */
 export type FinishedGame = {
-  readonly answerMode: AnswerMode;
   readonly number: number;
   readonly rounds: readonly RoundRecord[];
 };
 
+/** O andamento: só os eventos aceitos (a retomada repete todos no reducer). */
 export type InProgress = {
-  readonly answerMode: AnswerMode;
   readonly events: readonly GameEvent[];
 };
 
-/** Preferências do jogador. */
-export type Settings = {
-  /** O último modo de resposta escolhido: vem marcado na escolha do dia seguinte (P45). */
-  readonly answerMode?: AnswerMode;
-};
-
-/** O formato salvo. v2 (M11): a parada real começa do zero (P68; storage/migrations.ts). */
+/**
+ * O formato salvo. v3 (P100): os dois modos fixos começam do zero, e sai a preferência do modo
+ * de resposta, que não existe mais (storage/migrations.ts).
+ */
 export type Save = {
-  readonly schemaVersion: 2;
-  readonly settings: Settings;
+  readonly schemaVersion: 3;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
 };
 
 export function emptySave(): Save {
-  return { schemaVersion: 2, settings: {}, history: {}, inProgress: {} };
+  return { schemaVersion: 3, history: {}, inProgress: {} };
 }
 
 export function puzzleId(date: string, target: Target): PuzzleId {
@@ -59,16 +57,15 @@ export function puzzleId(date: string, target: Target): PuzzleId {
  * resolve. Um diário terminado só mostra o resumo, e consultar a Apple por ele gastaria a cota.
  */
 export function pendingDayTracks(save: Save, day: Day, date: string): string[] {
-  return (["song", "album"] as const)
-    .filter((target) => !save.history[puzzleId(date, target)])
-    .flatMap((target) => day[target].map((round) => round.answer));
+  return MODES.filter((target) => !save.history[puzzleId(date, target)]).flatMap((target) =>
+    day[target].map((round) => round.answer),
+  );
 }
 
 /** Converte um jogo terminado no resumo que vai para o histórico. */
 export function toFinishedGame(state: GameState, number: number): FinishedGame {
   if (!isFinished(state)) throw new Error("toFinishedGame recebeu um jogo em andamento");
   return {
-    answerMode: state.answerMode,
     number,
     rounds: state.rounds.map((r) => ({
       status: r.status as RoundRecord["status"],
@@ -103,14 +100,13 @@ export type Session =
 
 /**
  * Como o jogo do dia começa: já terminado (P39: mostra o resultado), retomado pelos eventos
- * salvos, ou novo. O modo de resposta salvo vale sobre o pedido: ele fica travado no dia (P13).
+ * salvos, ou novo.
  */
 export function startSession(
   save: Save,
   day: Day,
   date: string,
   target: Target,
-  answerMode: AnswerMode,
   index: CatalogIndex,
 ): Session {
   const id = puzzleId(date, target);
@@ -118,7 +114,7 @@ export function startSession(
   if (done) return { kind: "finished", game: done };
 
   const saved = save.inProgress[id];
-  let state = createGame(day, date, target, saved?.answerMode ?? answerMode, index);
+  let state = createGame(day, date, target, index);
   const events: GameEvent[] = [];
   for (const event of saved?.events ?? []) {
     const next = reduce(state, event);
@@ -155,28 +151,6 @@ export function withFinished(save: Save, id: PuzzleId, game: FinishedGame): Save
     ...save,
     history: save.history[id] ? save.history : { ...save.history, [id]: game },
     inProgress,
-  };
-}
-
-/** Modo travado do dia: o do resultado ou o do andamento; null se o dia ainda não começou. */
-export function lockedMode(save: Save, id: PuzzleId): AnswerMode | null {
-  return save.history[id]?.answerMode ?? save.inProgress[id]?.answerMode ?? null;
-}
-
-/**
- * Escolha do modo antes da rodada 1 (P13, P45). Grava a preferência e trava o modo com um
- * andamento vazio, para recarregar antes do 1º evento voltar no mesmo modo. Se o dia já tem
- * andamento ou resultado (outra aba escolheu antes), nada muda: vale o modo travado, que é o
- * que o jogador vai de fato usar (o "último usado").
- */
-export function withModeChoice(save: Save, id: PuzzleId, answerMode: AnswerMode): Save {
-  if (lockedMode(save, id)) return save;
-  const settings =
-    save.settings.answerMode === answerMode ? save.settings : { ...save.settings, answerMode };
-  return {
-    ...save,
-    settings,
-    inProgress: { ...save.inProgress, [id]: { answerMode, events: [] } },
   };
 }
 

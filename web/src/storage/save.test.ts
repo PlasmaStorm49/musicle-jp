@@ -12,8 +12,8 @@ import {
   updateSave,
 } from "./save.ts";
 
+/** Um dia terminado que vale nos dois modos (no máximo 1 tentativa por rodada, sem pulo). */
 const finished: FinishedGame = {
-  answerMode: "choice",
   number: 1,
   rounds: [
     { status: "won", stage: 1, attempts: ["right"] },
@@ -23,15 +23,9 @@ const finished: FinishedGame = {
 };
 
 const valid: Save = {
-  schemaVersion: 2,
-  settings: {},
+  schemaVersion: 3,
   history: { "2026-10-08|song": finished },
-  inProgress: {
-    "2026-10-09|song": {
-      answerMode: "choice",
-      events: [{ type: "LISTEN_MORE" }, { type: "GIVE_UP" }],
-    },
-  },
+  inProgress: { "2026-10-09|song": { events: [{ type: "SKIP" }, { type: "GIVE_UP" }] } },
 };
 
 const withRaw = (raw: string) => memoryStore({ [SAVE_KEY]: raw });
@@ -67,8 +61,8 @@ describe("loadSave", () => {
       ...valid,
       inProgress: {
         ...valid.inProgress,
-        "2026-10-10|song": { answerMode: "choice", events: [{ type: "DANCE" }] },
-        "2026-02-30|song": { answerMode: "choice", events: [] },
+        "2026-10-10|song": { events: [{ type: "DANCE" }] },
+        "2026-02-30|song": { events: [] },
       },
     });
     const result = loadSave(withRaw(raw));
@@ -78,7 +72,7 @@ describe("loadSave", () => {
   });
 
   it.each([
-    ["inProgress ausente", { schemaVersion: 2, settings: {}, history: valid.history }],
+    ["inProgress ausente", { schemaVersion: 3, history: valid.history }],
     ["inProgress como lista", { ...valid, inProgress: [] }],
   ])("mapa inválido (%s) vira vazio sem apagar o histórico", (_, data) => {
     const store = withRaw(JSON.stringify(data));
@@ -96,44 +90,39 @@ describe("loadSave", () => {
     expect(result.notice).toBe("repaired");
   });
 
-  it("modo preferido válido fica, sem aviso (M7, P45)", () => {
-    const data = { ...valid, settings: { answerMode: "typing" } };
-    expect(loadSave(withRaw(JSON.stringify(data)))).toEqual({
-      save: data,
-      writable: true,
-      notice: null,
+  it.each([
+    ["um pulo", ["skip"]],
+    ["duas tentativas", ["wrong", "right"]],
+  ])("Normal com %s invalida o jogo terminado (o Desafio aceita)", (_, attempts) => {
+    const game = {
+      ...finished,
+      rounds: [{ status: "won", stage: 1, attempts }, ...finished.rounds.slice(1)],
+    };
+    const history = { "2026-10-07|album": game, "2026-10-07|song": game };
+    const result = loadSave(withRaw(JSON.stringify({ ...valid, history })));
+    expect(Object.keys(result.save.history)).toEqual(["2026-10-07|song"]);
+    expect(result.notice).toBe("repaired");
+  });
+
+  it("Desafio: até 6 tentativas; a 7ª invalida o jogo terminado", () => {
+    const withAttempts = (n: number) => ({
+      ...finished,
+      rounds: [
+        { status: "lost", stage: 5, attempts: Array.from({ length: n }, () => "wrong") },
+        ...finished.rounds.slice(1),
+      ],
     });
-  });
-
-  it.each([
-    ["null", null],
-    ["lista", []],
-    ["texto", "typing"],
-  ])("settings que não é objeto (%s) vira {} e avisa", (_, settings) => {
-    const result = loadSave(withRaw(JSON.stringify({ ...valid, settings })));
-    expect(result.save.settings).toEqual({});
-    expect(result.save.history).toEqual(valid.history);
+    const history = { "2026-10-06|song": withAttempts(6), "2026-10-07|song": withAttempts(7) };
+    const result = loadSave(withRaw(JSON.stringify({ ...valid, history })));
+    expect(Object.keys(result.save.history)).toEqual(["2026-10-06|song"]);
     expect(result.notice).toBe("repaired");
   });
 
-  it.each([
-    ["modo inválido", { answerMode: "piano" }, {}],
-    [
-      "chave extra com modo válido",
-      { answerMode: "typing", theme: "dark" },
-      { answerMode: "typing" },
-    ],
-  ])("preferência com %s: guarda só o que vale e avisa", (_, settings, kept) => {
-    const result = loadSave(withRaw(JSON.stringify({ ...valid, settings })));
-    expect(result.save.settings).toEqual(kept);
-    expect(result.notice).toBe("repaired");
-  });
-
-  it("preferência desconhecida é descartada com aviso de reparo", () => {
-    const result = loadSave(withRaw(JSON.stringify({ ...valid, settings: { mode: "typing" } })));
-    expect(result.save.settings).toEqual({});
-    expect(result.save.history).toEqual(valid.history);
-    expect(result.notice).toBe("repaired");
+  it("campo que o save não usa mais (o settings da v2) sai sem aviso", () => {
+    const result = loadSave(
+      withRaw(JSON.stringify({ ...valid, settings: { answerMode: "typing" } })),
+    );
+    expect(result).toEqual({ save: valid, writable: true, notice: null });
   });
 
   it("se nem a cópia do corrompido der para gravar, não grava nada nesta sessão", () => {
@@ -167,26 +156,37 @@ describe("loadSave", () => {
     expect(store.getItem(CORRUPT_KEY)).toBe("lixo 1");
   });
 
-  it("save v1 (parada fictícia) vira v2 só com a preferência, sem aviso nem cópia (P68)", () => {
-    // Um save v1 de verdade, como o site publicado gravava antes do M11.
-    const v1 = {
-      schemaVersion: 1,
-      settings: { answerMode: "typing" },
-      history: { "2026-10-11|song": finished },
-      inProgress: { "2026-10-12|album": { answerMode: "choice", events: [{ type: "SKIP" }] } },
-    };
-    const store = withRaw(JSON.stringify(v1));
-    expect(loadSave(store)).toEqual({
-      save: { schemaVersion: 2, settings: { answerMode: "typing" }, history: {}, inProgress: {} },
-      writable: true,
-      notice: null,
-    });
+  it.each([
+    [
+      // Um save v1 de verdade, como o site publicado gravava antes do M11.
+      "v1 (parada fictícia, P68)",
+      {
+        schemaVersion: 1,
+        settings: { answerMode: "typing" },
+        history: { "2026-10-11|song": { answerMode: "typing", ...finished } },
+        inProgress: { "2026-10-12|album": { answerMode: "choice", events: [{ type: "SKIP" }] } },
+      },
+    ],
+    [
+      // Um save v2 de verdade, com o modo de resposta (antes dos dois modos, P100).
+      "v2 (modo de resposta, P100)",
+      {
+        schemaVersion: 2,
+        settings: { answerMode: "choice" },
+        history: { "2026-10-11|album": { answerMode: "choice", ...finished } },
+        inProgress: { "2026-10-12|song": { answerMode: "typing", events: [{ type: "SKIP" }] } },
+      },
+    ],
+  ])("save %s vira v3 vazio, sem aviso nem cópia", (_, old) => {
+    const store = withRaw(JSON.stringify(old));
+    expect(loadSave(store)).toEqual({ save: emptySave(), writable: true, notice: null });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
-    // A 1ª gravação do jogo novo já sai em v2.
+    // A 1ª gravação do jogo novo já sai em v3.
     expect(updateSave(store, (s) => ({ ...s, history: valid.history }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 2,
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toEqual({
+      schemaVersion: 3,
       history: valid.history,
+      inProgress: {},
     });
   });
 
@@ -225,7 +225,7 @@ describe("updateSave", () => {
   it("save reparado é regravado limpo mesmo sem mudança", () => {
     const raw = JSON.stringify({
       ...valid,
-      inProgress: { "2026-10-10|song": { answerMode: "choice", events: [{ type: "DANCE" }] } },
+      inProgress: { "2026-10-10|song": { events: [{ type: "DANCE" }] } },
     });
     const store = withRaw(raw);
     expect(updateSave(store, (s) => s)).toBe("saved");
@@ -243,7 +243,7 @@ describe("updateSave", () => {
     const other = { ...valid, history: { ...valid.history, "2026-10-09|song": finished } };
     store.setItem(SAVE_KEY, JSON.stringify(other));
     // Esta aba grava algo sem saber do dia 9: a mudança da outra continua lá.
-    updateSave(store, (s) => ({ ...s, settings: {} }));
+    updateSave(store, (s) => ({ ...s, inProgress: {} }));
     expect(Object.keys(loadSave(store).save.history).sort()).toEqual([
       "2026-10-08|song",
       "2026-10-09|song",

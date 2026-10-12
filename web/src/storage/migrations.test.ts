@@ -20,13 +20,37 @@ describe("migrate", () => {
       history: { x: 1 },
       inProgress: { y: 2 },
     };
-    expect(migrate(v1, 1)).toEqual({
-      schemaVersion: 2,
+    expect(MIGRATIONS[1]?.(v1)).toEqual({
       settings: { answerMode: "typing" },
       history: {},
       inProgress: {},
     });
-    expect(migrate({ schemaVersion: 1 }, 1)).toMatchObject({ settings: {} });
+    expect(MIGRATIONS[1]?.({ schemaVersion: 1 })).toMatchObject({ settings: {} });
+  });
+
+  it("v2 → v3 zera tudo, inclusive a preferência do modo de resposta (P100)", () => {
+    // Um save v2 de verdade: preferência, um dia terminado e um em andamento.
+    const v2 = {
+      schemaVersion: 2,
+      settings: { answerMode: "choice" },
+      history: {
+        "2026-10-11|album": {
+          answerMode: "choice",
+          number: 1,
+          rounds: [{ status: "won", stage: 0, attempts: ["right"] }],
+        },
+      },
+      inProgress: { "2026-10-12|song": { answerMode: "typing", events: [{ type: "SKIP" }] } },
+    };
+    expect(migrate(v2, 2)).toEqual({ schemaVersion: 3, history: {}, inProgress: {} });
+  });
+
+  it("v1 vai até a v3 passando pela v2", () => {
+    expect(migrate({ schemaVersion: 1, settings: { answerMode: "typing" } }, 1)).toEqual({
+      schemaVersion: 3,
+      history: {},
+      inProgress: {},
+    });
   });
 
   it("versão sem migração conhecida dá erro", () => {

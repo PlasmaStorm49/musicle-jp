@@ -18,7 +18,7 @@ export type Stats = {
 /**
  * @param today data do jogo (não o relógio: em DEV, o ?date= também vale).
  * @param scheduleDates dias que existem na agenda. Só eles contam para a sequência: um dia sem
- *   desafio (atualização que falhou) não quebra a sequência de ninguém (P40).
+ *   diário (atualização que falhou) não quebra a sequência de ninguém (P40).
  */
 export function computeStats(
   history: Readonly<Record<PuzzleId, FinishedGame>>,

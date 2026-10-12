@@ -3,14 +3,17 @@ import { ROUTES, tabFromHash, todayHref } from "./routes.ts";
 
 describe("tabFromHash (P49)", () => {
   it.each([
-    ["#musica", "song"],
-    ["#album", "album"],
+    ["#normal", "album"],
+    ["#desafio", "song"],
     ["#treino", "practice"],
     ["#inicio", "home"],
     ["", "home"],
     ["#", "home"],
     ["#nada", "home"],
-    ["#ALBUM", "home"],
+    ["#NORMAL", "home"],
+    // Os links de antes dos dois modos (P101) caem na home.
+    ["#musica", "home"],
+    ["#album", "home"],
   ])("%j → %s", (hash, tab) => {
     expect(tabFromHash(hash)).toBe(tab);
   });
@@ -20,15 +23,15 @@ describe("tabFromHash (P49)", () => {
   });
 });
 
-describe("todayHref (botão 'Jogar o novo desafio')", () => {
+describe("todayHref (botão 'Jogar o novo diário')", () => {
   it("tira o ?date= do desenvolvimento e mantém a aba", () => {
-    expect(todayHref("http://localhost:5173/?date=2026-10-08#album")).toBe(
-      "http://localhost:5173/#album",
+    expect(todayHref("http://localhost:5173/?date=2026-10-08#normal")).toBe(
+      "http://localhost:5173/#normal",
     );
   });
 
   it("sem ?date=, o endereço é o mesmo: null manda recarregar (trocar só o # não recarrega)", () => {
-    expect(todayHref("http://localhost:5173/#album")).toBeNull();
+    expect(todayHref("http://localhost:5173/#normal")).toBeNull();
     expect(todayHref("https://x.github.io/musicle-jp/")).toBeNull();
   });
 

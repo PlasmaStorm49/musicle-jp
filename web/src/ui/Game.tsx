@@ -3,7 +3,6 @@ import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import {
   type FinishedGame,
-  lockedMode,
   pendingDayTracks,
   puzzleId,
   replaceProgress,
@@ -11,22 +10,21 @@ import {
   startSession,
   toFinishedGame,
   withFinished,
-  withModeChoice,
   withProgress,
 } from "../core/records.ts";
 import { type GameEvent, type GameState, isFinished, reduce } from "../core/reducer.ts";
 import { ROUNDS_PER_DAY } from "../core/rules.ts";
-import type { AnswerMode, Day, Target } from "../core/types.ts";
+import type { Day, Target } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { usePreviews } from "./hooks.ts";
-import { ModePicker } from "./ModePicker.tsx";
+import { modeName } from "./modes.ts";
 import { RoundView } from "./RoundView.tsx";
 import { Summary } from "./Summary.tsx";
 
 type Props = {
-  /** Qual diário: Música ou Álbum. */
+  /** Qual diário: o Normal ("album") ou o Desafio ("song"). */
   readonly target: Target;
   readonly day: Day;
   readonly date: string;
@@ -61,10 +59,7 @@ const SAVE_NOTICE = {
 } as const;
 
 function header(target: Target, number: number): string {
-  return t("game.header", {
-    daily: t(target === "song" ? "target.song" : "target.album"),
-    number,
-  });
+  return t("game.header", { mode: modeName(target), number });
 }
 
 /** O resumo do dia com tudo o que ele precisa; o histórico já inclui o jogo de hoje. */
@@ -104,30 +99,27 @@ function playReducer(played: Played, event: GameEvent): Played {
 }
 
 /**
- * Um diário (Música ou Álbum). Dia sem começar pede o modo (P13, P45); dia começado retoma no
- * modo salvo; dia terminado mostra direto o resultado (P39).
+ * Um diário (Normal ou Desafio). Dia começado retoma pelos eventos salvos; dia terminado mostra
+ * direto o resultado (P39).
  */
 export function Game(props: Props) {
   const { target, day, date, index, initialSave, store, announce, onSaved, resolver } = props;
-  // As faixas do dia (Música e Álbum) numa consulta só, já na carga, antes da escolha do modo
-  // (decisão 7 do plano): no clique a URL quase sempre já chegou, e o Tocar nasce liberado. Só
-  // as dos diários sem resultado: o terminado mostra o resumo, que não toca nada.
-  const dayTracks = useMemo(
-    () => pendingDayTracks(initialSave, day, date),
-    [initialSave, day, date],
-  );
+  // O save da abertura da aba, guardado na montagem: o App passa o save relido a cada gravação,
+  // e recalcular a sessão com ele pularia a revelação da última rodada (o dia já estaria no
+  // histórico). Cada troca de aba remonta o diário (key no App) e relê.
+  const [base] = useState(initialSave);
+  // As faixas do dia (Normal e Desafio) numa consulta só, já na carga (decisão 7 do plano): no
+  // clique a URL quase sempre já chegou, e o Tocar nasce liberado. Só as dos diários sem
+  // resultado: o terminado mostra o resumo, que não toca nada.
+  const dayTracks = useMemo(() => pendingDayTracks(base, day, date), [base, day, date]);
   useEffect(() => resolver.prefetch(dayTracks), [resolver, dayTracks]);
   const id = puzzleId(date, target);
-  // O save de onde a sessão nasce: o da abertura da aba, ou o relido na escolha do modo (outra
-  // aba pode ter começado ou terminado o dia enquanto o seletor estava na tela).
-  const [base, setBase] = useState(initialSave);
-  const [mode, setMode] = useState<AnswerMode | null>(() => lockedMode(initialSave, id));
   const session = useMemo(
-    () => (mode === null ? null : startSession(base, day, date, target, mode, index)),
-    [base, day, date, target, index, mode],
+    () => startSession(base, day, date, target, index),
+    [base, day, date, target, index],
   );
   const start = useMemo(
-    () => (session?.kind === "playing" ? { game: session.state, events: session.events } : null),
+    () => (session.kind === "playing" ? { game: session.state, events: session.events } : null),
     [session],
   );
 
@@ -150,44 +142,22 @@ export function Game(props: Props) {
   // foi para o histórico, ou ter descartado eventos (catálogo novo) que impediriam gravar os
   // próximos, já que vence a lista mais longa.
   useEffect(() => {
-    if (!store || !session) return;
+    if (!store) return;
     if (session.kind === "finished" && !base.history[id]) {
       report(
         updateSave(store, (s) => withFinished(s, id, session.game)),
         true,
       );
     } else if (session.kind === "playing" && session.stale) {
-      const progress = { answerMode: session.state.answerMode, events: session.events };
+      const progress = { events: session.events };
       report(updateSave(store, (s) => replaceProgress(s, id, progress)));
     }
   }, [session, store, id, base, report]);
 
-  // Grava a escolha e relê: se outra aba já começou o dia, vale o modo e o andamento dela (P13);
-  // se já terminou, a sessão nasce terminada e mostra o resultado (P39).
-  const choose = useCallback(
-    (chosen: AnswerMode) => {
-      if (!store) return setMode(chosen);
-      report(updateSave(store, (s) => withModeChoice(s, id, chosen)));
-      const reread = loadSave(store);
-      const save = reread.writable ? reread.save : base;
-      setBase(save);
-      setMode(lockedMode(save, id) ?? chosen);
-    },
-    [store, id, base, report],
-  );
-
   return (
     <>
       {saveNotice && <p class="notice">{saveNotice}</p>}
-      {session === null && (
-        <div class="game">
-          <header>
-            <h1>{header(target, day.number)}</h1>
-          </header>
-          <ModePicker preferred={base.settings.answerMode} onChoose={choose} />
-        </div>
-      )}
-      {session?.kind === "finished" && (
+      {session.kind === "finished" && (
         <DaySummary {...props} initialSave={base} game={session.game} />
       )}
       {start && <Playing {...props} initialSave={base} start={start} report={report} />}
@@ -217,11 +187,7 @@ function Playing({
         true,
       );
     } else {
-      report(
-        updateSave(store, (s) =>
-          withProgress(s, id, { answerMode: game.answerMode, events: played.events }),
-        ),
-      );
+      report(updateSave(store, (s) => withProgress(s, id, { events: played.events })));
     }
   }, [store, played, start, game, date, day.number, report]);
 

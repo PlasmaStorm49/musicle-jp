@@ -16,8 +16,10 @@ export type {
 } from "./generated/catalog.ts";
 export type { AlbumRound, Day, Schedule, SongRound } from "./generated/schedule.ts";
 
-/** O que o jogador adivinha: a música (título) ou o álbum. */
+/**
+ * O modo de jogo (P100), pelo que se adivinha. O nome segue as listas da agenda (`song` e
+ * `album`), e cada um tem o seu jeito de responder (MODE_RULES, rules.ts):
+ * - "album" é o **Normal**: o álbum ou single, entre 4 opções;
+ * - "song" é o **Desafio**: o nome exato da música, digitado.
+ */
 export type Target = "song" | "album";
-
-/** Como o jogador responde: escolhendo entre 4 opções ou digitando com autocompletar. */
-export type AnswerMode = "choice" | "typing";

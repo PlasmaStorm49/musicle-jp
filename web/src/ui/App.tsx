@@ -8,6 +8,7 @@ import { APPLE_PROVIDER } from "../core/apple.ts";
 import { practiceSummary } from "../core/home.ts";
 import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
+import { MODES } from "../core/rules.ts";
 import { appleResolver, catalogResolver, type PreviewResolver } from "../data/previews.ts";
 import {
   assetUrl,
@@ -34,6 +35,7 @@ import {
 } from "../storage/save.ts";
 import { Game } from "./Game.tsx";
 import { Home } from "./Home.tsx";
+import { modeName } from "./modes.ts";
 import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
 
 type Load =
@@ -75,7 +77,7 @@ function openSaves(date: string): Storage {
   } catch {
     loaded = { save: emptySave(), writable: false, notice: "unavailable" };
   }
-  const today = [puzzleId(date, "song"), puzzleId(date, "album")];
+  const today = MODES.map((mode) => puzzleId(date, mode));
   if (loaded.writable) updateSave(store, (s) => pruneProgress(s, today));
   const notice =
     loaded.notice === "future"
@@ -96,7 +98,7 @@ export function App() {
   const resolveUrl = useCallback((url: string) => assetUrl(BASE_URL, url), []);
   const [tab, setTab] = useState<Tab>(() => tabFromHash(window.location.hash));
   // A última leitura do save, para o ✓ das abas e o Treino. Cada diário recebe a leitura do
-  // momento em que a aba abre: voltar à Música terminada mostra o resultado (P39).
+  // momento em que a aba abre: voltar ao Desafio terminado mostra o resultado (P39).
   const [latest, setLatest] = useState(saves.save);
   // A sessão do Treino mora aqui, e não no Practice: trocar de aba e voltar não a zera. Só
   // na memória (P50): recarregar a página começa outra.
@@ -191,16 +193,16 @@ export function App() {
     <>
       <nav class="tabs" aria-label={t("nav.label")}>
         <ul>
-          {/* Uma aba por link (#inicio, #musica, #album, #treino), com aria-current na ativa. */}
+          {/* Uma aba por link (#inicio, #normal, #desafio, #treino), com aria-current na ativa. */}
           <li>
             <a href={ROUTES.home} aria-current={tab === "home" ? "page" : undefined}>
               {t("nav.home")}
             </a>
           </li>
-          {(["song", "album"] as const).map((daily) => (
+          {MODES.map((daily) => (
             <li key={daily}>
               <a href={ROUTES[daily]} aria-current={tab === daily ? "page" : undefined}>
-                {t(daily === "song" ? "nav.song" : "nav.album")}
+                {modeName(daily)}
                 {latest.history[puzzleId(date, daily)] && (
                   <>
                     <span aria-hidden="true"> {t("nav.doneMark")}</span>
@@ -340,7 +342,7 @@ function Ready({
   }
 }
 
-/** Dia sem desafio na agenda: o Treino continua (PLANO, Apêndice C). */
+/** Dia sem diário na agenda: o Treino continua (PLANO, Apêndice C). */
 function Unavailable() {
   return (
     <section class="unavailable">

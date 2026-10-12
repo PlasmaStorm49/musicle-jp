@@ -12,35 +12,38 @@ const day = schedule.days[DATE] as Day;
 
 // Rodada 1 em 6 pontos, rodada 2 perdida, rodada 3 em 5 pontos (ouviu mais uma vez): 11 de 18.
 const finished: FinishedGame = {
-  answerMode: "choice",
   number: day.number,
   rounds: [
     { status: "won", stage: 0, attempts: ["right"] },
     { status: "lost", stage: 0, attempts: ["wrong"] },
-    { status: "won", stage: 1, attempts: ["right"] }, // no 4 opções, "Ouvir mais" não é tentativa
+    { status: "won", stage: 1, attempts: ["right"] }, // no Normal, "Ouvir mais" não é tentativa
   ],
 };
 
 const save = (change: Partial<Save>): Save => ({ ...emptySave(), ...change });
 
 describe("dailyStatus (cartões da home)", () => {
-  it("dia novo: o número do desafio", () => {
+  it("dia novo: o número do diário", () => {
     expect(dailyStatus(emptySave(), day, DATE, "song")).toEqual({
       kind: "new",
       number: day.number,
     });
   });
 
-  it("modo escolhido, mesmo sem palpite: em andamento, com o modo travado (P13)", () => {
+  it("com andamento salvo: em andamento", () => {
     const playing = save({
-      inProgress: { [puzzleId(DATE, "album")]: { answerMode: "typing", events: [] } },
+      inProgress: { [puzzleId(DATE, "album")]: { events: [{ type: "LISTEN_MORE" }] } },
     });
     expect(dailyStatus(playing, day, DATE, "album")).toEqual({
       kind: "playing",
       number: day.number,
-      answerMode: "typing",
     });
     expect(dailyStatus(playing, day, DATE, "song").kind).toBe("new");
+  });
+
+  it("andamento vazio (a repetição descartou todos os eventos): ainda é dia novo", () => {
+    const emptied = save({ inProgress: { [puzzleId(DATE, "album")]: { events: [] } } });
+    expect(dailyStatus(emptied, day, DATE, "album").kind).toBe("new");
   });
 
   it("terminado: os pontos e o máximo saem do resumo salvo", () => {
@@ -75,7 +78,7 @@ describe("dailyStatus (cartões da home)", () => {
 
 describe("practiceSummary (cartão do Treino)", () => {
   const index = indexCatalog(catalog);
-  const session = startPracticeSession(1, "song", "choice", index, new Set());
+  const session = startPracticeSession(1, "album", index, new Set());
   const game = session.game;
   const round = game?.rounds[0];
   if (!game || !round) throw new Error("o Treino não sorteou rodada");

@@ -6,7 +6,6 @@ const won = (stage: number): RoundRecord => ({ status: "won", stage, attempts: [
 const lost: RoundRecord = { status: "lost", stage: 0, attempts: ["wrong"] };
 const voided: RoundRecord = { status: "void", stage: 0, attempts: [] };
 const game = (...rounds: RoundRecord[]): FinishedGame => ({
-  answerMode: "choice",
   number: 1,
   rounds,
 });

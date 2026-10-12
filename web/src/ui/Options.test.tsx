@@ -3,7 +3,7 @@ import { cleanup, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { indexCatalog } from "../core/catalog.ts";
 import { createRounds } from "../core/reducer.ts";
-import type { Album, Catalog, Target, Track } from "../core/types.ts";
+import type { Album, Catalog, Track } from "../core/types.ts";
 import { Options } from "./Options.tsx";
 
 afterEach(cleanup);
@@ -34,7 +34,6 @@ const track = (n: number): Track => ({
   },
   popularity: 0.5,
   eligible: { daily: true, reason: null },
-  similar: [],
   search: { title: [`musica${n}`], artist: ["artista"] },
 });
 const album = (n: number): Album => ({
@@ -48,10 +47,9 @@ const album = (n: number): Album => ({
   releaseDate: "2026-01-01",
   artworkUrl: `art/${n}.svg`,
   similar: [],
-  search: [`album${n}`],
 });
 const catalog: Catalog = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   catalogVersion: "teste",
   generatedAt: "2026-01-01T00:00:00Z",
   provider: "teste",
@@ -59,24 +57,20 @@ const catalog: Catalog = {
   snapshots: [
     { id: "s", date: "2026-01-01", fetchedAt: "2026-01-01T00:00:00Z", chart: "c", size: 4 },
   ],
-  artists: [
-    { id: "t:ar:1", name: "Artista", nameLatin: null, latinSource: null, search: ["artista"] },
-  ],
+  artists: [{ id: "t:ar:1", name: "Artista", nameLatin: null, latinSource: null }],
   albums: [album(1), album(2), album(3), album(4)],
   tracks: [track(1), track(2), track(3), track(4)],
 };
 const index = indexCatalog(catalog);
 
-function setup(target: Target) {
-  const prefix = target === "song" ? "t:tr:" : "t:al:";
-  const options = [1, 2, 3, 4].map((n) => `${prefix}${n}`);
-  const [round] = createRounds([{ answer: "t:tr:1", options }], target, index);
+function setup() {
+  const options = [1, 2, 3, 4].map((n) => `t:al:${n}`);
+  const [round] = createRounds([{ answer: "t:tr:1", options }], "album", index);
   if (!round) throw new Error("rodada não montada");
   const { container } = render(
     <Options
       index={index}
       round={round}
-      target={target}
       resolveUrl={(url) => `/base/${url}`}
       onPick={vi.fn()}
       onGiveUp={vi.fn()}
@@ -85,19 +79,14 @@ function setup(target: Target) {
   return container;
 }
 
-describe("Options: capas no alvo Álbum (P51)", () => {
-  it("Álbum: cada opção mostra a capa, com alt vazio (o texto ao lado já nomeia)", () => {
-    const container = setup("album");
+describe("Options: as 4 opções do Normal, com capa (P51)", () => {
+  it("cada opção mostra a capa, com alt vazio (o texto ao lado já nomeia)", () => {
+    const container = setup();
     // alt="" tira a imagem da árvore de acessibilidade: getByRole("img") não a acha.
     const covers = [...container.querySelectorAll("img")];
     expect(covers).toHaveLength(4);
     expect(covers.map((img) => img.getAttribute("src"))).toContain("/base/art/1.svg");
     expect(covers.every((img) => img.getAttribute("alt") === "")).toBe(true);
     expect(screen.getAllByRole("button", { name: /^Álbum \d/ })).toHaveLength(4);
-  });
-
-  it("Música: só texto, sem capa", () => {
-    const container = setup("song");
-    expect(container.querySelectorAll("img")).toHaveLength(0);
   });
 });
