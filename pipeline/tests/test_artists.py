@@ -83,6 +83,18 @@ def pick(s: ArtistSnapshot, rules: ArtistRules | None = None, blocked=frozenset(
         ("アイドル (From 'Oshi no Ko')", "アイドル"),  # o crédito da origem também
         ("新時代 (ウタ from ONE PIECE FILM RED) [2023 Remaster]", "新時代"),  # crédito + remaster
         ("光 (Karaoke) (2022 Remaster)", "光"),
+        # Formatos vistos nos 6 artistas reais (12/10/2026):
+        ("ADAMAS -LANDER Live ver.-", "ADAMAS"),  # o "-X-" colado (LiSA)
+        ("ADAMAS -ONLiNE LEO-NiNE Live ver.-", "ADAMAS"),  # com hífen dentro
+        ("crossing field -2015武道館 Live Chocolate Ver.-", "crossing field"),
+        ('cold rain ("Walpurgisnacht" Live at TOKYO GARDEN THEATER)', "cold rain"),  # Aimer
+        ("ninelie (TV size) [with chelly]", "ninelie"),  # o crédito "with"
+        ("炎 -MOVIE ver.-", "炎"),
+        ("best day, best way -short size ver.", "best day, best way"),  # sem o hífen final
+        ("KICK BACK -ANIME edit", "KICK BACK"),
+        ("星の消えた夜に (Remaster for 星の消えた夜に 2022)", "星の消えた夜に"),
+        ("Bubble feat.Uta", "Bubble (feat. Uta)"),  # o feat. sem espaço (Eve)
+        ("唱 (Sped Up)", "唱"),
         ("紅蓮華 - From THE FIRST TAKE", "紅蓮華"),
         ("夜に駆ける (English Version)", "夜に駆ける"),
         ("Song (TV Size)", "Song"),  # o title_key da parada já tira
@@ -123,6 +135,20 @@ def test_the_key_keeps_tails_that_are_part_of_the_name(title):
         ("Song (Live at Budokan)", "Album", "out"),
         ("Song - 2019 Live", "Album", "out"),
         ("Song (Live Ver.)", "Album", "out"),
+        ("唱 (A Cappella)", "Album", "out"),
+        ("唱 (Sped Up)", "Album", "out"),
+        ("唱 (Stripped)", "Album", "out"),
+        ("best day, best way -short size ver.", "Album", "out"),
+        ('Black Bird (Aimer "soleil et pluie" Asia Tour in Shanghai)', "Album", "out"),
+        ("冬のダイヤモンド(Re-echoed by Genki Rockets)", "Album", "out"),
+        ("NANIMONO (feat. 米津玄師) -extended mix-", "Album", "out"),
+        ("Prologue", "THE BOOK", "out"),  # vinheta de álbum, não música
+        ('Interlude "Awakening"', "THE BOOK 3", "out"),
+        ("After Dark -prologue-", "Album", "secondary"),  # a música, com o nome da versão
+        ("KICK BACK -ANIME edit", "Album", "secondary"),
+        ("炎 -MOVIE ver.-", "Album", "secondary"),
+        ("ninelie [with chelly]", "Album", "secondary"),
+        ("今日から思い出 Evergreen ver.", "Album", "secondary"),
         ("光 (Off-Vocal)", "Album", "out"),
         ("光 (ライヴ)", "Album", "out"),
         ("Song", "Album（Live）", "out"),  # largura total no nome do álbum
@@ -328,3 +354,16 @@ def test_title_keys_include_the_group_key():
     songs, _ = pick(snap((1, track("1", "新時代 (ウタ from ONE PIECE FILM RED)"))))
     data = build_artist_file("fixture", "jp", snap(), songs, Curation())
     assert title_key("新時代") in data["tracks"][0]["titleKeys"]
+
+
+def test_a_version_without_delimiter_joins_the_song_of_its_prefix():
+    # "今日から思い出 Evergreen ver." (Aimer) não tem delimitador: entra no grupo do prefixo.
+    songs, _ = pick(
+        snap(
+            (1, track("1", "今日から思い出", date="2020-01-01")),
+            (2, track("2", "今日から思い出 Evergreen ver.", date="2021-01-01")),
+            (3, track("3", "Forever ver.")),  # sem música do prefixo: fica como está
+        )
+    )
+    by_key = {s.canonical.provider_id: {t.provider_id for t in s.members} for s in songs}
+    assert by_key == {"1": {"1", "2"}, "3": {"3"}}

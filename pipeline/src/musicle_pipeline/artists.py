@@ -29,7 +29,7 @@ from musicle_pipeline.catalog import (
     eligibility,
     entity_id,
 )
-from musicle_pipeline.models import JSON, ArtistSnapshot, InputError, RawTrack
+from musicle_pipeline.models import JSON, ArtistEntry, ArtistSnapshot, InputError, RawTrack
 from musicle_pipeline.normalize import (
     TAILS,
     search_keys,
@@ -51,12 +51,35 @@ _OUT = re.compile(
     r"|acoustic|アコースティック|english\s*(?:ver|version)|the\s+first\s+take"
     # Ao vivo: o sufixo inteiro "Live", ou começando por ele ("Live at Budokan", "Live ver."),
     # ou terminando nele ("2019 Live"). "(Live Forever)" é parte do nome.
-    r"|^live$|^live\s+(?:at|in|from|ver|version)\b|\blive\s+ver(?:sion)?\b|\s+live$",
+    r"|^live$|^live\s+(?:at|in|from|ver|version)\b|\blive\s+ver(?:sion)?\b|\s+live$"
+    # O show no meio do sufixo: '("Walpurgisnacht" Live at …)', "-2015武道館 Live Chocolate Ver.-".
+    r"|\blive\s+(?:at|in|from)\b|\blive\b.*\bver(?:sion)?\b|武道館|budokan|\btour\b"
+    # Arranjos que não são a música do sorteio (vistos nos 6 artistas reais em 12/10/2026).
+    r"|a\s*cappella|\bslowed\b|\bsped\s*up\b|\bstripped\b|\bshort\s+(?:size|ver)|\bmix\b"
+    r"|re-?echoed|restarred",
     re.IGNORECASE,
 )
-# Crédito do intérprete ou da origem no título: "新時代 (ウタ from ONE PIECE FILM RED)" e
-# "アイドル (From 'X')" são a mesma música do título sem o crédito.
-_CREDIT = re.compile(r"(?:.+\s)?from\s.+", re.IGNORECASE)
+# Versões aceitáveis que o normalize.py da parada não conhece nesses formatos ("-MOVIE ver.-",
+# "(Yui.Ver)", "(Remaster for … 2022)", "(… edit)", "-prologue-", "(カバー)", "[Classic]").
+_SECONDARY = re.compile(
+    r"\bver(?:sion)?\.?$|\bver\.|\bedit\b|remaster|\bprologue\b|\bepilogue\b|\bcover\b|カバー"
+    r"|^classic$",
+    re.IGNORECASE,
+)
+# "Bubble feat.Uta": o feat. sem espaço, que o normalize.py da parada não tira.
+_TIGHT_FEAT = re.compile(r"\s+(?:feat|ft)\.(?=\S).+$", re.IGNORECASE)
+# Crédito do intérprete, do parceiro ou da origem no título: "新時代 (ウタ from ONE PIECE FILM
+# RED)", "ninelie [with chelly]" e "アイドル (From 'X')" são a mesma música sem o crédito.
+_CREDIT = re.compile(r"(?:.+\s)?from\s.+|with\s.+", re.IGNORECASE)
+# Os delimitadores da parada e um que só aparece aqui: o "-X-" colado das versões da LiSA
+# ("ADAMAS -LANDER Live ver.-").
+_ARTIST_TAILS = (
+    *TAILS,
+    re.compile(r"\s+-(\S.*?)-\s*$"),
+    # O hífen sem o de fechamento, só quando o sufixo é uma versão ("-short size ver.",
+    # "-ANIME edit").
+    re.compile(r"\s+-(\S[^-]*\b(?:ver(?:sion)?\.?|edit))\s*$", re.IGNORECASE),
+)
 # Álbum ao vivo (o título da faixa às vezes não diz) e em inglês (P135, P124). Só com marcador
 # de show: "Live to Survive - Single" (Aimer) é um single de estúdio. O que escapar vai para o
 # exclude_albums.
@@ -66,6 +89,9 @@ _LIVE_ALBUM = re.compile(
     r"|武道館|budokan|the\s+first\s+take",
     re.IGNORECASE,
 )
+# Faixa que não é música: a abertura, o fecho e as vinhetas de um álbum ("Prologue",
+# 'Interlude "Awakening"', do YOASOBI). Só o título inteiro: "… -prologue-" é a música.
+_NOT_A_SONG = re.compile(r"^(?:prologue|epilogue|intro|outro|interlude)\b", re.IGNORECASE)
 _ENGLISH_ALBUM = re.compile(r"english\s*(?:ver|version)", re.IGNORECASE)
 _BEST_ALBUM = re.compile(r"\bbest\b|ベスト|greatest\s+hits", re.IGNORECASE)
 _ARTIST_ID = re.compile(r"[A-Za-z0-9_-]+")
@@ -140,7 +166,7 @@ def load_artist_list(path: Path) -> list[ArtistRules]:
 
 def _last_tail(text: str) -> tuple[str, str] | None:
     """O sufixo delimitado mais à direita: (o que vem antes, o conteúdo dele)."""
-    tails = [m for r in TAILS if (m := r.search(text))]
+    tails = [m for r in _ARTIST_TAILS if (m := r.search(text))]
     last = max(tails, key=lambda m: m.start(), default=None)
     if last is None:
         return None
@@ -150,13 +176,16 @@ def _last_tail(text: str) -> tuple[str, str] | None:
 def artist_title_key(title: str) -> str:
     """A chave da música dentro do artista: o title_key da parada, depois de tirar, em laço, os
     sufixos que só valem aqui (karaokê, inglês, THE FIRST TAKE, crédito "(… from …)")."""
-    s = unicodedata.normalize("NFKC", title).strip()
+    s = _TIGHT_FEAT.sub("", unicodedata.normalize("NFKC", title).strip())
     while True:
         # As versões da parada (remaster, feat., TV size) saem antes: o crédito pode vir antes
         # delas ("新時代 (ウタ from …) [2023 Remaster]").
         s = strip_version_suffix(s)
         cut = _last_tail(s)
-        if cut is None or not cut[0] or not (_OUT.search(cut[1]) or _CREDIT.fullmatch(cut[1])):
+        known = cut is not None and (
+            _OUT.search(cut[1]) or _CREDIT.fullmatch(cut[1]) or _SECONDARY.search(cut[1])
+        )
+        if cut is None or not cut[0] or not known:
             return title_key(s)
         s = cut[0]
 
@@ -168,15 +197,24 @@ def version_kind(track: RawTrack) -> Literal["out", "secondary"] | None:
     if _LIVE_ALBUM.search(album) or _ENGLISH_ALBUM.search(album):
         return "out"
     nfkc = unicodedata.normalize("NFKC", track.title).strip()
+    if _NOT_A_SONG.match(nfkc):
+        return "out"
     credit = False
     s = nfkc
     while (cut := _last_tail(s)) is not None and cut[0]:
         rest, inner = cut
         if _OUT.search(inner):
             return "out"
-        credit = credit or _CREDIT.fullmatch(inner) is not None
+        credit = (
+            credit or _CREDIT.fullmatch(inner) is not None or _SECONDARY.search(inner) is not None
+        )
         s = rest
-    return "secondary" if credit or strip_version_suffix(nfkc) != nfkc else None
+    changed = (
+        strip_version_suffix(nfkc) != nfkc
+        or _TIGHT_FEAT.search(nfkc) is not None
+        or _UNDELIMITED_VER.search(nfkc) is not None
+    )
+    return "secondary" if credit or changed else None
 
 
 @dataclass(frozen=True)
@@ -210,6 +248,26 @@ def _stale_rules(snap: ArtistSnapshot, rules: ArtistRules) -> list[str]:
     ]
 
 
+# "… ver." no fim, sem delimitador: a Aimer escreve "今日から思い出 Evergreen ver.".
+_UNDELIMITED_VER = re.compile(r"\s\S.*\bver(?:sion)?\.?$", re.IGNORECASE)
+
+
+def _join_undelimited_versions(entries: Sequence[ArtistEntry], key_of: dict[str, str]) -> None:
+    """O título que termina em "ver." sem delimitador é versão da música do prefixo mais longo
+    (cortado num espaço) que existe no artista: a chave dele passa a ser a dela."""
+    keys = set(key_of.values())
+    for e in entries:
+        title = unicodedata.normalize("NFKC", e.track.title).strip()
+        if not _UNDELIMITED_VER.search(title):
+            continue
+        words = title.split(" ")
+        for cut in range(len(words) - 1, 0, -1):
+            prefix = artist_title_key(" ".join(words[:cut]))
+            if prefix != key_of[e.track.provider_id] and prefix in keys:
+                key_of[e.track.provider_id] = prefix
+                break
+
+
 def select_songs(
     snap: ArtistSnapshot,
     rules: ArtistRules,
@@ -239,6 +297,7 @@ def select_songs(
         if first in key_of and second in key_of:
             old, new = key_of[second], key_of[first]
             key_of = {tid: new if key == old else key for tid, key in key_of.items()}
+    _join_undelimited_versions(kept, key_of)
     groups: dict[str, list[tuple[int | None, RawTrack]]] = {}
     for e in kept:
         groups.setdefault(key_of[e.track.provider_id], []).append((e.rank, e.track))
