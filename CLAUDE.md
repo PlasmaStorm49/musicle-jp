@@ -30,7 +30,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 | `web/` | TypeScript + Vite + Preact; `src/core/` é a lógica pura do jogo |
 | `shared/` | Schemas JSON e vetores de teste usados pelos dois lados |
 | `docs/` | `PLANO.md` (decisões na seção 2) |
-| `.github/` | `workflows/ci.yml`: as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main`. `deploy.yml` (`pages-build`, `pages-deploy`): publica no Pages a cada merge, com a parada real (`data/`) e sem as fixtures. `update-catalog.yml` (`catalog-generate`, `catalog-pr`, `catalog-runway`): toda segunda busca a parada da Apple e abre o PR com ela e os dias novos das agendas; as conferências da tarefa que escreve ficam em `scripts/check-catalog-pr.sh`, com teste em `pipeline/tests/`; a `catalog-runway` fica vermelha com menos de 10 dias de agenda. Nenhuma tarefa nova pode se chamar `pipeline`, `web` ou `e2e` |
+| `.github/` | `workflows/ci.yml`: as tarefas `pipeline`, `web` e `e2e`, checagens obrigatórias da `main`. `deploy.yml` (`pages-build`, `pages-deploy`): publica no Pages a cada merge, com a parada real (`data/`) e sem as fixtures. `update-catalog.yml` (`catalog-generate`, `catalog-pr`, `catalog-runway`): toda segunda busca a parada da Apple e abre o PR com ela e os dias novos das agendas; as conferências da tarefa que escreve ficam em `scripts/check-catalog-pr.sh`, e a reserva e a lista fechada da que gera, em `scripts/catalog-reserve.sh` e `catalog-collect.sh`, todos com teste em `pipeline/tests/`; a `catalog-runway` fica vermelha com menos de 10 dias de agenda. Nenhuma tarefa nova pode se chamar `pipeline`, `web` ou `e2e` |
 | `.claude/` | Configuração do Claude Code deste projeto |
 
 ## Comandos
