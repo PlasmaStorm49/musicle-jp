@@ -10,18 +10,18 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 
 | # | Decisão |
 |---|---|
-| P6/P7 | Duas dimensões independentes: alvo (Música ou Álbum) × resposta (4 opções ou digitação com autocompletar) |
+| P6/P7 | **Substituída pela P100.** Duas dimensões independentes: alvo (Música ou Álbum) × resposta (4 opções ou digitação com autocompletar) |
 | P9 | Site estático + pipeline Python que gera catálogo e agenda em JSON; GitHub Pages; Action semanal atualiza |
 | P10 | Frontend TypeScript + Vite, testes com Vitest |
-| P11 | Desafio diário (igual para todos, vira à 00:00 de Brasília) + modo Treino ilimitado |
+| P11 | Diário (igual para todos, vira à 00:00 de Brasília) + modo Treino ilimitado |
 | P12 | Interface só em PT-BR, textos centralizados em `web/src/i18n/pt-BR.ts` |
-| P13 | Dois diários por dia (Música e Álbum), 3 rodadas cada; tipo de resposta escolhido antes da rodada 1 e travado no dia |
+| P13 | Dois diários por dia, 3 rodadas cada (desde a P100, o Normal e o Desafio). **A escolha do tipo de resposta antes da rodada 1, travada no dia, saiu com a P100** |
 | P14 | Preact com hooks, sem biblioteca de estado |
 | P15 | Repositório público no GitHub |
 | P17 | Faixas explícitas podem ser resposta; a tela mostra um aviso de conteúdo explícito (M5) |
 | P18 | Desafio nº 1 da agenda falsa em 2026-10-08 (início do projeto) |
 | P21 a P23 | Romaji com cutlet, em cache versionado; grafia estrangeira só na busca (Apêndice B) |
-| P24 | O Diário Álbum aceita singles, em definitivo |
+| P24 | O Normal (antes, o Diário Álbum) aceita singles, em definitivo |
 | P25 | `epoch` da agenda real (M11, em `public/data/`, com IDs da Apple): 2026-10-10, decidido nesse dia. Se ela for publicada depois, o 1º desafio real sai com nº maior que 1, e os dias entre o `epoch` e a publicação ficam como buraco (P44) |
 | P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
 | P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2. No `.npmrc` a exceção é **por nome** do pacote, então vale para qualquer versão nova deles: sai depois de 20/10/2026, quando o vite 8.3.3 completa 14 dias (ME29) |
@@ -35,14 +35,14 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P39 | Dia terminado abre direto no resultado (estatísticas, compartilhar e contagem), sem jogar de novo |
 | P40 | Dia sem agenda não quebra a sequência |
 | P41 | Média e distribuição com pontos brutos; dia todo anulado fica fora delas, mas conta em jogos e na sequência |
-| P42 | Compartilhar com formas, não só cores: ⬛ ouvir mais (na digitação, pulou), ✅ acerto, ❌ erro, ⬜ anulada |
+| P42 | Compartilhar com formas, não só cores: ⬛ ouvir mais (no Desafio, pulou), ✅ acerto, ❌ erro, ⬜ anulada |
 | P44 | A agenda nunca gera dia passado (M10): a geração começa em `max(epoch, último + 1, hoje)`. O dia que não foi gerado a tempo vira buraco ("indisponível"), que não quebra a sequência (P40) e nunca é preenchido (o `compare` recusa) |
-| P45 | O modo de resposta é escolhido todo dia antes da rodada 1, com o último usado marcado e com o foco |
-| P46 | Na digitação nada toca sozinho: pulo e erro só liberam a etapa; o jogador clica em Tocar |
-| Dec. M7 | Na última tentativa da digitação o "Pular" some e fica só o "Desistir" (os dois dariam 0 ponto) |
-| P49 | Abas no topo (Início, Música, Álbum, Treino), com a aba no endereço (`#inicio`, `#musica`, `#album`, `#treino`) e ✓ no diário terminado. Desde a home, o endereço vazio ou desconhecido abre a home (antes, a Música) |
+| P45 | **Substituída pela P100.** O modo de resposta é escolhido todo dia antes da rodada 1, com o último usado marcado e com o foco |
+| P46 | No Desafio (digitação) nada toca sozinho: pulo e erro só liberam a etapa; o jogador clica em Tocar |
+| Dec. M7 | Na última tentativa do Desafio (digitação) o "Pular" some e fica só o "Desistir" (os dois dariam 0 ponto) |
+| P49 | Abas no topo (Início, Normal, Desafio, Treino), com a aba no endereço (`#inicio`, `#normal`, `#desafio`, `#treino`; P101) e ✓ no diário terminado. Desde a home, o endereço vazio ou desconhecido abre a home (antes, a Música) |
 | P50 | O Treino não salva nada: só o placar da sessão, e recarregar a página começa outra |
-| P51 | No Álbum, as opções mostram capa, título e artista (também na lista da revelação) |
+| P51 | No Normal (antes, no Álbum), as opções mostram capa, título e artista (também na lista da revelação) |
 | Dec. M8 | A sessão do Treino dura enquanto a página está aberta: trocar de aba não zera placar nem saco |
 | Dec. M11 | O robô semanal acrescenta dias também à agenda das fixtures (só desenvolvimento e testes), para o `npm run dev` continuar com o desafio de hoje: a lista fechada do PR do robô tem 5 arquivos, e não os 4 do plano (PR C) |
 | P60 | A regra da P28 vale também para o Python (M9): versões exatas de tudo, diretas e indiretas, em `pipeline/constraints.txt`, e o `setuptools` do build fixo no `pyproject.toml`. Na adoção, três caíram para a versão anterior: ruff 0.16.9, rpds-py 2026.6.3 e iniconfig 2.3.0 |
@@ -61,15 +61,19 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P81 | O selo do Apple Music é a variante `badge` em pt-BR, baixada do Toolbox da Apple e guardada sem alteração em `web/src/ui/assets/`. O ZIP traz todas as variantes, e só essa entra no repositório; o Biome não analisa a pasta, para não pedir mudança no SVG |
 | P87 | グッタイム exibido como "Guttaimu", corrigido no `aliases.toml` (PR #11): o primeiro romaji novo trazido pelo robô, revisado pelo passo 2 da rotina do README |
 | P90 | Correções do checkup de 11/10/2026 (ME19 a ME29 e ME35) antes do M12; o M12 (visual) absorve de ME30 a ME34. A escolha do M12 (P89) fica para depois das correções |
-| P91 | No Treino, a exclusão das respostas pendentes do diário vale também pelo álbum, nos dois alvos (checkup, ME23): a revelação sempre mostra o álbum |
+| P91 | No Treino, a exclusão das respostas pendentes do diário vale também pelo álbum, nos dois modos (checkup, ME23): a revelação sempre mostra o álbum |
 | P92 | Alertas do Dependabot ligados, sem PR automático de versão (furaria a P28). É configuração do repositório: o usuário liga em Settings > Code security > Dependabot alerts |
-| P93 | O modo Álbum fica como está, mesmo com a resposta quase sempre um single com o nome da música (46 de 66 rodadas da agenda real no checkup) |
-| P94 | No 4 opções dá para responder sem tocar nada e levar 6 pontos: fica assim |
+| P93 | O Normal (antes, o modo Álbum) fica como está, mesmo com a resposta quase sempre um single com o nome da música (46 de 66 rodadas da agenda real no checkup) |
+| P94 | No Normal (4 opções) dá para responder sem tocar nada e levar 6 pontos: fica assim |
 | P95 | Logo: o rascunho A, o 当 de 当てる (ateru: acertar, adivinhar) num círculo vermelho |
 | P96 | Nome público: **AteMusic** |
 | P97 | Por enquanto só o nome na tela: a URL (`/musicle-jp/`), o repositório e a chave do save continuam `musicle-jp` até o nome ser decidido em definitivo |
 | P98 | "AteMusic" em toda a tela: a home, o texto do compartilhar, a tela de bloqueio e o `<title>`. A semente do PRNG (`"musicle-jp\|<data>\|<alvo>"`) não muda: ela gera a agenda |
 | P99 | O rascunho A do logo já entra na home (`ui/Logo.tsx`, kanji em texto) e é trocado pelo design final, com o kanji em contorno |
+| P100 | Dois modos fixos, pelo alvo: **Normal** (o álbum ou single, entre 4 opções com capa; lista `album` da agenda) e **Desafio** (o nome exato da música, digitado, em até 6 tentativas; lista `song`). Saem as outras duas combinações (Música com 4 opções, Álbum com digitação), o seletor do modo de resposta do dia (P13, P45) e a preferência dele no save. O Treino também fica só com os dois. Save v3: a migração 2 → 3 zera tudo, porque eram só jogos de teste |
+| P101 | Rotas `#normal` e `#desafio`; os links antigos (`#musica`, `#album`) caem na home |
+| P102 | O pipeline para de gerar, no mesmo PR, o que só servia às combinações removidas: o `similar` da faixa, o `search` do álbum e do artista (catálogo v2: o JS antigo em cache cai no "O jogo foi atualizado") e o `aliases` de álbum no `aliases.toml`. As rodadas `song` dos dias novos saem sem `options`, e o rng delas consome só a resposta. A agenda continua na v1: a mudança é compatível, e os dias gravados mantêm as opções de música, que o jogo ignora |
+| P103 | "Diário" é o jogo de cada dia; "Desafio" é um dos modos. Os textos de tela trocam "desafio" por "diário" ("Próximo diário em", "Não há diário hoje"). Os avisos do pipeline e do robô mantêm o "sem desafio" por ora (ME41) |
 
 ## 3. Fonte de dados (ligada no M11)
 
@@ -149,6 +153,8 @@ musicle-jp/
 
 **Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
 
+**Dois modos** (11/10/2026, depois da home do PR #15): o Normal e o Desafio no lugar das 4 combinações, no jogo, no Treino, no save e no pipeline (P100 a P103).
+
 Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 
 ## 6. Riscos
@@ -181,13 +187,9 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - S10. Hashes no `constraints.txt` (`--require-hashes`), ao menos na Action (subagente Plan do M11).
 - S11. `build --check`: sai com código 1 se o arquivo mudaria (subagente Plan do M11).
 - S13. Treino por artista: uma lista curta de artistas no repositório, com o catálogo de cada um gerado pelo pipeline (romaji, `aliases.toml` e revisão por PR). O lookup por artista traz a lista pronta (`lookup?id=<artista>&entity=song&country=jp`, até 200 faixas, todas com prévia no teste de 11/10/2026), mas com muitas versões repetidas (das 200 da Utada, 92 músicas). Um quiz montado na hora no navegador ficaria sem romaji.
-- S14. Nomes para os modos, se eles forem juntados: **Normal** ("acerte o álbum ou single") e **Desafio** ("digite o nome exato da música"); alternativas: Ouvinte e Fã, Lado A e Lado B.
-- S15. Se os modos forem juntados, o Treino mantém as 4 combinações nos filtros.
-- **Em decisão:** juntar em dois modos, Normal (Álbum + 4 opções) e Desafio (Música + digitação). Simplifica a escolha (sai o seletor de modo do dia, P13 e P45), não muda a agenda nem o esquema, e pede uma migração pequena das estatísticas. A home já está pronta para isso (`HOME_MODES`).
 
 **Melhorias futuras**
 
-- ME1. Modo difícil.
 - ME2. Modo royale (6 músicas, 9 opções, sem errar).
 - ME3. Ofuscar a agenda e dividir por mês quando passar de 200 KB.
 - ME4. Gerar o dia no navegador quando a agenda não cobrir a data.
@@ -205,17 +207,20 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 **Do checkup de 11/10/2026** (P90). As feitas estão em "Feitas", abaixo.
 
 - ME29. Tirar do `web/.npmrc` as exceções do vite e do source-map-js a partir de 20/10/2026, quando o vite 8.3.3 completa 14 dias (P29): do jeito que estão, qualquer versão nova deles entra sem a carência.
-- ME30. Contraste baixo na barra segmentada, na etiqueta "último usado" e nas barras da distribuição (cerca de 1,2:1). Vai com o M12.
+- ME30. Contraste baixo na barra segmentada e nas barras da distribuição (cerca de 1,2:1). Vai com o M12.
 - ME33. Textos: "- Single" na revelação, dia todo anulado mostrando "0/0", a dica de "setas e Enter" no celular e a rodada anulada sempre como "Áudio indisponível" (também quando a resposta perdeu a elegibilidade). Vai com o M12.
-- ME34. Celular: opções com títulos enormes ("Yes! 東京 (feat. …)" passa de 6 linhas), os filtros do Treino com 200 px antes do player e a distribuição de pontos com 19 linhas. Vai com o M12.
+- ME34. Celular: opções com títulos enormes ("Yes! 東京 (feat. …)" passa de 6 linhas), o seletor de modo do Treino antes do player (eram 200 px com os dois filtros) e a distribuição de pontos com 19 linhas. Vai com o M12.
 - ME36. Atualizar as 3 actions que têm versão nova quando ela completar 14 dias, a partir de 22/10/2026 (P28; checkup).
 - ME37. `aria-disabled` no lugar de `disabled` nos botões do Player durante o "Carregando…" (o navegador tira o foco do botão desabilitado) e um gancho comum de reprodução com ficha para o Player e a revelação (`/code-review` do PR #13).
 - ME38. Ligar no pipeline os álbuns do mesmo lançamento (o EP "A / B", os dois "ROSE - Single"), em vez da regra de nome do `acceptedIds` no web; juntaria também as linhas iguais da busca. Pede mudança de esquema (`/code-review` do PR #13).
-- ME39. Teste de componente do `Game`: o lote de prévias só dos diários pendentes, a escolha do modo com outra aba já começada e a sessão `stale` regravada (checkup e `/code-review` do PR #13).
+- ME39. Teste de componente do `Game`: o lote de prévias só dos diários pendentes, a sessão `stale` regravada e o save da abertura guardado na montagem (checkup e `/code-review` do PR #13). Nos dois modos, trocar esse retrato pelo save vivo do `App` fez a revelação da última rodada sumir, e só o e2e pegou.
+- ME40. `RoundState.correctOptionId` é gravado, mas só os testes o leem: a tela usa o `accepted`. Tirar, ou usar no lugar do `accepted[0]` (dois modos).
+- ME41. Trocar "sem desafio" por "sem diário" nos avisos do pipeline (`schedule.py`) e do robô (`check-catalog-pr.sh`, com o teste dele) e no título do `schedule.schema.json`, como na tela (P103). O título vira o nome do tipo gerado: mudar pede o mapa de `web/scripts/gen-types.ts` e o `npm run types`.
 
 **Feitas:**
 
 - S7 (M9): um marco por branch e por PR.
+- Nos dois modos (P100): S14 (os nomes Normal e Desafio) e ME1 (o Desafio é o modo difícil). A S15 foi descartada: o Treino ficou só com os dois modos.
 - No PR B do M11: ME9 (partículas `は` e `へ` na consulta em kana), ME13 (`cache: "no-cache"`) e ME14 (folga da agenda no resumo do deploy).
 - No checkup de 11/10/2026:
   - ME16 e ME22: parceiros conhecidos nos `artistIds` da faixa (PR #12);
@@ -239,12 +244,12 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - O catálogo é uma **redução pura de todos os snapshots**, refeita do zero em todo build. O catálogo anterior só serve para comparar bytes ("sem mudanças"). Mudar uma regra atualiza todas as faixas.
 - Nunca se apaga nada: uma faixa que sai da parada fica com `inLatest: false`, porque a agenda pode apontar para ela.
 - Escrita determinística: chaves ordenadas, `ensure_ascii=False`, 2 espaços, `\n` no fim, bytes UTF-8, escrita atômica. Sem relógio nem sorteio (o Ruff barra). Popularidade em `Decimal`.
-- `schemaVersion` ficou 1 até o primeiro deploy (M10). Desde então, só sobe em mudança incompatível, com migração, e o frontend recusa versão desconhecida.
+- `schemaVersion` ficou 1 até o primeiro deploy (M10). Desde então, só sobe em mudança incompatível, com migração, e o frontend recusa versão desconhecida. O catálogo está na v2 (P102: sem o `similar` da faixa e o `search` do álbum e do artista); a agenda, na v1.
 - Contrato completo: `shared/schema/catalog.schema.json`. A validação soma invariantes que o schema não expressa e confere a forma canônica do arquivo.
 
 ### catalog.json (trecho do M1, gerado da parada fictícia)
 
-O arquivo de hoje tem também `albums`, o `storeUrl`, o `similar` preenchido e o romaji (`titleLatin` e `latinSource`). O contrato completo está no schema.
+O arquivo de hoje tem também `albums` (com o `similar` preenchido), o `storeUrl` e o romaji (`titleLatin` e `latinSource`). Desde a v2 (P102), a faixa não tem `similar` e o artista e o álbum não têm `search`. O contrato completo está no schema.
 
 ```json
 {
@@ -279,7 +284,7 @@ O arquivo de hoje tem também `albums`, o `storeUrl`, o `similar` preenchido e o
 - **`chart.appearances`:** número de snapshots em que a faixa apareceu.
 - **`popularity`:** maior nota entre as aparições: `((size − posição + 1) / size) × 0,5^(semanas atrás / 8)`, com o `size` de cada snapshot, 4 casas.
 - **`eligible`:** `{ daily, reason }`, com um motivo só, na ordem `no-preview` > `short-preview` (trecho útil < 16 s; duração desconhecida não reprova) > `no-artwork`. `blocked` (aliases, M2) vence todos. O motivo `explicit` existe no schema mas não é usado: pela P17, explícitas podem ser resposta, com aviso na tela.
-- **`similar`:** vazio no M1. No M3, os 10 candidatos a distrator mais próximos, calculados no Python.
+- **`similar`:** vazio no M1. No M3, os 10 candidatos a distrator mais próximos, calculados no Python. Desde a P102, só no álbum: o Desafio é digitado.
 - **`latinSource`:** `provider` quando o latino veio do provedor (na Apple, o nome do artista no lookup de artista, P74); no M2 entram `manual` e `cutlet`.
 - **`storeUrl`** (M11, P73): página da faixa na loja, sem o parâmetro de rastreio `uo` (o `i=` fica: sem ele o link abre o álbum); `null` nas fixtures.
 
@@ -305,11 +310,11 @@ O arquivo de hoje tem também `albums`, o `storeUrl`, o `similar` preenchido e o
 ```json
 { "schemaVersion": 1, "timezone": "America/Sao_Paulo", "epoch": "2026-11-01",
   "days": { "2026-11-01": { "number": 1, "catalogVersion": "2026-10-26.1a2b3c4d",
-    "song":  [{ "answer": "fixture:tr:tr01", "options": ["fixture:tr:tr09", "fixture:tr:tr01", "fixture:tr:tr14", "fixture:tr:tr22"] }],
+    "song":  [{ "answer": "fixture:tr:tr01" }],
     "album": [{ "answer": "fixture:tr:tr30", "options": ["fixture:al:al03", "fixture:al:al11", "fixture:al:al05", "fixture:al:al08"] }] } } }
 ```
 
-Cada lista tem 3 rodadas. No modo Álbum, `answer` é a faixa que toca e `options` são álbuns. Contrato completo em `shared/schema/schedule.schema.json`.
+Cada lista tem 3 rodadas. No Normal (`album`), `answer` é a faixa que toca e `options` são 4 álbuns. No Desafio (`song`), só `answer`: os dias gravados antes da P102 têm também 4 `options` de faixa, que ficam (a agenda só cresce) e que o jogo ignora. Contrato completo em `shared/schema/schedule.schema.json`.
 
 ## Apêndice B. Nomes japoneses no autocompletar
 
@@ -338,10 +343,8 @@ Assim, `tōkyō`, `toukyou` e `tokyo` viram `tokyo`. Como a regra vale para cat�
 
 Compara a consulta com as chaves que o catálogo já traz; nada muda no pipeline nem nos vetores.
 
-- **Uma linha por música ou por álbum** (`buildSearchIndex(index, alvo)`):
-  - **Música:** uma linha por `songKey`; single, versão de álbum e "TV Size" viram uma só, porque qualquer uma é acerto. Mostra a faixa mais popular do grupo.
-  - **Álbum** (M8): uma linha por álbum; título de `album.search` (já sem " - Single"), artista das chaves de cada `artistIds`, popularidade = a da faixa mais popular do álbum (o critério de `similarity.py`).
-  - "Já tentou" compara pela chave da linha (`hitKey`): o `songKey` na Música, o id do álbum no Álbum.
+- **Uma linha por música** (`buildSearchIndex(index)`, só no Desafio; a busca de álbum do M8 saiu com a P100): uma linha por `songKey`; single, versão de álbum e "TV Size" viram uma só, porque qualquer uma é acerto. Mostra a faixa mais popular do grupo. O índice é montado uma vez por catálogo.
+  - "Já tentou" compara pelo `songKey` (`hitKey`).
   - Busca no catálogo inteiro, inclusive faixas que não podem ser sorteadas (restringir daria pista).
 - **Variantes da consulta:**
   - a `searchKey` dela;
@@ -368,11 +371,11 @@ Experimento com dois subagentes em paralelo, cada um num ambiente isolado, sobre
 - **Exibição em Hepburn.** A grafia estrangeira ("Curtain call") entra só na busca, porque às vezes erra ("Tokyo right" para 東京ライツ).
 - **Antes de romanizar,** emoji e invisíveis saem e `・` vira espaço. Sem isso, o cutlet produziria `?` e `/`.
 - **Precedência do latino exibido:** `aliases.toml` (`manual`) > provedor (`provider`) > cache (`cutlet`).
-- **Erro de romaji não muda o resultado do palpite**, que é sempre por ID. Afeta só o autocompletar do modo digitação para aquela música, e se corrige com uma linha no `aliases.toml`.
+- **Erro de romaji não muda o resultado do palpite**, que é sempre por ID. Afeta só o autocompletar do Desafio para aquela música, e se corrige com uma linha no `aliases.toml`.
 
 **Resolvido no M7:** a regra `di`→`ji` da chave frouxa também pega o "di" de ディ ("merodi" vira a chave `meroji`), e "merod" deixava de ser começo de chave no meio da digitação. A variante sem a última letra (`d`) resolve.
 
-**Validação do palpite:** sempre por **ID** escolhido na lista, nunca por texto livre. Na Música, acerta quem escolhe o mesmo `songKey`. No Álbum, acerta quem escolhe qualquer álbum que contenha o `songKey` da resposta e, desde o checkup (ME21, `acceptedIds` em `core/catalog.ts`), o do mesmo lançamento que o catálogo não liga à música, porque o lookup traz um álbum só por faixa. Do mesmo artista de um álbum certo, vale:
+**Validação do palpite:** sempre por **ID** escolhido na lista, nunca por texto livre. No Desafio, acerta quem escolhe o mesmo `songKey`. No Normal, acerta quem escolhe qualquer álbum que contenha o `songKey` da resposta e, desde o checkup (ME21, `acceptedIds` em `core/catalog.ts`), o do mesmo lançamento que o catálogo não liga à música, porque o lookup traz um álbum só por faixa. Do mesmo artista de um álbum certo, vale:
 
 - o álbum com a música numa parte do nome: o EP "爆裂愛してる / 好きすぎて滅! - EP" tem 好きすぎて滅!;
 - o álbum com o nome inteiro de um álbum certo (sem " - Single" ou " - EP"): os dois "ROSE - Single" da HANA aparecem iguais na busca, e recusar um seria injusto, mesmo para o lado B (Tiger).
@@ -394,7 +397,7 @@ Uma parte só do nome de um álbum certo não basta (a resposta 爆裂愛して�
 1. Para cada dia de `max(epoch, último dia + 1, hoje)` até hoje + 21. **Dia que já passou nunca é gerado** (P44, M10): se a geração atrasou, o intervalo fica como buraco, com aviso no CLI e no PR do robô.
 2. **Janela:** K = mín(180, piso(P / 12)), com P = músicas distintas (`songKey`) entre as elegíveis e 6 respostas por dia. Com a parada fictícia, P = 37 e K = 3. Ficam de fora as faixas, músicas e álbuns respondidos nos K dias anteriores.
 3. **Por rodada:** candidatos = elegíveis fora da janela, sem repetir faixa, música, álbum ou artista do dia, ordenados por `(-popularity, id)`. A faixa de dificuldade é cortada **depois** do filtro: a rodada 1 sorteia entre os primeiros ceil(n/3), a 2 entre os primeiros ceil(2n/3) e a 3 entre todos.
-4. **rng** = `mulberry32(fnv1a32("musicle-jp|<data>|<alvo>"))`, alvo `song` ou `album`. **7 números por rodada:** 1 para a resposta, 3 para escolher os distratores (Fisher-Yates parcial sobre `similar`, sem as músicas das outras respostas do diário) e 3 para embaralhar as 4 opções.
+4. **rng** = `mulberry32(fnv1a32("musicle-jp|<data>|<alvo>"))`, alvo `song` ou `album`. No Normal (`album`), **7 números por rodada:** 1 para a resposta, 3 para escolher os distratores (Fisher-Yates parcial sobre o `similar` do álbum, sem os álbuns e as músicas das outras respostas do diário) e 3 para embaralhar as 4 opções. No Desafio (`song`), desde a P102, só 1: o da resposta (antes, 7, com distratores de faixa). A mudança vale só para os dias novos; o `schedule-check` protege os gravados.
 5. **Afrouxamento,** com log: primeiro o artista passa a valer só dentro do mesmo diário; depois a janela encolhe (K−1 … 0). Faixa, música e álbum nunca repetem no dia. Com a parada fictícia: zero afrouxamentos em 61 dias (teste).
 6. **Só acréscimo, sem exceção.** Dia gravado nunca muda. Resposta futura que deixou de ser elegível gera **aviso** e o jogo anula a rodada sem penalidade. `schedule-check --base-ref <ref>` compara com uma revisão do git (no M9, com `fetch-depth: 0` e `github.event.before`). O `compare` também recusa dia novo antes do último dia da base (o buraco nunca é preenchido) e dias novos com buraco entre eles (um dia solto mais à frente congelaria a agenda) (M10).
 7. **Validação em dois níveis:** a estrutural (nenhum dia antes do `epoch`, `number`, opções, IDs; buraco é válido desde o M10) vale para todos os dias. Elegibilidade e restrições só valem na geração, para que uma regra nova não quebre o passado.
@@ -403,11 +406,13 @@ Uma parte só do nome de um álbum certo não basta (a resposta 爆裂愛して�
 
 **1ª agenda real** (PR B do M11, P77): `web/public/data/schedule.json`, com `epoch` 2026-10-10 e `--today` 2026-10-11, tem 22 dias, do nº 2 (11/10) ao nº 23 (01/11). O 10/10 ficou como buraco (P44), com aviso no CLI. O site publicado lê esta agenda; a das fixtures continua no desenvolvimento e no e2e.
 
-Se faltar o dia na agenda, Música e Álbum mostram "Não há desafio diário hoje." com um link para o Treino, que continua funcionando (implementado no M8; o texto antigo, "volte mais tarde", era falso pela P44).
+Se faltar o dia na agenda, o Normal e o Desafio mostram "Não há diário hoje." com um link para o Treino, que continua funcionando (implementado no M8; o texto antigo, "volte mais tarde", era falso pela P44).
 
 ## Apêndice D. Regras dos modos
 
-| Regra | 4 opções | Digitação com autocompletar |
+Dois modos (P100): o **Normal** acerta o álbum ou single entre 4 opções; o **Desafio**, o nome exato da música, digitado.
+
+| Regra | Normal (4 opções de álbum) | Desafio (digitação com autocompletar) |
 |---|---|---|
 | Etapas do trecho | 1, 2, 4, 7, 11, 16 s | 1, 2, 4, 7, 11, 16 s |
 | Tentativas por rodada | 1 palpite | 6 |
@@ -417,22 +422,21 @@ Se faltar o dia na agenda, Música e Álbum mostram "Não há desafio diário ho
 | Repetir o trecho | Livre na etapa atual | Livre na etapa atual |
 | Fim da rodada | Revela capa, título, artista, preview inteiro e link para a loja; marca a certa e a escolhida | Igual, com a lista de tentativas (❌, ⬛, ✅) no lugar das opções |
 
-- **Escolha do modo** (M7, P13, P45): antes da rodada 1, todo dia, com o último usado marcado. Escolher grava `inProgress` com `events: []`, então o modo fica travado mesmo recarregando antes do 1º palpite. Se outra aba já começou ou terminou o dia, vale o modo e o andamento dela.
-- **Palpite da digitação:** sempre por ID escolhido na lista (Apêndice B), uma linha por música; a música já tentada aparece marcada e não pode ser escolhida de novo.
+- **Sem escolha no dia** (P100): cada diário já é um modo, e a rodada 1 começa direto. A escolha do modo de resposta do M7 (P13, P45) saiu.
+- **Palpite do Desafio:** sempre por ID escolhido na lista (Apêndice B), uma linha por música; a música já tentada aparece marcada e não pode ser escolhida de novo.
 - **Dia:** de 0 a 18 pontos por diário.
 - **Treino** (M8, `core/practice.ts` e `ui/Practice.tsx`): rodadas sem fim, geradas no navegador.
-  - **Saco por alvo:** Música, uma faixa elegível por `songKey` (a mais popular); Álbum, uma faixa elegível por álbum, sem repetir música no saco. Embaralhado por ciclo com `seeded("treino|<semente>|<alvo>|<ciclo>")`; a semente vem de `crypto.getRandomValues` na tela. O estado guarda só semente, ciclo, posição e a última tocada, nunca o gerador. No ciclo novo, a última tocada vai para o fim do saco.
-  - **Exclusão:** as músicas (`songKey`) das respostas dos diários de hoje que ainda não têm resultado, nos dois alvos, porque a faixa toca nos dois. Desde o checkup (ME23, P91), também pelo álbum: fica de fora a faixa de todo álbum que a resposta do Álbum aceitaria por uma música excluída (o próprio `acceptedIds`: os álbuns que a contêm e os do mesmo lançamento), porque a revelação mostra o álbum. A faixa excluída é pulada no sorteio, sem sair do saco, e pode voltar a partir de então, quando o diário terminar. Sem nada para sortear, a tela avisa e oferece "Sortear de novo".
-  - **Opções:** a certa e 3 distratores do `similar` (faixa na Música, álbum no Álbum), sem as músicas excluídas (no Álbum, sem os álbuns que as entregariam); com menos de 3, a lista inteira, como em `schedule.py`. Embaralhadas.
-  - **Filtros** de alvo e de resposta valem a partir da próxima rodada. **Placar** só da sessão (P50); rodada anulada não conta. A sessão fica no `App` enquanto a página está aberta.
+  - **Saco por modo:** Desafio, uma faixa elegível por `songKey` (a mais popular); Normal, uma faixa elegível por álbum, sem repetir música no saco. Embaralhado por ciclo com `seeded("treino|<semente>|<alvo>|<ciclo>")`; a semente vem de `crypto.getRandomValues` na tela. O estado guarda só semente, ciclo, posição e a última tocada, nunca o gerador. No ciclo novo, a última tocada vai para o fim do saco.
+  - **Exclusão:** as músicas (`songKey`) das respostas dos diários de hoje que ainda não têm resultado, nos dois modos, porque a faixa toca nos dois. Desde o checkup (ME23, P91), também pelo álbum: fica de fora a faixa de todo álbum que a resposta do Normal aceitaria por uma música excluída (o próprio `acceptedIds`: os álbuns que a contêm e os do mesmo lançamento), porque a revelação mostra o álbum. A faixa excluída é pulada no sorteio, sem sair do saco, e pode voltar a partir de então, quando o diário terminar. Sem nada para sortear, a tela avisa e oferece "Sortear de novo".
+  - **Opções do Normal:** o álbum certo e 3 distratores do `similar` dele, sem os álbuns que entregariam uma música excluída; com menos de 3, a lista inteira, como em `schedule.py`. Embaralhadas. O Desafio é digitado: sem opções e sem gastar o rng.
+  - **Modo** (Normal ou Desafio, P100; abre no Normal) vale a partir da próxima rodada. **Placar** só da sessão (P50); rodada anulada não conta. A sessão fica no `App` enquanto a página está aberta.
   - **Limitação aceita:** a data do jogo é fixada ao abrir a página; quem a deixa aberta depois da meia-noite continua com a exclusão do dia anterior até recarregar (o mesmo vale para os diários, Apêndice F).
 
 **Distratores** (`similarity.py`, implementado no M3):
 
-- **Faixas:** elegíveis, sem **nenhum** artista em comum (parcerias contam), com outra música e outro título.
-- **Álbuns:** com capa, sem compilação, sem artista em comum (união dos artistas das faixas) e sem nenhuma música em comum (al01 e al02 nunca são opção um do outro). O Diário Álbum aceita singles (P24).
+- **Só de álbuns** (P102; os de faixa, do M3, saíram com a Música em 4 opções): com capa, sem compilação, sem artista em comum (união dos artistas das faixas; parcerias contam) e sem nenhuma música em comum (al01 e al02 nunca são opção um do outro). O Normal aceita singles (P24).
 - **Proximidade:** janela de ano (±2, ±5, qualquer), diferença de popularidade e tipo de lançamento; desempate por `id`.
-- **Lista de até 10, no máximo 1 por artista:** qualquer sorteio de 3 já sai com artistas distintos. O `validate` exige 3 ou mais para toda resposta possível.
+- **Lista de até 10, no máximo 1 por artista:** qualquer sorteio de 3 já sai com artistas distintos. O `validate` exige 3 ou mais no álbum de toda resposta possível.
 
 ## Apêndice E. Player de áudio
 
@@ -506,10 +510,10 @@ Se faltar o dia na agenda, Música e Álbum mostram "Não há desafio diário ho
 Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `core/share.ts`).
 
 - **Chave:** `musicle-jp:save`. O prefixo é obrigatório porque todos os sites de projeto em `<usuario>.github.io` compartilham o mesmo localStorage.
-- **Conteúdo (`Save`, v2 desde o M11):** `{ schemaVersion: 2, settings, history, inProgress }`, os dois mapas por `"2026-10-08|song"`.
-  - `history`: o `FinishedGame` de cada dia, `{ answerMode, number, rounds: [{ status, stage, attempts }] }`. Pontos e máximo saem de `status` e `stage`; nada derivado é gravado.
-  - `inProgress`: `{ answerMode, events }`, só os eventos que o reducer aceitou.
-  - `settings`: `{ answerMode? }`, o último modo usado (M7, P45). O `sanitize` guarda um modo válido sem aviso; modo inválido, chave desconhecida ou `settings` que não é objeto contam como reparo. A preferência só muda quando o modo escolhido é o que fica travado no dia (`withModeChoice`).
+- **Conteúdo (`Save`, v3 desde a P100):** `{ schemaVersion: 3, history, inProgress }`, os dois mapas por `"2026-10-08|album"` (o Normal) ou `"2026-10-08|song"` (o Desafio).
+  - `history`: o `FinishedGame` de cada dia, `{ number, rounds: [{ status, stage, attempts }] }`. Pontos e máximo saem de `status` e `stage`; nada derivado é gravado. O `isFinishedGame` confere as tentativas pelas regras do modo, que sai do id: no Normal, no máximo 1 e nunca um pulo.
+  - `inProgress`: `{ events }`, só os eventos que o reducer aceitou. O cartão da home mostra "em andamento" desde o 1º evento.
+  - O `settings` (a preferência do modo de resposta, M7) saiu com a P100. Um campo que o save não usa mais é ignorado sem aviso.
 - **Retomada por eventos:** `startSession` repete os eventos sobre o jogo novo do dia. Como o reducer é puro, recarregar retoma igual, inclusive rodada anulada. Se a repetição chegar ao fim, o jogo vira histórico. Se ela descartar eventos (catálogo novo no mesmo dia), a sessão sai com `stale` e a aba regrava a lista aceita com `replaceProgress`; sem isso, a regra da lista mais longa impediria gravar os próximos eventos.
 - **Virada do dia:** ao abrir, o `inProgress` de outros dias é descartado. Quem começou o dia D com a aba aberta termina o dia D, mas recarregar depois da meia-noite perde esse andamento.
 - **Tolerância a falha:**
@@ -517,14 +521,14 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
   - JSON ilegível ou fora da forma: o texto original vai para `musicle-jp:corrupt` (só se a chave estiver vazia) e o jogo recomeça. Entrada inválida dentro de um save bom é descartada sozinha; mapa ausente vira vazio sem levar o histórico junto.
   - Versão maior que a suportada: não é sobrescrita; o jogo segue sem salvar, com aviso.
   - Falha ao gravar: `updateSave` devolve o motivo (`full`, `future` ou `unavailable`), e a tela mostra o aviso certo uma vez, visível e na região `aria-live`.
-  - Migrações em `storage/migrations.ts`, uma função por versão, cada uma com o teste de um save real da versão anterior. **v1 → v2** (M11, P68): o jogo trocou a parada fictícia pela real, e as chaves são por data, então o dia fictício e o real do mesmo dia se misturariam. A migração zera o histórico e o andamento e mantém só a preferência do modo. Uma aba antiga, ainda com o código v1, lê o v2 como "future" e para de gravar.
+  - Migrações em `storage/migrations.ts`, uma função por versão, cada uma com o teste de um save real da versão anterior. **v1 → v2** (M11, P68): o jogo trocou a parada fictícia pela real, e as chaves são por data, então o dia fictício e o real do mesmo dia se misturariam. A migração zera o histórico e o andamento e mantém só a preferência do modo. Uma aba antiga, ainda com o código v1, lê o v2 como "future" e para de gravar. **v2 → v3** (P100): saiu o modo de resposta, e a migração zera tudo, a preferência junto (eram só jogos de teste).
 - **Duas abas:** `updateSave` relê, mescla e grava. No histórico, o primeiro término vence; no andamento do mesmo jogo, vence a lista de eventos mais longa. O resumo relê o save, então mostra o resultado que ficou gravado. **Limitação aceita:** com duas abas dá para refazer uma rodada (uma erra e vê a resposta, a outra acerta); o jogo é pessoal e não há ranking.
-- **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`), que a home também lê para os cartões, e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura, então voltar à Música terminada mostra o resultado (P39). O Treino não grava nada (P50).
+- **Abas do jogo** (M8, P49): o `App` guarda a última leitura do save (`latest`), que a home também lê para os cartões, e relê ao trocar de aba, quando um diário termina (`onSaved`) e quando outra aba do navegador grava (evento `storage`). Cada aba de diário monta do zero com essa leitura e a guarda na montagem (o `latest` muda a cada gravação, e recalcular a sessão com ele pularia a revelação da última rodada), então voltar ao Desafio terminado mostra o resultado (P39). O Treino não grava nada (P50).
 - **Save da sessão** (`sessionStore`, M8): grava no navegador quando dá; o que não consegue gravar (cota cheia) fica em memória, e sem gravação nenhuma (versão futura, sem acesso) tudo fica em memória. Assim trocar de aba não perde o andamento nem nesses casos. O que foi gravado não fica em memória, para a mescla das duas abas continuar vendo o que a outra gravou.
-- **Estatísticas:** função pura sobre o histórico, por alvo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Dia que faltou** (Action ou merge parados por mais de 21 dias): desde a P44, no M10, ele vira buraco e não quebra a sequência. Risco residual: dias gerados durante uma parada e publicados só no merge entram na agenda sem que ninguém os tenha podido jogar.
-- **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no modo 4 opções, um ⬛ por "ouvir mais" e depois ✅ ou ❌. Exemplo:
+- **Estatísticas:** função pura sobre o histórico, por modo: jogos, média, distribuição de 0 a 18, sequência atual e melhor (P38, P40, P41). "Hoje" é a data do jogo, não o relógio; hoje ainda não jogado não quebra a sequência. **Dia que faltou** (Action ou merge parados por mais de 21 dias): desde a P44, no M10, ele vira buraco e não quebra a sequência. Risco residual: dias gerados durante uma parada e publicados só no merge entram na agenda sem que ninguém os tenha podido jogar.
+- **Compartilhar:** `core/share.ts` recebe só o `FinishedGame`, que não tem IDs nem títulos. Símbolos da P42; no Normal, um ⬛ por "ouvir mais" e depois ✅ ou ❌; no Desafio, uma marca por tentativa. Exemplo:
   ```
-  AteMusic · Diário Música nº 1 · 4 opções
+  AteMusic · Normal nº 1
   11/18
   ✅
   ❌
@@ -532,23 +536,23 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
   https://<usuario>.github.io/musicle-jp/
   ```
   `navigator.clipboard.writeText` é chamado dentro do clique; sem ele (fora de HTTPS), aparece um campo só de leitura com o texto selecionado.
-- **Contagem regressiva:** mira `startOfDayInZone(addDays(data do jogo, 1))` e recalcula pelo relógio a cada segundo e quando a aba volta a ficar visível. Ao zerar, oferece "Jogar o novo desafio".
+- **Contagem regressiva:** mira `startOfDayInZone(addDays(data do jogo, 1))` e recalcula pelo relógio a cada segundo e quando a aba volta a ficar visível. Ao zerar, oferece "Jogar o novo diário".
 
 ## Apêndice G. Organização do código TS
 
 Implementado no M4 (`web/src/core/`):
 
-- **Estado:** `GameState { puzzleId, target, answerMode, rounds, current }`. Não há campo `status`: `isFinished` é derivado (nenhuma rodada em andamento), então fechar a aba depois da 3ª rodada não deixa o jogo "em andamento".
-- **Rodada:** `RoundState { trackId, correctOptionId, accepted, options, stage, attempts, status, voidReason }`. `trackId` é o que toca; `correctOptionId` é a opção a destacar (a faixa, ou o álbum dela); `accepted` são os IDs que contam como acerto, calculados ao criar a rodada (versões da mesma música; no Álbum, também os álbuns do mesmo lançamento, ME21), para o reducer não consultar o catálogo.
+- **Estado:** `GameState { puzzleId, target, rounds, current }`; o `target` é o modo (P100). Não há campo `status`: `isFinished` é derivado (nenhuma rodada em andamento), então fechar a aba depois da 3ª rodada não deixa o jogo "em andamento".
+- **Rodada:** `RoundState { trackId, correctOptionId, accepted, options, stage, attempts, status, voidReason }`. `trackId` é o que toca; `correctOptionId` é a opção a destacar (a faixa, ou o álbum dela); `accepted` são os IDs que contam como acerto, calculados ao criar a rodada (versões da mesma música; no Normal, também os álbuns do mesmo lançamento, ME21), para o reducer não consultar o catálogo. As `options` só existem no Normal; no Desafio ficam vazias, mesmo nos dias antigos que as trazem.
 - **Eventos:** `GUESS`, `LISTEN_MORE`, `SKIP`, `GIVE_UP`, `VOID` (falha de áudio) e `NEXT_ROUND`. Evento inválido devolve **o mesmo objeto**.
-- **Regras por modo** em `MODE_RULES` (`rules.ts`): palpites, o que um erro faz, se pode ouvir mais ou pular. Pontos = 6 − etapa nos dois modos.
+- **Regras por modo** em `MODE_RULES` (`rules.ts`), chaveado pelo `Target` desde a P100: palpites, o que um erro faz, se pode ouvir mais ou pular, se o palpite sai das opções (`guessFromOptions`). Pontos = 6 − etapa nos dois modos. `MODES` dá a ordem (Normal, Desafio) da nav, da home e do Treino, e `ui/modes.ts`, o nome na tela.
 - **Rodada anulada** (`void`): nasce assim se a resposta sumiu ou perdeu a elegibilidade; sai do total (P27).
 - **Tipos** do contrato gerados de `shared/schema` (`npm run types`).
 - **UI:** `useReducer` do Preact recebe o reducer do `core` (M5), embrulhado no M6 pelo `playReducer` do `Game.tsx`, que guarda também a lista de eventos aceitos para o save.
 - **Rodadas soltas** (M8): `createRounds(planejadas, alvo, índice)` monta as rodadas da agenda (via `createGame`) e as do Treino (`practiceGame`: um `GameState` de 1 rodada, `puzzleId` `treino|...`), com o mesmo reducer.
-- **Rodada na tela** (M8): `RoundView.tsx` (Player, opções ou digitação, rodada anulada, revelação) serve ao diário e ao Treino; quem chama cuida do cabeçalho, do save e do que vem depois (`nextLabel`, `onNext`). Ganchos comuns em `ui/hooks.ts`: `useResolvedUrl`, `usePreviews` e `useSuggest`.
+- **Rodada na tela** (M8): `RoundView.tsx` (Player, as opções do Normal ou a digitação do Desafio, rodada anulada, revelação; só a digitação monta o índice de busca) serve ao diário e ao Treino; quem chama cuida do cabeçalho, do save e do que vem depois (`nextLabel`, `onNext`). Ganchos comuns em `ui/hooks.ts`: `useResolvedUrl`, `usePreviews` e `useSuggest`.
 - **Rotas** (M8): `core/routes.ts` (`Tab`, `ROUTES`, `tabFromHash`, `todayHref`), puro e testado.
-- **Home** (`ui/Home.tsx`, depois do checkup): o nome, o logo provisório (`ui/Logo.tsx`), um cartão-link por modo e "Como funciona". O estado de cada diário (novo, em andamento, terminado com os pontos, ou sem desafio) sai de `dailyStatus` (`core/home.ts`, puro). Os cartões vêm de uma lista (`HOME_MODES`), para a troca dos modos mexer só nela e nos textos.
+- **Home** (`ui/Home.tsx`, depois do checkup): o nome, o logo provisório (`ui/Logo.tsx`), um cartão-link por modo e "Como funciona". O estado de cada diário (novo, em andamento, terminado com os pontos, ou sem diário) sai de `dailyStatus` (`core/home.ts`, puro). Os cartões saem de `MODES`, mais o Treino.
 - **i18n:** `pt-BR.ts` exporta um objeto de textos; `t(chave, parâmetros)` é tipado por `keyof`. Plural com `tn(chave, n)` sobre chaves `.one` e `.other` (M6): usa `Intl.PluralRules('pt-BR')`, mas força o zero no plural, porque o `Intl` diz "one" para 0 em português ("0 ponto").
 
 ## Apêndice H. Testes e qualidade
@@ -556,9 +560,9 @@ Implementado no M4 (`web/src/core/`):
 | Camada | Ferramenta | Cobertura |
 |---|---|---|
 | Pipeline | pytest | Vetores de normalização e PRNG; romaji; merge cumulativo; agenda (determinismo, só acréscimo, janela sem repetição, distratores válidos, buraco da P44: nunca gera passado nem preenche o buraco); schema; bytes idênticos em duas execuções; CLI. Desde o M11: `test_fetch` (transporte falso, limiares, hosts, datas), `test_apple_provider` (cada regra do mapeamento, parceiros), `test_romaji_cache` e `test_catalog_pr_script` (o script da tarefa com token, que precisa de `jq`: pula no Windows, e a CI roda) |
-| Núcleo web | Vitest | Reducer nas 4 combinações; pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Desde o M11: `core/apple` e `view` (hosts), `data/previews` (cada reserva, lote, disjuntor, cota), `source`, `audio/htmlaudio` e `fallback`. Meta: 90% de linhas e de statements em `core`, `data` e `storage` (`vite.config.ts`) |
-| Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7); `RoundView`, `Practice` e `Options` (capas) (M8); `Home` (cartões, estados, dia sem agenda, foco e nenhum `id` igual a uma rota); no checkup, o `Player` com um motor como o Web Audio (o fim do trecho chega depois do seguinte) e a prévia inteira da revelação. Sem teste: `App`, `Game`, `Summary` (ME39) |
-| Ponta a ponta | Playwright (Chromium) na CI | Diário completo com relógio fixo e áudio fake; recarregar no meio retoma; falha de áudio anula a rodada; virada à meia-noite de Brasília; Treino; a home (sem fragmento, cartões, Voltar, dia sem agenda) |
+| Núcleo web | Vitest | Reducer nos dois modos (e as 4 combinações até a P100); pontuação; share; virada de dia às 23:59 e 00:00 de Brasília; busca com kana, kanji e romaji; storage (migração, JSON corrompido, cota cheia); sequência com dia pulado. Desde o M11: `core/apple` e `view` (hosts), `data/previews` (cada reserva, lote, disjuntor, cota), `source`, `audio/htmlaudio` e `fallback`. Meta: 90% de linhas e de statements em `core`, `data` e `storage` (`vite.config.ts`) |
+| Componentes | Vitest + Testing Library + happy-dom (por arquivo) | `GuessInput` (teclado, ARIA combobox, IME, rolagem, região de status), `Player` (regras do modo, foco, falha atrasada) e `ModePicker` (M7, removido com a P100); `RoundView`, `Practice` e `Options` (capas) (M8); `Home` (cartões, estados, dia sem agenda, foco e nenhum `id` igual a uma rota); no checkup, o `Player` com um motor como o Web Audio (o fim do trecho chega depois do seguinte) e a prévia inteira da revelação. Sem teste: `App`, `Game`, `Summary` (ME39) |
+| Ponta a ponta | Playwright (Chromium) na CI | Diário completo do Normal com relógio fixo e áudio fake; o Desafio digitado; recarregar no meio retoma; falha de áudio anula a rodada; virada à meia-noite de Brasília; Treino; a home (sem fragmento, cartões, Voltar, dia sem agenda, links antigos `#musica` e `#album`) |
 | Exploratório | Navegador do Claude | Visual, console e cliques durante o desenvolvimento |
 | Lint e formato | Ruff (Python), Biome (TS), `tsc --noEmit` estrito | |
 | Contrato Python × TS | pytest chamando o Node | Teste cruzado (M4): `normalize` e `looseKey` em TS comparados com o Python em todos os 62.034 caracteres do plano básico do Unicode 15.0 e 88.740 strings |
