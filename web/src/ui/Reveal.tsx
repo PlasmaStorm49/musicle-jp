@@ -149,15 +149,16 @@ export function Reveal({
           </div>
         </article>
       )}
-      {/* Fora do cartão: o estilo das imagens dele (cantos arredondados) alteraria o selo. */}
-      {track && index.catalog.provider === APPLE_PROVIDER && (
-        <Attribution href={track.storeUrl ?? PLAYLIST_URL} />
-      )}
-
       {/* O 2º clique de um toque duplo cairia na rodada seguinte (no "Não sei", ME43). */}
       <button type="button" class="primary" onClick={singleClick(onNext)}>
         {nextLabel}
       </button>
+
+      {/* No fim da página, como na rodada (P112, ME58), e fora do cartão: o estilo das imagens
+          dele (cantos arredondados) alteraria o selo. */}
+      {track && index.catalog.provider === APPLE_PROVIDER && (
+        <Attribution href={track.storeUrl ?? PLAYLIST_URL} />
+      )}
     </section>
   );
 }

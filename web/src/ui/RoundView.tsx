@@ -121,8 +121,6 @@ export function RoundView({
             }}
             onAudioError={voidForAudio}
           />
-          {/* Junto do player, como pedem os termos; o link é a playlist, não a resposta. */}
-          {index.catalog.provider === APPLE_PROVIDER && <Attribution href={PLAYLIST_URL} />}
           {rules.guessFromOptions ? (
             <Options
               index={index}
@@ -140,6 +138,9 @@ export function RoundView({
               onGiveUp={giveUp}
             />
           )}
+          {/* No fim da página (P112, ME58): a página inteira é a da música que toca. O link é a
+              playlist da parada, não a resposta. */}
+          {index.catalog.provider === APPLE_PROVIDER && <Attribution href={PLAYLIST_URL} />}
         </>
       )}
 

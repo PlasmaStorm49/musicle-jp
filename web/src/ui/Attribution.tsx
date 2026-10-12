@@ -13,7 +13,16 @@ type Props = {
 export function Attribution({ href }: Props) {
   return (
     <p class="attribution">
-      <a href={href} target="_blank" rel="noopener noreferrer">
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        // No fim da página (ME58), o selo pode estar onde o "Próxima rodada" estava: o 2º clique
+        // de um toque duplo nele abriria outra aba (regra 23 do web/CLAUDE.md, ME43).
+        onClick={(event) => {
+          if (event.detail > 1) event.preventDefault();
+        }}
+      >
         <img src={badge} alt={t("attribution.badge")} width={140} height={40} />
         <span class="sr-only"> {t("attribution.newTab")}</span>
       </a>

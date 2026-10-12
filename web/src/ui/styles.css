@@ -259,7 +259,8 @@ button.give-up {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 12px;
-  margin: 8px 0;
+  /* No fim da página (ME58): longe do "Não sei" e do "Próxima rodada", contra um toque errado. */
+  margin: 24px 0 8px;
   font-size: 0.8rem;
   color: var(--muted);
 }
