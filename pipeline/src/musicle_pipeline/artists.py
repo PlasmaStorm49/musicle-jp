@@ -3,7 +3,8 @@
 Puro e determinístico, como o catálogo: lê os snapshots dos artistas (o `fetch --artists` grava)
 pelo provedor, sem rede e sem a biblioteca de romaji, e refaz tudo do zero a cada build. Cada
 artista vira um arquivo publicado com uma faixa por música (a canônica), e o índice lista os
-artistas na ordem do artists.toml.
+artistas da lista principal na ordem do artists.toml e, depois, os da seção de fora do Japão, em
+ordem alfabética (P200, P201).
 
 A limpeza dos títulos daqui (karaokê, inglês, crédito "(… from …)") vale só para este modo: o
 normalize.py é o da parada, e mudá-lo mexeria nas respostas dos dias já jogados.
@@ -32,6 +33,8 @@ from musicle_pipeline.catalog import (
 from musicle_pipeline.models import JSON, ArtistEntry, ArtistSnapshot, InputError, RawTrack
 from musicle_pipeline.normalize import (
     TAILS,
+    needs_romaji,
+    normalize,
     search_keys,
     strip_version_suffix,
     title_key,
@@ -132,9 +135,14 @@ class ArtistRules:
     # trackId de uma faixa de cada música lançada como single (lado A, P172): entre as sem posição
     # no lookup de músicas, elas vêm antes das outras (o lookup só ordena 200 faixas).
     singles: frozenset[str] = frozenset()
+    # A seção da lista (P200): None é a principal, dos japoneses.
+    section: str | None = None
 
 
-_RULE_KEYS = {"id", "exclude_albums", "exclude_tracks", "same_song", "singles"}
+# As seções da lista de artistas, na ordem da tela, depois da principal (P200). Dentro de cada
+# uma, a ordem é alfabética (P201, section_order); na principal, a do artists.toml (P118).
+SECTIONS = ("foreign",)
+_RULE_KEYS = {"id", "exclude_albums", "exclude_tracks", "same_song", "singles", "section"}
 
 
 def _ids(value: object, where: str) -> frozenset[str]:
@@ -167,6 +175,9 @@ def load_artist_list(path: Path) -> list[ArtistRules]:
             for p in pairs
         ):
             raise InputError(f"{where}: same_song deveria ser uma lista de pares de trackId")
+        section = item.get("section")
+        if section is not None and section not in SECTIONS:
+            raise InputError(f"{where}: section aceita só {list(SECTIONS)}")
         rules.append(
             ArtistRules(
                 id=artist_id,
@@ -174,6 +185,7 @@ def load_artist_list(path: Path) -> list[ArtistRules]:
                 exclude_tracks=_ids(item.get("exclude_tracks", []), f"{where} exclude_tracks"),
                 same_song=tuple((a, b) for a, b in pairs),
                 singles=_ids(item.get("singles", []), f"{where} singles"),
+                section=section,
             )
         )
     ids = [r.id for r in rules]
@@ -498,10 +510,31 @@ def card_artwork(data: JSON) -> str | None:
     return chosen[0]["artworkUrl"] if chosen else None
 
 
-def build_artist_list(provider: str, storefront: str, files: Sequence[tuple[str, JSON]]) -> JSON:
-    """O índice, na ordem recebida (a do artists.toml)."""
+def section_order(entry: JSON) -> tuple[str, str]:
+    """A ordem dentro de uma seção (P201): o nome como aparece, ou o latino quando o nome não é
+    latino (um nome em hangul iria para o fim); o id desempata."""
+    name = entry["name"]
+    if needs_romaji(name) and entry["nameLatin"]:
+        name = entry["nameLatin"]
+    return normalize(name), entry["id"]
+
+
+def list_order(entries: Sequence[JSON]) -> list[JSON]:
+    """A lista principal na ordem recebida (a do artists.toml, P118) e, depois, cada seção, em
+    ordem alfabética (P200, P201)."""
+    return [e for e in entries if "section" not in e] + [
+        e
+        for s in SECTIONS
+        for e in sorted((x for x in entries if x.get("section") == s), key=section_order)
+    ]
+
+
+def build_artist_list(
+    provider: str, storefront: str, files: Sequence[tuple[str, JSON, str | None]]
+) -> JSON:
+    """O índice: os artistas recebidos (na ordem do artists.toml), com a seção de cada um."""
     entries = []
-    for name, data in files:
+    for name, data, section in files:
         me = next((a for a in data["artists"] if a["id"] == data["artistId"]), None)
         if me is None:
             raise InputError(f"{name}: nenhuma música publicada credita o artista do arquivo")
@@ -513,13 +546,14 @@ def build_artist_list(provider: str, storefront: str, files: Sequence[tuple[str,
                 "file": name,
                 "songs": len(data["tracks"]),
                 "artworkUrl": card_artwork(data),
+                **({"section": section} if section else {}),
             }
         )
     return {
         "schemaVersion": SCHEMA_VERSION,
         "provider": provider,
         "storefront": storefront,
-        "artists": entries,
+        "artists": list_order(entries),
     }
 
 
@@ -585,12 +619,12 @@ def build_artists(
     stale = _stale_aliases(provider.name, snapshots, cur)
     if stale:
         raise InputError("aliases.toml cita IDs que nenhum artista tem:\n" + "\n".join(stale))
-    files: list[tuple[str, JSON]] = []
+    files: list[tuple[str, JSON, str | None]] = []
     for r, snap, songs in selections(provider.name, snapshots, cur, notes):
         if not songs:
             raise InputError(f"artista {r.id}: nenhuma música tocável")
         data = build_artist_file(provider.name, provider.storefront, snap, songs, cur)
         notes.extend(_duplicate_notes(data))
-        files.append((file_name(r), data))
+        files.append((file_name(r), data, r.section))
     index = build_artist_list(provider.name, provider.storefront, files)
-    return {INDEX: index, **dict(files)}
+    return {INDEX: index, **{name: data for name, data, _ in files}}

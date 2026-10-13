@@ -28,6 +28,7 @@ from musicle_pipeline.models import (
     RawTrack,
 )
 from musicle_pipeline.normalize import title_key
+from musicle_pipeline.validate_artists import validate_artist_list
 
 ME = RawArtist("77", "テスト歌手", "Tesuto Kashu")
 OTHER = RawArtist("55", "他の歌手", "Hoka")
@@ -413,6 +414,60 @@ def test_build_artists_lists_in_order_and_warns_about_romaji_twins():
     assert list(files) == ["index.json", "77.json", "55.json"]
     assert [e["file"] for e in files["index.json"]["artists"]] == ["77.json", "55.json"]
     assert any("possível música repetida" in n for n in notes)
+    assert all("section" not in e for e in files["index.json"]["artists"])
+
+
+def _named(artist_id: str, name: str, latin: str | None = None) -> ArtistSnapshot:
+    who = RawArtist(artist_id, name, latin)
+    return ArtistSnapshot(
+        who, "2026-10-12T15:00:00Z", (ArtistEntry(1, track(f"t{artist_id}", "光", by=(who,))),)
+    )
+
+
+def test_the_foreign_section_comes_last_in_alphabetical_order():
+    # P200 e P201: a principal fica na ordem do artists.toml, mesmo com os de fora no meio; a
+    # seção vem depois, em ordem alfabética do nome (o latino, se o nome não for latino).
+    provider = FakeProvider(
+        {
+            "1": _named("1", "System Of A Down"),
+            "2": _named("2", "ミナト", "Minato"),
+            "3": _named("3", "볼빨간사춘기", "Bolbbalgan4"),
+            "4": _named("4", "aimer"),
+            "5": _named("5", "夜風シアター", "Yokaze Theater"),
+        }
+    )
+    rules = [
+        ArtistRules("1", section="foreign"),
+        ArtistRules("2"),
+        ArtistRules("3", section="foreign"),
+        ArtistRules("4", section="foreign"),
+        ArtistRules("5"),
+    ]
+    index = build_artists(provider, rules, Curation(), [])["index.json"]
+    order = [(e["file"], e.get("section")) for e in index["artists"]]
+    assert order == [
+        ("2.json", None),
+        ("5.json", None),
+        ("4.json", "foreign"),  # aimer, sem caixa
+        ("3.json", "foreign"),  # pelo latino, Bolbbalgan4
+        ("1.json", "foreign"),
+    ]
+    assert validate_artist_list(index) == []
+
+
+def test_the_list_out_of_order_is_refused():
+    provider = FakeProvider({"1": _named("1", "B"), "2": _named("2", "A"), "3": _named("3", "C")})
+    rules = [
+        ArtistRules("1", section="foreign"),
+        ArtistRules("2", section="foreign"),
+        ArtistRules("3"),
+    ]
+    index = build_artists(provider, rules, Curation(), [])["index.json"]
+    main, first, second = index["artists"]
+    # A seção fora da ordem alfabética, e a principal depois da seção.
+    for wrong in ([main, second, first], [first, second, main]):
+        problems = validate_artist_list({**index, "artists": wrong})
+        assert any("fora de ordem" in p for p in problems), wrong
 
 
 def test_build_artists_refuses_a_stale_alias():
@@ -427,7 +482,7 @@ def test_load_artist_list(tmp_path: Path):
     path.write_text(
         '[[artists]]\nid = "2"\nexclude_albums = ["9"]\nsame_song = [["1", "3"]]\n'
         'singles = ["4", "5"]\n\n'
-        '[[artists]]\nid = "1"\n',
+        '[[artists]]\nid = "1"\nsection = "foreign"\n',
         encoding="utf-8",
     )
     rules = load_artist_list(path)
@@ -436,6 +491,7 @@ def test_load_artist_list(tmp_path: Path):
     assert rules[0].same_song == (("1", "3"),)
     assert rules[0].singles == {"4", "5"}
     assert rules[1].singles == frozenset()
+    assert (rules[0].section, rules[1].section) == (None, "foreign")
 
 
 @pytest.mark.parametrize(
@@ -448,6 +504,8 @@ def test_load_artist_list(tmp_path: Path):
         ('[[artists]]\nid = "1"\nsame_song = [["1"]]\n', "pares"),
         ('[[artists]]\nid = "1"\nexclude_tracks = [1]\n', "lista de ids"),
         ('[[artists]]\nid = "1"\nsingles = "4"\n', "singles"),
+        ('[[artists]]\nid = "1"\nsection = "abroad"\n', "section aceita"),
+        ('[[artists]]\nid = "1"\nsection = 1\n', "section aceita"),
         ("[[artists]\n", "TOML inválido"),
     ],
 )
