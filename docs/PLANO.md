@@ -130,6 +130,11 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P181 | No crédito de um título ("feat. …"), o nome da pessoa ou do grupo sai no latino que ela usa, e não em Hepburn: "Lilas Ikuta", "ATARASHII GAKKO!". Um nome próprio não é leitura; a regra 11 do `pipeline/CLAUDE.md` vale para o resto do título |
 | P182 | O id 1704820090 ("Lilas", títulos em francês) não entra: sem evidência de que seja o 幾田りら |
 | P183 | Parceria com nome próprio na loja: os latinos dos artistas ligados por "&" ("Sheena Ringo & ATARASHII GAKKO!"), como no DAOKO×米津玄師 |
+| P184 | As leituras oficiais dos títulos do modo por artista vêm da Apple da loja US e da furigana do UtaTen: 狼の詩 "Ookami no uta", まさ毛カンナヴァーロ "Masage kannavaaro" e 赤春花 "Sekishunka"; 雨夜の接吻 fica "Amayo no seppun" |
+| P185 | O crédito de um título ("feat. …", "with …") usa o nome do artista como a Apple escreve, o do lookup do artista: a regra da P181 vale para todo crédito ("Nile Rodgers", "Kenshi Yonezu") |
+| P187 | Se a loja JP só der o nome do artista em kanji ou kana, vale o da loja US |
+| P188 | まさ毛カンナヴァーロ: o latino exibido é o Hepburn, "Masage kannavaaro" (regra 11), e a grafia da Apple US, "Masage Cannavaro", entra só na busca (`aliases` da faixa) |
+| P189 | Os achados fora do escopo da correção entram no mesmo PR: 東亰カニバリズム, os nomes partidos do PALETTE4 e o "&" colado dos dois MEKAKUCITY |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -311,6 +316,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
   - ME75. No título da partida, "Superfan" vira uma etiqueta ao lado do nome do artista (o título não quebra no meio).
 - ME76. O aviso do aria-live (o `announce`) continua no DOM ao trocar de aba ("Pulou. Tentativa 4 de 6." aparece no texto da escolha do submodo). Não aparece na tela, mas um leitor de tela pode reler; limpar ao trocar de aba (check-up de 12/10/2026).
 - ME77. Nas estatísticas do Desafio, a distribuição tem 19 linhas (0 a 18 pontos), longa no celular: agrupar em faixas ou desenhar em colunas (check-up de 12/10/2026).
+- ME79. O `validate` e o `validate-artists` recusam kanji ou kana no título latino (o 東亰カニバリズム passou como "Higashi 亰 kanibarizumu").
 
 **Feitas:**
 
@@ -836,8 +842,15 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
     - O crédito 新しい学校のリーダーズ em 4 faixas e 3 álbuns: o cutlet leu "feat. atarashii gakkou no riidaazu"; ficou "feat. ATARASHII GAKKO!" (P181).
     - Leituras erradas (席替 como "Seki kae", 絶絶絶絶対聖域 como "Zezzezzezzettai"), espaços partidos ("Supaa kuru", "shadan ki") e o til fora do lugar (チラチラチラミー ~試験当日~, ロケット・トゥ・ザ・ムーン~信じた世界へ~).
     - "Sheena Ringo & ATARASHII GAKKO!" para 椎名林檎と新しい学校のリーダーズ (ドラ1独走, no id do 椎名林檎): a Apple deu só "Sheena Ringo", como no DAOKO×米津玄師.
-    - As leituras sem certeza ficaram (狼の詩, 雨夜の接吻, まさ毛カンナヴァーロ, 赤春花); a leitura oficial vai num PR à parte.
+    - As leituras sem certeza ficaram (狼の詩, 雨夜の接吻, まさ毛カンナヴァーロ, 赤春花); a leitura oficial veio num PR à parte (P184, abaixo).
   - Ficaram como estão as participações em outras línguas que estão no id dela (Plus rien, do Orelsan; Perfectos imperfectos, do Pablo Alborán; Here, Tomorrow, do League of Legends): a P115 põe as participações dentro.
+- **Correção do romaji dos artistas (P184 a P189)**, 12/10/2026: só o `aliases.toml`. São 21 latinos de faixa e 13 de álbum, em 8 dos 10 artistas; Unlimits, Seiko Matsuda e o índice saíram iguais.
+  - Leituras oficiais (P184): 狼の詩 "Ookami no uta" (o single, a faixa de 若気ガイタル e o álbum gêmeo), まさ毛カンナヴァーロ "Masage kannavaaro", com "Masage Cannavaro" na busca (P188), e 赤春花 "Sekishunka". A loja US confirma as três ("okami no uta", "Masage Cannavaro", "Sekishunka").
+  - Créditos com o nome da Apple (P185, P187): 11 faixas e 7 álbuns gêmeos (Yorushika, Aina The End, Masayuki Suzuki, Nile Rodgers, Kenshi Yonezu, Mao Abe, Wanuka, MARiA, Kenmochi Hidefumi). ミドリーズ só tem o nome em kana no lookup, nas duas lojas: ficou "midories", o do título na loja US.
+  - Fora do escopo (P189): 東亰カニバリズム "Tokyo kanibarizumu" (faixa e álbum), o PALETTE4 com "Mahiru/Yukke" (まひる e ゆっけ não têm nome latino na Apple) e o "&" com espaço nos dois MEKAKUCITY.
+  - A varredura dos latinos achou mais 7: os créditos com "+" do 米津玄師 (Yojiro Noda, Elaiza Ikeda, Masaki Suda e Aina The End, como no artista da faixa na loja US), o kanji que sobrou em 爱丽丝 ("Arisu", com "Alice" na busca) e em 空噪wired ("Kuusou wired") e o 」 no single do Angel Beats!.
+  - Ficou para o catálogo da parada (outro arquivo, outro PR): nenhum latino exibido com os erros dos artistas; "yonetsugenshi" está só na busca do artista 米津玄師, ao lado de "kenshiyonezu". Dois créditos com o nome lido por máquina: 点描の唄 (feat. 井上苑子), "Inoue Sonoko", e 罪と罰と雨とキス (佐野勇斗&吉田仁人), "Sano Hayato & Yoshida Jinto" (a loja US escreve "Hayato Sano & Jinto Yoshida").
+  - Ficaram só listados: os álbuns gêmeos de faixas corrigidas antes (スパークル, アドレナ, 絶絶絶絶対聖域, 月アカリサイレース, 私の愛 e ロケット・トゥ・ザ・ムーン), まふまふ トリビュートアルバム 〜転生〜 ("Ma fuma futoribyuuto arubamu tenshou"; a loja US: "Mafumafu Tribute Album -Tensei-") e INSPIRE -加藤ミリヤTRIBUTE- ("Katou Miriya").
 - **Web** (PR C):
   - Aba `#artistas`, na nav e na home até o site ficar público (P117, P126): um `<li>` da nav e um cartão, fáceis de tirar.
   - A lista carrega ao entrar na aba e cada artista ao ser escolhido (`loadArtistList` e `loadArtist`, em `data/source.ts`, com `no-cache` e a versão de cada arquivo); o estado (`useArtistStore`) fica no `App`, então trocar de aba não perde a sessão, e recarregar volta à lista (P116). Uma falha mostra "Tentar de novo" só na aba (P144).
