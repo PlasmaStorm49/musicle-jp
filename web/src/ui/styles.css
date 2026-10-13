@@ -14,6 +14,7 @@
   --muted: #6d6e70;
   /* O oliva é a cor de ação, nunca de texto (no branco, 1,92). */
   --primary: #bdbf7f;
+  --primary-hover: #a9ab6e;
   --on-primary: #000000;
   --accent-line: #969865;
   --focus: #000000;
@@ -52,6 +53,7 @@
     --text: #d7d8dc;
     --muted: #9a9ba0;
     --accent-line: #bdbf7f;
+    --primary-hover: #d0d29c;
     --focus: #d7d8dc;
     --ok: #57961f;
     --ok-soft: #1b2a10;
@@ -77,6 +79,7 @@
   --text: #d7d8dc;
   --muted: #9a9ba0;
   --accent-line: #bdbf7f;
+  --primary-hover: #d0d29c;
   --focus: #d7d8dc;
   --ok: #57961f;
   --ok-soft: #1b2a10;
@@ -153,6 +156,29 @@ button.primary {
   border-color: var(--primary);
   color: var(--on-primary);
   font-weight: 700;
+}
+
+/* Os estados (M12, PR C): passar o mouse só onde há mouse (no celular, o hover fica preso depois
+   do toque), e o pressionado desce 1 px. O botão desativado não muda. */
+@media (hover: hover) {
+  button:hover:not(:disabled) {
+    border-color: var(--text);
+    background: var(--surface-2);
+  }
+
+  a.home-card:hover,
+  button.home-card:hover:not(:disabled) {
+    border-color: var(--accent-line);
+  }
+
+  button.primary:hover:not(:disabled) {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+  }
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 /* Links de texto (o do Treino na Início): a cor do texto, sublinhados. O selo da Apple é imagem. */
@@ -590,10 +616,6 @@ h4 {
   text-decoration: none;
 }
 
-a.home-card:hover {
-  border-color: var(--accent-line);
-}
-
 .home-card:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
@@ -836,10 +858,6 @@ button.home-card {
   width: 100%;
   font: inherit;
   cursor: pointer;
-}
-
-button.home-card:hover {
-  border-color: var(--accent-line);
 }
 
 /* "Reiniciar o Treino": um botão secundário (ME57), abaixo do placar */
