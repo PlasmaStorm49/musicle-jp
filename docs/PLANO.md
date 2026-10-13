@@ -127,6 +127,11 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P171 | Sem capa, ou se ela não carregar, um monograma: a 1ª letra do nome (米, 松), num disco de cor fixa pelo id |
 | P172 | As 200 de cada artista são as mais populares (pedido de 12/10/2026): depois da ordem do lookup, os singles (lado A) de uma lista curada no `artists.toml` vêm antes da reserva, e a faixa tirada pela curadoria deixa a posição para a música dela (Apêndice K) |
 | P174 | Entram no modo por artista o 新しい学校のリーダーズ (1231338664) e o 幾田りら (1489581870), no fim da lista (pedido de 12/10/2026) |
+| P175 | A fonte da interface é a Noto Sans JP (a identificação do style guide), hospedada no próprio site pelo pacote `@fontsource/noto-sans-jp`, e não pelo Google Fonts (pedido de 13/10/2026) |
+| P176 | Tema em três estados, Automático, Claro e Escuro; o Automático, o padrão, segue o aparelho (`prefers-color-scheme`) |
+| P177 | O 当 do logo fica vermelho nos dois temas; a versão de uma cor só fica para fundo colorido |
+| P178 | O M12 começa já, com o que o designer mandou: o que faltar entra provisório e é trocado quando chegar (13/10/2026) |
+| P179 | O nome no logo fica sem espaço, "atemusic" (o designer aprovou, PD11); na tela, o nome continua AteMusic (P96 a P98). O PR B do M12 ajusta o SVG |
 | P181 | No crédito de um título ("feat. …"), o nome da pessoa ou do grupo sai no latino que ela usa, e não em Hepburn: "Lilas Ikuta", "ATARASHII GAKKO!". Um nome próprio não é leitura; a regra 11 do `pipeline/CLAUDE.md` vale para o resto do título |
 | P182 | O id 1704820090 ("Lilas", títulos em francês) não entra: sem evidência de que seja o 幾田りら |
 | P183 | Parceria com nome próprio na loja: os latinos dos artistas ligados por "&" ("Sheena Ringo & ATARASHII GAKKO!"), como no DAOKO×米津玄師 |
@@ -136,6 +141,8 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P187 | A grafia de um nome em crédito é a da Apple: o nome do artista no lookup; se a loja JP só der kanji ou kana, o título da loja US (pedido de 12/10/2026). Vale para todo crédito, como na P181 ("Nile Rodgers", "Kenshi Yonezu") |
 | P188 | まさ毛カンナヴァーロ: o latino exibido é o Hepburn, "Masage kannavaaro" (regra 11), e a grafia da Apple US, "Masage Cannavaro", entra só na busca (`aliases` da faixa) |
 | P189 | Os achados fora do escopo da correção entram no mesmo PR: 東亰カニバリズム, os nomes partidos do PALETTE4 e o "&" colado dos dois MEKAKUCITY |
+| P191 | A troca de tema fica no fim da Início, depois de "Como funciona": não gasta altura nas telas do jogo (ME60) nem largura na nav (ME70) |
+| P192 | As cores são as do designer; dentro do esquema, a escolha é do Claude (Apêndice L): o claro branco, com os cartões de borda cinza, e o escuro com o preto da paleta e os cartões em tons derivados. Onde o contraste pede, a cor da paleta escurece um tom (o vermelho e o verde de texto) e os cinzas intermediários são derivados |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -219,6 +226,7 @@ musicle-jp/
 | M9 | Concluído em 09/10/2026 | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review`, ferramentas de PR do app (Auto-fix) |
 | M10 | Concluído em 10/10/2026 | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions, navegador do Claude na URL pública |
 | M11 | Concluído em 11/10/2026 | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
+| M12 | Em andamento (PRs A a D) | O visual novo, com a identidade do designer (Apêndice L): tokens, fonte e tema escuro (A); logo, selos e favicon (B); ícones e botões (C); textos e celular (D) | Os 4 PRs no ar, nos dois temas, com o contraste travado pelo `scripts/theme.test.ts` | Modo de planejamento, subagentes Explore e um de pesquisa (a fonte do style guide), widget da paleta |
 | M13 | Em andamento (PRs A, B e C) | Modo por artista: a lista de artistas e rodadas sem fim do Desafio com as músicas de um deles (Apêndice K). Feito antes do M12 (o visual) | 3 PRs: pipeline e fixtures (A), dados reais dos 6 artistas (B), web (C) | Planejamento com 3 subagentes Explore e um Plan |
 
 **Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
@@ -262,6 +270,10 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - S22. O selo da rodada no modo por artista levando à página do artista na loja (pede um campo de URL novo, com a conferência no validate e no `core/apple.ts`, regra inviolável 5).
 - S23. A capa da música mais conhecida no cartão de cada artista da lista. Feita (P168), no branch `m13-artistas-capas`.
 - S24. Conferir a duração real das prévias da Apple: o pipeline grava sempre 30 s, e no Superfan um começo perto de 19 s numa prévia mais curta deixaria menos de 9 s (o Web Audio corta sem erro). Como: registrar o `buffer.duration` com `?data=real` (revisor do Superfan).
+- S29. As 3 faíscas do 当 animadas no acerto, rápidas e desligadas com `prefers-reduced-motion`.
+- S30. O indicador de carregamento com as faíscas acendendo em sequência.
+- S32. O custo de desistir visível na rodada do Superfan, e não só na revelação (`/code-review` do P186).
+- S33. A fonte mais leve: um `@font-face` próprio só com o woff2 (tira 7,5 MB do `dist`) e o CSS da fonte sem bloquear a pintura (os 124 `unicode-range` de cada peso pesam 210 kB no CSS principal).
 
 **Melhorias futuras**
 
@@ -270,7 +282,6 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME4. Gerar o dia no navegador quando a agenda não cobrir a data.
 - ME5. PWA offline.
 - ME6. App do Claude no GitHub para revisar PR.
-- ME7. Tema escuro e revisão de acessibilidade.
 - ME8. Tolerância a erro de digitação (distância de edição) no autocompletar.
 - ME10. `actionlint` ou `zizmor` na CI, para revisar o próprio workflow a cada PR (revisor do M9).
 - ME11. Fixar também a versão do `pip` na CI (`/code-review` do M9). O checkup achou soltos também o patch do Python (3.12.x), o minor do Node 24 e as dependências de build do sdist do unidic-lite (hipótese).
@@ -282,7 +293,6 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 **Do checkup de 11/10/2026** (P90). As feitas estão em "Feitas", abaixo.
 
 - ME29. Tirar do `web/.npmrc` as exceções do vite e do source-map-js a partir de 20/10/2026, quando o vite 8.3.3 completa 14 dias (P29): do jeito que estão, qualquer versão nova deles entra sem a carência.
-- ME30. Contraste baixo na barra segmentada e nas barras da distribuição (cerca de 1,2:1). Vai com o M12.
 - ME33. Textos: "- Single" na revelação, dia todo anulado mostrando "0/0", a dica de "setas e Enter" no celular e a rodada anulada sempre como "Áudio indisponível" (também quando a resposta perdeu a elegibilidade). Vai com o M12.
 - ME34. Celular: opções com títulos enormes ("Yes! 東京 (feat. …)" passa de 6 linhas) e a distribuição de pontos com 19 linhas. Vai com o M12. (O seletor de modo do Treino antes do player saiu com a P105.)
 - ME36. Atualizar as 3 actions que têm versão nova quando ela completar 14 dias, a partir de 22/10/2026 (P28; checkup).
@@ -320,9 +330,11 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME79. O `validate` e o `validate-artists` recusam kanji ou kana no título latino (o 東亰カニバリズム passou como "Higashi 亰 kanibarizumu").
 - ME80. Os créditos da parada com o nome da Apple, a mesma regra da P187 no `pipeline/data/apple/aliases.toml`: 点描の唄 (feat. 井上苑子) "Inoue Sonoko" e 佐野勇斗&吉田仁人 "Sano Hayato & Yoshida Jinto", que a loja US escreve "Hayato Sano & Jinto Yoshida".
 - ME81. Uma revisão das leituras do cutlet nos artistas, fora dos créditos. Exemplos: 蜃気楼 do Eve "Shinki rou", 私は最強 "Watakushi wa saikyou", あなたに出会わなければ "deawanakerebaa".
+- ME82. A variante branca do selo da Apple no tema escuro: o Toolbox tem as duas (P81), e só a preta entrou no repositório. Não achei regra oficial para fundo escuro (busca de 13/10/2026); baixar a branca pede a permissão do usuário.
 
 **Feitas:**
 
+- No M12, PR A: ME7 (o tema escuro, com a troca na Início, e o contraste dos dois temas travado pelo `web/scripts/theme.test.ts`) e ME30 (a barra do trecho e a distribuição: o liberado contra o trilho dá 14,75 no claro e 10,04 no escuro). A S31 (o M12 em 4 PRs) virou o plano do marco.
 - S7 (M9): um marco por branch e por PR.
 - Nos dois modos (P100): S14 (os nomes Normal e Desafio) e ME1 (o Desafio é o modo difícil). A S15 foi descartada: o Treino ficou só com os dois modos.
 - S13 (Treino por artista) virou o M13 (P128): o modo por artista.
@@ -873,6 +885,53 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
   - A revelação do 3º erro diz que a partida acabou ("3 erros: a partida acabou. Veja o resultado."), e o áudio da música seguinte sai do motor.
   - O fim da partida diz o motivo (3 erros, encerrada, todas tocaram ou nenhuma música para sortear, com as de hoje de fora), o placar e os acertos, com "Jogar de novo" e "Trocar de artista". O cartão da home mostra o placar da partida em jogo, em músicas ("-7 pontos em 2 músicas").
 
+## Apêndice L. Identidade visual (M12)
+
+**Origem:** um style guide feito por um designer conhecido do usuário, em SVG (os vetores) e PNG (como os vetores ficam na tela), entregue em 12/10/2026. Os arquivos ficam com o usuário, fora do repositório. As respostas do designer às perguntas da análise (PD1 a PD13, 13/10/2026):
+
+- **PD1:** os tamanhos seguem o site de hoje, não os números do SVG (o botão do SVG é grande, mas na tela fica proporcional).
+- **PD2:** peso Regular, mantendo os tamanhos e a hierarquia do beta.
+- **PD3 a PD5:** o "ate music" e o 当 foram desenhados à mão e servem só ao logo.
+- **PD6:** o sol, a lua, o compartilhar e as estatísticas virão depois; o resto dos ícones fica como no beta.
+- **PD7 e PD8:** os entalhes do X e do chevron são estilo, e não defeito (o usuário confirmou).
+- **PD9:** o logo horizontal não entra agora.
+- **PD10:** o verde é só para o acerto.
+- **PD11:** o nome sem espaço está aprovado (P179).
+- **PD12 e PD13:** a área de respiro, o tamanho mínimo, a versão opaca do selo e a intenção para o escuro ainda vão chegar.
+
+**A paleta:** vermelho `#EA3829`, oliva `#BDBF7F`, branco, cinza `#D7D8DC` e preto. O verde `#54941C` do ✓ fica fora da paleta, só para o acerto.
+
+**Os tokens** (`web/src/ui/styles.css`, PR A). O claro usa a paleta onde o contraste deixa (P192): o branco, o preto, o cinza `#D7D8DC` das bordas, o oliva e o vermelho da marca. Para texto, o vermelho e o verde escurecem um tom (`#DE3527`, 4,52, e `#4B8419`, 4,55; os da paleta dariam 4,12 e 3,73). Os cinzas intermediários (`--muted`, `--border-strong`, `--surface-2`), o oliva das linhas (`--accent-line`) e os fundos tingidos são derivados. No escuro, o fundo é o preto da paleta, e os cartões ganham tons derivados para ter elevação. O contraste de cada par (4,5 para texto, 3 para borda, foco, barra e ícone) é travado pelo `web/scripts/theme.test.ts`:
+
+| Token | Claro | Escuro | Uso |
+|---|---|---|---|
+| `--bg` / `--surface` / `--surface-2` | `#FFFFFF` / `#FFFFFF` / `#F1F1F3` | `#000000` / `#1F1F22` / `#2A2A2E` | página, cartões, blocos e sugestão ativa |
+| `--border` / `--border-strong` | `#D7D8DC` / `#939497` | `#2A2A2E` / `#6E6F74` | borda decorativa; borda de campo e de botão (3,03 e 3,28) |
+| `--text` / `--muted` | `#000000` / `#6D6E70` | `#D7D8DC` / `#9A9BA0` | texto e texto secundário |
+| `--primary` e `--on-primary` | `#BDBF7F` e `#000000` | iguais | botão principal (10,92) |
+| `--accent-line` | `#969865` | `#BDBF7F` | aba ativa, hover, sugestão |
+| `--focus` | `#000000` | `#D7D8DC` | foco do teclado |
+| `--brand` e `--on-brand` | `#EA3829` e `#FFFFFF` | iguais | o logo e os selos |
+| `--ok` / `--bad` | `#4B8419` / `#DE3527` | `#57961F` / `#EC4F42` | acerto e erro (texto e borda) |
+| `--ok-soft` / `--bad-soft` | `#F0F6E9` / `#FEF2F0` | `#1B2A10` / `#3A1714` | fundo das linhas de acerto e erro (o `--muted` sobre eles dá 4,63 e 4,66) |
+| `--warn` / `--warn-soft` | `#8A5A00` / `#FFF1D6` | `#E0A84A` / `#33270F` | avisos (5,31 e 6,86) |
+| `--bar-track` / `--bar-open` / `--bar-play` | `#939497` / `#000000` / `#DE3527` | `#6E6F74` / `#D7D8DC` / `#DE3527` | a barra do trecho (ME30): o trilho tem 3:1 contra o cartão, para a parte travada aparecer |
+| `--emoji-bg` / `--emoji-text` | transparente / `#000000` | `#D7D8DC` / `#000000` | o fundo claro do ⬛ no escuro |
+| `--bucket` / `--bucket-today` | `#939497` / `#DE3527` | `#6E6F74` / `#EC4F42` | a distribuição de pontos |
+
+**Regras que a conta impôs:**
+- O oliva nunca é texto: no branco, dá 1,92.
+- O vermelho fica com a marca, o erro e o que já tocou da barra; o oliva, com a ação.
+- Texto colorido sobre fundo tingido só com o par na lista do teste, a 4,5: o aviso passa (`--warn` sobre `--warn-soft`), mas o erro sobre o rosado dá 3,95. Nas linhas de acerto e erro, o texto é o normal, e a cor vai na borda e no ícone. O texto secundário dessas linhas (o latino e o artista) pediu os fundos mais claros da tabela: com o `#FDECEA` de antes, dava 4,46 (revisor e `/code-review` do PR A).
+- No escuro, o ⬛ das tentativas e da prévia do compartilhar ganha um fundo claro (`--emoji-bg`).
+- O selo da Apple fica a versão preta nos dois temas, sem alteração (P81): no escuro, o filete cinza dele o separa do fundo. Não há regra oficial para fundo escuro (ME82).
+
+**O CSS dos temas:** o claro no `:root`; o escuro em dois blocos iguais, o do `@media (prefers-color-scheme: dark)` com `:root:not([data-theme="light"])` (o Automático, só CSS) e o `:root[data-theme="dark"]` (a troca). O `color-scheme` acompanha, para os campos, o `<dialog>` e as barras de rolagem.
+
+**A fonte (P175):** `@fontsource/noto-sans-jp` 5.3.0 (o mais novo com 14 dias), só os pesos 400 e 700 (os 600 de antes viraram 700). Cada peso tem 124 fatias por `unicode-range`, e o navegador baixa só as dos caracteres da tela (15 fatias woff2 na lista de artistas, medido no navegador do Claude). No build, as fontes somam 13 MB no `dist` (5,9 MB de woff2 e 7,5 MB de woff, que nenhum navegador atual baixa), e o CSS principal passa a 224 kB (74 kB comprimido), pelos `unicode-range` (S33). A licença é a OFL 1.1, que deixa redistribuir a fonte com o aviso de direitos e a licença nos campos de metadados do próprio arquivo, e os woff2 do pacote os trazem (hipótese conferida só pela regra da licença, não arquivo a arquivo).
+
+**A troca de tema (P176, P191):** três rádios no fim da Início. A escolha fica na chave `musicle-jp:theme` (`src/storage/theme.ts`), fora do save: sem `updateSave` nem `SAVE_SCHEMA_VERSION`. O `src/ui/theme.ts` aplica o `data-theme` no `<html>` e o `theme-color` da barra do navegador. Um script curto no `<head>` do `index.html` lê a mesma chave antes da pintura, para quem escolheu Escuro num aparelho claro não ver a página clara por um instante.
+
 ## Origem
 
 - **Musicle**, observado no navegador em 08/10/2026: `musicle.app/hitparade/jp` (3 rodadas, 4 capas, previews em `audio-ssl.itunes.apple.com`, capas em `mzstatic.com`).
@@ -883,3 +942,4 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 - **Pesquisa do selo e da playlist da Apple** (subagente, 11/10/2026, só leitura; o selo foi baixado depois, com permissão do usuário, P81): toolbox.marketingtools.apple.com (página da faixa em pt-BR e o JavaScript do código de incorporação), marketing.services.apple/apple-music-identity-guidelines, artists.apple.com/support/1117-apple-music-marketing-tools, music.apple.com/jp/playlist/top-100-japan/pl.043a2c9876114d95a4659988497567be, rss.marketingtools.apple.com (comparação com a playlist), performance-partners.apple.com/search-api e o arquivo da documentação do iTunes Search API em developer.apple.com.
 - **Medições do PR B do M11:** navegador do Claude em 11/10/2026, no servidor de desenvolvimento com `?data=real` (Apêndice E).
 - **Checkup de 11/10/2026:** seis subagentes, só leitura (site publicado, dados reais, pipeline, operação por `gh api`, jogo e documentação), e as revisões dos PRs #12 e #13 (subagente revisor, `/code-review` e `/security-review`).
+- **Identidade visual do M12** (12 e 13/10/2026): o style guide do designer (SVG e PNG), analisado pelo Claude com recortes em alta resolução e a conta de contraste do WCAG; um subagente de pesquisa comparou as letras do SVG com 26 famílias para achar a Noto Sans JP; as respostas do designer (PD1 a PD13) vieram pelo usuário; o `npm view @fontsource/noto-sans-jp` e uma busca sobre o selo da Apple em fundo escuro (artists.apple.com/support/1117-apple-music-marketing-tools).
