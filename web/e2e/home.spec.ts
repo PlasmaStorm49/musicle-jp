@@ -23,6 +23,15 @@ test("no celular (360 px, o Android comum), as cinco abas cabem numa linha, tamb
   const tabs = page.getByRole("navigation").getByRole("link");
   await expect(tabs).toHaveCount(5);
   await expect(tabs.filter({ hasText: "✓" })).toHaveCount(2);
+  // A Noto Sans JP (P175) chega depois da página: mede com ela, e não com a fonte de reserva. O
+  // load pede os dois pesos das abas (o ready sozinho termina na hora se nada estiver pendente).
+  await page.evaluate(async () => {
+    await Promise.all([
+      document.fonts.load('400 0.9rem "Noto Sans JP"', "Normal Desafio Treino Artistas ✓"),
+      document.fonts.load('700 0.9rem "Noto Sans JP"', "Início"),
+    ]);
+    await document.fonts.ready;
+  });
   const rows = await tabs.evaluateAll(
     (links) => new Set(links.map((a) => Math.round(a.getBoundingClientRect().top))).size,
   );

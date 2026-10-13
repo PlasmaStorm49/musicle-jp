@@ -1,26 +1,99 @@
-/* Tema claro (o escuro é a melhoria ME7). Cores em variáveis: trocar o tema é só redefini-las. */
+/* As cores da identidade do M12 (P192: a paleta do designer, Apêndice L do PLANO), em variáveis:
+   o tema é só redefini-las. O claro fica no :root. O escuro vale com o aparelho escuro (o
+   Automático, só CSS) ou com o data-theme="dark" da troca na Início (P176, P191), nos dois blocos
+   iguais logo abaixo. O web/scripts/theme.test.ts confere que os dois são iguais, o contraste de
+   cada par (4,5 para texto, 3 para borda, foco e barra) e que não sobra cor fora daqui. */
 :root {
-  --bg: #fbf8f3;
+  color-scheme: light dark;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --text: #1f2430;
-  --muted: #5b6170;
-  --accent: #2f7d79;
-  --accent-text: #ffffff;
-  --accent-soft: #d8ecea;
-  --border: #d9d4ca;
-  --ok: #1e7a3c;
-  --ok-soft: #e1f3e6;
-  --bad: #b3261e;
-  --bad-soft: #fbe3e1;
+  --surface-2: #f1f1f3;
+  --border: #d7d8dc;
+  --border-strong: #939497;
+  --text: #000000;
+  --muted: #6d6e70;
+  /* O oliva é a cor de ação, nunca de texto (no branco, 1,92). */
+  --primary: #bdbf7f;
+  --on-primary: #000000;
+  --accent-line: #969865;
+  --focus: #000000;
+  /* O vermelho é a marca, o erro e o que já tocou da barra; o verde, só o acerto (PD10). */
+  --brand: #ea3829;
+  --on-brand: #ffffff;
+  --ok: #4b8419;
+  --ok-soft: #f0f6e9;
+  --bad: #de3527;
+  --bad-soft: #fef2f0;
   --warn: #8a5a00;
   --warn-soft: #fff1d6;
+  /* O trilho com o cinza das bordas fortes: a parte travada aparece contra o cartão (3:1). */
+  --bar-track: #939497;
+  --bar-open: #000000;
+  --bar-play: #de3527;
+  --bucket: #939497;
+  --bucket-today: #de3527;
+  /* O ⬛ das tentativas e do compartilhar some no escuro: lá ele ganha um fundo claro. */
+  --emoji-bg: transparent;
+  --emoji-text: #000000;
   --radius: 12px;
-  /* Vermelho do logo provisório (P95); o visual do M12 define a paleta. */
-  --brand: #d7263d;
-  font-family: system-ui, "Segoe UI", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+  font-family: "Noto Sans JP", system-ui, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
   color: var(--text);
   background: var(--bg);
   line-height: 1.4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #000000;
+    --surface: #1f1f22;
+    --surface-2: #2a2a2e;
+    --border: #2a2a2e;
+    --border-strong: #6e6f74;
+    --text: #d7d8dc;
+    --muted: #9a9ba0;
+    --accent-line: #bdbf7f;
+    --focus: #d7d8dc;
+    --ok: #57961f;
+    --ok-soft: #1b2a10;
+    --bad: #ec4f42;
+    --bad-soft: #3a1714;
+    --warn: #e0a84a;
+    --warn-soft: #33270f;
+    --bar-track: #6e6f74;
+    --bar-open: #d7d8dc;
+    --bucket: #6e6f74;
+    --bucket-today: #ec4f42;
+    --emoji-bg: #d7d8dc;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --surface: #1f1f22;
+  --surface-2: #2a2a2e;
+  --border: #2a2a2e;
+  --border-strong: #6e6f74;
+  --text: #d7d8dc;
+  --muted: #9a9ba0;
+  --accent-line: #bdbf7f;
+  --focus: #d7d8dc;
+  --ok: #57961f;
+  --ok-soft: #1b2a10;
+  --bad: #ec4f42;
+  --bad-soft: #3a1714;
+  --warn: #e0a84a;
+  --warn-soft: #33270f;
+  --bar-track: #6e6f74;
+  --bar-open: #d7d8dc;
+  --bucket: #6e6f74;
+  --bucket-today: #ec4f42;
+  --emoji-bg: #d7d8dc;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 * {
@@ -58,7 +131,7 @@ button {
   min-height: 44px;
   padding: 10px 14px;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
@@ -72,15 +145,25 @@ button:disabled {
 button:focus-visible,
 h1:focus-visible,
 h2:focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
 button.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-text);
-  font-weight: 600;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+  font-weight: 700;
+}
+
+/* Links de texto (o do Treino na Início): a cor do texto, sublinhados. O selo da Apple é imagem. */
+a {
+  color: var(--text);
+}
+
+a:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
 }
 
 .sr-only {
@@ -112,21 +195,21 @@ button.primary {
   position: relative;
   height: 14px;
   border-radius: 7px;
-  background: #ece7de;
+  background: var(--bar-track);
   overflow: hidden;
 }
 
 .bar-unlocked {
   position: absolute;
   inset: 0 auto 0 0;
-  background: var(--accent-soft);
+  background: var(--bar-open);
 }
 
 .bar-fill {
   position: absolute;
   inset: 0 auto 0 0;
   width: 0;
-  background: var(--accent);
+  background: var(--bar-play);
 }
 
 .bar-segments {
@@ -149,7 +232,7 @@ button.primary {
   padding: 2px 8px;
   border-radius: 999px;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .badge.explicit {
@@ -195,11 +278,11 @@ button.give-up {
   margin: 0 0 0 auto;
 }
 
-/* A ajuda se destaca do "Desistir" pela cor, sem competir com o "Tocar" (o único cheio). */
+/* A ajuda se destaca do "Desistir" pela borda forte, sem competir com o "Tocar" (o único
+   cheio). */
 button.help {
-  border-color: var(--accent);
-  color: var(--accent);
-  font-weight: 600;
+  border-color: var(--text);
+  font-weight: 700;
 }
 
 .item {
@@ -208,7 +291,7 @@ button.help {
 }
 
 .item-title {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .item-latin {
@@ -253,7 +336,7 @@ button.help {
 
 .tag {
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -345,6 +428,10 @@ h4 {
 
 .share-preview {
   margin: 0 0 12px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--emoji-bg);
+  color: var(--emoji-text);
   font-family: inherit;
   white-space: pre-wrap;
   line-height: 1.5;
@@ -353,7 +440,7 @@ h4 {
 .share-done {
   margin: 8px 0 0;
   color: var(--ok);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .share-manual {
@@ -363,12 +450,15 @@ h4 {
   font-size: 0.9rem;
 }
 
+/* A cópia à mão do resultado (sem área de transferência): no escuro, com o fundo claro do ⬛. */
 .share-manual textarea {
   font: inherit;
   width: 100%;
   padding: 8px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
+  background: var(--emoji-bg);
+  color: var(--emoji-text);
 }
 
 /* Contagem regressiva */
@@ -400,7 +490,7 @@ h4 {
 .stats-grid div {
   padding: 8px;
   border-radius: 8px;
-  background: var(--bg);
+  background: var(--surface-2);
 }
 
 .stats-grid dt {
@@ -441,7 +531,7 @@ h4 {
   height: 10px;
   min-width: 2px;
   border-radius: 3px;
-  background: var(--accent-soft);
+  background: var(--bucket);
 }
 
 .bucket-count {
@@ -450,7 +540,7 @@ h4 {
 
 /* O balde dos pontos de hoje fica em destaque. */
 .bucket.today .bucket-bar {
-  background: var(--accent);
+  background: var(--bucket-today);
 }
 
 .bucket.today .bucket-label,
@@ -486,8 +576,8 @@ h4 {
 }
 
 .logo-mark {
-  fill: #ffffff;
-  font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", "Meiryo", sans-serif;
+  fill: var(--on-brand);
+  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
   font-size: 62px;
   font-weight: 700;
 }
@@ -512,11 +602,11 @@ h4 {
 }
 
 a.home-card:hover {
-  border-color: var(--accent);
+  border-color: var(--accent-line);
 }
 
 .home-card:focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -552,7 +642,7 @@ a.home-card:hover {
 
 .mode .tag {
   justify-self: start;
-  color: var(--accent);
+  color: var(--text);
 }
 
 /* Home: o estado no cartão é longo e quebra a linha em 320 px (o .tag não quebra).
@@ -582,14 +672,14 @@ a.home-card:hover {
   width: 100%;
   min-height: 44px;
   padding: 10px 14px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   background: var(--surface);
   color: var(--text);
 }
 
 .guess-input:focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -615,8 +705,8 @@ a.home-card:hover {
 }
 
 .suggestion.active {
-  background: var(--accent-soft);
-  outline: 2px solid var(--accent);
+  background: var(--surface-2);
+  outline: 2px solid var(--accent-line);
 }
 
 .suggestion[aria-disabled="true"] {
@@ -658,6 +748,13 @@ a.home-card:hover {
   color: var(--muted);
   background: transparent;
   border-style: dashed;
+}
+
+/* A marca de cada tentativa (✅, ❌, ⬛): no escuro, com fundo claro, senão o ⬛ some. */
+.attempt .mark {
+  padding: 0 2px;
+  border-radius: 4px;
+  background: var(--emoji-bg);
 }
 
 /* section.void, não .void: a linha "anulada" do resumo (li.void) não vira caixa. */
@@ -712,11 +809,11 @@ section.void,
 .tabs a[aria-current="page"] {
   color: var(--text);
   font-weight: 700;
-  border-bottom-color: var(--accent);
+  border-bottom-color: var(--accent-line);
 }
 
 .tabs a:focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -733,7 +830,7 @@ section.void,
 
 /* Treino */
 .practice .practice-score {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -745,7 +842,7 @@ button.home-card {
 }
 
 button.home-card:hover {
-  border-color: var(--accent);
+  border-color: var(--accent-line);
 }
 
 /* "Reiniciar o Treino": um botão secundário (ME57), abaixo do placar */
@@ -763,9 +860,10 @@ dialog.practice-restart {
   color: var(--text);
 }
 
-/* A cor do --text, escrita: o ::backdrop só herda variáveis desde o Chrome 122 e o Safari 17.4. */
+/* Preto a 50%, escrito: o ::backdrop só herda variáveis desde o Chrome 122 e o Safari 17.4. Serve
+   aos dois temas. */
 dialog.practice-restart::backdrop {
-  background: rgb(31 36 48 / 0.45);
+  background: rgb(0 0 0 / 0.5);
 }
 
 /* Dentro do <header>, cujo p é cinza: o aviso de perda do placar fica com a cor do texto. */
@@ -860,8 +958,8 @@ button.back {
   display: inline-block;
   padding: 2px 10px;
   border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--accent);
+  background: var(--primary);
+  color: var(--on-primary);
   font-size: 0.8rem;
   font-weight: 700;
   vertical-align: middle;
@@ -874,8 +972,39 @@ button.back {
   gap: 8px;
 }
 
+/* A troca de tema no fim da Início (P191): o grupo de rádios, com alvo de 44 px, sob o h2 da
+   seção. */
+.theme-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.theme-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.theme-options input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--accent-line);
+}
+
+.theme-options input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
 /* Avisos que levam o foco ao montar (FocusedNotice, regra 16) */
 .focused-notice:focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }

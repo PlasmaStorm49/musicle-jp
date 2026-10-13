@@ -1,10 +1,11 @@
 // @vitest-environment happy-dom
-import { cleanup, render, screen } from "@testing-library/preact";
-import { afterEach, describe, expect, it } from "vitest";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ArtistSummary, PracticeSummary } from "../core/home.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
 import type { AlbumRound, Day } from "../core/types.ts";
+import { THEME_KEY } from "../storage/theme.ts";
 import { Home } from "./Home.tsx";
 
 afterEach(cleanup);
@@ -156,5 +157,106 @@ describe("Home", () => {
       score: { points: -7, rounds: 2 },
     });
     expect(card(/^Artistas/).textContent).toContain("Superfan (Ado): -7 pontos em 2 músicas");
+  });
+});
+
+describe("Home: a troca de tema (P176, P191)", () => {
+  const radio = (name: string) => screen.getByRole("radio", { name }) as HTMLInputElement;
+  const root = document.documentElement;
+
+  afterEach(() => {
+    localStorage.clear();
+    delete root.dataset.theme;
+    for (const meta of document.head.querySelectorAll('meta[name="theme-color"]')) meta.remove();
+  });
+
+  it("no fim da Início, um grupo Tema com 3 rádios; sem nada salvo, o Automático", () => {
+    setup();
+    expect(screen.getByRole("group", { name: "Tema" })).toBeTruthy();
+    expect(screen.getAllByRole("radio").map((r) => r.getAttribute("value"))).toEqual([
+      "auto",
+      "light",
+      "dark",
+    ]);
+    expect(radio("Automático").checked).toBe(true);
+    expect(screen.getByText("O Automático segue o tema do aparelho.")).toBeTruthy();
+  });
+
+  it("escolher Escuro vale na hora e fica gravado; o Automático tira o atributo e apaga a chave", () => {
+    setup();
+    fireEvent.click(radio("Escuro"));
+    expect(root.dataset.theme).toBe("dark");
+    expect(localStorage.getItem(THEME_KEY)).toBe("dark");
+    expect(radio("Escuro").checked).toBe(true);
+    fireEvent.click(radio("Automático"));
+    expect(root.dataset.theme).toBeUndefined();
+    expect(localStorage.getItem(THEME_KEY)).toBeNull();
+  });
+
+  it("o rádio marcado é o tema que a página mostra (o script do index.html aplicou o salvo)", () => {
+    root.dataset.theme = "light";
+    setup();
+    expect(radio("Claro").checked).toBe(true);
+  });
+
+  it("a gravação que falhou não desmarca: o rádio segue a página, e não o armazenamento", () => {
+    // A cota cheia: a página ficou escura, mas a chave nunca foi gravada.
+    root.dataset.theme = "dark";
+    setup();
+    expect(radio("Escuro").checked).toBe(true);
+  });
+
+  it("a troca feita em outra aba chega pelo evento storage: a página e o rádio acompanham", () => {
+    setup();
+    localStorage.setItem(THEME_KEY, "dark");
+    act(() => {
+      window.dispatchEvent(new StorageEvent("storage", { key: THEME_KEY, newValue: "dark" }));
+    });
+    expect(root.dataset.theme).toBe("dark");
+    expect(radio("Escuro").checked).toBe(true);
+    // Outra chave (o save) não mexe no tema.
+    act(() => {
+      window.dispatchEvent(new StorageEvent("storage", { key: "musicle-jp:save" }));
+    });
+    expect(radio("Escuro").checked).toBe(true);
+  });
+
+  it("sem armazenamento (cookies bloqueados), a troca vale nesta visita", () => {
+    const blocked = vi.spyOn(window, "localStorage", "get").mockImplementation(() => {
+      throw new Error("bloqueado");
+    });
+    try {
+      setup();
+      fireEvent.click(radio("Escuro"));
+      expect(root.dataset.theme).toBe("dark");
+      expect(radio("Escuro").checked).toBe(true);
+    } finally {
+      blocked.mockRestore();
+    }
+  });
+
+  it("a barra do navegador (theme-color): com um tema escolhido, as duas metas ficam com a cor dele", () => {
+    for (const [scheme, color] of [
+      ["light", "#ffffff"],
+      ["dark", "#000000"],
+    ] as const) {
+      const meta = document.createElement("meta");
+      meta.name = "theme-color";
+      meta.content = color;
+      meta.dataset.color = color;
+      meta.media = `(prefers-color-scheme: ${scheme})`;
+      document.head.append(meta);
+    }
+    const contents = () =>
+      [...document.head.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')].map(
+        (m) => m.content,
+      );
+    setup();
+    fireEvent.click(radio("Escuro"));
+    expect(contents()).toEqual(["#000000", "#000000"]);
+    fireEvent.click(radio("Claro"));
+    expect(contents()).toEqual(["#ffffff", "#ffffff"]);
+    fireEvent.click(radio("Automático"));
+    expect(contents()).toEqual(["#ffffff", "#000000"]);
   });
 });

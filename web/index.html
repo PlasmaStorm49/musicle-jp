@@ -6,6 +6,24 @@
     <title>AteMusic</title>
     <!-- Ícone vazio: sem ele, o navegador pede /favicon.ico e o console mostra um 404. -->
     <link rel="icon" href="data:," />
+    <!-- A barra do navegador no celular, com o fundo de cada tema (o --bg do styles.css). -->
+    <meta name="theme-color" content="#ffffff" data-color="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" data-color="#000000" media="(prefers-color-scheme: dark)" />
+    <script>
+      // O tema escolhido na Início (src/storage/theme.ts e src/ui/theme.ts, a mesma chave),
+      // antes da pintura: sem isto, quem escolheu Escuro num aparelho claro veria a página clara
+      // por um instante. Sem armazenamento (cookies bloqueados), fica o Automático.
+      try {
+        const theme = localStorage.getItem("musicle-jp:theme");
+        if (theme === "light" || theme === "dark") {
+          document.documentElement.dataset.theme = theme;
+          const chosen = document.querySelector(`meta[name="theme-color"][media*="${theme}"]`);
+          for (const meta of document.querySelectorAll('meta[name="theme-color"]')) {
+            meta.content = chosen.dataset.color;
+          }
+        }
+      } catch {}
+    </script>
   </head>
   <body>
     <div id="app"></div>
