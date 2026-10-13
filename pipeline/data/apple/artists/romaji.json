@@ -1,6 +1,9 @@
 {
   "engine": "cutlet",
   "entries": {
+    "0X1=LOVESONG (I Know I Love You) [feat. 幾田りら] [Japanese Ver.]": [
+      "0X1=LOVESONG (I Know I Love You) [feat. ikuden rira ] [Japanese Ver.]"
+    ],
     "19時の空白": [
       "19 ji no kuuhaku"
     ],
@@ -10,6 +13,10 @@
     ],
     "7月の翼": [
       "7 gatsu no tsubasa"
+    ],
+    "88rising, 新しい学校のリーダーズ & ウォーレン・ヒュー": [
+      "88rising, atarashii gakkou no riidaazu& Ooren Hyuu",
+      "88rising, atarashii gakkou no reader& Ooren Hyuu"
     ],
     "Ado & 初音ミク": [
       "Ado & Hatsune Miku"
@@ -31,6 +38,9 @@
     "Black Bird / Tiny Dancers / 思い出は奇麗で": [
       "Black Bird /Tiny Dancers /omoide wa kirei de"
     ],
+    "Creepy Nuts, Ayase & 幾田りら": [
+      "Creepy Nuts, Ayase & ikuden ri ra"
+    ],
     "DAOKO×米津玄師": [
       "DAOKO× Yonetsu Genshi"
     ],
@@ -39,6 +49,13 @@
     ],
     "Eve × suis from ヨルシカ": [
       "Eve suis from yorushika"
+    ],
+    "Free Free Free feat. 幾田りら": [
+      "Free Free Free feat. ikuden ri ra"
+    ],
+    "Free Yourself feat. 新しい学校のリーダーズ": [
+      "Free Yourself feat. atarashii gakkou no riidaazu",
+      "Free Yourself feat. atarashii gakkou no reader"
     ],
     "Hz(ヘルツ)": [
       "Hz (Herutsu)",
@@ -52,6 +69,9 @@
     ],
     "INSPIRE -加藤ミリヤTRIBUTE-": [
       "INSPIRE - Katou Miriya TRIBUTE-"
+    ],
+    "LIKE、重ねていく (feat. 幾田りら)": [
+      "LIKE, kasanete iku (feat. ikuden ri ra)"
     ],
     "LOSER / ナンバーナイン": [
       "LOSER /nanbaa nain",
@@ -76,6 +96,10 @@
       "MEKAKUCITY M's 2 ~ mekakushitiakutaazu vookaru& saundo korekushon~",
       "MEKAKUCITY M's 2 ~ mekakushitiakutaazu vocal& sound collection~"
     ],
+    "MILLI & 新しい学校のリーダーズ": [
+      "MILLI & atarashii gakkou no riidaazu",
+      "MILLI & atarashii gakkou no reader"
+    ],
     "Marrakech 〜マラケッシュ〜": [
       "Marrakech Marakesshu",
       "Marrakech Marrakesh"
@@ -89,6 +113,17 @@
     ],
     "NANIMONO (feat. 米津玄師)": [
       "NANIMONO (feat. Yonetsu Genshi)"
+    ],
+    "Nameless Faces (feat. Lilas Ikuta) [英語版]": [
+      "Nameless Faces (feat. Lilas Ikuta) [eigo ban ]"
+    ],
+    "Nameless Faces (『崩壊:スターレイル』オンパロス主題歌)": [
+      "Nameless Faces ( \"houkai: sutaa reiru\" on Parosu shudaika)",
+      "Nameless Faces ( \"houkai: star rail\" on Paros shudaika)"
+    ],
+    "Narani Narani (feat. 新しい学校のリーダーズ)": [
+      "Narani Narani (feat. atarashii gakkou no riidaazu)",
+      "Narani Narani (feat. atarashii gakkou no reader)"
     ],
     "ONE / 花の唄 / 六等星の夜 Magic Blue ver.": [
       "ONE /hana no uta/roku tousei no yoru Magic Blue ver."
@@ -114,12 +149,28 @@
       "Romance (kin'iro no ribon)",
       "Romance (kin'iro no ribbon)"
     ],
+    "SHINSEKAIより": [
+      "SHINSEKAI yori"
+    ],
     "SILHOUETTE〜シルエット〜": [
       "SILHOUETTE shiruetto",
       "SILHOUETTE silhouette"
     ],
+    "SNS24時": [
+      "SNS24 ji"
+    ],
     "SWEET MEMORIES (甘い記憶)": [
       "SWEET MEMORIES (amai kioku)"
+    ],
+    "Sing along!!! (feat. 幾田りら)": [
+      "Sing along!!! (feat. ikuden ri ra)"
+    ],
+    "Sweet Memories feat. アイナ・ジ・エンド": [
+      "Sweet Memories feat. Aina ji endo",
+      "Sweet Memories feat. Aina ji end"
+    ],
+    "TIME TO LUV (feat. 幾田りら)": [
+      "TIME TO LUV (feat. ikuden ri ra)"
     ],
     "TRUE LOVE〜そっとくちづけて": [
       "TRUE LOVE sotto kuchizukete"
@@ -140,6 +191,10 @@
       "TV animeeshon \"Angel Beats!\" gekichuuka Girls Dead Monster \"Thousand Enemies\"",
       "TV animation \"Angel Beats!\" gekichuuka Girls Dead Monster \"Thousand Enemies\""
     ],
+    "Tele倶楽部II": [
+      "Tele kurabu II",
+      "Tele club II"
+    ],
     "True Love Story / さよならのKISSを忘れない": [
       "True Love Story /sayonara no KISS wo wasurenai"
     ],
@@ -153,6 +208,12 @@
     ],
     "YOASOBI cheers 松任谷由実": [
       "YOASOBI cheers Matsutouya Yumi"
+    ],
+    "ZICO & 幾田りら": [
+      "ZICO & ikuden ri ra"
+    ],
+    "ano & 幾田りら": [
+      "Ano & ikuden ri ra"
     ],
     "fogbound ( + 池田エライザ )": [
       "Fogbound (+ Ikeda eraiza)"
@@ -267,6 +328,9 @@
     "いつのまに (feat. Aimer & 和ぬか)": [
       "Itsu no ma ni (feat. Aimer & wa nu ka)"
     ],
+    "いのちの名前": [
+      "Inochi no namae"
+    ],
     "いのちの食べ方": [
       "Inochi no tabekata"
     ],
@@ -308,6 +372,9 @@
     ],
     "おはよう": [
       "Ohayou"
+    ],
+    "おまじない": [
+      "Omajinai"
     ],
     "おもかげ (produced by Vaundy)": [
       "Omokage (produced by Vaundy)"
@@ -364,6 +431,9 @@
     "しなやかな夜": [
       "Shinayaka na yoru"
     ],
+    "じゃないんだよ": [
+      "Ja nai n da yo"
+    ],
     "じん": [
       "Jin"
     ],
@@ -383,6 +453,9 @@
     ],
     "たぶん": [
       "Tabun"
+    ],
+    "たりないすくない (feat. 幾田りら)": [
+      "Tarinai sukunai (feat. ikuden ri ra)"
     ],
     "だってアタシのヒーロー。": [
       "Da tte atashi no hiiroo.",
@@ -406,6 +479,9 @@
     "はじまりは Break Up": [
       "Hajimari wa Break Up"
     ],
+    "ばかまじめ": [
+      "Baka majime"
+    ],
     "ひこうき雲": [
       "Hikouki kumo"
     ],
@@ -420,6 +496,9 @@
     ],
     "ぼくらの": [
       "Bokura no"
+    ],
+    "まさ毛カンナヴァーロ": [
+      "Masamou kannavaaro"
     ],
     "またあした": [
       "Mata ashita"
@@ -612,6 +691,10 @@
     "オアイコ": [
       "O Aiko"
     ],
+    "オトナブルー": [
+      "Otona buruu",
+      "Otona blue"
+    ],
     "オリオン": [
       "Orion"
     ],
@@ -621,6 +704,10 @@
     "オレンジサイダー": [
       "Orenji saidaa",
       "Orange cider"
+    ],
+    "オールサン": [
+      "Oorusan",
+      "Allsan"
     ],
     "オールナイトレディオ": [
       "Ooru naito redio",
@@ -670,6 +757,9 @@
     "キタニタツヤ": [
       "Ki Tani Tatsuya"
     ],
+    "キミワイナ'17": [
+      "Kimiwaina '17"
+    ],
     "キモチファクトリー": [
       "Kimochi fakutorii",
       "Kimochi factory"
@@ -712,6 +802,10 @@
       "Gureesu nooto",
       "Grace note"
     ],
+    "ケセラセラ": [
+      "Keserasera",
+      "Que sera sera"
+    ],
     "ゲゲゲの鬼太郎": [
       "Gegege no Onitarou"
     ],
@@ -746,6 +840,10 @@
     ],
     "サンタマリア": [
       "Santamaria"
+    ],
+    "サークル": [
+      "Saakuru",
+      "Circle"
     ],
     "シェルブールは霧雨": [
       "Sherubuuru wa kirisame",
@@ -817,13 +915,25 @@
       "Suiito memorii",
       "Sweet memory"
     ],
+    "スタジオジブリ トリビュートアルバム「ジブリをうたう」": [
+      "Sutajio Jiburi toribyuuto arubamu \"Jiburi wo utau\"",
+      "Studio Jiburi toribyuuto album \"Jiburi wo utau\""
+    ],
     "スターライト": [
       "Sutaa raito",
       "Star raito"
     ],
+    "ストリッパーに栄光を": [
+      "Sutorippaa ni eikou wo",
+      "Stripper ni eikou wo"
+    ],
     "スパイシーワールド": [
       "Supaishii waarudo",
       "Spicy world"
+    ],
+    "スパークル": [
+      "Supaa kuru",
+      "Spur kuru"
     ],
     "スピカ": [
       "Supika",
@@ -856,6 +966,10 @@
       "So firia",
       "Soviet firia"
     ],
+    "タイムマシン": [
+      "Taimu mashin",
+      "Time machine"
+    ],
     "チェリーブラッサム": [
       "Cherii Burassamu",
       "Cherry Burassamu"
@@ -867,6 +981,9 @@
     "チョコレートタウン": [
       "Chokoreeto taun",
       "Chocolate town"
+    ],
+    "チラチラチラミー ~試験当日~": [
+      "Chirachirachiramii~ shiken toujitsu~"
     ],
     "ツバメ (feat. ミドリーズ)": [
       "Tsubame (feat. midoriizu)"
@@ -919,6 +1036,10 @@
       "Domesutikku de baiorensu",
       "Domestic de violence"
     ],
+    "ドラ1独走": [
+      "Dora 1 dokusou",
+      "Draft 1 dokusou"
+    ],
     "ドライフラワー": [
       "Dorai furawaa",
       "Dry flower"
@@ -949,6 +1070,10 @@
       "Nanbaa nain",
       "Number nine"
     ],
+    "ノスタルジア": [
+      "Nosutarujia",
+      "Nostalgia"
+    ],
     "ノンノン": [
       "Nonnon"
     ],
@@ -957,6 +1082,9 @@
     ],
     "ハウル": [
       "Hauru"
+    ],
+    "ハミング": [
+      "Hamingu"
     ],
     "ハルカ": [
       "Haruka"
@@ -1014,6 +1142,9 @@
       "Paafekuto seimei",
       "Perfect seimei"
     ],
+    "ヒカリ": [
+      "Hikari"
+    ],
     "ヒトリワラッテ": [
       "Hitoriwaratte"
     ],
@@ -1027,6 +1158,10 @@
     ],
     "ビンクスの酒": [
       "Bin kusu no sake"
+    ],
+    "ピロティ": [
+      "Piroti",
+      "Pilotis"
     ],
     "ピンクのスクーター": [
       "Pinku no sukuutaa",
@@ -1047,6 +1182,10 @@
     "ピーチ・シャーベット": [
       "Piichi shaabetto",
       "Peach sherbet"
+    ],
+    "ピーナッツくん": [
+      "Piinattsukun",
+      "Peanutskun"
     ],
     "ファイトソング": [
       "Faito songu",
@@ -1071,6 +1210,10 @@
     "フォーリンマイワールド": [
       "Foorin mai waarudo",
       "Foreign my world"
+    ],
+    "フジファブリック": [
+      "Fuji faburikku",
+      "Fuji fabric"
     ],
     "フライ・ミー・トゥー・ザ・ムーン": [
       "Furai mii tuu za muun",
@@ -1184,6 +1327,9 @@
       "Maiami gozen 5 ji (SEIKO STORY 80's HITS COLLECTION )",
       "Miami gozen 5 ji (SEIKO STORY 80's HITS COLLECTION )"
     ],
+    "マエナラワナイ": [
+      "Maenarawanai"
+    ],
     "マコトシヤカ": [
       "Makotoshiyaka"
     ],
@@ -1209,6 +1355,9 @@
     "マンハッタンでブレックファスト": [
       "Manhattan de burekkufasuto",
       "Manhattan de breakfast"
+    ],
+    "マ人間": [
+      "Ma ningen"
     ],
     "ミコ吉": [
       "Miko kichi"
@@ -1361,8 +1510,16 @@
     "レンガの小径": [
       "Renga no shoukei"
     ],
+    "レンズ": [
+      "Renzu",
+      "Lens"
+    ],
     "レーゾンデートル": [
       "Reezon deetoru"
+    ],
+    "ロケット・トゥ・ザ・ムーン~信じた世界へ~ (Netflix 映画『フェイフェイと月の冒険』より)": [
+      "Roketto tu za muun~ shinjita sekai e~ (Netflix eiga \"feifei to tsuki no bouken\" yori)",
+      "Rocket tu the moon~ shinjita sekai e~ (Netflix eiga \"feifei to tsuki no bouken\" yori)"
     ],
     "ロストロマンス": [
       "Rosuto romansu",
@@ -1372,9 +1529,16 @@
       "Rokku sutaa",
       "Rokku star"
     ],
+    "ロマンスの約束": [
+      "Romansu no yakusoku",
+      "Romance no yakusoku"
+    ],
     "ロンリーブルー": [
       "Ronrii buruu",
       "Lonely blue"
+    ],
+    "ワカラナイ": [
+      "Wakaranai"
     ],
     "ワールドドミネイション": [
       "Waarudo domi neishon",
@@ -1389,6 +1553,9 @@
     ],
     "一斉ノ喝采": [
       "Issei no kassai"
+    ],
+    "一時帰国": [
+      "Ichiji kikoku"
     ],
     "一番の宝物 (Yui ver.)": [
       "Ichiban no houmotsu (Yui ver.)"
@@ -1429,6 +1596,9 @@
     "中田ヤスタカ": [
       "Nakata Yasutaka"
     ],
+    "乙女の美学": [
+      "Otome no bigaku"
+    ],
     "乾涸びたバスひとつ": [
       "Hikarabita basu hitotsu",
       "Hikarabita bus hitotsu"
@@ -1453,6 +1623,9 @@
     ],
     "会心劇": [
       "Kaishin geki"
+    ],
+    "佐藤千亜妃": [
+      "Satou Sen ahi"
     ],
     "偽りの世界": [
       "Itsuwari no sekai"
@@ -1544,6 +1717,9 @@
     "右に曲ガール": [
       "Migi ni kyoku gaaru",
       "Migi ni kyoku girl"
+    ],
+    "吉祥寺": [
+      "Kichijouji"
     ],
     "名前も知らないあなたに恋をした": [
       "Namae mo shiranai anata ni koi wo shita"
@@ -1676,6 +1852,9 @@
     "夢物語": [
       "Yume monogatari"
     ],
+    "夢見る16歳 (feat. 鈴木雅之)": [
+      "Yume miru 16sai (feat. Suzuki Masayuki)"
+    ],
     "大切なあなた": [
       "Taisetsu na anata"
     ],
@@ -1724,6 +1903,9 @@
     "宇宙の季節 (feat. Eve & suis from ヨルシカ)": [
       "Uchuu no kisetsu (feat. Eve & suis from yorushika)"
     ],
+    "宝石": [
+      "Houseki"
+    ],
     "宵の明星": [
       "Yoi no myoujou"
     ],
@@ -1751,17 +1933,27 @@
     "少しずつ春": [
       "Sukoshi zutsu haru"
     ],
+    "山崎育三郎": [
+      "Yamazakiiku Saburou"
+    ],
     "巻物語": [
       "Maki monogatari"
     ],
     "帝国少女": [
       "Teikoku shoujo"
     ],
+    "席替ガットゥーゾ": [
+      "Seki kae Gattuuzo",
+      "Seki kae Gattuso"
+    ],
     "帰り道": [
       "Kaerimichi"
     ],
     "平行線": [
       "Heikou sen"
+    ],
+    "幾田りら": [
+      "Ikuden ri ra"
     ],
     "廻人": [
       "Megurunin"
@@ -1806,9 +1998,24 @@
     "恋と病熱": [
       "Koi to byounetsu"
     ],
+    "恋の遮断機 (feat.H ZETTRIO)": [
+      "Koi no shadan ki (feat.H ZETTRIO)"
+    ],
+    "恋の遮断機 feat. H ZETTRIO": [
+      "Koi no shadan ki feat. H ZETTRIO"
+    ],
+    "恋ゲバ": [
+      "Koi geba"
+    ],
     "恋人がサンタクロース": [
       "Koibito ga Santakuroosu",
       "Koibito ga Santa Claus"
+    ],
+    "恋文": [
+      "Koibumi"
+    ],
+    "恋風": [
+      "Koikaze"
     ],
     "恥ずかしくってしょうがねえ": [
       "Hazukashiku tte shou ga nee"
@@ -1868,6 +2075,14 @@
     ],
     "文化": [
       "Bunka"
+    ],
+    "新しい学校のリーダーズ": [
+      "Atarashii gakkou no riidaazu",
+      "Atarashii gakkou no reader"
+    ],
+    "新しい学校のリーダーズ × H ZETTRIO": [
+      "Atarashii gakkou no riidaazu H ZETTRIO",
+      "Atarashii gakkou no reader H ZETTRIO"
     ],
     "新宿シック": [
       "Shinjuku shikku",
@@ -1958,6 +2173,9 @@
     "最後の言葉": [
       "Saigo no kotoba"
     ],
+    "最終人類": [
+      "Saishuu jinrui"
+    ],
     "最終列車": [
       "Saishuu ressha"
     ],
@@ -1987,6 +2205,17 @@
     ],
     "杪夏": [
       "杪夏"
+    ],
+    "東京SNG": [
+      "Tokyo SNG"
+    ],
+    "東京スカパラダイスオーケストラ": [
+      "Tokyo suka paradaisu ookesutora",
+      "Tokyo ska paradise orchestra"
+    ],
+    "東京タワー (feat. 新しい学校のリーダーズ)": [
+      "Tokyo tawaa (feat. atarashii gakkou no riidaazu)",
+      "Tokyo tower (feat. atarashii gakkou no reader)"
     ],
     "東京ラヴソング": [
       "Tokyo ravu songu",
@@ -2027,8 +2256,15 @@
       "Sakura hiyori to taimu mashin/shoka",
       "Sakura hiyori to time machine/shoka"
     ],
+    "椎名林檎と新しい学校のリーダーズ": [
+      "Shiina ringo to atarashii gakkou no riidaazu",
+      "Shiina ringo to atarashii gakkou no reader"
+    ],
     "楓": [
       "Fuu"
+    ],
+    "楽園にて、わたし地獄": [
+      "Rakuen nite, watashi jigoku"
     ],
     "櫂 (feat. Aimer)": [
       "Kai (feat. Aimer)"
@@ -2056,6 +2292,9 @@
     ],
     "毎日 - Every Day": [
       "Mainichi - Every Day"
+    ],
+    "毒花": [
+      "Dokubana"
     ],
     "水槽": [
       "Suisou"
@@ -2120,6 +2359,9 @@
       "Nagisa no barukonii",
       "Nagisa no balcony"
     ],
+    "湘南乃風": [
+      "Shounan no kaze"
+    ],
     "潮騒": [
       "Shiosai"
     ],
@@ -2144,9 +2386,15 @@
     "狂言": [
       "Kyougen"
     ],
+    "狙いうち (50th anniversary special cover)": [
+      "Neraiuchi (50th anniversary special cover)"
+    ],
     "狼とミサンガ": [
       "Ookami to misanga",
       "Ookami to micanga"
+    ],
+    "狼の詩": [
+      "Ookami no shi"
     ],
     "瑠璃色の地球": [
       "Ruri iro no chikyuu"
@@ -2191,6 +2439,9 @@
     "白雪": [
       "Shirayuki"
     ],
+    "百花繚乱": [
+      "Hyakka ryouran"
+    ],
     "百鬼夜行": [
       "Hyakki yakou"
     ],
@@ -2200,6 +2451,9 @@
     ],
     "真冬の恋人たち": [
       "Mafuyu no koibitotachi"
+    ],
+    "真夜中の君と": [
+      "Mayonaka no kimi to"
     ],
     "眠りの森": [
       "Nemuri no mori"
@@ -2217,6 +2471,9 @@
     "瞳はダイアモンド (Diamond Eyes)": [
       "Hitomi wa daiamondo (Diamond Eyes)",
       "Hitomi wa diamond (Diamond Eyes)"
+    ],
+    "知りたい": [
+      "Shiritai"
     ],
     "砂の惑星 ( + 初音ミク )": [
       "Suna no wakusei (+ Hatsune Miku)"
@@ -2315,6 +2572,12 @@
     "絶え間なく藍色": [
       "Taema naku aiiro"
     ],
+    "絶絶絶絶対聖域": [
+      "Zezzezzezzettai seiiki"
+    ],
+    "絶絶絶絶対聖域 (feat. 幾田りら)": [
+      "Zezzezzezzettai seiiki (feat. ikuden ri ra)"
+    ],
     "続・40周年記念アルバム 「SEIKO MATSUDA 2021」": [
       "Zoku40 shuunen kinen arubamu \"SEIKO MATSUDA 2021\"",
       "Zoku40 shuunen kinen album \"SEIKO MATSUDA 2021\""
@@ -2328,6 +2591,9 @@
     ],
     "線香花火": [
       "Senkou hanabi"
+    ],
+    "線香花火 (feat. 幾田りら)": [
+      "Senkou hanabi (feat. ikuden ri ra)"
     ],
     "罪と罰": [
       "Tsumi to batsu"
@@ -2400,6 +2666,9 @@
     "花火": [
       "Hanabi"
     ],
+    "若気ガイタル": [
+      "Wakage gaitaru"
+    ],
     "茜 -アカネ-": [
       "Akane - Akane -"
     ],
@@ -2411,6 +2680,9 @@
     ],
     "茜唄": [
       "Akane uta"
+    ],
+    "蒲公英": [
+      "Tanpopo"
     ],
     "蒼": [
       "Ao"
@@ -2474,6 +2746,9 @@
     "言の葉": [
       "Kotonoha"
     ],
+    "試験前夜": [
+      "Shiken zen'ya"
+    ],
     "誰か、海を。": [
       "Dare ka, umi wo."
     ],
@@ -2494,8 +2769,14 @@
       "Akai kutsu no bareriina",
       "Akai kutsu no ballerina"
     ],
+    "赤春花 (feat. 幾田りら)": [
+      "Aka Haruka (feat. ikuden ri ra)"
+    ],
     "踊": [
       "Odori"
+    ],
+    "踊る本能001": [
+      "Odoru honnou 001"
     ],
     "軌跡": [
       "Kiseki"
@@ -2505,6 +2786,9 @@
     ],
     "迷い子": [
       "Maigo"
+    ],
+    "迷えば尊し": [
+      "Mayoeba toutoshi"
     ],
     "迷える羊": [
       "Mayoeru hitsuji"
@@ -2531,6 +2815,17 @@
     "逆光オーケストラ": [
       "Gyakkou ookesutora",
       "Gyakkou orchestra"
+    ],
+    "透明ガール(H ZETT M edit ver.)": [
+      "Toumei gaaru (H ZETT M edit ver.)",
+      "Toumei girl (H ZETT M edit ver.)"
+    ],
+    "透明ボーイ": [
+      "Toumei booi",
+      "Toumei boy"
+    ],
+    "通り雨": [
+      "Tooriame"
     ],
     "逢いたい": [
       "Aitai"
@@ -2596,6 +2891,9 @@
     "雨上がりの空とキミ": [
       "Ameagari no sora to Kimi"
     ],
+    "雨夜の接吻": [
+      "Amayo no seppun"
+    ],
     "雨待ち風": [
       "Ame machi kaze"
     ],
@@ -2618,6 +2916,16 @@
     ],
     "青い珊瑚礁 (Blue Lagoon)": [
       "Aoi sango shou (Blue Lagoon)"
+    ],
+    "青春を切り裂く波動": [
+      "Seishun wo kirisaku hadou"
+    ],
+    "青春永遠 (feat. 新しい学校のリーダーズ)": [
+      "Seishun eien (feat. atarashii gakkou no riidaazu)",
+      "Seishun eien (feat. atarashii gakkou no reader)"
+    ],
+    "青春謳歌 (feat.ano)": [
+      "Seishun ouka (feat.ano)"
     ],
     "頬をつたう涙が夜空の星に変わる時": [
       "Hoo wo tsutau namida ga yozora no hoshi ni kawaru toki"
@@ -2655,6 +2963,9 @@
     ],
     "首なし閑古鳥": [
       "Kubi nashi kankochou"
+    ],
+    "香取慎吾": [
+      "Katori Shingo"
     ],
     "馬と鹿": [
       "Uma to shika"

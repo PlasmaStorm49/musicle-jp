@@ -63,6 +63,22 @@
       "name": "松田 聖子",
       "nameLatin": "Seiko Matsuda",
       "songs": 200
+    },
+    {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/89/71/34/89713499-c35d-3f88-a190-af95a4092a7d/ATRS-00001-T01.jpg/300x300bb.jpg",
+      "file": "1231338664.json",
+      "id": "apple:ar:1231338664",
+      "name": "新しい学校のリーダーズ",
+      "nameLatin": "ATARASHII GAKKO!",
+      "songs": 77
+    },
+    {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/98/cd/b9/98cdb97d-3e32-15aa-8481-3a01d4aa60c0/196006264314.jpg/300x300bb.jpg",
+      "file": "1489581870.json",
+      "id": "apple:ar:1489581870",
+      "name": "幾田りら",
+      "nameLatin": "Lilas Ikuta",
+      "songs": 54
     }
   ],
   "provider": "apple",
