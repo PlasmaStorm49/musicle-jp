@@ -102,6 +102,11 @@ def pick(s: ArtistSnapshot, rules: ArtistRules | None = None, blocked=frozenset(
         ("Song (Remastered 2022)", "Song"),
         ("Empty MERMAiD-Instrumental-", "Empty MERMAiD"),  # o "-X-" grudado (LiSA)
         ("紅蓮華 -ONLiNE LEO-NiNE Live ver.-", "紅蓮華"),  # um hífen dentro não o confunde
+        # System of a Down (13/10/2026): o " - " dentro do parêntese, o set de DJ e o "(Clean)".
+        ("Sugar (Live at Irving Plaza, NYC, NY - January 1999)", "Sugar"),
+        ("Science (Live from The Hurricane Festival - Explicit)", "Science"),
+        ("Chop Suey! (Mixed)", "Chop Suey!"),
+        ("Kill Rock 'n Roll (Clean)", "Kill Rock 'n Roll"),
     ],
 )
 def test_the_key_joins_versions_of_the_same_song(title, same):
@@ -109,7 +114,19 @@ def test_the_key_joins_versions_of_the_same_song(title, same):
 
 
 @pytest.mark.parametrize(
-    "title", ["Stay (Forever)", "Deep (EPIC)", "Alive", "ROCK-mode", "Chill-Chill-Dal-Da", "X-Y-"]
+    "title",
+    [
+        "Stay (Forever)",
+        "Deep (EPIC)",
+        "Alive",
+        "ROCK-mode",
+        "Chill-Chill-Dal-Da",
+        "X-Y-",
+        # Só o sufixo inteiro: a palavra no nome fica.
+        "Mixed Feelings",
+        "Clean Slate (Mixed Up)",
+        "Soldier Side - Intro",  # a abertura do álbum é outra faixa (o artists.toml a tira)
+    ],
 )
 def test_the_key_keeps_tails_that_are_part_of_the_name(title):
     assert artist_title_key(title) == title_key(title)
@@ -163,6 +180,16 @@ def test_the_key_keeps_tails_that_are_part_of_the_name(title):
         ("Re:pray TV Size", "Album", "out"),
         ("Song Instrumental", "Album", "out"),
         ("Size", "Album", None),  # só no fim e depois de um espaço
+        # System of a Down (13/10/2026, ME85).
+        ("Sugar (Live at Irving Plaza, NYC, NY - January 1999)", "Toxicity", "out"),
+        ("Science (Live from The Hurricane Festival - Explicit)", "Hypnotize - Single", "out"),
+        ("Chop Suey! (Mixed)", "Today's Hits: October 2024 (DJ Mix)", "out"),
+        ("Arto (Mixed)", "Album", "out"),  # o "(Mixed)" basta, sem o álbum de DJ
+        ("Chop Suey!", "Today's Hits: October 2024 (DJ Mix)", "out"),  # e o álbum de DJ também
+        ("Kill Rock 'n Roll (Clean)", "Hypnotize", "secondary"),
+        ("Song (Mixed Up)", "Album", None),  # "Mixed" só como o sufixo inteiro
+        ("Song - Clean Slate", "Album", None),
+        ("Song (Remix - feat. 他の歌手)", "Album", "out"),  # o " - " dentro do parêntese
     ],
 )
 def test_version_kind(title, album, kind):

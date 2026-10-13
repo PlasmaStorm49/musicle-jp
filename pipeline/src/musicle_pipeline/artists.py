@@ -56,14 +56,17 @@ _OUT = re.compile(
     r"|\blive\s+(?:at|in|from)\b|\blive\b.*\bver(?:sion)?\b|武道館|budokan|\btour\b"
     # Arranjos que não são a música do sorteio (vistos nos 6 artistas reais em 12/10/2026).
     r"|a\s*cappella|\bslowed\b|\bsped\s*up\b|\bstripped\b|\bshort\s+(?:size|ver)|\bmix\b"
-    r"|re-?echoed|restarred",
+    r"|re-?echoed|restarred"
+    # A faixa dentro do set de um DJ: "Chop Suey! (Mixed)" (System of a Down, 13/10/2026).
+    r"|^mixed$",
     re.IGNORECASE,
 )
 # Versões aceitáveis que o normalize.py da parada não conhece nesses formatos ("-MOVIE ver.-",
 # "(Yui.Ver)", "(Remaster for … 2022)", "(… edit)", "-prologue-", "(カバー)", "[Classic]").
 _SECONDARY = re.compile(
     r"\bver(?:sion)?\.?$|\bver\.|\bedit\b|remaster|\bprologue\b|\bepilogue\b|\bcover\b|カバー"
-    r"|^classic$",
+    # A edição sem palavrão sem o "Version": "Kill Rock 'n Roll (Clean)" (System of a Down).
+    r"|^classic$|^clean$",
     re.IGNORECASE,
 )
 # "Bubble feat.Uta": o feat. sem espaço, que o normalize.py da parada não tira.
@@ -95,7 +98,9 @@ _UNDELIMITED_OUT = re.compile(
 _LIVE_ALBUM = re.compile(
     r"\blive\s+(?:at|in|from|is|tour)\b|[(\[]live\b|\blive\s*[)\]]|\blive\s*(?:\d{4}|$)"
     r"|ライブ|ライヴ|\btour\b|ツアー"
-    r"|武道館|budokan|the\s+first\s+take",
+    r"|武道館|budokan|the\s+first\s+take"
+    # O set gravado de um DJ: "Today's Hits: October 2024 (DJ Mix)".
+    r"|\bdj\s+mix\b",
     re.IGNORECASE,
 )
 # Faixa que não é música: a abertura, o fecho e as vinhetas de um álbum ("Prologue",
@@ -177,9 +182,15 @@ def load_artist_list(path: Path) -> list[ArtistRules]:
     return rules
 
 
+def _balanced(text: str) -> bool:
+    return all(text.count(a) == text.count(b) for a, b in ("()", "[]", "【】"))
+
+
 def _last_tail(text: str) -> tuple[str, str] | None:
-    """O sufixo delimitado mais à direita: (o que vem antes, o conteúdo dele)."""
-    tails = [m for r in _ARTIST_TAILS if (m := r.search(text))]
+    """O sufixo delimitado mais à direita: (o que vem antes, o conteúdo dele). O " - " dentro de
+    um parêntese não conta: em "Sugar (Live at Irving Plaza, NY - January 1999)", o sufixo é o
+    parêntese inteiro, e não o "January 1999)" (ME85)."""
+    tails = [m for r in _ARTIST_TAILS if (m := r.search(text)) and _balanced(m.group(1))]
     last = max(tails, key=lambda m: m.start(), default=None)
     if last is None:
         return None

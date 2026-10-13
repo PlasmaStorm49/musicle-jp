@@ -122,8 +122,13 @@ def test_committed_artists_are_up_to_date(tmp_path, provider):
 
 
 # Uma versão que não entra e escapou das regras do artists.py (como o "-Instrumental-" grudado
-# e o "Tvsize" sem delimitador, vistos no PR B do M13): a faixa publicada nunca fala nisso.
-_OUT_IN_TITLE = re.compile(r"instrumental|karaoke|カラオケ|off\s*-?\s*vocal|tv\s*-?\s*size", re.I)
+# e o "Tvsize" sem delimitador, vistos no PR B do M13, e o show com " - " no parêntese e o set
+# de DJ, do System of a Down): a faixa publicada nunca fala nisso.
+_OUT_IN_TITLE = re.compile(
+    r"instrumental|karaoke|カラオケ|off\s*-?\s*vocal|tv\s*-?\s*size"
+    r"|\blive\s+(?:at|in|from)\b|\(mixed\)|\[mixed\]|\bdj\s+mix\b",
+    re.I,
+)
 
 
 @pytest.mark.parametrize("provider", sorted(COMMITTED_ARTISTS))
