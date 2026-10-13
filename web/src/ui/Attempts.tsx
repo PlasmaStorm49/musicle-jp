@@ -26,14 +26,19 @@ export function Attempts({ index, round }: Props) {
           if (attempt.kind === "skip") {
             return (
               <li key={key} class="attempt skip">
-                <span aria-hidden="true">{SYMBOLS.more}</span> {t("attempts.skip")}
+                <span class="mark" aria-hidden="true">
+                  {SYMBOLS.more}
+                </span>{" "}
+                {t("attempts.skip")}
               </li>
             );
           }
           const item = optionView(index, attempt.guessId, "song");
           return (
             <li key={key} class={attempt.correct ? "attempt right" : "attempt wrong"}>
-              <span aria-hidden="true">{attempt.correct ? SYMBOLS.right : SYMBOLS.wrong}</span>
+              <span class="mark" aria-hidden="true">
+                {attempt.correct ? SYMBOLS.right : SYMBOLS.wrong}
+              </span>
               <span class="sr-only">
                 {t(attempt.correct ? "attempts.right" : "attempts.wrong")}
               </span>{" "}
