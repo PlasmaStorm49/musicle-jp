@@ -18,7 +18,7 @@ Os índices são os do `document.querySelectorAll("path")` no `style-guide.svg`.
 | O 当 desse logo (as três partes juntas) | 1 a 3 | 2822, 4390, 650 × 773 | `logo-empilhado-atemusic.svg` |
 | Selo quadrado vermelho, vazado | 37 | 4231, 11282, 1033 × 1025 | `web/public/favicon.svg` e `web/public/apple-touch-icon.png` |
 | Selo redondo vermelho, vazado | 38 | 5880, 9786, 1033 × 1025 | `web/src/ui/assets/logo-selo.svg` (o topo da Início) |
-| X do erro, ✓ do acerto e chevron do "próximo" | 33, 35 e 42 | | PR C do M12 |
+| X do erro, ✓ do acerto e chevron do "próximo" | 33, 35 e 42 | 1865, 9881, 787 × 794; 1864, 11588, 975 × 719; 6099, 13241, 626 × 739 | `web/src/ui/assets/icons.ts` (as tentativas do Desafio) |
 
 **Como extrair:** da raiz do repositório, com o `web/node_modules` instalado, `node docs/identidade/extrair-pecas.cjs`. Com uma pasta no fim, ele grava também uma captura de conferência, `pecas.png`.
 - O caminho fica igual ao do guia, e só o `viewBox` muda, para a caixa da peça.
@@ -35,5 +35,6 @@ Os índices são os do `document.querySelectorAll("path")` no `style-guide.svg`.
 - **O logo sem espaço é a exceção ao "só o `viewBox`":** o `path[0]` (o nome) vira dois caminhos, "ate" e "music", com as mesmas formas do guia.
   - As de "music" andam 33,9 unidades para a esquerda: o espaço era 43,2, e a distância média entre as letras é 9,3.
   - Depois, o nome é centralizado de novo sob o 当, com 20 unidades de margem.
+- **Os ícones são a outra exceção ao arquivo SVG:** o script grava o `viewBox` e o `d` num módulo TS (`icons.ts`), e a cor sai do CSS (`currentColor`), e não do `fill` do guia, para o tema escolher.
 
 Quando o designer mandar a versão opaca oficial do selo (PD12), ela troca o favicon e o ícone de app.

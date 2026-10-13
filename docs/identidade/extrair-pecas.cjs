@@ -1,6 +1,7 @@
-// Extrai do style guide (docs/identidade/style-guide.svg) as peças do M12, PR B: o selo da
-// Início, o favicon, o ícone de app (PNG) e o logo empilhado sem espaço (P179). Os caminhos
-// saem iguais aos do guia; só o viewBox recorta (e, no logo, um translate por grupo de letras).
+// Extrai do style guide (docs/identidade/style-guide.svg) as peças do M12: o selo da Início, o
+// favicon, o ícone de app (PNG) e o logo empilhado sem espaço (P179), do PR B; e os ícones das
+// tentativas (o X, o ✓ e o chevron, em web/src/ui/assets/icons.ts), do PR C. Os caminhos saem
+// iguais aos do guia; só o viewBox recorta (e, no logo, um translate por grupo de letras).
 // Não roda na CI: rode à mão quando o guia mudar (por exemplo, com a versão opaca do selo, PD12),
 // da raiz do repositório, com o web/node_modules instalado:
 //   node docs/identidade/extrair-pecas.cjs [pasta-para-uma-captura-de-conferência]
@@ -153,7 +154,32 @@ const MARK = [1, 2, 3];
   fs.writeFileSync(path.join(ROOT, "docs/identidade/logo-empilhado-atemusic.svg"), logo);
   console.log(JSON.stringify({ round: round.s, square: sq.s, space: f(space.gap), typical: f(typical), pull: f(pull), center: f(center) }));
 
-  // 5. A captura de conferência (opcional): o selo nos dois fundos, o favicon, o ícone e o logo
+  // 5. Os ícones das tentativas do Desafio (M12, PR C): o X, o ✓ e o chevron, num módulo TS
+  //    gerado. O caminho fica o do guia; a cor sai do CSS (currentColor), e não do fill fixo.
+  const icons = [
+    ["wrong", 33, RED],
+    ["right", 35, "#54941C"],
+    ["next", 42, RED],
+  ];
+  const iconLines = [];
+  const iconBoxes = {};
+  for (const [name, i, fill] of icons) {
+    const n = (d(i).match(/M/g) || []).length;
+    if (attr(paths[i], "fill") !== fill || n !== 1) throw new Error(`path[${i}]: ${attr(paths[i], "fill")}, ${n} formas`);
+    iconBoxes[i] = await box(d(i));
+    const vb = viewBox(iconBoxes[i]);
+    iconLines.push(`  ${name}: {\n    viewBox: "${vb.s}",\n    d: "${d(i)}",\n  },`);
+  }
+  const iconsTs =
+    "// Gerado por docs/identidade/extrair-pecas.cjs a partir do style guide do designer (o X é o\n" +
+    "// path[33], o ✓ o path[35] e o chevron o path[42]). Não edite à mão: rode o script de novo. O\n" +
+    "// web/scripts/identity.test.ts confere que os caminhos são os do guia. Fica fora do Biome de\n" +
+    "// propósito (a pasta assets/ é ignorada), e o tsc confere os tipos.\n" +
+    `export const ICONS = {\n${iconLines.join("\n")}\n} as const;\n\n` +
+    "export type IconName = keyof typeof ICONS;\n";
+  fs.writeFileSync(path.join(ROOT, "web/src/ui/assets/icons.ts"), iconsTs);
+
+  // 6. A captura de conferência (opcional): o selo nos dois fundos, o favicon, o ícone e o logo
   //    antes e depois.
   if (SHOTS) {
     const original =
@@ -165,7 +191,11 @@ const MARK = [1, 2, 3];
     await page.setContent(
       `<html><body style="margin:0">${cell(selo, "#fff", 80)}${cell(selo, "#000", 80)}${cell(favicon, "#ddd", 80)}` +
         `<img src="data:image/png;base64,${fs.readFileSync(iconPng).toString("base64")}" style="margin:12px;border-radius:40px">` +
-        `<br>${cell(original, "#fff", 300)}${cell(logo, "#fff", 300)}</body></html>`,
+        `<br>${cell(original, "#fff", 300)}${cell(logo, "#fff", 300)}<br>` +
+        icons
+          .map(([, i]) => cell(`${header(viewBox(iconBoxes[i]).s)}<path fill="#000" d="${d(i)}"/></svg>`, "#fff", 60))
+          .join("") +
+        "</body></html>",
     );
     await page.screenshot({ path: path.join(SHOTS, "pecas.png"), fullPage: true });
   }
