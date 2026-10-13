@@ -30,6 +30,18 @@ test("Normal: do Tocar ao compartilhar", async ({ page }) => {
 
   // Rodada 3: ouve mais (toca o trecho de 2 s) e acerta (5 pontos).
   await page.getByRole("button", { name: /Ouvir mais/ }).click();
+  // A parte liberada (e o tocado, da mesma largura) termina onde termina o último pedaço
+  // liberado: com o divisor em borda, que ocupava espaço no flex, sobrava uma fresta do trilho.
+  await expect(page.locator(".bar-segments .seg.on")).toHaveCount(2);
+  const edges = await page.locator(".bar").evaluate((bar) => {
+    const right = (el: Element | null | undefined) =>
+      el?.getBoundingClientRect().right ?? Number.NaN;
+    return {
+      unlocked: right(bar.querySelector(".bar-unlocked")),
+      lastOn: right([...bar.querySelectorAll(".seg.on")].at(-1)),
+    };
+  });
+  expect(Math.abs(edges.unlocked - edges.lastOn)).toBeLessThanOrEqual(0.5);
   await option(page, albumOf(await lastPlayed(page)).title).click();
   await expect(page.getByRole("heading", { name: "Acertou! 5 de 6 pontos." })).toBeVisible();
   await page.getByRole("button", { name: "Ver resultado" }).click();
