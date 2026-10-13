@@ -20,10 +20,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music71/v4/50/45/b7/5045b75b-1b71-ef29-0b01-1c6fa0b2c7d4/JK_MekakucityMs1_FIX_JK_2.jpg/300x300bb.jpg",
       "id": "apple:al:1148644769",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2015-04-01",
       "title": "MEKAKUCITY M’s 1 ~メカクシティアクターズ・ヴォーカル&サウンド コレクション~",
-      "titleLatin": "MEKAKUCITY M's 1 ~ mekakushitiakutaazu vookaru& saundo korekushon~",
+      "titleLatin": "MEKAKUCITY M's 1 ~ mekakushitiakutaazu vookaru & saundo korekushon~",
       "type": "album"
     },
     {
@@ -33,10 +33,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music62/v4/67/dc/c1/67dcc184-6816-e260-c391-220746774b46/JK_MekakucityMs2_FIX_JK_1.jpg/300x300bb.jpg",
       "id": "apple:al:1148681842",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2015-06-03",
       "title": "MEKAKUCITY M’s 2 ~メカクシティアクターズ・ヴォーカル&サウンド コレクション~",
-      "titleLatin": "MEKAKUCITY M's 2 ~ mekakushitiakutaazu vookaru& saundo korekushon~",
+      "titleLatin": "MEKAKUCITY M's 2 ~ mekakushitiakutaazu vookaru & saundo korekushon~",
       "type": "album"
     },
     {
@@ -111,10 +111,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/a7/5a/f5/a75af5c7-9846-e3e9-4c22-a035322a5a36/4547366479294.jpg/300x300bb.jpg",
       "id": "apple:al:1535667015",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2020-10-28",
       "title": "INSPIRE -加藤ミリヤTRIBUTE-",
-      "titleLatin": "INSPIRE - Katou Miriya TRIBUTE-",
+      "titleLatin": "INSPIRE -MILIYAH KATO TRIBUTE-",
       "type": "compilation"
     },
     {
@@ -1076,10 +1076,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music6/v4/17/49/05/1749055a-453f-e64c-ecd3-0afb2c5d168b/4933032006381_cover.png/300x300bb.jpg",
       "id": "apple:al:842374279",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2010-12-08",
       "title": "TVアニメーション『Angel Beats!』Girls Dead Monster STARRING LiSA「一番の宝物 -Yui final ver.-」 - Single",
-      "titleLatin": "TV animeeshon \"Angel Beats!\" Girls Dead Monster STARRING LiSA \"ichi ban no houmotsu -Yui final ver .-」",
+      "titleLatin": "TV animeeshon \"Angel Beats!\" Girls Dead Monster STARRING LiSA \"ichiban no houmotsu -Yui final ver.-\"",
       "type": "single"
     },
     {
@@ -1314,7 +1314,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1148682014",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.88,
       "preview": {
         "durationSec": 30,
@@ -1325,6 +1325,7 @@
       "search": {
         "artist": [],
         "title": [
+          "yobanashijiseibufeatmarialisa",
           "yobanashijiseibufeatmayrearlisa",
           "yobanashijiseibufeatmeirialisa",
           "夜咄でぃせいぶfeatめいりあlisa"
@@ -1336,7 +1337,7 @@
       "titleKeys": [
         "夜咄でぃせいぶ"
       ],
-      "titleLatin": "Yobanashi diseibu (feat. mei ria& LiSA)"
+      "titleLatin": "Yobanashi diseibu (feat. MARiA & LiSA)"
     },
     {
       "albumId": "apple:al:1526415762",
@@ -7863,7 +7864,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1890170477",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.12,
       "preview": {
         "durationSec": 30,
@@ -7884,7 +7885,7 @@
       "titleKeys": [
         "小豆あらい"
       ],
-      "titleLatin": "Azuki Arai (feat. MAISONdes & kenmochihidefumi)"
+      "titleLatin": "Azuki Arai (feat. MAISONdes & Kenmochi Hidefumi)"
     },
     {
       "albumId": "apple:al:1890170465",

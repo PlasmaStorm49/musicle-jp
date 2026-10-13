@@ -147,8 +147,8 @@ latin = "0X1=LOVESONG (I Know I Love You) [feat. Lilas Ikuta] [Japanese Ver.]"
 [tracks."apple:tr:1690015442"]  # 線香花火 (feat. 幾田りら)
 latin = "Senkou hanabi (feat. Lilas Ikuta)"
 
-[tracks."apple:tr:1876930488"]  # 赤春花 (feat. 幾田りら); a leitura do título é a do cutlet
-latin = "Aka Haruka (feat. Lilas Ikuta)"
+[tracks."apple:tr:1876930488"]  # 赤春花 (feat. 幾田りら); a leitura oficial é Sekishunka (P184)
+latin = "Sekishunka (feat. Lilas Ikuta)"
 
 [tracks."apple:tr:1552701827"]  # たりないすくない (feat. 幾田りら)
 latin = "Tarinai sukunai (feat. Lilas Ikuta)"
@@ -197,3 +197,187 @@ latin = "Senkou hanabi (feat. Lilas Ikuta)"
 
 [albums."apple:al:1733586086"]  # LIKE、重ねていく (feat. 幾田りら) - Single
 latin = "LIKE, kasanete iku (feat. Lilas Ikuta)"
+
+# --- Correção do romaji dos artistas (12/10/2026, P184 a P189) ---
+
+# As leituras oficiais (P184; fontes: a Apple da loja US e a furigana do UtaTen).
+[tracks."apple:tr:1425758233"]  # 狼の詩 (o single); cutlet: "Ookami no shi"
+latin = "Ookami no uta"
+
+[tracks."apple:tr:1450156825"]  # 狼の詩 (em 若気ガイタル, a mesma música); cutlet: "Ookami no shi"
+latin = "Ookami no uta"
+
+[albums."apple:al:1425757889"]  # 狼の詩 - Single
+latin = "Ookami no uta"
+
+# P188: o latino exibido é Hepburn (regra 11); a grafia da Apple US entra só na busca.
+[tracks."apple:tr:1450156820"]  # まさ毛カンナヴァーロ; cutlet: "Masamou kannavaaro"
+latin = "Masage kannavaaro"
+aliases = ["Masage Cannavaro"]
+
+# Os créditos com o nome do artista como a Apple escreve (P185 e P187, a regra da P181).
+[tracks."apple:tr:1575901996"]  # 宇宙の季節 (feat. Eve & suis from ヨルシカ); cutlet: "yorushika"
+latin = "Uchuu no kisetsu (feat. Eve & suis from Yorushika)"
+
+[albums."apple:al:1575901986"]  # 宇宙の季節 (feat. Eve & suis from ヨルシカ) - Single
+latin = "Uchuu no kisetsu (feat. Eve & suis from Yorushika)"
+
+[tracks."apple:tr:1887808019"]  # 風のアンセム (feat. suis from ヨルシカ)
+latin = "Kaze no ansemu (feat. suis from Yorushika)"
+
+[albums."apple:al:1887808018"]  # 風のアンセム (feat. suis from ヨルシカ) - Single
+latin = "Kaze no ansemu (feat. suis from Yorushika)"
+
+[tracks."apple:tr:6802940377"]  # Sweet Memories feat. アイナ・ジ・エンド; cutlet: "Aina ji endo"
+latin = "Sweet Memories feat. Aina The End"
+
+[albums."apple:al:6802940373"]  # Sweet Memories feat. アイナ・ジ・エンド - Single
+latin = "Sweet Memories feat. Aina The End"
+
+[tracks."apple:tr:1804362809"]  # 夢見る16歳 (feat. 鈴木雅之); cutlet: "Suzuki Masayuki"
+latin = "Yume miru 16sai (feat. Masayuki Suzuki)"
+
+[albums."apple:al:1804362804"]  # 夢見る16歳 (feat. 鈴木雅之) - Single
+latin = "Yume miru 16sai (feat. Masayuki Suzuki)"
+
+# ミドリーズ (1588668628): o lookup dá o nome em kana nas lojas JP e US; a Apple escreve
+# "Midories" em "The Swallow (feat. Midories)", com a maiúscula do nome próprio.
+[tracks."apple:tr:1588668629"]  # ツバメ (feat. ミドリーズ); cutlet: "midoriizu"
+latin = "Tsubame (feat. Midories)"
+
+[albums."apple:al:1588668622"]  # ツバメ (feat. ミドリーズ) - Single
+latin = "Tsubame (feat. Midories)"
+
+[tracks."apple:tr:1701142689"]  # UNFORGIVEN (feat. ナイル・ロジャース & Ado) [Japanese ver.]
+latin = "UNFORGIVEN (feat. Nile Rodgers & Ado) [Japanese ver.]"
+
+[albums."apple:al:1701142677"]  # UNFORGIVEN (Japanese ver.) [feat. ナイル・ロジャース & Ado] - Single
+latin = "UNFORGIVEN (Japanese ver.) [feat. Nile Rodgers & Ado]"
+
+[tracks."apple:tr:1153140086"]  # NANIMONO (feat. 米津玄師); cutlet: "Yonetsu Genshi"
+latin = "NANIMONO (feat. Kenshi Yonezu)"
+
+[tracks."apple:tr:1536128859"]  # for ロンリー (with 阿部真央); cutlet: "Abe Mao"
+latin = "For ronrii (with Mao Abe)"
+
+[tracks."apple:tr:1659817554"]  # いつのまに (feat. Aimer & 和ぬか); cutlet: "wa nu ka"
+latin = "Itsu no ma ni (feat. Aimer & Wanuka)"
+
+[albums."apple:al:1659817552"]  # いつのまに (feat. Aimer & 和ぬか) - Single
+latin = "Itsu no ma ni (feat. Aimer & Wanuka)"
+
+[tracks."apple:tr:1148682014"]  # 夜咄ディセイブ (feat. メイリア & LiSA); cutlet: "mei ria& LiSA"
+latin = "Yobanashi diseibu (feat. MARiA & LiSA)"
+
+[tracks."apple:tr:1890170477"]  # 小豆あらい (feat. MAISONdes & ケンモチヒデフミ)
+latin = "Azuki Arai (feat. MAISONdes & Kenmochi Hidefumi)"
+
+# Os créditos com "+" do 米津玄師, achados na varredura: o nome como a Apple US escreve no artista
+# da faixa ("Kenshi Yonezu & Masaki Suda"...).
+[tracks."apple:tr:1538265737"]  # PLACEBO + 野田洋次郎; cutlet: "Noda Youjirou"
+latin = "PLACEBO + Yojiro Noda"
+
+[tracks."apple:tr:1538275666"]  # fogbound ( + 池田エライザ ); cutlet: "Ikeda eraiza"
+latin = "Fogbound (+ Elaiza Ikeda)"
+
+[tracks."apple:tr:1538275671"]  # 灰色と青 ( + 菅田将暉 ); cutlet: "Sugata Susumu Akira"
+latin = "Haiiro to ao (+ Masaki Suda)"
+
+[tracks."apple:tr:1759899366"]  # マルゲリータ + アイナ・ジ・エンド; cutlet: "Marugeriita+ Aina ji endo"
+latin = "Marugeriita + Aina The End"
+
+# Kanji, kana ou pontuação japonesa que sobrou no latino (P189 e a varredura).
+[tracks."apple:tr:1527560468"]  # 東亰カニバリズム (feat. Ado); cutlet: "Higashi 亰 kanibarizumu"
+latin = "Tokyo kanibarizumu (feat. Ado)"
+
+[albums."apple:al:1527560467"]  # 東亰カニバリズム (feat. Ado) - Single
+latin = "Tokyo kanibarizumu (feat. Ado)"
+
+[tracks."apple:tr:1538275668"]  # 爱丽丝 (lê-se アリス; Apple US: "Alice"); cutlet: "爱丽 丝"
+latin = "Arisu"
+aliases = ["Alice"]
+
+[tracks."apple:tr:1681073107"]  # 空噪wired (Apple US: "Kuusou wired"); cutlet: "Sora 噪 wired"
+latin = "Kuusou wired"
+
+[albums."apple:al:842374279"]  # TVアニメーション『Angel Beats!』… STARRING LiSA「一番の宝物 -Yui final ver.-」 - Single
+latin = 'TV animeeshon "Angel Beats!" Girls Dead Monster STARRING LiSA "ichiban no houmotsu -Yui final ver.-"'
+
+# Os nomes partidos e o "&" colado (P189). まひる e ゆっけ não têm nome latino na Apple (lookup
+# 1492226737 e 438628845, lojas JP e US): fica o Hepburn.
+[albums."apple:al:1509680604"]  # Ado/PARED/まひる/ゆっけ presents PALETTE4; cutlet: "mahiru/yu kke"
+latin = "Ado/PARED/Mahiru/Yukke presents PALETTE4"
+
+[albums."apple:al:1148644769"]  # MEKAKUCITY M’s 1 ~メカクシティアクターズ・ヴォーカル&サウンド コレクション~
+latin = "MEKAKUCITY M's 1 ~ mekakushitiakutaazu vookaru & saundo korekushon~"
+
+[albums."apple:al:1148681842"]  # MEKAKUCITY M’s 2 ~メカクシティアクターズ・ヴォーカル&サウンド コレクション~
+latin = "MEKAKUCITY M's 2 ~ mekakushitiakutaazu vookaru & saundo korekushon~"
+
+# Os ids dos snapshots com o mesmo crédito errado que não estão publicados (outra edição ou versão
+# da mesma música): o crédito sai certo se a canônica mudar numa busca futura.
+[tracks."apple:tr:1654779191"]  # 宇宙の季節 feat. Eve, suis from ヨルシカ (ULTRAPANIC); sem romaji no cache
+latin = "Uchuu no kisetsu feat. Eve, suis from Yorushika"
+
+[tracks."apple:tr:1805576735"]  # 夢見る16歳 (feat. 鈴木雅之) (All Time Doo Wop ! !)
+latin = "Yume miru 16sai (feat. Masayuki Suzuki)"
+
+[tracks."apple:tr:1593438481"]  # ツバメ (feat. ミドリーズ) (THE BOOK 2)
+latin = "Tsubame (feat. Midories)"
+
+[tracks."apple:tr:1701753863"]  # UNFORGIVEN (feat. ナイル・ロジャース & Ado) [Japanese ver.] (UNFORGIVEN - Single)
+latin = "UNFORGIVEN (feat. Nile Rodgers & Ado) [Japanese ver.]"
+
+[tracks."apple:tr:1334201186"]  # NANIMONO (feat. 米津玄師) (Digital Native)
+latin = "NANIMONO (feat. Kenshi Yonezu)"
+
+[tracks."apple:tr:1153140090"]  # NANIMONO (feat. 米津玄師) -extended mix-; sem romaji no cache
+latin = "NANIMONO (feat. Kenshi Yonezu) -extended mix-"
+
+[tracks."apple:tr:1153140091"]  # NANIMONO (feat. 米津玄師) -Danny L Harle remix-; sem romaji no cache
+latin = "NANIMONO (feat. Kenshi Yonezu) -Danny L Harle remix-"
+
+[tracks."apple:tr:1153140092"]  # NANIMONO (feat. 米津玄師) -TeddyLoid remix-; sem romaji no cache
+latin = "NANIMONO (feat. Kenshi Yonezu) -TeddyLoid remix-"
+
+[tracks."apple:tr:1153140093"]  # NANIMONO (feat. 米津玄師) -banvox remix-; sem romaji no cache
+latin = "NANIMONO (feat. Kenshi Yonezu) -banvox remix-"
+
+[tracks."apple:tr:1538259002"]  # for ロンリー (with 阿部真央) (daydream)
+latin = "For ronrii (with Mao Abe)"
+
+[tracks."apple:tr:6781660580"]  # 小豆あらい (feat. MAISONdes & ケンモチヒデフミ) (o single)
+latin = "Azuki Arai (feat. MAISONdes & Kenmochi Hidefumi)"
+
+[albums."apple:al:6781660578"]  # 小豆あらい (feat. MAISONdes & ケンモチヒデフミ) - Single
+latin = "Azuki Arai (feat. MAISONdes & Kenmochi Hidefumi)"
+
+# Os álbuns gêmeos de faixas corrigidas antes, com o latino da faixa (sem o crédito, quando o
+# título do álbum não tem).
+[albums."apple:al:1602544169"]  # スパークル - Single; cutlet: "Supaa kuru"
+latin = "Supaakuru"
+
+[albums."apple:al:1861370948"]  # アドレナ - Single; cutlet: "Ado Rena"
+latin = "Adorena"
+
+[albums."apple:al:1888081424"]  # 絶絶絶絶対聖域; cutlet: "Zezzezzezzettai seiiki"
+latin = "Zetsuzetsuzetsuzettai seiiki"
+
+[albums."apple:al:1482898810"]  # 月アカリサイレース - EP; cutlet: "Gatsu akarisaireesu"
+latin = "Tsuki akari saireesu"
+
+[albums."apple:al:1586906653"]  # 私の愛 - Single; cutlet: "Watakushi no ai"
+latin = "Watashi no ai"
+
+[albums."apple:al:1531215658"]  # ロケット・トゥ・ザ・ムーン~信じた世界へ~ (Netflix 映画『フェイフェイと月の冒険』より) - Single
+latin = 'Roketto tu za muun ~Shinjita sekai e~ (Netflix eiga "Feifei to tsuki no bouken" yori)'
+
+# まふまふ (614405787) só tem o nome em kana no lookup, nas lojas JP e US: vale o título da loja US,
+# "Mafumafu Tribute Album -Tensei-" (P187). 転生 se lê "tensei".
+[albums."apple:al:1839173046"]  # まふまふ トリビュートアルバム 〜転生〜; cutlet: "Ma fuma futoribyuuto arubamu tenshou"
+latin = "Mafumafu toribyuuto arubamu ~Tensei~"
+
+# 加藤ミリヤ não tem id de artista nos snapshots, e a loja US não tem o álbum: vale o latino que a
+# própria Apple dá ao álbum na loja JP (P187).
+[albums."apple:al:1535667015"]  # INSPIRE -加藤ミリヤTRIBUTE-; cutlet: "INSPIRE - Katou Miriya TRIBUTE-"
+latin = "INSPIRE -MILIYAH KATO TRIBUTE-"
