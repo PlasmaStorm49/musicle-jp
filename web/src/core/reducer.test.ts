@@ -12,7 +12,7 @@ import {
   reduce,
   roundScore,
 } from "./reducer.ts";
-import { secondsAt } from "./rules.ts";
+import { MODE_RULES, secondsAt, VARIANT_RULES } from "./rules.ts";
 import type { Catalog, Day } from "./types.ts";
 
 const index = indexCatalog(catalog);
@@ -132,7 +132,24 @@ describe("Normal (4 opções)", () => {
   it("desistir encerra com 0", () => {
     const game = reduce(normal(), { type: "GIVE_UP" });
     expect(round(game).status).toBe("lost");
+    expect(round(game).gaveUp).toBe(true);
     expect(roundScore(round(game))).toBe(0);
+  });
+
+  it("desistir custa os giveUpPoints das regras; o fim forçado (forced) não custa (P186)", () => {
+    const gaveUp = round(reduce(normal(), { type: "GIVE_UP" }));
+    const forced = round(reduce(normal(), { type: "GIVE_UP", forced: true }));
+    expect(forced).toMatchObject({ status: "lost", gaveUp: false });
+    expect(roundScore(gaveUp, VARIANT_RULES.superfan)).toBe(-2);
+    expect(roundScore(forced, VARIANT_RULES.superfan)).toBe(0);
+    expect(roundScore(gaveUp, MODE_RULES.song)).toBe(0);
+  });
+
+  it("perder sem desistir (errar) nunca cobra os giveUpPoints", () => {
+    const start = normal();
+    const lost = round(reduce(start, { type: "GUESS", guessId: wrongOption(start) }));
+    expect(lost.gaveUp).toBe(false);
+    expect(roundScore(lost, { ...MODE_RULES.album, giveUpPoints: -2 })).toBe(0);
   });
 
   it("anular (falha de áudio) encerra como void", () => {
@@ -192,6 +209,7 @@ describe("eventos inválidos devolvem o mesmo objeto", () => {
       { type: "GUESS", guessId: right(start) },
       { type: "LISTEN_MORE" },
       { type: "GIVE_UP" },
+      { type: "GIVE_UP", forced: true },
       { type: "VOID", round: 0, reason: "audio" },
     ] as const) {
       expect(reduce(ended, event)).toBe(ended);

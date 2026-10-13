@@ -68,6 +68,7 @@ export const ptBR = {
   "reveal.wonHelp": "Acertou com ajuda: {points}.",
   "reveal.errors.one": "{count} erro: {points}.",
   "reveal.errors.other": "{count} erros: {points}.",
+  "reveal.gaveUp": "Desistiu: {points}.",
   "reveal.lost": "Não foi dessa vez.",
   "reveal.correct": "Resposta certa",
   "reveal.yourPick": "Sua escolha",
@@ -193,7 +194,7 @@ export const ptBR = {
   "artists.free": "Livre",
   "artists.freeHint": "Rodadas sem fim do Desafio, com o placar da sessão.",
   "artists.superfanHint":
-    "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. Errar custa caro, e 3 erros acabam a partida. Na dúvida, pule ou peça ajuda.",
+    "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. Errar custa caro, desistir também, e 3 erros acabam a partida. Na dúvida, pule ou peça ajuda.",
   "superfan.name": "Superfan",
   "superfan.song": "Música {number}",
   "superfan.score": "Placar: {points}",

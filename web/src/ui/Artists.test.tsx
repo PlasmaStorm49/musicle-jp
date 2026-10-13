@@ -450,6 +450,16 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     expect(score()).toBe("1 ponto em 2 rodadas");
   });
 
+  it("no Livre, desistir continua de graça: só o Superfan cobra (P186)", async () => {
+    setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await choose(/^夜風/);
+    fireEvent.click(screen.getByRole("button", { name: "Desistir" }));
+    expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
+    expect(screen.queryByText(/^Desistiu/)).toBeNull();
+    expect(score()).toBe("0 pontos em 1 rodada");
+  });
+
   it("com a ajuda, o Pular aumenta o trecho até a última tentativa, que fica para a opção (P163)", async () => {
     const { playing } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
@@ -675,6 +685,8 @@ describe("Artists: o Superfan (ME61)", () => {
     pick(songs.find((id) => id !== answer()) ?? "");
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
     expect(screen.getByText("1 erro: -5 pontos.")).toBeTruthy();
+    // Quem encerrou foi a partida, e não a pessoa: nada de "Desistiu" (P186).
+    expect(screen.queryByText(/^Desistiu/)).toBeNull();
     // A revelação diz que a partida acabou, e o motor só guarda o áudio desta música: o da
     // seguinte, que não vai tocar, sai.
     expect(screen.getByText("3 erros: a partida acabou. Veja o resultado.")).toBeTruthy();
@@ -730,7 +742,7 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(list.textContent).not.toContain("Música 1");
     expect(
       screen.getByText(
-        "Escolha entre as opções: errar encerra a rodada e vale -5 pontos, e acertar vale -1 ponto.",
+        "Escolha entre as opções: errar encerra a rodada e vale -5 pontos, e acertar vale 0 pontos.",
       ),
     ).toBeTruthy();
     expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 1 de 3");
@@ -756,7 +768,7 @@ describe("Artists: o Superfan (ME61)", () => {
       b.textContent?.startsWith(answer),
     );
     fireEvent.click(right as HTMLElement);
-    expect(screen.getByText("Acertou com ajuda: -1 ponto.")).toBeTruthy();
+    expect(screen.getByText("Acertou com ajuda: 0 pontos.")).toBeTruthy();
   });
 
   it("toque duplo no cartão do Superfan: o 2º clique não toca nem pula", async () => {
@@ -780,6 +792,17 @@ describe("Artists: o Superfan (ME61)", () => {
     await superfan(/^夜風/);
     expect(screen.getByRole("button", { name: "Desistir da música" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: "Desistir" })).toBeNull();
+  });
+
+  it("desistir da música custa 2 pontos, e a revelação diz isso à parte, sem contar erro (P186)", async () => {
+    setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await superfan(/^夜風/);
+    fireEvent.click(screen.getByRole("button", { name: "Desistir da música" }));
+    expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
+    expect(screen.getByText("Desistiu: -2 pontos.")).toBeTruthy();
+    expect(score()).toBe("Placar: -2 pontos");
+    expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 0 de 3");
   });
 
   it("encerrar a partida pergunta antes, com erro cometido; o fim mostra o motivo e o placar", async () => {

@@ -104,9 +104,11 @@ export function Reveal({
       });
   }
 
-  // O acerto e os erros à parte: "Acertou! 2 de 3 pontos." e "1 erro: −5 pontos.".
+  // O acerto e os erros à parte: "Acertou! 2 de 3 pontos." e "1 erro: −5 pontos.". Desistir, no
+  // Superfan, também tem a conta à parte: "Desistiu: −2 pontos." (P186).
   const errors = roundErrors(round);
   const points = roundScore(round, rules) - errors * rules.wrongPoints;
+  const gaveUp = round.gaveUp && rules.giveUpPoints !== 0;
 
   return (
     <section class="reveal" aria-labelledby="result">
@@ -123,6 +125,11 @@ export function Reveal({
           {tn("reveal.errors", errors, {
             points: tn("count.points", errors * rules.wrongPoints),
           })}
+        </p>
+      )}
+      {gaveUp && (
+        <p class="reveal-errors">
+          {t("reveal.gaveUp", { points: tn("count.points", rules.giveUpPoints) })}
         </p>
       )}
       {note && <p class="reveal-note">{note}</p>}

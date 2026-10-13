@@ -52,10 +52,15 @@ export type ModeRules = {
   readonly helpFrom: number;
   /** Pontos do acerto em cada etapa. */
   readonly points: readonly number[];
-  /** Pontos do acerto com a ajuda, em qualquer etapa: 1 (P152); −1 no Superfan (P153). */
+  /** Pontos do acerto com a ajuda, em qualquer etapa: 1 (P152); 0 no Superfan (P186). */
   readonly helpPoints: number;
   /** Pontos de cada palpite errado: 0; −5 no Superfan (P119). */
   readonly wrongPoints: number;
+  /**
+   * Pontos de desistir da rodada (o "Desistir", não o fim forçado pela partida): 0; −2 no
+   * Superfan (P186), para a ajuda valer mais que desistir.
+   */
+  readonly giveUpPoints: number;
 };
 
 /** Os modos na ordem da nav, da home e dos diários: o Normal (álbum) primeiro. */
@@ -75,6 +80,7 @@ export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
     points: STAGE_POINTS,
     helpPoints: HELP_POINTS,
     wrongPoints: 0,
+    giveUpPoints: 0,
   },
   song: {
     stages: STAGES,
@@ -88,14 +94,17 @@ export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
     points: STAGE_POINTS,
     helpPoints: HELP_POINTS,
     wrongPoints: 0,
+    giveUpPoints: 0,
   },
 };
 
 /**
  * As variantes de um modo, com regras próprias e o mesmo `Target` (P125): o Superfan (ME61) é o
  * Desafio do modo por artista com 3 trechos (1, 3 e 5 s), 3, 2 ou 1 ponto pelo acerto (P121),
- * −5 por palpite errado (P119), que passa para a etapa seguinte (P158), e a ajuda logo de cara
- * (P159), valendo −1 (P153). Os limites da partida (3 erros, 3 ajudas) ficam em superfan.ts.
+ * −5 por palpite errado (P119), que passa para a etapa seguinte (P158), a ajuda logo de cara
+ * (P159), valendo 0, e −2 por desistir (P186): acertar sozinho vale mais que com a ajuda, que vale
+ * mais que desistir, que vale mais que errar. Os limites da partida (3 erros, 3 ajudas) ficam em
+ * superfan.ts.
  */
 export type Variant = "superfan";
 
@@ -110,8 +119,9 @@ export const VARIANT_RULES: Readonly<Record<Variant, ModeRules>> = {
     help: true,
     helpFrom: 0,
     points: [3, 2, 1],
-    helpPoints: -1,
+    helpPoints: 0,
     wrongPoints: -5,
+    giveUpPoints: -2,
   },
 };
 
@@ -122,7 +132,8 @@ export function rulesOf(game: { readonly target: Target; readonly variant?: Vari
 
 /**
  * O botão "Pular" aparece? Só no modo que pula e enquanto sobra tentativa depois do pulo: na
- * última, pular daria o mesmo que desistir (0 ponto) e "+0 s" de trecho.
+ * última, pular daria o mesmo que desistir (o reducer cobra como desistir, P186) e "+0 s" de
+ * trecho.
  */
 export function canSkip(rules: ModeRules, attemptsUsed: number): boolean {
   return rules.skip && attemptsUsed + 1 < rules.maxAttempts;

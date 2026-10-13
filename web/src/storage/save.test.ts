@@ -83,6 +83,23 @@ describe("loadSave", () => {
     expect(store.getItem(CORRUPT_KEY)).toBe(JSON.stringify(data));
   });
 
+  it("o desistir salvo nunca traz o forced do Superfan (P186): com ele, o andamento sai", () => {
+    const raw = JSON.stringify({
+      ...valid,
+      inProgress: {
+        ...valid.inProgress,
+        "2026-10-10|song": { events: [{ type: "GIVE_UP", forced: true }] },
+        "2026-10-11|song": { events: [{ type: "GIVE_UP" }] },
+      },
+    });
+    const result = loadSave(withRaw(raw));
+    expect(Object.keys(result.save.inProgress).sort()).toEqual([
+      "2026-10-09|song",
+      "2026-10-11|song",
+    ]);
+    expect(result.notice).toBe("repaired");
+  });
+
   it("history como lista: o andamento válido fica", () => {
     const result = loadSave(withRaw(JSON.stringify({ ...valid, history: [] })));
     expect(result.save.history).toEqual({});
