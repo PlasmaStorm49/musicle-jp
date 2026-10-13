@@ -10,9 +10,11 @@ import { ROUTES, type Tab } from "../core/routes.ts";
 import { MAX_STAGE, MODE_RULES, MODES, ROUNDS_PER_DAY, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
+import { THEME_CHOICES } from "../storage/theme.ts";
 import { Logo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
 import { practiceScoreText } from "./PracticeRun.tsx";
+import { useTheme } from "./theme.ts";
 
 type Props = {
   /** O dia de hoje na agenda; null quando não há (P44). */
@@ -90,7 +92,7 @@ function artistsText(summary: ArtistSummary | null): string | null {
   });
 }
 
-/** A home: o nome do jogo, um cartão por modo (com o estado de hoje) e como jogar. */
+/** A home: o nome do jogo, um cartão por modo (com o estado de hoje), como jogar e o tema. */
 export function Home({ day, date, save, practice, artists }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   // Tela nova: o foco vai para o título (regra 16), como no resumo do dia. Só ao montar: o save
@@ -154,6 +156,39 @@ export function Home({ day, date, save, practice, artists }: Props) {
           <li>{t("home.howPractice")}</li>
         </ul>
       </section>
+
+      <ThemePicker />
     </div>
+  );
+}
+
+/**
+ * A troca de tema (P176, P191), no fim da Início: rádios, e não um botão que alterna, para o toque
+ * duplo não pular um estado (regra 23). A escolha vale na hora e fica gravada no aparelho. O h2,
+ * como nas outras seções, deixa o "Tema" na navegação por títulos; o fieldset leva o nome dele.
+ */
+function ThemePicker() {
+  const [choice, setChoice] = useTheme();
+  return (
+    <section aria-labelledby="home-theme">
+      <h2 id="home-theme">{t("home.themeTitle")}</h2>
+      <fieldset class="theme-options" aria-labelledby="home-theme" aria-describedby="theme-hint">
+        {THEME_CHOICES.map((option) => (
+          <label key={option}>
+            <input
+              type="radio"
+              name="theme"
+              value={option}
+              checked={choice === option}
+              onChange={() => setChoice(option)}
+            />{" "}
+            {t(`theme.${option}`)}
+          </label>
+        ))}
+      </fieldset>
+      <p id="theme-hint" class="hint">
+        {t("home.themeHint")}
+      </p>
+    </section>
   );
 }

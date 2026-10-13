@@ -47,6 +47,12 @@ export const ptBR = {
     "Você ouve um trecho de um sucesso no Japão. Ele começa com {first} s e cresce até {last} s.",
   "home.howDaily": "Os diários são iguais para todos e mudam à meia-noite, horário de Brasília.",
   "home.howPractice": "O Treino não fica salvo: jogue quantas rodadas quiser.",
+  // A troca de tema, no fim da Início (P176, P191).
+  "home.themeTitle": "Tema",
+  "home.themeHint": "O Automático segue o tema do aparelho.",
+  "theme.auto": "Automático",
+  "theme.light": "Claro",
+  "theme.dark": "Escuro",
 
   "game.header": "{mode} · nº {number}",
   "game.round": "Rodada {current} de {total}",

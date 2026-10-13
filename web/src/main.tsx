@@ -6,9 +6,12 @@ import { App } from "./ui/App.tsx";
 import "@fontsource/noto-sans-jp/400.css";
 import "@fontsource/noto-sans-jp/700.css";
 import "./ui/styles.css";
+import { watchTheme } from "./ui/theme.ts";
 
 // O título da aba vem do i18n (regra inviolável 2); o <title> do index.html só vale até o JS rodar.
 document.title = t("app.title");
+// O tema trocado em outra aba vale nesta também, em qualquer aba do jogo (não só na Início).
+watchTheme();
 
 const root = document.getElementById("app");
 if (root) {
