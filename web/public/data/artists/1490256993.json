@@ -176,10 +176,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/5a/66/8d/5a668da4-c94d-b208-19cd-8bc649f725e2/196292629439.jpg/300x300bb.jpg",
       "id": "apple:al:1588668622",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2021-10-25",
       "title": "ツバメ (feat. ミドリーズ) - Single",
-      "titleLatin": "Tsubame (feat. midoriizu)",
+      "titleLatin": "Tsubame (feat. midories)",
       "type": "single"
     },
     {
@@ -980,7 +980,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1588668629",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.5946,
       "preview": {
         "durationSec": 30,
@@ -991,6 +991,7 @@
       "search": {
         "artist": [],
         "title": [
+          "tsubamefeatmidories",
           "tsubamefeatmidorizu",
           "つばめfeatみどりーず"
         ]
@@ -1001,7 +1002,7 @@
       "titleKeys": [
         "つばめ"
       ],
-      "titleLatin": "Tsubame (feat. midoriizu)"
+      "titleLatin": "Tsubame (feat. midories)"
     },
     {
       "albumId": "apple:al:1593438479",

@@ -35,10 +35,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/a1/6d/02/a16d0255-ac78-b6a3-692e-b43ced90ce06/PCSP_02959.jpg/300x300bb.jpg",
       "id": "apple:al:1509680604",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2020-05-06",
       "title": "Ado/PARED/まひる/ゆっけ presents PALETTE4",
-      "titleLatin": "Ado/PARED/mahiru/yu kke presents PALETTE4",
+      "titleLatin": "Ado/PARED/Mahiru/Yukke presents PALETTE4",
       "type": "compilation"
     },
     {
@@ -77,10 +77,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/f6/b0/7e/f6b07e1d-f319-3333-602f-64328a7c049d/859756062707_cover.jpg/300x300bb.jpg",
       "id": "apple:al:1527560467",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2020-08-14",
       "title": "東亰カニバリズム (feat. Ado) - Single",
-      "titleLatin": "Higashi 亰 kanibarizumu (feat. Ado)",
+      "titleLatin": "Tokyo kanibarizumu (feat. Ado)",
       "type": "single"
     },
     {
@@ -439,10 +439,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/78/6e/68/786e68cb-25a3-2df7-c95f-1efc8ea42f01/23UMGIM84425.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1701142677",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2023-08-08",
       "title": "UNFORGIVEN (Japanese ver.) [feat. ナイル・ロジャース & Ado] - Single",
-      "titleLatin": "UNFORGIVEN (Japanese ver.) [feat. Nairu Rojaasu& Ado]",
+      "titleLatin": "UNFORGIVEN (Japanese ver.) [feat. Nile Rodgers & Ado]",
       "type": "single"
     },
     {
@@ -1286,7 +1286,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1527560468",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.1667,
       "preview": {
         "durationSec": 30,
@@ -1299,6 +1299,7 @@
         "title": [
           "higashi亰canibalismfeatado",
           "higashi亰kanibarizumufeatado",
+          "tokyokanibarizumufeatado",
           "東亰かにばりずむfeatado"
         ]
       },
@@ -1308,7 +1309,7 @@
       "titleKeys": [
         "東亰かにばりずむ"
       ],
-      "titleLatin": "Higashi 亰 kanibarizumu (feat. Ado)"
+      "titleLatin": "Tokyo kanibarizumu (feat. Ado)"
     },
     {
       "albumId": "apple:al:1527723545",
@@ -2749,7 +2750,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1701142689",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.4688,
       "preview": {
         "durationSec": 30,
@@ -2771,7 +2772,7 @@
       "titleKeys": [
         "unforgiven"
       ],
-      "titleLatin": "UNFORGIVEN (feat. Nairu Rojaasu& Ado) [Japanese ver.]"
+      "titleLatin": "UNFORGIVEN (feat. Nile Rodgers & Ado) [Japanese ver.]"
     },
     {
       "albumId": "apple:al:1704093802",

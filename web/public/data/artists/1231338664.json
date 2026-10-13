@@ -59,10 +59,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/2c/22/96/2c22969b-7f1c-6e23-efa9-65ea1fef772f/VICL-37428.jpg/300x300bb.jpg",
       "id": "apple:al:1425757889",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2018-08-29",
       "title": "狼の詩 - Single",
-      "titleLatin": "Ookami no shi",
+      "titleLatin": "Ookami no uta",
       "type": "single"
     },
     {
@@ -494,10 +494,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/45/37/22/45372211-c8fe-ee18-4f71-c2718e87b0ef/ATRS-00007-T01.jpg/300x300bb.jpg",
       "id": "apple:al:6802940373",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2026-09-04",
       "title": "Sweet Memories feat. アイナ・ジ・エンド - Single",
-      "titleLatin": "Sweet Memories feat. Aina ji endo",
+      "titleLatin": "Sweet Memories feat. Aina The End",
       "type": "single"
     }
   ],
@@ -940,7 +940,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1425758233",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.5195,
       "preview": {
         "durationSec": 30,
@@ -952,6 +952,7 @@
         "artist": [],
         "title": [
           "okaminoshi",
+          "okaminota",
           "狼の詩"
         ]
       },
@@ -961,7 +962,7 @@
       "titleKeys": [
         "狼の詩"
       ],
-      "titleLatin": "Ookami no shi"
+      "titleLatin": "Ookami no uta"
     },
     {
       "albumId": "apple:al:1425757889",
@@ -1084,7 +1085,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1450156820",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.1429,
       "preview": {
         "durationSec": 30,
@@ -1095,6 +1096,8 @@
       "search": {
         "artist": [],
         "title": [
+          "masagecanavaro",
+          "masagekanavaro",
           "masamokanavaro",
           "まさ毛かんなゔぁーろ"
         ]
@@ -1105,7 +1108,7 @@
       "titleKeys": [
         "まさ毛かんなゔぁーろ"
       ],
-      "titleLatin": "Masamou kannavaaro"
+      "titleLatin": "Masage kannavaaro"
     },
     {
       "albumId": "apple:al:1450156815",
@@ -3300,7 +3303,7 @@
       },
       "explicit": false,
       "id": "apple:tr:6802940377",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.6494,
       "preview": {
         "durationSec": 30,
@@ -3313,6 +3316,7 @@
         "title": [
           "swetmemoriesfeatainajiend",
           "swetmemoriesfeatainajiendo",
+          "swetmemoriesfeatainathend",
           "swetmemoriesfeatあいなじえんど"
         ]
       },
@@ -3322,7 +3326,7 @@
       "titleKeys": [
         "sweetmemories"
       ],
-      "titleLatin": "Sweet Memories feat. Aina ji endo"
+      "titleLatin": "Sweet Memories feat. Aina The End"
     }
   ]
 }

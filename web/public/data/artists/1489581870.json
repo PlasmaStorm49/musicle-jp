@@ -392,10 +392,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c5/8b/5d/c58b5db9-759f-7c7c-fcc5-05d39432f477/199350192623.jpg/300x300bb.jpg",
       "id": "apple:al:1804362804",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2025-04-16",
       "title": "夢見る16歳 (feat. 鈴木雅之) - Single",
-      "titleLatin": "Yume miru 16sai (feat. Suzuki Masayuki)",
+      "titleLatin": "Yume miru 16sai (feat. Masayuki Suzuki)",
       "type": "single"
     },
     {
@@ -2028,7 +2028,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1804362809",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.1111,
       "preview": {
         "durationSec": 30,
@@ -2039,6 +2039,7 @@
       "search": {
         "artist": [],
         "title": [
+          "yumemiru16saifeatmasayukisuzuki",
           "yumemiru16saifeatsuzukimasayuki",
           "夢見る16歳feat鈴木雅之"
         ]
@@ -2049,7 +2050,7 @@
       "titleKeys": [
         "夢見る16歳"
       ],
-      "titleLatin": "Yume miru 16sai (feat. Suzuki Masayuki)"
+      "titleLatin": "Yume miru 16sai (feat. Masayuki Suzuki)"
     },
     {
       "albumId": "apple:al:1804805342",
@@ -2583,7 +2584,7 @@
         "artist": [],
         "title": [
           "akaharukafeachikudenrira",
-          "akaharukafeatlilashikuta",
+          "sekishunkafeatlilashikuta",
           "赤春花feat幾田りら"
         ]
       },
@@ -2593,7 +2594,7 @@
       "titleKeys": [
         "赤春花"
       ],
-      "titleLatin": "Aka Haruka (feat. Lilas Ikuta)"
+      "titleLatin": "Sekishunka (feat. Lilas Ikuta)"
     },
     {
       "albumId": "apple:al:1887508212",

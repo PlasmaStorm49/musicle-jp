@@ -634,10 +634,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/f4/8d/05/f48d05a3-ba2e-c8ed-b170-ef422d74f9c1/4547366601053.jpg/300x300bb.jpg",
       "id": "apple:al:1659817552",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2023-01-01",
       "title": "いつのまに (feat. Aimer & 和ぬか) - Single",
-      "titleLatin": "Itsu no ma ni (feat. Aimer & wa nu ka)",
+      "titleLatin": "Itsu no ma ni (feat. Aimer & Wanuka)",
       "type": "single"
     },
     {
@@ -1794,7 +1794,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1536128859",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.2191,
       "preview": {
         "durationSec": 30,
@@ -1807,6 +1807,7 @@
         "title": [
           "forlonelywithabemao",
           "forronriwithabemao",
+          "forronriwithmaoabe",
           "forろんりーwith阿部真央"
         ]
       },
@@ -1817,7 +1818,7 @@
         "forろんりー",
         "forろんりーwith阿部真央"
       ],
-      "titleLatin": "For ronrii (with Abe Mao)"
+      "titleLatin": "For ronrii (with Mao Abe)"
     },
     {
       "albumId": "apple:al:1536129355",
@@ -6254,7 +6255,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1659817554",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.7697,
       "preview": {
         "durationSec": 30,
@@ -6275,7 +6276,7 @@
       "titleKeys": [
         "いつのまに"
       ],
-      "titleLatin": "Itsu no ma ni (feat. Aimer & wa nu ka)"
+      "titleLatin": "Itsu no ma ni (feat. Aimer & Wanuka)"
     },
     {
       "albumId": "apple:al:1671936693",
@@ -6397,7 +6398,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1681073107",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.6629,
       "preview": {
         "durationSec": 30,
@@ -6408,6 +6409,7 @@
       "search": {
         "artist": [],
         "title": [
+          "kusowired",
           "sora噪wired",
           "空噪wired"
         ]
@@ -6418,7 +6420,7 @@
       "titleKeys": [
         "空噪wired"
       ],
-      "titleLatin": "Sora 噪 wired"
+      "titleLatin": "Kuusou wired"
     },
     {
       "albumId": "apple:al:1681073102",
