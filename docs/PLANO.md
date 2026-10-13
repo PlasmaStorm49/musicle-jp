@@ -69,7 +69,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P96 | Nome público: **AteMusic** |
 | P97 | Por enquanto só o nome na tela: a URL (`/musicle-jp/`), o repositório e a chave do save continuam `musicle-jp` até o nome ser decidido em definitivo |
 | P98 | "AteMusic" em toda a tela: a home, o texto do compartilhar, a tela de bloqueio e o `<title>`. A semente do PRNG (`"musicle-jp\|<data>\|<alvo>"`) não muda: ela gera a agenda |
-| P99 | O rascunho A do logo já entra na home (`ui/Logo.tsx`, kanji em texto) e é trocado pelo design final, com o kanji em contorno |
+| P99 | O rascunho A do logo já entra na home (`ui/Logo.tsx`, kanji em texto) e é trocado pelo design final, com o kanji em contorno. Cumprida no PR B do M12: o selo do designer (P193) |
 | P100 | Dois modos fixos, pelo alvo: **Normal** (o álbum ou single, entre 4 opções com capa; lista `album` da agenda) e **Desafio** (o nome exato da música, digitado, em até 6 tentativas; lista `song`). Saem as outras duas combinações (Música com 4 opções, Álbum com digitação), o seletor do modo de resposta do dia (P13, P45) e a preferência dele no save. O Treino também fica só com os dois. Save v3: a migração 2 → 3 zera tudo, porque eram só jogos de teste |
 | P101 | Rotas `#normal` e `#desafio`; os links antigos (`#musica`, `#album`) caem na home |
 | P102 | O pipeline para de gerar, no mesmo PR, o que só servia às combinações removidas: o `similar` da faixa, o `search` do álbum e do artista (catálogo v2: o JS antigo em cache cai no "O jogo foi atualizado") e o `aliases` de álbum no `aliases.toml`. As rodadas `song` dos dias novos saem sem `options`, e o rng delas consome só a resposta. A agenda continua na v1: a mudança é compatível, e os dias gravados mantêm as opções de música, que o jogo ignora |
@@ -143,6 +143,9 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P189 | Os achados fora do escopo da correção entram no mesmo PR: 東亰カニバリズム, os nomes partidos do PALETTE4 e o "&" colado dos dois MEKAKUCITY |
 | P191 | A troca de tema fica no fim da Início, depois de "Como funciona": não gasta altura nas telas do jogo (ME60) nem largura na nav (ME70) |
 | P192 | As cores são as do designer; dentro do esquema, a escolha é do Claude (Apêndice L): o claro branco, com os cartões de borda cinza, e o escuro com o preto da paleta e os cartões em tons derivados. Onde o contraste pede, a cor da paleta escurece um tom (o vermelho e o verde de texto) e os cinzas intermediários são derivados |
+| P193 | No topo da Início, o selo redondo vermelho com o 当 vazado, ao lado de "AteMusic" e da frase, como antes; o logo empilhado fica para quando houver lugar para ele (S34) |
+| P194 | Os monogramas dos artistas sem capa ficam com as 8 cores: são conteúdo, e não interface |
+| P195 | O SVG do style guide entra no repositório, em `docs/identidade/`, como a fonte das peças |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -274,6 +277,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - S30. O indicador de carregamento com as faíscas acendendo em sequência.
 - S32. O custo de desistir visível na rodada do Superfan, e não só na revelação (`/code-review` do P186).
 - S33. A fonte mais leve: um `@font-face` próprio só com o woff2 (tira 7,5 MB do `dist`) e o CSS da fonte sem bloquear a pintura (os 124 `unicode-range` de cada peso pesam 210 kB no CSS principal).
+- S34. A imagem de compartilhamento (`og:image`) com o logo empilhado vermelho, depois que o designer conferir o `docs/identidade/logo-empilhado-atemusic.svg` (o nome sem espaço ele já aprovou, PD11).
 
 **Melhorias futuras**
 
@@ -331,6 +335,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME80. Os créditos da parada com o nome da Apple, a mesma regra da P187 no `pipeline/data/apple/aliases.toml`: 点描の唄 (feat. 井上苑子) "Inoue Sonoko" e 佐野勇斗&吉田仁人 "Sano Hayato & Yoshida Jinto", que a loja US escreve "Hayato Sano & Jinto Yoshida".
 - ME81. Uma revisão das leituras do cutlet nos artistas, fora dos créditos. Exemplos: 蜃気楼 do Eve "Shinki rou", 私は最強 "Watakushi wa saikyou", あなたに出会わなければ "deawanakerebaa".
 - ME82. A variante branca do selo da Apple no tema escuro: o Toolbox tem as duas (P81), e só a preta entrou no repositório. Não achei regra oficial para fundo escuro (busca de 13/10/2026); baixar a branca pede a permissão do usuário.
+- ME83. As conferências da base no `dist/index.html` (`deploy.yml` e `ci.yml`) recusam só `/assets/` sem a base: um `/favicon.svg` sem ela passaria. Generalizar para todo `src` e `href` que comece com `/` e conferir que o `favicon.svg` e o `apple-touch-icon.png` estão no `dist` (revisor do PR B do M12). Mexe em `.github/`: ler o diff do workflow antes do merge.
 
 **Feitas:**
 
@@ -700,7 +705,7 @@ Implementado no M4 (`web/src/core/`):
 - **Rotas** (M8): `core/routes.ts` (`Tab`, `ROUTES`, `tabFromHash`, `todayHref`), puro e testado.
 - **Variantes** (ME61): `GameState.variant` e `rulesOf(jogo)` dão as regras da variante (`VARIANT_RULES`) ou as do modo. Cada `ModeRules` diz a barra (`stages`), os pontos do acerto por etapa, os da ajuda, os de cada palpite errado e quantas tentativas vêm antes da ajuda; o `roundScore` conta por elas. Os dois modos de hoje continuam com 6 a 1 pontos e a barra de 1 a 16 s.
 - **Rodadas sem fim** (M13): a sessão em jogo saiu do `Practice.tsx` para o `ui/PracticeRun.tsx` (cabeçalho, placar, pop-up do reinício e o aviso sem rodada, com os textos por prop), que serve ao Treino e ao modo por artista. O arquivo de um artista vira um `CatalogIndex` (`indexArtist`) pelos tipos `Playable*` de `core/types.ts`, sem o `chart` da faixa nem o `similar` do álbum, que o núcleo não lê.
-- **Home** (`ui/Home.tsx`, depois do checkup): o nome, o logo provisório (`ui/Logo.tsx`), um cartão-link por modo e "Como funciona". O estado de cada diário (novo, em andamento, terminado com os pontos, ou sem diário) sai de `dailyStatus` (`core/home.ts`, puro). Os cartões saem de `MODES`, mais o Treino e, desde o M13, os artistas (P126).
+- **Home** (`ui/Home.tsx`, depois do checkup): o nome, o selo do logo (`ui/Logo.tsx`, P193), um cartão-link por modo e "Como funciona". O estado de cada diário (novo, em andamento, terminado com os pontos, ou sem diário) sai de `dailyStatus` (`core/home.ts`, puro). Os cartões saem de `MODES`, mais o Treino e, desde o M13, os artistas (P126).
 - **i18n:** `pt-BR.ts` exporta um objeto de textos; `t(chave, parâmetros)` é tipado por `keyof`. Plural com `tn(chave, n)` sobre chaves `.one` e `.other` (M6): usa `Intl.PluralRules('pt-BR')`, mas força o zero no plural, porque o `Intl` diz "one" para 0 em português ("0 ponto").
 
 ## Apêndice H. Testes e qualidade
@@ -887,7 +892,7 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 
 ## Apêndice L. Identidade visual (M12)
 
-**Origem:** um style guide feito por um designer conhecido do usuário, em SVG (os vetores) e PNG (como os vetores ficam na tela), entregue em 12/10/2026. Os arquivos ficam com o usuário, fora do repositório. As respostas do designer às perguntas da análise (PD1 a PD13, 13/10/2026):
+**Origem:** um style guide feito por um designer conhecido do usuário, em SVG (os vetores) e PNG (como os vetores ficam na tela), entregue em 12/10/2026. O SVG entra no repositório, em `docs/identidade/` (P195); o PNG fica com o usuário. As respostas do designer às perguntas da análise (PD1 a PD13, 13/10/2026):
 
 - **PD1:** os tamanhos seguem o site de hoje, não os números do SVG (o botão do SVG é grande, mas na tela fica proporcional).
 - **PD2:** peso Regular, mantendo os tamanhos e a hierarquia do beta.
@@ -911,7 +916,7 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 | `--primary` e `--on-primary` | `#BDBF7F` e `#000000` | iguais | botão principal (10,92) |
 | `--accent-line` | `#969865` | `#BDBF7F` | aba ativa, hover, sugestão |
 | `--focus` | `#000000` | `#D7D8DC` | foco do teclado |
-| `--brand` e `--on-brand` | `#EA3829` e `#FFFFFF` | iguais | o logo e os selos |
+| vermelho da marca | `#EA3829` | igual | o selo e o favicon, que são imagens (os tokens `--brand` e `--on-brand` saíram no PR B) |
 | `--ok` / `--bad` | `#4B8419` / `#DE3527` | `#57961F` / `#EC4F42` | acerto e erro (texto e borda) |
 | `--ok-soft` / `--bad-soft` | `#F0F6E9` / `#FEF2F0` | `#1B2A10` / `#3A1714` | fundo das linhas de acerto e erro (o `--muted` sobre eles dá 4,63 e 4,66) |
 | `--warn` / `--warn-soft` | `#8A5A00` / `#FFF1D6` | `#E0A84A` / `#33270F` | avisos (5,31 e 6,86) |
@@ -931,6 +936,15 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 **A fonte (P175):** `@fontsource/noto-sans-jp` 5.3.0 (o mais novo com 14 dias), só os pesos 400 e 700 (os 600 de antes viraram 700). Cada peso tem 124 fatias por `unicode-range`, e o navegador baixa só as dos caracteres da tela (15 fatias woff2 na lista de artistas, medido no navegador do Claude). No build, as fontes somam 13 MB no `dist` (5,9 MB de woff2 e 7,5 MB de woff, que nenhum navegador atual baixa), e o CSS principal passa a 224 kB (74 kB comprimido), pelos `unicode-range` (S33). A licença é a OFL 1.1, que deixa redistribuir a fonte com o aviso de direitos e a licença nos campos de metadados do próprio arquivo, e os woff2 do pacote os trazem (hipótese conferida só pela regra da licença, não arquivo a arquivo).
 
 **A troca de tema (P176, P191):** três rádios no fim da Início. A escolha fica na chave `musicle-jp:theme` (`src/storage/theme.ts`), fora do save: sem `updateSave` nem `SAVE_SCHEMA_VERSION`. O `src/ui/theme.ts` aplica o `data-theme` no `<html>` e o `theme-color` da barra do navegador. Um script curto no `<head>` do `index.html` lê a mesma chave antes da pintura, para quem escolheu Escuro num aparelho claro não ver a página clara por um instante.
+
+**Logo, selos e ícones de app (PR B):** as peças saem do `docs/identidade/style-guide.svg`, o arquivo do designer guardado sem alteração (P195). O `docs/identidade/README.md` tem a tabela dos índices de cada peça e o jeito de extrair: o caminho fica igual ao do guia, e só o `viewBox` recorta.
+- **Topo da Início (P193):** o selo redondo vermelho com o 当 vazado (`web/src/ui/assets/logo-selo.svg`), ao lado do nome em texto, como o rascunho A da P95 (o círculo vermelho). O círculo é vermelho nos dois temas (P177; no selo, o 当 é o furo), e o furo mostra o fundo da página, então o selo serve aos dois temas sem regra nenhuma. Com 2,9 kB, o Vite o embute no código.
+- **Favicon:** o selo quadrado, opaco (`web/public/favicon.svg`).
+- **Ícone de app do iPhone:** o selo quadrado, opaco e sem cantos (`web/public/apple-touch-icon.png`, 180 × 180, RGB, sem canal de transparência).
+- **O `docs/identidade/extrair-pecas.cjs`** tira as peças do guia (rode à mão quando ele mudar; não roda na CI).
+- **O logo empilhado com o nome sem espaço (P179):** fica em `docs/identidade/logo-empilhado-atemusic.svg`, para o designer conferir. Ele ainda não está no site (S34).
+- **O `web/scripts/identity.test.ts`** confere que o selo e o favicon trazem o caminho do guia, que o ícone de app tem 180 × 180 e que o `index.html` cita os dois ícones que existem em `public/`.
+- **Os tokens `--brand` e `--on-brand` saíram:** o vermelho da marca vive nas imagens. Os monogramas ficam com as 8 cores (P194).
 
 ## Origem
 

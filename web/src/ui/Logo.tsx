@@ -1,24 +1,11 @@
-import { t } from "../i18n/t.ts";
+import selo from "./assets/logo-selo.svg";
 
 /**
- * Rascunho A do logo (P95, P99): o 当 de 当てる num círculo vermelho. Decorativo: o nome do jogo
- * vem ao lado, em texto. Provisório até o design final, que traz o kanji como contorno, sem
- * depender da fonte japonesa do aparelho.
+ * O selo do logo (M12, P193): o 当 de 当てる vazado num círculo vermelho, do style guide do
+ * designer (docs/identidade/). O círculo é vermelho nos dois temas (P177), e o 当, o furo, mostra o
+ * fundo da página: branco no claro, preto no escuro, sem regra nenhuma. Decorativo: o nome do jogo
+ * vem ao lado, em texto.
  */
 export function Logo() {
-  return (
-    <svg class="logo" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-      <circle class="logo-disc" cx="50" cy="50" r="50" />
-      <text
-        class="logo-mark"
-        lang="ja"
-        x="50"
-        y="52"
-        text-anchor="middle"
-        dominant-baseline="central"
-      >
-        {t("app.logoMark")}
-      </text>
-    </svg>
-  );
+  return <img class="logo" src={selo} alt="" aria-hidden="true" width={56} height={56} />;
 }

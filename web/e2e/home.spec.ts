@@ -44,6 +44,14 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
   await expect(title).toBeFocused();
   await expect(page).toHaveTitle("AteMusic");
   await expect(page.getByRole("link", { name: "Início" })).toHaveAttribute("aria-current", "page");
+  // O selo do logo (P193) carregou de verdade, e os dois ícones do index.html respondem (o
+  // Chromium sem tela nem sempre pede o favicon sozinho, então o teste pede).
+  await expect
+    .poll(() => page.locator("img.logo").evaluate((img: HTMLImageElement) => img.naturalWidth))
+    .toBeGreaterThan(0);
+  for (const icon of ["/favicon.svg", "/apple-touch-icon.png"]) {
+    expect((await page.request.get(icon)).status(), icon).toBe(200);
+  }
 
   // Os cartões ficam no main; a nav tem links com os mesmos nomes.
   const cards = page.getByRole("main");

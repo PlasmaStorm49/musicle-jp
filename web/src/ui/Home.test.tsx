@@ -49,6 +49,17 @@ describe("Home", () => {
     expect(document.activeElement).toBe(title);
   });
 
+  it("o selo do logo ao lado do nome, decorativo: o leitor de tela ouve só o nome (P193)", () => {
+    setup();
+    const logo = document.querySelector("img.logo");
+    expect(logo).not.toBeNull();
+    // Menor que 4 kB, o Vite embute o SVG no código (data:, também no Vitest); maior, ele vira um
+    // arquivo.
+    expect(logo?.getAttribute("src")).toMatch(/logo-selo\.svg$|^data:image\/svg\+xml/);
+    expect(logo?.getAttribute("alt")).toBe("");
+    expect(screen.queryAllByRole("img")).toHaveLength(0);
+  });
+
   it("um cartão-link por modo, para a aba de cada um, na ordem Normal, Desafio, Treino, Artistas", () => {
     setup();
     expect(card(/^Normal/).getAttribute("href")).toBe("#normal");

@@ -102,7 +102,6 @@ const PAIRS: readonly (readonly [string, string, number])[] = [
   ["accent-line", "surface", SHAPE],
   ["focus", "bg", SHAPE],
   ["focus", "surface", SHAPE],
-  ["on-brand", "brand", SHAPE],
   // A barra do trecho (ME30): o liberado contra o trilho, e o que já tocou contra o liberado.
   ["bar-open", "bar-track", SHAPE],
   ["bar-play", "bar-open", SHAPE],

@@ -17,9 +17,8 @@
   --on-primary: #000000;
   --accent-line: #969865;
   --focus: #000000;
-  /* O vermelho é a marca, o erro e o que já tocou da barra; o verde, só o acerto (PD10). */
-  --brand: #ea3829;
-  --on-brand: #ffffff;
+  /* O vermelho é a marca (o #ea3829 do selo e do favicon, que são imagens), o erro e o que já
+     tocou da barra; o verde, só o acerto (PD10). */
   --ok: #4b8419;
   --ok-soft: #f0f6e9;
   --bad: #de3527;
@@ -565,21 +564,11 @@ h4 {
   gap: 12px;
 }
 
+/* O selo do logo (P193): uma imagem, o círculo vermelho nos dois temas (P177) com o 当 vazado. */
 .logo {
   width: 56px;
   height: 56px;
   flex: none;
-}
-
-.logo-disc {
-  fill: var(--brand);
-}
-
-.logo-mark {
-  fill: var(--on-brand);
-  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
-  font-size: 62px;
-  font-weight: 700;
 }
 
 .home-modes {
