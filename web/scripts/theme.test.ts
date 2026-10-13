@@ -83,11 +83,12 @@ const PAIRS: readonly (readonly [string, string, number])[] = [
   ["muted", "surface", TEXT],
   ["muted", "surface-2", TEXT],
   ["on-primary", "primary", TEXT],
+  ["on-primary", "primary-hover", TEXT],
   ["ok", "bg", TEXT],
   ["ok", "surface", TEXT],
   ["bad", "bg", TEXT],
   ["bad", "surface", TEXT],
-  // Nas linhas de acerto e erro o texto é o normal: a cor vai só na borda.
+  // Nas linhas de acerto e erro o texto é o normal: a cor vai na borda e no ícone.
   ["text", "ok-soft", TEXT],
   ["text", "bad-soft", TEXT],
   ["ok", "ok-soft", SHAPE],

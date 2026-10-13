@@ -4,6 +4,7 @@
 // (ninguém edita a peça à mão sem ele), e o index.html cita os ícones que existem em public/.
 import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { ICONS } from "../src/ui/assets/icons.ts";
 
 const read = (path: string) => readFileSync(new URL(path, import.meta.url), "utf8");
 const noComments = (svg: string) => svg.replace(/<!--[\s\S]*?-->/g, "");
@@ -37,6 +38,17 @@ describe("as peças do style guide", () => {
     expect(tags(svg)).toEqual(els);
     expect(paths(svg)).toEqual([GUIDE[index]]);
   });
+
+  it.each([
+    ["wrong", 33, "1865 9881 787 794"],
+    ["right", 35, "1864 11588 975 719"],
+    ["next", 42, "6099 13241 626 739"],
+  ] as const)(
+    "o ícone %s (assets/icons.ts) é o path[%s] do guia, no viewBox %s",
+    (name, index, box) => {
+      expect(ICONS[name]).toEqual({ viewBox: box, d: GUIDE[index]?.d });
+    },
+  );
 
   it("o logo empilhado sem espaço tem o 当 e as formas do nome do guia (path[0] a path[3])", () => {
     const svg = read("../../docs/identidade/logo-empilhado-atemusic.svg");

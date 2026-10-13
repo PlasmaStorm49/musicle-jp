@@ -305,6 +305,34 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(document.querySelectorAll(".reveal .card img")).toHaveLength(1); // a capa da resposta
   });
 
+  it("as tentativas com os ícones do designer: X errou, chevron pulou, ✓ acertou; sem emoji (P196, P197)", () => {
+    setup(
+      game("song", {
+        status: "won",
+        stage: 2,
+        attempts: [
+          { kind: "guess", guessId: "t:tr:2", correct: false },
+          { kind: "skip" },
+          { kind: "guess", guessId: "t:tr:1", correct: true },
+        ],
+      }),
+    );
+    const rows = [...document.querySelectorAll(".attempt")];
+    expect(rows.map((row) => row.querySelector("svg.icon")?.getAttribute("class"))).toEqual([
+      "icon icon-wrong",
+      "icon icon-next",
+      "icon icon-right",
+    ]);
+    expect(
+      rows.every((row) => row.querySelector("svg")?.getAttribute("aria-hidden") === "true"),
+    ).toBe(true);
+    // O leitor de tela ouve o que houve; o desenho fica de fora.
+    expect(
+      rows.map((row) => row.querySelector(".sr-only")?.textContent ?? row.textContent?.trim()),
+    ).toEqual(["Errou:", "Pulou", "Acertou:"]);
+    expect(document.querySelector(".attempt-list")?.textContent).not.toMatch(/[✅❌⬛]/u);
+  });
+
   it("revelação: o botão de seguir usa o texto pedido (no Treino, nunca 'Ver resultado')", () => {
     setup(game("album", { status: "won" }));
     expect(screen.getByRole("button", { name: "Próxima rodada" })).toBeTruthy();

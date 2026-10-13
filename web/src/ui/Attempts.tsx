@@ -1,8 +1,8 @@
 import type { CatalogIndex } from "../core/catalog.ts";
 import type { RoundState } from "../core/reducer.ts";
-import { SYMBOLS } from "../core/share.ts";
 import { optionView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
+import { Icon } from "./Icon.tsx";
 import { ItemLabel } from "./ItemLabel.tsx";
 
 type Props = {
@@ -11,8 +11,9 @@ type Props = {
 };
 
 /**
- * As tentativas do Desafio, na ordem: ❌ errou, ⬛ pulou, ✅ acertou. Os símbolos são só
- * desenho (aria-hidden); o leitor de tela ouve "Errou:", "Pulou" ou "Acertou:" e o nome.
+ * As tentativas do Desafio, na ordem, com os ícones do designer (P196, P197): o X errou, o
+ * chevron pulou, o ✓ acertou. Os ícones são só desenho (aria-hidden); o leitor de tela ouve
+ * "Errou:", "Pulou" ou "Acertou:" e o nome. O texto de compartilhar continua com os emojis.
  */
 export function Attempts({ index, round }: Props) {
   if (round.attempts.length === 0) return null;
@@ -26,19 +27,14 @@ export function Attempts({ index, round }: Props) {
           if (attempt.kind === "skip") {
             return (
               <li key={key} class="attempt skip">
-                <span class="mark" aria-hidden="true">
-                  {SYMBOLS.more}
-                </span>{" "}
-                {t("attempts.skip")}
+                <Icon name="next" /> {t("attempts.skip")}
               </li>
             );
           }
           const item = optionView(index, attempt.guessId, "song");
           return (
             <li key={key} class={attempt.correct ? "attempt right" : "attempt wrong"}>
-              <span class="mark" aria-hidden="true">
-                {attempt.correct ? SYMBOLS.right : SYMBOLS.wrong}
-              </span>
+              <Icon name={attempt.correct ? "right" : "wrong"} />
               <span class="sr-only">
                 {t(attempt.correct ? "attempts.right" : "attempts.wrong")}
               </span>{" "}
