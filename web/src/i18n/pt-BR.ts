@@ -2,8 +2,6 @@
 export const ptBR = {
   "app.title": "AteMusic",
   "app.tagline": "Adivinhe a música japonesa do dia",
-  // O 当 de 当てる (ateru: acertar), no logo provisório (P95).
-  "app.logoMark": "当",
 
   "load.loading": "Carregando…",
   "load.retry": "Não foi possível carregar o jogo. Confira a conexão.",
