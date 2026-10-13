@@ -179,7 +179,7 @@
       "latinSource": "manual",
       "releaseDate": "2021-10-25",
       "title": "ツバメ (feat. ミドリーズ) - Single",
-      "titleLatin": "Tsubame (feat. midories)",
+      "titleLatin": "Tsubame (feat. Midories)",
       "type": "single"
     },
     {
@@ -449,10 +449,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f0/3b/bc/f03bbca1-68a7-530d-9904-e447d0024ddd/199806749012.jpg/300x300bb.jpg",
       "id": "apple:al:1861370948",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2026-01-04",
       "title": "アドレナ - Single",
-      "titleLatin": "Ado Rena",
+      "titleLatin": "Adorena",
       "type": "single"
     },
     {
@@ -1002,7 +1002,7 @@
       "titleKeys": [
         "つばめ"
       ],
-      "titleLatin": "Tsubame (feat. midories)"
+      "titleLatin": "Tsubame (feat. Midories)"
     },
     {
       "albumId": "apple:al:1593438479",

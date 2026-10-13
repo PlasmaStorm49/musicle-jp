@@ -240,13 +240,13 @@ latin = "Yume miru 16sai (feat. Masayuki Suzuki)"
 [albums."apple:al:1804362804"]  # 夢見る16歳 (feat. 鈴木雅之) - Single
 latin = "Yume miru 16sai (feat. Masayuki Suzuki)"
 
-# ミドリーズ (1588668628): o lookup dá o nome em kana nas lojas JP e US; o latino é o do título
-# na loja US, "Tsubame (feat. midories)".
+# ミドリーズ (1588668628): o lookup dá o nome em kana nas lojas JP e US; a Apple escreve
+# "Midories" em "The Swallow (feat. Midories)", com a maiúscula do nome próprio.
 [tracks."apple:tr:1588668629"]  # ツバメ (feat. ミドリーズ); cutlet: "midoriizu"
-latin = "Tsubame (feat. midories)"
+latin = "Tsubame (feat. Midories)"
 
 [albums."apple:al:1588668622"]  # ツバメ (feat. ミドリーズ) - Single
-latin = "Tsubame (feat. midories)"
+latin = "Tsubame (feat. Midories)"
 
 [tracks."apple:tr:1701142689"]  # UNFORGIVEN (feat. ナイル・ロジャース & Ado) [Japanese ver.]
 latin = "UNFORGIVEN (feat. Nile Rodgers & Ado) [Japanese ver.]"
@@ -313,3 +313,66 @@ latin = "MEKAKUCITY M's 1 ~ mekakushitiakutaazu vookaru & saundo korekushon~"
 
 [albums."apple:al:1148681842"]  # MEKAKUCITY M’s 2 ~メカクシティアクターズ・ヴォーカル&サウンド コレクション~
 latin = "MEKAKUCITY M's 2 ~ mekakushitiakutaazu vookaru & saundo korekushon~"
+
+# Os ids dos snapshots com o mesmo crédito errado que não estão publicados (outra edição ou versão
+# da mesma música): o crédito sai certo se a canônica mudar numa busca futura.
+[tracks."apple:tr:1654779191"]  # 宇宙の季節 feat. Eve, suis from ヨルシカ (ULTRAPANIC); sem romaji no cache
+latin = "Uchuu no kisetsu feat. Eve, suis from Yorushika"
+
+[tracks."apple:tr:1805576735"]  # 夢見る16歳 (feat. 鈴木雅之) (All Time Doo Wop ! !)
+latin = "Yume miru 16sai (feat. Masayuki Suzuki)"
+
+[tracks."apple:tr:1593438481"]  # ツバメ (feat. ミドリーズ) (THE BOOK 2)
+latin = "Tsubame (feat. Midories)"
+
+[tracks."apple:tr:1701753863"]  # UNFORGIVEN (feat. ナイル・ロジャース & Ado) [Japanese ver.] (UNFORGIVEN - Single)
+latin = "UNFORGIVEN (feat. Nile Rodgers & Ado) [Japanese ver.]"
+
+[tracks."apple:tr:1334201186"]  # NANIMONO (feat. 米津玄師) (Digital Native)
+latin = "NANIMONO (feat. Kenshi Yonezu)"
+
+[tracks."apple:tr:1153140090"]  # NANIMONO (feat. 米津玄師) -extended mix-; sem romaji no cache
+latin = "NANIMONO (feat. Kenshi Yonezu) -extended mix-"
+
+[tracks."apple:tr:1153140091"]  # NANIMONO (feat. 米津玄師) -Danny L Harle remix-; sem romaji no cache
+latin = "NANIMONO (feat. Kenshi Yonezu) -Danny L Harle remix-"
+
+[tracks."apple:tr:1153140092"]  # NANIMONO (feat. 米津玄師) -TeddyLoid remix-; sem romaji no cache
+latin = "NANIMONO (feat. Kenshi Yonezu) -TeddyLoid remix-"
+
+[tracks."apple:tr:1153140093"]  # NANIMONO (feat. 米津玄師) -banvox remix-; sem romaji no cache
+latin = "NANIMONO (feat. Kenshi Yonezu) -banvox remix-"
+
+[tracks."apple:tr:1538259002"]  # for ロンリー (with 阿部真央) (daydream)
+latin = "For ronrii (with Mao Abe)"
+
+[tracks."apple:tr:6781660580"]  # 小豆あらい (feat. MAISONdes & ケンモチヒデフミ) (o single)
+latin = "Azuki Arai (feat. MAISONdes & Kenmochi Hidefumi)"
+
+[albums."apple:al:6781660578"]  # 小豆あらい (feat. MAISONdes & ケンモチヒデフミ) - Single
+latin = "Azuki Arai (feat. MAISONdes & Kenmochi Hidefumi)"
+
+# Os álbuns gêmeos de faixas corrigidas antes, com o latino da faixa (sem o crédito, quando o
+# título do álbum não tem).
+[albums."apple:al:1602544169"]  # スパークル - Single; cutlet: "Supaa kuru"
+latin = "Supaakuru"
+
+[albums."apple:al:1861370948"]  # アドレナ - Single; cutlet: "Ado Rena"
+latin = "Adorena"
+
+[albums."apple:al:1888081424"]  # 絶絶絶絶対聖域; cutlet: "Zezzezzezzettai seiiki"
+latin = "Zetsuzetsuzetsuzettai seiiki"
+
+[albums."apple:al:1482898810"]  # 月アカリサイレース - EP; cutlet: "Gatsu akarisaireesu"
+latin = "Tsuki akari saireesu"
+
+[albums."apple:al:1586906653"]  # 私の愛 - Single; cutlet: "Watakushi no ai"
+latin = "Watashi no ai"
+
+[albums."apple:al:1531215658"]  # ロケット・トゥ・ザ・ムーン~信じた世界へ~ (Netflix 映画『フェイフェイと月の冒険』より) - Single
+latin = 'Roketto tu za muun ~Shinjita sekai e~ (Netflix eiga "Feifei to tsuki no bouken" yori)'
+
+# まふまふ (614405787) só tem o nome em kana no lookup, nas lojas JP e US: vale o título da loja US,
+# "Mafumafu Tribute Album -Tensei-" (P187). 転生 se lê "tensei".
+[albums."apple:al:1839173046"]  # まふまふ トリビュートアルバム 〜転生〜; cutlet: "Ma fuma futoribyuuto arubamu tenshou"
+latin = "Mafumafu toribyuuto arubamu ~Tensei~"
