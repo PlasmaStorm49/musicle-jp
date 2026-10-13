@@ -243,12 +243,17 @@ a:focus-visible {
   display: flex;
 }
 
+/* O divisor é desenhado dentro do pedaço (sombra), e não com borda: a borda ocupava espaço no
+   flex, e o pedaço deixava de ter a fração exata que a .bar-unlocked e a .bar-fill usam (sobrava
+   uma fresta do trilho entre o tocado e o divisor). */
 .seg {
-  border-right: 2px solid var(--surface);
+  flex-basis: 0;
+  min-width: 0;
+  box-shadow: inset -2px 0 0 var(--surface);
 }
 
 .seg:last-child {
-  border-right: none;
+  box-shadow: none;
 }
 
 .badge {
