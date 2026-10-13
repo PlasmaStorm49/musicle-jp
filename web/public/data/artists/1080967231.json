@@ -282,10 +282,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/52/53/75/52537593-d5e8-34bd-8fb4-90386156a0f4/4517331072348.jpg/300x300bb.jpg",
       "id": "apple:al:1575901986",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2021-07-26",
       "title": "宇宙の季節 (feat. Eve & suis from ヨルシカ) - Single",
-      "titleLatin": "Uchuu no kisetsu (feat. Eve & suis from yorushika)",
+      "titleLatin": "Uchuu no kisetsu (feat. Eve & suis from Yorushika)",
       "type": "single"
     },
     {
@@ -635,10 +635,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d1/7c/7b/d17c7b99-365a-0f5d-a3f7-b93c4766e4d2/4517331100713.jpg/300x300bb.jpg",
       "id": "apple:al:1887808018",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2026-04-14",
       "title": "風のアンセム (feat. suis from ヨルシカ) - Single",
-      "titleLatin": "Kaze no ansemu (feat. suis from yorushika)",
+      "titleLatin": "Kaze no ansemu (feat. suis from Yorushika)",
       "type": "single"
     },
     {
@@ -3694,7 +3694,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1575901996",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.8065,
       "preview": {
         "durationSec": 30,
@@ -3715,7 +3715,7 @@
       "titleKeys": [
         "宇宙の季節"
       ],
-      "titleLatin": "Uchuu no kisetsu (feat. Eve & suis from yorushika)"
+      "titleLatin": "Uchuu no kisetsu (feat. Eve & suis from Yorushika)"
     },
     {
       "albumId": "apple:al:1583190904",
@@ -5101,7 +5101,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1887808019",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.7742,
       "preview": {
         "durationSec": 30,
@@ -5123,7 +5123,7 @@
       "titleKeys": [
         "風のあんせむ"
       ],
-      "titleLatin": "Kaze no ansemu (feat. suis from yorushika)"
+      "titleLatin": "Kaze no ansemu (feat. suis from Yorushika)"
     },
     {
       "albumId": "apple:al:6778821952",

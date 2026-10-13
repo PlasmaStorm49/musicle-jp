@@ -20,10 +20,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/7b/a9/06/7ba906ca-85aa-9796-1722-c6ec249d7498/886448749721.jpg/300x300bb.jpg",
       "id": "apple:al:1531215658",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2020-09-25",
       "title": "ロケット・トゥ・ザ・ムーン~信じた世界へ~ (Netflix 映画『フェイフェイと月の冒険』より) - Single",
-      "titleLatin": "Roketto tu za muun~ shinjita sekai e~ (Netflix eiga \"feifei to tsuki no bouken\" yori)",
+      "titleLatin": "Roketto tu za muun ~Shinjita sekai e~ (Netflix eiga \"Feifei to tsuki no bouken\" yori)",
       "type": "single"
     },
     {
@@ -33,10 +33,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/a7/5a/f5/a75af5c7-9846-e3e9-4c22-a035322a5a36/4547366479294.jpg/300x300bb.jpg",
       "id": "apple:al:1535667015",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2020-10-21",
       "title": "INSPIRE -加藤ミリヤTRIBUTE-",
-      "titleLatin": "INSPIRE - Katou Miriya TRIBUTE-",
+      "titleLatin": "INSPIRE -MILIYAH KATO TRIBUTE-",
       "type": "compilation"
     },
     {
@@ -127,10 +127,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e1/e7/d2/e1e7d23c-bd17-7b05-b32c-4b23f0623685/196626142849.jpg/300x300bb.jpg",
       "id": "apple:al:1602544169",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2022-01-17",
       "title": "スパークル - Single",
-      "titleLatin": "Supaa kuru",
+      "titleLatin": "Supaakuru",
       "type": "single"
     },
     {
@@ -392,10 +392,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c5/8b/5d/c58b5db9-759f-7c7c-fcc5-05d39432f477/199350192623.jpg/300x300bb.jpg",
       "id": "apple:al:1804362804",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2025-04-16",
       "title": "夢見る16歳 (feat. 鈴木雅之) - Single",
-      "titleLatin": "Yume miru 16sai (feat. Suzuki Masayuki)",
+      "titleLatin": "Yume miru 16sai (feat. Masayuki Suzuki)",
       "type": "single"
     },
     {
@@ -589,10 +589,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8d/40/fe/8d40fe5e-b724-dd3b-3ddd-202189c492ff/TFDS-01013WW.jpg/300x300bb.jpg",
       "id": "apple:al:1888081424",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2024-03-20",
       "title": "絶絶絶絶対聖域",
-      "titleLatin": "Zezzezzezzettai seiiki",
+      "titleLatin": "Zetsuzetsuzetsuzettai seiiki",
       "type": "album"
     }
   ],
@@ -2028,7 +2028,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1804362809",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.1111,
       "preview": {
         "durationSec": 30,
@@ -2039,6 +2039,7 @@
       "search": {
         "artist": [],
         "title": [
+          "yumemiru16saifeatmasayukisuzuki",
           "yumemiru16saifeatsuzukimasayuki",
           "夢見る16歳feat鈴木雅之"
         ]
@@ -2049,7 +2050,7 @@
       "titleKeys": [
         "夢見る16歳"
       ],
-      "titleLatin": "Yume miru 16sai (feat. Suzuki Masayuki)"
+      "titleLatin": "Yume miru 16sai (feat. Masayuki Suzuki)"
     },
     {
       "albumId": "apple:al:1804805342",
@@ -2583,7 +2584,7 @@
         "artist": [],
         "title": [
           "akaharukafeachikudenrira",
-          "akaharukafeatlilashikuta",
+          "sekishunkafeatlilashikuta",
           "赤春花feat幾田りら"
         ]
       },
@@ -2593,7 +2594,7 @@
       "titleKeys": [
         "赤春花"
       ],
-      "titleLatin": "Aka Haruka (feat. Lilas Ikuta)"
+      "titleLatin": "Sekishunka (feat. Lilas Ikuta)"
     },
     {
       "albumId": "apple:al:1887508212",
