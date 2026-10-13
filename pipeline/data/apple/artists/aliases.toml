@@ -376,3 +376,8 @@ latin = 'Roketto tu za muun ~Shinjita sekai e~ (Netflix eiga "Feifei to tsuki no
 # "Mafumafu Tribute Album -Tensei-" (P187). 転生 se lê "tensei".
 [albums."apple:al:1839173046"]  # まふまふ トリビュートアルバム 〜転生〜; cutlet: "Ma fuma futoribyuuto arubamu tenshou"
 latin = "Mafumafu toribyuuto arubamu ~Tensei~"
+
+# 加藤ミリヤ não tem id de artista nos snapshots, e a loja US não tem o álbum: vale o latino que a
+# própria Apple dá ao álbum na loja JP (P187).
+[albums."apple:al:1535667015"]  # INSPIRE -加藤ミリヤTRIBUTE-; cutlet: "INSPIRE - Katou Miriya TRIBUTE-"
+latin = "INSPIRE -MILIYAH KATO TRIBUTE-"
