@@ -7,7 +7,7 @@ import pytest
 
 from helpers import track_by_id
 from musicle_pipeline.catalog import Curation, build_catalog
-from musicle_pipeline.cli import main, romanize_each
+from musicle_pipeline.cli import main, partial_reads, romanize_each
 from musicle_pipeline.io_json import dumps
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import needs_romaji
@@ -170,3 +170,25 @@ def test_an_unread_text_is_searchable_but_never_shown_as_latin():
     assert cur.latin("tracks", "x:tr:1", "々", None) == (None, None)
     assert cur.latin("tracks", "x:tr:2", "歌", None) == ("uta", "cutlet")
     assert "々" in cur.search_texts("tracks", "x:tr:1", "々", None)
+
+
+def test_a_partial_reading_is_searchable_but_never_shown_as_latin():
+    # ME84: o cutlet pula o kanji que não conhece e devolve o hangul só sem os espaços. Sobrou
+    # letra fora de a-z: não é latino, mas a leitura continua na busca.
+    entries = {
+        "東亰カニバリズム": ("Higashi 亰 kanibarizumu", "Higashi 亰 cannibalism"),
+        "우주를 줄게": ("우주를줄게",),
+        "東京": ("Tōkyō",),  # o mácron sai na normalização: é latino
+        "가끔씩": ("가끔씩",),  # uma palavra só: ele devolve igual, sem erro
+        "々": ("々",),  # deu erro (romanize_each): já tem o aviso dele
+    }
+    cur = Curation(romaji=_cache(entries))
+    assert cur.latin("tracks", "x:tr:1", "東亰カニバリズム", None) == (None, None)
+    assert cur.latin("tracks", "x:tr:2", "우주를 줄게", None) == (None, None)
+    assert cur.latin("tracks", "x:tr:3", "東京", None) == ("Tōkyō", "cutlet")
+    texts = cur.search_texts("tracks", "x:tr:1", "東亰カニバリズム", None)
+    assert "Higashi 亰 cannibalism" in texts
+    # O latino do provedor continua vencendo.
+    assert cur.latin("tracks", "x:tr:2", "우주를 줄게", "Galaxy") == ("Galaxy", "provider")
+    assert cur.latin("tracks", "x:tr:4", "가끔씩", None) == (None, None)
+    assert partial_reads(entries, ["々"]) == ["東亰カニバリズム", "우주를 줄게", "가끔씩"]
