@@ -31,7 +31,7 @@
   --bar-play: #de3527;
   --bucket: #939497;
   --bucket-today: #de3527;
-  /* O ⬛ das tentativas e do compartilhar some no escuro: lá ele ganha um fundo claro. */
+  /* O ⬛ da prévia e da cópia à mão do compartilhar some no escuro: lá ele ganha um fundo claro. */
   --emoji-bg: transparent;
   --emoji-text: #000000;
   --radius: 12px;
@@ -739,11 +739,19 @@ a.home-card:hover {
   border-style: dashed;
 }
 
-/* A marca de cada tentativa (✅, ❌, ⬛): no escuro, com fundo claro, senão o ⬛ some. */
-.attempt .mark {
-  padding: 0 2px;
-  border-radius: 4px;
-  background: var(--emoji-bg);
+/* Os ícones do designer nas tentativas (P196, P197): a cor é a do tema (currentColor no SVG). */
+.icon {
+  width: auto;
+  height: 1.1em;
+  flex: none;
+}
+
+.attempt.wrong .icon {
+  color: var(--bad);
+}
+
+.attempt.right .icon {
+  color: var(--ok);
 }
 
 /* section.void, não .void: a linha "anulada" do resumo (li.void) não vira caixa. */
