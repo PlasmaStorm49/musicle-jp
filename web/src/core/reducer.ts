@@ -44,6 +44,11 @@ export type RoundState = {
    * depois dela podem vir pulos (P163), então não dá para deduzir das tentativas. Null sem ajuda.
    */
   readonly helpAt: number | null;
+  /**
+   * A pessoa desistiu da rodada (o "Desistir"): custa os `giveUpPoints` das regras (−2 no
+   * Superfan, P186). O fim que a partida força (o 3º erro do Superfan, encerrar) não conta.
+   */
+  readonly gaveUp: boolean;
 };
 
 export type GameState = {
@@ -61,7 +66,11 @@ export type GameEvent =
   | { readonly type: "GUESS"; readonly guessId: string }
   | { readonly type: "LISTEN_MORE" }
   | { readonly type: "SKIP" }
-  | { readonly type: "GIVE_UP" }
+  /**
+   * Desistir. Com `forced`, quem encerra a rodada é a partida (o 3º erro do Superfan, encerrar), e
+   * não a pessoa: não custa os pontos de desistir (P186). A tela nunca manda `forced`.
+   */
+  | { readonly type: "GIVE_UP"; readonly forced?: true }
   /**
    * Pede a ajuda, com as opções já sorteadas por quem pede (core/help.ts): o reducer não
    * consulta o catálogo nem sorteia, e o evento salvo refaz a mesma rodada.
@@ -95,6 +104,7 @@ export function createRounds(
       attempts: [],
       help: null,
       helpAt: null,
+      gaveUp: false,
     };
     if (!track?.eligible.daily) {
       return {
@@ -151,8 +161,9 @@ function skip(state: GameState, round: RoundState): GameState {
   // da ajuda, e a última tentativa fica para a opção (o canSkip some com o botão antes dela).
   if (!rules.skip) return state;
   const attempts = [...round.attempts, { kind: "skip" } as const];
+  // Pular a última tentativa é desistir (a tela nem oferece: canSkip): custa o mesmo (P186).
   if (attempts.length >= rules.maxAttempts) {
-    return withRound(state, { ...round, attempts, status: "lost" });
+    return withRound(state, { ...round, attempts, status: "lost", gaveUp: true });
   }
   return withRound(state, {
     ...round,
@@ -205,7 +216,7 @@ export function reduce(state: GameState, event: GameEvent): GameState {
     case "HELP":
       return help(state, round, event.options);
     case "GIVE_UP":
-      return withRound(state, { ...round, status: "lost" });
+      return withRound(state, { ...round, status: "lost", gaveUp: event.forced !== true });
     case "VOID":
       // Uma falha de áudio que chega atrasada (pré-carregamento de outra rodada) não pode
       // anular a rodada em jogo.
@@ -235,14 +246,15 @@ export function roundErrors(round: RoundState): number {
 
 /**
  * Pontos de uma rodada, pelas regras do jogo: o acerto vale os pontos da etapa, ou os da ajuda
- * (P152, P153), e cada palpite errado soma `wrongPoints` (0; −5 no Superfan, P119). A anulada
- * (falha de áudio) não conta, nem os erros dela. Sem dizer as regras, as do Desafio, iguais às
- * do Normal nos pontos. O total e o máximo do dia ficam em records.ts (recordScore, recordMax).
+ * (P152, P186), cada palpite errado soma `wrongPoints` (0; −5 no Superfan, P119), e desistir soma
+ * `giveUpPoints` (0; −2 no Superfan, P186). A anulada (falha de áudio) não conta, nem os erros
+ * dela. Sem dizer as regras, as do Desafio, iguais às do Normal nos pontos. O total e o máximo do
+ * dia ficam em records.ts (recordScore, recordMax).
  */
 export function roundScore(round: RoundState, rules: ModeRules = MODE_RULES.song): number {
   if (round.status === "void") return 0;
   const errors = roundErrors(round) * rules.wrongPoints;
-  if (round.status !== "won") return errors;
+  if (round.status !== "won") return errors + (round.gaveUp ? rules.giveUpPoints : 0);
   const stage = Math.min(Math.max(round.stage, 0), rules.points.length - 1);
   return errors + (round.help ? rules.helpPoints : (rules.points[stage] ?? 0));
 }

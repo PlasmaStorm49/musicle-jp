@@ -91,9 +91,11 @@ export function isGameEvent(x: unknown): x is GameEvent {
         x.options.length <= HELP_OPTIONS &&
         x.options.every((id: unknown) => typeof id === "string" && id.length > 0)
       );
+    // O `forced` (o fim que o Superfan força, P186) nunca vem da tela nem é salvo.
+    case "GIVE_UP":
+      return x.forced === undefined;
     case "LISTEN_MORE":
     case "SKIP":
-    case "GIVE_UP":
     case "NEXT_ROUND":
       return true;
     default:

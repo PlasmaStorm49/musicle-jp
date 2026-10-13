@@ -1,8 +1,10 @@
 // Superfan (ME61): a partida difícil do modo por artista. As músicas do artista em ordem
 // sorteada, cada uma uma vez, no Desafio com as regras do Superfan (VARIANT_RULES: 3 trechos de
-// 1, 3 e 5 s; 3, 2 ou 1 ponto; −5 por palpite errado; a ajuda logo de cara, valendo −1). A
-// partida acaba no 3º erro (P119), ao encerrar ou quando todas as músicas tocaram. Puro, como o
-// Treino, sobre o mesmo saco (core/practice.ts): a semente vem da tela, e nada é salvo (P116).
+// 1, 3 e 5 s; 3, 2 ou 1 ponto; −5 por palpite errado; a ajuda logo de cara, valendo 0; −2 por
+// desistir, P186). A partida acaba no 3º erro (P119), ao encerrar ou quando todas as músicas
+// tocaram. Quando é a partida que encerra a música (o 3º erro, encerrar), o desistir vai com
+// `forced` e não custa os −2: não foi a pessoa que desistiu. Puro, como o Treino, sobre o mesmo
+// saco (core/practice.ts): a semente vem da tela, e nada é salvo (P116).
 
 import type { CatalogIndex } from "./catalog.ts";
 import { barSeconds } from "./player.ts";
@@ -102,7 +104,7 @@ export function superfanStep(run: SuperfanRun, event: GameEvent): SuperfanRun {
   if (next === game) return run;
   const stepped = { ...run, session: { ...run.session, game: next } };
   if (currentRound(next).status === "playing" && superfanErrors(stepped) >= SUPERFAN_ERRORS) {
-    next = reduce(next, { type: "GIVE_UP" });
+    next = reduce(next, { type: "GIVE_UP", forced: true });
     return { ...run, session: { ...run.session, game: next } };
   }
   return stepped;
@@ -148,15 +150,18 @@ export function superfanNext(
 }
 
 /**
- * Encerrar a partida: a música em jogo termina como desistida, e os erros dela contam. Com os 3
- * erros já cometidos (a revelação do último na tela), o fim é por erros, e não por encerrar.
+ * Encerrar a partida: a música em jogo termina como desistida, e os erros dela contam (os −2 de
+ * desistir não: quem encerra é a partida, P186). Com os 3 erros já cometidos (a revelação do
+ * último na tela), o fim é por erros, e não por encerrar.
  */
 export function quitSuperfan(run: SuperfanRun): SuperfanRun {
   if (run.end !== null) return run;
   if (superfanErrors(run) >= SUPERFAN_ERRORS) return close(run, "errors");
   const game = run.session.game;
   const ended =
-    game && currentRound(game).status === "playing" ? reduce(game, { type: "GIVE_UP" }) : game;
+    game && currentRound(game).status === "playing"
+      ? reduce(game, { type: "GIVE_UP", forced: true })
+      : game;
   return close({ ...run, session: { ...run.session, game: ended } }, "quit");
 }
 
