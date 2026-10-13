@@ -1,0 +1,116 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "artworkUrl": "fixtures/art/al19.svg",
+      "id": "fixture:al:al19",
+      "latinSource": null,
+      "releaseDate": "2019-08-30",
+      "title": "Midnight Drive - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "artworkUrl": "fixtures/art/al33.svg",
+      "id": "fixture:al:al33",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-07-01",
+      "title": "流星Highway",
+      "titleLatin": "Ryuusei Highway",
+      "type": "ep"
+    }
+  ],
+  "artistId": "fixture:ar:ar06",
+  "artists": [
+    {
+      "id": "fixture:ar:ar06",
+      "latinSource": null,
+      "name": "Hoshizora Drive",
+      "nameLatin": null
+    }
+  ],
+  "fetchedAt": "2026-10-05T12:00:00Z",
+  "provider": "fixture",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "fixture:al:al19",
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "durationMs": 274000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr21",
+      "latinSource": null,
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr21.wav"
+      },
+      "releaseDate": "2019-08-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "midnightdrive"
+        ]
+      },
+      "songKey": "midnightdrive|fixture:ar:ar06",
+      "storeUrl": null,
+      "title": "Midnight Drive",
+      "titleKeys": [
+        "midnightdrive"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al33",
+      "artistDisplay": "Hoshizora Drive",
+      "artistIds": [
+        "fixture:ar:ar06"
+      ],
+      "durationMs": 242000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr42",
+      "latinSource": "cutlet",
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr42.wav"
+      },
+      "releaseDate": "2026-07-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "ryuseihighway",
+          "流星highway"
+        ]
+      },
+      "songKey": "流星highway|fixture:ar:ar06",
+      "storeUrl": null,
+      "title": "流星Highway",
+      "titleKeys": [
+        "流星highway"
+      ],
+      "titleLatin": "Ryuusei Highway"
+    }
+  ]
+}

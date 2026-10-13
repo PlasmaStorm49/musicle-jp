@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
-import { type ArtistPlay, excludedForArtist } from "../core/artists.ts";
+import {
+  type ArtistPlay,
+  artistSections,
+  excludedForArtist,
+  type ListedArtist,
+} from "../core/artists.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import {
   type PracticeSession,
@@ -391,9 +396,10 @@ function Choosing({
 }
 
 /**
- * A lista dos artistas, na ordem do artists.toml, com a capa de cada um (P168). Tela nova: o foco
- * vai para o título. Na lista real, o selo da Apple fecha a página (P170), com o link da playlist
- * da parada (P169).
+ * A lista dos artistas, com a capa de cada um (P168): a principal, na ordem do artists.toml, e,
+ * embaixo, a seção de fora do Japão, com o título dela (P200). Tela nova: o foco vai para o título
+ * da página. Na lista real, o selo da Apple fecha a página (P170), com o link da playlist da parada
+ * (P169).
  */
 function ArtistChoice({
   list,
@@ -406,6 +412,8 @@ function ArtistChoice({
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
+  const { main, foreign } = artistSections(list);
+  const cards = { list, resolveUrl, onChoose };
   return (
     <div class="game practice artists">
       <header>
@@ -414,33 +422,56 @@ function ArtistChoice({
         </h1>
         <p class="hint">{t("artists.chooseHint")}</p>
       </header>
-      <ul class="home-modes">
-        {list.artists.map((entry, i) => (
-          <li key={entry.id}>
-            {/* O nome acessível é só o do artista; a contagem vem como descrição. */}
-            <button
-              type="button"
-              class="mode home-card artist-card"
-              aria-labelledby={`artist-${i}-name`}
-              aria-describedby={`artist-${i}-songs`}
-              // O 2º clique de um toque duplo no "Trocar de artista" ou no "Sim" cai aqui.
-              onClick={singleClick(() => onChoose(entry))}
-            >
-              <ArtistCover list={list} entry={entry} resolveUrl={resolveUrl} />
-              <span class="artist-card-text">
-                <span id={`artist-${i}-name`} class="mode-name">
-                  <ArtistName entry={entry} />
-                </span>
-                <span id={`artist-${i}-songs`} class="mode-hint">
-                  {tn("artists.songs", entry.songs)}
-                </span>
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
+      {main.length > 0 && <ArtistCards artists={main} {...cards} />}
+      {foreign.length > 0 && (
+        <section aria-labelledby="artists-foreign">
+          <h2 id="artists-foreign">{t("artists.foreign")}</h2>
+          <ArtistCards artists={foreign} {...cards} />
+        </section>
+      )}
       {list.provider === APPLE_PROVIDER && <Attribution href={PLAYLIST_URL} />}
     </div>
+  );
+}
+
+/** Os cartões de uma parte da lista. Os ids seguem a posição no índice: únicos na página. */
+function ArtistCards({
+  artists,
+  list,
+  resolveUrl,
+  onChoose,
+}: {
+  readonly artists: readonly ListedArtist[];
+  readonly list: ArtistList;
+  readonly resolveUrl: (url: string) => string;
+  readonly onChoose: (entry: ArtistListEntry) => void;
+}) {
+  return (
+    <ul class="home-modes">
+      {artists.map(({ entry, position: i }) => (
+        <li key={entry.id}>
+          {/* O nome acessível é só o do artista; a contagem vem como descrição. */}
+          <button
+            type="button"
+            class="mode home-card artist-card"
+            aria-labelledby={`artist-${i}-name`}
+            aria-describedby={`artist-${i}-songs`}
+            // O 2º clique de um toque duplo no "Trocar de artista" ou no "Sim" cai aqui.
+            onClick={singleClick(() => onChoose(entry))}
+          >
+            <ArtistCover list={list} entry={entry} resolveUrl={resolveUrl} />
+            <span class="artist-card-text">
+              <span id={`artist-${i}-name`} class="mode-name">
+                <ArtistName entry={entry} />
+              </span>
+              <span id={`artist-${i}-songs`} class="mode-hint">
+                {tn("artists.songs", entry.songs)}
+              </span>
+            </span>
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 }
 

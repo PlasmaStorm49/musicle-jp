@@ -5,6 +5,12 @@ import { searchKey } from "./normalize.ts";
 import type { Target } from "./types.ts";
 
 const JAPANESE = /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}]/u;
+const KOREAN = /\p{Script=Hangul}/u;
+/** Japonês ou coreano: o nome que pede o latino ao lado (ME55; o duo 소심한 오빠들, P199). */
+const NOT_LATIN = /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}\p{Script=Hangul}]/u;
+
+/** O idioma do texto para o leitor de tela pronunciar certo (o lang do elemento). */
+export type Lang = "ja" | "ko" | undefined;
 
 export type ItemView = {
   readonly id: string;
@@ -12,18 +18,18 @@ export type ItemView = {
   /** Romaji ou título oficial em latim; só quando é de fato diferente do título (P32). */
   readonly titleLatin: string | null;
   readonly artist: string;
-  /** O artista em latim (ME55), ao lado do japonês; null sem japonês ou com parceiro sem latino. */
+  /** O artista em latim (ME55), ao lado do japonês ou do coreano; null sem eles ou com parceiro sem latino. */
   readonly artistLatin: string | null;
   readonly artworkUrl: string | null;
-  /** "ja" quando o título tem kana ou kanji: leitores de tela pronunciam em japonês. */
-  readonly lang: "ja" | undefined;
+  /** "ja" quando o título tem kana ou kanji, "ko" com hangul: o leitor de tela pronuncia certo. */
+  readonly lang: Lang;
   /** O mesmo para o artista, que tem o seu: "IRIS OUT" é de 米津玄師. */
-  readonly artistLang: "ja" | undefined;
+  readonly artistLang: Lang;
 };
 
 export type RevealView = ItemView & {
   readonly albumTitle: string;
-  readonly albumLang: "ja" | undefined;
+  readonly albumLang: Lang;
   readonly explicit: boolean;
   readonly preview: {
     readonly url: string;
@@ -38,22 +44,26 @@ function latinIfDifferent(title: string, latin: string | null): string | null {
   return latin && searchKey(latin) !== searchKey(title) ? latin : null;
 }
 
-/** "ja" quando o texto tem kana ou kanji: o leitor de tela pronuncia em japonês. */
-export function langOf(text: string): "ja" | undefined {
+/**
+ * "ko" quando o texto tem hangul (os títulos do Bolbbalgan4, P199), "ja" quando tem kana ou kanji:
+ * o leitor de tela pronuncia no idioma certo.
+ */
+export function langOf(text: string): Lang {
+  if (KOREAN.test(text)) return "ko";
   return JAPANESE.test(text) ? "ja" : undefined;
 }
 
 /**
  * Cada artista conhecido da faixa ou do álbum trocado pelo nome latino dele: "米津玄師 & 宇多田ヒカル"
  * vira "Kenshi Yonezu & Hikaru Utada". O nome exibido é texto livre e pode citar um parceiro fora
- * do catálogo (超特急): se sobrar japonês, nada, porque meio traduzido confundiria.
+ * do catálogo (超特急): se sobrar japonês (ou coreano), nada, porque meio traduzido confundiria.
  */
 function artistLatinOf(
   index: CatalogIndex,
   display: string,
   artistIds: readonly string[],
 ): string | null {
-  if (!JAPANESE.test(display)) return null;
+  if (!NOT_LATIN.test(display)) return null;
   const known: { readonly name: string; readonly latin: string }[] = [];
   for (const id of artistIds) {
     const artist = index.artists.get(id);
@@ -64,7 +74,7 @@ function artistLatinOf(
   let text = display;
   // Função, e não string: numa string, "$&", "$'" e "$$" do nome latino virariam padrões.
   for (const { name, latin } of known) text = text.replaceAll(name, () => latin);
-  return JAPANESE.test(text) ? null : text;
+  return NOT_LATIN.test(text) ? null : text;
 }
 
 /** Capa que vai para um <img>: na parada real, só no host da Apple (as fixtures são relativas). */

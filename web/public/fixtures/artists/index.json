@@ -23,6 +23,24 @@
       "name": "ミナト",
       "nameLatin": "Minato",
       "songs": 2
+    },
+    {
+      "artworkUrl": "fixtures/art/al19.svg",
+      "file": "ar06.json",
+      "id": "fixture:ar:ar06",
+      "name": "Hoshizora Drive",
+      "nameLatin": null,
+      "section": "foreign",
+      "songs": 2
+    },
+    {
+      "artworkUrl": "fixtures/art/al10.svg",
+      "file": "ar11.json",
+      "id": "fixture:ar:ar11",
+      "name": "Re:Pulse",
+      "nameLatin": null,
+      "section": "foreign",
+      "songs": 3
     }
   ],
   "provider": "fixture",

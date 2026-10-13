@@ -14,6 +14,7 @@ import type {
   ArtistAlbum,
   ArtistCatalog,
   ArtistList,
+  ArtistListEntry,
   ArtistTrack,
   Catalog,
   Day,
@@ -308,6 +309,43 @@ describe("Artists: a lista (P147)", () => {
     // O selo fecha a página (P112, P170): depois do último cartão.
     const last = card(/^Banda/);
     expect(last.compareDocumentPosition(badge) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("a seção de fora do Japão (P200): embaixo, com o título dela, e o selo depois dela", async () => {
+    const net = server();
+    const index = FILES["index.json"] as ArtistList;
+    const [yokaze, banda] = index.artists;
+    net.replaced.set("index.json", {
+      ...index,
+      provider: "apple",
+      artists: [
+        { ...banda, section: "foreign" },
+        // Uma seção que este código não conhece fica na lista principal.
+        { ...yokaze, section: "outra" } as unknown as ArtistListEntry,
+      ],
+    });
+    setup(null, net);
+    await screen.findByRole("heading", { level: 1, name: "Artistas" });
+    const region = screen.getByRole("region", { name: "De fora do Japão" });
+    expect(screen.getByRole("heading", { level: 2, name: "De fora do Japão" })).toBeTruthy();
+    expect(region.contains(card(/^Banda/))).toBe(true);
+    expect(region.contains(card(/^夜風/))).toBe(false);
+    // A principal vem antes da seção, e os ids seguem a posição no índice: únicos na página.
+    expect(screen.getAllByRole("button").map((b) => b.getAttribute("aria-labelledby"))).toEqual([
+      "artist-1-name",
+      "artist-0-name",
+    ]);
+    const ids = [...document.querySelectorAll("[id]")].map((el) => el.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    const badge = screen.getByRole("link", { name: /Apple Music/ });
+    expect(region.compareDocumentPosition(badge) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("sem artista de fora do Japão, uma lista só, sem o título da seção", async () => {
+    setup();
+    await screen.findByRole("heading", { level: 1, name: "Artistas" });
+    expect(screen.queryByRole("heading", { level: 2 })).toBeNull();
+    expect(document.querySelectorAll("ul.home-modes")).toHaveLength(1);
   });
 
   it("nenhum id igual a uma rota (regra 17), na lista e na rodada", async () => {
