@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AteMusic</title>
-    <!-- Ícone vazio: sem ele, o navegador pede /favicon.ico e o console mostra um 404. -->
-    <link rel="icon" href="data:," />
+    <!-- O selo do style guide (P193), opaco (docs/identidade/README.md). Os dois ficam em public/,
+         e o Vite põe a base /musicle-jp/ no build. O ícone de app é o do iPhone na tela inicial. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <!-- A barra do navegador no celular, com o fundo de cada tema (o --bg do styles.css). -->
     <meta name="theme-color" content="#ffffff" data-color="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#000000" data-color="#000000" media="(prefers-color-scheme: dark)" />
