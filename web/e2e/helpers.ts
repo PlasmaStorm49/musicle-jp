@@ -19,6 +19,8 @@ declare global {
     __musicleAudioLog?: { readonly url: string; readonly offset: number }[];
     /** Texto "copiado" pelo Compartilhar (navigator.clipboard trocado no teste). */
     __copied?: string;
+    /** O data-theme do <html> quando o #app aparece, antes do main.tsx (theme.spec.ts). */
+    __themeAtLoad?: string;
   }
 }
 
