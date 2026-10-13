@@ -146,6 +146,9 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P193 | No topo da Início, o selo redondo vermelho com o 当 vazado, ao lado de "AteMusic" e da frase, como antes; o logo empilhado fica para quando houver lugar para ele (S34) |
 | P194 | Os monogramas dos artistas sem capa ficam com as 8 cores: são conteúdo, e não interface |
 | P195 | O SVG do style guide entra no repositório, em `docs/identidade/`, como a fonte das peças |
+| P196 | Os ícones do designer (X, ✓ e chevron) entram nas tentativas do Desafio, no lugar dos emojis; a revelação do Normal, os botões de avançar e o ✓ das abas ficam como estão |
+| P197 | O pulo nas tentativas ganha o chevron em cinza (o texto secundário), na linha tracejada de "Pulou" |
+| P198 | O chevron segue a cor do texto, e não o vermelho da prancha (o vermelho #EA3829 sobre o oliva dá 2,14:1, e ao lado do X podia ler como erro) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -898,7 +901,7 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 - **PD2:** peso Regular, mantendo os tamanhos e a hierarquia do beta.
 - **PD3 a PD5:** o "ate music" e o 当 foram desenhados à mão e servem só ao logo.
 - **PD6:** o sol, a lua, o compartilhar e as estatísticas virão depois; o resto dos ícones fica como no beta.
-- **PD7 e PD8:** os entalhes do X e do chevron são estilo, e não defeito (o usuário confirmou).
+- **PD7 e PD8:** os entalhes do X e do chevron são estilo, e não defeito (o usuário confirmou). A PD7 (os estados dos botões) ficou sem resposta: o Claude definiu, dentro dos tokens (PR C).
 - **PD9:** o logo horizontal não entra agora.
 - **PD10:** o verde é só para o acerto.
 - **PD11:** o nome sem espaço está aprovado (P179).
@@ -914,6 +917,7 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 | `--border` / `--border-strong` | `#D7D8DC` / `#939497` | `#2A2A2E` / `#6E6F74` | borda decorativa; borda de campo e de botão (3,03 e 3,28) |
 | `--text` / `--muted` | `#000000` / `#6D6E70` | `#D7D8DC` / `#9A9BA0` | texto e texto secundário |
 | `--primary` e `--on-primary` | `#BDBF7F` e `#000000` | iguais | botão principal (10,92) |
+| `--primary-hover` | `#A9AB6E` | `#D0D29C` | o botão principal com o mouse em cima (o texto preto a 8,74 e 13,38; PR C) |
 | `--accent-line` | `#969865` | `#BDBF7F` | aba ativa, hover, sugestão |
 | `--focus` | `#000000` | `#D7D8DC` | foco do teclado |
 | vermelho da marca | `#EA3829` | igual | o selo e o favicon, que são imagens (os tokens `--brand` e `--on-brand` saíram no PR B) |
@@ -928,7 +932,7 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 - O oliva nunca é texto: no branco, dá 1,92.
 - O vermelho fica com a marca, o erro e o que já tocou da barra; o oliva, com a ação.
 - Texto colorido sobre fundo tingido só com o par na lista do teste, a 4,5: o aviso passa (`--warn` sobre `--warn-soft`), mas o erro sobre o rosado dá 3,95. Nas linhas de acerto e erro, o texto é o normal, e a cor vai na borda e no ícone. O texto secundário dessas linhas (o latino e o artista) pediu os fundos mais claros da tabela: com o `#FDECEA` de antes, dava 4,46 (revisor e `/code-review` do PR A).
-- No escuro, o ⬛ das tentativas e da prévia do compartilhar ganha um fundo claro (`--emoji-bg`).
+- No escuro, o ⬛ da prévia e da cópia à mão do compartilhar ganha um fundo claro (`--emoji-bg`). Nas tentativas, desde o PR C, vão os ícones do designer, que não somem.
 - O selo da Apple fica a versão preta nos dois temas, sem alteração (P81): no escuro, o filete cinza dele o separa do fundo. Não há regra oficial para fundo escuro (ME82).
 
 **O CSS dos temas:** o claro no `:root`; o escuro em dois blocos iguais, o do `@media (prefers-color-scheme: dark)` com `:root:not([data-theme="light"])` (o Automático, só CSS) e o `:root[data-theme="dark"]` (a troca). O `color-scheme` acompanha, para os campos, o `<dialog>` e as barras de rolagem.
@@ -945,6 +949,17 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 - **O logo empilhado com o nome sem espaço (P179):** fica em `docs/identidade/logo-empilhado-atemusic.svg`, para o designer conferir. Ele ainda não está no site (S34).
 - **O `web/scripts/identity.test.ts`** confere que o selo e o favicon trazem o caminho do guia, que o ícone de app tem 180 × 180 e que o `index.html` cita os dois ícones que existem em `public/`.
 - **Os tokens `--brand` e `--on-brand` saíram:** o vermelho da marca vive nas imagens. Os monogramas ficam com as 8 cores (P194).
+
+**Ícones e estados dos botões (PR C):**
+- **Os ícones do designer entram nas tentativas do Desafio (P196):** o X errou, o chevron pulou (em cinza, P197) e o ✓ acertou, no lugar dos emojis ❌, ⬛ e ✅.
+  - O `ui/Icon.tsx` desenha um `<svg>` decorativo (`aria-hidden`) com `fill="currentColor"`. A cor vem do CSS por tema: `--bad`, `--muted` e `--ok`.
+  - Os caminhos ficam em `ui/assets/icons.ts`, gerado pelo `docs/identidade/extrair-pecas.cjs` a partir dos `path[33]`, `[35]` e `[42]` do guia. O `scripts/identity.test.ts` confere.
+  - O texto de compartilhar, a prévia dele e o ✓ das abas continuam com os símbolos de texto.
+- **Os estados dos botões (a PD7 ficou sem resposta, então o Claude definiu, dentro dos tokens):**
+  - **Passar o mouse:** só em `@media (hover: hover)`, porque no celular o hover fica preso depois do toque. O botão principal vai para o `--primary-hover` (`#A9AB6E` no claro, com o texto preto a 8,74; `#D0D29C` no escuro, a 13,38). Os outros ganham o fundo `--surface-2` e a borda na cor do texto, porque o fundo sozinho muda pouco (1,13:1 no claro). Os cartões da Início e do Treino ganham a borda oliva.
+  - **Pressionado:** o botão desce 1 px. Raro: se o clique cair no 1 px de cima, o botão sai de baixo do ponteiro e o clique se perde (revisor do PR C; aceito).
+  - **Desativado:** opacidade de 0,6, sem hover.
+  - **Foco:** o `--focus` do PR A.
 
 ## Origem
 
