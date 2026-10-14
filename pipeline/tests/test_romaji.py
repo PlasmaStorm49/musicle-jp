@@ -49,6 +49,12 @@ def test_symbols_and_invisible_characters_are_dropped():
     assert out == ("Kimi to",)
 
 
+def test_hangul_is_not_read():
+    # O cutlet só lê japonês: o hangul volta igual, só sem os espaços. O build não o exibe como
+    # latino (ME84), e a leitura coreana vem do aliases.toml (P203). Se um dia ele ler, o teste avisa.
+    assert romaji.romanize("우주를 줄게") == ("우주를줄게",)
+
+
 def test_middle_dot_becomes_space():
     assert romaji.romanize("ヴィオラ・ノート")[0] == "Viora nooto"
 

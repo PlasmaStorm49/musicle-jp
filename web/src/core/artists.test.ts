@@ -3,6 +3,7 @@ import { artists, realArtists } from "../../test/artists.ts";
 import { catalog, schedule } from "../../test/fixtures.ts";
 import {
   type ArtistPlay,
+  artistSections,
   cardArtwork,
   excludedForArtist,
   MONOGRAM_COLORS,
@@ -66,7 +67,7 @@ describe("a imagem do cartão (P168, P171)", () => {
     expect(cardArtwork({ ...artists.list, provider: "apple" }, broken)).toBeNull();
   });
 
-  it("os 8 artistas reais têm capa, e todas do host da Apple", () => {
+  it("os artistas reais têm capa, e todas do host da Apple", () => {
     for (const entry of realArtists.list.artists) {
       expect(cardArtwork(realArtists.list, entry), entry.name).not.toBeNull();
     }
@@ -85,6 +86,35 @@ describe("a imagem do cartão (P168, P171)", () => {
   });
 });
 
+describe("artistSections (P200, P201)", () => {
+  const names = (part: readonly { readonly entry: { readonly name: string } }[]) =>
+    part.map((a) => a.entry.name);
+
+  it("nas fixtures: a principal na ordem do índice, e a de fora do Japão em ordem alfabética", () => {
+    const { main, foreign } = artistSections(artists.list);
+    expect(names(main)).toEqual(["夜風シアター", "青井ユウ", "ミナト"]);
+    expect(names(foreign)).toEqual(["Hoshizora Drive", "Re:Pulse"]);
+    // A posição é a do índice inteiro: os ids dos cartões não se repetem entre as duas.
+    expect([...main, ...foreign].map((a) => a.position)).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  it("na lista real: os dois artistas de fora do Japão (P199), em ordem alfabética", () => {
+    expect(names(artistSections(realArtists.list).foreign)).toEqual([
+      "Bolbbalgan4",
+      "System Of A Down",
+    ]);
+  });
+
+  it("uma seção que este código não conhece fica na principal", () => {
+    const [first] = artists.list.artists;
+    if (!first) throw new Error("lista de fixtures vazia");
+    const odd = { ...first, section: "outra" } as unknown as typeof first;
+    const { main, foreign } = artistSections({ ...artists.list, artists: [odd] });
+    expect(main).toHaveLength(1);
+    expect(foreign).toHaveLength(0);
+  });
+});
+
 describe("indexArtist (P140)", () => {
   it("o arquivo de um artista vira um índice do jogo, com uma faixa por música", () => {
     const index = indexArtist(file("ar07"));
@@ -98,7 +128,7 @@ describe("indexArtist (P140)", () => {
     expect(() => indexArtist(newer)).toThrow(UnsupportedCatalogError);
   });
 
-  it("os arquivos reais também servem (os 6 artistas do PR B)", () => {
+  it("os arquivos reais também servem (todos os artistas da lista real)", () => {
     expect(realArtists.files.length).toBeGreaterThan(0);
     for (const real of realArtists.files) {
       const index = indexArtist(real);

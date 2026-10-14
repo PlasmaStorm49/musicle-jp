@@ -381,3 +381,109 @@ latin = "Mafumafu toribyuuto arubamu ~Tensei~"
 # própria Apple dá ao álbum na loja JP (P187).
 [albums."apple:al:1535667015"]  # INSPIRE -加藤ミリヤTRIBUTE-; cutlet: "INSPIRE - Katou Miriya TRIBUTE-"
 latin = "INSPIRE -MILIYAH KATO TRIBUTE-"
+
+# --- Bolbbalgan4 (13/10/2026): o título em hangul na busca (P202) ---
+# A tela mostra o título em inglês da 1ª edição; o da reedição em hangul (ids 1695…, fora pelo
+# exclude_albums) entra aqui, para quem conhece a música pelo nome coreano. O par é o da reedição:
+# o mesmo álbum, a mesma posição e a mesma duração (até 2 s de diferença).
+
+[tracks."apple:tr:1446837995"]  # Galaxy (1695481793)
+aliases = ["우주를 줄게"]
+
+[tracks."apple:tr:1446837996"]  # Fight Day (1695481794)
+aliases = ["싸운날"]
+
+[tracks."apple:tr:1446837998"]  # Mean (1695481796)
+aliases = ["심술"]
+
+[tracks."apple:tr:1446837999"]  # Hard To Love (1695481797)
+aliases = ["나만 안되는 연애"]
+
+[tracks."apple:tr:1446838000"]  # Chocolate Drive (1695481798)
+aliases = ["초콜릿"]
+
+[tracks."apple:tr:1446838181"]  # Freesia (1695481799)
+aliases = ["프리지아"]
+
+[tracks."apple:tr:1446838183"]  # Ring (1695481801)
+aliases = ["반지"]
+
+[tracks."apple:tr:1446838184"]  # When I Fall In Love (1695481802)
+aliases = ["사랑에 빠졌을 때"]
+
+[tracks."apple:tr:1550022983"]  # We Loved (1695488583)
+aliases = ["남이 될 수 있을까"]
+
+[tracks."apple:tr:1550029641"]  # Some (1695480969)
+aliases = ["썸 탈꺼야"]
+
+[tracks."apple:tr:1550029643"]  # Fix me (1695480971)
+aliases = ["고쳐주세요"]
+
+[tracks."apple:tr:1550029644"]  # Imagine (1695480973)
+aliases = ["상상"]
+
+[tracks."apple:tr:1550029645"]  # To My Youth (1695480974)
+aliases = ["나의 사춘기에게"]
+
+[tracks."apple:tr:1550545936"]  # Picnic (1695483036)
+aliases = ["나들이 갈까"]
+
+[tracks."apple:tr:1550545937"]  # Bom (1695483037)
+aliases = ["나만, 봄"]
+
+[tracks."apple:tr:1550545938"]  # Stars over me (1695483038)
+aliases = ["별 보러 갈래?"]
+
+[tracks."apple:tr:1550563023"]  # Workaholic (1695491676)
+aliases = ["워커홀릭"]
+
+[tracks."apple:tr:1606419099"]  # Blank (1695482965)
+aliases = ["빈칸을 채워주시오"]
+
+[tracks."apple:tr:1606419100"]  # Hug (1695482966)
+aliases = ["품"]
+
+[tracks."apple:tr:1606419101"]  # Leo (feat. BAEKHYUN) (1695482967)
+aliases = ["나비와 고양이"]
+
+[tracks."apple:tr:1606419103"]  # Counseling (1695482968)
+aliases = ["카운슬링"]
+
+[tracks."apple:tr:1606419104"]  # Dandelion (1695482969)
+aliases = ["민들레"]
+
+[tracks."apple:tr:1606428785"]  # Awkward (1695514662)
+aliases = ["어색한 사이"]
+
+[tracks."apple:tr:1606429026"]  # Happiness is all around (1695514664)
+aliases = ["행복은 늘 가까이에 있어"]
+
+# --- Bolbbalgan4: o que só existe em hangul (P203) ---
+# A leitura pela Romanização Revisada (국어의 로마자 표기법; a norma de 2014, na cópia do Wikisource),
+# conferida no Wiktionary: 좋다고 se lê [조타고] (a aspiração do ㅎ, cap. 3, art. 1.4), e o 의 se
+# escreve "ui" mesmo quando soa "i" (cap. 2, art. 1). O cutlet não lê hangul (ME84).
+
+# O título em inglês, na busca: o da Wikipédia em inglês e da lista do MAMA 2017, e o da Apple US
+# para a versão japonesa, 好きだと言って ("Tell Me You Love Me (Japanese Edition)").
+[tracks."apple:tr:1695483013"]  # 좋다고 말해 (Hidden Track)
+latin = "Jotago malhae (Hidden Track)"
+aliases = ["Tell Me You Love Me"]
+
+[tracks."apple:tr:1695481277"]  # 가끔씩
+latin = "Gakkeumssik"
+
+[tracks."apple:tr:1445810364"]  # 상남자의 고백 (feat. BOL4), de Kim Jisoo
+latin = "Sangnamjaui gobaek (feat. BOL4)"
+
+[albums."apple:al:1445810363"]  # 상남자의 고백 (feat. BOL4) - Single
+latin = "Sangnamjaui gobaek (feat. BOL4)"
+
+# O duo tem nome em latim na própria Apple, o da loja US para o mesmo id (P187), como no Bugs:
+# "소심한 오빠들(Sosimboys)".
+[artists."apple:ar:829519661"]  # 소심한 오빠들
+latin = "Sosimboys"
+
+# O título coreano da música, no Bugs: "이별맛집 (feat. 볼빨간사춘기)" (P202).
+[tracks."apple:tr:1461754922"]  # Farewell Restaurant (feat. BOL4)
+aliases = ["이별맛집"]

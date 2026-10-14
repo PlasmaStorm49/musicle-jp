@@ -182,6 +182,8 @@ export const ptBR = {
 
   // Modo por artista (M13): o Desafio, em rodadas sem fim, com as músicas de um artista.
   "artists.title": "Artistas",
+  // O título da seção dos artistas de fora do Japão, embaixo da lista principal (P200).
+  "artists.foreign": "De fora do Japão",
   "artists.chooseHint":
     "Escolha o artista e depois o modo: ouça o trecho e digite o nome exato da música.",
   "artists.songs.one": "{count} música",

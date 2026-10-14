@@ -16,3 +16,13 @@ same_song = [["tr15", "trx05"]]
 [[artists]]
 id = "ar01"  # ミナト: versões do mesmo título, TV Size, crédito "(… from …)" e faixa excluída
 exclude_tracks = ["trx07"]
+
+# A seção de fora do Japão (P200): em ordem inversa aqui, para o teste provar que é o build que
+# põe a seção em ordem alfabética (P201).
+[[artists]]
+id = "ar11"  # Re:Pulse
+section = "foreign"
+
+[[artists]]
+id = "ar06"  # Hoshizora Drive
+section = "foreign"

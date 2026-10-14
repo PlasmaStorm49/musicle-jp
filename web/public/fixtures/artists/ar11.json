@@ -1,0 +1,152 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "artworkUrl": "fixtures/art/al10.svg",
+      "id": "fixture:al:al10",
+      "latinSource": null,
+      "releaseDate": "2025-10-10",
+      "title": "RIOT",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "artworkUrl": "fixtures/art/al28.svg",
+      "id": "fixture:al:al28",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-06-03",
+      "title": "ゼロ距離Love - Single",
+      "titleLatin": "Zero kyori Love",
+      "type": "single"
+    }
+  ],
+  "artistId": "fixture:ar:ar11",
+  "artists": [
+    {
+      "id": "fixture:ar:ar11",
+      "latinSource": null,
+      "name": "Re:Pulse",
+      "nameLatin": null
+    }
+  ],
+  "fetchedAt": "2026-10-05T12:00:00Z",
+  "provider": "fixture",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "fixture:al:al10",
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "durationMs": 187000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": true,
+      "id": "fixture:tr:tr10",
+      "latinSource": "cutlet",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr10.wav"
+      },
+      "releaseDate": "2025-10-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "kyosoriot",
+          "狂騒riot"
+        ]
+      },
+      "songKey": "狂騒riot|fixture:ar:ar11",
+      "storeUrl": null,
+      "title": "狂騒Riot",
+      "titleKeys": [
+        "狂騒riot"
+      ],
+      "titleLatin": "Kyousou Riot"
+    },
+    {
+      "albumId": "fixture:al:al10",
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "durationMs": 178000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr25",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr25.wav"
+      },
+      "releaseDate": "2025-10-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "live"
+        ]
+      },
+      "songKey": "live|fixture:ar:ar11",
+      "storeUrl": null,
+      "title": "Live",
+      "titleKeys": [
+        "live"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "fixture:al:al28",
+      "artistDisplay": "Re:Pulse",
+      "artistIds": [
+        "fixture:ar:ar11"
+      ],
+      "durationMs": 195000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr35",
+      "latinSource": "cutlet",
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr35.wav"
+      },
+      "releaseDate": "2026-06-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "zerokyorilove",
+          "ぜろ距離love"
+        ]
+      },
+      "songKey": "ぜろ距離love|fixture:ar:ar11",
+      "storeUrl": null,
+      "title": "ゼロ距離Love",
+      "titleKeys": [
+        "ぜろ距離love"
+      ],
+      "titleLatin": "Zero kyori Love"
+    }
+  ]
+}

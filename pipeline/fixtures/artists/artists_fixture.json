@@ -159,6 +159,19 @@
           }
         }
       ]
+    },
+    "ar11": {
+      "entries": [
+        { "rank": 1, "ref": "tr10" },
+        { "rank": 2, "ref": "tr35" },
+        { "rank": 3, "ref": "tr25" }
+      ]
+    },
+    "ar06": {
+      "entries": [
+        { "rank": 1, "ref": "tr21" },
+        { "rank": 2, "ref": "tr42" }
+      ]
     }
   }
 }

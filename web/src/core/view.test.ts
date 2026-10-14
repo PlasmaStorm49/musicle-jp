@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { catalog, realCatalog } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
 import type { Catalog } from "./types.ts";
-import { optionView, revealView } from "./view.ts";
+import { langOf, optionView, revealView } from "./view.ts";
 
 const index = indexCatalog(catalog);
 
@@ -96,6 +96,21 @@ describe("artista em latim ao lado do japonês (ME55)", () => {
     expect(view?.artistLatin).toBeNull();
   });
 
+  it("um nome em hangul também ganha o latino (o duo 소심한 오빠들, P199)", () => {
+    const duo = { id: "fixture:ar:ar97", name: "소심한 오빠들", nameLatin: "Sosimboys" };
+    const hangul = changed(
+      "fixture:tr:tr05",
+      { artistDisplay: "소심한 오빠들", artistIds: ["fixture:ar:ar97"] },
+      [{ ...duo, latinSource: "manual" }] as Catalog["artists"][number][],
+    );
+    const view = optionView(hangul, "fixture:tr:tr05", "song");
+    expect(view?.artistLatin).toBe("Sosimboys");
+    expect(view?.artistLang).toBe("ko");
+    // O que sobra em hangul, sem latino, apaga tudo, como o japonês.
+    const partial = changed("fixture:tr:tr05", { artistDisplay: "夜風シアター & 김지수" });
+    expect(optionView(partial, "fixture:tr:tr05", "song")?.artistLatin).toBeNull();
+  });
+
   it("o nome latino entra como está, também com $ (não vira padrão de substituição)", () => {
     const cash = { id: "fixture:ar:ar98", name: "現金", nameLatin: "Ca$$h $& $'" };
     const index2 = changed(
@@ -185,5 +200,18 @@ describe("revealView", () => {
     for (const bad of ["javascript:alert(1)", "https://evil.test/jp/song/1"]) {
       expect(revealView(indexCatalog(withLink(bad)), "fixture:tr:tr01")?.storeUrl).toBeNull();
     }
+  });
+});
+
+describe("langOf", () => {
+  it.each([
+    ["ガラスの靴", "ja"],
+    ["米津玄師", "ja"],
+    ["우주를 줄게", "ko"], // o hangul do Bolbbalgan4 (P199)
+    ["상남자의 고백 (feat. BOL4)", "ko"],
+    ["Galaxy", undefined],
+    ["ＬＯＶＥ　ＳＯＮＧ", undefined],
+  ])("%s: %s", (text, lang) => {
+    expect(langOf(text)).toBe(lang);
   });
 });

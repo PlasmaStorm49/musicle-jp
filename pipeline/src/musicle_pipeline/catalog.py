@@ -23,7 +23,7 @@ from musicle_pipeline.models import (
     RawTrack,
     check_snapshots,
 )
-from musicle_pipeline.normalize import display, search_keys, song_key
+from musicle_pipeline.normalize import display, needs_romaji, search_keys, song_key
 from musicle_pipeline.romaji_cache import RomajiCache, album_text, artist_text, track_text
 from musicle_pipeline.similarity import album_similar
 
@@ -52,8 +52,10 @@ class Curation:
             return from_provider, "provider"
         variants = self.romaji.variants(text)
         # O texto que o cutlet não leu fica guardado como ele mesmo (romanize_each): serve à
-        # busca, mas exibido seria um "latino" em japonês.
-        if variants and variants[0] != text:
+        # busca, mas exibido seria um "latino" em japonês. A leitura parcial também (ME84): o
+        # kanji que ele pula ("Higashi 亰 kanibarizumu") e o hangul, que ele devolve só sem os
+        # espaços ("우주를줄게"). Sobrou letra fora de a-z, não é latino: o aliases.toml corrige.
+        if variants and not needs_romaji(variants[0]):
             return variants[0], self.romaji.engine
         return None, None
 

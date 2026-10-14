@@ -8,7 +8,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from musicle_pipeline.artists import INDEX, card_artwork
+from musicle_pipeline.artists import INDEX, card_artwork, list_order
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
 from musicle_pipeline.normalize import title_key
@@ -100,6 +100,11 @@ def validate_artist_list(data: JSON, raw: bytes | None = None) -> list[str]:
         problems.append("artista ou arquivo repetido na lista")
     if INDEX in files:
         problems.append(f"um artista não pode usar o nome {INDEX}")
+    # A principal primeiro, e cada seção depois, em ordem alfabética (P200, P201).
+    if [e["id"] for e in list_order(data["artists"])] != ids:
+        problems.append(
+            "a lista fora de ordem: a principal antes das seções, e cada seção em ordem alfabética"
+        )
     for e in data["artists"]:
         # O web monta o caminho pelo id do provedor: "apple:ar:123" → 123.json.
         if e["file"] != e["id"].rsplit(":", 1)[-1] + ".json":

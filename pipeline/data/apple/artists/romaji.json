@@ -35,8 +35,16 @@
       "Ado no utatte mita arubamu",
       "Ado no utatte mita album"
     ],
+    "Ara Malikian & サージ・タンキアン": [
+      "Ara Malikian & saaji tankian",
+      "Ara Malikian & serge tankian"
+    ],
     "Black Bird / Tiny Dancers / 思い出は奇麗で": [
       "Black Bird /Tiny Dancers /omoide wa kirei de"
+    ],
+    "Bolbbalgan4, バニラアコースティック, Sweden Laundry, 20 Years of Age, Letter Flow, Kim Jisoo, WH3N, Boramiyu & Choi Yu Ree": [
+      "Bolbbalgan4, banira akoosutikku, Sweden Laundry, 20 Years of Age, Letter Flow, Kim Jisoo, WH3N, Boramiyu & Choi Yu Ree",
+      "Bolbbalgan4, vanilla acoustic, Sweden Laundry, 20 Years of Age, Letter Flow, Kim Jisoo, WH3N, Boramiyu & Choi Yu Ree"
     ],
     "Creepy Nuts, Ayase & 幾田りら": [
       "Creepy Nuts, Ayase & ikuden ri ra"
@@ -165,9 +173,17 @@
     "Sing along!!! (feat. 幾田りら)": [
       "Sing along!!! (feat. ikuden ri ra)"
     ],
+    "Sweden Laundry, バニラアコースティック, Kim Sa Rang, Kim Jisoo, 20 Years of Age, Letter Flow & Bolbbalgan4": [
+      "Sweden Laundry, banira akoosutikku, Kim Sa Rang, Kim Jisoo, 20 Years of Age, Letter Flow & Bolbbalgan4",
+      "Sweden Laundry, vanilla acoustic, Kim Sa Rang, Kim Jisoo, 20 Years of Age, Letter Flow & Bolbbalgan4"
+    ],
     "Sweet Memories feat. アイナ・ジ・エンド": [
       "Sweet Memories feat. Aina ji endo",
       "Sweet Memories feat. Aina ji end"
+    ],
+    "System Of A Down & ウータン・クラン": [
+      "System Of A Down & Uutan kuran",
+      "System Of A Down & Wu-Tang clan"
     ],
     "TIME TO LUV (feat. 幾田りら)": [
       "TIME TO LUV (feat. ikuden ri ra)"
@@ -1122,6 +1138,10 @@
       "Banana fisshu no hamabe to kuroi niji (with Aimer)",
       "Banana fish no hamabe to kuroi niji (with Aimer)"
     ],
+    "バニラアコースティック": [
+      "Banira akoosutikku",
+      "Vanilla acoustic"
+    ],
     "パイナップル・アイランド": [
       "Painappuru airando",
       "Pineapple island"
@@ -1379,6 +1399,12 @@
     ],
     "ムーンライト伝説": [
       "Muunraito densetsu"
+    ],
+    "メイス": [
+      "Meisu"
+    ],
+    "メイス, SEAN \"PUFFY\" COMBS, リル・キム & System Of A Down": [
+      "Meisu, SEAN \"PUFFY\" COMBS, riru kimu& System Of A Down"
     ],
     "メッセージ": [
       "Messeeji",
@@ -2772,6 +2798,9 @@
     "赤春花 (feat. 幾田りら)": [
       "Aka Haruka (feat. ikuden ri ra)"
     ],
+    "赤頬思春期": [
+      "Aka hoo shishun ki"
+    ],
     "踊": [
       "Odori"
     ],
@@ -2982,6 +3011,18 @@
     ],
     "黄金の日々": [
       "Ougon no hibi"
+    ],
+    "가끔씩": [
+      "가끔씩"
+    ],
+    "상남자의 고백 (feat. BOL4)": [
+      "상남자의고백 (feat. BOL4)"
+    ],
+    "소심한 오빠들": [
+      "소심한오빠들"
+    ],
+    "좋다고 말해 (Hidden Track)": [
+      "좋다고말해 (Hidden Track)"
     ]
   },
   "versions": {

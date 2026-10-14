@@ -18,6 +18,26 @@ export function cardArtwork(list: ArtistList, entry: ArtistListEntry): string | 
   return list.provider !== APPLE_PROVIDER || isAppleUrl("artwork", url) ? url : null;
 }
 
+/** Um artista da lista, com a posição dele no índice (os ids dos cartões saem dela). */
+export type ListedArtist = { readonly entry: ArtistListEntry; readonly position: number };
+
+/**
+ * A lista dividida pela seção (P200): a principal, dos japoneses, e a de fora do Japão, cada uma
+ * na ordem do índice (o pipeline já põe a seção em ordem alfabética, P201). Um valor que este
+ * código não conhece fica na principal: o `loadArtistList` não confere as entradas.
+ */
+export function artistSections(list: ArtistList): {
+  readonly main: readonly ListedArtist[];
+  readonly foreign: readonly ListedArtist[];
+} {
+  const main: ListedArtist[] = [];
+  const foreign: ListedArtist[] = [];
+  list.artists.forEach((entry, position) => {
+    (entry.section === "foreign" ? foreign : main).push({ entry, position });
+  });
+  return { main, foreign };
+}
+
 /** Quantas cores tem o monograma (as classes .monogram-0 a .monogram-7 do CSS). */
 export const MONOGRAM_COLORS = 8;
 

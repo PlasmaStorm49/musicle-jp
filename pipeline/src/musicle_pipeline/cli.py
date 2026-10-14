@@ -6,7 +6,7 @@ import argparse
 import contextlib
 import re
 import sys
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -23,7 +23,7 @@ from musicle_pipeline.catalog import Curation, build_catalog
 from musicle_pipeline.fake_assets import generate_assets
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
 from musicle_pipeline.models import InputError
-from musicle_pipeline.normalize import has_unassigned
+from musicle_pipeline.normalize import has_unassigned, needs_romaji
 from musicle_pipeline.paths import (
     apple_snapshots_dir,
     artist_paths,
@@ -401,6 +401,14 @@ def romanize_each(
     return done, failed
 
 
+def partial_reads(done: Mapping[str, tuple[str, ...]], failed: Sequence[str] = ()) -> list[str]:
+    """Os textos lidos cuja leitura ainda tem letra fora de a-z (ME84): o kanji que o cutlet pula
+    e o hangul, que ele devolve igual ("가끔씩") ou só sem os espaços ("우주를줄게"), sem erro. A
+    leitura fica no cache, porque ajuda a busca ("Higashi 亰 cannibalism"), e o build não a exibe
+    (Curation.latin). Os que deram erro (`failed`) já têm o aviso deles."""
+    return [t for t, variants in done.items() if t not in failed and needs_romaji(variants[0])]
+
+
 def _artist_texts(provider_name: str) -> list[str]:
     """Os textos das músicas que ficam no modo por artista (as canônicas de cada um)."""
     provider = ARTIST_PROVIDERS[provider_name]()
@@ -454,6 +462,12 @@ def _romanize(args: argparse.Namespace) -> int:
     for text in failed:
         print(
             f"aviso: o romaji não leu {text!r}; ficou o próprio texto (corrija no aliases.toml)",
+            file=sys.stderr,
+        )
+    for text in partial_reads(done, failed):
+        print(
+            f"aviso: a leitura de {text!r} ({done[text][0]!r}) ainda tem letra fora do latino; "
+            "fica para a busca, mas não vira latino (corrija no aliases.toml)",
             file=sys.stderr,
         )
     new = RomajiCache(
