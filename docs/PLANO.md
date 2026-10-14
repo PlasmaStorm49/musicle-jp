@@ -149,6 +149,11 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P196 | Os ícones do designer (X, ✓ e chevron) entram nas tentativas do Desafio, no lugar dos emojis; a revelação do Normal, os botões de avançar e o ✓ das abas ficam como estão |
 | P197 | O pulo nas tentativas ganha o chevron em cinza (o texto secundário), na linha tracejada de "Pulou" |
 | P198 | O chevron segue a cor do texto, e não o vermelho da prancha (o vermelho #EA3829 sobre o oliva dá 2,14:1, e ao lado do X podia ler como erro) |
+| P199 | Dois artistas de fora do Japão no modo por artista, pedidos por amigos do usuário: Bolbbalgan4 (BOL4, coreano, 1188975595) e System of a Down (462715) |
+| P200 | Eles ficam na mesma aba, numa seção embaixo da lista principal, "De fora do Japão" (sem aba nova) |
+| P201 | Dentro da seção, ordem alfabética; a lista principal continua na ordem do `artists.toml` (P118) |
+| P202 | Bolbbalgan4: a tela mostra o título em inglês da 1ª edição ("Galaxy"), e o da reedição em hangul ("우주를 줄게") entra na busca |
+| P203 | O título que só existe em hangul ganha embaixo a leitura pela Romanização Revisada do coreano, como o Hepburn no japonês (regra 11 do pipeline), conferida numa fonte; o título oficial em inglês, quando existe, vai para a busca |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -339,6 +344,14 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME81. Uma revisão das leituras do cutlet nos artistas, fora dos créditos. Exemplos: 蜃気楼 do Eve "Shinki rou", 私は最強 "Watakushi wa saikyou", あなたに出会わなければ "deawanakerebaa".
 - ME82. A variante branca do selo da Apple no tema escuro: o Toolbox tem as duas (P81), e só a preta entrou no repositório. Não achei regra oficial para fundo escuro (busca de 13/10/2026); baixar a branca pede a permissão do usuário.
 - ME83. As conferências da base no `dist/index.html` (`deploy.yml` e `ci.yml`) recusam só `/assets/` sem a base: um `/favicon.svg` sem ela passaria. Generalizar para todo `src` e `href` que comece com `/` e conferir que o `favicon.svg` e o `apple-touch-icon.png` estão no `dist` (revisor do PR B do M12). Mexe em `.github/`: ler o diff do workflow antes do merge.
+- ME84 e ME85 (a seção de fora do Japão, feitas no branch `m13-de-fora-do-japao`): o romaji com letra fora do latino não vira título latino, e o classificador do modo por artista pega o ao vivo com " - " no parêntese, o set de DJ e o "(Clean)" (Apêndice K). A ME79 continua: a mesma conferência nos validadores.
+- ME86. Uma regra do `artists.toml` para separar músicas que a chave junta: "Someday" (2026, 165,8 s) e "Someday (feat. Ha Hyun Sang)" (2023, 181,7 s), do Bolbbalgan4, viram uma só, e a de 2023 some (Hipótese: são músicas diferentes). Hoje só existe o `same_song`, que junta.
+- ME87. No teclado coreano, a sílaba que ainda está sendo montada ("우주ㄹ", "우주르") não é prefixo da chave do título ("우주를줄게"), e o `COMPOSING_TAIL` do `GuessInput.tsx` só trata kana. Hipótese, sem teste num teclado de verdade: a lista de sugestões some até a sílaba fechar.
+- ME88. O `strip_version_suffix` da parada (`normalize.py`) tem o mesmo defeito do " - " dentro do parêntese: "Song (Remix - feat. X)" vira "Song (Remix". Muda com os vetores e o par em TS (regra 6), num PR à parte.
+- ME89. O e2e "entrar num diário pela nav, com o teclado" falhou uma vez na CI do PR #38 (13/10/2026): o Enter no link da nav deixou a Início na tela. Passou na reexecução e em 30 de 30 rodadas locais. Hipótese: o Enter chega antes de o app ouvir a troca do fragmento, no executor mais lento. Conferir se o `open()` do `e2e/helpers.ts` espera o app pronto antes do teclado.
+- ME90. O `artistDisplay` da loja JP escreve em katakana parceiros ocidentais que não estão no snapshot (System of a Down: "ウータン・クラン" em Shame, "サージ・タンキアン" em The Rough Dog, "リル・キム" em Will They Die 4 You), e o `artistLatinOf` não acha latino para eles. Não há curadoria do `artistDisplay`: uma chave no `aliases.toml` dos artistas que troque o nome exibido resolveria (revisão da seção de fora do Japão).
+- ME91. Nada na CI acusa título publicado que precisa de romaji e ficou sem latino: o aviso do `romanize` sai só para o texto novo, e o `--check` e o `validate-artists` não olham isso (já há casos, como 杪夏 e 蝸旋). Uma nota no `build-artists` ou uma conferência no `validate-artists`, ao lado da ME79.
+- ME92. No modo por artista, o latino do álbum nunca aparece: a revelação mostra só o título do álbum, e o `optionView` de álbum é só do Normal. O comentário do `aliases.toml` dos artistas que diz que a revelação o mostra não bate com o código.
 
 **Feitas:**
 
@@ -878,6 +891,29 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
   - INSPIRE -加藤ミリヤTRIBUTE- (era "Katou Miriya"): nenhum snapshot tem o id de artista de 加藤ミリヤ, e a loja US não tem o álbum. Vale o latino que a própria Apple dá ao álbum na loja JP, "INSPIRE -MILIYAH KATO TRIBUTE-" (P187).
   - Ficou para o catálogo da parada (outro arquivo, outro PR; ME80): nenhum latino exibido com os erros dos artistas; "yonetsugenshi" está só na busca do artista 米津玄師, ao lado de "kenshiyonezu". Dois créditos com o nome lido por máquina: 点描の唄 (feat. 井上苑子), "Inoue Sonoko", e 罪と罰と雨とキス (佐野勇斗&吉田仁人), "Sano Hayato & Yoshida Jinto" (a loja US escreve "Hayato Sano & Jinto Yoshida").
   - As outras leituras erradas do cutlet, fora dos créditos, ficaram para a ME81.
+- **De fora do Japão (P199 a P203)**, 13/10/2026, branch `m13-de-fora-do-japao`: Bolbbalgan4 e System of a Down, pedidos por amigos do usuário, numa seção embaixo da lista. São 12 artistas e 1334 músicas.
+  - **A seção** (P200, P201):
+    - a chave opcional `section = "foreign"` no `artists.toml`, a única aceita (`SECTIONS`, em `artists.py`);
+    - o `build-artists` grava a `section` só nesses e põe a seção depois da lista principal, em ordem alfabética (`section_order`: o nome normalizado, ou o latino quando o nome não é latino, e o id no empate); o `validate-artists` recusa o índice fora dessa ordem;
+    - o schema ganhou o campo opcional, sem `schemaVersion` nova: o `loadArtistList` não recusa chave desconhecida, e o site antigo mostra todos numa lista só, com os de fora no fim;
+    - na tela, o `artistSections` (`core/artists.ts`) divide a lista, e a seção vem num `<section>` com o `h2` "De fora do Japão", antes do selo da Apple. Os ids dos cartões seguem a posição no índice, e uma seção que o código não conhece fica na principal;
+    - nas fixtures, Re:Pulse (ar11) e Hoshizora Drive (ar06), nessa ordem no `artists.toml`: o índice os inverte, e o e2e confere.
+  - **A busca** (13/10/2026, 23:38 UTC, só os dois ids):
+    - Bolbbalgan4 (1188975595; o lookup chama de "BOL4", as faixas de "Bolbbalgan4"): 183 faixas em 47 álbuns; 87 músicas publicadas;
+    - System of a Down (462715): 236 faixas em 23 álbuns, com o lookup de músicas no limite de 200; 76 músicas. Nenhum dos dois passa do teto, e a lista `singles` (P172) não precisou.
+  - **Curadoria do Bolbbalgan4:**
+    - a loja JP tem duas edições dos mesmos EPs: a de 2016 a 2020, em inglês, e a reedição (ids 1695…), em hangul, com o mesmo álbum, a mesma posição e a mesma duração. As 10 reedições vão para o `exclude_albums` (P202);
+    - 12 faixas no `exclude_tracks`: as do RED ICKLE em hangul que repetem o RED PLANET (com o id menor, a de 2016 seria a canônica), "가끔씩 (우지윤의 보컬 스틸)" e "RED PLANET (Hidden Track) - 좋다고 말해" (ficam as da reedição, de título limpo, e a posição no lookup passa para elas), "남이 될 수 있을까" (We Loved) e o "LOVE" do EP japonês, creditado a "赤頬思春期", que a chave junta com o "Love" coreano de 2023 (0,1 s de diferença; achado no `/code-review`: a mais antiga seria a canônica, ao contrário das outras versões japonesas);
+    - 8 pares no `same_song`: as 7 versões japonesas (2019 e 2020) com a original coreana, que fica a canônica, e o tema da novela com o título em outra ordem;
+    - `aliases.toml`: o hangul de 24 músicas em inglês na busca, e o título coreano de Farewell Restaurant (이별맛집, do Bugs);
+    - a leitura pela Romanização Revisada do que só existe em hangul (P203), conferida na norma (a cópia do Wikisource; o site do 국립국어원 não abriu) e no Wiktionary: "Jotago malhae (Hidden Track)", "Gakkeumssik" e "Sangnamjaui gobaek (feat. BOL4)" (a faixa e o álbum). "Tell Me You Love Me" (Wikipédia, MAMA 2017 e a Apple US para 好きだと言って) entra na busca; as traduções sem fonte oficial ("Occasionally", "A Man's Confession") ficaram de fora;
+    - o duo 소심한 오빠들 tem nome em latim na própria Apple, "Sosimboys" na loja US para o mesmo id: vale ele (P187), e não a leitura.
+  - **Curadoria do System of a Down:** "Fuck the System" com a clean "F**k The System (**** The System)" e "Streamline" com "ストリームライン" (o título da trilha na loja JP) no `same_song`; "Soldier Side - Intro" (a abertura, como o "After Dark -prologue-" da Aimer) e uma faixa do DJ Starscream creditada a ele no `exclude_tracks`.
+  - **O pipeline** (os 10 artistas de antes e as fixtures não mudaram, pelo `build-artists`):
+    - ME85, no `artists.py`: o " - " dentro de um parêntese não conta como sufixo ("Sugar (Live at Irving Plaza, NYC, NY - January 1999)" sai como ao vivo); "(Mixed)" e o álbum "(DJ Mix)" saem; "(Clean)" é versão da mesma música. Antes, 22 faixas passavam como originais;
+    - ME84: o cutlet não lê hangul (devolve igual, ou só sem os espaços), e o `Curation.latin` passou a recusar leitura com letra fora de a-z. O `romanize` avisa, e a leitura fica no cache, para a busca. O catálogo da parada não mudou: as 3 leituras parciais de antes já tinham o latino à mão.
+  - **A tela:** o `langOf` dá `lang="ko"` ao texto com hangul, e o latino do artista (ME55) vale também para o nome em hangul: o "Sosimboys" ficava de fora, porque o `artistLatinOf` só olhava o japonês (achado no `revisor` e no `/code-review`). A Noto Sans JP não tem as sílabas hangul (nenhuma faixa do `unicode-range` cobre U+AC00 a U+D7A3), e o navegador usa a fonte do sistema nelas.
+  - **Conferido com a parada real** (`?data=real`): uma rodada do Livre de cada um, com a prévia do servidor de áudio da Apple; "우주를" sugere "Galaxy".
 - **Web** (PR C):
   - Aba `#artistas`, na nav e na home até o site ficar público (P117, P126): um `<li>` da nav e um cartão, fáceis de tirar.
   - A lista carrega ao entrar na aba e cada artista ao ser escolhido (`loadArtistList` e `loadArtist`, em `data/source.ts`, com `no-cache` e a versão de cada arquivo); o estado (`useArtistStore`) fica no `App`, então trocar de aba não perde a sessão, e recarregar volta à lista (P116). Uma falha mostra "Tentar de novo" só na aba (P144).
