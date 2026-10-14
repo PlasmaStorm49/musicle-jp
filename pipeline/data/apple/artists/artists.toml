@@ -198,3 +198,77 @@ same_song = [["1332972950", "1348202944"]]  # 恋の遮断機 feat. H ZETTRIO / 
 id = "1489581870"  # 幾田りら (Lilas Ikuta; não o "Lilas" 1704820090, de títulos em francês)
 # A versão em inglês (英語版) do tema do 崩壊:スターレイル; a [Japanese Ver.] fica.
 exclude_tracks = ["1786299392"]  # Nameless Faces (feat. Lilas Ikuta) [英語版]
+
+# A seção de fora do Japão (P199, P200), pedida por amigos do usuário. A ordem dela na tela é a
+# alfabética (P201), feita pelo build: a deste arquivo não conta.
+
+[[artists]]
+id = "1188975595"  # Bolbbalgan4 (BOL4, 볼빨간사춘기; coreano)
+section = "foreign"
+# A loja JP tem duas edições dos mesmos EPs: a de 2016 a 2020, com os títulos em inglês, e a
+# reedição (ids 1695…), em hangul, com o mesmo álbum, a mesma posição e a mesma duração (a mesma
+# gravação). Fica a em inglês (P202), e o hangul entra na busca pelo aliases.toml.
+exclude_albums = [
+  "1695481792",  # Full Album RED PLANET
+  "1695480968",  # Red Diary Page.1 - EP
+  "1695494336",  # Red Diary 'Hidden Track' - Single
+  "1695483035",  # 사춘기집Ⅰ 꽃기운 - EP (Puberty BookⅠ Bom)
+  "1695491675",  # Two Five - EP
+  "1695491626",  # New York - Single
+  "1695482964",  # Puberty BookⅡ Pum - EP
+  "1695486555",  # Filmlet - Single
+  "1695489825",  # Seoul - EP
+  "1695514661",  # 쇼파르뮤직 컴필레이션, Vol. 3 '어색한 사이' - Single (Awkward)
+]
+exclude_tracks = [
+  # O Half Album RED ICKLE das duas edições traz, em hangul, faixas do RED PLANET em inglês (com o
+  # id menor, a de 2016 seria a canônica de Chocolate Drive, Fight Day, Ring e Mean).
+  "1446837173",  # 초콜릿 (Chocolate Drive)
+  "1446837175",  # 싸운날 (Fight Day)
+  "1446837176",  # 반지 (Ring)
+  "1446837177",  # 심술 (Mean)
+  "1695481003",  # 초콜릿
+  "1695481004",  # 싸운날
+  "1695481005",  # 반지
+  "1695481276",  # 심술
+  # 가끔씩 só existe em hangul: fica a da reedição, sem o "(우지윤의 보컬 스틸)", com a mesma
+  # duração; a posição no lookup da de 2016 passa para ela.
+  "1446837178",  # 가끔씩 (우지윤의 보컬 스틸)
+  # 좋다고 말해 também: fica a da reedição, "좋다고 말해 (Hidden Track)", e não a de título
+  # "RED PLANET (Hidden Track) - 좋다고 말해".
+  "1446838471",
+  "1695488583",  # 남이 될 수 있을까 (We Loved, em hangul)
+  # "LOVE" do LOVE - EP japonês (2019), creditado a "赤頬思春期": a chave o junta com "Love" (Merry
+  # Go Round, 2023, com 0,1 s de diferença), e o mais antigo seria a canônica. Fica a coreana,
+  # como nas versões japonesas abaixo, e a posição no lookup passa para ela.
+  "1490378396",
+]
+# As versões em japonês dos lançamentos japoneses (2019 e 2020): a mesma música. Não entram como
+# música (a canônica é a coreana, a mais antiga), mas o título fica para a exclusão dos diários
+# (P141).
+same_song = [
+  ["1446837995", "1462868363"],  # Galaxy / 宇宙をあげる
+  ["1446837996", "1462868546"],  # Fight Day / 喧嘩した日
+  ["1446837998", "1462868548"],  # Mean / 意地悪
+  ["1446837999", "1462868549"],  # Hard To Love / 私だけダメな恋
+  ["1550029645", "1473905895"],  # To My Youth / 私の思春期へ
+  ["1550545937", "1508075220"],  # Bom / 私だけ、春
+  ["1695483013", "1462868365"],  # 좋다고 말해 (Hidden Track) / 好きだと言って
+  # O tema da novela, com o título em outra ordem na trilha completa.
+  ["1552435274", "1646166898"],  # You and I From the Beginning / From the beginning You and I
+]
+
+[[artists]]
+id = "462715"  # System of a Down
+section = "foreign"
+same_song = [
+  ["193127088", "193536792"],  # Fuck the System / F**k The System (**** The System), a clean
+  ["193127585", "1445663256"],  # Streamline / ストリームライン (o título da trilha na loja JP)
+]
+exclude_tracks = [
+  # A abertura de Mezmerize (1 min), e não a música inteira (Soldier Side, de Hypnotize), como o
+  # "After Dark -prologue-" da Aimer.
+  "187472343",  # Soldier Side - Intro
+  # Faixa do DJ Starscream (The New Leader), creditada ao System of a Down na loja.
+  "217680068",  # Introducing the New Leader
+]

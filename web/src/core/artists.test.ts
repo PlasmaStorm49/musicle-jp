@@ -67,7 +67,7 @@ describe("a imagem do cartão (P168, P171)", () => {
     expect(cardArtwork({ ...artists.list, provider: "apple" }, broken)).toBeNull();
   });
 
-  it("os 8 artistas reais têm capa, e todas do host da Apple", () => {
+  it("os artistas reais têm capa, e todas do host da Apple", () => {
     for (const entry of realArtists.list.artists) {
       expect(cardArtwork(realArtists.list, entry), entry.name).not.toBeNull();
     }
@@ -98,6 +98,13 @@ describe("artistSections (P200, P201)", () => {
     expect([...main, ...foreign].map((a) => a.position)).toEqual([0, 1, 2, 3, 4]);
   });
 
+  it("na lista real: os dois artistas de fora do Japão (P199), em ordem alfabética", () => {
+    expect(names(artistSections(realArtists.list).foreign)).toEqual([
+      "Bolbbalgan4",
+      "System Of A Down",
+    ]);
+  });
+
   it("uma seção que este código não conhece fica na principal", () => {
     const [first] = artists.list.artists;
     if (!first) throw new Error("lista de fixtures vazia");
@@ -121,7 +128,7 @@ describe("indexArtist (P140)", () => {
     expect(() => indexArtist(newer)).toThrow(UnsupportedCatalogError);
   });
 
-  it("os arquivos reais também servem (os 6 artistas do PR B)", () => {
+  it("os arquivos reais também servem (todos os artistas da lista real)", () => {
     expect(realArtists.files.length).toBeGreaterThan(0);
     for (const real of realArtists.files) {
       const index = indexArtist(real);

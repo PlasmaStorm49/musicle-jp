@@ -79,6 +79,24 @@
       "name": "幾田りら",
       "nameLatin": "Lilas Ikuta",
       "songs": 54
+    },
+    {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/56/bf/9c/56bf9cc9-5303-7331-970e-5b5e0e6da98e/8804775084331.jpg/300x300bb.jpg",
+      "file": "1188975595.json",
+      "id": "apple:ar:1188975595",
+      "name": "Bolbbalgan4",
+      "nameLatin": "BOL4",
+      "section": "foreign",
+      "songs": 87
+    },
+    {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ba/e7/84/bae7844a-4b22-eb21-51f7-68930c5d3437/888880467751.jpg/300x300bb.jpg",
+      "file": "462715.json",
+      "id": "apple:ar:462715",
+      "name": "System Of A Down",
+      "nameLatin": null,
+      "section": "foreign",
+      "songs": 76
     }
   ],
   "provider": "apple",

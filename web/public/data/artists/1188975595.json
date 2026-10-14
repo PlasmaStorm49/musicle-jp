@@ -1,0 +1,3720 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "Mad Clown",
+      "artistIds": [
+        "apple:ar:478253828",
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/99/00/1b/99001b13-e3fc-ec93-f09d-3e0812b80449/cover-_DS.jpg/300x300bb.jpg",
+      "id": "apple:al:1202077175",
+      "latinSource": null,
+      "releaseDate": "2017-02-03",
+      "title": "Lost Without You (feat. Bolbbalgan4) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "San E",
+      "artistIds": [
+        "apple:ar:332945313",
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music127/v4/13/1b/18/131b1898-2617-46c8-5f71-d9832f9f7446/cover-San_E.jpg/300x300bb.jpg",
+      "id": "apple:al:1239715618",
+      "latinSource": null,
+      "releaseDate": "2017-05-23",
+      "title": "Mohae - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "SOHEE",
+      "artistIds": [
+        "apple:ar:941551912",
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/76/c4/fd/76c4fdf0-1181-5511-a1c2-a20838fa8bf6/cover-_DS_iTunes.jpg/300x300bb.jpg",
+      "id": "apple:al:1439424967",
+      "latinSource": null,
+      "releaseDate": "2018-10-18",
+      "title": "Hurry Up (feat. BOL4) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ed/0e/e5/ed0ee58a-3e62-817b-64a4-df7515c05100/jacket-818592.jpg/300x300bb.jpg",
+      "id": "apple:al:1442198390",
+      "latinSource": null,
+      "releaseDate": "2018-11-15",
+      "title": "My Trouble - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Kim Jisoo",
+      "artistIds": [
+        "apple:ar:937712428",
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/ac/e7/36/ace736d3-7371-7720-c854-4c64c744e237/8806184783799.png/300x300bb.jpg",
+      "id": "apple:al:1445810363",
+      "latinSource": "manual",
+      "releaseDate": "2014-12-12",
+      "title": "상남자의 고백 (feat. BOL4) - Single",
+      "titleLatin": "Sangnamjaui gobaek (feat. BOL4)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/7b/af/8e/7baf8ec9-e0b5-726a-e763-61bcdb3f7371/jacket-585591.jpg/300x300bb.jpg",
+      "id": "apple:al:1446837994",
+      "latinSource": null,
+      "releaseDate": "2016-08-29",
+      "title": "Full Album RED PLANET",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Sweden Laundry, バニラアコースティック, Kim Sa Rang, Kim Jisoo, 20 Years of Age, Letter Flow & Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:805277945",
+        "apple:ar:347261741",
+        "apple:ar:937712428",
+        "apple:ar:805412174",
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/10/97/7d/10977d1f-3999-69cd-d66d-a70c2d7b5372/jacket-544788.jpg/300x300bb.jpg",
+      "id": "apple:al:1447463498",
+      "latinSource": null,
+      "releaseDate": "2016-01-08",
+      "title": "Romantic Wish - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "소심한 오빠들",
+      "artistIds": [
+        "apple:ar:829519661",
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/d3/e3/2b/d3e32b84-e32f-9fbf-af51-cc924f405ff9/farewell_restaurant.jpg/300x300bb.jpg",
+      "id": "apple:al:1461754920",
+      "latinSource": null,
+      "releaseDate": "2014-11-17",
+      "title": "Farewell Restaurant - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/2a/24/84/2a248422-fdfc-ae5c-1c27-618b8316c3f9/cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1526697298",
+      "latinSource": null,
+      "releaseDate": "2020-08-07",
+      "title": "Our Beloved BoA #2 - SM STATION - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/b8/7f/33/b87f33b6-a12a-699a-c167-0e8b733f4b34/8809764960153.jpg/300x300bb.jpg",
+      "id": "apple:al:1541295080",
+      "latinSource": null,
+      "releaseDate": "2020-11-21",
+      "title": "START-UP (Original Television Soundtrack), Pt. 12 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4 & 20 Years of Age",
+      "artistIds": [
+        "apple:ar:1188975595",
+        "apple:ar:805412174"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/f6/d0/98/f6d0986b-3787-fd99-9719-37c14d52919c/8804775081675.jpg/300x300bb.jpg",
+      "id": "apple:al:1550022982",
+      "latinSource": null,
+      "releaseDate": "2017-06-13",
+      "title": "We Loved - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/56/bf/9c/56bf9cc9-5303-7331-970e-5b5e0e6da98e/8804775084331.jpg/300x300bb.jpg",
+      "id": "apple:al:1550029640",
+      "latinSource": null,
+      "releaseDate": "2017-09-28",
+      "title": "Red Diary Page.1 - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/fb/38/e9/fb38e9ff-7e75-bd31-7982-bc194978030b/BOL4_FirstLove_3000.jpg/300x300bb.jpg",
+      "id": "apple:al:1550053073",
+      "latinSource": null,
+      "releaseDate": "2018-01-10",
+      "title": "#First Love - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/4c/ce/e4/4ccee407-5d63-fb78-d590-92a4673270a0/8804775094712.jpg/300x300bb.jpg",
+      "id": "apple:al:1550263480",
+      "latinSource": null,
+      "releaseDate": "2018-07-17",
+      "title": "Red Diary 'Hidden Track' - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/d3/4c/1c/d34c1cf3-0d36-df1e-c9a3-c0d16faf8c3f/8804775092534.jpg/300x300bb.jpg",
+      "id": "apple:al:1550539050",
+      "latinSource": null,
+      "releaseDate": "2018-05-24",
+      "title": "Red Diary, Page. 2 - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Sweden Laundry",
+      "artistIds": [
+        "apple:ar:805277945",
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/3f/9d/f2/3f9df288-6aa8-6532-3d82-f34ada8da928/8804775099205.jpg/300x300bb.jpg",
+      "id": "apple:al:1550545017",
+      "latinSource": null,
+      "releaseDate": "2018-12-10",
+      "title": "Be Your Christmas - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/9d/b5/87/9db58794-f431-59c0-2605-6a92e203015a/8804775123320.jpg/300x300bb.jpg",
+      "id": "apple:al:1550545935",
+      "latinSource": null,
+      "releaseDate": "2019-04-02",
+      "title": "Puberty BookⅠ Bom - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/c5/4e/16/c54e16b3-0d17-efc8-1734-7fef93332a2f/8804775134425.jpg/300x300bb.jpg",
+      "id": "apple:al:1550563018",
+      "latinSource": null,
+      "releaseDate": "2019-09-10",
+      "title": "Two Five - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4 & WH3N",
+      "artistIds": [
+        "apple:ar:1188975595",
+        "apple:ar:1304256809"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/03/79/a6/0379a637-2787-4591-2e78-b72d3dcfa084/8804775137174.jpg/300x300bb.jpg",
+      "id": "apple:al:1550569426",
+      "latinSource": null,
+      "releaseDate": "2019-11-27",
+      "title": "New York - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/1a/15/05/1a1505ec-a1ab-e1c1-98a3-e48804472feb/3000.jpg/300x300bb.jpg",
+      "id": "apple:al:1552435273",
+      "latinSource": null,
+      "releaseDate": "2017-05-17",
+      "title": "Ruler - Master of the Mask, Pt. 2 (Original Television Soundtrack) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/ca/35/4d/ca354d01-7122-8b0e-5ab5-8f11472c8eb2/191953146737.jpg/300x300bb.jpg",
+      "id": "apple:al:1591877805",
+      "latinSource": null,
+      "releaseDate": "2021-10-26",
+      "title": "Butterfly Effect - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/39/1c/4e/391c4e33-c241-233d-5612-42092f691a34/8804775152788.jpg/300x300bb.jpg",
+      "id": "apple:al:1606409353",
+      "latinSource": null,
+      "releaseDate": "2020-11-04",
+      "title": "Filmlet - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/a6/68/01/a6680128-2169-5d5b-5303-83591ef60cc4/8804775143373.jpg/300x300bb.jpg",
+      "id": "apple:al:1606419098",
+      "latinSource": null,
+      "releaseDate": "2020-05-13",
+      "title": "Puberty BookⅡ Pum - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4, バニラアコースティック, Sweden Laundry, 20 Years of Age, Letter Flow, Kim Jisoo, WH3N, Boramiyu & Choi Yu Ree",
+      "artistIds": [
+        "apple:ar:1188975595",
+        "apple:ar:347261741",
+        "apple:ar:805277945",
+        "apple:ar:805412174",
+        "apple:ar:937712428",
+        "apple:ar:1304256809",
+        "apple:ar:1495022606"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/f7/16/9a/f7169a4c-8c71-0a49-9d0b-7501c7517c2b/8804775138942.jpg/300x300bb.jpg",
+      "id": "apple:al:1606428784",
+      "latinSource": null,
+      "releaseDate": "2020-01-15",
+      "title": "Shofar Music Compilation Vol.3 'Awkward' - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/90/43/16/9043167b-e627-c025-ff6f-576ea8524e02/191953169354.jpg/300x300bb.jpg",
+      "id": "apple:al:1619282185",
+      "latinSource": null,
+      "releaseDate": "2022-04-20",
+      "title": "Seoul - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/1b/72/9d/1b729db0-a35d-f024-182f-c3ee3e12b27c/191953275475.jpg/300x300bb.jpg",
+      "id": "apple:al:1681517761",
+      "latinSource": null,
+      "releaseDate": "2023-04-16",
+      "title": "Love.zip - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/2d/29/d5/2d29d5e8-886d-5bef-fec4-fe4831abff02/6942248337026.jpg/300x300bb.jpg",
+      "id": "apple:al:1695481002",
+      "latinSource": null,
+      "releaseDate": "2016-04-22",
+      "title": "Half Album RED ICKLE - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/b4/51/10/b45110c8-7ea4-ec86-26a7-1c59228f9222/6942248336944.jpg/300x300bb.jpg",
+      "id": "apple:al:1695483012",
+      "latinSource": null,
+      "releaseDate": "2016-12-21",
+      "title": "Full Album RED PLANET [Hidden Track] - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/6d/72/53/6d7253c2-d261-565c-dd85-a452b06343eb/8809435812316_Cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1717172953",
+      "latinSource": null,
+      "releaseDate": "2014-12-05",
+      "title": "Misaeng (Incomplete Life), Pt. 4 (Original Television Soundtrack) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/d5/89/5d/d5895d26-d6ef-4908-83fb-26b71e8a90d8/191953322636.jpg/300x300bb.jpg",
+      "id": "apple:al:1720724415",
+      "latinSource": null,
+      "releaseDate": "2023-12-12",
+      "title": "Merry Go Round - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/19/c4/98/19c4985f-25ae-638a-f270-9c94248ce084/888272132304_Cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1738411214",
+      "latinSource": null,
+      "releaseDate": "2024-03-31",
+      "title": "Psycho, Loveholic [THE SEASONS: Red Carpet with Lee Hyo Ri] - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/29/8f/d9/298fd9e2-bf5f-75f2-511f-c5144ffe1eeb/191953369273.jpg/300x300bb.jpg",
+      "id": "apple:al:1750840581",
+      "latinSource": null,
+      "releaseDate": "2024-06-13",
+      "title": "Lips (feat. GISELLE) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "WOOSUNG",
+      "artistIds": [
+        "apple:ar:1463153647"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/20/79/dd/2079dd82-235c-041e-1459-6f55d754237b/198846004877.jpg/300x300bb.jpg",
+      "id": "apple:al:1769477554",
+      "latinSource": null,
+      "releaseDate": "2024-10-04",
+      "title": "4444",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0d/34/30/0d34303d-103b-8098-bfef-f3251ac59461/191953394855.jpg/300x300bb.jpg",
+      "id": "apple:al:1774436959",
+      "latinSource": null,
+      "releaseDate": "2024-10-23",
+      "title": "Bloom - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1d/f4/82/1df4822c-f427-b94a-b68f-0572e0fdfebb/886446305325.jpg/300x300bb.jpg",
+      "id": "apple:al:1781140004",
+      "latinSource": null,
+      "releaseDate": "2016-12-27",
+      "title": "HWARANG, Pt. 3 (Music from the Original TV Series) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/79/45/ea/7945eab0-65ae-85e7-879b-54f6087ee0de/8800334173607.jpg/300x300bb.jpg",
+      "id": "apple:al:1867459812",
+      "latinSource": null,
+      "releaseDate": "2026-01-13",
+      "title": "Loosing Heart (Veiled Musician X BOL4 with Yeouido-dong Three Star) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/80/24/40/80244077-154f-178f-af51-3aa46b17ce0e/cover_KM0024521_1.jpg/300x300bb.jpg",
+      "id": "apple:al:1894743168",
+      "latinSource": null,
+      "releaseDate": "2026-04-22",
+      "title": "Find You - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9a/0d/30/9a0d305b-0ca8-cea7-06c3-ced297e29c98/191953539881.jpg/300x300bb.jpg",
+      "id": "apple:al:1895707772",
+      "latinSource": null,
+      "releaseDate": "2026-05-06",
+      "title": "Someday (from Sold Out On You (Original Soundtrack) Part 6) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1c/f0/14/1cf014b1-4f77-83ce-9a77-cae6554d55e0/cover_KM0024964_1.jpg/300x300bb.jpg",
+      "id": "apple:al:6792700625",
+      "latinSource": null,
+      "releaseDate": "2026-07-22",
+      "title": "Please Summer! - Single",
+      "titleLatin": null,
+      "type": "single"
+    }
+  ],
+  "artistId": "apple:ar:1188975595",
+  "artists": [
+    {
+      "id": "apple:ar:1188975595",
+      "latinSource": "provider",
+      "name": "Bolbbalgan4",
+      "nameLatin": "BOL4"
+    },
+    {
+      "id": "apple:ar:1304256809",
+      "latinSource": null,
+      "name": "WH3N",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1463153647",
+      "latinSource": null,
+      "name": "WOOSUNG",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1495022606",
+      "latinSource": null,
+      "name": "Choi Yu Ree",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:332945313",
+      "latinSource": null,
+      "name": "San E",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:347261741",
+      "latinSource": "provider",
+      "name": "バニラアコースティック",
+      "nameLatin": "Vanilla Acoustic"
+    },
+    {
+      "id": "apple:ar:478253828",
+      "latinSource": null,
+      "name": "Mad Clown",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:805277945",
+      "latinSource": null,
+      "name": "Sweden Laundry",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:805412174",
+      "latinSource": null,
+      "name": "20 Years of Age",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:829519661",
+      "latinSource": "manual",
+      "name": "소심한 오빠들",
+      "nameLatin": "Sosimboys"
+    },
+    {
+      "id": "apple:ar:937712428",
+      "latinSource": null,
+      "name": "Kim Jisoo",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:941551912",
+      "latinSource": null,
+      "name": "SOHEE",
+      "nameLatin": null
+    }
+  ],
+  "fetchedAt": "2026-10-13T23:38:40Z",
+  "provider": "apple",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "apple:al:1202077175",
+      "artistDisplay": "Mad Clown",
+      "artistIds": [
+        "apple:ar:478253828",
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 215904,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1202077218",
+      "latinSource": null,
+      "popularity": 0.5977,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/88/ff/91/88ff91d0-1661-a992-0159-3cd5c1013731/mzaf_11269381541969110002.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-02-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "lostwithochofeatbolbbalgan4"
+        ]
+      },
+      "songKey": "lostwithoutyou|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/lost-without-you-feat-bolbbalgan4/1202077175?i=1202077218",
+      "title": "Lost Without You (feat. Bolbbalgan4)",
+      "titleKeys": [
+        "lostwithoutyou"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1239715618",
+      "artistDisplay": "San E",
+      "artistIds": [
+        "apple:ar:332945313",
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 203711,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1239715629",
+      "latinSource": null,
+      "popularity": 0.5057,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/92/9f/4c/929f4cf9-5880-2cfe-4463-2eda77b7e128/mzaf_8519104333329850938.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-05-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "mohaefeatbol4"
+        ]
+      },
+      "songKey": "mohae|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/mohae-feat-bol4/1239715618?i=1239715629",
+      "title": "Mohae (feat. BOL4)",
+      "titleKeys": [
+        "mohae"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1439424967",
+      "artistDisplay": "SOHEE",
+      "artistIds": [
+        "apple:ar:941551912",
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 180778,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1439424968",
+      "latinSource": null,
+      "popularity": 0.7356,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/b3/fa/e9/b3fae941-a197-33d7-e617-102a0faa94fa/mzaf_8714125794023884225.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-10-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "furryupfeatbol4"
+        ]
+      },
+      "songKey": "hurryup|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/hurry-up-feat-bol4/1439424967?i=1439424968",
+      "title": "Hurry Up (feat. BOL4)",
+      "titleKeys": [
+        "hurryup"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1442198390",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 197480,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1442198391",
+      "latinSource": null,
+      "popularity": 0.8391,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/31/f4/e2/31f4e21b-15a9-6c5f-9d2a-1a55d8034fd7/mzaf_2269965344378796561.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-11-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "mytroble"
+        ]
+      },
+      "songKey": "mytrouble|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/my-trouble/1442198390?i=1442198391",
+      "title": "My Trouble",
+      "titleKeys": [
+        "mytrouble"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1445810363",
+      "artistDisplay": "Kim Jisoo",
+      "artistIds": [
+        "apple:ar:937712428",
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 195000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1445810364",
+      "latinSource": "manual",
+      "popularity": 0.0345,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b7/7c/56/b77c5642-a8cb-3827-1ddc-e0811d3fa934/mzaf_13752426516906573140.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-12-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "sangnamjauigobaekfeatbol4",
+          "상남자의고백featbol4"
+        ]
+      },
+      "songKey": "상남자의고백|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/%EC%83%81%EB%82%A8%EC%9E%90%EC%9D%98-%EA%B3%A0%EB%B0%B1-feat-bol4/1445810363?i=1445810364",
+      "title": "상남자의 고백 (feat. BOL4)",
+      "titleKeys": [
+        "상남자의고백"
+      ],
+      "titleLatin": "Sangnamjaui gobaek (feat. BOL4)"
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 213853,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446837995",
+      "latinSource": null,
+      "popularity": 0.9425,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/42/a1/c1/42a1c1ed-e640-b238-0162-fccc43098cee/mzaf_4144343304546908288.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-08-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "galaxy",
+          "우주를줄게"
+        ]
+      },
+      "songKey": "galaxy|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/galaxy/1446837994?i=1446837995",
+      "title": "Galaxy",
+      "titleKeys": [
+        "galaxy",
+        "宇宙をあげる"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 189188,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446837996",
+      "latinSource": null,
+      "popularity": 0.8161,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/dd/b1/e7/ddb1e719-ab32-49b6-52cc-527946d22748/mzaf_2446626071570281857.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-04-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "fightday",
+          "싸운날"
+        ]
+      },
+      "songKey": "fightday|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/fight-day/1446837994?i=1446837996",
+      "title": "Fight Day",
+      "titleKeys": [
+        "fightday",
+        "喧嘩した日"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 169478,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446837997",
+      "latinSource": null,
+      "popularity": 0.977,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b2/0f/21/b20f21ec-b056-75b2-4ae7-d3e3f4ef476a/mzaf_16689176670457167503.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-08-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "yoi"
+        ]
+      },
+      "songKey": "youi|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/you-i/1446837994?i=1446837997",
+      "title": "You(=I)",
+      "titleKeys": [
+        "youi"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 157750,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446837998",
+      "latinSource": null,
+      "popularity": 0.7816,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/78/76/c4/7876c470-a672-e4c4-4921-ddb746b2627c/mzaf_13511417423263509101.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-08-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "mean",
+          "심술"
+        ]
+      },
+      "songKey": "mean|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/mean/1446837994?i=1446837998",
+      "title": "Mean",
+      "titleKeys": [
+        "mean",
+        "意地悪"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 219482,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446837999",
+      "latinSource": null,
+      "popularity": 0.8621,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c1/48/5b/c1485b6c-fa2c-2643-89d8-e880dca4b2a5/mzaf_5077165495407750631.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-08-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "hardtolove",
+          "나만안되는연애"
+        ]
+      },
+      "songKey": "hardtolove|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/hard-to-love/1446837994?i=1446837999",
+      "title": "Hard To Love",
+      "titleKeys": [
+        "hardtolove",
+        "私だけだめな恋"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 190280,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446838000",
+      "latinSource": null,
+      "popularity": 0.8276,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/40/f2/30/40f230fb-c64a-d4c2-847b-565bbc2ad4e8/mzaf_6036373555499445253.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-04-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "chocolatedrive",
+          "초콜릿"
+        ]
+      },
+      "songKey": "chocolatedrive|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/chocolate-drive/1446837994?i=1446838000",
+      "title": "Chocolate Drive",
+      "titleKeys": [
+        "chocolatedrive"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 186050,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446838181",
+      "latinSource": null,
+      "popularity": 0.6322,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1d/cb/7c/1dcb7c98-b8b9-7197-37aa-2420b75250d4/mzaf_10333511006228668083.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-08-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "freshia",
+          "프리지아"
+        ]
+      },
+      "songKey": "freesia|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/freesia/1446837994?i=1446838181",
+      "title": "Freesia",
+      "titleKeys": [
+        "freesia"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 226901,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446838182",
+      "latinSource": null,
+      "popularity": 0.6207,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/09/12/ee/0912eef0-e04d-7238-a117-3fe045b4f75a/mzaf_16126547645820236616.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-08-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "xsong"
+        ]
+      },
+      "songKey": "xsong|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/x-song/1446837994?i=1446838182",
+      "title": "X Song",
+      "titleKeys": [
+        "xsong"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 178527,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446838183",
+      "latinSource": null,
+      "popularity": 0.1724,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/04/ec/5f/04ec5fc0-3206-e87a-1cd5-8ce339a14482/mzaf_16758505618025110648.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-04-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "ring",
+          "반지"
+        ]
+      },
+      "songKey": "ring|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/ring/1446837994?i=1446838183",
+      "title": "Ring",
+      "titleKeys": [
+        "ring"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1446837994",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 230526,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1446838184",
+      "latinSource": null,
+      "popularity": 0.6552,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/75/d5/76/75d57607-b7d7-ac68-bd52-a1888088dc7d/mzaf_12950469062806444446.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-08-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "whenifallinlove",
+          "사랑에빠졌을때"
+        ]
+      },
+      "songKey": "whenifallinlove|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/when-i-fall-in-love/1446837994?i=1446838184",
+      "title": "When I Fall In Love",
+      "titleKeys": [
+        "whenifallinlove"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1447463498",
+      "artistDisplay": "Sweden Laundry, バニラアコースティック, Kim Sa Rang, Kim Jisoo, 20 Years of Age, Letter Flow & Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:805277945",
+        "apple:ar:347261741",
+        "apple:ar:937712428",
+        "apple:ar:805412174",
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 254845,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1447463499",
+      "latinSource": null,
+      "popularity": 0.2529,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/b1/4e/1f/b14e1fb3-7156-9632-3b8b-a5f000b5e123/mzaf_6738207099565649750.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-01-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "romanchicwish"
+        ]
+      },
+      "songKey": "romanticwish|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/romantic-wish/1447463498?i=1447463499",
+      "title": "Romantic Wish",
+      "titleKeys": [
+        "romanticwish"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1461754920",
+      "artistDisplay": "소심한 오빠들",
+      "artistIds": [
+        "apple:ar:829519661",
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 274911,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1461754922",
+      "latinSource": null,
+      "popularity": 0.0805,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/02/c2/3e/02c23ecb-5f13-7ccc-346f-0add37302652/mzaf_18161642315125273058.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-11-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "farewellrestaurantfeatbol4",
+          "이별맛집"
+        ]
+      },
+      "songKey": "farewellrestaurant|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/farewell-restaurant-feat-bol4/1461754920?i=1461754922",
+      "title": "Farewell Restaurant (feat. BOL4)",
+      "titleKeys": [
+        "farewellrestaurant"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1526697298",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 211293,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1526697299",
+      "latinSource": null,
+      "popularity": 0.7011,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e2/bf/a5/e2bfa55a-9624-9932-bf31-376ad9f51a83/mzaf_18013934311353206322.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "atlanchisprincess"
+        ]
+      },
+      "songKey": "atlantisprincess|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/atlantis-princess/1526697298?i=1526697299",
+      "title": "Atlantis Princess",
+      "titleKeys": [
+        "atlantisprincess"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1541295080",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 190173,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1541295081",
+      "latinSource": null,
+      "popularity": 0.8851,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/48/95/20/4895201a-902b-4325-8455-6626e74c3692/mzaf_16511791004261015152.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-11-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "loveletter"
+        ]
+      },
+      "songKey": "loveletter|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/love-letter/1541295080?i=1541295081",
+      "title": "Love Letter",
+      "titleKeys": [
+        "loveletter"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550022982",
+      "artistDisplay": "Bolbbalgan4 & 20 Years of Age",
+      "artistIds": [
+        "apple:ar:1188975595",
+        "apple:ar:805412174"
+      ],
+      "durationMs": 194627,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550022983",
+      "latinSource": null,
+      "popularity": 0.5632,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/46/d2/ab/46d2abb7-534e-b8f6-482a-7674457c44d9/mzaf_6420447945715097504.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "weloved",
+          "남이될수있을까"
+        ]
+      },
+      "songKey": "weloved|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/we-loved/1550022982?i=1550022983",
+      "title": "We Loved",
+      "titleKeys": [
+        "weloved"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550029640",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 181373,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550029641",
+      "latinSource": null,
+      "popularity": 0.9885,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ac/98/85/ac98850c-85d7-f03d-772c-753f1aa986bf/mzaf_1457623158289479480.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-09-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "some",
+          "썸탈꺼야"
+        ]
+      },
+      "songKey": "some|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/some/1550029640?i=1550029641",
+      "title": "Some",
+      "titleKeys": [
+        "some"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550029640",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 186213,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550029642",
+      "latinSource": null,
+      "popularity": 0.8966,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ce/9f/06/ce9f0693-48e8-65f2-2aef-72de45da911b/mzaf_4359477531611330965.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-09-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "blue"
+        ]
+      },
+      "songKey": "blue|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/blue/1550029640?i=1550029642",
+      "title": "Blue",
+      "titleKeys": [
+        "blue"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550029640",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 186173,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550029643",
+      "latinSource": null,
+      "popularity": 0.7701,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3d/2e/2a/3d2e2a98-8837-b3e1-a198-570cdd68f5c9/mzaf_13180923164336968088.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-09-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "fixme",
+          "고쳐주세요"
+        ]
+      },
+      "songKey": "fixme|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/fix-me/1550029640?i=1550029643",
+      "title": "Fix me",
+      "titleKeys": [
+        "fixme"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550029640",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 175160,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550029644",
+      "latinSource": null,
+      "popularity": 0.5402,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/64/6f/70/646f70c9-6740-670e-5762-95a51b25721a/mzaf_11741344067089668507.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-09-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "imagine",
+          "상상"
+        ]
+      },
+      "songKey": "imagine|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/imagine/1550029640?i=1550029644",
+      "title": "Imagine",
+      "titleKeys": [
+        "imagine"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550029640",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 222680,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550029645",
+      "latinSource": null,
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/95/f9/58/95f95820-bc93-acde-1266-ab82205dfd03/mzaf_13126946533612147687.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-09-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "tomyyoth",
+          "나의사춘기에게"
+        ]
+      },
+      "songKey": "tomyyouth|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/to-my-youth/1550029640?i=1550029645",
+      "title": "To My Youth",
+      "titleKeys": [
+        "tomyyouth",
+        "私の思春期へ"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550053073",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 207492,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550053076",
+      "latinSource": null,
+      "popularity": 0.6092,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/29/0d/d7/290dd7bc-9cd9-6cba-e96e-4228bafd767a/mzaf_2546776366925153442.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-01-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "firstlove"
+        ]
+      },
+      "songKey": "firstlove|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/first-love/1550053073?i=1550053076",
+      "title": "#First Love",
+      "titleKeys": [
+        "firstlove"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550263480",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 181160,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550263483",
+      "latinSource": null,
+      "popularity": 0.2874,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0c/40/41/0c404130-6d07-fb55-e2b1-4767b9291755/mzaf_1183997422448770909.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-07-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "dejavu"
+        ]
+      },
+      "songKey": "dejavu|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/dejavu/1550263480?i=1550263483",
+      "title": "Dejavu",
+      "titleKeys": [
+        "dejavu"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550263480",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 165592,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550263484",
+      "latinSource": null,
+      "popularity": 0.1839,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d7/ef/8e/d7ef8e2a-eeee-cdc7-debe-7d7dc51c81b7/mzaf_16710045487351505171.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-07-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "6oclock"
+        ]
+      },
+      "songKey": "6oclock|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/6-oclock/1550263480?i=1550263484",
+      "title": "6 o'clock",
+      "titleKeys": [
+        "6oclock"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550539050",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 216792,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550539051",
+      "latinSource": null,
+      "popularity": 0.3678,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/69/ae/1e/69ae1eb2-bbdb-8fb3-13ae-45b35e444b72/mzaf_12823066346380968854.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-05-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "wind"
+        ]
+      },
+      "songKey": "wind|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/wind/1550539050?i=1550539051",
+      "title": "Wind",
+      "titleKeys": [
+        "wind"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550539050",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 220980,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550539052",
+      "latinSource": null,
+      "popularity": 0.9655,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ff/96/0a/ff960a41-1d20-ce31-0943-7559cecde893/mzaf_1644908721555142325.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-05-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "travel"
+        ]
+      },
+      "songKey": "travel|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/travel/1550539050?i=1550539052",
+      "title": "Travel",
+      "titleKeys": [
+        "travel"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550539050",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 208889,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550539053",
+      "latinSource": null,
+      "popularity": 0.3563,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/71/f1/60/71f1600c-d5c3-727e-9bac-4f2bbfcc22c5/mzaf_16408513834115493769.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-05-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "starlight"
+        ]
+      },
+      "songKey": "starlight|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/starlight/1550539050?i=1550539053",
+      "title": "Starlight",
+      "titleKeys": [
+        "starlight"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550539050",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 202381,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550539054",
+      "latinSource": null,
+      "popularity": 0.4368,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/10/77/ac/1077ac76-2000-09fc-af5c-c931a31fc145/mzaf_10889937599292253367.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-05-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "dearteddybear"
+        ]
+      },
+      "songKey": "dearteddybear|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/dear-teddy-bear/1550539050?i=1550539054",
+      "title": "Dear Teddy bear",
+      "titleKeys": [
+        "dearteddybear"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550539050",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 234492,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550539055",
+      "latinSource": null,
+      "popularity": 0.2299,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d3/4b/c9/d34bc920-031e-4e23-5e67-b887c75c3fb6/mzaf_17310249863521074456.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-05-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "clip"
+        ]
+      },
+      "songKey": "clip|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/clip/1550539050?i=1550539055",
+      "title": "Clip",
+      "titleKeys": [
+        "clip"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550539050",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 217342,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550539266",
+      "latinSource": null,
+      "popularity": 0.7126,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/aa/2d/4a/aa2d4a05-23f4-cd5c-2997-242a0ff96397/mzaf_4830952853240033642.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-05-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "lonely"
+        ]
+      },
+      "songKey": "lonely|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/lonely/1550539050?i=1550539266",
+      "title": "Lonely",
+      "titleKeys": [
+        "lonely"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550545017",
+      "artistDisplay": "Sweden Laundry",
+      "artistIds": [
+        "apple:ar:805277945",
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 158227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550545020",
+      "latinSource": null,
+      "popularity": 0.0575,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/6d/88/e9/6d88e992-9e7d-3169-208c-7b7aeca7683e/mzaf_11684598069289227257.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-12-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "beyorchristmasfeatbol4"
+        ]
+      },
+      "songKey": "beyourchristmas|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/be-your-christmas-feat-bol4/1550545017?i=1550545020",
+      "title": "Be Your Christmas (feat. BOL4)",
+      "titleKeys": [
+        "beyourchristmas"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550545935",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 184680,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550545936",
+      "latinSource": null,
+      "popularity": 0.5862,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b6/e8/a6/b6e8a689-b675-bf04-2a70-2702173ab40b/mzaf_7790991106259588970.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-04-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "picnic",
+          "나들이갈까"
+        ]
+      },
+      "songKey": "picnic|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/picnic/1550545935?i=1550545936",
+      "title": "Picnic",
+      "titleKeys": [
+        "picnic"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550545935",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 217045,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550545937",
+      "latinSource": null,
+      "popularity": 0.9195,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c4/3e/7e/c43e7ec1-e8bc-24df-2de7-58b157a32c46/mzaf_17286865485001122682.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-04-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "bom",
+          "나만봄"
+        ]
+      },
+      "songKey": "bom|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/bom/1550545935?i=1550545937",
+      "title": "Bom",
+      "titleKeys": [
+        "bom",
+        "私だけ春"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550545935",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 200525,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550545938",
+      "latinSource": null,
+      "popularity": 0.8736,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cc/f9/7c/ccf97cc2-3b00-adf7-adc0-02add9d9f2bc/mzaf_11228135927661560035.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-04-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "starsoverme",
+          "별보러갈래"
+        ]
+      },
+      "songKey": "starsoverme|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/stars-over-me/1550545935?i=1550545938",
+      "title": "Stars over me",
+      "titleKeys": [
+        "starsoverme"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550545935",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 214048,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550545939",
+      "latinSource": null,
+      "popularity": 0.3793,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d3/12/98/d3129866-72f2-1aa1-a048-3000152907a0/mzaf_10154564753857365868.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-04-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "seattlealone"
+        ]
+      },
+      "songKey": "seattlealone|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/seattle-alone/1550545935?i=1550545939",
+      "title": "Seattle Alone",
+      "titleKeys": [
+        "seattlealone"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550545935",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 296477,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550545940",
+      "latinSource": null,
+      "popularity": 0.4253,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/74/d4/6f/74d46f6e-cbcb-e967-d0c1-e2ea408c8429/mzaf_6149477438768189326.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-04-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "mermaid"
+        ]
+      },
+      "songKey": "mermaid|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/mermaid/1550545935?i=1550545940",
+      "title": "Mermaid",
+      "titleKeys": [
+        "mermaid"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550563018",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 191080,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550563023",
+      "latinSource": null,
+      "popularity": 0.8506,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/20/b8/23/20b823fa-4d2f-96a5-d9df-4935984b56af/mzaf_3614590922034615502.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-09-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "workaholic",
+          "워커홀릭"
+        ]
+      },
+      "songKey": "workaholic|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/workaholic/1550563018?i=1550563023",
+      "title": "Workaholic",
+      "titleKeys": [
+        "workaholic"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550563018",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 196080,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550563024",
+      "latinSource": null,
+      "popularity": 0.5287,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/90/ad/ca/90adca35-c43f-87a5-7840-32531ec8a4f4/mzaf_9368539076969097610.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-09-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "25"
+        ]
+      },
+      "songKey": "25|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/25/1550563018?i=1550563024",
+      "title": "25",
+      "titleKeys": [
+        "25"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550563018",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 194800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550563025",
+      "latinSource": null,
+      "popularity": 0.5517,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/aa/3c/a1/aa3ca17d-26c5-a26f-197d-bda332dc831d/mzaf_2879581460385544350.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-09-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "xx"
+        ]
+      },
+      "songKey": "xx|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/xx/1550563018?i=1550563025",
+      "title": "XX",
+      "titleKeys": [
+        "xx"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550563018",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 185680,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550563086",
+      "latinSource": null,
+      "popularity": 0.4713,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/82/6a/09/826a09f4-d0d0-838a-c03a-6eaafcb18d3b/mzaf_13642112531552386216.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-09-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "taste"
+        ]
+      },
+      "songKey": "taste|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/taste/1550563018?i=1550563086",
+      "title": "Taste",
+      "titleKeys": [
+        "taste"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550563018",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 192693,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550563087",
+      "latinSource": null,
+      "popularity": 0.4828,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6e/30/cd/6e30cde0-5046-6bbe-cc6f-72b6b4cdc4a4/mzaf_4335464478292765829.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-09-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "dayoff"
+        ]
+      },
+      "songKey": "dayoff|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/day-off/1550563018?i=1550563087",
+      "title": "Day off",
+      "titleKeys": [
+        "dayoff"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550569426",
+      "artistDisplay": "Bolbbalgan4 & WH3N",
+      "artistIds": [
+        "apple:ar:1188975595",
+        "apple:ar:1304256809"
+      ],
+      "durationMs": 259267,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550569427",
+      "latinSource": null,
+      "popularity": 0.092,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/73/ff/2e/73ff2ee7-fe89-ad15-0e95-d5f360541f59/mzaf_9760220670354932245.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-11-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "newyork"
+        ]
+      },
+      "songKey": "newyork|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/new-york/1550569426?i=1550569427",
+      "title": "New York",
+      "titleKeys": [
+        "newyork"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1552435273",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 204124,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1552435274",
+      "latinSource": null,
+      "popularity": 0.8046,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0b/19/66/0b196695-cd0b-ae69-dd81-e0f78d642ba3/mzaf_5574894633161099643.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-05-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "yoanjifromthebegining"
+        ]
+      },
+      "songKey": "youandifromthebeginning|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/you-and-i-from-the-beginning/1552435273?i=1552435274",
+      "title": "You and I From the Beginning",
+      "titleKeys": [
+        "fromthebeginningyouandi",
+        "fromthebeginningyouandiinst",
+        "youandifromthebeginning",
+        "youandifromthebeginninginst"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1591877805",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 206350,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1591877806",
+      "latinSource": null,
+      "popularity": 0.6897,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1a/14/37/1a14372e-a7b3-92a0-4163-b26b8d761224/mzaf_17773082354474514272.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-10-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "butterflyeffect"
+        ]
+      },
+      "songKey": "butterflyeffect|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/butterfly-effect/1591877805?i=1591877806",
+      "title": "Butterfly Effect",
+      "titleKeys": [
+        "butterflyeffect"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1591877805",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 273680,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1591877807",
+      "latinSource": null,
+      "popularity": 0.5747,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/53/db/4c/53db4c58-3447-5684-37dc-5fa58e382625/mzaf_392910158923104273.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-10-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "space"
+        ]
+      },
+      "songKey": "space|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/space/1591877805?i=1591877807",
+      "title": "Space",
+      "titleKeys": [
+        "space"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1606409353",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 193867,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606409354",
+      "latinSource": null,
+      "popularity": 0.2989,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/42/fd/a0/42fda0aa-187f-73bf-984d-bf6fa31ef00d/mzaf_12254348394516183617.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-11-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "redlipschick"
+        ]
+      },
+      "songKey": "redlipstick|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/red-lipstick/1606409353?i=1606409354",
+      "title": "Red Lipstick",
+      "titleKeys": [
+        "redlipstick"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1606409353",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 195080,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606409357",
+      "latinSource": null,
+      "popularity": 0.4483,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c6/6e/4b/c66e4bdd-49a9-52c8-87b0-28c9e38075b7/mzaf_404170797565437340.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-11-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "dancingcarton"
+        ]
+      },
+      "songKey": "dancingcartoon|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/dancing-cartoon/1606409353?i=1606409357",
+      "title": "Dancing Cartoon",
+      "titleKeys": [
+        "dancingcartoon"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1606419098",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 183867,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606419099",
+      "latinSource": null,
+      "popularity": 0.7241,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0a/6d/03/0a6d031d-c92e-eb25-8c47-864ef8463bb0/mzaf_13655257369061060707.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-05-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "blank",
+          "빈칸을채워주시오"
+        ]
+      },
+      "songKey": "blank|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/blank/1606419098?i=1606419099",
+      "title": "Blank",
+      "titleKeys": [
+        "blank"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1606419098",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 186120,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606419100",
+      "latinSource": null,
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b0/91/cf/b091cfc8-2fd9-3507-8b65-26cfd99cd0a5/mzaf_4075096743097510134.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-05-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "fug",
+          "품"
+        ]
+      },
+      "songKey": "hug|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/hug/1606419098?i=1606419100",
+      "title": "Hug",
+      "titleKeys": [
+        "hug"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1606419098",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 188000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606419101",
+      "latinSource": null,
+      "popularity": 0.6437,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/56/9c/7d/569c7dba-7047-b8c7-720c-53f13e053e6c/mzaf_5494983235309368522.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-05-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "leofeatbaekhyun",
+          "나비와고양이"
+        ]
+      },
+      "songKey": "leo|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/leo-feat-baekhyun/1606419098?i=1606419101",
+      "title": "Leo (feat. BAEKHYUN)",
+      "titleKeys": [
+        "leo"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1606419098",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 205013,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606419103",
+      "latinSource": null,
+      "popularity": 0.1034,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c4/71/34/c47134eb-62a3-274b-0fed-d58acf7a6889/mzaf_10809868570831006011.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-05-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "conseling",
+          "카운슬링"
+        ]
+      },
+      "songKey": "counseling|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/counseling/1606419098?i=1606419103",
+      "title": "Counseling",
+      "titleKeys": [
+        "counseling"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1606419098",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 243107,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606419104",
+      "latinSource": null,
+      "popularity": 0.2644,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/93/ac/c5/93acc5a6-6cc4-9e59-256b-67a85badedac/mzaf_11133560415393314198.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-05-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "dandelion",
+          "민들레"
+        ]
+      },
+      "songKey": "dandelion|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/dandelion/1606419098?i=1606419104",
+      "title": "Dandelion",
+      "titleKeys": [
+        "dandelion"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1606428784",
+      "artistDisplay": "Bolbbalgan4, バニラアコースティック, Sweden Laundry, 20 Years of Age, Letter Flow, Kim Jisoo, WH3N, Boramiyu & Choi Yu Ree",
+      "artistIds": [
+        "apple:ar:1188975595",
+        "apple:ar:347261741",
+        "apple:ar:805277945",
+        "apple:ar:805412174",
+        "apple:ar:937712428",
+        "apple:ar:1304256809",
+        "apple:ar:1495022606"
+      ],
+      "durationMs": 191227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606428785",
+      "latinSource": null,
+      "popularity": 0.2414,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f6/09/a7/f609a7b9-9b6f-a48c-f942-ae66d38e3c95/mzaf_17987237980292011625.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-01-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "awkward",
+          "어색한사이"
+        ]
+      },
+      "songKey": "awkward|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/awkward/1606428784?i=1606428785",
+      "title": "Awkward",
+      "titleKeys": [
+        "awkward"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1606428784",
+      "artistDisplay": "Bolbbalgan4, バニラアコースティック, Sweden Laundry, 20 Years of Age, Letter Flow, Kim Jisoo, WH3N, Boramiyu & Choi Yu Ree",
+      "artistIds": [
+        "apple:ar:1188975595",
+        "apple:ar:347261741",
+        "apple:ar:805277945",
+        "apple:ar:805412174",
+        "apple:ar:937712428",
+        "apple:ar:1304256809",
+        "apple:ar:1495022606"
+      ],
+      "durationMs": 235147,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1606429026",
+      "latinSource": null,
+      "popularity": 0.1149,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/47/dd/8d/47dd8d5a-fc62-ca40-071b-be5745c22c98/mzaf_16481911051859463408.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-01-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "happinesshisallarond",
+          "행복은늘가까이에있어"
+        ]
+      },
+      "songKey": "happinessisallaround|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/happiness-is-all-around/1606428784?i=1606429026",
+      "title": "Happiness is all around",
+      "titleKeys": [
+        "happinessisallaround"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1619282185",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 197333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1619282186",
+      "latinSource": null,
+      "popularity": 0.931,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0b/c4/f0/0bc4f03f-bb16-06db-b830-f6db6698c65e/mzaf_994204631235649737.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-04-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "lovestory"
+        ]
+      },
+      "songKey": "lovestory|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/love-story/1619282185?i=1619282186",
+      "title": "Love story",
+      "titleKeys": [
+        "lovestory"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1619282185",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 204760,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1619282189",
+      "latinSource": null,
+      "popularity": 0.7931,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e9/f3/7e/e9f37e1f-3fde-2d35-95c6-0f759950c614/mzaf_7388833544012768644.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-04-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "seol"
+        ]
+      },
+      "songKey": "seoul|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/seoul/1619282185?i=1619282189",
+      "title": "Seoul",
+      "titleKeys": [
+        "seoul"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1619282185",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 155200,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1619282191",
+      "latinSource": null,
+      "popularity": 0.1954,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2c/3f/f3/2c3ff366-380f-3bd0-a258-78a676f61a33/mzaf_17707812615138671148.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-04-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "whatmakeusbeauchiful"
+        ]
+      },
+      "songKey": "whatmakeusbeautiful|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/what-make-us-beautiful/1619282185?i=1619282191",
+      "title": "What make us beautiful",
+      "titleKeys": [
+        "whatmakeusbeautiful"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1619282185",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 183720,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1619282194",
+      "latinSource": null,
+      "popularity": 0.4598,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7e/be/31/7ebe31f8-97d1-ab2d-e435-9ee7566a1343/mzaf_17764393576792889733.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-04-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "inthemirror"
+        ]
+      },
+      "songKey": "inthemirror|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/in-the-mirror/1619282185?i=1619282194",
+      "title": "In the mirror",
+      "titleKeys": [
+        "inthemirror"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1619282185",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 207987,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1619282195",
+      "latinSource": null,
+      "popularity": 0.1379,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cd/85/cb/cd85cbbc-0650-911c-6071-c3cfc7f50781/mzaf_18020505525587137748.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-04-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "star"
+        ]
+      },
+      "songKey": "star|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/star/1619282185?i=1619282195",
+      "title": "Star",
+      "titleKeys": [
+        "star"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1681517761",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 181440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1681517762",
+      "latinSource": null,
+      "popularity": 0.7586,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/90/86/5c/90865c2c-738d-5249-6274-dade62bf8d5b/mzaf_2782016686058115007.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "chaselovehardfeathwangminhyun"
+        ]
+      },
+      "songKey": "chaselovehard|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/chase-love-hard-feat-hwang-min-hyun/1681517761?i=1681517762",
+      "title": "Chase Love Hard (feat. HWANG MIN HYUN)",
+      "titleKeys": [
+        "chaselovehard"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1681517761",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 188013,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1681517763",
+      "latinSource": null,
+      "popularity": 0.7471,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/72/54/65/72546531-5614-a4ff-77ee-c5b633f390b0/mzaf_17494112485226943284.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "friendthend"
+        ]
+      },
+      "songKey": "friendtheend|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/friend-the-end/1681517761?i=1681517763",
+      "title": "FRIEND THE END",
+      "titleKeys": [
+        "friendtheend"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1681517761",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 163733,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1681517764",
+      "latinSource": null,
+      "popularity": 0.3103,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ad/5f/f4/ad5ff420-c1de-b9c9-1d39-30d283b69da4/mzaf_3311708608483508997.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "rome"
+        ]
+      },
+      "songKey": "rome|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/rome/1681517761?i=1681517764",
+      "title": "Rome",
+      "titleKeys": [
+        "rome"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1681517761",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 228187,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1681517766",
+      "latinSource": null,
+      "popularity": 0.3448,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e5/c6/57/e5c657d1-1045-3118-286f-277efe5b4819/mzaf_11067707271998439325.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "whenlovebecomesgodbye"
+        ]
+      },
+      "songKey": "whenlovebecomesgoodbye|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/when-love-becomes-goodbye/1681517761?i=1681517766",
+      "title": "When love becomes goodbye",
+      "titleKeys": [
+        "whenlovebecomesgoodbye"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1681517761",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 96533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1681517767",
+      "latinSource": null,
+      "popularity": 0.1609,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/23/b9/b8/23b9b8df-3cd0-b5e2-6725-c788ec97490d/mzaf_3009535081875989104.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "godnight"
+        ]
+      },
+      "songKey": "goodnight|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/good-night/1681517761?i=1681517767",
+      "title": "Good night",
+      "titleKeys": [
+        "goodnight"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1695481002",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 223634,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1695481277",
+      "latinSource": "manual",
+      "popularity": 0.1494,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/92/89/09/92890974-32a0-64ae-25bf-be15dfe8208d/mzaf_3688031383094714452.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-04-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "gakkeumsshik",
+          "가끔씩"
+        ]
+      },
+      "songKey": "가끔씩|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/%EA%B0%80%EB%81%94%EC%94%A9/1695481002?i=1695481277",
+      "title": "가끔씩",
+      "titleKeys": [
+        "가끔씩"
+      ],
+      "titleLatin": "Gakkeumssik"
+    },
+    {
+      "albumId": "apple:al:1695483012",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 201772,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1695483013",
+      "latinSource": "manual",
+      "popularity": 0.908,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7f/60/41/7f604158-70d8-891d-c41c-70fb562d7020/mzaf_5096225748692794659.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-12-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "jotagomalhaehiddentrack",
+          "tellmeyoloveme",
+          "좋다고말해hiddentrack"
+        ]
+      },
+      "songKey": "좋다고말해hiddentrack|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/%EC%A2%8B%EB%8B%A4%EA%B3%A0-%EB%A7%90%ED%95%B4-hidden-track/1695483012?i=1695483013",
+      "title": "좋다고 말해 (Hidden Track)",
+      "titleKeys": [
+        "好きだと言って",
+        "좋다고말해hiddentrack"
+      ],
+      "titleLatin": "Jotago malhae (Hidden Track)"
+    },
+    {
+      "albumId": "apple:al:1717172953",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 262827,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1717173330",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9a/c9/bb/9ac9bbf2-2206-b313-fdf0-384e672c1b66/mzaf_6512353650257284727.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-12-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "thecoverezuproad"
+        ]
+      },
+      "songKey": "thecovereduproad|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/the-covered-up-road/1717172953?i=1717173330",
+      "title": "The Covered Up Road",
+      "titleKeys": [
+        "thecovereduproad"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1720724415",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 185640,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1720724416",
+      "latinSource": null,
+      "popularity": 0.2759,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/af/35/9f/af359f4c-e663-78f5-2176-84617fdddca5/mzaf_10744220374817011857.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "godbyemylove"
+        ]
+      },
+      "songKey": "goodbyemylove|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/goodbye-my-love/1720724415?i=1720724416",
+      "title": "Goodbye my love",
+      "titleKeys": [
+        "goodbyemylove"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1720724415",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 212773,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1720724478",
+      "latinSource": null,
+      "popularity": 0.4943,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/17/09/de/1709de89-6801-f71b-6b23-5154072b29ad/mzaf_5089670944874865750.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "snowball"
+        ]
+      },
+      "songKey": "snowball|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/snowball/1720724415?i=1720724478",
+      "title": "Snowball",
+      "titleKeys": [
+        "snowball"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1720724415",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 225107,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1720724479",
+      "latinSource": null,
+      "popularity": 0.2069,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/28/c3/28/28c328e9-968a-49d4-213c-e5466f8b703c/mzaf_16826785974522219795.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "eternallove"
+        ]
+      },
+      "songKey": "eternallove|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/eternal-love/1720724415?i=1720724479",
+      "title": "Eternal love",
+      "titleKeys": [
+        "eternallove"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1720724415",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 189600,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1720724480",
+      "latinSource": null,
+      "popularity": 0.069,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/67/f3/42/67f3421f-6205-5570-8c6c-a0940852eaf0/mzaf_714986874547242941.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "missudear"
+        ]
+      },
+      "songKey": "missudear|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/miss-u-dear/1720724415?i=1720724480",
+      "title": "Miss u, dear",
+      "titleKeys": [
+        "missudear"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1720724415",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 187440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1720724481",
+      "latinSource": null,
+      "popularity": 0.954,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e5/ac/6e/e5ac6efb-266e-5873-058b-4fdd699dedee/mzaf_146443875893252827.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-12-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "love"
+        ]
+      },
+      "songKey": "love|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/love/1720724415?i=1720724481",
+      "title": "Love",
+      "titleKeys": [
+        "love"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1738411214",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 212093,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1738411488",
+      "latinSource": null,
+      "popularity": 0.2184,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ff/55/39/ff553932-48fd-7891-2fba-65c4bed7e748/mzaf_14401050501703640759.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-03-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "pshcho"
+        ]
+      },
+      "songKey": "psycho|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/psycho/1738411214?i=1738411488",
+      "title": "Psycho",
+      "titleKeys": [
+        "psycho"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1750840581",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 182693,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1750840582",
+      "latinSource": null,
+      "popularity": 0.6782,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9d/81/9e/9d819e5f-e8d3-ee71-9b42-dc3b490e0704/mzaf_17797734551069410823.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-06-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "lipsfeatgiselle"
+        ]
+      },
+      "songKey": "lips|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/lips-feat-giselle/1750840581?i=1750840582",
+      "title": "Lips (feat. GISELLE)",
+      "titleKeys": [
+        "lips"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1769477554",
+      "artistDisplay": "WOOSUNG",
+      "artistIds": [
+        "apple:ar:1463153647",
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 205613,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1769477910",
+      "latinSource": null,
+      "popularity": 0.1264,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e5/3c/60/e53c60ee-7798-59b8-8a7c-f2bb49eb1cab/mzaf_11733688086343406384.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-10-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "lettherebelightfeatbol4"
+        ]
+      },
+      "songKey": "lettherebelight|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/let-there-be-light-feat-bol4/1769477554?i=1769477910",
+      "title": "Let There Be Light (feat. BOL4)",
+      "titleKeys": [
+        "lettherebelight"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1774436959",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 189336,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1774436960",
+      "latinSource": null,
+      "popularity": 0.4023,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3a/23/d9/3a23d978-9339-6064-9e68-fa4883fe0114/mzaf_18305891322563252762.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "blom"
+        ]
+      },
+      "songKey": "bloom|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/bloom/1774436959?i=1774436960",
+      "title": "Bloom",
+      "titleKeys": [
+        "bloom"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1781140004",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 265840,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1781140006",
+      "latinSource": null,
+      "popularity": 0.3908,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/74/af/a1/74afa11e-b306-6ee6-8815-82a320465040/mzaf_1755171149156567512.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-12-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "dream"
+        ]
+      },
+      "songKey": "dream|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/dream/1781140004?i=1781140006",
+      "title": "Dream",
+      "titleKeys": [
+        "dream"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1867459812",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 254000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1867459818",
+      "latinSource": null,
+      "popularity": 0.046,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/05/f6/01/05f601c3-8736-4635-7f9b-dab3053705bb/mzaf_11185325477117278433.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-01-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "loshingheartveiledmushicianxbol4withyeoidodongthrestar"
+        ]
+      },
+      "songKey": "loosingheartveiledmusicianxbol4withyeouidodongthreestar|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/loosing-heart-veiled-musician-x-bol4-with-yeouido-dong/1867459812?i=1867459818",
+      "title": "Loosing Heart (Veiled Musician X BOL4 with Yeouido-dong Three Star)",
+      "titleKeys": [
+        "loosingheartveiledmusicianxbol4withyeouidodongthreestar"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1894743168",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 175000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1894743169",
+      "latinSource": null,
+      "popularity": 0.3218,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cb/eb/e2/cbebe241-1703-2f38-cf53-4b361c9f6793/mzaf_6513288047245685717.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-04-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "findyo"
+        ]
+      },
+      "songKey": "findyou|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/find-you/1894743168?i=1894743169",
+      "title": "Find You",
+      "titleKeys": [
+        "findyou"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1894743168",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 195000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1894743171",
+      "latinSource": null,
+      "popularity": 0.0115,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8e/ec/2c/8eec2ce3-73cb-179e-f740-ddfec3ec768d/mzaf_1752566895489370338.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-04-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "farewell"
+        ]
+      },
+      "songKey": "farewell|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/farewell/1894743168?i=1894743171",
+      "title": "Farewell",
+      "titleKeys": [
+        "farewell"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1894743168",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 213000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1894743172",
+      "latinSource": null,
+      "popularity": 0.023,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/37/5b/6c/375b6c2f-363f-b5de-a041-f956f6a3580d/mzaf_4780873366598040547.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-04-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "closetoyo"
+        ]
+      },
+      "songKey": "closetoyou|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/close-to-you/1894743168?i=1894743172",
+      "title": "Close To You",
+      "titleKeys": [
+        "closetoyou"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1895707772",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 165819,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6764261735",
+      "latinSource": null,
+      "popularity": 0.5172,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/82/e8/33/82e833c5-efef-3fe8-3a25-7d63e59cce5f/mzaf_6276862984155513679.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-05-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "someday"
+        ]
+      },
+      "songKey": "someday|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/someday/1895707772?i=6764261735",
+      "title": "Someday",
+      "titleKeys": [
+        "someday",
+        "somedayinst"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6792700625",
+      "artistDisplay": "Bolbbalgan4",
+      "artistIds": [
+        "apple:ar:1188975595"
+      ],
+      "durationMs": 229000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6792700626",
+      "latinSource": null,
+      "popularity": 0.4138,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c7/e3/03/c7e303d4-0dcf-8dac-7451-aa369daf4226/mzaf_17163500153744735408.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-07-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "pleasesummer"
+        ]
+      },
+      "songKey": "pleasesummer|apple:ar:1188975595",
+      "storeUrl": "https://music.apple.com/jp/album/please-summer/6792700625?i=6792700626",
+      "title": "Please Summer!",
+      "titleKeys": [
+        "pleasesummer"
+      ],
+      "titleLatin": null
+    }
+  ]
+}
