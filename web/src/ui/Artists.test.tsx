@@ -270,6 +270,16 @@ describe("Artists: a lista (P147)", () => {
     expect(net.calls).toEqual([`${BASE}${DIR}artists/index.json`]);
   });
 
+  it("a dica curta na tela, fora do leitor de tela; a inteira só para ele (P210)", async () => {
+    setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    const short = screen.getByText("Escolha o artista e depois o modo.");
+    expect(short.getAttribute("aria-hidden")).toBe("true");
+    const full = screen.getByText(/^Escolha o artista e depois o modo: ouça o trecho/);
+    expect(full.classList.contains("sr-only")).toBe(true);
+    expect(full.parentElement).toBe(short.parentElement);
+  });
+
   it("a capa no cartão (P168); sem ela, ou se não carregar, o monograma (P171)", async () => {
     setup();
     await screen.findByRole("heading", { name: "Artistas" });

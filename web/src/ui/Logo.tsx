@@ -9,3 +9,12 @@ import selo from "./assets/logo-selo.svg";
 export function Logo() {
   return <img class="logo" src={selo} alt="" aria-hidden="true" width={56} height={56} />;
 }
+
+/**
+ * O mesmo selo como a aba Início da nav (P205), em 28 px. Decorativo também: o nome do link é o
+ * "Início" em texto, só para o leitor de tela, ao lado. Outra classe, e não .logo: o e2e confere
+ * o logo da Início por ela.
+ */
+export function NavLogo() {
+  return <img class="nav-logo" src={selo} alt="" aria-hidden="true" width={28} height={28} />;
+}

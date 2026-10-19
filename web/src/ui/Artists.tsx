@@ -323,10 +323,14 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
     case "idle":
     case "loading":
       // Com o foco: depois do "Tentar de novo", o botão sumiu (regra 16).
-      return <FocusedNotice key="list-loading" text={t("load.loading")} />;
+      return (
+        <div class="loading screen" key="list-loading">
+          <FocusedNotice text={t("load.loading")} />
+        </div>
+      );
     case "retry":
       return (
-        <section class="error">
+        <section class="error screen">
           <FocusedNotice text={t("artists.retry")} />
           <button type="button" class="primary" onClick={singleClick(loadList)}>
             {t("load.retryButton")}
@@ -345,7 +349,7 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
 /** Dados de uma versão que este código não conhece: recarregar a página (como no App). */
 function UpdateNotice() {
   return (
-    <section class="error">
+    <section class="error screen">
       <FocusedNotice text={t("load.update")} />
       <button type="button" class="primary" onClick={() => window.location.reload()}>
         {t("load.updateButton")}
@@ -375,7 +379,7 @@ function Choosing({
   );
   if (choosing.status === "loading") {
     return (
-      <section>
+      <section class="loading screen">
         <FocusedNotice key="loading" text={t("artists.loadingArtist", { artist })} />
         <div class="artists-actions">{back}</div>
       </section>
@@ -383,7 +387,7 @@ function Choosing({
   }
   if (choosing.status === "update") return <UpdateNotice />;
   return (
-    <section class="error">
+    <section class="error screen">
       <FocusedNotice key="retry" text={t("artists.retryArtist", { artist })} />
       <div class="artists-actions">
         <button type="button" class="primary" onClick={singleClick(() => onRetry(choosing.entry))}>
@@ -415,12 +419,16 @@ function ArtistChoice({
   const { main, foreign } = artistSections(list);
   const cards = { list, resolveUrl, onChoose };
   return (
-    <div class="game practice artists">
+    <div class="game practice artists screen">
       <header>
         <h1 ref={heading} tabIndex={-1}>
           {t("artists.title")}
         </h1>
-        <p class="hint">{t("artists.chooseHint")}</p>
+        {/* A dica curta na tela; a inteira, para o leitor de tela (P210). */}
+        <p class="hint">
+          <span aria-hidden="true">{t("artists.chooseShort")}</span>
+          <span class="sr-only">{t("artists.chooseHint")}</span>
+        </p>
       </header>
       {main.length > 0 && <ArtistCards artists={main} {...cards} />}
       {foreign.length > 0 && (
@@ -502,7 +510,7 @@ function ModeChoice({
     },
   ] as const;
   return (
-    <div class="game practice artists">
+    <div class="game practice artists screen">
       <header>
         <h1 ref={heading} tabIndex={-1}>
           <ArtistName entry={entry} />
