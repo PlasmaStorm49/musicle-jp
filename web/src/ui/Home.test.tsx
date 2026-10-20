@@ -42,6 +42,14 @@ function setup(
 
 const card = (name: RegExp) => screen.getByRole("link", { name });
 
+/** A descrição do cartão (aria-describedby): a dica inteira (P210). */
+const description = (link: HTMLElement) =>
+  document.getElementById(link.getAttribute("aria-describedby") ?? "")?.textContent;
+
+/** Os cartões em oliva: o diário por jogar, a ação da tela. */
+const nextCards = () =>
+  [...document.querySelectorAll(".home-card.next .mode-name")].map((n) => n.textContent);
+
 describe("Home", () => {
   it("o nome do jogo no título, com o foco ao abrir (regra 16)", () => {
     setup();
@@ -77,7 +85,54 @@ describe("Home", () => {
 
   it("a dica do Normal explica o custo do Ouvir mais, que saiu do botão (ME59)", () => {
     setup();
-    expect(card(/^Normal/).textContent).toContain("Cada trecho a mais vale 1 ponto a menos.");
+    expect(description(card(/^Normal/))).toContain("Cada trecho a mais vale 1 ponto a menos.");
+  });
+
+  it("a dica curta na tela e no nome do link; a inteira como descrição, fora dele (P210)", () => {
+    setup();
+    const normal = card(/4 opções de álbum$/);
+    expect(normal.getAttribute("href")).toBe("#normal");
+    const full = document.getElementById(normal.getAttribute("aria-describedby") ?? "");
+    expect(full?.classList.contains("sr-only")).toBe(true);
+    // Fora do link: dentro, o leitor de tela ouviria a dica inteira duas vezes.
+    expect(normal.contains(full ?? null)).toBe(false);
+    expect(normal.textContent).not.toContain("Cada trecho a mais");
+  });
+
+  it("o cartão oliva é o primeiro diário por jogar: novo ou em andamento", () => {
+    setup();
+    expect(nextCards()).toEqual(["Normal"]);
+    cleanup();
+    // O Normal terminado: a vez do Desafio.
+    setup({ ...emptySave(), history: { [puzzleId(DATE, "album")]: finished } });
+    expect(nextCards()).toEqual(["Desafio"]);
+    cleanup();
+    // Em andamento também conta.
+    setup({
+      ...emptySave(),
+      history: { [puzzleId(DATE, "album")]: finished },
+      inProgress: { [puzzleId(DATE, "song")]: { events: [] } },
+    });
+    expect(nextCards()).toEqual(["Desafio"]);
+    cleanup();
+    // Os dois terminados, ou o dia fora da agenda: nenhum.
+    setup({
+      ...emptySave(),
+      history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
+    });
+    expect(nextCards()).toEqual([]);
+    cleanup();
+    setup(emptySave(), null);
+    expect(nextCards()).toEqual([]);
+  });
+
+  it('o "Como funciona" abre fechado: a tela cabe, e quem quer as regras abre (P210)', () => {
+    setup();
+    const box = document.querySelector<HTMLDetailsElement>("details.home-how-box");
+    expect(box?.open).toBe(false);
+    expect(box?.querySelector("summary")?.textContent).toBe("Como funciona");
+    // O chevron é só desenho.
+    expect(box?.querySelector("summary svg")?.getAttribute("aria-hidden")).toBe("true");
   });
 
   it("dia novo: o número do diário", () => {

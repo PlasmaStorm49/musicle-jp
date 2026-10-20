@@ -1,20 +1,34 @@
-/* As cores da identidade do M12 (P192: a paleta do designer, Apêndice L do PLANO), em variáveis:
-   o tema é só redefini-las. O claro fica no :root. O escuro vale com o aparelho escuro (o
-   Automático, só CSS) ou com o data-theme="dark" da troca na Início (P176, P191), nos dois blocos
-   iguais logo abaixo. O web/scripts/theme.test.ts confere que os dois são iguais, o contraste de
-   cada par (4,5 para texto, 3 para borda, foco e barra) e que não sobra cor fora daqui. */
+/* AteMusic: a interface nova (M12, PR D; plano de 18/10/2026, P204 a P209). Conceito: 間 (ma), o
+   intervalo: um palco por tela, chapado e sem caixa, uma cor por função, escala curta. As cores são
+   as da paleta do designer (Apêndice L do PLANO), em variáveis: o tema é só redefini-las. O claro
+   fica no :root; o escuro vale com o aparelho escuro (o Automático, só CSS) ou com o
+   data-theme="dark" da troca na Início (P176, P191), nos dois blocos iguais logo abaixo. O
+   web/scripts/theme.test.ts confere que os dois são iguais, o contraste de cada par (4,5 para
+   texto, 3 para borda, foco e barra) e que não sobra cor fora daqui.
+
+   Índice: 1 tokens · 2 base · 3 shell · 4 telas de antes (as rodadas, a revelação e o resumo, até
+   os PRs D2 e D3) · 5 componentes · 6 telas · 7 movimento e computador. */
+
+/* 1. Tokens ------------------------------------------------------------------------------- */
 :root {
   color-scheme: light dark;
   --bg: #ffffff;
   --surface: #ffffff;
   --surface-2: #f1f1f3;
+  /* A tinta dos controles e dos cartões: marca o que se toca, sem borda. */
+  --fill: #f1f1f3;
+  --fill-press: #e6e7ea;
   --border: #d7d8dc;
   --border-strong: #939497;
+  /* A linha fina que só separa grupos (decorativa, sem par de contraste). */
+  --hairline: #d7d8dc;
   --text: #000000;
-  --muted: #6d6e70;
-  /* O oliva é a cor de ação, nunca de texto (no branco, 1,92). */
+  /* Um pouco mais escuro que o do beta (#6d6e70): sobre a tinta pressionada, 4,78. */
+  --muted: #636467;
+  /* O oliva é a ação principal da tela, nunca texto (no branco, 1,92). */
   --primary: #bdbf7f;
   --primary-hover: #a9ab6e;
+  --primary-press: #9fa165;
   --on-primary: #000000;
   --accent-line: #969865;
   --focus: #000000;
@@ -35,7 +49,44 @@
   /* O ⬛ da prévia e da cópia à mão do compartilhar some no escuro: lá ele ganha um fundo claro. */
   --emoji-bg: transparent;
   --emoji-text: #000000;
+  /* O canto dos cartões e caixas de antes (as telas dos PRs D2 e D3 ainda usam). */
   --radius: 12px;
+
+  /* Espaço (base 4), tipo (5 tamanhos, cada um com a sua altura de linha), alturas, raios (o canto do botão do guia é 25% da altura,
+     o do selo quadrado 21%) e movimento. */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --t-xs: 0.75rem;
+  --t-sm: 0.875rem;
+  --t-md: 1rem;
+  --t-lg: 1.25rem;
+  --t-xl: 2rem;
+  --lh-xs: 16px;
+  --lh-sm: 20px;
+  --lh-md: 24px;
+  --lh-lg: 28px;
+  --lh-xl: 40px;
+  --h-control: 44px;
+  --h-field: 48px;
+  --h-hero: 56px;
+  --h-row: 64px;
+  --h-compact: 32px;
+  --r-control: 11px;
+  --r-field: 12px;
+  --r-hero: 14px;
+  --r-tile: 20px;
+  --r-media: 8px;
+  --r-pill: 999px;
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --column: 480px;
+
   font-family: "Noto Sans JP", system-ui, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
   color: var(--text);
   background: var(--bg);
@@ -48,12 +99,16 @@
     --bg: #000000;
     --surface: #1f1f22;
     --surface-2: #2a2a2e;
+    --fill: #1f1f22;
+    --fill-press: #2a2a2e;
     --border: #2a2a2e;
     --border-strong: #6e6f74;
+    --hairline: #2a2a2e;
     --text: #d7d8dc;
     --muted: #9a9ba0;
     --accent-line: #bdbf7f;
     --primary-hover: #d0d29c;
+    --primary-press: #a9ab6e;
     --focus: #d7d8dc;
     --ok: #57961f;
     --ok-soft: #1b2a10;
@@ -74,12 +129,16 @@
   --bg: #000000;
   --surface: #1f1f22;
   --surface-2: #2a2a2e;
+  --fill: #1f1f22;
+  --fill-press: #2a2a2e;
   --border: #2a2a2e;
   --border-strong: #6e6f74;
+  --hairline: #2a2a2e;
   --text: #d7d8dc;
   --muted: #9a9ba0;
   --accent-line: #bdbf7f;
   --primary-hover: #d0d29c;
+  --primary-press: #a9ab6e;
   --focus: #d7d8dc;
   --ok: #57961f;
   --ok-soft: #1b2a10;
@@ -98,19 +157,18 @@
   color-scheme: light;
 }
 
+/* 2. Base --------------------------------------------------------------------------------- */
 * {
   box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   background: var(--bg);
-}
-
-.app {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 16px;
 }
 
 h1 {
@@ -123,70 +181,30 @@ h2 {
   margin: 16px 0 8px;
 }
 
+h3 {
+  font-size: 1rem;
+  margin: 16px 0 8px;
+}
+
+h4 {
+  font-size: 0.9rem;
+  margin: 12px 0 6px;
+  color: var(--muted);
+}
+
 header p {
   margin: 4px 0 0;
   color: var(--muted);
 }
 
-button {
-  font: inherit;
-  min-height: 44px;
-  padding: 10px 14px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border-strong);
-  background: var(--surface);
-  color: var(--text);
-  cursor: pointer;
-}
-
-button:disabled {
-  cursor: default;
-  opacity: 0.6;
-}
-
-button:focus-visible,
-h1:focus-visible,
-h2:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-}
-
-button.primary {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--on-primary);
-  font-weight: 700;
-}
-
-/* Os estados (M12, PR C): passar o mouse só onde há mouse (no celular, o hover fica preso depois
-   do toque), e o pressionado desce 1 px. O botão desativado não muda. */
-@media (hover: hover) {
-  button:hover:not(:disabled) {
-    border-color: var(--text);
-    background: var(--surface-2);
-  }
-
-  a.home-card:hover,
-  button.home-card:hover:not(:disabled) {
-    border-color: var(--accent-line);
-  }
-
-  button.primary:hover:not(:disabled) {
-    background: var(--primary-hover);
-    border-color: var(--primary-hover);
-  }
-}
-
-button:active:not(:disabled) {
-  transform: translateY(1px);
-}
-
-/* Links de texto (o do Treino na Início): a cor do texto, sublinhados. O selo da Apple é imagem. */
+/* Links de texto (o do Treino na tela sem diário): a cor do texto, sublinhados. */
 a {
   color: var(--text);
 }
 
-a:focus-visible {
+/* Um foco só para tudo: 3 px na cor do texto, com 2 px de folga. Nada que o contenha tem
+   overflow, então nunca é cortado. */
+:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
@@ -200,6 +218,245 @@ a:focus-visible {
   white-space: nowrap;
 }
 
+/* Os botões: chapados, sem borda. A tinta marca o que se toca; o oliva, a ação da tela. */
+button {
+  font: inherit;
+  font-size: var(--t-md);
+  line-height: var(--lh-sm);
+  min-height: var(--h-control);
+  padding: 0 var(--sp-4);
+  border: 0;
+  border-radius: var(--r-control);
+  background: var(--fill);
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  text-align: center;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+button.primary {
+  min-height: var(--h-hero);
+  padding: 0 var(--sp-5);
+  border-radius: var(--r-hero);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 700;
+}
+
+/* Pressionado: um anel por dentro, sem mexer o botão (o translateY de antes podia perder o
+   clique quando o botão descia sob o dedo). */
+button:active:not(:disabled) {
+  background: var(--fill-press);
+  box-shadow: inset 0 0 0 2px var(--text);
+}
+
+button.primary:active:not(:disabled) {
+  background: var(--primary-press);
+  box-shadow: none;
+}
+
+/* Passar o mouse só onde há mouse: no celular, o hover fica preso depois do toque. */
+@media (hover: hover) {
+  button:hover:not(:disabled) {
+    background: var(--fill-press);
+  }
+
+  button.primary:hover:not(:disabled) {
+    background: var(--primary-hover);
+  }
+}
+
+/* A ação de saída ("Não sei", "Desistir", "Voltar à lista"): só o texto, sublinhado, para não
+   parecer mais uma opção (ME57). O alvo continua com 44 px. */
+button.give-up,
+button.back {
+  background: transparent;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (hover: hover) {
+  button.give-up:hover:not(:disabled),
+  button.back:hover:not(:disabled) {
+    background: transparent;
+    color: var(--text);
+  }
+}
+
+/* Os ícones do designer (X, ✓, chevron): a cor é a do tema (currentColor no SVG). */
+.icon {
+  width: auto;
+  height: 1.1em;
+  flex: none;
+}
+
+.badge {
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge.explicit {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+/* Dica abaixo de um título ou campo (digitação, Treino) */
+.hint {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.notice {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 0.9rem;
+}
+
+/* 3. Shell -------------------------------------------------------------------------------- */
+/* A página numa coluna da altura da tela. O svh, e não o dvh: a tela não pula quando a barra
+   do Safari aparece ou recolhe. */
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@supports (min-height: 100svh) {
+  #app {
+    min-height: 100svh;
+  }
+}
+
+/* A nav: uma barra de 44 px, sem borda. O selo é a Início (P205), com o nome só para o leitor de
+   tela; a aba ativa ganha o fio oliva. As 5 abas cabem numa linha de 360 px para cima, também com
+   os dois ✓ (ME70); em 320, quebram a linha em vez de rolar a página. */
+.tabs ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 0 max(10px, env(safe-area-inset-right)) 0 max(10px, env(safe-area-inset-left));
+}
+
+.tabs a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--h-control);
+  padding: 0 6px;
+  color: var(--muted);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.tabs a[aria-current="page"] {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.tabs a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 4px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent-line);
+}
+
+.tabs .done-mark {
+  font-size: 0.8em;
+}
+
+/* O link do selo: 44 de largura também (P213), com o selo de 28 no centro. */
+.tabs .nav-home {
+  min-width: var(--h-control);
+  justify-content: center;
+}
+
+.nav-logo {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+main.app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: var(--sp-2) max(var(--sp-4), env(safe-area-inset-right))
+    calc(var(--sp-4) + env(safe-area-inset-bottom)) max(var(--sp-4), env(safe-area-inset-left));
+}
+
+/* A raiz de cada tela (.screen): um palco no centro da altura. Quando não cabe, a margem
+   automática vira 0 e a página rola do topo, sem cortar nada. Dentro dele, o espaço é o gap, e
+   não as margens. O selo da Apple, o último elemento (P112), fica pregado no pé, a 24 px pelo
+   menos do botão acima (ME58: longe de um toque errado). */
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.screen :is(h1, h2, h3, h4, p, ul, ol, dl, dd) {
+  margin: 0;
+}
+
+.screen > :first-child {
+  margin-top: auto;
+}
+
+.screen > :last-child {
+  margin-bottom: auto;
+}
+
+.screen > .attribution:last-child {
+  margin-top: auto;
+  margin-bottom: 0;
+  padding-top: var(--sp-3);
+}
+
+/* 4. Telas de antes (as rodadas, a revelação e o resumo): saem nos PRs D2 e D3 ------------- */
+/* Dentro das caixas de antes (o --surface), a tinta do botão sumiria no escuro (#1f1f22 sobre
+   #1f1f22): até elas saírem, um tom acima. O :where() não pesa: o hover e o pressionado dos
+   botões continuam valendo. */
+:where(.player, .card, .share, .countdown, section.void, .practice-empty) button:not(.primary) {
+  background: var(--surface-2);
+}
 /* Player */
 .player {
   margin: 16px 0;
@@ -256,20 +513,6 @@ a:focus-visible {
   box-shadow: none;
 }
 
-.badge {
-  display: inline-block;
-  margin: 0 0 8px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.badge.explicit {
-  background: var(--warn-soft);
-  color: var(--warn);
-}
-
 /* Opções (na rodada, o <ul> fica dentro de .options; na revelação, ele é o próprio .options) */
 .options ul,
 ul.options {
@@ -283,14 +526,13 @@ ul.options {
 /* Em linha: a capa (só no Normal, P51) ao lado do texto. */
 .option {
   width: 100%;
+  min-height: var(--h-row);
+  padding: 8px 12px 8px 8px;
+  justify-content: flex-start;
   text-align: left;
-  display: flex;
-  align-items: center;
   gap: 12px;
 }
 
-/* "Não sei" e "Desistir" (ME57): botão secundário com a largura do texto, para não parecer uma
-   5ª opção. Eram links, mas fazem uma ação. */
 button.give-up {
   margin-top: 8px;
 }
@@ -308,16 +550,10 @@ button.give-up {
   margin: 0 0 0 auto;
 }
 
-/* A ajuda se destaca do "Desistir" pela borda forte, sem competir com o "Tocar" (o único
-   cheio). */
-button.help {
-  border-color: var(--text);
-  font-weight: 700;
-}
-
 .item {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .item-title {
@@ -364,10 +600,8 @@ button.help {
   background: var(--bad-soft);
 }
 
-.tag {
-  font-size: 0.8rem;
-  font-weight: 700;
-  white-space: nowrap;
+.options.done li .item {
+  margin-right: auto;
 }
 
 .card {
@@ -385,34 +619,17 @@ button.help {
   flex-shrink: 0;
 }
 
-/* Atribuição da Apple (P69): o selo sem alteração, com o espaço livre de 1/10 da altura em
-   volta e pelo menos 30 px de altura (diretrizes da Apple Music). */
-.attribution {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 12px;
-  /* No fim da página (ME58): longe do "Não sei" e do "Próxima rodada", contra um toque errado. */
-  margin: 24px 0 8px;
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.attribution a {
-  display: inline-block;
-  padding: 4px;
-  line-height: 0;
-}
-
-.attribution img {
-  height: 40px;
-  width: auto;
-}
-
 .album {
   margin: 4px 0 8px;
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+/* Capas nas opções do Normal (P51) */
+.cover {
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: var(--border);
 }
 
 /* Resumo */
@@ -431,17 +648,6 @@ button.help {
 }
 
 .summary li.void {
-  color: var(--muted);
-}
-
-h3 {
-  font-size: 1rem;
-  margin: 16px 0 8px;
-}
-
-h4 {
-  font-size: 0.9rem;
-  margin: 12px 0 6px;
   color: var(--muted);
 }
 
@@ -579,105 +785,6 @@ h4 {
   font-weight: 700;
 }
 
-.notice {
-  margin: 0 0 12px;
-  padding: 8px 12px;
-  border-radius: var(--radius);
-  background: var(--warn-soft);
-  color: var(--warn);
-  font-size: 0.9rem;
-}
-
-/* Home: o nome do jogo, os cartões dos modos e como jogar */
-.home-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* O selo do logo (P193): uma imagem, o círculo vermelho nos dois temas (P177) com o 当 vazado. */
-.logo {
-  width: 56px;
-  height: 56px;
-  flex: none;
-}
-
-.home-modes {
-  list-style: none;
-  display: grid;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-}
-
-/* Cartão-link da home, com a aparência de um botão (o nome, o estado e a dica vêm em .mode) */
-.home-card {
-  min-height: 44px;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--text);
-  text-decoration: none;
-}
-
-.home-card:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-}
-
-.home-how {
-  margin: 0;
-  padding-left: 20px;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-/* Dica abaixo de um título ou campo (digitação, Treino) */
-.hint {
-  margin: 4px 0 12px;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-/* Cartões dos modos na home: nome, estado e dica */
-.mode {
-  display: grid;
-  gap: 4px;
-  text-align: left;
-}
-
-.mode-name {
-  font-weight: 700;
-}
-
-.mode-hint {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.mode .tag {
-  justify-self: start;
-  color: var(--text);
-}
-
-/* Home: o estado no cartão é longo e quebra a linha em 320 px (o .tag não quebra).
-   Depois do .mode .tag, que ele sobrepõe. */
-.home-card .tag {
-  white-space: normal;
-}
-
-/* Home: dia sem diário (o cartão não é link) */
-.home-card.off,
-.home-card.off .tag {
-  color: var(--muted);
-}
-
-.home-card.off {
-  background: transparent;
-  border-style: dashed;
-}
-
 /* Campo com autocompletar */
 .guess {
   position: relative;
@@ -692,11 +799,6 @@ h4 {
   border-radius: var(--radius);
   background: var(--surface);
   color: var(--text);
-}
-
-.guess-input:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
 }
 
 .guess ul[role="listbox"] {
@@ -766,13 +868,6 @@ h4 {
   border-style: dashed;
 }
 
-/* Os ícones do designer nas tentativas (P196, P197): a cor é a do tema (currentColor no SVG). */
-.icon {
-  width: auto;
-  height: 1.1em;
-  flex: none;
-}
-
 .attempt.wrong .icon {
   color: var(--bad);
 }
@@ -782,9 +877,7 @@ h4 {
 }
 
 /* section.void, não .void: a linha "anulada" do resumo (li.void) não vira caixa. */
-.error,
 section.void,
-.unavailable,
 .practice-empty {
   padding: 12px;
   border-radius: var(--radius);
@@ -792,91 +885,78 @@ section.void,
   border: 1px solid var(--border);
 }
 
-/* Abas do topo (P49): links, com a ativa marcada por aria-current */
-.tabs ul {
-  list-style: none;
-  display: flex;
-  /* Cinco abas (com dois ✓) não cabem em 320 px: quebram a linha em vez de rolar a página. Do
-     celular comum (375 px) para cima, cabem numa linha só (ME70). */
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 12px 16px 0;
-  border-bottom: 1px solid var(--border);
+.practice-empty {
+  margin-top: 16px;
 }
 
-.tabs a {
-  display: block;
-  min-height: 44px;
-  padding: 10px 8px;
-  color: var(--muted);
-  text-decoration: none;
-  border-bottom: 3px solid transparent;
+.practice-empty p {
+  margin: 0;
 }
 
-/* No celular, ainda mais justo: os dois ✓ dos diários terminados também cabem de 360 px para
-   cima. Com folga para a fonte do aparelho (San Francisco, Roboto) e a do Linux da CI, mais larga
-   que a Segoe UI: com 6 px de lado e o tamanho normal, a folga em 375 px era de 10 px, e a CI
-   quebrava a linha. */
-@media (max-width: 400px) {
-  .tabs a {
-    padding: 10px 4px;
-    font-size: 0.9rem;
-  }
-}
-
-.tabs .done-mark {
-  font-size: 0.8em;
-}
-
-.tabs a[aria-current="page"] {
-  color: var(--text);
-  font-weight: 700;
-  border-bottom-color: var(--accent-line);
-}
-
-.tabs a:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-}
-
-/* Capas nas opções do Normal (P51) */
-.cover {
-  flex-shrink: 0;
-  border-radius: 6px;
-  background: var(--border);
-}
-
-.options.done li .item {
-  margin-right: auto;
-}
-
-/* Treino */
+/* Treino e o modo por artista: o placar da sessão e o botão de sair, abaixo dele (ME57). */
 .practice .practice-score {
   font-weight: 700;
   color: var(--text);
 }
 
-/* Escolha do modo do Treino: os cartões da home, como botões (P105) */
-button.home-card {
-  width: 100%;
-  font: inherit;
-  cursor: pointer;
-}
-
-/* "Reiniciar o Treino": um botão secundário (ME57), abaixo do placar */
 .practice header > button {
   margin-top: 8px;
 }
 
-/* A confirmação do reinício, num pop-up modal (ME56): o fundo escurece e fica inerte. */
+/* O submodo no título (Superfan, ME75): uma etiqueta, e não mais uma parte do nome. */
+.title-sep {
+  display: none;
+}
+
+.variant-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+/* 5. Componentes ------------------------------------------------------------------------- */
+/* O selo da Apple (P69, P81): sem alteração, com 32 px (a regra pede 30 ou mais), respiro de 6 e
+   alvo de 44. Numa linha, no centro, com a frase de cortesia ao lado. */
+.attribution {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1) var(--sp-3);
+  margin: var(--sp-5) 0 0;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  color: var(--muted);
+}
+
+.attribution a {
+  display: inline-block;
+  padding: 6px;
+  line-height: 0;
+}
+
+.attribution img {
+  height: 32px;
+  width: auto;
+}
+
+.attribution > span:last-child {
+  max-width: 30ch;
+}
+
+/* O pop-up de confirmação (ME56): no centro, com o fio forte e sem sombra. No fundo da página (e
+   não no --surface): no escuro, a tinta do "Cancelar" sumiria no #1f1f22. */
 dialog.practice-restart {
-  width: min(400px, calc(100vw - 32px));
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
+  width: min(360px, calc(100vw - 32px));
+  padding: var(--sp-5);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-hero);
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -888,44 +968,341 @@ dialog.practice-restart::backdrop {
 
 /* Dentro do <header>, cujo p é cinza: o aviso de perda do placar fica com a cor do texto. */
 .practice-restart p {
-  margin: 0 0 12px;
+  margin: 0;
   color: var(--text);
+  font-size: var(--t-md);
+  line-height: var(--lh-md);
 }
 
 .practice-restart-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
 }
 
-.practice-empty {
-  margin-top: 16px;
+.practice-restart .practice-restart-actions button {
+  min-height: var(--h-field);
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-field);
 }
 
-.practice-empty p {
-  margin: 0;
+/* Avisos (carga, erro, dia sem diário, artista que não carregou): no centro, sem caixa. */
+.error,
+.unavailable,
+.loading {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--sp-3);
+  text-align: center;
 }
 
-/* O cartão de cada artista na lista (P168): a capa (ou o monograma) à esquerda do nome. */
-.mode.artist-card {
+.unavailable a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--h-control);
+}
+
+.error .primary {
+  min-width: 200px;
+}
+
+/* 6. Telas ------------------------------------------------------------------------------- */
+/* Início: o selo, o nome e a frase no centro; os 4 jogos numa grade 2×2; o "Como funciona"
+   recolhido; o tema num controle segmentado (os mesmos rádios, P191). */
+.home {
+  gap: var(--sp-4);
+}
+
+.home-header {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-2);
+  text-align: center;
+}
+
+/* O selo do logo (P193): uma imagem, o círculo vermelho nos dois temas (P177) com o 当 vazado. */
+.logo {
+  width: 56px;
+  height: 56px;
+  flex: none;
+}
+
+.home-header h1 {
+  font-size: var(--t-xl);
+  line-height: var(--lh-xl);
+  font-weight: 700;
+}
+
+.home-header p {
+  font-size: var(--t-sm);
+  color: var(--muted);
+}
+
+/* Os cartões dos jogos (Início, Treino, submodo): a tinta, o canto do selo quadrado (21%). */
+.home-modes {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-2);
+}
+
+.home-card {
+  display: grid;
+  align-content: space-between;
+  justify-content: normal;
+  justify-items: start;
+  gap: var(--sp-1);
+  width: 100%;
+  /* Os cartões de uma linha com a mesma altura: o <li> estica na grade, e o cartão com ele. */
+  height: 100%;
+  min-height: 96px;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-tile);
+  background: var(--fill);
+  color: var(--text);
+  text-align: left;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  a.home-card:hover {
+    background: var(--fill-press);
+  }
+}
+
+.mode-name {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+}
+
+.mode-hint {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
+}
+
+/* O estado e o placar: uma legenda, em negrito (é resultado). */
+.home-card .tag {
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  white-space: normal;
+}
+
+/* O diário por jogar: o oliva, a ação da tela. Dentro dele, todo texto é o on-primary. */
+.home-card.next {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.home-card.next .mode-hint {
+  color: var(--on-primary);
+}
+
+@media (hover: hover) {
+  a.home-card.next:hover {
+    background: var(--primary-hover);
+  }
+}
+
+/* Dia sem diário (o cartão não é link): sem tinta, com um fio. */
+.home-card.off {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--border);
+  color: var(--muted);
+}
+
+.home-how-box {
+  border-top: 1px solid var(--hairline);
+}
+
+.home-how-box summary {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--sp-2);
+  list-style: none;
+  min-height: var(--h-control);
+  font-size: var(--t-sm);
+  cursor: pointer;
 }
 
-.artist-card-text {
+.home-how-box summary::-webkit-details-marker {
+  display: none;
+}
+
+.home-how-box .icon-next {
+  height: 0.75em;
+  color: var(--muted);
+}
+
+.home-how-box[open] .icon-next {
+  transform: rotate(90deg);
+}
+
+.home-how-box .home-how {
+  margin: 0 0 var(--sp-2);
+  padding-left: 20px;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
+}
+
+.home-theme {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.home-theme h2 {
+  font-size: var(--t-sm);
+  font-weight: 400;
+  line-height: var(--lh-sm);
+}
+
+.theme-options {
+  display: flex;
+  margin: 0;
+  padding: 2px;
+  border: 0;
+  border-radius: var(--r-field);
+  background: var(--fill);
+}
+
+/* Cada rádio é um segmento com alvo de 44 px; o rádio fica por cima, invisível, e é ele que
+   recebe o toque e o teclado. */
+.theme-options label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--h-control);
+  padding: 0 var(--sp-3);
+  border-radius: calc(var(--r-field) - 2px);
+  font-size: var(--t-sm);
+  cursor: pointer;
+}
+
+.theme-options label {
+  gap: var(--sp-1);
+}
+
+@supports selector(:has(*)) {
+  .theme-options input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .theme-options label:has(input:checked) {
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  .theme-options label:has(input:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+}
+
+/* Telas de escolha (Treino, lista de artistas, submodo, fim da partida): o título e a dica no
+   centro. */
+.practice > header:not(:has(.practice-score)) {
   display: grid;
-  gap: 4px;
-  min-width: 0;
+  justify-items: center;
+  gap: var(--sp-1);
+  text-align: center;
+}
+
+.practice > header:not(:has(.practice-score)) > h1 {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 400;
+}
+
+.practice > header:not(:has(.practice-score)) .hint {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
+.practice > ul.home-modes:not(:has(.artist-card)) .home-card {
+  min-height: 120px;
+}
+
+/* A lista de artistas: uma grade de capas, 4 por linha no celular. O nome e o latino em uma
+   linha cada; a contagem de músicas fica só na descrição acessível. Sem :has() (Firefox antes do
+   121, Safari antes do 15.4), cai na grade de 2 da Início: maior, mas inteira. */
+.artists ul.home-modes:has(.artist-card) {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-2);
+}
+
+.mode.artist-card {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 6px;
+  min-height: var(--h-control);
+  padding: var(--sp-1) 2px var(--sp-2);
+  border-radius: var(--r-field);
+  background: transparent;
+  text-align: center;
 }
 
 .artist-cover {
   flex: none;
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--r-media);
   background: var(--border);
+}
+
+.artist-card-text {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+}
+
+.artist-card .mode-name {
+  display: grid;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+}
+
+.artist-card .mode-name > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.artist-card .mode-name > span[aria-hidden="true"] {
+  display: none;
+}
+
+.artist-card .mode-name > span:nth-child(3) {
+  color: var(--muted);
+}
+
+.mode.artist-card .mode-hint {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.artists section > h2 {
+  margin-bottom: var(--sp-2);
+  font-size: var(--t-sm);
+  font-weight: 400;
+  line-height: var(--lh-sm);
+  color: var(--muted);
 }
 
 /* Sem capa (P171): a 1ª letra do nome num disco. As 8 cores têm contraste de 4,5:1 ou mais com o
@@ -964,67 +1341,98 @@ dialog.practice-restart::backdrop {
   background: #4a5568;
 }
 
-/* "Voltar à lista" na escolha do submodo: afastado dos cartões (ME73). */
-button.back {
-  margin-top: 16px;
+/* A escolha do submodo: os dois cartões empilhados, o "Voltar à lista" sem tinta. */
+.artists > ul.home-modes:not(:has(.artist-card)) {
+  grid-template-columns: minmax(0, 1fr);
 }
 
-/* O submodo no título (Superfan, ME75): uma etiqueta, e não mais uma parte do nome. */
-.title-sep {
-  display: none;
+.artists > ul.home-modes:not(:has(.artist-card)) .home-card {
+  min-height: 72px;
 }
 
-.variant-tag {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 999px;
-  background: var(--primary);
-  color: var(--on-primary);
-  font-size: 0.8rem;
-  font-weight: 700;
-  vertical-align: middle;
+/* Afastado dos cartões (ME73): o gap da tela e mais 4 px, os 16 de antes. */
+.artists > button.back {
+  align-self: center;
+  margin-top: var(--sp-1);
 }
 
-/* O artista que não carregou (M13): "Tentar de novo" e "Voltar à lista", lado a lado. */
+/* O artista que não carregou e o fim do Superfan: os botões empilhados, o principal em cima. */
 .artists-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  width: 100%;
+  gap: var(--sp-2);
 }
 
-/* A troca de tema no fim da Início (P191): o grupo de rádios, com alvo de 44 px, sob o h2 da
-   seção. */
-.theme-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 16px;
-  margin: 0;
-  padding: 0;
-  border: none;
+/* O fim da partida do Superfan: no centro, o placar grande. */
+.superfan > header:not(:has(.practice-score)) {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-1);
+  text-align: center;
 }
 
-.theme-options label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  cursor: pointer;
+.superfan > header:not(:has(.practice-score)) > h1 {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 400;
 }
 
-.theme-options input {
-  width: 18px;
-  height: 18px;
-  margin: 0;
-  accent-color: var(--accent-line);
+.superfan-end {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-2);
+  text-align: center;
 }
 
-.theme-options input:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
+.superfan-end p {
+  color: var(--muted);
 }
 
-/* Avisos que levam o foco ao montar (FocusedNotice, regra 16) */
-.focused-notice:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
+.superfan-end .practice-score {
+  font-size: var(--t-xl);
+  line-height: var(--lh-xl);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.superfan-end .artists-actions {
+  margin-top: var(--sp-3);
+}
+
+/* 7. Movimento e computador ------------------------------------------------------------- */
+/* O mínimo: a tela entra só pela opacidade, e o trecho liberado cresce. Nada de altura animada,
+   e a .bar-fill (desenhada pelo rAF) nunca tem transição. */
+@media (prefers-reduced-motion: no-preference) {
+  .screen {
+    animation: enter var(--dur-2) var(--ease);
+  }
+
+  .bar-unlocked {
+    transition: width var(--dur-2) var(--ease);
+  }
+
+  button,
+  .home-card,
+  .theme-options label {
+    transition:
+      background-color var(--dur-1) var(--ease),
+      color var(--dur-1) var(--ease);
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+  }
+}
+
+/* No computador: a coluna um pouco maior, e mais capas por linha. */
+@media (min-width: 720px) {
+  :root {
+    --column: 560px;
+  }
+
+  .artists ul.home-modes:has(.artist-card) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 }

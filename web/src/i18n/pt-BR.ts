@@ -29,6 +29,12 @@ export const ptBR = {
   "home.songHint":
     "Ouça o trecho e digite o nome exato da música, em até {total} tentativas. {rounds} rodadas por dia.",
   "home.practiceHint": "Rodadas sem fim do Normal ou do Desafio, um modo por vez.",
+  // As dicas curtas dos cartões da Início, na tela (P210); as inteiras, acima, ficam para o leitor
+  // de tela.
+  "home.albumShort": "4 opções de álbum",
+  "home.songShort": "Digite o nome da música",
+  "home.practiceShort": "Rodadas sem fim",
+  "home.artistsShort": "Por artista e Superfan",
   "home.statusNew": "nº {number} · novo",
   "home.statusPlaying": "nº {number} · em andamento",
   "home.statusDone": "nº {number} · terminado, {score} de {max} pontos",
@@ -186,6 +192,7 @@ export const ptBR = {
   "artists.foreign": "De fora do Japão",
   "artists.chooseHint":
     "Escolha o artista e depois o modo: ouça o trecho e digite o nome exato da música.",
+  "artists.chooseShort": "Escolha o artista e depois o modo.",
   "artists.songs.one": "{count} música",
   "artists.songs.other": "{count} músicas",
   "artists.loadingArtist": "Carregando as músicas de {artist}…",

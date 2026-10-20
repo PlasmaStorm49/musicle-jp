@@ -118,7 +118,7 @@ function PracticeStart({ onChoose }: { readonly onChoose: (target: Target) => vo
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   return (
-    <div class="game practice">
+    <div class="game practice screen">
       <header>
         <h1 ref={heading} tabIndex={-1}>
           {t("practice.title")}

@@ -1,8 +1,9 @@
 // Ajudantes dos testes de ponta a ponta. Rodam no Node (Playwright) e leem o catálogo falso do
 // disco para saber, pela faixa que o motor falso "tocou", qual é a resposta certa.
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
-import type { Album, Catalog, Schedule, Target, Track } from "../src/core/types.ts";
+import type { Album, ArtistList, Catalog, Schedule, Target, Track } from "../src/core/types.ts";
 
 /** Lê um arquivo de dados falso. Os tipos são os do contrato: mudou o schema, o tsc acusa aqui. */
 function fixture<T>(name: string): T {
@@ -65,6 +66,53 @@ export function albumOf(track: Track): Album {
 export function option(page: Page, title: string): Locator {
   const exactTitle = page.locator(".item-title").and(page.getByText(title, { exact: true }));
   return page.locator(".option").filter({ has: exactTitle });
+}
+
+/** Uma capa falsa qualquer, do fake-assets, para responder pelo host da Apple. */
+const FAKE_COVER = fileURLToPath(new URL("../public/fixtures/art/al01.svg", import.meta.url));
+
+/**
+ * A lista de artistas como se fosse a da parada real: o provedor "apple" (que põe o selo do Apple
+ * Music no fim, P170) e as capas num host da Apple, respondidas do disco. Nenhum pedido sai para a
+ * rede. Chame antes do `open`.
+ */
+export async function appleArtistList(page: Page): Promise<void> {
+  await page.route("**/fixtures/artists/index.json", async (route) => {
+    const response = await route.fetch();
+    const list = (await response.json()) as ArtistList;
+    const artists = list.artists.map((a) => ({
+      ...a,
+      artworkUrl: `https://is1-ssl.mzstatic.com/image/thumb/e2e/${a.file}/300x300bb.svg`,
+    }));
+    await route.fulfill({ response, json: { ...list, provider: "apple", artists } });
+  });
+  await page.route("https://is1-ssl.mzstatic.com/**", (route) =>
+    route.fulfill({ path: FAKE_COVER, contentType: "image/svg+xml" }),
+  );
+}
+
+/**
+ * Quanto a página passa da janela, na vertical e na horizontal (0 ou menos: cabe). Mede depois
+ * das fontes e das imagens: com a fonte de reserva, a medida oscila (a lição da ME70). A imagem
+ * adiada (loading="lazy") fora da vista nunca termina o decode: a espera tem limite. O load pede
+ * os dois pesos da Noto Sans JP: o ready sozinho termina na hora se nada estiver pendente.
+ */
+export async function overflow(page: Page): Promise<{ vertical: number; horizontal: number }> {
+  return page.evaluate(async () => {
+    await Promise.all([
+      document.fonts.load('400 1rem "Noto Sans JP"', "AteMusic 夜風"),
+      document.fonts.load('700 1rem "Noto Sans JP"', "AteMusic 夜風"),
+    ]);
+    await document.fonts.ready;
+    const images = [...document.images].map((img) => img.decode().catch(() => undefined));
+    await Promise.race([Promise.all(images), new Promise((done) => setTimeout(done, 2000))]);
+    await new Promise((done) => requestAnimationFrame(done));
+    const root = document.documentElement;
+    return {
+      vertical: root.scrollHeight - window.innerHeight,
+      horizontal: root.scrollWidth - window.innerWidth,
+    };
+  });
 }
 
 /** Troca a área de transferência por uma que guarda o texto (o Compartilhar copia para ela). */
