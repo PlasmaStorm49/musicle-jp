@@ -203,7 +203,7 @@ function SuperfanEnd({
           ? t("superfan.endEmpty")
           : t("superfan.endDone");
   return (
-    <div class="game practice superfan">
+    <div class="game practice superfan screen">
       <header>
         <h1 ref={heading} tabIndex={-1}>
           {t("superfan.endTitle")}

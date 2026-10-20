@@ -43,6 +43,7 @@ import { type ArtistStore, Artists, useArtistStore } from "./Artists.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
 import { Home } from "./Home.tsx";
+import { NavLogo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
 import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
 
@@ -215,9 +216,15 @@ export function App() {
         <ul>
           {/* Uma aba por link (#inicio, #normal, #desafio, #treino, #artistas), com aria-current
               na ativa. */}
+          {/* A Início é o selo do logo (P205): o nome do link fica em texto, para o leitor de tela. */}
           <li>
-            <a href={ROUTES.home} aria-current={tab === "home" ? "page" : undefined}>
-              {t("nav.home")}
+            <a
+              class="nav-home"
+              href={ROUTES.home}
+              aria-current={tab === "home" ? "page" : undefined}
+            >
+              <NavLogo />
+              <span class="sr-only">{t("nav.home")}</span>
             </a>
           </li>
           {MODES.map((daily) => (
@@ -254,9 +261,13 @@ export function App() {
           {message}
         </p>
         {saves.notice && <p class="notice">{saves.notice}</p>}
-        {load.status === "loading" && <p>{t("load.loading")}</p>}
+        {load.status === "loading" && (
+          <div class="loading screen">
+            <p>{t("load.loading")}</p>
+          </div>
+        )}
         {load.status === "retry" && (
-          <section class="error">
+          <section class="error screen">
             <FocusedNotice text={t("load.retry")} />
             <button type="button" class="primary" onClick={() => setAttempt((n) => n + 1)}>
               {t("load.retryButton")}
@@ -264,7 +275,7 @@ export function App() {
           </section>
         )}
         {load.status === "update" && (
-          <section class="error">
+          <section class="error screen">
             <FocusedNotice text={t("load.update")} />
             <button type="button" class="primary" onClick={() => window.location.reload()}>
               {t("load.updateButton")}
@@ -400,7 +411,7 @@ function Ready({
 /** Dia sem diário na agenda: o Treino continua (PLANO, Apêndice C). */
 function Unavailable() {
   return (
-    <section class="unavailable">
+    <section class="unavailable screen">
       <FocusedNotice text={t("day.unavailable")} />
       <a href={ROUTES.practice}>{t("day.practiceLink")}</a>
     </section>

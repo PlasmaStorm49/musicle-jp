@@ -22,8 +22,8 @@ export function ArtistCover({ list, entry, resolveUrl }: Props) {
         class="artist-cover"
         src={resolveUrl(url)}
         alt=""
-        width={56}
-        height={56}
+        width={64}
+        height={64}
         loading="lazy"
         onError={() => setFailed(true)}
       />
