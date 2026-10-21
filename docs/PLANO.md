@@ -170,7 +170,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P217 | O tema vira um switch claro e escuro, sem o "Automático" na tela. Sem escolha salva, o jogo segue o aparelho, e o switch mostra esse tema; depois do 1º toque, vale a escolha gravada. Revisa a P176. O switch continua no fim da Início (P191) |
 | P218 | O sol e a lua do switch, o alto-falante e o alto-falante mudo do volume são desenhos provisórios do Claude, a pedido do usuário, na linha do X, do ✓ e do chevron do designer (P178), aprovados por ele numa página antes do PR (21/10/2026). Ficam fora do `icons.ts` gerado e saem quando o designer mandar os dele (PD6) |
 | P219 | A barra de volume vai de 0% a 100%, com o mudo: 10% ainda pode ser alto (o usuário). O ganho segue uma curva, o quadrado da barra (10% na barra dá 1% do som). No mudo, o botão mostra o alto-falante mudo, para ninguém gastar um "Ouvir mais" sem som |
-| P220 | O "Desistir" vira botão (ME94): o fundo da tinta, como os outros botões, e o texto vermelho, que avisa que a rodada acaba sem competir com o Tocar. Vale também para o "Não sei" do Normal e o "Desistir da música" do Superfan, que são a mesma ação. O "Voltar à lista" continua só texto |
+| P220 | O "Desistir" vira botão (ME94), com o texto vermelho, que avisa que a rodada acaba sem competir com o Tocar. O usuário escolheu a tinta dos outros botões com o texto vermelho, mas o teste de contraste recusou o par (4,0:1 no claro; 4,5 é o mínimo do texto): ficou o texto e um anel vermelhos sobre o fundo da página, que já passam nos dois temas. Vale também para o "Não sei" do Normal e o "Desistir da música" do Superfan, que são a mesma ação. O "Voltar à lista" continua só texto |
 | P221 | A categoria do menu que junta o Normal e o Desafio se chama "Hits" (ME96) |
 | P222 | O Treino também entra nos Hits: a categoria é de onde vêm as músicas (a parada), e dentro dela ficam os jeitos de jogar (ME96) |
 | P223 | A categoria de anime sai de uma lista curada, como o `artists.toml` (ME97). A curadoria ainda vai ser trabalhada com o usuário antes do marco |
@@ -378,7 +378,6 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 
 **De 21/10/2026** (os pedidos do usuário e o que ficou da entrega do switch e do volume):
 
-- ME94. "Desistir" como botão de verdade, de preferência vermelho (o usuário): hoje é só o texto sublinhado, no `--muted`, e parece link. Foi escolha do PR D1, para a saída não parecer mais uma opção (ME57, `button.give-up` no `styles.css`); o alvo já tem 44 px, então virar botão não muda a altura da rodada (regra 25). A mesma classe serve o "Não sei" do Normal, o "Desistir da música" do Superfan e o "Voltar à lista". Decidido na P220: a tinta com o texto vermelho, nos três de desistir. O vermelho pede par novo no `PAIRS` do `scripts/theme.test.ts`, nos dois temas (regra 24).
 - ME95. Clicar na barra da música leva àquele ponto (o usuário). Hoje a barra não é clicável. O motor já toca de qualquer ponto (`play(url, offset, seconds)`). Na rodada, só dentro do trecho já liberado, para não entregar som novo de graça; os trechos são curtos (o diário vai de 1 a 16 s). A prévia inteira da revelação (30 s) não tem barra hoje. Pede alvo de toque de 44 px (a barra tem 12) e o teclado (um `role="slider"`). Decidido na P224: na rodada e na revelação.
 - ME96. O Normal e o Desafio numa categoria só no menu, para criar outras categorias (o usuário). Nome a decidir. A nav tem hoje cinco abas (Início, Normal, Desafio, Treino e Artistas), que só cabem numa linha a partir de 360 px (ME70). Os fragmentos `#normal` e `#desafio` precisam continuar abrindo o jogo (regra 17 do `web/CLAUDE.md`). Marco próprio, com modo de planejamento. Decidido: a categoria se chama "Hits" (P221), e o Treino entra nela (P222).
 - ME97. Uma categoria de músicas de anime populares, aproveitando o modo por artista (o usuário). O pipeline não guarda o gênero da música. Hipótese, a conferir: o lookup do iTunes devolve o `primaryGenreName`, e a loja tem o gênero Anime, mas muita música de anime sai como J-Pop. O caminho sem chave nova é uma lista curada, como o `artists.toml`, e foi o escolhido (P223); a curadoria ainda vai ser trabalhada. Marco próprio, depois da ME96.
@@ -388,7 +387,7 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 
 **Feitas:**
 
-- Em 21/10/2026: ME29 (as exceções do vite e do source-map-js fora do `web/.npmrc`; o lockfile continua no vite 8.3.3 e no source-map-js 1.2.2, as duas com mais de 14 dias).
+- Em 21/10/2026: ME94 (o "Não sei", o "Desistir" e o "Desistir da música" como botão, com o texto e o anel vermelhos, P220) e ME29 (as exceções do vite e do source-map-js fora do `web/.npmrc`; o lockfile continua no vite 8.3.3 e no source-map-js 1.2.2, as duas com mais de 14 dias).
 
 - No M12, PR A: ME7 (o tema escuro, com a troca na Início, e o contraste dos dois temas travado pelo `web/scripts/theme.test.ts`) e ME30 (a barra do trecho e a distribuição: o liberado contra o trilho dá 14,75 no claro e 10,04 no escuro). A S31 (o M12 em 4 PRs) virou o plano do marco.
 - S7 (M9): um marco por branch e por PR.
