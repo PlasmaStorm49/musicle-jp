@@ -1,5 +1,5 @@
-// O tema claro e escuro (M12, P176, P191): o Automático segue o aparelho só pelo CSS, e a troca
-// na Início vale na hora, fica gravada e volta antes da pintura (o script do index.html).
+// O tema claro e escuro (M12, P176, P191, P217): sem escolha, ele segue o aparelho só pelo CSS, e
+// o switch da Início vale na hora, fica gravado e volta antes da pintura (o script do index.html).
 import type { Page } from "@playwright/test";
 import { THEME_KEY } from "../src/storage/theme.ts";
 import { expect, open, test } from "./helpers.ts";
@@ -8,19 +8,20 @@ const NOW = "2026-10-08T12:00:00-03:00";
 const background = (page: Page) =>
   page.evaluate(() => getComputedStyle(document.body).backgroundColor);
 const BLACK = "rgb(0, 0, 0)";
+const themeSwitch = (page: Page) => page.getByRole("switch", { name: "Tema escuro" });
 const WHITE = "rgb(255, 255, 255)";
 
-test("no Automático, o aparelho escuro deixa a página escura, sem atributo no <html>", async ({
+test("sem escolha, o aparelho escuro deixa a página escura, sem atributo no <html>, e o switch ligado", async ({
   page,
 }) => {
   await page.emulateMedia({ colorScheme: "dark" });
   await open(page, NOW, "");
-  await expect(page.getByRole("radio", { name: "Automático" })).toBeChecked();
+  await expect(themeSwitch(page)).toHaveAttribute("aria-checked", "true");
   expect(await background(page)).toBe(BLACK);
   expect(await page.evaluate(() => document.documentElement.dataset.theme)).toBeUndefined();
 });
 
-test("escolher Claro num aparelho escuro vale na hora, e depois de recarregar já vem antes do app", async ({
+test("o switch num aparelho escuro passa ao claro na hora, e depois de recarregar ele já vem antes do app", async ({
   page,
 }) => {
   await page.emulateMedia({ colorScheme: "dark" });
@@ -37,12 +38,13 @@ test("escolher Claro num aparelho escuro vale na hora, e depois de recarregar j�
   });
   await open(page, NOW, "");
   expect(await background(page)).toBe(BLACK);
-  await page.getByRole("radio", { name: "Claro" }).check();
+  await themeSwitch(page).click();
+  await expect(themeSwitch(page)).toHaveAttribute("aria-checked", "false");
   expect(await background(page)).toBe(WHITE);
   expect(await page.evaluate((key) => localStorage.getItem(key), THEME_KEY)).toBe("light");
 
   await page.reload();
-  await expect(page.getByRole("radio", { name: "Claro" })).toBeChecked();
+  await expect(themeSwitch(page)).toHaveAttribute("aria-checked", "false");
   expect(await page.evaluate(() => window.__themeAtLoad)).toBe("light");
   expect(await background(page)).toBe(WHITE);
   // A barra do navegador acompanha: as duas metas com o branco.
@@ -52,13 +54,14 @@ test("escolher Claro num aparelho escuro vale na hora, e depois de recarregar j�
   expect(colors).toEqual(["#ffffff", "#ffffff"]);
 });
 
-test("escolher Escuro num aparelho claro deixa o jogo escuro também nas outras abas", async ({
+test("o switch num aparelho claro deixa o jogo escuro também nas outras abas do jogo", async ({
   page,
 }) => {
   await open(page, NOW, "");
-  // O Automático, num aparelho claro, é claro: o bloco escuro só vale dentro do @media.
+  // Sem escolha, num aparelho claro, é claro: o bloco escuro só vale dentro do @media.
   expect(await background(page)).toBe(WHITE);
-  await page.getByRole("radio", { name: "Escuro" }).check();
+  await expect(themeSwitch(page)).toHaveAttribute("aria-checked", "false");
+  await themeSwitch(page).click();
   await page.getByRole("navigation").getByRole("link", { name: "Desafio" }).click();
   await expect(page.getByRole("button", { name: /^Tocar/ })).toBeVisible();
   expect(await background(page)).toBe(BLACK);
