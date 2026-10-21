@@ -6,7 +6,7 @@ Atualizado em 21/10/2026.
 
 ## Próximos, na ordem combinada (21/10)
 
-1. **ME29** e **ME36**: as dependências com data (a ME36 só a partir de 22/10).
+1. **ME36**: as 3 actions novas (o merge só depois das 23:52 de 21/10).
 2. **ME94**: o Desistir como botão.
 3. **ME95**: a barra que leva ao ponto da música.
 4. **ME99**: a revisão adiada do switch e do volume.
@@ -16,7 +16,6 @@ Atualizado em 21/10/2026.
 ## Itens para corrigir
 
 **Com data**
-- **ME29.** Tirar do `web/.npmrc` as exceções do vite e do source-map-js. Venceu em 20/10.
 - **ME36.** Atualizar as 3 actions com versão nova. Libera em 22/10.
 
 **Na tela**

@@ -24,7 +24,7 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P24 | O Normal (antes, o Diário Álbum) aceita singles, em definitivo |
 | P25 | `epoch` da agenda real (M11, em `public/data/`, com IDs da Apple): 2026-10-10, decidido nesse dia. Se ela for publicada depois, o 1º desafio real sai com nº maior que 1, e os dias entre o `epoch` e a publicação ficam como buraco (P44) |
 | P27 | Rodada anulada sai do total do dia (o máximo cai de 18 para 12 com uma anulada) |
-| P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2. No `.npmrc` a exceção é **por nome** do pacote, então vale para qualquer versão nova deles: sai depois de 20/10/2026, quando o vite 8.3.3 completa 14 dias (ME29) |
+| P28, P29 | Dependências com 14 dias ou mais de publicadas, inclusive as indiretas (`web/.npmrc`); exceção só para patch de segurança com aviso publicado: vite 8.3.3 e source-map-js 1.2.2. No `.npmrc` a exceção é **por nome** do pacote, então vale para qualquer versão nova deles: sai depois de 20/10/2026, quando o vite 8.3.3 completa 14 dias (ME29). Saiu em 21/10/2026: o aviso do dia (GHSA-8g5g-mxqh-grgj) é só do vite 6, e o lockfile segue no 8.3.3 |
 | P31 | Aviso de faixa explícita no player antes de tocar e na revelação |
 | P32 | Romaji menor embaixo do título japonês nas opções |
 | P33 | "Ouvir mais" libera a etapa e toca o trecho maior na hora |
@@ -327,7 +327,6 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 
 **Do checkup de 11/10/2026** (P90). As feitas estão em "Feitas", abaixo.
 
-- ME29. Tirar do `web/.npmrc` as exceções do vite e do source-map-js a partir de 20/10/2026, quando o vite 8.3.3 completa 14 dias (P29): do jeito que estão, qualquer versão nova deles entra sem a carência.
 - ME33. Textos: "- Single" na revelação, dia todo anulado mostrando "0/0", a dica de "setas e Enter" no celular e a rodada anulada sempre como "Áudio indisponível" (também quando a resposta perdeu a elegibilidade). Vai com o M12.
 - ME34. Celular: opções com títulos enormes ("Yes! 東京 (feat. …)" passa de 6 linhas) e a distribuição de pontos com 19 linhas. Vai com o M12. (O seletor de modo do Treino antes do player saiu com a P105.) **Resolvida no PR D (M12):** a distribuição em 19 colunas (D3); os títulos enormes quebram a linha sem corte (P212), e a rodada com um deles pode rolar.
 - ME36. Atualizar as 3 actions que têm versão nova quando ela completar 14 dias, a partir de 22/10/2026 (P28; checkup).
@@ -388,6 +387,8 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 - ME100. No iPhone, conferir se o `<audio>` de reserva obedece ao volume (`?htmlAudio=1`). Hipótese: o iOS ignora o `volume` do elemento, e lá a barra só vale no Web Audio, o motor normal.
 
 **Feitas:**
+
+- Em 21/10/2026: ME29 (as exceções do vite e do source-map-js fora do `web/.npmrc`; o lockfile continua no vite 8.3.3 e no source-map-js 1.2.2, as duas com mais de 14 dias).
 
 - No M12, PR A: ME7 (o tema escuro, com a troca na Início, e o contraste dos dois temas travado pelo `web/scripts/theme.test.ts`) e ME30 (a barra do trecho e a distribuição: o liberado contra o trilho dá 14,75 no claro e 10,04 no escuro). A S31 (o M12 em 4 PRs) virou o plano do marco.
 - S7 (M9): um marco por branch e por PR.
