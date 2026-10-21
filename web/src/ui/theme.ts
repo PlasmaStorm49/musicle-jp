@@ -3,18 +3,9 @@
 // o prefers-color-scheme do aparelho, só no CSS. O script do index.html aplica o tema salvo antes
 // da pintura, com a mesma chave; daí em diante a página é a fonte da verdade desta aba (a gravação
 // pode falhar), e a troca feita em outra aba chega pelo evento storage.
-import { useCallback, useEffect, useState } from "preact/hooks";
-import type { KeyValueStore } from "../storage/save.ts";
+import { useEffect, useState } from "preact/hooks";
 import { readTheme, THEME_KEY, type ThemeChoice, writeTheme } from "../storage/theme.ts";
-
-/** O localStorage, ou null quando o navegador não deixa nem ler (cookies bloqueados). */
-export function browserStore(): KeyValueStore | null {
-  try {
-    return window.localStorage;
-  } catch {
-    return null;
-  }
-}
+import { browserStore } from "./browserStore.ts";
 
 /** O tema que a página mostra agora. */
 export function shownTheme(doc: Document = document): ThemeChoice {
@@ -23,7 +14,7 @@ export function shownTheme(doc: Document = document): ThemeChoice {
 }
 
 /**
- * Aplica o tema. Cada <meta name="theme-color"> guarda a sua cor em data-color: no Automático,
+ * Aplica o tema. Cada <meta name="theme-color"> guarda a sua cor em data-color: sem escolha,
  * cada um volta à sua (o navegador escolhe pela media); com um tema escolhido, os dois ficam com a
  * cor dele.
  */
@@ -66,12 +57,19 @@ export function watchTheme(win: Window = window): void {
   win.addEventListener("storage", (event) => void fromOtherTab(event));
 }
 
+/** O tema da página, se ele é o do aparelho (sem escolha salva) e a troca para o outro. */
+export type ThemeState = {
+  readonly theme: Theme;
+  readonly followsDevice: boolean;
+  readonly toggle: () => void;
+};
+
 /**
  * O tema que a página mostra (o escolhido, ou o do aparelho sem escolha) e a troca para o outro:
  * aplica na hora e grava no aparelho (P217). Sem armazenamento, vale só nesta visita. Começa pelo
  * que a página mostra, segue a troca de outra aba e, sem escolha, a do aparelho.
  */
-export function useTheme(): readonly [Theme, () => void] {
+export function useTheme(): ThemeState {
   const [choice, setChoice] = useState<ThemeChoice>(() => shownTheme());
   const [device, setDevice] = useState<Theme>(() => deviceTheme());
   useEffect(() => {
@@ -82,19 +80,21 @@ export function useTheme(): readonly [Theme, () => void] {
     window.addEventListener("storage", onStorage);
     const media = typeof window.matchMedia === "function" ? window.matchMedia(DARK_QUERY) : null;
     const onDevice = () => setDevice(deviceTheme());
-    media?.addEventListener("change", onDevice);
+    // O Safari antes do 14 não tem o addEventListener no MediaQueryList: lá, o switch só não
+    // acompanha a troca do aparelho com a página aberta.
+    media?.addEventListener?.("change", onDevice);
     return () => {
       window.removeEventListener("storage", onStorage);
-      media?.removeEventListener("change", onDevice);
+      media?.removeEventListener?.("change", onDevice);
     };
   }, []);
   const theme: Theme = choice === "auto" ? device : choice;
-  const toggle = useCallback(() => {
+  const toggle = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";
     setChoice(next);
     applyTheme(next);
     const store = browserStore();
     if (store) writeTheme(store, next);
-  }, [theme]);
-  return [theme, toggle];
+  };
+  return { theme, followsDevice: choice === "auto", toggle };
 }

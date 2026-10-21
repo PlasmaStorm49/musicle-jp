@@ -193,7 +193,7 @@ export function App() {
       fails: failTrack
         ? (url) => url === resolver.peek(failTrack) || (!!stored && url === resolveUrl(stored))
         : undefined,
-      // O volume salvo (P216): o motor nasce com ele, também o recriado no "Tentar de novo".
+      // O volume salvo (P216): o motor nasce com ele.
       volume: savedVolume(),
       onPlayed: import.meta.env.DEV
         ? (log: PlayLog) => {

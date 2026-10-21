@@ -5,7 +5,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { ICONS } from "../src/ui/assets/icons.ts";
-import { PROVISIONAL_ICONS } from "../src/ui/assets/icons-provisorios.ts";
+import { PROVISIONAL_ICONS } from "../src/ui/assets/provisional-icons.ts";
 
 const read = (path: string) => readFileSync(new URL(path, import.meta.url), "utf8");
 const noComments = (svg: string) => svg.replace(/<!--[\s\S]*?-->/g, "");
@@ -77,7 +77,7 @@ describe("os ícones provisórios (P218)", () => {
       expect(Object.keys(ICONS)).not.toContain(name);
   });
 
-  it("cada um é um caminho só, com a caixa justa (como as peças do guia)", () => {
+  it("cada um é um caminho preenchido, do M ao Z, com a sua viewBox (como as peças do guia)", () => {
     for (const { viewBox, d } of Object.values(PROVISIONAL_ICONS)) {
       expect(viewBox).toMatch(/^-?\d+ -?\d+ \d+ \d+$/);
       expect(d.startsWith("M")).toBe(true);

@@ -204,6 +204,13 @@ a {
   outline-offset: 2px;
 }
 
+/* O [hidden] vale sempre: qualquer display de um componente venceria o do navegador, e o fechado
+   apareceria (o painel do volume cobria o "Reiniciar" e o "Trocar"). */
+[hidden] {
+  /* biome-ignore lint/complexity/noImportantStyles: só o !important vence o display de qualquer componente (o [hidden] tem a especificidade de uma classe) */
+  display: none !important;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -647,6 +654,11 @@ main.app {
   flex: none;
 }
 
+/* O "(+1 s)" do "Ouvir mais" e do "Pular" nunca se parte: quando falta espaço, desce inteiro. */
+.player-actions .extra {
+  white-space: nowrap;
+}
+
 .volume-toggle {
   width: var(--h-hero);
   min-height: var(--h-hero);
@@ -671,12 +683,6 @@ main.app {
   border: 1px solid var(--border-strong);
   border-radius: var(--r-field);
   background: var(--surface);
-}
-
-/* Fechada, ela some: o display: flex acima venceria o [hidden] do navegador, e a barra cobriria o
-   cabeçalho (o "Reiniciar", o "Trocar"). */
-.volume-panel[hidden] {
-  display: none;
 }
 
 .volume-panel label {
@@ -1243,7 +1249,7 @@ section.void,
 
 /* 5. Telas ------------------------------------------------------------------------------- */
 /* Início: o selo, o nome e a frase no centro; os 4 jogos numa grade 2×2; o "Como funciona"
-   recolhido; o tema num controle segmentado (os mesmos rádios, P191). */
+   recolhido; o tema num switch (P217). */
 .home {
   gap: var(--sp-4);
 }
@@ -1397,11 +1403,24 @@ section.void,
 
 /* O switch do tema (P217): o sol, a trilha com o botão redondo e a lua. A trilha é a tinta
    pressionada, o botão redondo é a cor do texto, e o ícone do tema da página fica no texto (o outro,
-   no cinza). O alvo tem 44 px (P213). */
+   no cinza). O alvo tem 44 px (P213). A trilha contra o fundo dá só ~1,24:1: quem diz o estado é o
+   botão redondo (o --text sobre a trilha, no PAIRS) e o ícone aceso, e não a trilha. */
 .theme-switch {
   gap: var(--sp-2);
   padding: 0 var(--sp-2);
   background: transparent;
+}
+
+/* Sem a tinta do hover e do pressionado dos outros botões: ela é a cor da trilha, que sumiria.
+   Pressionado, fica só o anel. */
+.theme-switch:active:not(:disabled) {
+  background: transparent;
+}
+
+@media (hover: hover) {
+  .theme-switch:hover:not(:disabled) {
+    background: transparent;
+  }
 }
 
 .theme-switch .icon-sun,
@@ -1881,6 +1900,30 @@ section.summary > h2 {
 }
 
 /* 6. Movimento e computador ------------------------------------------------------------- */
+/* O alto contraste do Windows (forced-colors) apaga os fundos: a trilha do switch ganha a borda,
+   e o botão redondo e a barra do trecho, as cores do sistema. */
+@media (forced-colors: active) {
+  .theme-track,
+  .bar {
+    border: 1px solid CanvasText;
+  }
+
+  .theme-thumb {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .bar-unlocked {
+    forced-color-adjust: none;
+    background: GrayText;
+  }
+
+  .bar-fill {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+}
+
 /* O mínimo: a tela entra só pela opacidade, e o trecho liberado cresce. Nada de altura animada,
    e a .bar-fill (desenhada pelo rAF) nunca tem transição. */
 @media (prefers-reduced-motion: no-preference) {

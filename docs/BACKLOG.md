@@ -7,7 +7,6 @@ Atualizado em 21/10/2026.
 ## Próximos, na ordem combinada (21/10)
 
 1. **ME36**: as 3 actions novas (o merge só depois das 23:52 de 21/10).
-4. **ME99**: a revisão adiada do switch e do volume.
 5. **ME96**: o plano das categorias no menu (os Hits).
 6. **ME97**: a categoria de anime, depois de trabalhar a curadoria.
 
@@ -17,8 +16,6 @@ Atualizado em 21/10/2026.
 - **ME36.** Atualizar as 3 actions com versão nova. Libera em 22/10.
 
 **Na tela**
-- **ME98 (novo).** "Ouvir mais (+1 s)" quebra em duas linhas no celular: a quebra não pode partir o "(+1 s)" ao meio.
-- **ME99 (novo).** A revisão adiada do switch de tema e do volume (#45 e #46): o `revisor`, o `/code-review` e os 15 pontos já anotados do #45.
 - **ME33.** Textos: o "- Single" na revelação, o dia anulado com "0/0" e o "Áudio indisponível" quando o motivo é outro. Conferir o que o PR D já resolveu.
 - **ME37.** O Player perde o foco no "Carregando…": trocar o `disabled` pelo `aria-disabled`.
 - **ME76.** O aviso do leitor de tela continua na página depois de trocar de aba.
@@ -52,6 +49,8 @@ Atualizado em 21/10/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
+- **ME101 (novo).** O volume na revelação: a prévia inteira toca com ele, mas sem o controle nem o ícone do mudo.
+- **ME102 (novo).** O ícone do mudo até 5%: nesse ponto, o som já é quase nada.
 - **S18.** "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal, no Treino.
 - **S22.** O selo da rodada no modo por artista leva à página do artista na loja.
 - **S29.** As 3 faíscas do 当 animadas no acerto.
@@ -95,7 +94,7 @@ Atualizado em 21/10/2026.
 - Conferir o logo empilhado: libera a **S34**, a imagem de compartilhamento (`og:image`).
 
 **Você**
-- **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume (abrir com `?htmlAudio=1`).
+- **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
 - **P16.** Decidir se a URL e o repositório mudam de nome.
 - Segunda, 26/10: o PR do robô, com o merge no mesmo dia.

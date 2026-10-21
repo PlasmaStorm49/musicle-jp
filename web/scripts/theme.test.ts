@@ -88,8 +88,6 @@ const PAIRS: readonly (readonly [string, string, number])[] = [
   ["muted", "fill", TEXT],
   ["text", "fill-press", TEXT],
   ["muted", "fill-press", TEXT],
-  // O segmento escolhido do tema: o chip invertido.
-  ["bg", "text", TEXT],
   ["ok", "bg", TEXT],
   ["ok", "surface", TEXT],
   ["bad", "bg", TEXT],
@@ -109,7 +107,7 @@ const PAIRS: readonly (readonly [string, string, number])[] = [
   ["accent-line", "surface", SHAPE],
   ["focus", "bg", SHAPE],
   ["focus", "surface", SHAPE],
-  // O anel do segmento do tema cai sobre a tinta do grupo (PR D1).
+  // O anel do foco sobre a tinta (a sugestão ativa do Desafio, ME93).
   ["focus", "fill", SHAPE],
   // A barra do trecho (ME30): o liberado contra o trilho, e o que já tocou contra o liberado.
   ["bar-open", "bar-track", SHAPE],

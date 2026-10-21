@@ -210,17 +210,29 @@ export function Player({
         )}
         {rules.listenMore && stage < lastStage(rules) && (
           <button type="button" onClick={singleClick(listenMore)} disabled={busy}>
-            {t("player.listenMore", { seconds: extra })}
+            <ExtraLabel label={t("player.listenMore")} seconds={extra} />
           </button>
         )}
         {skippable && (
           <button type="button" onClick={singleClick(skip)} disabled={status === "loading"}>
-            {t("typing.skip", { seconds: extra })}
+            <ExtraLabel label={t("typing.skip")} seconds={extra} />
           </button>
         )}
         <VolumeControl engine={engine} />
       </div>
     </section>
+  );
+}
+
+/**
+ * "Ouvir mais (+1 s)" e "Pular (+1 s)" num item só do botão (que é flex): quando falta espaço, o
+ * texto quebra como texto, e o "(+1 s)" desce inteiro, sem se partir (ME98).
+ */
+function ExtraLabel({ label, seconds }: { readonly label: string; readonly seconds: number }) {
+  return (
+    <span>
+      {label} <span class="extra">{t("player.extra", { seconds })}</span>
+    </span>
   );
 }
 
@@ -231,7 +243,7 @@ export function Player({
  * foco ao botão. O botão alterna no mesmo lugar: o 2º clique de um toque duplo não fecha (regra 23).
  */
 function VolumeControl({ engine }: { readonly engine: AudioEngine }) {
-  const [level, setLevel] = useVolume(engine);
+  const { level, apply, save } = useVolume(engine);
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
@@ -264,10 +276,22 @@ function VolumeControl({ engine }: { readonly engine: AudioEngine }) {
         ref={button}
         type="button"
         class="volume-toggle"
-        aria-label={t("player.volume")}
+        // O nome diz o volume, e o mudo: o ícone é só desenho (P219).
+        aria-label={percent === 0 ? t("player.volumeMuted") : t("player.volumeButton", { percent })}
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={singleClick(() => setOpen((was) => !was))}
+        onClick={singleClick(() => {
+          setOpen(!open);
+          // Fechar pelo botão deixa o foco nele: no Safari, o clique não foca o botão, e o foco
+          // ficaria na barra que some (regra 16).
+          if (open) button.current?.focus();
+        })}
+        onKeyDown={(event) => {
+          // O Esc fecha também com o foco no botão (o Shift+Tab volta a ele com a barra aberta).
+          if (event.key !== "Escape" || !open) return;
+          event.preventDefault();
+          setOpen(false);
+        }}
       >
         <Icon name={percent === 0 ? "speakerMuted" : "speaker"} />
       </button>
@@ -282,7 +306,8 @@ function VolumeControl({ engine }: { readonly engine: AudioEngine }) {
           step={VOLUME_STEP}
           value={percent}
           aria-valuetext={t("player.volumeValue", { percent })}
-          onInput={(event) => setLevel(Number(event.currentTarget.value) / 100)}
+          onInput={(event) => apply(Number(event.currentTarget.value) / 100)}
+          onChange={save}
           onKeyDown={(event) => {
             // O Esc fecha a barra e devolve o foco ao botão.
             if (event.key !== "Escape") return;

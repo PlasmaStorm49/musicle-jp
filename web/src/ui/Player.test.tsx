@@ -20,14 +20,18 @@ afterEach(() => {
 });
 
 function setup(rules: ModeRules, skippable: boolean) {
+  // O volume fica no motor, como nos de verdade.
+  let volume = 1;
   const engine: AudioEngine = {
     unlock: vi.fn(),
     preload: vi.fn(),
     play: vi.fn(() => Promise.resolve(null)),
     stop: vi.fn(),
     retain: vi.fn(),
-    setVolume: vi.fn(),
-    volume: () => 1,
+    setVolume: vi.fn((level: number) => {
+      volume = level;
+    }),
+    volume: () => volume,
   };
   const onSkip = vi.fn();
   const onListenMore = vi.fn();
@@ -425,39 +429,77 @@ describe("Player com o som tocando", () => {
 
 describe("Player: o volume (P216, P219)", () => {
   afterEach(() => localStorage.clear());
+  const speaker = () => screen.getByRole("button", { name: /^Volume/ });
 
-  it("o alto-falante abre a barra com o foco nela; mexer aplica no motor e grava; o Esc fecha e devolve o foco", () => {
+  it("o alto-falante abre a barra com o foco nela; mexer aplica no motor, e o fim do arraste grava; o Esc fecha e devolve o foco", () => {
     const { engine } = setup(MODE_RULES.album, false);
-    const toggle = screen.getByRole("button", { name: "Volume" });
-    expect(toggle.getAttribute("aria-expanded")).toBe("false");
-    fireEvent.click(toggle);
-    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+    expect(speaker().getAttribute("aria-label")).toBe("Volume: 100%");
+    expect(speaker().getAttribute("aria-expanded")).toBe("false");
+    fireEvent.click(speaker());
+    expect(speaker().getAttribute("aria-expanded")).toBe("true");
     const range = screen.getByRole("slider", { name: "Volume" }) as HTMLInputElement;
     expect(document.activeElement).toBe(range);
     expect(range.value).toBe("100");
     fireEvent.input(range, { target: { value: "40" } });
     expect(engine.setVolume).toHaveBeenCalledWith(0.4);
+    // Durante o arraste só aplica; grava no change, no fim dele.
+    expect(localStorage.getItem("musicle-jp:volume")).toBeNull();
+    fireEvent.change(range);
     expect(localStorage.getItem("musicle-jp:volume")).toBe("0.4");
     fireEvent.keyDown(range, { key: "Escape" });
-    expect(toggle.getAttribute("aria-expanded")).toBe("false");
-    expect(document.activeElement).toBe(toggle);
+    expect(speaker().getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(speaker());
   });
 
-  it("no 0%, o botão mostra o alto-falante mudo (ninguém gasta um trecho sem som)", () => {
+  it("no 0%, o botão mostra o alto-falante mudo e o nome diz o mudo (ninguém gasta um trecho sem som)", () => {
     setup(MODE_RULES.album, false);
-    const toggle = screen.getByRole("button", { name: "Volume" });
-    expect(toggle.querySelector("svg.icon-speaker")).not.toBeNull();
-    fireEvent.click(toggle);
+    expect(speaker().querySelector("svg.icon-speaker")).not.toBeNull();
+    fireEvent.click(speaker());
     fireEvent.input(screen.getByRole("slider", { name: "Volume" }), { target: { value: "0" } });
-    expect(toggle.querySelector("svg.icon-speakerMuted")).not.toBeNull();
+    expect(speaker().querySelector("svg.icon-speakerMuted")).not.toBeNull();
+    expect(speaker().getAttribute("aria-label")).toBe("Volume: mudo");
   });
 
   it("o 2º clique de um toque duplo no alto-falante não fecha a barra (regra 23)", () => {
     setup(MODE_RULES.album, false);
-    const toggle = screen.getByRole("button", { name: "Volume" });
-    fireEvent.click(toggle, { detail: 1 });
-    fireEvent.click(toggle, { detail: 2 });
-    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+    fireEvent.click(speaker(), { detail: 1 });
+    fireEvent.click(speaker(), { detail: 2 });
+    expect(speaker().getAttribute("aria-expanded")).toBe("true");
+  });
+
+  it("fechar pelo próprio botão deixa o foco nele, e não no body (regra 16)", () => {
+    setup(MODE_RULES.album, false);
+    fireEvent.click(speaker());
+    fireEvent.click(speaker());
+    expect(speaker().getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(speaker());
+  });
+
+  it("o Esc fecha também com o foco no botão (o Shift+Tab volta a ele com a barra aberta)", () => {
+    setup(MODE_RULES.album, false);
+    fireEvent.click(speaker());
+    speaker().focus();
+    fireEvent.keyDown(speaker(), { key: "Escape" });
+    expect(speaker().getAttribute("aria-expanded")).toBe("false");
+  });
+
+  it("um toque fora fecha a barra, e um toque nela não", () => {
+    setup(MODE_RULES.album, false);
+    fireEvent.click(speaker());
+    fireEvent.pointerDown(screen.getByRole("slider", { name: "Volume" }));
+    expect(speaker().getAttribute("aria-expanded")).toBe("true");
+    act(() => {
+      document.body.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+    });
+    expect(speaker().getAttribute("aria-expanded")).toBe("false");
+  });
+
+  it("sair pelo Tab, para fora do controle, fecha a barra", () => {
+    setup(MODE_RULES.album, false);
+    fireEvent.click(speaker());
+    const range = screen.getByRole("slider", { name: "Volume" });
+    fireEvent.focusOut(range, { relatedTarget: screen.getByRole("button", { name: /^Tocar/ }) });
+    expect(speaker().getAttribute("aria-expanded")).toBe("false");
   });
 });
 

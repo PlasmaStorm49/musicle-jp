@@ -19,6 +19,7 @@ function fakeElement() {
     error: null,
     preload: "",
     volume: 1,
+    muted: false,
     paused: true,
     play: vi.fn(
       () =>
@@ -185,5 +186,24 @@ describe("HtmlAudioEngine (a reserva com <audio>)", () => {
     element.error = { code: 2 } as MediaError;
     await vi.advanceTimersByTimeAsync(7000);
     await expect(playback?.done).resolves.toMatchObject({ interrupted: false });
+  });
+});
+
+describe("HtmlAudioEngine: o volume (P216, P219)", () => {
+  it("antes do unlock só guarda o valor; no unlock, o ganho da curva; no 0%, o mudo (o iPhone o respeita)", () => {
+    const fake = fakeElement();
+    const createElement = vi.fn(() => fake.element);
+    const engine = new HtmlAudioEngine({ createElement, volume: 0.8 });
+    engine.setVolume(0.5);
+    expect(createElement).not.toHaveBeenCalled(); // regra 9: nada de <audio> fora do clique
+    expect(engine.volume()).toBe(0.5);
+    engine.unlock();
+    expect(fake.element.volume).toBeCloseTo(0.25); // o quadrado do nível
+    expect(fake.element.muted).toBe(false);
+    engine.setVolume(0);
+    expect(fake.element.volume).toBe(0);
+    expect(fake.element.muted).toBe(true);
+    engine.setVolume(0.1);
+    expect(fake.element.muted).toBe(false);
   });
 });
