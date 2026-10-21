@@ -328,6 +328,61 @@ describe("Home: o switch de tema (P176, P191, P217)", () => {
     }
   });
 
+  /** O aparelho que troca de tema com a página aberta: devolve a troca, que avisa quem ouve. */
+  function liveDevice(dark: boolean) {
+    const listeners = new Set<() => void>();
+    let isDark = dark;
+    vi.spyOn(window, "matchMedia").mockImplementation(
+      (query: string) =>
+        ({
+          get matches() {
+            return query === "(prefers-color-scheme: dark)" && isDark;
+          },
+          media: query,
+          addEventListener: (_type: string, listener: () => void) => listeners.add(listener),
+          removeEventListener: (_type: string, listener: () => void) => listeners.delete(listener),
+        }) as unknown as MediaQueryList,
+    );
+    return (next: boolean) => {
+      isDark = next;
+      for (const listener of listeners) listener();
+    };
+  }
+
+  it("sem escolha, o switch acompanha a troca do aparelho com a página aberta; depois do toque, não", () => {
+    const flip = liveDevice(false);
+    setup();
+    expect(checked()).toBe("false");
+    act(() => flip(true));
+    expect(checked()).toBe("true");
+    fireEvent.click(toggle()); // grava o claro
+    expect(localStorage.getItem(THEME_KEY)).toBe("light");
+    act(() => flip(false));
+    act(() => flip(true));
+    expect(checked()).toBe("false"); // a escolha vale, e não o aparelho
+  });
+
+  it("a dica de seguir o aparelho só vale sem escolha: depois do toque, ela sai", () => {
+    setup();
+    expect(toggle().getAttribute("aria-describedby")).toBe("theme-hint");
+    fireEvent.click(toggle());
+    expect(toggle().hasAttribute("aria-describedby")).toBe(false);
+    expect(document.getElementById("theme-hint")).toBeNull();
+  });
+
+  it("a outra aba limpou o armazenamento: o switch volta ao tema do aparelho, com a dica", () => {
+    setup();
+    fireEvent.click(toggle()); // o escuro, num aparelho claro
+    expect(checked()).toBe("true");
+    localStorage.clear();
+    act(() => {
+      window.dispatchEvent(new StorageEvent("storage", { key: null }));
+    });
+    expect(checked()).toBe("false");
+    expect(root.dataset.theme).toBeUndefined();
+    expect(toggle().getAttribute("aria-describedby")).toBe("theme-hint");
+  });
+
   it("a barra do navegador (theme-color): com um tema escolhido, as duas metas ficam com a cor dele", () => {
     for (const [scheme, color] of [
       ["light", "#ffffff"],
