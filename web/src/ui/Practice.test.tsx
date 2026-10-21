@@ -262,6 +262,20 @@ describe("Practice: a sessão", () => {
     expect(score()).toBe("6 pontos em 2 rodadas");
   });
 
+  it("da rodada à revelação, a raiz e o cabeçalho são os mesmos nós: só sai a classe do palco (ME39)", () => {
+    setup();
+    const root = document.querySelector(".game.practice");
+    const head = document.querySelector(".session-head");
+    expect(root?.classList).toContain("screen");
+    fireEvent.click(screen.getByRole("button", { name: "Não sei" }));
+    expect(document.querySelector(".game.practice")).toBe(root);
+    expect(document.querySelector(".session-head")).toBe(head);
+    expect(root?.classList).not.toContain("screen"); // a revelação vira palco no D3
+    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
+    expect(document.querySelector(".game.practice")).toBe(root);
+    expect(root?.classList).toContain("screen");
+  });
+
   it("rodada anulada (falha de áudio) não conta no placar", async () => {
     const { engine } = setup();
     vi.mocked(engine.play).mockRejectedValue(new Error("sem áudio"));
@@ -299,7 +313,10 @@ describe("Practice: a sessão", () => {
     expect(title().textContent).toBe("Treino · Normal");
     expect(screen.queryByText(/^Rodada/)).toBeNull();
     expect(score()).toBe("0 pontos em 0 rodadas");
-    expect(screen.getByRole("button", { name: "Reiniciar o Treino" })).toBeTruthy();
+    const restart = screen.getByRole("button", { name: "Reiniciar o Treino" });
+    // Curto na tela; o nome inteiro, que começa pelo texto visível, para o leitor de tela (P210).
+    expect(restart.querySelector('[aria-hidden="true"]')?.textContent).toBe("Reiniciar");
+    expect(restart.querySelector(".sr-only")?.textContent).toBe("Reiniciar o Treino");
 
     // O diário terminou (o App relê o save ao trocar de aba). A rodada sai no clique, e não
     // sozinha: a tela não muda debaixo de quem lê o aviso.

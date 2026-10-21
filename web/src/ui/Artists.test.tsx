@@ -600,6 +600,8 @@ describe("Artists: trocar de artista (P127, P146)", () => {
     await choose(/^夜風/);
     fireEvent.click(screen.getByRole("button", { name: "Desistir" }));
     const change = screen.getByRole("button", { name: "Trocar de artista" });
+    // Curto na tela; o nome inteiro, que começa por ele, para o leitor de tela (P210).
+    expect(change.querySelector('[aria-hidden="true"]')?.textContent).toBe("Trocar");
     fireEvent.click(change);
     const dialog = screen.getByRole("dialog", {
       name: "Trocar de artista? O placar desta sessão (0 pontos em 1 rodada) será perdido.",
@@ -773,8 +775,10 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
     // A revelação se anuncia sozinha: nada de "Tentativa 2 de 3" para uma música encerrada.
     expect(announce).not.toHaveBeenCalledWith(expect.stringMatching(/Tentativa/));
-    // E encerrar a partida agora é o fim por erros.
-    fireEvent.click(screen.getByRole("button", { name: "Encerrar a partida" }));
+    // E encerrar a partida agora é o fim por erros. O botão é curto na tela (P210).
+    const quit = screen.getByRole("button", { name: "Encerrar a partida" });
+    expect(quit.querySelector('[aria-hidden="true"]')?.textContent).toBe("Encerrar");
+    fireEvent.click(quit);
     fireEvent.click(screen.getByRole("button", { name: "Sim, encerrar" }));
     expect(screen.getByText("3 erros: a partida acabou.")).toBeTruthy();
   });

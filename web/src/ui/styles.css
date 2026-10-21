@@ -6,8 +6,10 @@
    web/scripts/theme.test.ts confere que os dois são iguais, o contraste de cada par (4,5 para
    texto, 3 para borda, foco e barra) e que não sobra cor fora daqui.
 
-   Índice: 1 tokens · 2 base · 3 shell · 4 telas de antes (as rodadas, a revelação e o resumo, até
-   os PRs D2 e D3) · 5 componentes · 6 telas · 7 movimento e computador. */
+   Índice: 1 tokens · 2 base · 3 shell · 4 componentes (a rodada, o selo da Apple, o pop-up, os
+   avisos) · 5 telas · 6 telas de antes (a revelação e o resumo, até o PR D3) · 7 movimento e
+   computador. A ordem vai do mais geral ao mais específico (o noDescendingSpecificity do Biome).
+   */
 
 /* 1. Tokens ------------------------------------------------------------------------------- */
 :root {
@@ -71,11 +73,12 @@
   --lh-md: 24px;
   --lh-lg: 28px;
   --lh-xl: 40px;
+  --lh-dense: 18px;
   --h-control: 44px;
   --h-field: 48px;
   --h-hero: 56px;
   --h-row: 64px;
-  --h-compact: 32px;
+  --h-compact: 28px;
   --r-control: 11px;
   --r-field: 12px;
   --r-hero: 14px;
@@ -300,13 +303,22 @@ button.back {
   flex: none;
 }
 
-.badge {
-  display: inline-block;
-  margin: 0 0 8px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.8rem;
+/* Pílulas: o "Conteúdo explícito" e a etiqueta do Superfan. A margem só vale fora do palco (a
+   revelação, até o D3). */
+.badge,
+.variant-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 var(--sp-2);
+  border-radius: var(--r-pill);
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
   font-weight: 700;
+}
+
+.badge {
+  margin: 0 0 var(--sp-2);
 }
 
 .badge.explicit {
@@ -318,11 +330,13 @@ button.back {
 .hint {
   margin: 4px 0 12px;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
 }
 
 .tag {
-  font-size: 0.8rem;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -450,33 +464,190 @@ main.app {
   padding-top: var(--sp-3);
 }
 
-/* 4. Telas de antes (as rodadas, a revelação e o resumo): saem nos PRs D2 e D3 ------------- */
-/* Dentro das caixas de antes (o --surface), a tinta do botão sumiria no escuro (#1f1f22 sobre
-   #1f1f22): até elas saírem, um tom acima. O :where() não pesa: o hover e o pressionado dos
-   botões continuam valendo. */
-:where(.player, .card, .share, .countdown, section.void, .practice-empty) button:not(.primary) {
-  background: var(--surface-2);
+/* 4. Componentes ------------------------------------------------------------------------- */
+/* O selo da Apple (P69, P81): sem alteração, com 32 px (a regra pede 30 ou mais), respiro de 6 e
+   alvo de 44. Numa linha, no centro, com a frase de cortesia ao lado: o selo nunca encolhe, e só
+   a frase quebra em linhas (em 360 px, ela desceria inteira para baixo do selo). */
+.attribution {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1) var(--sp-3);
+  margin: var(--sp-5) 0 0;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  color: var(--muted);
 }
-/* Player */
+
+.attribution a {
+  flex: none;
+  display: inline-block;
+  padding: 6px;
+  line-height: 0;
+}
+
+.attribution img {
+  height: 32px;
+  width: auto;
+}
+
+.attribution > span:last-child {
+  max-width: 30ch;
+}
+
+/* O rótulo de uma música ou álbum (ItemLabel): o título nunca é cortado (é ele que distingue
+   duas opções, P212); o romaji e o artista ganham reticências. */
+.item {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.item-title {
+  font-size: var(--t-md);
+  line-height: var(--lh-sm);
+}
+
+.item-latin,
+.item-artist {
+  font-size: var(--t-sm);
+  line-height: var(--lh-dense);
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* A capa pequena (P51), nas opções do Normal e na revelação. */
+.cover {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-media);
+  background: var(--border);
+}
+
+/* A rodada (o diário, o Treino, o Livre e o Superfan; PR D2): sem caixa, no palco. O cabeçalho
+   numa linha, o player, a pergunta, as opções ou o campo, e o selo da Apple no pé. */
+.round-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--sp-3);
+}
+
+.round-head h1 {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  font-weight: 700;
+}
+
+.round-head p {
+  margin: 0;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
+/* O cabeçalho da sessão (Treino, Livre e Superfan) numa faixa: o título em cima; a rodada e o
+   placar embaixo; o botão de sair à direita, com o texto curto (P210). */
+.session-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0 var(--sp-3);
+}
+
+.session-head > h1 {
+  grid-column: 1 / 3;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  font-weight: 700;
+}
+
+.session-head > p {
+  grid-row: 2;
+  grid-column: 1;
+  margin: 0;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
+.session-head > p:not(.practice-score, .superfan-limits) {
+  white-space: nowrap;
+}
+
+/* O placar, em negrito, depois da rodada: o espaço os separa. Numa sessão longa, ele quebra a
+   linha, e nunca some nas reticências. */
+.session-head > .practice-score {
+  grid-column: 2;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.session-head > .superfan-limits {
+  grid-row: 3;
+  grid-column: 1 / 3;
+}
+
+.session-head > button {
+  grid-row: 1 / 4;
+  grid-column: 3;
+  padding: 0 var(--sp-3);
+  font-size: var(--t-sm);
+  white-space: nowrap;
+}
+
+/* O Superfan ao lado do nome: uma etiqueta (ME75); o separador fica só para o leitor de tela. */
+.title-sep {
+  display: none;
+}
+
+.variant-tag {
+  background: var(--primary);
+  color: var(--on-primary);
+  vertical-align: middle;
+}
+
+/* O player, sem caixa: a pílula da explícita, a barra de 12 px e os dois botões lado a lado,
+   os dois com 56 px. */
 .player {
-  margin: 16px 0;
-  padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.player > .badge {
+  justify-self: start;
 }
 
 .player-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
+  gap: var(--sp-2);
+}
+
+.player-actions > button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: var(--h-hero);
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-hero);
+}
+
+/* Com a pílula da explícita (P31), ela fica na linha da barra, à esquerda: o aviso continua antes
+   do Tocar, sem gastar uma linha só para ele. */
+.player.has-explicit {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.player.has-explicit > .player-actions {
+  grid-column: 1 / -1;
 }
 
 .bar {
   position: relative;
-  height: 14px;
-  border-radius: 7px;
+  height: 12px;
+  border-radius: 6px;
   background: var(--bar-track);
   overflow: hidden;
 }
@@ -502,329 +673,171 @@ main.app {
 
 /* O divisor é desenhado dentro do pedaço (sombra), e não com borda: a borda ocupava espaço no
    flex, e o pedaço deixava de ter a fração exata que a .bar-unlocked e a .bar-fill usam (sobrava
-   uma fresta do trilho entre o tocado e o divisor). */
+   uma fresta do trilho entre o tocado e o divisor). A cor é a do fundo: o player não tem caixa. */
 .seg {
   flex-basis: 0;
   min-width: 0;
-  box-shadow: inset -2px 0 0 var(--surface);
+  box-shadow: inset -2px 0 0 var(--bg);
 }
 
 .seg:last-child {
   box-shadow: none;
 }
 
-/* Opções (na rodada, o <ul> fica dentro de .options; na revelação, ele é o próprio .options) */
+/* A pergunta, no centro; no Desafio, com a contagem de tentativas ao lado. */
+.options,
+.typing {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+#question {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 400;
+  text-align: center;
+}
+
+.question-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0 var(--sp-3);
+}
+
+.question-row .hint {
+  font-variant-numeric: tabular-nums;
+}
+
+/* A dica da ajuda (errar encerra, acertar vale 1), no centro, como a pergunta. */
+.typing > .hint {
+  text-align: center;
+}
+
+/* As 4 opções do Normal: linhas de 64 px, capa de 48, a tinta e sem borda. */
 .options ul,
 ul.options {
   list-style: none;
-  margin: 0 0 8px;
   padding: 0;
   display: grid;
-  gap: 8px;
+  gap: var(--sp-1);
 }
 
-/* Em linha: a capa (só no Normal, P51) ao lado do texto. */
 .option {
   width: 100%;
   min-height: var(--h-row);
-  padding: 8px 12px 8px 8px;
+  padding: var(--sp-1) var(--sp-3) var(--sp-1) var(--sp-2);
   justify-content: flex-start;
+  gap: var(--sp-3);
+  border-radius: var(--r-field);
   text-align: left;
-  gap: 12px;
 }
 
-button.give-up {
-  margin-top: 8px;
+.options > button.give-up {
+  justify-self: center;
 }
 
-/* Desafio: "Pedir ajuda" à esquerda e "Desistir" sempre à direita (ME71), longe um do outro. */
-.typing-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin-top: 16px;
+/* A ajuda do Desafio: as opções numa grade 2×2, sem capa. */
+ul.options.help-options {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.typing-actions button.give-up {
-  margin: 0 0 0 auto;
+.help-options .option {
+  align-items: flex-start;
+  padding: var(--sp-1) var(--sp-3);
 }
 
-.item {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.item-title {
-  font-weight: 700;
-}
-
-.item-latin {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.item-artist {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-/* Revelação */
-.reveal h2.won {
-  color: var(--ok);
-}
-
-.reveal h2.lost {
-  color: var(--bad);
-}
-
-.options.done li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-}
-
-.options.done li.correct {
-  border-color: var(--ok);
-  background: var(--ok-soft);
-}
-
-.options.done li.wrong {
-  border-color: var(--bad);
-  background: var(--bad-soft);
-}
-
-.options.done li .item {
-  margin-right: auto;
-}
-
-.card {
-  display: flex;
-  gap: 12px;
-  margin: 16px 0;
-  padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-}
-
-.card img {
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
-.album {
-  margin: 4px 0 8px;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-/* Capas nas opções do Normal (P51) */
-.cover {
-  flex-shrink: 0;
-  border-radius: 6px;
-  background: var(--border);
-}
-
-/* Resumo */
-.summary .score {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 8px 0;
-}
-
-.summary li.won {
-  color: var(--ok);
-}
-
-.summary li.lost {
-  color: var(--bad);
-}
-
-.summary li.void {
-  color: var(--muted);
-}
-
-/* Compartilhar */
-.share,
-.countdown,
-.stats {
-  margin: 16px 0;
-  padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-}
-
-.share-preview {
-  margin: 0 0 12px;
-  padding: 4px 8px;
-  border-radius: 8px;
-  background: var(--emoji-bg);
-  color: var(--emoji-text);
-  font-family: inherit;
-  white-space: pre-wrap;
-  line-height: 1.5;
-}
-
-.share-done {
-  margin: 8px 0 0;
-  color: var(--ok);
-  font-weight: 700;
-}
-
-.share-manual {
-  display: grid;
-  gap: 6px;
-  margin-top: 12px;
-  font-size: 0.9rem;
-}
-
-/* A cópia à mão do resultado (sem área de transferência): no escuro, com o fundo claro do ⬛. */
-.share-manual textarea {
-  font: inherit;
-  width: 100%;
-  padding: 8px;
-  border: 1px solid var(--border-strong);
-  border-radius: 8px;
-  background: var(--emoji-bg);
-  color: var(--emoji-text);
-}
-
-/* Contagem regressiva */
-.countdown p {
-  margin: 0;
-}
-
-.countdown button {
-  margin-top: 8px;
-}
-
-.countdown-time {
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
-}
-
-/* Estatísticas */
-.stats h3 {
-  margin-top: 0;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin: 0;
-}
-
-.stats-grid div {
-  padding: 8px;
-  border-radius: 8px;
-  background: var(--surface-2);
-}
-
-.stats-grid dt {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.stats-grid dd {
-  margin: 2px 0 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.distribution {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 2px;
-  font-size: 0.8rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.bucket {
-  display: grid;
-  grid-template-columns: 2ch 1fr 3ch;
-  align-items: center;
-  gap: 6px;
-}
-
-.bucket-label {
-  text-align: right;
-  color: var(--muted);
-}
-
-.bucket-bar {
-  display: block;
-  height: 10px;
-  min-width: 2px;
-  border-radius: 3px;
-  background: var(--bucket);
-}
-
-.bucket-count {
-  color: var(--muted);
-}
-
-/* O balde dos pontos de hoje fica em destaque. */
-.bucket.today .bucket-bar {
-  background: var(--bucket-today);
-}
-
-.bucket.today .bucket-label,
-.bucket.today .bucket-count {
-  color: var(--text);
-  font-weight: 700;
-}
-
-/* Campo com autocompletar */
+/* O campo do Desafio. A lista de sugestões flutua sobre a tela: a página não muda de altura com
+   ela aberta. No celular (pointer: coarse), abre para cima, longe do teclado. */
 .guess {
   position: relative;
+  display: grid;
+  gap: var(--sp-1);
 }
 
 .guess-input {
   font: inherit;
+  font-size: var(--t-md);
   width: 100%;
-  min-height: 44px;
-  padding: 10px 14px;
+  min-height: var(--h-field);
+  padding: 0 var(--sp-4);
   border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  background: var(--surface);
+  border-radius: var(--r-field);
+  background: var(--bg);
   color: var(--text);
 }
 
-.guess ul[role="listbox"] {
-  list-style: none;
-  margin: 4px 0 8px;
-  padding: 4px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  max-height: 320px;
-  overflow-y: auto;
+.guess > .hint {
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  text-align: center;
 }
 
+.guess ul[role="listbox"] {
+  position: absolute;
+  z-index: 10;
+  top: calc(var(--h-field) + var(--sp-1));
+  left: 0;
+  right: 0;
+  list-style: none;
+  margin: 0;
+  padding: var(--sp-1);
+  max-height: calc(4 * var(--h-row) + 2 * var(--sp-1));
+  overflow-y: auto;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-field);
+  background: var(--surface);
+}
+
+@media (pointer: coarse) {
+  .guess ul[role="listbox"] {
+    top: auto;
+    bottom: calc(100% + var(--sp-1));
+    max-height: calc(3 * var(--h-row) + 2 * var(--sp-1));
+  }
+}
+
+/* "Nada encontrado." no lugar da lista, também flutuando. */
+.guess > .no-results {
+  position: absolute;
+  z-index: 10;
+  top: calc(var(--h-field) + var(--sp-1));
+  left: 0;
+  right: 0;
+  padding: var(--sp-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-field);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  text-align: center;
+}
+
+@media (pointer: coarse) {
+  .guess > .no-results {
+    top: auto;
+    bottom: calc(100% + var(--sp-1));
+  }
+}
+
+/* A sugestão com o romaji (P32): quem digita em romaji reconhece a música por ele. */
 .suggestion {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border-radius: 8px;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  min-height: var(--h-field);
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: var(--r-media);
   cursor: pointer;
 }
 
+/* A ativa (pelas setas): a tinta e o anel do foco, que tem 3:1 sobre os dois fundos (ME93). */
 .suggestion.active {
-  background: var(--surface-2);
-  outline: 2px solid var(--accent-line);
+  background: var(--fill);
+  box-shadow: inset 0 0 0 2px var(--focus);
 }
 
 .suggestion[aria-disabled="true"] {
@@ -832,40 +845,62 @@ button.give-up {
   opacity: 0.6;
 }
 
-/* Tentativas do Desafio */
+/* As tentativas: linhas de 28 px, numa linha só (o título e o artista). A altura de todas já
+   fica reservada (--slots, as que cabem em jogo: o máximo do modo menos 1). O título "Suas tentativas" fica só
+   para o leitor de tela (o hideTitle do Attempts). */
+.attempts-slot {
+  min-height: calc(var(--slots, 5) * var(--h-compact) + (var(--slots, 5) - 1) * var(--sp-1));
+}
+
+.typing.helping .attempts-slot {
+  min-height: 0;
+}
+
 .attempt-list {
   list-style: none;
-  margin: 0 0 8px;
+  margin: 0;
   padding: 0;
   display: grid;
-  gap: 6px;
+  gap: var(--sp-1);
 }
 
 .attempt {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
+  gap: var(--sp-2);
+  min-height: var(--h-compact);
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-media);
+  background: var(--fill);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
+.attempt .item {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--sp-2);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.attempt .item-title {
+  font-size: var(--t-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.attempt .item-latin,
+.attempt .item-artist > span:not(:first-child) {
+  display: none;
 }
 
 .attempt.wrong {
-  border-color: var(--bad);
   background: var(--bad-soft);
 }
 
 .attempt.right {
-  border-color: var(--ok);
   background: var(--ok-soft);
-}
-
-/* O pulo não é palpite (ME72): tracejado e sem fundo, para não pesar como um erro. */
-.attempt.skip {
-  color: var(--muted);
-  background: transparent;
-  border-style: dashed;
 }
 
 .attempt.wrong .icon {
@@ -876,77 +911,30 @@ button.give-up {
   color: var(--ok);
 }
 
-/* section.void, não .void: a linha "anulada" do resumo (li.void) não vira caixa. */
-section.void,
-.practice-empty {
-  padding: 12px;
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--border);
-}
-
-.practice-empty {
-  margin-top: 16px;
-}
-
-.practice-empty p {
-  margin: 0;
-}
-
-/* Treino e o modo por artista: o placar da sessão e o botão de sair, abaixo dele (ME57). */
-.practice .practice-score {
-  font-weight: 700;
-  color: var(--text);
-}
-
-.practice header > button {
-  margin-top: 8px;
-}
-
-/* O submodo no título (Superfan, ME75): uma etiqueta, e não mais uma parte do nome. */
-.title-sep {
-  display: none;
-}
-
-.variant-tag {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 999px;
-  background: var(--primary);
-  color: var(--on-primary);
-  font-size: 0.8rem;
-  font-weight: 700;
-  vertical-align: middle;
-}
-
-/* 5. Componentes ------------------------------------------------------------------------- */
-/* O selo da Apple (P69, P81): sem alteração, com 32 px (a regra pede 30 ou mais), respiro de 6 e
-   alvo de 44. Numa linha, no centro, com a frase de cortesia ao lado. */
-.attribution {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-1) var(--sp-3);
-  margin: var(--sp-5) 0 0;
-  font-size: var(--t-xs);
-  line-height: var(--lh-xs);
+/* O pulo não é palpite (ME72): sem tinta, com um fio. */
+.attempt.skip {
+  background: transparent;
   color: var(--muted);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
-.attribution a {
-  display: inline-block;
-  padding: 6px;
-  line-height: 0;
+/* "Pedir ajuda" à esquerda e "Desistir" à direita (ME71), longe um do outro. A ajuda se
+   destaca dos outros botões pelo fio na cor do texto (o --border-strong não dá 3:1 sobre a tinta)
+   e pelo negrito, sem competir com o Tocar. */
+.typing-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
 }
 
-.attribution img {
-  height: 32px;
-  width: auto;
+.typing-actions button.give-up {
+  margin-left: auto;
 }
 
-.attribution > span:last-child {
-  max-width: 30ch;
+button.help {
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px var(--text);
 }
 
 /* O pop-up de confirmação (ME56): no centro, com o fio forte e sem sombra. No fundo da página (e
@@ -987,10 +975,14 @@ dialog.practice-restart::backdrop {
   border-radius: var(--r-field);
 }
 
-/* Avisos (carga, erro, dia sem diário, artista que não carregou): no centro, sem caixa. */
+/* Avisos (carga, erro, dia sem diário, artista que não carregou, rodada anulada, nada para
+   sortear): no centro, sem caixa. O section.void, e não .void: a linha "anulada" do resumo
+   (li.void) não vira aviso. */
 .error,
 .unavailable,
-.loading {
+.loading,
+section.void,
+.practice-empty {
   display: grid;
   justify-items: center;
   align-content: center;
@@ -1008,7 +1000,7 @@ dialog.practice-restart::backdrop {
   min-width: 200px;
 }
 
-/* 6. Telas ------------------------------------------------------------------------------- */
+/* 5. Telas ------------------------------------------------------------------------------- */
 /* Início: o selo, o nome e a frase no centro; os 4 jogos numa grade 2×2; o "Como funciona"
    recolhido; o tema num controle segmentado (os mesmos rádios, P191). */
 .home {
@@ -1397,6 +1389,225 @@ dialog.practice-restart::backdrop {
 
 .superfan-end .artists-actions {
   margin-top: var(--sp-3);
+}
+
+/* 6. Telas de antes (a revelação e o resumo): saem no PR D3 -------------------------------- */
+/* Dentro das caixas de antes (o --surface), a tinta do botão sumiria no escuro (#1f1f22 sobre
+   #1f1f22): até elas saírem, um tom acima. O :where() não pesa: o hover e o pressionado dos
+   botões continuam valendo. */
+:where(.card, .share, .countdown) button:not(.primary) {
+  background: var(--surface-2);
+}
+/* Revelação */
+.reveal h2.won {
+  color: var(--ok);
+}
+
+.reveal h2.lost {
+  color: var(--bad);
+}
+
+.options.done {
+  margin: 0 0 8px;
+}
+
+.options.done li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.options.done li.correct {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.options.done li.wrong {
+  border-color: var(--bad);
+  background: var(--bad-soft);
+}
+
+.options.done li .item {
+  margin-right: auto;
+}
+
+.card {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.card img {
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.album {
+  margin: 4px 0 8px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* Resumo */
+.summary .score {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.summary li.won {
+  color: var(--ok);
+}
+
+.summary li.lost {
+  color: var(--bad);
+}
+
+.summary li.void {
+  color: var(--muted);
+}
+
+/* Compartilhar */
+.share,
+.countdown,
+.stats {
+  margin: 16px 0;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.share-preview {
+  margin: 0 0 12px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--emoji-bg);
+  color: var(--emoji-text);
+  font-family: inherit;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.share-done {
+  margin: 8px 0 0;
+  color: var(--ok);
+  font-weight: 700;
+}
+
+.share-manual {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+/* A cópia à mão do resultado (sem área de transferência): no escuro, com o fundo claro do ⬛. */
+.share-manual textarea {
+  font: inherit;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--emoji-bg);
+  color: var(--emoji-text);
+}
+
+/* Contagem regressiva */
+.countdown p {
+  margin: 0;
+}
+
+.summary .countdown button {
+  margin-top: 8px;
+}
+
+.countdown-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* Estatísticas */
+.summary .stats h3 {
+  margin-top: 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 0;
+}
+
+.stats-grid div {
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.stats-grid dt {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.stats-grid dd {
+  margin: 2px 0 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.distribution {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.bucket {
+  display: grid;
+  grid-template-columns: 2ch 1fr 3ch;
+  align-items: center;
+  gap: 6px;
+}
+
+.bucket-label {
+  text-align: right;
+  color: var(--muted);
+}
+
+.bucket-bar {
+  display: block;
+  height: 10px;
+  min-width: 2px;
+  border-radius: 3px;
+  background: var(--bucket);
+}
+
+.bucket-count {
+  color: var(--muted);
+}
+
+/* O balde dos pontos de hoje fica em destaque. */
+.bucket.today .bucket-bar {
+  background: var(--bucket-today);
+}
+
+.bucket.today .bucket-label,
+.bucket.today .bucket-count {
+  color: var(--text);
+  font-weight: 700;
 }
 
 /* 7. Movimento e computador ------------------------------------------------------------- */

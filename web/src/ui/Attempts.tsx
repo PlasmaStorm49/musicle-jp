@@ -8,6 +8,8 @@ import { ItemLabel } from "./ItemLabel.tsx";
 type Props = {
   readonly index: CatalogIndex;
   readonly round: RoundState;
+  /** O título "Suas tentativas" só para o leitor de tela (na rodada, PR D2). */
+  readonly hideTitle?: boolean;
 };
 
 /**
@@ -15,11 +17,13 @@ type Props = {
  * chevron pulou, o ✓ acertou. Os ícones são só desenho (aria-hidden); o leitor de tela ouve
  * "Errou:", "Pulou" ou "Acertou:" e o nome. O texto de compartilhar continua com os emojis.
  */
-export function Attempts({ index, round }: Props) {
+export function Attempts({ index, round, hideTitle = false }: Props) {
   if (round.attempts.length === 0) return null;
   return (
     <section class="attempts" aria-labelledby="attempts-title">
-      <h3 id="attempts-title">{t("attempts.title")}</h3>
+      <h3 id="attempts-title" class={hideTitle ? "sr-only" : undefined}>
+        {t("attempts.title")}
+      </h3>
       <ol class="attempt-list">
         {round.attempts.map((attempt, i) => {
           // A lista só cresce e nunca reordena: a posição é uma chave estável.

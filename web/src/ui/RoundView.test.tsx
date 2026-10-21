@@ -7,7 +7,7 @@ import { type CatalogIndex, indexCatalog } from "../core/catalog.ts";
 import { createRounds, type GameState, type RoundState, reduce } from "../core/reducer.ts";
 import type { Album, Catalog, Target, Track } from "../core/types.ts";
 import { catalogResolver, type PreviewResolver } from "../data/previews.ts";
-import { type HelpSetup, RoundView } from "./RoundView.tsx";
+import { type HelpSetup, RoundView, roundScreen } from "./RoundView.tsx";
 
 afterEach(cleanup);
 
@@ -283,6 +283,60 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(dispatch).toHaveBeenCalledWith({ type: "GIVE_UP" });
   });
 
+  it("Desafio: a pergunta e a contagem numa linha, e a altura das tentativas reservada desde o início (regra 25)", () => {
+    setup(game("song"));
+    const typing = document.querySelector<HTMLElement>("section.typing");
+    // As linhas que cabem em jogo (5 das 6 do Desafio: a 6ª encerra a rodada), mesmo antes da
+    // 1ª tentativa: o Tocar não anda depois.
+    expect(typing?.style.getPropertyValue("--slots")).toBe("5");
+    expect(typing?.classList.contains("helping")).toBe(false);
+    const row = document.querySelector(".question-row");
+    expect(row?.querySelector("h2#question")?.textContent).toBe("Qual é a música?");
+    expect(row?.querySelector(".hint")?.textContent).toBe("Tentativa 1 de 6");
+    expect(document.querySelector(".attempts-slot")).not.toBeNull();
+  });
+
+  it("Desafio: a dica do campo numa linha; as setas e o Enter só para o leitor de tela (P210)", () => {
+    setup(game("song"));
+    const box = screen.getByRole("combobox", { name: "Qual é a música?" });
+    const hint = document.getElementById(box.getAttribute("aria-describedby") ?? "");
+    expect(hint?.textContent).toBe(
+      "Título, artista, romaji ou kana. Escolha na lista com as setas e Enter.",
+    );
+    expect(hint?.querySelector(".sr-only")?.textContent).toBe(
+      "Escolha na lista com as setas e Enter.",
+    );
+  });
+
+  it("parada real, Normal com explícita: a pílula fica na linha da barra, antes do Tocar (P31)", () => {
+    // A 1ª faixa é a resposta da rodada (t:tr:1).
+    const [first, ...rest] = catalog.tracks;
+    const explicit = indexCatalog({ ...catalog, tracks: [{ ...first, explicit: true }, ...rest] });
+    setup(game("album"), undefined, explicit);
+    const player = document.querySelector("section.player");
+    expect(player?.classList.contains("has-explicit")).toBe(true);
+    const pill = screen.getByText("Conteúdo explícito");
+    expect(follows(pill, screen.getByRole("button", { name: /^(Tocar|Carregando)/ }))).toBe(true);
+  });
+
+  it("o roundScreen: palco com a rodada em jogo, anulada ou sem rodada; sem ele na revelação (D3)", () => {
+    expect(roundScreen(game("song"), "game")).toBe("game screen");
+    expect(roundScreen(game("album", { status: "void" }), "game")).toBe("game screen");
+    expect(roundScreen(null, "game practice")).toBe("game practice screen");
+    expect(roundScreen(game("song", { status: "won" }), "game")).toBe("game");
+    expect(roundScreen(game("album", { status: "lost" }), "game")).toBe("game");
+  });
+
+  it("o título das tentativas só para o leitor de tela na rodada, e visível na revelação", () => {
+    setup(game("song", { attempts: [{ kind: "skip" }] }));
+    expect(screen.getByRole("heading", { name: "Suas tentativas" }).classList).toContain("sr-only");
+    cleanup();
+    setup(game("song", { status: "lost", attempts: [{ kind: "skip" }] }));
+    expect(screen.getByRole("heading", { name: "Suas tentativas" }).classList).not.toContain(
+      "sr-only",
+    );
+  });
+
   it("rodada anulada: o foco vai para o botão de seguir, com o texto pedido", () => {
     const { onNext } = setup(game("album", { status: "void" }));
     const next = screen.getByRole("button", { name: "Próxima rodada" });
@@ -405,6 +459,16 @@ describe("RoundView: a ajuda (P149)", () => {
     cleanup();
     const { announce } = setup(reduce(skipped(3), event), undefined, undefined, undefined, daily);
     expect(screen.getByRole("list", { name: "Opções da ajuda" })).toBeTruthy();
+    // A dica curta na tela; a inteira, que a lista lê como descrição, para o leitor de tela.
+    const hint = document.getElementById("help-hint");
+    expect(hint?.querySelector('[aria-hidden="true"]')?.textContent).toBe(
+      "Errar encerra; acertar vale 1 ponto.",
+    );
+    expect(hint?.querySelector(".sr-only")?.textContent).toBe(
+      "Escolha entre as opções: errar encerra a rodada, e acertar vale 1 ponto.",
+    );
+    // Com as opções no lugar do campo, a reserva das tentativas sai (a tela cabe, regra 25).
+    expect(document.querySelector("section.typing")?.classList.contains("helping")).toBe(true);
     fireEvent.click(screen.getByRole("button", { name: "Pular (+4 s)" }));
     expect(announce).toHaveBeenCalledWith("Pulou. O trecho agora tem 11 s.");
   });

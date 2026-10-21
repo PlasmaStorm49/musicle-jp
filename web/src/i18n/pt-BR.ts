@@ -113,10 +113,12 @@ export const ptBR = {
   "count.games.one": "{count} jogo",
   "count.games.other": "{count} jogos",
 
-  "typing.hint": "Título, artista, romaji ou kana. Escolha na lista com as setas e Enter.",
+  // A dica do campo: a 1ª frase na tela; a do teclado, só para o leitor de tela (P210).
+  "typing.hint": "Título, artista, romaji ou kana.",
+  "typing.keysHint": "Escolha na lista com as setas e Enter.",
   "typing.placeholder": "Nome da música ou do artista",
   // Modo por artista (M13): a busca é só pelo título, entre as músicas dele.
-  "typing.titleHint": "Título, romaji ou kana. Escolha na lista com as setas e Enter.",
+  "typing.titleHint": "Título, romaji ou kana.",
   "typing.titlePlaceholder": "Nome da música",
   "typing.listLabel": "Sugestões",
   "typing.noResults": "Nada encontrado.",
@@ -136,6 +138,9 @@ export const ptBR = {
   "help.hint": "Escolha entre as opções: errar encerra a rodada, e acertar vale {points}.",
   "help.hintWrong":
     "Escolha entre as opções: errar encerra a rodada e vale {wrong}, e acertar vale {points}.",
+  // Na tela, a dica curta; a inteira (acima) fica para o leitor de tela (P210).
+  "help.hintShort": "Errar encerra; acertar vale {points}.",
+  "help.hintWrongShort": "Errar encerra e vale {wrong}; acertar, {points}.",
   "help.listLabel": "Opções da ajuda",
   "help.available": "A ajuda já pode ser pedida.",
 
@@ -179,6 +184,8 @@ export const ptBR = {
   "practice.albumHint": "Ouça o trecho e escolha o álbum ou single entre 4 opções.",
   "practice.songHint": "Ouça o trecho e digite o nome exato da música, em até {total} tentativas.",
   "practice.restart": "Reiniciar o Treino",
+  // Na tela, o botão de sair da sessão fica curto; o nome inteiro é o do leitor de tela (P210).
+  "practice.restartShort": "Reiniciar",
   "practice.restartWarning": "Reiniciar o Treino? O placar desta sessão ({score}) será perdido.",
   "practice.restartConfirm": "Sim, reiniciar",
   "practice.restartCancel": "Cancelar",
@@ -200,6 +207,7 @@ export const ptBR = {
   "artists.retryArtist": "Não foi possível carregar as músicas de {artist}. Confira a conexão.",
   "artists.back": "Voltar à lista",
   "artists.restart": "Trocar de artista",
+  "artists.restartShort": "Trocar",
   "artists.restartWarning": "Trocar de artista? O placar desta sessão ({score}) será perdido.",
   "artists.restartConfirm": "Sim, trocar",
   // A escolha do submodo, depois do artista (P161), e o Superfan (ME61).
@@ -214,6 +222,7 @@ export const ptBR = {
   "superfan.errors": "Erros: {count} de {total}",
   "superfan.helps": "Ajudas: {count} de {total}",
   "superfan.quit": "Encerrar a partida",
+  "superfan.quitShort": "Encerrar",
   "superfan.quitWarning": "Encerrar a partida? O placar fica em {points}.",
   "superfan.quitConfirm": "Sim, encerrar",
   "superfan.next": "Próxima música",

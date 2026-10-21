@@ -70,6 +70,16 @@ type Props = {
 };
 
 /**
+ * A classe da raiz da tela da rodada: o palco (.screen, regra 25) com a rodada em jogo ou
+ * anulada; a revelação só vira palco no PR D3. Só a classe muda, no mesmo elemento: nada
+ * remonta (ME39).
+ */
+export function roundScreen(game: GameState | null, base: string): string {
+  const status = game ? currentRound(game).status : null;
+  return status === "won" || status === "lost" ? base : `${base} screen`;
+}
+
+/**
  * Uma rodada, do trecho à revelação, nos dois modos (Normal em 4 opções, Desafio digitado). Não
  * sabe se é diário ou Treino: quem chama cuida de salvar, do cabeçalho e do que vem depois.
  */
@@ -290,28 +300,49 @@ function Typing({
   readonly onGiveUp: () => void;
 }) {
   const suggest = useSuggest(index, round);
+  // A altura das tentativas fica reservada (--slots, regra 25): o Tocar e o Desistir não andam a
+  // cada palpite. Em jogo, aparecem no máximo maxAttempts - 1: a última tentativa encerra a
+  // rodada. Com a ajuda, as opções entram no lugar do campo e a reserva sai (.helping).
+  const slots = { "--slots": rules.maxAttempts - 1 };
+  const wrong = tn("count.points", rules.wrongPoints);
+  const helpPoints = tn("count.points", rules.helpPoints);
   return (
-    <section class="typing" aria-labelledby="question">
-      <h2 id="question">{t("question.song")}</h2>
+    <section
+      class={round.help ? "typing helping" : "typing"}
+      style={slots}
+      aria-labelledby="question"
+    >
       {round.help ? (
         <>
+          <h2 id="question">{t("question.song")}</h2>
+          {/* A dica curta na tela; a inteira, para o leitor de tela, que a ouve na lista (P210). */}
           <p id="help-hint" class="hint">
-            {rules.wrongPoints < 0
-              ? t("help.hintWrong", {
-                  wrong: tn("count.points", rules.wrongPoints),
-                  points: tn("count.points", rules.helpPoints),
-                })
-              : t("help.hint", { points: tn("count.points", rules.helpPoints) })}
+            <span aria-hidden="true">
+              {rules.wrongPoints < 0
+                ? t("help.hintWrongShort", { wrong, points: helpPoints })
+                : t("help.hintShort", { points: helpPoints })}
+            </span>
+            <span class="sr-only">
+              {rules.wrongPoints < 0
+                ? t("help.hintWrong", { wrong, points: helpPoints })
+                : t("help.hint", { points: helpPoints })}
+            </span>
           </p>
           <HelpOptions index={index} options={round.help} focus={helpFocus} onPick={onPick} />
         </>
       ) : (
         <>
-          <p class="hint">{t("typing.attempt", attempt)}</p>
+          {/* A pergunta e a contagem numa linha só. */}
+          <div class="question-row">
+            <h2 id="question">{t("question.song")}</h2>
+            <p class="hint">{t("typing.attempt", attempt)}</p>
+          </div>
           <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" scope={scope} />
         </>
       )}
-      <Attempts index={index} round={round} />
+      <div class="attempts-slot">
+        <Attempts index={index} round={round} hideTitle />
+      </div>
       {/* A ajuda à esquerda e o desistir à direita, longe um do outro: um toque não cai no
           botão errado. */}
       <div class="typing-actions">

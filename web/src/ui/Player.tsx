@@ -157,7 +157,7 @@ export function Player({
   const busy = status === "loading" || waiting;
 
   return (
-    <section class="player" ref={section}>
+    <section class={explicit ? "player has-explicit" : "player"} ref={section}>
       {explicit && <p class="badge explicit">{t("player.explicit")}</p>}
       <SegmentBar stage={stage} stages={rules.stages} fillRef={fillRef} />
       <div class="player-actions">
