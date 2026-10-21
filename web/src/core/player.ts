@@ -34,3 +34,26 @@ export function fillFraction(
   const played = Math.min(Math.max(elapsed, 0), secondsAt(stage, stages));
   return played / barSeconds(stages);
 }
+
+/** Quanto um toque perto do fim do liberado ainda toca: ele recua até sobrar isto (P224). */
+export const SEEK_TAIL = 0.5;
+
+/** Quanto uma seta do teclado anda na barra, em segundos. */
+export const SEEK_STEP = 1;
+
+/**
+ * O ponto, em segundos, de um toque na barra (P224), pela fração dela onde o dedo caiu (0 a 1).
+ * Só vale no que já está liberado (`limit`): na parte fechada, null, para o toque não entregar
+ * som novo. Perto do fim, o ponto recua até sobrar `SEEK_TAIL` para tocar.
+ */
+export function seekSeconds(fraction: number, total: number, limit: number): number | null {
+  if (!Number.isFinite(fraction) || total <= 0 || limit <= 0) return null;
+  const at = Math.max(fraction, 0) * total;
+  if (at >= limit) return null;
+  return clampSeek(at, limit);
+}
+
+/** O ponto dentro do liberado, com a sobra do fim (o teclado e o toque). */
+export function clampSeek(at: number, limit: number): number {
+  return Math.max(0, Math.min(at, limit - SEEK_TAIL));
+}

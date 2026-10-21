@@ -4,9 +4,9 @@
  * seguinte. Todo botão que troca a tela, ou que fica onde outro some, ignora `detail > 1` (o 2º
  * clique); teclado e leitor de tela mandam `detail` 0 e passam.
  */
-export function singleClick(action: () => void): (event: MouseEvent) => void {
+export function singleClick(action: (event: MouseEvent) => void): (event: MouseEvent) => void {
   return (event) => {
     if (event.detail > 1) return;
-    action();
+    action(event);
   };
 }

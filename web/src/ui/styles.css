@@ -712,6 +712,15 @@ main.app {
   grid-column: 1 / -1;
 }
 
+/* A barra que leva ao ponto da música (P224): o alvo de toque tem 44 px de altura, por um
+   respiro transparente de 16 px em cima e embaixo, que não muda o espaço que ela ocupa. */
+.bar-seek {
+  padding: 16px 0;
+  margin: -16px 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
 .bar {
   position: relative;
   height: 12px;
@@ -1089,6 +1098,27 @@ button.help {
 
 .card button {
   margin-top: var(--sp-1);
+}
+
+/* A prévia inteira (P34) e a barra que leva ao ponto dela (P224), numa linha: o alvo da barra é
+   a altura da linha, 44 px, sem o respiro negativo da rodada. */
+.card .reveal-player {
+  justify-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-1);
+}
+
+.reveal-player > button {
+  flex: none;
+  margin-top: 0;
+}
+
+.reveal-player > .bar-seek {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
 }
 
 /* As 4 opções, já marcadas: uma linha cada, com a miniatura de 32 e o ícone no lugar da

@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "preact/hooks";
 import { type AudioEngine, AudioUnavailableError, type Playback } from "../audio/engine.ts";
-import { fillFraction } from "../core/player.ts";
+import { barSeconds, fillFraction } from "../core/player.ts";
 import { lastStage, type ModeRules, secondsAt } from "../core/rules.ts";
 import { VOLUME_STEP } from "../core/volume.ts";
 import { t } from "../i18n/t.ts";
@@ -85,10 +85,14 @@ export function Player({
     };
   }, [engine]);
 
-  function animate(playback: Playback, atStage: number) {
+  // O trecho tocando e onde ele começou no liberado: o teclado da barra anda a partir dali.
+  const current = useRef<{ playback: Playback; from: number } | null>(null);
+
+  function animate(playback: Playback, atStage: number, from: number) {
     const draw = () => {
       if (fillRef.current) {
-        fillRef.current.style.width = `${fillFraction(playback.elapsed(), atStage, rules.stages) * 100}%`;
+        const played = from + playback.elapsed();
+        fillRef.current.style.width = `${fillFraction(played, atStage, rules.stages) * 100}%`;
       }
       frame.current = requestAnimationFrame(draw);
     };
@@ -101,32 +105,36 @@ export function Player({
   // a ficha, ele parava a barra do novo e devolvia o Tocar com o som tocando.
   const playId = useRef(0);
 
-  function play(atStage: number) {
+  /** Toca o trecho da etapa a partir de `from` segundos (a barra, P224), até o fim dele. */
+  function play(atStage: number, from = 0) {
     if (url === null) return;
     const id = ++playId.current;
-    const current = () => alive.current && playId.current === id;
+    const mine = () => alive.current && playId.current === id;
     setStatus("loading");
     setFocusPlay("lost");
+    current.current = null;
     engine
-      .play(url, offset, secondsAt(atStage, rules.stages))
+      .play(url, offset + from, secondsAt(atStage, rules.stages) - from)
       .then((playback) => {
-        if (!current()) return;
+        if (!mine()) return;
         if (!playback) {
           // O motor foi parado antes de o som começar (um palpite na digitação, a aba oculta):
           // sem isto, o botão ficava em "Carregando…" até o fim da rodada.
           setStatus("idle");
           return;
         }
+        current.current = { playback, from };
         setStatus("playing");
-        animate(playback, atStage);
+        animate(playback, atStage, from);
         return playback.done.then(() => {
-          if (!current()) return;
+          if (!mine()) return;
+          current.current = null;
           cancelAnimationFrame(frame.current);
           setStatus("idle");
         });
       })
       .catch((error: unknown) => {
-        if (!current()) return; // a falha de um trecho que já foi substituído
+        if (!mine()) return; // a falha de um trecho que já foi substituído
         cancelAnimationFrame(frame.current);
         setStatus("idle");
         // O navegador barrou o som fora do gesto (a reserva entrou depois de uma espera): a
@@ -138,6 +146,7 @@ export function Player({
 
   function stop() {
     playId.current++; // o fim do trecho parado não mexe em mais nada
+    current.current = null;
     engine.stop();
     cancelAnimationFrame(frame.current);
     setStatus("idle");
@@ -158,11 +167,26 @@ export function Player({
 
   const extra = secondsAt(stage + 1, rules.stages) - secondsAt(stage, rules.stages);
   const busy = status === "loading" || waiting;
+  const unlocked = secondsAt(stage, rules.stages);
+  const total = barSeconds(rules.stages);
+  // A barra leva ao ponto do liberado e toca dali até o fim dele (P224): não muda a etapa nem os
+  // pontos. Parado, o teclado anda a partir do começo.
+  const seek = {
+    label: t("player.seek"),
+    position: () => {
+      const playing = current.current;
+      return playing ? Math.min(playing.from + playing.playback.elapsed(), unlocked) : 0;
+    },
+    valueText: (at: number) => t("player.seekValue", { at, unlocked, total }),
+    onSeek: (seconds: number) => {
+      if (!busy) play(stage, seconds);
+    },
+  };
 
   return (
     <section class={explicit ? "player has-explicit" : "player"} ref={section}>
       {explicit && <p class="badge explicit">{t("player.explicit")}</p>}
-      <SegmentBar stage={stage} stages={rules.stages} fillRef={fillRef} />
+      <SegmentBar stage={stage} stages={rules.stages} fillRef={fillRef} seek={seek} />
       <div class="player-actions">
         {status === "playing" ? (
           // O 2º clique de um toque duplo no Tocar cairia aqui (o mesmo botão, que vira Parar) e

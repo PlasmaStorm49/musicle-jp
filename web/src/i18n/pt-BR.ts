@@ -71,6 +71,8 @@ export const ptBR = {
   "player.volumeValue": "{percent}%",
   "player.explicit": "Conteúdo explícito",
   "player.bar": "{unlocked} de {total} segundos liberados",
+  "player.seek": "Ponto do trecho",
+  "player.seekValue": "Segundo {at}; {unlocked} de {total} segundos liberados",
 
   "options.giveUp": "Não sei",
 
@@ -86,7 +88,10 @@ export const ptBR = {
   "reveal.yourPick": "Sua escolha",
   "reveal.albumLabel": "Álbum:",
   "reveal.listenFull": "Ouvir a prévia inteira",
+  "reveal.listenShort": "Ouvir",
   "reveal.listenFailed": "Não deu para tocar a prévia agora.",
+  "reveal.seek": "Ponto da prévia",
+  "reveal.seekValue": "Segundo {at} de {total}",
   "reveal.next": "Próxima rodada",
   "reveal.finish": "Ver resultado",
 
