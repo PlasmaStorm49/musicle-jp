@@ -101,6 +101,9 @@ export const ptBR = {
   "summary.title": "Resultado do dia",
   "summary.score": "{score} de {max} pontos",
   "summary.round": "Rodada {number}: {result}",
+  // A célula da rodada no resumo (a frase de cima fica para o leitor de tela).
+  "summary.roundShort": "Rodada {number}",
+  "summary.pointsHelp": "{points} · ajuda",
   "summary.won": "acertou, {points}",
   "summary.wonHelp": "acertou com ajuda, {points}",
   "summary.lost": "não acertou",
@@ -163,6 +166,8 @@ export const ptBR = {
   "share.header": "{title} · {mode} nº {number}",
   "share.button": "Compartilhar resultado",
   "share.copied": "Resultado copiado. É só colar onde quiser.",
+  // Na tela, o botão diz isto por 2 s depois de copiar; a frase de cima vai para o aria-live.
+  "share.copiedShort": "Copiado!",
   "share.manual": "Não foi possível copiar sozinho. Copie o texto abaixo:",
 
   "countdown.label": "Próximo diário em",

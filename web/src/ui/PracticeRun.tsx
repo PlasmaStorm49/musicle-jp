@@ -16,7 +16,7 @@ import { t, tn } from "../i18n/t.ts";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import type { SearchScope } from "./GuessInput.tsx";
 import { usePreviews } from "./hooks.ts";
-import { type HelpSetup, RoundView, roundScreen } from "./RoundView.tsx";
+import { type HelpSetup, RoundView } from "./RoundView.tsx";
 import { singleClick } from "./singleClick.ts";
 
 /**
@@ -123,7 +123,7 @@ export function PracticeRun({
   );
 
   return (
-    <div class={roundScreen(game, "game practice")}>
+    <div class="game practice screen">
       <header class="session-head">
         <h1>{texts.title}</h1>
         {game && <p>{t("practice.round", { number: session.number })}</p>}

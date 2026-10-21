@@ -11,6 +11,7 @@ import { computeStats } from "../core/stats.ts";
 import type { Target } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
 import { Countdown } from "./Countdown.tsx";
+import { Icon } from "./Icon.tsx";
 import { modeName } from "./modes.ts";
 import { ShareButton } from "./ShareButton.tsx";
 import { Stats } from "./Stats.tsx";
@@ -26,6 +27,22 @@ type Props = {
   readonly shareUrl: string;
   readonly announce: (message: string) => void;
 };
+
+/**
+ * O texto de uma rodada no resumo: a frase inteira (o leitor de tela) e os pontos da célula. A
+ * ajuda aparece nos dois (P149): na célula, "1 ponto · ajuda".
+ */
+function roundTexts(round: FinishedGame["rounds"][number]): {
+  readonly result: string;
+  readonly points: string;
+} {
+  if (round.status === "void") return { result: t("summary.void"), points: t("summary.void") };
+  if (round.status !== "won") return { result: t("summary.lost"), points: tn("count.points", 0) };
+  const points = tn("count.points", roundRecordScore(round));
+  return round.help !== undefined
+    ? { result: t("summary.wonHelp", { points }), points: t("summary.pointsHelp", { points }) }
+    : { result: t("summary.won", { points }), points };
+}
 
 /** Fim do dia, a partir do resumo salvo: vale para quem acabou de jogar e para quem voltou. */
 export function Summary({ game, target, date, history, scheduleDates, shareUrl, announce }: Props) {
@@ -45,20 +62,20 @@ export function Summary({ game, target, date, history, scheduleDates, shareUrl, 
         {t("summary.title")}
       </h2>
       <p class="score">{t("summary.score", { score: recordScore(game), max })}</p>
-      <ol>
+      <ol class="summary-rounds">
         {game.rounds.map((round, i) => {
-          const result =
-            round.status === "won"
-              ? t(round.help !== undefined ? "summary.wonHelp" : "summary.won", {
-                  points: tn("count.points", roundRecordScore(round)),
-                })
-              : round.status === "void"
-                ? t("summary.void")
-                : t("summary.lost");
+          const { result, points } = roundTexts(round);
           return (
             // A ordem das 3 rodadas é fixa: o número é uma chave estável.
             <li key={`round-${i + 1}`} class={round.status}>
-              {t("summary.round", { number: i + 1, result })}
+              <span class="sr-only">{t("summary.round", { number: i + 1, result })}</span>
+              <span aria-hidden="true">{t("summary.roundShort", { number: i + 1 })}</span>
+              {round.status !== "void" && (
+                <Icon name={round.status === "won" ? "right" : "wrong"} />
+              )}
+              <span class="round-points" aria-hidden="true">
+                {points}
+              </span>
             </li>
           );
         })}

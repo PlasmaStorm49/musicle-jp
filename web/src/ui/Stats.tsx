@@ -7,7 +7,10 @@ type Props = {
   readonly todayScore: number | null;
 };
 
-/** Números do histórico e a distribuição de pontos em barras (com texto para leitor de tela). */
+/**
+ * Números do histórico e a distribuição de pontos em colunas, de 0 a 18 (ME77), com o texto para
+ * o leitor de tela. Na tela, a contagem só aparece em cima da coluna de hoje.
+ */
 export function Stats({ stats, todayScore }: Props) {
   const biggest = Math.max(1, ...stats.distribution);
   const average = stats.average === null ? t("stats.none") : stats.average.toLocaleString("pt-BR");
@@ -43,7 +46,7 @@ export function Stats({ stats, todayScore }: Props) {
             </span>
             <span
               class="bucket-bar"
-              style={{ width: `${(games / biggest) * 100}%` }}
+              style={{ "--h": `${(games / biggest) * 100}%` }}
               aria-hidden="true"
             />
             <span class="sr-only">

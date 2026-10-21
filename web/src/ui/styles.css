@@ -6,17 +6,15 @@
    web/scripts/theme.test.ts confere que os dois são iguais, o contraste de cada par (4,5 para
    texto, 3 para borda, foco e barra) e que não sobra cor fora daqui.
 
-   Índice: 1 tokens · 2 base · 3 shell · 4 componentes (a rodada, o selo da Apple, o pop-up, os
-   avisos) · 5 telas · 6 telas de antes (a revelação e o resumo, até o PR D3) · 7 movimento e
-   computador. A ordem vai do mais geral ao mais específico (o noDescendingSpecificity do Biome).
-   */
+   Índice: 1 tokens · 2 base · 3 shell · 4 componentes (a rodada e a revelação, o selo da Apple,
+   o pop-up, os avisos) · 5 telas (as de escolha e o resumo do dia) · 6 movimento e computador. A
+   ordem vai do mais geral ao mais específico (o noDescendingSpecificity do Biome). */
 
 /* 1. Tokens ------------------------------------------------------------------------------- */
 :root {
   color-scheme: light dark;
   --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #f1f1f3;
   /* A tinta dos controles e dos cartões: marca o que se toca, sem borda. */
   --fill: #f1f1f3;
   --fill-press: #e6e7ea;
@@ -51,8 +49,6 @@
   /* O ⬛ da prévia e da cópia à mão do compartilhar some no escuro: lá ele ganha um fundo claro. */
   --emoji-bg: transparent;
   --emoji-text: #000000;
-  /* O canto dos cartões e caixas de antes (as telas dos PRs D2 e D3 ainda usam). */
-  --radius: 12px;
 
   /* Espaço (base 4), tipo (5 tamanhos, cada um com a sua altura de linha), alturas, raios (o canto do botão do guia é 25% da altura,
      o do selo quadrado 21%) e movimento. */
@@ -89,6 +85,7 @@
   --dur-2: 200ms;
   --ease: cubic-bezier(0.2, 0, 0, 1);
   --column: 480px;
+  --column-wide: 880px;
 
   font-family: "Noto Sans JP", system-ui, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
   color: var(--text);
@@ -101,7 +98,6 @@
     color-scheme: dark;
     --bg: #000000;
     --surface: #1f1f22;
-    --surface-2: #2a2a2e;
     --fill: #1f1f22;
     --fill-press: #2a2a2e;
     --border: #2a2a2e;
@@ -131,7 +127,6 @@
   color-scheme: dark;
   --bg: #000000;
   --surface: #1f1f22;
-  --surface-2: #2a2a2e;
   --fill: #1f1f22;
   --fill-press: #2a2a2e;
   --border: #2a2a2e;
@@ -174,29 +169,26 @@ body {
   background: var(--bg);
 }
 
+/* Os títulos e os textos de base. As margens ficam por conta do palco (.screen): toda tela é um. */
 h1 {
-  font-size: 1.3rem;
+  font-size: var(--t-lg);
   margin: 0;
 }
 
 h2 {
-  font-size: 1.1rem;
-  margin: 16px 0 8px;
+  font-size: var(--t-lg);
 }
 
 h3 {
-  font-size: 1rem;
-  margin: 16px 0 8px;
+  font-size: var(--t-md);
 }
 
 h4 {
-  font-size: 0.9rem;
-  margin: 12px 0 6px;
+  font-size: var(--t-sm);
   color: var(--muted);
 }
 
 header p {
-  margin: 4px 0 0;
   color: var(--muted);
 }
 
@@ -303,8 +295,7 @@ button.back {
   flex: none;
 }
 
-/* Pílulas: o "Conteúdo explícito" e a etiqueta do Superfan. A margem só vale fora do palco (a
-   revelação, até o D3). */
+/* Pílulas: o "Conteúdo explícito" e a etiqueta do Superfan. */
 .badge,
 .variant-tag {
   display: inline-flex;
@@ -317,10 +308,6 @@ button.back {
   font-weight: 700;
 }
 
-.badge {
-  margin: 0 0 var(--sp-2);
-}
-
 .badge.explicit {
   background: var(--warn-soft);
   color: var(--warn);
@@ -328,7 +315,6 @@ button.back {
 
 /* Dica abaixo de um título ou campo (digitação, Treino) */
 .hint {
-  margin: 4px 0 12px;
   color: var(--muted);
   font-size: var(--t-sm);
   line-height: var(--lh-sm);
@@ -342,9 +328,9 @@ button.back {
 }
 
 .notice {
-  margin: 0 0 12px;
-  padding: 8px 12px;
-  border-radius: var(--radius);
+  margin: 0 0 var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-field);
   background: var(--warn-soft);
   color: var(--warn);
   font-size: 0.9rem;
@@ -937,6 +923,135 @@ button.help {
   box-shadow: inset 0 0 0 1px var(--text);
 }
 
+/* A revelação (PR D3): o resultado com o ✓ ou o X (P206), as opções marcadas compactas (ou as
+   tentativas), o cartão da resposta e o botão de seguir com o chevron. */
+.reveal {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.reveal > h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 700;
+  text-align: center;
+}
+
+.reveal > h2.won {
+  color: var(--ok);
+}
+
+.reveal > h2.lost {
+  color: var(--bad);
+}
+
+/* A conta à parte do Superfan (os erros, a desistência) e a nota da partida. */
+.reveal > p {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* O cartão da resposta: a capa de 96 ao lado do título, do álbum e da prévia inteira. */
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.card > img {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--r-media);
+}
+
+.card > div {
+  display: grid;
+  flex: 1;
+  justify-items: start;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.card .item-title {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 700;
+}
+
+.card .album {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
+}
+
+.card button {
+  margin-top: var(--sp-1);
+}
+
+/* As 4 opções, já marcadas: uma linha cada, com a miniatura de 32 e o ícone no lugar da
+   etiqueta ("Resposta certa" e "Sua escolha" ficam para o leitor de tela). O título inteiro da
+   resposta está no cartão. Não são botões: a linha tem a altura da miniatura, sem o alvo de 44. */
+.options.done li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-1) var(--sp-3) var(--sp-1) var(--sp-1);
+  border-radius: var(--r-field);
+  background: var(--fill);
+}
+
+.options.done .cover {
+  width: 32px;
+  height: 32px;
+}
+
+.options.done .item {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin-right: auto;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.options.done .item-title {
+  font-size: var(--t-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.options.done .item-latin,
+.options.done .item-artist > span:not(:first-child) {
+  display: none;
+}
+
+.options.done li.correct {
+  background: var(--ok-soft);
+}
+
+.options.done li.wrong {
+  background: var(--bad-soft);
+}
+
+.options.done li.correct .icon {
+  color: var(--ok);
+}
+
+.options.done li.wrong .icon {
+  color: var(--bad);
+}
+
+.reveal > button.primary {
+  width: 100%;
+}
+
 /* O pop-up de confirmação (ME56): no centro, com o fio forte e sem sombra. No fundo da página (e
    não no --surface): no escuro, a tinta do "Cancelar" sumiria no #1f1f22. */
 dialog.practice-restart {
@@ -1391,226 +1506,260 @@ section.void,
   margin-top: var(--sp-3);
 }
 
-/* 6. Telas de antes (a revelação e o resumo): saem no PR D3 -------------------------------- */
-/* Dentro das caixas de antes (o --surface), a tinta do botão sumiria no escuro (#1f1f22 sobre
-   #1f1f22): até elas saírem, um tom acima. O :where() não pesa: o hover e o pressionado dos
-   botões continuam valendo. */
-:where(.card, .share, .countdown) button:not(.primary) {
-  background: var(--surface-2);
-}
-/* Revelação */
-.reveal h2.won {
-  color: var(--ok);
+/* O resumo do dia (PR D3): o placar grande, as 3 rodadas em células, o compartilhar e a contagem;
+   depois, as estatísticas, com a distribuição em colunas (ME77, ME34). */
+.summary {
+  display: grid;
+  gap: var(--sp-4);
+  text-align: center;
 }
 
-.reveal h2.lost {
-  color: var(--bad);
+section.summary > h2 {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  font-weight: 400;
+  color: var(--muted);
 }
 
-.options.done {
-  margin: 0 0 8px;
+.summary > .score {
+  margin-top: calc(-1 * var(--sp-3));
+  font-size: var(--t-xl);
+  line-height: var(--lh-xl);
+  font-weight: 700;
 }
 
-.options.done li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
+.summary > .summary-rounds {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-2);
 }
 
-.options.done li.correct {
-  border-color: var(--ok);
+.summary > .summary-rounds > li {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: var(--sp-2) var(--sp-1);
+  border-radius: var(--r-field);
+  background: var(--fill);
+  font-size: var(--t-sm);
+  line-height: var(--lh-dense);
+}
+
+.summary > .summary-rounds > li.won {
   background: var(--ok-soft);
 }
 
-.options.done li.wrong {
-  border-color: var(--bad);
+.summary > .summary-rounds > li.lost {
   background: var(--bad-soft);
 }
 
-.options.done li .item {
-  margin-right: auto;
-}
-
-.card {
-  display: flex;
-  gap: 12px;
-  margin: 16px 0;
-  padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-}
-
-.card img {
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
-.album {
-  margin: 4px 0 8px;
-  font-size: 0.85rem;
+.summary > .summary-rounds > li.void {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--border);
   color: var(--muted);
 }
 
-/* Resumo */
-.summary .score {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 8px 0;
-}
-
-.summary li.won {
+.summary > .summary-rounds > li.won .icon {
   color: var(--ok);
 }
 
-.summary li.lost {
+.summary > .summary-rounds > li.lost .icon {
   color: var(--bad);
 }
 
-.summary li.void {
+.round-points {
   color: var(--muted);
+  font-size: var(--t-xs);
 }
 
-/* Compartilhar */
-.share,
-.countdown,
-.stats {
-  margin: 16px 0;
-  padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-}
-
-.share-preview {
-  margin: 0 0 12px;
-  padding: 4px 8px;
-  border-radius: 8px;
-  background: var(--emoji-bg);
-  color: var(--emoji-text);
-  font-family: inherit;
-  white-space: pre-wrap;
-  line-height: 1.5;
-}
-
-.share-done {
-  margin: 8px 0 0;
-  color: var(--ok);
-  font-weight: 700;
-}
-
-.share-manual {
+.share {
   display: grid;
-  gap: 6px;
-  margin-top: 12px;
-  font-size: 0.9rem;
+  gap: var(--sp-2);
+}
+
+.share > button.primary {
+  width: 100%;
 }
 
 /* A cópia à mão do resultado (sem área de transferência): no escuro, com o fundo claro do ⬛. */
+.share-manual {
+  display: grid;
+  gap: var(--sp-2);
+  font-size: var(--t-sm);
+  text-align: left;
+}
+
 .share-manual textarea {
   font: inherit;
   width: 100%;
-  padding: 8px;
+  padding: var(--sp-2);
   border: 1px solid var(--border-strong);
-  border-radius: 8px;
+  border-radius: var(--r-media);
   background: var(--emoji-bg);
   color: var(--emoji-text);
 }
 
-/* Contagem regressiva */
-.countdown p {
-  margin: 0;
+.countdown {
+  display: grid;
+  gap: var(--sp-2);
 }
 
-.summary .countdown button {
-  margin-top: 8px;
+.countdown p {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
 }
 
 .countdown-time {
   font-variant-numeric: tabular-nums;
   font-weight: 700;
+  color: var(--text);
 }
 
-/* Estatísticas */
-.summary .stats h3 {
-  margin-top: 0;
+/* O novo diário saiu: o "Jogar o novo diário" é a ação da tela, e o compartilhar vira um botão
+   comum (o oliva é um só por tela). Sem :has(), os dois ficam oliva. */
+.summary:has(.countdown button.primary) .share > button.primary {
+  background: var(--fill);
+  color: var(--text);
 }
 
+.summary:has(.countdown button.primary) .share > button.primary:active:not(:disabled) {
+  background: var(--fill-press);
+  box-shadow: inset 0 0 0 2px var(--text);
+}
+
+@media (hover: hover) {
+  .summary:has(.countdown button.primary) .share > button.primary:hover:not(:disabled) {
+    background: var(--fill-press);
+  }
+}
+
+/* E os dois lado a lado (no celular), no lugar da contagem: o resumo continua cabendo. */
+@media (max-width: 959px) {
+  .summary:has(.countdown button.primary) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .summary:has(.countdown button.primary) > * {
+    grid-column: 1 / -1;
+  }
+
+  .summary:has(.countdown button.primary) > .share {
+    grid-column: 1;
+  }
+
+  .summary:has(.countdown button.primary) > .countdown {
+    grid-column: 2;
+  }
+}
+
+.stats {
+  display: grid;
+  gap: var(--sp-3);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--hairline);
+  text-align: left;
+}
+
+.stats > h3 {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.stats > h4 {
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* Os números alinhados pela base: um rótulo de duas linhas ("Melhor sequência") não os desalinha. */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin: 0;
-}
-
-.stats-grid div {
-  padding: 8px;
-  border-radius: 8px;
-  background: var(--surface-2);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: end;
+  gap: var(--sp-2);
+  text-align: center;
 }
 
 .stats-grid dt {
-  font-size: 0.8rem;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
   color: var(--muted);
 }
 
 .stats-grid dd {
-  margin: 2px 0 0;
-  font-size: 1.1rem;
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
+/* A distribuição: 19 colunas, de 0 a 18 pontos. No eixo, só o 0, o 6, o 12, o 18 e o de hoje; a
+   contagem, só em cima da coluna de hoje. As frases inteiras ficam para o leitor de tela. */
 .distribution {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 2px;
-  font-size: 0.8rem;
+  grid-template-columns: repeat(19, minmax(0, 1fr));
+  gap: 3px;
+  height: 104px;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
   font-variant-numeric: tabular-nums;
 }
 
 .bucket {
+  position: relative;
   display: grid;
-  grid-template-columns: 2ch 1fr 3ch;
-  align-items: center;
-  gap: 6px;
-}
-
-.bucket-label {
-  text-align: right;
-  color: var(--muted);
-}
-
-.bucket-bar {
-  display: block;
-  height: 10px;
-  min-width: 2px;
-  border-radius: 3px;
-  background: var(--bucket);
+  grid-template-rows: var(--lh-xs) minmax(0, 1fr) var(--lh-xs);
+  justify-items: center;
+  align-items: end;
 }
 
 .bucket-count {
-  color: var(--muted);
+  grid-row: 1;
+  visibility: hidden;
+  font-weight: 700;
 }
 
-/* O balde dos pontos de hoje fica em destaque. */
+.bucket-bar {
+  grid-row: 2;
+  width: 100%;
+  max-width: 14px;
+  height: var(--h, 0%);
+  min-height: 2px;
+  border-radius: 3px 3px 0 0;
+  background: var(--bucket);
+}
+
+.bucket-label {
+  grid-row: 3;
+  color: var(--muted);
+  visibility: hidden;
+}
+
+.bucket:nth-child(6n + 1) .bucket-label {
+  visibility: visible;
+}
+
 .bucket.today .bucket-bar {
   background: var(--bucket-today);
 }
 
-.bucket.today .bucket-label,
-.bucket.today .bucket-count {
+.bucket.today .bucket-count,
+.bucket.today .bucket-label {
+  visibility: visible;
   color: var(--text);
   font-weight: 700;
 }
 
-/* 7. Movimento e computador ------------------------------------------------------------- */
+/* 6. Movimento e computador ------------------------------------------------------------- */
 /* O mínimo: a tela entra só pela opacidade, e o trecho liberado cresce. Nada de altura animada,
    e a .bar-fill (desenhada pelo rAF) nunca tem transição. */
 @media (prefers-reduced-motion: no-preference) {
@@ -1645,5 +1794,58 @@ section.void,
 
   .artists ul.home-modes:has(.artist-card) {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* No computador largo: a revelação e o resumo em duas colunas (a capa grande ao lado; as
+   estatísticas ao lado do resultado). Sem :has(), a coluna não alarga, e tudo fica numa só. */
+@supports selector(:has(*)) {
+  @media (min-width: 960px) {
+    main.app:has(.reveal),
+    main.app:has(.summary) {
+      max-width: var(--column-wide);
+    }
+
+    .reveal {
+      grid-template-columns: 240px minmax(0, 1fr);
+      column-gap: var(--sp-6);
+      align-items: start;
+    }
+
+    .reveal > * {
+      grid-column: 2;
+    }
+
+    .reveal > .card {
+      grid-column: 1;
+      grid-row: 1 / span 4;
+      flex-direction: column;
+    }
+
+    .reveal > .card > img {
+      width: 240px;
+      height: 240px;
+    }
+
+    .summary {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--sp-6);
+      align-items: start;
+    }
+
+    .summary > :not(.stats) {
+      grid-column: 1;
+    }
+
+    .summary > .stats {
+      grid-column: 2;
+      grid-row: 1 / span 6;
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .distribution {
+      height: 136px;
+    }
   }
 }

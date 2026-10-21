@@ -1,6 +1,7 @@
 // A interface nova (M12, PR D): as telas cabem sem rolar nos tamanhos de contrato (P214), nada rola
-// para o lado em 320 px e os alvos têm 44 px. Cada PR do D acrescenta as telas dele: o D1, as de
-// escolha; o D2, as rodadas, com o selo da Apple simulado (appleCatalog) e a altura reservada.
+// para o lado em 320 px e os alvos têm 44 px. Cada PR do D acrescentou as telas dele: o D1, as de
+// escolha; o D2, as rodadas, com o selo da Apple simulado (appleCatalog) e a altura reservada; o
+// D3, a revelação e o resumo do dia.
 import type { Locator, Page } from "@playwright/test";
 import type { Save } from "../src/core/records.ts";
 import type { Catalog } from "../src/core/types.ts";
@@ -32,8 +33,9 @@ async function skip(page: Page, n: number): Promise<void> {
   for (let i = 0; i < n; i++) await page.getByRole("button", { name: /^Pular/ }).click();
 }
 
-// O iPhone SE e o Android comum (P214): as telas de escolha (PR D1) e as rodadas (PR D2) cabem
-// inteiras. As rodadas, no caso mais alto: com o selo da Apple no pé, como na parada real.
+// O iPhone SE e o Android comum (P214): as telas de escolha (PR D1), as rodadas (PR D2), a
+// revelação e o resumo (PR D3) cabem inteiros. Os do jogo, no caso mais alto: com o selo da Apple
+// no pé, como na parada real.
 for (const viewport of [
   { width: 375, height: 667 },
   { width: 360, height: 640 },
@@ -200,6 +202,61 @@ for (const viewport of [
       await expect(page.locator(".help-options")).toBeVisible();
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
+
+    test("a revelação do Normal com a explícita e o selo da Apple: o botão de seguir e o selo na tela", async ({
+      page,
+    }) => {
+      await appleCatalog(page);
+      await open(page, EXPLICIT_DAY, "#normal");
+      await page.getByRole("button", { name: "Não sei" }).click();
+      await expect(page.getByRole("heading", { name: "Não foi dessa vez." })).toBeFocused();
+      await expect(page.locator(".card").getByText("Conteúdo explícito")).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("button", { name: "Próxima rodada" })).toBeInViewport({
+        ratio: 1,
+      });
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test("a revelação do Desafio com 5 tentativas e o selo da Apple", async ({ page }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#desafio");
+      await skip(page, 5);
+      await page.getByRole("button", { name: "Desistir" }).click();
+      await expect(page.locator(".reveal .attempt")).toHaveCount(5);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o resumo do dia: o placar, as 3 rodadas, o compartilhar e as estatísticas", async ({
+      page,
+    }) => {
+      await open(page, DAY, "#normal");
+      for (const next of ["Próxima rodada", "Próxima rodada", "Ver resultado"]) {
+        await page.getByRole("button", { name: "Não sei" }).click();
+        await page.getByRole("button", { name: next }).click();
+      }
+      await expect(page.getByRole("heading", { name: "Resultado do dia" })).toBeFocused();
+      await expect(page.locator(".summary-rounds > li")).toHaveCount(3);
+      await expect(page.locator(".distribution > li")).toHaveCount(19);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("button", { name: "Compartilhar resultado" })).toBeInViewport({
+        ratio: 1,
+      });
+    });
+
+    test("o resumo com o novo diário: o compartilhar e o Jogar lado a lado, e cabe", async ({
+      page,
+    }) => {
+      await open(page, DAY, "#normal");
+      await toSummary(page);
+      // A virada em Brasília: a contagem zera no próximo tique.
+      await page.clock.setFixedTime(new Date("2026-10-09T00:00:01-03:00"));
+      const play = page.getByRole("button", { name: "Jogar o novo diário" });
+      await expect(play).toBeVisible();
+      const share = page.getByRole("button", { name: "Compartilhar resultado" });
+      expect(await top(play)).toBe(await top(share));
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
   });
 }
 
@@ -324,4 +381,48 @@ test("títulos longos (o real chega a 89 caracteres): o do álbum quebra a linha
     expect(await title.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
     expect(await title.evaluate((el) => getComputedStyle(el).textOverflow)).not.toBe("ellipsis");
   }
+});
+
+/** Joga o Normal de 08/10 até o resumo, com "Não sei" nas 3 rodadas. */
+async function toSummary(page: Page): Promise<void> {
+  for (const next of ["Próxima rodada", "Próxima rodada", "Ver resultado"]) {
+    await page.getByRole("button", { name: "Não sei" }).click();
+    await page.getByRole("button", { name: next }).click();
+  }
+  await expect(page.getByRole("heading", { name: "Resultado do dia" })).toBeVisible();
+}
+
+test('saiu o novo diário: o "Jogar o novo diário" é o único botão oliva do resumo', async ({
+  page,
+}) => {
+  await open(page, DAY, "#normal");
+  await toSummary(page);
+  // A virada em Brasília: a contagem zera no próximo tique.
+  await page.clock.setFixedTime(new Date("2026-10-09T00:00:01-03:00"));
+  const play = page.getByRole("button", { name: "Jogar o novo diário" });
+  await expect(play).toBeVisible();
+  const share = page.getByRole("button", { name: "Compartilhar resultado" });
+  const background = (locator: Locator) =>
+    locator.evaluate((el) => getComputedStyle(el).backgroundColor);
+  expect(await background(share)).not.toBe(await background(play));
+});
+
+test("no computador (1280 px), a revelação e o resumo em duas colunas", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await open(page, DAY, "#normal");
+  await page.getByRole("button", { name: "Não sei" }).click();
+  const card = await page.locator(".reveal > .card").boundingBox();
+  const result = await page.locator(".reveal > h2").boundingBox();
+  // A capa grande à esquerda, o resultado à direita, na mesma altura.
+  expect((card?.x ?? 0) + (card?.width ?? 0)).toBeLessThanOrEqual(result?.x ?? 0);
+  expect(Math.abs((card?.y ?? 0) - (result?.y ?? 0))).toBeLessThan(40);
+  await page.getByRole("button", { name: "Próxima rodada" }).click();
+  for (const next of ["Próxima rodada", "Ver resultado"]) {
+    await page.getByRole("button", { name: "Não sei" }).click();
+    await page.getByRole("button", { name: next }).click();
+  }
+  const rounds = await page.locator(".summary-rounds").boundingBox();
+  const stats = await page.locator(".summary > .stats").boundingBox();
+  // As estatísticas ao lado do resultado.
+  expect((rounds?.x ?? 0) + (rounds?.width ?? 0)).toBeLessThanOrEqual(stats?.x ?? 0);
 });

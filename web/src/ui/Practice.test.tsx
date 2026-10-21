@@ -262,18 +262,15 @@ describe("Practice: a sessão", () => {
     expect(score()).toBe("6 pontos em 2 rodadas");
   });
 
-  it("da rodada à revelação, a raiz e o cabeçalho são os mesmos nós: só sai a classe do palco (ME39)", () => {
+  it("da rodada à revelação e de volta, a raiz (o palco) e o cabeçalho são os mesmos nós (ME39)", () => {
     setup();
-    const root = document.querySelector(".game.practice");
+    const root = document.querySelector(".game.practice.screen");
     const head = document.querySelector(".session-head");
-    expect(root?.classList).toContain("screen");
     fireEvent.click(screen.getByRole("button", { name: "Não sei" }));
-    expect(document.querySelector(".game.practice")).toBe(root);
+    expect(document.querySelector(".game.practice.screen")).toBe(root);
     expect(document.querySelector(".session-head")).toBe(head);
-    expect(root?.classList).not.toContain("screen"); // a revelação vira palco no D3
     fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
-    expect(document.querySelector(".game.practice")).toBe(root);
-    expect(root?.classList).toContain("screen");
+    expect(document.querySelector(".game.practice.screen")).toBe(root);
   });
 
   it("rodada anulada (falha de áudio) não conta no placar", async () => {
