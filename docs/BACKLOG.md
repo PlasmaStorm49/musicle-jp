@@ -4,9 +4,14 @@ O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhor
 
 Atualizado em 21/10/2026.
 
-## Em andamento
+## Próximos, na ordem combinada (21/10)
 
-- **PR #47.** A página rolava para o lado quando a rodada sorteava um artista de nome longo (achado no site em 21/10). Espera o merge.
+1. **ME29** e **ME36**: as dependências com data (a ME36 só a partir de 22/10).
+2. **ME94**: o Desistir como botão.
+3. **ME95**: a barra que leva ao ponto da música.
+4. **ME99**: a revisão adiada do switch e do volume.
+5. **ME96**: o plano das categorias no menu (os Hits).
+6. **ME97**: a categoria de anime, depois de trabalhar a curadoria.
 
 ## Itens para corrigir
 
@@ -15,7 +20,7 @@ Atualizado em 21/10/2026.
 - **ME36.** Atualizar as 3 actions com versão nova. Libera em 22/10.
 
 **Na tela**
-- **ME94 (novo).** "Desistir" como botão de verdade, de preferência vermelho: hoje é texto sublinhado e parece link. Vale também para o "Não sei" e o "Desistir da música"?
+- **ME94 (novo).** "Desistir", "Não sei" e "Desistir da música" como botão de verdade, com o texto vermelho (P220): hoje são texto sublinhado e parecem link.
 - **ME98 (novo).** "Ouvir mais (+1 s)" quebra em duas linhas no celular: a quebra não pode partir o "(+1 s)" ao meio.
 - **ME99 (novo).** A revisão adiada do switch de tema e do volume (#45 e #46): o `revisor`, o `/code-review` e os 15 pontos já anotados do #45.
 - **ME33.** Textos: o "- Single" na revelação, o dia anulado com "0/0" e o "Áudio indisponível" quando o motivo é outro. Conferir o que o PR D já resolveu.
@@ -51,7 +56,7 @@ Atualizado em 21/10/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
-- **ME95 (novo).** Clicar na barra da música leva àquele ponto da música.
+- **ME95 (novo).** Clicar na barra da música leva àquele ponto, na rodada (só no trecho já liberado) e na revelação (P224).
 - **S18.** "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal, no Treino.
 - **S22.** O selo da rodada no modo por artista leva à página do artista na loja.
 - **S29.** As 3 faíscas do 当 animadas no acerto.
@@ -80,8 +85,8 @@ Atualizado em 21/10/2026.
 
 ## Coisas novas que quero implementar
 
-- **ME96 (novo).** O Normal e o Desafio (e o Treino?) numa categoria só no menu, com nome a decidir, para abrir espaço a outras categorias.
-- **ME97 (novo).** Uma categoria de músicas de anime populares, aproveitando o que o modo por artista já faz.
+- **ME96 (novo).** O Normal, o Desafio e o Treino numa categoria só no menu, os "Hits" (P221, P222), para abrir espaço a outras categorias.
+- **ME97 (novo).** Uma categoria de músicas de anime populares, por uma lista curada (P223), aproveitando o que o modo por artista já faz. A curadoria ainda vai ser trabalhada.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).
 - **ME6.** O app do Claude no GitHub revisando cada PR.
@@ -95,7 +100,6 @@ Atualizado em 21/10/2026.
 - Conferir o logo empilhado: libera a **S34**, a imagem de compartilhamento (`og:image`).
 
 **Você**
-- O merge do #47.
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
 - **P16.** Decidir se a URL e o repositório mudam de nome.
