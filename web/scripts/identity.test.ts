@@ -5,6 +5,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { ICONS } from "../src/ui/assets/icons.ts";
+import { PROVISIONAL_ICONS } from "../src/ui/assets/icons-provisorios.ts";
 
 const read = (path: string) => readFileSync(new URL(path, import.meta.url), "utf8");
 const noComments = (svg: string) => svg.replace(/<!--[\s\S]*?-->/g, "");
@@ -67,6 +68,21 @@ describe("as peças do style guide", () => {
     expect(png.readUInt32BE(20)).toBe(180);
     // O tipo de cor: 2 é RGB; 6 seria RGBA, e o iOS pintaria de preto o que fosse transparente.
     expect(png[25]).toBe(2);
+  });
+});
+
+describe("os ícones provisórios (P218)", () => {
+  it("nenhum repete um nome do guia: quando o designer mandar o dele, o do guia entra no lugar", () => {
+    for (const name of Object.keys(PROVISIONAL_ICONS))
+      expect(Object.keys(ICONS)).not.toContain(name);
+  });
+
+  it("cada um é um caminho só, com a caixa justa (como as peças do guia)", () => {
+    for (const { viewBox, d } of Object.values(PROVISIONAL_ICONS)) {
+      expect(viewBox).toMatch(/^-?\d+ -?\d+ \d+ \d+$/);
+      expect(d.startsWith("M")).toBe(true);
+      expect(d.endsWith("Z")).toBe(true);
+    }
   });
 });
 

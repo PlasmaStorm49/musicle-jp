@@ -1,6 +1,6 @@
-// O tema na página (P176, P191): o data-theme do <html>, que o styles.css lê, e o theme-color da
-// barra do navegador no celular. O Automático não põe atributo nenhum: quem decide é o
-// prefers-color-scheme do aparelho, só no CSS. O script do index.html aplica o tema salvo antes
+// O tema na página (P176, P191, P217): o data-theme do <html>, que o styles.css lê, e o
+// theme-color da barra do navegador no celular. Sem escolha, não há atributo nenhum: quem decide é
+// o prefers-color-scheme do aparelho, só no CSS. O script do index.html aplica o tema salvo antes
 // da pintura, com a mesma chave; daí em diante a página é a fonte da verdade desta aba (a gravação
 // pode falhar), e a troca feita em outra aba chega pelo evento storage.
 import { useCallback, useEffect, useState } from "preact/hooks";
@@ -39,6 +39,18 @@ export function applyTheme(choice: ThemeChoice, doc: Document = document): void 
   }
 }
 
+/** O tema claro ou escuro, sem o "auto". */
+export type Theme = "light" | "dark";
+
+const DARK_QUERY = "(prefers-color-scheme: dark)";
+
+/** O tema do aparelho (o que vale sem escolha). Sem matchMedia, o claro. */
+export function deviceTheme(win: Window = window): Theme {
+  return typeof win.matchMedia === "function" && win.matchMedia(DARK_QUERY).matches
+    ? "dark"
+    : "light";
+}
+
 /** A troca de tema de outra aba (o evento storage só chega nas outras): aplica aqui também. */
 function fromOtherTab(event: StorageEvent): ThemeChoice | null {
   // key null: a outra aba limpou o armazenamento inteiro.
@@ -55,24 +67,34 @@ export function watchTheme(win: Window = window): void {
 }
 
 /**
- * O tema escolhido e a troca: aplica na hora e grava no aparelho. Sem armazenamento, vale só
- * nesta visita. Começa pelo que a página mostra, e segue a troca de outra aba.
+ * O tema que a página mostra (o escolhido, ou o do aparelho sem escolha) e a troca para o outro:
+ * aplica na hora e grava no aparelho (P217). Sem armazenamento, vale só nesta visita. Começa pelo
+ * que a página mostra, segue a troca de outra aba e, sem escolha, a do aparelho.
  */
-export function useTheme(): readonly [ThemeChoice, (choice: ThemeChoice) => void] {
+export function useTheme(): readonly [Theme, () => void] {
   const [choice, setChoice] = useState<ThemeChoice>(() => shownTheme());
+  const [device, setDevice] = useState<Theme>(() => deviceTheme());
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {
       const next = fromOtherTab(event);
       if (next) setChoice(next);
     };
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    const media = typeof window.matchMedia === "function" ? window.matchMedia(DARK_QUERY) : null;
+    const onDevice = () => setDevice(deviceTheme());
+    media?.addEventListener("change", onDevice);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      media?.removeEventListener("change", onDevice);
+    };
   }, []);
-  const change = useCallback((next: ThemeChoice) => {
+  const theme: Theme = choice === "auto" ? device : choice;
+  const toggle = useCallback(() => {
+    const next: Theme = theme === "dark" ? "light" : "dark";
     setChoice(next);
     applyTheme(next);
     const store = browserStore();
     if (store) writeTheme(store, next);
-  }, []);
-  return [choice, change];
+  }, [theme]);
+  return [theme, toggle];
 }

@@ -10,11 +10,11 @@ import { ROUTES, type Tab } from "../core/routes.ts";
 import { MAX_STAGE, MODE_RULES, MODES, ROUNDS_PER_DAY, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
-import { THEME_CHOICES } from "../storage/theme.ts";
 import { Icon } from "./Icon.tsx";
 import { Logo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
 import { practiceScoreText } from "./PracticeRun.tsx";
+import { singleClick } from "./singleClick.ts";
 import { useTheme } from "./theme.ts";
 
 type Props = {
@@ -197,35 +197,38 @@ export function Home({ day, date, save, practice, artists }: Props) {
         </ul>
       </details>
 
-      <ThemePicker />
+      <ThemeSwitch />
     </div>
   );
 }
 
 /**
- * A troca de tema (P176, P191), no fim da Início: rádios, e não um botão que alterna, para o toque
- * duplo não pular um estado (regra 23). A escolha vale na hora e fica gravada no aparelho. O h2,
- * como nas outras seções, deixa o "Tema" na navegação por títulos; o fieldset leva o nome dele.
+ * A troca de tema (P176, P191, P217), no fim da Início: um switch claro e escuro, com o sol e a lua
+ * (provisórios, P218). Sem escolha salva, ele mostra o tema do aparelho; a troca vale na hora e
+ * fica gravada. É um botão que alterna no mesmo lugar: o 2º clique de um toque duplo não pode
+ * voltar o tema (singleClick, regra 23). O h2, como nas outras seções, deixa o "Tema" na
+ * navegação por títulos.
  */
-function ThemePicker() {
-  const [choice, setChoice] = useTheme();
+function ThemeSwitch() {
+  const [theme, toggle] = useTheme();
   return (
     <section class="home-theme" aria-labelledby="home-theme">
       <h2 id="home-theme">{t("home.themeTitle")}</h2>
-      <fieldset class="theme-options" aria-labelledby="home-theme" aria-describedby="theme-hint">
-        {THEME_CHOICES.map((option) => (
-          <label key={option}>
-            <input
-              type="radio"
-              name="theme"
-              value={option}
-              checked={choice === option}
-              onChange={() => setChoice(option)}
-            />{" "}
-            {t(`theme.${option}`)}
-          </label>
-        ))}
-      </fieldset>
+      <button
+        type="button"
+        role="switch"
+        class="theme-switch"
+        aria-checked={theme === "dark"}
+        aria-describedby="theme-hint"
+        onClick={singleClick(toggle)}
+      >
+        <Icon name="sun" />
+        <span class="theme-track" aria-hidden="true">
+          <span class="theme-thumb" />
+        </span>
+        <Icon name="moon" />
+        <span class="sr-only">{t("home.themeDark")}</span>
+      </button>
       <p id="theme-hint" class="sr-only">
         {t("home.themeHint")}
       </p>

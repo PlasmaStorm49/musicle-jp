@@ -53,10 +53,9 @@ export const ptBR = {
   "home.howPractice": "O Treino não fica salvo: jogue quantas rodadas quiser.",
   // A troca de tema, no fim da Início (P176, P191).
   "home.themeTitle": "Tema",
-  "home.themeHint": "O Automático segue o tema do aparelho.",
-  "theme.auto": "Automático",
-  "theme.light": "Claro",
-  "theme.dark": "Escuro",
+  // O switch (P217): o nome é o do estado ligado; a dica fica para o leitor de tela.
+  "home.themeDark": "Tema escuro",
+  "home.themeHint": "Sem escolha, o jogo segue o tema do aparelho.",
 
   "game.header": "{mode} · nº {number}",
   "game.round": "Rodada {current} de {total}",

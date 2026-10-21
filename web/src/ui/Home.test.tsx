@@ -226,65 +226,92 @@ describe("Home", () => {
   });
 });
 
-describe("Home: a troca de tema (P176, P191)", () => {
-  const radio = (name: string) => screen.getByRole("radio", { name }) as HTMLInputElement;
+describe("Home: o switch de tema (P176, P191, P217)", () => {
+  const toggle = () => screen.getByRole("switch", { name: "Tema escuro" });
+  const checked = () => toggle().getAttribute("aria-checked");
   const root = document.documentElement;
+
+  /** O aparelho no escuro: o matchMedia do prefers-color-scheme responde que sim. */
+  function darkDevice() {
+    return vi.spyOn(window, "matchMedia").mockImplementation(
+      (query: string) =>
+        ({
+          matches: query === "(prefers-color-scheme: dark)",
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+  }
 
   afterEach(() => {
     localStorage.clear();
     delete root.dataset.theme;
+    vi.restoreAllMocks();
     for (const meta of document.head.querySelectorAll('meta[name="theme-color"]')) meta.remove();
   });
 
-  it("no fim da Início, um grupo Tema com 3 rádios; sem nada salvo, o Automático", () => {
+  it("no fim da Início, o switch com o sol e a lua; sem nada salvo, o do aparelho (claro)", () => {
     setup();
-    expect(screen.getByRole("group", { name: "Tema" })).toBeTruthy();
-    expect(screen.getAllByRole("radio").map((r) => r.getAttribute("value"))).toEqual([
-      "auto",
-      "light",
-      "dark",
-    ]);
-    expect(radio("Automático").checked).toBe(true);
-    expect(screen.getByText("O Automático segue o tema do aparelho.")).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Tema" })).toBeTruthy();
+    expect(checked()).toBe("false");
+    // Sem o Automático na tela, e o sol e a lua só como desenho (P218).
+    expect(screen.queryByRole("radio")).toBeNull();
+    expect(toggle().querySelector('svg.icon-sun[aria-hidden="true"]')).not.toBeNull();
+    expect(toggle().querySelector('svg.icon-moon[aria-hidden="true"]')).not.toBeNull();
+    const hint = document.getElementById(toggle().getAttribute("aria-describedby") ?? "");
+    expect(hint?.textContent).toBe("Sem escolha, o jogo segue o tema do aparelho.");
   });
 
-  it("escolher Escuro vale na hora e fica gravado; o Automático tira o atributo e apaga a chave", () => {
+  it("sem nada salvo e o aparelho no escuro: o switch ligado, e o toque grava o claro", () => {
+    darkDevice();
     setup();
-    fireEvent.click(radio("Escuro"));
+    expect(checked()).toBe("true");
+    fireEvent.click(toggle());
+    expect(root.dataset.theme).toBe("light");
+    expect(localStorage.getItem(THEME_KEY)).toBe("light");
+    expect(checked()).toBe("false");
+  });
+
+  it("o toque vale na hora e fica gravado; outro toque volta ao claro", () => {
+    setup();
+    fireEvent.click(toggle());
     expect(root.dataset.theme).toBe("dark");
     expect(localStorage.getItem(THEME_KEY)).toBe("dark");
-    expect(radio("Escuro").checked).toBe(true);
-    fireEvent.click(radio("Automático"));
-    expect(root.dataset.theme).toBeUndefined();
-    expect(localStorage.getItem(THEME_KEY)).toBeNull();
+    expect(checked()).toBe("true");
+    fireEvent.click(toggle());
+    expect(root.dataset.theme).toBe("light");
+    expect(localStorage.getItem(THEME_KEY)).toBe("light");
+    expect(checked()).toBe("false");
   });
 
-  it("o rádio marcado é o tema que a página mostra (o script do index.html aplicou o salvo)", () => {
-    root.dataset.theme = "light";
+  it("o 2º clique de um toque duplo não volta o tema (regra 23)", () => {
     setup();
-    expect(radio("Claro").checked).toBe(true);
+    fireEvent.click(toggle(), { detail: 1 });
+    fireEvent.click(toggle(), { detail: 2 });
+    expect(root.dataset.theme).toBe("dark");
+    expect(checked()).toBe("true");
   });
 
-  it("a gravação que falhou não desmarca: o rádio segue a página, e não o armazenamento", () => {
-    // A cota cheia: a página ficou escura, mas a chave nunca foi gravada.
+  it("o switch segue o tema que a página mostra (o script do index.html aplicou o salvo)", () => {
     root.dataset.theme = "dark";
     setup();
-    expect(radio("Escuro").checked).toBe(true);
+    expect(checked()).toBe("true");
   });
 
-  it("a troca feita em outra aba chega pelo evento storage: a página e o rádio acompanham", () => {
+  it("a troca feita em outra aba chega pelo evento storage: a página e o switch acompanham", () => {
     setup();
     localStorage.setItem(THEME_KEY, "dark");
     act(() => {
       window.dispatchEvent(new StorageEvent("storage", { key: THEME_KEY, newValue: "dark" }));
     });
     expect(root.dataset.theme).toBe("dark");
-    expect(radio("Escuro").checked).toBe(true);
+    expect(checked()).toBe("true");
     // Outra chave (o save) não mexe no tema.
     act(() => {
       window.dispatchEvent(new StorageEvent("storage", { key: "musicle-jp:save" }));
     });
-    expect(radio("Escuro").checked).toBe(true);
+    expect(checked()).toBe("true");
   });
 
   it("sem armazenamento (cookies bloqueados), a troca vale nesta visita", () => {
@@ -293,9 +320,9 @@ describe("Home: a troca de tema (P176, P191)", () => {
     });
     try {
       setup();
-      fireEvent.click(radio("Escuro"));
+      fireEvent.click(toggle());
       expect(root.dataset.theme).toBe("dark");
-      expect(radio("Escuro").checked).toBe(true);
+      expect(checked()).toBe("true");
     } finally {
       blocked.mockRestore();
     }
@@ -318,11 +345,16 @@ describe("Home: a troca de tema (P176, P191)", () => {
         (m) => m.content,
       );
     setup();
-    fireEvent.click(radio("Escuro"));
+    fireEvent.click(toggle());
     expect(contents()).toEqual(["#000000", "#000000"]);
-    fireEvent.click(radio("Claro"));
+    fireEvent.click(toggle());
     expect(contents()).toEqual(["#ffffff", "#ffffff"]);
-    fireEvent.click(radio("Automático"));
+    // A outra aba limpou o armazenamento: sem escolha, cada meta volta à sua.
+    localStorage.clear();
+    act(() => {
+      window.dispatchEvent(new StorageEvent("storage", { key: null }));
+    });
     expect(contents()).toEqual(["#ffffff", "#000000"]);
+    expect(root.dataset.theme).toBeUndefined();
   });
 });
