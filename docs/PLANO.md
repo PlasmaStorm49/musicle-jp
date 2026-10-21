@@ -161,11 +161,11 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P208 | O desenho do protótipo está aprovado (18/10/2026) |
 | P209 | A reforma vai em 3 PRs: a fundação e as telas de escolha (D1), as rodadas (D2), a revelação e o resumo (D3) |
 | P210 | Os textos que gastam linha encurtam na tela (as dicas dos cartões da Início e da lista de artistas, a dica do campo, o "copiado", o botão de sair da sessão); a versão inteira fica para o leitor de tela ou no "Como funciona" |
-| P211 | A lista de artistas é uma grade de capas: 4 por linha no celular, 6 no computador |
+| P211 | A lista de artistas é uma grade de capas: 4 por linha no celular, 6 no computador. A lista pode rolar: no site, com os 12 artistas, são 37 px em 375 × 667 e 100 em 360 × 640, aceitos pelo usuário (20/10/2026) |
 | P212 | O título do álbum nas opções do Normal nunca é cortado (é ele que distingue duas opções); só o romaji e o artista ganham reticências |
 | P213 | Os alvos de toque continuam com 44 px em tudo |
 | P214 | Os tamanhos de contrato: 375 × 667 (iPhone SE) e 360 × 640 (Android), conferidos pelo e2e; 390 × 844 e 1280 × 800 à parte |
-| P215 | As sugestões do Desafio mantêm o romaji embaixo do título, que o protótipo escondia (revisa a P208): quem digita em romaji reconhece a música por ele (P32). Decisão do PR D2, para o usuário rever |
+| P215 | As sugestões do Desafio mantêm o romaji embaixo do título, que o protótipo escondia (revisa a P208): quem digita em romaji reconhece a música por ele (P32). Decisão do PR D2, aprovada pelo usuário (20/10/2026) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -249,7 +249,7 @@ musicle-jp/
 | M9 | Concluído em 09/10/2026 | Repositório no GitHub, `ci.yml`, Playwright, proteção da `main` | PR com CI verde; teste quebrado bloqueia o merge | `gh`, PR pelo Claude, `/security-review`, ferramentas de PR do app (Auto-fix) |
 | M10 | Concluído em 10/10/2026 | Deploy no Pages (`base: '/musicle-jp/'`) + `update-catalog.yml` com fixtures | URL pública tocando áudio sintético; Action abre PR só com dias novos | GitHub Actions, navegador do Claude na URL pública |
 | M11 | Concluído em 11/10/2026 | Provider Apple (RSS JP + iTunes lookup), atribuição, aliases reais, troca para `public/data/` | Diário com previews reais; reserva de áudio testada | Planejamento + subagente de pesquisa na documentação |
-| M12 | Em andamento (PRs A a D) | O visual novo, com a identidade do designer (Apêndice L): tokens, fonte e tema escuro (A); logo, selos e favicon (B); ícones e botões (C); a interface nova, cabendo na tela (D, em 3 PRs: D1 a fundação e as telas de escolha, D2 as rodadas, D3 a revelação e o resumo) | Os 4 PRs no ar, nos dois temas, com o contraste travado pelo `scripts/theme.test.ts` | Modo de planejamento, subagentes Explore e um de pesquisa (a fonte do style guide), widget da paleta |
+| M12 | Concluído (PRs A a D) | O visual novo, com a identidade do designer (Apêndice L): tokens, fonte e tema escuro (A); logo, selos e favicon (B); ícones e botões (C); a interface nova, cabendo na tela (D, em 3 PRs: D1 a fundação e as telas de escolha, D2 as rodadas, D3 a revelação e o resumo) | Os 4 PRs no ar, nos dois temas, com o contraste travado pelo `scripts/theme.test.ts`, e as telas cabendo nos tamanhos de contrato (P214), conferidas pelo `e2e/layout.spec.ts`. As peças que o designer ainda vai mandar (S34, PD6, PD12, PD13) ficam para depois | Modo de planejamento, subagentes Explore e um de pesquisa (a fonte do style guide), widget da paleta |
 | M13 | Em andamento (PRs A, B e C) | Modo por artista: a lista de artistas e rodadas sem fim do Desafio com as músicas de um deles (Apêndice K). Feito antes do M12 (o visual) | 3 PRs: pipeline e fixtures (A), dados reais dos 6 artistas (B), web (C) | Planejamento com 3 subagentes Explore e um Plan |
 
 **Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
@@ -318,7 +318,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 
 - ME29. Tirar do `web/.npmrc` as exceções do vite e do source-map-js a partir de 20/10/2026, quando o vite 8.3.3 completa 14 dias (P29): do jeito que estão, qualquer versão nova deles entra sem a carência.
 - ME33. Textos: "- Single" na revelação, dia todo anulado mostrando "0/0", a dica de "setas e Enter" no celular e a rodada anulada sempre como "Áudio indisponível" (também quando a resposta perdeu a elegibilidade). Vai com o M12.
-- ME34. Celular: opções com títulos enormes ("Yes! 東京 (feat. …)" passa de 6 linhas) e a distribuição de pontos com 19 linhas. Vai com o M12. (O seletor de modo do Treino antes do player saiu com a P105.)
+- ME34. Celular: opções com títulos enormes ("Yes! 東京 (feat. …)" passa de 6 linhas) e a distribuição de pontos com 19 linhas. Vai com o M12. (O seletor de modo do Treino antes do player saiu com a P105.) **Resolvida no PR D (M12):** a distribuição em 19 colunas (D3); os títulos enormes quebram a linha sem corte (P212), e a rodada com um deles pode rolar.
 - ME36. Atualizar as 3 actions que têm versão nova quando ela completar 14 dias, a partir de 22/10/2026 (P28; checkup).
 - ME37. `aria-disabled` no lugar de `disabled` nos botões do Player durante o "Carregando…" (o navegador tira o foco do botão desabilitado) e um gancho comum de reprodução com ficha para o Player e a revelação (`/code-review` do PR #13).
 - ME38. Ligar no pipeline os álbuns do mesmo lançamento (o EP "A / B", os dois "ROSE - Single"), em vez da regra de nome do `acceptedIds` no web; juntaria também as linhas iguais da busca. Pede mudança de esquema (`/code-review` do PR #13).
@@ -326,7 +326,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME40. `RoundState.correctOptionId` é gravado, mas só os testes o leem: a tela usa o `accepted`. Tirar, ou usar no lugar do `accepted[0]` (dois modos).
 - ME41. Trocar "sem desafio" por "sem diário" nos avisos do pipeline (`schedule.py`) e do robô (`check-catalog-pr.sh`, com o teste dele) e no título do `schedule.schema.json`, como na tela (P103). O título vira o nome do tipo gerado: mudar pede o mapa de `web/scripts/gen-types.ts` e o `npm run types`.
 - ME42. Na escolha do modo do Treino, gerar a semente ao montar e pré-carregar a 1ª rodada de cada modo, para o 1º "Tocar" responder mais rápido (liga à ME18; subagente Plan da P105).
-- ME60. A rodada sem rolagem no celular, cabendo na tela: o selo do Apple Music, no fim da página (P112, ME58), fica sempre visível junto do player. Ideia do usuário em 12/10/2026, para antes de mostrar o jogo a outras pessoas.
+- ME60. A rodada sem rolagem no celular, cabendo na tela: o selo do Apple Music, no fim da página (P112, ME58), fica sempre visível junto do player. Ideia do usuário em 12/10/2026, para antes de mostrar o jogo a outras pessoas. **Resolvida nos PRs D2 e D3:** as rodadas, a revelação e o resumo cabem na tela com o selo da Apple no pé, conferidos pelo `layout.spec.ts`.
 - ME61. Superfan, o 2º submodo do modo por artista ("para quem for muito tryhard"; o sem fim é para quem só quer jogar), especificado em 12/10/2026 (P119 a P123, P153, P158, P159, P161), implementado no branch `m13-superfan` (Apêndice K):
   - Só o Desafio. A barra tem 3 etapas, de 1 s, 3 s e 5 s (1, 4 e 9 s acumulados); a prévia começa num ponto sorteado do clipe de 30 s (até ~19 s, com folga para o fade). Desde o branch, cada modo tem a sua barra (`ModeRules.stages`).
   - P119: cada palpite errado é um erro, que tira 5 pontos; com 3 erros na partida inteira, ela acaba.
@@ -350,7 +350,7 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
   - ME74. A descrição do Superfan curta e sem números (P164).
   - ME75. No título da partida, "Superfan" vira uma etiqueta ao lado do nome do artista (o título não quebra no meio).
 - ME76. O aviso do aria-live (o `announce`) continua no DOM ao trocar de aba ("Pulou. Tentativa 4 de 6." aparece no texto da escolha do submodo). Não aparece na tela, mas um leitor de tela pode reler; limpar ao trocar de aba (check-up de 12/10/2026).
-- ME77. Nas estatísticas do Desafio, a distribuição tem 19 linhas (0 a 18 pontos), longa no celular: agrupar em faixas ou desenhar em colunas (check-up de 12/10/2026).
+- ME77. Nas estatísticas do Desafio, a distribuição tem 19 linhas (0 a 18 pontos), longa no celular: agrupar em faixas ou desenhar em colunas (check-up de 12/10/2026). **Resolvida no PR D3:** a distribuição em colunas.
 - ME79. O `validate` e o `validate-artists` recusam kanji ou kana no título latino (o 東亰カニバリズム passou como "Higashi 亰 kanibarizumu").
 - ME80. Os créditos da parada com o nome da Apple, a mesma regra da P187 no `pipeline/data/apple/aliases.toml`: 点描の唄 (feat. 井上苑子) "Inoue Sonoko" e 佐野勇斗&吉田仁人 "Sano Hayato & Yoshida Jinto", que a loja US escreve "Hayato Sano & Jinto Yoshida".
 - ME81. Uma revisão das leituras do cutlet nos artistas, fora dos créditos. Exemplos: 蜃気楼 do Eve "Shinki rou", 私は最強 "Watakushi wa saikyou", あなたに出会わなければ "deawanakerebaa".
@@ -962,7 +962,7 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
 
 | Token | Claro | Escuro | Uso |
 |---|---|---|---|
-| `--bg` / `--surface` / `--surface-2` | `#FFFFFF` / `#FFFFFF` / `#F1F1F3` | `#000000` / `#1F1F22` / `#2A2A2E` | página, cartões, blocos e sugestão ativa |
+| `--bg` / `--surface` / `--surface-2` | `#FFFFFF` / `#FFFFFF` / `#F1F1F3` | `#000000` / `#1F1F22` / `#2A2A2E` | página, cartões, blocos e sugestão ativa (o `--surface-2` saiu no PR D3, sem uso) |
 | `--border` / `--border-strong` | `#D7D8DC` / `#939497` | `#2A2A2E` / `#6E6F74` | borda decorativa; borda de campo e de botão (3,03 e 3,28) |
 | `--text` / `--muted` | `#000000` / `#6D6E70` | `#D7D8DC` / `#9A9BA0` | texto e texto secundário |
 | `--primary` e `--on-primary` | `#BDBF7F` e `#000000` | iguais | botão principal (10,92) |
@@ -1030,6 +1030,7 @@ Uma lista curada de artistas e, para cada um, rodadas sem fim do Desafio com as 
   - o Treino depois da 10ª rodada, em 360 (16 px): o placar quebra a linha, em vez de sumir nas reticências.
 
   O e2e `layout.spec.ts` confere isso com o `appleCatalog` do `helpers.ts` (o catálogo e os artistas com o provedor da Apple, sem rede), o Desafio da sessão com a explícita, a ajuda do diário com 3 tentativas, o cabeçalho das sessões em 320 px (sem texto cortado nem por cima do botão), que o Tocar não anda da 1ª à última tentativa, que a lista aberta e o "Nada encontrado." não mudam a altura da página, que o Normal com um título em duas linhas cabe e que um título de 89 caracteres quebra a linha, sem corte nem rolagem para o lado.
+- **PR D3 (a revelação e o resumo):** toda tela agora é palco: a raiz das rodadas é sempre a `.screen` (o `roundScreen` do D2 saiu) e o resumo do dia ganhou uma raiz. A revelação: o ✓ ou o X no resultado (P206); as opções marcadas em linhas compactas, com a miniatura de 32 e o ícone no lugar da etiqueta ("Resposta certa" e "Sua escolha" ficam para o leitor de tela; as linhas não são botões e têm a altura da miniatura); o cartão da resposta com a capa de 96; o chevron no botão de seguir (também no da rodada anulada); o selo da Apple fora da seção, o último filho do palco, pregado no pé. O resumo: o placar grande, as 3 rodadas em células (a rodada, o ✓ ou o X e os pontos, com "· ajuda" quando ela foi pedida; a frase inteira para o leitor de tela), o compartilhar sem a prévia do texto (as células já mostram o resultado; o "Copiado!" aparece no botão por 2 s, só na tela, e o nome dele não muda: quem usa leitor de tela ouve a frase inteira uma vez, pelo aria-live; com o `singleClick`, que faltava) e, quando sai o novo diário, o "Jogar o novo diário" como o único botão oliva, lado a lado com o compartilhar (a frase do aviso fica para o leitor de tela; sem isso, o resumo rolava 52 px em 360), e com o `singleClick`, porque ele recarrega a página. As estatísticas: os 4 números numa fileira e a distribuição em 19 colunas (ME77), com o eixo só no 0, 6, 12, 18 e no de hoje, e a contagem só em cima da coluna de hoje. No computador (a partir de 960 px), a revelação e o resumo em duas colunas. A seção "telas de antes" do `styles.css` saiu, com a regra provisória dos botões, as margens de base que o palco sempre zera e os tokens sem uso (`--radius` e `--surface-2`, com os pares dele no `PAIRS`); a coluna larga virou o token `--column-wide` (880 px). Com o selo da Apple simulado, cabem em 375 × 667 e 360 × 640 (e, na medição à parte, em 320 × 640) a revelação do Normal (também com a explícita e com títulos em duas linhas), a do Desafio com 5 e com 6 tentativas, a do Superfan e o resumo (também com o novo diário); a menor folga é de 6 px em 360. O `layout.spec.ts` confere, nos dois tamanhos de contrato, a revelação do Normal com a explícita, a do Desafio com 5 tentativas, o resumo e o resumo com o novo diário; e, em 1280 px, as duas colunas.
 
 ## Origem
 
