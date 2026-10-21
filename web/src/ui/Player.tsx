@@ -47,8 +47,8 @@ export function Player({
   // O foco vai para o botão principal (Tocar ou Parar):
   // - "section": ao montar (o Player monta a cada rodada, inclusive logo depois da escolha do
   //   modo) e depois de um pulo, se o foco está no body, no próprio Player ou ainda no lugar de
-  //   fora do jogo onde estava ao montar (a nav: quem entra num diário pelo link da aba fica com o
-  //   foco nele, regra 16): o "Pular" pode ter sumido (última tentativa), e o próximo passo
+  //   fora do jogo onde estava ao montar (a nav: quem volta pela aba Artistas a uma rodada aberta
+  //   fica com o foco no link, regra 16): o "Pular" pode ter sumido (última tentativa), e o passo
   //   natural é ouvir o trecho liberado (P46);
   // - "lost": quando o som começa (ou falha), só se o foco se perdeu. O "Ouvir mais" da última
   //   etapa some, e o botão desabilitado no "Carregando…" o navegador joga no body; já o "Ouvir

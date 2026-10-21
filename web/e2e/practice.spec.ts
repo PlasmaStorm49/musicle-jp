@@ -1,4 +1,4 @@
-import { albumOf, expect, lastPlayed, open, option, test } from "./helpers.ts";
+import { albumOf, expect, lastPlayed, open, option, test, viaHits } from "./helpers.ts";
 
 test("Treino: escolhe o modo, joga e segue nele; reiniciar pede confirmação (P105)", async ({
   page,
@@ -77,7 +77,7 @@ test("toque duplo num cartão, no celular: começa a sessão sem tocar, jogar ne
   }
 });
 
-test("o Treino continua ao trocar de aba, a home mostra o modo, e recarregar volta à escolha", async ({
+test("o Treino continua ao trocar de aba, o cartão dele nos Hits mostra o modo, e recarregar volta à escolha", async ({
   page,
 }) => {
   await open(page, "2026-10-08T12:00:00-03:00", "#treino");
@@ -86,13 +86,13 @@ test("o Treino continua ao trocar de aba, a home mostra o modo, e recarregar vol
   await page.getByRole("button", { name: "Próxima rodada" }).click();
   await expect(page.getByText("Rodada 2")).toBeVisible();
 
-  await page.getByRole("link", { name: "Normal" }).click();
+  await viaHits(page, /^Normal/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal · nº 1");
-  await page.getByRole("link", { name: "Início" }).click();
-  await expect(page.getByRole("main").getByRole("link", { name: /^Treino/ })).toContainText(
-    "Nesta sessão (Normal): 0 pontos em 1 rodada",
-  );
-  await page.getByRole("link", { name: "Treino" }).first().click();
+  // O placar da sessão fica no cartão do Treino, na tela dos Hits (P225).
+  await page.getByRole("navigation").getByRole("link", { name: /^Hits/ }).click();
+  const practiceCard = page.getByRole("main").getByRole("link", { name: /^Treino/ });
+  await expect(practiceCard).toContainText("Nesta sessão (Normal): 0 pontos em 1 rodada");
+  await practiceCard.click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treino · Normal");
   await expect(page.getByText("Rodada 2")).toBeVisible();
   await expect(page.getByText("0 pontos em 1 rodada", { exact: true })).toBeVisible();

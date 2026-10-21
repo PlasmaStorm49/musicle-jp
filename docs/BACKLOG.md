@@ -7,7 +7,7 @@ Atualizado em 21/10/2026.
 ## Próximos, na ordem combinada (21/10)
 
 1. **ME36**: as 3 actions novas (o merge só depois das 23:52 de 21/10).
-5. **ME96**: o plano das categorias no menu (os Hits).
+5. **ME101**: o controle de volume também na revelação (P228).
 6. **ME97**: a categoria de anime, depois de trabalhar a curadoria.
 
 ## Itens para corrigir
@@ -17,6 +17,7 @@ Atualizado em 21/10/2026.
 
 **Na tela**
 - **ME33.** Textos: o "- Single" na revelação, o dia anulado com "0/0" e o "Áudio indisponível" quando o motivo é outro. Conferir o que o PR D já resolveu.
+- **ME106 (novo).** O negrito da aba ativa da nav empurra a vizinha em 2 a 3 px ao trocar de categoria, desde que as abas ficam juntas à esquerda (ME96).
 - **ME37.** O Player perde o foco no "Carregando…": trocar o `disabled` pelo `aria-disabled`.
 - **ME76.** O aviso do leitor de tela continua na página depois de trocar de aba.
 - **ME68.** O `lang="ja"` no nome do artista no cartão da Início e nos avisos.
@@ -49,8 +50,7 @@ Atualizado em 21/10/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
-- **ME101 (novo).** O volume na revelação: a prévia inteira toca com ele, mas sem o controle nem o ícone do mudo.
-- **ME102 (novo).** O ícone do mudo até 5%: nesse ponto, o som já é quase nada.
+- **ME101 (novo).** O controle de volume também na revelação (P228): a prévia inteira toca com ele, mas sem o controle nem o ícone do mudo.
 - **S18.** "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal, no Treino.
 - **S22.** O selo da rodada no modo por artista leva à página do artista na loja.
 - **S29.** As 3 faíscas do 当 animadas no acerto.
@@ -79,8 +79,10 @@ Atualizado em 21/10/2026.
 
 ## Coisas novas que quero implementar
 
-- **ME96 (novo).** O Normal, o Desafio e o Treino numa categoria só no menu, os "Hits" (P221, P222), para abrir espaço a outras categorias.
 - **ME97 (novo).** Uma categoria de músicas de anime populares, por uma lista curada (P223), aproveitando o que o modo por artista já faz. A curadoria ainda vai ser trabalhada.
+- **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
+- **ME104 (novo).** Os dias jogados e jogar os últimos dias (sem sequência e sem média). Depois do Anime.
+- **ME105 (novo).** Medalhas, calculadas do histórico, e a sequência na Início. Depois do Anime.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).
 - **ME6.** O app do Claude no GitHub revisando cada PR.

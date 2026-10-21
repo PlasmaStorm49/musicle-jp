@@ -1,15 +1,10 @@
 import { useEffect, useRef } from "preact/hooks";
-import {
-  type ArtistSummary,
-  type DailyStatus,
-  dailyStatus,
-  type PracticeSummary,
-} from "../core/home.ts";
+import { type ArtistSummary, dailyStatus, nextDaily } from "../core/home.ts";
 import type { Save } from "../core/records.ts";
-import { ROUTES, type Tab } from "../core/routes.ts";
-import { MAX_STAGE, MODE_RULES, MODES, ROUNDS_PER_DAY, secondsAt } from "../core/rules.ts";
+import { MAX_STAGE, MODES, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
+import { type Card, CardList, dailyText } from "./cards.tsx";
 import { Icon } from "./Icon.tsx";
 import { Logo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
@@ -24,71 +19,30 @@ type Props = {
   readonly date: string;
   /** A última leitura do save. */
   readonly save: Save;
-  /** O modo e o placar da sessão do Treino; null antes da 1ª rodada (`practiceSummary`). */
-  readonly practice: PracticeSummary | null;
   /** O artista e o placar da sessão do modo por artista; null antes da 1ª rodada. */
   readonly artists: ArtistSummary | null;
 };
 
-type HomeCard = {
-  readonly tab: Exclude<Tab, "home">;
-  readonly name: string;
-  /** A dica curta, na tela (P210). */
-  readonly short: string;
-  /** A dica inteira, para o leitor de tela. */
-  readonly hint: string;
-};
-
-/** Os cartões, na ordem das abas: os modos (MODES, o Normal primeiro), o Treino e os artistas. */
-function homeCards(): HomeCard[] {
-  return [
-    ...MODES.map((mode) => ({
-      tab: mode,
-      name: modeName(mode),
-      short: t(`home.${mode}Short`),
-      hint: t(`home.${mode}Hint`, {
-        rounds: ROUNDS_PER_DAY,
-        total: MODE_RULES[mode].maxAttempts,
-      }),
-    })),
-    {
-      tab: "practice",
-      name: t("practice.title"),
-      short: t("home.practiceShort"),
-      hint: t("home.practiceHint"),
-    },
-    // O cartão sai junto com o <li> da nav quando o site ficar público (P117, P126).
-    {
-      tab: "artists",
-      name: t("artists.title"),
-      short: t("home.artistsShort"),
-      hint: t("home.artistsHint"),
-    },
-  ];
-}
-
-function dailyText(status: DailyStatus): string {
-  switch (status.kind) {
-    case "unavailable":
-      return t("home.statusUnavailable");
-    case "new":
-      return t("home.statusNew", { number: status.number });
-    case "playing":
-      return t("home.statusPlaying", { number: status.number });
-    case "done":
-      // Dia todo anulado (P27): "terminado", sem "0 de 0 pontos".
-      return status.max === 0
-        ? t("home.statusDoneVoid", { number: status.number })
-        : t("home.statusDone", { number: status.number, score: status.score, max: status.max });
-  }
-}
-
-function practiceText(summary: PracticeSummary | null): string | null {
-  if (!summary) return null;
-  return t("home.practiceSession", {
-    mode: modeName(summary.target),
-    score: practiceScoreText(summary.score),
-  });
+/**
+ * O cartão dos Hits (P226): o estado dos dois diários, uma linha cada, e o oliva quando há um por
+ * jogar. Sem diário no dia, continua link (o Treino está lá dentro), com uma linha só.
+ */
+function hitsCard(save: Save, day: Day | null, date: string): Card {
+  return {
+    tab: "hits",
+    name: t("hits.title"),
+    short: t("home.hitsShort"),
+    hint: t("home.hitsHint"),
+    lines: day
+      ? MODES.map((mode) =>
+          t("home.hitsLine", {
+            mode: modeName(mode),
+            status: dailyText(dailyStatus(save, day, date, mode), true),
+          }),
+        )
+      : [t("home.statusUnavailable")],
+    next: nextDaily(save, day, date) !== null,
+  };
 }
 
 function artistsText(summary: ArtistSummary | null): string | null {
@@ -107,21 +61,28 @@ function artistsText(summary: ArtistSummary | null): string | null {
   });
 }
 
+/** O cartão do modo por artista. Sai com o <li> da nav quando o site ficar público (P117). */
+function artistsCard(summary: ArtistSummary | null): Card {
+  const text = artistsText(summary);
+  return {
+    tab: "artists",
+    name: t("artists.title"),
+    short: t("home.artistsShort"),
+    hint: t("home.artistsHint"),
+    lines: text ? [text] : [],
+  };
+}
+
 /**
- * A home: o nome do jogo, um cartão por modo (com o estado de hoje) numa grade 2×2, como jogar
- * (recolhido) e o tema. O primeiro diário por jogar (novo ou em andamento) é o cartão oliva: a
- * ação da tela.
+ * A home: o nome do jogo, um cartão por categoria da nav (P226), numa coluna, como jogar
+ * (recolhido) e o tema. Os Hits com o estado dos dois diários; o oliva, a ação da tela, vai neles
+ * enquanto houver um diário por jogar.
  */
-export function Home({ day, date, save, practice, artists }: Props) {
+export function Home({ day, date, save, artists }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   // Tela nova: o foco vai para o título (regra 16), como no resumo do dia. Só ao montar: o save
   // relido (outra aba gravou) muda os cartões, mas não pode tirar o foco de onde ele está.
   useEffect(() => heading.current?.focus(), []);
-  const statuses = new Map(MODES.map((mode) => [mode, dailyStatus(save, day, date, mode)]));
-  const next = MODES.find((mode) => {
-    const kind = statuses.get(mode)?.kind;
-    return kind === "new" || kind === "playing";
-  });
 
   return (
     <div class="home screen">
@@ -139,48 +100,11 @@ export function Home({ day, date, save, practice, artists }: Props) {
         <h2 id="home-modes" class="sr-only">
           {t("home.modesTitle")}
         </h2>
-        <ul class="home-modes">
-          {homeCards().map(({ tab, name, short, hint }) => {
-            const status = tab === "practice" || tab === "artists" ? null : statuses.get(tab);
-            const text = status
-              ? dailyText(status)
-              : tab === "artists"
-                ? artistsText(artists)
-                : practiceText(practice);
-            // Nome, estado e dica curta, nessa ordem: o leitor de tela ouve o estado logo, e o nome
-            // do link tem tudo o que aparece nele (quem usa a voz diz o que vê).
-            const content = (
-              <>
-                <span class="mode-name">{name}</span>
-                {text && <span class="tag">{text}</span>}
-                <span class="mode-hint">{short}</span>
-              </>
-            );
-            return (
-              <li key={tab}>
-                {status?.kind === "unavailable" ? (
-                  // Sem diário hoje: não há para onde ir, então o cartão não é link.
-                  <div class="mode home-card off">{content}</div>
-                ) : (
-                  <>
-                    {/* Link, e não botão: cada cartão leva a outra aba (#normal, #desafio,
-                        #treino, #artistas). A dica inteira vem como descrição (P210). */}
-                    <a
-                      class={tab === next ? "mode home-card next" : "mode home-card"}
-                      href={ROUTES[tab]}
-                      aria-describedby={`home-${tab}-hint`}
-                    >
-                      {content}
-                    </a>
-                    <span id={`home-${tab}-hint`} class="sr-only">
-                      {hint}
-                    </span>
-                  </>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+        <CardList
+          cards={[hitsCard(save, day, date), artistsCard(artists)]}
+          idPrefix="home"
+          single
+        />
       </section>
 
       {/* Recolhido: a tela cabe sem rolar, e quem quer as regras abre (P210). */}

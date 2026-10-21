@@ -18,10 +18,13 @@ export const ptBR = {
 
   "nav.label": "Jogos",
   "nav.home": "Início",
-  "nav.practice": "Treino",
+  "nav.hits": "Hits",
   "nav.artists": "Artistas",
-  "nav.done": "(terminado)",
+  "nav.hitsDone": "(diários terminados)",
   "nav.doneMark": "✓",
+  // A tela dos Hits (P225): uma dica só, curta, porque ela já diz tudo.
+  "hits.title": "Hits",
+  "hits.hint": "A parada do Japão: os dois diários e o Treino.",
 
   "home.modesTitle": "Escolha o jogo",
   "home.albumHint":
@@ -40,6 +43,15 @@ export const ptBR = {
   "home.statusDone": "nº {number} · terminado, {score} de {max} pontos",
   "home.statusDoneVoid": "nº {number} · terminado",
   "home.statusUnavailable": "Não há diário hoje",
+  // O cartão dos Hits na Início (P226): o estado de cada diário, sem o número.
+  "home.hitsShort": "Os diários e o Treino",
+  "home.hitsHint":
+    "Os diários do Normal e do Desafio, iguais para todos, e o Treino, com rodadas sem fim. As músicas são as da parada do Japão.",
+  "home.hitsLine": "{mode}: {status}",
+  "home.lineNew": "novo",
+  "home.linePlaying": "em andamento",
+  "home.lineDone": "terminado, {score} de {max} pontos",
+  "home.lineDoneVoid": "terminado",
   "home.practiceSession": "Nesta sessão ({mode}): {score}",
   "home.artistsHint":
     "O Desafio com as músicas de um artista: rodadas sem fim no Livre, ou a partida do Superfan.",
