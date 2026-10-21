@@ -376,15 +376,17 @@ button.give-up:active:not(:disabled) {
   }
 }
 
-/* A nav: uma barra de 44 px, sem borda. O selo é a Início (P205), com o nome só para o leitor de
-   tela; a aba ativa ganha o fio oliva. As 5 abas cabem numa linha de 360 px para cima, também com
-   os dois ✓ (ME70); em 320, quebram a linha em vez de rolar a página. */
+/* A nav: uma barra de 44 px, sem borda, com uma aba por categoria (P225): o selo da Início
+   (P205, com o nome só para o leitor de tela), os Hits e os Artistas, juntos à esquerda. A aba da
+   categoria atual ganha o fio oliva. Cabe numa linha também em 320 px; se um dia não couber,
+   quebra a linha em vez de rolar a página. */
 .tabs ul {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 0 var(--sp-4);
   max-width: var(--column);
   margin: 0 auto;
   padding: 0 max(10px, env(safe-area-inset-right)) 0 max(10px, env(safe-area-inset-left));
@@ -394,6 +396,8 @@ button.give-up:active:not(:disabled) {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
+  min-width: var(--h-control);
   min-height: var(--h-control);
   padding: 0 6px;
   color: var(--muted);
@@ -403,12 +407,12 @@ button.give-up:active:not(:disabled) {
   white-space: nowrap;
 }
 
-.tabs a[aria-current="page"] {
+.tabs a[aria-current] {
   color: var(--text);
   font-weight: 700;
 }
 
-.tabs a[aria-current="page"]::after {
+.tabs a[aria-current]::after {
   content: "";
   position: absolute;
   left: 6px;
@@ -421,12 +425,6 @@ button.give-up:active:not(:disabled) {
 
 .tabs .done-mark {
   font-size: 0.8em;
-}
-
-/* O link do selo: 44 de largura também (P213), com o selo de 28 no centro. */
-.tabs .nav-home {
-  min-width: var(--h-control);
-  justify-content: center;
 }
 
 .nav-logo {
@@ -1248,8 +1246,8 @@ section.void,
 }
 
 /* 5. Telas ------------------------------------------------------------------------------- */
-/* Início: o selo, o nome e a frase no centro; os 4 jogos numa grade 2×2; o "Como funciona"
-   recolhido; o tema num switch (P217). */
+/* Início: o selo, o nome e a frase no centro; um cartão por categoria, numa coluna (P226); o
+   "Como funciona" recolhido; o tema num switch (P217). */
 .home {
   gap: var(--sp-4);
 }
@@ -1279,13 +1277,22 @@ section.void,
   color: var(--muted);
 }
 
-/* Os cartões dos jogos (Início, Treino, submodo): a tinta, o canto do selo quadrado (21%). */
+/* Os cartões dos jogos (Início, Hits, Treino, submodo): a tinta, o canto do selo quadrado (21%).
+   Duas colunas; a Início, uma (`single`); o Treino, nos Hits, a linha toda (`wide`). */
 .home-modes {
   list-style: none;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--sp-2);
+}
+
+.home-modes.single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.home-modes > li.wide {
+  grid-column: 1 / -1;
 }
 
 .home-card {
@@ -1457,8 +1464,8 @@ section.void,
   transform: translateX(22px);
 }
 
-/* Telas de escolha (Treino, lista de artistas, submodo, fim da partida): o título e a dica no
-   centro. */
+/* Telas de escolha (os Hits, o Treino, a lista de artistas, o submodo, o fim da partida): o título
+   e a dica no centro. Os cartões dos Hits e do Treino têm 120 px. */
 .practice > header:not(:has(.practice-score)) {
   display: grid;
   justify-items: center;

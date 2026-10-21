@@ -1,9 +1,10 @@
-// O que a home mostra de cada modo: o estado do diário (novo, em andamento ou terminado, com os
-// pontos) e o placar das sessões do Treino e do modo por artista. Puro: lê só o que quem chama
-// passa.
+// O que a Início e a tela dos Hits mostram de cada jogo: o estado do diário (novo, em andamento ou
+// terminado, com os pontos), o 1º diário por jogar, o ✓ da aba Hits e o placar das sessões do
+// Treino e do modo por artista. Puro: lê só o que quem chama passa.
 import type { ArtistPlay } from "./artists.ts";
 import { type PracticeScore, type PracticeSession, practiceScore } from "./practice.ts";
 import { puzzleId, recordMax, recordScore, type Save } from "./records.ts";
+import { MODES } from "./rules.ts";
 import { superfanScore } from "./superfan.ts";
 import type { Day, Target } from "./types.ts";
 
@@ -42,6 +43,24 @@ export function dailyStatus(
   // Andamento vazio (a repetição descartou todos os eventos, com catálogo novo) ainda é dia novo.
   if (save.inProgress[id]?.events.length) return { kind: "playing", number: day.number };
   return { kind: "new", number: day.number };
+}
+
+/** O 1º diário por jogar (novo ou em andamento), na ordem de MODES: o cartão oliva. */
+export function nextDaily(save: Save, day: Day | null, date: string): Target | null {
+  return (
+    MODES.find((mode) => {
+      const kind = dailyStatus(save, day, date, mode).kind;
+      return kind === "new" || kind === "playing";
+    }) ?? null
+  );
+}
+
+/**
+ * Os dois diários do dia terminados: o ✓ da aba Hits (P227). Só pelo save, porque a nav desenha
+ * antes da agenda chegar.
+ */
+export function dailiesDone(save: Save, date: string): boolean {
+  return MODES.every((mode) => save.history[puzzleId(date, mode)] !== undefined);
 }
 
 /** O cartão do Treino: o modo da sessão (P106) e o placar dela. */
