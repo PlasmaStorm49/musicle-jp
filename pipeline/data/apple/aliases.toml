@@ -94,3 +94,22 @@ aliases = ["milk", "ミルク"]
 
 [artists."apple:ar:1273762750"]  # =LOVE; "equal love" e イコラブ não achavam
 aliases = ["Equal Love", "イコラブ"]
+
+# --- Revisão da parada de 19/10/2026 (PR #41): as leituras, conferidas numa fonte ---
+
+# ベルベットの詩 (back number); cutlet: "Berubetto no shi". A leitura é ベルベットのうた (Wikipédia
+# japonesa, verbete da música).
+[tracks."apple:tr:1639449127"]
+latin = "Berubetto no uta"
+aliases = ["Velvet no uta"]
+
+[albums."apple:al:1639449124"]
+latin = "Berubetto no uta"
+
+# 雲を抜け風下へ私だけ (ヨルシカ); cutlet: "... watakushi dake". O Skream! escreve "Kumo wo Nuke
+# Kazashimo e Watashi dake" (matérias de 08/2026 e 10/2026; o site oficial não traz o latino).
+[tracks."apple:tr:6817316271"]
+latin = "Kumo wo nuke kazashimo e watashi dake"
+
+[albums."apple:al:6817316270"]
+latin = "Kumo wo nuke kazashimo e watashi dake"
