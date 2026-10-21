@@ -378,7 +378,6 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 
 **De 21/10/2026** (os pedidos do usuário e o que ficou da entrega do switch e do volume):
 
-- ME95. Clicar na barra da música leva àquele ponto (o usuário). Hoje a barra não é clicável. O motor já toca de qualquer ponto (`play(url, offset, seconds)`). Na rodada, só dentro do trecho já liberado, para não entregar som novo de graça; os trechos são curtos (o diário vai de 1 a 16 s). A prévia inteira da revelação (30 s) não tem barra hoje. Pede alvo de toque de 44 px (a barra tem 12) e o teclado (um `role="slider"`). Decidido na P224: na rodada e na revelação.
 - ME96. O Normal e o Desafio numa categoria só no menu, para criar outras categorias (o usuário). Nome a decidir. A nav tem hoje cinco abas (Início, Normal, Desafio, Treino e Artistas), que só cabem numa linha a partir de 360 px (ME70). Os fragmentos `#normal` e `#desafio` precisam continuar abrindo o jogo (regra 17 do `web/CLAUDE.md`). Marco próprio, com modo de planejamento. Decidido: a categoria se chama "Hits" (P221), e o Treino entra nela (P222).
 - ME97. Uma categoria de músicas de anime populares, aproveitando o modo por artista (o usuário). O pipeline não guarda o gênero da música. Hipótese, a conferir: o lookup do iTunes devolve o `primaryGenreName`, e a loja tem o gênero Anime, mas muita música de anime sai como J-Pop. O caminho sem chave nova é uma lista curada, como o `artists.toml`, e foi o escolhido (P223); a curadoria ainda vai ser trabalhada. Marco próprio, depois da ME96.
 - ME98. "Ouvir mais (+1 s)" quebra em duas linhas no celular, desde que o botão de volume entrou na linha do Tocar (#46): falta garantir que a quebra nunca parta o "(+1 s)" ao meio. O espaço inseparável no texto quebrou 9 testes, que buscam o texto com espaço comum: mudar os dois juntos.
@@ -387,7 +386,7 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 
 **Feitas:**
 
-- Em 21/10/2026: ME94 (o "Não sei", o "Desistir" e o "Desistir da música" como botão, com o texto e o anel vermelhos, P220) e ME29 (as exceções do vite e do source-map-js fora do `web/.npmrc`; o lockfile continua no vite 8.3.3 e no source-map-js 1.2.2, as duas com mais de 14 dias).
+- Em 21/10/2026: ME95 (a barra leva ao ponto da música, P224: na rodada, um toque no liberado toca dali até o fim dele, e a parte fechada não responde; na revelação, a barra da prévia inteira fica ao lado do "Ouvir", no lugar do botão sozinho, porque embaixo dele a revelação do Normal rolava 12 px em 360 × 640. O alvo tem 44 px, e o teclado anda de 1 em 1 s), ME94 (o "Não sei", o "Desistir" e o "Desistir da música" como botão, com o texto e o anel vermelhos, P220) e ME29 (as exceções do vite e do source-map-js fora do `web/.npmrc`; o lockfile continua no vite 8.3.3 e no source-map-js 1.2.2, as duas com mais de 14 dias).
 
 - No M12, PR A: ME7 (o tema escuro, com a troca na Início, e o contraste dos dois temas travado pelo `web/scripts/theme.test.ts`) e ME30 (a barra do trecho e a distribuição: o liberado contra o trilho dá 14,75 no claro e 10,04 no escuro). A S31 (o M12 em 4 PRs) virou o plano do marco.
 - S7 (M9): um marco por branch e por PR.

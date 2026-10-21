@@ -1,5 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { BAR_SECONDS, barSeconds, fillFraction, segments, unlockedFraction } from "./player.ts";
+import {
+  BAR_SECONDS,
+  barSeconds,
+  clampSeek,
+  fillFraction,
+  SEEK_TAIL,
+  seekSeconds,
+  segments,
+  unlockedFraction,
+} from "./player.ts";
 
 describe("segments", () => {
   it("na primeira etapa só o primeiro pedaço está liberado", () => {
@@ -51,5 +60,37 @@ describe("a barra de outro modo (o Superfan, ME61: 1, 4 e 9 s)", () => {
     expect(unlockedFraction(1, SUPERFAN)).toBe(4 / 9);
     expect(unlockedFraction(9, SUPERFAN)).toBe(1); // além da última, fica nela
     expect(fillFraction(6, 1, SUPERFAN)).toBe(4 / 9);
+  });
+});
+
+describe("o toque na barra (P224)", () => {
+  it("leva ao ponto da fração, dentro do liberado", () => {
+    // A barra dos diários tem 16 s; com 4 s liberados, o meio do liberado é 2 s.
+    expect(seekSeconds(2 / 16, BAR_SECONDS, 4)).toBe(2);
+    expect(seekSeconds(0, BAR_SECONDS, 4)).toBe(0);
+  });
+
+  it("na parte fechada, nada: o toque não entrega som novo", () => {
+    expect(seekSeconds(4 / 16, BAR_SECONDS, 4)).toBeNull();
+    expect(seekSeconds(0.9, BAR_SECONDS, 4)).toBeNull();
+  });
+
+  it("perto do fim do liberado, recua até sobrar um pedaço para tocar", () => {
+    expect(seekSeconds(3.9 / 16, BAR_SECONDS, 4)).toBe(4 - SEEK_TAIL);
+    // Com 1 s liberado, o toque no fim toca o último meio segundo.
+    expect(seekSeconds(0.99 / 16, BAR_SECONDS, 1)).toBe(0.5);
+  });
+
+  it("fora da barra ou sem nada liberado, nada; antes do começo, o começo", () => {
+    expect(seekSeconds(Number.NaN, BAR_SECONDS, 4)).toBeNull();
+    expect(seekSeconds(0.1, 0, 4)).toBeNull();
+    expect(seekSeconds(0.1, BAR_SECONDS, 0)).toBeNull();
+    expect(seekSeconds(-0.2, BAR_SECONDS, 4)).toBe(0);
+  });
+
+  it("o teclado anda dentro do liberado", () => {
+    expect(clampSeek(-1, 4)).toBe(0);
+    expect(clampSeek(10, 4)).toBe(4 - SEEK_TAIL);
+    expect(clampSeek(2, 4)).toBe(2);
   });
 });

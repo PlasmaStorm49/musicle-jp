@@ -62,7 +62,10 @@ describe("Player segue as regras do modo", () => {
     setup(superfan, true);
     expect(screen.getByRole("button", { name: "Tocar 1 s" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Pular (+3 s)" })).toBeTruthy();
-    expect(screen.getByRole("progressbar").getAttribute("aria-valuemax")).toBe("9");
+    // A barra leva ao ponto do liberado (P224): o máximo é o liberado, e o texto diz o total.
+    const bar = screen.getByRole("slider", { name: "Ponto do trecho" });
+    expect(bar.getAttribute("aria-valuemax")).toBe("1");
+    expect(bar.getAttribute("aria-valuetext")).toBe("Segundo 0; 1 de 9 segundos liberados");
     expect(document.querySelectorAll(".bar-segments .seg")).toHaveLength(3);
   });
 
@@ -455,5 +458,62 @@ describe("Player: o volume (P216, P219)", () => {
     fireEvent.click(toggle, { detail: 1 });
     fireEvent.click(toggle, { detail: 2 });
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
+  });
+});
+
+/** A barra de 160 px: no happy-dom, tudo mede 0. Os 16 s dos diários dão 10 px por segundo. */
+function measureBar(): HTMLElement {
+  const slider = screen.getByRole("slider", { name: "Ponto do trecho" });
+  const bar = slider.querySelector<HTMLElement>(".bar");
+  if (!bar) throw new Error("sem a barra");
+  bar.getBoundingClientRect = () => ({ left: 0, width: 160 }) as DOMRect;
+  return slider;
+}
+
+describe("Player: a barra leva ao ponto do trecho (P224)", () => {
+  it("o toque no liberado toca dali até o fim do trecho, sem mudar a etapa", async () => {
+    const { engine } = webAudioLike();
+    render(<Controlled engine={engine} start={2} />); // 4 s liberados
+    fireEvent.click(measureBar(), { clientX: 20, detail: 1 }); // o segundo 2
+    await act(async () => {});
+    expect(engine.play).toHaveBeenCalledWith("fixtures/audio/x.wav", 2, 2);
+    expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Parar" }));
+    await act(async () => {});
+    expect(screen.getByRole("button", { name: "Tocar 4 s" })).toBeTruthy(); // a mesma etapa
+  });
+
+  it("na parte ainda fechada, o toque não faz nada (não entrega som novo)", () => {
+    const { engine } = webAudioLike();
+    render(<Controlled engine={engine} start={2} />);
+    fireEvent.click(measureBar(), { clientX: 100, detail: 1 }); // o segundo 10
+    expect(engine.play).not.toHaveBeenCalled();
+  });
+
+  it("o 2º clique de um toque duplo não recomeça o som (regra 23)", async () => {
+    const { engine } = webAudioLike();
+    render(<Controlled engine={engine} start={2} />);
+    const bar = measureBar();
+    fireEvent.click(bar, { clientX: 20, detail: 1 });
+    await act(async () => {});
+    fireEvent.click(bar, { clientX: 20, detail: 2 });
+    expect(engine.play).toHaveBeenCalledTimes(1);
+  });
+
+  it("o teclado: as setas andam 1 s a partir de onde o som está, e o Home volta ao começo", async () => {
+    const { engine } = webAudioLike();
+    render(<Controlled engine={engine} start={2} />);
+    const bar = measureBar();
+    fireEvent.keyDown(bar, { key: "ArrowRight" }); // parado: a partir do começo
+    await act(async () => {});
+    expect(engine.play).toHaveBeenLastCalledWith("fixtures/audio/x.wav", 1, 3);
+    fireEvent.keyDown(bar, { key: "ArrowRight" }); // tocando do segundo 1 (o falso não anda)
+    await act(async () => {});
+    expect(engine.play).toHaveBeenLastCalledWith("fixtures/audio/x.wav", 2, 2);
+    fireEvent.keyDown(bar, { key: "Home" });
+    await act(async () => {});
+    expect(engine.play).toHaveBeenLastCalledWith("fixtures/audio/x.wav", 0, 4);
+    fireEvent.keyDown(bar, { key: "Enter" }); // outra tecla não toca
+    expect(engine.play).toHaveBeenCalledTimes(3);
   });
 });

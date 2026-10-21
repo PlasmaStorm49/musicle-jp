@@ -7,7 +7,6 @@ Atualizado em 21/10/2026.
 ## Próximos, na ordem combinada (21/10)
 
 1. **ME36**: as 3 actions novas (o merge só depois das 23:52 de 21/10).
-3. **ME95**: a barra que leva ao ponto da música.
 4. **ME99**: a revisão adiada do switch e do volume.
 5. **ME96**: o plano das categorias no menu (os Hits).
 6. **ME97**: a categoria de anime, depois de trabalhar a curadoria.
@@ -53,7 +52,6 @@ Atualizado em 21/10/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
-- **ME95 (novo).** Clicar na barra da música leva àquele ponto, na rodada (só no trecho já liberado) e na revelação (P224).
 - **S18.** "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal, no Treino.
 - **S22.** O selo da rodada no modo por artista leva à página do artista na loja.
 - **S29.** As 3 faíscas do 当 animadas no acerto.
