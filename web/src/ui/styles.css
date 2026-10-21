@@ -270,9 +270,17 @@ button.primary:active:not(:disabled) {
   }
 }
 
-/* A ação de saída ("Não sei", "Desistir", "Voltar à lista"): só o texto, sublinhado, para não
-   parecer mais uma opção (ME57). O alvo continua com 44 px. */
-button.give-up,
+/* Desistir da rodada ("Não sei", "Desistir", "Desistir da música"; P220, ME94): um botão, com o
+   texto e um anel vermelhos sobre o fundo da página. O vermelho sobre a tinta dos outros botões
+   não passa (4,0:1 no claro), e o anel, e não a tinta, o separa das opções do Normal. */
+button.give-up {
+  background: transparent;
+  color: var(--bad);
+  box-shadow: inset 0 0 0 2px var(--bad);
+}
+
+/* Voltar à lista: só o texto, sublinhado, para não parecer mais uma opção (ME57). O alvo
+   continua com 44 px. */
 button.back {
   background: transparent;
   color: var(--muted);
@@ -280,8 +288,18 @@ button.back {
   text-underline-offset: 4px;
 }
 
+/* Pressionado, o anel engrossa, sem a tinta (o vermelho sobre ela não passa). */
+button.give-up:active:not(:disabled) {
+  background: transparent;
+  box-shadow: inset 0 0 0 3px var(--bad);
+}
+
 @media (hover: hover) {
-  button.give-up:hover:not(:disabled),
+  button.give-up:hover:not(:disabled) {
+    background: transparent;
+    box-shadow: inset 0 0 0 3px var(--bad);
+  }
+
   button.back:hover:not(:disabled) {
     background: transparent;
     color: var(--text);
