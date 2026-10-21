@@ -1,13 +1,39 @@
 // A interface nova (M12, PR D): as telas cabem sem rolar nos tamanhos de contrato (P214), nada rola
-// para o lado em 320 px e os alvos da nav têm 44 px. Cada PR do D acrescenta as telas dele.
-import type { Locator } from "@playwright/test";
+// para o lado em 320 px e os alvos têm 44 px. Cada PR do D acrescenta as telas dele: o D1, as de
+// escolha; o D2, as rodadas, com o selo da Apple simulado (appleCatalog) e a altura reservada.
+import type { Locator, Page } from "@playwright/test";
 import type { Save } from "../src/core/records.ts";
+import type { Catalog } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
-import { appleArtistList, expect, open, overflow, test } from "./helpers.ts";
+import {
+  albumOf,
+  appleArtistList,
+  appleCatalog,
+  dailyAnswer,
+  expect,
+  open,
+  overflow,
+  test,
+  trackById,
+} from "./helpers.ts";
 
 const DAY = "2026-10-08T12:00:00-03:00";
+/** Em 16/10, a 1ª rodada do Normal é a tr10, a faixa explícita das fixtures (P31). */
+const EXPLICIT_DAY = "2026-10-16T12:00:00-03:00";
 
-// O iPhone SE e o Android comum (P214): as telas de escolha do PR D1 cabem inteiras.
+/** O topo de um elemento na página, para ver se ele anda. */
+async function top(locator: Locator): Promise<number> {
+  return (await locator.boundingBox())?.y ?? Number.NaN;
+}
+
+/** Toca o 1º trecho e pula n vezes: as tentativas do Desafio, sem depender da resposta. */
+async function skip(page: Page, n: number): Promise<void> {
+  await page.getByRole("button", { name: /^Tocar/ }).click();
+  for (let i = 0; i < n; i++) await page.getByRole("button", { name: /^Pular/ }).click();
+}
+
+// O iPhone SE e o Android comum (P214): as telas de escolha (PR D1) e as rodadas (PR D2) cabem
+// inteiras. As rodadas, no caso mais alto: com o selo da Apple no pé, como na parada real.
 for (const viewport of [
   { width: 375, height: 667 },
   { width: 360, height: 640 },
@@ -85,6 +111,95 @@ for (const viewport of [
       await expect(cards.filter({ hasText: "terminado" })).toHaveCount(2);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
+
+    test("a rodada do Normal com a explícita e o selo da Apple: a pílula vem antes do Tocar (P31)", async ({
+      page,
+    }) => {
+      await appleCatalog(page);
+      await open(page, EXPLICIT_DAY, "#normal");
+      const play = page.getByRole("button", { name: "Tocar 1 s" });
+      await expect(play).toBeEnabled();
+      const pill = page.getByText("Conteúdo explícito");
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(pill).toBeInViewport({ ratio: 1 });
+      expect(await top(pill)).toBeLessThan(await top(play));
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test("o Normal com o selo da Apple e um título de álbum em 2 linhas, como na parada real", async ({
+      page,
+    }) => {
+      // O álbum da resposta de 08/10 com um título longo: na parada real, um por rodada é comum.
+      const answer = albumOf(trackById(dailyAnswer("2026-10-08", "album", 0))).id;
+      await appleCatalog(page, {
+        albumTitle: (a) =>
+          a.id === answer ? `${a.title} - Original Soundtrack (Deluxe Edition)` : a.title,
+      });
+      await open(page, DAY, "#normal");
+      await expect(page.getByRole("button", { name: /^Tocar/ })).toBeEnabled();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      const heights = await page
+        .locator(".option .item-title")
+        .evaluateAll((titles) => titles.map((t) => t.getBoundingClientRect().height));
+      expect(Math.max(...heights)).toBeGreaterThan(30); // o caso existe: 2 linhas de 20 px
+    });
+
+    test("o Desafio com o selo da Apple: o Tocar não anda até a última tentativa (a reserva)", async ({
+      page,
+    }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#desafio");
+      const play = page.getByRole("button", { name: /^Tocar/ });
+      await expect(play).toBeEnabled();
+      await overflow(page); // as fontes e as imagens, antes de medir
+      const before = await top(play);
+      await skip(page, 5);
+      await expect(page.getByText("Tentativa 6 de 6", { exact: true })).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      expect(await top(play)).toBe(before);
+    });
+
+    test("o Desafio do Treino com o selo da Apple e a explícita (o cabeçalho da sessão tem duas linhas)", async ({
+      page,
+    }) => {
+      // Toda faixa explícita: o sorteio do Treino é ao acaso, e este é o caso mais alto.
+      await appleCatalog(page, { explicit: true });
+      await open(page, DAY, "#treino");
+      await page.getByRole("button", { name: "Desafio", exact: true }).click();
+      await skip(page, 5);
+      await expect(page.getByText("Tentativa 6 de 6", { exact: true })).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o Livre de um artista com o selo da Apple", async ({ page }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#artistas");
+      await page.getByRole("button", { name: /^青井ユウ/ }).click();
+      await page.getByRole("button", { name: "Livre" }).click();
+      await expect(page.getByRole("button", { name: /^Tocar/ })).toBeEnabled();
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o Superfan com o selo da Apple, com o cabeçalho da partida", async ({ page }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#artistas");
+      await page.getByRole("button", { name: /^夜風シアター/ }).click();
+      await page.getByRole("button", { name: "Superfan" }).click();
+      await expect(page.locator(".superfan-limits")).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("a ajuda do diário, depois de 3 tentativas, com o selo da Apple: as opções no lugar do campo", async ({
+      page,
+    }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#desafio");
+      await skip(page, 3);
+      await page.getByRole("button", { name: /^Pedir ajuda/ }).click();
+      await expect(page.locator(".help-options")).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
   });
 }
 
@@ -104,6 +219,33 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
     expect((await overflow(page)).horizontal, hash).toBeLessThanOrEqual(0);
   }
+});
+
+test("em 320 px, o cabeçalho das sessões cabe: o placar e os limites quebram a linha, sem invadir o botão", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  const head = page.locator(".session-head");
+  /** Nenhum texto do cabeçalho passa da sua área, e nada rola para o lado. */
+  const fits = async (name: string) => {
+    await expect(head).toBeVisible();
+    const cut = await head
+      .locator(":scope > p")
+      .evaluateAll((ps) => ps.filter((p) => p.scrollWidth > p.clientWidth).length);
+    expect(cut, name).toBe(0);
+    expect((await overflow(page)).horizontal, name).toBeLessThanOrEqual(0);
+  };
+  await open(page, DAY, "#treino");
+  await page.getByRole("button", { name: "Desafio", exact: true }).click();
+  await fits("Treino");
+  await page.getByRole("navigation").getByRole("link", { name: "Artistas" }).click();
+  await page.getByRole("button", { name: /^青井ユウ/ }).click();
+  await page.getByRole("button", { name: "Livre" }).click();
+  await fits("Livre");
+  await page.getByRole("button", { name: "Trocar de artista" }).click();
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await page.getByRole("button", { name: "Superfan" }).click();
+  await fits("Superfan");
 });
 
 /** A altura e a largura do alvo de toque (P213: 44 px nos dois sentidos). */
@@ -137,5 +279,49 @@ test("a Início: os segmentos do tema e o Como funciona têm alvo de 44 px (P213
     const { height, width } = await target(label);
     expect(height, name).toBeGreaterThanOrEqual(44);
     expect(width, name).toBeGreaterThanOrEqual(44);
+  }
+});
+
+test("a lista de sugestões flutua: aberta, a página não muda de altura e o Tocar não anda", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await open(page, DAY, "#desafio");
+  const play = page.getByRole("button", { name: /^Tocar/ });
+  await expect(play).toBeEnabled();
+  await overflow(page);
+  const height = await page.evaluate(() => document.documentElement.scrollHeight);
+  const before = await top(play);
+  await page.getByRole("combobox").fill("a");
+  await expect(page.getByRole("listbox")).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBe(height);
+  expect(await top(play)).toBe(before);
+  // Sem resultado, o aviso também flutua.
+  await page.getByRole("combobox").fill("zzzz");
+  await expect(page.locator(".no-results")).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBe(height);
+  expect(await top(play)).toBe(before);
+});
+
+test("títulos longos (o real chega a 89 caracteres): o do álbum quebra a linha, sem corte nem rolagem para o lado (P212)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  const long =
+    "Kimi no Na wa (Your Name) Original Motion Picture Soundtrack - Deluxe Edition (TV Size)";
+  await page.route("**/fixtures/catalog.json", async (route) => {
+    const response = await route.fetch();
+    const catalog = (await response.json()) as Catalog;
+    const albums = catalog.albums.map((a) => ({ ...a, title: `${a.title} ${long}`.slice(0, 89) }));
+    await route.fulfill({ response, json: { ...catalog, albums } });
+  });
+  await open(page, DAY, "#normal");
+  const titles = page.locator(".option .item-title");
+  await expect(titles).toHaveCount(4);
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
+  // Inteiro: nada escondido pelas reticências.
+  for (const title of await titles.all()) {
+    expect(await title.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
+    expect(await title.evaluate((el) => getComputedStyle(el).textOverflow)).not.toBe("ellipsis");
   }
 });

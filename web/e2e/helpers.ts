@@ -3,7 +3,15 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
-import type { Album, ArtistList, Catalog, Schedule, Target, Track } from "../src/core/types.ts";
+import type {
+  Album,
+  ArtistCatalog,
+  ArtistList,
+  Catalog,
+  Schedule,
+  Target,
+  Track,
+} from "../src/core/types.ts";
 
 /** Lê um arquivo de dados falso. Os tipos são os do contrato: mudou o schema, o tsc acusa aqui. */
 function fixture<T>(name: string): T {
@@ -56,6 +64,13 @@ export async function lastPlayed(page: Page): Promise<Track> {
   return track;
 }
 
+/** Uma faixa do catálogo falso, pelo id. */
+export function trackById(id: string): Track {
+  const track = catalog.tracks.find((t) => t.id === id);
+  if (!track) throw new Error(`faixa ${id} não está no catálogo`);
+  return track;
+}
+
 export function albumOf(track: Track): Album {
   const album = catalog.albums.find((a) => a.id === track.albumId);
   if (!album) throw new Error(`álbum de ${track.id} não está no catálogo`);
@@ -89,6 +104,58 @@ export async function appleArtistList(page: Page): Promise<void> {
   await page.route("https://is1-ssl.mzstatic.com/**", (route) =>
     route.fulfill({ path: FAKE_COVER, contentType: "image/svg+xml" }),
   );
+}
+
+/** O fim de um id ("fixture:tr:tr01" → "tr01"), para montar um endereço falso da Apple. */
+const tail = (id: string) => id.split(":").at(-1) ?? id;
+
+/**
+ * O catálogo e os arquivos dos artistas como os da parada real: o provedor "apple" (que põe o selo
+ * do Apple Music no fim da rodada, P69), as prévias no host da Apple (o motor falso nunca as baixa)
+ * e as capas num host da Apple, respondidas do disco. O lookup do iTunes falha de propósito, e
+ * vale a reserva do catálogo. Nenhum pedido sai para a rede. Chame antes do `open`.
+ * `albumTitle` troca o título de um álbum (o real chega a 89 caracteres); `explicit` marca todas
+ * as faixas como explícitas (a pílula no player, P31: o caso mais alto da rodada).
+ */
+export async function appleCatalog(
+  page: Page,
+  {
+    albumTitle = (album) => album.title,
+    explicit = false,
+  }: {
+    readonly albumTitle?: (album: { readonly id: string; readonly title: string }) => string;
+    readonly explicit?: boolean;
+  } = {},
+): Promise<void> {
+  await page.route(/\/fixtures\/(catalog|artists\/ar\d+)\.json$/, async (route) => {
+    const response = await route.fetch();
+    const data = (await response.json()) as Catalog | ArtistCatalog;
+    const tracks = data.tracks.map((t) =>
+      t.preview
+        ? {
+            ...t,
+            explicit: explicit || t.explicit,
+            preview: {
+              ...t.preview,
+              url: `https://audio-ssl.itunes.apple.com/e2e/${tail(t.id)}.m4a`,
+            },
+          }
+        : t,
+    );
+    const albums = data.albums.map((a) => ({
+      ...a,
+      title: albumTitle(a),
+      ...(a.artworkUrl
+        ? { artworkUrl: `https://is1-ssl.mzstatic.com/image/thumb/e2e/${tail(a.id)}/1.svg` }
+        : {}),
+    }));
+    await route.fulfill({ response, json: { ...data, provider: "apple", tracks, albums } });
+  });
+  await page.route("https://is1-ssl.mzstatic.com/**", (route) =>
+    route.fulfill({ path: FAKE_COVER, contentType: "image/svg+xml" }),
+  );
+  await page.route("https://itunes.apple.com/**", (route) => route.abort());
+  await page.route("https://audio-ssl.itunes.apple.com/**", (route) => route.abort());
 }
 
 /**
