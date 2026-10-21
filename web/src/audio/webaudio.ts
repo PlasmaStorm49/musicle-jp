@@ -7,6 +7,7 @@
 //   carregando ou o onended antigo (que também dispara no stop) é ignorado.
 // - O estado do contexto pode ser "suspended" ou "interrupted": testa-se !== "running".
 import { type GainPoint, playbackEnvelope, stopEnvelope } from "../core/envelope.ts";
+import { clampVolume, gainOf } from "../core/volume.ts";
 import {
   type AudioEngine,
   AudioUnavailableError,
@@ -34,6 +35,7 @@ type Current = {
 };
 
 const START_DELAY = 0.01; // agenda o início 10 ms à frente, para a rampa começar do zero
+const VOLUME_SMOOTHING = 0.015; // a troca de volume chega em ~15 ms, sem estalo
 
 function apply(param: AudioParam, points: readonly GainPoint[]): void {
   for (const p of points) {
@@ -48,15 +50,22 @@ export class WebAudioEngine implements AudioEngine {
   #token = 0;
   #current: Current | null = null;
   readonly #options: WebAudioOptions;
+  /** O ganho mestre (o volume): entre o ganho de cada reprodução, o do fade, e a saída. */
+  #master: GainNode | null = null;
+  #volume: number;
 
   constructor(options: WebAudioOptions = {}) {
     this.#options = options;
+    this.#volume = clampVolume(options.volume ?? 1);
   }
 
   unlock(): void {
     if (!this.#ctx) {
       enablePlaybackSession();
       this.#ctx = new AudioContext();
+      this.#master = this.#ctx.createGain();
+      this.#master.gain.value = gainOf(this.#volume);
+      this.#master.connect(this.#ctx.destination);
       // Aba oculta: o rAF da barra para, então o som também para.
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) this.stop();
@@ -86,7 +95,7 @@ export class WebAudioEngine implements AudioEngine {
 
     const duration = Math.max(0, Math.min(seconds, buffer.duration - offset));
     const gain = ctx.createGain();
-    gain.connect(ctx.destination);
+    gain.connect(this.#master ?? ctx.destination);
     const source = ctx.createBufferSource();
     source.buffer = buffer;
     source.connect(gain);
@@ -126,6 +135,18 @@ export class WebAudioEngine implements AudioEngine {
     current.gain.gain.cancelScheduledValues(now);
     apply(current.gain.gain, points);
     current.source.stop(stopAt);
+  }
+
+  setVolume(level: number): void {
+    this.#volume = clampVolume(level);
+    const ctx = this.#ctx;
+    if (ctx && this.#master) {
+      this.#master.gain.setTargetAtTime(gainOf(this.#volume), ctx.currentTime, VOLUME_SMOOTHING);
+    }
+  }
+
+  volume(): number {
+    return this.#volume;
   }
 
   retain(urls: readonly string[]): void {

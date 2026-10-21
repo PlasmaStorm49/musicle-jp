@@ -36,6 +36,16 @@ export class FallbackAudioEngine implements AudioEngine {
     this.#primary.retain(urls);
   }
 
+  // Aos dois: a sessão pode passar para o <audio> no meio do jogo.
+  setVolume(level: number): void {
+    this.#primary.setVolume(level);
+    this.#reserve.setVolume(level);
+  }
+
+  volume(): number {
+    return this.#primary.volume();
+  }
+
   async play(url: string, offset: number, seconds: number): Promise<Playback | null> {
     this.#token += 1;
     const token = this.#token;

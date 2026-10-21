@@ -8,7 +8,7 @@ import type { KeyValueStore } from "../storage/save.ts";
 import { readTheme, THEME_KEY, type ThemeChoice, writeTheme } from "../storage/theme.ts";
 
 /** O localStorage, ou null quando o navegador não deixa nem ler (cookies bloqueados). */
-function browserStore(): KeyValueStore | null {
+export function browserStore(): KeyValueStore | null {
   try {
     return window.localStorage;
   } catch {

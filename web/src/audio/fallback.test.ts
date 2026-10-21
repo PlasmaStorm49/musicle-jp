@@ -23,6 +23,8 @@ function engine(play: AudioEngine["play"] = async (_, __, s) => playback(s)) {
     play: vi.fn(play),
     stop: vi.fn(),
     retain: vi.fn(),
+    setVolume: vi.fn(),
+    volume: () => 1,
   } satisfies AudioEngine;
 }
 
@@ -31,6 +33,16 @@ const failing = (kind: AudioFailure) => async () => {
 };
 
 describe("FallbackAudioEngine (Web Audio, depois <audio>)", () => {
+  it("o volume vai aos dois motores: a sessão pode trocar para o <audio> no meio do jogo", () => {
+    const primary = engine();
+    const reserve = engine();
+    const composite = new FallbackAudioEngine(primary, reserve);
+    composite.setVolume(0.3);
+    expect(primary.setVolume).toHaveBeenCalledWith(0.3);
+    expect(reserve.setVolume).toHaveBeenCalledWith(0.3);
+    expect(composite.volume()).toBe(1); // o do primário (o mock devolve 1)
+  });
+
   it("com o Web Audio funcionando, a reserva nem toca", async () => {
     const primary = engine();
     const reserve = engine();

@@ -66,6 +66,9 @@ export const ptBR = {
   "player.stop": "Parar",
   "player.loading": "Carregando…",
   "player.listenMore": "Ouvir mais (+{seconds} s)",
+  // O volume (P216): o nome do botão e da barra, e o valor dela.
+  "player.volume": "Volume",
+  "player.volumeValue": "{percent}%",
   "player.explicit": "Conteúdo explícito",
   "player.bar": "{unlocked} de {total} segundos liberados",
 

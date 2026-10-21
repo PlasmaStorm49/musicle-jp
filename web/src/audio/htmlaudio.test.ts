@@ -18,6 +18,7 @@ function fakeElement() {
     ended: false,
     error: null,
     preload: "",
+    volume: 1,
     paused: true,
     play: vi.fn(
       () =>
