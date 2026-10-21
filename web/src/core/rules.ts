@@ -63,7 +63,7 @@ export type ModeRules = {
   readonly giveUpPoints: number;
 };
 
-/** Os modos na ordem da nav, da home e dos diários: o Normal (álbum) primeiro. */
+/** Os modos na ordem dos Hits (a tela e o cartão da Início) e do Treino: o Normal primeiro. */
 export const MODES: readonly Target[] = ["album", "song"];
 
 /** Os dois modos (P100): o Normal (álbum) em 4 opções e o Desafio (música) digitado. */

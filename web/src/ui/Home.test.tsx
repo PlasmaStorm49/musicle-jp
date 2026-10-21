@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { ArtistSummary, PracticeSummary } from "../core/home.ts";
+import type { ArtistSummary } from "../core/home.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
 import type { AlbumRound, Day } from "../core/types.ts";
@@ -34,10 +34,9 @@ const finished: FinishedGame = {
 function setup(
   save: Save = emptySave(),
   day: Day | null = DAY,
-  practice: PracticeSummary | null = null,
   artists: ArtistSummary | null = null,
 ) {
-  render(<Home day={day} date={DATE} save={save} practice={practice} artists={artists} />);
+  render(<Home day={day} date={DATE} save={save} artists={artists} />);
 }
 
 const card = (name: RegExp) => screen.getByRole("link", { name });
@@ -46,9 +45,8 @@ const card = (name: RegExp) => screen.getByRole("link", { name });
 const description = (link: HTMLElement) =>
   document.getElementById(link.getAttribute("aria-describedby") ?? "")?.textContent;
 
-/** Os cartões em oliva: o diário por jogar, a ação da tela. */
-const nextCards = () =>
-  [...document.querySelectorAll(".home-card.next .mode-name")].map((n) => n.textContent);
+/** As linhas de estado de um cartão. */
+const lines = (link: HTMLElement) => [...link.querySelectorAll(".tag")].map((n) => n.textContent);
 
 describe("Home", () => {
   it("o nome do jogo no título, com o foco ao abrir (regra 16)", () => {
@@ -68,62 +66,49 @@ describe("Home", () => {
     expect(screen.queryAllByRole("img")).toHaveLength(0);
   });
 
-  it("um cartão-link por modo, para a aba de cada um, na ordem Normal, Desafio, Treino, Artistas", () => {
+  it("um cartão-link por categoria (P226), numa coluna: os Hits e os Artistas", () => {
     setup();
-    expect(card(/^Normal/).getAttribute("href")).toBe("#normal");
-    expect(card(/^Desafio/).getAttribute("href")).toBe("#desafio");
-    expect(card(/^Treino/).getAttribute("href")).toBe("#treino");
-    expect(card(/^Artistas/).getAttribute("href")).toBe("#artistas");
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
-      "#normal",
-      "#desafio",
-      "#treino",
+      "#hits",
       "#artistas",
     ]);
+    expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
     expect(screen.queryAllByRole("button")).toHaveLength(0);
-  });
-
-  it("a dica do Normal explica o custo do Ouvir mais, que saiu do botão (ME59)", () => {
-    setup();
-    expect(description(card(/^Normal/))).toContain("Cada trecho a mais vale 1 ponto a menos.");
   });
 
   it("a dica curta na tela e no nome do link; a inteira como descrição, fora dele (P210)", () => {
     setup();
-    const normal = card(/4 opções de álbum$/);
-    expect(normal.getAttribute("href")).toBe("#normal");
-    const full = document.getElementById(normal.getAttribute("aria-describedby") ?? "");
+    const hits = card(/Os diários e o Treino$/);
+    expect(hits.getAttribute("href")).toBe("#hits");
+    const full = document.getElementById(hits.getAttribute("aria-describedby") ?? "");
     expect(full?.classList.contains("sr-only")).toBe(true);
     // Fora do link: dentro, o leitor de tela ouviria a dica inteira duas vezes.
-    expect(normal.contains(full ?? null)).toBe(false);
-    expect(normal.textContent).not.toContain("Cada trecho a mais");
+    expect(hits.contains(full ?? null)).toBe(false);
+    expect(description(hits)).toContain("parada do Japão");
   });
 
-  it("o cartão oliva é o primeiro diário por jogar: novo ou em andamento", () => {
+  it("o cartão dos Hits é o oliva enquanto houver um diário por jogar", () => {
+    const next = () => document.querySelector(".home-card.next .mode-name")?.textContent;
     setup();
-    expect(nextCards()).toEqual(["Normal"]);
+    expect(next()).toBe("Hits");
     cleanup();
-    // O Normal terminado: a vez do Desafio.
-    setup({ ...emptySave(), history: { [puzzleId(DATE, "album")]: finished } });
-    expect(nextCards()).toEqual(["Desafio"]);
-    cleanup();
-    // Em andamento também conta.
+    // Em andamento também conta (um evento salvo; o andamento vazio ainda é dia novo).
     setup({
       ...emptySave(),
       history: { [puzzleId(DATE, "album")]: finished },
-      inProgress: { [puzzleId(DATE, "song")]: { events: [] } },
+      inProgress: { [puzzleId(DATE, "song")]: { events: [{ type: "LISTEN_MORE" }] } },
     });
-    expect(nextCards()).toEqual(["Desafio"]);
+    expect(next()).toBe("Hits");
     cleanup();
     // Os dois terminados, ou o dia fora da agenda: nenhum.
     setup({
       ...emptySave(),
       history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
     });
-    expect(nextCards()).toEqual([]);
+    expect(next()).toBeUndefined();
     cleanup();
     setup(emptySave(), null);
-    expect(nextCards()).toEqual([]);
+    expect(next()).toBeUndefined();
   });
 
   it('o "Como funciona" abre fechado: a tela cabe, e quem quer as regras abre (P210)', () => {
@@ -135,35 +120,31 @@ describe("Home", () => {
     expect(box?.querySelector("summary svg")?.getAttribute("aria-hidden")).toBe("true");
   });
 
-  it("dia novo: o número do diário", () => {
+  it("o estado de cada diário no cartão dos Hits, sem o número: novo, em andamento e terminado", () => {
     setup();
-    expect(card(/^Normal/).textContent).toContain("nº 7 · novo");
-    expect(card(/^Desafio/).textContent).toContain("nº 7 · novo");
-  });
-
-  it("o estado de cada diário: em andamento e terminado com os pontos", () => {
-    const save: Save = {
+    expect(lines(card(/^Hits/))).toEqual(["Normal: novo", "Desafio: novo"]);
+    cleanup();
+    setup({
       ...emptySave(),
       history: { [puzzleId(DATE, "song")]: finished },
       inProgress: { [puzzleId(DATE, "album")]: { events: [{ type: "LISTEN_MORE" }] } },
-    };
-    setup(save);
-    expect(card(/^Desafio/).textContent).toContain("nº 7 · terminado, 11 de 18 pontos");
-    expect(card(/^Normal/).textContent).toContain("nº 7 · em andamento");
+    });
+    expect(lines(card(/^Hits/))).toEqual([
+      "Normal: em andamento",
+      "Desafio: terminado, 11 de 18 pontos",
+    ]);
   });
 
   it("outra aba grava (o save relido muda): o cartão atualiza, e o foco fica onde está", () => {
     // O App relê o save no evento storage e desenha a mesma Home com o save novo. O foco não
     // pode voltar ao título: o efeito só roda ao montar, e o link continua o mesmo elemento.
-    const { rerender } = render(
-      <Home day={DAY} date={DATE} save={emptySave()} practice={null} artists={null} />,
-    );
-    const song = card(/^Desafio/);
-    song.focus();
+    const { rerender } = render(<Home day={DAY} date={DATE} save={emptySave()} artists={null} />);
+    const hits = card(/^Hits/);
+    hits.focus();
     const done: Save = { ...emptySave(), history: { [puzzleId(DATE, "song")]: finished } };
-    rerender(<Home day={DAY} date={DATE} save={done} practice={null} artists={null} />);
-    expect(document.activeElement).toBe(song);
-    expect(song.textContent).toContain("terminado, 11 de 18 pontos");
+    rerender(<Home day={DAY} date={DATE} save={done} artists={null} />);
+    expect(document.activeElement).toBe(hits);
+    expect(hits.textContent).toContain("Desafio: terminado, 11 de 18 pontos");
   });
 
   it('dia todo anulado: terminado, sem "0 de 0 pontos"', () => {
@@ -172,15 +153,14 @@ describe("Home", () => {
       rounds: finished.rounds.map(() => ({ status: "void", stage: 0, attempts: [] })),
     };
     setup({ ...emptySave(), history: { [puzzleId(DATE, "song")]: voided } });
-    expect(card(/^Desafio/).textContent).toContain("nº 7 · terminado");
-    expect(card(/^Desafio/).textContent).not.toContain("pontos");
+    expect(lines(card(/^Hits/))).toContain("Desafio: terminado");
+    expect(card(/^Hits/).textContent).not.toContain("pontos");
   });
 
-  it("dia fora da agenda: os diários avisam sem link (não há para onde ir), e o Treino continua", () => {
+  it("dia fora da agenda: o cartão dos Hits continua link (o Treino está lá), com uma linha só", () => {
     setup(emptySave(), null);
-    expect(screen.queryByRole("link", { name: /^(Normal|Desafio)/ })).toBeNull();
-    expect(screen.getAllByText("Não há diário hoje")).toHaveLength(2);
-    expect(card(/^Treino/).getAttribute("href")).toBe("#treino");
+    expect(card(/^Hits/).getAttribute("href")).toBe("#hits");
+    expect(lines(card(/^Hits/))).toEqual(["Não há diário hoje"]);
   });
 
   it("nenhum id igual a uma rota (o navegador rolaria até ele, regra 17)", () => {
@@ -191,22 +171,11 @@ describe("Home", () => {
     }
   });
 
-  it("o placar da sessão do Treino, com o modo (P106), aparece só depois da 1ª rodada", () => {
-    setup(emptySave(), DAY, null); // practiceSummary devolve null antes disso
-    expect(card(/^Treino/).textContent).not.toContain("Nesta sessão");
-    cleanup();
-    setup(emptySave(), DAY, { target: "album", score: { points: 11, rounds: 3 } });
-    expect(card(/^Treino/).textContent).toContain("Nesta sessão (Normal): 11 pontos em 3 rodadas");
-    cleanup();
-    setup(emptySave(), DAY, { target: "song", score: { points: 1, rounds: 1 } });
-    expect(card(/^Treino/).textContent).toContain("Nesta sessão (Desafio): 1 ponto em 1 rodada");
-  });
-
   it("o placar da sessão do modo por artista, com o artista, só depois da 1ª rodada (M13)", () => {
     setup();
     expect(card(/^Artistas/).textContent).not.toContain("Nesta sessão");
     cleanup();
-    setup(emptySave(), DAY, null, {
+    setup(emptySave(), DAY, {
       artist: "米津玄師",
       superfan: false,
       score: { points: 5, rounds: 2 },
@@ -214,10 +183,9 @@ describe("Home", () => {
     expect(card(/^Artistas/).textContent).toContain(
       "Nesta sessão (米津玄師): 5 pontos em 2 rodadas",
     );
-    expect(card(/^Treino/).textContent).not.toContain("Nesta sessão");
     cleanup();
     // A partida do Superfan (ME61): o placar dela, que pode ser negativo.
-    setup(emptySave(), DAY, null, {
+    setup(emptySave(), DAY, {
       artist: "Ado",
       superfan: true,
       score: { points: -7, rounds: 2 },

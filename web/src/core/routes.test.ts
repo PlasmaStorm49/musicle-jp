@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { ROUTES, tabFromHash, todayHref } from "./routes.ts";
+import { categoryOf, ROUTES, tabFromHash, todayHref } from "./routes.ts";
 
 describe("tabFromHash (P49)", () => {
   it.each([
+    ["#hits", "hits"],
     ["#normal", "album"],
     ["#desafio", "song"],
     ["#treino", "practice"],
@@ -21,6 +22,19 @@ describe("tabFromHash (P49)", () => {
 
   it("cada aba volta para o próprio endereço", () => {
     for (const [tab, hash] of Object.entries(ROUTES)) expect(tabFromHash(hash)).toBe(tab);
+  });
+});
+
+describe("categoryOf (a aba marcada na nav, P225)", () => {
+  it.each([
+    ["home", "home"],
+    ["hits", "hits"],
+    ["album", "hits"],
+    ["song", "hits"],
+    ["practice", "hits"],
+    ["artists", "artists"],
+  ] as const)("%s → %s", (tab, category) => {
+    expect(categoryOf(tab)).toBe(category);
   });
 });
 

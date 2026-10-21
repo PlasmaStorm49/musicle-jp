@@ -92,10 +92,11 @@ describe("Player segue as regras do modo", () => {
   });
 
   it("entrando pela nav (o foco no link, fora do jogo), o foco vai ao Tocar (ME49)", () => {
-    // O link da aba continua na tela depois do Enter nele: sem isto, o foco ficava na nav.
+    // O link da aba continua na tela depois do Enter nele (a aba Artistas, de volta a uma rodada
+    // aberta): sem isto, o foco ficava na nav.
     const nav = attach(document.createElement("a"));
-    nav.href = "#desafio";
-    nav.textContent = "Desafio";
+    nav.href = "#artistas";
+    nav.textContent = "Artistas";
     nav.focus();
     expect(document.activeElement).toBe(nav);
     const main = attach(document.createElement("main"));
@@ -273,12 +274,12 @@ describe("Player segue as regras do modo", () => {
 
   it("a prévia que chega depois não puxa de volta quem foi para outro link da nav", () => {
     const entry = attach(document.createElement("a"));
-    entry.href = "#normal";
-    entry.textContent = "Normal";
+    entry.href = "#artistas";
+    entry.textContent = "Artistas";
     entry.focus(); // entrou pelo link da aba
     const other = attach(document.createElement("a"));
-    other.href = "#treino";
-    other.textContent = "Treino";
+    other.href = "#hits";
+    other.textContent = "Hits";
     const main = attach(document.createElement("main"));
     const player = (url: string | null) => (
       <Player

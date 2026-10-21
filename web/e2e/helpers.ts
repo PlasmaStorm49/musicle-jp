@@ -53,6 +53,17 @@ export async function open(
   await page.goto(`/?fakeAudio=1${fail}${hash}`);
 }
 
+/** A aba Hits da nav (P225). Pelo começo do nome: com o ✓, ele vira "Hits (diários terminados)". */
+export function hitsTab(page: Page): Locator {
+  return page.getByRole("navigation").getByRole("link", { name: /^Hits/ });
+}
+
+/** Vai a um jogo dos Hits como a pessoa: a aba Hits da nav e o cartão do jogo na tela dela. */
+export async function viaHits(page: Page, game: RegExp): Promise<void> {
+  await hitsTab(page).click();
+  await page.getByRole("main").getByRole("link", { name: game }).click();
+}
+
 /** A faixa-resposta de uma rodada do diário, lida da agenda falsa. */
 export function dailyAnswer(date: string, target: Target, round: number): string {
   const answer = schedule.days[date]?.[target][round]?.answer;

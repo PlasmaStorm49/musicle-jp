@@ -5,9 +5,9 @@ import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
-import { artistSummary, practiceSummary } from "../core/home.ts";
+import { artistSummary, dailiesDone, practiceSummary } from "../core/home.ts";
 import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
-import { ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
+import { type Category, categoryOf, ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
 import { MODES } from "../core/rules.ts";
 import {
   appleResolver,
@@ -42,9 +42,9 @@ import {
 import { type ArtistStore, Artists, useArtistStore } from "./Artists.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
+import { Hits } from "./Hits.tsx";
 import { Home } from "./Home.tsx";
 import { NavLogo } from "./Logo.tsx";
-import { modeName } from "./modes.ts";
 import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
 import { savedVolume } from "./volume.ts";
 
@@ -101,6 +101,15 @@ function openSaves(date: string): Storage {
   return { store: sessionStore(store, { ...loaded, save }), save, notice };
 }
 
+/**
+ * O aria-current do link de uma categoria: "page" na tela dela, "true" dentro de um jogo dela (o
+ * diário ou o Treino, nos Hits), e nada nas outras.
+ */
+function current(tab: Tab, category: Category): "page" | "true" | undefined {
+  if (categoryOf(tab) !== category) return undefined;
+  return tab === category ? "page" : "true";
+}
+
 export function App() {
   const [load, setLoad] = useState<Load>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
@@ -109,7 +118,7 @@ export function App() {
   const saves = useMemo(() => openSaves(date), [date]);
   const resolveUrl = useCallback((url: string) => assetUrl(BASE_URL, url), []);
   const [tab, setTab] = useState<Tab>(() => tabFromHash(window.location.hash));
-  // A última leitura do save, para o ✓ das abas e o Treino. Cada diário recebe a leitura do
+  // A última leitura do save, para o ✓ da aba Hits e o Treino. Cada diário recebe a leitura do
   // momento em que a aba abre: voltar ao Desafio terminado mostra o resultado (P39).
   const [latest, setLatest] = useState(saves.save);
   // A sessão do Treino mora aqui, e não no Practice: trocar de aba e voltar não a zera. Só
@@ -217,43 +226,34 @@ export function App() {
     <>
       <nav class="tabs" aria-label={t("nav.label")}>
         <ul>
-          {/* Uma aba por link (#inicio, #normal, #desafio, #treino, #artistas), com aria-current
-              na ativa. */}
+          {/* Uma aba por categoria (P225): a Início, os Hits (a tela deles, os dois diários e o
+              Treino) e os Artistas. A da aba atual leva aria-current: "page" na tela dela, e "true"
+              dentro de um jogo dela (o link leva a outra página). */}
           {/* A Início é o selo do logo (P205): o nome do link fica em texto, para o leitor de tela. */}
           <li>
-            <a
-              class="nav-home"
-              href={ROUTES.home}
-              aria-current={tab === "home" ? "page" : undefined}
-            >
+            <a class="nav-home" href={ROUTES.home} aria-current={current(tab, "home")}>
               <NavLogo />
               <span class="sr-only">{t("nav.home")}</span>
             </a>
           </li>
-          {MODES.map((daily) => (
-            <li key={daily}>
-              <a href={ROUTES[daily]} aria-current={tab === daily ? "page" : undefined}>
-                {modeName(daily)}
-                {latest.history[puzzleId(date, daily)] && (
-                  <>
-                    <span class="done-mark" aria-hidden="true">
-                      {" "}
-                      {t("nav.doneMark")}
-                    </span>
-                    <span class="sr-only">{t("nav.done")}</span>
-                  </>
-                )}
-              </a>
-            </li>
-          ))}
+          {/* O ✓ quando os dois diários do dia terminaram (P227). */}
           <li>
-            <a href={ROUTES.practice} aria-current={tab === "practice" ? "page" : undefined}>
-              {t("nav.practice")}
+            <a href={ROUTES.hits} aria-current={current(tab, "hits")}>
+              {t("nav.hits")}
+              {dailiesDone(latest, date) && (
+                <>
+                  <span class="done-mark" aria-hidden="true">
+                    {" "}
+                    {t("nav.doneMark")}
+                  </span>
+                  <span class="sr-only">{t("nav.hitsDone")}</span>
+                </>
+              )}
             </a>
           </li>
           {/* O modo por artista fica na nav até o site ficar público (P117): é só tirar o <li>. */}
           <li>
-            <a href={ROUTES.artists} aria-current={tab === "artists" ? "page" : undefined}>
+            <a href={ROUTES.artists} aria-current={current(tab, "artists")}>
               {t("nav.artists")}
             </a>
           </li>
@@ -347,15 +347,9 @@ function Ready({
   switch (tab) {
     case "home":
       // Antes da agenda: sem o dia de hoje, a home avisa no cartão e o Treino continua.
-      return (
-        <Home
-          day={day}
-          date={date}
-          save={latest}
-          practice={practiceSummary(practice)}
-          artists={artistSummary(artists.play)}
-        />
-      );
+      return <Home day={day} date={date} save={latest} artists={artistSummary(artists.play)} />;
+    case "hits":
+      return <Hits day={day} date={date} save={latest} practice={practiceSummary(practice)} />;
     case "song":
     case "album":
       if (!day) return <Unavailable />;
