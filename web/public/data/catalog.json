@@ -982,7 +982,7 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/02/c8/d6/02c8d65e-8def-94c4-371f-99c7ac99c77d/22UMGIM77641.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1639449124",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2022-08-26",
       "similar": [
         "apple:al:1585848047",
@@ -997,7 +997,7 @@
         "apple:al:6793456209"
       ],
       "title": "ベルベットの詩 - Single",
-      "titleLatin": "Berubetto no shi",
+      "titleLatin": "Berubetto no uta",
       "type": "single"
     },
     {
@@ -2562,7 +2562,7 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4b/1b/25/4b1b2572-0dc9-7c83-1e56-ce3354ead351/26UM1IM20044.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:6817316270",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2026-10-14",
       "similar": [
         "apple:al:1790599503",
@@ -2577,7 +2577,7 @@
         "apple:al:6817668875"
       ],
       "title": "雲を抜け風下へ私だけ - Single",
-      "titleLatin": "Kumo wo nuke kazashimo e watakushi dake",
+      "titleLatin": "Kumo wo nuke kazashimo e watashi dake",
       "type": "single"
     },
     {
@@ -2880,7 +2880,7 @@
       "nameLatin": "Aina The End"
     }
   ],
-  "catalogVersion": "2026-10-19.b3eb833b",
+  "catalogVersion": "2026-10-19.39049d6a",
   "generatedAt": "2026-10-19T16:27:32Z",
   "provider": "apple",
   "schemaVersion": 2,
@@ -4966,7 +4966,7 @@
       "explicit": false,
       "id": "apple:tr:1639449127",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.08,
       "preview": {
         "durationSec": 30,
@@ -4980,14 +4980,16 @@
         ],
         "title": [
           "berubettonoshi",
+          "berubettonota",
           "velvetnoshi",
+          "velvetnota",
           "べるべっとの詩"
         ]
       },
       "songKey": "べるべっとの詩|apple:ar:302361237",
       "storeUrl": "https://music.apple.com/jp/album/%E3%83%99%E3%83%AB%E3%83%99%E3%83%83%E3%83%88%E3%81%AE%E8%A9%A9/1639449124?i=1639449127",
       "title": "ベルベットの詩",
-      "titleLatin": "Berubetto no shi"
+      "titleLatin": "Berubetto no uta"
     },
     {
       "albumId": "apple:al:1648108987",
@@ -8240,7 +8242,7 @@
       "explicit": false,
       "id": "apple:tr:6817316271",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.46,
       "preview": {
         "durationSec": 30,
@@ -8255,13 +8257,14 @@
         ],
         "title": [
           "kumowonukekazashimoewatakushidake",
+          "kumowonukekazashimoewatashidake",
           "雲を抜け風下へ私だけ"
         ]
       },
       "songKey": "雲を抜け風下へ私だけ|apple:ar:1250709916",
       "storeUrl": "https://music.apple.com/jp/album/%E9%9B%B2%E3%82%92%E6%8A%9C%E3%81%91%E9%A2%A8%E4%B8%8B%E3%81%B8%E7%A7%81%E3%81%A0%E3%81%91/6817316270?i=6817316271",
       "title": "雲を抜け風下へ私だけ",
-      "titleLatin": "Kumo wo nuke kazashimo e watakushi dake"
+      "titleLatin": "Kumo wo nuke kazashimo e watashi dake"
     },
     {
       "albumId": "apple:al:6817668875",
