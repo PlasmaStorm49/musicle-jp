@@ -324,19 +324,14 @@ test("a nav: o selo é a Início (P205), e as 5 abas têm alvo de 44 × 44 px", 
   }
 });
 
-test("a Início: os segmentos do tema e o Como funciona têm alvo de 44 px (P213)", async ({
-  page,
-}) => {
+test("a Início: o switch do tema e o Como funciona têm alvo de 44 px (P213)", async ({ page }) => {
   await open(page, DAY, "#inicio");
   const how = page.locator("details.home-how-box > summary");
   expect((await target(how)).height).toBeGreaterThanOrEqual(44);
-  // O alvo é o segmento inteiro (o rótulo), e não só o rádio.
-  for (const name of ["Automático", "Claro", "Escuro"]) {
-    const label = page.locator(".theme-options label").filter({ hasText: name });
-    const { height, width } = await target(label);
-    expect(height, name).toBeGreaterThanOrEqual(44);
-    expect(width, name).toBeGreaterThanOrEqual(44);
-  }
+  // O alvo é o botão inteiro: o sol, a trilha e a lua.
+  const { height, width } = await target(page.getByRole("switch", { name: "Tema escuro" }));
+  expect(height).toBeGreaterThanOrEqual(44);
+  expect(width).toBeGreaterThanOrEqual(44);
 });
 
 test("a lista de sugestões flutua: aberta, a página não muda de altura e o Tocar não anda", async ({

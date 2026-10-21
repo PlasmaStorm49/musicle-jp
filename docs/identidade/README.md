@@ -38,3 +38,5 @@ Os índices são os do `document.querySelectorAll("path")` no `style-guide.svg`.
 - **Os ícones são a outra exceção ao arquivo SVG:** o script grava o `viewBox` e o `d` num módulo TS (`icons.ts`), e a cor sai do CSS (`currentColor`), e não do `fill` do guia, para o tema escolher.
 
 Quando o designer mandar a versão opaca oficial do selo (PD12), ela troca o favicon e o ícone de app.
+
+**Os ícones provisórios (P218):** o sol, a lua, o alto-falante e o alto-falante mudo ainda não estão no guia (PD6). Até o designer mandar os dele, valem os desenhos do Claude, aprovados pelo usuário, em `web/src/ui/assets/icons-provisorios.ts`, fora do `icons.ts` gerado. Quando a peça chegar: ela entra no guia, o `extrair-pecas.cjs` a leva ao `icons.ts` (com o mesmo nome, `sun`, `moon`, `speaker` ou `speakerMuted`), e o nome sai do arquivo dos provisórios. O `identity.test.ts` confere que um nome nunca está nos dois.

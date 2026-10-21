@@ -1269,52 +1269,47 @@ section.void,
   line-height: var(--lh-sm);
 }
 
-.theme-options {
-  display: flex;
-  margin: 0;
-  padding: 2px;
-  border: 0;
-  border-radius: var(--r-field);
-  background: var(--fill);
+/* O switch do tema (P217): o sol, a trilha com o botão redondo e a lua. A trilha é a tinta
+   pressionada, o botão redondo é a cor do texto, e o ícone do tema da página fica no texto (o outro,
+   no cinza). O alvo tem 44 px (P213). */
+.theme-switch {
+  gap: var(--sp-2);
+  padding: 0 var(--sp-2);
+  background: transparent;
 }
 
-/* Cada rádio é um segmento com alvo de 44 px; o rádio fica por cima, invisível, e é ele que
-   recebe o toque e o teclado. */
-.theme-options label {
+.theme-switch .icon-sun,
+.theme-switch .icon-moon {
+  height: 22px;
+  color: var(--muted);
+}
+
+.theme-switch[aria-checked="false"] .icon-sun,
+.theme-switch[aria-checked="true"] .icon-moon {
+  color: var(--text);
+}
+
+.theme-track {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--h-control);
-  padding: 0 var(--sp-3);
-  border-radius: calc(var(--r-field) - 2px);
-  font-size: var(--t-sm);
-  cursor: pointer;
+  flex: none;
+  width: 52px;
+  height: 30px;
+  border-radius: var(--r-pill);
+  background: var(--fill-press);
 }
 
-.theme-options label {
-  gap: var(--sp-1);
+.theme-thumb {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--text);
 }
 
-@supports selector(:has(*)) {
-  .theme-options input {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  .theme-options label:has(input:checked) {
-    background: var(--text);
-    color: var(--bg);
-  }
-
-  .theme-options label:has(input:focus-visible) {
-    outline: 3px solid var(--focus);
-    outline-offset: 2px;
-  }
+.theme-switch[aria-checked="true"] .theme-thumb {
+  transform: translateX(22px);
 }
 
 /* Telas de escolha (Treino, lista de artistas, submodo, fim da partida): o título e a dica no
@@ -1773,10 +1768,15 @@ section.summary > h2 {
 
   button,
   .home-card,
-  .theme-options label {
+  .theme-switch .icon-sun,
+  .theme-switch .icon-moon {
     transition:
       background-color var(--dur-1) var(--ease),
       color var(--dur-1) var(--ease);
+  }
+
+  .theme-thumb {
+    transition: transform var(--dur-2) var(--ease);
   }
 }
 
