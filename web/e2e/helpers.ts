@@ -125,9 +125,12 @@ export async function appleCatalog(
   page: Page,
   {
     albumTitle = (album) => album.title,
+    artistDisplay = (name) => name,
     explicit = false,
   }: {
     readonly albumTitle?: (album: { readonly id: string; readonly title: string }) => string;
+    /** O nome do artista nas faixas e nos álbuns (o da parada real pode ser bem longo). */
+    readonly artistDisplay?: (name: string) => string;
     readonly explicit?: boolean;
   } = {},
 ): Promise<void> {
@@ -138,17 +141,19 @@ export async function appleCatalog(
       t.preview
         ? {
             ...t,
+            artistDisplay: artistDisplay(t.artistDisplay),
             explicit: explicit || t.explicit,
             preview: {
               ...t.preview,
               url: `https://audio-ssl.itunes.apple.com/e2e/${tail(t.id)}.m4a`,
             },
           }
-        : t,
+        : { ...t, artistDisplay: artistDisplay(t.artistDisplay) },
     );
     const albums = data.albums.map((a) => ({
       ...a,
       title: albumTitle(a),
+      artistDisplay: artistDisplay(a.artistDisplay),
       ...(a.artworkUrl
         ? { artworkUrl: `https://is1-ssl.mzstatic.com/image/thumb/e2e/${tail(a.id)}/1.svg` }
         : {}),

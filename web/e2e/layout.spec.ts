@@ -278,6 +278,44 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
   }
 });
 
+// Na parada real, a linha do artista passa da tela ("米津玄師 & 宇多田ヒカル · Kenshi Yonezu &
+// Hikaru Utada"): ela não quebra, ganha reticências. A coluna do grid não pode crescer até ela.
+const LONG_ARTIST = (name: string) =>
+  `${name} & 宇多田ヒカル & ONE OK ROCK & CHICO CARLITO & Paledusk`;
+
+test("em 320 px, um artista longo não empurra a página para o lado: a rodada, a revelação e as tentativas", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await appleCatalog(page, { artistDisplay: LONG_ARTIST });
+  /** Nada rola para o lado, e a linha do artista ganha reticências. */
+  const fits = async (name: string, line: string) => {
+    expect((await overflow(page)).horizontal, name).toBeLessThanOrEqual(0);
+    const cut = await page
+      .locator(line)
+      .evaluateAll((els) => els.filter((e) => e.scrollWidth > e.clientWidth).length);
+    expect(cut, name).toBeGreaterThan(0);
+  };
+  await open(page, DAY, "#normal");
+  await expect(page.getByRole("button", { name: /^Tocar/ })).toBeEnabled();
+  await fits("a rodada do Normal", ".option .item-artist");
+  await page.getByRole("button", { name: "Não sei" }).click();
+  await expect(page.getByRole("button", { name: "Próxima rodada" })).toBeVisible();
+  await fits("a revelação do Normal", ".options.done .item-artist");
+  const answer = dailyAnswer("2026-10-08", "song", 0);
+  const other = trackById(answer === "fixture:tr:tr01" ? "fixture:tr:tr02" : "fixture:tr:tr01");
+  await page.getByRole("navigation").getByRole("link", { name: "Desafio" }).click();
+  await page.getByRole("button", { name: /^Tocar/ }).click();
+  await page.getByRole("combobox", { name: "Qual é a música?" }).fill(other.title);
+  await page
+    .getByRole("option")
+    .filter({ has: page.getByText(other.title, { exact: true }) })
+    .first()
+    .click();
+  await expect(page.getByText("Tentativa 2 de 6", { exact: true })).toBeVisible();
+  await fits("as tentativas do Desafio", ".attempt .item-artist");
+});
+
 test("em 320 px, o cabeçalho das sessões cabe: o placar e os limites quebram a linha, sem invadir o botão", async ({
   page,
 }) => {

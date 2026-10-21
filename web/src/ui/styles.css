@@ -734,10 +734,14 @@ main.app {
   box-shadow: none;
 }
 
-/* A pergunta, no centro; no Desafio, com a contagem de tentativas ao lado. */
+/* A pergunta, no centro; no Desafio, com a contagem de tentativas ao lado. A coluna é
+   minmax(0, 1fr), e não a auto: a linha do artista não quebra (ganha reticências), e numa
+   coluna auto ela alarga o grid até caber inteira, além da tela (o "米津玄師 & 宇多田ヒカル ·
+   Kenshi Yonezu & Hikaru Utada" da parada real). Vale para todo grid com um .item dentro. */
 .options,
 .typing {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--sp-2);
 }
 
@@ -771,6 +775,7 @@ ul.options {
   list-style: none;
   padding: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--sp-1);
 }
 
@@ -911,6 +916,7 @@ ul.options.help-options {
   margin: 0;
   padding: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--sp-1);
 }
 
@@ -991,6 +997,7 @@ button.help {
    tentativas), o cartão da resposta e o botão de seguir com o chevron. */
 .reveal {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--sp-3);
 }
 
@@ -1037,10 +1044,17 @@ button.help {
 
 .card > div {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   flex: 1;
   justify-items: start;
   gap: var(--sp-1);
   min-width: 0;
+}
+
+/* O rótulo ocupa a largura do cartão: no start, ele teria a largura da linha do artista inteira,
+   que não quebra, e passaria da tela em vez de ganhar reticências. */
+.card .item {
+  justify-self: stretch;
 }
 
 .card .item-title {
