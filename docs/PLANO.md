@@ -279,6 +279,8 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 
 ## 7. Em aberto
 
+A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica em [`docs/BACKLOG.md`](BACKLOG.md). Aqui fica o detalhe de cada item.
+
 **Perguntas**
 
 - P16. Nome público do jogo (evitar "Musicle" no nome). No M10, o usuário decidiu publicar como `musicle-jp` por ora, e em 10/10/2026 decidiu escolher o nome junto com o visual e a identidade do jogo, num marco futuro. Em 11/10/2026 o nome na tela virou AteMusic (P96 a P98); falta decidir se a URL e o repositório mudam (P97). Trocar depois muda a URL (quebra links compartilhados), mas não o save (o `localStorage` é por origem). Não bloqueia mais. Ao trocar, a base `/musicle-jp/` muda em `web/vite.config.ts`, nas checagens do `ci.yml` e do `deploy.yml`, no passo 10 do `/verificar` e na documentação.
@@ -369,6 +371,16 @@ Os critérios de pronto já conferidos (M9 a M11) estão em `docs/HISTORICO.md`.
 - ME91. Nada na CI acusa título publicado que precisa de romaji e ficou sem latino: o aviso do `romanize` sai só para o texto novo, e o `--check` e o `validate-artists` não olham isso (já há casos, como 杪夏 e 蝸旋). Uma nota no `build-artists` ou uma conferência no `validate-artists`, ao lado da ME79.
 - ME92. No modo por artista, o latino do álbum nunca aparece: a revelação mostra só o título do álbum, e o `optionView` de álbum é só do Normal. O comentário do `aliases.toml` dos artistas que diz que a revelação o mostra não bate com o código.
 - ME93. O contorno da sugestão ativa do Desafio (`.suggestion.active`, o `--accent-line` sobre o `--surface-2`) dá ~2,67:1 no claro, abaixo dos 3:1 de forma, e o par não está no `PAIRS` (conta do revisor do PR D1, de antes dele). Entra no D2, que refaz a lista de sugestões, com o par na lista. **Resolvida no PR D2:** a sugestão ativa ganhou a tinta e o anel do `--focus`, cujos pares sobre a tinta e sobre o `--surface` já estão no `PAIRS`.
+
+**De 21/10/2026** (os pedidos do usuário e o que ficou da entrega do switch e do volume):
+
+- ME94. "Desistir" como botão de verdade, de preferência vermelho (o usuário): hoje é só o texto sublinhado, no `--muted`, e parece link. Foi escolha do PR D1, para a saída não parecer mais uma opção (ME57, `button.give-up` no `styles.css`); o alvo já tem 44 px, então virar botão não muda a altura da rodada (regra 25). A mesma classe serve o "Não sei" do Normal, o "Desistir da música" do Superfan e o "Voltar à lista". O vermelho pede par novo no `PAIRS` do `scripts/theme.test.ts`, nos dois temas (regra 24).
+- ME95. Clicar na barra da música leva àquele ponto (o usuário). Hoje a barra não é clicável. O motor já toca de qualquer ponto (`play(url, offset, seconds)`). Na rodada, só dentro do trecho já liberado, para não entregar som novo de graça; os trechos são curtos (o diário vai de 1 a 16 s). A prévia inteira da revelação (30 s) não tem barra hoje. Pede alvo de toque de 44 px (a barra tem 12) e o teclado (um `role="slider"`).
+- ME96. O Normal e o Desafio numa categoria só no menu, para criar outras categorias (o usuário). Nome a decidir. A nav tem hoje cinco abas (Início, Normal, Desafio, Treino e Artistas), que só cabem numa linha a partir de 360 px (ME70). Os fragmentos `#normal` e `#desafio` precisam continuar abrindo o jogo (regra 17 do `web/CLAUDE.md`). Marco próprio, com modo de planejamento.
+- ME97. Uma categoria de músicas de anime populares, aproveitando o modo por artista (o usuário). O pipeline não guarda o gênero da música. Hipótese, a conferir: o lookup do iTunes devolve o `primaryGenreName`, e a loja tem o gênero Anime, mas muita música de anime sai como J-Pop. O caminho sem chave nova é uma lista curada, como o `artists.toml`. Marco próprio, depois da ME96.
+- ME98. "Ouvir mais (+1 s)" quebra em duas linhas no celular, desde que o botão de volume entrou na linha do Tocar (#46): falta garantir que a quebra nunca parta o "(+1 s)" ao meio. O espaço inseparável no texto quebrou 9 testes, que buscam o texto com espaço comum: mudar os dois juntos.
+- ME99. A revisão adiada do switch de tema e do volume (#45 e #46), a pedido do usuário, para os dois saírem logo: o `revisor` e o `/code-review` dos dois e os 15 pontos do revisor do #45. Entre eles: o `button:hover` global por cima do switch; o teste da troca do tema do aparelho; o contraste da trilha (~1,24:1) documentado; o modo de alto contraste (`forced-colors`); o `icons-provisorios.ts` com nome em inglês; o gerador dos ícones no `docs/identidade/`; e os comentários velhos ("controle segmentado").
+- ME100. No iPhone, conferir se o `<audio>` de reserva obedece ao volume (`?htmlAudio=1`). Hipótese: o iOS ignora o `volume` do elemento, e lá a barra só vale no Web Audio, o motor normal.
 
 **Feitas:**
 
