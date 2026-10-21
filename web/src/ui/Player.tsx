@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useEffect, useId, useRef, useState } from "preact/hooks";
 import { type AudioEngine, AudioUnavailableError, type Playback } from "../audio/engine.ts";
 import { fillFraction } from "../core/player.ts";
 import { lastStage, type ModeRules, secondsAt } from "../core/rules.ts";
+import { VOLUME_STEP } from "../core/volume.ts";
 import { t } from "../i18n/t.ts";
+import { Icon } from "./Icon.tsx";
 import { SegmentBar } from "./SegmentBar.tsx";
 import { singleClick } from "./singleClick.ts";
+import { useVolume } from "./volume.ts";
 
 type Props = {
   readonly engine: AudioEngine;
@@ -191,7 +194,83 @@ export function Player({
             {t("typing.skip", { seconds: extra })}
           </button>
         )}
+        <VolumeControl engine={engine} />
       </div>
     </section>
+  );
+}
+
+/**
+ * O volume (P216, P219): um botão com o alto-falante (o mudo no 0%) que abre uma barra de 0% a
+ * 100%, flutuando sobre a linha da barra de trechos: a página não muda de altura (regra 25). A
+ * barra leva o foco ao abrir; o Esc, um clique fora e a saída pelo Tab fecham, e o Esc devolve o
+ * foco ao botão. O botão alterna no mesmo lugar: o 2º clique de um toque duplo não fecha (regra 23).
+ */
+function VolumeControl({ engine }: { readonly engine: AudioEngine }) {
+  const [level, setLevel] = useVolume(engine);
+  const [open, setOpen] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
+  const button = useRef<HTMLButtonElement>(null);
+  const range = useRef<HTMLInputElement>(null);
+  const panelId = useId();
+  const percent = Math.round(level * 100);
+
+  useEffect(() => {
+    if (!open) return;
+    range.current?.focus();
+    // Um clique fora (na tela, não no controle) fecha a barra.
+    const onDown = (event: PointerEvent) => {
+      if (!box.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [open]);
+
+  return (
+    <div
+      ref={box}
+      class="volume"
+      onFocusOut={(event) => {
+        // Sair pelo Tab (o foco foi para fora do controle) fecha a barra.
+        const next = event.relatedTarget as Node | null;
+        if (open && next && !box.current?.contains(next)) setOpen(false);
+      }}
+    >
+      <button
+        ref={button}
+        type="button"
+        class="volume-toggle"
+        aria-label={t("player.volume")}
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={singleClick(() => setOpen((was) => !was))}
+      >
+        <Icon name={percent === 0 ? "speakerMuted" : "speaker"} />
+      </button>
+      <div id={panelId} class="volume-panel" hidden={!open}>
+        <label for={`${panelId}-range`}>{t("player.volume")}</label>
+        <input
+          ref={range}
+          id={`${panelId}-range`}
+          type="range"
+          min={0}
+          max={100}
+          step={VOLUME_STEP}
+          value={percent}
+          aria-valuetext={t("player.volumeValue", { percent })}
+          onInput={(event) => setLevel(Number(event.currentTarget.value) / 100)}
+          onKeyDown={(event) => {
+            // O Esc fecha a barra e devolve o foco ao botão.
+            if (event.key !== "Escape") return;
+            event.preventDefault();
+            setOpen(false);
+            button.current?.focus();
+          }}
+        />
+        <output for={`${panelId}-range`} aria-hidden="true">
+          {t("player.volumeValue", { percent })}
+        </output>
+      </div>
+    </div>
   );
 }

@@ -190,6 +190,8 @@ function setup(day: Day | null = null, net = server()) {
     play: vi.fn(() => Promise.resolve(null)),
     stop: vi.fn(),
     retain: vi.fn(),
+    setVolume: vi.fn(),
+    volume: () => 1,
   };
   const budget = lookupBudget({ now: () => 0 });
   const announce = vi.fn();

@@ -619,6 +619,70 @@ main.app {
   border-radius: var(--r-hero);
 }
 
+/* O volume (P216): o botão quadrado do alto-falante, ao lado dos outros, e a barra que flutua
+   sobre a linha da barra de trechos (e o cabeçalho), sem mudar a altura da página. */
+.player {
+  position: relative;
+}
+
+.player-actions > .volume {
+  flex: none;
+}
+
+.volume-toggle {
+  width: var(--h-hero);
+  min-height: var(--h-hero);
+  padding: 0;
+  border-radius: var(--r-hero);
+}
+
+.volume-toggle .icon {
+  height: 24px;
+}
+
+.volume-panel {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 12px);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-field);
+  background: var(--surface);
+}
+
+/* Fechada, ela some: o display: flex acima venceria o [hidden] do navegador, e a barra cobriria o
+   cabeçalho (o "Reiniciar", o "Trocar"). */
+.volume-panel[hidden] {
+  display: none;
+}
+
+.volume-panel label {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
+}
+
+.volume-panel input {
+  flex: 1;
+  min-width: 0;
+  height: var(--h-control);
+  margin: 0;
+  accent-color: var(--text);
+}
+
+.volume-panel output {
+  width: 4ch;
+  text-align: right;
+  font-size: var(--t-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Com a pílula da explícita (P31), ela fica na linha da barra, à esquerda: o aviso continua antes
    do Tocar, sem gastar uma linha só para ele. */
 .player.has-explicit {

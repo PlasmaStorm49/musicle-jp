@@ -46,6 +46,7 @@ import { Home } from "./Home.tsx";
 import { NavLogo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
 import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
+import { savedVolume } from "./volume.ts";
 
 type Load =
   | { readonly status: "loading" }
@@ -192,6 +193,8 @@ export function App() {
       fails: failTrack
         ? (url) => url === resolver.peek(failTrack) || (!!stored && url === resolveUrl(stored))
         : undefined,
+      // O volume salvo (P216): o motor nasce com ele, também o recriado no "Tentar de novo".
+      volume: savedVolume(),
       onPlayed: import.meta.env.DEV
         ? (log: PlayLog) => {
             window.__musicleAudioLog ??= [];

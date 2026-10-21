@@ -98,6 +98,8 @@ function setup(
     play: vi.fn(() => Promise.resolve(null)),
     stop: vi.fn(),
     retain: vi.fn(),
+    setVolume: vi.fn(),
+    volume: () => 1,
   },
   help?: HelpSetup,
 ) {
@@ -171,6 +173,8 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
         play: vi.fn(() => Promise.resolve(null)),
         stop: vi.fn(),
         retain: vi.fn(),
+        setVolume: vi.fn(),
+        volume: () => 1,
       },
       resolver,
       resolveUrl: (url: string) => `/${url}`,
@@ -496,6 +500,8 @@ describe("revelação: a prévia inteira", () => {
       preload: vi.fn(),
       stop: vi.fn(),
       retain: vi.fn(),
+      setVolume: vi.fn(),
+      volume: () => 1,
       play: vi.fn((_url: string, _offset: number, seconds: number) => {
         let end: (result: PlaybackResult) => void = () => {};
         const done = new Promise<PlaybackResult>((resolve) => (end = resolve));
@@ -524,6 +530,8 @@ describe("revelação: a prévia inteira", () => {
       preload: vi.fn(),
       stop: vi.fn(),
       retain: vi.fn(),
+      setVolume: vi.fn(),
+      volume: () => 1,
       play: vi.fn(() => new Promise<null>((resolve) => (deliver = resolve))),
     };
     setup(game("album", { status: "won" }), undefined, index, engine);
@@ -543,6 +551,8 @@ describe("revelação: a prévia inteira", () => {
       preload: vi.fn(),
       stop: vi.fn(),
       retain: vi.fn(),
+      setVolume: vi.fn(),
+      volume: () => 1,
       play: vi.fn(() => Promise.reject(new AudioUnavailableError("blocked", "fora do gesto"))),
     };
     const { announce } = setup(game("album", { status: "won" }), undefined, index, engine);

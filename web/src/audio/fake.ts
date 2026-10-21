@@ -5,6 +5,8 @@
 // não corta o pedido no fim do preview; registra no __musicleAudioLog ao começar, e não ao
 // terminar; nunca é interrompido (stop não faz nada). Teste do Parar ou do corte no fim do
 // preview fica nos testes de componente, não no e2e.
+
+import { clampVolume } from "../core/volume.ts";
 import {
   type AudioEngine,
   AudioUnavailableError,
@@ -16,9 +18,11 @@ export class FakeAudioEngine implements AudioEngine {
   /** Marca que a CI procura no build: este motor não pode chegar à produção. */
   readonly kind = "musicle-fake-audio";
   readonly #options: EngineOptions;
+  #volume: number;
 
   constructor(options: EngineOptions = {}) {
     this.#options = options;
+    this.#volume = clampVolume(options.volume ?? 1);
   }
 
   unlock(): void {}
@@ -26,6 +30,14 @@ export class FakeAudioEngine implements AudioEngine {
   preload(): void {}
 
   retain(): void {}
+
+  setVolume(level: number): void {
+    this.#volume = clampVolume(level);
+  }
+
+  volume(): number {
+    return this.#volume;
+  }
 
   stop(): void {}
 
@@ -35,7 +47,7 @@ export class FakeAudioEngine implements AudioEngine {
       throw new AudioUnavailableError("simulated", `falha simulada: ${url}`);
     }
     const result = { requested: seconds, played: seconds, interrupted: false };
-    this.#options.onPlayed?.({ ...result, url, offset, engine: "fake" });
+    this.#options.onPlayed?.({ ...result, url, offset, engine: "fake", volume: this.#volume });
     return { t0: 0, seconds, elapsed: () => seconds, done: Promise.resolve(result) };
   }
 }

@@ -26,6 +26,8 @@ function setup(rules: ModeRules, skippable: boolean) {
     play: vi.fn(() => Promise.resolve(null)),
     stop: vi.fn(),
     retain: vi.fn(),
+    setVolume: vi.fn(),
+    volume: () => 1,
   };
   const onSkip = vi.fn();
   const onListenMore = vi.fn();
@@ -98,6 +100,8 @@ describe("Player segue as regras do modo", () => {
           play: vi.fn(),
           stop: vi.fn(),
           retain: vi.fn(),
+          setVolume: vi.fn(),
+          volume: () => 1,
         }}
         url="fixtures/audio/x.wav"
         offset={0}
@@ -129,6 +133,8 @@ describe("Player segue as regras do modo", () => {
           play: vi.fn(),
           stop: vi.fn(),
           retain: vi.fn(),
+          setVolume: vi.fn(),
+          volume: () => 1,
         }}
         url="fixtures/audio/x.wav"
         offset={0}
@@ -164,6 +170,8 @@ describe("Player segue as regras do modo", () => {
       play: vi.fn(() => new Promise<null>((_, reject) => (fail = reject))),
       stop: vi.fn(),
       retain: vi.fn(),
+      setVolume: vi.fn(),
+      volume: () => 1,
     };
     const onAudioError = vi.fn();
     const { unmount } = render(
@@ -195,6 +203,8 @@ describe("Player segue as regras do modo", () => {
       play: vi.fn(() => Promise.reject(new AudioUnavailableError("blocked", "fora do gesto"))),
       stop: vi.fn(),
       retain: vi.fn(),
+      setVolume: vi.fn(),
+      volume: () => 1,
     };
     const onAudioError = vi.fn();
     render(
@@ -225,6 +235,8 @@ describe("Player segue as regras do modo", () => {
       play: vi.fn(() => Promise.resolve(null)),
       stop: vi.fn(),
       retain: vi.fn(),
+      setVolume: vi.fn(),
+      volume: () => 1,
     };
     // Dentro do <main>, como no App: o campo é do jogo, e o foco nele fica (ME49).
     const player = (url: string | null) => (
@@ -269,6 +281,8 @@ describe("Player segue as regras do modo", () => {
           play: vi.fn(),
           stop: vi.fn(),
           retain: vi.fn(),
+          setVolume: vi.fn(),
+          volume: () => 1,
         }}
         url={url}
         offset={0}
@@ -316,6 +330,8 @@ function webAudioLike() {
     preload: vi.fn(),
     stop: vi.fn(),
     retain: vi.fn(),
+    setVolume: vi.fn(),
+    volume: () => 1,
     play: vi.fn((_url: string, _offset: number, seconds: number) => {
       let end: (result: PlaybackResult) => void = () => {};
       const done = new Promise<PlaybackResult>((resolve) => (end = resolve));
@@ -401,5 +417,43 @@ describe("Player com o som tocando", () => {
     await act(async () => {});
     expect(screen.queryByRole("button", { name: /Ouvir mais/ })).toBeNull();
     expect(document.activeElement).toBe(screen.getByRole("button", { name: "Parar" }));
+  });
+});
+
+describe("Player: o volume (P216, P219)", () => {
+  afterEach(() => localStorage.clear());
+
+  it("o alto-falante abre a barra com o foco nela; mexer aplica no motor e grava; o Esc fecha e devolve o foco", () => {
+    const { engine } = setup(MODE_RULES.album, false);
+    const toggle = screen.getByRole("button", { name: "Volume" });
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
+    const range = screen.getByRole("slider", { name: "Volume" }) as HTMLInputElement;
+    expect(document.activeElement).toBe(range);
+    expect(range.value).toBe("100");
+    fireEvent.input(range, { target: { value: "40" } });
+    expect(engine.setVolume).toHaveBeenCalledWith(0.4);
+    expect(localStorage.getItem("musicle-jp:volume")).toBe("0.4");
+    fireEvent.keyDown(range, { key: "Escape" });
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(toggle);
+  });
+
+  it("no 0%, o botão mostra o alto-falante mudo (ninguém gasta um trecho sem som)", () => {
+    setup(MODE_RULES.album, false);
+    const toggle = screen.getByRole("button", { name: "Volume" });
+    expect(toggle.querySelector("svg.icon-speaker")).not.toBeNull();
+    fireEvent.click(toggle);
+    fireEvent.input(screen.getByRole("slider", { name: "Volume" }), { target: { value: "0" } });
+    expect(toggle.querySelector("svg.icon-speakerMuted")).not.toBeNull();
+  });
+
+  it("o 2º clique de um toque duplo no alto-falante não fecha a barra (regra 23)", () => {
+    setup(MODE_RULES.album, false);
+    const toggle = screen.getByRole("button", { name: "Volume" });
+    fireEvent.click(toggle, { detail: 1 });
+    fireEvent.click(toggle, { detail: 2 });
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
   });
 });

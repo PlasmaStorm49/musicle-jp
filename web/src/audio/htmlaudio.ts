@@ -8,6 +8,8 @@
 // - aba oculta para o som;
 // - a tela de bloqueio do celular mostra os metadados da mídia, e o nome da música é a
 //   resposta: o título vira o nome do jogo (mediaSession).
+
+import { clampVolume, gainOf } from "../core/volume.ts";
 import {
   type AudioEngine,
   AudioUnavailableError,
@@ -20,7 +22,7 @@ import { enablePlaybackSession } from "./session.ts";
 /** O que usamos do <audio>; os testes trocam por um objeto simples. */
 export type MediaElement = Pick<
   HTMLAudioElement,
-  "src" | "currentTime" | "duration" | "ended" | "error" | "preload" | "play" | "pause"
+  "src" | "currentTime" | "duration" | "ended" | "error" | "preload" | "play" | "pause" | "volume"
 >;
 
 export type HtmlAudioOptions = EngineOptions & {
@@ -58,9 +60,11 @@ export class HtmlAudioEngine implements AudioEngine {
   #token = 0;
   #current: Current | null = null;
   readonly #options: HtmlAudioOptions;
+  #volume: number;
 
   constructor(options: HtmlAudioOptions = {}) {
     this.#options = options;
+    this.#volume = clampVolume(options.volume ?? 1);
   }
 
   unlock(): void {
@@ -68,6 +72,7 @@ export class HtmlAudioEngine implements AudioEngine {
     enablePlaybackSession();
     const audio = this.#options.createElement?.() ?? new Audio();
     audio.preload = "auto";
+    audio.volume = gainOf(this.#volume);
     this.#audio = audio;
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) this.stop();
@@ -104,6 +109,16 @@ export class HtmlAudioEngine implements AudioEngine {
 
   /** A reserva não guarda nada na memória: baixa ao tocar. */
   preload(): void {}
+
+  /** O volume do elemento. Hipótese: o iPhone ignora (lá vale o Web Audio, o motor normal). */
+  setVolume(level: number): void {
+    this.#volume = clampVolume(level);
+    if (this.#audio) this.#audio.volume = gainOf(this.#volume);
+  }
+
+  volume(): number {
+    return this.#volume;
+  }
 
   retain(): void {}
 

@@ -113,6 +113,8 @@ function setup(save: Save = emptySave(), day: Day | null = null, mode: ModeName 
     play: vi.fn(() => Promise.resolve(null)),
     stop: vi.fn(),
     retain: vi.fn(),
+    setVolume: vi.fn(),
+    volume: () => 1,
   };
   const resolver = catalogResolver(index, (url) => `/${url}`);
   let latest: PracticeSession | null = null;

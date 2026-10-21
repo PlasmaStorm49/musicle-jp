@@ -30,6 +30,13 @@ export interface AudioEngine {
   stop(): void;
   /** Mantém em memória só estes áudios; o resto é liberado. */
   retain(urls: readonly string[]): void;
+  /**
+   * O volume, de 0 a 1 (P216): vale na hora, também com o som tocando. Antes do unlock, só
+   * guarda o valor (regra 9: nada cria o áudio fora do clique).
+   */
+  setVolume(level: number): void;
+  /** O volume atual, de 0 a 1. */
+  volume(): number;
 }
 
 /**
@@ -59,6 +66,8 @@ export type PlayLog = PlaybackResult & {
   readonly url: string;
   readonly offset: number;
   readonly engine: EngineName;
+  /** O volume da reprodução, de 0 a 1 (o motor falso registra, para o e2e conferir). */
+  readonly volume?: number;
 };
 
 export type EngineOptions = {
@@ -66,4 +75,6 @@ export type EngineOptions = {
   readonly fails?: (url: string) => boolean;
   /** Avisado ao fim de cada reprodução (em DEV vai para window.__musicleAudioLog). */
   readonly onPlayed?: (log: PlayLog) => void;
+  /** O volume inicial, de 0 a 1 (o salvo no aparelho, storage/volume.ts). */
+  readonly volume?: number;
 };
