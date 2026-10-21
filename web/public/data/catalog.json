@@ -5,24 +5,74 @@
       "artistIds": [
         "apple:ar:1165017710"
       ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/16/43/fe/1643fec0-3f43-9bcb-83d4-04639f044a7b/190295759162.jpg/300x300bb.jpg",
+      "id": "apple:al:1261937427",
+      "latinSource": "cutlet",
+      "releaseDate": "2017-07-25",
+      "similar": [
+        "apple:al:1471459431",
+        "apple:al:1538265733",
+        "apple:al:1468137281",
+        "apple:al:1490256978",
+        "apple:al:1459216693",
+        "apple:al:1518843994",
+        "apple:al:1451566360",
+        "apple:al:1748185853",
+        "apple:al:1496731153",
+        "apple:al:1534620182"
+      ],
+      "title": "君はロックを聴かない - EP",
+      "titleLatin": "Kimi wa rokku wo kikanai",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "あいみょん",
+      "artistIds": [
+        "apple:ar:1165017710"
+      ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d8/7b/7c/d87b7cfd-c88c-1003-bc5d-883882043e33/190295747138.jpg/300x300bb.jpg",
       "id": "apple:al:1273709789",
       "latinSource": "cutlet",
       "releaseDate": "2017-04-14",
       "similar": [
-        "apple:al:1538265733",
-        "apple:al:1490256978",
-        "apple:al:1479397582",
         "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1490256978",
+        "apple:al:1459216693",
         "apple:al:1445145788",
         "apple:al:1518843994",
         "apple:al:1451566360",
         "apple:al:1564752132",
-        "apple:al:1534620182",
-        "apple:al:1496731153"
+        "apple:al:1496731153",
+        "apple:al:1534620182"
       ],
       "title": "青春のエキサイトメント",
       "titleLatin": "Seishun no ekisaitomento",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Mr.Children",
+      "artistIds": [
+        "apple:ar:428909573"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e2/f5/31/e2f531ef-3d22-44f2-2f3c-7170725eec29/dj.mxqqwpdb.jpg/300x300bb.jpg",
+      "id": "apple:al:1374992793",
+      "latinSource": null,
+      "releaseDate": "2008-09-03",
+      "similar": [
+        "apple:al:279691838",
+        "apple:al:1485857244",
+        "apple:al:1838917127",
+        "apple:al:1451567083",
+        "apple:al:604748196",
+        "apple:al:273169161",
+        "apple:al:1884257488",
+        "apple:al:1840081735",
+        "apple:al:1261937427",
+        "apple:al:1471459431"
+      ],
+      "title": "Mr.Children 2005 - 2010 <macro>",
+      "titleLatin": null,
       "type": "album"
     },
     {
@@ -43,8 +93,8 @@
         "apple:al:273169161",
         "apple:al:1840081735",
         "apple:al:1884257488",
-        "apple:al:1874221478",
-        "apple:al:1585848047"
+        "apple:al:1261937427",
+        "apple:al:1471459431"
       ],
       "title": "SUPERMARKET FANTASY",
       "titleLatin": null,
@@ -60,20 +110,45 @@
       "latinSource": "cutlet",
       "releaseDate": "2018-04-11",
       "similar": [
-        "apple:al:1706831732",
         "apple:al:1518843994",
-        "apple:al:1408505088",
+        "apple:al:1706831732",
         "apple:al:1446781785",
+        "apple:al:1445145788",
+        "apple:al:1542182291",
         "apple:al:1456062834",
-        "apple:al:1490256978",
         "apple:al:1534620182",
-        "apple:al:1538265733",
-        "apple:al:1496731153",
-        "apple:al:1468137281"
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153"
       ],
       "title": "エスカパレード",
       "titleLatin": "Esukapareedo",
       "type": "album"
+    },
+    {
+      "artistDisplay": "あいみょん",
+      "artistIds": [
+        "apple:ar:1165017710"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/67/34/90/67349087-0609-2be4-4963-fd4682ae8c46/190295600341.jpg/300x300bb.jpg",
+      "id": "apple:al:1402042886",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-07-18",
+      "similar": [
+        "apple:al:1408505088",
+        "apple:al:1456062834",
+        "apple:al:1706831732",
+        "apple:al:1518843994",
+        "apple:al:1394013451",
+        "apple:al:1542182291",
+        "apple:al:1534620182",
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153"
+      ],
+      "title": "マリーゴールド - Single",
+      "titleLatin": "Mariigoorudo",
+      "type": "single"
     },
     {
       "artistDisplay": "Mrs. GREEN APPLE",
@@ -85,16 +160,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2018-08-01",
       "similar": [
-        "apple:al:1706831732",
-        "apple:al:1446781785",
-        "apple:al:1394013451",
+        "apple:al:1402042886",
         "apple:al:1456062834",
+        "apple:al:1706831732",
         "apple:al:1518843994",
-        "apple:al:1490256978",
+        "apple:al:1394013451",
+        "apple:al:1542182291",
         "apple:al:1534620182",
-        "apple:al:1496731153",
-        "apple:al:1538265733",
-        "apple:al:1468137281"
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153"
       ],
       "title": "青と夏 - EP",
       "titleLatin": "Ao to natsu",
@@ -110,13 +185,13 @@
       "latinSource": "cutlet",
       "releaseDate": "2018-10-25",
       "similar": [
-        "apple:al:1468137281",
-        "apple:al:1479397582",
         "apple:al:1496731153",
         "apple:al:1538265733",
         "apple:al:1528119626",
         "apple:al:1471459431",
+        "apple:al:1468137281",
         "apple:al:1534620182",
+        "apple:al:1459216693",
         "apple:al:1518843994",
         "apple:al:1706831732",
         "apple:al:1456062834"
@@ -138,13 +213,13 @@
         "apple:al:1440763349",
         "apple:al:949250891",
         "apple:al:273169161",
-        "apple:al:1860538546",
-        "apple:al:1771366340",
-        "apple:al:1691229798",
+        "apple:al:1627629613",
         "apple:al:1490256978",
         "apple:al:1534620182",
         "apple:al:6774039193",
-        "apple:al:1273709789"
+        "apple:al:1273709789",
+        "apple:al:1860538546",
+        "apple:al:1795905599"
       ],
       "title": "インディゴ地平線",
       "titleLatin": "Indigo chiheisen",
@@ -163,13 +238,13 @@
         "apple:al:949250891",
         "apple:al:273169161",
         "apple:al:1440746376",
-        "apple:al:1795905599",
         "apple:al:1826924327",
         "apple:al:1648411350",
-        "apple:al:1490256978",
-        "apple:al:1648108987",
-        "apple:al:1860538546",
-        "apple:al:1892738151"
+        "apple:al:1542182291",
+        "apple:al:1771366340",
+        "apple:al:6817316270",
+        "apple:al:1795905599",
+        "apple:al:1860538546"
       ],
       "title": "First Love (2014 Remastered Album)",
       "titleLatin": null,
@@ -185,15 +260,15 @@
       "latinSource": "cutlet",
       "releaseDate": "2018-12-26",
       "similar": [
-        "apple:al:1518843994",
         "apple:al:1459216693",
-        "apple:al:1490256978",
-        "apple:al:1534620182",
-        "apple:al:1273709789",
+        "apple:al:1542182291",
+        "apple:al:1518843994",
         "apple:al:1706831732",
-        "apple:al:1496731153",
-        "apple:al:1538265733",
+        "apple:al:1534620182",
+        "apple:al:1446781785",
         "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153",
         "apple:al:1456062834"
       ],
       "title": "僕のこと - EP",
@@ -210,16 +285,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2018-07-18",
       "similar": [
-        "apple:al:1456062834",
         "apple:al:1408505088",
         "apple:al:1706831732",
-        "apple:al:1394013451",
         "apple:al:1518843994",
-        "apple:al:1490256978",
+        "apple:al:1394013451",
+        "apple:al:1456062834",
+        "apple:al:1542182291",
         "apple:al:1534620182",
-        "apple:al:1538265733",
-        "apple:al:1496731153",
-        "apple:al:1468137281"
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153"
       ],
       "title": "瞬間的シックスセンス",
       "titleLatin": "Shunkanteki shikkusu sensu",
@@ -235,16 +310,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2015-01-21",
       "similar": [
-        "apple:al:604748196",
         "apple:al:1518843994",
+        "apple:al:604748196",
         "apple:al:1273709789",
-        "apple:al:1408505088",
         "apple:al:1706831732",
         "apple:al:1394013451",
+        "apple:al:1408505088",
         "apple:al:1838917127",
-        "apple:al:1490256978",
+        "apple:al:1542182291",
         "apple:al:1534620182",
-        "apple:al:1496731153"
+        "apple:al:1468137281"
       ],
       "title": "ヒロイン - EP",
       "titleLatin": "Hiroin",
@@ -267,9 +342,9 @@
         "apple:al:1485857244",
         "apple:al:1375007287",
         "apple:al:279691838",
-        "apple:al:1892738151",
-        "apple:al:1648108987",
-        "apple:al:1445145788"
+        "apple:al:1459216693",
+        "apple:al:1445145788",
+        "apple:al:1892738151"
       ],
       "title": "わたがし - EP",
       "titleLatin": "Watagashi",
@@ -285,14 +360,14 @@
       "latinSource": "cutlet",
       "releaseDate": "2016-11-16",
       "similar": [
-        "apple:al:1446781785",
+        "apple:al:1402042886",
         "apple:al:1408505088",
-        "apple:al:1394013451",
         "apple:al:1518843994",
-        "apple:al:1538265733",
+        "apple:al:1394013451",
+        "apple:al:1537460610",
         "apple:al:1706829225",
         "apple:al:604748196",
-        "apple:al:1490256978",
+        "apple:al:1542182291",
         "apple:al:1534620182",
         "apple:al:1564752132"
       ],
@@ -311,15 +386,15 @@
       "releaseDate": "2013-06-26",
       "similar": [
         "apple:al:604748196",
-        "apple:al:1446781785",
+        "apple:al:1402042886",
         "apple:al:1408505088",
+        "apple:al:1518843994",
         "apple:al:1394013451",
         "apple:al:1838917127",
-        "apple:al:1518843994",
-        "apple:al:1538265733",
+        "apple:al:1537460610",
         "apple:al:1375007287",
         "apple:al:279691838",
-        "apple:al:6803798492"
+        "apple:al:6799944399"
       ],
       "title": "ラブストーリー",
       "titleLatin": "Rabu sutoorii",
@@ -341,10 +416,10 @@
         "apple:al:1485857244",
         "apple:al:1375007287",
         "apple:al:279691838",
-        "apple:al:6799944399",
-        "apple:al:1837658528",
+        "apple:al:1846753945",
         "apple:al:1894837142",
-        "apple:al:1846753945"
+        "apple:al:1823814178",
+        "apple:al:1706829225"
       ],
       "title": "スーパースター",
       "titleLatin": "Suupaasutaa",
@@ -360,16 +435,16 @@
       "latinSource": null,
       "releaseDate": "2019-02-19",
       "similar": [
-        "apple:al:1446781785",
+        "apple:al:1402042886",
+        "apple:al:1706829225",
         "apple:al:1408505088",
-        "apple:al:1706831732",
         "apple:al:1394013451",
-        "apple:al:1490256978",
+        "apple:al:1542182291",
         "apple:al:1534620182",
         "apple:al:1564752132",
-        "apple:al:1538265733",
-        "apple:al:1496731153",
-        "apple:al:1468137281"
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153"
       ],
       "title": "MAGIC",
       "titleLatin": null,
@@ -386,15 +461,15 @@
       "releaseDate": "2019-04-17",
       "similar": [
         "apple:al:1445145788",
-        "apple:al:1706831732",
+        "apple:al:1542182291",
         "apple:al:1579439167",
-        "apple:al:1490256978",
+        "apple:al:1706831732",
         "apple:al:1534620182",
         "apple:al:1273709789",
         "apple:al:1564752132",
-        "apple:al:1496731153",
-        "apple:al:1538265733",
-        "apple:al:1468137281"
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153"
       ],
       "title": "Pretender - Single",
       "titleLatin": null,
@@ -408,17 +483,17 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/22/41/38/2241383b-a391-c2a5-509d-a78afff55279/190295402242.jpg/300x300bb.jpg",
       "id": "apple:al:1468137281",
       "latinSource": null,
-      "releaseDate": "2019-08-07",
+      "releaseDate": "2019-07-19",
       "similar": [
-        "apple:al:1566811794",
-        "apple:al:1479397582",
-        "apple:al:1538265733",
-        "apple:al:1438144187",
-        "apple:al:1496731153",
-        "apple:al:1528119626",
         "apple:al:1564752132",
+        "apple:al:1537460610",
+        "apple:al:1273709789",
+        "apple:al:1528119626",
+        "apple:al:1496731153",
         "apple:al:1534620182",
-        "apple:al:1471459431",
+        "apple:al:1566811794",
+        "apple:al:1459216693",
+        "apple:al:1445145788",
         "apple:al:1706831732"
       ],
       "title": "Never Grow Up",
@@ -435,15 +510,15 @@
       "latinSource": "cutlet",
       "releaseDate": "2019-07-18",
       "similar": [
+        "apple:al:1261937427",
         "apple:al:1585848047",
-        "apple:al:1438144187",
         "apple:al:1566811794",
-        "apple:al:1479397582",
+        "apple:al:1748185853",
         "apple:al:1496731153",
         "apple:al:1538265733",
         "apple:al:1528119626",
-        "apple:al:1564752132",
         "apple:al:1534620182",
+        "apple:al:1459216693",
         "apple:al:1706831732"
       ],
       "title": "インフェルノ - Single",
@@ -458,18 +533,18 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/9c/7d/88/9c7d883d-4477-bf68-f56f-a726030a63a2/PCCA_04822.jpg/300x300bb.jpg",
       "id": "apple:al:1479397582",
       "latinSource": null,
-      "releaseDate": "2019-09-11",
+      "releaseDate": "2019-04-17",
       "similar": [
-        "apple:al:1468137281",
-        "apple:al:1538265733",
-        "apple:al:1496731153",
-        "apple:al:1566811794",
-        "apple:al:1528119626",
-        "apple:al:1438144187",
-        "apple:al:1564752132",
+        "apple:al:1445145788",
+        "apple:al:1579439167",
+        "apple:al:1706831732",
+        "apple:al:1542182291",
+        "apple:al:1446781785",
         "apple:al:1534620182",
-        "apple:al:1471459431",
-        "apple:al:1706831732"
+        "apple:al:1564752132",
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153"
       ],
       "title": "Traveler",
       "titleLatin": null,
@@ -489,12 +564,12 @@
         "apple:al:279691838",
         "apple:al:1451567083",
         "apple:al:1838917127",
-        "apple:al:1479397582",
+        "apple:al:6798303682",
+        "apple:al:1748185853",
         "apple:al:949250891",
-        "apple:al:1468137281",
+        "apple:al:1585848047",
         "apple:al:1496731153",
-        "apple:al:1538265733",
-        "apple:al:1623304208"
+        "apple:al:1538265733"
       ],
       "title": "Love so sweet - Single",
       "titleLatin": null,
@@ -513,12 +588,12 @@
         "apple:al:1534620182",
         "apple:al:1273709789",
         "apple:al:1564752132",
-        "apple:al:1445145788",
-        "apple:al:1496731153",
-        "apple:al:1538265733",
-        "apple:al:1479397582",
         "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153",
         "apple:al:1566811794",
+        "apple:al:1459216693",
+        "apple:al:1445145788",
         "apple:al:1706831732"
       ],
       "title": "夜に駆ける - Single",
@@ -536,14 +611,14 @@
       "releaseDate": "2020-02-07",
       "similar": [
         "apple:al:1538265733",
-        "apple:al:1623304208",
+        "apple:al:1748185853",
         "apple:al:1528119626",
-        "apple:al:1479397582",
-        "apple:al:1564752132",
-        "apple:al:1468137281",
         "apple:al:1566811794",
-        "apple:al:1534620182",
+        "apple:al:1468137281",
+        "apple:al:1623304208",
         "apple:al:1438144187",
+        "apple:al:1534620182",
+        "apple:al:1459216693",
         "apple:al:1706831732"
       ],
       "title": "恋人ごっこ - Single",
@@ -560,14 +635,14 @@
       "latinSource": "cutlet",
       "releaseDate": "2016-11-23",
       "similar": [
-        "apple:al:1445145788",
         "apple:al:1394013451",
-        "apple:al:1273709789",
         "apple:al:1451566360",
-        "apple:al:1538265733",
+        "apple:al:1446781785",
+        "apple:al:1445145788",
+        "apple:al:1537460610",
         "apple:al:1706831732",
         "apple:al:604748196",
-        "apple:al:1490256978",
+        "apple:al:1542182291",
         "apple:al:1534620182",
         "apple:al:1564752132"
       ],
@@ -585,15 +660,15 @@
       "latinSource": "cutlet",
       "releaseDate": "2020-09-01",
       "similar": [
-        "apple:al:1623304208",
+        "apple:al:1537460610",
         "apple:al:1496731153",
-        "apple:al:1538265733",
-        "apple:al:1564752132",
-        "apple:al:1479397582",
-        "apple:al:1534620182",
         "apple:al:1468137281",
+        "apple:al:1564752132",
         "apple:al:1566811794",
+        "apple:al:1623304208",
+        "apple:al:1534620182",
         "apple:al:1438144187",
+        "apple:al:1459216693",
         "apple:al:1706831732"
       ],
       "title": "群青 - Single",
@@ -610,19 +685,44 @@
       "latinSource": "cutlet",
       "releaseDate": "2020-10-25",
       "similar": [
-        "apple:al:1564752132",
         "apple:al:1490256978",
         "apple:al:1627629613",
         "apple:al:1648411350",
-        "apple:al:1496731153",
-        "apple:al:1538265733",
-        "apple:al:1479397582",
+        "apple:al:1564752132",
         "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153",
+        "apple:al:1459216693",
         "apple:al:1438144187",
         "apple:al:1706831732"
       ],
       "title": "ドライフラワー - Single",
       "titleLatin": "Dorai furawaa",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/86/b0/9d/86b09d63-367a-563a-1e24-d5d62c220ac8/jacket_SRCL09749B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537460610",
+      "latinSource": null,
+      "releaseDate": "2018-02-12",
+      "similar": [
+        "apple:al:1468137281",
+        "apple:al:1528119626",
+        "apple:al:1273709789",
+        "apple:al:1496731153",
+        "apple:al:1534620182",
+        "apple:al:1459216693",
+        "apple:al:1445145788",
+        "apple:al:1518843994",
+        "apple:al:1706831732",
+        "apple:al:1456062834"
+      ],
+      "title": "Lemon - Single",
+      "titleLatin": null,
       "type": "single"
     },
     {
@@ -637,16 +737,41 @@
       "similar": [
         "apple:al:1496731153",
         "apple:al:1528119626",
-        "apple:al:1479397582",
+        "apple:al:6798303682",
         "apple:al:1468137281",
-        "apple:al:1273709789",
         "apple:al:1534620182",
-        "apple:al:1445145788",
+        "apple:al:1471459431",
+        "apple:al:1459216693",
         "apple:al:1518843994",
         "apple:al:1706831732",
         "apple:al:1456062834"
       ],
       "title": "STRAY SHEEP",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7f/8c/90/7f8c90dd-e11f-30d5-271d-4b72eee970bd/195497666737.jpg/300x300bb.jpg",
+      "id": "apple:al:1542182291",
+      "latinSource": null,
+      "releaseDate": "2019-12-15",
+      "similar": [
+        "apple:al:1459216693",
+        "apple:al:1445145788",
+        "apple:al:1534620182",
+        "apple:al:1273709789",
+        "apple:al:1564752132",
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1579439167",
+        "apple:al:1496731153",
+        "apple:al:1706831732"
+      ],
+      "title": "THE BOOK",
       "titleLatin": null,
       "type": "album"
     },
@@ -660,16 +785,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2021-05-21",
       "similar": [
-        "apple:al:1627629613",
-        "apple:al:1528119626",
-        "apple:al:1534620182",
-        "apple:al:1496731153",
-        "apple:al:1479397582",
-        "apple:al:1648411350",
         "apple:al:1468137281",
+        "apple:al:1528119626",
+        "apple:al:1623304208",
+        "apple:al:1496731153",
+        "apple:al:1534620182",
+        "apple:al:1566811794",
+        "apple:al:1459216693",
         "apple:al:1706831732",
         "apple:al:1273709789",
-        "apple:al:6774039193"
+        "apple:al:1537460610"
       ],
       "title": "きらり - Single",
       "titleLatin": "Kirari",
@@ -685,16 +810,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2021-05-24",
       "similar": [
-        "apple:al:1468137281",
-        "apple:al:1479397582",
+        "apple:al:1748185853",
+        "apple:al:1585848047",
         "apple:al:1496731153",
-        "apple:al:1623304208",
         "apple:al:1528119626",
-        "apple:al:1564752132",
+        "apple:al:1623304208",
         "apple:al:1534620182",
+        "apple:al:1459216693",
         "apple:al:1706831732",
-        "apple:al:1821087726",
-        "apple:al:1438144187"
+        "apple:al:6798303682",
+        "apple:al:1538265733"
       ],
       "title": "怪盗 - Single",
       "titleLatin": "Kaitou",
@@ -711,14 +836,14 @@
       "releaseDate": "2021-08-13",
       "similar": [
         "apple:al:1706831732",
-        "apple:al:1648865573",
-        "apple:al:1459216693",
-        "apple:al:1490256978",
+        "apple:al:1691229798",
+        "apple:al:1479397582",
+        "apple:al:1542182291",
         "apple:al:1534620182",
         "apple:al:1564752132",
-        "apple:al:1496731153",
         "apple:al:1468137281",
-        "apple:al:1794066812",
+        "apple:al:1496731153",
+        "apple:al:1518843994",
         "apple:al:6793888333"
       ],
       "title": "水平線 - Single",
@@ -736,19 +861,44 @@
       "releaseDate": "2021-09-24",
       "similar": [
         "apple:al:1566811794",
-        "apple:al:1479397582",
+        "apple:al:1748185853",
         "apple:al:1496731153",
-        "apple:al:1471459431",
         "apple:al:1528119626",
-        "apple:al:1564752132",
+        "apple:al:1623304208",
         "apple:al:1534620182",
+        "apple:al:1459216693",
         "apple:al:1706831732",
-        "apple:al:6792947885",
-        "apple:al:1438144187"
+        "apple:al:6798303682",
+        "apple:al:1821087726"
       ],
       "title": "ハレンチ",
       "titleLatin": "Harenchi",
       "type": "album"
+    },
+    {
+      "artistDisplay": "スピッツ",
+      "artistIds": [
+        "apple:ar:74456960"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/74/5c/75/745c75db-3b85-5d91-bde4-2492fc7a1eab/22UMGIM21227.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1612704963",
+      "latinSource": null,
+      "releaseDate": "1996-01-01",
+      "similar": [
+        "apple:al:949250891",
+        "apple:al:1440763349",
+        "apple:al:273169161",
+        "apple:al:6774039193",
+        "apple:al:1273709789",
+        "apple:al:1564752132",
+        "apple:al:1468137281",
+        "apple:al:1623304208",
+        "apple:al:1807959955",
+        "apple:al:1528119626"
+      ],
+      "title": "TOKYO - SAKURA -",
+      "titleLatin": null,
+      "type": "compilation"
     },
     {
       "artistDisplay": "Mrs. GREEN APPLE",
@@ -760,15 +910,15 @@
       "latinSource": "cutlet",
       "releaseDate": "2022-05-24",
       "similar": [
-        "apple:al:1496731153",
-        "apple:al:1528119626",
-        "apple:al:1733129984",
         "apple:al:1534620182",
-        "apple:al:1566811794",
+        "apple:al:1564752132",
         "apple:al:1771366340",
+        "apple:al:1528119626",
+        "apple:al:1648411350",
+        "apple:al:1496731153",
         "apple:al:1585848047",
         "apple:al:1648108987",
-        "apple:al:1538265733",
+        "apple:al:6774039193",
         "apple:al:1273709789"
       ],
       "title": "ダンスホール - Single",
@@ -785,20 +935,70 @@
       "latinSource": null,
       "releaseDate": "2022-06-15",
       "similar": [
-        "apple:al:1733129984",
+        "apple:al:1534620182",
+        "apple:al:1564752132",
+        "apple:al:1771366340",
+        "apple:al:1648411350",
         "apple:al:1528119626",
         "apple:al:1496731153",
-        "apple:al:1534620182",
-        "apple:al:1771366340",
-        "apple:al:1566811794",
         "apple:al:1585848047",
         "apple:al:1648108987",
-        "apple:al:1273709789",
-        "apple:al:1538265733"
+        "apple:al:6774039193",
+        "apple:al:1273709789"
       ],
       "title": "Unity - EP",
       "titleLatin": null,
       "type": "ep"
+    },
+    {
+      "artistDisplay": "back number",
+      "artistIds": [
+        "apple:ar:302361237"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/c1/f4/91/c1f491e6-c2ac-8a88-5d50-8dad4d89f3ac/22UMGIM87627.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1638977725",
+      "latinSource": null,
+      "releaseDate": "2020-08-18",
+      "similar": [
+        "apple:al:1446781785",
+        "apple:al:1648865573",
+        "apple:al:1706831732",
+        "apple:al:1394013451",
+        "apple:al:1542182291",
+        "apple:al:1534620182",
+        "apple:al:1564752132",
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153"
+      ],
+      "title": "TOKYO - NIGHT DIVE -",
+      "titleLatin": null,
+      "type": "compilation"
+    },
+    {
+      "artistDisplay": "back number",
+      "artistIds": [
+        "apple:ar:302361237"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/02/c8/d6/02c8d65e-8def-94c4-371f-99c7ac99c77d/22UMGIM77641.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1639449124",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-08-26",
+      "similar": [
+        "apple:al:1585848047",
+        "apple:al:1748185853",
+        "apple:al:1496731153",
+        "apple:al:1528119626",
+        "apple:al:1623304208",
+        "apple:al:1534620182",
+        "apple:al:1771366340",
+        "apple:al:1648108987",
+        "apple:al:1884257488",
+        "apple:al:6793456209"
+      ],
+      "title": "ベルベットの詩 - Single",
+      "titleLatin": "Berubetto no shi",
+      "type": "single"
     },
     {
       "artistDisplay": "Official髭男dism",
@@ -811,14 +1011,14 @@
       "releaseDate": "2022-10-12",
       "similar": [
         "apple:al:1681600496",
-        "apple:al:1648411350",
+        "apple:al:1579439167",
         "apple:al:1771366340",
         "apple:al:1534620182",
         "apple:al:1564752132",
         "apple:al:1528119626",
         "apple:al:1496731153",
         "apple:al:1585848047",
-        "apple:al:1892738151",
+        "apple:al:6789046108",
         "apple:al:1879524863"
       ],
       "title": "Subtitle - Single",
@@ -837,9 +1037,9 @@
       "similar": [
         "apple:al:1771366340",
         "apple:al:1534620182",
-        "apple:al:1691229798",
-        "apple:al:1564752132",
+        "apple:al:1627629613",
         "apple:al:1648108987",
+        "apple:al:1564752132",
         "apple:al:1528119626",
         "apple:al:1496731153",
         "apple:al:1585848047",
@@ -860,16 +1060,16 @@
       "latinSource": null,
       "releaseDate": "2022-10-18",
       "similar": [
-        "apple:al:1579439167",
         "apple:al:1706831732",
+        "apple:al:1579439167",
         "apple:al:1648108987",
         "apple:al:1534620182",
         "apple:al:1564752132",
         "apple:al:1528119626",
         "apple:al:1496731153",
         "apple:al:1585848047",
-        "apple:al:1894988524",
-        "apple:al:1794066812"
+        "apple:al:1446781785",
+        "apple:al:1821849174"
       ],
       "title": "Soranji - Single",
       "titleLatin": null,
@@ -887,13 +1087,13 @@
       "similar": [
         "apple:al:1803063207",
         "apple:al:1648108987",
-        "apple:al:1794066812",
         "apple:al:1579439167",
-        "apple:al:1795905599",
         "apple:al:1771366340",
+        "apple:al:1795905599",
+        "apple:al:1794066812",
         "apple:al:1564752132",
-        "apple:al:1837658528",
-        "apple:al:1846753945",
+        "apple:al:1807959955",
+        "apple:al:1585848047",
         "apple:al:1821087726"
       ],
       "title": "ケセラセラ - Single",
@@ -908,18 +1108,18 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a4/ad/58/a4ad5816-0612-60d0-3ea2-917bea2e9c8e/23UMGIM61979.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1691229798",
       "latinSource": null,
-      "releaseDate": "2023-06-14",
+      "releaseDate": "2023-04-25",
       "similar": [
-        "apple:al:1771366340",
-        "apple:al:1564752132",
-        "apple:al:1648411350",
-        "apple:al:1795905599",
-        "apple:al:1648108987",
-        "apple:al:1821087726",
-        "apple:al:1585848047",
         "apple:al:1803063207",
-        "apple:al:1840081735",
-        "apple:al:1794066812"
+        "apple:al:1579439167",
+        "apple:al:1648108987",
+        "apple:al:1794066812",
+        "apple:al:1771366340",
+        "apple:al:1795905599",
+        "apple:al:1564752132",
+        "apple:al:1807959955",
+        "apple:al:1837658528",
+        "apple:al:1585848047"
       ],
       "title": "ANTENNA",
       "titleLatin": null,
@@ -937,14 +1137,14 @@
       "similar": [
         "apple:al:1456062834",
         "apple:al:1648865573",
-        "apple:al:1459216693",
-        "apple:al:1490256978",
+        "apple:al:1479397582",
+        "apple:al:1542182291",
         "apple:al:1534620182",
         "apple:al:1564752132",
-        "apple:al:1496731153",
         "apple:al:1468137281",
-        "apple:al:6803148720",
-        "apple:al:6782749976"
+        "apple:al:1496731153",
+        "apple:al:1894837142",
+        "apple:al:1837658528"
       ],
       "title": "しわあわせ - Single",
       "titleLatin": "Shiwaawase",
@@ -960,20 +1160,70 @@
       "latinSource": null,
       "releaseDate": "2020-05-11",
       "similar": [
-        "apple:al:1579439167",
-        "apple:al:1648865573",
         "apple:al:1394013451",
+        "apple:al:1579439167",
         "apple:al:1446781785",
-        "apple:al:1490256978",
+        "apple:al:1648865573",
+        "apple:al:1542182291",
         "apple:al:1534620182",
         "apple:al:1564752132",
-        "apple:al:1538265733",
-        "apple:al:1496731153",
-        "apple:al:1468137281"
+        "apple:al:1468137281",
+        "apple:al:1537460610",
+        "apple:al:1496731153"
       ],
       "title": "strobo",
       "titleLatin": null,
       "type": "album"
+    },
+    {
+      "artistDisplay": "Vaundy",
+      "artistIds": [
+        "apple:ar:1487570516"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/8a/eb/75/8aeb7526-6fe4-a81a-5dce-c5d026e7f036/4547366655728.jpg/300x300bb.jpg",
+      "id": "apple:al:1714599649",
+      "latinSource": null,
+      "releaseDate": "2021-04-11",
+      "similar": [
+        "apple:al:1456062834",
+        "apple:al:1648865573",
+        "apple:al:1479397582",
+        "apple:al:1542182291",
+        "apple:al:1534620182",
+        "apple:al:1564752132",
+        "apple:al:1468137281",
+        "apple:al:1496731153",
+        "apple:al:6782749976",
+        "apple:al:6817260750"
+      ],
+      "title": "replica",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "back number",
+      "artistIds": [
+        "apple:ar:302361237"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/63/57/01/63570172-7bdb-c12b-188e-d064ed3952ef/23UM1IM63739.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1720021197",
+      "latinSource": null,
+      "releaseDate": "2015-01-21",
+      "similar": [
+        "apple:al:1518843994",
+        "apple:al:604748196",
+        "apple:al:1273709789",
+        "apple:al:1408505088",
+        "apple:al:1706831732",
+        "apple:al:1394013451",
+        "apple:al:1838917127",
+        "apple:al:1542182291",
+        "apple:al:1534620182",
+        "apple:al:1468137281"
+      ],
+      "title": "TOKYO - WINTER MAGIC",
+      "titleLatin": null,
+      "type": "compilation"
     },
     {
       "artistDisplay": "藤井 風",
@@ -985,16 +1235,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2024-03-15",
       "similar": [
-        "apple:al:1627629613",
+        "apple:al:1807959955",
         "apple:al:6774039193",
-        "apple:al:1771366340",
-        "apple:al:1860538546",
+        "apple:al:1623304208",
         "apple:al:1821087726",
-        "apple:al:1648411350",
+        "apple:al:1860538546",
         "apple:al:1795905599",
+        "apple:al:1771366340",
+        "apple:al:1874221478",
         "apple:al:6792947885",
-        "apple:al:1648108987",
-        "apple:al:1892738151"
+        "apple:al:1648411350"
       ],
       "title": "満ちてゆく - Single",
       "titleLatin": "Michite yuku",
@@ -1010,20 +1260,45 @@
       "latinSource": "cutlet",
       "releaseDate": "2024-04-12",
       "similar": [
-        "apple:al:1846753945",
-        "apple:al:1837658528",
-        "apple:al:6803148720",
-        "apple:al:1894837142",
         "apple:al:6799944399",
-        "apple:al:6817260750",
-        "apple:al:6785734869",
+        "apple:al:6820428726",
+        "apple:al:1837658528",
+        "apple:al:1869537741",
+        "apple:al:1894837142",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6815505067",
+        "apple:al:6785734869",
+        "apple:al:6803148720"
       ],
       "title": "ライラック - Single",
       "titleLatin": "Rairakku",
       "type": "single"
+    },
+    {
+      "artistDisplay": "藤井 風",
+      "artistIds": [
+        "apple:ar:1486113150"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/76/34/52/763452e5-60b7-c714-7dff-6869ccbd0d5b/24UMGIM58793.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1748185853",
+      "latinSource": null,
+      "releaseDate": "2021-05-21",
+      "similar": [
+        "apple:al:1566811794",
+        "apple:al:1496731153",
+        "apple:al:1585848047",
+        "apple:al:1528119626",
+        "apple:al:1623304208",
+        "apple:al:1534620182",
+        "apple:al:1459216693",
+        "apple:al:1706831732",
+        "apple:al:1538265733",
+        "apple:al:6798303682"
+      ],
+      "title": "Best of Fujii Kaze 2020-2024",
+      "titleLatin": null,
+      "type": "album"
     },
     {
       "artistDisplay": "Vaundy",
@@ -1035,16 +1310,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2024-10-12",
       "similar": [
-        "apple:al:1860538546",
-        "apple:al:1691229798",
-        "apple:al:6774039193",
-        "apple:al:1648411350",
-        "apple:al:1733129984",
         "apple:al:1795905599",
-        "apple:al:1648108987",
+        "apple:al:1860538546",
+        "apple:al:1648411350",
+        "apple:al:1826924327",
+        "apple:al:6817316270",
+        "apple:al:6774039193",
         "apple:al:1892738151",
-        "apple:al:1821087726",
-        "apple:al:1879524863"
+        "apple:al:1879524863",
+        "apple:al:1733129984",
+        "apple:al:1648108987"
       ],
       "title": "風神 - Single",
       "titleLatin": "Fuujin",
@@ -1060,16 +1335,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2025-01-20",
       "similar": [
+        "apple:al:6817316270",
+        "apple:al:1892738151",
+        "apple:al:1879524863",
+        "apple:al:6789046108",
+        "apple:al:1771366340",
+        "apple:al:1803063207",
         "apple:al:1795905599",
         "apple:al:1860538546",
-        "apple:al:1771366340",
-        "apple:al:6774039193",
-        "apple:al:1892738151",
-        "apple:al:1733129984",
-        "apple:al:1879524863",
-        "apple:al:6815505067",
-        "apple:al:6789046108",
-        "apple:al:1803063207"
+        "apple:al:6817668875",
+        "apple:al:6774039193"
       ],
       "title": "ダーリン - EP",
       "titleLatin": "Daarin",
@@ -1085,16 +1360,16 @@
       "latinSource": "manual",
       "releaseDate": "2025-02-10",
       "similar": [
-        "apple:al:6793888333",
+        "apple:al:1841344389",
+        "apple:al:1821849174",
         "apple:al:1894988524",
-        "apple:al:1803063207",
-        "apple:al:1891943324",
-        "apple:al:1808852878",
-        "apple:al:1879524863",
-        "apple:al:6815505067",
-        "apple:al:1892738151",
+        "apple:al:6793888333",
         "apple:al:6785734869",
-        "apple:al:1795905599"
+        "apple:al:6815505067",
+        "apple:al:6817668875",
+        "apple:al:1808852878",
+        "apple:al:6820428726",
+        "apple:al:6799944399"
       ],
       "title": "とくべチュ、して - Single",
       "titleLatin": "Tokubechu, shite",
@@ -1110,16 +1385,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2025-02-20",
       "similar": [
-        "apple:al:1790599503",
         "apple:al:1860538546",
         "apple:al:1771366340",
+        "apple:al:1826924327",
+        "apple:al:6817316270",
         "apple:al:6774039193",
         "apple:al:1892738151",
         "apple:al:1879524863",
-        "apple:al:6815505067",
         "apple:al:1733129984",
-        "apple:al:6789046108",
-        "apple:al:1803063207"
+        "apple:al:1807959955",
+        "apple:al:6789046108"
       ],
       "title": "怪獣 - Single",
       "titleLatin": "Kaijuu",
@@ -1138,16 +1413,41 @@
         "apple:al:1681600496",
         "apple:al:6789046108",
         "apple:al:1879524863",
-        "apple:al:6793888333",
-        "apple:al:6815505067",
-        "apple:al:1794066812",
         "apple:al:1892738151",
+        "apple:al:6817668875",
+        "apple:al:6817316270",
+        "apple:al:6793888333",
+        "apple:al:1771366340",
         "apple:al:1795905599",
-        "apple:al:1808852878",
         "apple:al:1860538546"
       ],
       "title": "ROSE - Single",
       "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "BE:FIRST",
+      "artistIds": [
+        "apple:ar:1579021180"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d8/ed/cc/d8edcca9-78f5-92ed-ff2f-145866ad2f51/ANTCD-A0000016484.jpg/300x300bb.jpg",
+      "id": "apple:al:1807959955",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-04-25",
+      "similar": [
+        "apple:al:1733129984",
+        "apple:al:6774039193",
+        "apple:al:1821087726",
+        "apple:al:1831207782",
+        "apple:al:1860538546",
+        "apple:al:1795905599",
+        "apple:al:1771366340",
+        "apple:al:1874221478",
+        "apple:al:6792947885",
+        "apple:al:6817316270"
+      ],
+      "title": "夢中 - Single",
+      "titleLatin": "Muchuu",
       "type": "single"
     },
     {
@@ -1160,16 +1460,16 @@
       "latinSource": null,
       "releaseDate": "2025-04-23",
       "similar": [
-        "apple:al:1874221478",
         "apple:al:6793456209",
         "apple:al:1840081735",
         "apple:al:6778272101",
         "apple:al:6776482572",
         "apple:al:6785411719",
-        "apple:al:1821087726",
+        "apple:al:1874221478",
         "apple:al:1831207782",
-        "apple:al:1733129984",
-        "apple:al:1771366340"
+        "apple:al:1821087726",
+        "apple:al:1807959955",
+        "apple:al:1733129984"
       ],
       "title": "ROSE - Single",
       "titleLatin": null,
@@ -1185,16 +1485,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2025-04-28",
       "similar": [
-        "apple:al:1841344389",
         "apple:al:6792630528",
-        "apple:al:1821849174",
+        "apple:al:6815505067",
+        "apple:al:1869537741",
+        "apple:al:6820428726",
         "apple:al:6785734869",
-        "apple:al:6803798492",
-        "apple:al:1837658528",
-        "apple:al:1894837142",
+        "apple:al:1739088465",
         "apple:al:6799944399",
-        "apple:al:6793888333",
-        "apple:al:6803148720"
+        "apple:al:1837658528",
+        "apple:al:1821849174",
+        "apple:al:1894837142"
       ],
       "title": "ブルーアンバー - Single",
       "titleLatin": "Buruu anbaa",
@@ -1211,15 +1511,15 @@
       "releaseDate": "2025-07-02",
       "similar": [
         "apple:al:1831207782",
+        "apple:al:1874221478",
         "apple:al:6792947885",
+        "apple:al:1807959955",
         "apple:al:1840081735",
         "apple:al:1733129984",
-        "apple:al:1874221478",
-        "apple:al:1771366340",
         "apple:al:6793456209",
-        "apple:al:1860538546",
         "apple:al:6778272101",
-        "apple:al:6776482572"
+        "apple:al:6776482572",
+        "apple:al:6785411719"
       ],
       "title": "革命道中 - On The Way - Single",
       "titleLatin": "Kakumei douchuu - On The Way",
@@ -1235,20 +1535,45 @@
       "latinSource": null,
       "releaseDate": "2025-07-14",
       "similar": [
-        "apple:al:1891943324",
-        "apple:al:6792630528",
-        "apple:al:1808852878",
-        "apple:al:1894988524",
+        "apple:al:1841344389",
+        "apple:al:1794066812",
         "apple:al:6785734869",
+        "apple:al:1894988524",
         "apple:al:6793888333",
-        "apple:al:1837658528",
-        "apple:al:1894837142",
-        "apple:al:6799944399",
-        "apple:al:1879524863"
+        "apple:al:6815505067",
+        "apple:al:1808852878",
+        "apple:al:6817668875",
+        "apple:al:6820428726",
+        "apple:al:6799944399"
       ],
       "title": "Blue Jeans - Single",
       "titleLatin": null,
       "type": "single"
+    },
+    {
+      "artistDisplay": "Mrs. GREEN APPLE",
+      "artistIds": [
+        "apple:ar:962221033"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/cc/26/a0cc2636-c5ce-3058-fe52-7b65b90e8ec1/25UMGIM77456.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1823814178",
+      "latinSource": null,
+      "releaseDate": "2024-04-12",
+      "similar": [
+        "apple:al:1846753945",
+        "apple:al:1894837142",
+        "apple:al:6803148720",
+        "apple:al:1837658528",
+        "apple:al:6817260750",
+        "apple:al:6799944399",
+        "apple:al:6820428726",
+        "apple:al:1808852878",
+        "apple:al:6792630528",
+        "apple:al:6815505067"
+      ],
+      "title": "10",
+      "titleLatin": null,
+      "type": "album"
     },
     {
       "artistDisplay": "Mrs. GREEN APPLE",
@@ -1260,12 +1585,12 @@
       "latinSource": null,
       "releaseDate": "2025-07-19",
       "similar": [
+        "apple:al:6817316270",
+        "apple:al:1771366340",
         "apple:al:1795905599",
+        "apple:al:1860538546",
         "apple:al:1892738151",
         "apple:al:1879524863",
-        "apple:al:6815505067",
-        "apple:al:1860538546",
-        "apple:al:1771366340",
         "apple:al:6789046108",
         "apple:al:1803063207",
         "apple:al:6774039193",
@@ -1286,15 +1611,15 @@
       "releaseDate": "2025-08-11",
       "similar": [
         "apple:al:1821087726",
+        "apple:al:1874221478",
         "apple:al:6792947885",
         "apple:al:1840081735",
+        "apple:al:1807959955",
         "apple:al:1733129984",
-        "apple:al:1874221478",
-        "apple:al:1771366340",
         "apple:al:6793456209",
-        "apple:al:1860538546",
         "apple:al:6778272101",
-        "apple:al:6776482572"
+        "apple:al:6776482572",
+        "apple:al:6785411719"
       ],
       "title": "夏の影 - Single",
       "titleLatin": "Natsu no kage",
@@ -1310,16 +1635,16 @@
       "latinSource": null,
       "releaseDate": "2025-09-15",
       "similar": [
-        "apple:al:1894837142",
         "apple:al:6799944399",
+        "apple:al:1739088465",
+        "apple:al:6820428726",
+        "apple:al:1894837142",
         "apple:al:1869537741",
-        "apple:al:1867354077",
-        "apple:al:6785734869",
-        "apple:al:6803148720",
-        "apple:al:6817260750",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6803148720",
+        "apple:al:6815505067",
+        "apple:al:6785734869"
       ],
       "title": "IRIS OUT - Single",
       "titleLatin": null,
@@ -1341,10 +1666,10 @@
         "apple:al:604748196",
         "apple:al:1485857244",
         "apple:al:1803063207",
+        "apple:al:1479397582",
         "apple:al:1681600496",
         "apple:al:6789046108",
-        "apple:al:1394013451",
-        "apple:al:1518843994"
+        "apple:al:6817668875"
       ],
       "title": "Nicheシンドローム",
       "titleLatin": "Niche shindoroomu",
@@ -1363,14 +1688,14 @@
       "similar": [
         "apple:al:1884257488",
         "apple:al:1874221478",
-        "apple:al:1821087726",
-        "apple:al:1831207782",
         "apple:al:6793456209",
+        "apple:al:1831207782",
+        "apple:al:1821087726",
         "apple:al:6778272101",
         "apple:al:6776482572",
         "apple:al:6785411719",
-        "apple:al:1733129984",
-        "apple:al:1771366340"
+        "apple:al:1807959955",
+        "apple:al:1733129984"
       ],
       "title": "JANE DOE - Single",
       "titleLatin": null,
@@ -1386,16 +1711,16 @@
       "latinSource": null,
       "releaseDate": "2025-09-28",
       "similar": [
-        "apple:al:6792630528",
-        "apple:al:1808852878",
         "apple:al:1821849174",
+        "apple:al:1794066812",
+        "apple:al:1894988524",
         "apple:al:6785734869",
-        "apple:al:6803798492",
-        "apple:al:1837658528",
-        "apple:al:1894837142",
-        "apple:al:6799944399",
         "apple:al:6793888333",
-        "apple:al:6803148720"
+        "apple:al:6815505067",
+        "apple:al:1808852878",
+        "apple:al:6817668875",
+        "apple:al:6820428726",
+        "apple:al:6799944399"
       ],
       "title": "GOOD DAY - Single",
       "titleLatin": null,
@@ -1411,16 +1736,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2025-10-27",
       "similar": [
-        "apple:al:1867354077",
-        "apple:al:1837658528",
+        "apple:al:1823814178",
         "apple:al:1894837142",
-        "apple:al:6799944399",
         "apple:al:6803148720",
+        "apple:al:1837658528",
+        "apple:al:6799944399",
         "apple:al:6817260750",
-        "apple:al:6785734869",
+        "apple:al:6820428726",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6815505067"
       ],
       "title": "好きすぎて滅! - Single",
       "titleLatin": "Suki sugite metsu!",
@@ -1436,15 +1761,15 @@
       "latinSource": null,
       "releaseDate": "2026-01-09",
       "similar": [
-        "apple:al:1771366340",
-        "apple:al:6774039193",
-        "apple:al:1790599503",
         "apple:al:1795905599",
-        "apple:al:1733129984",
+        "apple:al:1771366340",
+        "apple:al:1826924327",
+        "apple:al:6774039193",
+        "apple:al:6817316270",
         "apple:al:1892738151",
+        "apple:al:1733129984",
+        "apple:al:1807959955",
         "apple:al:1879524863",
-        "apple:al:6815505067",
-        "apple:al:1821087726",
         "apple:al:6789046108"
       ],
       "title": "AIZO - Single",
@@ -1461,16 +1786,16 @@
       "latinSource": null,
       "releaseDate": "2026-01-12",
       "similar": [
-        "apple:al:1846753945",
-        "apple:al:1837658528",
         "apple:al:1894837142",
+        "apple:al:1837658528",
+        "apple:al:1846753945",
         "apple:al:6799944399",
+        "apple:al:6820428726",
         "apple:al:6803148720",
-        "apple:al:6817260750",
-        "apple:al:6785734869",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6817260750",
+        "apple:al:6815505067"
       ],
       "title": "lulu. - Single",
       "titleLatin": null,
@@ -1486,15 +1811,15 @@
       "latinSource": "manual",
       "releaseDate": "2026-02-18",
       "similar": [
-        "apple:al:1894837142",
-        "apple:al:1837658528",
-        "apple:al:6799944399",
-        "apple:al:1867354077",
-        "apple:al:6785734869",
+        "apple:al:6820428726",
+        "apple:al:1739088465",
         "apple:al:1808852878",
+        "apple:al:6799944399",
+        "apple:al:1837658528",
         "apple:al:6792630528",
-        "apple:al:6803148720",
-        "apple:al:6817260750",
+        "apple:al:6815505067",
+        "apple:al:1894837142",
+        "apple:al:6785734869",
         "apple:al:1821849174"
       ],
       "title": "爆裂愛してる / 好きすぎて滅! - EP",
@@ -1511,16 +1836,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2026-02-17",
       "similar": [
-        "apple:al:1808822132",
+        "apple:al:6792947885",
+        "apple:al:1831207782",
+        "apple:al:1821087726",
+        "apple:al:1840081735",
         "apple:al:6793456209",
+        "apple:al:1807959955",
+        "apple:al:1733129984",
         "apple:al:6778272101",
         "apple:al:6776482572",
-        "apple:al:6785411719",
-        "apple:al:1840081735",
-        "apple:al:1821087726",
-        "apple:al:1831207782",
-        "apple:al:1733129984",
-        "apple:al:1771366340"
+        "apple:al:6785411719"
       ],
       "title": "劇薬中毒 - Single",
       "titleLatin": "Gekiyaku chuudoku",
@@ -1536,16 +1861,16 @@
       "latinSource": null,
       "releaseDate": "2026-03-04",
       "similar": [
-        "apple:al:6815505067",
         "apple:al:1892738151",
+        "apple:al:1790599503",
         "apple:al:6789046108",
+        "apple:al:6817316270",
         "apple:al:1803063207",
-        "apple:al:1826924327",
+        "apple:al:1771366340",
+        "apple:al:6817668875",
         "apple:al:1795905599",
-        "apple:al:6793888333",
-        "apple:al:1794066812",
         "apple:al:1860538546",
-        "apple:al:1771366340"
+        "apple:al:6793888333"
       ],
       "title": "Five - Single",
       "titleLatin": null,
@@ -1561,16 +1886,16 @@
       "latinSource": null,
       "releaseDate": "2026-03-27",
       "similar": [
-        "apple:al:1874221478",
-        "apple:al:1840081735",
         "apple:al:6793456209",
+        "apple:al:1840081735",
         "apple:al:6778272101",
         "apple:al:6776482572",
         "apple:al:6785411719",
-        "apple:al:1821087726",
+        "apple:al:1874221478",
         "apple:al:1831207782",
-        "apple:al:1733129984",
-        "apple:al:1771366340"
+        "apple:al:1821087726",
+        "apple:al:1807959955",
+        "apple:al:1733129984"
       ],
       "title": "Bad Girl - Single",
       "titleLatin": null,
@@ -1586,16 +1911,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2026-04-13",
       "similar": [
-        "apple:al:1821849174",
         "apple:al:1894988524",
-        "apple:al:6792630528",
-        "apple:al:1808852878",
         "apple:al:6793888333",
+        "apple:al:1794066812",
+        "apple:al:1821849174",
+        "apple:al:6817668875",
         "apple:al:6785734869",
-        "apple:al:1837658528",
-        "apple:al:1894837142",
-        "apple:al:6799944399",
-        "apple:al:1879524863"
+        "apple:al:6815505067",
+        "apple:al:1808852878",
+        "apple:al:1879524863",
+        "apple:al:1892738151"
       ],
       "title": "風と町 - Single",
       "titleLatin": "Kaze to machi",
@@ -1612,15 +1937,15 @@
       "releaseDate": "2026-04-22",
       "similar": [
         "apple:al:1879524863",
-        "apple:al:6815505067",
-        "apple:al:1826924327",
+        "apple:al:1790599503",
+        "apple:al:6817316270",
         "apple:al:6789046108",
         "apple:al:1803063207",
+        "apple:al:1771366340",
         "apple:al:1795905599",
-        "apple:al:6793888333",
-        "apple:al:1794066812",
         "apple:al:1860538546",
-        "apple:al:1771366340"
+        "apple:al:6817668875",
+        "apple:al:6774039193"
       ],
       "title": "BPM (feat. KREVA) - Single",
       "titleLatin": null,
@@ -1636,16 +1961,16 @@
       "latinSource": null,
       "releaseDate": "2026-04-30",
       "similar": [
+        "apple:al:1867354077",
+        "apple:al:1846753945",
         "apple:al:1837658528",
         "apple:al:6799944399",
-        "apple:al:1869537741",
-        "apple:al:1867354077",
-        "apple:al:6785734869",
         "apple:al:6803148720",
+        "apple:al:6820428726",
         "apple:al:6817260750",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6815505067"
       ],
       "title": "MAMIHLAPINATAPAI - EP",
       "titleLatin": null,
@@ -1662,14 +1987,14 @@
       "releaseDate": "2026-09-07",
       "similar": [
         "apple:al:1891943324",
-        "apple:al:1821849174",
-        "apple:al:1794066812",
         "apple:al:6793888333",
-        "apple:al:1808852878",
+        "apple:al:1794066812",
+        "apple:al:1821849174",
+        "apple:al:6817668875",
         "apple:al:6785734869",
-        "apple:al:1879524863",
         "apple:al:6815505067",
-        "apple:al:1837658528",
+        "apple:al:1808852878",
+        "apple:al:1879524863",
         "apple:al:1892738151"
       ],
       "title": "アイドルパワー - Single",
@@ -1689,12 +2014,12 @@
         "apple:al:949250891",
         "apple:al:1440763349",
         "apple:al:1440746376",
-        "apple:al:1375007287",
+        "apple:al:1374992793",
         "apple:al:1884257488",
-        "apple:al:1874221478",
+        "apple:al:1639449124",
+        "apple:al:1261937427",
         "apple:al:1471459431",
         "apple:al:6793456209",
-        "apple:al:1585848047",
         "apple:al:6778272101"
       ],
       "title": "MESSAGE",
@@ -1711,7 +2036,7 @@
       "latinSource": null,
       "releaseDate": "2008-02-27",
       "similar": [
-        "apple:al:1375007287",
+        "apple:al:1374992793",
         "apple:al:1485857244",
         "apple:al:1838917127",
         "apple:al:1451567083",
@@ -1720,7 +2045,7 @@
         "apple:al:6778272101",
         "apple:al:1471459431",
         "apple:al:6793456209",
-        "apple:al:1874221478"
+        "apple:al:1808822132"
       ],
       "title": "Superfly",
       "titleLatin": null,
@@ -1737,15 +2062,15 @@
       "releaseDate": "2013-03-13",
       "similar": [
         "apple:al:1451566360",
-        "apple:al:1408505088",
         "apple:al:1394013451",
-        "apple:al:1838917127",
-        "apple:al:1446781785",
         "apple:al:1518843994",
-        "apple:al:1538265733",
+        "apple:al:1838917127",
+        "apple:al:1445145788",
+        "apple:al:1446781785",
+        "apple:al:1537460610",
         "apple:al:1375007287",
         "apple:al:279691838",
-        "apple:al:1706831732"
+        "apple:al:6817668875"
       ],
       "title": "sakanaction",
       "titleLatin": null,
@@ -1761,16 +2086,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2026-06-15",
       "similar": [
-        "apple:al:1771366340",
-        "apple:al:1860538546",
         "apple:al:1733129984",
-        "apple:al:1790599503",
+        "apple:al:1807959955",
+        "apple:al:1860538546",
         "apple:al:1795905599",
+        "apple:al:1771366340",
+        "apple:al:1826924327",
         "apple:al:1821087726",
-        "apple:al:1892738151",
-        "apple:al:1879524863",
-        "apple:al:6792947885",
-        "apple:al:6815505067"
+        "apple:al:6817316270",
+        "apple:al:1874221478",
+        "apple:al:6792947885"
       ],
       "title": "烏 - Raven - Single",
       "titleLatin": "Karasu - Raven",
@@ -1790,13 +2115,13 @@
         "apple:al:6785411719",
         "apple:al:6778272101",
         "apple:al:6793456209",
-        "apple:al:1874221478",
         "apple:al:1808822132",
         "apple:al:1840081735",
-        "apple:al:1821087726",
+        "apple:al:1874221478",
         "apple:al:1831207782",
-        "apple:al:1733129984",
-        "apple:al:1771366340"
+        "apple:al:1821087726",
+        "apple:al:1807959955",
+        "apple:al:1733129984"
       ],
       "title": "777 (feat. Awich, CHICO CARLITO, ONE OK ROCK & Paledusk) - Single",
       "titleLatin": null,
@@ -1815,13 +2140,13 @@
         "apple:al:6776482572",
         "apple:al:6785411719",
         "apple:al:6793456209",
-        "apple:al:1874221478",
         "apple:al:1808822132",
         "apple:al:1840081735",
-        "apple:al:1821087726",
+        "apple:al:1874221478",
         "apple:al:1831207782",
-        "apple:al:1733129984",
-        "apple:al:1771366340"
+        "apple:al:1821087726",
+        "apple:al:1807959955",
+        "apple:al:1733129984"
       ],
       "title": "GOLDEN HOUR : Part.5 - EP",
       "titleLatin": null,
@@ -1839,15 +2164,15 @@
       "releaseDate": "2026-07-02",
       "similar": [
         "apple:al:6803148720",
-        "apple:al:6817260750",
         "apple:al:6788211807",
-        "apple:al:1837658528",
+        "apple:al:6817260750",
         "apple:al:1894837142",
+        "apple:al:1837658528",
         "apple:al:6799944399",
-        "apple:al:6785734869",
+        "apple:al:6820428726",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6815505067"
       ],
       "title": "Yes! 東京 (feat. SUPER★DRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel) - Single",
       "titleLatin": "Yes! Tokyo (feat. SUPER★DRAGON, Sakurashimeji, ONE N' ONLY, BUDDiiS, ICEx & Lienel)",
@@ -1866,13 +2191,13 @@
         "apple:al:6776482572",
         "apple:al:6778272101",
         "apple:al:6793456209",
-        "apple:al:1874221478",
         "apple:al:1808822132",
         "apple:al:1840081735",
-        "apple:al:1821087726",
+        "apple:al:1874221478",
         "apple:al:1831207782",
-        "apple:al:1733129984",
-        "apple:al:1771366340"
+        "apple:al:1821087726",
+        "apple:al:1807959955",
+        "apple:al:1733129984"
       ],
       "title": "グッタイム - Single",
       "titleLatin": "Guttaimu",
@@ -1889,15 +2214,15 @@
       "releaseDate": "2026-07-12",
       "similar": [
         "apple:al:6803798492",
-        "apple:al:1808852878",
-        "apple:al:1841344389",
+        "apple:al:6815505067",
         "apple:al:6792630528",
-        "apple:al:1837658528",
-        "apple:al:1894837142",
-        "apple:al:6799944399",
         "apple:al:1821849174",
-        "apple:al:6803148720",
-        "apple:al:6817260750"
+        "apple:al:1841344389",
+        "apple:al:1808852878",
+        "apple:al:6820428726",
+        "apple:al:6793888333",
+        "apple:al:6799944399",
+        "apple:al:1837658528"
       ],
       "title": "マイオンリー - Single",
       "titleLatin": "Mai onrii",
@@ -1914,15 +2239,15 @@
       "releaseDate": "2026-07-13",
       "similar": [
         "apple:al:6803148720",
-        "apple:al:1846753945",
+        "apple:al:6782749976",
         "apple:al:6817260750",
-        "apple:al:1837658528",
         "apple:al:1894837142",
+        "apple:al:1837658528",
         "apple:al:6799944399",
-        "apple:al:6785734869",
+        "apple:al:6820428726",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6815505067"
       ],
       "title": "Brand New - Single",
       "titleLatin": null,
@@ -1940,14 +2265,14 @@
       "similar": [
         "apple:al:1803063207",
         "apple:al:1879524863",
-        "apple:al:6815505067",
         "apple:al:1892738151",
+        "apple:al:1790599503",
+        "apple:al:6817668875",
+        "apple:al:6817316270",
         "apple:al:6793888333",
-        "apple:al:1794066812",
-        "apple:al:1826924327",
+        "apple:al:1771366340",
         "apple:al:1795905599",
-        "apple:al:1860538546",
-        "apple:al:1771366340"
+        "apple:al:1860538546"
       ],
       "title": "You!Joy!Parade! - Single",
       "titleLatin": null,
@@ -1963,16 +2288,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2026-08-04",
       "similar": [
-        "apple:al:1841344389",
         "apple:al:1808852878",
-        "apple:al:1821849174",
-        "apple:al:6785734869",
+        "apple:al:6815505067",
         "apple:al:6803798492",
-        "apple:al:1837658528",
-        "apple:al:1894837142",
+        "apple:al:6785734869",
+        "apple:al:6820428726",
+        "apple:al:1739088465",
         "apple:al:6799944399",
-        "apple:al:6793888333",
-        "apple:al:6803148720"
+        "apple:al:1821849174",
+        "apple:al:1837658528",
+        "apple:al:1894837142"
       ],
       "title": "恋、はじめました。 - Single",
       "titleLatin": "Koi, hajimemashita.",
@@ -1989,16 +2314,16 @@
       "latinSource": null,
       "releaseDate": "2026-07-26",
       "similar": [
-        "apple:al:1821087726",
+        "apple:al:1874221478",
         "apple:al:1831207782",
         "apple:al:1840081735",
-        "apple:al:1874221478",
+        "apple:al:1821087726",
         "apple:al:6793456209",
+        "apple:al:1807959955",
         "apple:al:1733129984",
         "apple:al:6778272101",
         "apple:al:6776482572",
-        "apple:al:6785411719",
-        "apple:al:1771366340"
+        "apple:al:6785411719"
       ],
       "title": "I Got Your Back - Single",
       "titleLatin": null,
@@ -2014,16 +2339,16 @@
       "latinSource": "manual",
       "releaseDate": "2026-08-03",
       "similar": [
-        "apple:al:1874221478",
         "apple:al:6778272101",
         "apple:al:1808822132",
         "apple:al:6776482572",
         "apple:al:6785411719",
         "apple:al:1840081735",
-        "apple:al:1821087726",
+        "apple:al:1874221478",
         "apple:al:1831207782",
-        "apple:al:1733129984",
-        "apple:al:1771366340"
+        "apple:al:1821087726",
+        "apple:al:1807959955",
+        "apple:al:1733129984"
       ],
       "title": "罪と罰と雨とキス (佐野勇斗&吉田仁人) - Single",
       "titleLatin": "Tsumi to batsu to ame to kisu (Sano Hayato & Yoshida Jinto)",
@@ -2039,20 +2364,45 @@
       "latinSource": "cutlet",
       "releaseDate": "2026-08-07",
       "similar": [
-        "apple:al:1794066812",
-        "apple:al:1803063207",
-        "apple:al:1894988524",
         "apple:al:1891943324",
-        "apple:al:1879524863",
-        "apple:al:6815505067",
-        "apple:al:1892738151",
-        "apple:al:1808852878",
+        "apple:al:1894988524",
+        "apple:al:1794066812",
+        "apple:al:1821849174",
+        "apple:al:6817668875",
         "apple:al:6785734869",
-        "apple:al:1795905599"
+        "apple:al:6815505067",
+        "apple:al:1808852878",
+        "apple:al:1879524863",
+        "apple:al:1892738151"
       ],
       "title": "見知らぬ糸 - Single",
       "titleLatin": "Mishiranu ito",
       "type": "single"
+    },
+    {
+      "artistDisplay": "あいみょん",
+      "artistIds": [
+        "apple:ar:1165017710"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c4/e8/e4/c4e8e416-edcd-9783-ecba-046d550f454e/1200214726096.jpg/300x300bb.jpg",
+      "id": "apple:al:6798303682",
+      "latinSource": "cutlet",
+      "releaseDate": "2017-04-12",
+      "similar": [
+        "apple:al:1538265733",
+        "apple:al:1468137281",
+        "apple:al:1490256978",
+        "apple:al:1471459431",
+        "apple:al:1459216693",
+        "apple:al:1518843994",
+        "apple:al:1451566360",
+        "apple:al:1748185853",
+        "apple:al:1496731153",
+        "apple:al:1534620182"
+      ],
+      "title": "AIMYON BEST ALBUM - 唇を追え! -",
+      "titleLatin": "AIMYON BEST ALBUM - kuchibiru wo oe! -",
+      "type": "album"
     },
     {
       "artistDisplay": "マカロニえんぴつ",
@@ -2064,16 +2414,16 @@
       "latinSource": "cutlet",
       "releaseDate": "2026-09-16",
       "similar": [
+        "apple:al:1739088465",
         "apple:al:1837658528",
-        "apple:al:1894837142",
+        "apple:al:6820428726",
         "apple:al:1869537741",
-        "apple:al:1867354077",
-        "apple:al:6785734869",
-        "apple:al:6803148720",
-        "apple:al:6817260750",
+        "apple:al:1894837142",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6815505067",
+        "apple:al:6803148720",
+        "apple:al:6785734869"
       ],
       "title": "運命さがし EP",
       "titleLatin": "Unmei sagashi EP",
@@ -2093,13 +2443,13 @@
         "apple:al:6782749976",
         "apple:al:6788211807",
         "apple:al:6817260750",
-        "apple:al:1837658528",
         "apple:al:1894837142",
+        "apple:al:1837658528",
         "apple:al:6799944399",
-        "apple:al:6785734869",
+        "apple:al:6820428726",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6815505067"
       ],
       "title": "ありふれた世界の果てに (feat. Awich, CHICO CARLITO, ONE OK ROCK & Paledusk) - Single",
       "titleLatin": "Arifureta sekai no hate ni (feat. Awich, CHICO CARLITO, ONE OK ROCK & Paledusk)",
@@ -2116,15 +2466,15 @@
       "releaseDate": "2026-09-07",
       "similar": [
         "apple:al:6785734869",
-        "apple:al:1808852878",
-        "apple:al:1841344389",
+        "apple:al:6815505067",
         "apple:al:6792630528",
+        "apple:al:1808852878",
+        "apple:al:1821849174",
+        "apple:al:1841344389",
+        "apple:al:6820428726",
         "apple:al:6799944399",
         "apple:al:1837658528",
-        "apple:al:1894837142",
-        "apple:al:1821849174",
-        "apple:al:6803148720",
-        "apple:al:6817260750"
+        "apple:al:6793888333"
       ],
       "title": "LOVE ENG!NE",
       "titleLatin": null,
@@ -2142,14 +2492,14 @@
       "similar": [
         "apple:al:1846753945",
         "apple:al:6803148720",
-        "apple:al:6799944399",
-        "apple:al:1837658528",
         "apple:al:1894837142",
         "apple:al:6817260750",
-        "apple:al:6785734869",
+        "apple:al:1837658528",
+        "apple:al:6799944399",
+        "apple:al:6820428726",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6815505067"
       ],
       "title": "POPS",
       "titleLatin": null,
@@ -2165,16 +2515,16 @@
       "latinSource": "manual",
       "releaseDate": "2026-10-02",
       "similar": [
-        "apple:al:1879524863",
-        "apple:al:1892738151",
-        "apple:al:6789046108",
-        "apple:al:1803063207",
-        "apple:al:1826924327",
-        "apple:al:1795905599",
-        "apple:al:6793888333",
-        "apple:al:1794066812",
-        "apple:al:1860538546",
-        "apple:al:1771366340"
+        "apple:al:6803798492",
+        "apple:al:6785734869",
+        "apple:al:6792630528",
+        "apple:al:1808852878",
+        "apple:al:1821849174",
+        "apple:al:1841344389",
+        "apple:al:6820428726",
+        "apple:al:6799944399",
+        "apple:al:1837658528",
+        "apple:al:6793888333"
       ],
       "title": "夕星-ゆうづつ- - Single",
       "titleLatin": "Yuuzutsu",
@@ -2193,16 +2543,91 @@
         "apple:al:6782749976",
         "apple:al:6803148720",
         "apple:al:6788211807",
-        "apple:al:1837658528",
         "apple:al:1894837142",
+        "apple:al:1837658528",
         "apple:al:6799944399",
-        "apple:al:6785734869",
+        "apple:al:6820428726",
         "apple:al:1808852878",
         "apple:al:6792630528",
-        "apple:al:1821849174"
+        "apple:al:6815505067"
       ],
       "title": "結び - Single",
       "titleLatin": "Musubi",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ヨルシカ",
+      "artistIds": [
+        "apple:ar:1250709916"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4b/1b/25/4b1b2572-0dc9-7c83-1e56-ce3354ead351/26UM1IM20044.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:6817316270",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-10-14",
+      "similar": [
+        "apple:al:1790599503",
+        "apple:al:1892738151",
+        "apple:al:1879524863",
+        "apple:al:1771366340",
+        "apple:al:1795905599",
+        "apple:al:1860538546",
+        "apple:al:6789046108",
+        "apple:al:1803063207",
+        "apple:al:6774039193",
+        "apple:al:6817668875"
+      ],
+      "title": "雲を抜け風下へ私だけ - Single",
+      "titleLatin": "Kumo wo nuke kazashimo e watakushi dake",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7a/32/9e/7a329e90-a8e5-cc05-4a8f-142811b9b095/885288733761.jpg/300x300bb.jpg",
+      "id": "apple:al:6817668875",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-10-14",
+      "similar": [
+        "apple:al:1803063207",
+        "apple:al:6793888333",
+        "apple:al:6789046108",
+        "apple:al:1891943324",
+        "apple:al:1794066812",
+        "apple:al:1879524863",
+        "apple:al:1892738151",
+        "apple:al:6817316270",
+        "apple:al:6785734869",
+        "apple:al:6815505067"
+      ],
+      "title": "咲き誇れ - Single",
+      "titleLatin": "Sakihokore",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "A2O & A2O LITE",
+      "artistIds": [
+        "apple:ar:1794043761"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/47/9c/af/479caf36-9941-3b8e-51f5-98e761463502/888272190403_Cover.jpg/300x300bb.jpg",
+      "id": "apple:al:6820428726",
+      "latinSource": null,
+      "releaseDate": "2026-10-13",
+      "similar": [
+        "apple:al:1869537741",
+        "apple:al:1739088465",
+        "apple:al:6799944399",
+        "apple:al:1837658528",
+        "apple:al:1808852878",
+        "apple:al:6792630528",
+        "apple:al:1894837142",
+        "apple:al:6815505067",
+        "apple:al:6785734869",
+        "apple:al:6803148720"
+      ],
+      "title": "NEON - Single",
+      "titleLatin": null,
       "type": "single"
     },
     {
@@ -2218,13 +2643,13 @@
         "apple:al:273169161",
         "apple:al:1440763349",
         "apple:al:1440746376",
+        "apple:al:1748185853",
         "apple:al:1496731153",
         "apple:al:1538265733",
+        "apple:al:1566811794",
         "apple:al:1485857244",
-        "apple:al:1623304208",
-        "apple:al:1479397582",
         "apple:al:1528119626",
-        "apple:al:1733129984"
+        "apple:al:6798303682"
       ],
       "title": "TSUNAMI - Single",
       "titleLatin": null,
@@ -2243,6 +2668,12 @@
       "latinSource": "provider",
       "name": "あいみょん",
       "nameLatin": "aimyon"
+    },
+    {
+      "id": "apple:ar:1250709916",
+      "latinSource": "provider",
+      "name": "ヨルシカ",
+      "nameLatin": "Yorushika"
     },
     {
       "id": "apple:ar:1258439196",
@@ -2311,6 +2742,12 @@
       "nameLatin": null
     },
     {
+      "id": "apple:ar:1579021180",
+      "latinSource": null,
+      "name": "BE:FIRST",
+      "nameLatin": null
+    },
+    {
       "id": "apple:ar:1677543534",
       "latinSource": "cutlet",
       "name": "EBiDAN (恵比寿学園男子部)",
@@ -2332,6 +2769,12 @@
       "id": "apple:ar:1792783458",
       "latinSource": null,
       "name": "HANA",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1794043761",
+      "latinSource": null,
+      "name": "A2O",
       "nameLatin": null
     },
     {
@@ -2437,8 +2880,8 @@
       "nameLatin": "Aina The End"
     }
   ],
-  "catalogVersion": "2026-10-12.58eada1c",
-  "generatedAt": "2026-10-12T12:47:32Z",
+  "catalogVersion": "2026-10-19.b3eb833b",
+  "generatedAt": "2026-10-19T16:27:32Z",
   "provider": "apple",
   "schemaVersion": 2,
   "snapshots": [
@@ -2462,10 +2905,63 @@
       "fetchedAt": "2026-10-12T12:47:32Z",
       "id": "2026-10-12",
       "size": 100
+    },
+    {
+      "chart": "most-played/songs",
+      "date": "2026-10-19",
+      "fetchedAt": "2026-10-19T16:27:32Z",
+      "id": "2026-10-19",
+      "size": 100
     }
   ],
   "storefront": "jp",
   "tracks": [
+    {
+      "albumId": "apple:al:1261937427",
+      "artistDisplay": "あいみょん",
+      "artistIds": [
+        "apple:ar:1165017710"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 88,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 88,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 246307,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1261937430",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.13,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/39/c6/57/39c657e2-3835-4a1e-7aa0-92901e3b10bc/mzaf_11393462343548772800.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-25",
+      "search": {
+        "artist": [
+          "aimin",
+          "aimyon",
+          "あいみょん"
+        ],
+        "title": [
+          "kimiwarokkuwokikanai",
+          "君はろっくを聴かない"
+        ]
+      },
+      "songKey": "君はろっくを聴かない|apple:ar:1165017710",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%90%9B%E3%81%AF%E3%83%AD%E3%83%83%E3%82%AF%E3%82%92%E8%81%B4%E3%81%8B%E3%81%AA%E3%81%84/1261937427?i=1261937430",
+      "title": "君はロックを聴かない",
+      "titleLatin": "Kimi wa rokku wo kikanai"
+    },
     {
       "albumId": "apple:al:1273709789",
       "artistDisplay": "あいみょん",
@@ -2476,7 +2972,7 @@
         "appearances": 3,
         "bestRank": 79,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 79,
         "lastSeen": "2026-10-12"
       },
@@ -2489,7 +2985,7 @@
       "id": "apple:tr:1273709797",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.22,
+      "popularity": 0.2017,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2524,7 +3020,7 @@
         "appearances": 3,
         "bestRank": 67,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 71,
         "lastSeen": "2026-10-12"
       },
@@ -2537,7 +3033,7 @@
       "id": "apple:tr:1273710101",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.34,
+      "popularity": 0.3118,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2562,6 +3058,49 @@
       "titleLatin": "Ai wo tsutaetai da toka"
     },
     {
+      "albumId": "apple:al:1374992793",
+      "artistDisplay": "Mr.Children",
+      "artistIds": [
+        "apple:ar:428909573"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 91,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 91,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 342907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1374993073",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.1,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview118/v4/ec/f5/90/ecf59040-a6ab-5b6c-c57e-24538f535fdd/mzaf_1103041329126479697.plus.aac.p.m4a"
+      },
+      "releaseDate": "2008-09-03",
+      "search": {
+        "artist": [
+          "mrchildren"
+        ],
+        "title": [
+          "hanabi"
+        ]
+      },
+      "songKey": "hanabi|apple:ar:428909573",
+      "storeUrl": "https://music.apple.com/jp/album/hanabi/1374992793?i=1374993073",
+      "title": "HANABI",
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1375007287",
       "artistDisplay": "Mr.Children",
       "artistIds": [
@@ -2571,7 +3110,7 @@
         "appearances": 3,
         "bestRank": 90,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 90,
         "lastSeen": "2026-10-12"
       },
@@ -2584,7 +3123,7 @@
       "id": "apple:tr:1375007474",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.11,
+      "popularity": 0.1009,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2611,12 +3150,12 @@
         "apple:ar:960568308"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 40,
+        "appearances": 4,
+        "bestRank": 38,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 40,
-        "lastSeen": "2026-10-12"
+        "lastRank": 38,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 324633,
       "eligible": {
@@ -2627,7 +3166,7 @@
       "id": "apple:tr:1394013614",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.61,
+      "popularity": 0.63,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2652,18 +3191,65 @@
       "titleLatin": "115 man kiro no firumu"
     },
     {
+      "albumId": "apple:al:1402042886",
+      "artistDisplay": "あいみょん",
+      "artistIds": [
+        "apple:ar:1165017710"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 22,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 22,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 308107,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1402042897",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.79,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fb/c3/0e/fbc30e54-8e82-8a7d-e3b7-aebefe322b9b/mzaf_1812139024199870103.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-07-18",
+      "search": {
+        "artist": [
+          "aimin",
+          "aimyon",
+          "あいみょん"
+        ],
+        "title": [
+          "marigold",
+          "marigorudo",
+          "まりーごーるど"
+        ]
+      },
+      "songKey": "まりーごーるど|apple:ar:1165017710",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9E%E3%83%AA%E3%83%BC%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%89/1402042886?i=1402042897",
+      "title": "マリーゴールド",
+      "titleLatin": "Mariigoorudo"
+    },
+    {
       "albumId": "apple:al:1408505088",
       "artistDisplay": "Mrs. GREEN APPLE",
       "artistIds": [
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 38,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 38,
-        "lastSeen": "2026-10-12"
+        "lastRank": 40,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 270507,
       "eligible": {
@@ -2674,7 +3260,7 @@
       "id": "apple:tr:1408505264",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.63,
+      "popularity": 0.61,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2702,12 +3288,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 30,
+        "appearances": 4,
+        "bestRank": 25,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 30,
-        "lastSeen": "2026-10-12"
+        "lastRank": 25,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 307067,
       "eligible": {
@@ -2718,7 +3304,7 @@
       "id": "apple:tr:1408505419",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.71,
+      "popularity": 0.76,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2746,12 +3332,12 @@
         "apple:ar:1165017710"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 83,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 83,
-        "lastSeen": "2026-10-12"
+        "lastRank": 84,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 237933,
       "eligible": {
@@ -2762,7 +3348,7 @@
       "id": "apple:tr:1438144188",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.18,
+      "popularity": 0.17,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2795,7 +3381,7 @@
         "appearances": 3,
         "bestRank": 63,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 63,
         "lastSeen": "2026-10-12"
       },
@@ -2808,7 +3394,7 @@
       "id": "apple:tr:1440747285",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.38,
+      "popularity": 0.3485,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2839,12 +3425,12 @@
         "apple:ar:18756224"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 56,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 56,
-        "lastSeen": "2026-10-12"
+        "lastRank": 58,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 328208,
       "eligible": {
@@ -2855,7 +3441,7 @@
       "id": "apple:tr:1440763351",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.45,
+      "popularity": 0.43,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2884,12 +3470,12 @@
         "apple:ar:18756224"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 91,
+        "appearances": 4,
+        "bestRank": 89,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 95,
-        "lastSeen": "2026-10-12"
+        "lastRank": 89,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 257894,
       "eligible": {
@@ -2900,7 +3486,7 @@
       "id": "apple:tr:1440763358",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.1,
+      "popularity": 0.12,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2929,12 +3515,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 52,
+        "appearances": 4,
+        "bestRank": 48,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 52,
-        "lastSeen": "2026-10-12"
+        "lastRank": 48,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 321760,
       "eligible": {
@@ -2945,7 +3531,7 @@
       "id": "apple:tr:1445145789",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.49,
+      "popularity": 0.53,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2976,7 +3562,7 @@
         "appearances": 3,
         "bestRank": 22,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 22,
         "lastSeen": "2026-10-12"
       },
@@ -2989,7 +3575,7 @@
       "id": "apple:tr:1446781787",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.79,
+      "popularity": 0.7244,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3023,7 +3609,7 @@
         "appearances": 3,
         "bestRank": 27,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 28,
         "lastSeen": "2026-10-12"
       },
@@ -3036,7 +3622,7 @@
       "id": "apple:tr:1451566361",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.74,
+      "popularity": 0.6786,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3065,12 +3651,12 @@
         "apple:ar:302361237"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 48,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 49,
-        "lastSeen": "2026-10-12"
+        "lastRank": 50,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 261640,
       "eligible": {
@@ -3081,7 +3667,7 @@
       "id": "apple:tr:1451567084",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.53,
+      "popularity": 0.51,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3109,12 +3695,12 @@
         "apple:ar:302361237"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 14,
+        "appearances": 4,
+        "bestRank": 12,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 14,
-        "lastSeen": "2026-10-12"
+        "lastRank": 12,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 314280,
       "eligible": {
@@ -3125,7 +3711,7 @@
       "id": "apple:tr:1451567751",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.87,
+      "popularity": 0.89,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3154,12 +3740,12 @@
         "apple:ar:302361237"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 17,
+        "appearances": 4,
+        "bestRank": 15,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 17,
-        "lastSeen": "2026-10-12"
+        "lastRank": 15,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 294813,
       "eligible": {
@@ -3170,7 +3756,7 @@
       "id": "apple:tr:1451567963",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.84,
+      "popularity": 0.86,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3198,12 +3784,12 @@
         "apple:ar:302361237"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 10,
+        "appearances": 4,
+        "bestRank": 9,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 10,
-        "lastSeen": "2026-10-12"
+        "lastRank": 9,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 286053,
       "eligible": {
@@ -3214,7 +3800,7 @@
       "id": "apple:tr:1451570480",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.91,
+      "popularity": 0.92,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3242,12 +3828,12 @@
         "apple:ar:302361237"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 19,
+        "appearances": 4,
+        "bestRank": 18,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 19,
-        "lastSeen": "2026-10-12"
+        "lastRank": 18,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 258333,
       "eligible": {
@@ -3258,7 +3844,7 @@
       "id": "apple:tr:1456063581",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.82,
+      "popularity": 0.83,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3288,7 +3874,7 @@
         "appearances": 3,
         "bestRank": 45,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 45,
         "lastSeen": "2026-10-12"
       },
@@ -3301,7 +3887,7 @@
       "id": "apple:tr:1459216694",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.56,
+      "popularity": 0.5135,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3330,12 +3916,12 @@
         "apple:ar:1104839687"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 78,
+        "appearances": 4,
+        "bestRank": 71,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 88,
-        "lastSeen": "2026-10-12"
+        "lastRank": 71,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 196253,
       "eligible": {
@@ -3346,7 +3932,7 @@
       "id": "apple:tr:1468137287",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.23,
+      "popularity": 0.3,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3374,12 +3960,12 @@
         "apple:ar:1104839687"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 82,
+        "appearances": 4,
+        "bestRank": 76,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 86,
-        "lastSeen": "2026-10-12"
+        "lastRank": 76,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 217120,
       "eligible": {
@@ -3390,7 +3976,7 @@
       "id": "apple:tr:1468137516",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.19,
+      "popularity": 0.25,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3418,12 +4004,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 96,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 96,
-        "lastSeen": "2026-10-12"
+        "lastRank": 98,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 212547,
       "eligible": {
@@ -3434,7 +4020,7 @@
       "id": "apple:tr:1471459432",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.05,
+      "popularity": 0.0459,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3463,12 +4049,12 @@
         "apple:ar:960568308"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 76,
+        "appearances": 4,
+        "bestRank": 74,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 78,
-        "lastSeen": "2026-10-12"
+        "lastRank": 74,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 299164,
       "eligible": {
@@ -3479,7 +4065,7 @@
       "id": "apple:tr:1479397583",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.25,
+      "popularity": 0.27,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3504,18 +4090,63 @@
       "titleLatin": "Iesutadei"
     },
     {
+      "albumId": "apple:al:1479397582",
+      "artistDisplay": "Official髭男dism",
+      "artistIds": [
+        "apple:ar:960568308"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 45,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 45,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 326843,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1479397873",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.56,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/71/93/7a/71937a82-5662-3d08-c78d-65179c560a6b/mzaf_4128339501254480840.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-04-17",
+      "search": {
+        "artist": [
+          "officialhigedanjism",
+          "officialhigeotokojism",
+          "official髭男jism"
+        ],
+        "title": [
+          "pretender"
+        ]
+      },
+      "songKey": "pretender|apple:ar:960568308",
+      "storeUrl": "https://music.apple.com/jp/album/pretender/1479397582?i=1479397873",
+      "title": "Pretender",
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1485857244",
       "artistDisplay": "嵐",
       "artistIds": [
         "apple:ar:548185047"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 76,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 77,
-        "lastSeen": "2026-10-12"
+        "lastRank": 90,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 289846,
       "eligible": {
@@ -3526,7 +4157,7 @@
       "id": "apple:tr:1485857408",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.25,
+      "popularity": 0.2293,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3557,7 +4188,7 @@
         "appearances": 3,
         "bestRank": 61,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 62,
         "lastSeen": "2026-10-12"
       },
@@ -3570,7 +4201,7 @@
       "id": "apple:tr:1490256995",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.4,
+      "popularity": 0.3668,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3598,12 +4229,12 @@
         "apple:ar:956011835"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 73,
         "firstSeen": "2026-10-10",
         "inLatest": true,
         "lastRank": 82,
-        "lastSeen": "2026-10-12"
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 197441,
       "eligible": {
@@ -3614,7 +4245,7 @@
       "id": "apple:tr:1496731154",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.28,
+      "popularity": 0.2568,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3644,12 +4275,12 @@
         "apple:ar:91160335"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 47,
+        "appearances": 4,
+        "bestRank": 37,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 47,
-        "lastSeen": "2026-10-12"
+        "lastRank": 37,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 410213,
       "eligible": {
@@ -3660,7 +4291,7 @@
       "id": "apple:tr:1518845612",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.54,
+      "popularity": 0.64,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3693,7 +4324,7 @@
         "appearances": 3,
         "bestRank": 71,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 73,
         "lastSeen": "2026-10-12"
       },
@@ -3706,7 +4337,7 @@
       "id": "apple:tr:1528119630",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.3,
+      "popularity": 0.2751,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3734,12 +4365,12 @@
         "apple:ar:1489331027"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 65,
+        "appearances": 4,
+        "bestRank": 64,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 67,
-        "lastSeen": "2026-10-12"
+        "lastRank": 64,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 285587,
       "eligible": {
@@ -3750,7 +4381,7 @@
       "id": "apple:tr:1534620183",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.36,
+      "popularity": 0.37,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3774,6 +4405,52 @@
       "titleLatin": "Dorai furawaa"
     },
     {
+      "albumId": "apple:al:1537460610",
+      "artistDisplay": "米津玄師",
+      "artistIds": [
+        "apple:ar:530814268"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 72,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 72,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 256116,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537460612",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.29,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/27/17/9b/27179b15-2153-25e8-d035-35fdb4d059d8/mzaf_757024838235216109.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-02-12",
+      "search": {
+        "artist": [
+          "kenshiyonezu",
+          "yonetsugenshi",
+          "yonezukenshi",
+          "米津玄師"
+        ],
+        "title": [
+          "lemon"
+        ]
+      },
+      "songKey": "lemon|apple:ar:530814268",
+      "storeUrl": "https://music.apple.com/jp/album/lemon/1537460610?i=1537460612",
+      "title": "Lemon",
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1538265733",
       "artistDisplay": "米津玄師",
       "artistIds": [
@@ -3783,7 +4460,7 @@
         "appearances": 3,
         "bestRank": 73,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 75,
         "lastSeen": "2026-10-12"
       },
@@ -3796,7 +4473,7 @@
       "id": "apple:tr:1538265741",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.28,
+      "popularity": 0.2568,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3820,6 +4497,94 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1542182291",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 63,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 63,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 248027,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1542182767",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.38,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8e/3f/38/8e3f3837-5084-56b3-981c-e2d99d722b60/mzaf_1457094438102075041.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-09-01",
+      "search": {
+        "artist": [
+          "yoasobi"
+        ],
+        "title": [
+          "gunjo",
+          "群青"
+        ]
+      },
+      "songKey": "群青|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%BE%A4%E9%9D%92/1542182291?i=1542182767",
+      "title": "群青",
+      "titleLatin": "Gunjou"
+    },
+    {
+      "albumId": "apple:al:1542182291",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 56,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 56,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 258840,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1542182776",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.45,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/04/c0/bc/04c0bcbf-399f-b668-4c1a-8eb37f63d6e3/mzaf_8386400470233731365.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-12-15",
+      "search": {
+        "artist": [
+          "yoasobi"
+        ],
+        "title": [
+          "yorunikakeru",
+          "夜に駆ける"
+        ]
+      },
+      "songKey": "夜に駆ける|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%9C%E3%81%AB%E9%A7%86%E3%81%91%E3%82%8B/1542182291?i=1542182776",
+      "title": "夜に駆ける",
+      "titleLatin": "Yoru ni kakeru"
+    },
+    {
       "albumId": "apple:al:1564752132",
       "artistDisplay": "藤井 風",
       "artistIds": [
@@ -3829,7 +4594,7 @@
         "appearances": 3,
         "bestRank": 68,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 69,
         "lastSeen": "2026-10-12"
       },
@@ -3842,7 +4607,7 @@
       "id": "apple:tr:1564752145",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.33,
+      "popularity": 0.3026,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3872,12 +4637,12 @@
         "apple:ar:302361237"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 79,
+        "appearances": 4,
+        "bestRank": 78,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 81,
-        "lastSeen": "2026-10-12"
+        "lastRank": 78,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 196226,
       "eligible": {
@@ -3888,7 +4653,7 @@
       "id": "apple:tr:1566811795",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.22,
+      "popularity": 0.23,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3919,7 +4684,7 @@
         "appearances": 3,
         "bestRank": 34,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 34,
         "lastSeen": "2026-10-12"
       },
@@ -3932,7 +4697,7 @@
       "id": "apple:tr:1579439168",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.67,
+      "popularity": 0.6144,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3960,12 +4725,12 @@
         "apple:ar:1104839687"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 84,
+        "appearances": 4,
+        "bestRank": 80,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 87,
-        "lastSeen": "2026-10-12"
+        "lastRank": 80,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 198709,
       "eligible": {
@@ -3976,7 +4741,7 @@
       "id": "apple:tr:1585848051",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.17,
+      "popularity": 0.21,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -3999,18 +4764,65 @@
       "titleLatin": "Harenchi"
     },
     {
+      "albumId": "apple:al:1612704963",
+      "artistDisplay": "スピッツ",
+      "artistIds": [
+        "apple:ar:74456960"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 69,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 69,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 261356,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1612705343",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.32,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cc/76/82/cc76827a-1521-975e-43e4-8eab53a8bb39/mzaf_12955128443801847300.plus.aac.p.m4a"
+      },
+      "releaseDate": "1996-01-01",
+      "search": {
+        "artist": [
+          "spitz",
+          "supittsu",
+          "すぴっつ"
+        ],
+        "title": [
+          "cheri",
+          "cherry",
+          "ちぇりー"
+        ]
+      },
+      "songKey": "ちぇりー|apple:ar:74456960",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%81%E3%82%A7%E3%83%AA%E3%83%BC/1612704963?i=1612705343",
+      "title": "チェリー",
+      "titleLatin": "Cherii"
+    },
+    {
       "albumId": "apple:al:1623304208",
       "artistDisplay": "Mrs. GREEN APPLE",
       "artistIds": [
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 72,
+        "appearances": 4,
+        "bestRank": 67,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 72,
-        "lastSeen": "2026-10-12"
+        "lastRank": 67,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 203150,
       "eligible": {
@@ -4021,7 +4833,7 @@
       "id": "apple:tr:1623304209",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.29,
+      "popularity": 0.34,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4050,12 +4862,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 70,
+        "appearances": 4,
+        "bestRank": 66,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 70,
-        "lastSeen": "2026-10-12"
+        "lastRank": 66,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 250773,
       "eligible": {
@@ -4066,7 +4878,7 @@
       "id": "apple:tr:1627629624",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.31,
+      "popularity": 0.35,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4089,18 +4901,107 @@
       "titleLatin": "Buruu anbiensu (feat. asmi)"
     },
     {
+      "albumId": "apple:al:1638977725",
+      "artistDisplay": "back number",
+      "artistIds": [
+        "apple:ar:302361237"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 30,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 30,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 288013,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1638978115",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.71,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4a/2d/a4/4a2da404-e98c-b231-810c-e75b7abffa04/mzaf_14191506757970969492.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-18",
+      "search": {
+        "artist": [
+          "backnunber"
+        ],
+        "title": [
+          "suiheisen",
+          "水平線"
+        ]
+      },
+      "songKey": "水平線|apple:ar:302361237",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B0%B4%E5%B9%B3%E7%B7%9A/1638977725?i=1638978115",
+      "title": "水平線",
+      "titleLatin": "Suiheisen"
+    },
+    {
+      "albumId": "apple:al:1639449124",
+      "artistDisplay": "back number",
+      "artistIds": [
+        "apple:ar:302361237"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 93,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 93,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 254161,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1639449127",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.08,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/87/68/b7/8768b724-2d63-5a26-39c9-029215c280ba/mzaf_16394455413521152029.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-08-26",
+      "search": {
+        "artist": [
+          "backnunber"
+        ],
+        "title": [
+          "berubettonoshi",
+          "velvetnoshi",
+          "べるべっとの詩"
+        ]
+      },
+      "songKey": "べるべっとの詩|apple:ar:302361237",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%99%E3%83%AB%E3%83%99%E3%83%83%E3%83%88%E3%81%AE%E8%A9%A9/1639449124?i=1639449127",
+      "title": "ベルベットの詩",
+      "titleLatin": "Berubetto no shi"
+    },
+    {
       "albumId": "apple:al:1648108987",
       "artistDisplay": "Official髭男dism",
       "artistIds": [
         "apple:ar:960568308"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 50,
+        "appearances": 4,
+        "bestRank": 49,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 51,
-        "lastSeen": "2026-10-12"
+        "lastRank": 49,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 305509,
       "eligible": {
@@ -4111,7 +5012,7 @@
       "id": "apple:tr:1648108988",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.51,
+      "popularity": 0.52,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4140,12 +5041,12 @@
         "apple:ar:302361237"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 59,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 61,
-        "lastSeen": "2026-10-12"
+        "lastRank": 59,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 235683,
       "eligible": {
@@ -4185,12 +5086,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 31,
+        "appearances": 4,
+        "bestRank": 28,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 31,
-        "lastSeen": "2026-10-12"
+        "lastRank": 28,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 344227,
       "eligible": {
@@ -4201,7 +5102,7 @@
       "id": "apple:tr:1648865575",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.7,
+      "popularity": 0.73,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4231,7 +5132,7 @@
         "appearances": 3,
         "bestRank": 43,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 43,
         "lastSeen": "2026-10-12"
       },
@@ -4244,7 +5145,7 @@
       "id": "apple:tr:1681600508",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.58,
+      "popularity": 0.5319,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4273,12 +5174,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 65,
+        "appearances": 4,
+        "bestRank": 60,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 65,
-        "lastSeen": "2026-10-12"
+        "lastRank": 60,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 263114,
       "eligible": {
@@ -4289,7 +5190,7 @@
       "id": "apple:tr:1691229801",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.36,
+      "popularity": 0.41,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4310,6 +5211,51 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1691229798",
+      "artistDisplay": "Mrs. GREEN APPLE",
+      "artistIds": [
+        "apple:ar:962221033"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 44,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 44,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 272229,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1691229813",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.57,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/39/aa/03/39aa031c-c1c2-3617-36a8-4037ec26ab20/mzaf_4201348368172574498.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-25",
+      "search": {
+        "artist": [
+          "mrsgrenapple"
+        ],
+        "title": [
+          "keserasera",
+          "queserasera",
+          "けせらせら"
+        ]
+      },
+      "songKey": "けせらせら|apple:ar:962221033",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B1%E3%82%BB%E3%83%A9%E3%82%BB%E3%83%A9/1691229798?i=1691229813",
+      "title": "ケセラセラ",
+      "titleLatin": "Keserasera"
+    },
+    {
       "albumId": "apple:al:1706829225",
       "artistDisplay": "Vaundy",
       "artistIds": [
@@ -4319,7 +5265,7 @@
         "appearances": 3,
         "bestRank": 3,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 3,
         "lastSeen": "2026-10-12"
       },
@@ -4332,7 +5278,7 @@
       "id": "apple:tr:1706829387",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.98,
+      "popularity": 0.8987,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4360,12 +5306,12 @@
         "apple:ar:1487570516"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 35,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 35,
-        "lastSeen": "2026-10-12"
+        "lastRank": 36,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 224805,
       "eligible": {
@@ -4376,7 +5322,7 @@
       "id": "apple:tr:1706832137",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.66,
+      "popularity": 0.65,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4398,18 +5344,107 @@
       "titleLatin": "Kaijuu no hanauta"
     },
     {
+      "albumId": "apple:al:1714599649",
+      "artistDisplay": "Vaundy",
+      "artistIds": [
+        "apple:ar:1487570516"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 2,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 2,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 273536,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1714599822",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.99,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/49/ec/f7/49ecf731-ac1a-0fc5-7c8e-c796cd55e4a3/mzaf_15983902472780899262.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-04-11",
+      "search": {
+        "artist": [
+          "vaundy"
+        ],
+        "title": [
+          "shiwawase",
+          "しわあわせ"
+        ]
+      },
+      "songKey": "しわあわせ|apple:ar:1487570516",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%97%E3%82%8F%E3%81%82%E3%82%8F%E3%81%9B/1714599649?i=1714599822",
+      "title": "しわあわせ",
+      "titleLatin": "Shiwa awase"
+    },
+    {
+      "albumId": "apple:al:1720021197",
+      "artistDisplay": "back number",
+      "artistIds": [
+        "apple:ar:302361237"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 26,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 26,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 269787,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1720021609",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.75,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/78/92/4f/78924f71-a69a-1554-26ac-f616ffc3d815/mzaf_6405068942826560273.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-21",
+      "search": {
+        "artist": [
+          "backnunber"
+        ],
+        "title": [
+          "heroine",
+          "hiroin",
+          "ひろいん"
+        ]
+      },
+      "songKey": "ひろいん|apple:ar:302361237",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%92%E3%83%AD%E3%82%A4%E3%83%B3/1720021197?i=1720021609",
+      "title": "ヒロイン",
+      "titleLatin": "Hiroin"
+    },
+    {
       "albumId": "apple:al:1733129984",
       "artistDisplay": "藤井 風",
       "artistIds": [
         "apple:ar:1486113150"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 70,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 76,
-        "lastSeen": "2026-10-12"
+        "lastRank": 75,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 310997,
       "eligible": {
@@ -4420,7 +5455,7 @@
       "id": "apple:tr:1733130377",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.31,
+      "popularity": 0.2843,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4453,7 +5488,7 @@
         "appearances": 3,
         "bestRank": 7,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 7,
         "lastSeen": "2026-10-12"
       },
@@ -4466,7 +5501,7 @@
       "id": "apple:tr:1739088799",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.94,
+      "popularity": 0.862,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4489,18 +5524,64 @@
       "titleLatin": "Rairakku"
     },
     {
+      "albumId": "apple:al:1748185853",
+      "artistDisplay": "藤井 風",
+      "artistIds": [
+        "apple:ar:1486113150"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 77,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 77,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 231883,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1748185862",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.24,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4d/9d/97/4d9d978b-cc48-05cd-2cf9-e9273037aa6e/mzaf_2964253436047612637.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-05-21",
+      "search": {
+        "artist": [
+          "fujifu",
+          "fujikaze",
+          "藤井風"
+        ],
+        "title": [
+          "kirari",
+          "きらり"
+        ]
+      },
+      "songKey": "きらり|apple:ar:1486113150",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8D%E3%82%89%E3%82%8A/1748185853?i=1748185862",
+      "title": "きらり",
+      "titleLatin": "Kirari"
+    },
+    {
       "albumId": "apple:al:1771366340",
       "artistDisplay": "Vaundy",
       "artistIds": [
         "apple:ar:1487570516"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 64,
+        "appearances": 4,
+        "bestRank": 61,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 64,
-        "lastSeen": "2026-10-12"
+        "lastRank": 61,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 235543,
       "eligible": {
@@ -4511,7 +5592,7 @@
       "id": "apple:tr:1771366342",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.37,
+      "popularity": 0.4,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4539,12 +5620,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 59,
+        "appearances": 4,
+        "bestRank": 54,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 59,
-        "lastSeen": "2026-10-12"
+        "lastRank": 54,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 280667,
       "eligible": {
@@ -4555,7 +5636,7 @@
       "id": "apple:tr:1790599512",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.42,
+      "popularity": 0.47,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4583,12 +5664,12 @@
         "apple:ar:1273762750"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 35,
+        "appearances": 4,
+        "bestRank": 31,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 36,
-        "lastSeen": "2026-10-12"
+        "lastRank": 31,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 239013,
       "eligible": {
@@ -4599,7 +5680,7 @@
       "id": "apple:tr:1794066813",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.66,
+      "popularity": 0.7,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4629,12 +5710,12 @@
         "apple:ar:252312257"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 58,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 60,
-        "lastSeen": "2026-10-12"
+        "lastRank": 68,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 252722,
       "eligible": {
@@ -4645,7 +5726,7 @@
       "id": "apple:tr:1795905600",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.43,
+      "popularity": 0.3943,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4675,12 +5756,12 @@
         "apple:ar:1792783458"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 42,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 42,
-        "lastSeen": "2026-10-12"
+        "lastRank": 47,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 164783,
       "eligible": {
@@ -4691,7 +5772,7 @@
       "id": "apple:tr:1803063210",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.59,
+      "popularity": 0.541,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4712,18 +5793,62 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1807959955",
+      "artistDisplay": "BE:FIRST",
+      "artistIds": [
+        "apple:ar:1579021180"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 73,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 73,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 189533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1807959956",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.28,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d4/b4/25/d4b425e7-8cef-04d2-2a63-8531d8101f07/mzaf_13077307163630977600.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-04-25",
+      "search": {
+        "artist": [
+          "befirst"
+        ],
+        "title": [
+          "muchu",
+          "夢中"
+        ]
+      },
+      "songKey": "夢中|apple:ar:1579021180",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%A2%E4%B8%AD/1807959955?i=1807959956",
+      "title": "夢中",
+      "titleLatin": "Muchuu"
+    },
+    {
       "albumId": "apple:al:1808822132",
       "artistDisplay": "HANA",
       "artistIds": [
         "apple:ar:1792783458"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 93,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 94,
-        "lastSeen": "2026-10-12"
+        "lastRank": 99,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 190080,
       "eligible": {
@@ -4734,7 +5859,7 @@
       "id": "apple:tr:1808822211",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.08,
+      "popularity": 0.0734,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4761,12 +5886,12 @@
         "apple:ar:302361237"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 22,
+        "appearances": 4,
+        "bestRank": 20,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 24,
-        "lastSeen": "2026-10-12"
+        "lastRank": 20,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 207845,
       "eligible": {
@@ -4777,7 +5902,7 @@
       "id": "apple:tr:1808852932",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.79,
+      "popularity": 0.81,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4806,12 +5931,12 @@
         "apple:ar:991663287"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 80,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 80,
-        "lastSeen": "2026-10-12"
+        "lastRank": 81,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 197668,
       "eligible": {
@@ -4822,7 +5947,7 @@
       "id": "apple:tr:1821087731",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.21,
+      "popularity": 0.2,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4853,12 +5978,12 @@
         "apple:ar:1792783458"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 26,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 27,
-        "lastSeen": "2026-10-12"
+        "lastRank": 29,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 206707,
       "eligible": {
@@ -4869,7 +5994,7 @@
       "id": "apple:tr:1821849522",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.75,
+      "popularity": 0.72,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4890,18 +6015,63 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1823814178",
+      "artistDisplay": "Mrs. GREEN APPLE",
+      "artistIds": [
+        "apple:ar:962221033"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 7,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 7,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 289507,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1823814197",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.94,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6f/59/4a/6f594a27-51be-c0ea-66b9-030312e1ca57/mzaf_2885817648755372249.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-04-12",
+      "search": {
+        "artist": [
+          "mrsgrenapple"
+        ],
+        "title": [
+          "lilac",
+          "rairakku",
+          "らいらっく"
+        ]
+      },
+      "songKey": "らいらっく|apple:ar:962221033",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%82%A4%E3%83%A9%E3%83%83%E3%82%AF/1823814178?i=1823814197",
+      "title": "ライラック",
+      "titleLatin": "Rairakku"
+    },
+    {
       "albumId": "apple:al:1826924327",
       "artistDisplay": "Mrs. GREEN APPLE",
       "artistIds": [
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 54,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 57,
-        "lastSeen": "2026-10-12"
+        "lastRank": 87,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 222094,
       "eligible": {
@@ -4912,7 +6082,7 @@
       "id": "apple:tr:1826924334",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.47,
+      "popularity": 0.431,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4942,7 +6112,7 @@
         "appearances": 3,
         "bestRank": 80,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 89,
         "lastSeen": "2026-10-12"
       },
@@ -4955,7 +6125,7 @@
       "id": "apple:tr:1831207784",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.21,
+      "popularity": 0.1926,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -4983,12 +6153,12 @@
         "apple:ar:530814268"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 11,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 12,
-        "lastSeen": "2026-10-12"
+        "lastRank": 13,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 151573,
       "eligible": {
@@ -4999,7 +6169,7 @@
       "id": "apple:tr:1837658529",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.9,
+      "popularity": 0.88,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5029,12 +6199,12 @@
         "apple:ar:252239625"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 42,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 44,
-        "lastSeen": "2026-10-12"
+        "lastRank": 46,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 295600,
       "eligible": {
@@ -5045,7 +6215,7 @@
       "id": "apple:tr:1838917139",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.59,
+      "popularity": 0.55,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5073,12 +6243,12 @@
         "apple:ar:18756224"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 88,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 92,
-        "lastSeen": "2026-10-12"
+        "lastRank": 95,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 235947,
       "eligible": {
@@ -5089,7 +6259,7 @@
       "id": "apple:tr:1840081736",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.13,
+      "popularity": 0.1192,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5124,12 +6294,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 23,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 23,
-        "lastSeen": "2026-10-12"
+        "lastRank": 33,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 257070,
       "eligible": {
@@ -5140,7 +6310,7 @@
       "id": "apple:tr:1841344390",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.78,
+      "popularity": 0.7153,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5167,12 +6337,12 @@
         "apple:ar:1356706755"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 8,
         "firstSeen": "2026-10-10",
         "inLatest": true,
         "lastRank": 8,
-        "lastSeen": "2026-10-12"
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 212400,
       "eligible": {
@@ -5213,12 +6383,12 @@
         "apple:ar:1258439196"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 63,
+        "appearances": 4,
+        "bestRank": 62,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 68,
-        "lastSeen": "2026-10-12"
+        "lastRank": 62,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 215858,
       "eligible": {
@@ -5229,7 +6399,7 @@
       "id": "apple:tr:1860538548",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.38,
+      "popularity": 0.39,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5256,12 +6426,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 8,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 9,
-        "lastSeen": "2026-10-12"
+        "lastRank": 11,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 270627,
       "eligible": {
@@ -5272,7 +6442,7 @@
       "id": "apple:tr:1867354081",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.93,
+      "popularity": 0.9,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5299,12 +6469,12 @@
         "apple:ar:1356706755"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 13,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 13,
-        "lastSeen": "2026-10-12"
+        "lastRank": 17,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 204126,
       "eligible": {
@@ -5315,7 +6485,7 @@
       "id": "apple:tr:1869537742",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.88,
+      "popularity": 0.84,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5345,12 +6515,12 @@
         "apple:ar:1273762750"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 94,
+        "appearances": 4,
+        "bestRank": 85,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 98,
-        "lastSeen": "2026-10-12"
+        "lastRank": 85,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 276833,
       "eligible": {
@@ -5361,7 +6531,7 @@
       "id": "apple:tr:1874221480",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.07,
+      "popularity": 0.16,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5391,12 +6561,12 @@
         "apple:ar:548185047"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 48,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 50,
-        "lastSeen": "2026-10-12"
+        "lastRank": 51,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 267600,
       "eligible": {
@@ -5407,7 +6577,7 @@
       "id": "apple:tr:1879525016",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.53,
+      "popularity": 0.5,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5435,12 +6605,12 @@
         "apple:ar:1792783458"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 92,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 93,
-        "lastSeen": "2026-10-12"
+        "lastRank": 97,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 214045,
       "eligible": {
@@ -5451,7 +6621,7 @@
       "id": "apple:tr:1884257489",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.09,
+      "popularity": 0.0825,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5478,12 +6648,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 28,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 29,
-        "lastSeen": "2026-10-12"
+        "lastRank": 42,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 218680,
       "eligible": {
@@ -5494,7 +6664,7 @@
       "id": "apple:tr:1891943326",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.73,
+      "popularity": 0.6694,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5522,12 +6692,12 @@
         "apple:ar:1413556966"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 49,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 54,
-        "lastSeen": "2026-10-12"
+        "lastRank": 52,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 173854,
       "eligible": {
@@ -5538,7 +6708,7 @@
       "id": "apple:tr:1892738152",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.52,
+      "popularity": 0.49,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5565,12 +6735,12 @@
         "apple:ar:1734551937"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 11,
+        "appearances": 4,
+        "bestRank": 10,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 11,
-        "lastSeen": "2026-10-12"
+        "lastRank": 10,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 138284,
       "eligible": {
@@ -5581,7 +6751,7 @@
       "id": "apple:tr:1894837345",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.9,
+      "popularity": 0.91,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5611,7 +6781,7 @@
         "appearances": 3,
         "bestRank": 91,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 91,
         "lastSeen": "2026-10-12"
       },
@@ -5624,7 +6794,7 @@
       "id": "apple:tr:273169347",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.1,
+      "popularity": 0.0917,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5655,7 +6825,7 @@
         "appearances": 1,
         "bestRank": 100,
         "firstSeen": "2026-10-12",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 100,
         "lastSeen": "2026-10-12"
       },
@@ -5668,7 +6838,7 @@
       "id": "apple:tr:279691859",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.01,
+      "popularity": 0.0092,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5696,12 +6866,12 @@
         "apple:ar:252312257"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 33,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 33,
-        "lastSeen": "2026-10-12"
+        "lastRank": 43,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 302921,
       "eligible": {
@@ -5712,7 +6882,7 @@
       "id": "apple:tr:604748203",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.68,
+      "popularity": 0.6236,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5742,12 +6912,12 @@
         "apple:ar:1356706755"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 30,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 32,
-        "lastSeen": "2026-10-12"
+        "lastRank": 34,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 230453,
       "eligible": {
@@ -5758,7 +6928,7 @@
       "id": "apple:tr:6762737233",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.71,
+      "popularity": 0.67,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5789,12 +6959,12 @@
         "apple:ar:530814268"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 66,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 66,
-        "lastSeen": "2026-10-12"
+        "lastRank": 70,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 248495,
       "eligible": {
@@ -5805,7 +6975,7 @@
       "id": "apple:tr:6774039202",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.35,
+      "popularity": 0.321,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5853,7 +7023,7 @@
       "id": "apple:tr:6776482882",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.02,
+      "popularity": 0.0183,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5897,7 +7067,7 @@
       "id": "apple:tr:6778272103",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.03,
+      "popularity": 0.0275,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5925,12 +7095,12 @@
         "apple:ar:1356706755"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 2,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 2,
-        "lastSeen": "2026-10-12"
+        "lastRank": 3,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 220467,
       "eligible": {
@@ -5941,7 +7111,7 @@
       "id": "apple:tr:6782749979",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.99,
+      "popularity": 0.98,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -5975,12 +7145,12 @@
         "apple:ar:1772019148"
       ],
       "chart": {
-        "appearances": 2,
+        "appearances": 3,
         "bestRank": 99,
         "firstSeen": "2026-10-11",
         "inLatest": true,
-        "lastRank": 99,
-        "lastSeen": "2026-10-12"
+        "lastRank": 100,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 201293,
       "eligible": {
@@ -5991,7 +7161,7 @@
       "id": "apple:tr:6785411720",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.02,
+      "popularity": 0.0183,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6020,12 +7190,12 @@
         "apple:ar:1808322699"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 18,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 20,
-        "lastSeen": "2026-10-12"
+        "lastRank": 27,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 226733,
       "eligible": {
@@ -6036,7 +7206,7 @@
       "id": "apple:tr:6785734870",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.83,
+      "popularity": 0.7611,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6065,12 +7235,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 5,
         "firstSeen": "2026-10-10",
         "inLatest": true,
         "lastRank": 5,
-        "lastSeen": "2026-10-12"
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 211667,
       "eligible": {
@@ -6108,12 +7278,12 @@
         "apple:ar:1356706755"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 43,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 46,
-        "lastSeen": "2026-10-12"
+        "lastRank": 57,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 181693,
       "eligible": {
@@ -6124,7 +7294,7 @@
       "id": "apple:tr:6789046323",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.58,
+      "popularity": 0.5319,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6153,12 +7323,12 @@
         "apple:ar:1273762750"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 23,
+        "appearances": 4,
+        "bestRank": 21,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 25,
-        "lastSeen": "2026-10-12"
+        "lastRank": 21,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 218200,
       "eligible": {
@@ -6169,7 +7339,7 @@
       "id": "apple:tr:6792630529",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.78,
+      "popularity": 0.8,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6200,12 +7370,12 @@
         "apple:ar:1792783458"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 84,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 84,
-        "lastSeen": "2026-10-12"
+        "lastRank": 94,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 142667,
       "eligible": {
@@ -6216,7 +7386,7 @@
       "id": "apple:tr:6792947886",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.17,
+      "popularity": 0.1559,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6248,7 +7418,7 @@
         "appearances": 3,
         "bestRank": 96,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 97,
         "lastSeen": "2026-10-12"
       },
@@ -6261,7 +7431,7 @@
       "id": "apple:tr:6793456212",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.05,
+      "popularity": 0.0459,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6293,12 +7463,12 @@
         "apple:ar:74456960"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 36,
+        "appearances": 4,
+        "bestRank": 35,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 37,
-        "lastSeen": "2026-10-12"
+        "lastRank": 35,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 251413,
       "eligible": {
@@ -6309,7 +7479,7 @@
       "id": "apple:tr:6793888335",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.65,
+      "popularity": 0.66,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6333,18 +7503,64 @@
       "titleLatin": "Mishiranu ito"
     },
     {
+      "albumId": "apple:al:6798303682",
+      "artistDisplay": "あいみょん",
+      "artistIds": [
+        "apple:ar:1165017710"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 79,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 79,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 236732,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6798303686",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.22,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0b/5f/26/0b5f26f1-8b5e-d850-273e-a4a237cdf240/mzaf_12349863008264602524.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-04-12",
+      "search": {
+        "artist": [
+          "aimin",
+          "aimyon",
+          "あいみょん"
+        ],
+        "title": [
+          "aiwotsutaetaidatoka",
+          "愛を伝えたいだとか"
+        ]
+      },
+      "songKey": "愛を伝えたいだとか|apple:ar:1165017710",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%84%9B%E3%82%92%E4%BC%9D%E3%81%88%E3%81%9F%E3%81%84%E3%81%A0%E3%81%A8%E3%81%8B/6798303682?i=6798303686",
+      "title": "愛を伝えたいだとか",
+      "titleLatin": "Ai wo tsutaetaida to ka"
+    },
+    {
       "albumId": "apple:al:6799944399",
       "artistDisplay": "マカロニえんぴつ",
       "artistIds": [
         "apple:ar:956011835"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 11,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 15,
-        "lastSeen": "2026-10-12"
+        "lastRank": 14,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 205978,
       "eligible": {
@@ -6355,7 +7571,7 @@
       "id": "apple:tr:6799944400",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.9,
+      "popularity": 0.87,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6386,12 +7602,12 @@
         "apple:ar:252239625"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 3,
         "firstSeen": "2026-10-10",
         "inLatest": true,
         "lastRank": 4,
-        "lastSeen": "2026-10-12"
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 234782,
       "eligible": {
@@ -6402,7 +7618,7 @@
       "id": "apple:tr:6803148739",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.98,
+      "popularity": 0.97,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6431,12 +7647,12 @@
         "apple:ar:1356706755"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 18,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 18,
-        "lastSeen": "2026-10-12"
+        "lastRank": 24,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 211867,
       "eligible": {
@@ -6447,7 +7663,7 @@
       "id": "apple:tr:6803798494",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.83,
+      "popularity": 0.77,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6478,12 +7694,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 6,
         "firstSeen": "2026-10-10",
         "inLatest": true,
         "lastRank": 6,
-        "lastSeen": "2026-10-12"
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 231947,
       "eligible": {
@@ -6522,12 +7738,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 14,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 16,
-        "lastSeen": "2026-10-12"
+        "lastRank": 19,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 275040,
       "eligible": {
@@ -6538,7 +7754,7 @@
       "id": "apple:tr:6808173126",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.87,
+      "popularity": 0.82,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6567,12 +7783,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 26,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 26,
-        "lastSeen": "2026-10-12"
+        "lastRank": 39,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 316613,
       "eligible": {
@@ -6583,7 +7799,7 @@
       "id": "apple:tr:6808173138",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.75,
+      "popularity": 0.6878,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6611,12 +7827,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 19,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 21,
-        "lastSeen": "2026-10-12"
+        "lastRank": 32,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 199960,
       "eligible": {
@@ -6627,7 +7843,7 @@
       "id": "apple:tr:6808173143",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.82,
+      "popularity": 0.7519,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6656,12 +7872,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 38,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 41,
-        "lastSeen": "2026-10-12"
+        "lastRank": 65,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 257120,
       "eligible": {
@@ -6672,7 +7888,7 @@
       "id": "apple:tr:6808173145",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.63,
+      "popularity": 0.5777,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6701,12 +7917,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 50,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 55,
-        "lastSeen": "2026-10-12"
+        "lastRank": 86,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 186053,
       "eligible": {
@@ -6717,7 +7933,7 @@
       "id": "apple:tr:6808173276",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.51,
+      "popularity": 0.4677,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6747,7 +7963,7 @@
         "appearances": 3,
         "bestRank": 71,
         "firstSeen": "2026-10-10",
-        "inLatest": true,
+        "inLatest": false,
         "lastRank": 85,
         "lastSeen": "2026-10-12"
       },
@@ -6760,7 +7976,7 @@
       "id": "apple:tr:6808173277",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.3,
+      "popularity": 0.2751,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6789,12 +8005,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 52,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 58,
-        "lastSeen": "2026-10-12"
+        "lastRank": 96,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 319653,
       "eligible": {
@@ -6805,7 +8021,7 @@
       "id": "apple:tr:6808173279",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.49,
+      "popularity": 0.4493,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6833,12 +8049,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 44,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 53,
-        "lastSeen": "2026-10-12"
+        "lastRank": 92,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 184013,
       "eligible": {
@@ -6849,7 +8065,7 @@
       "id": "apple:tr:6808173281",
       "isrc": null,
       "latinSource": "cutlet",
-      "popularity": 0.57,
+      "popularity": 0.5227,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6877,12 +8093,12 @@
         "apple:ar:962221033"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 33,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 39,
-        "lastSeen": "2026-10-12"
+        "lastRank": 53,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 313093,
       "eligible": {
@@ -6893,7 +8109,7 @@
       "id": "apple:tr:6808173287",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.68,
+      "popularity": 0.6236,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6920,12 +8136,12 @@
         "apple:ar:91160335"
       ],
       "chart": {
-        "appearances": 3,
-        "bestRank": 48,
+        "appearances": 4,
+        "bestRank": 23,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 48,
-        "lastSeen": "2026-10-12"
+        "lastRank": 23,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 277045,
       "eligible": {
@@ -6936,7 +8152,7 @@
       "id": "apple:tr:6815505071",
       "isrc": null,
       "latinSource": "manual",
-      "popularity": 0.53,
+      "popularity": 0.78,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -6965,12 +8181,12 @@
         "apple:ar:1497146276"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 1,
         "firstSeen": "2026-10-10",
         "inLatest": true,
         "lastRank": 1,
-        "lastSeen": "2026-10-12"
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 206999,
       "eligible": {
@@ -7003,18 +8219,151 @@
       "titleLatin": "Musubi"
     },
     {
+      "albumId": "apple:al:6817316270",
+      "artistDisplay": "ヨルシカ",
+      "artistIds": [
+        "apple:ar:1250709916"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 55,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 55,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 238398,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6817316271",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.46,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/32/5d/5d/325d5d00-ce73-9a7a-6fb7-4761d7a5b029/mzaf_9142005700672317106.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-10-14",
+      "search": {
+        "artist": [
+          "yorushika",
+          "よるしか"
+        ],
+        "title": [
+          "kumowonukekazashimoewatakushidake",
+          "雲を抜け風下へ私だけ"
+        ]
+      },
+      "songKey": "雲を抜け風下へ私だけ|apple:ar:1250709916",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%9B%B2%E3%82%92%E6%8A%9C%E3%81%91%E9%A2%A8%E4%B8%8B%E3%81%B8%E7%A7%81%E3%81%A0%E3%81%91/6817316270?i=6817316271",
+      "title": "雲を抜け風下へ私だけ",
+      "titleLatin": "Kumo wo nuke kazashimo e watakushi dake"
+    },
+    {
+      "albumId": "apple:al:6817668875",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 41,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 41,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 246851,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6817668876",
+      "isrc": null,
+      "latinSource": "cutlet",
+      "popularity": 0.6,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b1/71/f2/b171f271-d59b-59d1-9b82-1a41c311765d/mzaf_13682368395713803404.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-10-14",
+      "search": {
+        "artist": [
+          "yoasobi"
+        ],
+        "title": [
+          "sakihokore",
+          "咲き誇れ"
+        ]
+      },
+      "songKey": "咲き誇れ|apple:ar:1490256993",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%92%B2%E3%81%8D%E8%AA%87%E3%82%8C/6817668875?i=6817668876",
+      "title": "咲き誇れ",
+      "titleLatin": "Sakihokore"
+    },
+    {
+      "albumId": "apple:al:6820428726",
+      "artistDisplay": "A2O & A2O LITE",
+      "artistIds": [
+        "apple:ar:1794043761"
+      ],
+      "chart": {
+        "appearances": 1,
+        "bestRank": 16,
+        "firstSeen": "2026-10-19",
+        "inLatest": true,
+        "lastRank": 16,
+        "lastSeen": "2026-10-19"
+      },
+      "durationMs": 208000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6820428730",
+      "isrc": null,
+      "latinSource": null,
+      "popularity": 0.85,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/40/43/b8/4043b833-ec96-7807-fd8c-f74a62e777f3/mzaf_2462934578689260207.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-10-13",
+      "search": {
+        "artist": [
+          "a2o",
+          "a2oa2olite"
+        ],
+        "title": [
+          "neon"
+        ]
+      },
+      "songKey": "neon|apple:ar:1794043761",
+      "storeUrl": "https://music.apple.com/jp/album/neon/6820428726?i=6820428730",
+      "title": "NEON",
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:949250891",
       "artistDisplay": "サザンオールスターズ",
       "artistIds": [
         "apple:ar:671759255"
       ],
       "chart": {
-        "appearances": 3,
+        "appearances": 4,
         "bestRank": 74,
         "firstSeen": "2026-10-10",
         "inLatest": true,
-        "lastRank": 74,
-        "lastSeen": "2026-10-12"
+        "lastRank": 83,
+        "lastSeen": "2026-10-19"
       },
       "durationMs": 315500,
       "eligible": {
@@ -7025,7 +8374,7 @@
       "id": "apple:tr:949250892",
       "isrc": null,
       "latinSource": null,
-      "popularity": 0.27,
+      "popularity": 0.2476,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
