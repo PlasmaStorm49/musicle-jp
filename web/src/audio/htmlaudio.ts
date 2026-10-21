@@ -22,7 +22,16 @@ import { enablePlaybackSession } from "./session.ts";
 /** O que usamos do <audio>; os testes trocam por um objeto simples. */
 export type MediaElement = Pick<
   HTMLAudioElement,
-  "src" | "currentTime" | "duration" | "ended" | "error" | "preload" | "play" | "pause" | "volume"
+  | "src"
+  | "currentTime"
+  | "duration"
+  | "ended"
+  | "error"
+  | "preload"
+  | "play"
+  | "pause"
+  | "volume"
+  | "muted"
 >;
 
 export type HtmlAudioOptions = EngineOptions & {
@@ -72,8 +81,8 @@ export class HtmlAudioEngine implements AudioEngine {
     enablePlaybackSession();
     const audio = this.#options.createElement?.() ?? new Audio();
     audio.preload = "auto";
-    audio.volume = gainOf(this.#volume);
     this.#audio = audio;
+    this.#applyVolume();
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) this.stop();
     });
@@ -110,10 +119,19 @@ export class HtmlAudioEngine implements AudioEngine {
   /** A reserva não guarda nada na memória: baixa ao tocar. */
   preload(): void {}
 
-  /** O volume do elemento. Hipótese: o iPhone ignora (lá vale o Web Audio, o motor normal). */
   setVolume(level: number): void {
     this.#volume = clampVolume(level);
-    if (this.#audio) this.#audio.volume = gainOf(this.#volume);
+    this.#applyVolume();
+  }
+
+  /**
+   * O volume do elemento e o mudo. No iPhone, o volume do <audio> é só leitura (vale sempre 1):
+   * lá, a reserva não segue o nível da barra, mas o muted, sim, e o 0% fica mudo também nela.
+   */
+  #applyVolume(): void {
+    if (!this.#audio) return;
+    this.#audio.volume = gainOf(this.#volume);
+    this.#audio.muted = this.#volume === 0;
   }
 
   volume(): number {

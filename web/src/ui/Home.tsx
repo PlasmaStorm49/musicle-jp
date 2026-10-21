@@ -210,7 +210,7 @@ export function Home({ day, date, save, practice, artists }: Props) {
  * navegação por títulos.
  */
 function ThemeSwitch() {
-  const [theme, toggle] = useTheme();
+  const { theme, followsDevice, toggle } = useTheme();
   return (
     <section class="home-theme" aria-labelledby="home-theme">
       <h2 id="home-theme">{t("home.themeTitle")}</h2>
@@ -219,7 +219,8 @@ function ThemeSwitch() {
         role="switch"
         class="theme-switch"
         aria-checked={theme === "dark"}
-        aria-describedby="theme-hint"
+        // A dica só vale sem escolha: depois do 1º toque, o tema é o escolhido.
+        aria-describedby={followsDevice ? "theme-hint" : undefined}
         onClick={singleClick(toggle)}
       >
         <Icon name="sun" />
@@ -229,9 +230,11 @@ function ThemeSwitch() {
         <Icon name="moon" />
         <span class="sr-only">{t("home.themeDark")}</span>
       </button>
-      <p id="theme-hint" class="sr-only">
-        {t("home.themeHint")}
-      </p>
+      {followsDevice && (
+        <p id="theme-hint" class="sr-only">
+          {t("home.themeHint")}
+        </p>
+      )}
     </section>
   );
 }

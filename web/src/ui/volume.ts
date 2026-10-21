@@ -1,10 +1,10 @@
 // O volume na tela (P216): o motor guarda o valor (é a fonte da verdade nesta aba, também com o
 // armazenamento bloqueado), e o aparelho guarda a escolha para a próxima visita.
-import { useCallback, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { clampVolume, DEFAULT_VOLUME } from "../core/volume.ts";
 import { readVolume, writeVolume } from "../storage/volume.ts";
-import { browserStore } from "./theme.ts";
+import { browserStore } from "./browserStore.ts";
 
 /** O volume salvo no aparelho, para o motor nascer com ele. */
 export function savedVolume(): number {
@@ -12,18 +12,27 @@ export function savedVolume(): number {
   return store ? readVolume(store) : DEFAULT_VOLUME;
 }
 
-/** O volume do motor e a troca: vale na hora (também com o som tocando) e fica gravada. */
-export function useVolume(engine: AudioEngine): readonly [number, (level: number) => void] {
+export type VolumeState = {
+  readonly level: number;
+  /** Vale na hora, também com o som tocando (a cada passo do arraste). */
+  readonly apply: (level: number) => void;
+  /** Grava o volume do motor no aparelho: no fim do arraste, e não a cada passo. */
+  readonly save: () => void;
+};
+
+/** O volume do motor, a troca e a gravação. */
+export function useVolume(engine: AudioEngine): VolumeState {
   const [level, setLevel] = useState(() => engine.volume());
-  const change = useCallback(
-    (next: number) => {
-      const v = clampVolume(next);
-      setLevel(v);
-      engine.setVolume(v);
-      const store = browserStore();
-      if (store) writeVolume(store, v);
-    },
-    [engine],
-  );
-  return [level, change];
+  // Um motor novo (outra carga) traz o seu volume: a tela acompanha.
+  useEffect(() => setLevel(engine.volume()), [engine]);
+  const apply = (next: number) => {
+    const v = clampVolume(next);
+    setLevel(v);
+    engine.setVolume(v);
+  };
+  const save = () => {
+    const store = browserStore();
+    if (store) writeVolume(store, engine.volume());
+  };
+  return { level, apply, save };
 }

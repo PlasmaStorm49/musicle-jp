@@ -65,9 +65,13 @@ export const ptBR = {
   "player.play": "Tocar {seconds} s",
   "player.stop": "Parar",
   "player.loading": "Carregando…",
-  "player.listenMore": "Ouvir mais (+{seconds} s)",
+  "player.listenMore": "Ouvir mais",
+  // Os segundos que o "Ouvir mais" e o "Pular" acrescentam, juntos numa linha (ME98).
+  "player.extra": "(+{seconds} s)",
   // O volume (P216): o nome do botão e da barra, e o valor dela.
   "player.volume": "Volume",
+  "player.volumeButton": "Volume: {percent}%",
+  "player.volumeMuted": "Volume: mudo",
   "player.volumeValue": "{percent}%",
   "player.explicit": "Conteúdo explícito",
   "player.bar": "{unlocked} de {total} segundos liberados",
@@ -136,7 +140,7 @@ export const ptBR = {
   "typing.results.other": "{count} sugestões",
   "typing.tried": "já tentou",
   "typing.attempt": "Tentativa {current} de {total}",
-  "typing.skip": "Pular (+{seconds} s)",
+  "typing.skip": "Pular",
   "typing.giveUp": "Desistir",
   "typing.wrong": "Errou: {title}. Tentativa {current} de {total}.",
   "typing.skipped": "Pulou. Tentativa {current} de {total}.",
