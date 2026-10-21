@@ -523,6 +523,27 @@ describe("revelação: a prévia inteira", () => {
     expect(listen()).toBeTruthy();
   });
 
+  it("a barra da prévia leva ao ponto dela (P224) e toca dali até o fim", async () => {
+    const engine: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      stop: vi.fn(),
+      retain: vi.fn(),
+      setVolume: vi.fn(),
+      volume: () => 1,
+      play: vi.fn(() => Promise.resolve(null)),
+    };
+    setup(game("album", { status: "won" }), undefined, index, engine);
+    const slider = screen.getByRole("slider", { name: "Ponto da prévia" });
+    expect(slider.getAttribute("aria-valuetext")).toBe("Segundo 0 de 30");
+    const bar = slider.querySelector<HTMLElement>(".bar");
+    if (!bar) throw new Error("sem a barra");
+    bar.getBoundingClientRect = () => ({ left: 0, width: 300 }) as DOMRect;
+    fireEvent.click(slider, { clientX: 150, detail: 1 }); // a metade: o segundo 15
+    await act(async () => {});
+    expect(engine.play).toHaveBeenCalledWith("/audio/1.wav", 15, 15);
+  });
+
   it("no Carregando… o botão já é Parar, e o som que chega depois não volta a tocar", async () => {
     let deliver: (playback: null) => void = () => {};
     const engine: AudioEngine = {
