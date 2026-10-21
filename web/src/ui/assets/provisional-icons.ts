@@ -3,7 +3,8 @@
 // aprovados por ele em 21/10/2026. Saem quando o designer mandar os dele (PD6): o ícone novo vai
 // para o guia, o extrair-pecas.cjs o leva ao icons.ts, e o nome sai daqui. Feito por um script
 // (traço de marcador com espessura irregular, pontas cortadas e a fenda de brilho, um furo pelo
-// sentido contrário do contorno). Não é gerado do guia: o identity.test.ts não o confere.
+// sentido contrário do contorno): o docs/identidade/provisional-icons.mjs, cujos caminhos vêm
+// para cá à mão. Não é gerado do guia: o identity.test.ts confere só a forma e os nomes.
 export const PROVISIONAL_ICONS = {
   sun: {
     viewBox: "-2 -2 104 104",
