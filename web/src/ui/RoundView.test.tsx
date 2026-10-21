@@ -7,7 +7,7 @@ import { type CatalogIndex, indexCatalog } from "../core/catalog.ts";
 import { createRounds, type GameState, type RoundState, reduce } from "../core/reducer.ts";
 import type { Album, Catalog, Target, Track } from "../core/types.ts";
 import { catalogResolver, type PreviewResolver } from "../data/previews.ts";
-import { type HelpSetup, RoundView, roundScreen } from "./RoundView.tsx";
+import { type HelpSetup, RoundView } from "./RoundView.tsx";
 
 afterEach(cleanup);
 
@@ -209,6 +209,8 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(follows(screen.getByRole("button", { name: "Próxima rodada" }), badge)).toBe(true);
     expect(badge.closest(".attribution")?.nextElementSibling).toBeNull();
     expect(badge.getAttribute("href")).toBe(STORE);
+    // Fora da seção e do cartão: o último filho do palco, pregado no pé (PR D3).
+    expect(badge.closest(".reveal, .card")).toBeNull();
   });
 
   it("parada real, Desafio: o selo vem depois do Desistir", () => {
@@ -319,22 +321,12 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(follows(pill, screen.getByRole("button", { name: /^(Tocar|Carregando)/ }))).toBe(true);
   });
 
-  it("o roundScreen: palco com a rodada em jogo, anulada ou sem rodada; sem ele na revelação (D3)", () => {
-    expect(roundScreen(game("song"), "game")).toBe("game screen");
-    expect(roundScreen(game("album", { status: "void" }), "game")).toBe("game screen");
-    expect(roundScreen(null, "game practice")).toBe("game practice screen");
-    expect(roundScreen(game("song", { status: "won" }), "game")).toBe("game");
-    expect(roundScreen(game("album", { status: "lost" }), "game")).toBe("game");
-  });
-
-  it("o título das tentativas só para o leitor de tela na rodada, e visível na revelação", () => {
+  it("o título das tentativas fica só para o leitor de tela, na rodada e na revelação", () => {
     setup(game("song", { attempts: [{ kind: "skip" }] }));
     expect(screen.getByRole("heading", { name: "Suas tentativas" }).classList).toContain("sr-only");
     cleanup();
     setup(game("song", { status: "lost", attempts: [{ kind: "skip" }] }));
-    expect(screen.getByRole("heading", { name: "Suas tentativas" }).classList).not.toContain(
-      "sr-only",
-    );
+    expect(screen.getByRole("heading", { name: "Suas tentativas" }).classList).toContain("sr-only");
   });
 
   it("rodada anulada: o foco vai para o botão de seguir, com o texto pedido", () => {
@@ -343,6 +335,26 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(document.activeElement).toBe(next);
     fireEvent.click(next);
     expect(onNext).toHaveBeenCalledOnce();
+  });
+
+  it("revelação do Normal: o X no resultado; a certa com o ✓ e a escolhida com o X, com o texto para o leitor de tela (P206)", () => {
+    setup(
+      game("album", {
+        status: "lost",
+        attempts: [{ kind: "guess", guessId: "t:al:2", correct: false }],
+      }),
+    );
+    const result = screen.getByRole("heading", { name: "Não foi dessa vez." });
+    expect(result.querySelector('svg.icon-wrong[aria-hidden="true"]')).not.toBeNull();
+    const correct = document.querySelector(".options.done li.correct");
+    expect(correct?.querySelector('svg.icon-right[aria-hidden="true"]')).not.toBeNull();
+    expect(correct?.querySelector(".sr-only")?.textContent).toBe("Resposta certa");
+    const wrong = document.querySelector(".options.done li.wrong");
+    expect(wrong?.querySelector('svg.icon-wrong[aria-hidden="true"]')).not.toBeNull();
+    expect(wrong?.querySelector(".sr-only")?.textContent).toBe("Sua escolha");
+    // As outras duas, sem ícone nem texto, e nenhuma etiqueta visível.
+    expect(document.querySelectorAll(".options.done li svg")).toHaveLength(2);
+    expect(document.querySelector(".options.done .tag")).toBeNull();
   });
 
   it("revelação do Normal: as 4 opções mostram a capa (P51), com alt vazio", () => {

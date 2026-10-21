@@ -19,6 +19,7 @@ import { Attempts } from "./Attempts.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { GuessInput, type SearchScope } from "./GuessInput.tsx";
 import { useResolvedUrl, useSuggest } from "./hooks.ts";
+import { Icon } from "./Icon.tsx";
 import { ItemLabel } from "./ItemLabel.tsx";
 import { Options } from "./Options.tsx";
 import { Player } from "./Player.tsx";
@@ -68,16 +69,6 @@ type Props = {
   /** Uma linha a mais na revelação (o Superfan: "3 erros: a partida acabou."). */
   readonly revealNote?: string;
 };
-
-/**
- * A classe da raiz da tela da rodada: o palco (.screen, regra 25) com a rodada em jogo ou
- * anulada; a revelação só vira palco no PR D3. Só a classe muda, no mesmo elemento: nada
- * remonta (ME39).
- */
-export function roundScreen(game: GameState | null, base: string): string {
-  const status = game ? currentRound(game).status : null;
-  return status === "won" || status === "lost" ? base : `${base} screen`;
-}
 
 /**
  * Uma rodada, do trecho à revelação, nos dois modos (Normal em 4 opções, Desafio digitado). Não
@@ -425,6 +416,7 @@ function VoidRound({
       <p>{t("void.message")}</p>
       <button ref={button} type="button" class="primary" onClick={singleClick(onNext)}>
         {nextLabel}
+        <Icon name="next" />
       </button>
     </section>
   );

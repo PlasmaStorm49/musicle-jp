@@ -11,6 +11,7 @@ import { t, tn } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { useResolvedUrl } from "./hooks.ts";
+import { Icon } from "./Icon.tsx";
 import { Cover, ItemLabel } from "./ItemLabel.tsx";
 import { singleClick } from "./singleClick.ts";
 
@@ -111,84 +112,94 @@ export function Reveal({
   const gaveUp = round.gaveUp && rules.giveUpPoints !== 0;
 
   return (
-    <section class="reveal" aria-labelledby="result">
-      <h2 id="result" ref={heading} tabIndex={-1} class={won ? "won" : "lost"}>
-        {won
-          ? round.help
-            ? t("reveal.wonHelp", { points: tn("count.points", points) })
-            : t("reveal.won", { points, max: rules.points[0] ?? points })
-          : t("reveal.lost")}
-      </h2>
-      {/* O Superfan tira pontos por palpite errado (P119): a conta à parte, depois do resultado. */}
-      {errors > 0 && rules.wrongPoints !== 0 && (
-        <p class="reveal-errors">
-          {tn("reveal.errors", errors, {
-            points: tn("count.points", errors * rules.wrongPoints),
-          })}
-        </p>
-      )}
-      {gaveUp && (
-        <p class="reveal-errors">
-          {t("reveal.gaveUp", { points: tn("count.points", rules.giveUpPoints) })}
-        </p>
-      )}
-      {note && <p class="reveal-note">{note}</p>}
+    <>
+      <section class="reveal" aria-labelledby="result">
+        <h2 id="result" ref={heading} tabIndex={-1} class={won ? "won" : "lost"}>
+          {/* O ✓ ou o X do designer (P206): só desenho, o texto diz o resultado. */}
+          <Icon name={won ? "right" : "wrong"} />
+          {won
+            ? round.help
+              ? t("reveal.wonHelp", { points: tn("count.points", points) })
+              : t("reveal.won", { points, max: rules.points[0] ?? points })
+            : t("reveal.lost")}
+        </h2>
+        {/* O Superfan tira pontos por palpite errado (P119): a conta à parte, depois do resultado. */}
+        {errors > 0 && rules.wrongPoints !== 0 && (
+          <p class="reveal-errors">
+            {tn("reveal.errors", errors, {
+              points: tn("count.points", errors * rules.wrongPoints),
+            })}
+          </p>
+        )}
+        {gaveUp && (
+          <p class="reveal-errors">
+            {t("reveal.gaveUp", { points: tn("count.points", rules.giveUpPoints) })}
+          </p>
+        )}
+        {note && <p class="reveal-note">{note}</p>}
 
-      {!rules.guessFromOptions ? (
-        <Attempts index={index} round={round} />
-      ) : (
-        <ul class="options done">
-          {round.options.map((id) => {
-            const item = optionView(index, id, target);
-            const isCorrect = round.accepted.includes(id);
-            const isPicked = id === pickedId;
-            const tag = isCorrect ? t("reveal.correct") : isPicked ? t("reveal.yourPick") : null;
-            return (
-              item && (
-                <li key={id} class={isCorrect ? "correct" : isPicked ? "wrong" : ""}>
-                  <Cover item={item} resolveUrl={resolveUrl} />
-                  <ItemLabel item={item} />
-                  {tag && <span class="tag">{tag}</span>}
-                </li>
-              )
-            );
-          })}
-        </ul>
-      )}
+        {!rules.guessFromOptions ? (
+          <Attempts index={index} round={round} hideTitle />
+        ) : (
+          <ul class="options done">
+            {round.options.map((id) => {
+              const item = optionView(index, id, target);
+              const isCorrect = round.accepted.includes(id);
+              const isPicked = id === pickedId;
+              const tag = isCorrect ? t("reveal.correct") : isPicked ? t("reveal.yourPick") : null;
+              return (
+                item && (
+                  <li key={id} class={isCorrect ? "correct" : isPicked ? "wrong" : ""}>
+                    <Cover item={item} resolveUrl={resolveUrl} />
+                    <ItemLabel item={item} />
+                    {/* O ícone na tela; "Resposta certa" e "Sua escolha" para o leitor de tela. */}
+                    {tag && (
+                      <>
+                        <Icon name={isCorrect ? "right" : "wrong"} />
+                        <span class="sr-only">{tag}</span>
+                      </>
+                    )}
+                  </li>
+                )
+              );
+            })}
+          </ul>
+        )}
 
-      {track && (
-        <article class="card">
-          {track.artworkUrl && (
-            <img src={resolveUrl(track.artworkUrl)} alt="" width={96} height={96} />
-          )}
-          <div>
-            <ItemLabel item={track} />
-            <p class="album">
-              {t("reveal.albumLabel")} <span lang={track.albumLang}>{track.albumTitle}</span>
-            </p>
-            {track.explicit && <p class="badge explicit">{t("player.explicit")}</p>}
-            {track.preview && url && (
-              <button type="button" onClick={singleClick(toggleFull)}>
-                {/* No "Carregando…" o clique também para: o nome diz o que ele faz. */}
-                {full === "playing" || full === "loading"
-                  ? t("player.stop")
-                  : t("reveal.listenFull")}
-              </button>
+        {track && (
+          <article class="card">
+            {track.artworkUrl && (
+              <img src={resolveUrl(track.artworkUrl)} alt="" width={96} height={96} />
             )}
-            {full === "failed" && <p class="hint">{t("reveal.listenFailed")}</p>}
-          </div>
-        </article>
-      )}
-      {/* O 2º clique de um toque duplo cairia na rodada seguinte (no "Não sei", ME43). */}
-      <button type="button" class="primary" onClick={singleClick(onNext)}>
-        {nextLabel}
-      </button>
-
-      {/* No fim da página, como na rodada (P112, ME58), e fora do cartão: o estilo das imagens
-          dele (cantos arredondados) alteraria o selo. */}
+            <div>
+              <ItemLabel item={track} />
+              <p class="album">
+                {t("reveal.albumLabel")} <span lang={track.albumLang}>{track.albumTitle}</span>
+              </p>
+              {track.explicit && <p class="badge explicit">{t("player.explicit")}</p>}
+              {track.preview && url && (
+                <button type="button" onClick={singleClick(toggleFull)}>
+                  {/* No "Carregando…" o clique também para: o nome diz o que ele faz. */}
+                  {full === "playing" || full === "loading"
+                    ? t("player.stop")
+                    : t("reveal.listenFull")}
+                </button>
+              )}
+              {full === "failed" && <p class="hint">{t("reveal.listenFailed")}</p>}
+            </div>
+          </article>
+        )}
+        {/* O 2º clique de um toque duplo cairia na rodada seguinte (no "Não sei", ME43). */}
+        <button type="button" class="primary" onClick={singleClick(onNext)}>
+          {nextLabel}
+          <Icon name="next" />
+        </button>
+      </section>
+      {/* No fim da página, como na rodada (P112, ME58), fora do cartão (o estilo das imagens dele
+          alteraria o selo) e fora da seção: o último filho do palco fica pregado no pé. */}
       {track && index.catalog.provider === APPLE_PROVIDER && (
         <Attribution href={track.storeUrl ?? PLAYLIST_URL} />
       )}
-    </section>
+    </>
   );
 }

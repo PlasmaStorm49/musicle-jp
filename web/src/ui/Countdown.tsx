@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { formatHms, msUntilNextDay } from "../core/dates.ts";
 import { todayHref } from "../core/routes.ts";
 import { t } from "../i18n/t.ts";
+import { singleClick } from "./singleClick.ts";
 
 type Props = {
   /** Data do jogo terminado; o próximo diário é o dia seguinte. */
@@ -47,8 +48,11 @@ export function Countdown({ date, announce }: Props) {
   if (left === 0) {
     return (
       <section class="countdown">
-        <p>{t("countdown.ready")}</p>
-        <button type="button" class="primary" onClick={goToToday}>
+        {/* Na tela, o botão já diz isso, e o aria-live anunciou: a frase fica para o leitor de
+            tela, e o resumo cabe com o botão (regra 25). */}
+        <p class="sr-only">{t("countdown.ready")}</p>
+        {/* Recarrega a página: o 2º clique de um toque duplo não pode valer (regra 23). */}
+        <button type="button" class="primary" onClick={singleClick(goToToday)}>
           {t("countdown.play")}
         </button>
       </section>

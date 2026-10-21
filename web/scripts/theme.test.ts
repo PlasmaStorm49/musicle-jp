@@ -78,10 +78,8 @@ const SHAPE = 3;
 const PAIRS: readonly (readonly [string, string, number])[] = [
   ["text", "bg", TEXT],
   ["text", "surface", TEXT],
-  ["text", "surface-2", TEXT],
   ["muted", "bg", TEXT],
   ["muted", "surface", TEXT],
-  ["muted", "surface-2", TEXT],
   ["on-primary", "primary", TEXT],
   ["on-primary", "primary-hover", TEXT],
   ["on-primary", "primary-press", TEXT],
@@ -116,13 +114,11 @@ const PAIRS: readonly (readonly [string, string, number])[] = [
   // A barra do trecho (ME30): o liberado contra o trilho, e o que já tocou contra o liberado.
   ["bar-open", "bar-track", SHAPE],
   ["bar-play", "bar-open", SHAPE],
-  // A parte travada contra o fundo (os divisores dos trechos são da cor do fundo, PR D2) e
-  // contra o cartão de antes.
-  ["bar-track", "surface", SHAPE],
   // O player sem caixa (PR D2): a barra fica sobre o fundo da página.
   ["bar-track", "bg", SHAPE],
-  ["bucket", "surface", SHAPE],
-  ["bucket-today", "surface", SHAPE],
+  // As estatísticas sem caixa (PR D3): as colunas da distribuição sobre o fundo.
+  ["bucket", "bg", SHAPE],
+  ["bucket-today", "bg", SHAPE],
 ];
 
 describe.each([

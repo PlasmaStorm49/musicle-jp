@@ -21,7 +21,7 @@ import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { usePreviews } from "./hooks.ts";
 import { modeName } from "./modes.ts";
-import { type HelpSetup, RoundView, roundScreen } from "./RoundView.tsx";
+import { type HelpSetup, RoundView } from "./RoundView.tsx";
 import { Summary } from "./Summary.tsx";
 
 type Props = {
@@ -74,8 +74,8 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
     return { ...merged, [id]: merged[id] ?? game };
   }, [store, initialSave, id, game]);
   return (
-    <>
-      <header>
+    <div class="game screen">
+      <header class="round-head">
         <h1>{header(target, props.day.number)}</h1>
       </header>
       <Summary
@@ -87,7 +87,7 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
         shareUrl={props.shareUrl}
         announce={props.announce}
       />
-    </>
+    </div>
   );
 }
 
@@ -217,7 +217,7 @@ function Playing({
   if (summary) return <DaySummary {...props} game={summary} />;
 
   return (
-    <div class={roundScreen(game, "game")}>
+    <div class="game screen">
       <header class="round-head">
         <h1>{header(game.target, day.number)}</h1>
         <p>{t("game.round", { current: game.current + 1, total: ROUNDS_PER_DAY })}</p>

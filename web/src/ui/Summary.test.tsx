@@ -13,6 +13,10 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+/** A frase inteira de cada rodada, a do leitor de tela (na tela, a célula é curta). */
+const roundTexts = () =>
+  [...document.querySelectorAll(".summary-rounds > li > .sr-only")].map((s) => s.textContent);
+
 // 6 + 0 + 5 = 11 de 18; nenhum dado do catálogo (o resumo não tem como revelar a resposta).
 const GAME: FinishedGame = {
   number: 3,
@@ -32,7 +36,9 @@ describe("Summary (o fim do dia)", () => {
     vi.setSystemTime(new Date("2026-10-10T15:00:00Z"));
   });
 
-  it("título com o foco, pontos, uma linha por rodada, o compartilhar e a contagem", () => {
+  it("título com o foco, pontos, uma célula por rodada, o compartilhar e a contagem", async () => {
+    const writeText = vi.fn(() => Promise.resolve());
+    vi.stubGlobal("navigator", { clipboard: { writeText } });
     render(
       <Summary
         game={GAME}
@@ -47,15 +53,76 @@ describe("Summary (o fim do dia)", () => {
     const title = screen.getByRole("heading", { name: "Resultado do dia" });
     expect(document.activeElement).toBe(title);
     expect(screen.getByText("11 de 18 pontos")).toBeTruthy();
-    expect(screen.getAllByRole("listitem").map((li) => li.textContent)).toContain(
+    expect(roundTexts()).toEqual([
+      "Rodada 1: acertou, 6 pontos",
+      "Rodada 2: não acertou",
       "Rodada 3: acertou, 5 pontos",
-    );
-    // O texto do compartilhar sai com o nome do jogo e o modo.
-    expect(document.querySelector(".share-preview")?.textContent).toBe(
+    ]);
+    // Na célula: a rodada, o ✓ ou o X (só desenho) e os pontos.
+    const third = document.querySelectorAll(".summary-rounds > li")[2];
+    expect(third?.querySelector('[aria-hidden="true"]')?.textContent).toBe("Rodada 3");
+    expect(third?.querySelector(".round-points")?.textContent).toBe("5 pontos");
+    expect(third?.querySelector("svg.icon-right")).not.toBeNull();
+    // Sem a prévia do texto (as células já mostram o resultado); ele sai com o nome do jogo e o
+    // modo.
+    expect(document.querySelector(".share-preview")).toBeNull();
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
+    });
+    expect(writeText).toHaveBeenCalledWith(
       "AteMusic · Normal nº 3\n11/18\n✅\n❌\n⬛✅\nhttps://x.test/",
     );
     // 12:00 em Brasília: faltam 12 h para o próximo diário.
     expect(screen.getByRole("timer").textContent).toBe("12:00:00");
+  });
+
+  it('a rodada anulada: na célula, sem ícone e com "anulada" no lugar dos pontos', () => {
+    const voided: FinishedGame = {
+      ...GAME,
+      rounds: [{ status: "void", stage: 0, attempts: [] }, ...GAME.rounds.slice(1)],
+    };
+    render(
+      <Summary
+        game={voided}
+        target="album"
+        date={DATE}
+        history={{ [`${DATE}|album`]: voided }}
+        scheduleDates={[DATE]}
+        shareUrl="https://x.test/"
+        announce={vi.fn()}
+      />,
+    );
+    const cell = document.querySelector(".summary-rounds > li.void");
+    expect(cell?.querySelector("svg")).toBeNull();
+    expect(cell?.querySelector(".round-points")?.textContent).toBe("anulada");
+    expect(roundTexts()[0]).toBe("Rodada 1: anulada");
+  });
+
+  it("as estatísticas: 19 colunas, a de hoje em destaque e com a altura cheia (ME77)", () => {
+    render(
+      <Summary
+        game={GAME}
+        target="album"
+        date={DATE}
+        history={{ [`${DATE}|album`]: GAME }}
+        scheduleDates={[DATE]}
+        shareUrl="https://x.test/"
+        announce={vi.fn()}
+      />,
+    );
+    expect(document.querySelectorAll(".distribution > li")).toHaveLength(19);
+    const today = document.querySelector<HTMLElement>(".bucket.today");
+    // Hoje (11 pontos) é o único jogo: a coluna mais alta, com a contagem e a frase para o leitor.
+    expect(today?.querySelector(".bucket-label")?.textContent).toBe("11");
+    expect(today?.querySelector<HTMLElement>(".bucket-bar")?.style.getPropertyValue("--h")).toBe(
+      "100%",
+    );
+    expect(today?.querySelector(".sr-only")?.textContent).toBe("11 pontos: 1 jogo, incluindo hoje");
+    expect(
+      document
+        .querySelector<HTMLElement>(".bucket:not(.today) .bucket-bar")
+        ?.style.getPropertyValue("--h"),
+    ).toBe("0%");
   });
 
   it("a rodada com a ajuda (P149): acertou com ajuda, 1 ponto", () => {
@@ -79,8 +146,10 @@ describe("Summary (o fim do dia)", () => {
       />,
     );
     expect(screen.getByText("7 de 18 pontos")).toBeTruthy();
-    expect(screen.getAllByRole("listitem").map((li) => li.textContent)).toContain(
-      "Rodada 1: acertou com ajuda, 1 ponto",
+    expect(roundTexts()).toContain("Rodada 1: acertou com ajuda, 1 ponto");
+    // Na célula também: a ajuda não some da tela.
+    expect(document.querySelector(".summary-rounds .round-points")?.textContent).toBe(
+      "1 ponto · ajuda",
     );
   });
 });
@@ -114,6 +183,22 @@ describe("Countdown (P39: a virada à meia-noite de Brasília)", () => {
     render(<Countdown date={DATE} announce={announce} />);
     expect(screen.getByRole("button", { name: "Jogar o novo diário" })).toBeTruthy();
     expect(announce).not.toHaveBeenCalled();
+    // A frase fica para o leitor de tela: na tela, o botão já diz o mesmo.
+    expect(screen.getByText("O novo diário já está disponível.").classList).toContain("sr-only");
+  });
+
+  it("o 2º clique de um toque duplo no Jogar o novo diário não recarrega (regra 23)", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-10-11T03:00:05Z"));
+    const reload = vi.spyOn(window.location, "reload").mockImplementation(() => {});
+    const assign = vi.spyOn(window.location, "assign").mockImplementation(() => {});
+    render(<Countdown date={DATE} announce={vi.fn()} />);
+    const play = screen.getByRole("button", { name: "Jogar o novo diário" });
+    fireEvent.click(play, { detail: 2 });
+    expect(reload).not.toHaveBeenCalled();
+    expect(assign).not.toHaveBeenCalled();
+    fireEvent.click(play, { detail: 1 });
+    expect(reload.mock.calls.length + assign.mock.calls.length).toBe(1);
   });
 
   it("a aba que volta a ficar visível recalcula pelo relógio (os timers atrasam em segundo plano)", () => {
@@ -132,7 +217,8 @@ describe("Countdown (P39: a virada à meia-noite de Brasília)", () => {
 describe("ShareButton", () => {
   const TEXT = "AteMusic · Desafio nº 1\n6/18";
 
-  it("copiou: avisa na tela e no aria-live", async () => {
+  it('copiou: o botão diz "Copiado!" por 2 s, e o aria-live avisa com a frase inteira', async () => {
+    vi.useFakeTimers();
     const writeText = vi.fn(() => Promise.resolve());
     vi.stubGlobal("navigator", { clipboard: { writeText } });
     const announce = vi.fn();
@@ -141,8 +227,26 @@ describe("ShareButton", () => {
       fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
     });
     expect(writeText).toHaveBeenCalledWith(TEXT);
-    expect(screen.getByText("Resultado copiado. É só colar onde quiser.")).toBeTruthy();
+    // Na tela, "Copiado!"; o nome do botão focado continua o mesmo (o aviso vem pelo aria-live).
+    const button = screen.getByRole("button", { name: "Compartilhar resultado" });
+    expect(button.querySelector('[aria-hidden="true"]')?.textContent).toBe("Copiado!");
     expect(announce).toHaveBeenCalledWith("Resultado copiado. É só colar onde quiser.");
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
+    expect(button.textContent).toBe("Compartilhar resultado");
+  });
+
+  it("o 2º clique de um toque duplo não copia de novo (regra 23)", async () => {
+    const writeText = vi.fn(() => Promise.resolve());
+    vi.stubGlobal("navigator", { clipboard: { writeText } });
+    render(<ShareButton text={TEXT} announce={vi.fn()} />);
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }), {
+        detail: 2,
+      });
+    });
+    expect(writeText).not.toHaveBeenCalled();
   });
 
   it.each([
