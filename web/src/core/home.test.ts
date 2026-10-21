@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { catalog, schedule } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
-import { dailyStatus, practiceSummary } from "./home.ts";
+import { dailiesDone, dailyStatus, nextDaily, practiceSummary } from "./home.ts";
 import { startPracticeSession } from "./practice.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "./records.ts";
 import { reduce } from "./reducer.ts";
@@ -73,6 +73,40 @@ describe("dailyStatus (cartões da home)", () => {
     };
     const done = save({ history: { [puzzleId(DATE, "album")]: voided } });
     expect(dailyStatus(done, day, DATE, "album")).toMatchObject({ kind: "done", max: 0 });
+  });
+});
+
+describe("nextDaily (o cartão oliva)", () => {
+  it("o 1º diário por jogar, na ordem de MODES; nenhum, com os dois terminados ou sem o dia", () => {
+    expect(nextDaily(emptySave(), day, DATE)).toBe("album");
+    const albumDone = save({ history: { [puzzleId(DATE, "album")]: finished } });
+    expect(nextDaily(albumDone, day, DATE)).toBe("song");
+    const bothDone = save({
+      history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
+    });
+    expect(nextDaily(bothDone, day, DATE)).toBeNull();
+    expect(nextDaily(emptySave(), null, DATE)).toBeNull();
+  });
+
+  it("em andamento também é por jogar", () => {
+    const playing = save({
+      history: { [puzzleId(DATE, "album")]: finished },
+      inProgress: { [puzzleId(DATE, "song")]: { events: [{ type: "LISTEN_MORE" }] } },
+    });
+    expect(nextDaily(playing, day, DATE)).toBe("song");
+  });
+});
+
+describe("dailiesDone (o ✓ da aba Hits, P227)", () => {
+  it("só com os dois diários do dia terminados", () => {
+    expect(dailiesDone(emptySave(), DATE)).toBe(false);
+    const one = save({ history: { [puzzleId(DATE, "album")]: finished } });
+    expect(dailiesDone(one, DATE)).toBe(false);
+    const both = save({
+      history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
+    });
+    expect(dailiesDone(both, DATE)).toBe(true);
+    expect(dailiesDone(both, "2026-10-09")).toBe(false); // os de outro dia não contam
   });
 });
 

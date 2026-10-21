@@ -5,6 +5,7 @@ import {
   captureClipboard,
   dailyAnswer,
   expect,
+  hitsTab,
   lastPlayed,
   open,
   option,
@@ -53,14 +54,13 @@ test("Normal: do Tocar ao compartilhar", async ({ page }) => {
   expect(await page.evaluate(() => window.__copied)).toBe(
     "AteMusic · Normal nº 1\n11/18\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
   );
-  // O ✓ é aria-hidden; o texto para leitor de tela vem num span à parte, e o navegador junta os
-  // dois com um espaço: "Normal (terminado)".
-  await expect(page.getByRole("link", { name: "Normal (terminado)" })).toBeVisible();
+  // Só um diário terminado: o ✓ da aba Hits espera os dois (P227).
+  await expect(hitsTab(page)).toHaveAccessibleName("Hits");
 
-  // A home mostra o dia terminado, com os pontos.
+  // A home mostra o dia terminado, com os pontos, no cartão dos Hits.
   await page.getByRole("link", { name: "Início" }).click();
-  await expect(page.getByRole("main").getByRole("link", { name: /^Normal/ })).toContainText(
-    "nº 1 · terminado, 11 de 18 pontos",
+  await expect(page.getByRole("main").getByRole("link", { name: /^Hits/ })).toContainText(
+    "Normal: terminado, 11 de 18 pontos",
   );
 });
 
@@ -180,13 +180,60 @@ test("Normal no celular: toque duplo em Próxima rodada não gasta a rodada segu
   await expect(page.locator(".reveal")).toHaveCount(0);
 });
 
-test("entrar num diário pela nav, com o teclado, leva o foco ao Tocar (regra 16, ME49)", async ({
+test("terminar o 2º diário do dia põe o ✓ na aba Hits na hora, sem trocar de aba (P227)", async ({
+  page,
+}) => {
+  const lost = { status: "lost", stage: 0, attempts: [] } as const;
+  const save = {
+    schemaVersion: 5,
+    history: { "2026-10-08|song": { number: 1, rounds: [lost, lost, lost] } },
+    inProgress: {},
+  } satisfies Save;
+  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
+    SAVE_KEY,
+    JSON.stringify(save),
+  ] as const);
+  await open(page, "2026-10-08T12:00:00-03:00", "#normal");
+  await expect(hitsTab(page)).toHaveAccessibleName("Hits");
+  for (const next of ["Próxima rodada", "Próxima rodada", "Ver resultado"]) {
+    await page.getByRole("button", { name: "Não sei" }).click();
+    await page.getByRole("button", { name: next }).click();
+  }
+  await expect(hitsTab(page)).toHaveAccessibleName("Hits (diários terminados)");
+});
+
+test("entrar num diário pelos Hits, com o teclado, leva o foco ao Tocar (regra 16, ME49)", async ({
   page,
 }) => {
   await open(page, "2026-10-08T12:00:00-03:00", "#inicio");
-  await page.getByRole("navigation").getByRole("link", { name: "Desafio" }).focus();
+  // A Início leva o foco ao título depois da pintura: espera, senão ele tira o foco da aba.
+  await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeFocused();
+  await hitsTab(page).focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("heading", { level: 1, name: "Hits" })).toBeFocused();
+  await page
+    .getByRole("main")
+    .getByRole("link", { name: /^Desafio/ })
+    .focus();
   await page.keyboard.press("Enter");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Desafio · nº 1");
+  // O cartão some com a troca de tela: o foco que se perdeu vai ao Tocar.
+  await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
+});
+
+test("voltar pela aba Artistas a uma rodada aberta, com o teclado, leva o foco ao Tocar (a nav fica fora do main)", async ({
+  page,
+}) => {
+  await open(page, "2026-10-08T12:00:00-03:00", "#artistas");
+  await page.getByRole("button", { name: /^青井ユウ/ }).click();
+  await page.getByRole("button", { name: "Livre" }).click();
+  await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeVisible();
+  await page.getByRole("link", { name: "Início" }).click();
+  // A Início leva o foco ao título depois da pintura: espera, senão ele tira o foco da aba.
+  await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeFocused();
+  await page.getByRole("navigation").getByRole("link", { name: "Artistas" }).focus();
+  await page.keyboard.press("Enter");
+  // A sessão mora no App: a rodada volta, e o foco sai do link da nav para o Tocar.
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
 });
 

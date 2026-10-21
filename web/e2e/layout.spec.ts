@@ -16,6 +16,7 @@ import {
   overflow,
   test,
   trackById,
+  viaHits,
 } from "./helpers.ts";
 
 const DAY = "2026-10-08T12:00:00-03:00";
@@ -86,7 +87,7 @@ for (const viewport of [
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
-    test("a Início no caso mais alto: os dois diários terminados e as duas sessões com placar", async ({
+    test("a Início no caso mais alto: os dois diários terminados no cartão dos Hits e a sessão do artista", async ({
       page,
     }) => {
       const lost = { status: "lost", stage: 0, attempts: [] } as const;
@@ -104,13 +105,38 @@ for (const viewport of [
       await page.getByRole("button", { name: /^青井ユウ/ }).click();
       await page.getByRole("button", { name: "Livre" }).click();
       await page.getByRole("button", { name: "Desistir" }).click();
-      await page.getByRole("navigation").getByRole("link", { name: "Treino" }).click();
-      await page.getByRole("button", { name: "Normal", exact: true }).click();
-      await page.getByRole("button", { name: "Não sei" }).click();
       await page.getByRole("link", { name: "Início" }).click();
       const cards = page.getByRole("main").getByRole("link");
-      await expect(cards.filter({ hasText: "Nesta sessão" })).toHaveCount(2);
-      await expect(cards.filter({ hasText: "terminado" })).toHaveCount(2);
+      await expect(cards.filter({ hasText: "Nesta sessão" })).toHaveCount(1);
+      await expect(cards.filter({ hasText: /^Hits/ }).locator(".tag")).toHaveText([
+        "Normal: terminado, 0 de 18 pontos",
+        "Desafio: terminado, 0 de 18 pontos",
+      ]);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("os Hits no caso mais alto: os dois diários terminados e a sessão do Treino com placar (P225)", async ({
+      page,
+    }) => {
+      const lost = { status: "lost", stage: 0, attempts: [] } as const;
+      const day = { number: 1, rounds: [lost, lost, lost] };
+      const save = {
+        schemaVersion: 5,
+        history: { "2026-10-08|album": day, "2026-10-08|song": day },
+        inProgress: {},
+      } satisfies Save;
+      await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
+        SAVE_KEY,
+        JSON.stringify(save),
+      ] as const);
+      await open(page, DAY, "#treino");
+      await page.getByRole("button", { name: "Normal", exact: true }).click();
+      await page.getByRole("button", { name: "Não sei" }).click();
+      await page.getByRole("navigation").getByRole("link", { name: /^Hits/ }).click();
+      await expect(page.getByRole("heading", { level: 1, name: "Hits" })).toBeFocused();
+      await expect(page.getByRole("main").getByRole("link", { name: /^Treino/ })).toContainText(
+        "Nesta sessão (Normal)",
+      );
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
@@ -265,6 +291,7 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
   await open(page, DAY, "#inicio");
   for (const [hash, title] of [
     ["#inicio", "AteMusic"],
+    ["#hits", "Hits"],
     ["#normal", "Normal · nº 1"],
     ["#desafio", "Desafio · nº 1"],
     ["#treino", "Treino"],
@@ -304,7 +331,7 @@ test("em 320 px, um artista longo não empurra a página para o lado: a rodada, 
   await fits("a revelação do Normal", ".options.done .item-artist");
   const answer = dailyAnswer("2026-10-08", "song", 0);
   const other = trackById(answer === "fixture:tr:tr01" ? "fixture:tr:tr02" : "fixture:tr:tr01");
-  await page.getByRole("navigation").getByRole("link", { name: "Desafio" }).click();
+  await viaHits(page, /^Desafio/);
   await page.getByRole("button", { name: /^Tocar/ }).click();
   await page.getByRole("combobox", { name: "Qual é a música?" }).fill(other.title);
   await page
@@ -349,12 +376,14 @@ async function target(locator: Locator): Promise<{ height: number; width: number
   return { height: box?.height ?? 0, width: box?.width ?? 0 };
 }
 
-test("a nav: o selo é a Início (P205), e as 5 abas têm alvo de 44 × 44 px", async ({ page }) => {
+test("a nav: o selo é a Início (P205), e as 3 categorias têm alvo de 44 × 44 px (P225)", async ({
+  page,
+}) => {
   await open(page, DAY, "#normal");
   const nav = page.getByRole("navigation");
   await expect(nav.getByRole("link", { name: "Início" }).locator("img.nav-logo")).toBeVisible();
   const links = await nav.getByRole("link").all();
-  expect(links).toHaveLength(5);
+  expect(links).toHaveLength(3);
   for (const link of links) {
     const { height, width } = await target(link);
     expect(height).toBeGreaterThanOrEqual(44);

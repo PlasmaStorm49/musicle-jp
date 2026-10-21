@@ -2,7 +2,7 @@
 // o switch da Início vale na hora, fica gravado e volta antes da pintura (o script do index.html).
 import type { Page } from "@playwright/test";
 import { THEME_KEY } from "../src/storage/theme.ts";
-import { expect, open, test } from "./helpers.ts";
+import { expect, open, test, viaHits } from "./helpers.ts";
 
 const NOW = "2026-10-08T12:00:00-03:00";
 const background = (page: Page) =>
@@ -62,7 +62,7 @@ test("o switch num aparelho claro deixa o jogo escuro também nas outras abas do
   expect(await background(page)).toBe(WHITE);
   await expect(themeSwitch(page)).toHaveAttribute("aria-checked", "false");
   await themeSwitch(page).click();
-  await page.getByRole("navigation").getByRole("link", { name: "Desafio" }).click();
+  await viaHits(page, /^Desafio/);
   await expect(page.getByRole("button", { name: /^Tocar/ })).toBeVisible();
   expect(await background(page)).toBe(BLACK);
 });
