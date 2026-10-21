@@ -421,3 +421,33 @@ test("no computador (1280 px), a revelação e o resumo em duas colunas", async 
   // As estatísticas ao lado do resultado.
   expect((rounds?.x ?? 0) + (rounds?.width ?? 0)).toBeLessThanOrEqual(stats?.x ?? 0);
 });
+
+test("o volume (P216): a barra abre sem mudar a altura, o trecho toca com ele e ele continua depois de recarregar", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await open(page, DAY, "#normal");
+  const play = page.getByRole("button", { name: /^Tocar/ });
+  await expect(play).toBeEnabled();
+  await overflow(page);
+  const height = await page.evaluate(() => document.documentElement.scrollHeight);
+  const before = await top(play);
+  await page.getByRole("button", { name: "Volume" }).click();
+  const range = page.getByRole("slider", { name: "Volume" });
+  await expect(range).toBeFocused();
+  await range.evaluate((el) => {
+    (el as HTMLInputElement).value = "30";
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBe(height);
+  expect(await top(play)).toBe(before);
+  await page.keyboard.press("Escape");
+  await expect(range).toBeHidden();
+  await play.click();
+  await expect.poll(() => page.evaluate(() => window.__musicleAudioLog?.at(-1)?.volume)).toBe(0.3);
+  // Depois de recarregar, o motor nasce com o volume salvo.
+  await page.reload();
+  await expect(play).toBeEnabled();
+  await play.click();
+  await expect.poll(() => page.evaluate(() => window.__musicleAudioLog?.at(-1)?.volume)).toBe(0.3);
+});

@@ -25,7 +25,11 @@ const schedule = fixture<Schedule>("schedule.json");
 declare global {
   interface Window {
     /** Em desenvolvimento, o App registra cada reprodução aqui (o motor falso também). */
-    __musicleAudioLog?: { readonly url: string; readonly offset: number }[];
+    __musicleAudioLog?: {
+      readonly url: string;
+      readonly offset: number;
+      readonly volume?: number;
+    }[];
     /** Texto "copiado" pelo Compartilhar (navigator.clipboard trocado no teste). */
     __copied?: string;
     /** O data-theme do <html> quando o #app aparece, antes do main.tsx (theme.spec.ts). */
