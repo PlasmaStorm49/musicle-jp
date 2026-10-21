@@ -372,6 +372,33 @@ test("a Início: o switch do tema e o Como funciona têm alvo de 44 px (P213)", 
   expect(width).toBeGreaterThanOrEqual(44);
 });
 
+test("desistir é um botão vermelho, e não um link (P220): o texto e o anel no --bad, sem sublinhado, com alvo de 44 px", async ({
+  page,
+}) => {
+  for (const [hash, name] of [
+    ["#normal", "Não sei"],
+    ["#desafio", "Desistir"],
+  ] as const) {
+    await open(page, DAY, hash);
+    const button = page.getByRole("button", { name, exact: true });
+    await expect(button).toBeVisible();
+    const style = await button.evaluate((el) => {
+      const bad = getComputedStyle(document.documentElement).getPropertyValue("--bad").trim();
+      const probe = document.createElement("span");
+      probe.style.color = bad;
+      document.body.append(probe);
+      const red = getComputedStyle(probe).color;
+      probe.remove();
+      const cs = getComputedStyle(el);
+      return { red, color: cs.color, ring: cs.boxShadow, line: cs.textDecorationLine };
+    });
+    expect(style.color, name).toBe(style.red);
+    expect(style.ring, name).toContain(style.red);
+    expect(style.line, name).toBe("none");
+    expect((await target(button)).height, name).toBeGreaterThanOrEqual(44);
+  }
+});
+
 test("a lista de sugestões flutua: aberta, a página não muda de altura e o Tocar não anda", async ({
   page,
 }) => {

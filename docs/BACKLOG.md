@@ -7,7 +7,6 @@ Atualizado em 21/10/2026.
 ## Próximos, na ordem combinada (21/10)
 
 1. **ME36**: as 3 actions novas (o merge só depois das 23:52 de 21/10).
-2. **ME94**: o Desistir como botão.
 3. **ME95**: a barra que leva ao ponto da música.
 4. **ME99**: a revisão adiada do switch e do volume.
 5. **ME96**: o plano das categorias no menu (os Hits).
@@ -19,7 +18,6 @@ Atualizado em 21/10/2026.
 - **ME36.** Atualizar as 3 actions com versão nova. Libera em 22/10.
 
 **Na tela**
-- **ME94 (novo).** "Desistir", "Não sei" e "Desistir da música" como botão de verdade, com o texto vermelho (P220): hoje são texto sublinhado e parecem link.
 - **ME98 (novo).** "Ouvir mais (+1 s)" quebra em duas linhas no celular: a quebra não pode partir o "(+1 s)" ao meio.
 - **ME99 (novo).** A revisão adiada do switch de tema e do volume (#45 e #46): o `revisor`, o `/code-review` e os 15 pontos já anotados do #45.
 - **ME33.** Textos: o "- Single" na revelação, o dia anulado com "0/0" e o "Áudio indisponível" quando o motivo é outro. Conferir o que o PR D já resolveu.
