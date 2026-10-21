@@ -116,8 +116,11 @@ const PAIRS: readonly (readonly [string, string, number])[] = [
   // A barra do trecho (ME30): o liberado contra o trilho, e o que já tocou contra o liberado.
   ["bar-open", "bar-track", SHAPE],
   ["bar-play", "bar-open", SHAPE],
-  // A parte travada contra o cartão do player (os divisores dos trechos são da cor do cartão).
+  // A parte travada contra o fundo (os divisores dos trechos são da cor do fundo, PR D2) e
+  // contra o cartão de antes.
   ["bar-track", "surface", SHAPE],
+  // O player sem caixa (PR D2): a barra fica sobre o fundo da página.
+  ["bar-track", "bg", SHAPE],
   ["bucket", "surface", SHAPE],
   ["bucket-today", "surface", SHAPE],
 ];

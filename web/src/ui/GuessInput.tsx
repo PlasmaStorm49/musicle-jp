@@ -178,8 +178,9 @@ export function GuessInput({ suggest, onPick, labelledBy, scope = "song" }: Prop
           setActive(-1);
         }}
       />
+      {/* Uma linha na tela; o teclado (as setas e o Enter) fica para o leitor de tela (P210). */}
       <p id={HINT_ID} class="hint">
-        {t(TEXTS[scope].hint)}
+        {t(TEXTS[scope].hint)} <span class="sr-only">{t("typing.keysHint")}</span>
       </p>
       {/* biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: padrão combobox da WAI-ARIA 1.2 (ul com role listbox) */}
       <ul id={LIST_ID} role="listbox" aria-label={t("typing.listLabel")} hidden={!expanded}>
@@ -205,7 +206,7 @@ export function GuessInput({ suggest, onPick, labelledBy, scope = "song" }: Prop
         ))}
       </ul>
       {open && query.trim() !== "" && results.length === 0 && (
-        <p class="hint">{t("typing.noResults")}</p>
+        <p class="no-results">{t("typing.noResults")}</p>
       )}
       <p role="status" class="sr-only">
         {status}

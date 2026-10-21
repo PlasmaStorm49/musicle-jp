@@ -93,6 +93,7 @@ function PracticeSessionRun({ session, onSession, ...props }: RunProps) {
     () => ({
       title: t("practice.header", { mode: modeName(target) }),
       restart: t("practice.restart"),
+      restartShort: t("practice.restartShort"),
       restartWarning: (score: string) => t("practice.restartWarning", { score }),
       restartConfirm: t("practice.restartConfirm"),
       empty: t("practice.empty"),

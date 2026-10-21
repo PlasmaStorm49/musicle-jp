@@ -568,6 +568,7 @@ function ArtistRun({
     () => ({
       title: <ArtistName entry={artist} />,
       restart: t("artists.restart"),
+      restartShort: t("artists.restartShort"),
       restartWarning: (score) => t("artists.restartWarning", { score }),
       restartConfirm: t("artists.restartConfirm"),
       empty: t("artists.empty"),

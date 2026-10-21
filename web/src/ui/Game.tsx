@@ -21,7 +21,7 @@ import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { usePreviews } from "./hooks.ts";
 import { modeName } from "./modes.ts";
-import { type HelpSetup, RoundView } from "./RoundView.tsx";
+import { type HelpSetup, RoundView, roundScreen } from "./RoundView.tsx";
 import { Summary } from "./Summary.tsx";
 
 type Props = {
@@ -217,8 +217,8 @@ function Playing({
   if (summary) return <DaySummary {...props} game={summary} />;
 
   return (
-    <div class="game">
-      <header>
+    <div class={roundScreen(game, "game")}>
+      <header class="round-head">
         <h1>{header(game.target, day.number)}</h1>
         <p>{t("game.round", { current: game.current + 1, total: ROUNDS_PER_DAY })}</p>
       </header>

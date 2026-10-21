@@ -23,7 +23,7 @@ import { t, tn } from "../i18n/t.ts";
 import { ArtistName } from "./ArtistName.tsx";
 import { usePreviews } from "./hooks.ts";
 import { ConfirmButton } from "./PracticeRun.tsx";
-import { type HelpSetup, RoundView } from "./RoundView.tsx";
+import { type HelpSetup, RoundView, roundScreen } from "./RoundView.tsx";
 import { singleClick } from "./singleClick.ts";
 
 type Props = {
@@ -128,8 +128,8 @@ export function SuperfanView({
   }
   const score = superfanScore(run);
   return (
-    <div class="game practice superfan">
-      <header>
+    <div class={roundScreen(game, "game practice superfan")}>
+      <header class="session-head">
         {/* O submodo vira uma etiqueta ao lado do nome (o separador some na tela, e o leitor de
             tela ouve "… Superfan"): o título cabe melhor no celular. */}
         <h1>
@@ -148,6 +148,7 @@ export function SuperfanView({
         </p>
         <ConfirmButton
           label={t("superfan.quit")}
+          short={t("superfan.quitShort")}
           warning={t("superfan.quitWarning", { points: points(score.points) })}
           confirm={t("superfan.quitConfirm")}
           ask={score.rounds > 0 || errors > 0}

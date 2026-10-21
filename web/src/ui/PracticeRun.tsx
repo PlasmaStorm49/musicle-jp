@@ -16,7 +16,7 @@ import { t, tn } from "../i18n/t.ts";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import type { SearchScope } from "./GuessInput.tsx";
 import { usePreviews } from "./hooks.ts";
-import { type HelpSetup, RoundView } from "./RoundView.tsx";
+import { type HelpSetup, RoundView, roundScreen } from "./RoundView.tsx";
 import { singleClick } from "./singleClick.ts";
 
 /**
@@ -41,6 +41,8 @@ export type RunTexts = {
   readonly title: ComponentChildren;
   /** O botão que encerra a sessão (P127: no modo por artista, "Trocar de artista"). */
   readonly restart: string;
+  /** O mesmo botão, curto na tela ("Reiniciar"); o nome inteiro fica para o leitor de tela. */
+  readonly restartShort?: string;
   /** O aviso do pop-up, com o placar que se perde. */
   readonly restartWarning: (score: string) => string;
   readonly restartConfirm: string;
@@ -121,14 +123,15 @@ export function PracticeRun({
   );
 
   return (
-    <div class="game practice">
-      <header>
+    <div class={roundScreen(game, "game practice")}>
+      <header class="session-head">
         <h1>{texts.title}</h1>
         {game && <p>{t("practice.round", { number: session.number })}</p>}
         <p class="practice-score">{practiceScoreText(score)}</p>
         {/* Com rodada jogada (a mesma conta do placar), pergunta antes. */}
         <ConfirmButton
           label={texts.restart}
+          short={texts.restartShort}
           warning={texts.restartWarning(practiceScoreText(score))}
           confirm={texts.restartConfirm}
           ask={score.rounds > 0}
@@ -169,12 +172,15 @@ export function PracticeRun({
  */
 export function ConfirmButton({
   label,
+  short,
   warning,
   confirm,
   ask,
   onConfirm,
 }: {
   readonly label: string;
+  /** O texto curto na tela (P210); o nome do botão continua o `label` inteiro, que começa por ele. */
+  readonly short?: string;
   /** O aviso do pop-up, que também é o nome dele. */
   readonly warning: string;
   readonly confirm: string;
@@ -205,7 +211,14 @@ export function ConfirmButton({
           cancel.current?.focus();
         })}
       >
-        {label}
+        {short ? (
+          <>
+            <span aria-hidden="true">{short}</span>
+            <span class="sr-only">{label}</span>
+          </>
+        ) : (
+          label
+        )}
       </button>
       {/* O nome do pop-up é o próprio aviso, lido quando o foco entra nele. */}
       <dialog
