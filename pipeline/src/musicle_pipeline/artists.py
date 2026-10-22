@@ -209,9 +209,9 @@ def _last_tail(text: str) -> tuple[str, str] | None:
     return text[: last.start()].strip(), last.group(1).strip()
 
 
-def artist_title_key(title: str) -> str:
-    """A chave da música dentro do artista: o title_key da parada, depois de tirar, em laço, os
-    sufixos que só valem aqui (karaokê, inglês, THE FIRST TAKE, crédito "(… from …)")."""
+def artist_base_title(title: str) -> str:
+    """O título sem, em laço, os sufixos que só valem aqui (karaokê, inglês, THE FIRST TAKE,
+    crédito "(… from …)"), ainda como texto: o Anime (M14) romaniza este texto."""
     s = _TIGHT_FEAT.sub("", unicodedata.normalize("NFKC", title).strip())
     while True:
         # As versões da parada (remaster, feat., TV size) saem antes: o crédito pode vir antes
@@ -222,8 +222,14 @@ def artist_title_key(title: str) -> str:
             _OUT.search(cut[1]) or _CREDIT.fullmatch(cut[1]) or _SECONDARY.search(cut[1])
         )
         if cut is None or not cut[0] or not known:
-            return title_key(s)
+            return s
         s = cut[0]
+
+
+def artist_title_key(title: str) -> str:
+    """A chave da música dentro do artista: o title_key da parada, depois de tirar os sufixos
+    que só valem aqui (`artist_base_title`)."""
+    return title_key(artist_base_title(title))
 
 
 def version_kind(track: RawTrack) -> Literal["out", "secondary"] | None:
