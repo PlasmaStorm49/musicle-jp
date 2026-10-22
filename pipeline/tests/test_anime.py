@@ -306,10 +306,14 @@ def test_a_new_search_never_loses_a_matched_track():
     (merged,) = merge_anime([[old], [new]])
     assert merged.levels == {"mal": 8}
     assert [t.result for t in merged.themes] == ["matched"]
-    # Casou de novo, com outra faixa: vale a nova.
+    # Casou de novo, com outra faixa: as duas ficam (a agenda pode citar a antiga, e um dia
+    # gravado não muda; revisor do A2).
     again = anime(1, themes=[replace(theme(song=5), track=DISCOGRAPHY[1])])
     (merged,) = merge_anime([[old], [again]])
-    assert [t.track for t in merged.themes] == [DISCOGRAPHY[1]]
+    assert [t.track for t in merged.themes] == [DISCOGRAPHY[1], DISCOGRAPHY[0]]
+    # A mesma faixa de novo: uma vez só.
+    (merged,) = merge_anime([[old], [old]])
+    assert [t.track for t in merged.themes] == [DISCOGRAPHY[0]]
 
 
 def test_two_franchises_with_the_same_name_get_the_year():
@@ -452,12 +456,14 @@ def test_the_fixture_has_every_mode_and_tier():
     assert validate_anime_catalog(catalog) == []
 
 
-def test_committed_anime_catalog_is_up_to_date(tmp_path):
-    """O catálogo fictício do Anime versionado é o que o build-anime gera hoje. Se falhar,
-    regere com o build-anime --provider fixture."""
+@pytest.mark.parametrize("provider", ["fixture", "apple"])
+def test_committed_anime_catalog_is_up_to_date(tmp_path, provider):
+    """O catálogo do Anime versionado (o fictício e, desde a carga de teste, C1, o real, a partir
+    dos snapshots de pipeline/data/apple/anime/) é o que o build-anime gera hoje. Se falhar,
+    regere com o build-anime do provedor. Sem `skip`: um catálogo apagado tem de falhar aqui."""
     fresh = tmp_path / "catalog.json"
-    assert main(["build-anime", "--provider", "fixture", "--out", str(fresh)]) == 0
-    assert fresh.read_bytes() == COMMITTED.read_bytes()
+    assert main(["build-anime", "--provider", provider, "--out", str(fresh)]) == 0
+    assert fresh.read_bytes() == (anime_paths(provider).public_dir / "catalog.json").read_bytes()
 
 
 @pytest.mark.parametrize("seed", ["1", "2"])

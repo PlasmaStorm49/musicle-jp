@@ -1,6 +1,7 @@
 // O que a tela mostra de cada opção e da revelação. Função pura: os componentes só desenham.
 import { APPLE_PROVIDER, isAppleUrl } from "./apple.ts";
-import type { CatalogIndex } from "./catalog.ts";
+import type { AnimeTheme, CatalogIndex } from "./catalog.ts";
+import type { DailyAnswer } from "./daily.ts";
 import { searchKey } from "./normalize.ts";
 import type { Target } from "./types.ts";
 
@@ -38,6 +39,11 @@ export type RevealView = ItemView & {
   } | null;
   /** Link da música na loja (P69), só no host da Apple: vai parar num href. */
   readonly storeUrl: string | null;
+  /**
+   * No Anime, os temas da faixa (o anime, o tipo e o número): a revelação mostra a música e o
+   * anime. Fora do Anime, nenhum.
+   */
+  readonly themes: readonly AnimeTheme[];
 };
 
 function latinIfDifferent(title: string, latin: string | null): string | null {
@@ -114,7 +120,39 @@ export function optionView(index: CatalogIndex, id: string, target: Target): Ite
   };
 }
 
-/** Cartão da resposta: sempre a faixa que tocou, com o álbum dela. */
+/**
+ * Uma franquia do Anime na tela (P234): a sugestão, a tentativa e a opção da ajuda do "acertar o
+ * anime". Só o nome, sem artista nem capa (a capa entregaria a música).
+ */
+export function franchiseView(index: CatalogIndex, id: string): ItemView | null {
+  const franchise = index.anime?.franchises.get(id);
+  if (!franchise) return null;
+  return {
+    id,
+    title: franchise.name,
+    titleLatin: null,
+    artist: "",
+    artistLatin: null,
+    artworkUrl: null,
+    lang: langOf(franchise.name),
+    artistLang: undefined,
+  };
+}
+
+/**
+ * Um palpite na tela, pelo que se acerta: a música (ou o álbum, no Normal) ou, no "acertar o
+ * anime", a franquia.
+ */
+export function guessView(
+  index: CatalogIndex,
+  id: string,
+  target: Target,
+  answer: DailyAnswer = "track",
+): ItemView | null {
+  return answer === "franchise" ? franchiseView(index, id) : optionView(index, id, target);
+}
+
+/** Cartão da resposta: sempre a faixa que tocou, com o álbum dela (e, no Anime, os temas). */
 export function revealView(index: CatalogIndex, trackId: string): RevealView | null {
   const track = index.tracks.get(trackId);
   if (!track) return null;
@@ -134,5 +172,6 @@ export function revealView(index: CatalogIndex, trackId: string): RevealView | n
         }
       : null,
     storeUrl: track.storeUrl && isAppleUrl("store", track.storeUrl) ? track.storeUrl : null,
+    themes: index.anime?.themesByTrack.get(trackId) ?? [],
   };
 }

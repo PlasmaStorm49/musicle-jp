@@ -1,9 +1,11 @@
-// O que a Início e a tela dos Hits mostram de cada jogo: o estado do diário (novo, em andamento ou
-// terminado, com os pontos), o 1º diário por jogar, o ✓ da aba Hits e o placar das sessões do
-// Treino e do modo por artista. Puro: lê só o que quem chama passa.
+// O que a Início, a tela dos Hits e as do Anime mostram de cada jogo: o estado do diário (novo, em
+// andamento ou terminado, com os pontos), o 1º diário por jogar, o ✓ das abas Hits e Anime, o
+// andamento de um grupo de diários e o placar das sessões do Treino e do modo por artista. Puro:
+// lê só o que quem chama passa.
 import type { ArtistPlay } from "./artists.ts";
+import { ANIME_KEYS, type Daily, hitsDaily } from "./daily.ts";
 import { type PracticeScore, type PracticeSession, practiceScore } from "./practice.ts";
-import { puzzleId, recordMax, recordScore, type Save } from "./records.ts";
+import { type PuzzleId, puzzleId, recordMax, recordScore, type Save } from "./records.ts";
 import { MODES } from "./rules.ts";
 import { superfanScore } from "./superfan.ts";
 import type { Day, Target } from "./types.ts";
@@ -22,30 +24,47 @@ export type DailyStatus =
       readonly max: number;
     };
 
+/**
+ * O estado de um diário pelo descritor (nos Hits e no Anime); null quando o dia não está na
+ * agenda. O mesmo teste que o App faz antes de abrir o diário: o cartão e a tela nunca discordam.
+ */
+export function statusOf(save: Save, daily: Daily | null): DailyStatus {
+  if (!daily) return { kind: "unavailable" };
+  const finished = save.history[daily.id];
+  if (finished) {
+    return {
+      kind: "done",
+      number: daily.number,
+      score: recordScore(finished),
+      max: recordMax(finished),
+    };
+  }
+  // Andamento vazio (a repetição descartou todos os eventos, com catálogo novo) ainda é dia novo.
+  if (save.inProgress[daily.id]?.events.length) return { kind: "playing", number: daily.number };
+  return { kind: "new", number: daily.number };
+}
+
+/** O estado de um diário dos Hits, o Normal ou o Desafio. */
 export function dailyStatus(
   save: Save,
   day: Day | null,
   date: string,
   target: Target,
 ): DailyStatus {
-  // O mesmo teste que o App faz antes de abrir o diário: o cartão e a tela nunca discordam.
-  if (!day) return { kind: "unavailable" };
-  const id = puzzleId(date, target);
-  const finished = save.history[id];
-  if (finished) {
-    return {
-      kind: "done",
-      number: day.number,
-      score: recordScore(finished),
-      max: recordMax(finished),
-    };
-  }
-  // Andamento vazio (a repetição descartou todos os eventos, com catálogo novo) ainda é dia novo.
-  if (save.inProgress[id]?.events.length) return { kind: "playing", number: day.number };
-  return { kind: "new", number: day.number };
+  return statusOf(save, day ? hitsDaily(day, date, target) : null);
 }
 
-/** O 1º diário por jogar (novo ou em andamento), na ordem de MODES: o cartão oliva. */
+/** O 1º diário por jogar (novo ou em andamento), na ordem dada: o cartão oliva. */
+export function firstToPlay(save: Save, dailies: readonly Daily[]): Daily | null {
+  return (
+    dailies.find((daily) => {
+      const kind = statusOf(save, daily).kind;
+      return kind === "new" || kind === "playing";
+    }) ?? null
+  );
+}
+
+/** O 1º diário dos Hits por jogar (novo ou em andamento), na ordem de MODES: o cartão oliva. */
 export function nextDaily(save: Save, day: Day | null, date: string): Target | null {
   return (
     MODES.find((mode) => {
@@ -61,6 +80,34 @@ export function nextDaily(save: Save, day: Day | null, date: string): Target | n
  */
 export function dailiesDone(save: Save, date: string): boolean {
   return MODES.every((mode) => save.history[puzzleId(date, mode)] !== undefined);
+}
+
+/**
+ * Algum dos 6 diários do Anime de hoje terminado: o ✓ da aba Anime (P247). Só pelo save, como o
+ * dos Hits: a nav desenha sem o Anime carregado (ele só carrega quando a pessoa abre a categoria).
+ */
+export function animeDone(save: Save, date: string): boolean {
+  return ANIME_KEYS.some((key) => save.history[puzzleId(date, key)] !== undefined);
+}
+
+/** O andamento de um grupo de diários: quantos terminaram, quantos estão em jogo e quantos são. */
+export type Progress = {
+  readonly done: number;
+  /** Com andamento salvo (o 1º evento aceito já foi gravado) e sem resultado. */
+  readonly playing: number;
+  readonly total: number;
+};
+
+/**
+ * O andamento dos diários dados, pelo id no save: o cartão de um modo do Anime (os 3 dele) e o
+ * do Anime na Início (os de hoje, sem a agenda, P226).
+ */
+export function progress(save: Save, ids: readonly PuzzleId[]): Progress {
+  const done = ids.filter((id) => save.history[id] !== undefined).length;
+  const playing = ids.filter(
+    (id) => save.history[id] === undefined && (save.inProgress[id]?.events.length ?? 0) > 0,
+  ).length;
+  return { done, playing, total: ids.length };
 }
 
 /** O cartão do Treino: o modo da sessão (P106) e o placar dela. */

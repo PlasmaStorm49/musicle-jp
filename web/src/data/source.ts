@@ -2,13 +2,18 @@
 // fetch, URL base e data de fora, então roda e é testado no Node (tsconfig.node.json).
 import {
   type CatalogIndex,
+  indexAnime,
   indexArtist,
   indexCatalog,
+  SUPPORTED_ANIME_SCHEMA_VERSION,
   SUPPORTED_ARTIST_SCHEMA_VERSION,
   UnsupportedCatalogError,
 } from "../core/catalog.ts";
 import { dateInZone, isValidDate } from "../core/dates.ts";
 import type {
+  AnimeCatalog,
+  AnimeDay,
+  AnimeSchedule,
   ArtistCatalog,
   ArtistList,
   ArtistListEntry,
@@ -65,6 +70,11 @@ function schemaVersionOf(data: unknown): unknown {
   return typeof data === "object" && data !== null && "schemaVersion" in data
     ? data.schemaVersion
     : undefined;
+}
+
+/** O tipo da agenda (o `kind` constante da do Anime); a dos Hits não tem. */
+function kindOf(data: unknown): unknown {
+  return typeof data === "object" && data !== null && "kind" in data ? data.kind : undefined;
 }
 
 /** Busca catálogo e agenda em paralelo. Versão de schema desconhecida: atualizar a página. */
@@ -143,6 +153,47 @@ export async function loadArtist(
   return { file, index: indexArtist(file) };
 }
 
+/** O catálogo e a agenda do Anime (M14), numa subpasta dos dados, como os artistas. */
+export const ANIME_DIR = "anime/";
+const ANIME_SCHEDULE_SCHEMA_VERSION = 1;
+
+/** O Anime carregado: o índice do jogo e a agenda dos 6 diários. */
+export type AnimeData = { readonly index: CatalogIndex; readonly schedule: AnimeSchedule };
+
+/**
+ * O catálogo e a agenda do Anime, em paralelo. Só quando a pessoa abre a categoria: quem joga só
+ * os Hits não baixa nada a mais. Versão de schema desconhecida (ou a agenda que não é a do Anime):
+ * atualizar a página.
+ */
+export async function loadAnime(
+  fetchFn: FetchLike,
+  baseUrl: string,
+  dataDir: string,
+  signal?: AbortSignal,
+): Promise<AnimeData> {
+  const dir = new URL(ANIME_DIR, new URL(dataDir, baseUrl));
+  const [catalog, schedule] = await Promise.all([
+    getJson(fetchFn, new URL("catalog.json", dir).href, signal),
+    getJson(fetchFn, new URL("schedule.json", dir).href, signal),
+  ]);
+  if (schemaVersionOf(catalog) !== SUPPORTED_ANIME_SCHEMA_VERSION) {
+    throw new UnsupportedCatalogError(
+      `Anime com schemaVersion ${String(schemaVersionOf(catalog))}`,
+    );
+  }
+  if (schemaVersionOf(schedule) !== ANIME_SCHEDULE_SCHEMA_VERSION || kindOf(schedule) !== "anime") {
+    throw new UnsupportedCatalogError(
+      `agenda do Anime com schemaVersion ${String(schemaVersionOf(schedule))} e kind ${String(kindOf(schedule))}`,
+    );
+  }
+  // A tela percorre os dias: sem eles, "Tentar de novo" na aba, e não o jogo quebrado na tela.
+  const days = (schedule as { days?: unknown }).days;
+  if (typeof days !== "object" || days === null || Array.isArray(days)) {
+    throw new DataLoadError("agenda do Anime sem os dias");
+  }
+  return { index: indexAnime(catalog as AnimeCatalog), schedule: schedule as AnimeSchedule };
+}
+
 /** URL absoluta de um asset do catálogo: relativa à base (fixtures) ou já absoluta (Apple). */
 export function assetUrl(baseUrl: string, url: string): string {
   return new URL(url, baseUrl).href;
@@ -185,5 +236,10 @@ export function lookupFailForced(search: string): boolean {
 }
 
 export function pickDay(schedule: Schedule, date: string): Day | null {
+  return schedule.days[date] ?? null;
+}
+
+/** O dia da agenda do Anime, ou null (o Anime avisa e volta à tela dele). */
+export function pickAnimeDay(schedule: AnimeSchedule, date: string): AnimeDay | null {
   return schedule.days[date] ?? null;
 }

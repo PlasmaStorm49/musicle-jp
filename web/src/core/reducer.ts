@@ -1,8 +1,8 @@
 // Máquina de estados do jogo: (estado, evento) → novo estado. Função pura: não lê relógio,
 // catálogo nem tela. Evento que não faz sentido no estado atual devolve O MESMO objeto, o que
 // facilita os testes e evita redesenho à toa no Preact.
-import { acceptedIds, type CatalogIndex } from "./catalog.ts";
-import type { Daily } from "./daily.ts";
+import { acceptedIds, type CatalogIndex, franchisesOf } from "./catalog.ts";
+import type { Daily, DailyAnswer } from "./daily.ts";
 import {
   HELP_OPTIONS,
   lastStage,
@@ -22,9 +22,15 @@ export type Attempt =
 export type RoundState = {
   /** Faixa que toca e é revelada no fim. */
   readonly trackId: string;
-  /** O que conta como a resposta certa: a faixa (Desafio) ou o álbum dela (Normal). */
+  /**
+   * O que conta como a resposta certa: a faixa (Desafio), o álbum dela (Normal) ou, no "acertar o
+   * anime", a 1ª franquia dela.
+   */
   readonly correctOptionId: string;
-  /** IDs que contam como acerto (versões da mesma música; no Normal, álbuns com a música). */
+  /**
+   * IDs que contam como acerto (versões da mesma música; no Normal, álbuns com a música; no
+   * "acertar o anime", as franquias da faixa).
+   */
   readonly accepted: readonly string[];
   /** As 4 opções do Normal; vazio no Desafio, que é digitado. */
   readonly options: readonly string[];
@@ -62,6 +68,11 @@ export type GameState = {
   readonly target: Target;
   /** Uma variante do modo, com regras próprias (VARIANT_RULES): o Superfan (ME61). */
   readonly variant?: Variant;
+  /**
+   * O que se acerta, quando não é a faixa: a franquia, no "acertar o anime" (P234). A tela busca,
+   * mostra as tentativas e a ajuda pelas franquias; o reducer só compara ids e não muda.
+   */
+  readonly answer?: Exclude<DailyAnswer, "track">;
   readonly rounds: readonly RoundState[];
   readonly current: number;
 };
@@ -91,13 +102,22 @@ export type GameEvent =
 export type PlannedRound = { readonly answer: string; readonly options?: readonly string[] };
 
 /**
+ * Os ids que contam como acerto de uma faixa, quando não são os do modo (as versões da música, os
+ * álbuns): no "acertar o anime", as franquias dela. O 1º é a resposta que a tela mostra; nenhum
+ * anula a rodada (não há o que acertar).
+ */
+export type AnswerOf = (trackId: string) => readonly string[];
+
+/**
  * Estado inicial de rodadas planejadas, venham da agenda (3 por diário) ou do Treino (uma de
- * cada vez). Rodada cuja resposta sumiu ou deixou de ser elegível nasce anulada.
+ * cada vez). Rodada cuja resposta sumiu ou deixou de ser elegível nasce anulada. Com `answerOf`, o
+ * acerto é o que ele devolve (as franquias), e não a música.
  */
 export function createRounds(
   planned: readonly PlannedRound[],
   target: Target,
   index: CatalogIndex,
+  answerOf?: AnswerOf,
 ): RoundState[] {
   return planned.map((planned): RoundState => {
     const track = index.tracks.get(planned.answer);
@@ -110,7 +130,8 @@ export function createRounds(
       helpAt: null,
       gaveUp: false,
     };
-    if (!track?.eligible.daily) {
+    const answers = track && answerOf ? answerOf(track.id) : null;
+    if (!track?.eligible.daily || answers?.length === 0) {
       return {
         ...base,
         correctOptionId: planned.answer,
@@ -121,16 +142,23 @@ export function createRounds(
     }
     return {
       ...base,
-      correctOptionId: target === "song" ? track.id : track.albumId,
-      accepted: acceptedIds(index, track, target),
+      correctOptionId: answers?.[0] ?? (target === "song" ? track.id : track.albumId),
+      accepted: answers ? [...new Set(answers)].sort() : acceptedIds(index, track, target),
       status: "playing",
       voidReason: null,
     };
   });
 }
 
-/** Monta o jogo de um diário: as rodadas da agenda, pelas regras dele. */
+/**
+ * Monta o jogo de um diário: as rodadas da agenda, pelas regras dele. No "acertar o anime", a
+ * resposta é a franquia da faixa (P234).
+ */
 export function createGame(daily: Daily, index: CatalogIndex): GameState {
+  if (daily.answer === "franchise") {
+    const rounds = createRounds(daily.rounds, daily.target, index, (id) => franchisesOf(index, id));
+    return { puzzleId: daily.id, target: daily.target, answer: "franchise", rounds, current: 0 };
+  }
   const rounds = createRounds(daily.rounds, daily.target, index);
   return { puzzleId: daily.id, target: daily.target, rounds, current: 0 };
 }

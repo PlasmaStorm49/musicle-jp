@@ -1,6 +1,9 @@
 // Acesso rápido ao catálogo e respostas aceitas de cada rodada.
 import { normalize } from "./normalize.ts";
 import type {
+  AnimeCatalog,
+  AnimeFranchise,
+  AnimeTrack,
   Artist,
   ArtistCatalog,
   Catalog,
@@ -10,20 +13,39 @@ import type {
   Target,
 } from "./types.ts";
 
+/** Um tema de anime de uma faixa: o anime, o tipo (OP, ED ou IN) e o número. */
+export type AnimeTheme = AnimeTrack["anime"]["themes"][number];
+
+/**
+ * O que o catálogo do Anime tem a mais (M14): as franquias, a resposta do "acertar o anime" (P234),
+ * e, de cada faixa, as franquias e os temas.
+ */
+export type AnimeIndex = {
+  readonly franchises: ReadonlyMap<string, AnimeFranchise>;
+  /** As franquias de cada faixa: vale qualquer uma (qualquer temporada ou sequência). */
+  readonly franchisesByTrack: ReadonlyMap<string, readonly string[]>;
+  /** Os temas de cada faixa, para a revelação ("Kimetsu no Yaiba · OP1"). */
+  readonly themesByTrack: ReadonlyMap<string, readonly AnimeTheme[]>;
+};
+
 export const SUPPORTED_SCHEMA_VERSION = 2;
 /** A versão do arquivo de um artista (M13), separada da do catálogo da parada. */
 export const SUPPORTED_ARTIST_SCHEMA_VERSION = 1;
+/** A versão do catálogo do Anime (M14), separada das outras duas. */
+export const SUPPORTED_ANIME_SCHEMA_VERSION = 1;
 
 /** Catálogo de uma versão que este código não conhece: o jogo pede para atualizar a página. */
 export class UnsupportedCatalogError extends Error {}
 
-/** O índice de um catálogo jogável: o da parada ou o de um artista (M13). */
+/** O índice de um catálogo jogável: o da parada, o de um artista (M13) ou o do Anime (M14). */
 export type CatalogIndex = {
   readonly catalog: PlayableCatalog;
   readonly tracks: ReadonlyMap<string, PlayableTrack>;
   readonly albums: ReadonlyMap<string, PlayableAlbum>;
   readonly artists: ReadonlyMap<string, Artist>;
   readonly tracksBySong: ReadonlyMap<string, readonly PlayableTrack[]>;
+  /** Só no catálogo do Anime: as franquias e os temas. */
+  readonly anime?: AnimeIndex;
 };
 
 export function indexCatalog(catalog: Catalog): CatalogIndex {
@@ -43,6 +65,35 @@ export function indexArtist(file: ArtistCatalog): CatalogIndex {
     );
   }
   return indexPlayable(file);
+}
+
+/**
+ * O catálogo do Anime (M14) vira um índice como o da parada (o diário, a rodada e a ajuda servem),
+ * com as franquias e os temas de cada faixa à parte (`anime`). A franquia que o arquivo não
+ * descreve fica de fora da faixa: sem nome, não há o que digitar nem mostrar.
+ */
+export function indexAnime(file: AnimeCatalog): CatalogIndex {
+  if (file.schemaVersion !== SUPPORTED_ANIME_SCHEMA_VERSION) {
+    throw new UnsupportedCatalogError(
+      `Anime com schemaVersion ${String(file.schemaVersion)}; esperado ${SUPPORTED_ANIME_SCHEMA_VERSION}`,
+    );
+  }
+  const franchises = new Map(file.franchises.map((f) => [f.id, f]));
+  return {
+    ...indexPlayable(file),
+    anime: {
+      franchises,
+      franchisesByTrack: new Map(
+        file.tracks.map((t) => [t.id, t.anime.franchiseIds.filter((id) => franchises.has(id))]),
+      ),
+      themesByTrack: new Map(file.tracks.map((t) => [t.id, t.anime.themes])),
+    },
+  };
+}
+
+/** As franquias de uma faixa do Anime (P234); fora do Anime, nenhuma. */
+export function franchisesOf(index: CatalogIndex, trackId: string): readonly string[] {
+  return index.anime?.franchisesByTrack.get(trackId) ?? [];
 }
 
 function indexPlayable(catalog: PlayableCatalog): CatalogIndex {

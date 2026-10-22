@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import type { AudioEngine, Playback } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
-import type { CatalogIndex } from "../core/catalog.ts";
+import type { AnimeTheme, CatalogIndex } from "../core/catalog.ts";
+import type { DailyAnswer } from "../core/daily.ts";
 import { fillFraction } from "../core/player.ts";
 import { type RoundState, roundErrors, roundScore } from "../core/reducer.ts";
 import type { ModeRules } from "../core/rules.ts";
 import type { Target } from "../core/types.ts";
-import { optionView, revealView } from "../core/view.ts";
+import { langOf, optionView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
@@ -22,6 +23,8 @@ type Props = {
   readonly round: RoundState;
   /** O Normal mostra as opções marcadas; o Desafio, a lista de tentativas. */
   readonly target: Target;
+  /** O que se tentou: músicas, ou franquias no "acertar o anime" (as tentativas dizem o anime). */
+  readonly answer?: DailyAnswer;
   /** As regras do jogo: os pontos do acerto e os dos erros (o Superfan tem os seus). */
   readonly rules: ModeRules;
   readonly engine: AudioEngine;
@@ -36,11 +39,34 @@ type Props = {
   readonly note?: string;
 };
 
-/** Depois do palpite: certo e errado (cor e texto), cartão da faixa e a prévia inteira (P34). */
+/** O tema na tela: "Kimetsu no Yaiba · OP1" (sem número, só o tipo; a insert song, por extenso). */
+function themeText(theme: AnimeTheme): string {
+  const kind = t(`anime.theme.${theme.type}`, { number: theme.sequence ?? "" });
+  return t("anime.themeLine", { anime: theme.anime, theme: kind });
+}
+
+/**
+ * Os temas da faixa numa linha curta: o 1º e, se houver mais, "e mais N" (a faixa pode estar em 2
+ * ou mais temas, e o nome do anime chega a uns 60 caracteres: a revelação não pode crescer).
+ */
+function themesText(themes: readonly AnimeTheme[]): string {
+  const [first, ...rest] = themes;
+  if (!first) return "";
+  return rest.length > 0
+    ? t("anime.themesMore", { theme: themeText(first), count: rest.length })
+    : themeText(first);
+}
+
+/**
+ * Depois do palpite: certo e errado (cor e texto), cartão da faixa e a prévia inteira (P34). No
+ * Anime, o cartão diz o anime e o tema no lugar do álbum: a revelação mostra a música e o anime, na
+ * mesma altura.
+ */
 export function Reveal({
   index,
   round,
   target,
+  answer = "track",
   rules,
   engine,
   resolver,
@@ -170,7 +196,7 @@ export function Reveal({
         {note && <p class="reveal-note">{note}</p>}
 
         {!rules.guessFromOptions ? (
-          <Attempts index={index} round={round} hideTitle />
+          <Attempts index={index} round={round} answer={answer} hideTitle />
         ) : (
           <ul class="options done">
             {round.options.map((id) => {
@@ -204,9 +230,18 @@ export function Reveal({
             )}
             <div>
               <ItemLabel item={track} />
-              <p class="album">
-                {t("reveal.albumLabel")} <span lang={track.albumLang}>{track.albumTitle}</span>
-              </p>
+              {track.themes.length > 0 ? (
+                <p class="album">
+                  {t("reveal.animeLabel")}{" "}
+                  <span lang={langOf(track.themes[0]?.anime ?? "")}>
+                    {themesText(track.themes)}
+                  </span>
+                </p>
+              ) : (
+                <p class="album">
+                  {t("reveal.albumLabel")} <span lang={track.albumLang}>{track.albumTitle}</span>
+                </p>
+              )}
               {track.explicit && <p class="badge explicit">{t("player.explicit")}</p>}
               {track.preview && url && (
                 // O Ouvir e a barra da prévia numa linha, no lugar do botão sozinho: a revelação

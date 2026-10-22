@@ -26,7 +26,7 @@ O plano completo, as decisões e os marcos (M0 a M11) estão em `docs/PLANO.md`.
 
 | Pasta | Conteúdo |
 |---|---|
-| `pipeline/` | Python: busca a parada, gera `catalog.json` e `schedule.json`; os arquivos do modo por artista (M13, em `artists/`) e o catálogo do Anime (M14, em `anime/`) |
+| `pipeline/` | Python: busca a parada, gera `catalog.json` e `schedule.json`; os arquivos do modo por artista (M13, em `artists/`) e o catálogo e a agenda do Anime (M14, em `anime/`) |
 | `web/` | TypeScript + Vite + Preact; `src/core/` é a lógica pura do jogo |
 | `shared/` | Schemas JSON e vetores de teste usados pelos dois lados |
 | `docs/` | `PLANO.md` (decisões na seção 2; o detalhe do que falta, na seção 7) e `BACKLOG.md` (o que falta, numa linha por item, para ler) |
@@ -49,10 +49,12 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 | Gerar áudio e capas falsos | `.venv\Scripts\python -m musicle_pipeline fake-assets --catalog web/public/fixtures/catalog.json` (fora do Git; rode depois de clonar) |
 | Acrescentar dias à agenda (nunca gera dia passado, P44: um `--today` no futuro deixaria buraco para sempre) | `.venv\Scripts\python -m musicle_pipeline schedule --catalog web/public/fixtures/catalog.json --out web/public/fixtures/schedule.json --today AAAA-MM-DD` (real: `--catalog web/public/data/catalog.json --out web/public/data/schedule.json`; a data de Brasília sai do PowerShell) |
 | Validar catálogo e agenda | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` (real: `validate web/public/data/catalog.json --schedule web/public/data/schedule.json`) |
-| Conferir que a agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
+| Conferir que a agenda só cresceu (as quatro: as dos Hits e as do Anime, cada uma com o seu gerador) | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
 | Modo por artista (M13): buscar os artistas do `artists.toml` (rede; à mão, fora do robô) | `.venv\Scripts\python -m musicle_pipeline fetch --provider apple --artists --fetched-at AAAA-MM-DDTHH:MM:SSZ` (só alguns: `--artist ID`; snapshot que encolheu: `--force`) |
 | Modo por artista: romaji, arquivos e conferência | `romanize --provider apple --artists`, depois `build-artists --provider apple` e `validate-artists --provider apple` (fictícios: `--provider fixture`) |
-| Anime (M14): o catálogo e a conferência | `build-anime --provider fixture` e `validate-anime --provider fixture` (o real: `--provider apple`, depois da 1ª carga) |
+| Anime (M14): buscar os animes (rede; o extra `romaji`; o `MAL_CLIENT_ID` opcional, só na variável de ambiente, nunca num arquivo) | `.venv\Scripts\python -m musicle_pipeline fetch --provider apple --anime --fetched-at AAAA-MM-DDTHH:MM:SSZ` (1ª carga: `--personal <XML exportado do MAL>`; o tamanho: `--max-songs`, `--target-per-tier`, `--max-anime`) |
+| Anime (M14): o catálogo e a conferência | `build-anime --provider fixture` e `validate-anime --provider fixture` (o real: `--provider apple`, depois da 1ª carga). O `validate-anime` confere também a agenda ao lado do catálogo, se ela existir (ou a do `--schedule`), e avisa do acervo curto |
+| Anime: acrescentar dias à agenda (só cresce; nunca gera dia passado, P44) | `schedule-anime --provider fixture --today AAAA-MM-DD` (agenda nova: `--epoch AAAA-MM-DD`; `--days N` são os dias à frente de hoje, como no `schedule`: hoje e amanhã é `--days 1`, e a carga de teste usa 2). Lê o `catalog.json` e grava o `schedule.json` da pasta do Anime do provedor; rode depois do `build-anime` |
 
 Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → revisar `pipeline/data/apple/romaji.json` no diff → corrigir erros em `pipeline/data/apple/aliases.toml` → `build --provider apple` → `schedule` → `validate` (confere também a agenda nova) → `schedule-check`. Nas fixtures, a curadoria fica em `pipeline/fixtures/` e entra o `fake-assets` depois do `build`.
 
@@ -76,7 +78,7 @@ Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → rev
 1. `web/src/core/` é TypeScript puro: não importa DOM, Preact nem áudio.
 2. Todo texto de tela fica em `web/src/i18n/pt-BR.ts`.
 3. Arquivos gerados (`web/public/data/`, `web/public/fixtures/*.json`, `web/public/fixtures/artists/` e `web/public/fixtures/anime/`, os `romaji.json` (também os de `artists/`), os snapshots em `pipeline/data/apple/snapshots/`, `pipeline/data/apple/artists/snapshots/` e `pipeline/data/apple/anime/snapshots/`, áudio sintético) não se editam à mão: rode o pipeline. O mesmo vale para os que têm gerador próprio: `shared/vectors/prng.json` (`node shared/vectors/prng_reference.mjs`), `web/src/core/generated/` (`npm run types`) e `web/package-lock.json` (o `npm`). O `settings.json` nega a edição de todos, menos (ainda) os dos artistas e os do Anime: ampliar a lista é decisão do usuário (PLANO, seção 7).
-4. A agenda (`schedule.json`) só cresce. Nunca altere um dia que já existe.
+4. A agenda (`schedule.json`, também a do Anime) só cresce. Nunca altere um dia que já existe.
 5. Mudança de esquema: atualize `shared/schema/` e os testes nos dois lados. Desde o primeiro deploy (M10), o jogo está no ar: mudança incompatível sobe o `schemaVersion` e leva migração. O `.github/scripts/check-catalog-pr.sh` recusa `schemaVersion` diferente no PR do robô (mudança de esquema nunca passa por ele), e um campo novo de URL precisa de conferência nele, no `validate.py` e no `core/apple.ts`.
 6. Normalização e PRNG mudam em Python e TS juntos, com os vetores de `shared/vectors/`.
 7. Nenhuma chave, token ou senha no repositório. Segredos só nos Secrets do GitHub.

@@ -102,6 +102,10 @@ def anime_catalog_schema_path() -> Path:
     return repo_root() / "shared" / "schema" / "anime-catalog.schema.json"
 
 
+def anime_schedule_schema_path() -> Path:
+    return repo_root() / "shared" / "schema" / "anime-schedule.schema.json"
+
+
 @dataclass(frozen=True)
 class AnimePaths:
     """O Anime (M14) tem curadoria, cache e pasta próprios, como o modo por artista: os ids e
@@ -131,7 +135,10 @@ def apple_snapshots_dir() -> Path:
     return repo_root() / _CURATION_DIRS["apple"] / "snapshots"
 
 
-def known_schedules() -> list[Path]:
-    """As agendas publicadas (fictícia e real), existam ou não: o schedule-check padrão confere
-    as duas, e uma que existia na base e sumiu também é erro."""
-    return [repo_root() / d / "schedule.json" for d in _PUBLIC_DIRS.values()]
+def known_schedules() -> list[tuple[Path, str]]:
+    """As agendas publicadas, existam ou não, com o tipo de cada uma: as dos Hits ("hits", a
+    fictícia e a real) e as do Anime ("anime", M14). O schedule-check padrão confere as quatro,
+    cada uma com o gerador do tipo dela, e uma que existia na base e sumiu também é erro."""
+    hits = [(repo_root() / d / "schedule.json", "hits") for d in _PUBLIC_DIRS.values()]
+    anime = [(anime_paths(p).public_dir / "schedule.json", "anime") for p in _PUBLIC_DIRS]
+    return hits + anime

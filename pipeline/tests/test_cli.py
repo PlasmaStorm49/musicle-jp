@@ -1,15 +1,20 @@
 from __future__ import annotations
 
+import copy
+import json
 import os
 import re
+import shutil
 import subprocess
 import sys
+from datetime import date
 
 import pytest
 
+from musicle_pipeline.anime_schedule import generate_anime
 from musicle_pipeline.cli import main
-from musicle_pipeline.io_json import read_json
-from musicle_pipeline.paths import artist_paths, repo_root
+from musicle_pipeline.io_json import dumps, read_json
+from musicle_pipeline.paths import anime_paths, artist_paths, known_schedules, repo_root
 
 COMMITTED = {
     "fixture": repo_root() / "web" / "public" / "fixtures" / "catalog.json",
@@ -103,6 +108,104 @@ def test_schedule_check_with_nothing_on_either_side(tmp_path, capsys):
     args = ["schedule-check", "--path", str(tmp_path / "a.json")]
     assert main([*args, "--base", str(tmp_path / "b.json")]) == 0
     assert "nenhuma agenda" in capsys.readouterr().out
+
+
+# --- o despacho do schedule-check pelo tipo da agenda (o Anime, M14) ---
+
+ANIME = anime_paths("fixture").public_dir
+
+
+def test_known_schedules_are_the_hits_and_the_anime_ones():
+    found = [(p.relative_to(repo_root()).as_posix(), kind) for p, kind in known_schedules()]
+    assert found == [
+        ("web/public/fixtures/schedule.json", "hits"),
+        ("web/public/data/schedule.json", "hits"),
+        ("web/public/fixtures/anime/schedule.json", "anime"),
+        ("web/public/data/anime/schedule.json", "anime"),
+    ]
+
+
+def _anime_check(tmp_path, current) -> list[str]:
+    """O schedule-check de uma agenda do Anime avulsa (o tipo sai do conteúdo), com uma base de
+    5 dias e o catálogo fictício do Anime."""
+    catalog = read_json(ANIME / "catalog.json")
+    base = generate_anime(catalog, None, date(2026, 10, 8), date(2026, 10, 8), horizon=4)
+    (tmp_path / "base.json").write_bytes(dumps(base.schedule).encode("utf-8"))
+    (tmp_path / "schedule.json").write_bytes(dumps(current).encode("utf-8"))
+    return [
+        "schedule-check",
+        *("--path", str(tmp_path / "schedule.json"), "--base", str(tmp_path / "base.json")),
+        *("--catalog", str(ANIME / "catalog.json"), "--today", "2026-10-13"),
+    ]
+
+
+def _anime_grown() -> dict:
+    catalog = read_json(ANIME / "catalog.json")
+    base = generate_anime(catalog, None, date(2026, 10, 8), date(2026, 10, 8), horizon=4)
+    return generate_anime(catalog, base.schedule, date(2026, 10, 13), horizon=3).schedule
+
+
+def test_schedule_check_regenerates_the_anime_days_with_the_anime_generator(tmp_path, capsys):
+    grown = _anime_grown()
+    assert main(_anime_check(tmp_path, grown)) == 0
+    assert "OK (5 dia(s) da base preservados, 9 no total)" in capsys.readouterr().out
+    # Um dia novo editado à mão: só o gerador do Anime, com o catálogo dele, percebe.
+    edited = copy.deepcopy(grown)
+    rounds = edited["days"]["2026-10-14"]["titulo"]
+    rounds["facil"][0], rounds["facil"][1] = rounds["facil"][1], rounds["facil"][0]
+    assert main(_anime_check(tmp_path, edited)) == 1
+    assert "2026-10-14: dia novo diferente do que o gerador daria" in capsys.readouterr().out
+
+
+def test_schedule_check_refuses_a_changed_anime_day(tmp_path, capsys):
+    edited = copy.deepcopy(_anime_grown())
+    rounds = edited["days"]["2026-10-09"]["musica"]
+    rounds["medio"][0], rounds["medio"][2] = rounds["medio"][2], rounds["medio"][0]
+    del edited["days"]["2026-10-10"]
+    assert main(_anime_check(tmp_path, edited)) == 1
+    out = capsys.readouterr().out
+    assert "2026-10-09: dia alterado" in out and "2026-10-10: dia removido" in out
+    # O tipo da agenda também é cabeçalho: tirá-lo quebra o só-acréscimo.
+    plain = {k: v for k, v in _anime_grown().items() if k != "kind"}
+    assert main(_anime_check(tmp_path, plain)) == 1
+    assert "kind mudou: 'anime' → None" in capsys.readouterr().out
+
+
+def test_a_new_fixture_schedule_may_be_born_with_past_days(tmp_path, capsys):
+    # A agenda fictícia do Anime nasce com as datas da dos Hits (as do e2e), que já passaram:
+    # ninguém a joga. Fora das fixtures, a mesma agenda nova com dias passados quebra (P44).
+    args = ["--base", str(tmp_path / "base.json"), "--today", "2026-10-21"]
+    assert main(["schedule-check", "--path", str(ANIME / "schedule.json"), *args]) == 0
+    assert "agenda fictícia nova; o --today não vale" in capsys.readouterr().out
+    loose = tmp_path / "schedule.json"
+    loose.write_bytes((ANIME / "schedule.json").read_bytes())
+    assert main(["schedule-check", "--path", str(loose), *args]) == 1
+    assert "2026-10-08: dia novo antes de hoje (2026-10-21), P44" in capsys.readouterr().out
+    # Depois de criada (com base), a agenda fictícia volta a seguir a P44 (revisor do A2).
+    fixture = read_json(ANIME / "schedule.json")
+    base = tmp_path / "base5.json"
+    days = sorted(fixture["days"])[:5]
+    base.write_text(
+        json.dumps({**fixture, "days": {d: fixture["days"][d] for d in days}}), encoding="utf-8"
+    )
+    grown = ["--base", str(base), "--today", "2026-10-21"]
+    assert main(["schedule-check", "--path", str(ANIME / "schedule.json"), *grown]) == 1
+    assert "dia novo antes de hoje (2026-10-21), P44" in capsys.readouterr().out
+
+
+@pytest.mark.skipif(shutil.which("git") is None, reason="git não está no PATH")
+def test_the_default_schedule_check_covers_the_four_schedules(capsys):
+    # As dos Hits continuam com o resultado de antes; as do Anime (a fictícia e, desde a carga de
+    # teste, C1, a real) entram com o gerador delas.
+    assert main(["schedule-check", "--base-ref", "HEAD"]) == 0
+    out = capsys.readouterr().out
+    for path in (
+        repo_root() / "web" / "public" / "fixtures" / "schedule.json",
+        repo_root() / "web" / "public" / "data" / "schedule.json",
+        ANIME / "schedule.json",
+        anime_paths("apple").public_dir / "schedule.json",
+    ):
+        assert f"{path}: OK (" in out
 
 
 def _build_artists(out_dir, provider: str = "fixture") -> int:

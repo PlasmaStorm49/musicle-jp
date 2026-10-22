@@ -6,8 +6,7 @@ Atualizado em 21/10/2026.
 
 ## Próximos, na ordem combinada (21/10)
 
-1. **ME97**: a categoria Anime, no M14, em andamento (Apêndice M do PLANO).
-2. **ME101**: o controle de volume também na revelação (P228).
+1. **ME101**: o controle de volume também na revelação (P228).
 
 ## Itens para corrigir
 
@@ -30,6 +29,8 @@ Atualizado em 21/10/2026.
 - **ME91.** A CI não acusa título que ficou sem latino.
 
 **No jogo**
+- **ME111 (novo).** A franquia pode repetir entre os 6 diários do Anime do dia, e a ajuda do acertar o anime mostra a "de hoje" a quem jogou outro diário. Corrigir na agenda (sem repetir a franquia nas 18 respostas), no C2.
+- **ME110 (novo).** O Treino e os Artistas não excluem as respostas do Anime de hoje (raro: pede o mesmo `songKey` nos dois catálogos). Aceito por ora, como a P248.
 - **ME62.** No Treino da parada, um cover de outro artista escapa da exclusão por título.
 - **S24.** Conferir a duração real das prévias: no Superfan, uma prévia curta deixaria menos de 9 s.
 
@@ -75,7 +76,6 @@ Atualizado em 21/10/2026.
 
 ## Coisas novas que quero implementar
 
-- **ME97 (em andamento, M14).** A categoria Anime, com 6 diários por dia, num acervo que o robô monta sem revisão humana (P230 a P256).
 - **ME107 (novo).** Repensar a pontuação de todos os modos, depois do Anime. Até lá, o Anime usa as regras do Desafio.
 - **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
 - **ME104 (novo).** Os dias jogados e jogar os últimos dias (sem sequência e sem média). Depois do Anime.
@@ -95,6 +95,7 @@ Atualizado em 21/10/2026.
 **Você**
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
+- **ME109 (novo).** Crescer a agenda fictícia do Anime, que para em 09/11 (no PR B, o robô).
 - **ME108 (novo).** Decidir se a lista de negação do `.claude/settings.json` passa a cobrir os gerados dos artistas e do Anime, como diz a regra 3 do `CLAUDE.md`.
 - **P16.** Decidir se a URL e o repositório mudam de nome.
 - Segunda, 26/10: o PR do robô, com o merge no mesmo dia.

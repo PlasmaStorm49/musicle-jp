@@ -1,0 +1,4025 @@
+{
+  "anime": [
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 32,
+      "name": "Neon Genesis Evangelion: The End of Evangelion",
+      "series": [
+        {
+          "name": "Neon Genesis Evangelion",
+          "slug": "evangelion"
+        }
+      ],
+      "slug": "neon_genesis_evangelion_the_end_of_evangelion",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "LOREN",
+            "MASH"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Thanatos -If I Can't Be Yours-",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "ARIANNE"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Komm, süsser Tod",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Akishima Shiritsu Haijima Hoikuen"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Musunde Hiraite",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 1997
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 457,
+      "name": "Mushishi",
+      "series": [
+        {
+          "name": "Mushishi",
+          "slug": "mushishi"
+        }
+      ],
+      "slug": "mushishi",
+      "synonyms": [
+        "MUSHI-SHI",
+        "蟲師",
+        "Mushi-Shi"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Ally Kerr"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "The Sore Feet Song",
+          "track": "131944614",
+          "type": "OP"
+        }
+      ],
+      "year": 2005
+    },
+    {
+      "levels": {
+        "mal": 8
+      },
+      "malId": 52299,
+      "name": "Ore dake Level Up na Ken",
+      "series": [
+        {
+          "name": "Ore dake Level Up na Ken",
+          "slug": "ore_dake_level_up_na_ken"
+        }
+      ],
+      "slug": "ore_dake_level_up_na_ken",
+      "synonyms": [
+        "Solo Leveling",
+        "俺だけレベルアップな件"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "TOMORROW X TOGETHER",
+            "SawanoHiroyuki[nZk]"
+          ],
+          "levels": {
+            "animethemes": 8,
+            "anisongdb": 7
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "LEveL",
+          "track": "1718526128",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "krage"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "request",
+          "track": "1721471879",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "XAI"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "DARK ARIA",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Laco",
+            "Benjamin & mpi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "4eVR",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Hannah Grace"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "[Solo-Leveling]SymphonicSuite-Lv.8",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2024
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 177,
+      "name": "Tsubasa Chronicle",
+      "series": [
+        {
+          "name": "Tsubasa",
+          "slug": "tsubasa"
+        }
+      ],
+      "slug": "tsubasa_chronicle",
+      "synonyms": [
+        "Tsubasa RESERVoir CHRoNiCLE",
+        "ツバサ・クロニクル",
+        "Tsubasa Reservoir Chronicle"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Kinya Kotani"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "BLAZE",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Maaya Sakamoto",
+            "坂本真綾"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Loop",
+          "track": "1348203258",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Tokyo Konsei Gasshou-dan",
+            "Eri Itou"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "a song of storm and fire",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Eri Itou"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "I talk to the rain",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "FictionJunction KEIKO"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Kaze no Machi e",
+          "track": "1554833042",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "FictionJunction KAORI"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "tsubasa",
+          "track": "1148470735",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Eri Itou"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "you are my love",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yui Makino"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Yume no Tsubasa",
+          "track": "945331031",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Eri Itou"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "prove yourself",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Eri Itou"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "voices silently sing",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Tokyo Konsei Gasshou-dan",
+            "Eri Itou"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "endlessly",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Eri Itou"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "storm is coming",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Tokyo Konsei Gasshou-dan"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "catastrophe",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2005
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 62601,
+      "name": "MARRIAGETOXIN",
+      "series": [],
+      "slug": "marriagetoxin",
+      "synonyms": [
+        "マリッジトキシン"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Yurina Hirate"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Kill or Kiss",
+          "track": "1888448160",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "AKASAKI"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Shake Na Baby",
+          "track": "1888092749",
+          "type": "ED"
+        }
+      ],
+      "year": 2026
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 227,
+      "name": "FLCL",
+      "series": [
+        {
+          "name": "FLCL",
+          "slug": "flcl"
+        }
+      ],
+      "slug": "flcl",
+      "synonyms": [
+        "Fooly Cooly",
+        "Furi Kuri"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Ride On Shooting Star",
+          "track": "385705924",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "ONE LIFE",
+          "track": "385700725",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Instant Music",
+          "track": "317677267",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "HAPPY BIVOUAC",
+          "track": "317681372",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "ambiguous",
+          "sequence": null,
+          "song": "CARNIVAL",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "ambiguous",
+          "sequence": null,
+          "song": "Another Morning",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Blues Drive Monster",
+          "track": "317672499",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Crazy Sunshine",
+          "track": "317681409",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Funny Bunny",
+          "track": "317681417",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "ambiguous",
+          "sequence": null,
+          "song": "HYBRID RAINBOW",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "I think I can",
+          "track": "385705909",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "LAST DINOSAUR",
+          "track": "317681376",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "LITTLE BUSTERS",
+          "track": "317672504",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "RUNNERS HIGH~FLCL Ver.~",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "White Ash",
+          "track": "317677269",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Advice",
+          "track": "317681422",
+          "type": "IN"
+        }
+      ],
+      "year": 2000
+    },
+    {
+      "levels": {
+        "mal": 8
+      },
+      "malId": 6880,
+      "name": "Deadman Wonderland",
+      "series": [],
+      "slug": "deadman_wonderland",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "fade",
+            "DWB"
+          ],
+          "levels": {
+            "animethemes": 8,
+            "anisongdb": 7
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "One Reason",
+          "track": "1683295726",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "NIRGILIS",
+            "DWB"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "SHINY SHINY",
+          "track": "1683300097",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Kana Hanazawa"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Komoriuta",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2011
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 2025,
+      "name": "Darker than Black: Kuro no Keiyakusha",
+      "series": [
+        {
+          "name": "Darker than Black",
+          "slug": "darker_than_black"
+        }
+      ],
+      "slug": "darker_than_black_kuro_no_keiyakusha",
+      "synonyms": [
+        "Darker than Black",
+        "DARKER THAN BLACK -黒の契約者-",
+        "DTB"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "abingdon boys school"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "Howling",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "An Cafe"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 3
+          },
+          "result": "no-artist",
+          "sequence": 2,
+          "song": "Kakusei Heroism ~The Hero without a Name~",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Rie fu"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Tsuki Akari",
+          "track": "1537229545",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "HIGH and MIGHTY COLOR"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Dreams",
+          "track": "1537236702",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mai Yamane"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "No One's Home",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "James Wendt"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Deadly Work",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "James Wendt"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Blend In",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2007
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 35062,
+      "name": "Mahoutsukai no Yome",
+      "series": [
+        {
+          "name": "Mahoutsukai no Yome",
+          "slug": "mahoutsukai_no_yome"
+        }
+      ],
+      "slug": "mahoutsukai_no_yome",
+      "synonyms": [
+        "The Ancient Magus' Bride",
+        "魔法使いの嫁",
+        "The Magician's Bride"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "JUNNA"
+          ],
+          "levels": {
+            "animethemes": 8,
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Here",
+          "track": "1297260555",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "May'n"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "You",
+          "track": "1339054160",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Hana Itoki"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": 1,
+          "song": "Wa -cycle-",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "AKINO",
+            "AIKI"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "Tsuki no mou Hanbun",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Jessica"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 3,
+          "song": "The Legend of 'The Ancient Magus Bride'",
+          "track": "1358216084",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Akino Arai"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Hana Kazoe",
+          "track": "1358216076",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Miu Sakamoto"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Liberalo",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "KOCHO"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Kimi no Yukue",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "KOKIA"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Seirei no Mai ~Dance of the Spirit",
+          "track": "1321724273",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Hibiki Houjou"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Anno Domini",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Daichi Takenaka"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Iruna Etelro",
+          "track": "1358216053",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kaco"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Rose",
+          "track": "1358216069",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "kotringo"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Story",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2017
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 2246,
+      "name": "Mononoke",
+      "series": [
+        {
+          "name": "Mononoke",
+          "slug": "mononoke"
+        }
+      ],
+      "slug": "mononoke",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "Charlie Kosei",
+            "Ryouta Komatsu"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Kagen no Tsuki",
+          "track": "1537291898",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "JUJU"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Natsu no Hana",
+          "track": "1535613405",
+          "type": "ED"
+        }
+      ],
+      "year": 2007
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 55866,
+      "name": "Yubisaki to Renren",
+      "series": [],
+      "slug": "yubisaki_to_renren",
+      "synonyms": [
+        "A Sign of Affection",
+        "ゆびさきと恋々"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Novelbright"
+          ],
+          "levels": {
+            "animethemes": 6
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Yuki no Oto",
+          "track": "1719724057",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "ChoQMay"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "snowspring",
+          "track": "1720359467",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Novelbright"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "ambiguous",
+          "sequence": 1,
+          "song": "Yuki no Ne",
+          "track": null,
+          "type": "OP"
+        }
+      ],
+      "year": 2024
+    },
+    {
+      "levels": {
+        "mal": 8
+      },
+      "malId": 918,
+      "name": "Gintama",
+      "series": [
+        {
+          "name": "Gintama",
+          "slug": "gintama"
+        }
+      ],
+      "slug": "gintama",
+      "synonyms": [
+        "Gin Tama",
+        "Silver Soul"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Tommy heavenly⁶"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Pray",
+          "track": "1536140851",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "YO-KING"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Tooi Nioi",
+          "track": "1536368164",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "redballoon"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 3,
+          "song": "Giniro no Sora",
+          "track": "1605721434",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Hearts Grow"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 4,
+          "song": "Kasanaru Kage",
+          "track": "1536927173",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "DOES"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": 5,
+          "song": "DONTEN",
+          "track": "1536371431",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "MONOBRIGHT"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 6,
+          "song": "Anata MAGIC",
+          "track": "1536108072",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Base Ball Bear"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 7,
+          "song": "Stairway Generation",
+          "track": "720520124",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Prague"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 8,
+          "song": "Light Infection",
+          "track": "1536379052",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Captain Straydum"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "no-artist",
+          "sequence": 1,
+          "song": "Fuusen Gum",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "amplified"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "MR.RAINDROP",
+          "track": "1544771939",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "redballoon"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 3,
+          "song": "Yuki no Tsubasa",
+          "track": "1605721433",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Hitomi Takahashi"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 4,
+          "song": "Candy Line",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "DOES"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": 5,
+          "song": "Shura",
+          "track": "1536369246",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Snowkel"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": 6,
+          "song": "Kiseki",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "KELUN"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 7,
+          "song": "SIGNAL",
+          "track": "1536746073",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "THE RODEO CARBURETTOR"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 8,
+          "song": "Speed of Flow",
+          "track": "1536746228",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "POSSIBILITY"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 9,
+          "song": "Sanagi",
+          "track": "1537398847",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Plingmin"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 10,
+          "song": "This World is yours",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [],
+          "levels": {
+            "animethemes": 4
+          },
+          "result": "no-artist",
+          "sequence": 11,
+          "song": "Ai, Ai, Ai",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Shigi"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": 12,
+          "song": "Kagayaita",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "PENGIN"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 13,
+          "song": "Asa Answer",
+          "track": "1536257480",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "BEAT CRUSADERS",
+            "Hitomi Takahashi"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 14,
+          "song": "Wo Ai Ni",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "ONE☆DRAFT"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 15,
+          "song": "Wonderful Days",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Qwai"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 16,
+          "song": "SAYONARA no Sora",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "ghostnote"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 13,
+          "song": "I, Ai, Ai",
+          "track": "1537237456",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Tomokazu Sugita"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-artist",
+          "sequence": 14,
+          "song": "Sen no Kaze ni Natte",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Audio Highs"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Yorozuya Blues",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ko-saku"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Dondake! Gintaman",
+          "track": "1537784403",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kazunari Tanaka"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Kato Ken Samba!",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mikako Takahashi"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": 12,
+          "song": "Omae to ×-chan Nonda Kure",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mikako Takahashi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Omae no Nii-chan×××××",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "YO-KING"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": 5,
+          "song": "Tooi Nioi Indians Version",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mikako Takahashi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Omae no Kaa-chan××Da!",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mikako Takahashi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": 6,
+          "song": "Housou Code ga Nanbo no Monjai!",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Audio Highs"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Kabukichou Aika",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mikako Takahashi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Omae no Baa-chan Omae no Basshu Haiteta",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mikako Takahashi"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Omae no Tou-chan××",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mikako Takahashi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Chome Kou Nanza Kuso Kurae!",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mikako Takahashi",
+            "Erika Sudou"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Dynamite Saikai ~Hirusagari no Sengyoushufu~",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "TAKUMA"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Chou Ginga Senki J・apaan",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2006
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 39326,
+      "name": "Kawaikereba Hentai demo Suki ni Natte Kuremasu ka?",
+      "series": [],
+      "slug": "kawaikereba_hentai_demo_suki_ni_natte_kuremasu_ka",
+      "synonyms": [
+        "Hensuki: Are you willing to fall in love with a pervert, as long as she’s a cutie?",
+        "可愛ければ変態でも好きになってくれますか？",
+        "Hensuki: Are you willing to fall in love with a pervert, as long as she's a cutie?"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Ayaka Oohashi",
+            "大橋彩香"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Daisuki.",
+          "track": "1473369554",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Mia REGINA"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Mubyuu no Hana",
+          "track": "1475478408",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "TRUE"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Stella",
+          "track": "1478107532",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mia REGINA"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Nagareboshi",
+          "track": "1481330732",
+          "type": "IN"
+        }
+      ],
+      "year": 2019
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 59741,
+      "name": "Tsuihou Sareta Tensei Juukishi wa Game Chishiki de Musou Suru",
+      "series": [],
+      "slug": "tsuihou_sareta_tensei_juukishi_wa_game_chishiki_de_musou_suru",
+      "synonyms": [
+        "The Exiled Heavy Knight Knows How to Game the System",
+        "追放された転生重騎士はゲーム知識で無双する",
+        "Juukishi"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "SPYAIR"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Awake",
+          "track": "6782046124",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "ReoNa"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Lv.1 Shokugyou:Ningen",
+          "track": "6782786764",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Towa Tokoyami"
+          ],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "no-artist",
+          "sequence": 2,
+          "song": "Rewrite the Answer",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "PompadollS"
+          ],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Contemporary Dance",
+          "track": "6811918500",
+          "type": "ED"
+        }
+      ],
+      "year": 2026
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 18857,
+      "name": "Ore no Imouto ga Konnani Kawaii Wake ga Nai. Specials",
+      "series": [
+        {
+          "name": "Ore no Imouto ga Konnani Kawaii Wake ga Nai",
+          "slug": "oreimo"
+        }
+      ],
+      "slug": "ore_no_imouto_ga_konnani_kawaii_wake_ga_nai_specials_2013",
+      "synonyms": [
+        "My Little Sister Can't Be This Cute 2 Specials",
+        "俺の妹がこんなに可愛いわけがない。",
+        "OreImo. Specials",
+        "Ore no Imouto ga Konna ni Kawaii Wake ga Nai 2 Specials",
+        "Oreimo 2 (ONA)"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "ClariS"
+          ],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "reunion",
+          "track": "1537251751",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Kana Hanazawa",
+            "花澤香菜"
+          ],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "The last ceremony",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Ayana Taketatsu",
+            "竹達彩奈"
+          ],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "will",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Ayana Taketatsu",
+            "竹達彩奈"
+          ],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "no-match",
+          "sequence": 3,
+          "song": "Thank You",
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2013
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 6573,
+      "name": "Darker than Black: Ryuusei no Gemini",
+      "series": [
+        {
+          "name": "Darker than Black",
+          "slug": "darker_than_black"
+        }
+      ],
+      "slug": "darker_than_black_ryuusei_no_gemini",
+      "synonyms": [
+        "Darker than Black: Gemini of the Meteor",
+        "DARKER THAN BLACK -流星の双子-",
+        "Darker than BLACK 2nd Season",
+        "Darker than BLACK Second Season",
+        "DTB2"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "STEREOPONY"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Tsukiakari no Michishirube",
+          "track": "1537417115",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "abingdon boys school"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "From Dusk Till Dawn",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Kana Hanazawa"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Twinkle Real Star",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kana Hanazawa"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Kanashiki Yume no Maki",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yasushi Ishii"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Brand New Happiness",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yasushi Ishii"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Dive into the 9",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yasushi Ishii"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Soul Fusion",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yasushi Ishii"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Gekkou Bosatsu no Namida",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2009
+    },
+    {
+      "levels": {
+        "mal": 9
+      },
+      "malId": 1535,
+      "name": "Death Note",
+      "series": [],
+      "slug": "death_note",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "Nightmare"
+          ],
+          "levels": {
+            "animethemes": 9,
+            "anisongdb": 8
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "THE WORLD",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Maximum the Hormone"
+          ],
+          "levels": {
+            "animethemes": 9,
+            "anisongdb": 8
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "What's up people?",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Nightmare"
+          ],
+          "levels": {
+            "animethemes": 8,
+            "anisongdb": 7
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "Alumina",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Maximum the Hormone"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 6
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "Zetsubou Billy",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yoshihisa Hirano"
+          ],
+          "levels": {
+            "animethemes": 4
+          },
+          "result": "no-match",
+          "sequence": 3,
+          "song": "Coda〜Death note",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Aya Hirano"
+          ],
+          "levels": {
+            "anisongdb": 6
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Misa no Uta",
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Tokyo Konsei Gasshou-dan"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Death Note Theme",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2006
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 16894,
+      "name": "Kuroko no Basket 2nd Season",
+      "series": [
+        {
+          "name": "Kuroko no Basket",
+          "slug": "kuroko_no_basket"
+        }
+      ],
+      "slug": "kuroko_no_basket_2nd_season",
+      "synonyms": [
+        "Kuroko's Basketball 2",
+        "黒子のバスケ 2nd SEASON",
+        "Kuroko no Basuke 2nd Season"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "GRANRODEO"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 7
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "The Other Self",
+          "track": "1745664499",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "GRANRODEO"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Hengen Jizai no Magical Star",
+          "track": "1745664227",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "OLDCODEX"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "WALK",
+          "track": "1746904286",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Kenshou Ono"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "FANTASTIC TUNE",
+          "track": "820700465",
+          "type": "ED"
+        }
+      ],
+      "year": 2013
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 2216,
+      "name": "Shigurui",
+      "series": [],
+      "slug": "shigurui",
+      "synonyms": [
+        "Shigurui: Death Frenzy",
+        "シグルイ",
+        "Crazy for Death"
+      ],
+      "themes": [
+        {
+          "artists": [],
+          "levels": {
+            "animethemes": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Shigurui",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [],
+          "levels": {
+            "animethemes": 0
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Koji",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Kiyoshi Yoshida"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "ambiguous",
+          "sequence": 1,
+          "song": "Shigurui ~Opening Theme",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Kiyoshi Yoshida"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "ambiguous",
+          "sequence": 1,
+          "song": "Torako ~Ending Theme",
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2007
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 43692,
+      "name": "Gokushufudou",
+      "series": [],
+      "slug": "gokushufudou",
+      "synonyms": [
+        "The Way of the Househusband",
+        "極主夫道"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Uchikubi Gokumon Doukoukai"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 6
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Shufu no Michi",
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Uchikubi Gokumon Doukoukai"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 5
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Kiwami Meotokaidou",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Chiaki Kon"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Crimecatch Policure☆",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2021
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 18689,
+      "name": "Diamond no Ace",
+      "series": [
+        {
+          "name": "Diamond no Ace",
+          "slug": "diamond_no_ace"
+        }
+      ],
+      "slug": "diamond_no_ace",
+      "synonyms": [
+        "Ace of the Diamond",
+        "ダイヤのA",
+        "Ace of Diamond",
+        "Daiya no Ace"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Masayoshi Ooishi",
+            "大石昌良"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Go EXCEED!!",
+          "track": "723324548",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Masayoshi Ooishi",
+            "大石昌良"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Perfect HERO",
+          "track": "872398792",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "GLAY"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 3,
+          "song": "Hashire! Mirai",
+          "track": "991748469",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Youko Hikasa",
+            "日笠陽子"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Seek Diamonds",
+          "track": "733755431",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Suzuko Mimori",
+            "三森すずこ"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Glory!",
+          "track": "1679687074",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "AOP"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": 3,
+          "song": "Mirai e Tsunage",
+          "track": "1410662473",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Seidou Koukou Yakyuubu"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": 4,
+          "song": "CLOUD NINE",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Seidou Koukou Yakyuubu"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": 5,
+          "song": "PROMISED FIELD",
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Seidou Koukou Yakyuubu"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": 6,
+          "song": "FINAL VICTORY",
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2013
+    }
+  ],
+  "artists": {
+    "1022677279": {
+      "artistName": "Novelbright"
+    },
+    "111133857": {
+      "artistName": "Base Ball Bear"
+    },
+    "1139014441": {
+      "artistName": "TRUE"
+    },
+    "1141294739": {
+      "artistName": "Mia REGINA"
+    },
+    "1148470736": {
+      "artistName": "FictionJunction KAORI"
+    },
+    "1174010749": {
+      "artistName": "Kaco"
+    },
+    "131943498": {
+      "artistName": "Ally Kerr"
+    },
+    "1358216054": {
+      "artistName": "Daichi Takenaka"
+    },
+    "1358216085": {
+      "artistName": "Jessica"
+    },
+    "1401871894": {
+      "artistName": "ReoNa"
+    },
+    "1451313887": {
+      "artistName": "Yurina Hirate"
+    },
+    "1534671372": {
+      "artistName": "ChoQMay"
+    },
+    "1542904221": {
+      "artistName": "krage"
+    },
+    "1545100897": {
+      "artistName": "amplified"
+    },
+    "1554277400": {
+      "artistName": "FictionJunction KEIKO"
+    },
+    "1725916783": {
+      "artistName": "PompadollS"
+    },
+    "1741266380": {
+      "artistName": "AKASAKI"
+    },
+    "213816331": {
+      "artistName": "redballoon"
+    },
+    "259944557": {
+      "artistName": "POSSIBILITY"
+    },
+    "266646351": {
+      "artistName": "GRANRODEO"
+    },
+    "269772905": {
+      "artistName": "HIGH and MIGHTY COLOR"
+    },
+    "292629408": {
+      "artistName": "HEARTS GROW"
+    },
+    "292701114": {
+      "artistName": "KELUN"
+    },
+    "301384362": {
+      "artistName": "May'n"
+    },
+    "301792979": {
+      "artistName": "Maaya Sakamoto"
+    },
+    "305229854": {
+      "artistName": "Ko-saku"
+    },
+    "308131412": {
+      "artistName": "SPYAIR"
+    },
+    "311757352": {
+      "artistName": "Akino Arai"
+    },
+    "329400839": {
+      "artistName": "KOKIA"
+    },
+    "336890147": {
+      "artistName": "OLDCODEX"
+    },
+    "345035147": {
+      "artistName": "PENGIN"
+    },
+    "375213953": {
+      "artistName": "Stereopony"
+    },
+    "376826320": {
+      "artistName": "Yoko Hikasa"
+    },
+    "3821489": {
+      "artistName": "JUJU"
+    },
+    "395932259": {
+      "artistName": "Kensho Ono"
+    },
+    "410204901": {
+      "artistName": "Rie fu"
+    },
+    "410715987": {
+      "artistName": "ghostnote"
+    },
+    "446031022": {
+      "artistName": "DWB"
+    },
+    "472370021": {
+      "artistName": "Tommy heavenly6"
+    },
+    "548139430": {
+      "artistName": "ClariS"
+    },
+    "571955403": {
+      "artistName": "Ryota Komatsu"
+    },
+    "574769253": {
+      "artistName": "MONOBRIGHT"
+    },
+    "576985728": {
+      "artistName": "JUNNA"
+    },
+    "577631633": {
+      "artistName": "Prague"
+    },
+    "582067409": {
+      "artistName": "DOES"
+    },
+    "622501915": {
+      "artistName": "三森すずこ"
+    },
+    "705683182": {
+      "artistName": "GLAY"
+    },
+    "738421282": {
+      "artistName": "Yui Makino"
+    },
+    "79461208": {
+      "artistName": "YO-KING"
+    },
+    "80377807": {
+      "artistName": "The Rodeo Carburettor"
+    },
+    "879381975": {
+      "artistName": "AOP"
+    },
+    "902911130": {
+      "artistName": "Ayaka Ohashi"
+    },
+    "912316913": {
+      "artistName": "SawanoHiroyuki[nZk]"
+    },
+    "94949844": {
+      "artistName": "the pillows"
+    }
+  },
+  "fetchedAt": "2026-10-22T01:18:11Z",
+  "id": "2026-10-22T011811Z",
+  "provider": "apple",
+  "resolved": {
+    "AIKI": [
+      "1537722676"
+    ],
+    "AKASAKI": [
+      "1741266380"
+    ],
+    "AKINO": [
+      "89650138"
+    ],
+    "AOP": [
+      "879381975"
+    ],
+    "ARIANNE": [
+      "1891820749"
+    ],
+    "Akino Arai": [
+      "311757352"
+    ],
+    "Akishima Shiritsu Haijima Hoikuen": [],
+    "Ally Kerr": [
+      "131943498"
+    ],
+    "An Cafe": [],
+    "Audio Highs": [
+      "259860373"
+    ],
+    "Aya Hirano": [
+      "266647718"
+    ],
+    "Ayaka Oohashi": [
+      "902911130"
+    ],
+    "Ayana Taketatsu": [],
+    "BEAT CRUSADERS": [
+      "262240184"
+    ],
+    "Base Ball Bear": [
+      "111133857"
+    ],
+    "Benjamin & mpi": [],
+    "Captain Straydum": [],
+    "Charlie Kosei": [],
+    "Chiaki Kon": [],
+    "ChoQMay": [
+      "1534671372"
+    ],
+    "ClariS": [
+      "548139430"
+    ],
+    "DOES": [
+      "582067409"
+    ],
+    "DWB": [
+      "446031022"
+    ],
+    "Daichi Takenaka": [
+      "1358216054"
+    ],
+    "Eri Itou": [
+      "596908340",
+      "6783572569"
+    ],
+    "Erika Sudou": [],
+    "FictionJunction KAORI": [
+      "1148470736"
+    ],
+    "FictionJunction KEIKO": [
+      "1554277400"
+    ],
+    "GLAY": [
+      "705683182",
+      "1709991368",
+      "1624341925"
+    ],
+    "GRANRODEO": [
+      "266646351"
+    ],
+    "HIGH and MIGHTY COLOR": [
+      "269772905"
+    ],
+    "Hana Itoki": [],
+    "Hannah Grace": [
+      "890939355",
+      "1422447350",
+      "1590921537"
+    ],
+    "Hearts Grow": [
+      "292629408"
+    ],
+    "Hibiki Houjou": [],
+    "Hitomi Takahashi": [
+      "1627665395"
+    ],
+    "JUJU": [
+      "3821489",
+      "1504497261"
+    ],
+    "JUNNA": [
+      "576985728"
+    ],
+    "James Wendt": [],
+    "Jessica": [
+      "560450151",
+      "1603944083",
+      "1358216085"
+    ],
+    "KELUN": [
+      "292701114"
+    ],
+    "KOCHO": [
+      "1825918179"
+    ],
+    "KOKIA": [
+      "329400839"
+    ],
+    "Kaco": [
+      "1174010749",
+      "1511180494",
+      "1491494646"
+    ],
+    "Kana Hanazawa": [
+      "573780411"
+    ],
+    "Kazunari Tanaka": [],
+    "Kenshou Ono": [
+      "395932259"
+    ],
+    "Kinya Kotani": [],
+    "Kiyoshi Yoshida": [
+      "98305449"
+    ],
+    "Ko-saku": [
+      "305229854"
+    ],
+    "LOREN": [
+      "260728167"
+    ],
+    "Laco": [
+      "1452467096"
+    ],
+    "MASH": [
+      "1457394736",
+      "447005736"
+    ],
+    "MONOBRIGHT": [
+      "574769253"
+    ],
+    "Maaya Sakamoto": [
+      "301792979"
+    ],
+    "Mai Yamane": [
+      "674481419"
+    ],
+    "Masayoshi Ooishi": [
+      "908870855"
+    ],
+    "Maximum the Hormone": [
+      "347905413"
+    ],
+    "May'n": [
+      "301384362"
+    ],
+    "Mia REGINA": [
+      "1141294739"
+    ],
+    "Mikako Takahashi": [
+      "208427911"
+    ],
+    "Miu Sakamoto": [
+      "79914161",
+      "1738875596"
+    ],
+    "NIRGILIS": [
+      "446032501"
+    ],
+    "Nightmare": [
+      "1246798099",
+      "425444809",
+      "4649871"
+    ],
+    "Novelbright": [
+      "1022677279"
+    ],
+    "OLDCODEX": [
+      "336890147"
+    ],
+    "ONE☆DRAFT": [
+      "569918534"
+    ],
+    "PENGIN": [
+      "345035147",
+      "1476771356",
+      "1482042177"
+    ],
+    "POSSIBILITY": [
+      "259944557"
+    ],
+    "Plingmin": [
+      "118663776"
+    ],
+    "PompadollS": [
+      "1725916783"
+    ],
+    "Prague": [
+      "577631633",
+      "1320957823"
+    ],
+    "Qwai": [
+      "1533617326"
+    ],
+    "ReoNa": [
+      "1401871894"
+    ],
+    "Rie fu": [
+      "410204901"
+    ],
+    "Ryouta Komatsu": [
+      "571955403"
+    ],
+    "SPYAIR": [
+      "308131412"
+    ],
+    "STEREOPONY": [
+      "375213953",
+      "1798525484"
+    ],
+    "SawanoHiroyuki[nZk]": [
+      "912316913"
+    ],
+    "Seidou Koukou Yakyuubu": [],
+    "Shigi": [
+      "675305396",
+      "6777134179"
+    ],
+    "Snowkel": [],
+    "Suzuko Mimori": [],
+    "TAKUMA": [
+      "76126409",
+      "1484910518",
+      "860497851"
+    ],
+    "THE RODEO CARBURETTOR": [
+      "80377807"
+    ],
+    "TOMORROW X TOGETHER": [
+      "1454642552"
+    ],
+    "TRUE": [
+      "1139014441"
+    ],
+    "Tokyo Konsei Gasshou-dan": [],
+    "Tommy heavenly⁶": [
+      "472370021"
+    ],
+    "Tomokazu Sugita": [],
+    "Towa Tokoyami": [],
+    "Uchikubi Gokumon Doukoukai": [
+      "1502047926"
+    ],
+    "XAI": [
+      "1384069241"
+    ],
+    "YO-KING": [
+      "79461208"
+    ],
+    "Yasushi Ishii": [
+      "1808302976"
+    ],
+    "Yoshihisa Hirano": [
+      "584644933"
+    ],
+    "Youko Hikasa": [
+      "376826320"
+    ],
+    "Yui Makino": [
+      "738421282"
+    ],
+    "Yurina Hirate": [
+      "1451313887"
+    ],
+    "abingdon boys school": [
+      "269772474"
+    ],
+    "amplified": [
+      "1545100897"
+    ],
+    "fade": [
+      "1806252624"
+    ],
+    "ghostnote": [
+      "410715987"
+    ],
+    "kotringo": [
+      "336837099",
+      "1475671196"
+    ],
+    "krage": [
+      "1542904221"
+    ],
+    "redballoon": [
+      "213816331"
+    ],
+    "the pillows": [
+      "94949844"
+    ],
+    "三森すずこ": [
+      "622501915"
+    ],
+    "坂本真綾": [
+      "919943371"
+    ],
+    "大橋彩香": [],
+    "大石昌良": [
+      "1545519812"
+    ],
+    "日笠陽子": [],
+    "竹達彩奈": [
+      "339140439"
+    ],
+    "花澤香菜": [
+      "1705923522"
+    ]
+  },
+  "storefront": "jp",
+  "tracks": {
+    "1148470735": {
+      "artistId": "1148470736",
+      "artistName": "FictionJunction KAORI",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music62/v4/4c/f8/27/4cf82782-f514-1a64-bf3a-841e366759ac/VEATP-33699.jpg/100x100bb.jpg",
+      "collectionArtistName": "Various Artists",
+      "collectionId": "1148470724",
+      "collectionName": "ツバサ・クロニクル ベスト・ボーカル・コレクション -edit version-",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/89/56/a2/8956a28e-9ebf-f472-8e33-d74df8b6da3c/mzaf_11482773692970360948.plus.aac.p.m4a",
+      "releaseDate": "2016-09-14T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1148470735",
+      "trackName": "tsubasa",
+      "trackTimeMillis": 275053,
+      "trackViewUrl": "https://music.apple.com/jp/album/tsubasa/1148470724?i=1148470735&uo=4"
+    },
+    "1297260555": {
+      "artistId": "576985728",
+      "artistName": "JUNNA",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/3c/3c/68/3c3c68d4-aaea-1938-70bc-42f6368dd202/VEATP-34790.jpg/100x100bb.jpg",
+      "collectionId": "1297260553",
+      "collectionName": "Here - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e1/48/ac/e148ac3f-2ba2-aaf3-ad9b-45398f622e43/mzaf_1735877319220073773.plus.aac.p.m4a",
+      "releaseDate": "2017-11-01T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1297260555",
+      "trackName": "Here",
+      "trackTimeMillis": 263693,
+      "trackViewUrl": "https://music.apple.com/jp/album/here/1297260553?i=1297260555&uo=4"
+    },
+    "131944614": {
+      "artistId": "131943498",
+      "artistName": "Ally Kerr",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music3/v4/f9/bc/34/f9bc3452-16d1-dd9b-5b15-f90307977dae/dj.jgxzswna.jpg/100x100bb.jpg",
+      "collectionId": "131943423",
+      "collectionName": "Calling Out To You",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f5/51/f9/f551f981-d0ea-65d2-371d-3bd470f01263/mzaf_1359872284048108303.plus.aac.p.m4a",
+      "releaseDate": "2005-05-02T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "131944614",
+      "trackName": "The Sore Feet Song",
+      "trackTimeMillis": 185293,
+      "trackViewUrl": "https://music.apple.com/jp/album/the-sore-feet-song/131943423?i=131944614&uo=4"
+    },
+    "1321724273": {
+      "artistId": "329400839",
+      "artistName": "KOKIA",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/91/3c/e3/913ce33d-fdbb-46cf-c59c-179547ac0054/VTCL-60463.jpg/100x100bb.jpg",
+      "collectionArtistName": "松本淳一",
+      "collectionId": "1321724180",
+      "collectionName": "TVアニメーション「魔法使いの嫁」オリジナルサウンドトラック",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7e/95/fa/7e95fafc-e782-800d-362d-2c6b3d01015b/mzaf_11242339928243114740.plus.aac.p.m4a",
+      "releaseDate": "2017-12-20T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1321724273",
+      "trackName": "精霊の舞~Dance of the Spirit",
+      "trackTimeMillis": 221533,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E7%B2%BE%E9%9C%8A%E3%81%AE%E8%88%9E-dance-of-the-spirit/1321724180?i=1321724273&uo=4"
+    },
+    "1339054160": {
+      "artistId": "301384362",
+      "artistName": "May'n",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/2f/09/4f/2f094f4d-afc9-eb16-9049-29924fcf1266/VTCL-35265.jpg/100x100bb.jpg",
+      "collectionId": "1339054159",
+      "collectionName": "You - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/58/16/ae/5816ae8e-9a5a-4742-fbc0-2bf39466a6a3/mzaf_16879524512566084385.plus.aac.p.m4a",
+      "releaseDate": "2018-02-07T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1339054160",
+      "trackName": "You",
+      "trackTimeMillis": 241333,
+      "trackViewUrl": "https://music.apple.com/jp/album/you/1339054159?i=1339054160&uo=4"
+    },
+    "1348203258": {
+      "artistId": "301792979",
+      "artistName": "坂本真綾",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/6a/f7/dd/6af7ddec-532d-8001-7b4e-d9cec92204ae/VEATP-35085.jpg/100x100bb.jpg",
+      "collectionId": "1348203257",
+      "collectionName": "シングルコレクション+ ミツバチ",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/02/29/1e/02291e57-c42e-1a6f-bd47-21ad0bcac1c0/mzaf_12856676665674229358.plus.aac.p.m4a",
+      "releaseDate": "2005-05-11T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1348203258",
+      "trackName": "ループ",
+      "trackTimeMillis": 321701,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%AB%E3%83%BC%E3%83%97/1348203257?i=1348203258&uo=4"
+    },
+    "1358216053": {
+      "artistId": "1358216054",
+      "artistName": "竹中大地",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/ce/91/1a/ce911ab2-231d-370a-f27a-51b882e6e742/VTCL-60469.jpg/100x100bb.jpg",
+      "collectionArtistName": "松本淳一",
+      "collectionId": "1358215718",
+      "collectionName": "TVアニメーション「魔法使いの嫁」オリジナルサウンドトラック2",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ee/f7/8e/eef78ef9-5688-f7fb-3ab9-a325e49f1791/mzaf_12888524140574868325.plus.aac.p.m4a",
+      "releaseDate": "2018-03-28T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1358216053",
+      "trackName": "イルナ エテルロ",
+      "trackTimeMillis": 334867,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%A4%E3%83%AB%E3%83%8A-%E3%82%A8%E3%83%86%E3%83%AB%E3%83%AD/1358215718?i=1358216053&uo=4"
+    },
+    "1358216069": {
+      "artistId": "1174010749",
+      "artistName": "Kaco",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/ce/91/1a/ce911ab2-231d-370a-f27a-51b882e6e742/VTCL-60469.jpg/100x100bb.jpg",
+      "collectionArtistName": "松本淳一",
+      "collectionId": "1358215718",
+      "collectionName": "TVアニメーション「魔法使いの嫁」オリジナルサウンドトラック2",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e7/14/65/e714656c-b850-1aa4-3c6f-d14a12d22cd6/mzaf_4901033973651436976.plus.aac.p.m4a",
+      "releaseDate": "2018-03-28T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1358216069",
+      "trackName": "Rose",
+      "trackTimeMillis": 377680,
+      "trackViewUrl": "https://music.apple.com/jp/album/rose/1358215718?i=1358216069&uo=4"
+    },
+    "1358216076": {
+      "artistId": "311757352",
+      "artistName": "新居昭乃",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/ce/91/1a/ce911ab2-231d-370a-f27a-51b882e6e742/VTCL-60469.jpg/100x100bb.jpg",
+      "collectionArtistName": "松本淳一",
+      "collectionId": "1358215718",
+      "collectionName": "TVアニメーション「魔法使いの嫁」オリジナルサウンドトラック2",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1c/a3/ee/1ca3ee79-680f-6027-d93d-af77bdd4225e/mzaf_9385397959364864627.plus.aac.p.m4a",
+      "releaseDate": "2018-03-28T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1358216076",
+      "trackName": "花数え",
+      "trackTimeMillis": 126227,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E8%8A%B1%E6%95%B0%E3%81%88/1358215718?i=1358216076&uo=4"
+    },
+    "1358216084": {
+      "artistId": "1358216085",
+      "artistName": "Jessica",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/ce/91/1a/ce911ab2-231d-370a-f27a-51b882e6e742/VTCL-60469.jpg/100x100bb.jpg",
+      "collectionArtistName": "松本淳一",
+      "collectionId": "1358215718",
+      "collectionName": "TVアニメーション「魔法使いの嫁」オリジナルサウンドトラック2",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/10/21/68/102168ca-db35-443d-1034-fd64005f0e18/mzaf_16630864738413488330.plus.aac.p.m4a",
+      "releaseDate": "2018-03-28T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1358216084",
+      "trackName": "The Legend of \"The Ancient Magus Bride\"",
+      "trackTimeMillis": 99773,
+      "trackViewUrl": "https://music.apple.com/jp/album/the-legend-of-the-ancient-magus-bride/1358215718?i=1358216084&uo=4"
+    },
+    "1410662473": {
+      "artistId": "879381975",
+      "artistName": "A応P",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/9f/40/d3/9f40d3f2-d45b-53e1-ecf6-9254774b3791/4560216321390_cover.jpg/100x100bb.jpg",
+      "collectionId": "1410661988",
+      "collectionName": "A応P",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7e/07/01/7e070171-4f4b-6564-ac74-6c08070ab6fd/mzaf_6189587201493299961.plus.aac.p.m4a",
+      "releaseDate": "2016-08-13T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1410662473",
+      "trackName": "未来へつなげ (A応P Version)",
+      "trackTimeMillis": 222093,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%9C%AA%E6%9D%A5%E3%81%B8%E3%81%A4%E3%81%AA%E3%81%92-a%E5%BF%9Cp-version/1410661988?i=1410662473&uo=4"
+    },
+    "1473369554": {
+      "artistId": "902911130",
+      "artistName": "大橋彩香",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/a4/da/f0/a4daf0a6-0135-3bb8-aa6a-cdf732ef5782/LACM-14889.jpg/100x100bb.jpg",
+      "collectionId": "1473369553",
+      "collectionName": "ダイスキ。 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview113/v4/c8/d0/9a/c8d09a33-c6fc-fad4-821c-a34d259a9b6b/mzaf_5835608813518555060.plus.aac.p.m4a",
+      "releaseDate": "2019-08-06T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1473369554",
+      "trackName": "ダイスキ。",
+      "trackTimeMillis": 249160,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%80%E3%82%A4%E3%82%B9%E3%82%AD/1473369553?i=1473369554&uo=4"
+    },
+    "1475478408": {
+      "artistId": "1141294739",
+      "artistName": "Mia REGINA",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/6c/3c/cb/6c3ccb8d-8d96-c60e-de40-43f04946e8e9/LACM-14921.jpg/100x100bb.jpg",
+      "collectionId": "1475478407",
+      "collectionName": "無謬の花 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview113/v4/d9/6a/d0/d96ad0c9-1c67-dae0-ebb3-0516e9f50bbd/mzaf_17937958990524968474.plus.aac.p.m4a",
+      "releaseDate": "2019-08-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1475478408",
+      "trackName": "無謬の花",
+      "trackTimeMillis": 289213,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E7%84%A1%E8%AC%AC%E3%81%AE%E8%8A%B1/1475478407?i=1475478408&uo=4"
+    },
+    "1478107532": {
+      "artistId": "1139014441",
+      "artistName": "TRUE",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/59/15/0d/59150d6f-80c7-7559-617e-917348ffa315/LACA-15792.jpg/100x100bb.jpg",
+      "collectionArtistName": "Various Artists",
+      "collectionId": "1478107339",
+      "collectionName": "TVアニメ『可愛ければ変態でも好きになってくれますか?』インスパイアードアルバム「HENSUKI JUKE BOX」 - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview123/v4/47/dc/ea/47dceaae-9766-0525-c524-497baf606041/mzaf_1484645181457086192.plus.aac.p.m4a",
+      "releaseDate": "2019-09-11T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1478107532",
+      "trackName": "ステラ",
+      "trackTimeMillis": 248493,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B9%E3%83%86%E3%83%A9/1478107339?i=1478107532&uo=4"
+    },
+    "1481330732": {
+      "artistId": "1141294739",
+      "artistName": "Mia REGINA",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/57/23/ff/5723ff20-4f6e-b33f-3cb8-a67e00a32dc0/LACA-15795.jpg/100x100bb.jpg",
+      "collectionArtistName": "酒井陽一",
+      "collectionId": "1481330615",
+      "collectionName": "TVアニメ『可愛ければ変態でも好きになってくれますか?』オリジナルサウンドトラック",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview113/v4/2b/3a/98/2b3a988f-0da5-0630-9499-d474ecf697fa/mzaf_1445794475611778724.plus.aac.p.m4a",
+      "releaseDate": "2019-10-09T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1481330732",
+      "trackName": "流れ星",
+      "trackTimeMillis": 118040,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%B5%81%E3%82%8C%E6%98%9F/1481330615?i=1481330732&uo=4"
+    },
+    "1535613405": {
+      "artistId": "3821489",
+      "artistName": "JUJU",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/34/fc/d4/34fcd4ad-d539-d268-4b65-eaf3cf512665/jacket_AIXX00278B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1535613404",
+      "collectionName": "ナツノハナ - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ac/fa/62/acfa6203-34f2-b450-f44c-da51269fa787/mzaf_4008530803509636343.plus.aac.p.m4a",
+      "releaseDate": "2007-08-08T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1535613405",
+      "trackName": "ナツノハナ",
+      "trackTimeMillis": 338333,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%8A%E3%83%84%E3%83%8E%E3%83%8F%E3%83%8A/1535613404?i=1535613405&uo=4"
+    },
+    "1536108072": {
+      "artistId": "574769253",
+      "artistName": "モノブライト",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/b1/96/11/b196113d-c769-4cc0-403d-88c7346f0861/jacket_DFCL01423B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1536108069",
+      "collectionName": "monobright two (Special Edition)",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b0/c9/04/b0c904be-3c30-b763-009c-05c701853203/mzaf_4565332340817659155.plus.aac.p.m4a",
+      "releaseDate": "2009-01-14T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536108072",
+      "trackName": "アナタ MAGIC",
+      "trackTimeMillis": 242173,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%8A%E3%82%BF-magic/1536108069?i=1536108072&uo=4"
+    },
+    "1536140851": {
+      "artistId": "472370021",
+      "artistName": "Tommy heavenly6",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/aa/31/24/aa3124e3-e691-91db-0a6d-fb94cee4be98/jacket_DFXX00355B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1536140849",
+      "collectionName": "Pray - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b3/20/2c/b3202c7e-3745-fe6c-4e7f-a209442b762d/mzaf_9536797667357722762.plus.aac.p.m4a",
+      "releaseDate": "2006-07-05T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536140851",
+      "trackName": "Pray",
+      "trackTimeMillis": 272107,
+      "trackViewUrl": "https://music.apple.com/jp/album/pray/1536140849?i=1536140851&uo=4"
+    },
+    "1536257480": {
+      "artistId": "345035147",
+      "artistName": "PENGIN",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/18/f9/2f/18f92ffb-98b3-5374-5e71-1f4a98b4fc15/jacket_ESCL03206B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1536257479",
+      "collectionName": "朝ANSWER - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/46/53/fd/4653fd2b-bdbb-545c-e5f4-23073ee1bf72/mzaf_6274263539863930786.plus.aac.p.m4a",
+      "releaseDate": "2009-06-10T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536257480",
+      "trackName": "朝ANSWER",
+      "trackTimeMillis": 271840,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%9C%9Danswer/1536257479?i=1536257480&uo=4"
+    },
+    "1536368164": {
+      "artistId": "79461208",
+      "artistName": "YO-KING",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/7e/08/a7/7e08a78f-457d-a64d-2d89-841009f239c8/jacket_KSCL01096B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1536368163",
+      "collectionName": "遠い匂い - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/90/85/0b/90850b84-97d4-4b9a-7030-e858ecafdd69/mzaf_14928013996497225331.plus.aac.p.m4a",
+      "releaseDate": "2007-01-24T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536368164",
+      "trackName": "遠い匂い",
+      "trackTimeMillis": 234547,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%81%A0%E3%81%84%E5%8C%82%E3%81%84/1536368163?i=1536368164&uo=4"
+    },
+    "1536369246": {
+      "artistId": "582067409",
+      "artistName": "DOES",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/d7/64/c4/d764c4ae-20b1-3959-96a9-a8fb027b40d4/4560427291642.jpg/100x100bb.jpg",
+      "collectionId": "1536368915",
+      "collectionName": "修羅 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/91/9a/d6/919ad613-820a-63c6-d72a-4614e75fa226/mzaf_14069185976741545954.plus.aac.p.m4a",
+      "releaseDate": "2007-05-16T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536369246",
+      "trackName": "修羅",
+      "trackTimeMillis": 205667,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E4%BF%AE%E7%BE%85/1536368915?i=1536369246&uo=4"
+    },
+    "1536371431": {
+      "artistId": "582067409",
+      "artistName": "DOES",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/cb/33/d8/cb33d808-7ca3-d570-cdeb-d184bd240e90/jacket_KSCL01251B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1536371430",
+      "collectionName": "曇天 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f9/cf/be/f9cfbeee-b98f-bb14-7902-b591cc12e0e3/mzaf_2245082758701757152.plus.aac.p.m4a",
+      "releaseDate": "2008-06-18T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536371431",
+      "trackName": "曇天",
+      "trackTimeMillis": 190973,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%9B%87%E5%A4%A9/1536371430?i=1536371431&uo=4"
+    },
+    "1536379052": {
+      "artistId": "577631633",
+      "artistName": "Prague",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/16/80/cf/1680cf93-1b09-56a4-6e83-8dabf46ab848/jacket_KSCL01518B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1536379051",
+      "collectionName": "Light Infection - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/64/41/32/644132d7-0f48-f0ba-f487-b21417bf7f02/mzaf_12121016062992753090.plus.aac.p.m4a",
+      "releaseDate": "2009-12-09T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536379052",
+      "trackName": "Light Infection",
+      "trackTimeMillis": 235000,
+      "trackViewUrl": "https://music.apple.com/jp/album/light-infection/1536379051?i=1536379052&uo=4"
+    },
+    "1536746073": {
+      "artistId": "292701114",
+      "artistName": "KELUN",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/74/00/26/74002625-c621-bd75-7808-89c8f48e7761/jacket_MHCL02602B00Z_550.jpg/100x100bb.jpg",
+      "collectionArtistName": "Various Artists",
+      "collectionId": "1536746058",
+      "collectionName": "アニソンLOVE!紫組",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ff/52/69/ff52690c-6cdf-99b1-0df4-c832d9ba7b71/mzaf_10691921971194330825.plus.aac.p.m4a",
+      "releaseDate": "2016-06-29T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536746073",
+      "trackName": "SIGNAL",
+      "trackTimeMillis": 245347,
+      "trackViewUrl": "https://music.apple.com/jp/album/signal/1536746058?i=1536746073&uo=4"
+    },
+    "1536746228": {
+      "artistId": "80377807",
+      "artistName": "THE RODEO CARBURETTOR",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/74/00/26/74002625-c621-bd75-7808-89c8f48e7761/jacket_MHCL02602B00Z_550.jpg/100x100bb.jpg",
+      "collectionArtistName": "Various Artists",
+      "collectionId": "1536746058",
+      "collectionName": "アニソンLOVE!紫組",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3c/23/7c/3c237ce4-d737-4749-259b-83b2b5692779/mzaf_50660228515860027.plus.aac.p.m4a",
+      "releaseDate": "2016-06-29T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536746228",
+      "trackName": "Speed of flow",
+      "trackTimeMillis": 229040,
+      "trackViewUrl": "https://music.apple.com/jp/album/speed-of-flow/1536746058?i=1536746228&uo=4"
+    },
+    "1536927173": {
+      "artistId": "292629408",
+      "artistName": "HEARTS GROW",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/87/7e/fd/877efd77-6ddc-f2a4-b0e8-47149055ddf4/jacket_MHXX01418B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1536927172",
+      "collectionName": "かさなる影 - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b3/d0/fc/b3d0fcfa-f43d-b892-b4c6-c75d3a3f0102/mzaf_10529987075928417776.plus.aac.p.m4a",
+      "releaseDate": "2008-01-23T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536927173",
+      "trackName": "かさなる影",
+      "trackTimeMillis": 288853,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%81%8B%E3%81%95%E3%81%AA%E3%82%8B%E5%BD%B1/1536927172?i=1536927173&uo=4"
+    },
+    "1537229545": {
+      "artistId": "410204901",
+      "artistName": "Rie fu",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a3/24/18/a3241871-756e-c8f0-797f-1c034b9cec9d/jacket_QQCL00031B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1537229541",
+      "collectionName": "Tobira Album",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/57/8b/f6/578bf6b3-d313-8828-342a-58b6676a2d01/mzaf_6064727567928315426.plus.aac.p.m4a",
+      "releaseDate": "2007-11-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537229545",
+      "trackName": "ツキアカリ",
+      "trackTimeMillis": 268307,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%84%E3%82%AD%E3%82%A2%E3%82%AB%E3%83%AA/1537229541?i=1537229545&uo=4"
+    },
+    "1537236702": {
+      "artistId": "269772905",
+      "artistName": "HIGH AND MIGHTY COLOR",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/cb/ae/58/cbae5861-4816-b9cb-7c98-ac0e4e9ddc60/jacket_SECL00582B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1537236481",
+      "collectionName": "10 COLOR SINGLES",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7d/95/32/7d95328c-246b-4713-2e02-ded674e0cdfb/mzaf_1060284787554372581.plus.aac.p.m4a",
+      "releaseDate": "2007-12-27T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537236702",
+      "trackName": "Dreams",
+      "trackTimeMillis": 327000,
+      "trackViewUrl": "https://music.apple.com/jp/album/dreams/1537236481?i=1537236702&uo=4"
+    },
+    "1537237456": {
+      "artistId": "410715987",
+      "artistName": "ghostnote",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/c6/b1/5d/c6b15d82-dc49-573a-baae-22175362c7f9/jacket_SECL00686B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1537237455",
+      "collectionName": "I、愛、会い - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1d/99/dc/1d99dc9a-689c-89e9-19f2-d0e641e6fa52/mzaf_8441298422321997123.plus.aac.p.m4a",
+      "releaseDate": "2008-11-19T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537237456",
+      "trackName": "I、愛、会い",
+      "trackTimeMillis": 242027,
+      "trackViewUrl": "https://music.apple.com/jp/album/i-%E6%84%9B-%E4%BC%9A%E3%81%84/1537237455?i=1537237456&uo=4"
+    },
+    "1537251751": {
+      "artistId": "548139430",
+      "artistName": "ClariS",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/a8/da/18/a8da189f-1952-3a35-cc45-3a8160938158/jacket_SECL01306B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1537251750",
+      "collectionName": "reunion - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/08/53/ff/0853ffcb-e66d-82fc-91b7-54e2e0cfac73/mzaf_3780021138252859025.plus.aac.p.m4a",
+      "releaseDate": "2013-04-17T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537251751",
+      "trackName": "reunion",
+      "trackTimeMillis": 293493,
+      "trackViewUrl": "https://music.apple.com/jp/album/reunion/1537251750?i=1537251751&uo=4"
+    },
+    "1537291898": {
+      "artistId": "571955403",
+      "artistName": "小松亮太 & チャーリー・コーセイ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/63/cc/44/63cc44ef-695d-f088-28d8-ebfc8fd091cf/jacket_SICC00815B00Z_550.jpg/100x100bb.jpg",
+      "collectionArtistName": "小松亮太",
+      "collectionId": "1537291638",
+      "collectionName": "COLLABORATIONS!",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9d/b6/9d/9db69d68-3eff-2a5c-a6f8-f68b16fc5366/mzaf_15201250492594805355.plus.aac.p.m4a",
+      "releaseDate": "2007-08-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537291898",
+      "trackName": "下弦の月",
+      "trackTimeMillis": 264200,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E4%B8%8B%E5%BC%A6%E3%81%AE%E6%9C%88/1537291638?i=1537291898&uo=4"
+    },
+    "1537398847": {
+      "artistId": "259944557",
+      "artistName": "POSSIBILITY",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/80/dd/a2/80dda292-f6b3-2190-ff81-53c0acc0095e/jacket_SRCL06867B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1537398665",
+      "collectionName": "New World",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/22/d6/7a/22d67a0b-c317-bf68-2388-604ae1da2155/mzaf_2475984088144861340.plus.aac.p.m4a",
+      "releaseDate": "2008-10-08T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537398847",
+      "trackName": "sanagi",
+      "trackTimeMillis": 247800,
+      "trackViewUrl": "https://music.apple.com/jp/album/sanagi/1537398665?i=1537398847&uo=4"
+    },
+    "1537417115": {
+      "artistId": "375213953",
+      "artistName": "ステレオポニー",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/67/f8/36/67f83663-84c2-70ce-afdb-72a710920651/jacket_SRCL07279B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1537417113",
+      "collectionName": "OVER THE BORDER",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8b/68/c4/8b68c4fe-aa5d-1794-28b6-be5f3e34871c/mzaf_400567047010175194.plus.aac.p.m4a",
+      "releaseDate": "2009-11-04T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537417115",
+      "trackName": "ツキアカリのミチシルベ",
+      "trackTimeMillis": 236800,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%84%E3%82%AD%E3%82%A2%E3%82%AB%E3%83%AA%E3%81%AE%E3%83%9F%E3%83%81%E3%82%B7%E3%83%AB%E3%83%99/1537417113?i=1537417115&uo=4"
+    },
+    "1537784403": {
+      "artistId": "305229854",
+      "artistName": "KO-SAKU",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/f4/88/23/f4882392-a79a-6969-b39b-3cdd55770c70/4534530091635.jpg/100x100bb.jpg",
+      "collectionArtistName": "Audio Highs",
+      "collectionId": "1537784382",
+      "collectionName": "銀魂 オリジナル・サウンドトラック 3",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/77/32/bc/7732bc00-cdc6-9c9c-42fd-a0e15f6d8988/mzaf_17435408607506700521.plus.aac.p.m4a",
+      "releaseDate": "2009-06-24T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537784403",
+      "trackName": "どんだけー!ギンタマン",
+      "trackTimeMillis": 69160,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%81%A9%E3%82%93%E3%81%A0%E3%81%91%E3%83%BC-%E3%82%AE%E3%83%B3%E3%82%BF%E3%83%9E%E3%83%B3/1537784382?i=1537784403&uo=4"
+    },
+    "1544771939": {
+      "artistId": "1545100897",
+      "artistName": "amplified",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/a0/6f/8a/a06f8a69-2b8b-21a3-1184-d50e1f3307c3/4560429773115.jpg/100x100bb.jpg",
+      "collectionId": "1544771934",
+      "collectionName": "MR.RAINDROP - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/27/d1/13/27d113b0-e910-7bbc-6521-308163750d9e/mzaf_2801986622737219406.plus.aac.p.m4a",
+      "releaseDate": "2006-07-19T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1544771939",
+      "trackName": "MR.RAINDROP",
+      "trackTimeMillis": 160027,
+      "trackViewUrl": "https://music.apple.com/jp/album/mr-raindrop/1544771934?i=1544771939&uo=4"
+    },
+    "1554833042": {
+      "artistId": "1554277400",
+      "artistName": "FictionJunction KEIKO",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/8d/5e/76/8d5e76af-4765-3f51-5bc7-89d18783dbef/VICL-61662.jpg/100x100bb.jpg",
+      "collectionArtistName": "Various Artists",
+      "collectionId": "1554833032",
+      "collectionName": "「ツバサ・クロニクル」オリジナルサウンドトラック Future Soundscape II",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d2/7a/08/d27a08b5-d76f-44e3-6b99-4dd92714f351/mzaf_4841669881835776822.plus.aac.p.m4a",
+      "releaseDate": "2005-09-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1554833042",
+      "trackName": "風の街へ",
+      "trackTimeMillis": 301733,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%A2%A8%E3%81%AE%E8%A1%97%E3%81%B8/1554833032?i=1554833042&uo=4"
+    },
+    "1605721433": {
+      "artistId": "213816331",
+      "artistName": "redballoon",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/55/8e/86/558e864f-2e24-f2e9-cfd1-b82f30416b45/4560427467528.jpg/100x100bb.jpg",
+      "collectionId": "1605721430",
+      "collectionName": "雪のツバサ / 銀色の空 BESTタッグ - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/1a/e9/e9/1ae9e94d-a352-6a80-c46d-55ff78f1c7f2/mzaf_15043812692712096626.plus.aac.p.m4a",
+      "releaseDate": "2006-11-22T08:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1605721433",
+      "trackName": "雪のツバサ",
+      "trackTimeMillis": 227875,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%9B%AA%E3%81%AE%E3%83%84%E3%83%90%E3%82%B5/1605721430?i=1605721433&uo=4"
+    },
+    "1605721434": {
+      "artistId": "213816331",
+      "artistName": "redballoon",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/55/8e/86/558e864f-2e24-f2e9-cfd1-b82f30416b45/4560427467528.jpg/100x100bb.jpg",
+      "collectionId": "1605721430",
+      "collectionName": "雪のツバサ / 銀色の空 BESTタッグ - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/b3/9f/b5/b39fb53d-d5e0-b15f-9f37-43e6be8c0601/mzaf_8631373206216032619.plus.aac.p.m4a",
+      "releaseDate": "2007-05-09T07:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1605721434",
+      "trackName": "銀色の空",
+      "trackTimeMillis": 217606,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%8A%80%E8%89%B2%E3%81%AE%E7%A9%BA/1605721430?i=1605721434&uo=4"
+    },
+    "1679687074": {
+      "artistId": "622501915",
+      "artistName": "三森すずこ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/23/8b/ea/238bea88-5b2c-3810-e055-7040c9ce210d/PCSP_05010_A.jpg/100x100bb.jpg",
+      "collectionId": "1679687064",
+      "collectionName": "R",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/75/82/8a/75828a49-6656-e417-2b5b-b613f538edc2/mzaf_17261437077994833798.plus.aac.p.m4a",
+      "releaseDate": "2014-02-05T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1679687074",
+      "trackName": "グローリー!",
+      "trackTimeMillis": 194093,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%AA%E3%83%BC/1679687064?i=1679687074&uo=4"
+    },
+    "1683295726": {
+      "artistId": "446031022",
+      "artistName": "ディー・ダブリュー・ビー",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/bb/bb/9d/bbbb9dab-a941-777f-2883-809ba7384087/AMG-8069.jpg/100x100bb.jpg",
+      "collectionId": "1683295514",
+      "collectionName": "One Reason (feat. Fade) [TVアニメ「デッドマン・ワンダーランド」]",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/3c/73/00/3c7300f6-bdfb-8515-e29c-6aec4737dcd1/mzaf_13242020655900117865.plus.aac.p.m4a",
+      "releaseDate": "2011-04-27T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1683295726",
+      "trackName": "One Reason (feat. Fade)",
+      "trackTimeMillis": 262133,
+      "trackViewUrl": "https://music.apple.com/jp/album/one-reason-feat-fade/1683295514?i=1683295726&uo=4"
+    },
+    "1683300097": {
+      "artistId": "446031022",
+      "artistName": "ディー・ダブリュー・ビー",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/7c/3b/b8/7c3bb8f2-1898-ca0a-37cd-88112634859b/AMG-8070.jpg/100x100bb.jpg",
+      "collectionId": "1683300095",
+      "collectionName": "SHINY SHINY (feat. ニルギリス) [TVアニメ「デッドマン・ワンダーランド」]",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/5a/3b/46/5a3b46c0-37ee-a3ec-7b2b-85d64218553d/mzaf_11404470621505916245.plus.aac.p.m4a",
+      "releaseDate": "2011-04-27T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1683300097",
+      "trackName": "SHINY SHINY (feat. ニルギリス)",
+      "trackTimeMillis": 243853,
+      "trackViewUrl": "https://music.apple.com/jp/album/shiny-shiny-feat-%E3%83%8B%E3%83%AB%E3%82%AE%E3%83%AA%E3%82%B9/1683300095?i=1683300097&uo=4"
+    },
+    "1718526128": {
+      "artistId": "912316913",
+      "artistName": "SawanoHiroyuki[nZk]",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/c5/84/f5/c584f538-7562-d76a-f303-fd471bc1a98e/4547366658231.jpg/100x100bb.jpg",
+      "collectionId": "1718526122",
+      "collectionName": "LEveL (feat. TOMORROW X TOGETHER) - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c7/7d/7e/c77d7e26-2150-abf1-ded3-01167033630f/mzaf_7806321940178359695.plus.aac.p.m4a",
+      "releaseDate": "2024-01-07T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1718526128",
+      "trackName": "LEveL (feat. TOMORROW X TOGETHER)",
+      "trackTimeMillis": 180330,
+      "trackViewUrl": "https://music.apple.com/jp/album/level-feat-tomorrow-x-together/1718526122?i=1718526128&uo=4"
+    },
+    "1719724057": {
+      "artistId": "1022677279",
+      "artistName": "Novelbright",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/6f/cf/67/6fcf67a5-c664-dc45-3a51-3aa1c95b555b/23UM1IM57606.rgb.jpg/100x100bb.jpg",
+      "collectionId": "1719724056",
+      "collectionName": "雪の音 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/37/0f/cc/370fcc96-1434-1aa1-397e-97d03b2e953c/mzaf_4543420244149963104.plus.aac.p.m4a",
+      "releaseDate": "2023-12-13T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1719724057",
+      "trackName": "雪の音",
+      "trackTimeMillis": 228133,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%9B%AA%E3%81%AE%E9%9F%B3/1719724056?i=1719724057&uo=4"
+    },
+    "1720359467": {
+      "artistId": "1534671372",
+      "artistName": "チョーキューメイ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/80/25/32/80253231-f64f-1e82-1998-0f9aa1ea65dc/196922756184_Cover.jpg/100x100bb.jpg",
+      "collectionId": "1720359074",
+      "collectionName": "snowspring - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/56/bd/eb/56bdebad-f38f-7ed7-635b-74db2f490514/mzaf_2872379001462662275.plus.aac.p.m4a",
+      "releaseDate": "2024-01-06T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1720359467",
+      "trackName": "snowspring",
+      "trackTimeMillis": 222239,
+      "trackViewUrl": "https://music.apple.com/jp/album/snowspring/1720359074?i=1720359467&uo=4"
+    },
+    "1721471879": {
+      "artistId": "1542904221",
+      "artistName": "krage",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/a4/e6/62/a4e662ae-6498-a394-0f3e-c1bad0e9fff7/4547366660661.jpg/100x100bb.jpg",
+      "collectionId": "1721471876",
+      "collectionName": "request - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/b8/cc/cd/b8cccda6-4f04-54f3-fcdf-99168eebc079/mzaf_5914161945267624382.plus.aac.p.m4a",
+      "releaseDate": "2024-01-14T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1721471879",
+      "trackName": "request",
+      "trackTimeMillis": 224235,
+      "trackViewUrl": "https://music.apple.com/jp/album/request/1721471876?i=1721471879&uo=4"
+    },
+    "1745664227": {
+      "artistId": "266646351",
+      "artistName": "GRANRODEO",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1b/84/d2/1b84d265-a1a3-f83e-f07d-e955a5507bdc/4562409332435.jpg/100x100bb.jpg",
+      "collectionId": "1745664218",
+      "collectionName": "変幻自在のマジカルスター - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ba/7b/de/ba7bdef9-5e81-26f3-7fca-890c085c179d/mzaf_3635864863129683719.plus.aac.p.m4a",
+      "releaseDate": "2014-02-12T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1745664227",
+      "trackName": "変幻自在のマジカルスター",
+      "trackTimeMillis": 281573,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E5%A4%89%E5%B9%BB%E8%87%AA%E5%9C%A8%E3%81%AE%E3%83%9E%E3%82%B8%E3%82%AB%E3%83%AB%E3%82%B9%E3%82%BF%E3%83%BC/1745664218?i=1745664227&uo=4"
+    },
+    "1745664499": {
+      "artistId": "266646351",
+      "artistName": "GRANRODEO",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0f/6a/d4/0f6ad49c-d4e6-eb0b-580a-4b39ab9b6acd/4562409332350.jpg/100x100bb.jpg",
+      "collectionId": "1745664221",
+      "collectionName": "The Other self - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/00/e7/d9/00e7d9f0-fa3e-6b49-9c1a-c94a6610f9c2/mzaf_8718365780077524657.plus.aac.p.m4a",
+      "releaseDate": "2013-10-16T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1745664499",
+      "trackName": "The Other self",
+      "trackTimeMillis": 283920,
+      "trackViewUrl": "https://music.apple.com/jp/album/the-other-self/1745664221?i=1745664499&uo=4"
+    },
+    "1746904286": {
+      "artistId": "336890147",
+      "artistName": "OLDCODEX",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/80/ec/76/80ec76b8-ae9e-afdf-d827-87cd805d9957/4562409332367.jpg/100x100bb.jpg",
+      "collectionId": "1746904051",
+      "collectionName": "WALK - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5a/d4/e7/5ad4e705-1093-a2cb-697e-40fa77466d51/mzaf_695626024828438513.plus.aac.p.m4a",
+      "releaseDate": "2013-11-13T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1746904286",
+      "trackName": "WALK",
+      "trackTimeMillis": 263373,
+      "trackViewUrl": "https://music.apple.com/jp/album/walk/1746904051?i=1746904286&uo=4"
+    },
+    "1888092749": {
+      "artistId": "1741266380",
+      "artistName": "AKASAKI",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9e/c8/fb/9ec8fbac-3945-da53-3253-4aeb4e436416/26UMGIM32036.rgb.jpg/100x100bb.jpg",
+      "collectionId": "1888092298",
+      "collectionName": "シャケナベイベー - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ad/7f/58/ad7f588f-87d1-d762-3258-0d04f039f775/mzaf_5661063895615191647.plus.aac.p.m4a",
+      "releaseDate": "2026-04-07T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1888092749",
+      "trackName": "シャケナベイベー",
+      "trackTimeMillis": 158475,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%A3%E3%82%B1%E3%83%8A%E3%83%99%E3%82%A4%E3%83%99%E3%83%BC/1888092298?i=1888092749&uo=4"
+    },
+    "1888448160": {
+      "artistId": "1451313887",
+      "artistName": "平手友梨奈",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/25/a4/58/25a45861-eb75-c91e-2d5e-b1695438e97c/26UMGIM32394.rgb.jpg/100x100bb.jpg",
+      "collectionId": "1888448107",
+      "collectionName": "Kill or Kiss - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3f/2a/ac/3f2aacb6-9597-d5f0-cb16-84dddb817e7d/mzaf_3330117825234183451.plus.aac.p.m4a",
+      "releaseDate": "2026-04-07T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1888448160",
+      "trackName": "Kill or Kiss",
+      "trackTimeMillis": 185117,
+      "trackViewUrl": "https://music.apple.com/jp/album/kill-or-kiss/1888448107?i=1888448160&uo=4"
+    },
+    "317672499": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/a7/3b/3c/a73b3c98-11ad-b165-de2a-0ba09b1912dc/KICS-666.jpg/100x100bb.jpg",
+      "collectionId": "317672224",
+      "collectionName": "LITTLE BUSTERS",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/39/61/18/39611814-106b-868e-82e9-07522914f0b7/mzaf_11506642931405814214.plus.aac.p.m4a",
+      "releaseDate": "1998-02-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "317672499",
+      "trackName": "Blues Drive Monster",
+      "trackTimeMillis": 207027,
+      "trackViewUrl": "https://music.apple.com/jp/album/blues-drive-monster/317672224?i=317672499&uo=4"
+    },
+    "317672504": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/a7/3b/3c/a73b3c98-11ad-b165-de2a-0ba09b1912dc/KICS-666.jpg/100x100bb.jpg",
+      "collectionId": "317672224",
+      "collectionName": "LITTLE BUSTERS",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8e/8a/ff/8e8aff0c-2804-9616-03c0-68840d3a5e72/mzaf_14303270189030456142.plus.aac.p.m4a",
+      "releaseDate": "1998-02-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "317672504",
+      "trackName": "LITTLE BUSTERS",
+      "trackTimeMillis": 222800,
+      "trackViewUrl": "https://music.apple.com/jp/album/little-busters/317672224?i=317672504&uo=4"
+    },
+    "317677267": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/2a/60/60/2a6060af-2d89-a857-920e-54f542ce4ce4/KICS-710.jpg/100x100bb.jpg",
+      "collectionId": "317677261",
+      "collectionName": "RUNNERS HIGH",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/03/ed/e1/03ede116-860e-6931-0b41-61e731dd7b98/mzaf_13889346223070186486.plus.aac.p.m4a",
+      "releaseDate": "1999-01-22T08:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "317677267",
+      "trackName": "インスタント ミュージック",
+      "trackTimeMillis": 200667,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%88-%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%83%83%E3%82%AF/317677261?i=317677267&uo=4"
+    },
+    "317677269": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/2a/60/60/2a6060af-2d89-a857-920e-54f542ce4ce4/KICS-710.jpg/100x100bb.jpg",
+      "collectionId": "317677261",
+      "collectionName": "RUNNERS HIGH",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/0b/23/f9/0b23f9c3-1b87-e430-75ae-cd322ab4e52f/mzaf_9288442138217056660.plus.aac.p.m4a",
+      "releaseDate": "1999-01-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "317677269",
+      "trackName": "White Ash",
+      "trackTimeMillis": 121667,
+      "trackViewUrl": "https://music.apple.com/jp/album/white-ash/317677261?i=317677269&uo=4"
+    },
+    "317681372": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/f8/e2/f8/f8e2f89b-86ae-8a66-cbf6-ae3b2113dae2/KICS-758.jpg/100x100bb.jpg",
+      "collectionId": "317681361",
+      "collectionName": "HAPPY BIVOUAC",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d4/43/4b/d4434b7d-4662-3aeb-5d8e-0ee95f6b7429/mzaf_5089732370407711900.plus.aac.p.m4a",
+      "releaseDate": "1999-12-02T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "317681372",
+      "trackName": "HAPPY BIVOUAC",
+      "trackTimeMillis": 210440,
+      "trackViewUrl": "https://music.apple.com/jp/album/happy-bivouac/317681361?i=317681372&uo=4"
+    },
+    "317681376": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/f8/e2/f8/f8e2f89b-86ae-8a66-cbf6-ae3b2113dae2/KICS-758.jpg/100x100bb.jpg",
+      "collectionId": "317681361",
+      "collectionName": "HAPPY BIVOUAC",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5e/a8/dd/5ea8dd79-f704-8227-3bb3-2e1a2ffdba7d/mzaf_3936779482931196952.plus.aac.p.m4a",
+      "releaseDate": "1999-12-02T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "317681376",
+      "trackName": "LAST DINOSAUR",
+      "trackTimeMillis": 226973,
+      "trackViewUrl": "https://music.apple.com/jp/album/last-dinosaur/317681361?i=317681376&uo=4"
+    },
+    "317681409": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/f8/e2/f8/f8e2f89b-86ae-8a66-cbf6-ae3b2113dae2/KICS-758.jpg/100x100bb.jpg",
+      "collectionId": "317681361",
+      "collectionName": "HAPPY BIVOUAC",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9b/3e/45/9b3e4557-1154-320c-f2ef-2f8234afb298/mzaf_2743161882534083373.plus.aac.p.m4a",
+      "releaseDate": "1999-12-02T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "317681409",
+      "trackName": "Crazy Sunshine",
+      "trackTimeMillis": 249107,
+      "trackViewUrl": "https://music.apple.com/jp/album/crazy-sunshine/317681361?i=317681409&uo=4"
+    },
+    "317681417": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/f8/e2/f8/f8e2f89b-86ae-8a66-cbf6-ae3b2113dae2/KICS-758.jpg/100x100bb.jpg",
+      "collectionId": "317681361",
+      "collectionName": "HAPPY BIVOUAC",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a9/b0/14/a9b014af-6b06-28f4-fc4f-6e37399117a7/mzaf_9848732352481495878.plus.aac.p.m4a",
+      "releaseDate": "1999-12-02T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "317681417",
+      "trackName": "Funny Bunny",
+      "trackTimeMillis": 219573,
+      "trackViewUrl": "https://music.apple.com/jp/album/funny-bunny/317681361?i=317681417&uo=4"
+    },
+    "317681422": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/f8/e2/f8/f8e2f89b-86ae-8a66-cbf6-ae3b2113dae2/KICS-758.jpg/100x100bb.jpg",
+      "collectionId": "317681361",
+      "collectionName": "HAPPY BIVOUAC",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/41/f2/d2/41f2d20c-34b1-e212-340f-da842fbf575c/mzaf_2120171215982747699.plus.aac.p.m4a",
+      "releaseDate": "1999-12-02T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "317681422",
+      "trackName": "Advice",
+      "trackTimeMillis": 135240,
+      "trackViewUrl": "https://music.apple.com/jp/album/advice/317681361?i=317681422&uo=4"
+    },
+    "385700725": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/02/e5/57/mzi.dfwgcnmy.jpg/100x100bb.jpg",
+      "collectionArtistName": "Various Artists",
+      "collectionId": "385700648",
+      "collectionName": "Addict (フリクリ オリジナルサウンドトラック)",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/Music/v4/ed/40/aa/ed40aa17-02d9-5332-8263-e81fc7e166d0/mzaf_277313018978253516.plus.aac.p.m4a",
+      "releaseDate": "1997-06-28T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "385700725",
+      "trackName": "ONE LIFE",
+      "trackTimeMillis": 249627,
+      "trackViewUrl": "https://music.apple.com/jp/album/one-life/385700648?i=385700725&uo=4"
+    },
+    "385705909": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/49/44/b7/mzi.yoghfvyp.jpg/100x100bb.jpg",
+      "collectionId": "385705903",
+      "collectionName": "FLCL Original Sound Track NO.3",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/59/82/b9/5982b9fe-a525-c2dc-0cb7-007b2373902f/mzaf_1415371697101125635.plus.aac.p.m4a",
+      "releaseDate": "2000-11-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "385705909",
+      "trackName": "I Think I Can",
+      "trackTimeMillis": 180693,
+      "trackViewUrl": "https://music.apple.com/jp/album/i-think-i-can/385705903?i=385705909&uo=4"
+    },
+    "385705924": {
+      "artistId": "94949844",
+      "artistName": "the pillows",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/49/44/b7/mzi.yoghfvyp.jpg/100x100bb.jpg",
+      "collectionId": "385705903",
+      "collectionName": "FLCL Original Sound Track NO.3",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c9/d0/e0/c9d0e0f8-c925-5444-d10f-795013435a33/mzaf_8000818745647536327.plus.aac.p.m4a",
+      "releaseDate": "2000-04-26T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "385705924",
+      "trackName": "Ride On Shooting Star",
+      "trackTimeMillis": 142733,
+      "trackViewUrl": "https://music.apple.com/jp/album/ride-on-shooting-star/385705903?i=385705924&uo=4"
+    },
+    "6782046124": {
+      "artistId": "308131412",
+      "artistName": "SPYAIR",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/15/16/d3/1516d371-b3c9-db6d-12c3-f932179d0da7/4547366833751.jpg/100x100bb.jpg",
+      "collectionId": "6782046119",
+      "collectionName": "Awake - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8c/a0/ce/8ca0ce70-37e3-50da-800f-91832866cb74/mzaf_16355080692731349082.plus.aac.p.m4a",
+      "releaseDate": "2026-07-03T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "6782046124",
+      "trackName": "Awake",
+      "trackTimeMillis": 231120,
+      "trackViewUrl": "https://music.apple.com/jp/album/awake/6782046119?i=6782046124&uo=4"
+    },
+    "6782786764": {
+      "artistId": "1401871894",
+      "artistName": "ReoNa",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/74/6b/31/746b319a-4ca9-9b95-70b3-8aa33d28dd12/4547366833836.jpg/100x100bb.jpg",
+      "collectionId": "6782786763",
+      "collectionName": "Lv.1 職業:人間 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d0/d1/cf/d0d1cf57-8530-a333-4fbb-e596d2fb58af/mzaf_10191702813062462096.plus.aac.p.m4a",
+      "releaseDate": "2026-07-03T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "6782786764",
+      "trackName": "Lv.1 職業:人間",
+      "trackTimeMillis": 208520,
+      "trackViewUrl": "https://music.apple.com/jp/album/lv-1-%E8%81%B7%E6%A5%AD-%E4%BA%BA%E9%96%93/6782786763?i=6782786764&uo=4"
+    },
+    "6811918500": {
+      "artistId": "1725916783",
+      "artistName": "PompadollS",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/87/5f/61/875f6115-ff84-729c-4cfd-bbeb820a78cc/4547366851755.jpg/100x100bb.jpg",
+      "collectionId": "6811918340",
+      "collectionName": "コンテンポラリーダンス - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/76/f1/62/76f1627b-9e36-314c-5893-9fa90455cbaa/mzaf_11653773372990145369.plus.aac.p.m4a",
+      "releaseDate": "2026-10-01T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "6811918500",
+      "trackName": "コンテンポラリーダンス",
+      "trackTimeMillis": 237327,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%9D%E3%83%A9%E3%83%AA%E3%83%BC%E3%83%80%E3%83%B3%E3%82%B9/6811918340?i=6811918500&uo=4"
+    },
+    "720520124": {
+      "artistId": "111133857",
+      "artistName": "Base Ball Bear",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/d8/84/60/d88460e0-766b-db8d-8fcb-6008a5125cbb/05099930755352.jpg/100x100bb.jpg",
+      "collectionId": "720520009",
+      "collectionName": "(WHAT IS THE) LOVE & POP?",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0c/8f/b5/0c8fb5a9-329d-78d4-015a-687464227215/mzaf_7057417695390170077.plus.aac.p.m4a",
+      "releaseDate": "2009-08-05T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "720520124",
+      "trackName": "Stairway Generation",
+      "trackTimeMillis": 212373,
+      "trackViewUrl": "https://music.apple.com/jp/album/stairway-generation/720520009?i=720520124&uo=4"
+    },
+    "723324548": {
+      "artistId": "276895453",
+      "artistName": "Tom-H@ck featuring 大石昌良",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/34/50/11/345011c2-f6b7-8b8b-c041-921aed9fbf8c/PCCG_70194_itunes.png/100x100bb.jpg",
+      "collectionId": "723324505",
+      "collectionName": "Go EXCEED!! - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6f/6a/f8/6f6af8f6-a971-5464-6485-40f55cee36bd/mzaf_3110103678883570269.plus.aac.p.m4a",
+      "releaseDate": "2013-10-30T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "723324548",
+      "trackName": "Go EXCEED!!",
+      "trackTimeMillis": 259867,
+      "trackViewUrl": "https://music.apple.com/jp/album/go-exceed/723324505?i=723324548&uo=4"
+    },
+    "733755431": {
+      "artistId": "376826320",
+      "artistName": "日笠陽子",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music6/v4/af/e4/e8/afe4e8b4-c136-90fb-dc0a-ceaba744aa6a/PCCG_70197_itunes.png/100x100bb.jpg",
+      "collectionId": "733755144",
+      "collectionName": "Seek Diamonds - EP (通常盤)",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/73/46/8a/73468ac5-b105-d06e-99d1-8cd749f18bcf/mzaf_10700726594528399551.plus.aac.p.m4a",
+      "releaseDate": "2013-11-13T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "733755431",
+      "trackName": "Seek Diamonds",
+      "trackTimeMillis": 292853,
+      "trackViewUrl": "https://music.apple.com/jp/album/seek-diamonds/733755144?i=733755431&uo=4"
+    },
+    "820700465": {
+      "artistId": "395932259",
+      "artistName": "小野賢章",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/1e/96/d3/1e96d3c1-845b-704c-b0fb-0449f36a9a16/LACM-14200.jpg/100x100bb.jpg",
+      "collectionId": "820700463",
+      "collectionName": "FANTASTIC TUNE - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/Music6/v4/b8/c9/1c/b8c91c50-7fcd-efd4-30a5-d120f72d4614/mzaf_9048211780791400430.plus.aac.p.m4a",
+      "releaseDate": "2014-02-26T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "820700465",
+      "trackName": "FANTASTIC TUNE",
+      "trackTimeMillis": 248000,
+      "trackViewUrl": "https://music.apple.com/jp/album/fantastic-tune/820700463?i=820700465&uo=4"
+    },
+    "872398792": {
+      "artistId": "276895453",
+      "artistName": "TOM-H@CK",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ad/c2/73/adc273f3-0ae9-368a-4217-b6462f2c5a91/PCCG_70213_itunes.png/100x100bb.jpg",
+      "collectionId": "872398791",
+      "collectionName": "Perfect HERO - EP (feat. Masayoshi Ohishi)",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/46/d0/5d/46d05da8-449b-1295-ef9d-020ebce8cf9e/mzaf_7004023587179002546.plus.aac.p.m4a",
+      "releaseDate": "2014-05-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "872398792",
+      "trackName": "Perfect HERO (feat. Masayoshi Ohishi)",
+      "trackTimeMillis": 250640,
+      "trackViewUrl": "https://music.apple.com/jp/album/perfect-hero-feat-masayoshi-ohishi/872398791?i=872398792&uo=4"
+    },
+    "945331031": {
+      "artistId": "738421282",
+      "artistName": "牧野由依",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/70/eb/bd/70ebbd29-2ca2-8c8d-a2d4-f0b10a6ac96f/VICL-62167.jpg/100x100bb.jpg",
+      "collectionId": "945331010",
+      "collectionName": "天球の音楽",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fb/1b/22/fb1b2242-73bd-fa7e-1287-dc8c5790f184/mzaf_11897631059522279523.plus.aac.p.m4a",
+      "releaseDate": "2005-09-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "945331031",
+      "trackName": "ユメノツバサ",
+      "trackTimeMillis": 275627,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%A6%E3%83%A1%E3%83%8E%E3%83%84%E3%83%90%E3%82%B5/945331010?i=945331031&uo=4"
+    },
+    "991748469": {
+      "artistId": "705683182",
+      "artistName": "GLAY",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music5/v4/f3/ec/9a/f3ec9afb-a8e0-7d25-e0df-f59b2b3fd6b4/itunes.jpg/100x100bb.jpg",
+      "collectionId": "991748467",
+      "collectionName": "百花繚乱/疾走れ!ミライ - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c1/9e/6d/c19e6d3c-7e48-6ae4-1252-4bd23cd4cba1/mzaf_12631820515636674351.plus.aac.p.m4a",
+      "releaseDate": "2014-10-15T07:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "991748469",
+      "trackName": "疾走れ!ミライ",
+      "trackTimeMillis": 241027,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E7%96%BE%E8%B5%B0%E3%82%8C-%E3%83%9F%E3%83%A9%E3%82%A4/991748467?i=991748469&uo=4"
+    }
+  }
+}

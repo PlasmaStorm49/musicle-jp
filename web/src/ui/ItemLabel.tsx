@@ -28,16 +28,19 @@ export function ItemLabel({ item }: { readonly item: ItemView }) {
         {item.title}
       </span>
       {item.titleLatin && <span class="item-latin">{item.titleLatin}</span>}
-      <span class="item-artist">
-        <span lang={item.artistLang}>{item.artist}</span>
-        {item.artistLatin && (
-          <>
-            {" "}
-            <span aria-hidden="true">{t("item.artistSeparator")}</span>{" "}
-            <span>{item.artistLatin}</span>
-          </>
-        )}
-      </span>
+      {/* A franquia do Anime não tem artista: sem a linha vazia. */}
+      {item.artist !== "" && (
+        <span class="item-artist">
+          <span lang={item.artistLang}>{item.artist}</span>
+          {item.artistLatin && (
+            <>
+              {" "}
+              <span aria-hidden="true">{t("item.artistSeparator")}</span>{" "}
+              <span>{item.artistLatin}</span>
+            </>
+          )}
+        </span>
+      )}
     </span>
   );
 }

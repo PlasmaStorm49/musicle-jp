@@ -14,6 +14,9 @@ do rng: 1 para a resposta, 3 para escolher os distratores (Fisher-Yates parcial)
 embaralhar as 4 opções. A do Desafio consome só 1, o da resposta. Os dias gravados antes dos
 dois modos têm opções também na lista "song" e continuam assim (a agenda só cresce): o jogo as
 ignora.
+
+A agenda do Anime (M14, `anime_schedule.py`) usa o mesmo laço (`grow`), o `compare`, o
+`check_dates` e o `regenerate_problems`; só o dia é outro.
 """
 
 from __future__ import annotations
@@ -21,7 +24,7 @@ from __future__ import annotations
 import json
 import math
 import subprocess
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 from functools import cache
@@ -227,25 +230,59 @@ def generate(
 ) -> Result:
     """Acrescenta os dias que faltam até today + horizon. Nunca altera um dia existente."""
     idx = _Index(catalog)
-    if existing is None:
-        if epoch is None:
-            raise ScheduleError("agenda nova precisa de --epoch (a data do desafio nº 1)")
-        schedule: JSON = {
-            "schemaVersion": SCHEMA_VERSION,
-            "timezone": TIMEZONE,
-            "epoch": epoch.isoformat(),
-            "days": {},
-        }
-    else:
+    warnings: list[str] = []
+    if existing is not None:
         problems = validate_schedule(existing, catalog)
         if problems:
             raise ScheduleError("agenda existente inválida:\n" + "\n".join(problems))
+        warnings = _future_warnings(existing, today, idx)
+    header = {"schemaVersion": SCHEMA_VERSION, "timezone": TIMEZONE}
+    return grow(
+        existing,
+        header,
+        today,
+        epoch,
+        horizon,
+        lambda days, d, start: _generate_day(days, d, start, idx),
+        warnings,
+    )
+
+
+# O gerador de um dia: (os dias anteriores, a data, o epoch) → (o dia, os afrouxamentos).
+MakeDay = Callable[[dict[str, JSON], date, date], tuple[JSON, list[str]]]
+# O gerador de uma agenda inteira, com a assinatura do `generate` (o `regenerate_problems` o
+# recebe, para valer também para o Anime).
+Generator = Callable[[JSON, JSON | None, date, date | None, int], Result]
+
+
+def grow(
+    existing: JSON | None,
+    header: JSON,
+    today: date,
+    epoch: date | None,
+    horizon: int,
+    make_day: MakeDay,
+    warnings: Iterable[str] = (),
+) -> Result:
+    """O laço comum das agendas (os Hits e o Anime, M14): acrescenta os dias que faltam até
+    today + horizon e nunca altera um dia existente.
+
+    `header` são os campos fixos de uma agenda nova, sem o epoch e os dias. A agenda existente
+    já chega validada pelo chamador, que conhece o formato do dia; `warnings` (os dias futuros
+    que envelheceram mal) abre a lista de avisos. O `make_day` só vê os dias anteriores ao que
+    gera: é isso que deixa regerar os dias novos com o mesmo resultado (ME51).
+    """
+    if existing is None:
+        if epoch is None:
+            raise ScheduleError("agenda nova precisa de --epoch (a data do desafio nº 1)")
+        schedule: JSON = {**header, "epoch": epoch.isoformat(), "days": {}}
+    else:
         if epoch is not None and epoch.isoformat() != existing["epoch"]:
             raise ScheduleError(f"--epoch {epoch} diverge do epoch da agenda {existing['epoch']}")
         schedule = {**existing, "days": dict(existing["days"])}
     start_epoch = date.fromisoformat(schedule["epoch"])
 
-    result = Result(schedule=schedule, warnings=_future_warnings(schedule, today, idx))
+    result = Result(schedule=schedule, warnings=list(warnings))
     last = max(map(date.fromisoformat, schedule["days"]), default=start_epoch - timedelta(days=1))
     first_missing = max(start_epoch, last + timedelta(days=1))
     # P44 (a): dia que já passou nunca é gerado. Ninguém mais poderia jogá-lo, e ele entraria na
@@ -258,7 +295,7 @@ def generate(
             f"buraco de {gap} dia(s) sem desafio: {first_missing} a {gap_end} (P44)"
         )
     while d <= today + timedelta(days=horizon):
-        day, relaxations = _generate_day(schedule["days"], d, start_epoch, idx)
+        day, relaxations = make_day(schedule["days"], d, start_epoch)
         schedule["days"][d.isoformat()] = day
         result.added.append(d.isoformat())
         result.relaxations.extend(relaxations)
@@ -336,9 +373,10 @@ def compare(base: JSON | None, current: JSON) -> list[str]:
     (preencheria um buraco com um dia que já passou, P44) ou cabeçalho alterado."""
     if base is None:
         return []
+    # O "kind" só existe na agenda do Anime (M14); nos Hits, falta dos dois lados.
     problems = [
-        f"{key} mudou: {base[key]!r} → {current.get(key)!r}"
-        for key in ("schemaVersion", "timezone", "epoch")
+        f"{key} mudou: {base.get(key)!r} → {current.get(key)!r}"
+        for key in ("schemaVersion", "kind", "timezone", "epoch")
         if base.get(key) != current.get(key)
     ]
     for day_str, day in sorted(base["days"].items()):
@@ -398,16 +436,19 @@ def check_dates(base: JSON | None, current: JSON, today: date) -> list[str]:
     return problems
 
 
-def regenerate_problems(base: JSON | None, current: JSON, catalog: JSON) -> list[str]:
-    """Os dias novos são os que o gerador daria (regra inviolável 3): o generate os refaz a partir
-    da base, do 1º ao último. Cada dia só depende dos anteriores, da data e do catálogo, então o
-    resultado não depende do --today da geração. Agenda nova (sem base) fica com o validate."""
+def regenerate_problems(
+    base: JSON | None, current: JSON, catalog: JSON, generator: Generator | None = None
+) -> list[str]:
+    """Os dias novos são os que o gerador daria (regra inviolável 3): o gerador (o `generate` dos
+    Hits ou o do Anime) os refaz a partir da base, do 1º ao último. Cada dia só depende dos
+    anteriores, da data e do catálogo, então o resultado não depende do --today da geração.
+    Agenda nova (sem base) fica com o validate."""
     added = _added_days(base, current)
     if not base or not base["days"] or not added:
         return []
     first, last = date.fromisoformat(added[0]), date.fromisoformat(added[-1])
     try:
-        again = generate(catalog, base, first, horizon=(last - first).days).schedule
+        again = (generator or generate)(catalog, base, first, None, (last - first).days).schedule
     except ScheduleError as exc:
         return [f"não deu para regerar os dias novos: {exc}"]
     problems = [

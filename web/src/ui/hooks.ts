@@ -2,9 +2,10 @@
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
+import type { DailyAnswer } from "../core/daily.ts";
 import type { RoundState } from "../core/reducer.ts";
-import { buildSearchIndex, hitKey, search } from "../core/search.ts";
-import { optionView } from "../core/view.ts";
+import { buildFranchiseIndex, buildSearchIndex, hitKey, search } from "../core/search.ts";
+import { guessView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import type { Suggestion } from "./GuessInput.tsx";
 
@@ -58,15 +59,17 @@ export function usePreviews(
 }
 
 /**
- * Sugestões do autocompletar do Desafio: o índice de músicas sai do catálogo uma vez, e "já
- * tentou" é por linha da busca (a música inteira), não por faixa.
+ * Sugestões do autocompletar do Desafio: o índice de músicas (ou, no "acertar o anime", o das
+ * franquias) sai do catálogo uma vez, e "já tentou" é por linha da busca (a música inteira, ou a
+ * franquia), não por faixa.
  */
 export function useSuggest(
   index: CatalogIndex,
   round: RoundState,
+  answer: DailyAnswer = "track",
 ): (query: string) => Suggestion[] {
-  // O próprio buildSearchIndex guarda o índice por catálogo: aqui não precisa de memo.
-  const searchIndex = buildSearchIndex(index);
+  // Os próprios build* guardam o índice por catálogo: aqui não precisa de memo.
+  const searchIndex = answer === "franchise" ? buildFranchiseIndex(index) : buildSearchIndex(index);
   const tried = useMemo(
     () =>
       new Set(
@@ -77,9 +80,9 @@ export function useSuggest(
   return useCallback(
     (query: string): Suggestion[] =>
       search(searchIndex, query).flatMap((hit) => {
-        const item = optionView(index, hit.id, "song");
+        const item = guessView(index, hit.id, "song", answer);
         return item ? [{ id: hit.id, item, tried: tried.has(hit.key) }] : [];
       }),
-    [searchIndex, index, tried],
+    [searchIndex, index, tried, answer],
   );
 }

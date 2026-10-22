@@ -83,6 +83,13 @@ jobs:
           ahead=$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' dist/data/schedule.json)
           [ "$ahead" -ge 7 ] || echo "::warning::só $ahead dia(s) de agenda depois de hoje ($today)"
           echo "Agenda: $ahead dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
+          # O Anime (M14): o catálogo é o real (o validate-anime da CI confere o resto, inclusive
+          # o teto de 3 MB). A folga da agenda é aviso, como a dos Hits: até o robô do PR B, ela
+          # cresce à mão.
+          jq -e '.provider == "apple"' dist/data/anime/catalog.json > /dev/null             || { echo "::error::dist/data/anime/catalog.json não é o Anime real"; exit 1; }
+          jq -e --arg d "$today" '.days | has($d)' dist/data/anime/schedule.json > /dev/null             || echo "::warning::a agenda do Anime não tem o dia de hoje ($today)"
+          anime=$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' dist/data/anime/schedule.json)
+          echo "Agenda do Anime: $anime dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
           du -sh dist
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
