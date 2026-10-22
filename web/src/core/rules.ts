@@ -57,8 +57,8 @@ export type ModeRules = {
   /** Pontos de cada palpite errado: 0; −5 no Superfan (P119). */
   readonly wrongPoints: number;
   /**
-   * Pontos de desistir da rodada (o "Desistir", não o fim forçado pela partida): 0; −2 no
-   * Superfan (P186), para a ajuda valer mais que desistir.
+   * Pontos de desistir da rodada (o "Desistir", não o fim forçado pela partida): 0; no Superfan,
+   * −5, como o erro (P290, que revê os −2 da P186): lá, desistir conta como erro.
    */
   readonly giveUpPoints: number;
 };
@@ -102,9 +102,10 @@ export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
  * As variantes de um modo, com regras próprias e o mesmo `Target` (P125): o Superfan (ME61) é o
  * Desafio do modo por artista com 3 trechos (1, 3 e 5 s), 3, 2 ou 1 ponto pelo acerto (P121),
  * −5 por palpite errado (P119), que passa para a etapa seguinte (P158), a ajuda logo de cara
- * (P159), valendo 0, e −2 por desistir (P186): acertar sozinho vale mais que com a ajuda, que vale
- * mais que desistir, que vale mais que errar. Os limites da partida (3 erros, 3 ajudas) ficam em
- * superfan.ts.
+ * (P159), valendo 0, e desistir, que desde a P290 é um erro (−5 e conta no limite de 3; antes,
+ * −2 sem contar, P186): acertar sozinho vale mais que com a ajuda, que vale mais que errar ou
+ * desistir. Os limites da partida (3 erros, 3 ajudas) ficam em superfan.ts. A pontuação de todos
+ * os modos vai ser repensada (ME107, urgente).
  */
 export type Variant = "superfan";
 
@@ -121,7 +122,7 @@ export const VARIANT_RULES: Readonly<Record<Variant, ModeRules>> = {
     points: [3, 2, 1],
     helpPoints: 0,
     wrongPoints: -5,
-    giveUpPoints: -2,
+    giveUpPoints: -5,
   },
 };
 

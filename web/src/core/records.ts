@@ -49,19 +49,52 @@ export type InProgress = {
 };
 
 /**
+ * O que o save guarda do modo por artista (v8, P289): só o mínimo das medalhas do Superfan. A
+ * partida em si continua só na memória (P116). Os três campos só crescem.
+ */
+export type ArtistRecord = {
+  /** Músicas do artista acertadas no modo por artista (a Livre e o Superfan somam, P285). */
+  readonly right: number;
+  /** Terminou uma partida do Superfan: todas as músicas tocadas antes do 3º erro. */
+  readonly done?: true;
+  /** Terminou uma perfeita: sem erro, sem ajuda e tudo no trecho de 1 s. */
+  readonly perfect?: true;
+};
+
+/** O fim de uma partida do Superfan, como o save o guarda (`superfanOutcome`). */
+export type SuperfanOutcome = { readonly done: boolean; readonly perfect: boolean };
+
+/**
  * O formato salvo. v3 (P100): os dois modos fixos começam do zero, e sai a preferência do modo
  * de resposta, que não existe mais. v4 (P149): a ajuda, no evento HELP e no `help` da rodada.
  * v5 (P163): o pulo depois da ajuda. v6 (P250): os ids dos diários do Anime. v7 (P267): a marca
- * do jogado depois, `late` (storage/migrations.ts).
+ * do jogado depois, `late`. v8 (P289): as medalhas já avisadas, a estante (ME118) e o modo por
+ * artista (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 7;
+  readonly schemaVersion: 8;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
+  /** Os ids das medalhas que esta pessoa já viu avisadas, em ordem alfabética (P281). */
+  readonly seenMedals: readonly string[];
+  /** As medalhas favoritas, à mostra o tempo todo (ME118), na ordem da pessoa, até `SHELF_SIZE`. */
+  readonly shelf: readonly string[];
+  /** O modo por artista, pelo id do artista ("apple:ar:…"). */
+  readonly artists: Readonly<Record<string, ArtistRecord>>;
 };
 
+/** A estante (ME118) mostra até 3. */
+export const SHELF_SIZE = 3;
+
 export function emptySave(): Save {
-  return { schemaVersion: 7, history: {}, inProgress: {} };
+  return {
+    schemaVersion: 8,
+    history: {},
+    inProgress: {},
+    seenMedals: [],
+    shelf: [],
+    artists: {},
+  };
 }
 
 export function puzzleId(date: string, key: DailyKey): PuzzleId {
@@ -196,6 +229,47 @@ export function withFinished(save: Save, id: PuzzleId, game: FinishedGame): Save
     history: save.history[id] ? save.history : { ...save.history, [id]: game },
     inProgress,
   };
+}
+
+/**
+ * Marca as medalhas como avisadas: a união, em ordem alfabética. Sem nenhuma nova, o mesmo
+ * objeto (o `updateSave` então não grava).
+ */
+export function withSeenMedals(save: Save, ids: readonly string[]): Save {
+  const seen = new Set(save.seenMedals);
+  const fresh = ids.filter((id) => !seen.has(id));
+  if (fresh.length === 0) return save;
+  return { ...save, seenMedals: [...new Set([...save.seenMedals, ...fresh])].sort() };
+}
+
+/** O artista sem registro: nenhum acerto, nada terminado. */
+export const NO_ARTIST: ArtistRecord = { right: 0 };
+
+/** Mais uma música do artista acertada no modo por artista (P285). */
+export function withArtistRight(save: Save, artistId: string): Save {
+  const current = save.artists[artistId] ?? NO_ARTIST;
+  return {
+    ...save,
+    artists: { ...save.artists, [artistId]: { ...current, right: current.right + 1 } },
+  };
+}
+
+/**
+ * O fim de uma partida do Superfan: marca o terminar e o perfeito, que nunca voltam atrás. A
+ * perfeita é também terminada. Sem nada novo (a partida encerrada, ou o feito que já estava
+ * marcado), o mesmo objeto.
+ */
+export function withSuperfanEnd(save: Save, artistId: string, outcome: SuperfanOutcome): Save {
+  const current = save.artists[artistId] ?? NO_ARTIST;
+  const done = (outcome.done || outcome.perfect) && !current.done;
+  const perfect = outcome.perfect && !current.perfect;
+  if (!done && !perfect) return save;
+  const next: ArtistRecord = {
+    ...current,
+    ...(done ? { done: true } : {}),
+    ...(perfect ? { perfect: true } : {}),
+  };
+  return { ...save, artists: { ...save.artists, [artistId]: next } };
 }
 
 /**

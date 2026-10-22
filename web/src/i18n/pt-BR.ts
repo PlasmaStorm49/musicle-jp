@@ -331,7 +331,7 @@ export const ptBR = {
   "artists.free": "Livre",
   "artists.freeHint": "Rodadas sem fim do Desafio, com o placar da sessão.",
   "artists.superfanHint":
-    "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. Errar custa caro, desistir também, e 3 erros acabam a partida. Na dúvida, pule ou peça ajuda.",
+    "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. Errar custa caro, desistir conta como erro, e 3 erros acabam a partida. Na dúvida, pule ou peça ajuda.",
   "superfan.name": "Superfan",
   "superfan.song": "Música {number}",
   "superfan.score": "Placar: {points}",
