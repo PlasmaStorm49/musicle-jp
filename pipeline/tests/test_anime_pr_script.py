@@ -617,6 +617,99 @@ def test_the_warnings_go_to_a_code_block(tmp_path):
     assert text.count("~~~") == 2
 
 
+def test_the_warnings_are_capped_in_lines_and_characters(tmp_path):
+    # O corpo do PR nunca chega perto do limite do GitHub (65.536 caracteres): até 50 linhas de
+    # até 300 caracteres, cortadas por caractere (o japonês não se parte), sem controle.
+    long = "aviso: \x1b" + "長" * 1000
+    avisos = "".join(f"{long}\n" for _ in range(80)) + "aviso: depois do corte\n"
+    done, _, temp = run(tmp_path, full_change(), avisos=avisos)
+    assert done.returncode == 0, done.stdout + done.stderr
+    text = section(temp)
+    block = text.split("~~~text\n")[1].split("\n~~~")[0].splitlines()
+    assert len(block) == 50
+    assert block[0] == "aviso: " + "長" * 292  # 300 caracteres, menos o de controle
+    assert "\x1b" not in text and "depois do corte" not in text
+    assert "(81 no log da execução; até 50 aqui)" in text
+    assert len(text) < 20_000
+
+
+def test_rejects_a_path_with_a_control_character_without_echoing_it(tmp_path):
+    changes = full_change()
+    odd = f"{CATALOG}\x1b]8;;evil"
+    done, _, _ = run(tmp_path, changes, declared=[*changes, odd])
+    assert done.returncode == 1
+    assert "caractere de controle" in done.stdout
+    assert "evil" not in done.stdout and "\x1b" not in done.stdout
+
+
+# --- as recusas que faltavam (revisão do PR B) ---
+
+
+def test_rejects_an_empty_changed_list(tmp_path):
+    rejects(tmp_path, full_change(), "sem arquivos", declared=[])
+
+
+def test_rejects_an_artifact_without_files(tmp_path):
+    changes = full_change()
+    repo, temp = tmp_path / "repo", tmp_path / "runner"
+    temp.mkdir()
+    (temp / "github-output").write_bytes(b"")
+    setup_anime(repo, temp, changes, None)
+    shutil.rmtree(temp / "anime-artifact" / "files")
+    done = subprocess.run(
+        [BASH or "bash", str(SCRIPTS / "check-anime-pr.sh")],
+        cwd=repo,
+        env={**os.environ, **anime_env(temp, TODAY, None, "success", "success")},
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
+    assert done.returncode == 1
+    assert "sem files/" in done.stdout
+
+
+def test_rejects_a_snapshot_whose_id_is_not_the_file_name(tmp_path):
+    changes = full_change()
+    changes[SNAPSHOT]["id"] = f"{TODAY}T120001Z"
+    rejects(tmp_path, changes, "snapshot do Anime fora da forma esperada")
+
+
+def test_rejects_a_catalog_over_3_mb(tmp_path):
+    changes = full_change()
+    changes[CATALOG]["tracks"][0]["title"] = "x" * (3 * 1024 * 1024)
+    rejects(tmp_path, changes, "o catálogo do Anime passa de")
+
+
+@pytest.mark.parametrize(("key", "value"), [("provider", "fixture"), ("storefront", "us")])
+def test_rejects_a_catalog_from_another_provider_or_store(tmp_path, key, value):
+    changes = full_change()
+    changes[CATALOG][key] = value
+    rejects(tmp_path, changes, "muda o esquema")
+
+
+def test_ignores_warnings_that_are_a_symlink(tmp_path):
+    if os.name == "nt":
+        pytest.skip("link simbólico no Windows pede permissão")
+    secret = tmp_path / "fora.txt"
+    secret.write_bytes(b"aviso: o que nao devia sair\n")
+    changes = full_change()
+    repo, temp = tmp_path / "repo", tmp_path / "runner"
+    temp.mkdir()
+    (temp / "github-output").write_bytes(b"")
+    setup_anime(repo, temp, changes, None)
+    (temp / "anime-artifact" / "avisos.txt").symlink_to(secret)
+    done = subprocess.run(
+        [BASH or "bash", str(SCRIPTS / "check-anime-pr.sh")],
+        cwd=repo,
+        env={**os.environ, **anime_env(temp, TODAY, None, "success", "success")},
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "o que nao devia sair" not in section(temp)
+
+
 # --- catalog-pr.sh: os Hits e o Anime no mesmo PR -------------------------------------------------
 
 
@@ -626,10 +719,13 @@ def run_pr(
     anime_changes: dict[str, JSON] | None,
     *,
     hits_result: str = "success",
+    anime_result: str = "success",
+    anime_expected: bool | None = None,
     **anime_setup: object,
 ) -> tuple[subprocess.CompletedProcess[str], Path, Path]:
     """A main com os arquivos dos Hits (cópias dos de verdade) e os do Anime, os artefatos que
-    vieram e o passo inteiro."""
+    vieram e o passo inteiro. Sem `anime_expected`, o Anime é esperado quando o artefato veio."""
+    expected = anime_changes is not None if anime_expected is None else anime_expected
     repo, temp = tmp_path / "repo", tmp_path / "runner"
     temp.mkdir(parents=True)
     (temp / "github-output").write_bytes(b"")
@@ -654,6 +750,8 @@ def run_pr(
         "FETCH": "success",
         "CHART": "success",
         "HITS_RESULT": hits_result,
+        "ANIME_RESULT": anime_result,
+        "ANIME_EXPECTED": "true" if expected else "false",
         "RUN_URL": RUN_URL,
     }
     done = subprocess.run(
@@ -769,3 +867,43 @@ def test_nothing_came(tmp_path):
     done, _, _ = run_pr(tmp_path, None, None)
     assert done.returncode == 1
     assert "nada a pôr no PR" in done.stdout
+
+
+def test_an_expected_anime_artifact_that_did_not_arrive_leaves_the_hits_pr(tmp_path):
+    # O download do artefato do Anime falhou (continue-on-error): os Hits seguem, e a tarefa
+    # fica vermelha depois de abrir o PR.
+    hits_changes = hits.full_change()
+    done, _, temp = run_pr(tmp_path, hits_changes, None, anime_expected=True)
+    assert done.returncode == 0, done.stdout + done.stderr
+    body = read(temp / "pr-body.md")
+    assert "> **Anime:** o artefato do Anime não chegou" in body
+    assert body.index("> **Anime:**") < body.index("**Para publicar:**")
+    assert "anime_rejected=true" in read(temp / "github-output")
+    assert changed_list(temp) == list(hits_changes)
+
+
+def test_a_partial_anime_artifact_is_a_rejection(tmp_path):
+    hits_changes = hits.full_change()
+    anime_changes = full_change()
+    done, _, temp = run_pr(tmp_path, hits_changes, anime_changes, declared=[])
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "anime_rejected=true" in read(temp / "github-output")
+    assert changed_list(temp) == list(hits_changes)
+
+
+@pytest.mark.parametrize("result", ["failure", "cancelled"])
+def test_says_when_the_anime_job_did_not_finish(tmp_path, result):
+    hits_changes = hits.full_change()
+    done, _, temp = run_pr(tmp_path, hits_changes, None, anime_result=result)
+    assert done.returncode == 0, done.stdout + done.stderr
+    body = read(temp / "pr-body.md")
+    assert "> **Anime:** a tarefa `anime-generate` não terminou bem nesta semana" in body
+    assert "anime_rejected=false" in read(temp / "github-output")
+
+
+@pytest.mark.parametrize("result", ["success", "skipped"])
+def test_says_nothing_when_the_anime_was_not_due(tmp_path, result):
+    hits_changes = hits.full_change()
+    done, _, temp = run_pr(tmp_path, hits_changes, None, anime_result=result)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "**Anime" not in read(temp / "pr-body.md")

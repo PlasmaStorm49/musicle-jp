@@ -49,6 +49,11 @@ ahead="$(jq --arg d "$TODAY" '[.days | keys[] | select(. > $d)] | length' "$ANIM
 [ -d "$art/files" ] || fail "artefato do Anime sem files/"
 mapfile -t changed < "$art/changed.txt"
 [ "${#changed[@]}" -gt 0 ] || fail "artefato do Anime sem arquivos"
+# Antes de qualquer mensagem citar um caminho: um caractere de controle nele poderia mexer no
+# log (o ::error:: e as linhas seguintes). O valor não vai para a mensagem.
+for path in "${changed[@]}"; do
+  [[ ! "$path" =~ [[:cntrl:]] ]] || fail "o changed.txt do Anime tem caractere de controle num caminho"
+done
 snapshot=""
 for path in "${changed[@]}"; do
   case "$path" in
@@ -217,12 +222,15 @@ fi
 
 # Os avisos e afrouxamentos da agenda real (acervo curto, resposta futura que deixou de ser
 # elegível, as regras que afrouxaram): num bloco de código, com o ~ trocado para não fechar o
-# bloco. Fora de files/: não entram na árvore.
+# bloco e sem caracteres de controle. Até 50 linhas de até 300 caracteres (o jq corta por
+# caractere, sem partir um UTF-8): o corpo do PR nunca chega perto do limite do GitHub (65.536
+# caracteres), e o Anime nunca impede o PR dos Hits. Fora de files/: não entram na árvore.
 warnings=""
 warning_count=0
 if [ -f "$art/avisos.txt" ] && [ ! -L "$art/avisos.txt" ]; then
   warning_count="$(wc -l < "$art/avisos.txt")"
-  warnings="$(head -n 50 "$art/avisos.txt" | tr -d '\r' | tr '~' '-')"
+  warnings="$(head -n 50 "$art/avisos.txt" | jq -R -r '.[0:300] | gsub("[[:cntrl:]]"; "") | gsub("~"; "-")')" \
+    || warnings="(os avisos do log não deram para ler; veja a execução)"
 fi
 
 # 6. Tudo conferido: a parte do Anime no corpo do PR e o título.

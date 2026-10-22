@@ -7,12 +7,14 @@
 # A falha de um lado não derruba o outro (P237), com uma diferença de propósito: a conferência dos
 # Hits recusar o artefato deles para tudo, como sempre; a do Anime recusar o dele deixa o Anime de
 # fora, com o aviso no corpo, e o PR sai com os Hits (anime_rejected=true: a tarefa fica vermelha
-# depois de abrir o PR). Nada do Anime entra na árvore antes de a conferência dele passar: a cópia
-# é daqui, depois.
+# depois de abrir o PR). O mesmo quando o artefato do Anime era esperado e não chegou (o download
+# tem continue-on-error: uma falha passageira do serviço de artefatos não trava os Hits). Nada do
+# Anime entra na árvore antes de a conferência dele passar: a cópia é daqui, depois.
 #
-# Entrada (ambiente): TODAY, HITS_RESULT (o resultado da catalog-generate) e o que os dois scripts
-# pedem; RUNNER_TEMP (com artifact/ e anime-artifact/, cada um só quando a tarefa dele mudou algo)
-# e GITHUB_OUTPUT.
+# Entrada (ambiente): TODAY, HITS_RESULT e ANIME_RESULT (os resultados da catalog-generate e da
+# anime-generate), ANIME_EXPECTED (true quando a anime-generate deu certo e mudou algo) e o que os
+# dois scripts pedem; RUNNER_TEMP (com artifact/ e anime-artifact/, cada um só quando a tarefa
+# dele mudou algo e o download deu certo) e GITHUB_OUTPUT.
 # Saída: os arquivos na árvore, $RUNNER_TEMP/changed.txt (a lista dos dois, para o commit),
 # $RUNNER_TEMP/pr-body.md e branch, title e anime_rejected no GITHUB_OUTPUT.
 set -euo pipefail
@@ -48,7 +50,9 @@ if [ -d "$RUNNER_TEMP/artifact" ]; then
   hits=true
 fi
 
-# O Anime: a recusa deixa o Anime de fora, e o PR segue com os Hits.
+# O Anime: a recusa deixa o Anime de fora, e o PR segue com os Hits. Um artefato pela metade cai
+# na conferência; um que não chegou, aqui.
+rejected_why=""
 if [ -d "$RUNNER_TEMP/anime-artifact" ]; then
   : > "$RUNNER_TEMP/anime-output"
   if GITHUB_OUTPUT="$RUNNER_TEMP/anime-output" bash "$here/check-anime-pr.sh"; then
@@ -61,12 +65,17 @@ if [ -d "$RUNNER_TEMP/anime-artifact" ]; then
     anime=true
   else
     rejected=true
+    rejected_why="a conferência recusou o artefato do Anime"
     echo "::warning::a conferência recusou o artefato do Anime (veja o erro acima); ele fica de fora do PR"
   fi
+elif [ "${ANIME_EXPECTED:-false}" = "true" ]; then
+  rejected=true
+  rejected_why="o artefato do Anime não chegou (o download falhou)"
+  echo "::warning::o artefato do Anime era esperado e não chegou; ele fica de fora do PR"
 fi
 
 [ "$hits" = true ] || [ "$anime" = true ] \
-  || fail "nada a pôr no PR: os Hits não vieram e o Anime foi recusado"
+  || fail "nada a pôr no PR: os Hits não vieram e o Anime ficou de fora ou não mudou"
 
 footer() {
   echo "- Mudou só o que a lista fechada permite, conferido aqui com \`jq\` e de novo pela CI (\`validate\`, \`validate-anime\`, \`schedule-check\` e os testes)."
@@ -96,16 +105,27 @@ insert_before_publish() {
   mv "$body.new" "$body"
 }
 
-rejected_note="$RUNNER_TEMP/anime-rejected.md"
-echo "> **Anime:** a conferência recusou o artefato do Anime (veja o passo \"Conferir cada arquivo novo e montar o PR\" da execução); ele ficou de fora deste PR, e a tarefa \`catalog-pr\` fica vermelha para avisar." > "$rejected_note"
+# O Anime fora do PR dos Hits: recusado, sem artefato, ou com a tarefa dele mal terminada (uma
+# falha ou o timeout de 20 min; "skipped" e "success" sem mudança não dizem nada).
+note="$RUNNER_TEMP/anime-note.md"
+: > "$note"
+if [ "$rejected" = true ]; then
+  echo "> **Anime:** $rejected_why (veja o passo \"Conferir cada arquivo novo e montar o PR\" da execução); ele ficou de fora deste PR, e a tarefa \`catalog-pr\` fica vermelha para avisar." > "$note"
+else
+  case "${ANIME_RESULT:-}" in
+    failure | cancelled)
+      echo "> **Anime:** a tarefa \`anime-generate\` não terminou bem nesta semana (veja a execução); este PR traz só os Hits, e o Anime tenta de novo na segunda que vem." > "$note"
+      ;;
+  esac
+fi
 
 if [ "$hits" = true ]; then
   title="$(output_of "$RUNNER_TEMP/hits-output" title)"
   if [ "$anime" = true ]; then
     title="$title $(output_of "$RUNNER_TEMP/anime-output" suffix)"
     insert_before_publish "$section"
-  elif [ "$rejected" = true ]; then
-    insert_before_publish "$rejected_note"
+  elif [ -s "$note" ]; then
+    insert_before_publish "$note"
   fi
 else
   title="$(output_of "$RUNNER_TEMP/anime-output" title)"
