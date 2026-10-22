@@ -63,22 +63,42 @@ export async function open(
   await page.goto(`/?fakeAudio=1${fail}${extra}${hash}`);
 }
 
-/** Abre o jogo com as medalhas de exemplo ligadas (M16, `?medalhas=demo`, só em desenvolvimento). */
-export async function openWithMedals(page: Page, brasilia: string, hash = "#medalhas") {
-  await open(page, brasilia, hash, undefined, "&medalhas=demo");
+/**
+ * Abre o jogo com as medalhas de exemplo ligadas (M16, `?medalhas=demo`, só em desenvolvimento).
+ * O `silencio` liga a tela e cala os avisos (o pop-up grande travaria os cliques do teste).
+ */
+export async function openWithMedals(
+  page: Page,
+  brasilia: string,
+  hash = "#medalhas",
+  mode: "demo" | "silencio" = "demo",
+) {
+  await open(page, brasilia, hash, undefined, `&medalhas=${mode}`);
 }
 
 /**
  * Grava, antes da carga, um save da versão atual só com o histórico dado (o resto vazio). Chame
  * antes do `open`. O tipo `Save` trava a versão: subiu a do save, o tsc acusa aqui, e não em
- * cada teste.
+ * cada teste. Grava uma vez por aba (a marca no `sessionStorage`): o recarregar lê o que o jogo
+ * gravou (as medalhas já avisadas, M16), e não o save do começo.
  */
-export async function seedHistory(page: Page, history: Save["history"]): Promise<void> {
-  const save: Save = { ...emptySave(), history };
-  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
-    SAVE_KEY,
-    JSON.stringify(save),
-  ] as const);
+let seeds = 0;
+export async function seedHistory(
+  page: Page,
+  history: Save["history"],
+  artists: Save["artists"] = {},
+): Promise<void> {
+  const save: Save = { ...emptySave(), history, artists };
+  // Uma marca por chamada: a 2ª chamada na mesma página também grava (a última vale).
+  const mark = `e2e-seeded-${seeds++}`;
+  await page.addInitScript(
+    ([key, raw, seeded]) => {
+      if (sessionStorage.getItem(seeded)) return;
+      localStorage.setItem(key, raw);
+      sessionStorage.setItem(seeded, "1");
+    },
+    [SAVE_KEY, JSON.stringify(save), mark] as const,
+  );
 }
 
 /** A aba Hits da nav (P225). Pelo começo do nome: com o ✓, ele vira "Hits (diários terminados)". */

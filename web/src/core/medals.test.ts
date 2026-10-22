@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  claimMedals,
+  claimTier,
   DEMO_MEDALS,
   earnedMedals,
   MEDALS,
@@ -7,6 +9,7 @@ import {
   medalBoard,
   medalContext,
   medalsOf,
+  noticeTab,
   SUPERFAN_RIGHT,
   superfanMedalId,
   superfanMedals,
@@ -22,6 +25,7 @@ import {
   withSeenMedals,
   withSuperfanEnd,
 } from "./records.ts";
+import { ROUTES, type Tab } from "./routes.ts";
 
 const ARTIST = "apple:ar:1489581870";
 const lost: FinishedGame = { number: 1, rounds: [{ status: "lost", stage: 0, attempts: [] }] };
@@ -195,5 +199,68 @@ describe("medalBoard (o que a tela mostra, P286)", () => {
     ]);
     expect(board.total).toBe(3 + 2 * 3);
     expect(board.earned).toBe(1 + 2);
+  });
+});
+
+describe("noticeTab: as telas calmas (P288)", () => {
+  it("as telas de escolha e as de leitura, e nunca um jogo nem os Artistas (que o App decide)", () => {
+    const calm = (Object.keys(ROUTES) as Tab[]).filter(noticeTab);
+    expect(calm.sort()).toEqual(
+      [
+        "about",
+        "anime",
+        "anime-musica",
+        "anime-titulo",
+        "hits",
+        "history",
+        "home",
+        "medals",
+      ].sort(),
+    );
+  });
+});
+
+describe("claimMedals e claimTier: reivindicar antes de mostrar (P281, P288)", () => {
+  const prata = superfanMedalId(ARTIST, "prata");
+  const ouro = superfanMedalId(ARTIST, "ouro");
+  const general: readonly Medal[] = EXAMPLES;
+
+  it("marca as novas como avisadas, e a 2ª reivindicação devolve o mesmo save, sem nenhuma", () => {
+    const save = rights(emptySave(), SUPERFAN_RIGHT);
+    const claim = claimMedals(save, "2026-10-20", HITS, general);
+    expect(claim.claimed).toEqual([prata]);
+    expect(claim.first).toBe(false);
+    expect(claim.save.seenMedals).toEqual([prata]);
+    const again = claimMedals(claim.save, "2026-10-20", HITS, general);
+    expect(again.claimed).toEqual([]);
+    expect(again.save).toBe(claim.save);
+    expect(claimTier(claim, medalsOf(save, general))).toBe("simple");
+  });
+
+  it("o 1º aviso de quem já jogava: duas ou mais de uma vez, com nada avisado antes, é o grande", () => {
+    let save = emptySave();
+    for (const date of days(10, 14)) save = withFinished(save, `${date}|song`, lost);
+    const claim = claimMedals(save, "2026-10-14", HITS, general);
+    expect(claim.claimed).toEqual(["sequencia-3", "jogos-5"]);
+    expect(claim.first).toBe(true);
+    expect(claimTier(claim, medalsOf(save, general))).toBe("major");
+  });
+
+  it("depois do 1º, a leva é do tamanho da maior; e uma só nunca é o 1º aviso", () => {
+    const seen = withSeenMedals(rights(emptySave(), SUPERFAN_RIGHT), [prata]);
+    const done = withSuperfanEnd(seen, ARTIST, { done: true, perfect: false });
+    const claim = claimMedals(done, "2026-10-20", HITS, general);
+    expect(claim.claimed).toEqual([ouro]);
+    expect(claim.first).toBe(false);
+    expect(claimTier(claim, medalsOf(done, general))).toBe("major");
+    const one = claimMedals(rights(emptySave(), SUPERFAN_RIGHT), "2026-10-20", HITS, general);
+    expect(one.first).toBe(false);
+  });
+
+  it("o já avisado que deixou de existir na lista não volta, e o save guarda a união", () => {
+    const save = withSeenMedals(rights(emptySave(), SUPERFAN_RIGHT), ["demo-removida"]);
+    const claim = claimMedals(save, "2026-10-20", HITS, general);
+    expect(claim.claimed).toEqual([prata]);
+    expect(claim.save.seenMedals).toEqual(["demo-removida", prata].sort());
   });
 });

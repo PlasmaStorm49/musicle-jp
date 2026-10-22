@@ -1,10 +1,39 @@
-// As Medalhas (M16, PR 2a): a tela e a aba só com a lista de exemplo (?medalhas=demo, em
-// desenvolvimento); sem ela, como no site, nada muda. Os avisos vêm no PR 2b.
+// As Medalhas (M16): a tela e a aba só com a lista de exemplo (?medalhas=demo, em
+// desenvolvimento); sem ela, como no site, nada muda. Os avisos (PR 2b, P279, P281, P288): o 1º de
+// quem já jogava, o que espera o fim da rodada, o do "Ver resultado", o do fim do Superfan, o
+// toque duplo e as duas abas.
+import { readFileSync } from "node:fs";
+import type { Page } from "@playwright/test";
+import type { ArtistCatalog } from "../src/core/types.ts";
+import { SAVE_KEY } from "../src/storage/save.ts";
 import { expect, lastPlayed, open, openWithMedals, seedHistory, test } from "./helpers.ts";
 
 const DAY = "2026-10-22T12:00:00-03:00";
 const lost = { status: "lost", stage: 0, attempts: [] } as const;
 const day = { number: 1, rounds: [lost, lost, lost] };
+
+const toast = (page: Page) => page.locator(".medal-toast");
+
+/**
+ * Um momento para o efeito que reivindica rodar: sem aviso, não há o que esperar na tela (a
+ * conferência de que nada apareceu passaria antes da hora).
+ */
+async function settle(page: Page): Promise<void> {
+  await page.waitForTimeout(300);
+}
+
+/** Joga o diário aberto até a revelação da última rodada, com o "Não sei". */
+async function playToLastReveal(page: Page): Promise<void> {
+  for (const next of ["Próxima rodada", "Próxima rodada"]) {
+    await page.getByRole("button", { name: "Não sei" }).click();
+    await page.getByRole("button", { name: next }).click();
+  }
+  await page.getByRole("button", { name: "Não sei" }).click();
+  await expect(page.getByRole("button", { name: "Ver resultado" })).toBeVisible();
+}
+
+const seenMedals = (page: Page) =>
+  page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").seenMedals, SAVE_KEY);
 
 test("sem a lista, como no site: nem a aba das Medalhas, e o #medalhas abre a Início", async ({
   page,
@@ -22,7 +51,7 @@ test("com a lista de exemplo: a aba, a tela com a sequência, as gerais e o Supe
     "2026-10-21|anime-musica-facil": day,
     "2026-10-22|album": day,
   });
-  await openWithMedals(page, DAY, "#inicio");
+  await openWithMedals(page, DAY, "#inicio", "silencio");
   await page.getByRole("navigation").getByRole("link", { name: "Medalhas" }).click();
   const title = page.getByRole("heading", { level: 1, name: "Medalhas" });
   await expect(title).toBeFocused();
@@ -37,6 +66,150 @@ test("com a lista de exemplo: a aba, a tela com a sequência, as gerais e o Supe
     "Suprema",
   ]);
   await expect(page.getByText("2 de 18 medalhas")).toBeVisible();
+  // Calado (`?medalhas=silencio`): a tela fica, e o aviso não.
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(await seenMedals(page)).toEqual([]);
+});
+
+test("quem já jogava: um aviso só, o grande, com o total; o Ok fecha, devolve o foco e o aviso não volta ao recarregar (P281)", async ({
+  page,
+}) => {
+  await seedHistory(page, {
+    "2026-10-20|song": day,
+    "2026-10-21|anime-musica-facil": day,
+    "2026-10-22|album": day,
+  });
+  await openWithMedals(page, DAY, "#inicio");
+  const big = page.getByRole("dialog", { name: "Você já tem 2 medalhas" });
+  await expect(big).toBeVisible();
+  await expect(big.getByRole("listitem")).toHaveText(["Primeiro diário", "Três dias seguidos"]);
+  const ok = big.getByRole("button", { name: "Ok" });
+  await expect(ok).toBeFocused();
+  // Pelo teclado (o `detail` 0 do Enter passa pelo singleClick).
+  await page.keyboard.press("Enter");
+  await expect(big).toBeHidden();
+  const home = page.getByRole("heading", { level: 1, name: "AteMusic" });
+  await expect(home).toBeFocused();
+  expect(await seenMedals(page)).toEqual(["demo-primeiro", "demo-sequencia"]);
+
+  await page.reload();
+  await expect(home).toBeVisible();
+  await settle(page);
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(toast(page)).toHaveCount(0);
+});
+
+test("no meio de um diário, o aviso espera: nada na rodada nem na revelação, e o pequeno no Ver resultado (P288)", async ({
+  page,
+}) => {
+  // A medalha já estava ganha (o diário de ontem), mas a abertura caiu num diário: ela espera.
+  await seedHistory(page, { "2026-10-21|song": day });
+  await openWithMedals(page, DAY, "#normal");
+  await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeVisible();
+  await settle(page);
+  await expect(toast(page)).toHaveCount(0);
+  await playToLastReveal(page);
+  await settle(page);
+  await expect(toast(page)).toHaveCount(0);
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Ver resultado" }).click();
+  await expect(toast(page).locator(".medal-toast-text")).toHaveText(
+    "Medalha nova: Primeiro diário",
+  );
+  // O pequeno é decorativo e não pega o foco: o leitor de tela ouve o texto pela região aria-live,
+  // e o foco fica no resumo.
+  await expect(toast(page)).toHaveAttribute("aria-hidden", "true");
+  await expect(page.locator(".sr-only[aria-live]")).toHaveText("Medalha nova: Primeiro diário");
+  await expect(page.locator("#summary-title")).toBeFocused();
+  // Ele some sozinho, depois de 5 s.
+  await expect(toast(page)).toBeHidden({ timeout: 10_000 });
+});
+
+test("reabrir um diário terminado não avisa: a medalha que falta espera a tela calma (P288)", async ({
+  page,
+}) => {
+  // Terminado e nunca avisado: abrir direto no resumo não reivindica.
+  await seedHistory(page, { "2026-10-22|album": day });
+  await openWithMedals(page, DAY, "#normal");
+  await expect(page.locator("#summary-title")).toBeVisible();
+  await settle(page);
+  await expect(toast(page)).toHaveCount(0);
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  // Havia o que avisar: a Início avisa.
+  await page.getByRole("navigation").getByRole("link", { name: "Início" }).click();
+  await expect(toast(page).locator(".medal-toast-text")).toHaveText(
+    "Medalha nova: Primeiro diário",
+  );
+});
+
+test("no Anime, o Ver resultado de um diário também avisa (o onResult do Game)", async ({
+  page,
+}) => {
+  await openWithMedals(page, DAY, "#anime-musica-facil");
+  for (const next of ["Próxima rodada", "Próxima rodada", "Ver resultado"]) {
+    await page.getByRole("button", { name: "Desistir", exact: true }).click();
+    await page.getByRole("button", { name: next }).click();
+  }
+  await expect(toast(page).locator(".medal-toast-text")).toHaveText(
+    "Medalha nova: Primeiro diário",
+  );
+});
+
+test("o jogado depois, pelo Histórico, não ganha medalha (P263)", async ({ page }) => {
+  await openWithMedals(page, DAY, "#normal/2026-10-21");
+  await playToLastReveal(page);
+  await page.getByRole("button", { name: "Ver resultado" }).click();
+  await expect(page.locator("#summary-title")).toBeVisible();
+  await settle(page);
+  await expect(toast(page)).toHaveCount(0);
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(await seenMedals(page)).toEqual([]);
+});
+
+test("toque duplo no Ver resultado: o 2º clique não fecha o pop-up grande, e o Ok devolve o foco ao resumo (regra 23)", async ({
+  page,
+}) => {
+  // Hoje é o 3º dia seguido: a sequência, a grande, junto com o 1º diário.
+  await seedHistory(page, { "2026-10-20|song": day, "2026-10-21|song": day });
+  await openWithMedals(page, DAY, "#normal");
+  await playToLastReveal(page);
+  await page.getByRole("button", { name: "Ver resultado" }).dblclick();
+  const big = page.getByRole("dialog", { name: "Você já tem 2 medalhas" });
+  await expect(big).toBeVisible();
+  await settle(page);
+  await expect(big).toBeVisible();
+  // O 2º clique de um toque duplo que cai no Ok (o `detail` 2) não o fecha.
+  const ok = big.getByRole("button", { name: "Ok" });
+  await ok.dispatchEvent("click", { detail: 2 });
+  await expect(big).toBeVisible();
+  await ok.click();
+  await expect(big).toBeHidden();
+  await expect(page.locator("#summary-title")).toBeFocused();
+});
+
+test("duas abas: só a que reivindicou avisa; a outra, que relê o save, não (P288)", async ({
+  page,
+}) => {
+  // As duas abertas antes de qualquer reivindicação, num diário terminado (que não reivindica): a
+  // 2ª precisa reler o save na hora, e não usar o da abertura.
+  await seedHistory(page, { "2026-10-22|album": day });
+  await openWithMedals(page, DAY, "#normal");
+  await expect(page.locator("#summary-title")).toBeVisible();
+  const other = await page.context().newPage();
+  try {
+    await openWithMedals(other, DAY, "#normal");
+    await expect(other.locator("#summary-title")).toBeVisible();
+    await page.getByRole("navigation").getByRole("link", { name: "Início" }).click();
+    await expect(toast(page)).toBeVisible();
+    await other.getByRole("navigation").getByRole("link", { name: "Início" }).click();
+    await expect(other.getByRole("heading", { level: 1, name: "AteMusic" })).toBeVisible();
+    await settle(other);
+    await expect(toast(other)).toHaveCount(0);
+    await expect(other.getByRole("dialog")).toHaveCount(0);
+  } finally {
+    await other.close();
+  }
 });
 
 test("um acerto na Livre aparece no progresso da prata do artista (P285, P289)", async ({
@@ -54,4 +227,42 @@ test("um acerto na Livre aparece no progresso da prata do artista (P285, P289)",
   await page.getByRole("navigation").getByRole("link", { name: "Medalhas" }).click();
   const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
   await expect(artist.locator(".medal-how").first()).toHaveText("1 de 50 acertos");
+});
+
+test("terminar o Superfan, com um erro: o pop-up do ouro com o artista no fim da partida, e o ouro ganho na tela (P285)", async ({
+  page,
+}) => {
+  const file = new URL("../public/fixtures/artists/ar02.json", import.meta.url);
+  const { tracks } = JSON.parse(readFileSync(file, "utf8")) as ArtistCatalog;
+  await openWithMedals(page, DAY, "#artistas");
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await page.getByRole("button", { name: "Superfan" }).click();
+  const field = page.getByRole("combobox", { name: "Qual é a música?" });
+  const guess = async (title: string) => {
+    await field.fill(title);
+    await page.getByRole("option").filter({ hasText: title }).first().click();
+  };
+  for (let round = 0; ; round++) {
+    await page.getByRole("button", { name: "Tocar 1 s" }).click();
+    const played = await lastPlayed(page);
+    // Um erro na 1ª música: a partida termina, mas não perfeita (só o ouro, e não a suprema).
+    const wrong = tracks.find((t) => t.id !== played.id);
+    if (round === 0 && wrong) await guess(wrong.title);
+    await guess(played.title);
+    const next = page.getByRole("button", { name: /^(Próxima música|Ver resultado)$/ });
+    const label = await next.textContent();
+    await next.click();
+    if (label === "Ver resultado") break;
+  }
+  const end = page.getByRole("heading", { level: 1, name: "Fim da partida" });
+  await expect(end).toBeVisible();
+  await expect(page.getByText("Todas as músicas da partida tocaram.")).toBeVisible();
+  const big = page.getByRole("dialog", { name: "Medalha nova!" });
+  await expect(big).toBeVisible();
+  await expect(big.getByRole("listitem")).toHaveText(["Ouro de 夜風シアター"]);
+  await big.getByRole("button", { name: "Ok" }).click();
+  await expect(end).toBeFocused();
+  await page.getByRole("navigation").getByRole("link", { name: "Medalhas" }).click();
+  const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
+  await expect(artist.locator(".medal-how")).toHaveText([/de 50 acertos$/, "Ganha", /^Termine/]);
 });
