@@ -1,6 +1,7 @@
 import type { CatalogIndex } from "../core/catalog.ts";
+import type { DailyAnswer } from "../core/daily.ts";
 import type { RoundState } from "../core/reducer.ts";
-import { optionView } from "../core/view.ts";
+import { guessView } from "../core/view.ts";
 import { t } from "../i18n/t.ts";
 import { Icon } from "./Icon.tsx";
 import { ItemLabel } from "./ItemLabel.tsx";
@@ -10,6 +11,8 @@ type Props = {
   readonly round: RoundState;
   /** O título "Suas tentativas" só para o leitor de tela (na rodada, PR D2). */
   readonly hideTitle?: boolean;
+  /** O que se tentou: músicas, ou franquias no "acertar o anime" (o nome do anime). */
+  readonly answer?: DailyAnswer;
 };
 
 /**
@@ -17,7 +20,7 @@ type Props = {
  * chevron pulou, o ✓ acertou. Os ícones são só desenho (aria-hidden); o leitor de tela ouve
  * "Errou:", "Pulou" ou "Acertou:" e o nome. O texto de compartilhar continua com os emojis.
  */
-export function Attempts({ index, round, hideTitle = false }: Props) {
+export function Attempts({ index, round, hideTitle = false, answer = "track" }: Props) {
   if (round.attempts.length === 0) return null;
   return (
     <section class="attempts" aria-labelledby="attempts-title">
@@ -35,7 +38,7 @@ export function Attempts({ index, round, hideTitle = false }: Props) {
               </li>
             );
           }
-          const item = optionView(index, attempt.guessId, "song");
+          const item = guessView(index, attempt.guessId, "song", answer);
           return (
             <li key={key} class={attempt.correct ? "attempt right" : "attempt wrong"}>
               <Icon name={attempt.correct ? "right" : "wrong"} />

@@ -1,9 +1,9 @@
 // @vitest-environment happy-dom
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { hitsDaily } from "../core/daily.ts";
+import { animeDaily, hitsDaily } from "../core/daily.ts";
 import type { FinishedGame } from "../core/records.ts";
-import type { AlbumRound, Day, Target } from "../core/types.ts";
+import type { AlbumRound, AnimeDay, Day, Target } from "../core/types.ts";
 import { Countdown } from "./Countdown.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { ShareButton } from "./ShareButton.tsx";
@@ -84,6 +84,48 @@ describe("Summary (o fim do dia)", () => {
     );
     // 12:00 em Brasília: faltam 12 h para o próximo diário.
     expect(screen.getByRole("timer").textContent).toBe("12:00:00");
+  });
+
+  it("o diário do Anime: o compartilhar diz a categoria e o diário, e a estatística é só dele (P249)", async () => {
+    const writeText = vi.fn(() => Promise.resolve());
+    vi.stubGlobal("navigator", { clipboard: { writeText } });
+    const rounds: AnimeDay["musica"]["facil"] = [
+      { answer: "t1" },
+      { answer: "t2" },
+      { answer: "t3" },
+    ];
+    const modeDay = { facil: rounds, medio: rounds, dificil: rounds };
+    const animeDay: AnimeDay = {
+      number: 3,
+      catalogVersion: "teste",
+      musica: modeDay,
+      titulo: modeDay,
+    };
+    const anime = animeDaily(animeDay, DATE, "musica", "facil");
+    render(
+      <Summary
+        game={GAME}
+        daily={anime}
+        // Os outros diários do mesmo dia não entram na estatística deste.
+        history={{
+          [`${DATE}|anime-musica-facil`]: GAME,
+          [`${DATE}|anime-musica-medio`]: GAME,
+          [`${DATE}|song`]: GAME,
+        }}
+        scheduleDates={[DATE]}
+        shareUrl="https://x.test/"
+        announce={vi.fn()}
+      />,
+    );
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
+    });
+    const [[text]] = writeText.mock.calls as unknown as [[string]];
+    expect(text.split("\n").slice(0, 2)).toEqual(["AteMusic Anime · Música · Fácil nº 3", "11/18"]);
+    expect(text.endsWith("https://x.test/")).toBe(true);
+    // Jogos: 1 (só o do Fácil).
+    const played = [...document.querySelectorAll(".stats dd")].map((d) => d.textContent);
+    expect(played[0]).toBe("1");
   });
 
   it('a rodada anulada: na célula, sem ícone e com "anulada" no lugar dos pontos', () => {

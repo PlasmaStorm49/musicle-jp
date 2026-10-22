@@ -1,10 +1,11 @@
 // A interface nova (M12, PR D): as telas cabem sem rolar nos tamanhos de contrato (P214), nada rola
 // para o lado em 320 px e os alvos têm 44 px. Cada PR do D acrescentou as telas dele: o D1, as de
 // escolha; o D2, as rodadas, com o selo da Apple simulado (appleCatalog) e a altura reservada; o
-// D3, a revelação e o resumo do dia.
+// D3, a revelação e o resumo do dia. O Anime (M14, PR D2) acrescentou as telas dele e a 4ª aba.
 import type { Locator, Page } from "@playwright/test";
+import { PLAYLIST_URL } from "../src/core/apple.ts";
 import type { Save } from "../src/core/records.ts";
-import type { Catalog } from "../src/core/types.ts";
+import type { AnimeTrack, Catalog } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
 import {
   albumOf,
@@ -32,6 +33,64 @@ async function top(locator: Locator): Promise<number> {
 async function skip(page: Page, n: number): Promise<void> {
   await page.getByRole("button", { name: /^Tocar/ }).click();
   for (let i = 0; i < n; i++) await page.getByRole("button", { name: /^Pular/ }).click();
+}
+
+/** Um nome de franquia de uns 60 caracteres, como o mais longo do catálogo real do C1. */
+const LONG_FRANCHISE = (name: string) =>
+  `${name}: Tsuihou Sareta Tensei Juukishi wa Game Chishiki`.slice(0, 62);
+/** O tema mais longo do catálogo real (68 caracteres com o tipo). */
+const LONG_ANIME = "JoJo no Kimyou na Bouken Part 3: Stardust Crusaders 2nd Season";
+/** A faixa em 3 temas, o 1º com o nome longo (o real tem faixas em 2 ou mais temas). */
+/** O nome mais longo do catálogo real do C1 (61 caracteres), num tema só, como lá. */
+const LONG_THEME = (): AnimeTrack["anime"]["themes"] => [
+  { anime: LONG_ANIME, type: "ED", sequence: 1 },
+];
+/** Uma faixa em 3 temas, com um nome médio: a revelação mostra o 1º e "e mais 2". */
+const MEDIUM_ANIME = "Kimetsu no Yaiba: Yuukaku-hen";
+const THREE_THEMES = (list: AnimeTrack["anime"]["themes"]): AnimeTrack["anime"]["themes"] => [
+  { anime: MEDIUM_ANIME, type: "OP", sequence: 1 },
+  ...list,
+  { anime: list[0].anime, type: "IN", sequence: null },
+];
+
+/**
+ * A Início no caso mais alto: os dois diários dos Hits e um do Anime terminados (uma linha a mais
+ * em cada cartão) e a sessão de um artista com placar. Confere as linhas, o "Tema" na tela, ao lado
+ * do switch (P259), e o "Sobre e privacidade" na linha do "Como funciona".
+ */
+async function homeWorstCase(page: Page): Promise<void> {
+  const lost = { status: "lost", stage: 0, attempts: [] } as const;
+  const day = { number: 1, rounds: [lost, lost, lost] };
+  const save = {
+    schemaVersion: 6,
+    history: {
+      "2026-10-08|album": day,
+      "2026-10-08|song": day,
+      "2026-10-08|anime-musica-facil": day,
+    },
+    inProgress: {},
+  } satisfies Save;
+  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
+    SAVE_KEY,
+    JSON.stringify(save),
+  ] as const);
+  await open(page, DAY, "#artistas");
+  await page.getByRole("button", { name: /^青井ユウ/ }).click();
+  await page.getByRole("button", { name: "Livre" }).click();
+  await page.getByRole("button", { name: "Desistir" }).click();
+  await page.getByRole("link", { name: "Início" }).click();
+  const cards = page.getByRole("main").getByRole("link");
+  await expect(cards.filter({ hasText: "Nesta sessão" })).toHaveCount(1);
+  await expect(cards.filter({ hasText: /^Hits/ }).locator(".tag")).toHaveText([
+    "Normal: terminado, 0 de 18 pontos",
+    "Desafio: terminado, 0 de 18 pontos",
+  ]);
+  await expect(cards.filter({ hasText: /^Anime/ }).locator(".tag")).toHaveText([
+    "Hoje: 1 de 6 terminados",
+  ]);
+  await expect(page.getByRole("heading", { level: 2, name: "Tema" })).toBeVisible();
+  const about = page.getByRole("link", { name: "Sobre e privacidade" });
+  expect(await top(about)).toBe(await top(page.locator("details.home-how-box > summary")));
 }
 
 // O iPhone SE e o Android comum (P214): as telas de escolha (PR D1), as rodadas (PR D2), a
@@ -87,32 +146,163 @@ for (const viewport of [
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
-    test("a Início no caso mais alto: os dois diários terminados no cartão dos Hits e a sessão do artista", async ({
+    test("a Início no caso mais alto: os dois diários terminados no cartão dos Hits, um do Anime e a sessão do artista", async ({
       page,
     }) => {
+      await homeWorstCase(page);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("a tela do Anime: os dois modos (P233)", async ({ page }) => {
+      await open(page, DAY, "#anime");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime");
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("a escolha da dificuldade do Anime, com os 3 diários terminados", async ({ page }) => {
       const lost = { status: "lost", stage: 0, attempts: [] } as const;
       const day = { number: 1, rounds: [lost, lost, lost] };
       const save = {
         schemaVersion: 6,
-        history: { "2026-10-08|album": day, "2026-10-08|song": day },
+        history: {
+          "2026-10-08|anime-musica-facil": day,
+          "2026-10-08|anime-musica-medio": day,
+          "2026-10-08|anime-musica-dificil": day,
+        },
         inProgress: {},
       } satisfies Save;
       await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
         SAVE_KEY,
         JSON.stringify(save),
       ] as const);
-      await open(page, DAY, "#artistas");
-      await page.getByRole("button", { name: /^青井ユウ/ }).click();
-      await page.getByRole("button", { name: "Livre" }).click();
-      await page.getByRole("button", { name: "Desistir" }).click();
-      await page.getByRole("link", { name: "Início" }).click();
-      const cards = page.getByRole("main").getByRole("link");
-      await expect(cards.filter({ hasText: "Nesta sessão" })).toHaveCount(1);
-      await expect(cards.filter({ hasText: /^Hits/ }).locator(".tag")).toHaveText([
-        "Normal: terminado, 0 de 18 pontos",
-        "Desafio: terminado, 0 de 18 pontos",
-      ]);
+      await open(page, DAY, "#anime-musica");
+      await expect(page.getByRole("main").getByRole("link", { name: /^Difícil/ })).toContainText(
+        "nº 1 · terminado, 0 de 18 pontos",
+      );
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o diário do Anime com o selo da Apple: o Tocar não anda até a última tentativa, e o selo leva à playlist, nunca à música", async ({
+      page,
+    }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#anime-musica-facil");
+      const play = page.getByRole("button", { name: /^Tocar/ });
+      await expect(play).toBeEnabled();
+      const badge = page.getByRole("link", { name: /Apple Music/ });
+      await expect(badge).toHaveAttribute("href", PLAYLIST_URL);
+      await overflow(page); // as fontes e as imagens, antes de medir
+      const before = await top(play);
+      await skip(page, 5);
+      await expect(page.getByText("Tentativa 6 de 6", { exact: true })).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      expect(await top(play)).toBe(before);
+      await expect(badge).toBeInViewport({ ratio: 1 });
+    });
+
+    test("a revelação do diário do Anime com 5 tentativas e o selo da Apple", async ({ page }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#anime-musica-medio");
+      await skip(page, 5);
+      await page.getByRole("button", { name: "Desistir" }).click();
+      await expect(page.locator(".reveal .attempt")).toHaveCount(5);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test("a revelação do acertar o anime com o tema mais longo, 5 tentativas e o selo da Apple", async ({
+      page,
+    }) => {
+      // Em 17/10, a 1ª rodada do Fácil é a da 2ª temporada da Hoshizora Kaizoku: o tema mais longo
+      // das fixtures ("Anime: Hoshizora Kaizoku 2nd Season · OP1") no lugar do álbum.
+      await appleCatalog(page);
+      await open(page, "2026-10-17T12:00:00-03:00", "#anime-titulo-facil");
+      await skip(page, 5);
+      await page.getByRole("button", { name: "Desistir" }).click();
+      await expect(page.locator(".reveal .card .album")).toHaveText(
+        "Anime: Hoshizora Kaizoku 2nd Season · OP1",
+      );
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test("a ajuda do acertar o anime: os 4 nomes de anime no lugar do campo", async ({ page }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#anime-titulo-facil");
+      await skip(page, 3);
+      await page.getByRole("button", { name: /^Pedir ajuda/ }).click();
+      await expect(page.locator(".help-options .option")).toHaveCount(4);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("a ajuda do acertar o anime com nomes longos (como os do catálogo real): os 4 numa coluna, inteiros", async ({
+      page,
+    }) => {
+      await appleCatalog(page, { franchiseName: LONG_FRANCHISE });
+      await open(page, DAY, "#anime-titulo-facil");
+      await skip(page, 3);
+      await page.getByRole("button", { name: /^Pedir ajuda/ }).click();
+      const titles = page.locator(".help-options .item-title");
+      await expect(titles).toHaveCount(4);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      // Numa coluna (a mesma esquerda) e com o nome inteiro, sem reticências.
+      const lefts = await page
+        .locator(".help-options .option")
+        .evaluateAll(
+          (els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().left))).size,
+        );
+      expect(lefts).toBe(1);
+      for (const title of await titles.all()) {
+        expect(await title.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
+        expect((await title.textContent())?.length).toBeGreaterThanOrEqual(50);
+      }
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    // O nome mais longo do catálogo real, com 5 tentativas e o selo. Um nome de 61 caracteres em
+    // 3 temas ("e mais 2") passava 4 px em 360 × 640: não existe no catálogo real (toda faixa tem
+    // um tema só), e fica medido com um nome médio, abaixo.
+    test("a revelação do acertar o anime com o nome mais longo do catálogo real", async ({
+      page,
+    }) => {
+      await appleCatalog(page, { themes: LONG_THEME });
+      await open(page, DAY, "#anime-titulo-facil");
+      await skip(page, 5);
+      await page.getByRole("button", { name: "Desistir" }).click();
+      await expect(page.locator(".reveal .card .album")).toHaveText(`Anime: ${LONG_ANIME} · ED1`);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test('a revelação do acertar o anime com 3 temas: o 1º e "e mais 2"', async ({ page }) => {
+      await appleCatalog(page, { themes: THREE_THEMES });
+      await open(page, DAY, "#anime-titulo-facil");
+      await skip(page, 5);
+      await page.getByRole("button", { name: "Desistir" }).click();
+      await expect(page.locator(".reveal .card .album")).toHaveText(
+        `Anime: ${MEDIUM_ANIME} · OP1 e mais 2`,
+      );
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test("o Sobre e privacidade (P243)", async ({ page }) => {
+      await open(page, DAY, "#sobre");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sobre e privacidade");
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o resumo do diário do Anime", async ({ page }) => {
+      await open(page, DAY, "#anime-musica-dificil");
+      for (const next of ["Próxima rodada", "Próxima rodada", "Ver resultado"]) {
+        await page.getByRole("button", { name: "Desistir" }).click();
+        await page.getByRole("button", { name: next }).click();
+      }
+      await expect(page.getByRole("heading", { name: "Resultado do dia" })).toBeFocused();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("button", { name: "Compartilhar resultado" })).toBeInViewport({
+        ratio: 1,
+      });
     });
 
     test("os Hits no caso mais alto: os dois diários terminados e a sessão do Treino com placar (P225)", async ({
@@ -296,6 +486,12 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     ["#desafio", "Desafio · nº 1"],
     ["#treino", "Treino"],
     ["#artistas", "Artistas"],
+    ["#anime", "Anime"],
+    ["#anime-musica", "Acertar a música"],
+    ["#anime-titulo", "Acertar o anime"],
+    ["#anime-musica-dificil", "Música · Difícil · nº 1"],
+    ["#anime-titulo-dificil", "Anime · Difícil · nº 1"],
+    ["#sobre", "Sobre e privacidade"],
   ] as const) {
     await page.evaluate((h) => {
       window.location.hash = h;
@@ -305,10 +501,31 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
   }
 });
 
+test("em 320 px, o cabeçalho do diário do Anime fica numa linha: o nome do diário e a rodada", async ({
+  page,
+}) => {
+  // O nome mais longo ("Música · Difícil") com o nº de dois algarismos (21/10 é o nº 14): numa
+  // linha, a rodada tem a altura da do Desafio, que cabe em 360 × 640 com pouca folga.
+  await page.setViewportSize({ width: 320, height: 640 });
+  await open(page, "2026-10-21T12:00:00-03:00", "#anime-musica-dificil");
+  const title = page.getByRole("heading", { level: 1 });
+  await expect(title).toHaveText("Música · Difícil · nº 14");
+  await overflow(page);
+  expect(await top(page.locator(".round-head > p"))).toBe(await top(title));
+});
+
 // Na parada real, a linha do artista passa da tela ("米津玄師 & 宇多田ヒカル · Kenshi Yonezu &
 // Hikaru Utada"): ela não quebra, ganha reticências. A coluna do grid não pode crescer até ela.
 const LONG_ARTIST = (name: string) =>
   `${name} & 宇多田ヒカル & ONE OK ROCK & CHICO CARLITO & Paledusk`;
+
+test("em 320 px, a Início no caso mais alto não rola para o lado, com o Tema e o Sobre nas linhas deles (P259)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await homeWorstCase(page);
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
+});
 
 test("em 320 px, um artista longo não empurra a página para o lado: a rodada, a revelação e as tentativas", async ({
   page,
@@ -376,14 +593,16 @@ async function target(locator: Locator): Promise<{ height: number; width: number
   return { height: box?.height ?? 0, width: box?.width ?? 0 };
 }
 
-test("a nav: o selo é a Início (P205), e as 3 categorias têm alvo de 44 × 44 px (P225)", async ({
+test("a nav: o selo é a Início (P205), e as 4 categorias (Início, Hits, Anime e Artistas) têm alvo de 44 × 44 px (P225)", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
   await open(page, DAY, "#normal");
   const nav = page.getByRole("navigation");
   await expect(nav.getByRole("link", { name: "Início" }).locator("img.nav-logo")).toBeVisible();
+  await expect(nav.getByRole("link")).toHaveText(["Início", /^Hits/, /^Anime/, "Artistas"]);
   const links = await nav.getByRole("link").all();
-  expect(links).toHaveLength(3);
+  expect(links).toHaveLength(4);
   for (const link of links) {
     const { height, width } = await target(link);
     expect(height).toBeGreaterThanOrEqual(44);
@@ -395,6 +614,9 @@ test("a Início: o switch do tema e o Como funciona têm alvo de 44 px (P213)", 
   await open(page, DAY, "#inicio");
   const how = page.locator("details.home-how-box > summary");
   expect((await target(how)).height).toBeGreaterThanOrEqual(44);
+  // O "Sobre e privacidade", na mesma linha (P259), com o mesmo alvo.
+  const about = page.getByRole("link", { name: "Sobre e privacidade" });
+  expect((await target(about)).height).toBeGreaterThanOrEqual(44);
   // O alvo é o botão inteiro: o sol, a trilha e a lua.
   const { height, width } = await target(page.getByRole("switch", { name: "Tema escuro" }));
   expect(height).toBeGreaterThanOrEqual(44);

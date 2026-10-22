@@ -377,9 +377,9 @@ button.give-up:active:not(:disabled) {
 }
 
 /* A nav: uma barra de 44 px, sem borda, com uma aba por categoria (P225): o selo da Início
-   (P205, com o nome só para o leitor de tela), os Hits e os Artistas, juntos à esquerda. A aba da
-   categoria atual ganha o fio oliva. Cabe numa linha também em 320 px; se um dia não couber,
-   quebra a linha em vez de rolar a página. */
+   (P205, com o nome só para o leitor de tela), os Hits, o Anime (M14) e os Artistas, juntos à
+   esquerda. A aba da categoria atual ganha o fio oliva. Cabe numa linha também em 320 px, com os
+   dois ✓; se um dia não couber, quebra a linha em vez de rolar a página. */
 .tabs ul {
   list-style: none;
   display: flex;
@@ -834,6 +834,24 @@ ul.options.help-options {
   padding: var(--sp-1) var(--sp-3);
 }
 
+/* No "acertar o anime", os nomes de anime numa coluna, inteiros: o nome longo (o real chega a uns
+   60 caracteres) quebra a linha, sem corte. Sem a linha do artista, a opção tem a altura do alvo
+   (44 px), e não a da linha de música. */
+ul.options.help-options.franchise {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.help-options.franchise .option {
+  min-height: var(--h-control);
+  align-items: center;
+}
+
+/* A rodada com essa ajuda: sem o título na tela (fica para o leitor de tela) e com as partes mais
+   juntas, para as 4 opções numa coluna caberem em 360 × 640 também com nomes longos. */
+.typing.helping.franchise {
+  gap: var(--sp-1);
+}
+
 /* O campo do Desafio. A lista de sugestões flutua sobre a tela: a página não muda de altura com
    ela aberta. No celular (pointer: coarse), abre para cima, longe do teclado. */
 .guess {
@@ -1247,10 +1265,11 @@ section.void,
 
 /* 5. Telas ------------------------------------------------------------------------------- */
 /* Início: o selo, o nome e a frase no centro; um cartão por categoria, numa coluna (P226); o
-   "Como funciona" recolhido; o tema num switch (P217). */
-.home {
-  gap: var(--sp-4);
-}
+   "Como funciona" recolhido; o tema num switch (P217). Com o Anime (M14), são três cartões: o
+   espaço entre as partes é o do .screen (12 px; antes, 16), e o cartão (.home .home-card) fica
+   mais baixo que nas telas de escolha, para a Início caber em 360 × 640 no caso mais alto (os
+   dois diários dos Hits, o Anime e a sessão do artista, com uma linha cada; sem isso, passava
+   13 px). */
 
 .home-header {
   display: grid;
@@ -1360,8 +1379,31 @@ section.void,
   color: var(--muted);
 }
 
-.home-how-box {
+/* Os três cartões da Início (os Hits, o Anime e os Artistas) mais baixos que os das telas de
+   escolha: veja o comentário da Início, no começo das telas. */
+.home .home-card {
+  min-height: 88px;
+  padding-block: var(--sp-2);
+}
+
+/* O "Como funciona" e o "Sobre e privacidade" numa linha só (P259): o fio de cima é da linha, e
+   o link fica à direita do resumo, por cima do lado livre dele. Aberto, o texto do "Como funciona"
+   desce na largura toda. */
+.home-more {
+  position: relative;
   border-top: 1px solid var(--hairline);
+}
+
+/* O alvo do link tem a altura da linha do "Como funciona", 44 px (P213). */
+.home-more > .home-about {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--h-control);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
 }
 
 .home-how-box summary {
@@ -1593,6 +1635,55 @@ section.void,
 }
 .monogram-7 {
   background: #4a5568;
+}
+
+/* Os créditos do Anime (P241), no pé das telas de escolha dele: uma linha pequena, no centro, que
+   leva ao "Sobre e privacidade". O alvo do link tem 44 px (P213); em 320 px, o texto quebra em
+   duas linhas dentro dele. */
+.anime-credits {
+  text-align: center;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+}
+
+.anime-credits a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--h-control);
+  color: var(--muted);
+}
+
+/* O "Sobre e privacidade" (P243): o título no centro, como nas telas de escolha, e o texto em
+   partes curtas, cada uma com o seu título, no tamanho das dicas, para caber em 360 × 640. */
+.about > header {
+  text-align: center;
+}
+
+.about-title {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 400;
+}
+
+.about-part {
+  display: grid;
+  gap: var(--sp-1);
+}
+
+.about-heading {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  font-weight: 700;
+}
+
+.about-text,
+.about-sources {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
+.about-sources {
+  padding-left: 20px;
 }
 
 /* A escolha do submodo: os dois cartões empilhados, o "Voltar à lista" sem tinta. */

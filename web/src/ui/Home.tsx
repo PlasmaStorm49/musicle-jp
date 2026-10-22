@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "preact/hooks";
-import { type ArtistSummary, dailyStatus, nextDaily } from "../core/home.ts";
-import type { Save } from "../core/records.ts";
+import { ANIME_KEYS } from "../core/daily.ts";
+import { type ArtistSummary, dailyStatus, nextDaily, progress } from "../core/home.ts";
+import { puzzleId, type Save } from "../core/records.ts";
+import { ROUTES } from "../core/routes.ts";
 import { MAX_STAGE, MODES, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
@@ -9,7 +11,7 @@ import { Icon } from "./Icon.tsx";
 import { Logo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
 import { practiceScoreText } from "./PracticeRun.tsx";
-import { singleClick } from "./singleClick.ts";
+import { singleClick, singleClickLink } from "./singleClick.ts";
 import { useTheme } from "./theme.ts";
 
 type Props = {
@@ -45,6 +47,27 @@ function hitsCard(save: Save, day: Day | null, date: string): Card {
   };
 }
 
+/**
+ * O cartão do Anime (P226): uma linha só, lida do save, porque o Anime carrega só na aba dele (a
+ * Início não sabe se há diário hoje). Os diários terminados hoje, ou o em andamento; sem jogo
+ * hoje, nenhuma linha. Conta os 6 diários do dia.
+ */
+function animeCard(save: Save, date: string): Card {
+  const { done, playing, total } = progress(
+    save,
+    ANIME_KEYS.map((key) => puzzleId(date, key)),
+  );
+  const line =
+    done > 0 ? t("home.animeLine", { done, total }) : playing > 0 ? t("home.animePlaying") : null;
+  return {
+    tab: "anime",
+    name: t("anime.title"),
+    short: t("home.animeShort"),
+    hint: t("home.animeHint"),
+    lines: line ? [line] : [],
+  };
+}
+
 function artistsText(summary: ArtistSummary | null): string | null {
   if (!summary) return null;
   // O Superfan conta em músicas, como a partida: "-7 pontos em 2 músicas".
@@ -74,9 +97,9 @@ function artistsCard(summary: ArtistSummary | null): Card {
 }
 
 /**
- * A home: o nome do jogo, um cartão por categoria da nav (P226), numa coluna, como jogar
- * (recolhido) e o tema. Os Hits com o estado dos dois diários; o oliva, a ação da tela, vai neles
- * enquanto houver um diário por jogar.
+ * A home: o nome do jogo, um cartão por categoria da nav (P226), numa coluna (os Hits, o Anime e
+ * os Artistas), como jogar (recolhido) e o tema. Os Hits com o estado dos dois diários; o oliva, a
+ * ação da tela, vai neles enquanto houver um diário por jogar.
  */
 export function Home({ day, date, save, artists }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
@@ -101,25 +124,34 @@ export function Home({ day, date, save, artists }: Props) {
           {t("home.modesTitle")}
         </h2>
         <CardList
-          cards={[hitsCard(save, day, date), artistsCard(artists)]}
+          cards={[hitsCard(save, day, date), animeCard(save, date), artistsCard(artists)]}
           idPrefix="home"
           single
         />
       </section>
 
-      {/* Recolhido: a tela cabe sem rolar, e quem quer as regras abre (P210). */}
-      <details class="home-how-box">
-        {/* O chevron do designer diz que abre, e gira quando está aberto. */}
-        <summary>
-          {t("home.howTitle")}
-          <Icon name="next" />
-        </summary>
-        <ul class="home-how">
-          <li>{t("home.howClip", { first: secondsAt(0), last: secondsAt(MAX_STAGE) })}</li>
-          <li>{t("home.howDaily")}</li>
-          <li>{t("home.howPractice")}</li>
-        </ul>
-      </details>
+      {/* O "Como funciona" e o "Sobre e privacidade" (P243) na mesma linha: o link fica à direita
+          do "Como funciona", que tem o lado livre, e a Início não cresce (P259). Aberto, o texto do
+          "Como funciona" desce na largura toda, e o link continua na linha dele. */}
+      <div class="home-more">
+        {/* Recolhido: a tela cabe sem rolar, e quem quer as regras abre (P210). */}
+        <details class="home-how-box">
+          {/* O chevron do designer diz que abre, e gira quando está aberto. */}
+          <summary>
+            {t("home.howTitle")}
+            <Icon name="next" />
+          </summary>
+          <ul class="home-how">
+            <li>{t("home.howClip", { first: secondsAt(0), last: secondsAt(MAX_STAGE) })}</li>
+            <li>{t("home.howDaily")}</li>
+            <li>{t("home.howPractice")}</li>
+          </ul>
+        </details>
+        {/* O 2º clique de um toque duplo cairia no título do Sobre (regra 23). */}
+        <a class="home-about" href={ROUTES.about} onClick={singleClickLink}>
+          {t("home.about")}
+        </a>
+      </div>
 
       <ThemeSwitch />
     </div>
@@ -131,7 +163,7 @@ export function Home({ day, date, save, artists }: Props) {
  * (provisórios, P218). Sem escolha salva, ele mostra o tema do aparelho; a troca vale na hora e
  * fica gravada. É um botão que alterna no mesmo lugar: o 2º clique de um toque duplo não pode
  * voltar o tema (singleClick, regra 23). O h2, como nas outras seções, deixa o "Tema" na
- * navegação por títulos.
+ * navegação por títulos; ele fica na tela, ao lado do switch (P259).
  */
 function ThemeSwitch() {
   const { theme, followsDevice, toggle } = useTheme();

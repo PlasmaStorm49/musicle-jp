@@ -13,7 +13,7 @@ import { computeStats } from "../core/stats.ts";
 import { t, tn } from "../i18n/t.ts";
 import { Countdown } from "./Countdown.tsx";
 import { Icon } from "./Icon.tsx";
-import { dailyName } from "./modes.ts";
+import { shareHeader } from "./modes.ts";
 import { ShareButton } from "./ShareButton.tsx";
 import { Stats } from "./Stats.tsx";
 
@@ -54,11 +54,7 @@ export function Summary({ game, daily, history, scheduleDates, shareUrl, announc
   useEffect(() => heading.current?.focus(), []);
   const stats = computeStats(history, daily.key, daily.date, scheduleDates);
   const max = recordMax(game);
-  const header = t("share.header", {
-    title: t("app.title"),
-    mode: dailyName(daily),
-    number: game.number,
-  });
+  const header = shareHeader(daily, game.number);
 
   return (
     <section class="summary" aria-labelledby="summary-title">

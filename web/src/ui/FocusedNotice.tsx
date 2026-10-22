@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "preact/hooks";
+import { t } from "../i18n/t.ts";
 
 /**
  * O aviso de uma tela que não tem outro elemento principal (erro de carga, dia sem diário, Treino
@@ -12,5 +13,20 @@ export function FocusedNotice({ text }: { readonly text: string }) {
     <p ref={message} tabIndex={-1} class="focused-notice">
       {text}
     </p>
+  );
+}
+
+/**
+ * Dados de uma versão que este código não conhece (os de um artista, os do Anime): recarregar a
+ * página, como no App.
+ */
+export function UpdateNotice() {
+  return (
+    <section class="error screen">
+      <FocusedNotice text={t("load.update")} />
+      <button type="button" class="primary" onClick={() => window.location.reload()}>
+        {t("load.updateButton")}
+      </button>
+    </section>
   );
 }

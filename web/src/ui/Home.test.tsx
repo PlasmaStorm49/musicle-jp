@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { act, cleanup, createEvent, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ArtistSummary } from "../core/home.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
@@ -66,11 +66,13 @@ describe("Home", () => {
     expect(screen.queryAllByRole("img")).toHaveLength(0);
   });
 
-  it("um cartão-link por categoria (P226), numa coluna: os Hits e os Artistas", () => {
+  it("um cartão-link por categoria (P226), numa coluna, na ordem da nav: os Hits, o Anime e os Artistas; e o Sobre no fim", () => {
     setup();
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
       "#hits",
+      "#anime",
       "#artistas",
+      "#sobre",
     ]);
     expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
     expect(screen.queryAllByRole("button")).toHaveLength(0);
@@ -169,6 +171,61 @@ describe("Home", () => {
     for (const route of Object.values(ROUTES)) {
       expect(document.querySelector(route)).toBeNull();
     }
+  });
+
+  it("o cartão do Anime (M14): uma linha só, lida do save, e nenhuma sem jogo hoje (P226)", () => {
+    const anime = () => card(/^Anime/);
+    setup();
+    expect(anime().getAttribute("href")).toBe("#anime");
+    expect(lines(anime())).toEqual([]);
+    expect(anime().textContent).toContain("Os diários de anime");
+    expect(description(anime())).toContain("temas de anime");
+    cleanup();
+    // Em andamento, sem nenhum terminado.
+    setup({
+      ...emptySave(),
+      inProgress: { [puzzleId(DATE, "anime-musica-medio")]: { events: [{ type: "SKIP" }] } },
+    });
+    expect(lines(anime())).toEqual(["Hoje: em andamento"]);
+    cleanup();
+    // Os terminados de hoje, dos 6 diários (os de outro dia não contam).
+    setup({
+      ...emptySave(),
+      history: {
+        [puzzleId(DATE, "anime-musica-facil")]: finished,
+        [puzzleId(DATE, "anime-titulo-dificil")]: finished,
+        [puzzleId("2026-10-16", "anime-musica-medio")]: finished,
+      },
+      inProgress: { [puzzleId(DATE, "anime-musica-medio")]: { events: [{ type: "SKIP" }] } },
+    });
+    expect(lines(anime())).toEqual(["Hoje: 2 de 6 terminados"]);
+  });
+
+  it('o "Sobre e privacidade" (P243) na linha do "Como funciona", fora dele; o "Tema" na tela (P259)', () => {
+    setup();
+    const about = screen.getByRole("link", { name: "Sobre e privacidade" });
+    expect(about.getAttribute("href")).toBe("#sobre");
+    const row = about.closest(".home-more");
+    expect(row?.querySelector("details.home-how-box")).not.toBeNull();
+    // Fora do <details>: o link aparece com ele fechado, e não fica dentro do resumo.
+    expect(about.closest("details")).toBeNull();
+    // O 2º clique de um toque duplo não segue o link (regra 23).
+    const second = createEvent.click(about, { detail: 2 });
+    fireEvent(about, second);
+    expect(second.defaultPrevented).toBe(true);
+    // O "Tema" volta para a tela, ao lado do switch.
+    const theme = screen.getByRole("heading", { name: "Tema" });
+    expect(theme.classList.contains("sr-only")).toBe(false);
+    expect(theme.closest("section")?.querySelector('[role="switch"]')).not.toBeNull();
+  });
+
+  it("o cartão do Anime não é o oliva: a Início não sabe se há diário do Anime hoje", () => {
+    setup({
+      ...emptySave(),
+      history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
+    });
+    expect(document.querySelector(".home-card.next")).toBeNull();
+    expect(card(/^Anime/).classList.contains("off")).toBe(false);
   });
 
   it("o placar da sessão do modo por artista, com o artista, só depois da 1ª rodada (M13)", () => {

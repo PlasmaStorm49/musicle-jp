@@ -1,5 +1,12 @@
 // Tipos do contrato (gerados de shared/schema) e tipos do jogo.
 
+export type {
+  AnimeAlbum,
+  AnimeCatalog,
+  AnimeFranchise,
+  AnimeTrack,
+} from "./generated/anime-catalog.ts";
+export type { AnimeDay, AnimeSchedule } from "./generated/anime-schedule.ts";
 export type { ArtistAlbum, ArtistCatalog, ArtistTrack } from "./generated/artist.ts";
 export type { ArtistList, ArtistListEntry } from "./generated/artist-list.ts";
 export type {

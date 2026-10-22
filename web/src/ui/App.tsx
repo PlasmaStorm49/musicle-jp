@@ -6,9 +6,16 @@ import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
 import { dailyIds, hitsDailies } from "../core/daily.ts";
-import { artistSummary, dailiesDone, practiceSummary } from "../core/home.ts";
+import { animeDone, artistSummary, dailiesDone, practiceSummary } from "../core/home.ts";
 import { emptySave, pruneProgress, type Save } from "../core/records.ts";
-import { type Category, categoryOf, ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
+import {
+  type Category,
+  categoryOf,
+  isAnimeTab,
+  ROUTES,
+  type Tab,
+  tabFromHash,
+} from "../core/routes.ts";
 import {
   appleResolver,
   catalogResolver,
@@ -39,6 +46,8 @@ import {
   sessionStore,
   updateSave,
 } from "../storage/save.ts";
+import { About } from "./About.tsx";
+import { Anime, type AnimeStore, useAnimeStore } from "./Anime.tsx";
 import { type ArtistStore, Artists, useArtistStore } from "./Artists.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
@@ -125,13 +134,21 @@ export function App() {
   // A sessão do Treino mora aqui, e não no Practice: trocar de aba e voltar não a zera. Só
   // na memória (P50): recarregar a página começa outra. null = a escolha do modo (P105).
   const [practice, setPractice] = useState<PracticeSession | null>(null);
-  // A cota e o disjuntor do lookup da Apple, um só para a parada e os artistas (P142).
+  // A cota e o disjuntor do lookup da Apple, um só para a parada, os artistas e o Anime (P142).
   const budget = useMemo(
     () => lookupBudget({ now: Date.now, disabled: lookupFailForced(window.location.search) }),
     [],
   );
   // O modo por artista (M13): a lista, os artistas baixados e a sessão, como a do Treino.
   const artists = useArtistStore({
+    fetchFn: FETCH,
+    baseUrl: BASE_URL,
+    dataDir: DATA_DIR,
+    budget,
+    resolveUrl,
+  });
+  // O Anime (M14): o catálogo e a agenda, carregados só quando a pessoa abre a categoria.
+  const anime = useAnimeStore({
     fetchFn: FETCH,
     baseUrl: BASE_URL,
     dataDir: DATA_DIR,
@@ -228,8 +245,9 @@ export function App() {
       <nav class="tabs" aria-label={t("nav.label")}>
         <ul>
           {/* Uma aba por categoria (P225): a Início, os Hits (a tela deles, os dois diários e o
-              Treino) e os Artistas. A da aba atual leva aria-current: "page" na tela dela, e "true"
-              dentro de um jogo dela (o link leva a outra página). */}
+              Treino), o Anime (a tela dele, as dificuldades e os 6 diários) e os Artistas. A da aba
+              atual leva aria-current: "page" na tela dela, e "true" dentro de um jogo dela (o link
+              leva a outra página). */}
           {/* A Início é o selo do logo (P205): o nome do link fica em texto, para o leitor de tela. */}
           <li>
             <a class="nav-home" href={ROUTES.home} aria-current={current(tab, "home")}>
@@ -252,6 +270,21 @@ export function App() {
               )}
             </a>
           </li>
+          {/* O ✓ quando qualquer um dos 6 diários do Anime de hoje terminou (P247). */}
+          <li>
+            <a href={ROUTES.anime} aria-current={current(tab, "anime")}>
+              {t("nav.anime")}
+              {animeDone(latest, date) && (
+                <>
+                  <span class="done-mark" aria-hidden="true">
+                    {" "}
+                    {t("nav.doneMark")}
+                  </span>
+                  <span class="sr-only">{t("nav.animeDone")}</span>
+                </>
+              )}
+            </a>
+          </li>
           {/* O modo por artista fica na nav até o site ficar público (P117): é só tirar o <li>. */}
           <li>
             <a href={ROUTES.artists} aria-current={current(tab, "artists")}>
@@ -265,43 +298,52 @@ export function App() {
           {message}
         </p>
         {saves.notice && <p class="notice">{saves.notice}</p>}
-        {load.status === "loading" && (
-          <div class="loading screen">
-            <p>{t("load.loading")}</p>
-          </div>
-        )}
-        {load.status === "retry" && (
-          <section class="error screen">
-            <FocusedNotice text={t("load.retry")} />
-            <button type="button" class="primary" onClick={() => setAttempt((n) => n + 1)}>
-              {t("load.retryButton")}
-            </button>
-          </section>
-        )}
-        {load.status === "update" && (
-          <section class="error screen">
-            <FocusedNotice text={t("load.update")} />
-            <button type="button" class="primary" onClick={() => window.location.reload()}>
-              {t("load.updateButton")}
-            </button>
-          </section>
-        )}
-        {load.status === "ready" && engine && resolver && (
-          <Ready
-            tab={tab}
-            data={load.data}
-            date={date}
-            engine={engine}
-            resolver={resolver}
-            resolveUrl={resolveUrl}
-            announce={announce}
-            saves={saves}
-            latest={latest}
-            onSaved={refresh}
-            practice={practice}
-            onPractice={setPractice}
-            artists={artists}
-          />
+        {/* O "Sobre e privacidade" não usa dado nenhum: desenha sem esperar a carga dos Hits, e a
+            política de privacidade nunca depende dela (nem de uma falha dela). */}
+        {tab === "about" ? (
+          <About />
+        ) : (
+          <>
+            {load.status === "loading" && (
+              <div class="loading screen">
+                <p>{t("load.loading")}</p>
+              </div>
+            )}
+            {load.status === "retry" && (
+              <section class="error screen">
+                <FocusedNotice text={t("load.retry")} />
+                <button type="button" class="primary" onClick={() => setAttempt((n) => n + 1)}>
+                  {t("load.retryButton")}
+                </button>
+              </section>
+            )}
+            {load.status === "update" && (
+              <section class="error screen">
+                <FocusedNotice text={t("load.update")} />
+                <button type="button" class="primary" onClick={() => window.location.reload()}>
+                  {t("load.updateButton")}
+                </button>
+              </section>
+            )}
+            {load.status === "ready" && engine && resolver && (
+              <Ready
+                tab={tab}
+                data={load.data}
+                date={date}
+                engine={engine}
+                resolver={resolver}
+                resolveUrl={resolveUrl}
+                announce={announce}
+                saves={saves}
+                latest={latest}
+                onSaved={refresh}
+                practice={practice}
+                onPractice={setPractice}
+                artists={artists}
+                anime={anime}
+              />
+            )}
+          </>
         )}
       </main>
     </>
@@ -325,6 +367,8 @@ type ReadyProps = {
   readonly onPractice: PracticeSessionSetter;
   /** O modo por artista, também guardado no App. */
   readonly artists: ArtistStore;
+  /** O Anime, também guardado no App. */
+  readonly anime: AnimeStore;
 };
 
 /** A tela da aba ativa. Uma por vez: os ids dos títulos (question, result...) não se repetem. */
@@ -342,11 +386,29 @@ function Ready({
   practice,
   onPractice,
   artists,
+  anime,
 }: ReadyProps) {
   const day = pickDay(data.schedule, date);
   // Os diários dos Hits do dia, guardados entre os renders: o Game recalcula a sessão quando o
   // descritor muda. Sem o dia na agenda, nenhum.
   const dailies = useMemo(() => (day ? hitsDailies(day, date) : []), [day, date]);
+  // As telas do Anime (a categoria, as dificuldades e os diários) ficam no Anime, com a carga dele.
+  if (isAnimeTab(tab)) {
+    return (
+      <Anime
+        tab={tab}
+        store={anime}
+        date={date}
+        save={latest}
+        engine={engine}
+        resolveUrl={resolveUrl}
+        announce={announce}
+        saveStore={saves.store}
+        onSaved={onSaved}
+        shareUrl={BASE_URL}
+      />
+    );
+  }
   // Uma tela por aba, sem caso esquecido: uma aba nova sem tela vira erro de compilação.
   switch (tab) {
     case "home":
@@ -393,6 +455,10 @@ function Ready({
           onSession={onPractice}
         />
       );
+    // O App já desenha o Sobre antes da carga (ele não usa dado nenhum): aqui, só para o switch
+    // ficar completo.
+    case "about":
+      return <About />;
     case "artists":
       return (
         <Artists
