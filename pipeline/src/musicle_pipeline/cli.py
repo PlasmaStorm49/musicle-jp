@@ -537,7 +537,9 @@ def _fetch_anime(args: argparse.Namespace) -> int:
             pool_size=3000 if args.pool_size is None else args.pool_size,
         )
     except fetch.FetchError as exc:
-        print(f"fetch --anime: {exc}; nada foi gravado", file=sys.stderr)
+        # O snapshot parcial já foi gravado depois de cada anime (o `save`): rodar de novo continua.
+        kept = f"o que já veio ficou em {out}" if out.exists() else "nada foi gravado"
+        print(f"fetch --anime: {exc}; {kept}", file=sys.stderr)
         return 1
     write_if_changed(out, dumps(snapshot))
     themes = [t for a in snapshot["anime"] for t in a["themes"]]
