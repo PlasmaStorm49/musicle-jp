@@ -65,12 +65,13 @@ WINDOWS = {"facil": 21, "medio": 28, "dificil": 35}
 # sustentam a janela K (P235).
 DAILY_PER_TIER = ROUNDS * len(MODES)
 # O espaçamento da franquia entre dias, no nível 0: no máximo uma vez por semana (e nunca mais que
-# a janela do diário). Provisório, como os pesos: a carga grande (C2) mede.
+# a janela do diário). Provisório, como os pesos: o C2 calibrou as faixas e deixou os dois para
+# depois (ME117).
 FRANCHISE_DAYS = 7
-# Os pesos do tipo do tema no sorteio (P252), inteiros. Provisórios: os números finais saem da
-# carga grande (C2). No Fácil e no Médio, a abertura 3 vezes mais que o encerramento; no Difícil,
-# a insert song rara. O `tier_of` do anime.py já põe a insert só no Difícil: o peso dela no
-# Fácil e no Médio só garante que a soma nunca é zero.
+# Os pesos do tipo do tema no sorteio (P252), inteiros. No Fácil e no Médio, a abertura 3 vezes
+# mais que o encerramento; no Difícil, a insert song rara. O `tiers_of` do anime.py já deixa a
+# insert quase só no Difícil (o fator do tipo, P272): o peso dela no Fácil e no Médio só garante
+# que a soma nunca é zero.
 THEME_WEIGHTS = {
     "facil": {"OP": 3, "ED": 1, "IN": 1},
     "medio": {"OP": 3, "ED": 1, "IN": 1},
@@ -179,15 +180,18 @@ def _candidates(
     mode: str,
     day_songs: set[str],
     diary_franchises: set[str],
+    day_franchises: set[str],
 ) -> tuple[int, str, list[JSON]]:
     """Primeiro nível de afrouxamento com candidata; devolve (nível, o que afrouxou, candidatas).
 
-    Nível 0 = todas as regras; 1 = sem espaçar a franquia entre dias; 2 em diante = janela
-    K - 1, K - 2, ..., 1. A música do dia e a franquia do diário (no titulo) nunca afrouxam.
+    Nível 0 = todas as regras; 1 = sem espaçar a franquia entre dias; 2 = a franquia que já é
+    resposta de outro diário do dia (ME111: quem jogou o outro diário a reconheceria na ajuda);
+    3 em diante = janela K - 1, K - 2, ..., 1. A música do dia e a franquia do diário (no titulo)
+    nunca afrouxam.
     """
     spacing = min(FRANCHISE_DAYS, window)
-    levels = [(window, True), (window, False)]
-    levels += [(k, False) for k in range(window - 1, 0, -1)]
+    levels = [(window, True, True), (window, False, True), (window, False, False)]
+    levels += [(k, False, False) for k in range(window - 1, 0, -1)]
     fixed = [
         t
         for t in pool
@@ -200,14 +204,21 @@ def _candidates(
             _outside(history.franchises.get(f), d, spacing) for f in track["anime"]["franchiseIds"]
         )
 
-    for level, (k, spaced) in enumerate(levels):
+    def new_today(track: JSON) -> bool:
+        return not day_franchises & set(track["anime"]["franchiseIds"])
+
+    for level, (k, spaced, unique) in enumerate(levels):
         found = [
             t
             for t in fixed
-            if _outside(history.songs.get(t["songKey"]), d, k) and (not spaced or spaced_out(t))
+            if _outside(history.songs.get(t["songKey"]), d, k)
+            and (not spaced or spaced_out(t))
+            and (not unique or new_today(t))
         ]
         if found:
-            what = "sem espaçar a franquia" if level == 1 else f"janela de {k} dia(s)"
+            what = {1: "sem espaçar a franquia", 2: "a franquia repete no dia"}.get(
+                level, f"janela de {k} dia(s)"
+            )
             return level, what, found
     return len(levels), "", []
 
@@ -245,6 +256,9 @@ def _generate_day(
 ) -> tuple[JSON, list[str]]:
     history = _history(days, idx)
     day_songs: set[str] = set()
+    # As franquias das respostas do dia, dos dois modos (ME111): a ajuda do titulo evita as de
+    # hoje, então uma franquia repetida seria a "de hoje" para quem jogou o outro diário.
+    day_franchises: set[str] = set()
     relaxations: list[str] = []
     day: JSON = {"number": (d - epoch).days + 1, "catalogVersion": idx.version}
     for mode in MODES:
@@ -262,6 +276,7 @@ def _generate_day(
                     mode,
                     day_songs,
                     diary_franchises,
+                    day_franchises,
                 )
                 if not candidates:
                     raise ScheduleError(f"{d}: sem faixa possível para {mode} {tier}, rodada {n}")
@@ -273,6 +288,7 @@ def _generate_day(
                 rounds.append({"answer": answer["id"]})
                 day_songs.add(answer["songKey"])
                 diary_franchises.update(answer["anime"]["franchiseIds"])
+                day_franchises.update(answer["anime"]["franchiseIds"])
             day[mode][tier] = rounds
     return day, relaxations
 
