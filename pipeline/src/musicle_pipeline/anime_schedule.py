@@ -65,12 +65,13 @@ WINDOWS = {"facil": 21, "medio": 28, "dificil": 35}
 # sustentam a janela K (P235).
 DAILY_PER_TIER = ROUNDS * len(MODES)
 # O espaçamento da franquia entre dias, no nível 0: no máximo uma vez por semana (e nunca mais que
-# a janela do diário). Provisório, como os pesos: a carga grande (C2) mede.
+# a janela do diário). Provisório, como os pesos: o C2 calibrou as faixas e deixou os dois para
+# depois (ME117).
 FRANCHISE_DAYS = 7
-# Os pesos do tipo do tema no sorteio (P252), inteiros. Provisórios: os números finais saem da
-# carga grande (C2). No Fácil e no Médio, a abertura 3 vezes mais que o encerramento; no Difícil,
-# a insert song rara. O `tier_of` do anime.py já põe a insert só no Difícil: o peso dela no
-# Fácil e no Médio só garante que a soma nunca é zero.
+# Os pesos do tipo do tema no sorteio (P252), inteiros. No Fácil e no Médio, a abertura 3 vezes
+# mais que o encerramento; no Difícil, a insert song rara. O `tiers_of` do anime.py já deixa a
+# insert quase só no Difícil (o fator do tipo, P272): o peso dela no Fácil e no Médio só garante
+# que a soma nunca é zero.
 THEME_WEIGHTS = {
     "facil": {"OP": 3, "ED": 1, "IN": 1},
     "medio": {"OP": 3, "ED": 1, "IN": 1},

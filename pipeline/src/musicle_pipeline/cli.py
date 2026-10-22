@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
-from musicle_pipeline.anime import build_anime_catalog
+from musicle_pipeline.anime import build_anime_catalog, chart_artists
 from musicle_pipeline.anime_schedule import (
     generate_anime,
     rule_problems,
@@ -229,9 +229,21 @@ def _build_anime(args: argparse.Namespace) -> int:
         )
         return 1
     provider = ANIME_PROVIDERS[args.provider]()
+    # O ícone pelo artista da parada (P274) é só da Apple: os animes fictícios citam as faixas
+    # da parada fictícia, e toda música deles seria ícone.
+    icons = (
+        chart_artists(args.provider, PROVIDERS[args.provider]().snapshots())
+        if args.provider == "apple"
+        else frozenset()
+    )
     notes: list[str] = []
     catalog = build_anime_catalog(
-        provider.name, provider.storefront, provider.source(), _anime_curation(args.provider), notes
+        provider.name,
+        provider.storefront,
+        provider.source(),
+        _anime_curation(args.provider),
+        notes,
+        icon_artists=icons,
     )
     for message in provider.warnings:
         print(f"aviso: {message}", file=sys.stderr)

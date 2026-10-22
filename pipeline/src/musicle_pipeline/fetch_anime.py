@@ -32,13 +32,16 @@ from urllib.parse import urlencode
 
 from musicle_pipeline.anime import (
     MODES,
+    THEME_TYPES,
     TIERS,
     Anime,
     Theme,
-    fame,
+    chances,
+    is_icon,
+    loose_title,
     match_theme,
-    theme_level,
-    tier_of,
+    same_song,
+    tiers_of,
 )
 from musicle_pipeline.fetch import (
     MAX_BYTES,
@@ -341,15 +344,28 @@ def _song_key(theme: SourceTheme) -> tuple[str, str]:
 
 def merge_sources(anime: SourceAnime, quiz: Sequence[SourceTheme]) -> SourceAnime:
     """Os temas do AnimeThemes com o nível e os artistas do AnisongDB, casados pelo tipo e pelo
-    título (a numeração das duas fontes diverge). O tema que só o AnisongDB tem (a insert song,
+    título (a numeração das duas fontes diverge). Primeiro o título igual; depois, para o que
+    sobrou, o único do mesmo tipo com o título frouxo igual ou muito parecido (P275: "LOST IN
+    PARADISE feat. AKLO" e "LOST IN PARADISE"). O tema que só o AnisongDB tem (a insert song,
     quase sempre) entra também."""
     left = list(quiz)
-    themes = []
+    partners: list[SourceTheme | None] = []
     for t in anime.themes:
         key = _song_key(t)
         other = next((q for q in left if _song_key(q) == key), None)
         if other is not None:
             left.remove(other)
+        partners.append(other)
+    for i, t in enumerate(anime.themes):
+        if partners[i] is None:
+            mine = loose_title(t.song)
+            close = [q for q in left if q.type == t.type and same_song(loose_title(q.song), mine)]
+            if len(close) == 1:
+                left.remove(close[0])
+                partners[i] = close[0]
+    themes = []
+    for t, other in zip(anime.themes, partners, strict=True):
+        if other is not None:
             t = SourceTheme(
                 type=t.type,
                 sequence=t.sequence,
@@ -622,7 +638,8 @@ def _raw_tracks(lookups: Sequence[JSON], official: JSON) -> dict[str, RawTrack]:
 
 @dataclass
 class Progress:
-    """O que já casou, por modo e faixa (com as funções do build), para saber quando parar."""
+    """O que já casou, por modo e faixa (com a conta do build, aproximada), para saber quando
+    parar."""
 
     target: int
     max_songs: int
@@ -631,13 +648,15 @@ class Progress:
     )
     songs: set[str] = field(default_factory=set)
 
-    def add(self, theme: Theme, anime: Anime) -> None:
+    def add(self, theme: Theme, anime: Anime, songs: int) -> None:
+        """A faixa aproximada do tema: a franquia inteira e o artista da parada só o build
+        conhece, então `songs` (a concorrência) são as músicas do mesmo tipo no próprio anime, e
+        o ícone vem só dos níveis."""
         if theme.track is None or theme.track.provider_id in self.songs:
             return
         self.songs.add(theme.track.provider_id)
-        levels = fame(theme, anime)
-        for mode in MODES:
-            self.counts[mode][tier_of(theme.type, levels[mode], theme_level(theme))] += 1
+        for mode, tier in tiers_of(chances(theme, anime, songs), is_icon(theme)).items():
+            self.counts[mode][tier] += 1
 
     def done(self) -> bool:
         full = all(n >= self.target for c in self.counts.values() for n in c.values())
@@ -812,11 +831,17 @@ def _search(
                 io.log(f"{source.name}: a Apple falhou ({exc}); a busca para e grava o que já veio")
                 stopped = True
                 break
+            # As músicas distintas de cada tipo no anime (todos os temas, com faixa ou não, como
+            # no build), para a concorrência do Progress.
+            rivals = {
+                kind: len({loose_title(t.song) for t in source.themes if t.type == kind})
+                for kind in THEME_TYPES
+            }
             for entry in entries:
                 record["themes"].append(entry["record"])
                 if entry["lookup"] is not None:
                     used_lookups[entry["lookup"]["trackId"]] = entry["lookup"]
-                    progress.add(entry["theme"], anime)
+                    progress.add(entry["theme"], anime, rivals[entry["theme"].type])
             records.append(record)
             matched = sum(t["result"] == "matched" for t in record["themes"])
             io.log(

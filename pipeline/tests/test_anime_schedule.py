@@ -545,7 +545,7 @@ def test_schedule_anime_command(tmp_path, capsys):
     captured = capsys.readouterr()
     assert "2 dia(s) novo(s) (2026-10-21 a 2026-10-22), 2 no total" in captured.out
     assert "aviso: buraco de 13 dia(s) sem desafio: 2026-10-08 a 2026-10-20 (P44)" in captured.err
-    assert "aviso: musica facil: 8 música(s)" in captured.err
+    assert "aviso: musica facil: 13 música(s)" in captured.err
     # De novo, no mesmo dia: nada novo.
     assert main([*args, "--today", "2026-10-21", "--days", "1"]) == 0
     assert "0 dia(s) novo(s), 2 no total; sem mudanças" in capsys.readouterr().out
@@ -572,7 +572,9 @@ def test_validate_anime_checks_the_schedule_next_to_the_catalog(tmp_path, capsys
     loose.write_bytes(COMMITTED.read_bytes() + b"\n")
     assert main([*args, str(loose)]) == 1
     assert "forma canônica" in capsys.readouterr().err
-    broken = read_json(COMMITTED)
+    # A regra da faixa é erro só no dia gerado com o catálogo atual (num dia de antes, o catálogo
+    # recalibrado só avisa): a troca vai num dia gerado agora.
+    broken = generate_anime(read_json(FIXTURE / "catalog.json"), None, EPOCH, EPOCH, 1).schedule
     first = min(broken["days"])
     rounds = broken["days"][first]["titulo"]
     rounds["facil"][0], rounds["dificil"][0] = rounds["dificil"][0], rounds["facil"][0]
