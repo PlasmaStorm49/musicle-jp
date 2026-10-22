@@ -9,9 +9,11 @@ from jsonschema import Draft202012Validator
 from musicle_pipeline.io_json import read_json
 from musicle_pipeline.paths import (
     anime_catalog_schema_path,
+    anime_schedule_schema_path,
     artist_list_schema_path,
     artist_schema_path,
     catalog_schema_path,
+    schedule_schema_path,
 )
 
 CATALOG = read_json(catalog_schema_path())["$defs"]
@@ -33,6 +35,22 @@ def test_the_schema_is_valid_and_copies_the_catalog(path):
         if name in DIFFERENT or name == "entry" or name in ANIME_ONLY:
             continue
         assert definition == CATALOG[name], name
+
+
+def test_the_anime_schedule_copies_the_schedule():
+    # A agenda do Anime (M14): a data, o id da faixa, o número e a versão do catálogo do dia são
+    # os da agenda dos Hits; o cabeçalho ganha o kind.
+    schema = read_json(anime_schedule_schema_path())
+    Draft202012Validator.check_schema(schema)
+    hits = read_json(schedule_schema_path())
+    for name in ("date", "trackId"):
+        assert schema["$defs"][name] == hits["$defs"][name], name
+    for key in ("number", "catalogVersion"):
+        expected = hits["$defs"]["day"]["properties"][key]
+        assert schema["$defs"]["day"]["properties"][key] == expected, key
+    header = {k: v for k, v in schema["properties"].items() if k not in ("kind", "days")}
+    assert header == {k: v for k, v in hits["properties"].items() if k != "days"}
+    assert schema["properties"]["kind"]["const"] == "anime"
 
 
 def test_the_anime_track_is_the_catalog_track_without_the_chart():

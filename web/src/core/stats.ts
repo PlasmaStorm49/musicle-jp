@@ -1,7 +1,8 @@
-// Estatísticas, calculadas do histórico a cada vez (nada derivado é gravado, Apêndice F).
+// Estatísticas, calculadas do histórico a cada vez (nada derivado é gravado, Apêndice F). Uma
+// por diário (P249): o Normal, o Desafio e, no Anime, cada modo em cada dificuldade.
+import type { DailyKey } from "./daily.ts";
 import { type FinishedGame, type PuzzleId, recordMax, recordScore } from "./records.ts";
 import { MAX_POINTS, ROUNDS_PER_DAY } from "./rules.ts";
-import type { Target } from "./types.ts";
 
 export type Stats = {
   /** Dias terminados (inclusive os todo anulados). */
@@ -16,19 +17,23 @@ export type Stats = {
 };
 
 /**
+ * @param key o diário (a 2ª metade do id no save): só os jogos dele contam.
  * @param today data do jogo (não o relógio: em DEV, o ?date= também vale).
- * @param scheduleDates dias que existem na agenda. Só eles contam para a sequência: um dia sem
- *   diário (atualização que falhou) não quebra a sequência de ninguém (P40).
+ * @param scheduleDates dias que existem na agenda do próprio diário. Só eles contam para a
+ *   sequência: um dia sem diário (atualização que falhou) não quebra a sequência de ninguém (P40).
  */
 export function computeStats(
   history: Readonly<Record<PuzzleId, FinishedGame>>,
-  target: Target,
+  key: DailyKey,
   today: string,
   scheduleDates: readonly string[],
 ): Stats {
   const games = Object.entries(history)
-    .map(([id, game]) => ({ date: id.split("|")[0] ?? "", target: id.split("|")[1], game }))
-    .filter((g) => g.target === target && g.date <= today);
+    .map(([id, game]) => {
+      const [date = "", daily] = id.split("|");
+      return { date, daily, game };
+    })
+    .filter((g) => g.daily === key && g.date <= today);
 
   const distribution = new Array<number>(MAX_POINTS * ROUNDS_PER_DAY + 1).fill(0);
   const scores: number[] = [];

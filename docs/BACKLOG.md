@@ -99,6 +99,7 @@ Atualizado em 21/10/2026.
 **Você**
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
+- **ME109 (novo).** Crescer a agenda fictícia do Anime, que para em 09/11 (no PR B, o robô).
 - **ME108 (novo).** Decidir se a lista de negação do `.claude/settings.json` passa a cobrir os gerados dos artistas e do Anime, como diz a regra 3 do `CLAUDE.md`.
 - **P16.** Decidir se a URL e o repositório mudam de nome.
 - Segunda, 26/10: o PR do robô, com o merge no mesmo dia.

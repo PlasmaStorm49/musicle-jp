@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { catalog, schedule } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
+import { hitsDaily } from "./daily.ts";
 import { recordMax, recordScore } from "./records.ts";
 import {
   createGame,
@@ -20,7 +21,7 @@ const DATE = "2026-10-08";
 const day = schedule.days[DATE] as Day;
 
 /** O Normal: o álbum, entre 4 opções. */
-const normal = () => createGame(day, DATE, "album", index);
+const normal = () => createGame(hitsDaily(day, DATE, "album"), index);
 const play = (state: GameState, ...events: GameEvent[]) => events.reduce(reduce, state);
 const round = (state: GameState) => currentRound(state);
 const right = (state: GameState) => round(state).correctOptionId;
@@ -58,7 +59,7 @@ describe("createGame", () => {
   it("Desafio: a resposta é a própria faixa, sem opções (é digitado)", () => {
     // Os dias antigos da agenda ainda trazem opções de música (a agenda só cresce): o Desafio
     // as ignora.
-    const r = round(createGame(day, DATE, "song", index));
+    const r = round(createGame(hitsDaily(day, DATE, "song"), index));
     expect(r.trackId).toBe(day.song[0].answer);
     expect(r.correctOptionId).toBe(day.song[0].answer);
     expect(r.options).toEqual([]);
@@ -73,7 +74,7 @@ describe("createGame", () => {
 
   it("createRounds monta as mesmas rodadas que o createGame (o Treino usa só ele)", () => {
     expect(createRounds(day.song, "song", index)).toEqual(
-      createGame(day, DATE, "song", index).rounds,
+      createGame(hitsDaily(day, DATE, "song"), index).rounds,
     );
     expect(createRounds(day.album, "album", index)).toEqual(normal().rounds);
   });
@@ -94,7 +95,7 @@ describe("createGame", () => {
         t.id === answer ? { ...t, eligible: { daily: false, reason: "blocked" } } : t,
       ) as Catalog["tracks"],
     };
-    const game = createGame(day, DATE, "album", indexCatalog(changed));
+    const game = createGame(hitsDaily(day, DATE, "album"), indexCatalog(changed));
     expect(game.rounds[1]?.status).toBe("void");
     expect(game.rounds[1]?.voidReason).toBe("unavailable");
   });
@@ -104,7 +105,7 @@ describe("createGame", () => {
       ...day,
       song: [{ ...day.song[0], answer: "fixture:tr:fantasma" }, day.song[1], day.song[2]],
     };
-    expect(createGame(ghost, DATE, "song", index).rounds[0]?.status).toBe("void");
+    expect(createGame(hitsDaily(ghost, DATE, "song"), index).rounds[0]?.status).toBe("void");
   });
 });
 
@@ -225,7 +226,7 @@ describe("eventos inválidos devolvem o mesmo objeto", () => {
 });
 
 describe("Desafio (digitação)", () => {
-  const desafio = () => createGame(dayWithVersions(), DATE, "song", index);
+  const desafio = () => createGame(hitsDaily(dayWithVersions(), DATE, "song"), index);
 
   it("outra versão da mesma música conta como acerto", () => {
     const game = reduce(desafio(), { type: "GUESS", guessId: "fixture:tr:tr02" });
@@ -259,7 +260,7 @@ describe("Desafio (digitação)", () => {
 });
 
 describe("ajuda do Desafio (P149 a P152)", () => {
-  const desafio = () => createGame(dayWithVersions(), DATE, "song", index);
+  const desafio = () => createGame(hitsDaily(dayWithVersions(), DATE, "song"), index);
   const OPTIONS = ["fixture:tr:tr21", "fixture:tr:tr02", "fixture:tr:tr30", "fixture:tr:tr40"];
   const helped = () => play(desafio(), { type: "SKIP" }, { type: "HELP", options: OPTIONS });
 
