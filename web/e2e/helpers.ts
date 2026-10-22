@@ -56,10 +56,16 @@ export async function open(
   brasilia: string,
   hash = "#normal",
   failAudio?: string,
+  extra = "",
 ): Promise<void> {
   const fail = failAudio ? `&failAudio=${encodeURIComponent(failAudio)}` : "";
   await page.clock.setFixedTime(new Date(brasilia));
-  await page.goto(`/?fakeAudio=1${fail}${hash}`);
+  await page.goto(`/?fakeAudio=1${fail}${extra}${hash}`);
+}
+
+/** Abre o jogo com as medalhas de exemplo ligadas (M16, `?medalhas=demo`, só em desenvolvimento). */
+export async function openWithMedals(page: Page, brasilia: string, hash = "#medalhas") {
+  await open(page, brasilia, hash, undefined, "&medalhas=demo");
 }
 
 /**

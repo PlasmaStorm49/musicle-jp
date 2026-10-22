@@ -17,6 +17,7 @@ import {
   loadArtistList,
   loadGameData,
   lookupFailForced,
+  medalsMode,
   pickAnimeDay,
   pickDay,
   REAL_DATA_DIR,
@@ -337,6 +338,13 @@ describe("datas e dias", () => {
     expect(htmlAudioForced("?htmlAudio=0")).toBe(false);
     expect(lookupFailForced("?data=real&failLookup=1")).toBe(true);
     expect(lookupFailForced("")).toBe(false);
+  });
+
+  it("?medalhas=demo e ?medalhas=silencio (M16); qualquer outro valor, nada", () => {
+    expect(medalsMode("?medalhas=demo")).toBe("demo");
+    expect(medalsMode("?fakeAudio=1&medalhas=silencio")).toBe("silencio");
+    expect(medalsMode("?medalhas=1")).toBeNull();
+    expect(medalsMode("")).toBeNull();
   });
 
   it("?fakeAudio=1 liga o motor falso; qualquer outro valor não", () => {
