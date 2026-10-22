@@ -337,6 +337,24 @@ describe("loadSave", () => {
     expect(result.notice).toBeNull();
   });
 
+  it("os diários e a versão do save andam juntos: diário novo sobe a versão (P250)", () => {
+    // Um id só na regex passaria no guard, mas o openSaves (pelo dailyIds) apagaria o andamento
+    // dele a cada carga; e um id novo sem versão nova seria apagado pela aba com o código velho.
+    expect({ version: SAVE_SCHEMA_VERSION, keys: DAILY_KEYS }).toEqual({
+      version: 6,
+      keys: [
+        "album",
+        "song",
+        "anime-musica-facil",
+        "anime-musica-medio",
+        "anime-musica-dificil",
+        "anime-titulo-facil",
+        "anime-titulo-medio",
+        "anime-titulo-dificil",
+      ],
+    });
+  });
+
   describe("os diários do Anime (v6, P250)", () => {
     // As regras do Desafio: pulos, a ajuda e até 6 tentativas (o Normal recusaria os pulos).
     const desafio = {

@@ -11,8 +11,8 @@ import { hitKey, songRepresentative } from "./search.ts";
 
 /**
  * As músicas (songKey) que a ajuda de um diário nunca mostra: as do `avoid` dele, que são as
- * respostas de todos os diários do dia, de todas as rodadas (a de outra rodada, ou a do outro
- * modo, seria entregue).
+ * respostas dos diários do mesmo grupo no dia (nos Hits, os dois), de todas as rodadas (a de
+ * outra rodada, ou a do outro modo, seria entregue). Os Hits e o Anime não se evitam (P248).
  */
 export function dayAnswerKeys(daily: Daily, index: CatalogIndex): Set<string> {
   const keys = daily.avoid.map((id) => index.tracks.get(id)?.songKey);

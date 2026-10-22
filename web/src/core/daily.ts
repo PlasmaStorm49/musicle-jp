@@ -66,8 +66,9 @@ export type Daily = {
   /** As rodadas: a faixa que toca e, no Normal, as 4 opções. */
   readonly rounds: readonly PlannedRound[];
   /**
-   * As faixas cujas músicas a ajuda nunca mostra: as respostas de todos os diários do dia (nos
-   * Hits, as dos dois), de todas as rodadas. A de outra rodada, ou a do outro modo, seria entregue.
+   * As faixas cujas músicas a ajuda nunca mostra: as respostas dos diários do mesmo grupo no dia
+   * (nos Hits, os dois; no Anime, os seis), de todas as rodadas. A de outra rodada, ou a do outro
+   * modo, seria entregue. Os Hits e o Anime não se evitam (P248).
    */
   readonly avoid: readonly TrackId[];
 };

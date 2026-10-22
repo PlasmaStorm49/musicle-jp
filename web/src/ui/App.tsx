@@ -359,9 +359,10 @@ function Ready({
       const daily = dailies.find((d) => d.key === tab);
       if (!daily) return <Unavailable />;
       return (
-        // key: cada diário monta do zero ao trocar de aba, com o save daquele momento.
+        // key: cada diário monta do zero ao trocar de diário, com o save daquele momento (no
+        // Anime, os 6 diários podem dividir a tela).
         <Game
-          key={tab}
+          key={daily.id}
           daily={daily}
           dailies={dailies}
           index={data.index}
