@@ -37,6 +37,7 @@ from musicle_pipeline.anime import (
     Theme,
     fame,
     match_theme,
+    theme_level,
     tier_of,
 )
 from musicle_pipeline.fetch import (
@@ -51,7 +52,6 @@ from musicle_pipeline.fetch import (
     get_any,
     http_get,
 )
-from musicle_pipeline.io_json import loads
 from musicle_pipeline.models import JSON, RawTrack
 from musicle_pipeline.normalize import search_key
 from musicle_pipeline.prng import seeded
@@ -328,6 +328,15 @@ def parse_anisongdb(items: object) -> dict[int, list[SourceTheme]]:
     return out
 
 
+_WO = re.compile(r"\bwo\b", re.IGNORECASE)
+
+
+def _song_key(theme: SourceTheme) -> tuple[str, str]:
+    """O tipo e o título, com o "wo" como "o": "Shinzou wo Sasageyo" (AnimeThemes) e "Shinzou o
+    Sasageyo" (AnisongDB) são o mesmo tema."""
+    return theme.type, search_key(_WO.sub("o", theme.song))
+
+
 def merge_sources(anime: SourceAnime, quiz: Sequence[SourceTheme]) -> SourceAnime:
     """Os temas do AnimeThemes com o nível e os artistas do AnisongDB, casados pelo tipo e pelo
     título (a numeração das duas fontes diverge). O tema que só o AnisongDB tem (a insert song,
@@ -335,8 +344,8 @@ def merge_sources(anime: SourceAnime, quiz: Sequence[SourceTheme]) -> SourceAnim
     left = list(quiz)
     themes = []
     for t in anime.themes:
-        key = (t.type, search_key(t.song))
-        other = next((q for q in left if (q.type, search_key(q.song)) == key), None)
+        key = _song_key(t)
+        other = next((q for q in left if _song_key(q) == key), None)
         if other is not None:
             left.remove(other)
             t = SourceTheme(
@@ -347,10 +356,10 @@ def merge_sources(anime: SourceAnime, quiz: Sequence[SourceTheme]) -> SourceAnim
                 levels={**t.levels, **other.levels},
             )
         themes.append(t)
-    known = {(t.type, search_key(t.song)) for t in themes}
+    known = {_song_key(t) for t in themes}
     for q in left:
-        if (q.type, search_key(q.song)) not in known:
-            known.add((q.type, search_key(q.song)))
+        if _song_key(q) not in known:
+            known.add(_song_key(q))
             themes.append(q)
     return SourceAnime(
         mal_id=anime.mal_id,
@@ -423,7 +432,9 @@ def animethemes_popular(
     ranks: dict[int, int] = {}
     for page in range(1, pages + 1):
         body = json.dumps({"query": query, "variables": {"page": page}}).encode("utf-8")
-        data = loads(post(ANIMETHEMES_URL, body, {}))
+        data = get_any(ANIMETHEMES_URL, lambda url, body=body: post(url, body, {}), sleep, 3)
+        if not isinstance(data, dict):
+            raise FetchError("AnimeThemes com forma inesperada")
         if data.get("errors"):
             raise FetchError(f"AnimeThemes devolveu erro: {str(data['errors'])[:200]}")
         entries = ((data.get("data") or {}).get("animethemeentryPagination") or {}).get("data")
@@ -487,6 +498,9 @@ class AppleCache:
     resolved: dict[str, list[str]] = field(default_factory=dict)
     official: JSON = field(default_factory=dict)
     lookups: dict[str, list[JSON]] = field(default_factory=dict)
+    # A discografia mapeada de cada conjunto de artistas: os temas seguidos do mesmo artista
+    # não remapeiam as mesmas faixas.
+    mapped: dict[tuple[str, ...], dict[str, RawTrack]] = field(default_factory=dict)
 
 
 def choose_artists(name: str, results: Sequence[JSON]) -> list[str]:
@@ -583,7 +597,7 @@ class Progress:
         self.songs.add(theme.track.provider_id)
         levels = fame(theme, anime)
         for mode in MODES:
-            self.counts[mode][tier_of(theme.type, levels[mode])] += 1
+            self.counts[mode][tier_of(theme.type, levels[mode], theme_level(theme))] += 1
 
     def done(self) -> bool:
         full = all(n >= self.target for c in self.counts.values() for n in c.values())
@@ -637,15 +651,18 @@ def fetch_anime_snapshot(
     target_per_tier: int = 18,
     max_songs: int = 70,
     max_anime: int = 400,
+    pool_size: int = POOL_SIZE,
 ) -> JSON:
-    """Um snapshot novo do Anime. Para quando cada modo e faixa tem `target_per_tier` músicas,
+    """Um snapshot novo do Anime, sorteado entre os `pool_size` mais populares (um número menor
+    puxa o sorteio para o topo, e o Fácil cresce). Para quando cada modo e faixa tem
+    `target_per_tier` músicas,
     quando chega a `max_songs`, ou depois de `max_anime` animes tentados."""
     if io.mal is not None:
         io.log("o sorteio pelo ranking do MyAnimeList")
-        ranks = mal_ranking(io.mal, io.sleep)
+        ranks = mal_ranking(io.mal, io.sleep, pool_size)
     else:
         io.log("sem MAL_CLIENT_ID: o sorteio pelas playlists do AnimeThemes")
-        ranks = animethemes_popular(io.post, io.sleep)
+        ranks = animethemes_popular(io.post, io.sleep, max(1, -(-pool_size // 100)))
     if not ranks:
         raise FetchError("o sorteio veio vazio")
     order = draw_order(ranks, personal, tried, f"musicle-jp|anime|{fetched_at}", max_anime)
@@ -656,9 +673,14 @@ def fetch_anime_snapshot(
     progress = Progress(target_per_tier, max_songs)
     records: list[JSON] = []
     used_lookups: dict[str, JSON] = {}
+    stopped = False
     for batch in _batched(order, ANIMETHEMES_BATCH):
         body = json.dumps({"query": ANIMETHEMES_QUERY, "variables": {"ids": batch}}).encode()
-        sources = parse_animethemes(_post_json(io, ANIMETHEMES_URL, body))
+        try:
+            sources = parse_animethemes(_post_json(io, ANIMETHEMES_URL, body))
+        except FetchError as exc:
+            io.log(f"AnimeThemes falhou ({exc}); a busca para e grava o que já veio")
+            break
         io.sleep(SOURCE_PACE_SEC)
         try:
             quiz = parse_anisongdb(
@@ -691,8 +713,15 @@ def fetch_anime_snapshot(
                 levels=record["levels"],
                 themes=(),
             )
-            for theme in source.themes:
-                entry = _theme(theme, anime, apple, romanize)
+            try:
+                entries = [_theme(theme, anime, apple, romanize) for theme in source.themes]
+            except FetchError as exc:
+                # Uma falha de rede da Apple, depois das repetições: o que já veio fica, e este
+                # anime volta a ser sorteado numa próxima busca (ele não entra no snapshot).
+                io.log(f"{source.name}: a Apple falhou ({exc}); a busca para e grava o que já veio")
+                stopped = True
+                break
+            for entry in entries:
                 record["themes"].append(entry["record"])
                 if entry["lookup"] is not None:
                     used_lookups[entry["lookup"]["trackId"]] = entry["lookup"]
@@ -700,9 +729,14 @@ def fetch_anime_snapshot(
             records.append(record)
             matched = sum(t["result"] == "matched" for t in record["themes"])
             io.log(f"{source.name}: {matched} de {len(record['themes'])} tema(s)")
-        if progress.done():
+        if stopped or progress.done():
             break
-    artist_ids = {t["artistId"] for t in used_lookups.values()}
+    # Os nomes oficiais dos artistas das faixas e de todos os resolvidos nesta busca: uma busca
+    # seguinte que os pegue do cache (`resolved`) ainda acha o latino deles.
+    new = {k: v for k, v in cache.resolved.items() if k not in known_resolved}
+    artist_ids = {t["artistId"] for t in used_lookups.values()} | {
+        i for v in new.values() for i in v
+    }
     return {
         "provider": "apple",
         "storefront": STOREFRONT,
@@ -711,7 +745,7 @@ def fetch_anime_snapshot(
         "anime": records,
         "artists": {k: v for k, v in sorted(cache.official.items()) if k in artist_ids},
         # Só as resoluções novas: as antigas já estão nos snapshots de antes.
-        "resolved": {k: v for k, v in sorted(cache.resolved.items()) if k not in known_resolved},
+        "resolved": dict(sorted(new.items())),
         "tracks": dict(sorted(used_lookups.items())),
     }
 
@@ -732,7 +766,10 @@ def _theme(
     if not ids:
         return {"record": {**base, "result": "no-artist"}, "lookup": None, "theme": None}
     lookups = [t for artist_id in ids for t in apple.songs_of(artist_id)]
-    tracks = _raw_tracks(lookups, apple.cache.official)
+    key = tuple(ids)
+    if key not in apple.cache.mapped:
+        apple.cache.mapped[key] = _raw_tracks(lookups, apple.cache.official)
+    tracks = apple.cache.mapped[key]
     found = match_theme(theme.song, list(tracks.values()), romanize, anime.year)
     record = {**base, "result": found.result}
     if found.track is None:

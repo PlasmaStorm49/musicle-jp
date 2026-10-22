@@ -330,3 +330,50 @@ def test_fetch_anime_flags(capsys):
     assert "--anime é uma busca à parte" in capsys.readouterr().err
     assert main([*args, "--today", "2026-10-22", "--personal", "x.xml"]) == 1
     assert "só valem com --anime" in capsys.readouterr().err
+
+
+# --- a revisão do PR A3 (o /code-review) ---------------------------------------------------------
+
+
+def test_a_network_failure_keeps_what_was_already_fetched():
+    # A Apple cai no meio: o snapshot sai com o que já veio, e o anime pela metade fica de fora
+    # (volta a ser sorteado numa próxima busca).
+    web = FakeWeb()
+    calls = {"n": 0}
+    original = web.get
+
+    def flaky(url: str) -> bytes:
+        calls["n"] += 1
+        if "search" in url and "Go+Shiina" in url:
+            raise FetchError("HTTP 403")
+        return original(url)
+
+    web.get = flaky
+    snap = run(web)
+    assert snap["anime"] == []  # o único anime ficou pela metade: fora do snapshot
+    assert snap["tracks"] == {}
+
+
+def test_the_two_sources_join_with_wo_and_o():
+    anime = fa.parse_animethemes({"data": {"findAnimeByExternalSite": [animethemes_item()]}})[38000]
+    anime.themes[0].song = "Shinzou wo Sasageyo"
+    quiz = [fa.SourceTheme("OP", 1, "Shinzou o Sasageyo", ["Linked Horizon"], {"anisongdb": 8})]
+    merged = fa.merge_sources(anime, quiz)
+    assert [t.song for t in merged.themes if t.type == "OP"] == ["Shinzou wo Sasageyo"]
+    assert merged.themes[0].levels == {"animethemes": 9, "anisongdb": 8}
+
+
+def test_an_empty_romanization_does_not_stop_the_matching():
+    from musicle_pipeline.anime import match_theme
+
+    def broken(text: str):
+        raise ValueError("romanização vazia")
+
+    pool = fa._raw_tracks([fa._song(song(10, "紅蓮華"))], {})
+    assert match_theme("紅蓮華", list(pool.values()), broken).result == "matched"
+
+
+def test_the_anime_options_need_anime(capsys):
+    args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
+    assert main([*args, "--max-songs", "10"]) == 1
+    assert "só valem com --anime" in capsys.readouterr().err
