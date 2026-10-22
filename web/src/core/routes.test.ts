@@ -5,7 +5,12 @@ import {
   animeScreen,
   categoryOf,
   isAnimeTab,
+  navCurrent,
   ROUTES,
+  type Route,
+  routeCategory,
+  routeFromHash,
+  routeHref,
   type Tab,
   tabFromHash,
   todayHref,
@@ -25,6 +30,7 @@ describe("tabFromHash (P49)", () => {
     ["#anime-musica-facil", "anime-musica-facil"],
     ["#anime-titulo-dificil", "anime-titulo-dificil"],
     ["#sobre", "about"],
+    ["#historico", "history"],
     ["", "home"],
     ["#", "home"],
     ["#nada", "home"],
@@ -70,6 +76,7 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
     ["anime-titulo-dificil", "anime"],
     // O "Sobre" fica com a Início (o link no fim dela).
     ["about", "home"],
+    ["history", "history"],
   ] as const)("%s → %s", (tab, category) => {
     expect(categoryOf(tab)).toBe(category);
   });
@@ -78,6 +85,68 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
     for (const tab of Object.keys(ROUTES) as Tab[]) {
       expect(categoryOf(tab) === "anime", tab).toBe(isAnimeTab(tab));
     }
+  });
+});
+
+describe("routeFromHash (o Histórico, P261 e P262)", () => {
+  const TODAY = "2026-10-22";
+  it.each([
+    // Sem data: a aba de sempre, de hoje.
+    ["#normal", { tab: "album", date: null }],
+    ["#historico", { tab: "history", date: null }],
+    // Um dia passado, dentro dos 14 dias: o calendário, a tela do dia e os dois diários.
+    ["#historico/2026-10-21", { tab: "history", date: "2026-10-21" }],
+    ["#normal/2026-10-08", { tab: "album", date: "2026-10-08" }],
+    ["#desafio/2026-10-15", { tab: "song", date: "2026-10-15" }],
+    // A data fora da janela, igual a hoje, do futuro ou que não é data: o calendário.
+    ["#normal/2026-10-07", { tab: "history", date: null }],
+    ["#normal/2026-10-22", { tab: "history", date: null }],
+    ["#desafio/2026-10-23", { tab: "history", date: null }],
+    ["#normal/2026-02-30", { tab: "history", date: null }],
+    ["#normal/2026-10-1", { tab: "history", date: null }],
+    ["#historico/", { tab: "history", date: null }],
+    // A aba que não aceita data, com uma, ou desconhecida: a home (regra 17). As do Anime entram
+    // com o PR 3 do M15.
+    ["#hits/2026-10-21", { tab: "home", date: null }],
+    ["#treino/2026-10-21", { tab: "home", date: null }],
+    ["#anime-musica-facil/2026-10-21", { tab: "home", date: null }],
+    ["#nada/2026-10-21", { tab: "home", date: null }],
+    ["#normal/2026-10-21/x", { tab: "history", date: null }],
+  ] as const)("%j → %j", (hash, route) => {
+    expect(routeFromHash(hash, TODAY)).toEqual(route);
+  });
+
+  it("o endereço volta para a mesma rota", () => {
+    const routes: Route[] = [
+      { tab: "home", date: null },
+      { tab: "history", date: null },
+      { tab: "history", date: "2026-10-21" },
+      { tab: "album", date: "2026-10-08" },
+      { tab: "song", date: "2026-10-21" },
+    ];
+    for (const route of routes) expect(routeFromHash(routeHref(route), TODAY)).toEqual(route);
+    expect(routeHref({ tab: "album", date: "2026-10-08" })).toBe("#normal/2026-10-08");
+  });
+});
+
+describe("routeCategory e navCurrent (a nav, P225 e P264)", () => {
+  it("num dia passado, a categoria é o Histórico, de onde a pessoa veio", () => {
+    expect(routeCategory({ tab: "album", date: "2026-10-21" })).toBe("history");
+    expect(routeCategory({ tab: "album", date: null })).toBe("hits");
+  });
+
+  it.each([
+    [{ tab: "history", date: null }, "history", "page"],
+    [{ tab: "history", date: "2026-10-21" }, "history", "true"],
+    [{ tab: "album", date: "2026-10-21" }, "history", "true"],
+    [{ tab: "album", date: "2026-10-21" }, "hits", undefined],
+    [{ tab: "hits", date: null }, "hits", "page"],
+    [{ tab: "album", date: null }, "hits", "true"],
+    [{ tab: "about", date: null }, "home", "true"],
+    [{ tab: "home", date: null }, "home", "page"],
+    [{ tab: "home", date: null }, "history", undefined],
+  ] as const)("%j na categoria %s → %s", (route, category, current) => {
+    expect(navCurrent(route, category)).toBe(current);
   });
 });
 

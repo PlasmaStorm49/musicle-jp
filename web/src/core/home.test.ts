@@ -64,7 +64,13 @@ describe("dailyStatus (cartões da home)", () => {
       number: day.number,
       score: 11,
       max: 18,
+      late: false,
     });
+  });
+
+  it("o jogado depois (P263) leva a marca, pelo registro gravado", () => {
+    const done = save({ history: { [puzzleId(DATE, "song")]: { ...finished, late: true } } });
+    expect(dailyStatus(done, day, DATE, "song")).toMatchObject({ kind: "done", late: true });
   });
 
   it("o resultado de outro dia não conta", () => {

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "p
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import type { Daily } from "../core/daily.ts";
-import { dayAnswerKeys } from "../core/help.ts";
+import { answerKeysOf } from "../core/help.ts";
 import {
   type FinishedGame,
   isLate,
@@ -53,6 +53,11 @@ type Props = {
    * jogado depois (P268).
    */
   readonly today: string;
+  /**
+   * Os diários de hoje do mesmo grupo: num diário de um dia passado, a ajuda também evita as
+   * respostas deles (o de hoje conta nas estatísticas). Num de hoje, são os do próprio dia.
+   */
+  readonly todayDailies: readonly Daily[];
 };
 
 /**
@@ -93,6 +98,7 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
         scheduleDates={props.scheduleDates}
         shareUrl={props.shareUrl}
         announce={props.announce}
+        today={props.today}
       />
     </div>
   );
@@ -178,7 +184,8 @@ function Playing({
   report,
   ...props
 }: Props & { readonly start: Played; readonly report: Report }) {
-  const { daily, index, engine, resolver, resolveUrl, announce, store, today } = props;
+  const { daily, index, engine, resolver, resolveUrl, announce, store, today, todayDailies } =
+    props;
   const { id, number } = daily;
   // O término de um dia antes do hoje do jogo é o jogado depois (P268): o resumo leva a marca.
   const late = isLate(daily.date, today);
@@ -186,11 +193,12 @@ function Playing({
   const [summary, setSummary] = useState<FinishedGame | null>(null);
   const { game } = played;
   const isLast = game.current === game.rounds.length - 1;
-  // A ajuda do Desafio só depois da 3ª tentativa gasta (P149), e nunca com uma resposta de
-  // hoje (as dos dois diários), e as mesmas ao recarregar (helpSeed e o evento salvo).
+  // A ajuda do Desafio só depois da 3ª tentativa gasta (P149), e nunca com uma resposta do dia
+  // (as dos dois diários) nem, num dia passado, uma de hoje; e as mesmas ao recarregar (helpSeed e
+  // o evento salvo).
   const help = useMemo<HelpSetup>(
-    () => ({ after: HELP_AFTER.daily, avoid: dayAnswerKeys(daily, index) }),
-    [daily, index],
+    () => ({ after: HELP_AFTER.daily, avoid: answerKeysOf([daily, ...todayDailies], index) }),
+    [daily, todayDailies, index],
   );
 
   // Salva a cada evento aceito: em andamento, a lista de eventos; terminado, o resumo. O estado

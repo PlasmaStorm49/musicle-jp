@@ -1,5 +1,6 @@
-// Ganchos da tela de rodada, usados pelo diário (Game) e pelo Treino.
-import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
+// Ganchos da tela de rodada, usados pelo diário (Game) e pelo Treino, e o do foco no título das
+// telas de escolha (o Anime e o Histórico).
+import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import type { DailyAnswer } from "../core/daily.ts";
@@ -85,4 +86,11 @@ export function useSuggest(
       }),
     [searchIndex, index, tried, answer],
   );
+}
+
+/** O título da tela, com o foco ao montar (regra 16): a tela nova, e não o link que sumiu. */
+export function useHeadingFocus() {
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => heading.current?.focus(), []);
+  return heading;
 }

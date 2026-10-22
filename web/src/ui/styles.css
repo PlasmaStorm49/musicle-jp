@@ -377,8 +377,9 @@ button.give-up:active:not(:disabled) {
 }
 
 /* A nav: uma barra de 44 px, sem borda, com uma aba por categoria (P225): o selo da Início
-   (P205, com o nome só para o leitor de tela), os Hits, o Anime (M14) e os Artistas, juntos à
-   esquerda. A aba da categoria atual ganha o fio oliva. Cabe numa linha também em 320 px, com os
+   (P205, com o nome só para o leitor de tela), os Hits, o Anime (M14), os Artistas e o Histórico
+   (M15), juntos à esquerda. A aba da categoria atual ganha o fio oliva. Abaixo de 480 px, os
+   Artistas e o Histórico ficam no "Mais" (P265), e a nav cabe numa linha também em 320 px, com os
    dois ✓; se um dia não couber, quebra a linha em vez de rolar a página. */
 .tabs ul {
   list-style: none;
@@ -407,12 +408,14 @@ button.give-up:active:not(:disabled) {
   white-space: nowrap;
 }
 
-.tabs a[aria-current] {
+.tabs a[aria-current],
+.tabs .nav-more-toggle[aria-current] {
   color: var(--text);
   font-weight: 700;
 }
 
-.tabs a[aria-current]::after {
+.tabs a[aria-current]::after,
+.tabs .nav-more-toggle[aria-current]::after {
   content: "";
   position: absolute;
   left: 6px;
@@ -425,6 +428,92 @@ button.give-up:active:not(:disabled) {
 
 .tabs .done-mark {
   font-size: 0.8em;
+}
+
+/* O "Mais" (P265): abaixo de 480 px, os Artistas e o Histórico ficam no menu dele; a partir de
+   480 px, as 5 abas na linha (uns 390 px com os dois ✓). O 480 é o --column, que a media query não
+   lê. Os dois links estão duas vezes no DOM, e cada largura mostra um par. */
+.tabs .nav-inline {
+  display: none;
+}
+
+.tabs .nav-more {
+  position: relative;
+}
+
+@media (min-width: 480px) {
+  .tabs .nav-inline {
+    display: list-item;
+  }
+
+  .tabs .nav-more {
+    display: none;
+  }
+}
+
+/* O botão do "Mais" com a cara das abas: sem tinta, o texto cinza e o chevron do designer, que
+   aponta para baixo e gira quando o menu abre. */
+.tabs .nav-more-toggle {
+  position: relative;
+  gap: var(--sp-1);
+  min-width: var(--h-control);
+  padding: 0 6px;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  white-space: nowrap;
+}
+
+.nav-more-chevron {
+  display: inline-flex;
+  font-size: 0.75em;
+  transform: rotate(90deg);
+}
+
+.nav-more-toggle[aria-expanded="true"] > .nav-more-chevron {
+  transform: rotate(-90deg);
+}
+
+/* Sem a tinta do botão base, no toque e no mouse: as abas vizinhas não têm (como no switch do
+   tema). */
+.tabs .nav-more-toggle:active:not(:disabled) {
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (hover: hover) {
+  .tabs .nav-more-toggle:hover:not(:disabled) {
+    background: transparent;
+  }
+}
+
+/* O menu flutua sobre a tela, alinhado à direita do "Mais": aberto para a direita, passaria da
+   borda em 320 px, e a página rolaria para o lado. As cores são as do painel do volume. O
+   `.tabs .nav-menu` desfaz o `.tabs ul` da barra. */
+.tabs .nav-menu {
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  inset-inline-end: 0;
+  display: grid;
+  max-width: none;
+  margin: 0;
+  padding: var(--sp-1) 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-field);
+  background: var(--surface);
+}
+
+.nav-menu a {
+  justify-content: flex-start;
+  padding: 0 var(--sp-3);
+}
+
+.nav-menu a[aria-current]::after {
+  left: var(--sp-3);
+  right: var(--sp-3);
 }
 
 .nav-logo {
@@ -1444,6 +1533,23 @@ section.void,
   gap: var(--sp-3);
 }
 
+/* O Histórico e o tema na mesma linha (P264): o link à esquerda, e o "Tema" e o switch juntos à
+   direita. A Início não cresce. O alvo do link tem 44 px (P213). */
+.home-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.home-history {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--h-control);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
 .home-theme h2 {
   font-size: var(--t-sm);
   font-weight: 400;
@@ -1637,6 +1743,116 @@ section.void,
   background: #4a5568;
 }
 
+/* O Histórico (M15, P260): o calendário de 2 semanas, 7 colunas com o dia da semana no
+   cabeçalho. Cada dia é um quadrado com o número e a marca dos Hits; o sem diário, só com o fio.
+   Em 360 e 375 px, os dias têm 44 px de largura; em 320, uns 39 (P271). */
+.calendar {
+  display: grid;
+  gap: var(--sp-1);
+}
+
+.calendar-weekdays,
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  color: var(--muted);
+}
+
+.calendar-day {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 2px;
+  min-width: 0;
+  /* O número e a linha das marcas, com folga: acima dos 44 px do alvo (P213). */
+  min-height: calc(var(--h-control) + var(--sp-2));
+  border-radius: var(--r-field);
+  background: var(--fill);
+  color: var(--text);
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  a.calendar-day:hover {
+    background: var(--fill-press);
+  }
+}
+
+.calendar-day.off {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--border);
+  color: var(--muted);
+}
+
+.calendar-num {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  font-weight: 700;
+}
+
+/* As marcas, na cor do texto (o par --text sobre --fill já está no PAIRS): o ✓, a meia-lua (em
+   CSS, sem depender de um glifo da fonte) e o vazio, que guarda a altura. */
+.calendar-marks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--lh-xs);
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+}
+
+.mark {
+  display: inline-block;
+}
+
+.mark-some,
+.mark-none {
+  width: 0.75em;
+  height: 0.75em;
+}
+
+.mark-some {
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-4);
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  color: var(--muted);
+}
+
+.calendar-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+/* A volta ao calendário, na tela do dia: o alvo tem 44 px (P213). */
+.history-back {
+  display: inline-flex;
+  align-items: center;
+  /* A .screen é flex em coluna: o align-self centra (o justify-self não vale lá). */
+  align-self: center;
+  min-height: var(--h-control);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
 /* Os créditos do Anime (P241), no pé das telas de escolha dele: uma linha pequena, no centro, que
    leva ao "Sobre e privacidade". O alvo do link tem 44 px (P213); em 320 px, o texto quebra em
    duas linhas dentro dele. */
@@ -1819,6 +2035,21 @@ section.summary > h2 {
 
 .share > button.primary {
   width: 100%;
+}
+
+/* O resumo de um dia passado (P263): a nota do jogado depois, no tamanho das dicas, e a volta ao
+   dia no lugar da contagem, com o alvo de 44 px (P213). */
+.summary-late {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
+}
+
+.summary-back {
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  min-height: var(--h-control);
 }
 
 /* A cópia à mão do resultado (sem área de transferência): no escuro, com o fundo claro do ⬛. */

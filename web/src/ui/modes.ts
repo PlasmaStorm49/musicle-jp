@@ -19,9 +19,11 @@ export function dailyName(daily: Daily): string {
 
 /**
  * A 1ª linha do compartilhar: o jogo, o diário e o número. No Anime, com a categoria ("AteMusic
- * Anime · Música · Fácil nº 1"): o nome do diário sozinho não diz que é de anime.
+ * Anime · Música · Fácil nº 1"): o nome do diário sozinho não diz que é de anime. O jogado depois
+ * leva a marca (P263), para quem compara saber que não foi no dia.
  */
-export function shareHeader(daily: Daily, number: number): string {
+export function shareHeader(daily: Daily, number: number, late: boolean): string {
   const params = { title: t("app.title"), mode: dailyName(daily), number };
-  return isAnimeKey(daily.key) ? t("share.headerAnime", params) : t("share.header", params);
+  const header = isAnimeKey(daily.key) ? t("share.headerAnime", params) : t("share.header", params);
+  return late ? t("share.late", { header }) : header;
 }

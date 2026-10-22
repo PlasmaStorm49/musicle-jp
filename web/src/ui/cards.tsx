@@ -11,6 +11,8 @@ import { practiceScoreText } from "./PracticeRun.tsx";
 
 export type Card = {
   readonly tab: Exclude<Tab, "home">;
+  /** Outro endereço que o da aba: o diário de um dia passado (`#normal/AAAA-MM-DD`, P261). */
+  readonly href?: string;
   readonly name: string;
   /** A dica curta, na tela (P210). */
   readonly short: string;
@@ -98,7 +100,7 @@ type ListProps = {
 export function CardList({ cards, idPrefix, single = false }: ListProps) {
   return (
     <ul class={single ? "home-modes single" : "home-modes"}>
-      {cards.map(({ tab, name, short, hint, lines, next, off, wide }) => {
+      {cards.map(({ tab, href, name, short, hint, lines, next, off, wide }) => {
         const hintId = `${idPrefix}-${tab}-hint`;
         const content = (
           <>
@@ -120,7 +122,7 @@ export function CardList({ cards, idPrefix, single = false }: ListProps) {
               <>
                 <a
                   class={next ? "mode home-card next" : "mode home-card"}
-                  href={ROUTES[tab]}
+                  href={href ?? ROUTES[tab]}
                   aria-describedby={hintId}
                   // O 2º clique de um toque duplo no cartão dos Hits da Início cai aqui, no Normal ou
                   // no Desafio, que ficam no mesmo lugar da tela nova: abriria um diário sem a pessoa

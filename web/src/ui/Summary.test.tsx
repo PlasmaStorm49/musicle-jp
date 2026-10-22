@@ -57,6 +57,7 @@ describe("Summary (o fim do dia)", () => {
         history={{ [`${DATE}|album`]: GAME }}
         scheduleDates={[DATE]}
         shareUrl="https://x.test/"
+        today={DATE}
         announce={vi.fn()}
       />,
     );
@@ -114,6 +115,7 @@ describe("Summary (o fim do dia)", () => {
         }}
         scheduleDates={[DATE]}
         shareUrl="https://x.test/"
+        today={DATE}
         announce={vi.fn()}
       />,
     );
@@ -140,6 +142,7 @@ describe("Summary (o fim do dia)", () => {
         history={{ [`${DATE}|album`]: voided }}
         scheduleDates={[DATE]}
         shareUrl="https://x.test/"
+        today={DATE}
         announce={vi.fn()}
       />,
     );
@@ -157,6 +160,7 @@ describe("Summary (o fim do dia)", () => {
         history={{ [`${DATE}|album`]: GAME }}
         scheduleDates={[DATE]}
         shareUrl="https://x.test/"
+        today={DATE}
         announce={vi.fn()}
       />,
     );
@@ -191,6 +195,7 @@ describe("Summary (o fim do dia)", () => {
         history={{ [`${DATE}|song`]: helped }}
         scheduleDates={[DATE]}
         shareUrl="https://x.test/"
+        today={DATE}
         announce={vi.fn()}
       />,
     );
@@ -199,6 +204,48 @@ describe("Summary (o fim do dia)", () => {
     // Na célula também: a ajuda não some da tela.
     expect(document.querySelector(".summary-rounds .round-points")?.textContent).toBe(
       "1 ponto · ajuda",
+    );
+  });
+});
+
+describe("Summary de um dia passado (o Histórico, P263)", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-10-11T15:00:00Z"));
+  });
+
+  const pastSummary = (game: FinishedGame) =>
+    render(
+      <Summary
+        game={game}
+        daily={daily("album")}
+        history={{ [`${DATE}|album`]: game }}
+        scheduleDates={[DATE, "2026-10-11"]}
+        shareUrl="https://x.test/"
+        today="2026-10-11"
+        announce={vi.fn()}
+      />,
+    );
+
+  it("jogado no dia e aberto depois: sem a contagem e sem as estatísticas, com a volta ao dia", () => {
+    pastSummary(GAME);
+    expect(screen.queryByRole("timer")).toBeNull();
+    expect(screen.queryByText("Estatísticas")).toBeNull();
+    expect(screen.queryByText("Jogado depois: não conta nas estatísticas.")).toBeNull();
+    const back = screen.getByRole("link", { name: "Voltar ao dia" });
+    expect(back.getAttribute("href")).toBe("#historico/2026-10-10");
+  });
+
+  it("jogado depois: a nota e a marca no compartilhar", async () => {
+    const writeText = vi.fn(() => Promise.resolve());
+    vi.stubGlobal("navigator", { clipboard: { writeText } });
+    pastSummary({ ...GAME, late: true });
+    expect(screen.getByText("Jogado depois: não conta nas estatísticas.")).toBeTruthy();
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
+    });
+    expect(writeText).toHaveBeenCalledWith(
+      "AteMusic · Normal nº 3 (jogado depois)\n11/18\n✅\n❌\n⬛✅\nhttps://x.test/",
     );
   });
 });

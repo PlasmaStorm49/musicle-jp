@@ -3,7 +3,7 @@ import { artists } from "../../test/artists.ts";
 import { catalog, schedule } from "../../test/fixtures.ts";
 import { indexArtist, indexCatalog } from "./catalog.ts";
 import { hitsDaily } from "./daily.ts";
-import { dayAnswerKeys, helpOptions, helpSeed } from "./help.ts";
+import { answerKeysOf, dayAnswerKeys, helpOptions, helpSeed } from "./help.ts";
 import { startPracticeSession } from "./practice.ts";
 import { seeded } from "./prng.ts";
 import { createGame, currentRound, type GameState, reduce } from "./reducer.ts";
@@ -31,6 +31,22 @@ describe("dayAnswerKeys", () => {
     for (const r of [...day.song, ...day.album])
       expect(keys.has(songOf(r.answer) ?? "")).toBe(true);
     expect(keys.size).toBeLessThanOrEqual(6);
+  });
+});
+
+describe("answerKeysOf (o Histórico, M15)", () => {
+  it("um diário passado evita também as respostas de hoje", () => {
+    const past = schedule.days[DATE] as Day;
+    const today = schedule.days["2026-10-09"] as Day;
+    const keys = answerKeysOf(
+      [hitsDaily(past, DATE, "song"), hitsDaily(today, "2026-10-09", "song")],
+      index,
+    );
+    for (const r of [...past.song, ...today.song, ...today.album])
+      expect(keys.has(songOf(r.answer) ?? "")).toBe(true);
+    // Um diário só: o mesmo que o dayAnswerKeys.
+    const one = hitsDaily(past, DATE, "album");
+    expect(answerKeysOf([one], index)).toEqual(dayAnswerKeys(one, index));
   });
 });
 
