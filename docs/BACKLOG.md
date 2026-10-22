@@ -2,7 +2,7 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 21/10/2026.
+Atualizado em 22/10/2026.
 
 ## Próximos, na ordem combinada (21/10)
 
@@ -36,6 +36,7 @@ Atualizado em 21/10/2026.
 - **ME111 (novo).** A franquia pode repetir entre os 6 diários do Anime do dia, e a ajuda do acertar o anime mostra a "de hoje" a quem jogou outro diário. Corrigir na agenda (sem repetir a franquia nas 18 respostas), no C2.
 - **ME110 (novo).** O Treino e os Artistas não excluem as respostas do Anime de hoje (raro: pede o mesmo `songKey` nos dois catálogos). Aceito por ora, como a P248.
 - **ME62.** No Treino da parada, um cover de outro artista escapa da exclusão por título.
+- **ME113 (novo).** Com o Histórico, o Treino e os Artistas podem tocar a resposta de um dia passado ainda não jogado (excluem só as de hoje). Aceito, como a ME110.
 - **S24.** Conferir a duração real das prévias: no Superfan, uma prévia curta deixaria menos de 9 s.
 
 **Pipeline, CI e testes**
@@ -82,7 +83,8 @@ Atualizado em 21/10/2026.
 
 - **ME107 (novo).** Repensar a pontuação de todos os modos, depois do Anime. Até lá, o Anime usa as regras do Desafio.
 - **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
-- **ME104 (novo).** Os dias jogados e jogar os últimos dias (sem sequência e sem média). Depois do Anime.
+- **ME104.** O Histórico: os 14 dias antes de hoje e jogar os não jogados, fora das estatísticas. **Em andamento no M15** (PR 1 de 3).
+- **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME105 (novo).** Medalhas, calculadas do histórico, e a sequência na Início. Depois do Anime.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).
