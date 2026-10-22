@@ -52,6 +52,7 @@ Tudo roda **da raiz do repositório**, com o Python do `.venv` (o Python global 
 | Conferir que a agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
 | Modo por artista (M13): buscar os artistas do `artists.toml` (rede; à mão, fora do robô) | `.venv\Scripts\python -m musicle_pipeline fetch --provider apple --artists --fetched-at AAAA-MM-DDTHH:MM:SSZ` (só alguns: `--artist ID`; snapshot que encolheu: `--force`) |
 | Modo por artista: romaji, arquivos e conferência | `romanize --provider apple --artists`, depois `build-artists --provider apple` e `validate-artists --provider apple` (fictícios: `--provider fixture`) |
+| Anime (M14): buscar os animes (rede; o extra `romaji`; o `MAL_CLIENT_ID` opcional, só na variável de ambiente, nunca num arquivo) | `.venv\Scripts\python -m musicle_pipeline fetch --provider apple --anime --fetched-at AAAA-MM-DDTHH:MM:SSZ` (1ª carga: `--personal <XML exportado do MAL>`; o tamanho: `--max-songs`, `--target-per-tier`, `--max-anime`) |
 | Anime (M14): o catálogo e a conferência | `build-anime --provider fixture` e `validate-anime --provider fixture` (o real: `--provider apple`, depois da 1ª carga) |
 
 Ordem quando a parada real muda: `fetch` → `romanize --provider apple` → revisar `pipeline/data/apple/romaji.json` no diff → corrigir erros em `pipeline/data/apple/aliases.toml` → `build --provider apple` → `schedule` → `validate` (confere também a agenda nova) → `schedule-check`. Nas fixtures, a curadoria fica em `pipeline/fixtures/` e entra o `fake-assets` depois do `build`.
