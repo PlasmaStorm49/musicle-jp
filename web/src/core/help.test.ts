@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { artists } from "../../test/artists.ts";
 import { catalog, schedule } from "../../test/fixtures.ts";
 import { indexArtist, indexCatalog } from "./catalog.ts";
+import { hitsDaily } from "./daily.ts";
 import { dayAnswerKeys, helpOptions, helpSeed } from "./help.ts";
 import { startPracticeSession } from "./practice.ts";
 import { seeded } from "./prng.ts";
@@ -17,7 +18,7 @@ const NONE: ReadonlySet<string> = new Set();
 function desafio(): GameState {
   const day = schedule.days[DATE] as Day;
   const song: Day["song"] = [{ answer: "fixture:tr:tr01" }, day.song[1], day.song[2]];
-  return createGame({ ...day, song }, DATE, "song", index);
+  return createGame(hitsDaily({ ...day, song }, DATE, "song"), index);
 }
 
 const songOf = (id: string) => index.tracks.get(id)?.songKey;
@@ -26,7 +27,7 @@ const rng = () => seeded(helpSeed("teste", 0));
 describe("dayAnswerKeys", () => {
   it("as respostas dos dois diários do dia, de todas as rodadas", () => {
     const day = schedule.days[DATE] as Day;
-    const keys = dayAnswerKeys(day, index);
+    const keys = dayAnswerKeys(hitsDaily(day, DATE, "song"), index);
     for (const r of [...day.song, ...day.album])
       expect(keys.has(songOf(r.answer) ?? "")).toBe(true);
     expect(keys.size).toBeLessThanOrEqual(6);
@@ -86,7 +87,7 @@ describe("helpOptions (P149)", () => {
     const day = schedule.days[DATE] as Day;
     const song: Day["song"] = [{ answer: "fixture:tr:tr21" }, day.song[1], day.song[2]];
     const round = currentRound(
-      reduce(createGame({ ...day, song }, DATE, "song", index), { type: "SKIP" }),
+      reduce(createGame(hitsDaily({ ...day, song }, DATE, "song"), index), { type: "SKIP" }),
     );
     const avoid = new Set([songOf("fixture:tr:tr01") ?? ""]);
     for (let seed = 0; seed < 40; seed++) {

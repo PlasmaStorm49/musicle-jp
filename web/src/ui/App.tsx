@@ -5,6 +5,7 @@ import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
+import { hitsDailies } from "../core/daily.ts";
 import { artistSummary, dailiesDone, practiceSummary } from "../core/home.ts";
 import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
 import { type Category, categoryOf, ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
@@ -343,6 +344,9 @@ function Ready({
   artists,
 }: ReadyProps) {
   const day = pickDay(data.schedule, date);
+  // Os diários dos Hits do dia, guardados entre os renders: o Game recalcula a sessão quando o
+  // descritor muda. Sem o dia na agenda, nenhum.
+  const dailies = useMemo(() => (day ? hitsDailies(day, date) : []), [day, date]);
   // Uma tela por aba, sem caso esquecido: uma aba nova sem tela vira erro de compilação.
   switch (tab) {
     case "home":
@@ -351,15 +355,15 @@ function Ready({
     case "hits":
       return <Hits day={day} date={date} save={latest} practice={practiceSummary(practice)} />;
     case "song":
-    case "album":
-      if (!day) return <Unavailable />;
+    case "album": {
+      const daily = dailies.find((d) => d.key === tab);
+      if (!daily) return <Unavailable />;
       return (
         // key: cada diário monta do zero ao trocar de aba, com o save daquele momento.
         <Game
           key={tab}
-          target={tab}
-          day={day}
-          date={date}
+          daily={daily}
+          dailies={dailies}
           index={data.index}
           engine={engine}
           resolver={resolver}
@@ -372,6 +376,7 @@ function Ready({
           shareUrl={BASE_URL}
         />
       );
+    }
     case "practice":
       return (
         <Practice

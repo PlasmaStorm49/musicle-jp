@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
+import type { Daily } from "../core/daily.ts";
 import { dayAnswerKeys } from "../core/help.ts";
 import {
   type FinishedGame,
   pendingDayTracks,
-  puzzleId,
   replaceProgress,
   type Save,
   startSession,
@@ -15,20 +15,22 @@ import {
 } from "../core/records.ts";
 import { type GameEvent, type GameState, isFinished, reduce } from "../core/reducer.ts";
 import { HELP_AFTER, ROUNDS_PER_DAY } from "../core/rules.ts";
-import type { Day, Target } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { usePreviews } from "./hooks.ts";
-import { modeName } from "./modes.ts";
+import { dailyName } from "./modes.ts";
 import { type HelpSetup, RoundView } from "./RoundView.tsx";
 import { Summary } from "./Summary.tsx";
 
 type Props = {
-  /** Qual diário: o Normal ("album") ou o Desafio ("song"). */
-  readonly target: Target;
-  readonly day: Day;
-  readonly date: string;
+  /** Qual diário (nos Hits, o Normal ou o Desafio): o id no save, as regras, o nome e as rodadas. */
+  readonly daily: Daily;
+  /**
+   * Os diários do dia que dividem o catálogo com este, ele incluído (nos Hits, os dois): as
+   * faixas dos que não terminaram vão numa consulta só, já na carga.
+   */
+  readonly dailies: readonly Daily[];
   readonly index: CatalogIndex;
   readonly engine: AudioEngine;
   readonly resolver: PreviewResolver;
@@ -41,7 +43,7 @@ type Props = {
   readonly initialSave: Save;
   /** Avisa o App que o dia terminou e foi gravado (✓ da aba, exclusão do Treino). */
   readonly onSaved: () => void;
-  /** Dias que existem na agenda (a sequência só conta estes, P40). */
+  /** Dias que existem na agenda do diário (a sequência só conta estes, P40). */
   readonly scheduleDates: readonly string[];
   /** Endereço do jogo no texto compartilhado (sem parâmetros). */
   readonly shareUrl: string;
@@ -59,14 +61,14 @@ const SAVE_NOTICE = {
   unavailable: "storage.unavailable",
 } as const;
 
-function header(target: Target, number: number): string {
-  return t("game.header", { mode: modeName(target), number });
+function header(daily: Daily): string {
+  return t("game.header", { mode: dailyName(daily), number: daily.number });
 }
 
 /** O resumo do dia com tudo o que ele precisa; o histórico já inclui o jogo de hoje. */
 function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame }) {
-  const { store, initialSave, date, target } = props;
-  const id = puzzleId(date, target);
+  const { store, initialSave, daily } = props;
+  const { id } = daily;
   // Relê o save: com duas abas, o que ficou gravado (o primeiro término) vale sobre o desta aba,
   // e as estatísticas incluem o que a outra aba terminou depois que esta página abriu.
   const history = useMemo(() => {
@@ -76,12 +78,11 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
   return (
     <div class="game screen">
       <header class="round-head">
-        <h1>{header(target, props.day.number)}</h1>
+        <h1>{header(daily)}</h1>
       </header>
       <Summary
         game={history[id] ?? game}
-        target={target}
-        date={date}
+        daily={daily}
         history={history}
         scheduleDates={props.scheduleDates}
         shareUrl={props.shareUrl}
@@ -100,11 +101,11 @@ function playReducer(played: Played, event: GameEvent): Played {
 }
 
 /**
- * Um diário (Normal ou Desafio). Dia começado retoma pelos eventos salvos; dia terminado mostra
- * direto o resultado (P39).
+ * Um diário (nos Hits, o Normal ou o Desafio), pelo descritor. Dia começado retoma pelos eventos
+ * salvos; dia terminado mostra direto o resultado (P39).
  */
 export function Game(props: Props) {
-  const { target, day, date, index, initialSave, store, announce, onSaved, resolver } = props;
+  const { daily, dailies, index, initialSave, store, announce, onSaved, resolver } = props;
   // O save da abertura da aba, guardado na montagem: o App passa o save relido a cada gravação,
   // e recalcular a sessão com ele pularia a revelação da última rodada (o dia já estaria no
   // histórico). Cada troca de aba remonta o diário (key no App) e relê.
@@ -112,13 +113,10 @@ export function Game(props: Props) {
   // As faixas do dia (Normal e Desafio) numa consulta só, já na carga (decisão 7 do plano): no
   // clique a URL quase sempre já chegou, e o Tocar nasce liberado. Só as dos diários sem
   // resultado: o terminado mostra o resumo, que não toca nada.
-  const dayTracks = useMemo(() => pendingDayTracks(base, day, date), [base, day, date]);
+  const dayTracks = useMemo(() => pendingDayTracks(base, dailies), [base, dailies]);
   useEffect(() => resolver.prefetch(dayTracks), [resolver, dayTracks]);
-  const id = puzzleId(date, target);
-  const session = useMemo(
-    () => startSession(base, day, date, target, index),
-    [base, day, date, target, index],
-  );
+  const { id } = daily;
+  const session = useMemo(() => startSession(base, daily, index), [base, daily, index]);
   const start = useMemo(
     () => (session.kind === "playing" ? { game: session.state, events: session.events } : null),
     [session],
@@ -171,7 +169,8 @@ function Playing({
   report,
   ...props
 }: Props & { readonly start: Played; readonly report: Report }) {
-  const { day, date, index, engine, resolver, resolveUrl, announce, store } = props;
+  const { daily, index, engine, resolver, resolveUrl, announce, store } = props;
+  const { id, number } = daily;
   const [played, dispatch] = useReducer(playReducer, start);
   const [summary, setSummary] = useState<FinishedGame | null>(null);
   const { game } = played;
@@ -179,24 +178,23 @@ function Playing({
   // A ajuda do Desafio só depois da 3ª tentativa gasta (P149), e nunca com uma resposta de
   // hoje (as dos dois diários), e as mesmas ao recarregar (helpSeed e o evento salvo).
   const help = useMemo<HelpSetup>(
-    () => ({ after: HELP_AFTER.daily, avoid: dayAnswerKeys(day, index) }),
-    [day, index],
+    () => ({ after: HELP_AFTER.daily, avoid: dayAnswerKeys(daily, index) }),
+    [daily, index],
   );
 
   // Salva a cada evento aceito: em andamento, a lista de eventos; terminado, o resumo. O estado
   // inicial não precisa: ele acabou de sair do save.
   useEffect(() => {
     if (!store || played === start) return;
-    const id = puzzleId(date, game.target);
     if (isFinished(game)) {
       report(
-        updateSave(store, (s) => withFinished(s, id, toFinishedGame(game, day.number))),
+        updateSave(store, (s) => withFinished(s, id, toFinishedGame(game, number))),
         true,
       );
     } else {
       report(updateSave(store, (s) => withProgress(s, id, { events: played.events })));
     }
-  }, [store, played, start, game, date, day.number, report]);
+  }, [store, played, start, game, id, number, report]);
 
   // As 3 rodadas deste diário: o lote do dia inteiro já saiu na carga do Game; aqui só garante
   // as que faltarem e pré-carrega a atual e a próxima.
@@ -210,7 +208,7 @@ function Playing({
   );
 
   function next() {
-    if (isLast && isFinished(game)) setSummary(toFinishedGame(game, day.number));
+    if (isLast && isFinished(game)) setSummary(toFinishedGame(game, number));
     else dispatch({ type: "NEXT_ROUND" });
   }
 
@@ -219,7 +217,7 @@ function Playing({
   return (
     <div class="game screen">
       <header class="round-head">
-        <h1>{header(game.target, day.number)}</h1>
+        <h1>{header(daily)}</h1>
         <p>{t("game.round", { current: game.current + 1, total: ROUNDS_PER_DAY })}</p>
       </header>
       <RoundView

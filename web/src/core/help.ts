@@ -2,19 +2,20 @@
 // vem de fora (a semente da rodada), e o reducer recebe as opções prontas, no evento HELP.
 import { songTitleKey } from "./artists.ts";
 import type { CatalogIndex } from "./catalog.ts";
+import type { Daily } from "./daily.ts";
 import { pickDistractors } from "./practice.ts";
 import type { Mulberry32 } from "./prng.ts";
 import type { RoundState } from "./reducer.ts";
 import { HELP_OPTIONS } from "./rules.ts";
 import { hitKey, songRepresentative } from "./search.ts";
-import type { Day } from "./types.ts";
 
 /**
- * As músicas (songKey) que a ajuda de um diário nunca mostra: as respostas dos dois diários do
- * dia, de todas as rodadas (a de outra rodada, ou a do outro modo, seria entregue).
+ * As músicas (songKey) que a ajuda de um diário nunca mostra: as do `avoid` dele, que são as
+ * respostas de todos os diários do dia, de todas as rodadas (a de outra rodada, ou a do outro
+ * modo, seria entregue).
  */
-export function dayAnswerKeys(day: Day, index: CatalogIndex): Set<string> {
-  const keys = [...day.song, ...day.album].map((r) => index.tracks.get(r.answer)?.songKey);
+export function dayAnswerKeys(daily: Daily, index: CatalogIndex): Set<string> {
+  const keys = daily.avoid.map((id) => index.tracks.get(id)?.songKey);
   return new Set(keys.filter((key): key is string => key !== undefined));
 }
 

@@ -89,4 +89,24 @@ describe("computeStats", () => {
     expect(stats.played).toBe(1);
     expect(stats.average).toBe(6);
   });
+
+  it("uma estatística por diário (P249): cada diário do Anime conta à parte, com a sua agenda", () => {
+    const history = {
+      "2026-10-10|song": game(won(0), won(0), won(0)),
+      "2026-10-09|anime-musica-facil": game(won(0), lost, lost),
+      "2026-10-11|anime-musica-facil": game(won(1), lost, lost),
+      "2026-10-11|anime-musica-medio": game(lost, lost, lost),
+    };
+    // A agenda do Anime não tem o dia 10 (a dos Hits tem): pela dela, a sequência não quebra.
+    const anime = SCHEDULE.filter((d) => d !== "2026-10-10");
+    const facil = computeStats(history, "anime-musica-facil", "2026-10-11", anime);
+    expect(facil).toMatchObject({ played: 2, average: 5.5, currentStreak: 2, bestStreak: 2 });
+    expect(computeStats(history, "anime-musica-facil", "2026-10-11", SCHEDULE).currentStreak).toBe(
+      1,
+    );
+    const medio = computeStats(history, "anime-musica-medio", "2026-10-11", anime);
+    expect(medio).toMatchObject({ played: 1, average: 0, currentStreak: 1 });
+    expect(computeStats(history, "anime-titulo-facil", "2026-10-11", anime).played).toBe(0);
+    expect(computeStats(history, "song", "2026-10-11", SCHEDULE).played).toBe(1);
+  });
 });
