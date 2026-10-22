@@ -19,8 +19,8 @@ export type AnimeTab = "anime" | `anime-${AnimeMode}` | AnimeKey;
 
 /**
  * As abas do jogo: a home, a tela dos Hits (P225), os diários do Normal (album) e do Desafio
- * (song), o Treino, o modo por artista (M13), as do Anime (M14), o "Sobre e privacidade" (P243) e o
- * Histórico (M15, P260).
+ * (song), o Treino, o modo por artista (M13), as do Anime (M14), o "Sobre e privacidade" (P243), o
+ * Histórico (M15, P260) e as Medalhas (M16, P278).
  */
 export type Tab =
   | "home"
@@ -30,7 +30,8 @@ export type Tab =
   | "artists"
   | AnimeTab
   | "about"
-  | "history";
+  | "history"
+  | "medals";
 
 // Nenhum elemento da página pode ter id igual a uma rota: o navegador rolaria até ele.
 export const ROUTES: Readonly<Record<Tab, string>> = {
@@ -51,14 +52,15 @@ export const ROUTES: Readonly<Record<Tab, string>> = {
   "anime-titulo-dificil": "#anime-titulo-dificil",
   about: "#sobre",
   history: "#historico",
+  medals: "#medalhas",
 };
 
 /**
  * As categorias da nav (P221, P225): os Hits juntam a tela deles, os dois diários e o Treino; o
  * Anime, a tela dele, as das dificuldades e os 6 diários; o Histórico (P264), o calendário, a tela
- * de um dia e os diários de um dia passado.
+ * de um dia e os diários de um dia passado; as Medalhas (M16), a tela delas.
  */
-export type Category = "home" | "hits" | "anime" | "artists" | "history";
+export type Category = "home" | "hits" | "anime" | "artists" | "history" | "medals";
 
 /** A aba é do Anime: a tela da categoria, a da dificuldade ou um diário. */
 export function isAnimeTab(tab: Tab): tab is AnimeTab {
@@ -82,6 +84,8 @@ export function categoryOf(tab: Tab): Category {
       return "hits";
     case "history":
       return "history";
+    case "medals":
+      return "medals";
   }
 }
 

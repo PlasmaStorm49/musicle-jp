@@ -1,8 +1,9 @@
 // A nav (P225): uma aba por categoria. Abaixo de 480 px (P265), os Artistas e o Histórico ficam
 // num "Mais ▾", porque as 5 abas não cabem numa linha no celular; a partir de 480 px, as 5 ficam na
-// linha. Os dois links estão duas vezes no DOM, um par na linha e outro no menu, e o CSS mostra um
-// par por vez (o `[hidden]` vale sempre, e o menu fechado usa ele: o mesmo elemento não serve às
-// duas larguras).
+// linha. Com as Medalhas (M16), são 6, e o corte passa a 720 px (P287): entre 480 e 719 px, a coluna
+// tem 460 px úteis, e as 6 não cabem. Os links do "Mais" estão duas vezes no DOM, um na linha e
+// outro no menu, e o CSS mostra um por vez (o `[hidden]` vale sempre, e o menu fechado usa ele: o
+// mesmo elemento não serve às duas larguras).
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { animeDone, dailiesDone } from "../core/home.ts";
 import type { Save } from "../core/records.ts";
@@ -18,12 +19,14 @@ type Props = {
   readonly save: Save;
   /** O "hoje" do jogo. */
   readonly date: string;
+  /** A aba das Medalhas (M16): só com uma lista delas (no PR 2, a de exemplo, em desenvolvimento). */
+  readonly medals?: boolean;
 };
 
 // O id do menu, para o aria-controls: nenhum id igual a uma rota (regra 17).
 const MENU_ID = "nav-more-menu";
 
-export function Nav({ route, save, date }: Props) {
+export function Nav({ route, save, date, medals = false }: Props) {
   const [open, setOpen] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const box = useRef<HTMLLIElement>(null);
@@ -34,15 +37,15 @@ export function Nav({ route, save, date }: Props) {
     shownFor.current = route;
     setOpen(false);
   }, [route]);
-  // A largura que passa dos 480 px esconde o "Mais" (as 5 abas na linha): o menu fecha, para não
-  // reaparecer aberto quando a janela voltar a estreitar.
+  // A largura que passa do corte esconde o "Mais" (todas as abas na linha): o menu fecha, para não
+  // reaparecer aberto quando a janela voltar a estreitar. O corte é 480 px, ou 720 com as Medalhas.
   useEffect(() => {
-    const wide = window.matchMedia?.("(min-width: 480px)");
+    const wide = window.matchMedia?.(`(min-width: ${medals ? 720 : 480}px)`);
     if (!wide) return;
     const close = () => setOpen(false);
     wide.addEventListener("change", close);
     return () => wide.removeEventListener("change", close);
-  }, []);
+  }, [medals]);
   // Aberto, o Esc fecha (com o foco de volta ao "Mais"), e o toque fora dele também. No
   // useLayoutEffect, e não no useEffect: os ouvintes entram antes da pintura do menu aberto, e um
   // Esc ou um toque logo depois de abrir não escapa (o useEffect roda depois da pintura).
@@ -67,7 +70,9 @@ export function Nav({ route, save, date }: Props) {
   // O "Mais" leva o aria-current quando a categoria atual está nele: a pessoa vê onde está. Sempre
   // "true", e nunca "page": o botão não é a página (o link dentro dele, sim).
   const moreCurrent =
-    navCurrent(route, "artists") || navCurrent(route, "history") ? "true" : undefined;
+    navCurrent(route, "artists") || navCurrent(route, "history") || navCurrent(route, "medals")
+      ? "true"
+      : undefined;
 
   /**
    * O link de dentro do menu: fica sobre o <main>, então ignora o 2º clique de um toque duplo
@@ -102,8 +107,18 @@ export function Nav({ route, save, date }: Props) {
     </a>
   );
 
+  const medalsLink = (inMenu: boolean) => (
+    <a
+      href={ROUTES.medals}
+      aria-current={navCurrent(route, "medals")}
+      onClick={inMenu ? follow(ROUTES.medals) : undefined}
+    >
+      {t("nav.medals")}
+    </a>
+  );
+
   return (
-    <nav class="tabs" aria-label={t("nav.label")}>
+    <nav class={medals ? "tabs six" : "tabs"} aria-label={t("nav.label")}>
       <ul>
         {/* Uma aba por categoria (P225): a Início, os Hits (a tela deles, os dois diários e o
             Treino), o Anime (a tela dele, as dificuldades e os 6 diários), os Artistas e o
@@ -151,6 +166,7 @@ export function Nav({ route, save, date }: Props) {
             (P117): é só tirar os dois links dele. */}
         <li class="nav-inline">{artists(false)}</li>
         <li class="nav-inline">{history(false)}</li>
+        {medals && <li class="nav-inline">{medalsLink(false)}</li>}
         {/* No celular, o "Mais" (P265). Ao abrir, o foco fica no botão, e o Tab entra na lista. */}
         <li
           class="nav-more"
@@ -182,6 +198,7 @@ export function Nav({ route, save, date }: Props) {
           <ul id={MENU_ID} class="nav-menu" hidden={!open}>
             <li>{artists(true)}</li>
             <li>{history(true)}</li>
+            {medals && <li>{medalsLink(true)}</li>}
           </ul>
         </li>
       </ul>
