@@ -98,6 +98,34 @@ def artist_paths(provider: str) -> ArtistPaths:
     )
 
 
+def anime_catalog_schema_path() -> Path:
+    return repo_root() / "shared" / "schema" / "anime-catalog.schema.json"
+
+
+@dataclass(frozen=True)
+class AnimePaths:
+    """O Anime (M14) tem curadoria, cache e pasta próprios, como o modo por artista: os ids e
+    os textos dele não existem na parada."""
+
+    aliases: Path  # o bloqueio (block) e as correções de latino
+    romaji: Path
+    source: Path  # snapshots/ (apple, só crescem) ou anime_fixture.json (fixture)
+    public_dir: Path  # onde ficam o catalog.json e o schedule.json do Anime
+
+
+_ANIME_SOURCES = {"fixture": "anime_fixture.json", "apple": "snapshots"}
+
+
+def anime_paths(provider: str) -> AnimePaths:
+    curation = repo_root() / _CURATION_DIRS[provider] / "anime"
+    return AnimePaths(
+        aliases=curation / "aliases.toml",
+        romaji=curation / "romaji.json",
+        source=curation / _ANIME_SOURCES[provider],
+        public_dir=repo_root() / _PUBLIC_DIRS[provider] / "anime",
+    )
+
+
 def apple_snapshots_dir() -> Path:
     """Snapshots da parada real, um por dia (gravados pelo comando fetch; só crescem)."""
     return repo_root() / _CURATION_DIRS["apple"] / "snapshots"

@@ -103,11 +103,15 @@ def test_committed_cache_covers_the_fixture():
 def test_build_never_imports_the_romaji_library(tmp_path):
     out = tmp_path / "catalog.json"
     artists = tmp_path / "artists"
+    anime = tmp_path / "anime.json"
     code = (
         "import sys\n"
         "from musicle_pipeline.cli import main\n"
         f"assert main(['build', '--provider', 'fixture', '--out', {str(out)!r}]) == 0\n"
         f"assert main(['build-artists', '--provider', 'fixture', '--out-dir', {str(artists)!r}]) == 0\n"
+        # O Anime (M14): o cutlet só no fetch --anime, para o casamento.
+        f"assert main(['build-anime', '--provider', 'fixture', '--out', {str(anime)!r}]) == 0\n"
+        "assert main(['validate-anime', '--provider', 'fixture']) == 0\n"
         "heavy =('cutlet', 'fugashi', 'unidic_lite', 'pykakasi', 'musicle_pipeline.romaji')\n"
         "print(sorted(m for m in sys.modules if m in heavy or m.split('.')[0] in heavy))\n"
     )

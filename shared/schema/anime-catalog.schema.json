@@ -1,0 +1,516 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PlasmaStorm49/musicle-jp/shared/schema/anime-catalog.schema.json",
+  "title": "Catálogo do Anime do musicle-jp",
+  "description": "As músicas de anime (M14): o áudio é a prévia da Apple, e as fontes de anime só dão dados (P251). Gerado só pelo pipeline (build-anime). Os $defs comuns são cópias dos do catálogo (um teste confere).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "catalogVersion",
+    "generatedAt",
+    "provider",
+    "storefront",
+    "snapshots",
+    "franchises",
+    "artists",
+    "albums",
+    "tracks"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "catalogVersion": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}\\.[0-9a-f]{8}$"
+    },
+    "generatedAt": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "provider": {
+      "type": "string",
+      "pattern": "^[a-z]+$"
+    },
+    "storefront": {
+      "type": "string",
+      "pattern": "^[a-z]{2}$"
+    },
+    "snapshots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "franchises": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/franchise"
+      }
+    },
+    "artists": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/artist"
+      }
+    },
+    "albums": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/album"
+      }
+    },
+    "tracks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/track"
+      }
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "optionalText": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^[^\\s\\\\]+$"
+    },
+    "latinSource": {
+      "enum": [
+        "provider",
+        "manual",
+        "cutlet",
+        null
+      ]
+    },
+    "artistId": {
+      "type": "string",
+      "pattern": "^[a-z]+:ar:[A-Za-z0-9_-]+$"
+    },
+    "albumId": {
+      "type": "string",
+      "pattern": "^[a-z]+:al:[A-Za-z0-9_-]+$"
+    },
+    "trackId": {
+      "type": "string",
+      "pattern": "^[a-z]+:tr:[A-Za-z0-9_-]+$"
+    },
+    "artistIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/artistId"
+      }
+    },
+    "searchKeys": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "artist": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "nameLatin",
+        "latinSource"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/artistId"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "nameLatin": {
+          "$ref": "#/$defs/optionalText"
+        },
+        "latinSource": {
+          "$ref": "#/$defs/latinSource"
+        }
+      }
+    },
+    "preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "durationSec",
+        "startSec"
+      ],
+      "properties": {
+        "url": {
+          "$ref": "#/$defs/url"
+        },
+        "durationSec": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "startSec": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "eligible": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "daily",
+            "reason"
+          ],
+          "properties": {
+            "daily": {
+              "const": true
+            },
+            "reason": {
+              "const": null
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "daily",
+            "reason"
+          ],
+          "properties": {
+            "daily": {
+              "const": false
+            },
+            "reason": {
+              "enum": [
+                "no-preview",
+                "short-preview",
+                "no-artwork",
+                "explicit",
+                "blocked"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "franchiseId": {
+      "type": "string",
+      "pattern": "^anime:fr:[a-z0-9_-]+$"
+    },
+    "tier": {
+      "enum": [
+        "facil",
+        "medio",
+        "dificil",
+        null
+      ]
+    },
+    "franchise": {
+      "title": "Franquia do catálogo do Anime do musicle-jp",
+      "description": "A resposta do \"acertar o anime\" (P234): vale qualquer temporada ou sequência. As chaves de busca vêm de todos os títulos e sinônimos dos animes dela.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "search"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/franchiseId"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "search": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
+    "album": {
+      "title": "Álbum do catálogo do Anime do musicle-jp",
+      "description": "Como o álbum do catálogo, sem os distratores (o Anime é só digitado).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "titleLatin",
+        "latinSource",
+        "artistIds",
+        "artistDisplay",
+        "type",
+        "releaseDate",
+        "artworkUrl"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/albumId"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "titleLatin": {
+          "$ref": "#/$defs/optionalText"
+        },
+        "latinSource": {
+          "$ref": "#/$defs/latinSource"
+        },
+        "artistIds": {
+          "$ref": "#/$defs/artistIds"
+        },
+        "artistDisplay": {
+          "$ref": "#/$defs/text"
+        },
+        "type": {
+          "enum": [
+            "single",
+            "album",
+            "ep",
+            "compilation"
+          ]
+        },
+        "releaseDate": {
+          "$ref": "#/$defs/date"
+        },
+        "artworkUrl": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/url"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "track": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "songKey",
+        "title",
+        "titleLatin",
+        "latinSource",
+        "artistIds",
+        "artistDisplay",
+        "albumId",
+        "releaseDate",
+        "durationMs",
+        "explicit",
+        "preview",
+        "storeUrl",
+        "popularity",
+        "eligible",
+        "search",
+        "anime"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/trackId"
+        },
+        "songKey": {
+          "type": "string",
+          "pattern": "^.+\\|[a-z]+:ar:[A-Za-z0-9_-]+$"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "titleLatin": {
+          "$ref": "#/$defs/optionalText"
+        },
+        "latinSource": {
+          "$ref": "#/$defs/latinSource"
+        },
+        "artistIds": {
+          "$ref": "#/$defs/artistIds"
+        },
+        "artistDisplay": {
+          "$ref": "#/$defs/text"
+        },
+        "albumId": {
+          "$ref": "#/$defs/albumId"
+        },
+        "releaseDate": {
+          "$ref": "#/$defs/date"
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "explicit": {
+          "type": "boolean"
+        },
+        "preview": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/preview"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "storeUrl": {
+          "description": "Página da faixa na loja (link \"Ouvir no Apple Music\" da revelação); null sem loja.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/url"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "popularity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "eligible": {
+          "$ref": "#/$defs/eligible"
+        },
+        "search": {
+          "description": "Chaves da busca do Desafio (digitação).",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "artist"
+          ],
+          "properties": {
+            "title": {
+              "$ref": "#/$defs/searchKeys"
+            },
+            "artist": {
+              "$ref": "#/$defs/searchKeys"
+            }
+          }
+        },
+        "anime": {
+          "description": "De que anime a música é, e a faixa de dificuldade de cada modo (null: não entra nesse modo).",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "franchiseIds",
+            "themes",
+            "tiers"
+          ],
+          "properties": {
+            "franchiseIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/franchiseId"
+              }
+            },
+            "themes": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "anime",
+                  "type",
+                  "sequence"
+                ],
+                "properties": {
+                  "anime": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "type": {
+                    "enum": [
+                      "OP",
+                      "ED",
+                      "IN"
+                    ]
+                  },
+                  "sequence": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 1
+                  }
+                }
+              }
+            },
+            "tiers": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "musica",
+                "titulo"
+              ],
+              "properties": {
+                "musica": {
+                  "$ref": "#/$defs/tier"
+                },
+                "titulo": {
+                  "$ref": "#/$defs/tier"
+                }
+              }
+            }
+          }
+        }
+      },
+      "title": "Faixa do catálogo do Anime do musicle-jp",
+      "description": "Como a faixa do catálogo, sem o histórico da parada (chart) nem o isrc, e com os dados do anime."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "fetchedAt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/text"
+        },
+        "fetchedAt": {
+          "$ref": "#/$defs/timestamp"
+        }
+      },
+      "description": "Um snapshot da busca do Anime (fetch --anime): pode haver mais de um por dia."
+    }
+  }
+}

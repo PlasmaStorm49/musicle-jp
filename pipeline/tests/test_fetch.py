@@ -213,6 +213,7 @@ def test_other_commands_never_import_the_network_module(tmp_path):
     fixture_out, real_out, schedule_out = (tmp_path / n for n in ("f.json", "r.json", "s.json"))
     artists_out = tmp_path / "artists"
     build_artists = ["build-artists", "--provider", "fixture", "--out-dir", str(artists_out)]
+    build_anime = ["build-anime", "--provider", "fixture", "--out", str(tmp_path / "anime.json")]
     schedule = [
         "schedule",
         "--catalog",
@@ -237,6 +238,9 @@ def test_other_commands_never_import_the_network_module(tmp_path):
         "assert main(['romanize', '--provider', 'fixture', '--artists', '--check']) == 0\n"
         f"assert main({build_artists!r}) == 0\n"
         "assert main(['validate-artists', '--provider', 'fixture']) == 0\n"
+        # O Anime (M14): só o fetch --anime usa a rede.
+        f"assert main({build_anime!r}) == 0\n"
+        "assert main(['validate-anime', '--provider', 'fixture']) == 0\n"
         "print('musicle_pipeline.fetch' in sys.modules)\n"
     )
     result = subprocess.run(
