@@ -13,7 +13,8 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz.
 | `normalize.py` | Normalização, chave frouxa, sufixos de versão, `songKey`, `display`. Espelho em TS no M4 |
 | `catalog.py` | Redução de todos os snapshots em catálogo; popularidade, elegibilidade, `Curation` |
 | `romaji_cache.py` | Lê e grava o `romaji.json` do provedor (`fixtures/` ou `data/apple/`); diz quais textos precisam de romaji |
-| `romaji.py` | Invólucro do cutlet. **Só o comando `romanize` importa** |
+| `romaji.py` | Invólucro do cutlet. **Só o comando `romanize` importa**, e o `fetch --anime`, para o casamento (M14) |
+| `fetch_anime.py` | A busca do Anime (comando `fetch --anime`, M14): o sorteio (o ranking do MAL, com o `MAL_CLIENT_ID`, ou as playlists do AnimeThemes), o AnimeThemes e o AnisongDB pelo id do MAL, a busca do artista e o lookup das músicas dele na Apple, e o casamento (`anime.match_theme`, com o cutlet em cache). Importa o `fetch.py`: cai na mesma trava de rede |
 | `aliases.py` | Lê e valida o `aliases.toml` do provedor (curadoria manual). Álbum só aceita `latin`: a busca é só de músicas (P102) |
 | `similarity.py` | Distratores (`similar`) dos álbuns, para o Normal, no fim do build. O Desafio é digitado e não tem distratores (P100) |
 | `prng.py` | `fnv1a32` + `mulberry32`. Espelho em TS no M4 e referência em `shared/vectors/prng_reference.mjs` |
@@ -40,7 +41,7 @@ Complementa o `CLAUDE.md` da raiz. Os comandos estão lá e rodam da raiz.
 6. **Texto de exibição em NFC; chave de comparação via `normalize`/`search_key`.**
 7. **Não renomeie IDs da parada fictícia.** Os testes citam os casos de borda por ID (tabela em `fixtures/README.md`).
 8. Números com casas decimais saem de `Decimal`, arredondados, para dar o mesmo resultado em Windows e Linux.
-9. **O build nunca importa `romaji.py`.** Ele lê o cache. Um teste em subprocesso confere isso.
+9. **O build nunca importa `romaji.py`.** Ele lê o cache. Um teste em subprocesso confere isso. O `fetch --anime` o importa (só na função `cached_romanizer`), para comparar o título japonês da Apple com o romaji do tema: o extra `[romaji]` precisa estar instalado nele.
 10. **Não edite `romaji.json` à mão** (nem os snapshots). Ele é saída do `romanize`. Correção vai no `aliases.toml` do mesmo provedor, que vence o provedor e o romaji (`manual` > `provider` > `cutlet`). Curadoria e cache são por provedor: fixtures em `fixtures/`, Apple em `data/apple/`.
 11. **Título latino exibido = Hepburn.** A grafia estrangeira do cutlet ("Curtain call") entra só na busca, porque às vezes erra ("Tokyo right"). No coreano, a Romanização Revisada, à mão no `aliases.toml` (P203): o cutlet não lê hangul.
 12. **Vetores do PRNG são a exceção à regra 3:** `shared/vectors/prng.json` é gerado por `node shared/vectors/prng_reference.mjs`, uma segunda implementação independente. Nunca edite à mão nem gere com `>` no PowerShell.

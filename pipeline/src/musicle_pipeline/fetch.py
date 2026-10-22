@@ -87,6 +87,15 @@ def http_get(url: str) -> bytes:
 
 
 def _get_json(url: str, transport: Transport, sleep: Callable[[float], None], tries: int) -> JSON:
+    data = get_any(url, transport, sleep, tries)
+    if not isinstance(data, dict):
+        raise FetchError(f"resposta com forma inesperada em {url}")
+    return data
+
+
+def get_any(url: str, transport: Transport, sleep: Callable[[float], None], tries: int) -> object:
+    """O JSON da resposta, de qualquer forma (o AnisongDB devolve uma lista), com as repetições
+    do 429 e do 5xx."""
     last: Exception | None = None
     for attempt in range(tries):
         try:
@@ -106,8 +115,6 @@ def _get_json(url: str, transport: Transport, sleep: Callable[[float], None], tr
         ) as exc:
             last = exc
         else:
-            if not isinstance(data, dict):
-                raise FetchError(f"resposta com forma inesperada em {url}")
             return data
         if attempt + 1 < tries:
             sleep(5 * (attempt + 1))  # espera crescente; o lookup tem limite por minuto
