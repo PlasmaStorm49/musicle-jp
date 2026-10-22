@@ -221,6 +221,1412 @@
           }
         ]
       }
+    },
+    "2026-10-25": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1333849728"
+          },
+          {
+            "answer": "apple:tr:1695684207"
+          },
+          {
+            "answer": "apple:tr:1204216484"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1548308058"
+          },
+          {
+            "answer": "apple:tr:1229977150"
+          },
+          {
+            "answer": "apple:tr:1140022697"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1688986835"
+          },
+          {
+            "answer": "apple:tr:1537249926"
+          },
+          {
+            "answer": "apple:tr:567942245"
+          }
+        ]
+      },
+      "number": 4,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1137878647"
+          },
+          {
+            "answer": "apple:tr:1538259691"
+          },
+          {
+            "answer": "apple:tr:1560104538"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1536116908"
+          },
+          {
+            "answer": "apple:tr:1535535911"
+          },
+          {
+            "answer": "apple:tr:1644816114"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1638701929"
+          },
+          {
+            "answer": "apple:tr:1748963164"
+          },
+          {
+            "answer": "apple:tr:730903332"
+          }
+        ]
+      }
+    },
+    "2026-10-26": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1605735698"
+          },
+          {
+            "answer": "apple:tr:472927960"
+          },
+          {
+            "answer": "apple:tr:1483941722"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1536371821"
+          },
+          {
+            "answer": "apple:tr:1614420885"
+          },
+          {
+            "answer": "apple:tr:1537901887"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1777983027"
+          },
+          {
+            "answer": "apple:tr:1485215965"
+          },
+          {
+            "answer": "apple:tr:722733980"
+          }
+        ]
+      },
+      "number": 5,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1886349450"
+          },
+          {
+            "answer": "apple:tr:1549545979"
+          },
+          {
+            "answer": "apple:tr:1804674272"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1469518211"
+          },
+          {
+            "answer": "apple:tr:1077263357"
+          },
+          {
+            "answer": "apple:tr:1837658529"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1801630569"
+          },
+          {
+            "answer": "apple:tr:1128261202"
+          },
+          {
+            "answer": "apple:tr:1753840462"
+          }
+        ]
+      }
+    },
+    "2026-10-27": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1387424555"
+          },
+          {
+            "answer": "apple:tr:1538285501"
+          },
+          {
+            "answer": "apple:tr:1538109175"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1133869639"
+          },
+          {
+            "answer": "apple:tr:1600223385"
+          },
+          {
+            "answer": "apple:tr:1471459432"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1558875124"
+          },
+          {
+            "answer": "apple:tr:1469495353"
+          },
+          {
+            "answer": "apple:tr:743662411"
+          }
+        ]
+      },
+      "number": 6,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1441281837"
+          },
+          {
+            "answer": "apple:tr:1740516594"
+          },
+          {
+            "answer": "apple:tr:1548677745"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1573750699"
+          },
+          {
+            "answer": "apple:tr:1436176364"
+          },
+          {
+            "answer": "apple:tr:1573359701"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1693743422"
+          },
+          {
+            "answer": "apple:tr:1889741674"
+          },
+          {
+            "answer": "apple:tr:1096953201"
+          }
+        ]
+      }
+    },
+    "2026-10-28": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1613475860"
+          },
+          {
+            "answer": "apple:tr:1098475108"
+          },
+          {
+            "answer": "apple:tr:1891247381"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1707331779"
+          },
+          {
+            "answer": "apple:tr:1562780431"
+          },
+          {
+            "answer": "apple:tr:637426727"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1537904606"
+          },
+          {
+            "answer": "apple:tr:434208004"
+          },
+          {
+            "answer": "apple:tr:1536965632"
+          }
+        ]
+      },
+      "number": 7,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1573209696"
+          },
+          {
+            "answer": "apple:tr:1739746992"
+          },
+          {
+            "answer": "apple:tr:1659998369"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1538137550"
+          },
+          {
+            "answer": "apple:tr:1537461567"
+          },
+          {
+            "answer": "apple:tr:1743348859"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:634811186"
+          },
+          {
+            "answer": "apple:tr:1536129191"
+          },
+          {
+            "answer": "apple:tr:1017323146"
+          }
+        ]
+      }
+    },
+    "2026-10-29": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1565324651"
+          },
+          {
+            "answer": "apple:tr:575818946"
+          },
+          {
+            "answer": "apple:tr:1536109207"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1684164654"
+          },
+          {
+            "answer": "apple:tr:1813364855"
+          },
+          {
+            "answer": "apple:tr:503822449"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1748746531"
+          },
+          {
+            "answer": "apple:tr:1136524848"
+          },
+          {
+            "answer": "apple:tr:381471847"
+          }
+        ]
+      },
+      "number": 8,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1685596554"
+          },
+          {
+            "answer": "apple:tr:1536371833"
+          },
+          {
+            "answer": "apple:tr:1537904358"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1574680683"
+          },
+          {
+            "answer": "apple:tr:1538283060"
+          },
+          {
+            "answer": "apple:tr:960609142"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1803190108"
+          },
+          {
+            "answer": "apple:tr:1537417115"
+          },
+          {
+            "answer": "apple:tr:1589761552"
+          }
+        ]
+      }
+    },
+    "2026-10-30": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:547115325"
+          },
+          {
+            "answer": "apple:tr:6802575125"
+          },
+          {
+            "answer": "apple:tr:1632169995"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1046777385"
+          },
+          {
+            "answer": "apple:tr:1837312387"
+          },
+          {
+            "answer": "apple:tr:1745664227"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1226815150"
+          },
+          {
+            "answer": "apple:tr:1752838890"
+          },
+          {
+            "answer": "apple:tr:1470387479"
+          }
+        ]
+      },
+      "number": 9,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:208196653"
+          },
+          {
+            "answer": "apple:tr:1768190210"
+          },
+          {
+            "answer": "apple:tr:1693770352"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1047177065"
+          },
+          {
+            "answer": "apple:tr:1721471879"
+          },
+          {
+            "answer": "apple:tr:975454106"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1804644842"
+          },
+          {
+            "answer": "apple:tr:1562117570"
+          },
+          {
+            "answer": "apple:tr:1537905014"
+          }
+        ]
+      }
+    },
+    "2026-10-31": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1496310156"
+          },
+          {
+            "answer": "apple:tr:1294628515"
+          },
+          {
+            "answer": "apple:tr:1537525522"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1052989933"
+          },
+          {
+            "answer": "apple:tr:1728408363"
+          },
+          {
+            "answer": "apple:tr:1562858841"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1537904035"
+          },
+          {
+            "answer": "apple:tr:1650726665"
+          },
+          {
+            "answer": "apple:tr:1821656927"
+          }
+        ]
+      },
+      "number": 10,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1787564099"
+          },
+          {
+            "answer": "apple:tr:1667186842"
+          },
+          {
+            "answer": "apple:tr:1478107532"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1613475395"
+          },
+          {
+            "answer": "apple:tr:1536927173"
+          },
+          {
+            "answer": "apple:tr:1535535212"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:721489526"
+          },
+          {
+            "answer": "apple:tr:1770905295"
+          },
+          {
+            "answer": "apple:tr:1397294599"
+          }
+        ]
+      }
+    },
+    "2026-11-01": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1206181462"
+          },
+          {
+            "answer": "apple:tr:1078121632"
+          },
+          {
+            "answer": "apple:tr:1691117493"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1537433534"
+          },
+          {
+            "answer": "apple:tr:1658216983"
+          },
+          {
+            "answer": "apple:tr:683161859"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1384766614"
+          },
+          {
+            "answer": "apple:tr:1751871814"
+          },
+          {
+            "answer": "apple:tr:1839387171"
+          }
+        ]
+      },
+      "number": 11,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1537240985"
+          },
+          {
+            "answer": "apple:tr:1692341375"
+          },
+          {
+            "answer": "apple:tr:1804642303"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:367317178"
+          },
+          {
+            "answer": "apple:tr:937664437"
+          },
+          {
+            "answer": "apple:tr:1537249240"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1629869977"
+          },
+          {
+            "answer": "apple:tr:1231266556"
+          },
+          {
+            "answer": "apple:tr:1761949983"
+          }
+        ]
+      }
+    },
+    "2026-11-02": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1753670534"
+          },
+          {
+            "answer": "apple:tr:396379609"
+          },
+          {
+            "answer": "apple:tr:659220841"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1549545978"
+          },
+          {
+            "answer": "apple:tr:1537396552"
+          },
+          {
+            "answer": "apple:tr:1537907913"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1784629409"
+          },
+          {
+            "answer": "apple:tr:1403735282"
+          },
+          {
+            "answer": "apple:tr:1783371506"
+          }
+        ]
+      },
+      "number": 12,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1560103065"
+          },
+          {
+            "answer": "apple:tr:1720359467"
+          },
+          {
+            "answer": "apple:tr:107233414"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1538171490"
+          },
+          {
+            "answer": "apple:tr:272936759"
+          },
+          {
+            "answer": "apple:tr:1128654728"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1024007124"
+          },
+          {
+            "answer": "apple:tr:1821760203"
+          },
+          {
+            "answer": "apple:tr:1272469300"
+          }
+        ]
+      }
+    },
+    "2026-11-03": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:921452864"
+          },
+          {
+            "answer": "apple:tr:1804664165"
+          },
+          {
+            "answer": "apple:tr:1538285560"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1475094109"
+          },
+          {
+            "answer": "apple:tr:1582334675"
+          },
+          {
+            "answer": "apple:tr:1737148572"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1735675926"
+          },
+          {
+            "answer": "apple:tr:381485800"
+          },
+          {
+            "answer": "apple:tr:1056018590"
+          }
+        ]
+      },
+      "number": 13,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1720711199"
+          },
+          {
+            "answer": "apple:tr:1751243381"
+          },
+          {
+            "answer": "apple:tr:1537329869"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1538285596"
+          },
+          {
+            "answer": "apple:tr:1189895464"
+          },
+          {
+            "answer": "apple:tr:1849573939"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:366263130"
+          },
+          {
+            "answer": "apple:tr:1659336142"
+          },
+          {
+            "answer": "apple:tr:1660219924"
+          }
+        ]
+      }
+    },
+    "2026-11-04": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1720716135"
+          },
+          {
+            "answer": "apple:tr:6763241154"
+          },
+          {
+            "answer": "apple:tr:6810161036"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1107861535"
+          },
+          {
+            "answer": "apple:tr:1743376807"
+          },
+          {
+            "answer": "apple:tr:1588362375"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:730824986"
+          },
+          {
+            "answer": "apple:tr:1534078789"
+          },
+          {
+            "answer": "apple:tr:977927510"
+          }
+        ]
+      },
+      "number": 14,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1526345465"
+          },
+          {
+            "answer": "apple:tr:1714772412"
+          },
+          {
+            "answer": "apple:tr:337917981"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1535536515"
+          },
+          {
+            "answer": "apple:tr:1536466358"
+          },
+          {
+            "answer": "apple:tr:1363865504"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1537253859"
+          },
+          {
+            "answer": "apple:tr:1738873152"
+          },
+          {
+            "answer": "apple:tr:1747711165"
+          }
+        ]
+      }
+    },
+    "2026-11-05": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1213823363"
+          },
+          {
+            "answer": "apple:tr:1804660498"
+          },
+          {
+            "answer": "apple:tr:1537397268"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:385705924"
+          },
+          {
+            "answer": "apple:tr:627861882"
+          },
+          {
+            "answer": "apple:tr:1538160824"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1804677839"
+          },
+          {
+            "answer": "apple:tr:1824189859"
+          },
+          {
+            "answer": "apple:tr:1653355298"
+          }
+        ]
+      },
+      "number": 15,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1537898927"
+          },
+          {
+            "answer": "apple:tr:1804844463"
+          },
+          {
+            "answer": "apple:tr:1536154817"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:736586184"
+          },
+          {
+            "answer": "apple:tr:1017212714"
+          },
+          {
+            "answer": "apple:tr:1535768529"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1459356742"
+          },
+          {
+            "answer": "apple:tr:1891049137"
+          },
+          {
+            "answer": "apple:tr:1381613929"
+          }
+        ]
+      }
+    },
+    "2026-11-06": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1752800466"
+          },
+          {
+            "answer": "apple:tr:1735516502"
+          },
+          {
+            "answer": "apple:tr:582570613"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1537461096"
+          },
+          {
+            "answer": "apple:tr:1745664452"
+          },
+          {
+            "answer": "apple:tr:1840081736"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1804664949"
+          },
+          {
+            "answer": "apple:tr:1631262368"
+          },
+          {
+            "answer": "apple:tr:1753851098"
+          }
+        ]
+      },
+      "number": 16,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:208115143"
+          },
+          {
+            "answer": "apple:tr:1560174592"
+          },
+          {
+            "answer": "apple:tr:6786531455"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1112374652"
+          },
+          {
+            "answer": "apple:tr:1536369246"
+          },
+          {
+            "answer": "apple:tr:1536307628"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1137603161"
+          },
+          {
+            "answer": "apple:tr:1537904702"
+          },
+          {
+            "answer": "apple:tr:1537814045"
+          }
+        ]
+      }
+    },
+    "2026-11-07": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1653250485"
+          },
+          {
+            "answer": "apple:tr:991748469"
+          },
+          {
+            "answer": "apple:tr:1683455956"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1535541218"
+          },
+          {
+            "answer": "apple:tr:1795905600"
+          },
+          {
+            "answer": "apple:tr:1568248144"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1537238686"
+          },
+          {
+            "answer": "apple:tr:1473369554"
+          },
+          {
+            "answer": "apple:tr:1633995848"
+          }
+        ]
+      },
+      "number": 17,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:338539537"
+          },
+          {
+            "answer": "apple:tr:1443165487"
+          },
+          {
+            "answer": "apple:tr:1819467686"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1263024640"
+          },
+          {
+            "answer": "apple:tr:1747711159"
+          },
+          {
+            "answer": "apple:tr:1745635843"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1631500777"
+          },
+          {
+            "answer": "apple:tr:1787564098"
+          },
+          {
+            "answer": "apple:tr:1811111124"
+          }
+        ]
+      }
+    },
+    "2026-11-08": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1491721055"
+          },
+          {
+            "answer": "apple:tr:1745635574"
+          },
+          {
+            "answer": "apple:tr:1695870148"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1617909669"
+          },
+          {
+            "answer": "apple:tr:1537785552"
+          },
+          {
+            "answer": "apple:tr:340327759"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1535811729"
+          },
+          {
+            "answer": "apple:tr:1031200887"
+          },
+          {
+            "answer": "apple:tr:1535534551"
+          }
+        ]
+      },
+      "number": 18,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1309418219"
+          },
+          {
+            "answer": "apple:tr:527874495"
+          },
+          {
+            "answer": "apple:tr:1628716139"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:666788984"
+          },
+          {
+            "answer": "apple:tr:1282835097"
+          },
+          {
+            "answer": "apple:tr:1537237379"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1747243422"
+          },
+          {
+            "answer": "apple:tr:1822213518"
+          },
+          {
+            "answer": "apple:tr:1575517795"
+          }
+        ]
+      }
+    },
+    "2026-11-09": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:740507020"
+          },
+          {
+            "answer": "apple:tr:1681043284"
+          },
+          {
+            "answer": "apple:tr:1888092749"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1638045197"
+          },
+          {
+            "answer": "apple:tr:1546061848"
+          },
+          {
+            "answer": "apple:tr:1532050865"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:380602834"
+          },
+          {
+            "answer": "apple:tr:569432050"
+          },
+          {
+            "answer": "apple:tr:1723078215"
+          }
+        ]
+      },
+      "number": 19,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:926646286"
+          },
+          {
+            "answer": "apple:tr:1884501576"
+          },
+          {
+            "answer": "apple:tr:858531251"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1535176912"
+          },
+          {
+            "answer": "apple:tr:1749227045"
+          },
+          {
+            "answer": "apple:tr:1817319544"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1839433370"
+          },
+          {
+            "answer": "apple:tr:604775968"
+          },
+          {
+            "answer": "apple:tr:1133873711"
+          }
+        ]
+      }
+    },
+    "2026-11-10": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1805952773"
+          },
+          {
+            "answer": "apple:tr:585171042"
+          },
+          {
+            "answer": "apple:tr:1742896218"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1538285595"
+          },
+          {
+            "answer": "apple:tr:1566508411"
+          },
+          {
+            "answer": "apple:tr:1718526128"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1560301369"
+          },
+          {
+            "answer": "apple:tr:1582334935"
+          },
+          {
+            "answer": "apple:tr:1536508601"
+          }
+        ]
+      },
+      "number": 20,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1720713042"
+          },
+          {
+            "answer": "apple:tr:1470387632"
+          },
+          {
+            "answer": "apple:tr:1439049076"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1579283189"
+          },
+          {
+            "answer": "apple:tr:1140022699"
+          },
+          {
+            "answer": "apple:tr:1536108072"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1716486673"
+          },
+          {
+            "answer": "apple:tr:1465220582"
+          },
+          {
+            "answer": "apple:tr:1538281853"
+          }
+        ]
+      }
+    },
+    "2026-11-11": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1804653450"
+          },
+          {
+            "answer": "apple:tr:1148470735"
+          },
+          {
+            "answer": "apple:tr:1822704442"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1297260555"
+          },
+          {
+            "answer": "apple:tr:1815243482"
+          },
+          {
+            "answer": "apple:tr:961856558"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1294628520"
+          },
+          {
+            "answer": "apple:tr:1739761375"
+          },
+          {
+            "answer": "apple:tr:1558875123"
+          }
+        ]
+      },
+      "number": 21,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1706940199"
+          },
+          {
+            "answer": "apple:tr:1804660825"
+          },
+          {
+            "answer": "apple:tr:1054841372"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1649702260"
+          },
+          {
+            "answer": "apple:tr:1208912296"
+          },
+          {
+            "answer": "apple:tr:1536369628"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:6810160607"
+          },
+          {
+            "answer": "apple:tr:1720311777"
+          },
+          {
+            "answer": "apple:tr:1538261999"
+          }
+        ]
+      }
+    },
+    "2026-11-12": {
+      "catalogVersion": "2026-10-22.cdfb973a",
+      "musica": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1889815276"
+          },
+          {
+            "answer": "apple:tr:1174220038"
+          },
+          {
+            "answer": "apple:tr:1804669135"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1517995045"
+          },
+          {
+            "answer": "apple:tr:1538122936"
+          },
+          {
+            "answer": "apple:tr:131944614"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1660005144"
+          },
+          {
+            "answer": "apple:tr:1683300097"
+          },
+          {
+            "answer": "apple:tr:1039770731"
+          }
+        ]
+      },
+      "number": 22,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:317672504"
+          },
+          {
+            "answer": "apple:tr:1807906405"
+          },
+          {
+            "answer": "apple:tr:1144865530"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1536259370"
+          },
+          {
+            "answer": "apple:tr:1329621039"
+          },
+          {
+            "answer": "apple:tr:1112374651"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1537923439"
+          },
+          {
+            "answer": "apple:tr:1891280494"
+          },
+          {
+            "answer": "apple:tr:1486721930"
+          }
+        ]
+      }
     }
   },
   "epoch": "2026-10-22",
