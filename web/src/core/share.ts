@@ -1,16 +1,14 @@
 // Texto para compartilhar o resultado. Recebe só o FinishedGame, que não tem IDs nem títulos:
 // por construção, não tem como revelar a resposta.
 import { type FinishedGame, type RoundRecord, recordMax, recordScore } from "./records.ts";
-import { MODE_RULES } from "./rules.ts";
-import type { Target } from "./types.ts";
+import type { ModeRules } from "./rules.ts";
 
 // Formas diferentes, não só cores (P42): quem não distingue verde e vermelho entende.
 // A ajuda (P149) entra como 💡 no ponto em que foi pedida (P155).
 export const SYMBOLS = { more: "⬛", right: "✅", wrong: "❌", void: "⬜", help: "💡" } as const;
 
-function line(round: RoundRecord, target: Target): string {
+function line(round: RoundRecord, rules: ModeRules): string {
   if (round.status === "void") return SYMBOLS.void;
-  const rules = MODE_RULES[target];
   if (rules.listenMore) {
     // Normal: um ⬛ por "ouvir mais", depois o resultado do único palpite (ou do "não sei").
     return (
@@ -30,12 +28,18 @@ function line(round: RoundRecord, target: Target): string {
   return marks.join("") + (gaveUp ? SYMBOLS.wrong : "");
 }
 
-export function shareGrid(game: FinishedGame, target: Target): string[] {
-  return game.rounds.map((r) => line(r, target));
+/** Uma linha por rodada, pelas regras do diário: as do Normal ou as do Desafio (também o Anime). */
+export function shareGrid(game: FinishedGame, rules: ModeRules): string[] {
+  return game.rounds.map((r) => line(r, rules));
 }
 
 /** Cabeçalho (montado pela tela com o i18n), pontos, uma linha por rodada e o endereço. */
-export function shareText(header: string, game: FinishedGame, target: Target, url: string): string {
+export function shareText(
+  header: string,
+  game: FinishedGame,
+  rules: ModeRules,
+  url: string,
+): string {
   const score = `${recordScore(game)}/${recordMax(game)}`;
-  return [header, score, ...shareGrid(game, target), url].join("\n");
+  return [header, score, ...shareGrid(game, rules), url].join("\n");
 }

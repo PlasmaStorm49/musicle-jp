@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { catalog, schedule } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
+import { type Daily, hitsDailies, hitsDaily } from "./daily.ts";
 import {
   emptySave,
   type FinishedGame,
@@ -17,6 +18,7 @@ import {
   withProgress,
 } from "./records.ts";
 import { type GameEvent, reduce } from "./reducer.ts";
+import { MODE_RULES } from "./rules.ts";
 import { shareGrid } from "./share.ts";
 import type { Day } from "./types.ts";
 
@@ -28,7 +30,7 @@ const ID = puzzleId(DATE, "album");
 /** O álbum certo da rodada `n` (0 a 2): a opção que acerta no Normal. */
 const albumOf = (n: 0 | 1 | 2) => index.tracks.get(day.album[n].answer)?.albumId ?? "";
 
-const session = (save: Save) => startSession(save, day, DATE, "album", index);
+const session = (save: Save) => startSession(save, hitsDaily(day, DATE, "album"), index);
 const saveWith = (events: GameEvent[]): Save => ({
   ...emptySave(),
   inProgress: { [ID]: { events } },
@@ -113,6 +115,23 @@ describe("startSession", () => {
     ];
     expect(session(saveWith(events)).kind).toBe("finished");
   });
+
+  it("o jogo é o do id do descritor: um diário do Anime não pega o resultado do Desafio (P250)", () => {
+    // Um diário do Anime de mentira, com as rodadas do Desafio de hoje: só o id muda.
+    const key = "anime-musica-facil";
+    const anime: Daily = { ...hitsDaily(day, DATE, "song"), key, id: puzzleId(DATE, key) };
+    const save: Save = {
+      ...emptySave(),
+      history: { [puzzleId(DATE, "song")]: { number: day.number, rounds: [] } },
+      inProgress: { [anime.id]: { events: [{ type: "SKIP" }] } },
+    };
+    const s = startSession(save, anime, index);
+    expect(s).toMatchObject({ kind: "playing", events: [{ type: "SKIP" }], stale: false });
+    if (s.kind === "playing") {
+      expect(s.state.puzzleId).toBe("2026-10-08|anime-musica-facil");
+      expect(s.state.target).toBe("song");
+    }
+  });
 });
 
 describe("FinishedGame", () => {
@@ -165,7 +184,11 @@ describe("FinishedGame", () => {
 describe("a ajuda no diário (P149)", () => {
   const SONG = puzzleId(DATE, "song");
   const desafio = (events: GameEvent[]) =>
-    startSession({ ...emptySave(), inProgress: { [SONG]: { events } } }, day, DATE, "song", index);
+    startSession(
+      { ...emptySave(), inProgress: { [SONG]: { events } } },
+      hitsDaily(day, DATE, "song"),
+      index,
+    );
   // As opções: a resposta da rodada 1 e outras três faixas do catálogo.
   const answer = day.song[0].answer;
   const others = catalog.tracks
@@ -275,7 +298,7 @@ describe("a ajuda no diário (P149)", () => {
     });
     expect(recordScore(s.game)).toBe(1);
     // E o compartilhar: o 💡 antes do pulo; desistir depois dele fecha com ❌.
-    expect(shareGrid(s.game, "song")).toEqual(["⬛⬛⬛💡⬛✅", "❌", "⬛⬛⬛💡⬛❌"]);
+    expect(shareGrid(s.game, MODE_RULES.song)).toEqual(["⬛⬛⬛💡⬛✅", "❌", "⬛⬛⬛💡⬛❌"]);
   });
 });
 
@@ -334,13 +357,17 @@ describe("pendingDayTracks", () => {
       ...emptySave(),
       history: Object.fromEntries(ids.map((id) => [id, done])),
     });
-    expect(pendingDayTracks(emptySave(), day, DATE)).toEqual([
-      ...answers("album"),
-      ...answers("song"),
-    ]);
-    expect(pendingDayTracks(finished(ID), day, DATE)).toEqual(answers("song"));
-    expect(pendingDayTracks(finished(ID, puzzleId(DATE, "song")), day, DATE)).toEqual([]);
+    const hits = hitsDailies(day, DATE);
+    expect(pendingDayTracks(emptySave(), hits)).toEqual([...answers("album"), ...answers("song")]);
+    expect(pendingDayTracks(finished(ID), hits)).toEqual(answers("song"));
+    expect(pendingDayTracks(finished(ID, puzzleId(DATE, "song")), hits)).toEqual([]);
     // Resultado de outro dia não conta.
-    expect(pendingDayTracks(finished("2026-10-07|album"), day, DATE)).toHaveLength(6);
+    expect(pendingDayTracks(finished("2026-10-07|album"), hits)).toHaveLength(6);
+  });
+
+  it("só os diários dados, pelo id de cada um", () => {
+    const song = hitsDaily(day, DATE, "song");
+    expect(pendingDayTracks(emptySave(), [song])).toEqual(day.song.map((r) => r.answer));
+    expect(pendingDayTracks(emptySave(), [])).toEqual([]);
   });
 });

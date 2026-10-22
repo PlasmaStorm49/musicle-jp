@@ -62,15 +62,24 @@ export type LoadResult = {
 
 // ---- validação (type guards) ----
 
-const PUZZLE_ID = /^(\d{4}-\d{2}-\d{2})\|(song|album)$/;
+/**
+ * "<data>|<diário>": os dois dos Hits e, desde a v6 (P250), os seis do Anime (`DAILY_KEYS`, em
+ * core/daily.ts). Diário novo aqui sobe a versão: a aba com o código velho jogaria fora os jogos
+ * dele.
+ */
+const PUZZLE_ID =
+  /^(\d{4}-\d{2}-\d{2})\|(song|album|anime-(?:musica|titulo)-(?:facil|medio|dificil))$/;
 const STATUSES = new Set(["won", "lost", "void"]);
 const MARKS = new Set(["skip", "wrong", "right"]);
 
-/** O modo de um id válido ("2026-10-08|album" → "album"); null se o id não vale. */
+/**
+ * As regras de um id válido ("2026-10-08|album" → "album"): as do modo, nos Hits; as do Desafio,
+ * no Anime (3 rodadas digitadas). Null se o id não vale.
+ */
 function modeOf(id: string): Target | null {
   const match = PUZZLE_ID.exec(id);
   if (match === null || !isValidDate(match[1] ?? "")) return null;
-  return match[2] === "song" ? "song" : "album";
+  return match[2] === "album" ? "album" : "song";
 }
 
 function isNonNegativeInt(x: unknown, max = Number.MAX_SAFE_INTEGER): x is number {
@@ -166,7 +175,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     if (modeOf(id) && isInProgress(progress)) inProgress[id] = progress;
     else dropped = true;
   }
-  return { save: { schemaVersion: 5, history, inProgress }, dropped };
+  return { save: { schemaVersion: 6, history, inProgress }, dropped };
 }
 
 // ---- leitura e gravação ----
