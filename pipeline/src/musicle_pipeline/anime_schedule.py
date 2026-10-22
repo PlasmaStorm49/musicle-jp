@@ -109,6 +109,19 @@ def short_pools(catalog: JSON) -> list[str]:
     return warnings
 
 
+def _one_per_song(ordered: Sequence[JSON], mode: str, tier: str) -> list[JSON]:
+    """As faixas elegíveis do diário, uma por música (o songKey junta a TV size e a completa):
+    duas faixas da mesma música dobrariam o peso dela no sorteio. Fica a de menor id."""
+    seen: set[str] = set()
+    pool = []
+    for track in ordered:
+        playable = track["eligible"]["daily"] and track["anime"]["tiers"][mode] == tier
+        if playable and track["songKey"] not in seen:
+            seen.add(track["songKey"])
+            pool.append(track)
+    return pool
+
+
 class _Index:
     """Acesso rápido ao catálogo do Anime durante a geração."""
 
@@ -118,13 +131,7 @@ class _Index:
         self.version = catalog["catalogVersion"]
         self.tracks = {t["id"]: t for t in catalog["tracks"]}
         ordered = sorted(catalog["tracks"], key=lambda t: t["id"])
-        self.pools = {
-            (m, t): [
-                tr for tr in ordered if tr["eligible"]["daily"] and tr["anime"]["tiers"][m] == t
-            ]
-            for m in MODES
-            for t in TIERS
-        }
+        self.pools = {(m, t): _one_per_song(ordered, m, t) for m in MODES for t in TIERS}
         self.windows = {key: window_of(key[1], n) for key, n in pool_sizes(catalog).items()}
 
 

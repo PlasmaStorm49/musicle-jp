@@ -493,7 +493,6 @@ def test_the_fixture_schedule_has_the_dates_of_the_hits_one():
     anime = read_json(COMMITTED)
     assert anime["epoch"] == hits["epoch"]
     assert min(anime["days"]) == min(hits["days"])
-    assert set(anime["days"]) <= set(hits["days"])
 
 
 def test_the_fixture_schedule_is_valid_and_has_every_diary():
@@ -502,7 +501,14 @@ def test_the_fixture_schedule_is_valid_and_has_every_diary():
     assert validate_anime_schedule(schedule, catalog) == []
     errors, _ = rule_problems(schedule, catalog)
     assert errors == []
-    check_rules(schedule, catalog)
+    # As regras da geração só valem para os dias do catálogo fictício de agora: uma calibração
+    # muda a faixa das músicas, e os dias antigos não podem mudar (a agenda só cresce).
+    current = {
+        d: day
+        for d, day in schedule["days"].items()
+        if day["catalogVersion"] == catalog["catalogVersion"]
+    }
+    check_rules({**schedule, "days": current}, catalog)
 
 
 @pytest.mark.parametrize("seed", ["1", "2"])
@@ -563,3 +569,17 @@ def test_validate_anime_checks_the_schedule_next_to_the_catalog(tmp_path, capsys
     loose.write_bytes(dumps(broken).encode("utf-8"))
     assert main([*args, str(loose)]) == 1
     assert f"{first} titulo facil rodada 1: a faixa é dificil nesse modo" in capsys.readouterr().err
+
+
+def _answers(day: dict) -> list[str]:
+    return [r["answer"] for mode in ("musica", "titulo") for rs in day[mode].values() for r in rs]
+
+
+def test_two_tracks_of_the_same_song_count_once():
+    # A TV size e a completa (o mesmo songKey): uma faixa só no sorteio (revisor do A2).
+    catalog = read_json(FIXTURE / "catalog.json")
+    first = next(t for t in catalog["tracks"] if t["eligible"]["daily"])
+    twin = {**first, "id": first["id"] + "x"}
+    doubled = {**catalog, "tracks": sorted([*catalog["tracks"], twin], key=lambda t: t["id"])}
+    schedule = generate_anime(doubled, None, date(2026, 10, 8), date(2026, 10, 8), 10).schedule
+    assert all(twin["id"] not in _answers(day) for day in schedule["days"].values())

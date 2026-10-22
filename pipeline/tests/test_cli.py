@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import json
 import os
 import re
 import shutil
@@ -180,6 +181,16 @@ def test_a_new_fixture_schedule_may_be_born_with_past_days(tmp_path, capsys):
     loose.write_bytes((ANIME / "schedule.json").read_bytes())
     assert main(["schedule-check", "--path", str(loose), *args]) == 1
     assert "2026-10-08: dia novo antes de hoje (2026-10-21), P44" in capsys.readouterr().out
+    # Depois de criada (com base), a agenda fictícia volta a seguir a P44 (revisor do A2).
+    fixture = read_json(ANIME / "schedule.json")
+    base = tmp_path / "base5.json"
+    days = sorted(fixture["days"])[:5]
+    base.write_text(
+        json.dumps({**fixture, "days": {d: fixture["days"][d] for d in days}}), encoding="utf-8"
+    )
+    grown = ["--base", str(base), "--today", "2026-10-21"]
+    assert main(["schedule-check", "--path", str(ANIME / "schedule.json"), *grown]) == 1
+    assert "dia novo antes de hoje (2026-10-21), P44" in capsys.readouterr().out
 
 
 @pytest.mark.skipif(shutil.which("git") is None, reason="git não está no PATH")
