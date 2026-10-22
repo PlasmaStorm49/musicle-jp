@@ -1,0 +1,796 @@
+{
+  "anime": [
+    {
+      "levels": {
+        "mal": 9
+      },
+      "malId": 90001,
+      "name": "Hoshizora Kaizoku",
+      "series": [
+        {
+          "name": "Hoshizora Kaizoku",
+          "slug": "hoshizora_kaizoku"
+        }
+      ],
+      "slug": "hoshizora_kaizoku",
+      "synonyms": [
+        "星空海賊",
+        "Starry Pirates"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Hoshizora Drive"
+          ],
+          "levels": {
+            "anisongdb": 9
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Midnight Drive",
+          "track": {
+            "ref": "tr21"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Aoi Yuu",
+            "Nana"
+          ],
+          "levels": {
+            "anisongdb": 8
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Kaze ni Naru",
+          "track": {
+            "ref": "tr27"
+          },
+          "type": "ED"
+        }
+      ],
+      "year": 2019
+    },
+    {
+      "levels": {
+        "mal": 8
+      },
+      "malId": 90002,
+      "name": "Hoshizora Kaizoku 2nd Season",
+      "series": [
+        {
+          "name": "Hoshizora Kaizoku",
+          "slug": "hoshizora_kaizoku"
+        }
+      ],
+      "slug": "hoshizora_kaizoku_2nd_season",
+      "synonyms": [
+        "星空海賊 第2期"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Hoshizora Drive"
+          ],
+          "levels": {
+            "anisongdb": 8
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Ryuusei Highway",
+          "track": {
+            "ref": "tr42"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Aoi Yuu"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Himawaribatake de Tsukamaete",
+          "track": {
+            "ref": "tr41"
+          },
+          "type": "ED"
+        }
+      ],
+      "year": 2026
+    },
+    {
+      "levels": {
+        "mal": 8
+      },
+      "malId": 90003,
+      "name": "Tsukimi Gakuen",
+      "series": [],
+      "slug": "tsukimi_gakuen",
+      "synonyms": [
+        "月見学園",
+        "Moonview Academy"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Tsukimizaka46"
+          ],
+          "levels": {
+            "anisongdb": 8
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Sakamichi no Mukou",
+          "track": {
+            "ref": "tr06"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Tsukimizaka46"
+          ],
+          "levels": {
+            "anisongdb": 7
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Ichibanboshi",
+          "track": {
+            "ref": "tr20"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Tsukimizaka46"
+          ],
+          "levels": {
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Seifuku to Cider",
+          "track": {
+            "ref": "tr34"
+          },
+          "type": "ED"
+        }
+      ],
+      "year": 2025
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 90004,
+      "name": "Neon Samurai",
+      "series": [],
+      "slug": "neon_samurai",
+      "synonyms": [
+        "ネオン侍"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Re:Pulse"
+          ],
+          "levels": {
+            "anisongdb": 7
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Kyousou Riot",
+          "track": {
+            "ref": "tr10"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Re:Pulse"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Zero Kyori Love",
+          "track": {
+            "ref": "tr35"
+          },
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Re:Pulse"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Live",
+          "track": {
+            "ref": "tr25"
+          },
+          "type": "IN"
+        }
+      ],
+      "year": 2025
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 90005,
+      "name": "Kumo no Ue no Shiro",
+      "series": [],
+      "slug": "kumo_no_ue_no_shiro",
+      "synonyms": [
+        "雲の上の城",
+        "Castle Above the Clouds"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Viola Note"
+          ],
+          "levels": {
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Sennen no Shi",
+          "track": {
+            "ref": "tr33"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Viola Note"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Akikaze no Waltz",
+          "track": {
+            "ref": "tr07"
+          },
+          "type": "ED"
+        }
+      ],
+      "year": 2021
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 90006,
+      "name": "Garasu no Neko",
+      "series": [],
+      "slug": "garasu_no_neko",
+      "synonyms": [
+        "ガラスの猫"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Garasu no Neko"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Garasu no Kutsu",
+          "track": {
+            "ref": "tr16"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Garasu no Neko"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Ai no Uta",
+          "track": {
+            "ref": "tr18"
+          },
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Garasu no Neko"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Nekoze no Blues",
+          "track": {
+            "ref": "tr31"
+          },
+          "type": "IN"
+        }
+      ],
+      "year": 2023
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 90007,
+      "name": "Majo to Kissaten",
+      "series": [],
+      "slug": "majo_to_kissaten",
+      "synonyms": [
+        "魔女と喫茶店",
+        "The Witch's Café"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Papipu Gakudan"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Oyatsu no Jikan",
+          "track": {
+            "ref": "tr36"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Papipu Gakudan"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-preview",
+          "sequence": 1,
+          "song": "Pon Poko March",
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2024
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 90008,
+      "name": "Yoru no Gekijou",
+      "series": [],
+      "slug": "yoru_no_gekijou",
+      "synonyms": [
+        "夜の劇場",
+        "Night Theater"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Yokaze Theater"
+          ],
+          "levels": {
+            "anisongdb": 8
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Kaimaku Bell",
+          "track": {
+            "ref": "tr23"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Yokaze Theater"
+          ],
+          "levels": {
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Curtain Call",
+          "track": {
+            "ref": "tr24"
+          },
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yokaze Theater"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Mayonaka no Kanransha",
+          "track": {
+            "ref": "tr38"
+          },
+          "type": "OP"
+        }
+      ],
+      "year": 2025
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 90009,
+      "name": "Futari no Natsu",
+      "series": [],
+      "slug": "futari_no_natsu",
+      "synonyms": [
+        "ふたりの夏"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Yokaze Theater",
+            "Aoi Yuu"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Futari no Yakusoku",
+          "track": {
+            "ref": "tr05"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Sakuranbo-gumi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Natsuyasumi",
+          "track": {
+            "ref": "tr08"
+          },
+          "type": "ED"
+        }
+      ],
+      "year": 2025
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 90010,
+      "name": "Tokyo Noise",
+      "series": [],
+      "slug": "tokyo_noise",
+      "synonyms": [
+        "東京ノイズ"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Tokyo Noise"
+          ],
+          "levels": {
+            "anisongdb": 7
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Tokyo Lights",
+          "track": {
+            "ref": "tr22"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Tokyo Noise"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Shibuya 24-ji",
+          "track": {
+            "ref": "tr39"
+          },
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Tokyo Noise"
+          ],
+          "levels": {},
+          "result": "no-match",
+          "sequence": 1,
+          "song": "Aoi Haru",
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2024
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 90011,
+      "name": "Kotonoha Signal",
+      "series": [],
+      "slug": "kotonoha_signal",
+      "synonyms": [
+        "言の葉シグナル"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "KOTONOHA"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Toumei na Signal",
+          "track": {
+            "ref": "tr09"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "KOTONOHA"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Memory Lane",
+          "track": {
+            "ref": "tr32"
+          },
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "KOTONOHA"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Stay (Forever)",
+          "track": {
+            "ref": "tr26"
+          },
+          "type": "IN"
+        }
+      ],
+      "year": 2026
+    },
+    {
+      "levels": {
+        "mal": 2
+      },
+      "malId": 90012,
+      "name": "Luminous Heart",
+      "series": [],
+      "slug": "luminous_heart",
+      "synonyms": [
+        "ルミナス・ハート"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "LUMINA"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "LOVE SONG",
+          "track": {
+            "ref": "tr17"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "LUMINA"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Supernova",
+          "track": {
+            "ref": "tr29"
+          },
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "LUMINA"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Garasugoshi no Hikari",
+          "track": {
+            "ref": "tr30"
+          },
+          "type": "ED"
+        }
+      ],
+      "year": 2026
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 90013,
+      "name": "Minato Monogatari",
+      "series": [],
+      "slug": "minato_monogatari",
+      "synonyms": [
+        "港物語",
+        "Harbor Tale"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Minato"
+          ],
+          "levels": {
+            "anisongdb": 7
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Yoake no Melody",
+          "track": {
+            "ref": "tr01"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Minato"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Toudai",
+          "track": {
+            "ref": "tr37"
+          },
+          "type": "ED"
+        }
+      ],
+      "year": 2024
+    },
+    {
+      "levels": {
+        "mal": 1
+      },
+      "malId": 90014,
+      "name": "Nana-iro",
+      "series": [],
+      "slug": "nana_iro",
+      "synonyms": [
+        "ナナいろ"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Nana"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Hello Goodbye",
+          "track": {
+            "ref": "tr40"
+          },
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Aoi Yuu"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Kimi to",
+          "track": {
+            "ref": "tr15"
+          },
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Sakuranbo-gumi"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Hoshi ni Negai wo",
+          "track": {
+            "ref": "tr19"
+          },
+          "type": "IN"
+        }
+      ],
+      "year": 2026
+    },
+    {
+      "levels": {
+        "mal": 0
+      },
+      "malId": 90015,
+      "name": "Sora no Kanata",
+      "series": [],
+      "slug": "sora_no_kanata",
+      "synonyms": [
+        "空の彼方"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Hoshizora Drive"
+          ],
+          "levels": {},
+          "result": "no-artist",
+          "sequence": 1,
+          "song": "Neon Rain",
+          "track": null,
+          "type": "OP"
+        }
+      ],
+      "year": 2022
+    }
+  ],
+  "fetchedAt": "2026-10-05T12:00:00Z",
+  "id": "2026-10-05T120000Z",
+  "provider": "fixture",
+  "storefront": "jp"
+}
