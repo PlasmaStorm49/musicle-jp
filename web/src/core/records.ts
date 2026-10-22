@@ -9,7 +9,10 @@ import type { Daily, DailyKey } from "./daily.ts";
 import { createGame, type GameEvent, type GameState, isFinished, reduce } from "./reducer.ts";
 import { HELP_POINTS, MAX_POINTS, pointsAtStage } from "./rules.ts";
 
-/** "<data>|<diário>", ex.: "2026-10-08|album" (o Normal) ou "2026-10-08|song" (o Desafio). */
+/**
+ * "<data>|<diário>", ex.: "2026-10-08|album" (o Normal), "2026-10-08|song" (o Desafio) ou, no
+ * Anime (v6, P250), "2026-10-08|anime-musica-facil".
+ */
 export type PuzzleId = string;
 
 export type AttemptMark = "skip" | "wrong" | "right";
@@ -43,16 +46,17 @@ export type InProgress = {
 /**
  * O formato salvo. v3 (P100): os dois modos fixos começam do zero, e sai a preferência do modo
  * de resposta, que não existe mais. v4 (P149): a ajuda, no evento HELP e no `help` da rodada.
- * v5 (P163): o pulo depois da ajuda (storage/migrations.ts).
+ * v5 (P163): o pulo depois da ajuda. v6 (P250): os ids dos diários do Anime
+ * (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 5;
+  readonly schemaVersion: 6;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
 };
 
 export function emptySave(): Save {
-  return { schemaVersion: 5, history: {}, inProgress: {} };
+  return { schemaVersion: 6, history: {}, inProgress: {} };
 }
 
 export function puzzleId(date: string, key: DailyKey): PuzzleId {

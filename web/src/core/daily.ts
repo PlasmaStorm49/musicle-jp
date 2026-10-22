@@ -21,6 +21,22 @@ export type AnimeDifficulty = (typeof ANIME_DIFFICULTIES)[number];
  */
 export type DailyKey = Target | `anime-${AnimeMode}-${AnimeDifficulty}`;
 
+/** Os 6 diários do Anime, na ordem dos modos e, em cada modo, das dificuldades. */
+export const ANIME_KEYS: readonly DailyKey[] = ANIME_MODES.flatMap((mode) =>
+  ANIME_DIFFICULTIES.map((difficulty) => `anime-${mode}-${difficulty}` as const),
+);
+
+/**
+ * Todos os diários de um dia: os 2 dos Hits e os 6 do Anime. São os que o save aceita (P250) e os
+ * andamentos que a abertura do jogo guarda (o resto é de outro dia).
+ */
+export const DAILY_KEYS: readonly DailyKey[] = [...MODES, ...ANIME_KEYS];
+
+/** Os ids no save de todos os diários de um dia: os andamentos que a abertura do jogo guarda. */
+export function dailyIds(date: string): PuzzleId[] {
+  return DAILY_KEYS.map((key) => puzzleId(date, key));
+}
+
 /**
  * O que se acerta: a faixa (nos Hits; o Normal aceita o álbum dela) ou a franquia (o anime). Por
  * enquanto só existe a faixa: a franquia chega com os diários do Anime.

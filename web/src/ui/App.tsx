@@ -5,11 +5,10 @@ import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
-import { hitsDailies } from "../core/daily.ts";
+import { dailyIds, hitsDailies } from "../core/daily.ts";
 import { artistSummary, dailiesDone, practiceSummary } from "../core/home.ts";
-import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
+import { emptySave, pruneProgress, type Save } from "../core/records.ts";
 import { type Category, categoryOf, ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
-import { MODES } from "../core/rules.ts";
 import {
   appleResolver,
   catalogResolver,
@@ -90,7 +89,8 @@ function openSaves(date: string): Storage {
   } catch {
     loaded = { save: emptySave(), writable: false, notice: "unavailable" };
   }
-  const today = MODES.map((mode) => puzzleId(date, mode));
+  // Os andamentos de hoje que ficam: os dos Hits e os do Anime (P250); o resto é de outro dia.
+  const today = dailyIds(date);
   if (loaded.writable) updateSave(store, (s) => pruneProgress(s, today));
   const notice =
     loaded.notice === "future"

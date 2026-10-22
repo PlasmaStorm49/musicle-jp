@@ -43,7 +43,7 @@ describe("migrate", () => {
       inProgress: { "2026-10-12|song": { answerMode: "typing", events: [{ type: "SKIP" }] } },
     };
     expect(MIGRATIONS[2]?.(v2)).toEqual({ history: {}, inProgress: {} });
-    expect(migrate(v2, 2)).toEqual({ schemaVersion: 5, history: {}, inProgress: {} });
+    expect(migrate(v2, 2)).toEqual({ schemaVersion: 6, history: {}, inProgress: {} });
   });
 
   it("v3 → v4 guarda tudo como está: a ajuda (P149) só acrescenta", () => {
@@ -73,7 +73,7 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[3]?.(v3)).toEqual(v3);
-    expect(migrate(v3, 3)).toEqual({ ...v3, schemaVersion: 5 });
+    expect(migrate(v3, 3)).toEqual({ ...v3, schemaVersion: 6 });
   });
 
   it("v4 → v5 guarda tudo como está: o pulo depois da ajuda (P163) só acrescenta", () => {
@@ -102,12 +102,48 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[4]?.(v4)).toEqual(v4);
-    expect(migrate(v4, 4)).toEqual({ ...v4, schemaVersion: 5 });
+    expect(migrate(v4, 4)).toEqual({ ...v4, schemaVersion: 6 });
+  });
+
+  it("v5 → v6 guarda tudo como está: os diários do Anime (P250) só acrescentam ids", () => {
+    // Um save v5 de verdade: os dois diários dos Hits, um com a ajuda e o pulo depois dela, e um
+    // em andamento.
+    const v5 = {
+      schemaVersion: 5,
+      history: {
+        "2026-10-20|album": {
+          number: 10,
+          rounds: [
+            { status: "won", stage: 2, attempts: ["right"] },
+            { status: "lost", stage: 0, attempts: ["wrong"] },
+            { status: "void", stage: 0, attempts: [] },
+          ],
+        },
+        "2026-10-20|song": {
+          number: 10,
+          rounds: [
+            {
+              status: "won",
+              stage: 4,
+              attempts: ["skip", "skip", "skip", "skip", "right"],
+              help: 3,
+            },
+            { status: "won", stage: 0, attempts: ["right"] },
+            { status: "lost", stage: 5, attempts: ["wrong", "wrong", "wrong", "wrong", "wrong"] },
+          ],
+        },
+      },
+      inProgress: {
+        "2026-10-21|song": { events: [{ type: "SKIP" }, { type: "GUESS", guessId: "x" }] },
+      },
+    };
+    expect(MIGRATIONS[5]?.(v5)).toEqual(v5);
+    expect(migrate(v5, 5)).toEqual({ ...v5, schemaVersion: 6 });
   });
 
   it("v1 vai até a atual passando por todas", () => {
     expect(migrate({ schemaVersion: 1, settings: { answerMode: "typing" } }, 1)).toEqual({
-      schemaVersion: 5,
+      schemaVersion: 6,
       history: {},
       inProgress: {},
     });
