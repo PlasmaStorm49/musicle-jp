@@ -117,6 +117,14 @@ export async function lastPlayed(page: Page): Promise<Track> {
   return track;
 }
 
+/** O nome do anime (a 1ª franquia) de uma faixa do Anime: a resposta do "acertar o anime". */
+export function franchiseName(track: AnimeTrack): string {
+  const id = track.anime.franchiseIds[0];
+  const franchise = animeCatalog.franchises.find((f) => f.id === id);
+  if (!franchise) throw new Error(`a franquia ${id} não está no catálogo do Anime`);
+  return franchise.name;
+}
+
 /** A faixa do Anime que acabou de "tocar", lida do catálogo falso do Anime. */
 export async function lastPlayedAnime(page: Page): Promise<AnimeTrack> {
   const url = await page.evaluate(() => window.__musicleAudioLog?.at(-1)?.url ?? "");

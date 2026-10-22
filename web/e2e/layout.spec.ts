@@ -118,8 +118,11 @@ for (const viewport of [
         "Desafio: terminado, 0 de 18 pontos",
       ]);
       await expect(cards.filter({ hasText: /^Anime/ }).locator(".tag")).toHaveText([
-        "Hoje: 1 de 3 terminados",
+        "Hoje: 1 de 6 terminados",
       ]);
+      // O fim, numa linha: o "Sobre e privacidade" e a troca de tema.
+      const about = page.getByRole("link", { name: "Sobre e privacidade" });
+      expect(await top(about)).toBeCloseTo(await top(page.getByRole("switch")), -1);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
@@ -178,6 +181,37 @@ for (const viewport of [
       await expect(page.locator(".reveal .attempt")).toHaveCount(5);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
       await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test("a revelação do acertar o anime com o tema mais longo, 5 tentativas e o selo da Apple", async ({
+      page,
+    }) => {
+      // Em 17/10, a 1ª rodada do Fácil é a da 2ª temporada da Hoshizora Kaizoku: o tema mais longo
+      // das fixtures ("Anime: Hoshizora Kaizoku 2nd Season · OP1") no lugar do álbum.
+      await appleCatalog(page);
+      await open(page, "2026-10-17T12:00:00-03:00", "#anime-titulo-facil");
+      await skip(page, 5);
+      await page.getByRole("button", { name: "Desistir" }).click();
+      await expect(page.locator(".reveal .card .album")).toHaveText(
+        "Anime: Hoshizora Kaizoku 2nd Season · OP1",
+      );
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test("a ajuda do acertar o anime: os 4 nomes de anime no lugar do campo", async ({ page }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#anime-titulo-facil");
+      await skip(page, 3);
+      await page.getByRole("button", { name: /^Pedir ajuda/ }).click();
+      await expect(page.locator(".help-options .option")).toHaveCount(4);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o Sobre e privacidade (P243)", async ({ page }) => {
+      await open(page, DAY, "#sobre");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sobre e privacidade");
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
     test("o resumo do diário do Anime", async ({ page }) => {
@@ -378,6 +412,8 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     ["#anime-musica", "Acertar a música"],
     ["#anime-titulo", "Acertar o anime"],
     ["#anime-musica-dificil", "Música · Difícil · nº 1"],
+    ["#anime-titulo-dificil", "Anime · Difícil · nº 1"],
+    ["#sobre", "Sobre e privacidade"],
   ] as const) {
     await page.evaluate((h) => {
       window.location.hash = h;

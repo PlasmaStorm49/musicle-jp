@@ -1,11 +1,13 @@
-// O Anime (M14, PR D2): a categoria na nav, a escolha do modo e da dificuldade, e o diário do
-// "acertar a música", nas fixtures (a agenda fictícia do Anime vai de 08/10 a 09/11/2026).
+// O Anime (M14, PRs D2 e D3): a categoria na nav, a escolha do modo e da dificuldade, os diários
+// do "acertar a música" e do "acertar o anime", a ajuda com 4 animes e o "Sobre e privacidade",
+// nas fixtures (a agenda fictícia do Anime vai de 08/10 a 09/11/2026).
 import type { Save } from "../src/core/records.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
 import {
   animeTab,
   captureClipboard,
   expect,
+  franchiseName,
   hitsTab,
   lastPlayedAnime,
   open,
@@ -34,13 +36,16 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, com o ✓ da
   await open(page, DAY, "#inicio");
   await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeFocused();
 
-  // A aba Anime abre a escolha do modo, com o foco no título; o acertar o anime fica em breve.
+  // A aba Anime abre a escolha do modo, com o foco no título: os dois modos, e os créditos.
   await animeTab(page).click();
   await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
   await expect(animeTab(page)).toHaveAttribute("aria-current", "page");
   const main = page.getByRole("main");
-  await expect(main.getByRole("link", { name: /^Acertar o anime/ })).toHaveCount(0);
-  await expect(main.getByText("Em breve")).toBeVisible();
+  await expect(main.getByRole("link", { name: /^Acertar o anime/ })).toBeVisible();
+  await expect(main.getByRole("link", { name: /^Dados: AnimeThemes/ })).toHaveAttribute(
+    "href",
+    "#sobre",
+  );
   await main.getByRole("link", { name: /^Acertar a música/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Acertar a música" })).toBeFocused();
   const facil = main.getByRole("link", { name: /^Fácil/ });
@@ -94,7 +99,121 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, com o ✓ da
     "nº 1 · terminado, 11 de 18 pontos",
   );
   await page.getByRole("link", { name: "Início" }).click();
-  await expect(main.getByRole("link", { name: /^Anime/ })).toContainText("Hoje: 1 de 3 terminados");
+  await expect(main.getByRole("link", { name: /^Anime/ })).toContainText("Hoje: 1 de 6 terminados");
+});
+
+/** Digita um nome do anime e escolhe a sugestão com o nome dele (o "acertar o anime"). */
+async function answerAnime(
+  page: Parameters<typeof lastPlayedAnime>[0],
+  typed: string,
+  shown: string,
+): Promise<void> {
+  await page.getByRole("combobox", { name: "Qual é o anime?" }).fill(typed);
+  await page
+    .getByRole("option")
+    .filter({ has: page.getByText(shown, { exact: true }) })
+    .click();
+}
+
+test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar ao compartilhar (P234)", async ({
+  page,
+}) => {
+  await captureClipboard(page);
+  await open(page, DAY, "#anime");
+  await viaAnime(page, /^Acertar o anime/, /^Fácil/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime · Fácil · nº 1");
+  await expect(page.getByRole("combobox", { name: "Qual é o anime?" })).toHaveAttribute(
+    "placeholder",
+    "Nome do anime",
+  );
+
+  // Rodada 1: o nome do anime da faixa que tocou, de primeira (6 pontos).
+  await page.getByRole("button", { name: "Tocar 1 s" }).click();
+  const first = franchiseName(await lastPlayedAnime(page));
+  await answerAnime(page, first, first);
+  await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
+  await page.getByRole("button", { name: "Próxima rodada" }).click();
+
+  // Rodada 2: desiste.
+  await page.getByRole("button", { name: "Desistir", exact: true }).click();
+  await page.getByRole("button", { name: "Próxima rodada" }).click();
+
+  // Rodada 3: a 2ª temporada da Hoshizora Kaizoku; "Starry Pirates" (o nome em inglês) acha o
+  // anime, e vale qualquer temporada (5 pontos, com um pulo).
+  await page.getByRole("button", { name: "Pular (+1 s)" }).click();
+  await page.getByRole("button", { name: "Tocar 2 s" }).click();
+  const third = await lastPlayedAnime(page);
+  expect(franchiseName(third)).toBe("Hoshizora Kaizoku");
+  await answerAnime(page, "Starry Pirates", "Hoshizora Kaizoku");
+  await expect(page.getByRole("heading", { name: "Acertou! 5 de 6 pontos." })).toBeVisible();
+  // A revelação: a tentativa com o nome do anime, e o cartão com a música e o tema.
+  await expect(page.locator(".reveal .attempt.right")).toContainText("Hoshizora Kaizoku");
+  await expect(page.locator(".reveal .card .item-title")).toHaveText(third.title);
+  await expect(page.locator(".reveal .card .album")).toHaveText(
+    "Anime: Hoshizora Kaizoku 2nd Season · OP1",
+  );
+  await page.getByRole("button", { name: "Ver resultado" }).click();
+
+  await expect(page.getByText("11 de 18 pontos")).toBeVisible();
+  await page.getByRole("button", { name: "Compartilhar resultado" }).click();
+  expect(await page.evaluate(() => window.__copied)).toBe(
+    "AteMusic Anime · Anime · Fácil nº 1\n11/18\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
+  );
+  const saved = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
+  expect(Object.keys((JSON.parse(saved ?? "{}") as Save).history)).toEqual([
+    "2026-10-08|anime-titulo-facil",
+  ]);
+  await expect(animeTab(page)).toHaveAccessibleName("Anime (já jogou hoje)");
+});
+
+test("Anime: a ajuda do acertar o anime mostra 4 animes, nenhum de uma resposta do dia, e vale 1 ponto", async ({
+  page,
+}) => {
+  await open(page, DAY, "#anime-titulo-facil");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime · Fácil · nº 1");
+  for (let i = 0; i < 3; i++) await page.getByRole("button", { name: /^Pular/ }).click();
+  await page.getByRole("button", { name: "Pedir ajuda", exact: true }).click();
+  const options = page.getByRole("list", { name: "Opções da ajuda" }).getByRole("button");
+  await expect(options).toHaveCount(4);
+  await expect(options.first()).toBeFocused();
+  // Em 08/10, as 18 respostas do Anime são de 10 das 13 franquias fictícias: sobram as outras 3,
+  // e a certa (a da 1ª rodada, a Tsukimi Gakuen).
+  const shown = (await page.locator(".help-options .item-title").allTextContents()).sort();
+  expect(shown).toEqual([
+    "Kumo no Ue no Shiro",
+    "Majo to Kissaten",
+    "Tokyo Noise",
+    "Tsukimi Gakuen",
+  ]);
+  await page.getByRole("button", { name: /^Tocar/ }).click();
+  const right = franchiseName(await lastPlayedAnime(page));
+  await options.filter({ hasText: right }).click();
+  await expect(page.getByRole("heading", { name: "Acertou com ajuda: 1 ponto." })).toBeVisible();
+});
+
+test("o Sobre e privacidade: pelo fim da Início e pelos créditos do Anime (P243, P258)", async ({
+  page,
+}) => {
+  await open(page, DAY, "#inicio");
+  await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeFocused();
+  await page.getByRole("link", { name: "Sobre e privacidade" }).click();
+  const title = page.getByRole("heading", { level: 1, name: "Sobre e privacidade" });
+  await expect(title).toBeFocused();
+  const main = page.getByRole("main");
+  await expect(main.getByRole("link", { name: /^MyAnimeList/ })).toHaveAttribute(
+    "href",
+    "https://myanimelist.net",
+  );
+  await expect(main.getByRole("link", { name: /^as Issues do GitHub/ })).toHaveAttribute(
+    "href",
+    "https://github.com/PlasmaStorm49/musicle-jp/issues",
+  );
+  await expect(main).toContainText("O jogo não coleta dados pessoais.");
+  // Pelos créditos do Anime, o mesmo endereço.
+  await animeTab(page).click();
+  await page.getByRole("link", { name: /^Dados: AnimeThemes/ }).click();
+  await expect(title).toBeFocused();
+  expect(new URL(page.url()).hash).toBe("#sobre");
 });
 
 test("o Anime só é baixado quando a pessoa abre a categoria (quem joga só os Hits não baixa nada)", async ({
@@ -151,29 +270,15 @@ test("Anime: entrar no diário com o teclado leva o foco ao Tocar (regra 16)", a
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
 });
 
-test("Anime: o acertar o anime ainda não abre (PR D3): a escolha da dificuldade e o diário avisam", async ({
-  page,
-}) => {
-  await open(page, DAY, "#anime-titulo");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Acertar o anime");
-  await expect(page.getByRole("main").getByRole("link")).toHaveCount(0);
-  await expect(page.getByText("Em breve")).toHaveCount(3);
-  await page.evaluate(() => {
-    window.location.hash = "#anime-titulo-facil";
-  });
-  await expect(page.getByText("Acertar o anime: em breve.")).toBeFocused();
-  await page.getByRole("link", { name: "Voltar ao Anime" }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
-});
-
 test("dia fora da agenda do Anime: os modos avisam sem link, e o diário volta ao Anime", async ({
   page,
 }) => {
   // 07/10 é antes do 1º dia da agenda fictícia do Anime (08/10), que só cresce (P44).
   await open(page, "2026-10-07T12:00:00-03:00", "#anime");
   await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
-  await expect(page.getByRole("main").getByRole("link")).toHaveCount(0);
-  await expect(page.getByText("Não há diário hoje")).toBeVisible();
+  // Só o link dos créditos: os dois modos avisam.
+  await expect(page.getByRole("main").getByRole("link")).toHaveCount(1);
+  await expect(page.getByText("Não há diário hoje")).toHaveCount(2);
   await page.evaluate(() => {
     window.location.hash = "#anime-musica-facil";
   });
