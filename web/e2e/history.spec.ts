@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { SAVE_KEY } from "../src/storage/save.ts";
-import { captureClipboard, expect, hitsTab, navLink, open, test } from "./helpers.ts";
+import { animeTab, captureClipboard, expect, hitsTab, navLink, open, test } from "./helpers.ts";
 
 // O Histórico (M15, P260 a P265). Nas fixtures, 22/10 tem os 14 dias antes dele na agenda
 // (08/10 a 21/10), e 21/10 é o nº 14.
@@ -183,4 +183,133 @@ test("toque duplo num dia do calendário: abre o dia, e o 2º clique não abre u
     .dblclick();
   await expect(page.getByRole("heading", { level: 1, name: "Quarta-feira, 21/10" })).toBeVisible();
   await expect(page).toHaveURL(/#historico\/2026-10-21$/);
+});
+
+// --- o Anime no Histórico (o PR 3) ----------------------------------------------------------
+
+/** Termina o diário do Anime aberto sem acertar: o "Desistir" nas 3 rodadas. */
+async function giveUpAnime(page: Page): Promise<void> {
+  for (const next of ["Próxima rodada", "Próxima rodada", "Ver resultado"]) {
+    await page.getByRole("button", { name: "Desistir", exact: true }).click();
+    await page.getByRole("button", { name: next }).click();
+  }
+}
+
+test("jogar o Anime de 21/10 depois: o cartão do dia, os modos com a data, o resumo e a marca do Anime (P261, P277)", async ({
+  page,
+}) => {
+  await captureClipboard(page);
+  await open(page, TODAY, "#historico/2026-10-21");
+  await expect(page.getByRole("heading", { level: 1, name: "Quarta-feira, 21/10" })).toBeFocused();
+  const main = page.getByRole("main");
+  const card = main.getByRole("link", { name: /^Anime/ });
+  await expect(card).toContainText("6 diários novos");
+  await card.click();
+
+  // A escolha do modo do dia passado: a data no lugar da dica, e o Histórico marcado na nav.
+  await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
+  await expect(main.getByText("Quarta-feira, 21/10")).toBeVisible();
+  await expect(
+    page.getByRole("navigation").getByRole("link", { name: "Histórico" }),
+  ).toHaveAttribute("aria-current", "true");
+  await expect(animeTab(page)).not.toHaveAttribute("aria-current", /.*/);
+  await main.getByRole("link", { name: /^Acertar a música/ }).click();
+  await expect(page).toHaveURL(/#anime-musica\/2026-10-21$/);
+  await main.getByRole("link", { name: /^Fácil/ }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Fácil · nº 14");
+  await giveUpAnime(page);
+
+  await expect(page.getByText("Jogado depois: não conta nas estatísticas.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Estatísticas" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Compartilhar resultado" }).click();
+  expect(await page.evaluate(() => window.__copied)).toMatch(
+    /^AteMusic Anime · Música · Fácil nº 14 \(jogado depois\)\n0\/18\n/,
+  );
+  const saved = await page.evaluate(
+    (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),
+    SAVE_KEY,
+  );
+  expect(saved.history["2026-10-21|anime-musica-facil"].late).toBe(true);
+
+  // De volta ao dia e ao calendário: o cartão conta o terminado, e o dia ganha o ✓ do Anime.
+  await page.getByRole("link", { name: "Voltar ao dia" }).click();
+  await expect(main.getByRole("link", { name: /^Anime/ })).toContainText("1 de 6 terminados");
+  await page.getByRole("link", { name: "Voltar ao Histórico" }).click();
+  const cell = page.getByRole("link", {
+    name: "Quarta-feira, 21 de outubro: Hits, nenhum diário jogado; Anime, ao menos 1 diário jogado",
+  });
+  await expect(cell.locator(".mark-slot").nth(1).locator(".mark-all")).toHaveText("✓");
+  // O Anime de hoje continua por jogar: a aba Anime sem o ✓, e o jogado depois não conta.
+  await expect(animeTab(page)).toHaveAccessibleName("Anime");
+});
+
+test("quem abre o Histórico baixa só a agenda do Anime; o catálogo, só com uma tela do Anime (P270)", async ({
+  page,
+}) => {
+  const asked: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/anime/")) asked.push(new URL(request.url()).pathname);
+  });
+  await open(page, TODAY, "#historico");
+  await expect(page.getByRole("heading", { level: 1, name: "Histórico" })).toBeFocused();
+  await page.getByRole("link", { name: /^Quarta-feira, 21 de outubro/ }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Quarta-feira, 21/10" })).toBeFocused();
+  expect(asked).toEqual(["/fixtures/anime/schedule.json"]);
+  await page
+    .getByRole("main")
+    .getByRole("link", { name: /^Anime/ })
+    .click();
+  await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
+  // A agenda já veio: só o catálogo desce.
+  expect(asked).toEqual(["/fixtures/anime/schedule.json", "/fixtures/anime/catalog.json"]);
+});
+
+test("o dia passado sem o Anime: o cartão apagado, a marca vazia e o diário que volta ao dia", async ({
+  page,
+}) => {
+  // A agenda do Anime sem 21/10 (o resto igual).
+  await page.route("**/fixtures/anime/schedule.json", async (route) => {
+    const response = await route.fetch();
+    const body = (await response.json()) as { days: Record<string, unknown> };
+    delete body.days["2026-10-21"];
+    await route.fulfill({ response, json: body });
+  });
+  await open(page, TODAY, "#historico");
+  await expect(
+    page.getByRole("link", {
+      name: "Quarta-feira, 21 de outubro: Hits, nenhum diário jogado; sem diário do Anime",
+    }),
+  ).toBeVisible();
+  await page.evaluate(() => {
+    window.location.hash = "#historico/2026-10-21";
+  });
+  await expect(page.getByRole("heading", { level: 1, name: "Quarta-feira, 21/10" })).toBeFocused();
+  await expect(page.locator(".home-card.off")).toContainText("Sem diário do Anime");
+  await page.evaluate(() => {
+    window.location.hash = "#anime-musica-facil/2026-10-21";
+  });
+  await expect(page.getByText("Não há diário do Anime nesse dia.")).toBeFocused();
+  await expect(page.getByRole("link", { name: "Voltar ao dia" })).toHaveAttribute(
+    "href",
+    "#historico/2026-10-21",
+  );
+});
+
+test("a agenda do Anime que falhou: o Histórico só com os Hits", async ({
+  page,
+  consoleErrors,
+}) => {
+  await page.route("**/fixtures/anime/schedule.json", (route) => route.abort());
+  await open(page, TODAY, "#historico");
+  await expect(page.getByRole("heading", { level: 1, name: "Histórico" })).toBeFocused();
+  await expect(
+    page.getByRole("link", { name: "Quarta-feira, 21 de outubro: Hits, nenhum diário jogado" }),
+  ).toBeVisible();
+  await expect(page.locator(".calendar-legends")).toHaveCount(0);
+  // O pedido derrubado de propósito aparece no console como um erro de rede: só essa ocorrência
+  // sai da conta, como no teste da carga do Anime que falha.
+  const network = consoleErrors.findIndex((message) =>
+    /Failed to load resource|net::ERR_FAILED/.test(message),
+  );
+  if (network >= 0) consoleErrors.splice(network, 1);
 });

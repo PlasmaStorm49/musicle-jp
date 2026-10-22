@@ -116,12 +116,19 @@ for (const viewport of [
     test("o Histórico: o calendário, a tela do dia no caso mais alto e o resumo do jogado depois (P260, P271)", async ({
       page,
     }) => {
-      // Os dois diários de 21/10 jogados depois: os dois cartões com a linha a mais.
+      // Os dois diários de 21/10 jogados depois: os dois cartões com a linha a mais. E os 3 do
+      // "acertar a música" do Anime, para a escolha da dificuldade no caso mais alto.
       const lost = { status: "lost", stage: 0, attempts: ["wrong"] } as const;
       const late = { number: 14, rounds: [lost, lost, lost], late: true as const };
       const save = {
         schemaVersion: 7,
-        history: { "2026-10-21|album": late, "2026-10-21|song": late },
+        history: {
+          "2026-10-21|album": late,
+          "2026-10-21|song": late,
+          "2026-10-21|anime-musica-facil": late,
+          "2026-10-21|anime-musica-medio": late,
+          "2026-10-21|anime-musica-dificil": late,
+        },
         inProgress: {},
       } satisfies Save;
       await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
@@ -142,6 +149,14 @@ for (const viewport of [
       });
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quarta-feira, 21/10");
       await expect(page.getByText("jogado depois")).toHaveCount(2);
+      await expect(page.getByRole("main").getByRole("link", { name: /^Anime/ })).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      // A escolha da dificuldade de um dia passado, com os 3 jogados depois.
+      await page.evaluate(() => {
+        window.location.hash = "#anime-musica/2026-10-21";
+      });
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Acertar a música");
+      await expect(page.getByText("jogado depois")).toHaveCount(3);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
       await page.evaluate(() => {
         window.location.hash = "#normal/2026-10-21";
@@ -528,6 +543,8 @@ test("em 320 px, as telas do Histórico não rolam para o lado, e os dias têm 4
     ["#historico/2026-10-21", "Quarta-feira, 21/10"],
     ["#normal/2026-10-21", "Normal · nº 14"],
     ["#desafio/2026-10-21", "Desafio · nº 14"],
+    ["#anime/2026-10-21", "Anime"],
+    ["#anime-musica-dificil/2026-10-21", "Música · Difícil · nº 14"],
   ] as const) {
     await page.evaluate((h) => {
       window.location.hash = h;
