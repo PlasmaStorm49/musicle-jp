@@ -432,8 +432,13 @@ def _fetch(args: argparse.Namespace) -> int:
             print("--anime é uma busca à parte: sem --today e sem --artists", file=sys.stderr)
             return 1
         return _fetch_anime(args)
-    if args.personal or args.out_dir:
-        print("--personal e --out-dir só valem com --anime", file=sys.stderr)
+    anime_only = (args.personal, args.out_dir, args.max_songs, args.target_per_tier, args.max_anime)
+    if any(value is not None for value in anime_only):
+        print(
+            "--personal, --out-dir, --max-songs, --target-per-tier e --max-anime só valem com "
+            "--anime",
+            file=sys.stderr,
+        )
         return 1
     if args.artists:
         if args.today is not None:
@@ -503,9 +508,9 @@ def _fetch_anime(args: argparse.Namespace) -> int:
             official,
             io,
             personal=personal,
-            target_per_tier=args.target_per_tier,
-            max_songs=args.max_songs,
-            max_anime=args.max_anime,
+            target_per_tier=18 if args.target_per_tier is None else args.target_per_tier,
+            max_songs=70 if args.max_songs is None else args.max_songs,
+            max_anime=400 if args.max_anime is None else args.max_anime,
         )
     except fetch.FetchError as exc:
         print(f"fetch --anime: {exc}; nada foi gravado", file=sys.stderr)
@@ -757,11 +762,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--personal", type=Path, help="com --anime, só na 1ª carga: o XML exportado do MAL"
     )
     fetch.add_argument("--out-dir", type=Path, help="com --anime: a pasta dos snapshots")
-    fetch.add_argument("--max-songs", type=int, default=70, help="com --anime: para nesse total")
+    fetch.add_argument("--max-songs", type=int, help="com --anime: para nesse total (70)")
     fetch.add_argument(
-        "--target-per-tier", type=int, default=18, help="com --anime: músicas por modo e faixa"
+        "--target-per-tier", type=int, help="com --anime: músicas por modo e faixa (18)"
     )
-    fetch.add_argument("--max-anime", type=int, default=400, help="com --anime: animes tentados")
+    fetch.add_argument("--max-anime", type=int, help="com --anime: animes tentados (400)")
     fetch.add_argument(
         "--fetched-at", type=_fetched_at, required=True, help="agora em UTC: AAAA-MM-DDTHH:MM:SSZ"
     )
