@@ -13,6 +13,12 @@ from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
 from musicle_pipeline.anime import build_anime_catalog
+from musicle_pipeline.anime_schedule import (
+    generate_anime,
+    rule_problems,
+    short_pools,
+    validate_anime_schedule,
+)
 from musicle_pipeline.artists import (
     INDEX,
     artist_snapshots,
@@ -45,6 +51,7 @@ from musicle_pipeline.romaji_cache import (
 )
 from musicle_pipeline.schedule import (
     HORIZON_DAYS,
+    Generator,
     ScheduleError,
     check_dates,
     compare,
@@ -248,7 +255,63 @@ def _validate_anime(args: argparse.Namespace) -> int:
     )
     if not path.exists():
         return _report(path, ["arquivo ausente (rode o build-anime)"])
-    return _report(path, validate_anime_catalog(read_json(path), path.read_bytes()))
+    catalog = read_json(path)
+    code = _report(path, validate_anime_catalog(catalog, path.read_bytes()))
+    # A agenda ao lado do catálogo, se existir (ou a do --schedule, que precisa existir).
+    spath = resolve(args.schedule) if args.schedule else path.with_name("schedule.json")
+    if code or (args.schedule is None and not spath.exists()):
+        return code
+    if not spath.exists():
+        return _report(spath, ["arquivo ausente (rode o schedule-anime)"])
+    schedule = read_json(spath)
+    problems = validate_anime_schedule(schedule, catalog)
+    warnings = short_pools(catalog)
+    if not problems:
+        errors, old = rule_problems(schedule, catalog)
+        problems += errors
+        warnings += [f"{w} (catálogo mudou depois do dia)" for w in old]
+        if dumps(schedule).encode("utf-8") != spath.read_bytes():
+            problems.append("arquivo fora da forma canônica (regere com o pipeline)")
+    for message in warnings:
+        print(f"aviso: {message}", file=sys.stderr)
+    return _report(spath, problems)
+
+
+def _schedule_anime(args: argparse.Namespace) -> int:
+    paths = anime_paths(args.provider)
+    catalog_path = resolve(args.catalog) if args.catalog else paths.public_dir / "catalog.json"
+    out = (resolve(args.out) if args.out else paths.public_dir / "schedule.json").resolve()
+    # A mesma trava do build: dentro de web/public, cada provedor só grava na pasta dele.
+    public = (repo_root() / "web" / "public").resolve()
+    if out.is_relative_to(public) and out.parent != paths.public_dir.resolve():
+        print(
+            f"o provedor {args.provider} grava em {paths.public_dir}, não em {out}", file=sys.stderr
+        )
+        return 1
+    if not catalog_path.exists():
+        return _report(catalog_path, ["arquivo ausente (rode o build-anime)"])
+    catalog = read_json(catalog_path)
+    if _report(catalog_path, validate_anime_catalog(catalog, catalog_path.read_bytes())):
+        return 1
+    if catalog["provider"] != args.provider:
+        print(
+            f"{catalog_path}: o catálogo é do provedor {catalog['provider']!r}, "
+            f"não {args.provider!r}",
+            file=sys.stderr,
+        )
+        return 1
+    existing = read_json(out) if out.exists() else None
+    result = generate_anime(catalog, existing, args.today, args.epoch, args.days)
+    for message in [*short_pools(catalog), *result.warnings]:
+        print(f"aviso: {message}", file=sys.stderr)
+    for message in result.relaxations:
+        print(f"afrouxamento: {message}", file=sys.stderr)
+    changed = write_if_changed(out, dumps(result.schedule))
+    span = f" ({result.added[0]} a {result.added[-1]})" if result.added else ""
+    total = len(result.schedule["days"])
+    print(f"{out}: {len(result.added)} dia(s) novo(s){span}, {total} no total", end="")
+    print("" if changed else "; sem mudanças")
+    return 0
 
 
 def _schedule(args: argparse.Namespace) -> int:
@@ -288,16 +351,31 @@ def _schedule_check(args: argparse.Namespace) -> int:
     if args.catalog is not None and len(args.path or []) != 1:
         print("--catalog vale para uma agenda só: passe exatamente um --path", file=sys.stderr)
         return 1
-    paths = [resolve(p) for p in args.path] if args.path else known_schedules()
-    results = [code for code in (_check_one(path, args) for path in paths) if code is not None]
+    # Com --path, o tipo sai do conteúdo (o "kind" da agenda do Anime).
+    targets = [(resolve(p), None) for p in args.path] if args.path else known_schedules()
+    results = [
+        code
+        for code in (_check_one(path, kind, args) for path, kind in targets)
+        if code is not None
+    ]
     if not results:
         print("nenhuma agenda para conferir (nem aqui nem na base)")
         return 0
     return max(results)
 
 
-def _check_one(path: Path, args: argparse.Namespace) -> int | None:
-    """0 = só cresceu, 1 = quebrou, None = a agenda não existe aqui nem na base."""
+# O gerador de cada tipo de agenda, para regerar os dias novos (ME51).
+_GENERATORS: dict[str, Generator] = {"hits": generate, "anime": generate_anime}
+
+
+def _is_fixture(path: Path) -> bool:
+    return path.resolve().is_relative_to(provider_paths("fixture").public_dir.resolve())
+
+
+def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | None:
+    """0 = só cresceu, 1 = quebrou, None = a agenda não existe aqui nem na base. Despacha pelo
+    tipo (os Hits ou o Anime): o compare e o check_dates são os mesmos; o gerador que refaz os
+    dias novos, com o catálogo ao lado da agenda, é o do tipo."""
     if args.base is not None:
         base_path = resolve(args.base)
         base = read_json(base_path) if base_path.exists() else None
@@ -313,14 +391,23 @@ def _check_one(path: Path, args: argparse.Namespace) -> int | None:
         print(f"{path}: existe em {origin} e foi apagada (a agenda só cresce)")
         return 1
     current = read_json(path)
+    if kind is None:
+        kind = "anime" if current.get("kind") == "anime" else "hits"
     problems = compare(base, current)
     if args.today is not None:
-        problems += check_dates(base, current, args.today)
+        if base is None and _is_fixture(path):
+            # A agenda fictícia nova pode nascer com dias passados (a do Anime, com as datas da
+            # dos Hits, que o e2e usa): ninguém a joga. Depois de criada, o P44 vale para ela.
+            print(f"{path}: agenda fictícia nova; o --today não vale para os dias dela")
+        else:
+            problems += check_dates(base, current, args.today)
     # Os dias novos precisam ser os do gerador, com o catálogo ao lado da agenda (o do mesmo PR).
     catalog_path = resolve(args.catalog) if args.catalog else path.with_name("catalog.json")
     if not problems:
         if catalog_path.exists():
-            problems += regenerate_problems(base, current, read_json(catalog_path))
+            problems += regenerate_problems(
+                base, current, read_json(catalog_path), _GENERATORS[kind]
+            )
         elif args.catalog:
             problems.append(f"{catalog_path}: catálogo não encontrado")
         else:
@@ -571,7 +658,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--path",
         type=Path,
         action="append",
-        help="agenda a conferir; repita para várias (padrão: a fictícia e a real)",
+        help="agenda a conferir; repita para várias (padrão: a fictícia e a real, dos Hits e do"
+        " Anime)",
     )
     base = check.add_mutually_exclusive_group(required=True)
     base.add_argument("--base-ref", help="revisão do git, ex.: origin/main")
@@ -635,10 +723,40 @@ def main(argv: Sequence[str] | None = None) -> int:
     anime.add_argument("--out", type=Path, help="catalog.json de saída (padrão: o do provedor)")
     anime.set_defaults(func=_build_anime)
 
-    check_anime = sub.add_parser("validate-anime", help="confere o catálogo do Anime")
+    check_anime = sub.add_parser(
+        "validate-anime", help="confere o catálogo do Anime (e a agenda ao lado, se existir)"
+    )
     check_anime.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
     check_anime.add_argument("--path", type=Path, help="catalog.json (padrão: o do provedor)")
+    check_anime.add_argument(
+        "--schedule", type=Path, help="schedule.json (padrão: o do lado do catálogo, se existir)"
+    )
     check_anime.set_defaults(func=_validate_anime)
+
+    anime_schedule = sub.add_parser(
+        "schedule-anime", help="acrescenta dias à agenda do Anime (nunca altera dia)"
+    )
+    anime_schedule.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
+    anime_schedule.add_argument(
+        "--today",
+        type=date.fromisoformat,
+        required=True,
+        help="data de hoje em Brasília (dia anterior a ela nunca é gerado, P44)",
+    )
+    anime_schedule.add_argument(
+        "--epoch", type=date.fromisoformat, help="diário nº 1 (agenda nova)"
+    )
+    anime_schedule.add_argument(
+        "--days",
+        type=int,
+        default=HORIZON_DAYS,
+        help="dias à frente de hoje (hoje e amanhã: 1; a carga de teste usa 2)",
+    )
+    anime_schedule.add_argument(
+        "--catalog", type=Path, help="catalog.json do Anime (padrão: o do provedor)"
+    )
+    anime_schedule.add_argument("--out", type=Path, help="schedule.json (padrão: o do provedor)")
+    anime_schedule.set_defaults(func=_schedule_anime)
 
     args = parser.parse_args(argv)
     try:

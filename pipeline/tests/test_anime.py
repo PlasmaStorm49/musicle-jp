@@ -306,10 +306,14 @@ def test_a_new_search_never_loses_a_matched_track():
     (merged,) = merge_anime([[old], [new]])
     assert merged.levels == {"mal": 8}
     assert [t.result for t in merged.themes] == ["matched"]
-    # Casou de novo, com outra faixa: vale a nova.
+    # Casou de novo, com outra faixa: as duas ficam (a agenda pode citar a antiga, e um dia
+    # gravado não muda; revisor do A2).
     again = anime(1, themes=[replace(theme(song=5), track=DISCOGRAPHY[1])])
     (merged,) = merge_anime([[old], [again]])
-    assert [t.track for t in merged.themes] == [DISCOGRAPHY[1]]
+    assert [t.track for t in merged.themes] == [DISCOGRAPHY[1], DISCOGRAPHY[0]]
+    # A mesma faixa de novo: uma vez só.
+    (merged,) = merge_anime([[old], [old]])
+    assert [t.track for t in merged.themes] == [DISCOGRAPHY[0]]
 
 
 def test_two_franchises_with_the_same_name_get_the_year():
