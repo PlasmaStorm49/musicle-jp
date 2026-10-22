@@ -2,7 +2,7 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 21/10/2026.
+Atualizado em 22/10/2026.
 
 ## Próximos, na ordem combinada (21/10)
 
@@ -99,7 +99,7 @@ Atualizado em 21/10/2026.
 **Você**
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
-- **ME109 (novo).** Crescer a agenda fictícia do Anime, que para em 09/11 (no PR B, o robô).
 - **ME108 (novo).** Decidir se a lista de negação do `.claude/settings.json` passa a cobrir os gerados dos artistas e do Anime, como diz a regra 3 do `CLAUDE.md`.
+- Criar o segredo `MAL_CLIENT_ID` em Settings > Secrets and variables > Actions (opcional, antes do merge do PR B do M14; sem ele, o robô sorteia o Anime pelas playlists do AnimeThemes).
 - **P16.** Decidir se a URL e o repositório mudam de nome.
 - Segunda, 26/10: o PR do robô, com o merge no mesmo dia.
