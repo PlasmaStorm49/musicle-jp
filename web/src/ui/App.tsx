@@ -45,7 +45,7 @@ import { Anime, type AnimeStore, useAnimeStore } from "./Anime.tsx";
 import { type ArtistStore, Artists, useArtistStore } from "./Artists.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
-import { HistoryCalendar, HistoryDayScreen } from "./History.tsx";
+import { History } from "./History.tsx";
 import { Hits } from "./Hits.tsx";
 import { Home } from "./Home.tsx";
 import { Nav } from "./Nav.tsx";
@@ -345,13 +345,15 @@ function Ready({
     [route.date, todayDailies, playDay],
   );
   const hitsDates = useMemo(() => new Set(Object.keys(data.schedule.days)), [data]);
-  // As telas do Anime (a categoria, as dificuldades e os diários) ficam no Anime, com a carga dele.
+  // As telas do Anime (a categoria, as dificuldades e os diários) ficam no Anime, com a carga dele,
+  // de hoje ou, pelo Histórico, de um dia passado.
   if (isAnimeTab(tab)) {
     return (
       <Anime
         tab={tab}
         store={anime}
-        date={date}
+        date={route.date ?? date}
+        today={date}
         save={latest}
         engine={engine}
         resolveUrl={resolveUrl}
@@ -414,13 +416,19 @@ function Ready({
     // ficar completo.
     case "about":
       return <About />;
-    // O Histórico (P260, P261): o calendário, ou a tela de um dia passado. A key remonta a tela ao
-    // trocar de dia (o Voltar do navegador), e o foco volta ao título (regra 16).
+    // O Histórico (P260, P261): o calendário, ou a tela de um dia passado, com a agenda do Anime
+    // (só ela, P270) da carga guardada no App.
     case "history":
-      return route.date === null ? (
-        <HistoryCalendar save={latest} today={date} hitsDates={hitsDates} />
-      ) : (
-        <HistoryDayScreen key={route.date} date={route.date} day={playDay} save={latest} />
+      return (
+        <History
+          date={route.date}
+          today={date}
+          save={latest}
+          hitsDates={hitsDates}
+          hitsDay={playDay}
+          anime={anime.schedule}
+          requestAnime={anime.requestSchedule}
+        />
       );
     case "artists":
       return (

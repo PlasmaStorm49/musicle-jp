@@ -142,7 +142,12 @@ function engine(): AudioEngine {
 function store(
   load: AnimeLoad = { status: "ready", data, resolver: catalogResolver(data.index, resolveUrl) },
 ) {
-  return { load, request: vi.fn() } satisfies AnimeStore;
+  return {
+    load,
+    request: vi.fn(),
+    schedule: { status: "idle" },
+    requestSchedule: vi.fn(),
+  } satisfies AnimeStore;
 }
 
 function setup(
@@ -150,10 +155,13 @@ function setup(
   {
     save = emptySave(),
     date = DATE,
+    today = date,
     anime = store(),
   }: {
     readonly save?: Save;
     readonly date?: string;
+    /** O hoje do jogo: diferente da data, ela é um dia passado (o Histórico). */
+    readonly today?: string;
     readonly anime?: AnimeStore;
   } = {},
 ) {
@@ -162,6 +170,7 @@ function setup(
       tab={tab}
       store={anime}
       date={date}
+      today={today}
       save={save}
       engine={engine()}
       resolveUrl={resolveUrl}
@@ -497,6 +506,131 @@ describe("Anime: o diário", () => {
   });
 });
 
+describe("Anime: um dia passado (o Histórico, M15)", () => {
+  // DATE (08/10) vira um dia passado: hoje é 09/10.
+  const TODAY = "2026-10-09";
+
+  it("a escolha do modo: a data no lugar da dica, e os cartões com a data no endereço", () => {
+    setup("anime", { today: TODAY });
+    expect(screen.getByText("Quinta-feira, 08/10")).toBeTruthy();
+    expect(screen.queryByText("Temas de anime: acerte a música ou o anime.")).toBeNull();
+    expect(card(/^Acertar a música/).getAttribute("href")).toBe("#anime-musica/2026-10-08");
+    expect(card(/^Acertar o anime/).getAttribute("href")).toBe("#anime-titulo/2026-10-08");
+  });
+
+  it("a escolha da dificuldade: a data no endereço, e o jogado depois numa linha a mais", () => {
+    setup("anime-musica", {
+      today: TODAY,
+      save: {
+        ...emptySave(),
+        history: { [puzzleId(DATE, "anime-musica-facil")]: { ...finished, late: true } },
+      },
+    });
+    expect(screen.getByText("Quinta-feira, 08/10")).toBeTruthy();
+    expect(card(/^Fácil/).getAttribute("href")).toBe("#anime-musica-facil/2026-10-08");
+    expect(lines(card(/^Fácil/))).toEqual(["nº 4 · terminado, 11 de 18 pontos", "jogado depois"]);
+    expect(lines(card(/^Médio/))).toEqual(["nº 4 · novo"]);
+  });
+
+  it("hoje, os endereços sem data e a dica de sempre", () => {
+    setup("anime-musica");
+    expect(card(/^Fácil/).getAttribute("href")).toBe("#anime-musica-facil");
+    expect(screen.getByText("Escolha a dificuldade.")).toBeTruthy();
+  });
+
+  it('os cartões sem diário num dia passado dizem "nesse dia", e não "hoje"', () => {
+    setup("anime", { date: "2026-10-07", today: TODAY });
+    expect(offCards().map((c) => c.lines)).toEqual([
+      ["Não há diário nesse dia."],
+      ["Não há diário nesse dia."],
+    ]);
+    cleanup();
+    setup("anime-musica", { date: "2026-10-07", today: TODAY });
+    expect(offCards()).toHaveLength(3);
+    expect(offCards().every((c) => c.lines[0] === "Não há diário nesse dia.")).toBe(true);
+  });
+
+  it("num dia passado, a ajuda evita também as respostas dos diários de hoje (como nos Hits)", () => {
+    // 07/10 só tem as faixas 1 a 3; hoje (08/10), as 1 a 6. Sem as de hoje no que a ajuda evita,
+    // as franquias 4 a 6 podiam sair entre as opções e entregar um diário de hoje.
+    const past: AnimeDay = {
+      number: 3,
+      catalogVersion: "teste",
+      musica: { facil: rounds(1, 2, 3), medio: rounds(2, 3, 1), dificil: rounds(3, 1, 2) },
+      titulo: { facil: rounds(1, 2, 3), medio: rounds(2, 3, 1), dificil: rounds(3, 1, 2) },
+    };
+    const both: AnimeData = {
+      index: data.index,
+      schedule: { ...schedule, days: { ...schedule.days, "2026-10-07": past } },
+    };
+    const anime = store({
+      status: "ready",
+      data: both,
+      resolver: catalogResolver(both.index, resolveUrl),
+    });
+    setup("anime-titulo-facil", { date: "2026-10-07", today: DATE, anime });
+    for (let i = 0; i < 3; i++) {
+      fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    }
+    fireEvent.click(screen.getByRole("button", { name: "Pedir ajuda" }));
+    const options = screen.getByRole("list", { name: "Opções da ajuda" });
+    const names = [...options.querySelectorAll(".item-title")].map((n) => n.textContent).sort();
+    // A certa (a franquia da faixa 1) e as 3 sem resposta em nenhum dos dois dias.
+    expect(names).toEqual(["Anime 1", "Anime 7", "Anime 8", "Anime 9"]);
+  });
+
+  it("num dia passado com hoje fora da agenda do Anime, a ajuda evita só as do próprio dia", () => {
+    // Hoje (09/10) não está na agenda: sem os diários de hoje, a ajuda abre com as do dia.
+    setup("anime-titulo-facil", { today: TODAY });
+    for (let i = 0; i < 3; i++) {
+      fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    }
+    fireEvent.click(screen.getByRole("button", { name: "Pedir ajuda" }));
+    const options = screen.getByRole("list", { name: "Opções da ajuda" });
+    const names = [...options.querySelectorAll(".item-title")].map((n) => n.textContent).sort();
+    expect(names).toEqual(["Anime 7", "Anime 8", "Anime 9", "Hoshizora Kaizoku"]);
+  });
+
+  it("trocar de dia na mesma tela do Anime leva o foco de volta ao título (a key pela data)", () => {
+    const anime = store();
+    const props = {
+      tab: "anime-musica" as const,
+      store: anime,
+      today: TODAY,
+      save: emptySave(),
+      engine: engine(),
+      resolveUrl,
+      announce: vi.fn(),
+      saveStore: null,
+      onSaved: vi.fn(),
+      shareUrl: "https://x.test/",
+    };
+    const { rerender } = render(<Anime {...props} date={DATE} />);
+    const link = card(/^Fácil/);
+    link.focus();
+    expect(document.activeElement).toBe(link);
+    rerender(<Anime {...props} date={TODAY} />);
+    expect(document.activeElement).toBe(
+      screen.getByRole("heading", { level: 1, name: "Acertar a música" }),
+    );
+  });
+
+  it("o dia fora da agenda do Anime: o aviso do dia e a volta a ele no Histórico", () => {
+    setup("anime-titulo-medio", { date: "2026-10-07", today: TODAY });
+    expect(document.activeElement?.textContent).toBe("Não há diário do Anime nesse dia.");
+    expect(screen.getByRole("link", { name: "Voltar ao dia" }).getAttribute("href")).toBe(
+      "#historico/2026-10-07",
+    );
+  });
+
+  it("a carga que falhou, num diário de um dia passado: a volta ao dia", () => {
+    setup("anime-musica-facil", { today: TODAY, anime: store({ status: "retry" }) });
+    expect(screen.getByRole("link", { name: "Voltar ao dia" }).getAttribute("href")).toBe(
+      "#historico/2026-10-08",
+    );
+  });
+});
+
 describe("useAnimeStore", () => {
   /** Serve o catálogo e a agenda do Anime pela URL, com o provedor dado. */
   function fetchFor(
@@ -584,6 +718,75 @@ describe("useAnimeStore", () => {
     expect(fetchFn.urls.some((u) => u.startsWith("https://itunes.apple.com/lookup"))).toBe(true);
     // A Apple não trouxe a faixa: vale a reserva do catálogo.
     expect(load.resolver.peek("apple:tr:1")).toBe("https://audio-ssl.itunes.apple.com/x/1.m4a");
+  });
+
+  it("o Histórico baixa só a agenda (P270); a carga inteira depois não a baixa de novo", async () => {
+    const fetchFn = fetchFor("fixture");
+    render(<Harness fetchFn={fetchFn} budget={budget()} />);
+    expect(current?.schedule.status).toBe("idle");
+    act(() => current?.requestSchedule());
+    expect(current?.schedule.status).toBe("loading");
+    await flush();
+    expect(current?.schedule.status).toBe("ready");
+    expect(fetchFn.urls).toEqual(["http://x.test/fixtures/anime/schedule.json"]);
+    // Pedir de novo não baixa outra vez.
+    act(() => current?.requestSchedule());
+    act(() => current?.request());
+    await flush();
+    expect(current?.load.status).toBe("ready");
+    expect(fetchFn.urls).toEqual([
+      "http://x.test/fixtures/anime/schedule.json",
+      "http://x.test/fixtures/anime/catalog.json",
+    ]);
+  });
+
+  it("o catálogo que falha, com a agenda já baixada: o Tentar de novo baixa só o catálogo", async () => {
+    const urls: string[] = [];
+    let catalogFails = true;
+    const serve = fetchFor("fixture");
+    const fetchFn: FetchLike = async (url, init) => {
+      urls.push(url);
+      if (url.endsWith("catalog.json") && catalogFails) throw new TypeError("Failed to fetch");
+      return serve(url, init);
+    };
+    render(<Harness fetchFn={fetchFn} budget={budget()} />);
+    act(() => current?.request());
+    await flush();
+    expect(current?.load.status).toBe("retry");
+    expect(current?.schedule.status).toBe("ready");
+    catalogFails = false;
+    act(() => current?.request());
+    await flush();
+    expect(current?.load.status).toBe("ready");
+    expect(urls.filter((u) => u.endsWith("schedule.json"))).toHaveLength(1);
+    expect(urls.filter((u) => u.endsWith("catalog.json"))).toHaveLength(2);
+  });
+
+  it("a agenda de uma versão nova: a agenda e a carga pedem para atualizar", async () => {
+    const serve = fetchFor("fixture");
+    const fetchFn: FetchLike = async (url, init) =>
+      url.endsWith("schedule.json")
+        ? { ok: true, status: 200, json: async () => ({ ...schedule, schemaVersion: 2 }) }
+        : serve(url, init);
+    render(<Harness fetchFn={fetchFn} budget={budget()} />);
+    act(() => current?.requestSchedule());
+    await flush();
+    expect(current?.schedule.status).toBe("update");
+    act(() => current?.request());
+    await flush();
+    expect(current?.load.status).toBe("update");
+  });
+
+  it("a agenda que falhou é pedida de novo pela próxima tela que precisa dela", async () => {
+    const fetchFn = fetchFor("fixture", "network");
+    render(<Harness fetchFn={fetchFn} budget={budget()} />);
+    act(() => current?.requestSchedule());
+    await flush();
+    expect(current?.schedule.status).toBe("retry");
+    act(() => current?.request());
+    await flush();
+    expect(current?.load.status).toBe("retry");
+    expect(fetchFn.urls.filter((u) => u.endsWith("schedule.json"))).toHaveLength(2);
   });
 
   it("falha de rede: tentar de novo; versão desconhecida: atualizar a página", async () => {

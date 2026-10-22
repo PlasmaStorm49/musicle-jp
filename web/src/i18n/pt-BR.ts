@@ -68,9 +68,20 @@ export const ptBR = {
   "history.hitsSome": "Hits, 1 de 2 diários jogados",
   "history.hitsNone": "Hits, nenhum diário jogado",
   "history.hitsOff": "sem diário dos Hits",
-  // A legenda das marcas dos Hits, embaixo do calendário.
+  "history.animeAll": "Anime, ao menos 1 diário jogado",
+  "history.animeNone": "Anime, nenhum diário jogado",
+  "history.animeOff": "sem diário do Anime",
+  // Os textos de cada categoria, juntos no nome do dia.
+  "history.marks": "{hits}; {anime}",
+  // A legenda das marcas, embaixo do calendário. Com o Anime, duas linhas: os Hits à esquerda e
+  // o Anime à direita, no mesmo lugar em todo dia (P277).
   "history.legendAll": "os 2 diários",
   "history.legendSome": "1 dos 2",
+  "history.legendHits": "Hits, à esquerda:",
+  "history.legendAnime": "Anime, à direita:",
+  "history.legendAnimeAll": "ao menos 1 diário",
+  // O cartão do Anime na tela de um dia: o dia fora da agenda do Anime.
+  "history.animeUnavailable": "Sem diário do Anime",
   "history.dayTitle": "{weekday}, {date}",
   "history.dayHint": "Jogue o que faltou. Não conta nas estatísticas.",
   "history.late": "jogado depois",
@@ -383,6 +394,8 @@ export const ptBR = {
   "anime.rule.titulo":
     "Digite o nome do anime, em até {total} tentativas: vale qualquer temporada. {rounds} rodadas por dia.",
   "anime.unavailable": "Não há diário do Anime hoje.",
+  // Um dia passado do Histórico sem o diário do Anime (M15).
+  "anime.unavailableDay": "Não há diário do Anime nesse dia.",
   "anime.retry": "Não foi possível carregar o Anime. Confira a conexão.",
   "anime.back": "Voltar ao Anime",
   // O tema na revelação: o anime, o tipo e o número ("Kimetsu no Yaiba · OP1"). Sem número, só o

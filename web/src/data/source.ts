@@ -160,27 +160,21 @@ const ANIME_SCHEDULE_SCHEMA_VERSION = 1;
 /** O Anime carregado: o índice do jogo e a agenda dos 6 diários. */
 export type AnimeData = { readonly index: CatalogIndex; readonly schedule: AnimeSchedule };
 
+function animeFile(baseUrl: string, dataDir: string, name: string): string {
+  return new URL(name, new URL(ANIME_DIR, new URL(dataDir, baseUrl))).href;
+}
+
 /**
- * O catálogo e a agenda do Anime, em paralelo. Só quando a pessoa abre a categoria: quem joga só
- * os Hits não baixa nada a mais. Versão de schema desconhecida (ou a agenda que não é a do Anime):
- * atualizar a página.
+ * A agenda do Anime, sozinha: o Histórico só precisa dos dias dela para as marcas (P270), sem o
+ * catálogo. Versão desconhecida (ou a agenda que não é a do Anime): atualizar a página.
  */
-export async function loadAnime(
+export async function loadAnimeSchedule(
   fetchFn: FetchLike,
   baseUrl: string,
   dataDir: string,
   signal?: AbortSignal,
-): Promise<AnimeData> {
-  const dir = new URL(ANIME_DIR, new URL(dataDir, baseUrl));
-  const [catalog, schedule] = await Promise.all([
-    getJson(fetchFn, new URL("catalog.json", dir).href, signal),
-    getJson(fetchFn, new URL("schedule.json", dir).href, signal),
-  ]);
-  if (schemaVersionOf(catalog) !== SUPPORTED_ANIME_SCHEMA_VERSION) {
-    throw new UnsupportedCatalogError(
-      `Anime com schemaVersion ${String(schemaVersionOf(catalog))}`,
-    );
-  }
+): Promise<AnimeSchedule> {
+  const schedule = await getJson(fetchFn, animeFile(baseUrl, dataDir, "schedule.json"), signal);
   if (schemaVersionOf(schedule) !== ANIME_SCHEDULE_SCHEMA_VERSION || kindOf(schedule) !== "anime") {
     throw new UnsupportedCatalogError(
       `agenda do Anime com schemaVersion ${String(schemaVersionOf(schedule))} e kind ${String(kindOf(schedule))}`,
@@ -191,7 +185,23 @@ export async function loadAnime(
   if (typeof days !== "object" || days === null || Array.isArray(days)) {
     throw new DataLoadError("agenda do Anime sem os dias");
   }
-  return { index: indexAnime(catalog as AnimeCatalog), schedule: schedule as AnimeSchedule };
+  return schedule as AnimeSchedule;
+}
+
+/** O catálogo do Anime, já indexado. Versão desconhecida: atualizar a página. */
+export async function loadAnimeCatalog(
+  fetchFn: FetchLike,
+  baseUrl: string,
+  dataDir: string,
+  signal?: AbortSignal,
+): Promise<CatalogIndex> {
+  const catalog = await getJson(fetchFn, animeFile(baseUrl, dataDir, "catalog.json"), signal);
+  if (schemaVersionOf(catalog) !== SUPPORTED_ANIME_SCHEMA_VERSION) {
+    throw new UnsupportedCatalogError(
+      `Anime com schemaVersion ${String(schemaVersionOf(catalog))}`,
+    );
+  }
+  return indexAnime(catalog as AnimeCatalog);
 }
 
 /** URL absoluta de um asset do catálogo: relativa à base (fixtures) ou já absoluta (Apple). */
