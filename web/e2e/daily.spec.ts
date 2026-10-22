@@ -185,7 +185,7 @@ test("terminar o 2º diário do dia põe o ✓ na aba Hits na hora, sem trocar d
 }) => {
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const save = {
-    schemaVersion: 6,
+    schemaVersion: 7,
     history: { "2026-10-08|song": { number: 1, rounds: [lost, lost, lost] } },
     inProgress: {},
   } satisfies Save;

@@ -90,6 +90,20 @@ describe("computeStats", () => {
     expect(stats.average).toBe(6);
   });
 
+  it("o jogado depois (P263) fica fora de tudo: jogos, média, distribuição e sequência", () => {
+    const history = {
+      "2026-10-08|song": game(won(0), won(0), won(0)),
+      "2026-10-09|song": { ...game(won(0), lost, lost), late: true as const },
+      "2026-10-10|song": game(won(1), lost, lost),
+    };
+    const stats = computeStats(history, "song", "2026-10-10", SCHEDULE);
+    expect(stats).toMatchObject({ played: 2, average: 11.5, currentStreak: 1, bestStreak: 1 });
+    expect(stats.distribution[6]).toBe(0);
+    // Sem a marca, o mesmo dia contaria: a sequência seria de 3.
+    const onTime = { ...history, "2026-10-09|song": game(won(0), lost, lost) };
+    expect(computeStats(onTime, "song", "2026-10-10", SCHEDULE).currentStreak).toBe(3);
+  });
+
   it("uma estatística por diário (P249): cada diário do Anime conta à parte, com a sua agenda", () => {
     const history = {
       "2026-10-10|song": game(won(0), won(0), won(0)),

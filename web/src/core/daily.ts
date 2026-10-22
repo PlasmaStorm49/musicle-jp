@@ -39,12 +39,13 @@ export function isAnimeKey(key: DailyKey): key is AnimeKey {
 }
 
 /**
- * Todos os diários de um dia: os 2 dos Hits e os 6 do Anime. São os que o save aceita (P250) e os
- * andamentos que a abertura do jogo guarda (o resto é de outro dia).
+ * Todos os diários de um dia: os 2 dos Hits e os 6 do Anime. São os que o save aceita (P250) e,
+ * de hoje e dos 14 dias do Histórico, os andamentos que a abertura do jogo guarda
+ * (`keptProgressIds`, P269).
  */
 export const DAILY_KEYS: readonly DailyKey[] = [...MODES, ...ANIME_KEYS];
 
-/** Os ids no save de todos os diários de um dia: os andamentos que a abertura do jogo guarda. */
+/** Os ids no save de todos os diários de um dia (a abertura guarda os da janela, P269). */
 export function dailyIds(date: string): PuzzleId[] {
   return DAILY_KEYS.map((key) => puzzleId(date, key));
 }

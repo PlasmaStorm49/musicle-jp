@@ -35,6 +35,7 @@ Atualizado em 22/10/2026.
 **No jogo**
 - **ME110 (novo).** O Treino e os Artistas não excluem as respostas do Anime de hoje (raro: pede o mesmo `songKey` nos dois catálogos). Aceito por ora, como a P248.
 - **ME62.** No Treino da parada, um cover de outro artista escapa da exclusão por título.
+- **ME113 (novo).** Com o Histórico, o Treino e os Artistas podem tocar a resposta de um dia passado ainda não jogado (excluem só as de hoje). Aceito, como a ME110.
 - **S24.** Conferir a duração real das prévias: no Superfan, uma prévia curta deixaria menos de 9 s.
 
 **No Anime**
@@ -89,7 +90,8 @@ Atualizado em 22/10/2026.
 
 - **ME107 (novo).** Repensar a pontuação de todos os modos, depois do Anime. Até lá, o Anime usa as regras do Desafio.
 - **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
-- **ME104 (novo).** Os dias jogados e jogar os últimos dias (sem sequência e sem média). Depois do Anime.
+- **ME104.** O Histórico: os 14 dias antes de hoje e jogar os não jogados, fora das estatísticas. **Em andamento no M15** (PR 1 de 3).
+- **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME105 (novo).** Medalhas, calculadas do histórico, e a sequência na Início. Depois do Anime.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).

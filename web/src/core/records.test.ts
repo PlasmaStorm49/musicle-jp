@@ -5,6 +5,7 @@ import { type Daily, hitsDailies, hitsDaily } from "./daily.ts";
 import {
   emptySave,
   type FinishedGame,
+  isLate,
   pendingDayTracks,
   pruneProgress,
   puzzleId,
@@ -30,7 +31,7 @@ const ID = puzzleId(DATE, "album");
 /** O álbum certo da rodada `n` (0 a 2): a opção que acerta no Normal. */
 const albumOf = (n: 0 | 1 | 2) => index.tracks.get(day.album[n].answer)?.albumId ?? "";
 
-const session = (save: Save) => startSession(save, hitsDaily(day, DATE, "album"), index);
+const session = (save: Save) => startSession(save, hitsDaily(day, DATE, "album"), index, DATE);
 const saveWith = (events: GameEvent[]): Save => ({
   ...emptySave(),
   inProgress: { [ID]: { events } },
@@ -98,6 +99,7 @@ describe("startSession", () => {
         (session(emptySave()) as { state: Parameters<typeof reduce>[0] }).state,
       ),
       day.number,
+      false,
     );
     expect(session({ ...emptySave(), history: { [ID]: done } })).toEqual({
       kind: "finished",
@@ -125,7 +127,7 @@ describe("startSession", () => {
       history: { [puzzleId(DATE, "song")]: { number: day.number, rounds: [] } },
       inProgress: { [anime.id]: { events: [{ type: "SKIP" }] } },
     };
-    const s = startSession(save, anime, index);
+    const s = startSession(save, anime, index, DATE);
     expect(s).toMatchObject({ kind: "playing", events: [{ type: "SKIP" }], stale: false });
     if (s.kind === "playing") {
       expect(s.state.puzzleId).toBe("2026-10-08|anime-musica-facil");
@@ -149,10 +151,45 @@ describe("FinishedGame", () => {
     expect(recordMax(game)).toBe(12);
   });
 
+  it("o jogado depois (P268) leva `late: true`; o do dia, nenhum campo", () => {
+    const events: GameEvent[] = [
+      { type: "GUESS", guessId: albumOf(0) },
+      { type: "NEXT_ROUND" },
+      { type: "GUESS", guessId: albumOf(1) },
+      { type: "NEXT_ROUND" },
+      { type: "GUESS", guessId: albumOf(2) },
+    ];
+    const daily = hitsDaily(day, DATE, "album");
+    const late = startSession(saveWith(events), daily, index, "2026-10-09");
+    expect(late).toMatchObject({ kind: "finished", game: { number: 1, late: true } });
+    const onTime = startSession(saveWith(events), daily, index, DATE);
+    expect(onTime.kind === "finished" && "late" in onTime.game).toBe(false);
+  });
+
+  it("o registro já gravado volta como está, mesmo aberto depois do dia (o 1º término vence)", () => {
+    const saved: FinishedGame = {
+      number: 1,
+      rounds: [
+        { status: "won", stage: 0, attempts: ["right"] },
+        { status: "won", stage: 0, attempts: ["right"] },
+        { status: "won", stage: 0, attempts: ["right"] },
+      ],
+    };
+    const save: Save = { ...emptySave(), history: { [ID]: saved } };
+    const s = startSession(save, hitsDaily(day, DATE, "album"), index, "2026-10-09");
+    expect(s).toEqual({ kind: "finished", game: saved });
+  });
+
+  it("isLate: só o dia antes do hoje do jogo (P268)", () => {
+    expect(isLate("2026-10-07", DATE)).toBe(true);
+    expect(isLate(DATE, DATE)).toBe(false);
+    expect(isLate("2026-10-09", DATE)).toBe(false);
+  });
+
   it("toFinishedGame recusa jogo em andamento", () => {
     const s = session(saveWith([{ type: "LISTEN_MORE" }, { type: "GUESS", guessId: albumOf(0) }]));
     if (s.kind !== "playing") throw new Error("esperava jogo em andamento");
-    expect(() => toFinishedGame(s.state, 1)).toThrow();
+    expect(() => toFinishedGame(s.state, 1, false)).toThrow();
   });
 
   it("toFinishedGame converte o jogo em status, etapa e marcas por tentativa", () => {
@@ -188,6 +225,7 @@ describe("a ajuda no diário (P149)", () => {
       { ...emptySave(), inProgress: { [SONG]: { events } } },
       hitsDaily(day, DATE, "song"),
       index,
+      DATE,
     );
   // As opções: a resposta da rodada 1 e outras três faixas do catálogo.
   const answer = day.song[0].answer;

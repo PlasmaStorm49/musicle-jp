@@ -129,10 +129,12 @@ function isHelpTail(after: readonly unknown[], status: unknown): boolean {
 /**
  * Um jogo terminado do modo `target`, pelas regras dele: no Normal, no máximo 1 tentativa e
  * nunca um pulo (só o Desafio pula). A ajuda, só no modo que a tem, depois de ao menos uma
- * tentativa; depois dela, pulos e no máximo a opção, no fim (`isHelpTail`).
+ * tentativa; depois dela, pulos e no máximo a opção, no fim (`isHelpTail`). A marca do jogado
+ * depois (v7, P267) só vale com `true`.
  */
 export function isFinishedGame(x: unknown, target: Target): x is FinishedGame {
   if (!isRecord(x) || !Number.isInteger(x.number)) return false;
+  if (x.late !== undefined && x.late !== true) return false;
   if ((x.number as number) < 1 || !Array.isArray(x.rounds) || x.rounds.length !== ROUNDS_PER_DAY) {
     return false;
   }
@@ -175,7 +177,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     if (modeOf(id) && isInProgress(progress)) inProgress[id] = progress;
     else dropped = true;
   }
-  return { save: { schemaVersion: 6, history, inProgress }, dropped };
+  return { save: { schemaVersion: 7, history, inProgress }, dropped };
 }
 
 // ---- leitura e gravação ----
