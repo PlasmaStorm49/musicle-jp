@@ -456,12 +456,14 @@ def test_the_fixture_has_every_mode_and_tier():
     assert validate_anime_catalog(catalog) == []
 
 
-def test_committed_anime_catalog_is_up_to_date(tmp_path):
-    """O catálogo fictício do Anime versionado é o que o build-anime gera hoje. Se falhar,
-    regere com o build-anime --provider fixture."""
+@pytest.mark.parametrize("provider", ["fixture", "apple"])
+def test_committed_anime_catalog_is_up_to_date(tmp_path, provider):
+    """O catálogo do Anime versionado (o fictício e, desde a carga de teste, C1, o real, a partir
+    dos snapshots de pipeline/data/apple/anime/) é o que o build-anime gera hoje. Se falhar,
+    regere com o build-anime do provedor. Sem `skip`: um catálogo apagado tem de falhar aqui."""
     fresh = tmp_path / "catalog.json"
-    assert main(["build-anime", "--provider", "fixture", "--out", str(fresh)]) == 0
-    assert fresh.read_bytes() == COMMITTED.read_bytes()
+    assert main(["build-anime", "--provider", provider, "--out", str(fresh)]) == 0
+    assert fresh.read_bytes() == (anime_paths(provider).public_dir / "catalog.json").read_bytes()
 
 
 @pytest.mark.parametrize("seed", ["1", "2"])

@@ -13,6 +13,7 @@ do MyAnimeList, só o id e o nível (P256).
 
 from __future__ import annotations
 
+import contextlib
 import re
 import unicodedata
 from collections.abc import Callable, Iterable, Mapping, Sequence
@@ -282,7 +283,9 @@ def _forms(text: str, romanize: Romanizer) -> set[str]:
     """As chaves de comparação de um título: a da busca e, com kana ou kanji, a do romaji."""
     forms = {search_key(text)}
     if needs_romaji(text):
-        forms |= {search_key(v) for v in romanize(text)}
+        # O cutlet não leu nada (o título só de marcas): fica só a chave da busca.
+        with contextlib.suppress(ValueError):
+            forms |= {search_key(v) for v in romanize(text)}
     return {f for f in forms if f}
 
 
