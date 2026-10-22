@@ -8,7 +8,7 @@ from urllib.parse import parse_qs, urlsplit
 import pytest
 
 from musicle_pipeline import fetch_anime as fa
-from musicle_pipeline.anime import build_anime_catalog
+from musicle_pipeline.anime import Anime, Theme, build_anime_catalog
 from musicle_pipeline.catalog import Curation
 from musicle_pipeline.cli import main
 from musicle_pipeline.fetch import FetchError
@@ -269,9 +269,8 @@ def test_a_full_search_with_the_mal(tmp_path):
     assert sum(1 for g in web.gets if "search" in g) == 3
     # O snapshot vira um catálogo válido.
     write_if_changed(tmp_path / f"{snap['id']}.json", dumps(snap))
-    catalog = build_anime_catalog(
-        "apple", "jp", AppleAnimeProvider(tmp_path).source(), Curation(), []
-    )
+    source = AppleAnimeProvider(tmp_path).source()
+    catalog = build_anime_catalog("apple", "jp", source, Curation(), [], icon_artists=frozenset())
     assert validate_anime_catalog(catalog, dumps(catalog).encode()) == []
 
 
@@ -363,6 +362,20 @@ def test_the_two_sources_join_with_wo_and_o():
     assert merged.themes[0].levels == {"animethemes": 9, "anisongdb": 8}
 
 
+def test_the_two_sources_join_a_loose_title_left_over():
+    # P275: o título igual primeiro; o que sobra junta pelo título frouxo, se for o único.
+    anime = fa.parse_animethemes({"data": {"findAnimeByExternalSite": [animethemes_item()]}})[38000]
+    anime.themes[0].song = "LOST IN PARADISE feat. AKLO"
+    quiz = [
+        fa.SourceTheme("OP", 1, "LOST IN PARADISE", ["ALI"], {"anisongdb": 8}),
+        fa.SourceTheme("ED", 1, "Lost in Paradise", ["ALI"], {"anisongdb": 3}),
+    ]
+    merged = fa.merge_sources(anime, quiz)
+    assert merged.themes[0].levels == {"animethemes": 9, "anisongdb": 8}
+    # O encerramento de mesmo nome não casa com a abertura: entra à parte.
+    assert [(t.type, t.song) for t in merged.themes][-1] == ("ED", "Lost in Paradise")
+
+
 def test_an_empty_romanization_does_not_stop_the_matching():
     from musicle_pipeline.anime import match_theme
 
@@ -373,7 +386,87 @@ def test_an_empty_romanization_does_not_stop_the_matching():
     assert match_theme("紅蓮華", list(pool.values()), broken).result == "matched"
 
 
+def test_the_progress_counts_the_rivals_of_the_anime():
+    # A faixa aproximada da busca leva a concorrência, como o build: o encerramento de quiz 5 e
+    # pl 5 num anime do MAL 9 dá o nome no Fácil sozinho (0,43) e no Médio entre 21 (0,18).
+    (track,) = fa._raw_tracks([fa._song(song(10, "紅蓮華"))], {}).values()
+    ending = Theme(
+        "ED", 1, "Gurenge", ("LiSA",), {"anisongdb": 5, "animethemes": 5}, "matched", track
+    )
+    show = Anime(38000, "kimetsu", "Kimetsu no Yaiba", (), 2019, (), {"mal": 9}, ())
+    alone = fa.Progress(target=1, max_songs=99)
+    alone.add(ending, show, 1)
+    assert alone.counts["musica"]["facil"] == 1 and alone.counts["titulo"]["facil"] == 1
+    many = fa.Progress(target=1, max_songs=99)
+    many.add(ending, show, 21)
+    assert many.counts["musica"]["medio"] == 1 and many.counts["titulo"]["facil"] == 1
+
+
 def test_the_anime_options_need_anime(capsys):
     args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
     assert main([*args, "--max-songs", "10"]) == 1
     assert "só valem com --anime" in capsys.readouterr().err
+
+
+# --- a busca longa (PR C2) -----------------------------------------------------------------------
+
+
+def run_with(web: FakeWeb, **io_args) -> dict:
+    io = fa.AnimeFetch(get=web.get, post=web.post, mal=web.mal, apple_pace=0, **io_args)
+    return fa.fetch_anime_snapshot(
+        NOW, lambda t: ROMAJI.get(t, (t,)), set(), {}, {}, io, target_per_tier=99, max_songs=99
+    )
+
+
+def test_the_snapshot_is_saved_after_each_anime():
+    saved: list[dict] = []
+    snap = run_with(FakeWeb(), save=saved.append)
+    assert len(saved) == 1 and saved[-1] == snap  # um anime: uma gravação, igual ao final
+
+
+def test_the_deadline_stops_before_the_next_anime():
+    ticks = iter([0.0, 999.0])
+    snap = run_with(FakeWeb(), clock=lambda: next(ticks), deadline=60)
+    assert snap["anime"] == []  # o prazo venceu antes do 1º anime
+
+
+def test_ctrl_c_keeps_what_was_already_fetched():
+    web = FakeWeb()
+    original = web.get
+
+    def interrupted(url: str) -> bytes:
+        if "search" in url:
+            raise KeyboardInterrupt
+        return original(url)
+
+    web.get = interrupted
+    snap = run_with(web)
+    assert snap["anime"] == [] and snap["id"] == "2026-10-22T010000Z"
+
+
+def test_an_artist_over_200_songs_is_searched_in_the_albums():
+    web = FakeWeb()
+    lookups: list[str] = []
+
+    def get(url: str) -> bytes:
+        query = parse_qs(urlsplit(url).query)
+        if "search" in url:
+            return json.dumps(
+                {"results": [artist("LiSA", 1)] if query["term"][0] == "LiSA" else []}
+            ).encode()
+        lookups.append(url)
+        if query.get("entity") == ["album"]:
+            album = {"wrapperType": "collection", "collectionId": 5000, "artistId": 1}
+            return json.dumps({"results": [artist("LiSA", 1), album]}).encode()
+        if query["id"] == ["5000"]:
+            far = {**song(9999, "from the edge"), "collectionId": 5000}
+            return json.dumps({"results": [far]}).encode()
+        # O lookup de músicas no teto (200), sem o tema: só a busca nos álbuns o acha.
+        fillers = [song(100 + i, f"Outra música {i}") for i in range(fa.SONG_LIMIT)]
+        return json.dumps({"results": [artist("LiSA", 1), song(10, "紅蓮華"), *fillers]}).encode()
+
+    web.get = get
+    snap = run_with(web)
+    results = {t["song"]: (t["result"], t["track"]) for t in snap["anime"][0]["themes"]}
+    assert results["from the edge"] == ("matched", "9999")
+    assert sum("entity=album" in u for u in lookups) == 1  # os álbuns uma vez só por artista

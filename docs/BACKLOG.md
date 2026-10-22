@@ -2,7 +2,7 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 21/10/2026.
+Atualizado em 22/10/2026.
 
 ## Próximos, na ordem combinada (21/10)
 
@@ -29,10 +29,12 @@ Atualizado em 21/10/2026.
 - **ME91.** A CI não acusa título que ficou sem latino.
 
 **No jogo**
-- **ME111 (novo).** A franquia pode repetir entre os 6 diários do Anime do dia, e a ajuda do acertar o anime mostra a "de hoje" a quem jogou outro diário. Corrigir na agenda (sem repetir a franquia nas 18 respostas), no C2.
 - **ME110 (novo).** O Treino e os Artistas não excluem as respostas do Anime de hoje (raro: pede o mesmo `songKey` nos dois catálogos). Aceito por ora, como a P248.
 - **ME62.** No Treino da parada, um cover de outro artista escapa da exclusão por título.
 - **S24.** Conferir a duração real das prévias: no Superfan, uma prévia curta deixaria menos de 9 s.
+
+**No Anime**
+- **ME115 (novo).** O "Kaikai Kitan", 1ª abertura de Jujutsu Kaisen, ficou fora do acervo (o tema não casou com a Apple): investigar.
 
 **Pipeline, CI e testes**
 - **ME83.** A conferência da base no `dist` deixa passar um `/favicon.svg` sem ela.
@@ -55,6 +57,11 @@ Atualizado em 21/10/2026.
 - **ME8.** Aceitar erro de digitação no autocompletar.
 - **ME66.** No modo por artista, o sorteio tira mais álbuns do que precisa (o lado seguro).
 - **ME38.** Ligar no pipeline os álbuns do mesmo lançamento (pede mudança de esquema).
+
+**As faixas do Anime** (a calibração do C2, P272 a P275)
+- **ME114 (novo).** O MAL da franquia no "acertar o anime": a 2ª temporada de um anime conhecido fica difícil demais.
+- **ME116 (novo).** Um sinal do título ("sh0ut", "1st Love Story"): o nome estilizado ou genérico é mais difícil do que as fontes dizem.
+- **ME117 (novo).** Os pesos do tipo do tema no sorteio e o espaçamento da franquia continuam os provisórios do A2.
 
 **Desempenho e tamanho**
 - **S33.** A fonte mais leve: 7,5 MB a menos no `dist` e 210 kB a menos de CSS.

@@ -452,7 +452,7 @@
       "nameLatin": "Nana"
     }
   ],
-  "catalogVersion": "2026-10-05.d3def7b0",
+  "catalogVersion": "2026-10-05.0396bc77",
   "franchises": [
     {
       "id": "anime:fr:futari_no_natsu",
@@ -803,7 +803,7 @@
           }
         ],
         "tiers": {
-          "musica": "medio",
+          "musica": "dificil",
           "titulo": "dificil"
         }
       },
@@ -819,7 +819,7 @@
       "explicit": false,
       "id": "fixture:tr:tr08",
       "latinSource": "provider",
-      "popularity": 0.6667,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1421,8 +1421,8 @@
           }
         ],
         "tiers": {
-          "musica": "medio",
-          "titulo": "medio"
+          "musica": "facil",
+          "titulo": "facil"
         }
       },
       "artistDisplay": "夜風シアター",
@@ -1437,7 +1437,7 @@
       "explicit": false,
       "id": "fixture:tr:tr24",
       "latinSource": "provider",
-      "popularity": 0.6667,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1573,8 +1573,8 @@
           }
         ],
         "tiers": {
-          "musica": "medio",
-          "titulo": "medio"
+          "musica": "facil",
+          "titulo": "facil"
         }
       },
       "artistDisplay": "青井ユウ",
@@ -1589,7 +1589,7 @@
       "explicit": false,
       "id": "fixture:tr:tr27",
       "latinSource": "provider",
-      "popularity": 0.6667,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1831,8 +1831,8 @@
           }
         ],
         "tiers": {
-          "musica": "medio",
-          "titulo": "medio"
+          "musica": "facil",
+          "titulo": "facil"
         }
       },
       "artistDisplay": "ヴィオラ・ノート",
@@ -1847,7 +1847,7 @@
       "explicit": false,
       "id": "fixture:tr:tr33",
       "latinSource": "provider",
-      "popularity": 0.6667,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1883,8 +1883,8 @@
           }
         ],
         "tiers": {
-          "musica": "medio",
-          "titulo": "medio"
+          "musica": "facil",
+          "titulo": "facil"
         }
       },
       "artistDisplay": "月見坂46",
@@ -1899,7 +1899,7 @@
       "explicit": false,
       "id": "fixture:tr:tr34",
       "latinSource": "provider",
-      "popularity": 0.6667,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2090,8 +2090,8 @@
           }
         ],
         "tiers": {
-          "musica": "medio",
-          "titulo": "medio"
+          "musica": "facil",
+          "titulo": "facil"
         }
       },
       "artistDisplay": "夜風シアター",
@@ -2106,7 +2106,7 @@
       "explicit": false,
       "id": "fixture:tr:tr38",
       "latinSource": "provider",
-      "popularity": 0.6667,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2247,7 +2247,7 @@
         ],
         "tiers": {
           "musica": "medio",
-          "titulo": "medio"
+          "titulo": "facil"
         }
       },
       "artistDisplay": "青井ユウ",
@@ -2262,7 +2262,7 @@
       "explicit": false,
       "id": "fixture:tr:tr41",
       "latinSource": "provider",
-      "popularity": 0.6667,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
