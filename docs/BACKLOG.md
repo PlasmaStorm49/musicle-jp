@@ -6,13 +6,9 @@ Atualizado em 22/10/2026.
 
 ## Próximos, na ordem combinada (21/10)
 
-1. **ME36**: as 3 actions novas (o merge só depois das 23:52 de 21/10).
-5. **ME101**: o controle de volume também na revelação (P228).
+1. **ME101**: o controle de volume também na revelação (P228).
 
 ## Itens para corrigir
-
-**Com data**
-- **ME36.** Atualizar as 3 actions com versão nova. Libera em 22/10.
 
 **Na tela**
 - **ME33.** Textos: o "- Single" na revelação, o dia anulado com "0/0" e o "Áudio indisponível" quando o motivo é outro. Conferir o que o PR D já resolveu.
@@ -33,10 +29,13 @@ Atualizado em 22/10/2026.
 - **ME91.** A CI não acusa título que ficou sem latino.
 
 **No jogo**
-- **ME111 (novo).** A franquia pode repetir entre os 6 diários do Anime do dia, e a ajuda do acertar o anime mostra a "de hoje" a quem jogou outro diário. Corrigir na agenda (sem repetir a franquia nas 18 respostas), no C2.
 - **ME110 (novo).** O Treino e os Artistas não excluem as respostas do Anime de hoje (raro: pede o mesmo `songKey` nos dois catálogos). Aceito por ora, como a P248.
 - **ME62.** No Treino da parada, um cover de outro artista escapa da exclusão por título.
+- **ME113 (novo).** Com o Histórico, o Treino, os Artistas e a ajuda do diário de hoje podem entregar a resposta de um dia passado ainda não jogado (excluem só as de hoje). Aceito, como a ME110.
 - **S24.** Conferir a duração real das prévias: no Superfan, uma prévia curta deixaria menos de 9 s.
+
+**No Anime**
+- **ME115 (novo).** O "Kaikai Kitan", 1ª abertura de Jujutsu Kaisen, ficou fora do acervo (o tema não casou com a Apple): investigar.
 
 **Pipeline, CI e testes**
 - **ME83.** A conferência da base no `dist` deixa passar um `/favicon.svg` sem ela.
@@ -60,6 +59,11 @@ Atualizado em 22/10/2026.
 - **ME66.** No modo por artista, o sorteio tira mais álbuns do que precisa (o lado seguro).
 - **ME38.** Ligar no pipeline os álbuns do mesmo lançamento (pede mudança de esquema).
 
+**As faixas do Anime** (a calibração do C2, P272 a P275)
+- **ME114 (novo).** O MAL da franquia no "acertar o anime": a 2ª temporada de um anime conhecido fica difícil demais.
+- **ME116 (novo).** Um sinal do título ("sh0ut", "1st Love Story"): o nome estilizado ou genérico é mais difícil do que as fontes dizem.
+- **ME117 (novo).** Os pesos do tipo do tema no sorteio e o espaçamento da franquia continuam os provisórios do A2.
+
 **Desempenho e tamanho**
 - **S33.** A fonte mais leve: 7,5 MB a menos no `dist` e 210 kB a menos de CSS.
 - **ME18.** Medir o tempo até o 1º som no site.
@@ -82,7 +86,8 @@ Atualizado em 22/10/2026.
 
 - **ME107 (novo).** Repensar a pontuação de todos os modos, depois do Anime. Até lá, o Anime usa as regras do Desafio.
 - **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
-- **ME104 (novo).** Os dias jogados e jogar os últimos dias (sem sequência e sem média). Depois do Anime.
+- **ME104.** O Histórico: os 14 dias antes de hoje e jogar os não jogados, fora das estatísticas. **Em andamento no M15** (PRs 1 e 2 de 3; o 3 é o Anime no Histórico).
+- **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME105 (novo).** Medalhas, calculadas do histórico, e a sequência na Início. Depois do Anime.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).

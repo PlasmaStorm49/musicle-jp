@@ -2,11 +2,13 @@ import { useEffect, useRef } from "preact/hooks";
 import type { Daily } from "../core/daily.ts";
 import {
   type FinishedGame,
+  isLate,
   type PuzzleId,
   recordMax,
   recordScore,
   roundRecordScore,
 } from "../core/records.ts";
+import { routeHref } from "../core/routes.ts";
 import { MODE_RULES } from "../core/rules.ts";
 import { shareText } from "../core/share.ts";
 import { computeStats } from "../core/stats.ts";
@@ -16,6 +18,7 @@ import { Icon } from "./Icon.tsx";
 import { shareHeader } from "./modes.ts";
 import { ShareButton } from "./ShareButton.tsx";
 import { Stats } from "./Stats.tsx";
+import { singleClickLink } from "./singleClick.ts";
 
 type Props = {
   readonly game: FinishedGame;
@@ -30,6 +33,11 @@ type Props = {
   readonly scheduleDates: readonly string[];
   readonly shareUrl: string;
   readonly announce: (message: string) => void;
+  /**
+   * O "hoje" do jogo: o resumo de um dia passado (pelo Histórico) não tem a contagem nem as
+   * estatísticas, que são as de hoje (P263).
+   */
+  readonly today: string;
 };
 
 /**
@@ -48,13 +56,17 @@ function roundTexts(round: FinishedGame["rounds"][number]): {
     : { result: t("summary.won", { points }), points };
 }
 
-/** Fim do dia, a partir do resumo salvo: vale para quem acabou de jogar e para quem voltou. */
-export function Summary({ game, daily, history, scheduleDates, shareUrl, announce }: Props) {
+/**
+ * Fim do dia, a partir do resumo salvo: vale para quem acabou de jogar e para quem voltou. Num dia
+ * passado, no lugar da contagem e das estatísticas (as de hoje), a volta à tela do dia; o jogado
+ * depois leva a nota e a marca no compartilhar (P263).
+ */
+export function Summary({ game, daily, history, scheduleDates, shareUrl, announce, today }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
-  const stats = computeStats(history, daily.key, daily.date, scheduleDates);
+  const past = isLate(daily.date, today);
   const max = recordMax(game);
-  const header = shareHeader(daily, game.number);
+  const header = shareHeader(daily, game.number, game.late === true);
 
   return (
     <section class="summary" aria-labelledby="summary-title">
@@ -80,12 +92,31 @@ export function Summary({ game, daily, history, scheduleDates, shareUrl, announc
           );
         })}
       </ol>
+      {game.late && <p class="summary-late">{t("summary.lateNote")}</p>}
       <ShareButton
         text={shareText(header, game, MODE_RULES[daily.target], shareUrl)}
         announce={announce}
       />
-      <Countdown date={daily.date} announce={announce} />
-      <Stats stats={stats} todayScore={max > 0 ? recordScore(game) : null} />
+      {past ? (
+        // Sem a contagem: num dia passado, ela já estaria zerada, e o "Jogar o novo diário"
+        // recarregaria este mesmo endereço. O 2º clique de um toque duplo não segue o link
+        // (regra 23).
+        <a
+          class="summary-back"
+          href={routeHref({ tab: "history", date: daily.date })}
+          onClick={singleClickLink}
+        >
+          {t("history.backToDay")}
+        </a>
+      ) : (
+        <>
+          <Countdown date={daily.date} announce={announce} />
+          <Stats
+            stats={computeStats(history, daily.key, today, scheduleDates)}
+            todayScore={max > 0 ? recordScore(game) : null}
+          />
+        </>
+      )}
     </section>
   );
 }

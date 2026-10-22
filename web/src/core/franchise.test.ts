@@ -227,7 +227,7 @@ describe("o save do acertar o anime (a retomada pelos eventos)", () => {
 
   it("recarregar refaz a rodada igual: em jogo, sem descartar evento, com a mesma ajuda e as mesmas tentativas", () => {
     const list = events();
-    const session = startSession(saved(list), daily, index);
+    const session = startSession(saved(list), daily, index, DATE);
     if (session.kind !== "playing") throw new Error("a rodada devia continuar");
     expect(session.stale).toBe(false);
     expect(session.events).toEqual(list);
@@ -243,7 +243,7 @@ describe("o save do acertar o anime (a retomada pelos eventos)", () => {
 
   it("com o palpite da franquia certa (uma das opções da ajuda), a rodada termina ganha", () => {
     const list = [...events(), { type: "GUESS", guessId: currentRound(game()).correctOptionId }];
-    const session = startSession(saved(list as GameEvent[]), daily, index);
+    const session = startSession(saved(list as GameEvent[]), daily, index, DATE);
     if (session.kind !== "playing") throw new Error("o dia ainda tem 2 rodadas");
     expect(session.stale).toBe(false);
     expect(session.state.rounds[0]?.status).toBe("won");

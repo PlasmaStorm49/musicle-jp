@@ -2,33 +2,48 @@
 
 from __future__ import annotations
 
+import math
 import os
 import subprocess
 import sys
 from dataclasses import replace
+from decimal import Decimal
 
 import pytest
 
 from musicle_pipeline.aliases import parse_aliases
 from musicle_pipeline.anime import (
-    EASY_LEVEL,
-    MEDIUM_LEVEL,
+    CUTS,
+    ICON_CHART_UNTIL,
     Anime,
     AnimeSource,
     Theme,
     anime_from_dict,
     build_anime_catalog,
-    fame,
+    chances,
+    chart_artists,
+    franchise_songs,
     franchises_of,
+    is_icon,
+    joined_levels,
+    loose_title,
     match_theme,
     merge_anime,
+    same_song,
     tier_counts,
-    tier_of,
+    tiers_of,
 )
 from musicle_pipeline.catalog import Curation
 from musicle_pipeline.cli import main
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
-from musicle_pipeline.models import InputError, RawAlbum, RawArtist, RawTrack
+from musicle_pipeline.models import (
+    ChartEntry,
+    ChartSnapshot,
+    InputError,
+    RawAlbum,
+    RawArtist,
+    RawTrack,
+)
 from musicle_pipeline.paths import anime_paths
 from musicle_pipeline.providers.apple_anime import AppleAnimeProvider, snapshot_id
 from musicle_pipeline.providers.fixture_anime import FixtureAnimeProvider
@@ -195,30 +210,157 @@ def anime(mal_id: int = 1, *, show: int | None = None, series=(), themes=()) -> 
     )
 
 
-def test_fame_weights_the_quiz_double_when_guessing_the_anime():
-    assert fame(theme(song=9), anime(show=3)) == {"musica": 6, "titulo": 7}
-    assert fame(theme(song=4), anime()) == {"musica": 4, "titulo": 4}
-    assert fame(theme(), anime(show=8)) == {"musica": 8, "titulo": 8}
-    assert fame(theme(), anime()) == {"musica": None, "titulo": None}
+def levels(**values: int) -> Theme:
+    """Um tema com os níveis dados (quiz = anisongdb, pl = animethemes)."""
+    names = {"quiz": "anisongdb", "pl": "animethemes"}
+    return replace(theme(), levels={names[k]: v for k, v in values.items()})
+
+
+def test_the_chance_of_guessing_the_anime_is_the_product():
+    # p_a × p_t × o fator do tipo (P272): MAL 9 = 0,92; quiz 9 = 0,95.
+    assert chances(theme(song=9), anime(show=9), 1)["titulo"] == Decimal("0.874")
+    assert chances(theme("ED", song=9), anime(show=9), 1)["titulo"] == Decimal("0.6992")
+    # A insert com quiz 7+ conta como abertura; a outra leva o fator 0,15.
+    assert chances(theme("IN", song=9), anime(show=9), 1)["titulo"] == Decimal("0.874")
+    assert chances(theme("IN", song=6), anime(show=9), 1)["titulo"] == Decimal("0.0897")
+    # Sem o quiz, o estimado pelas playlists (pl 9 → 7,4); sem nada, quiz 2 e MAL 1.
+    assert chances(levels(pl=9), anime(show=9), 1)["titulo"] == Decimal("0.7268")
+    # A insert sem o quiz e com pl 9 também conta como abertura (o estimado é 7,4).
+    insert = replace(levels(pl=9), type="IN")
+    assert chances(insert, anime(show=9), 1)["titulo"] == Decimal("0.7268")
+    assert chances(theme(), anime(), 1)["titulo"] == Decimal("0.0385875968")  # 0,92 × 0,8⁸ × 0,25
+    # A concorrência é só do acertar a música.
+    alone = chances(theme(song=2), anime(show=5), 1)["titulo"]
+    assert chances(theme(song=2), anime(show=5), 21)["titulo"] == alone
+
+
+def test_the_chance_of_guessing_the_song_is_the_product():
+    # √(p_t × p_pl) × p_a^0,4 × o fator do tipo × a concorrência (P272), conferido em float.
+    def musica(kind: str, songs: int, **values: int) -> float:
+        return float(chances(replace(levels(**values), type=kind), anime(show=9), songs)["musica"])
+
+    assert musica("OP", 1, quiz=7, pl=7) == pytest.approx(0.75 * 0.92**0.4, rel=1e-12)
+    assert musica("OP", 1, quiz=7) == pytest.approx(0.75 * 0.8 * 0.92**0.4, rel=1e-12)  # sem pl
+    assert musica("ED", 1, quiz=7, pl=7) == pytest.approx(0.75 * 0.92**0.4 * 0.8, rel=1e-12)
+    # No acertar a música, a insert com quiz alto continua insert (o fator 0,3).
+    assert musica("IN", 1, quiz=9, pl=9) == pytest.approx(0.95 * 0.92**0.4 * 0.3, rel=1e-12)
+    # 21 músicas do mesmo tipo: a pouco conhecida (quiz 2) perde muito mais que a famosa (quiz 9).
+    assert musica("OP", 21, quiz=2, pl=2) / musica("OP", 1, quiz=2, pl=2) == pytest.approx(
+        1 / (1 + 0.75 * math.log(21)), rel=1e-12
+    )
+    assert musica("OP", 21, quiz=9, pl=9) / musica("OP", 1, quiz=9, pl=9) == pytest.approx(
+        1 / (1 + 0.05 * math.log(21)), rel=1e-12
+    )
+    # Sem músicas contadas (n = 0), a concorrência não pesa, como com uma só.
+    assert musica("OP", 0, quiz=2, pl=2) == musica("OP", 1, quiz=2, pl=2)
+
+
+EASY = {mode: cut[0] for mode, cut in CUTS.items()}
+MEDIUM = {mode: cut[1] for mode, cut in CUTS.items()}
+STEP = Decimal("0.0001")
 
 
 @pytest.mark.parametrize(
-    ("kind", "level", "expected"),
+    ("musica", "titulo", "icon", "expected"),
     [
-        ("OP", EASY_LEVEL, "facil"),
-        ("OP", MEDIUM_LEVEL, "medio"),
-        ("OP", MEDIUM_LEVEL - 1, "dificil"),
-        ("OP", None, "medio"),
-        # P252: o encerramento só no Fácil quando muito popular; a insert, só no Difícil.
-        ("ED", 8, "medio"),
-        ("ED", 9, "facil"),
-        ("ED", None, "dificil"),
-        ("IN", 9, "dificil"),
-        ("IN", None, "dificil"),
+        # Os cortes fixos de cada modo (P273).
+        (EASY["musica"], EASY["titulo"], False, ("facil", "facil")),
+        (EASY["musica"] - STEP, EASY["titulo"] - STEP, False, ("medio", "medio")),
+        (MEDIUM["musica"], MEDIUM["titulo"], False, ("medio", "medio")),
+        (MEDIUM["musica"] - STEP, MEDIUM["titulo"] - STEP, False, ("dificil", "dificil")),
+        # O nome da música nunca mais fácil que o anime, salvo o ícone (P274).
+        (Decimal(1), Decimal(0), False, ("dificil", "dificil")),
+        (Decimal(1), MEDIUM["titulo"], False, ("medio", "medio")),
+        (Decimal(1), Decimal(0), True, ("facil", "dificil")),
+        # O contrário fica: o anime pode ser mais fácil que o nome da música.
+        (Decimal(0), Decimal(1), False, ("dificil", "facil")),
     ],
 )
-def test_tiers(kind, level, expected):
-    assert tier_of(kind, level) == expected
+def test_tiers(musica, titulo, icon, expected):
+    tiers = tiers_of({"musica": musica, "titulo": titulo}, icon)
+    assert (tiers["musica"], tiers["titulo"]) == expected
+
+
+def test_the_icon_needs_the_playlists_and_the_quiz():
+    assert is_icon(levels(quiz=7, pl=8))
+    assert not is_icon(levels(quiz=9, pl=7))
+    assert not is_icon(levels(pl=9))
+    assert not is_icon(levels(quiz=9))
+    # O ícone que só aparece com a junção dos dois registros do tema (P275).
+    show = anime(themes=[levels(pl=8), replace(levels(quiz=7), result="no-match", track=None)])
+    assert is_icon(replace(theme(), levels=joined_levels(show)[0]))
+
+
+@pytest.mark.parametrize(
+    ("a", "b", "same"),
+    [
+        ("LOST IN PARADISE feat. AKLO", "LOST IN PARADISE", True),
+        ("02~O-Two~", "O2", True),
+        ("sh0ut", "shØut", True),
+        ("Gurenge (TV size)", "Gurenge", True),
+        ("Rubikon", "Rubicon", True),  # muito parecidos
+        ("Soul", "S0ul", True),  # o 0 vira "o" antes do search_key, que encurta o "ou"
+        ("Gurenge", "Homura", False),
+    ],
+)
+def test_loose_titles(a, b, same):
+    assert same_song(loose_title(a), loose_title(b)) is same
+    assert same_song(loose_title(b), loose_title(a)) is same  # nas duas ordens
+
+
+def test_similar_titles_do_not_depend_on_the_order():
+    # O SequenceMatcher dá 0,25 e 0,5 conforme a ordem; o same_song, sempre o mesmo.
+    assert same_song("tide", "diet") is same_song("diet", "tide")
+    # O título que começa pelo enfeite não some: fica inteiro.
+    assert loose_title("(K)NoW_NAME") != ""
+
+
+def test_the_two_records_of_a_theme_join_their_levels():
+    show = anime(
+        themes=[
+            replace(levels(pl=9), song="LOST IN PARADISE feat. AKLO"),
+            replace(levels(quiz=8), song="LOST IN PARADISE", result="no-match", track=None),
+            replace(theme("ED", song=3), song="Other"),
+        ]
+    )
+    assert joined_levels(show) == (
+        {"animethemes": 9, "anisongdb": 8},
+        {"anisongdb": 8, "animethemes": 9},
+        {"anisongdb": 3},
+    )
+    # O nível do próprio tema vence; com dois candidatos, nada se junta.
+    own = anime(themes=[levels(quiz=5), replace(levels(quiz=7, pl=2), song="Gurenge (TV size)")])
+    assert joined_levels(own)[0] == {"anisongdb": 5, "animethemes": 2}
+    two = anime(themes=[levels(pl=2), levels(quiz=7), levels(quiz=8)])
+    assert joined_levels(two)[0] == {"animethemes": 2}
+
+
+def test_the_rivals_are_the_distinct_songs_of_the_franchise():
+    series = [("kimetsu", "Kimetsu no Yaiba")]
+    first = anime(1, series=series, themes=[theme(), theme("ED")])
+    second = anime(
+        2,
+        series=series,
+        themes=[replace(theme(), song="Zankyou Sanka"), replace(theme(), song="Gurenge (TV size)")],
+    )
+    assert franchise_songs([first, second, anime(3, themes=[theme()])]) == {
+        ("kimetsu", "OP"): 2,
+        ("kimetsu", "ED"): 1,
+        ("anime_3", "OP"): 1,
+    }
+
+
+def test_the_chart_artists_stop_at_the_calibration_date():
+    partner = RawArtist("300", "Partner")
+    before = replace(DISCOGRAPHY[0], artists=(LISA, partner))
+    after = replace(DISCOGRAPHY[0], artists=(OTHER,))
+
+    def snapshot(day: str, t: RawTrack) -> ChartSnapshot:
+        return ChartSnapshot(day, day, f"{day}T00:00:00Z", "x", 1, (ChartEntry(1, t),))
+
+    snapshots = [snapshot(ICON_CHART_UNTIL, before), snapshot("2026-10-26", after)]
+    # Só o artista principal: o parceiro depende de todos os snapshots (regra 20).
+    assert chart_artists("apple", snapshots) == {"apple:ar:100"}
 
 
 # --- as franquias e o catálogo -----------------------------------------------------------------
@@ -235,9 +377,19 @@ def source(*items: Anime) -> AnimeSource:
     return AnimeSource(snapshots=(("2026-10-21T230000Z", "2026-10-21T23:00:00Z"),), anime=items)
 
 
-def build(*items: Anime, cur: Curation | None = None, notes: list[str] | None = None):
+def build(
+    *items: Anime,
+    cur: Curation | None = None,
+    notes: list[str] | None = None,
+    icons: frozenset[str] = frozenset(),
+):
     return build_anime_catalog(
-        "apple", "jp", source(*items), cur or Curation(), [] if notes is None else notes
+        "apple",
+        "jp",
+        source(*items),
+        cur or Curation(),
+        [] if notes is None else notes,
+        icon_artists=icons,
     )
 
 
@@ -408,7 +560,9 @@ def test_the_apple_provider_maps_the_snapshot(tmp_path):
     provider = AppleAnimeProvider(tmp_path)
     src = provider.source()
     assert src.snapshots == (("2026-10-21T231005Z", "2026-10-21T23:10:05Z"),)
-    (t,) = build_anime_catalog("apple", "jp", src, Curation(), [])["tracks"]
+    (t,) = build_anime_catalog("apple", "jp", src, Curation(), [], icon_artists=frozenset())[
+        "tracks"
+    ]
     assert t["id"] == "apple:tr:1" and t["releaseDate"] == "2019-07-03"
     assert t["storeUrl"] == "https://music.apple.com/jp/album/x/10?i=1"
 
@@ -449,7 +603,9 @@ COMMITTED = anime_paths("fixture").public_dir / "catalog.json"
 def test_the_fixture_has_every_mode_and_tier():
     notes: list[str] = []
     provider = FixtureAnimeProvider()
-    catalog = build_anime_catalog("fixture", "jp", provider.source(), Curation(), notes)
+    catalog = build_anime_catalog(
+        "fixture", "jp", provider.source(), Curation(), notes, icon_artists=frozenset()
+    )
     for mode, counts in tier_counts(catalog).items():
         assert min(counts.values()) >= 6, (mode, counts)  # 6 por faixa na agenda fictícia (P235)
     assert any(n.startswith("musica: facil") for n in notes)
@@ -554,7 +710,9 @@ def test_a_thousand_songs_fit_under_the_cap():
         replace(a, themes=(replace(a.themes[0], track=mapped[str(1_500_000_000 + n)]),))
         for n, a in enumerate(items)
     ]
-    catalog = build_anime_catalog("apple", "jp", source(*items), Curation(), [])
+    catalog = build_anime_catalog(
+        "apple", "jp", source(*items), Curation(), [], icon_artists=frozenset()
+    )
     size = len(dumps(catalog).encode("utf-8"))
     assert size < MAX_FILE_BYTES, size
 
@@ -613,16 +771,57 @@ def test_an_unknown_key_in_the_snapshot_is_refused():
 
 
 def test_the_published_popularity_comes_only_from_the_tier():
-    # P240: sem nível do tema, o nível do MAL decide a faixa, mas não vai para o arquivo.
+    # P240: sem nível do tema (o quiz 2), o MAL 8 dá o Médio nos dois modos (0,184 e 0,177), mas
+    # nenhum nível vai para o arquivo.
     (t,) = build(anime(1, show=8, themes=[theme()]))["tracks"]
+    assert t["anime"]["tiers"] == {"musica": "medio", "titulo": "medio"}
+    assert t["popularity"] == 0.6667
+    assert "levels" not in t["anime"]
+
+
+def test_the_song_name_is_easier_than_the_anime_only_for_an_icon():
+    # Quiz 9 e pl 7 num anime pouco visto (MAL 0): o nome da música daria Fácil (0,37), e o
+    # anime fica no Médio (0,117). Só o artista da parada (P274) deixa a música no Fácil.
+    show = anime(1, show=0, themes=[levels(quiz=9, pl=7)])
+    (t,) = build(show)["tracks"]
+    assert t["anime"]["tiers"] == {"musica": "medio", "titulo": "medio"}
+    (t,) = build(show, icons=frozenset({"apple:ar:100"}))["tracks"]
+    assert t["anime"]["tiers"] == {"musica": "facil", "titulo": "medio"}
+
+
+def test_many_endings_of_the_franchise_make_the_name_harder():
+    # Quiz 5 e pl 5 no MAL 9: o nome dá 0,43 sozinho (Fácil) e 0,18 entre 21 encerramentos.
+    ending = replace(levels(quiz=5, pl=5), type="ED")
+    (t,) = build(anime(1, show=9, themes=[ending]))["tracks"]
     assert t["anime"]["tiers"] == {"musica": "facil", "titulo": "facil"}
-    assert t["popularity"] == 1.0
+    others = [
+        replace(theme("ED", result="no-match"), song=f"Ending {i}", track=None) for i in range(20)
+    ]
+    (t,) = build(anime(1, show=9, themes=[ending, *others]))["tracks"]
+    assert t["anime"]["tiers"] == {"musica": "medio", "titulo": "facil"}
 
 
-def test_an_ending_needs_its_own_top_level_for_the_easy_tier():
-    # 8 do quiz e 9 do anime dão 9 no combinado, mas o encerramento fica no Médio (P252).
-    (t,) = build(anime(1, show=9, themes=[theme("ED", song=8)]))["tracks"]
-    assert t["anime"]["tiers"]["musica"] == "medio"
+def test_the_build_joins_the_levels_of_the_two_sources():
+    # Sem a junção, o pl 2 estimaria o quiz em 2,4 (Médio no MAL 8); com o quiz 9 do outro
+    # registro do mesmo tema (P275), o anime vai ao Fácil.
+    matched = replace(levels(pl=2), song="Gurenge feat. X")
+    quiz = replace(levels(quiz=9), result="no-match", track=None)
+    (t,) = build(anime(1, show=8, themes=[matched]))["tracks"]
+    assert t["anime"]["tiers"]["titulo"] == "medio"
+    (t,) = build(anime(1, show=8, themes=[matched, quiz]))["tracks"]
+    assert t["anime"]["tiers"]["titulo"] == "facil"
+
+
+def test_the_same_song_in_two_tracks_gets_the_easiest_tier():
+    # A abertura de uma temporada (a gravação completa) é a insert song pouco conhecida da outra
+    # (a TV size): as duas faixas ficam com a faixa da abertura, porque a fama é da música.
+    tv = replace(DISCOGRAPHY[0], provider_id="9", title="紅蓮華 (TV Size)")
+    one = anime(1, show=9, themes=[theme("OP", song=9)])
+    two = anime(2, show=2, themes=[replace(theme("IN", song=2), track=tv)])
+    tracks = build(one, two)["tracks"]
+    assert len(tracks) == 2
+    assert all(t["anime"]["tiers"] == {"musica": "facil", "titulo": "facil"} for t in tracks)
+    assert all(t["popularity"] == 1.0 for t in tracks)
 
 
 def test_the_tv_size_and_the_full_song_share_the_song_key():

@@ -106,7 +106,7 @@ describe("animeDaily (M14)", () => {
   it("o diário monta o jogo do Desafio sobre o índice do Anime, e a ajuda acha as respostas nele", () => {
     const index = indexAnime(animeCatalog);
     const daily = animeDaily(animeDay, DATE, "musica", "facil");
-    const session = startSession(emptySave(), daily, index);
+    const session = startSession(emptySave(), daily, index, DATE);
     if (session.kind !== "playing") throw new Error("o diário novo devia começar a jogar");
     expect(session.state.target).toBe("song");
     expect(session.state.puzzleId).toBe(daily.id);
@@ -141,7 +141,7 @@ describe("DAILY_KEYS (P250)", () => {
     expect(new Set(DAILY_KEYS).size).toBe(8);
   });
 
-  it("a abertura guarda os andamentos de hoje dos 8 diários e tira os de outro dia", () => {
+  it("os ids dos 8 diários de um dia: o pruneProgress tira os de outro dia", () => {
     const ids = dailyIds(DATE);
     expect(ids).toHaveLength(8);
     expect(ids).toContain("2026-10-08|album");

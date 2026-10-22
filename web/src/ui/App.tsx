@@ -5,17 +5,11 @@ import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
-import { dailyIds, hitsDailies } from "../core/daily.ts";
-import { animeDone, artistSummary, dailiesDone, practiceSummary } from "../core/home.ts";
+import { hitsDailies } from "../core/daily.ts";
+import { keptProgressIds } from "../core/history.ts";
+import { artistSummary, practiceSummary } from "../core/home.ts";
 import { emptySave, pruneProgress, type Save } from "../core/records.ts";
-import {
-  type Category,
-  categoryOf,
-  isAnimeTab,
-  ROUTES,
-  type Tab,
-  tabFromHash,
-} from "../core/routes.ts";
+import { isAnimeTab, ROUTES, type Route, routeFromHash, routeHref } from "../core/routes.ts";
 import {
   appleResolver,
   catalogResolver,
@@ -51,10 +45,12 @@ import { Anime, type AnimeStore, useAnimeStore } from "./Anime.tsx";
 import { type ArtistStore, Artists, useArtistStore } from "./Artists.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
+import { HistoryCalendar, HistoryDayScreen } from "./History.tsx";
 import { Hits } from "./Hits.tsx";
 import { Home } from "./Home.tsx";
-import { NavLogo } from "./Logo.tsx";
+import { Nav } from "./Nav.tsx";
 import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
+import { singleClickLink } from "./singleClick.ts";
 import { savedVolume } from "./volume.ts";
 
 type Load =
@@ -89,7 +85,10 @@ type Storage = {
   readonly notice: string | null;
 };
 
-/** Abre o armazenamento uma vez: lê, limpa andamentos de outros dias e diz se vai salvar. */
+/**
+ * Abre o armazenamento uma vez: lê, limpa os andamentos que não se retomam mais (os de fora de
+ * hoje e do Histórico, P269) e diz se vai salvar.
+ */
 function openSaves(date: string): Storage {
   const { store, persistent } = openStore(() => window.localStorage);
   let loaded: LoadResult;
@@ -98,26 +97,18 @@ function openSaves(date: string): Storage {
   } catch {
     loaded = { save: emptySave(), writable: false, notice: "unavailable" };
   }
-  // Os andamentos de hoje que ficam: os dos Hits e os do Anime (P250); o resto é de outro dia.
-  const today = dailyIds(date);
-  if (loaded.writable) updateSave(store, (s) => pruneProgress(s, today));
+  // Os andamentos que ficam: os de hoje e os dos dias do Histórico (P269), dos Hits e do Anime;
+  // o resto é de um dia que não se joga mais.
+  const kept = keptProgressIds(date);
+  if (loaded.writable) updateSave(store, (s) => pruneProgress(s, kept));
   const notice =
     loaded.notice === "future"
       ? t("storage.future")
       : !persistent || !loaded.writable
         ? t("storage.unavailable")
         : null;
-  const save = pruneProgress(loaded.save, today);
+  const save = pruneProgress(loaded.save, kept);
   return { store: sessionStore(store, { ...loaded, save }), save, notice };
-}
-
-/**
- * O aria-current do link de uma categoria: "page" na tela dela, "true" dentro de um jogo dela (o
- * diário ou o Treino, nos Hits), e nada nas outras.
- */
-function current(tab: Tab, category: Category): "page" | "true" | undefined {
-  if (categoryOf(tab) !== category) return undefined;
-  return tab === category ? "page" : "true";
 }
 
 export function App() {
@@ -127,7 +118,8 @@ export function App() {
   const date = useMemo(() => gameDate(new Date(), window.location.search, DEV), []);
   const saves = useMemo(() => openSaves(date), [date]);
   const resolveUrl = useCallback((url: string) => assetUrl(BASE_URL, url), []);
-  const [tab, setTab] = useState<Tab>(() => tabFromHash(window.location.hash));
+  // A aba e, num dia passado do Histórico, a data dele (P261), lidas do endereço.
+  const [route, setRoute] = useState<Route>(() => routeFromHash(window.location.hash, date));
   // A última leitura do save, para o ✓ da aba Hits e o Treino. Cada diário recebe a leitura do
   // momento em que a aba abre: voltar ao Desafio terminado mostra o resultado (P39).
   const [latest, setLatest] = useState(saves.save);
@@ -161,7 +153,7 @@ export function App() {
   }, [saves]);
   useEffect(() => {
     const onHashChange = () => {
-      setTab(tabFromHash(window.location.hash));
+      setRoute(routeFromHash(window.location.hash, date));
       refresh();
     };
     // Outra aba do navegador gravou (terminou um diário): o ✓ e o Treino acompanham.
@@ -174,7 +166,7 @@ export function App() {
       window.removeEventListener("hashchange", onHashChange);
       window.removeEventListener("storage", onStorage);
     };
-  }, [refresh]);
+  }, [refresh, date]);
   // Texto igual ao anterior não muda o DOM e o leitor de tela fica calado (copiar duas vezes,
   // duas rodadas anuladas): alterna um espaço invisível no fim para ele ler de novo.
   const announce = useCallback(
@@ -242,57 +234,7 @@ export function App() {
 
   return (
     <>
-      <nav class="tabs" aria-label={t("nav.label")}>
-        <ul>
-          {/* Uma aba por categoria (P225): a Início, os Hits (a tela deles, os dois diários e o
-              Treino), o Anime (a tela dele, as dificuldades e os 6 diários) e os Artistas. A da aba
-              atual leva aria-current: "page" na tela dela, e "true" dentro de um jogo dela (o link
-              leva a outra página). */}
-          {/* A Início é o selo do logo (P205): o nome do link fica em texto, para o leitor de tela. */}
-          <li>
-            <a class="nav-home" href={ROUTES.home} aria-current={current(tab, "home")}>
-              <NavLogo />
-              <span class="sr-only">{t("nav.home")}</span>
-            </a>
-          </li>
-          {/* O ✓ quando os dois diários do dia terminaram (P227). */}
-          <li>
-            <a href={ROUTES.hits} aria-current={current(tab, "hits")}>
-              {t("nav.hits")}
-              {dailiesDone(latest, date) && (
-                <>
-                  <span class="done-mark" aria-hidden="true">
-                    {" "}
-                    {t("nav.doneMark")}
-                  </span>
-                  <span class="sr-only">{t("nav.hitsDone")}</span>
-                </>
-              )}
-            </a>
-          </li>
-          {/* O ✓ quando qualquer um dos 6 diários do Anime de hoje terminou (P247). */}
-          <li>
-            <a href={ROUTES.anime} aria-current={current(tab, "anime")}>
-              {t("nav.anime")}
-              {animeDone(latest, date) && (
-                <>
-                  <span class="done-mark" aria-hidden="true">
-                    {" "}
-                    {t("nav.doneMark")}
-                  </span>
-                  <span class="sr-only">{t("nav.animeDone")}</span>
-                </>
-              )}
-            </a>
-          </li>
-          {/* O modo por artista fica na nav até o site ficar público (P117): é só tirar o <li>. */}
-          <li>
-            <a href={ROUTES.artists} aria-current={current(tab, "artists")}>
-              {t("nav.artists")}
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <Nav route={route} save={latest} date={date} />
       <main class="app">
         <p class="sr-only" aria-live="polite">
           {message}
@@ -300,7 +242,7 @@ export function App() {
         {saves.notice && <p class="notice">{saves.notice}</p>}
         {/* O "Sobre e privacidade" não usa dado nenhum: desenha sem esperar a carga dos Hits, e a
             política de privacidade nunca depende dela (nem de uma falha dela). */}
-        {tab === "about" ? (
+        {route.tab === "about" ? (
           <About />
         ) : (
           <>
@@ -327,7 +269,7 @@ export function App() {
             )}
             {load.status === "ready" && engine && resolver && (
               <Ready
-                tab={tab}
+                route={route}
                 data={load.data}
                 date={date}
                 engine={engine}
@@ -351,7 +293,8 @@ export function App() {
 }
 
 type ReadyProps = {
-  readonly tab: Tab;
+  /** A aba e, num dia passado do Histórico, a data dele. */
+  readonly route: Route;
   readonly data: GameData;
   readonly date: string;
   readonly engine: AudioEngine;
@@ -373,7 +316,7 @@ type ReadyProps = {
 
 /** A tela da aba ativa. Uma por vez: os ids dos títulos (question, result...) não se repetem. */
 function Ready({
-  tab,
+  route,
   data,
   date,
   engine,
@@ -388,10 +331,20 @@ function Ready({
   artists,
   anime,
 }: ReadyProps) {
+  const { tab } = route;
+  // O dia de hoje: a Início, os Hits, o Treino e os Artistas são sempre de hoje (a exclusão do
+  // Treino, P141, também). O dia jogado é o de hoje ou, pelo Histórico, um dia passado (P261).
   const day = pickDay(data.schedule, date);
-  // Os diários dos Hits do dia, guardados entre os renders: o Game recalcula a sessão quando o
-  // descritor muda. Sem o dia na agenda, nenhum.
-  const dailies = useMemo(() => (day ? hitsDailies(day, date) : []), [day, date]);
+  const playDay = route.date === null ? day : pickDay(data.schedule, route.date);
+  // Os diários dos Hits de hoje e os do dia jogado (os mesmos, sem data na rota), guardados entre
+  // os renders: o Game recalcula a sessão quando o descritor muda. Sem o dia na agenda, nenhum. Os
+  // de hoje servem também à ajuda de um diário passado, que evita as respostas deles.
+  const todayDailies = useMemo(() => (day ? hitsDailies(day, date) : []), [day, date]);
+  const dailies = useMemo(
+    () => (route.date === null ? todayDailies : playDay ? hitsDailies(playDay, route.date) : []),
+    [route.date, todayDailies, playDay],
+  );
+  const hitsDates = useMemo(() => new Set(Object.keys(data.schedule.days)), [data]);
   // As telas do Anime (a categoria, as dificuldades e os diários) ficam no Anime, com a carga dele.
   if (isAnimeTab(tab)) {
     return (
@@ -419,7 +372,7 @@ function Ready({
     case "song":
     case "album": {
       const daily = dailies.find((d) => d.key === tab);
-      if (!daily) return <Unavailable />;
+      if (!daily) return <Unavailable date={route.date} />;
       return (
         // key: cada diário monta do zero ao trocar de diário, com o save daquele momento (no
         // Anime, os 6 diários podem dividir a tela).
@@ -437,6 +390,8 @@ function Ready({
           onSaved={onSaved}
           scheduleDates={Object.keys(data.schedule.days)}
           shareUrl={BASE_URL}
+          today={date}
+          todayDailies={todayDailies}
         />
       );
     }
@@ -459,6 +414,14 @@ function Ready({
     // ficar completo.
     case "about":
       return <About />;
+    // O Histórico (P260, P261): o calendário, ou a tela de um dia passado. A key remonta a tela ao
+    // trocar de dia (o Voltar do navegador), e o foco volta ao título (regra 16).
+    case "history":
+      return route.date === null ? (
+        <HistoryCalendar save={latest} today={date} hitsDates={hitsDates} />
+      ) : (
+        <HistoryDayScreen key={route.date} date={route.date} day={playDay} save={latest} />
+      );
     case "artists":
       return (
         <Artists
@@ -477,12 +440,27 @@ function Ready({
   }
 }
 
-/** Dia sem diário na agenda: o Treino continua (PLANO, Apêndice C). */
-function Unavailable() {
+/**
+ * Dia sem diário na agenda: hoje, o Treino continua (PLANO, Apêndice C); num dia passado, a volta
+ * é ao Histórico.
+ */
+function Unavailable({ date }: { readonly date: string | null }) {
   return (
     <section class="unavailable screen">
-      <FocusedNotice text={t("day.unavailable")} />
-      <a href={ROUTES.practice}>{t("day.practiceLink")}</a>
+      {date === null ? (
+        <>
+          <FocusedNotice text={t("day.unavailable")} />
+          <a href={ROUTES.practice}>{t("day.practiceLink")}</a>
+        </>
+      ) : (
+        <>
+          <FocusedNotice text={t("history.unavailable")} />
+          {/* O 2º clique de um toque duplo não segue o link (regra 23). */}
+          <a href={routeHref({ tab: "history", date })} onClick={singleClickLink}>
+            {t("history.backToDay")}
+          </a>
+        </>
+      )}
     </section>
   );
 }

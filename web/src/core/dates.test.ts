@@ -2,10 +2,12 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   dateInZone,
+  dayParts,
   formatHms,
   isValidDate,
   msUntilNextDay,
   startOfDayInZone,
+  weekdayOf,
 } from "./dates.ts";
 
 const HOUR = 3_600_000;
@@ -110,5 +112,32 @@ describe("addDays", () => {
 
   it("recusa data fora do formato", () => {
     expect(() => addDays("08/10/2026", 1)).toThrow(RangeError);
+  });
+});
+
+describe("weekdayOf e dayParts", () => {
+  // A conta não passa por getter de data, então não depende do fuso (os testes rodam em
+  // Tóquio, regra 6). Antes de 1970, o resto negativo também dá o dia certo.
+  it.each([
+    ["2026-10-22", 4],
+    ["2026-10-25", 0],
+    ["2026-10-31", 6],
+    ["2026-11-01", 0],
+    ["2026-12-31", 4],
+    ["2027-01-01", 5],
+    ["2028-02-29", 2],
+    ["1969-12-31", 3],
+    ["1969-12-31", 3],
+  ])("%s cai no dia %i da semana", (day, weekday) => {
+    expect(weekdayOf(day)).toBe(weekday);
+  });
+
+  it("o dia do mês e o mês, sem o zero à esquerda", () => {
+    expect(dayParts("2026-10-08")).toEqual({ day: 8, month: 10 });
+    expect(dayParts("2027-01-31")).toEqual({ day: 31, month: 1 });
+  });
+
+  it("recusa data fora do formato", () => {
+    expect(() => weekdayOf("22/10/2026")).toThrow(RangeError);
   });
 });

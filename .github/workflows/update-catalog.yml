@@ -142,7 +142,7 @@ jobs:
         # Copia a lista fechada para o artefato (script com teste, ME52).
         run: bash .github/scripts/catalog-collect.sh
       - if: steps.diff.outputs.changed == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: catalog
           path: ${{ runner.temp }}/out
@@ -194,7 +194,7 @@ jobs:
       - if: steps.mal.outcome == 'failure'
         run: echo "::warning::o ranking do MAL não veio; o Anime segue com as fontes abertas"
       - if: steps.mal.outputs.ready == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: anime-mal
           path: ${{ runner.temp }}/mal/ranks.json
@@ -254,7 +254,7 @@ jobs:
       - if: steps.due.outputs.due == 'true'
         run: python -m pip install -c pipeline/constraints.txt -e "pipeline[romaji]"
       - if: steps.due.outputs.due == 'true' && needs.anime-mal.outputs.ranks == 'true'
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         continue-on-error: true
         with:
           name: anime-mal
@@ -337,7 +337,7 @@ jobs:
           NOW: ${{ steps.today.outputs.now }}
         run: bash .github/scripts/anime-collect.sh
       - if: steps.collect.outputs.changed == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: anime
           path: ${{ runner.temp }}/anime-out
@@ -366,7 +366,7 @@ jobs:
         with:
           persist-credentials: false
       - if: needs.catalog-generate.result == 'success' && needs.catalog-generate.outputs.changed == 'true'
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: catalog
           path: ${{ runner.temp }}/artifact
@@ -374,7 +374,7 @@ jobs:
       # esperado, o catalog-pr.sh deixa o Anime de fora (ANIME_EXPECTED), e a tarefa fica vermelha
       # depois de abrir o PR.
       - if: needs.anime-generate.result == 'success' && needs.anime-generate.outputs.changed == 'true'
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         continue-on-error: true
         with:
           name: anime

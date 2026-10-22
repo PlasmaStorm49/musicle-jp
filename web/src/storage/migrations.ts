@@ -1,7 +1,7 @@
 // Migrações do formato salvo: uma função por versão, de N para N+1, cada uma com um teste que
 // lê um save real da versão anterior (web/CLAUDE.md, regra 12).
 
-export const SAVE_SCHEMA_VERSION = 6;
+export const SAVE_SCHEMA_VERSION = 7;
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 
@@ -26,6 +26,11 @@ export const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // (que não conhece esses ids e jogaria fora os jogos do Anime) veja "versão mais nova" e não
   // grave.
   5: (data) => data,
+  // v6 → v7 (P267): o jogo terminado depois do dia dele, pelo Histórico, leva `late: true`, e
+  // fica fora das estatísticas. Nada muda no que já existe: até aqui, jogar depois era impossível
+  // no site. A versão sobe para que uma aba com o código velho (que contaria o jogado depois nas
+  // estatísticas e apagaria o andamento de um dia passado) veja "versão mais nova" e não grave.
+  6: (data) => data,
 };
 
 /** Leva um save da versão `from` até a atual. Versão sem migração conhecida: erro. */
