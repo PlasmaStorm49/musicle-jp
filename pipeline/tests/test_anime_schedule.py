@@ -219,9 +219,10 @@ def test_the_franchise_never_repeats_in_the_titulo_diary_and_is_spaced_between_d
 
 
 def test_the_franchise_spacing_is_the_first_rule_to_relax():
-    # 3 franquias por dificuldade: no 2º dia, todas saíram ontem. O espaçamento afrouxa (nível
-    # 1, com registro), e a janela das músicas fica.
-    catalog = shared({tier: 18 for tier in TIERS}, franchise=lambda n, tier: f"{tier}{n % 3}")
+    # 6 franquias por dificuldade: no 1º dia, 3 para cada modo, sem repetir no dia (ME111); no
+    # 2º, todas saíram ontem. O espaçamento afrouxa (nível 1, com registro), e a franquia do dia e
+    # a janela das músicas ficam.
+    catalog = shared({tier: 18 for tier in TIERS}, franchise=lambda n, tier: f"{tier}{n % 6}")
     result = generate_anime(catalog, None, EPOCH, EPOCH, horizon=1)
     assert result.relaxations
     assert all(r.startswith("2026-10-09") for r in result.relaxations)
@@ -468,23 +469,32 @@ FIXTURE = anime_paths("fixture").public_dir
 COMMITTED = FIXTURE / "schedule.json"
 
 
-def test_committed_anime_schedule_is_what_the_generator_gives():
-    """A agenda fictícia do Anime versionada é a que o schedule-anime gera: os dias gerados com
-    o catálogo de agora (o mesmo catalogVersion) saem iguais, a partir dos anteriores. Se o
-    catálogo fictício mudar, os dias antigos ficam como estão (a agenda só cresce), e o teste
-    passa a olhar só os dias novos."""
-    committed = read_json(COMMITTED)
-    catalog = read_json(FIXTURE / "catalog.json")
-    days = sorted(committed["days"])
-    current = [
-        d for d in days if committed["days"][d]["catalogVersion"] == catalog["catalogVersion"]
-    ]
-    if not current:
-        pytest.skip("nenhum dia gerado com o catálogo fictício de agora")
-    first, last = date.fromisoformat(current[0]), date.fromisoformat(days[-1])
-    base = {**committed, "days": {d: committed["days"][d] for d in days if d < current[0]}}
-    again = generate_anime(catalog, base, first, horizon=(last - first).days)
-    assert dumps(again.schedule).encode("utf-8") == COMMITTED.read_bytes()
+def test_the_franchise_does_not_repeat_in_the_day():
+    # ME111: a franquia de uma resposta não volta em outro diário do mesmo dia, nos dois modos (a
+    # ajuda do titulo evita as de hoje, e a repetida seria a "de hoje" para quem jogou o outro).
+    catalog = shared({tier: 18 for tier in TIERS}, franchise=lambda n, tier: f"{tier}{n % 6}")
+    result = generate_anime(catalog, None, EPOCH, EPOCH, horizon=0)
+    (day,) = result.schedule["days"].values()
+    tracks = {t["id"]: t for t in catalog["tracks"]}
+    franchises = [f for a in answers_of(day) for f in tracks[a]["anime"]["franchiseIds"]]
+    assert len(franchises) == len(set(franchises)) == 18
+    assert result.relaxations == []
+
+
+def test_with_few_franchises_the_day_rule_relaxes_after_the_spacing():
+    # 3 franquias por dificuldade não fazem 6 diários sem repetir no dia: a regra afrouxa (nível
+    # 2, com registro), depois do espaçamento e antes da janela das músicas.
+    catalog = shared({tier: 18 for tier in TIERS}, franchise=lambda n, tier: f"{tier}{n % 3}")
+    result = generate_anime(catalog, None, EPOCH, EPOCH, horizon=0)
+    assert result.relaxations
+    assert all("nível 2 (a franquia repete no dia)" in r for r in result.relaxations)
+    check_rules(result.schedule, catalog)
+
+
+# A agenda fictícia versionada não é regerada inteira aqui: uma regra nova da geração (a ME111,
+# por exemplo) muda só os dias novos (regra 13 do pipeline/CLAUDE.md), e os dias que já existem
+# foram gerados com a regra de antes. Quem garante que cada dia novo é o do gerador é o
+# schedule-check, que regera os dias novos de todo PR e exige que saiam iguais (ME51).
 
 
 def test_the_fixture_schedule_has_the_dates_of_the_hits_one():
