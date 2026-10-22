@@ -18,7 +18,7 @@ import re
 import unicodedata
 from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field, replace
-from decimal import ROUND_HALF_EVEN, Decimal
+from decimal import ROUND_HALF_EVEN, Decimal, localcontext
 from difflib import SequenceMatcher
 from typing import Protocol
 
@@ -41,7 +41,7 @@ from musicle_pipeline.catalog import (
     eligibility,
     entity_id,
 )
-from musicle_pipeline.models import JSON, TIMESTAMP, InputError, RawTrack
+from musicle_pipeline.models import JSON, TIMESTAMP, ChartSnapshot, InputError, RawTrack
 from musicle_pipeline.normalize import display, needs_romaji, search_key, search_keys
 from musicle_pipeline.romaji_cache import artist_text, track_text
 
@@ -56,13 +56,49 @@ ANIME_LEVELS = ("mal",)
 THEME_LEVELS = ("anisongdb", "animethemes")
 # O resultado da busca de cada tema, no snapshot: só o "matched" tem faixa.
 RESULTS = ("matched", "no-artist", "no-match", "ambiguous", "no-preview")
-# Os cortes das faixas (P240), provisórios na carga de teste (C1) e calibrados na grande (C2).
-# São constantes de propósito: recalcular os tercis a cada build mudaria a faixa das músicas
-# conforme o acervo cresce.
-EASY_LEVEL = 7
-MEDIUM_LEVEL = 4
-# Sem nível nenhum, a regra da abertura e do encerramento (P240).
-_DEFAULT_TIER = {"OP": "medio", "ED": "dificil", "IN": "dificil"}
+# As faixas de dificuldade (P272 a P275, calibradas na carga grande, C2). Cada tema vira a chance
+# de acertar cada modo, um produto de fatores entre 0 e 1 (a conta está no `chances`).
+# Sem o quiz, o quiz médio dos temas do C2 que têm os dois níveis, por nível das playlists
+# (o índice); sem nenhum dos dois, NO_QUIZ.
+QUIZ_FROM_PL = tuple(
+    Decimal(q) for q in ("2.2", "2.5", "2.4", "3.1", "3.1", "3.5", "4.3", "5.2", "6.0", "7.4")
+)
+NO_QUIZ = Decimal(2)
+# O anime do nível 9 do MAL (o top 50) tem a chance MAL_TOP, e cada nível abaixo multiplica por
+# MAL_STEP. Sem o nível, o NO_MAL.
+MAL_TOP = Decimal("0.92")
+MAL_STEP = Decimal("0.8")
+NO_MAL = 1
+# O fator do tipo do tema em cada modo: o encerramento é menos ouvido que a abertura, e a insert
+# song quase nunca é lembrada.
+TYPE_FACTOR = {
+    "musica": {"OP": Decimal(1), "ED": Decimal("0.8"), "IN": Decimal("0.3")},
+    "titulo": {"OP": Decimal(1), "ED": Decimal("0.8"), "IN": Decimal("0.15")},
+}
+# No "acertar o anime", a insert song com o quiz a partir deste conta como abertura: é a abertura
+# de outra temporada, e o quiz mede quem reconhece o anime pela música. Vale também o quiz
+# estimado pelas playlists (o pl 9 dá 7,4), como na calibração.
+IN_AS_OPENING_QUIZ = 7
+# No "acertar a música": o título sem o nível das playlists vale o quiz com este desconto, e a
+# fama do anime entra com este expoente (pesa menos que a do tema).
+NO_PL_FACTOR = Decimal("0.8")
+ANIME_EXPONENT = Decimal("0.4")
+# Os cortes fixos (P273): Fácil a partir do 1º, Médio a partir do 2º. São constantes de
+# propósito: recalcular os quantis a cada build mudaria a faixa das músicas conforme o acervo
+# cresce. Vieram dos quantis da chance na carga do C2, antes do teto da P274 (o Fácil com 25%
+# das músicas; o Médio até 58% no "acertar o anime" e até 55% no "acertar a música"), num
+# número redondo logo abaixo do valor do quantil, para as músicas empatadas nele ficarem juntas.
+CUTS = {
+    "musica": (Decimal("0.271"), Decimal("0.145")),
+    "titulo": (Decimal("0.25"), Decimal("0.108")),
+}
+# O ícone (P274), a música que a pessoa sabe o nome mesmo sem ver o anime: as playlists e o quiz
+# no alto, ou o artista na parada dos Hits até a última antes da calibração (19/10/2026). A
+# data é fixa, para o catálogo do Anime não mudar a cada parada nova, e é a de um snapshot que
+# já existe: o fetch recusa um dia anterior ao último (regra 19), então nenhum entra nela.
+ICON_PL = 8
+ICON_QUIZ = 7
+ICON_CHART_UNTIL = "2026-10-19"
 _SLUG = re.compile(r"[a-z0-9_-]+")
 FRANCHISE_PREFIX = "anime:fr:"
 
@@ -387,40 +423,134 @@ def match_theme(
 
 
 # ---------------------------------------------------------------------------------------------
-# As faixas de dificuldade (P240, P252).
+# As faixas de dificuldade (P272 a P275).
 
 
-def fame(theme: Theme, anime: Anime) -> dict[str, int | None]:
-    """O nível de 0 a 9 de cada modo. O do tema (o Anime Music Quiz, senão as playlists) mede
-    quanto a música é reconhecida; o do anime (o MyAnimeList), quanto o anime é visto. No
-    "acertar o anime", o do tema pesa o dobro: é a taxa de acerto do próprio quiz."""
-    song = theme_level(theme)
-    show = next((anime.levels[k] for k in ANIME_LEVELS if k in anime.levels), None)
-    if song is None or show is None:
-        one = song if song is not None else show
-        return dict.fromkeys(MODES, one)
-    # Inteiros com arredondamento para cima na metade: o mesmo resultado em qualquer sistema.
-    return {"musica": (song + show + 1) // 2, "titulo": (2 * song + show + 1) // 3}
+def chances(theme: Theme, anime: Anime, songs: int) -> dict[str, Decimal]:
+    """A chance de acertar cada modo (P272), com os níveis de 0 a 9 de cada fonte:
+
+    - p_t = (quiz + 0,5) / 10, a taxa de acerto do Anime Music Quiz (sem o quiz, o estimado pelas
+      playlists, `QUIZ_FROM_PL`); p_pl = (pl + 0,5) / 10, as playlists do AnimeThemes;
+      p_a = MAL_TOP × MAL_STEP^(9 − m), o MyAnimeList;
+    - acertar o anime: p_a × p_t × o fator do tipo;
+    - acertar a música: √(p_t × p_pl) × p_a^ANIME_EXPONENT × o fator do tipo × a concorrência,
+      1 / (1 + (1 − p_t) × ln n), com n = `songs`, as músicas do mesmo tipo na franquia (a 21ª
+      ED de BLEACH quase ninguém sabe o nome); a muito conhecida (p_t alto) sofre menos.
+
+    Em Decimal (aritmética em software, regra 8): o mesmo resultado em qualquer sistema.
+    """
+    quiz_level = theme.levels.get("anisongdb")
+    pl = theme.levels.get("animethemes")
+    if quiz_level is not None:
+        quiz = Decimal(quiz_level)
+    else:
+        quiz = QUIZ_FROM_PL[pl] if pl is not None else NO_QUIZ
+    mal = next((anime.levels[k] for k in ANIME_LEVELS if k in anime.levels), NO_MAL)
+    show_type = "OP" if theme.type == "IN" and quiz >= IN_AS_OPENING_QUIZ else theme.type
+    with localcontext() as ctx:
+        ctx.prec = 28
+        p_t = (quiz + Decimal("0.5")) / 10
+        p_a = MAL_TOP * MAL_STEP ** (MAX_LEVEL - mal)
+        title = (p_t * (pl + Decimal("0.5")) / 10).sqrt() if pl is not None else p_t * NO_PL_FACTOR
+        rivals = 1 / (1 + (1 - p_t) * Decimal(max(songs, 1)).ln())
+        return {
+            "musica": title * p_a**ANIME_EXPONENT * TYPE_FACTOR["musica"][theme.type] * rivals,
+            "titulo": p_a * p_t * TYPE_FACTOR["titulo"][show_type],
+        }
 
 
-def tier_of(theme_type: str, level: int | None, theme_level: int | None = None) -> str:
-    """A faixa de um tema num modo (P252): no Fácil, quase só aberturas, e o encerramento só
-    quando o nível do próprio tema (`theme_level`, senão o combinado) está no topo; a insert
-    song, só no Difícil."""
-    if theme_type == "IN":
-        return "dificil"
-    if level is None:
-        return _DEFAULT_TIER[theme_type]
-    tier = "facil" if level >= EASY_LEVEL else "medio" if level >= MEDIUM_LEVEL else "dificil"
-    top = theme_level if theme_level is not None else level
-    if theme_type == "ED" and tier == "facil" and top < MAX_LEVEL:
-        return "medio"
-    return tier
+def is_icon(theme: Theme) -> bool:
+    """O tema que é ícone pelos próprios níveis (P274; o do artista da parada vem à parte)."""
+    return (
+        theme.levels.get("animethemes", -1) >= ICON_PL
+        and theme.levels.get("anisongdb", -1) >= ICON_QUIZ
+    )
 
 
-def theme_level(theme: Theme) -> int | None:
-    """O nível do tema (o quiz, senão as playlists), sem o do anime."""
-    return next((theme.levels[k] for k in THEME_LEVELS if k in theme.levels), None)
+def tiers_of(chance: Mapping[str, Decimal], icon: bool) -> dict[str, str]:
+    """As faixas pelos cortes fixos (P273). O nome da música quase sempre é mais difícil que o
+    anime (P274): no "acertar a música", a faixa nunca é mais fácil que a do "acertar o anime",
+    salvo o ícone."""
+    tiers = {}
+    for mode in MODES:
+        easy, medium = CUTS[mode]
+        value = chance[mode]
+        tiers[mode] = "facil" if value >= easy else "medio" if value >= medium else "dificil"
+    if not icon and TIERS.index(tiers["musica"]) < TIERS.index(tiers["titulo"]):
+        tiers["musica"] = tiers["titulo"]
+    return tiers
+
+
+# O título frouxo, para achar o mesmo tema escrito de dois jeitos (P275): sem o enfeite do fim
+# ("02~O-Two~", "(TV size)", "feat. AKLO", "with ..."), e com o ø e o 0 como "o" ("shØut" e
+# "sh0ut"). Muito parecido é a razão do SequenceMatcher a partir de SAME_SONG_RATIO ("Rubikon"
+# e "Rubicon").
+_DECOR = re.compile(r"\s*(?:[~～<＜(（\[].*|\b(?:feat|ft)\.?\s.*|\bwith\s.*)$", re.IGNORECASE)
+SAME_SONG_RATIO = 0.8
+
+
+# Antes do search_key, que encurta o "ou" ("Soul" e "S0ul" ficam iguais).
+_O_LIKE = str.maketrans({"Ø": "o", "ø": "o", "0": "o"})
+
+
+def loose_title(song: str) -> str:
+    return search_key((_DECOR.sub("", song) or song).translate(_O_LIKE))
+
+
+def same_song(a: str, b: str) -> bool:
+    """Dois títulos frouxos (`loose_title`) do mesmo tema: iguais ou muito parecidos. A razão do
+    SequenceMatcher muda com a ordem dos dois ("tide" e "diet" dão 0,25 e 0,5): a ordem fixa
+    deixa a junção igual qualquer que seja a ordem dos temas."""
+    return a == b or SequenceMatcher(None, *sorted((a, b))).ratio() >= SAME_SONG_RATIO
+
+
+def joined_levels(anime: Anime) -> tuple[Mapping[str, int], ...]:
+    """Os níveis de cada tema do anime, completados pelos do outro registro do mesmo tema (P275).
+
+    As fontes escrevem o título de jeitos diferentes, e as buscas até o C2 só juntavam o título
+    igual: "LOST IN PARADISE feat. AKLO" (AnimeThemes) ficou sem o quiz, que foi para um tema à
+    parte, "LOST IN PARADISE" (AnisongDB). Junta o único tema do mesmo tipo com o título frouxo
+    igual ou muito parecido; o nível do próprio tema vence.
+    """
+    keys = [loose_title(t.song) for t in anime.themes]
+    joined = []
+    for i, theme in enumerate(anime.themes):
+        others = [
+            other
+            for j, other in enumerate(anime.themes)
+            if j != i and other.type == theme.type and same_song(keys[j], keys[i])
+        ]
+        levels = dict(theme.levels)
+        if len(others) == 1:
+            for source, level in others[0].levels.items():
+                levels.setdefault(source, level)
+        joined.append(levels)
+    return tuple(joined)
+
+
+SongCounts = Mapping[tuple[str, str], int]  # (franquia, tipo do tema) → as músicas distintas
+
+
+def franchise_songs(anime: Iterable[Anime]) -> dict[tuple[str, str], int]:
+    """As músicas distintas (pelo título frouxo) de cada franquia e tipo: o n da concorrência.
+    Contam todos os temas, com faixa ou não."""
+    songs: dict[tuple[str, str], set[str]] = {}
+    for a in anime:
+        for theme in a.themes:
+            songs.setdefault((main_franchise(a), theme.type), set()).add(loose_title(theme.song))
+    return {key: len(titles) for key, titles in songs.items()}
+
+
+def chart_artists(provider: str, snapshots: Iterable[ChartSnapshot]) -> frozenset[str]:
+    """Os ids dos artistas da parada dos Hits até `ICON_CHART_UNTIL` (o ícone, P274). Só o
+    artista principal de cada faixa: o parceiro sai de todos os snapshots (regra 20), e um
+    snapshot novo mudaria o conjunto."""
+    return frozenset(
+        entity_id(provider, "ar", entry.track.artists[0].provider_id)
+        for snapshot in snapshots
+        if snapshot.date <= ICON_CHART_UNTIL
+        for entry in snapshot.entries
+    )
 
 
 # A popularidade publicada é só a da faixa mais fácil (P240): o arquivo não leva o nível de
@@ -437,8 +567,20 @@ def franchises_of(anime: Anime) -> tuple[tuple[str, str], ...]:
     return anime.series or ((anime.slug, anime.name),)
 
 
+def main_franchise(anime: Anime) -> str:
+    """A 1ª franquia do anime, a da concorrência (P272)."""
+    return franchises_of(anime)[0][0]
+
+
 def franchise_id(slug: str) -> str:
     return FRANCHISE_PREFIX + slug
+
+
+def song_key(provider: str, track: RawTrack) -> str:
+    """A chave do modo por artista, que junta a TV size e a completa: a janela da P245 conta as
+    duas como a mesma música."""
+    artist = entity_id(provider, "ar", track.artists[0].provider_id)
+    return f"{artist_title_key(track.title)}|{artist}"
 
 
 @dataclass
@@ -447,7 +589,32 @@ class _TrackAcc:
     uses: list[tuple[Anime, Theme]] = field(default_factory=list)
 
 
-def _track_record(provider: str, acc: _TrackAcc, album: JSON, cur: Curation) -> JSON:
+def _song_tiers(
+    provider: str, accs: Iterable[_TrackAcc], icon_artists: frozenset[str], songs: SongCounts
+) -> dict[str, dict[str, str]]:
+    """As faixas de cada música (a songKey), pela maior chance de cada modo entre todos os temas
+    de todas as faixas dela (a TV size e a completa, ou a abertura de uma temporada que é a insert
+    song de outra): a janela já as conta como uma música só (P245), e a fama é da música."""
+    best: dict[str, dict[str, Decimal]] = {}
+    icons: set[str] = set()
+    for acc in accs:
+        key = song_key(provider, acc.track)
+        top = best.setdefault(key, dict.fromkeys(MODES, Decimal(0)))
+        if any(entity_id(provider, "ar", a.provider_id) in icon_artists for a in acc.track.artists):
+            icons.add(key)
+        for anime, theme in acc.uses:
+            for mode, value in chances(
+                theme, anime, songs[main_franchise(anime), theme.type]
+            ).items():
+                top[mode] = max(top[mode], value)
+            if is_icon(theme):
+                icons.add(key)
+    return {key: tiers_of(chance, key in icons) for key, chance in best.items()}
+
+
+def _track_record(
+    provider: str, acc: _TrackAcc, album: JSON, cur: Curation, tiers: Mapping[str, str]
+) -> JSON:
     t = acc.track
     track_id = entity_id(provider, "tr", t.provider_id)
     text = track_text(t.title)
@@ -469,22 +636,13 @@ def _track_record(provider: str, acc: _TrackAcc, album: JSON, cur: Curation) -> 
         artist_texts.append(artist_text(t.artist_display))
     # Os nomes do AnimeThemes, em latino ("Kenshi Yonezu"), também acham a faixa.
     artist_texts += [n for _, theme in acc.uses for n in theme.artists]
-    fames = [(theme, fame(theme, anime)) for anime, theme in acc.uses]
-    tiers = {
-        mode: TIERS[
-            min(TIERS.index(tier_of(theme.type, f[mode], theme_level(theme))) for theme, f in fames)
-        ]
-        for mode in MODES
-    }
     themes = sorted(
         {(anime.name, theme.type, theme.sequence or 0) for anime, theme in acc.uses},
         key=lambda x: (THEME_TYPES.index(x[1]), x[2], x[0]),
     )
     return {
         "id": track_id,
-        # A chave do modo por artista, que junta a TV size e a completa: a janela da P245 conta
-        # as duas como a mesma música.
-        "songKey": f"{artist_title_key(t.title)}|{artist_ids[0]}",
+        "songKey": song_key(provider, t),
         "title": text,
         "titleLatin": latin,
         "latinSource": source,
@@ -512,7 +670,7 @@ def _track_record(provider: str, acc: _TrackAcc, album: JSON, cur: Curation) -> 
                 {"anime": name, "type": kind, "sequence": sequence or None}
                 for name, kind, sequence in themes
             ],
-            "tiers": tiers,
+            "tiers": dict(tiers),
         },
     }
 
@@ -557,24 +715,32 @@ def _stale_aliases(provider: str, tracks: Iterable[RawTrack], cur: Curation) -> 
 
 
 def build_anime_catalog(
-    provider: str, storefront: str, source: AnimeSource, cur: Curation, notes: list[str]
+    provider: str,
+    storefront: str,
+    source: AnimeSource,
+    cur: Curation,
+    notes: list[str],
+    *,
+    icon_artists: frozenset[str],
 ) -> JSON:
-    """O catálogo do Anime a partir de todos os snapshots. Os avisos vão para `notes`."""
+    """O catálogo do Anime a partir de todos os snapshots. Os avisos vão para `notes`;
+    `icon_artists` são os artistas cuja música é ícone (`chart_artists`, P274)."""
     if not source.snapshots:
         raise InputError("nenhum snapshot do Anime")
     accs: dict[str, _TrackAcc] = {}
     results: dict[str, int] = {}
     for anime in source.anime:
-        for theme in anime.themes:
+        for theme, levels in zip(anime.themes, joined_levels(anime), strict=True):
             results[theme.result] = results.get(theme.result, 0) + 1
             if theme.track is not None:
                 acc = accs.setdefault(theme.track.provider_id, _TrackAcc(theme.track))
-                acc.uses.append((anime, theme))
+                acc.uses.append((anime, replace(theme, levels=levels)))
     if not accs:
         raise InputError("nenhum tema casou com uma faixa da Apple")
     stale = _stale_aliases(provider, (a.track for a in accs.values()), cur)
     if stale:
         raise InputError("aliases.toml do Anime cita IDs sem faixa:\n" + "\n".join(stale))
+    tiers = _song_tiers(provider, accs.values(), icon_artists, franchise_songs(source.anime))
     artists: dict[str, JSON] = {}
     albums: dict[str, JSON] = {}
     tracks: list[JSON] = []
@@ -584,7 +750,7 @@ def build_anime_catalog(
             artists[entity_id(provider, "ar", a.provider_id)] = artist_record(provider, a, cur)
         album = {k: v for k, v in album_record(provider, t, cur).items() if k != "similar"}
         albums[album["id"]] = album
-        tracks.append(_track_record(provider, accs[key], album, cur))
+        tracks.append(_track_record(provider, accs[key], album, cur, tiers[song_key(provider, t)]))
     used = {fid for t in tracks for fid in t["anime"]["franchiseIds"]}
     catalog: JSON = {
         "schemaVersion": SCHEMA_VERSION,
