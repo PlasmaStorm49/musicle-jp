@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
+from musicle_pipeline.anime import build_anime_catalog
 from musicle_pipeline.artists import (
     INDEX,
     artist_snapshots,
@@ -25,6 +26,7 @@ from musicle_pipeline.io_json import dumps, read_json, write_if_changed
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import has_unassigned, needs_romaji
 from musicle_pipeline.paths import (
+    anime_paths,
     apple_snapshots_dir,
     artist_paths,
     known_schedules,
@@ -32,7 +34,7 @@ from musicle_pipeline.paths import (
     repo_root,
     resolve,
 )
-from musicle_pipeline.providers import ARTIST_PROVIDERS, PROVIDERS
+from musicle_pipeline.providers import ANIME_PROVIDERS, ARTIST_PROVIDERS, PROVIDERS
 from musicle_pipeline.providers.apple import snapshot_days
 from musicle_pipeline.romaji_cache import (
     RomajiCache,
@@ -52,6 +54,7 @@ from musicle_pipeline.schedule import (
     validate_schedule,
 )
 from musicle_pipeline.validate import validate_catalog
+from musicle_pipeline.validate_anime import validate_anime_catalog
 from musicle_pipeline.validate_artists import (
     validate_artist_dir,
     validate_artist_file,
@@ -201,6 +204,51 @@ def _build_artists(args: argparse.Namespace) -> int:
 def _validate_artists(args: argparse.Namespace) -> int:
     directory = resolve(args.dir) if args.dir else artist_paths(args.provider).public_dir
     return _report(directory, validate_artist_dir(directory))
+
+
+def _anime_curation(provider: str) -> Curation:
+    paths = anime_paths(provider)
+    return Curation(romaji=load_cache(paths.romaji), aliases=load_aliases(paths.aliases))
+
+
+def _build_anime(args: argparse.Namespace) -> int:
+    paths = anime_paths(args.provider)
+    out = (resolve(args.out) if args.out else paths.public_dir / "catalog.json").resolve()
+    # A mesma trava do build: dentro de web/public, cada provedor só grava na pasta dele.
+    public = (repo_root() / "web" / "public").resolve()
+    if out.is_relative_to(public) and out.parent != paths.public_dir.resolve():
+        print(
+            f"o provedor {args.provider} grava em {paths.public_dir}, não em {out}", file=sys.stderr
+        )
+        return 1
+    provider = ANIME_PROVIDERS[args.provider]()
+    notes: list[str] = []
+    catalog = build_anime_catalog(
+        provider.name, provider.storefront, provider.source(), _anime_curation(args.provider), notes
+    )
+    for message in provider.warnings:
+        print(f"aviso: {message}", file=sys.stderr)
+    for message in notes:
+        print(message)
+    text = dumps(catalog)
+    problems = validate_anime_catalog(catalog, text.encode("utf-8"))
+    if problems:
+        print("catálogo inválido, nada foi gravado:", *problems, sep="\n  ", file=sys.stderr)
+        return 1
+    changed = write_if_changed(out, text)
+    size = len(text.encode("utf-8"))
+    print(f"{out}: {len(catalog['tracks'])} faixa(s), {size} bytes", end="")
+    print("" if changed else "; sem mudanças")
+    return 0
+
+
+def _validate_anime(args: argparse.Namespace) -> int:
+    path = (
+        resolve(args.path) if args.path else anime_paths(args.provider).public_dir / "catalog.json"
+    )
+    if not path.exists():
+        return _report(path, ["arquivo ausente (rode o build-anime)"])
+    return _report(path, validate_anime_catalog(read_json(path), path.read_bytes()))
 
 
 def _schedule(args: argparse.Namespace) -> int:
@@ -581,6 +629,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     check_artists.add_argument("--provider", choices=sorted(ARTIST_PROVIDERS), required=True)
     check_artists.add_argument("--dir", type=Path, help="pasta (padrão: a do provedor)")
     check_artists.set_defaults(func=_validate_artists)
+
+    anime = sub.add_parser("build-anime", help="gera o catálogo do Anime (M14)")
+    anime.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
+    anime.add_argument("--out", type=Path, help="catalog.json de saída (padrão: o do provedor)")
+    anime.set_defaults(func=_build_anime)
+
+    check_anime = sub.add_parser("validate-anime", help="confere o catálogo do Anime")
+    check_anime.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
+    check_anime.add_argument("--path", type=Path, help="catalog.json (padrão: o do provedor)")
+    check_anime.set_defaults(func=_validate_anime)
 
     args = parser.parse_args(argv)
     try:

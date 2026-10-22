@@ -1,4 +1,5 @@
-"""Os schemas do modo por artista (M13) copiam $defs do catálogo: as cópias não podem divergir."""
+"""Os schemas do modo por artista (M13) e do Anime (M14) copiam $defs do catálogo: as cópias não
+podem divergir."""
 
 from __future__ import annotations
 
@@ -7,6 +8,7 @@ from jsonschema import Draft202012Validator
 
 from musicle_pipeline.io_json import read_json
 from musicle_pipeline.paths import (
+    anime_catalog_schema_path,
     artist_list_schema_path,
     artist_schema_path,
     catalog_schema_path,
@@ -17,14 +19,32 @@ CATALOG = read_json(catalog_schema_path())["$defs"]
 DIFFERENT = {"album", "track"}
 
 
-@pytest.mark.parametrize("path", [artist_schema_path, artist_list_schema_path])
+# Os $defs só do Anime: não existem no catálogo.
+ANIME_ONLY = {"franchiseId", "franchise", "tier", "source"}
+
+
+@pytest.mark.parametrize(
+    "path", [artist_schema_path, artist_list_schema_path, anime_catalog_schema_path]
+)
 def test_the_schema_is_valid_and_copies_the_catalog(path):
     schema = read_json(path())
     Draft202012Validator.check_schema(schema)
     for name, definition in schema["$defs"].items():
-        if name in DIFFERENT or name == "entry":
+        if name in DIFFERENT or name == "entry" or name in ANIME_ONLY:
             continue
         assert definition == CATALOG[name], name
+
+
+def test_the_anime_track_is_the_catalog_track_without_the_chart():
+    anime = read_json(anime_catalog_schema_path())["$defs"]
+    track = CATALOG["track"]
+    assert set(anime["track"]["required"]) == (set(track["required"]) - {"chart", "isrc"}) | {
+        "anime"
+    }
+    assert set(anime["album"]["required"]) == set(CATALOG["album"]["required"]) - {"similar"}
+    for key in sorted(set(anime["track"]["properties"]) & set(track["properties"])):
+        expected = _without_descriptions(track["properties"][key])
+        assert _without_descriptions(anime["track"]["properties"][key]) == expected, key
 
 
 def test_the_artist_track_is_the_catalog_track_without_the_chart():

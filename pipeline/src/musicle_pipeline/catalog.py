@@ -232,11 +232,12 @@ def _track_record(
     }
 
 
-def catalog_version(catalog: JSON) -> str:
-    """Data do último snapshot + 8 hex do SHA-256 do conteúdo (sem o próprio campo)."""
+def catalog_version(catalog: JSON, day: str | None = None) -> str:
+    """Data do último snapshot (ou `day`, no Anime) + 8 hex do SHA-256 do conteúdo (sem o
+    próprio campo)."""
     body = {k: v for k, v in catalog.items() if k != "catalogVersion"}
     digest = hashlib.sha256(dumps(body).encode("utf-8")).hexdigest()[:8]
-    return f"{catalog['snapshots'][-1]['date']}.{digest}"
+    return f"{day or catalog['snapshots'][-1]['date']}.{digest}"
 
 
 def build_catalog(
