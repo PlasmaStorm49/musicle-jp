@@ -5,9 +5,7 @@
 // Histórico (M15, PR 2), as telas dele e o "Mais" da nav no celular.
 import type { Locator, Page } from "@playwright/test";
 import { PLAYLIST_URL } from "../src/core/apple.ts";
-import type { Save } from "../src/core/records.ts";
 import type { AnimeTrack, Catalog } from "../src/core/types.ts";
-import { SAVE_KEY } from "../src/storage/save.ts";
 import {
   albumOf,
   appleArtistList,
@@ -17,6 +15,7 @@ import {
   navLink,
   open,
   overflow,
+  seedHistory,
   test,
   trackById,
   viaHits,
@@ -65,19 +64,11 @@ const THREE_THEMES = (list: AnimeTrack["anime"]["themes"]): AnimeTrack["anime"][
 async function homeWorstCase(page: Page): Promise<void> {
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
-  const save = {
-    schemaVersion: 7,
-    history: {
-      "2026-10-08|album": day,
-      "2026-10-08|song": day,
-      "2026-10-08|anime-musica-facil": day,
-    },
-    inProgress: {},
-  } satisfies Save;
-  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
-    SAVE_KEY,
-    JSON.stringify(save),
-  ] as const);
+  await seedHistory(page, {
+    "2026-10-08|album": day,
+    "2026-10-08|song": day,
+    "2026-10-08|anime-musica-facil": day,
+  });
   await open(page, DAY, "#artistas");
   await page.getByRole("button", { name: /^青井ユウ/ }).click();
   await page.getByRole("button", { name: "Livre" }).click();
@@ -120,21 +111,13 @@ for (const viewport of [
       // "acertar a música" do Anime, para a escolha da dificuldade no caso mais alto.
       const lost = { status: "lost", stage: 0, attempts: ["wrong"] } as const;
       const late = { number: 14, rounds: [lost, lost, lost], late: true as const };
-      const save = {
-        schemaVersion: 7,
-        history: {
-          "2026-10-21|album": late,
-          "2026-10-21|song": late,
-          "2026-10-21|anime-musica-facil": late,
-          "2026-10-21|anime-musica-medio": late,
-          "2026-10-21|anime-musica-dificil": late,
-        },
-        inProgress: {},
-      } satisfies Save;
-      await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
-        SAVE_KEY,
-        JSON.stringify(save),
-      ] as const);
+      await seedHistory(page, {
+        "2026-10-21|album": late,
+        "2026-10-21|song": late,
+        "2026-10-21|anime-musica-facil": late,
+        "2026-10-21|anime-musica-medio": late,
+        "2026-10-21|anime-musica-dificil": late,
+      });
       await open(page, HISTORY_DAY, "#historico");
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Histórico");
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
@@ -219,19 +202,11 @@ for (const viewport of [
     test("a escolha da dificuldade do Anime, com os 3 diários terminados", async ({ page }) => {
       const lost = { status: "lost", stage: 0, attempts: [] } as const;
       const day = { number: 1, rounds: [lost, lost, lost] };
-      const save = {
-        schemaVersion: 7,
-        history: {
-          "2026-10-08|anime-musica-facil": day,
-          "2026-10-08|anime-musica-medio": day,
-          "2026-10-08|anime-musica-dificil": day,
-        },
-        inProgress: {},
-      } satisfies Save;
-      await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
-        SAVE_KEY,
-        JSON.stringify(save),
-      ] as const);
+      await seedHistory(page, {
+        "2026-10-08|anime-musica-facil": day,
+        "2026-10-08|anime-musica-medio": day,
+        "2026-10-08|anime-musica-dificil": day,
+      });
       await open(page, DAY, "#anime-musica");
       await expect(page.getByRole("main").getByRole("link", { name: /^Difícil/ })).toContainText(
         "nº 1 · terminado, 0 de 18 pontos",
@@ -367,15 +342,7 @@ for (const viewport of [
     }) => {
       const lost = { status: "lost", stage: 0, attempts: [] } as const;
       const day = { number: 1, rounds: [lost, lost, lost] };
-      const save = {
-        schemaVersion: 7,
-        history: { "2026-10-08|album": day, "2026-10-08|song": day },
-        inProgress: {},
-      } satisfies Save;
-      await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
-        SAVE_KEY,
-        JSON.stringify(save),
-      ] as const);
+      await seedHistory(page, { "2026-10-08|album": day, "2026-10-08|song": day });
       await open(page, DAY, "#treino");
       await page.getByRole("button", { name: "Normal", exact: true }).click();
       await page.getByRole("button", { name: "Não sei" }).click();

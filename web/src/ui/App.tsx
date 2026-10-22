@@ -131,6 +131,13 @@ export function App() {
     () => lookupBudget({ now: Date.now, disabled: lookupFailForced(window.location.search) }),
     [],
   );
+  // O que o modo por artista grava (P289): os acertos e o fim do Superfan, pelas medalhas. Sem o
+  // `refresh`: nada na tela lê isso ainda, e reler o save recriaria no meio de uma rodada a
+  // exclusão das respostas de hoje (P141). Falhar ao gravar não avisa: não se perde um diário.
+  const recordArtist = useCallback(
+    (change: (save: Save) => Save) => void updateSave(saves.store, change),
+    [saves],
+  );
   // O modo por artista (M13): a lista, os artistas baixados e a sessão, como a do Treino.
   const artists = useArtistStore({
     fetchFn: FETCH,
@@ -138,6 +145,7 @@ export function App() {
     dataDir: DATA_DIR,
     budget,
     resolveUrl,
+    record: recordArtist,
   });
   // O Anime (M14): o catálogo e a agenda, carregados só quando a pessoa abre a categoria.
   const anime = useAnimeStore({

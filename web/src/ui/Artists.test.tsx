@@ -6,7 +6,7 @@ import { PLAYLIST_URL } from "../core/apple.ts";
 import { indexCatalog } from "../core/catalog.ts";
 import { searchKey } from "../core/normalize.ts";
 import { emptySave, type Save } from "../core/records.ts";
-import { currentRound } from "../core/reducer.ts";
+import { currentRound, reduce } from "../core/reducer.ts";
 import { ROUTES } from "../core/routes.ts";
 import { superfanOffset } from "../core/superfan.ts";
 import type {
@@ -195,6 +195,9 @@ function setup(day: Day | null = null, net = server()) {
   };
   const budget = lookupBudget({ now: () => 0 });
   const announce = vi.fn();
+  // O que o modo grava no save (P289): cada mudança, aplicada em ordem por `saved`.
+  const record = vi.fn<(change: (save: Save) => Save) => void>();
+  const saved = () => record.mock.calls.reduce((save, [change]) => change(save), emptySave());
   let latest: ArtistStore | null = null;
   function Harness({ show, save, day }: HarnessProps) {
     const store = useArtistStore({
@@ -203,6 +206,7 @@ function setup(day: Day | null = null, net = server()) {
       dataDir: DIR,
       budget,
       resolveUrl: (url) => `/${url}`,
+      record,
     });
     latest = store;
     if (!show) return null;
@@ -235,7 +239,7 @@ function setup(day: Day | null = null, net = server()) {
     const game = session()?.game;
     return game ? currentRound(game).trackId : null;
   };
-  return { engine, net, rerender, store, session, playing, announce };
+  return { engine, net, rerender, store, session, playing, announce, record, saved };
 }
 
 const title = () => screen.getByRole("heading", { level: 1 });
@@ -848,15 +852,15 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(screen.queryByRole("button", { name: "Desistir" })).toBeNull();
   });
 
-  it("desistir da música custa 2 pontos, e a revelação diz isso à parte, sem contar erro (P186)", async () => {
+  it("desistir da música é um erro e custa 5 pontos, e a revelação diz isso à parte (P290)", async () => {
     setup();
     await screen.findByRole("heading", { name: "Artistas" });
     await superfan(/^夜風/);
     fireEvent.click(screen.getByRole("button", { name: "Desistir da música" }));
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
-    expect(screen.getByText("Desistiu: -2 pontos.")).toBeTruthy();
-    expect(score()).toBe("Placar: -2 pontos");
-    expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 0 de 3");
+    expect(screen.getByText("Desistiu: -5 pontos.")).toBeTruthy();
+    expect(score()).toBe("Placar: -5 pontos");
+    expect(text(".superfan-limits")).toBe("Erros: 1 de 3 · Ajudas: 0 de 3");
   });
 
   it("encerrar a partida pergunta antes, com erro cometido; o fim mostra o motivo e o placar", async () => {
@@ -905,6 +909,100 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(screen.getByText("Todas as músicas da partida tocaram.")).toBeTruthy();
     expect(score()).toBe("Placar: 6 pontos");
     expect(screen.getByText("Acertou 2 de 2 músicas.")).toBeTruthy();
+  });
+});
+
+describe("Artists: o que vai para o save (P289)", () => {
+  /** Acerta a música em jogo pelo campo, sem tocar (o trecho de 1 s, o máximo de pontos). */
+  const right = (store: () => ArtistStore) => {
+    const play = store().play;
+    const session = play?.kind === "free" ? play.session : play?.run.session;
+    const game = session?.game;
+    const answer = game ? currentRound(game).trackId : "";
+    fireEvent.input(field(), { target: { value: `Música ${answer.split(":").at(-1)}` } });
+    fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
+  };
+
+  it("na Livre, cada música acertada uma vez só: voltar à aba não conta de novo, e desistir não conta", async () => {
+    const { store, rerender, record, saved } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await choose(/^夜風/);
+    right(store);
+    rerender({ show: false, save: emptySave(), day: null });
+    rerender({ show: true, save: emptySave(), day: null });
+    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
+    right(store);
+    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
+    fireEvent.click(screen.getByRole("button", { name: "Desistir" }));
+    expect(record).toHaveBeenCalledTimes(2);
+    expect(saved().artists).toEqual({ "t:ar:1": { right: 2 } });
+  });
+
+  it("a rodada anulada (falha de áudio) não é acerto", async () => {
+    const { store, record } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    await choose(/^Banda/);
+    act(() =>
+      store().change((session) => ({
+        ...session,
+        game: session.game && reduce(session.game, { type: "VOID", round: 0, reason: "falha" }),
+      })),
+    );
+    expect(record).not.toHaveBeenCalled();
+  });
+
+  it("o Superfan perfeito: os acertos, o fim e a perfeita", async () => {
+    const { store, saved } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    fireEvent.click(card(/^Banda/));
+    fireEvent.click(await screen.findByRole("button", { name: "Superfan" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    right(store);
+    fireEvent.click(screen.getByRole("button", { name: "Próxima música" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    right(store);
+    fireEvent.click(screen.getByRole("button", { name: "Ver resultado" }));
+    expect(screen.getByText("Todas as músicas da partida tocaram.")).toBeTruthy();
+    expect(saved().artists).toEqual({ "t:ar:2": { right: 2, done: true, perfect: true } });
+  });
+
+  it("o Superfan que acaba no 3º erro não termina; o Jogar de novo conta a partida nova à parte", async () => {
+    const { store, saved, record } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    fireEvent.click(card(/^夜風/));
+    fireEvent.click(await screen.findByRole("button", { name: "Superfan" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    // 3 desistências são 3 erros (P290): a partida acaba, sem o fim.
+    for (let i = 0; i < 3; i++) {
+      fireEvent.click(screen.getByRole("button", { name: "Desistir da música" }));
+      fireEvent.click(
+        screen.getByRole("button", { name: i < 2 ? "Próxima música" : "Ver resultado" }),
+      );
+      if (i < 2) await screen.findByRole("combobox", { name: "Qual é a música?" });
+    }
+    expect(screen.getByText("3 erros: a partida acabou.")).toBeTruthy();
+    expect(saved().artists).toEqual({});
+    const before = record.mock.calls.length;
+    fireEvent.click(screen.getByRole("button", { name: "Jogar de novo" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    right(store);
+    expect(record.mock.calls.length).toBe(before + 1);
+    expect(saved().artists).toEqual({ "t:ar:1": { right: 1 } });
+  });
+
+  it("o Superfan encerrado: só os acertos, sem o fim", async () => {
+    const { store, saved } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    fireEvent.click(card(/^Banda/));
+    fireEvent.click(await screen.findByRole("button", { name: "Superfan" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    right(store);
+    fireEvent.click(screen.getByRole("button", { name: "Próxima música" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    fireEvent.click(screen.getByRole("button", { name: "Encerrar a partida" }));
+    fireEvent.click(screen.getByRole("button", { name: "Sim, encerrar" }));
+    await screen.findByRole("heading", { level: 1, name: "Fim da partida" });
+    expect(saved().artists).toEqual({ "t:ar:2": { right: 1 } });
   });
 });
 

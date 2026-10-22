@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
 import type { AnimeDifficulty, AnimeMode } from "../src/core/daily.ts";
+import { emptySave, type Save } from "../src/core/records.ts";
 import type {
   Album,
   AnimeCatalog,
@@ -16,6 +17,7 @@ import type {
   Target,
   Track,
 } from "../src/core/types.ts";
+import { SAVE_KEY } from "../src/storage/save.ts";
 
 /** Lê um arquivo de dados falso. Os tipos são os do contrato: mudou o schema, o tsc acusa aqui. */
 function fixture<T>(name: string): T {
@@ -58,6 +60,19 @@ export async function open(
   const fail = failAudio ? `&failAudio=${encodeURIComponent(failAudio)}` : "";
   await page.clock.setFixedTime(new Date(brasilia));
   await page.goto(`/?fakeAudio=1${fail}${hash}`);
+}
+
+/**
+ * Grava, antes da carga, um save da versão atual só com o histórico dado (o resto vazio). Chame
+ * antes do `open`. O tipo `Save` trava a versão: subiu a do save, o tsc acusa aqui, e não em
+ * cada teste.
+ */
+export async function seedHistory(page: Page, history: Save["history"]): Promise<void> {
+  const save: Save = { ...emptySave(), history };
+  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
+    SAVE_KEY,
+    JSON.stringify(save),
+  ] as const);
 }
 
 /** A aba Hits da nav (P225). Pelo começo do nome: com o ✓, ele vira "Hits (diários terminados)". */

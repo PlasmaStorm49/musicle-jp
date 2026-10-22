@@ -4,9 +4,10 @@ O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhor
 
 Atualizado em 22/10/2026.
 
-## Próximos, na ordem combinada (21/10)
+## Próximos, na ordem combinada (22/10)
 
-1. **ME101**: o controle de volume também na revelação (P228).
+1. **ME107 (urgente)**: repensar a pontuação de todos os modos. O desistir do Superfan virou um erro de −5 (P290), e o esquema inteiro precisa ser revisto.
+2. **ME105**: as medalhas (M16, Apêndice O), em 4 PRs: o núcleo e o save v8, a estrutura, a lista e as imagens dos artistas. O desenho entra quando o usuário decidir (a suprema, por agora, é a S10, ônix).
 
 ## Itens para corrigir
 
@@ -50,7 +51,6 @@ Atualizado em 22/10/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
-- **ME101 (novo).** O controle de volume também na revelação (P228): a prévia inteira toca com ele, mas sem o controle nem o ícone do mudo.
 - **S18.** "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal, no Treino.
 - **S22.** O selo da rodada no modo por artista leva à página do artista na loja.
 - **S29.** As 3 faíscas do 当 animadas no acerto.
@@ -84,10 +84,9 @@ Atualizado em 22/10/2026.
 
 ## Coisas novas que quero implementar
 
-- **ME107 (novo).** Repensar a pontuação de todos os modos, depois do Anime. Até lá, o Anime usa as regras do Desafio.
 - **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
-- **ME105 (novo).** Medalhas, calculadas do histórico, e a sequência na Início. Depois do Anime.
+- **ME118 (novo).** A estante: as medalhas favoritas à mostra o tempo todo, como troféus. Depois do M16; o save v8 já tem o campo.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).
 - **ME6.** O app do Claude no GitHub revisando cada PR.

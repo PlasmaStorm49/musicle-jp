@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import type { ArtistCatalog } from "../src/core/types.ts";
+import { SAVE_KEY } from "../src/storage/save.ts";
 import { expect, lastPlayed, open, test } from "./helpers.ts";
 
 /** O arquivo de um artista fictício (pipeline/fixtures/artists), para saber as músicas dele. */
@@ -65,6 +66,13 @@ test("Artistas: a lista na ordem, a busca só pelo título e um ciclo sem repeti
   await page.getByRole("option").filter({ hasText: first.title }).first().click();
   await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
   await expect(page.getByText("6 pontos em 1 rodada", { exact: true })).toBeVisible();
+  // O acerto vai para o save (P289), pelas medalhas: o App grava pelo updateSave.
+  const right = () =>
+    page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key) ?? "{}").artists?.["fixture:ar:ar02"]?.right,
+      SAVE_KEY,
+    );
+  await expect.poll(right).toBe(1);
 
   // As outras músicas saem antes de alguma repetir (o saco do Treino, P125).
   const played = [first.id];
@@ -77,6 +85,7 @@ test("Artistas: a lista na ordem, a busca só pelo título e um ciclo sem repeti
     await page.getByRole("button", { name: "Desistir" }).click();
   }
   expect([...played].sort()).toEqual([...songs].sort());
+  expect(await right()).toBe(1); // desistir não é acerto
   await expect(
     page.getByText(`6 pontos em ${songs.length} rodadas`, { exact: true }),
   ).toBeVisible();

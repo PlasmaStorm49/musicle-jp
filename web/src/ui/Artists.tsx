@@ -13,8 +13,9 @@ import {
   pendingDailySongKeys,
   startPracticeSession,
 } from "../core/practice.ts";
-import type { Save } from "../core/records.ts";
-import { type SuperfanRun, startSuperfan } from "../core/superfan.ts";
+import { type Save, withArtistRight, withSuperfanEnd } from "../core/records.ts";
+import { currentRound } from "../core/reducer.ts";
+import { type SuperfanRun, startSuperfan, superfanOutcome } from "../core/superfan.ts";
 import type { ArtistList, ArtistListEntry, Day } from "../core/types.ts";
 import {
   appleResolver,
@@ -55,12 +56,18 @@ export type ArtistStoreOptions = {
   readonly dataDir: string;
   readonly budget: LookupBudget;
   readonly resolveUrl: (url: string) => string;
+  /**
+   * Grava uma mudança no save (o `updateSave` do App): o modo por artista guarda só os acertos e
+   * o fim do Superfan, pelas medalhas (P289). Sem ele (os testes), nada é gravado.
+   */
+  readonly record?: (change: (save: Save) => Save) => void;
 };
 
 /**
  * O estado do modo por artista, guardado no App (P144): trocar de aba e voltar não perde a
  * lista, os artistas já baixados nem a sessão. A lista carrega ao entrar na aba e cada artista
- * ao ser escolhido; nada fica salvo (P116).
+ * ao ser escolhido. A sessão fica só na memória (P116); o save recebe só cada música acertada e o
+ * fim da partida do Superfan (P289).
  */
 export type ArtistStore = {
   readonly list: ListLoad;
@@ -99,6 +106,7 @@ export function useArtistStore({
   dataDir,
   budget,
   resolveUrl,
+  record,
 }: ArtistStoreOptions): ArtistStore {
   const [list, setList] = useState<ListLoad>({ status: "idle" });
   const [choosing, setChoosing] = useState<ArtistStore["choosing"]>(null);
@@ -183,6 +191,29 @@ export function useArtistStore({
     setPlay(null);
     setPickedEntry(null);
   }, []);
+
+  // Cada música acertada e o fim da partida do Superfan vão para o save uma vez só (P289). A
+  // chave é o artista, o submodo, a semente da sessão e o número da rodada: voltar à aba, com a
+  // sessão guardada aqui, remonta a revelação, mas não conta de novo. A anulada não é acerto.
+  const recorded = useRef(new Set<string>());
+  useEffect(() => {
+    if (!play || !record) return;
+    const session = play.kind === "free" ? play.session : play.run.session;
+    const artistId = play.artist.id;
+    const base = `${artistId}|${play.kind}|${session.practice.seed}`;
+    const once = (key: string, change: (save: Save) => Save) => {
+      if (recorded.current.has(key)) return;
+      recorded.current.add(key);
+      record(change);
+    };
+    if (session.game && currentRound(session.game).status === "won") {
+      once(`${base}|${session.number}`, (save) => withArtistRight(save, artistId));
+    }
+    if (play.kind === "superfan" && play.run.end !== null) {
+      const outcome = superfanOutcome(play.run);
+      once(`${base}|fim`, (save) => withSuperfanEnd(save, artistId, outcome));
+    }
+  }, [play, record]);
   const cancelChoice = useCallback(() => {
     loading.current = null;
     setChoosing(null);
@@ -214,7 +245,7 @@ type Props = {
   readonly chart: CatalogIndex;
   readonly day: Day | null;
   readonly date: string;
-  /** A última leitura do save. O modo por artista não grava nada (P116). */
+  /** A última leitura do save (os diários de hoje). O que o modo grava passa pelo store. */
   readonly save: Save;
   readonly engine: AudioEngine;
   readonly resolveUrl: (url: string) => string;

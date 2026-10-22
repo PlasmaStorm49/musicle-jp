@@ -1,10 +1,12 @@
 // Superfan (ME61): a partida difícil do modo por artista. As músicas do artista em ordem
 // sorteada, cada uma uma vez, no Desafio com as regras do Superfan (VARIANT_RULES: 3 trechos de
 // 1, 3 e 5 s; 3, 2 ou 1 ponto; −5 por palpite errado; a ajuda logo de cara, valendo 0; −2 por
-// desistir, P186). A partida acaba no 3º erro (P119), ao encerrar ou quando todas as músicas
-// tocaram. Quando é a partida que encerra a música (o 3º erro, encerrar), o desistir vai com
-// `forced` e não custa os −2: não foi a pessoa que desistiu. Puro, como o Treino, sobre o mesmo
-// saco (core/practice.ts): a semente vem da tela, e nada é salvo (P116).
+// desistir, que desde a P290 é um erro: −5 e conta no limite). A partida acaba no 3º erro (P119),
+// ao encerrar ou quando todas as músicas tocaram. Quando é a partida que encerra a música (o 3º
+// erro, encerrar), o desistir vai com `forced` e não custa nem conta: não foi a pessoa que
+// desistiu. Puro, como o Treino, sobre o mesmo
+// saco (core/practice.ts): a semente vem da tela. A partida não é salva (P116); só o fim dela vai
+// para o save (`superfanOutcome`, P289), pelas medalhas.
 
 import type { CatalogIndex } from "./catalog.ts";
 import { barSeconds } from "./player.ts";
@@ -17,6 +19,7 @@ import {
   startPracticeSession,
 } from "./practice.ts";
 import { seeded } from "./prng.ts";
+import type { SuperfanOutcome } from "./records.ts";
 import { currentRound, type GameEvent, type RoundState, reduce, roundErrors } from "./reducer.ts";
 import { VARIANT_RULES } from "./rules.ts";
 
@@ -35,7 +38,10 @@ export type SuperfanEnd = "errors" | "quit" | "done";
 export type SuperfanRun = {
   /** O saco, o número da música, o placar das encerradas e a música em jogo. */
   readonly session: PracticeSession;
-  /** Palpites errados das músicas encerradas (a em jogo conta à parte). */
+  /**
+   * Erros das músicas encerradas: os palpites errados e, desde a P290, o desistir da pessoa (a
+   * música em jogo conta à parte).
+   */
   readonly errors: number;
   /** Ajudas pedidas nas músicas encerradas. */
   readonly helps: number;
@@ -44,7 +50,11 @@ export type SuperfanRun = {
   readonly end: SuperfanEnd | null;
 };
 
-const wrongIn = roundErrors;
+/**
+ * Os erros de uma música: os palpites errados e, se a pessoa desistiu, mais um (P290). O desistir
+ * forçado pela partida (`gaveUp` falso) não conta. A anulada não tem erro (P162).
+ */
+const wrongIn = (round: RoundState) => roundErrors(round) + (round.gaveUp ? 1 : 0);
 /** A ajuda da música. A anulada (falha de áudio) não conta, como os erros dela (P162). */
 const helpIn = (round: RoundState) => (round.help && round.status !== "void" ? 1 : 0);
 
@@ -150,8 +160,8 @@ export function superfanNext(
 }
 
 /**
- * Encerrar a partida: a música em jogo termina como desistida, e os erros dela contam (os −2 de
- * desistir não: quem encerra é a partida, P186). Com os 3 erros já cometidos (a revelação do
+ * Encerrar a partida: a música em jogo termina como desistida, e os erros dela contam (o desistir
+ * não: quem encerra é a partida, P186). Com os 3 erros já cometidos (a revelação do
  * último na tela), o fim é por erros, e não por encerrar.
  */
 export function quitSuperfan(run: SuperfanRun): SuperfanRun {
@@ -163,6 +173,28 @@ export function quitSuperfan(run: SuperfanRun): SuperfanRun {
       ? reduce(game, { type: "GIVE_UP", forced: true })
       : game;
   return close({ ...run, session: { ...run.session, game: ended } }, "quit");
+}
+
+/**
+ * O que o save guarda do fim da partida (P285, P289): terminou (todas as músicas tocadas antes do
+ * 3º erro) e terminou perfeita (todas valendo o máximo: acertadas no trecho de 1 s, sem erro e
+ * sem ajuda). A partida sem nenhuma música (todas fora, P141) não termina nada. A perfeita recusa
+ * a partida com uma música anulada (falha de áudio, P291): todas precisam ter tocado de verdade.
+ */
+export function superfanOutcome(run: SuperfanRun): SuperfanOutcome {
+  const { points, rounds } = run.session.score;
+  const done = run.end === "done" && rounds > 0;
+  const best = VARIANT_RULES.superfan.points[0] ?? 0;
+  return {
+    done,
+    // `rounds` conta só as não anuladas, e `number`, todas as que saíram.
+    perfect:
+      done &&
+      rounds === run.session.number &&
+      run.errors === 0 &&
+      run.helps === 0 &&
+      points === rounds * best,
+  };
 }
 
 /**

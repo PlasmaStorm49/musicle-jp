@@ -9,6 +9,7 @@ import {
   lastPlayed,
   open,
   option,
+  seedHistory,
   test,
 } from "./helpers.ts";
 
@@ -184,15 +185,7 @@ test("terminar o 2º diário do dia põe o ✓ na aba Hits na hora, sem trocar d
   page,
 }) => {
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
-  const save = {
-    schemaVersion: 7,
-    history: { "2026-10-08|song": { number: 1, rounds: [lost, lost, lost] } },
-    inProgress: {},
-  } satisfies Save;
-  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
-    SAVE_KEY,
-    JSON.stringify(save),
-  ] as const);
+  await seedHistory(page, { "2026-10-08|song": { number: 1, rounds: [lost, lost, lost] } });
   await open(page, "2026-10-08T12:00:00-03:00", "#normal");
   await expect(hitsTab(page)).toHaveAccessibleName("Hits");
   for (const next of ["Próxima rodada", "Próxima rodada", "Ver resultado"]) {

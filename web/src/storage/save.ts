@@ -8,8 +8,8 @@
 // - cada gravação relê, mescla e grava: duas abas abertas não apagam um dia terminado.
 import { isValidDate } from "../core/dates.ts";
 import { isRecord } from "../core/guards.ts";
-import type { FinishedGame, InProgress, Save } from "../core/records.ts";
-import { emptySave } from "../core/records.ts";
+import type { ArtistRecord, FinishedGame, InProgress, Save } from "../core/records.ts";
+import { emptySave, SHELF_SIZE } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
 import { HELP_OPTIONS, MAX_STAGE, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { Target } from "../core/types.ts";
@@ -161,6 +161,40 @@ export function isInProgress(x: unknown): x is InProgress {
 }
 
 /**
+ * O id de uma medalha (v8): letras, números e `|`, `:`, `-`, `_` (ex.: "superfan|apple:ar:1|ouro").
+ * O id vai para o save e nunca muda; o desconhecido fica (pode ser de uma lista mais nova).
+ */
+const MEDAL_ID = /^[a-z0-9][A-Za-z0-9|:_-]{0,119}$/;
+/**
+ * O id de um artista, como o `artistId` do schema da lista ("apple:ar:1490256993"), com limite:
+ * o maior (16 + 4 + 64) ainda dá um id de medalha (`superfan|<artista>|suprema`) que cabe no
+ * `MEDAL_ID`. Sem isso, o save gravaria uma medalha que a leitura seguinte descartaria.
+ */
+export const ARTIST_ID = /^[a-z]{1,16}:ar:[A-Za-z0-9_-]{1,64}$/;
+
+/**
+ * Uma lista de ids de medalha, sem repetidas. O que não é id é descartado, e a lista ausente (a
+ * migração sempre a cria) é reparo, como o `artists` ausente.
+ */
+function medalIds(x: unknown, max = Number.MAX_SAFE_INTEGER): { ids: string[]; dropped: boolean } {
+  if (!Array.isArray(x)) return { ids: [], dropped: true };
+  const ids = [
+    ...new Set(x.filter((id): id is string => typeof id === "string" && MEDAL_ID.test(id))),
+  ];
+  return { ids: ids.slice(0, max), dropped: ids.length !== x.length || ids.length > max };
+}
+
+export function isArtistRecord(x: unknown): x is ArtistRecord {
+  return (
+    isRecord(x) &&
+    isNonNegativeInt(x.right) &&
+    (x.done === undefined || x.done === true) &&
+    // A perfeita é também terminada (`withSuperfanEnd`).
+    (x.perfect === undefined || (x.perfect === true && x.done === true))
+  );
+}
+
+/**
  * Valida cada entrada; descarta só as inválidas. `dropped` diz se algo foi descartado. Um mapa
  * ausente ou que não é objeto vira vazio, sem levar junto o resto (o histórico vale mais).
  */
@@ -177,7 +211,25 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     if (modeOf(id) && isInProgress(progress)) inProgress[id] = progress;
     else dropped = true;
   }
-  return { save: { schemaVersion: 7, history, inProgress }, dropped };
+  const seen = medalIds(data.seenMedals);
+  const shelf = medalIds(data.shelf, SHELF_SIZE);
+  const artists: Record<string, ArtistRecord> = {};
+  for (const [id, record] of Object.entries(isRecord(data.artists) ? data.artists : {})) {
+    if (ARTIST_ID.test(id) && isArtistRecord(record)) artists[id] = record;
+    else dropped = true;
+  }
+  dropped ||= seen.dropped || shelf.dropped || !isRecord(data.artists);
+  return {
+    save: {
+      schemaVersion: 8,
+      history,
+      inProgress,
+      seenMedals: seen.ids.sort(),
+      shelf: shelf.ids,
+      artists,
+    },
+    dropped,
+  };
 }
 
 // ---- leitura e gravação ----

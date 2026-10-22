@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { FinishedGame, RoundRecord } from "./records.ts";
-import { computeStats } from "./stats.ts";
+import { computeStats, dayGames, streaks } from "./stats.ts";
 
 const won = (stage: number): RoundRecord => ({ status: "won", stage, attempts: ["right"] });
 const lost: RoundRecord = { status: "lost", stage: 0, attempts: ["wrong"] };
@@ -122,5 +122,39 @@ describe("computeStats", () => {
     expect(medio).toMatchObject({ played: 1, average: 0, currentStreak: 1 });
     expect(computeStats(history, "anime-titulo-facil", "2026-10-11", anime).played).toBe(0);
     expect(computeStats(history, "song", "2026-10-11", SCHEDULE).played).toBe(1);
+  });
+});
+
+describe("dayGames e streaks (servem também às medalhas, M16)", () => {
+  it("dayGames: os jogos de qualquer diário até hoje, sem o jogado depois", () => {
+    const history = {
+      "2026-10-08|song": game(lost),
+      "2026-10-09|anime-musica-facil": game(won(0)),
+      "2026-10-09|album": { ...game(won(0)), late: true as const },
+      "2026-10-10|album": game(lost),
+    };
+    expect(dayGames(history, "2026-10-09").map((g) => `${g.date}|${g.daily}`)).toEqual([
+      "2026-10-08|song",
+      "2026-10-09|anime-musica-facil",
+    ]);
+  });
+
+  it("streaks: o buraco da agenda não quebra (P40), e hoje ainda não jogado também não", () => {
+    const schedule = ["2026-10-08", "2026-10-09", "2026-10-11", "2026-10-12"];
+    const played = new Set(["2026-10-08", "2026-10-09", "2026-10-11"]);
+    expect(streaks(played, schedule, "2026-10-12")).toEqual({ current: 3, best: 3 });
+    expect(streaks(played, schedule, "2026-10-11")).toEqual({ current: 3, best: 3 });
+    // Ontem sem jogo: a atual zera, a melhor fica.
+    expect(streaks(new Set(["2026-10-08", "2026-10-09"]), schedule, "2026-10-12")).toEqual({
+      current: 0,
+      best: 2,
+    });
+  });
+
+  it("streaks: dias depois de hoje não contam", () => {
+    expect(streaks(new Set(["2026-10-08"]), SCHEDULE, "2026-10-08")).toEqual({
+      current: 1,
+      best: 1,
+    });
   });
 });
