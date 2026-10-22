@@ -293,6 +293,13 @@ def _schedule_anime(args: argparse.Namespace) -> int:
     catalog = read_json(catalog_path)
     if _report(catalog_path, validate_anime_catalog(catalog, catalog_path.read_bytes())):
         return 1
+    if catalog["provider"] != args.provider:
+        print(
+            f"{catalog_path}: o catálogo é do provedor {catalog['provider']!r}, "
+            f"não {args.provider!r}",
+            file=sys.stderr,
+        )
+        return 1
     existing = read_json(out) if out.exists() else None
     result = generate_anime(catalog, existing, args.today, args.epoch, args.days)
     for message in [*short_pools(catalog), *result.warnings]:
