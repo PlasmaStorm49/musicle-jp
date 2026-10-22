@@ -4,7 +4,6 @@ import { APPLE_PROVIDER } from "../core/apple.ts";
 import {
   ANIME_DIFFICULTIES,
   ANIME_MODES,
-  ANIME_OPEN_MODES,
   type AnimeDifficulty,
   type AnimeMode,
   animeDaily,
@@ -116,8 +115,6 @@ type Props = {
   readonly shareUrl: string;
 };
 
-const isOpen = (mode: AnimeMode) => ANIME_OPEN_MODES.includes(mode);
-
 /** Os 3 diários de um modo no dia, na ordem das dificuldades; sem o dia na agenda, nenhum. */
 function modeDailies(day: AnimeDay | null, date: string, mode: AnimeMode): Daily[] {
   return day ? ANIME_DIFFICULTIES.map((difficulty) => animeDaily(day, date, mode, difficulty)) : [];
@@ -189,12 +186,6 @@ function Ready({ screen, data, resolver, date, save, ...props }: ReadyProps) {
     case "levels":
       return <AnimeLevels mode={screen.mode} day={day} date={date} save={save} />;
     case "daily": {
-      // O modo sem tela ainda (o "acertar o anime", PR D3): o aviso, e de volta ao Anime.
-      if (!isOpen(screen.mode)) {
-        return (
-          <AnimeUnavailable text={t("anime.soonNotice", { mode: animeModeName(screen.mode) })} />
-        );
-      }
       if (!daily) return <AnimeUnavailable text={t("anime.unavailable")} />;
       return (
         // key: cada diário monta do zero ao trocar de diário, com o save daquele momento.
@@ -230,14 +221,12 @@ function progressText({ done, playing, total }: Progress): string {
 }
 
 /**
- * O cartão de um modo: leva à escolha da dificuldade. O modo sem tela (PR D3) diz "em breve" e não
- * é link; sem o dia na agenda, também não (não há o que jogar lá dentro).
+ * O cartão de um modo: leva à escolha da dificuldade. Sem o dia na agenda, não é link (não há o
+ * que jogar lá dentro).
  */
 function modeCard(mode: AnimeMode, dailies: readonly Daily[], save: Save, next: boolean): Card {
-  const open = isOpen(mode);
-  const lines = !open
-    ? [t("anime.soon")]
-    : dailies.length === 0
+  const lines =
+    dailies.length === 0
       ? [t("home.statusUnavailable")]
       : [
           progressText(
@@ -257,7 +246,7 @@ function modeCard(mode: AnimeMode, dailies: readonly Daily[], save: Save, next: 
     }),
     lines,
     next,
-    off: !open || dailies.length === 0,
+    off: dailies.length === 0,
   };
 }
 
@@ -282,7 +271,7 @@ type ScreenProps = {
 function AnimeModes({ day, date, save }: ScreenProps) {
   const heading = useHeadingFocus();
   const groups = ANIME_MODES.map((mode) => ({ mode, dailies: modeDailies(day, date, mode) }));
-  const next = groups.find((g) => isOpen(g.mode) && firstToPlay(save, g.dailies))?.mode;
+  const next = groups.find((g) => firstToPlay(save, g.dailies))?.mode;
   const cards = groups.map((g) => modeCard(g.mode, g.dailies, save, g.mode === next));
   return (
     // O cabeçalho no centro, como nas outras telas de escolha (.practice).
@@ -294,15 +283,31 @@ function AnimeModes({ day, date, save }: ScreenProps) {
         <p class="hint">{t("anime.hint")}</p>
       </header>
       <CardList cards={cards} idPrefix="anime" single />
+      <AnimeCredits />
     </div>
   );
 }
 
-/** O cartão de uma dificuldade: o estado do diário dela, ou "em breve" no modo sem tela. */
+/**
+ * Os créditos das fontes do Anime (P241), numa linha, nas telas de escolha (e não em toda rodada,
+ * para caber): o link leva ao "Sobre e privacidade", com o link de cada uma. O MyAnimeList só em
+ * texto, sem logo (P256).
+ */
+function AnimeCredits() {
+  return (
+    <p class="anime-credits">
+      <a href={ROUTES.about}>
+        {t("anime.credits")} <span class="sr-only">{t("anime.creditsMore")}</span>
+      </a>
+    </p>
+  );
+}
+
+/** O cartão de uma dificuldade: o estado do diário dela. */
 function levelCard(
   mode: AnimeMode,
   difficulty: AnimeDifficulty,
-  status: DailyStatus | null,
+  status: DailyStatus,
   next: boolean,
 ): Card {
   const rule = t(`anime.rule.${mode}`, {
@@ -314,9 +319,9 @@ function levelCard(
     name: t(`anime.level.${difficulty}`),
     short: t(`anime.levelShort.${difficulty}`),
     hint: `${t(`anime.levelHint.${difficulty}`)} ${rule}`,
-    lines: [status ? dailyText(status) : t("anime.soon")],
+    lines: [dailyText(status)],
     next,
-    off: !status || status.kind === "unavailable",
+    off: status.kind === "unavailable",
   };
 }
 
@@ -326,14 +331,13 @@ function levelCard(
  */
 function AnimeLevels({ mode, day, date, save }: ScreenProps & { readonly mode: AnimeMode }) {
   const heading = useHeadingFocus();
-  const open = isOpen(mode);
   const dailies = modeDailies(day, date, mode);
-  const next = open ? firstToPlay(save, dailies) : null;
+  const next = firstToPlay(save, dailies);
   const cards = ANIME_DIFFICULTIES.map((difficulty, i) =>
     levelCard(
       mode,
       difficulty,
-      open ? statusOf(save, dailies[i] ?? null) : null,
+      statusOf(save, dailies[i] ?? null),
       next?.key === animeKey(mode, difficulty),
     ),
   );
@@ -346,11 +350,12 @@ function AnimeLevels({ mode, day, date, save }: ScreenProps & { readonly mode: A
         <p class="hint">{t("anime.levelsHint")}</p>
       </header>
       <CardList cards={cards} idPrefix="anime-levels" single />
+      <AnimeCredits />
     </div>
   );
 }
 
-/** Sem o diário (o dia fora da agenda do Anime, a carga que falhou, o modo sem tela): de volta ao Anime. */
+/** Sem o diário (o dia fora da agenda do Anime, a carga que falhou): de volta ao Anime. */
 function AnimeUnavailable({ text }: { readonly text: string }) {
   return (
     <section class="unavailable screen">

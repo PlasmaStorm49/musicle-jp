@@ -3,8 +3,6 @@ import { animeCatalog, animeSchedule, schedule } from "../../test/fixtures.ts";
 import { indexAnime } from "./catalog.ts";
 import {
   ANIME_KEYS,
-  ANIME_OPEN_KEYS,
-  ANIME_OPEN_MODES,
   animeDailies,
   animeDaily,
   animeKey,
@@ -126,15 +124,6 @@ describe("as chaves do Anime", () => {
     expect(animeKey("titulo", "medio")).toBe("anime-titulo-medio");
     for (const key of ANIME_KEYS) expect(isAnimeKey(key)).toBe(true);
     for (const key of MODES) expect(isAnimeKey(key)).toBe(false);
-  });
-
-  it("no PR D2, só o acertar a música tem tela: os 3 diários dele", () => {
-    expect(ANIME_OPEN_MODES).toEqual(["musica"]);
-    expect(ANIME_OPEN_KEYS).toEqual([
-      "anime-musica-facil",
-      "anime-musica-medio",
-      "anime-musica-dificil",
-    ]);
   });
 });
 

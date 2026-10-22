@@ -11,12 +11,6 @@ import type { AnimeDay, Day, Target, TrackId } from "./types.ts";
 export const ANIME_MODES = ["musica", "titulo"] as const;
 export type AnimeMode = (typeof ANIME_MODES)[number];
 
-/**
- * Os modos do Anime que já têm tela (PR D2: só o "acertar a música"). O "acertar o anime" chega no
- * PR D3, que só o acrescenta aqui: até lá, o cartão dele diz "em breve" e o diário não abre.
- */
-export const ANIME_OPEN_MODES: readonly AnimeMode[] = ["musica"];
-
 /** As dificuldades de cada modo do Anime. */
 export const ANIME_DIFFICULTIES = ["facil", "medio", "dificil"] as const;
 export type AnimeDifficulty = (typeof ANIME_DIFFICULTIES)[number];
@@ -39,11 +33,6 @@ export const ANIME_KEYS: readonly AnimeKey[] = ANIME_MODES.flatMap((mode) =>
   ANIME_DIFFICULTIES.map((difficulty) => animeKey(mode, difficulty)),
 );
 
-/** Os diários do Anime dos modos que já têm tela (ANIME_OPEN_MODES), na ordem de ANIME_KEYS. */
-export const ANIME_OPEN_KEYS: readonly AnimeKey[] = ANIME_OPEN_MODES.flatMap((mode) =>
-  ANIME_DIFFICULTIES.map((difficulty) => animeKey(mode, difficulty)),
-);
-
 /** O diário é do Anime (e não dos Hits): o compartilhar diz a categoria. */
 export function isAnimeKey(key: DailyKey): key is AnimeKey {
   return (ANIME_KEYS as readonly string[]).includes(key);
@@ -62,15 +51,15 @@ export function dailyIds(date: string): PuzzleId[] {
 
 /**
  * O que se acerta: a faixa (nos Hits e no "acertar a música"; o Normal aceita o álbum dela) ou a
- * franquia (o "acertar o anime", P234). A franquia só tem tela no PR D3: até lá, o descritor já a
- * diz, e o diário não abre (ANIME_OPEN_MODES).
+ * franquia (o "acertar o anime", P234: qualquer franquia da faixa vale). O reducer compara só ids:
+ * no "acertar o anime", os aceitos são as franquias (`createRounds`, com o `answerOf`).
  */
 export type DailyAnswer = "track" | "franchise";
 
 /**
  * O nome do diário na tela, pela chave do i18n: "Normal" e "Desafio" nos Hits; no Anime, o modo e
- * a dificuldade ("Música · Fácil"). Quem traduz é a tela (`dailyName`, em ui/modes.ts), e uma
- * chave que não existir no pt-BR não compila lá.
+ * a dificuldade ("Música · Fácil", "Anime · Fácil"). Quem traduz é a tela (`dailyName`, em
+ * ui/modes.ts), e uma chave que não existir no pt-BR não compila lá.
  */
 export type DailyName = `mode.${Target}` | `daily.${AnimeKey}`;
 

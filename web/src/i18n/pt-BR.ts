@@ -76,11 +76,15 @@ export const ptBR = {
   // O switch (P217): o nome é o do estado ligado; a dica fica para o leitor de tela.
   "home.themeDark": "Tema escuro",
   "home.themeHint": "Sem escolha, o jogo segue o tema do aparelho.",
+  // O link do "Sobre e privacidade" (P243), no fim da Início, ao lado da troca de tema.
+  "home.about": "Sobre e privacidade",
 
   "game.header": "{mode} · nº {number}",
   "game.round": "Rodada {current} de {total}",
   "question.song": "Qual é a música?",
   "question.album": "Qual é o álbum?",
+  // O "acertar o anime" (P231): vale qualquer temporada ou sequência (P234).
+  "question.anime": "Qual é o anime?",
 
   "player.play": "Tocar {seconds} s",
   "player.stop": "Parar",
@@ -111,6 +115,8 @@ export const ptBR = {
   "reveal.correct": "Resposta certa",
   "reveal.yourPick": "Sua escolha",
   "reveal.albumLabel": "Álbum:",
+  // No Anime, no lugar do álbum: o anime e o tema ("Kimetsu no Yaiba · OP1").
+  "reveal.animeLabel": "Anime:",
   "reveal.listenFull": "Ouvir a prévia inteira",
   "reveal.listenShort": "Ouvir",
   "reveal.listenFailed": "Não deu para tocar a prévia agora.",
@@ -154,6 +160,9 @@ export const ptBR = {
   // Modo por artista (M13): a busca é só pelo título, entre as músicas dele.
   "typing.titleHint": "Título, romaji ou kana.",
   "typing.titlePlaceholder": "Nome da música",
+  // O "acertar o anime": a busca é pelos títulos e sinônimos dos animes (romaji, inglês, japonês).
+  "typing.animeHint": "Título em romaji, em inglês ou em japonês.",
+  "typing.animePlaceholder": "Nome do anime",
   "typing.listLabel": "Sugestões",
   "typing.noResults": "Nada encontrado.",
   "typing.results.one": "{count} sugestão",
@@ -292,14 +301,12 @@ export const ptBR = {
   "anime.modeHint.musica":
     "Ouça o trecho de um tema de anime e digite o nome exato da música, em até {total} tentativas. Três dificuldades, de {rounds} rodadas cada uma.",
   "anime.modeHint.titulo":
-    "Ouça o trecho de um tema de anime e digite o nome do anime: vale qualquer temporada. Três dificuldades, de {rounds} rodadas cada uma.",
+    "Ouça o trecho de um tema de anime e digite o nome do anime, em até {total} tentativas: vale qualquer temporada. Três dificuldades, de {rounds} rodadas cada uma.",
   // O estado dos 3 diários de um modo, numa linha do cartão dele.
   "anime.modeNew": "{total} diários novos",
   "anime.modePlaying": "em andamento",
   "anime.modeDone": "{done} de {total} terminados",
-  // O modo que ainda não tem tela (o "acertar o anime", no PR D3).
-  "anime.soon": "Em breve",
-  "anime.soonNotice": "{mode}: em breve.",
+
   "anime.levelsHint": "Escolha a dificuldade.",
   "anime.level.facil": "Fácil",
   "anime.level.medio": "Médio",
@@ -315,18 +322,50 @@ export const ptBR = {
     "Aberturas, encerramentos e insert songs, também de animes pouco conhecidos.",
   "anime.rule.musica":
     "Digite o nome exato da música, em até {total} tentativas. {rounds} rodadas por dia.",
-  "anime.rule.titulo": "Digite o nome do anime: vale qualquer temporada. {rounds} rodadas por dia.",
+  "anime.rule.titulo":
+    "Digite o nome do anime, em até {total} tentativas: vale qualquer temporada. {rounds} rodadas por dia.",
   "anime.unavailable": "Não há diário do Anime hoje.",
   "anime.retry": "Não foi possível carregar o Anime. Confira a conexão.",
   "anime.back": "Voltar ao Anime",
+  // O tema na revelação: o anime, o tipo e o número ("Kimetsu no Yaiba · OP1"). Sem número, só o
+  // tipo.
+  "anime.themeLine": "{anime} · {theme}",
+  "anime.theme.OP": "OP{number}",
+  "anime.theme.ED": "ED{number}",
+  "anime.theme.IN": "insert song",
+  "anime.themeSeparator": "; ",
+  // Os créditos das fontes (P241), nas telas de escolha do Anime: o MyAnimeList só em texto (P256).
+  // O link leva ao "Sobre e privacidade", com tudo.
+  "anime.credits": "Dados: AnimeThemes, AnisongDB e MyAnimeList · Prévias: Apple Music",
+  "anime.creditsMore": "(sobre e privacidade)",
   // O nome de cada diário, no cabeçalho, no resumo e no compartilhar. Curto, para o cabeçalho da
   // rodada caber numa linha (a aba Anime da nav já diz a categoria).
   "daily.anime-musica-facil": "Música · Fácil",
   "daily.anime-musica-medio": "Música · Médio",
   "daily.anime-musica-dificil": "Música · Difícil",
-  "daily.anime-titulo-facil": "Título · Fácil",
-  "daily.anime-titulo-medio": "Título · Médio",
-  "daily.anime-titulo-dificil": "Título · Difícil",
+  "daily.anime-titulo-facil": "Anime · Fácil",
+  "daily.anime-titulo-medio": "Anime · Médio",
+  "daily.anime-titulo-dificil": "Anime · Difícil",
+
+  // O "Sobre e privacidade" (P243): o jogo, as fontes, a privacidade e o contato (P258).
+  "about.title": "Sobre e privacidade",
+  "about.intro":
+    "O AteMusic é um jogo de adivinhar músicas japonesas: os sucessos da parada do Japão e os temas de anime. É um projeto pessoal.",
+  "about.sourcesTitle": "Fontes",
+  "about.apple": "Apple Music",
+  "about.appleWhat": "a parada do Japão, as capas e as prévias, cedidas pelo iTunes.",
+  "about.animethemes": "AnimeThemes",
+  "about.animethemesWhat": "os animes, os temas e os sinônimos dos títulos.",
+  "about.anisongdb": "AnisongDB",
+  "about.anisongdbWhat": "a dificuldade, os artistas e as insert songs.",
+  "about.mal": "MyAnimeList",
+  "about.malWhat": "a popularidade dos animes.",
+  "about.privacyTitle": "Privacidade",
+  "about.privacy":
+    "O jogo não coleta dados pessoais. O progresso fica só neste navegador (no localStorage), e nada é enviado a um servidor do jogo. As prévias e as capas vêm direto da Apple.",
+  "about.contactTitle": "Contato",
+  "about.contact": "Dúvidas, erros ou um pedido para tirar algo do jogo:",
+  "about.contactLink": "as Issues do GitHub",
 } as const;
 
 export type MessageKey = keyof typeof ptBR;

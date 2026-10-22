@@ -9,6 +9,7 @@ import type {
   AnimeAlbum,
   AnimeCatalog,
   AnimeDay,
+  AnimeFranchise,
   AnimeSchedule,
   AnimeTrack,
   Artist,
@@ -40,7 +41,9 @@ const track = (n: number): AnimeTrack => ({
   search: { title: [`musica${n}`], artist: [`artista${n}`] },
   anime: {
     franchiseIds: [`anime:fr:${n}`],
-    themes: [{ anime: `Anime ${n}`, type: "OP", sequence: 1 }],
+    themes: [
+      { anime: n === 4 ? "Hoshizora Kaizoku 2nd Season" : `Anime ${n}`, type: "OP", sequence: 1 },
+    ],
     tiers: { musica: "facil", titulo: "facil" },
   },
 });
@@ -61,6 +64,11 @@ const artist = (n: number): Artist => ({
   nameLatin: null,
   latinSource: null,
 });
+/** A franquia de cada faixa; a 4 tem um sinônimo em inglês, como a "Hoshizora Kaizoku" das fixtures. */
+const franchise = (n: number): AnimeFranchise =>
+  n === 4
+    ? { id: "anime:fr:4", name: "Hoshizora Kaizoku", search: ["hoshizorakaizoku", "starrypirates"] }
+    : { id: `anime:fr:${n}`, name: `Anime ${n}`, search: [`anime${n}`] };
 const NS = [1, 2, 3, 4, 5, 6] as const;
 const catalog: AnimeCatalog = {
   schemaVersion: 1,
@@ -69,7 +77,8 @@ const catalog: AnimeCatalog = {
   provider: "teste",
   storefront: "jp",
   snapshots: [{ id: "s", fetchedAt: "2026-01-01T00:00:00Z" }],
-  franchises: [{ id: "anime:fr:1", name: "Anime 1", search: ["anime1"] }],
+  // As franquias 7 a 9 não têm faixa: só servem à ajuda do acertar o anime, que evita as do dia.
+  franchises: [franchise(1), ...[...NS.slice(1), 7, 8, 9].map(franchise)],
   artists: [artist(1), ...NS.slice(1).map(artist)],
   albums: [album(1), ...NS.slice(1).map(album)],
   tracks: [track(1), ...NS.slice(1).map(track)],
@@ -219,17 +228,33 @@ describe("Anime: a escolha do modo (P233)", () => {
     expect(document.activeElement).toBe(screen.getByRole("heading", { level: 1, name: "Anime" }));
   });
 
-  it("o acertar a música leva à dificuldade dele; o acertar o anime fica em breve, sem link (PR D3)", () => {
+  it("os dois modos levam à dificuldade deles, e os créditos ao Sobre (P241)", () => {
     setup("anime");
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
       "#anime-musica",
+      "#anime-titulo",
+      "#sobre",
     ]);
     const musica = card(/^Acertar a música/);
     expect(lines(musica)).toEqual(["3 diários novos"]);
     expect(musica.textContent).toContain("Digite o nome da música");
     expect(description(musica)).toContain("em até 6 tentativas");
-    expect(offCards()).toEqual([{ name: "Acertar o anime", lines: ["Em breve"] }]);
+    const titulo = card(/^Acertar o anime/);
+    expect(lines(titulo)).toEqual(["3 diários novos"]);
+    expect(titulo.textContent).toContain("Digite o nome do anime");
+    expect(description(titulo)).toContain("vale qualquer temporada");
     expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
+  });
+
+  it("os créditos: as fontes numa linha, o MyAnimeList só em texto (P256), e o link para o Sobre", () => {
+    setup("anime");
+    const credits = screen.getByRole("link", { name: /^Dados: AnimeThemes/ });
+    expect(credits.textContent).toBe(
+      "Dados: AnimeThemes, AnisongDB e MyAnimeList · Prévias: Apple Music (sobre e privacidade)",
+    );
+    expect(credits.closest(".anime-credits")?.querySelector("img")).toBeNull();
+    // No pé da tela: depois dos cartões.
+    expect(credits.closest(".screen")?.lastElementChild?.contains(credits)).toBe(true);
   });
 
   it("o estado dos 3 diários do modo numa linha, e o oliva enquanto há um por jogar", () => {
@@ -256,15 +281,25 @@ describe("Anime: a escolha do modo (P233)", () => {
     };
     setup("anime", { save: { ...emptySave(), history: all } });
     expect(lines(card(/^Acertar a música/))).toEqual(["3 de 3 terminados"]);
+    // O acertar a música terminado: o oliva passa ao acertar o anime.
+    expect(nextCards()).toEqual(["Acertar o anime"]);
+    cleanup();
+    const both = {
+      ...all,
+      [puzzleId(DATE, "anime-titulo-facil")]: finished,
+      [puzzleId(DATE, "anime-titulo-medio")]: finished,
+      [puzzleId(DATE, "anime-titulo-dificil")]: finished,
+    };
+    setup("anime", { save: { ...emptySave(), history: both } });
     expect(nextCards()).toEqual([]);
   });
 
   it("dia fora da agenda do Anime: os dois modos avisam, sem link", () => {
     setup("anime", { date: "2026-10-07" });
-    expect(screen.queryAllByRole("link")).toHaveLength(0);
+    expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual(["#sobre"]);
     expect(offCards()).toEqual([
       { name: "Acertar a música", lines: ["Não há diário hoje"] },
-      { name: "Acertar o anime", lines: ["Em breve"] },
+      { name: "Acertar o anime", lines: ["Não há diário hoje"] },
     ]);
   });
 
@@ -284,6 +319,7 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
       "#anime-musica-facil",
       "#anime-musica-medio",
       "#anime-musica-dificil",
+      "#sobre",
     ]);
     expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
   });
@@ -309,7 +345,7 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
 
   it("dia fora da agenda: as 3 avisam, sem link", () => {
     setup("anime-musica", { date: "2026-10-07" });
-    expect(screen.queryAllByRole("link")).toHaveLength(0);
+    expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual(["#sobre"]);
     expect(offCards().map((c) => c.lines)).toEqual([
       ["Não há diário hoje"],
       ["Não há diário hoje"],
@@ -317,15 +353,18 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
     ]);
   });
 
-  it("o acertar o anime (PR D3): a tela existe, com as 3 em breve e sem link", () => {
+  it("o acertar o anime: as 3 dificuldades, com a regra do modo para o leitor de tela", () => {
     setup("anime-titulo");
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Acertar o anime");
-    expect(screen.queryAllByRole("link")).toHaveLength(0);
-    expect(offCards()).toEqual([
-      { name: "Fácil", lines: ["Em breve"] },
-      { name: "Médio", lines: ["Em breve"] },
-      { name: "Difícil", lines: ["Em breve"] },
+    expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
+      "#anime-titulo-facil",
+      "#anime-titulo-medio",
+      "#anime-titulo-dificil",
+      "#sobre",
     ]);
+    expect(description(card(/^Difícil/))).toBe(
+      "Aberturas, encerramentos e insert songs, também de animes pouco conhecidos. Digite o nome do anime, em até 6 tentativas: vale qualquer temporada. 3 rodadas por dia.",
+    );
   });
 
   it("o 2º clique de um toque duplo não abre o diário (ele cai aqui vindo da tela do Anime, regra 23)", () => {
@@ -370,11 +409,66 @@ describe("Anime: o diário", () => {
     );
   });
 
-  it("o diário do acertar o anime ainda não abre (PR D3): em breve, e de volta ao Anime", () => {
+  it("o diário do acertar o anime: o cabeçalho, a pergunta do anime e o campo dos nomes de anime", () => {
     setup("anime-titulo-facil");
-    expect(document.activeElement?.textContent).toBe("Acertar o anime: em breve.");
-    expect(screen.getByRole("link", { name: "Voltar ao Anime" })).toBeTruthy();
-    expect(screen.queryByRole("combobox")).toBeNull();
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Anime · Fácil · nº 4");
+    const field = screen.getByRole("combobox", { name: "Qual é o anime?" });
+    expect(field.getAttribute("placeholder")).toBe("Nome do anime");
+    expect(screen.getByText("Título em romaji, em inglês ou em japonês.")).toBeTruthy();
+  });
+
+  it("o acertar o anime: a busca acha o anime pelo sinônimo, mostra o nome dele, e o acerto é a franquia", () => {
+    setup("anime-titulo-facil");
+    const field = screen.getByRole("combobox", { name: "Qual é o anime?" });
+    // Um anime errado primeiro: a tentativa mostra o nome do anime, sem artista.
+    fireEvent.input(field, { target: { value: "Anime 5" } });
+    const wrong = screen.getByRole("option");
+    expect(wrong.textContent).toBe("Anime 5");
+    fireEvent.click(wrong);
+    expect(document.querySelector(".attempt.wrong")?.textContent).toContain("Anime 5");
+    // A rodada 1 toca a faixa 4, da Hoshizora Kaizoku: o sinônimo em inglês acha.
+    fireEvent.input(field, { target: { value: "Starry Pirates" } });
+    const option = screen.getByRole("option");
+    expect(option.textContent).toBe("Hoshizora Kaizoku");
+    fireEvent.click(option);
+    expect(screen.getByRole("heading", { level: 2, name: /^Acertou!/ })).toBeTruthy();
+    // A revelação: as tentativas com o nome do anime, e o cartão com a música e o anime (o tema).
+    const attempts = [...document.querySelectorAll(".reveal .attempt")].map((a) => a.textContent);
+    expect(attempts).toEqual(["Errou: Anime 5", "Acertou: Hoshizora Kaizoku"]);
+    const card = document.querySelector(".reveal .card");
+    expect(card?.querySelector(".item-title")?.textContent).toBe("Música 4");
+    expect(card?.querySelector(".album")?.textContent).toBe(
+      "Anime: Hoshizora Kaizoku 2nd Season · OP1",
+    );
+  });
+
+  it("a ajuda do acertar o anime: 4 nomes de anime, nunca os das respostas do dia, e acertar vale 1 ponto", () => {
+    setup("anime-titulo-facil");
+    for (let i = 0; i < 3; i++) {
+      fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
+    }
+    fireEvent.click(screen.getByRole("button", { name: "Pedir ajuda" }));
+    const options = screen.getByRole("list", { name: "Opções da ajuda" });
+    const names = [...options.querySelectorAll(".item-title")].map((n) => n.textContent).sort();
+    // A certa (a franquia da faixa 4) e as 3 sem resposta no dia: as do dia ficam de fora.
+    expect(names).toEqual(["Anime 7", "Anime 8", "Anime 9", "Hoshizora Kaizoku"]);
+    expect(options.querySelector(".item-artist")).toBeNull();
+    const right = [...options.querySelectorAll("button")].find((b) =>
+      b.textContent?.includes("Hoshizora Kaizoku"),
+    );
+    if (!right) throw new Error("sem a opção certa");
+    fireEvent.click(right);
+    expect(screen.getByRole("heading", { level: 2 }).textContent).toContain(
+      "Acertou com ajuda: 1 ponto.",
+    );
+  });
+
+  it("no acertar a música, a revelação também diz o anime, no lugar do álbum", () => {
+    setup("anime-musica-facil");
+    fireEvent.click(screen.getByRole("button", { name: "Desistir" }));
+    expect(document.querySelector(".reveal .card .album")?.textContent).toBe(
+      "Anime: Anime 1 · OP1",
+    );
   });
 });
 

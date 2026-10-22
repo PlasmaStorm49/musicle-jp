@@ -46,6 +46,7 @@ import {
   sessionStore,
   updateSave,
 } from "../storage/save.ts";
+import { About } from "./About.tsx";
 import { Anime, type AnimeStore, useAnimeStore } from "./Anime.tsx";
 import { type ArtistStore, Artists, useArtistStore } from "./Artists.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
@@ -446,6 +447,8 @@ function Ready({
           onSession={onPractice}
         />
       );
+    case "about":
+      return <About />;
     case "artists":
       return (
         <Artists

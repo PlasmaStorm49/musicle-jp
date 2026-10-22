@@ -24,6 +24,7 @@ describe("tabFromHash (P49)", () => {
     ["#anime-titulo", "anime-titulo"],
     ["#anime-musica-facil", "anime-musica-facil"],
     ["#anime-titulo-dificil", "anime-titulo-dificil"],
+    ["#sobre", "about"],
     ["", "home"],
     ["#", "home"],
     ["#nada", "home"],
@@ -67,6 +68,8 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
     ["anime-musica-facil", "anime"],
     ["anime-musica-medio", "anime"],
     ["anime-titulo-dificil", "anime"],
+    // O "Sobre" fica com a Início (o link no fim dela).
+    ["about", "home"],
   ] as const)("%s → %s", (tab, category) => {
     expect(categoryOf(tab)).toBe(category);
   });

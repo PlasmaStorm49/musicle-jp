@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "preact/hooks";
-import { ANIME_OPEN_KEYS } from "../core/daily.ts";
+import { ANIME_KEYS } from "../core/daily.ts";
 import { type ArtistSummary, dailyStatus, nextDaily, progress } from "../core/home.ts";
 import { puzzleId, type Save } from "../core/records.ts";
+import { ROUTES } from "../core/routes.ts";
 import { MAX_STAGE, MODES, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
@@ -49,12 +50,12 @@ function hitsCard(save: Save, day: Day | null, date: string): Card {
 /**
  * O cartão do Anime (P226): uma linha só, lida do save, porque o Anime carrega só na aba dele (a
  * Início não sabe se há diário hoje). Os diários terminados hoje, ou o em andamento; sem jogo
- * hoje, nenhuma linha. Conta só os modos que já têm tela (ANIME_OPEN_KEYS).
+ * hoje, nenhuma linha. Conta os 6 diários do dia.
  */
 function animeCard(save: Save, date: string): Card {
   const { done, playing, total } = progress(
     save,
-    ANIME_OPEN_KEYS.map((key) => puzzleId(date, key)),
+    ANIME_KEYS.map((key) => puzzleId(date, key)),
   );
   const line =
     done > 0 ? t("home.animeLine", { done, total }) : playing > 0 ? t("home.animePlaying") : null;
@@ -143,7 +144,13 @@ export function Home({ day, date, save, artists }: Props) {
         </ul>
       </details>
 
-      <ThemeSwitch />
+      {/* O fim da Início, numa linha: o "Sobre e privacidade" (P243) e a troca de tema. */}
+      <footer class="home-foot">
+        <a class="home-about" href={ROUTES.about}>
+          {t("home.about")}
+        </a>
+        <ThemeSwitch />
+      </footer>
     </div>
   );
 }
@@ -153,13 +160,16 @@ export function Home({ day, date, save, artists }: Props) {
  * (provisórios, P218). Sem escolha salva, ele mostra o tema do aparelho; a troca vale na hora e
  * fica gravada. É um botão que alterna no mesmo lugar: o 2º clique de um toque duplo não pode
  * voltar o tema (singleClick, regra 23). O h2, como nas outras seções, deixa o "Tema" na
- * navegação por títulos.
+ * navegação por títulos; ele fica só para o leitor de tela, porque o sol e a lua já dizem o que
+ * o switch faz, e a linha divide o espaço com o "Sobre e privacidade".
  */
 function ThemeSwitch() {
   const { theme, followsDevice, toggle } = useTheme();
   return (
     <section class="home-theme" aria-labelledby="home-theme">
-      <h2 id="home-theme">{t("home.themeTitle")}</h2>
+      <h2 id="home-theme" class="sr-only">
+        {t("home.themeTitle")}
+      </h2>
       <button
         type="button"
         role="switch"

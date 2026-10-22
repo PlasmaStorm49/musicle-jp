@@ -4,11 +4,12 @@ import { t, tn } from "../i18n/t.ts";
 import { ItemLabel } from "./ItemLabel.tsx";
 
 /**
- * O que a busca do Desafio procura: o título e o artista (a parada) ou só o título (o modo por
- * artista, M13, em que o artista é sempre o mesmo). Muda só os textos do campo: o arquivo do
- * artista já vem sem chaves de artista na busca.
+ * O que a busca do Desafio procura: o título e o artista (a parada), só o título (o modo por
+ * artista, M13, em que o artista é sempre o mesmo) ou o nome do anime (o "acertar o anime", M14).
+ * Muda só os textos do campo: quem decide o que a busca acha é o índice (o arquivo do artista já
+ * vem sem chaves de artista; no anime, o índice é o das franquias).
  */
-export type SearchScope = "song" | "title";
+export type SearchScope = "song" | "title" | "anime";
 
 /** Uma linha da lista: a música, como desenhar, e se já foi tentada nesta rodada. */
 export type Suggestion = { readonly id: string; readonly item: ItemView; readonly tried: boolean };
@@ -26,6 +27,7 @@ type Props = {
 const TEXTS = {
   song: { placeholder: "typing.placeholder", hint: "typing.hint" },
   title: { placeholder: "typing.titlePlaceholder", hint: "typing.titleHint" },
+  anime: { placeholder: "typing.animePlaceholder", hint: "typing.animeHint" },
 } as const;
 
 const LIST_ID = "guess-list";

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks"
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
+import type { DailyAnswer } from "../core/daily.ts";
 import { helpOptions, helpSeed } from "../core/help.ts";
 import { seeded } from "../core/prng.ts";
 import {
@@ -12,7 +13,7 @@ import {
   reduce,
 } from "../core/reducer.ts";
 import { canSkip, type ModeRules, rulesOf, secondsAt } from "../core/rules.ts";
-import { optionView, revealView } from "../core/view.ts";
+import { guessView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
 import { Attempts } from "./Attempts.tsx";
@@ -95,6 +96,8 @@ export function RoundView({
 }: Props) {
   const round = currentRound(game);
   const rules = rulesOf(game);
+  // O que se acerta: a música, ou a franquia no "acertar o anime" (P234).
+  const answer: DailyAnswer = game.answer ?? "track";
   const track = revealView(index, round.trackId);
   const url = useResolvedUrl(resolver, round.trackId);
   // Próxima tentativa, contando a que acabou de ser gasta (para os anúncios de pulo e erro).
@@ -135,9 +138,10 @@ export function RoundView({
             round,
             help.avoid,
             seeded(helpSeed(game.puzzleId, game.current, help.session)),
+            answer,
           )
         : [],
-    [canHelp, help, index, round, game.puzzleId, game.current],
+    [canHelp, help, index, round, game.puzzleId, game.current, answer],
   );
 
   // A ajuda pedida nesta montagem: só aí as opções levam o foco (o botão sumiu com ele). Voltar à
@@ -169,7 +173,7 @@ export function RoundView({
     // Erro que não encerra a rodada: o foco fica no campo, então o aviso vai para o aria-live.
     // Acerto e último erro abrem a revelação, que leva o foco e se anuncia sozinha.
     if (after?.status === "playing" && after.attempts.length > round.attempts.length) {
-      const title = optionView(index, id, game.target)?.title ?? t("attempts.unknown");
+      const title = guessView(index, id, game.target, answer)?.title ?? t("attempts.unknown");
       announce(
         t("typing.wrong", { title, ...attemptLabel(after.attempts.length) }) +
           (wrongNote ? ` ${wrongNote()}` : "") +
@@ -219,7 +223,8 @@ export function RoundView({
               index={index}
               round={round}
               attempt={attemptLabel(round.attempts.length)}
-              scope={scope}
+              scope={answer === "franchise" ? "anime" : scope}
+              answer={answer}
               rules={rules}
               helpCount={helpChoices.length >= 2 ? helpChoices.length : 0}
               helpFocus={asked.current}
@@ -245,6 +250,7 @@ export function RoundView({
           index={index}
           round={round}
           target={game.target}
+          answer={answer}
           rules={rules}
           engine={engine}
           resolver={resolver}
@@ -268,6 +274,7 @@ function Typing({
   round,
   attempt,
   scope,
+  answer,
   rules,
   helpCount,
   helpFocus,
@@ -280,6 +287,7 @@ function Typing({
   readonly round: RoundState;
   readonly attempt: { readonly current: number; readonly total: number };
   readonly scope: SearchScope;
+  readonly answer: DailyAnswer;
   readonly rules: ModeRules;
   /** Quantas opções a ajuda daria agora; 0 = sem o botão. */
   readonly helpCount: number;
@@ -290,7 +298,9 @@ function Typing({
   readonly onPick: (id: string) => void;
   readonly onGiveUp: () => void;
 }) {
-  const suggest = useSuggest(index, round);
+  const suggest = useSuggest(index, round, answer);
+  // A pergunta diz o que se acerta: a música, ou o anime (P231).
+  const question = answer === "franchise" ? t("question.anime") : t("question.song");
   // A altura das tentativas fica reservada (--slots, regra 25): o Tocar e o Desistir não andam a
   // cada palpite. Em jogo, aparecem no máximo maxAttempts - 1: a última tentativa encerra a
   // rodada. Com a ajuda, as opções entram no lugar do campo e a reserva sai (.helping).
@@ -305,7 +315,7 @@ function Typing({
     >
       {round.help ? (
         <>
-          <h2 id="question">{t("question.song")}</h2>
+          <h2 id="question">{question}</h2>
           {/* A dica curta na tela; a inteira, para o leitor de tela, que a ouve na lista (P210). */}
           <p id="help-hint" class="hint">
             <span aria-hidden="true">
@@ -319,20 +329,26 @@ function Typing({
                 : t("help.hint", { points: helpPoints })}
             </span>
           </p>
-          <HelpOptions index={index} options={round.help} focus={helpFocus} onPick={onPick} />
+          <HelpOptions
+            index={index}
+            options={round.help}
+            answer={answer}
+            focus={helpFocus}
+            onPick={onPick}
+          />
         </>
       ) : (
         <>
           {/* A pergunta e a contagem numa linha só. */}
           <div class="question-row">
-            <h2 id="question">{t("question.song")}</h2>
+            <h2 id="question">{question}</h2>
             <p class="hint">{t("typing.attempt", attempt)}</p>
           </div>
           <GuessInput suggest={suggest} onPick={onPick} labelledBy="question" scope={scope} />
         </>
       )}
       <div class="attempts-slot">
-        <Attempts index={index} round={round} hideTitle />
+        <Attempts index={index} round={round} answer={answer} hideTitle />
       </div>
       {/* A ajuda à esquerda e o desistir à direita, longe um do outro: um toque não cai no
           botão errado. */}
@@ -351,7 +367,8 @@ function Typing({
 }
 
 /**
- * As opções da ajuda (P149), no lugar do campo: músicas, sem capa (a capa entregaria o álbum).
+ * As opções da ajuda (P149), no lugar do campo: músicas, sem capa (a capa entregaria o álbum); no
+ * "acertar o anime", nomes de anime (franquias).
  * Pedida agora, o botão sumiu com o foco: ele vai para a 1ª opção na tela (regra 16). Voltar à
  * rodada com a ajuda já pedida (outra aba, recarregar) deixa o Player levá-lo ao Tocar. A dica
  * (errar encerra, acertar vale 1) descreve a lista, sem anúncio à parte: o foco já a lê.
@@ -359,11 +376,13 @@ function Typing({
 function HelpOptions({
   index,
   options,
+  answer,
   focus,
   onPick,
 }: {
   readonly index: CatalogIndex;
   readonly options: readonly string[];
+  readonly answer: DailyAnswer;
   readonly focus: boolean;
   readonly onPick: (id: string) => void;
 }) {
@@ -381,7 +400,7 @@ function HelpOptions({
       aria-describedby="help-hint"
     >
       {options.map((id) => {
-        const item = optionView(index, id, "song");
+        const item = guessView(index, id, "song", answer);
         return (
           item && (
             <li key={id}>

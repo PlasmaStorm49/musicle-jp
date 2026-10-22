@@ -18,9 +18,9 @@ export type AnimeTab = "anime" | `anime-${AnimeMode}` | AnimeKey;
 
 /**
  * As abas do jogo: a home, a tela dos Hits (P225), os diários do Normal (album) e do Desafio
- * (song), o Treino, o modo por artista (M13) e as do Anime (M14).
+ * (song), o Treino, o modo por artista (M13), as do Anime (M14) e o "Sobre e privacidade" (P243).
  */
-export type Tab = "home" | "hits" | Target | "practice" | "artists" | AnimeTab;
+export type Tab = "home" | "hits" | Target | "practice" | "artists" | AnimeTab | "about";
 
 // Nenhum elemento da página pode ter id igual a uma rota: o navegador rolaria até ele.
 export const ROUTES: Readonly<Record<Tab, string>> = {
@@ -39,6 +39,7 @@ export const ROUTES: Readonly<Record<Tab, string>> = {
   "anime-titulo-facil": "#anime-titulo-facil",
   "anime-titulo-medio": "#anime-titulo-medio",
   "anime-titulo-dificil": "#anime-titulo-dificil",
+  about: "#sobre",
 };
 
 /**
@@ -59,6 +60,9 @@ export function categoryOf(tab: Tab): Category {
     case "home":
     case "artists":
       return tab;
+    // O "Sobre" sai da Início (o link no fim dela) e dos créditos do Anime: fica com a Início.
+    case "about":
+      return "home";
     case "hits":
     case "album":
     case "song":

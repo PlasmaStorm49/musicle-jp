@@ -66,12 +66,13 @@ describe("Home", () => {
     expect(screen.queryAllByRole("img")).toHaveLength(0);
   });
 
-  it("um cartão-link por categoria (P226), numa coluna, na ordem da nav: os Hits, o Anime e os Artistas", () => {
+  it("um cartão-link por categoria (P226), numa coluna, na ordem da nav: os Hits, o Anime e os Artistas; e o Sobre no fim", () => {
     setup();
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
       "#hits",
       "#anime",
       "#artistas",
+      "#sobre",
     ]);
     expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
     expect(screen.queryAllByRole("button")).toHaveLength(0);
@@ -187,19 +188,27 @@ describe("Home", () => {
     });
     expect(lines(anime())).toEqual(["Hoje: em andamento"]);
     cleanup();
-    // Os terminados de hoje, dos 3 diários que já têm tela (o acertar a música, no PR D2).
+    // Os terminados de hoje, dos 6 diários (os de outro dia não contam).
     setup({
       ...emptySave(),
       history: {
         [puzzleId(DATE, "anime-musica-facil")]: finished,
-        [puzzleId(DATE, "anime-musica-dificil")]: finished,
+        [puzzleId(DATE, "anime-titulo-dificil")]: finished,
         [puzzleId("2026-10-16", "anime-musica-medio")]: finished,
       },
       inProgress: { [puzzleId(DATE, "anime-musica-medio")]: { events: [{ type: "SKIP" }] } },
     });
-    expect(lines(anime())).toEqual(["Hoje: 2 de 3 terminados"]);
+    expect(lines(anime())).toEqual(["Hoje: 2 de 6 terminados"]);
   });
 
+  it('o "Sobre e privacidade" no fim, na linha da troca de tema (P243); o "Tema" fica para o leitor de tela', () => {
+    setup();
+    const about = screen.getByRole("link", { name: "Sobre e privacidade" });
+    expect(about.getAttribute("href")).toBe("#sobre");
+    const foot = about.closest("footer");
+    expect(foot?.querySelector('[role="switch"]')).not.toBeNull();
+    expect(screen.getByRole("heading", { name: "Tema" }).classList.contains("sr-only")).toBe(true);
+  });
   it("o cartão do Anime não é o oliva: a Início não sabe se há diário do Anime hoje", () => {
     setup({
       ...emptySave(),
