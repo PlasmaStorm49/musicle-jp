@@ -5,26 +5,49 @@
 import { type PuzzleId, puzzleId } from "./records.ts";
 import type { PlannedRound } from "./reducer.ts";
 import { MODES } from "./rules.ts";
-import type { Day, Target, TrackId } from "./types.ts";
+import type { AnimeDay, Day, Target, TrackId } from "./types.ts";
 
 /** Os modos do Anime: acertar a música ou acertar o anime. */
 export const ANIME_MODES = ["musica", "titulo"] as const;
 export type AnimeMode = (typeof ANIME_MODES)[number];
 
+/**
+ * Os modos do Anime que já têm tela (PR D2: só o "acertar a música"). O "acertar o anime" chega no
+ * PR D3, que só o acrescenta aqui: até lá, o cartão dele diz "em breve" e o diário não abre.
+ */
+export const ANIME_OPEN_MODES: readonly AnimeMode[] = ["musica"];
+
 /** As dificuldades de cada modo do Anime. */
 export const ANIME_DIFFICULTIES = ["facil", "medio", "dificil"] as const;
 export type AnimeDifficulty = (typeof ANIME_DIFFICULTIES)[number];
+
+/** Um diário do Anime sem a data: "anime-<modo>-<dificuldade>". É também a rota dele. */
+export type AnimeKey = `anime-${AnimeMode}-${AnimeDifficulty}`;
 
 /**
  * O diário sem a data, a 2ª metade do id no save ("<data>|<diário>"): nos Hits, o modo ("album" ou
  * "song"); no Anime, "anime-<modo>-<dificuldade>". A estatística é uma por diário (P249).
  */
-export type DailyKey = Target | `anime-${AnimeMode}-${AnimeDifficulty}`;
+export type DailyKey = Target | AnimeKey;
+
+export function animeKey(mode: AnimeMode, difficulty: AnimeDifficulty): AnimeKey {
+  return `anime-${mode}-${difficulty}`;
+}
 
 /** Os 6 diários do Anime, na ordem dos modos e, em cada modo, das dificuldades. */
-export const ANIME_KEYS: readonly DailyKey[] = ANIME_MODES.flatMap((mode) =>
-  ANIME_DIFFICULTIES.map((difficulty) => `anime-${mode}-${difficulty}` as const),
+export const ANIME_KEYS: readonly AnimeKey[] = ANIME_MODES.flatMap((mode) =>
+  ANIME_DIFFICULTIES.map((difficulty) => animeKey(mode, difficulty)),
 );
+
+/** Os diários do Anime dos modos que já têm tela (ANIME_OPEN_MODES), na ordem de ANIME_KEYS. */
+export const ANIME_OPEN_KEYS: readonly AnimeKey[] = ANIME_OPEN_MODES.flatMap((mode) =>
+  ANIME_DIFFICULTIES.map((difficulty) => animeKey(mode, difficulty)),
+);
+
+/** O diário é do Anime (e não dos Hits): o compartilhar diz a categoria. */
+export function isAnimeKey(key: DailyKey): key is AnimeKey {
+  return (ANIME_KEYS as readonly string[]).includes(key);
+}
 
 /**
  * Todos os diários de um dia: os 2 dos Hits e os 6 do Anime. São os que o save aceita (P250) e os
@@ -38,16 +61,18 @@ export function dailyIds(date: string): PuzzleId[] {
 }
 
 /**
- * O que se acerta: a faixa (nos Hits; o Normal aceita o álbum dela) ou a franquia (o anime). Por
- * enquanto só existe a faixa: a franquia chega com os diários do Anime.
+ * O que se acerta: a faixa (nos Hits e no "acertar a música"; o Normal aceita o álbum dela) ou a
+ * franquia (o "acertar o anime", P234). A franquia só tem tela no PR D3: até lá, o descritor já a
+ * diz, e o diário não abre (ANIME_OPEN_MODES).
  */
 export type DailyAnswer = "track" | "franchise";
 
 /**
- * O nome do diário na tela, pela chave do i18n: "Normal" e "Desafio" nos Hits. Quem traduz é a
- * tela (`dailyName`, em ui/modes.ts), e uma chave que não existir no pt-BR não compila lá.
+ * O nome do diário na tela, pela chave do i18n: "Normal" e "Desafio" nos Hits; no Anime, o modo e
+ * a dificuldade ("Música · Fácil"). Quem traduz é a tela (`dailyName`, em ui/modes.ts), e uma
+ * chave que não existir no pt-BR não compila lá.
  */
-export type DailyName = `mode.${Target}`;
+export type DailyName = `mode.${Target}` | `daily.${AnimeKey}`;
 
 /** Um diário do dia: a agenda diz as rodadas, e o descritor, o resto. */
 export type Daily = {
@@ -91,4 +116,38 @@ export function hitsDaily(day: Day, date: string, target: Target): Daily {
 /** Os dois diários dos Hits do dia, na ordem de MODES (o Normal primeiro). */
 export function hitsDailies(day: Day, date: string): Daily[] {
   return MODES.map((target) => hitsDaily(day, date, target));
+}
+
+/**
+ * Um diário do Anime: o modo e a dificuldade do dia da agenda do Anime. As regras são as do
+ * Desafio (`song`: digitado, ME107), e o "nº" é o do dia na agenda do Anime, que não é o dos Hits.
+ * A ajuda evita as 18 respostas do dia do Anime, dos dois modos, e não as dos Hits (P248).
+ */
+export function animeDaily(
+  day: AnimeDay,
+  date: string,
+  mode: AnimeMode,
+  difficulty: AnimeDifficulty,
+): Daily {
+  const key = animeKey(mode, difficulty);
+  return {
+    key,
+    id: puzzleId(date, key),
+    date,
+    number: day.number,
+    target: "song",
+    name: `daily.${key}`,
+    answer: mode === "musica" ? "track" : "franchise",
+    rounds: day[mode][difficulty],
+    avoid: ANIME_MODES.flatMap((m) =>
+      ANIME_DIFFICULTIES.flatMap((d) => day[m][d].map((round) => round.answer)),
+    ),
+  };
+}
+
+/** Os 6 diários do Anime do dia, na ordem de ANIME_KEYS. */
+export function animeDailies(day: AnimeDay, date: string): Daily[] {
+  return ANIME_MODES.flatMap((mode) =>
+    ANIME_DIFFICULTIES.map((difficulty) => animeDaily(day, date, mode, difficulty)),
+  );
 }

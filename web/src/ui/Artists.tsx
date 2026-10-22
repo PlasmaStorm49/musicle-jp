@@ -33,7 +33,7 @@ import { t, tn } from "../i18n/t.ts";
 import { ArtistCover } from "./ArtistCover.tsx";
 import { ArtistName } from "./ArtistName.tsx";
 import { Attribution } from "./Attribution.tsx";
-import { FocusedNotice } from "./FocusedNotice.tsx";
+import { FocusedNotice, UpdateNotice } from "./FocusedNotice.tsx";
 import { PracticeRun, type RunTexts, randomSeed } from "./PracticeRun.tsx";
 import { SuperfanView } from "./Superfan.tsx";
 import { singleClick } from "./singleClick.ts";
@@ -344,18 +344,6 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
     default:
       return list satisfies never;
   }
-}
-
-/** Dados de uma versão que este código não conhece: recarregar a página (como no App). */
-function UpdateNotice() {
-  return (
-    <section class="error screen">
-      <FocusedNotice text={t("load.update")} />
-      <button type="button" class="primary" onClick={() => window.location.reload()}>
-        {t("load.updateButton")}
-      </button>
-    </section>
-  );
 }
 
 /**

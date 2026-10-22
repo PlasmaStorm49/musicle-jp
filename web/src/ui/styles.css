@@ -1247,9 +1247,12 @@ section.void,
 
 /* 5. Telas ------------------------------------------------------------------------------- */
 /* Início: o selo, o nome e a frase no centro; um cartão por categoria, numa coluna (P226); o
-   "Como funciona" recolhido; o tema num switch (P217). */
+   "Como funciona" recolhido; o tema num switch (P217). Com o Anime (M14), são três cartões: o
+   espaço entre as partes e o cartão (.home .home-card) ficam mais baixos que nas telas de
+   escolha, para a Início caber em 360 × 640 no caso mais alto (os dois diários dos Hits, o
+   Anime e a sessão do artista, com uma linha cada; sem isso, passava 13 px). */
 .home {
-  gap: var(--sp-4);
+  gap: var(--sp-3);
 }
 
 .home-header {
@@ -1358,6 +1361,13 @@ section.void,
   background: transparent;
   box-shadow: inset 0 0 0 1px var(--border);
   color: var(--muted);
+}
+
+/* Os três cartões da Início (os Hits, o Anime e os Artistas) mais baixos que os das telas de
+   escolha: veja o .home. */
+.home .home-card {
+  min-height: 88px;
+  padding-block: var(--sp-2);
 }
 
 .home-how-box {

@@ -19,8 +19,11 @@ export const ptBR = {
   "nav.label": "Jogos",
   "nav.home": "Início",
   "nav.hits": "Hits",
+  "nav.anime": "Anime",
   "nav.artists": "Artistas",
   "nav.hitsDone": "(diários terminados)",
+  // O ✓ do Anime vale com qualquer um dos 6 diários de hoje terminado (P247).
+  "nav.animeDone": "(já jogou hoje)",
   "nav.doneMark": "✓",
   // A tela dos Hits (P225): uma dica só, curta, porque ela já diz tudo.
   "hits.title": "Hits",
@@ -57,6 +60,11 @@ export const ptBR = {
     "O Desafio com as músicas de um artista: rodadas sem fim no Livre, ou a partida do Superfan.",
   "home.artistsSession": "Nesta sessão ({artist}): {score}",
   "home.artistsSuperfan": "Superfan ({artist}): {points} em {songs}",
+  // O cartão do Anime na Início (P226): uma linha só, lida do save (o Anime carrega só na aba dele).
+  "home.animeShort": "Os diários de anime",
+  "home.animeHint": "Os diários dos temas de anime, iguais para todos, em três dificuldades.",
+  "home.animeLine": "Hoje: {done} de {total} terminados",
+  "home.animePlaying": "Hoje: em andamento",
   "home.howTitle": "Como funciona",
   // Espaço que não quebra (U+00A0) entre o número e o "s".
   "home.howClip":
@@ -187,6 +195,8 @@ export const ptBR = {
   "stats.none": "sem dados",
 
   "share.header": "{title} · {mode} nº {number}",
+  // O Anime diz a categoria e o diário: "AteMusic Anime · Música · Fácil nº 1".
+  "share.headerAnime": "{title} Anime · {mode} nº {number}",
   "share.button": "Compartilhar resultado",
   "share.copied": "Resultado copiado. É só colar onde quiser.",
   // Na tela, o botão diz isto por 2 s depois de copiar; a frase de cima vai para o aria-live.
@@ -270,6 +280,53 @@ export const ptBR = {
   "superfan.giveUp": "Desistir da música",
   "artists.empty":
     "Não há rodada para sortear agora. As músicas dos diários de hoje voltam quando eles terminarem.",
+
+  // O Anime (M14): a escolha do modo (P233), a da dificuldade (P232) e os 6 diários, com as regras
+  // do Desafio (ME107).
+  "anime.title": "Anime",
+  "anime.hint": "Temas de anime: acerte a música ou o anime.",
+  "anime.mode.musica": "Acertar a música",
+  "anime.mode.titulo": "Acertar o anime",
+  "anime.modeShort.musica": "Digite o nome da música",
+  "anime.modeShort.titulo": "Digite o nome do anime",
+  "anime.modeHint.musica":
+    "Ouça o trecho de um tema de anime e digite o nome exato da música, em até {total} tentativas. Três dificuldades, de {rounds} rodadas cada uma.",
+  "anime.modeHint.titulo":
+    "Ouça o trecho de um tema de anime e digite o nome do anime: vale qualquer temporada. Três dificuldades, de {rounds} rodadas cada uma.",
+  // O estado dos 3 diários de um modo, numa linha do cartão dele.
+  "anime.modeNew": "{total} diários novos",
+  "anime.modePlaying": "em andamento",
+  "anime.modeDone": "{done} de {total} terminados",
+  // O modo que ainda não tem tela (o "acertar o anime", no PR D3).
+  "anime.soon": "Em breve",
+  "anime.soonNotice": "{mode}: em breve.",
+  "anime.levelsHint": "Escolha a dificuldade.",
+  "anime.level.facil": "Fácil",
+  "anime.level.medio": "Médio",
+  "anime.level.dificil": "Difícil",
+  // A dica curta de cada dificuldade, na tela; a inteira, abaixo, com a regra do modo, fica para o
+  // leitor de tela (P210). O tipo do tema por dificuldade é a P252.
+  "anime.levelShort.facil": "Os temas mais famosos",
+  "anime.levelShort.medio": "Aberturas e encerramentos",
+  "anime.levelShort.dificil": "Também as insert songs",
+  "anime.levelHint.facil": "Quase só aberturas, as mais conhecidas.",
+  "anime.levelHint.medio": "A maioria aberturas, e alguns encerramentos.",
+  "anime.levelHint.dificil":
+    "Aberturas, encerramentos e insert songs, também de animes pouco conhecidos.",
+  "anime.rule.musica":
+    "Digite o nome exato da música, em até {total} tentativas. {rounds} rodadas por dia.",
+  "anime.rule.titulo": "Digite o nome do anime: vale qualquer temporada. {rounds} rodadas por dia.",
+  "anime.unavailable": "Não há diário do Anime hoje.",
+  "anime.retry": "Não foi possível carregar o Anime. Confira a conexão.",
+  "anime.back": "Voltar ao Anime",
+  // O nome de cada diário, no cabeçalho, no resumo e no compartilhar. Curto, para o cabeçalho da
+  // rodada caber numa linha (a aba Anime da nav já diz a categoria).
+  "daily.anime-musica-facil": "Música · Fácil",
+  "daily.anime-musica-medio": "Música · Médio",
+  "daily.anime-musica-dificil": "Música · Difícil",
+  "daily.anime-titulo-facil": "Título · Fácil",
+  "daily.anime-titulo-medio": "Título · Médio",
+  "daily.anime-titulo-dificil": "Título · Difícil",
 } as const;
 
 export type MessageKey = keyof typeof ptBR;

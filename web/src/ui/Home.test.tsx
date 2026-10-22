@@ -66,10 +66,11 @@ describe("Home", () => {
     expect(screen.queryAllByRole("img")).toHaveLength(0);
   });
 
-  it("um cartão-link por categoria (P226), numa coluna: os Hits e os Artistas", () => {
+  it("um cartão-link por categoria (P226), numa coluna, na ordem da nav: os Hits, o Anime e os Artistas", () => {
     setup();
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
       "#hits",
+      "#anime",
       "#artistas",
     ]);
     expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
@@ -169,6 +170,43 @@ describe("Home", () => {
     for (const route of Object.values(ROUTES)) {
       expect(document.querySelector(route)).toBeNull();
     }
+  });
+
+  it("o cartão do Anime (M14): uma linha só, lida do save, e nenhuma sem jogo hoje (P226)", () => {
+    const anime = () => card(/^Anime/);
+    setup();
+    expect(anime().getAttribute("href")).toBe("#anime");
+    expect(lines(anime())).toEqual([]);
+    expect(anime().textContent).toContain("Os diários de anime");
+    expect(description(anime())).toContain("temas de anime");
+    cleanup();
+    // Em andamento, sem nenhum terminado.
+    setup({
+      ...emptySave(),
+      inProgress: { [puzzleId(DATE, "anime-musica-medio")]: { events: [{ type: "SKIP" }] } },
+    });
+    expect(lines(anime())).toEqual(["Hoje: em andamento"]);
+    cleanup();
+    // Os terminados de hoje, dos 3 diários que já têm tela (o acertar a música, no PR D2).
+    setup({
+      ...emptySave(),
+      history: {
+        [puzzleId(DATE, "anime-musica-facil")]: finished,
+        [puzzleId(DATE, "anime-musica-dificil")]: finished,
+        [puzzleId("2026-10-16", "anime-musica-medio")]: finished,
+      },
+      inProgress: { [puzzleId(DATE, "anime-musica-medio")]: { events: [{ type: "SKIP" }] } },
+    });
+    expect(lines(anime())).toEqual(["Hoje: 2 de 3 terminados"]);
+  });
+
+  it("o cartão do Anime não é o oliva: a Início não sabe se há diário do Anime hoje", () => {
+    setup({
+      ...emptySave(),
+      history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
+    });
+    expect(document.querySelector(".home-card.next")).toBeNull();
+    expect(card(/^Anime/).classList.contains("off")).toBe(false);
   });
 
   it("o placar da sessão do modo por artista, com o artista, só depois da 1ª rodada (M13)", () => {
