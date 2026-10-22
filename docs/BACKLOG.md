@@ -86,7 +86,6 @@ Atualizado em 22/10/2026.
 
 - **ME107 (novo).** Repensar a pontuação de todos os modos, depois do Anime. Até lá, o Anime usa as regras do Desafio.
 - **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
-- **ME104.** O Histórico: os 14 dias antes de hoje e jogar os não jogados, fora das estatísticas. **Em andamento no M15** (PRs 1 e 2 de 3; o 3 é o Anime no Histórico).
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME105 (novo).** Medalhas, calculadas do histórico, e a sequência na Início. Depois do Anime.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
