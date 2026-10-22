@@ -36,6 +36,11 @@ export type RoundRecord = {
 export type FinishedGame = {
   readonly number: number;
   readonly rounds: readonly RoundRecord[];
+  /**
+   * Terminado depois do dia dele (v7, P267 e P268), pelo Histórico: não conta em estatística
+   * nenhuma (P263). Sem o campo, foi jogado no dia. Só existe com `true`.
+   */
+  readonly late?: true;
 };
 
 /** O andamento: só os eventos aceitos (a retomada repete todos no reducer). */
@@ -46,17 +51,17 @@ export type InProgress = {
 /**
  * O formato salvo. v3 (P100): os dois modos fixos começam do zero, e sai a preferência do modo
  * de resposta, que não existe mais. v4 (P149): a ajuda, no evento HELP e no `help` da rodada.
- * v5 (P163): o pulo depois da ajuda. v6 (P250): os ids dos diários do Anime
- * (storage/migrations.ts).
+ * v5 (P163): o pulo depois da ajuda. v6 (P250): os ids dos diários do Anime. v7 (P267): a marca
+ * do jogado depois, `late` (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 6;
+  readonly schemaVersion: 7;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
 };
 
 export function emptySave(): Save {
-  return { schemaVersion: 6, history: {}, inProgress: {} };
+  return { schemaVersion: 7, history: {}, inProgress: {} };
 }
 
 export function puzzleId(date: string, key: DailyKey): PuzzleId {
@@ -73,11 +78,26 @@ export function pendingDayTracks(save: Save, dailies: readonly Daily[]): string[
     .flatMap((daily) => daily.rounds.map((round) => round.answer));
 }
 
-/** Converte um jogo terminado no resumo que vai para o histórico. */
-export function toFinishedGame(state: GameState, number: number): FinishedGame {
+/**
+ * O diário de `date`, jogado com o "hoje" do jogo em `today` (o `gameDate`, fixado na carga),
+ * termina depois do dia dele (P268): o resumo leva a marca `late` e fica fora das estatísticas. A
+ * aba aberta antes da meia-noite tem o `today` da carga, então quem termina depois da virada
+ * ainda joga no dia (Apêndice F, "Virada do dia").
+ */
+export function isLate(date: string, today: string): boolean {
+  return date < today;
+}
+
+/**
+ * Converte um jogo terminado no resumo que vai para o histórico. `late`: terminou depois do dia
+ * dele (`isLate`, P268), e o resumo leva a marca. Sem valor padrão de propósito: toda chamada diz
+ * se é do dia ou não, e uma esquecida não compila.
+ */
+export function toFinishedGame(state: GameState, number: number, late: boolean): FinishedGame {
   if (!isFinished(state)) throw new Error("toFinishedGame recebeu um jogo em andamento");
   return {
     number,
+    ...(late ? { late: true } : {}),
     rounds: state.rounds.map((r) => ({
       status: r.status as RoundRecord["status"],
       stage: r.stage,
@@ -121,9 +141,16 @@ export type Session =
 
 /**
  * Como o diário começa: já terminado (P39: mostra o resultado), retomado pelos eventos salvos,
- * ou novo.
+ * ou novo. `today`: o "hoje" do jogo; se a repetição terminar um diário de antes dele, o resumo
+ * leva a marca do jogado depois (`isLate`, P268). O registro já gravado volta como está: vale o
+ * 1º término (duas abas).
  */
-export function startSession(save: Save, daily: Daily, index: CatalogIndex): Session {
+export function startSession(
+  save: Save,
+  daily: Daily,
+  index: CatalogIndex,
+  today: string,
+): Session {
   const done = save.history[daily.id];
   if (done) return { kind: "finished", game: done };
 
@@ -139,7 +166,10 @@ export function startSession(save: Save, daily: Daily, index: CatalogIndex): Ses
   }
   // Salvou o último evento mas não chegou a gravar o histórico: o jogo já está terminado.
   if (isFinished(state) && events.length > 0) {
-    return { kind: "finished", game: toFinishedGame(state, daily.number) };
+    return {
+      kind: "finished",
+      game: toFinishedGame(state, daily.number, isLate(daily.date, today)),
+    };
   }
   return { kind: "playing", state, events, stale: events.length < (saved?.events.length ?? 0) };
 }
@@ -168,12 +198,16 @@ export function withFinished(save: Save, id: PuzzleId, game: FinishedGame): Save
   };
 }
 
-/** Andamentos de outros dias não podem mais ser retomados: limpa ao abrir o jogo. */
+/**
+ * Limpa ao abrir o jogo os andamentos que não podem mais ser retomados: os que não estão em
+ * `keep` (hoje e os dias do Histórico, P269).
+ */
 export function pruneProgress(save: Save, keep: readonly PuzzleId[]): Save {
+  const kept = new Set(keep);
   const ids = Object.keys(save.inProgress);
-  if (ids.every((id) => keep.includes(id))) return save;
+  if (ids.every((id) => kept.has(id))) return save;
   const inProgress = Object.fromEntries(
-    Object.entries(save.inProgress).filter(([id]) => keep.includes(id)),
+    Object.entries(save.inProgress).filter(([id]) => kept.has(id)),
   );
   return { ...save, inProgress };
 }

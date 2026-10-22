@@ -43,6 +43,25 @@ export function addDays(day: string, n: number): string {
   return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
 }
 
+/** O dia da semana, de 0 (domingo) a 6 (sábado), como o `getUTCDay`. */
+export type Weekday = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+/**
+ * O dia da semana de uma data em texto, pela conta dos dias desde 01/01/1970, uma quinta: sem
+ * getter de data, nenhum fuso entra (um `getDay` no lugar daria o dia anterior em Brasília).
+ */
+export function weekdayOf(day: string): Weekday {
+  const [y, m, d] = parse(day);
+  const days = Date.UTC(y, m - 1, d) / 86_400_000;
+  return ((((days + 4) % 7) + 7) % 7) as Weekday;
+}
+
+/** O dia do mês e o mês (de 1 a 12) de uma data em texto: a tela monta "21/10" com eles. */
+export function dayParts(day: string): { readonly day: number; readonly month: number } {
+  const [, m, d] = parse(day);
+  return { day: d, month: m };
+}
+
 /** AAAA-MM-DD que existe no calendário (recusa 2026-02-30). */
 export function isValidDate(text: string): boolean {
   return ISO_DATE.test(text) && addDays(text, 0) === text;

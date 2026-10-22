@@ -205,6 +205,7 @@ function Ready({ screen, data, resolver, date, save, ...props }: ReadyProps) {
           onSaved={props.onSaved}
           scheduleDates={Object.keys(data.schedule.days)}
           shareUrl={props.shareUrl}
+          today={date}
         />
       );
     }
