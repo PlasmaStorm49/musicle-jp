@@ -241,9 +241,11 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P288 | O aviso só aparece numa tela calma (a Início, os Hits, as escolhas do Anime, o Histórico, as Medalhas, o Sobre, a lista e o submodo dos Artistas e o fim do Superfan), nunca numa rodada nem numa revelação, e o pequeno nunca cobre o selo da Apple. Duas ou mais medalhas novas de uma vez dão um aviso só, com a lista, do tamanho da maior. O PR 2 do M16 entra no ar invisível, com a lista de exemplo só em desenvolvimento (as recomendações da revisão, aprovadas com o plano em 22/10) |
 | P290 | No Superfan, desistir de uma música passa a ser um erro: conta no limite de 3 e custa os −5 do erro (revisão da P186, que cobrava −2 sem contar). O fim que a partida força (o 3º erro, encerrar) continua sem custo. Sem isso, desistir de todas as músicas daria o ouro com 0 acertos. A pontuação de todos os modos fica para ser repensada com urgência (a ME107) (o usuário, 22/10/2026) |
 | P291 | A suprema recusa a partida com uma música anulada (falha de áudio): todas precisam ter tocado de verdade (`rounds` igual ao número de músicas que saíram). O ouro aceita a anulada (o usuário, 22/10/2026) |
-| P294 | Cada medalha do Superfan tem a sua imagem: uma para a prata, uma para o ouro e uma para a suprema, escolhidas à mão para cada artista (revisão da P284, que dava a mesma à prata e ao ouro). Sem escolha, o ouro usa a da prata, e a suprema, a do ouro (o usuário, 22/10/2026) |
+| P294 | Cada medalha do Superfan tem a sua imagem: uma para a prata, uma para o ouro e uma para a suprema, escolhidas à mão para cada artista (revisão da P284, que dava a mesma à prata e ao ouro). Sem escolha, o ouro usa a da prata, e a suprema, a do ouro (o usuário, 22/10/2026; revista pela P296: uma imagem só) |
 | P292 | O desenho provisório das medalhas (o usuário, 22/10/2026; ainda não fechado, P283): a prata na roseta com caudas (D2), o ouro na S1, na cor gelo (o azul dela, preferido ao dourado), sem o diamante e sem as bolinhas (os louros e o anel pontilhado), um pouco maior que a prata, e a suprema no buquê de flores (F2) equilibrado, com a capa maior e a faixa com o nome na vertical. As cores das flores da suprema vão ser escolhidas à mão para cada artista, junto com a imagem (P284), aqui no chat, sem automatizar |
 | P293 | O PR 2 do M16 se divide em dois: o 2a (a rota, a nav, a tela e o desenho) e o 2b (os avisos). Os dois entram no ar invisíveis: no site, sem a lista, nem a aba nem a tela, e a nav continua com o corte de 480 px; o de 720 (P287) só vale com as Medalhas ligadas (a classe `six` da nav). Em desenvolvimento, a lista de exemplo com `?medalhas=demo` (o plano do M16, 22/10) |
+| P295 | O nome de cada medalha do Superfan é próprio do artista (o usuário, 22/10/2026, sobre as sugestões de um subagente de pesquisa; a lista, no Apêndice O, entra no PR 3). Na prata e no ouro, o nome em japonês leva um ponto e o romaji ao lado, como o nome do artista (`歌い手 · Utaite`); na suprema, só o original |
+| P296 | As 3 medalhas do Superfan de um artista têm a mesma imagem (revisão da P294, que dava uma a cada). A capa vai até o aro, sem a faixa clara, e cada uma tem o seu enquadramento, à mão (o zoom e o centro), para não sobrar texto cortado nem moldura. As flores da suprema seguem o buquê de hoje (o F2, sem a versão 2) e ganham as cores da capa de cada artista; o tema do artista também vale, com aviso. A escolha da capa e das cores fica no Apêndice O (o usuário, 22/10/2026) |
 | P289 | O save v8 guarda o modo por artista, só o mínimo: os acertos de cada artista e se ele já terminou e terminou perfeita uma partida do Superfan (revisão da P116). Guarda também as medalhas já avisadas e a estante (ME118), vazia até ela (o plano do M16, 22/10) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
@@ -1390,12 +1392,80 @@ Visível só em desenvolvimento, com `?medalhas=demo` (P293): no site, nada muda
   - os e2e (`medals.spec`): sem a lista, nada; com ela, a tela e um acerto na Livre que aparece no progresso da prata;
   - o `layout.spec`: as Medalhas em 320 px sem rolar para o lado, com os 3 links do "Mais", e as 6 abas numa linha a partir de 720 px.
 
+### Os avisos (PR 2b)
+
+Também só em desenvolvimento, com `?medalhas=demo`. O `?medalhas=silencio` liga a tela e cala os avisos (os e2e que não testam os avisos).
+
+- **Reivindicar antes de mostrar** (o `claimMedals`, em `core/medals.ts`, e o gancho `useMedalNotices`, em `ui/medalNotices.ts`): a mudança do `updateSave` relê o save, calcula as ganhas, tira as já avisadas e grava a união no `seenMedals`. A aba mostra só o que ela mesma marcou, e a outra aba, que relê o save, encontra tudo avisado. Com o save de uma versão futura ou sem acesso, nada é marcado e nada aparece. Com a cota cheia, a marca fica na memória da sessão (o `sessionStore`), e o aviso aparece.
+- **Quando** (P288):
+  - numa tela calma (o `noticeTab`: a Início, os Hits, as escolhas do Anime, o Histórico, as Medalhas e o Sobre; nos Artistas, fora de uma partida e no fim do Superfan), ao abrir e a cada troca de tela;
+  - no "Ver resultado" da última rodada de um diário (o `onResult` do `Game`, também nos do Anime). O fim do dia já foi gravado na revelação, então a reivindicação o encontra.
+
+  Nunca numa rodada nem numa revelação: quem abre direto num diário vê o aviso no resultado. Reabrir um dia terminado não avisa. O efeito do App vem depois do `useArtistStore`, que grava o fim do Superfan antes da reivindicação do ouro. O `Game` chama o `onResult` num efeito, depois do resumo na tela, e não no clique: o efeito que grava o fim do dia roda antes.
+- **Trocar de tela fecha o aviso**, que já foi visto: o pequeno não fica por cima do selo da Apple de uma rodada. A tela nova, se for calma, reivindica de novo.
+- **O tamanho** (P279, P281), decidido na reivindicação, e não pela tela de agora (o pequeno não vira o grande no caminho): o grande quando uma das medalhas é grande (o ouro e a suprema); no 1º aviso de quem já jogava (nada avisado antes e duas ou mais de uma vez: "Você já tem N medalhas"); e nos Artistas e nas Medalhas, onde o pequeno cobriria o selo da Apple. Duas levas seguidas viram um aviso só, do tamanho da maior.
+- **O save que não grava** (a versão futura, sem armazenamento) cala os avisos: a sessão grava numa memória, e a marca de avisada se perderia.
+- **O pequeno** (`MedalToast`): fora do `<main>`, no canto de baixo à direita, com a safe-area, sem receber toque (`pointer-events: none`) e decorativo (`aria-hidden`). O texto vai para a região aria-live do App. Ele some em 5 s, por `setTimeout` (regra 9); a leva que chega com ele na tela recomeça o tempo (a `key` pelos ids). Entra com movimento só para quem não pediu menos movimento. O `line-break: strict` não deixa o "ー" começar uma linha.
+- **O grande** (`MedalDialog`): o `<dialog>` do Treino generalizado. Ele mostra o título, as medalhas (menores com 4, para caberem numa linha em 320 px) e os nomes. O foco vai ao "Ok", que usa o `singleClick`: o toque duplo no "Ver resultado" não o fecha (regra 23). O Esc, o "Ok" e o fechamento do próprio navegador (o evento `cancel`, o voltar do Android) fecham pelo estado do App. Ao fechar, o foco volta ao elemento de antes, ou ao título da tela, se ele saiu da página. O lugar do "Exportar o save" (ME103) é a prop `actions`.
+- **O nome no aviso:** a geral, pelo i18n; a do Superfan, "{nível} de {artista}", com a capa. O aviso do Superfan espera a lista dos artistas (ou a falha dela): sem ela, sairia só com o nível e mudaria na chegada, e o leitor de tela ouviria os dois textos.
+- **Os testes:**
+  - o `medals.test`: o `noticeTab`, o `claimMedals` (a 2ª reivindicação devolve o mesmo save, o 1º aviso e o já avisado que saiu da lista) e o `claimTier`;
+  - o `MedalNotice.test`: o tempo do pequeno, o foco, o Esc e o `detail` 2 do grande, o lugar das ações, a volta do foco, os textos e o gancho (duas abas, calado, sem a agenda, o save futuro e a cota cheia);
+  - os e2e (`medals.spec`): o 1º aviso, que não volta ao recarregar; o aviso que espera o "Ver resultado", nos Hits e no Anime; reabrir um dia terminado, que não avisa; o jogado depois, sem medalha; o toque duplo; as duas abas, abertas antes da reivindicação; e o ouro no fim do Superfan;
+  - o `layout.spec`: o pequeno inteiro na tela em 320 e em 375 px, e o pop-up com 4 medalhas numa linha em 320 px. Os dois testes da nav com as Medalhas ficam calados.
+
+  O `seedHistory` dos e2e passou a gravar uma vez por aba: o recarregar lê o que o jogo gravou.
+
+### As imagens e as flores (P296, em escolha)
+
+A escolha do usuário em 22/10/2026, sobre a página de rascunho `web/medalhas-cores.html` (fora do Git), que guarda as cores e o enquadramento de cada um. As cores saem da capa (lidas num canvas, sem gravar a imagem). Entra no PR 4.
+
+| Artista | A capa | As flores |
+|---|---|---|
+| YOASOBI | THE BOOK 2 | o verde-menta e o preto |
+| LiSA | LANDER | o vermelho, o coral e o pêssego; o azul-marinho no anel, na faixa e no laço |
+| Eve | レーゾンデートル | o cinza-azulado e o vinho no laço |
+| Ado | 狂言 | pretas, com o azul (pedido do usuário: as cores dela são o preto e o azul) |
+| Aimer | 花の唄 / I beg you / 春はゆく | o lilás e o preto |
+| 米津玄師 | YANKEE | o vermelho e o bege; o marrom no anel e no laço |
+| UNLIMITS | アメジスト (escolha da IA: a capa é roxa, e a prata se chama Amethyst) | o violeta e o orquídea, longe do lilás da Lilas |
+| 松田聖子 | Strawberry Time | o rosa e o malva |
+| 新しい学校のリーダーズ | AG! Calling | o azul-celeste e o azul-marinho; o laço vermelho do uniforme (tema do grupo) |
+| 幾田りら | Sketch | o violeta, o índigo e o malva; o lilás do nome (tema da artista) |
+| 볼빨간사춘기 | Red Diary Page.1 (escolha da IA: o vermelho dos títulos Red; o círculo só com a foto) | os rosas das bochechas coradas e o dourado (tema do grupo) |
+| System Of A Down | System Of A Down (1998) | o preto, o dourado e o bronze |
+
+### Os nomes (P295, em escolha)
+
+O usuário escolheu sobre as sugestões de um subagente de pesquisa (as fontes ficam na conversa de 22/10/2026). A lista entra no PR 3.
+
+| Artista | Prata | Ouro | Suprema |
+|---|---|---|---|
+| YOASOBI | Nightwalker | YOA'S | 小説を音楽にする |
+| LiSA | LiVE is Smile Always | LiSAッ子 | 今日もいい日だっ |
+| Eve | 廻廻奇譚 · Kaikai Kitan | Round Robin | em aberto |
+| Ado | em aberto | 歌い手 · Utaite | 青い薔薇 |
+| Aimer | Sleepless Nights | Blanc et Noir | エメ |
+| 米津玄師 | Stray Sheep | ハチ · Hachi | かいじゅうずかん |
+| UNLIMITS | Amethyst | 七色の記憶 · Nanairo no Kioku | 夢幻の宴 |
+| 松田聖子 | Pineapple | 24 | 永遠のアイドル |
+| 新しい学校のリーダーズ | オトナブルー · Otona Blue | 青春部 · Seishun-bu | em aberto |
+| 幾田りら | Lilac | ぷらそにか · Plusonica | 吉祥寺 |
+| 볼빨간사춘기 | Blushing Youth | Red Planet | 사춘기 |
+| System Of A Down | Chop Suey! | Victims of a Down | Soil |
+
+- **Em aberto:** a suprema do Eve, a prata da Ado e a suprema do ATARASHII GAKKO!.
+- **A confirmar:** a grafia do romaji ao lado (nenhum dos escolhidos precisa de mácron); o romaji de `LiSAッ子`; e o latino do grupo (`Plusonica`) ou o romaji de livro (`Purasonika`).
+- **O risco:** os nomes de fã-clube oficial (YOA'S, Blanc et Noir, 青春部) podem parecer parceria com o artista e podem ser marca registrada. O registro não foi conferido.
+
 ### Os riscos
 
 - **Uma aba com o código v7 aberta** vê a v8 como futura e não grava até recarregar, como nas versões anteriores.
 - **A exclusão da P141:** a partida do Superfan tira as respostas dos diários de hoje que ainda faltam, e "terminar" é tocar todas as que sobraram naquele dia.
 - **O catálogo do artista cresce** (`fetch --artists`): a medalha ganha nunca some, mas a partida seguinte tem mais músicas.
 - **Um artista que sai da lista:** o registro fica no save, e a tela só mostra os da lista; se ele voltar, as medalhas voltam.
+- **O aviso pequeno cobre o pé da tela por 5 s** (na Início, o "Histórico" e o "Tema"). Ele não recebe toque, então o clique passa para o que está embaixo.
+- **O 1º aviso de quem começa agora:** duas medalhas de uma vez, sem nenhuma avisada antes (o Superfan perfeito na 1ª partida), também dão o "Você já tem 2 medalhas". O texto continua verdadeiro, mas é o do aviso retroativo.
 
 ## Origem
 
