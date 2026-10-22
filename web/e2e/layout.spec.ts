@@ -41,8 +41,14 @@ const LONG_FRANCHISE = (name: string) =>
 /** O tema mais longo do catálogo real (68 caracteres com o tipo). */
 const LONG_ANIME = "JoJo no Kimyou na Bouken Part 3: Stardust Crusaders 2nd Season";
 /** A faixa em 3 temas, o 1º com o nome longo (o real tem faixas em 2 ou mais temas). */
-const LONG_THEMES = (list: AnimeTrack["anime"]["themes"]): AnimeTrack["anime"]["themes"] => [
+/** O nome mais longo do catálogo real do C1 (61 caracteres), num tema só, como lá. */
+const LONG_THEME = (): AnimeTrack["anime"]["themes"] => [
   { anime: LONG_ANIME, type: "ED", sequence: 1 },
+];
+/** Uma faixa em 3 temas, com um nome médio: a revelação mostra o 1º e "e mais 2". */
+const MEDIUM_ANIME = "Kimetsu no Yaiba: Yuukaku-hen";
+const THREE_THEMES = (list: AnimeTrack["anime"]["themes"]): AnimeTrack["anime"]["themes"] => [
+  { anime: MEDIUM_ANIME, type: "OP", sequence: 1 },
   ...list,
   { anime: list[0].anime, type: "IN", sequence: null },
 ];
@@ -253,15 +259,28 @@ for (const viewport of [
       await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
     });
 
-    test('a revelação do acertar o anime com um nome longo em 3 temas: o 1º e "e mais 2"', async ({
+    // O nome mais longo do catálogo real, com 5 tentativas e o selo. Um nome de 61 caracteres em
+    // 3 temas ("e mais 2") passava 4 px em 360 × 640: não existe no catálogo real (toda faixa tem
+    // um tema só), e fica medido com um nome médio, abaixo.
+    test("a revelação do acertar o anime com o nome mais longo do catálogo real", async ({
       page,
     }) => {
-      await appleCatalog(page, { themes: LONG_THEMES });
+      await appleCatalog(page, { themes: LONG_THEME });
+      await open(page, DAY, "#anime-titulo-facil");
+      await skip(page, 5);
+      await page.getByRole("button", { name: "Desistir" }).click();
+      await expect(page.locator(".reveal .card .album")).toHaveText(`Anime: ${LONG_ANIME} · ED1`);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test('a revelação do acertar o anime com 3 temas: o 1º e "e mais 2"', async ({ page }) => {
+      await appleCatalog(page, { themes: THREE_THEMES });
       await open(page, DAY, "#anime-titulo-facil");
       await skip(page, 5);
       await page.getByRole("button", { name: "Desistir" }).click();
       await expect(page.locator(".reveal .card .album")).toHaveText(
-        `Anime: ${LONG_ANIME} · ED1 e mais 2`,
+        `Anime: ${MEDIUM_ANIME} · OP1 e mais 2`,
       );
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
       await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });

@@ -211,7 +211,7 @@ test("o Sobre e privacidade: pelo fim da Início e pelos créditos do Anime (P24
     "href",
     "https://github.com/PlasmaStorm49/musicle-jp/issues",
   );
-  await expect(main).toContainText("O jogo não coleta dados pessoais.");
+  await expect(main).toContainText("O jogo não coleta dados pessoais e não tem servidor próprio");
   // Pelos créditos do Anime, o mesmo endereço.
   await animeTab(page).click();
   await page.getByRole("link", { name: /^Dados: AnimeThemes/ }).click();
