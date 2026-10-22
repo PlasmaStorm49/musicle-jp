@@ -42,11 +42,13 @@ def test_the_module_only_imports_the_standard_library():
 
 
 def test_it_runs_isolated_by_path_without_the_secret(tmp_path):
-    # Como na tarefa anime-mal: pelo caminho, com o -I. Sem a variável, sai com 0 e sem arquivo.
+    # Como na tarefa anime-mal: pelo caminho, com o -I e o -S. O -S tira o site-packages (onde o
+    # .venv tem o pacote instalado): o módulo roda, então só precisa da biblioteca padrão. Sem a
+    # variável, sai com 0 e sem arquivo.
     env = {k: v for k, v in os.environ.items() if k != "MAL_CLIENT_ID"}
     out = tmp_path / "ranks.json"
     done = subprocess.run(
-        [sys.executable, "-I", str(MODULE), "--out", str(out)],
+        [sys.executable, "-I", "-S", str(MODULE), "--out", str(out)],
         env=env,
         capture_output=True,
         text=True,
@@ -116,6 +118,69 @@ def test_the_client_id_only_goes_in_the_header(monkeypatch, tmp_path, capsys):
     assert text == '{"38000":1,"5114":2}\n'  # só id e posição, em ordem
     captured = capsys.readouterr()
     assert FAKE_ID not in captured.out + captured.err + text
+
+
+def test_a_redirect_never_carries_the_client_id(monkeypatch):
+    # O cabeçalho "não redirecionado": o pedido que o urllib monta para um 30x não o leva.
+    sent: list = []
+
+    def fake_urlopen(request, timeout):
+        sent.append(request)
+        return Response(b'{"data": []}')
+
+    monkeypatch.setattr(mal_ranking.urllib.request, "urlopen", fake_urlopen)
+    mal_ranking.mal_get(FAKE_ID)("https://api.myanimelist.net/v2/anime/ranking?offset=0")
+    (request,) = sent
+    assert request.unredirected_hdrs.get("X-mal-client-id") == FAKE_ID
+    assert "X-mal-client-id" not in request.headers
+    handler = urllib.request.HTTPRedirectHandler()
+    moved = handler.redirect_request(
+        request, None, 302, "Found", {}, "https://outro.example/ranking"
+    )
+    assert moved is not None
+    assert moved.get_header("X-mal-client-id") is None
+    assert FAKE_ID not in repr(moved.header_items())
+    assert moved.get_header("User-agent") == mal_ranking.USER_AGENT
+
+
+def test_the_robot_uses_a_short_timeout_per_request(monkeypatch, tmp_path):
+    timeouts: list[float] = []
+
+    def fake_urlopen(request, timeout):
+        timeouts.append(timeout)
+        return Response(b'{"data": []}')
+
+    monkeypatch.setattr(mal_ranking.urllib.request, "urlopen", fake_urlopen)
+    mal_ranking.main(
+        ["--out", str(tmp_path / "r.json")],
+        environ={"MAL_CLIENT_ID": FAKE_ID},
+        sleep=lambda _s: None,
+    )
+    assert timeouts == [mal_ranking.ROBOT_TIMEOUT_SEC]
+
+
+def test_the_deadline_stops_the_ranking_and_writes_nothing(tmp_path, capsys):
+    # Um MAL lento: o relógio passa do prazo depois da 1ª página, e nada é gravado.
+    ticks = iter([0.0, 0.0, mal_ranking.RANKING_DEADLINE_SEC + 1])
+    urls: list[str] = []
+
+    def get(url: str) -> bytes:
+        urls.append(url)
+        page = [{"node": {"id": 1000 + i}, "ranking": {"rank": i + 1}} for i in range(500)]
+        return json.dumps({"data": page}).encode()
+
+    out = tmp_path / "ranks.json"
+    code = mal_ranking.main(
+        ["--out", str(out)],
+        environ={"MAL_CLIENT_ID": FAKE_ID},
+        get=get,
+        sleep=lambda _s: None,
+        clock=lambda: next(ticks),
+    )
+    assert code == 1
+    assert len(urls) == 1
+    assert "prazo do ranking venceu" in capsys.readouterr().err
+    assert not out.exists()
 
 
 @pytest.mark.parametrize(

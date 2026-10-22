@@ -15,9 +15,10 @@ Serve em dois lugares:
   saída tem só `{id do MAL: posição}`; a tarefa que gera o lê com o `fetch --anime --ranks-file`,
   sem o segredo.
 
-O Client ID vai só no cabeçalho `X-MAL-CLIENT-ID`: nunca na URL, na saída, no arquivo ou numa
-mensagem de erro (as mensagens do `main` ainda passam pelo `_hide`, por garantia). Um teste
-confere tudo isso.
+O Client ID vai só no cabeçalho `X-MAL-CLIENT-ID`, que um redirecionamento não repassa: nunca na
+URL, na saída, no arquivo ou numa mensagem de erro (as mensagens do `main` ainda passam pelo
+`_hide`, por garantia). Um teste confere tudo isso. No robô, o ranking inteiro tem um prazo
+(`RANKING_DEADLINE_SEC`), para a tarefa nunca passar dos 5 min dela.
 """
 
 from __future__ import annotations
@@ -44,6 +45,10 @@ TRIES = 3
 # O mesmo do fetch.py (um teste confere): este módulo não pode importá-lo.
 USER_AGENT = "musicle-jp-pipeline (+https://github.com/PlasmaStorm49/musicle-jp)"
 TIMEOUT_SEC = 30
+# Na tarefa anime-mal (main), que tem 5 min no total: um prazo para o ranking inteiro e um
+# timeout menor por pedido. O pior caso (o prazo, um pedido no fim e o checkout antes) cabe nos 5.
+RANKING_DEADLINE_SEC = 180
+ROBOT_TIMEOUT_SEC = 20
 MAX_BYTES = 5 * 1024 * 1024
 # O arquivo lido pelo --ranks-file: mais que isso não é o ranking que este módulo grava.
 MAX_RANKS = 20_000
@@ -57,15 +62,15 @@ class MalError(RuntimeError):
     """O ranking não veio, ou o arquivo dele não tem a forma esperada."""
 
 
-def mal_get(client_id: str) -> Transport:
+def mal_get(client_id: str, timeout: float = TIMEOUT_SEC) -> Transport:
     """GET no MAL com o Client ID só no cabeçalho (P256): a URL, que vai para as mensagens de
-    erro, nunca o tem."""
+    erro, nunca o tem. O cabeçalho é "não redirecionado": um 30x para outro endereço nunca
+    leva o Client ID junto."""
 
     def get(url: str) -> bytes:
-        request = urllib.request.Request(
-            url, headers={"User-Agent": USER_AGENT, "X-MAL-CLIENT-ID": client_id}
-        )
-        with urllib.request.urlopen(request, timeout=TIMEOUT_SEC) as response:
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        request.add_unredirected_header("X-MAL-CLIENT-ID", client_id)
+        with urllib.request.urlopen(request, timeout=timeout) as response:
             body = response.read(MAX_BYTES + 1)
         if len(body) > MAX_BYTES:
             raise MalError(f"resposta maior que {MAX_BYTES} bytes: {url}")
@@ -74,10 +79,22 @@ def mal_get(client_id: str) -> Transport:
     return get
 
 
-def _page(url: str, get: Transport, sleep: Callable[[float], None]) -> dict:
-    """Uma página do ranking, com as repetições do 429 e do 5xx (como o `get_any` do fetch)."""
+def _never() -> bool:
+    return False
+
+
+def _page(
+    url: str,
+    get: Transport,
+    sleep: Callable[[float], None],
+    expired: Callable[[], bool] = _never,
+) -> dict:
+    """Uma página do ranking, com as repetições do 429 e do 5xx (como o `get_any` do fetch).
+    Com o prazo vencido, para antes do pedido seguinte."""
     last = ""
     for attempt in range(TRIES):
+        if expired():
+            raise MalError(f"o prazo do ranking venceu antes de {url}")
         try:
             data = json.loads(get(url).decode("utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError) as exc:
@@ -104,10 +121,14 @@ def _page(url: str, get: Transport, sleep: Callable[[float], None]) -> dict:
 
 
 def fetch_ranking(
-    get: Transport, sleep: Callable[[float], None], size: int = POOL_SIZE
+    get: Transport,
+    sleep: Callable[[float], None],
+    size: int = POOL_SIZE,
+    expired: Callable[[], bool] = _never,
 ) -> dict[int, int]:
     """O id do MAL → a posição no ranking de popularidade, dos `size` primeiros, em páginas de
-    500 e com 1 s entre os pedidos."""
+    500 e com 1 s entre os pedidos. `expired` diz se o prazo venceu (o pacote não lê o relógio:
+    quem chama o passa; o padrão é sem prazo)."""
     ranks: dict[int, int] = {}
     offset = 0
     while offset < size:
@@ -115,7 +136,7 @@ def fetch_ranking(
             sleep(PACE_SEC)
         limit = min(MAL_PAGE, size - offset)
         query = urlencode({"ranking_type": "bypopularity", "limit": limit, "offset": offset})
-        data = _page(f"{MAL_RANKING_URL}?{query}", get, sleep).get("data")
+        data = _page(f"{MAL_RANKING_URL}?{query}", get, sleep, expired).get("data")
         if not isinstance(data, list) or not data:
             break
         for item in data:
@@ -176,7 +197,9 @@ def main(
     environ: Mapping[str, str] = os.environ,
     get: Transport | None = None,
     sleep: Callable[[float], None] = time.sleep,
+    clock: Callable[[], float] = time.monotonic,
 ) -> int:
+    """A tarefa anime-mal: o ranking com o prazo total e o timeout curto por pedido."""
     for stream in (sys.stdout, sys.stderr):
         with contextlib.suppress(AttributeError, ValueError):
             stream.reconfigure(encoding="utf-8", errors="backslashreplace")
@@ -196,8 +219,14 @@ def main(
     if not client_id:
         print("sem MAL_CLIENT_ID: o ranking não foi baixado (a busca segue com as fontes abertas)")
         return 0
+    start = clock()
+
+    def expired() -> bool:
+        return clock() - start >= RANKING_DEADLINE_SEC
+
     try:
-        ranks = fetch_ranking(get or mal_get(client_id), sleep, args.size)
+        transport = get or mal_get(client_id, ROBOT_TIMEOUT_SEC)
+        ranks = fetch_ranking(transport, sleep, args.size, expired)
         if not ranks:
             raise MalError("o ranking veio vazio")
         write_ranks(args.out, ranks)
