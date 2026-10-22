@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import type { AudioEngine, EngineOptions, PlayLog } from "../audio/engine.ts";
 import { FakeAudioEngine } from "../audio/fake.ts";
 import { FallbackAudioEngine } from "../audio/fallback.ts";
@@ -8,7 +8,7 @@ import { APPLE_PROVIDER } from "../core/apple.ts";
 import { hitsDailies } from "../core/daily.ts";
 import { keptProgressIds } from "../core/history.ts";
 import { artistSummary, practiceSummary } from "../core/home.ts";
-import { DEMO_MEDALS, type Medal } from "../core/medals.ts";
+import { DEMO_MEDALS, type Medal, noticeTab } from "../core/medals.ts";
 import { emptySave, pruneProgress, type Save } from "../core/records.ts";
 import { isAnimeTab, ROUTES, type Route, routeFromHash, routeHref } from "../core/routes.ts";
 import {
@@ -50,7 +50,9 @@ import { Game } from "./Game.tsx";
 import { History } from "./History.tsx";
 import { Hits } from "./Hits.tsx";
 import { Home } from "./Home.tsx";
+import { MedalDialog, MedalToast } from "./MedalNotice.tsx";
 import { Medals } from "./Medals.tsx";
+import { noticeItems, noticeTitle, toastText, useMedalNotices } from "./medalNotices.ts";
 import { Nav } from "./Nav.tsx";
 import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
 import { singleClickLink } from "./singleClick.ts";
@@ -80,8 +82,9 @@ const FETCH: FetchLike = (url, init) => fetch(url, init);
 // As medalhas gerais (M16). No site, nenhuma ainda: a tela, a aba e os avisos ficam fora até o PR 3
 // ligar a lista. Em desenvolvimento, a de exemplo com ?medalhas=demo (ou =silencio). O literal
 // import.meta.env.DEV no ponto da escolha tira a lista de exemplo do build (regra 10).
+const MEDALS_MODE = import.meta.env.DEV ? medalsMode(window.location.search) : null;
 const GENERAL_MEDALS: readonly Medal[] | null =
-  import.meta.env.DEV && medalsMode(window.location.search) ? DEMO_MEDALS : null;
+  import.meta.env.DEV && MEDALS_MODE ? DEMO_MEDALS : null;
 
 type Storage = {
   /**
@@ -161,6 +164,52 @@ export function App() {
     resolveUrl,
     record: recordArtist,
   });
+  // Os avisos de medalha nova (M16, P288): numa tela calma (a abertura, a troca de tela, o fim de
+  // uma partida do Superfan) e no resultado de um diário (o `onResult`), nunca numa rodada. O evento
+  // `storage` (outra aba) só relê o save: quem avisa é a aba que reivindicou.
+  const hitsDates = useMemo(
+    () => (load.status === "ready" ? Object.keys(load.data.schedule.days) : null),
+    [load],
+  );
+  const medalNotices = useMedalNotices({
+    store: saves.store,
+    general: GENERAL_MEDALS,
+    // O save que não grava (versão futura, sem armazenamento) cala os avisos: a sessão grava numa
+    // memória (o `sessionStore`), e a marca de avisada se perderia.
+    silent: MEDALS_MODE === "silencio" || saves.notice !== null,
+    today: date,
+    hitsDates,
+  });
+  const { claim: claimMedals, notice, dismiss: dismissNotice } = medalNotices;
+  const onResult = useCallback(() => claimMedals(false), [claimMedals]);
+  const artistsCalm =
+    artists.play === null || (artists.play.kind === "superfan" && artists.play.run.end !== null);
+  const calm = noticeTab(route.tab) || (route.tab === "artists" && artistsCalm);
+  // Trocar de tela fecha o aviso, que já foi visto: o pequeno não fica por cima do selo da Apple de
+  // uma rodada (P288). A tela nova, se for calma, reivindica de novo; nos Artistas e nas Medalhas,
+  // com o selo no pé, o aviso é o grande. Depois do `useArtistStore`, de propósito: os efeitos de
+  // um componente rodam na ordem, e o dele grava o fim do Superfan antes que este reivindique o ouro.
+  const noticeRoute = useRef(route);
+  useEffect(() => {
+    if (noticeRoute.current !== route) {
+      noticeRoute.current = route;
+      dismissNotice();
+    }
+    if (calm) claimMedals(route.tab === "artists" || route.tab === "medals");
+  }, [calm, route, claimMedals, dismissNotice]);
+  // As do Superfan levam o nome e a capa do artista: o aviso pede a lista, se ela não veio, e
+  // espera por ela (ou pela falha). Sem isso, ele sairia só com o nível e mudaria quando ela
+  // chegasse, e o leitor de tela ouviria os dois textos.
+  const needsList = !!notice?.ids.some((id) => id.startsWith("superfan|"));
+  useEffect(() => {
+    if (needsList && artists.list.status === "idle") artists.loadList();
+  }, [needsList, artists.list.status, artists.loadList]);
+  const listSettled = artists.list.status !== "idle" && artists.list.status !== "loading";
+  const shown = notice && (!needsList || listSettled) ? notice : null;
+  const noticeList = artists.list.status === "ready" ? artists.list.list : null;
+  const items = shown ? noticeItems(shown.ids, noticeList, resolveUrl) : [];
+  const big = shown?.tier === "major";
+  const toastMessage = shown && !big ? toastText(items) : null;
   // O Anime (M14): o catálogo e a agenda, carregados só quando a pessoa abre a categoria.
   const anime = useAnimeStore({
     fetchFn: FETCH,
@@ -195,6 +244,11 @@ export function App() {
     (text: string) => setMessage((prev) => (prev === text ? `${text} ` : text)),
     [],
   );
+
+  // O aviso pequeno é aria-hidden: o texto dele vai para a região aria-live.
+  useEffect(() => {
+    if (toastMessage) announce(toastMessage);
+  }, [toastMessage, announce]);
 
   // `attempt` muda quando o jogador clica em "Tentar de novo" e dispara uma nova carga.
   useEffect(() => {
@@ -305,11 +359,27 @@ export function App() {
                 onPractice={setPractice}
                 artists={artists}
                 anime={anime}
+                onResult={onResult}
               />
             )}
           </>
         )}
       </main>
+      {/* Fora do <main>, como a nav: os avisos ficam por cima da tela, sem entrar no fluxo dela. */}
+      {/* O pequeno, pela leva (`key`): a que chega com ele na tela recomeça o tempo. */}
+      {shown &&
+        (big ? (
+          <MedalDialog title={noticeTitle(shown)} items={items} onClose={dismissNotice} />
+        ) : (
+          toastMessage && (
+            <MedalToast
+              key={shown.ids.join("\n")}
+              items={items}
+              text={toastMessage}
+              onDone={dismissNotice}
+            />
+          )
+        ))}
     </>
   );
 }
@@ -334,6 +404,8 @@ type ReadyProps = {
   readonly artists: ArtistStore;
   /** O Anime, também guardado no App. */
   readonly anime: AnimeStore;
+  /** O resultado de um diário acabou de aparecer: as medalhas novas (M16). */
+  readonly onResult: () => void;
 };
 
 /** A tela da aba ativa. Uma por vez: os ids dos títulos (question, result...) não se repetem. */
@@ -352,6 +424,7 @@ function Ready({
   onPractice,
   artists,
   anime,
+  onResult,
 }: ReadyProps) {
   const { tab } = route;
   // O dia de hoje: a Início, os Hits, o Treino e os Artistas são sempre de hoje (a exclusão do
@@ -382,6 +455,7 @@ function Ready({
         announce={announce}
         saveStore={saves.store}
         onSaved={onSaved}
+        onResult={onResult}
         shareUrl={BASE_URL}
       />
     );
@@ -416,6 +490,7 @@ function Ready({
           shareUrl={BASE_URL}
           today={date}
           todayDailies={todayDailies}
+          onResult={onResult}
         />
       );
     }

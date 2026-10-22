@@ -1878,6 +1878,79 @@ section.void,
   gap: var(--sp-2);
 }
 
+/* Os avisos de medalha nova (P279). O pequeno, no canto de baixo à direita, por cima da tela e sem
+   receber toque (ele some sozinho); dentro da tela também em 320 px, com a safe-area do iPhone. */
+.medal-toast {
+  position: fixed;
+  z-index: 20;
+  right: max(var(--sp-4), env(safe-area-inset-right));
+  bottom: max(var(--sp-4), env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-3);
+  /* Os 100% de um fixo são os da janela sem a barra de rolagem (o 100vw a conta). */
+  width: min(320px, calc(100% - 2 * var(--sp-4)));
+  padding: var(--sp-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-field);
+  background: var(--surface);
+  color: var(--text);
+  pointer-events: none;
+}
+
+/* O `strict` não deixa o "ー" nem o kana pequeno começarem uma linha ("夜風シアタ / ー"). */
+.medal-toast-text {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  font-weight: 700;
+  line-break: strict;
+}
+
+.medal-notice-arts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: var(--sp-1);
+}
+
+/* O pop-up grande: o desenho do pop-up do Treino, com as medalhas no centro. */
+dialog.medal-dialog {
+  width: min(360px, calc(100vw - 2 * var(--sp-4)));
+  padding: var(--sp-5);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-hero);
+  background: var(--bg);
+  color: var(--text);
+  text-align: center;
+}
+
+dialog.medal-dialog::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+
+dialog.medal-dialog h2 {
+  margin: 0 0 var(--sp-3);
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+}
+
+.medal-notice-names {
+  list-style: none;
+  margin: var(--sp-3) 0 0;
+  padding: 0;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  line-break: strict;
+}
+
+.medal-dialog-actions {
+  display: grid;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+}
+
 /* O Histórico (M15, P260): o calendário de 2 semanas, 7 colunas com o dia da semana no
    cabeçalho. Cada dia é um quadrado com o número e a marca dos Hits; o sem diário, só com o fio.
    Em 360 e 375 px, os dias têm 44 px de largura; em 320, uns 39 (P271). */
@@ -2410,6 +2483,10 @@ section.summary > h2 {
    e a .bar-fill (desenhada pelo rAF) nunca tem transição. */
 @media (prefers-reduced-motion: no-preference) {
   .screen {
+    animation: enter var(--dur-2) var(--ease);
+  }
+
+  .medal-toast {
     animation: enter var(--dur-2) var(--ease);
   }
 

@@ -2,7 +2,8 @@
 // guarda o que não sai de outro lugar (as já avisadas, P281, e o modo por artista, P289). Toda
 // conferência usa só o que cresce (o histórico, a agenda dos Hits, os registros dos artistas),
 // para que uma medalha ganha nunca suma. O id vai para o save e nunca muda.
-import { type ArtistRecord, NO_ARTIST, type Save } from "./records.ts";
+import { type ArtistRecord, NO_ARTIST, type Save, withSeenMedals } from "./records.ts";
+import type { Tab } from "./routes.ts";
 import { type DayGame, dayGames, streaks } from "./stats.ts";
 
 /** O tamanho do aviso (P279): o pequeno, que some sozinho, ou o pop-up grande. */
@@ -187,4 +188,62 @@ export function medalBoard(
     general: states,
     superfan,
   };
+}
+
+/**
+ * As telas calmas, onde um aviso de medalha pode aparecer sem atrapalhar (P288): a Início, os Hits,
+ * as escolhas do Anime (o modo e a dificuldade, e não os diários), o Histórico, as Medalhas e o
+ * Sobre. Os Artistas são calmos fora de uma partida (a lista, o submodo, o fim do Superfan), o
+ * que só a tela sabe: o App junta isso. Nunca numa rodada nem numa revelação.
+ */
+export function noticeTab(tab: Tab): boolean {
+  switch (tab) {
+    case "home":
+    case "hits":
+    case "anime":
+    case "anime-musica":
+    case "anime-titulo":
+    case "history":
+    case "medals":
+    case "about":
+      return true;
+    default:
+      return false;
+  }
+}
+
+/** O que a reivindicação devolve: o save com as novas como avisadas, e quais eram elas. */
+export type MedalClaim = {
+  readonly save: Save;
+  readonly claimed: readonly string[];
+  /** O 1º aviso de quem já jogava antes das medalhas (P281): um aviso só, com o total. */
+  readonly first: boolean;
+};
+
+/**
+ * Reivindica as ganhas que ainda não foram avisadas: devolve o save com elas no `seenMedals` e a
+ * lista delas, para a aba mostrar só o que ela mesma marcou (duas abas não avisam a mesma). Sem
+ * nenhuma nova, o mesmo save (o `updateSave` então não grava).
+ */
+export function claimMedals(
+  save: Save,
+  today: string,
+  hitsDates: readonly string[],
+  general: readonly Medal[],
+): MedalClaim {
+  const earned = earnedMedals(medalsOf(save, general), medalContext(save, today, hitsDates));
+  const claimed = unseenMedals(save, earned);
+  if (claimed.length === 0) return { save, claimed, first: false };
+  return {
+    save: withSeenMedals(save, claimed),
+    claimed,
+    first: save.seenMedals.length === 0 && claimed.length > 1,
+  };
+}
+
+/** O tamanho do aviso de uma leva: o grande se uma delas é grande, ou se é o 1º aviso (P281). */
+export function claimTier(claim: MedalClaim, medals: readonly Medal[]): MedalTier {
+  if (claim.first) return "major";
+  const byId = new Map(medals.map((medal) => [medal.id, medal]));
+  return claim.claimed.some((id) => byId.get(id)?.tier === "major") ? "major" : "simple";
 }
