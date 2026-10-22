@@ -1,7 +1,7 @@
-// Busca do autocompletar (o Desafio, digitado: só músicas). Compara a consulta, em algumas
-// variantes, com as chaves que o pipeline gravou no catálogo (já em searchKey). Tudo
-// determinístico: o mesmo texto dá a mesma lista em qualquer máquina e em qualquer ordem do
-// catálogo.
+// Busca do autocompletar (o Desafio, digitado: as músicas; no "acertar o anime", as franquias,
+// com `buildFranchiseIndex`). Compara a consulta, em algumas variantes, com as chaves que o
+// pipeline gravou no catálogo (já em searchKey). Tudo determinístico: o mesmo texto dá a mesma
+// lista em qualquer máquina e em qualquer ordem do catálogo.
 import type { CatalogIndex } from "./catalog.ts";
 import { hasKana, kanaToRomaji } from "./kana.ts";
 import { looseKey, normalize } from "./normalize.ts";
@@ -101,6 +101,33 @@ export function buildSearchIndex(index: CatalogIndex): SearchIndex {
   }
   const built = { entries };
   searchIndexes.set(index, built);
+  return built;
+}
+
+/** Montado uma vez por catálogo do Anime, como o das músicas. */
+const franchiseIndexes = new WeakMap<CatalogIndex, SearchIndex>();
+
+/**
+ * A busca do "acertar o anime" (P234): uma entrada por franquia, com as chaves de todos os títulos
+ * e sinônimos dos animes dela (o `search` do catálogo, já no formato da busca), e sem chaves de
+ * artista. A popularidade é a da faixa mais popular da franquia, para a ordem da lista. A `key` é o
+ * id da franquia (o "já tentou"). Fora do Anime, vazia.
+ */
+export function buildFranchiseIndex(index: CatalogIndex): SearchIndex {
+  const cached = franchiseIndexes.get(index);
+  if (cached) return cached;
+  const popularity = new Map<string, number>();
+  for (const [trackId, ids] of index.anime?.franchisesByTrack ?? []) {
+    const track = index.tracks.get(trackId);
+    for (const id of ids) {
+      popularity.set(id, Math.max(popularity.get(id) ?? 0, track?.popularity ?? 0));
+    }
+  }
+  const entries = [...(index.anime?.franchises.values() ?? [])].map((franchise) =>
+    entry(franchise.id, franchise.id, popularity.get(franchise.id) ?? 0, franchise.search, []),
+  );
+  const built = { entries };
+  franchiseIndexes.set(index, built);
   return built;
 }
 
