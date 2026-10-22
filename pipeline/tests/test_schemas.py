@@ -42,6 +42,9 @@ def test_the_anime_track_is_the_catalog_track_without_the_chart():
         "anime"
     }
     assert set(anime["album"]["required"]) == set(CATALOG["album"]["required"]) - {"similar"}
+    for key in sorted(set(anime["album"]["properties"]) & set(CATALOG["album"]["properties"])):
+        expected = _without_descriptions(CATALOG["album"]["properties"][key])
+        assert _without_descriptions(anime["album"]["properties"][key]) == expected, key
     for key in sorted(set(anime["track"]["properties"]) & set(track["properties"])):
         expected = _without_descriptions(track["properties"][key])
         assert _without_descriptions(anime["track"]["properties"][key]) == expected, key

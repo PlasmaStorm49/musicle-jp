@@ -23,10 +23,12 @@ from typing import Protocol
 
 from musicle_pipeline.aliases import KINDS
 from musicle_pipeline.artists import (
-    _canonical_order,
-    _preview,
     artist_base_title,
     artist_title_key,
+    canonical_order,
+    is_out_suffix,
+    last_tail,
+    preview_of,
     version_kind,
 )
 from musicle_pipeline.catalog import (
@@ -39,13 +41,7 @@ from musicle_pipeline.catalog import (
     entity_id,
 )
 from musicle_pipeline.models import JSON, TIMESTAMP, InputError, RawTrack
-from musicle_pipeline.normalize import (
-    needs_romaji,
-    search_key,
-    search_keys,
-    song_key,
-    strip_version_suffix,
-)
+from musicle_pipeline.normalize import display, needs_romaji, search_key, search_keys
 from musicle_pipeline.romaji_cache import artist_text, track_text
 
 SCHEMA_VERSION = 1
@@ -115,6 +111,18 @@ class AnimeProvider(Protocol):
 # A leitura do snapshot (o formato é o mesmo nos dois provedores; só a faixa muda de forma).
 
 
+# As chaves aceitas em cada nível do snapshot: uma a mais (um "score" bruto, por exemplo) é
+# recusada, porque sem revisão humana (P238) esta é a trava da P254.
+ANIME_KEYS = {"malId", "slug", "name", "synonyms", "year", "series", "levels", "themes"}
+THEME_KEYS = {"type", "sequence", "song", "artists", "levels", "result", "track"}
+
+
+def _closed(data: JSON, allowed: set[str], where: str) -> None:
+    extra = sorted(set(data) - allowed)
+    if extra:
+        raise InputError(f"{where}: chave desconhecida {extra}")
+
+
 def _levels(value: object, allowed: tuple[str, ...], where: str) -> dict[str, int]:
     if not isinstance(value, dict) or not set(value) <= set(allowed):
         raise InputError(f"{where}: levels aceita só {list(allowed)}")
@@ -127,17 +135,20 @@ def _levels(value: object, allowed: tuple[str, ...], where: str) -> dict[str, in
 def _texts(value: object, where: str) -> tuple[str, ...]:
     if not isinstance(value, list) or not all(isinstance(v, str) and v.strip() for v in value):
         raise InputError(f"{where}: deveria ser uma lista de textos")
-    return tuple(value)
+    return tuple(display(v) for v in value)
 
 
 def theme_from_dict(data: JSON, track_of: Callable[[object, str], RawTrack], where: str) -> Theme:
     if not isinstance(data, dict):
         raise InputError(f"{where}: tema com forma inesperada")
+    _closed(data, THEME_KEYS, where)
     kind, sequence, result = data.get("type"), data.get("sequence"), data.get("result")
     if kind not in THEME_TYPES:
         raise InputError(f"{where}: type deveria ser um de {list(THEME_TYPES)}")
     where = f"{where} {kind}{sequence or ''}"
-    if sequence is not None and (not isinstance(sequence, int) or sequence < 1):
+    if sequence is not None and (
+        not isinstance(sequence, int) or isinstance(sequence, bool) or sequence < 1
+    ):
         raise InputError(f"{where}: sequence deveria ser um inteiro positivo ou null")
     if result not in RESULTS:
         raise InputError(f"{where}: result deveria ser um de {list(RESULTS)}")
@@ -150,7 +161,7 @@ def theme_from_dict(data: JSON, track_of: Callable[[object, str], RawTrack], whe
     return Theme(
         type=kind,
         sequence=sequence,
-        song=song,
+        song=display(song),
         artists=_texts(data.get("artists", []), f"{where} artists"),
         levels=_levels(data.get("levels", {}), THEME_LEVELS, where),
         result=result,
@@ -161,6 +172,7 @@ def theme_from_dict(data: JSON, track_of: Callable[[object, str], RawTrack], whe
 def anime_from_dict(data: JSON, track_of: Callable[[object, str], RawTrack], where: str) -> Anime:
     if not isinstance(data, dict):
         raise InputError(f"{where}: anime com forma inesperada")
+    _closed(data, ANIME_KEYS, where)
     mal_id = data.get("malId")
     if not isinstance(mal_id, int) or isinstance(mal_id, bool) or mal_id < 1:
         raise InputError(f"{where}: malId deveria ser um inteiro positivo")
@@ -188,17 +200,18 @@ def anime_from_dict(data: JSON, track_of: Callable[[object, str], RawTrack], whe
     return Anime(
         mal_id=mal_id,
         slug=slug,
-        name=name,
+        name=display(name),
         synonyms=_texts(data.get("synonyms", []), f"{where} synonyms"),
         year=year,
-        series=tuple((s["slug"], s["name"]) for s in series),
+        series=tuple((s["slug"], display(s["name"])) for s in series),
         levels=_levels(data.get("levels", {}), ANIME_LEVELS, where),
         themes=tuple(theme_from_dict(t, track_of, where) for t in themes),
     )
 
 
-def check_snapshot_header(data: JSON, where: str) -> tuple[str, str]:
-    """O id e o fetchedAt de um snapshot do Anime."""
+def check_snapshot_header(data: JSON, where: str, allowed: set[str]) -> tuple[str, str]:
+    """O id e o fetchedAt de um snapshot do Anime, que só tem as chaves `allowed`."""
+    _closed(data, allowed, where)
     snapshot_id, fetched_at = data.get("id"), data.get("fetchedAt")
     if not isinstance(snapshot_id, str) or not snapshot_id:
         raise InputError(f"{where}: id ausente")
@@ -245,7 +258,12 @@ FUZZY_MARGIN = 0.25
 # Na semelhança, a faixa precisa ser da época do anime: um ano antes (o single que saiu antes da
 # estreia) até dois depois.
 YEARS_BEFORE, YEARS_AFTER = 1, 2
-_TV_SIZE = re.compile(r"tv\s*-?\s*(?:size|サイズ|ver|edit)", re.IGNORECASE)
+_TV_SIZE = re.compile(
+    r"tv\s*-?\s*(?:size|サイズ|ver(?:sion)?|edit)(?:\s*ver(?:sion)?)?\.?", re.IGNORECASE
+)
+# A semelhança só entre chaves de comprimento parecido: "gurenge" e "gurenka" (o cutlet troca
+# uma letra) passam; "hana" e "hanabi" (outra música que começa igual), não.
+LENGTH_SLACK = 0.15
 
 
 @dataclass(frozen=True)
@@ -264,16 +282,26 @@ def _forms(text: str, romanize: Romanizer) -> set[str]:
 
 
 def _similarity(a: str, b: str) -> float:
-    return 1.0 if a == b else SequenceMatcher(None, a, b).ratio()
+    if a == b:
+        return 1.0
+    if abs(len(a) - len(b)) > max(1, LENGTH_SLACK * max(len(a), len(b))):
+        return 0.0
+    return SequenceMatcher(None, a, b).ratio()
 
 
 def _tv_only(t: RawTrack) -> bool:
-    """A TV size, que só é resposta quando a completa não está na loja (P244)."""
-    title = unicodedata.normalize("NFKC", t.title)
-    return (
-        _TV_SIZE.search(title) is not None
-        and version_kind(replace(t, title=strip_version_suffix(title))) != "out"
-    )
+    """A TV size, que só é resposta quando a completa não toca (P244). Um sufixo que nunca entra
+    (ao vivo, karaokê) junto com o dela tira a faixa da reserva."""
+    s = unicodedata.normalize("NFKC", t.title).strip()
+    tv = False
+    while (cut := last_tail(s)) is not None and cut[0]:
+        rest, inner = cut
+        if _TV_SIZE.fullmatch(inner):
+            tv = True
+        elif is_out_suffix(inner):
+            return False
+        s = rest
+    return tv and version_kind(replace(t, title=s)) != "out"
 
 
 def _near(year: int | None, group: Sequence[RawTrack]) -> bool:
@@ -313,17 +341,22 @@ def _match_in(
     if best == 1.0:
         if second == 1.0:
             return Match("ambiguous", score=score)  # dois títulos iguais: na dúvida, descarta
-    elif best < FUZZY_MIN or not _near(year, group):
+    elif best < FUZZY_MIN or year is None or not _near(year, group):
+        # Sem o ano da estreia, só o título igual: a semelhança sozinha é dúvida.
         return Match("no-match", score=score)
     elif best - second < FUZZY_MARGIN:
         return Match("ambiguous", score=score)
-    playable = [t for t in group if eligibility(_preview(t), t.album.artwork_url)["daily"]]
+    playable = [t for t in group if eligibility(preview_of(t), t.album.artwork_url)["daily"]]
     # A TV size disputa o título com as outras músicas, mas só é a resposta quando nenhuma
     # versão completa da mesma música toca (P244).
     full = [t for t in playable if t not in reserve]
     if not (full or playable):
         return Match("no-preview", score=score)
-    return Match("matched", min(full or playable, key=_canonical_order), score)
+    chosen = full or playable
+    # O mesmo título do artista em épocas diferentes (outra música, ou a regravação): vale a
+    # versão da época do anime, se houver.
+    near = [t for t in chosen if _near(year, [t])]
+    return Match("matched", min(near or chosen, key=canonical_order), score)
 
 
 def match_theme(
@@ -353,7 +386,7 @@ def fame(theme: Theme, anime: Anime) -> dict[str, int | None]:
     """O nível de 0 a 9 de cada modo. O do tema (o Anime Music Quiz, senão as playlists) mede
     quanto a música é reconhecida; o do anime (o MyAnimeList), quanto o anime é visto. No
     "acertar o anime", o do tema pesa o dobro: é a taxa de acerto do próprio quiz."""
-    song = next((theme.levels[k] for k in THEME_LEVELS if k in theme.levels), None)
+    song = theme_level(theme)
     show = next((anime.levels[k] for k in ANIME_LEVELS if k in anime.levels), None)
     if song is None or show is None:
         one = song if song is not None else show
@@ -362,27 +395,29 @@ def fame(theme: Theme, anime: Anime) -> dict[str, int | None]:
     return {"musica": (song + show + 1) // 2, "titulo": (2 * song + show + 1) // 3}
 
 
-def tier_of(theme_type: str, level: int | None) -> str:
-    """A faixa de um tema num modo (P252): no Fácil, quase só aberturas, e o encerramento só no
-    topo; a insert song, só no Difícil."""
+def tier_of(theme_type: str, level: int | None, theme_level: int | None = None) -> str:
+    """A faixa de um tema num modo (P252): no Fácil, quase só aberturas, e o encerramento só
+    quando o nível do próprio tema (`theme_level`, senão o combinado) está no topo; a insert
+    song, só no Difícil."""
     if theme_type == "IN":
         return "dificil"
     if level is None:
         return _DEFAULT_TIER[theme_type]
     tier = "facil" if level >= EASY_LEVEL else "medio" if level >= MEDIUM_LEVEL else "dificil"
-    if theme_type == "ED" and tier == "facil" and level < MAX_LEVEL:
+    top = theme_level if theme_level is not None else level
+    if theme_type == "ED" and tier == "facil" and top < MAX_LEVEL:
         return "medio"
     return tier
 
 
-def _popularity(levels: Iterable[int | None], theme_types: Iterable[str]) -> float:
-    known = [lv for lv in levels if lv is not None]
-    if known:
-        value = Decimal(max(known)) / Decimal(MAX_LEVEL)
-    else:
-        # Sem nível, a mesma regra das faixas: a abertura é mais conhecida.
-        value = Decimal(5 if "OP" in theme_types else 3) / Decimal(MAX_LEVEL)
-    return float(value.quantize(Decimal("0.0001"), rounding=ROUND_HALF_EVEN))
+def theme_level(theme: Theme) -> int | None:
+    """O nível do tema (o quiz, senão as playlists), sem o do anime."""
+    return next((theme.levels[k] for k in THEME_LEVELS if k in theme.levels), None)
+
+
+# A popularidade publicada é só a da faixa mais fácil (P240): o arquivo não leva o nível de
+# fonte nenhuma, nem o do MAL. A web só a usa para ordenar as sugestões.
+_TIER_POPULARITY = {"facil": 1.0, "medio": 0.6667, "dificil": 0.3333}
 
 
 # ---------------------------------------------------------------------------------------------
@@ -415,7 +450,7 @@ def _track_record(provider: str, acc: _TrackAcc, album: JSON, cur: Curation) -> 
         next((s for s in sung if not needs_romaji(s)), None) if needs_romaji(text) else None
     )
     latin, source = cur.latin("tracks", track_id, text, latin_from)
-    preview = _preview(t)
+    preview = preview_of(t)
     artist_ids = [entity_id(provider, "ar", a.provider_id) for a in t.artists]
     artist_texts = [
         s
@@ -428,7 +463,9 @@ def _track_record(provider: str, acc: _TrackAcc, album: JSON, cur: Curation) -> 
     artist_texts += [n for _, theme in acc.uses for n in theme.artists]
     fames = [(theme, fame(theme, anime)) for anime, theme in acc.uses]
     tiers = {
-        mode: TIERS[min(TIERS.index(tier_of(theme.type, f[mode])) for theme, f in fames)]
+        mode: TIERS[
+            min(TIERS.index(tier_of(theme.type, f[mode], theme_level(theme))) for theme, f in fames)
+        ]
         for mode in MODES
     }
     themes = sorted(
@@ -437,7 +474,9 @@ def _track_record(provider: str, acc: _TrackAcc, album: JSON, cur: Curation) -> 
     )
     return {
         "id": track_id,
-        "songKey": song_key(t.title, artist_ids[0]),
+        # A chave do modo por artista, que junta a TV size e a completa: a janela da P245 conta
+        # as duas como a mesma música.
+        "songKey": f"{artist_title_key(t.title)}|{artist_ids[0]}",
         "title": text,
         "titleLatin": latin,
         "latinSource": source,
@@ -449,9 +488,7 @@ def _track_record(provider: str, acc: _TrackAcc, album: JSON, cur: Curation) -> 
         "explicit": t.explicit,
         "preview": preview,
         "storeUrl": t.store_url,
-        "popularity": _popularity(
-            (f[mode] for _, f in fames for mode in MODES), (theme.type for _, theme in acc.uses)
-        ),
+        "popularity": _TIER_POPULARITY[min(tiers.values(), key=TIERS.index)],
         "eligible": eligibility(
             preview, album["artworkUrl"], blocked=cur.aliases.get("tracks", track_id).block
         ),
