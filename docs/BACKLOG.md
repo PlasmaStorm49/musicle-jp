@@ -6,13 +6,9 @@ Atualizado em 22/10/2026.
 
 ## Próximos, na ordem combinada (21/10)
 
-1. **ME36**: as 3 actions novas (o merge só depois das 23:52 de 21/10).
-5. **ME101**: o controle de volume também na revelação (P228).
+1. **ME101**: o controle de volume também na revelação (P228).
 
 ## Itens para corrigir
-
-**Com data**
-- **ME36.** Atualizar as 3 actions com versão nova. Libera em 22/10.
 
 **Na tela**
 - **ME33.** Textos: o "- Single" na revelação, o dia anulado com "0/0" e o "Áudio indisponível" quando o motivo é outro. Conferir o que o PR D já resolveu.
