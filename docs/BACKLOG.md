@@ -105,6 +105,5 @@ Atualizado em 22/10/2026.
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
 - **ME108 (novo).** Decidir se a lista de negação do `.claude/settings.json` passa a cobrir os gerados dos artistas e do Anime, como diz a regra 3 do `CLAUDE.md`.
-- Criar o Environment `mal` (Settings > Environments; "Deployment branches and tags" só na `main`, sem "Required reviewers") e, dentro dele, o segredo `MAL_CLIENT_ID` (opcional, antes do merge do PR B do M14; nunca em "Repository secrets"; sem ele, o robô sorteia o Anime pelas playlists do AnimeThemes). O passo a passo está no README.
 - **P16.** Decidir se a URL e o repositório mudam de nome.
 - Segunda, 26/10: o PR do robô, com o merge no mesmo dia.
