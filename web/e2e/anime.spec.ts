@@ -4,6 +4,7 @@
 import type { Save } from "../src/core/records.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
 import {
+  animeAnswer,
   animeTab,
   captureClipboard,
   expect,
@@ -143,6 +144,8 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
   await page.getByRole("button", { name: "Pular (+1 s)" }).click();
   await page.getByRole("button", { name: "Tocar 2 s" }).click();
   const third = await lastPlayedAnime(page);
+  // A faixa que tocou é a da agenda do Anime (a 3ª rodada do Fácil de 08/10).
+  expect(third.id).toBe(animeAnswer("2026-10-08", "titulo", "facil", 2));
   expect(franchiseName(third)).toBe("Hoshizora Kaizoku");
   await answerAnime(page, "Starry Pirates", "Hoshizora Kaizoku");
   await expect(page.getByRole("heading", { name: "Acertou! 5 de 6 pontos." })).toBeVisible();
@@ -301,9 +304,10 @@ test("a carga do Anime falhou: o aviso e o Tentar de novo, que carrega", async (
   fail = false;
   await page.getByRole("button", { name: "Tentar de novo" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
-  // O pedido derrubado de propósito pode aparecer no console como erro de rede: só ele sai da
-  // conta (qualquer outro erro continua reprovando o teste).
-  const network = /Failed to load resource|net::ERR_FAILED/;
-  const others = consoleErrors.filter((message) => !network.test(message));
-  consoleErrors.splice(0, consoleErrors.length, ...others);
+  // O pedido derrubado de propósito pode aparecer no console como um erro de rede: só essa uma
+  // ocorrência sai da conta (outro erro de rede, ou qualquer outro erro, continua reprovando).
+  const network = consoleErrors.findIndex((message) =>
+    /Failed to load resource|net::ERR_FAILED/.test(message),
+  );
+  if (network >= 0) consoleErrors.splice(network, 1);
 });

@@ -236,6 +236,16 @@ describe("loadAnime (M14)", () => {
     }
   });
 
+  it("a agenda do Anime sem os dias pede para tentar de novo (e não quebra a tela)", async () => {
+    for (const days of [undefined, null, [], "x"]) {
+      const broken = { "fixtures/anime/schedule.json": { schemaVersion: 1, kind: "anime", days } };
+      await expect(
+        loadAnime(fakeFetch(broken), BASE, FIXTURE_DATA_DIR),
+        JSON.stringify(days),
+      ).rejects.toBeInstanceOf(DataLoadError);
+    }
+  });
+
   it("falha de rede e 404 pedem para tentar de novo", async () => {
     const offline = { "fixtures/anime/schedule.json": new TypeError("Failed to fetch") };
     await expect(loadAnime(fakeFetch(offline), BASE, FIXTURE_DATA_DIR)).rejects.toBeInstanceOf(

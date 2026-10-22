@@ -335,9 +335,9 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
     expect(lines(card(/^Fácil/))).toEqual(["nº 4 · terminado, 11 de 18 pontos"]);
     expect(lines(card(/^Médio/))).toEqual(["nº 4 · em andamento"]);
     expect(lines(card(/^Difícil/))).toEqual(["nº 4 · novo"]);
-    expect(card(/^Fácil/).textContent).toContain("Os temas mais famosos");
+    expect(card(/^Fácil/).textContent).toContain("Os temas mais conhecidos");
     expect(description(card(/^Fácil/))).toBe(
-      "Quase só aberturas, as mais conhecidas. Digite o nome exato da música, em até 6 tentativas. 3 rodadas por dia.",
+      "Os temas mais conhecidos. Digite o nome exato da música, em até 6 tentativas. 3 rodadas por dia.",
     );
     // O oliva é o 1º por jogar: o Médio, em andamento.
     expect(nextCards()).toEqual(["Médio"]);
@@ -363,7 +363,7 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
       "#sobre",
     ]);
     expect(description(card(/^Difícil/))).toBe(
-      "Aberturas, encerramentos e insert songs, também de animes pouco conhecidos. Digite o nome do anime, em até 6 tentativas: vale qualquer temporada. 3 rodadas por dia.",
+      "Também as insert songs e os animes menos conhecidos. Digite o nome do anime, em até 6 tentativas: vale qualquer temporada. 3 rodadas por dia.",
     );
   });
 

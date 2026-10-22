@@ -116,12 +116,20 @@ test("toque duplo no cartão dos Hits da Início: abre os Hits, e o 2º clique n
 test("toque duplo no cartão do Anime da Início: abre o Anime, e o 2º clique não abre a dificuldade (regra 23)", async ({
   page,
 }) => {
-  await open(page, "2026-10-08T12:00:00-03:00", "");
+  // O Anime já carregado: sem a carga no meio, o 2º clique cai mesmo na tela dos modos, onde está
+  // o cartão do "Acertar a música".
+  await open(page, "2026-10-08T12:00:00-03:00", "#anime");
+  await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
+  await page.getByRole("link", { name: "Início" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeFocused();
   await page
     .getByRole("main")
     .getByRole("link", { name: /^Anime/ })
     .dblclick();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime");
+  await expect(
+    page.getByRole("main").getByRole("link", { name: /^Acertar a música/ }),
+  ).toBeVisible();
 });
 
 test("links de antes dos dois modos (#musica, #album) abrem a home", async ({ page }) => {

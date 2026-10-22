@@ -377,9 +377,9 @@ button.give-up:active:not(:disabled) {
 }
 
 /* A nav: uma barra de 44 px, sem borda, com uma aba por categoria (P225): o selo da Início
-   (P205, com o nome só para o leitor de tela), os Hits e os Artistas, juntos à esquerda. A aba da
-   categoria atual ganha o fio oliva. Cabe numa linha também em 320 px; se um dia não couber,
-   quebra a linha em vez de rolar a página. */
+   (P205, com o nome só para o leitor de tela), os Hits, o Anime (M14) e os Artistas, juntos à
+   esquerda. A aba da categoria atual ganha o fio oliva. Cabe numa linha também em 320 px, com os
+   dois ✓; se um dia não couber, quebra a linha em vez de rolar a página. */
 .tabs ul {
   list-style: none;
   display: flex;
@@ -1248,12 +1248,10 @@ section.void,
 /* 5. Telas ------------------------------------------------------------------------------- */
 /* Início: o selo, o nome e a frase no centro; um cartão por categoria, numa coluna (P226); o
    "Como funciona" recolhido; o tema num switch (P217). Com o Anime (M14), são três cartões: o
-   espaço entre as partes e o cartão (.home .home-card) ficam mais baixos que nas telas de
-   escolha, para a Início caber em 360 × 640 no caso mais alto (os dois diários dos Hits, o
-   Anime e a sessão do artista, com uma linha cada; sem isso, passava 13 px). */
-.home {
-  gap: var(--sp-3);
-}
+   espaço entre as partes é o do .screen (12 px; antes, 16), e o cartão (.home .home-card) fica
+   mais baixo que nas telas de escolha, para a Início caber em 360 × 640 no caso mais alto (os
+   dois diários dos Hits, o Anime e a sessão do artista, com uma linha cada; sem isso, passava
+   13 px). */
 
 .home-header {
   display: grid;
@@ -1364,7 +1362,7 @@ section.void,
 }
 
 /* Os três cartões da Início (os Hits, o Anime e os Artistas) mais baixos que os das telas de
-   escolha: veja o .home. */
+   escolha: veja o comentário da Início, no começo das telas. */
 .home .home-card {
   min-height: 88px;
   padding-block: var(--sp-2);

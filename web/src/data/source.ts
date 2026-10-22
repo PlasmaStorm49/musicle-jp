@@ -186,6 +186,11 @@ export async function loadAnime(
       `agenda do Anime com schemaVersion ${String(schemaVersionOf(schedule))} e kind ${String(kindOf(schedule))}`,
     );
   }
+  // A tela percorre os dias: sem eles, "Tentar de novo" na aba, e não o jogo quebrado na tela.
+  const days = (schedule as { days?: unknown }).days;
+  if (typeof days !== "object" || days === null || Array.isArray(days)) {
+    throw new DataLoadError("agenda do Anime sem os dias");
+  }
   return { index: indexAnime(catalog as AnimeCatalog), schedule: schedule as AnimeSchedule };
 }
 

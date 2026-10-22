@@ -312,14 +312,14 @@ export const ptBR = {
   "anime.level.medio": "Médio",
   "anime.level.dificil": "Difícil",
   // A dica curta de cada dificuldade, na tela; a inteira, abaixo, com a regra do modo, fica para o
-  // leitor de tela (P210). O tipo do tema por dificuldade é a P252.
-  "anime.levelShort.facil": "Os temas mais famosos",
+  // leitor de tela (P210). O tipo do tema por dificuldade é a P252; as dicas não prometem a
+  // proporção, porque os pesos só se calibram na carga grande (C2).
+  "anime.levelShort.facil": "Os temas mais conhecidos",
   "anime.levelShort.medio": "Aberturas e encerramentos",
-  "anime.levelShort.dificil": "Também as insert songs",
-  "anime.levelHint.facil": "Quase só aberturas, as mais conhecidas.",
-  "anime.levelHint.medio": "A maioria aberturas, e alguns encerramentos.",
-  "anime.levelHint.dificil":
-    "Aberturas, encerramentos e insert songs, também de animes pouco conhecidos.",
+  "anime.levelShort.dificil": "Também as insert songs e animes menos conhecidos",
+  "anime.levelHint.facil": "Os temas mais conhecidos.",
+  "anime.levelHint.medio": "Aberturas e encerramentos.",
+  "anime.levelHint.dificil": "Também as insert songs e os animes menos conhecidos.",
   "anime.rule.musica":
     "Digite o nome exato da música, em até {total} tentativas. {rounds} rodadas por dia.",
   "anime.rule.titulo":

@@ -34,6 +34,7 @@ Atualizado em 21/10/2026.
 - **ME91.** A CI não acusa título que ficou sem latino.
 
 **No jogo**
+- **ME110 (novo).** O Treino e os Artistas não excluem as respostas do Anime de hoje (raro: pede o mesmo `songKey` nos dois catálogos). Aceito por ora, como a P248.
 - **ME62.** No Treino da parada, um cover de outro artista escapa da exclusão por título.
 - **S24.** Conferir a duração real das prévias: no Superfan, uma prévia curta deixaria menos de 9 s.
 
