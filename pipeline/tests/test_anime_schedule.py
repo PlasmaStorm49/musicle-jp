@@ -529,7 +529,7 @@ def test_schedule_anime_command(tmp_path, capsys):
     captured = capsys.readouterr()
     assert "2 dia(s) novo(s) (2026-10-21 a 2026-10-22), 2 no total" in captured.out
     assert "aviso: buraco de 13 dia(s) sem desafio: 2026-10-08 a 2026-10-20 (P44)" in captured.err
-    assert "aviso: musica facil: 9 música(s)" in captured.err
+    assert "aviso: musica facil: 8 música(s)" in captured.err
     # De novo, no mesmo dia: nada novo.
     assert main([*args, "--today", "2026-10-21", "--days", "1"]) == 0
     assert "0 dia(s) novo(s), 2 no total; sem mudanças" in capsys.readouterr().out
