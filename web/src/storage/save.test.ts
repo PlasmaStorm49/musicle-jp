@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { ANIME_KEYS, DAILY_KEYS } from "../core/daily.ts";
 import { emptySave, type FinishedGame, type Save } from "../core/records.ts";
 import { SAVE_SCHEMA_VERSION } from "./migrations.ts";
 import {
@@ -23,7 +24,7 @@ const finished: FinishedGame = {
 };
 
 const valid: Save = {
-  schemaVersion: 5,
+  schemaVersion: 6,
   history: { "2026-10-08|song": finished },
   inProgress: { "2026-10-09|song": { events: [{ type: "SKIP" }, { type: "GIVE_UP" }] } },
 };
@@ -219,7 +220,7 @@ describe("loadSave", () => {
     expect(result.notice).toBe("repaired");
   });
 
-  it("um save v3 de verdade chega à v5 sem aviso, sem cópia e sem perder nada", () => {
+  it("um save v3 de verdade chega à v6 sem aviso, sem cópia e sem perder nada", () => {
     const v3 = {
       schemaVersion: 3,
       history: {
@@ -243,17 +244,17 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v3));
     expect(loadSave(store)).toEqual({
-      save: { ...v3, schemaVersion: 5 },
+      save: { ...v3, schemaVersion: 6 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(5);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(6);
   });
 
-  it("um save v4 de verdade, com a ajuda, chega à v5 sem aviso, sem cópia e sem perder nada", () => {
+  it("um save v4 de verdade, com a ajuda, chega à v6 sem aviso, sem cópia e sem perder nada", () => {
     // Como os que estão no ar desde a P149: a ajuda com e sem acerto e um andamento com ela.
     const v4 = {
       schemaVersion: 4,
@@ -281,11 +282,135 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v4));
     expect(loadSave(store)).toEqual({
-      save: { ...v4, schemaVersion: 5 },
+      save: { ...v4, schemaVersion: 6 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
+  });
+
+  it("um save v5 de verdade chega à v6 sem aviso, sem cópia e sem perder nada", () => {
+    // Como os que estão no ar desde a P163: o pulo depois da ajuda e um andamento com ela.
+    const v5 = {
+      schemaVersion: 5,
+      history: {
+        "2026-10-20|album": finished,
+        "2026-10-20|song": {
+          number: 13,
+          rounds: [
+            {
+              status: "won",
+              stage: 4,
+              attempts: ["skip", "skip", "skip", "skip", "right"],
+              help: 3,
+            },
+            { status: "lost", stage: 4, attempts: ["wrong", "skip", "skip", "skip"], help: 1 },
+            { status: "won", stage: 0, attempts: ["right"] },
+          ],
+        },
+      },
+      inProgress: {
+        "2026-10-21|song": {
+          events: [
+            { type: "SKIP" },
+            { type: "HELP", options: ["apple:tr:1", "apple:tr:2", "apple:tr:3", "apple:tr:4"] },
+            { type: "SKIP" },
+          ],
+        },
+      },
+    };
+    const store = withRaw(JSON.stringify(v5));
+    expect(loadSave(store)).toEqual({
+      save: { ...v5, schemaVersion: 6 },
+      writable: true,
+      notice: null,
+    });
+    expect(store.getItem(CORRUPT_KEY)).toBeNull();
+    expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(6);
+  });
+
+  it("todo diário de DAILY_KEYS passa no guard do save: os 2 dos Hits e os 6 do Anime", () => {
+    const history = Object.fromEntries(DAILY_KEYS.map((key) => [`2026-10-21|${key}`, finished]));
+    const result = loadSave(withRaw(JSON.stringify({ ...valid, history })));
+    expect(Object.keys(result.save.history)).toEqual(Object.keys(history));
+    expect(result.notice).toBeNull();
+  });
+
+  it("os diários e a versão do save andam juntos: diário novo sobe a versão (P250)", () => {
+    // Um id só na regex passaria no guard, mas o openSaves (pelo dailyIds) apagaria o andamento
+    // dele a cada carga; e um id novo sem versão nova seria apagado pela aba com o código velho.
+    expect({ version: SAVE_SCHEMA_VERSION, keys: DAILY_KEYS }).toEqual({
+      version: 6,
+      keys: [
+        "album",
+        "song",
+        "anime-musica-facil",
+        "anime-musica-medio",
+        "anime-musica-dificil",
+        "anime-titulo-facil",
+        "anime-titulo-medio",
+        "anime-titulo-dificil",
+      ],
+    });
+  });
+
+  describe("os diários do Anime (v6, P250)", () => {
+    // As regras do Desafio: pulos, a ajuda e até 6 tentativas (o Normal recusaria os pulos).
+    const desafio = {
+      number: 2,
+      rounds: [
+        { status: "won", stage: 4, attempts: ["skip", "skip", "skip", "skip", "right"], help: 3 },
+        { status: "lost", stage: 5, attempts: ["skip", "skip", "skip", "skip", "skip", "skip"] },
+        { status: "void", stage: 0, attempts: [] },
+      ],
+    };
+    const anime = {
+      history: Object.fromEntries(ANIME_KEYS.map((key) => [`2026-10-21|${key}`, desafio])),
+      inProgress: {
+        "2026-10-21|anime-titulo-dificil": {
+          events: [{ type: "SKIP" }, { type: "HELP", options: ["a", "b", "c", "d"] }],
+        },
+      },
+    };
+
+    it("os 6 ids sobrevivem à carga e à gravação, com as regras do Desafio", () => {
+      const store = withRaw(JSON.stringify({ schemaVersion: 6, ...anime }));
+      expect(loadSave(store)).toEqual({
+        save: { schemaVersion: 6, ...anime },
+        writable: true,
+        notice: null,
+      });
+      const withHits = (s: Save): Save => ({ ...s, history: { ...s.history, ...valid.history } });
+      expect(updateSave(store, withHits)).toBe("saved");
+      expect(loadSave(store)).toMatchObject({
+        save: { inProgress: anime.inProgress },
+        notice: null,
+      });
+      expect(Object.keys(loadSave(store).save.history)).toHaveLength(7);
+    });
+
+    it("e à migração: num save v5, a 5 → 6 não tira nenhum", () => {
+      const store = withRaw(JSON.stringify({ schemaVersion: 5, ...anime }));
+      expect(loadSave(store)).toEqual({
+        save: { schemaVersion: 6, ...anime },
+        writable: true,
+        notice: null,
+      });
+    });
+
+    it("id fora da lista e jogo sem as 3 rodadas são descartados", () => {
+      const history = {
+        "2026-10-21|anime-musica-extremo": desafio,
+        "2026-10-21|anime-album-facil": desafio,
+        "2026-10-21|anime": desafio,
+        "2026-10-21|anime-musica-facil": { ...desafio, rounds: desafio.rounds.slice(0, 2) },
+        "2026-10-21|anime-musica-medio": desafio,
+      };
+      const result = loadSave(withRaw(JSON.stringify({ ...valid, history })));
+      expect(Object.keys(result.save.history)).toEqual(["2026-10-21|anime-musica-medio"]);
+      expect(result.notice).toBe("repaired");
+    });
   });
 
   it("Desafio: até 6 tentativas; a 7ª invalida o jogo terminado", () => {
@@ -368,7 +493,7 @@ describe("loadSave", () => {
     // A 1ª gravação do jogo novo já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, history: valid.history }))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toEqual({
-      schemaVersion: 5,
+      schemaVersion: 6,
       history: valid.history,
       inProgress: {},
     });

@@ -44,7 +44,8 @@ class FixtureAnimeProvider:
         return found
 
     def source(self) -> AnimeSource:
-        snapshot, fetched_at = check_snapshot_header(self._data, str(self.path))
+        allowed = {"provider", "storefront", "id", "fetchedAt", "anime"}
+        snapshot, fetched_at = check_snapshot_header(self._data, str(self.path), allowed)
         anime = [anime_from_dict(a, self._track, str(self.path)) for a in self._data["anime"]]
         ids = [a.mal_id for a in anime]
         if len(set(ids)) != len(ids):

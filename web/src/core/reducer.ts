@@ -2,6 +2,7 @@
 // catálogo nem tela. Evento que não faz sentido no estado atual devolve O MESMO objeto, o que
 // facilita os testes e evita redesenho à toa no Preact.
 import { acceptedIds, type CatalogIndex } from "./catalog.ts";
+import type { Daily } from "./daily.ts";
 import {
   HELP_OPTIONS,
   lastStage,
@@ -10,7 +11,7 @@ import {
   rulesOf,
   type Variant,
 } from "./rules.ts";
-import type { Day, Target } from "./types.ts";
+import type { Target } from "./types.ts";
 
 export type RoundStatus = "playing" | "won" | "lost" | "void";
 
@@ -52,7 +53,10 @@ export type RoundState = {
 };
 
 export type GameState = {
-  /** "<data>|<alvo>", ex.: "2026-10-08|song". */
+  /**
+   * O id do jogo: no diário, o do save ("<data>|<diário>", ex.: "2026-10-08|song"); no Treino e
+   * no modo por artista, o da rodada.
+   */
   readonly puzzleId: string;
   /** O modo: decide as regras (MODE_RULES) e o que se adivinha. */
   readonly target: Target;
@@ -125,10 +129,10 @@ export function createRounds(
   });
 }
 
-/** Monta o jogo do dia a partir da agenda. */
-export function createGame(day: Day, date: string, target: Target, index: CatalogIndex): GameState {
-  const rounds = createRounds(day[target], target, index);
-  return { puzzleId: `${date}|${target}`, target, rounds, current: 0 };
+/** Monta o jogo de um diário: as rodadas da agenda, pelas regras dele. */
+export function createGame(daily: Daily, index: CatalogIndex): GameState {
+  const rounds = createRounds(daily.rounds, daily.target, index);
+  return { puzzleId: daily.id, target: daily.target, rounds, current: 0 };
 }
 
 function withRound(state: GameState, round: RoundState): GameState {

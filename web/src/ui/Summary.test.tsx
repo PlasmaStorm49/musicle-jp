@@ -1,7 +1,9 @@
 // @vitest-environment happy-dom
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { hitsDaily } from "../core/daily.ts";
 import type { FinishedGame } from "../core/records.ts";
+import type { AlbumRound, Day, Target } from "../core/types.ts";
 import { Countdown } from "./Countdown.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { ShareButton } from "./ShareButton.tsx";
@@ -27,6 +29,15 @@ const GAME: FinishedGame = {
   ],
 };
 const DATE = "2026-10-10";
+// O resumo não lê as rodadas: o dia só dá o número e a data ao diário.
+const ROUND: AlbumRound = { answer: "t1", options: ["a1", "a2", "a3", "a4"] };
+const DAY: Day = {
+  number: 3,
+  catalogVersion: "teste",
+  song: [ROUND, ROUND, ROUND],
+  album: [ROUND, ROUND, ROUND],
+};
+const daily = (target: Target) => hitsDaily(DAY, DATE, target);
 /** 23:59:58 de 10/10 em Brasília (UTC-3): faltam 2 s para o próximo diário. */
 const TWO_SECONDS_BEFORE = new Date("2026-10-11T02:59:58Z");
 
@@ -42,8 +53,7 @@ describe("Summary (o fim do dia)", () => {
     render(
       <Summary
         game={GAME}
-        target="album"
-        date={DATE}
+        daily={daily("album")}
         history={{ [`${DATE}|album`]: GAME }}
         scheduleDates={[DATE]}
         shareUrl="https://x.test/"
@@ -84,8 +94,7 @@ describe("Summary (o fim do dia)", () => {
     render(
       <Summary
         game={voided}
-        target="album"
-        date={DATE}
+        daily={daily("album")}
         history={{ [`${DATE}|album`]: voided }}
         scheduleDates={[DATE]}
         shareUrl="https://x.test/"
@@ -102,8 +111,7 @@ describe("Summary (o fim do dia)", () => {
     render(
       <Summary
         game={GAME}
-        target="album"
-        date={DATE}
+        daily={daily("album")}
         history={{ [`${DATE}|album`]: GAME }}
         scheduleDates={[DATE]}
         shareUrl="https://x.test/"
@@ -137,8 +145,7 @@ describe("Summary (o fim do dia)", () => {
     render(
       <Summary
         game={helped}
-        target="song"
-        date={DATE}
+        daily={daily("song")}
         history={{ [`${DATE}|song`]: helped }}
         scheduleDates={[DATE]}
         shareUrl="https://x.test/"

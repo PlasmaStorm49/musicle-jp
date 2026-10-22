@@ -5,11 +5,14 @@
 // repetimos tudo no reducer. Como o reducer é puro e determinístico, o jogo volta exatamente
 // igual, e o dado salvo é pequeno e fácil de validar.
 import type { CatalogIndex } from "./catalog.ts";
+import type { Daily, DailyKey } from "./daily.ts";
 import { createGame, type GameEvent, type GameState, isFinished, reduce } from "./reducer.ts";
-import { HELP_POINTS, MAX_POINTS, MODES, pointsAtStage } from "./rules.ts";
-import type { Day, Target } from "./types.ts";
+import { HELP_POINTS, MAX_POINTS, pointsAtStage } from "./rules.ts";
 
-/** "<data>|<modo>", ex.: "2026-10-08|album" (o Normal) ou "2026-10-08|song" (o Desafio). */
+/**
+ * "<data>|<diário>", ex.: "2026-10-08|album" (o Normal), "2026-10-08|song" (o Desafio) ou, no
+ * Anime (v6, P250), "2026-10-08|anime-musica-facil".
+ */
 export type PuzzleId = string;
 
 export type AttemptMark = "skip" | "wrong" | "right";
@@ -27,8 +30,8 @@ export type RoundRecord = {
 };
 
 /**
- * Resumo de um jogo terminado. Sem IDs de faixa: não tem como revelar a resposta. O modo vem do
- * id (`PuzzleId`), não daqui.
+ * Resumo de um jogo terminado. Sem IDs de faixa: não tem como revelar a resposta. O diário (e,
+ * por ele, as regras) vem do id (`PuzzleId`), não daqui.
  */
 export type FinishedGame = {
   readonly number: number;
@@ -43,30 +46,31 @@ export type InProgress = {
 /**
  * O formato salvo. v3 (P100): os dois modos fixos começam do zero, e sai a preferência do modo
  * de resposta, que não existe mais. v4 (P149): a ajuda, no evento HELP e no `help` da rodada.
- * v5 (P163): o pulo depois da ajuda (storage/migrations.ts).
+ * v5 (P163): o pulo depois da ajuda. v6 (P250): os ids dos diários do Anime
+ * (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 5;
+  readonly schemaVersion: 6;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
 };
 
 export function emptySave(): Save {
-  return { schemaVersion: 5, history: {}, inProgress: {} };
+  return { schemaVersion: 6, history: {}, inProgress: {} };
 }
 
-export function puzzleId(date: string, target: Target): PuzzleId {
-  return `${date}|${target}`;
+export function puzzleId(date: string, key: DailyKey): PuzzleId {
+  return `${date}|${key}`;
 }
 
 /**
- * As faixas dos diários do dia que ainda não têm resultado: o lote de prévias que a carga
+ * As faixas dos diários dados que ainda não têm resultado: o lote de prévias que a carga
  * resolve. Um diário terminado só mostra o resumo, e consultar a Apple por ele gastaria a cota.
  */
-export function pendingDayTracks(save: Save, day: Day, date: string): string[] {
-  return MODES.filter((target) => !save.history[puzzleId(date, target)]).flatMap((target) =>
-    day[target].map((round) => round.answer),
-  );
+export function pendingDayTracks(save: Save, dailies: readonly Daily[]): string[] {
+  return dailies
+    .filter((daily) => !save.history[daily.id])
+    .flatMap((daily) => daily.rounds.map((round) => round.answer));
 }
 
 /** Converte um jogo terminado no resumo que vai para o histórico. */
@@ -116,22 +120,15 @@ export type Session =
     };
 
 /**
- * Como o jogo do dia começa: já terminado (P39: mostra o resultado), retomado pelos eventos
- * salvos, ou novo.
+ * Como o diário começa: já terminado (P39: mostra o resultado), retomado pelos eventos salvos,
+ * ou novo.
  */
-export function startSession(
-  save: Save,
-  day: Day,
-  date: string,
-  target: Target,
-  index: CatalogIndex,
-): Session {
-  const id = puzzleId(date, target);
-  const done = save.history[id];
+export function startSession(save: Save, daily: Daily, index: CatalogIndex): Session {
+  const done = save.history[daily.id];
   if (done) return { kind: "finished", game: done };
 
-  const saved = save.inProgress[id];
-  let state = createGame(day, date, target, index);
+  const saved = save.inProgress[daily.id];
+  let state = createGame(daily, index);
   const events: GameEvent[] = [];
   for (const event of saved?.events ?? []) {
     const next = reduce(state, event);
@@ -142,7 +139,7 @@ export function startSession(
   }
   // Salvou o último evento mas não chegou a gravar o histórico: o jogo já está terminado.
   if (isFinished(state) && events.length > 0) {
-    return { kind: "finished", game: toFinishedGame(state, day.number) };
+    return { kind: "finished", game: toFinishedGame(state, daily.number) };
   }
   return { kind: "playing", state, events, stale: events.length < (saved?.events.length ?? 0) };
 }

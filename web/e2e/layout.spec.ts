@@ -93,7 +93,7 @@ for (const viewport of [
       const lost = { status: "lost", stage: 0, attempts: [] } as const;
       const day = { number: 1, rounds: [lost, lost, lost] };
       const save = {
-        schemaVersion: 5,
+        schemaVersion: 6,
         history: { "2026-10-08|album": day, "2026-10-08|song": day },
         inProgress: {},
       } satisfies Save;
@@ -121,7 +121,7 @@ for (const viewport of [
       const lost = { status: "lost", stage: 0, attempts: [] } as const;
       const day = { number: 1, rounds: [lost, lost, lost] };
       const save = {
-        schemaVersion: 5,
+        schemaVersion: 6,
         history: { "2026-10-08|album": day, "2026-10-08|song": day },
         inProgress: {},
       } satisfies Save;

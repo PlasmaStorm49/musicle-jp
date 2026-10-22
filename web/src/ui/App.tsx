@@ -5,10 +5,10 @@ import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
+import { dailyIds, hitsDailies } from "../core/daily.ts";
 import { artistSummary, dailiesDone, practiceSummary } from "../core/home.ts";
-import { emptySave, pruneProgress, puzzleId, type Save } from "../core/records.ts";
+import { emptySave, pruneProgress, type Save } from "../core/records.ts";
 import { type Category, categoryOf, ROUTES, type Tab, tabFromHash } from "../core/routes.ts";
-import { MODES } from "../core/rules.ts";
 import {
   appleResolver,
   catalogResolver,
@@ -89,7 +89,8 @@ function openSaves(date: string): Storage {
   } catch {
     loaded = { save: emptySave(), writable: false, notice: "unavailable" };
   }
-  const today = MODES.map((mode) => puzzleId(date, mode));
+  // Os andamentos de hoje que ficam: os dos Hits e os do Anime (P250); o resto é de outro dia.
+  const today = dailyIds(date);
   if (loaded.writable) updateSave(store, (s) => pruneProgress(s, today));
   const notice =
     loaded.notice === "future"
@@ -343,6 +344,9 @@ function Ready({
   artists,
 }: ReadyProps) {
   const day = pickDay(data.schedule, date);
+  // Os diários dos Hits do dia, guardados entre os renders: o Game recalcula a sessão quando o
+  // descritor muda. Sem o dia na agenda, nenhum.
+  const dailies = useMemo(() => (day ? hitsDailies(day, date) : []), [day, date]);
   // Uma tela por aba, sem caso esquecido: uma aba nova sem tela vira erro de compilação.
   switch (tab) {
     case "home":
@@ -351,15 +355,16 @@ function Ready({
     case "hits":
       return <Hits day={day} date={date} save={latest} practice={practiceSummary(practice)} />;
     case "song":
-    case "album":
-      if (!day) return <Unavailable />;
+    case "album": {
+      const daily = dailies.find((d) => d.key === tab);
+      if (!daily) return <Unavailable />;
       return (
-        // key: cada diário monta do zero ao trocar de aba, com o save daquele momento.
+        // key: cada diário monta do zero ao trocar de diário, com o save daquele momento (no
+        // Anime, os 6 diários podem dividir a tela).
         <Game
-          key={tab}
-          target={tab}
-          day={day}
-          date={date}
+          key={daily.id}
+          daily={daily}
+          dailies={dailies}
           index={data.index}
           engine={engine}
           resolver={resolver}
@@ -372,6 +377,7 @@ function Ready({
           shareUrl={BASE_URL}
         />
       );
+    }
     case "practice":
       return (
         <Practice

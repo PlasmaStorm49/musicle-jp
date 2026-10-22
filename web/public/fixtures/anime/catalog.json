@@ -452,7 +452,7 @@
       "nameLatin": "Nana"
     }
   ],
-  "catalogVersion": "2026-10-05.d0d3d0bd",
+  "catalogVersion": "2026-10-05.d3def7b0",
   "franchises": [
     {
       "id": "anime:fr:futari_no_natsu",
@@ -608,7 +608,7 @@
       "explicit": false,
       "id": "fixture:tr:tr01",
       "latinSource": "provider",
-      "popularity": 0.7778,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -661,7 +661,7 @@
       "explicit": false,
       "id": "fixture:tr:tr05",
       "latinSource": "provider",
-      "popularity": 0.5556,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -715,7 +715,7 @@
       "explicit": false,
       "id": "fixture:tr:tr06",
       "latinSource": "provider",
-      "popularity": 0.8889,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -819,7 +819,7 @@
       "explicit": false,
       "id": "fixture:tr:tr08",
       "latinSource": "provider",
-      "popularity": 0.4444,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -871,7 +871,7 @@
       "explicit": false,
       "id": "fixture:tr:tr09",
       "latinSource": "provider",
-      "popularity": 0.4444,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -922,7 +922,7 @@
       "explicit": true,
       "id": "fixture:tr:tr10",
       "latinSource": "provider",
-      "popularity": 0.7778,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -973,7 +973,7 @@
       "explicit": false,
       "id": "fixture:tr:tr15",
       "latinSource": "provider",
-      "popularity": 0.1111,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1025,7 +1025,7 @@
       "explicit": false,
       "id": "fixture:tr:tr16",
       "latinSource": "provider",
-      "popularity": 0.5556,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1127,7 +1127,7 @@
       "explicit": false,
       "id": "fixture:tr:tr18",
       "latinSource": "provider",
-      "popularity": 0.5556,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1179,7 +1179,7 @@
       "explicit": false,
       "id": "fixture:tr:tr19",
       "latinSource": "provider",
-      "popularity": 0.1111,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1231,7 +1231,7 @@
       "explicit": false,
       "id": "fixture:tr:tr20",
       "latinSource": "provider",
-      "popularity": 0.8889,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1333,7 +1333,7 @@
       "explicit": false,
       "id": "fixture:tr:tr22",
       "latinSource": "provider",
-      "popularity": 0.7778,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1385,7 +1385,7 @@
       "explicit": false,
       "id": "fixture:tr:tr23",
       "latinSource": "provider",
-      "popularity": 0.8889,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1437,7 +1437,7 @@
       "explicit": false,
       "id": "fixture:tr:tr24",
       "latinSource": "provider",
-      "popularity": 0.7778,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1489,7 +1489,7 @@
       "explicit": false,
       "id": "fixture:tr:tr25",
       "latinSource": null,
-      "popularity": 0.5556,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1539,7 +1539,7 @@
       "explicit": false,
       "id": "fixture:tr:tr26",
       "latinSource": null,
-      "popularity": 0.2222,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1573,7 +1573,7 @@
           }
         ],
         "tiers": {
-          "musica": "facil",
+          "musica": "medio",
           "titulo": "medio"
         }
       },
@@ -1589,7 +1589,7 @@
       "explicit": false,
       "id": "fixture:tr:tr27",
       "latinSource": "provider",
-      "popularity": 1.0,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1642,7 +1642,7 @@
       "explicit": false,
       "id": "fixture:tr:tr29",
       "latinSource": "provider",
-      "popularity": 0.2222,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1693,7 +1693,7 @@
       "explicit": false,
       "id": "fixture:tr:tr30",
       "latinSource": "provider",
-      "popularity": 0.2222,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1744,7 +1744,7 @@
       "explicit": false,
       "id": "fixture:tr:tr31",
       "latinSource": "provider",
-      "popularity": 0.4444,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -1899,7 +1899,7 @@
       "explicit": false,
       "id": "fixture:tr:tr34",
       "latinSource": "provider",
-      "popularity": 0.7778,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2002,7 +2002,7 @@
       "explicit": false,
       "id": "fixture:tr:tr36",
       "latinSource": "provider",
-      "popularity": 0.5556,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2054,7 +2054,7 @@
       "explicit": false,
       "id": "fixture:tr:tr37",
       "latinSource": "provider",
-      "popularity": 0.5556,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2158,7 +2158,7 @@
       "explicit": false,
       "id": "fixture:tr:tr39",
       "latinSource": "provider",
-      "popularity": 0.5556,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2210,7 +2210,7 @@
       "explicit": false,
       "id": "fixture:tr:tr40",
       "latinSource": "provider",
-      "popularity": 0.2222,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2262,7 +2262,7 @@
       "explicit": false,
       "id": "fixture:tr:tr41",
       "latinSource": "provider",
-      "popularity": 0.7778,
+      "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -2314,7 +2314,7 @@
       "explicit": false,
       "id": "fixture:tr:tr42",
       "latinSource": "provider",
-      "popularity": 0.8889,
+      "popularity": 1.0,
       "preview": {
         "durationSec": 30,
         "startSec": 0,

@@ -1,7 +1,7 @@
 // Migrações do formato salvo: uma função por versão, de N para N+1, cada uma com um teste que
 // lê um save real da versão anterior (web/CLAUDE.md, regra 12).
 
-export const SAVE_SCHEMA_VERSION = 5;
+export const SAVE_SCHEMA_VERSION = 6;
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 
@@ -21,6 +21,11 @@ export const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // v4 → v5 (P163): com a ajuda na tela, o "Pular" continua (o evento SKIP depois do HELP, e
   // pulos depois do `help` da rodada). Também nada muda: a versão sobe pelo mesmo motivo da v4.
   4: (data) => data,
+  // v5 → v6 (P250): o save passa a aceitar os ids dos diários do Anime ("<data>|anime-<modo>-
+  // <dificuldade>"). Nada muda no que já existe: a versão sobe para que uma aba com o código velho
+  // (que não conhece esses ids e jogaria fora os jogos do Anime) veja "versão mais nova" e não
+  // grave.
+  5: (data) => data,
 };
 
 /** Leva um save da versão `from` até a atual. Versão sem migração conhecida: erro. */

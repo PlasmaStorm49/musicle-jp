@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { catalog } from "../../test/fixtures.ts";
 import type { FinishedGame } from "./records.ts";
+import { MODE_RULES } from "./rules.ts";
 import { shareGrid, shareText } from "./share.ts";
 
 /** Um dia do Normal: ouviu mais e acertou, errou, anulada. */
@@ -15,7 +16,7 @@ const normalGame: FinishedGame = {
 
 describe("shareGrid", () => {
   it("Normal: ⬛ por ouvir mais, ✅ ou ❌, ⬜ anulada (P42)", () => {
-    expect(shareGrid(normalGame, "album")).toEqual(["⬛✅", "❌", "⬜"]);
+    expect(shareGrid(normalGame, MODE_RULES.album)).toEqual(["⬛✅", "❌", "⬜"]);
   });
 
   it("Normal: desistir depois de ouvir mais fecha com ❌", () => {
@@ -23,7 +24,7 @@ describe("shareGrid", () => {
       ...normalGame,
       rounds: [{ status: "lost", stage: 2, attempts: [] }, ...normalGame.rounds.slice(1)],
     };
-    expect(shareGrid(gaveUp, "album")[0]).toBe("⬛⬛❌");
+    expect(shareGrid(gaveUp, MODE_RULES.album)[0]).toBe("⬛⬛❌");
   });
 
   it("Desafio: uma marca por tentativa; desistir fecha com ❌", () => {
@@ -39,7 +40,7 @@ describe("shareGrid", () => {
         },
       ],
     };
-    expect(shareGrid(desafio, "song")).toEqual(["❌⬛✅", "⬛❌", "❌❌⬛❌⬛❌"]);
+    expect(shareGrid(desafio, MODE_RULES.song)).toEqual(["❌⬛✅", "⬛❌", "❌❌⬛❌⬛❌"]);
   });
 
   it("Desafio com a ajuda (P149): 💡 onde foi pedida; desistir com ela fecha com ❌", () => {
@@ -51,8 +52,8 @@ describe("shareGrid", () => {
         { status: "lost", stage: 3, attempts: ["skip", "skip", "skip"], help: 3 },
       ],
     };
-    expect(shareGrid(desafio, "song")).toEqual(["⬛❌⬛💡✅", "⬛⬛⬛💡❌", "⬛⬛⬛💡❌"]);
-    expect(shareText("h", desafio, "song", "u").split("\n")[1]).toBe("1/18");
+    expect(shareGrid(desafio, MODE_RULES.song)).toEqual(["⬛❌⬛💡✅", "⬛⬛⬛💡❌", "⬛⬛⬛💡❌"]);
+    expect(shareText("h", desafio, MODE_RULES.song, "u").split("\n")[1]).toBe("1/18");
   });
 
   it("Desafio com pulos depois da ajuda (P163): o 💡 antes deles; desistir fecha com ❌", () => {
@@ -64,7 +65,11 @@ describe("shareGrid", () => {
         { status: "lost", stage: 4, attempts: ["skip", "skip", "skip", "skip", "wrong"], help: 3 },
       ],
     };
-    expect(shareGrid(desafio, "song")).toEqual(["⬛⬛⬛💡⬛✅", "⬛⬛⬛💡⬛❌", "⬛⬛⬛💡⬛❌"]);
+    expect(shareGrid(desafio, MODE_RULES.song)).toEqual([
+      "⬛⬛⬛💡⬛✅",
+      "⬛⬛⬛💡⬛❌",
+      "⬛⬛⬛💡⬛❌",
+    ]);
   });
 
   it("Desafio: pular até a 6ª tentativa com a ajuda não ganha ❌ a mais, como sem ela", () => {
@@ -77,7 +82,7 @@ describe("shareGrid", () => {
         { status: "void", stage: 0, attempts: [] },
       ],
     };
-    expect(shareGrid(desafio, "song")).toEqual(["⬛💡⬛⬛⬛⬛⬛", "⬛⬛⬛⬛⬛⬛", "⬜"]);
+    expect(shareGrid(desafio, MODE_RULES.song)).toEqual(["⬛💡⬛⬛⬛⬛⬛", "⬛⬛⬛⬛⬛⬛", "⬜"]);
   });
 
   it("Desafio: a ajuda na 5ª tentativa e o erro na 6ª, sem ❌ a mais", () => {
@@ -94,7 +99,7 @@ describe("shareGrid", () => {
         { status: "void", stage: 0, attempts: [] },
       ],
     };
-    expect(shareGrid(desafio, "song")[0]).toBe("⬛⬛⬛⬛⬛💡❌");
+    expect(shareGrid(desafio, MODE_RULES.song)[0]).toBe("⬛⬛⬛⬛⬛💡❌");
   });
 
   it("Desafio: 6 pulos ficam só ⬛; desistir sem tentar é um ❌", () => {
@@ -106,12 +111,12 @@ describe("shareGrid", () => {
         { status: "void", stage: 0, attempts: [] },
       ],
     };
-    expect(shareGrid(desafio, "song")).toEqual(["⬛⬛⬛⬛⬛⬛", "❌", "⬜"]);
+    expect(shareGrid(desafio, MODE_RULES.song)).toEqual(["⬛⬛⬛⬛⬛⬛", "❌", "⬜"]);
   });
 });
 
 describe("shareText", () => {
-  const text = shareText("AteMusic · Normal nº 1", normalGame, "album", "https://x.test/");
+  const text = shareText("AteMusic · Normal nº 1", normalGame, MODE_RULES.album, "https://x.test/");
 
   it("cabeçalho, pontos sobre o máximo, rodadas e endereço", () => {
     expect(text).toBe("AteMusic · Normal nº 1\n5/12\n⬛✅\n❌\n⬜\nhttps://x.test/");

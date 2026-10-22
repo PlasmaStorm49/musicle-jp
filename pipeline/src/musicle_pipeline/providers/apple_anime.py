@@ -31,6 +31,32 @@ from musicle_pipeline.providers.apple import (
 
 # O id do snapshot é o instante da busca, sem os dois-pontos (que o Windows não aceita no nome).
 SNAPSHOT_ID = re.compile(r"\d{4}-\d{2}-\d{2}T\d{6}Z")
+SNAPSHOT_KEYS = {
+    "provider",
+    "storefront",
+    "id",
+    "fetchedAt",
+    "anime",
+    "artists",
+    "resolved",
+    "tracks",
+}
+# Os campos aparados de cada faixa (os do fetch.py): outro seria resposta não aparada.
+TRACK_KEYS = {
+    "trackId",
+    "trackName",
+    "artistId",
+    "artistName",
+    "collectionId",
+    "collectionName",
+    "releaseDate",
+    "trackTimeMillis",
+    "collectionArtistName",
+    "trackExplicitness",
+    "previewUrl",
+    "artworkUrl100",
+    "trackViewUrl",
+}
 
 
 def snapshot_id(fetched_at: str) -> str:
@@ -64,12 +90,15 @@ class AppleAnimeProvider:
             data = read_json(path)
             if data.get("provider") != NAME or data.get("storefront") != STOREFRONT:
                 raise InputError(f"{path}: provider/storefront deveriam ser {NAME}/{STOREFRONT}")
-            snapshot, fetched_at = check_snapshot_header(data, str(path))
+            snapshot, fetched_at = check_snapshot_header(data, str(path), SNAPSHOT_KEYS)
             if snapshot != path.stem or snapshot != snapshot_id(fetched_at):
                 raise InputError(f"{path}: id {snapshot!r} não bate com o nome nem o fetchedAt")
             tracks, artists = data.get("tracks"), data.get("artists")
             if not isinstance(tracks, dict) or not isinstance(artists, dict):
                 raise InputError(f"{path}: tracks e artists deveriam ser objetos")
+            for tid, found in tracks.items():
+                if not isinstance(found, dict) or not set(found) <= TRACK_KEYS:
+                    raise InputError(f"{path}: faixa {tid} com campos fora dos aparados")
             lookups.update(tracks)
             official.update(artists)
             loaded.append((path, data))
