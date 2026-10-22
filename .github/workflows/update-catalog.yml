@@ -1,12 +1,17 @@
 # Toda segunda: busca a parada real do Japão (Apple), refaz o catálogo, acrescenta à agenda os
-# dias até hoje + 21 e abre um PR com isso. O merge desse PR, feito por uma pessoa, dispara o
-# deploy (rotina no README, "Publicação e atualização da parada e da agenda").
+# dias até hoje + 21 e abre um PR com isso. Quando a agenda do Anime da main tem menos de 21 dias
+# à frente (uma semana sim, outra não), o mesmo PR traz o Anime: umas 12 músicas novas no acervo e
+# os dias até hoje + 28 (P237). O merge desse PR, feito por uma pessoa, dispara o deploy (rotina no
+# README, "Publicação e atualização da parada e da agenda").
 #
-# Duas tarefas: quem roda o código do pipeline (a rede da Apple e os pacotes do pip) só lê o
-# repositório; quem escreve (push e PR) não roda o pipeline nem instala nada: só confere de novo,
-# com jq, cada arquivo que veio da outra (.github/scripts/check-catalog-pr.sh, da main). Um pacote
-# comprometido não chega perto do token que escreve. Os nomes fogem de pipeline, web e e2e
-# (checagens da main).
+# Quem roda o código do pipeline (a rede e os pacotes do pip: catalog-generate e anime-generate)
+# só lê o repositório. Quem escreve (push e PR: catalog-pr) não roda o pipeline nem instala nada:
+# só confere de novo, com jq, cada arquivo que veio das outras (.github/scripts/catalog-pr.sh, que
+# chama o check-catalog-pr.sh e o check-anime-pr.sh, da main). Um pacote comprometido não chega
+# perto do token que escreve. O segredo MAL_CLIENT_ID (opcional, P256) fica numa tarefa à parte,
+# anime-mal: outra máquina, sem permissão nenhuma, sem pip e só com a biblioteca padrão do Python,
+# que entrega só {id do MAL: posição} num artefato de 1 dia. Um pacote do pip nunca roda na
+# máquina que tem o segredo. Os nomes fogem de pipeline, web e e2e (checagens da main).
 name: Atualizar parada e agenda
 
 on:
@@ -31,6 +36,13 @@ env:
   FIXTURE_SCHEDULE: web/public/fixtures/schedule.json
   # Refeito só para a agenda das fixtures; ele mesmo não pode mudar (fica fora da lista).
   FIXTURE_CATALOG: web/public/fixtures/catalog.json
+  # A lista fechada do Anime (M14): o snapshot leva a hora da busca no nome (sem os dois-pontos).
+  ANIME_SNAPSHOTS: pipeline/data/apple/anime/snapshots
+  ANIME_CATALOG: web/public/data/anime/catalog.json
+  ANIME_SCHEDULE: web/public/data/anime/schedule.json
+  ANIME_FIXTURE_SCHEDULE: web/public/fixtures/anime/schedule.json
+  # Só lido (as respostas da agenda fictícia do Anime são dele); fica fora da lista.
+  ANIME_FIXTURE_CATALOG: web/public/fixtures/anime/catalog.json
 
 # Actions pinadas por SHA, em versões com 14 dias ou mais de publicadas (P28). Versão no comentário.
 jobs:
@@ -135,9 +147,191 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+  # O ranking do MyAnimeList (P256), numa máquina que não roda pacote do pip nem código do
+  # pacote: só o checkout e o setup-python (actions do GitHub, pinadas) e um módulo só da
+  # biblioteca padrão, rodado pelo caminho com o -I (sem a pasta do script e sem as variáveis
+  # PYTHON* no sys.path). O segredo entra só no env do passo do ranking. Sem o segredo, ou com
+  # falha, termina sem artefato, e a anime-generate segue com as fontes abertas.
+  anime-mal:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions: {}
+    outputs:
+      ranks: ${{ steps.mal.outputs.ready }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # O MAL só é chamado quando o Anime vai gerar (o uso mínimo, P256).
+      - id: due
+        name: O Anime precisa de dias novos?
+        run: TODAY="$(TZ=America/Sao_Paulo date +%F)" bash .github/scripts/anime-due.sh
+      - if: steps.due.outputs.due == 'true'
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - id: mal
+        if: steps.due.outputs.due == 'true'
+        name: Baixar o ranking do MyAnimeList
+        continue-on-error: true
+        env:
+          MAL_CLIENT_ID: ${{ secrets.MAL_CLIENT_ID }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/mal"
+          python -I pipeline/src/musicle_pipeline/mal_ranking.py --out "$RUNNER_TEMP/mal/ranks.json"
+          if [ -f "$RUNNER_TEMP/mal/ranks.json" ]; then echo "ready=true" >> "$GITHUB_OUTPUT"; fi
+      - if: steps.mal.outcome == 'failure'
+        run: echo "::warning::o ranking do MAL não veio; o Anime segue com as fontes abertas"
+      - if: steps.mal.outputs.ready == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: anime-mal
+          path: ${{ runner.temp }}/mal/ranks.json
+          retention-days: 1
+          if-no-files-found: error
+
+  # O Anime (M14, P237): roda junto com a catalog-generate e não depende dela. Só lê o
+  # repositório, sem segredo; o ranking do MAL chega pelo artefato da anime-mal. Se esta tarefa
+  # falhar ou passar do tempo, o PR sai só com os Hits.
+  anime-generate:
+    needs: anime-mal
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      ANIME_DAYS: "28" # os dias à frente de hoje (P237: só gera com menos de 21)
+    outputs:
+      changed: ${{ steps.collect.outputs.changed }}
+      today: ${{ steps.today.outputs.today }}
+      fetch: ${{ steps.fetch.outcome }}
+      # failure só quando a busca nova veio e ficou de fora (a reserva a descartou).
+      songs: ${{ steps.reserve.outputs.dropped == 'true' && 'failure' || 'success' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: today
+        name: Hoje em Brasília e agora em UTC
+        run: |
+          today="$(TZ=America/Sao_Paulo date +%F)"
+          now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Agora: $now (UTC); hoje em Brasília: $today"
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+          echo "now=$now" >> "$GITHUB_OUTPUT"
+      # O 1º passo de verdade: sem a agenda do Anime na main, ou com 21 dias ou mais à frente, o
+      # resto pula (P237).
+      - id: due
+        name: O Anime precisa de dias novos?
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: bash .github/scripts/anime-due.sh
+      - if: steps.due.outputs.due == 'true'
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            pipeline/pyproject.toml
+            pipeline/constraints.txt
+      # O extra romaji (o cutlet): o casamento lê o título japonês da Apple com ele.
+      - if: steps.due.outputs.due == 'true'
+        run: python -m pip install -c pipeline/constraints.txt -e "pipeline[romaji]"
+      - if: steps.due.outputs.due == 'true' && needs.anime-mal.outputs.ranks == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        continue-on-error: true
+        with:
+          name: anime-mal
+          path: ${{ runner.temp }}/mal
+      # A rede do Anime (AnimeThemes, AnisongDB e a Apple), com o prazo de 12 min: ao chegar
+      # nele, a busca para e grava o que já tem (estourar o timeout deixaria a tarefa sem
+      # artefato). Com falha, o resto segue com o acervo de antes.
+      - id: fetch
+        if: steps.due.outputs.due == 'true'
+        name: Buscar músicas novas do Anime
+        continue-on-error: true
+        env:
+          NOW: ${{ steps.today.outputs.now }}
+        run: |
+          ranks="$RUNNER_TEMP/mal/ranks.json"
+          extra=()
+          if [ -f "$ranks" ]; then
+            extra=(--ranks-file "$ranks")
+          else
+            echo "::notice::sem o ranking do MAL: o sorteio sai das playlists do AnimeThemes"
+          fi
+          python -m musicle_pipeline fetch --provider apple --anime --fetched-at "$NOW" "${extra[@]}" \
+            --max-songs 12 --max-anime 60 --deadline-min 12
+      - if: steps.fetch.outcome == 'failure'
+        run: echo "::warning::a busca do Anime falhou; a agenda do Anime cresce com o acervo de antes"
+      # A busca nova passa pelo acervo e pela agenda neste passo. Se algo quebrar com ela, o passo
+      # seguinte a descarta e cresce só a agenda (o molde da reserva dos Hits). O tee guarda os
+      # avisos e os afrouxamentos para o corpo do PR.
+      - id: songs
+        if: steps.due.outputs.due == 'true'
+        name: "Anime: acervo, agenda e validação"
+        continue-on-error: true
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: |
+          set -o pipefail
+          log="$RUNNER_TEMP/anime.log"
+          python -m musicle_pipeline build-anime --provider apple 2>&1 | tee -a "$log"
+          python -m musicle_pipeline schedule-anime --provider apple --today "$TODAY" --days "$ANIME_DAYS" 2>&1 | tee -a "$log"
+          python -m musicle_pipeline validate-anime --provider apple 2>&1 | tee -a "$log"
+      - id: reserve
+        if: steps.due.outputs.due == 'true' && steps.songs.outcome == 'failure'
+        name: "Reserva do Anime: sem a busca nova, só a agenda"
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+          NOW: ${{ steps.today.outputs.now }}
+        run: bash .github/scripts/anime-reserve.sh
+      # A agenda fictícia do Anime (ME109) cresce junto, para o npm run dev ter os diários de hoje.
+      # Só serve ao desenvolvimento: se ela falhar, o Anime real segue (o arquivo fica como está).
+      - id: fixture
+        if: steps.due.outputs.due == 'true'
+        name: Acrescentar os dias (Anime fictício)
+        continue-on-error: true
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: python -m musicle_pipeline schedule-anime --provider fixture --today "$TODAY" --days "$ANIME_DAYS"
+      - if: steps.fixture.outcome == 'failure'
+        run: echo "::warning::a agenda fictícia do Anime não cresceu (veja o passo anterior)"
+      - if: steps.due.outputs.due == 'true'
+        run: python -m musicle_pipeline validate-anime --provider apple
+      - if: steps.due.outputs.due == 'true'
+        run: python -m musicle_pipeline validate-anime --provider fixture
+      - if: steps.due.outputs.due == 'true'
+        name: Agenda só cresceu, sem dia passado, e os dias novos são os do gerador
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: python -m musicle_pipeline schedule-check --base-ref origin/main --today "$TODAY"
+      - id: collect
+        if: steps.due.outputs.due == 'true'
+        name: Só a lista fechada do Anime pode mudar
+        env:
+          NOW: ${{ steps.today.outputs.now }}
+        run: bash .github/scripts/anime-collect.sh
+      - if: steps.collect.outputs.changed == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: anime
+          path: ${{ runner.temp }}/anime-out
+          retention-days: 1
+          if-no-files-found: error
+
   catalog-pr:
-    needs: catalog-generate
-    if: needs.catalog-generate.outputs.changed == 'true'
+    needs: [catalog-generate, anime-generate]
+    # Basta um lado ter dado certo e mudado algo (P237). Um Anime que falhou ou passou do tempo
+    # não tem result success: o PR sai só com os Hits, como antes do Anime.
+    # As linhas com a mesma indentação: o >- as junta numa linha só, com espaços.
+    if: >-
+      ${{ !cancelled() && (
+      (needs.catalog-generate.result == 'success' && needs.catalog-generate.outputs.changed == 'true') ||
+      (needs.anime-generate.result == 'success' && needs.anime-generate.outputs.changed == 'true')
+      ) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -149,21 +343,33 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - if: needs.catalog-generate.result == 'success' && needs.catalog-generate.outputs.changed == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: catalog
           path: ${{ runner.temp }}/artifact
+      - if: needs.anime-generate.result == 'success' && needs.anime-generate.outputs.changed == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: anime
+          path: ${{ runner.temp }}/anime-artifact
       - id: prep
         name: Conferir cada arquivo novo e montar o PR (sem token)
         env:
-          # O "hoje" que vale é o desta tarefa: o da outra saiu depois do pip install (ME44).
+          # O "hoje" que vale é o desta tarefa: os das outras saíram depois do pip install (ME44).
           GENERATED_TODAY: ${{ needs.catalog-generate.outputs.today }}
           FETCH: ${{ needs.catalog-generate.outputs.fetch }}
           CHART: ${{ needs.catalog-generate.outputs.chart }}
+          HITS_RESULT: ${{ needs.catalog-generate.result }}
+          ANIME_GENERATED_TODAY: ${{ needs.anime-generate.outputs.today }}
+          ANIME_FETCH: ${{ needs.anime-generate.outputs.fetch }}
+          ANIME_SONGS: ${{ needs.anime-generate.outputs.songs }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        # Só jq e coreutils, num script da main com teste (pipeline/tests/test_catalog_pr_script.py).
+        # Só jq e coreutils, em scripts da main com teste (pipeline/tests/test_catalog_pr_script.py
+        # e test_anime_pr_script.py). A recusa dos Hits para tudo; a do Anime deixa o Anime de
+        # fora (anime_rejected), e o último passo fica vermelho depois de abrir o PR.
         run: |
-          TODAY="$(TZ=America/Sao_Paulo date +%F)" bash .github/scripts/check-catalog-pr.sh
+          TODAY="$(TZ=America/Sao_Paulo date +%F)" bash .github/scripts/catalog-pr.sh
       - id: branch
         name: O branch de hoje já existe?
         env:
@@ -183,7 +389,8 @@ jobs:
           BRANCH: ${{ steps.prep.outputs.branch }}
           TITLE: ${{ steps.prep.outputs.title }}
         run: |
-          mapfile -t changed < "$RUNNER_TEMP/artifact/changed.txt"
+          # A lista dos dois lados que passaram na conferência (catalog-pr.sh).
+          mapfile -t changed < "$RUNNER_TEMP/changed.txt"
           git switch -c "$BRANCH"
           git add -- "${changed[@]}"
           git -c user.name="github-actions[bot]" \
@@ -213,7 +420,7 @@ jobs:
               # Mesmo conteúdo: nada a fazer. Outro conteúdo (a busca falhou de manhã e voltou à
               # tarde, ou o PR veio do robô antigo): avisa em vermelho, para não ficar o velho.
               git fetch -q --depth=1 origin "refs/heads/$BRANCH"
-              mapfile -t changed < "$RUNNER_TEMP/artifact/changed.txt"
+              mapfile -t changed < "$RUNNER_TEMP/changed.txt"
               same=true
               [ "$(git diff --name-only HEAD FETCH_HEAD | sort)" = "$(printf '%s\n' "${changed[@]}" | sort)" ] || same=false
               for path in "${changed[@]}"; do
@@ -242,14 +449,22 @@ jobs:
             while read -r old; do
               gh pr close "$old" --delete-branch --comment "Substituído por $url, gerado de novo a partir da main de hoje."
             done
+      # A conferência recusou o artefato do Anime: o PR saiu só com os Hits (P237), e a tarefa
+      # fica vermelha (o GitHub manda e-mail) para alguém ver o porquê.
+      - name: O Anime ficou de fora?
+        if: steps.prep.outputs.anime_rejected == 'true'
+        run: |
+          echo "::error::a conferência recusou o artefato do Anime (veja o passo \"Conferir cada arquivo novo e montar o PR\"); o PR saiu só com os Hits"
+          exit 1
 
   catalog-runway:
-    # Folga da agenda. Se o PR semanal ficar sem merge, a agenda acaba e o dia vira buraco para
+    # Folga das agendas. Se o PR semanal ficar sem merge, a agenda acaba e o dia vira buraco para
     # sempre (P44); o aviso do deploy só sai quando há deploy. Esta tarefa fica vermelha (e o
-    # GitHub manda e-mail) quando a agenda da main tem menos de 10 dias à frente: numa semana
-    # normal ela tem 14 antes do merge de segunda; com uma semana sem merge, 7. Roda mesmo se as
-    # outras falharem (é quando mais importa), depois delas, e calcula a própria data.
-    needs: [catalog-generate, catalog-pr]
+    # GitHub manda e-mail) quando a agenda do site ou a do Anime da main tem menos de 10 dias à
+    # frente. Numa semana normal, a do site tem 14 antes do merge de segunda; a do Anime, 14 ou 21
+    # (ela cresce uma semana sim, outra não). Com uma semana sem merge, 7. Roda mesmo se as outras
+    # falharem (é quando mais importa), depois delas, e calcula a própria data.
+    needs: [catalog-generate, anime-generate, catalog-pr]
     if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -259,12 +474,22 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: A agenda da main tem folga?
+      - name: As agendas da main têm folga?
         run: |
           today="$(TZ=America/Sao_Paulo date +%F)"
-          ahead="$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' "$SCHEDULE")"
-          echo "Agenda da main: $ahead dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
-          if [ "$ahead" -lt 10 ]; then
-            echo "::error::a agenda da main só tem $ahead dia(s) à frente: faça hoje o merge do PR semanal (catalogo/...)"
-            exit 1
-          fi
+          short=0
+          for pair in "do site:$SCHEDULE" "do Anime:$ANIME_SCHEDULE"; do
+            label="${pair%%:*}"
+            file="${pair#*:}"
+            if [ "$label" = "do Anime" ] && [ ! -f "$file" ]; then
+              echo "Agenda do Anime: ainda não existe na main." >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+            ahead="$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' "$file")"
+            echo "Agenda $label na main: $ahead dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
+            if [ "$ahead" -lt 10 ]; then
+              echo "::error::a agenda $label na main só tem $ahead dia(s) à frente: faça hoje o merge do PR semanal (catalogo/...); se ele não a trouxe, veja por quê na execução"
+              short=1
+            fi
+          done
+          exit "$short"
