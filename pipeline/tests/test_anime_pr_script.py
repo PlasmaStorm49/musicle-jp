@@ -612,7 +612,7 @@ def test_the_warnings_go_to_a_code_block(tmp_path):
     done, _, temp = run(tmp_path, full_change(), avisos=avisos)
     assert done.returncode == 0, done.stdout + done.stderr
     text = section(temp)
-    assert "(2 no log da execução; até 50 aqui)" in text
+    assert "(2 sem repetir; até 50 aqui)" in text
     assert "afrouxamento: x --- @alguém" in text
     assert text.count("~~~") == 2
 
@@ -629,7 +629,7 @@ def test_the_warnings_are_capped_in_lines_and_characters(tmp_path):
     assert len(block) == 50
     assert block[0] == "aviso: " + "長" * 292  # 300 caracteres, menos o de controle
     assert "\x1b" not in text and "depois do corte" not in text
-    assert "(81 no log da execução; até 50 aqui)" in text
+    assert "(81 sem repetir; até 50 aqui)" in text
     assert len(text) < 20_000
 
 

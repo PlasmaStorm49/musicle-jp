@@ -398,7 +398,7 @@ def test_the_cli_reads_the_ranks_file_and_ignores_the_variable(monkeypatch, tmp_
             "storefront": "jp",
             "id": "2026-10-22T010000Z",
             "fetchedAt": fetched_at,
-            "anime": [],
+            "anime": [{"malId": 38000, "themes": []}],
             "artists": {},
             "resolved": {},
             "tracks": {},
@@ -413,9 +413,45 @@ def test_the_cli_reads_the_ranks_file_and_ignores_the_variable(monkeypatch, tmp_
     assert seen["mal"] is None
     assert seen["mal_file"].order == (38000,) and seen["mal_file"].levels == {38000: 9}
     assert seen["kwargs"]["max_songs"] == 12
-    assert read_json(out_dir / "2026-10-22T010000Z.json")["anime"] == []
+    assert len(read_json(out_dir / "2026-10-22T010000Z.json")["anime"]) == 1
     captured = capsys.readouterr()
     assert FAKE_ID not in captured.out + captured.err
+
+
+def test_the_cli_writes_nothing_without_any_anime(monkeypatch, tmp_path, capsys):
+    # As fontes fora do ar: sem anime nenhum, nada é gravado e o comando sai com 1 (revisor).
+    def empty(fetched_at, romanize, tried, resolved, official, io, **kwargs):
+        return {"anime": [], "artists": {}, "resolved": {}, "tracks": {}}
+
+    monkeypatch.setattr(fa, "fetch_anime_snapshot", empty)
+    monkeypatch.setattr(fa, "cached_romanizer", lambda: lambda t: (t,))
+    out_dir = tmp_path / "snapshots"
+    args = [
+        "fetch",
+        "--provider",
+        "apple",
+        "--anime",
+        "--fetched-at",
+        NOW,
+        "--out-dir",
+        str(out_dir),
+    ]
+    assert cli_main(args) == 1
+    assert "nenhum anime veio; nada foi gravado" in capsys.readouterr().err
+    assert not out_dir.exists() or not any(out_dir.iterdir())
+
+
+def test_the_ranking_skips_an_id_the_file_would_refuse():
+    # Um id de 10 dígitos do MAL fica de fora da busca, e o arquivo continua legível (revisor).
+    def get(url: str) -> bytes:
+        offset = int(parse_qs(urlsplit(url).query)["offset"][0])
+        page = [
+            {"node": {"id": 38000}, "ranking": {"rank": 1}},
+            {"node": {"id": 10**9}, "ranking": {"rank": 2}},
+        ]
+        return json.dumps({"data": page if offset == 0 else []}).encode()
+
+    assert mal_ranking.fetch_ranking(get, lambda _s: None, size=10) == {38000: 1}
 
 
 def test_the_cli_refuses_a_bad_ranks_file_before_the_network(monkeypatch, tmp_path, capsys):

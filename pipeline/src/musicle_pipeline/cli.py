@@ -565,6 +565,11 @@ def _fetch_anime(args: argparse.Namespace) -> int:
         kept = f"o que já veio ficou em {out}" if out.exists() else "nada foi gravado"
         print(f"fetch --anime: {exc}; {kept}", file=sys.stderr)
         return 1
+    if not snapshot["anime"]:
+        # As fontes não deram nenhum anime (o AnimeThemes fora do ar, a Apple caindo no 1º): um
+        # snapshot vazio entraria no catálogo e ficaria para sempre (os snapshots só crescem).
+        print("fetch --anime: nenhum anime veio; nada foi gravado", file=sys.stderr)
+        return 1
     write_if_changed(out, dumps(snapshot))
     themes = [t for a in snapshot["anime"] for t in a["themes"]]
     matched = sum(t["result"] == "matched" for t in themes)

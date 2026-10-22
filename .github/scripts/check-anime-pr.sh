@@ -30,8 +30,9 @@ MAX_SNAPSHOT_BYTES=$((2 * 1024 * 1024))
 MAX_CATALOG_BYTES=$((3 * 1024 * 1024))
 
 [[ "$TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || fail "data inválida: $TODAY"
-# O "hoje" da anime-generate saiu depois do pip install: um pacote comprometido poderia mandar uma
-# data no futuro (P44). Vale o desta tarefa (ME44). O valor não vai para a mensagem.
+# O "hoje" da anime-generate vem da tarefa que roda os pacotes do pip: um pacote comprometido
+# poderia mandar uma data no futuro (P44). Vale o desta tarefa (ME44). O valor não vai para a
+# mensagem.
 [ "${ANIME_GENERATED_TODAY:-}" = "$TODAY" ] \
   || fail "a tarefa do Anime gerou para outro dia (hoje é $TODAY): rode uma execução nova (gh workflow run update-catalog.yml)"
 limit="$(date -ud "$TODAY + $LIMIT_DAYS days" +%F)"
@@ -245,7 +246,7 @@ fi
   fi
   if [ -n "$warnings" ]; then
     echo
-    echo "**Avisos e afrouxamentos do Anime** ($warning_count no log da execução; até 50 aqui):"
+    echo "**Avisos e afrouxamentos do Anime** ($warning_count sem repetir; até 50 aqui):"
     echo
     echo "~~~text"
     echo "$warnings"

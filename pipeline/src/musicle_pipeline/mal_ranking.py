@@ -15,9 +15,11 @@ Serve em dois lugares:
   teste confere). A tarefa que gera lê o arquivo com o `fetch --anime --ranks-file`, sem o
   segredo.
 
-O arquivo tem só o que o repositório já guarda do MAL (P254, P256): o nível de 0 a 9 de cada
-anime (`mal_level`) e a ordem de popularidade, uma lista de ids do mais popular ao menos (o
-sorteio só precisa da ordem). A posição bruta no ranking nunca vai para ele (P12 do PR B):
+O arquivo tem o nível de 0 a 9 de cada anime (`mal_level`), o mesmo que o repositório guarda
+(P254, P256), e a ordem de popularidade, uma lista de ids do mais popular ao menos (o sorteio só
+precisa da ordem). O número da posição não vai para ele (P12 do PR B), mas a ordem equivale à
+posição, porque o ranking do MAL é contínuo: aceito pelo usuário, porque o arquivo só vive no
+artefato de 1 dia da anime-mal e nunca entra no repositório:
 
       {"levels": {"38000": 9, "5114": 9}, "order": [38000, 5114]}
 
@@ -59,6 +61,9 @@ ROBOT_TIMEOUT_SEC = 20
 MAX_BYTES = 5 * 1024 * 1024
 # O arquivo lido pelo --ranks-file: mais que isso não é o ranking que este módulo grava.
 MAX_RANKS = 20_000
+# Os ids do MAL que o arquivo aceita (até 9 dígitos): a busca descarta os outros, para um id
+# estranho do MAL não invalidar o arquivo inteiro na leitura.
+MAX_ID = 10**9
 _ID = re.compile(r"[1-9][0-9]{0,8}")
 # A posição no ranking de popularidade do MAL → o nível de 0 a 9 (P254): o topo de todos os
 # tempos é 9. Fica aqui, e não no fetch_anime, porque o arquivo da anime-mal já sai com o nível.
@@ -79,7 +84,7 @@ def mal_level(rank: int) -> int:
 @dataclass(frozen=True)
 class RankingFile:
     """O arquivo da anime-mal, lido: a ordem de popularidade (do mais popular ao menos) e o
-    nível de cada anime. Sem a posição bruta (P254)."""
+    nível de cada anime. Sem o número da posição (P254)."""
 
     order: tuple[int, ...]
     levels: Mapping[int, int]
@@ -173,7 +178,7 @@ def fetch_ranking(
             if not isinstance(node, dict) or not isinstance(ranking, dict):
                 continue
             mal_id, rank = node.get("id"), ranking.get("rank")
-            if _positive(mal_id) and _positive(rank):
+            if _positive(mal_id) and mal_id < MAX_ID and _positive(rank):
                 ranks.setdefault(mal_id, rank)
         offset += len(data)
     return top_ranks(ranks, size)
@@ -190,7 +195,7 @@ def top_ranks(ranks: Mapping[int, int], size: int) -> dict[int, int]:
 
 
 def write_ranks(path: Path, ranks: Mapping[int, int]) -> None:
-    """Grava o arquivo da anime-mal, sem a posição bruta (P254): a ordem de popularidade (os
+    """Grava o arquivo da anime-mal, sem o número da posição (P254): a ordem de popularidade (os
     ids, do mais popular ao menos) e o nível de 0 a 9 de cada anime, em UTF-8 com \\n, num
     arquivo temporário trocado no fim."""
     order = list(top_ranks(ranks, len(ranks)))
@@ -218,7 +223,7 @@ def load_ranks(path: Path) -> RankingFile:
     order, levels = data["order"], data["levels"]
     if not isinstance(order, list) or not 0 < len(order) <= MAX_RANKS:
         raise MalError(f"{path.name}: esperada uma ordem com 1 a {MAX_RANKS} animes")
-    if not all(_positive(m) and m < 10**9 for m in order) or len(set(order)) != len(order):
+    if not all(_positive(m) and m < MAX_ID for m in order) or len(set(order)) != len(order):
         raise MalError(where)
     if not isinstance(levels, dict) or len(levels) != len(order):
         raise MalError(where)
