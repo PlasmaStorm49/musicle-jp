@@ -3,8 +3,12 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
+import type { AnimeDifficulty, AnimeMode } from "../src/core/daily.ts";
 import type {
   Album,
+  AnimeCatalog,
+  AnimeSchedule,
+  AnimeTrack,
   ArtistCatalog,
   ArtistList,
   Catalog,
@@ -21,6 +25,9 @@ function fixture<T>(name: string): T {
 
 const catalog = fixture<Catalog>("catalog.json");
 const schedule = fixture<Schedule>("schedule.json");
+/** O Anime fictício (M14): as faixas são as da parada fictícia (o mesmo áudio sintético). */
+const animeCatalog = fixture<AnimeCatalog>("anime/catalog.json");
+const animeSchedule = fixture<AnimeSchedule>("anime/schedule.json");
 
 declare global {
   interface Window {
@@ -64,10 +71,41 @@ export async function viaHits(page: Page, game: RegExp): Promise<void> {
   await page.getByRole("main").getByRole("link", { name: game }).click();
 }
 
+/** A aba Anime da nav (M14). Pelo começo do nome: com o ✓, ele vira "Anime (já jogou hoje)". */
+export function animeTab(page: Page): Locator {
+  return page.getByRole("navigation").getByRole("link", { name: /^Anime/ });
+}
+
+/**
+ * Vai a uma tela do Anime como a pessoa: a aba Anime da nav, o cartão do modo e, com `level`, o
+ * cartão da dificuldade (o diário).
+ */
+export async function viaAnime(page: Page, mode: RegExp, level?: RegExp): Promise<void> {
+  await animeTab(page).click();
+  await page.getByRole("main").getByRole("link", { name: mode }).click();
+  if (level) await page.getByRole("main").getByRole("link", { name: level }).click();
+}
+
 /** A faixa-resposta de uma rodada do diário, lida da agenda falsa. */
 export function dailyAnswer(date: string, target: Target, round: number): string {
   const answer = schedule.days[date]?.[target][round]?.answer;
   if (!answer) throw new Error(`a agenda não tem a rodada ${round} de ${target} em ${date}`);
+  return answer;
+}
+
+/** A faixa-resposta de uma rodada de um diário do Anime, lida da agenda falsa do Anime. */
+export function animeAnswer(
+  date: string,
+  mode: AnimeMode,
+  difficulty: AnimeDifficulty,
+  round: number,
+): string {
+  const answer = animeSchedule.days[date]?.[mode][difficulty][round]?.answer;
+  if (!answer) {
+    throw new Error(
+      `a agenda do Anime não tem a rodada ${round} de ${mode}/${difficulty} em ${date}`,
+    );
+  }
   return answer;
 }
 
@@ -76,6 +114,14 @@ export async function lastPlayed(page: Page): Promise<Track> {
   const url = await page.evaluate(() => window.__musicleAudioLog?.at(-1)?.url ?? "");
   const track = catalog.tracks.find((t) => t.preview && url.endsWith(t.preview.url));
   if (!track) throw new Error(`faixa tocada não está no catálogo: ${url}`);
+  return track;
+}
+
+/** A faixa do Anime que acabou de "tocar", lida do catálogo falso do Anime. */
+export async function lastPlayedAnime(page: Page): Promise<AnimeTrack> {
+  const url = await page.evaluate(() => window.__musicleAudioLog?.at(-1)?.url ?? "");
+  const track = animeCatalog.tracks.find((t) => t.preview && url.endsWith(t.preview.url));
+  if (!track) throw new Error(`faixa tocada não está no catálogo do Anime: ${url}`);
   return track;
 }
 
@@ -125,10 +171,10 @@ export async function appleArtistList(page: Page): Promise<void> {
 const tail = (id: string) => id.split(":").at(-1) ?? id;
 
 /**
- * O catálogo e os arquivos dos artistas como os da parada real: o provedor "apple" (que põe o selo
- * do Apple Music no fim da rodada, P69), as prévias no host da Apple (o motor falso nunca as baixa)
- * e as capas num host da Apple, respondidas do disco. O lookup do iTunes falha de propósito, e
- * vale a reserva do catálogo. Nenhum pedido sai para a rede. Chame antes do `open`.
+ * O catálogo, os arquivos dos artistas e o catálogo do Anime como os reais: o provedor "apple" (que
+ * põe o selo do Apple Music no fim da rodada, P69), as prévias no host da Apple (o motor falso
+ * nunca as baixa) e as capas num host da Apple, respondidas do disco. O lookup do iTunes falha de
+ * propósito, e vale a reserva do catálogo. Nenhum pedido sai para a rede. Chame antes do `open`.
  * `albumTitle` troca o título de um álbum (o real chega a 89 caracteres); `explicit` marca todas
  * as faixas como explícitas (a pílula no player, P31: o caso mais alto da rodada).
  */
@@ -145,9 +191,9 @@ export async function appleCatalog(
     readonly explicit?: boolean;
   } = {},
 ): Promise<void> {
-  await page.route(/\/fixtures\/(catalog|artists\/ar\d+)\.json$/, async (route) => {
+  await page.route(/\/fixtures\/(catalog|artists\/ar\d+|anime\/catalog)\.json$/, async (route) => {
     const response = await route.fetch();
-    const data = (await response.json()) as Catalog | ArtistCatalog;
+    const data = (await response.json()) as Catalog | ArtistCatalog | AnimeCatalog;
     const tracks = data.tracks.map((t) =>
       t.preview
         ? {

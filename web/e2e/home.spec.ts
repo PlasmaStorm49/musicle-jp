@@ -1,18 +1,23 @@
 import type { Save } from "../src/core/records.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
-import { expect, hitsTab, open, test } from "./helpers.ts";
+import { animeTab, expect, hitsTab, open, test } from "./helpers.ts";
 
-test("as três abas (a Início, os Hits e os Artistas) cabem numa linha também em 320 px, com o ✓ dos Hits (P225, P227)", async ({
+test("as quatro abas (a Início, os Hits, o Anime e os Artistas) cabem numa linha também em 320 px, com o ✓ dos Hits e o do Anime (P225, P227, P247)", async ({
   page,
 }) => {
   // A fonte muda com o sistema (a CI é Linux): o teste mede, e o CSS tem folga para isso.
   await page.setViewportSize({ width: 320, height: 640 });
-  // Os dois diários de 08/10 já terminados: a aba Hits ganha o ✓, o caso mais largo.
+  // Os dois diários dos Hits e um do Anime de 08/10 já terminados: as abas Hits e Anime ganham o
+  // ✓, o caso mais largo.
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
   const save = {
     schemaVersion: 6,
-    history: { "2026-10-08|album": day, "2026-10-08|song": day },
+    history: {
+      "2026-10-08|album": day,
+      "2026-10-08|song": day,
+      "2026-10-08|anime-musica-medio": day,
+    },
     inProgress: {},
   } satisfies Save;
   await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
@@ -21,15 +26,16 @@ test("as três abas (a Início, os Hits e os Artistas) cabem numa linha também 
   ] as const);
   await open(page, "2026-10-08T12:00:00-03:00", "");
   const tabs = page.getByRole("navigation").getByRole("link");
-  await expect(tabs).toHaveCount(3);
-  await expect(tabs.filter({ hasText: "✓" })).toHaveCount(1);
+  await expect(tabs).toHaveCount(4);
+  await expect(tabs.filter({ hasText: "✓" })).toHaveCount(2);
   await expect(hitsTab(page)).toHaveAccessibleName("Hits (diários terminados)");
+  await expect(animeTab(page)).toHaveAccessibleName("Anime (já jogou hoje)");
   // A Noto Sans JP (P175) chega depois da página: mede com ela, e não com a fonte de reserva. O
   // load pede os dois pesos das abas (o ready sozinho termina na hora se nada estiver pendente).
   await page.evaluate(async () => {
     await Promise.all([
-      document.fonts.load('400 0.9rem "Noto Sans JP"', "Hits Artistas ✓"),
-      document.fonts.load('700 0.9rem "Noto Sans JP"', "Início"),
+      document.fonts.load('400 0.9rem "Noto Sans JP"', "Hits Anime Artistas ✓"),
+      document.fonts.load('700 0.9rem "Noto Sans JP"', "Início Anime Artistas"),
     ]);
     await document.fonts.ready;
   });
@@ -90,6 +96,13 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
   await nav.getByRole("link", { name: "Artistas" }).click();
   await expect(nav.getByRole("link", { name: "Artistas" })).toHaveAttribute("aria-current", "page");
   await expect(hitsTab(page)).not.toHaveAttribute("aria-current");
+  // O Anime (M14): o cartão da Início abre a tela dele, com a aba marcada.
+  await page.getByRole("link", { name: "Início" }).click();
+  await expect(title).toBeFocused();
+  await cards.getByRole("link", { name: /^Anime/ }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
+  await expect(animeTab(page)).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Artistas" })).not.toHaveAttribute("aria-current");
 });
 
 test("toque duplo no cartão dos Hits da Início: abre os Hits, e o 2º clique não abre um diário (regra 23)", async ({
@@ -98,6 +111,17 @@ test("toque duplo no cartão dos Hits da Início: abre os Hits, e o 2º clique n
   await open(page, "2026-10-08T12:00:00-03:00", "");
   await page.getByRole("main").getByRole("link", { name: /^Hits/ }).dblclick();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Hits");
+});
+
+test("toque duplo no cartão do Anime da Início: abre o Anime, e o 2º clique não abre a dificuldade (regra 23)", async ({
+  page,
+}) => {
+  await open(page, "2026-10-08T12:00:00-03:00", "");
+  await page
+    .getByRole("main")
+    .getByRole("link", { name: /^Anime/ })
+    .dblclick();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime");
 });
 
 test("links de antes dos dois modos (#musica, #album) abrem a home", async ({ page }) => {

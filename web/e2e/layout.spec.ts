@@ -1,8 +1,9 @@
 // A interface nova (M12, PR D): as telas cabem sem rolar nos tamanhos de contrato (P214), nada rola
 // para o lado em 320 px e os alvos têm 44 px. Cada PR do D acrescentou as telas dele: o D1, as de
 // escolha; o D2, as rodadas, com o selo da Apple simulado (appleCatalog) e a altura reservada; o
-// D3, a revelação e o resumo do dia.
+// D3, a revelação e o resumo do dia. O Anime (M14, PR D2) acrescentou as telas dele e a 4ª aba.
 import type { Locator, Page } from "@playwright/test";
+import { PLAYLIST_URL } from "../src/core/apple.ts";
 import type { Save } from "../src/core/records.ts";
 import type { Catalog } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
@@ -87,14 +88,18 @@ for (const viewport of [
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
-    test("a Início no caso mais alto: os dois diários terminados no cartão dos Hits e a sessão do artista", async ({
+    test("a Início no caso mais alto: os dois diários terminados no cartão dos Hits, um do Anime e a sessão do artista", async ({
       page,
     }) => {
       const lost = { status: "lost", stage: 0, attempts: [] } as const;
       const day = { number: 1, rounds: [lost, lost, lost] };
       const save = {
         schemaVersion: 6,
-        history: { "2026-10-08|album": day, "2026-10-08|song": day },
+        history: {
+          "2026-10-08|album": day,
+          "2026-10-08|song": day,
+          "2026-10-08|anime-musica-facil": day,
+        },
         inProgress: {},
       } satisfies Save;
       await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
@@ -112,7 +117,80 @@ for (const viewport of [
         "Normal: terminado, 0 de 18 pontos",
         "Desafio: terminado, 0 de 18 pontos",
       ]);
+      await expect(cards.filter({ hasText: /^Anime/ }).locator(".tag")).toHaveText([
+        "Hoje: 1 de 3 terminados",
+      ]);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("a tela do Anime: os dois modos (P233)", async ({ page }) => {
+      await open(page, DAY, "#anime");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime");
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("a escolha da dificuldade do Anime, com os 3 diários terminados", async ({ page }) => {
+      const lost = { status: "lost", stage: 0, attempts: [] } as const;
+      const day = { number: 1, rounds: [lost, lost, lost] };
+      const save = {
+        schemaVersion: 6,
+        history: {
+          "2026-10-08|anime-musica-facil": day,
+          "2026-10-08|anime-musica-medio": day,
+          "2026-10-08|anime-musica-dificil": day,
+        },
+        inProgress: {},
+      } satisfies Save;
+      await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
+        SAVE_KEY,
+        JSON.stringify(save),
+      ] as const);
+      await open(page, DAY, "#anime-musica");
+      await expect(page.getByRole("main").getByRole("link", { name: /^Difícil/ })).toContainText(
+        "nº 1 · terminado, 0 de 18 pontos",
+      );
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o diário do Anime com o selo da Apple: o Tocar não anda até a última tentativa, e o selo leva à playlist, nunca à música", async ({
+      page,
+    }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#anime-musica-facil");
+      const play = page.getByRole("button", { name: /^Tocar/ });
+      await expect(play).toBeEnabled();
+      const badge = page.getByRole("link", { name: /Apple Music/ });
+      await expect(badge).toHaveAttribute("href", PLAYLIST_URL);
+      await overflow(page); // as fontes e as imagens, antes de medir
+      const before = await top(play);
+      await skip(page, 5);
+      await expect(page.getByText("Tentativa 6 de 6", { exact: true })).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      expect(await top(play)).toBe(before);
+      await expect(badge).toBeInViewport({ ratio: 1 });
+    });
+
+    test("a revelação do diário do Anime com 5 tentativas e o selo da Apple", async ({ page }) => {
+      await appleCatalog(page);
+      await open(page, DAY, "#anime-musica-medio");
+      await skip(page, 5);
+      await page.getByRole("button", { name: "Desistir" }).click();
+      await expect(page.locator(".reveal .attempt")).toHaveCount(5);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test("o resumo do diário do Anime", async ({ page }) => {
+      await open(page, DAY, "#anime-musica-dificil");
+      for (const next of ["Próxima rodada", "Próxima rodada", "Ver resultado"]) {
+        await page.getByRole("button", { name: "Desistir" }).click();
+        await page.getByRole("button", { name: next }).click();
+      }
+      await expect(page.getByRole("heading", { name: "Resultado do dia" })).toBeFocused();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("button", { name: "Compartilhar resultado" })).toBeInViewport({
+        ratio: 1,
+      });
     });
 
     test("os Hits no caso mais alto: os dois diários terminados e a sessão do Treino com placar (P225)", async ({
@@ -296,6 +374,10 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     ["#desafio", "Desafio · nº 1"],
     ["#treino", "Treino"],
     ["#artistas", "Artistas"],
+    ["#anime", "Anime"],
+    ["#anime-musica", "Acertar a música"],
+    ["#anime-titulo", "Acertar o anime"],
+    ["#anime-musica-dificil", "Música · Difícil · nº 1"],
   ] as const) {
     await page.evaluate((h) => {
       window.location.hash = h;
@@ -303,6 +385,19 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
     expect((await overflow(page)).horizontal, hash).toBeLessThanOrEqual(0);
   }
+});
+
+test("em 320 px, o cabeçalho do diário do Anime fica numa linha: o nome do diário e a rodada", async ({
+  page,
+}) => {
+  // O nome mais longo ("Música · Difícil") com o nº de dois algarismos (21/10 é o nº 14): numa
+  // linha, a rodada tem a altura da do Desafio, que cabe em 360 × 640 com pouca folga.
+  await page.setViewportSize({ width: 320, height: 640 });
+  await open(page, "2026-10-21T12:00:00-03:00", "#anime-musica-dificil");
+  const title = page.getByRole("heading", { level: 1 });
+  await expect(title).toHaveText("Música · Difícil · nº 14");
+  await overflow(page);
+  expect(await top(page.locator(".round-head > p"))).toBe(await top(title));
 });
 
 // Na parada real, a linha do artista passa da tela ("米津玄師 & 宇多田ヒカル · Kenshi Yonezu &
@@ -376,14 +471,16 @@ async function target(locator: Locator): Promise<{ height: number; width: number
   return { height: box?.height ?? 0, width: box?.width ?? 0 };
 }
 
-test("a nav: o selo é a Início (P205), e as 3 categorias têm alvo de 44 × 44 px (P225)", async ({
+test("a nav: o selo é a Início (P205), e as 4 categorias (Início, Hits, Anime e Artistas) têm alvo de 44 × 44 px (P225)", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
   await open(page, DAY, "#normal");
   const nav = page.getByRole("navigation");
   await expect(nav.getByRole("link", { name: "Início" }).locator("img.nav-logo")).toBeVisible();
+  await expect(nav.getByRole("link")).toHaveText(["Início", /^Hits/, /^Anime/, "Artistas"]);
   const links = await nav.getByRole("link").all();
-  expect(links).toHaveLength(3);
+  expect(links).toHaveLength(4);
   for (const link of links) {
     const { height, width } = await target(link);
     expect(height).toBeGreaterThanOrEqual(44);
