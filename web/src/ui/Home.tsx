@@ -153,7 +153,14 @@ export function Home({ day, date, save, artists }: Props) {
         </a>
       </div>
 
-      <ThemeSwitch />
+      {/* O Histórico (P264) na linha do tema, à esquerda: a Início não cresce. O 2º clique de um
+          toque duplo cairia num dia do calendário (regra 23). */}
+      <div class="home-bottom">
+        <a class="home-history" href={ROUTES.history} onClick={singleClickLink}>
+          {t("home.history")}
+        </a>
+        <ThemeSwitch />
+      </div>
     </div>
   );
 }

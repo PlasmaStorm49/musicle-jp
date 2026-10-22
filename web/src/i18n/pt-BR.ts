@@ -25,6 +25,58 @@ export const ptBR = {
   // O ✓ do Anime vale com qualquer um dos 6 diários de hoje terminado (P247).
   "nav.animeDone": "(já jogou hoje)",
   "nav.doneMark": "✓",
+  // O Histórico (M15, P264) e o "Mais", que no celular junta os Artistas e o Histórico (P265).
+  "nav.history": "Histórico",
+  "nav.more": "Mais",
+
+  // O Histórico (M15, P260 a P263): o calendário dos 14 dias antes de hoje e a tela de cada dia.
+  "history.title": "Histórico",
+  "history.hint": "Os últimos {days} dias. O que você jogar aqui não conta nas estatísticas.",
+  "history.date": "{day}/{month}",
+  // A data por extenso, só para o leitor de tela ("21/10" seria lido "21 barra 10").
+  "history.dateLong": "{day} de {month}",
+  "history.month.1": "janeiro",
+  "history.month.2": "fevereiro",
+  "history.month.3": "março",
+  "history.month.4": "abril",
+  "history.month.5": "maio",
+  "history.month.6": "junho",
+  "history.month.7": "julho",
+  "history.month.8": "agosto",
+  "history.month.9": "setembro",
+  "history.month.10": "outubro",
+  "history.month.11": "novembro",
+  "history.month.12": "dezembro",
+  "history.weekdayShort.0": "Dom",
+  "history.weekdayShort.1": "Seg",
+  "history.weekdayShort.2": "Ter",
+  "history.weekdayShort.3": "Qua",
+  "history.weekdayShort.4": "Qui",
+  "history.weekdayShort.5": "Sex",
+  "history.weekdayShort.6": "Sáb",
+  "history.weekday.0": "Domingo",
+  "history.weekday.1": "Segunda-feira",
+  "history.weekday.2": "Terça-feira",
+  "history.weekday.3": "Quarta-feira",
+  "history.weekday.4": "Quinta-feira",
+  "history.weekday.5": "Sexta-feira",
+  "history.weekday.6": "Sábado",
+  // O nome de cada dia do calendário, para o leitor de tela: o dia e o que foi jogado.
+  "history.cellName": "{weekday}, {date}: {marks}",
+  "history.cellOff": "{weekday}, {date}: sem diário",
+  "history.hitsAll": "Hits, os 2 diários jogados",
+  "history.hitsSome": "Hits, 1 de 2 diários jogados",
+  "history.hitsNone": "Hits, nenhum diário jogado",
+  "history.hitsOff": "sem diário dos Hits",
+  // A legenda das marcas dos Hits, embaixo do calendário.
+  "history.legendAll": "os 2 diários",
+  "history.legendSome": "1 dos 2",
+  "history.dayTitle": "{weekday}, {date}",
+  "history.dayHint": "Jogue o que faltou. Não conta nas estatísticas.",
+  "history.late": "jogado depois",
+  "history.back": "Voltar ao Histórico",
+  "history.backToDay": "Voltar ao dia",
+  "history.unavailable": "Não há diário nesse dia.",
   // A tela dos Hits (P225): uma dica só, curta, porque ela já diz tudo.
   "hits.title": "Hits",
   "hits.hint": "A parada do Japão: os dois diários e o Treino.",
@@ -78,6 +130,8 @@ export const ptBR = {
   "home.themeHint": "Sem escolha, o jogo segue o tema do aparelho.",
   // O link do "Sobre e privacidade" (P243), no fim da Início, na linha do "Como funciona" (P259).
   "home.about": "Sobre e privacidade",
+  // O link do Histórico na Início (P264), na linha do tema.
+  "home.history": "Histórico",
 
   "game.header": "{mode} · nº {number}",
   "game.round": "Rodada {current} de {total}",
@@ -145,6 +199,8 @@ export const ptBR = {
   "summary.wonHelp": "acertou com ajuda, {points}",
   "summary.lost": "não acertou",
   "summary.void": "anulada",
+  // O resumo de um dia passado (P263): sem a contagem e sem as estatísticas, que são as de hoje.
+  "summary.lateNote": "Jogado depois: não conta nas estatísticas.",
 
   "count.points.one": "{count} ponto",
   "count.points.other": "{count} pontos",
@@ -206,6 +262,8 @@ export const ptBR = {
   "share.header": "{title} · {mode} nº {number}",
   // O Anime diz a categoria e o diário: "AteMusic Anime · Música · Fácil nº 1".
   "share.headerAnime": "{title} Anime · {mode} nº {number}",
+  // O jogado depois (P263) diz que não foi no dia, para quem compara.
+  "share.late": "{header} (jogado depois)",
   "share.button": "Compartilhar resultado",
   "share.copied": "Resultado copiado. É só colar onde quiser.",
   // Na tela, o botão diz isto por 2 s depois de copiar; a frase de cima vai para o aria-live.

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
 import {
@@ -39,6 +39,7 @@ import type { KeyValueStore } from "../storage/save.ts";
 import { type Card, CardList, dailyText } from "./cards.tsx";
 import { FocusedNotice, UpdateNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
+import { useHeadingFocus } from "./hooks.ts";
 import { animeModeName } from "./modes.ts";
 import { singleClick, singleClickLink } from "./singleClick.ts";
 
@@ -206,6 +207,8 @@ function Ready({ screen, data, resolver, date, save, ...props }: ReadyProps) {
           scheduleDates={Object.keys(data.schedule.days)}
           shareUrl={props.shareUrl}
           today={date}
+          // Só os diários de hoje, por ora: o próprio (o `avoid` dele já tem os 6 do dia).
+          todayDailies={own}
         />
       );
     }
@@ -249,13 +252,6 @@ function modeCard(mode: AnimeMode, dailies: readonly Daily[], save: Save, next: 
     next,
     off: dailies.length === 0,
   };
-}
-
-/** O título da tela, com o foco ao montar (regra 16): a tela nova, e não o link que sumiu. */
-function useHeadingFocus() {
-  const heading = useRef<HTMLHeadingElement>(null);
-  useEffect(() => heading.current?.focus(), []);
-  return heading;
 }
 
 type ScreenProps = {

@@ -26,6 +26,15 @@ export function dayAnswerKeys(daily: Daily, index: CatalogIndex): Set<string> {
 }
 
 /**
+ * O que a ajuda nunca mostra, de vários diários juntos: o do jogo e, num diário de um dia passado
+ * (o Histórico, M15), os de hoje. Sem isso, a resposta de um diário de hoje ainda não jogado
+ * podia aparecer entre as opções do de ontem e entregar o de hoje, que conta nas estatísticas.
+ */
+export function answerKeysOf(dailies: readonly Daily[], index: CatalogIndex): Set<string> {
+  return new Set(dailies.flatMap((daily) => [...dayAnswerKeys(daily, index)]));
+}
+
+/**
  * A semente da ajuda de uma rodada (para `seeded`): a mesma rodada, com as mesmas tentativas, dá
  * as mesmas opções (no diário, o mesmo para quem errou igual; recarregar mostra as mesmas, que
  * estão no evento salvo). No Treino e no modo por artista, `session` é a semente da sessão: o

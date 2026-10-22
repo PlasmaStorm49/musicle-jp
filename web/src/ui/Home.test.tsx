@@ -66,14 +66,18 @@ describe("Home", () => {
     expect(screen.queryAllByRole("img")).toHaveLength(0);
   });
 
-  it("um cartão-link por categoria (P226), numa coluna, na ordem da nav: os Hits, o Anime e os Artistas; e o Sobre no fim", () => {
+  it("um cartão-link por categoria (P226), numa coluna, na ordem da nav: os Hits, o Anime e os Artistas; e o Sobre e o Histórico no fim", () => {
     setup();
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
       "#hits",
       "#anime",
       "#artistas",
       "#sobre",
+      "#historico",
     ]);
+    // O Histórico (P264) na linha do tema, junto com o switch.
+    const history = screen.getByRole("link", { name: "Histórico" });
+    expect(history.closest(".home-bottom")?.querySelector(".theme-switch")).not.toBeNull();
     expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
     expect(screen.queryAllByRole("button")).toHaveLength(0);
   });

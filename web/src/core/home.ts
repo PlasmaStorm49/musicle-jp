@@ -22,6 +22,8 @@ export type DailyStatus =
       readonly number: number;
       readonly score: number;
       readonly max: number;
+      /** Jogado depois do dia dele (P263), pelo registro gravado: a tela do dia o marca. */
+      readonly late: boolean;
     };
 
 /**
@@ -37,6 +39,7 @@ export function statusOf(save: Save, daily: Daily | null): DailyStatus {
       number: daily.number,
       score: recordScore(finished),
       max: recordMax(finished),
+      late: finished.late === true,
     };
   }
   // Andamento vazio (a repetição descartou todos os eventos, com catálogo novo) ainda é dia novo.

@@ -8,6 +8,7 @@ import {
   type AnimeMode,
   animeKey,
 } from "./daily.ts";
+import { inHistory } from "./history.ts";
 import type { Target } from "./types.ts";
 
 /**
@@ -18,9 +19,18 @@ export type AnimeTab = "anime" | `anime-${AnimeMode}` | AnimeKey;
 
 /**
  * As abas do jogo: a home, a tela dos Hits (P225), os diários do Normal (album) e do Desafio
- * (song), o Treino, o modo por artista (M13), as do Anime (M14) e o "Sobre e privacidade" (P243).
+ * (song), o Treino, o modo por artista (M13), as do Anime (M14), o "Sobre e privacidade" (P243) e o
+ * Histórico (M15, P260).
  */
-export type Tab = "home" | "hits" | Target | "practice" | "artists" | AnimeTab | "about";
+export type Tab =
+  | "home"
+  | "hits"
+  | Target
+  | "practice"
+  | "artists"
+  | AnimeTab
+  | "about"
+  | "history";
 
 // Nenhum elemento da página pode ter id igual a uma rota: o navegador rolaria até ele.
 export const ROUTES: Readonly<Record<Tab, string>> = {
@@ -40,13 +50,15 @@ export const ROUTES: Readonly<Record<Tab, string>> = {
   "anime-titulo-medio": "#anime-titulo-medio",
   "anime-titulo-dificil": "#anime-titulo-dificil",
   about: "#sobre",
+  history: "#historico",
 };
 
 /**
  * As categorias da nav (P221, P225): os Hits juntam a tela deles, os dois diários e o Treino; o
- * Anime, a tela dele, as das dificuldades e os 6 diários.
+ * Anime, a tela dele, as das dificuldades e os 6 diários; o Histórico (P264), o calendário, a tela
+ * de um dia e os diários de um dia passado.
  */
-export type Category = "home" | "hits" | "anime" | "artists";
+export type Category = "home" | "hits" | "anime" | "artists" | "history";
 
 /** A aba é do Anime: a tela da categoria, a da dificuldade ou um diário. */
 export function isAnimeTab(tab: Tab): tab is AnimeTab {
@@ -68,6 +80,8 @@ export function categoryOf(tab: Tab): Category {
     case "song":
     case "practice":
       return "hits";
+    case "history":
+      return "history";
   }
 }
 
@@ -103,6 +117,51 @@ export function animeModeTab(mode: AnimeMode): AnimeTab {
  */
 export function tabFromHash(hash: string): Tab {
   return (Object.keys(ROUTES) as Tab[]).find((tab) => ROUTES[tab] === hash) ?? "home";
+}
+
+/**
+ * As abas que aceitam um dia passado no endereço (P261): o Histórico (a tela do dia) e os dois
+ * diários dos Hits. As do Anime entram com o Anime no Histórico (o PR 3 do M15).
+ */
+function isDatedTab(tab: Tab): boolean {
+  return tab === "history" || tab === "album" || tab === "song";
+}
+
+/** Uma aba e, num dia passado do Histórico, a data dele; `null` é hoje. */
+export type Route = { readonly tab: Tab; readonly date: string | null };
+
+/**
+ * A rota de um endereço: `#aba` ou, num dia passado, `#aba/AAAA-MM-DD` (o Histórico, P261). O
+ * endereço vem de fora (um link, a barra do navegador): a aba que não aceita data, com uma, abre a
+ * home (regra 17); a data inválida, fora dos 14 dias do Histórico ou igual a hoje (P262), abre o
+ * calendário.
+ */
+export function routeFromHash(hash: string, today: string): Route {
+  const slash = hash.indexOf("/");
+  if (slash === -1) return { tab: tabFromHash(hash), date: null };
+  const tab = tabFromHash(hash.slice(0, slash));
+  if (!isDatedTab(tab)) return { tab: "home", date: null };
+  const date = hash.slice(slash + 1);
+  return inHistory(date, today) ? { tab, date } : { tab: "history", date: null };
+}
+
+/** O endereço de uma rota: o da aba e, num dia passado, "/AAAA-MM-DD". */
+export function routeHref(route: Route): string {
+  return route.date === null ? ROUTES[route.tab] : `${ROUTES[route.tab]}/${route.date}`;
+}
+
+/** A categoria marcada na nav: num dia passado, o Histórico, de onde a pessoa veio. */
+export function routeCategory(route: Route): Category {
+  return route.date === null ? categoryOf(route.tab) : "history";
+}
+
+/**
+ * O aria-current do link de uma categoria: "page" na tela dela (sem data), "true" dentro de um
+ * jogo dela ou de um dia do Histórico (o link leva a outra página), e nada nas outras.
+ */
+export function navCurrent(route: Route, category: Category): "page" | "true" | undefined {
+  if (routeCategory(route) !== category) return undefined;
+  return route.tab === category && route.date === null ? "page" : "true";
 }
 
 /**

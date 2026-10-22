@@ -2,7 +2,7 @@ import type { Save } from "../src/core/records.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
 import { animeTab, expect, hitsTab, open, test } from "./helpers.ts";
 
-test("as quatro abas (a Início, os Hits, o Anime e os Artistas) cabem numa linha também em 320 px, com o ✓ dos Hits e o do Anime (P225, P227, P247)", async ({
+test("em 320 px, a Início, os Hits, o Anime e o Mais cabem numa linha, com o ✓ dos Hits e o do Anime (P225, P227, P247, P265)", async ({
   page,
 }) => {
   // A fonte muda com o sistema (a CI é Linux): o teste mede, e o CSS tem folga para isso.
@@ -25,9 +25,13 @@ test("as quatro abas (a Início, os Hits, o Anime e os Artistas) cabem numa linh
     JSON.stringify(save),
   ] as const);
   await open(page, "2026-10-08T12:00:00-03:00", "");
-  const tabs = page.getByRole("navigation").getByRole("link");
-  await expect(tabs).toHaveCount(4);
+  const nav = page.getByRole("navigation");
+  const tabs = nav.getByRole("link");
+  // Os Artistas e o Histórico ficam no Mais (P265).
+  await expect(tabs).toHaveCount(3);
   await expect(tabs.filter({ hasText: "✓" })).toHaveCount(2);
+  const more = nav.getByRole("button", { name: "Mais" });
+  await expect(more).toBeVisible();
   await expect(hitsTab(page)).toHaveAccessibleName("Hits (diários terminados)");
   await expect(animeTab(page)).toHaveAccessibleName("Anime (já jogou hoje)");
   // A Noto Sans JP (P175) chega depois da página: mede com ela, e não com a fonte de reserva. O
@@ -39,10 +43,70 @@ test("as quatro abas (a Início, os Hits, o Anime e os Artistas) cabem numa linh
     ]);
     await document.fonts.ready;
   });
-  const rows = await tabs.evaluateAll(
-    (links) => new Set(links.map((a) => Math.round(a.getBoundingClientRect().top))).size,
-  );
+  const rows = () =>
+    nav
+      .locator(":is(a, button):visible")
+      .evaluateAll(
+        (items) => new Set(items.map((a) => Math.round(a.getBoundingClientRect().top))).size,
+      );
+  expect(await rows()).toBe(1);
+  // O caso mais largo: o Mais marcado (em negrito), com os dois ✓.
+  await page.evaluate(() => {
+    window.location.hash = "#historico";
+  });
+  await expect(more).toHaveAttribute("aria-current", "true");
+  await page.evaluate(async () => {
+    await document.fonts.load('700 0.9rem "Noto Sans JP"', "Mais");
+    await document.fonts.ready;
+  });
+  expect(await rows()).toBe(1);
+});
+
+test("a partir de 480 px, as 5 abas ficam numa linha, com os dois ✓, e o Mais some (P265)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 480, height: 800 });
+  const lost = { status: "lost", stage: 0, attempts: [] } as const;
+  const day = { number: 1, rounds: [lost, lost, lost] };
+  const save = {
+    schemaVersion: 7,
+    history: {
+      "2026-10-08|album": day,
+      "2026-10-08|song": day,
+      "2026-10-08|anime-musica-medio": day,
+    },
+    inProgress: {},
+  } satisfies Save;
+  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
+    SAVE_KEY,
+    JSON.stringify(save),
+  ] as const);
+  await open(page, "2026-10-08T12:00:00-03:00", "");
+  const nav = page.getByRole("navigation");
+  await expect(nav.getByRole("link")).toHaveText([
+    "Início",
+    /^Hits/,
+    /^Anime/,
+    "Artistas",
+    "Histórico",
+  ]);
+  await expect(nav.getByRole("button", { name: "Mais" })).toHaveCount(0);
+  await page.evaluate(async () => {
+    await Promise.all([
+      document.fonts.load('400 0.9rem "Noto Sans JP"', "Hits Anime Artistas Histórico ✓"),
+      document.fonts.load('700 0.9rem "Noto Sans JP"', "Início Anime Artistas Histórico"),
+    ]);
+    await document.fonts.ready;
+  });
+  const rows = await nav
+    .getByRole("link")
+    .evaluateAll(
+      (links) => new Set(links.map((a) => Math.round(a.getBoundingClientRect().top))).size,
+    );
   expect(rows).toBe(1);
+  // Em 479 px, o Mais volta.
+  await page.setViewportSize({ width: 479, height: 800 });
+  await expect(nav.getByRole("button", { name: "Mais" })).toBeVisible();
 });
 
 test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", async ({ page }) => {

@@ -65,6 +65,17 @@ export function hitsTab(page: Page): Locator {
   return page.getByRole("navigation").getByRole("link", { name: /^Hits/ });
 }
 
+/**
+ * Um link da nav pelo nome, como a pessoa o alcança: abaixo de 480 px, os Artistas e o Histórico
+ * ficam no "Mais" (P265), que abre antes. O getByRole só acha o link visível.
+ */
+export async function navLink(page: Page, name: string): Promise<Locator> {
+  const nav = page.getByRole("navigation");
+  const link = nav.getByRole("link", { name, exact: true });
+  if (!(await link.isVisible())) await nav.getByRole("button", { name: "Mais" }).click();
+  return link;
+}
+
 /** Vai a um jogo dos Hits como a pessoa: a aba Hits da nav e o cartão do jogo na tela dela. */
 export async function viaHits(page: Page, game: RegExp): Promise<void> {
   await hitsTab(page).click();

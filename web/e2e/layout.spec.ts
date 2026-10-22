@@ -1,7 +1,8 @@
 // A interface nova (M12, PR D): as telas cabem sem rolar nos tamanhos de contrato (P214), nada rola
 // para o lado em 320 px e os alvos têm 44 px. Cada PR do D acrescentou as telas dele: o D1, as de
 // escolha; o D2, as rodadas, com o selo da Apple simulado (appleCatalog) e a altura reservada; o
-// D3, a revelação e o resumo do dia. O Anime (M14, PR D2) acrescentou as telas dele e a 4ª aba.
+// D3, a revelação e o resumo do dia. O Anime (M14, PR D2) acrescentou as telas dele e a 4ª aba; o
+// Histórico (M15, PR 2), as telas dele e o "Mais" da nav no celular.
 import type { Locator, Page } from "@playwright/test";
 import { PLAYLIST_URL } from "../src/core/apple.ts";
 import type { Save } from "../src/core/records.ts";
@@ -13,6 +14,7 @@ import {
   appleCatalog,
   dailyAnswer,
   expect,
+  navLink,
   open,
   overflow,
   test,
@@ -21,6 +23,8 @@ import {
 } from "./helpers.ts";
 
 const DAY = "2026-10-08T12:00:00-03:00";
+/** Em 22/10, o Histórico tem os 14 dias antes, todos na agenda das fixtures (08 a 21/10). */
+const HISTORY_DAY = "2026-10-22T12:00:00-03:00";
 /** Em 16/10, a 1ª rodada do Normal é a tr10, a faixa explícita das fixtures (P31). */
 const EXPLICIT_DAY = "2026-10-16T12:00:00-03:00";
 
@@ -107,6 +111,44 @@ for (const viewport of [
       await open(page, DAY, "#inicio");
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("AteMusic");
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o Histórico: o calendário, a tela do dia no caso mais alto e o resumo do jogado depois (P260, P271)", async ({
+      page,
+    }) => {
+      // Os dois diários de 21/10 jogados depois: os dois cartões com a linha a mais.
+      const lost = { status: "lost", stage: 0, attempts: ["wrong"] } as const;
+      const late = { number: 14, rounds: [lost, lost, lost], late: true as const };
+      const save = {
+        schemaVersion: 7,
+        history: { "2026-10-21|album": late, "2026-10-21|song": late },
+        inProgress: {},
+      } satisfies Save;
+      await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
+        SAVE_KEY,
+        JSON.stringify(save),
+      ] as const);
+      await open(page, HISTORY_DAY, "#historico");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Histórico");
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      // Os dias com 44 px nos dois sentidos (P213, P271).
+      for (const day of await page.locator(".calendar-day").all()) {
+        const { height, width } = await target(day);
+        expect(height).toBeGreaterThanOrEqual(44);
+        expect(width).toBeGreaterThanOrEqual(44);
+      }
+      await page.evaluate(() => {
+        window.location.hash = "#historico/2026-10-21";
+      });
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quarta-feira, 21/10");
+      await expect(page.getByText("jogado depois")).toHaveCount(2);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await page.evaluate(() => {
+        window.location.hash = "#normal/2026-10-21";
+      });
+      await expect(page.getByText("Jogado depois: não conta nas estatísticas.")).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: "Voltar ao dia" })).toBeInViewport({ ratio: 1 });
     });
 
     test("a escolha do modo do Treino", async ({ page }) => {
@@ -476,6 +518,32 @@ for (const viewport of [
   });
 }
 
+test("em 320 px, as telas do Histórico não rolam para o lado, e os dias têm 44 px de altura (P271)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await open(page, HISTORY_DAY, "#historico");
+  for (const [hash, title] of [
+    ["#historico", "Histórico"],
+    ["#historico/2026-10-21", "Quarta-feira, 21/10"],
+    ["#normal/2026-10-21", "Normal · nº 14"],
+    ["#desafio/2026-10-21", "Desafio · nº 14"],
+  ] as const) {
+    await page.evaluate((h) => {
+      window.location.hash = h;
+    }, hash);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
+    expect((await overflow(page)).horizontal, hash).toBeLessThanOrEqual(0);
+  }
+  await page.evaluate(() => {
+    window.location.hash = "#historico";
+  });
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Histórico");
+  for (const day of await page.locator(".calendar-day").all()) {
+    expect((await target(day)).height).toBeGreaterThanOrEqual(44);
+  }
+});
+
 test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
   await open(page, DAY, "#inicio");
@@ -492,6 +560,7 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     ["#anime-musica-dificil", "Música · Difícil · nº 1"],
     ["#anime-titulo-dificil", "Anime · Difícil · nº 1"],
     ["#sobre", "Sobre e privacidade"],
+    ["#historico", "Histórico"],
   ] as const) {
     await page.evaluate((h) => {
       window.location.hash = h;
@@ -577,7 +646,7 @@ test("em 320 px, o cabeçalho das sessões cabe: o placar e os limites quebram a
   await open(page, DAY, "#treino");
   await page.getByRole("button", { name: "Desafio", exact: true }).click();
   await fits("Treino");
-  await page.getByRole("navigation").getByRole("link", { name: "Artistas" }).click();
+  await (await navLink(page, "Artistas")).click();
   await page.getByRole("button", { name: /^青井ユウ/ }).click();
   await page.getByRole("button", { name: "Livre" }).click();
   await fits("Livre");
@@ -593,21 +662,36 @@ async function target(locator: Locator): Promise<{ height: number; width: number
   return { height: box?.height ?? 0, width: box?.width ?? 0 };
 }
 
-test("a nav: o selo é a Início (P205), e as 4 categorias (Início, Hits, Anime e Artistas) têm alvo de 44 × 44 px (P225)", async ({
+test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime e o Mais têm alvo de 44 × 44 px, como os Artistas e o Histórico no menu aberto, que não rola a página para o lado (P225, P265)", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 640 });
   await open(page, DAY, "#normal");
   const nav = page.getByRole("navigation");
   await expect(nav.getByRole("link", { name: "Início" }).locator("img.nav-logo")).toBeVisible();
-  await expect(nav.getByRole("link")).toHaveText(["Início", /^Hits/, /^Anime/, "Artistas"]);
-  const links = await nav.getByRole("link").all();
-  expect(links).toHaveLength(4);
-  for (const link of links) {
-    const { height, width } = await target(link);
+  await expect(nav.getByRole("link")).toHaveText(["Início", /^Hits/, /^Anime/]);
+  const more = nav.getByRole("button", { name: "Mais" });
+  const targets = [...(await nav.getByRole("link").all()), more];
+  expect(targets).toHaveLength(4);
+  for (const item of targets) {
+    const { height, width } = await target(item);
     expect(height).toBeGreaterThanOrEqual(44);
     expect(width).toBeGreaterThanOrEqual(44);
   }
+  await more.click();
+  await expect(nav.getByRole("link")).toHaveText([
+    "Início",
+    /^Hits/,
+    /^Anime/,
+    "Artistas",
+    "Histórico",
+  ]);
+  for (const name of ["Artistas", "Histórico"]) {
+    const { height, width } = await target(nav.getByRole("link", { name }));
+    expect(height, name).toBeGreaterThanOrEqual(44);
+    expect(width, name).toBeGreaterThanOrEqual(44);
+  }
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
 test("a Início: o switch do tema e o Como funciona têm alvo de 44 px (P213)", async ({ page }) => {
