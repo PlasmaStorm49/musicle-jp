@@ -7,13 +7,19 @@ Serve em dois lugares:
 - a tarefa `anime-mal` do robô semanal (`.github/workflows/update-catalog.yml`) o roda sozinho,
   numa máquina sem `pip install`, com o segredo `MAL_CLIENT_ID` só no ambiente desse passo:
 
-      python -I pipeline/src/musicle_pipeline/mal_ranking.py --out <ranks.json>
+      python -I -S pipeline/src/musicle_pipeline/mal_ranking.py --out <ranks.json>
 
   Pelo caminho, e não com `-m`: o `-I` ignora o `PYTHONPATH` e as outras variáveis `PYTHON*` e
-  deixa a pasta do script fora do `sys.path`. Na máquina do robô, só a biblioteca padrão é
-  importável, e por isso este módulo não importa nada do pacote (um teste confere). O arquivo de
-  saída tem só `{id do MAL: posição}`; a tarefa que gera o lê com o `fetch --anime --ranks-file`,
-  sem o segredo.
+  deixa a pasta do script fora do `sys.path`, e o `-S`, o `site-packages`. Na máquina do robô,
+  só a biblioteca padrão é importável, e por isso este módulo não importa nada do pacote (um
+  teste confere). A tarefa que gera lê o arquivo com o `fetch --anime --ranks-file`, sem o
+  segredo.
+
+O arquivo tem só o que o repositório já guarda do MAL (P254, P256): o nível de 0 a 9 de cada
+anime (`mal_level`) e a ordem de popularidade, uma lista de ids do mais popular ao menos (o
+sorteio só precisa da ordem). A posição bruta no ranking nunca vai para ele (P12 do PR B):
+
+      {"levels": {"38000": 9, "5114": 9}, "order": [38000, 5114]}
 
 O Client ID vai só no cabeçalho `X-MAL-CLIENT-ID`, que um redirecionamento não repassa: nunca na
 URL, na saída, no arquivo ou numa mensagem de erro (as mensagens do `main` ainda passam pelo
@@ -34,6 +40,7 @@ import time
 import urllib.error
 import urllib.request
 from collections.abc import Callable, Mapping, Sequence
+from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import urlencode
 
@@ -52,14 +59,35 @@ ROBOT_TIMEOUT_SEC = 20
 MAX_BYTES = 5 * 1024 * 1024
 # O arquivo lido pelo --ranks-file: mais que isso não é o ranking que este módulo grava.
 MAX_RANKS = 20_000
-MAX_POSITION = 1_000_000
 _ID = re.compile(r"[1-9][0-9]{0,8}")
+# A posição no ranking de popularidade do MAL → o nível de 0 a 9 (P254): o topo de todos os
+# tempos é 9. Fica aqui, e não no fetch_anime, porque o arquivo da anime-mal já sai com o nível.
+_MAL_RANKS = (50, 150, 300, 600, 1000, 1600, 2500, 4000, 6000)
 
 Transport = Callable[[str], bytes]
 
 
 class MalError(RuntimeError):
     """O ranking não veio, ou o arquivo dele não tem a forma esperada."""
+
+
+def mal_level(rank: int) -> int:
+    """1º a 50º: 9; ... ; além do 6.000º: 0."""
+    return sum(rank <= limit for limit in _MAL_RANKS)
+
+
+@dataclass(frozen=True)
+class RankingFile:
+    """O arquivo da anime-mal, lido: a ordem de popularidade (do mais popular ao menos) e o
+    nível de cada anime. Sem a posição bruta (P254)."""
+
+    order: tuple[int, ...]
+    levels: Mapping[int, int]
+
+    def draw_ranks(self) -> dict[int, int]:
+        """A ordem como o sorteio a usa (o 1º vale 1, o 2º vale 2...). Não é a posição no
+        ranking: o sorteio só compara, e o nível vem de `levels`."""
+        return {mal_id: i + 1 for i, mal_id in enumerate(self.order)}
 
 
 def mal_get(client_id: str, timeout: float = TIMEOUT_SEC) -> Transport:
@@ -162,29 +190,46 @@ def top_ranks(ranks: Mapping[int, int], size: int) -> dict[int, int]:
 
 
 def write_ranks(path: Path, ranks: Mapping[int, int]) -> None:
-    """Grava `{"id": posição}` em UTF-8 com \\n, num arquivo temporário trocado no fim."""
-    ordered = top_ranks(ranks, len(ranks))
-    text = json.dumps({str(k): v for k, v in ordered.items()}, separators=(",", ":")) + "\n"
+    """Grava o arquivo da anime-mal, sem a posição bruta (P254): a ordem de popularidade (os
+    ids, do mais popular ao menos) e o nível de 0 a 9 de cada anime, em UTF-8 com \\n, num
+    arquivo temporário trocado no fim."""
+    order = list(top_ranks(ranks, len(ranks)))
+    data = {
+        "levels": {str(mal_id): mal_level(ranks[mal_id]) for mal_id in sorted(order)},
+        "order": order,
+    }
+    text = json.dumps(data, separators=(",", ":")) + "\n"
     tmp = path.with_name(path.name + ".tmp")
     tmp.write_bytes(text.encode("utf-8"))
     os.replace(tmp, path)
 
 
-def load_ranks(path: Path) -> dict[int, int]:
-    """O arquivo da tarefa anime-mal → {id do MAL: posição}. Ele chega de outra máquina, por um
-    artefato: qualquer outra forma é recusada."""
+def load_ranks(path: Path) -> RankingFile:
+    """O arquivo da tarefa anime-mal → a ordem e os níveis. Ele chega de outra máquina, por um
+    artefato: qualquer outra forma é recusada (ids repetidos, nível fora de 0 a 9, um id na
+    ordem sem nível ou o contrário, outra chave)."""
+    where = f"{path.name}: fora da forma {{levels: {{id: nível}}, order: [ids]}}"
     try:
         data = json.loads(path.read_bytes().decode("utf-8"))
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise MalError(f"{path.name}: não deu para ler ({type(exc).__name__})") from None
-    if not isinstance(data, dict) or not 0 < len(data) <= MAX_RANKS:
-        raise MalError(f"{path.name}: esperado um objeto com 1 a {MAX_RANKS} animes")
-    ranks: dict[int, int] = {}
-    for key, value in data.items():
-        if not _ID.fullmatch(key) or not _positive(value) or value > MAX_POSITION:
-            raise MalError(f"{path.name}: entrada fora da forma {{id do MAL: posição}}")
-        ranks[int(key)] = value
-    return ranks
+    if not isinstance(data, dict) or set(data) != {"levels", "order"}:
+        raise MalError(where)
+    order, levels = data["order"], data["levels"]
+    if not isinstance(order, list) or not 0 < len(order) <= MAX_RANKS:
+        raise MalError(f"{path.name}: esperada uma ordem com 1 a {MAX_RANKS} animes")
+    if not all(_positive(m) and m < 10**9 for m in order) or len(set(order)) != len(order):
+        raise MalError(where)
+    if not isinstance(levels, dict) or len(levels) != len(order):
+        raise MalError(where)
+    parsed: dict[int, int] = {}
+    for key, value in levels.items():
+        if not _ID.fullmatch(key) or type(value) is not int or not 0 <= value <= 9:
+            raise MalError(where)
+        parsed[int(key)] = value
+    if set(parsed) != set(order):
+        raise MalError(where)
+    return RankingFile(order=tuple(order), levels=parsed)
 
 
 def _hide(text: str, secret: str) -> str:
@@ -206,7 +251,7 @@ def main(
     parser = argparse.ArgumentParser(
         prog="mal_ranking",
         description="Baixa o ranking de popularidade do MyAnimeList (o Client ID vem da variável"
-        " MAL_CLIENT_ID) e grava só {id do MAL: posição}.",
+        " MAL_CLIENT_ID) e grava só a ordem e o nível de 0 a 9 de cada anime, sem a posição.",
     )
     parser.add_argument("--out", type=Path, required=True, help="o JSON de saída")
     parser.add_argument(

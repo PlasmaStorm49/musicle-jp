@@ -115,7 +115,8 @@ def test_the_client_id_only_goes_in_the_header(monkeypatch, tmp_path, capsys):
         assert FAKE_ID not in request.full_url
         assert "ranking_type=bypopularity" in request.full_url
     text = out.read_text(encoding="utf-8")
-    assert text == '{"38000":1,"5114":2}\n'  # só id e posição, em ordem
+    # Só a ordem e o nível de cada anime, sem a posição (P254).
+    assert text == '{"levels":{"5114":9,"38000":9},"order":[38000,5114]}\n'
     captured = capsys.readouterr()
     assert FAKE_ID not in captured.out + captured.err + text
 
@@ -255,14 +256,59 @@ def test_a_429_waits_and_tries_again():
     assert waits[0] == 5
 
 
-# --- o arquivo: {id do MAL: posição} -------------------------------------------------------------
+# --- o arquivo: a ordem e os níveis, sem a posição bruta (P254) ----------------------------------
+
+
+def numbers_in(data: object) -> list[int]:
+    """Todos os números de um JSON lido, em qualquer nível."""
+    if isinstance(data, bool):
+        return []
+    if isinstance(data, int):
+        return [data]
+    if isinstance(data, list):
+        return [n for item in data for n in numbers_in(item)]
+    if isinstance(data, dict):
+        return [n for value in data.values() for n in numbers_in(value)]
+    return []
+
+
+def test_the_file_never_carries_a_rank_number(tmp_path):
+    # Posições que não são id nem nível: nenhuma delas pode ir para o arquivo.
+    ranks = {38000: 1234, 5114: 777, 22222: 6001}
+    path = tmp_path / "ranks.json"
+    mal_ranking.write_ranks(path, ranks)
+    text = path.read_text(encoding="utf-8")
+    data = json.loads(text)
+    assert set(data) == {"levels", "order"}
+    assert data["order"] == [5114, 38000, 22222]  # do mais popular ao menos
+    assert data["levels"] == {str(m): mal_ranking.mal_level(r) for m, r in ranks.items()}
+    assert data["levels"] == {"5114": 5, "22222": 0, "38000": 4}
+    assert set(numbers_in(data)) <= {*ranks, *range(10)}
+    for rank in ranks.values():
+        assert str(rank) not in text
 
 
 def test_write_and_load_round_trip(tmp_path):
     path = tmp_path / "ranks.json"
     mal_ranking.write_ranks(path, {5114: 2, 38000: 1})
-    assert path.read_bytes() == b'{"38000":1,"5114":2}\n'
-    assert mal_ranking.load_ranks(path) == {38000: 1, 5114: 2}
+    assert path.read_bytes() == b'{"levels":{"5114":9,"38000":9},"order":[38000,5114]}\n'
+    loaded = mal_ranking.load_ranks(path)
+    assert loaded.order == (38000, 5114)
+    assert loaded.levels == {38000: 9, 5114: 9}
+    assert loaded.draw_ranks() == {38000: 1, 5114: 2}
+
+
+def test_the_levels_are_the_mal_levels():
+    assert [mal_ranking.mal_level(r) for r in (1, 50, 51, 300, 301, 6000, 6001)] == [
+        9,
+        9,
+        8,
+        7,
+        6,
+        1,
+        0,
+    ]
+    assert fa.mal_level is mal_ranking.mal_level  # uma cópia só da escala
 
 
 @pytest.mark.parametrize(
@@ -270,13 +316,17 @@ def test_write_and_load_round_trip(tmp_path):
     [
         "[]",
         "{}",
-        '{"x": 1}',
-        '{"01": 1}',
-        '{"1": true}',
-        '{"1": 0}',
-        '{"1": 1.5}',
-        '{"1": "1"}',
-        '{"1": 2000000}',
+        '{"38000": 1}',  # o formato antigo, com a posição
+        '{"levels": {}, "order": []}',
+        '{"levels": {"1": 9}, "order": [1], "ranks": {"1": 3}}',  # chave a mais
+        '{"levels": {"1": 10}, "order": [1]}',  # nível fora de 0 a 9
+        '{"levels": {"1": true}, "order": [1]}',
+        '{"levels": {"01": 9}, "order": [1]}',
+        '{"levels": {"1": 9}, "order": [1, 1]}',  # id repetido
+        '{"levels": {"1": 9}, "order": [2]}',  # a ordem sem o nível
+        '{"levels": {"1": 9, "2": 8}, "order": [1]}',  # o nível sem a ordem
+        '{"levels": {"1": 9}, "order": ["1"]}',
+        '{"levels": {"1": 9}, "order": [0]}',
         "não é JSON",
     ],
 )
@@ -291,18 +341,47 @@ def test_top_ranks_keeps_the_first_by_position():
     assert mal_ranking.top_ranks({7: 3, 5: 1, 9: 2}, 2) == {5: 1, 9: 2}
 
 
+def test_the_draw_from_the_order_is_the_draw_from_the_ranks(tmp_path):
+    # O sorteio só compara as posições: a ordem do arquivo dá o mesmo sorteio da posição bruta.
+    ranks = {10: 5, 20: 17, 30: 2, 40: 900, 50: 44}
+    path = tmp_path / "ranks.json"
+    mal_ranking.write_ranks(path, ranks)
+    from_file = mal_ranking.load_ranks(path).draw_ranks()
+    personal: tuple[list[int], list[int]] = ([], [])
+    assert fa.draw_order(from_file, personal, {20}, "semente", 4) == fa.draw_order(
+        ranks, personal, {20}, "semente", 4
+    )
+
+
 # --- o fetch --anime com o arquivo ---------------------------------------------------------------
+
+
+def ranking_file(levels: dict[int, int]) -> mal_ranking.RankingFile:
+    return mal_ranking.RankingFile(order=tuple(levels), levels=levels)
 
 
 def test_the_ranks_file_draws_and_levels_without_calling_the_mal():
     web = FakeWeb()
-    io = fa.AnimeFetch(get=web.get, post=web.post, mal=None, mal_ranks={38000: 3}, apple_pace=0)
+    io = fa.AnimeFetch(
+        get=web.get, post=web.post, mal=None, mal_file=ranking_file({38000: 6}), apple_pace=0
+    )
     snap = fa.fetch_anime_snapshot(
         NOW, lambda t: ROMAJI.get(t, (t,)), set(), {}, {}, io, target_per_tier=1
     )
     assert web.mal_urls == []
     assert not any("Popular" in p.get("query", "") for _, p in web.posts)  # nem o AnimeThemes
-    assert snap["anime"][0]["levels"] == {"mal": 9}  # o 3º do ranking
+    assert snap["anime"][0]["levels"] == {"mal": 6}  # o nível do arquivo, e não o da ordem
+
+
+def test_the_terminal_load_still_levels_by_the_rank():
+    # Sem o --ranks-file, com o MAL de agora (a carga do terminal): o nível sai da posição.
+    web = FakeWeb()  # o ranking falso põe o anime 38000 em 3º
+    io = fa.AnimeFetch(get=web.get, post=web.post, mal=web.mal, apple_pace=0)
+    snap = fa.fetch_anime_snapshot(
+        NOW, lambda t: ROMAJI.get(t, (t,)), set(), {}, {}, io, target_per_tier=1
+    )
+    assert web.mal_urls
+    assert snap["anime"][0]["levels"] == {"mal": mal_ranking.mal_level(3)}
 
 
 def test_the_cli_reads_the_ranks_file_and_ignores_the_variable(monkeypatch, tmp_path, capsys):
@@ -313,7 +392,7 @@ def test_the_cli_reads_the_ranks_file_and_ignores_the_variable(monkeypatch, tmp_
     seen: dict = {}
 
     def fake_snapshot(fetched_at, romanize, tried, resolved, official, io, **kwargs):
-        seen.update(mal=io.mal, mal_ranks=dict(io.mal_ranks), kwargs=kwargs)
+        seen.update(mal=io.mal, mal_file=io.mal_file, kwargs=kwargs)
         return {
             "provider": "apple",
             "storefront": "jp",
@@ -331,7 +410,8 @@ def test_the_cli_reads_the_ranks_file_and_ignores_the_variable(monkeypatch, tmp_
     args = ["fetch", "--provider", "apple", "--anime", "--fetched-at", NOW]
     args += ["--ranks-file", str(ranks), "--out-dir", str(out_dir), "--max-songs", "12"]
     assert cli_main(args) == 0
-    assert seen["mal"] is None and seen["mal_ranks"] == {38000: 3}
+    assert seen["mal"] is None
+    assert seen["mal_file"].order == (38000,) and seen["mal_file"].levels == {38000: 9}
     assert seen["kwargs"]["max_songs"] == 12
     assert read_json(out_dir / "2026-10-22T010000Z.json")["anime"] == []
     captured = capsys.readouterr()

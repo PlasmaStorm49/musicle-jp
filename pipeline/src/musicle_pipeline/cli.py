@@ -502,15 +502,15 @@ def _fetch_anime(args: argparse.Namespace) -> int:
     if args.personal:
         personal = fetch_anime.parse_personal_list(resolve(args.personal).read_text("utf-8"))
         print(f"lista pessoal: {len(personal[0])} com nota 8 ou mais, {len(personal[1])} outros")
-    mal_ranks = None
+    mal_file = None
     if args.ranks_file:
         try:
-            mal_ranks = mal_ranking.load_ranks(resolve(args.ranks_file))
+            mal_file = mal_ranking.load_ranks(resolve(args.ranks_file))
         except mal_ranking.MalError as exc:
             print(f"--ranks-file: {exc}; nada foi gravado", file=sys.stderr)
             return 1
-        print(f"o ranking do MAL do --ranks-file: {len(mal_ranks)} anime(s)")
-    client_id = "" if mal_ranks is not None else os.environ.get("MAL_CLIENT_ID", "").strip()
+        print(f"o ranking do MAL do --ranks-file: {len(mal_file.order)} anime(s)")
+    client_id = "" if mal_file is not None else os.environ.get("MAL_CLIENT_ID", "").strip()
     import time
 
     from musicle_pipeline.providers.apple_anime import snapshot_id
@@ -527,7 +527,7 @@ def _fetch_anime(args: argparse.Namespace) -> int:
 
     io = fetch_anime.AnimeFetch(
         mal=fetch_anime.mal_get(client_id) if client_id else None,
-        mal_ranks=mal_ranks,
+        mal_file=mal_file,
         sleep=time.sleep,
         log=print,
         clock=time.monotonic,

@@ -53,7 +53,13 @@ from musicle_pipeline.fetch import (
     get_any,
     http_get,
 )
-from musicle_pipeline.mal_ranking import MalError, fetch_ranking, top_ranks
+from musicle_pipeline.mal_ranking import (
+    MalError,
+    RankingFile,
+    fetch_ranking,
+    mal_level,
+    top_ranks,
+)
 from musicle_pipeline.mal_ranking import mal_get as mal_get  # o CLI e os testes o usam daqui
 from musicle_pipeline.models import JSON, RawTrack
 from musicle_pipeline.normalize import search_key
@@ -132,15 +138,10 @@ def http_post(url: str, body: bytes, headers: Mapping[str, str]) -> bytes:
 # ---------------------------------------------------------------------------------------------
 # Os níveis de 0 a 9 (P254), em escalas fixas de cada fonte: o número bruto nunca é guardado.
 
-# A posição no ranking de popularidade do MAL: o topo de todos os tempos é 9.
-_MAL_RANKS = (50, 150, 300, 600, 1000, 1600, 2500, 4000, 6000)
+# A posição no ranking de popularidade do MAL: o `mal_level`, no mal_ranking.py (o arquivo da
+# anime-mal já sai com o nível).
 # As faixas de playlists que apontam para o tema no AnimeThemes (o topo, em 21/10/2026: 1.065).
 _TRACKS = (3, 10, 20, 40, 70, 120, 200, 300, 500)
-
-
-def mal_level(rank: int) -> int:
-    """1º a 50º: 9; ... ; além do 6.000º: 0."""
-    return sum(rank <= limit for limit in _MAL_RANKS)
 
 
 def tracks_level(count: int) -> int:
@@ -627,8 +628,8 @@ class AnimeFetch:
     post: PostTransport = http_post
     mal: Callable[[str], bytes] | None = None  # None: sem o MAL (P256)
     # O ranking do MAL já baixado (o --ranks-file, que a tarefa anime-mal do robô entrega, P256):
-    # o sorteio e o nível do MAL saem dele, sem nenhum pedido ao MAL.
-    mal_ranks: Mapping[int, int] | None = None
+    # o sorteio sai da ordem dele e o nível, dos níveis dele, sem nenhum pedido ao MAL.
+    mal_file: RankingFile | None = None
     sleep: Callable[[float], None] = lambda _s: None
     apple_pace: float = PACE_SEC
     log: Callable[[str], None] = lambda _m: None
@@ -649,6 +650,16 @@ def _post_json(io: AnimeFetch, url: str, body: bytes) -> object:
 def _batched(items: Sequence[int], size: int) -> Iterable[list[int]]:
     for start in range(0, len(items), size):
         yield list(items[start : start + size])
+
+
+def _mal_level_of(io: AnimeFetch, ranks: Mapping[int, int], mal_id: int) -> int | None:
+    """O nível do MAL do anime (P256): o do arquivo da anime-mal (o --ranks-file), ou o da
+    posição no ranking baixado agora (a carga do terminal); sem o MAL, nenhum."""
+    if io.mal_file is not None:
+        return io.mal_file.levels.get(mal_id)
+    if io.mal is not None and mal_id in ranks:
+        return mal_level(ranks[mal_id])
+    return None
 
 
 def _anime_record(anime: SourceAnime, level: int | None) -> JSON:
@@ -681,9 +692,9 @@ def fetch_anime_snapshot(
     puxa o sorteio para o topo, e o Fácil cresce). Para quando cada modo e faixa tem
     `target_per_tier` músicas,
     quando chega a `max_songs`, ou depois de `max_anime` animes tentados."""
-    if io.mal_ranks is not None:
+    if io.mal_file is not None:
         io.log("o sorteio pelo ranking do MyAnimeList (do --ranks-file)")
-        ranks = top_ranks(io.mal_ranks, pool_size)
+        ranks = top_ranks(io.mal_file.draw_ranks(), pool_size)
     elif io.mal is not None:
         io.log("o sorteio pelo ranking do MyAnimeList")
         ranks = mal_ranking(io.mal, io.sleep, pool_size)
@@ -773,9 +784,7 @@ def _search(
             source = merge_sources(source, quiz.get(mal_id, []))
             # O nível do anime é só o do MAL (P256): sem ele, a posição nas playlists do
             # AnimeThemes serve ao sorteio, mas não vira nível (o tema já tem o das playlists).
-            from_mal = io.mal is not None or io.mal_ranks is not None
-            rank = ranks.get(mal_id) if from_mal else None
-            record = _anime_record(source, None if rank is None else mal_level(rank))
+            record = _anime_record(source, _mal_level_of(io, ranks, mal_id))
             anime = Anime(
                 mal_id=mal_id,
                 slug=source.slug,

@@ -10,8 +10,9 @@
 # chama o check-catalog-pr.sh e o check-anime-pr.sh, da main). Um pacote comprometido não chega
 # perto do token que escreve. O segredo MAL_CLIENT_ID (opcional, P256) fica numa tarefa à parte,
 # anime-mal: outra máquina, sem permissão nenhuma, sem pip e só com a biblioteca padrão do Python,
-# que entrega só {id do MAL: posição} num artefato de 1 dia. Um pacote do pip nunca roda na
-# máquina que tem o segredo. Os nomes fogem de pipeline, web e e2e (checagens da main).
+# que entrega num artefato de 1 dia só a ordem de popularidade e o nível de 0 a 9 de cada anime
+# (sem a posição bruta, P254). Um pacote do pip nunca roda na máquina que tem o segredo. Os nomes
+# fogem de pipeline, web e e2e (checagens da main).
 name: Atualizar parada e agenda
 
 on:
