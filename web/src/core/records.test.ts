@@ -15,8 +15,11 @@ import {
   type Save,
   startSession,
   toFinishedGame,
+  withArtistRight,
   withFinished,
   withProgress,
+  withSeenMedals,
+  withSuperfanEnd,
 } from "./records.ts";
 import { type GameEvent, reduce } from "./reducer.ts";
 import { MODE_RULES } from "./rules.ts";
@@ -384,6 +387,41 @@ describe("mescla de saves (duas abas)", () => {
     expect(Object.keys(pruneProgress(save, [ID]).inProgress)).toEqual([ID]);
     const clean = pruneProgress(save, [ID]);
     expect(pruneProgress(clean, [ID])).toBe(clean);
+  });
+});
+
+describe("as medalhas e o modo por artista no save (v8, P289)", () => {
+  const ARTIST = "apple:ar:1489581870";
+
+  it("withSeenMedals: a união em ordem, e o mesmo objeto sem nada novo", () => {
+    const once = withSeenMedals(emptySave(), ["b", "a"]);
+    expect(once.seenMedals).toEqual(["a", "b"]);
+    expect(withSeenMedals(once, ["a"])).toBe(once);
+    expect(withSeenMedals(once, [])).toBe(once);
+    expect(withSeenMedals(once, ["c", "a", "c"]).seenMedals).toEqual(["a", "b", "c"]);
+  });
+
+  it("withArtistRight: soma um acerto ao artista, sem mexer nos outros", () => {
+    const one = withArtistRight(emptySave(), ARTIST);
+    expect(one.artists).toEqual({ [ARTIST]: { right: 1 } });
+    const done = withSuperfanEnd(one, ARTIST, { done: true, perfect: false });
+    expect(withArtistRight(withArtistRight(done, ARTIST), "apple:ar:2").artists).toEqual({
+      [ARTIST]: { right: 2, done: true },
+      "apple:ar:2": { right: 1 },
+    });
+  });
+
+  it("withSuperfanEnd: marca o fim e o perfeito, que nunca voltam atrás", () => {
+    const save = emptySave();
+    expect(withSuperfanEnd(save, ARTIST, { done: false, perfect: false })).toBe(save);
+    const done = withSuperfanEnd(save, ARTIST, { done: true, perfect: false });
+    expect(done.artists[ARTIST]).toEqual({ right: 0, done: true });
+    expect(withSuperfanEnd(done, ARTIST, { done: true, perfect: false })).toBe(done);
+    // Uma partida encerrada depois não apaga o que já estava marcado.
+    expect(withSuperfanEnd(done, ARTIST, { done: false, perfect: false })).toBe(done);
+    const perfect = withSuperfanEnd(done, ARTIST, { done: true, perfect: true });
+    expect(perfect.artists[ARTIST]).toEqual({ right: 0, done: true, perfect: true });
+    expect(withSuperfanEnd(perfect, ARTIST, { done: true, perfect: false })).toBe(perfect);
   });
 });
 

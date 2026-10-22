@@ -1,6 +1,4 @@
-import type { Save } from "../src/core/records.ts";
-import { SAVE_KEY } from "../src/storage/save.ts";
-import { animeTab, expect, hitsTab, open, test } from "./helpers.ts";
+import { animeTab, expect, hitsTab, open, seedHistory, test } from "./helpers.ts";
 
 test("em 320 px, a Início, os Hits, o Anime e o Mais cabem numa linha, com o ✓ dos Hits e o do Anime (P225, P227, P247, P265)", async ({
   page,
@@ -11,19 +9,11 @@ test("em 320 px, a Início, os Hits, o Anime e o Mais cabem numa linha, com o �
   // ✓, o caso mais largo.
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
-  const save = {
-    schemaVersion: 7,
-    history: {
-      "2026-10-08|album": day,
-      "2026-10-08|song": day,
-      "2026-10-08|anime-musica-medio": day,
-    },
-    inProgress: {},
-  } satisfies Save;
-  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
-    SAVE_KEY,
-    JSON.stringify(save),
-  ] as const);
+  await seedHistory(page, {
+    "2026-10-08|album": day,
+    "2026-10-08|song": day,
+    "2026-10-08|anime-musica-medio": day,
+  });
   await open(page, "2026-10-08T12:00:00-03:00", "");
   const nav = page.getByRole("navigation");
   const tabs = nav.getByRole("link");
@@ -68,19 +58,11 @@ test("a partir de 480 px, as 5 abas ficam numa linha, com os dois ✓, e o Mais 
   await page.setViewportSize({ width: 480, height: 800 });
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
-  const save = {
-    schemaVersion: 7,
-    history: {
-      "2026-10-08|album": day,
-      "2026-10-08|song": day,
-      "2026-10-08|anime-musica-medio": day,
-    },
-    inProgress: {},
-  } satisfies Save;
-  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
-    SAVE_KEY,
-    JSON.stringify(save),
-  ] as const);
+  await seedHistory(page, {
+    "2026-10-08|album": day,
+    "2026-10-08|song": day,
+    "2026-10-08|anime-musica-medio": day,
+  });
   await open(page, "2026-10-08T12:00:00-03:00", "");
   const nav = page.getByRole("navigation");
   await expect(nav.getByRole("link")).toHaveText([

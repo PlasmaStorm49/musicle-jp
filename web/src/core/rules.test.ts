@@ -93,7 +93,7 @@ describe("regras por modo (P100)", () => {
     });
   });
 
-  it("Superfan (ME61): 3 trechos, 3 tentativas, −5 por erro, a ajuda logo de cara valendo 0, −2 por desistir (P186)", () => {
+  it("Superfan (ME61): 3 trechos, 3 tentativas, −5 por erro, a ajuda logo de cara valendo 0, −5 por desistir (P290)", () => {
     expect(VARIANT_RULES.superfan).toEqual({
       stages: [1, 4, 9],
       maxAttempts: 3,
@@ -106,7 +106,7 @@ describe("regras por modo (P100)", () => {
       points: [3, 2, 1],
       helpPoints: 0,
       wrongPoints: -5,
-      giveUpPoints: -2,
+      giveUpPoints: -5,
     });
     expect(rulesOf({ target: "song", variant: "superfan" })).toBe(VARIANT_RULES.superfan);
     expect(rulesOf({ target: "song" })).toBe(MODE_RULES.song);

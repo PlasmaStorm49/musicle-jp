@@ -11,6 +11,7 @@ import {
   superfanHelps,
   superfanNext,
   superfanOffset,
+  superfanOutcome,
   superfanOver,
   superfanScore,
   superfanStep,
@@ -97,26 +98,38 @@ describe("os pontos de cada música (P121, P119, P186)", () => {
     expect(superfanScore(run).points).toBe(0);
   });
 
-  it("desistir custa 2 e não é erro (P186)", () => {
+  it("desistir é um erro e custa 5, como errar (P290)", () => {
     const run = step(start(), GIVE_UP);
     const game = run.session.game;
     expect(game && currentRound(game)).toMatchObject({ status: "lost", gaveUp: true });
-    expect(superfanErrors(run)).toBe(0);
-    expect(superfanScore(run).points).toBe(-2);
+    expect(superfanErrors(run)).toBe(1);
+    expect(superfanScore(run).points).toBe(-5);
   });
 
-  it("desistir depois de um erro: os −5 do erro e os −2 de desistir (P186)", () => {
+  it("desistir depois de um erro: dois erros, −10 (P290)", () => {
     let run = step(start(), guess(wrong(start())));
     run = step(run, GIVE_UP);
-    expect(superfanErrors(run)).toBe(1);
-    expect(superfanScore(run).points).toBe(-7);
+    expect(superfanErrors(run)).toBe(2);
+    expect(superfanScore(run).points).toBe(-10);
   });
 
-  it("desistir com a ajuda na tela também custa 2: a ajuda não vira saída de graça", () => {
+  it("desistir com a ajuda na tela também é erro: a ajuda não vira saída de graça", () => {
     let run = start();
     run = step(run, help(run), GIVE_UP);
     expect(superfanHelps(run)).toBe(1);
-    expect(superfanScore(run).points).toBe(-2);
+    expect(superfanErrors(run)).toBe(1);
+    expect(superfanScore(run).points).toBe(-5);
+  });
+
+  it("desistir com 2 erros é o 3º: a partida acaba no fim da música (P290)", () => {
+    let run = startSuperfan(3, ar02, NONE);
+    const [w1, w2] = wrongs(run);
+    run = step(run, guess(w1 ?? ""), guess(w2 ?? ""), guess(answer(run)));
+    run = next(run);
+    run = step(run, GIVE_UP);
+    expect(superfanErrors(run)).toBe(3);
+    expect(superfanOver(run)).toBe(true);
+    expect(next(run).end).toBe("errors");
   });
 
   it("errar com a ajuda é um erro (−5) e encerra a música (P151)", () => {
@@ -128,12 +141,12 @@ describe("os pontos de cada música (P121, P119, P186)", () => {
     expect(superfanScore(run).points).toBe(-5);
   });
 
-  it("pular a última etapa (a tela não oferece) é desistir: −2, sem erro (P186)", () => {
+  it("pular a última etapa (a tela não oferece) é desistir: −5 e um erro (P290)", () => {
     const run = step(start(), SKIP, SKIP, SKIP);
     const game = run.session.game;
     expect(game && currentRound(game)).toMatchObject({ status: "lost", gaveUp: true });
-    expect(superfanScore(run).points).toBe(-2);
-    expect(superfanErrors(run)).toBe(0);
+    expect(superfanScore(run).points).toBe(-5);
+    expect(superfanErrors(run)).toBe(1);
   });
 });
 
@@ -193,12 +206,13 @@ describe("a partida (P119, P153)", () => {
     expect(superfanStep(run, SKIP)).toBe(run); // acabou: nada mais muda
   });
 
-  it("desistir e, com a revelação na tela, encerrar a partida: os −2 ficam (P186)", () => {
+  it("desistir e, com a revelação na tela, encerrar a partida: o erro e os −5 ficam (P290)", () => {
     let run = startSuperfan(6, ar02, NONE);
     run = step(run, GIVE_UP);
     run = quitSuperfan(run);
     expect(run.end).toBe("quit");
-    expect(superfanScore(run)).toEqual({ points: -2, rounds: 1 });
+    expect(run.errors).toBe(1);
+    expect(superfanScore(run)).toEqual({ points: -5, rounds: 1 });
   });
 
   it("com a música em jogo, a próxima não sai", () => {
@@ -269,6 +283,69 @@ describe("a partida sem música", () => {
     run = step(run, guess(wrong(run)));
     expect(superfanOver(run)).toBe(true);
     expect(quitSuperfan(run).end).toBe("errors");
+  });
+});
+
+describe("superfanOutcome (o que o save guarda do fim, P285 e P289)", () => {
+  /** A partida inteira do ar01 (2 músicas), com os eventos de cada uma antes do acerto. */
+  const play = (...before: ((run: SuperfanRun) => GameEvent[])[]) => {
+    let run = startSuperfan(5, ar01, NONE);
+    for (const events of before) {
+      run = step(run, ...events(run), guess(answer(run)));
+      run = next(run, ar01);
+    }
+    return run;
+  };
+  const nothing = () => [];
+
+  it("tudo de primeira, no trecho de 1 s: terminou e perfeita", () => {
+    const run = play(nothing, nothing);
+    expect(run.end).toBe("done");
+    expect(superfanOutcome(run)).toEqual({ done: true, perfect: true });
+  });
+
+  it.each([
+    ["um palpite errado", (run: SuperfanRun) => [guess(wrong(run, ar01))]],
+    [
+      "a ajuda (vale 0)",
+      (run: SuperfanRun) => [
+        { type: "HELP", options: [answer(run), wrong(run, ar01)] } as GameEvent,
+      ],
+    ],
+    ["o acerto no trecho de 4 s", () => [SKIP]],
+  ])("com %s numa música: terminou, mas não perfeita", (_, before) => {
+    expect(superfanOutcome(play(before, nothing))).toEqual({ done: true, perfect: false });
+  });
+
+  it("com uma música anulada (falha de áudio): terminou, mas não perfeita (P291)", () => {
+    let run = startSuperfan(5, ar01, NONE);
+    run = step(run, { type: "VOID", round: 0, reason: "falha" });
+    run = next(run, ar01);
+    run = step(run, guess(answer(run)));
+    run = next(run, ar01);
+    expect(run.end).toBe("done");
+    expect(superfanScore(run)).toEqual({ points: 3, rounds: 1 });
+    expect(superfanOutcome(run)).toEqual({ done: true, perfect: false });
+  });
+
+  it("encerrada ou acabada nos erros: nada", () => {
+    expect(superfanOutcome(quitSuperfan(startSuperfan(5, ar01, NONE)))).toEqual({
+      done: false,
+      perfect: false,
+    });
+    let run = startSuperfan(3, ar02, NONE);
+    const [w1, w2] = wrongs(run);
+    run = step(run, guess(w1 ?? ""), guess(w2 ?? ""), guess(answer(run)));
+    run = next(run);
+    run = next(step(run, guess(wrong(run))));
+    expect(run.end).toBe("errors");
+    expect(superfanOutcome(run)).toEqual({ done: false, perfect: false });
+  });
+
+  it("sem nenhuma música (todas fora, P141): não termina nada", () => {
+    const run = startSuperfan(8, ar01, new Set(ar01.tracksBySong.keys()));
+    expect(run.end).toBe("done");
+    expect(superfanOutcome(run)).toEqual({ done: false, perfect: false });
   });
 });
 

@@ -137,11 +137,11 @@ describe("Normal (4 opções)", () => {
     expect(roundScore(round(game))).toBe(0);
   });
 
-  it("desistir custa os giveUpPoints das regras; o fim forçado (forced) não custa (P186)", () => {
+  it("desistir custa os giveUpPoints das regras; o fim forçado (forced) não custa (P186, P290)", () => {
     const gaveUp = round(reduce(normal(), { type: "GIVE_UP" }));
     const forced = round(reduce(normal(), { type: "GIVE_UP", forced: true }));
     expect(forced).toMatchObject({ status: "lost", gaveUp: false });
-    expect(roundScore(gaveUp, VARIANT_RULES.superfan)).toBe(-2);
+    expect(roundScore(gaveUp, VARIANT_RULES.superfan)).toBe(-5);
     expect(roundScore(forced, VARIANT_RULES.superfan)).toBe(0);
     expect(roundScore(gaveUp, MODE_RULES.song)).toBe(0);
   });
