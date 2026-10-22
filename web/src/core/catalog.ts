@@ -1,6 +1,7 @@
 // Acesso rápido ao catálogo e respostas aceitas de cada rodada.
 import { normalize } from "./normalize.ts";
 import type {
+  AnimeCatalog,
   Artist,
   ArtistCatalog,
   Catalog,
@@ -13,6 +14,8 @@ import type {
 export const SUPPORTED_SCHEMA_VERSION = 2;
 /** A versão do arquivo de um artista (M13), separada da do catálogo da parada. */
 export const SUPPORTED_ARTIST_SCHEMA_VERSION = 1;
+/** A versão do catálogo do Anime (M14), separada das outras duas. */
+export const SUPPORTED_ANIME_SCHEMA_VERSION = 1;
 
 /** Catálogo de uma versão que este código não conhece: o jogo pede para atualizar a página. */
 export class UnsupportedCatalogError extends Error {}
@@ -40,6 +43,19 @@ export function indexArtist(file: ArtistCatalog): CatalogIndex {
   if (file.schemaVersion !== SUPPORTED_ARTIST_SCHEMA_VERSION) {
     throw new UnsupportedCatalogError(
       `artista com schemaVersion ${String(file.schemaVersion)}; esperado ${SUPPORTED_ARTIST_SCHEMA_VERSION}`,
+    );
+  }
+  return indexPlayable(file);
+}
+
+/**
+ * O catálogo do Anime (M14) vira um índice como o da parada: o diário, a rodada e a ajuda servem.
+ * As franquias e o bloco `anime` de cada faixa ficam no arquivo (o "acertar o anime", PR D3).
+ */
+export function indexAnime(file: AnimeCatalog): CatalogIndex {
+  if (file.schemaVersion !== SUPPORTED_ANIME_SCHEMA_VERSION) {
+    throw new UnsupportedCatalogError(
+      `Anime com schemaVersion ${String(file.schemaVersion)}; esperado ${SUPPORTED_ANIME_SCHEMA_VERSION}`,
     );
   }
   return indexPlayable(file);

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { catalog } from "../../test/fixtures.ts";
-import { acceptedIds, indexCatalog, UnsupportedCatalogError } from "./catalog.ts";
-import type { Album, Catalog } from "./types.ts";
+import { animeCatalog, catalog } from "../../test/fixtures.ts";
+import { acceptedIds, indexAnime, indexCatalog, UnsupportedCatalogError } from "./catalog.ts";
+import type { Album, AnimeCatalog, Catalog } from "./types.ts";
 
 const index = indexCatalog(catalog);
 // Do catálogo, e não do índice: os testes montam catálogos com a faixa e o álbum inteiros.
@@ -22,6 +22,32 @@ describe("indexCatalog", () => {
   it.each([1, 3])("recusa versão de schema desconhecida (%i)", (version) => {
     const other = { ...catalog, schemaVersion: version } as unknown as Catalog;
     expect(() => indexCatalog(other)).toThrow(UnsupportedCatalogError);
+  });
+});
+
+describe("indexAnime (M14)", () => {
+  const anime = indexAnime(animeCatalog);
+
+  it("o catálogo do Anime vira um índice como o da parada: faixas, álbuns, artistas e músicas", () => {
+    expect(anime.catalog.provider).toBe("fixture");
+    expect(anime.tracks.size).toBe(animeCatalog.tracks.length);
+    expect(anime.albums.size).toBe(animeCatalog.albums.length);
+    expect(anime.artists.size).toBe(animeCatalog.artists.length);
+    // As versões da mesma música (o songKey) ficam juntas: o acerto do Desafio vale por elas.
+    const songs = new Set(animeCatalog.tracks.map((t) => t.songKey));
+    expect(anime.tracksBySong.size).toBe(songs.size);
+  });
+
+  it("o acerto do acertar a música é o do Desafio, dentro do catálogo do Anime", () => {
+    const first = animeCatalog.tracks[0];
+    const ids = acceptedIds(anime, first, "song");
+    expect(ids).toContain(first.id);
+    for (const id of ids) expect(anime.tracks.get(id)?.songKey).toBe(first.songKey);
+  });
+
+  it.each([0, 2])("recusa versão de schema desconhecida (%i)", (version) => {
+    const other = { ...animeCatalog, schemaVersion: version } as unknown as AnimeCatalog;
+    expect(() => indexAnime(other)).toThrow(UnsupportedCatalogError);
   });
 });
 

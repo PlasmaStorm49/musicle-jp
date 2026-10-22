@@ -10,10 +10,12 @@ import {
   fakeAudioEnabled,
   gameDate,
   htmlAudioForced,
+  loadAnime,
   loadArtist,
   loadArtistList,
   loadGameData,
   lookupFailForced,
+  pickAnimeDay,
   pickDay,
   REAL_DATA_DIR,
   UnsupportedCatalogError,
@@ -180,6 +182,74 @@ describe("loadArtistList e loadArtist (M13)", () => {
       const { index } = await loadArtist(fakeFetch(), BASE, REAL_DATA_DIR, entry);
       expect(index.catalog.provider).toBe("apple");
     }
+  });
+});
+
+describe("loadAnime (M14)", () => {
+  it("o catálogo e a agenda, da subpasta anime/ dos dados, sempre revalidando o cache", async () => {
+    const calls: { url: string; cache: string | undefined }[] = [];
+    const serve = fakeFetch();
+    const recording: FetchLike = (url, init) => {
+      calls.push({ url, cache: init?.cache });
+      return serve(url, init);
+    };
+    const { index, schedule } = await loadAnime(recording, BASE, FIXTURE_DATA_DIR);
+    expect(index.catalog.provider).toBe("fixture");
+    expect(index.tracks.size).toBeGreaterThan(0);
+    expect(schedule.kind).toBe("anime");
+    expect(schedule.epoch).toBe("2026-10-08");
+    expect(calls.map((c) => c.url).sort()).toEqual([
+      `${BASE}fixtures/anime/catalog.json`,
+      `${BASE}fixtures/anime/schedule.json`,
+    ]);
+    expect(calls.every((c) => c.cache === "no-cache")).toBe(true);
+  });
+
+  it("na parada real, a pasta data/anime/", async () => {
+    const calls: string[] = [];
+    const serve = fakeFetch();
+    const recording: FetchLike = (url, init) => {
+      calls.push(url);
+      return serve(url.replace("/data/", "/fixtures/"), init);
+    };
+    await loadAnime(recording, BASE, REAL_DATA_DIR);
+    expect(calls.sort()).toEqual([
+      `${BASE}data/anime/catalog.json`,
+      `${BASE}data/anime/schedule.json`,
+    ]);
+  });
+
+  it("versão desconhecida do catálogo ou da agenda, ou a agenda dos Hits no lugar, pede para atualizar", async () => {
+    const hitsSchedule = JSON.parse(
+      readFileSync(new URL("fixtures/schedule.json", PUBLIC), "utf8"),
+    ) as unknown;
+    for (const overrides of [
+      { "fixtures/anime/catalog.json": { schemaVersion: 2 } },
+      { "fixtures/anime/catalog.json": null },
+      { "fixtures/anime/schedule.json": { schemaVersion: 2, kind: "anime", days: {} } },
+      { "fixtures/anime/schedule.json": hitsSchedule },
+    ]) {
+      await expect(
+        loadAnime(fakeFetch(overrides), BASE, FIXTURE_DATA_DIR),
+        JSON.stringify(Object.keys(overrides)),
+      ).rejects.toBeInstanceOf(UnsupportedCatalogError);
+    }
+  });
+
+  it("falha de rede e 404 pedem para tentar de novo", async () => {
+    const offline = { "fixtures/anime/schedule.json": new TypeError("Failed to fetch") };
+    await expect(loadAnime(fakeFetch(offline), BASE, FIXTURE_DATA_DIR)).rejects.toBeInstanceOf(
+      DataLoadError,
+    );
+    await expect(
+      loadAnime(fakeFetch(), "http://localhost:5173/outra/", FIXTURE_DATA_DIR),
+    ).rejects.toBeInstanceOf(DataLoadError);
+  });
+
+  it("pickAnimeDay devolve o dia da agenda do Anime ou null", async () => {
+    const { schedule } = await loadAnime(fakeFetch(), BASE, FIXTURE_DATA_DIR);
+    expect(pickAnimeDay(schedule, "2026-10-08")?.number).toBe(1);
+    expect(pickAnimeDay(schedule, "2026-10-07")).toBeNull();
   });
 });
 
