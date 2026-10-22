@@ -8,7 +8,6 @@ Atualizado em 21/10/2026.
 
 1. **ME36**: as 3 actions novas (o merge só depois das 23:52 de 21/10).
 5. **ME101**: o controle de volume também na revelação (P228).
-6. **ME97**: a categoria Anime, no M14, em andamento (Apêndice M do PLANO).
 
 ## Itens para corrigir
 
@@ -80,7 +79,6 @@ Atualizado em 21/10/2026.
 
 ## Coisas novas que quero implementar
 
-- **ME97 (em andamento, M14).** A categoria Anime, com 6 diários por dia, num acervo que o robô monta sem revisão humana (P230 a P256).
 - **ME107 (novo).** Repensar a pontuação de todos os modos, depois do Anime. Até lá, o Anime usa as regras do Desafio.
 - **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
 - **ME104 (novo).** Os dias jogados e jogar os últimos dias (sem sequência e sem média). Depois do Anime.
