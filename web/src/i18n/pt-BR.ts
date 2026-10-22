@@ -76,7 +76,7 @@ export const ptBR = {
   // O switch (P217): o nome é o do estado ligado; a dica fica para o leitor de tela.
   "home.themeDark": "Tema escuro",
   "home.themeHint": "Sem escolha, o jogo segue o tema do aparelho.",
-  // O link do "Sobre e privacidade" (P243), no fim da Início, ao lado da troca de tema.
+  // O link do "Sobre e privacidade" (P243), no fim da Início, na linha do "Como funciona" (P259).
   "home.about": "Sobre e privacidade",
 
   "game.header": "{mode} · nº {number}",

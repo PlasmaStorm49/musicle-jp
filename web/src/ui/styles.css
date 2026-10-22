@@ -1368,8 +1368,24 @@ section.void,
   padding-block: var(--sp-2);
 }
 
-.home-how-box {
+/* O "Como funciona" e o "Sobre e privacidade" numa linha só (P259): o fio de cima é da linha, e
+   o link fica à direita do resumo, por cima do lado livre dele. Aberto, o texto do "Como funciona"
+   desce na largura toda. */
+.home-more {
+  position: relative;
   border-top: 1px solid var(--hairline);
+}
+
+/* O alvo do link tem a altura da linha do "Como funciona", 44 px (P213). */
+.home-more > .home-about {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--h-control);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
 }
 
 .home-how-box summary {
@@ -1401,24 +1417,6 @@ section.void,
   font-size: var(--t-sm);
   line-height: var(--lh-sm);
   color: var(--muted);
-}
-
-/* O fim da Início, numa linha: o "Sobre e privacidade" à esquerda e a troca de tema à direita
-   (o "Tema" fica para o leitor de tela). Se um dia não couber, quebra a linha, sem rolar. */
-.home-foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0 var(--sp-3);
-}
-
-.home-about {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--h-control);
-  font-size: var(--t-sm);
-  line-height: var(--lh-sm);
 }
 
 .home-theme {

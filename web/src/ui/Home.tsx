@@ -130,27 +130,29 @@ export function Home({ day, date, save, artists }: Props) {
         />
       </section>
 
-      {/* Recolhido: a tela cabe sem rolar, e quem quer as regras abre (P210). */}
-      <details class="home-how-box">
-        {/* O chevron do designer diz que abre, e gira quando está aberto. */}
-        <summary>
-          {t("home.howTitle")}
-          <Icon name="next" />
-        </summary>
-        <ul class="home-how">
-          <li>{t("home.howClip", { first: secondsAt(0), last: secondsAt(MAX_STAGE) })}</li>
-          <li>{t("home.howDaily")}</li>
-          <li>{t("home.howPractice")}</li>
-        </ul>
-      </details>
-
-      {/* O fim da Início, numa linha: o "Sobre e privacidade" (P243) e a troca de tema. */}
-      <footer class="home-foot">
+      {/* O "Como funciona" e o "Sobre e privacidade" (P243) na mesma linha: o link fica à direita
+          do "Como funciona", que tem o lado livre, e a Início não cresce (P259). Aberto, o texto do
+          "Como funciona" desce na largura toda, e o link continua na linha dele. */}
+      <div class="home-more">
+        {/* Recolhido: a tela cabe sem rolar, e quem quer as regras abre (P210). */}
+        <details class="home-how-box">
+          {/* O chevron do designer diz que abre, e gira quando está aberto. */}
+          <summary>
+            {t("home.howTitle")}
+            <Icon name="next" />
+          </summary>
+          <ul class="home-how">
+            <li>{t("home.howClip", { first: secondsAt(0), last: secondsAt(MAX_STAGE) })}</li>
+            <li>{t("home.howDaily")}</li>
+            <li>{t("home.howPractice")}</li>
+          </ul>
+        </details>
         <a class="home-about" href={ROUTES.about}>
           {t("home.about")}
         </a>
-        <ThemeSwitch />
-      </footer>
+      </div>
+
+      <ThemeSwitch />
     </div>
   );
 }
@@ -160,16 +162,13 @@ export function Home({ day, date, save, artists }: Props) {
  * (provisórios, P218). Sem escolha salva, ele mostra o tema do aparelho; a troca vale na hora e
  * fica gravada. É um botão que alterna no mesmo lugar: o 2º clique de um toque duplo não pode
  * voltar o tema (singleClick, regra 23). O h2, como nas outras seções, deixa o "Tema" na
- * navegação por títulos; ele fica só para o leitor de tela, porque o sol e a lua já dizem o que
- * o switch faz, e a linha divide o espaço com o "Sobre e privacidade".
+ * navegação por títulos; ele fica na tela, ao lado do switch (P259).
  */
 function ThemeSwitch() {
   const { theme, followsDevice, toggle } = useTheme();
   return (
     <section class="home-theme" aria-labelledby="home-theme">
-      <h2 id="home-theme" class="sr-only">
-        {t("home.themeTitle")}
-      </h2>
+      <h2 id="home-theme">{t("home.themeTitle")}</h2>
       <button
         type="button"
         role="switch"

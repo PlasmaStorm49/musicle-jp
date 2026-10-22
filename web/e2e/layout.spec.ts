@@ -35,6 +35,46 @@ async function skip(page: Page, n: number): Promise<void> {
   for (let i = 0; i < n; i++) await page.getByRole("button", { name: /^Pular/ }).click();
 }
 
+/**
+ * A Início no caso mais alto: os dois diários dos Hits e um do Anime terminados (uma linha a mais
+ * em cada cartão) e a sessão de um artista com placar. Confere as linhas, o "Tema" na tela, ao lado
+ * do switch (P259), e o "Sobre e privacidade" na linha do "Como funciona".
+ */
+async function homeWorstCase(page: Page): Promise<void> {
+  const lost = { status: "lost", stage: 0, attempts: [] } as const;
+  const day = { number: 1, rounds: [lost, lost, lost] };
+  const save = {
+    schemaVersion: 6,
+    history: {
+      "2026-10-08|album": day,
+      "2026-10-08|song": day,
+      "2026-10-08|anime-musica-facil": day,
+    },
+    inProgress: {},
+  } satisfies Save;
+  await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
+    SAVE_KEY,
+    JSON.stringify(save),
+  ] as const);
+  await open(page, DAY, "#artistas");
+  await page.getByRole("button", { name: /^青井ユウ/ }).click();
+  await page.getByRole("button", { name: "Livre" }).click();
+  await page.getByRole("button", { name: "Desistir" }).click();
+  await page.getByRole("link", { name: "Início" }).click();
+  const cards = page.getByRole("main").getByRole("link");
+  await expect(cards.filter({ hasText: "Nesta sessão" })).toHaveCount(1);
+  await expect(cards.filter({ hasText: /^Hits/ }).locator(".tag")).toHaveText([
+    "Normal: terminado, 0 de 18 pontos",
+    "Desafio: terminado, 0 de 18 pontos",
+  ]);
+  await expect(cards.filter({ hasText: /^Anime/ }).locator(".tag")).toHaveText([
+    "Hoje: 1 de 6 terminados",
+  ]);
+  await expect(page.getByRole("heading", { level: 2, name: "Tema" })).toBeVisible();
+  const about = page.getByRole("link", { name: "Sobre e privacidade" });
+  expect(await top(about)).toBe(await top(page.locator("details.home-how-box > summary")));
+}
+
 // O iPhone SE e o Android comum (P214): as telas de escolha (PR D1), as rodadas (PR D2), a
 // revelação e o resumo (PR D3) cabem inteiros. Os do jogo, no caso mais alto: com o selo da Apple
 // no pé, como na parada real.
@@ -91,38 +131,7 @@ for (const viewport of [
     test("a Início no caso mais alto: os dois diários terminados no cartão dos Hits, um do Anime e a sessão do artista", async ({
       page,
     }) => {
-      const lost = { status: "lost", stage: 0, attempts: [] } as const;
-      const day = { number: 1, rounds: [lost, lost, lost] };
-      const save = {
-        schemaVersion: 6,
-        history: {
-          "2026-10-08|album": day,
-          "2026-10-08|song": day,
-          "2026-10-08|anime-musica-facil": day,
-        },
-        inProgress: {},
-      } satisfies Save;
-      await page.addInitScript(([key, raw]) => localStorage.setItem(key, raw), [
-        SAVE_KEY,
-        JSON.stringify(save),
-      ] as const);
-      await open(page, DAY, "#artistas");
-      await page.getByRole("button", { name: /^青井ユウ/ }).click();
-      await page.getByRole("button", { name: "Livre" }).click();
-      await page.getByRole("button", { name: "Desistir" }).click();
-      await page.getByRole("link", { name: "Início" }).click();
-      const cards = page.getByRole("main").getByRole("link");
-      await expect(cards.filter({ hasText: "Nesta sessão" })).toHaveCount(1);
-      await expect(cards.filter({ hasText: /^Hits/ }).locator(".tag")).toHaveText([
-        "Normal: terminado, 0 de 18 pontos",
-        "Desafio: terminado, 0 de 18 pontos",
-      ]);
-      await expect(cards.filter({ hasText: /^Anime/ }).locator(".tag")).toHaveText([
-        "Hoje: 1 de 6 terminados",
-      ]);
-      // O fim, numa linha: o "Sobre e privacidade" e a troca de tema.
-      const about = page.getByRole("link", { name: "Sobre e privacidade" });
-      expect(await top(about)).toBeCloseTo(await top(page.getByRole("switch")), -1);
+      await homeWorstCase(page);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
@@ -441,6 +450,14 @@ test("em 320 px, o cabeçalho do diário do Anime fica numa linha: o nome do di�
 const LONG_ARTIST = (name: string) =>
   `${name} & 宇多田ヒカル & ONE OK ROCK & CHICO CARLITO & Paledusk`;
 
+test("em 320 px, a Início no caso mais alto não rola para o lado, com o Tema e o Sobre nas linhas deles (P259)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await homeWorstCase(page);
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
+});
+
 test("em 320 px, um artista longo não empurra a página para o lado: a rodada, a revelação e as tentativas", async ({
   page,
 }) => {
@@ -528,6 +545,9 @@ test("a Início: o switch do tema e o Como funciona têm alvo de 44 px (P213)", 
   await open(page, DAY, "#inicio");
   const how = page.locator("details.home-how-box > summary");
   expect((await target(how)).height).toBeGreaterThanOrEqual(44);
+  // O "Sobre e privacidade", na mesma linha (P259), com o mesmo alvo.
+  const about = page.getByRole("link", { name: "Sobre e privacidade" });
+  expect((await target(about)).height).toBeGreaterThanOrEqual(44);
   // O alvo é o botão inteiro: o sol, a trilha e a lua.
   const { height, width } = await target(page.getByRole("switch", { name: "Tema escuro" }));
   expect(height).toBeGreaterThanOrEqual(44);

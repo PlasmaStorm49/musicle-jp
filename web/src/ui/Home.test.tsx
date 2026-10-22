@@ -201,14 +201,20 @@ describe("Home", () => {
     expect(lines(anime())).toEqual(["Hoje: 2 de 6 terminados"]);
   });
 
-  it('o "Sobre e privacidade" no fim, na linha da troca de tema (P243); o "Tema" fica para o leitor de tela', () => {
+  it('o "Sobre e privacidade" (P243) na linha do "Como funciona", fora dele; o "Tema" na tela (P259)', () => {
     setup();
     const about = screen.getByRole("link", { name: "Sobre e privacidade" });
     expect(about.getAttribute("href")).toBe("#sobre");
-    const foot = about.closest("footer");
-    expect(foot?.querySelector('[role="switch"]')).not.toBeNull();
-    expect(screen.getByRole("heading", { name: "Tema" }).classList.contains("sr-only")).toBe(true);
+    const row = about.closest(".home-more");
+    expect(row?.querySelector("details.home-how-box")).not.toBeNull();
+    // Fora do <details>: o link aparece com ele fechado, e não fica dentro do resumo.
+    expect(about.closest("details")).toBeNull();
+    // O "Tema" volta para a tela, ao lado do switch.
+    const theme = screen.getByRole("heading", { name: "Tema" });
+    expect(theme.classList.contains("sr-only")).toBe(false);
+    expect(theme.closest("section")?.querySelector('[role="switch"]')).not.toBeNull();
   });
+
   it("o cartão do Anime não é o oliva: a Início não sabe se há diário do Anime hoje", () => {
     setup({
       ...emptySave(),
