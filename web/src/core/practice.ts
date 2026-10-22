@@ -7,6 +7,7 @@
 // O estado guarda só números e IDs (semente, ciclo, posição), nunca o gerador: o embaralhamento
 // de cada ciclo é refeito da semente quando preciso, sempre igual.
 import { acceptedIds, type CatalogIndex } from "./catalog.ts";
+import { hitsDailies } from "./daily.ts";
 import { type Mulberry32, seeded } from "./prng.ts";
 import { pendingDayTracks, type Save } from "./records.ts";
 import { createRounds, type GameState, type PlannedRound, roundScore } from "./reducer.ts";
@@ -154,7 +155,7 @@ export function pendingDailySongKeys(
   index: CatalogIndex,
 ): Set<string> {
   if (!day) return new Set();
-  const tracks = pendingDayTracks(save, day, date).map((id) => index.tracks.get(id));
+  const tracks = pendingDayTracks(save, hitsDailies(day, date)).map((id) => index.tracks.get(id));
   return new Set(tracks.flatMap((track) => (track ? [track.songKey] : [])));
 }
 

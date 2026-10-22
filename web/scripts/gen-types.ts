@@ -12,6 +12,10 @@ export const SCHEMAS = [
   { schema: "shared/schema/schedule.schema.json", out: "web/src/core/generated/schedule.ts" },
   { schema: "shared/schema/artist.schema.json", out: "web/src/core/generated/artist.ts" },
   { schema: "shared/schema/artist-list.schema.json", out: "web/src/core/generated/artist-list.ts" },
+  {
+    schema: "shared/schema/anime-catalog.schema.json",
+    out: "web/src/core/generated/anime-catalog.ts",
+  },
 ] as const;
 
 // Títulos dos schemas → nomes curtos. $defs genéricos ganham nomes que não escondem os
@@ -24,6 +28,10 @@ const BY_TITLE: Record<string, string> = {
   "Artista da lista do musicle-jp": "ArtistListEntry",
   "Álbum do catálogo de artista do musicle-jp": "ArtistAlbum",
   "Faixa do catálogo de artista do musicle-jp": "ArtistTrack",
+  "Catálogo do Anime do musicle-jp": "AnimeCatalog",
+  "Álbum do catálogo do Anime do musicle-jp": "AnimeAlbum",
+  "Faixa do catálogo do Anime do musicle-jp": "AnimeTrack",
+  "Franquia do catálogo do Anime do musicle-jp": "AnimeFranchise",
 };
 const BY_KEY: Record<string, string> = {
   date: "IsoDate",

@@ -198,7 +198,12 @@ def _balanced(text: str) -> bool:
     return all(text.count(a) == text.count(b) for a, b in ("()", "[]", "【】"))
 
 
-def _last_tail(text: str) -> tuple[str, str] | None:
+def is_out_suffix(inner: str) -> bool:
+    """O conteúdo de um sufixo é de uma versão que nunca entra (karaokê, ao vivo...)?"""
+    return _OUT.search(inner) is not None
+
+
+def last_tail(text: str) -> tuple[str, str] | None:
     """O sufixo delimitado mais à direita: (o que vem antes, o conteúdo dele). O " - " dentro de
     um parêntese não conta: em "Sugar (Live at Irving Plaza, NY - January 1999)", o sufixo é o
     parêntese inteiro, e não o "January 1999)" (ME85)."""
@@ -209,21 +214,27 @@ def _last_tail(text: str) -> tuple[str, str] | None:
     return text[: last.start()].strip(), last.group(1).strip()
 
 
-def artist_title_key(title: str) -> str:
-    """A chave da música dentro do artista: o title_key da parada, depois de tirar, em laço, os
-    sufixos que só valem aqui (karaokê, inglês, THE FIRST TAKE, crédito "(… from …)")."""
+def artist_base_title(title: str) -> str:
+    """O título sem, em laço, os sufixos que só valem aqui (karaokê, inglês, THE FIRST TAKE,
+    crédito "(… from …)"), ainda como texto: o Anime (M14) romaniza este texto."""
     s = _TIGHT_FEAT.sub("", unicodedata.normalize("NFKC", title).strip())
     while True:
         # As versões da parada (remaster, feat., TV size) saem antes: o crédito pode vir antes
         # delas ("新時代 (ウタ from …) [2023 Remaster]").
         s = strip_version_suffix(s)
-        cut = _last_tail(s)
+        cut = last_tail(s)
         known = cut is not None and (
             _OUT.search(cut[1]) or _CREDIT.fullmatch(cut[1]) or _SECONDARY.search(cut[1])
         )
         if cut is None or not cut[0] or not known:
-            return title_key(s)
+            return s
         s = cut[0]
+
+
+def artist_title_key(title: str) -> str:
+    """A chave da música dentro do artista: o title_key da parada, depois de tirar os sufixos
+    que só valem aqui (`artist_base_title`)."""
+    return title_key(artist_base_title(title))
 
 
 def version_kind(track: RawTrack) -> Literal["out", "secondary"] | None:
@@ -237,7 +248,7 @@ def version_kind(track: RawTrack) -> Literal["out", "secondary"] | None:
         return "out"
     credit = False
     s = nfkc
-    while (cut := _last_tail(s)) is not None and cut[0]:
+    while (cut := last_tail(s)) is not None and cut[0]:
         rest, inner = cut
         if _OUT.search(inner):
             return "out"
@@ -261,13 +272,13 @@ class Song:
     rank: int | None  # a melhor posição no lookup de músicas
 
 
-def _preview(t: RawTrack) -> JSON | None:
+def preview_of(t: RawTrack) -> JSON | None:
     if t.preview_url is None:
         return None
     return {"url": t.preview_url, "durationSec": t.preview_duration_sec, "startSec": 0}
 
 
-def _canonical_order(t: RawTrack) -> tuple[bool, bool, str, str]:
+def canonical_order(t: RawTrack) -> tuple[bool, bool, str, str]:
     """P132: a versão original, de álbum que não é coletânea, a mais antiga, o menor id."""
     compilation = t.album.type == "compilation" or _BEST_ALBUM.search(t.album.title) is not None
     return (version_kind(t) == "secondary", compilation, t.album.release_date, t.provider_id)
@@ -320,7 +331,7 @@ def _inherited_ranks(
     for e in snap.entries:
         if e.rank is None or e.track.provider_id not in rules.exclude_tracks:
             continue
-        cut = _last_tail(unicodedata.normalize("NFKC", e.track.title))
+        cut = last_tail(unicodedata.normalize("NFKC", e.track.title))
         base = artist_title_key(cut[0]) if cut and cut[0] else None
         for key in (base, artist_title_key(e.track.title)):
             if key in groups:
@@ -374,13 +385,13 @@ def select_songs(
         playable = [
             t
             for t in good
-            if eligibility(_preview(t), t.album.artwork_url, blocked(t.provider_id))["daily"]
+            if eligibility(preview_of(t), t.album.artwork_url, blocked(t.provider_id))["daily"]
         ]
         if not playable:
             notes.append(f"{where}: sem prévia tocável: {good[0].title!r}")
             continue
         ranks = [r for r, _ in groups[key] if r is not None] + inherited.get(key, [])
-        canonical = min(playable, key=_canonical_order)
+        canonical = min(playable, key=canonical_order)
         songs.append(Song(key, canonical, members, min(ranks) if ranks else None))
 
     # P133: (1) a posição no lookup de músicas; (2) o single (lado A) da curadoria, P172: o lookup
@@ -401,7 +412,7 @@ def select_songs(
     for s in songs:
         # "灯台 (Demo)": o sufixo não é de versão conhecida, e a música fica à parte; se o título
         # sem ele é outra música do artista, avisa (a correção é same_song ou exclude_tracks).
-        cut = _last_tail(unicodedata.normalize("NFKC", s.canonical.title))
+        cut = last_tail(unicodedata.normalize("NFKC", s.canonical.title))
         if cut and cut[0] and (other := artist_title_key(cut[0])) != s.key and other in keys:
             notes.append(
                 f"{where}: {s.canonical.title!r} pode ser versão de outra música do artista "
@@ -430,7 +441,7 @@ def _track_record(
     track_id = entity_id(provider, "tr", t.provider_id)
     text = track_text(t.title)
     latin, source = cur.latin("tracks", track_id, text, t.title_latin)
-    preview = _preview(t)
+    preview = preview_of(t)
     artist_ids = [entity_id(provider, "ar", a.provider_id) for a in t.artists]
     return {
         "id": track_id,
