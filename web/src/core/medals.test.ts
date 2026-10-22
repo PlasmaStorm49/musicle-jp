@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  DEMO_MEDALS,
   earnedMedals,
   MEDALS,
   type Medal,
+  medalBoard,
   medalContext,
   medalsOf,
   SUPERFAN_RIGHT,
@@ -168,5 +170,30 @@ describe("medalha ganha nunca some", () => {
       before = now;
     }
     expect(before.size).toBeGreaterThan(4);
+  });
+});
+
+describe("medalBoard (o que a tela mostra, P286)", () => {
+  it("a sequência, o total, as gerais e as 3 do Superfan de cada artista da lista, na ordem dela", () => {
+    let save = withFinished(emptySave(), "2026-10-19|song", lost);
+    save = withFinished(save, "2026-10-20|album", lost);
+    save = withSuperfanEnd(rights(save, SUPERFAN_RIGHT), ARTIST, { done: true, perfect: false });
+    // Um registro de um artista fora da lista: ele não aparece, e não entra no total.
+    save = withArtistRight(save, "apple:ar:fora");
+    const board = medalBoard(save, "2026-10-20", HITS, DEMO_MEDALS, ["apple:ar:2", ARTIST]);
+    expect(board.streak).toEqual({ current: 2, best: 2 });
+    expect(board.general.map((s) => [s.medal.id, s.earned, s.progress])).toEqual([
+      ["demo-primeiro", true, null],
+      ["demo-cinco", false, { value: 2, goal: 5 }],
+      ["demo-sequencia", false, { value: 2, goal: 3 }],
+    ]);
+    expect(board.superfan.map((row) => row.artistId)).toEqual(["apple:ar:2", ARTIST]);
+    expect(board.superfan[1]?.cells.map((c) => [c.level, c.state.earned])).toEqual([
+      ["prata", true],
+      ["ouro", true],
+      ["suprema", false],
+    ]);
+    expect(board.total).toBe(3 + 2 * 3);
+    expect(board.earned).toBe(1 + 2);
   });
 });

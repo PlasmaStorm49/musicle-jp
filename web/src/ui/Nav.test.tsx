@@ -13,8 +13,8 @@ afterEach(() => {
 const DATE = "2026-10-22";
 const HOME: Route = { tab: "home", date: null };
 
-function setup(route: Route = HOME, save: Save = emptySave()) {
-  return render(<Nav route={route} save={save} date={DATE} />);
+function setup(route: Route = HOME, save: Save = emptySave(), medals = false) {
+  return render(<Nav route={route} save={save} date={DATE} medals={medals} />);
 }
 
 const toggle = () => screen.getByRole("button", { name: "Mais" });
@@ -132,6 +132,31 @@ describe("Nav (P225, P265)", () => {
       },
     });
     expect(screen.getByRole("link", { name: /^Hits/ }).textContent).toContain("✓");
+  });
+
+  it("sem as medalhas, nem o link nem o corte de 720 px (M16): no site, nada muda no PR 2", () => {
+    setup();
+    expect(screen.queryByRole("link", { name: "Medalhas" })).toBeNull();
+    expect(document.querySelector("nav.tabs")?.classList.contains("six")).toBe(false);
+  });
+
+  it("com as medalhas: o link na linha e no Mais, e o corte de 720 px (P287)", () => {
+    setup(HOME, emptySave(), true);
+    expect(document.querySelector("nav.tabs")?.classList.contains("six")).toBe(true);
+    const inline = [...document.querySelectorAll(".nav-inline a")].map((a) =>
+      a.getAttribute("href"),
+    );
+    expect(inline).toEqual(["#artistas", "#historico", "#medalhas"]);
+    const links = [...menu().querySelectorAll("a")].map((a) => a.getAttribute("href"));
+    expect(links).toEqual(["#artistas", "#historico", "#medalhas"]);
+  });
+
+  it("nas Medalhas, o link delas leva o aria-current, e o Mais também", () => {
+    setup({ tab: "medals", date: null }, emptySave(), true);
+    for (const link of screen.getAllByRole("link", { name: "Medalhas", hidden: true })) {
+      expect(link.getAttribute("aria-current")).toBe("page");
+    }
+    expect(toggle().getAttribute("aria-current")).toBe("true");
   });
 
   it("os Artistas e o Histórico também na linha, para as telas largas", () => {

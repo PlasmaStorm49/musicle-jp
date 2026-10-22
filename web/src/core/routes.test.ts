@@ -28,6 +28,7 @@ describe("tabFromHash (P49)", () => {
     ["#anime-musica", "anime-musica"],
     ["#anime-titulo", "anime-titulo"],
     ["#anime-musica-facil", "anime-musica-facil"],
+    ["#medalhas", "medals"],
     ["#anime-titulo-dificil", "anime-titulo-dificil"],
     ["#sobre", "about"],
     ["#historico", "history"],
@@ -77,6 +78,7 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
     // O "Sobre" fica com a Início (o link no fim dela).
     ["about", "home"],
     ["history", "history"],
+    ["medals", "medals"],
   ] as const)("%s → %s", (tab, category) => {
     expect(categoryOf(tab)).toBe(category);
   });
@@ -90,6 +92,12 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
 
 describe("routeFromHash (o Histórico, P261 e P262)", () => {
   const TODAY = "2026-10-22";
+  it("as Medalhas não aceitam data: com uma, a Início (regra 17)", () => {
+    expect(routeFromHash("#medalhas", TODAY)).toEqual({ tab: "medals", date: null });
+    expect(routeFromHash("#medalhas/2026-10-21", TODAY)).toEqual({ tab: "home", date: null });
+    expect(navCurrent({ tab: "medals", date: null }, "medals")).toBe("page");
+  });
+
   it.each([
     // Sem data: a aba de sempre, de hoje.
     ["#normal", { tab: "album", date: null }],

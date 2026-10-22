@@ -28,6 +28,7 @@ export const ptBR = {
   // O Histórico (M15, P264) e o "Mais", que no celular junta os Artistas e o Histórico (P265).
   "nav.history": "Histórico",
   "nav.more": "Mais",
+  "nav.medals": "Medalhas",
 
   // O Histórico (M15, P260 a P263): o calendário dos 14 dias antes de hoje e a tela de cada dia.
   "history.title": "Histórico",
@@ -356,6 +357,31 @@ export const ptBR = {
   "superfan.errorNote": "Erro {count} de {total}: {points}.",
   "superfan.over": "{total} erros: a partida acabou. Veja o resultado.",
   "superfan.giveUp": "Desistir da música",
+  // As Medalhas (M16, P278 a P288): a tela, os 3 níveis do Superfan (P285) e as gerais de exemplo
+  // (só em desenvolvimento, `?medalhas=demo`; a lista de verdade vem no PR 3).
+  "medals.title": "Medalhas",
+  "medals.streak": "Dias seguidos jogando: {current}. O melhor: {best}.",
+  "medals.total": "{earned} de {total} medalhas",
+  "medals.general": "Gerais",
+  "medals.superfan": "Superfan",
+  // O emblema provisório das gerais, no miolo da roseta (o designer manda os de cada uma, P283).
+  "medals.generalMark": "★",
+  "medals.superfanHint":
+    "Três por artista: acertar no modo por artista, terminar o Superfan e terminar perfeito.",
+  "medals.level.prata": "Prata",
+  "medals.level.ouro": "Ouro",
+  "medals.level.suprema": "Suprema",
+  "medals.how.ouro": "Termine uma partida do Superfan",
+  "medals.how.suprema": "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
+  "medals.earned": "Ganha",
+  "medals.progress": "{value} de {goal}",
+  "medals.progress.prata": "{value} de {goal} acertos",
+  "medal.demo-primeiro.name": "Primeiro diário",
+  "medal.demo-primeiro.how": "Termine um diário no dia",
+  "medal.demo-cinco.name": "Cinco diários",
+  "medal.demo-cinco.how": "Termine 5 diários no dia",
+  "medal.demo-sequencia.name": "Três dias seguidos",
+  "medal.demo-sequencia.how": "Jogue 3 dias seguidos",
   "artists.empty":
     "Não há rodada para sortear agora. As músicas dos diários de hoje voltam quando eles terminarem.",
 

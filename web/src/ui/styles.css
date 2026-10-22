@@ -451,6 +451,18 @@ button.give-up:active:not(:disabled) {
   }
 }
 
+/* Com as Medalhas (M16), as 6 abas só cabem a partir de 720 px (P287): entre 480 e 719, a coluna
+   tem 460 px úteis, e os Artistas, o Histórico e as Medalhas ficam no "Mais". */
+@media (min-width: 480px) and (max-width: 719.98px) {
+  .tabs.six .nav-inline {
+    display: none;
+  }
+
+  .tabs.six .nav-more {
+    display: list-item;
+  }
+}
+
 /* O botão do "Mais" com a cara das abas: sem tinta, o texto cinza e o chevron do designer, que
    aponta para baixo e gira quando o menu abre. */
 .tabs .nav-more-toggle {
@@ -1713,34 +1725,157 @@ section.void,
   display: grid;
   place-items: center;
   border-radius: 50%;
+  background: var(--monogram);
   color: #ffffff;
   font-size: 1.5rem;
   font-weight: 700;
 }
 
+/* A cor de cada artista, numa variável: o disco do monograma e, nas medalhas (M16), as caudas e o
+   monograma de reserva do miolo (`MedalArt`). */
 .monogram-0 {
-  background: #2f7d79;
+  --monogram: #2f7d79;
 }
 .monogram-1 {
-  background: #b3261e;
+  --monogram: #b3261e;
 }
 .monogram-2 {
-  background: #5b4bb7;
+  --monogram: #5b4bb7;
 }
 .monogram-3 {
-  background: #1f6fb2;
+  --monogram: #1f6fb2;
 }
 .monogram-4 {
-  background: #8a5a00;
+  --monogram: #8a5a00;
 }
 .monogram-5 {
-  background: #3d7a2f;
+  --monogram: #3d7a2f;
 }
 .monogram-6 {
-  background: #a3326b;
+  --monogram: #a3326b;
 }
 .monogram-7 {
-  background: #4a5568;
+  --monogram: #4a5568;
+}
+
+/* As Medalhas (M16, P286): a tela rola, como a lista dos Artistas (P211). As gerais numa lista de
+   linhas; as do Superfan, uma linha por artista, com as 3 dele lado a lado, alinhadas por baixo. A
+   que falta ganhar fica apagada (P283), pelo filtro, sem cor própria. */
+.medal-art {
+  display: block;
+  flex: none;
+}
+
+.medal-art.locked {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.medals header {
+  display: grid;
+  gap: var(--sp-1);
+}
+
+.medals-streak,
+.medals-total {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
+.medals section {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.medals section > h2 {
+  margin: 0;
+  font-size: var(--t-md);
+  line-height: var(--lh-md);
+}
+
+.medal-list,
+.medal-artists,
+.medal-trio {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.medal-list {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.medal-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.medal-text {
+  display: grid;
+}
+
+.medal-name {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  font-weight: 700;
+}
+
+.medal-how {
+  color: var(--muted);
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+}
+
+.medal-artists {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.medal-artist {
+  display: grid;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-radius: var(--r-tile);
+  background: var(--fill);
+}
+
+.medal-artist h3 {
+  margin: 0;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  overflow-wrap: anywhere;
+}
+
+.medal-trio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--sp-2);
+}
+
+/* A 1ª linha tem a altura da maior (a suprema, 66 × 94 px, o LEVEL_SIZE do Medals.tsx): as 3
+   ficam alinhadas por baixo, com os textos embaixo, de qualquer tamanho. */
+.medal-cell {
+  display: grid;
+  grid-template-rows: 94px auto auto;
+  justify-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.medal-cell > .medal-art {
+  align-self: end;
+}
+
+.medals-retry {
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-2);
 }
 
 /* O Histórico (M15, P260): o calendário de 2 semanas, 7 colunas com o dia da semana no

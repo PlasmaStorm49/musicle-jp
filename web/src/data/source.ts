@@ -218,6 +218,16 @@ export function gameDate(now: Date, search: string, dev: boolean): string {
   return dateInZone(now);
 }
 
+/**
+ * As medalhas (M16) antes da lista de verdade: ?medalhas=demo mostra a tela, a nav e os avisos com
+ * a lista de exemplo; ?medalhas=silencio, a dos testes de ponta a ponta, deixa tudo e cala os
+ * avisos. Quem chama confere o literal `import.meta.env.DEV` (regra 10): no site, nada muda.
+ */
+export function medalsMode(search: string): "demo" | "silencio" | null {
+  const mode = new URLSearchParams(search).get("medalhas");
+  return mode === "demo" || mode === "silencio" ? mode : null;
+}
+
 /** Só em desenvolvimento: ?failAudio=<id da faixa> simula falha de áudio nessa faixa. */
 export function failAudioTrack(search: string, dev: boolean): string | null {
   return dev ? new URLSearchParams(search).get("failAudio") : null;

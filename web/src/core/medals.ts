@@ -112,3 +112,79 @@ export function unseenMedals(save: Save, earned: readonly string[]): string[] {
   const seen = new Set(save.seenMedals);
   return earned.filter((id) => !seen.has(id));
 }
+
+/**
+ * As gerais de exemplo (PR 2 do M16): só em desenvolvimento, com `?medalhas=demo`, para ver a
+ * estrutura antes da lista de verdade (P288). Os limites são fáceis, e há as dos dois tamanhos.
+ */
+export const DEMO_MEDALS: readonly Medal[] = [
+  { id: "demo-primeiro", tier: "simple", earned: (ctx) => ctx.games.length >= 1 },
+  {
+    id: "demo-cinco",
+    tier: "simple",
+    earned: (ctx) => ctx.games.length >= 5,
+    progress: (ctx) => ({ value: Math.min(ctx.games.length, 5), goal: 5 }),
+  },
+  {
+    id: "demo-sequencia",
+    tier: "major",
+    earned: (ctx) => ctx.streak.best >= 3,
+    progress: (ctx) => ({ value: Math.min(ctx.streak.best, 3), goal: 3 }),
+  },
+];
+
+/** Uma medalha como a tela a mostra: ganha ou não, e o progresso, se ela tem. */
+export type MedalState = {
+  readonly medal: Medal;
+  readonly earned: boolean;
+  readonly progress: MedalProgress | null;
+};
+
+function stateOf(medal: Medal, ctx: MedalContext): MedalState {
+  return { medal, earned: medal.earned(ctx), progress: medal.progress?.(ctx) ?? null };
+}
+
+/** O Superfan de um artista na tela: as 3 dele, na ordem dos níveis, cada uma com o nível. */
+export type ArtistMedals = {
+  readonly artistId: string;
+  readonly cells: readonly { readonly level: SuperfanLevel; readonly state: MedalState }[];
+};
+
+/** O que a tela das Medalhas mostra (P286): a sequência, o total, as gerais e as do Superfan. */
+export type MedalBoard = {
+  readonly streak: MedalContext["streak"];
+  readonly earned: number;
+  readonly total: number;
+  readonly general: readonly MedalState[];
+  readonly superfan: readonly ArtistMedals[];
+};
+
+/**
+ * O quadro da tela. As do Superfan são as dos artistas da lista, na ordem dela (`artistIds`); o
+ * artista que saiu da lista some da tela, mas o registro fica no save.
+ */
+export function medalBoard(
+  save: Save,
+  today: string,
+  hitsDates: readonly string[],
+  general: readonly Medal[],
+  artistIds: readonly string[],
+): MedalBoard {
+  const ctx = medalContext(save, today, hitsDates);
+  const states = general.map((medal) => stateOf(medal, ctx));
+  const superfan = artistIds.map((artistId) => ({
+    artistId,
+    cells: superfanMedals(artistId).map((medal, i) => ({
+      level: SUPERFAN_LEVELS[i] ?? "prata",
+      state: stateOf(medal, ctx),
+    })),
+  }));
+  const all = [...states, ...superfan.flatMap((row) => row.cells.map((cell) => cell.state))];
+  return {
+    streak: ctx.streak,
+    earned: all.filter((state) => state.earned).length,
+    total: all.length,
+    general: states,
+    superfan,
+  };
+}
