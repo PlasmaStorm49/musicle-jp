@@ -651,15 +651,18 @@ def fetch_anime_snapshot(
     target_per_tier: int = 18,
     max_songs: int = 70,
     max_anime: int = 400,
+    pool_size: int = POOL_SIZE,
 ) -> JSON:
-    """Um snapshot novo do Anime. Para quando cada modo e faixa tem `target_per_tier` músicas,
+    """Um snapshot novo do Anime, sorteado entre os `pool_size` mais populares (um número menor
+    puxa o sorteio para o topo, e o Fácil cresce). Para quando cada modo e faixa tem
+    `target_per_tier` músicas,
     quando chega a `max_songs`, ou depois de `max_anime` animes tentados."""
     if io.mal is not None:
         io.log("o sorteio pelo ranking do MyAnimeList")
-        ranks = mal_ranking(io.mal, io.sleep)
+        ranks = mal_ranking(io.mal, io.sleep, pool_size)
     else:
         io.log("sem MAL_CLIENT_ID: o sorteio pelas playlists do AnimeThemes")
-        ranks = animethemes_popular(io.post, io.sleep)
+        ranks = animethemes_popular(io.post, io.sleep, max(1, -(-pool_size // 100)))
     if not ranks:
         raise FetchError("o sorteio veio vazio")
     order = draw_order(ranks, personal, tried, f"musicle-jp|anime|{fetched_at}", max_anime)
