@@ -149,9 +149,10 @@ jobs:
 
   # O ranking do MyAnimeList (P256), numa máquina que não roda pacote do pip nem código do
   # pacote: só o checkout e o setup-python (actions do GitHub, pinadas) e um módulo só da
-  # biblioteca padrão, rodado pelo caminho com o -I (sem a pasta do script e sem as variáveis
-  # PYTHON* no sys.path). O segredo entra só no env do passo do ranking. Sem o segredo, ou com
-  # falha, termina sem artefato, e a anime-generate segue com as fontes abertas.
+  # biblioteca padrão, rodado pelo caminho com o -I e o -S (sem a pasta do script, sem as
+  # variáveis PYTHON* e sem o site-packages no sys.path). O segredo entra só no env do passo do
+  # ranking, que tem um prazo de 3 min. Sem o segredo, ou com falha, termina sem artefato, e a
+  # anime-generate segue com as fontes abertas.
   anime-mal:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
@@ -179,7 +180,7 @@ jobs:
           MAL_CLIENT_ID: ${{ secrets.MAL_CLIENT_ID }}
         run: |
           mkdir -p "$RUNNER_TEMP/mal"
-          python -I pipeline/src/musicle_pipeline/mal_ranking.py --out "$RUNNER_TEMP/mal/ranks.json"
+          python -I -S pipeline/src/musicle_pipeline/mal_ranking.py --out "$RUNNER_TEMP/mal/ranks.json"
           if [ -f "$RUNNER_TEMP/mal/ranks.json" ]; then echo "ready=true" >> "$GITHUB_OUTPUT"; fi
       - if: steps.mal.outcome == 'failure'
         run: echo "::warning::o ranking do MAL não veio; o Anime segue com as fontes abertas"
@@ -228,6 +229,9 @@ jobs:
         env:
           TODAY: ${{ steps.today.outputs.today }}
         run: bash .github/scripts/anime-due.sh
+      # O cache do pip com uma chave própria: esta tarefa sempre instala o extra romaji (uns 250
+      # MB), e a catalog-generate quase nunca. O romaji.py na lista só muda a chave (é o módulo que
+      # usa o extra); com a mesma chave, as duas disputariam um cache só.
       - if: steps.due.outputs.due == 'true'
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
@@ -236,6 +240,7 @@ jobs:
           cache-dependency-path: |
             pipeline/pyproject.toml
             pipeline/constraints.txt
+            pipeline/src/musicle_pipeline/romaji.py
       # O extra romaji (o cutlet): o casamento lê o título japonês da Apple com ele.
       - if: steps.due.outputs.due == 'true'
         run: python -m pip install -c pipeline/constraints.txt -e "pipeline[romaji]"
@@ -256,14 +261,22 @@ jobs:
           NOW: ${{ steps.today.outputs.now }}
         run: |
           ranks="$RUNNER_TEMP/mal/ranks.json"
-          extra=()
+          snapshot="$ANIME_SNAPSHOTS/${NOW//:/}.json"
+          search() {
+            python -m musicle_pipeline fetch --provider apple --anime --fetched-at "$NOW" "$@" \
+              --max-songs 12 --max-anime 60 --deadline-min 12
+          }
           if [ -f "$ranks" ]; then
-            extra=(--ranks-file "$ranks")
+            if search --ranks-file "$ranks"; then exit 0; fi
+            # Um ranking corrompido faz a busca sair com 1 antes da rede, sem snapshot: ela tenta
+            # uma vez só com as fontes abertas. Com o snapshot gravado, a busca andou e não se
+            # repete (o prazo de 12 min já foi gasto).
+            if [ -e "$snapshot" ]; then exit 1; fi
+            echo "::warning::a busca com o ranking do MAL falhou; de novo, só com as fontes abertas"
           else
             echo "::notice::sem o ranking do MAL: o sorteio sai das playlists do AnimeThemes"
           fi
-          python -m musicle_pipeline fetch --provider apple --anime --fetched-at "$NOW" "${extra[@]}" \
-            --max-songs 12 --max-anime 60 --deadline-min 12
+          search
       - if: steps.fetch.outcome == 'failure'
         run: echo "::warning::a busca do Anime falhou; a agenda do Anime cresce com o acervo de antes"
       # A busca nova passa pelo acervo e pela agenda neste passo. Se algo quebrar com ela, o passo
@@ -348,8 +361,12 @@ jobs:
         with:
           name: catalog
           path: ${{ runner.temp }}/artifact
+      # Uma falha passageira do serviço de artefatos não trava os Hits (P237): sem o artefato
+      # esperado, o catalog-pr.sh deixa o Anime de fora (ANIME_EXPECTED), e a tarefa fica vermelha
+      # depois de abrir o PR.
       - if: needs.anime-generate.result == 'success' && needs.anime-generate.outputs.changed == 'true'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        continue-on-error: true
         with:
           name: anime
           path: ${{ runner.temp }}/anime-artifact
@@ -361,6 +378,8 @@ jobs:
           FETCH: ${{ needs.catalog-generate.outputs.fetch }}
           CHART: ${{ needs.catalog-generate.outputs.chart }}
           HITS_RESULT: ${{ needs.catalog-generate.result }}
+          ANIME_RESULT: ${{ needs.anime-generate.result }}
+          ANIME_EXPECTED: ${{ needs.anime-generate.result == 'success' && needs.anime-generate.outputs.changed == 'true' }}
           ANIME_GENERATED_TODAY: ${{ needs.anime-generate.outputs.today }}
           ANIME_FETCH: ${{ needs.anime-generate.outputs.fetch }}
           ANIME_SONGS: ${{ needs.anime-generate.outputs.songs }}
