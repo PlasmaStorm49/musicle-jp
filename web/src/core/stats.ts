@@ -1,11 +1,12 @@
 // Estatísticas, calculadas do histórico a cada vez (nada derivado é gravado, Apêndice F). Uma
-// por diário (P249): o Normal, o Desafio e, no Anime, cada modo em cada dificuldade.
+// por diário (P249): o Normal, o Desafio e, no Anime, cada modo em cada dificuldade. Só o jogado
+// no dia conta: o jogado depois, pelo Histórico, fica fora de tudo (P263).
 import type { DailyKey } from "./daily.ts";
 import { type FinishedGame, type PuzzleId, recordMax, recordScore } from "./records.ts";
 import { MAX_POINTS, ROUNDS_PER_DAY } from "./rules.ts";
 
 export type Stats = {
-  /** Dias terminados (inclusive os todo anulados). */
+  /** Dias terminados no dia (inclusive os todo anulados; sem os jogados depois, P263). */
   readonly played: number;
   /** Média de pontos brutos, com 1 casa; null se nenhum dia valeu ponto (P41). */
   readonly average: number | null;
@@ -33,7 +34,9 @@ export function computeStats(
       const [date = "", daily] = id.split("|");
       return { date, daily, game };
     })
-    .filter((g) => g.daily === key && g.date <= today);
+    // O jogado depois (P263) não entra em nada: nem na média, nem na sequência, onde o dia dele
+    // continua sendo buraco.
+    .filter((g) => g.daily === key && g.date <= today && !g.game.late);
 
   const distribution = new Array<number>(MAX_POINTS * ROUNDS_PER_DAY + 1).fill(0);
   const scores: number[] = [];

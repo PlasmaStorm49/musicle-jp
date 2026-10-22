@@ -5,7 +5,8 @@ import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
-import { dailyIds, hitsDailies } from "../core/daily.ts";
+import { hitsDailies } from "../core/daily.ts";
+import { keptProgressIds } from "../core/history.ts";
 import { animeDone, artistSummary, dailiesDone, practiceSummary } from "../core/home.ts";
 import { emptySave, pruneProgress, type Save } from "../core/records.ts";
 import {
@@ -89,7 +90,10 @@ type Storage = {
   readonly notice: string | null;
 };
 
-/** Abre o armazenamento uma vez: lê, limpa andamentos de outros dias e diz se vai salvar. */
+/**
+ * Abre o armazenamento uma vez: lê, limpa os andamentos que não se retomam mais (os de fora de
+ * hoje e do Histórico, P269) e diz se vai salvar.
+ */
 function openSaves(date: string): Storage {
   const { store, persistent } = openStore(() => window.localStorage);
   let loaded: LoadResult;
@@ -98,16 +102,17 @@ function openSaves(date: string): Storage {
   } catch {
     loaded = { save: emptySave(), writable: false, notice: "unavailable" };
   }
-  // Os andamentos de hoje que ficam: os dos Hits e os do Anime (P250); o resto é de outro dia.
-  const today = dailyIds(date);
-  if (loaded.writable) updateSave(store, (s) => pruneProgress(s, today));
+  // Os andamentos que ficam: os de hoje e os dos dias do Histórico (P269), dos Hits e do Anime;
+  // o resto é de um dia que não se joga mais.
+  const kept = keptProgressIds(date);
+  if (loaded.writable) updateSave(store, (s) => pruneProgress(s, kept));
   const notice =
     loaded.notice === "future"
       ? t("storage.future")
       : !persistent || !loaded.writable
         ? t("storage.unavailable")
         : null;
-  const save = pruneProgress(loaded.save, today);
+  const save = pruneProgress(loaded.save, kept);
   return { store: sessionStore(store, { ...loaded, save }), save, notice };
 }
 
@@ -437,6 +442,7 @@ function Ready({
           onSaved={onSaved}
           scheduleDates={Object.keys(data.schedule.days)}
           shareUrl={BASE_URL}
+          today={date}
         />
       );
     }

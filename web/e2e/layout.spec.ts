@@ -62,7 +62,7 @@ async function homeWorstCase(page: Page): Promise<void> {
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
   const save = {
-    schemaVersion: 6,
+    schemaVersion: 7,
     history: {
       "2026-10-08|album": day,
       "2026-10-08|song": day,
@@ -163,7 +163,7 @@ for (const viewport of [
       const lost = { status: "lost", stage: 0, attempts: [] } as const;
       const day = { number: 1, rounds: [lost, lost, lost] };
       const save = {
-        schemaVersion: 6,
+        schemaVersion: 7,
         history: {
           "2026-10-08|anime-musica-facil": day,
           "2026-10-08|anime-musica-medio": day,
@@ -311,7 +311,7 @@ for (const viewport of [
       const lost = { status: "lost", stage: 0, attempts: [] } as const;
       const day = { number: 1, rounds: [lost, lost, lost] };
       const save = {
-        schemaVersion: 6,
+        schemaVersion: 7,
         history: { "2026-10-08|album": day, "2026-10-08|song": day },
         inProgress: {},
       } satisfies Save;
