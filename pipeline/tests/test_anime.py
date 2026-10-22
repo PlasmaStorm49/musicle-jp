@@ -551,3 +551,86 @@ def test_a_thousand_songs_fit_under_the_cap():
     catalog = build_anime_catalog("apple", "jp", source(*items), Curation(), [])
     size = len(dumps(catalog).encode("utf-8"))
     assert size < MAX_FILE_BYTES, size
+
+
+# --- a revisão do PR A1 (o revisor) --------------------------------------------------------------
+
+
+def test_a_live_or_karaoke_tv_size_is_not_a_reserve():
+    pool = [track("1", "紅蓮華 - TV Size (Live)"), track("2", "紅蓮華 (TV Size) (Instrumental)")]
+    assert match_theme("紅蓮華", pool, romanize).result == "no-match"
+    assert (
+        match_theme("紅蓮華", [track("3", "紅蓮華 -TV size ver.-")], romanize).result == "matched"
+    )
+
+
+def test_similarity_needs_keys_of_close_length():
+    # "hana" e "hanabi" começam igual, mas são outra música: sem a trava, dariam 0,80.
+    pool = [track("1", "Hanabi"), track("2", "炎")]
+    assert match_theme("Hana", pool, romanize, year=2019).result == "no-match"
+
+
+def test_without_the_year_only_the_same_title_matches():
+    assert match_theme("Gurenge", DISCOGRAPHY, romanize, year=None).result == "no-match"
+    assert match_theme("unlasting", DISCOGRAPHY, romanize, year=None).result == "matched"
+
+
+def test_the_version_of_the_anime_era_wins():
+    old = track("1", "Again", released="2005-01-01")
+    new = track("2", "Again", released="2009-06-03")
+    assert match_theme("Again", [old, new], romanize, year=2009).track == new
+
+
+def test_an_unknown_key_in_the_snapshot_is_refused():
+    # P254: um número bruto de fonte gravado por engano não passa calado.
+    def track_of(ref, where):
+        return DISCOGRAPHY[0]
+
+    with pytest.raises(InputError, match="chave desconhecida"):
+        anime_from_dict({"malId": 1, "slug": "a", "name": "A", "score": 8.61}, track_of, "x")
+    theme_data = {"type": "OP", "song": "x", "result": "no-match", "popularity": 0.9}
+    with pytest.raises(InputError, match="chave desconhecida"):
+        anime_from_dict(
+            {"malId": 1, "slug": "a", "name": "A", "themes": [theme_data]}, track_of, "x"
+        )
+    with pytest.raises(InputError, match="sequence"):
+        anime_from_dict(
+            {
+                "malId": 1,
+                "slug": "a",
+                "name": "A",
+                "themes": [{"type": "OP", "sequence": True, "song": "x", "result": "no-match"}],
+            },
+            track_of,
+            "x",
+        )
+
+
+def test_the_published_popularity_comes_only_from_the_tier():
+    # P240: sem nível do tema, o nível do MAL decide a faixa, mas não vai para o arquivo.
+    (t,) = build(anime(1, show=8, themes=[theme()]))["tracks"]
+    assert t["anime"]["tiers"] == {"musica": "facil", "titulo": "facil"}
+    assert t["popularity"] == 1.0
+
+
+def test_an_ending_needs_its_own_top_level_for_the_easy_tier():
+    # 8 do quiz e 9 do anime dão 9 no combinado, mas o encerramento fica no Médio (P252).
+    (t,) = build(anime(1, show=9, themes=[theme("ED", song=8)]))["tracks"]
+    assert t["anime"]["tiers"]["musica"] == "medio"
+
+
+def test_the_tv_size_and_the_full_song_share_the_song_key():
+    tv = replace(DISCOGRAPHY[0], provider_id="9", title="紅蓮華 (TV Size)")
+    one = anime(1, themes=[theme(song=5)])
+    two = anime(2, themes=[replace(theme(song=5), track=tv)])
+    keys = {t["songKey"] for t in build(one, two)["tracks"]}
+    assert len(keys) == 1
+
+
+def test_validation_catches_a_stale_version_and_hand_edits(tmp_path):
+    catalog = read_json(COMMITTED)
+    catalog["franchises"][0]["name"] = "Outro nome"
+    problems = validate_anime_catalog(catalog)
+    assert any("catalogVersion" in p for p in problems)
+    raw = COMMITTED.read_bytes().replace(b"\n", b"\r\n")
+    assert any("canônica" in p for p in validate_anime_catalog(read_json(COMMITTED), raw))

@@ -7,6 +7,7 @@ from functools import cache
 from jsonschema import Draft202012Validator
 
 from musicle_pipeline.anime import MODES, SCHEMA_VERSION
+from musicle_pipeline.catalog import catalog_version
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
 from musicle_pipeline.paths import anime_catalog_schema_path
@@ -32,6 +33,14 @@ def _schema_problems(data: JSON) -> list[str]:
 
 def _invariant_problems(data: JSON) -> list[str]:
     problems: list[str] = []
+    ids = [s["id"] for s in data["snapshots"]]
+    if ids != sorted(set(ids)):
+        problems.append("snapshots: ids repetidos ou fora de ordem")
+    if data["generatedAt"] != data["snapshots"][-1]["fetchedAt"]:
+        problems.append("generatedAt deveria ser o fetchedAt do último snapshot")
+    day = data["snapshots"][-1]["fetchedAt"][:10]
+    if data["catalogVersion"] != catalog_version(data, day):
+        problems.append("catalogVersion não bate com o conteúdo (regere com o pipeline)")
     for kind in ("franchises", "artists", "albums", "tracks"):
         ids = [e["id"] for e in data[kind]]
         if ids != sorted(set(ids)):
