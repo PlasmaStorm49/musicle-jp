@@ -120,11 +120,11 @@ export function tabFromHash(hash: string): Tab {
 }
 
 /**
- * As abas que aceitam um dia passado no endereço (P261): o Histórico (a tela do dia) e os dois
- * diários dos Hits. As do Anime entram com o Anime no Histórico (o PR 3 do M15).
+ * As abas que aceitam um dia passado no endereço (P261): o Histórico (a tela do dia), os dois
+ * diários dos Hits e as do Anime (a escolha do modo, a da dificuldade e os 6 diários).
  */
 function isDatedTab(tab: Tab): boolean {
-  return tab === "history" || tab === "album" || tab === "song";
+  return tab === "history" || tab === "album" || tab === "song" || isAnimeTab(tab);
 }
 
 /** Uma aba e, num dia passado do Histórico, a data dele; `null` é hoje. */

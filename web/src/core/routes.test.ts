@@ -98,6 +98,11 @@ describe("routeFromHash (o Histórico, P261 e P262)", () => {
     ["#historico/2026-10-21", { tab: "history", date: "2026-10-21" }],
     ["#normal/2026-10-08", { tab: "album", date: "2026-10-08" }],
     ["#desafio/2026-10-15", { tab: "song", date: "2026-10-15" }],
+    // E as do Anime (o PR 3): a escolha do modo, a da dificuldade e os diários.
+    ["#anime/2026-10-21", { tab: "anime", date: "2026-10-21" }],
+    ["#anime-titulo/2026-10-21", { tab: "anime-titulo", date: "2026-10-21" }],
+    ["#anime-musica-facil/2026-10-21", { tab: "anime-musica-facil", date: "2026-10-21" }],
+    ["#anime-musica-facil/2026-10-07", { tab: "history", date: null }],
     // A data fora da janela, igual a hoje, do futuro ou que não é data: o calendário.
     ["#normal/2026-10-07", { tab: "history", date: null }],
     ["#normal/2026-10-22", { tab: "history", date: null }],
@@ -105,11 +110,11 @@ describe("routeFromHash (o Histórico, P261 e P262)", () => {
     ["#normal/2026-02-30", { tab: "history", date: null }],
     ["#normal/2026-10-1", { tab: "history", date: null }],
     ["#historico/", { tab: "history", date: null }],
-    // A aba que não aceita data, com uma, ou desconhecida: a home (regra 17). As do Anime entram
-    // com o PR 3 do M15.
+    // A aba que não aceita data, com uma, ou desconhecida: a home (regra 17).
     ["#hits/2026-10-21", { tab: "home", date: null }],
     ["#treino/2026-10-21", { tab: "home", date: null }],
-    ["#anime-musica-facil/2026-10-21", { tab: "home", date: null }],
+    ["#artistas/2026-10-21", { tab: "home", date: null }],
+    ["#anime-musica-extremo/2026-10-21", { tab: "home", date: null }],
     ["#nada/2026-10-21", { tab: "home", date: null }],
     ["#normal/2026-10-21/x", { tab: "history", date: null }],
   ] as const)("%j → %j", (hash, route) => {
@@ -123,6 +128,8 @@ describe("routeFromHash (o Histórico, P261 e P262)", () => {
       { tab: "history", date: "2026-10-21" },
       { tab: "album", date: "2026-10-08" },
       { tab: "song", date: "2026-10-21" },
+      { tab: "anime", date: "2026-10-21" },
+      { tab: "anime-titulo-dificil", date: "2026-10-09" },
     ];
     for (const route of routes) expect(routeFromHash(routeHref(route), TODAY)).toEqual(route);
     expect(routeHref({ tab: "album", date: "2026-10-08" })).toBe("#normal/2026-10-08");
@@ -140,6 +147,9 @@ describe("routeCategory e navCurrent (a nav, P225 e P264)", () => {
     [{ tab: "history", date: "2026-10-21" }, "history", "true"],
     [{ tab: "album", date: "2026-10-21" }, "history", "true"],
     [{ tab: "album", date: "2026-10-21" }, "hits", undefined],
+    [{ tab: "anime-musica-facil", date: "2026-10-21" }, "history", "true"],
+    [{ tab: "anime", date: "2026-10-21" }, "anime", undefined],
+    [{ tab: "anime", date: null }, "anime", "page"],
     [{ tab: "hits", date: null }, "hits", "page"],
     [{ tab: "album", date: null }, "hits", "true"],
     [{ tab: "about", date: null }, "home", "true"],

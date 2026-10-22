@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import { APPLE_PROVIDER } from "../core/apple.ts";
 import {
@@ -10,7 +10,7 @@ import {
   animeKey,
   type Daily,
 } from "../core/daily.ts";
-import { type DailyStatus, firstToPlay, type Progress, progress, statusOf } from "../core/home.ts";
+import { type DailyStatus, firstToPlay, progress, statusOf } from "../core/home.ts";
 import type { Save } from "../core/records.ts";
 import {
   type AnimeScreen,
@@ -18,9 +18,10 @@ import {
   animeModeTab,
   animeScreen,
   ROUTES,
+  routeHref,
 } from "../core/routes.ts";
 import { MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
-import type { AnimeDay } from "../core/types.ts";
+import type { AnimeDay, AnimeSchedule } from "../core/types.ts";
 import {
   appleResolver,
   catalogResolver,
@@ -30,13 +31,15 @@ import {
 import {
   type AnimeData,
   type FetchLike,
-  loadAnime,
+  loadAnimeCatalog,
+  loadAnimeSchedule,
   pickAnimeDay,
   UnsupportedCatalogError,
 } from "../data/source.ts";
 import { t } from "../i18n/t.ts";
 import type { KeyValueStore } from "../storage/save.ts";
-import { type Card, CardList, dailyText } from "./cards.tsx";
+import { type Card, CardList, dailyText, progressText } from "./cards.tsx";
+import { dayTitle } from "./dayLabel.ts";
 import { FocusedNotice, UpdateNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
 import { useHeadingFocus } from "./hooks.ts";
@@ -63,14 +66,23 @@ export type AnimeStoreOptions = {
   readonly resolveUrl: (url: string) => string;
 };
 
+/** Só a agenda do Anime, para as marcas do Histórico (P270): "update" é versão desconhecida. */
+export type AnimeScheduleLoad =
+  | { readonly status: "idle" | "loading" | "retry" | "update" }
+  | { readonly status: "ready"; readonly schedule: AnimeSchedule };
+
 /**
  * O Anime guardado no App, como o modo por artista: trocar de aba e voltar não baixa de novo. Ele
- * carrega só quando a pessoa abre a categoria (quem joga só os Hits não baixa nada a mais).
+ * carrega só quando a pessoa abre a categoria (quem joga só os Hits não baixa nada a mais), e o
+ * Histórico baixa só a agenda (P270): o catálogo desce quando uma tela do Anime abre.
  */
 export type AnimeStore = {
   readonly load: AnimeLoad;
-  /** Carrega (de novo): ao abrir a categoria e no "Tentar de novo". */
+  /** Carrega (de novo): ao abrir a categoria e no "Tentar de novo". A agenda já baixada fica. */
   readonly request: () => void;
+  readonly schedule: AnimeScheduleLoad;
+  /** Baixa só a agenda (o Histórico), uma vez: a carga inteira usa o mesmo pedido. */
+  readonly requestSchedule: () => void;
 };
 
 export function useAnimeStore({
@@ -81,29 +93,54 @@ export function useAnimeStore({
   resolveUrl,
 }: AnimeStoreOptions): AnimeStore {
   const [load, setLoad] = useState<AnimeLoad>({ status: "idle" });
+  const [schedule, setSchedule] = useState<AnimeScheduleLoad>({ status: "idle" });
+  // O pedido da agenda, um só para o Histórico e para a carga inteira. Some quando falha: o
+  // "Tentar de novo" (ou a próxima tela que precisar dela) pede outro.
+  const pending = useRef<Promise<AnimeSchedule> | null>(null);
+  const getSchedule = useCallback((): Promise<AnimeSchedule> => {
+    if (pending.current) return pending.current;
+    const next = loadAnimeSchedule(fetchFn, baseUrl, dataDir);
+    pending.current = next;
+    setSchedule({ status: "loading" });
+    next.then(
+      (loaded) => setSchedule({ status: "ready", schedule: loaded }),
+      (error: unknown) => {
+        if (pending.current === next) pending.current = null;
+        setSchedule({ status: error instanceof UnsupportedCatalogError ? "update" : "retry" });
+      },
+    );
+    return next;
+  }, [fetchFn, baseUrl, dataDir]);
+  // A falha já vai para o estado da agenda, no próprio pedido (o `then` com os dois lados).
+  const requestSchedule = useCallback(() => {
+    getSchedule();
+  }, [getSchedule]);
   const request = useCallback(() => {
     setLoad({ status: "loading" });
-    loadAnime(fetchFn, baseUrl, dataDir).then(
-      (data) => {
+    Promise.all([loadAnimeCatalog(fetchFn, baseUrl, dataDir), getSchedule()]).then(
+      ([index, loaded]) => {
+        const data: AnimeData = { index, schedule: loaded };
         // Fixtures: o endereço do catálogo. Anime real: o lookup da Apple, com a reserva.
         const resolver =
-          data.index.catalog.provider === APPLE_PROVIDER
-            ? appleResolver({ index: data.index, fetchFn, budget })
-            : catalogResolver(data.index, resolveUrl);
+          index.catalog.provider === APPLE_PROVIDER
+            ? appleResolver({ index, fetchFn, budget })
+            : catalogResolver(index, resolveUrl);
         setLoad({ status: "ready", data, resolver });
       },
       (error: unknown) =>
         setLoad({ status: error instanceof UnsupportedCatalogError ? "update" : "retry" }),
     );
-  }, [fetchFn, baseUrl, dataDir, budget, resolveUrl]);
-  return { load, request };
+  }, [fetchFn, baseUrl, dataDir, budget, resolveUrl, getSchedule]);
+  return { load, request, schedule, requestSchedule };
 }
 
 type Props = {
   readonly tab: AnimeTab;
   readonly store: AnimeStore;
-  /** Data do jogo (não o relógio). */
+  /** O dia jogado: hoje ou, pelo Histórico, um dia passado (P261). */
   readonly date: string;
+  /** O "hoje" do jogo (não o relógio): o diário de um dia antes dele termina como jogado depois. */
+  readonly today: string;
   /** A última leitura do save. */
   readonly save: Save;
   readonly engine: AudioEngine;
@@ -145,7 +182,7 @@ export function Anime(props: Props) {
     case "update":
       return <UpdateNotice />;
     case "retry":
-      // Na tela da categoria, tentar de novo; nas outras, voltar a ela.
+      // Na tela da categoria, tentar de novo; nas outras, voltar a ela (ou ao dia passado).
       return screen.kind === "modes" ? (
         <section class="error screen">
           <FocusedNotice text={t("anime.retry")} />
@@ -154,7 +191,12 @@ export function Anime(props: Props) {
           </button>
         </section>
       ) : (
-        <AnimeUnavailable text={t("anime.retry")} />
+        <AnimeUnavailable
+          key={props.date}
+          text={t("anime.retry")}
+          date={props.date}
+          today={props.today}
+        />
       );
     case "ready":
       return <Ready {...props} screen={screen} data={load.data} resolver={load.resolver} />;
@@ -169,9 +211,13 @@ type ReadyProps = Props & {
   readonly resolver: PreviewResolver;
 };
 
-/** O Anime carregado: a tela da aba, com o dia de hoje na agenda do Anime (ou sem ele). */
-function Ready({ screen, data, resolver, date, save, ...props }: ReadyProps) {
+/**
+ * O Anime carregado: a tela da aba, com o dia jogado na agenda do Anime (ou sem ele). O dia
+ * passado (o Histórico) troca a dica do título pela data, e os cartões levam a data no endereço.
+ */
+function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyProps) {
   const day = pickAnimeDay(data.schedule, date);
+  const past = date !== today;
   // O diário aberto, guardado entre os renders: o Game recalcula a sessão quando o descritor muda.
   const mode = screen.kind === "daily" ? screen.mode : null;
   const difficulty = screen.kind === "daily" ? screen.difficulty : null;
@@ -180,14 +226,35 @@ function Ready({ screen, data, resolver, date, save, ...props }: ReadyProps) {
     [day, date, mode, difficulty],
   );
   const own = useMemo(() => (daily ? [daily] : []), [daily]);
+  // Num dia passado, a ajuda evita também as respostas dos 6 diários de hoje, como nos Hits: a de
+  // um diário de hoje ainda não jogado podia sair entre as opções e entregá-lo. Hoje, o próprio
+  // diário basta (o `avoid` dele já tem os 6 do dia).
+  const todayDay = past ? pickAnimeDay(data.schedule, today) : null;
+  const todayDailies = useMemo(
+    () => (past ? ANIME_MODES.flatMap((m) => modeDailies(todayDay, today, m)) : own),
+    [past, todayDay, today, own],
+  );
 
   switch (screen.kind) {
     case "modes":
-      return <AnimeModes day={day} date={date} save={save} />;
+      // key: ao trocar de dia (do Histórico para hoje, pela nav), o foco volta ao título.
+      return <AnimeModes key={date} day={day} date={date} today={today} save={save} />;
     case "levels":
-      return <AnimeLevels mode={screen.mode} day={day} date={date} save={save} />;
+      return (
+        <AnimeLevels
+          key={date}
+          mode={screen.mode}
+          day={day}
+          date={date}
+          today={today}
+          save={save}
+        />
+      );
     case "daily": {
-      if (!daily) return <AnimeUnavailable text={t("anime.unavailable")} />;
+      if (!daily) {
+        const text = past ? t("anime.unavailableDay") : t("anime.unavailable");
+        return <AnimeUnavailable key={date} text={text} date={date} today={today} />;
+      }
       return (
         // key: cada diário monta do zero ao trocar de diário, com o save daquele momento.
         <Game
@@ -206,9 +273,8 @@ function Ready({ screen, data, resolver, date, save, ...props }: ReadyProps) {
           onSaved={props.onSaved}
           scheduleDates={Object.keys(data.schedule.days)}
           shareUrl={props.shareUrl}
-          today={date}
-          // Só os diários de hoje, por ora: o próprio (o `avoid` dele já tem os 6 do dia).
-          todayDailies={own}
+          today={today}
+          todayDailies={todayDailies}
         />
       );
     }
@@ -217,21 +283,26 @@ function Ready({ screen, data, resolver, date, save, ...props }: ReadyProps) {
   }
 }
 
-/** O estado dos 3 diários de um modo, numa linha: novos, em andamento ou quantos terminaram. */
-function progressText({ done, playing, total }: Progress): string {
-  if (done > 0) return t("anime.modeDone", { done, total });
-  if (playing > 0) return t("anime.modePlaying");
-  return t("anime.modeNew", { total });
+/** O endereço de uma aba do Anime no dia jogado: com a data, num dia passado (P261). */
+function hrefOf(tab: AnimeTab, date: string, today: string): string {
+  return routeHref({ tab, date: date === today ? null : date });
 }
 
 /**
  * O cartão de um modo: leva à escolha da dificuldade. Sem o dia na agenda, não é link (não há o
  * que jogar lá dentro).
  */
-function modeCard(mode: AnimeMode, dailies: readonly Daily[], save: Save, next: boolean): Card {
+function modeCard(
+  mode: AnimeMode,
+  dailies: readonly Daily[],
+  save: Save,
+  next: boolean,
+  href: string,
+  unavailable: string,
+): Card {
   const lines =
     dailies.length === 0
-      ? [t("home.statusUnavailable")]
+      ? [unavailable]
       : [
           progressText(
             progress(
@@ -242,6 +313,7 @@ function modeCard(mode: AnimeMode, dailies: readonly Daily[], save: Save, next: 
         ];
   return {
     tab: animeModeTab(mode),
+    href,
     name: animeModeName(mode),
     short: t(`anime.modeShort.${mode}`),
     hint: t(`anime.modeHint.${mode}`, {
@@ -256,20 +328,41 @@ function modeCard(mode: AnimeMode, dailies: readonly Daily[], save: Save, next: 
 
 type ScreenProps = {
   readonly day: AnimeDay | null;
+  /** O dia jogado: hoje ou um dia passado. */
   readonly date: string;
+  readonly today: string;
   readonly save: Save;
 };
+
+/** A dica do título: num dia passado, a data dele, no lugar da dica (a tela não cresce). */
+function screenHint(hint: string, date: string, today: string): string {
+  return date === today ? hint : dayTitle(date);
+}
+
+/** O cartão sem diário: "hoje" ou, num dia passado, "nesse dia" (como na tela do dia). */
+function unavailableText(date: string, today: string): string {
+  return date === today ? t("home.statusUnavailable") : t("history.unavailable");
+}
 
 /**
  * A tela do Anime (P233): os 2 modos, acertar a música e acertar o anime, cada um com o estado
  * dos seus 3 diários numa linha. O 1º modo com um diário por jogar é o cartão oliva. A tela vai
  * receber o Treino do Anime depois.
  */
-function AnimeModes({ day, date, save }: ScreenProps) {
+function AnimeModes({ day, date, today, save }: ScreenProps) {
   const heading = useHeadingFocus();
   const groups = ANIME_MODES.map((mode) => ({ mode, dailies: modeDailies(day, date, mode) }));
   const next = groups.find((g) => firstToPlay(save, g.dailies))?.mode;
-  const cards = groups.map((g) => modeCard(g.mode, g.dailies, save, g.mode === next));
+  const cards = groups.map((g) =>
+    modeCard(
+      g.mode,
+      g.dailies,
+      save,
+      g.mode === next,
+      hrefOf(animeModeTab(g.mode), date, today),
+      unavailableText(date, today),
+    ),
+  );
   return (
     // O cabeçalho no centro, como nas outras telas de escolha (.practice).
     <div class="game practice anime screen">
@@ -277,7 +370,7 @@ function AnimeModes({ day, date, save }: ScreenProps) {
         <h1 ref={heading} tabIndex={-1}>
           {t("anime.title")}
         </h1>
-        <p class="hint">{t("anime.hint")}</p>
+        <p class="hint">{screenHint(t("anime.hint"), date, today)}</p>
       </header>
       <CardList cards={cards} idPrefix="anime" single />
       <AnimeCredits />
@@ -301,23 +394,30 @@ function AnimeCredits() {
   );
 }
 
-/** O cartão de uma dificuldade: o estado do diário dela. */
+/**
+ * O cartão de uma dificuldade: o estado do diário dela. O jogado depois (num dia passado) leva a
+ * marca numa linha a mais, como nos Hits (P263).
+ */
 function levelCard(
   mode: AnimeMode,
   difficulty: AnimeDifficulty,
   status: DailyStatus,
   next: boolean,
+  href: string,
+  unavailable: string,
 ): Card {
   const rule = t(`anime.rule.${mode}`, {
     total: MODE_RULES.song.maxAttempts,
     rounds: ROUNDS_PER_DAY,
   });
+  const line = status.kind === "unavailable" ? unavailable : dailyText(status);
   return {
     tab: animeKey(mode, difficulty),
+    href,
     name: t(`anime.level.${difficulty}`),
     short: t(`anime.levelShort.${difficulty}`),
     hint: `${t(`anime.levelHint.${difficulty}`)} ${rule}`,
-    lines: [dailyText(status)],
+    lines: status.kind === "done" && status.late ? [line, t("history.late")] : [line],
     next,
     off: status.kind === "unavailable",
   };
@@ -327,25 +427,28 @@ function levelCard(
  * A escolha da dificuldade de um modo (P232): Fácil, Médio e Difícil, numa coluna, cada um com o
  * estado do diário (o número, novo, em andamento ou o resultado). O 1º por jogar é o oliva.
  */
-function AnimeLevels({ mode, day, date, save }: ScreenProps & { readonly mode: AnimeMode }) {
+function AnimeLevels({ mode, day, date, today, save }: ScreenProps & { readonly mode: AnimeMode }) {
   const heading = useHeadingFocus();
   const dailies = modeDailies(day, date, mode);
   const next = firstToPlay(save, dailies);
-  const cards = ANIME_DIFFICULTIES.map((difficulty, i) =>
-    levelCard(
+  const cards = ANIME_DIFFICULTIES.map((difficulty, i) => {
+    const key = animeKey(mode, difficulty);
+    return levelCard(
       mode,
       difficulty,
       statusOf(save, dailies[i] ?? null),
-      next?.key === animeKey(mode, difficulty),
-    ),
-  );
+      next?.key === key,
+      hrefOf(key, date, today),
+      unavailableText(date, today),
+    );
+  });
   return (
     <div class="game practice anime-levels screen">
       <header>
         <h1 ref={heading} tabIndex={-1}>
           {animeModeName(mode)}
         </h1>
-        <p class="hint">{t("anime.levelsHint")}</p>
+        <p class="hint">{screenHint(t("anime.levelsHint"), date, today)}</p>
       </header>
       <CardList cards={cards} idPrefix="anime-levels" single />
       <AnimeCredits />
@@ -353,12 +456,30 @@ function AnimeLevels({ mode, day, date, save }: ScreenProps & { readonly mode: A
   );
 }
 
-/** Sem o diário (o dia fora da agenda do Anime, a carga que falhou): de volta ao Anime. */
-function AnimeUnavailable({ text }: { readonly text: string }) {
+type UnavailableProps = {
+  readonly text: string;
+  readonly date: string;
+  readonly today: string;
+};
+
+/**
+ * Sem o diário (o dia fora da agenda do Anime, a carga que falhou): de volta ao Anime ou, num dia
+ * passado, à tela dele no Histórico.
+ */
+function AnimeUnavailable({ text, date, today }: UnavailableProps) {
   return (
     <section class="unavailable screen">
       <FocusedNotice text={text} />
-      <a href={ROUTES.anime}>{t("anime.back")}</a>
+      {/* O 2º clique de um toque duplo não segue o link (regra 23): cairia num cartão. */}
+      {date === today ? (
+        <a href={ROUTES.anime} onClick={singleClickLink}>
+          {t("anime.back")}
+        </a>
+      ) : (
+        <a href={routeHref({ tab: "history", date })} onClick={singleClickLink}>
+          {t("history.backToDay")}
+        </a>
+      )}
     </section>
   );
 }

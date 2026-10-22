@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
+  type AnimeData,
   assetUrl,
   DataLoadError,
   dataDirFor,
@@ -10,7 +11,8 @@ import {
   fakeAudioEnabled,
   gameDate,
   htmlAudioForced,
-  loadAnime,
+  loadAnimeCatalog,
+  loadAnimeSchedule,
   loadArtist,
   loadArtistList,
   loadGameData,
@@ -185,7 +187,16 @@ describe("loadArtistList e loadArtist (M13)", () => {
   });
 });
 
-describe("loadAnime (M14)", () => {
+/** Os dois carregadores do Anime juntos, como a carga da categoria (o useAnimeStore). */
+async function loadAnime(fetchFn: FetchLike, baseUrl: string, dataDir: string): Promise<AnimeData> {
+  const [index, schedule] = await Promise.all([
+    loadAnimeCatalog(fetchFn, baseUrl, dataDir),
+    loadAnimeSchedule(fetchFn, baseUrl, dataDir),
+  ]);
+  return { index, schedule };
+}
+
+describe("loadAnimeCatalog e loadAnimeSchedule (M14)", () => {
   it("o catálogo e a agenda, da subpasta anime/ dos dados, sempre revalidando o cache", async () => {
     const calls: { url: string; cache: string | undefined }[] = [];
     const serve = fakeFetch();
@@ -254,6 +265,42 @@ describe("loadAnime (M14)", () => {
     await expect(
       loadAnime(fakeFetch(), "http://localhost:5173/outra/", FIXTURE_DATA_DIR),
     ).rejects.toBeInstanceOf(DataLoadError);
+  });
+
+  it("a agenda e o catálogo, cada um sozinho: o Histórico baixa só a agenda (P270)", async () => {
+    const calls: string[] = [];
+    const serve = fakeFetch();
+    const recording: FetchLike = (url, init) => {
+      calls.push(url);
+      return serve(url, init);
+    };
+    const schedule = await loadAnimeSchedule(recording, BASE, FIXTURE_DATA_DIR);
+    expect(schedule.kind).toBe("anime");
+    expect(calls).toEqual([`${BASE}fixtures/anime/schedule.json`]);
+    const index = await loadAnimeCatalog(recording, BASE, FIXTURE_DATA_DIR);
+    expect(index.catalog.provider).toBe("fixture");
+    expect(calls).toEqual([
+      `${BASE}fixtures/anime/schedule.json`,
+      `${BASE}fixtures/anime/catalog.json`,
+    ]);
+    // As mesmas conferências da carga inteira.
+    const hitsSchedule = JSON.parse(
+      readFileSync(new URL("fixtures/schedule.json", PUBLIC), "utf8"),
+    ) as unknown;
+    await expect(
+      loadAnimeSchedule(
+        fakeFetch({ "fixtures/anime/schedule.json": hitsSchedule }),
+        BASE,
+        FIXTURE_DATA_DIR,
+      ),
+    ).rejects.toBeInstanceOf(UnsupportedCatalogError);
+    await expect(
+      loadAnimeCatalog(
+        fakeFetch({ "fixtures/anime/catalog.json": { schemaVersion: 2 } }),
+        BASE,
+        FIXTURE_DATA_DIR,
+      ),
+    ).rejects.toBeInstanceOf(UnsupportedCatalogError);
   });
 
   it("pickAnimeDay devolve o dia da agenda do Anime ou null", async () => {

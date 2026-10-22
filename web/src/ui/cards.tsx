@@ -1,7 +1,7 @@
 // Os cartões que levam a outra aba, na Início (um por categoria, P226) e na tela dos Hits (os
 // dois diários e o Treino, P225): o nome, o estado em linhas curtas e a dica curta na tela, com a
 // inteira para o leitor de tela (P210).
-import type { DailyStatus, PracticeSummary } from "../core/home.ts";
+import type { DailyStatus, PracticeSummary, Progress } from "../core/home.ts";
 import { ROUTES, type Tab } from "../core/routes.ts";
 import { MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { Target } from "../core/types.ts";
@@ -50,6 +50,16 @@ export function dailyText(status: DailyStatus, short = false): string {
         ? t("home.lineDone", { score: status.score, max: status.max })
         : t("home.statusDone", { number: status.number, score: status.score, max: status.max });
   }
+}
+
+/**
+ * O estado de um grupo de diários do Anime, numa linha: novos, em andamento ou quantos
+ * terminaram. Os 3 de um modo, e os 6 de um dia passado no Histórico.
+ */
+export function progressText({ done, playing, total }: Progress): string {
+  if (done > 0) return t("anime.modeDone", { done, total });
+  if (playing > 0) return t("anime.modePlaying");
+  return t("anime.modeNew", { total });
 }
 
 /** O cartão de um diário, o Normal ou o Desafio, com o estado de hoje. */

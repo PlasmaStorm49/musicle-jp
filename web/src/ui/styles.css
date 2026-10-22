@@ -1806,9 +1806,18 @@ section.void,
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 2px;
   min-height: var(--lh-xs);
   font-size: var(--t-xs);
   line-height: var(--lh-xs);
+}
+
+/* O lugar de cada categoria (P277): os Hits à esquerda e o Anime à direita, com a mesma largura
+   mesmo vazio, para a marca de cada uma ficar sempre no mesmo ponto. */
+.mark-slot {
+  display: inline-flex;
+  justify-content: center;
+  width: 1em;
 }
 
 .mark {
@@ -1829,11 +1838,20 @@ section.void,
 
 .calendar-legend {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: var(--sp-4);
+  /* Em 320 px, a linha dos Hits pode quebrar: os 2 px entre as linhas, como entre as duas. */
+  gap: 2px var(--sp-4);
   font-size: var(--t-xs);
   line-height: var(--lh-xs);
   color: var(--muted);
+}
+
+/* Com o Anime, a legenda em duas linhas (uma por categoria), juntas: o gap da .screen as
+   separaria demais. */
+.calendar-legends {
+  display: grid;
+  gap: 2px;
 }
 
 .calendar-legend-item {
