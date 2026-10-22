@@ -228,19 +228,24 @@ def _theme_key(theme: Theme) -> tuple[str, int | None, str]:
 
 def merge_anime(batches: Iterable[Sequence[Anime]]) -> tuple[Anime, ...]:
     """Os animes de todos os snapshots, na ordem. Um anime buscado de novo vale pelo mais novo,
-    mas o tema que já casou com uma faixa nunca a perde: a agenda pode citá-la (os ids do
-    catálogo não somem). Ele fica como estava, se a busca nova não casou."""
+    mas uma faixa que já casou nunca some: a agenda pode citá-la (os ids do catálogo não somem,
+    e um dia gravado não muda). O tema antigo fica como estava se a busca nova não casou, e fica
+    ao lado do novo se ela casou com outra faixa (as duas são a mesma música)."""
     merged: dict[int, Anime] = {}
     for batch in batches:
         for anime in batch:
             old = merged.get(anime.mal_id)
             if old is not None:
-                matched = {_theme_key(t) for t in anime.themes if t.track is not None}
+                tracks = {t.track.provider_id for t in anime.themes if t.track is not None}
                 kept = tuple(
-                    t for t in old.themes if t.track is not None and _theme_key(t) not in matched
+                    t
+                    for t in old.themes
+                    if t.track is not None and t.track.provider_id not in tracks
                 )
+                # O tema novo sem faixa, com um antigo que casou: fica o antigo, uma vez só.
+                kept_keys = {_theme_key(k) for k in kept}
                 fresh = tuple(
-                    t for t in anime.themes if _theme_key(t) not in {_theme_key(k) for k in kept}
+                    t for t in anime.themes if t.track is not None or _theme_key(t) not in kept_keys
                 )
                 anime = replace(anime, themes=fresh + kept)
             merged[anime.mal_id] = anime
