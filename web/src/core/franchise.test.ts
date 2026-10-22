@@ -7,7 +7,15 @@ import { franchisesOf, indexAnime, indexCatalog } from "./catalog.ts";
 import { animeDaily } from "./daily.ts";
 import { dayAnswerKeys, helpOptions, helpSeed } from "./help.ts";
 import { seeded } from "./prng.ts";
-import { createGame, createRounds, currentRound, type GameState, reduce } from "./reducer.ts";
+import { emptySave, type Save, startSession } from "./records.ts";
+import {
+  createGame,
+  createRounds,
+  currentRound,
+  type GameEvent,
+  type GameState,
+  reduce,
+} from "./reducer.ts";
 import { HELP_OPTIONS } from "./rules.ts";
 import { buildFranchiseIndex, hitKey, search } from "./search.ts";
 import type { AnimeCatalog, AnimeDay } from "./types.ts";
@@ -192,5 +200,52 @@ describe("o que a tela mostra (franchiseView, guessView, revealView)", () => {
       { anime: "Hoshizora Kaizoku 2nd Season", type: "OP", sequence: 1 },
     ]);
     expect(revealView(indexCatalog(catalog), "fixture:tr:tr42")?.themes).toEqual([]);
+  });
+});
+
+describe("o save do acertar o anime (a retomada pelos eventos)", () => {
+  const daily = titulo();
+  const avoid = dayAnswerKeys(daily, index);
+  const wrong = "anime:fr:kumo_no_ue_no_shiro";
+  /** Os eventos de uma rodada com um pulo, um palpite errado (uma franquia) e a ajuda. */
+  function events(): GameEvent[] {
+    const played = [{ type: "SKIP" }, { type: "GUESS", guessId: wrong }] as const;
+    const state = played.reduce<GameState>(reduce, createGame(daily, index));
+    const options = helpOptions(
+      index,
+      currentRound(state),
+      avoid,
+      seeded(helpSeed(state.puzzleId, state.current)),
+      state.answer,
+    );
+    return [...played, { type: "HELP", options }];
+  }
+  const saved = (list: readonly GameEvent[]): Save => ({
+    ...emptySave(),
+    inProgress: { [daily.id]: { events: list } },
+  });
+
+  it("recarregar refaz a rodada igual: em jogo, sem descartar evento, com a mesma ajuda e as mesmas tentativas", () => {
+    const list = events();
+    const session = startSession(saved(list), daily, index);
+    if (session.kind !== "playing") throw new Error("a rodada devia continuar");
+    expect(session.stale).toBe(false);
+    expect(session.events).toEqual(list);
+    const round = currentRound(session.state);
+    const help = list[2]?.type === "HELP" ? list[2].options : [];
+    expect(round.help).toEqual(help);
+    expect(round.help).toContain(round.correctOptionId);
+    expect(round.attempts).toEqual([
+      { kind: "skip" },
+      { kind: "guess", guessId: wrong, correct: false },
+    ]);
+  });
+
+  it("com o palpite da franquia certa (uma das opções da ajuda), a rodada termina ganha", () => {
+    const list = [...events(), { type: "GUESS", guessId: currentRound(game()).correctOptionId }];
+    const session = startSession(saved(list as GameEvent[]), daily, index);
+    if (session.kind !== "playing") throw new Error("o dia ainda tem 2 rodadas");
+    expect(session.stale).toBe(false);
+    expect(session.state.rounds[0]?.status).toBe("won");
   });
 });

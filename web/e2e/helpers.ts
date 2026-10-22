@@ -192,11 +192,17 @@ export async function appleCatalog(
     albumTitle = (album) => album.title,
     artistDisplay = (name) => name,
     explicit = false,
+    franchiseName = (name) => name,
+    themes = (list) => list,
   }: {
     readonly albumTitle?: (album: { readonly id: string; readonly title: string }) => string;
     /** O nome do artista nas faixas e nos álbuns (o da parada real pode ser bem longo). */
     readonly artistDisplay?: (name: string) => string;
     readonly explicit?: boolean;
+    /** No Anime: o nome de cada franquia (o do catálogo real chega a uns 60 caracteres). */
+    readonly franchiseName?: (name: string) => string;
+    /** No Anime: os temas de cada faixa (o nome do anime longo, a faixa em 2 ou mais temas). */
+    readonly themes?: (list: AnimeTrack["anime"]["themes"]) => AnimeTrack["anime"]["themes"];
   } = {},
 ): Promise<void> {
   await page.route(/\/fixtures\/(catalog|artists\/ar\d+|anime\/catalog)\.json$/, async (route) => {
@@ -223,7 +229,17 @@ export async function appleCatalog(
         ? { artworkUrl: `https://is1-ssl.mzstatic.com/image/thumb/e2e/${tail(a.id)}/1.svg` }
         : {}),
     }));
-    await route.fulfill({ response, json: { ...data, provider: "apple", tracks, albums } });
+    // No Anime, as franquias e os temas, como no catálogo real.
+    const anime =
+      "franchises" in data
+        ? {
+            franchises: data.franchises.map((f) => ({ ...f, name: franchiseName(f.name) })),
+            tracks: tracks.map((t) =>
+              "anime" in t ? { ...t, anime: { ...t.anime, themes: themes(t.anime.themes) } } : t,
+            ),
+          }
+        : { tracks };
+    await route.fulfill({ response, json: { ...data, provider: "apple", albums, ...anime } });
   });
   await page.route("https://is1-ssl.mzstatic.com/**", (route) =>
     route.fulfill({ path: FAKE_COVER, contentType: "image/svg+xml" }),

@@ -298,44 +298,52 @@ export function App() {
           {message}
         </p>
         {saves.notice && <p class="notice">{saves.notice}</p>}
-        {load.status === "loading" && (
-          <div class="loading screen">
-            <p>{t("load.loading")}</p>
-          </div>
-        )}
-        {load.status === "retry" && (
-          <section class="error screen">
-            <FocusedNotice text={t("load.retry")} />
-            <button type="button" class="primary" onClick={() => setAttempt((n) => n + 1)}>
-              {t("load.retryButton")}
-            </button>
-          </section>
-        )}
-        {load.status === "update" && (
-          <section class="error screen">
-            <FocusedNotice text={t("load.update")} />
-            <button type="button" class="primary" onClick={() => window.location.reload()}>
-              {t("load.updateButton")}
-            </button>
-          </section>
-        )}
-        {load.status === "ready" && engine && resolver && (
-          <Ready
-            tab={tab}
-            data={load.data}
-            date={date}
-            engine={engine}
-            resolver={resolver}
-            resolveUrl={resolveUrl}
-            announce={announce}
-            saves={saves}
-            latest={latest}
-            onSaved={refresh}
-            practice={practice}
-            onPractice={setPractice}
-            artists={artists}
-            anime={anime}
-          />
+        {/* O "Sobre e privacidade" não usa dado nenhum: desenha sem esperar a carga dos Hits, e a
+            política de privacidade nunca depende dela (nem de uma falha dela). */}
+        {tab === "about" ? (
+          <About />
+        ) : (
+          <>
+            {load.status === "loading" && (
+              <div class="loading screen">
+                <p>{t("load.loading")}</p>
+              </div>
+            )}
+            {load.status === "retry" && (
+              <section class="error screen">
+                <FocusedNotice text={t("load.retry")} />
+                <button type="button" class="primary" onClick={() => setAttempt((n) => n + 1)}>
+                  {t("load.retryButton")}
+                </button>
+              </section>
+            )}
+            {load.status === "update" && (
+              <section class="error screen">
+                <FocusedNotice text={t("load.update")} />
+                <button type="button" class="primary" onClick={() => window.location.reload()}>
+                  {t("load.updateButton")}
+                </button>
+              </section>
+            )}
+            {load.status === "ready" && engine && resolver && (
+              <Ready
+                tab={tab}
+                data={load.data}
+                date={date}
+                engine={engine}
+                resolver={resolver}
+                resolveUrl={resolveUrl}
+                announce={announce}
+                saves={saves}
+                latest={latest}
+                onSaved={refresh}
+                practice={practice}
+                onPractice={setPractice}
+                artists={artists}
+                anime={anime}
+              />
+            )}
+          </>
         )}
       </main>
     </>
@@ -447,6 +455,8 @@ function Ready({
           onSession={onPractice}
         />
       );
+    // O App já desenha o Sobre antes da carga (ele não usa dado nenhum): aqui, só para o switch
+    // ficar completo.
     case "about":
       return <About />;
     case "artists":

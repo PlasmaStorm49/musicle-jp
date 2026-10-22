@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "preact/hooks";
 import type { MessageKey } from "../i18n/pt-BR.ts";
 import { t } from "../i18n/t.ts";
+import { singleClickLink } from "./singleClick.ts";
 
 /** As fontes dos dados (P239, P241, P256) e o que cada uma dá, na ordem da tela. */
 const SOURCES: readonly {
@@ -18,10 +19,13 @@ const SOURCES: readonly {
 /** O contato (P258): as Issues do repositório, públicas, sem e-mail no site. */
 export const ISSUES_URL = "https://github.com/PlasmaStorm49/musicle-jp/issues";
 
-/** Um link para fora do jogo: abre em outra aba, e o leitor de tela é avisado. */
+/**
+ * Um link para fora do jogo: abre em outra aba, e o leitor de tela é avisado. O 2º clique de um
+ * toque duplo não abre outra aba (regra 23), como no selo da Apple.
+ */
 function External({ href, children }: { readonly href: string; readonly children: string }) {
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer">
+    <a href={href} target="_blank" rel="noopener noreferrer" onClick={singleClickLink}>
       {children}
       <span class="sr-only"> {t("attribution.newTab")}</span>
     </a>
@@ -51,7 +55,9 @@ export function About() {
         <ul class="about-sources">
           {SOURCES.map((source) => (
             <li key={source.url}>
-              <External href={source.url}>{t(source.name)}</External>: {t(source.what)}
+              <External href={source.url}>{t(source.name)}</External>
+              {t("about.sourceSeparator")}
+              {t(source.what)}
             </li>
           ))}
         </ul>
@@ -67,7 +73,8 @@ export function About() {
           {t("about.contactTitle")}
         </h2>
         <p class="about-text">
-          {t("about.contact")} <External href={ISSUES_URL}>{t("about.contactLink")}</External>.
+          {t("about.contact")} <External href={ISSUES_URL}>{t("about.contactLink")}</External>
+          {t("about.contactEnd")}
         </p>
       </section>
     </div>

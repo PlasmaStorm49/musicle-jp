@@ -309,13 +309,24 @@ function Typing({
   const helpPoints = tn("count.points", rules.helpPoints);
   return (
     <section
-      class={round.help ? "typing helping" : "typing"}
+      class={
+        round.help
+          ? answer === "franchise"
+            ? "typing helping franchise"
+            : "typing helping"
+          : "typing"
+      }
       style={slots}
       aria-labelledby="question"
     >
       {round.help ? (
         <>
-          <h2 id="question">{question}</h2>
+          {/* No "acertar o anime", as 4 opções numa coluna, com o nome inteiro, não cabem com o
+              título: ele fica para o leitor de tela (a seção continua com o nome dele), e a dica e
+              a lista ficam na tela. */}
+          <h2 id="question" class={answer === "franchise" ? "sr-only" : undefined}>
+            {question}
+          </h2>
           {/* A dica curta na tela; a inteira, para o leitor de tela, que a ouve na lista (P210). */}
           <p id="help-hint" class="hint">
             <span aria-hidden="true">
@@ -395,7 +406,8 @@ function HelpOptions({
   return (
     <ul
       ref={list}
-      class="options help-options"
+      // No "acertar o anime", os nomes de anime numa coluna, inteiros (um nome longo quebra a linha).
+      class={answer === "franchise" ? "options help-options franchise" : "options help-options"}
       aria-label={t("help.listLabel")}
       aria-describedby="help-hint"
     >

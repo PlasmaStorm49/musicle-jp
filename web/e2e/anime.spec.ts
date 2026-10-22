@@ -219,6 +219,27 @@ test("o Sobre e privacidade: pelo fim da Início e pelos créditos do Anime (P24
   expect(new URL(page.url()).hash).toBe("#sobre");
 });
 
+test("o Sobre e privacidade abre mesmo com a carga dos Hits falhando (ele não usa dado nenhum)", async ({
+  page,
+  consoleErrors,
+}) => {
+  await page.route("**/fixtures/catalog.json", (route) => route.abort());
+  await open(page, DAY, "#sobre");
+  await expect(page.getByRole("heading", { level: 1, name: "Sobre e privacidade" })).toBeFocused();
+  await expect(page.getByRole("main")).toContainText("O jogo não coleta dados pessoais");
+  // Fora do Sobre, a falha aparece, como sempre.
+  await page.getByRole("link", { name: "Início" }).click();
+  await expect(
+    page.getByText("Não foi possível carregar o jogo. Confira a conexão."),
+  ).toBeVisible();
+  // O pedido derrubado de propósito pode aparecer no console como um erro de rede: só essa uma
+  // ocorrência sai da conta.
+  const network = consoleErrors.findIndex((message) =>
+    /Failed to load resource|net::ERR_FAILED/.test(message),
+  );
+  if (network >= 0) consoleErrors.splice(network, 1);
+});
+
 test("o Anime só é baixado quando a pessoa abre a categoria (quem joga só os Hits não baixa nada)", async ({
   page,
 }) => {

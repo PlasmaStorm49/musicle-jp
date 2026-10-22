@@ -41,9 +41,21 @@ const track = (n: number): AnimeTrack => ({
   search: { title: [`musica${n}`], artist: [`artista${n}`] },
   anime: {
     franchiseIds: [`anime:fr:${n}`],
-    themes: [
-      { anime: n === 4 ? "Hoshizora Kaizoku 2nd Season" : `Anime ${n}`, type: "OP", sequence: 1 },
-    ],
+    // A faixa 1 está em 3 temas (a revelação mostra o 1º e "e mais 2").
+    themes:
+      n === 1
+        ? [
+            { anime: "Anime 1", type: "OP", sequence: 1 },
+            { anime: "Anime 1", type: "ED", sequence: 2 },
+            { anime: "Anime 1 Movie", type: "IN", sequence: null },
+          ]
+        : [
+            {
+              anime: n === 4 ? "Hoshizora Kaizoku 2nd Season" : `Anime ${n}`,
+              type: "OP",
+              sequence: 1,
+            },
+          ],
     tiers: { musica: "facil", titulo: "facil" },
   },
 });
@@ -244,6 +256,17 @@ describe("Anime: a escolha do modo (P233)", () => {
     expect(titulo.textContent).toContain("Digite o nome do anime");
     expect(description(titulo)).toContain("vale qualquer temporada");
     expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
+  });
+
+  it("o 2º clique de um toque duplo nos créditos não segue o link (regra 23)", () => {
+    setup("anime");
+    const credits = screen.getByRole("link", { name: /^Dados: AnimeThemes/ });
+    const second = createEvent.click(credits, { detail: 2 });
+    fireEvent(credits, second);
+    expect(second.defaultPrevented).toBe(true);
+    const single = createEvent.click(credits, { detail: 1 });
+    fireEvent(credits, single);
+    expect(single.defaultPrevented).toBe(false);
   });
 
   it("os créditos: as fontes numa linha, o MyAnimeList só em texto (P256), e o link para o Sobre", () => {
@@ -449,6 +472,8 @@ describe("Anime: o diário", () => {
     }
     fireEvent.click(screen.getByRole("button", { name: "Pedir ajuda" }));
     const options = screen.getByRole("list", { name: "Opções da ajuda" });
+    // Numa coluna, com o nome inteiro (o nome real chega a uns 60 caracteres).
+    expect(options.classList.contains("franchise")).toBe(true);
     const names = [...options.querySelectorAll(".item-title")].map((n) => n.textContent).sort();
     // A certa (a franquia da faixa 4) e as 3 sem resposta no dia: as do dia ficam de fora.
     expect(names).toEqual(["Anime 7", "Anime 8", "Anime 9", "Hoshizora Kaizoku"]);
@@ -467,7 +492,7 @@ describe("Anime: o diário", () => {
     setup("anime-musica-facil");
     fireEvent.click(screen.getByRole("button", { name: "Desistir" }));
     expect(document.querySelector(".reveal .card .album")?.textContent).toBe(
-      "Anime: Anime 1 · OP1",
+      "Anime: Anime 1 · OP1 e mais 2",
     );
   });
 });

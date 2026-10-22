@@ -5,7 +5,7 @@
 import type { Locator, Page } from "@playwright/test";
 import { PLAYLIST_URL } from "../src/core/apple.ts";
 import type { Save } from "../src/core/records.ts";
-import type { Catalog } from "../src/core/types.ts";
+import type { AnimeTrack, Catalog } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
 import {
   albumOf,
@@ -34,6 +34,18 @@ async function skip(page: Page, n: number): Promise<void> {
   await page.getByRole("button", { name: /^Tocar/ }).click();
   for (let i = 0; i < n; i++) await page.getByRole("button", { name: /^Pular/ }).click();
 }
+
+/** Um nome de franquia de uns 60 caracteres, como o mais longo do catálogo real do C1. */
+const LONG_FRANCHISE = (name: string) =>
+  `${name}: Tsuihou Sareta Tensei Juukishi wa Game Chishiki`.slice(0, 62);
+/** O tema mais longo do catálogo real (68 caracteres com o tipo). */
+const LONG_ANIME = "JoJo no Kimyou na Bouken Part 3: Stardust Crusaders 2nd Season";
+/** A faixa em 3 temas, o 1º com o nome longo (o real tem faixas em 2 ou mais temas). */
+const LONG_THEMES = (list: AnimeTrack["anime"]["themes"]): AnimeTrack["anime"]["themes"] => [
+  { anime: LONG_ANIME, type: "ED", sequence: 1 },
+  ...list,
+  { anime: list[0].anime, type: "IN", sequence: null },
+];
 
 /**
  * A Início no caso mais alto: os dois diários dos Hits e um do Anime terminados (uma linha a mais
@@ -215,6 +227,44 @@ for (const viewport of [
       await page.getByRole("button", { name: /^Pedir ajuda/ }).click();
       await expect(page.locator(".help-options .option")).toHaveCount(4);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("a ajuda do acertar o anime com nomes longos (como os do catálogo real): os 4 numa coluna, inteiros", async ({
+      page,
+    }) => {
+      await appleCatalog(page, { franchiseName: LONG_FRANCHISE });
+      await open(page, DAY, "#anime-titulo-facil");
+      await skip(page, 3);
+      await page.getByRole("button", { name: /^Pedir ajuda/ }).click();
+      const titles = page.locator(".help-options .item-title");
+      await expect(titles).toHaveCount(4);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      // Numa coluna (a mesma esquerda) e com o nome inteiro, sem reticências.
+      const lefts = await page
+        .locator(".help-options .option")
+        .evaluateAll(
+          (els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().left))).size,
+        );
+      expect(lefts).toBe(1);
+      for (const title of await titles.all()) {
+        expect(await title.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
+        expect((await title.textContent())?.length).toBeGreaterThanOrEqual(50);
+      }
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+    });
+
+    test('a revelação do acertar o anime com um nome longo em 3 temas: o 1º e "e mais 2"', async ({
+      page,
+    }) => {
+      await appleCatalog(page, { themes: LONG_THEMES });
+      await open(page, DAY, "#anime-titulo-facil");
+      await skip(page, 5);
+      await page.getByRole("button", { name: "Desistir" }).click();
+      await expect(page.locator(".reveal .card .album")).toHaveText(
+        `Anime: ${LONG_ANIME} · ED1 e mais 2`,
+      );
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
     });
 
     test("o Sobre e privacidade (P243)", async ({ page }) => {

@@ -40,7 +40,7 @@ import { type Card, CardList, dailyText } from "./cards.tsx";
 import { FocusedNotice, UpdateNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
 import { animeModeName } from "./modes.ts";
-import { singleClick } from "./singleClick.ts";
+import { singleClick, singleClickLink } from "./singleClick.ts";
 
 /** A carga do Anime: "update" é versão de dados que o código não conhece. */
 export type AnimeLoad =
@@ -296,7 +296,8 @@ function AnimeModes({ day, date, save }: ScreenProps) {
 function AnimeCredits() {
   return (
     <p class="anime-credits">
-      <a href={ROUTES.about}>
+      {/* O 2º clique de um toque duplo não segue o link (regra 23). */}
+      <a href={ROUTES.about} onClick={singleClickLink}>
         {t("anime.credits")} <span class="sr-only">{t("anime.creditsMore")}</span>
       </a>
     </p>

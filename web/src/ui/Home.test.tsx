@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { act, cleanup, createEvent, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ArtistSummary } from "../core/home.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
@@ -209,6 +209,10 @@ describe("Home", () => {
     expect(row?.querySelector("details.home-how-box")).not.toBeNull();
     // Fora do <details>: o link aparece com ele fechado, e não fica dentro do resumo.
     expect(about.closest("details")).toBeNull();
+    // O 2º clique de um toque duplo não segue o link (regra 23).
+    const second = createEvent.click(about, { detail: 2 });
+    fireEvent(about, second);
+    expect(second.defaultPrevented).toBe(true);
     // O "Tema" volta para a tela, ao lado do switch.
     const theme = screen.getByRole("heading", { name: "Tema" });
     expect(theme.classList.contains("sr-only")).toBe(false);

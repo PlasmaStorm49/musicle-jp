@@ -46,6 +46,18 @@ function themeText(theme: AnimeTheme): string {
 }
 
 /**
+ * Os temas da faixa numa linha curta: o 1º e, se houver mais, "e mais N" (a faixa pode estar em 2
+ * ou mais temas, e o nome do anime chega a uns 60 caracteres: a revelação não pode crescer).
+ */
+function themesText(themes: readonly AnimeTheme[]): string {
+  const [first, ...rest] = themes;
+  if (!first) return "";
+  return rest.length > 0
+    ? t("anime.themesMore", { theme: themeText(first), count: rest.length })
+    : themeText(first);
+}
+
+/**
  * Depois do palpite: certo e errado (cor e texto), cartão da faixa e a prévia inteira (P34). No
  * Anime, o cartão diz o anime e o tema no lugar do álbum: a revelação mostra a música e o anime, na
  * mesma altura.
@@ -221,8 +233,8 @@ export function Reveal({
               {track.themes.length > 0 ? (
                 <p class="album">
                   {t("reveal.animeLabel")}{" "}
-                  <span lang={langOf(track.themes.map((theme) => theme.anime).join(""))}>
-                    {track.themes.map(themeText).join(t("anime.themeSeparator"))}
+                  <span lang={langOf(track.themes[0]?.anime ?? "")}>
+                    {themesText(track.themes)}
                   </span>
                 </p>
               ) : (

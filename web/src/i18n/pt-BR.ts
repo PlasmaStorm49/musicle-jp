@@ -333,7 +333,8 @@ export const ptBR = {
   "anime.theme.OP": "OP{number}",
   "anime.theme.ED": "ED{number}",
   "anime.theme.IN": "insert song",
-  "anime.themeSeparator": "; ",
+  // A faixa em 2 ou mais temas: o 1º e quantos mais.
+  "anime.themesMore": "{theme} e mais {count}",
   // Os créditos das fontes (P241), nas telas de escolha do Anime: o MyAnimeList só em texto (P256).
   // O link leva ao "Sobre e privacidade", com tudo.
   "anime.credits": "Dados: AnimeThemes, AnisongDB e MyAnimeList · Prévias: Apple Music",
@@ -360,12 +361,16 @@ export const ptBR = {
   "about.anisongdbWhat": "a dificuldade, os artistas e as insert songs.",
   "about.mal": "MyAnimeList",
   "about.malWhat": "a popularidade dos animes.",
+  // Entre o nome da fonte (um link) e o que ela dá.
+  "about.sourceSeparator": ": ",
   "about.privacyTitle": "Privacidade",
   "about.privacy":
-    "O jogo não coleta dados pessoais. O progresso fica só neste navegador (no localStorage), e nada é enviado a um servidor do jogo. As prévias e as capas vêm direto da Apple.",
+    "O jogo não coleta dados pessoais e não tem servidor próprio: o progresso fica só neste navegador (no localStorage). O site é hospedado no GitHub Pages, que, como qualquer servidor, pode registrar os acessos. As prévias, as capas e as consultas das músicas vão direto do navegador à Apple.",
   "about.contactTitle": "Contato",
   "about.contact": "Dúvidas, erros ou um pedido para tirar algo do jogo:",
   "about.contactLink": "as Issues do GitHub",
+  // Depois do link das Issues.
+  "about.contactEnd": ".",
 } as const;
 
 export type MessageKey = keyof typeof ptBR;

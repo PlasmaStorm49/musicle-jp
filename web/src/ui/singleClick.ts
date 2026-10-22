@@ -10,3 +10,12 @@ export function singleClick(action: (event: MouseEvent) => void): (event: MouseE
     action(event);
   };
 }
+
+/**
+ * O mesmo para um link (o `onClick` dele): o 2º clique de um toque duplo não segue o link. Os links
+ * que ficam onde outro elemento estava, ou que levam a outra tela (o "Sobre e privacidade", os
+ * créditos do Anime, as fontes do Sobre), usam este.
+ */
+export function singleClickLink(event: MouseEvent): void {
+  if (event.detail > 1) event.preventDefault();
+}

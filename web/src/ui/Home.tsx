@@ -11,7 +11,7 @@ import { Icon } from "./Icon.tsx";
 import { Logo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
 import { practiceScoreText } from "./PracticeRun.tsx";
-import { singleClick } from "./singleClick.ts";
+import { singleClick, singleClickLink } from "./singleClick.ts";
 import { useTheme } from "./theme.ts";
 
 type Props = {
@@ -147,7 +147,8 @@ export function Home({ day, date, save, artists }: Props) {
             <li>{t("home.howPractice")}</li>
           </ul>
         </details>
-        <a class="home-about" href={ROUTES.about}>
+        {/* O 2º clique de um toque duplo cairia no título do Sobre (regra 23). */}
+        <a class="home-about" href={ROUTES.about} onClick={singleClickLink}>
           {t("home.about")}
         </a>
       </div>
