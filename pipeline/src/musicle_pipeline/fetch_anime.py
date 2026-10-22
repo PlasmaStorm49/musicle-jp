@@ -5,9 +5,10 @@ Usa a rede, como o `fetch.py`, de quem importa o transporte: os outros comandos 
 (o teste em subprocesso confere o `fetch`, que este módulo importa). Só a biblioteca padrão.
 
 As fontes (P239, P256), na ordem em que entram:
-1. o sorteio: o ranking de popularidade do MyAnimeList, com o Client ID da variável
-   `MAL_CLIENT_ID`; sem ela, as entradas mais incluídas em playlists do AnimeThemes. Mais, só na
-   1ª carga, a lista do usuário (`--personal`, o XML exportado do MAL, P253);
+1. o sorteio: o ranking de popularidade do MyAnimeList (`mal_ranking.py`), com o Client ID da
+   variável `MAL_CLIENT_ID`, ou já baixado (`--ranks-file`, o do robô); sem os dois, as entradas
+   mais incluídas em playlists do AnimeThemes. Mais, só na 1ª carga, a lista do usuário
+   (`--personal`, o XML exportado do MAL, P253);
 2. os animes e os temas: o AnimeThemes (GraphQL), pelo id do MAL;
 3. a dificuldade e os artistas que faltam no AnimeThemes: o AnisongDB, pelo id do MAL;
 4. a música: a busca do artista e o lookup das músicas dele na Apple (P242).
@@ -55,6 +56,14 @@ from musicle_pipeline.fetch import (
     get_any,
     http_get,
 )
+from musicle_pipeline.mal_ranking import (
+    MalError,
+    RankingFile,
+    fetch_ranking,
+    mal_level,
+    top_ranks,
+)
+from musicle_pipeline.mal_ranking import mal_get as mal_get  # o CLI e os testes o usam daqui
 from musicle_pipeline.models import JSON, RawTrack
 from musicle_pipeline.normalize import search_key
 from musicle_pipeline.prng import seeded
@@ -69,12 +78,10 @@ from musicle_pipeline.providers.apple_anime import snapshot_id
 
 ANIMETHEMES_URL = "https://graphql.animethemes.moe/"
 ANISONGDB_URL = "https://anisongdb.com/api/mal_ids_request"
-MAL_RANKING_URL = "https://api.myanimelist.net/v2/anime/ranking"
 SEARCH_URL = "https://itunes.apple.com/search"
 LOOKUP_URL = "https://itunes.apple.com/lookup"
 ANIMETHEMES_BATCH = 100  # o máximo do findAnimeByExternalSite (pesquisa de 21/10/2026)
 ANISONGDB_BATCH = 500  # o máximo do mal_ids_request
-MAL_PAGE = 500
 # O AnimeThemes permite 90 pedidos por minuto; o MAL não publica limite (cláusula 6: carga
 # razoável). 1 s entre os pedidos das fontes de anime; a Apple fica com os 4 s do fetch.
 SOURCE_PACE_SEC = 1
@@ -131,35 +138,13 @@ def http_post(url: str, body: bytes, headers: Mapping[str, str]) -> bytes:
     return data
 
 
-def mal_get(client_id: str) -> Callable[[str], bytes]:
-    """GET no MAL com o Client ID só no cabeçalho (P256): a URL que vai para as mensagens de
-    erro nunca o tem."""
-
-    def get(url: str) -> bytes:
-        request = urllib.request.Request(
-            url, headers={"User-Agent": USER_AGENT, "X-MAL-CLIENT-ID": client_id}
-        )
-        with urllib.request.urlopen(request, timeout=TIMEOUT_SEC) as response:
-            body = response.read(MAX_BYTES + 1)
-        if len(body) > MAX_BYTES:
-            raise FetchError(f"resposta maior que {MAX_BYTES} bytes: {url}")
-        return body
-
-    return get
-
-
 # ---------------------------------------------------------------------------------------------
 # Os níveis de 0 a 9 (P254), em escalas fixas de cada fonte: o número bruto nunca é guardado.
 
-# A posição no ranking de popularidade do MAL: o topo de todos os tempos é 9.
-_MAL_RANKS = (50, 150, 300, 600, 1000, 1600, 2500, 4000, 6000)
+# A posição no ranking de popularidade do MAL: o `mal_level`, no mal_ranking.py (o arquivo da
+# anime-mal já sai com o nível).
 # As faixas de playlists que apontam para o tema no AnimeThemes (o topo, em 21/10/2026: 1.065).
 _TRACKS = (3, 10, 20, 40, 70, 120, 200, 300, 500)
-
-
-def mal_level(rank: int) -> int:
-    """1º a 50º: 9; ... ; além do 6.000º: 0."""
-    return sum(rank <= limit for limit in _MAL_RANKS)
 
 
 def tracks_level(count: int) -> int:
@@ -417,22 +402,13 @@ def parse_personal_list(text: str) -> tuple[list[int], list[int]]:
 def mal_ranking(
     get: Callable[[str], bytes], sleep: Callable[[float], None], size: int = POOL_SIZE
 ) -> dict[int, int]:
-    """O id do MAL → a posição no ranking de popularidade, até `size`."""
-    ranks: dict[int, int] = {}
-    offset = 0
-    while offset < size:
-        query = urlencode({"ranking_type": "bypopularity", "limit": MAL_PAGE, "offset": offset})
-        page = _get_json(f"{MAL_RANKING_URL}?{query}", get, sleep, 3)
-        data = page.get("data")
-        if not isinstance(data, list) or not data:
-            break
-        for item in data:
-            node, ranking = (item or {}).get("node") or {}, (item or {}).get("ranking") or {}
-            if isinstance(node.get("id"), int) and isinstance(ranking.get("rank"), int):
-                ranks.setdefault(node["id"], ranking["rank"])
-        offset += len(data)
-        sleep(SOURCE_PACE_SEC)
-    return ranks
+    """O id do MAL → a posição no ranking de popularidade, até `size`. A busca fica no
+    `mal_ranking.py` (só a biblioteca padrão, para a tarefa anime-mal do robô); aqui a falha
+    vira a do fetch."""
+    try:
+        return fetch_ranking(get, sleep, size)
+    except MalError as exc:
+        raise FetchError(str(exc)) from None
 
 
 def animethemes_popular(
@@ -670,6 +646,9 @@ class AnimeFetch:
     get: Callable[[str], bytes] = http_get
     post: PostTransport = http_post
     mal: Callable[[str], bytes] | None = None  # None: sem o MAL (P256)
+    # O ranking do MAL já baixado (o --ranks-file, que a tarefa anime-mal do robô entrega, P256):
+    # o sorteio sai da ordem dele e o nível, dos níveis dele, sem nenhum pedido ao MAL.
+    mal_file: RankingFile | None = None
     sleep: Callable[[float], None] = lambda _s: None
     apple_pace: float = PACE_SEC
     log: Callable[[str], None] = lambda _m: None
@@ -690,6 +669,16 @@ def _post_json(io: AnimeFetch, url: str, body: bytes) -> object:
 def _batched(items: Sequence[int], size: int) -> Iterable[list[int]]:
     for start in range(0, len(items), size):
         yield list(items[start : start + size])
+
+
+def _mal_level_of(io: AnimeFetch, ranks: Mapping[int, int], mal_id: int) -> int | None:
+    """O nível do MAL do anime (P256): o do arquivo da anime-mal (o --ranks-file), ou o da
+    posição no ranking baixado agora (a carga do terminal); sem o MAL, nenhum."""
+    if io.mal_file is not None:
+        return io.mal_file.levels.get(mal_id)
+    if io.mal is not None and mal_id in ranks:
+        return mal_level(ranks[mal_id])
+    return None
 
 
 def _anime_record(anime: SourceAnime, level: int | None) -> JSON:
@@ -722,7 +711,10 @@ def fetch_anime_snapshot(
     puxa o sorteio para o topo, e o Fácil cresce). Para quando cada modo e faixa tem
     `target_per_tier` músicas,
     quando chega a `max_songs`, ou depois de `max_anime` animes tentados."""
-    if io.mal is not None:
+    if io.mal_file is not None:
+        io.log("o sorteio pelo ranking do MyAnimeList (do --ranks-file)")
+        ranks = top_ranks(io.mal_file.draw_ranks(), pool_size)
+    elif io.mal is not None:
         io.log("o sorteio pelo ranking do MyAnimeList")
         ranks = mal_ranking(io.mal, io.sleep, pool_size)
     else:
@@ -811,8 +803,7 @@ def _search(
             source = merge_sources(source, quiz.get(mal_id, []))
             # O nível do anime é só o do MAL (P256): sem ele, a posição nas playlists do
             # AnimeThemes serve ao sorteio, mas não vira nível (o tema já tem o das playlists).
-            rank = ranks.get(mal_id) if io.mal is not None else None
-            record = _anime_record(source, None if rank is None else mal_level(rank))
+            record = _anime_record(source, _mal_level_of(io, ranks, mal_id))
             anime = Anime(
                 mal_id=mal_id,
                 slug=source.slug,

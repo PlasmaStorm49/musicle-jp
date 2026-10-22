@@ -452,11 +452,12 @@ def _fetch(args: argparse.Namespace) -> int:
         args.max_anime,
         args.pool_size,
         args.deadline_min,
+        args.ranks_file,
     )
     if any(value is not None for value in anime_only):
         print(
-            "--personal, --out-dir, --max-songs, --target-per-tier, --max-anime, --pool-size e "
-            "--deadline-min só valem com --anime",
+            "--personal, --out-dir, --max-songs, --target-per-tier, --max-anime, --pool-size, "
+            "--deadline-min e --ranks-file só valem com --anime",
             file=sys.stderr,
         )
         return 1
@@ -500,10 +501,12 @@ def _fetch(args: argparse.Namespace) -> int:
 def _fetch_anime(args: argparse.Namespace) -> int:
     """Um snapshot novo do Anime (M14): sorteia, junta as fontes e casa com a Apple. O Client ID
     do MyAnimeList vem da variável MAL_CLIENT_ID (P256), nunca de um argumento (iria para o
-    histórico do terminal); sem ela, o sorteio é pelas playlists do AnimeThemes."""
+    histórico do terminal); sem ela, o sorteio é pelas playlists do AnimeThemes. Com o
+    --ranks-file (o ranking que a tarefa anime-mal do robô baixou), o sorteio e o nível do MAL
+    saem do arquivo, e a variável é ignorada: nenhum pedido vai ao MAL."""
     import os
 
-    from musicle_pipeline import fetch, fetch_anime
+    from musicle_pipeline import fetch, fetch_anime, mal_ranking
 
     directory = resolve(args.out_dir) if args.out_dir else anime_paths("apple").source
     tried, resolved, official = fetch_anime.tried_and_resolved(directory)
@@ -511,7 +514,15 @@ def _fetch_anime(args: argparse.Namespace) -> int:
     if args.personal:
         personal = fetch_anime.parse_personal_list(resolve(args.personal).read_text("utf-8"))
         print(f"lista pessoal: {len(personal[0])} com nota 8 ou mais, {len(personal[1])} outros")
-    client_id = os.environ.get("MAL_CLIENT_ID", "").strip()
+    mal_file = None
+    if args.ranks_file:
+        try:
+            mal_file = mal_ranking.load_ranks(resolve(args.ranks_file))
+        except mal_ranking.MalError as exc:
+            print(f"--ranks-file: {exc}; nada foi gravado", file=sys.stderr)
+            return 1
+        print(f"o ranking do MAL do --ranks-file: {len(mal_file.order)} anime(s)")
+    client_id = "" if mal_file is not None else os.environ.get("MAL_CLIENT_ID", "").strip()
     import time
 
     from musicle_pipeline.providers.apple_anime import snapshot_id
@@ -528,6 +539,7 @@ def _fetch_anime(args: argparse.Namespace) -> int:
 
     io = fetch_anime.AnimeFetch(
         mal=fetch_anime.mal_get(client_id) if client_id else None,
+        mal_file=mal_file,
         sleep=time.sleep,
         log=print,
         clock=time.monotonic,
@@ -552,6 +564,11 @@ def _fetch_anime(args: argparse.Namespace) -> int:
         # O snapshot parcial já foi gravado depois de cada anime (o `save`): rodar de novo continua.
         kept = f"o que já veio ficou em {out}" if out.exists() else "nada foi gravado"
         print(f"fetch --anime: {exc}; {kept}", file=sys.stderr)
+        return 1
+    if not snapshot["anime"]:
+        # As fontes não deram nenhum anime (o AnimeThemes fora do ar, a Apple caindo no 1º): um
+        # snapshot vazio entraria no catálogo e ficaria para sempre (os snapshots só crescem).
+        print("fetch --anime: nenhum anime veio; nada foi gravado", file=sys.stderr)
         return 1
     write_if_changed(out, dumps(snapshot))
     themes = [t for a in snapshot["anime"] for t in a["themes"]]
@@ -806,6 +823,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     fetch.add_argument(
         "--deadline-min", type=float, help="com --anime: para e grava depois de N minutos"
+    )
+    fetch.add_argument(
+        "--ranks-file",
+        type=Path,
+        help="com --anime: o ranking do MAL já baixado (o do robô); nenhum pedido ao MAL",
     )
     fetch.add_argument(
         "--fetched-at", type=_fetched_at, required=True, help="agora em UTC: AAAA-MM-DDTHH:MM:SSZ"

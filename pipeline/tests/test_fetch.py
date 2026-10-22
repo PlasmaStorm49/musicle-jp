@@ -244,7 +244,8 @@ def test_other_commands_never_import_the_network_module(tmp_path):
         f"assert main({build_anime!r}) == 0\n"
         "assert main(['validate-anime', '--provider', 'fixture']) == 0\n"
         f"assert main({schedule_anime!r}) == 0\n"
-        "print('musicle_pipeline.fetch' in sys.modules)\n"
+        # O ranking do MAL (M14, PR B) também usa a rede: só o fetch --anime o carrega.
+        "print(any(m in sys.modules for m in ('musicle_pipeline.fetch', 'musicle_pipeline.mal_ranking')))\n"
     )
     result = subprocess.run(
         [sys.executable, "-c", code], capture_output=True, text=True, encoding="utf-8", check=True
