@@ -439,11 +439,12 @@ def _fetch(args: argparse.Namespace) -> int:
         args.target_per_tier,
         args.max_anime,
         args.pool_size,
+        args.deadline_min,
     )
     if any(value is not None for value in anime_only):
         print(
-            "--personal, --out-dir, --max-songs, --target-per-tier, --max-anime e --pool-size "
-            "só valem com --anime",
+            "--personal, --out-dir, --max-songs, --target-per-tier, --max-anime, --pool-size e "
+            "--deadline-min só valem com --anime",
             file=sys.stderr,
         )
         return 1
@@ -501,10 +502,25 @@ def _fetch_anime(args: argparse.Namespace) -> int:
     client_id = os.environ.get("MAL_CLIENT_ID", "").strip()
     import time
 
+    from musicle_pipeline.providers.apple_anime import snapshot_id
+
+    out = directory / f"{snapshot_id(args.fetched_at)}.json"
+    if out.exists():
+        print(f"{out}: já existe (outra busca no mesmo segundo); nada foi gravado", file=sys.stderr)
+        return 1
+
+    def save(partial: dict) -> None:
+        # O snapshot parcial depois de cada anime, com escrita atômica: se a busca parar (a rede,
+        # o Ctrl+C, o PC), rodar de novo continua, porque os animes já tentados ficam de fora.
+        write_if_changed(out, dumps(partial))
+
     io = fetch_anime.AnimeFetch(
         mal=fetch_anime.mal_get(client_id) if client_id else None,
         sleep=time.sleep,
         log=print,
+        clock=time.monotonic,
+        deadline=None if args.deadline_min is None else args.deadline_min * 60,
+        save=save,
     )
     try:
         snapshot = fetch_anime.fetch_anime_snapshot(
@@ -522,10 +538,6 @@ def _fetch_anime(args: argparse.Namespace) -> int:
         )
     except fetch.FetchError as exc:
         print(f"fetch --anime: {exc}; nada foi gravado", file=sys.stderr)
-        return 1
-    out = directory / f"{snapshot['id']}.json"
-    if out.exists():
-        print(f"{out}: já existe (outra busca no mesmo segundo); nada foi gravado", file=sys.stderr)
         return 1
     write_if_changed(out, dumps(snapshot))
     themes = [t for a in snapshot["anime"] for t in a["themes"]]
@@ -777,6 +789,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     fetch.add_argument("--max-anime", type=int, help="com --anime: animes tentados (400)")
     fetch.add_argument(
         "--pool-size", type=int, help="com --anime: sorteia entre os N mais populares (3000)"
+    )
+    fetch.add_argument(
+        "--deadline-min", type=float, help="com --anime: para e grava depois de N minutos"
     )
     fetch.add_argument(
         "--fetched-at", type=_fetched_at, required=True, help="agora em UTC: AAAA-MM-DDTHH:MM:SSZ"

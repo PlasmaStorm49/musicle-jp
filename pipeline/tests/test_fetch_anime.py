@@ -377,3 +377,67 @@ def test_the_anime_options_need_anime(capsys):
     args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
     assert main([*args, "--max-songs", "10"]) == 1
     assert "só valem com --anime" in capsys.readouterr().err
+
+
+# --- a busca longa (PR C2) -----------------------------------------------------------------------
+
+
+def run_with(web: FakeWeb, **io_args) -> dict:
+    io = fa.AnimeFetch(get=web.get, post=web.post, mal=web.mal, apple_pace=0, **io_args)
+    return fa.fetch_anime_snapshot(
+        NOW, lambda t: ROMAJI.get(t, (t,)), set(), {}, {}, io, target_per_tier=99, max_songs=99
+    )
+
+
+def test_the_snapshot_is_saved_after_each_anime():
+    saved: list[dict] = []
+    snap = run_with(FakeWeb(), save=saved.append)
+    assert len(saved) == 1 and saved[-1] == snap  # um anime: uma gravação, igual ao final
+
+
+def test_the_deadline_stops_before_the_next_anime():
+    ticks = iter([0.0, 999.0])
+    snap = run_with(FakeWeb(), clock=lambda: next(ticks), deadline=60)
+    assert snap["anime"] == []  # o prazo venceu antes do 1º anime
+
+
+def test_ctrl_c_keeps_what_was_already_fetched():
+    web = FakeWeb()
+    original = web.get
+
+    def interrupted(url: str) -> bytes:
+        if "search" in url:
+            raise KeyboardInterrupt
+        return original(url)
+
+    web.get = interrupted
+    snap = run_with(web)
+    assert snap["anime"] == [] and snap["id"] == "2026-10-22T010000Z"
+
+
+def test_an_artist_over_200_songs_is_searched_in_the_albums():
+    web = FakeWeb()
+    lookups: list[str] = []
+
+    def get(url: str) -> bytes:
+        query = parse_qs(urlsplit(url).query)
+        if "search" in url:
+            return json.dumps(
+                {"results": [artist("LiSA", 1)] if query["term"][0] == "LiSA" else []}
+            ).encode()
+        lookups.append(url)
+        if query.get("entity") == ["album"]:
+            album = {"wrapperType": "collection", "collectionId": 5000, "artistId": 1}
+            return json.dumps({"results": [artist("LiSA", 1), album]}).encode()
+        if query["id"] == ["5000"]:
+            far = {**song(9999, "from the edge"), "collectionId": 5000}
+            return json.dumps({"results": [far]}).encode()
+        # O lookup de músicas no teto (200), sem o tema: só a busca nos álbuns o acha.
+        fillers = [song(100 + i, f"Outra música {i}") for i in range(fa.SONG_LIMIT)]
+        return json.dumps({"results": [artist("LiSA", 1), song(10, "紅蓮華"), *fillers]}).encode()
+
+    web.get = get
+    snap = run_with(web)
+    results = {t["song"]: (t["result"], t["track"]) for t in snap["anime"][0]["themes"]}
+    assert results["from the edge"] == ("matched", "9999")
+    assert sum("entity=album" in u for u in lookups) == 1  # os álbuns uma vez só por artista

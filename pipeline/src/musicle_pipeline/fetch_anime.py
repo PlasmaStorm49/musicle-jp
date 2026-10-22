@@ -80,6 +80,8 @@ POOL_SIZE = 3000
 PERSONAL_SHARE = 0.15  # o teto da lista do usuário no acervo da 1ª carga (P253)
 PERSONAL_STATUSES = {"Completed", "Watching", "On-Hold"}
 MAX_ARTIST_CANDIDATES = 3  # artistas com o mesmo nome: a ambiguidade do casamento decide
+SONG_LIMIT = 200  # o teto do lookup de músicas de um artista
+ALBUM_BATCH = 50  # álbuns por lookup (o mesmo do modo por artista)
 
 # A query do AnimeThemes: só os campos que o snapshot guarda (sem vídeo nem áudio, regra 8).
 ANIMETHEMES_QUERY = """
@@ -501,6 +503,7 @@ class AppleCache:
     # A discografia mapeada de cada conjunto de artistas: os temas seguidos do mesmo artista
     # não remapeiam as mesmas faixas.
     mapped: dict[tuple[str, ...], dict[str, RawTrack]] = field(default_factory=dict)
+    albums: dict[str, list[JSON]] = field(default_factory=dict)
 
 
 def choose_artists(name: str, results: Sequence[JSON]) -> list[str]:
@@ -560,10 +563,47 @@ class AppleClient:
 
     def songs_of(self, artist_id: str) -> list[JSON]:
         if artist_id not in self.cache.lookups:
-            query = {"id": artist_id, "entity": "song", "limit": 200, "country": STOREFRONT}
+            query = {"id": artist_id, "entity": "song", "limit": SONG_LIMIT, "country": STOREFRONT}
             found = _results(self._get(f"{LOOKUP_URL}?{urlencode(query)}"))
             self.cache.lookups[artist_id] = [s for s in (_song(r) for r in found) if s]
         return self.cache.lookups[artist_id]
+
+    def capped(self, artist_id: str) -> bool:
+        """O lookup de músicas veio no teto: o artista tem mais músicas do que ele mostra."""
+        return len(self.songs_of(artist_id)) >= SONG_LIMIT
+
+    def album_songs_of(self, artist_id: str) -> list[JSON]:
+        """As músicas dos álbuns do artista, só as dele, para quem passa de 200 (LiSA, Aimer):
+        o lookup de músicas ordena só as 200 primeiras. Os álbuns em lotes, como o modo por
+        artista (o teto de 200 vale por álbum)."""
+        if artist_id not in self.cache.albums:
+            query = {"id": artist_id, "entity": "album", "limit": SONG_LIMIT, "country": STOREFRONT}
+            found = _results(self._get(f"{LOOKUP_URL}?{urlencode(query)}"))
+            albums = sorted(
+                {
+                    str(r["collectionId"])
+                    for r in found
+                    if r.get("wrapperType") == "collection"
+                    and str(r.get("artistId")) == artist_id
+                    and re.fullmatch(r"[0-9]+", str(r.get("collectionId", "")))
+                },
+                key=int,
+            )
+            songs: list[JSON] = []
+            for start in range(0, len(albums), ALBUM_BATCH):
+                batch = albums[start : start + ALBUM_BATCH]
+                query = {
+                    "id": ",".join(batch),
+                    "entity": "song",
+                    "limit": SONG_LIMIT,
+                    "country": STOREFRONT,
+                }
+                for r in _results(self._get(f"{LOOKUP_URL}?{urlencode(query)}")):
+                    s = _song(r)
+                    if s is not None and s["artistId"] == artist_id and s["collectionId"] in batch:
+                        songs.append(s)
+            self.cache.albums[artist_id] = songs
+        return self.cache.albums[artist_id]
 
 
 def _raw_tracks(lookups: Sequence[JSON], official: JSON) -> dict[str, RawTrack]:
@@ -614,6 +654,12 @@ class AnimeFetch:
     sleep: Callable[[float], None] = lambda _s: None
     apple_pace: float = PACE_SEC
     log: Callable[[str], None] = lambda _m: None
+    # O relógio monotônico e o prazo em segundos (None: sem prazo). O pacote não lê o relógio: o
+    # CLI passa o time.monotonic, e os testes, um contador.
+    clock: Callable[[], float] = lambda: 0.0
+    deadline: float | None = None
+    # A gravação do snapshot parcial depois de cada anime (a busca longa não perde nada se parar).
+    save: Callable[[JSON], None] | None = None
 
 
 def _post_json(io: AnimeFetch, url: str, body: bytes) -> object:
@@ -673,6 +719,47 @@ def fetch_anime_snapshot(
     progress = Progress(target_per_tier, max_songs)
     records: list[JSON] = []
     used_lookups: dict[str, JSON] = {}
+
+    def build() -> JSON:
+        # Os nomes oficiais dos artistas das faixas e de todos os resolvidos nesta busca: uma busca
+        # seguinte que os pegue do cache (`resolved`) ainda acha o latino deles.
+        new = {k: v for k, v in cache.resolved.items() if k not in known_resolved}
+        artist_ids = {t["artistId"] for t in used_lookups.values()} | {
+            i for v in new.values() for i in v
+        }
+        return {
+            "provider": "apple",
+            "storefront": STOREFRONT,
+            "id": snapshot_id(fetched_at),
+            "fetchedAt": fetched_at,
+            "anime": list(records),
+            "artists": {k: v for k, v in sorted(cache.official.items()) if k in artist_ids},
+            # Só as resoluções novas: as antigas já estão nos snapshots de antes.
+            "resolved": dict(sorted(new.items())),
+            "tracks": dict(sorted(used_lookups.items())),
+        }
+
+    start = io.clock()
+    try:
+        _search(order, io, ranks, apple, romanize, progress, records, used_lookups, start, build)
+    except KeyboardInterrupt:
+        # O Ctrl+C na busca longa: o que já veio fica (o anime pela metade volta a ser sorteado).
+        io.log("busca interrompida; grava o que já veio")
+    return build()
+
+
+def _search(
+    order: Sequence[int],
+    io: AnimeFetch,
+    ranks: Mapping[int, int],
+    apple: AppleClient,
+    romanize: Callable[[str], Sequence[str]],
+    progress: Progress,
+    records: list[JSON],
+    used_lookups: dict[str, JSON],
+    start: float,
+    build: Callable[[], JSON],
+) -> None:
     stopped = False
     for batch in _batched(order, ANIMETHEMES_BATCH):
         body = json.dumps({"query": ANIMETHEMES_QUERY, "variables": {"ids": batch}}).encode()
@@ -694,6 +781,10 @@ def fetch_anime_snapshot(
         io.sleep(SOURCE_PACE_SEC)
         for mal_id in batch:
             if progress.done():
+                break
+            if io.deadline is not None and io.clock() - start >= io.deadline:
+                io.log("prazo da busca: grava o que já veio")
+                stopped = True
                 break
             source = sources.get(mal_id)
             if source is None:
@@ -728,26 +819,14 @@ def fetch_anime_snapshot(
                     progress.add(entry["theme"], anime)
             records.append(record)
             matched = sum(t["result"] == "matched" for t in record["themes"])
-            io.log(f"{source.name}: {matched} de {len(record['themes'])} tema(s)")
+            io.log(
+                f"{source.name}: {matched} de {len(record['themes'])} tema(s) "
+                f"(no total, {len(progress.songs)} música(s))"
+            )
+            if io.save is not None:
+                io.save(build())
         if stopped or progress.done():
             break
-    # Os nomes oficiais dos artistas das faixas e de todos os resolvidos nesta busca: uma busca
-    # seguinte que os pegue do cache (`resolved`) ainda acha o latino deles.
-    new = {k: v for k, v in cache.resolved.items() if k not in known_resolved}
-    artist_ids = {t["artistId"] for t in used_lookups.values()} | {
-        i for v in new.values() for i in v
-    }
-    return {
-        "provider": "apple",
-        "storefront": STOREFRONT,
-        "id": snapshot_id(fetched_at),
-        "fetchedAt": fetched_at,
-        "anime": records,
-        "artists": {k: v for k, v in sorted(cache.official.items()) if k in artist_ids},
-        # Só as resoluções novas: as antigas já estão nos snapshots de antes.
-        "resolved": dict(sorted(new.items())),
-        "tracks": dict(sorted(used_lookups.items())),
-    }
 
 
 def _theme(
@@ -771,6 +850,17 @@ def _theme(
         apple.cache.mapped[key] = _raw_tracks(lookups, apple.cache.official)
     tracks = apple.cache.mapped[key]
     found = match_theme(theme.song, list(tracks.values()), romanize, anime.year)
+    capped = [i for i in ids if apple.capped(i)]
+    if found.result == "no-match" and capped:
+        # A música pode estar além das 200 do lookup: os álbuns do artista, uma vez por busca.
+        extra = [t for artist_id in capped for t in apple.album_songs_of(artist_id)]
+        seen = {t["trackId"] for t in lookups}
+        lookups = lookups + [t for t in extra if t["trackId"] not in seen]
+        full = ("albums", *key)
+        if full not in apple.cache.mapped:
+            apple.cache.mapped[full] = _raw_tracks(lookups, apple.cache.official)
+        tracks = apple.cache.mapped[full]
+        found = match_theme(theme.song, list(tracks.values()), romanize, anime.year)
     record = {**base, "result": found.result}
     if found.track is None:
         return {"record": record, "lookup": None, "theme": None}
