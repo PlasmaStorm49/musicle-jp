@@ -212,7 +212,7 @@ test("duas abas: só a que reivindicou avisa; a outra, que relê o save, não (P
   }
 });
 
-test("um acerto na Livre aparece no progresso da prata do artista (P285, P289)", async ({
+test("um acerto na Livre aparece no progresso da medalha dos acertos do artista (P285, P289)", async ({
   page,
 }) => {
   await openWithMedals(page, DAY, "#artistas");
@@ -229,7 +229,7 @@ test("um acerto na Livre aparece no progresso da prata do artista (P285, P289)",
   await expect(artist.locator(".medal-how").first()).toHaveText("1 de 50 acertos");
 });
 
-test("terminar o Superfan, com um erro: o pop-up do ouro com o artista no fim da partida, e o ouro ganho na tela (P285)", async ({
+test("terminar o Superfan, com um erro: o pop-up da completa com o artista no fim da partida, e a completa ganha na tela (P285)", async ({
   page,
 }) => {
   const file = new URL("../public/fixtures/artists/ar02.json", import.meta.url);
@@ -245,7 +245,7 @@ test("terminar o Superfan, com um erro: o pop-up do ouro com o artista no fim da
   for (let round = 0; ; round++) {
     await page.getByRole("button", { name: "Tocar 1 s" }).click();
     const played = await lastPlayed(page);
-    // Um erro na 1ª música: a partida termina, mas não perfeita (só o ouro, e não a suprema).
+    // Um erro na 1ª música: a partida termina, mas não perfeita (só a completa, e não a perfeita).
     const wrong = tracks.find((t) => t.id !== played.id);
     if (round === 0 && wrong) await guess(wrong.title);
     await guess(played.title);

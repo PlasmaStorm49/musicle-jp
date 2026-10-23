@@ -58,38 +58,38 @@ const earned = (save: Save, today = "2026-10-20", general = GENERAL) =>
   earnedMedals(medalsOf(save, general), medalContext(save, today, HITS));
 
 describe("as 3 do Superfan de cada artista (P285)", () => {
-  const [prata, ouro, suprema] = superfanMedals(ARTIST);
+  const [acertos, completo, perfeito] = superfanMedals(ARTIST);
 
-  it("os ids e os tamanhos do aviso: a prata é a pequena", () => {
-    expect([prata, ouro, suprema].map((m) => [m?.id, m?.tier])).toEqual([
-      [`superfan|${ARTIST}|prata`, "simple"],
-      [`superfan|${ARTIST}|ouro`, "major"],
-      [`superfan|${ARTIST}|suprema`, "major"],
+  it("os ids e os tamanhos do aviso: a dos acertos é a pequena", () => {
+    expect([acertos, completo, perfeito].map((m) => [m?.id, m?.tier])).toEqual([
+      [`superfan|${ARTIST}|acertos`, "simple"],
+      [`superfan|${ARTIST}|completo`, "major"],
+      [`superfan|${ARTIST}|perfeito`, "major"],
     ]);
-    expect(superfanMedalId(ARTIST, "ouro")).toBe(ouro?.id);
+    expect(superfanMedalId(ARTIST, "completo")).toBe(completo?.id);
   });
 
-  it(`a prata com ${SUPERFAN_RIGHT} acertos, com o progresso até lá`, () => {
+  it(`a dos acertos com ${SUPERFAN_RIGHT} acertos, com o progresso até lá`, () => {
     const ctx = (save: Save) => medalContext(save, "2026-10-20", HITS);
     const nine = rights(emptySave(), SUPERFAN_RIGHT - 1);
-    expect(prata?.earned(ctx(nine))).toBe(false);
-    expect(prata?.progress?.(ctx(nine))).toEqual({
+    expect(acertos?.earned(ctx(nine))).toBe(false);
+    expect(acertos?.progress?.(ctx(nine))).toEqual({
       value: SUPERFAN_RIGHT - 1,
       goal: SUPERFAN_RIGHT,
     });
     const twelve = rights(nine, 3);
-    expect(prata?.earned(ctx(twelve))).toBe(true);
-    expect(prata?.progress?.(ctx(twelve))).toEqual({
+    expect(acertos?.earned(ctx(twelve))).toBe(true);
+    expect(acertos?.progress?.(ctx(twelve))).toEqual({
       value: SUPERFAN_RIGHT,
       goal: SUPERFAN_RIGHT,
     });
   });
 
-  it("o ouro por terminar, a suprema por terminar perfeita", () => {
+  it("a completa ao terminar, a perfeita ao terminar perfeito", () => {
     const done = withSuperfanEnd(emptySave(), ARTIST, { done: true, perfect: false });
-    expect(earned(done, "2026-10-20", [])).toEqual([ouro?.id]);
+    expect(earned(done, "2026-10-20", [])).toEqual([completo?.id]);
     const perfect = withSuperfanEnd(done, ARTIST, { done: true, perfect: true });
-    expect(earned(perfect, "2026-10-20", [])).toEqual([ouro?.id, suprema?.id]);
+    expect(earned(perfect, "2026-10-20", [])).toEqual([completo?.id, perfeito?.id]);
   });
 
   it("sem registro do artista, nenhuma medalha dele entra na conta (a lista não é preciso)", () => {
@@ -118,9 +118,9 @@ describe("earnedMedals e unseenMedals", () => {
     for (const date of days(10, 14)) save = withFinished(save, `${date}|song`, lost);
     save = rights(save, SUPERFAN_RIGHT);
     const ids = earned(save, "2026-10-14");
-    expect(ids).toEqual(["sequencia-3", "jogos-5", superfanMedalId(ARTIST, "prata")]);
+    expect(ids).toEqual(["sequencia-3", "jogos-5", superfanMedalId(ARTIST, "acertos")]);
     const seen = withSeenMedals(save, ["jogos-5"]);
-    expect(unseenMedals(seen, ids)).toEqual(["sequencia-3", superfanMedalId(ARTIST, "prata")]);
+    expect(unseenMedals(seen, ids)).toEqual(["sequencia-3", superfanMedalId(ARTIST, "acertos")]);
   });
 
   it("o progresso concorda com a conferência: ganha, o valor chega à meta", () => {
@@ -193,9 +193,9 @@ describe("medalBoard (o que a tela mostra, P286)", () => {
     ]);
     expect(board.superfan.map((row) => row.artistId)).toEqual(["apple:ar:2", ARTIST]);
     expect(board.superfan[1]?.cells.map((c) => [c.level, c.state.earned])).toEqual([
-      ["prata", true],
-      ["ouro", true],
-      ["suprema", false],
+      ["acertos", true],
+      ["completo", true],
+      ["perfeito", false],
     ]);
     expect(board.total).toBe(3 + 2 * 3);
     expect(board.earned).toBe(1 + 2);
@@ -221,16 +221,16 @@ describe("noticeTab: as telas calmas (P288)", () => {
 });
 
 describe("claimMedals e claimTier: reivindicar antes de mostrar (P281, P288)", () => {
-  const prata = superfanMedalId(ARTIST, "prata");
-  const ouro = superfanMedalId(ARTIST, "ouro");
+  const acertos = superfanMedalId(ARTIST, "acertos");
+  const completo = superfanMedalId(ARTIST, "completo");
   const general: readonly Medal[] = EXAMPLES;
 
   it("marca as novas como avisadas, e a 2ª reivindicação devolve o mesmo save, sem nenhuma", () => {
     const save = rights(emptySave(), SUPERFAN_RIGHT);
     const claim = claimMedals(save, "2026-10-20", HITS, general);
-    expect(claim.claimed).toEqual([prata]);
+    expect(claim.claimed).toEqual([acertos]);
     expect(claim.first).toBe(false);
-    expect(claim.save.seenMedals).toEqual([prata]);
+    expect(claim.save.seenMedals).toEqual([acertos]);
     const again = claimMedals(claim.save, "2026-10-20", HITS, general);
     expect(again.claimed).toEqual([]);
     expect(again.save).toBe(claim.save);
@@ -247,10 +247,10 @@ describe("claimMedals e claimTier: reivindicar antes de mostrar (P281, P288)", (
   });
 
   it("depois do 1º, a leva é do tamanho da maior; e uma só nunca é o 1º aviso", () => {
-    const seen = withSeenMedals(rights(emptySave(), SUPERFAN_RIGHT), [prata]);
+    const seen = withSeenMedals(rights(emptySave(), SUPERFAN_RIGHT), [acertos]);
     const done = withSuperfanEnd(seen, ARTIST, { done: true, perfect: false });
     const claim = claimMedals(done, "2026-10-20", HITS, general);
-    expect(claim.claimed).toEqual([ouro]);
+    expect(claim.claimed).toEqual([completo]);
     expect(claim.first).toBe(false);
     expect(claimTier(claim, medalsOf(done, general))).toBe("major");
     const one = claimMedals(rights(emptySave(), SUPERFAN_RIGHT), "2026-10-20", HITS, general);
@@ -260,7 +260,7 @@ describe("claimMedals e claimTier: reivindicar antes de mostrar (P281, P288)", (
   it("o já avisado que deixou de existir na lista não volta, e o save guarda a união", () => {
     const save = withSeenMedals(rights(emptySave(), SUPERFAN_RIGHT), ["demo-removida"]);
     const claim = claimMedals(save, "2026-10-20", HITS, general);
-    expect(claim.claimed).toEqual([prata]);
-    expect(claim.save.seenMedals).toEqual(["demo-removida", prata].sort());
+    expect(claim.claimed).toEqual([acertos]);
+    expect(claim.save.seenMedals).toEqual(["demo-removida", acertos].sort());
   });
 });

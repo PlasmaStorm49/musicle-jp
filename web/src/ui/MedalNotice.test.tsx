@@ -197,13 +197,13 @@ describe("MedalDialog (o pop-up grande, P279)", () => {
 });
 
 describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
-  const prata = superfanMedalId(ARTIST, "prata");
+  const acertos = superfanMedalId(ARTIST, "acertos");
 
   it("a do Superfan leva o nível, o artista, a capa e a faixa; a geral, o nome do i18n", () => {
-    const [superfan, general] = noticeItems([prata, "demo-primeiro"], LIST, resolve);
+    const [superfan, general] = noticeItems([acertos, "demo-primeiro"], LIST, resolve);
     expect(superfan).toMatchObject({
-      id: prata,
-      kind: "prata",
+      id: acertos,
+      kind: "acertos",
       name: "Prata de 夜風",
       image: "/base/art/1.svg",
       letter: "夜",
@@ -221,13 +221,13 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
   });
 
   it("sem a lista (ainda carregando) ou fora dela, só o nível; sem capa, o monograma", () => {
-    const ouro = superfanMedalId("t:ar:2", "ouro");
-    expect(noticeItems([prata], null, resolve)[0]).toMatchObject({ name: "Prata", image: null });
-    expect(noticeItems([superfanMedalId("t:ar:9", "suprema")], LIST, resolve)[0]).toMatchObject({
-      kind: "suprema",
+    const completo = superfanMedalId("t:ar:2", "completo");
+    expect(noticeItems([acertos], null, resolve)[0]).toMatchObject({ name: "Prata", image: null });
+    expect(noticeItems([superfanMedalId("t:ar:9", "perfeito")], LIST, resolve)[0]).toMatchObject({
+      kind: "perfeito",
       name: "Suprema",
     });
-    expect(noticeItems([ouro], LIST, resolve)[0]).toMatchObject({
+    expect(noticeItems([completo], LIST, resolve)[0]).toMatchObject({
       name: "Ouro de Banda",
       image: null,
       letter: "B",
@@ -283,8 +283,8 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
   const claim = () => fireEvent.click(screen.getByRole("button", { name: "reivindicar" }));
   const shown = () => screen.getByRole("status").textContent;
   const seen = (store: KeyValueStore) => loadSave(store).save.seenMedals;
-  const prata = superfanMedalId(ARTIST, "prata");
-  const ouro = superfanMedalId(ARTIST, "ouro");
+  const acertos = superfanMedalId(ARTIST, "acertos");
+  const completo = superfanMedalId(ARTIST, "completo");
   let rights = emptySave();
   for (let i = 0; i < SUPERFAN_RIGHT; i++) rights = withArtistRight(rights, ARTIST);
 
@@ -293,8 +293,8 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
     render(<Harness store={store} />);
     expect(shown()).toBe("nada");
     claim();
-    expect(shown()).toBe(`major|true|demo-primeiro,${prata}`);
-    expect(seen(store)).toEqual(["demo-primeiro", prata].sort());
+    expect(shown()).toBe(`major|true|demo-primeiro,${acertos}`);
+    expect(seen(store)).toEqual(["demo-primeiro", acertos].sort());
     fireEvent.click(screen.getByRole("button", { name: "fechar" }));
     claim();
     expect(shown()).toBe("nada");
@@ -303,7 +303,7 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
   it("na tela do selo da Apple (os Artistas, as Medalhas), a simples sai no grande, desde a reivindicação", () => {
     render(<Harness store={seeded(rights)} />);
     fireEvent.click(screen.getByRole("button", { name: "reivindicar na tela do selo" }));
-    expect(shown()).toBe(`major|false|${prata}`);
+    expect(shown()).toBe(`major|false|${acertos}`);
   });
 
   it("a leva nova chega com um aviso na tela: um aviso só, do tamanho da maior", () => {
@@ -317,7 +317,7 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
       JSON.stringify(withSuperfanEnd(now, ARTIST, { done: true, perfect: false })),
     );
     claim();
-    expect(shown()).toBe(`major|false|demo-primeiro,${ouro}`);
+    expect(shown()).toBe(`major|false|demo-primeiro,${completo}`);
   });
 
   it("a outra aba, que relê o save, encontra tudo avisado e não mostra nada", () => {
@@ -328,7 +328,7 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
     fireEvent.click(first as HTMLElement);
     fireEvent.click(second as HTMLElement);
     expect(screen.getAllByRole("status").map((s) => s.textContent)).toEqual([
-      `simple|false|${prata}`,
+      `simple|false|${acertos}`,
       "nada",
     ]);
   });
@@ -364,7 +364,7 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
     // Como no App: o armazenamento da sessão por cima do navegador.
     render(<Harness store={sessionStore(full, loadSave(full))} />);
     claim();
-    expect(shown()).toBe(`simple|false|${prata}`);
+    expect(shown()).toBe(`simple|false|${acertos}`);
     fireEvent.click(screen.getByRole("button", { name: "fechar" }));
     claim();
     expect(shown()).toBe("nada");

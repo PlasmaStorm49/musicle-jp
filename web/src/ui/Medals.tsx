@@ -129,12 +129,13 @@ export function Medals({ save, date, hitsDates, general, artists, resolveUrl }: 
 }
 
 /**
- * O estado de uma medalha em texto: ganha, o progresso ("7 de 10", P283) ou como ganhar. A prata
- * diz a unidade ("7 de 50 acertos").
+ * O estado de uma medalha em texto: ganha, o progresso ("7 de 10", P283) ou como ganhar. A dos
+ * acertos diz a unidade ("7 de 50 acertos").
  */
 function stateText(state: MedalState, how: string, unit = false): string {
   if (state.earned) return t("medals.earned");
-  if (state.progress) return t(unit ? "medals.progress.prata" : "medals.progress", state.progress);
+  if (state.progress)
+    return t(unit ? "medals.progress.acertos" : "medals.progress", state.progress);
   return how;
 }
 
@@ -160,11 +161,11 @@ function GeneralRow({ state }: { readonly state: MedalState }) {
 }
 
 /**
- * O tamanho de cada nível na linha: a suprema é a maior (o buquê). A suprema, com 66 px de largura,
+ * O tamanho de cada nível na linha: a perfeita é a maior (o buquê). A perfeita, com 66 px de largura,
  * tem 94 de altura: a 1ª linha do `.medal-cell` no `styles.css` usa essa altura. Mudou aqui, muda
  * lá.
  */
-const LEVEL_SIZE = { prata: 52, ouro: 64, suprema: 66 } as const;
+const LEVEL_SIZE = { acertos: 52, completo: 64, perfeito: 66 } as const;
 
 function ArtistRow({
   list,
@@ -186,8 +187,8 @@ function ArtistRow({
       </h3>
       <ul class="medal-trio">
         {row.cells.map(({ level, state }) => {
-          // A prata sempre mostra o progresso ("7 de 50 acertos"); o ouro e a suprema, como ganhar.
-          const how = level === "prata" ? "" : t(`medals.how.${level}`);
+          // A dos acertos mostra o progresso ("7 de 50 acertos"); a completa e a perfeita, como ganhar.
+          const how = level === "acertos" ? "" : t(`medals.how.${level}`);
           return (
             <li key={state.medal.id} class={state.earned ? "medal-cell" : "medal-cell locked"}>
               <MedalArt
@@ -200,7 +201,7 @@ function ArtistRow({
                 size={LEVEL_SIZE[level]}
               />
               <span class="medal-name">{t(`medals.level.${level}`)}</span>
-              <span class="medal-how">{stateText(state, how, level === "prata")}</span>
+              <span class="medal-how">{stateText(state, how, level === "acertos")}</span>
             </li>
           );
         })}

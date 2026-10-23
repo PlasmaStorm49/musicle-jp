@@ -15,7 +15,7 @@ export type NoticeItem = {
   readonly image: string | null;
   readonly letter: string;
   readonly color: number;
-  /** O nome da faixa da suprema (o do artista). */
+  /** O nome da faixa da perfeita (o do artista). */
   readonly sash: string;
 };
 

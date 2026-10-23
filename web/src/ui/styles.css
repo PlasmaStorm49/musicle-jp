@@ -1858,7 +1858,7 @@ section.void,
   gap: var(--sp-2);
 }
 
-/* A 1ª linha tem a altura da maior (a suprema, 66 × 94 px, o LEVEL_SIZE do Medals.tsx): as 3
+/* A 1ª linha tem a altura da maior (a perfeita, 66 × 94 px, o LEVEL_SIZE do Medals.tsx): as 3
    ficam alinhadas por baixo, com os textos embaixo, de qualquer tamanho. */
 .medal-cell {
   display: grid;

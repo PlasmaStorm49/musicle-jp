@@ -188,7 +188,7 @@ export function App() {
   // Trocar de tela fecha o aviso, que já foi visto: o pequeno não fica por cima do selo da Apple de
   // uma rodada (P288). A tela nova, se for calma, reivindica de novo; nos Artistas e nas Medalhas,
   // com o selo no pé, o aviso é o grande. Depois do `useArtistStore`, de propósito: os efeitos de
-  // um componente rodam na ordem, e o dele grava o fim do Superfan antes que este reivindique o ouro.
+  // um componente rodam na ordem, e o dele grava o fim do Superfan antes que este reivindique a do `completo`.
   const noticeRoute = useRef(route);
   useEffect(() => {
     if (noticeRoute.current !== route) {

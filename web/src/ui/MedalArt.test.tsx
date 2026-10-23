@@ -24,7 +24,7 @@ function draw(
 }
 
 describe("MedalArt (o desenho provisório das medalhas, M16)", () => {
-  it.each(["prata", "ouro", "suprema", "geral"] as const)(
+  it.each(["acertos", "completo", "perfeito", "geral"] as const)(
     "%s: decorativa, com a cor do artista pela classe do monograma",
     (kind) => {
       const svg = draw(kind);
@@ -35,30 +35,30 @@ describe("MedalArt (o desenho provisório das medalhas, M16)", () => {
   );
 
   it("com a capa, a imagem recortada; sem ela, o monograma (P171)", () => {
-    const withCover = draw("prata", { image: "/capa.jpg" });
+    const withCover = draw("acertos", { image: "/capa.jpg" });
     expect(withCover.querySelector("image")?.getAttribute("href")).toBe("/capa.jpg");
     expect(withCover.querySelector("text")).toBeNull();
     cleanup();
-    const without = draw("prata");
+    const without = draw("acertos");
     expect(without.querySelector("image")).toBeNull();
     expect(without.querySelector("text")?.textContent).toBe("幾");
   });
 
   it("a capa que não carrega vira o monograma", () => {
-    const svg = draw("ouro", { image: "/quebrada.jpg" });
+    const svg = draw("completo", { image: "/quebrada.jpg" });
     fireEvent.error(svg.querySelector("image") as Element);
     expect(svg.querySelector("image")).toBeNull();
     expect(svg.querySelector("text")?.textContent).toBe("幾");
   });
 
   it("a que falta ganhar fica apagada pela classe (P283)", () => {
-    expect(draw("ouro", { earned: false }).classList.contains("locked")).toBe(true);
+    expect(draw("completo", { earned: false }).classList.contains("locked")).toBe(true);
     cleanup();
-    expect(draw("ouro").classList.contains("locked")).toBe(false);
+    expect(draw("completo").classList.contains("locked")).toBe(false);
   });
 
-  it("a suprema leva o nome na faixa, um caractere por linha; o longo fica só com a letra", () => {
-    const short = draw("suprema", { image: "/capa.jpg" });
+  it("a perfeita leva o nome na faixa, um caractere por linha; o longo fica só com a letra", () => {
+    const short = draw("perfeito", { image: "/capa.jpg" });
     expect([...short.querySelectorAll("text")].map((t) => t.textContent)).toEqual([
       "幾",
       "田",
@@ -66,15 +66,15 @@ describe("MedalArt (o desenho provisório das medalhas, M16)", () => {
       "ら",
     ]);
     cleanup();
-    const long = draw("suprema", { image: "/capa.jpg", name: "System Of A Down" });
+    const long = draw("perfeito", { image: "/capa.jpg", name: "System Of A Down" });
     expect([...long.querySelectorAll("text")].map((t) => t.textContent)).toEqual(["幾"]);
   });
 
   it("o recorte de cada medalha tem um id próprio na página", () => {
     const { container } = render(
       <>
-        <MedalArt kind="prata" image="/a.jpg" letter="A" color={0} name="A" earned size={40} />
-        <MedalArt kind="prata" image="/b.jpg" letter="B" color={1} name="B" earned size={40} />
+        <MedalArt kind="acertos" image="/a.jpg" letter="A" color={0} name="A" earned size={40} />
+        <MedalArt kind="acertos" image="/b.jpg" letter="B" color={1} name="B" earned size={40} />
       </>,
     );
     const ids = [...container.querySelectorAll("clipPath")].map((c) => c.id);

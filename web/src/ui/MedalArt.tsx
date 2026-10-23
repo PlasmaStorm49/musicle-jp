@@ -1,6 +1,6 @@
 // O desenho de uma medalha (M16): o único lugar dele, para o desenho final (P283) trocar só este
-// arquivo. Provisório, das conversas de 22/10/2026 (Apêndice O): a prata na roseta com caudas, o
-// ouro na roseta dupla em gelo, com raios e brilhos, a suprema no buquê de flores com a faixa do
+// arquivo. Provisório, das conversas de 22/10/2026 (Apêndice O): a dos acertos na roseta com caudas,
+// a completa na roseta dupla em gelo, com raios e brilhos, a perfeita no buquê de flores com a faixa do
 // nome, e as gerais numa roseta oliva simples. As cores são da arte, como as do logo, e ficam
 // aqui; a cor do artista é a do monograma (a `--monogram` das classes `.monogram-N`, P171).
 import { useId, useState } from "preact/hooks";
@@ -15,7 +15,7 @@ type Props = {
   /** O monograma de reserva: a letra e o índice da cor (`monogram`, core/artists.ts). */
   readonly letter: string;
   readonly color: number;
-  /** O nome na faixa da suprema; o longo demais fica só com a letra. */
+  /** O nome na faixa da perfeita; o longo demais fica só com a letra. */
   readonly name: string;
   /** A que falta ganhar aparece apagada (P283). */
   readonly earned: boolean;
@@ -24,7 +24,7 @@ type Props = {
 };
 
 const SILVER = { points: "#c9cdd4", edge: "#7f858f", ring: "#f1f2f5" };
-/** O ouro na cor gelo (o usuário preferiu o azul da S1 ao dourado, 22/10/2026). */
+/** A completa na cor gelo (o usuário preferiu o azul da S1 ao dourado, 22/10/2026). */
 const ICE = {
   rays: "#9fd6ea",
   outer: "#bfe6f4",
@@ -129,7 +129,7 @@ function Spark({ x, y, s, stroke }: { x: number; y: number; s: number; stroke: s
   return <path d={d} fill="#ffffff" stroke={stroke} stroke-width="0.7" />;
 }
 
-/** A roseta com caudas (a prata e as gerais): as pontas, o anel e as caudas na cor do artista. */
+/** A roseta com caudas (a dos acertos e as gerais): as pontas, o anel e as caudas na cor do artista. */
 function Rosette({ palette, tails }: { palette: typeof SILVER; tails: string }) {
   return (
     <>
@@ -142,8 +142,8 @@ function Rosette({ palette, tails }: { palette: typeof SILVER; tails: string }) 
   );
 }
 
-/** O ouro: os raios atrás, a roseta dupla em gelo, as três caudas e os brilhos. */
-function OuroFrame() {
+/** A completa: os raios atrás, a roseta dupla em gelo, as três caudas e os brilhos. */
+function IceFrame() {
   const rays = Array.from({ length: 32 }, (_, i) => {
     const a = (Math.PI * 2 * i) / 32;
     const [x1, y1] = polar(55, 66, 18, a - 0.045);
@@ -166,7 +166,7 @@ function OuroFrame() {
   );
 }
 
-function OuroSparks() {
+function IceSparks() {
   return (
     <>
       <Spark x={16} y={30} s={4.5} stroke={ICE.spark} />
@@ -282,7 +282,7 @@ function Sash({ name, letter }: { name: string; letter: string }) {
   );
 }
 
-/** A suprema: o buquê redondo, com a capa no meio, as fitas e a faixa do nome. */
+/** A perfeita: o buquê redondo, com a capa no meio, as fitas e a faixa do nome. */
 function Bouquet({ name, letter }: { name: string; letter: string }) {
   const [r0, r1, r2] = FLOWERS.ribbons;
   return (
@@ -299,10 +299,10 @@ function Bouquet({ name, letter }: { name: string; letter: string }) {
 }
 
 const VIEW: Readonly<Record<MedalKind, { box: string; w: number; h: number; miolo: Miolo }>> = {
-  prata: { box: "0 0 74 92", w: 74, h: 92, miolo: { cx: 37, cy: 37, r: 25 } },
+  acertos: { box: "0 0 74 92", w: 74, h: 92, miolo: { cx: 37, cy: 37, r: 25 } },
   geral: { box: "0 0 74 92", w: 74, h: 92, miolo: { cx: 37, cy: 37, r: 25 } },
-  ouro: { box: "0 8 110 132", w: 110, h: 132, miolo: { cx: 55, cy: 66, r: 28.5 } },
-  suprema: { box: "0 0 110 156", w: 110, h: 156, miolo: { cx: 55, cy: 56, r: 26.5 } },
+  completo: { box: "0 8 110 132", w: 110, h: 132, miolo: { cx: 55, cy: 66, r: 28.5 } },
+  perfeito: { box: "0 0 110 156", w: 110, h: 156, miolo: { cx: 55, cy: 56, r: 26.5 } },
 };
 
 /**
@@ -334,21 +334,21 @@ export function MedalArt({ kind, image, letter, color, name, earned, size }: Pro
       aria-hidden="true"
       focusable="false"
     >
-      {kind === "prata" && <Rosette palette={SILVER} tails="var(--monogram)" />}
+      {kind === "acertos" && <Rosette palette={SILVER} tails="var(--monogram)" />}
       {kind === "geral" && <Rosette palette={OLIVE} tails="#969865" />}
-      {kind === "ouro" && <OuroFrame />}
-      {kind === "suprema" && <Bouquet name={name} letter={letter} />}
+      {kind === "completo" && <IceFrame />}
+      {kind === "perfeito" && <Bouquet name={name} letter={letter} />}
       {cover}
       <circle
         cx={view.miolo.cx}
         cy={view.miolo.cy}
         r={view.miolo.r}
         fill="none"
-        stroke={kind === "suprema" ? FLOWERS.ring : kind === "ouro" ? ICE.edge : SILVER.edge}
+        stroke={kind === "perfeito" ? FLOWERS.ring : kind === "completo" ? ICE.edge : SILVER.edge}
         stroke-width="1"
       />
-      {kind === "ouro" && <OuroSparks />}
-      {kind === "suprema" && (
+      {kind === "completo" && <IceSparks />}
+      {kind === "perfeito" && (
         <>
           <Spark x={10} y={16} s={4.2} stroke={FLOWERS.spark} />
           <Spark x={100} y={20} s={3.8} stroke={FLOWERS.spark} />

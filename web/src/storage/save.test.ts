@@ -35,8 +35,8 @@ const valid: Save = {
   ...emptySave(),
   history: { "2026-10-08|song": finished },
   inProgress: { "2026-10-09|song": { events: [{ type: "SKIP" }, { type: "GIVE_UP" }] } },
-  seenMedals: ["superfan|apple:ar:1|ouro", "superfan|apple:ar:1|prata"],
-  shelf: ["superfan|apple:ar:1|ouro"],
+  seenMedals: ["superfan|apple:ar:1|acertos", "superfan|apple:ar:1|completo"],
+  shelf: ["superfan|apple:ar:1|completo"],
   artists: { "apple:ar:1": { right: 12, done: true }, "fixture:ar:ar01": { right: 3 } },
 };
 

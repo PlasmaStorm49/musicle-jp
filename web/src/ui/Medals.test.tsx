@@ -78,7 +78,7 @@ const cells = (artist: string | RegExp) => [
     ?.querySelectorAll(".medal-cell") ?? []),
 ];
 
-/** O texto da célula, sem o da arte (a faixa da suprema também tem texto, mas é decorativa). */
+/** O texto da célula, sem o da arte (a faixa da perfeita também tem texto, mas é decorativa). */
 const cellText = (cell: Element) =>
   [...cell.querySelectorAll("span")].map((span) => span.textContent).join("");
 
