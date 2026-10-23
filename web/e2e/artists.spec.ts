@@ -132,6 +132,20 @@ test("trocar de artista pede confirmação; a sessão segue entre as abas e some
   await expect(title).toHaveText("Artistas");
 });
 
+test("trocar de artista limpa o aviso do leitor de tela da rodada (ME76)", async ({ page }) => {
+  // A troca não muda o fragmento: a limpeza do hashchange não basta.
+  await open(page, DAY, "#artistas");
+  const live = page.locator(".sr-only[aria-live]");
+  await page.getByRole("button", { name: /^青井ユウ/ }).click();
+  await page.getByRole("button", { name: "Livre" }).click();
+  await page.getByRole("button", { name: "Pular (+1 s)" }).click();
+  await expect(live).toHaveText(/^Pulou\. Tentativa 2 de 6\./);
+  // Sem rodada terminada, a troca não pede confirmação (P127).
+  await page.getByRole("button", { name: "Trocar de artista" }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Artistas");
+  await expect(live).toHaveText("");
+});
+
 test("o diário de hoje sem resultado tira as músicas dele do artista (P141)", async ({ page }) => {
   // 08/10: a resposta tr02 é uma versão de 夜明けのめろでぃ (tr01), e o álbum dela entrega 灯台.
   await open(page, DAY, "#artistas");
