@@ -227,10 +227,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/44/a8/97/44a897a0-b0bf-c539-a699-e070ebf4726a/21UMGIM28348.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1562772199",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2021-04-27",
       "title": "踊 - Single",
-      "titleLatin": "Odori",
+      "titleLatin": "Odo",
       "type": "single"
     },
     {
@@ -779,10 +779,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8f/4f/e9/8f4fe91a-4783-7799-d5ac-af8b1a57422e/25UM1IM34698.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1838991862",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "releaseDate": "2025-09-26",
       "title": "風と私の物語 - Single",
-      "titleLatin": "Kaze to watakushi no monogatari",
+      "titleLatin": "Kaze to watashi no monogatari",
       "type": "single"
     },
     {
@@ -4056,7 +4056,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1838991863",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.5,
       "preview": {
         "durationSec": 30,
@@ -4068,6 +4068,7 @@
         "artist": [],
         "title": [
           "kazetowatakushinomonogatari",
+          "kazetowatashinomonogatari",
           "風と私の物語"
         ]
       },
@@ -4077,7 +4078,7 @@
       "titleKeys": [
         "風と私の物語"
       ],
-      "titleLatin": "Kaze to watakushi no monogatari"
+      "titleLatin": "Kaze to watashi no monogatari"
     },
     {
       "albumId": "apple:al:1839173046",

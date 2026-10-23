@@ -124,7 +124,7 @@ jobs:
         # Volta ao da main e gera só os dias novos (script com teste, ME52).
         run: bash .github/scripts/catalog-reserve.sh
       # A parada fictícia é estática e só serve ao desenvolvimento e aos testes; a agenda dela
-      # cresce junto, para o npm run dev continuar com o desafio de hoje.
+      # cresce junto, para o npm run dev continuar com o diário de hoje.
       - run: python -m musicle_pipeline build --provider fixture --out "$FIXTURE_CATALOG"
       - name: Acrescentar os dias (fixtures)
         env:

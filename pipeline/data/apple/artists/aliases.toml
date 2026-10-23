@@ -504,3 +504,25 @@ latin = "Watashi wa saikyou"
 
 [tracks."apple:tr:1536123755"]  # あなたに出会わなければ〜夏雪冬花〜 (Aimer); cutlet: "Anata ni deawanakerebaa natsu yuki fuyu hana"
 latin = "Anata ni deawanakereba kasetsu touka"
+
+# Os álbuns dos mesmos lançamentos, que o cutlet leu à parte (o id do álbum é outro), e o
+# 風と私の物語, pela mesma regra do 私は最強 (P14 da conversa de 23/10/2026). O 廻人 (Eve,
+# "Megurunin") fica de fora até alguém confirmar a leitura.
+
+[albums."apple:al:1533208084"]  # 廻廻奇譚 - Single (Eve); cutlet: "Meguru Meguru kitan"
+latin = "Kaikai kitan"
+
+[albums."apple:al:1542572215"]  # 廻廻奇譚 / 蒼のワルツ (Eve); cutlet: "Meguru Meguru kitan/ao no warutsu"
+latin = "Kaikai kitan / Ao no warutsu"
+
+[albums."apple:al:1562772199"]  # 踊 - Single (Ado); cutlet: "Odori"; a loja US escreve "Odo"
+latin = "Odo"
+
+[albums."apple:al:1536123754"]  # あなたに出会わなければ〜夏雪冬花〜 / 星屑ビーナス - Single (Aimer)
+latin = "Anata ni deawanakereba kasetsu touka / Hoshikuzu Biinasu"
+
+[albums."apple:al:1838991862"]  # 風と私の物語 - Single (Ado); cutlet: "Kaze to watakushi no monogatari"
+latin = "Kaze to watashi no monogatari"
+
+[tracks."apple:tr:1838991863"]  # 風と私の物語 (Ado); cutlet: "Kaze to watakushi no monogatari"
+latin = "Kaze to watashi no monogatari"

@@ -26,7 +26,7 @@ export const SCHEMAS = [
 // globais do JavaScript (Date, Text).
 const BY_TITLE: Record<string, string> = {
   "Catálogo do musicle-jp": "Catalog",
-  "Agenda do desafio diário do musicle-jp": "Schedule",
+  "Agenda dos diários do musicle-jp": "Schedule",
   "Catálogo de artista do musicle-jp": "ArtistCatalog",
   "Lista de artistas do musicle-jp": "ArtistList",
   "Artista da lista do musicle-jp": "ArtistListEntry",

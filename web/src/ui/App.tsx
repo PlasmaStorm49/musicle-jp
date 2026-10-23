@@ -142,6 +142,19 @@ function openSaves(date: string): Storage {
   return { store: sessionStore(store, { ...loaded, save }), save, notice };
 }
 
+/**
+ * Limpa a região aria-live quando uma sessão termina (ativa → não), e só nessa hora (ME76): o
+ * reinício e a troca de artista são um clique que não anuncia nada, e o aviso que a rodada deixou
+ * não pode ficar para a tela de escolha.
+ */
+function useClearWhenEnds(active: boolean, setMessage: (text: string) => void) {
+  const was = useRef(active);
+  useEffect(() => {
+    if (was.current && !active) setMessage("");
+    was.current = active;
+  }, [active, setMessage]);
+}
+
 export function App() {
   const [load, setLoad] = useState<Load>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
@@ -281,6 +294,10 @@ export function App() {
   useEffect(() => {
     const onHashChange = () => {
       setRoute(routeFromHash(window.location.hash, date));
+      // O aviso da aba de antes ("Pulou. Tentativa 4 de 6.") não fica na região aria-live da
+      // seguinte, onde o leitor de tela poderia relê-lo (ME76). O aviso pequeno de medalha anuncia
+      // num efeito, depois da troca, e não se perde.
+      setMessage("");
       refresh();
     };
     // Outra aba do navegador gravou (terminou um diário): o ✓ e o Treino acompanham.
@@ -305,6 +322,10 @@ export function App() {
   useEffect(() => {
     if (toastSpoken) announce(toastSpoken);
   }, [toastSpoken, announce]);
+  // Sair de uma sessão também troca a tela, sem trocar o fragmento: o "Reiniciar o Treino" e o
+  // "Trocar de artista" voltam a uma escolha, e o aviso da última rodada sai da região (ME76).
+  useClearWhenEnds(practice !== null, setMessage);
+  useClearWhenEnds(artists.play !== null, setMessage);
 
   // `attempt` muda quando o jogador clica em "Tentar de novo" e dispara uma nova carga.
   useEffect(() => {

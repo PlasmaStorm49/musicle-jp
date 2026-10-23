@@ -760,7 +760,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         required=True,
         help="data de hoje em Brasília (dia anterior a ela nunca é gerado, P44)",
     )
-    schedule.add_argument("--epoch", type=date.fromisoformat, help="desafio nº 1 (agenda nova)")
+    schedule.add_argument("--epoch", type=date.fromisoformat, help="diário nº 1 (agenda nova)")
     schedule.add_argument("--days", type=int, default=HORIZON_DAYS, help="dias à frente de hoje")
     schedule.set_defaults(func=_schedule)
 

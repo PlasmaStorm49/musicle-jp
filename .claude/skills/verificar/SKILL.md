@@ -14,12 +14,14 @@ Rode da raiz do repositório, **um comando por vez** (PowerShell 5.1: não use `
 | 3 | Testes do pipeline (inclui o teste cruzado Python × TS e o do hook; os do script do robô pulam sem `jq`, como no Windows, e a CI os roda) | `.venv\Scripts\python -m pytest pipeline -q` |
 | 4 | Cobertura do romaji (fixtures e parada real; e o modo por artista, M13) | `.venv\Scripts\python -m musicle_pipeline romanize --provider fixture --check` e `... romanize --provider apple --check`; `... romanize --provider fixture --artists --check` (e `--provider apple --artists`, quando `pipeline/data/apple/artists/` existir) |
 | 5 | Catálogo e agenda (fixtures e parada real; e o modo por artista) | `.venv\Scripts\python -m musicle_pipeline validate web/public/fixtures/catalog.json --schedule web/public/fixtures/schedule.json` e `... validate web/public/data/catalog.json --schedule web/public/data/schedule.json`; `... validate-artists --provider fixture` (e `--provider apple`, quando existir) |
-| 6 | Agenda só cresceu | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD` |
+| 6 | Agenda só cresceu, sem dia passado novo (P44), com o hoje de Brasília | `.venv\Scripts\python -m musicle_pipeline schedule-check --base-ref HEAD --today ([System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'E. South America Standard Time').ToString('yyyy-MM-dd'))` |
 | 7 | Web: Biome, os três tsconfig, Vitest com cobertura ≥ 90% (linhas e statements) em `core`, `data` e `storage` | `npm run check --prefix web` |
 | 8 | Web: build de produção | `npm run build --prefix web` |
 | 9 | Motor de áudio falso fora do build (nenhuma linha = passou) | `Get-ChildItem web\dist -Recurse -File \| Select-String -Pattern musicle-fake-audio -List` |
 | 9b | Lista de exemplo das medalhas fora do build (nenhuma linha = passou; os textos `medal.demo-…` ficam, o objeto não) | `Get-ChildItem web\dist -Recurse -File \| Select-String -Pattern 'id:["''`]demo-' -List` |
 | 10 | Base do GitHub Pages no build (precisa dar `True`) | `Select-String -Path web\dist\index.html -Pattern '/musicle-jp/assets/' -Quiet` |
+| 10b | Nenhum caminho absoluto sem a base no `index.html`, em qualquer atributo, como na CI (nenhuma linha = passou) | `Select-String -Path web\dist\index.html -Pattern '="/(?!musicle-jp/)'` |
+| 10c | O favicon e o ícone de app no build (precisa dar `True` duas vezes) | `Test-Path web\dist\favicon.svg, web\dist\apple-touch-icon.png` |
 | 11 | Ponta a ponta (opcional; a CI sempre roda) | `npm run e2e --prefix web` |
 
 Antes de começar:

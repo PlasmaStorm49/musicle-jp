@@ -30,9 +30,9 @@ import {
   loadArtistList,
   UnsupportedCatalogError,
 } from "../data/source.ts";
-import { t, tn } from "../i18n/t.ts";
+import { t, tAround, tn } from "../i18n/t.ts";
 import { ArtistCover } from "./ArtistCover.tsx";
-import { ArtistName } from "./ArtistName.tsx";
+import { ArtistName, WithName } from "./ArtistName.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { FocusedNotice, UpdateNotice } from "./FocusedNotice.tsx";
 import { PracticeRun, type RunTexts, randomSeed } from "./PracticeRun.tsx";
@@ -399,7 +399,10 @@ function Choosing({
   if (choosing.status === "loading") {
     return (
       <section class="loading screen">
-        <FocusedNotice key="loading" text={t("artists.loadingArtist", { artist })} />
+        <FocusedNotice
+          key="loading"
+          text={<WithName around={tAround("artists.loadingArtist", "artist")} name={artist} />}
+        />
         <div class="artists-actions">{back}</div>
       </section>
     );
@@ -407,7 +410,10 @@ function Choosing({
   if (choosing.status === "update") return <UpdateNotice />;
   return (
     <section class="error screen">
-      <FocusedNotice key="retry" text={t("artists.retryArtist", { artist })} />
+      <FocusedNotice
+        key="retry"
+        text={<WithName around={tAround("artists.retryArtist", "artist")} name={artist} />}
+      />
       <div class="artists-actions">
         <button type="button" class="primary" onClick={singleClick(() => onRetry(choosing.entry))}>
           {t("load.retryButton")}

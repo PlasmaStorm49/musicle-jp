@@ -1,10 +1,10 @@
 """Agenda dos diários: quais músicas tocam em cada dia e, no Normal, com quais opções.
 
 Regra de ouro: a agenda SÓ CRESCE. Um dia gravado nunca muda, nem quando o catálogo muda;
-quem jogou o dia 5 ontem e quem joga hoje viram o mesmo desafio. Por isso:
+quem jogou o dia 5 ontem e quem joga hoje viram o mesmo diário. Por isso:
 
 - a geração parte do último dia gravado e só acrescenta dias de hoje em diante: dia que já
-  passou nunca é gerado (P44), e o buraco que sobra fica sem desafio para sempre;
+  passou nunca é gerado (P44), e o buraco que sobra fica sem diário para sempre;
 - "hoje" é argumento (--today), nunca o relógio, e o fuso do jogo é America/Sao_Paulo;
 - a validação de dias antigos é só estrutural; elegibilidade e restrições valem na geração.
 
@@ -274,7 +274,7 @@ def grow(
     """
     if existing is None:
         if epoch is None:
-            raise ScheduleError("agenda nova precisa de --epoch (a data do desafio nº 1)")
+            raise ScheduleError("agenda nova precisa de --epoch (a data do diário nº 1)")
         schedule: JSON = {**header, "epoch": epoch.isoformat(), "days": {}}
     else:
         if epoch is not None and epoch.isoformat() != existing["epoch"]:
@@ -292,7 +292,7 @@ def grow(
         gap = (d - first_missing).days
         gap_end = d - timedelta(days=1)
         result.warnings.append(
-            f"buraco de {gap} dia(s) sem desafio: {first_missing} a {gap_end} (P44)"
+            f"buraco de {gap} dia(s) sem diário: {first_missing} a {gap_end} (P44)"
         )
     while d <= today + timedelta(days=horizon):
         day, relaxations = make_day(schedule["days"], d, start_epoch)
@@ -333,7 +333,7 @@ def validate_schedule(schedule: JSON, catalog: JSON) -> list[str]:
         dates = sorted(date.fromisoformat(d) for d in schedule["days"])
     except ValueError as exc:
         return [f"data inválida: {exc}"]
-    # Buraco é válido (P44): um dia que não foi gerado a tempo fica sem desafio.
+    # Buraco é válido (P44): um dia que não foi gerado a tempo fica sem diário.
     before = [d.isoformat() for d in dates if d < epoch]
     if before:
         problems.append(f"dias antes do epoch: {', '.join(before)}")

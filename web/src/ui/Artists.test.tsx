@@ -395,7 +395,10 @@ describe("Artists: a sessão (P125)", () => {
     const { net } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     fireEvent.click(card(/^夜風/));
-    const loading = screen.getByText("Carregando as músicas de 夜風…");
+    // O aviso leva o foco, e o nome vai na língua dele (ME68): o texto fica partido em dois nós.
+    const loading = document.querySelector<HTMLElement>(".focused-notice");
+    expect(loading?.textContent).toBe("Carregando as músicas de 夜風…");
+    expect(loading?.querySelector('[lang="ja"]')?.textContent).toBe("夜風");
     expect(document.activeElement).toBe(loading);
     const input = await free();
     expect(title().textContent).toBe("夜風 · Yokaze");
@@ -1051,6 +1054,22 @@ describe("Artists: falhas ao carregar (P144)", () => {
     fireEvent.click(screen.getByRole("button", { name: "Tentar de novo" }));
     expect(await free()).toBeTruthy();
     expect(title().textContent).toBe("Banda");
+  });
+
+  it("o artista de nome japonês que falha: o nome na língua dele e o foco no aviso (ME68)", async () => {
+    const { net } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    net.failing.add("1.json");
+    fireEvent.click(card(/^夜風/));
+    // O aviso da falha é outro elemento (a `key`): o foco passa a ele quando a carga falha.
+    const failed = () => document.querySelector<HTMLElement>(".focused-notice");
+    await waitFor(() =>
+      expect(failed()?.textContent).toBe(
+        "Não foi possível carregar as músicas de 夜風. Confira a conexão.",
+      ),
+    );
+    expect(failed()?.querySelector('[lang="ja"]')?.textContent).toBe("夜風");
+    await waitFor(() => expect(document.activeElement).toBe(failed()));
   });
 
   it("voltar à lista durante a carga: o arquivo que chega depois não começa a sessão", async () => {

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/PlasmaStorm49/musicle-jp/shared/schema/schedule.schema.json",
-  "title": "Agenda do desafio diário do musicle-jp",
+  "title": "Agenda dos diários do musicle-jp",
   "description": "Só cresce: um dia gravado nunca muda. Gerado só pelo pipeline (comando schedule).",
   "type": "object",
   "additionalProperties": false,

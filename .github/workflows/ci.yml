@@ -137,10 +137,16 @@ jobs:
           # O Pages publica em /musicle-jp/: sem a base, os assets dariam 404 e a página ficaria
           # em branco (web/vite.config.ts).
           grep -Eq '(src|href)="/musicle-jp/assets/' dist/index.html || { echo "::error::dist/index.html não usa /musicle-jp/assets/"; exit 1; }
-          if grep -Eq '(src|href)="/assets/' dist/index.html; then
-            echo "::error::dist/index.html tem caminho /assets/ sem a base"
+          # Todo caminho absoluto leva a base, e não só os assets: o favicon e o ícone de app
+          # também, e qualquer atributo (um srcset, o content de uma og:image) (ME83). O grep -v
+          # mostra no log o caminho sem ela.
+          if grep -Eo '="/[^"]*"' dist/index.html | grep -v '="/musicle-jp/'; then
+            echo "::error::dist/index.html tem caminho absoluto sem a base /musicle-jp/"
             exit 1
           fi
+          for file in favicon.svg apple-touch-icon.png; do
+            test -f "dist/$file" || { echo "::error::dist/$file não existe"; exit 1; }
+          done
 
   e2e:
     runs-on: ubuntu-24.04

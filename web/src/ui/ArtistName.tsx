@@ -43,6 +43,29 @@ export function LatinName({
   );
 }
 
+/**
+ * Um texto da tela com o nome no meio, na língua dele (ME68): "Nesta sessão (米津玄師): …" leva o
+ * `lang="ja"` só no nome, para o leitor de tela não o ler com a voz do português. As duas pontas
+ * saem do `tAround`. O nome latino ("Banda") não precisa de outra língua e fica no texto.
+ */
+export function WithName({
+  around: [before, after],
+  name,
+}: {
+  readonly around: readonly [string, string];
+  readonly name: string;
+}) {
+  const lang = langOf(name);
+  if (lang === undefined) return <>{`${before}${name}${after}`}</>;
+  return (
+    <>
+      {before}
+      <span lang={lang}>{name}</span>
+      {after}
+    </>
+  );
+}
+
 /** O nome do artista, com o latino ao lado quando há. */
 export function ArtistName({ entry }: { readonly entry: ArtistListEntry }) {
   return <LatinName name={entry.name} latin={entry.nameLatin} />;

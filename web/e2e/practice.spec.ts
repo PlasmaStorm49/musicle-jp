@@ -64,6 +64,19 @@ test("Treino: escolhe o modo, joga e segue nele; reiniciar pede confirmação (P
   await expect(title).toHaveText("Treino");
 });
 
+test("reiniciar o Treino limpa o aviso do leitor de tela da rodada (ME76)", async ({ page }) => {
+  // O reinício não muda o fragmento: a limpeza do hashchange não basta.
+  await open(page, "2026-10-08T12:00:00-03:00", "#treino");
+  const live = page.locator(".sr-only[aria-live]");
+  await page.getByRole("button", { name: "Desafio" }).click();
+  await page.getByRole("button", { name: "Pular (+1 s)" }).click();
+  await expect(live).toHaveText(/^Pulou\. Tentativa 2 de 6\./);
+  // Sem rodada terminada, reinicia direto.
+  await page.getByRole("button", { name: "Reiniciar o Treino" }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treino");
+  await expect(live).toHaveText("");
+});
+
 test("toque duplo num cartão, no celular: começa a sessão sem tocar, jogar nem reiniciar", async ({
   page,
 }) => {
