@@ -99,6 +99,17 @@ test("Desafio: recarregar no meio retoma as tentativas", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Tocar 2 s" })).toBeVisible();
 });
 
+test("trocar de aba limpa o aviso do leitor de tela da aba de antes (ME76)", async ({ page }) => {
+  await open(page, "2026-10-09T10:00:00-03:00", "#desafio");
+  const live = page.locator(".sr-only[aria-live]");
+  await page.getByRole("button", { name: "Pular (+1 s)" }).click();
+  await expect(live).toHaveText("Pulou. Tentativa 2 de 6.");
+  // Na Início, o texto do pulo não pode continuar lá: o leitor de tela poderia relê-lo.
+  await page.getByRole("link", { name: "Início" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeFocused();
+  await expect(live).toHaveText("");
+});
+
 test("Desafio: a ajuda só depois da 3ª tentativa, volta igual ao recarregar e vale 1 ponto (P149)", async ({
   page,
 }) => {

@@ -281,6 +281,10 @@ export function App() {
   useEffect(() => {
     const onHashChange = () => {
       setRoute(routeFromHash(window.location.hash, date));
+      // O aviso da aba de antes ("Pulou. Tentativa 4 de 6.") não fica na região aria-live da
+      // seguinte, onde o leitor de tela poderia relê-lo (ME76). O aviso pequeno de medalha anuncia
+      // num efeito, depois da troca, e não se perde.
+      setMessage("");
       refresh();
     };
     // Outra aba do navegador gravou (terminou um diário): o ✓ e o Treino acompanham.
