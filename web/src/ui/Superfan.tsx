@@ -125,11 +125,12 @@ export function SuperfanView({
   // A revelação que leva ao resultado (a última música, ou sem vidas): encerrar ali perderia o
   // bônus da partida completa, e o único passo é o resultado, então o Encerrar sai.
   const toResult = round.status !== "playing" && (over || nextId === null);
-  // As vidas que esta música custou, para a revelação dizer (o cabeçalho não é aria-live).
+  // As vidas que esta música custou, para a revelação dizer (o cabeçalho não é aria-live). Só na
+  // música perdida: no acerto depois de um erro, o anúncio do erro (`wrongNote`) já disse a vida.
   const lost = errors - run.errors;
   const revealNote = over
     ? t("superfan.over", { total: SUPERFAN_LIVES })
-    : lost > 0
+    : lost > 0 && round.status === "lost"
       ? tn("superfan.lostLives", lost, {
           left: tn("superfan.livesLeft", superfanLives(run)),
         })
@@ -153,16 +154,16 @@ export function SuperfanView({
           <span aria-hidden="true">{t("item.artistSeparator")}</span>{" "}
           {t("superfan.helps", { count: helps, total: SUPERFAN_HELPS })}
         </p>
-        {!toResult && (
-          <ConfirmButton
-            label={t("superfan.quit")}
-            short={t("superfan.quitShort")}
-            warning={t("superfan.quitWarning", { points: points(score.points) })}
-            confirm={t("superfan.quitConfirm")}
-            ask={score.rounds > 0 || errors > 0}
-            onConfirm={quit}
-          />
-        )}
+        {/* Escondido, mas no lugar: a coluna dele no cabeçalho não encolhe, e a revelação não sobe. */}
+        <ConfirmButton
+          label={t("superfan.quit")}
+          short={t("superfan.quitShort")}
+          warning={t("superfan.quitWarning", { points: points(score.points) })}
+          confirm={t("superfan.quitConfirm")}
+          ask={score.rounds > 0 || errors > 0}
+          onConfirm={quit}
+          concealed={toResult}
+        />
       </header>
       <RoundView
         game={game}

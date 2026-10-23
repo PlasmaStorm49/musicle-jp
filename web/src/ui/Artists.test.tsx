@@ -804,6 +804,8 @@ describe("Artists: o Superfan (ME61)", () => {
       expect.stringMatching(/Tentativa 3 de 3\. Perdeu uma vida\. Sobra 1\.$/),
     );
     pick(answer());
+    // O acerto depois dos erros: as vidas já foram anunciadas no erro, e a revelação não as repete.
+    expect(document.querySelector(".reveal-note")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Próxima música" }));
     await screen.findByRole("combobox", { name: "Qual é a música?" });
     announce.mockClear();

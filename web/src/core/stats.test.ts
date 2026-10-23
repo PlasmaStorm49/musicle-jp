@@ -30,6 +30,8 @@ describe("as faixas da distribuição (ME107)", () => {
     const last = bucketOf(DAY_MAX);
     expect(bucketRange(last)).toEqual({ from: DAY_MAX, to: DAY_MAX });
     expect(bucketRange(last - 1).to).toBe(DAY_MAX - 1);
+    // Acima do máximo (não acontece hoje), a última faixa: a coluna e o destaque de hoje juntos.
+    expect(bucketOf(DAY_MAX + 5)).toBe(last);
   });
 });
 

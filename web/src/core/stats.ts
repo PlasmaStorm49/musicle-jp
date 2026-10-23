@@ -10,9 +10,13 @@ export const DAY_MAX = (DAILY_SCORING.points[0] ?? 0) * ROUNDS_PER_DAY;
 /** A largura de cada faixa da distribuição (ME107): 0 a 2, 3 a 5, …, e o máximo sozinho. */
 export const BUCKET_SIZE = 3;
 
-/** A faixa da distribuição em que cai um placar. */
+/**
+ * A faixa da distribuição em que cai um placar. Nenhum passa do máximo (o scoreOf dá até 10 por
+ * rodada), mas o de cima ficaria na última: a mesma conta vale para a coluna e para o destaque de
+ * hoje.
+ */
 export function bucketOf(score: number): number {
-  return Math.floor(score / BUCKET_SIZE);
+  return Math.min(Math.floor(score / BUCKET_SIZE), Math.floor(DAY_MAX / BUCKET_SIZE));
 }
 
 /** Os pontos que uma faixa junta: do `from` ao `to`, os dois inclusive. A última é só o máximo. */
@@ -109,8 +113,7 @@ export function computeStats(
     if (recordMax(game) === 0) continue; // dia todo anulado: não entra na média (P41)
     const score = recordScore(game);
     scores.push(score);
-    // Nenhum placar passa do máximo (o scoreOf dá até 10 por rodada), mas a faixa fica no gráfico.
-    const bucket = Math.min(bucketOf(score), distribution.length - 1);
+    const bucket = bucketOf(score);
     distribution[bucket] = (distribution[bucket] ?? 0) + 1;
   }
   // Multiplica antes de dividir: um arredondamento só, sem o erro de (x / n) * 10.
