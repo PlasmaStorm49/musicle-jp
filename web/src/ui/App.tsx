@@ -55,6 +55,7 @@ import { Medals } from "./Medals.tsx";
 import {
   announceText,
   noticeItems,
+  noticeOrder,
   noticeTitle,
   toastText,
   useMedalNotices,
@@ -216,8 +217,11 @@ export function App() {
   const shown = notice && (!needsList || listSettled) ? notice : null;
   const noticeList = artists.list.status === "ready" ? artists.list.list : null;
   const big = shown?.tier === "major";
-  // O aviso pequeno vai sem a capa (P298); o grande a mostra, com o selo da Apple no fim.
-  const items = shown ? noticeItems(shown.ids, noticeList, resolveUrl, big, GENERAL_MEDALS) : [];
+  // O aviso pequeno vai sem a capa (P298); o grande a mostra, com o selo da Apple no fim. As grandes
+  // e as com capa vêm primeiro (P313).
+  const items = shown
+    ? noticeOrder(noticeItems(shown.ids, noticeList, resolveUrl, big, GENERAL_MEDALS))
+    : [];
   // O selo só quando uma capa da Apple está desenhada (as SHOWN primeiras).
   const attribution =
     big &&
@@ -548,7 +552,6 @@ function Ready({
         />
       );
     case "medals":
-      // O App só chega aqui com a lista (sem ela, o #medalhas vira a Início).
       return (
         <Medals
           save={latest}

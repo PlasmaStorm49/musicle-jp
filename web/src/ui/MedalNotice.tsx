@@ -6,7 +6,7 @@ import { useEffect, useId, useRef } from "preact/hooks";
 import { PLAYLIST_URL } from "../core/apple.ts";
 import type { SuperfanArt } from "../core/medalArt.ts";
 import { langOf } from "../core/view.ts";
-import { t } from "../i18n/t.ts";
+import { t, tn } from "../i18n/t.ts";
 import { LatinName } from "./ArtistName.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { MedalArt, type MedalKind } from "./MedalArt.tsx";
@@ -38,6 +38,8 @@ export type NoticeItem = {
 export const TOAST_MS = 5000;
 /** Até quantas medalhas o aviso desenha; o resto fica só no texto. */
 export const SHOWN = 4;
+/** Até quantos nomes o pop-up lista; o resto vira "e mais N" (P313). A tela das Medalhas tem todas. */
+export const LISTED = 6;
 
 function Arts({ items, size }: { readonly items: readonly NoticeItem[]; readonly size: number }) {
   return (
@@ -135,7 +137,7 @@ export function MedalDialog({
       {/* Com 4, menores: cabem numa linha só em 320 px. */}
       <Arts items={items} size={items.length > 3 ? 52 : 72} />
       <ul id={namesId} class="medal-notice-names">
-        {items.map((item) => (
+        {items.slice(0, LISTED).map((item) => (
           <li key={item.id}>
             {item.label ? (
               <>
@@ -153,6 +155,7 @@ export function MedalDialog({
             )}
           </li>
         ))}
+        {items.length > LISTED && <li>{tn("medals.notice.more", items.length - LISTED)}</li>}
       </ul>
       <div class="medal-dialog-actions">
         {actions}

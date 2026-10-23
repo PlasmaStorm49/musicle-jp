@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { ANIME_KEYS, DAILY_KEYS } from "./daily.ts";
 import {
+  ANIME_DAY,
   allWon,
   claimMedals,
   claimTier,
   DEMO_MEDALS,
   earnedMedals,
   GENERAL_GOALS,
+  HITS_DAY,
   MEDALS,
   type Medal,
   medalBoard,
@@ -18,6 +20,7 @@ import {
   superfanMedalId,
   superfanMedals,
   unseenMedals,
+  WHOLE_DAY,
 } from "./medals.ts";
 import { Mulberry32 } from "./prng.ts";
 import {
@@ -32,6 +35,7 @@ import {
   withSuperfanEnd,
 } from "./records.ts";
 import { ROUTES, type Tab } from "./routes.ts";
+import { MODES } from "./rules.ts";
 
 const ARTIST = "apple:ar:1489581870";
 const lost: FinishedGame = { number: 1, rounds: [{ status: "lost", stage: 0, attempts: [] }] };
@@ -138,6 +142,12 @@ describe("as gerais (P310)", () => {
       "seguidos-30",
     ]);
     expect(MEDALS.slice(-4).every((m) => m.tier === "major")).toBe(true);
+  });
+
+  it("os diários das do mesmo dia são, hoje, os do jogo; congelados, um diário novo não as muda", () => {
+    expect([...HITS_DAY]).toEqual([...MODES]);
+    expect([...ANIME_DAY]).toEqual([...ANIME_KEYS]);
+    expect([...WHOLE_DAY]).toEqual([...DAILY_KEYS]);
   });
 
   it("perfectGame e allWon: pela forma das rodadas, e a anulada não é acerto (P45)", () => {
@@ -298,11 +308,13 @@ describe("earnedMedals e unseenMedals", () => {
 });
 
 describe("medalha ganha nunca some", () => {
-  it("jogar, avançar o hoje, acertar e terminar partidas, em qualquer ordem, só acrescenta", () => {
+  it("jogar, avançar o hoje, crescer a agenda, acertar e terminar partidas, em qualquer ordem, só acrescenta", () => {
     const random = new Mulberry32(20261022);
     const artists = [ARTIST, "apple:ar:2", "fixture:ar:ar01"];
     let save = emptySave();
     let today = 8;
+    // A agenda dos Hits cresce só no fim, uns dias à frente de hoje (P44), como a do robô.
+    let scheduleEnd = 12;
     let before = new Set<string>();
     // Os jogos possíveis: perdido, perfeito, todo acertado com ajuda e com uma rodada anulada.
     const games = [lost, perfect, helped, { number: 1, rounds: [WON_0, VOIDED, WON_0] }];
@@ -318,6 +330,7 @@ describe("medalha ganha nunca some", () => {
           break;
         case 2:
           if (today < 29) today++;
+          if (scheduleEnd < today + 3 && scheduleEnd < 31) scheduleEnd++;
           break;
         case 3:
           save = withArtistRight(save, artist);
@@ -334,7 +347,12 @@ describe("medalha ganha nunca some", () => {
         default:
           save = withFinished(save, `${date}|${key}`, { ...game, late: true });
       }
-      const now = new Set(earned(save, `2026-10-${String(today).padStart(2, "0")}`, GENERAL));
+      const now = new Set(
+        earnedMedals(
+          medalsOf(save, GENERAL),
+          medalContext(save, `2026-10-${String(today).padStart(2, "0")}`, days(8, scheduleEnd)),
+        ),
+      );
       for (const id of before) expect(now.has(id), `${id} sumiu no passo ${step}`).toBe(true);
       before = now;
     }
@@ -420,6 +438,16 @@ describe("claimMedals e claimTier: reivindicar antes de mostrar (P281, P288)", (
     expect(claimTier(claim, medalsOf(done, general))).toBe("major");
     const one = claimMedals(rights(emptySave(), SUPERFAN_RIGHT), "2026-10-20", HITS, general);
     expect(one.first).toBe(false);
+  });
+
+  it("quem começa hoje e ganha duas de uma vez não recebe o texto de quem já jogava (P314)", () => {
+    const today = withFinished(rights(emptySave(), SUPERFAN_RIGHT), "2026-10-20|song", lost);
+    const claim = claimMedals(today, "2026-10-20", HITS, MEDALS);
+    expect(claim.claimed).toEqual(["diario-1", acertos]);
+    expect(claim.first).toBe(false);
+    // Com um jogo de um dia antes, é quem já jogava.
+    const before = withFinished(today, "2026-10-19|album", lost);
+    expect(claimMedals(before, "2026-10-20", HITS, MEDALS).first).toBe(true);
   });
 
   it("o já avisado que deixou de existir na lista não volta, e o save guarda a união", () => {

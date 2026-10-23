@@ -16,7 +16,7 @@ import {
 import type { ArtistList } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
 import { type KeyValueStore, updateSave } from "../storage/save.ts";
-import { generalArt, generalKind } from "./MedalArt.tsx";
+import { generalArt, generalKind, type MedalKind } from "./MedalArt.tsx";
 import type { NoticeItem } from "./MedalNotice.tsx";
 import { medalText, superfanFeat } from "./Medals.tsx";
 
@@ -145,6 +145,18 @@ export function noticeTitle(notice: MedalNoticeState): string {
 }
 
 /** O texto do aviso pequeno, na tela. */
+const BIG_KINDS: ReadonlySet<MedalKind> = new Set(["completo", "perfeito", "geral-grande"]);
+
+/**
+ * A ordem do aviso (P313): as grandes primeiro, depois as com capa, e o resto na ordem da lista. O
+ * pop-up desenha as `SHOWN` primeiras e lista as `LISTED` primeiras: no 1º aviso de quem já jogava,
+ * com muitas de uma vez, as que mais importam aparecem.
+ */
+export function noticeOrder(items: readonly NoticeItem[]): NoticeItem[] {
+  const rank = (item: NoticeItem) => (BIG_KINDS.has(item.kind) ? 0 : 2) + (item.art.image ? 0 : 1);
+  return [...items].sort((a, b) => rank(a) - rank(b));
+}
+
 export function toastText(items: readonly NoticeItem[]): string {
   const [only] = items;
   return items.length === 1 && only

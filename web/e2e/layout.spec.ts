@@ -730,9 +730,10 @@ test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longo
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
   // O 1º diário e as 3 de um artista: o aviso de 4, com a perfeita, o desenho mais alto.
+  // O diário de um dia antes: o 1º aviso de quem já jogava (P314).
   await seedHistory(
     page,
-    { "2026-10-10|album": day },
+    { "2026-10-09|album": day },
     { "fixture:ar:ar02": { right: 50, done: true, perfect: true } },
   );
   await page.setViewportSize({ width: 320, height: 640 });
@@ -740,10 +741,10 @@ test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longo
   await openWithMedals(page, "2026-10-10T12:00:00-03:00", "#inicio");
   const dialog = page.getByRole("dialog", { name: "Você já tem 4 medalhas" });
   await expect(dialog.getByRole("listitem")).toHaveText([
-    "Primeiro diário",
-    "開幕ベル · Kaimaku Bell, de 夜風シアター (50 acertos)",
     "真夜中のカーテンコール · Mayonaka no Curtain Call, de 夜風シアター (Superfan completo)",
     "夜風劇場 · Yokaze Gekijo, de 夜風シアター (Superfan perfeito)",
+    "開幕ベル · Kaimaku Bell, de 夜風シアター (50 acertos)",
+    "Primeiro diário",
   ]);
   const tops = await dialog
     .locator(".medal-notice-arts svg")

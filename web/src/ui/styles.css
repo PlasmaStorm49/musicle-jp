@@ -1824,6 +1824,23 @@ section.void,
   text-wrap: balance;
 }
 
+/* O latino embaixo do nome, nas células do Superfan (P316): menor e sem o ponto. */
+.medal-name .latin-below {
+  display: block;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  font-weight: 400;
+}
+
+/* No celular estreito, o nome das células um pouco menor: "Nightwalker" cabe sem quebrar no meio
+   (P316). */
+@media (max-width: 374.98px) {
+  .medal-cell .medal-name {
+    font-size: var(--t-xs);
+    line-height: var(--lh-xs);
+  }
+}
+
 .medal-how {
   color: var(--muted);
   font-size: var(--t-xs);

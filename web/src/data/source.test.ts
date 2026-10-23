@@ -345,6 +345,8 @@ describe("datas e dias", () => {
     expect(medalsMode("?fakeAudio=1&medalhas=silencio")).toBe("silencio");
     expect(medalsMode("?medalhas=1")).toBeNull();
     expect(medalsMode("")).toBeNull();
+    // O `avisos` dos e2e (o `openWithMedals`) depende disto: a lista real, com os avisos.
+    expect(medalsMode("?fakeAudio=1&medalhas=avisos")).toBeNull();
   });
 
   it("?fakeAudio=1 liga o motor falso; qualquer outro valor não", () => {

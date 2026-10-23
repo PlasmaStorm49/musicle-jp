@@ -13,7 +13,7 @@ import { ROUTES } from "../core/routes.ts";
 import type { ArtistList, ArtistListEntry } from "../core/types.ts";
 import { ptBR } from "../i18n/pt-BR.ts";
 import type { ArtistStore } from "./Artists.tsx";
-import { Medals } from "./Medals.tsx";
+import { Medals, medalText } from "./Medals.tsx";
 
 afterEach(cleanup);
 
@@ -122,8 +122,8 @@ describe("Medals (a tela, P278 e P286)", () => {
     );
     expect(rows).toEqual([
       "Primeiro diárioGanha",
-      "Cinco diários2 de 5",
-      "Três dias seguidos2 de 3",
+      "Cinco diários2 de 5 diários",
+      "Três dias seguidos2 de 3 dias seguidos",
     ]);
     expect(document.querySelectorAll(".medal-list > li.locked")).toHaveLength(2);
   });
@@ -134,9 +134,9 @@ describe("Medals (a tela, P278 e P286)", () => {
     save = withSuperfanEnd(save, "t:ar:1", { done: true, perfect: false });
     setup(store({ status: "ready", list: LIST }), save);
     expect(cells(/^夜風/).map(cellText)).toEqual([
-      "夜明け · Yoake | Ganha",
+      "夜明け, Yoake | Ganha",
       "Round Robin | Ganha",
-      "夜風劇場 · Yokaze Gekijo | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
+      "夜風劇場, Yokaze Gekijo | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
     ]);
     expect(cells("Banda").map(cellText)).toEqual([
       `Primeira | 1 de ${SUPERFAN_RIGHT} acertos`,
@@ -149,11 +149,14 @@ describe("Medals (a tela, P278 e P286)", () => {
       "Superfan completo",
       "Superfan perfeito",
     ]);
-    // Nenhum rótulo de nível na tela (P300); o nome japonês com a língua dele, e o ponto decorativo.
+    // Nenhum rótulo de nível na tela (P300); o nome japonês com a língua dele, e o latino embaixo,
+    // sem o ponto, com a pausa só para o leitor de tela (P316).
     expect(document.body.textContent).not.toMatch(/Prata|Ouro|Suprema/);
     const name = cells(/^夜風/)[0]?.querySelector(".medal-name");
     expect(name?.querySelector('[lang="ja"]')?.textContent).toBe("夜明け");
-    expect(name?.querySelector('[aria-hidden="true"]')?.textContent).toBe("·");
+    expect(name?.querySelector(".latin-below")?.textContent).toBe("Yoake");
+    expect(name?.querySelector(".sr-only")?.textContent).toBe(", ");
+    expect(name?.querySelector('[aria-hidden="true"]')).toBeNull();
     // A capa pelo resolvedor; sem capa, o monograma.
     expect(cells(/^夜風/)[0]?.querySelector("image")?.getAttribute("href")).toBe("/art/1.svg");
     expect(cells("Banda")[0]?.querySelector("text")?.textContent).toBe("B");
@@ -195,12 +198,24 @@ describe("Medals (a tela, P278 e P286)", () => {
     expect(screen.getByRole("button", { name: "Recarregar a página" })).toBeTruthy();
   });
 
-  it("toda geral, a de exemplo e a de verdade, tem o nome e o como ganhar no i18n", () => {
+  it("toda geral, a de exemplo e a de verdade, tem o nome e o como ganhar no i18n, e o progresso com a unidade nas que se ganham aos poucos (P315)", () => {
     const keys = new Set(Object.keys(ptBR));
     for (const medal of [...DEMO_MEDALS, ...MEDALS]) {
       expect(keys.has(`medal.${medal.id}.name`), medal.id).toBe(true);
       expect(keys.has(`medal.${medal.id}.how`), medal.id).toBe(true);
+      expect(keys.has(`medal.${medal.id}.progress`), medal.id).toBe(!!medal.progress);
     }
+    // Os limites saem do núcleo: nenhum texto fica com um parâmetro sem valor.
+    for (const medal of MEDALS) {
+      for (const part of ["how", "progress"] as const) {
+        if (!keys.has(`medal.${medal.id}.${part}`)) continue;
+        const text = medalText(medal.id, part, { value: 1, goal: 2 });
+        expect(text, `${medal.id}.${part}`).not.toMatch(/\{/);
+      }
+    }
+    expect(medalText("colecionador", "progress", { value: 1, goal: 5 })).toBe(
+      `1 de 5 artistas com ${SUPERFAN_RIGHT} acertos`,
+    );
   });
 
   it("nenhum id igual a uma rota (regra 17)", () => {

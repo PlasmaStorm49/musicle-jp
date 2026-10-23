@@ -2,16 +2,15 @@
 // guarda o que não sai de outro lugar (as já avisadas, P281, e o modo por artista, P289). Toda
 // conferência usa só o que cresce (o histórico, a agenda dos Hits, os registros dos artistas),
 // para que uma medalha ganha nunca suma. O id vai para o save e nunca muda.
-import { ANIME_KEYS, DAILY_KEYS } from "./daily.ts";
 import {
   type ArtistRecord,
   type FinishedGame,
   NO_ARTIST,
+  type RoundRecord,
   type Save,
   withSeenMedals,
 } from "./records.ts";
 import type { Tab } from "./routes.ts";
-import { MODES } from "./rules.ts";
 import { type DayGame, dayGames, streaks } from "./stats.ts";
 
 /** O tamanho do aviso (P279): o pequeno, que some sozinho, ou o pop-up grande. */
@@ -73,20 +72,39 @@ export function medalContext(
 }
 
 /**
- * Perfeito (P310): toda rodada ganha no trecho de 1 s, sem ajuda. Pela forma, e não pelos pontos
- * (a ME107 vai mudar a pontuação). A anulada não é perfeita (P45).
+ * A rodada perfeita (P310): ganha no trecho de 1 s, sem ajuda. Pela forma, e não pelos pontos (a
+ * ME107 vai mudar a pontuação). A anulada não é perfeita (P304).
  */
+export function perfectRound(round: RoundRecord): boolean {
+  return round.status === "won" && round.stage === 0 && round.help === undefined;
+}
+
+/** O jogo perfeito: toda rodada perfeita. */
 export function perfectGame(game: FinishedGame): boolean {
-  return (
-    game.rounds.length > 0 &&
-    game.rounds.every((r) => r.status === "won" && r.stage === 0 && r.help === undefined)
-  );
+  return game.rounds.length > 0 && game.rounds.every(perfectRound);
 }
 
 /** Todas as rodadas acertadas, com ou sem ajuda (P311). A anulada não é acerto (P45). */
 export function allWon(game: FinishedGame): boolean {
   return game.rounds.length > 0 && game.rounds.every((r) => r.status === "won");
 }
+
+/**
+ * Os diários das gerais do mesmo dia, congelados (P310): um diário novo no jogo (uma dificuldade a
+ * mais no Anime) não pode tirar de ninguém uma medalha já ganha, nem desmentir o "os 8 diários" do
+ * texto. Um teste confere que hoje elas são as listas do jogo (`MODES`, `ANIME_KEYS` e
+ * `DAILY_KEYS`); um diário novo pede uma decisão, e não muda as medalhas sozinho.
+ */
+export const HITS_DAY = ["album", "song"] as const;
+export const ANIME_DAY = [
+  "anime-musica-facil",
+  "anime-musica-medio",
+  "anime-musica-dificil",
+  "anime-titulo-facil",
+  "anime-titulo-medio",
+  "anime-titulo-dificil",
+] as const;
+export const WHOLE_DAY = [...HITS_DAY, ...ANIME_DAY] as const;
 
 /** Numa mesma data, todos os diários de `keys` terminados, e cada um passando no `test`. */
 function someDay(
@@ -141,15 +159,12 @@ export const MEDALS: readonly Medal[] = [
   {
     id: "um-segundo",
     tier: "simple",
-    earned: (ctx) =>
-      ctx.games.some(({ game }) =>
-        game.rounds.some((r) => r.status === "won" && r.stage === 0 && r.help === undefined),
-      ),
+    earned: (ctx) => ctx.games.some(({ game }) => game.rounds.some(perfectRound)),
   },
-  { id: "hits-todos", tier: "simple", earned: (ctx) => someDay(ctx, MODES, allWon) },
-  { id: "anime-todos", tier: "simple", earned: (ctx) => someDay(ctx, ANIME_KEYS, allWon) },
+  { id: "hits-todos", tier: "simple", earned: (ctx) => someDay(ctx, HITS_DAY, allWon) },
+  { id: "anime-todos", tier: "simple", earned: (ctx) => someDay(ctx, ANIME_DAY, allWon) },
   counted("seguidos-7", "simple", GENERAL_GOALS.streakShort, (ctx) => ctx.streak.best),
-  { id: "oito-diarios", tier: "simple", earned: (ctx) => someDay(ctx, DAILY_KEYS) },
+  { id: "oito-diarios", tier: "simple", earned: (ctx) => someDay(ctx, WHOLE_DAY) },
   counted("treino-100", "simple", GENERAL_GOALS.practice, (ctx) => ctx.practiceRight),
   counted("diarios-50", "simple", GENERAL_GOALS.dailies, (ctx) => ctx.games.length),
   counted(
@@ -158,8 +173,8 @@ export const MEDALS: readonly Medal[] = [
     GENERAL_GOALS.collector,
     (ctx) => Object.values(ctx.artists).filter((r) => r.right >= SUPERFAN_RIGHT).length,
   ),
-  { id: "hits-perfeito", tier: "major", earned: (ctx) => someDay(ctx, MODES, perfectGame) },
-  { id: "anime-perfeito", tier: "major", earned: (ctx) => someDay(ctx, ANIME_KEYS, perfectGame) },
+  { id: "hits-perfeito", tier: "major", earned: (ctx) => someDay(ctx, HITS_DAY, perfectGame) },
+  { id: "anime-perfeito", tier: "major", earned: (ctx) => someDay(ctx, ANIME_DAY, perfectGame) },
   {
     id: "superfan-completo",
     tier: "major",
@@ -333,7 +348,11 @@ export function noticeTab(tab: Tab): boolean {
 export type MedalClaim = {
   readonly save: Save;
   readonly claimed: readonly string[];
-  /** O 1º aviso de quem já jogava antes das medalhas (P281): um aviso só, com o total. */
+  /**
+   * O 1º aviso de quem já jogava antes das medalhas (P281): um aviso só, com o total. Só para quem
+   * tem um jogo de um dia anterior (P314): quem começa hoje e ganha duas de uma vez vê "2 medalhas
+   * novas", e não o texto de quem já jogava.
+   */
   readonly first: boolean;
 };
 
@@ -348,13 +367,15 @@ export function claimMedals(
   hitsDates: readonly string[],
   general: readonly Medal[],
 ): MedalClaim {
-  const earned = earnedMedals(medalsOf(save, general), medalContext(save, today, hitsDates));
+  const ctx = medalContext(save, today, hitsDates);
+  const earned = earnedMedals(medalsOf(save, general), ctx);
   const claimed = unseenMedals(save, earned);
   if (claimed.length === 0) return { save, claimed, first: false };
+  const playedBefore = ctx.games.some((g) => g.date < today);
   return {
     save: withSeenMedals(save, claimed),
     claimed,
-    first: save.seenMedals.length === 0 && claimed.length > 1,
+    first: save.seenMedals.length === 0 && claimed.length > 1 && playedBefore,
   };
 }
 

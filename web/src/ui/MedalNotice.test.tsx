@@ -21,10 +21,11 @@ import {
   sessionStore,
 } from "../storage/save.ts";
 import { generalArt } from "./MedalArt.tsx";
-import { MedalDialog, MedalToast, type NoticeItem, TOAST_MS } from "./MedalNotice.tsx";
+import { LISTED, MedalDialog, MedalToast, type NoticeItem, TOAST_MS } from "./MedalNotice.tsx";
 import {
   announceText,
   noticeItems,
+  noticeOrder,
   noticeTitle,
   toastText,
   useMedalNotices,
@@ -163,6 +164,19 @@ describe("MedalDialog (o pop-up grande, P279)", () => {
     expect(document.activeElement).toBe(ok());
   });
 
+  it(`com mais de ${LISTED}, lista as ${LISTED} primeiras e "e mais N" (P313)`, () => {
+    const many = Array.from({ length: LISTED + 3 }, (_, i) => item(`m${i}`, `Medalha ${i}`));
+    render(<MedalDialog title="Você já tem 9 medalhas" items={many} onClose={vi.fn()} />);
+    const names = screen.getAllByRole("listitem").map((li) => li.textContent);
+    expect(names).toHaveLength(LISTED + 1);
+    expect(names.slice(0, 2)).toEqual(["Medalha 0", "Medalha 1"]);
+    expect(names.at(-1)).toBe("e mais 3 medalhas");
+    cleanup();
+    const seven = Array.from({ length: LISTED + 1 }, (_, i) => item(`s${i}`, `Medalha ${i}`));
+    render(<MedalDialog title="Você já tem 7 medalhas" items={seven} onClose={vi.fn()} />);
+    expect(screen.getAllByRole("listitem").at(-1)?.textContent).toBe("e mais 1 medalha");
+  });
+
   it("o Ok e o Esc fecham pelo estado; o 2º clique de um toque duplo não (regra 23)", () => {
     const onClose = vi.fn();
     render(<MedalDialog title="Medalha nova!" items={[item("a", "Um")]} onClose={onClose} />);
@@ -256,6 +270,24 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
     });
     const completo = noticeItems([superfanMedalId(ARTIST, "completo")], LIST, resolve, true)[0];
     expect(completo?.name).toBe("Round Robin, de 夜風");
+  });
+
+  it("a ordem do aviso (P313): as grandes primeiro, depois as com capa, e o resto como veio", () => {
+    const ids = [
+      "seguidos-7",
+      superfanMedalId(ARTIST, "acertos"),
+      "seguidos-30",
+      superfanMedalId(ARTIST, "completo"),
+      "diario-1",
+    ];
+    const ordered = noticeOrder(noticeItems(ids, LIST, resolve, true));
+    expect(ordered.map((item) => item.id)).toEqual([
+      superfanMedalId(ARTIST, "completo"),
+      "seguidos-30",
+      superfanMedalId(ARTIST, "acertos"),
+      "seguidos-7",
+      "diario-1",
+    ]);
   });
 
   it("as gerais com o desenho do tamanho delas, pela lista (P312)", () => {
@@ -384,7 +416,8 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
   for (let i = 0; i < SUPERFAN_RIGHT; i++) rights = withArtistRight(rights, ARTIST);
 
   it("grava as novas como avisadas e mostra só elas; a 2ª reivindicação não mostra de novo", () => {
-    const store = seeded(withFinished(rights, `${DATE}|song`, lost));
+    // Um jogo de ontem: quem já jogava (P314).
+    const store = seeded(withFinished(rights, "2026-10-21|song", lost));
     render(<Harness store={store} />);
     expect(shown()).toBe("nada");
     claim();

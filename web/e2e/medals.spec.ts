@@ -82,15 +82,15 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 13 gerais e
     /^Acerte uma rodada/,
     /^Acerte todas/,
     /^Acerte todas/,
-    "3 de 7",
+    "3 de 7 dias seguidos",
     "Termine os 8 diários no mesmo dia",
-    "0 de 100",
-    "3 de 50",
-    "0 de 5",
+    "0 de 100 acertos no Treino",
+    "3 de 50 diários",
+    "0 de 5 artistas com 50 acertos",
     /^Gabarite/,
     /^Gabarite/,
     "Termine uma partida do Superfan",
-    "3 de 30",
+    "3 de 30 dias seguidos",
   ]);
   await expect(page.locator(".medal-list > li.locked")).toHaveCount(12);
   // As 4 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
@@ -100,9 +100,9 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 13 gerais e
   await expect(page.locator(".medal-artist")).toHaveCount(5);
   // O nome próprio de cada uma, com o latino (P295, P300): os fictícios do ar02.
   await expect(page.locator(".medal-artist").first().locator(".medal-name")).toHaveText([
-    "開幕ベル · Kaimaku Bell",
-    "真夜中のカーテンコール · Mayonaka no Curtain Call",
-    "夜風劇場 · Yokaze Gekijo",
+    "開幕ベル, Kaimaku Bell",
+    "真夜中のカーテンコール, Mayonaka no Curtain Call",
+    "夜風劇場, Yokaze Gekijo",
   ]);
   await expect(page.getByText("1 de 28 medalhas")).toBeVisible();
   // Calado: a tela fica, e o aviso não.
@@ -113,9 +113,9 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 13 gerais e
 test("com a lista real e os avisos, como no site: quem já jogava ganha um aviso só, com as suas, e cada uma com o ícone (P281, P310)", async ({
   page,
 }) => {
-  // Um diário com uma rodada em 1 s: o Primeiro Acorde e o Relâmpago.
+  // Um diário de ontem com uma rodada em 1 s: o Primeiro Acorde e o Relâmpago, de quem já jogava.
   const won = { status: "won", stage: 0, attempts: ["right"] } as const;
-  await seedHistory(page, { "2026-10-22|album": { number: 1, rounds: [won, lost, lost] } });
+  await seedHistory(page, { "2026-10-21|album": { number: 1, rounds: [won, lost, lost] } });
   await openWithMedals(page, DAY, "#inicio", "avisos");
   const big = page.getByRole("dialog", { name: "Você já tem 2 medalhas" });
   await expect(big.getByRole("listitem")).toHaveText(["Primeiro Acorde", "Relâmpago"]);
@@ -155,7 +155,8 @@ test("quem já jogava: um aviso só, o grande, com o total; o Ok fecha, devolve 
   await openWithMedals(page, DAY, "#inicio");
   const big = page.getByRole("dialog", { name: "Você já tem 2 medalhas" });
   await expect(big).toBeVisible();
-  await expect(big.getByRole("listitem")).toHaveText(["Primeiro diário", "Três dias seguidos"]);
+  // As grandes primeiro (P313).
+  await expect(big.getByRole("listitem")).toHaveText(["Três dias seguidos", "Primeiro diário"]);
   const ok = big.getByRole("button", { name: "Ok" });
   await expect(ok).toBeFocused();
   // Pelo teclado (o `detail` 0 do Enter passa pelo singleClick).
