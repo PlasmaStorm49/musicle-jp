@@ -10,7 +10,7 @@ import {
   exportFileName,
   type ImportError,
   type ImportSummary,
-  lostDays,
+  lostGames,
   MAX_IMPORT_CHARS,
   parseImport,
   replaceSave,
@@ -109,6 +109,7 @@ const ERRORS: Readonly<Record<ImportError, Parameters<typeof t>[0]>> = {
   format: "progress.error.format",
   future: "progress.error.future",
   later: "progress.error.later",
+  empty: "progress.error.empty",
 };
 
 /** A falha da gravação, pelos mesmos avisos do resto do jogo. */
@@ -122,7 +123,7 @@ const daysText = (summary: ImportSummary) => tn("progress.days", summary.days);
 type Pending = {
   readonly save: Save;
   readonly summary: ImportSummary;
-  /** Os dias jogados aqui que o arquivo não tem: saem com a substituição. */
+  /** Os jogos terminados aqui que o arquivo não tem: saem com a substituição. */
   readonly lost: number;
 };
 
@@ -178,7 +179,7 @@ export function ProgressTransfer({
     }
     const result = parseImport(text, today);
     if (!result.ok) return tell(t(ERRORS[result.reason]));
-    const lost = lostDays(loadSave(store).save, result.save);
+    const lost = lostGames(loadSave(store).save, result.save);
     setPending({ save: result.save, summary: result.summary, lost });
   }
 

@@ -544,8 +544,9 @@ export const ptBR = {
   "progress.medals.other": "{count} medalhas",
   "progress.confirmFile": "O arquivo tem {days} e {medals}.",
   "progress.confirmFileDated": "O arquivo, de {date}, tem {days} e {medals}.",
-  "progress.confirmLost.one": "Sai deste aparelho {count} dia jogado que o arquivo não tem.",
-  "progress.confirmLost.other": "Saem deste aparelho {count} dias jogados que o arquivo não tem.",
+  "progress.confirmLost.one": "Sai deste aparelho {count} jogo terminado que o arquivo não tem.",
+  "progress.confirmLost.other":
+    "Saem deste aparelho {count} jogos terminados que o arquivo não tem.",
   "progress.confirmAsk": "Substituir o progresso deste aparelho por ele?",
   "progress.confirmYes": "Sim, substituir",
   "progress.imported": "Progresso importado: {days}.",
@@ -556,6 +557,7 @@ export const ptBR = {
   "progress.error.future":
     "Esse arquivo é de uma versão mais nova do jogo. Recarregue a página e tente de novo.",
   "progress.error.read": "Não foi possível ler o arquivo.",
+  "progress.error.empty": "Esse arquivo não tem nenhum progresso para importar.",
   "progress.error.later":
     "Esse arquivo é de um dia depois do de hoje nesta página. Recarregue a página e tente de novo.",
   "progress.error.memory":

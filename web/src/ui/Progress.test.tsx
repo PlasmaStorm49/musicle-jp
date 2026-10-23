@@ -76,7 +76,7 @@ function choose(content: string | { readonly size: number; readonly text: () => 
 
 /** A confirmação do arquivo de outro aparelho: a data, o que ele traz e o dia daqui que sai. */
 const CONFIRM =
-  "O arquivo, de 23/10, tem 2 dias jogados e 1 medalha. Sai deste aparelho 1 dia jogado que o arquivo não tem. Substituir o progresso deste aparelho por ele?";
+  "O arquivo, de 23/10, tem 2 dias jogados e 1 medalha. Sai deste aparelho 1 jogo terminado que o arquivo não tem. Substituir o progresso deste aparelho por ele?";
 
 const importButton = () => screen.getByRole("button", { name: "Importar" });
 

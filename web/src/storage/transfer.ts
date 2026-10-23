@@ -40,12 +40,11 @@ export function exportFile(save: Save, today: string): string {
   });
 }
 
-/** O que o arquivo traz, para a confirmação: a data, os dias jogados, os jogos e as medalhas vistas. */
+/** O que o arquivo traz, para a confirmação: a data, os dias jogados e as medalhas vistas. */
 export type ImportSummary = {
   /** O dia do jogo em que o arquivo foi exportado; null se o arquivo não diz. */
   readonly exportedOn: string | null;
   readonly days: number;
-  readonly games: number;
   readonly medals: number;
   /** Alguma entrada não valia e ficou de fora. */
   readonly dropped: boolean;
@@ -53,10 +52,11 @@ export type ImportSummary = {
 
 /**
  * Por que o arquivo não serve: grande demais, não é JSON, não é um progresso, é de uma versão mais
- * nova do jogo, ou foi exportado num dia depois do hoje desta aba (aberta desde antes da meia-noite:
- * os jogos de hoje sairiam como do futuro).
+ * nova do jogo, foi exportado num dia depois do hoje desta aba (aberta desde antes da meia-noite:
+ * os jogos de hoje sairiam como do futuro), ou não traz progresso nenhum (um save muito antigo
+ * migra para o vazio, P100: importá-lo apagaria o aparelho por um toque).
  */
-export type ImportError = "size" | "json" | "format" | "future" | "later";
+export type ImportError = "size" | "json" | "format" | "future" | "later" | "empty";
 
 export type ImportResult =
   | { readonly ok: true; readonly save: Save; readonly summary: ImportSummary }
@@ -132,29 +132,28 @@ export function parseImport(text: string, today: string): ImportResult {
     Object.entries(read.save.artists).map(([id, record]) => [id, cleanArtist(record)]),
   );
   const save: Save = { ...read.save, history, inProgress: {}, artists };
+  const empty =
+    Object.keys(history).length === 0 &&
+    save.seenMedals.length === 0 &&
+    save.shelf.length === 0 &&
+    Object.keys(artists).length === 0 &&
+    save.practiceRight === 0;
+  if (empty) return { ok: false, reason: "empty" };
   const days = new Set(Object.keys(history).map((id) => id.split("|")[0])).size;
   return {
     ok: true,
     save,
-    summary: {
-      exportedOn,
-      days,
-      games: Object.keys(history).length,
-      medals: save.seenMedals.length,
-      dropped,
-    },
+    summary: { exportedOn, days, medals: save.seenMedals.length, dropped },
   };
 }
 
 /**
- * Os dias jogados aqui que o arquivo não tem: o que a substituição tira deste aparelho, para a
- * confirmação dizer antes.
+ * Os jogos terminados aqui que o arquivo não tem: o que a substituição tira deste aparelho, para a
+ * confirmação dizer antes. Por jogo, e não por dia: um dia em que o arquivo tem o Normal e aqui
+ * há também o Desafio perde só o Desafio.
  */
-export function lostDays(current: Save, imported: Save): number {
-  const dates = Object.keys(current.history)
-    .filter((id) => imported.history[id] === undefined)
-    .map((id) => id.split("|")[0]);
-  return new Set(dates).size;
+export function lostGames(current: Save, imported: Save): number {
+  return Object.keys(current.history).filter((id) => imported.history[id] === undefined).length;
 }
 
 /**

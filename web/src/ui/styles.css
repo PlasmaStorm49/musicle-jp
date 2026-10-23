@@ -2260,6 +2260,12 @@ dialog.medal-dialog .attribution {
   color: var(--muted);
 }
 
+/* No pop-up de medalha, a frase do Guardar uma cópia existe vazia (a região viva precisa existir
+   antes da frase): vazia, ela não soma o espaço da grade das ações. */
+.medal-dialog-actions > .progress-status:empty {
+  margin-top: calc(-1 * var(--sp-2));
+}
+
 /* A escolha do submodo: os dois cartões empilhados, o "Voltar à lista" sem tinta. */
 .artists > ul.home-modes:not(:has(.artist-card)) {
   grid-template-columns: minmax(0, 1fr);

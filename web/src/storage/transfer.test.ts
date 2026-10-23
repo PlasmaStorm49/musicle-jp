@@ -5,7 +5,7 @@ import { readSave } from "./save.ts";
 import {
   exportFile,
   exportFileName,
-  lostDays,
+  lostGames,
   MAX_IMPORT_CHARS,
   parseImport,
   replaceSave,
@@ -75,13 +75,7 @@ describe("parseImport (ME103)", () => {
     const result = parseImport(exportFile(save, TODAY), TODAY);
     if (!result.ok) throw new Error(result.reason);
     expect(result.save).toEqual({ ...save, inProgress: {} });
-    expect(result.summary).toEqual({
-      exportedOn: TODAY,
-      days: 2,
-      games: 3,
-      medals: 2,
-      dropped: false,
-    });
+    expect(result.summary).toEqual({ exportedOn: TODAY, days: 2, medals: 2, dropped: false });
   });
 
   it("recusa o que não é JSON, o que não é um progresso e o grande demais", () => {
@@ -179,7 +173,7 @@ describe("parseImport (ME103)", () => {
       "2026-10-20|album",
       "2026-10-23|album",
     ]);
-    expect(result.summary).toMatchObject({ days: 2, games: 2, dropped: true });
+    expect(result.summary).toMatchObject({ days: 2, dropped: true });
   });
 
   it("a entrada que não vale fica de fora, e o resumo diz", () => {
@@ -187,6 +181,35 @@ describe("parseImport (ME103)", () => {
     const result = parseImport(file(odd), TODAY);
     if (!result.ok) throw new Error(result.reason);
     expect(result.save.history).not.toHaveProperty("2026-10-19|album");
+    expect(result.summary.dropped).toBe(true);
+  });
+
+  it("o arquivo sem progresso nenhum (um save muito antigo migra para o vazio) é recusado", () => {
+    expect(parseImport(file({ schemaVersion: 2, history: {}, inProgress: {} }), TODAY)).toEqual({
+      ok: false,
+      reason: "empty",
+    });
+    expect(parseImport(file(emptySave()), TODAY)).toEqual({ ok: false, reason: "empty" });
+    // Só o total do Treino já é progresso.
+    expect(parseImport(file({ ...emptySave(), practiceRight: 3 }), TODAY).ok).toBe(true);
+  });
+
+  it("as medalhas e os artistas que não valem ficam de fora, e o resumo diz", () => {
+    const odd = {
+      ...save,
+      seenMedals: ["diario-1", "Não é id", 7],
+      shelf: ["diario-1", "?"],
+      artists: {
+        "apple:ar:1": { right: 4 },
+        "não-é-artista": { right: 1 },
+        "apple:ar:2": { right: -1 },
+      },
+    };
+    const result = parseImport(file(odd), TODAY);
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.save.seenMedals).toEqual(["diario-1"]);
+    expect(result.save.shelf).toEqual(["diario-1"]);
+    expect(Object.keys(result.save.artists)).toEqual(["apple:ar:1"]);
     expect(result.summary.dropped).toBe(true);
   });
 
@@ -206,19 +229,20 @@ describe("parseImport (ME103)", () => {
   });
 });
 
-describe("lostDays (o que a substituição tira daqui)", () => {
-  it("conta os dias jogados aqui que o arquivo não tem", () => {
+describe("lostGames (o que a substituição tira daqui)", () => {
+  it("conta os jogos terminados aqui que o arquivo não tem, e não os dias", () => {
     const current: Save = {
       ...emptySave(),
       history: {
         "2026-10-20|album": finished, // o arquivo também tem: não sai
+        "2026-10-21|album": finished, // o arquivo tem: não sai, e o Desafio dele também não
         "2026-10-22|album": finished,
-        "2026-10-22|song": finished, // o mesmo dia: um só
+        "2026-10-22|song": finished,
         "2026-10-23|album": finished,
       },
     };
-    expect(lostDays(current, save)).toBe(2);
-    expect(lostDays(emptySave(), save)).toBe(0);
+    expect(lostGames(current, save)).toBe(3);
+    expect(lostGames(emptySave(), save)).toBe(0);
   });
 });
 
