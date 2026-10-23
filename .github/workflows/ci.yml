@@ -122,6 +122,16 @@ jobs:
             echo "::error::o motor de áudio falso foi parar no build de produção"
             exit 1
           fi
+      - name: Lista de exemplo das medalhas fora do build
+        run: |
+          # A lista de exemplo (?medalhas=demo, M16) sai do build pelo literal import.meta.env.DEV no
+          # ponto da escolha (web/CLAUDE.md, regra 10). Os textos dela (medal.demo-...) ficam no
+          # pacote, com o resto do i18n; o objeto de uma delas ({id:"demo-...", minificado), não.
+          test -d dist || { echo "::error::dist não existe"; exit 1; }
+          if grep -rqE "id:[\"'\`]demo-" dist; then
+            echo "::error::a lista de exemplo das medalhas foi parar no build de produção"
+            exit 1
+          fi
       - name: Base do GitHub Pages no build
         run: |
           # O Pages publica em /musicle-jp/: sem a base, os assets dariam 404 e a página ficaria

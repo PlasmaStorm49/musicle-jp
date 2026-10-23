@@ -18,6 +18,7 @@ Rode da raiz do repositório, **um comando por vez** (PowerShell 5.1: não use `
 | 7 | Web: Biome, os três tsconfig, Vitest com cobertura ≥ 90% (linhas e statements) em `core`, `data` e `storage` | `npm run check --prefix web` |
 | 8 | Web: build de produção | `npm run build --prefix web` |
 | 9 | Motor de áudio falso fora do build (nenhuma linha = passou) | `Get-ChildItem web\dist -Recurse -File \| Select-String -Pattern musicle-fake-audio -List` |
+| 9b | Lista de exemplo das medalhas fora do build (nenhuma linha = passou; os textos `medal.demo-…` ficam, o objeto não) | `Get-ChildItem web\dist -Recurse -File \| Select-String -Pattern 'id:["''`]demo-' -List` |
 | 10 | Base do GitHub Pages no build (precisa dar `True`) | `Select-String -Path web\dist\index.html -Pattern '/musicle-jp/assets/' -Quiet` |
 | 11 | Ponta a ponta (opcional; a CI sempre roda) | `npm run e2e --prefix web` |
 
