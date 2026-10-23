@@ -11,3 +11,15 @@ Saída: `web/public/fixtures/artists/` (o `index.json` e um arquivo por artista)
 | ar01 ミナト | `tr01` a `tr03` são a mesma música (a canônica é a mais antiga, `tr01`; o TV Size não entra); `trx06` com o crédito "(… from …)" é o mesmo 灯台; `trx07` sai pelo `exclude_tracks` | tr01, tr37 |
 | ar11 Re:Pulse | Seção de fora do Japão (`section = "foreign"`). No `artists.toml` vem antes do ar06, e o índice o põe depois: a seção sai em ordem alfabética (P201), pelo build | tr10, tr35, tr25 |
 | ar06 Hoshizora Drive | Seção de fora do Japão, com nome só latino (`nameLatin` nulo) | tr21, tr42 |
+
+## As medalhas (M16)
+
+Os 3 nomes de cada artista são obrigatórios (P301), e o `build-artists` recusa o artista sem eles. Os nomes daqui são inventados.
+
+| Artista | Os nomes (acertos, completo, perfeito) | O resto do `[artists.medals]` |
+|---|---|---|
+| ar02 夜風シアター | 開幕ベル · Kaimaku Bell; 真夜中のカーテンコール · Mayonaka no Curtain Call (o nome longo, que mede a tela em 320 px); 夜風劇場 | Tudo: a capa do `al21`, o enquadramento, as flores e a faixa em pé (6 caracteres, o máximo) |
+| ar07 青井ユウ | Blue Diary; 青い日記 · Aoi Nikki; ユウ | Só os nomes: a capa do cartão, as flores lilás e a faixa do nome |
+| ar01 ミナト | 夜明け · Yoake; Dawn Collection; 港 | Só os nomes |
+| ar11 Re:Pulse | RIOT; ゼロ距離 · Zero Kyori; Re:Pulse | A faixa deitada (`along = true`) |
+| ar06 Hoshizora Drive | Midnight Drive; 流星 · Ryusei; 星空 | Só os nomes; a faixa sem escolha: o nome latino longo vai deitado (P299) |

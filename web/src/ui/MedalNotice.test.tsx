@@ -51,8 +51,29 @@ const LIST: ArtistList = {
       file: "1.json",
       songs: 3,
       artworkUrl: "art/1.svg",
+      medals: {
+        names: {
+          acertos: { name: "夜明け", latin: "Yoake" },
+          completo: { name: "Round Robin", latin: null },
+          perfeito: { name: "夜風劇場" },
+        },
+      },
     },
-    { id: "t:ar:2", name: "Banda", nameLatin: null, file: "2.json", songs: 2, artworkUrl: null },
+    {
+      id: "t:ar:2",
+      name: "Banda",
+      nameLatin: null,
+      file: "2.json",
+      songs: 2,
+      artworkUrl: null,
+      medals: {
+        names: {
+          acertos: { name: "Primeira", latin: null },
+          completo: { name: "Segunda", latin: null },
+          perfeito: { name: "Terceira" },
+        },
+      },
+    },
   ],
 } as ArtistList;
 

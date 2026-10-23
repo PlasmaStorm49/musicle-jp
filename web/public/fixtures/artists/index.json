@@ -4,6 +4,46 @@
       "artworkUrl": "fixtures/art/al21.svg",
       "file": "ar02.json",
       "id": "fixture:ar:ar02",
+      "medals": {
+        "artworkUrl": "fixtures/art/al21.svg",
+        "crop": {
+          "x": 0.5,
+          "y": 0.45,
+          "z": 1.4
+        },
+        "flowers": {
+          "bow": "#b3261e",
+          "core": "#f2c94c",
+          "d": "#2f6f6a",
+          "ink": "#173533",
+          "l": "#c2e3df",
+          "leaf1": "#5f8a4e",
+          "leaf2": "#7aa35f",
+          "line": "#9fcfc9",
+          "m": "#4f9e97",
+          "ml": "#86c4bd",
+          "ring": "#173533",
+          "spark": "#4f9e97",
+          "w": "#f4fbfa"
+        },
+        "names": {
+          "acertos": {
+            "latin": "Kaimaku Bell",
+            "name": "開幕ベル"
+          },
+          "completo": {
+            "latin": "Mayonaka no Curtain Call",
+            "name": "真夜中のカーテンコール"
+          },
+          "perfeito": {
+            "name": "夜風劇場"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "夜風シアター"
+        }
+      },
       "name": "夜風シアター",
       "nameLatin": "Yokaze Theater",
       "songs": 4
@@ -12,6 +52,21 @@
       "artworkUrl": "fixtures/art/al14.svg",
       "file": "ar07.json",
       "id": "fixture:ar:ar07",
+      "medals": {
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Blue Diary"
+          },
+          "completo": {
+            "latin": "Aoi Nikki",
+            "name": "青い日記"
+          },
+          "perfeito": {
+            "name": "ユウ"
+          }
+        }
+      },
       "name": "青井ユウ",
       "nameLatin": "Aoi Yuu",
       "songs": 4
@@ -20,6 +75,21 @@
       "artworkUrl": "fixtures/art/al01.svg",
       "file": "ar01.json",
       "id": "fixture:ar:ar01",
+      "medals": {
+        "names": {
+          "acertos": {
+            "latin": "Yoake",
+            "name": "夜明け"
+          },
+          "completo": {
+            "latin": null,
+            "name": "Dawn Collection"
+          },
+          "perfeito": {
+            "name": "港"
+          }
+        }
+      },
       "name": "ミナト",
       "nameLatin": "Minato",
       "songs": 2
@@ -28,6 +98,21 @@
       "artworkUrl": "fixtures/art/al19.svg",
       "file": "ar06.json",
       "id": "fixture:ar:ar06",
+      "medals": {
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Midnight Drive"
+          },
+          "completo": {
+            "latin": "Ryusei",
+            "name": "流星"
+          },
+          "perfeito": {
+            "name": "星空"
+          }
+        }
+      },
       "name": "Hoshizora Drive",
       "nameLatin": null,
       "section": "foreign",
@@ -37,6 +122,25 @@
       "artworkUrl": "fixtures/art/al10.svg",
       "file": "ar11.json",
       "id": "fixture:ar:ar11",
+      "medals": {
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "RIOT"
+          },
+          "completo": {
+            "latin": "Zero Kyori",
+            "name": "ゼロ距離"
+          },
+          "perfeito": {
+            "name": "Re:Pulse"
+          }
+        },
+        "sash": {
+          "along": true,
+          "text": "Re:Pulse"
+        }
+      },
       "name": "Re:Pulse",
       "nameLatin": null,
       "section": "foreign",

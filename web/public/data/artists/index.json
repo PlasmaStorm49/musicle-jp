@@ -4,6 +4,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/3a/17/eb/3a17eb30-eacb-82eb-51df-d1321dbb55bc/197188492205.jpg/300x300bb.jpg",
       "file": "1490256993.json",
       "id": "apple:ar:1490256993",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/37/2b/1a/372b1a1d-ab10-4a92-7a78-2c5470c44084/196292816631.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.5,
+          "y": 0.6,
+          "z": 1.18
+        },
+        "flowers": {
+          "bow": "#141a16",
+          "core": "#f2c94c",
+          "d": "#3f9a5b",
+          "ink": "#16261b",
+          "l": "#c9edcd",
+          "leaf1": "#2f5e3a",
+          "leaf2": "#467a50",
+          "line": "#9fd3a8",
+          "m": "#6cc283",
+          "ml": "#99daa0",
+          "ring": "#16261b",
+          "spark": "#3f9a5b",
+          "w": "#f5fcf6"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Nightwalker"
+          },
+          "completo": {
+            "latin": null,
+            "name": "YOA'S"
+          },
+          "perfeito": {
+            "name": "小説を音楽にする"
+          }
+        },
+        "sash": {
+          "along": true,
+          "text": "YOASOBI"
+        }
+      },
       "name": "YOASOBI",
       "nameLatin": null,
       "songs": 37
@@ -12,6 +52,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/88/ce/67/88ce6774-3358-e238-5244-1b0788adea50/4547366475562.jpg/300x300bb.jpg",
       "file": "573943518.json",
       "id": "apple:ar:573943518",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/31/b7/6d/31b76dd3-5fef-180e-bbe6-7d4880227ccd/4547366588255.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.42,
+          "y": 0.4,
+          "z": 1.3
+        },
+        "flowers": {
+          "bow": "#033b85",
+          "core": "#f2c94c",
+          "d": "#d22024",
+          "ink": "#033b85",
+          "l": "#fab999",
+          "leaf1": "#5f8a4e",
+          "leaf2": "#7aa35f",
+          "line": "#f2a993",
+          "m": "#f0645e",
+          "ml": "#f7927f",
+          "ring": "#033b85",
+          "spark": "#d22024",
+          "w": "#fff6f1"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "LiVE is Smile Always"
+          },
+          "completo": {
+            "latin": "LiSAkko",
+            "name": "LiSAッ子"
+          },
+          "perfeito": {
+            "name": "今日もいい日だっ"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "LiSA"
+        }
+      },
       "name": "LiSA",
       "nameLatin": null,
       "songs": 200
@@ -20,6 +100,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/0b/81/ae/0b81aee7-d566-06c1-bb6c-70a36ffe5e29/TFDS-00621WW.jpg/300x300bb.jpg",
       "file": "1080967231.json",
       "id": "apple:ar:1080967231",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/52/a8/c5/52a8c59b-c6ef-1147-2c23-475a2c762778/TFDS-00562WW.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.42,
+          "y": 0.45,
+          "z": 1.2
+        },
+        "flowers": {
+          "bow": "#7b2f49",
+          "core": "#e0c37a",
+          "d": "#3e4e59",
+          "ink": "#26292e",
+          "l": "#c3ced8",
+          "leaf1": "#4f6b5a",
+          "leaf2": "#6a8572",
+          "line": "#9aa7b3",
+          "m": "#606e7a",
+          "ml": "#869bac",
+          "ring": "#26292e",
+          "spark": "#869bac",
+          "w": "#f4f6f8"
+        },
+        "names": {
+          "acertos": {
+            "latin": "Kaikai Kitan",
+            "name": "廻廻奇譚"
+          },
+          "completo": {
+            "latin": null,
+            "name": "Round Robin"
+          },
+          "perfeito": {
+            "name": "はらぺこ"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "Eve"
+        }
+      },
       "name": "Eve",
       "nameLatin": null,
       "songs": 124
@@ -28,6 +148,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/80/e8/82/80e8826c-f877-9a74-0e7b-a142108feda0/23UMGIM92958.rgb.jpg/300x300bb.jpg",
       "file": "1492604670.json",
       "id": "apple:ar:1492604670",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/24/e9/c2/24e9c269-bee0-62e0-6de6-257db163ee5a/21UM1IM54074.rgb.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.5,
+          "y": 0.48,
+          "z": 1.3
+        },
+        "flowers": {
+          "bow": "#1f3a8a",
+          "core": "#1f3a8a",
+          "d": "#0b0b10",
+          "ink": "#0b0b10",
+          "l": "#3b5fc4",
+          "leaf1": "#2e4a3a",
+          "leaf2": "#3f5f4a",
+          "line": "#5d6680",
+          "m": "#23252e",
+          "ml": "#1f3a8a",
+          "ring": "#0b0b10",
+          "spark": "#3b5fc4",
+          "w": "#dfe6fb"
+        },
+        "names": {
+          "acertos": {
+            "latin": "Kyogen",
+            "name": "狂言"
+          },
+          "completo": {
+            "latin": "Utaite",
+            "name": "歌い手"
+          },
+          "perfeito": {
+            "name": "青い薔薇"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "Ado"
+        }
+      },
       "name": "Ado",
       "nameLatin": null,
       "songs": 96
@@ -36,6 +196,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/c9/40/9e/c9409e84-c0ea-c389-3be3-2343ec3dfb3b/4547366539806.jpg/300x300bb.jpg",
       "file": "569972619.json",
       "id": "apple:ar:569972619",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/70/09/d2/7009d2d7-04e2-e6b3-6413-dd1d687d9cc2/4547366466317.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.61,
+          "y": 0.37,
+          "z": 2.7
+        },
+        "flowers": {
+          "bow": "#1c1c14",
+          "core": "#f2d16b",
+          "d": "#7a5f8a",
+          "ink": "#1c1c14",
+          "l": "#dacddf",
+          "leaf1": "#4e6b45",
+          "leaf2": "#66845a",
+          "line": "#c4b4cc",
+          "m": "#9f84ad",
+          "ml": "#bda5c3",
+          "ring": "#1c1c14",
+          "spark": "#9f84ad",
+          "w": "#f7f3f8"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Sleepless Nights"
+          },
+          "completo": {
+            "latin": null,
+            "name": "Blanc et Noir"
+          },
+          "perfeito": {
+            "name": "エメ"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "Aimer"
+        }
+      },
       "name": "Aimer",
       "nameLatin": null,
       "songs": 178
@@ -44,6 +244,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/4e/a8/75/4ea875d1-bdb6-9b83-185a-646391cbffbd/4547366589849.jpg/300x300bb.jpg",
       "file": "530814268.json",
       "id": "apple:ar:530814268",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/9d/1e/4d/9d1e4da0-f56e-5375-a780-7dd04f06479b/00600406441225.rgb.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 1.05
+        },
+        "flowers": {
+          "bow": "#765c53",
+          "core": "#f2d16b",
+          "d": "#ca2f24",
+          "ink": "#3d2a24",
+          "l": "#ead7bd",
+          "leaf1": "#5f8a4e",
+          "leaf2": "#7aa35f",
+          "line": "#d8b9a0",
+          "m": "#e0604f",
+          "ml": "#cdad86",
+          "ring": "#765c53",
+          "spark": "#ca2f24",
+          "w": "#fbf6ee"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Stray Sheep"
+          },
+          "completo": {
+            "latin": "Hachi",
+            "name": "ハチ"
+          },
+          "perfeito": {
+            "name": "かいじゅうずかん"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "米津玄師"
+        }
+      },
       "name": "米津玄師",
       "nameLatin": "Kenshi Yonezu",
       "songs": 120
@@ -52,6 +292,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/48/f4/c1/48f4c1f1-0322-4655-cd37-c76f294ee8c9/jacket_SRCL07713B00Z_550.jpg/300x300bb.jpg",
       "file": "311230779.json",
       "id": "apple:ar:311230779",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/70/90/9d/70909d44-7123-28c6-1995-306dc6b7ca97/24UMGIM80753.rgb.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.58,
+          "y": 0.5,
+          "z": 1.25
+        },
+        "flowers": {
+          "bow": "#211a35",
+          "core": "#f2d16b",
+          "d": "#3d1f6b",
+          "ink": "#211a35",
+          "l": "#f0c6ec",
+          "leaf1": "#5f8a4e",
+          "leaf2": "#7aa35f",
+          "line": "#c99ad3",
+          "m": "#8a3fb8",
+          "ml": "#d36fd0",
+          "ring": "#211a35",
+          "spark": "#d36fd0",
+          "w": "#fbf0fa"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Amethyst"
+          },
+          "completo": {
+            "latin": "Nanairo no Kioku",
+            "name": "七色の記憶"
+          },
+          "perfeito": {
+            "name": "夢幻の宴"
+          }
+        },
+        "sash": {
+          "along": true,
+          "text": "UNLIMITS"
+        }
+      },
       "name": "UNLIMITS",
       "nameLatin": null,
       "songs": 85
@@ -60,6 +340,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/b9/2e/9e/b92e9e05-4edb-d607-6812-da9b491ca43f/4560427458618.jpg/300x300bb.jpg",
       "file": "76115834.json",
       "id": "apple:ar:76115834",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/ac/30/14/ac30147b-fd22-8e94-49b2-3296b3c27df9/jacket_MHCL20160B00Z_550.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 1.15
+        },
+        "flowers": {
+          "bow": "#734860",
+          "core": "#f2c94c",
+          "d": "#9d6279",
+          "ink": "#3f2f42",
+          "l": "#ecc9d3",
+          "leaf1": "#5f8a4e",
+          "leaf2": "#7aa35f",
+          "line": "#d9a9b6",
+          "m": "#bf7e8d",
+          "ml": "#d196a3",
+          "ring": "#734860",
+          "spark": "#bf7e8d",
+          "w": "#fff6f8"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Pineapple"
+          },
+          "completo": {
+            "latin": null,
+            "name": "24"
+          },
+          "perfeito": {
+            "name": "永遠のアイドル"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "松田聖子"
+        }
+      },
       "name": "松田 聖子",
       "nameLatin": "Seiko Matsuda",
       "songs": 200
@@ -68,6 +388,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/89/71/34/89713499-c35d-3f88-a190-af95a4092a7d/ATRS-00001-T01.jpg/300x300bb.jpg",
       "file": "1231338664.json",
       "id": "apple:ar:1231338664",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b2/8e/71/b28e714f-2b3b-fbf7-eaf3-183e90e7bbb1/VEATP-42818.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.5,
+          "y": 0.42,
+          "z": 1.2
+        },
+        "flowers": {
+          "bow": "#c8102e",
+          "core": "#f2d16b",
+          "d": "#2f6f9f",
+          "ink": "#202332",
+          "l": "#b3d1e1",
+          "leaf1": "#5f8a4e",
+          "leaf2": "#7aa35f",
+          "line": "#9cc3d8",
+          "m": "#45a7d1",
+          "ml": "#81bad4",
+          "ring": "#202332",
+          "spark": "#45a7d1",
+          "w": "#f4f8fb"
+        },
+        "names": {
+          "acertos": {
+            "latin": "Otona Blue",
+            "name": "オトナブルー"
+          },
+          "completo": {
+            "latin": "Seishun-bu",
+            "name": "青春部"
+          },
+          "perfeito": {
+            "name": "はみ出していく"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "新しい学校"
+        }
+      },
       "name": "新しい学校のリーダーズ",
       "nameLatin": "ATARASHII GAKKO!",
       "songs": 77
@@ -76,6 +436,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/98/cd/b9/98cdb97d-3e32-15aa-8481-3a01d4aa60c0/196006264314.jpg/300x300bb.jpg",
       "file": "1489581870.json",
       "id": "apple:ar:1489581870",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/d4/3e/cb/d43ecbf0-43bd-6507-3faa-a5a29f1683be/197188156664.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.52,
+          "y": 0.45,
+          "z": 1.2
+        },
+        "flowers": {
+          "bow": "#8a5951",
+          "core": "#f2d16b",
+          "d": "#545096",
+          "ink": "#261419",
+          "l": "#d3c3dc",
+          "leaf1": "#5f8a4e",
+          "leaf2": "#7aa35f",
+          "line": "#b9a9c9",
+          "m": "#7d61a0",
+          "ml": "#a7899a",
+          "ring": "#261419",
+          "spark": "#7d61a0",
+          "w": "#f8f5fa"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Lilac"
+          },
+          "completo": {
+            "latin": "Plusonica",
+            "name": "ぷらそにか"
+          },
+          "perfeito": {
+            "name": "吉祥寺"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "幾田りら"
+        }
+      },
       "name": "幾田りら",
       "nameLatin": "Lilas Ikuta",
       "songs": 54
@@ -84,6 +484,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/56/bf/9c/56bf9cc9-5303-7331-970e-5b5e0e6da98e/8804775084331.jpg/300x300bb.jpg",
       "file": "1188975595.json",
       "id": "apple:ar:1188975595",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/56/bf/9c/56bf9cc9-5303-7331-970e-5b5e0e6da98e/8804775084331.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.5,
+          "y": 0.55,
+          "z": 2.6
+        },
+        "flowers": {
+          "bow": "#ac8744",
+          "core": "#f2c94c",
+          "d": "#ae1917",
+          "ink": "#5a0f0e",
+          "l": "#f8cfcf",
+          "leaf1": "#5f8a4e",
+          "leaf2": "#7aa35f",
+          "line": "#e8a8a8",
+          "m": "#d9534f",
+          "ml": "#ee9a9a",
+          "ring": "#ae1917",
+          "spark": "#c9ac7c",
+          "w": "#fff5f5"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Blushing Youth"
+          },
+          "completo": {
+            "latin": null,
+            "name": "Red Planet"
+          },
+          "perfeito": {
+            "name": "사춘기"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "볼빨간사춘기"
+        }
+      },
       "name": "Bolbbalgan4",
       "nameLatin": "BOL4",
       "section": "foreign",
@@ -93,6 +533,46 @@
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ba/e7/84/bae7844a-4b22-eb21-51f7-68930c5d3437/888880467751.jpg/300x300bb.jpg",
       "file": "462715.json",
       "id": "apple:ar:462715",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/25/80/c9/mzi.tdavltfl.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 1.1
+        },
+        "flowers": {
+          "bow": "#8b6337",
+          "core": "#d9b45a",
+          "d": "#2a2420",
+          "ink": "#141110",
+          "l": "#e6d3a8",
+          "leaf1": "#3f4a2e",
+          "leaf2": "#56623d",
+          "line": "#b89b6a",
+          "m": "#8b6337",
+          "ml": "#cca96d",
+          "ring": "#141110",
+          "spark": "#cca96d",
+          "w": "#f7f0e1"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "Chop Suey!"
+          },
+          "completo": {
+            "latin": null,
+            "name": "Victims of a Down"
+          },
+          "perfeito": {
+            "name": "Soil"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "SOAD"
+        }
+      },
       "name": "System Of A Down",
       "nameLatin": null,
       "section": "foreign",
