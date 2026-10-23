@@ -14,12 +14,12 @@ Saída: `web/public/fixtures/artists/` (o `index.json` e um arquivo por artista)
 
 ## As medalhas (M16)
 
-Os 3 nomes de cada artista são obrigatórios (P301), e o `build-artists` recusa o artista sem eles. Os nomes daqui são inventados.
+Os 3 nomes de cada artista são obrigatórios (P301), com o latino nos 3 quando o nome tem kana, kanji ou hangul (P295, P309), e o `build-artists` recusa o artista sem eles. Os nomes daqui são inventados.
 
 | Artista | Os nomes (acertos, completo, perfeito) | O resto do `[artists.medals]` |
 |---|---|---|
-| ar02 夜風シアター | 開幕ベル · Kaimaku Bell; 真夜中のカーテンコール · Mayonaka no Curtain Call (o nome longo, que mede a tela em 320 px); 夜風劇場 | Tudo: a capa do `al30` (outra que a do cartão, o `al21`: o teste da capa das medalhas não pode passar por acaso), o enquadramento, as flores e a faixa em pé (6 caracteres, o máximo) |
-| ar07 青井ユウ | Blue Diary; 青い日記 · Aoi Nikki; ユウ | Só os nomes: a capa do cartão, as flores lilás e a faixa do nome |
-| ar01 ミナト | 夜明け · Yoake; Dawn Collection; 港 | Só os nomes |
+| ar02 夜風シアター | 開幕ベル · Kaimaku Bell; 真夜中のカーテンコール · Mayonaka no Curtain Call (o nome longo, que mede a tela em 320 px); 夜風劇場 · Yokaze Gekijo | Tudo: a capa do `al30` (outra que a do cartão, o `al21`: o teste da capa das medalhas não pode passar por acaso), o enquadramento, as flores e a faixa em pé (6 caracteres, o máximo) |
+| ar07 青井ユウ | Blue Diary; 青い日記 · Aoi Nikki; ユウ · Yu | Só os nomes: a capa do cartão, as flores lilás e a faixa do nome |
+| ar01 ミナト | 夜明け · Yoake; Dawn Collection; 港 · Minato | Só os nomes |
 | ar11 Re:Pulse | RIOT; ゼロ距離 · Zero Kyori; Re:Pulse | A faixa deitada (`along = true`) |
-| ar06 Hoshizora Drive | Midnight Drive; 流星 · Ryusei; 星空 | Só os nomes; a faixa sem escolha: o nome latino longo vai deitado (P299) |
+| ar06 Hoshizora Drive | Midnight Drive; 流星 · Ryusei; 星空 · Hoshizora | Só os nomes; a faixa sem escolha: o nome latino longo vai deitado (P299) |

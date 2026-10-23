@@ -2,12 +2,11 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 22/10/2026.
+Atualizado em 23/10/2026.
 
 ## Próximos, na ordem combinada (22/10)
 
 1. **ME107 (urgente)**: repensar a pontuação de todos os modos. O desistir do Superfan virou um erro de −5 (P290), e o esquema inteiro precisa ser revisto.
-2. **ME105**: as medalhas (M16, Apêndice O). No ar, invisíveis: o núcleo e o save v8, a estrutura, os avisos e os dados e o desenho de cada artista (PRs 1, 2a, 2b e 3a). Falta o 3b: as medalhas gerais (a lista do usuário, em montagem) e o lançamento no site.
 
 ## Itens para corrigir
 
@@ -23,6 +22,7 @@ Atualizado em 22/10/2026.
 **Nos nomes e no romaji**
 - **ME80.** Créditos com o nome que a Apple usa (Inoue Sonoko; Sano Hayato & Yoshida Jinto).
 - **ME81.** Leituras erradas do cutlet nos artistas (蜃気楼 "Shinki rou", 私は最強 "Watakushi wa saikyou").
+- **ME119 (novo).** Mais dois romaji errados nos artistas: 廻廻奇譚 "Meguru Meguru kitan" (o oficial é Kaikai Kitan) e 踊 "Odori" (o oficial é Odo).
 - **ME90.** Parceiros ocidentais em katakana, sem o nome latino (as faixas do System of a Down).
 - **ME86.** Duas músicas diferentes viram uma só ("Someday", do Bolbbalgan4), e uma some.
 - **ME88.** "Song (Remix - feat. X)" vira "Song (Remix" no pipeline.
