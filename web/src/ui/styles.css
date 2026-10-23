@@ -240,7 +240,9 @@ button {
   touch-action: manipulation;
 }
 
-button:disabled {
+/* O aria-disabled (o Tocar no "Carregando…", ME37) com a mesma cara do disabled: ele continua com o
+   foco. */
+button:is(:disabled, [aria-disabled="true"]) {
   cursor: default;
   opacity: 0.6;
 }
@@ -256,23 +258,23 @@ button.primary {
 
 /* Pressionado: um anel por dentro, sem mexer o botão (o translateY de antes podia perder o
    clique quando o botão descia sob o dedo). */
-button:active:not(:disabled) {
+button:active:not(:disabled, [aria-disabled="true"]) {
   background: var(--fill-press);
   box-shadow: inset 0 0 0 2px var(--text);
 }
 
-button.primary:active:not(:disabled) {
+button.primary:active:not(:disabled, [aria-disabled="true"]) {
   background: var(--primary-press);
   box-shadow: none;
 }
 
 /* Passar o mouse só onde há mouse: no celular, o hover fica preso depois do toque. */
 @media (hover: hover) {
-  button:hover:not(:disabled) {
+  button:hover:not(:disabled, [aria-disabled="true"]) {
     background: var(--fill-press);
   }
 
-  button.primary:hover:not(:disabled) {
+  button.primary:hover:not(:disabled, [aria-disabled="true"]) {
     background: var(--primary-hover);
   }
 }
@@ -426,8 +428,36 @@ button.give-up:active:not(:disabled) {
   background: var(--accent-line);
 }
 
+/* O ✓ sempre no peso normal: a largura dele não muda quando a aba vira a ativa (ME106). */
 .tabs .done-mark {
   font-size: 0.8em;
+  font-weight: 400;
+}
+
+/* O rótulo da aba (ME106): a cópia em negrito, invisível e sem altura, guarda a largura dele, e a
+   aba não muda de largura ao virar a ativa (as vizinhas não andam). O `visibility: hidden` tira a
+   cópia do leitor de tela. */
+.tab-label {
+  display: inline-grid;
+  justify-items: center;
+}
+
+.tab-label::after {
+  content: attr(data-label);
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Abaixo de 360 px, as abas mais juntas: a reserva do negrito soma uns 2 px a cada uma, e a linha
+   ainda cabe com a medalha em destaque (P317). */
+@media (max-width: 359.98px) {
+  .tabs ul {
+    column-gap: var(--sp-3);
+  }
 }
 
 /* O "Mais" (P265, P287): abaixo de 720 px, os Artistas, o Histórico e as Medalhas ficam no menu

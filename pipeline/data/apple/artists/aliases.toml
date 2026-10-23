@@ -487,3 +487,20 @@ latin = "Sosimboys"
 # O título coreano da música, no Bugs: "이별맛집 (feat. 볼빨간사춘기)" (P202).
 [tracks."apple:tr:1461754922"]  # Farewell Restaurant (feat. BOL4)
 aliases = ["이별맛집"]
+
+# --- Eve, Ado e Aimer (23/10/2026, ME81 e ME119): o romaji que o cutlet errou ---
+
+[tracks."apple:tr:1533208085"]  # 廻廻奇譚 (Eve); cutlet: "Meguru Meguru kitan"
+latin = "Kaikai kitan"
+
+[tracks."apple:tr:1017657818"]  # 蜃気楼 (Eve); cutlet: "Shinki rou" (como o do Unlimits)
+latin = "Shinkirou"
+
+[tracks."apple:tr:1562772211"]  # 踊 (Ado); cutlet: "Odori"
+latin = "Odo"
+
+[tracks."apple:tr:1636446959"]  # 私は最強 (Ado); cutlet: "Watakushi wa saikyou"
+latin = "Watashi wa saikyou"
+
+[tracks."apple:tr:1536123755"]  # あなたに出会わなければ〜夏雪冬花〜 (Aimer); cutlet: "Anata ni deawanakerebaa natsu yuki fuyu hana"
+latin = "Anata ni deawanakereba kasetsu touka"

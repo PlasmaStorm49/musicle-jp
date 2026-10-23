@@ -1693,7 +1693,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1562772211",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.9688,
       "preview": {
         "durationSec": 30,
@@ -1704,6 +1704,7 @@
       "search": {
         "artist": [],
         "title": [
+          "odo",
           "odori",
           "踊"
         ]
@@ -1715,7 +1716,7 @@
         "踊",
         "踊bonodoremixliveat日本武道館2023"
       ],
-      "titleLatin": "Odori"
+      "titleLatin": "Odo"
     },
     {
       "albumId": "apple:al:1570062994",
@@ -2277,7 +2278,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1636446959",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.9583,
       "preview": {
         "durationSec": 30,
@@ -2289,6 +2290,7 @@
         "artist": [],
         "title": [
           "watakushiwasaikyo",
+          "watashiwasaikyo",
           "私は最強"
         ]
       },
@@ -2299,7 +2301,7 @@
         "私は最強",
         "私は最強うたfromonepiecefilmred"
       ],
-      "titleLatin": "Watakushi wa saikyou"
+      "titleLatin": "Watashi wa saikyou"
     },
     {
       "albumId": "apple:al:1636446787",

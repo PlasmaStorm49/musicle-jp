@@ -402,7 +402,24 @@ describe("Player com o som tocando", () => {
     fireEvent.click(screen.getByRole("button", { name: "Tocar 1 s" }));
     await act(async () => {});
     const play = screen.getByRole("button", { name: "Tocar 1 s" });
-    expect(play.hasAttribute("disabled")).toBe(false);
+    expect(play.hasAttribute("aria-disabled")).toBe(false);
+  });
+
+  it("no Carregando…, o Tocar fica com o foco e não toca de novo (ME37)", async () => {
+    const { engine } = setup(MODE_RULES.song, true);
+    // O som que nunca começa: o botão fica no Carregando….
+    vi.mocked(engine.play).mockReturnValue(new Promise(() => {}));
+    const play = screen.getByRole("button", { name: "Tocar 1 s" });
+    play.focus();
+    fireEvent.click(play);
+    await act(async () => {});
+    const loading = screen.getByRole("button", { name: "Carregando…" });
+    expect(loading).toBe(play);
+    expect(loading.getAttribute("aria-disabled")).toBe("true");
+    expect(loading.hasAttribute("disabled")).toBe(false);
+    expect(document.activeElement).toBe(loading);
+    fireEvent.click(loading);
+    expect(engine.play).toHaveBeenCalledOnce();
   });
 
   it("Ouvir mais de uma etapa do meio: o foco fica nele, para o Enter seguinte ouvir mais", async () => {
