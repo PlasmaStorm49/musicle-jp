@@ -43,7 +43,7 @@ function Arts({ items, size }: { readonly items: readonly NoticeItem[]; readonly
   return (
     <span class="medal-notice-arts">
       {items.slice(0, SHOWN).map((item) => (
-        <MedalArt key={item.id} kind={item.kind} art={item.art} earned size={size} />
+        <MedalArt key={item.id} kind={item.kind} art={item.art} earned size={size} icon={item.id} />
       ))}
     </span>
   );

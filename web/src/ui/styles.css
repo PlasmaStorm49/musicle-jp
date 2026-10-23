@@ -1808,11 +1808,17 @@ section.void,
   gap: var(--sp-2);
 }
 
+/* A coluna da arte tem a largura da geral grande (o `GENERAL_SIZE` do Medals.tsx, 56 px): a pequena
+   fica no centro dela, e os textos de todas as linhas começam no mesmo ponto. */
 .medal-row {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: 3.5rem minmax(0, 1fr);
   align-items: center;
   gap: var(--sp-3);
+}
+
+.medal-row > .medal-art {
+  justify-self: center;
 }
 
 .medal-text {

@@ -21,7 +21,7 @@ import { ArtistName, LatinName } from "./ArtistName.tsx";
 import type { ArtistStore } from "./Artists.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { useHeadingFocus } from "./hooks.ts";
-import { generalArt, MedalArt } from "./MedalArt.tsx";
+import { generalArt, generalKind, MedalArt } from "./MedalArt.tsx";
 import { singleClick } from "./singleClick.ts";
 
 type Props = {
@@ -155,15 +155,22 @@ function stateText(state: MedalState, how: string, unit = false): string {
   return how;
 }
 
+/**
+ * A largura das gerais na linha (P312): a grande, na moldura gelo com os raios, é maior. A coluna
+ * da arte no `styles.css` (`.medal-row`) tem a largura da grande: mudou aqui, muda lá.
+ */
+const GENERAL_SIZE = { simple: 44, major: 56 } as const;
+
 function GeneralRow({ state }: { readonly state: MedalState }) {
-  const { id } = state.medal;
+  const { id, tier } = state.medal;
   return (
     <li class={state.earned ? "medal-row" : "medal-row locked"}>
       <MedalArt
-        kind="geral"
+        kind={generalKind(tier)}
         art={generalArt(t("medals.generalMark"))}
         earned={state.earned}
-        size={44}
+        size={tier === "major" ? GENERAL_SIZE.major : GENERAL_SIZE.simple}
+        icon={id}
       />
       <span class="medal-text">
         <span class="medal-name">{medalText(id, "name")}</span>

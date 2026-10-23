@@ -7,6 +7,7 @@ import { medalName, superfanArt } from "../core/medalArt.ts";
 import {
   claimMedals,
   claimTier,
+  MEDALS,
   type Medal,
   type MedalTier,
   medalsOf,
@@ -15,7 +16,7 @@ import {
 import type { ArtistList } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
 import { type KeyValueStore, updateSave } from "../storage/save.ts";
-import { generalArt } from "./MedalArt.tsx";
+import { generalArt, generalKind } from "./MedalArt.tsx";
 import type { NoticeItem } from "./MedalNotice.tsx";
 import { medalText, superfanFeat } from "./Medals.tsx";
 
@@ -86,26 +87,30 @@ const SUPERFAN_ID = /^superfan\|(.+)\|([a-z]+)$/;
  * O nome e o desenho de cada medalha do aviso. As do Superfan levam o nome próprio, com o latino
  * (P295, P300), e o artista: "Nightwalker, de YOASOBI". Sem o nome, o feito ("Superfan completo");
  * sem a lista dos artistas (a carga falhou), só o feito, com o monograma de reserva. O aviso
- * pequeno (`covers` falso) vai sem a capa: as telas dele não têm o selo da Apple (P298).
+ * pequeno (`covers` falso) vai sem a capa: as telas dele não têm o selo da Apple (P298). As gerais
+ * levam o desenho do tamanho delas (P312), pela lista (`general`).
  */
 export function noticeItems(
   ids: readonly string[],
   list: ArtistList | null,
   resolveUrl: (url: string) => string,
   covers: boolean,
+  general: readonly Medal[] = MEDALS,
 ): NoticeItem[] {
-  const general = generalArt(t("medals.generalMark"));
+  const mark = generalArt(t("medals.generalMark"));
+  const tiers = new Map(general.map((medal) => [medal.id, medal.tier]));
   return ids.map((id) => {
     const match = SUPERFAN_ID.exec(id);
     const level = SUPERFAN_LEVELS.find((l) => l === match?.[2]);
     if (!match || !level) {
       const text = medalText(id, "name");
-      return { id, kind: "geral", name: text, spoken: text, feat: null, art: general };
+      const kind = generalKind(tiers.get(id) ?? "simple");
+      return { id, kind, name: text, spoken: text, feat: null, art: mark };
     }
     const feat = superfanFeat(level);
     const entry = list?.artists.find((a) => a.id === match[1]);
     if (!list || !entry) {
-      return { id, kind: level, name: feat, spoken: feat, feat, art: { ...general, letter: "?" } };
+      return { id, kind: level, name: feat, spoken: feat, feat, art: { ...mark, letter: "?" } };
     }
     const base = superfanArt(list, entry);
     const name = medalName(entry, level);

@@ -258,6 +258,17 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
     expect(completo?.name).toBe("Round Robin, de 夜風");
   });
 
+  it("as gerais com o desenho do tamanho delas, pela lista (P312)", () => {
+    const items = noticeItems(["seguidos-7", "seguidos-30"], LIST, resolve, true);
+    expect(items.map((item) => [item.kind, item.name])).toEqual([
+      ["geral", "Em Chamas"],
+      ["geral-grande", "Tá pegando fogo, bicho!!!"],
+    ]);
+    // Com outra lista (a de exemplo), vale o tamanho dela.
+    const demo = noticeItems(["demo-sequencia"], LIST, resolve, true, DEMO_MEDALS);
+    expect(demo[0]?.kind).toBe("geral-grande");
+  });
+
   it("o pop-up desenha o nome como a tela: o japonês com o lang, e o ponto decorativo", () => {
     const items = noticeItems([acertos], LIST, resolve, true);
     expect(items[0]?.label).toEqual({ name: "夜明け", latin: "Yoake", artist: "夜風" });
