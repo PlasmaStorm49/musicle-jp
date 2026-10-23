@@ -347,7 +347,9 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
     expect(document.activeElement).toBe(
       screen.getByRole("heading", { level: 1, name: "Acertar a música" }),
     );
+    // A seta de volta à tela do Anime (ME120) vem primeiro.
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
+      "#anime",
       "#anime-musica-facil",
       "#anime-musica-medio",
       "#anime-musica-dificil",
@@ -377,7 +379,11 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
 
   it("dia fora da agenda: as 3 avisam, sem link", () => {
     setup("anime-musica", { date: "2026-10-07" });
-    expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual(["#sobre"]);
+    // Só a volta (ME120) e os créditos: nenhum diário.
+    expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
+      "#anime",
+      "#sobre",
+    ]);
     expect(offCards().map((c) => c.lines)).toEqual([
       ["Não há diário hoje"],
       ["Não há diário hoje"],
@@ -389,6 +395,7 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
     setup("anime-titulo");
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Acertar o anime");
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
+      "#anime",
       "#anime-titulo-facil",
       "#anime-titulo-medio",
       "#anime-titulo-dificil",
@@ -410,6 +417,47 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
   it("nenhum id igual a uma rota (regra 17)", () => {
     setup("anime-musica");
     for (const route of Object.values(ROUTES)) expect(document.querySelector(route)).toBeNull();
+  });
+});
+
+describe("Anime: as voltas, sem a nav (ME120, P321 e P322)", () => {
+  const LOST = { status: "lost", stage: 0, attempts: [] } as const;
+  const finished = (date: string) => ({
+    ...emptySave(),
+    history: { [`${date}|anime-musica-facil`]: { number: 4, rounds: [LOST, LOST, LOST] } },
+  });
+
+  it("a escolha da dificuldade volta à tela do Anime, pela seta, com o título ainda com o foco", () => {
+    setup("anime-musica");
+    const back = screen.getByRole("link", { name: "Voltar ao Anime" });
+    expect(back.getAttribute("href")).toBe("#anime");
+    expect(back.querySelector(".back-chevron svg")).not.toBeNull();
+    expect(document.activeElement).toBe(
+      screen.getByRole("heading", { level: 1, name: "Acertar a música" }),
+    );
+  });
+
+  it("o resumo de um diário volta à escolha da dificuldade do modo, com o nome inteiro (P210)", () => {
+    setup("anime-musica-facil", { save: finished(DATE) });
+    expect(screen.getByRole("heading", { name: "Resultado do dia" })).toBeTruthy();
+    const back = screen.getByRole("link", { name: "Voltar à escolha da dificuldade" });
+    expect(back.getAttribute("href")).toBe("#anime-musica");
+    // Curto na tela; o nome inteiro começa pelo texto visível.
+    expect(back.querySelector('span[aria-hidden="true"]:not(.back-chevron)')?.textContent).toBe(
+      "Voltar",
+    );
+  });
+
+  it("num dia passado, as duas voltas ficam no mesmo dia", () => {
+    setup("anime-musica", { today: "2026-10-09" });
+    expect(screen.getByRole("link", { name: "Voltar ao Anime" }).getAttribute("href")).toBe(
+      `#anime/${DATE}`,
+    );
+    cleanup();
+    setup("anime-musica-facil", { save: finished(DATE), today: "2026-10-09" });
+    expect(
+      screen.getByRole("link", { name: "Voltar à escolha da dificuldade" }).getAttribute("href"),
+    ).toBe(`#anime-musica/${DATE}`);
   });
 });
 

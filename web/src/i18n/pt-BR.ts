@@ -488,6 +488,9 @@ export const ptBR = {
   "anime.unavailableDay": "Não há diário do Anime nesse dia.",
   "anime.retry": "Não foi possível carregar o Anime. Confira a conexão.",
   "anime.back": "Voltar ao Anime",
+  // Do resumo de um diário, à escolha da dificuldade (P322): curto na tela, inteiro para o leitor.
+  "anime.backToLevels": "Voltar",
+  "anime.backToLevelsFull": "Voltar à escolha da dificuldade",
   // O tema na revelação: o anime, o tipo e o número ("Kimetsu no Yaiba · OP1"). Sem número, só o
   // tipo.
   "anime.themeLine": "{anime} · {theme}",

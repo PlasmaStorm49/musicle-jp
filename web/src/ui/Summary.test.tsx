@@ -77,6 +77,8 @@ describe("Summary (o fim do dia)", () => {
     // Sem a prévia do texto (as células já mostram o resultado); ele sai com o nome do jogo e o
     // modo.
     expect(document.querySelector(".share-preview")).toBeNull();
+    // Nos Hits, sem a volta à escolha da dificuldade (a do Anime, ME120).
+    expect(document.querySelector(".summary-levels")).toBeNull();
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
     });

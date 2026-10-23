@@ -12,6 +12,7 @@ import {
   hitsTab,
   lastPlayedAnime,
   open,
+  seedHistory,
   test,
   viaAnime,
 } from "./helpers.ts";
@@ -331,4 +332,20 @@ test("a carga do Anime falhou: o aviso e o Tentar de novo, que carrega", async (
     /Failed to load resource|net::ERR_FAILED/.test(message),
   );
   if (network >= 0) consoleErrors.splice(network, 1);
+});
+
+test("as voltas sem a nav (ME120): da dificuldade à tela do Anime, e do resumo à dificuldade do modo (P321, P322)", async ({
+  page,
+}) => {
+  const lost = { status: "lost", stage: 0, attempts: [] } as const;
+  await seedHistory(page, {
+    "2026-10-08|anime-musica-facil": { number: 1, rounds: [lost, lost, lost] },
+  });
+  await open(page, DAY, "#anime-musica-facil");
+  await expect(page.getByRole("heading", { name: "Resultado do dia" })).toBeVisible();
+  await page.getByRole("link", { name: "Voltar à escolha da dificuldade" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Acertar a música" })).toBeFocused();
+  await page.getByRole("link", { name: "Voltar ao Anime" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
+  expect(page.url()).toMatch(/#anime$/);
 });

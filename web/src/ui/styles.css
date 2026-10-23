@@ -1655,6 +1655,36 @@ section.void,
   line-height: var(--lh-sm);
 }
 
+/* A volta à tela do Anime (P321, P323), à esquerda do título, fora do fluxo: a escolha da
+   dificuldade não cresce. O recuo dos dois lados deixa o título no centro, sem passar por baixo
+   da seta. */
+.practice > header.has-back {
+  position: relative;
+  padding-inline: var(--h-control);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--h-control);
+  min-height: var(--h-control);
+  border-radius: var(--r-control);
+  color: var(--text);
+}
+
+.has-back > .back-link {
+  position: absolute;
+  left: 0;
+  top: calc((var(--lh-lg) - var(--h-control)) / 2);
+}
+
+/* O chevron dos ícones, que aponta para a direita, virado para trás. */
+.back-chevron {
+  display: inline-flex;
+  transform: rotate(180deg);
+}
+
 .practice > ul.home-modes:not(:has(.artist-card)) .home-card {
   min-height: 120px;
 }
@@ -2391,6 +2421,40 @@ section.summary > h2 {
   .summary:has(.countdown button.primary) .share > button.primary:hover:not(:disabled) {
     background: var(--fill-press);
   }
+}
+
+/* A volta à escolha da dificuldade (o Anime, P322 e P323), ao lado do Compartilhar, na mesma
+   linha: o resumo não cresce. */
+.summary:has(> .summary-levels) {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.summary:has(> .summary-levels) > * {
+  grid-column: 1 / -1;
+}
+
+.summary:has(> .summary-levels) > .share {
+  grid-column: 1;
+}
+
+.summary > .summary-levels {
+  grid-column: 2;
+  align-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-height: var(--h-control);
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-control);
+  background: var(--fill);
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Com o novo diário, o Jogar fica ao lado do Compartilhar (abaixo), e a volta sai: as três não
+   cabem na linha. */
+.summary:has(.countdown button.primary) > .summary-levels {
+  display: none;
 }
 
 /* E os dois lado a lado (no celular), no lugar da contagem: o resumo continua cabendo. */
