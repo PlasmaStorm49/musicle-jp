@@ -36,7 +36,33 @@ type Props = {
   /** O modo por artista: a lista dos artistas, que a tela carrega como a aba deles. */
   readonly artists: ArtistStore;
   readonly resolveUrl: (url: string) => string;
+  /** A medalha em destaque (ME118, P317), o id dela, ou null. */
+  readonly favorite: string | null;
+  /** Escolher ou tirar (com null) a medalha em destaque (P318). */
+  readonly onFavorite: (id: string | null) => void;
 };
+
+/** A escolha da medalha em destaque, só nas ganhas. */
+type Pin = Pick<Props, "favorite" | "onFavorite">;
+
+/**
+ * O botão do destaque (P318): "Destacar" na ganha, e "Tirar o destaque" na escolhida, que a
+ * remove. O nome da medalha vai para o leitor de tela, que ouve vários botões iguais. Alterna no
+ * mesmo lugar: o 2º clique de um toque duplo não desfaz o 1º (regra 23).
+ */
+function PinButton({ id, name, favorite, onFavorite }: Pin & { id: string; name: string }) {
+  const pinned = favorite === id;
+  return (
+    <button
+      type="button"
+      class="medal-pin"
+      onClick={singleClick(() => onFavorite(pinned ? null : id))}
+    >
+      {t(pinned ? "favorite.unpin" : "favorite.pin")}
+      <span class="sr-only">{t("favorite.which", { name })}</span>
+    </button>
+  );
+}
 
 /**
  * O feito de uma medalha do Superfan ("Superfan completo"): para o leitor de tela, que não vê o
@@ -59,7 +85,16 @@ export function medalText(
   return t(`medal.${id}.${part}` as MessageKey, { right: SUPERFAN_RIGHT, ...params });
 }
 
-export function Medals({ save, date, hitsDates, general, artists, resolveUrl }: Props) {
+export function Medals({
+  save,
+  date,
+  hitsDates,
+  general,
+  artists,
+  resolveUrl,
+  favorite,
+  onFavorite,
+}: Props) {
   const heading = useHeadingFocus();
   const { list, loadList } = artists;
   useEffect(() => {
@@ -95,7 +130,12 @@ export function Medals({ save, date, hitsDates, general, artists, resolveUrl }: 
           <h2 id="medals-general">{t("medals.general")}</h2>
           <ul class="medal-list">
             {board.general.map((state) => (
-              <GeneralRow key={state.medal.id} state={state} />
+              <GeneralRow
+                key={state.medal.id}
+                state={state}
+                favorite={favorite}
+                onFavorite={onFavorite}
+              />
             ))}
           </ul>
         </section>
@@ -114,6 +154,8 @@ export function Medals({ save, date, hitsDates, general, artists, resolveUrl }: 
                   entry={entry}
                   row={row}
                   resolveUrl={resolveUrl}
+                  favorite={favorite}
+                  onFavorite={onFavorite}
                 />
               ) : null;
             })}
@@ -177,7 +219,7 @@ function generalState(state: MedalState): string {
  */
 const GENERAL_SIZE = { simple: 44, major: 56 } as const;
 
-function GeneralRow({ state }: { readonly state: MedalState }) {
+function GeneralRow({ state, ...pin }: Pin & { readonly state: MedalState }) {
   const { id, tier } = state.medal;
   return (
     <li class={state.earned ? "medal-row" : "medal-row locked"}>
@@ -192,6 +234,7 @@ function GeneralRow({ state }: { readonly state: MedalState }) {
         <span class="medal-name">{medalText(id, "name")}</span>
         <span class="medal-how">{generalState(state)}</span>
       </span>
+      {state.earned && <PinButton id={id} name={medalText(id, "name")} {...pin} />}
     </li>
   );
 }
@@ -208,7 +251,8 @@ function ArtistRow({
   entry,
   row,
   resolveUrl,
-}: {
+  ...pin
+}: Pin & {
   readonly list: ArtistList;
   readonly entry: ArtistListEntry;
   readonly row: ArtistMedals;
@@ -239,6 +283,9 @@ function ArtistRow({
                 </span>
               )}
               <span class="medal-how">{stateText(state, how, level === "acertos")}</span>
+              {state.earned && (
+                <PinButton id={state.medal.id} name={name?.name ?? superfanFeat(level)} {...pin} />
+              )}
             </li>
           );
         })}

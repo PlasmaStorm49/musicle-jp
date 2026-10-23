@@ -399,6 +399,12 @@ export const ptBR = {
   // O feito no fim do que o leitor de tela ouve: o desenho, que diz qual é a medalha, é decorativo.
   "medals.notice.withFeat": "{name} ({feat})",
   "medals.notice.toast": "Medalha nova: {name}",
+  // A medalha em destaque (ME118, P317 e P318): o link da nav, o botão e o nome dentro dele, para o
+  // leitor de tela, que ouve vários botões iguais.
+  "favorite.link": "Medalha em destaque: {name}. Ver as medalhas",
+  "favorite.pin": "Destacar",
+  "favorite.unpin": "Tirar o destaque",
+  "favorite.which": " ({name})",
   // As gerais (P310, a lista do usuário), pelo id (`core/medals.ts`); o "1 s" com o espaço
   // inseparável. Depois, as de exemplo (só em desenvolvimento, `?medalhas=demo`).
   "medal.diario-1.name": "Primeiro Acorde",

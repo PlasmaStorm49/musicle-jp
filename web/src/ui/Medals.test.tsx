@@ -79,7 +79,12 @@ function store(list: ArtistStore["list"], loadList = vi.fn()): ArtistStore {
   };
 }
 
-function setup(artists: ArtistStore, save: Save = emptySave()) {
+function setup(
+  artists: ArtistStore,
+  save: Save = emptySave(),
+  favorite: string | null = null,
+  onFavorite: (id: string | null) => void = vi.fn(),
+) {
   return render(
     <Medals
       save={save}
@@ -88,6 +93,8 @@ function setup(artists: ArtistStore, save: Save = emptySave()) {
       general={DEMO_MEDALS}
       artists={artists}
       resolveUrl={(url) => `/${url}`}
+      favorite={favorite}
+      onFavorite={onFavorite}
     />,
   );
 }
@@ -162,6 +169,41 @@ describe("Medals (a tela, P278 e P286)", () => {
     expect(cells("Banda")[0]?.querySelector("text")?.textContent).toBe("B");
     // Nas fixtures, sem o selo da Apple.
     expect(screen.queryByRole("link", { name: /Apple Music/ })).toBeNull();
+  });
+
+  it("o destaque (ME118, P318): o botão só nas ganhas; na escolhida, Tirar o destaque, que a remove", () => {
+    let save = withFinished(emptySave(), "2026-10-22|song", lost);
+    for (let i = 0; i < SUPERFAN_RIGHT; i++) save = withArtistRight(save, "t:ar:1");
+    const onFavorite = vi.fn();
+    const { rerender } = setup(store({ status: "ready", list: LIST }), save, null, onFavorite);
+    // As ganhas: o 1º diário e a dos acertos do 夜風. As outras, apagadas, sem o botão.
+    const pins = screen.getAllByRole("button", { name: /^Destacar/ });
+    expect(pins).toHaveLength(2);
+    // O nome da medalha no botão, para o leitor de tela.
+    const first = screen.getByRole("button", { name: "Destacar (Primeiro diário)" });
+    fireEvent.click(first, { detail: 2 });
+    expect(onFavorite).not.toHaveBeenCalled();
+    fireEvent.click(first);
+    expect(onFavorite).toHaveBeenCalledWith("demo-primeiro");
+    // Escolhida: o mesmo lugar diz Tirar o destaque, e o toque a remove.
+    rerender(
+      <Medals
+        save={save}
+        date={DATE}
+        hitsDates={HITS}
+        general={DEMO_MEDALS}
+        artists={store({ status: "ready", list: LIST })}
+        resolveUrl={(url) => `/${url}`}
+        favorite="demo-primeiro"
+        onFavorite={onFavorite}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Tirar o destaque (Primeiro diário)" }));
+    expect(onFavorite).toHaveBeenLastCalledWith(null);
+    expect(screen.getAllByRole("button", { name: /^Destacar/ })).toHaveLength(1);
+    // A do Superfan também: o botão na célula dela, com o nome próprio.
+    fireEvent.click(screen.getByRole("button", { name: /^Destacar \(/ }));
+    expect(onFavorite).toHaveBeenLastCalledWith("superfan|t:ar:1|acertos");
   });
 
   it("na lista real, o selo da Apple no pé, por causa das capas (P170, P284)", () => {

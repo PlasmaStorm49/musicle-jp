@@ -8,8 +8,16 @@ import { APPLE_PROVIDER } from "../core/apple.ts";
 import { hitsDailies } from "../core/daily.ts";
 import { keptProgressIds } from "../core/history.ts";
 import { artistSummary, practiceSummary } from "../core/home.ts";
-import { DEMO_MEDALS, MEDALS, type Medal, noticeTab } from "../core/medals.ts";
-import { emptySave, pruneProgress, type Save } from "../core/records.ts";
+import {
+  DEMO_MEDALS,
+  earnedMedals,
+  MEDALS,
+  type Medal,
+  medalContext,
+  medalsOf,
+  noticeTab,
+} from "../core/medals.ts";
+import { emptySave, favoriteOf, pruneProgress, type Save, withFavorite } from "../core/records.ts";
 import { isAnimeTab, ROUTES, type Route, routeFromHash, routeHref } from "../core/routes.ts";
 import {
   appleResolver,
@@ -210,9 +218,21 @@ export function App() {
   // espera por ela (ou pela falha). Sem isso, ele sairia só com o nível e mudaria quando ela
   // chegasse, e o leitor de tela ouviria os dois textos.
   const needsList = !!notice?.ids.some((id) => id.startsWith("superfan|"));
+  // A medalha em destaque (ME118, P317): a 1ª da estante, só se está entre as ganhas (um id velho
+  // não aparece, P320). A do Superfan também pede a lista, para o nome e as cores do artista.
+  const favoriteId = favoriteOf(latest);
+  const earnedIds = useMemo(
+    () =>
+      new Set(
+        earnedMedals(medalsOf(latest, GENERAL_MEDALS), medalContext(latest, date, hitsDates ?? [])),
+      ),
+    [latest, date, hitsDates],
+  );
+  const favoriteEarned = favoriteId !== null && earnedIds.has(favoriteId);
+  const favoriteNeedsList = favoriteEarned && !!favoriteId?.startsWith("superfan|");
   useEffect(() => {
-    if (needsList && artists.list.status === "idle") artists.loadList();
-  }, [needsList, artists.list.status, artists.loadList]);
+    if ((needsList || favoriteNeedsList) && artists.list.status === "idle") artists.loadList();
+  }, [needsList, favoriteNeedsList, artists.list.status, artists.loadList]);
   const listSettled = artists.list.status !== "idle" && artists.list.status !== "loading";
   const shown = notice && (!needsList || listSettled) ? notice : null;
   const noticeList = artists.list.status === "ready" ? artists.list.list : null;
@@ -241,6 +261,22 @@ export function App() {
     const read = loadSave(saves.store);
     if (read.writable) setLatest(read.save);
   }, [saves]);
+  // Escolher ou tirar a medalha em destaque (P318): grava e relê, para a nav mudar na hora.
+  const chooseFavorite = useCallback(
+    (id: string | null) => {
+      updateSave(saves.store, (save) => withFavorite(save, id));
+      refresh();
+    },
+    [saves, refresh],
+  );
+  // O desenho sem a capa (P319), como no aviso pequeno: a nav não tem o selo da Apple. A do Superfan
+  // espera a lista, e sem o nome dela (o artista saiu da lista) não aparece (P320).
+  const favorite = useMemo(() => {
+    if (!favoriteEarned || favoriteId === null) return null;
+    const [item] = noticeItems([favoriteId], noticeList, resolveUrl, false, GENERAL_MEDALS);
+    if (!item || (favoriteId.startsWith("superfan|") && !item.label)) return null;
+    return item;
+  }, [favoriteEarned, favoriteId, noticeList, resolveUrl]);
   useEffect(() => {
     const onHashChange = () => {
       setRoute(routeFromHash(window.location.hash, date));
@@ -329,7 +365,7 @@ export function App() {
 
   return (
     <>
-      <Nav route={route} save={latest} date={date} />
+      <Nav route={route} save={latest} date={date} favorite={favorite} />
       <main class="app">
         <p class="sr-only" aria-live="polite">
           {message}
@@ -374,6 +410,7 @@ export function App() {
                 saves={saves}
                 latest={latest}
                 onSaved={refresh}
+                onFavorite={chooseFavorite}
                 practice={practice}
                 onPractice={setPractice}
                 artists={artists}
@@ -421,6 +458,8 @@ type ReadyProps = {
   /** A última leitura do save. */
   readonly latest: Save;
   readonly onSaved: () => void;
+  /** Escolher ou tirar a medalha em destaque (P318). */
+  readonly onFavorite: (id: string | null) => void;
   /** A sessão do Treino, guardada no App. */
   readonly practice: PracticeSession | null;
   readonly onPractice: PracticeSessionSetter;
@@ -444,6 +483,7 @@ function Ready({
   saves,
   latest,
   onSaved,
+  onFavorite,
   practice,
   onPractice,
   artists,
@@ -560,6 +600,8 @@ function Ready({
           general={GENERAL_MEDALS}
           artists={artists}
           resolveUrl={resolveUrl}
+          favorite={favoriteOf(latest)}
+          onFavorite={onFavorite}
         />
       );
     case "artists":

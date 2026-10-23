@@ -3,6 +3,8 @@ import { cleanup, createEvent, fireEvent, render, screen } from "@testing-librar
 import { afterEach, describe, expect, it } from "vitest";
 import { emptySave, puzzleId, type Save } from "../core/records.ts";
 import type { Route } from "../core/routes.ts";
+import { generalArt } from "./MedalArt.tsx";
+import type { NoticeItem } from "./MedalNotice.tsx";
 import { Nav } from "./Nav.tsx";
 
 afterEach(() => {
@@ -13,8 +15,8 @@ afterEach(() => {
 const DATE = "2026-10-22";
 const HOME: Route = { tab: "home", date: null };
 
-function setup(route: Route = HOME, save: Save = emptySave()) {
-  return render(<Nav route={route} save={save} date={DATE} />);
+function setup(route: Route = HOME, save: Save = emptySave(), favorite: NoticeItem | null = null) {
+  return render(<Nav route={route} save={save} date={DATE} favorite={favorite} />);
 }
 
 const toggle = () => screen.getByRole("button", { name: "Mais" });
@@ -140,6 +142,35 @@ describe("Nav (P225, P265, P287)", () => {
       expect(link.getAttribute("aria-current")).toBe("page");
     }
     expect(toggle().getAttribute("aria-current")).toBe("true");
+  });
+
+  it("a medalha em destaque (ME118, P317): o link para as Medalhas e o enfeite menor, no fim da nav", () => {
+    setup();
+    expect(document.querySelector(".nav-favorite")).toBeNull();
+    cleanup();
+    const favorite: NoticeItem = {
+      id: "seguidos-30",
+      kind: "geral-grande",
+      name: "Tá pegando fogo, bicho!!!",
+      spoken: "Tá pegando fogo, bicho!!!",
+      feat: null,
+      art: generalArt("★"),
+    };
+    setup(HOME, emptySave(), favorite);
+    const link = screen.getByRole("link", {
+      name: "Medalha em destaque: Tá pegando fogo, bicho!!!. Ver as medalhas",
+    });
+    expect(link.getAttribute("href")).toBe("#medalhas");
+    // Nunca o aria-current: a aba das Medalhas é quem marca a tela.
+    expect(link.hasAttribute("aria-current")).toBe(false);
+    // O desenho do tamanho dela, com o ícone; o enfeite de 320 px, fora do leitor de tela.
+    expect(link.querySelector("svg")?.getAttribute("viewBox")).toBe("0 8 110 132");
+    const small = document.querySelector(".nav-favorite-small");
+    expect(small?.getAttribute("aria-hidden")).toBe("true");
+    // O último item da nav, depois do Mais.
+    expect(document.querySelector("nav.tabs > ul > li:last-child")?.classList).toContain(
+      "nav-favorite",
+    );
   });
 
   it("os Artistas, o Histórico e as Medalhas também na linha, para as telas largas (720 px)", () => {

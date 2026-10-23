@@ -765,6 +765,65 @@ test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longo
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
+test("a medalha em destaque na nav (ME118, P317): em 320 px, a nav numa linha no caso mais largo, com o enfeite; a partir de 360 px, o link com alvo de 44 × 44", async ({
+  page,
+}) => {
+  // Os dois ✓ e o Mais marcado (o caso mais largo), e a medalha do 1º diário em destaque. A linha
+  // é a mesma quando o centro de cada item é o mesmo: o enfeite, menor, fica centrado nela.
+  const lost = { status: "lost", stage: 0, attempts: [] } as const;
+  const day = { number: 1, rounds: [lost, lost, lost] };
+  await seedHistory(
+    page,
+    {
+      "2026-10-08|album": day,
+      "2026-10-08|song": day,
+      "2026-10-08|anime-musica-medio": day,
+    },
+    {},
+    { shelf: ["diario-1"] },
+  );
+  await page.setViewportSize({ width: 320, height: 640 });
+  await open(page, "2026-10-08T12:00:00-03:00", "#historico");
+  const nav = page.getByRole("navigation");
+  const link = nav.getByRole("link", { name: /^Medalha em destaque/ });
+  const small = nav.locator(".nav-favorite-small");
+  await expect(small).toBeVisible();
+  await expect(link).toBeHidden();
+  await page.evaluate(async () => {
+    await Promise.all([
+      document.fonts.load('400 0.9rem "Noto Sans JP"', "Hits Anime ✓"),
+      document.fonts.load('700 0.9rem "Noto Sans JP"', "Mais"),
+    ]);
+    await document.fonts.ready;
+  });
+  const rows = await nav
+    .locator(":is(a, button, .nav-favorite-small):visible")
+    .evaluateAll(
+      (items) =>
+        new Set(
+          items.map((a) => Math.round(((r) => r.top + r.height / 2)(a.getBoundingClientRect()))),
+        ).size,
+    );
+  expect(rows, "a nav numa linha só").toBe(1);
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
+  // Em 360 px, o link, com o alvo de 44 × 44, ainda na mesma linha.
+  await page.setViewportSize({ width: 360, height: 640 });
+  await expect(link).toBeVisible();
+  await expect(small).toBeHidden();
+  const { height, width } = await target(link);
+  expect(height).toBeGreaterThanOrEqual(44);
+  expect(width).toBeGreaterThanOrEqual(44);
+  const tops = await nav
+    .locator(":is(a, button):visible")
+    .evaluateAll(
+      (items) =>
+        new Set(
+          items.map((a) => Math.round(((r) => r.top + r.height / 2)(a.getBoundingClientRect()))),
+        ).size,
+    );
+  expect(tops, "a nav numa linha só").toBe(1);
+});
+
 test("o Mais até 719 px e as 6 abas numa linha a partir de 720 (P287)", async ({ page }) => {
   // Os dois diários dos Hits e um do Anime de hoje terminados: os dois ✓, o caso mais largo.
   const lost = { status: "lost", stage: 0, attempts: [] } as const;

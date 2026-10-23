@@ -144,7 +144,6 @@ export function noticeTitle(notice: MedalNoticeState): string {
   return count === 1 ? t("medals.notice.one") : tn("medals.notice.many", count);
 }
 
-/** O texto do aviso pequeno, na tela. */
 const BIG_KINDS: ReadonlySet<MedalKind> = new Set(["completo", "perfeito", "geral-grande"]);
 
 /**
@@ -157,6 +156,7 @@ export function noticeOrder(items: readonly NoticeItem[]): NoticeItem[] {
   return [...items].sort((a, b) => rank(a) - rank(b));
 }
 
+/** O texto do aviso pequeno, na tela. */
 export function toastText(items: readonly NoticeItem[]): string {
   const [only] = items;
   return items.length === 1 && only
