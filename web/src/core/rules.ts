@@ -9,12 +9,14 @@ import type { Target } from "./types.ts";
 export const STAGES = [1, 2, 4, 7, 11, 16] as const;
 export const MAX_STAGE = STAGES.length - 1;
 export const ROUNDS_PER_DAY = 3;
+/** As tentativas do Desafio: uma por etapa da barra (6), e não o máximo de pontos. */
+export const MAX_ATTEMPTS = STAGES.length;
 /** Pontos de uma rodada acertada na primeira etapa; cada etapa a mais custa 1. */
 export const MAX_POINTS = STAGES.length;
 /** Os pontos do acerto em cada etapa, nos dois modos de hoje: 6, 5, 4, 3, 2 e 1. */
 const STAGE_POINTS: readonly number[] = STAGES.map((_, i) => MAX_POINTS - i);
 /** Pontos de uma rodada acertada com a ajuda, em qualquer etapa (P152). */
-export const HELP_POINTS = 1;
+const HELP_POINTS = 1;
 /** Quantas opções a ajuda mostra, a certa entre elas (P149). */
 export const HELP_OPTIONS = 4;
 /**
@@ -84,7 +86,7 @@ export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
   },
   song: {
     stages: STAGES,
-    maxAttempts: MAX_POINTS,
+    maxAttempts: MAX_ATTEMPTS,
     wrongGuess: "advance",
     listenMore: false,
     skip: true,
@@ -126,6 +128,34 @@ export const VARIANT_RULES: Readonly<Record<Variant, ModeRules>> = {
   },
 };
 
+/**
+ * A pontuação dos diários (os dois dos Hits e os 6 do Anime), a que o resumo salvo usa: o save não
+ * guarda as regras, e os dois modos pontuam igual (o rules.test confere). A do Desafio, que tem a
+ * ajuda.
+ */
+export const DAILY_SCORING: ModeRules = MODE_RULES.song;
+
+/** O bastante para pontuar uma rodada: a do jogo (RoundState) ou a do resumo salvo (RoundRecord). */
+export type ScorableRound = {
+  readonly status: string;
+  readonly stage: number;
+  /** A ajuda: as opções, no jogo, ou a tentativa em que foi pedida, no resumo. Sem ela, nada. */
+  readonly help?: unknown;
+};
+
+/**
+ * Os pontos do acerto ou da perda de uma rodada, pelas regras: o acerto vale os pontos da etapa,
+ * ou os da ajuda; o resto, 0. A conta única do jogo e do resumo salvo: os erros e o desistir do
+ * Superfan ficam no `roundScore` (o resumo dos diários não os tem).
+ */
+export function scoreOf(round: ScorableRound, rules: ModeRules): number {
+  if (round.status !== "won") return 0;
+  const stage = Math.min(Math.max(round.stage, 0), rules.points.length - 1);
+  return round.help !== undefined && round.help !== null
+    ? rules.helpPoints
+    : (rules.points[stage] ?? 0);
+}
+
 /** As regras de um jogo: as da variante, se houver, ou as do modo. */
 export function rulesOf(game: { readonly target: Target; readonly variant?: Variant }): ModeRules {
   return game.variant ? VARIANT_RULES[game.variant] : MODE_RULES[game.target];
@@ -148,12 +178,4 @@ export function lastStage(rules: ModeRules): number {
 /** Segundos que o jogador pode ouvir na etapa `stage` (da barra dos diários, se não disser outra). */
 export function secondsAt(stage: number, stages: readonly number[] = STAGES): number {
   return stages[Math.min(Math.max(stage, 0), stages.length - 1)] ?? stages[0] ?? 0;
-}
-
-/**
- * Pontos de uma rodada acertada na etapa `stage`. Vale para os dois modos: no Normal a etapa
- * sobe com "ouvir mais"; no Desafio, com cada erro ou pulo (7 − número da tentativa).
- */
-export function pointsAtStage(stage: number): number {
-  return MAX_POINTS - Math.min(Math.max(stage, 0), MAX_STAGE);
 }

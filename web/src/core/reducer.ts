@@ -9,6 +9,7 @@ import {
   MODE_RULES,
   type ModeRules,
   rulesOf,
+  scoreOf,
   type Variant,
 } from "./rules.ts";
 import type { Target } from "./types.ts";
@@ -286,7 +287,6 @@ export function roundErrors(round: RoundState): number {
 export function roundScore(round: RoundState, rules: ModeRules = MODE_RULES.song): number {
   if (round.status === "void") return 0;
   const errors = roundErrors(round) * rules.wrongPoints;
-  if (round.status !== "won") return errors + (round.gaveUp ? rules.giveUpPoints : 0);
-  const stage = Math.min(Math.max(round.stage, 0), rules.points.length - 1);
-  return errors + (round.help ? rules.helpPoints : (rules.points[stage] ?? 0));
+  const gaveUp = round.status === "lost" && round.gaveUp ? rules.giveUpPoints : 0;
+  return errors + gaveUp + scoreOf(round, rules);
 }

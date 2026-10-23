@@ -1,14 +1,16 @@
 import { describe, expect, it } from "vitest";
 import {
   canSkip,
+  DAILY_SCORING,
+  MAX_ATTEMPTS,
   MAX_POINTS,
   MAX_STAGE,
   MODE_RULES,
   MODES,
-  pointsAtStage,
   rulesOf,
   SEGMENT_WEIGHTS,
   STAGES,
+  scoreOf,
   secondsAt,
   VARIANT_RULES,
 } from "./rules.ts";
@@ -44,17 +46,35 @@ describe("etapas", () => {
   });
 });
 
-describe("pontos", () => {
-  it("6 na primeira etapa, 1 na última", () => {
-    expect(pointsAtStage(0)).toBe(MAX_POINTS);
-    expect(pointsAtStage(0)).toBe(6);
-    expect(pointsAtStage(5)).toBe(1);
+describe("pontos (scoreOf)", () => {
+  const won = (stage: number, help?: unknown) => ({ status: "won", stage, help });
+
+  it("o acerto vale os pontos da etapa; com a ajuda, os dela; o resto, 0", () => {
+    const rules = MODE_RULES.song;
+    expect(scoreOf(won(0), rules)).toBe(MAX_POINTS);
+    expect(scoreOf(won(5), rules)).toBe(rules.points[5]);
+    expect(scoreOf(won(2, 1), rules)).toBe(rules.helpPoints);
+    expect(scoreOf({ status: "lost", stage: 3 }, rules)).toBe(0);
+    expect(scoreOf({ status: "void", stage: 0 }, rules)).toBe(0);
+    // A etapa fora do intervalo cai na mais próxima.
+    expect(scoreOf(won(99), rules)).toBe(rules.points.at(-1));
   });
 
-  it("na digitação equivale a 7 − número da tentativa", () => {
-    for (let attempt = 1; attempt <= 6; attempt++) {
-      expect(pointsAtStage(attempt - 1)).toBe(7 - attempt);
-    }
+  it("a ajuda vale no jogo (as opções) e no resumo salvo (a tentativa): null é sem ajuda", () => {
+    const rules = MODE_RULES.song;
+    expect(scoreOf(won(1, ["a", "b"]), rules)).toBe(rules.helpPoints);
+    expect(scoreOf(won(1, null), rules)).toBe(rules.points[1]);
+  });
+
+  it("os diários pontuam igual nos dois modos: o resumo salvo usa uma pontuação só", () => {
+    expect(MODE_RULES.album.points).toEqual(MODE_RULES.song.points);
+    expect(MODE_RULES.album.helpPoints).toEqual(MODE_RULES.song.helpPoints);
+    expect(DAILY_SCORING).toBe(MODE_RULES.song);
+  });
+
+  it("as tentativas do Desafio são uma por etapa, e não o máximo de pontos", () => {
+    expect(MODE_RULES.song.maxAttempts).toBe(MAX_ATTEMPTS);
+    expect(MAX_ATTEMPTS).toBe(STAGES.length);
   });
 });
 
