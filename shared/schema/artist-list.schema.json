@@ -21,7 +21,7 @@
       "title": "Artista da lista do musicle-jp",
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "nameLatin", "file", "songs", "artworkUrl"],
+      "required": ["id", "name", "nameLatin", "file", "songs", "artworkUrl", "medals"],
       "properties": {
         "id": { "$ref": "#/$defs/artistId" },
         "name": { "$ref": "#/$defs/text" },
@@ -39,6 +39,91 @@
         "section": {
           "description": "A seção da lista (P200): ausente na principal, dos artistas japoneses; \"foreign\" na de fora do Japão. Campo só de acréscimo, sem versão nova: o site antigo o ignora e mostra todos numa lista só.",
           "enum": ["foreign"]
+        },
+        "medals": {
+          "description": "As 3 medalhas do Superfan do artista (M16), escolhidas à mão no artists.toml: os nomes (P295, obrigatórios pela P301), a capa das 3 (P296: a de um álbum do arquivo dele), o enquadramento, a faixa da perfeita (P299) e as cores do buquê (P296). Sem a capa, o enquadramento, a faixa ou as flores, a tela usa o padrão. Obrigatório no índice novo, sem versão nova; o site o lê como opcional, porque o índice velho, no cache do Pages, vem sem ele.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["names"],
+          "properties": {
+            "names": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["acertos", "completo", "perfeito"],
+              "properties": {
+                "acertos": {
+                  "description": "O nome da medalha dos 50 acertos; o latino (o romaji, sem mácron, P297) só quando o nome tem kana, kanji ou hangul.",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name", "latin"],
+                  "properties": {
+                    "name": { "$ref": "#/$defs/text" },
+                    "latin": { "oneOf": [{ "type": "string", "pattern": "^[ -~]+$" }, { "type": "null" }] }
+                  }
+                },
+                "completo": {
+                  "description": "O nome da medalha do Superfan completo, com o latino como o do acertos.",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name", "latin"],
+                  "properties": {
+                    "name": { "$ref": "#/$defs/text" },
+                    "latin": { "oneOf": [{ "type": "string", "pattern": "^[ -~]+$" }, { "type": "null" }] }
+                  }
+                },
+                "perfeito": {
+                  "description": "O nome da medalha do Superfan perfeito: só o original, sem o latino (P295).",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name"],
+                  "properties": { "name": { "$ref": "#/$defs/text" } }
+                }
+              }
+            },
+            "artworkUrl": {
+              "description": "A capa das 3 medalhas: a de um álbum do arquivo do artista, em 300 px (a tela pede o tamanho).",
+              "$ref": "#/$defs/url"
+            },
+            "crop": {
+              "description": "O enquadramento da capa no círculo: o zoom (z) e o ponto da capa no centro (x e y, de 0 a 1).",
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["z", "x", "y"],
+              "properties": {
+                "z": { "type": "number", "minimum": 1, "maximum": 4 },
+                "x": { "type": "number", "minimum": 0, "maximum": 1 },
+                "y": { "type": "number", "minimum": 0, "maximum": 1 }
+              }
+            },
+            "sash": {
+              "description": "O texto da faixa da perfeita: em pé, um caractere por linha, até 6; ou deitado ao longo dela (along), só em letra latina (P299).",
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["text", "along"],
+              "properties": { "text": { "$ref": "#/$defs/text" }, "along": { "type": "boolean" } }
+            },
+            "flowers": {
+              "description": "As cores do buquê da perfeita, por papel: as pétalas (d, m, ml, l, w), o contorno (line), o miolo da branca (core), a tinta da faixa (ink), o laço (bow), o aro (ring), os brilhos (spark) e as folhas (leaf1, leaf2). O d pinta também as caudas das outras duas (P305).",
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["d", "m", "ml", "l", "w", "line", "core", "ink", "bow", "ring", "spark", "leaf1", "leaf2"],
+              "properties": {
+                "d": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "m": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "ml": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "l": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "w": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "line": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "core": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "ink": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "bow": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "ring": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "spark": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "leaf1": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+                "leaf2": { "type": "string", "pattern": "^#[0-9a-f]{6}$" }
+              }
+            }
+          }
         }
       }
     }

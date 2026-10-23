@@ -104,6 +104,13 @@ const FILES: Record<string, unknown> = {
         file: "1.json",
         songs: 3,
         artworkUrl: "fixtures/art/al1.svg",
+        medals: {
+          names: {
+            acertos: { name: "夜明け", latin: "Yoake" },
+            completo: { name: "Round Robin", latin: null },
+            perfeito: { name: "夜風劇場" },
+          },
+        },
       },
       // Sem capa: o monograma (P171).
       {
@@ -113,6 +120,13 @@ const FILES: Record<string, unknown> = {
         file: "2.json",
         songs: 2,
         artworkUrl: null,
+        medals: {
+          names: {
+            acertos: { name: "夜明け", latin: "Yoake" },
+            completo: { name: "Round Robin", latin: null },
+            perfeito: { name: "夜風劇場" },
+          },
+        },
       },
     ],
   } satisfies ArtistList,

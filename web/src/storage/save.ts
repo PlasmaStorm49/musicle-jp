@@ -161,13 +161,13 @@ export function isInProgress(x: unknown): x is InProgress {
 }
 
 /**
- * O id de uma medalha (v8): letras, números e `|`, `:`, `-`, `_` (ex.: "superfan|apple:ar:1|ouro").
+ * O id de uma medalha (v8): letras, números e `|`, `:`, `-`, `_` (ex.: "superfan|apple:ar:1|completo").
  * O id vai para o save e nunca muda; o desconhecido fica (pode ser de uma lista mais nova).
  */
 const MEDAL_ID = /^[a-z0-9][A-Za-z0-9|:_-]{0,119}$/;
 /**
  * O id de um artista, como o `artistId` do schema da lista ("apple:ar:1490256993"), com limite:
- * o maior (16 + 4 + 64) ainda dá um id de medalha (`superfan|<artista>|suprema`) que cabe no
+ * o maior (16 + 4 + 64) ainda dá um id de medalha (`superfan|<artista>|perfeito`) que cabe no
  * `MEDAL_ID`. Sem isso, o save gravaria uma medalha que a leitura seguinte descartaria.
  */
 export const ARTIST_ID = /^[a-z]{1,16}:ar:[A-Za-z0-9_-]{1,64}$/;

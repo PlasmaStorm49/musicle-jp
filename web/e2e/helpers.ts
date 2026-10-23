@@ -216,9 +216,16 @@ export async function appleArtistList(page: Page): Promise<void> {
   await page.route("**/fixtures/artists/index.json", async (route) => {
     const response = await route.fetch();
     const list = (await response.json()) as ArtistList;
+    // A capa do cartão e a das medalhas (P296), as duas no host da Apple, como na lista real.
     const artists = list.artists.map((a) => ({
       ...a,
       artworkUrl: `https://is1-ssl.mzstatic.com/image/thumb/e2e/${a.file}/300x300bb.svg`,
+      medals: a.medals.artworkUrl
+        ? {
+            ...a.medals,
+            artworkUrl: `https://is1-ssl.mzstatic.com/image/thumb/e2e/medal-${a.file}/300x300bb.svg`,
+          }
+        : a.medals,
     }));
     await route.fulfill({ response, json: { ...list, provider: "apple", artists } });
   });

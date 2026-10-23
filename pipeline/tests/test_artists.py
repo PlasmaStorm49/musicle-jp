@@ -10,7 +10,11 @@ import pytest
 from musicle_pipeline import artists
 from musicle_pipeline.aliases import parse_aliases
 from musicle_pipeline.artists import (
+    FLOWER_ROLES,
+    LEVELS,
     ArtistRules,
+    MedalName,
+    MedalRules,
     artist_title_key,
     build_artist_file,
     build_artists,
@@ -32,6 +36,12 @@ from musicle_pipeline.validate_artists import validate_artist_list
 
 ME = RawArtist("77", "テスト歌手", "Tesuto Kashu")
 OTHER = RawArtist("55", "他の歌手", "Hoka")
+# Os 3 nomes das medalhas, que o build-artists exige (P301): latinos, sem o romaji.
+NAMED = MedalRules(names=tuple((lv, MedalName(f"Nome {lv}")) for lv in LEVELS))
+
+
+def named_rules(artist_id: str, **kw) -> ArtistRules:
+    return ArtistRules(artist_id, medals=NAMED, **kw)
 
 
 def track(
@@ -410,7 +420,7 @@ def test_build_artists_lists_in_order_and_warns_about_romaji_twins():
     )
     cur = Curation(aliases=parse_aliases('[tracks."fixture:tr:2"]\naliases = ["kimi"]\n', "t"))
     notes: list[str] = []
-    files = build_artists(provider, [ArtistRules("77"), ArtistRules("55")], cur, notes)
+    files = build_artists(provider, [named_rules("77"), named_rules("55")], cur, notes)
     assert list(files) == ["index.json", "77.json", "55.json"]
     assert [e["file"] for e in files["index.json"]["artists"]] == ["77.json", "55.json"]
     assert any("possível música repetida" in n for n in notes)
@@ -437,11 +447,11 @@ def test_the_foreign_section_comes_last_in_alphabetical_order():
         }
     )
     rules = [
-        ArtistRules("1", section="foreign"),
-        ArtistRules("2"),
-        ArtistRules("3", section="foreign"),
-        ArtistRules("4", section="foreign"),
-        ArtistRules("5"),
+        named_rules("1", section="foreign"),
+        named_rules("2"),
+        named_rules("3", section="foreign"),
+        named_rules("4", section="foreign"),
+        named_rules("5"),
     ]
     index = build_artists(provider, rules, Curation(), [])["index.json"]
     order = [(e["file"], e.get("section")) for e in index["artists"]]
@@ -458,9 +468,9 @@ def test_the_foreign_section_comes_last_in_alphabetical_order():
 def test_the_list_out_of_order_is_refused():
     provider = FakeProvider({"1": _named("1", "B"), "2": _named("2", "A"), "3": _named("3", "C")})
     rules = [
-        ArtistRules("1", section="foreign"),
-        ArtistRules("2", section="foreign"),
-        ArtistRules("3"),
+        named_rules("1", section="foreign"),
+        named_rules("2", section="foreign"),
+        named_rules("3"),
     ]
     index = build_artists(provider, rules, Curation(), [])["index.json"]
     main, first, second = index["artists"]
@@ -546,3 +556,124 @@ def test_a_version_without_delimiter_joins_the_song_of_its_prefix():
     )
     by_key = {s.canonical.provider_id: {t.provider_id for t in s.members} for s in songs}
     assert by_key == {"1": {"1", "2"}, "3": {"3"}}
+
+
+# As medalhas do Superfan de cada artista (M16): o [artists.medals] do artists.toml.
+MEDALS_HEAD = '[[artists]]\nid = "1"\n\n[artists.medals]\n'
+ALL_FLOWERS = "".join(f'{role} = "#0a0b0c"\n' for role in FLOWER_ROLES)
+
+
+def test_load_artist_list_reads_the_medals(tmp_path: Path):
+    path = tmp_path / "artists.toml"
+    path.write_text(
+        MEDALS_HEAD
+        + 'acertos = { name = " 歌い手 ", latin = "Utaite" }\n'
+        + 'completo = { name = "Round Robin" }\nperfeito = { name = "はらぺこ" }\n'
+        + 'album = "9"\ncrop = { z = 2, x = 0.5, y = 0.25 }\nsash = { text = "Eve" }\n\n'
+        + "[artists.medals.flowers]\n"
+        + ALL_FLOWERS,
+        encoding="utf-8",
+    )
+    (rules,) = load_artist_list(path)
+    m = rules.medals
+    assert m is not None
+    assert dict(m.names) == {
+        "acertos": MedalName("歌い手", "Utaite"),  # o display() tira o espaço das pontas
+        "completo": MedalName("Round Robin"),
+        "perfeito": MedalName("はらぺこ"),
+    }
+    assert (m.album, m.crop, m.sash) == ("9", (2.0, 0.5, 0.25), ("Eve", False))
+    assert [role for role, _ in m.flowers] == list(FLOWER_ROLES)
+
+
+def test_the_medals_are_optional_in_the_list(tmp_path: Path):
+    # O fetch e o romanize de um artista novo rodam antes da escolha dos nomes: quem os exige é o
+    # build (P301).
+    path = tmp_path / "artists.toml"
+    path.write_text('[[artists]]\nid = "1"\n', encoding="utf-8")
+    assert load_artist_list(path)[0].medals is None
+
+
+@pytest.mark.parametrize(
+    ("body", "message"),
+    [
+        ('nome = "x"\n', "chaves aceitas"),
+        ('acertos = { name = "狂言", latin = "Kyōgen" }\n', "sem mácron"),
+        ('acertos = { name = "狂言", latin = "  " }\n', "latin vazio"),
+        ('perfeito = { name = "x", latin = "y" }\n', "esperado"),
+        ('completo = "Round Robin"\n', "esperado"),
+        ('acertos = { name = "  " }\n', "name vazio"),
+        ('album = "1 2"\n', "collectionId"),
+        ("crop = { z = 0.5, x = 0.5, y = 0.5 }\n", "crop"),
+        ("crop = { z = 2, x = 0.5 }\n", "crop"),
+        ("crop = { z = true, x = 0.5, y = 0.5 }\n", "crop"),
+        ("crop = { z = 2, x = 1.5, y = 0.5 }\n", "crop"),
+        ('sash = { text = "Eve", along = "sim" }\n', "sash"),
+        ('sash = { text = "新しい学校のリ" }\n', "em pé cabe até 6"),
+        ('sash = { text = "夜風", along = true }\n', "deitada vai em letra latina"),
+        ('sash = { text = "' + "A" * 29 + '", along = true }\n', "até 28"),
+        ("sash = { along = true }\n", "sash"),
+        ('[artists.medals.flowers]\nd = "#000000"\n', "flowers"),
+        ("[artists.medals.flowers]\n" + ALL_FLOWERS.replace("#0a0b0c", "#0A0B0C", 1), "flowers"),
+    ],
+)
+def test_load_artist_list_refuses_bad_medals(tmp_path: Path, body, message):
+    path = tmp_path / "artists.toml"
+    path.write_text(MEDALS_HEAD + body, encoding="utf-8")
+    with pytest.raises(InputError, match=message):
+        load_artist_list(path)
+
+
+def test_build_artists_requires_the_three_names():
+    provider = FakeProvider({"77": snap((1, track("1", "光")))})
+    with pytest.raises(InputError, match=r"faltam os nomes das medalhas \(acertos, completo, "):
+        build_artists(provider, [ArtistRules("77")], Curation(), [])
+    two = MedalRules(names=NAMED.names[:2])
+    with pytest.raises(InputError, match=r"medalhas \(perfeito\)"):
+        build_artists(provider, [ArtistRules("77", medals=two)], Curation(), [])
+
+
+@pytest.mark.parametrize(("name", "latin"), [("歌い手", None), ("Round Robin", "Round Robin")])
+def test_build_artists_wants_the_latin_only_for_kana_and_kanji(name, latin):
+    names = (("acertos", MedalName(name, latin)), *NAMED.names[1:])
+    provider = FakeProvider({"77": snap((1, track("1", "光")))})
+    with pytest.raises(InputError, match="leva o latin só quando"):
+        build_artists(provider, [ArtistRules("77", medals=MedalRules(names=names))], Curation(), [])
+
+
+def test_build_artists_writes_the_medals():
+    # A capa das medalhas é a do álbum escolhido (o 900, da 2ª música), e não a do cartão (a do
+    # álbum da mais popular): cada álbum com a sua capa, para o teste não passar por acaso.
+    medal_track = _with_art(track("2", "影", album_id="900"), "fixtures/art/medalha.svg")
+    provider = FakeProvider({"77": snap((1, track("1", "光")), (2, medal_track))})
+    names = (("acertos", MedalName("歌い手", "Utaite")), *NAMED.names[1:])
+    medals = MedalRules(
+        names=names,
+        album="900",
+        crop=(1.5, 0.4, 0.6),
+        sash=("テスト", False),
+        flowers=tuple((role, "#123456") for role in FLOWER_ROLES),
+    )
+    files = build_artists(provider, [ArtistRules("77", medals=medals)], Curation(), [])
+    (entry,) = files["index.json"]["artists"]
+    assert entry["medals"] == {
+        "names": {
+            "acertos": {"name": "歌い手", "latin": "Utaite"},
+            "completo": {"name": "Nome completo", "latin": None},
+            "perfeito": {"name": "Nome perfeito"},
+        },
+        "artworkUrl": "fixtures/art/medalha.svg",  # a do álbum 900, que está no arquivo
+        "crop": {"z": 1.5, "x": 0.4, "y": 0.6},
+        "sash": {"text": "テスト", "along": False},
+        "flowers": dict.fromkeys(FLOWER_ROLES, "#123456"),
+    }
+    assert entry["artworkUrl"] == "fixtures/art/x.svg"  # o cartão segue com a dele
+    assert validate_artist_list(files["index.json"]) == []
+
+
+def test_build_artists_refuses_a_medal_album_outside_the_file():
+    provider = FakeProvider({"77": snap((1, track("1", "光")))})
+    with pytest.raises(InputError, match="o álbum 404 das medalhas"):
+        build_artists(
+            provider, [ArtistRules("77", medals=replace(NAMED, album="404"))], Curation(), []
+        )

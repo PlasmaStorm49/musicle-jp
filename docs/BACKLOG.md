@@ -7,7 +7,7 @@ Atualizado em 22/10/2026.
 ## Próximos, na ordem combinada (22/10)
 
 1. **ME107 (urgente)**: repensar a pontuação de todos os modos. O desistir do Superfan virou um erro de −5 (P290), e o esquema inteiro precisa ser revisto.
-2. **ME105**: as medalhas (M16, Apêndice O), em 4 PRs: o núcleo e o save v8, a estrutura, a lista e as imagens dos artistas. O desenho entra quando o usuário decidir (a suprema, por agora, é a S10, ônix).
+2. **ME105**: as medalhas (M16, Apêndice O). No ar, invisíveis: o núcleo e o save v8, a estrutura, os avisos e os dados e o desenho de cada artista (PRs 1, 2a, 2b e 3a). Falta o 3b: as medalhas gerais (a lista do usuário, em montagem) e o lançamento no site.
 
 ## Itens para corrigir
 

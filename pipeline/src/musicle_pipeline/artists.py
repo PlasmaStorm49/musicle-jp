@@ -33,6 +33,7 @@ from musicle_pipeline.catalog import (
 from musicle_pipeline.models import JSON, ArtistEntry, ArtistSnapshot, InputError, RawTrack
 from musicle_pipeline.normalize import (
     TAILS,
+    display,
     needs_romaji,
     normalize,
     search_keys,
@@ -137,12 +138,156 @@ class ArtistRules:
     singles: frozenset[str] = frozenset()
     # A seção da lista (P200): None é a principal, dos japoneses.
     section: str | None = None
+    # As medalhas do Superfan (M16): os nomes, a capa, o enquadramento, a faixa e as flores.
+    medals: MedalRules | None = None
+
+
+# As medalhas do Superfan de um artista (M16). Os 3 níveis (P302) e os papéis das cores do buquê
+# (P296) espelham o schema da lista, e um teste confere os dois lados.
+LEVELS = ("acertos", "completo", "perfeito")
+FLOWER_ROLES = (
+    "d",
+    "m",
+    "ml",
+    "l",
+    "w",
+    "line",
+    "core",
+    "ink",
+    "bow",
+    "ring",
+    "spark",
+    "leaf1",
+    "leaf2",
+)
+_MEDAL_KEYS = {*LEVELS, "album", "crop", "sash", "flowers"}
+_COLOR = re.compile(r"#[0-9a-f]{6}")
+# O latino ao lado do nome da medalha e a faixa deitada: ASCII imprimível, sem mácron (P297).
+PLAIN_LATIN = re.compile(r"[ -~]+")
+# A faixa da perfeita (P299): em pé, até 6 caracteres; deitada, até 28 (no corpo mínimo, 2, o
+# web troca a mais longa pela letra). O web tem os mesmos números (core/medalArt.ts), e um teste
+# confere.
+SASH_UPRIGHT = 6
+SASH_ALONG = 28
+
+
+@dataclass(frozen=True)
+class MedalName:
+    name: str
+    latin: str | None = None
+
+
+@dataclass(frozen=True)
+class MedalRules:
+    """O [artists.medals] de um artista. Os nomes podem faltar aqui: o fetch e o romanize de um
+    artista novo rodam antes da escolha. Quem os exige é o build-artists (P301)."""
+
+    names: tuple[tuple[str, MedalName], ...] = ()  # (nível, nome), na ordem de LEVELS
+    album: str | None = None  # collectionId de um álbum do artista: a capa das 3 (P296)
+    crop: tuple[float, float, float] | None = None  # o zoom e o centro: z, x, y
+    sash: tuple[str, bool] | None = None  # o texto da faixa e se vai deitada (P299)
+    flowers: tuple[tuple[str, str], ...] = ()  # (papel, cor), na ordem de FLOWER_ROLES
+
+
+def _medal_name(value: object, where: str, latin_ok: bool) -> MedalName:
+    keys = {"name", "latin"} if latin_ok else {"name"}
+    if not isinstance(value, dict) or not set(value) <= keys or "name" not in value:
+        shape = '{ name = "…", latin = "…" }' if latin_ok else '{ name = "…" }'
+        raise InputError(f"{where}: esperado {shape}")
+    name, latin = value["name"], value.get("latin")
+    if not isinstance(name, str) or not display(name):
+        raise InputError(f"{where}: name vazio")
+    if latin is not None and (not isinstance(latin, str) or not display(latin)):
+        raise InputError(f"{where}: latin vazio (tire a chave, se o nome não precisa dele)")
+    if latin is not None and not PLAIN_LATIN.fullmatch(display(latin)):
+        raise InputError(f"{where}: latin em ASCII, sem mácron (P297)")
+    return MedalName(display(name), display(latin) if latin is not None else None)
+
+
+def _number(value: object) -> float | None:
+    return float(value) if isinstance(value, int | float) and not isinstance(value, bool) else None
+
+
+def _medals(value: object, where: str) -> MedalRules:
+    if not isinstance(value, dict) or not set(value) <= _MEDAL_KEYS:
+        raise InputError(
+            f"{where}: chaves aceitas: {sorted(_MEDAL_KEYS)} "
+            "(o [artists.medals] vai no fim do artista: o que vem depois dele é dele)"
+        )
+    names = tuple(
+        (lv, _medal_name(value[lv], f"{where} {lv}", lv != "perfeito"))
+        for lv in LEVELS
+        if lv in value
+    )
+    album = value.get("album")
+    if album is not None and (not isinstance(album, str) or not _ARTIST_ID.fullmatch(album)):
+        raise InputError(f"{where}: album deveria ser o collectionId de um álbum do artista")
+    crop = None
+    if "crop" in value:
+        c = value["crop"]
+        nums = (
+            {k: _number(c[k]) for k in ("z", "x", "y")}
+            if isinstance(c, dict) and set(c) == {"z", "x", "y"}
+            else {}
+        )
+        z, x, y = (nums.get(k) for k in ("z", "x", "y"))
+        if (
+            z is None
+            or x is None
+            or y is None
+            or not 1 <= z <= 4
+            or not 0 <= x <= 1
+            or not 0 <= y <= 1
+        ):
+            raise InputError(f"{where}: crop = {{ z = 1 a 4, x = 0 a 1, y = 0 a 1 }}")
+        crop = (z, x, y)
+    sash = None
+    if "sash" in value:
+        s = value["sash"]
+        text = s.get("text") if isinstance(s, dict) else None
+        along = s.get("along", False) if isinstance(s, dict) else None
+        if (
+            not isinstance(s, dict)
+            or not set(s) <= {"text", "along"}
+            or not isinstance(text, str)
+            or not display(text)
+            or not isinstance(along, bool)
+        ):
+            raise InputError(f'{where}: sash = {{ text = "…", along = true ou false }}')
+        text = display(text)
+        if along and (not PLAIN_LATIN.fullmatch(text) or len(text) > SASH_ALONG):
+            raise InputError(f"{where}: a faixa deitada vai em letra latina, até {SASH_ALONG}")
+        if not along and len(text) > SASH_UPRIGHT:
+            raise InputError(f"{where}: a faixa em pé cabe até {SASH_UPRIGHT} caracteres (P299)")
+        sash = (text, along)
+    flowers: tuple[tuple[str, str], ...] = ()
+    if "flowers" in value:
+        f = value["flowers"]
+        if (
+            not isinstance(f, dict)
+            or set(f) != set(FLOWER_ROLES)
+            or not all(isinstance(v, str) and _COLOR.fullmatch(v) for v in f.values())
+        ):
+            raise InputError(
+                f"{where}: flowers com as {len(FLOWER_ROLES)} cores ({', '.join(FLOWER_ROLES)}), "
+                "cada uma #rrggbb em minúsculas"
+            )
+        flowers = tuple((role, f[role]) for role in FLOWER_ROLES)
+    return MedalRules(names=names, album=album, crop=crop, sash=sash, flowers=flowers)
 
 
 # As seções da lista de artistas, na ordem da tela, depois da principal (P200). Dentro de cada
 # uma, a ordem é alfabética (P201, section_order); na principal, a do artists.toml (P118).
 SECTIONS = ("foreign",)
-_RULE_KEYS = {"id", "exclude_albums", "exclude_tracks", "same_song", "singles", "section"}
+_RULE_KEYS = {
+    "id",
+    "exclude_albums",
+    "exclude_tracks",
+    "same_song",
+    "singles",
+    "section",
+    "medals",
+}
 
 
 def _ids(value: object, where: str) -> frozenset[str]:
@@ -186,6 +331,7 @@ def load_artist_list(path: Path) -> list[ArtistRules]:
                 same_song=tuple((a, b) for a, b in pairs),
                 singles=_ids(item.get("singles", []), f"{where} singles"),
                 section=section,
+                medals=_medals(item["medals"], f"{where} medals") if "medals" in item else None,
             )
         )
     ids = [r.id for r in rules]
@@ -540,12 +686,56 @@ def list_order(entries: Sequence[JSON]) -> list[JSON]:
     ]
 
 
+def medal_entry(provider: str, rules: ArtistRules, data: JSON) -> JSON:
+    """As medalhas do artista no índice (M16). Os 3 nomes são obrigatórios (P301), com o latino
+    só quando o nome tem kana, kanji ou hangul (P295); a capa é a de um álbum do arquivo dele
+    (P296). O que falta (a capa, o enquadramento, a faixa, as flores) a tela desenha no padrão."""
+    m = rules.medals or MedalRules()
+    names = dict(m.names)
+    missing = [lv for lv in LEVELS if lv not in names]
+    if missing:
+        raise InputError(
+            f"artista {rules.id}: faltam os nomes das medalhas ({', '.join(missing)}) no "
+            "[artists.medals] do artists.toml (P301)"
+        )
+    out: JSON = {"names": {}}
+    for lv in LEVELS:
+        n = names[lv]
+        if lv == "perfeito":
+            out["names"][lv] = {"name": n.name}
+            continue
+        if needs_romaji(n.name) != (n.latin is not None):
+            raise InputError(
+                f"artista {rules.id}: a medalha {lv} ({n.name}) leva o latin só quando o nome "
+                "tem kana, kanji ou hangul (P295)"
+            )
+        out["names"][lv] = {"name": n.name, "latin": n.latin}
+    if m.album is not None:
+        album_id = entity_id(provider, "al", m.album)
+        album = next((a for a in data["albums"] if a["id"] == album_id), None)
+        if album is None or not album["artworkUrl"]:
+            raise InputError(
+                f"artista {rules.id}: o álbum {m.album} das medalhas não está no arquivo "
+                "publicado dele, ou está sem capa"
+            )
+        out["artworkUrl"] = album["artworkUrl"]
+    if m.crop is not None:
+        z, x, y = m.crop
+        out["crop"] = {"z": z, "x": x, "y": y}
+    if m.sash is not None:
+        out["sash"] = {"text": m.sash[0], "along": m.sash[1]}
+    if m.flowers:
+        out["flowers"] = dict(m.flowers)
+    return out
+
+
 def build_artist_list(
-    provider: str, storefront: str, files: Sequence[tuple[str, JSON, str | None]]
+    provider: str, storefront: str, files: Sequence[tuple[str, JSON, str | None, JSON]]
 ) -> JSON:
-    """O índice: os artistas recebidos (na ordem do artists.toml), com a seção de cada um."""
+    """O índice: os artistas recebidos (na ordem do artists.toml), com a seção e as medalhas de
+    cada um."""
     entries = []
-    for name, data, section in files:
+    for name, data, section, medals in files:
         me = next((a for a in data["artists"] if a["id"] == data["artistId"]), None)
         if me is None:
             raise InputError(f"{name}: nenhuma música publicada credita o artista do arquivo")
@@ -558,6 +748,7 @@ def build_artist_list(
                 "songs": len(data["tracks"]),
                 "artworkUrl": card_artwork(data),
                 **({"section": section} if section else {}),
+                "medals": medals,
             }
         )
     return {
@@ -630,12 +821,13 @@ def build_artists(
     stale = _stale_aliases(provider.name, snapshots, cur)
     if stale:
         raise InputError("aliases.toml cita IDs que nenhum artista tem:\n" + "\n".join(stale))
-    files: list[tuple[str, JSON, str | None]] = []
+    files: list[tuple[str, JSON, str | None, JSON]] = []
     for r, snap, songs in selections(provider.name, snapshots, cur, notes):
         if not songs:
             raise InputError(f"artista {r.id}: nenhuma música tocável")
         data = build_artist_file(provider.name, provider.storefront, snap, songs, cur)
         notes.extend(_duplicate_notes(data))
-        files.append((file_name(r), data, r.section))
+        medals = medal_entry(provider.name, r, data)
+        files.append((file_name(r), data, r.section, medals))
     index = build_artist_list(provider.name, provider.storefront, files)
-    return {INDEX: index, **{name: data for name, data, _ in files}}
+    return {INDEX: index, **{name: data for name, data, _, _ in files}}

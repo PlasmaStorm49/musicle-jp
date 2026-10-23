@@ -8,10 +8,18 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from musicle_pipeline.artists import INDEX, card_artwork, list_order
+from musicle_pipeline.artists import (
+    INDEX,
+    LEVELS,
+    PLAIN_LATIN,
+    SASH_ALONG,
+    SASH_UPRIGHT,
+    card_artwork,
+    list_order,
+)
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
-from musicle_pipeline.normalize import title_key
+from musicle_pipeline.normalize import needs_romaji, title_key
 from musicle_pipeline.paths import artist_list_schema_path, artist_schema_path
 from musicle_pipeline.validate import url_problems
 
@@ -90,6 +98,31 @@ def validate_artist_file(data: JSON, raw: bytes | None = None) -> list[str]:
     return problems + _raw_problems(data, raw)
 
 
+def _medal_problems(entry: JSON) -> list[str]:
+    """As medalhas de um artista do índice (M16), além do schema."""
+    m = entry["medals"]
+    problems = []
+    for lv in LEVELS[:2]:  # o perfeito vai sem o latino
+        n = m["names"][lv]
+        if needs_romaji(n["name"]) != (n["latin"] is not None):
+            problems.append(
+                f"{entry['id']}: a medalha {lv} leva o latin só quando o nome tem kana, kanji ou "
+                "hangul (P295)"
+            )
+    sash = m.get("sash")
+    if (
+        sash
+        and sash["along"]
+        and (not PLAIN_LATIN.fullmatch(sash["text"]) or len(sash["text"]) > SASH_ALONG)
+    ):
+        problems.append(
+            f"{entry['id']}: a faixa deitada vai só em letra latina, até {SASH_ALONG} (P299)"
+        )
+    if sash and not sash["along"] and len(sash["text"]) > SASH_UPRIGHT:
+        problems.append(f"{entry['id']}: a faixa em pé cabe até {SASH_UPRIGHT} caracteres (P299)")
+    return problems
+
+
 def validate_artist_list(data: JSON, raw: bytes | None = None) -> list[str]:
     problems = _schema_problems("list", data)
     if problems:
@@ -109,6 +142,7 @@ def validate_artist_list(data: JSON, raw: bytes | None = None) -> list[str]:
         # O web monta o caminho pelo id do provedor: "apple:ar:123" → 123.json.
         if e["file"] != e["id"].rsplit(":", 1)[-1] + ".json":
             problems.append(f"{e['id']}: o arquivo deveria ser {e['id'].rsplit(':', 1)[-1]}.json")
+        problems += _medal_problems(e)
     return problems + _raw_problems(data, raw)
 
 
@@ -139,6 +173,10 @@ def validate_artist_set(files: Mapping[str, JSON]) -> list[str]:
         # o validate_artist_file já conferiu: nunca uma URL de fora.
         if e["artworkUrl"] != card_artwork(data):
             problems.append(f"{where}: a capa do {INDEX} não é a do álbum da música mais popular")
+        # A capa das medalhas (P296) também é a de um álbum do arquivo: nunca uma URL de fora.
+        medal_art = e["medals"].get("artworkUrl")
+        if medal_art is not None and medal_art not in {a["artworkUrl"] for a in data["albums"]}:
+            problems.append(f"{where}: a capa das medalhas não é a de um álbum do arquivo")
     return problems
 
 

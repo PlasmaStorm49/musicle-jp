@@ -246,6 +246,17 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P293 | O PR 2 do M16 se divide em dois: o 2a (a rota, a nav, a tela e o desenho) e o 2b (os avisos). Os dois entram no ar invisíveis: no site, sem a lista, nem a aba nem a tela, e a nav continua com o corte de 480 px; o de 720 (P287) só vale com as Medalhas ligadas (a classe `six` da nav). Em desenvolvimento, a lista de exemplo com `?medalhas=demo` (o plano do M16, 22/10) |
 | P295 | O nome de cada medalha do Superfan é próprio do artista (o usuário, 22/10/2026, sobre as sugestões de um subagente de pesquisa; a lista, no Apêndice O, entra no PR 3). Na prata e no ouro, o nome em japonês leva um ponto e o romaji ao lado, como o nome do artista (`歌い手 · Utaite`); na suprema, só o original |
 | P296 | As 3 medalhas do Superfan de um artista têm a mesma imagem (revisão da P294, que dava uma a cada). A capa vai até o aro, sem a faixa clara, e cada uma tem o seu enquadramento, à mão (o zoom e o centro), para não sobrar texto cortado nem moldura. As flores da suprema seguem o buquê de hoje (o F2, sem a versão 2) e ganham as cores da capa de cada artista; o tema do artista também vale, com aviso. A escolha da capa e das cores fica no Apêndice O (o usuário, 22/10/2026) |
+| P297 | O romaji ao lado do nome japonês da prata e do ouro (P295) vai sem mácron: "Kyogen", e não "Kyōgen". É a grafia mais comum, e a Noto Sans JP do jogo desenha o ō com o mácron fora do lugar (o usuário, 22/10/2026) |
+| P298 | No aviso pequeno, a medalha do Superfan aparece com o monograma, e não com a capa da Apple: as telas dele não têm o selo (P170). O pop-up grande leva o selo da Apple quando mostra uma capa dela. Entrou no PR 3a (o usuário, 22/10/2026) |
+| P299 | A faixa da suprema leva um texto escolhido à mão para cada artista, em pé, um caractere por linha e centralizado na faixa; só YOASOBI e UNLIMITS vão deitados, ao longo dela. O texto é o nome do artista, menos 松田聖子 (sem o espaço), 新しい学校 (o apelido do grupo), 볼빨간사춘기 (o nome em hangul) e SOAD (a sigla dos fãs). Sem a escolha, o nome em pé, até 6 caracteres; o latino mais longo, deitado. Entrou no PR 3a, com a capa (P303) (o usuário, 22/10/2026) |
+| P300 | A tela não usa mais os rótulos Prata, Ouro e Suprema: cada medalha do Superfan aparece pelo nome próprio (P295), na tela das Medalhas e no aviso ("Medalha nova: Nightwalker, de YOASOBI"). Entra no PR 3 (o usuário, 22/10/2026) |
+| P301 | Os 3 nomes de cada artista são obrigatórios no `artists.toml`: o `validate-artists` recusa o artista sem eles (também nas fixtures, com nomes fictícios). Na tela, um nome que falte (um índice corrompido) deixa só o como ganhar (o usuário, 22/10/2026) |
+| P302 | Os nomes internos dos 3 níveis mudam para o feito, antes de entrar no ar: `acertos`, `completo` e `perfeito`, nos ids (`superfan\|<artista>\|completo`), no código e nos docs (revisão da P280 e da P285). Nenhum save do site tem esses ids ainda: lá, a reivindicação nunca rodou, porque a lista das gerais só existe em desenvolvimento. Entra no PR 3 (o usuário, 22/10/2026) |
+| P303 | O PR 3 e o PR 4 do M16 viram uma entrega só, em 2 PRs: o 3a (os dados e o desenho de cada artista, ainda invisível no site) e o 3b (as gerais e o lançamento). As 12 imagens escolhidas são capas de álbum da Apple: sem foto do Commons, sem a API dele e sem créditos no Sobre (revisão da P284) (o usuário, 22/10/2026) |
+| P304 | Nas medalhas gerais, a rodada anulada (o áudio falhou) conta como diário terminado, mas não como perfeito: o perfeito pede as 3 rodadas acertadas, como a do Superfan (P291) (o usuário, 22/10/2026) |
+| P305 | As caudas da medalha dos acertos e da completa usam a cor principal do buquê do artista (o papel `d` da paleta): as 3 ficam com a mesma família de cor da capa. Sem a paleta, a cor do monograma (o usuário, 22/10/2026) |
+| P306 | O aviso de uma medalha do Superfan diz o nome próprio, com o latino, e o artista ("Medalha nova: 廻廻奇譚 · Kaikai Kitan, de Eve"). Sem o nome, o feito ("Superfan completo, de Eve"); sem a lista dos artistas (a carga falhou), só o feito (a IA, 22/10/2026, aceito na aprovação do plano) |
+| P307 | A capa das 3 medalhas é a de um álbum do arquivo publicado do artista (o caminho do `card_artwork`), em 300 px no índice; a tela a pede em 600 px, e em 1000 com zoom de 1,5 ou mais (a mzstatic serve o tamanho pelo endereço). Ela vai até o aro, com o enquadramento escolhido (o zoom e o ponto do centro), sem canto vazio (a IA, 22/10/2026, aceito na aprovação do plano) |
 | P289 | O save v8 guarda o modo por artista, só o mínimo: os acertos de cada artista e se ele já terminou e terminou perfeita uma partida do Superfan (revisão da P116). Guarda também as medalhas já avisadas e a estante (ME118), vazia até ela (o plano do M16, 22/10) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
@@ -334,7 +345,7 @@ musicle-jp/
 | M13 | Em andamento (PRs A, B e C) | Modo por artista: a lista de artistas e rodadas sem fim do Desafio com as músicas de um deles (Apêndice K). Feito antes do M12 (o visual) | 3 PRs: pipeline e fixtures (A), dados reais dos 6 artistas (B), web (C) | Planejamento com 3 subagentes Explore e um Plan |
 | M14 | Em andamento (PRs A1, D1, A2, A3, C1, D2, D3 e C2) | O Anime (ME97, Apêndice M): a categoria com 6 diários por dia (2 modos × 3 dificuldades), o acervo de músicas de anime com a prévia da Apple e o robô | Em 21/10: A1 (o catálogo), D1 (o save v6), A2 (a agenda), A3 (a busca), C1 (a carga de teste), D2 e D3 (a web, a estreia). Em 22/10: C2 (a carga grande e a calibração das faixas). Depois: B (o robô) | Planejamento com subagentes Explore, de pesquisa e Plan; subagentes em worktrees (o D1, em paralelo, e o D2 e o D3, as telas); outro testando as APIs reais |
 | M15 | Concluído (PRs 1, 2 e 3) | O Histórico (ME104, Apêndice N): o calendário dos 14 dias antes de hoje, a tela de cada dia e o jogar depois, fora das estatísticas; a nav do celular com o "Mais ▾" | Em 3 PRs: o núcleo e o save v7 (1), o Histórico dos Hits (2) e o Anime no Histórico (3). Jogar um dia passado não muda a sequência nem a média, e as telas novas cabem em 360 × 640 | Planejamento com subagentes Explore e Plan; o subagente do robô do M14 (o PR B) em paralelo, numa worktree |
-| M16 | Em andamento (PRs 1 e 2a) | As medalhas (ME105, Apêndice O): a tela, os avisos e as 3 medalhas do Superfan de cada artista, com a imagem dele | Em 4 PRs: o núcleo e o save v8 (1), a estrutura, só em desenvolvimento (2), a lista (3) e as imagens dos artistas (4). O desenho fica para quando o usuário decidir | Planejamento com subagentes Explore e Plan; um subagente de pesquisa (as fotos públicas dos artistas); mockups no chat e uma página de rascunho com as capas reais |
+| M16 | Em andamento (PRs 1, 2a, 2b e 3a) | As medalhas (ME105, Apêndice O): a tela, os avisos e as 3 medalhas do Superfan de cada artista, com a imagem dele | O núcleo e o save v8 (1), a estrutura e os avisos, só em desenvolvimento (2a e 2b), os dados e o desenho de cada artista, ainda invisíveis (3a, P303), e as gerais e o lançamento (3b) | Planejamento com subagentes Explore e Plan; um subagente de pesquisa (as fotos públicas dos artistas); mockups no chat e uma página de rascunho com as capas reais |
 
 **Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
 
@@ -1416,9 +1427,9 @@ Também só em desenvolvimento, com `?medalhas=demo`. O `?medalhas=silencio` lig
 
   O `seedHistory` dos e2e passou a gravar uma vez por aba: o recarregar lê o que o jogo gravou.
 
-### As imagens e as flores (P296, em escolha)
+### As imagens e as flores (P296)
 
-A escolha do usuário em 22/10/2026, sobre a página de rascunho `web/medalhas-cores.html` (fora do Git), que guarda as cores e o enquadramento de cada um. As cores saem da capa (lidas num canvas, sem gravar a imagem). Entra no PR 4.
+A escolha do usuário em 22/10/2026, sobre a página de rascunho `web/medalhas-cores.html` (fora do Git). As cores saem da capa (lidas num canvas, sem gravar a imagem). Desde o PR 3a, ficam no `[artists.medals]` do `pipeline/data/apple/artists/artists.toml`, com o id do álbum, o enquadramento e a faixa.
 
 | Artista | A capa | As flores |
 |---|---|---|
@@ -1435,16 +1446,16 @@ A escolha do usuário em 22/10/2026, sobre a página de rascunho `web/medalhas-c
 | 볼빨간사춘기 | Red Diary Page.1 (escolha da IA: o vermelho dos títulos Red; o círculo só com a foto) | os rosas das bochechas coradas e o dourado (tema do grupo) |
 | System Of A Down | System Of A Down (1998) | o preto, o dourado e o bronze |
 
-### Os nomes (P295, em escolha)
+### Os nomes (P295)
 
-O usuário escolheu sobre as sugestões de um subagente de pesquisa (as fontes ficam na conversa de 22/10/2026). A lista entra no PR 3.
+O usuário escolheu sobre as sugestões de um subagente de pesquisa (as fontes ficam na conversa de 22/10/2026). Desde o PR 3a, ficam no `artists.toml` (P301). Os níveis da tabela são os de antes da P302: a dos acertos, a completa e a perfeita.
 
 | Artista | Prata | Ouro | Suprema |
 |---|---|---|---|
 | YOASOBI | Nightwalker | YOA'S | 小説を音楽にする |
-| LiSA | LiVE is Smile Always | LiSAッ子 | 今日もいい日だっ |
+| LiSA | LiVE is Smile Always | LiSAッ子 · LiSAkko | 今日もいい日だっ |
 | Eve | 廻廻奇譚 · Kaikai Kitan | Round Robin | はらぺこ |
-| Ado | 狂言 · Kyōgen | 歌い手 · Utaite | 青い薔薇 |
+| Ado | 狂言 · Kyogen | 歌い手 · Utaite | 青い薔薇 |
 | Aimer | Sleepless Nights | Blanc et Noir | エメ |
 | 米津玄師 | Stray Sheep | ハチ · Hachi | かいじゅうずかん |
 | UNLIMITS | Amethyst | 七色の記憶 · Nanairo no Kioku | 夢幻の宴 |
@@ -1456,10 +1467,51 @@ O usuário escolheu sobre as sugestões de um subagente de pesquisa (as fontes f
 
 - **Os três últimos** (o usuário, 22/10/2026, as favoritas de um 2º subagente de pesquisa):
   - はらぺこ, "faminto": o selo independente do Eve (harapeco records), a marca de roupas e o perfil eve_harapeco;
-  - 狂言 · Kyōgen: o 1º álbum da Ado e o teatro de onde vem o nome dela (os papéis シテ e アド);
+  - 狂言 · Kyogen: o 1º álbum da Ado e o teatro de onde vem o nome dela (os papéis シテ e アド);
   - はみ出していく, "vamos sair da linha": a saudação fixa do ATARASHII GAKKO!.
-- **A confirmar:** a grafia do romaji ao lado (só o Kyōgen, da Ado, leva mácron); o romaji de `LiSAッ子`; e o latino do grupo (`Plusonica`) ou o romaji de livro (`Purasonika`).
+- **O romaji ao lado** vai sem mácron (P297): `LiSAkko` (a resposta do usuário) e `Plusonica`, o nome latino do grupo.
 - **O risco:** os nomes de fã-clube oficial (YOA'S, Blanc et Noir, 青春部) podem parecer parceria com o artista e podem ser marca registrada. O registro não foi conferido.
+
+### O PR 3a (os dados e o desenho)
+
+Invisível no site, como os anteriores: a lista das gerais só existe em desenvolvimento.
+
+- **Os nomes internos** (P302): `acertos`, `completo` e `perfeito` nos ids, no código, no i18n e nos testes. Os textos de tela "Prata", "Ouro" e "Suprema" saíram (P300).
+- **O `[artists.medals]`** no fim de cada artista do `artists.toml`:
+  - os 3 nomes, com o latino só quando o nome tem kana, kanji ou hangul;
+  - o `album` (a capa);
+  - o `crop` (o zoom e o centro);
+  - a `sash` (a faixa, em pé ou `along`);
+  - o `[artists.medals.flowers]` (as 13 cores).
+
+  O parser confere o formato, mas não exige os nomes: o `fetch` e o `romanize` de um artista novo rodam antes da escolha. Quem exige é o `build-artists` (P301), que acha a capa do álbum no arquivo do artista e grava o `medals` no índice, pelo caminho do `section`.
+- **O schema da lista** ganhou o `medals`, obrigatório e sem versão nova (como o `section`). As cores vão escritas por extenso, sem `$defs` aninhado, e um teste confere as chaves do Python contra as do schema.
+- **A faixa** em pé cabe até 6 caracteres, e a deitada só em letra latina, até 28 (no corpo mínimo, o web troca a mais longa pela letra). O parser já recusa, e o `validate-artists` confere de novo; os dois números ficam no Python e no web, e um teste confere que são iguais. A capa das medalhas é sempre a de um álbum do arquivo (nas fixtures, o ar02 usa outra que a do cartão, para o teste não passar por acaso).
+- **O núcleo, `core/medalArt.ts`:**
+  - o `superfanArt`: a capa, o enquadramento, as flores e a faixa, cada um conferido, porque o `loadArtistList` não confere as entradas. O índice velho no cache cai no padrão;
+  - o `medalName` (o nome próprio);
+  - o `sizedArtwork` (600 ou 1000 px, P307);
+  - o `coverFrame` (a capa sem canto vazio);
+  - o `sashLayout` (a faixa da P299).
+- **O `MedalArt`** recebe o desenho do artista (`art`):
+  - a capa até o aro;
+  - o buquê nas cores dele, e o lilás sem elas;
+  - as caudas na cor `d` (P305);
+  - a faixa.
+- **A tela e os avisos:**
+  - a célula mostra o nome próprio, pelo `LatinName` (extraído do `ArtistName`, com o `lang` e o ponto decorativo), e o como ganhar; sem o nome, só o como ganhar;
+  - os nomes longos quebram em qualquer ponto, com as linhas equilibradas (`text-wrap: balance`);
+  - o aviso diz "{nome}, de {artista}" (P306);
+  - o pequeno vai sem a capa, e o pop-up leva o selo depois do "Ok" (P298);
+  - o leitor de tela ouve qual é a medalha (o desenho é decorativo): o feito, num `sr-only`, na célula e no pop-up ("50 acertos", "Superfan completo"). O que vai para a região aria-live troca o ponto do latino pela vírgula e leva o feito no fim. O pop-up tem o `aria-describedby` na lista dos nomes, e o artista leva o `lang` dele, como na tela.
+- **Os testes:**
+  - pipeline: a leitura, as recusas, os nomes que faltam, o latino, a capa fora do arquivo, as conferências do índice e a paridade com o schema;
+  - núcleo: o `superfanArt`, o `sizedArtwork`, o `coverFrame` e o `sashLayout`;
+  - componentes: o aro, o enquadramento, as cores, as caudas e a faixa, e nenhum rótulo de nível na tela;
+  - e2e: os nomes fictícios, e o pop-up de 4 com o selo da Apple em 320 × 640.
+
+  As fixtures ganharam nomes inventados, e o ar02 leva um nome longo, que mede a tela em 320 px.
+- **O rascunho `web/medalhas-cores.html`** parou de funcionar: ele usava o `MedalArt` de antes. As capturas da vitrine guardam a referência do desenho aprovado.
 
 ### Os riscos
 

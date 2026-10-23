@@ -57,11 +57,11 @@ export function medalContext(
 export const MEDALS: readonly Medal[] = [];
 
 /** Os 3 níveis do Superfan de cada artista (P280, P285). */
-export const SUPERFAN_LEVELS = ["prata", "ouro", "suprema"] as const;
+export const SUPERFAN_LEVELS = ["acertos", "completo", "perfeito"] as const;
 export type SuperfanLevel = (typeof SUPERFAN_LEVELS)[number];
 /**
- * Acertos no modo por artista para a prata (P285, o usuário subiu de 10 para 50). Fixo: se ele
- * crescesse com o catálogo do artista, uma prata já ganha poderia sumir.
+ * Acertos no modo por artista para a medalha dos acertos (P285, o usuário subiu de 10 para 50).
+ * Fixo: se ele crescesse com o catálogo do artista, uma medalha já ganha poderia sumir.
  */
 export const SUPERFAN_RIGHT = 50;
 
@@ -70,14 +70,15 @@ export function superfanMedalId(artistId: string, level: SuperfanLevel): string 
 }
 
 /**
- * As 3 do artista: a prata, com 50 acertos (a Livre e o Superfan somam); o ouro, por terminar
- * uma partida do Superfan; a suprema, por terminar uma perfeita. O ouro e a suprema são grandes.
+ * As 3 do artista (P302: os ids dizem o feito): `acertos`, com 50 acertos (a Livre e o Superfan
+ * somam); `completo`, por terminar uma partida do Superfan; `perfeito`, por terminar uma perfeita.
+ * As duas últimas são grandes.
  */
 export function superfanMedals(artistId: string): readonly Medal[] {
   const record = (ctx: MedalContext) => ctx.artists[artistId] ?? NO_ARTIST;
   return [
     {
-      id: superfanMedalId(artistId, "prata"),
+      id: superfanMedalId(artistId, "acertos"),
       tier: "simple",
       earned: (ctx) => record(ctx).right >= SUPERFAN_RIGHT,
       progress: (ctx) => ({
@@ -85,9 +86,13 @@ export function superfanMedals(artistId: string): readonly Medal[] {
         goal: SUPERFAN_RIGHT,
       }),
     },
-    { id: superfanMedalId(artistId, "ouro"), tier: "major", earned: (ctx) => !!record(ctx).done },
     {
-      id: superfanMedalId(artistId, "suprema"),
+      id: superfanMedalId(artistId, "completo"),
+      tier: "major",
+      earned: (ctx) => !!record(ctx).done,
+    },
+    {
+      id: superfanMedalId(artistId, "perfeito"),
       tier: "major",
       earned: (ctx) => !!record(ctx).perfect,
     },
@@ -176,7 +181,7 @@ export function medalBoard(
   const superfan = artistIds.map((artistId) => ({
     artistId,
     cells: superfanMedals(artistId).map((medal, i) => ({
-      level: SUPERFAN_LEVELS[i] ?? "prata",
+      level: SUPERFAN_LEVELS[i] ?? "acertos",
       state: stateOf(medal, ctx),
     })),
   }));

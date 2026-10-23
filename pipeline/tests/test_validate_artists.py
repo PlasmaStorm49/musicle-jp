@@ -3,14 +3,18 @@
 from __future__ import annotations
 
 import copy
+import re
 import shutil
 
 import pytest
 
+from musicle_pipeline.artists import FLOWER_ROLES, LEVELS
 from musicle_pipeline.io_json import dumps, read_json
-from musicle_pipeline.paths import artist_paths
+from musicle_pipeline.paths import REPO_ROOT, artist_list_schema_path, artist_paths
 from musicle_pipeline.validate_artists import (
     MAX_FILE_BYTES,
+    SASH_ALONG,
+    SASH_UPRIGHT,
     validate_artist_dir,
     validate_artist_file,
     validate_artist_list,
@@ -99,6 +103,13 @@ def test_the_list():
             "a capa do index.json",
         ),
         (lambda f: f["index.json"]["artists"][0].update(artworkUrl=None), "a capa do index.json"),
+        # A capa das medalhas (P296) também é a de um álbum do arquivo.
+        (
+            lambda f: f["index.json"]["artists"][0]["medals"].update(
+                artworkUrl="https://evil.test/x.jpg"
+            ),
+            "a capa das medalhas",
+        ),
     ],
 )
 def test_the_set(change, message):
@@ -112,3 +123,57 @@ def test_the_dir_refuses_other_files(tmp_path):
     (tmp_path / "artists" / "capa.svg").write_text("<svg/>", encoding="utf-8")
     assert any("só JSON" in p for p in validate_artist_dir(tmp_path / "artists"))
     assert validate_artist_dir(tmp_path / "nada") == [f"{tmp_path / 'nada'}: pasta ausente"]
+
+
+def _medals_broken(change) -> list[str]:
+    index = copy.deepcopy(read_json(PUBLIC / "index.json"))
+    change(index["artists"][0]["medals"])  # o ar02, com as medalhas completas
+    return validate_artist_list(index)
+
+
+@pytest.mark.parametrize(
+    ("change", "message"),
+    [
+        # O latino só com kana, kanji ou hangul, e sempre com eles (P295).
+        (lambda m: m["names"]["acertos"].update(latin=None), "leva o latin"),
+        (lambda m: m["names"]["completo"].update(name="Curtain Call"), "leva o latin"),
+        # A faixa deitada é latina; a em pé cabe até 6 (P299).
+        (lambda m: m.update(sash={"text": "夜風", "along": True}), "deitada vai só"),
+        (lambda m: m.update(sash={"text": "夜風シアター劇場", "along": False}), "até 6"),
+        (lambda m: m.update(sash={"text": "A" * 29, "along": True}), "até 28"),
+        (lambda m: m.update(sash={"text": "Re:\tPulse", "along": True}), "deitada vai só"),
+        # O schema: sem mácron (P297), as 13 cores, os nomes obrigatórios (P301).
+        (lambda m: m["names"]["acertos"].update(latin="Kyōgen"), "schema"),
+        (lambda m: m["flowers"].pop("d"), "schema"),
+        (lambda m: m["flowers"].update(d="#ABCDEF"), "schema"),
+        (lambda m: m.pop("names"), "schema"),
+        (lambda m: m["names"]["perfeito"].update(latin="x"), "schema"),
+        (lambda m: m.update(crop={"z": 9, "x": 0.5, "y": 0.5}), "schema"),
+    ],
+)
+def test_the_medals_in_the_list(change, message):
+    assert any(message in p for p in _medals_broken(change))
+
+
+def test_an_artist_without_medals_is_refused():
+    index = copy.deepcopy(read_json(PUBLIC / "index.json"))
+    del index["artists"][0]["medals"]
+    assert any("schema" in p for p in validate_artist_list(index))
+
+
+def test_the_medal_keys_match_the_schema():
+    # Os níveis (P302) e os papéis das cores (P296) dos dois lados: o Python e o schema.
+    schema = read_json(artist_list_schema_path())
+    medals = schema["$defs"]["entry"]["properties"]["medals"]["properties"]
+    assert tuple(medals["names"]["required"]) == LEVELS
+    assert tuple(medals["flowers"]["required"]) == FLOWER_ROLES
+    assert list(medals["flowers"]["properties"]) == list(FLOWER_ROLES)
+
+
+def test_the_sash_limits_are_the_same_in_the_web():
+    # A faixa em pé até SASH_UPRIGHT caracteres, e a deitada até SASH_ALONG (P299): o web troca a
+    # mais longa pela letra.
+    source = (REPO_ROOT / "web/src/core/medalArt.ts").read_text(encoding="utf-8")
+    for name, value in (("SASH_UPRIGHT", SASH_UPRIGHT), ("SASH_ALONG", SASH_ALONG)):
+        match = re.search(rf"export const {name} = (\d+);", source)
+        assert match and int(match.group(1)) == value, name

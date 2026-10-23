@@ -4,18 +4,58 @@
 #   exclude_tracks: trackId de faixa que não entra
 #   same_song: pares de trackId da mesma música com títulos que a chave não junta (o 2º vai
 #     para o grupo do 1º)
+#   [artists.medals] (M16), sempre no FIM do bloco do artista (o que vier depois dele é dele):
+#     os 3 nomes, obrigatórios (P301): acertos e completo com o latin (o romaji, sem mácron,
+#     P297) só quando o nome tem kana, kanji ou hangul; perfeito só com o nome (P295); a capa
+#     das 3 (album: o collectionId de um álbum do artista, P296); o enquadramento (crop: o zoom
+#     z, de 1 a 4, e o ponto x e y, de 0 a 1); a faixa da perfeita (sash: em pé, até 6
+#     caracteres, ou along = true, deitada, P299); e o [artists.medals.flowers], as 13 cores do
+#     buquê (P296). Sem a capa, o crop, a faixa ou as flores, a tela usa o padrão.
 
 [[artists]]
 id = "ar02"  # 夜風シアター: karaokê, ao vivo e música só em karaokê
+
+[artists.medals]
+acertos = { name = "開幕ベル", latin = "Kaimaku Bell" }
+completo = { name = "真夜中のカーテンコール", latin = "Mayonaka no Curtain Call" }
+perfeito = { name = "夜風劇場" }
+album = "al30"  # 真夜中の観覧車 - Single (outra capa que a do cartão, o al21)
+crop = { z = 1.4, x = 0.5, y = 0.45 }
+sash = { text = "夜風シアター" }
+
+[artists.medals.flowers]  # o verde-água, inventado
+d = "#2f6f6a"
+m = "#4f9e97"
+ml = "#86c4bd"
+l = "#c2e3df"
+w = "#f4fbfa"
+line = "#9fcfc9"
+core = "#f2c94c"
+ink = "#173533"
+bow = "#b3261e"
+ring = "#173533"
+spark = "#4f9e97"
+leaf1 = "#5f8a4e"
+leaf2 = "#7aa35f"
 
 [[artists]]
 id = "ar07"  # 青井ユウ: participação (tr05, de ar02), álbum em inglês e título em romaji
 exclude_albums = ["alx03"]
 same_song = [["tr15", "trx05"]]
 
+[artists.medals]
+acertos = { name = "Blue Diary" }
+completo = { name = "青い日記", latin = "Aoi Nikki" }
+perfeito = { name = "ユウ" }
+
 [[artists]]
 id = "ar01"  # ミナト: versões do mesmo título, TV Size, crédito "(… from …)" e faixa excluída
 exclude_tracks = ["trx07"]
+
+[artists.medals]
+acertos = { name = "夜明け", latin = "Yoake" }
+completo = { name = "Dawn Collection" }
+perfeito = { name = "港" }
 
 # A seção de fora do Japão (P200): em ordem inversa aqui, para o teste provar que é o build que
 # põe a seção em ordem alfabética (P201).
@@ -23,6 +63,17 @@ exclude_tracks = ["trx07"]
 id = "ar11"  # Re:Pulse
 section = "foreign"
 
+[artists.medals]
+acertos = { name = "RIOT" }
+completo = { name = "ゼロ距離", latin = "Zero Kyori" }
+perfeito = { name = "Re:Pulse" }
+sash = { text = "Re:Pulse", along = true }
+
 [[artists]]
 id = "ar06"  # Hoshizora Drive
 section = "foreign"
+
+[artists.medals]
+acertos = { name = "Midnight Drive" }
+completo = { name = "流星", latin = "Ryusei" }
+perfeito = { name = "星空" }

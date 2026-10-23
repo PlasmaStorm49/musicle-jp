@@ -8,6 +8,13 @@
 #   singles: um trackId de cada música lançada como single (lado A), P172. Só para artista com
 #     catálogo maior que o teto: o lookup de músicas só ordena 200 faixas, e no resto o single
 #     vem antes das faixas de álbum
+#   [artists.medals] (M16), sempre no FIM do bloco do artista (o que vier depois dele é dele):
+#     os 3 nomes, obrigatórios (P301): acertos e completo com o latin (o romaji, sem mácron,
+#     P297) só quando o nome tem kana, kanji ou hangul; perfeito só com o nome (P295); a capa
+#     das 3 (album: o collectionId de um álbum do artista, P296); o enquadramento (crop: o zoom
+#     z, de 1 a 4, e o ponto x e y, de 0 a 1); a faixa da perfeita (sash: em pé, até 6
+#     caracteres, ou along = true, deitada, P299); e o [artists.medals.flowers], as 13 cores do
+#     buquê (P296). Sem a capa, o crop, a faixa ou as flores, a tela usa o padrão.
 
 [[artists]]
 id = "1490256993"  # YOASOBI
@@ -31,16 +38,108 @@ exclude_albums = [
 # "the NOISE" é do LE SSERAFIM, com o YOASOBI creditado só por um sample de 夜に駆ける (P160).
 exclude_tracks = ["1841835717"]
 
+[artists.medals]
+acertos = { name = "Nightwalker" }
+completo = { name = "YOA'S" }
+perfeito = { name = "小説を音楽にする" }
+album = "1593438479"  # THE BOOK 2
+crop = { z = 1.18, x = 0.5, y = 0.6 }
+sash = { text = "YOASOBI", along = true }
+
+[artists.medals.flowers]  # o verde-menta e o preto da capa
+d = "#3f9a5b"
+m = "#6cc283"
+ml = "#99daa0"
+l = "#c9edcd"
+w = "#f5fcf6"
+line = "#9fd3a8"
+core = "#f2c94c"
+ink = "#16261b"
+bow = "#141a16"
+ring = "#16261b"
+spark = "#3f9a5b"
+leaf1 = "#2f5e3a"
+leaf2 = "#467a50"
+
 [[artists]]
 id = "573943518"  # LiSA (アニメ; não a LISA do BLACKPINK)
 # "ROCK-mode'18" é a regravação de 2018 de "ROCK-mode" (LiSA BEST -Way-).
 same_song = [["1537786186", "1538286198"]]
 
+[artists.medals]
+acertos = { name = "LiVE is Smile Always" }
+completo = { name = "LiSAッ子", latin = "LiSAkko" }
+perfeito = { name = "今日もいい日だっ" }
+album = "1647502606"  # LANDER
+crop = { z = 1.3, x = 0.42, y = 0.4 }
+sash = { text = "LiSA" }
+
+[artists.medals.flowers]  # o vermelho, o coral e o pêssego; o azul-marinho no aro, na faixa e no laço
+d = "#d22024"
+m = "#f0645e"
+ml = "#f7927f"
+l = "#fab999"
+w = "#fff6f1"
+line = "#f2a993"
+core = "#f2c94c"
+ink = "#033b85"
+bow = "#033b85"
+ring = "#033b85"
+spark = "#d22024"
+leaf1 = "#5f8a4e"
+leaf2 = "#7aa35f"
+
 [[artists]]
 id = "1080967231"  # Eve (J-Pop; não o Eve do rap)
 
+[artists.medals]
+acertos = { name = "廻廻奇譚", latin = "Kaikai Kitan" }
+completo = { name = "Round Robin" }
+perfeito = { name = "はらぺこ" }
+album = "1481536400"  # レーゾンデートル - Single
+crop = { z = 1.2, x = 0.42, y = 0.45 }
+sash = { text = "Eve" }
+
+[artists.medals.flowers]  # o cinza-azulado da capa e o vinho no laço
+d = "#3e4e59"
+m = "#606e7a"
+ml = "#869bac"
+l = "#c3ced8"
+w = "#f4f6f8"
+line = "#9aa7b3"
+core = "#e0c37a"
+ink = "#26292e"
+bow = "#7b2f49"
+ring = "#26292e"
+spark = "#869bac"
+leaf1 = "#4f6b5a"
+leaf2 = "#6a8572"
+
 [[artists]]
 id = "1492604670"  # Ado
+
+[artists.medals]
+acertos = { name = "狂言", latin = "Kyogen" }
+completo = { name = "歌い手", latin = "Utaite" }
+perfeito = { name = "青い薔薇" }
+album = "1603820296"  # 狂言
+crop = { z = 1.3, x = 0.5, y = 0.48 }
+sash = { text = "Ado" }
+
+[artists.medals.flowers]  # pretas, com o azul dela no meio e no laço (o pedido do usuário)
+d = "#0b0b10"
+m = "#23252e"
+ml = "#1f3a8a"
+l = "#3b5fc4"
+w = "#dfe6fb"
+line = "#5d6680"
+core = "#1f3a8a"
+ink = "#0b0b10"
+bow = "#1f3a8a"
+ring = "#0b0b10"
+spark = "#3b5fc4"
+leaf1 = "#2e4a3a"
+leaf2 = "#3f5f4a"
 
 [[artists]]
 id = "569972619"  # Aimer
@@ -54,11 +153,80 @@ same_song = [
 # "After Dark -prologue-" (68 s) é a abertura do álbum, e a música inteira não está na loja.
 exclude_tracks = ["1536151528"]
 
+[artists.medals]
+acertos = { name = "Sleepless Nights" }
+completo = { name = "Blanc et Noir" }
+perfeito = { name = "エメ" }
+album = "1537258705"  # 花の唄 / I beg you / 春はゆく - EP
+crop = { z = 2.7, x = 0.61, y = 0.37 }
+sash = { text = "Aimer" }
+
+[artists.medals.flowers]  # o lilás e o preto; o rosto dela de perto
+d = "#7a5f8a"
+m = "#9f84ad"
+ml = "#bda5c3"
+l = "#dacddf"
+w = "#f7f3f8"
+line = "#c4b4cc"
+core = "#f2d16b"
+ink = "#1c1c14"
+bow = "#1c1c14"
+ring = "#1c1c14"
+spark = "#9f84ad"
+leaf1 = "#4e6b45"
+leaf2 = "#66845a"
+
 [[artists]]
 id = "530814268"  # 米津玄師 (o Hachi, 727267782, é outro artista e não entra, P123)
 
+[artists.medals]
+acertos = { name = "Stray Sheep" }
+completo = { name = "ハチ", latin = "Hachi" }
+perfeito = { name = "かいじゅうずかん" }
+album = "1440791809"  # YANKEE
+crop = { z = 1.05, x = 0.5, y = 0.5 }
+sash = { text = "米津玄師" }
+
+[artists.medals.flowers]  # o vermelho e o bege; o marrom no aro e no laço
+d = "#ca2f24"
+m = "#e0604f"
+ml = "#cdad86"
+l = "#ead7bd"
+w = "#fbf6ee"
+line = "#d8b9a0"
+core = "#f2d16b"
+ink = "#3d2a24"
+bow = "#765c53"
+ring = "#765c53"
+spark = "#ca2f24"
+leaf1 = "#5f8a4e"
+leaf2 = "#7aa35f"
+
 [[artists]]
 id = "311230779"  # Unlimits (rock; ハルカカナタ, カスケード)
+
+[artists.medals]
+acertos = { name = "Amethyst" }
+completo = { name = "七色の記憶", latin = "Nanairo no Kioku" }
+perfeito = { name = "夢幻の宴" }
+album = "1763583412"  # アメジスト
+crop = { z = 1.25, x = 0.58, y = 0.5 }
+sash = { text = "UNLIMITS", along = true }
+
+[artists.medals.flowers]  # o violeta da pedra e o orquídea do brilho da capa
+d = "#3d1f6b"
+m = "#8a3fb8"
+ml = "#d36fd0"
+l = "#f0c6ec"
+w = "#fbf0fa"
+line = "#c99ad3"
+core = "#f2d16b"
+ink = "#211a35"
+bow = "#211a35"
+ring = "#211a35"
+spark = "#d36fd0"
+leaf1 = "#5f8a4e"
+leaf2 = "#7aa35f"
 
 [[artists]]
 id = "76115834"  # 松田聖子 (Seiko Matsuda; não a "Seiko" 286640008)
@@ -188,16 +356,85 @@ singles = [
   "1811935953",  # Stardust (DL 9th)  [fora das 200 hoje]
 ]
 
+[artists.medals]
+acertos = { name = "Pineapple" }
+completo = { name = "24" }
+perfeito = { name = "永遠のアイドル" }
+album = "1536763133"  # Strawberry Time
+crop = { z = 1.15, x = 0.5, y = 0.5 }
+sash = { text = "松田聖子" }
+
+[artists.medals.flowers]  # o rosa e o malva de 1987
+d = "#9d6279"
+m = "#bf7e8d"
+ml = "#d196a3"
+l = "#ecc9d3"
+w = "#fff6f8"
+line = "#d9a9b6"
+core = "#f2c94c"
+ink = "#3f2f42"
+bow = "#734860"
+ring = "#734860"
+spark = "#bf7e8d"
+leaf1 = "#5f8a4e"
+leaf2 = "#7aa35f"
+
 [[artists]]
 id = "1231338664"  # 新しい学校のリーダーズ (ATARASHII GAKKO!; オトナブルー, Tokyo Calling)
 # O feat. do single e o do álbum (マエナラワナイ) vêm escritos de jeitos diferentes, e o
 # "(feat.H …)", colado, a chave não tira.
 same_song = [["1332972950", "1348202944"]]  # 恋の遮断機 feat. H ZETTRIO / 恋の遮断機 (feat.H ZETTRIO)
 
+[artists.medals]
+acertos = { name = "オトナブルー", latin = "Otona Blue" }
+completo = { name = "青春部", latin = "Seishun-bu" }
+perfeito = { name = "はみ出していく" }
+album = "1746886154"  # AG! Calling
+crop = { z = 1.2, x = 0.5, y = 0.42 }
+sash = { text = "新しい学校" }
+
+[artists.medals.flowers]  # o azul-celeste e o azul-marinho; o laço vermelho do uniforme (tema do grupo)
+d = "#2f6f9f"
+m = "#45a7d1"
+ml = "#81bad4"
+l = "#b3d1e1"
+w = "#f4f8fb"
+line = "#9cc3d8"
+core = "#f2d16b"
+ink = "#202332"
+bow = "#c8102e"
+ring = "#202332"
+spark = "#45a7d1"
+leaf1 = "#5f8a4e"
+leaf2 = "#7aa35f"
+
 [[artists]]
 id = "1489581870"  # 幾田りら (Lilas Ikuta; não o "Lilas" 1704820090, de títulos em francês)
 # A versão em inglês (英語版) do tema do 崩壊:スターレイル; a [Japanese Ver.] fica.
 exclude_tracks = ["1786299392"]  # Nameless Faces (feat. Lilas Ikuta) [英語版]
+
+[artists.medals]
+acertos = { name = "Lilac" }
+completo = { name = "ぷらそにか", latin = "Plusonica" }
+perfeito = { name = "吉祥寺" }
+album = "1671948398"  # Sketch
+crop = { z = 1.2, x = 0.52, y = 0.45 }
+sash = { text = "幾田りら" }
+
+[artists.medals.flowers]  # o violeta, o índigo e o malva; o lilás do nome (tema da artista)
+d = "#545096"
+m = "#7d61a0"
+ml = "#a7899a"
+l = "#d3c3dc"
+w = "#f8f5fa"
+line = "#b9a9c9"
+core = "#f2d16b"
+ink = "#261419"
+bow = "#8a5951"
+ring = "#261419"
+spark = "#7d61a0"
+leaf1 = "#5f8a4e"
+leaf2 = "#7aa35f"
 
 # A seção de fora do Japão (P199, P200), pedida por amigos do usuário. A ordem dela na tela é a
 # alfabética (P201), feita pelo build: a deste arquivo não conta.
@@ -258,6 +495,29 @@ same_song = [
   ["1552435274", "1646166898"],  # You and I From the Beginning / From the beginning You and I
 ]
 
+[artists.medals]
+acertos = { name = "Blushing Youth" }
+completo = { name = "Red Planet" }
+perfeito = { name = "사춘기" }
+album = "1550029640"  # Red Diary Page.1 - EP
+crop = { z = 2.6, x = 0.5, y = 0.55 }
+sash = { text = "볼빨간사춘기" }
+
+[artists.medals.flowers]  # os rosas das bochechas coradas (tema do grupo) e o dourado; o círculo só com a foto
+d = "#ae1917"
+m = "#d9534f"
+ml = "#ee9a9a"
+l = "#f8cfcf"
+w = "#fff5f5"
+line = "#e8a8a8"
+core = "#f2c94c"
+ink = "#5a0f0e"
+bow = "#ac8744"
+ring = "#ae1917"
+spark = "#c9ac7c"
+leaf1 = "#5f8a4e"
+leaf2 = "#7aa35f"
+
 [[artists]]
 id = "462715"  # System of a Down
 section = "foreign"
@@ -272,3 +532,26 @@ exclude_tracks = [
   # Faixa do DJ Starscream (The New Leader), creditada ao System of a Down na loja.
   "217680068",  # Introducing the New Leader
 ]
+
+[artists.medals]
+acertos = { name = "Chop Suey!" }
+completo = { name = "Victims of a Down" }
+perfeito = { name = "Soil" }
+album = "158528551"  # System Of A Down
+crop = { z = 1.1, x = 0.5, y = 0.5 }
+sash = { text = "SOAD" }
+
+[artists.medals.flowers]  # o preto, o dourado e o bronze da capa de 1998
+d = "#2a2420"
+m = "#8b6337"
+ml = "#cca96d"
+l = "#e6d3a8"
+w = "#f7f0e1"
+line = "#b89b6a"
+core = "#d9b45a"
+ink = "#141110"
+bow = "#8b6337"
+ring = "#141110"
+spark = "#cca96d"
+leaf1 = "#3f4a2e"
+leaf2 = "#56623d"

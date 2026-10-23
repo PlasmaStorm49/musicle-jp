@@ -1,19 +1,27 @@
 // A tela das Medalhas (M16, P278, P286): no topo, a sequência (P282) e o total; depois, as gerais;
-// embaixo, as 3 do Superfan de cada artista da lista, com a capa dele (P284). A tela rola, como a
-// lista dos Artistas (P211). Com as capas da Apple, o selo fecha a página (P170).
+// embaixo, as 3 do Superfan de cada artista da lista, com o desenho dele (P296) e o nome próprio de
+// cada uma (P300). A tela rola, como a lista dos Artistas (P211). Com as capas da Apple, o selo
+// fecha a página (P170).
 import { useEffect } from "preact/hooks";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
-import { cardArtwork, monogram } from "../core/artists.ts";
-import { type ArtistMedals, type Medal, type MedalState, medalBoard } from "../core/medals.ts";
+import { medalName, superfanArt } from "../core/medalArt.ts";
+import {
+  type ArtistMedals,
+  type Medal,
+  type MedalState,
+  medalBoard,
+  SUPERFAN_RIGHT,
+  type SuperfanLevel,
+} from "../core/medals.ts";
 import type { Save } from "../core/records.ts";
 import type { ArtistList, ArtistListEntry } from "../core/types.ts";
 import type { MessageKey } from "../i18n/pt-BR.ts";
 import { t } from "../i18n/t.ts";
-import { ArtistName } from "./ArtistName.tsx";
+import { ArtistName, LatinName } from "./ArtistName.tsx";
 import type { ArtistStore } from "./Artists.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { useHeadingFocus } from "./hooks.ts";
-import { MedalArt } from "./MedalArt.tsx";
+import { generalArt, MedalArt } from "./MedalArt.tsx";
 import { singleClick } from "./singleClick.ts";
 
 type Props = {
@@ -29,6 +37,14 @@ type Props = {
   readonly artists: ArtistStore;
   readonly resolveUrl: (url: string) => string;
 };
+
+/**
+ * O feito de uma medalha do Superfan ("Superfan completo"): para o leitor de tela, que não vê o
+ * desenho, e no aviso, quando falta o nome próprio (P301).
+ */
+export function superfanFeat(level: SuperfanLevel): string {
+  return t(`medals.feat.${level}`, { goal: SUPERFAN_RIGHT });
+}
 
 /** O nome e o como ganhar de uma geral, pelo id (`medal.<id>.name` e `.how`, no i18n). */
 export function medalText(id: string, part: "name" | "how"): string {
@@ -129,12 +145,13 @@ export function Medals({ save, date, hitsDates, general, artists, resolveUrl }: 
 }
 
 /**
- * O estado de uma medalha em texto: ganha, o progresso ("7 de 10", P283) ou como ganhar. A prata
- * diz a unidade ("7 de 50 acertos").
+ * O estado de uma medalha em texto: ganha, o progresso ("7 de 10", P283) ou como ganhar. A dos
+ * acertos diz a unidade ("7 de 50 acertos").
  */
 function stateText(state: MedalState, how: string, unit = false): string {
   if (state.earned) return t("medals.earned");
-  if (state.progress) return t(unit ? "medals.progress.prata" : "medals.progress", state.progress);
+  if (state.progress)
+    return t(unit ? "medals.progress.acertos" : "medals.progress", state.progress);
   return how;
 }
 
@@ -144,10 +161,7 @@ function GeneralRow({ state }: { readonly state: MedalState }) {
     <li class={state.earned ? "medal-row" : "medal-row locked"}>
       <MedalArt
         kind="geral"
-        image={null}
-        letter={t("medals.generalMark")}
-        color={0}
-        name=""
+        art={generalArt(t("medals.generalMark"))}
         earned={state.earned}
         size={44}
       />
@@ -160,11 +174,11 @@ function GeneralRow({ state }: { readonly state: MedalState }) {
 }
 
 /**
- * O tamanho de cada nível na linha: a suprema é a maior (o buquê). A suprema, com 66 px de largura,
+ * O tamanho de cada nível na linha: a perfeita é a maior (o buquê). A perfeita, com 66 px de largura,
  * tem 94 de altura: a 1ª linha do `.medal-cell` no `styles.css` usa essa altura. Mudou aqui, muda
  * lá.
  */
-const LEVEL_SIZE = { prata: 52, ouro: 64, suprema: 66 } as const;
+const LEVEL_SIZE = { acertos: 52, completo: 64, perfeito: 66 } as const;
 
 function ArtistRow({
   list,
@@ -177,8 +191,9 @@ function ArtistRow({
   readonly row: ArtistMedals;
   readonly resolveUrl: (url: string) => string;
 }) {
-  const url = cardArtwork(list, entry);
-  const { letter, color } = monogram(entry);
+  // O mesmo desenho nas 3 (P296), com a capa já no endereço do site.
+  const base = superfanArt(list, entry);
+  const art = { ...base, image: base.image ? resolveUrl(base.image) : null };
   return (
     <li class="medal-artist">
       <h3>
@@ -186,21 +201,21 @@ function ArtistRow({
       </h3>
       <ul class="medal-trio">
         {row.cells.map(({ level, state }) => {
-          // A prata sempre mostra o progresso ("7 de 50 acertos"); o ouro e a suprema, como ganhar.
-          const how = level === "prata" ? "" : t(`medals.how.${level}`);
+          // A dos acertos mostra o progresso ("7 de 50 acertos"); a completa e a perfeita, como ganhar.
+          const how = level === "acertos" ? "" : t(`medals.how.${level}`);
+          // O nome próprio (P300); sem ele (um índice corrompido), só o como ganhar (P301).
+          const name = medalName(entry, level);
           return (
             <li key={state.medal.id} class={state.earned ? "medal-cell" : "medal-cell locked"}>
-              <MedalArt
-                kind={level}
-                image={url ? resolveUrl(url) : null}
-                letter={letter}
-                color={color}
-                name={entry.name}
-                earned={state.earned}
-                size={LEVEL_SIZE[level]}
-              />
-              <span class="medal-name">{t(`medals.level.${level}`)}</span>
-              <span class="medal-how">{stateText(state, how, level === "prata")}</span>
+              <MedalArt kind={level} art={art} earned={state.earned} size={LEVEL_SIZE[level]} />
+              {/* O desenho é decorativo: o leitor de tela ouve qual é a medalha pelo feito. */}
+              <span class="sr-only">{superfanFeat(level)}</span>
+              {name && (
+                <span class="medal-name">
+                  <LatinName name={name.name} latin={name.latin} />
+                </span>
+              )}
+              <span class="medal-how">{stateText(state, how, level === "acertos")}</span>
             </li>
           );
         })}

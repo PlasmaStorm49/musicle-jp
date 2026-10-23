@@ -3,7 +3,7 @@
 // save, calcula as ganhas, tira as já avisadas e grava a união. A aba mostra só o que ela mesma
 // marcou, e a outra aba, que relê o save, encontra tudo avisado.
 import { useCallback, useState } from "preact/hooks";
-import { cardArtwork, monogram } from "../core/artists.ts";
+import { medalName, superfanArt } from "../core/medalArt.ts";
 import {
   claimMedals,
   claimTier,
@@ -11,13 +11,13 @@ import {
   type MedalTier,
   medalsOf,
   SUPERFAN_LEVELS,
-  type SuperfanLevel,
 } from "../core/medals.ts";
 import type { ArtistList } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
 import { type KeyValueStore, updateSave } from "../storage/save.ts";
+import { generalArt } from "./MedalArt.tsx";
 import type { NoticeItem } from "./MedalNotice.tsx";
-import { medalText } from "./Medals.tsx";
+import { medalText, superfanFeat } from "./Medals.tsx";
 
 /**
  * O aviso na tela: as medalhas, o tamanho dele e se é o 1º de quem já jogava (P281). O tamanho sai
@@ -83,44 +83,51 @@ export function useMedalNotices({ store, general, silent, today, hitsDates }: Op
 const SUPERFAN_ID = /^superfan\|(.+)\|([a-z]+)$/;
 
 /**
- * O nome e o desenho de cada medalha do aviso. As do Superfan levam o nome do artista e a capa,
- * da lista dos artistas; sem a lista (ainda carregando), só o nível.
+ * O nome e o desenho de cada medalha do aviso. As do Superfan levam o nome próprio, com o latino
+ * (P295, P300), e o artista: "Nightwalker, de YOASOBI". Sem o nome, o feito ("Superfan completo");
+ * sem a lista dos artistas (a carga falhou), só o feito, com o monograma de reserva. O aviso
+ * pequeno (`covers` falso) vai sem a capa: as telas dele não têm o selo da Apple (P298).
  */
 export function noticeItems(
   ids: readonly string[],
   list: ArtistList | null,
   resolveUrl: (url: string) => string,
+  covers: boolean,
 ): NoticeItem[] {
+  const general = generalArt(t("medals.generalMark"));
   return ids.map((id) => {
     const match = SUPERFAN_ID.exec(id);
     const level = SUPERFAN_LEVELS.find((l) => l === match?.[2]);
     if (!match || !level) {
-      const mark = t("medals.generalMark");
-      return {
-        id,
-        kind: "geral",
-        name: medalText(id, "name"),
-        image: null,
-        letter: mark,
-        color: 0,
-        sash: "",
-      };
+      const text = medalText(id, "name");
+      return { id, kind: "geral", name: text, spoken: text, feat: null, art: general };
     }
-    const levelName = t(`medals.level.${level satisfies SuperfanLevel}`);
+    const feat = superfanFeat(level);
     const entry = list?.artists.find((a) => a.id === match[1]);
     if (!list || !entry) {
-      return { id, kind: level, name: levelName, image: null, letter: "?", color: 0, sash: "" };
+      return { id, kind: level, name: feat, spoken: feat, feat, art: { ...general, letter: "?" } };
     }
-    const url = cardArtwork(list, entry);
-    const { letter, color } = monogram(entry);
+    const base = superfanArt(list, entry);
+    const name = medalName(entry, level);
+    const artist = base.name.trim();
+    // Sem o nome do artista (um índice corrompido), sem o ", de" solto.
+    const of = (text: string) => (artist ? t("medals.notice.named", { name: text, artist }) : text);
+    // Na tela, o nome com o ponto ("歌い手 · Utaite"); para o leitor de tela, com a vírgula e o feito,
+    // porque o desenho é decorativo e o ponto seria lido.
+    const shown = name?.latin
+      ? t("medals.notice.latinName", { name: name.name, latin: name.latin })
+      : (name?.name ?? feat);
+    const said = name?.latin
+      ? t("medals.notice.spokenLatin", { name: name.name, latin: name.latin })
+      : (name?.name ?? feat);
     return {
       id,
       kind: level,
-      name: t("medals.notice.superfan", { level: levelName, artist: entry.name }),
-      image: url ? resolveUrl(url) : null,
-      letter,
-      color,
-      sash: entry.name,
+      name: of(shown),
+      spoken: name ? t("medals.notice.withFeat", { name: of(said), feat }) : of(said),
+      feat: name ? feat : null,
+      label: name ? { ...name, artist } : null,
+      art: { ...base, image: covers && base.image ? resolveUrl(base.image) : null },
     };
   });
 }
@@ -132,10 +139,18 @@ export function noticeTitle(notice: MedalNoticeState): string {
   return count === 1 ? t("medals.notice.one") : tn("medals.notice.many", count);
 }
 
-/** O texto do aviso pequeno, que também vai para o leitor de tela. */
+/** O texto do aviso pequeno, na tela. */
 export function toastText(items: readonly NoticeItem[]): string {
   const [only] = items;
   return items.length === 1 && only
     ? t("medals.notice.toast", { name: only.name })
+    : tn("medals.notice.many", items.length);
+}
+
+/** O mesmo aviso para o leitor de tela (a região aria-live): sem o ponto, com o feito. */
+export function announceText(items: readonly NoticeItem[]): string {
+  const [only] = items;
+  return items.length === 1 && only
+    ? t("medals.notice.toast", { name: only.spoken })
     : tn("medals.notice.many", items.length);
 }
