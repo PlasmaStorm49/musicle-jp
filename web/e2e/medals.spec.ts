@@ -140,6 +140,10 @@ test("a medalha em destaque (ME118): destacar nas Medalhas, ver na nav das outra
   await expect(favorite).toHaveCount(0);
   await page.getByRole("button", { name: "Destacar (Primeiro Acorde)" }).click();
   await expect(favorite).toBeVisible();
+  // O foco fica no mesmo botão, que muda de nome (regra 16).
+  await expect(
+    page.getByRole("button", { name: "Tirar o destaque (Primeiro Acorde)" }),
+  ).toBeFocused();
   await expect.poll(() => shelf(page)).toEqual(["diario-1"]);
   // Em outra tela e numa rodada, no canto da nav; o toque leva às Medalhas.
   await page.getByRole("navigation").getByRole("link", { name: "Início" }).click();
@@ -157,7 +161,7 @@ test("a medalha em destaque (ME118): destacar nas Medalhas, ver na nav das outra
   await page.getByRole("button", { name: "Tirar o destaque (Primeiro Acorde)" }).click();
   await expect(favorite).toHaveCount(0);
   await expect.poll(() => shelf(page)).toEqual([]);
-  await expect(page.getByRole("button", { name: "Destacar (Primeiro Acorde)" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Destacar (Primeiro Acorde)" })).toBeFocused();
 });
 
 test("a do Superfan em destaque: o nome e as cores do artista, sem a capa da Apple (P319)", async ({
@@ -178,6 +182,22 @@ test("a do Superfan em destaque: o nome e as cores do artista, sem a capa da App
   // O monograma no miolo, e nenhuma capa: a nav não tem o selo da Apple.
   await expect(favorite.locator("image")).toHaveCount(0);
   await expect(favorite.locator("text")).toHaveCount(1);
+});
+
+test("a do Superfan de um artista que não está na lista não aparece, nem com o monograma de reserva (P320)", async ({
+  page,
+}) => {
+  await seedHistory(
+    page,
+    {},
+    { "fixture:ar:fora": { right: 50 } },
+    { shelf: ["superfan|fixture:ar:fora|acertos"] },
+  );
+  await open(page, DAY, "#artistas");
+  // A lista carregou (os artistas na tela), e a medalha continua fora da nav.
+  await expect(page.locator(".artist-card").first()).toBeVisible();
+  await settle(page);
+  await expect(page.locator(".nav-favorite")).toHaveCount(0);
 });
 
 test("uma medalha em destaque que não está entre as ganhas não aparece (P320)", async ({

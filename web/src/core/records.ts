@@ -254,13 +254,14 @@ export function favoriteOf(save: Save): string | null {
 }
 
 /**
- * Escolhe a medalha em destaque, ou tira (com `null`, P318): a estante fica só com ela. Sem
+ * Escolhe a medalha em destaque (`on`), e a estante fica só com ela; ou tira (P318), só se ela
+ * ainda é a favorita: a aba que não viu a troca feita na outra não apaga a escolha de lá. Sem
  * mudança, o mesmo objeto (o `updateSave` então não grava).
  */
-export function withFavorite(save: Save, id: string | null): Save {
-  const shelf = id === null ? [] : [id];
-  const same = shelf.length === save.shelf.length && shelf.every((x, i) => x === save.shelf[i]);
-  return same ? save : { ...save, shelf };
+export function withFavorite(save: Save, id: string, on: boolean): Save {
+  if (!on) return favoriteOf(save) === id ? { ...save, shelf: [] } : save;
+  const same = save.shelf.length === 1 && save.shelf[0] === id;
+  return same ? save : { ...save, shelf: [id] };
 }
 
 /** Mais uma rodada acertada no Treino (P308). */

@@ -83,7 +83,7 @@ function setup(
   artists: ArtistStore,
   save: Save = emptySave(),
   favorite: string | null = null,
-  onFavorite: (id: string | null) => void = vi.fn(),
+  onFavorite: (id: string, on: boolean) => void = vi.fn(),
 ) {
   return render(
     <Medals
@@ -184,7 +184,7 @@ describe("Medals (a tela, P278 e P286)", () => {
     fireEvent.click(first, { detail: 2 });
     expect(onFavorite).not.toHaveBeenCalled();
     fireEvent.click(first);
-    expect(onFavorite).toHaveBeenCalledWith("demo-primeiro");
+    expect(onFavorite).toHaveBeenCalledWith("demo-primeiro", true);
     // Escolhida: o mesmo lugar diz Tirar o destaque, e o toque a remove.
     rerender(
       <Medals
@@ -199,11 +199,14 @@ describe("Medals (a tela, P278 e P286)", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: "Tirar o destaque (Primeiro diário)" }));
-    expect(onFavorite).toHaveBeenLastCalledWith(null);
+    expect(onFavorite).toHaveBeenLastCalledWith("demo-primeiro", false);
     expect(screen.getAllByRole("button", { name: /^Destacar/ })).toHaveLength(1);
-    // A do Superfan também: o botão na célula dela, com o nome próprio.
-    fireEvent.click(screen.getByRole("button", { name: /^Destacar \(/ }));
-    expect(onFavorite).toHaveBeenLastCalledWith("superfan|t:ar:1|acertos");
+    // A do Superfan também: o botão na célula dela, com o nome falado como no aviso (o latino e o
+    // artista).
+    const superfan = screen.getByRole("button", { name: /^Destacar \(/ });
+    expect(superfan.querySelector(".sr-only")?.textContent).toMatch(/, Yoake, de /);
+    fireEvent.click(superfan);
+    expect(onFavorite).toHaveBeenLastCalledWith("superfan|t:ar:1|acertos", true);
   });
 
   it("na lista real, o selo da Apple no pé, por causa das capas (P170, P284)", () => {

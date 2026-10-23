@@ -680,11 +680,34 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
-test("as Medalhas (M16) em 320 px: as 13 gerais e o Superfan, sem rolar para o lado (P286, P310)", async ({
+test("as Medalhas (M16) em 320 px: as 13 gerais e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
   page,
 }) => {
+  // As ganhas, com o botão: os 6 do Anime de hoje acertados (a geral de nome mais longo, em
+  // destaque, com o "Tirar o destaque") e as 3 de um artista.
+  const won = { status: "won", stage: 0, attempts: ["right"] } as const;
+  const day = { number: 1, rounds: [won, won, won] };
+  const anime = [
+    "anime-musica-facil",
+    "anime-musica-medio",
+    "anime-musica-dificil",
+    "anime-titulo-facil",
+    "anime-titulo-medio",
+    "anime-titulo-dificil",
+  ];
+  await seedHistory(
+    page,
+    Object.fromEntries(anime.map((key) => [`2026-10-08|${key}`, day])),
+    { "fixture:ar:ar02": { right: 50, done: true, perfect: true } },
+    { shelf: ["anime-todos"] },
+  );
   await page.setViewportSize({ width: 320, height: 640 });
   await open(page, DAY, "#medalhas");
+  await expect(page.getByRole("button", { name: /^Tirar o destaque/ })).toBeVisible();
+  for (const button of await page.locator(".medal-pin").all()) {
+    const box = await button.boundingBox();
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(320);
+  }
   await expect(page.getByRole("heading", { level: 1, name: "Medalhas" })).toBeVisible();
   await expect(page.locator(".medal-list > li")).toHaveCount(13);
   await expect(page.locator(".medal-artist")).toHaveCount(5);
@@ -806,6 +829,24 @@ test("a medalha em destaque na nav (ME118, P317): em 320 px, a nav numa linha no
     );
   expect(rows, "a nav numa linha só").toBe(1);
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
+  // Com o Anime marcado, em negrito, uma palavra mais longa que o Mais.
+  await page.evaluate(() => {
+    window.location.hash = "#anime";
+  });
+  await expect(nav.getByRole("link", { name: /^Anime/ })).toHaveAttribute("aria-current", "page");
+  await page.evaluate(async () => {
+    await document.fonts.load('700 0.9rem "Noto Sans JP"', "Anime");
+    await document.fonts.ready;
+  });
+  const animeRows = await nav
+    .locator(":is(a, button, .nav-favorite-small):visible")
+    .evaluateAll(
+      (items) =>
+        new Set(
+          items.map((a) => Math.round(((r) => r.top + r.height / 2)(a.getBoundingClientRect()))),
+        ).size,
+    );
+  expect(animeRows, "a nav numa linha só, com o Anime marcado").toBe(1);
   // Em 360 px, o link, com o alvo de 44 × 44, ainda na mesma linha.
   await page.setViewportSize({ width: 360, height: 640 });
   await expect(link).toBeVisible();
@@ -828,17 +869,24 @@ test("o Mais até 719 px e as 6 abas numa linha a partir de 720 (P287)", async (
   // Os dois diários dos Hits e um do Anime de hoje terminados: os dois ✓, o caso mais largo.
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
-  await seedHistory(page, {
-    "2026-10-08|album": day,
-    "2026-10-08|song": day,
-    "2026-10-08|anime-musica-facil": day,
-  });
+  // E a medalha em destaque (P317), o caso mais largo da linha.
+  await seedHistory(
+    page,
+    {
+      "2026-10-08|album": day,
+      "2026-10-08|song": day,
+      "2026-10-08|anime-musica-facil": day,
+    },
+    {},
+    { shelf: ["diario-1"] },
+  );
   await page.setViewportSize({ width: 719, height: 800 });
   await open(page, DAY, "#inicio");
   const nav = page.getByRole("navigation");
   const more = nav.getByRole("button", { name: "Mais" });
   await expect(more).toBeVisible();
-  await expect(nav.getByRole("link")).toHaveText(["Início", /^Hits/, /^Anime/]);
+  // A medalha em destaque é um link sem texto, com o nome no aria-label.
+  await expect(nav.getByRole("link")).toHaveText(["Início", /^Hits/, /^Anime/, ""]);
   // O menu aberto fecha ao cruzar os 720 px, e não volta aberto ao estreitar de novo.
   await more.click();
   await expect(more).toHaveAttribute("aria-expanded", "true");
@@ -852,6 +900,7 @@ test("o Mais até 719 px e as 6 abas numa linha a partir de 720 (P287)", async (
     "Artistas",
     "Histórico",
     "Medalhas",
+    "",
   ]);
   await page.evaluate(() => document.fonts.ready);
   const tops = await links.evaluateAll((all) => all.map((a) => a.getBoundingClientRect().top));

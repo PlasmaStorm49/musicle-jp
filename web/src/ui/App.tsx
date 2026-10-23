@@ -263,20 +263,21 @@ export function App() {
   }, [saves]);
   // Escolher ou tirar a medalha em destaque (P318): grava e relê, para a nav mudar na hora.
   const chooseFavorite = useCallback(
-    (id: string | null) => {
-      updateSave(saves.store, (save) => withFavorite(save, id));
+    (id: string, on: boolean) => {
+      updateSave(saves.store, (save) => withFavorite(save, id, on));
       refresh();
     },
     [saves, refresh],
   );
   // O desenho sem a capa (P319), como no aviso pequeno: a nav não tem o selo da Apple. A do Superfan
   // espera a lista, e sem o nome dela (o artista saiu da lista) não aparece (P320).
+  // Só depois da agenda: as da sequência dependem dela, e assim todas aparecem juntas.
   const favorite = useMemo(() => {
-    if (!favoriteEarned || favoriteId === null) return null;
+    if (hitsDates === null || !favoriteEarned || favoriteId === null) return null;
     const [item] = noticeItems([favoriteId], noticeList, resolveUrl, false, GENERAL_MEDALS);
     if (!item || (favoriteId.startsWith("superfan|") && !item.label)) return null;
     return item;
-  }, [favoriteEarned, favoriteId, noticeList, resolveUrl]);
+  }, [hitsDates, favoriteEarned, favoriteId, noticeList, resolveUrl]);
   useEffect(() => {
     const onHashChange = () => {
       setRoute(routeFromHash(window.location.hash, date));
@@ -459,7 +460,7 @@ type ReadyProps = {
   readonly latest: Save;
   readonly onSaved: () => void;
   /** Escolher ou tirar a medalha em destaque (P318). */
-  readonly onFavorite: (id: string | null) => void;
+  readonly onFavorite: (id: string, on: boolean) => void;
   /** A sessão do Treino, guardada no App. */
   readonly practice: PracticeSession | null;
   readonly onPractice: PracticeSessionSetter;

@@ -4,7 +4,7 @@
 // fecha a página (P170).
 import { useEffect } from "preact/hooks";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
-import { medalName, superfanArt } from "../core/medalArt.ts";
+import { type MedalName, medalName, superfanArt } from "../core/medalArt.ts";
 import {
   type ArtistMedals,
   type Medal,
@@ -38,8 +38,8 @@ type Props = {
   readonly resolveUrl: (url: string) => string;
   /** A medalha em destaque (ME118, P317), o id dela, ou null. */
   readonly favorite: string | null;
-  /** Escolher ou tirar (com null) a medalha em destaque (P318). */
-  readonly onFavorite: (id: string | null) => void;
+  /** Escolher (`on`) ou tirar a medalha em destaque (P318). */
+  readonly onFavorite: (id: string, on: boolean) => void;
 };
 
 /** A escolha da medalha em destaque, só nas ganhas. */
@@ -53,11 +53,7 @@ type Pin = Pick<Props, "favorite" | "onFavorite">;
 function PinButton({ id, name, favorite, onFavorite }: Pin & { id: string; name: string }) {
   const pinned = favorite === id;
   return (
-    <button
-      type="button"
-      class="medal-pin"
-      onClick={singleClick(() => onFavorite(pinned ? null : id))}
-    >
+    <button type="button" class="medal-pin" onClick={singleClick(() => onFavorite(id, !pinned))}>
       {t(pinned ? "favorite.unpin" : "favorite.pin")}
       <span class="sr-only">{t("favorite.which", { name })}</span>
     </button>
@@ -246,6 +242,19 @@ function GeneralRow({ state, ...pin }: Pin & { readonly state: MedalState }) {
  */
 const LEVEL_SIZE = { acertos: 52, completo: 64, perfeito: 66 } as const;
 
+/**
+ * O nome de uma do Superfan para o leitor de tela, como no aviso (P306): o latino com a vírgula, e
+ * o artista. Sem o nome próprio, o feito, que o artista distingue dos das outras linhas.
+ */
+function spokenName(name: MedalName | null, level: SuperfanLevel, artist: string): string {
+  const said = !name
+    ? superfanFeat(level)
+    : name.latin
+      ? t("medals.notice.spokenLatin", { name: name.name, latin: name.latin })
+      : name.name;
+  return artist.trim() ? t("medals.notice.named", { name: said, artist: artist.trim() }) : said;
+}
+
 function ArtistRow({
   list,
   entry,
@@ -284,7 +293,7 @@ function ArtistRow({
               )}
               <span class="medal-how">{stateText(state, how, level === "acertos")}</span>
               {state.earned && (
-                <PinButton id={state.medal.id} name={name?.name ?? superfanFeat(level)} {...pin} />
+                <PinButton id={state.medal.id} name={spokenName(name, level, base.name)} {...pin} />
               )}
             </li>
           );

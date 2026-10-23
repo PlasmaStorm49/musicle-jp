@@ -460,18 +460,10 @@ button.give-up:active:not(:disabled) {
   margin-left: auto;
 }
 
+/* Abaixo de 360 px, a Nav desenha só o enfeite (pelo `matchMedia`, para o item sair do leitor de
+   tela): sem o alvo do link, ele não precisa dos 44 px. */
 .tabs .nav-favorite-small {
-  display: none;
-}
-
-@media (max-width: 359.98px) {
-  .tabs .nav-favorite-link {
-    display: none;
-  }
-
-  .tabs .nav-favorite-small {
-    display: flex;
-  }
+  display: flex;
 }
 
 /* O botão do "Mais" com a cara das abas: sem tinta, o texto cinza e o chevron do designer, que
