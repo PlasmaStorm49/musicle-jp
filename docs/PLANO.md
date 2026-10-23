@@ -1443,19 +1443,22 @@ O usuário escolheu sobre as sugestões de um subagente de pesquisa (as fontes f
 |---|---|---|---|
 | YOASOBI | Nightwalker | YOA'S | 小説を音楽にする |
 | LiSA | LiVE is Smile Always | LiSAッ子 | 今日もいい日だっ |
-| Eve | 廻廻奇譚 · Kaikai Kitan | Round Robin | em aberto |
-| Ado | em aberto | 歌い手 · Utaite | 青い薔薇 |
+| Eve | 廻廻奇譚 · Kaikai Kitan | Round Robin | はらぺこ |
+| Ado | 狂言 · Kyōgen | 歌い手 · Utaite | 青い薔薇 |
 | Aimer | Sleepless Nights | Blanc et Noir | エメ |
 | 米津玄師 | Stray Sheep | ハチ · Hachi | かいじゅうずかん |
 | UNLIMITS | Amethyst | 七色の記憶 · Nanairo no Kioku | 夢幻の宴 |
 | 松田聖子 | Pineapple | 24 | 永遠のアイドル |
-| 新しい学校のリーダーズ | オトナブルー · Otona Blue | 青春部 · Seishun-bu | em aberto |
+| 新しい学校のリーダーズ | オトナブルー · Otona Blue | 青春部 · Seishun-bu | はみ出していく |
 | 幾田りら | Lilac | ぷらそにか · Plusonica | 吉祥寺 |
 | 볼빨간사춘기 | Blushing Youth | Red Planet | 사춘기 |
 | System Of A Down | Chop Suey! | Victims of a Down | Soil |
 
-- **Em aberto:** a suprema do Eve, a prata da Ado e a suprema do ATARASHII GAKKO!.
-- **A confirmar:** a grafia do romaji ao lado (nenhum dos escolhidos precisa de mácron); o romaji de `LiSAッ子`; e o latino do grupo (`Plusonica`) ou o romaji de livro (`Purasonika`).
+- **Os três últimos** (o usuário, 22/10/2026, as favoritas de um 2º subagente de pesquisa):
+  - はらぺこ, "faminto": o selo independente do Eve (harapeco records), a marca de roupas e o perfil eve_harapeco;
+  - 狂言 · Kyōgen: o 1º álbum da Ado e o teatro de onde vem o nome dela (os papéis シテ e アド);
+  - はみ出していく, "vamos sair da linha": a saudação fixa do ATARASHII GAKKO!.
+- **A confirmar:** a grafia do romaji ao lado (só o Kyōgen, da Ado, leva mácron); o romaji de `LiSAッ子`; e o latino do grupo (`Plusonica`) ou o romaji de livro (`Purasonika`).
 - **O risco:** os nomes de fã-clube oficial (YOA'S, Blanc et Noir, 青春部) podem parecer parceria com o artista e podem ser marca registrada. O registro não foi conferido.
 
 ### Os riscos
