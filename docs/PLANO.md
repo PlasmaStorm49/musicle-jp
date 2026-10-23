@@ -267,9 +267,12 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P315 | O progresso das gerais que se ganham aos poucos diz a unidade, como o "7 de 50 acertos" do Superfan: "3 de 7 dias seguidos", "40 de 100 acertos no Treino", "14 de 50 diários", "1 de 5 artistas com 50 acertos". Os limites vão aos textos por parâmetro, e os textos não repetem os números do núcleo (o usuário, 23/10/2026) |
 | P316 | Nas células do Superfan, o latino vai embaixo do nome, em letra menor e sem o ponto (o leitor de tela ouve uma pausa). No celular estreito (abaixo de 375 px), o nome fica um pouco menor, para "Nightwalker" caber sem quebrar no meio (o usuário, 23/10/2026) |
 | P317 | A medalha em destaque (ME118) fica no canto direito da nav, em todas as telas: a favorita é a 1ª da estante (o `shelf[0]`, sem versão nova do save), e só ela aparece. A partir de 360 px, é um link para as Medalhas, com o alvo de 44 px; abaixo de 360 px (sobram 28 px em 320), fica menor e só enfeita. O usuário escolheu antes uma faixa acima de cada tela, mas ela fazia rolar 7 telas de jogo em 360 × 640, mesmo com 20 px (a medida, com os testes do `layout.spec`), e ele trocou pela nav (o usuário, 23/10/2026) |
-| P318 | Para escolher: na tela das Medalhas, cada medalha ganha tem um botão "Destacar"; na escolhida, o botão vira "Tirar o destaque", que a remove (o usuário, 23/10/2026) |
+| P318 | Para escolher: na tela das Medalhas, cada medalha ganha tem um botão "Destacar"; na escolhida, o botão vira "Tirar o destaque", que a remove, só se ela ainda é a favorita (a aba que não viu a troca da outra não apaga a escolha de lá) (o usuário, 23/10/2026) |
 | P319 | A do Superfan, na nav, vai sem a capa: o monograma e as cores do artista, como no aviso pequeno (P298), porque a nav não tem o selo da Apple (o usuário, 23/10/2026) |
 | P320 | Sem favorita, ou com uma que não está entre as ganhas (um id velho, um artista que saiu da lista), nada aparece (o usuário, 23/10/2026) |
+| P321 | O Anime ganha a volta sem a nav (ME120): na escolha da dificuldade, para a tela do Anime, e no resumo de um diário. Na rodada, não, porque ela já está no limite da altura (o usuário, 23/10/2026) |
+| P322 | Do resumo, a volta é um passo atrás: a escolha da dificuldade do mesmo modo; num dia passado, a do mesmo dia (o usuário, 23/10/2026) |
+| P323 | Nenhuma das duas tira altura: o resumo do Anime só tem de 12 a 16 px de folga em 360 × 640 (a medida). Na dificuldade, uma seta à esquerda do título, fora do fluxo, com o nome "Voltar ao Anime". No resumo, um "Voltar" ao lado do Compartilhar, cujo nome inteiro começa pelo texto visível (P210), e que sai quando aparece o "Jogar o novo diário" (a IA, aceito na aprovação do plano, 23/10/2026) |
 | P289 | O save v8 guarda o modo por artista, só o mínimo: os acertos de cada artista e se ele já terminou e terminou perfeita uma partida do Superfan (revisão da P116). Guarda também as medalhas já avisadas e a estante (ME118), vazia até ela (o plano do M16, 22/10) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
@@ -499,6 +502,7 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 
 **Feitas:**
 
+- Em 23/10/2026: ME120 (o pedido do usuário: voltar à tela do Anime sem a nav; a seta na escolha da dificuldade e o "Voltar" no resumo de um diário, sem tirar altura, P321 a P323).
 - Em 23/10/2026: ME118 (a estante, com uma medalha só: a medalha em destaque no canto da nav, escolhida nas Medalhas, P317 a P320; mostrar mais de uma fica para depois, se o usuário pedir).
 - Em 23/10/2026, no M16 (PRs 1 a 3b, Apêndice O): ME105 (as medalhas, o pedido do usuário de 21/10: a tela, os dois avisos, as 13 gerais e as 3 do Superfan de cada artista, com a capa, o buquê nas cores dele e o nome próprio; o save v8 com o modo por artista e o v9 com os acertos do Treino).
 - Em 22/10/2026, no M15 (PRs 1 a 3, Apêndice N): ME104 (o pedido do usuário de 21/10: os 14 dias antes de hoje num calendário, com a marca dos Hits e a do Anime, a tela de cada dia e o jogar depois o que faltou, das duas categorias, fora de todas as estatísticas; o save v7 com o `late`; a nav do celular com o "Mais ▾").
@@ -1298,6 +1302,15 @@ O Anime entra no robô de segunda (`update-catalog.yml`), no mesmo PR dos Hits (
 - **Um ensaio sem rede** numa cópia do repositório, antes do C2: o `schedule-anime` de verdade (26 dias novos na agenda real, de 25/10 a 19/11, e 10 na fictícia), a coleta, a conferência e o corpo do PR; e o mesmo com um snapshot copiado, para o catálogo novo passar pela conferência. Os dois passaram, e o `validate-anime` e o `schedule-check` deram OK na árvore montada. Com o C2, a agenda real vai até 12/11: na 1ª execução, em 26/10, ela tem 17 dias à frente, e o robô gera de 13/11 a 23/11.
 - **Para conferir na 1ª execução:** o checkout com `permissions: {}` (deve funcionar num repositório público; se não, `contents: read`), o tempo da busca com o prazo de 12 min e o número de afrouxamentos com o acervo curto da carga de teste.
 
+### As voltas sem a nav (ME120, 23/10/2026)
+
+O pedido do usuário: voltar à tela do Anime sem clicar pela nav (P321 a P323).
+
+- **A escolha da dificuldade** (`AnimeLevels`): uma seta à esquerda do título, de volta à tela do Anime, no dia jogado (o `hrefOf`, que mantém o dia passado). Ela fica fora do fluxo (`position: absolute`, no cabeçalho `.has-back`), com um recuo do tamanho dela dos dois lados, e o título continua no centro. É o chevron dos ícones, virado, com o nome "Voltar ao Anime" para o leitor de tela.
+- **O resumo de um diário:** o `Game` e o `Summary` ganham a prop opcional `back`, que só o Anime passa: um "Voltar" ao lado do Compartilhar, para a escolha da dificuldade do modo. O nome inteiro, "Voltar à escolha da dificuldade", começa pelo texto visível (P210). A linha dos dois é um grid que só existe com ele (`:has`); quando sai o "Jogar o novo diário", o "Voltar" some.
+- **A medida:** uma margem injetada embaixo da nav, nos testes do `layout.spec`. A escolha da dificuldade passou com 16 px a mais em 360 × 640, e o resumo do Anime com 12 e não com 16. Por isso as duas voltas não tiram altura.
+- **Os testes:** as duas voltas, hoje e num dia passado (o `Anime.test`); o resumo dos Hits sem a volta (o `Summary.test`); e o e2e do resumo à dificuldade e dela ao Anime, com o foco no título.
+
 ## Apêndice N. O Histórico (M15)
 
 O pedido do usuário de 21/10/2026, a parte "histórico" do "login" (que virou as ME103 a ME105): registrar os dias jogados e deixar jogar os dias perdidos, só os últimos, sem contar na sequência nem na média. As decisões são as P260 a P271, de 22/10. Em 3 PRs: o núcleo e o save (1), o Histórico dos Hits (2) e o Anime no Histórico (3).
@@ -1570,11 +1583,12 @@ As medalhas no ar: a aba, a tela e os avisos, com a lista real das gerais (P310)
 A estante da ME118, curta: uma medalha só, a 1ª do `shelf` (P317 a P320).
 
 - **O save:** o `favoriteOf` e o `withFavorite` (`core/records.ts`), que escolhe, troca ou tira e devolve o mesmo objeto sem mudança. O guard do `shelf` (até 3, desde a v8) não mudou.
-- **A nav** (`ui/Nav.tsx`): o último item, empurrado para a direita. São duas versões no DOM, e o CSS mostra uma: o link a partir de 360 px e o enfeite menor (`aria-hidden`) abaixo. O desenho tem a mesma altura nas 4 molduras (o `medalWidth` do `MedalArt`).
-- **O App:** a favorita só aparece quando está entre as ganhas. O desenho e o nome saem do `noticeItems`, o mesmo do aviso pequeno, sem a capa; a do Superfan pede a lista dos artistas na abertura.
+- **A nav** (`ui/Nav.tsx`): o último item, empurrado para a direita. Uma versão só, pela largura (o `matchMedia`): o link a partir de 360 px, e abaixo o enfeite menor, com o item inteiro fora do leitor de tela. O desenho tem a mesma altura nas 4 molduras (o `medalWidth` do `MedalArt`).
+- **O App:** a favorita só aparece quando está entre as ganhas, e depois da agenda dos Hits (as da sequência dependem dela; assim todas aparecem juntas). O desenho e o nome saem do `noticeItems`, o mesmo do aviso pequeno, sem a capa; a do Superfan pede a lista dos artistas na abertura.
 - **A escolha** (`ui/Medals.tsx`): o `PinButton`, com o nome da medalha para o leitor de tela e o `singleClick`. Na linha das gerais, a 3ª coluna só existe com o botão (`:has`). O App grava pelo `updateSave` e relê, e a outra aba recebe pelo evento `storage`.
+- **Os riscos aceitos:** o clique que não grava (a versão futura de outra aba, a cota cheia) não avisa, como o registro do modo por artista; o VoiceOver pode não anunciar a troca do nome do botão em foco ("Destacar" para "Tirar o destaque"), a conferir à mão no iPhone.
 - **A medida que mudou o lugar:** uma margem de 40, 28 e 20 px embaixo da nav, injetada em todos os testes do `layout.spec`, fez rolar 21, 12 e 7 telas. As 7 de 20 px eram todas de jogo, em 360 × 640.
-- **Os testes:** o `withFavorite`; o link e o enfeite na nav; o botão só nas ganhas, o escolher, o tirar e o toque duplo; e os e2e do caminho inteiro (destacar, outra tela, uma rodada, recarregar, tirar), da do Superfan sem a capa, do id que não é ganho e da nav numa linha em 320 e 360 px.
+- **Os testes:** o `withFavorite` (também o tirar de uma que não é mais a favorita); o link e o enfeite na nav, abaixo de 360 px fora do leitor de tela; o botão só nas ganhas, o escolher, o tirar, o toque duplo e o nome falado das do Superfan; e os e2e do caminho inteiro (destacar, outra tela, uma rodada, recarregar, tirar, com o foco no botão), da do Superfan sem a capa, do id que não é ganho, do artista fora da lista, das Medalhas em 320 px com os botões, e da nav numa linha em 320 px (com o Mais e com o Anime marcados), em 360 e em 720 px.
 
 ### Os riscos
 
