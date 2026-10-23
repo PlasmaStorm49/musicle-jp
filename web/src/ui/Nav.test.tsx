@@ -13,15 +13,15 @@ afterEach(() => {
 const DATE = "2026-10-22";
 const HOME: Route = { tab: "home", date: null };
 
-function setup(route: Route = HOME, save: Save = emptySave(), medals = false) {
-  return render(<Nav route={route} save={save} date={DATE} medals={medals} />);
+function setup(route: Route = HOME, save: Save = emptySave()) {
+  return render(<Nav route={route} save={save} date={DATE} />);
 }
 
 const toggle = () => screen.getByRole("button", { name: "Mais" });
 const menu = () => document.getElementById("nav-more-menu") as HTMLElement;
 
-describe("Nav (P225, P265)", () => {
-  it("o Mais começa fechado, e o clique abre e fecha o menu com os Artistas e o Histórico", () => {
+describe("Nav (P225, P265, P287)", () => {
+  it("o Mais começa fechado, e o clique abre e fecha o menu com os Artistas, o Histórico e as Medalhas", () => {
     setup();
     expect(toggle().getAttribute("aria-expanded")).toBe("false");
     expect(toggle().getAttribute("aria-controls")).toBe("nav-more-menu");
@@ -30,7 +30,7 @@ describe("Nav (P225, P265)", () => {
     expect(toggle().getAttribute("aria-expanded")).toBe("true");
     expect(menu().hidden).toBe(false);
     const links = [...menu().querySelectorAll("a")].map((a) => a.getAttribute("href"));
-    expect(links).toEqual(["#artistas", "#historico"]);
+    expect(links).toEqual(["#artistas", "#historico", "#medalhas"]);
     // Ao abrir, o foco fica onde estava (no botão, para quem usa o teclado).
     fireEvent.click(toggle());
     expect(menu().hidden).toBe(true);
@@ -117,7 +117,7 @@ describe("Nav (P225, P265)", () => {
     expect(inMenu?.getAttribute("aria-current")).toBe(current);
   });
 
-  it("fora dos Artistas e do Histórico, o Mais não leva o aria-current; o diário de hoje marca os Hits", () => {
+  it("fora dos Artistas, do Histórico e das Medalhas, o Mais não leva o aria-current; o diário de hoje marca os Hits", () => {
     setup({ tab: "album", date: null });
     expect(toggle().hasAttribute("aria-current")).toBe(false);
     expect(screen.getByRole("link", { name: /^Hits/ }).getAttribute("aria-current")).toBe("true");
@@ -134,36 +134,19 @@ describe("Nav (P225, P265)", () => {
     expect(screen.getByRole("link", { name: /^Hits/ }).textContent).toContain("✓");
   });
 
-  it("sem as medalhas, nem o link nem o corte de 720 px (M16): no site, nada muda no PR 2", () => {
-    setup();
-    expect(screen.queryByRole("link", { name: "Medalhas" })).toBeNull();
-    expect(document.querySelector("nav.tabs")?.classList.contains("six")).toBe(false);
-  });
-
-  it("com as medalhas: o link na linha e no Mais, e o corte de 720 px (P287)", () => {
-    setup(HOME, emptySave(), true);
-    expect(document.querySelector("nav.tabs")?.classList.contains("six")).toBe(true);
-    const inline = [...document.querySelectorAll(".nav-inline a")].map((a) =>
-      a.getAttribute("href"),
-    );
-    expect(inline).toEqual(["#artistas", "#historico", "#medalhas"]);
-    const links = [...menu().querySelectorAll("a")].map((a) => a.getAttribute("href"));
-    expect(links).toEqual(["#artistas", "#historico", "#medalhas"]);
-  });
-
   it("nas Medalhas, o link delas leva o aria-current, e o Mais também", () => {
-    setup({ tab: "medals", date: null }, emptySave(), true);
+    setup({ tab: "medals", date: null });
     for (const link of screen.getAllByRole("link", { name: "Medalhas", hidden: true })) {
       expect(link.getAttribute("aria-current")).toBe("page");
     }
     expect(toggle().getAttribute("aria-current")).toBe("true");
   });
 
-  it("os Artistas e o Histórico também na linha, para as telas largas", () => {
+  it("os Artistas, o Histórico e as Medalhas também na linha, para as telas largas (720 px)", () => {
     setup();
     const inline = [...document.querySelectorAll(".nav-inline a")].map((a) =>
       a.getAttribute("href"),
     );
-    expect(inline).toEqual(["#artistas", "#historico"]);
+    expect(inline).toEqual(["#artistas", "#historico", "#medalhas"]);
   });
 });

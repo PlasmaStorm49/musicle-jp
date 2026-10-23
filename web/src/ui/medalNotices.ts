@@ -33,8 +33,8 @@ export type MedalNoticeState = {
 type Options = {
   /** O save da sessão (o `sessionStore` do App). */
   readonly store: KeyValueStore;
-  /** As gerais; sem lista (no site, até o PR 3), nunca avisa. */
-  readonly general: readonly Medal[] | null;
+  /** As gerais (a lista do usuário, ou a de exemplo com `?medalhas=demo`). */
+  readonly general: readonly Medal[];
   /** O `?medalhas=silencio` dos testes, ou o save que não grava: a tela fica, e os avisos não. */
   readonly silent: boolean;
   readonly today: string;
@@ -47,7 +47,7 @@ export function useMedalNotices({ store, general, silent, today, hitsDates }: Op
   // `big`: a tela pede o grande (os Artistas e as Medalhas, com o selo da Apple no pé, P288).
   const claim = useCallback(
     (big = false) => {
-      if (!general || silent || !hitsDates) return;
+      if (silent || !hitsDates) return;
       const box: { found?: MedalNoticeState } = {};
       const status = updateSave(store, (save) => {
         const result = claimMedals(save, today, hitsDates, general);

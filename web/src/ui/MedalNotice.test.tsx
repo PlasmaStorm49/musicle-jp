@@ -346,13 +346,13 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
 /** O gancho, por um componente mínimo: o botão reivindica, e a saída mostra o aviso. */
 function Harness(props: {
   readonly store: KeyValueStore;
-  readonly general?: readonly Medal[] | null;
+  readonly general?: readonly Medal[];
   readonly silent?: boolean;
   readonly hitsDates?: readonly string[] | null;
 }) {
   const { notice, claim, dismiss } = useMedalNotices({
     store: props.store,
-    general: props.general === undefined ? DEMO_MEDALS : props.general,
+    general: props.general ?? DEMO_MEDALS,
     silent: props.silent ?? false,
     today: DATE,
     hitsDates: props.hitsDates === undefined ? HITS : props.hitsDates,
@@ -428,8 +428,8 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
     ]);
   });
 
-  it("sem a lista das gerais (o site, até o PR 3), calado ou antes da agenda: nada, e nada gravado", () => {
-    for (const props of [{ general: null }, { silent: true }, { hitsDates: null }]) {
+  it("calado ou antes da agenda: nada, e nada gravado", () => {
+    for (const props of [{ silent: true }, { hitsDates: null }]) {
       const store = seeded(rights);
       const { unmount } = render(<Harness store={store} {...props} />);
       claim();

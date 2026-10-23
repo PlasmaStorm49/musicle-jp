@@ -8,7 +8,7 @@ import { APPLE_PROVIDER } from "../core/apple.ts";
 import { hitsDailies } from "../core/daily.ts";
 import { keptProgressIds } from "../core/history.ts";
 import { artistSummary, practiceSummary } from "../core/home.ts";
-import { DEMO_MEDALS, type Medal, noticeTab } from "../core/medals.ts";
+import { DEMO_MEDALS, MEDALS, type Medal, noticeTab } from "../core/medals.ts";
 import { emptySave, pruneProgress, type Save } from "../core/records.ts";
 import { isAnimeTab, ROUTES, type Route, routeFromHash, routeHref } from "../core/routes.ts";
 import {
@@ -90,12 +90,12 @@ const DEV = import.meta.env.DEV;
 const DATA_DIR = dataDirFor(DEV, window.location.search);
 // Fora do componente: a mesma função a cada render (as cargas do modo por artista dependem dela).
 const FETCH: FetchLike = (url, init) => fetch(url, init);
-// As medalhas gerais (M16). No site, nenhuma ainda: a tela, a aba e os avisos ficam fora até o PR 3
-// ligar a lista. Em desenvolvimento, a de exemplo com ?medalhas=demo (ou =silencio). O literal
-// import.meta.env.DEV no ponto da escolha tira a lista de exemplo do build (regra 10).
+// As medalhas gerais (M16): a lista do usuário (P310). Em desenvolvimento, ?medalhas=demo troca pela de
+// exemplo, de limites fáceis, e ?medalhas=silencio cala os avisos (os e2e que não os testam). O
+// literal import.meta.env.DEV no ponto da escolha tira a lista de exemplo do build (regra 10).
 const MEDALS_MODE = import.meta.env.DEV ? medalsMode(window.location.search) : null;
-const GENERAL_MEDALS: readonly Medal[] | null =
-  import.meta.env.DEV && MEDALS_MODE ? DEMO_MEDALS : null;
+const GENERAL_MEDALS: readonly Medal[] =
+  import.meta.env.DEV && MEDALS_MODE === "demo" ? DEMO_MEDALS : MEDALS;
 
 type Storage = {
   /**
@@ -140,13 +140,8 @@ export function App() {
   const date = useMemo(() => gameDate(new Date(), window.location.search, DEV), []);
   const saves = useMemo(() => openSaves(date), [date]);
   const resolveUrl = useCallback((url: string) => assetUrl(BASE_URL, url), []);
-  // A aba e, num dia passado do Histórico, a data dele (P261), lidas do endereço. Sem as medalhas,
-  // o #medalhas é um endereço desconhecido, e abre a Início.
-  const [hashRoute, setRoute] = useState<Route>(() => routeFromHash(window.location.hash, date));
-  const route = useMemo<Route>(
-    () => (hashRoute.tab === "medals" && !GENERAL_MEDALS ? { tab: "home", date: null } : hashRoute),
-    [hashRoute],
-  );
+  // A aba e, num dia passado do Histórico, a data dele (P261), lidas do endereço.
+  const [route, setRoute] = useState<Route>(() => routeFromHash(window.location.hash, date));
   // A última leitura do save, para o ✓ da aba Hits e o Treino. Cada diário recebe a leitura do
   // momento em que a aba abre: voltar ao Desafio terminado mostra o resultado (P39).
   const [latest, setLatest] = useState(saves.save);
@@ -222,7 +217,7 @@ export function App() {
   const noticeList = artists.list.status === "ready" ? artists.list.list : null;
   const big = shown?.tier === "major";
   // O aviso pequeno vai sem a capa (P298); o grande a mostra, com o selo da Apple no fim.
-  const items = shown ? noticeItems(shown.ids, noticeList, resolveUrl, big) : [];
+  const items = shown ? noticeItems(shown.ids, noticeList, resolveUrl, big, GENERAL_MEDALS) : [];
   // O selo só quando uma capa da Apple está desenhada (as SHOWN primeiras).
   const attribution =
     big &&
@@ -330,7 +325,7 @@ export function App() {
 
   return (
     <>
-      <Nav route={route} save={latest} date={date} medals={GENERAL_MEDALS !== null} />
+      <Nav route={route} save={latest} date={date} />
       <main class="app">
         <p class="sr-only" aria-live="polite">
           {message}
@@ -559,7 +554,7 @@ function Ready({
           save={latest}
           date={date}
           hitsDates={[...hitsDates]}
-          general={GENERAL_MEDALS ?? []}
+          general={GENERAL_MEDALS}
           artists={artists}
           resolveUrl={resolveUrl}
         />

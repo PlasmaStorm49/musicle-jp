@@ -647,7 +647,7 @@ async function target(locator: Locator): Promise<{ height: number; width: number
   return { height: box?.height ?? 0, width: box?.width ?? 0 };
 }
 
-test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime e o Mais têm alvo de 44 × 44 px, como os Artistas e o Histórico no menu aberto, que não rola a página para o lado (P225, P265)", async ({
+test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime e o Mais têm alvo de 44 × 44 px, como os Artistas, o Histórico e as Medalhas no menu aberto, que não rola a página para o lado (P225, P265, P287)", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 640 });
@@ -670,8 +670,9 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
     /^Anime/,
     "Artistas",
     "Histórico",
+    "Medalhas",
   ]);
-  for (const name of ["Artistas", "Histórico"]) {
+  for (const name of ["Artistas", "Histórico", "Medalhas"]) {
     const { height, width } = await target(nav.getByRole("link", { name }));
     expect(height, name).toBeGreaterThanOrEqual(44);
     expect(width, name).toBeGreaterThanOrEqual(44);
@@ -679,22 +680,19 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
-test("com as Medalhas (M16): em 320 px, nada rola para o lado na tela delas, e o Mais tem os 3 links com alvo de 44 × 44 (P286, P287)", async ({
+test("as Medalhas (M16) em 320 px: as 13 gerais e o Superfan, sem rolar para o lado (P286, P310)", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 640 });
-  await openWithMedals(page, DAY, "#medalhas", "silencio");
+  await open(page, DAY, "#medalhas");
   await expect(page.getByRole("heading", { level: 1, name: "Medalhas" })).toBeVisible();
+  await expect(page.locator(".medal-list > li")).toHaveCount(13);
   await expect(page.locator(".medal-artist")).toHaveCount(5);
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
-  const nav = page.getByRole("navigation");
-  await nav.getByRole("button", { name: "Mais" }).click();
-  for (const name of ["Artistas", "Histórico", "Medalhas"]) {
-    const { height, width } = await target(nav.getByRole("link", { name }));
-    expect(height, name).toBeGreaterThanOrEqual(44);
-    expect(width, name).toBeGreaterThanOrEqual(44);
-  }
-  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
+  // O nome mais longo das gerais cabe na linha, sem passar da tela.
+  const longest = page.getByText("Pare de falar em tocar grama...", { exact: true });
+  const box = await longest.boundingBox();
+  expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(320);
 });
 
 // Um teste por tamanho: o aviso some em 5 s, e medir os dois na mesma página dependeria da pressa.
@@ -766,9 +764,7 @@ test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longo
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
-test("com as Medalhas (M16): o Mais até 719 px e as 6 abas numa linha a partir de 720 (P287)", async ({
-  page,
-}) => {
+test("o Mais até 719 px e as 6 abas numa linha a partir de 720 (P287)", async ({ page }) => {
   // Os dois diários dos Hits e um do Anime de hoje terminados: os dois ✓, o caso mais largo.
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
@@ -778,7 +774,7 @@ test("com as Medalhas (M16): o Mais até 719 px e as 6 abas numa linha a partir 
     "2026-10-08|anime-musica-facil": day,
   });
   await page.setViewportSize({ width: 719, height: 800 });
-  await openWithMedals(page, DAY, "#inicio", "silencio");
+  await open(page, DAY, "#inicio");
   const nav = page.getByRole("navigation");
   const more = nav.getByRole("button", { name: "Mais" });
   await expect(more).toBeVisible();

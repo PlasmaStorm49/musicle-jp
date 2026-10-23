@@ -1,17 +1,20 @@
-// As Medalhas (M16): a tela e a aba só com a lista de exemplo (?medalhas=demo, em
-// desenvolvimento); sem ela, como no site, nada muda. Os avisos (PR 2b, P279, P281, P288): o 1º de
-// quem já jogava, o que espera o fim da rodada, o do "Ver resultado", o do fim do Superfan, o
-// toque duplo e as duas abas.
+// As Medalhas (M16): a tela e a aba, com a lista real (P310), e os avisos (P279, P281, P288): o
+// 1º de quem já jogava, o que espera o fim da rodada, o do "Ver resultado", o do fim do Superfan,
+// o do Treino, o toque duplo e as duas abas. Os avisos se testam com a lista de exemplo
+// (`?medalhas=demo`, de limites fáceis) e com a real (`avisos`); o resto dos e2e os cala.
 import { readFileSync } from "node:fs";
 import type { Page } from "@playwright/test";
 import type { ArtistCatalog } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
 import {
+  albumOf,
   appleArtistList,
   expect,
+  hitsTab,
   lastPlayed,
   open,
   openWithMedals,
+  option,
   seedHistory,
   test,
 } from "./helpers.ts";
@@ -43,15 +46,7 @@ async function playToLastReveal(page: Page): Promise<void> {
 const seenMedals = (page: Page) =>
   page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").seenMedals, SAVE_KEY);
 
-test("sem a lista, como no site: nem a aba das Medalhas, e o #medalhas abre a Início", async ({
-  page,
-}) => {
-  await open(page, DAY, "#medalhas");
-  await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeVisible();
-  await expect(page.getByRole("navigation").getByRole("link", { name: "Medalhas" })).toHaveCount(0);
-});
-
-test("com a lista de exemplo: a aba, a tela com a sequência, as gerais e o Superfan de cada artista (P278, P282, P286)", async ({
+test("a lista real, como no site: a aba, a tela com a sequência, as 13 gerais e o Superfan de cada artista (P278, P282, P286, P310)", async ({
   page,
 }) => {
   await seedHistory(page, {
@@ -59,13 +54,48 @@ test("com a lista de exemplo: a aba, a tela com a sequência, as gerais e o Supe
     "2026-10-21|anime-musica-facil": day,
     "2026-10-22|album": day,
   });
-  await openWithMedals(page, DAY, "#inicio", "silencio");
+  // O padrão dos e2e: a lista real, com os avisos calados.
+  await open(page, DAY, "#inicio");
   await page.getByRole("navigation").getByRole("link", { name: "Medalhas" }).click();
   const title = page.getByRole("heading", { level: 1, name: "Medalhas" });
   await expect(title).toBeFocused();
   await expect(page.getByText("Dias seguidos jogando: 3. O melhor: 3.")).toBeVisible();
-  // As 3 de exemplo, ganhas com os 3 dias seguidos e o 1º diário; a dos 5, não.
-  await expect(page.locator(".medal-list .medal-how")).toHaveText(["Ganha", "3 de 5", "Ganha"]);
+  // As 13, na ordem da lista: o 1º diário ganho, e o progresso das que se ganham aos poucos.
+  const rows = page.locator(".medal-list > li");
+  await expect(rows.locator(".medal-name")).toHaveText([
+    "Primeiro Acorde",
+    "Relâmpago",
+    "Dia de Hit",
+    "Pare de falar em tocar grama...",
+    "Em Chamas",
+    "Maratonista",
+    "Saco de Pancadas",
+    "Já É de Casa",
+    "Colecionador",
+    "Hit Perfeito",
+    "Sensei",
+    "Superfan",
+    "Tá pegando fogo, bicho!!!",
+  ]);
+  await expect(rows.locator(".medal-how")).toHaveText([
+    "Ganha",
+    /^Acerte uma rodada/,
+    /^Acerte todas/,
+    /^Acerte todas/,
+    "3 de 7",
+    "Termine os 8 diários no mesmo dia",
+    "0 de 100",
+    "3 de 50",
+    "0 de 5",
+    /^Gabarite/,
+    /^Gabarite/,
+    "Termine uma partida do Superfan",
+    "3 de 30",
+  ]);
+  await expect(page.locator(".medal-list > li.locked")).toHaveCount(12);
+  // As 4 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
+  await expect(rows.locator('svg[viewBox="0 8 110 132"]')).toHaveCount(4);
+  await expect(rows.locator("svg text")).toHaveCount(0);
   // As 3 do Superfan de cada artista das fixtures, por ganhar.
   await expect(page.locator(".medal-artist")).toHaveCount(5);
   // O nome próprio de cada uma, com o latino (P295, P300): os fictícios do ar02.
@@ -74,10 +104,44 @@ test("com a lista de exemplo: a aba, a tela com a sequência, as gerais e o Supe
     "真夜中のカーテンコール · Mayonaka no Curtain Call",
     "夜風劇場 · Yokaze Gekijo",
   ]);
-  await expect(page.getByText("2 de 18 medalhas")).toBeVisible();
-  // Calado (`?medalhas=silencio`): a tela fica, e o aviso não.
+  await expect(page.getByText("1 de 28 medalhas")).toBeVisible();
+  // Calado: a tela fica, e o aviso não.
   await expect(page.getByRole("dialog")).toHaveCount(0);
   expect(await seenMedals(page)).toEqual([]);
+});
+
+test("com a lista real e os avisos, como no site: quem já jogava ganha um aviso só, com as suas, e cada uma com o ícone (P281, P310)", async ({
+  page,
+}) => {
+  // Um diário com uma rodada em 1 s: o Primeiro Acorde e o Relâmpago.
+  const won = { status: "won", stage: 0, attempts: ["right"] } as const;
+  await seedHistory(page, { "2026-10-22|album": { number: 1, rounds: [won, lost, lost] } });
+  await openWithMedals(page, DAY, "#inicio", "avisos");
+  const big = page.getByRole("dialog", { name: "Você já tem 2 medalhas" });
+  await expect(big.getByRole("listitem")).toHaveText(["Primeiro Acorde", "Relâmpago"]);
+  await expect(big.locator(".medal-notice-arts svg")).toHaveCount(2);
+  await expect(big.locator(".medal-notice-arts svg text")).toHaveCount(0);
+  await big.getByRole("button", { name: "Ok" }).click();
+  await expect(big).toBeHidden();
+  expect(await seenMedals(page)).toEqual(["diario-1", "um-segundo"]);
+});
+
+test("o Saco de Pancadas: o 100º acerto do Treino avisa na tela calma seguinte, e não na rodada (P288, P308)", async ({
+  page,
+}) => {
+  await seedHistory(page, {}, {}, 99);
+  await openWithMedals(page, DAY, "#treino", "avisos");
+  await page.getByRole("button", { name: "Normal" }).click();
+  await page.getByRole("button", { name: "Tocar 1 s" }).click();
+  await option(page, albumOf(await lastPlayed(page)).title).click();
+  await expect(page.getByRole("heading", { name: /^Acertou!/ })).toBeVisible();
+  await settle(page);
+  await expect(toast(page)).toHaveCount(0);
+  await hitsTab(page).click();
+  await expect(toast(page).locator(".medal-toast-text")).toHaveText(
+    "Medalha nova: Saco de Pancadas",
+  );
+  expect(await seenMedals(page)).toEqual(["treino-100"]);
 });
 
 test("quem já jogava: um aviso só, o grande, com o total; o Ok fecha, devolve o foco e o aviso não volta ao recarregar (P281)", async ({
