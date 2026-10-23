@@ -147,7 +147,9 @@ def _medals_broken(change) -> list[str]:
         (lambda m: m["flowers"].pop("d"), "schema"),
         (lambda m: m["flowers"].update(d="#ABCDEF"), "schema"),
         (lambda m: m.pop("names"), "schema"),
-        (lambda m: m["names"]["perfeito"].update(latin="x"), "schema"),
+        # A perfeita também leva o latino (P309).
+        (lambda m: m["names"]["perfeito"].update(latin=None), "a medalha perfeito leva o latin"),
+        (lambda m: m["names"]["perfeito"].pop("latin"), "schema"),
         (lambda m: m.update(crop={"z": 9, "x": 0.5, "y": 0.5}), "schema"),
     ],
 )

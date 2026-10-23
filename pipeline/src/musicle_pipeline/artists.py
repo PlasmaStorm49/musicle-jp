@@ -189,11 +189,9 @@ class MedalRules:
     flowers: tuple[tuple[str, str], ...] = ()  # (papel, cor), na ordem de FLOWER_ROLES
 
 
-def _medal_name(value: object, where: str, latin_ok: bool) -> MedalName:
-    keys = {"name", "latin"} if latin_ok else {"name"}
-    if not isinstance(value, dict) or not set(value) <= keys or "name" not in value:
-        shape = '{ name = "…", latin = "…" }' if latin_ok else '{ name = "…" }'
-        raise InputError(f"{where}: esperado {shape}")
+def _medal_name(value: object, where: str) -> MedalName:
+    if not isinstance(value, dict) or not set(value) <= {"name", "latin"} or "name" not in value:
+        raise InputError(f'{where}: esperado {{ name = "…", latin = "…" }}')
     name, latin = value["name"], value.get("latin")
     if not isinstance(name, str) or not display(name):
         raise InputError(f"{where}: name vazio")
@@ -214,11 +212,7 @@ def _medals(value: object, where: str) -> MedalRules:
             f"{where}: chaves aceitas: {sorted(_MEDAL_KEYS)} "
             "(o [artists.medals] vai no fim do artista: o que vem depois dele é dele)"
         )
-    names = tuple(
-        (lv, _medal_name(value[lv], f"{where} {lv}", lv != "perfeito"))
-        for lv in LEVELS
-        if lv in value
-    )
+    names = tuple((lv, _medal_name(value[lv], f"{where} {lv}")) for lv in LEVELS if lv in value)
     album = value.get("album")
     if album is not None and (not isinstance(album, str) or not _ARTIST_ID.fullmatch(album)):
         raise InputError(f"{where}: album deveria ser o collectionId de um álbum do artista")
@@ -688,8 +682,9 @@ def list_order(entries: Sequence[JSON]) -> list[JSON]:
 
 def medal_entry(provider: str, rules: ArtistRules, data: JSON) -> JSON:
     """As medalhas do artista no índice (M16). Os 3 nomes são obrigatórios (P301), com o latino
-    só quando o nome tem kana, kanji ou hangul (P295); a capa é a de um álbum do arquivo dele
-    (P296). O que falta (a capa, o enquadramento, a faixa, as flores) a tela desenha no padrão."""
+    só quando o nome tem kana, kanji ou hangul (P295; na perfeita também, desde a P309); a capa é a
+    de um álbum do arquivo dele (P296). O que falta (a capa, o enquadramento, a faixa, as flores) a
+    tela desenha no padrão."""
     m = rules.medals or MedalRules()
     names = dict(m.names)
     missing = [lv for lv in LEVELS if lv not in names]
@@ -701,9 +696,6 @@ def medal_entry(provider: str, rules: ArtistRules, data: JSON) -> JSON:
     out: JSON = {"names": {}}
     for lv in LEVELS:
         n = names[lv]
-        if lv == "perfeito":
-            out["names"][lv] = {"name": n.name}
-            continue
         if needs_romaji(n.name) != (n.latin is not None):
             raise InputError(
                 f"artista {rules.id}: a medalha {lv} ({n.name}) leva o latin só quando o nome "

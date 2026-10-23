@@ -32,7 +32,7 @@ const list = (e: ArtistListEntry, provider = "apple"): ArtistList =>
 const NAMES = {
   acertos: { name: "狂言", latin: "Kyogen" },
   completo: { name: "Round Robin", latin: null },
-  perfeito: { name: "青い薔薇", latin: "ignorado" },
+  perfeito: { name: "青い薔薇", latin: " Aoi Bara " },
 };
 
 describe("sizedArtwork: o tamanho pela mzstatic", () => {
@@ -113,11 +113,21 @@ describe("superfanArt: o desenho de um artista (P296)", () => {
 });
 
 describe("medalName: o nome próprio (P295, P300, P301)", () => {
-  it("o nome com o latino; o da perfeita sem ele", () => {
+  it("o nome com o latino, nos 3 (a perfeita também, P309), sem os espaços das pontas", () => {
     const e = entry({ names: NAMES });
     expect(medalName(e, "acertos")).toEqual({ name: "狂言", latin: "Kyogen" });
     expect(medalName(e, "completo")).toEqual({ name: "Round Robin", latin: null });
-    expect(medalName(e, "perfeito")).toEqual({ name: "青い薔薇", latin: null });
+    expect(medalName(e, "perfeito")).toEqual({ name: "青い薔薇", latin: "Aoi Bara" });
+  });
+
+  it("o latino vazio ou que não é texto fica de fora", () => {
+    const names = (latin: unknown) => ({ ...NAMES, perfeito: { name: "青い薔薇", latin } });
+    for (const latin of [" ", 3, undefined]) {
+      expect(medalName(entry({ names: names(latin) }), "perfeito")).toEqual({
+        name: "青い薔薇",
+        latin: null,
+      });
+    }
   });
 
   it("sem o nome (o índice corrompido ou velho): null, e a tela mostra só o como ganhar", () => {

@@ -568,7 +568,8 @@ def test_load_artist_list_reads_the_medals(tmp_path: Path):
     path.write_text(
         MEDALS_HEAD
         + 'acertos = { name = " 歌い手 ", latin = "Utaite" }\n'
-        + 'completo = { name = "Round Robin" }\nperfeito = { name = "はらぺこ" }\n'
+        + 'completo = { name = "Round Robin" }\n'
+        + 'perfeito = { name = "はらぺこ", latin = "Harapeko" }\n'
         + 'album = "9"\ncrop = { z = 2, x = 0.5, y = 0.25 }\nsash = { text = "Eve" }\n\n'
         + "[artists.medals.flowers]\n"
         + ALL_FLOWERS,
@@ -580,7 +581,7 @@ def test_load_artist_list_reads_the_medals(tmp_path: Path):
     assert dict(m.names) == {
         "acertos": MedalName("歌い手", "Utaite"),  # o display() tira o espaço das pontas
         "completo": MedalName("Round Robin"),
-        "perfeito": MedalName("はらぺこ"),
+        "perfeito": MedalName("はらぺこ", "Harapeko"),  # o latino também na perfeita (P309)
     }
     assert (m.album, m.crop, m.sash) == ("9", (2.0, 0.5, 0.25), ("Eve", False))
     assert [role for role, _ in m.flowers] == list(FLOWER_ROLES)
@@ -600,7 +601,7 @@ def test_the_medals_are_optional_in_the_list(tmp_path: Path):
         ('nome = "x"\n', "chaves aceitas"),
         ('acertos = { name = "狂言", latin = "Kyōgen" }\n', "sem mácron"),
         ('acertos = { name = "狂言", latin = "  " }\n', "latin vazio"),
-        ('perfeito = { name = "x", latin = "y" }\n', "esperado"),
+        ('perfeito = { name = "x", nome = "y" }\n', "esperado"),
         ('completo = "Round Robin"\n', "esperado"),
         ('acertos = { name = "  " }\n', "name vazio"),
         ('album = "1 2"\n', "collectionId"),
@@ -633,9 +634,10 @@ def test_build_artists_requires_the_three_names():
         build_artists(provider, [ArtistRules("77", medals=two)], Curation(), [])
 
 
+@pytest.mark.parametrize("level", LEVELS)  # a perfeita também, desde a P309
 @pytest.mark.parametrize(("name", "latin"), [("歌い手", None), ("Round Robin", "Round Robin")])
-def test_build_artists_wants_the_latin_only_for_kana_and_kanji(name, latin):
-    names = (("acertos", MedalName(name, latin)), *NAMED.names[1:])
+def test_build_artists_wants_the_latin_only_for_kana_and_kanji(level, name, latin):
+    names = tuple((lv, MedalName(name, latin) if lv == level else n) for lv, n in NAMED.names)
     provider = FakeProvider({"77": snap((1, track("1", "光")))})
     with pytest.raises(InputError, match="leva o latin só quando"):
         build_artists(provider, [ArtistRules("77", medals=MedalRules(names=names))], Curation(), [])
@@ -660,7 +662,7 @@ def test_build_artists_writes_the_medals():
         "names": {
             "acertos": {"name": "歌い手", "latin": "Utaite"},
             "completo": {"name": "Nome completo", "latin": None},
-            "perfeito": {"name": "Nome perfeito"},
+            "perfeito": {"name": "Nome perfeito", "latin": None},
         },
         "artworkUrl": "fixtures/art/medalha.svg",  # a do álbum 900, que está no arquivo
         "crop": {"z": 1.5, "x": 0.4, "y": 0.6},

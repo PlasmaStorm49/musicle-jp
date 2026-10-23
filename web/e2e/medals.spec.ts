@@ -72,7 +72,7 @@ test("com a lista de exemplo: a aba, a tela com a sequência, as gerais e o Supe
   await expect(page.locator(".medal-artist").first().locator(".medal-name")).toHaveText([
     "開幕ベル · Kaimaku Bell",
     "真夜中のカーテンコール · Mayonaka no Curtain Call",
-    "夜風劇場",
+    "夜風劇場 · Yokaze Gekijo",
   ]);
   await expect(page.getByText("2 de 18 medalhas")).toBeVisible();
   // Calado (`?medalhas=silencio`): a tela fica, e o aviso não.

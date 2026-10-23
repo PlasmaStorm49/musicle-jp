@@ -38,7 +38,7 @@ const LIST: ArtistList = {
         names: {
           acertos: { name: "夜明け", latin: "Yoake" },
           completo: { name: "Round Robin", latin: null },
-          perfeito: { name: "夜風劇場" },
+          perfeito: { name: "夜風劇場", latin: "Yokaze Gekijo" },
         },
       },
     },
@@ -53,7 +53,7 @@ const LIST: ArtistList = {
         names: {
           acertos: { name: "Primeira", latin: null },
           completo: { name: "Segunda", latin: null },
-          perfeito: { name: "Terceira" },
+          perfeito: { name: "Terceira", latin: null },
         },
       },
     },
@@ -136,7 +136,7 @@ describe("Medals (a tela, P278 e P286)", () => {
     expect(cells(/^夜風/).map(cellText)).toEqual([
       "夜明け · Yoake | Ganha",
       "Round Robin | Ganha",
-      "夜風劇場 | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
+      "夜風劇場 · Yokaze Gekijo | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
     ]);
     expect(cells("Banda").map(cellText)).toEqual([
       `Primeira | 1 de ${SUPERFAN_RIGHT} acertos`,

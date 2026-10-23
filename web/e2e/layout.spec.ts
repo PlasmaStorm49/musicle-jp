@@ -745,7 +745,7 @@ test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longo
     "Primeiro diário",
     "開幕ベル · Kaimaku Bell, de 夜風シアター (50 acertos)",
     "真夜中のカーテンコール · Mayonaka no Curtain Call, de 夜風シアター (Superfan completo)",
-    "夜風劇場, de 夜風シアター (Superfan perfeito)",
+    "夜風劇場 · Yokaze Gekijo, de 夜風シアター (Superfan perfeito)",
   ]);
   const tops = await dialog
     .locator(".medal-notice-arts svg")

@@ -62,7 +62,7 @@ const LIST: ArtistList = {
         names: {
           acertos: { name: "夜明け", latin: "Yoake" },
           completo: { name: "Round Robin", latin: null },
-          perfeito: { name: "夜風劇場" },
+          perfeito: { name: "夜風劇場", latin: null },
         },
       },
     },
@@ -77,7 +77,7 @@ const LIST: ArtistList = {
         names: {
           acertos: { name: "Primeira", latin: null },
           completo: { name: "Segunda", latin: null },
-          perfeito: { name: "Terceira" },
+          perfeito: { name: "Terceira", latin: null },
         },
       },
     },
