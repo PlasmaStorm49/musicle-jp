@@ -43,6 +43,7 @@ import { dayTitle } from "./dayLabel.ts";
 import { FocusedNotice, UpdateNotice } from "./FocusedNotice.tsx";
 import { Game } from "./Game.tsx";
 import { useHeadingFocus } from "./hooks.ts";
+import { Icon } from "./Icon.tsx";
 import { animeModeName } from "./modes.ts";
 import { singleClick, singleClickLink } from "./singleClick.ts";
 
@@ -278,6 +279,8 @@ function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyPro
           shareUrl={props.shareUrl}
           today={today}
           todayDailies={todayDailies}
+          // Do resumo, um passo atrás: a escolha da dificuldade do modo, no dia jogado (P322).
+          back={{ href: hrefOf(animeModeTab(screen.mode), date, today) }}
         />
       );
     }
@@ -447,7 +450,16 @@ function AnimeLevels({ mode, day, date, today, save }: ScreenProps & { readonly 
   });
   return (
     <div class="game practice anime-levels screen">
-      <header>
+      <header class="has-back">
+        {/* A volta à tela do Anime (P321, P323), no dia jogado: a seta à esquerda do título, fora
+            do fluxo (a tela não cresce). O 2º clique de um toque duplo não segue o link (regra 23):
+            cairia num cartão. */}
+        <a class="back-link" href={hrefOf("anime", date, today)} onClick={singleClickLink}>
+          <span class="back-chevron" aria-hidden="true">
+            <Icon name="next" />
+          </span>
+          <span class="sr-only">{t("anime.back")}</span>
+        </a>
         <h1 ref={heading} tabIndex={-1}>
           {animeModeName(mode)}
         </h1>

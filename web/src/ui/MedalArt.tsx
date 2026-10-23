@@ -385,6 +385,12 @@ const VIEW: Readonly<Record<MedalKind, { box: string; w: number; h: number; miol
   perfeito: { box: "0 0 110 156", w: 110, h: 156, miolo: { cx: 55, cy: 56, r: 29 } },
 };
 
+/** A largura do desenho para uma altura: as 4 molduras com a mesma altura na nav (P317). */
+export function medalWidth(kind: MedalKind, height: number): number {
+  const view = VIEW[kind];
+  return Math.round((height * view.w) / view.h);
+}
+
 /**
  * A medalha, decorativa (`aria-hidden`): o nome e o estado ficam no texto ao lado dela. A apagada
  * usa o filtro do CSS (`.medal-art.locked`), sem cor própria.

@@ -86,7 +86,6 @@ Atualizado em 23/10/2026.
 
 - **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
-- **ME118 (novo).** A estante: as medalhas favoritas à mostra o tempo todo, como troféus. Depois do M16; o save v8 já tem o campo.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).
 - **ME6.** O app do Claude no GitHub revisando cada PR.

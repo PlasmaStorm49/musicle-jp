@@ -3,6 +3,7 @@
 // 480 e 719 px, a coluna tem 460 px úteis); a partir de 720 px, as 6 ficam na linha. Os links do
 // "Mais" estão duas vezes no DOM, um na linha e outro no menu, e o CSS mostra um por vez (o
 // `[hidden]` vale sempre, e o menu fechado usa ele: o mesmo elemento não serve às duas larguras).
+// No canto direito, a medalha em destaque (ME118, P317), quando há uma.
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { animeDone, dailiesDone } from "../core/home.ts";
 import type { Save } from "../core/records.ts";
@@ -10,6 +11,8 @@ import { navCurrent, ROUTES, type Route, routeHref } from "../core/routes.ts";
 import { t } from "../i18n/t.ts";
 import { Icon } from "./Icon.tsx";
 import { NavLogo } from "./Logo.tsx";
+import { MedalArt, medalWidth } from "./MedalArt.tsx";
+import type { NoticeItem } from "./MedalNotice.tsx";
 import { singleClick, singleClickLink } from "./singleClick.ts";
 
 type Props = {
@@ -18,13 +21,32 @@ type Props = {
   readonly save: Save;
   /** O "hoje" do jogo. */
   readonly date: string;
+  /** A medalha em destaque (P317), já com o nome e o desenho sem a capa (P319); null sem ela. */
+  readonly favorite?: NoticeItem | null;
 };
+
+/** A altura da medalha em destaque na nav: o link tem o alvo de 44 px; o enfeite, abaixo de 360. */
+const FAVORITE_HEIGHT = { link: 36, small: 28 } as const;
 
 // O id do menu, para o aria-controls: nenhum id igual a uma rota (regra 17).
 const MENU_ID = "nav-more-menu";
 
-export function Nav({ route, save, date }: Props) {
+/** A largura em que a medalha em destaque vira link (P317): abaixo dela, não sobram os 44 px. */
+const FAVORITE_LINK = "(min-width: 360px)";
+
+export function Nav({ route, save, date, favorite = null }: Props) {
   const [open, setOpen] = useState(false);
+  // Uma versão só da medalha em destaque, pela largura: abaixo de 360 px, o item inteiro sai do
+  // leitor de tela (um item vazio na lista da nav, com só o enfeite).
+  const [roomy, setRoomy] = useState(() => window.matchMedia?.(FAVORITE_LINK).matches ?? true);
+  useEffect(() => {
+    const query = window.matchMedia?.(FAVORITE_LINK);
+    if (!query) return;
+    const update = () => setRoomy(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
   const toggle = useRef<HTMLButtonElement>(null);
   const box = useRef<HTMLLIElement>(null);
   // A rota mudou (um link do menu, a nav, o Voltar do navegador): o menu fecha.
@@ -198,6 +220,38 @@ export function Nav({ route, save, date }: Props) {
             <li>{medalsLink(true)}</li>
           </ul>
         </li>
+        {/* A medalha em destaque (P317): a partir de 360 px, um link para as Medalhas; abaixo, não
+            sobra o alvo de 44 px, e ela fica menor, só de enfeite (o link das Medalhas está no
+            Mais). */}
+        {favorite && (
+          <li class="nav-favorite" aria-hidden={roomy ? undefined : "true"}>
+            {roomy ? (
+              <a
+                class="nav-favorite-link"
+                href={ROUTES.medals}
+                aria-label={t("favorite.link", { name: favorite.spoken })}
+              >
+                <MedalArt
+                  kind={favorite.kind}
+                  art={favorite.art}
+                  earned
+                  size={medalWidth(favorite.kind, FAVORITE_HEIGHT.link)}
+                  icon={favorite.id}
+                />
+              </a>
+            ) : (
+              <span class="nav-favorite-small">
+                <MedalArt
+                  kind={favorite.kind}
+                  art={favorite.art}
+                  earned
+                  size={medalWidth(favorite.kind, FAVORITE_HEIGHT.small)}
+                  icon={favorite.id}
+                />
+              </span>
+            )}
+          </li>
+        )}
       </ul>
     </nav>
   );

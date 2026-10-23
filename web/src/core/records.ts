@@ -248,6 +248,22 @@ export function withSeenMedals(save: Save, ids: readonly string[]): Save {
   return { ...save, seenMedals: [...new Set([...save.seenMedals, ...fresh])].sort() };
 }
 
+/** A medalha em destaque (ME118, P317): a 1ª da estante. Por enquanto, a estante mostra só ela. */
+export function favoriteOf(save: Save): string | null {
+  return save.shelf[0] ?? null;
+}
+
+/**
+ * Escolhe a medalha em destaque (`on`), e a estante fica só com ela; ou tira (P318), só se ela
+ * ainda é a favorita: a aba que não viu a troca feita na outra não apaga a escolha de lá. Sem
+ * mudança, o mesmo objeto (o `updateSave` então não grava).
+ */
+export function withFavorite(save: Save, id: string, on: boolean): Save {
+  if (!on) return favoriteOf(save) === id ? { ...save, shelf: [] } : save;
+  const same = save.shelf.length === 1 && save.shelf[0] === id;
+  return same ? save : { ...save, shelf: [id] };
+}
+
 /** Mais uma rodada acertada no Treino (P308). */
 export function withPracticeRight(save: Save): Save {
   return { ...save, practiceRight: save.practiceRight + 1 };

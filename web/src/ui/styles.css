@@ -451,6 +451,21 @@ button.give-up:active:not(:disabled) {
   }
 }
 
+/* A medalha em destaque (ME118, P317), no canto direito da nav. A partir de 360 px, o link para as
+   Medalhas, com o alvo de 44 px; abaixo, sobram 28 px em 320 (os 44 menos o espaço entre as abas):
+   ela fica menor e só enfeita, e o link das Medalhas continua no Mais. */
+.tabs .nav-favorite {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+/* Abaixo de 360 px, a Nav desenha só o enfeite (pelo `matchMedia`, para o item sair do leitor de
+   tela): sem o alvo do link, ele não precisa dos 44 px. */
+.tabs .nav-favorite-small {
+  display: flex;
+}
+
 /* O botão do "Mais" com a cara das abas: sem tinta, o texto cinza e o chevron do designer, que
    aponta para baixo e gira quando o menu abre. */
 .tabs .nav-more-toggle {
@@ -1632,6 +1647,36 @@ section.void,
   line-height: var(--lh-sm);
 }
 
+/* A volta à tela do Anime (P321, P323), à esquerda do título, fora do fluxo: a escolha da
+   dificuldade não cresce. O recuo dos dois lados deixa o título no centro, sem passar por baixo
+   da seta. */
+.practice > header.has-back {
+  position: relative;
+  padding-inline: var(--h-control);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--h-control);
+  min-height: var(--h-control);
+  border-radius: var(--r-control);
+  color: var(--text);
+}
+
+.has-back > .back-link {
+  position: absolute;
+  left: 0;
+  top: calc((var(--lh-lg) - var(--h-control)) / 2);
+}
+
+/* O chevron dos ícones, que aponta para a direita, virado para trás. */
+.back-chevron {
+  display: inline-flex;
+  transform: rotate(180deg);
+}
+
 .practice > ul.home-modes:not(:has(.artist-card)) .home-card {
   min-height: 120px;
 }
@@ -1809,6 +1854,12 @@ section.void,
   justify-self: center;
 }
 
+/* O botão do destaque (P318) numa 3ª coluna, só nas ganhas: nas outras, o espaço entre as colunas
+   não tira largura do nome. */
+.medal-row:has(> .medal-pin) {
+  grid-template-columns: 3.5rem minmax(0, 1fr) auto;
+}
+
 .medal-text {
   display: grid;
 }
@@ -1839,6 +1890,16 @@ section.void,
     font-size: var(--t-xs);
     line-height: var(--lh-xs);
   }
+}
+
+/* O botão do destaque (P318): pequeno, com o alvo de 44 px; o texto quebra na célula estreita do
+   Superfan, em vez de passar da largura dela. */
+.medal-pin {
+  max-width: 100%;
+  padding: 0 var(--sp-2);
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  text-align: center;
 }
 
 .medal-how {
@@ -2352,6 +2413,40 @@ section.summary > h2 {
   .summary:has(.countdown button.primary) .share > button.primary:hover:not(:disabled) {
     background: var(--fill-press);
   }
+}
+
+/* A volta à escolha da dificuldade (o Anime, P322 e P323), ao lado do Compartilhar, na mesma
+   linha: o resumo não cresce. */
+.summary:has(> .summary-levels) {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.summary:has(> .summary-levels) > * {
+  grid-column: 1 / -1;
+}
+
+.summary:has(> .summary-levels) > .share {
+  grid-column: 1;
+}
+
+.summary > .summary-levels {
+  grid-column: 2;
+  align-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-height: var(--h-control);
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-control);
+  background: var(--fill);
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Com o novo diário, o Jogar fica ao lado do Compartilhar (abaixo), e a volta sai: as três não
+   cabem na linha. */
+.summary:has(.countdown button.primary) > .summary-levels {
+  display: none;
 }
 
 /* E os dois lado a lado (no celular), no lugar da contagem: o resumo continua cabendo. */

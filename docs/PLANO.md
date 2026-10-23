@@ -266,6 +266,10 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P314 | O "Você já tem N medalhas" (P281) fica para quem tem um jogo de um dia anterior: quem começa hoje e ganha duas de uma vez (o Primeiro Acorde e o Relâmpago no 1º diário) vê "2 medalhas novas" (o usuário, 23/10/2026) |
 | P315 | O progresso das gerais que se ganham aos poucos diz a unidade, como o "7 de 50 acertos" do Superfan: "3 de 7 dias seguidos", "40 de 100 acertos no Treino", "14 de 50 diários", "1 de 5 artistas com 50 acertos". Os limites vão aos textos por parâmetro, e os textos não repetem os números do núcleo (o usuário, 23/10/2026) |
 | P316 | Nas células do Superfan, o latino vai embaixo do nome, em letra menor e sem o ponto (o leitor de tela ouve uma pausa). No celular estreito (abaixo de 375 px), o nome fica um pouco menor, para "Nightwalker" caber sem quebrar no meio (o usuário, 23/10/2026) |
+| P317 | A medalha em destaque (ME118) fica no canto direito da nav, em todas as telas: a favorita é a 1ª da estante (o `shelf[0]`, sem versão nova do save), e só ela aparece. A partir de 360 px, é um link para as Medalhas, com o alvo de 44 px; abaixo de 360 px (sobram 28 px em 320), fica menor e só enfeita. O usuário escolheu antes uma faixa acima de cada tela, mas ela fazia rolar 7 telas de jogo em 360 × 640, mesmo com 20 px (a medida, com os testes do `layout.spec`), e ele trocou pela nav (o usuário, 23/10/2026) |
+| P318 | Para escolher: na tela das Medalhas, cada medalha ganha tem um botão "Destacar"; na escolhida, o botão vira "Tirar o destaque", que a remove (o usuário, 23/10/2026) |
+| P319 | A do Superfan, na nav, vai sem a capa: o monograma e as cores do artista, como no aviso pequeno (P298), porque a nav não tem o selo da Apple (o usuário, 23/10/2026) |
+| P320 | Sem favorita, ou com uma que não está entre as ganhas (um id velho, um artista que saiu da lista), nada aparece (o usuário, 23/10/2026) |
 | P289 | O save v8 guarda o modo por artista, só o mínimo: os acertos de cada artista e se ele já terminou e terminou perfeita uma partida do Superfan (revisão da P116). Guarda também as medalhas já avisadas e a estante (ME118), vazia até ela (o plano do M16, 22/10) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
@@ -491,11 +495,11 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 
 **De 22/10/2026** (as medalhas, M16):
 
-- ME118. A estante (o pedido do usuário, 22/10/2026): a pessoa escolhe as medalhas favoritas, que ficam à mostra o tempo todo, como troféus numa estante. Ficam em aberto quantas (1 ou 3) e onde aparecem. O save v8 já nasce com o campo (`shelf`, até 3, na ordem da pessoa), para ela não pedir uma v9. Num PR depois do M16.
 - ME119. Dois romaji errados do cutlet nos artistas, que vão no `aliases.toml` deles (`pipeline/data/apple/artists/`): 廻廻奇譚, do Eve, sai "Meguru Meguru kitan" (o título oficial é "Kaikai Kitan", o mesmo da medalha dos acertos dele), e 踊, da Ado, sai "Odori" (o oficial é "Odo"). O 私は最強 "Watakushi wa saikyou" está na ME81 (vistos na conversa do M16, 22/10/2026).
 
 **Feitas:**
 
+- Em 23/10/2026: ME118 (a estante, com uma medalha só: a medalha em destaque no canto da nav, escolhida nas Medalhas, P317 a P320; mostrar mais de uma fica para depois, se o usuário pedir).
 - Em 23/10/2026, no M16 (PRs 1 a 3b, Apêndice O): ME105 (as medalhas, o pedido do usuário de 21/10: a tela, os dois avisos, as 13 gerais e as 3 do Superfan de cada artista, com a capa, o buquê nas cores dele e o nome próprio; o save v8 com o modo por artista e o v9 com os acertos do Treino).
 - Em 22/10/2026, no M15 (PRs 1 a 3, Apêndice N): ME104 (o pedido do usuário de 21/10: os 14 dias antes de hoje num calendário, com a marca dos Hits e a do Anime, a tela de cada dia e o jogar depois o que faltou, das duas categorias, fora de todas as estatísticas; o save v7 com o `late`; a nav do celular com o "Mais ▾").
 - Em 22/10/2026, no PR B do M14 (o robô do Anime): ME109 (a agenda fictícia do Anime parava em 09/11; o robô a cresce junto com a real, nas semanas em que o Anime gera, com `schedule-anime --provider fixture --days 28`, Apêndice M, "O robô").
@@ -830,7 +834,7 @@ Implementado no M6 (`web/src/storage/`, `core/records.ts`, `core/stats.ts`, `cor
 - **Conteúdo (`Save`, v9 desde a P308):** `{ schemaVersion: 9, history, inProgress, seenMedals, shelf, artists, practiceRight }`. Os dois mapas por `"2026-10-08|album"` (o Normal), `"2026-10-08|song"` (o Desafio) ou, desde a v6 (P250), `"2026-10-08|anime-musica-facil"` (os 6 diários do Anime, com as regras do Desafio).
   - `history`: o `FinishedGame` de cada dia, `{ number, rounds: [{ status, stage, attempts, help? }], late? }`. O `late: true` (v7, P267) marca o jogado depois, pelo Histórico, que fica fora das estatísticas; sem ele, foi jogado no dia. Pontos e máximo saem de `status`, `stage` e `help`; nada derivado é gravado. O `help` (P149) só existe na rodada com ajuda: quantas tentativas tinham sido gastas quando ela foi pedida (depois dela vêm pulos, desde a P163, e no fim no máximo a opção). O `isFinishedGame` confere as tentativas pelas regras do modo, que sai do id: no Normal, no máximo 1, nunca um pulo nem ajuda.
   - `inProgress`: `{ events }`, só os eventos que o reducer aceitou. O cartão da home mostra "em andamento" desde o 1º evento.
-  - `seenMedals` (v8): os ids das medalhas já avisadas, em ordem (P281). `shelf` (v8): a estante (ME118), até 3 ids, na ordem da pessoa. O guard aceita só textos no formato de id, sem repetidas; o id desconhecido fica, porque pode ser de uma lista mais nova.
+  - `seenMedals` (v8): os ids das medalhas já avisadas, em ordem (P281). `shelf` (v8): a estante (ME118), até 3 ids, na ordem da pessoa; o 1º é a medalha em destaque na nav (P317), e por enquanto só ele é usado. O guard aceita só textos no formato de id, sem repetidas; o id desconhecido fica, porque pode ser de uma lista mais nova.
   - `artists` (v8, P289): o modo por artista, pelo id do artista, `{ right, done?, perfect? }`: os acertos e o fim do Superfan (terminou, terminou perfeita), que só crescem. O resto da partida continua só na memória (P116).
   - `practiceRight` (v9, P308): as rodadas acertadas no Treino, com ou sem ajuda, que só crescem. A sessão continua só na memória (P50).
   - O `settings` (a preferência do modo de resposta, M7) saiu com a P100. Um campo que o save não usa mais é ignorado sem aviso.
@@ -1560,6 +1564,17 @@ As medalhas no ar: a aba, a tela e os avisos, com a lista real das gerais (P310)
   - o `MedalArt.test`: a roseta prata e o gelo com as caudas oliva, o ícone de cada tamanho, e toda geral com o seu ícone (nenhum sobra);
   - o `MedalNotice.test` e o `Medals.test`: a ordem do aviso, o "e mais N", o novato (P314), as chaves do progresso e nenhum texto com parâmetro sobrando;
   - os e2e: a tela com as 13 e o progresso, o 1º aviso com a lista real, o Saco de Pancadas, que avisa na tela calma seguinte ao 100º acerto, e o Treino que grava o total; as Medalhas em 320 px, com o nome mais longo dentro da tela.
+
+### A medalha em destaque (ME118, 23/10/2026)
+
+A estante da ME118, curta: uma medalha só, a 1ª do `shelf` (P317 a P320).
+
+- **O save:** o `favoriteOf` e o `withFavorite` (`core/records.ts`), que escolhe, troca ou tira e devolve o mesmo objeto sem mudança. O guard do `shelf` (até 3, desde a v8) não mudou.
+- **A nav** (`ui/Nav.tsx`): o último item, empurrado para a direita. São duas versões no DOM, e o CSS mostra uma: o link a partir de 360 px e o enfeite menor (`aria-hidden`) abaixo. O desenho tem a mesma altura nas 4 molduras (o `medalWidth` do `MedalArt`).
+- **O App:** a favorita só aparece quando está entre as ganhas. O desenho e o nome saem do `noticeItems`, o mesmo do aviso pequeno, sem a capa; a do Superfan pede a lista dos artistas na abertura.
+- **A escolha** (`ui/Medals.tsx`): o `PinButton`, com o nome da medalha para o leitor de tela e o `singleClick`. Na linha das gerais, a 3ª coluna só existe com o botão (`:has`). O App grava pelo `updateSave` e relê, e a outra aba recebe pelo evento `storage`.
+- **A medida que mudou o lugar:** uma margem de 40, 28 e 20 px embaixo da nav, injetada em todos os testes do `layout.spec`, fez rolar 21, 12 e 7 telas. As 7 de 20 px eram todas de jogo, em 360 × 640.
+- **Os testes:** o `withFavorite`; o link e o enfeite na nav; o botão só nas ganhas, o escolher, o tirar e o toque duplo; e os e2e do caminho inteiro (destacar, outra tela, uma rodada, recarregar, tirar), da do Superfan sem a capa, do id que não é ganho e da nav numa linha em 320 e 360 px.
 
 ### Os riscos
 

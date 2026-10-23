@@ -5,6 +5,7 @@ import { type Daily, hitsDailies, hitsDaily } from "./daily.ts";
 import {
   emptySave,
   type FinishedGame,
+  favoriteOf,
   isLate,
   pendingDayTracks,
   pruneProgress,
@@ -16,6 +17,7 @@ import {
   startSession,
   toFinishedGame,
   withArtistRight,
+  withFavorite,
   withFinished,
   withPracticeRight,
   withProgress,
@@ -410,6 +412,26 @@ describe("as medalhas e o modo por artista no save (v8, P289)", () => {
       [ARTIST]: { right: 2, done: true },
       "apple:ar:2": { right: 1 },
     });
+  });
+
+  it("withFavorite e favoriteOf: a medalha em destaque, uma só (ME118, P317 e P318)", () => {
+    const save = emptySave();
+    expect(favoriteOf(save)).toBeNull();
+    const one = withFavorite(save, "diario-1", true);
+    expect(one.shelf).toEqual(["diario-1"]);
+    expect(favoriteOf(one)).toBe("diario-1");
+    // Escolher a mesma: o mesmo objeto (o updateSave não grava).
+    expect(withFavorite(one, "diario-1", true)).toBe(one);
+    // Outra troca; tirar a favorita esvazia a estante.
+    expect(withFavorite(one, "seguidos-7", true).shelf).toEqual(["seguidos-7"]);
+    expect(withFavorite(one, "diario-1", false).shelf).toEqual([]);
+    // Tirar uma que não é mais a favorita (a outra aba trocou): nada muda.
+    expect(withFavorite(one, "seguidos-7", false)).toBe(one);
+    expect(withFavorite(save, "diario-1", false)).toBe(save);
+    // Uma estante de antes, com mais de uma: a escolha a deixa com uma só.
+    const three = { ...save, shelf: ["a", "b", "c"] };
+    expect(favoriteOf(three)).toBe("a");
+    expect(withFavorite(three, "a", true).shelf).toEqual(["a"]);
   });
 
   it("withPracticeRight: soma um acerto do Treino, sem mexer no resto (P308)", () => {

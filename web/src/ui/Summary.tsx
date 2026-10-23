@@ -38,6 +38,11 @@ type Props = {
    * estatísticas, que são as de hoje (P263).
    */
   readonly today: string;
+  /**
+   * A volta à escolha da dificuldade (o Anime, P322), ao lado do Compartilhar, na mesma linha: o
+   * resumo não cresce (P323). Os Hits não a têm.
+   */
+  readonly back?: { readonly href: string } | undefined;
 };
 
 /**
@@ -61,7 +66,16 @@ function roundTexts(round: FinishedGame["rounds"][number]): {
  * passado, no lugar da contagem e das estatísticas (as de hoje), a volta à tela do dia; o jogado
  * depois leva a nota e a marca no compartilhar (P263).
  */
-export function Summary({ game, daily, history, scheduleDates, shareUrl, announce, today }: Props) {
+export function Summary({
+  game,
+  daily,
+  history,
+  scheduleDates,
+  shareUrl,
+  announce,
+  today,
+  back,
+}: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   const past = isLate(daily.date, today);
@@ -97,6 +111,17 @@ export function Summary({ game, daily, history, scheduleDates, shareUrl, announc
         text={shareText(header, game, MODE_RULES[daily.target], shareUrl)}
         announce={announce}
       />
+      {back && (
+        // O nome inteiro começa pelo texto visível (P210). O 2º clique de um toque duplo no
+        // "Ver resultado" não segue o link (regra 23).
+        <a class="summary-levels" href={back.href} onClick={singleClickLink}>
+          <span class="back-chevron" aria-hidden="true">
+            <Icon name="next" />
+          </span>
+          <span aria-hidden="true">{t("anime.backToLevels")}</span>
+          <span class="sr-only">{t("anime.backToLevelsFull")}</span>
+        </a>
+      )}
       {past ? (
         // Sem a contagem: num dia passado, ela já estaria zerada, e o "Jogar o novo diário"
         // recarregaria este mesmo endereço. O 2º clique de um toque duplo não segue o link

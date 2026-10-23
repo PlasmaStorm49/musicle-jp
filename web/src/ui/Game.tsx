@@ -63,6 +63,8 @@ type Props = {
    * medalhas novas (M16, P288). Nem ao reabrir um dia terminado, nem na revelação.
    */
   readonly onResult?: () => void;
+  /** No resumo, a volta à escolha da dificuldade (o Anime, P322); os Hits não a têm. */
+  readonly back?: { readonly href: string };
 };
 
 /**
@@ -104,6 +106,7 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
         shareUrl={props.shareUrl}
         announce={props.announce}
         today={props.today}
+        back={props.back}
       />
     </div>
   );

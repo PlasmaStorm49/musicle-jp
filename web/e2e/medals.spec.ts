@@ -43,6 +43,9 @@ async function playToLastReveal(page: Page): Promise<void> {
   await expect(page.getByRole("button", { name: "Ver resultado" })).toBeVisible();
 }
 
+const shelf = (page: Page) =>
+  page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").shelf, SAVE_KEY);
+
 const seenMedals = (page: Page) =>
   page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").seenMedals, SAVE_KEY);
 
@@ -126,10 +129,91 @@ test("com a lista real e os avisos, como no site: quem já jogava ganha um aviso
   expect(await seenMedals(page)).toEqual(["diario-1", "um-segundo"]);
 });
 
+test("a medalha em destaque (ME118): destacar nas Medalhas, ver na nav das outras telas e numa rodada, recarregar e tirar (P317, P318)", async ({
+  page,
+}) => {
+  await seedHistory(page, { "2026-10-22|album": day });
+  await open(page, DAY, "#medalhas");
+  const favorite = page.getByRole("link", {
+    name: "Medalha em destaque: Primeiro Acorde. Ver as medalhas",
+  });
+  await expect(favorite).toHaveCount(0);
+  await page.getByRole("button", { name: "Destacar (Primeiro Acorde)" }).click();
+  await expect(favorite).toBeVisible();
+  // O foco fica no mesmo botão, que muda de nome (regra 16).
+  await expect(
+    page.getByRole("button", { name: "Tirar o destaque (Primeiro Acorde)" }),
+  ).toBeFocused();
+  await expect.poll(() => shelf(page)).toEqual(["diario-1"]);
+  // Em outra tela e numa rodada, no canto da nav; o toque leva às Medalhas.
+  await page.getByRole("navigation").getByRole("link", { name: "Início" }).click();
+  await expect(favorite).toBeVisible();
+  await page.evaluate(() => {
+    window.location.hash = "#desafio";
+  });
+  await expect(page.getByRole("combobox", { name: "Qual é a música?" })).toBeVisible();
+  await expect(favorite).toBeVisible();
+  await page.reload();
+  await expect(favorite).toBeVisible();
+  await favorite.click();
+  await expect(page.getByRole("heading", { level: 1, name: "Medalhas" })).toBeVisible();
+  // Na escolhida, o botão tira o destaque.
+  await page.getByRole("button", { name: "Tirar o destaque (Primeiro Acorde)" }).click();
+  await expect(favorite).toHaveCount(0);
+  await expect.poll(() => shelf(page)).toEqual([]);
+  await expect(page.getByRole("button", { name: "Destacar (Primeiro Acorde)" })).toBeFocused();
+});
+
+test("a do Superfan em destaque: o nome e as cores do artista, sem a capa da Apple (P319)", async ({
+  page,
+}) => {
+  await appleArtistList(page);
+  await seedHistory(
+    page,
+    {},
+    { "fixture:ar:ar02": { right: 50 } },
+    { shelf: ["superfan|fixture:ar:ar02|acertos"] },
+  );
+  await open(page, DAY, "#inicio");
+  const favorite = page.getByRole("link", {
+    name: "Medalha em destaque: 開幕ベル, Kaimaku Bell, de 夜風シアター (50 acertos). Ver as medalhas",
+  });
+  await expect(favorite).toBeVisible();
+  // O monograma no miolo, e nenhuma capa: a nav não tem o selo da Apple.
+  await expect(favorite.locator("image")).toHaveCount(0);
+  await expect(favorite.locator("text")).toHaveCount(1);
+});
+
+test("a do Superfan de um artista que não está na lista não aparece, nem com o monograma de reserva (P320)", async ({
+  page,
+}) => {
+  await seedHistory(
+    page,
+    {},
+    { "fixture:ar:fora": { right: 50 } },
+    { shelf: ["superfan|fixture:ar:fora|acertos"] },
+  );
+  await open(page, DAY, "#artistas");
+  // A lista carregou (os artistas na tela), e a medalha continua fora da nav.
+  await expect(page.locator(".artist-card").first()).toBeVisible();
+  await settle(page);
+  await expect(page.locator(".nav-favorite")).toHaveCount(0);
+});
+
+test("uma medalha em destaque que não está entre as ganhas não aparece (P320)", async ({
+  page,
+}) => {
+  await seedHistory(page, {}, {}, { shelf: ["seguidos-30"] });
+  await open(page, DAY, "#inicio");
+  await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeVisible();
+  await settle(page);
+  await expect(page.locator(".nav-favorite")).toHaveCount(0);
+});
+
 test("o Saco de Pancadas: o 100º acerto do Treino avisa na tela calma seguinte, e não na rodada (P288, P308)", async ({
   page,
 }) => {
-  await seedHistory(page, {}, {}, 99);
+  await seedHistory(page, {}, {}, { practiceRight: 99 });
   await openWithMedals(page, DAY, "#treino", "avisos");
   await page.getByRole("button", { name: "Normal" }).click();
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
