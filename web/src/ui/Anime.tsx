@@ -151,6 +151,8 @@ type Props = {
   readonly onSaved: () => void;
   /** Endereço do jogo no texto compartilhado. */
   readonly shareUrl: string;
+  /** O resultado de um diário acabou de aparecer: as medalhas novas (M16, o `onResult` do Game). */
+  readonly onResult?: () => void;
 };
 
 /** Os 3 diários de um modo no dia, na ordem das dificuldades; sem o dia na agenda, nenhum. */
@@ -271,6 +273,7 @@ function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyPro
           store={props.saveStore}
           initialSave={save}
           onSaved={props.onSaved}
+          onResult={props.onResult}
           scheduleDates={Object.keys(data.schedule.days)}
           shareUrl={props.shareUrl}
           today={today}

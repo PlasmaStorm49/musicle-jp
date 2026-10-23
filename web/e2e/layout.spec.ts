@@ -683,7 +683,7 @@ test("com as Medalhas (M16): em 320 px, nada rola para o lado na tela delas, e o
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 640 });
-  await openWithMedals(page, DAY);
+  await openWithMedals(page, DAY, "#medalhas", "silencio");
   await expect(page.getByRole("heading", { level: 1, name: "Medalhas" })).toBeVisible();
   await expect(page.locator(".medal-artist")).toHaveCount(5);
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
@@ -693,6 +693,70 @@ test("com as Medalhas (M16): em 320 px, nada rola para o lado na tela delas, e o
     const { height, width } = await target(nav.getByRole("link", { name }));
     expect(height, name).toBeGreaterThanOrEqual(44);
     expect(width, name).toBeGreaterThanOrEqual(44);
+  }
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
+});
+
+// Um teste por tamanho: o aviso some em 5 s, e medir os dois na mesma página dependeria da pressa.
+for (const viewport of [
+  { width: 320, height: 640 },
+  { width: 375, height: 667 },
+]) {
+  test(`o aviso pequeno de medalha (M16) em ${viewport.width} px: inteiro dentro da tela, por cima, sem rolar a página (P279)`, async ({
+    page,
+  }) => {
+    const lost = { status: "lost", stage: 0, attempts: [] } as const;
+    await seedHistory(page, { "2026-10-07|album": { number: 1, rounds: [lost, lost, lost] } });
+    await page.setViewportSize(viewport);
+    await openWithMedals(page, DAY, "#inicio");
+    const toast = page.locator(".medal-toast");
+    await expect(toast.locator(".medal-toast-text")).toHaveText("Medalha nova: Primeiro diário");
+    const box = await toast.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
+    expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
+    // Fixo, ele não entra no fluxo: nada rola para o lado, e em 375 × 667 a Início cabe sem rolar.
+    const { vertical, horizontal } = await overflow(page);
+    expect(horizontal).toBeLessThanOrEqual(0);
+    if (viewport.width === 375) expect(vertical).toBeLessThanOrEqual(0);
+  });
+}
+
+test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longos e o Ok dentro da tela (P279)", async ({
+  page,
+}) => {
+  const lost = { status: "lost", stage: 0, attempts: [] } as const;
+  const day = { number: 1, rounds: [lost, lost, lost] };
+  // O 1º diário, os 3 dias seguidos e a prata e o ouro de um artista: o aviso de 4.
+  await seedHistory(
+    page,
+    { "2026-10-08|album": day, "2026-10-09|album": day, "2026-10-10|album": day },
+    { "fixture:ar:ar02": { right: 50, done: true } },
+  );
+  await page.setViewportSize({ width: 320, height: 640 });
+  // Em 10/10: a agenda das fixtures começa em 08/10, e os 3 dias seguidos precisam estar nela.
+  await openWithMedals(page, "2026-10-10T12:00:00-03:00", "#inicio");
+  const dialog = page.getByRole("dialog", { name: "Você já tem 4 medalhas" });
+  await expect(dialog.getByRole("listitem")).toHaveText([
+    "Primeiro diário",
+    "Três dias seguidos",
+    "Prata de 夜風シアター",
+    "Ouro de 夜風シアター",
+  ]);
+  const tops = await dialog
+    .locator(".medal-notice-arts svg")
+    .evaluateAll((svgs) => svgs.map((svg) => Math.round(svg.getBoundingClientRect().bottom)));
+  expect(tops).toHaveLength(4);
+  expect(new Set(tops).size, "as 4 na mesma linha").toBe(1);
+  for (const target of [dialog, dialog.getByRole("button", { name: "Ok" })]) {
+    const box = await target.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) continue;
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.x + box.width).toBeLessThanOrEqual(320);
+    expect(box.y + box.height).toBeLessThanOrEqual(640);
   }
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
@@ -709,7 +773,7 @@ test("com as Medalhas (M16): o Mais até 719 px e as 6 abas numa linha a partir 
     "2026-10-08|anime-musica-facil": day,
   });
   await page.setViewportSize({ width: 719, height: 800 });
-  await openWithMedals(page, DAY, "#inicio");
+  await openWithMedals(page, DAY, "#inicio", "silencio");
   const nav = page.getByRole("navigation");
   const more = nav.getByRole("button", { name: "Mais" });
   await expect(more).toBeVisible();

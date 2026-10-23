@@ -58,6 +58,11 @@ type Props = {
    * respostas deles (o de hoje conta nas estatísticas). Num de hoje, são os do próprio dia.
    */
   readonly todayDailies: readonly Daily[];
+  /**
+   * O resultado do dia acabou de aparecer (o "Ver resultado" da última rodada): o App confere as
+   * medalhas novas (M16, P288). Nem ao reabrir um dia terminado, nem na revelação.
+   */
+  readonly onResult?: () => void;
 };
 
 /**
@@ -225,6 +230,13 @@ function Playing({
     trackIds[game.current] ?? null,
     trackIds[game.current + 1] ?? null,
   );
+
+  // As medalhas novas, depois do resumo na tela, e não no clique: o efeito que grava o fim do dia
+  // roda antes deste (o Preact roda os pendentes antes de redesenhar), e a reivindicação o encontra.
+  const { onResult } = props;
+  useEffect(() => {
+    if (summary) onResult?.();
+  }, [summary, onResult]);
 
   function next() {
     if (isLast && isFinished(game)) setSummary(toFinishedGame(game, number, late));
