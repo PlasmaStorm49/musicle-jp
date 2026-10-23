@@ -319,10 +319,15 @@ for (const viewport of [
       await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
     });
 
-    test("o Sobre e privacidade (P243)", async ({ page }) => {
+    test("o Sobre e privacidade (P243): rola, com o Seu progresso (ME103), e nunca para o lado", async ({
+      page,
+    }) => {
+      // Uma página de leitura, como as Medalhas (P286): com a seção do progresso, ela passa da
+      // altura da tela, e rola.
       await open(page, DAY, "#sobre");
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sobre e privacidade");
-      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("button", { name: "Importar" })).toBeVisible();
+      expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
     });
 
     test("o resumo do diário do Anime", async ({ page }) => {
@@ -745,7 +750,7 @@ for (const viewport of [
   });
 }
 
-test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longos, o Ok e o selo da Apple dentro da tela (P279, P298)", async ({
+test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longos, o Guardar uma cópia, o Ok e o selo da Apple dentro da tela (P279, P298, ME103)", async ({
   page,
 }) => {
   // Como na lista real: as capas da Apple, e o selo no fim do pop-up.
@@ -777,7 +782,10 @@ test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longo
   expect(new Set(tops).size, "as 4 na mesma linha").toBe(1);
   const badge = dialog.locator(".attribution");
   await expect(badge).toBeVisible();
-  for (const target of [dialog, dialog.getByRole("button", { name: "Ok" }), badge]) {
+  // As medalhas grandes (a Superfan completa e a perfeita) pedem a cópia do progresso (P25).
+  const backup = dialog.getByRole("button", { name: "Guardar uma cópia do progresso" });
+  await expect(backup).toBeVisible();
+  for (const target of [dialog, backup, dialog.getByRole("button", { name: "Ok" }), badge]) {
     const box = await target.boundingBox();
     expect(box).not.toBeNull();
     if (!box) continue;
