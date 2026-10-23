@@ -395,7 +395,10 @@ describe("Artists: a sessão (P125)", () => {
     const { net } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     fireEvent.click(card(/^夜風/));
-    const loading = screen.getByText("Carregando as músicas de 夜風…");
+    // O aviso leva o foco, e o nome vai na língua dele (ME68): o texto fica partido em dois nós.
+    const loading = document.querySelector<HTMLElement>(".focused-notice");
+    expect(loading?.textContent).toBe("Carregando as músicas de 夜風…");
+    expect(loading?.querySelector('[lang="ja"]')?.textContent).toBe("夜風");
     expect(document.activeElement).toBe(loading);
     const input = await free();
     expect(title().textContent).toBe("夜風 · Yokaze");

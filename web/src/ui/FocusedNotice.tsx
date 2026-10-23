@@ -1,3 +1,4 @@
+import type { ComponentChildren } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { t } from "../i18n/t.ts";
 
@@ -6,7 +7,7 @@ import { t } from "../i18n/t.ts";
  * sem rodada): leva o foco ao montar (regra 16). Sem isso, o botão que sumiu deixava o foco no
  * body, e o leitor de tela não anunciava a tela nova.
  */
-export function FocusedNotice({ text }: { readonly text: string }) {
+export function FocusedNotice({ text }: { readonly text: ComponentChildren }) {
   const message = useRef<HTMLParagraphElement>(null);
   useEffect(() => message.current?.focus(), []);
   return (

@@ -11,6 +11,23 @@ export function t(key: MessageKey, params: Record<string, string | number> = {})
   return fill(ptBR[key], params);
 }
 
+/**
+ * O texto de antes e o de depois do {slot}, com os outros parâmetros já substituídos: a tela põe
+ * no meio um elemento, como o nome do artista com a língua dele (ME68). Sem o {slot}, o texto
+ * inteiro vem antes.
+ */
+export function tAround(
+  key: MessageKey,
+  slot: string,
+  params: Record<string, string | number> = {},
+): readonly [string, string] {
+  const marker = `{${slot}}`;
+  const text = ptBR[key];
+  const at = text.indexOf(marker);
+  if (at < 0) return [fill(text, params), ""];
+  return [fill(text.slice(0, at), params), fill(text.slice(at + marker.length), params)];
+}
+
 /** Chaves com variante de plural: "x.one" e "x.other" existem → "x" é uma PluralKey. */
 export type PluralKey = {
   [K in MessageKey]: K extends `${infer Base}.one`

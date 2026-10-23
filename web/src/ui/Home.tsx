@@ -1,3 +1,4 @@
+import type { ComponentChild } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { ANIME_KEYS } from "../core/daily.ts";
 import { type ArtistSummary, dailyStatus, nextDaily, progress } from "../core/home.ts";
@@ -5,7 +6,8 @@ import { puzzleId, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
 import { MAX_STAGE, MODES, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
-import { t, tn } from "../i18n/t.ts";
+import { t, tAround, tn } from "../i18n/t.ts";
+import { WithName } from "./ArtistName.tsx";
 import { type Card, CardList, dailyText } from "./cards.tsx";
 import { Icon } from "./Icon.tsx";
 import { Logo } from "./Logo.tsx";
@@ -68,20 +70,17 @@ function animeCard(save: Save, date: string): Card {
   };
 }
 
-function artistsText(summary: ArtistSummary | null): string | null {
+/** A linha da sessão, com o nome do artista na língua dele (ME68). */
+function artistsText(summary: ArtistSummary | null): ComponentChild {
   if (!summary) return null;
   // O Superfan conta em músicas, como a partida: "-7 pontos em 2 músicas".
-  if (summary.superfan) {
-    return t("home.artistsSuperfan", {
-      artist: summary.artist,
-      points: tn("count.points", summary.score.points),
-      songs: tn("superfan.songs", summary.score.rounds),
-    });
-  }
-  return t("home.artistsSession", {
-    artist: summary.artist,
-    score: practiceScoreText(summary.score),
-  });
+  const around = summary.superfan
+    ? tAround("home.artistsSuperfan", "artist", {
+        points: tn("count.points", summary.score.points),
+        songs: tn("superfan.songs", summary.score.rounds),
+      })
+    : tAround("home.artistsSession", "artist", { score: practiceScoreText(summary.score) });
+  return <WithName around={around} name={summary.artist} />;
 }
 
 /** O cartão do modo por artista. Sai com o <li> da nav quando o site ficar público (P117). */

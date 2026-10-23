@@ -244,6 +244,8 @@ describe("Home", () => {
     expect(card(/^Artistas/).textContent).toContain(
       "Nesta sessão (米津玄師): 5 pontos em 2 rodadas",
     );
+    // O nome na língua dele, só ele (ME68).
+    expect(card(/^Artistas/).querySelector('.tag [lang="ja"]')?.textContent).toBe("米津玄師");
     cleanup();
     // A partida do Superfan (ME61): o placar dela, que pode ser negativo.
     setup(emptySave(), DAY, {
@@ -252,6 +254,8 @@ describe("Home", () => {
       score: { points: -7, rounds: 2 },
     });
     expect(card(/^Artistas/).textContent).toContain("Superfan (Ado): -7 pontos em 2 músicas");
+    // O nome latino fica no texto, sem outra língua.
+    expect(card(/^Artistas/).querySelector(".tag [lang]")).toBeNull();
   });
 });
 

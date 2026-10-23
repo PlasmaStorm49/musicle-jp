@@ -1,6 +1,7 @@
 // Os cartões que levam a outra aba, na Início (um por categoria, P226) e na tela dos Hits (os
 // dois diários e o Treino, P225): o nome, o estado em linhas curtas e a dica curta na tela, com a
 // inteira para o leitor de tela (P210).
+import type { ComponentChild } from "preact";
 import type { DailyStatus, PracticeSummary, Progress } from "../core/home.ts";
 import { ROUTES, type Tab } from "../core/routes.ts";
 import { MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
@@ -18,8 +19,11 @@ export type Card = {
   readonly short: string;
   /** A dica inteira, para o leitor de tela. */
   readonly hint: string;
-  /** O estado e o placar, uma linha cada; nenhuma, sem nada a dizer. */
-  readonly lines: readonly string[];
+  /**
+   * O estado e o placar, uma linha cada; nenhuma, sem nada a dizer. Texto, ou um nó quando parte
+   * dele leva outra língua (o nome do artista, ME68).
+   */
+  readonly lines: readonly ComponentChild[];
   /** O jogo por jogar: o cartão oliva, a ação da tela. */
   readonly next?: boolean;
   /** Sem para onde ir (o diário sem dia na agenda): o cartão não é link. */
@@ -115,8 +119,9 @@ export function CardList({ cards, idPrefix, single = false }: ListProps) {
         const content = (
           <>
             <span class="mode-name">{name}</span>
-            {lines.map((line) => (
-              <span key={line} class="tag">
+            {lines.map((line, at) => (
+              // A posição é a chave: as linhas de um cartão (uma ou duas) não mudam de lugar.
+              <span key={at} class="tag">
                 {line}
               </span>
             ))}
