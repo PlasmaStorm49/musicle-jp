@@ -2242,6 +2242,24 @@ dialog.medal-dialog .attribution {
   padding-left: 20px;
 }
 
+/* O "Seu progresso" (ME103): o Exportar e o Importar lado a lado, e a frase do que aconteceu. */
+.progress-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+  margin-top: var(--sp-1);
+}
+
+.progress-actions button {
+  min-height: var(--h-field);
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-field);
+}
+
+.progress-status {
+  color: var(--muted);
+}
+
 /* A escolha do submodo: os dois cartões empilhados, o "Voltar à lista" sem tinta. */
 .artists > ul.home-modes:not(:has(.artist-card)) {
   grid-template-columns: minmax(0, 1fr);

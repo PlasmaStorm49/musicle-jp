@@ -62,6 +62,7 @@ import { MedalDialog, MedalToast, SHOWN } from "./MedalNotice.tsx";
 import { Medals } from "./Medals.tsx";
 import {
   announceText,
+  hasBig,
   noticeItems,
   noticeOrder,
   noticeTitle,
@@ -75,6 +76,7 @@ import {
   type PracticeSessionSetter,
   usePracticeRecord,
 } from "./Practice.tsx";
+import { ExportButton, ProgressTransfer } from "./Progress.tsx";
 import { singleClickLink } from "./singleClick.ts";
 import { savedVolume } from "./volume.ts";
 
@@ -396,7 +398,16 @@ export function App() {
         {/* O "Sobre e privacidade" não usa dado nenhum: desenha sem esperar a carga dos Hits, e a
             política de privacidade nunca depende dela (nem de uma falha dela). */}
         {route.tab === "about" ? (
-          <About />
+          <About
+            progress={
+              <ProgressTransfer
+                store={saves.store}
+                today={date}
+                announce={announce}
+                onImported={refresh}
+              />
+            }
+          />
         ) : (
           <>
             {load.status === "loading" && (
@@ -452,6 +463,17 @@ export function App() {
             items={items}
             onClose={dismissNotice}
             attribution={attribution}
+            // Uma conquista grande: guardar uma cópia do progresso (ME103, P25).
+            actions={
+              hasBig(items) ? (
+                <ExportButton
+                  label={t("progress.backup")}
+                  store={saves.store}
+                  today={date}
+                  announce={announce}
+                />
+              ) : undefined
+            }
           />
         ) : (
           toastMessage && (

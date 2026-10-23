@@ -24,6 +24,7 @@ import { generalArt } from "./MedalArt.tsx";
 import { LISTED, MedalDialog, MedalToast, type NoticeItem, TOAST_MS } from "./MedalNotice.tsx";
 import {
   announceText,
+  hasBig,
   noticeItems,
   noticeOrder,
   noticeTitle,
@@ -288,6 +289,15 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
       "seguidos-7",
       "diario-1",
     ]);
+  });
+
+  it("hasBig: só a Superfan completa ou perfeita e as gerais grandes pedem a cópia (ME103, P25)", () => {
+    const of = (...ids: string[]) => hasBig(noticeItems(ids, LIST, resolve, true));
+    expect(of("diario-1", "seguidos-7")).toBe(false);
+    expect(of(superfanMedalId(ARTIST, "acertos"))).toBe(false);
+    expect(of("diario-1", "seguidos-30")).toBe(true);
+    expect(of(superfanMedalId(ARTIST, "completo"))).toBe(true);
+    expect(of(superfanMedalId(ARTIST, "perfeito"))).toBe(true);
   });
 
   it("as gerais com o desenho do tamanho delas, pela lista (P312)", () => {
