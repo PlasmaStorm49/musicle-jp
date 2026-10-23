@@ -76,7 +76,7 @@ import {
   type PracticeSessionSetter,
   usePracticeRecord,
 } from "./Practice.tsx";
-import { ExportButton, ProgressTransfer } from "./Progress.tsx";
+import { BackupAction, ProgressTransfer, type SaveMode } from "./Progress.tsx";
 import { singleClickLink } from "./singleClick.ts";
 import { savedVolume } from "./volume.ts";
 
@@ -116,6 +116,8 @@ type Storage = {
   readonly store: KeyValueStore;
   readonly save: Save;
   readonly notice: string | null;
+  /** Onde o progresso fica nesta sessão (o exportar e o importar dependem disso, ME103). */
+  readonly mode: SaveMode;
 };
 
 /**
@@ -134,14 +136,12 @@ function openSaves(date: string): Storage {
   // o resto é de um dia que não se joga mais.
   const kept = keptProgressIds(date);
   if (loaded.writable) updateSave(store, (s) => pruneProgress(s, kept));
+  const mode: SaveMode =
+    loaded.notice === "future" ? "future" : !persistent || !loaded.writable ? "memory" : "saves";
   const notice =
-    loaded.notice === "future"
-      ? t("storage.future")
-      : !persistent || !loaded.writable
-        ? t("storage.unavailable")
-        : null;
+    mode === "future" ? t("storage.future") : mode === "memory" ? t("storage.unavailable") : null;
   const save = pruneProgress(loaded.save, kept);
-  return { store: sessionStore(store, { ...loaded, save }), save, notice };
+  return { store: sessionStore(store, { ...loaded, save }), save, notice, mode };
 }
 
 /**
@@ -403,6 +403,7 @@ export function App() {
               <ProgressTransfer
                 store={saves.store}
                 today={date}
+                mode={saves.mode}
                 announce={announce}
                 onImported={refresh}
               />
@@ -466,12 +467,7 @@ export function App() {
             // Uma conquista grande: guardar uma cópia do progresso (ME103, P25).
             actions={
               hasBig(items) ? (
-                <ExportButton
-                  label={t("progress.backup")}
-                  store={saves.store}
-                  today={date}
-                  announce={announce}
-                />
+                <BackupAction store={saves.store} today={date} mode={saves.mode} />
               ) : undefined
             }
           />

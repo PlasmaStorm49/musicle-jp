@@ -1,19 +1,28 @@
 // O progresso num arquivo (ME103): exportar e importar, sem servidor. Sem DOM, como o resto do
 // storage: o texto entra e sai daqui, e a tela baixa e lê o arquivo. A importação passa pelas
 // mesmas migrações e conferências da leitura do navegador (`readSave`, regra 12).
+import { isValidDate } from "../core/dates.ts";
 import { isRecord } from "../core/guards.ts";
 import type { ArtistRecord, FinishedGame, Save } from "../core/records.ts";
 import { readSave } from "./save.ts";
 
-/** A marca do arquivo: o app e o tipo. Um arquivo sem ela não é um progresso do jogo. */
+/**
+ * A marca do arquivo: o app, o tipo e a versão do envelope. Um arquivo sem ela não é um progresso
+ * do jogo. Fica à parte do nome do arquivo baixado: trocar o nome nunca invalida um arquivo já
+ * guardado. O envelope muda de versão só se mudar o que fica em volta do save (o save tem a dele).
+ */
 export const TRANSFER_APP = "atemusic";
 export const TRANSFER_KIND = "progresso";
-/** O maior arquivo aceito: o progresso de anos cabe com folga, e um arquivo errado não trava. */
-export const MAX_IMPORT_CHARS = 5 * 1024 * 1024;
+export const TRANSFER_FORMAT = 1;
+/**
+ * O maior arquivo aceito: um ano com os 8 diários todo dia dá perto de 0,6 MB, e o arquivo errado
+ * (um vídeo escolhido sem querer) é recusado antes de ser lido e antes de encher a cota do navegador.
+ */
+export const MAX_IMPORT_CHARS = 2 * 1024 * 1024;
 
 /** O nome do arquivo baixado: `atemusic-progresso-AAAA-MM-DD.json`, pela data do jogo. */
 export function exportFileName(today: string): string {
-  return `${TRANSFER_APP}-${TRANSFER_KIND}-${today}.json`;
+  return `atemusic-progresso-${today}.json`;
 }
 
 /**
@@ -22,11 +31,19 @@ export function exportFileName(today: string): string {
  */
 export function exportFile(save: Save, today: string): string {
   const { inProgress: _kept, ...rest } = save;
-  return JSON.stringify({ app: TRANSFER_APP, kind: TRANSFER_KIND, exportedOn: today, save: rest });
+  return JSON.stringify({
+    app: TRANSFER_APP,
+    kind: TRANSFER_KIND,
+    format: TRANSFER_FORMAT,
+    exportedOn: today,
+    save: rest,
+  });
 }
 
-/** O que o arquivo traz, para a confirmação: os dias jogados, os jogos e as medalhas vistas. */
+/** O que o arquivo traz, para a confirmação: a data, os dias jogados, os jogos e as medalhas vistas. */
 export type ImportSummary = {
+  /** O dia do jogo em que o arquivo foi exportado; null se o arquivo não diz. */
+  readonly exportedOn: string | null;
   readonly days: number;
   readonly games: number;
   readonly medals: number;
@@ -34,8 +51,12 @@ export type ImportSummary = {
   readonly dropped: boolean;
 };
 
-/** Por que o arquivo não serve: grande demais, não é JSON, não é um progresso, ou é de uma versão mais nova. */
-export type ImportError = "size" | "json" | "format" | "future";
+/**
+ * Por que o arquivo não serve: grande demais, não é JSON, não é um progresso, é de uma versão mais
+ * nova do jogo, ou foi exportado num dia depois do hoje desta aba (aberta desde antes da meia-noite:
+ * os jogos de hoje sairiam como do futuro).
+ */
+export type ImportError = "size" | "json" | "format" | "future" | "later";
 
 export type ImportResult =
   | { readonly ok: true; readonly save: Save; readonly summary: ImportSummary }
@@ -84,10 +105,14 @@ export function parseImport(text: string, today: string): ImportResult {
     !isRecord(data) ||
     data.app !== TRANSFER_APP ||
     data.kind !== TRANSFER_KIND ||
+    data.format !== TRANSFER_FORMAT ||
     !isRecord(data.save)
   ) {
     return { ok: false, reason: "format" };
   }
+  const exportedOn =
+    typeof data.exportedOn === "string" && isValidDate(data.exportedOn) ? data.exportedOn : null;
+  if (exportedOn !== null && exportedOn > today) return { ok: false, reason: "later" };
   // O andamento não viaja (P26): um arquivo que o traga não o passa adiante.
   const read = readSave({ ...data.save, inProgress: {} });
   if (read.kind === "future") return { ok: false, reason: "future" };
@@ -112,12 +137,24 @@ export function parseImport(text: string, today: string): ImportResult {
     ok: true,
     save,
     summary: {
+      exportedOn,
       days,
       games: Object.keys(history).length,
       medals: save.seenMedals.length,
       dropped,
     },
   };
+}
+
+/**
+ * Os dias jogados aqui que o arquivo não tem: o que a substituição tira deste aparelho, para a
+ * confirmação dizer antes.
+ */
+export function lostDays(current: Save, imported: Save): number {
+  const dates = Object.keys(current.history)
+    .filter((id) => imported.history[id] === undefined)
+    .map((id) => id.split("|")[0]);
+  return new Set(dates).size;
 }
 
 /**

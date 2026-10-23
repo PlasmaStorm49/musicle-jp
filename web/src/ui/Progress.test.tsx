@@ -3,9 +3,15 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/pr
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { emptySave, type FinishedGame, type Save } from "../core/records.ts";
 import { SAVE_SCHEMA_VERSION } from "../storage/migrations.ts";
-import { loadSave, memoryStore, SAVE_KEY } from "../storage/save.ts";
-import { exportFile } from "../storage/transfer.ts";
-import { ExportButton, ProgressTransfer } from "./Progress.tsx";
+import {
+  type KeyValueStore,
+  loadSave,
+  memoryStore,
+  SAVE_KEY,
+  sessionStore,
+} from "../storage/save.ts";
+import { exportFile, MAX_IMPORT_CHARS } from "../storage/transfer.ts";
+import { BackupAction, ProgressTransfer, type SaveMode } from "./Progress.tsx";
 
 afterEach(cleanup);
 
@@ -34,21 +40,22 @@ const other: Save = {
   seenMedals: ["diario-1"],
 };
 
-function setup(save: Save = local) {
-  const store = memoryStore({ [SAVE_KEY]: JSON.stringify(save) });
+function setup(save: Save = local, mode: SaveMode = "saves", store?: KeyValueStore) {
+  const kept = store ?? memoryStore({ [SAVE_KEY]: JSON.stringify(save) });
   const announce = vi.fn();
   const download = vi.fn();
   const onImported = vi.fn();
   render(
     <ProgressTransfer
-      store={store}
+      store={kept}
       today={TODAY}
+      mode={mode}
       announce={announce}
       download={download}
       onImported={onImported}
     />,
   );
-  return { store, announce, download, onImported };
+  return { store: kept, announce, download, onImported };
 }
 
 const fileInput = () => {
@@ -57,12 +64,19 @@ const fileInput = () => {
   return input;
 };
 
-/** Escolhe um arquivo com o texto dado, como o navegador faria. */
-function choose(text: string) {
-  const file = new File([text], "progresso.json", { type: "application/json" });
+/** Escolhe um arquivo, como o navegador faria: um texto, ou um objeto que finge ser o arquivo. */
+function choose(content: string | { readonly size: number; readonly text: () => Promise<string> }) {
+  const file =
+    typeof content === "string"
+      ? new File([content], "progresso.json", { type: "application/json" })
+      : content;
   Object.defineProperty(fileInput(), "files", { value: [file], configurable: true });
   fireEvent.change(fileInput());
 }
+
+/** A confirmação do arquivo de outro aparelho: a data, o que ele traz e o dia daqui que sai. */
+const CONFIRM =
+  "O arquivo, de 23/10, tem 2 dias jogados e 1 medalha. Sai deste aparelho 1 dia jogado que o arquivo não tem. Substituir o progresso deste aparelho por ele?";
 
 const importButton = () => screen.getByRole("button", { name: "Importar" });
 
@@ -89,12 +103,10 @@ describe("ProgressTransfer (o Seu progresso do Sobre, ME103)", () => {
     expect(fileInput().accept).toBe(".json,application/json");
   });
 
-  it("o arquivo bom abre a confirmação com o resumo e o foco no Cancelar; o Cancelar não grava", async () => {
+  it("o arquivo bom abre a confirmação com a data, o que ele traz e o que sai daqui, e o foco no Cancelar; o Cancelar não grava", async () => {
     const { store, onImported } = setup();
     choose(exportFile(other, TODAY));
-    const dialog = await screen.findByRole("dialog", {
-      name: "O arquivo tem 2 dias jogados e 1 medalha. Substituir o progresso deste aparelho por ele?",
-    });
+    const dialog = await screen.findByRole("dialog", { name: CONFIRM });
     expect(dialog).toBeTruthy();
     const cancel = screen.getByRole("button", { name: "Cancelar" });
     expect(document.activeElement).toBe(cancel);
@@ -132,6 +144,102 @@ describe("ProgressTransfer (o Seu progresso do Sobre, ME103)", () => {
     );
   });
 
+  it("sem a data no arquivo e sem nada a perder: a confirmação só diz o que ele traz", async () => {
+    setup(emptySave());
+    const data = JSON.parse(exportFile(other, TODAY));
+    delete data.exportedOn;
+    choose(JSON.stringify(data));
+    expect(
+      await screen.findByRole("dialog", {
+        name: "O arquivo tem 2 dias jogados e 1 medalha. Substituir o progresso deste aparelho por ele?",
+      }),
+    ).toBeTruthy();
+  });
+
+  it("o arquivo grande demais é recusado antes de ser lido", async () => {
+    const { announce } = setup();
+    const text = vi.fn(async () => "{}");
+    choose({ size: MAX_IMPORT_CHARS + 1, text });
+    await waitFor(() =>
+      expect(announce).toHaveBeenCalledWith(
+        "Esse arquivo é grande demais para ser um progresso do AteMusic.",
+      ),
+    );
+    expect(text).not.toHaveBeenCalled();
+  });
+
+  it("o arquivo que não dá para ler: o aviso", async () => {
+    const { announce } = setup();
+    choose({ size: 10, text: () => Promise.reject(new Error("sem acesso")) });
+    await waitFor(() => expect(announce).toHaveBeenCalledWith("Não foi possível ler o arquivo."));
+  });
+
+  it("o arquivo de um dia depois do hoje desta página (aberta desde ontem): recarregar", async () => {
+    const { announce } = setup();
+    choose(exportFile(other, "2026-10-24"));
+    await waitFor(() =>
+      expect(announce).toHaveBeenCalledWith(
+        "Esse arquivo é de um dia depois do de hoje nesta página. Recarregue a página e tente de novo.",
+      ),
+    );
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it.each([
+    [
+      "future",
+      "Há uma versão mais nova do jogo aberta. Recarregue a página para salvar seu progresso.",
+    ],
+    [
+      "memory",
+      "Este navegador não deixa guardar o progresso: importar valeria só até recarregar a página.",
+    ],
+  ] as const)("na sessão %s, o Importar avisa e não abre o arquivo", (mode, message) => {
+    const { announce } = setup(local, mode);
+    const click = vi.spyOn(fileInput(), "click");
+    fireEvent.click(importButton());
+    expect(click).not.toHaveBeenCalled();
+    expect(announce).toHaveBeenCalledWith(message);
+  });
+
+  it("na sessão de uma versão mais nova (como o App a abre), o Exportar não baixa o vazio", () => {
+    // O App lê o save mais novo como vazio e abre a sessão na memória: a trava é o `mode`.
+    const raw = memoryStore({
+      [SAVE_KEY]: JSON.stringify({ ...local, schemaVersion: SAVE_SCHEMA_VERSION + 1 }),
+    });
+    const { download, announce } = setup(local, "future", sessionStore(raw, loadSave(raw)));
+    fireEvent.click(screen.getByRole("button", { name: "Exportar" }));
+    expect(download).not.toHaveBeenCalled();
+    expect(announce).toHaveBeenCalledWith(
+      "Há uma versão mais nova do jogo aberta. Recarregue a página para salvar seu progresso.",
+    );
+  });
+
+  it("só na memória (o navegador não grava), o Exportar baixa: é o que salva a visita", () => {
+    const { download } = setup(local, "memory");
+    fireEvent.click(screen.getByRole("button", { name: "Exportar" }));
+    expect(download).toHaveBeenCalledOnce();
+  });
+
+  it("com a cota cheia, a tela relê o importado (a sessão o lê da memória) e avisa", async () => {
+    const base = memoryStore({ [SAVE_KEY]: JSON.stringify(local) });
+    const full: KeyValueStore = {
+      ...base,
+      getItem: (key) => base.getItem(key),
+      setItem: () => {
+        throw new Error("cota cheia");
+      },
+    };
+    const { onImported, announce } = setup(local, "saves", full);
+    choose(exportFile(other, TODAY));
+    await screen.findByRole("dialog");
+    fireEvent.click(screen.getByRole("button", { name: "Sim, substituir" }));
+    expect(onImported).toHaveBeenCalledOnce();
+    expect(announce).toHaveBeenCalledWith(
+      "Não foi possível salvar o progresso: o armazenamento do navegador está cheio.",
+    );
+  });
+
   it.each([
     ["que não é JSON", "{nada", "Esse arquivo não é um progresso do AteMusic."],
     [
@@ -144,6 +252,7 @@ describe("ProgressTransfer (o Seu progresso do Sobre, ME103)", () => {
       JSON.stringify({
         app: "atemusic",
         kind: "progresso",
+        format: 1,
         save: { ...other, schemaVersion: SAVE_SCHEMA_VERSION + 1 },
       }),
       "Esse arquivo é de uma versão mais nova do jogo. Recarregue a página e tente de novo.",
@@ -158,25 +267,27 @@ describe("ProgressTransfer (o Seu progresso do Sobre, ME103)", () => {
   });
 });
 
-describe("ExportButton (o Guardar uma cópia do pop-up, P25)", () => {
-  it("com o save de uma versão mais nova (outra aba), não baixa o vazio: avisa", () => {
+describe("BackupAction (o Guardar uma cópia do pop-up, P25)", () => {
+  it("baixa, e a frase fica num role=status dentro do pop-up (o aria-live do App, atrás do modal, fica inerte)", () => {
+    const store = memoryStore({ [SAVE_KEY]: JSON.stringify(local) });
+    const download = vi.fn();
+    render(<BackupAction store={store} today={TODAY} mode="saves" download={download} />);
+    const status = screen.getByRole("status");
+    expect(status.textContent).toBe("");
+    fireEvent.click(screen.getByRole("button", { name: "Guardar uma cópia do progresso" }));
+    expect(download).toHaveBeenCalledOnce();
+    expect(status.textContent).toBe("O arquivo atemusic-progresso-2026-10-23.json foi baixado.");
+  });
+
+  it("com o save de uma versão mais nova (outra aba, no meio da sessão), não baixa o vazio: avisa", () => {
     const store = memoryStore({
       [SAVE_KEY]: JSON.stringify({ ...local, schemaVersion: SAVE_SCHEMA_VERSION + 1 }),
     });
-    const announce = vi.fn();
     const download = vi.fn();
-    render(
-      <ExportButton
-        label="Guardar uma cópia do progresso"
-        store={store}
-        today={TODAY}
-        announce={announce}
-        download={download}
-      />,
-    );
+    render(<BackupAction store={store} today={TODAY} mode="saves" download={download} />);
     fireEvent.click(screen.getByRole("button", { name: "Guardar uma cópia do progresso" }));
     expect(download).not.toHaveBeenCalled();
-    expect(announce).toHaveBeenCalledWith(
+    expect(screen.getByRole("status").textContent).toBe(
       "Há uma versão mais nova do jogo aberta. Recarregue a página para salvar seu progresso.",
     );
   });

@@ -165,6 +165,23 @@ describe("MedalDialog (o pop-up grande, P279)", () => {
     expect(document.activeElement).toBe(ok());
   });
 
+  it("com um botão a mais antes do Ok (o Guardar uma cópia, ME103), o foco continua no Ok", () => {
+    render(
+      <MedalDialog
+        title="Medalha nova"
+        items={[item("a", "Um")]}
+        onClose={vi.fn()}
+        actions={
+          <button type="button" onClick={vi.fn()}>
+            Guardar uma cópia do progresso
+          </button>
+        }
+      />,
+    );
+    expect(screen.getByRole("button", { name: "Guardar uma cópia do progresso" })).toBeTruthy();
+    expect(document.activeElement).toBe(ok());
+  });
+
   it(`com mais de ${LISTED}, lista as ${LISTED} primeiras e "e mais N" (P313)`, () => {
     const many = Array.from({ length: LISTED + 3 }, (_, i) => item(`m${i}`, `Medalha ${i}`));
     render(<MedalDialog title="Você já tem 9 medalhas" items={many} onClose={vi.fn()} />);

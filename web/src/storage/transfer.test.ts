@@ -5,10 +5,12 @@ import { readSave } from "./save.ts";
 import {
   exportFile,
   exportFileName,
+  lostDays,
   MAX_IMPORT_CHARS,
   parseImport,
   replaceSave,
   TRANSFER_APP,
+  TRANSFER_FORMAT,
   TRANSFER_KIND,
 } from "./transfer.ts";
 
@@ -43,6 +45,7 @@ const file = (inner: unknown, extra: Record<string, unknown> = {}) =>
   JSON.stringify({
     app: TRANSFER_APP,
     kind: TRANSFER_KIND,
+    format: TRANSFER_FORMAT,
     exportedOn: TODAY,
     save: inner,
     ...extra,
@@ -55,7 +58,12 @@ describe("exportFile (ME103)", () => {
 
   it("leva o save sem o andamento (P26), com a marca e a data", () => {
     const data = JSON.parse(exportFile(save, TODAY));
-    expect(data).toMatchObject({ app: "atemusic", kind: "progresso", exportedOn: TODAY });
+    expect(data).toMatchObject({
+      app: "atemusic",
+      kind: "progresso",
+      format: TRANSFER_FORMAT,
+      exportedOn: TODAY,
+    });
     expect(data.save).not.toHaveProperty("inProgress");
     expect(data.save.schemaVersion).toBe(SAVE_SCHEMA_VERSION);
     expect(data.save.history).toEqual(save.history);
@@ -67,7 +75,13 @@ describe("parseImport (ME103)", () => {
     const result = parseImport(exportFile(save, TODAY), TODAY);
     if (!result.ok) throw new Error(result.reason);
     expect(result.save).toEqual({ ...save, inProgress: {} });
-    expect(result.summary).toEqual({ days: 2, games: 3, medals: 2, dropped: false });
+    expect(result.summary).toEqual({
+      exportedOn: TODAY,
+      days: 2,
+      games: 3,
+      medals: 2,
+      dropped: false,
+    });
   });
 
   it("recusa o que não é JSON, o que não é um progresso e o grande demais", () => {
@@ -83,6 +97,36 @@ describe("parseImport (ME103)", () => {
       ok: false,
       reason: "size",
     });
+  });
+
+  it("sem a versão do envelope, ou com outra, não é um progresso", () => {
+    expect(parseImport(file(save, { format: undefined }), TODAY)).toEqual({
+      ok: false,
+      reason: "format",
+    });
+    expect(parseImport(file(save, { format: 2 }), TODAY)).toEqual({ ok: false, reason: "format" });
+  });
+
+  it("o arquivo de um dia depois do hoje desta página é recusado; sem a data, vale (e o resumo diz null)", () => {
+    expect(parseImport(file(save, { exportedOn: "2026-10-24" }), TODAY)).toEqual({
+      ok: false,
+      reason: "later",
+    });
+    const undated = parseImport(file(save, { exportedOn: "ontem" }), TODAY);
+    if (!undated.ok) throw new Error(undated.reason);
+    expect(undated.summary.exportedOn).toBeNull();
+  });
+
+  it("o __proto__ de um arquivo editado não contamina nada", () => {
+    const text = file(save).replace(
+      '"history":{',
+      '"__proto__":{"polluted":true},"history":{"__proto__":{"polluted":true},',
+    );
+    const result = parseImport(text, TODAY);
+    if (!result.ok) throw new Error(result.reason);
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined();
+    expect(Object.keys(result.save.history).sort()).toEqual(Object.keys(save.history).sort());
+    expect(result.summary.dropped).toBe(true);
   });
 
   it("o save de uma versão mais nova não entra, como na leitura do navegador", () => {
@@ -159,6 +203,22 @@ describe("parseImport (ME103)", () => {
       kind: "ok",
       dropped: false,
     });
+  });
+});
+
+describe("lostDays (o que a substituição tira daqui)", () => {
+  it("conta os dias jogados aqui que o arquivo não tem", () => {
+    const current: Save = {
+      ...emptySave(),
+      history: {
+        "2026-10-20|album": finished, // o arquivo também tem: não sai
+        "2026-10-22|album": finished,
+        "2026-10-22|song": finished, // o mesmo dia: um só
+        "2026-10-23|album": finished,
+      },
+    };
+    expect(lostDays(current, save)).toBe(2);
+    expect(lostDays(emptySave(), save)).toBe(0);
   });
 });
 

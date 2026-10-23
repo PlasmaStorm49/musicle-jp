@@ -2,8 +2,8 @@
 // por código. Fica na tela, e não no storage, porque mexe no DOM.
 
 /**
- * Oferece o `text` para baixar com o nome `name`. O endereço do Blob é solto depois de um tempo,
- * e não na hora: o Safari pode ainda estar lendo o arquivo quando o clique volta.
+ * Oferece o `text` para baixar com o nome `name`. O endereço do Blob é solto depois de um minuto,
+ * e não na hora: no iPhone, o Safari pergunta se baixa, e só lê o arquivo no toque da pessoa.
  */
 export function downloadText(name: string, text: string, type = "application/json"): void {
   const url = URL.createObjectURL(new Blob([text], { type }));
@@ -14,5 +14,5 @@ export function downloadText(name: string, text: string, type = "application/jso
   document.body.append(link);
   link.click();
   link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
