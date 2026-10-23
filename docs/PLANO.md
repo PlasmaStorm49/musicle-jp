@@ -401,7 +401,6 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 - S9. Teste e2e da reserva com `<audio>` de verdade, usando os WAV das fixtures (subagente Plan do M11).
 - S10. Hashes no `constraints.txt` (`--require-hashes`), ao menos na Action (subagente Plan do M11).
 - S11. `build --check`: sai com código 1 se o arquivo mudaria (subagente Plan do M11).
-- S16. O `--today AAAA-MM-DD` no comando "Conferir que a agenda só cresceu" do `CLAUDE.md` e no passo 6 do `/verificar`: sem ele, a conferência de dia passado (P44) só roda na CI (revisão de 12/10/2026).
 - S18. "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal na escolha do modo do Treino: desde a ME59, quem entra direto no Treino não vê o custo.
 - S20. Chamar de "Livre" o submodo sem fim do modo por artista quando o Superfan (ME61) chegar: "Normal" já é o modo do álbum (P100). Feita no branch do Superfan (o cartão "Livre" da P161).
 - S22. O selo da rodada no modo por artista levando à página do artista na loja (pede um campo de URL novo, com a conferência no validate e no `core/apple.ts`, regra inviolável 5).
@@ -436,7 +435,6 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 - ME38. Ligar no pipeline os álbuns do mesmo lançamento (o EP "A / B", os dois "ROSE - Single"), em vez da regra de nome do `acceptedIds` no web; juntaria também as linhas iguais da busca. Pede mudança de esquema (`/code-review` do PR #13).
 - ME39. Teste de componente do `Game` e do `App`: o lote de prévias só dos diários pendentes, a sessão `stale` regravada, o save da abertura guardado na montagem e, no `App`, a releitura do save no `hashchange` e no evento `storage` (checkup, `/code-review` do PR #13 e revisão de 12/10). Nos dois modos, trocar o retrato pelo save vivo do `App` fez a revelação da última rodada sumir, e só o e2e pegou. O resumo, a contagem e o compartilhar ganharam teste em 12/10 (ME47).
 - ME40. `RoundState.correctOptionId` é gravado, mas só os testes o leem: a tela usa o `accepted`. Tirar, ou usar no lugar do `accepted[0]` (dois modos).
-- ME41. Trocar "sem desafio" por "sem diário" nos avisos do pipeline (`schedule.py`) e do robô (`check-catalog-pr.sh`, com o teste dele) e no título do `schedule.schema.json`, como na tela (P103). O título vira o nome do tipo gerado: mudar pede o mapa de `web/scripts/gen-types.ts` e o `npm run types`.
 - ME42. Na escolha do modo do Treino, gerar a semente ao montar e pré-carregar a 1ª rodada de cada modo, para o 1º "Tocar" responder mais rápido (liga à ME18; subagente Plan da P105).
 - ME60. A rodada sem rolagem no celular, cabendo na tela: o selo do Apple Music, no fim da página (P112, ME58), fica sempre visível junto do player. Ideia do usuário em 12/10/2026, para antes de mostrar o jogo a outras pessoas. **Resolvida nos PRs D2 e D3:** as rodadas, a revelação e o resumo cabem na tela com o selo da Apple no pé, conferidos pelo `layout.spec.ts`.
 - ME61. Superfan, o 2º submodo do modo por artista ("para quem for muito tryhard"; o sem fim é para quem só quer jogar), especificado em 12/10/2026 (P119 a P123, P153, P158, P159, P161), implementado no branch `m13-superfan` (Apêndice K):
@@ -452,7 +450,6 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 - ME63 a ME65 (revisão do PR B do M13, feitas): o "-X-" grudado no nome ("Empty MERMAiD-Instrumental-"), a versão que não entra no fim do título sem delimitador ("六等星の夜 Tvsize") e o teste que recusa título publicado de artista com instrumental, karaokê, off vocal ou TV size.
 - ME66. Modo por artista: o sorteio tira todo álbum do índice do artista com uma música excluída (Apêndice K, Exclusão), e não só os que entregariam o diário. Ficou assim por ser o lado seguro; se um dia pesar (canônicas de álbum de estúdio), a troca é o sorteio pular a música excluída pelo `songKey` e receber de fora só os álbuns de mesmo nome (`/code-review` e revisor do PR C).
 - ME67. O `?failAudio=` (desenvolvimento) só conhece o resolvedor e o índice da parada: não faz falhar a faixa que só existe no arquivo de um artista, com `?data=real` (nas fixtures, os artistas citam faixas da parada, e funciona) (`/code-review` do PR C).
-- ME68. O `lang="ja"` no nome do artista também no cartão da home ("Nesta sessão (米津玄師): …") e nos avisos de carga e de falha do artista: hoje o texto sai inteiro do `t()`, e o `FocusedNotice` só aceita texto (revisor do PR C).
 - ME69. Teste de tela do "Pedir ajuda" sumindo depois da 3ª ajuda do Superfan: hoje só o núcleo cobre, porque os dados do teste não têm artista com 4 músicas ou mais (revisor do Superfan).
 - ME70 a ME75 (check-up da interface em 12/10/2026, feitas no branch `m13-ui`):
   - ME70. As cinco abas numa linha a partir de 360 px (o Android comum), também com os dois ✓ (menos espaço lateral, a fonte das abas um pouco menor até 400 px e o ✓ menor); em 320 px ainda quebram. A 1ª versão tinha 10 px de folga com a Segoe UI e quebrava no Linux da CI, de fonte mais larga: a folga agora vale até para a Verdana (317 de 328 px).
@@ -461,12 +458,10 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
   - ME73. "Voltar à lista" afastado dos cartões da escolha do submodo.
   - ME74. A descrição do Superfan curta e sem números (P164).
   - ME75. No título da partida, "Superfan" vira uma etiqueta ao lado do nome do artista (o título não quebra no meio).
-- ME76. O aviso do aria-live (o `announce`) continua no DOM ao trocar de aba ("Pulou. Tentativa 4 de 6." aparece no texto da escolha do submodo). Não aparece na tela, mas um leitor de tela pode reler; limpar ao trocar de aba (check-up de 12/10/2026).
 - ME77. Nas estatísticas do Desafio, a distribuição tem 19 linhas (0 a 18 pontos), longa no celular: agrupar em faixas ou desenhar em colunas (check-up de 12/10/2026). **Resolvida no PR D3:** a distribuição em colunas.
 - ME79. O `validate` e o `validate-artists` recusam kanji ou kana no título latino (o 東亰カニバリズム passou como "Higashi 亰 kanibarizumu").
 - ME80. Os créditos da parada com o nome da Apple, a mesma regra da P187 no `pipeline/data/apple/aliases.toml`: 点描の唄 (feat. 井上苑子) "Inoue Sonoko" e 佐野勇斗&吉田仁人 "Sano Hayato & Yoshida Jinto", que a loja US escreve "Hayato Sano & Jinto Yoshida".
 - ME82. A variante branca do selo da Apple no tema escuro: o Toolbox tem as duas (P81), e só a preta entrou no repositório. Não achei regra oficial para fundo escuro (busca de 13/10/2026); baixar a branca pede a permissão do usuário.
-- ME83. As conferências da base no `dist/index.html` (`deploy.yml` e `ci.yml`) recusam só `/assets/` sem a base: um `/favicon.svg` sem ela passaria. Generalizar para todo `src` e `href` que comece com `/` e conferir que o `favicon.svg` e o `apple-touch-icon.png` estão no `dist` (revisor do PR B do M12). Mexe em `.github/`: ler o diff do workflow antes do merge.
 - ME84 e ME85 (a seção de fora do Japão, feitas no branch `m13-de-fora-do-japao`): o romaji com letra fora do latino não vira título latino, e o classificador do modo por artista pega o ao vivo com " - " no parêntese, o set de DJ e o "(Clean)" (Apêndice K). A ME79 continua: a mesma conferência nos validadores.
 - ME86. Uma regra do `artists.toml` para separar músicas que a chave junta: "Someday" (2026, 165,8 s) e "Someday (feat. Ha Hyun Sang)" (2023, 181,7 s), do Bolbbalgan4, viram uma só, e a de 2023 some (Hipótese: são músicas diferentes). Hoje só existe o `same_song`, que junta.
 - ME87. No teclado coreano, a sílaba que ainda está sendo montada ("우주ㄹ", "우주르") não é prefixo da chave do título ("우주를줄게"), e o `COMPOSING_TAIL` do `GuessInput.tsx` só trata kana. Hipótese, sem teste num teclado de verdade: a lista de sugestões some até a sílaba fechar.
@@ -495,8 +490,19 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 - ME112. O menu com submenus no celular (o pedido do usuário, 22/10/2026): cada categoria da nav abre o seu (os Hits com o Normal, o Desafio e o Treino; o Anime com os 2 modos), além do "Mais ▾" da P265, que só junta os Artistas e o Histórico. Muda o caminho até os diários, que hoje passa pelas telas dos Hits e do Anime.
 - ME113. O Treino e os Artistas excluem do sorteio só as respostas pendentes dos diários de hoje (P141, `pendingDailySongKeys`): com o Histórico, uma resposta de um dia passado ainda não jogado pode sair no Treino e entregar o dia. Aceito, como a ME110: excluir as dos 14 dias tiraria até ~84 das 122 faixas do Treino na parada real, e o jogado depois não conta nas estatísticas (P263). O mesmo vale para a ajuda do diário de hoje, que pode oferecer a resposta de um dia passado ainda não jogado (o `/code-review` do PR 2); o contrário, a ajuda de um dia passado com a resposta de hoje, foi corrigido (`answerKeysOf`), porque o de hoje conta nas estatísticas.
 
+**De 23/10/2026** (o resto da ME81):
+
+- ME121. O romaji de 廻人 (Eve): o cutlet lê "Megurunin", e a leitura oficial seria "Mawaribito" (hipótese, sem fonte: a busca de 23/10/2026 na web e na loja US da Apple não a confirmou). A faixa `apple:tr:1611017835` e o álbum `apple:al:1611017834` vão no `aliases.toml` dos artistas quando alguém confirmar.
+
 **Feitas:**
 
+- Em 23/10/2026, num PR só (os pequenos 2):
+  - o resto da ME81: os álbuns dos mesmos lançamentos, que o cutlet leu à parte (廻廻奇譚, 踊 e o single de あなたに出会わなければ), e o 風と私の物語, na faixa e no single ("watashi", como o 私は最強), no `aliases.toml` dos artistas. O 廻人 virou a ME121;
+  - ME76: a região `aria-live` fica vazia na troca de aba e quando a sessão do Treino ou a de um artista termina (o "Reiniciar o Treino" e o "Trocar de artista", que não trocam o fragmento);
+  - ME68: o nome do artista com a língua dele na linha da sessão da Início e nos avisos de carga e de falha (o `tAround`, que só aceita uma chave com o `{slot}`, e o `WithName`);
+  - ME41: "sem diário" no pipeline, no robô, no README e no título do `schedule.schema.json`;
+  - S16: o `--today` no `schedule-check` do `/verificar` e do `CLAUDE.md`;
+  - ME83: a base conferida em todo caminho absoluto do `index.html`, em qualquer atributo, e o favicon e o ícone de app no `dist`, na CI, no deploy e no `/verificar` (os passos 10b e 10c).
 - Em 23/10/2026, num PR só (os pequenos):
   - ME106: a aba ativa em negrito não empurra mais as vizinhas (P324);
   - a 1ª parte da ME37: o Tocar continua com o foco no "Carregando…". O botão principal usa o `aria-disabled` e ignora o clique, e o navegador não joga mais o foco no `body`;
@@ -931,7 +937,7 @@ Implementado no M9 (repositório público `PlasmaStorm49/musicle-jp`, CI e prote
   - `pages-build` (só leitura): `npm run build` com a base `/musicle-jp/`, que só vale no build e no preview (o desenvolvimento e o e2e ficam na raiz). Desde o M11, sem Python nem `fake-assets`: o site lê a parada real (`data/`), e o `dist/fixtures` é apagado depois do build. Confere o site (base, sem o motor falso, sem fixtures nem WAV, `data/catalog.json` com `provider` "apple"), avisa se a agenda não tem o dia de hoje ou tem menos de 7 dias à frente (ME14, aviso no resumo, sem travar o deploy) e sobe o artefato;
   - `pages-deploy`: `pages: write` e `id-token: write`, no ambiente `github-pages`, com regra de branch só para a `main`. Admins podem ignorar a regra (`can_admins_bypass: true`, visto no checkup); o `if: github.ref == 'refs/heads/main'` do `pages-build` compensa;
   - um deploy por vez, sem cancelar no meio. Roda junto com a CI do push, porque o `strict` do ruleset garante que a árvore do merge já foi testada no PR;
-  - a tarefa `web` da CI confere a base no `dist/index.html`: sem ela, a página publicada ficaria em branco.
+  - a tarefa `web` da CI confere a base no `dist/index.html`: sem ela, a página publicada ficaria em branco. Desde a ME83 (23/10/2026), em todo caminho absoluto, em qualquer atributo (um `srcset`, o `content` de uma `og:image`), e com o favicon e o ícone de app no `dist`; o deploy confere o mesmo antes de publicar. Sem um `shell:` declarado, o passo roda no `bash -e`, sem o `pipefail`: o `if grep … | grep -v …` vale nos dois.
 - **Atualização da parada e da agenda** (`.github/workflows/update-catalog.yml`, M10; com a Apple desde o PR C do M11):
   - segunda às 06:17 de Brasília (`cron: "17 9 * * 1"`: o cron é em UTC, e o minuto zero é horário de pico) e sob demanda, sem entradas;
   - `catalog-generate` (só leitura, 20 min):

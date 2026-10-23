@@ -13,13 +13,12 @@ Atualizado em 23/10/2026.
 **Na tela**
 - **ME33.** Textos: o "- Single" na revelação, o dia anulado com "0/0" e o "Áudio indisponível" quando o motivo é outro. Conferir o que o PR D já resolveu.
 - **ME37.** Um gancho comum de reprodução para o Player e a revelação (o foco no "Carregando…" já foi feito).
-- **ME76.** O aviso do leitor de tela continua na página depois de trocar de aba.
-- **ME68.** O `lang="ja"` no nome do artista no cartão da Início e nos avisos.
 - **S32.** No Superfan, o custo de desistir aparece só na revelação, e não na rodada.
 - **ME92.** No modo por artista, o nome latino do álbum nunca aparece.
 
 **Nos nomes e no romaji**
 - **ME80.** Créditos com o nome que a Apple usa (Inoue Sonoko; Sano Hayato & Yoshida Jinto).
+- **ME121 (novo).** O romaji de 廻人 (Eve), "Megurunin": confirmar a leitura (talvez "Mawaribito") antes de corrigir.
 - **ME90.** Parceiros ocidentais em katakana, sem o nome latino (as faixas do System of a Down).
 - **ME86.** Duas músicas diferentes viram uma só ("Someday", do Bolbbalgan4), e uma some.
 - **ME88.** "Song (Remix - feat. X)" vira "Song (Remix" no pipeline.
@@ -36,13 +35,10 @@ Atualizado em 23/10/2026.
 - **ME115 (novo).** O "Kaikai Kitan", 1ª abertura de Jujutsu Kaisen, ficou fora do acervo (o tema não casou com a Apple): investigar.
 
 **Pipeline, CI e testes**
-- **ME83.** A conferência da base no `dist` deixa passar um `/favicon.svg` sem ela.
 - **ME11.** Fixar o `pip`, o patch do Python e o minor do Node na CI.
 - **ME89.** Um e2e falhou uma vez na CI (o Enter na nav): conferir a espera do `open()`.
-- **ME41.** "sem desafio" vira "sem diário" nos avisos do pipeline e do robô.
 - **ME40.** O `correctOptionId` é gravado e ninguém usa.
 - **ME67.** O `?failAudio=` não faz falhar uma faixa que só existe num artista (desenvolvimento).
-- **S16.** O `--today` no comando do `schedule-check` do `CLAUDE.md` e no `/verificar`.
 - **ME87.** Teclado coreano: a lista de sugestões pode sumir até a sílaba fechar (hipótese, sem teste).
 
 ## Melhorias para analisar viabilidade
