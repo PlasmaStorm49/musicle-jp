@@ -1138,7 +1138,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1536123755",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.7079,
       "preview": {
         "durationSec": 30,
@@ -1149,6 +1149,7 @@
       "search": {
         "artist": [],
         "title": [
+          "anatanideawanakerebakasetsutoka",
           "anatanideawanakerebanatsuyukifuyuhana",
           "あなたに出会わなければ夏雪冬花"
         ]
@@ -1159,7 +1160,7 @@
       "titleKeys": [
         "あなたに出会わなければ夏雪冬花"
       ],
-      "titleLatin": "Anata ni deawanakerebaa natsu yuki fuyu hana"
+      "titleLatin": "Anata ni deawanakereba kasetsu touka"
     },
     {
       "albumId": "apple:al:1536123754",

@@ -864,7 +864,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1017657818",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 0.0565,
       "preview": {
         "durationSec": 30,
@@ -885,7 +885,7 @@
       "titleKeys": [
         "蜃気楼"
       ],
-      "titleLatin": "Shinki rou"
+      "titleLatin": "Shinkirou"
     },
     {
       "albumId": "apple:al:1017657757",
@@ -3331,7 +3331,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1533208085",
-      "latinSource": "cutlet",
+      "latinSource": "manual",
       "popularity": 1.0,
       "preview": {
         "durationSec": 30,
@@ -3342,6 +3342,7 @@
       "search": {
         "artist": [],
         "title": [
+          "kaikaikitan",
           "megurumegurukitan",
           "廻廻奇譚"
         ]
@@ -3352,7 +3353,7 @@
       "titleKeys": [
         "廻廻奇譚"
       ],
-      "titleLatin": "Meguru Meguru kitan"
+      "titleLatin": "Kaikai kitan"
     },
     {
       "albumId": "apple:al:1535752902",
