@@ -1076,3 +1076,41 @@ test("o volume (P216): a barra abre sem mudar a altura nos dois tamanhos, o trec
   await play.click();
   await expect.poll(() => page.evaluate(() => window.__musicleAudioLog?.at(-1)?.volume)).toBe(0.3);
 });
+
+test("a aba ativa em negrito não empurra as vizinhas (ME106): o Mais e o link das Medalhas ficam no mesmo lugar ao trocar de aba", async ({
+  page,
+}) => {
+  const nav = page.getByRole("navigation");
+  const left = (locator: Locator) => locator.evaluate((el) => el.getBoundingClientRect().left);
+  await page.setViewportSize({ width: 375, height: 667 });
+  await open(page, DAY, "#inicio");
+  const more = nav.getByRole("button", { name: "Mais" });
+  await page.evaluate(() => document.fonts.ready);
+  const atHome = await left(more);
+  for (const hash of ["#hits", "#anime"]) {
+    await page.evaluate((h) => {
+      window.location.hash = h;
+    }, hash);
+    await expect(
+      nav.getByRole("link", { name: new RegExp(`^${hash === "#hits" ? "Hits" : "Anime"}`) }),
+    ).toHaveAttribute("aria-current", "page");
+    await page.evaluate(() => document.fonts.ready);
+    expect(await left(more), hash).toBe(atHome);
+  }
+  // Em 720 px, as 6 na linha: o link das Medalhas, o último, também não anda.
+  await page.setViewportSize({ width: 720, height: 800 });
+  const medals = nav.getByRole("link", { name: "Medalhas", exact: true });
+  await page.evaluate(() => {
+    window.location.hash = "#inicio";
+  });
+  await expect(nav.getByRole("link", { name: "Início" })).toHaveAttribute("aria-current", "page");
+  const medalsAtHome = await left(medals);
+  await page.evaluate(() => {
+    window.location.hash = "#historico";
+  });
+  await expect(nav.getByRole("link", { name: "Histórico", exact: true })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+  expect(await left(medals)).toBe(medalsAtHome);
+});

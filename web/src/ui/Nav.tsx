@@ -25,6 +25,18 @@ type Props = {
   readonly favorite?: NoticeItem | null;
 };
 
+/**
+ * O rótulo de uma aba (ME106): uma cópia invisível em negrito, no CSS (o `data-label`), guarda a
+ * largura do negrito, e a aba não muda de largura ao virar a ativa (as vizinhas não andam).
+ */
+function TabLabel({ text }: { readonly text: string }) {
+  return (
+    <span class="tab-label" data-label={text}>
+      {text}
+    </span>
+  );
+}
+
 /** A altura da medalha em destaque na nav: o link tem o alvo de 44 px; o enfeite, abaixo de 360. */
 const FAVORITE_HEIGHT = { link: 36, small: 28 } as const;
 
@@ -113,7 +125,7 @@ export function Nav({ route, save, date, favorite = null }: Props) {
       aria-current={navCurrent(route, "artists")}
       onClick={inMenu ? follow(ROUTES.artists) : undefined}
     >
-      {t("nav.artists")}
+      <TabLabel text={t("nav.artists")} />
     </a>
   );
   const history = (inMenu: boolean) => (
@@ -122,7 +134,7 @@ export function Nav({ route, save, date, favorite = null }: Props) {
       aria-current={navCurrent(route, "history")}
       onClick={inMenu ? follow(ROUTES.history) : undefined}
     >
-      {t("nav.history")}
+      <TabLabel text={t("nav.history")} />
     </a>
   );
 
@@ -132,7 +144,7 @@ export function Nav({ route, save, date, favorite = null }: Props) {
       aria-current={navCurrent(route, "medals")}
       onClick={inMenu ? follow(ROUTES.medals) : undefined}
     >
-      {t("nav.medals")}
+      <TabLabel text={t("nav.medals")} />
     </a>
   );
 
@@ -154,7 +166,7 @@ export function Nav({ route, save, date, favorite = null }: Props) {
         {/* O ✓ quando os dois diários do dia terminaram (P227). */}
         <li>
           <a href={ROUTES.hits} aria-current={navCurrent(route, "hits")}>
-            {t("nav.hits")}
+            <TabLabel text={t("nav.hits")} />
             {dailiesDone(save, date) && (
               <>
                 <span class="done-mark" aria-hidden="true">
@@ -169,7 +181,7 @@ export function Nav({ route, save, date, favorite = null }: Props) {
         {/* O ✓ quando qualquer um dos 6 diários do Anime de hoje terminou (P247). */}
         <li>
           <a href={ROUTES.anime} aria-current={navCurrent(route, "anime")}>
-            {t("nav.anime")}
+            <TabLabel text={t("nav.anime")} />
             {animeDone(save, date) && (
               <>
                 <span class="done-mark" aria-hidden="true">
@@ -209,7 +221,7 @@ export function Nav({ route, save, date, favorite = null }: Props) {
             // (regra 23).
             onClick={singleClick(() => setOpen((value) => !value))}
           >
-            {t("nav.more")}
+            <TabLabel text={t("nav.more")} />
             <span class="nav-more-chevron" aria-hidden="true">
               <Icon name="next" />
             </span>
