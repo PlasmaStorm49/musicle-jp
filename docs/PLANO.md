@@ -246,6 +246,9 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P293 | O PR 2 do M16 se divide em dois: o 2a (a rota, a nav, a tela e o desenho) e o 2b (os avisos). Os dois entram no ar invisíveis: no site, sem a lista, nem a aba nem a tela, e a nav continua com o corte de 480 px; o de 720 (P287) só vale com as Medalhas ligadas (a classe `six` da nav). Em desenvolvimento, a lista de exemplo com `?medalhas=demo` (o plano do M16, 22/10) |
 | P295 | O nome de cada medalha do Superfan é próprio do artista (o usuário, 22/10/2026, sobre as sugestões de um subagente de pesquisa; a lista, no Apêndice O, entra no PR 3). Na prata e no ouro, o nome em japonês leva um ponto e o romaji ao lado, como o nome do artista (`歌い手 · Utaite`); na suprema, só o original |
 | P296 | As 3 medalhas do Superfan de um artista têm a mesma imagem (revisão da P294, que dava uma a cada). A capa vai até o aro, sem a faixa clara, e cada uma tem o seu enquadramento, à mão (o zoom e o centro), para não sobrar texto cortado nem moldura. As flores da suprema seguem o buquê de hoje (o F2, sem a versão 2) e ganham as cores da capa de cada artista; o tema do artista também vale, com aviso. A escolha da capa e das cores fica no Apêndice O (o usuário, 22/10/2026) |
+| P297 | O romaji ao lado do nome japonês da prata e do ouro (P295) vai sem mácron: "Kyogen", e não "Kyōgen". É a grafia mais comum, e a Noto Sans JP do jogo desenha o ō com o mácron fora do lugar (o usuário, 22/10/2026) |
+| P298 | No aviso pequeno, a medalha do Superfan aparece com o monograma, e não com a capa da Apple: as telas dele não têm o selo (P170). O pop-up grande leva o selo da Apple quando mostra uma capa dela. Entra no PR 3 (o usuário, 22/10/2026) |
+| P299 | A faixa da suprema leva um texto escolhido à mão para cada artista, em pé, um caractere por linha e centralizado na faixa; só YOASOBI e UNLIMITS vão deitados, ao longo dela. O texto é o nome do artista, menos 松田聖子 (sem o espaço), 新しい学校 (o apelido do grupo), 볼빨간사춘기 (o nome em hangul) e SOAD (a sigla dos fãs). Sem a escolha, o nome em pé, até 6 caracteres; o latino mais longo, deitado. Entra no PR 4, com a capa (o usuário, 22/10/2026) |
 | P289 | O save v8 guarda o modo por artista, só o mínimo: os acertos de cada artista e se ele já terminou e terminou perfeita uma partida do Superfan (revisão da P116). Guarda também as medalhas já avisadas e a estante (ME118), vazia até ela (o plano do M16, 22/10) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
@@ -1444,7 +1447,7 @@ O usuário escolheu sobre as sugestões de um subagente de pesquisa (as fontes f
 | YOASOBI | Nightwalker | YOA'S | 小説を音楽にする |
 | LiSA | LiVE is Smile Always | LiSAッ子 | 今日もいい日だっ |
 | Eve | 廻廻奇譚 · Kaikai Kitan | Round Robin | はらぺこ |
-| Ado | 狂言 · Kyōgen | 歌い手 · Utaite | 青い薔薇 |
+| Ado | 狂言 · Kyogen | 歌い手 · Utaite | 青い薔薇 |
 | Aimer | Sleepless Nights | Blanc et Noir | エメ |
 | 米津玄師 | Stray Sheep | ハチ · Hachi | かいじゅうずかん |
 | UNLIMITS | Amethyst | 七色の記憶 · Nanairo no Kioku | 夢幻の宴 |
@@ -1456,9 +1459,9 @@ O usuário escolheu sobre as sugestões de um subagente de pesquisa (as fontes f
 
 - **Os três últimos** (o usuário, 22/10/2026, as favoritas de um 2º subagente de pesquisa):
   - はらぺこ, "faminto": o selo independente do Eve (harapeco records), a marca de roupas e o perfil eve_harapeco;
-  - 狂言 · Kyōgen: o 1º álbum da Ado e o teatro de onde vem o nome dela (os papéis シテ e アド);
+  - 狂言 · Kyogen: o 1º álbum da Ado e o teatro de onde vem o nome dela (os papéis シテ e アド);
   - はみ出していく, "vamos sair da linha": a saudação fixa do ATARASHII GAKKO!.
-- **A confirmar:** a grafia do romaji ao lado (só o Kyōgen, da Ado, leva mácron); o romaji de `LiSAッ子`; e o latino do grupo (`Plusonica`) ou o romaji de livro (`Purasonika`).
+- **A confirmar:** o romaji ao lado vai sem mácron (P297); falta o de `LiSAッ子`; e o latino do grupo (`Plusonica`) ou o romaji de livro (`Purasonika`).
 - **O risco:** os nomes de fã-clube oficial (YOA'S, Blanc et Noir, 青春部) podem parecer parceria com o artista e podem ser marca registrada. O registro não foi conferido.
 
 ### Os riscos
