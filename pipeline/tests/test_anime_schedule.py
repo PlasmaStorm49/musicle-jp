@@ -366,7 +366,7 @@ def test_never_generates_a_past_day(small, first_22):
     )
     hole = [(date(2026, 10, 30) + timedelta(days=i)).isoformat() for i in range(8)]
     assert not [d for d in hole if d in gapped.schedule["days"]]
-    assert "buraco de 8 dia(s) sem desafio: 2026-10-30 a 2026-11-06 (P44)" in gapped.warnings
+    assert "buraco de 8 dia(s) sem diário: 2026-10-30 a 2026-11-06 (P44)" in gapped.warnings
     assert compare(first_22, gapped.schedule) == []
     assert gapped.schedule["days"]["2026-11-07"]["number"] == 31
     assert validate_anime_schedule(gapped.schedule, small) == []
@@ -544,7 +544,7 @@ def test_schedule_anime_command(tmp_path, capsys):
     assert main([*args, "--today", "2026-10-21", "--epoch", "2026-10-08", "--days", "1"]) == 0
     captured = capsys.readouterr()
     assert "2 dia(s) novo(s) (2026-10-21 a 2026-10-22), 2 no total" in captured.out
-    assert "aviso: buraco de 13 dia(s) sem desafio: 2026-10-08 a 2026-10-20 (P44)" in captured.err
+    assert "aviso: buraco de 13 dia(s) sem diário: 2026-10-08 a 2026-10-20 (P44)" in captured.err
     assert "aviso: musica facil: 13 música(s)" in captured.err
     # De novo, no mesmo dia: nada novo.
     assert main([*args, "--today", "2026-10-21", "--days", "1"]) == 0

@@ -202,9 +202,9 @@ check_schedule() {
   # Com o 1º dia novo hoje, um merge amanhã levaria um dia passado: a CI deste PR não roda de novo
   # (o strict não reroda) e só a do push na main ficaria vermelha, depois do deploy.
   if [ "$gap" -gt 0 ]; then
-    gap_lines+="> **Atenção ($label):** $gap dia(s) ficaram sem desafio depois de $base_last: dia que já passou não é gerado (P44). Faça o merge hoje."$'\n'
+    gap_lines+="> **Atenção ($label):** $gap dia(s) ficaram sem diário depois de $base_last: dia que já passou não é gerado (P44). Faça o merge hoje."$'\n'
   elif [ "$first" = "$TODAY" ]; then
-    gap_lines+="> **Atenção ($label):** a agenda acabou ontem e o 1º dia novo é hoje: faça o merge hoje, ou o dia fica sem desafio (P44)."$'\n'
+    gap_lines+="> **Atenção ($label):** a agenda acabou ontem e o 1º dia novo é hoje: faça o merge hoje, ou o dia fica sem diário (P44)."$'\n'
   fi
   if [ "$base" = "$SCHEDULE" ]; then real_last="$last"; fi
 }

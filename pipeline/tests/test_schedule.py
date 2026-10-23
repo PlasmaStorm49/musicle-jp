@@ -220,16 +220,16 @@ def test_never_generates_a_past_day(gapped, first_22):
     hole = [(date(2026, 10, 30) + timedelta(days=i)).isoformat() for i in range(8)]
     assert not [d for d in hole if d in days]
     assert compare(first_22, gapped.schedule) == []
-    assert "buraco de 8 dia(s) sem desafio: 2026-10-30 a 2026-11-06 (P44)" in gapped.warnings
+    assert "buraco de 8 dia(s) sem diário: 2026-10-30 a 2026-11-06 (P44)" in gapped.warnings
     assert gapped.relaxations == []
 
 
 def test_one_day_gap(fixture_catalog, first_22):
-    # A agenda acaba em 29/10 e "hoje" é 31/10: só o dia 30 fica sem desafio.
+    # A agenda acaba em 29/10 e "hoje" é 31/10: só o dia 30 fica sem diário.
     result = generate(fixture_catalog, first_22, EPOCH + timedelta(days=23))
     assert result.added[0] == "2026-10-31"
     assert "2026-10-30" not in result.schedule["days"]
-    assert "buraco de 1 dia(s) sem desafio: 2026-10-30 a 2026-10-30 (P44)" in result.warnings
+    assert "buraco de 1 dia(s) sem diário: 2026-10-30 a 2026-10-30 (P44)" in result.warnings
 
 
 def test_new_schedule_before_the_epoch_starts_at_the_epoch(fixture_catalog):
@@ -243,7 +243,7 @@ def test_new_schedule_with_past_epoch_starts_today(fixture_catalog):
     days = result.schedule["days"]
     assert min(days) == "2026-10-13"
     assert days["2026-10-13"]["number"] == 6
-    assert "buraco de 5 dia(s) sem desafio: 2026-10-08 a 2026-10-12 (P44)" in result.warnings
+    assert "buraco de 5 dia(s) sem diário: 2026-10-08 a 2026-10-12 (P44)" in result.warnings
 
 
 def test_gap_is_structurally_valid(gapped, fixture_catalog, tmp_path):
@@ -309,7 +309,7 @@ def test_cli_warns_about_the_gap(tmp_path, capsys, first_22):
     args = ["schedule", "--catalog", "web/public/fixtures/catalog.json", "--out", str(out)]
     assert main([*args, "--today", "2026-11-07"]) == 0
     captured = capsys.readouterr()
-    assert "aviso: buraco de 8 dia(s) sem desafio: 2026-10-30 a 2026-11-06 (P44)" in captured.err
+    assert "aviso: buraco de 8 dia(s) sem diário: 2026-10-30 a 2026-11-06 (P44)" in captured.err
     assert "22 dia(s) novo(s) (2026-11-07 a 2026-11-28), 44 no total" in captured.out
 
 

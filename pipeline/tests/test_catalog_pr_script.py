@@ -409,7 +409,7 @@ def test_warns_about_the_gap_when_the_schedule_ran_out(tmp_path):
     done, _, temp = run(tmp_path, schedules_only(late), today=late, fetch="failure")
     assert done.returncode == 0, done.stdout + done.stderr
     assert (
-        f"> **Atenção (Agenda do site):** 3 dia(s) ficaram sem desafio depois de {last.isoformat()}"
+        f"> **Atenção (Agenda do site):** 3 dia(s) ficaram sem diário depois de {last.isoformat()}"
         in body(temp)
     )
 
@@ -423,7 +423,7 @@ def test_warns_to_merge_today_when_the_schedule_ended_yesterday(tmp_path):
     assert "> **Atenção (Agenda do site):** a agenda acabou ontem e o 1º dia novo é hoje" in body(
         temp
     )
-    assert f"sem desafio depois de {last.isoformat()}" not in body(temp)
+    assert f"sem diário depois de {last.isoformat()}" not in body(temp)
 
 
 def test_new_chart_without_new_romaji_passes(tmp_path):
