@@ -47,7 +47,7 @@ jobs:
         run: |
           grep -Eq '(src|href)="/musicle-jp/assets/' dist/index.html || { echo "::error::dist/index.html sem a base /musicle-jp/"; exit 1; }
           # Todo caminho absoluto leva a base, como na CI (ME83).
-          if grep -Eo '(src|href)="/[^"]*"' dist/index.html | grep -v '="/musicle-jp/'; then
+          if grep -Eo '="/[^"]*"' dist/index.html | grep -v '="/musicle-jp/'; then
             echo "::error::dist/index.html tem caminho absoluto sem a base /musicle-jp/"
             exit 1
           fi

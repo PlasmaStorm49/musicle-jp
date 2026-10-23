@@ -138,8 +138,9 @@ jobs:
           # em branco (web/vite.config.ts).
           grep -Eq '(src|href)="/musicle-jp/assets/' dist/index.html || { echo "::error::dist/index.html não usa /musicle-jp/assets/"; exit 1; }
           # Todo caminho absoluto leva a base, e não só os assets: o favicon e o ícone de app
-          # também (ME83). O grep -v mostra no log a linha sem ela.
-          if grep -Eo '(src|href)="/[^"]*"' dist/index.html | grep -v '="/musicle-jp/'; then
+          # também, e qualquer atributo (um srcset, o content de uma og:image) (ME83). O grep -v
+          # mostra no log o caminho sem ela.
+          if grep -Eo '="/[^"]*"' dist/index.html | grep -v '="/musicle-jp/'; then
             echo "::error::dist/index.html tem caminho absoluto sem a base /musicle-jp/"
             exit 1
           fi
