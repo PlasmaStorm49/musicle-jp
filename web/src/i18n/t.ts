@@ -11,20 +11,24 @@ export function t(key: MessageKey, params: Record<string, string | number> = {})
   return fill(ptBR[key], params);
 }
 
+/** As chaves cujo texto tem o {slot}: só elas servem ao `tAround`. */
+export type KeyWith<Slot extends string> = {
+  [K in MessageKey]: (typeof ptBR)[K] extends `${string}{${Slot}}${string}` ? K : never;
+}[MessageKey];
+
 /**
  * O texto de antes e o de depois do {slot}, com os outros parâmetros já substituídos: a tela põe
- * no meio um elemento, como o nome do artista com a língua dele (ME68). Sem o {slot}, o texto
- * inteiro vem antes.
+ * no meio um elemento, como o nome do artista com a língua dele (ME68). Uma chave sem o {slot} não
+ * compila (`KeyWith`).
  */
-export function tAround(
-  key: MessageKey,
-  slot: string,
+export function tAround<Slot extends string>(
+  key: KeyWith<Slot>,
+  slot: Slot,
   params: Record<string, string | number> = {},
 ): readonly [string, string] {
   const marker = `{${slot}}`;
-  const text = ptBR[key];
+  const text: string = ptBR[key];
   const at = text.indexOf(marker);
-  if (at < 0) return [fill(text, params), ""];
   return [fill(text.slice(0, at), params), fill(text.slice(at + marker.length), params)];
 }
 

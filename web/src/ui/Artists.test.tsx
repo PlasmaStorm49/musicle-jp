@@ -1056,6 +1056,22 @@ describe("Artists: falhas ao carregar (P144)", () => {
     expect(title().textContent).toBe("Banda");
   });
 
+  it("o artista de nome japonês que falha: o nome na língua dele e o foco no aviso (ME68)", async () => {
+    const { net } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    net.failing.add("1.json");
+    fireEvent.click(card(/^夜風/));
+    // O aviso da falha é outro elemento (a `key`): o foco passa a ele quando a carga falha.
+    const failed = () => document.querySelector<HTMLElement>(".focused-notice");
+    await waitFor(() =>
+      expect(failed()?.textContent).toBe(
+        "Não foi possível carregar as músicas de 夜風. Confira a conexão.",
+      ),
+    );
+    expect(failed()?.querySelector('[lang="ja"]')?.textContent).toBe("夜風");
+    await waitFor(() => expect(document.activeElement).toBe(failed()));
+  });
+
   it("voltar à lista durante a carga: o arquivo que chega depois não começa a sessão", async () => {
     const { net, store } = setup();
     await screen.findByRole("heading", { name: "Artistas" });

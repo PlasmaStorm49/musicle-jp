@@ -30,11 +30,9 @@ describe("tAround (ME68)", () => {
     }
   });
 
-  it("sem o {slot}, o texto inteiro vem antes", () => {
-    expect(tAround("summary.score", "artist", { score: 5, max: 18 })).toEqual([
-      "5 de 18 pontos",
-      "",
-    ]);
+  it("uma chave sem o {slot} não compila", () => {
+    // @ts-expect-error: o "summary.score" não tem o {artist} (KeyWith).
+    expect(() => tAround("summary.score", "artist")).toBeTypeOf("function");
   });
 });
 
