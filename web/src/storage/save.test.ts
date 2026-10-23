@@ -7,6 +7,7 @@ import {
   type FinishedGame,
   type Save,
   withArtistRight,
+  withPracticeRight,
   withSeenMedals,
 } from "../core/records.ts";
 import { SAVE_SCHEMA_VERSION } from "./migrations.ts";
@@ -38,12 +39,15 @@ const valid: Save = {
   seenMedals: ["superfan|apple:ar:1|acertos", "superfan|apple:ar:1|completo"],
   shelf: ["superfan|apple:ar:1|completo"],
   artists: { "apple:ar:1": { right: 12, done: true }, "fixture:ar:ar01": { right: 3 } },
+  practiceRight: 7,
 };
 
 const withRaw = (raw: string) => memoryStore({ [SAVE_KEY]: raw });
 
 /** O que a v8 (P289) acrescenta a um save migrado: as medalhas e o modo por artista, vazios. */
 const V8 = { seenMedals: [], shelf: [], artists: {} };
+/** E a v9 (P308): os acertos do Treino, zerados. */
+const LATEST = { ...V8, practiceRight: 0 };
 
 describe("loadSave", () => {
   it("sem nada salvo: save vazio e gravável", () => {
@@ -234,7 +238,7 @@ describe("loadSave", () => {
     expect(result.notice).toBe("repaired");
   });
 
-  it("um save v3 de verdade chega à v8 sem aviso, sem cópia e sem perder nada", () => {
+  it("um save v3 de verdade chega à atual sem aviso, sem cópia e sem perder nada", () => {
     const v3 = {
       schemaVersion: 3,
       history: {
@@ -258,17 +262,17 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v3));
     expect(loadSave(store)).toEqual({
-      save: { ...v3, ...V8, schemaVersion: 8 },
+      save: { ...v3, ...LATEST, schemaVersion: 9 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(8);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(9);
   });
 
-  it("um save v4 de verdade, com a ajuda, chega à v8 sem aviso, sem cópia e sem perder nada", () => {
+  it("um save v4 de verdade, com a ajuda, chega à atual sem aviso, sem cópia e sem perder nada", () => {
     // Como os que estão no ar desde a P149: a ajuda com e sem acerto e um andamento com ela.
     const v4 = {
       schemaVersion: 4,
@@ -296,14 +300,14 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v4));
     expect(loadSave(store)).toEqual({
-      save: { ...v4, ...V8, schemaVersion: 8 },
+      save: { ...v4, ...LATEST, schemaVersion: 9 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
   });
 
-  it("um save v5 de verdade chega à v8 sem aviso, sem cópia e sem perder nada", () => {
+  it("um save v5 de verdade chega à atual sem aviso, sem cópia e sem perder nada", () => {
     // Como os que estão no ar desde a P163: o pulo depois da ajuda e um andamento com ela.
     const v5 = {
       schemaVersion: 5,
@@ -335,16 +339,16 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v5));
     expect(loadSave(store)).toEqual({
-      save: { ...v5, ...V8, schemaVersion: 8 },
+      save: { ...v5, ...LATEST, schemaVersion: 9 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(8);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(9);
   });
 
-  it("um save v6 de verdade chega à v8 sem aviso, sem cópia e sem perder nada", () => {
+  it("um save v6 de verdade chega à atual sem aviso, sem cópia e sem perder nada", () => {
     // Como os que estão no ar desde a P250: os Hits, o Anime e um andamento do Anime.
     const v6 = {
       schemaVersion: 6,
@@ -372,13 +376,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v6));
     expect(loadSave(store)).toEqual({
-      save: { ...v6, ...V8, schemaVersion: 8 },
+      save: { ...v6, ...LATEST, schemaVersion: 9 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(8);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(9);
   });
 
   describe("o jogado depois (v7, P267)", () => {
@@ -416,7 +420,7 @@ describe("loadSave", () => {
     // ids de cada dia com o dailyIds) apagaria o andamento dele a cada carga; e um id novo sem
     // versão nova seria apagado pela aba com o código velho.
     expect({ version: SAVE_SCHEMA_VERSION, keys: DAILY_KEYS }).toEqual({
-      version: 8,
+      version: 9,
       keys: [
         "album",
         "song",
@@ -617,6 +621,10 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     ],
     ["as medalhas que não são lista", { seenMedals: "a" }, { seenMedals: [] }],
     ["as medalhas ausentes num save v8", { seenMedals: undefined }, { seenMedals: [] }],
+    ["os acertos do Treino ausentes", { practiceRight: undefined }, { practiceRight: 0 }],
+    ["um acerto do Treino negativo", { practiceRight: -1 }, { practiceRight: 0 }],
+    ["um acerto do Treino que não é inteiro", { practiceRight: 2.5 }, { practiceRight: 0 }],
+    ["um acerto do Treino em texto", { practiceRight: "3" }, { practiceRight: 0 }],
   ])("descarta %s e avisa o reparo", (_, broken, kept) => {
     const result = loadSave(withRaw(JSON.stringify({ ...valid, ...broken })));
     expect(result.notice).toBe("repaired");
@@ -650,7 +658,7 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     expect(result.save.artists).toEqual({});
   });
 
-  it("um save v7 de verdade, com o jogado depois, chega à v8 sem aviso, sem cópia e sem perder nada", () => {
+  it("um save v7 de verdade, com o jogado depois, chega à atual sem aviso, sem cópia e sem perder nada", () => {
     const v7 = {
       schemaVersion: 7,
       history: {
@@ -661,14 +669,14 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     };
     const store = withRaw(JSON.stringify(v7));
     expect(loadSave(store)).toEqual({
-      save: { ...v7, ...V8, schemaVersion: 8 },
+      save: { ...v7, ...LATEST, schemaVersion: 9 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => withArtistRight(s, "apple:ar:1"))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 8,
+      schemaVersion: 9,
       history: v7.history,
     });
   });
@@ -698,11 +706,44 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     const store = memoryStore();
     updateSave(store, (s) => withArtistRight(s, "apple:ar:1"));
     updateSave(store, (s) => withSeenMedals(withArtistRight(s, "apple:ar:1"), ["a"]));
-    updateSave(store, (s) => withSeenMedals(s, ["b"]));
+    updateSave(store, (s) => withSeenMedals(withPracticeRight(s), ["b"]));
+    updateSave(store, withPracticeRight);
     expect(loadSave(store).save).toMatchObject({
       seenMedals: ["a", "b"],
       artists: { "apple:ar:1": { right: 2 } },
+      practiceRight: 2,
     });
+  });
+});
+
+describe("os acertos do Treino (v9, P308)", () => {
+  it("um save v8 de verdade chega à atual sem aviso e com o Treino zerado", () => {
+    const v8 = {
+      schemaVersion: 8,
+      history: { "2026-10-22|album": finished },
+      inProgress: {},
+      seenMedals: ["superfan|apple:ar:1|acertos"],
+      shelf: [],
+      artists: { "apple:ar:1": { right: 50 } },
+    };
+    const store = withRaw(JSON.stringify(v8));
+    expect(loadSave(store)).toEqual({
+      save: { ...v8, practiceRight: 0, schemaVersion: 9 },
+      writable: true,
+      notice: null,
+    });
+    expect(store.getItem(CORRUPT_KEY)).toBeNull();
+    expect(updateSave(store, withPracticeRight)).toBe("saved");
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
+      schemaVersion: 9,
+      practiceRight: 1,
+      artists: v8.artists,
+    });
+  });
+
+  it("o total vai e volta pelo save, sem reparo", () => {
+    const store = withRaw(JSON.stringify(valid));
+    expect(loadSave(store)).toMatchObject({ save: { practiceRight: 7 }, notice: null });
   });
 });
 

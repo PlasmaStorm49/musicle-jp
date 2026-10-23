@@ -17,6 +17,7 @@ import {
   toFinishedGame,
   withArtistRight,
   withFinished,
+  withPracticeRight,
   withProgress,
   withSeenMedals,
   withSuperfanEnd,
@@ -409,6 +410,14 @@ describe("as medalhas e o modo por artista no save (v8, P289)", () => {
       [ARTIST]: { right: 2, done: true },
       "apple:ar:2": { right: 1 },
     });
+  });
+
+  it("withPracticeRight: soma um acerto do Treino, sem mexer no resto (P308)", () => {
+    const save = withArtistRight(emptySave(), ARTIST);
+    expect(emptySave().practiceRight).toBe(0);
+    const two = withPracticeRight(withPracticeRight(save));
+    expect(two.practiceRight).toBe(2);
+    expect(two).toEqual({ ...save, practiceRight: 2 });
   });
 
   it("withSuperfanEnd: marca o fim e o perfeito, que nunca voltam atrás", () => {

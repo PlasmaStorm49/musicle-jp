@@ -9,7 +9,7 @@ import { emptySave, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
 import type { Album, Artist, Catalog, Day, Track } from "../core/types.ts";
 import { catalogResolver } from "../data/previews.ts";
-import { Practice } from "./Practice.tsx";
+import { Practice, usePracticeRecord } from "./Practice.tsx";
 
 afterEach(cleanup);
 // Os testes do pop-up trocam métodos do HTMLDialogElement: voltam mesmo quando um falha.
@@ -118,10 +118,16 @@ function setup(save: Save = emptySave(), day: Day | null = null, mode: ModeName 
   };
   const resolver = catalogResolver(index, (url) => `/${url}`);
   let latest: PracticeSession | null = null;
-  // Faz o papel do App: guarda a sessão fora do Treino (trocar de aba não zera).
+  // O save que o App gravaria (P308): o gancho aplica cada mudança aqui.
+  let stored = save;
+  const record = vi.fn((change: (s: Save) => Save) => {
+    stored = change(stored);
+  });
+  // Faz o papel do App: guarda a sessão fora do Treino (trocar de aba não zera) e grava os acertos.
   function Harness({ save, day, show }: HarnessProps) {
     const [session, setSession] = useState<PracticeSession | null>(null);
     latest = session;
+    usePracticeRecord(session, record);
     if (!show) return null;
     return (
       <Practice
@@ -151,7 +157,8 @@ function setup(save: Save = emptySave(), day: Day | null = null, mode: ModeName 
     return new RegExp(`^Álbum ${id.split(":").at(-1)}`);
   };
   if (mode) choose(mode);
-  return { engine, rerender, current, session, correctTitle };
+  const practiceRight = () => stored.practiceRight;
+  return { engine, rerender, current, session, correctTitle, record, practiceRight };
 }
 
 describe("Practice: a escolha do modo (P105)", () => {
@@ -303,6 +310,42 @@ describe("Practice: a sessão", () => {
     expect(title().textContent).toBe("Treino · Normal");
     expect(screen.getByText("Rodada 2")).toBeTruthy();
     expect(score()).toBe("6 pontos em 1 rodada");
+  });
+
+  it("o acerto vai para o save uma vez só, também ao sair da aba e voltar (P308)", () => {
+    const { rerender, correctTitle, practiceRight, record } = setup();
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    expect(practiceRight()).toBe(1);
+    // A revelação remonta na volta à aba, com a mesma rodada ganha: não conta de novo.
+    rerender({ save: emptySave(), day: null, show: false });
+    rerender({ save: emptySave(), day: null, show: true });
+    expect(screen.getByRole("button", { name: "Próxima rodada" })).toBeTruthy();
+    expect(practiceRight()).toBe(1);
+    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    expect(practiceRight()).toBe(2);
+    expect(record).toHaveBeenCalledTimes(2);
+  });
+
+  it("a perdida e a anulada não são acerto (P308)", async () => {
+    const { engine, practiceRight, record } = setup();
+    fireEvent.click(screen.getByRole("button", { name: "Não sei" }));
+    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
+    vi.mocked(engine.play).mockRejectedValue(new Error("sem áudio"));
+    fireEvent.click(screen.getByRole("button", { name: /^Tocar/ }));
+    await screen.findByText(/Áudio indisponível/);
+    expect(practiceRight()).toBe(0);
+    expect(record).not.toHaveBeenCalled();
+  });
+
+  it("reiniciar começa outra sessão, e o acerto dela conta à parte", () => {
+    const { correctTitle, practiceRight } = setup();
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    restart();
+    fireEvent.click(screen.getByRole("button", { name: "Sim, reiniciar" }));
+    choose("Normal");
+    fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
+    expect(practiceRight()).toBe(2);
   });
 
   it("sem rodada possível (diário de hoje pendente): aviso com foco, o modo e o Reiniciar", () => {

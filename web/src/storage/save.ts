@@ -218,15 +218,22 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     if (ARTIST_ID.test(id) && isArtistRecord(record)) artists[id] = record;
     else dropped = true;
   }
-  dropped ||= seen.dropped || shelf.dropped || !isRecord(data.artists);
+  // O total do Treino (v9): fora do formato, zera e vira reparo, como o `artists` ausente.
+  const practiceRight = isNonNegativeInt(data.practiceRight) ? data.practiceRight : 0;
+  dropped ||=
+    seen.dropped ||
+    shelf.dropped ||
+    !isRecord(data.artists) ||
+    practiceRight !== data.practiceRight;
   return {
     save: {
-      schemaVersion: 8,
+      schemaVersion: 9,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),
       shelf: shelf.ids,
       artists,
+      practiceRight,
     },
     dropped,
   };

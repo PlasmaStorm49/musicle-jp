@@ -1,3 +1,4 @@
+import { SAVE_KEY } from "../src/storage/save.ts";
 import { albumOf, expect, lastPlayed, open, option, test, viaHits } from "./helpers.ts";
 
 test("Treino: escolhe o modo, joga e segue nele; reiniciar pede confirmação (P105)", async ({
@@ -17,6 +18,10 @@ test("Treino: escolhe o modo, joga e segue nele; reiniciar pede confirmação (P
   await option(page, albumOf(played).title).click();
   await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
   await expect(page.getByText("6 pontos em 1 rodada", { exact: true })).toBeVisible();
+  // O acerto vai para o save (P308), e só ele: a sessão fica na memória (P50).
+  const practiceRight = () =>
+    page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").practiceRight, SAVE_KEY);
+  await expect.poll(practiceRight).toBe(1);
 
   // A próxima rodada continua no Normal.
   await page.getByRole("button", { name: "Próxima rodada" }).click();
@@ -97,7 +102,7 @@ test("o Treino continua ao trocar de aba, o cartão dele nos Hits mostra o modo,
   await expect(page.getByText("Rodada 2")).toBeVisible();
   await expect(page.getByText("0 pontos em 1 rodada", { exact: true })).toBeVisible();
 
-  // O Treino não salva nada (P50): recarregar começa da escolha.
+  // A sessão do Treino não vai para o save (P50; só o total de acertos, P308): recarregar começa da escolha.
   await page.reload();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treino");
   await expect(page.getByRole("button", { name: "Normal" })).toBeVisible();

@@ -60,7 +60,12 @@ import {
   useMedalNotices,
 } from "./medalNotices.ts";
 import { Nav } from "./Nav.tsx";
-import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
+import {
+  Practice,
+  type PracticeSession,
+  type PracticeSessionSetter,
+  usePracticeRecord,
+} from "./Practice.tsx";
 import { singleClickLink } from "./singleClick.ts";
 import { savedVolume } from "./volume.ts";
 
@@ -146,21 +151,23 @@ export function App() {
   // momento em que a aba abre: voltar ao Desafio terminado mostra o resultado (P39).
   const [latest, setLatest] = useState(saves.save);
   // A sessão do Treino mora aqui, e não no Practice: trocar de aba e voltar não a zera. Só
-  // na memória (P50): recarregar a página começa outra. null = a escolha do modo (P105).
+  // na memória (P50): recarregar a página começa outra; do save, só os acertos (P308). null = a
+  // escolha do modo (P105).
   const [practice, setPractice] = useState<PracticeSession | null>(null);
   // A cota e o disjuntor do lookup da Apple, um só para a parada, os artistas e o Anime (P142).
   const budget = useMemo(
     () => lookupBudget({ now: Date.now, disabled: lookupFailForced(window.location.search) }),
     [],
   );
-  // O que o modo por artista grava (P289): os acertos e o fim do Superfan, pelas medalhas. Sem o
-  // `refresh`: a tela das Medalhas lê o `save.artists` do `latest`, que se relê ao trocar de aba
-  // (o `hashchange`); reler a cada acerto recriaria no meio de uma rodada a
+  // O que o modo por artista e o Treino gravam, pelas medalhas: os acertos e o fim do Superfan
+  // (P289), e os acertos do Treino (P308). Sem o `refresh`: a tela das Medalhas lê o `latest`, que
+  // se relê ao trocar de aba (o `hashchange`); reler a cada acerto recriaria no meio de uma rodada a
   // exclusão das respostas de hoje (P141). Falhar ao gravar não avisa: não se perde um diário.
-  const recordArtist = useCallback(
+  const record = useCallback(
     (change: (save: Save) => Save) => void updateSave(saves.store, change),
     [saves],
   );
+  usePracticeRecord(practice, record);
   // O modo por artista (M13): a lista, os artistas baixados e a sessão, como a do Treino.
   const artists = useArtistStore({
     fetchFn: FETCH,
@@ -168,7 +175,7 @@ export function App() {
     dataDir: DATA_DIR,
     budget,
     resolveUrl,
-    record: recordArtist,
+    record,
   });
   // Os avisos de medalha nova (M16, P288): numa tela calma (a abertura, a troca de tela, o fim de
   // uma partida do Superfan) e no resultado de um diário (o `onResult`), nunca numa rodada. O evento
