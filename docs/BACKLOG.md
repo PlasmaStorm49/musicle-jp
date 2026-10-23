@@ -12,8 +12,7 @@ Atualizado em 23/10/2026.
 
 **Na tela**
 - **ME33.** Textos: o "- Single" na revelação, o dia anulado com "0/0" e o "Áudio indisponível" quando o motivo é outro. Conferir o que o PR D já resolveu.
-- **ME106 (novo).** O negrito da aba ativa da nav empurra a vizinha em 2 a 3 px ao trocar de categoria, desde que as abas ficam juntas à esquerda (ME96).
-- **ME37.** O Player perde o foco no "Carregando…": trocar o `disabled` pelo `aria-disabled`.
+- **ME37.** Um gancho comum de reprodução para o Player e a revelação (o foco no "Carregando…" já foi feito).
 - **ME76.** O aviso do leitor de tela continua na página depois de trocar de aba.
 - **ME68.** O `lang="ja"` no nome do artista no cartão da Início e nos avisos.
 - **S32.** No Superfan, o custo de desistir aparece só na revelação, e não na rodada.
@@ -21,8 +20,6 @@ Atualizado em 23/10/2026.
 
 **Nos nomes e no romaji**
 - **ME80.** Créditos com o nome que a Apple usa (Inoue Sonoko; Sano Hayato & Yoshida Jinto).
-- **ME81.** Leituras erradas do cutlet nos artistas (蜃気楼 "Shinki rou", 私は最強 "Watakushi wa saikyou").
-- **ME119 (novo).** Mais dois romaji errados nos artistas: 廻廻奇譚 "Meguru Meguru kitan" (o oficial é Kaikai Kitan) e 踊 "Odori" (o oficial é Odo).
 - **ME90.** Parceiros ocidentais em katakana, sem o nome latino (as faixas do System of a Down).
 - **ME86.** Duas músicas diferentes viram uma só ("Someday", do Bolbbalgan4), e uma some.
 - **ME88.** "Song (Remix - feat. X)" vira "Song (Remix" no pipeline.
