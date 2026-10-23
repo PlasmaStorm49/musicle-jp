@@ -4,7 +4,7 @@ import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { AnimeTheme, CatalogIndex } from "../core/catalog.ts";
 import type { DailyAnswer } from "../core/daily.ts";
 import { fillFraction } from "../core/player.ts";
-import { type RoundState, roundErrors, roundScore } from "../core/reducer.ts";
+import { type RoundState, roundScore } from "../core/reducer.ts";
 import type { ModeRules } from "../core/rules.ts";
 import type { Target } from "../core/types.ts";
 import { langOf, optionView, revealView } from "../core/view.ts";
@@ -25,7 +25,7 @@ type Props = {
   readonly target: Target;
   /** O que se tentou: músicas, ou franquias no "acertar o anime" (as tentativas dizem o anime). */
   readonly answer?: DailyAnswer;
-  /** As regras do jogo: os pontos do acerto e os dos erros (o Superfan tem os seus). */
+  /** As regras do jogo: os pontos do acerto, e os da ajuda (o Superfan tem os seus). */
   readonly rules: ModeRules;
   readonly engine: AudioEngine;
   readonly resolver: PreviewResolver;
@@ -162,11 +162,9 @@ export function Reveal({
       });
   }
 
-  // O acerto e os erros à parte: "Acertou! 2 de 3 pontos." e "1 erro: −5 pontos.". Desistir, no
-  // Superfan, também tem a conta à parte: "Desistiu: −2 pontos." (P186).
-  const errors = roundErrors(round);
-  const points = roundScore(round, rules) - errors * rules.wrongPoints;
-  const gaveUp = round.gaveUp && rules.giveUpPoints !== 0;
+  // O acerto: "Acertou! 8 de 10 pontos.", ou o da ajuda. Errar e desistir valem 0 (ME107); as
+  // vidas do Superfan ficam na nota dele.
+  const points = roundScore(round, rules);
 
   return (
     <>
@@ -180,19 +178,6 @@ export function Reveal({
               : t("reveal.won", { points, max: rules.points[0] ?? points })
             : t("reveal.lost")}
         </h2>
-        {/* O Superfan tira pontos por palpite errado (P119): a conta à parte, depois do resultado. */}
-        {errors > 0 && rules.wrongPoints !== 0 && (
-          <p class="reveal-errors">
-            {tn("reveal.errors", errors, {
-              points: tn("count.points", errors * rules.wrongPoints),
-            })}
-          </p>
-        )}
-        {gaveUp && (
-          <p class="reveal-errors">
-            {t("reveal.gaveUp", { points: tn("count.points", rules.giveUpPoints) })}
-          </p>
-        )}
         {note && <p class="reveal-note">{note}</p>}
 
         {!rules.guessFromOptions ? (

@@ -60,27 +60,27 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, com o ✓ da
   // O cartão some com a tela, e o foco vai ao Tocar (regra 16).
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
 
-  // Rodada 1: acerta de primeira (6 pontos).
+  // Rodada 1: acerta de primeira (10 pontos).
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
   await answerWithPlayed(page);
-  await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
   // Rodada 2: desiste.
   await page.getByRole("button", { name: "Desistir", exact: true }).click();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
-  // Rodada 3: pula uma vez e acerta (5 pontos).
+  // Rodada 3: pula uma vez e acerta (8 pontos).
   await page.getByRole("button", { name: "Pular (+1 s)" }).click();
   await page.getByRole("button", { name: "Tocar 2 s" }).click();
   await answerWithPlayed(page);
-  await expect(page.getByRole("heading", { name: "Acertou! 5 de 6 pontos." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 8 de 10 pontos." })).toBeVisible();
   await page.getByRole("button", { name: "Ver resultado" }).click();
 
-  await expect(page.getByText("11 de 18 pontos")).toBeVisible();
+  await expect(page.getByText("18 de 30 pontos")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toBe(
-    "AteMusic Anime · Música · Fácil nº 1\n11/18\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
+    "AteMusic Anime · Música · Fácil nº 1\n18/30\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
   );
   // O save leva o id do diário do Anime (P250).
   const saved = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
@@ -98,7 +98,7 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, com o ✓ da
   );
   await main.getByRole("link", { name: /^Acertar a música/ }).click();
   await expect(main.getByRole("link", { name: /^Fácil/ })).toContainText(
-    "nº 1 · terminado, 11 de 18 pontos",
+    "nº 1 · terminado, 18 de 30 pontos",
   );
   await page.getByRole("link", { name: "Início" }).click();
   await expect(main.getByRole("link", { name: /^Anime/ })).toContainText("Hoje: 1 de 6 terminados");
@@ -129,11 +129,11 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
     "Nome do anime",
   );
 
-  // Rodada 1: o nome do anime da faixa que tocou, de primeira (6 pontos).
+  // Rodada 1: o nome do anime da faixa que tocou, de primeira (10 pontos).
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
   const first = franchiseName(await lastPlayedAnime(page));
   await answerAnime(page, first, first);
-  await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
   // Rodada 2: desiste.
@@ -141,7 +141,7 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
   // Rodada 3: a 2ª temporada da Hoshizora Kaizoku; "Starry Pirates" (o nome em inglês) acha o
-  // anime, e vale qualquer temporada (5 pontos, com um pulo).
+  // anime, e vale qualquer temporada (8 pontos, com um pulo).
   await page.getByRole("button", { name: "Pular (+1 s)" }).click();
   await page.getByRole("button", { name: "Tocar 2 s" }).click();
   const third = await lastPlayedAnime(page);
@@ -149,7 +149,7 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
   expect(third.id).toBe(animeAnswer("2026-10-08", "titulo", "facil", 2));
   expect(franchiseName(third)).toBe("Hoshizora Kaizoku");
   await answerAnime(page, "Starry Pirates", "Hoshizora Kaizoku");
-  await expect(page.getByRole("heading", { name: "Acertou! 5 de 6 pontos." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 8 de 10 pontos." })).toBeVisible();
   // A revelação: a tentativa com o nome do anime, e o cartão com a música e o tema.
   await expect(page.locator(".reveal .attempt.right")).toContainText("Hoshizora Kaizoku");
   await expect(page.locator(".reveal .card .item-title")).toHaveText(third.title);
@@ -158,10 +158,10 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
   );
   await page.getByRole("button", { name: "Ver resultado" }).click();
 
-  await expect(page.getByText("11 de 18 pontos")).toBeVisible();
+  await expect(page.getByText("18 de 30 pontos")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toBe(
-    "AteMusic Anime · Anime · Fácil nº 1\n11/18\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
+    "AteMusic Anime · Anime · Fácil nº 1\n18/30\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
   );
   const saved = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
   expect(Object.keys((JSON.parse(saved ?? "{}") as Save).history)).toEqual([
@@ -170,7 +170,7 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
   await expect(animeTab(page)).toHaveAccessibleName("Anime (já jogou hoje)");
 });
 
-test("Anime: a ajuda do acertar o anime mostra 4 animes, nenhum de uma resposta do dia, e vale 1 ponto", async ({
+test("Anime: a ajuda do acertar o anime mostra 4 animes, nenhum de uma resposta do dia, e vale a metade do trecho", async ({
   page,
 }) => {
   await open(page, DAY, "#anime-titulo-facil");
@@ -192,7 +192,8 @@ test("Anime: a ajuda do acertar o anime mostra 4 animes, nenhum de uma resposta 
   await page.getByRole("button", { name: /^Tocar/ }).click();
   const right = franchiseName(await lastPlayedAnime(page));
   await options.filter({ hasText: right }).click();
-  await expect(page.getByRole("heading", { name: "Acertou com ajuda: 1 ponto." })).toBeVisible();
+  // Depois de 3 pulos, no trecho de 7 s: o acerto vale 5, e com a ajuda, 3.
+  await expect(page.getByRole("heading", { name: "Acertou com ajuda: 3 pontos." })).toBeVisible();
 });
 
 test("o Sobre e privacidade: pelo fim da Início e pelos créditos do Anime (P243, P258)", async ({

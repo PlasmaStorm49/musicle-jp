@@ -23,7 +23,7 @@ const DAY: Day = {
 const TODAY = "2026-10-22";
 const PAST = "2026-10-21";
 
-// 6 + 0 + 5 = 11 de 18.
+// 10 + 0 + 8 = 18 de 30.
 const finished: FinishedGame = {
   number: 14,
   rounds: [
@@ -211,7 +211,7 @@ describe("HistoryDayScreen (P261 a P263)", () => {
   it("o 1º por jogar é o oliva, e o jogado depois leva a marca numa linha a mais", () => {
     setup(withGames({ [puzzleId(PAST, "album")]: { ...finished, late: true } }));
     const normal = card(/^Normal/);
-    expect(normal.textContent).toContain("terminado, 11 de 18 pontos");
+    expect(normal.textContent).toContain("terminado, 18 de 30 pontos");
     expect(normal.textContent).toContain("jogado depois");
     expect(normal.classList.contains("next")).toBe(false);
     expect(card(/^Desafio/).classList.contains("next")).toBe(true);

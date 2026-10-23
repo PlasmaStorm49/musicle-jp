@@ -95,7 +95,7 @@ export const ptBR = {
 
   "home.modesTitle": "Escolha o jogo",
   "home.albumHint":
-    "Ouça o trecho e escolha o álbum ou single entre 4 opções. Cada trecho a mais vale 1 ponto a menos. {rounds} rodadas por dia.",
+    "Ouça o trecho e escolha o álbum ou single entre 4 opções. Quanto menos você ouvir, mais vale o acerto. {rounds} rodadas por dia.",
   "home.songHint":
     "Ouça o trecho e digite o nome exato da música, em até {total} tentativas. {rounds} rodadas por dia.",
   "home.practiceHint": "Rodadas sem fim do Normal ou do Desafio, um modo por vez.",
@@ -174,9 +174,6 @@ export const ptBR = {
 
   "reveal.won": "Acertou! {points} de {max} pontos.",
   "reveal.wonHelp": "Acertou com ajuda: {points}.",
-  "reveal.errors.one": "{count} erro: {points}.",
-  "reveal.errors.other": "{count} erros: {points}.",
-  "reveal.gaveUp": "Desistiu: {points}.",
   "reveal.lost": "Não foi dessa vez.",
   "reveal.correct": "Resposta certa",
   "reveal.yourPick": "Sua escolha",
@@ -242,16 +239,18 @@ export const ptBR = {
   "typing.wrong": "Errou: {title}. Tentativa {current} de {total}.",
   "typing.skipped": "Pulou. Tentativa {current} de {total}.",
   // Com a ajuda na tela (P163), o contador de tentativas some: o pulo diz o trecho novo.
-  "typing.skippedHelp": "Pulou. O trecho agora tem {seconds} s.",
+  "typing.skippedHelp":
+    "Pulou. O trecho agora tem {seconds} s, e o acerto com a ajuda vale {points}.",
   // A ajuda do Desafio (P149 a P152): opções no lugar do campo.
   // Sem número de pontos no botão: o custo está na dica, quando as opções aparecem.
   "help.button": "Pedir ajuda",
   "help.hint": "Escolha entre as opções: errar encerra a rodada, e acertar vale {points}.",
-  "help.hintWrong":
-    "Escolha entre as opções: errar encerra a rodada e vale {wrong}, e acertar vale {points}.",
+  // No Superfan, errar custa uma vida (ME107).
+  "help.hintLife":
+    "Escolha entre as opções: errar encerra a música e custa uma vida, e acertar vale {points}.",
   // Na tela, a dica curta; a inteira (acima) fica para o leitor de tela (P210).
   "help.hintShort": "Errar encerra; acertar vale {points}.",
-  "help.hintWrongShort": "Errar encerra e vale {wrong}; acertar, {points}.",
+  "help.hintLifeShort": "Errar custa uma vida; acertar vale {points}.",
   "help.listLabel": "Opções da ajuda",
   "help.available": "A ajuda já pode ser pedida.",
 
@@ -269,6 +268,8 @@ export const ptBR = {
   "stats.distribution": "Pontos por dia",
   "stats.bucket": "{points}: {games}",
   "stats.bucketToday": "{points}: {games}, incluindo hoje",
+  "stats.bucketRange": "{from} a {to} pontos: {games}",
+  "stats.bucketRangeToday": "{from} a {to} pontos: {games}, incluindo hoje",
   "stats.none": "sem dados",
 
   "share.header": "{title} · {mode} nº {number}",
@@ -332,11 +333,11 @@ export const ptBR = {
   "artists.free": "Livre",
   "artists.freeHint": "Rodadas sem fim do Desafio, com o placar da sessão.",
   "artists.superfanHint":
-    "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. Errar custa caro, desistir conta como erro, e 3 erros acabam a partida. Na dúvida, pule ou peça ajuda.",
+    "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. São {total} vidas: cada erro e cada desistir custam uma, e as que sobrarem no fim valem pontos. Na dúvida, pule ou peça ajuda.",
   "superfan.name": "Superfan",
   "superfan.song": "Música {number}",
   "superfan.score": "Placar: {points}",
-  "superfan.errors": "Erros: {count} de {total}",
+  "superfan.lives": "Vidas: {count} de {total}",
   "superfan.helps": "Ajudas: {count} de {total}",
   "superfan.quit": "Encerrar a partida",
   "superfan.quitShort": "Encerrar",
@@ -345,7 +346,7 @@ export const ptBR = {
   "superfan.next": "Próxima música",
   "superfan.result": "Ver resultado",
   "superfan.endTitle": "Fim da partida",
-  "superfan.endErrors": "{total} erros: a partida acabou.",
+  "superfan.endErrors": "As {total} vidas acabaram: a partida acabou.",
   "superfan.endQuit": "Você encerrou a partida.",
   "superfan.endDone": "Todas as músicas da partida tocaram.",
   "superfan.endEmpty":
@@ -354,8 +355,14 @@ export const ptBR = {
   "superfan.songs.one": "{count} música",
   "superfan.songs.other": "{count} músicas",
   "superfan.again": "Jogar de novo",
-  "superfan.errorNote": "Erro {count} de {total}: {points}.",
-  "superfan.over": "{total} erros: a partida acabou. Veja o resultado.",
+  "superfan.errorNote": "Perdeu uma vida. {left}",
+  "superfan.lostLives.one": "Perdeu {count} vida. {left}",
+  "superfan.lostLives.other": "Perdeu {count} vidas. {left}",
+  "superfan.livesLeft.one": "Sobra {count}.",
+  "superfan.livesLeft.other": "Sobram {count}.",
+  "superfan.bonus.one": "Bônus de {count} vida que sobrou: {points}.",
+  "superfan.bonus.other": "Bônus de {count} vidas que sobraram: {points}.",
+  "superfan.over": "As {total} vidas acabaram. Veja o resultado.",
   "superfan.giveUp": "Desistir da música",
   // As Medalhas (M16, P278 a P288): a tela, os 3 níveis do Superfan (P285) e as gerais (P310).
   "medals.title": "Medalhas",

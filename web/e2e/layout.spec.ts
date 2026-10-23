@@ -5,6 +5,7 @@
 // Histórico (M15, PR 2), as telas dele e o "Mais" da nav no celular.
 import type { Locator, Page } from "@playwright/test";
 import { PLAYLIST_URL } from "../src/core/apple.ts";
+import { bucketOf, DAY_MAX } from "../src/core/stats.ts";
 import type { AnimeTrack, Catalog } from "../src/core/types.ts";
 import {
   albumOf,
@@ -12,6 +13,7 @@ import {
   appleCatalog,
   dailyAnswer,
   expect,
+  lastPlayed,
   navLink,
   open,
   openWithMedals,
@@ -78,8 +80,8 @@ async function homeWorstCase(page: Page): Promise<void> {
   const cards = page.getByRole("main").getByRole("link");
   await expect(cards.filter({ hasText: "Nesta sessão" })).toHaveCount(1);
   await expect(cards.filter({ hasText: /^Hits/ }).locator(".tag")).toHaveText([
-    "Normal: terminado, 0 de 18 pontos",
-    "Desafio: terminado, 0 de 18 pontos",
+    "Normal: terminado, 0 de 30 pontos",
+    "Desafio: terminado, 0 de 30 pontos",
   ]);
   await expect(cards.filter({ hasText: /^Anime/ }).locator(".tag")).toHaveText([
     "Hoje: 1 de 6 terminados",
@@ -187,6 +189,33 @@ for (const viewport of [
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
+    test("o fim do Superfan no caso mais alto: a partida completa, com o bônus das vidas e os acertos", async ({
+      page,
+    }) => {
+      await open(page, DAY, "#artistas");
+      await page.getByRole("button", { name: /^夜風シアター/ }).click();
+      await page.getByRole("button", { name: "Superfan" }).click();
+      const field = page.getByRole("combobox", { name: "Qual é a música?" });
+      const end = page.getByRole("heading", { level: 1, name: "Fim da partida" });
+      const play = page.getByRole("button", { name: "Tocar 1 s" });
+      // Todas as músicas que sobram no sorteio, acertadas no 1 s: a partida completa, com as 3 vidas.
+      for (let song = 1; song <= 4; song++) {
+        await expect(play.or(end)).toBeVisible();
+        if (await end.isVisible()) break;
+        await play.click();
+        const track = await lastPlayed(page);
+        await field.fill(track.title);
+        await page.getByRole("option").filter({ hasText: track.title }).first().click();
+        await expect(
+          page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." }),
+        ).toBeVisible();
+        await page.getByRole("button", { name: /^(Próxima música|Ver resultado)$/ }).click();
+      }
+      await expect(end).toBeVisible();
+      await expect(page.getByText(/^Bônus de 3 vidas que sobraram/)).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
     test("a Início no caso mais alto: os dois diários terminados no cartão dos Hits, um do Anime e a sessão do artista", async ({
       page,
     }) => {
@@ -210,7 +239,7 @@ for (const viewport of [
       });
       await open(page, DAY, "#anime-musica");
       await expect(page.getByRole("main").getByRole("link", { name: /^Difícil/ })).toContainText(
-        "nº 1 · terminado, 0 de 18 pontos",
+        "nº 1 · terminado, 0 de 30 pontos",
       );
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
@@ -433,7 +462,7 @@ for (const viewport of [
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
-    test("a ajuda do diário, depois de 3 tentativas, com o selo da Apple: as opções no lugar do campo", async ({
+    test("a ajuda do diário, depois de 3 tentativas (o caso mais alto), com o selo da Apple: as opções no lugar do campo", async ({
       page,
     }) => {
       await appleCatalog(page);
@@ -478,7 +507,7 @@ for (const viewport of [
       }
       await expect(page.getByRole("heading", { name: "Resultado do dia" })).toBeFocused();
       await expect(page.locator(".summary-rounds > li")).toHaveCount(3);
-      await expect(page.locator(".distribution > li")).toHaveCount(19);
+      await expect(page.locator(".distribution > li")).toHaveCount(bucketOf(DAY_MAX) + 1);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
       await expect(page.getByRole("button", { name: "Compartilhar resultado" })).toBeInViewport({
         ratio: 1,

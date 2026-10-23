@@ -70,7 +70,7 @@ test("jogar o Normal de 21/10 depois: o resumo sem estatísticas, o compartilhar
   await expect(page.getByRole("timer")).toHaveCount(0);
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toMatch(
-    /^AteMusic · Normal nº 14 \(jogado depois\)\n0\/18\n/,
+    /^AteMusic · Normal nº 14 \(jogado depois\)\n0\/30\n/,
   );
   // O registro gravado leva a marca (P267).
   const saved = await page.evaluate(
@@ -235,7 +235,7 @@ test("jogar o Anime de 21/10 depois: o cartão do dia, os modos com a data, o re
   await expect(page.getByRole("heading", { name: "Estatísticas" })).toHaveCount(0);
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toMatch(
-    /^AteMusic Anime · Música · Fácil nº 14 \(jogado depois\)\n0\/18\n/,
+    /^AteMusic Anime · Música · Fácil nº 14 \(jogado depois\)\n0\/30\n/,
   );
   const saved = await page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),

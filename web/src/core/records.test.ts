@@ -152,9 +152,9 @@ describe("FinishedGame", () => {
     ],
   };
 
-  it("pontos e máximo são derivados (12 com uma anulada)", () => {
-    expect(recordScore(game)).toBe(5);
-    expect(recordMax(game)).toBe(12);
+  it("pontos e máximo são derivados (20 com uma anulada)", () => {
+    expect(recordScore(game)).toBe(8);
+    expect(recordMax(game)).toBe(20);
   });
 
   it("o jogado depois (P268) leva `late: true`; o do dia, nenhum campo", () => {
@@ -271,7 +271,7 @@ describe("a ajuda no diário (P149)", () => {
       help: 3,
     });
     expect(recordScore(s.game)).toBe(0);
-    expect(recordMax(s.game)).toBe(12);
+    expect(recordMax(s.game)).toBe(20);
   });
 
   it("o resultado guarda quando a ajuda foi pedida, e a rodada vale 1 ponto", () => {
@@ -308,7 +308,8 @@ describe("a ajuda no diário (P149)", () => {
       attempts: ["skip", "skip", "skip"],
       help: 3,
     });
-    expect(recordScore(s.game)).toBe(1);
+    // A ajuda no trecho de 7 s (a etapa 3) vale a metade dele: 3 (ME107).
+    expect(recordScore(s.game)).toBe(3);
   });
 
   it("com pulos depois da ajuda (P163), o help é onde ela foi pedida, e não antes da opção", () => {
@@ -340,7 +341,8 @@ describe("a ajuda no diário (P149)", () => {
       attempts: ["skip", "skip", "skip", "skip"],
       help: 3,
     });
-    expect(recordScore(s.game)).toBe(1);
+    // O pulo depois da ajuda levou ao trecho de 11 s (a etapa 4): a metade dele, 2.
+    expect(recordScore(s.game)).toBe(2);
     // E o compartilhar: o 💡 antes do pulo; desistir depois dele fecha com ❌.
     expect(shareGrid(s.game, MODE_RULES.song)).toEqual(["⬛⬛⬛💡⬛✅", "❌", "⬛⬛⬛💡⬛❌"]);
   });

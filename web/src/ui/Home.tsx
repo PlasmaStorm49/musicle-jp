@@ -73,7 +73,7 @@ function animeCard(save: Save, date: string): Card {
 /** A linha da sessão, com o nome do artista na língua dele (ME68). */
 function artistsText(summary: ArtistSummary | null): ComponentChild {
   if (!summary) return null;
-  // O Superfan conta em músicas, como a partida: "-7 pontos em 2 músicas".
+  // O Superfan conta em músicas, como a partida: "16 pontos em 2 músicas".
   const around = summary.superfan
     ? tAround("home.artistsSuperfan", "artist", {
         points: tn("count.points", summary.score.points),
