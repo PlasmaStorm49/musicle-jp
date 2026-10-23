@@ -259,7 +259,11 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     };
     const { engine } = setup(game("album"), resolver);
     const waiting = screen.getByRole("button", { name: "Carregando…" });
-    expect(waiting.hasAttribute("disabled")).toBe(true);
+    // Só aria-disabled (ME37): o navegador não tira o foco dele, e o clique não toca nada.
+    expect(waiting.hasAttribute("disabled")).toBe(false);
+    expect(waiting.getAttribute("aria-disabled")).toBe("true");
+    fireEvent.click(waiting);
+    expect(engine.play).not.toHaveBeenCalled();
     expect(screen.getByRole("button", { name: /Álbum 1/ })).toBeTruthy(); // as opções já aparecem
     const url = "https://audio-ssl.itunes.apple.com/itunes-assets/x.m4a";
     await act(async () => deliver(url));

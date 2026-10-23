@@ -51,11 +51,12 @@ export function Player({
   //   fica com o foco no link, regra 16): o "Pular" pode ter sumido (última tentativa), e o passo
   //   natural é ouvir o trecho liberado (P46);
   // - "lost": quando o som começa (ou falha), só se o foco se perdeu. O "Ouvir mais" da última
-  //   etapa some, e o botão desabilitado no "Carregando…" o navegador joga no body; já o "Ouvir
-  //   mais" de uma etapa do meio continua na tela, e quem usa teclado aperta Enter de novo nele.
-  // Com a prévia ainda em busca o botão está desabilitado e não recebe foco: ele vai quando a
-  // URL chega (até 3 s depois), mas só se o jogador não foi para outro lugar enquanto isso (o
-  // campo de digitação, uma opção): o foco fica onde ele está.
+  //   etapa some, e o "Ouvir mais" desabilitado no "Carregando…" o navegador joga no body; já o
+  //   de uma etapa do meio continua na tela, e quem usa teclado aperta Enter de novo nele. O
+  //   Tocar, no "Carregando…", fica só `aria-disabled` (ME37): o foco não sai dele.
+  // Com a prévia ainda em busca, o foco vai ao botão quando a URL chega (até 3 s depois), mas só
+  // se o jogador não foi para outro lugar enquanto isso (o campo de digitação, uma opção): o foco
+  // fica onde ele está.
   const [focusPlay, setFocusPlay] = useState<"section" | "lost" | null>("section");
   const section = useRef<HTMLElement>(null);
   // Quem foi para outro link da nav enquanto a prévia chegava não é puxado de volta.
@@ -199,9 +200,13 @@ export function Player({
             ref={playButton}
             type="button"
             class="primary"
-            disabled={busy}
+            // Ocupado (a prévia buscando, o som começando): o aria-disabled, e não o disabled, que
+            // o navegador tiraria do foco e jogaria no body (ME37). O clique, então, não faz nada.
+            aria-disabled={busy ? "true" : undefined}
             // O 2º clique de um toque duplo no Parar (ou num botão da tela anterior) tocaria de novo.
-            onClick={singleClick(() => play(stage))}
+            onClick={singleClick(() => {
+              if (!busy) play(stage);
+            })}
           >
             {busy
               ? t("player.loading")

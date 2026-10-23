@@ -240,7 +240,9 @@ button {
   touch-action: manipulation;
 }
 
-button:disabled {
+/* O aria-disabled (o Tocar no "Carregando…", ME37) com a mesma cara do disabled: ele continua com o
+   foco. */
+button:is(:disabled, [aria-disabled="true"]) {
   cursor: default;
   opacity: 0.6;
 }
@@ -256,23 +258,23 @@ button.primary {
 
 /* Pressionado: um anel por dentro, sem mexer o botão (o translateY de antes podia perder o
    clique quando o botão descia sob o dedo). */
-button:active:not(:disabled) {
+button:active:not(:disabled, [aria-disabled="true"]) {
   background: var(--fill-press);
   box-shadow: inset 0 0 0 2px var(--text);
 }
 
-button.primary:active:not(:disabled) {
+button.primary:active:not(:disabled, [aria-disabled="true"]) {
   background: var(--primary-press);
   box-shadow: none;
 }
 
 /* Passar o mouse só onde há mouse: no celular, o hover fica preso depois do toque. */
 @media (hover: hover) {
-  button:hover:not(:disabled) {
+  button:hover:not(:disabled, [aria-disabled="true"]) {
     background: var(--fill-press);
   }
 
-  button.primary:hover:not(:disabled) {
+  button.primary:hover:not(:disabled, [aria-disabled="true"]) {
     background: var(--primary-hover);
   }
 }
