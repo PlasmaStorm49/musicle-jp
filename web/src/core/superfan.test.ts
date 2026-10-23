@@ -4,17 +4,22 @@ import { indexArtist } from "./catalog.ts";
 import { currentRound, type GameEvent } from "./reducer.ts";
 import { rulesOf } from "./rules.ts";
 import {
+  LIFE_BONUS,
   quitSuperfan,
+  SUPERFAN_LIVES,
   type SuperfanRun,
   startSuperfan,
+  superfanBonus,
   superfanErrors,
   superfanHelps,
+  superfanLives,
   superfanNext,
   superfanOffset,
   superfanOutcome,
   superfanOver,
   superfanScore,
   superfanStep,
+  superfanTotal,
 } from "./superfan.ts";
 import type { ArtistCatalog } from "./types.ts";
 
@@ -65,60 +70,63 @@ describe("startSuperfan", () => {
   });
 });
 
-describe("os pontos de cada música (P121, P119, P186)", () => {
+describe("os pontos de cada música (ME107)", () => {
   const start = () => startSuperfan(2, ar02, NONE);
 
   it.each([
-    ["na 1ª etapa", 0, 3],
-    ["na 2ª", 1, 2],
-    ["na 3ª", 2, 1],
-  ])("acertar %s vale %s pontos a menos (3, 2 e 1)", (_, skips, points) => {
+    ["no trecho de 1 s", 0, 10],
+    ["no de 4 s", 1, 6],
+    ["no de 9 s", 2, 4],
+  ])("acertar %s (%s pulos antes) vale %s", (_, skips, points) => {
     let run = start();
     run = step(run, ...Array.from({ length: skips }, () => SKIP));
     run = step(run, guess(answer(run)));
     expect(superfanScore(run).points).toBe(points);
   });
 
-  it("o palpite errado é um erro, −5, e passa para a etapa seguinte (P158)", () => {
+  it("o palpite errado custa uma vida, e não pontos, e passa para a etapa seguinte (P158)", () => {
     let run = step(start(), guess(wrong(start())));
     const game = run.session.game;
     expect(game && currentRound(game).status).toBe("playing");
     expect(game && currentRound(game).stage).toBe(1);
     expect(superfanErrors(run)).toBe(1);
-    expect(superfanScore(run).points).toBe(-5); // conta na hora
+    expect(superfanLives(run)).toBe(SUPERFAN_LIVES - 1);
+    expect(superfanScore(run).points).toBe(0);
     run = step(run, guess(answer(run)));
-    expect(superfanScore(run).points).toBe(-3); // −5 + 2
+    expect(superfanScore(run).points).toBe(6); // o acerto no trecho de 4 s
   });
 
-  it("a ajuda vale logo de cara (P159); acertar com ela vale 0 (P186)", () => {
+  it("a ajuda vale logo de cara (P159); acertar com ela vale a metade do trecho: 5 no 1 s", () => {
     let run = start();
     run = step(run, help(run));
     expect(superfanHelps(run)).toBe(1);
     run = step(run, guess(answer(run)));
-    expect(superfanScore(run).points).toBe(0);
+    expect(superfanScore(run).points).toBe(5);
   });
 
-  it("desistir é um erro e custa 5, como errar (P290)", () => {
+  it("desistir custa uma vida, como errar (P290), e vale 0", () => {
     const run = step(start(), GIVE_UP);
     const game = run.session.game;
     expect(game && currentRound(game)).toMatchObject({ status: "lost", gaveUp: true });
     expect(superfanErrors(run)).toBe(1);
-    expect(superfanScore(run).points).toBe(-5);
+    expect(superfanLives(run)).toBe(2);
+    expect(superfanScore(run).points).toBe(0);
   });
 
-  it("desistir depois de um erro: dois erros, −10 (P290)", () => {
+  it("desistir depois de um erro: duas vidas (P290)", () => {
     let run = step(start(), guess(wrong(start())));
     run = step(run, GIVE_UP);
     expect(superfanErrors(run)).toBe(2);
-    expect(superfanScore(run).points).toBe(-10);
+    expect(superfanLives(run)).toBe(1);
+    expect(superfanScore(run).points).toBe(0);
   });
 
-  it("desistir com a ajuda na tela também é erro: a ajuda não vira saída de graça", () => {
+  it("desistir com a ajuda na tela também custa a vida: a ajuda não vira saída de graça", () => {
     let run = start();
     run = step(run, help(run), GIVE_UP);
     expect(superfanHelps(run)).toBe(1);
     expect(superfanErrors(run)).toBe(1);
-    expect(superfanScore(run).points).toBe(-5);
+    expect(superfanScore(run).points).toBe(0);
   });
 
   it("desistir com 2 erros é o 3º: a partida acaba no fim da música (P290)", () => {
@@ -128,25 +136,72 @@ describe("os pontos de cada música (P121, P119, P186)", () => {
     run = next(run);
     run = step(run, GIVE_UP);
     expect(superfanErrors(run)).toBe(3);
+    expect(superfanLives(run)).toBe(0);
     expect(superfanOver(run)).toBe(true);
     expect(next(run).end).toBe("errors");
   });
 
-  it("errar com a ajuda é um erro (−5) e encerra a música (P151)", () => {
+  it("errar com a ajuda custa uma vida e encerra a música (P151)", () => {
     let run = start();
     run = step(run, help(run), guess(wrong(run)));
     const game = run.session.game;
     expect(game && currentRound(game).status).toBe("lost");
     expect(superfanErrors(run)).toBe(1);
-    expect(superfanScore(run).points).toBe(-5);
+    expect(superfanScore(run).points).toBe(0);
   });
 
-  it("pular a última etapa (a tela não oferece) é desistir: −5 e um erro (P290)", () => {
+  it("pular a última etapa (a tela não oferece) é desistir: uma vida (P290)", () => {
     const run = step(start(), SKIP, SKIP, SKIP);
     const game = run.session.game;
     expect(game && currentRound(game)).toMatchObject({ status: "lost", gaveUp: true });
-    expect(superfanScore(run).points).toBe(-5);
+    expect(superfanScore(run).points).toBe(0);
     expect(superfanErrors(run)).toBe(1);
+  });
+
+  it("o placar nunca fica negativo, com qualquer erro", () => {
+    let run = start();
+    run = step(run, guess(wrong(run)), GIVE_UP);
+    expect(superfanScore(run).points).toBe(0);
+    expect(superfanTotal(run)).toBe(0);
+  });
+});
+
+describe("as vidas e o bônus (ME107)", () => {
+  it("o bônus é só da partida completa: 5 por vida que sobrou", () => {
+    expect(SUPERFAN_LIVES).toBe(3);
+    expect(LIFE_BONUS).toBe(5);
+    // As 2 músicas do ar01 acertadas no 1 s: 20, e as 3 vidas, +15.
+    let run = startSuperfan(5, ar01, NONE);
+    run = step(run, guess(answer(run)));
+    run = next(run, ar01);
+    run = step(run, guess(answer(run)));
+    expect(superfanBonus(run)).toBe(0); // ainda em jogo
+    run = next(run, ar01);
+    expect(run.end).toBe("done");
+    expect(superfanBonus(run)).toBe(15);
+    expect(superfanTotal(run)).toBe(35);
+  });
+
+  it("uma vida perdida tira 5 do bônus", () => {
+    let run = startSuperfan(5, ar01, NONE);
+    run = step(run, guess(wrong(run, ar01)), guess(answer(run)));
+    run = next(run, ar01);
+    run = step(run, guess(answer(run)));
+    run = next(run, ar01);
+    expect(run.end).toBe("done");
+    expect(superfanScore(run).points).toBe(16); // 6 + 10
+    expect(superfanBonus(run)).toBe(10);
+    expect(superfanTotal(run)).toBe(26);
+  });
+
+  it("encerrar a partida não dá bônus, mesmo com vidas", () => {
+    let run = startSuperfan(5, ar01, NONE);
+    run = step(run, guess(answer(run)));
+    run = quitSuperfan(next(run, ar01));
+    expect(run.end).toBe("quit");
+    expect(superfanLives(run)).toBe(3);
+    expect(superfanBonus(run)).toBe(0);
+    expect(superfanTotal(run)).toBe(10);
   });
 });
 
@@ -162,13 +217,15 @@ describe("a partida (P119, P153)", () => {
     run = step(run, guess(wrong(run)));
     const game = run.session.game;
     expect(game && currentRound(game).status).toBe("lost"); // encerrada na hora
-    expect(game && currentRound(game).gaveUp).toBe(false); // quem encerrou foi a partida (P186)
+    expect(game && currentRound(game).gaveUp).toBe(false); // quem encerrou foi a partida
     expect(superfanOver(run)).toBe(true);
     run = next(run);
     expect(run.end).toBe("errors");
     expect(run.session.game).toBeNull();
     expect(run.right).toBe(1);
-    expect(superfanScore(run).points).toBe(1 - 15); // o acerto na 3ª etapa e 3 erros, sem os −2
+    // O acerto no trecho de 9 s: 4. Sem vidas, sem bônus.
+    expect(superfanScore(run).points).toBe(4);
+    expect(superfanTotal(run)).toBe(4);
   });
 
   it("no máximo 3 ajudas na partida: a 4ª não vale", () => {
@@ -193,26 +250,26 @@ describe("a partida (P119, P153)", () => {
     expect(new Set(seen).size).toBe(2);
     expect(run.end).toBe("done");
     expect(run.right).toBe(2);
-    expect(superfanScore(run)).toEqual({ points: 6, rounds: 2 });
+    expect(superfanScore(run)).toEqual({ points: 20, rounds: 2 });
   });
 
-  it("encerrar no meio da música: ela termina como desistida, e os erros dela contam, mas não os −2 de desistir (P186)", () => {
+  it("encerrar no meio da música: ela termina como desistida, e os erros dela contam, mas não a vida do desistir", () => {
     let run = startSuperfan(6, ar02, NONE);
     run = step(run, guess(wrong(run)));
     run = quitSuperfan(run);
     expect(run.end).toBe("quit");
     expect(run.errors).toBe(1);
-    expect(superfanScore(run)).toEqual({ points: -5, rounds: 1 });
+    expect(superfanScore(run)).toEqual({ points: 0, rounds: 1 });
     expect(superfanStep(run, SKIP)).toBe(run); // acabou: nada mais muda
   });
 
-  it("desistir e, com a revelação na tela, encerrar a partida: o erro e os −5 ficam (P290)", () => {
+  it("desistir e, com a revelação na tela, encerrar a partida: o erro fica (P290)", () => {
     let run = startSuperfan(6, ar02, NONE);
     run = step(run, GIVE_UP);
     run = quitSuperfan(run);
     expect(run.end).toBe("quit");
     expect(run.errors).toBe(1);
-    expect(superfanScore(run)).toEqual({ points: -5, rounds: 1 });
+    expect(superfanScore(run)).toEqual({ points: 0, rounds: 1 });
   });
 
   it("com a música em jogo, a próxima não sai", () => {
@@ -246,7 +303,7 @@ describe("a partida (P119, P153)", () => {
     expect(superfanOver(run)).toBe(true);
     run = next(run);
     expect(run.end).toBe("errors");
-    expect(superfanScore(run).points).toBe(1 - 15);
+    expect(superfanScore(run).points).toBe(4);
   });
 
   it("com uma música de fora (diário de hoje): ela e as do álbum dela não tocam, e a partida acaba nas outras", () => {
@@ -262,7 +319,7 @@ describe("a partida (P119, P153)", () => {
     }
     expect(run.end).toBe("done");
     expect(seen.sort()).toEqual([key("ふたりの約束"), key("真夜中の観覧車")].sort());
-    expect(superfanScore(run)).toEqual({ points: 6, rounds: 2 });
+    expect(superfanScore(run)).toEqual({ points: 20, rounds: 2 });
   });
 });
 
@@ -273,6 +330,9 @@ describe("a partida sem música", () => {
     expect(run.end).toBe("done");
     expect(run.session.game).toBeNull();
     expect(superfanScore(run)).toEqual({ points: 0, rounds: 0 });
+    // Termina "completa" e com as 3 vidas, mas sem música jogada não há bônus.
+    expect(superfanBonus(run)).toBe(0);
+    expect(superfanTotal(run)).toBe(0);
   });
 
   it("encerrar depois do 3º erro fecha a partida pelos erros, e não por encerrar", () => {
@@ -307,7 +367,7 @@ describe("superfanOutcome (o que o save guarda do fim, P285 e P289)", () => {
   it.each([
     ["um palpite errado", (run: SuperfanRun) => [guess(wrong(run, ar01))]],
     [
-      "a ajuda (vale 0)",
+      "a ajuda (vale a metade)",
       (run: SuperfanRun) => [
         { type: "HELP", options: [answer(run), wrong(run, ar01)] } as GameEvent,
       ],
@@ -324,7 +384,7 @@ describe("superfanOutcome (o que o save guarda do fim, P285 e P289)", () => {
     run = step(run, guess(answer(run)));
     run = next(run, ar01);
     expect(run.end).toBe("done");
-    expect(superfanScore(run)).toEqual({ points: 3, rounds: 1 });
+    expect(superfanScore(run)).toEqual({ points: 10, rounds: 1 });
     expect(superfanOutcome(run)).toEqual({ done: true, perfect: false });
   });
 

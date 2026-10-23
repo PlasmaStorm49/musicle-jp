@@ -499,7 +499,7 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     expect(screen.getByText(/^Escolha entre as opções: errar encerra a rodada/)).toBeTruthy();
   });
 
-  it("acertar com a ajuda vale 1 ponto; errar encerra a rodada com 0", async () => {
+  it("acertar com a ajuda vale a metade do trecho (ME107); errar encerra a rodada com 0", async () => {
     const { playing } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     await choose(/^夜風/);
@@ -508,8 +508,9 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     const answer = `Música ${playing()?.split(":").at(-1)}`;
     const right = [...options()].find((b) => b.textContent?.startsWith(answer));
     fireEvent.click(right as HTMLElement);
-    expect(screen.getByText("Acertou com ajuda: 1 ponto.")).toBeTruthy();
-    expect(score()).toBe("1 ponto em 1 rodada");
+    // No 2º trecho (2 s), o acerto vale 8; com a ajuda, a metade: 4.
+    expect(screen.getByText("Acertou com ajuda: 4 pontos.")).toBeTruthy();
+    expect(score()).toBe("4 pontos em 1 rodada");
 
     fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
     fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
@@ -518,7 +519,7 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     const wrong = [...options()].find((b) => !b.textContent?.startsWith(next));
     fireEvent.click(wrong as HTMLElement);
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
-    expect(score()).toBe("1 ponto em 2 rodadas");
+    expect(score()).toBe("4 pontos em 2 rodadas");
   });
 
   it("no Livre, desistir continua de graça: só o Superfan cobra (P186)", async () => {
@@ -547,7 +548,8 @@ describe("Artists: a ajuda (P149 a P152)", () => {
     expect([...options()].map((b) => b.textContent)).toEqual(before);
     const answer = `Música ${playing()?.split(":").at(-1)}`;
     fireEvent.click([...options()].find((b) => b.textContent?.startsWith(answer)) as HTMLElement);
-    expect(score()).toBe("1 ponto em 1 rodada"); // os pontos da ajuda, em qualquer etapa
+    // A ajuda vale a metade do trecho em que se acerta, para cima: no de 16 s (3), 2 (ME107).
+    expect(score()).toBe("2 pontos em 1 rodada");
   });
 
   it("voltar à aba com a ajuda já pedida deixa o foco ir ao Tocar (regra 16)", async () => {
@@ -665,7 +667,7 @@ describe("Artists: a escolha do modo (P161)", () => {
       "artist-mode-free-hint",
     );
     expect(screen.getByRole("button", { name: "Superfan" })).toBeTruthy();
-    expect(screen.getByText(/3 erros acabam a partida/)).toBeTruthy();
+    expect(screen.getByText(/São 3 vidas: cada erro e cada desistir custam uma/)).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "Voltar à lista" }));
     expect(title().textContent).toBe("Artistas");
   });
@@ -699,7 +701,7 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(title().textContent).toBe("夜風 · Yokaze · Superfan");
     expect(screen.getByText("Música 1")).toBeTruthy();
     expect(score()).toBe("Placar: 0 pontos");
-    expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 0 de 3");
+    expect(text(".superfan-limits")).toBe("Vidas: 3 de 3 · Ajudas: 0 de 3");
     expect(screen.getByRole("button", { name: "Pular (+3 s)" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Pedir ajuda" })).toBeTruthy();
     // O trecho começa num ponto sorteado da prévia de 30 s, até os 19 s, e os trechos seguintes
@@ -719,7 +721,7 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(vi.mocked(engine.play).mock.calls.at(-1)?.slice(1)).toEqual([expected, 4]);
   });
 
-  it("o palpite errado é um erro, −5, e passa para o trecho seguinte (P158)", async () => {
+  it("o palpite errado custa uma vida, e não pontos, e passa para o trecho seguinte (P158, ME107)", async () => {
     const { store } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     const input = await superfan(/^夜風/);
@@ -728,12 +730,12 @@ describe("Artists: o Superfan (ME61)", () => {
     const other = answer === "t:tr:2" ? "Música 3" : "Música 2";
     fireEvent.input(input, { target: { value: other } });
     fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
-    expect(text(".superfan-limits")).toBe("Erros: 1 de 3 · Ajudas: 0 de 3");
-    expect(score()).toBe("Placar: -5 pontos");
+    expect(text(".superfan-limits")).toBe("Vidas: 2 de 3 · Ajudas: 0 de 3");
+    expect(score()).toBe("Placar: 0 pontos");
     expect(screen.getByRole("button", { name: "Tocar 4 s" })).toBeTruthy();
   });
 
-  it("o 3º erro, na música seguinte, a revela na hora, e o resultado vem no lugar da próxima", async () => {
+  it("a 3ª vida perdida, na música seguinte, a revela na hora, e o resultado vem no lugar da próxima", async () => {
     const { store, engine } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     await superfan(/^夜風/);
@@ -747,31 +749,36 @@ describe("Artists: o Superfan (ME61)", () => {
       fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
     };
     const songs = ["t:tr:1", "t:tr:2", "t:tr:3"];
-    // 1ª música: os dois errados e o acerto, na 3ª etapa.
+    // 1ª música: os dois errados e o acerto, na 3ª etapa (9 s): 4 pontos, e as vidas à parte.
     for (const id of songs.filter((id) => id !== answer())) pick(id);
     pick(answer());
-    expect(screen.getByText("Acertou! 1 de 3 pontos.")).toBeTruthy();
-    expect(screen.getByText("2 erros: -10 pontos.")).toBeTruthy();
+    expect(screen.getByText("Acertou! 4 de 10 pontos.")).toBeTruthy();
+    // Errar não tira pontos (ME107): a revelação não tem mais a conta dos erros.
+    expect(document.querySelector(".reveal-errors")).toBeNull();
+    expect(text(".superfan-limits")).toBe("Vidas: 1 de 3 · Ajudas: 0 de 3");
     fireEvent.click(screen.getByRole("button", { name: "Próxima música" }));
     await screen.findByRole("combobox", { name: "Qual é a música?" });
-    // 2ª música: o 3º erro encerra a música na hora.
+    // 2ª música: a última vida encerra a música na hora.
     pick(songs.find((id) => id !== answer()) ?? "");
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
-    expect(screen.getByText("1 erro: -5 pontos.")).toBeTruthy();
-    // Quem encerrou foi a partida, e não a pessoa: nada de "Desistiu" (P186).
-    expect(screen.queryByText(/^Desistiu/)).toBeNull();
+    expect(text(".superfan-limits")).toBe("Vidas: 0 de 3 · Ajudas: 0 de 3");
+    // Quem encerrou foi a partida, e não a pessoa: o desistir forçado não conta (P290).
+    const game = run(store).session.game;
+    expect(game && currentRound(game).gaveUp).toBe(false);
     // A revelação diz que a partida acabou, e o motor só guarda o áudio desta música: o da
     // seguinte, que não vai tocar, sai.
-    expect(screen.getByText("3 erros: a partida acabou. Veja o resultado.")).toBeTruthy();
+    expect(screen.getByText("As 3 vidas acabaram. Veja o resultado.")).toBeTruthy();
     const current = `/audio/${answer().split(":").at(-1)}.wav`;
     await waitFor(() => expect(vi.mocked(engine.retain).mock.calls.at(-1)?.[0]).toEqual([current]));
     fireEvent.click(screen.getByRole("button", { name: "Ver resultado" }));
-    expect(screen.getByText("3 erros: a partida acabou.")).toBeTruthy();
-    expect(score()).toBe("Placar: -14 pontos"); // 1 − 10 − 5
+    expect(screen.getByText("As 3 vidas acabaram: a partida acabou.")).toBeTruthy();
+    // Sem vida no fim, nenhum bônus: o placar é o das músicas (4 + 0).
+    expect(score()).toBe("Placar: 4 pontos");
+    expect(screen.queryByText(/^Bônus/)).toBeNull();
     expect(screen.getByText("Acertou 1 de 2 músicas.")).toBeTruthy();
   });
 
-  it("o palpite errado anuncia o erro da partida; o 3º, que encerra a música, não promete outra tentativa", async () => {
+  it("o palpite errado anuncia a vida perdida; o que leva a última, e encerra a música, não promete outra tentativa", async () => {
     const { store, announce } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     await superfan(/^夜風/);
@@ -787,9 +794,12 @@ describe("Artists: o Superfan (ME61)", () => {
     const [w1, w2] = songs.filter((id) => id !== answer());
     pick(w1 ?? "");
     expect(announce).toHaveBeenLastCalledWith(
-      expect.stringMatching(/Tentativa 2 de 3\. Erro 1 de 3: -5 pontos\.$/),
+      expect.stringMatching(/Tentativa 2 de 3\. Perdeu uma vida\. Sobram 2\.$/),
     );
     pick(w2 ?? "");
+    expect(announce).toHaveBeenLastCalledWith(
+      expect.stringMatching(/Tentativa 3 de 3\. Perdeu uma vida\. Sobra 1\.$/),
+    );
     pick(answer());
     fireEvent.click(screen.getByRole("button", { name: "Próxima música" }));
     await screen.findByRole("combobox", { name: "Qual é a música?" });
@@ -798,15 +808,15 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
     // A revelação se anuncia sozinha: nada de "Tentativa 2 de 3" para uma música encerrada.
     expect(announce).not.toHaveBeenCalledWith(expect.stringMatching(/Tentativa/));
-    // E encerrar a partida agora é o fim por erros. O botão é curto na tela (P210).
+    // E encerrar a partida agora é o fim pelas vidas. O botão é curto na tela (P210).
     const quit = screen.getByRole("button", { name: "Encerrar a partida" });
     expect(quit.querySelector('[aria-hidden="true"]')?.textContent).toBe("Encerrar");
     fireEvent.click(quit);
     fireEvent.click(screen.getByRole("button", { name: "Sim, encerrar" }));
-    expect(screen.getByText("3 erros: a partida acabou.")).toBeTruthy();
+    expect(screen.getByText("As 3 vidas acabaram: a partida acabou.")).toBeTruthy();
   });
 
-  it("a ajuda nunca mostra a resposta de um diário pendente, e a dica diz quanto custa errar", async () => {
+  it("a ajuda nunca mostra a resposta de um diário pendente, e a dica diz que errar custa uma vida", async () => {
     // Hoje a faixa 1 é a resposta dos diários: a partida e a ajuda ficam com as faixas 2 e 3.
     setup(today);
     await screen.findByRole("heading", { name: "Artistas" });
@@ -815,15 +825,18 @@ describe("Artists: o Superfan (ME61)", () => {
     const list = screen.getByRole("list", { name: "Opções da ajuda" });
     expect(list.querySelectorAll("button")).toHaveLength(2); // a resposta e a outra que sobrou
     expect(list.textContent).not.toContain("Música 1");
+    // No 1º trecho, o acerto vale 10; com a ajuda, a metade (ME107). A dica curta na tela; a
+    // inteira, para o leitor de tela (P210).
+    expect(screen.getByText("Errar custa uma vida; acertar vale 5 pontos.")).toBeTruthy();
     expect(
       screen.getByText(
-        "Escolha entre as opções: errar encerra a rodada e vale -5 pontos, e acertar vale 0 pontos.",
+        "Escolha entre as opções: errar encerra a música e custa uma vida, e acertar vale 5 pontos.",
       ),
     ).toBeTruthy();
-    expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 1 de 3");
+    expect(text(".superfan-limits")).toBe("Vidas: 3 de 3 · Ajudas: 1 de 3");
   });
 
-  it("com a ajuda, o Pular aumenta o trecho sem contar erro, e a 3ª tentativa fica para a opção (P163)", async () => {
+  it("com a ajuda, o Pular aumenta o trecho sem custar vida, e a 3ª tentativa fica para a opção (P163)", async () => {
     const { store, announce } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     await superfan(/^夜風/);
@@ -834,7 +847,7 @@ describe("Artists: o Superfan (ME61)", () => {
     fireEvent.click(screen.getByRole("button", { name: "Pular (+5 s)" }));
     expect(screen.getByRole("button", { name: "Tocar 9 s" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /^Pular/ })).toBeNull();
-    expect(text(".superfan-limits")).toBe("Erros: 0 de 3 · Ajudas: 1 de 3");
+    expect(text(".superfan-limits")).toBe("Vidas: 3 de 3 · Ajudas: 1 de 3");
     expect(score()).toBe("Placar: 0 pontos");
     const game = run(store).session.game;
     const answer = `Música ${game ? currentRound(game).trackId.split(":").at(-1) : ""}`;
@@ -843,7 +856,8 @@ describe("Artists: o Superfan (ME61)", () => {
       b.textContent?.startsWith(answer),
     );
     fireEvent.click(right as HTMLElement);
-    expect(screen.getByText("Acertou com ajuda: 0 pontos.")).toBeTruthy();
+    // No 3º trecho (9 s), o acerto vale 4; com a ajuda, a metade (ME107).
+    expect(screen.getByText("Acertou com ajuda: 2 pontos.")).toBeTruthy();
   });
 
   it("toque duplo no cartão do Superfan: o 2º clique não toca nem pula", async () => {
@@ -869,18 +883,19 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(screen.queryByRole("button", { name: "Desistir" })).toBeNull();
   });
 
-  it("desistir da música é um erro e custa 5 pontos, e a revelação diz isso à parte (P290)", async () => {
+  it("desistir da música custa uma vida, e não pontos (P290, ME107)", async () => {
     setup();
     await screen.findByRole("heading", { name: "Artistas" });
     await superfan(/^夜風/);
     fireEvent.click(screen.getByRole("button", { name: "Desistir da música" }));
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
-    expect(screen.getByText("Desistiu: -5 pontos.")).toBeTruthy();
-    expect(score()).toBe("Placar: -5 pontos");
-    expect(text(".superfan-limits")).toBe("Erros: 1 de 3 · Ajudas: 0 de 3");
+    // A revelação não tem mais a conta do desistir: a vida fica no cabeçalho.
+    expect(document.querySelector(".reveal-errors")).toBeNull();
+    expect(score()).toBe("Placar: 0 pontos");
+    expect(text(".superfan-limits")).toBe("Vidas: 2 de 3 · Ajudas: 0 de 3");
   });
 
-  it("encerrar a partida pergunta antes, com erro cometido; o fim mostra o motivo e o placar", async () => {
+  it("encerrar a partida pergunta antes, com uma vida perdida; o fim mostra o motivo e o placar, sem bônus", async () => {
     const { store } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     const input = await superfan(/^Banda/);
@@ -891,13 +906,15 @@ describe("Artists: o Superfan (ME61)", () => {
     fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
     fireEvent.click(screen.getByRole("button", { name: "Encerrar a partida" }));
     expect(
-      screen.getByRole("dialog", { name: "Encerrar a partida? O placar fica em -5 pontos." }),
+      screen.getByRole("dialog", { name: "Encerrar a partida? O placar fica em 0 pontos." }),
     ).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "Sim, encerrar" }));
     const end = screen.getByRole("heading", { level: 1, name: "Fim da partida" });
     await waitFor(() => expect(document.activeElement).toBe(end));
     expect(screen.getByText("Você encerrou a partida.")).toBeTruthy();
-    expect(score()).toBe("Placar: -5 pontos");
+    // Encerrar não dá o bônus das vidas que sobraram (ME107).
+    expect(score()).toBe("Placar: 0 pontos");
+    expect(screen.queryByText(/^Bônus/)).toBeNull();
     expect(screen.getByText("Acertou 0 de 1 música.")).toBeTruthy();
 
     fireEvent.click(screen.getByRole("button", { name: "Jogar de novo" }));
@@ -908,7 +925,7 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(title().textContent).toBe("Artistas");
   });
 
-  it("acertar todas: a partida acaba, com os acertos", async () => {
+  it("acertar todas: a partida acaba completa, com os acertos e o bônus das vidas (ME107)", async () => {
     const { store } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     let input = await superfan(/^Banda/);
@@ -917,14 +934,16 @@ describe("Artists: o Superfan (ME61)", () => {
       const answer = game ? currentRound(game).trackId : "";
       fireEvent.input(input, { target: { value: `Música ${answer.split(":").at(-1)}` } });
       fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
-      expect(screen.getByText("Acertou! 3 de 3 pontos.")).toBeTruthy();
+      expect(screen.getByText("Acertou! 10 de 10 pontos.")).toBeTruthy();
       fireEvent.click(
         screen.getByRole("button", { name: i === 0 ? "Próxima música" : "Ver resultado" }),
       );
       if (i === 0) input = await screen.findByRole("combobox", { name: "Qual é a música?" });
     }
     expect(screen.getByText("Todas as músicas da partida tocaram.")).toBeTruthy();
-    expect(score()).toBe("Placar: 6 pontos");
+    // O placar do fim já soma o bônus: 10 + 10 das músicas e 5 por vida que sobrou.
+    expect(score()).toBe("Placar: 35 pontos");
+    expect(screen.getByText("Bônus de 3 vidas que sobraram: 15 pontos.")).toBeTruthy();
     expect(screen.getByText("Acertou 2 de 2 músicas.")).toBeTruthy();
   });
 });
@@ -983,13 +1002,13 @@ describe("Artists: o que vai para o save (P289)", () => {
     expect(saved().artists).toEqual({ "t:ar:2": { right: 2, done: true, perfect: true } });
   });
 
-  it("o Superfan que acaba no 3º erro não termina; o Jogar de novo conta a partida nova à parte", async () => {
+  it("o Superfan que acaba ao perder as 3 vidas não termina; o Jogar de novo conta a partida nova à parte", async () => {
     const { store, saved, record } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     fireEvent.click(card(/^夜風/));
     fireEvent.click(await screen.findByRole("button", { name: "Superfan" }));
     await screen.findByRole("combobox", { name: "Qual é a música?" });
-    // 3 desistências são 3 erros (P290): a partida acaba, sem o fim.
+    // 3 desistências custam as 3 vidas (P290): a partida acaba, sem o fim.
     for (let i = 0; i < 3; i++) {
       fireEvent.click(screen.getByRole("button", { name: "Desistir da música" }));
       fireEvent.click(
@@ -997,7 +1016,7 @@ describe("Artists: o que vai para o save (P289)", () => {
       );
       if (i < 2) await screen.findByRole("combobox", { name: "Qual é a música?" });
     }
-    expect(screen.getByText("3 erros: a partida acabou.")).toBeTruthy();
+    expect(screen.getByText("As 3 vidas acabaram: a partida acabou.")).toBeTruthy();
     expect(saved().artists).toEqual({});
     const before = record.mock.calls.length;
     fireEvent.click(screen.getByRole("button", { name: "Jogar de novo" }));

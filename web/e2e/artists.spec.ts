@@ -56,7 +56,7 @@ test("Artistas: a lista na ordem, a busca só pelo título e um ciclo sem repeti
   const field = page.getByRole("combobox", { name: "Qual é a música?" });
   await expect(field).toHaveAttribute("placeholder", "Nome da música");
 
-  // 1ª rodada: o nome do artista não acha nada; o título acha, e o acerto vale 6.
+  // 1ª rodada: o nome do artista não acha nada; o título acha, e o acerto vale 10.
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
   const first = await lastPlayed(page);
   test.info().annotations.push({ type: "faixa sorteada", description: first.id });
@@ -64,8 +64,8 @@ test("Artistas: a lista na ordem, a busca só pelo título e um ciclo sem repeti
   await expect(page.getByText("Nada encontrado.").first()).toBeVisible();
   await field.fill(first.title);
   await page.getByRole("option").filter({ hasText: first.title }).first().click();
-  await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
-  await expect(page.getByText("6 pontos em 1 rodada", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
+  await expect(page.getByText("10 pontos em 1 rodada", { exact: true })).toBeVisible();
   // O acerto vai para o save (P289), pelas medalhas: o App grava pelo updateSave.
   const right = () =>
     page.evaluate(
@@ -87,7 +87,7 @@ test("Artistas: a lista na ordem, a busca só pelo título e um ciclo sem repeti
   expect([...played].sort()).toEqual([...songs].sort());
   expect(await right()).toBe(1); // desistir não é acerto
   await expect(
-    page.getByText(`6 pontos em ${songs.length} rodadas`, { exact: true }),
+    page.getByText(`10 pontos em ${songs.length} rodadas`, { exact: true }),
   ).toBeVisible();
 });
 
@@ -191,7 +191,7 @@ test("toque duplo num artista, no Livre e no Superfan, no celular: cada um abre 
   expect(await page.evaluate(() => window.__musicleAudioLog?.length ?? 0)).toBe(0);
 });
 
-test("Superfan: o trecho de 1 s sorteado na prévia, o erro que custa 5 e o fim da partida (ME61)", async ({
+test("Superfan: o trecho de 1 s sorteado na prévia, o erro que custa uma vida e o fim da partida (ME61, ME107)", async ({
   page,
 }) => {
   await open(page, DAY, "#artistas");
@@ -199,7 +199,7 @@ test("Superfan: o trecho de 1 s sorteado na prévia, o erro que custa 5 e o fim 
   await page.getByRole("button", { name: /^夜風シアター/ }).click();
   await page.getByRole("button", { name: "Superfan" }).click();
   await expect(title).toHaveText("夜風シアター · Yokaze Theater · Superfan");
-  await expect(page.locator(".superfan-limits")).toHaveText("Erros: 0 de 3 · Ajudas: 0 de 3");
+  await expect(page.locator(".superfan-limits")).toHaveText("Vidas: 3 de 3 · Ajudas: 0 de 3");
   await expect(page.getByRole("button", { name: /^Pedir ajuda/ })).toBeVisible(); // logo de cara
 
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
@@ -209,14 +209,14 @@ test("Superfan: o trecho de 1 s sorteado na prévia, o erro que custa 5 e o fim 
   expect(offset).toBeGreaterThanOrEqual(0);
   expect(offset).toBeLessThanOrEqual(19);
 
-  // Um palpite errado: −5, um erro, e o trecho de 4 s (P158).
+  // Um palpite errado: uma vida, nenhum ponto, e o trecho de 4 s (P158).
   const other = artistFile("ar02.json").tracks.find((t) => t.id !== played.id);
   if (!other) throw new Error("ar02 sem outra música");
   const field = page.getByRole("combobox", { name: "Qual é a música?" });
   await field.fill(other.title);
   await page.getByRole("option").filter({ hasText: other.title }).first().click();
-  await expect(page.locator(".superfan-limits")).toHaveText("Erros: 1 de 3 · Ajudas: 0 de 3");
-  await expect(page.getByText("Placar: -5 pontos", { exact: true })).toBeVisible();
+  await expect(page.locator(".superfan-limits")).toHaveText("Vidas: 2 de 3 · Ajudas: 0 de 3");
+  await expect(page.getByText("Placar: 0 pontos", { exact: true })).toBeVisible();
   // O trecho de 4 s da mesma música começa no mesmo ponto sorteado.
   await page.getByRole("button", { name: "Tocar 4 s" }).click();
   await expect
@@ -231,7 +231,7 @@ test("Superfan: o trecho de 1 s sorteado na prévia, o erro que custa 5 e o fim 
   await expect(title).toHaveText("Fim da partida");
   await expect(title).toBeFocused();
   await expect(page.getByText("Você encerrou a partida.")).toBeVisible();
-  await expect(page.getByText("Placar: -5 pontos", { exact: true })).toBeVisible();
+  await expect(page.getByText("Placar: 0 pontos", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Trocar de artista" }).click();
   await expect(title).toHaveText("Artistas");
 });

@@ -62,8 +62,8 @@ describe("dailyStatus (cartões da home)", () => {
     expect(dailyStatus(done, day, DATE, "song")).toEqual({
       kind: "done",
       number: day.number,
-      score: 11,
-      max: 18,
+      score: 18,
+      max: 30,
       late: false,
     });
   });
@@ -137,7 +137,7 @@ describe("statusOf e firstToPlay (os cartões do Anime, pelo descritor)", () => 
     const playing = save({ inProgress: { [facil.id]: { events: [{ type: "SKIP" }] } } });
     expect(statusOf(playing, facil)).toEqual({ kind: "playing", number: animeDay.number });
     const done = save({ history: { [facil.id]: finished } });
-    expect(statusOf(done, facil)).toMatchObject({ kind: "done", score: 11, max: 18 });
+    expect(statusOf(done, facil)).toMatchObject({ kind: "done", score: 18, max: 30 });
     // O mesmo dia nos Hits não conta: o id é outro.
     expect(statusOf(save({ history: { [puzzleId(DATE, "song")]: finished } }), facil).kind).toBe(
       "new",
@@ -234,10 +234,10 @@ describe("practiceSummary (cartão do Treino)", () => {
     const won = reduce(game, { type: "GUESS", guessId: round.correctOptionId });
     expect(practiceSummary({ ...session, game: won })).toEqual({
       target: "album",
-      score: { points: 6, rounds: 1 },
+      score: { points: 10, rounds: 1 },
     });
     const later = { ...session, score: { points: 11, rounds: 3 }, game: won };
-    expect(practiceSummary(later)?.score).toEqual({ points: 17, rounds: 4 });
+    expect(practiceSummary(later)?.score).toEqual({ points: 21, rounds: 4 });
   });
 
   it("o modo é o da sessão: no Desafio, song", () => {

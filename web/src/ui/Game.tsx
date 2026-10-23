@@ -15,7 +15,7 @@ import {
   withProgress,
 } from "../core/records.ts";
 import { type GameEvent, type GameState, isFinished, reduce } from "../core/reducer.ts";
-import { HELP_AFTER, ROUNDS_PER_DAY } from "../core/rules.ts";
+import { ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
@@ -201,11 +201,11 @@ function Playing({
   const [summary, setSummary] = useState<FinishedGame | null>(null);
   const { game } = played;
   const isLast = game.current === game.rounds.length - 1;
-  // A ajuda do Desafio só depois da 3ª tentativa gasta (P149), e nunca com uma resposta do dia
-  // (as dos dois diários) nem, num dia passado, uma de hoje; e as mesmas ao recarregar (helpSeed e
-  // o evento salvo).
+  // A ajuda do Desafio depois da 1ª tentativa gasta (ME107; antes, a 3ª, P149), e nunca com uma
+  // resposta do dia (as dos dois diários) nem, num dia passado, uma de hoje; e as mesmas ao
+  // recarregar (helpSeed e o evento salvo).
   const help = useMemo<HelpSetup>(
-    () => ({ after: HELP_AFTER.daily, avoid: answerKeysOf([daily, ...todayDailies], index) }),
+    () => ({ avoid: answerKeysOf([daily, ...todayDailies], index) }),
     [daily, todayDailies, index],
   );
 

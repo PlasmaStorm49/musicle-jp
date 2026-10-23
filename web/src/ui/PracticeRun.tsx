@@ -10,7 +10,6 @@ import {
   practiceScore,
 } from "../core/practice.ts";
 import { currentRound, type GameEvent, reduce } from "../core/reducer.ts";
-import { HELP_AFTER } from "../core/rules.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
 import { FocusedNotice } from "./FocusedNotice.tsx";
@@ -117,10 +116,7 @@ export function PracticeRun({
   const score = practiceScore(session.score, game);
   // A ajuda depois da 1ª tentativa (P149, P150), sem nunca mostrar uma resposta de hoje.
   const seed = session.practice.seed;
-  const help = useMemo<HelpSetup>(
-    () => ({ after: HELP_AFTER.practice, avoid: excluded, session: seed }),
-    [excluded, seed],
-  );
+  const help = useMemo<HelpSetup>(() => ({ avoid: excluded, session: seed }), [excluded, seed]);
 
   return (
     <div class="game practice screen">

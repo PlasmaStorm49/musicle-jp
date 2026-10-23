@@ -23,7 +23,7 @@ test("Normal: do Tocar ao compartilhar", async ({ page }) => {
   // Rodada 1: acerta de primeira (6 pontos).
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
   await option(page, albumOf(await lastPlayed(page)).title).click();
-  await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
   // Rodada 2: não sabe.
@@ -47,13 +47,13 @@ test("Normal: do Tocar ao compartilhar", async ({ page }) => {
     )
     .toBeLessThanOrEqual(0.5);
   await option(page, albumOf(await lastPlayed(page)).title).click();
-  await expect(page.getByRole("heading", { name: "Acertou! 5 de 6 pontos." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 8 de 10 pontos." })).toBeVisible();
   await page.getByRole("button", { name: "Ver resultado" }).click();
 
-  await expect(page.getByText("11 de 18 pontos")).toBeVisible();
+  await expect(page.getByText("18 de 30 pontos")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toBe(
-    "AteMusic · Normal nº 1\n11/18\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
+    "AteMusic · Normal nº 1\n18/30\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
   );
   // Só um diário terminado: o ✓ da aba Hits espera os dois (P227).
   await expect(hitsTab(page)).toHaveAccessibleName("Hits");
@@ -61,7 +61,7 @@ test("Normal: do Tocar ao compartilhar", async ({ page }) => {
   // A home mostra o dia terminado, com os pontos, no cartão dos Hits.
   await page.getByRole("link", { name: "Início" }).click();
   await expect(page.getByRole("main").getByRole("link", { name: /^Hits/ })).toContainText(
-    "Normal: terminado, 11 de 18 pontos",
+    "Normal: terminado, 18 de 30 pontos",
   );
 });
 
@@ -78,7 +78,7 @@ test("Desafio: digita o nome da música e acerta", async ({ page }) => {
     .filter({ hasText: track.artistDisplay })
     .first()
     .click();
-  await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
 });
 
 test("Desafio: recarregar no meio retoma as tentativas", async ({ page }) => {
@@ -103,22 +103,20 @@ test("trocar de aba limpa o aviso do leitor de tela da aba de antes (ME76)", asy
   await open(page, "2026-10-09T10:00:00-03:00", "#desafio");
   const live = page.locator(".sr-only[aria-live]");
   await page.getByRole("button", { name: "Pular (+1 s)" }).click();
-  await expect(live).toHaveText("Pulou. Tentativa 2 de 6.");
+  await expect(live).toHaveText(/^Pulou\. Tentativa 2 de 6\./);
   // Na Início, o texto do pulo não pode continuar lá: o leitor de tela poderia relê-lo.
   await page.getByRole("link", { name: "Início" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeFocused();
   await expect(live).toHaveText("");
 });
 
-test("Desafio: a ajuda só depois da 3ª tentativa, volta igual ao recarregar e vale 1 ponto (P149)", async ({
+test("Desafio: a ajuda depois da 1ª tentativa (ME107), volta igual ao recarregar e vale a metade do trecho", async ({
   page,
 }) => {
   await open(page, "2026-10-09T10:00:00-03:00", "#desafio");
   const help = page.getByRole("button", { name: "Pedir ajuda", exact: true });
-  for (let i = 0; i < 3; i++) {
-    await expect(help).toHaveCount(0);
-    await page.getByRole("button", { name: /^Pular/ }).click();
-  }
+  await expect(help).toHaveCount(0);
+  await page.getByRole("button", { name: /^Pular/ }).click();
   // Sem pontos no botão, e o "Desistir" do outro lado, longe dele (ME71): um toque não cai no
   // botão errado.
   const helpBox = await help.boundingBox();
@@ -146,18 +144,19 @@ test("Desafio: a ajuda só depois da 3ª tentativa, volta igual ao recarregar e 
 
   // Com a ajuda, o Pular continua (P163): o trecho cresce, e as opções ficam as mesmas, também
   // depois de recarregar (o SKIP depois do HELP refaz a rodada igual).
-  await page.getByRole("button", { name: "Pular (+4 s)" }).click();
-  await expect(page.getByRole("button", { name: "Tocar 11 s" })).toBeVisible();
+  await page.getByRole("button", { name: "Pular (+2 s)" }).click();
+  await expect(page.getByRole("button", { name: "Tocar 4 s" })).toBeVisible();
   await expect.poll(lastEvent).toBe("SKIP");
   await page.reload();
   await expect(options).toHaveText(shown);
-  await expect(page.getByRole("button", { name: "Tocar 11 s" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Tocar 4 s" })).toBeVisible();
 
   // A faixa certa sai do que tocou (o motor falso registra), como nos outros testes.
   await page.getByRole("button", { name: /^Tocar/ }).click();
   const track = await lastPlayed(page);
   await options.filter({ hasText: track.title }).first().click();
-  await expect(page.getByRole("heading", { name: "Acertou com ajuda: 1 ponto." })).toBeVisible();
+  // No trecho de 4 s, o acerto vale 6, e com a ajuda, 3.
+  await expect(page.getByRole("heading", { name: "Acertou com ajuda: 3 pontos." })).toBeVisible();
 });
 
 test("áudio indisponível anula a rodada, que fica fora da conta", async ({ page }) => {
@@ -175,7 +174,7 @@ test("áudio indisponível anula a rodada, que fica fora da conta", async ({ pag
     await page.getByRole("button", { name: next }).click();
   }
   await expect(page.getByText("Rodada 1: anulada")).toBeVisible();
-  await expect(page.getByText("0 de 12 pontos")).toBeVisible();
+  await expect(page.getByText("0 de 20 pontos")).toBeVisible();
 });
 
 test("Normal no celular: toque duplo em Próxima rodada não gasta a rodada seguinte (ME43)", async ({

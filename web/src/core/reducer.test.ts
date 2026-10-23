@@ -83,7 +83,7 @@ describe("createGame", () => {
     const one: GameState = { ...normal(), rounds: createRounds([day.album[0]], "album", index) };
     const done = play(one, { type: "GUESS", guessId: right(one) });
     expect(isFinished(done)).toBe(true);
-    expect(roundScore(round(done))).toBe(6);
+    expect(roundScore(round(done))).toBe(10);
     expect(reduce(done, { type: "NEXT_ROUND" })).toBe(done);
   });
 
@@ -116,11 +116,11 @@ describe("Normal (4 opções)", () => {
     expect(secondsAt(round(game).stage)).toBe(4);
   });
 
-  it("acertar encerra com 6 menos a etapa", () => {
+  it("acertar encerra com os pontos do trecho: depois de ouvir mais (2 s), 8 (ME107)", () => {
     const start = normal();
     const game = play(start, { type: "LISTEN_MORE" }, { type: "GUESS", guessId: right(start) });
     expect(round(game).status).toBe("won");
-    expect(roundScore(round(game))).toBe(5);
+    expect(roundScore(round(game), MODE_RULES.album)).toBe(8);
   });
 
   it("errar encerra a rodada com 0", () => {
@@ -137,20 +137,22 @@ describe("Normal (4 opções)", () => {
     expect(roundScore(round(game))).toBe(0);
   });
 
-  it("desistir custa os giveUpPoints das regras; o fim forçado (forced) não custa (P186, P290)", () => {
+  it("desistir marca o gaveUp (a vida do Superfan, P290); o fim forçado (forced), não", () => {
     const gaveUp = round(reduce(normal(), { type: "GIVE_UP" }));
     const forced = round(reduce(normal(), { type: "GIVE_UP", forced: true }));
+    expect(gaveUp).toMatchObject({ status: "lost", gaveUp: true });
     expect(forced).toMatchObject({ status: "lost", gaveUp: false });
-    expect(roundScore(gaveUp, VARIANT_RULES.superfan)).toBe(-5);
-    expect(roundScore(forced, VARIANT_RULES.superfan)).toBe(0);
-    expect(roundScore(gaveUp, MODE_RULES.song)).toBe(0);
   });
 
-  it("perder sem desistir (errar) nunca cobra os giveUpPoints", () => {
+  it("errar e desistir valem 0 em todo modo: o placar nunca fica negativo (ME107)", () => {
     const start = normal();
     const lost = round(reduce(start, { type: "GUESS", guessId: wrongOption(start) }));
+    const gaveUp = round(reduce(normal(), { type: "GIVE_UP" }));
     expect(lost.gaveUp).toBe(false);
-    expect(roundScore(lost, { ...MODE_RULES.album, giveUpPoints: -2 })).toBe(0);
+    for (const rules of [MODE_RULES.album, MODE_RULES.song, VARIANT_RULES.superfan]) {
+      expect(roundScore(lost, rules)).toBe(0);
+      expect(roundScore(gaveUp, rules)).toBe(0);
+    }
   });
 
   it("anular (falha de áudio) encerra como void", () => {
@@ -231,10 +233,10 @@ describe("Desafio (digitação)", () => {
   it("outra versão da mesma música conta como acerto", () => {
     const game = reduce(desafio(), { type: "GUESS", guessId: "fixture:tr:tr02" });
     expect(round(game).status).toBe("won");
-    expect(roundScore(round(game))).toBe(6);
+    expect(roundScore(round(game))).toBe(10);
   });
 
-  it("errar e pular avançam a etapa; acertar na 3ª tentativa vale 4", () => {
+  it("errar e pular avançam a etapa; acertar na 3ª tentativa (4 s) vale 6", () => {
     const game = play(
       desafio(),
       { type: "GUESS", guessId: "fixture:tr:tr21" },
@@ -243,7 +245,7 @@ describe("Desafio (digitação)", () => {
     );
     expect(round(game).attempts).toHaveLength(3);
     expect(round(game).status).toBe("won");
-    expect(roundScore(round(game))).toBe(4);
+    expect(roundScore(round(game))).toBe(6);
   });
 
   it("a 6ª tentativa errada encerra com 0", () => {
@@ -270,10 +272,11 @@ describe("ajuda do Desafio (P149 a P152)", () => {
     expect(round(game).status).toBe("playing");
   });
 
-  it("acertar com a ajuda vale 1 ponto, em qualquer etapa (P152)", () => {
+  it("acertar com a ajuda vale a metade do trecho em que se acerta: no de 2 s, 4 (ME107)", () => {
     const game = reduce(helped(), { type: "GUESS", guessId: "fixture:tr:tr02" });
     expect(round(game).status).toBe("won");
-    expect(roundScore(round(game))).toBe(1);
+    expect(round(game).stage).toBe(1);
+    expect(roundScore(round(game))).toBe(4);
   });
 
   it("errar com a ajuda encerra a rodada, mesmo sobrando tentativas (P151)", () => {
@@ -288,7 +291,7 @@ describe("ajuda do Desafio (P149 a P152)", () => {
     expect(reduce(game, { type: "GUESS", guessId: "fixture:tr:tr01" })).toBe(game);
   });
 
-  it("com a ajuda, pular continua: só aumenta o trecho, e acertar depois vale 1 ponto (P163)", () => {
+  it("com a ajuda, pular continua: aumenta o trecho, e acertar depois vale a metade dele (P163)", () => {
     const game = reduce(helped(), { type: "SKIP" });
     expect(round(game).stage).toBe(2);
     expect(round(game).attempts).toHaveLength(2);
@@ -296,7 +299,8 @@ describe("ajuda do Desafio (P149 a P152)", () => {
     expect(round(game).status).toBe("playing");
     const won = reduce(game, { type: "GUESS", guessId: "fixture:tr:tr02" });
     expect(round(won).status).toBe("won");
-    expect(roundScore(round(won))).toBe(1);
+    // No trecho de 4 s, o acerto vale 6, e com a ajuda, 3.
+    expect(roundScore(round(won))).toBe(3);
   });
 
   it("sem tentativa gasta, e uma 2ª vez na rodada, a ajuda é ignorada", () => {
@@ -323,7 +327,7 @@ describe("ajuda do Desafio (P149 a P152)", () => {
 });
 
 describe("pontuação do dia (P27)", () => {
-  it("rodada anulada sai do total: máximo cai de 18 para 12", () => {
+  it("rodada anulada sai do total: máximo cai de 30 para 20", () => {
     const start = normal();
     const game = play(
       start,
@@ -334,8 +338,8 @@ describe("pontuação do dia (P27)", () => {
       { type: "GIVE_UP" },
     );
     // A mesma conta do histórico (records.ts) vale para o jogo em andamento.
-    expect(recordScore(game)).toBe(6);
-    expect(recordMax(game)).toBe(12);
-    expect(recordMax(normal())).toBe(18);
+    expect(recordScore(game)).toBe(10);
+    expect(recordMax(game)).toBe(20);
+    expect(recordMax(normal())).toBe(30);
   });
 });

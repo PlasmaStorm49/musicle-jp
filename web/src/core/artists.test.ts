@@ -243,11 +243,11 @@ describe("artistSummary (cartão da home)", () => {
     expect(artistSummary({ ...play, session: { ...session, game: won } })).toEqual({
       artist: entry.name,
       superfan: false,
-      score: { points: 6, rounds: 1 },
+      score: { points: 10, rounds: 1 },
     });
   });
 
-  it("no Superfan: o placar da partida, com o erro da música em jogo, que conta na hora", () => {
+  it("no Superfan: o placar da partida, depois da 1ª música terminada (o erro não tira ponto, ME107)", () => {
     const run = startSuperfan(1, index, NONE);
     const fresh: ArtistPlay = { kind: "superfan", artist: entry, run };
     expect(artistSummary(fresh)).toBeNull();
@@ -255,10 +255,13 @@ describe("artistSummary (cartão da home)", () => {
     if (!game) throw new Error("sem música");
     const other = [...index.tracks.keys()].find((id) => id !== currentRound(game).trackId) ?? "";
     const erred = superfanStep(run, { type: "GUESS", guessId: other });
-    expect(artistSummary({ ...fresh, run: erred })).toEqual({
+    expect(artistSummary({ ...fresh, run: erred })).toBeNull();
+    // Acertou no 2º trecho (4 s), depois do erro: 6 pontos.
+    const won = superfanStep(erred, { type: "GUESS", guessId: currentRound(game).trackId });
+    expect(artistSummary({ ...fresh, run: won })).toEqual({
       artist: entry.name,
       superfan: true,
-      score: { points: -5, rounds: 0 },
+      score: { points: 6, rounds: 1 },
     });
   });
 });

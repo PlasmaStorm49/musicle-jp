@@ -394,7 +394,7 @@ test("um acerto na Livre aparece no progresso da medalha dos acertos do artista 
   const field = page.getByRole("combobox", { name: "Qual é a música?" });
   await field.fill(first.title);
   await page.getByRole("option").filter({ hasText: first.title }).first().click();
-  await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
   await page.getByRole("navigation").getByRole("link", { name: "Medalhas" }).click();
   const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
   await expect(artist.locator(".medal-how").first()).toHaveText("1 de 50 acertos");

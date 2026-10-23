@@ -21,7 +21,7 @@ const DAY: Day = {
 };
 const DATE = "2026-10-17";
 
-// 6 + 0 + 5 = 11 de 18.
+// 10 + 0 + 8 = 18 de 30.
 const finished: FinishedGame = {
   number: 7,
   rounds: [
@@ -137,7 +137,7 @@ describe("Home", () => {
     });
     expect(lines(card(/^Hits/))).toEqual([
       "Normal: em andamento",
-      "Desafio: terminado, 11 de 18 pontos",
+      "Desafio: terminado, 18 de 30 pontos",
     ]);
   });
 
@@ -150,7 +150,7 @@ describe("Home", () => {
     const done: Save = { ...emptySave(), history: { [puzzleId(DATE, "song")]: finished } };
     rerender(<Home day={DAY} date={DATE} save={done} artists={null} />);
     expect(document.activeElement).toBe(hits);
-    expect(hits.textContent).toContain("Desafio: terminado, 11 de 18 pontos");
+    expect(hits.textContent).toContain("Desafio: terminado, 18 de 30 pontos");
   });
 
   it('dia todo anulado: terminado, sem "0 de 0 pontos"', () => {
@@ -247,13 +247,13 @@ describe("Home", () => {
     // O nome na língua dele, só ele (ME68).
     expect(card(/^Artistas/).querySelector('.tag [lang="ja"]')?.textContent).toBe("米津玄師");
     cleanup();
-    // A partida do Superfan (ME61): o placar dela, que pode ser negativo.
+    // A partida do Superfan (ME61): o placar dela, que nunca fica negativo (ME107).
     setup(emptySave(), DAY, {
       artist: "Ado",
       superfan: true,
-      score: { points: -7, rounds: 2 },
+      score: { points: 16, rounds: 2 },
     });
-    expect(card(/^Artistas/).textContent).toContain("Superfan (Ado): -7 pontos em 2 músicas");
+    expect(card(/^Artistas/).textContent).toContain("Superfan (Ado): 16 pontos em 2 músicas");
     // O nome latino fica no texto, sem outra língua.
     expect(card(/^Artistas/).querySelector(".tag [lang]")).toBeNull();
   });

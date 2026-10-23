@@ -3,19 +3,21 @@ import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import { drawPractice } from "../core/practice.ts";
 import { currentRound, type GameEvent, type GameState } from "../core/reducer.ts";
-import { VARIANT_RULES } from "../core/rules.ts";
 import {
   quitSuperfan,
-  SUPERFAN_ERRORS,
   SUPERFAN_HELPS,
+  SUPERFAN_LIVES,
   type SuperfanRun,
+  superfanBonus,
   superfanErrors,
   superfanHelps,
+  superfanLives,
   superfanNext,
   superfanOffset,
   superfanOver,
   superfanScore,
   superfanStep,
+  superfanTotal,
 } from "../core/superfan.ts";
 import type { ArtistListEntry } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
@@ -48,7 +50,7 @@ const points = (value: number) => tn("count.points", value);
 
 /**
  * A partida do Superfan (ME61): a rodada do Desafio com as regras do Superfan (core/superfan.ts),
- * o trecho começando num ponto sorteado, e no cabeçalho a música, o placar, os erros e as ajudas
+ * o trecho começando num ponto sorteado, e no cabeçalho a música, o placar, as vidas e as ajudas
  * da partida. Acabada, mostra o resultado. Como o Treino, só ela pré-sorteia e guarda o áudio.
  */
 export function SuperfanView({
@@ -73,26 +75,21 @@ export function SuperfanView({
     [onChange, index, excluded],
   );
   const quit = useCallback(() => onChange(quitSuperfan), [onChange]);
-  // O evento como a partida o aplica (o 3º erro encerra a música): a rodada anuncia por ele.
+  // O evento como a partida o aplica (a última vida encerra a música): a rodada anuncia por ele.
   const step = useCallback(
     (g: GameState, event: GameEvent) =>
       superfanStep({ ...run, session: { ...run.session, game: g } }, event).session.game ?? g,
     [run],
   );
-  // O erro que o palpite errado acabou de somar: "Erro 2 de 3: -5 pontos."
-  // (O 3º encerra a música: quem fala é a revelação, com o `revealNote`.)
+  // A vida que o palpite errado acabou de custar: "Perdeu uma vida. Sobram 2."
+  // (A última encerra a música: quem fala é a revelação, com o `revealNote`.)
   const wrongNote = useCallback(
-    () =>
-      t("superfan.errorNote", {
-        count: superfanErrors(run) + 1,
-        total: SUPERFAN_ERRORS,
-        points: points(VARIANT_RULES.superfan.wrongPoints),
-      }),
+    () => t("superfan.errorNote", { left: tn("superfan.livesLeft", superfanLives(run) - 1) }),
     [run],
   );
 
   // A próxima música, já sorteada, se ainda for desta partida (a 1ª volta do saco): o áudio dela
-  // começa a baixar antes. Com a partida no fim (o 3º erro), não há próxima: o motor solta o
+  // começa a baixar antes. Com a partida no fim (a última vida), não há próxima: o motor solta o
   // áudio dela, que não vai tocar.
   const over = superfanOver(run);
   const peek = useMemo(
@@ -114,10 +111,7 @@ export function SuperfanView({
   const seed = run.session.practice.seed;
   // A ajuda logo de cara (P159), até 3 na partida (P153), nunca com uma resposta de hoje.
   const help = useMemo<HelpSetup | undefined>(
-    () =>
-      helps < SUPERFAN_HELPS
-        ? { after: VARIANT_RULES.superfan.helpFrom, avoid: excluded, session: seed }
-        : undefined,
+    () => (helps < SUPERFAN_HELPS ? { avoid: excluded, session: seed } : undefined),
     [helps, excluded, seed],
   );
   const duration = currentId ? (index.tracks.get(currentId)?.preview?.durationSec ?? null) : null;
@@ -142,7 +136,7 @@ export function SuperfanView({
         <p>{t("superfan.song", { number: run.session.number })}</p>
         <p class="practice-score">{t("superfan.score", { points: points(score.points) })}</p>
         <p class="superfan-limits">
-          {t("superfan.errors", { count: errors, total: SUPERFAN_ERRORS })}{" "}
+          {t("superfan.lives", { count: superfanLives(run), total: SUPERFAN_LIVES })}{" "}
           <span aria-hidden="true">{t("item.artistSeparator")}</span>{" "}
           {t("superfan.helps", { count: helps, total: SUPERFAN_HELPS })}
         </p>
@@ -172,13 +166,16 @@ export function SuperfanView({
         step={step}
         wrongNote={wrongNote}
         giveUpLabel={t("superfan.giveUp")}
-        revealNote={over ? t("superfan.over", { total: SUPERFAN_ERRORS }) : undefined}
+        revealNote={over ? t("superfan.over", { total: SUPERFAN_LIVES }) : undefined}
       />
     </div>
   );
 }
 
-/** O fim da partida: o motivo, o placar e os acertos. Tela nova: o foco vai para o título. */
+/**
+ * O fim da partida: o motivo, o placar final (com o bônus das vidas, na partida completa) e os
+ * acertos. Tela nova: o foco vai para o título.
+ */
 function SuperfanEnd({
   artist,
   run,
@@ -193,11 +190,12 @@ function SuperfanEnd({
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   const score = superfanScore(run);
+  const bonus = superfanBonus(run);
   // Sem nenhuma música sorteada (as de hoje ficaram de fora), não houve partida. Com as jogadas
   // todas anuladas (falha de áudio), houve: o placar zerado não diz isso, o número diz.
   const reason =
     run.end === "errors"
-      ? t("superfan.endErrors", { total: SUPERFAN_ERRORS })
+      ? t("superfan.endErrors", { total: SUPERFAN_LIVES })
       : run.end === "quit"
         ? t("superfan.endQuit")
         : run.session.number === 0
@@ -216,7 +214,8 @@ function SuperfanEnd({
       </header>
       <section class="superfan-end">
         <p>{reason}</p>
-        <p class="practice-score">{t("superfan.score", { points: points(score.points) })}</p>
+        <p class="practice-score">{t("superfan.score", { points: points(superfanTotal(run)) })}</p>
+        {bonus > 0 && <p>{tn("superfan.bonus", superfanLives(run), { points: points(bonus) })}</p>}
         {score.rounds > 0 && (
           <p>
             {t("superfan.right", { right: run.right, played: tn("superfan.songs", score.rounds) })}

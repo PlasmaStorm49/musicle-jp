@@ -435,7 +435,7 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
 });
 
 describe("RoundView: a ajuda (P149)", () => {
-  const daily: HelpSetup = { after: 3, avoid: new Set() };
+  const daily: HelpSetup = { avoid: new Set() };
   const skipped = (n: number) => {
     let state = game("song");
     for (let i = 0; i < n; i++) state = reduce(state, { type: "SKIP" });
@@ -443,11 +443,11 @@ describe("RoundView: a ajuda (P149)", () => {
   };
   const helpButton = () => screen.queryByRole("button", { name: /^Pedir ajuda/ });
 
-  it("no diário, o botão só aparece depois da 3ª tentativa gasta", () => {
-    setup(skipped(2), undefined, undefined, undefined, daily);
+  it("no diário, o botão aparece depois da 1ª tentativa gasta (ME107; antes, a 3ª)", () => {
+    setup(skipped(0), undefined, undefined, undefined, daily);
     expect(helpButton()).toBeNull();
     cleanup();
-    setup(skipped(3), undefined, undefined, undefined, daily);
+    setup(skipped(1), undefined, undefined, undefined, daily);
     expect(helpButton()?.textContent).toBe("Pedir ajuda");
   });
 
@@ -457,13 +457,13 @@ describe("RoundView: a ajuda (P149)", () => {
   });
 
   it("o pulo que libera a ajuda avisa no aria-live", () => {
-    const { announce } = setup(skipped(2), undefined, undefined, undefined, daily);
+    const { announce } = setup(skipped(0), undefined, undefined, undefined, daily);
     fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
-    expect(announce).toHaveBeenCalledWith("Pulou. Tentativa 4 de 6. A ajuda já pode ser pedida.");
+    expect(announce).toHaveBeenCalledWith("Pulou. Tentativa 2 de 6. A ajuda já pode ser pedida.");
   });
 
   it("pedir a ajuda despacha as opções, com a resposta entre elas", () => {
-    const { dispatch } = setup(skipped(3), undefined, undefined, undefined, daily);
+    const { dispatch } = setup(skipped(1), undefined, undefined, undefined, daily);
     fireEvent.click(helpButton() as HTMLElement);
     const event = dispatch.mock.calls.at(-1)?.[0];
     expect(event?.type).toBe("HELP");
@@ -472,25 +472,26 @@ describe("RoundView: a ajuda (P149)", () => {
   });
 
   it("com a ajuda na tela, o Pular continua e anuncia o trecho novo, sem o contador (P163)", () => {
-    const { dispatch } = setup(skipped(3), undefined, undefined, undefined, daily);
+    const { dispatch } = setup(skipped(1), undefined, undefined, undefined, daily);
     fireEvent.click(helpButton() as HTMLElement);
     const event = dispatch.mock.calls.at(-1)?.[0];
     if (event?.type !== "HELP") throw new Error("esperava o HELP");
     cleanup();
-    const { announce } = setup(reduce(skipped(3), event), undefined, undefined, undefined, daily);
+    const { announce } = setup(reduce(skipped(1), event), undefined, undefined, undefined, daily);
     expect(screen.getByRole("list", { name: "Opções da ajuda" })).toBeTruthy();
-    // A dica curta na tela; a inteira, que a lista lê como descrição, para o leitor de tela.
+    // A dica curta na tela; a inteira, que a lista lê como descrição, para o leitor de tela. A
+    // ajuda vale a metade do trecho de agora, o 2º (8 pontos): 4 (ME107).
     const hint = document.getElementById("help-hint");
     expect(hint?.querySelector('[aria-hidden="true"]')?.textContent).toBe(
-      "Errar encerra; acertar vale 1 ponto.",
+      "Errar encerra; acertar vale 4 pontos.",
     );
     expect(hint?.querySelector(".sr-only")?.textContent).toBe(
-      "Escolha entre as opções: errar encerra a rodada, e acertar vale 1 ponto.",
+      "Escolha entre as opções: errar encerra a rodada, e acertar vale 4 pontos.",
     );
     // Com as opções no lugar do campo, a reserva das tentativas sai (a tela cabe, regra 25).
     expect(document.querySelector("section.typing")?.classList.contains("helping")).toBe(true);
-    fireEvent.click(screen.getByRole("button", { name: "Pular (+4 s)" }));
-    expect(announce).toHaveBeenCalledWith("Pulou. O trecho agora tem 11 s.");
+    fireEvent.click(screen.getByRole("button", { name: "Pular (+2 s)" }));
+    expect(announce).toHaveBeenCalledWith("Pulou. O trecho agora tem 4 s.");
   });
 });
 

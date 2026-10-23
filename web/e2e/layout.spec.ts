@@ -79,8 +79,8 @@ async function homeWorstCase(page: Page): Promise<void> {
   const cards = page.getByRole("main").getByRole("link");
   await expect(cards.filter({ hasText: "Nesta sessão" })).toHaveCount(1);
   await expect(cards.filter({ hasText: /^Hits/ }).locator(".tag")).toHaveText([
-    "Normal: terminado, 0 de 18 pontos",
-    "Desafio: terminado, 0 de 18 pontos",
+    "Normal: terminado, 0 de 30 pontos",
+    "Desafio: terminado, 0 de 30 pontos",
   ]);
   await expect(cards.filter({ hasText: /^Anime/ }).locator(".tag")).toHaveText([
     "Hoje: 1 de 6 terminados",
@@ -211,7 +211,7 @@ for (const viewport of [
       });
       await open(page, DAY, "#anime-musica");
       await expect(page.getByRole("main").getByRole("link", { name: /^Difícil/ })).toContainText(
-        "nº 1 · terminado, 0 de 18 pontos",
+        "nº 1 · terminado, 0 de 30 pontos",
       );
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
@@ -434,7 +434,7 @@ for (const viewport of [
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
-    test("a ajuda do diário, depois de 3 tentativas, com o selo da Apple: as opções no lugar do campo", async ({
+    test("a ajuda do diário, depois de 3 tentativas (o caso mais alto), com o selo da Apple: as opções no lugar do campo", async ({
       page,
     }) => {
       await appleCatalog(page);

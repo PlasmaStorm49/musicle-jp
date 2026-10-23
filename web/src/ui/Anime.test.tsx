@@ -117,7 +117,7 @@ const schedule: AnimeSchedule = {
 const data: AnimeData = { index: indexAnime(catalog), schedule };
 const resolveUrl = (url: string) => `/${url}`;
 
-// 6 + 0 + 5 = 11 de 18.
+// 10 + 0 + 8 = 18 de 30.
 const finished: FinishedGame = {
   number: 4,
   rounds: [
@@ -366,7 +366,7 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
         inProgress: { [puzzleId(DATE, "anime-musica-medio")]: { events: [{ type: "SKIP" }] } },
       },
     });
-    expect(lines(card(/^Fácil/))).toEqual(["nº 4 · terminado, 11 de 18 pontos"]);
+    expect(lines(card(/^Fácil/))).toEqual(["nº 4 · terminado, 18 de 30 pontos"]);
     expect(lines(card(/^Médio/))).toEqual(["nº 4 · em andamento"]);
     expect(lines(card(/^Difícil/))).toEqual(["nº 4 · novo"]);
     expect(card(/^Fácil/).textContent).toContain("Os temas mais conhecidos");
@@ -477,7 +477,7 @@ describe("Anime: o diário", () => {
     });
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Música · Difícil · nº 4");
     expect(screen.getByRole("heading", { name: "Resultado do dia" })).toBeTruthy();
-    expect(screen.getByText("11 de 18 pontos")).toBeTruthy();
+    expect(screen.getByText("18 de 30 pontos")).toBeTruthy();
   });
 
   it("sem o dia na agenda do Anime: o aviso com o foco, e de volta ao Anime", () => {
@@ -522,11 +522,10 @@ describe("Anime: o diário", () => {
     );
   });
 
-  it("a ajuda do acertar o anime: 4 nomes de anime, nunca os das respostas do dia, e acertar vale 1 ponto", () => {
+  it("a ajuda do acertar o anime: 4 nomes de anime, nunca os das respostas do dia, e acertar vale a metade do trecho (ME107)", () => {
     setup("anime-titulo-facil");
-    for (let i = 0; i < 3; i++) {
-      fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
-    }
+    // A ajuda depois da 1ª tentativa gasta, também no diário (ME107).
+    fireEvent.click(screen.getByRole("button", { name: /^Pular/ }));
     fireEvent.click(screen.getByRole("button", { name: "Pedir ajuda" }));
     const options = screen.getByRole("list", { name: "Opções da ajuda" });
     // Numa coluna, com o nome inteiro (o nome real chega a uns 60 caracteres).
@@ -541,7 +540,7 @@ describe("Anime: o diário", () => {
     if (!right) throw new Error("sem a opção certa");
     fireEvent.click(right);
     expect(screen.getByRole("heading", { level: 2 }).textContent).toContain(
-      "Acertou com ajuda: 1 ponto.",
+      "Acertou com ajuda: 4 pontos.",
     );
   });
 
@@ -576,7 +575,7 @@ describe("Anime: um dia passado (o Histórico, M15)", () => {
     });
     expect(screen.getByText("Quinta-feira, 08/10")).toBeTruthy();
     expect(card(/^Fácil/).getAttribute("href")).toBe("#anime-musica-facil/2026-10-08");
-    expect(lines(card(/^Fácil/))).toEqual(["nº 4 · terminado, 11 de 18 pontos", "jogado depois"]);
+    expect(lines(card(/^Fácil/))).toEqual(["nº 4 · terminado, 18 de 30 pontos", "jogado depois"]);
     expect(lines(card(/^Médio/))).toEqual(["nº 4 · novo"]);
   });
 

@@ -12,7 +12,7 @@ import {
   type RoundState,
   reduce,
 } from "../core/reducer.ts";
-import { canSkip, type ModeRules, rulesOf, secondsAt } from "../core/rules.ts";
+import { canSkip, type ModeRules, rulesOf, scoreOf, secondsAt } from "../core/rules.ts";
 import { guessView, revealView } from "../core/view.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
@@ -28,12 +28,11 @@ import { Reveal } from "./Reveal.tsx";
 import { singleClick } from "./singleClick.ts";
 
 /**
- * A ajuda do Desafio (P149): depois de quantas tentativas gastas o botão aparece (HELP_AFTER), as
- * músicas que ela nunca mostra (as respostas dos diários de hoje) e, no Treino e no modo por
- * artista, a semente da sessão (helpSeed). Sem ela, não há botão.
+ * A ajuda do Desafio (P149): as músicas que ela nunca mostra (as respostas dos diários de hoje) e,
+ * no Treino e no modo por artista, a semente da sessão (helpSeed). Depois de quantas tentativas o
+ * botão aparece é das regras (`helpFrom`, ME107). Sem ela, não há botão.
  */
 export type HelpSetup = {
-  readonly after: number;
   readonly avoid: ReadonlySet<string>;
   readonly session?: number;
 };
@@ -129,7 +128,7 @@ export function RoundView({
     rules.help &&
     round.status === "playing" &&
     round.help === null &&
-    round.attempts.length >= help.after;
+    round.attempts.length >= rules.helpFrom;
   const helpChoices = useMemo(
     () =>
       canHelp && help
@@ -155,7 +154,7 @@ export function RoundView({
 
   /** " A ajuda já pode ser pedida." quando a tentativa gasta agora é a que libera o botão. */
   const helpNote = (used: number) =>
-    help && rules.help && round.help === null && used === help.after
+    help && rules.help && round.help === null && used === rules.helpFrom
       ? ` ${t("help.available")}`
       : "";
 
@@ -305,8 +304,11 @@ function Typing({
   // cada palpite. Em jogo, aparecem no máximo maxAttempts - 1: a última tentativa encerra a
   // rodada. Com a ajuda, as opções entram no lugar do campo e a reserva sai (.helping).
   const slots = { "--slots": rules.maxAttempts - 1 };
-  const wrong = tn("count.points", rules.wrongPoints);
-  const helpPoints = tn("count.points", rules.helpPoints);
+  // A ajuda vale a metade do trecho em que se acerta (ME107): a dica diz o de agora.
+  const helpPoints = tn(
+    "count.points",
+    scoreOf({ status: "won", stage: round.stage, help: 0 }, rules),
+  );
   return (
     <section
       class={
@@ -330,13 +332,13 @@ function Typing({
           {/* A dica curta na tela; a inteira, para o leitor de tela, que a ouve na lista (P210). */}
           <p id="help-hint" class="hint">
             <span aria-hidden="true">
-              {rules.wrongPoints < 0
-                ? t("help.hintWrongShort", { wrong, points: helpPoints })
+              {rules.lives
+                ? t("help.hintLifeShort", { points: helpPoints })
                 : t("help.hintShort", { points: helpPoints })}
             </span>
             <span class="sr-only">
-              {rules.wrongPoints < 0
-                ? t("help.hintWrong", { wrong, points: helpPoints })
+              {rules.lives
+                ? t("help.hintLife", { points: helpPoints })
                 : t("help.hint", { points: helpPoints })}
             </span>
           </p>
