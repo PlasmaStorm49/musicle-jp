@@ -1819,16 +1819,22 @@ section.void,
   display: grid;
 }
 
+/* O nome próprio de uma medalha pode ser longo ("七色の記憶 · Nanairo no Kioku"): quebra em
+   qualquer ponto, para a linha de 3 caber em 320 px sem rolar para o lado. */
 .medal-name {
   font-size: var(--t-sm);
   line-height: var(--lh-sm);
   font-weight: 700;
+  overflow-wrap: anywhere;
+  /* As linhas do mesmo tamanho: uma sílaba não fica sozinha embaixo ("小説を音楽にす / る"). */
+  text-wrap: balance;
 }
 
 .medal-how {
   color: var(--muted);
   font-size: var(--t-xs);
   line-height: var(--lh-xs);
+  text-wrap: balance;
 }
 
 .medal-artists {
@@ -1905,6 +1911,7 @@ section.void,
   line-height: var(--lh-sm);
   font-weight: 700;
   line-break: strict;
+  text-wrap: balance;
 }
 
 .medal-notice-arts {
@@ -1949,6 +1956,11 @@ dialog.medal-dialog h2 {
   display: grid;
   gap: var(--sp-2);
   margin-top: var(--sp-4);
+}
+
+/* O selo da Apple no fim do pop-up, com as capas (P298): mais perto do Ok que no pé de uma tela. */
+dialog.medal-dialog .attribution {
+  margin-top: var(--sp-3);
 }
 
 /* O Histórico (M15, P260): o calendário de 2 semanas, 7 colunas com o dia da semana no

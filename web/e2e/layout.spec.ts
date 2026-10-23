@@ -724,16 +724,18 @@ for (const viewport of [
   });
 }
 
-test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longos e o Ok dentro da tela (P279)", async ({
+test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longos, o Ok e o selo da Apple dentro da tela (P279, P298)", async ({
   page,
 }) => {
+  // Como na lista real: as capas da Apple, e o selo no fim do pop-up.
+  await appleArtistList(page);
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
-  // O 1º diário, os 3 dias seguidos e a dos acertos e a completa de um artista: o aviso de 4.
+  // O 1º diário e as 3 de um artista: o aviso de 4, com a perfeita, o desenho mais alto.
   await seedHistory(
     page,
-    { "2026-10-08|album": day, "2026-10-09|album": day, "2026-10-10|album": day },
-    { "fixture:ar:ar02": { right: 50, done: true } },
+    { "2026-10-10|album": day },
+    { "fixture:ar:ar02": { right: 50, done: true, perfect: true } },
   );
   await page.setViewportSize({ width: 320, height: 640 });
   // Em 10/10: a agenda das fixtures começa em 08/10, e os 3 dias seguidos precisam estar nela.
@@ -741,16 +743,19 @@ test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longo
   const dialog = page.getByRole("dialog", { name: "Você já tem 4 medalhas" });
   await expect(dialog.getByRole("listitem")).toHaveText([
     "Primeiro diário",
-    "Três dias seguidos",
-    "Prata de 夜風シアター",
-    "Ouro de 夜風シアター",
+    "開幕ベル · Kaimaku Bell, de 夜風シアター (50 acertos)",
+    "真夜中のカーテンコール · Mayonaka no Curtain Call, de 夜風シアター (Superfan completo)",
+    "夜風劇場, de 夜風シアター (Superfan perfeito)",
   ]);
   const tops = await dialog
     .locator(".medal-notice-arts svg")
     .evaluateAll((svgs) => svgs.map((svg) => Math.round(svg.getBoundingClientRect().bottom)));
   expect(tops).toHaveLength(4);
+  // Alinhadas por baixo, como no CSS: a perfeita, mais alta, sobe acima das outras.
   expect(new Set(tops).size, "as 4 na mesma linha").toBe(1);
-  for (const target of [dialog, dialog.getByRole("button", { name: "Ok" })]) {
+  const badge = dialog.locator(".attribution");
+  await expect(badge).toBeVisible();
+  for (const target of [dialog, dialog.getByRole("button", { name: "Ok" }), badge]) {
     const box = await target.boundingBox();
     expect(box).not.toBeNull();
     if (!box) continue;

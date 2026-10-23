@@ -11,7 +11,7 @@ import {
   withSuperfanEnd,
 } from "../core/records.ts";
 import { ROUNDS_PER_DAY } from "../core/rules.ts";
-import type { ArtistList } from "../core/types.ts";
+import type { ArtistList, ArtistListEntry } from "../core/types.ts";
 import { SAVE_SCHEMA_VERSION } from "../storage/migrations.ts";
 import {
   type KeyValueStore,
@@ -20,8 +20,15 @@ import {
   SAVE_KEY,
   sessionStore,
 } from "../storage/save.ts";
+import { generalArt } from "./MedalArt.tsx";
 import { MedalDialog, MedalToast, type NoticeItem, TOAST_MS } from "./MedalNotice.tsx";
-import { noticeItems, noticeTitle, toastText, useMedalNotices } from "./medalNotices.ts";
+import {
+  announceText,
+  noticeItems,
+  noticeTitle,
+  toastText,
+  useMedalNotices,
+} from "./medalNotices.ts";
 
 afterEach(cleanup);
 
@@ -83,10 +90,9 @@ const item = (id: string, name: string): NoticeItem => ({
   id,
   kind: "geral",
   name,
-  image: null,
-  letter: "★",
-  color: 0,
-  sash: "",
+  spoken: name,
+  feat: null,
+  art: generalArt("★"),
 });
 
 describe("MedalToast (o aviso pequeno, P279)", () => {
@@ -179,6 +185,18 @@ describe("MedalDialog (o pop-up grande, P279)", () => {
     expect(cancel.defaultPrevented).toBe(true);
   });
 
+  it("com a capa da Apple, o selo fecha o pop-up, depois do Ok (P298, regra 22)", () => {
+    const { container, unmount } = render(
+      <MedalDialog title="Medalha nova!" items={[]} onClose={vi.fn()} attribution />,
+    );
+    const dialog = container.querySelector("dialog") as HTMLDialogElement;
+    expect(dialog.lastElementChild?.classList.contains("attribution")).toBe(true);
+    expect(screen.getByRole("link").getAttribute("href")).toContain("music.apple.com");
+    unmount();
+    render(<MedalDialog title="Medalha nova!" items={[]} onClose={vi.fn()} />);
+    expect(screen.queryByRole("link")).toBeNull();
+  });
+
   it("o lugar das ações a mais (o Exportar da ME103) fica antes do Ok", () => {
     render(
       <MedalDialog
@@ -220,39 +238,73 @@ describe("MedalDialog (o pop-up grande, P279)", () => {
 describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
   const acertos = superfanMedalId(ARTIST, "acertos");
 
-  it("a do Superfan leva o nível, o artista, a capa e a faixa; a geral, o nome do i18n", () => {
-    const [superfan, general] = noticeItems([acertos, "demo-primeiro"], LIST, resolve);
+  it("a do Superfan leva o nome próprio, com o latino, e o artista (P295, P300); a geral, o do i18n", () => {
+    const [superfan, general] = noticeItems([acertos, "demo-primeiro"], LIST, resolve, true);
     expect(superfan).toMatchObject({
       id: acertos,
       kind: "acertos",
-      name: "Prata de 夜風",
-      image: "/base/art/1.svg",
-      letter: "夜",
-      sash: "夜風",
+      name: "夜明け · Yoake, de 夜風",
+      art: { image: "/base/art/1.svg", letter: "夜", name: "夜風" },
     });
     expect(general).toEqual({
       id: "demo-primeiro",
       kind: "geral",
       name: "Primeiro diário",
+      spoken: "Primeiro diário",
+      feat: null,
+      art: generalArt("★"),
+    });
+    const completo = noticeItems([superfanMedalId(ARTIST, "completo")], LIST, resolve, true)[0];
+    expect(completo?.name).toBe("Round Robin, de 夜風");
+  });
+
+  it("o pop-up desenha o nome como a tela: o japonês com o lang, e o ponto decorativo", () => {
+    const items = noticeItems([acertos], LIST, resolve, true);
+    expect(items[0]?.label).toEqual({ name: "夜明け", latin: "Yoake", artist: "夜風" });
+    render(<MedalDialog title="Medalha nova!" items={items} onClose={vi.fn()} />);
+    const li = screen.getByRole("listitem");
+    // O feito, só para o leitor de tela: o desenho que diz qual é a medalha é decorativo.
+    expect(li.textContent).toBe("夜明け · Yoake, de 夜風 (50 acertos)");
+    expect(li.querySelector(".sr-only")?.textContent).toBe(" (50 acertos)");
+    const ja = [...li.querySelectorAll('[lang="ja"]')].map((el) => el.textContent);
+    expect(ja).toEqual(["夜明け", "夜風"]); // o nome e o artista, cada um com a língua dele
+    expect(li.querySelector('[aria-hidden="true"]')?.textContent).toBe("·");
+    // Com o foco no Ok, o leitor de tela lê também os nomes.
+    const dialog = screen.getByRole("dialog");
+    const names = document.getElementById(dialog.getAttribute("aria-describedby") ?? "");
+    expect(names?.tagName).toBe("UL");
+  });
+
+  it('o artista sem nome (um índice corrompido): o nome da medalha, sem o ", de" solto', () => {
+    const noArtist: ArtistList = {
+      ...LIST,
+      artists: [{ ...LIST.artists[0], name: null } as unknown as ArtistListEntry],
+    };
+    expect(noticeItems([acertos], noArtist, resolve, true)[0]?.name).toBe("夜明け · Yoake");
+  });
+
+  it("o aviso pequeno vai sem a capa: as telas dele não têm o selo da Apple (P298)", () => {
+    expect(noticeItems([acertos], LIST, resolve, false)[0]?.art).toMatchObject({
       image: null,
-      letter: "★",
-      color: 0,
-      sash: "",
+      letter: "夜",
     });
   });
 
-  it("sem a lista (ainda carregando) ou fora dela, só o nível; sem capa, o monograma", () => {
-    const completo = superfanMedalId("t:ar:2", "completo");
-    expect(noticeItems([acertos], null, resolve)[0]).toMatchObject({ name: "Prata", image: null });
-    expect(noticeItems([superfanMedalId("t:ar:9", "perfeito")], LIST, resolve)[0]).toMatchObject({
-      kind: "perfeito",
-      name: "Suprema",
+  it("sem a lista (a carga falhou) ou fora dela, o feito; sem o nome, o feito com o artista", () => {
+    expect(noticeItems([acertos], null, resolve, true)[0]).toMatchObject({
+      name: "50 acertos",
+      art: { image: null },
     });
-    expect(noticeItems([completo], LIST, resolve)[0]).toMatchObject({
-      name: "Ouro de Banda",
-      image: null,
-      letter: "B",
-    });
+    expect(
+      noticeItems([superfanMedalId("t:ar:9", "perfeito")], LIST, resolve, true)[0],
+    ).toMatchObject({ kind: "perfeito", name: "Superfan perfeito" });
+    const noName: ArtistList = {
+      ...LIST,
+      artists: [{ ...LIST.artists[1], medals: {} } as unknown as ArtistListEntry],
+    };
+    expect(
+      noticeItems([superfanMedalId("t:ar:2", "completo")], noName, resolve, true)[0],
+    ).toMatchObject({ name: "Superfan completo, de Banda", art: { image: null, letter: "B" } });
   });
 
   it("o título: o 1º aviso com o total, uma nova, ou várias", () => {
@@ -266,6 +318,17 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
   it("o texto do pequeno: o nome da única, ou quantas", () => {
     expect(toastText([item("a", "Um")])).toBe("Medalha nova: Um");
     expect(toastText([item("a", "Um"), item("b", "Dois")])).toBe("2 medalhas novas");
+  });
+
+  it("o do leitor de tela: sem o ponto do latino, e com o feito, porque o desenho é decorativo", () => {
+    const items = noticeItems([acertos], LIST, resolve, false);
+    expect(toastText(items)).toBe("Medalha nova: 夜明け · Yoake, de 夜風");
+    expect(announceText(items)).toBe("Medalha nova: 夜明け, Yoake, de 夜風 (50 acertos)");
+    // Sem o nome próprio, o feito já diz qual é: sem ele duas vezes.
+    expect(announceText(noticeItems([acertos], null, resolve, false))).toBe(
+      "Medalha nova: 50 acertos",
+    );
+    expect(announceText([item("a", "Um"), item("b", "Dois")])).toBe("2 medalhas novas");
   });
 });
 

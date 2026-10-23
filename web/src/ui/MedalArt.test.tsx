@@ -1,29 +1,34 @@
 // @vitest-environment happy-dom
 import { cleanup, fireEvent, render } from "@testing-library/preact";
 import { afterEach, describe, expect, it } from "vitest";
-import { MedalArt, type MedalKind } from "./MedalArt.tsx";
+import { CENTER, FLOWER_ROLES, type SuperfanArt } from "../core/medalArt.ts";
+import { generalArt, MedalArt, type MedalKind } from "./MedalArt.tsx";
 
 afterEach(cleanup);
 
-function draw(
-  kind: MedalKind,
-  props: { image?: string | null; name?: string; earned?: boolean } = {},
-) {
+const ART: SuperfanArt = {
+  image: null,
+  crop: CENTER,
+  flowers: null,
+  sash: null,
+  letter: "幾",
+  color: 3,
+  name: "幾田りら",
+};
+const FLOWERS = Object.fromEntries(FLOWER_ROLES.map((role) => [role, "#111111"])) as NonNullable<
+  SuperfanArt["flowers"]
+>;
+
+function draw(kind: MedalKind, art: Partial<SuperfanArt> = {}, earned = true) {
   const { container } = render(
-    <MedalArt
-      kind={kind}
-      image={props.image ?? null}
-      letter="幾"
-      color={3}
-      name={props.name ?? "幾田りら"}
-      earned={props.earned ?? true}
-      size={60}
-    />,
+    <MedalArt kind={kind} art={{ ...ART, ...art }} earned={earned} size={60} />,
   );
   return container.querySelector("svg") as SVGSVGElement;
 }
 
-describe("MedalArt (o desenho provisório das medalhas, M16)", () => {
+const texts = (svg: SVGSVGElement) => [...svg.querySelectorAll("text")].map((t) => t.textContent);
+
+describe("MedalArt (o desenho das medalhas, M16)", () => {
   it.each(["acertos", "completo", "perfeito", "geral"] as const)(
     "%s: decorativa, com a cor do artista pela classe do monograma",
     (kind) => {
@@ -34,47 +39,94 @@ describe("MedalArt (o desenho provisório das medalhas, M16)", () => {
     },
   );
 
-  it("com a capa, a imagem recortada; sem ela, o monograma (P171)", () => {
-    const withCover = draw("acertos", { image: "/capa.jpg" });
-    expect(withCover.querySelector("image")?.getAttribute("href")).toBe("/capa.jpg");
-    expect(withCover.querySelector("text")).toBeNull();
+  it.each([
+    ["acertos", "29.5"],
+    ["completo", "32"],
+    ["perfeito", "29"],
+    ["geral", "25"],
+  ] as const)("%s: a capa vai até o aro (r %s); a geral fica com o anel claro", (kind, r) => {
+    expect(draw(kind).querySelector("clipPath circle")?.getAttribute("r")).toBe(r);
+  });
+
+  it("com a capa, a imagem enquadrada no círculo; sem ela, o monograma (P171)", () => {
+    const whole = draw("acertos", { image: "/capa.jpg" }).querySelector("image");
+    expect(whole?.getAttribute("href")).toBe("/capa.jpg");
+    // Inteira: o quadrado de 59 em volta do centro (37, 37).
+    expect([whole?.getAttribute("x"), whole?.getAttribute("width")]).toEqual(["7.50", "59.00"]);
+    cleanup();
+    const zoom = draw("acertos", { image: "/capa.jpg", crop: { z: 2, x: 0.5, y: 0.5 } });
+    expect(zoom.querySelector("image")?.getAttribute("width")).toBe("118.00");
     cleanup();
     const without = draw("acertos");
     expect(without.querySelector("image")).toBeNull();
-    expect(without.querySelector("text")?.textContent).toBe("幾");
+    expect(texts(without)).toEqual(["幾"]);
   });
 
   it("a capa que não carrega vira o monograma", () => {
     const svg = draw("completo", { image: "/quebrada.jpg" });
     fireEvent.error(svg.querySelector("image") as Element);
     expect(svg.querySelector("image")).toBeNull();
-    expect(svg.querySelector("text")?.textContent).toBe("幾");
+    expect(texts(svg)).toEqual(["幾"]);
   });
 
   it("a que falta ganhar fica apagada pela classe (P283)", () => {
-    expect(draw("completo", { earned: false }).classList.contains("locked")).toBe(true);
+    expect(draw("completo", {}, false).classList.contains("locked")).toBe(true);
     cleanup();
     expect(draw("completo").classList.contains("locked")).toBe(false);
   });
 
-  it("a perfeita leva o nome na faixa, um caractere por linha; o longo fica só com a letra", () => {
-    const short = draw("perfeito", { image: "/capa.jpg" });
-    expect([...short.querySelectorAll("text")].map((t) => t.textContent)).toEqual([
-      "幾",
-      "田",
-      "り",
-      "ら",
-    ]);
+  it("as cores do artista: o buquê e as caudas das outras duas (P296, P305)", () => {
+    const fills = (svg: SVGSVGElement) =>
+      new Set([...svg.querySelectorAll("[fill]")].map((el) => el.getAttribute("fill")));
+    // As caudas: as duas da roseta e a do meio da completa.
+    const tail = (kind: "acertos" | "completo", art: Partial<SuperfanArt>) =>
+      draw(kind, { image: "/capa.jpg", ...art })
+        .querySelector(kind === "acertos" ? 'path[d^="M26 50"]' : 'path[d^="M49 96"]')
+        ?.getAttribute("fill");
+    // Sem as cores, o buquê lilás e as caudas na cor do monograma.
+    expect(fills(draw("perfeito", { image: "/capa.jpg" })).has("#5b4bb7")).toBe(true);
     cleanup();
-    const long = draw("perfeito", { image: "/capa.jpg", name: "System Of A Down" });
-    expect([...long.querySelectorAll("text")].map((t) => t.textContent)).toEqual(["幾"]);
+    const bouquet = fills(draw("perfeito", { image: "/capa.jpg", flowers: FLOWERS }));
+    expect(bouquet.has("#111111")).toBe(true);
+    expect(bouquet.has("#5b4bb7")).toBe(false);
+    cleanup();
+    for (const kind of ["acertos", "completo"] as const) {
+      expect(tail(kind, {}), kind).toBe("var(--monogram)");
+      cleanup();
+      expect(tail(kind, { flowers: FLOWERS }), kind).toBe("#111111");
+      cleanup();
+    }
+  });
+
+  it("a faixa da perfeita (P299): a escolhida em pé ou deitada, e a regra sem escolha", () => {
+    const sash = (art: Partial<SuperfanArt>) =>
+      texts(draw("perfeito", { image: "/capa.jpg", ...art }));
+    expect(sash({})).toEqual(["幾", "田", "り", "ら"]);
+    cleanup();
+    expect(sash({ sash: { text: "Eve", along: false } })).toEqual(["E", "v", "e"]);
+    cleanup();
+    const along = draw("perfeito", { image: "/capa.jpg", sash: { text: "YOASOBI", along: true } });
+    expect(texts(along)).toEqual(["YOASOBI"]);
+    expect(along.querySelector("text")?.getAttribute("transform")).toContain("rotate(90)");
+    cleanup();
+    // Sem escolha: o latino longo, deitado; o resto que não cabe, a letra.
+    expect(sash({ name: "System Of A Down" })).toEqual(["System Of A Down"]);
+    cleanup();
+    expect(sash({ name: "新しい学校のリーダーズ", letter: "新" })).toEqual(["新"]);
+  });
+
+  it("a geral: sem capa, com a marca no miolo", () => {
+    const { container } = render(<MedalArt kind="geral" art={generalArt("★")} earned size={44} />);
+    const svg = container.querySelector("svg") as SVGSVGElement;
+    expect(svg.querySelector("image")).toBeNull();
+    expect(texts(svg)).toEqual(["★"]);
   });
 
   it("o recorte de cada medalha tem um id próprio na página", () => {
     const { container } = render(
       <>
-        <MedalArt kind="acertos" image="/a.jpg" letter="A" color={0} name="A" earned size={40} />
-        <MedalArt kind="acertos" image="/b.jpg" letter="B" color={1} name="B" earned size={40} />
+        <MedalArt kind="acertos" art={{ ...ART, image: "/a.jpg" }} earned size={40} />
+        <MedalArt kind="acertos" art={{ ...ART, image: "/b.jpg" }} earned size={40} />
       </>,
     );
     const ids = [...container.querySelectorAll("clipPath")].map((c) => c.id);

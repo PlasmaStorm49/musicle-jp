@@ -155,6 +155,8 @@ export function coverFrame(
 
 /** Até quantos caracteres cabem na faixa em pé, um por linha. */
 export const SASH_UPRIGHT = 6;
+/** Até quantos cabem deitados, no corpo mínimo (2); a mais longa vira a letra do monograma. */
+export const SASH_ALONG = 28;
 const LATIN = /^[\x20-\x7e]+$/;
 /** O meio da faixa (de y 92 a 140, com o laço cobrindo o começo), no desenho da perfeita. */
 const SASH_MIDDLE = 116;
@@ -181,8 +183,16 @@ function upright(chars: readonly string[]): SashLayout {
   };
 }
 
+/** O espaço entre as letras da faixa deitada (no desenho de 110 de largura). */
+export const SASH_SPACING = 0.3;
+/** O comprimento que cabe na faixa deitada, de y 94 a 138. */
+const SASH_LENGTH = 44;
+
 function along(text: string): SashLayout {
-  return { kind: "along", text, size: Math.min(7.6, 44 / (text.length * 0.64)) };
+  // A largura é a das letras (0,64 do corpo cada) mais o espaço entre elas.
+  const n = text.length;
+  const fit = (SASH_LENGTH - SASH_SPACING * (n - 1)) / (n * 0.64);
+  return { kind: "along", text, size: Math.max(2, Math.min(7.6, fit)) };
 }
 
 /**
@@ -191,13 +201,14 @@ function along(text: string): SashLayout {
  * caracteres; o latino mais longo, deitado; o resto, a letra do monograma.
  */
 export function sashLayout(sash: Sash | null, name: string, letter: string): SashLayout {
-  if (sash?.along) return along(sash.text);
+  if (sash?.along) return sash.text.length <= SASH_ALONG ? along(sash.text) : upright([letter]);
   if (sash) {
     const chars = Array.from(sash.text);
     return upright(chars.length <= SASH_UPRIGHT ? chars : [letter]);
   }
   const chars = Array.from(name.trim().replace(/\s+/g, ""));
   if (chars.length > 0 && chars.length <= SASH_UPRIGHT) return upright(chars);
-  if (chars.length > 0 && LATIN.test(name.trim())) return along(name.trim());
+  const latin = name.trim();
+  if (chars.length > 0 && LATIN.test(latin) && latin.length <= SASH_ALONG) return along(latin);
   return upright([letter]);
 }

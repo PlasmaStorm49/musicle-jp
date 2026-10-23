@@ -99,9 +99,14 @@ const cells = (artist: string | RegExp) => [
     ?.querySelectorAll(".medal-cell") ?? []),
 ];
 
-/** O texto da célula, sem o da arte (a faixa da perfeita também tem texto, mas é decorativa). */
+/**
+ * O texto da célula, sem o da arte (a faixa da perfeita também tem texto, mas é decorativa): o
+ * nome e o como ganhar, separados por " | ".
+ */
 const cellText = (cell: Element) =>
-  [...cell.querySelectorAll("span")].map((span) => span.textContent).join("");
+  [...cell.querySelectorAll(":scope > .medal-name, :scope > .medal-how")]
+    .map((span) => span.textContent)
+    .join(" | ");
 
 describe("Medals (a tela, P278 e P286)", () => {
   it("o título com o foco, a sequência e o total; as gerais com o progresso", async () => {
@@ -123,21 +128,32 @@ describe("Medals (a tela, P278 e P286)", () => {
     expect(document.querySelectorAll(".medal-list > li.locked")).toHaveLength(2);
   });
 
-  it("o Superfan: as 3 de cada artista, com o estado, a capa e o monograma", () => {
+  it("o Superfan: as 3 de cada artista, com o nome próprio, o estado, a capa e o monograma (P300)", () => {
     let save = withArtistRight(emptySave(), "t:ar:2");
     for (let i = 0; i < SUPERFAN_RIGHT; i++) save = withArtistRight(save, "t:ar:1");
     save = withSuperfanEnd(save, "t:ar:1", { done: true, perfect: false });
     setup(store({ status: "ready", list: LIST }), save);
     expect(cells(/^夜風/).map(cellText)).toEqual([
-      "PrataGanha",
-      "OuroGanha",
-      "SupremaTermine perfeito: sem erro, sem ajuda, tudo em 1 s",
+      "夜明け · Yoake | Ganha",
+      "Round Robin | Ganha",
+      "夜風劇場 | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
     ]);
     expect(cells("Banda").map(cellText)).toEqual([
-      `Prata1 de ${SUPERFAN_RIGHT} acertos`,
-      "OuroTermine uma partida do Superfan",
-      "SupremaTermine perfeito: sem erro, sem ajuda, tudo em 1 s",
+      `Primeira | 1 de ${SUPERFAN_RIGHT} acertos`,
+      "Segunda | Termine uma partida do Superfan",
+      "Terceira | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
     ]);
+    // O leitor de tela ouve qual é cada uma, pelo feito: o desenho é decorativo.
+    expect(cells("Banda").map((c) => c.querySelector(".sr-only")?.textContent)).toEqual([
+      `${SUPERFAN_RIGHT} acertos`,
+      "Superfan completo",
+      "Superfan perfeito",
+    ]);
+    // Nenhum rótulo de nível na tela (P300); o nome japonês com a língua dele, e o ponto decorativo.
+    expect(document.body.textContent).not.toMatch(/Prata|Ouro|Suprema/);
+    const name = cells(/^夜風/)[0]?.querySelector(".medal-name");
+    expect(name?.querySelector('[lang="ja"]')?.textContent).toBe("夜明け");
+    expect(name?.querySelector('[aria-hidden="true"]')?.textContent).toBe("·");
     // A capa pelo resolvedor; sem capa, o monograma.
     expect(cells(/^夜風/)[0]?.querySelector("image")?.getAttribute("href")).toBe("/art/1.svg");
     expect(cells("Banda")[0]?.querySelector("text")?.textContent).toBe("B");
@@ -193,6 +209,22 @@ describe("Medals (a tela, P278 e P286)", () => {
     for (const el of document.querySelectorAll("[id]")) {
       expect(routes.has(el.id), el.id).toBe(false);
     }
+  });
+
+  it.each([
+    ["sem os nomes", { medals: {} }],
+    ["o índice velho, sem o medals", { medals: undefined }],
+  ])("a medalha %s: só o como ganhar (P301), e a tela não quebra", (_, change) => {
+    const noNames: ArtistList = {
+      ...LIST,
+      artists: [{ ...LIST.artists[1], ...change } as unknown as ArtistListEntry],
+    };
+    setup(store({ status: "ready", list: noNames }));
+    expect(cells("Banda").map(cellText)).toEqual([
+      `0 de ${SUPERFAN_RIGHT} acertos`,
+      "Termine uma partida do Superfan",
+      "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
+    ]);
   });
 
   it("o artista sem nome (um índice corrompido) não derruba a tela", () => {

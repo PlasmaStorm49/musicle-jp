@@ -6,7 +6,15 @@ import { readFileSync } from "node:fs";
 import type { Page } from "@playwright/test";
 import type { ArtistCatalog } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
-import { expect, lastPlayed, open, openWithMedals, seedHistory, test } from "./helpers.ts";
+import {
+  appleArtistList,
+  expect,
+  lastPlayed,
+  open,
+  openWithMedals,
+  seedHistory,
+  test,
+} from "./helpers.ts";
 
 const DAY = "2026-10-22T12:00:00-03:00";
 const lost = { status: "lost", stage: 0, attempts: [] } as const;
@@ -60,10 +68,11 @@ test("com a lista de exemplo: a aba, a tela com a sequência, as gerais e o Supe
   await expect(page.locator(".medal-list .medal-how")).toHaveText(["Ganha", "3 de 5", "Ganha"]);
   // As 3 do Superfan de cada artista das fixtures, por ganhar.
   await expect(page.locator(".medal-artist")).toHaveCount(5);
+  // O nome próprio de cada uma, com o latino (P295, P300): os fictícios do ar02.
   await expect(page.locator(".medal-artist").first().locator(".medal-name")).toHaveText([
-    "Prata",
-    "Ouro",
-    "Suprema",
+    "開幕ベル · Kaimaku Bell",
+    "真夜中のカーテンコール · Mayonaka no Curtain Call",
+    "夜風劇場",
   ]);
   await expect(page.getByText("2 de 18 medalhas")).toBeVisible();
   // Calado (`?medalhas=silencio`): a tela fica, e o aviso não.
@@ -212,6 +221,19 @@ test("duas abas: só a que reivindicou avisa; a outra, que relê o save, não (P
   }
 });
 
+test("o aviso pequeno da lista real vai com o monograma, sem a capa da Apple, porque a Início não tem o selo (P298)", async ({
+  page,
+}) => {
+  await appleArtistList(page);
+  await seedHistory(page, {}, { "fixture:ar:ar02": { right: 50 } });
+  await openWithMedals(page, DAY, "#inicio");
+  await expect(toast(page).locator(".medal-toast-text")).toHaveText(
+    "Medalha nova: 開幕ベル · Kaimaku Bell, de 夜風シアター",
+  );
+  await expect(toast(page).locator("image")).toHaveCount(0);
+  await expect(page.locator(".attribution")).toHaveCount(0);
+});
+
 test("um acerto na Livre aparece no progresso da medalha dos acertos do artista (P285, P289)", async ({
   page,
 }) => {
@@ -259,7 +281,10 @@ test("terminar o Superfan, com um erro: o pop-up da completa com o artista no fi
   await expect(page.getByText("Todas as músicas da partida tocaram.")).toBeVisible();
   const big = page.getByRole("dialog", { name: "Medalha nova!" });
   await expect(big).toBeVisible();
-  await expect(big.getByRole("listitem")).toHaveText(["Ouro de 夜風シアター"]);
+  // O feito vai junto, só para o leitor de tela (o .sr-only).
+  await expect(big.getByRole("listitem")).toHaveText([
+    "真夜中のカーテンコール · Mayonaka no Curtain Call, de 夜風シアター (Superfan completo)",
+  ]);
   await big.getByRole("button", { name: "Ok" }).click();
   await expect(end).toBeFocused();
   await page.getByRole("navigation").getByRole("link", { name: "Medalhas" }).click();

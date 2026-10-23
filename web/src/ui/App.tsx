@@ -50,9 +50,15 @@ import { Game } from "./Game.tsx";
 import { History } from "./History.tsx";
 import { Hits } from "./Hits.tsx";
 import { Home } from "./Home.tsx";
-import { MedalDialog, MedalToast } from "./MedalNotice.tsx";
+import { MedalDialog, MedalToast, SHOWN } from "./MedalNotice.tsx";
 import { Medals } from "./Medals.tsx";
-import { noticeItems, noticeTitle, toastText, useMedalNotices } from "./medalNotices.ts";
+import {
+  announceText,
+  noticeItems,
+  noticeTitle,
+  toastText,
+  useMedalNotices,
+} from "./medalNotices.ts";
 import { Nav } from "./Nav.tsx";
 import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
 import { singleClickLink } from "./singleClick.ts";
@@ -207,9 +213,16 @@ export function App() {
   const listSettled = artists.list.status !== "idle" && artists.list.status !== "loading";
   const shown = notice && (!needsList || listSettled) ? notice : null;
   const noticeList = artists.list.status === "ready" ? artists.list.list : null;
-  const items = shown ? noticeItems(shown.ids, noticeList, resolveUrl) : [];
   const big = shown?.tier === "major";
+  // O aviso pequeno vai sem a capa (P298); o grande a mostra, com o selo da Apple no fim.
+  const items = shown ? noticeItems(shown.ids, noticeList, resolveUrl, big) : [];
+  // O selo só quando uma capa da Apple está desenhada (as SHOWN primeiras).
+  const attribution =
+    big &&
+    noticeList?.provider === APPLE_PROVIDER &&
+    items.slice(0, SHOWN).some((item) => item.art.image);
   const toastMessage = shown && !big ? toastText(items) : null;
+  const toastSpoken = shown && !big ? announceText(items) : null;
   // O Anime (M14): o catálogo e a agenda, carregados só quando a pessoa abre a categoria.
   const anime = useAnimeStore({
     fetchFn: FETCH,
@@ -247,8 +260,8 @@ export function App() {
 
   // O aviso pequeno é aria-hidden: o texto dele vai para a região aria-live.
   useEffect(() => {
-    if (toastMessage) announce(toastMessage);
-  }, [toastMessage, announce]);
+    if (toastSpoken) announce(toastSpoken);
+  }, [toastSpoken, announce]);
 
   // `attempt` muda quando o jogador clica em "Tentar de novo" e dispara uma nova carga.
   useEffect(() => {
@@ -369,7 +382,12 @@ export function App() {
       {/* O pequeno, pela leva (`key`): a que chega com ele na tela recomeça o tempo. */}
       {shown &&
         (big ? (
-          <MedalDialog title={noticeTitle(shown)} items={items} onClose={dismissNotice} />
+          <MedalDialog
+            title={noticeTitle(shown)}
+            items={items}
+            onClose={dismissNotice}
+            attribution={attribution}
+          />
         ) : (
           toastMessage && (
             <MedalToast

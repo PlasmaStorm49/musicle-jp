@@ -368,11 +368,13 @@ export const ptBR = {
   "medals.generalMark": "★",
   "medals.superfanHint":
     "Três por artista: acertar no modo por artista, terminar o Superfan e terminar perfeito.",
-  "medals.level.acertos": "Prata",
-  "medals.level.completo": "Ouro",
-  "medals.level.perfeito": "Suprema",
+  // O feito de uma medalha do Superfan, quando falta o nome próprio dela (P301).
+  "medals.feat.acertos": "{goal} acertos",
+  "medals.feat.completo": "Superfan completo",
+  "medals.feat.perfeito": "Superfan perfeito",
   "medals.how.completo": "Termine uma partida do Superfan",
-  "medals.how.perfeito": "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
+  // O "1 s" não quebra no meio (o espaço inseparável).
+  "medals.how.perfeito": "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
   "medals.earned": "Ganha",
   "medals.progress": "{value} de {goal}",
   "medals.progress.acertos": "{value} de {goal} acertos",
@@ -383,7 +385,14 @@ export const ptBR = {
   "medals.notice.many.other": "{count} medalhas novas",
   "medals.notice.first.one": "Você já tem {count} medalha",
   "medals.notice.first.other": "Você já tem {count} medalhas",
-  "medals.notice.superfan": "{level} de {artist}",
+  "medals.notice.named": "{name}, de {artist}",
+  // O "de" do pop-up, que desenha o nome e o artista como a tela (o lang de cada um).
+  "medals.notice.of": ", de",
+  // O nome com o latino ao lado (P295): o ponto na tela, a vírgula para o leitor de tela.
+  "medals.notice.latinName": "{name} · {latin}",
+  "medals.notice.spokenLatin": "{name}, {latin}",
+  // O feito no fim do que o leitor de tela ouve: o desenho, que diz qual é a medalha, é decorativo.
+  "medals.notice.withFeat": "{name} ({feat})",
   "medals.notice.toast": "Medalha nova: {name}",
   "medal.demo-primeiro.name": "Primeiro diário",
   "medal.demo-primeiro.how": "Termine um diário no dia",

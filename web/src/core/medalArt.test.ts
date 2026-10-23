@@ -4,6 +4,7 @@ import {
   coverFrame,
   FLOWER_ROLES,
   medalName,
+  SASH_SPACING,
   sashLayout,
   sizedArtwork,
   superfanArt,
@@ -178,10 +179,23 @@ describe("sashLayout: a faixa da perfeita (P299)", () => {
     expect(chars(sashLayout(null, "", "?"))).toBe("?");
   });
 
-  it("o latino deitado diminui para caber na faixa", () => {
+  it("a deitada com mais de 28 letras não cabe nem no corpo mínimo: a letra", () => {
+    const text = "A".repeat(29);
+    expect(sashLayout({ text, along: true }, "x", "S")).toMatchObject({ kind: "up", size: 7.5 });
+    expect(sashLayout(null, text, "A")).toMatchObject({ kind: "up" });
+    expect(sashLayout({ text: "A".repeat(28), along: true }, "x", "S").kind).toBe("along");
+  });
+
+  it("o latino deitado diminui para caber na faixa, com o espaço entre as letras", () => {
     const short = sashLayout({ text: "SOAD", along: true }, "x", "S");
     const long = sashLayout({ text: "System Of A Down", along: true }, "x", "S");
     expect(short.size).toBe(7.6);
     expect(long.size).toBeLessThan(short.size);
+    // As letras (0,64 do corpo cada) e o espaço entre elas cabem nos 44 da faixa.
+    for (const text of ["UNLIMITS", "System Of A Down", "Hoshizora Drive Forever"]) {
+      const layout = sashLayout({ text, along: true }, "x", "S");
+      const width = text.length * 0.64 * layout.size + SASH_SPACING * (text.length - 1);
+      expect(width, text).toBeLessThanOrEqual(44.001);
+    }
   });
 });
