@@ -269,6 +269,8 @@ export const ptBR = {
   "stats.distribution": "Pontos por dia",
   "stats.bucket": "{points}: {games}",
   "stats.bucketToday": "{points}: {games}, incluindo hoje",
+  "stats.bucketRange": "{from} a {to} pontos: {games}",
+  "stats.bucketRangeToday": "{from} a {to} pontos: {games}, incluindo hoje",
   "stats.none": "sem dados",
 
   "share.header": "{title} · {mode} nº {number}",

@@ -3,14 +3,33 @@
 // no dia conta: o jogado depois, pelo Histórico, fica fora de tudo (P263).
 import type { DailyKey } from "./daily.ts";
 import { type FinishedGame, type PuzzleId, recordMax, recordScore } from "./records.ts";
-import { MAX_POINTS, ROUNDS_PER_DAY } from "./rules.ts";
+import { DAILY_SCORING, ROUNDS_PER_DAY } from "./rules.ts";
+
+/** O máximo de um dia: o acerto no 1º trecho nas 3 rodadas. */
+export const DAY_MAX = (DAILY_SCORING.points[0] ?? 0) * ROUNDS_PER_DAY;
+/** A largura de cada faixa da distribuição (ME107): 0 a 2, 3 a 5, …, e o máximo sozinho. */
+export const BUCKET_SIZE = 3;
+
+/** A faixa da distribuição em que cai um placar. */
+export function bucketOf(score: number): number {
+  return Math.floor(score / BUCKET_SIZE);
+}
+
+/** Os pontos que uma faixa junta: do `from` ao `to`, os dois inclusive. A última é só o máximo. */
+export function bucketRange(bucket: number): { readonly from: number; readonly to: number } {
+  const from = bucket * BUCKET_SIZE;
+  return { from, to: Math.min(from + BUCKET_SIZE - 1, DAY_MAX) };
+}
 
 export type Stats = {
   /** Dias terminados no dia (inclusive os todo anulados; sem os jogados depois, P263). */
   readonly played: number;
   /** Média de pontos brutos, com 1 casa; null se nenhum dia valeu ponto (P41). */
   readonly average: number | null;
-  /** Quantos dias terminaram com 0, 1, ..., 18 pontos (dia todo anulado fica fora, P41). */
+  /**
+   * Quantos dias caíram em cada faixa de pontos (`bucketOf`), da 1ª à do máximo (dia todo anulado
+   * fica fora, P41).
+   */
   readonly distribution: readonly number[];
   /** Dias seguidos com o diário terminado (P38). */
   readonly currentStreak: number;
@@ -84,13 +103,14 @@ export function computeStats(
 ): Stats {
   const games = dayGames(history, today).filter((g) => g.daily === key);
 
-  const distribution = new Array<number>(MAX_POINTS * ROUNDS_PER_DAY + 1).fill(0);
+  const distribution = new Array<number>(bucketOf(DAY_MAX) + 1).fill(0);
   const scores: number[] = [];
   for (const { game } of games) {
     if (recordMax(game) === 0) continue; // dia todo anulado: não entra na média (P41)
     const score = recordScore(game);
     scores.push(score);
-    distribution[score] = (distribution[score] ?? 0) + 1;
+    const bucket = bucketOf(score);
+    distribution[bucket] = (distribution[bucket] ?? 0) + 1;
   }
   // Multiplica antes de dividir: um arredondamento só, sem o erro de (x / n) * 10.
   const average =

@@ -5,6 +5,7 @@
 // Histórico (M15, PR 2), as telas dele e o "Mais" da nav no celular.
 import type { Locator, Page } from "@playwright/test";
 import { PLAYLIST_URL } from "../src/core/apple.ts";
+import { bucketOf, DAY_MAX } from "../src/core/stats.ts";
 import type { AnimeTrack, Catalog } from "../src/core/types.ts";
 import {
   albumOf,
@@ -478,7 +479,7 @@ for (const viewport of [
       }
       await expect(page.getByRole("heading", { name: "Resultado do dia" })).toBeFocused();
       await expect(page.locator(".summary-rounds > li")).toHaveCount(3);
-      await expect(page.locator(".distribution > li")).toHaveCount(19);
+      await expect(page.locator(".distribution > li")).toHaveCount(bucketOf(DAY_MAX) + 1);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
       await expect(page.getByRole("button", { name: "Compartilhar resultado" })).toBeInViewport({
         ratio: 1,

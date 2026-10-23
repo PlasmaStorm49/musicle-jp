@@ -3,6 +3,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { animeDaily, hitsDaily } from "../core/daily.ts";
 import type { FinishedGame } from "../core/records.ts";
+import { bucketOf, DAY_MAX } from "../core/stats.ts";
 import type { AlbumRound, AnimeDay, Day, Target } from "../core/types.ts";
 import { Countdown } from "./Countdown.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
@@ -154,7 +155,7 @@ describe("Summary (o fim do dia)", () => {
     expect(roundTexts()[0]).toBe("Rodada 1: anulada");
   });
 
-  it("as estatísticas: 19 colunas, a de hoje em destaque e com a altura cheia (ME77)", () => {
+  it("as estatísticas: uma coluna por faixa de 3, a de hoje em destaque e com a altura cheia (ME77, ME107)", () => {
     render(
       <Summary
         game={GAME}
@@ -166,14 +167,21 @@ describe("Summary (o fim do dia)", () => {
         announce={vi.fn()}
       />,
     );
-    expect(document.querySelectorAll(".distribution > li")).toHaveLength(19);
+    const buckets = bucketOf(DAY_MAX) + 1;
+    expect(document.querySelectorAll(".distribution > li")).toHaveLength(buckets);
+    expect(
+      document.querySelector<HTMLElement>(".distribution")?.style.getPropertyValue("--buckets"),
+    ).toBe(String(buckets));
     const today = document.querySelector<HTMLElement>(".bucket.today");
-    // Hoje (11 pontos) é o único jogo: a coluna mais alta, com a contagem e a frase para o leitor.
-    expect(today?.querySelector(".bucket-label")?.textContent).toBe("11");
+    // Hoje (11 pontos, na faixa de 9 a 11) é o único jogo: a coluna mais alta, com a contagem e a
+    // frase para o leitor. O eixo mostra o começo da faixa.
+    expect(today?.querySelector(".bucket-label")?.textContent).toBe("9");
     expect(today?.querySelector<HTMLElement>(".bucket-bar")?.style.getPropertyValue("--h")).toBe(
       "100%",
     );
-    expect(today?.querySelector(".sr-only")?.textContent).toBe("11 pontos: 1 jogo, incluindo hoje");
+    expect(today?.querySelector(".sr-only")?.textContent).toBe(
+      "9 a 11 pontos: 1 jogo, incluindo hoje",
+    );
     expect(
       document
         .querySelector<HTMLElement>(".bucket:not(.today) .bucket-bar")

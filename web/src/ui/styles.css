@@ -2542,14 +2542,15 @@ section.summary > h2 {
   font-variant-numeric: tabular-nums;
 }
 
-/* A distribuição: 19 colunas, de 0 a 18 pontos. No eixo, só o 0, o 6, o 12, o 18 e o de hoje; a
-   contagem, só em cima da coluna de hoje. As frases inteiras ficam para o leitor de tela. */
+/* A distribuição: uma coluna por faixa de 3 pontos, e o máximo sozinho (o número vem do Stats.tsx,
+   o --buckets). No eixo, o começo de uma faixa a cada 5 (0, 15 e 30) e o de hoje; a contagem, só
+   em cima da coluna de hoje. As frases inteiras ficam para o leitor de tela. */
 .distribution {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(19, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--buckets, 11), minmax(0, 1fr));
   gap: 3px;
   height: 104px;
   font-size: var(--t-xs);
@@ -2587,7 +2588,7 @@ section.summary > h2 {
   visibility: hidden;
 }
 
-.bucket:nth-child(6n + 1) .bucket-label {
+.bucket:nth-child(5n + 1) .bucket-label {
   visibility: visible;
 }
 

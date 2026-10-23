@@ -1,6 +1,14 @@
 import { describe, expect, it } from "vitest";
 import type { FinishedGame, RoundRecord } from "./records.ts";
-import { computeStats, dayGames, streaks } from "./stats.ts";
+import {
+  BUCKET_SIZE,
+  bucketOf,
+  bucketRange,
+  computeStats,
+  DAY_MAX,
+  dayGames,
+  streaks,
+} from "./stats.ts";
 
 const won = (stage: number): RoundRecord => ({ status: "won", stage, attempts: ["right"] });
 const lost: RoundRecord = { status: "lost", stage: 0, attempts: ["wrong"] };
@@ -14,12 +22,23 @@ const days = (from: number, to: number) =>
   Array.from({ length: to - from + 1 }, (_, i) => `2026-10-${String(from + i).padStart(2, "0")}`);
 const SCHEDULE = days(8, 29);
 
+describe("as faixas da distribuição (ME107)", () => {
+  it("de 3 em 3, e o máximo do dia sozinho na última", () => {
+    expect(BUCKET_SIZE).toBe(3);
+    expect([0, 2, 3, 5].map(bucketOf)).toEqual([0, 0, 1, 1]);
+    expect(bucketRange(1)).toEqual({ from: 3, to: 5 });
+    const last = bucketOf(DAY_MAX);
+    expect(bucketRange(last)).toEqual({ from: DAY_MAX, to: DAY_MAX });
+    expect(bucketRange(last - 1).to).toBe(DAY_MAX - 1);
+  });
+});
+
 describe("computeStats", () => {
   it("histórico vazio", () => {
     expect(computeStats({}, "song", "2026-10-08", SCHEDULE)).toEqual({
       played: 0,
       average: null,
-      distribution: new Array(19).fill(0),
+      distribution: new Array(bucketOf(DAY_MAX) + 1).fill(0),
       currentStreak: 0,
       bestStreak: 0,
     });
@@ -33,8 +52,8 @@ describe("computeStats", () => {
     const stats = computeStats(history, "song", "2026-10-09", SCHEDULE);
     expect(stats.played).toBe(2);
     expect(stats.average).toBe(6);
-    expect(stats.distribution[11]).toBe(1);
-    expect(stats.distribution[1]).toBe(1);
+    expect(stats.distribution[bucketOf(11)]).toBe(1);
+    expect(stats.distribution[bucketOf(1)]).toBe(1);
   });
 
   it("dia todo anulado conta em jogos e na sequência, mas não na média (P41)", () => {
@@ -98,7 +117,7 @@ describe("computeStats", () => {
     };
     const stats = computeStats(history, "song", "2026-10-10", SCHEDULE);
     expect(stats).toMatchObject({ played: 2, average: 11.5, currentStreak: 1, bestStreak: 1 });
-    expect(stats.distribution[6]).toBe(0);
+    expect(stats.distribution[bucketOf(6)]).toBe(0);
     // Sem a marca, o mesmo dia contaria: a sequência seria de 3.
     const onTime = { ...history, "2026-10-09|song": game(won(0), lost, lost) };
     expect(computeStats(onTime, "song", "2026-10-10", SCHEDULE).currentStreak).toBe(3);
