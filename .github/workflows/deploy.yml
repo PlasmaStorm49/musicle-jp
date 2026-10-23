@@ -46,12 +46,21 @@ jobs:
         working-directory: web
         run: |
           grep -Eq '(src|href)="/musicle-jp/assets/' dist/index.html || { echo "::error::dist/index.html sem a base /musicle-jp/"; exit 1; }
-          if grep -Eq '(src|href)="/assets/' dist/index.html; then
-            echo "::error::dist/index.html tem caminho /assets/ sem a base"
+          # Todo caminho absoluto leva a base, como na CI (ME83).
+          if grep -Eo '(src|href)="/[^"]*"' dist/index.html | grep -v '="/musicle-jp/'; then
+            echo "::error::dist/index.html tem caminho absoluto sem a base /musicle-jp/"
             exit 1
           fi
+          for file in favicon.svg apple-touch-icon.png; do
+            test -f "dist/$file" || { echo "::error::dist/$file não existe"; exit 1; }
+          done
           if grep -rq "musicle-fake-audio" dist; then
             echo "::error::o motor de áudio falso foi parar no build"
+            exit 1
+          fi
+          # A lista de exemplo das medalhas (?medalhas=demo), como na CI.
+          if grep -rqE "id:[\"'\`]demo-" dist; then
+            echo "::error::a lista de exemplo das medalhas foi parar no build"
             exit 1
           fi
           # Nenhum áudio no site: as prévias tocam do servidor da Apple (termos da Apple). O
