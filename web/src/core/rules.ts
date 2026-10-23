@@ -110,7 +110,7 @@ export const MODE_RULES: Readonly<Record<Target, ModeRules>> = {
 
 /**
  * As variantes de um modo, com regras próprias e o mesmo `Target` (P125): o Superfan (ME61) é o
- * Desafio do modo por artista com 3 trechos (1, 3 e 5 s) e a pontuação de todos (ME107): 10, 6 ou
+ * Desafio do modo por artista com 3 trechos (1, 4 e 9 s) e a pontuação de todos (ME107): 10, 6 ou
  * 4 pelo acerto, a metade com a ajuda, que vem logo de cara (P159). O palpite errado passa para a
  * etapa seguinte (P158), e ele e o desistir (P290) custam uma das 3 vidas da partida, e não
  * pontos. Acertar sozinho vale mais que com a ajuda, que vale mais que errar ou desistir. As vidas,

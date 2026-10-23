@@ -109,7 +109,8 @@ export function computeStats(
     if (recordMax(game) === 0) continue; // dia todo anulado: não entra na média (P41)
     const score = recordScore(game);
     scores.push(score);
-    const bucket = bucketOf(score);
+    // Nenhum placar passa do máximo (o scoreOf dá até 10 por rodada), mas a faixa fica no gráfico.
+    const bucket = Math.min(bucketOf(score), distribution.length - 1);
     distribution[bucket] = (distribution[bucket] ?? 0) + 1;
   }
   // Multiplica antes de dividir: um arredondamento só, sem o erro de (x / n) * 10.

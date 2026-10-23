@@ -60,7 +60,7 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, com o ✓ da
   // O cartão some com a tela, e o foco vai ao Tocar (regra 16).
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
 
-  // Rodada 1: acerta de primeira (6 pontos).
+  // Rodada 1: acerta de primeira (10 pontos).
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
   await answerWithPlayed(page);
   await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
@@ -70,7 +70,7 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, com o ✓ da
   await page.getByRole("button", { name: "Desistir", exact: true }).click();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
-  // Rodada 3: pula uma vez e acerta (5 pontos).
+  // Rodada 3: pula uma vez e acerta (8 pontos).
   await page.getByRole("button", { name: "Pular (+1 s)" }).click();
   await page.getByRole("button", { name: "Tocar 2 s" }).click();
   await answerWithPlayed(page);
@@ -129,7 +129,7 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
     "Nome do anime",
   );
 
-  // Rodada 1: o nome do anime da faixa que tocou, de primeira (6 pontos).
+  // Rodada 1: o nome do anime da faixa que tocou, de primeira (10 pontos).
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
   const first = franchiseName(await lastPlayedAnime(page));
   await answerAnime(page, first, first);

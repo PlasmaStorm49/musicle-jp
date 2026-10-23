@@ -121,6 +121,19 @@ export function SuperfanView({
     return <SuperfanEnd artist={artist} run={run} onAgain={onAgain} onSwitch={onSwitch} />;
   }
   const score = superfanScore(run);
+  const round = currentRound(game);
+  // A revelação que leva ao resultado (a última música, ou sem vidas): encerrar ali perderia o
+  // bônus da partida completa, e o único passo é o resultado, então o Encerrar sai.
+  const toResult = round.status !== "playing" && (over || nextId === null);
+  // As vidas que esta música custou, para a revelação dizer (o cabeçalho não é aria-live).
+  const lost = errors - run.errors;
+  const revealNote = over
+    ? t("superfan.over", { total: SUPERFAN_LIVES })
+    : lost > 0
+      ? tn("superfan.lostLives", lost, {
+          left: tn("superfan.livesLeft", superfanLives(run)),
+        })
+      : undefined;
   return (
     <div class="game practice superfan screen">
       <header class="session-head">
@@ -140,14 +153,16 @@ export function SuperfanView({
           <span aria-hidden="true">{t("item.artistSeparator")}</span>{" "}
           {t("superfan.helps", { count: helps, total: SUPERFAN_HELPS })}
         </p>
-        <ConfirmButton
-          label={t("superfan.quit")}
-          short={t("superfan.quitShort")}
-          warning={t("superfan.quitWarning", { points: points(score.points) })}
-          confirm={t("superfan.quitConfirm")}
-          ask={score.rounds > 0 || errors > 0}
-          onConfirm={quit}
-        />
+        {!toResult && (
+          <ConfirmButton
+            label={t("superfan.quit")}
+            short={t("superfan.quitShort")}
+            warning={t("superfan.quitWarning", { points: points(score.points) })}
+            confirm={t("superfan.quitConfirm")}
+            ask={score.rounds > 0 || errors > 0}
+            onConfirm={quit}
+          />
+        )}
       </header>
       <RoundView
         game={game}
@@ -166,7 +181,7 @@ export function SuperfanView({
         step={step}
         wrongNote={wrongNote}
         giveUpLabel={t("superfan.giveUp")}
-        revealNote={over ? t("superfan.over", { total: SUPERFAN_LIVES }) : undefined}
+        revealNote={revealNote}
       />
     </div>
   );

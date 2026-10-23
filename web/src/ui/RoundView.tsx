@@ -58,15 +58,15 @@ type Props = {
   /** Onde o trecho começa na prévia; sem dizer, o do catálogo (o Superfan sorteia, ME61). */
   readonly offset?: number;
   /**
-   * Como quem chama aplica um evento, se não for o reducer puro: o Superfan encerra a música no
-   * 3º erro da partida. A rodada usa para saber o que anunciar depois de um palpite.
+   * Como quem chama aplica um evento, se não for o reducer puro: o Superfan encerra a música na
+   * última vida da partida. A rodada usa para saber o que anunciar depois de um palpite.
    */
   readonly step?: (game: GameState, event: GameEvent) => GameState;
-  /** Uma nota a mais no anúncio do palpite errado (o Superfan: "Erro 1 de 3: -5 pontos."). */
+  /** Uma nota a mais no anúncio do palpite errado (o Superfan: "Perdeu uma vida. Sobram 2."). */
   readonly wrongNote?: () => string;
   /** O texto do botão de desistir da rodada (o Superfan: "Desistir da música"). */
   readonly giveUpLabel?: string;
-  /** Uma linha a mais na revelação (o Superfan: "3 erros: a partida acabou."). */
+  /** Uma linha a mais na revelação (o Superfan: as vidas que a música custou). */
   readonly revealNote?: string;
 };
 
@@ -202,6 +202,10 @@ export function RoundView({
                 round.help
                   ? t("typing.skippedHelp", {
                       seconds: secondsAt(round.stage + 1, rules.stages),
+                      points: tn(
+                        "count.points",
+                        scoreOf({ status: "won", stage: round.stage + 1, help: 0 }, rules),
+                      ),
                     })
                   : t("typing.skipped", attemptLabel(round.attempts.length + 1)) +
                       helpNote(round.attempts.length + 1),
@@ -384,7 +388,8 @@ function Typing({
  * "acertar o anime", nomes de anime (franquias).
  * Pedida agora, o botão sumiu com o foco: ele vai para a 1ª opção na tela (regra 16). Voltar à
  * rodada com a ajuda já pedida (outra aba, recarregar) deixa o Player levá-lo ao Tocar. A dica
- * (errar encerra, acertar vale 1) descreve a lista, sem anúncio à parte: o foco já a lê.
+ * (errar encerra, acertar vale a metade do trecho) descreve a lista, sem anúncio à parte: o foco
+ * já a lê.
  */
 function HelpOptions({
   index,

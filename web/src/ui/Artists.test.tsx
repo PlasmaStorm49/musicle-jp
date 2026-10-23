@@ -792,6 +792,9 @@ describe("Artists: o Superfan (ME61)", () => {
     };
     const songs = ["t:tr:1", "t:tr:2", "t:tr:3"];
     const [w1, w2] = songs.filter((id) => id !== answer());
+    // O Encerrar, curto na tela (P210), fica enquanto a música está em jogo.
+    const quit = screen.getByRole("button", { name: "Encerrar a partida" });
+    expect(quit.querySelector('[aria-hidden="true"]')?.textContent).toBe("Encerrar");
     pick(w1 ?? "");
     expect(announce).toHaveBeenLastCalledWith(
       expect.stringMatching(/Tentativa 2 de 3\. Perdeu uma vida\. Sobram 2\.$/),
@@ -808,11 +811,9 @@ describe("Artists: o Superfan (ME61)", () => {
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
     // A revelação se anuncia sozinha: nada de "Tentativa 2 de 3" para uma música encerrada.
     expect(announce).not.toHaveBeenCalledWith(expect.stringMatching(/Tentativa/));
-    // E encerrar a partida agora é o fim pelas vidas. O botão é curto na tela (P210).
-    const quit = screen.getByRole("button", { name: "Encerrar a partida" });
-    expect(quit.querySelector('[aria-hidden="true"]')?.textContent).toBe("Encerrar");
-    fireEvent.click(quit);
-    fireEvent.click(screen.getByRole("button", { name: "Sim, encerrar" }));
+    // Sem vidas, a revelação leva ao resultado: o Encerrar sai, e o fim é pelas vidas.
+    expect(screen.queryByRole("button", { name: "Encerrar a partida" })).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Ver resultado" }));
     expect(screen.getByText("As 3 vidas acabaram: a partida acabou.")).toBeTruthy();
   });
 
@@ -843,7 +844,9 @@ describe("Artists: o Superfan (ME61)", () => {
     fireEvent.click(screen.getByRole("button", { name: /^Pedir ajuda/ }));
     fireEvent.click(screen.getByRole("button", { name: "Pular (+3 s)" }));
     // O trecho novo pela barra do Superfan (1, 4 e 9 s), e não pela dos diários.
-    expect(announce).toHaveBeenLastCalledWith("Pulou. O trecho agora tem 4 s.");
+    expect(announce).toHaveBeenLastCalledWith(
+      "Pulou. O trecho agora tem 4 s, e o acerto com a ajuda vale 3 pontos.",
+    );
     fireEvent.click(screen.getByRole("button", { name: "Pular (+5 s)" }));
     expect(screen.getByRole("button", { name: "Tocar 9 s" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: /^Pular/ })).toBeNull();
@@ -889,8 +892,10 @@ describe("Artists: o Superfan (ME61)", () => {
     await superfan(/^夜風/);
     fireEvent.click(screen.getByRole("button", { name: "Desistir da música" }));
     expect(screen.getByText("Não foi dessa vez.")).toBeTruthy();
-    // A revelação não tem mais a conta do desistir: a vida fica no cabeçalho.
+    // A revelação não tem mais a conta do desistir, mas diz a vida perdida: o cabeçalho não é
+    // aria-live, e o leitor de tela a ouve com a revelação.
     expect(document.querySelector(".reveal-errors")).toBeNull();
+    expect(text(".reveal-note")).toBe("Perdeu 1 vida. Sobram 2.");
     expect(score()).toBe("Placar: 0 pontos");
     expect(text(".superfan-limits")).toBe("Vidas: 2 de 3 · Ajudas: 0 de 3");
   });
@@ -935,6 +940,11 @@ describe("Artists: o Superfan (ME61)", () => {
       fireEvent.input(input, { target: { value: `Música ${answer.split(":").at(-1)}` } });
       fireEvent.click(screen.getAllByRole("option")[0] as HTMLElement);
       expect(screen.getByText("Acertou! 10 de 10 pontos.")).toBeTruthy();
+      // Na revelação da última música, o único passo é o resultado: encerrar ali perderia o
+      // bônus da partida completa.
+      expect(screen.queryAllByRole("button", { name: "Encerrar a partida" })).toHaveLength(
+        i === 0 ? 1 : 0,
+      );
       fireEvent.click(
         screen.getByRole("button", { name: i === 0 ? "Próxima música" : "Ver resultado" }),
       );

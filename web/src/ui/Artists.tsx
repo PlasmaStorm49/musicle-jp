@@ -15,7 +15,12 @@ import {
 } from "../core/practice.ts";
 import { type Save, withArtistRight, withSuperfanEnd } from "../core/records.ts";
 import { currentRound } from "../core/reducer.ts";
-import { type SuperfanRun, startSuperfan, superfanOutcome } from "../core/superfan.ts";
+import {
+  SUPERFAN_LIVES,
+  type SuperfanRun,
+  startSuperfan,
+  superfanOutcome,
+} from "../core/superfan.ts";
 import type { ArtistList, ArtistListEntry, Day } from "../core/types.ts";
 import {
   appleResolver,
@@ -530,7 +535,7 @@ function ModeChoice({
     {
       id: "superfan",
       name: t("superfan.name"),
-      hint: t("artists.superfanHint"),
+      hint: t("artists.superfanHint", { total: SUPERFAN_LIVES }),
       start: onSuperfan,
     },
   ] as const;

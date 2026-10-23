@@ -321,7 +321,7 @@ describe("Countdown (P39: a virada à meia-noite de Brasília)", () => {
 });
 
 describe("ShareButton", () => {
-  const TEXT = "AteMusic · Desafio nº 1\n6/18";
+  const TEXT = "AteMusic · Desafio nº 1\n10/30";
 
   it('copiou: o botão diz "Copiado!" por 2 s, e o aria-live avisa com a frase inteira', async () => {
     vi.useFakeTimers();

@@ -25,7 +25,7 @@ type Props = {
   readonly target: Target;
   /** O que se tentou: músicas, ou franquias no "acertar o anime" (as tentativas dizem o anime). */
   readonly answer?: DailyAnswer;
-  /** As regras do jogo: os pontos do acerto e os dos erros (o Superfan tem os seus). */
+  /** As regras do jogo: os pontos do acerto, e os da ajuda (o Superfan tem os seus). */
   readonly rules: ModeRules;
   readonly engine: AudioEngine;
   readonly resolver: PreviewResolver;

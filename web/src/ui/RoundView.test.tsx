@@ -491,7 +491,9 @@ describe("RoundView: a ajuda (P149)", () => {
     // Com as opções no lugar do campo, a reserva das tentativas sai (a tela cabe, regra 25).
     expect(document.querySelector("section.typing")?.classList.contains("helping")).toBe(true);
     fireEvent.click(screen.getByRole("button", { name: "Pular (+2 s)" }));
-    expect(announce).toHaveBeenCalledWith("Pulou. O trecho agora tem 4 s.");
+    expect(announce).toHaveBeenCalledWith(
+      "Pulou. O trecho agora tem 4 s, e o acerto com a ajuda vale 3 pontos.",
+    );
   });
 });
 

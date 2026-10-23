@@ -20,7 +20,7 @@ test("Normal: do Tocar ao compartilhar", async ({ page }) => {
   // Sem escolha de modo: a rodada 1 já começa, com o foco no Tocar.
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
 
-  // Rodada 1: acerta de primeira (6 pontos).
+  // Rodada 1: acerta de primeira (10 pontos).
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
   await option(page, albumOf(await lastPlayed(page)).title).click();
   await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
@@ -30,7 +30,7 @@ test("Normal: do Tocar ao compartilhar", async ({ page }) => {
   await page.getByRole("button", { name: "Não sei" }).click();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
-  // Rodada 3: ouve mais (toca o trecho de 2 s) e acerta (5 pontos).
+  // Rodada 3: ouve mais (toca o trecho de 2 s) e acerta (8 pontos).
   await page.getByRole("button", { name: /Ouvir mais/ }).click();
   // A parte liberada (e o tocado, da mesma largura) termina onde termina o último pedaço
   // liberado: com o divisor em borda, que ocupava espaço no flex, sobrava uma fresta do trilho.

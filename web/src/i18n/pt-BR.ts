@@ -239,7 +239,8 @@ export const ptBR = {
   "typing.wrong": "Errou: {title}. Tentativa {current} de {total}.",
   "typing.skipped": "Pulou. Tentativa {current} de {total}.",
   // Com a ajuda na tela (P163), o contador de tentativas some: o pulo diz o trecho novo.
-  "typing.skippedHelp": "Pulou. O trecho agora tem {seconds} s.",
+  "typing.skippedHelp":
+    "Pulou. O trecho agora tem {seconds} s, e o acerto com a ajuda vale {points}.",
   // A ajuda do Desafio (P149 a P152): opções no lugar do campo.
   // Sem número de pontos no botão: o custo está na dica, quando as opções aparecem.
   "help.button": "Pedir ajuda",
@@ -332,7 +333,7 @@ export const ptBR = {
   "artists.free": "Livre",
   "artists.freeHint": "Rodadas sem fim do Desafio, com o placar da sessão.",
   "artists.superfanHint":
-    "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. São 3 vidas: cada erro e cada desistir custam uma, e as que sobrarem no fim valem pontos. Na dúvida, pule ou peça ajuda.",
+    "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. São {total} vidas: cada erro e cada desistir custam uma, e as que sobrarem no fim valem pontos. Na dúvida, pule ou peça ajuda.",
   "superfan.name": "Superfan",
   "superfan.song": "Música {number}",
   "superfan.score": "Placar: {points}",
@@ -355,6 +356,8 @@ export const ptBR = {
   "superfan.songs.other": "{count} músicas",
   "superfan.again": "Jogar de novo",
   "superfan.errorNote": "Perdeu uma vida. {left}",
+  "superfan.lostLives.one": "Perdeu {count} vida. {left}",
+  "superfan.lostLives.other": "Perdeu {count} vidas. {left}",
   "superfan.livesLeft.one": "Sobra {count}.",
   "superfan.livesLeft.other": "Sobram {count}.",
   "superfan.bonus.one": "Bônus de {count} vida que sobrou: {points}.",

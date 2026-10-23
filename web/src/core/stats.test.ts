@@ -56,6 +56,18 @@ describe("computeStats", () => {
     expect(stats.distribution[bucketOf(3)]).toBe(1);
   });
 
+  it("o dia com uma anulada (20 de 20) cai na faixa de 18 a 20, e o 30 na última (ME107)", () => {
+    const history = {
+      "2026-10-08|song": game(won(0), won(0), voided), // 20, com o máximo de 20
+      "2026-10-09|song": game(won(0), won(0), won(0)), // 30
+    };
+    const stats = computeStats(history, "song", "2026-10-09", SCHEDULE);
+    expect(bucketRange(bucketOf(20))).toEqual({ from: 18, to: 20 });
+    expect(stats.distribution[bucketOf(20)]).toBe(1);
+    expect(stats.distribution.at(-1)).toBe(1);
+    expect(stats.distribution.reduce((a, b) => a + b, 0)).toBe(2);
+  });
+
   it("dia todo anulado conta em jogos e na sequência, mas não na média (P41)", () => {
     const history = {
       "2026-10-08|song": game(voided, voided, voided),

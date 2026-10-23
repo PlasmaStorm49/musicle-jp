@@ -1,6 +1,6 @@
 // Superfan (ME61): a partida difícil do modo por artista. As músicas do artista em ordem
 // sorteada, cada uma uma vez, no Desafio com as regras do Superfan (VARIANT_RULES: 3 trechos de
-// 1, 3 e 5 s; 10, 6 ou 4 pontos, a metade com a ajuda, que vem logo de cara). A partida tem 3
+// 1, 4 e 9 s; 10, 6 ou 4 pontos, a metade com a ajuda, que vem logo de cara). A partida tem 3
 // vidas (ME107): o palpite errado e o desistir (P290) custam uma, e não pontos. Ela acaba ao
 // perder a 3ª, ao encerrar ou quando todas as músicas tocaram; na partida completa, cada vida que
 // sobrou vale um bônus. Quando é a partida que encerra a música (a última vida, encerrar), o

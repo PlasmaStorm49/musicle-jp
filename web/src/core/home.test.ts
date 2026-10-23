@@ -21,7 +21,7 @@ const DATE = "2026-10-08";
 const day = schedule.days[DATE] as Day;
 const animeDay = animeSchedule.days[DATE] as AnimeDay;
 
-// Rodada 1 em 6 pontos, rodada 2 perdida, rodada 3 em 5 pontos (ouviu mais uma vez): 11 de 18.
+// Rodada 1 em 10 pontos, rodada 2 perdida, rodada 3 em 8 pontos (ouviu mais uma vez): 18 de 30.
 const finished: FinishedGame = {
   number: day.number,
   rounds: [

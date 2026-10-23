@@ -13,6 +13,7 @@ import {
   appleCatalog,
   dailyAnswer,
   expect,
+  lastPlayed,
   navLink,
   open,
   openWithMedals,
@@ -185,6 +186,33 @@ for (const viewport of [
       await page.getByRole("button", { name: /^ミナト/ }).click();
       await page.getByRole("button", { name: "Superfan" }).click();
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Fim da partida");
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o fim do Superfan no caso mais alto: a partida completa, com o bônus das vidas e os acertos", async ({
+      page,
+    }) => {
+      await open(page, DAY, "#artistas");
+      await page.getByRole("button", { name: /^夜風シアター/ }).click();
+      await page.getByRole("button", { name: "Superfan" }).click();
+      const field = page.getByRole("combobox", { name: "Qual é a música?" });
+      const end = page.getByRole("heading", { level: 1, name: "Fim da partida" });
+      const play = page.getByRole("button", { name: "Tocar 1 s" });
+      // Todas as músicas que sobram no sorteio, acertadas no 1 s: a partida completa, com as 3 vidas.
+      for (let song = 1; song <= 4; song++) {
+        await expect(play.or(end)).toBeVisible();
+        if (await end.isVisible()) break;
+        await play.click();
+        const track = await lastPlayed(page);
+        await field.fill(track.title);
+        await page.getByRole("option").filter({ hasText: track.title }).first().click();
+        await expect(
+          page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." }),
+        ).toBeVisible();
+        await page.getByRole("button", { name: /^(Próxima música|Ver resultado)$/ }).click();
+      }
+      await expect(end).toBeVisible();
+      await expect(page.getByText(/^Bônus de 3 vidas que sobraram/)).toBeVisible();
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
