@@ -18,7 +18,7 @@ Os 3 nomes de cada artista são obrigatórios (P301), e o `build-artists` recusa
 
 | Artista | Os nomes (acertos, completo, perfeito) | O resto do `[artists.medals]` |
 |---|---|---|
-| ar02 夜風シアター | 開幕ベル · Kaimaku Bell; 真夜中のカーテンコール · Mayonaka no Curtain Call (o nome longo, que mede a tela em 320 px); 夜風劇場 | Tudo: a capa do `al21`, o enquadramento, as flores e a faixa em pé (6 caracteres, o máximo) |
+| ar02 夜風シアター | 開幕ベル · Kaimaku Bell; 真夜中のカーテンコール · Mayonaka no Curtain Call (o nome longo, que mede a tela em 320 px); 夜風劇場 | Tudo: a capa do `al30` (outra que a do cartão, o `al21`: o teste da capa das medalhas não pode passar por acaso), o enquadramento, as flores e a faixa em pé (6 caracteres, o máximo) |
 | ar07 青井ユウ | Blue Diary; 青い日記 · Aoi Nikki; ユウ | Só os nomes: a capa do cartão, as flores lilás e a faixa do nome |
 | ar01 ミナト | 夜明け · Yoake; Dawn Collection; 港 | Só os nomes |
 | ar11 Re:Pulse | RIOT; ゼロ距離 · Zero Kyori; Re:Pulse | A faixa deitada (`along = true`) |

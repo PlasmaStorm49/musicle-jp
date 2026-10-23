@@ -41,7 +41,7 @@
           "enum": ["foreign"]
         },
         "medals": {
-          "description": "As 3 medalhas do Superfan do artista (M16), escolhidas à mão no artists.toml: os nomes (P295, obrigatórios pela P301), a capa das 3 (P296: a de um álbum do arquivo dele), o enquadramento, a faixa da perfeita (P299) e as cores do buquê (P296). Sem a capa, o enquadramento, a faixa ou as flores, a tela usa o padrão. Campo de acréscimo, sem versão nova, como o section.",
+          "description": "As 3 medalhas do Superfan do artista (M16), escolhidas à mão no artists.toml: os nomes (P295, obrigatórios pela P301), a capa das 3 (P296: a de um álbum do arquivo dele), o enquadramento, a faixa da perfeita (P299) e as cores do buquê (P296). Sem a capa, o enquadramento, a faixa ou as flores, a tela usa o padrão. Obrigatório no índice novo, sem versão nova; o site o lê como opcional, porque o índice velho, no cache do Pages, vem sem ele.",
           "type": "object",
           "additionalProperties": false,
           "required": ["names"],

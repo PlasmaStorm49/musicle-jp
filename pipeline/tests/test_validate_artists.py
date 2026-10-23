@@ -3,15 +3,18 @@
 from __future__ import annotations
 
 import copy
+import re
 import shutil
 
 import pytest
 
 from musicle_pipeline.artists import FLOWER_ROLES, LEVELS
 from musicle_pipeline.io_json import dumps, read_json
-from musicle_pipeline.paths import artist_list_schema_path, artist_paths
+from musicle_pipeline.paths import REPO_ROOT, artist_list_schema_path, artist_paths
 from musicle_pipeline.validate_artists import (
     MAX_FILE_BYTES,
+    SASH_ALONG,
+    SASH_UPRIGHT,
     validate_artist_dir,
     validate_artist_file,
     validate_artist_list,
@@ -137,6 +140,8 @@ def _medals_broken(change) -> list[str]:
         # A faixa deitada é latina; a em pé cabe até 6 (P299).
         (lambda m: m.update(sash={"text": "夜風", "along": True}), "deitada vai só"),
         (lambda m: m.update(sash={"text": "夜風シアター劇場", "along": False}), "até 6"),
+        (lambda m: m.update(sash={"text": "A" * 29, "along": True}), "até 28"),
+        (lambda m: m.update(sash={"text": "Re:\tPulse", "along": True}), "deitada vai só"),
         # O schema: sem mácron (P297), as 13 cores, os nomes obrigatórios (P301).
         (lambda m: m["names"]["acertos"].update(latin="Kyōgen"), "schema"),
         (lambda m: m["flowers"].pop("d"), "schema"),
@@ -163,3 +168,12 @@ def test_the_medal_keys_match_the_schema():
     assert tuple(medals["names"]["required"]) == LEVELS
     assert tuple(medals["flowers"]["required"]) == FLOWER_ROLES
     assert list(medals["flowers"]["properties"]) == list(FLOWER_ROLES)
+
+
+def test_the_sash_limits_are_the_same_in_the_web():
+    # A faixa em pé até SASH_UPRIGHT caracteres, e a deitada até SASH_ALONG (P299): o web troca a
+    # mais longa pela letra.
+    source = (REPO_ROOT / "web/src/core/medalArt.ts").read_text(encoding="utf-8")
+    for name, value in (("SASH_UPRIGHT", SASH_UPRIGHT), ("SASH_ALONG", SASH_ALONG)):
+        match = re.search(rf"export const {name} = (\d+);", source)
+        assert match and int(match.group(1)) == value, name

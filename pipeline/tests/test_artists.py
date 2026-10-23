@@ -599,6 +599,7 @@ def test_the_medals_are_optional_in_the_list(tmp_path: Path):
     [
         ('nome = "x"\n', "chaves aceitas"),
         ('acertos = { name = "狂言", latin = "Kyōgen" }\n', "sem mácron"),
+        ('acertos = { name = "狂言", latin = "  " }\n', "latin vazio"),
         ('perfeito = { name = "x", latin = "y" }\n', "esperado"),
         ('completo = "Round Robin"\n', "esperado"),
         ('acertos = { name = "  " }\n', "name vazio"),
@@ -608,6 +609,9 @@ def test_the_medals_are_optional_in_the_list(tmp_path: Path):
         ("crop = { z = true, x = 0.5, y = 0.5 }\n", "crop"),
         ("crop = { z = 2, x = 1.5, y = 0.5 }\n", "crop"),
         ('sash = { text = "Eve", along = "sim" }\n', "sash"),
+        ('sash = { text = "新しい学校のリ" }\n', "em pé cabe até 6"),
+        ('sash = { text = "夜風", along = true }\n', "deitada vai em letra latina"),
+        ('sash = { text = "' + "A" * 29 + '", along = true }\n', "até 28"),
         ("sash = { along = true }\n", "sash"),
         ('[artists.medals.flowers]\nd = "#000000"\n', "flowers"),
         ("[artists.medals.flowers]\n" + ALL_FLOWERS.replace("#0a0b0c", "#0A0B0C", 1), "flowers"),
@@ -638,9 +642,10 @@ def test_build_artists_wants_the_latin_only_for_kana_and_kanji(name, latin):
 
 
 def test_build_artists_writes_the_medals():
-    provider = FakeProvider(
-        {"77": snap((1, track("1", "光", album_id="900")), (2, track("2", "影")))}
-    )
+    # A capa das medalhas é a do álbum escolhido (o 900, da 2ª música), e não a do cartão (a do
+    # álbum da mais popular): cada álbum com a sua capa, para o teste não passar por acaso.
+    medal_track = _with_art(track("2", "影", album_id="900"), "fixtures/art/medalha.svg")
+    provider = FakeProvider({"77": snap((1, track("1", "光")), (2, medal_track))})
     names = (("acertos", MedalName("歌い手", "Utaite")), *NAMED.names[1:])
     medals = MedalRules(
         names=names,
@@ -657,11 +662,12 @@ def test_build_artists_writes_the_medals():
             "completo": {"name": "Nome completo", "latin": None},
             "perfeito": {"name": "Nome perfeito"},
         },
-        "artworkUrl": "fixtures/art/x.svg",  # a capa do álbum 900, que está no arquivo
+        "artworkUrl": "fixtures/art/medalha.svg",  # a do álbum 900, que está no arquivo
         "crop": {"z": 1.5, "x": 0.4, "y": 0.6},
         "sash": {"text": "テスト", "along": False},
         "flowers": dict.fromkeys(FLOWER_ROLES, "#123456"),
     }
+    assert entry["artworkUrl"] == "fixtures/art/x.svg"  # o cartão segue com a dele
     assert validate_artist_list(files["index.json"]) == []
 
 

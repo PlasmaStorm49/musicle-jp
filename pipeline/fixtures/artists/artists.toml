@@ -19,7 +19,7 @@ id = "ar02"  # 夜風シアター: karaokê, ao vivo e música só em karaokê
 acertos = { name = "開幕ベル", latin = "Kaimaku Bell" }
 completo = { name = "真夜中のカーテンコール", latin = "Mayonaka no Curtain Call" }
 perfeito = { name = "夜風劇場" }
-album = "al21"  # 夜風劇場
+album = "al30"  # 真夜中の観覧車 - Single (outra capa que a do cartão, o al21)
 crop = { z = 1.4, x = 0.5, y = 0.45 }
 sash = { text = "夜風シアター" }
 

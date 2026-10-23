@@ -8,7 +8,15 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from musicle_pipeline.artists import INDEX, LEVELS, card_artwork, list_order
+from musicle_pipeline.artists import (
+    INDEX,
+    LEVELS,
+    PLAIN_LATIN,
+    SASH_ALONG,
+    SASH_UPRIGHT,
+    card_artwork,
+    list_order,
+)
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
 from musicle_pipeline.normalize import needs_romaji, title_key
@@ -17,8 +25,6 @@ from musicle_pipeline.validate import url_problems
 
 # Objeto do Git acima de 1 MB é o que o GitHub recomenda evitar: cada versão fica no histórico.
 MAX_FILE_BYTES = 1024 * 1024
-# A faixa da medalha perfeita em pé, um caractere por linha (P299): até 6 cabem nela.
-SASH_UPRIGHT = 6
 
 
 @cache
@@ -104,8 +110,14 @@ def _medal_problems(entry: JSON) -> list[str]:
                 "hangul (P295)"
             )
     sash = m.get("sash")
-    if sash and sash["along"] and not sash["text"].isascii():
-        problems.append(f"{entry['id']}: a faixa deitada vai só em letra latina (P299)")
+    if (
+        sash
+        and sash["along"]
+        and (not PLAIN_LATIN.fullmatch(sash["text"]) or len(sash["text"]) > SASH_ALONG)
+    ):
+        problems.append(
+            f"{entry['id']}: a faixa deitada vai só em letra latina, até {SASH_ALONG} (P299)"
+        )
     if sash and not sash["along"] and len(sash["text"]) > SASH_UPRIGHT:
         problems.append(f"{entry['id']}: a faixa em pé cabe até {SASH_UPRIGHT} caracteres (P299)")
     return problems

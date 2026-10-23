@@ -162,8 +162,13 @@ FLOWER_ROLES = (
 )
 _MEDAL_KEYS = {*LEVELS, "album", "crop", "sash", "flowers"}
 _COLOR = re.compile(r"#[0-9a-f]{6}")
-# O latino ao lado do nome da medalha: ASCII imprimível, sem mácron (P297).
-_PLAIN_LATIN = re.compile(r"[ -~]+")
+# O latino ao lado do nome da medalha e a faixa deitada: ASCII imprimível, sem mácron (P297).
+PLAIN_LATIN = re.compile(r"[ -~]+")
+# A faixa da perfeita (P299): em pé, até 6 caracteres; deitada, até 28 (no corpo mínimo, 2, o
+# web troca a mais longa pela letra). O web tem os mesmos números (core/medalArt.ts), e um teste
+# confere.
+SASH_UPRIGHT = 6
+SASH_ALONG = 28
 
 
 @dataclass(frozen=True)
@@ -192,9 +197,9 @@ def _medal_name(value: object, where: str, latin_ok: bool) -> MedalName:
     name, latin = value["name"], value.get("latin")
     if not isinstance(name, str) or not display(name):
         raise InputError(f"{where}: name vazio")
-    if latin is not None and (
-        not isinstance(latin, str) or not _PLAIN_LATIN.fullmatch(display(latin))
-    ):
+    if latin is not None and (not isinstance(latin, str) or not display(latin)):
+        raise InputError(f"{where}: latin vazio (tire a chave, se o nome não precisa dele)")
+    if latin is not None and not PLAIN_LATIN.fullmatch(display(latin)):
         raise InputError(f"{where}: latin em ASCII, sem mácron (P297)")
     return MedalName(display(name), display(latin) if latin is not None else None)
 
@@ -249,7 +254,12 @@ def _medals(value: object, where: str) -> MedalRules:
             or not isinstance(along, bool)
         ):
             raise InputError(f'{where}: sash = {{ text = "…", along = true ou false }}')
-        sash = (display(text), along)
+        text = display(text)
+        if along and (not PLAIN_LATIN.fullmatch(text) or len(text) > SASH_ALONG):
+            raise InputError(f"{where}: a faixa deitada vai em letra latina, até {SASH_ALONG}")
+        if not along and len(text) > SASH_UPRIGHT:
+            raise InputError(f"{where}: a faixa em pé cabe até {SASH_UPRIGHT} caracteres (P299)")
+        sash = (text, along)
     flowers: tuple[tuple[str, str], ...] = ()
     if "flowers" in value:
         f = value["flowers"]
