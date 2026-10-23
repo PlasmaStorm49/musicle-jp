@@ -1,41 +1,60 @@
 import { describe, expect, it } from "vitest";
+import { ANIME_KEYS, DAILY_KEYS } from "./daily.ts";
 import {
+  ANIME_DAY,
+  allWon,
   claimMedals,
   claimTier,
   DEMO_MEDALS,
   earnedMedals,
+  GENERAL_GOALS,
+  HITS_DAY,
   MEDALS,
   type Medal,
   medalBoard,
   medalContext,
   medalsOf,
   noticeTab,
+  perfectGame,
   SUPERFAN_RIGHT,
   superfanMedalId,
   superfanMedals,
   unseenMedals,
+  WHOLE_DAY,
 } from "./medals.ts";
 import { Mulberry32 } from "./prng.ts";
 import {
   emptySave,
   type FinishedGame,
+  type RoundRecord,
   type Save,
   withArtistRight,
   withFinished,
+  withPracticeRight,
   withSeenMedals,
   withSuperfanEnd,
 } from "./records.ts";
 import { ROUTES, type Tab } from "./routes.ts";
+import { MODES } from "./rules.ts";
 
 const ARTIST = "apple:ar:1489581870";
 const lost: FinishedGame = { number: 1, rounds: [{ status: "lost", stage: 0, attempts: [] }] };
+const WON_0: RoundRecord = { status: "won", stage: 0, attempts: ["right"] };
+const WON_2: RoundRecord = { status: "won", stage: 2, attempts: ["skip", "skip", "right"] };
+const WON_HELP: RoundRecord = { status: "won", stage: 0, attempts: ["right"], help: 0 };
+const VOIDED: RoundRecord = { status: "void", stage: 0, attempts: [] };
+const game = (...rounds: RoundRecord[]): FinishedGame => ({ number: 1, rounds });
+/** Perfeito: as 3 em 1 s, sem ajuda (P310). */
+const perfect = game(WON_0, WON_0, WON_0);
+/** Todas acertadas, uma com ajuda e uma no trecho 3 (P311). */
+const helped = game(WON_0, WON_HELP, WON_2);
 const days = (from: number, to: number) =>
   Array.from({ length: to - from + 1 }, (_, i) => `2026-10-${String(from + i).padStart(2, "0")}`);
 const HITS = days(8, 29);
 
 /**
- * Gerais de exemplo, como as da lista que vem no PR 3, só com o que cresce, e as reais (`MEDALS`,
- * vazias até lá): as propriedades abaixo valem para as duas.
+ * Gerais de exemplo, com limites fáceis, para as listas exatas; as propriedades (o progresso, o
+ * "nunca some") valem também para as reais (`MEDALS`, P310).
  */
 const EXAMPLES: readonly Medal[] = [
   { id: "sequencia-3", tier: "simple", earned: (ctx) => ctx.streak.best >= 3 },
@@ -54,7 +73,7 @@ const rights = (save: Save, n: number) => {
   for (let i = 0; i < n; i++) next = withArtistRight(next, ARTIST);
   return next;
 };
-const earned = (save: Save, today = "2026-10-20", general = GENERAL) =>
+const earned = (save: Save, today = "2026-10-20", general = EXAMPLES) =>
   earnedMedals(medalsOf(save, general), medalContext(save, today, HITS));
 
 describe("as 3 do Superfan de cada artista (P285)", () => {
@@ -100,6 +119,154 @@ describe("as 3 do Superfan de cada artista (P285)", () => {
   });
 });
 
+describe("as gerais (P310)", () => {
+  const TODAY = "2026-10-29";
+  const LOST: RoundRecord = { status: "lost", stage: 0, attempts: [] };
+  const ids = (save: Save) => earnedMedals(MEDALS, medalContext(save, TODAY, HITS));
+  const has = (save: Save, id: string) => ids(save).includes(id);
+  const byId = (id: string) => MEDALS.find((m) => m.id === id);
+  const ctx = (save: Save, hits: readonly string[] = HITS) => medalContext(save, TODAY, hits);
+  /** Os diários de `keys` terminados na data, com o mesmo resultado. */
+  const play = (save: Save, date: string, keys: readonly string[], result: FinishedGame) =>
+    keys.reduce((s, key) => withFinished(s, `${date}|${key}`, result), save);
+  const DAY = "2026-10-20";
+
+  it("13, com ids únicos e sem a barra das do Superfan; as grandes no fim da lista", () => {
+    const list = MEDALS.map((m) => m.id);
+    expect(new Set(list).size).toBe(13);
+    expect(list.filter((id) => id.includes("|"))).toEqual([]);
+    expect(MEDALS.filter((m) => m.tier === "major").map((m) => m.id)).toEqual([
+      "hits-perfeito",
+      "anime-perfeito",
+      "superfan-completo",
+      "seguidos-30",
+    ]);
+    expect(MEDALS.slice(-4).every((m) => m.tier === "major")).toBe(true);
+  });
+
+  it("os diários das do mesmo dia são, hoje, os do jogo; congelados, um diário novo não as muda", () => {
+    expect([...HITS_DAY]).toEqual([...MODES]);
+    expect([...ANIME_DAY]).toEqual([...ANIME_KEYS]);
+    expect([...WHOLE_DAY]).toEqual([...DAILY_KEYS]);
+  });
+
+  it("perfectGame e allWon: pela forma das rodadas, e a anulada não é acerto (P45)", () => {
+    expect(perfectGame(perfect)).toBe(true);
+    expect(perfectGame(game(WON_0, WON_0, WON_2))).toBe(false);
+    expect(perfectGame(game(WON_0, WON_HELP, WON_0))).toBe(false);
+    expect(perfectGame(game(WON_0, VOIDED, WON_0))).toBe(false);
+    expect(perfectGame(game())).toBe(false);
+    expect(allWon(helped)).toBe(true);
+    expect(allWon(game(WON_0, VOIDED, WON_0))).toBe(false);
+    expect(allWon(lost)).toBe(false);
+    expect(allWon(game())).toBe(false);
+  });
+
+  it("nada com o save vazio, nem com o jogado depois (P263)", () => {
+    expect(ids(emptySave())).toEqual([]);
+    expect(ids(play(emptySave(), DAY, DAILY_KEYS, { ...perfect, late: true }))).toEqual([]);
+  });
+
+  it("Primeiro Acorde e Relâmpago: um diário no dia; uma rodada em 1 s, sem ajuda", () => {
+    expect(ids(play(emptySave(), DAY, ["song"], lost))).toEqual(["diario-1"]);
+    expect(ids(play(emptySave(), DAY, ["song"], game(WON_2, WON_HELP)))).toEqual(["diario-1"]);
+    expect(ids(play(emptySave(), DAY, ["album"], game(LOST, WON_0)))).toEqual([
+      "diario-1",
+      "um-segundo",
+    ]);
+  });
+
+  it("Dia de Hit e Hit Perfeito: os 2 dos Hits no mesmo dia; com a ajuda, só o Dia de Hit", () => {
+    expect(has(play(emptySave(), DAY, ["song"], perfect), "hits-todos")).toBe(false);
+    const split = play(play(emptySave(), DAY, ["song"], perfect), "2026-10-21", ["album"], perfect);
+    expect(has(split, "hits-todos")).toBe(false);
+    const withHelp = play(emptySave(), DAY, ["album", "song"], helped);
+    expect([has(withHelp, "hits-todos"), has(withHelp, "hits-perfeito")]).toEqual([true, false]);
+    const both = play(emptySave(), DAY, ["album", "song"], perfect);
+    expect([has(both, "hits-todos"), has(both, "hits-perfeito")]).toEqual([true, true]);
+    const voided = play(emptySave(), DAY, ["album", "song"], game(WON_0, VOIDED, WON_0));
+    expect([has(voided, "hits-todos"), has(voided, "hits-perfeito")]).toEqual([false, false]);
+    // O Anime não entra nas dos Hits.
+    expect(has(play(emptySave(), DAY, ANIME_KEYS, perfect), "hits-todos")).toBe(false);
+  });
+
+  it("Pare de falar em tocar grama e Sensei: os 6 do Anime no mesmo dia; 5 não bastam", () => {
+    const five = play(emptySave(), DAY, ANIME_KEYS.slice(0, 5), perfect);
+    expect([has(five, "anime-todos"), has(five, "anime-perfeito")]).toEqual([false, false]);
+    const six = play(emptySave(), DAY, ANIME_KEYS, helped);
+    expect([has(six, "anime-todos"), has(six, "anime-perfeito")]).toEqual([true, false]);
+    const sixPerfect = play(emptySave(), DAY, ANIME_KEYS, perfect);
+    expect([has(sixPerfect, "anime-todos"), has(sixPerfect, "anime-perfeito")]).toEqual([
+      true,
+      true,
+    ]);
+  });
+
+  it("Maratonista: os 8 diários no mesmo dia, ganhos ou não; 7 não bastam", () => {
+    expect(has(play(emptySave(), DAY, DAILY_KEYS.slice(1), lost), "oito-diarios")).toBe(false);
+    expect(has(play(emptySave(), DAY, DAILY_KEYS, lost), "oito-diarios")).toBe(true);
+  });
+
+  it(`Em Chamas e Tá pegando fogo: ${GENERAL_GOALS.streakShort} e ${GENERAL_GOALS.streakLong} dias seguidos, com o progresso`, () => {
+    // 31 dias da agenda, até hoje: de 29/09 a 29/10.
+    const dates = Array.from({ length: 31 }, (_, i) =>
+      new Date(Date.UTC(2026, 8, 29 + i)).toISOString().slice(0, 10),
+    );
+    const at = (n: number) =>
+      ctx(
+        dates.slice(0, n).reduce((s, d) => withFinished(s, `${d}|song`, lost), emptySave()),
+        dates,
+      );
+    const short = byId("seguidos-7");
+    const long = byId("seguidos-30");
+    expect(short?.earned(at(6))).toBe(false);
+    expect(short?.progress?.(at(6))).toEqual({ value: 6, goal: 7 });
+    expect(short?.earned(at(7))).toBe(true);
+    expect(long?.earned(at(29))).toBe(false);
+    expect(long?.progress?.(at(29))).toEqual({ value: 29, goal: 30 });
+    expect(long?.earned(at(30))).toBe(true);
+    expect(long?.progress?.(at(31))).toEqual({ value: 30, goal: 30 });
+  });
+
+  it(`Saco de Pancadas: ${GENERAL_GOALS.practice} acertos no Treino (P308)`, () => {
+    const at = (n: number) => ctx({ ...emptySave(), practiceRight: n });
+    const bag = byId("treino-100");
+    expect(bag?.earned(at(99))).toBe(false);
+    expect(bag?.progress?.(at(99))).toEqual({ value: 99, goal: 100 });
+    expect(bag?.earned(at(100))).toBe(true);
+  });
+
+  it(`Já É de Casa: ${GENERAL_GOALS.dailies} diários no dia, sem o jogado depois`, () => {
+    let save = emptySave();
+    for (const date of days(1, 24)) save = play(save, date, ["album", "song"], lost);
+    save = withFinished(save, "2026-10-25|album", lost);
+    const home = byId("diarios-50");
+    const late = withFinished(save, "2026-10-25|song", { ...lost, late: true });
+    expect(home?.earned(ctx(late))).toBe(false);
+    expect(home?.progress?.(ctx(late))).toEqual({ value: 49, goal: 50 });
+    expect(home?.earned(ctx(withFinished(save, "2026-10-25|song", lost)))).toBe(true);
+  });
+
+  it(`Colecionador: ${GENERAL_GOALS.collector} artistas com ${SUPERFAN_RIGHT} acertos; o de ${SUPERFAN_RIGHT - 1} não conta`, () => {
+    let save = emptySave();
+    for (const n of [1, 2, 3, 4, 5]) {
+      const goal = n === 5 ? SUPERFAN_RIGHT - 1 : SUPERFAN_RIGHT;
+      for (let i = 0; i < goal; i++) save = withArtistRight(save, `apple:ar:${n}`);
+    }
+    const collector = byId("colecionador");
+    expect(collector?.earned(ctx(save))).toBe(false);
+    expect(collector?.progress?.(ctx(save))).toEqual({ value: 4, goal: 5 });
+    expect(collector?.earned(ctx(withArtistRight(save, "apple:ar:5")))).toBe(true);
+  });
+
+  it("Superfan: terminar a partida de qualquer artista; os acertos, não", () => {
+    const right = withArtistRight(emptySave(), ARTIST);
+    expect(has(right, "superfan-completo")).toBe(false);
+    const done = withSuperfanEnd(right, ARTIST, { done: true, perfect: false });
+    expect(has(done, "superfan-completo")).toBe(true);
+  });
+});
+
 describe("medalContext: a sequência do topo (P282)", () => {
   it("qualquer dos 8 diários no dia conta; o jogado depois e o dia sem jogo, não", () => {
     let save = emptySave();
@@ -141,39 +308,55 @@ describe("earnedMedals e unseenMedals", () => {
 });
 
 describe("medalha ganha nunca some", () => {
-  it("jogar, avançar o hoje, acertar e terminar partidas, em qualquer ordem, só acrescenta", () => {
+  it("jogar, avançar o hoje, crescer a agenda, acertar e terminar partidas, em qualquer ordem, só acrescenta", () => {
     const random = new Mulberry32(20261022);
     const artists = [ARTIST, "apple:ar:2", "fixture:ar:ar01"];
     let save = emptySave();
     let today = 8;
+    // A agenda dos Hits cresce só no fim, uns dias à frente de hoje (P44), como a do robô.
+    let scheduleEnd = 12;
     let before = new Set<string>();
-    for (let step = 0; step < 400; step++) {
+    // Os jogos possíveis: perdido, perfeito, todo acertado com ajuda e com uma rodada anulada.
+    const games = [lost, perfect, helped, { number: 1, rounds: [WON_0, VOIDED, WON_0] }];
+    for (let step = 0; step < 600; step++) {
       const date = `2026-10-${String(today).padStart(2, "0")}`;
       const artist = artists[random.randint(artists.length)] ?? ARTIST;
-      switch (random.randint(5)) {
+      const key = DAILY_KEYS[random.randint(DAILY_KEYS.length)] ?? "song";
+      const game = games[random.randint(games.length)] ?? lost;
+      switch (random.randint(7)) {
         case 0:
-          save = withFinished(save, `${date}|${random.randint(2) ? "song" : "album"}`, lost);
-          break;
         case 1:
-          if (today < 29) today++;
+          save = withFinished(save, `${date}|${key}`, game);
           break;
         case 2:
-          save = withArtistRight(save, artist);
+          if (today < 29) today++;
+          if (scheduleEnd < today + 3 && scheduleEnd < 31) scheduleEnd++;
           break;
         case 3:
+          save = withArtistRight(save, artist);
+          break;
+        case 4:
           save = withSuperfanEnd(save, artist, {
             done: random.randint(2) === 1,
             perfect: random.randint(4) === 1,
           });
           break;
+        case 5:
+          save = withPracticeRight(save);
+          break;
         default:
-          save = withFinished(save, `${date}|anime-musica-facil`, { ...lost, late: true });
+          save = withFinished(save, `${date}|${key}`, { ...game, late: true });
       }
-      const now = new Set(earned(save, `2026-10-${String(today).padStart(2, "0")}`));
+      const now = new Set(
+        earnedMedals(
+          medalsOf(save, GENERAL),
+          medalContext(save, `2026-10-${String(today).padStart(2, "0")}`, days(8, scheduleEnd)),
+        ),
+      );
       for (const id of before) expect(now.has(id), `${id} sumiu no passo ${step}`).toBe(true);
       before = now;
     }
-    expect(before.size).toBeGreaterThan(4);
+    expect(before.size).toBeGreaterThan(8);
   });
 });
 
@@ -255,6 +438,16 @@ describe("claimMedals e claimTier: reivindicar antes de mostrar (P281, P288)", (
     expect(claimTier(claim, medalsOf(done, general))).toBe("major");
     const one = claimMedals(rights(emptySave(), SUPERFAN_RIGHT), "2026-10-20", HITS, general);
     expect(one.first).toBe(false);
+  });
+
+  it("quem começa hoje e ganha duas de uma vez não recebe o texto de quem já jogava (P314)", () => {
+    const today = withFinished(rights(emptySave(), SUPERFAN_RIGHT), "2026-10-20|song", lost);
+    const claim = claimMedals(today, "2026-10-20", HITS, MEDALS);
+    expect(claim.claimed).toEqual(["diario-1", acertos]);
+    expect(claim.first).toBe(false);
+    // Com um jogo de um dia antes, é quem já jogava.
+    const before = withFinished(today, "2026-10-19|album", lost);
+    expect(claimMedals(before, "2026-10-20", HITS, MEDALS).first).toBe(true);
   });
 
   it("o já avisado que deixou de existir na lista não volta, e o save guarda a união", () => {

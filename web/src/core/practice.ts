@@ -1,6 +1,7 @@
 // Modo Treino: rodadas sem fim de um modo só (Normal ou Desafio, escolhido ao começar; trocar
 // pede outra sessão, P105), sorteadas de um "saco embaralhado". Funções puras: a semente vem de
-// fora (a tela usa crypto.getRandomValues) e nada daqui é salvo (P50).
+// fora (a tela usa crypto.getRandomValues) e a sessão não é salva (P50); o save só conta os
+// acertos (P308, `withPracticeRight`).
 //
 // Por que saco, e não sorteio solto: com sorteio solto a mesma música volta logo. O saco tem
 // cada música (ou álbum) uma vez; embaralhado, toca até esvaziar e então começa um novo ciclo.

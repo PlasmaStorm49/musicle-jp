@@ -2,7 +2,9 @@
 import { cleanup, fireEvent, render } from "@testing-library/preact";
 import { afterEach, describe, expect, it } from "vitest";
 import { CENTER, FLOWER_ROLES, type SuperfanArt } from "../core/medalArt.ts";
-import { generalArt, MedalArt, type MedalKind } from "./MedalArt.tsx";
+import { MEDALS } from "../core/medals.ts";
+import { generalArt, generalKind, MedalArt, type MedalKind } from "./MedalArt.tsx";
+import { ICON_IDS } from "./medalIcons.tsx";
 
 afterEach(cleanup);
 
@@ -29,7 +31,7 @@ function draw(kind: MedalKind, art: Partial<SuperfanArt> = {}, earned = true) {
 const texts = (svg: SVGSVGElement) => [...svg.querySelectorAll("text")].map((t) => t.textContent);
 
 describe("MedalArt (o desenho das medalhas, M16)", () => {
-  it.each(["acertos", "completo", "perfeito", "geral"] as const)(
+  it.each(["acertos", "completo", "perfeito", "geral", "geral-grande"] as const)(
     "%s: decorativa, com a cor do artista pela classe do monograma",
     (kind) => {
       const svg = draw(kind);
@@ -44,6 +46,7 @@ describe("MedalArt (o desenho das medalhas, M16)", () => {
     ["completo", "32"],
     ["perfeito", "29"],
     ["geral", "25"],
+    ["geral-grande", "32"],
   ] as const)("%s: a capa vai até o aro (r %s); a geral fica com o anel claro", (kind, r) => {
     expect(draw(kind).querySelector("clipPath circle")?.getAttribute("r")).toBe(r);
   });
@@ -115,11 +118,61 @@ describe("MedalArt (o desenho das medalhas, M16)", () => {
     expect(sash({ name: "新しい学校のリーダーズ", letter: "新" })).toEqual(["新"]);
   });
 
-  it("a geral: sem capa, com a marca no miolo", () => {
-    const { container } = render(<MedalArt kind="geral" art={generalArt("★")} earned size={44} />);
+  it("a geral sem ícone (as de exemplo): sem capa, com a marca no miolo", () => {
+    const { container } = render(
+      <MedalArt kind="geral" art={generalArt("★")} earned size={44} icon="demo-primeiro" />,
+    );
     const svg = container.querySelector("svg") as SVGSVGElement;
     expect(svg.querySelector("image")).toBeNull();
     expect(texts(svg)).toEqual(["★"]);
+  });
+
+  it("as gerais (P312): a pequena na roseta prata, a grande no gelo, com as caudas oliva e o ícone", () => {
+    const general = (kind: MedalKind, icon: string) => {
+      const { container } = render(
+        <MedalArt kind={kind} art={generalArt("★")} earned size={60} icon={icon} />,
+      );
+      return container.querySelector("svg") as SVGSVGElement;
+    };
+    const small = general("geral", "seguidos-7");
+    // A roseta prata, com as duas caudas no oliva do AteMusic.
+    expect(small.querySelector("polygon")?.getAttribute("fill")).toBe("#c9cdd4");
+    expect(small.querySelector('path[d^="M26 50"]')?.getAttribute("fill")).toBe("#969865");
+    // O ícone no lugar da marca, no miolo (37, 37) de raio 25.
+    expect(texts(small)).toEqual([]);
+    expect(small.querySelector('g[transform="translate(37 37) scale(1.00)"] path')).not.toBeNull();
+    cleanup();
+    const big = general("geral-grande", "seguidos-30");
+    // O gelo, com os raios e os brilhos, e a cauda do meio oliva; o ícone escalado para o raio 32.
+    expect(big.getAttribute("viewBox")).toBe("0 8 110 132");
+    expect(big.querySelector('path[d^="M49 96"]')?.getAttribute("fill")).toBe("#969865");
+    expect(big.querySelector('g[transform="translate(55 66) scale(1.28)"] path')).not.toBeNull();
+    expect(texts(big)).toEqual([]);
+  });
+
+  it("toda geral tem o seu ícone, nenhum sobra, e cada um desenha no tamanho dela", () => {
+    expect([...ICON_IDS].sort()).toEqual(MEDALS.map((m) => m.id).sort());
+    for (const medal of MEDALS) {
+      const { container } = render(
+        <MedalArt
+          kind={generalKind(medal.tier)}
+          art={generalArt("★")}
+          earned
+          size={44}
+          icon={medal.id}
+        />,
+      );
+      const svg = container.querySelector("svg") as SVGSVGElement;
+      expect(texts(svg), medal.id).toEqual([]);
+      expect(
+        svg.querySelector('g[transform^="translate("] :is(path, circle, rect)'),
+        medal.id,
+      ).not.toBeNull();
+      expect(svg.getAttribute("viewBox"), medal.id).toBe(
+        medal.tier === "major" ? "0 8 110 132" : "0 0 74 92",
+      );
+      cleanup();
+    }
   });
 
   it("o recorte de cada medalha tem um id próprio na página", () => {

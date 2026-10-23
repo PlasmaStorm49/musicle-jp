@@ -7,6 +7,7 @@ import { medalName, superfanArt } from "../core/medalArt.ts";
 import {
   claimMedals,
   claimTier,
+  MEDALS,
   type Medal,
   type MedalTier,
   medalsOf,
@@ -15,7 +16,7 @@ import {
 import type { ArtistList } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
 import { type KeyValueStore, updateSave } from "../storage/save.ts";
-import { generalArt } from "./MedalArt.tsx";
+import { generalArt, generalKind, type MedalKind } from "./MedalArt.tsx";
 import type { NoticeItem } from "./MedalNotice.tsx";
 import { medalText, superfanFeat } from "./Medals.tsx";
 
@@ -32,8 +33,8 @@ export type MedalNoticeState = {
 type Options = {
   /** O save da sessão (o `sessionStore` do App). */
   readonly store: KeyValueStore;
-  /** As gerais; sem lista (no site, até o PR 3), nunca avisa. */
-  readonly general: readonly Medal[] | null;
+  /** As gerais (a lista do usuário, ou a de exemplo com `?medalhas=demo`). */
+  readonly general: readonly Medal[];
   /** O `?medalhas=silencio` dos testes, ou o save que não grava: a tela fica, e os avisos não. */
   readonly silent: boolean;
   readonly today: string;
@@ -46,7 +47,7 @@ export function useMedalNotices({ store, general, silent, today, hitsDates }: Op
   // `big`: a tela pede o grande (os Artistas e as Medalhas, com o selo da Apple no pé, P288).
   const claim = useCallback(
     (big = false) => {
-      if (!general || silent || !hitsDates) return;
+      if (silent || !hitsDates) return;
       const box: { found?: MedalNoticeState } = {};
       const status = updateSave(store, (save) => {
         const result = claimMedals(save, today, hitsDates, general);
@@ -86,26 +87,30 @@ const SUPERFAN_ID = /^superfan\|(.+)\|([a-z]+)$/;
  * O nome e o desenho de cada medalha do aviso. As do Superfan levam o nome próprio, com o latino
  * (P295, P300), e o artista: "Nightwalker, de YOASOBI". Sem o nome, o feito ("Superfan completo");
  * sem a lista dos artistas (a carga falhou), só o feito, com o monograma de reserva. O aviso
- * pequeno (`covers` falso) vai sem a capa: as telas dele não têm o selo da Apple (P298).
+ * pequeno (`covers` falso) vai sem a capa: as telas dele não têm o selo da Apple (P298). As gerais
+ * levam o desenho do tamanho delas (P312), pela lista (`general`).
  */
 export function noticeItems(
   ids: readonly string[],
   list: ArtistList | null,
   resolveUrl: (url: string) => string,
   covers: boolean,
+  general: readonly Medal[] = MEDALS,
 ): NoticeItem[] {
-  const general = generalArt(t("medals.generalMark"));
+  const mark = generalArt(t("medals.generalMark"));
+  const tiers = new Map(general.map((medal) => [medal.id, medal.tier]));
   return ids.map((id) => {
     const match = SUPERFAN_ID.exec(id);
     const level = SUPERFAN_LEVELS.find((l) => l === match?.[2]);
     if (!match || !level) {
       const text = medalText(id, "name");
-      return { id, kind: "geral", name: text, spoken: text, feat: null, art: general };
+      const kind = generalKind(tiers.get(id) ?? "simple");
+      return { id, kind, name: text, spoken: text, feat: null, art: mark };
     }
     const feat = superfanFeat(level);
     const entry = list?.artists.find((a) => a.id === match[1]);
     if (!list || !entry) {
-      return { id, kind: level, name: feat, spoken: feat, feat, art: { ...general, letter: "?" } };
+      return { id, kind: level, name: feat, spoken: feat, feat, art: { ...mark, letter: "?" } };
     }
     const base = superfanArt(list, entry);
     const name = medalName(entry, level);
@@ -140,6 +145,18 @@ export function noticeTitle(notice: MedalNoticeState): string {
 }
 
 /** O texto do aviso pequeno, na tela. */
+const BIG_KINDS: ReadonlySet<MedalKind> = new Set(["completo", "perfeito", "geral-grande"]);
+
+/**
+ * A ordem do aviso (P313): as grandes primeiro, depois as com capa, e o resto na ordem da lista. O
+ * pop-up desenha as `SHOWN` primeiras e lista as `LISTED` primeiras: no 1º aviso de quem já jogava,
+ * com muitas de uma vez, as que mais importam aparecem.
+ */
+export function noticeOrder(items: readonly NoticeItem[]): NoticeItem[] {
+  const rank = (item: NoticeItem) => (BIG_KINDS.has(item.kind) ? 0 : 2) + (item.art.image ? 0 : 1);
+  return [...items].sort((a, b) => rank(a) - rank(b));
+}
+
 export function toastText(items: readonly NoticeItem[]): string {
   const [only] = items;
   return items.length === 1 && only

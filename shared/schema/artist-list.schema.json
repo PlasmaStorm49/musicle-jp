@@ -72,11 +72,14 @@
                   }
                 },
                 "perfeito": {
-                  "description": "O nome da medalha do Superfan perfeito: só o original, sem o latino (P295).",
+                  "description": "O nome da medalha do Superfan perfeito, com o latino como o do acertos (P309, revisão da P295).",
                   "type": "object",
                   "additionalProperties": false,
-                  "required": ["name"],
-                  "properties": { "name": { "$ref": "#/$defs/text" } }
+                  "required": ["name", "latin"],
+                  "properties": {
+                    "name": { "$ref": "#/$defs/text" },
+                    "latin": { "oneOf": [{ "type": "string", "pattern": "^[ -~]+$" }, { "type": "null" }] }
+                  }
                 }
               }
             },

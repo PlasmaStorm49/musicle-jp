@@ -69,10 +69,10 @@ export type SuperfanOutcome = { readonly done: boolean; readonly perfect: boolea
  * de resposta, que não existe mais. v4 (P149): a ajuda, no evento HELP e no `help` da rodada.
  * v5 (P163): o pulo depois da ajuda. v6 (P250): os ids dos diários do Anime. v7 (P267): a marca
  * do jogado depois, `late`. v8 (P289): as medalhas já avisadas, a estante (ME118) e o modo por
- * artista (storage/migrations.ts).
+ * artista. v9 (P308): os acertos do Treino (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 8;
+  readonly schemaVersion: 9;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
   /** Os ids das medalhas que esta pessoa já viu avisadas, em ordem alfabética (P281). */
@@ -81,6 +81,11 @@ export type Save = {
   readonly shelf: readonly string[];
   /** O modo por artista, pelo id do artista ("apple:ar:…"). */
   readonly artists: Readonly<Record<string, ArtistRecord>>;
+  /**
+   * As rodadas acertadas no Treino, com ou sem ajuda (o Saco de Pancadas, P308). Só o total, que
+   * só cresce: a sessão continua só na memória (P50).
+   */
+  readonly practiceRight: number;
 };
 
 /** A estante (ME118) mostra até 3. */
@@ -88,12 +93,13 @@ export const SHELF_SIZE = 3;
 
 export function emptySave(): Save {
   return {
-    schemaVersion: 8,
+    schemaVersion: 9,
     history: {},
     inProgress: {},
     seenMedals: [],
     shelf: [],
     artists: {},
+    practiceRight: 0,
   };
 }
 
@@ -240,6 +246,11 @@ export function withSeenMedals(save: Save, ids: readonly string[]): Save {
   const fresh = ids.filter((id) => !seen.has(id));
   if (fresh.length === 0) return save;
   return { ...save, seenMedals: [...new Set([...save.seenMedals, ...fresh])].sort() };
+}
+
+/** Mais uma rodada acertada no Treino (P308). */
+export function withPracticeRight(save: Save): Save {
+  return { ...save, practiceRight: save.practiceRight + 1 };
 }
 
 /** O artista sem registro: nenhum acerto, nada terminado. */

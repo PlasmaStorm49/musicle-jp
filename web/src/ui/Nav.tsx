@@ -1,9 +1,8 @@
-// A nav (P225): uma aba por categoria. Abaixo de 480 px (P265), os Artistas e o Histórico ficam
-// num "Mais ▾", porque as 5 abas não cabem numa linha no celular; a partir de 480 px, as 5 ficam na
-// linha. Com as Medalhas (M16), são 6, e o corte passa a 720 px (P287): entre 480 e 719 px, a coluna
-// tem 460 px úteis, e as 6 não cabem. Os links do "Mais" estão duas vezes no DOM, um na linha e
-// outro no menu, e o CSS mostra um por vez (o `[hidden]` vale sempre, e o menu fechado usa ele: o
-// mesmo elemento não serve às duas larguras).
+// A nav (P225): uma aba por categoria, 6 com as Medalhas (M16). Abaixo de 720 px (P265, P287), os
+// Artistas, o Histórico e as Medalhas ficam num "Mais ▾", porque as 6 abas não cabem numa linha (entre
+// 480 e 719 px, a coluna tem 460 px úteis); a partir de 720 px, as 6 ficam na linha. Os links do
+// "Mais" estão duas vezes no DOM, um na linha e outro no menu, e o CSS mostra um por vez (o
+// `[hidden]` vale sempre, e o menu fechado usa ele: o mesmo elemento não serve às duas larguras).
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { animeDone, dailiesDone } from "../core/home.ts";
 import type { Save } from "../core/records.ts";
@@ -19,14 +18,12 @@ type Props = {
   readonly save: Save;
   /** O "hoje" do jogo. */
   readonly date: string;
-  /** A aba das Medalhas (M16): só com uma lista delas (no PR 2, a de exemplo, em desenvolvimento). */
-  readonly medals?: boolean;
 };
 
 // O id do menu, para o aria-controls: nenhum id igual a uma rota (regra 17).
 const MENU_ID = "nav-more-menu";
 
-export function Nav({ route, save, date, medals = false }: Props) {
+export function Nav({ route, save, date }: Props) {
   const [open, setOpen] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const box = useRef<HTMLLIElement>(null);
@@ -38,14 +35,14 @@ export function Nav({ route, save, date, medals = false }: Props) {
     setOpen(false);
   }, [route]);
   // A largura que passa do corte esconde o "Mais" (todas as abas na linha): o menu fecha, para não
-  // reaparecer aberto quando a janela voltar a estreitar. O corte é 480 px, ou 720 com as Medalhas.
+  // reaparecer aberto quando a janela voltar a estreitar. O corte é o do CSS, 720 px.
   useEffect(() => {
-    const wide = window.matchMedia?.(`(min-width: ${medals ? 720 : 480}px)`);
+    const wide = window.matchMedia?.("(min-width: 720px)");
     if (!wide) return;
     const close = () => setOpen(false);
     wide.addEventListener("change", close);
     return () => wide.removeEventListener("change", close);
-  }, [medals]);
+  }, []);
   // Aberto, o Esc fecha (com o foco de volta ao "Mais"), e o toque fora dele também. No
   // useLayoutEffect, e não no useEffect: os ouvintes entram antes da pintura do menu aberto, e um
   // Esc ou um toque logo depois de abrir não escapa (o useEffect roda depois da pintura).
@@ -118,11 +115,11 @@ export function Nav({ route, save, date, medals = false }: Props) {
   );
 
   return (
-    <nav class={medals ? "tabs six" : "tabs"} aria-label={t("nav.label")}>
+    <nav class="tabs" aria-label={t("nav.label")}>
       <ul>
         {/* Uma aba por categoria (P225): a Início, os Hits (a tela deles, os dois diários e o
-            Treino), o Anime (a tela dele, as dificuldades e os 6 diários), os Artistas e o
-            Histórico (o calendário, os dias e os diários de um dia passado). A da aba atual leva
+            Treino), o Anime (a tela dele, as dificuldades e os 6 diários), os Artistas, o
+            Histórico (o calendário, os dias e os diários de um dia passado) e as Medalhas. A da aba atual leva
             aria-current: "page" na tela dela, e "true" dentro de um jogo dela (o link leva a
             outra página). */}
         {/* A Início é o selo do logo (P205): o nome do link fica em texto, para o leitor de tela. */}
@@ -162,11 +159,11 @@ export function Nav({ route, save, date, medals = false }: Props) {
             )}
           </a>
         </li>
-        {/* Na linha, a partir de 480 px. O modo por artista fica na nav até o site ficar público
+        {/* Na linha, a partir de 720 px. O modo por artista fica na nav até o site ficar público
             (P117): é só tirar os dois links dele. */}
         <li class="nav-inline">{artists(false)}</li>
         <li class="nav-inline">{history(false)}</li>
-        {medals && <li class="nav-inline">{medalsLink(false)}</li>}
+        <li class="nav-inline">{medalsLink(false)}</li>
         {/* No celular, o "Mais" (P265). Ao abrir, o foco fica no botão, e o Tab entra na lista. */}
         <li
           class="nav-more"
@@ -198,7 +195,7 @@ export function Nav({ route, save, date, medals = false }: Props) {
           <ul id={MENU_ID} class="nav-menu" hidden={!open}>
             <li>{artists(true)}</li>
             <li>{history(true)}</li>
-            {medals && <li>{medalsLink(true)}</li>}
+            <li>{medalsLink(true)}</li>
           </ul>
         </li>
       </ul>

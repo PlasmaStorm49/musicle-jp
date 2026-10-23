@@ -36,6 +36,7 @@
             "name": "真夜中のカーテンコール"
           },
           "perfeito": {
+            "latin": "Yokaze Gekijo",
             "name": "夜風劇場"
           }
         },
@@ -63,6 +64,7 @@
             "name": "青い日記"
           },
           "perfeito": {
+            "latin": "Yu",
             "name": "ユウ"
           }
         }
@@ -86,6 +88,7 @@
             "name": "Dawn Collection"
           },
           "perfeito": {
+            "latin": "Minato",
             "name": "港"
           }
         }
@@ -109,6 +112,7 @@
             "name": "流星"
           },
           "perfeito": {
+            "latin": "Hoshizora",
             "name": "星空"
           }
         }
@@ -133,6 +137,7 @@
             "name": "ゼロ距離"
           },
           "perfeito": {
+            "latin": null,
             "name": "Re:Pulse"
           }
         },

@@ -124,7 +124,7 @@ export function superfanArt(list: ArtistList, entry: ArtistListEntry): SuperfanA
   };
 }
 
-/** O nome de uma medalha, com o latino ao lado (P295); o da perfeita vai sem ele. */
+/** O nome de uma medalha, com o latino ao lado (P295; na perfeita também, desde a P309). */
 export type MedalName = { readonly name: string; readonly latin: string | null };
 
 /** O nome próprio da medalha (P300); null quando falta (um índice corrompido, P301). */
@@ -133,8 +133,7 @@ export function medalName(entry: ArtistListEntry, level: SuperfanLevel): MedalNa
   const names = isRecord(medals) ? medals.names : null;
   const n = isRecord(names) ? names[level] : null;
   if (!isRecord(n) || typeof n.name !== "string" || !n.name.trim()) return null;
-  const latin =
-    level !== "perfeito" && typeof n.latin === "string" && n.latin.trim() ? n.latin.trim() : null;
+  const latin = typeof n.latin === "string" && n.latin.trim() ? n.latin.trim() : null;
   return { name: n.name.trim(), latin };
 }
 

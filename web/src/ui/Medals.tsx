@@ -21,7 +21,7 @@ import { ArtistName, LatinName } from "./ArtistName.tsx";
 import type { ArtistStore } from "./Artists.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { useHeadingFocus } from "./hooks.ts";
-import { generalArt, MedalArt } from "./MedalArt.tsx";
+import { generalArt, generalKind, MedalArt } from "./MedalArt.tsx";
 import { singleClick } from "./singleClick.ts";
 
 type Props = {
@@ -31,7 +31,7 @@ type Props = {
   readonly date: string;
   /** Os dias da agenda dos Hits: a sequência é sobre eles (P282). */
   readonly hitsDates: readonly string[];
-  /** As gerais (no PR 2 do M16, só as de exemplo, em desenvolvimento). */
+  /** As gerais: a lista do usuário (P310), ou a de exemplo com `?medalhas=demo`. */
   readonly general: readonly Medal[];
   /** O modo por artista: a lista dos artistas, que a tela carrega como a aba deles. */
   readonly artists: ArtistStore;
@@ -46,9 +46,17 @@ export function superfanFeat(level: SuperfanLevel): string {
   return t(`medals.feat.${level}`, { goal: SUPERFAN_RIGHT });
 }
 
-/** O nome e o como ganhar de uma geral, pelo id (`medal.<id>.name` e `.how`, no i18n). */
-export function medalText(id: string, part: "name" | "how"): string {
-  return t(`medal.${id}.${part}` as MessageKey);
+/**
+ * O nome, o como ganhar e o progresso de uma geral, pelo id (`medal.<id>.name`, `.how` e
+ * `.progress`, no i18n). Os limites vão por parâmetro (o `goal` do progresso e o `right` dos acertos
+ * do Superfan): o texto não repete os números do núcleo.
+ */
+export function medalText(
+  id: string,
+  part: "name" | "how" | "progress",
+  params: Readonly<Record<string, number>> = {},
+): string {
+  return t(`medal.${id}.${part}` as MessageKey, { right: SUPERFAN_RIGHT, ...params });
 }
 
 export function Medals({ save, date, hitsDates, general, artists, resolveUrl }: Props) {
@@ -155,19 +163,34 @@ function stateText(state: MedalState, how: string, unit = false): string {
   return how;
 }
 
-function GeneralRow({ state }: { readonly state: MedalState }) {
+/** O estado de uma geral: ganha, o progresso com a unidade (P315) ou como ganhar. */
+function generalState(state: MedalState): string {
   const { id } = state.medal;
+  if (state.earned) return t("medals.earned");
+  if (state.progress) return medalText(id, "progress", state.progress);
+  return medalText(id, "how");
+}
+
+/**
+ * A largura das gerais na linha (P312): a grande, na moldura gelo com os raios, é maior. A coluna
+ * da arte no `styles.css` (`.medal-row`) tem a largura da grande: mudou aqui, muda lá.
+ */
+const GENERAL_SIZE = { simple: 44, major: 56 } as const;
+
+function GeneralRow({ state }: { readonly state: MedalState }) {
+  const { id, tier } = state.medal;
   return (
     <li class={state.earned ? "medal-row" : "medal-row locked"}>
       <MedalArt
-        kind="geral"
+        kind={generalKind(tier)}
         art={generalArt(t("medals.generalMark"))}
         earned={state.earned}
-        size={44}
+        size={GENERAL_SIZE[tier]}
+        icon={id}
       />
       <span class="medal-text">
         <span class="medal-name">{medalText(id, "name")}</span>
-        <span class="medal-how">{stateText(state, medalText(id, "how"))}</span>
+        <span class="medal-how">{generalState(state)}</span>
       </span>
     </li>
   );
@@ -212,7 +235,7 @@ function ArtistRow({
               <span class="sr-only">{superfanFeat(level)}</span>
               {name && (
                 <span class="medal-name">
-                  <LatinName name={name.name} latin={name.latin} />
+                  <LatinName name={name.name} latin={name.latin} stacked />
                 </span>
               )}
               <span class="medal-how">{stateText(state, how, level === "acertos")}</span>

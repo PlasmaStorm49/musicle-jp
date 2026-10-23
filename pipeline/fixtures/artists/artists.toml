@@ -18,7 +18,7 @@ id = "ar02"  # 夜風シアター: karaokê, ao vivo e música só em karaokê
 [artists.medals]
 acertos = { name = "開幕ベル", latin = "Kaimaku Bell" }
 completo = { name = "真夜中のカーテンコール", latin = "Mayonaka no Curtain Call" }
-perfeito = { name = "夜風劇場" }
+perfeito = { name = "夜風劇場", latin = "Yokaze Gekijo" }
 album = "al30"  # 真夜中の観覧車 - Single (outra capa que a do cartão, o al21)
 crop = { z = 1.4, x = 0.5, y = 0.45 }
 sash = { text = "夜風シアター" }
@@ -46,7 +46,7 @@ same_song = [["tr15", "trx05"]]
 [artists.medals]
 acertos = { name = "Blue Diary" }
 completo = { name = "青い日記", latin = "Aoi Nikki" }
-perfeito = { name = "ユウ" }
+perfeito = { name = "ユウ", latin = "Yu" }
 
 [[artists]]
 id = "ar01"  # ミナト: versões do mesmo título, TV Size, crédito "(… from …)" e faixa excluída
@@ -55,7 +55,7 @@ exclude_tracks = ["trx07"]
 [artists.medals]
 acertos = { name = "夜明け", latin = "Yoake" }
 completo = { name = "Dawn Collection" }
-perfeito = { name = "港" }
+perfeito = { name = "港", latin = "Minato" }
 
 # A seção de fora do Japão (P200): em ordem inversa aqui, para o teste provar que é o build que
 # põe a seção em ordem alfabética (P201).
@@ -76,4 +76,4 @@ section = "foreign"
 [artists.medals]
 acertos = { name = "Midnight Drive" }
 completo = { name = "流星", latin = "Ryusei" }
-perfeito = { name = "星空" }
+perfeito = { name = "星空", latin = "Hoshizora" }

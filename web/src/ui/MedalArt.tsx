@@ -1,9 +1,11 @@
 // O desenho de uma medalha (M16): o único lugar dele. Das conversas de 22/10/2026 (Apêndice O):
 // a dos acertos na roseta com caudas, a completa na roseta dupla em gelo, com raios e brilhos, a
-// perfeita no buquê de flores com a faixa, e as gerais numa roseta oliva simples. As 3 de um
+// perfeita no buquê de flores com a faixa; as gerais (P312), a pequena na roseta prata e a grande
+// na moldura gelo, com as caudas oliva do AteMusic e o ícone de cada uma no miolo. As 3 de um
 // artista usam a mesma capa, até o aro e enquadrada (P296); o buquê e as caudas, as cores dele
 // (P296, P305). As cores são da arte, como as do logo, e ficam aqui; sem as do artista, a do
 // monograma (a `--monogram` das classes `.monogram-N`, P171) e o buquê lilás.
+import type { JSX } from "preact";
 import { useId, useState } from "preact/hooks";
 import {
   CENTER,
@@ -13,9 +15,11 @@ import {
   type SuperfanArt,
   sashLayout,
 } from "../core/medalArt.ts";
-import type { SuperfanLevel } from "../core/medals.ts";
+import type { MedalTier, SuperfanLevel } from "../core/medals.ts";
+import { medalIcon } from "./medalIcons.tsx";
 
-export type MedalKind = SuperfanLevel | "geral";
+/** O desenho: um dos 3 níveis do Superfan, ou uma geral, pelo tamanho do aviso dela (P312). */
+export type MedalKind = SuperfanLevel | "geral" | "geral-grande";
 
 type Props = {
   readonly kind: MedalKind;
@@ -25,9 +29,16 @@ type Props = {
   readonly earned: boolean;
   /** A largura, em px. */
   readonly size: number;
+  /** Nas gerais, o id da medalha: o ícone do miolo (`medalIcons`); sem ícone, a marca do `art`. */
+  readonly icon?: string;
 };
 
-/** O desenho das gerais: sem capa, com a marca no miolo (a ★ do i18n). */
+/** O desenho de uma geral pelo tamanho do aviso dela (P312): a pequena e a grande. */
+export function generalKind(tier: MedalTier): MedalKind {
+  return tier === "major" ? "geral-grande" : "geral";
+}
+
+/** O desenho das gerais: sem capa; a marca (a ★ do i18n) fica para as que não têm ícone. */
 export function generalArt(letter: string): SuperfanArt {
   return { image: null, crop: CENTER, flowers: null, sash: null, letter, color: 0, name: "" };
 }
@@ -43,7 +54,8 @@ const ICE = {
   tails: ["#8fcfe6", "#a9d8ea"],
   spark: "#4aa6cc",
 };
-const OLIVE = { points: "#bdbf7f", edge: "#80824f", ring: "#ecedd2" };
+/** O oliva das gerais (P312): o miolo claro, a tinta do ícone e as caudas, a `--accent-line`. */
+const OLIVE = { ring: "#ecedd2", ink: "#6f7140", tail: "#969865" };
 /** O buquê lilás de sempre, por papel: o de quem não escolheu as cores. */
 const LILAC: Flowers = {
   d: "#5b4bb7",
@@ -84,14 +96,17 @@ function Cover({
   image,
   onError,
   plain,
+  icon,
 }: {
   readonly clip: string;
   readonly miolo: Miolo;
   readonly art: SuperfanArt;
   readonly image: string | null;
   readonly onError: () => void;
-  /** O miolo sem artista (as gerais): o oliva claro da roseta, e não a cor do monograma. */
+  /** O miolo sem artista (as gerais): o oliva claro, e não a cor do monograma. */
   readonly plain: boolean;
+  /** O ícone da geral, já desenhado; sem ele, a marca do `art`. */
+  readonly icon: JSX.Element | null;
 }) {
   const { cx, cy, r } = miolo;
   const frame = coverFrame(cx, cy, r, art.crop);
@@ -120,16 +135,21 @@ function Cover({
             height={r * 2}
             fill={plain ? OLIVE.ring : "var(--monogram)"}
           />
-          <text
-            x={cx}
-            y={cy + r * 0.32}
-            text-anchor="middle"
-            font-size={r * 0.9}
-            font-weight="700"
-            fill={plain ? OLIVE.edge : "#ffffff"}
-          >
-            {art.letter}
-          </text>
+          {icon ? (
+            // Desenhado para o miolo de raio 25, o das pequenas; a grande o escala.
+            <g transform={`translate(${cx} ${cy}) scale(${fix2(r / 25)})`}>{icon}</g>
+          ) : (
+            <text
+              x={cx}
+              y={cy + r * 0.32}
+              text-anchor="middle"
+              font-size={r * 0.9}
+              font-weight="700"
+              fill={plain ? OLIVE.ink : "#ffffff"}
+            >
+              {art.letter}
+            </text>
+          )}
         </g>
       )}
     </>
@@ -143,20 +163,26 @@ function Spark({ x, y, s, stroke }: { x: number; y: number; s: number; stroke: s
   return <path d={d} fill="#ffffff" stroke={stroke} stroke-width="0.7" />;
 }
 
-/** A roseta com caudas (a dos acertos e as gerais): as pontas, o anel e as caudas na cor do artista. */
-function Rosette({ palette, tails }: { palette: typeof SILVER; tails: string }) {
+/**
+ * A roseta prata com caudas (a dos acertos e a geral pequena): as pontas, o anel e as caudas, na
+ * cor do artista ou no oliva das gerais.
+ */
+function Rosette({ tails }: { tails: string }) {
   return (
     <>
       <path d="M26 50 L18 88 L25 83 L30 90 L36 56 Z" fill={tails} />
       <path d="M48 50 L56 88 L49 83 L44 90 L38 56 Z" fill={tails} opacity="0.82" />
-      <polygon points={star(14, 36, 31, 37, 37)} fill={palette.points} />
-      <circle cx="37" cy="37" r="29.5" fill="none" stroke={palette.edge} stroke-width="1" />
-      <circle cx="37" cy="37" r="27.5" fill={palette.ring} />
+      <polygon points={star(14, 36, 31, 37, 37)} fill={SILVER.points} />
+      <circle cx="37" cy="37" r="29.5" fill="none" stroke={SILVER.edge} stroke-width="1" />
+      <circle cx="37" cy="37" r="27.5" fill={SILVER.ring} />
     </>
   );
 }
 
-/** A completa: os raios atrás, a roseta dupla em gelo, as três caudas e os brilhos. */
+/**
+ * A completa e a geral grande: os raios atrás, a roseta dupla em gelo, as três caudas (a do meio na
+ * cor do artista ou no oliva) e os brilhos.
+ */
 function IceFrame({ tail }: { tail: string }) {
   const rays = Array.from({ length: 32 }, (_, i) => {
     const a = (Math.PI * 2 * i) / 32;
@@ -355,6 +381,7 @@ const VIEW: Readonly<Record<MedalKind, { box: string; w: number; h: number; miol
   acertos: { box: "0 0 74 92", w: 74, h: 92, miolo: { cx: 37, cy: 37, r: 29.5 } },
   geral: { box: "0 0 74 92", w: 74, h: 92, miolo: { cx: 37, cy: 37, r: 25 } },
   completo: { box: "0 8 110 132", w: 110, h: 132, miolo: { cx: 55, cy: 66, r: 32 } },
+  "geral-grande": { box: "0 8 110 132", w: 110, h: 132, miolo: { cx: 55, cy: 66, r: 32 } },
   perfeito: { box: "0 0 110 156", w: 110, h: 156, miolo: { cx: 55, cy: 56, r: 29 } },
 };
 
@@ -362,7 +389,7 @@ const VIEW: Readonly<Record<MedalKind, { box: string; w: number; h: number; miol
  * A medalha, decorativa (`aria-hidden`): o nome e o estado ficam no texto ao lado dela. A apagada
  * usa o filtro do CSS (`.medal-art.locked`), sem cor própria.
  */
-export function MedalArt({ kind, art, earned, size }: Props) {
+export function MedalArt({ kind, art, earned, size, icon }: Props) {
   const clip = useId();
   // A capa que não carrega vira o monograma (como no cartão do artista, P171).
   const [failed, setFailed] = useState<string | null>(null);
@@ -371,6 +398,8 @@ export function MedalArt({ kind, art, earned, size }: Props) {
   const p = art.flowers ?? LILAC;
   // As caudas da dos acertos e da completa na cor do buquê do artista (P305).
   const tail = art.flowers?.d ?? "var(--monogram)";
+  const general = kind === "geral" || kind === "geral-grande";
+  const ice = kind === "completo" || kind === "geral-grande";
   const cover = (
     <Cover
       clip={`medal-${clip}`}
@@ -378,7 +407,8 @@ export function MedalArt({ kind, art, earned, size }: Props) {
       art={art}
       image={shown}
       onError={() => setFailed(art.image)}
-      plain={kind === "geral"}
+      plain={general}
+      icon={general && icon ? medalIcon(icon, { ink: OLIVE.ink, bg: OLIVE.ring }) : null}
     />
   );
   return (
@@ -390,9 +420,10 @@ export function MedalArt({ kind, art, earned, size }: Props) {
       aria-hidden="true"
       focusable="false"
     >
-      {kind === "acertos" && <Rosette palette={SILVER} tails={tail} />}
-      {kind === "geral" && <Rosette palette={OLIVE} tails="#969865" />}
+      {kind === "acertos" && <Rosette tails={tail} />}
+      {kind === "geral" && <Rosette tails={OLIVE.tail} />}
       {kind === "completo" && <IceFrame tail={tail} />}
+      {kind === "geral-grande" && <IceFrame tail={OLIVE.tail} />}
       {kind === "perfeito" && <Bouquet art={art} p={p} />}
       {cover}
       <circle
@@ -400,10 +431,10 @@ export function MedalArt({ kind, art, earned, size }: Props) {
         cy={view.miolo.cy}
         r={view.miolo.r}
         fill="none"
-        stroke={kind === "perfeito" ? p.ring : kind === "completo" ? ICE.edge : SILVER.edge}
+        stroke={kind === "perfeito" ? p.ring : ice ? ICE.edge : SILVER.edge}
         stroke-width="1"
       />
-      {kind === "completo" && <IceSparks />}
+      {ice && <IceSparks />}
       {kind === "perfeito" && (
         <>
           <Spark x={10} y={16} s={4.2} stroke={p.spark} />

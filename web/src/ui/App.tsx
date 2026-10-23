@@ -8,7 +8,7 @@ import { APPLE_PROVIDER } from "../core/apple.ts";
 import { hitsDailies } from "../core/daily.ts";
 import { keptProgressIds } from "../core/history.ts";
 import { artistSummary, practiceSummary } from "../core/home.ts";
-import { DEMO_MEDALS, type Medal, noticeTab } from "../core/medals.ts";
+import { DEMO_MEDALS, MEDALS, type Medal, noticeTab } from "../core/medals.ts";
 import { emptySave, pruneProgress, type Save } from "../core/records.ts";
 import { isAnimeTab, ROUTES, type Route, routeFromHash, routeHref } from "../core/routes.ts";
 import {
@@ -55,12 +55,18 @@ import { Medals } from "./Medals.tsx";
 import {
   announceText,
   noticeItems,
+  noticeOrder,
   noticeTitle,
   toastText,
   useMedalNotices,
 } from "./medalNotices.ts";
 import { Nav } from "./Nav.tsx";
-import { Practice, type PracticeSession, type PracticeSessionSetter } from "./Practice.tsx";
+import {
+  Practice,
+  type PracticeSession,
+  type PracticeSessionSetter,
+  usePracticeRecord,
+} from "./Practice.tsx";
 import { singleClickLink } from "./singleClick.ts";
 import { savedVolume } from "./volume.ts";
 
@@ -85,12 +91,12 @@ const DEV = import.meta.env.DEV;
 const DATA_DIR = dataDirFor(DEV, window.location.search);
 // Fora do componente: a mesma função a cada render (as cargas do modo por artista dependem dela).
 const FETCH: FetchLike = (url, init) => fetch(url, init);
-// As medalhas gerais (M16). No site, nenhuma ainda: a tela, a aba e os avisos ficam fora até o PR 3
-// ligar a lista. Em desenvolvimento, a de exemplo com ?medalhas=demo (ou =silencio). O literal
-// import.meta.env.DEV no ponto da escolha tira a lista de exemplo do build (regra 10).
+// As medalhas gerais (M16): a lista do usuário (P310). Em desenvolvimento, ?medalhas=demo troca pela de
+// exemplo, de limites fáceis, e ?medalhas=silencio cala os avisos (os e2e que não os testam). O
+// literal import.meta.env.DEV no ponto da escolha tira a lista de exemplo do build (regra 10).
 const MEDALS_MODE = import.meta.env.DEV ? medalsMode(window.location.search) : null;
-const GENERAL_MEDALS: readonly Medal[] | null =
-  import.meta.env.DEV && MEDALS_MODE ? DEMO_MEDALS : null;
+const GENERAL_MEDALS: readonly Medal[] =
+  import.meta.env.DEV && MEDALS_MODE === "demo" ? DEMO_MEDALS : MEDALS;
 
 type Storage = {
   /**
@@ -135,32 +141,29 @@ export function App() {
   const date = useMemo(() => gameDate(new Date(), window.location.search, DEV), []);
   const saves = useMemo(() => openSaves(date), [date]);
   const resolveUrl = useCallback((url: string) => assetUrl(BASE_URL, url), []);
-  // A aba e, num dia passado do Histórico, a data dele (P261), lidas do endereço. Sem as medalhas,
-  // o #medalhas é um endereço desconhecido, e abre a Início.
-  const [hashRoute, setRoute] = useState<Route>(() => routeFromHash(window.location.hash, date));
-  const route = useMemo<Route>(
-    () => (hashRoute.tab === "medals" && !GENERAL_MEDALS ? { tab: "home", date: null } : hashRoute),
-    [hashRoute],
-  );
+  // A aba e, num dia passado do Histórico, a data dele (P261), lidas do endereço.
+  const [route, setRoute] = useState<Route>(() => routeFromHash(window.location.hash, date));
   // A última leitura do save, para o ✓ da aba Hits e o Treino. Cada diário recebe a leitura do
   // momento em que a aba abre: voltar ao Desafio terminado mostra o resultado (P39).
   const [latest, setLatest] = useState(saves.save);
   // A sessão do Treino mora aqui, e não no Practice: trocar de aba e voltar não a zera. Só
-  // na memória (P50): recarregar a página começa outra. null = a escolha do modo (P105).
+  // na memória (P50): recarregar a página começa outra; do save, só os acertos (P308). null = a
+  // escolha do modo (P105).
   const [practice, setPractice] = useState<PracticeSession | null>(null);
   // A cota e o disjuntor do lookup da Apple, um só para a parada, os artistas e o Anime (P142).
   const budget = useMemo(
     () => lookupBudget({ now: Date.now, disabled: lookupFailForced(window.location.search) }),
     [],
   );
-  // O que o modo por artista grava (P289): os acertos e o fim do Superfan, pelas medalhas. Sem o
-  // `refresh`: a tela das Medalhas lê o `save.artists` do `latest`, que se relê ao trocar de aba
-  // (o `hashchange`); reler a cada acerto recriaria no meio de uma rodada a
+  // O que o modo por artista e o Treino gravam, pelas medalhas: os acertos e o fim do Superfan
+  // (P289), e os acertos do Treino (P308). Sem o `refresh`: a tela das Medalhas lê o `latest`, que
+  // se relê ao trocar de aba (o `hashchange`); reler a cada acerto recriaria no meio de uma rodada a
   // exclusão das respostas de hoje (P141). Falhar ao gravar não avisa: não se perde um diário.
-  const recordArtist = useCallback(
+  const record = useCallback(
     (change: (save: Save) => Save) => void updateSave(saves.store, change),
     [saves],
   );
+  usePracticeRecord(practice, record);
   // O modo por artista (M13): a lista, os artistas baixados e a sessão, como a do Treino.
   const artists = useArtistStore({
     fetchFn: FETCH,
@@ -168,7 +171,7 @@ export function App() {
     dataDir: DATA_DIR,
     budget,
     resolveUrl,
-    record: recordArtist,
+    record,
   });
   // Os avisos de medalha nova (M16, P288): numa tela calma (a abertura, a troca de tela, o fim de
   // uma partida do Superfan) e no resultado de um diário (o `onResult`), nunca numa rodada. O evento
@@ -214,8 +217,11 @@ export function App() {
   const shown = notice && (!needsList || listSettled) ? notice : null;
   const noticeList = artists.list.status === "ready" ? artists.list.list : null;
   const big = shown?.tier === "major";
-  // O aviso pequeno vai sem a capa (P298); o grande a mostra, com o selo da Apple no fim.
-  const items = shown ? noticeItems(shown.ids, noticeList, resolveUrl, big) : [];
+  // O aviso pequeno vai sem a capa (P298); o grande a mostra, com o selo da Apple no fim. As grandes
+  // e as com capa vêm primeiro (P313).
+  const items = shown
+    ? noticeOrder(noticeItems(shown.ids, noticeList, resolveUrl, big, GENERAL_MEDALS))
+    : [];
   // O selo só quando uma capa da Apple está desenhada (as SHOWN primeiras).
   const attribution =
     big &&
@@ -323,7 +329,7 @@ export function App() {
 
   return (
     <>
-      <Nav route={route} save={latest} date={date} medals={GENERAL_MEDALS !== null} />
+      <Nav route={route} save={latest} date={date} />
       <main class="app">
         <p class="sr-only" aria-live="polite">
           {message}
@@ -546,13 +552,12 @@ function Ready({
         />
       );
     case "medals":
-      // O App só chega aqui com a lista (sem ela, o #medalhas vira a Início).
       return (
         <Medals
           save={latest}
           date={date}
           hitsDates={[...hitsDates]}
-          general={GENERAL_MEDALS ?? []}
+          general={GENERAL_MEDALS}
           artists={artists}
           resolveUrl={resolveUrl}
         />

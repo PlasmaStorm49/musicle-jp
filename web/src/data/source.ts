@@ -219,9 +219,10 @@ export function gameDate(now: Date, search: string, dev: boolean): string {
 }
 
 /**
- * As medalhas (M16) antes da lista de verdade: ?medalhas=demo mostra a tela, a nav e os avisos com
- * a lista de exemplo; ?medalhas=silencio, a dos testes de ponta a ponta, deixa tudo e cala os
- * avisos. Quem chama confere o literal `import.meta.env.DEV` (regra 10): no site, nada muda.
+ * As medalhas (M16), só em desenvolvimento: ?medalhas=demo troca as gerais pela lista de exemplo,
+ * de limites fáceis; ?medalhas=silencio cala os avisos sobre a lista real (o padrão dos testes de
+ * ponta a ponta). Qualquer outro valor é a lista real com os avisos, como no site: os e2e usam o
+ * `avisos` (um teste trava isso). Quem chama confere o literal `import.meta.env.DEV` (regra 10).
  */
 export function medalsMode(search: string): "demo" | "silencio" | null {
   const mode = new URLSearchParams(search).get("medalhas");

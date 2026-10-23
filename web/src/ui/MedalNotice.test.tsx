@@ -21,10 +21,11 @@ import {
   sessionStore,
 } from "../storage/save.ts";
 import { generalArt } from "./MedalArt.tsx";
-import { MedalDialog, MedalToast, type NoticeItem, TOAST_MS } from "./MedalNotice.tsx";
+import { LISTED, MedalDialog, MedalToast, type NoticeItem, TOAST_MS } from "./MedalNotice.tsx";
 import {
   announceText,
   noticeItems,
+  noticeOrder,
   noticeTitle,
   toastText,
   useMedalNotices,
@@ -62,7 +63,7 @@ const LIST: ArtistList = {
         names: {
           acertos: { name: "夜明け", latin: "Yoake" },
           completo: { name: "Round Robin", latin: null },
-          perfeito: { name: "夜風劇場" },
+          perfeito: { name: "夜風劇場", latin: null },
         },
       },
     },
@@ -77,7 +78,7 @@ const LIST: ArtistList = {
         names: {
           acertos: { name: "Primeira", latin: null },
           completo: { name: "Segunda", latin: null },
-          perfeito: { name: "Terceira" },
+          perfeito: { name: "Terceira", latin: null },
         },
       },
     },
@@ -161,6 +162,19 @@ describe("MedalDialog (o pop-up grande, P279)", () => {
     expect(screen.getAllByRole("listitem").map((li) => li.textContent)).toEqual(["Um", "Dois"]);
     expect(dialog.querySelectorAll(".medal-notice-arts svg")).toHaveLength(2);
     expect(document.activeElement).toBe(ok());
+  });
+
+  it(`com mais de ${LISTED}, lista as ${LISTED} primeiras e "e mais N" (P313)`, () => {
+    const many = Array.from({ length: LISTED + 3 }, (_, i) => item(`m${i}`, `Medalha ${i}`));
+    render(<MedalDialog title="Você já tem 9 medalhas" items={many} onClose={vi.fn()} />);
+    const names = screen.getAllByRole("listitem").map((li) => li.textContent);
+    expect(names).toHaveLength(LISTED + 1);
+    expect(names.slice(0, 2)).toEqual(["Medalha 0", "Medalha 1"]);
+    expect(names.at(-1)).toBe("e mais 3 medalhas");
+    cleanup();
+    const seven = Array.from({ length: LISTED + 1 }, (_, i) => item(`s${i}`, `Medalha ${i}`));
+    render(<MedalDialog title="Você já tem 7 medalhas" items={seven} onClose={vi.fn()} />);
+    expect(screen.getAllByRole("listitem").at(-1)?.textContent).toBe("e mais 1 medalha");
   });
 
   it("o Ok e o Esc fecham pelo estado; o 2º clique de um toque duplo não (regra 23)", () => {
@@ -258,6 +272,35 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
     expect(completo?.name).toBe("Round Robin, de 夜風");
   });
 
+  it("a ordem do aviso (P313): as grandes primeiro, depois as com capa, e o resto como veio", () => {
+    const ids = [
+      "seguidos-7",
+      superfanMedalId(ARTIST, "acertos"),
+      "seguidos-30",
+      superfanMedalId(ARTIST, "completo"),
+      "diario-1",
+    ];
+    const ordered = noticeOrder(noticeItems(ids, LIST, resolve, true));
+    expect(ordered.map((item) => item.id)).toEqual([
+      superfanMedalId(ARTIST, "completo"),
+      "seguidos-30",
+      superfanMedalId(ARTIST, "acertos"),
+      "seguidos-7",
+      "diario-1",
+    ]);
+  });
+
+  it("as gerais com o desenho do tamanho delas, pela lista (P312)", () => {
+    const items = noticeItems(["seguidos-7", "seguidos-30"], LIST, resolve, true);
+    expect(items.map((item) => [item.kind, item.name])).toEqual([
+      ["geral", "Em Chamas"],
+      ["geral-grande", "Tá pegando fogo, bicho!!!"],
+    ]);
+    // Com outra lista (a de exemplo), vale o tamanho dela.
+    const demo = noticeItems(["demo-sequencia"], LIST, resolve, true, DEMO_MEDALS);
+    expect(demo[0]?.kind).toBe("geral-grande");
+  });
+
   it("o pop-up desenha o nome como a tela: o japonês com o lang, e o ponto decorativo", () => {
     const items = noticeItems([acertos], LIST, resolve, true);
     expect(items[0]?.label).toEqual({ name: "夜明け", latin: "Yoake", artist: "夜風" });
@@ -335,13 +378,13 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
 /** O gancho, por um componente mínimo: o botão reivindica, e a saída mostra o aviso. */
 function Harness(props: {
   readonly store: KeyValueStore;
-  readonly general?: readonly Medal[] | null;
+  readonly general?: readonly Medal[];
   readonly silent?: boolean;
   readonly hitsDates?: readonly string[] | null;
 }) {
   const { notice, claim, dismiss } = useMedalNotices({
     store: props.store,
-    general: props.general === undefined ? DEMO_MEDALS : props.general,
+    general: props.general ?? DEMO_MEDALS,
     silent: props.silent ?? false,
     today: DATE,
     hitsDates: props.hitsDates === undefined ? HITS : props.hitsDates,
@@ -373,7 +416,8 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
   for (let i = 0; i < SUPERFAN_RIGHT; i++) rights = withArtistRight(rights, ARTIST);
 
   it("grava as novas como avisadas e mostra só elas; a 2ª reivindicação não mostra de novo", () => {
-    const store = seeded(withFinished(rights, `${DATE}|song`, lost));
+    // Um jogo de ontem: quem já jogava (P314).
+    const store = seeded(withFinished(rights, "2026-10-21|song", lost));
     render(<Harness store={store} />);
     expect(shown()).toBe("nada");
     claim();
@@ -417,8 +461,8 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
     ]);
   });
 
-  it("sem a lista das gerais (o site, até o PR 3), calado ou antes da agenda: nada, e nada gravado", () => {
-    for (const props of [{ general: null }, { silent: true }, { hitsDates: null }]) {
+  it("calado ou antes da agenda: nada, e nada gravado", () => {
+    for (const props of [{ silent: true }, { hitsDates: null }]) {
       const store = seeded(rights);
       const { unmount } = render(<Harness store={store} {...props} />);
       claim();

@@ -102,7 +102,7 @@ def _medal_problems(entry: JSON) -> list[str]:
     """As medalhas de um artista do índice (M16), além do schema."""
     m = entry["medals"]
     problems = []
-    for lv in LEVELS[:2]:  # o perfeito vai sem o latino
+    for lv in LEVELS:
         n = m["names"][lv]
         if needs_romaji(n["name"]) != (n["latin"] is not None):
             problems.append(

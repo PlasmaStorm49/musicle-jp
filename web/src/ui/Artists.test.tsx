@@ -108,7 +108,7 @@ const FILES: Record<string, unknown> = {
           names: {
             acertos: { name: "夜明け", latin: "Yoake" },
             completo: { name: "Round Robin", latin: null },
-            perfeito: { name: "夜風劇場" },
+            perfeito: { name: "夜風劇場", latin: null },
           },
         },
       },
@@ -124,7 +124,7 @@ const FILES: Record<string, unknown> = {
           names: {
             acertos: { name: "夜明け", latin: "Yoake" },
             completo: { name: "Round Robin", latin: null },
-            perfeito: { name: "夜風劇場" },
+            perfeito: { name: "夜風劇場", latin: null },
           },
         },
       },

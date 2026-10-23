@@ -430,9 +430,9 @@ button.give-up:active:not(:disabled) {
   font-size: 0.8em;
 }
 
-/* O "Mais" (P265): abaixo de 480 px, os Artistas e o Histórico ficam no menu dele; a partir de
-   480 px, as 5 abas na linha (uns 390 px com os dois ✓). O 480 é o --column, que a media query não
-   lê. Os dois links estão duas vezes no DOM, e cada largura mostra um par. */
+/* O "Mais" (P265, P287): abaixo de 720 px, os Artistas, o Histórico e as Medalhas ficam no menu
+   dele; a partir de 720 px, as 6 abas na linha (entre 480 e 719, a coluna tem 460 px úteis, e as 6
+   não cabem). Os links estão duas vezes no DOM, e cada largura mostra um conjunto. */
 .tabs .nav-inline {
   display: none;
 }
@@ -441,25 +441,13 @@ button.give-up:active:not(:disabled) {
   position: relative;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 720px) {
   .tabs .nav-inline {
     display: list-item;
   }
 
   .tabs .nav-more {
     display: none;
-  }
-}
-
-/* Com as Medalhas (M16), as 6 abas só cabem a partir de 720 px (P287): entre 480 e 719, a coluna
-   tem 460 px úteis, e os Artistas, o Histórico e as Medalhas ficam no "Mais". */
-@media (min-width: 480px) and (max-width: 719.98px) {
-  .tabs.six .nav-inline {
-    display: none;
-  }
-
-  .tabs.six .nav-more {
-    display: list-item;
   }
 }
 
@@ -1808,11 +1796,17 @@ section.void,
   gap: var(--sp-2);
 }
 
+/* A coluna da arte tem a largura da geral grande (o `GENERAL_SIZE` do Medals.tsx, 56 px): a pequena
+   fica no centro dela, e os textos de todas as linhas começam no mesmo ponto. */
 .medal-row {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: 3.5rem minmax(0, 1fr);
   align-items: center;
   gap: var(--sp-3);
+}
+
+.medal-row > .medal-art {
+  justify-self: center;
 }
 
 .medal-text {
@@ -1828,6 +1822,23 @@ section.void,
   overflow-wrap: anywhere;
   /* As linhas do mesmo tamanho: uma sílaba não fica sozinha embaixo ("小説を音楽にす / る"). */
   text-wrap: balance;
+}
+
+/* O latino embaixo do nome, nas células do Superfan (P316): menor e sem o ponto. */
+.medal-name .latin-below {
+  display: block;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  font-weight: 400;
+}
+
+/* No celular estreito, o nome das células um pouco menor: "Nightwalker" cabe sem quebrar no meio
+   (P316). */
+@media (max-width: 374.98px) {
+  .medal-cell .medal-name {
+    font-size: var(--t-xs);
+    line-height: var(--lh-xs);
+  }
 }
 
 .medal-how {

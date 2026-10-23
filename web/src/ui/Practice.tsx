@@ -13,7 +13,8 @@ import {
   pendingDailySongKeys,
   startPracticeSession,
 } from "../core/practice.ts";
-import type { Save } from "../core/records.ts";
+import { type Save, withPracticeRight } from "../core/records.ts";
+import { currentRound } from "../core/reducer.ts";
 import { MODE_RULES, MODES } from "../core/rules.ts";
 import type { Day, Target } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
@@ -32,7 +33,10 @@ type Props = {
   /** O dia de hoje na agenda (null se faltar): as respostas dele ficam fora do Treino. */
   readonly day: Day | null;
   readonly date: string;
-  /** A última leitura do save, feita pelo App. O Treino não grava nada (P50). */
+  /**
+   * A última leitura do save, feita pelo App. O Treino só grava os acertos, e quem grava é o App
+   * (`usePracticeRecord`); a sessão fica na memória (P50).
+   */
   readonly save: Save;
   readonly engine: AudioEngine;
   readonly resolver: PreviewResolver;
@@ -47,8 +51,29 @@ type Props = {
 };
 
 /**
+ * Cada rodada acertada do Treino vai para o save uma vez só (P308), como no modo por artista: a
+ * chave é a semente da sessão e o número da rodada. Fica no App, ao lado da sessão: o Treino
+ * desmonta ao trocar de aba, e a volta remonta a mesma revelação, que não conta de novo. A
+ * anulada e a perdida não são acerto; com a ajuda, é.
+ */
+export function usePracticeRecord(
+  session: PracticeSession | null,
+  record: (change: (save: Save) => Save) => void,
+): void {
+  const recorded = useRef(new Set<string>());
+  useEffect(() => {
+    if (!session?.game || currentRound(session.game).status !== "won") return;
+    const key = `${session.practice.seed}|${session.number}`;
+    if (recorded.current.has(key)) return;
+    recorded.current.add(key);
+    record(withPracticeRight);
+  }, [session, record]);
+}
+
+/**
  * Modo Treino: a pessoa escolhe o modo (Normal ou Desafio), e as rodadas sem fim saem só dele;
- * trocar de modo é reiniciar (P105). Usa a mesma rodada do diário (RoundView) e não salva nada.
+ * trocar de modo é reiniciar (P105). Usa a mesma rodada do diário (RoundView); do save, só conta
+ * os acertos (o `usePracticeRecord`, no App).
  */
 export function Practice(props: Props) {
   const { index, day, date, save, session, onSession } = props;

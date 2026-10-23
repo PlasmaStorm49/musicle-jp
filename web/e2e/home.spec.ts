@@ -17,7 +17,7 @@ test("em 320 px, a Início, os Hits, o Anime e o Mais cabem numa linha, com o �
   await open(page, "2026-10-08T12:00:00-03:00", "");
   const nav = page.getByRole("navigation");
   const tabs = nav.getByRole("link");
-  // Os Artistas e o Histórico ficam no Mais (P265).
+  // Os Artistas, o Histórico e as Medalhas ficam no Mais (P265, P287).
   await expect(tabs).toHaveCount(3);
   await expect(tabs.filter({ hasText: "✓" })).toHaveCount(2);
   const more = nav.getByRole("button", { name: "Mais" });
@@ -50,45 +50,6 @@ test("em 320 px, a Início, os Hits, o Anime e o Mais cabem numa linha, com o �
     await document.fonts.ready;
   });
   expect(await rows()).toBe(1);
-});
-
-test("a partir de 480 px, as 5 abas ficam numa linha, com os dois ✓, e o Mais some (P265)", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 480, height: 800 });
-  const lost = { status: "lost", stage: 0, attempts: [] } as const;
-  const day = { number: 1, rounds: [lost, lost, lost] };
-  await seedHistory(page, {
-    "2026-10-08|album": day,
-    "2026-10-08|song": day,
-    "2026-10-08|anime-musica-medio": day,
-  });
-  await open(page, "2026-10-08T12:00:00-03:00", "");
-  const nav = page.getByRole("navigation");
-  await expect(nav.getByRole("link")).toHaveText([
-    "Início",
-    /^Hits/,
-    /^Anime/,
-    "Artistas",
-    "Histórico",
-  ]);
-  await expect(nav.getByRole("button", { name: "Mais" })).toHaveCount(0);
-  await page.evaluate(async () => {
-    await Promise.all([
-      document.fonts.load('400 0.9rem "Noto Sans JP"', "Hits Anime Artistas Histórico ✓"),
-      document.fonts.load('700 0.9rem "Noto Sans JP"', "Início Anime Artistas Histórico"),
-    ]);
-    await document.fonts.ready;
-  });
-  const rows = await nav
-    .getByRole("link")
-    .evaluateAll(
-      (links) => new Set(links.map((a) => Math.round(a.getBoundingClientRect().top))).size,
-    );
-  expect(rows).toBe(1);
-  // Em 479 px, o Mais volta.
-  await page.setViewportSize({ width: 479, height: 800 });
-  await expect(nav.getByRole("button", { name: "Mais" })).toBeVisible();
 });
 
 test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", async ({ page }) => {

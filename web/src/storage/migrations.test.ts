@@ -3,6 +3,10 @@ import { MIGRATIONS, migrate, SAVE_SCHEMA_VERSION } from "./migrations.ts";
 
 /** O que a v8 (P289) acrescenta a todo save: as medalhas e o modo por artista, vazios. */
 const V8 = { seenMedals: [], shelf: [], artists: {} };
+/** O que a v9 (P308) acrescenta: os acertos do Treino, zerados. */
+const V9 = { practiceRight: 0 };
+/** Tudo o que um save de antes da v8 ganha até a atual. */
+const LATEST = { ...V8, ...V9 };
 
 describe("migrate", () => {
   it("a versão atual passa sem mudança", () => {
@@ -46,7 +50,7 @@ describe("migrate", () => {
       inProgress: { "2026-10-12|song": { answerMode: "typing", events: [{ type: "SKIP" }] } },
     };
     expect(MIGRATIONS[2]?.(v2)).toEqual({ history: {}, inProgress: {} });
-    expect(migrate(v2, 2)).toEqual({ schemaVersion: 8, history: {}, inProgress: {}, ...V8 });
+    expect(migrate(v2, 2)).toEqual({ schemaVersion: 9, history: {}, inProgress: {}, ...LATEST });
   });
 
   it("v3 → v4 guarda tudo como está: a ajuda (P149) só acrescenta", () => {
@@ -76,7 +80,7 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[3]?.(v3)).toEqual(v3);
-    expect(migrate(v3, 3)).toEqual({ ...v3, ...V8, schemaVersion: 8 });
+    expect(migrate(v3, 3)).toEqual({ ...v3, ...LATEST, schemaVersion: 9 });
   });
 
   it("v4 → v5 guarda tudo como está: o pulo depois da ajuda (P163) só acrescenta", () => {
@@ -105,7 +109,7 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[4]?.(v4)).toEqual(v4);
-    expect(migrate(v4, 4)).toEqual({ ...v4, ...V8, schemaVersion: 8 });
+    expect(migrate(v4, 4)).toEqual({ ...v4, ...LATEST, schemaVersion: 9 });
   });
 
   it("v5 → v6 guarda tudo como está: os diários do Anime (P250) só acrescentam ids", () => {
@@ -141,7 +145,7 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[5]?.(v5)).toEqual(v5);
-    expect(migrate(v5, 5)).toEqual({ ...v5, ...V8, schemaVersion: 8 });
+    expect(migrate(v5, 5)).toEqual({ ...v5, ...LATEST, schemaVersion: 9 });
   });
 
   it("v6 → v7 guarda tudo como está: o jogado depois (P267) só acrescenta o `late`", () => {
@@ -176,7 +180,7 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[6]?.(v6)).toEqual(v6);
-    expect(migrate(v6, 6)).toEqual({ ...v6, ...V8, schemaVersion: 8 });
+    expect(migrate(v6, 6)).toEqual({ ...v6, ...LATEST, schemaVersion: 9 });
   });
 
   it("v7 → v8 guarda tudo como está e acrescenta as medalhas e o modo por artista (P289)", () => {
@@ -205,15 +209,38 @@ describe("migrate", () => {
       inProgress: { "2026-10-22|anime-musica-facil": { events: [{ type: "SKIP" }] } },
     };
     expect(MIGRATIONS[7]?.(v7)).toEqual({ ...v7, ...V8 });
-    expect(migrate(v7, 7)).toEqual({ ...v7, ...V8, schemaVersion: 8 });
+    expect(migrate(v7, 7)).toEqual({ ...v7, ...LATEST, schemaVersion: 9 });
+  });
+
+  it("v8 → v9 guarda tudo como está e acrescenta os acertos do Treino, zerados (P308)", () => {
+    // Um save v8 de verdade: um diário, as medalhas avisadas e um artista com o Superfan.
+    const v8 = {
+      schemaVersion: 8,
+      history: {
+        "2026-10-22|album": {
+          number: 13,
+          rounds: [
+            { status: "won", stage: 0, attempts: ["right"] },
+            { status: "won", stage: 2, attempts: ["right"] },
+            { status: "lost", stage: 0, attempts: ["wrong"] },
+          ],
+        },
+      },
+      inProgress: { "2026-10-22|song": { events: [{ type: "SKIP" }] } },
+      seenMedals: ["superfan|apple:ar:1|acertos", "superfan|apple:ar:1|completo"],
+      shelf: ["superfan|apple:ar:1|completo"],
+      artists: { "apple:ar:1": { right: 52, done: true } },
+    };
+    expect(MIGRATIONS[8]?.(v8)).toEqual({ ...v8, ...V9 });
+    expect(migrate(v8, 8)).toEqual({ ...v8, ...V9, schemaVersion: 9 });
   });
 
   it("v1 vai até a atual passando por todas", () => {
     expect(migrate({ schemaVersion: 1, settings: { answerMode: "typing" } }, 1)).toEqual({
-      schemaVersion: 8,
+      schemaVersion: 9,
       history: {},
       inProgress: {},
-      ...V8,
+      ...LATEST,
     });
   });
 

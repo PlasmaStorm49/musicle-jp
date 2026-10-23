@@ -49,7 +49,9 @@ declare global {
 /**
  * Abre o jogo com o relógio fixo e o motor de áudio falso. A hora é de Brasília (com -03:00):
  * o navegador está no fuso de Tóquio, então a data só sai certa se o jogo usar o fuso do jogo.
- * `failAudio`: id da faixa cujo áudio falha (simula a prévia indisponível).
+ * `failAudio`: id da faixa cujo áudio falha (simula a prévia indisponível). Os avisos de medalha
+ * ficam calados (`?medalhas=silencio`, M16): o pop-up grande, modal, travaria os cliques de quem
+ * não os testa. Quem testa os avisos usa o `openWithMedals`.
  */
 export async function open(
   page: Page,
@@ -59,19 +61,21 @@ export async function open(
   extra = "",
 ): Promise<void> {
   const fail = failAudio ? `&failAudio=${encodeURIComponent(failAudio)}` : "";
+  const medals = extra.includes("medalhas=") ? "" : "&medalhas=silencio";
   await page.clock.setFixedTime(new Date(brasilia));
-  await page.goto(`/?fakeAudio=1${fail}${extra}${hash}`);
+  await page.goto(`/?fakeAudio=1${fail}${medals}${extra}${hash}`);
 }
 
 /**
- * Abre o jogo com as medalhas de exemplo ligadas (M16, `?medalhas=demo`, só em desenvolvimento).
- * O `silencio` liga a tela e cala os avisos (o pop-up grande travaria os cliques do teste).
+ * Abre o jogo com os avisos de medalha ligados (M16, só em desenvolvimento): `demo`, a lista de
+ * exemplo, de limites fáceis; `avisos`, a lista real, como no site (o valor não é um modo: vale a
+ * lista real, e nada se cala). A lista real calada é o padrão do `open`.
  */
 export async function openWithMedals(
   page: Page,
   brasilia: string,
   hash = "#medalhas",
-  mode: "demo" | "silencio" = "demo",
+  mode: "demo" | "avisos" = "demo",
 ) {
   await open(page, brasilia, hash, undefined, `&medalhas=${mode}`);
 }
@@ -87,8 +91,9 @@ export async function seedHistory(
   page: Page,
   history: Save["history"],
   artists: Save["artists"] = {},
+  practiceRight = 0,
 ): Promise<void> {
-  const save: Save = { ...emptySave(), history, artists };
+  const save: Save = { ...emptySave(), history, artists, practiceRight };
   // Uma marca por chamada: a 2ª chamada na mesma página também grava (a última vale).
   const mark = `e2e-seeded-${seeds++}`;
   await page.addInitScript(
@@ -107,8 +112,8 @@ export function hitsTab(page: Page): Locator {
 }
 
 /**
- * Um link da nav pelo nome, como a pessoa o alcança: abaixo de 480 px, os Artistas e o Histórico
- * ficam no "Mais" (P265), que abre antes. O getByRole só acha o link visível.
+ * Um link da nav pelo nome, como a pessoa o alcança: abaixo de 720 px, os Artistas, o Histórico e
+ * as Medalhas ficam no "Mais" (P265, P287), que abre antes. O getByRole só acha o link visível.
  */
 export async function navLink(page: Page, name: string): Promise<Locator> {
   const nav = page.getByRole("navigation");

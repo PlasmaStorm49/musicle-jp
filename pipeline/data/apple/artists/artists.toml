@@ -41,7 +41,7 @@ exclude_tracks = ["1841835717"]
 [artists.medals]
 acertos = { name = "Nightwalker" }
 completo = { name = "YOA'S" }
-perfeito = { name = "小説を音楽にする" }
+perfeito = { name = "小説を音楽にする", latin = "Shosetsu wo Ongaku ni Suru" }
 album = "1593438479"  # THE BOOK 2
 crop = { z = 1.18, x = 0.5, y = 0.6 }
 sash = { text = "YOASOBI", along = true }
@@ -69,7 +69,7 @@ same_song = [["1537786186", "1538286198"]]
 [artists.medals]
 acertos = { name = "LiVE is Smile Always" }
 completo = { name = "LiSAッ子", latin = "LiSAkko" }
-perfeito = { name = "今日もいい日だっ" }
+perfeito = { name = "今日もいい日だっ", latin = "Kyo mo Ii Hi Da" }
 album = "1647502606"  # LANDER
 crop = { z = 1.3, x = 0.42, y = 0.4 }
 sash = { text = "LiSA" }
@@ -95,7 +95,7 @@ id = "1080967231"  # Eve (J-Pop; não o Eve do rap)
 [artists.medals]
 acertos = { name = "廻廻奇譚", latin = "Kaikai Kitan" }
 completo = { name = "Round Robin" }
-perfeito = { name = "はらぺこ" }
+perfeito = { name = "はらぺこ", latin = "Harapeko" }
 album = "1481536400"  # レーゾンデートル - Single
 crop = { z = 1.2, x = 0.42, y = 0.45 }
 sash = { text = "Eve" }
@@ -121,7 +121,7 @@ id = "1492604670"  # Ado
 [artists.medals]
 acertos = { name = "狂言", latin = "Kyogen" }
 completo = { name = "歌い手", latin = "Utaite" }
-perfeito = { name = "青い薔薇" }
+perfeito = { name = "青い薔薇", latin = "Aoi Bara" }
 album = "1603820296"  # 狂言
 crop = { z = 1.3, x = 0.5, y = 0.48 }
 sash = { text = "Ado" }
@@ -156,7 +156,7 @@ exclude_tracks = ["1536151528"]
 [artists.medals]
 acertos = { name = "Sleepless Nights" }
 completo = { name = "Blanc et Noir" }
-perfeito = { name = "エメ" }
+perfeito = { name = "エメ", latin = "Eme" }
 album = "1537258705"  # 花の唄 / I beg you / 春はゆく - EP
 crop = { z = 2.7, x = 0.61, y = 0.37 }
 sash = { text = "Aimer" }
@@ -182,7 +182,7 @@ id = "530814268"  # 米津玄師 (o Hachi, 727267782, é outro artista e não en
 [artists.medals]
 acertos = { name = "Stray Sheep" }
 completo = { name = "ハチ", latin = "Hachi" }
-perfeito = { name = "かいじゅうずかん" }
+perfeito = { name = "かいじゅうずかん", latin = "Kaiju Zukan" }
 album = "1440791809"  # YANKEE
 crop = { z = 1.05, x = 0.5, y = 0.5 }
 sash = { text = "米津玄師" }
@@ -208,7 +208,7 @@ id = "311230779"  # Unlimits (rock; ハルカカナタ, カスケード)
 [artists.medals]
 acertos = { name = "Amethyst" }
 completo = { name = "七色の記憶", latin = "Nanairo no Kioku" }
-perfeito = { name = "夢幻の宴" }
+perfeito = { name = "夢幻の宴", latin = "Mugen no Utage" }
 album = "1763583412"  # アメジスト
 crop = { z = 1.25, x = 0.58, y = 0.5 }
 sash = { text = "UNLIMITS", along = true }
@@ -359,7 +359,7 @@ singles = [
 [artists.medals]
 acertos = { name = "Pineapple" }
 completo = { name = "24" }
-perfeito = { name = "永遠のアイドル" }
+perfeito = { name = "永遠のアイドル", latin = "Eien no Idol" }
 album = "1536763133"  # Strawberry Time
 crop = { z = 1.15, x = 0.5, y = 0.5 }
 sash = { text = "松田聖子" }
@@ -388,7 +388,7 @@ same_song = [["1332972950", "1348202944"]]  # 恋の遮断機 feat. H ZETTRIO / 
 [artists.medals]
 acertos = { name = "オトナブルー", latin = "Otona Blue" }
 completo = { name = "青春部", latin = "Seishun-bu" }
-perfeito = { name = "はみ出していく" }
+perfeito = { name = "はみ出していく", latin = "Hamidashite Iku" }
 album = "1746886154"  # AG! Calling
 crop = { z = 1.2, x = 0.5, y = 0.42 }
 sash = { text = "新しい学校" }
@@ -416,7 +416,7 @@ exclude_tracks = ["1786299392"]  # Nameless Faces (feat. Lilas Ikuta) [英語版
 [artists.medals]
 acertos = { name = "Lilac" }
 completo = { name = "ぷらそにか", latin = "Plusonica" }
-perfeito = { name = "吉祥寺" }
+perfeito = { name = "吉祥寺", latin = "Kichijoji" }
 album = "1671948398"  # Sketch
 crop = { z = 1.2, x = 0.52, y = 0.45 }
 sash = { text = "幾田りら" }
@@ -498,7 +498,7 @@ same_song = [
 [artists.medals]
 acertos = { name = "Blushing Youth" }
 completo = { name = "Red Planet" }
-perfeito = { name = "사춘기" }
+perfeito = { name = "사춘기", latin = "Sachungi" }
 album = "1550029640"  # Red Diary Page.1 - EP
 crop = { z = 2.6, x = 0.5, y = 0.55 }
 sash = { text = "볼빨간사춘기" }

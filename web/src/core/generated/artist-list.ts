@@ -55,10 +55,11 @@ export interface ArtistListEntry {
         latin: string | null;
       };
       /**
-       * O nome da medalha do Superfan perfeito: só o original, sem o latino (P295).
+       * O nome da medalha do Superfan perfeito, com o latino como o do acertos (P309, revisão da P295).
        */
       perfeito: {
         name: NonEmptyText;
+        latin: string | null;
       };
     };
     /**
