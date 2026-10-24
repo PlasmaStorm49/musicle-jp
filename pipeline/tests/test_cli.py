@@ -171,6 +171,24 @@ def test_schedule_check_refuses_a_changed_anime_day(tmp_path, capsys):
     assert "kind mudou: 'anime' → None" in capsys.readouterr().out
 
 
+def test_the_one_time_redo_accepts_only_its_day_before_it_comes(tmp_path, capsys, monkeypatch):
+    # A exceção de uma vez à regra 4 (o 24/10 do Anime real): o dia listado pode mudar enquanto
+    # não chegou; o mesmo dia depois de chegar, ou outro dia, continua recusado.
+    edited = copy.deepcopy(_anime_grown())
+    rounds = edited["days"]["2026-10-12"]["musica"]
+    rounds["medio"][0], rounds["medio"][2] = rounds["medio"][2], rounds["medio"][0]
+    args = _anime_check(tmp_path, edited)
+    redo = {(str(tmp_path / "schedule.json"), "2026-10-12")}
+    monkeypatch.setattr("musicle_pipeline.cli._REDONE_DAYS", redo)
+    assert main([*args[:-1], "2026-10-11"]) == 0
+    assert main(args) == 1  # o --today 2026-10-13: o dia já passou
+    assert "2026-10-12: dia alterado" in capsys.readouterr().out
+    other = copy.deepcopy(_anime_grown())
+    other["days"]["2026-10-11"]["musica"]["medio"].reverse()
+    assert main([*_anime_check(tmp_path, other)[:-1], "2026-10-10"]) == 1
+    assert "2026-10-11: dia alterado" in capsys.readouterr().out
+
+
 def test_a_new_fixture_schedule_may_be_born_with_past_days(tmp_path, capsys):
     # A agenda fictícia do Anime nasce com as datas da dos Hits (as do e2e), que já passaram:
     # ninguém a joga. Fora das fixtures, a mesma agenda nova com dias passados quebra (P44).
