@@ -314,6 +314,48 @@ describe("WebAudioEngine: a mistura das Misturadas (M17)", () => {
   });
 });
 
+describe("WebAudioEngine: o silêncio do começo da prévia (core/silence.ts)", () => {
+  // A c fica muda nos 2 s do começo. Com 10 amostras por segundo, a janela é de 1 amostra, e a
+  // folga do ataque é de 0,1 s: o 1º som conta de 1,9 s.
+  const mute2s = (i: number) => (i < 20 ? 0 : 0.3);
+
+  it("toda reprodução começa depois do silêncio, e o fim encurta o mesmo tanto", async () => {
+    const ctxs = mixContexts({ "c.m4a": mute2s });
+    const played: unknown[] = [];
+    const engine = new WebAudioEngine({ onPlayed: (log) => played.push(log) });
+    const first = await engine.play("c.m4a", 0, 4);
+    expect(ctxs[0]?.sources[0]?.start).toHaveBeenCalledWith(first?.t0, expect.closeTo(1.9, 9), 4);
+    // O começo pedido (o "Ouvir mais", o toque na barra) conta do 1º som.
+    const later = await engine.play("c.m4a", 3, 4);
+    expect(ctxs[0]?.sources[1]?.start).toHaveBeenCalledWith(later?.t0, expect.closeTo(4.9, 9), 4);
+    // Perto do fim: sobram 30 − 1,9 − 25 = 3,1 s.
+    const end = await engine.play("c.m4a", 25, 8);
+    expect(end?.seconds).toBeCloseTo(3.1, 9);
+    ctxs[0]?.sources[2]?.onended?.();
+    await end?.done;
+    expect(played.at(-1)).toMatchObject({ url: "c.m4a", offset: 25, lead: expect.closeTo(1.9, 9) });
+  });
+
+  it("a prévia que já começa com som toca de onde foi pedido", async () => {
+    const ctxs = mixContexts();
+    const playback = await new WebAudioEngine().play("a.m4a", 2, 4);
+    expect(ctxs[0]?.sources[0]?.start).toHaveBeenCalledWith(playback?.t0, 2, 4);
+  });
+
+  it("na mistura, cada voz pula o silêncio dela: os primeiros sons ficam alinhados", async () => {
+    const ctxs = mixContexts({ "b.m4a": mute2s });
+    const mix = await new WebAudioEngine().playMix(
+      [
+        { url: "a.m4a", offset: 0 },
+        { url: "b.m4a", offset: 6 },
+      ],
+      8,
+    );
+    expect(ctxs[0]?.sources[0]?.start).toHaveBeenCalledWith(mix?.t0, 0, 8);
+    expect(ctxs[0]?.sources[1]?.start).toHaveBeenCalledWith(mix?.t0, expect.closeTo(7.9, 9), 8);
+  });
+});
+
 describe("WebAudioEngine: o volume (P216, P219)", () => {
   it("antes do unlock só guarda o valor (regra 9: nenhum AudioContext); no unlock, o ganho mestre nasce com a curva", () => {
     const created = fakeContexts();

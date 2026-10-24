@@ -8,8 +8,12 @@
 // - O estado do contexto pode ser "suspended" ou "interrupted": testa-se !== "running".
 // - A mistura das Misturadas (M17, playMix) toca várias prévias no mesmo t0, cada uma com o seu
 //   ganho e o seu lado; o stop() para a mistura também, com a mesma ficha.
+// - O tempo do jogo começa no 1º som da prévia (core/silence.ts): o silêncio do começo, medido
+//   uma vez ao decodificar, soma-se a todo começo pedido, e o fim encurta o mesmo tanto. O <audio>
+//   de reserva não lê as amostras e começa do 0.
 import { type GainPoint, playbackEnvelope, stopEnvelope } from "../core/envelope.ts";
 import { mixGains, mixHeadroom, rmsOf } from "../core/mix.ts";
+import { leadIn } from "../core/silence.ts";
 import { clampVolume, gainOf } from "../core/volume.ts";
 import {
   type AudioEngine,
@@ -86,6 +90,8 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
   #mix: Mix | null = null;
   /** A energia de cada trecho de cada prévia decodificada (a mistura iguala por ela). */
   readonly #loudness = new WeakMap<AudioBuffer, Map<string, number>>();
+  /** O silêncio do começo de cada prévia decodificada, em segundos. */
+  readonly #leads = new WeakMap<AudioBuffer, number>();
   readonly #options: WebAudioOptions;
   /** O ganho mestre (o volume): entre o ganho de cada reprodução, o do fade, e a saída. */
   #master: GainNode | null = null;
@@ -147,7 +153,8 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     const { ctx, token } = ready;
     const buffer = ready.buffers[0] as AudioBuffer;
 
-    const duration = Math.max(0, Math.min(seconds, buffer.duration - offset));
+    const lead = this.#lead(buffer);
+    const duration = Math.max(0, Math.min(seconds, buffer.duration - lead - offset));
     const gain = ctx.createGain();
     gain.connect(this.#master ?? ctx.destination);
     const source = ctx.createBufferSource();
@@ -155,7 +162,7 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     source.connect(gain);
     const t0 = ctx.currentTime + START_DELAY;
     apply(gain.gain, playbackEnvelope(t0, duration));
-    source.start(t0, offset, duration);
+    source.start(t0, lead + offset, duration);
 
     const current: Current = { token, source, gain, interrupted: false };
     this.#current = current;
@@ -170,7 +177,7 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
         source.disconnect();
         gain.disconnect();
         if (this.#current === current) this.#current = null;
-        this.#options.onPlayed?.({ ...result, url, offset, engine: "webaudio" });
+        this.#options.onPlayed?.({ ...result, url, offset, lead, engine: "webaudio" });
         resolve(result);
       };
     });
@@ -189,8 +196,12 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
       // O Safari antigo (antes do 14.1) não tem o StereoPannerNode: sem ele, não há mistura.
       throw new AudioUnavailableError("decode", "este navegador não mistura (sem StereoPanner)");
     }
-    // Um começo negativo ou que não é número faria o start lançar erro no meio das vozes.
-    const offsets = tracks.map((t) => (Number.isFinite(t.offset) ? Math.max(0, t.offset) : 0));
+    // Um começo negativo ou que não é número faria o start lançar erro no meio das vozes. Cada voz
+    // começa depois do silêncio dela: os primeiros sons das prévias ficam alinhados.
+    const offsets = buffers.map((b, i) => {
+      const asked = tracks[i]?.offset ?? 0;
+      return this.#lead(b) + (Number.isFinite(asked) ? Math.max(0, asked) : 0);
+    });
     const durations = buffers.map((b, i) =>
       Math.max(0, Math.min(seconds, b.duration - (offsets[i] ?? 0))),
     );
@@ -353,6 +364,19 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     return energy;
   }
 
+  /** O silêncio do começo (core/silence.ts), lido das amostras uma vez por prévia. */
+  #lead(buffer: AudioBuffer): number {
+    let lead = this.#leads.get(buffer);
+    if (lead === undefined) {
+      const channels = Array.from({ length: buffer.numberOfChannels }, (_, c) =>
+        buffer.getChannelData(c),
+      );
+      lead = leadIn(channels, buffer.sampleRate);
+      this.#leads.set(buffer, lead);
+    }
+    return lead;
+  }
+
   #entry(url: string): Entry {
     let entry = this.#cache.get(url);
     if (!entry) {
@@ -389,11 +413,14 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     if (!ctx)
       return Promise.reject(new AudioUnavailableError("blocked", "áudio ainda não destravado"));
     entry.buffer ??= entry.bytes.then(async (bytes) => {
+      let buffer: AudioBuffer;
       try {
-        return await ctx.decodeAudioData(bytes);
+        buffer = await ctx.decodeAudioData(bytes);
       } catch {
         throw new AudioUnavailableError("decode", `não foi possível decodificar ${url}`);
       }
+      this.#lead(buffer); // já no pré-carregamento, e não no clique do Tocar
+      return buffer;
     });
     if (!this.#cache.has(url)) this.#cache.set(url, entry);
     return entry.buffer;

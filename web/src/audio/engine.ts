@@ -24,7 +24,10 @@ export interface AudioEngine {
   unlock(): void;
   /** Baixa (e, se já destravado, decodifica) para tocar sem espera depois. */
   preload(url: string): void;
-  /** Toca `seconds` a partir de `offset`. Devolve null se outra ação a substituiu no caminho. */
+  /**
+   * Toca `seconds` a partir de `offset`, contado do 1º som da prévia (o Web Audio pula o silêncio
+   * do começo). Devolve null se outra ação a substituiu no caminho.
+   */
   play(url: string, offset: number, seconds: number): Promise<Playback | null>;
   /** Para a reprodução atual (com rampa) e cancela uma que ainda esteja carregando. */
   stop(): void;
@@ -108,6 +111,8 @@ export type EngineName = "webaudio" | "html" | "fake";
 export type PlayLog = PlaybackResult & {
   readonly url: string;
   readonly offset: number;
+  /** O silêncio do começo que o motor pulou antes do `offset` (só o Web Audio, core/silence.ts). */
+  readonly lead?: number;
   readonly engine: EngineName;
   /** O volume da reprodução, de 0 a 1 (o motor falso registra, para o e2e conferir). */
   readonly volume?: number;
