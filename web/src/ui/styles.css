@@ -460,9 +460,11 @@ button.give-up:active:not(:disabled) {
   }
 }
 
-/* O "Mais" (P265, P287): abaixo de 720 px, os Artistas, o Histórico e as Medalhas ficam no menu
-   dele; a partir de 720 px, as 6 abas na linha (entre 480 e 719, a coluna tem 460 px úteis, e as 6
-   não cabem). Os links estão duas vezes no DOM, e cada largura mostra um conjunto. */
+/* O "Mais" (P265, P287): abaixo de 720 px, as Misturadas (M17), os Artistas, o Histórico e as
+   Medalhas ficam no menu dele; a partir de 720 px, as 7 abas na linha (entre 480 e 719, a coluna
+   tem 460 px úteis, e elas não cabem). Na linha, com os três ✓ e a medalha em destaque, elas
+   somam uns 620 px: a linha da nav usa a coluna larga (até 880 px), e não a do conteúdo (560).
+   Os links estão duas vezes no DOM, e cada largura mostra um conjunto. */
 .tabs .nav-inline {
   display: none;
 }
@@ -472,6 +474,10 @@ button.give-up:active:not(:disabled) {
 }
 
 @media (min-width: 720px) {
+  .tabs ul {
+    max-width: var(--column-wide);
+  }
+
   .tabs .nav-inline {
     display: list-item;
   }
@@ -1275,6 +1281,94 @@ button.help {
   flex: 1;
   min-width: 0;
   margin: 0;
+}
+
+/* A revelação das Misturadas (M17): uma linha por música, com a capa de 48, o título, o anime e
+   o trecho em que foi achada. A cor vai no fundo e no ícone, como nas tentativas; o texto é o
+   normal (os pares do theme.test). */
+.mixed-songs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-2);
+}
+
+.mixed-songs > li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-1) var(--sp-3) var(--sp-1) var(--sp-1);
+  border-radius: var(--r-field);
+}
+
+.mixed-songs > li.right {
+  background: var(--ok-soft);
+}
+
+.mixed-songs > li.wrong {
+  background: var(--bad-soft);
+}
+
+.mixed-songs > li > img,
+.mixed-songs .mixed-cover {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-media);
+}
+
+.mixed-songs > li > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  flex: 1;
+}
+
+.mixed-songs .item-title {
+  font-weight: 700;
+}
+
+.mixed-songs .album,
+.mixed-songs .mixed-note {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mixed-songs .album {
+  color: var(--muted);
+}
+
+.mixed-songs .mixed-note {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+/* A reticência vale no texto, e não no flex (onde ele vira um item anônimo). */
+.mixed-songs .mixed-note > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mixed-songs > li.right .icon {
+  color: var(--ok);
+}
+
+.mixed-songs > li.wrong .icon {
+  color: var(--bad);
+}
+
+/* O "Separar" ligado fica na tela, pressionado: não some com o foco (regra 16). */
+button.help[aria-pressed="true"] {
+  font-weight: 400;
+  box-shadow: none;
 }
 
 /* As 4 opções, já marcadas: uma linha cada, com a miniatura de 32 e o ícone no lugar da
@@ -2365,6 +2459,11 @@ section.summary > h2 {
   line-height: var(--lh-dense);
 }
 
+/* As 4 rodadas das Misturadas (M17) numa linha. */
+.summary.mixed-summary > .summary-rounds {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .summary > .summary-rounds > li.won {
   background: var(--ok-soft);
 }
@@ -2747,6 +2846,36 @@ section.summary > h2 {
 
     .distribution {
       height: 136px;
+    }
+
+    /* As Misturadas (M17) ficam na coluna de sempre: a revelação delas não tem a capa grande, e o
+       resumo, as estatísticas. O Compartilhar e a volta continuam lado a lado. */
+    main.app:has(.mixed) {
+      max-width: var(--column);
+    }
+
+    .reveal.mixed-reveal {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .reveal.mixed-reveal > * {
+      grid-column: 1;
+    }
+
+    .summary.mixed-summary {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .summary.mixed-summary > * {
+      grid-column: 1 / -1;
+    }
+
+    .summary.mixed-summary > .share {
+      grid-column: 1;
+    }
+
+    .summary.mixed-summary > .summary-levels {
+      grid-column: 2;
     }
   }
 }

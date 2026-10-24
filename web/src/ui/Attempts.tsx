@@ -8,7 +8,8 @@ import { ItemLabel } from "./ItemLabel.tsx";
 
 type Props = {
   readonly index: CatalogIndex;
-  readonly round: RoundState;
+  /** Só as tentativas: a rodada de um diário, ou a das Misturadas (M17). */
+  readonly round: Pick<RoundState, "attempts">;
   /** O título "Suas tentativas" só para o leitor de tela (na rodada, PR D2). */
   readonly hideTitle?: boolean;
   /** O que se tentou: músicas, ou franquias no "acertar o anime" (o nome do anime). */

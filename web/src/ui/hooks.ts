@@ -60,13 +60,69 @@ export function usePreviews(
 }
 
 /**
+ * Os endereços das prévias de várias faixas (a mistura das Misturadas, M17), na ordem dada: cada
+ * um como o `useResolvedUrl`, null enquanto espera (e null de vez, se a faixa não tem prévia).
+ * `done` diz quais já têm resposta: um null de uma faixa já respondida é a prévia que não existe.
+ */
+export function useResolvedUrls(
+  resolver: PreviewResolver,
+  trackIds: readonly string[],
+): { readonly urls: readonly (string | null)[]; readonly done: readonly boolean[] } {
+  const [late, setLate] = useState<ReadonlyMap<string, string | null>>(new Map());
+  const peeked = trackIds.map((id) => resolver.peek(id));
+  const missing = trackIds.filter((id, i) => peeked[i] === null && !late.has(id));
+  const waiting = missing.join("\n");
+  useEffect(() => {
+    if (waiting === "") return;
+    let live = true; // a rodada pode mudar antes da resposta
+    for (const id of waiting.split("\n")) {
+      void resolver.resolve(id).then((resolved) => {
+        if (live) setLate((prev) => new Map(prev).set(id, resolved));
+      });
+    }
+    return () => {
+      live = false;
+    };
+  }, [resolver, waiting]);
+  // Listas novas a cada desenho: quem as usa num efeito depende do texto delas, e não da lista.
+  return {
+    urls: trackIds.map((id, i) => peeked[i] ?? late.get(id) ?? null),
+    done: trackIds.map((id, i) => peeked[i] !== null || late.has(id)),
+  };
+}
+
+/**
+ * As prévias de uma partida das Misturadas (M17): o lote do diário numa consulta só, e o motor
+ * guarda (e já baixa) só as da rodada atual e as da próxima, como o `usePreviews`.
+ */
+export function useMixPreviews(
+  engine: AudioEngine,
+  resolver: PreviewResolver,
+  batch: readonly string[],
+  current: readonly string[],
+  next: readonly string[],
+): { readonly urls: readonly (string | null)[]; readonly done: readonly boolean[] } {
+  useEffect(() => resolver.prefetch(batch), [resolver, batch]);
+  const now = useResolvedUrls(resolver, current);
+  const after = useResolvedUrls(resolver, next);
+  const keep = [...now.urls, ...after.urls].filter((u): u is string => u !== null);
+  const kept = keep.join("\n");
+  useEffect(() => {
+    const urls = kept === "" ? [] : kept.split("\n");
+    engine.retain(urls);
+    for (const u of urls) engine.preload(u);
+  }, [engine, kept]);
+  return now;
+}
+
+/**
  * Sugestões do autocompletar do Desafio: o índice de músicas (ou, no "acertar o anime", o das
  * franquias) sai do catálogo uma vez, e "já tentou" é por linha da busca (a música inteira, ou a
- * franquia), não por faixa.
+ * franquia), não por faixa. Serve às Misturadas também: só as tentativas da rodada contam.
  */
 export function useSuggest(
   index: CatalogIndex,
-  round: RoundState,
+  round: Pick<RoundState, "attempts">,
   answer: DailyAnswer = "track",
 ): (query: string) => Suggestion[] {
   // Os próprios build* guardam o índice por catálogo: aqui não precisa de memo.

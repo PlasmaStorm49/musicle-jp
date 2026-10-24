@@ -29,6 +29,9 @@ export const ptBR = {
   "nav.history": "Histórico",
   "nav.more": "Mais",
   "nav.medals": "Medalhas",
+  // As Misturadas (M17): o ✓ com os dois diários de hoje terminados, como nos Hits.
+  "nav.mixed": "Misturadas",
+  "nav.mixedDone": "(diários terminados)",
 
   // O Histórico (M15, P260 a P263): o calendário dos 14 dias antes de hoje e a tela de cada dia.
   "history.title": "Histórico",
@@ -275,6 +278,7 @@ export const ptBR = {
   "share.header": "{title} · {mode} nº {number}",
   // O Anime diz a categoria e o diário: "AteMusic Anime · Música · Fácil nº 1".
   "share.headerAnime": "{title} Anime · {mode} nº {number}",
+  "share.headerMixed": "{title} Misturadas · {mode} nº {number}",
   // O jogado depois (P263) diz que não foi no dia, para quem compara.
   "share.late": "{header} (jogado depois)",
   "share.button": "Compartilhar resultado",
@@ -518,6 +522,47 @@ export const ptBR = {
   "daily.anime-titulo-facil": "Anime · Fácil",
   "daily.anime-titulo-medio": "Anime · Médio",
   "daily.anime-titulo-dificil": "Anime · Difícil",
+  "daily.misturadas-musica": "Misturadas · Música",
+  "daily.misturadas-titulo": "Misturadas · Anime",
+
+  // As Misturadas (M17, P7 a P26): 2 ou 3 prévias de temas de anime tocando juntas. Dois diários,
+  // acertar a música e acertar o anime, de 4 rodadas, com os trechos de 4, 8, 16 e 30 s.
+  "mixed.title": "Misturadas",
+  "mixed.hint": "Temas de anime tocando juntos: ache todos.",
+  "mixed.modeShort.musica": "Digite o nome de cada música",
+  "mixed.modeShort.titulo": "Digite o nome de cada anime",
+  "mixed.modeHint.musica":
+    "Duas ou três prévias de temas de anime tocam juntas: digite o nome exato de cada música. {rounds} rodadas; cada erro ou pulo libera um trecho maior.",
+  "mixed.modeHint.titulo":
+    "Duas ou três prévias de temas de anime tocam juntas: digite o nome de cada anime, de qualquer temporada. {rounds} rodadas; cada erro ou pulo libera um trecho maior.",
+  "mixed.unavailable": "Não há diário das Misturadas hoje.",
+  "mixed.retry": "Não foi possível carregar as Misturadas. Confira a conexão.",
+  "mixed.back": "Voltar às Misturadas",
+  "mixed.backFull": "Voltar à escolha do modo das Misturadas",
+  "mixed.questionSong": "Quais são as músicas?",
+  "mixed.questionAnime": "Quais são os animes?",
+  "mixed.found": "{found} de {total} achadas",
+  // O "Separar L e R" (P10, P14): o custo fica na dica, e não no botão (regra 8).
+  "mixed.separate": "Separar L e R",
+  "mixed.separateHint":
+    "Cada música toca de um lado do fone. As que você achar depois valem a metade.",
+  "mixed.right": "Achou: {title}. {left}.",
+  "mixed.left.one": "Falta {count}",
+  "mixed.left.other": "Faltam {count}",
+  "mixed.wrong": "Errou: {title}. Trecho de {seconds} s liberado.",
+  "mixed.skipped": "Pulou. Trecho de {seconds} s liberado.",
+  // O navegador sem o Web Audio (o <audio> de reserva) não toca duas prévias juntas.
+  "mixed.noMix": "Este navegador não toca as prévias juntas: esta rodada foi anulada e não conta.",
+  "mixed.revealAll": "Achou todas! {points} de {max} pontos.",
+  "mixed.revealSome": "Achou {found} de {total}: {points}.",
+  "mixed.revealNone": "Não achou nenhuma.",
+  "mixed.foundAt": "achada no trecho de {seconds} s",
+  "mixed.foundHelp": "achada no trecho de {seconds} s, separada: metade dos pontos",
+  "mixed.missed": "não achada",
+  "mixed.summaryResult": "achou {found} de {total}, {points}",
+  // O modo no compartilhar ("AteMusic Misturadas · Música nº 1").
+  "mixed.shareMode.musica": "Música",
+  "mixed.shareMode.titulo": "Anime",
 
   // O "Sobre e privacidade" (P243): o jogo, as fontes, a privacidade e o contato (P258).
   "about.title": "Sobre e privacidade",

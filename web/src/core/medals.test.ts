@@ -398,6 +398,7 @@ describe("noticeTab: as telas calmas (P288)", () => {
         "history",
         "home",
         "medals",
+        "misturadas",
       ].sort(),
     );
   });
