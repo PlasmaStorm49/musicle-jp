@@ -14,6 +14,14 @@ from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
 from musicle_pipeline.anime import anime_chances, build_anime_catalog, chart_artists
+from musicle_pipeline.anime_mixed import KIND as MIXED_KIND
+from musicle_pipeline.anime_mixed import (
+    generate_mixed,
+    mixed_generator,
+    mixed_rule_problems,
+    mixed_short_pools,
+    validate_mixed_schedule,
+)
 from musicle_pipeline.anime_schedule import (
     generate_anime,
     rule_problems,
@@ -33,6 +41,7 @@ from musicle_pipeline.io_json import dumps, read_json, write_if_changed
 from musicle_pipeline.models import InputError
 from musicle_pipeline.normalize import has_unassigned, needs_romaji
 from musicle_pipeline.paths import (
+    MIXED_FILE,
     anime_paths,
     apple_snapshots_dir,
     artist_paths,
@@ -304,7 +313,13 @@ def _validate_anime(args: argparse.Namespace) -> int:
     code = _report(path, validate_anime_catalog(catalog, path.read_bytes()))
     # A agenda ao lado do catálogo, se existir (ou a do --schedule, que precisa existir).
     spath = resolve(args.schedule) if args.schedule else path.with_name("schedule.json")
-    if code or (args.schedule is None and not spath.exists()):
+    mpath = spath.with_name(MIXED_FILE)
+    if code:
+        return code
+    if args.schedule is None and not spath.exists():
+        # As Misturadas leem a agenda do Anime (P25): sem ela, não há como conferi-las.
+        if mpath.exists():
+            return _report(mpath, ["sem a agenda do Anime ao lado (rode o schedule-anime, P25)"])
         return code
     if not spath.exists():
         return _report(spath, ["arquivo ausente (rode o schedule-anime)"])
@@ -319,7 +334,22 @@ def _validate_anime(args: argparse.Namespace) -> int:
             problems.append("arquivo fora da forma canônica (regere com o pipeline)")
     for message in warnings:
         print(f"aviso: {message}", file=sys.stderr)
-    return _report(spath, problems)
+    code = _report(spath, problems)
+    # A agenda das Misturadas (M17), se existir ao lado: a estrutura e as regras que nunca afrouxam.
+    if code or not mpath.exists():
+        return code
+    mixed = read_json(mpath)
+    mixed_problems = validate_mixed_schedule(mixed, catalog)
+    for message in mixed_short_pools(catalog):
+        print(f"aviso: {message}", file=sys.stderr)
+    if not mixed_problems:
+        errors, old = mixed_rule_problems(mixed, catalog)
+        mixed_problems += errors
+        for message in old:
+            print(f"aviso: {message} (catálogo mudou depois do dia)", file=sys.stderr)
+        if dumps(mixed).encode("utf-8") != mpath.read_bytes():
+            mixed_problems.append("arquivo fora da forma canônica (regere com o pipeline)")
+    return _report(mpath, mixed_problems)
 
 
 def _schedule_anime(args: argparse.Namespace) -> int:
@@ -348,6 +378,36 @@ def _schedule_anime(args: argparse.Namespace) -> int:
     existing = read_json(out) if out.exists() else None
     result = generate_anime(catalog, existing, args.today, args.epoch, args.days)
     for message in [*short_pools(catalog), *result.warnings]:
+        print(f"aviso: {message}", file=sys.stderr)
+    for message in result.relaxations:
+        print(f"afrouxamento: {message}", file=sys.stderr)
+    changed = write_if_changed(out, dumps(result.schedule))
+    span = f" ({result.added[0]} a {result.added[-1]})" if result.added else ""
+    total = len(result.schedule["days"])
+    print(f"{out}: {len(result.added)} dia(s) novo(s){span}, {total} no total", end="")
+    print("" if changed else "; sem mudanças")
+    return 0
+
+
+def _schedule_mixed(args: argparse.Namespace) -> int:
+    """Acrescenta dias à agenda das Misturadas (M17), com o catálogo e a agenda do Anime da pasta
+    do provedor: rode depois do build-anime e do schedule-anime (P25)."""
+    paths = anime_paths(args.provider)
+    catalog_path = paths.public_dir / "catalog.json"
+    anime_path = paths.public_dir / "schedule.json"
+    out = paths.public_dir / MIXED_FILE
+    for needed, how in ((catalog_path, "build-anime"), (anime_path, "schedule-anime")):
+        if not needed.exists():
+            return _report(needed, [f"arquivo ausente (rode o {how})"])
+    catalog = read_json(catalog_path)
+    if _report(catalog_path, validate_anime_catalog(catalog, catalog_path.read_bytes())):
+        return 1
+    anime_schedule = read_json(anime_path)
+    if _report(anime_path, validate_anime_schedule(anime_schedule, catalog)):
+        return 1
+    existing = read_json(out) if out.exists() else None
+    result = generate_mixed(catalog, anime_schedule, existing, args.today, args.epoch, args.days)
+    for message in [*mixed_short_pools(catalog), *result.warnings]:
         print(f"aviso: {message}", file=sys.stderr)
     for message in result.relaxations:
         print(f"afrouxamento: {message}", file=sys.stderr)
@@ -396,7 +456,7 @@ def _schedule_check(args: argparse.Namespace) -> int:
     if args.catalog is not None and len(args.path or []) != 1:
         print("--catalog vale para uma agenda só: passe exatamente um --path", file=sys.stderr)
         return 1
-    # Com --path, o tipo sai do conteúdo (o "kind" da agenda do Anime).
+    # Com --path, o tipo sai do conteúdo (o "kind" das agendas do Anime e das Misturadas).
     targets = [(resolve(p), None) for p in args.path] if args.path else known_schedules()
     results = [
         code
@@ -409,8 +469,22 @@ def _schedule_check(args: argparse.Namespace) -> int:
     return max(results)
 
 
-# O gerador de cada tipo de agenda, para regerar os dias novos (ME51).
+# O gerador de cada tipo de agenda, para regerar os dias novos (ME51). O das Misturadas (M17)
+# precisa também da agenda do Anime ao lado (P25): sai do `_generator_of`.
 _GENERATORS: dict[str, Generator] = {"hits": generate, "anime": generate_anime}
+# O tipo de uma agenda pelo `kind` dela; sem o campo, a dos Hits. Um `kind` desconhecido é erro:
+# cairia em silêncio no gerador dos Hits.
+_KINDS = {"anime": "anime", MIXED_KIND: MIXED_KIND}
+
+
+def _generator_of(kind: str, path: Path) -> Generator | None:
+    """O gerador do tipo; o das Misturadas lê a agenda do Anime ao lado (a do mesmo commit), e
+    sem ela não há como regerar."""
+    if kind != MIXED_KIND:
+        return _GENERATORS[kind]
+    sibling = path.with_name("schedule.json")
+    return mixed_generator(read_json(sibling)) if sibling.exists() else None
+
 
 # A exceção de uma vez à regra 4 (23/10/2026, decisão do usuário): o 24/10 da agenda real do
 # Anime, que veio da carga de teste (C1) com franquias repetidas, refeito com o catálogo grande
@@ -436,8 +510,8 @@ def _is_fixture(path: Path) -> bool:
 
 def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | None:
     """0 = só cresceu, 1 = quebrou, None = a agenda não existe aqui nem na base. Despacha pelo
-    tipo (os Hits ou o Anime): o compare e o check_dates são os mesmos; o gerador que refaz os
-    dias novos, com o catálogo ao lado da agenda, é o do tipo."""
+    tipo (os Hits, o Anime ou as Misturadas): o compare e o check_dates são os mesmos; o gerador
+    que refaz os dias novos, com o catálogo ao lado da agenda, é o do tipo."""
     if args.base is not None:
         base_path = resolve(args.base)
         base = read_json(base_path) if base_path.exists() else None
@@ -454,7 +528,11 @@ def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | 
         return 1
     current = read_json(path)
     if kind is None:
-        kind = "anime" if current.get("kind") == "anime" else "hits"
+        declared = current.get("kind")
+        if declared is not None and declared not in _KINDS:
+            print(f"{path}: agenda de tipo desconhecido ({declared!r}): não há gerador para ela")
+            return 1
+        kind = "hits" if declared is None else _KINDS[declared]
     redone = _redone(path, args.today)
     problems = [p for p in compare(base, current) if p not in redone]
     if args.today is not None:
@@ -467,10 +545,11 @@ def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | 
     # Os dias novos precisam ser os do gerador, com o catálogo ao lado da agenda (o do mesmo PR).
     catalog_path = resolve(args.catalog) if args.catalog else path.with_name("catalog.json")
     if not problems:
-        if catalog_path.exists():
-            problems += regenerate_problems(
-                base, current, read_json(catalog_path), _GENERATORS[kind]
-            )
+        generator = _generator_of(kind, path)
+        if catalog_path.exists() and generator is None:
+            problems.append(f"{path}: sem a agenda do Anime ao lado, não dá para regerar (P25)")
+        elif catalog_path.exists() and generator is not None:
+            problems += regenerate_problems(base, current, read_json(catalog_path), generator)
         elif args.catalog:
             problems.append(f"{catalog_path}: catálogo não encontrado")
         else:
@@ -955,6 +1034,26 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     anime_schedule.add_argument("--out", type=Path, help="schedule.json (padrão: o do provedor)")
     anime_schedule.set_defaults(func=_schedule_anime)
+
+    mixed = sub.add_parser(
+        "schedule-mixed",
+        help="acrescenta dias à agenda das Misturadas (M17; nunca altera dia), depois do Anime",
+    )
+    mixed.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
+    mixed.add_argument(
+        "--today",
+        type=date.fromisoformat,
+        required=True,
+        help="data de hoje em Brasília (dia anterior a ela nunca é gerado, P44)",
+    )
+    mixed.add_argument("--epoch", type=date.fromisoformat, help="diário nº 1 (agenda nova)")
+    mixed.add_argument(
+        "--days",
+        type=int,
+        default=HORIZON_DAYS,
+        help="dias à frente de hoje, até o último dia da agenda do Anime (P25)",
+    )
+    mixed.set_defaults(func=_schedule_mixed)
 
     args = parser.parse_args(argv)
     try:

@@ -106,6 +106,10 @@ def anime_schedule_schema_path() -> Path:
     return repo_root() / "shared" / "schema" / "anime-schedule.schema.json"
 
 
+def anime_mixed_schema_path() -> Path:
+    return repo_root() / "shared" / "schema" / "anime-mixed.schema.json"
+
+
 @dataclass(frozen=True)
 class AnimePaths:
     """O Anime (M14) tem curadoria, cache e pasta próprios, como o modo por artista: os ids e
@@ -137,8 +141,14 @@ def apple_snapshots_dir() -> Path:
 
 def known_schedules() -> list[tuple[Path, str]]:
     """As agendas publicadas, existam ou não, com o tipo de cada uma: as dos Hits ("hits", a
-    fictícia e a real) e as do Anime ("anime", M14). O schedule-check padrão confere as quatro,
-    cada uma com o gerador do tipo dela, e uma que existia na base e sumiu também é erro."""
+    fictícia e a real), as do Anime ("anime", M14) e as das Misturadas ("anime-mixed", M17, ao
+    lado das do Anime). O schedule-check padrão confere as seis, cada uma com o gerador do tipo
+    dela, e uma que existia na base e sumiu também é erro."""
     hits = [(repo_root() / d / "schedule.json", "hits") for d in _PUBLIC_DIRS.values()]
     anime = [(anime_paths(p).public_dir / "schedule.json", "anime") for p in _PUBLIC_DIRS]
-    return hits + anime
+    mixed = [(anime_paths(p).public_dir / MIXED_FILE, "anime-mixed") for p in _PUBLIC_DIRS]
+    return hits + anime + mixed
+
+
+# A agenda das Misturadas (M17), ao lado do catálogo e da agenda do Anime, que ela usa.
+MIXED_FILE = "mixed.json"
