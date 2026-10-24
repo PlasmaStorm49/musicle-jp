@@ -12,6 +12,13 @@ export const SILENCE_WINDOW = 0.05;
  */
 export const SILENCE_RATIO = 10 ** (-30 / 20);
 
+/**
+ * A régua das Misturadas (o usuário, 24/10/2026): a voz começa onde a música já engrenou, a 15 dB
+ * da energia da prévia inteira. Uma introdução baixa, que sozinha se ouve, some debaixo da outra
+ * música, e a rodada soaria como uma música só.
+ */
+export const MIX_ENTRY_RATIO = 10 ** (-15 / 20);
+
 /** E abaixo disto (−60 dBFS), sempre, também numa prévia inteira quieta. */
 export const SILENCE_FLOOR = 10 ** (-60 / 20);
 
@@ -28,14 +35,19 @@ function rms(channels: readonly Float32Array[], from: number, to: number): numbe
 
 /**
  * Os segundos de silêncio no começo da prévia: onde começa a 1ª janela com som, menos uma janela
- * de folga, para não cortar o ataque da nota. A prévia muda inteira dá 0: nada muda.
+ * de folga, para não cortar o ataque da nota. Com som, a janela chega a `ratio` da energia da
+ * prévia inteira (de 0 a 1; a da mistura é mais exigente). A prévia muda inteira dá 0: nada muda.
  */
-export function leadIn(channels: readonly Float32Array[], sampleRate: number): number {
+export function leadIn(
+  channels: readonly Float32Array[],
+  sampleRate: number,
+  ratio: number = SILENCE_RATIO,
+): number {
   const length = Math.max(0, ...channels.map((data) => data.length));
   if (length === 0 || !(sampleRate > 0)) return 0;
   const whole = rms(channels, 0, length);
   if (whole < SILENCE_FLOOR) return 0;
-  const threshold = Math.max(whole * SILENCE_RATIO, SILENCE_FLOOR);
+  const threshold = Math.max(whole * Math.min(ratio, 1), SILENCE_FLOOR);
   const window = Math.max(1, Math.round(SILENCE_WINDOW * sampleRate));
   const limit = Math.min(length, Math.round(MAX_LEAD * sampleRate));
   for (let from = 0; from < limit; from += window) {

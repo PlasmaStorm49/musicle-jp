@@ -5,14 +5,15 @@ test("em 320 px, a Início, os Hits, o Anime e o Mais cabem numa linha, com o �
 }) => {
   // A fonte muda com o sistema (a CI é Linux): o teste mede, e o CSS tem folga para isso.
   await page.setViewportSize({ width: 320, height: 640 });
-  // Os dois diários dos Hits e um do Anime de 08/10 já terminados: as abas Hits e Anime ganham o
-  // ✓, o caso mais largo.
+  // Os dois diários dos Hits e um de cada modo do Anime de 08/10 já terminados: as abas Hits e
+  // Anime ganham o ✓, o caso mais largo.
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
   await seedHistory(page, {
     "2026-10-08|album": day,
     "2026-10-08|song": day,
     "2026-10-08|anime-musica-medio": day,
+    "2026-10-08|anime-titulo-dificil": day,
   });
   await open(page, "2026-10-08T12:00:00-03:00", "");
   const nav = page.getByRole("navigation");

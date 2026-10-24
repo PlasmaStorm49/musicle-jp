@@ -125,11 +125,11 @@ test("Misturadas: acertar a música, das 4 rodadas ao compartilhar, com o Separa
     "aria-pressed",
     "true",
   );
-  // A achada sai da próxima mistura: só a que falta toca.
+  // A achada continua na próxima mistura (o usuário, 24/10/2026): as duas tocam, separadas.
   await play(4).click();
   const left = await lastMix(page);
-  expect(left.tracks.map((t) => t.id)).toEqual([second.tracks[0]?.id]);
-  expect(left.pans).toEqual([-0.8]);
+  expect(left.tracks.map((t) => t.id)).toEqual(second.tracks.map((t) => t.id));
+  expect(left.pans).toEqual([-0.8, 0.8]);
   await page.getByRole("button", { name: "Desistir", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Achou 1 de 2: 3 pontos." })).toBeFocused();
   await expect(

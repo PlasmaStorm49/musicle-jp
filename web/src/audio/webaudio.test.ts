@@ -342,6 +342,25 @@ describe("WebAudioEngine: o silêncio do começo da prévia (core/silence.ts)", 
     expect(ctxs[0]?.sources[0]?.start).toHaveBeenCalledWith(playback?.t0, 2, 4);
   });
 
+  it("na mistura, a voz pula também a introdução baixa; sozinha, a mesma prévia toca do começo", async () => {
+    // A d tem 3 s de introdução 20 dB abaixo do resto: sozinha, ela se ouve e fica; na mistura,
+    // sumiria debaixo da outra, e a voz começa onde a música engrenou (a folga de 0,1 s).
+    const quiet = (i: number) => (i < 30 ? 0.03 : 0.3);
+    const ctxs = mixContexts({ "d.m4a": quiet });
+    const engine = new WebAudioEngine();
+    const solo = await engine.play("d.m4a", 0, 4);
+    expect(ctxs[0]?.sources[0]?.start).toHaveBeenCalledWith(solo?.t0, 0, 4);
+    const mix = await engine.playMix(
+      [
+        { url: "a.m4a", offset: 0 },
+        { url: "d.m4a", offset: 0 },
+      ],
+      8,
+    );
+    expect(ctxs[0]?.sources[1]?.start).toHaveBeenCalledWith(mix?.t0, 0, 8);
+    expect(ctxs[0]?.sources[2]?.start).toHaveBeenCalledWith(mix?.t0, expect.closeTo(2.9, 9), 8);
+  });
+
   it("na mistura, cada voz pula o silêncio dela: os primeiros sons ficam alinhados", async () => {
     const ctxs = mixContexts({ "b.m4a": mute2s });
     const mix = await new WebAudioEngine().playMix(

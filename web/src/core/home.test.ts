@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { animeSchedule, catalog, schedule } from "../../test/fixtures.ts";
 import { indexCatalog } from "./catalog.ts";
-import { ANIME_KEYS, animeDailies, animeDaily } from "./daily.ts";
+import { ANIME_KEYS, type AnimeKey, animeDailies, animeDaily } from "./daily.ts";
 import {
   animeDone,
+  animePlayed,
   dailiesDone,
   dailyStatus,
   firstToPlay,
@@ -167,29 +168,55 @@ describe("statusOf e firstToPlay (os cartões do Anime, pelo descritor)", () => 
   });
 });
 
-describe("animeDone (o ✓ da aba Anime, P247)", () => {
-  it("com qualquer um dos 6 diários do Anime de hoje terminado", () => {
+describe("animeDone (o ✓ da aba Anime: um diário de cada modo, o usuário, 24/10/2026)", () => {
+  const done = (...keys: AnimeKey[]) =>
+    save({ history: Object.fromEntries(keys.map((key) => [puzzleId(DATE, key), finished])) });
+
+  it("com um diário de cada modo terminado hoje, em qualquer dificuldade", () => {
     expect(animeDone(emptySave(), DATE)).toBe(false);
-    for (const key of ANIME_KEYS) {
-      expect(animeDone(save({ history: { [puzzleId(DATE, key)]: finished } }), DATE), key).toBe(
-        true,
-      );
-    }
+    expect(animeDone(done("anime-musica-facil", "anime-titulo-dificil"), DATE)).toBe(true);
+    expect(animeDone(done("anime-musica-medio", "anime-titulo-medio"), DATE)).toBe(true);
+  });
+
+  it("um modo só não basta, nem com as 3 dificuldades dele", () => {
+    for (const key of ANIME_KEYS) expect(animeDone(done(key), DATE), key).toBe(false);
+    expect(
+      animeDone(done("anime-musica-facil", "anime-musica-medio", "anime-musica-dificil"), DATE),
+    ).toBe(false);
   });
 
   it("em andamento não conta, nem os de outro dia, nem os dos Hits", () => {
     const playing = save({
-      inProgress: { [puzzleId(DATE, "anime-musica-facil")]: { events: [{ type: "SKIP" }] } },
+      history: { [puzzleId(DATE, "anime-musica-facil")]: finished },
+      inProgress: { [puzzleId(DATE, "anime-titulo-facil")]: { events: [{ type: "SKIP" }] } },
     });
     expect(animeDone(playing, DATE)).toBe(false);
     const yesterday = save({
-      history: { [puzzleId("2026-10-07", "anime-musica-facil")]: finished },
+      history: {
+        [puzzleId(DATE, "anime-musica-facil")]: finished,
+        [puzzleId("2026-10-07", "anime-titulo-facil")]: finished,
+      },
     });
     expect(animeDone(yesterday, DATE)).toBe(false);
     const hits = save({
       history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
     });
     expect(animeDone(hits, DATE)).toBe(false);
+  });
+});
+
+describe("animePlayed (a marca do Anime no Histórico, P277)", () => {
+  it("com qualquer um dos 6 diários do dia terminado", () => {
+    expect(animePlayed(emptySave(), DATE)).toBe(false);
+    for (const key of ANIME_KEYS) {
+      expect(animePlayed(save({ history: { [puzzleId(DATE, key)]: finished } }), DATE), key).toBe(
+        true,
+      );
+    }
+    const yesterday = save({
+      history: { [puzzleId("2026-10-07", "anime-musica-facil")]: finished },
+    });
+    expect(animePlayed(yesterday, DATE)).toBe(false);
   });
 });
 

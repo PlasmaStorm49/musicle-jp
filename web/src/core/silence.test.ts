@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { leadIn, MAX_LEAD, SILENCE_WINDOW } from "./silence.ts";
+import { leadIn, MAX_LEAD, MIX_ENTRY_RATIO, SILENCE_WINDOW } from "./silence.ts";
 
 const RATE = 1000; // 1000 amostras por segundo: a janela de 50 ms tem 50
 
@@ -31,6 +31,13 @@ describe("leadIn: o silêncio do começo de uma prévia", () => {
 
   it("a introdução baixa, mas que se ouve (20 dB abaixo do resto), fica", () => {
     expect(leadIn([preview((t) => (t < 3 ? 0.03 : 0.3))], RATE)).toBe(0);
+  });
+
+  it("a régua da mistura pula também a introdução baixa (20 dB abaixo), e não a parte que já soa", () => {
+    const intro = preview((t) => (t < 3 ? 0.03 : 0.3));
+    expect(leadIn([intro], RATE, MIX_ENTRY_RATIO)).toBeCloseTo(3 - SILENCE_WINDOW, 9);
+    // Uma estrofe 6 dB abaixo do refrão já é a música: fica.
+    expect(leadIn([preview((t) => (t < 5 ? 0.15 : 0.3))], RATE, MIX_ENTRY_RATIO)).toBe(0);
   });
 
   it("a medida é relativa à prévia: a introdução quieta de uma prévia quieta também fica", () => {
