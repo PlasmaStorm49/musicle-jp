@@ -24,6 +24,7 @@ import { generalArt } from "./MedalArt.tsx";
 import { LISTED, MedalDialog, MedalToast, type NoticeItem, TOAST_MS } from "./MedalNotice.tsx";
 import {
   announceText,
+  hasBig,
   noticeItems,
   noticeOrder,
   noticeTitle,
@@ -164,6 +165,23 @@ describe("MedalDialog (o pop-up grande, P279)", () => {
     expect(document.activeElement).toBe(ok());
   });
 
+  it("com um botão a mais antes do Ok (o Guardar uma cópia, ME103), o foco continua no Ok", () => {
+    render(
+      <MedalDialog
+        title="Medalha nova"
+        items={[item("a", "Um")]}
+        onClose={vi.fn()}
+        actions={
+          <button type="button" onClick={vi.fn()}>
+            Guardar uma cópia do progresso
+          </button>
+        }
+      />,
+    );
+    expect(screen.getByRole("button", { name: "Guardar uma cópia do progresso" })).toBeTruthy();
+    expect(document.activeElement).toBe(ok());
+  });
+
   it(`com mais de ${LISTED}, lista as ${LISTED} primeiras e "e mais N" (P313)`, () => {
     const many = Array.from({ length: LISTED + 3 }, (_, i) => item(`m${i}`, `Medalha ${i}`));
     render(<MedalDialog title="Você já tem 9 medalhas" items={many} onClose={vi.fn()} />);
@@ -288,6 +306,15 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
       "seguidos-7",
       "diario-1",
     ]);
+  });
+
+  it("hasBig: só a Superfan completa ou perfeita e as gerais grandes pedem a cópia (ME103, P25)", () => {
+    const of = (...ids: string[]) => hasBig(noticeItems(ids, LIST, resolve, true));
+    expect(of("diario-1", "seguidos-7")).toBe(false);
+    expect(of(superfanMedalId(ARTIST, "acertos"))).toBe(false);
+    expect(of("diario-1", "seguidos-30")).toBe(true);
+    expect(of(superfanMedalId(ARTIST, "completo"))).toBe(true);
+    expect(of(superfanMedalId(ARTIST, "perfeito"))).toBe(true);
   });
 
   it("as gerais com o desenho do tamanho delas, pela lista (P312)", () => {

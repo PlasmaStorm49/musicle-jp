@@ -1,3 +1,4 @@
+import type { ComponentChildren } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import type { MessageKey } from "../i18n/pt-BR.ts";
 import { t } from "../i18n/t.ts";
@@ -35,9 +36,10 @@ function External({ href, children }: { readonly href: string; readonly children
 /**
  * O "Sobre e privacidade" (P243, rota #sobre): o que é o jogo, as fontes com o link de cada uma
  * (P241), a privacidade (o jogo não coleta dados: o progresso fica no navegador) e o contato
- * pelas Issues do GitHub (P258). Tela nova: o foco vai para o título (regra 16).
+ * pelas Issues do GitHub (P258). Tela nova: o foco vai para o título (regra 16). O `progress` é a
+ * seção "Seu progresso" (ME103), que o App monta com o armazenamento: o Sobre não lê dado nenhum.
  */
-export function About() {
+export function About({ progress }: { readonly progress?: ComponentChildren }) {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   return (
@@ -68,6 +70,7 @@ export function About() {
         </h2>
         <p class="about-text">{t("about.privacy")}</p>
       </section>
+      {progress}
       <section class="about-part" aria-labelledby="about-contact">
         <h2 id="about-contact" class="about-heading">
           {t("about.contactTitle")}

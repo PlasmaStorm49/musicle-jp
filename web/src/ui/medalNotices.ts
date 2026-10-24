@@ -147,6 +147,14 @@ export function noticeTitle(notice: MedalNoticeState): string {
 const BIG_KINDS: ReadonlySet<MedalKind> = new Set(["completo", "perfeito", "geral-grande"]);
 
 /**
+ * O aviso tem uma medalha grande: a Superfan completa ou perfeita, ou uma das gerais grandes. O
+ * pop-up dele oferece guardar uma cópia do progresso (ME103, P25).
+ */
+export function hasBig(items: readonly NoticeItem[]): boolean {
+  return items.some((item) => BIG_KINDS.has(item.kind));
+}
+
+/**
  * A ordem do aviso (P313): as grandes primeiro, depois as com capa, e o resto na ordem da lista. O
  * pop-up desenha as `SHOWN` primeiras e lista as `LISTED` primeiras: no 1º aviso de quem já jogava,
  * com muitas de uma vez, as que mais importam aparecem.

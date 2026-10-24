@@ -62,6 +62,7 @@ import { MedalDialog, MedalToast, SHOWN } from "./MedalNotice.tsx";
 import { Medals } from "./Medals.tsx";
 import {
   announceText,
+  hasBig,
   noticeItems,
   noticeOrder,
   noticeTitle,
@@ -75,6 +76,7 @@ import {
   type PracticeSessionSetter,
   usePracticeRecord,
 } from "./Practice.tsx";
+import { BackupAction, ProgressTransfer, type SaveMode } from "./Progress.tsx";
 import { singleClickLink } from "./singleClick.ts";
 import { savedVolume } from "./volume.ts";
 
@@ -114,6 +116,8 @@ type Storage = {
   readonly store: KeyValueStore;
   readonly save: Save;
   readonly notice: string | null;
+  /** Onde o progresso fica nesta sessão (o exportar e o importar dependem disso, ME103). */
+  readonly mode: SaveMode;
 };
 
 /**
@@ -132,14 +136,12 @@ function openSaves(date: string): Storage {
   // o resto é de um dia que não se joga mais.
   const kept = keptProgressIds(date);
   if (loaded.writable) updateSave(store, (s) => pruneProgress(s, kept));
+  const mode: SaveMode =
+    loaded.notice === "future" ? "future" : !persistent || !loaded.writable ? "memory" : "saves";
   const notice =
-    loaded.notice === "future"
-      ? t("storage.future")
-      : !persistent || !loaded.writable
-        ? t("storage.unavailable")
-        : null;
+    mode === "future" ? t("storage.future") : mode === "memory" ? t("storage.unavailable") : null;
   const save = pruneProgress(loaded.save, kept);
-  return { store: sessionStore(store, { ...loaded, save }), save, notice };
+  return { store: sessionStore(store, { ...loaded, save }), save, notice, mode };
 }
 
 /**
@@ -396,7 +398,17 @@ export function App() {
         {/* O "Sobre e privacidade" não usa dado nenhum: desenha sem esperar a carga dos Hits, e a
             política de privacidade nunca depende dela (nem de uma falha dela). */}
         {route.tab === "about" ? (
-          <About />
+          <About
+            progress={
+              <ProgressTransfer
+                store={saves.store}
+                today={date}
+                mode={saves.mode}
+                announce={announce}
+                onImported={refresh}
+              />
+            }
+          />
         ) : (
           <>
             {load.status === "loading" && (
@@ -452,6 +464,12 @@ export function App() {
             items={items}
             onClose={dismissNotice}
             attribution={attribution}
+            // Uma conquista grande: guardar uma cópia do progresso (ME103, P25).
+            actions={
+              hasBig(items) ? (
+                <BackupAction store={saves.store} today={date} mode={saves.mode} />
+              ) : undefined
+            }
           />
         ) : (
           toastMessage && (

@@ -536,7 +536,39 @@ export const ptBR = {
   "about.sourceSeparator": ": ",
   "about.privacyTitle": "Privacidade",
   "about.privacy":
-    "O jogo não coleta dados pessoais e não tem servidor próprio: o progresso fica só neste navegador (no localStorage). O site é hospedado no GitHub Pages, que, como qualquer servidor, pode registrar os acessos. As prévias, as capas e as consultas das músicas vão direto do navegador à Apple.",
+    "O jogo não coleta dados pessoais e não tem servidor próprio: o progresso fica só neste navegador (no localStorage), e o arquivo exportado, só com você. O site é hospedado no GitHub Pages, que, como qualquer servidor, pode registrar os acessos. As prévias, as capas e as consultas das músicas vão direto do navegador à Apple.",
+  // O progresso num arquivo (ME103): a seção do Sobre e o botão do pop-up das medalhas grandes.
+  "progress.title": "Seu progresso",
+  "progress.intro":
+    "Para levar o progresso a outro aparelho, ou guardar uma cópia: exporte um arquivo e importe-o lá. Importar substitui o progresso do aparelho.",
+  "progress.export": "Exportar",
+  "progress.import": "Importar",
+  "progress.backup": "Guardar uma cópia do progresso",
+  "progress.exported": "O arquivo {name} foi baixado.",
+  "progress.days.one": "{count} dia jogado",
+  "progress.days.other": "{count} dias jogados",
+  "progress.medals.one": "{count} medalha",
+  "progress.medals.other": "{count} medalhas",
+  "progress.confirmFile": "O arquivo tem {days} e {medals}.",
+  "progress.confirmFileDated": "O arquivo, de {date}, tem {days} e {medals}.",
+  "progress.confirmLost.one": "Sai deste aparelho {count} jogo terminado que o arquivo não tem.",
+  "progress.confirmLost.other":
+    "Saem deste aparelho {count} jogos terminados que o arquivo não tem.",
+  "progress.confirmAsk": "Substituir o progresso deste aparelho por ele?",
+  "progress.confirmYes": "Sim, substituir",
+  "progress.imported": "Progresso importado: {days}.",
+  "progress.importedDropped":
+    "Progresso importado: {days}. Algumas entradas do arquivo não valiam e ficaram de fora.",
+  "progress.error.format": "Esse arquivo não é um progresso do AteMusic.",
+  "progress.error.size": "Esse arquivo é grande demais para ser um progresso do AteMusic.",
+  "progress.error.future":
+    "Esse arquivo é de uma versão mais nova do jogo. Recarregue a página e tente de novo.",
+  "progress.error.read": "Não foi possível ler o arquivo.",
+  "progress.error.empty": "Esse arquivo não tem nenhum progresso para importar.",
+  "progress.error.later":
+    "Esse arquivo é de um dia depois do de hoje nesta página. Recarregue a página e tente de novo.",
+  "progress.error.memory":
+    "Este navegador não deixa guardar o progresso: importar valeria só até recarregar a página.",
   "about.contactTitle": "Contato",
   "about.contact": "Dúvidas, erros ou um pedido para tirar algo do jogo:",
   "about.contactLink": "as Issues do GitHub",

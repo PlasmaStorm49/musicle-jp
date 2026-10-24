@@ -251,6 +251,32 @@ function keepCorrupt(store: KeyValueStore, raw: string): boolean {
   }
 }
 
+/**
+ * Um save já lido do JSON, pelas migrações e pelas conferências (o `sanitize`): "ok", com o que
+ * foi descartado (`dropped`); "future", gravado por uma versão mais nova, que não sabemos ler; ou
+ * "invalid", sem versão ou fora do formato. A leitura do navegador e a importação (ME103) passam
+ * por aqui.
+ */
+export type ReadResult =
+  | { readonly kind: "ok"; readonly save: Save; readonly dropped: boolean }
+  | { readonly kind: "future" }
+  | { readonly kind: "invalid" };
+
+export function readSave(data: unknown): ReadResult {
+  const version = isRecord(data) ? data.schemaVersion : undefined;
+  if (Number.isInteger(version) && (version as number) > SAVE_SCHEMA_VERSION) {
+    return { kind: "future" };
+  }
+  if (!isRecord(data) || !Number.isInteger(version) || (version as number) < 1) {
+    return { kind: "invalid" };
+  }
+  try {
+    return { kind: "ok", ...sanitize(migrate(data, version as number)) };
+  } catch {
+    return { kind: "invalid" };
+  }
+}
+
 export function loadSave(store: KeyValueStore): LoadResult {
   let raw: string | null;
   try {
@@ -266,24 +292,16 @@ export function loadSave(store: KeyValueStore): LoadResult {
   } catch {
     data = undefined;
   }
-  const version = isRecord(data) ? data.schemaVersion : undefined;
-  if (Number.isInteger(version) && (version as number) > SAVE_SCHEMA_VERSION) {
-    // Gravado por uma versão mais nova do jogo: não sabemos ler e não podemos apagar.
-    return { save: emptySave(), writable: false, notice: "future" };
+  const result = readSave(data);
+  // Gravado por uma versão mais nova do jogo: não sabemos ler e não podemos apagar.
+  if (result.kind === "future") return { save: emptySave(), writable: false, notice: "future" };
+  if (result.kind === "ok" && !result.dropped) {
+    return { save: result.save, writable: true, notice: null };
   }
-
-  let result: ReturnType<typeof sanitize> | null = null;
-  if (isRecord(data) && Number.isInteger(version) && (version as number) >= 1) {
-    try {
-      result = sanitize(migrate(data, version as number));
-    } catch {
-      result = null;
-    }
-  }
-  if (result && !result.dropped) return { save: result.save, writable: true, notice: null };
 
   const kept = keepCorrupt(store, raw);
-  return { save: result?.save ?? emptySave(), writable: kept, notice: "repaired" };
+  const save = result.kind === "ok" ? result.save : emptySave();
+  return { save, writable: kept, notice: "repaired" };
 }
 
 /**
