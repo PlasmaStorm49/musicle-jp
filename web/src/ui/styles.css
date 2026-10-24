@@ -474,6 +474,13 @@ button.give-up:active:not(:disabled) {
 }
 
 @media (min-width: 720px) {
+  /* O mesmo respiro do conteúdo (`main.app`): o logo e a medalha em destaque alinham com o começo e
+     o fim da coluna. Abaixo, os 10 px fazem a nav caber numa linha em 320 px. */
+  .tabs ul {
+    padding: 0 max(var(--sp-4), env(safe-area-inset-right)) 0
+      max(var(--sp-4), env(safe-area-inset-left));
+  }
+
   .tabs .nav-inline {
     display: list-item;
   }
@@ -483,20 +490,14 @@ button.give-up:active:not(:disabled) {
   }
 }
 
-/* A medalha em destaque (ME118, P317): no celular, no canto direito da nav; a partir de 720 px,
-   logo depois do "Mais", perto do menu. A partir de 360 px, o link para as Medalhas, com o alvo de
-   44 px; abaixo, sobram 28 px em 320 (os 44 menos o espaço entre as abas): ela fica menor e só
-   enfeita, e o link das Medalhas continua no Mais. */
+/* A medalha em destaque (ME118, P317), no canto direito da nav: alinhada com o fim da coluna do
+   conteúdo, também no computador (a nav fica na mesma coluna). A partir de 360 px, o link para as
+   Medalhas, com o alvo de 44 px; abaixo, sobram 28 px em 320 (os 44 menos o espaço entre as abas):
+   ela fica menor e só enfeita, e o link das Medalhas continua no Mais. */
 .tabs .nav-favorite {
   display: flex;
   align-items: center;
   margin-left: auto;
-}
-
-@media (min-width: 720px) {
-  .tabs .nav-favorite {
-    margin-left: 0;
-  }
 }
 
 /* Abaixo de 360 px, a Nav desenha só o enfeite (pelo `matchMedia`, para o item sair do leitor de

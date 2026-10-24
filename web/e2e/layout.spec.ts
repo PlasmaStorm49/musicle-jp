@@ -789,7 +789,7 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
-test("as Medalhas (M16) em 320 px: as 13 gerais e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
+test("as Medalhas (M16) em 320 px: as 17 gerais e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
   page,
 }) => {
   // As ganhas, com o botão: os 6 do Anime de hoje acertados (a geral de nome mais longo, em
@@ -818,7 +818,7 @@ test("as Medalhas (M16) em 320 px: as 13 gerais e o Superfan, com os botões do 
     expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(320);
   }
   await expect(page.getByRole("heading", { level: 1, name: "Medalhas" })).toBeVisible();
-  await expect(page.locator(".medal-list > li")).toHaveCount(13);
+  await expect(page.locator(".medal-list > li")).toHaveCount(17);
   await expect(page.locator(".medal-artist")).toHaveCount(5);
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
   // O nome mais longo das gerais cabe na linha, sem passar da tela.
@@ -1027,12 +1027,17 @@ test("o Mais em todas as larguras, e as Misturadas na linha a partir de 720 (P28
   const tops = await links.evaluateAll((all) => all.map((a) => a.getBoundingClientRect().top));
   expect(new Set(tops).size, "a nav numa linha só").toBe(1);
   expect((await overflow(page)).horizontal, "sem rolar para o lado").toBeLessThanOrEqual(0);
-  // A linha na coluna do conteúdo, e a medalha em destaque logo depois do Mais, perto do menu.
+  // A linha na coluna do conteúdo, e a medalha em destaque alinhada com o fim do conteúdo.
   const box = (el: Locator) => el.evaluate((e) => e.getBoundingClientRect().toJSON());
   const row = await box(nav.locator("ul").first());
   expect(row.width).toBeLessThanOrEqual(560);
-  const gap = (await box(nav.locator(".nav-favorite"))).left - (await box(more)).right;
-  expect(gap).toBeLessThanOrEqual(24);
+  const contentRight = await page
+    .locator("main.app")
+    .evaluate(
+      (e) => e.getBoundingClientRect().right - Number.parseFloat(getComputedStyle(e).paddingRight),
+    );
+  const favoriteRight = (await box(nav.locator(".nav-favorite"))).right;
+  expect(Math.abs(favoriteRight - contentRight)).toBeLessThanOrEqual(2);
   await page.setViewportSize({ width: 719, height: 800 });
   await expect(more).toHaveAttribute("aria-expanded", "false");
 });

@@ -602,6 +602,7 @@ function Ready({
         announce={announce}
         saveStore={saves.store}
         onSaved={onSaved}
+        onResult={onResult}
         shareUrl={BASE_URL}
       />
     );

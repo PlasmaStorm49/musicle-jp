@@ -89,6 +89,27 @@ const ICONS: Readonly<Record<string, Icon>> = {
       <rect x="-17" y="11" width="34" height="3.2" rx="1.6" fill={ink} />
     </>
   ),
+  // Tudo Junto e Misturado (ME123): as duas setas que se cruzam, do embaralhar.
+  "misturadas-rodada": ({ ink }) => (
+    <>
+      <path
+        d="M-15 -8 H-7 C-1 -8 1 8 7 8 H10"
+        fill="none"
+        stroke={ink}
+        stroke-width="3.4"
+        stroke-linecap="round"
+      />
+      <path
+        d="M-15 8 H-7 C-1 8 1 -8 7 -8 H10"
+        fill="none"
+        stroke={ink}
+        stroke-width="3.4"
+        stroke-linecap="round"
+      />
+      <path d="M9 -13.5 L16 -8 L9 -2.5 Z" fill={ink} />
+      <path d="M9 2.5 L16 8 L9 13.5 Z" fill={ink} />
+    </>
+  ),
   // Em Chamas: a chama.
   "seguidos-7": (c) => <Flame {...c} />,
   // Maratonista: o tênis, correndo.
@@ -183,6 +204,45 @@ const ICONS: Readonly<Record<string, Icon>> = {
     </>
   ),
   // Superfan: o coração com a nota.
+  // DJ Residente (ME123): o fone, com as duas conchas (a esquerda e a direita do Separar).
+  "misturadas-seguidos-15": ({ ink, bg }) => (
+    <>
+      <path
+        d="M-12 4 V-1 C-12 -9 -6.5 -14 0 -14 C6.5 -14 12 -9 12 -1 V4"
+        fill="none"
+        stroke={ink}
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+      <rect x="-16" y="0" width="9" height="14" rx="3.5" fill={ink} />
+      <rect x="7" y="0" width="9" height="14" rx="3.5" fill={ink} />
+      <rect x="-13.5" y="3" width="2.4" height="8" rx="1.2" fill={bg} />
+      <rect x="11.1" y="3" width="2.4" height="8" rx="1.2" fill={bg} />
+    </>
+  ),
+  // Pode juntar mais uma (ME123): três colcheias juntas, numa barra só, e o + de mais uma.
+  "misturadas-perfeito": ({ ink }) => (
+    <>
+      <ellipse cx="-12" cy="9" rx="4.4" ry="3.2" transform="rotate(-22 -12 9)" fill={ink} />
+      <ellipse cx="-2" cy="7" rx="4.4" ry="3.2" transform="rotate(-22 -2 7)" fill={ink} />
+      <ellipse cx="8" cy="5" rx="4.4" ry="3.2" transform="rotate(-22 8 5)" fill={ink} />
+      <rect x="-9.2" y="-9" width="2.2" height="18" fill={ink} />
+      <rect x="0.8" y="-11" width="2.2" height="18" fill={ink} />
+      <rect x="10.8" y="-13" width="2.2" height="18" fill={ink} />
+      <path d="M-9.2 -9 L13 -13 L13 -9.4 L-9.2 -5.4 Z" fill={ink} />
+      <rect x="-16.5" y="-16" width="8" height="2.2" rx="1.1" fill={ink} />
+      <rect x="-13.6" y="-18.9" width="2.2" height="8" rx="1.1" fill={ink} />
+    </>
+  ),
+  // Harmonia no Caos (ME123): o yin-yang, a calma no meio da mistura.
+  "misturadas-acertos-7": ({ ink, bg }) => (
+    <>
+      <circle cx="0" cy="0" r="15" fill={ink} />
+      <path d="M0 -13 A13 13 0 0 1 0 13 A6.5 6.5 0 0 1 0 0 A6.5 6.5 0 0 0 0 -13 Z" fill={bg} />
+      <circle cx="0" cy="-6.5" r="2.2" fill={bg} />
+      <circle cx="0" cy="6.5" r="2.2" fill={ink} />
+    </>
+  ),
   "superfan-completo": ({ ink, bg }) => (
     <>
       <path d={HEART} fill={ink} />

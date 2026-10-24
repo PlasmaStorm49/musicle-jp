@@ -79,6 +79,8 @@ type Props = {
   readonly saveStore: KeyValueStore | null;
   readonly onSaved: () => void;
   readonly shareUrl: string;
+  /** O resultado de um diário acabou de aparecer: as medalhas novas (ME123). */
+  readonly onResult?: () => void;
 };
 
 /** A aba das Misturadas: a carga das duas partes e a tela da aba. */
@@ -144,6 +146,7 @@ function Ready({ tab, schedule, date, save, ...props }: ReadyProps) {
       store={props.saveStore}
       initialSave={save}
       onSaved={props.onSaved}
+      onResult={props.onResult}
       shareUrl={props.shareUrl}
     />
   );
