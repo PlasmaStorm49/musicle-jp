@@ -583,11 +583,12 @@ def _fetch(args: argparse.Namespace) -> int:
         args.pool_size,
         args.deadline_min,
         args.ranks_file,
+        args.draw,
     )
     if any(value is not None for value in anime_only):
         print(
             "--personal, --out-dir, --max-songs, --target-per-tier, --max-anime, --pool-size, "
-            "--deadline-min e --ranks-file só valem com --anime",
+            "--deadline-min, --ranks-file e --draw só valem com --anime",
             file=sys.stderr,
         )
         return 1
@@ -638,6 +639,17 @@ def _fetch_anime(args: argparse.Namespace) -> int:
 
     from musicle_pipeline import fetch, fetch_anime, mal_ranking
 
+    draw = args.draw or "mal"
+    if draw == "amq" and args.personal:
+        # A lista pessoal é só da 1ª carga, com o sorteio do MAL (P253).
+        print("--personal é só do sorteio do MAL (a 1ª carga), não do --draw amq", file=sys.stderr)
+        return 1
+    if draw == "amq" and args.pool_size is not None:
+        # Sem sorteio, não há do que escolher: a ordem do AMQ é inteira, e o --max-anime corta.
+        print(
+            "--pool-size é do sorteio do MAL; com o --draw amq, use o --max-anime", file=sys.stderr
+        )
+        return 1
     directory = resolve(args.out_dir) if args.out_dir else anime_paths("apple").source
     tried, resolved, official = fetch_anime.tried_and_resolved(directory)
     personal: tuple[list[int], list[int]] = ([], [])
@@ -653,6 +665,13 @@ def _fetch_anime(args: argparse.Namespace) -> int:
             return 1
         print(f"o ranking do MAL do --ranks-file: {len(mal_file.order)} anime(s)")
     client_id = "" if mal_file is not None else os.environ.get("MAL_CLIENT_ID", "").strip()
+    if draw == "amq" and mal_file is None and not client_id:
+        # A carga pelos acertos do AMQ (C3): sem o nível do MAL (P17), a chance de todos cairia.
+        print(
+            "--draw amq precisa do nível do MAL: a variável MAL_CLIENT_ID ou o --ranks-file",
+            file=sys.stderr,
+        )
+        return 1
     import time
 
     from musicle_pipeline.providers.apple_anime import snapshot_id
@@ -689,6 +708,7 @@ def _fetch_anime(args: argparse.Namespace) -> int:
             max_songs=70 if args.max_songs is None else args.max_songs,
             max_anime=400 if args.max_anime is None else args.max_anime,
             pool_size=3000 if args.pool_size is None else args.pool_size,
+            draw=draw,
         )
     except fetch.FetchError as exc:
         # O snapshot parcial já foi gravado depois de cada anime (o `save`): rodar de novo continua.
@@ -950,6 +970,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     fetch.add_argument("--max-anime", type=int, help="com --anime: animes tentados (400)")
     fetch.add_argument(
         "--pool-size", type=int, help="com --anime: sorteia entre os N mais populares (3000)"
+    )
+    fetch.add_argument(
+        "--draw",
+        choices=["mal", "amq"],
+        help="com --anime: a ordem dos animes; amq = os mais acertados no AMQ, sem sorteio, com o "
+        "nível do MAL (a carga C3; padrão: mal)",
     )
     fetch.add_argument(
         "--deadline-min", type=float, help="com --anime: para e grava depois de N minutos"
