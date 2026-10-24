@@ -136,6 +136,7 @@ def test_the_levels_relax_the_ruler_before_the_anime_of_the_day():
     # última de todas, depois de a régua da P325 cair.
     assert [level.what for level in _levels("facil", 3)] == [
         "",
+        "sem espaçar a franquia",
         "a franquia repete no dia",
         "janela de 2 dia(s)",
         "janela de 1 dia(s)",
@@ -144,6 +145,7 @@ def test_the_levels_relax_the_ruler_before_the_anime_of_the_day():
         "repete uma resposta do Anime do dia (P332)",
     ]
     assert [level.ruler for level in _levels("hard", 2)] == [
+        "hard",
         "hard",
         "hard",
         "hard",
@@ -225,6 +227,56 @@ def test_without_any_song_that_came_out_the_round_takes_new_ones(big):
     _, mixed = both(big, 1)
     rounds = list(mixed_rounds(mixed["days"]["2026-10-08"]))
     assert [len(answers) for _m, _n, answers in rounds] == [count for _r, count in ROUNDS] * 2
+
+
+def grouped(per_franchise: int, franchises: int) -> JSON:
+    """Um acervo de franquias grandes: `franchises` franquias de `per_franchise` músicas cada, no
+    Fácil, e o Médio e o Difícil de franquias próprias, para a rodada 3."""
+    tracks = [
+        track(n, "facil", franchise=f"g{n // per_franchise:03d}")
+        for n in range(per_franchise * franchises)
+    ]
+    for tier in ("medio", "dificil"):
+        for _ in range(200):
+            tracks.append(track(len(tracks), tier))
+    fids = sorted({f for t in tracks for f in t["anime"]["franchiseIds"]})
+    return {
+        "catalogVersion": VERSION,
+        "franchises": [{"id": f, "name": f, "search": [f]} for f in fids],
+        "tracks": sorted(tracks, key=lambda t: t["id"]),
+    }
+
+
+def test_a_franchise_waits_a_week_to_come_back_to_the_mixed(big):
+    # P364: 120 franquias de 4 músicas no Fácil. Cada dia usa 14 do Fácil, de franquias diferentes,
+    # e 7 dias de espaço pedem umas 98 franquias: cabe sem afrouxar. Sem o espaçamento, a franquia
+    # voltaria a cada poucos dias; com ele, fica de fora 7 dias, contando hoje.
+    catalog = grouped(4, 120)
+    anime, mixed = both(catalog, 21)
+    result = generate_mixed(catalog, anime, None, EPOCH, EPOCH, horizon=20)
+    assert result.relaxations == []
+    tracks = {t["id"]: t for t in catalog["tracks"]}
+    last: dict[str, date] = {}
+    for day_str, day in sorted(mixed["days"].items()):
+        d = date.fromisoformat(day_str)
+        franchises = {
+            f
+            for _m, _n, answers in mixed_rounds(day)
+            for a in answers
+            for f in tracks[a]["anime"]["franchiseIds"]
+        }
+        for f in franchises:
+            assert f not in last or (d - last[f]).days >= 7, (day_str, f)
+        last.update(dict.fromkeys(franchises, d))
+
+
+def test_without_enough_franchises_the_spacing_is_the_first_to_relax():
+    # 6 franquias de 30 músicas: não dá para esperar 7 dias. O 1º afrouxamento é tirar o
+    # espaçamento, com registro, antes de a franquia repetir no dia.
+    catalog = grouped(30, 6)
+    anime, _ = both(catalog, 3)
+    result = generate_mixed(catalog, anime, None, EPOCH, EPOCH, horizon=2)
+    assert any("sem espaçar a franquia" in r for r in result.relaxations)
 
 
 def test_the_validation_catches_counts_repeats_and_unknown_answers(big):
