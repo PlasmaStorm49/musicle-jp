@@ -71,10 +71,11 @@ export type SuperfanOutcome = { readonly done: boolean; readonly perfect: boolea
  * de resposta, que não existe mais. v4 (P149): a ajuda, no evento HELP e no `help` da rodada.
  * v5 (P163): o pulo depois da ajuda. v6 (P250): os ids dos diários do Anime. v7 (P267): a marca
  * do jogado depois, `late`. v8 (P289): as medalhas já avisadas, a estante (ME118) e o modo por
- * artista. v9 (P308): os acertos do Treino. v10 (M17): as Misturadas (storage/migrations.ts).
+ * artista. v9 (P308): os acertos do Treino. v10 (M17): as Misturadas. v11: o jogado depois
+ * nelas, pelo Histórico (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 10;
+  readonly schemaVersion: 11;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
   /** Os ids das medalhas que esta pessoa já viu avisadas, em ordem alfabética (P281). */
@@ -90,7 +91,7 @@ export type Save = {
   readonly practiceRight: number;
   /**
    * As Misturadas (M17): os terminados e os andamentos, à parte do `history` e do `inProgress`.
-   * Nada que lê os diários (as estatísticas, a sequência, as medalhas, o Histórico) as vê.
+   * As estatísticas e a sequência do topo não as veem; as medalhas e o Histórico leem os delas.
    */
   readonly mixed: MixedSave;
 };
@@ -100,7 +101,7 @@ export const SHELF_SIZE = 3;
 
 export function emptySave(): Save {
   return {
-    schemaVersion: 10,
+    schemaVersion: 11,
     history: {},
     inProgress: {},
     seenMedals: [],

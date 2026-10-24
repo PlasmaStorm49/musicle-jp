@@ -77,17 +77,25 @@ export const ptBR = {
   "history.animeAll": "Anime, ao menos 1 diário jogado",
   "history.animeNone": "Anime, nenhum diário jogado",
   "history.animeOff": "sem diário do Anime",
+  "history.mixedAll": "Misturadas, os 2 diários jogados",
+  "history.mixedSome": "Misturadas, 1 de 2 diários jogados",
+  "history.mixedNone": "Misturadas, nenhum diário jogado",
+  "history.mixedOff": "sem diário das Misturadas",
   // Os textos de cada categoria, juntos no nome do dia.
-  "history.marks": "{hits}; {anime}",
+  "history.marksJoin": "; ",
   // A legenda das marcas, embaixo do calendário. Com o Anime, duas linhas: os Hits à esquerda e
-  // o Anime à direita, no mesmo lugar em todo dia (P277).
+  // o Anime à direita, no mesmo lugar em todo dia (P277); com as Misturadas, três, e elas à
+  // direita, com o Anime no meio.
   "history.legendAll": "os 2 diários",
   "history.legendSome": "1 dos 2",
   "history.legendHits": "Hits, à esquerda:",
   "history.legendAnime": "Anime, à direita:",
+  "history.legendAnimeMiddle": "Anime, no meio:",
+  "history.legendMixed": "Misturadas, à direita:",
   "history.legendAnimeAll": "ao menos 1 diário",
   // O cartão do Anime na tela de um dia: o dia fora da agenda do Anime.
   "history.animeUnavailable": "Sem diário do Anime",
+  "history.mixedUnavailable": "Sem diário das Misturadas",
   "history.dayTitle": "{weekday}, {date}",
   "history.dayHint": "Jogue o que faltou. Não conta nas estatísticas.",
   "history.late": "jogado depois",
@@ -560,6 +568,9 @@ export const ptBR = {
   "mixed.modeHint.titulo":
     "Duas ou três prévias de temas de anime tocam juntas: digite o nome de cada anime, de qualquer temporada. {rounds} rodadas; cada erro ou pulo libera um trecho maior.",
   "mixed.unavailable": "Não há diário das Misturadas hoje.",
+  "mixed.unavailableDay": "Não há diário das Misturadas nesse dia.",
+  // As Misturadas não têm estatísticas: o jogado depois fica fora só das medalhas.
+  "mixed.lateNote": "Jogado depois: não conta nas medalhas.",
   "mixed.retry": "Não foi possível carregar as Misturadas. Confira a conexão.",
   "mixed.back": "Voltar às Misturadas",
   "mixed.backFull": "Voltar à escolha do modo das Misturadas",

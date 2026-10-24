@@ -93,7 +93,7 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
     }
   });
 
-  it("as das Misturadas (M17), e só elas, ficam na categoria delas, sem data (sem Histórico)", () => {
+  it("as das Misturadas (M17), e só elas, ficam na categoria delas; com a data, o Histórico", () => {
     for (const tab of Object.keys(ROUTES) as Tab[]) {
       expect(categoryOf(tab) === "mixed", tab).toBe(isMixedTab(tab));
     }
@@ -101,10 +101,16 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
       tab: "misturadas-musica",
       date: null,
     });
+    // Desde 24/10/2026, um dia passado das Misturadas abre pelo Histórico, como o do Anime.
     expect(routeFromHash("#misturadas/2026-10-21", "2026-10-22")).toEqual({
-      tab: "home",
-      date: null,
+      tab: "misturadas",
+      date: "2026-10-21",
     });
+    expect(routeFromHash("#misturadas-titulo/2026-10-21", "2026-10-22")).toEqual({
+      tab: "misturadas-titulo",
+      date: "2026-10-21",
+    });
+    expect(navCurrent({ tab: "misturadas-titulo", date: "2026-10-21" }, "history")).toBe("true");
     expect(navCurrent({ tab: "misturadas", date: null }, "mixed")).toBe("page");
     expect(navCurrent({ tab: "misturadas-titulo", date: null }, "mixed")).toBe("true");
     expect(navCurrent({ tab: "misturadas", date: null }, "anime")).toBeUndefined();

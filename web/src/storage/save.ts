@@ -213,6 +213,7 @@ function isMixedFind(x: unknown): x is MixedFind | null {
  */
 export function isMixedGame(x: unknown): x is MixedGame {
   if (!isRecord(x) || !Number.isInteger(x.number) || (x.number as number) < 1) return false;
+  if (x.late !== undefined && x.late !== true) return false;
   if (!Array.isArray(x.rounds) || x.rounds.length !== MIXED_ROUNDS) return false;
   return x.rounds.every(
     (r: unknown) =>
@@ -311,7 +312,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     !isRecord(mixed.progress);
   return {
     save: {
-      schemaVersion: 10,
+      schemaVersion: 11,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),

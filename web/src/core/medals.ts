@@ -77,7 +77,8 @@ export function medalContext(
   const mixed = new Map<string, Map<string, MixedGame>>();
   for (const [id, game] of Object.entries(save.mixed.finished)) {
     const [date = "", key = ""] = id.split("|");
-    if (date > today) continue;
+    // O jogado depois (pelo Histórico) fica fora, como nos diários (o `dayGames`, P263).
+    if (date > today || game.late) continue;
     const day = mixed.get(date) ?? new Map<string, MixedGame>();
     mixed.set(date, day.set(key, game));
   }

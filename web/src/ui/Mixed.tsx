@@ -1,6 +1,6 @@
-// As Misturadas (M17, P333): a aba própria, com a escolha dos dois modos e os dois diários. Usa o
-// catálogo do Anime (a carga do Anime, guardada no App) e a agenda delas, que desce só quando a
-// pessoa abre a aba.
+// As Misturadas (M17, P333): a aba própria, com a escolha dos dois modos e os dois diários, de
+// hoje ou, pelo Histórico, de um dia passado (o usuário, 24/10/2026). Usa o catálogo do Anime (a
+// carga do Anime, guardada no App) e a agenda delas, que desce só quando a pessoa abre a aba.
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
@@ -13,7 +13,7 @@ import {
   mixedStatusOf,
 } from "../core/mixed.ts";
 import type { Save } from "../core/records.ts";
-import { type MixedTab, ROUTES } from "../core/routes.ts";
+import { type MixedTab, routeHref } from "../core/routes.ts";
 import type { MixedSchedule } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import {
@@ -26,6 +26,7 @@ import { t } from "../i18n/t.ts";
 import type { KeyValueStore } from "../storage/save.ts";
 import type { AnimeStore } from "./Anime.tsx";
 import { type Card, CardList, dailyText } from "./cards.tsx";
+import { dayTitle } from "./dayLabel.ts";
 import { FocusedNotice, UpdateNotice } from "./FocusedNotice.tsx";
 import { useHeadingFocus } from "./hooks.ts";
 import { MixedGame } from "./MixedGame.tsx";
@@ -70,8 +71,10 @@ type Props = {
   /** O Anime do App: o catálogo e o resolvedor das prévias. */
   readonly anime: AnimeStore;
   readonly store: MixedStore;
-  /** O "hoje" do jogo: as Misturadas são sempre de hoje (sem Histórico, P333). */
+  /** O dia jogado: hoje ou, pelo Histórico, um dia passado. */
   readonly date: string;
+  /** O "hoje" do jogo: o diário de um dia antes dele termina como jogado depois. */
+  readonly today: string;
   readonly save: Save;
   readonly engine: AudioEngine;
   readonly resolveUrl: (url: string) => string;
@@ -127,12 +130,15 @@ type ReadyProps = Props & {
   readonly resolver: PreviewResolver;
 };
 
-function Ready({ tab, schedule, date, save, ...props }: ReadyProps) {
+function Ready({ tab, schedule, date, today, save, ...props }: ReadyProps) {
   const day = pickMixedDay(schedule, date);
   const dailies = useMemo(() => (day ? mixedDailies(day, date) : []), [day, date]);
-  if (tab === "misturadas") return <MixedModes dailies={dailies} save={save} />;
+  // key pela data: ao trocar de dia, o foco volta ao título (regra 16).
+  if (tab === "misturadas") {
+    return <MixedModes key={date} dailies={dailies} save={save} date={date} today={today} />;
+  }
   const daily = dailies.find((d) => d.key === tab);
-  if (!daily) return <MixedUnavailable />;
+  if (!daily) return <MixedUnavailable key={date} date={date} today={today} />;
   return (
     // key: cada diário monta do zero ao trocar de diário, com o save daquele momento.
     <MixedGame
@@ -148,24 +154,39 @@ function Ready({ tab, schedule, date, save, ...props }: ReadyProps) {
       onSaved={props.onSaved}
       onResult={props.onResult}
       shareUrl={props.shareUrl}
+      today={today}
     />
   );
 }
 
-/** O cartão de um modo: o estado do diário dele hoje. */
+/** O endereço de uma aba das Misturadas no dia jogado: sem a data, hoje. */
+function hrefOf(tab: MixedTab, date: string, today: string): string {
+  return routeHref({ tab, date: date === today ? null : date });
+}
+
+/**
+ * O cartão de um modo: o estado do diário dele no dia jogado. Num dia passado, o link leva a data,
+ * o sem diário diz "nesse dia", e o jogado depois leva a marca numa linha a mais, como na tela do
+ * dia do Histórico.
+ */
 function modeCard(
   mode: (typeof MIXED_MODES)[number],
   daily: MixedDaily | null,
   save: Save,
   next: boolean,
+  date: string,
+  today: string,
 ): Card {
   const status = mixedStatusOf(save, daily);
+  const line =
+    status.kind === "unavailable" && date !== today ? t("history.unavailable") : dailyText(status);
   return {
     tab: mixedKey(mode),
+    href: hrefOf(mixedKey(mode), date, today),
     name: animeModeName(mode),
     short: t(`mixed.modeShort.${mode}`),
     hint: t(`mixed.modeHint.${mode}`, { rounds: MIXED_ROUNDS }),
-    lines: [dailyText(status)],
+    lines: status.kind === "done" && status.late ? [line, t("history.late")] : [line],
     next,
     off: status.kind === "unavailable",
   };
@@ -173,14 +194,19 @@ function modeCard(
 
 /**
  * A tela das Misturadas: os 2 modos, acertar a música e acertar o anime, cada um com o estado do
- * diário de hoje. O 1º por jogar é o cartão oliva.
+ * diário do dia. O 1º por jogar é o cartão oliva. Num dia passado, a dica dá lugar à data dele,
+ * como no Anime (a tela não cresce).
  */
 function MixedModes({
   dailies,
   save,
+  date,
+  today,
 }: {
   readonly dailies: readonly MixedDaily[];
   readonly save: Save;
+  readonly date: string;
+  readonly today: string;
 }) {
   const heading = useHeadingFocus();
   // O 1º por jogar (novo ou em andamento), como o `firstToPlay` dos diários.
@@ -190,7 +216,7 @@ function MixedModes({
   });
   const cards = MIXED_MODES.map((mode) => {
     const daily = dailies.find((d) => d.mode === mode) ?? null;
-    return modeCard(mode, daily, save, !!daily && daily === next);
+    return modeCard(mode, daily, save, !!daily && daily === next, date, today);
   });
   return (
     <div class="game practice mixed-modes screen">
@@ -198,20 +224,21 @@ function MixedModes({
         <h1 ref={heading} tabIndex={-1}>
           {t("mixed.title")}
         </h1>
-        <p class="hint">{t("mixed.hint")}</p>
+        <p class="hint">{date === today ? t("mixed.hint") : dayTitle(date)}</p>
       </header>
       <CardList cards={cards} idPrefix="mixed" single />
     </div>
   );
 }
 
-/** Sem o diário de hoje na agenda: de volta à escolha do modo. */
-function MixedUnavailable() {
+/** Sem o diário na agenda (hoje, ou no dia passado): de volta à escolha do modo daquele dia. */
+function MixedUnavailable({ date, today }: { readonly date: string; readonly today: string }) {
+  const text = date === today ? t("mixed.unavailable") : t("mixed.unavailableDay");
   return (
     <section class="unavailable screen">
-      <FocusedNotice text={t("mixed.unavailable")} />
+      <FocusedNotice text={text} />
       {/* O 2º clique de um toque duplo não segue o link (regra 23): cairia num cartão. */}
-      <a href={ROUTES.misturadas} onClick={singleClickLink}>
+      <a href={hrefOf("misturadas", date, today)} onClick={singleClickLink}>
         {t("mixed.back")}
       </a>
     </section>

@@ -5,9 +5,17 @@ import { animeKey } from "../core/daily.ts";
 import { historyDates } from "../core/history.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
-import type { AlbumRound, AnimeDay, AnimeSchedule, Day } from "../core/types.ts";
+import type {
+  AlbumRound,
+  AnimeDay,
+  AnimeSchedule,
+  Day,
+  MixedDay,
+  MixedSchedule,
+} from "../core/types.ts";
 import type { AnimeScheduleLoad } from "./Anime.tsx";
 import { History, HistoryCalendar, HistoryDayScreen } from "./History.tsx";
+import type { MixedLoad } from "./Mixed.tsx";
 
 afterEach(cleanup);
 
@@ -57,16 +65,44 @@ const animeGame = (date: string, finished: FinishedGame): Record<string, Finishe
   [puzzleId(date, animeKey("musica", "facil"))]: finished,
 });
 
+// A agenda das Misturadas mínima: só os dois últimos dias (20 e 21/10).
+const pair = { answers: ["t:tr:1", "t:tr:2"] as [string, string] };
+const MIXED_DAY: MixedDay = {
+  number: 2,
+  catalogVersion: "teste",
+  musica: [pair, pair, pair, pair],
+  titulo: [pair, pair, pair, pair],
+};
+const MIXED: MixedSchedule = {
+  schemaVersion: 1,
+  kind: "anime-mixed",
+  timezone: "America/Sao_Paulo",
+  epoch: "2026-10-20",
+  days: { "2026-10-20": MIXED_DAY, "2026-10-21": MIXED_DAY },
+};
+const MIXED_READY: MixedLoad = { status: "ready", schedule: MIXED };
+const mixedFound = { status: "done", found: [{ stage: 0 }, { stage: 0 }] } as const;
+const mixedGame = { number: 2, rounds: [mixedFound, mixedFound, mixedFound, mixedFound] };
+const withMixed = (ids: readonly string[], save: Save = emptySave()): Save => ({
+  ...save,
+  mixed: { finished: Object.fromEntries(ids.map((id) => [id, mixedGame])), progress: {} },
+});
+
 describe("HistoryCalendar (P260)", () => {
   // Todos os 14 dias com diário, menos o 1º (08/10), que fica fora da agenda.
   const hitsDates = new Set(historyDates(TODAY).slice(1));
-  const setup = (save: Save = emptySave(), animeSchedule: AnimeSchedule | null = null) =>
+  const setup = (
+    save: Save = emptySave(),
+    animeSchedule: AnimeSchedule | null = null,
+    mixedSchedule: MixedSchedule | null = null,
+  ) =>
     render(
       <HistoryCalendar
         save={save}
         today={TODAY}
         hitsDates={hitsDates}
         animeSchedule={animeSchedule}
+        mixedSchedule={mixedSchedule}
       />,
     );
 
@@ -193,7 +229,17 @@ describe("HistoryDayScreen (P261 a P263)", () => {
     save: Save = emptySave(),
     day: Day | null = DAY,
     animeSchedule: AnimeSchedule | null = null,
-  ) => render(<HistoryDayScreen date={PAST} day={day} save={save} animeSchedule={animeSchedule} />);
+    mixedSchedule: MixedSchedule | null = null,
+  ) =>
+    render(
+      <HistoryDayScreen
+        date={PAST}
+        day={day}
+        save={save}
+        animeSchedule={animeSchedule}
+        mixedSchedule={mixedSchedule}
+      />,
+    );
   const card = (name: RegExp) => screen.getByRole("link", { name });
 
   it("o título com o dia, com o foco, e os dois diários com o endereço do dia", () => {
@@ -281,6 +327,120 @@ describe("HistoryDayScreen (P261 a P263)", () => {
   });
 });
 
+describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
+  const hitsDates = new Set(historyDates(TODAY).slice(1));
+
+  it("no calendário, a 3ª marca, à direita: os 2 diários, como nos Hits; e a legenda dela", () => {
+    const save = withMixed([puzzleId("2026-10-20", "misturadas-musica")]);
+    const both = withMixed(
+      [puzzleId("2026-10-21", "misturadas-musica"), puzzleId("2026-10-21", "misturadas-titulo")],
+      save,
+    );
+    render(
+      <HistoryCalendar
+        save={{
+          ...both,
+          mixed: { ...both.mixed, finished: { ...save.mixed.finished, ...both.mixed.finished } },
+        }}
+        today={TODAY}
+        hitsDates={hitsDates}
+        animeSchedule={ANIME}
+        mixedSchedule={MIXED}
+      />,
+    );
+    const day = (date: string) => screen.getByRole("link", { name: new RegExp(`^.*, ${date}:`) });
+    const slots = (link: HTMLElement) =>
+      [...link.querySelectorAll(".mark-slot")].map(
+        (slot) => slot.firstElementChild?.className ?? "",
+      );
+    // Os Hits sem jogo (nenhum), o Anime sem jogo e as Misturadas: as 2 em 21/10, 1 em 20/10.
+    expect(slots(day("21 de outubro"))).toEqual([
+      "mark mark-none",
+      "mark mark-none",
+      "mark mark-all",
+    ]);
+    expect(slots(day("20 de outubro"))).toEqual([
+      "mark mark-none",
+      "mark mark-none",
+      "mark mark-some",
+    ]);
+    expect(day("20 de outubro").getAttribute("aria-label")).toContain(
+      "Misturadas, 1 de 2 diários jogados",
+    );
+    // Fora da agenda das Misturadas, a vaga fica vazia.
+    expect(slots(day("19 de outubro"))[2]).toBe("");
+    expect(document.querySelector(".calendar-legends")?.textContent).toContain("Anime, no meio:");
+    expect(document.querySelector(".calendar-legends")?.textContent).toContain(
+      "Misturadas, à direita:",
+    );
+  });
+
+  it("a tela do dia: o cartão das Misturadas, na linha toda, com o endereço do dia", () => {
+    render(
+      <HistoryDayScreen
+        date={PAST}
+        day={DAY}
+        save={withMixed([puzzleId(PAST, "misturadas-titulo")])}
+        animeSchedule={null}
+        mixedSchedule={MIXED}
+      />,
+    );
+    const mixed = screen.getByRole("link", { name: /^Misturadas/ });
+    expect(mixed.getAttribute("href")).toBe(`#misturadas/${PAST}`);
+    expect(mixed.closest("li")?.classList.contains("wide")).toBe(true);
+    expect([...mixed.querySelectorAll(".tag")].map((n) => n.textContent)).toEqual([
+      "1 de 2 terminados",
+    ]);
+  });
+
+  it("o dia fora da agenda das Misturadas: o cartão apagado; sem a agenda, nenhum cartão", () => {
+    render(
+      <HistoryDayScreen
+        date="2026-10-19"
+        day={DAY}
+        save={emptySave()}
+        animeSchedule={null}
+        mixedSchedule={MIXED}
+      />,
+    );
+    expect(screen.getByText("Sem diário das Misturadas")).toBeTruthy();
+    expect(screen.queryByRole("link", { name: /^Misturadas/ })).toBeNull();
+    cleanup();
+    render(
+      <HistoryDayScreen
+        date={PAST}
+        day={DAY}
+        save={emptySave()}
+        animeSchedule={null}
+        mixedSchedule={null}
+      />,
+    );
+    expect(screen.queryByText(/Misturadas/)).toBeNull();
+  });
+
+  it("a espera: o calendário só aparece com a agenda das Misturadas também, pedida uma vez", () => {
+    const requestMixed = vi.fn();
+    const props = {
+      date: null,
+      today: TODAY,
+      save: emptySave(),
+      hitsDates: new Set(historyDates(TODAY)),
+      hitsDay: DAY,
+      anime: { status: "ready", schedule: ANIME } as AnimeScheduleLoad,
+      requestAnime: vi.fn(),
+      requestMixed,
+    };
+    const { rerender } = render(<History {...props} mixed={{ status: "idle" }} />);
+    expect(screen.getByText("Carregando…")).toBeTruthy();
+    expect(requestMixed).toHaveBeenCalledTimes(1);
+    rerender(<History {...props} mixed={{ status: "retry" }} />);
+    // Falhou depois de pedida: o calendário sem a marca delas.
+    expect(screen.getByRole("heading", { level: 1, name: "Histórico" })).toBeTruthy();
+    expect(document.querySelector(".calendar-legends")?.textContent).not.toContain("Misturadas");
+    expect(requestMixed).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("History: a espera da agenda do Anime (P270)", () => {
   const setup = (anime: AnimeScheduleLoad, date: string | null = null) => {
     const requestAnime = vi.fn();
@@ -293,6 +453,8 @@ describe("History: a espera da agenda do Anime (P270)", () => {
         hitsDay={DAY}
         anime={anime}
         requestAnime={requestAnime}
+        mixed={MIXED_READY}
+        requestMixed={vi.fn()}
       />,
     );
     return requestAnime;
@@ -329,6 +491,9 @@ describe("History: a espera da agenda do Anime (P270)", () => {
       hitsDates: new Set(historyDates(TODAY)),
       hitsDay: DAY,
       requestAnime,
+      // As Misturadas de uma versão nova: fora, e o calendário fica só com os Hits.
+      mixed: { status: "update" } as MixedLoad,
+      requestMixed: vi.fn(),
     };
     const { rerender } = render(<History {...props} anime={{ status: "retry" }} />);
     rerender(<History {...props} anime={{ status: "loading" }} />);
