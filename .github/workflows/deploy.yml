@@ -105,6 +105,13 @@ jobs:
           anime=$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' dist/data/anime/schedule.json)
           [ "$anime" -ge 7 ] || echo "::warning::só $anime dia(s) de agenda do Anime depois de hoje ($today)"
           echo "Agenda do Anime: $anime dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
+          # As Misturadas (M17): a mesma folga, também só aviso. A agenda delas para no último dia
+          # da do Anime (P25) e cresce com ela no robô.
+          jq -e --arg d "$today" '.days | has($d)' dist/data/anime/mixed.json > /dev/null \
+            || echo "::warning::a agenda das Misturadas não tem o dia de hoje ($today)"
+          mixed=$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' dist/data/anime/mixed.json)
+          [ "$mixed" -ge 7 ] || echo "::warning::só $mixed dia(s) de agenda das Misturadas depois de hoje ($today)"
+          echo "Agenda das Misturadas: $mixed dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
           du -sh dist
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
