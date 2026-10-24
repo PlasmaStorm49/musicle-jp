@@ -521,14 +521,14 @@ button.give-up:active:not(:disabled) {
   white-space: nowrap;
 }
 
+/* O ▼ da fonte, menor que o texto, e para cima com o menu aberto. */
 .nav-more-chevron {
   display: inline-flex;
-  font-size: 0.75em;
-  transform: rotate(90deg);
+  font-size: 0.6em;
 }
 
 .nav-more-toggle[aria-expanded="true"] > .nav-more-chevron {
-  transform: rotate(-90deg);
+  transform: rotate(180deg);
 }
 
 /* Sem a tinta do botão base, no toque e no mouse: as abas vizinhas não têm (como no switch do
@@ -1507,12 +1507,12 @@ section.void,
 }
 
 /* 5. Telas ------------------------------------------------------------------------------- */
-/* Início: o selo, o nome e a frase no centro; um cartão por categoria, numa coluna (P226); o
-   "Como funciona" recolhido; o tema num switch (P217). Com o Anime (M14), são três cartões: o
-   espaço entre as partes é o do .screen (12 px; antes, 16), e o cartão (.home .home-card) fica
-   mais baixo que nas telas de escolha, para a Início caber em 360 × 640 no caso mais alto (os
-   dois diários dos Hits, o Anime e a sessão do artista, com uma linha cada; sem isso, passava
-   13 px). */
+/* Início: o selo, o nome e a frase no centro; um cartão por categoria (P226): os Hits e o Anime
+   na linha toda, e as Misturadas e os Artistas lado a lado (o usuário, 24/10/2026); o "Como
+   funciona" recolhido; o tema num switch (P217). O espaço entre as partes é o do .screen (12 px;
+   antes, 16), e o cartão (.home .home-card) fica mais baixo que nas telas de escolha, para a
+   Início caber em 360 × 640 no caso mais alto (os dois diários dos Hits, o Anime, as Misturadas e
+   a sessão do artista, com uma linha cada). */
 
 .home-header {
   display: grid;
@@ -1622,11 +1622,18 @@ section.void,
   color: var(--muted);
 }
 
-/* Os três cartões da Início (os Hits, o Anime e os Artistas) mais baixos que os das telas de
-   escolha: veja o comentário da Início, no começo das telas. */
+/* Os cartões da Início mais baixos que os das telas de escolha: veja o comentário da Início, no
+   começo das telas. Os Hits e o Anime na linha toda; as Misturadas e os Artistas, lado a lado. */
 .home .home-card {
   min-height: 88px;
   padding-block: var(--sp-2);
+}
+
+/* As Misturadas e os Artistas dividem a linha, e o texto quebra mais: com a linha do estado (já
+   jogou), a dica curta sai, e a Início cabe em 360 × 640 no caso mais alto. A dica inteira continua
+   para o leitor de tela (o aria-describedby); sem a linha, no 1º uso, a curta aparece. */
+.home .home-modes :where(li:not(.wide) .home-card:has(.tag)) .mode-hint {
+  display: none;
 }
 
 /* O "Como funciona" e o "Sobre e privacidade" numa linha só (P259): o fio de cima é da linha, e

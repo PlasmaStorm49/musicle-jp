@@ -2,6 +2,7 @@ import type { ComponentChild } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { ANIME_KEYS } from "../core/daily.ts";
 import { type ArtistSummary, dailyStatus, nextDaily, progress } from "../core/home.ts";
+import { mixedIds } from "../core/mixed.ts";
 import { puzzleId, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
 import { MAX_STAGE, MODES, secondsAt } from "../core/rules.ts";
@@ -34,6 +35,7 @@ type Props = {
 function hitsCard(save: Save, day: Day | null, date: string): Card {
   return {
     tab: "hits",
+    wide: true,
     name: t("hits.title"),
     short: t("home.hitsShort"),
     hint: t("home.hitsHint"),
@@ -63,9 +65,37 @@ function animeCard(save: Save, date: string): Card {
     done > 0 ? t("home.animeLine", { done, total }) : playing > 0 ? t("home.animePlaying") : null;
   return {
     tab: "anime",
+    wide: true,
     name: t("anime.title"),
     short: t("home.animeShort"),
     hint: t("home.animeHint"),
+    lines: line ? [line] : [],
+  };
+}
+
+/**
+ * O cartão das Misturadas (o usuário, 24/10/2026): ao lado dos Artistas, com uma linha só, lida do
+ * save, como o do Anime (a Início não carrega a agenda delas). Os 2 diários de hoje terminados, ou
+ * um em andamento; sem jogo hoje, nenhuma linha.
+ */
+function mixedCard(save: Save, date: string): Card {
+  const ids = mixedIds(date);
+  const done = ids.filter((id) => save.mixed.finished[id] !== undefined).length;
+  const playing = ids.some(
+    (id) =>
+      save.mixed.finished[id] === undefined && (save.mixed.progress[id]?.events.length ?? 0) > 0,
+  );
+  const line =
+    done > 0
+      ? t("home.mixedLine", { done, total: ids.length })
+      : playing
+        ? t("home.mixedPlaying")
+        : null;
+  return {
+    tab: "misturadas",
+    name: t("mixed.title"),
+    short: t("home.mixedShort"),
+    hint: t("home.mixedHint"),
     lines: line ? [line] : [],
   };
 }
@@ -96,9 +126,10 @@ function artistsCard(summary: ArtistSummary | null): Card {
 }
 
 /**
- * A home: o nome do jogo, um cartão por categoria da nav (P226), numa coluna (os Hits, o Anime e
- * os Artistas), como jogar (recolhido) e o tema. Os Hits com o estado dos dois diários; o oliva, a
- * ação da tela, vai neles enquanto houver um diário por jogar.
+ * A home: o nome do jogo, um cartão por categoria da nav (P226): os Hits e o Anime na linha toda,
+ * e as Misturadas e os Artistas lado a lado embaixo (o usuário, 24/10/2026); como jogar
+ * (recolhido) e o tema. Os Hits com o estado dos dois diários; o oliva, a ação da tela, vai neles
+ * enquanto houver um diário por jogar.
  */
 export function Home({ day, date, save, artists }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
@@ -123,9 +154,13 @@ export function Home({ day, date, save, artists }: Props) {
           {t("home.modesTitle")}
         </h2>
         <CardList
-          cards={[hitsCard(save, day, date), animeCard(save, date), artistsCard(artists)]}
+          cards={[
+            hitsCard(save, day, date),
+            animeCard(save, date),
+            mixedCard(save, date),
+            artistsCard(artists),
+          ]}
           idPrefix="home"
-          single
         />
       </section>
 
