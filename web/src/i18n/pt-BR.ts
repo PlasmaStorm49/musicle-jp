@@ -543,7 +543,7 @@ export const ptBR = {
   "mixed.questionAnime": "Quais são os animes?",
   "mixed.found": "{found} de {total} achadas",
   // O "Separar L e R" (P10, P14): o custo fica na dica, e não no botão (regra 8).
-  "mixed.separate": "Separar L e R",
+  "mixed.separate": "Ajuda: separar L e R",
   "mixed.separateHint":
     "Cada música toca de um lado do fone. As que você achar depois valem a metade.",
   "mixed.right": "Achou: {title}. {left}.",
@@ -560,6 +560,10 @@ export const ptBR = {
   "mixed.foundHelp": "achada no trecho de {seconds} s, separada: metade dos pontos",
   "mixed.missed": "não achada",
   "mixed.summaryResult": "achou {found} de {total}, {points}",
+  // A etiqueta das rodadas difíceis (P325): a 3ª, com músicas do Médio para cima; a 4ª, com uma
+  // música a mais tocando junto.
+  "mixed.tag.hard": "Músicas mais difíceis",
+  "mixed.tag.more": "Mais músicas juntas",
   // O modo no compartilhar ("AteMusic Misturadas · Música nº 1").
   "mixed.shareMode.musica": "Música",
   "mixed.shareMode.titulo": "Anime",

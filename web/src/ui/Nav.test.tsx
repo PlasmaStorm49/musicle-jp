@@ -111,17 +111,10 @@ describe("Nav (P225, P265, P287)", () => {
     [{ tab: "history", date: "2026-10-21" }, "true"],
     [{ tab: "album", date: "2026-10-21" }, "true"],
     [{ tab: "artists", date: null }, "page"],
-    [{ tab: "misturadas", date: null }, "page"],
-    [{ tab: "misturadas-titulo", date: null }, "true"],
   ] as const)("na rota %j, o Mais leva o aria-current, e o link dele também", (route, current) => {
     setup(route);
     expect(toggle().getAttribute("aria-current")).toBe("true");
-    const category =
-      route.tab === "artists"
-        ? "#artistas"
-        : route.tab.startsWith("misturadas")
-          ? "#misturadas"
-          : "#historico";
+    const category = route.tab === "artists" ? "#artistas" : "#historico";
     const inMenu = menu().querySelector(`a[href="${category}"]`);
     expect(inMenu?.getAttribute("aria-current")).toBe(current);
   });
@@ -213,11 +206,32 @@ describe("Nav (P225, P265, P287)", () => {
     vi.unstubAllGlobals();
   });
 
-  it("as Misturadas, os Artistas, o Histórico e as Medalhas também na linha, para as telas largas (720 px)", () => {
+  it("na linha, só as Misturadas, a partir de 720 px; no menu, elas só abaixo disso (M17)", () => {
     setup();
     const inline = [...document.querySelectorAll(".nav-inline a")].map((a) =>
       a.getAttribute("href"),
     );
-    expect(inline).toEqual(["#misturadas", "#artistas", "#historico", "#medalhas"]);
+    expect(inline).toEqual(["#misturadas"]);
+    const narrow = [...menu().querySelectorAll(".nav-narrow a")].map((a) => a.getAttribute("href"));
+    expect(narrow).toEqual(["#misturadas"]);
   });
+
+  it.each([
+    [true, undefined],
+    [false, "true"],
+  ] as const)(
+    "nas Misturadas, com a tela larga = %s, o Mais leva o aria-current = %s (elas estão nele só na estreita)",
+    (wide, current) => {
+      vi.stubGlobal("matchMedia", (query: string) => ({
+        matches: query.includes("720") ? wide : true,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+      }));
+      setup({ tab: "misturadas-titulo", date: null });
+      expect(toggle().getAttribute("aria-current") ?? undefined).toBe(current);
+      const link = document.querySelector(".nav-inline a[href='#misturadas']");
+      expect(link?.getAttribute("aria-current")).toBe("true");
+      vi.unstubAllGlobals();
+    },
+  );
 });

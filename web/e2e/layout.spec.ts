@@ -649,7 +649,7 @@ test("em 320 px, a revelação das Misturadas com a nota mais longa (o Separar) 
   await page.setViewportSize({ width: 320, height: 640 });
   await appleCatalog(page, { artistDisplay: LONG_ARTIST });
   await open(page, DAY, "#misturadas-musica");
-  await page.getByRole("button", { name: "Separar L e R" }).click();
+  await page.getByRole("button", { name: "Ajuda: separar L e R" }).click();
   // A 1ª rodada de 08/10 tem a tr33.
   const track = trackById("fixture:tr:tr33");
   await page.getByRole("combobox", { name: "Quais são as músicas?" }).fill(track.title);
@@ -977,7 +977,9 @@ test("a medalha em destaque na nav (ME118, P317): em 320 px, a nav numa linha no
   expect(tops, "a nav numa linha só").toBe(1);
 });
 
-test("o Mais até 719 px e as 7 abas numa linha a partir de 720 (P287)", async ({ page }) => {
+test("o Mais em todas as larguras, e as Misturadas na linha a partir de 720 (P287, M17)", async ({
+  page,
+}) => {
   // Os dois diários dos Hits, um do Anime e os dois das Misturadas de hoje terminados: os três ✓,
   // o caso mais largo.
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
@@ -1011,26 +1013,26 @@ test("o Mais até 719 px e as 7 abas numa linha a partir de 720 (P287)", async (
   await expect(more).toBeVisible();
   // A medalha em destaque é um link sem texto, com o nome no aria-label.
   await expect(nav.getByRole("link")).toHaveText(["Início", /^Hits/, /^Anime/, ""]);
-  // O menu aberto fecha ao cruzar os 720 px, e não volta aberto ao estreitar de novo.
+  // O menu aberto fecha ao cruzar os 720 px (as Misturadas mudam de lugar), e não volta aberto ao
+  // estreitar de novo.
   await more.click();
   await expect(more).toHaveAttribute("aria-expanded", "true");
   await page.setViewportSize({ width: 720, height: 800 });
-  await expect(more).toBeHidden();
+  await expect(more).toHaveAttribute("aria-expanded", "false");
+  // Em 720 px, as Misturadas na linha; o Mais continua, com os Artistas, o Histórico e as Medalhas.
   const links = nav.getByRole("link");
-  await expect(links).toHaveText([
-    "Início",
-    /^Hits/,
-    /^Anime/,
-    /^Misturadas/,
-    "Artistas",
-    "Histórico",
-    "Medalhas",
-    "",
-  ]);
+  await expect(links).toHaveText(["Início", /^Hits/, /^Anime/, /^Misturadas/, ""]);
+  await expect(more).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   const tops = await links.evaluateAll((all) => all.map((a) => a.getBoundingClientRect().top));
-  expect(new Set(tops).size, "as 7 abas na mesma linha").toBe(1);
+  expect(new Set(tops).size, "a nav numa linha só").toBe(1);
   expect((await overflow(page)).horizontal, "sem rolar para o lado").toBeLessThanOrEqual(0);
+  // A linha na coluna do conteúdo, e a medalha em destaque logo depois do Mais, perto do menu.
+  const box = (el: Locator) => el.evaluate((e) => e.getBoundingClientRect().toJSON());
+  const row = await box(nav.locator("ul").first());
+  expect(row.width).toBeLessThanOrEqual(560);
+  const gap = (await box(nav.locator(".nav-favorite"))).left - (await box(more)).right;
+  expect(gap).toBeLessThanOrEqual(24);
   await page.setViewportSize({ width: 719, height: 800 });
   await expect(more).toHaveAttribute("aria-expanded", "false");
 });
@@ -1223,20 +1225,22 @@ test("a aba ativa em negrito não empurra as vizinhas (ME106): o Mais e o link d
     await page.evaluate(() => document.fonts.ready);
     expect(await left(more), hash).toBe(atHome);
   }
-  // Em 720 px, as 6 na linha: o link das Medalhas, o último, também não anda.
+  // Em 720 px, com as Misturadas na linha: o Mais, depois delas, também não anda quando elas
+  // viram a aba ativa.
   await page.setViewportSize({ width: 720, height: 800 });
-  const medals = nav.getByRole("link", { name: "Medalhas", exact: true });
   await page.evaluate(() => {
     window.location.hash = "#inicio";
   });
   await expect(nav.getByRole("link", { name: "Início" })).toHaveAttribute("aria-current", "page");
-  const medalsAtHome = await left(medals);
+  await page.evaluate(() => document.fonts.ready);
+  const moreAtHome = await left(more);
   await page.evaluate(() => {
-    window.location.hash = "#historico";
+    window.location.hash = "#misturadas";
   });
-  await expect(nav.getByRole("link", { name: "Histórico", exact: true })).toHaveAttribute(
+  await expect(nav.getByRole("link", { name: /^Misturadas/ })).toHaveAttribute(
     "aria-current",
     "page",
   );
-  expect(await left(medals)).toBe(medalsAtHome);
+  await page.evaluate(() => document.fonts.ready);
+  expect(await left(more)).toBe(moreAtHome);
 });

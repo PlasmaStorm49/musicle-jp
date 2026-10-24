@@ -18,6 +18,7 @@ import {
   mixedMax,
   mixedReducer,
   mixedRoundScore,
+  mixedRoundTag,
   mixedScore,
   mixedShareText,
   mixedStatusOf,
@@ -260,6 +261,13 @@ describe("as Misturadas no save", () => {
     const pruned = pruneProgress(today, mixedIds(DATE));
     expect(Object.keys(pruned.mixed.progress)).toEqual([daily.id]);
     expect(pruneProgress(pruned, mixedIds(DATE))).toBe(pruned);
+  });
+});
+
+describe("a etiqueta da rodada difícil", () => {
+  it("a 3ª tem músicas mais difíceis; a de 3 músicas, mais músicas juntas; as outras, nada", () => {
+    const sizes = musica().rounds.map((round) => round.length);
+    expect(sizes.map((n, i) => mixedRoundTag(i, n))).toEqual([null, null, "hard", "more"]);
   });
 });
 

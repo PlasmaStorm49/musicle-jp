@@ -99,8 +99,8 @@ test("Misturadas: acertar a música, das 4 rodadas ao compartilhar, com o Separa
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
   // Rodada 2: separa (as achadas depois valem a metade), acha uma e desiste: (5 + 0) / 2 = 3.
-  await page.getByRole("button", { name: "Separar L e R" }).click();
-  await expect(page.getByRole("button", { name: "Separar L e R" })).toHaveAttribute(
+  await page.getByRole("button", { name: "Ajuda: separar L e R" }).click();
+  await expect(page.getByRole("button", { name: "Ajuda: separar L e R" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
@@ -121,7 +121,7 @@ test("Misturadas: acertar a música, das 4 rodadas ao compartilhar, com o Separa
     .toBe(5);
   await page.reload();
   await expect(page.getByText("1 de 2 achadas")).toBeVisible();
-  await expect(page.getByRole("button", { name: "Separar L e R" })).toHaveAttribute(
+  await expect(page.getByRole("button", { name: "Ajuda: separar L e R" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
@@ -138,7 +138,8 @@ test("Misturadas: acertar a música, das 4 rodadas ao compartilhar, com o Separa
   await expect(page.getByText("não achada")).toBeVisible();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
-  // Rodada 3: um pulo e as duas no trecho de 8 s (7 pontos).
+  // Rodada 3: um pulo e as duas no trecho de 8 s (7 pontos). O cabeçalho avisa a dificuldade.
+  await expect(page.locator(".round-head .round-tag")).toHaveText("Músicas mais difíceis");
   await page.getByRole("button", { name: "Pular (+4 s)" }).click();
   await play(8).click();
   const third = await lastMix(page);
@@ -148,6 +149,7 @@ test("Misturadas: acertar a música, das 4 rodadas ao compartilhar, com o Separa
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
   // Rodada 4: três juntas, todas no 1º trecho.
+  await expect(page.locator(".round-head .round-tag")).toHaveText("Mais músicas juntas");
   await play(4).click();
   const fourth = await lastMix(page);
   expect(fourth.tracks).toHaveLength(3);
