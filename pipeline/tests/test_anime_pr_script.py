@@ -678,9 +678,9 @@ def test_rejects_a_snapshot_whose_id_is_not_the_file_name(tmp_path):
     rejects(tmp_path, changes, "snapshot do Anime fora da forma esperada")
 
 
-def test_rejects_a_catalog_over_3_mb(tmp_path):
+def test_rejects_a_catalog_over_5_mb(tmp_path):
     changes = full_change()
-    changes[CATALOG]["tracks"][0]["title"] = "x" * (3 * 1024 * 1024)
+    changes[CATALOG]["tracks"][0]["title"] = "x" * (5 * 1024 * 1024)
     rejects(tmp_path, changes, "o catálogo do Anime passa de")
 
 

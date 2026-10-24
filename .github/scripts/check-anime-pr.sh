@@ -28,7 +28,7 @@ fail() {
 SKIP_AHEAD=21
 LIMIT_DAYS=35
 MAX_SNAPSHOT_BYTES=$((2 * 1024 * 1024))
-MAX_CATALOG_BYTES=$((3 * 1024 * 1024))
+MAX_CATALOG_BYTES=$((5 * 1024 * 1024))
 
 [[ "$TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || fail "data inválida: $TODAY"
 # O "hoje" da anime-generate vem da tarefa que roda os pacotes do pip: um pacote comprometido

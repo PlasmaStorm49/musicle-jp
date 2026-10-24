@@ -13,10 +13,11 @@ from musicle_pipeline.models import JSON
 from musicle_pipeline.paths import anime_catalog_schema_path
 from musicle_pipeline.validate import url_problems
 
-# O teto do arquivo (P236), pela medida do PR A1: 1.000 músicas dão uns 2,1 MB (600, uns 1,3 MB;
-# o Pages manda comprimido, umas 5 vezes menor). Passou disso, o acervo cresceu além do previsto, e
-# cada versão fica no histórico do Git.
-MAX_FILE_BYTES = 3 * 1024 * 1024
+# O teto do arquivo (P236), um alarme de crescimento: passou dele, o acervo cresceu além do
+# previsto, e cada versão fica no histórico do Git. Era de 3 MB, pela medida do PR A1 (1.000
+# músicas, uns 2,1 MB); com a carga C3, 1.395 faixas deram 2,82 MB, e o usuário o subiu para 5 MB
+# (24/10/2026). O Pages manda o arquivo comprimido, umas 7 vezes menor (2,82 MB viram 400 KB).
+MAX_FILE_BYTES = 5 * 1024 * 1024
 
 
 @cache
@@ -72,13 +73,6 @@ def _invariant_problems(data: JSON) -> list[str]:
                 problems.append(f"{tid}: franquia inexistente {fid}")
         if all(t["anime"]["tiers"][mode] is None for mode in MODES):
             problems.append(f"{tid}: sem faixa em nenhum modo")
-        # A muito conhecida (a régua das Misturadas, M17) é sempre uma do Fácil do modo.
-        famous = t["anime"].get("famous", {})
-        problems += [
-            f"{tid}: muito conhecida no {mode} sem ser do Fácil"
-            for mode in MODES
-            if famous.get(mode) and t["anime"]["tiers"][mode] != "facil"
-        ]
     problems += [f"{a}: álbum sem faixa" for a in sorted(album_ids - used_albums)]
     problems += [f"{f}: franquia sem faixa" for f in sorted(franchise_ids - used_franchises)]
     names: dict[str, list[str]] = {}

@@ -8,8 +8,8 @@ A regra de ouro é a das outras agendas: SÓ CRESCE (o `grow` do `schedule.py`).
   ordem, o rng de "musicle-jp|anime-mixed|<data>|<modo>|<rodada>"; cada música da rodada consome
   1 número (o sorteio ponderado pelo tipo do tema, P252).
 - **A régua** (P7; o usuário, 24/10/2026): nas rodadas 1, 2 e 4, o Fácil inteiro do modo (até
-  então, só as muito conhecidas, o `anime.famous` do catálogo, que ficou fácil demais); na 3, o
-  Médio ou o Difícil do modo.
+  então, só as muito conhecidas, que deixavam as Misturadas fáceis demais; a marca saiu do
+  catálogo); na 3, o Médio ou o Difícil do modo.
 - **Nunca afrouxam:** a música não repete nas 18 do dia (os dois modos); dentro da rodada, as
   músicas e as franquias são diferentes (um palpite serviria a duas).
 - **O afrouxamento,** com registro: o nível 0 tem tudo, com a franquia nova no dia (entre os dois

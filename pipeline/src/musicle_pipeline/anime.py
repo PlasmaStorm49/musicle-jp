@@ -92,10 +92,6 @@ CUTS = {
     "musica": (Decimal("0.271"), Decimal("0.145")),
     "titulo": (Decimal("0.25"), Decimal("0.108")),
 }
-# A régua das Misturadas (M17): a música muito conhecida tem a chance a partir deste corte, dentro
-# do Fácil do modo. Fixo, como os CUTS (P273): mudá-lo muda a marca do acervo inteiro, e só os
-# dias novos da agenda das Misturadas sentem. O laboratório (o anime-chances) mede o acervo.
-FAMOUS_CUTS = {"musica": Decimal("0.5"), "titulo": Decimal("0.5")}
 # O ícone (P274), a música que a pessoa sabe o nome mesmo sem ver o anime: as playlists e o quiz
 # no alto, ou o artista na parada dos Hits até a última antes da calibração (19/10/2026). A
 # data é fixa, para o catálogo do Anime não mudar a cada parada nova, e é a de um snapshot que
@@ -626,23 +622,14 @@ def song_chances(
     return best, icons
 
 
-def famous_of(chance: Mapping[str, Decimal], tiers: Mapping[str, str]) -> dict[str, bool]:
-    """A música muito conhecida em cada modo (a régua das Misturadas, M17): a chance a partir do
-    FAMOUS_CUTS, dentro do Fácil do modo. Vai para o catálogo só o sim ou não (P240, P254)."""
-    return {mode: tiers[mode] == "facil" and chance[mode] >= FAMOUS_CUTS[mode] for mode in MODES}
-
-
 def _song_marks(
     provider: str, accs: Iterable[_TrackAcc], icon_artists: frozenset[str], songs: SongCounts
-) -> dict[str, tuple[dict[str, str], dict[str, bool]]]:
-    """As faixas de cada música (a songKey) e a marca de muito conhecida, pela chance dela
-    (`song_chances`)."""
+) -> dict[str, dict[str, str]]:
+    """As faixas de dificuldade de cada música (a songKey), pela chance dela (`song_chances`). A
+    marca de muito conhecida, a régua antiga das Misturadas, saiu (o usuário, 24/10/2026): as
+    Misturadas tiram do Fácil inteiro."""
     best, icons = song_chances(provider, accs, icon_artists, songs)
-    marks = {}
-    for key, chance in best.items():
-        tiers = tiers_of(chance, key in icons)
-        marks[key] = (tiers, famous_of(chance, tiers))
-    return marks
+    return {key: tiers_of(chance, key in icons) for key, chance in best.items()}
 
 
 def _track_record(
@@ -650,9 +637,8 @@ def _track_record(
     acc: _TrackAcc,
     album: JSON,
     cur: Curation,
-    marks: tuple[Mapping[str, str], Mapping[str, bool]],
+    tiers: Mapping[str, str],
 ) -> JSON:
-    tiers, famous = marks
     t = acc.track
     track_id = entity_id(provider, "tr", t.provider_id)
     text = track_text(t.title)
@@ -709,7 +695,6 @@ def _track_record(
                 for name, kind, sequence in themes
             ],
             "tiers": dict(tiers),
-            "famous": dict(famous),
         },
     }
 
