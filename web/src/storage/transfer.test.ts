@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { MixedGame } from "../core/mixed.ts";
 import { emptySave, type FinishedGame, type Save } from "../core/records.ts";
 import { SAVE_SCHEMA_VERSION } from "./migrations.ts";
 import { readSave } from "./save.ts";
@@ -262,5 +263,64 @@ describe("replaceSave (P24)", () => {
     expect(next.history).toEqual(imported.history);
     expect(next.practiceRight).toBe(12);
     expect(next.inProgress).toEqual({ "2026-10-23|song": { events: [{ type: "SKIP" }] } });
+  });
+});
+
+describe("as Misturadas no arquivo (v10, M17)", () => {
+  const game: MixedGame = {
+    number: 3,
+    rounds: [
+      { status: "done", found: [{ stage: 0 }, { stage: 2, help: true }] },
+      { status: "void", found: [null, null] },
+      { status: "done", found: [null, { stage: 1 }] },
+      { status: "done", found: [{ stage: 0 }, { stage: 0 }, null] },
+    ],
+  };
+  const withMixed: Save = {
+    ...emptySave(),
+    mixed: {
+      finished: { "2026-10-22|misturadas-musica": game },
+      progress: { "2026-10-23|misturadas-titulo": { events: [{ type: "SEPARATE" }] } },
+    },
+  };
+
+  it("viajam só os terminados, e a ida e a volta os devolvem; só elas já são um progresso", () => {
+    const data = JSON.parse(exportFile(withMixed, TODAY));
+    expect(data.save.mixed).toEqual({ finished: withMixed.mixed.finished, progress: {} });
+    const result = parseImport(exportFile(withMixed, TODAY), TODAY);
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.save.mixed).toEqual({ finished: withMixed.mixed.finished, progress: {} });
+    expect(result.summary).toMatchObject({ days: 1, dropped: false });
+  });
+
+  it("o andamento de um arquivo feito à mão não passa, e o jogo de depois de hoje sai", () => {
+    const later = { ...withMixed.mixed.finished, "2026-10-24|misturadas-musica": game };
+    const result = parseImport(
+      file({ ...withMixed, mixed: { ...withMixed.mixed, finished: later } }),
+      TODAY,
+    );
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.save.mixed).toEqual({ finished: withMixed.mixed.finished, progress: {} });
+    expect(result.summary.dropped).toBe(true);
+  });
+
+  it("um arquivo de antes das Misturadas (v9) entra, com o campo vazio", () => {
+    const { mixed: _none, ...v9 } = { ...save, schemaVersion: 9 };
+    const result = parseImport(file(v9), TODAY);
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.save.mixed).toEqual({ finished: {}, progress: {} });
+  });
+
+  it("a substituição conta os terminados daqui que o arquivo não tem e guarda o andamento daqui", () => {
+    const imported: Save = { ...save, inProgress: {} };
+    expect(lostGames(withMixed, imported)).toBe(1);
+    expect(lostGames(withMixed, { ...imported, mixed: withMixed.mixed })).toBe(0);
+    const next = replaceSave(withMixed, { ...imported, mixed: { finished: {}, progress: {} } });
+    expect(next.mixed).toEqual({ finished: {}, progress: withMixed.mixed.progress });
+    const done = {
+      ...imported,
+      mixed: { finished: { "2026-10-23|misturadas-titulo": game }, progress: {} },
+    };
+    expect(replaceSave(withMixed, done).mixed.progress).toEqual({});
   });
 });

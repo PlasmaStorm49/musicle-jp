@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { artists, realArtists } from "../../test/artists.ts";
 import { ANIME_KEYS, DAILY_KEYS } from "../core/daily.ts";
 import { MEDALS, SUPERFAN_LEVELS, superfanMedalId, superfanMedals } from "../core/medals.ts";
+import { MIXED_KEYS } from "../core/mixed.ts";
 import {
   emptySave,
   type FinishedGame,
@@ -40,14 +41,35 @@ const valid: Save = {
   shelf: ["superfan|apple:ar:1|completo"],
   artists: { "apple:ar:1": { right: 12, done: true }, "fixture:ar:ar01": { right: 3 } },
   practiceRight: 7,
+  mixed: {
+    finished: {
+      "2026-10-08|misturadas-musica": {
+        number: 1,
+        rounds: [
+          { status: "done", found: [{ stage: 0 }, { stage: 1, help: true }] },
+          { status: "void", found: [null, null] },
+          { status: "done", found: [null, { stage: 3 }] },
+          { status: "done", found: [{ stage: 0 }, null, { stage: 2 }] },
+        ],
+      },
+    },
+    progress: {
+      "2026-10-09|misturadas-titulo": {
+        events: [{ type: "SEPARATE" }, { type: "GUESS", guessId: "anime:fr:x" }, { type: "SKIP" }],
+      },
+    },
+  },
 };
 
 const withRaw = (raw: string) => memoryStore({ [SAVE_KEY]: raw });
 
 /** O que a v8 (P289) acrescenta a um save migrado: as medalhas e o modo por artista, vazios. */
 const V8 = { seenMedals: [], shelf: [], artists: {} };
-/** E a v9 (P308): os acertos do Treino, zerados. */
-const LATEST = { ...V8, practiceRight: 0 };
+/** A v9 (P308): os acertos do Treino, zerados. */
+const V9 = { practiceRight: 0 };
+/** E a v10 (M17): as Misturadas, vazias. */
+const V10 = { mixed: { finished: {}, progress: {} } };
+const LATEST = { ...V8, ...V9, ...V10 };
 
 describe("loadSave", () => {
   it("sem nada salvo: save vazio e gravável", () => {
@@ -262,14 +284,14 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v3));
     expect(loadSave(store)).toEqual({
-      save: { ...v3, ...LATEST, schemaVersion: 9 },
+      save: { ...v3, ...LATEST, schemaVersion: 10 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(9);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(10);
   });
 
   it("um save v4 de verdade, com a ajuda, chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -300,7 +322,7 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v4));
     expect(loadSave(store)).toEqual({
-      save: { ...v4, ...LATEST, schemaVersion: 9 },
+      save: { ...v4, ...LATEST, schemaVersion: 10 },
       writable: true,
       notice: null,
     });
@@ -339,13 +361,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v5));
     expect(loadSave(store)).toEqual({
-      save: { ...v5, ...LATEST, schemaVersion: 9 },
+      save: { ...v5, ...LATEST, schemaVersion: 10 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(9);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(10);
   });
 
   it("um save v6 de verdade chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -376,13 +398,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v6));
     expect(loadSave(store)).toEqual({
-      save: { ...v6, ...LATEST, schemaVersion: 9 },
+      save: { ...v6, ...LATEST, schemaVersion: 10 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(9);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(10);
   });
 
   describe("o jogado depois (v7, P267)", () => {
@@ -408,6 +430,16 @@ describe("loadSave", () => {
     });
   });
 
+  it("os 2 diários das Misturadas passam no guard do campo delas, e não no do histórico", () => {
+    const game = valid.mixed.finished["2026-10-08|misturadas-musica"];
+    const finished = Object.fromEntries(MIXED_KEYS.map((key) => [`2026-10-21|${key}`, game]));
+    const ok = loadSave(withRaw(JSON.stringify({ ...valid, mixed: { finished, progress: {} } })));
+    expect(Object.keys(ok.save.mixed.finished)).toEqual(Object.keys(finished));
+    expect(ok.notice).toBeNull();
+    const history = { "2026-10-21|misturadas-musica": finished };
+    expect(loadSave(withRaw(JSON.stringify({ ...valid, history }))).notice).toBe("repaired");
+  });
+
   it("todo diário de DAILY_KEYS passa no guard do save: os 2 dos Hits e os 6 do Anime", () => {
     const history = Object.fromEntries(DAILY_KEYS.map((key) => [`2026-10-21|${key}`, finished]));
     const result = loadSave(withRaw(JSON.stringify({ ...valid, history })));
@@ -419,8 +451,10 @@ describe("loadSave", () => {
     // Um id só na regex passaria no guard, mas o openSaves (pelo keptProgressIds, que monta os
     // ids de cada dia com o dailyIds) apagaria o andamento dele a cada carga; e um id novo sem
     // versão nova seria apagado pela aba com o código velho.
-    expect({ version: SAVE_SCHEMA_VERSION, keys: DAILY_KEYS }).toEqual({
-      version: 9,
+    // As Misturadas (v10) também: os 2 ids delas andam com a versão.
+    expect({ version: SAVE_SCHEMA_VERSION, keys: DAILY_KEYS, mixed: MIXED_KEYS }).toEqual({
+      version: 10,
+      mixed: ["misturadas-musica", "misturadas-titulo"],
       keys: [
         "album",
         "song",
@@ -669,14 +703,14 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     };
     const store = withRaw(JSON.stringify(v7));
     expect(loadSave(store)).toEqual({
-      save: { ...v7, ...LATEST, schemaVersion: 9 },
+      save: { ...v7, ...LATEST, schemaVersion: 10 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => withArtistRight(s, "apple:ar:1"))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 9,
+      schemaVersion: 10,
       history: v7.history,
     });
   });
@@ -728,14 +762,14 @@ describe("os acertos do Treino (v9, P308)", () => {
     };
     const store = withRaw(JSON.stringify(v8));
     expect(loadSave(store)).toEqual({
-      save: { ...v8, practiceRight: 0, schemaVersion: 9 },
+      save: { ...v8, ...V9, ...V10, schemaVersion: 10 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, withPracticeRight)).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 9,
+      schemaVersion: 10,
       practiceRight: 1,
       artists: v8.artists,
     });
@@ -744,6 +778,89 @@ describe("os acertos do Treino (v9, P308)", () => {
   it("o total vai e volta pelo save, sem reparo", () => {
     const store = withRaw(JSON.stringify(valid));
     expect(loadSave(store)).toMatchObject({ save: { practiceRight: 7 }, notice: null });
+  });
+});
+
+describe("as Misturadas (v10, M17)", () => {
+  const game = valid.mixed.finished["2026-10-08|misturadas-musica"];
+  const round = game?.rounds[0];
+
+  it.each([
+    ["um id que não é das Misturadas", { "2026-10-08|song": game }],
+    ["um id com a data impossível", { "2026-02-30|misturadas-musica": game }],
+    ["3 rodadas", { "2026-10-08|misturadas-musica": { number: 1, rounds: game?.rounds.slice(1) } }],
+    [
+      "uma rodada com 1 música",
+      {
+        "2026-10-08|misturadas-musica": {
+          number: 1,
+          rounds: [{ status: "done", found: [{ stage: 0 }] }, ...(game?.rounds.slice(1) ?? [])],
+        },
+      },
+    ],
+    [
+      "um trecho além do último",
+      {
+        "2026-10-08|misturadas-musica": {
+          number: 1,
+          rounds: [{ ...round, found: [{ stage: 4 }, null] }, ...(game?.rounds.slice(1) ?? [])],
+        },
+      },
+    ],
+    [
+      "a anulada com uma achada",
+      {
+        "2026-10-08|misturadas-musica": {
+          number: 1,
+          rounds: [
+            { status: "void", found: [{ stage: 0 }, null] },
+            ...(game?.rounds.slice(1) ?? []),
+          ],
+        },
+      },
+    ],
+    [
+      "a ajuda que não é true",
+      {
+        "2026-10-08|misturadas-musica": {
+          number: 1,
+          rounds: [
+            { ...round, found: [{ stage: 0, help: 1 }, null] },
+            ...(game?.rounds.slice(1) ?? []),
+          ],
+        },
+      },
+    ],
+  ])("descarta o terminado com %s e avisa o reparo", (_, finished) => {
+    const raw = { ...valid, mixed: { ...valid.mixed, finished } };
+    const result = loadSave(withRaw(JSON.stringify(raw)));
+    expect(result.notice).toBe("repaired");
+    expect(result.save.mixed.finished).toEqual({});
+    expect(result.save.mixed.progress).toEqual(valid.mixed.progress);
+  });
+
+  it.each([
+    ["um evento dos diários", { events: [{ type: "HELP", options: ["a", "b"] }] }],
+    ["um palpite vazio", { events: [{ type: "GUESS", guessId: "" }] }],
+    ["sem a lista", {}],
+  ])("descarta o andamento com %s", (_, saved) => {
+    const raw = {
+      ...valid,
+      mixed: { ...valid.mixed, progress: { "2026-10-09|misturadas-titulo": saved } },
+    };
+    const result = loadSave(withRaw(JSON.stringify(raw)));
+    expect(result.notice).toBe("repaired");
+    expect(result.save.mixed.progress).toEqual({});
+    expect(result.save.mixed.finished).toEqual(valid.mixed.finished);
+  });
+
+  it("o campo ausente ou fora do formato vira vazio, como reparo, sem levar o resto", () => {
+    for (const mixed of [undefined, [], { finished: [] }]) {
+      const result = loadSave(withRaw(JSON.stringify({ ...valid, mixed })));
+      expect(result.notice).toBe("repaired");
+      expect(result.save.mixed).toEqual(V10.mixed);
+      expect(result.save.history).toEqual(valid.history);
+    }
   });
 });
 

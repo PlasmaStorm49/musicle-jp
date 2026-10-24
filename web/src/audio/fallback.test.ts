@@ -3,6 +3,7 @@ import {
   type AudioEngine,
   type AudioFailure,
   AudioUnavailableError,
+  type MixEngine,
   type Playback,
 } from "./engine.ts";
 import { FallbackAudioEngine } from "./fallback.ts";
@@ -138,5 +139,53 @@ describe("FallbackAudioEngine (Web Audio, depois <audio>)", () => {
     const composite = new FallbackAudioEngine(new WebAudioEngine({ disabled: true }), reserve);
     await composite.play(A, 0, 1);
     expect(reserve.play).toHaveBeenCalledWith(A, 0, 1);
+  });
+});
+
+describe("a mistura no motor composto (M17)", () => {
+  const TRACKS = [
+    { url: A, offset: 0 },
+    { url: B, offset: 0 },
+  ];
+  const mixPlayback = (seconds: number) => ({
+    ...playback(seconds),
+    setGain: vi.fn(),
+    setPan: vi.fn(),
+  });
+  const mixing = (playMix: MixEngine["playMix"] = async (_, s) => mixPlayback(s)) => ({
+    ...engine(),
+    playMix: vi.fn(playMix),
+  });
+
+  it("repassa ao Web Audio e para o <audio>", async () => {
+    const primary = mixing();
+    const reserve = engine();
+    const composite = new FallbackAudioEngine(primary, reserve);
+    expect((await composite.playMix(TRACKS, 4))?.seconds).toBe(4);
+    expect(primary.playMix).toHaveBeenCalledWith(TRACKS, 4, undefined);
+    expect(reserve.stop).toHaveBeenCalled();
+  });
+
+  it("sem o Web Audio que mistura, ou depois de um decode, falha: a tela anula a rodada", async () => {
+    await expect(
+      new FallbackAudioEngine(engine(), engine()).playMix(TRACKS, 4),
+    ).rejects.toMatchObject({ kind: "decode" });
+    const primary = mixing(failing("decode"));
+    const composite = new FallbackAudioEngine(primary, engine());
+    await expect(composite.playMix(TRACKS, 4)).rejects.toMatchObject({ kind: "decode" });
+    // Daqui em diante, a sessão é do <audio>: a mistura nem tenta.
+    await expect(composite.playMix(TRACKS, 4)).rejects.toMatchObject({ kind: "decode" });
+    expect(primary.playMix).toHaveBeenCalledTimes(1);
+  });
+
+  it("a falha de rede de uma prévia não passa a sessão para o <audio>", async () => {
+    const primary = mixing(failing("network"));
+    const composite = new FallbackAudioEngine(primary, engine());
+    await expect(composite.playMix(TRACKS, 4)).rejects.toMatchObject({ kind: "network" });
+    await expect(composite.playMix(TRACKS, 4)).rejects.toMatchObject({ kind: "network" });
+    expect(primary.playMix).toHaveBeenCalledTimes(2);
+    // E a prévia sozinha continua no Web Audio.
+    await composite.play(A, 0, 1);
+    expect(primary.play).toHaveBeenCalledTimes(1);
   });
 });

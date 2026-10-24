@@ -9,6 +9,7 @@ import {
   animeKey,
 } from "./daily.ts";
 import { inHistory } from "./history.ts";
+import type { MixedKey } from "./mixed.ts";
 import type { Target } from "./types.ts";
 
 /**
@@ -17,10 +18,13 @@ import type { Target } from "./types.ts";
  */
 export type AnimeTab = "anime" | `anime-${AnimeMode}` | AnimeKey;
 
+/** As abas das Misturadas (M17, P26): a escolha do modo e os 2 diários, cuja aba é a chave. */
+export type MixedTab = "misturadas" | MixedKey;
+
 /**
  * As abas do jogo: a home, a tela dos Hits (P225), os diários do Normal (album) e do Desafio
  * (song), o Treino, o modo por artista (M13), as do Anime (M14), o "Sobre e privacidade" (P243), o
- * Histórico (M15, P260) e as Medalhas (M16, P278).
+ * Histórico (M15, P260), as Medalhas (M16, P278) e as Misturadas (M17).
  */
 export type Tab =
   | "home"
@@ -31,7 +35,8 @@ export type Tab =
   | AnimeTab
   | "about"
   | "history"
-  | "medals";
+  | "medals"
+  | MixedTab;
 
 // Nenhum elemento da página pode ter id igual a uma rota: o navegador rolaria até ele.
 export const ROUTES: Readonly<Record<Tab, string>> = {
@@ -53,23 +58,33 @@ export const ROUTES: Readonly<Record<Tab, string>> = {
   about: "#sobre",
   history: "#historico",
   medals: "#medalhas",
+  misturadas: "#misturadas",
+  "misturadas-musica": "#misturadas-musica",
+  "misturadas-titulo": "#misturadas-titulo",
 };
 
 /**
  * As categorias da nav (P221, P225): os Hits juntam a tela deles, os dois diários e o Treino; o
  * Anime, a tela dele, as das dificuldades e os 6 diários; o Histórico (P264), o calendário, a tela
- * de um dia e os diários de um dia passado; as Medalhas (M16), a tela delas.
+ * de um dia e os diários de um dia passado; as Medalhas (M16), a tela delas; as Misturadas (M17), a
+ * escolha do modo e os 2 diários.
  */
-export type Category = "home" | "hits" | "anime" | "artists" | "history" | "medals";
+export type Category = "home" | "hits" | "anime" | "mixed" | "artists" | "history" | "medals";
 
 /** A aba é do Anime: a tela da categoria, a da dificuldade ou um diário. */
 export function isAnimeTab(tab: Tab): tab is AnimeTab {
   return tab === "anime" || tab.startsWith("anime-");
 }
 
+/** A aba é das Misturadas: a escolha do modo ou um diário. Sem data: elas não têm Histórico. */
+export function isMixedTab(tab: Tab): tab is MixedTab {
+  return tab === "misturadas" || tab.startsWith("misturadas-");
+}
+
 /** A categoria de uma aba: a da nav que fica marcada. */
 export function categoryOf(tab: Tab): Category {
   if (isAnimeTab(tab)) return "anime";
+  if (isMixedTab(tab)) return "mixed";
   switch (tab) {
     case "home":
     case "artists":
@@ -159,13 +174,24 @@ export function routeCategory(route: Route): Category {
   return route.date === null ? categoryOf(route.tab) : "history";
 }
 
+/** A aba da tela de cada categoria (a que a nav abre): a das Misturadas tem o nome dela. */
+const CATEGORY_TAB: Readonly<Record<Category, Tab>> = {
+  home: "home",
+  hits: "hits",
+  anime: "anime",
+  mixed: "misturadas",
+  artists: "artists",
+  history: "history",
+  medals: "medals",
+};
+
 /**
  * O aria-current do link de uma categoria: "page" na tela dela (sem data), "true" dentro de um
  * jogo dela ou de um dia do Histórico (o link leva a outra página), e nada nas outras.
  */
 export function navCurrent(route: Route, category: Category): "page" | "true" | undefined {
   if (routeCategory(route) !== category) return undefined;
-  return route.tab === category && route.date === null ? "page" : "true";
+  return route.tab === CATEGORY_TAB[category] && route.date === null ? "page" : "true";
 }
 
 /**

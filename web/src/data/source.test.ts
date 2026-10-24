@@ -16,10 +16,12 @@ import {
   loadArtist,
   loadArtistList,
   loadGameData,
+  loadMixedSchedule,
   lookupFailForced,
   medalsMode,
   pickAnimeDay,
   pickDay,
+  pickMixedDay,
   REAL_DATA_DIR,
   UnsupportedCatalogError,
 } from "./source.ts";
@@ -370,5 +372,40 @@ describe("datas e dias", () => {
       "http://x.test/musicle-jp/fixtures/audio/tr01.wav",
     );
     expect(assetUrl(BASE, "https://audio.example/a.m4a")).toBe("https://audio.example/a.m4a");
+  });
+});
+
+describe("loadMixedSchedule (M17)", () => {
+  it("a agenda das Misturadas, ao lado da do Anime, revalidando o cache", async () => {
+    const calls: { url: string; cache: string | undefined }[] = [];
+    const serve = fakeFetch();
+    const recording: FetchLike = (url, init) => {
+      calls.push({ url, cache: init?.cache });
+      return serve(url, init);
+    };
+    const schedule = await loadMixedSchedule(recording, BASE, FIXTURE_DATA_DIR);
+    expect(schedule.kind).toBe("anime-mixed");
+    expect(calls).toEqual([{ url: `${BASE}fixtures/anime/mixed.json`, cache: "no-cache" }]);
+    expect(pickMixedDay(schedule, "2026-10-08")?.number).toBe(1);
+    expect(pickMixedDay(schedule, "2026-10-07")).toBeNull();
+  });
+
+  it("versão desconhecida, ou a agenda do Anime no lugar, pede para atualizar; sem os dias, tentar de novo", async () => {
+    const anime = JSON.parse(
+      readFileSync(new URL("fixtures/anime/schedule.json", PUBLIC), "utf8"),
+    ) as unknown;
+    for (const wrong of [{ schemaVersion: 2, kind: "anime-mixed", days: {} }, anime, null]) {
+      await expect(
+        loadMixedSchedule(
+          fakeFetch({ "fixtures/anime/mixed.json": wrong }),
+          BASE,
+          FIXTURE_DATA_DIR,
+        ),
+      ).rejects.toBeInstanceOf(UnsupportedCatalogError);
+    }
+    const empty = { "fixtures/anime/mixed.json": { schemaVersion: 1, kind: "anime-mixed" } };
+    await expect(
+      loadMixedSchedule(fakeFetch(empty), BASE, FIXTURE_DATA_DIR),
+    ).rejects.toBeInstanceOf(DataLoadError);
   });
 });

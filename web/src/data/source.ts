@@ -19,6 +19,8 @@ import type {
   ArtistListEntry,
   Catalog,
   Day,
+  MixedDay,
+  MixedSchedule,
   Schedule,
 } from "../core/types.ts";
 
@@ -188,6 +190,34 @@ export async function loadAnimeSchedule(
   return schedule as AnimeSchedule;
 }
 
+const MIXED_SCHEDULE_SCHEMA_VERSION = 1;
+
+/**
+ * A agenda das Misturadas (M17), ao lado da do Anime: elas tocam as prévias do catálogo dele.
+ * Versão desconhecida (ou outra agenda no lugar): atualizar a página.
+ */
+export async function loadMixedSchedule(
+  fetchFn: FetchLike,
+  baseUrl: string,
+  dataDir: string,
+  signal?: AbortSignal,
+): Promise<MixedSchedule> {
+  const schedule = await getJson(fetchFn, animeFile(baseUrl, dataDir, "mixed.json"), signal);
+  if (
+    schemaVersionOf(schedule) !== MIXED_SCHEDULE_SCHEMA_VERSION ||
+    kindOf(schedule) !== "anime-mixed"
+  ) {
+    throw new UnsupportedCatalogError(
+      `agenda das Misturadas com schemaVersion ${String(schemaVersionOf(schedule))} e kind ${String(kindOf(schedule))}`,
+    );
+  }
+  const days = (schedule as { days?: unknown }).days;
+  if (typeof days !== "object" || days === null || Array.isArray(days)) {
+    throw new DataLoadError("agenda das Misturadas sem os dias");
+  }
+  return schedule as MixedSchedule;
+}
+
 /** O catálogo do Anime, já indexado. Versão desconhecida: atualizar a página. */
 export async function loadAnimeCatalog(
   fetchFn: FetchLike,
@@ -262,5 +292,10 @@ export function pickDay(schedule: Schedule, date: string): Day | null {
 
 /** O dia da agenda do Anime, ou null (o Anime avisa e volta à tela dele). */
 export function pickAnimeDay(schedule: AnimeSchedule, date: string): AnimeDay | null {
+  return schedule.days[date] ?? null;
+}
+
+/** O dia da agenda das Misturadas, ou null (a tela avisa). */
+export function pickMixedDay(schedule: MixedSchedule, date: string): MixedDay | null {
   return schedule.days[date] ?? null;
 }

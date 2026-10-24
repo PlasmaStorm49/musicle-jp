@@ -3,6 +3,7 @@
 // mesmas migrações e conferências da leitura do navegador (`readSave`, regra 12).
 import { isValidDate } from "../core/dates.ts";
 import { isRecord } from "../core/guards.ts";
+import type { MixedGame } from "../core/mixed.ts";
 import type { ArtistRecord, FinishedGame, Save } from "../core/records.ts";
 import { readSave } from "./save.ts";
 
@@ -26,17 +27,18 @@ export function exportFileName(today: string): string {
 }
 
 /**
- * O texto do arquivo: o save de sempre, sem o andamento (P26: só os jogos terminados viajam), com
- * a marca e a data do jogo (`today`, e não o relógio).
+ * O texto do arquivo: o save de sempre, sem o andamento (P26: só os jogos terminados viajam, também
+ * nas Misturadas), com a marca e a data do jogo (`today`, e não o relógio).
  */
 export function exportFile(save: Save, today: string): string {
   const { inProgress: _kept, ...rest } = save;
+  const mixed = { finished: save.mixed.finished, progress: {} };
   return JSON.stringify({
     app: TRANSFER_APP,
     kind: TRANSFER_KIND,
     format: TRANSFER_FORMAT,
     exportedOn: today,
-    save: rest,
+    save: { ...rest, mixed },
   });
 }
 
@@ -79,6 +81,17 @@ function cleanGame(game: FinishedGame): FinishedGame {
   };
 }
 
+/** O mesmo nas Misturadas: só os campos conhecidos. */
+function cleanMixed(game: MixedGame): MixedGame {
+  return {
+    number: game.number,
+    rounds: game.rounds.map((r) => ({
+      status: r.status,
+      found: r.found.map((f) => (f ? { stage: f.stage, ...(f.help ? { help: true } : {}) } : null)),
+    })),
+  };
+}
+
 function cleanArtist(record: ArtistRecord): ArtistRecord {
   return {
     right: record.right,
@@ -113,8 +126,10 @@ export function parseImport(text: string, today: string): ImportResult {
   const exportedOn =
     typeof data.exportedOn === "string" && isValidDate(data.exportedOn) ? data.exportedOn : null;
   if (exportedOn !== null && exportedOn > today) return { ok: false, reason: "later" };
-  // O andamento não viaja (P26): um arquivo que o traga não o passa adiante.
-  const read = readSave({ ...data.save, inProgress: {} });
+  // O andamento não viaja (P26): um arquivo que o traga não o passa adiante. Nas Misturadas também
+  // (v10): o arquivo de uma versão de antes não tem o campo, e a migração o cria.
+  const mixedIn = isRecord(data.save.mixed) ? { mixed: { ...data.save.mixed, progress: {} } } : {};
+  const read = readSave({ ...data.save, inProgress: {}, ...mixedIn });
   if (read.kind === "future") return { ok: false, reason: "future" };
   if (read.kind === "invalid") return { ok: false, reason: "format" };
 
@@ -128,18 +143,33 @@ export function parseImport(text: string, today: string): ImportResult {
     }
     history[id] = cleanGame(game);
   }
+  // As Misturadas não têm o jogado depois (não há Histórico): vale só a regra do futuro.
+  const finished: Record<string, MixedGame> = {};
+  for (const [id, game] of Object.entries(read.save.mixed.finished)) {
+    if ((id.split("|")[0] ?? "") > today) dropped = true;
+    else finished[id] = cleanMixed(game);
+  }
   const artists = Object.fromEntries(
     Object.entries(read.save.artists).map(([id, record]) => [id, cleanArtist(record)]),
   );
-  const save: Save = { ...read.save, history, inProgress: {}, artists };
+  const save: Save = {
+    ...read.save,
+    history,
+    inProgress: {},
+    artists,
+    mixed: { finished, progress: {} },
+  };
   const empty =
     Object.keys(history).length === 0 &&
+    Object.keys(finished).length === 0 &&
     save.seenMedals.length === 0 &&
     save.shelf.length === 0 &&
     Object.keys(artists).length === 0 &&
     save.practiceRight === 0;
   if (empty) return { ok: false, reason: "empty" };
-  const days = new Set(Object.keys(history).map((id) => id.split("|")[0])).size;
+  const days = new Set(
+    [...Object.keys(history), ...Object.keys(finished)].map((id) => id.split("|")[0]),
+  ).size;
   return {
     ok: true,
     save,
@@ -153,7 +183,13 @@ export function parseImport(text: string, today: string): ImportResult {
  * há também o Desafio perde só o Desafio.
  */
 export function lostGames(current: Save, imported: Save): number {
-  return Object.keys(current.history).filter((id) => imported.history[id] === undefined).length;
+  const lost = (
+    here: Readonly<Record<string, unknown>>,
+    there: Readonly<Record<string, unknown>>,
+  ) => Object.keys(here).filter((id) => there[id] === undefined).length;
+  return (
+    lost(current.history, imported.history) + lost(current.mixed.finished, imported.mixed.finished)
+  );
 }
 
 /**
@@ -164,5 +200,10 @@ export function replaceSave(current: Save, imported: Save): Save {
   const inProgress = Object.fromEntries(
     Object.entries(current.inProgress).filter(([id]) => imported.history[id] === undefined),
   );
-  return { ...imported, inProgress };
+  const progress = Object.fromEntries(
+    Object.entries(current.mixed.progress).filter(
+      ([id]) => imported.mixed.finished[id] === undefined,
+    ),
+  );
+  return { ...imported, inProgress, mixed: { ...imported.mixed, progress } };
 }
