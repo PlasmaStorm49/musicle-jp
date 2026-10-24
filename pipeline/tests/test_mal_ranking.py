@@ -469,4 +469,4 @@ def test_the_cli_refuses_a_bad_ranks_file_before_the_network(monkeypatch, tmp_pa
 def test_the_ranks_file_needs_anime(capsys):
     args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
     assert cli_main([*args, "--ranks-file", "x.json"]) == 1
-    assert "--ranks-file só valem com --anime" in capsys.readouterr().err
+    assert "--ranks-file e --draw só valem com --anime" in capsys.readouterr().err

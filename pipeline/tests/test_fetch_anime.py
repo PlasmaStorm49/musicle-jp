@@ -196,14 +196,29 @@ def song(tid: int, title: str, released: str = "2019-07-02T15:00:00Z") -> dict:
     }
 
 
+def amq_song(song_id: int, mal_id: object, rate: object, **extra: object) -> dict:
+    """Uma música do get_n_random_songs do AnisongDB, só com o que a ordem do AMQ lê."""
+    return {
+        "annSongId": song_id,
+        "linked_ids": {"myanimelist": mal_id},
+        "songDifficulty": rate,
+        "isDub": False,
+        "isRebroadcast": False,
+        **extra,
+    }
+
+
 class FakeWeb:
     """As quatro fontes, com o registro de cada pedido."""
 
-    def __init__(self, quiz_fails: bool = False) -> None:
+    def __init__(self, quiz_fails: bool = False, amq: list[list[dict]] | None = None) -> None:
         self.gets: list[str] = []
         self.mal_urls: list[str] = []
         self.posts: list[tuple[str, dict]] = []
         self.quiz_fails = quiz_fails
+        # As respostas do get_n_random_songs, uma por pedido (a última se repete).
+        self.amq = amq if amq is not None else [[amq_song(1, 38000, 80)]]
+        self.amq_calls = 0
 
     def mal(self, url: str) -> bytes:
         self.mal_urls.append(url)
@@ -218,6 +233,10 @@ class FakeWeb:
             if self.quiz_fails:
                 raise FetchError("fora do ar")
             return json.dumps(QUIZ).encode()
+        if url == fa.ANISONGDB_RANDOM_URL:  # antes do payload["query"]: o corpo do AMQ não tem
+            page = self.amq[min(self.amq_calls, len(self.amq) - 1)]
+            self.amq_calls += 1
+            return json.dumps(page).encode()
         if "Popular" in payload["query"]:
             entry = {
                 "animetheme": {
@@ -470,3 +489,105 @@ def test_an_artist_over_200_songs_is_searched_in_the_albums():
     results = {t["song"]: (t["result"], t["track"]) for t in snap["anime"][0]["themes"]}
     assert results["from the edge"] == ("matched", "9999")
     assert sum("entity=album" in u for u in lookups) == 1  # os álbuns uma vez só por artista
+
+
+# --- a ordem pelos acertos do AMQ (a carga C3) ---------------------------------------------------
+
+
+def test_amq_ranks_each_anime_by_its_best_guess_rate(monkeypatch):
+    monkeypatch.setattr(fa, "AMQ_FRESH", 1)  # o 2º pedido, sem música nova, encerra a amostra
+    page = [
+        amq_song(1, 100, 70),
+        amq_song(2, 200, 90),
+        amq_song(3, 100, 95.5),  # o anime 100 vale a maior taxa dele
+        amq_song(4, 50, 90),  # o empate com o 200 sai pelo id
+        amq_song(5, 300, 99, isDub=True),  # a dublagem fica de fora
+        amq_song(6, 400, 99, isRebroadcast=True),  # e a reprise também
+        amq_song(7, None, 99),  # sem o id do MAL
+        amq_song(8, 500, True),  # a taxa que não é número
+        amq_song(1, 600, 99),  # a música repetida conta uma vez (a 1ª vale)
+    ]
+    web = FakeWeb(amq=[page, page])
+    ranks = fa.amq_popular(web.post, lambda _s: None)
+    assert ranks == {100: 1, 50: 2, 200: 3}
+    assert web.amq_calls == 2
+    url, body = web.posts[0]
+    assert url == fa.ANISONGDB_RANDOM_URL and body["n"] == 500
+    assert body["filters"]["difficulty"] == {"start": 60, "end": 100}
+    assert body["filters"]["broadcasts"] == ["normal"]
+
+
+def test_amq_stops_at_the_call_limit_and_refuses_a_bad_shape():
+    pages = [[amq_song(n * 100 + i, n * 100 + i, 80) for i in range(20)] for n in range(1, 6)]
+    web = FakeWeb(amq=pages)
+    ranks = fa.amq_popular(web.post, lambda _s: None, max_calls=3)
+    assert web.amq_calls == 3 and len(ranks) == 60
+    broken = FakeWeb()
+    broken.post = lambda url, body, headers: json.dumps({"x": 1}).encode()  # type: ignore[method-assign]
+    with pytest.raises(FetchError, match="forma inesperada"):
+        fa.amq_popular(broken.post, lambda _s: None)
+
+
+def test_the_ranked_order_has_no_draw_and_skips_the_tried():
+    ranks = {5: 2, 7: 1, 9: 3, 11: 4}
+    assert fa.ranked_order(ranks, {7}, 10) == [5, 9, 11]
+    assert fa.ranked_order(ranks, set(), 2) == [7, 5]
+
+
+def test_the_amq_orders_and_the_mal_only_levels():
+    # O AMQ põe o 38000 em 1º; o nível vem da posição dele no MAL (o ranking falso: 3º).
+    web = FakeWeb()
+    snap = run(web, draw="amq")
+    assert web.amq_calls >= 1
+    assert snap["anime"][0]["levels"] == {"mal": fa.mal_level(3)}
+    assert not any("Popular" in p.get("query", "") for _, p in web.posts)  # nem o AnimeThemes
+    # O nível do MAL pede a escala inteira, e não só os 3.000 do sorteio.
+    assert any("offset=0" in u for u in web.mal_urls)
+
+
+def test_the_amq_order_needs_the_mal_level():
+    web = FakeWeb()
+    with pytest.raises(FetchError, match="nível do MAL"):
+        run(web, with_mal=False, draw="amq")
+    assert web.posts == []  # recusa antes de qualquer pedido
+
+
+def test_the_cli_draw_option(monkeypatch, tmp_path, capsys):
+    seen: dict = {}
+
+    def fake_snapshot(fetched_at, romanize, tried, resolved, official, io, **kwargs):
+        seen.update(kwargs)
+        return {
+            "provider": "apple",
+            "storefront": "jp",
+            "id": "2026-10-22T010000Z",
+            "fetchedAt": fetched_at,
+            "anime": [{"malId": 38000, "themes": []}],
+            "artists": {},
+            "resolved": {},
+            "tracks": {},
+        }
+
+    monkeypatch.setattr(fa, "fetch_anime_snapshot", fake_snapshot)
+    monkeypatch.setattr(fa, "cached_romanizer", lambda: lambda t: (t,))
+    base = ["fetch", "--provider", "apple", "--anime", "--fetched-at", NOW]
+    # Sem o MAL, o --draw amq recusa antes da rede (P17).
+    monkeypatch.delenv("MAL_CLIENT_ID", raising=False)
+    assert main([*base, "--draw", "amq", "--out-dir", str(tmp_path / "a")]) == 1
+    assert "--draw amq precisa do nível do MAL" in capsys.readouterr().err
+    monkeypatch.setenv("MAL_CLIENT_ID", SECRET)
+    assert (
+        main([*base, "--draw", "amq", "--personal", "x.xml", "--out-dir", str(tmp_path / "b")]) == 1
+    )
+    assert "--personal é só do sorteio do MAL" in capsys.readouterr().err
+    assert main([*base, "--draw", "amq", "--out-dir", str(tmp_path / "c")]) == 0
+    assert seen["draw"] == "amq"
+    # Sem a opção, o sorteio de sempre (o robô não a passa).
+    assert main([*base, "--out-dir", str(tmp_path / "d")]) == 0
+    assert seen["draw"] == "mal"
+    captured = capsys.readouterr()
+    assert SECRET not in captured.out + captured.err
+    # E a opção só vale com --anime.
+    args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
+    assert main([*args, "--draw", "amq"]) == 1
+    assert "--draw só valem com --anime" in capsys.readouterr().err
