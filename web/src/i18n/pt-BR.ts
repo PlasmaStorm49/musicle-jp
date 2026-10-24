@@ -426,6 +426,21 @@ export const ptBR = {
   "medal.hits-todos.how": "Acerte todas as rodadas dos 2 diários dos Hits no mesmo dia",
   "medal.anime-todos.name": "Pare de falar em tocar grama...",
   "medal.anime-todos.how": "Acerte todas as rodadas dos 6 diários do Anime no mesmo dia",
+  // As das Misturadas (ME123, o usuário, 24/10/2026). O "como ganhar" diz quantos diários: os 2
+  // no Pode juntar mais uma; 1 por dia (qualquer um) no Harmonia no Caos.
+  "medal.misturadas-rodada.name": "Tudo Junto e Misturado",
+  "medal.misturadas-rodada.how": "Ache todas as músicas de uma rodada das Misturadas",
+  "medal.misturadas-seguidos-15.name": "DJ Residente",
+  "medal.misturadas-seguidos-15.how":
+    "Termine ao menos 1 diário das Misturadas por dia, {goal} dias seguidos",
+  "medal.misturadas-seguidos-15.progress": "{value} de {goal} dias seguidos",
+  "medal.misturadas-perfeito.name": "Pode juntar mais uma",
+  "medal.misturadas-perfeito.how":
+    "Gabarite os 2 diários das Misturadas no mesmo dia, o de música e o de anime: tudo no 1º trecho, sem ajuda",
+  "medal.misturadas-acertos-7.name": "Harmonia no Caos",
+  "medal.misturadas-acertos-7.how":
+    "Ache todas as músicas de 1 diário das Misturadas por dia (basta um dos dois), {goal} dias seguidos",
+  "medal.misturadas-acertos-7.progress": "{value} de {goal} dias seguidos",
   "medal.seguidos-7.name": "Em Chamas",
   "medal.seguidos-7.how": "Jogue {goal} dias seguidos",
   "medal.seguidos-7.progress": "{value} de {goal} dias seguidos",

@@ -48,6 +48,11 @@ type Props = {
   readonly initialSave: Save;
   /** Avisa o App que o dia terminou e foi gravado (o ✓ da aba). */
   readonly onSaved: () => void;
+  /**
+   * O resultado do dia acabou de aparecer (o "Ver resultado" da última rodada): o App confere as
+   * medalhas novas (ME123), como no Game. Nem ao reabrir um dia terminado, nem na revelação.
+   */
+  readonly onResult?: () => void;
   readonly shareUrl: string;
 };
 
@@ -155,6 +160,13 @@ function Playing({
     trackIds(game.current),
     trackIds(game.current + 1),
   );
+
+  // As medalhas novas, depois do resumo na tela, e não no clique: o efeito que grava o fim do dia
+  // roda antes deste, e a reivindicação o encontra (como no Game).
+  const { onResult } = props;
+  useEffect(() => {
+    if (summary) onResult?.();
+  }, [summary, onResult]);
 
   function next() {
     if (isLast && isMixedFinished(game)) setSummary(toMixedGame(game, number));

@@ -11,6 +11,7 @@ import {
   HITS_DAY,
   MEDALS,
   type Medal,
+  MIXED_DAY,
   medalBoard,
   medalContext,
   medalsOf,
@@ -22,6 +23,7 @@ import {
   unseenMedals,
   WHOLE_DAY,
 } from "./medals.ts";
+import { MIXED_KEYS, type MixedGame, type MixedRoundRecord, withMixedFinished } from "./mixed.ts";
 import { Mulberry32 } from "./prng.ts";
 import {
   emptySave,
@@ -131,23 +133,26 @@ describe("as gerais (P310)", () => {
     keys.reduce((s, key) => withFinished(s, `${date}|${key}`, result), save);
   const DAY = "2026-10-20";
 
-  it("13, com ids únicos e sem a barra das do Superfan; as grandes no fim da lista", () => {
+  it("17 (as 4 das Misturadas desde a ME123), com ids únicos e sem a barra das do Superfan; as grandes no fim da lista", () => {
     const list = MEDALS.map((m) => m.id);
-    expect(new Set(list).size).toBe(13);
+    expect(new Set(list).size).toBe(17);
     expect(list.filter((id) => id.includes("|"))).toEqual([]);
     expect(MEDALS.filter((m) => m.tier === "major").map((m) => m.id)).toEqual([
       "hits-perfeito",
       "anime-perfeito",
+      "misturadas-perfeito",
+      "misturadas-acertos-7",
       "superfan-completo",
       "seguidos-30",
     ]);
-    expect(MEDALS.slice(-4).every((m) => m.tier === "major")).toBe(true);
+    expect(MEDALS.slice(-6).every((m) => m.tier === "major")).toBe(true);
   });
 
   it("os diários das do mesmo dia são, hoje, os do jogo; congelados, um diário novo não as muda", () => {
     expect([...HITS_DAY]).toEqual([...MODES]);
     expect([...ANIME_DAY]).toEqual([...ANIME_KEYS]);
     expect([...WHOLE_DAY]).toEqual([...DAILY_KEYS]);
+    expect([...MIXED_DAY]).toEqual([...MIXED_KEYS]);
   });
 
   it("perfectGame e allWon: pela forma das rodadas, e a anulada não é acerto (P45)", () => {
@@ -456,5 +461,100 @@ describe("claimMedals e claimTier: reivindicar antes de mostrar (P281, P288)", (
     const claim = claimMedals(save, "2026-10-20", HITS, general);
     expect(claim.claimed).toEqual([acertos]);
     expect(claim.save.seenMedals).toEqual(["demo-removida", acertos].sort());
+  });
+});
+
+describe("as das Misturadas (ME123)", () => {
+  const TODAY = "2026-10-29";
+  const has = (save: Save, id: string) =>
+    earnedMedals(MEDALS, medalContext(save, TODAY, HITS)).includes(id);
+  const byId = (id: string) => MEDALS.find((m) => m.id === id);
+  const ctx = (save: Save) => medalContext(save, TODAY, HITS);
+  const ALL_0: MixedRoundRecord = { status: "done", found: [{ stage: 0 }, { stage: 0 }] };
+  const ALL_LATE: MixedRoundRecord = { status: "done", found: [{ stage: 3 }, { stage: 1 }] };
+  const HELPED: MixedRoundRecord = {
+    status: "done",
+    found: [{ stage: 0, help: true }, { stage: 0 }],
+  };
+  const MISSED: MixedRoundRecord = { status: "done", found: [{ stage: 0 }, null] };
+  const VOID: MixedRoundRecord = { status: "void", found: [null, null] };
+  const mixed = (...rounds: MixedRoundRecord[]): MixedGame => ({ number: 1, rounds });
+  const perfectDay = mixed(ALL_0, ALL_0, ALL_0, {
+    status: "done",
+    found: [{ stage: 0 }, { stage: 0 }, { stage: 0 }],
+  });
+  const allFound = mixed(ALL_0, ALL_LATE, HELPED, ALL_0);
+  const missed = mixed(ALL_0, MISSED, ALL_0, ALL_0);
+  const play = (save: Save, date: string, key: string, game: MixedGame) =>
+    withMixedFinished(save, `${date}|${key}`, game);
+
+  it("Tudo Junto e Misturado: uma rodada com todas achadas, em qualquer trecho e com o Separar", () => {
+    expect(
+      has(
+        play(emptySave(), "2026-10-24", "misturadas-musica", mixed(MISSED, VOID, MISSED, MISSED)),
+        "misturadas-rodada",
+      ),
+    ).toBe(false);
+    expect(
+      has(
+        play(emptySave(), "2026-10-24", "misturadas-musica", mixed(MISSED, HELPED, MISSED, MISSED)),
+        "misturadas-rodada",
+      ),
+    ).toBe(true);
+    expect(has(emptySave(), "misturadas-rodada")).toBe(false);
+  });
+
+  it("Pode juntar mais uma: os 2 diários do mesmo dia perfeitos; um só, ou com o Separar, não basta", () => {
+    const one = play(emptySave(), "2026-10-24", "misturadas-musica", perfectDay);
+    expect(has(one, "misturadas-perfeito")).toBe(false);
+    const both = play(one, "2026-10-24", "misturadas-titulo", perfectDay);
+    expect(has(both, "misturadas-perfeito")).toBe(true);
+    // O outro diário em outro dia não junta.
+    expect(
+      has(play(one, "2026-10-25", "misturadas-titulo", perfectDay), "misturadas-perfeito"),
+    ).toBe(false);
+    // Uma música achada no 2º trecho, ou com o Separar, ou uma anulada: não é perfeito.
+    for (const round of [ALL_LATE, HELPED, VOID]) {
+      const off = play(one, "2026-10-24", "misturadas-titulo", mixed(ALL_0, ALL_0, ALL_0, round));
+      expect(has(off, "misturadas-perfeito"), JSON.stringify(round)).toBe(false);
+    }
+  });
+
+  it(`Harmonia no Caos: ${GENERAL_GOALS.mixedAllFound} dias seguidos com 1 diário de todas achadas (basta um dos dois), com o progresso`, () => {
+    const from = 20;
+    const at = (n: number, game = allFound) =>
+      days(from, from + n - 1).reduce(
+        (s, date, i) => play(s, date, i % 2 ? "misturadas-musica" : "misturadas-titulo", game),
+        emptySave(),
+      );
+    const medal = byId("misturadas-acertos-7");
+    expect(medal?.earned(ctx(at(6)))).toBe(false);
+    expect(medal?.progress?.(ctx(at(6)))).toEqual({ value: 6, goal: 7 });
+    expect(medal?.earned(ctx(at(7)))).toBe(true);
+    // Um dia no meio (23/10, o do musica) sem nenhum diário de todas achadas quebra a sequência.
+    const save = at(7);
+    const finished = { ...save.mixed.finished, "2026-10-23|misturadas-musica": missed };
+    const broken: Save = { ...save, mixed: { ...save.mixed, finished } };
+    expect(medal?.earned(ctx(broken))).toBe(false);
+    // O outro diário do mesmo dia, com todas achadas, refaz a sequência: basta um dos dois.
+    const fixed = play(broken, "2026-10-23", "misturadas-titulo", allFound);
+    expect(medal?.earned(ctx(fixed))).toBe(true);
+  });
+
+  it(`DJ Residente: ${GENERAL_GOALS.mixedPlayed} dias seguidos com 1 diário terminado, qualquer resultado`, () => {
+    const at = (n: number) =>
+      days(10, 10 + n - 1).reduce(
+        (s, date) => play(s, date, "misturadas-musica", missed),
+        emptySave(),
+      );
+    const medal = byId("misturadas-seguidos-15");
+    expect(medal?.earned(ctx(at(14)))).toBe(false);
+    expect(medal?.progress?.(ctx(at(14)))).toEqual({ value: 14, goal: 15 });
+    expect(medal?.earned(ctx(at(15)))).toBe(true);
+  });
+
+  it("um terminado com data depois de hoje não conta", () => {
+    const later = play(emptySave(), "2026-10-30", "misturadas-musica", allFound);
+    expect(has(later, "misturadas-rodada")).toBe(false);
   });
 });

@@ -50,7 +50,7 @@ const shelf = (page: Page) =>
 const seenMedals = (page: Page) =>
   page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").seenMedals, SAVE_KEY);
 
-test("a lista real, como no site: a aba, a tela com a sequência, as 13 gerais e o Superfan de cada artista (P278, P282, P286, P310)", async ({
+test("a lista real, como no site: a aba, a tela com a sequência, as 17 gerais (com as 4 das Misturadas, ME123) e o Superfan de cada artista (P278, P282, P286, P310)", async ({
   page,
 }) => {
   await seedHistory(page, {
@@ -64,20 +64,24 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 13 gerais e
   const title = page.getByRole("heading", { level: 1, name: "Medalhas" });
   await expect(title).toBeFocused();
   await expect(page.getByText("Dias seguidos jogando: 3. O melhor: 3.")).toBeVisible();
-  // As 13, na ordem da lista: o 1º diário ganho, e o progresso das que se ganham aos poucos.
+  // As 17, na ordem da lista: o 1º diário ganho, e o progresso das que se ganham aos poucos.
   const rows = page.locator(".medal-list > li");
   await expect(rows.locator(".medal-name")).toHaveText([
     "Primeiro Acorde",
     "Relâmpago",
     "Dia de Hit",
     "Pare de falar em tocar grama...",
+    "Tudo Junto e Misturado",
     "Em Chamas",
     "Maratonista",
     "Saco de Pancadas",
     "Já É de Casa",
+    "DJ Residente",
     "Colecionador",
     "Hit Perfeito",
     "Sensei",
+    "Pode juntar mais uma",
+    "Harmonia no Caos",
     "Superfan",
     "Tá pegando fogo, bicho!!!",
   ]);
@@ -86,19 +90,23 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 13 gerais e
     /^Acerte uma rodada/,
     /^Acerte todas/,
     /^Acerte todas/,
+    "Ache todas as músicas de uma rodada das Misturadas",
     "3 de 7 dias seguidos",
     "Termine os 8 diários no mesmo dia",
     "0 de 100 acertos no Treino",
     "3 de 50 diários",
+    "0 de 15 dias seguidos",
     "0 de 5 artistas com 50 acertos",
     /^Gabarite/,
     /^Gabarite/,
+    /^Gabarite os 2 diários das Misturadas/,
+    "0 de 7 dias seguidos",
     "Termine uma partida do Superfan",
     "3 de 30 dias seguidos",
   ]);
-  await expect(page.locator(".medal-list > li.locked")).toHaveCount(12);
-  // As 4 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
-  await expect(rows.locator('svg[viewBox="0 8 110 132"]')).toHaveCount(4);
+  await expect(page.locator(".medal-list > li.locked")).toHaveCount(16);
+  // As 6 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
+  await expect(rows.locator('svg[viewBox="0 8 110 132"]')).toHaveCount(6);
   await expect(rows.locator("svg text")).toHaveCount(0);
   // As 3 do Superfan de cada artista das fixtures, por ganhar.
   await expect(page.locator(".medal-artist")).toHaveCount(5);
@@ -108,7 +116,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 13 gerais e
     "真夜中のカーテンコール, Mayonaka no Curtain Call",
     "夜風劇場, Yokaze Gekijo",
   ]);
-  await expect(page.getByText("1 de 28 medalhas")).toBeVisible();
+  await expect(page.getByText("1 de 32 medalhas")).toBeVisible();
   // Calado: a tela fica, e o aviso não.
   await expect(page.getByRole("dialog")).toHaveCount(0);
   expect(await seenMedals(page)).toEqual([]);
