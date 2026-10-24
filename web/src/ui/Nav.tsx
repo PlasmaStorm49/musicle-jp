@@ -1,11 +1,13 @@
-// A nav (P225): uma aba por categoria, 6 com as Medalhas (M16). Abaixo de 720 px (P265, P287), os
-// Artistas, o Histórico e as Medalhas ficam num "Mais ▾", porque as 6 abas não cabem numa linha (entre
-// 480 e 719 px, a coluna tem 460 px úteis); a partir de 720 px, as 6 ficam na linha. Os links do
+// A nav (P225): uma aba por categoria, 7 com as Medalhas (M16) e as Misturadas (M17). Abaixo de
+// 720 px (P265, P287), as Misturadas, os Artistas, o Histórico e as Medalhas ficam num "Mais ▾",
+// porque as 7 abas não cabem numa linha (entre 480 e 719 px, a coluna tem 460 px úteis); a partir de
+// 720 px, as 7 ficam na linha, na coluna larga (o CSS). Os links do
 // "Mais" estão duas vezes no DOM, um na linha e outro no menu, e o CSS mostra um por vez (o
 // `[hidden]` vale sempre, e o menu fechado usa ele: o mesmo elemento não serve às duas larguras).
 // No canto direito, a medalha em destaque (ME118, P317), quando há uma.
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { animeDone, dailiesDone } from "../core/home.ts";
+import { mixedDone } from "../core/mixed.ts";
 import type { Save } from "../core/records.ts";
 import { navCurrent, ROUTES, type Route, routeHref } from "../core/routes.ts";
 import { t } from "../i18n/t.ts";
@@ -101,7 +103,10 @@ export function Nav({ route, save, date, favorite = null }: Props) {
   // O "Mais" leva o aria-current quando a categoria atual está nele: a pessoa vê onde está. Sempre
   // "true", e nunca "page": o botão não é a página (o link dentro dele, sim).
   const moreCurrent =
-    navCurrent(route, "artists") || navCurrent(route, "history") || navCurrent(route, "medals")
+    navCurrent(route, "mixed") ||
+    navCurrent(route, "artists") ||
+    navCurrent(route, "history") ||
+    navCurrent(route, "medals")
       ? "true"
       : undefined;
 
@@ -119,6 +124,25 @@ export function Nav({ route, save, date, favorite = null }: Props) {
     if (routeHref(route) === href) toggle.current?.focus();
   };
 
+  // As Misturadas (M17), com o ✓ quando os dois diários de hoje terminaram, como nos Hits.
+  const mixedLink = (inMenu: boolean) => (
+    <a
+      href={ROUTES.misturadas}
+      aria-current={navCurrent(route, "mixed")}
+      onClick={inMenu ? follow(ROUTES.misturadas) : undefined}
+    >
+      <TabLabel text={t("nav.mixed")} />
+      {mixedDone(save, date) && (
+        <>
+          <span class="done-mark" aria-hidden="true">
+            {" "}
+            {t("nav.doneMark")}
+          </span>
+          <span class="sr-only">{t("nav.mixedDone")}</span>
+        </>
+      )}
+    </a>
+  );
   const artists = (inMenu: boolean) => (
     <a
       href={ROUTES.artists}
@@ -195,6 +219,7 @@ export function Nav({ route, save, date, favorite = null }: Props) {
         </li>
         {/* Na linha, a partir de 720 px. O modo por artista fica na nav até o site ficar público
             (P117): é só tirar os dois links dele. */}
+        <li class="nav-inline">{mixedLink(false)}</li>
         <li class="nav-inline">{artists(false)}</li>
         <li class="nav-inline">{history(false)}</li>
         <li class="nav-inline">{medalsLink(false)}</li>
@@ -227,6 +252,7 @@ export function Nav({ route, save, date, favorite = null }: Props) {
             </span>
           </button>
           <ul id={MENU_ID} class="nav-menu" hidden={!open}>
+            <li>{mixedLink(true)}</li>
             <li>{artists(true)}</li>
             <li>{history(true)}</li>
             <li>{medalsLink(true)}</li>

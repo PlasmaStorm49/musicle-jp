@@ -60,11 +60,8 @@ export function pickMix(
   return chosen.length === count ? chosen : null;
 }
 
-/** O lado de cada uma de `count` músicas, ao separar: espalhadas de −0,8 a 0,8. */
-export function spreadPans(count: number): number[] {
-  if (count <= 1) return [0];
-  return Array.from({ length: count }, (_, i) => -0.8 + (1.6 * i) / (count - 1));
-}
+/** O lado de cada música ao separar: o mesmo do diário (core/mix.ts). */
+export { spreadPans } from "../core/mix.ts";
 
 /**
  * De onde cada música começa: todas do começo da prévia, ou cada uma num ponto diferente, até

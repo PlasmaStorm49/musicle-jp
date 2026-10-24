@@ -6,12 +6,23 @@
 //   queda de sinal passageira não tira o corte exato do resto do dia; com o CORS barrado de vez,
 //   cada prévia nova tenta o Web Audio uma vez (falha rápida) e vai para o <audio>;
 // - blocked e simulated (?failAudio=): não troca; a falha segue para a tela.
-import { type AudioEngine, AudioUnavailableError, type Playback } from "./engine.ts";
+// A mistura das Misturadas (M17, playMix) é só do Web Audio: o <audio> não toca duas prévias no
+// mesmo instante. Depois de um decode, ela falha de vez, e a tela anula a rodada.
+import {
+  type AudioEngine,
+  AudioUnavailableError,
+  canMix,
+  type MixEngine,
+  type MixOptions,
+  type MixPlayback,
+  type MixTrack,
+  type Playback,
+} from "./engine.ts";
 
 const SESSION_WIDE = new Set(["decode"]);
 const THIS_URL = new Set(["network", "http"]);
 
-export class FallbackAudioEngine implements AudioEngine {
+export class FallbackAudioEngine implements AudioEngine, MixEngine {
   readonly #primary: AudioEngine;
   readonly #reserve: AudioEngine;
   #reserveOnly = false;
@@ -64,6 +75,28 @@ export class FallbackAudioEngine implements AudioEngine {
       else if (THIS_URL.has(error.kind)) this.#reserveUrls.add(url);
       else throw error;
       return this.#reserve.play(url, offset, seconds);
+    }
+  }
+
+  async playMix(
+    tracks: readonly MixTrack[],
+    seconds: number,
+    options?: MixOptions,
+  ): Promise<MixPlayback | null> {
+    // Como um Parar para a prévia sozinha que ainda carrega: a reserva dela não toca por cima.
+    this.#token += 1;
+    this.#reserve.stop();
+    if (this.#reserveOnly || !canMix(this.#primary)) {
+      throw new AudioUnavailableError("decode", "a mistura precisa do Web Audio");
+    }
+    try {
+      return await this.#primary.playMix(tracks, seconds, options);
+    } catch (error) {
+      // O navegador não decodifica: daqui em diante, as prévias sozinhas vão para o <audio>.
+      if (error instanceof AudioUnavailableError && SESSION_WIDE.has(error.kind)) {
+        this.#reserveOnly = true;
+      }
+      throw error;
     }
   }
 

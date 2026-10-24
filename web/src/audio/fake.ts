@@ -11,10 +11,13 @@ import {
   type AudioEngine,
   AudioUnavailableError,
   type EngineOptions,
+  type MixEngine,
+  type MixPlayback,
+  type MixTrack,
   type Playback,
 } from "./engine.ts";
 
-export class FakeAudioEngine implements AudioEngine {
+export class FakeAudioEngine implements AudioEngine, MixEngine {
   /** Marca que a CI procura no build: este motor não pode chegar à produção. */
   readonly kind = "musicle-fake-audio";
   readonly #options: EngineOptions;
@@ -49,5 +52,27 @@ export class FakeAudioEngine implements AudioEngine {
     const result = { requested: seconds, played: seconds, interrupted: false };
     this.#options.onPlayed?.({ ...result, url, offset, engine: "fake", volume: this.#volume });
     return { t0: 0, seconds, elapsed: () => seconds, done: Promise.resolve(result) };
+  }
+
+  /** A mistura (M17): registra as prévias, o começo e o lado de cada uma, e "toca" na hora. */
+  async playMix(tracks: readonly MixTrack[], seconds: number): Promise<MixPlayback | null> {
+    const failed = tracks.find((track) => this.#options.fails?.(track.url));
+    if (failed) throw new AudioUnavailableError("simulated", `falha simulada: ${failed.url}`);
+    this.#options.onMixed?.({
+      urls: tracks.map((track) => track.url),
+      offsets: tracks.map((track) => track.offset),
+      pans: tracks.map((track) => track.pan ?? 0),
+      seconds,
+      engine: "fake",
+    });
+    const result = { requested: seconds, played: seconds, interrupted: false };
+    return {
+      t0: 0,
+      seconds,
+      elapsed: () => seconds,
+      done: Promise.resolve(result),
+      setGain: () => {},
+      setPan: () => {},
+    };
   }
 }

@@ -335,6 +335,7 @@ export function noticeTab(tab: Tab): boolean {
     case "anime":
     case "anime-musica":
     case "anime-titulo":
+    case "misturadas":
     case "history":
     case "medals":
     case "about":

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
-import type { AudioEngine, EngineOptions, PlayLog } from "../audio/engine.ts";
+import type { AudioEngine, EngineOptions, MixLog, PlayLog } from "../audio/engine.ts";
 import { FakeAudioEngine } from "../audio/fake.ts";
 import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
@@ -17,8 +17,16 @@ import {
   medalsOf,
   noticeTab,
 } from "../core/medals.ts";
+import { mixedIds } from "../core/mixed.ts";
 import { emptySave, favoriteOf, pruneProgress, type Save, withFavorite } from "../core/records.ts";
-import { isAnimeTab, ROUTES, type Route, routeFromHash, routeHref } from "../core/routes.ts";
+import {
+  isAnimeTab,
+  isMixedTab,
+  ROUTES,
+  type Route,
+  routeFromHash,
+  routeHref,
+} from "../core/routes.ts";
 import {
   appleResolver,
   catalogResolver,
@@ -60,6 +68,7 @@ import { Hits } from "./Hits.tsx";
 import { Home } from "./Home.tsx";
 import { MedalDialog, MedalToast, SHOWN } from "./MedalNotice.tsx";
 import { Medals } from "./Medals.tsx";
+import { Mixed, type MixedStore, useMixedStore } from "./Mixed.tsx";
 import {
   announceText,
   hasBig,
@@ -90,6 +99,8 @@ declare global {
   interface Window {
     /** Só em desenvolvimento: registro de cada reprodução (pedido × tocado). */
     __musicleAudioLog?: PlayLog[];
+    /** Só em desenvolvimento, com o motor falso: cada mistura das Misturadas (M17). */
+    __musicleMixLog?: MixLog[];
   }
 }
 
@@ -132,9 +143,9 @@ function openSaves(date: string): Storage {
   } catch {
     loaded = { save: emptySave(), writable: false, notice: "unavailable" };
   }
-  // Os andamentos que ficam: os de hoje e os dos dias do Histórico (P269), dos Hits e do Anime;
-  // o resto é de um dia que não se joga mais.
-  const kept = keptProgressIds(date);
+  // Os andamentos que ficam: os de hoje e os dos dias do Histórico (P269), dos Hits e do Anime, e
+  // os das Misturadas de hoje (sem Histórico); o resto é de um dia que não se joga mais.
+  const kept = [...keptProgressIds(date), ...mixedIds(date)];
   if (loaded.writable) updateSave(store, (s) => pruneProgress(s, kept));
   const mode: SaveMode =
     loaded.notice === "future" ? "future" : !persistent || !loaded.writable ? "memory" : "saves";
@@ -272,6 +283,9 @@ export function App() {
     budget,
     resolveUrl,
   });
+  // As Misturadas (M17): a agenda delas, também só quando a pessoa abre a aba; o catálogo é o do
+  // Anime.
+  const mixed = useMixedStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
   const refresh = useCallback(() => {
     const read = loadSave(saves.store);
     if (read.writable) setLatest(read.save);
@@ -375,6 +389,12 @@ export function App() {
             window.__musicleAudioLog.push(log);
           }
         : undefined,
+      onMixed: import.meta.env.DEV
+        ? (log: MixLog) => {
+            window.__musicleMixLog ??= [];
+            window.__musicleMixLog.push(log);
+          }
+        : undefined,
     };
     // O literal import.meta.env.DEV no próprio ponto da escolha: no build vira `false && ...`, e
     // o Vite tira o motor falso do pacote sem depender de o minificador propagar a constante DEV
@@ -449,6 +469,7 @@ export function App() {
                 onPractice={setPractice}
                 artists={artists}
                 anime={anime}
+                mixed={mixed}
                 onResult={onResult}
               />
             )}
@@ -507,6 +528,8 @@ type ReadyProps = {
   readonly artists: ArtistStore;
   /** O Anime, também guardado no App. */
   readonly anime: AnimeStore;
+  /** A agenda das Misturadas, também guardada no App. */
+  readonly mixed: MixedStore;
   /** O resultado de um diário acabou de aparecer: as medalhas novas (M16). */
   readonly onResult: () => void;
 };
@@ -528,6 +551,7 @@ function Ready({
   onPractice,
   artists,
   anime,
+  mixed,
   onResult,
 }: ReadyProps) {
   const { tab } = route;
@@ -560,6 +584,24 @@ function Ready({
         saveStore={saves.store}
         onSaved={onSaved}
         onResult={onResult}
+        shareUrl={BASE_URL}
+      />
+    );
+  }
+  // As Misturadas (M17): a escolha do modo e os 2 diários, sempre de hoje.
+  if (isMixedTab(tab)) {
+    return (
+      <Mixed
+        tab={tab}
+        anime={anime}
+        store={mixed}
+        date={date}
+        save={latest}
+        engine={engine}
+        resolveUrl={resolveUrl}
+        announce={announce}
+        saveStore={saves.store}
+        onSaved={onSaved}
         shareUrl={BASE_URL}
       />
     );

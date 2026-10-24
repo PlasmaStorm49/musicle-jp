@@ -65,8 +65,9 @@ export interface MixPlayback extends Playback {
 }
 
 /**
- * O motor que toca várias prévias juntas (M17): por enquanto só o Web Audio. É uma capacidade à
- * parte do AudioEngine: os motores e os dublês de hoje seguem iguais.
+ * O motor que toca várias prévias juntas (M17): o Web Audio, o composto (que repassa a ele) e o
+ * falso dos e2e. É uma capacidade à parte do AudioEngine: o <audio> e os dublês de hoje seguem
+ * iguais.
  */
 export interface MixEngine {
   /** Toca as prévias juntas, todas no mesmo instante, por `seconds`. Null: outra ação tomou o lugar. */
@@ -112,11 +113,22 @@ export type PlayLog = PlaybackResult & {
   readonly volume?: number;
 };
 
+/** Uma mistura tocada (M17): o motor falso registra, para o e2e achar as respostas. */
+export type MixLog = {
+  readonly urls: readonly string[];
+  readonly offsets: readonly number[];
+  readonly pans: readonly number[];
+  readonly seconds: number;
+  readonly engine: EngineName;
+};
+
 export type EngineOptions = {
   /** Só em desenvolvimento (?failAudio=): força falha de áudio nas URLs desta faixa. */
   readonly fails?: (url: string) => boolean;
   /** Avisado ao fim de cada reprodução (em DEV vai para window.__musicleAudioLog). */
   readonly onPlayed?: (log: PlayLog) => void;
+  /** Avisado a cada mistura que começa (só o motor falso, em DEV: window.__musicleMixLog). */
+  readonly onMixed?: (log: MixLog) => void;
   /** O volume inicial, de 0 a 1 (o salvo no aparelho, storage/volume.ts). */
   readonly volume?: number;
 };

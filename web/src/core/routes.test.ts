@@ -5,6 +5,7 @@ import {
   animeScreen,
   categoryOf,
   isAnimeTab,
+  isMixedTab,
   navCurrent,
   ROUTES,
   type Route,
@@ -79,6 +80,9 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
     ["about", "home"],
     ["history", "history"],
     ["medals", "medals"],
+    ["misturadas", "mixed"],
+    ["misturadas-musica", "mixed"],
+    ["misturadas-titulo", "mixed"],
   ] as const)("%s → %s", (tab, category) => {
     expect(categoryOf(tab)).toBe(category);
   });
@@ -87,6 +91,23 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
     for (const tab of Object.keys(ROUTES) as Tab[]) {
       expect(categoryOf(tab) === "anime", tab).toBe(isAnimeTab(tab));
     }
+  });
+
+  it("as das Misturadas (M17), e só elas, ficam na categoria delas, sem data (sem Histórico)", () => {
+    for (const tab of Object.keys(ROUTES) as Tab[]) {
+      expect(categoryOf(tab) === "mixed", tab).toBe(isMixedTab(tab));
+    }
+    expect(routeFromHash("#misturadas-musica", "2026-10-22")).toEqual({
+      tab: "misturadas-musica",
+      date: null,
+    });
+    expect(routeFromHash("#misturadas/2026-10-21", "2026-10-22")).toEqual({
+      tab: "home",
+      date: null,
+    });
+    expect(navCurrent({ tab: "misturadas", date: null }, "mixed")).toBe("page");
+    expect(navCurrent({ tab: "misturadas-titulo", date: null }, "mixed")).toBe("true");
+    expect(navCurrent({ tab: "misturadas", date: null }, "anime")).toBeUndefined();
   });
 });
 

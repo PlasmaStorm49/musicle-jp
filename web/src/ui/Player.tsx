@@ -247,7 +247,7 @@ function ExtraLabel({ label, seconds }: { readonly label: string; readonly secon
  * barra leva o foco ao abrir; o Esc, um clique fora e a saída pelo Tab fecham, e o Esc devolve o
  * foco ao botão. O botão alterna no mesmo lugar: o 2º clique de um toque duplo não fecha (regra 23).
  */
-function VolumeControl({ engine }: { readonly engine: AudioEngine }) {
+export function VolumeControl({ engine }: { readonly engine: AudioEngine }) {
   const { level, apply, save } = useVolume(engine);
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);

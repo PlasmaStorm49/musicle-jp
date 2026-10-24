@@ -44,3 +44,12 @@ export function mixGains(rms: readonly number[], maxBoost: number = MAX_BOOST): 
   const target = Math.max(mean, Math.max(...heard) / maxBoost);
   return rms.map((r) => (r > 0 ? Math.min(target / r, maxBoost) : 1) * headroom);
 }
+
+/**
+ * O lado de cada uma de `count` músicas, ao separar (P14): espalhadas de −0,8 a 0,8, na ordem da
+ * rodada. A 1ª fica sempre à esquerda: a música não troca de lado quando outra sai da mistura.
+ */
+export function spreadPans(count: number): number[] {
+  if (count <= 1) return [0];
+  return Array.from({ length: count }, (_, i) => -0.8 + (1.6 * i) / (count - 1));
+}
