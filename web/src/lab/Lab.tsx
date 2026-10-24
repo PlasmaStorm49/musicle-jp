@@ -4,11 +4,13 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import type { MixPlayback } from "../audio/engine.ts";
 import { WebAudioEngine } from "../audio/webaudio.ts";
-import { PLAYLIST_URL } from "../core/apple.ts";
+import { isAppleUrl, PLAYLIST_URL } from "../core/apple.ts";
 import { type CatalogIndex, indexAnime } from "../core/catalog.ts";
 import type { AnimeCatalog } from "../core/types.ts";
 import { appleResolver, lookupBudget, type PreviewResolver } from "../data/previews.ts";
+import { ANIME_DIR, REAL_DATA_DIR } from "../data/source.ts";
 import { Attribution } from "../ui/Attribution.tsx";
+import { singleClick } from "../ui/singleClick.ts";
 import {
   type LabMode,
   type LabSong,
@@ -41,6 +43,8 @@ type Settings = {
   readonly seconds: number;
   readonly spread: boolean;
   readonly normalize: boolean;
+  /** O limitador da soma: segura os picos que a folga de 1/√n deixa passar. */
+  readonly limit: boolean;
   readonly separate: boolean;
   readonly onFound: OnFound;
 };
@@ -68,7 +72,8 @@ const ON_FOUND: Readonly<Record<OnFound, { readonly label: string; readonly gain
 };
 
 async function loadData(): Promise<Data> {
-  const response = await fetch(new URL("data/anime/catalog.json", BASE));
+  // O catálogo real (o do site), e não o das fixtures: as prévias reais da Apple.
+  const response = await fetch(new URL(`${REAL_DATA_DIR}${ANIME_DIR}catalog.json`, BASE));
   if (!response.ok) throw new Error(`o catálogo real do Anime não veio (HTTP ${response.status})`);
   const file = (await response.json()) as AnimeCatalog;
   const index = indexAnime(file);
@@ -89,6 +94,7 @@ async function loadData(): Promise<Data> {
         franchises: t.anime.franchiseIds,
         chance: chance ? { musica: Number(chance.musica), titulo: Number(chance.titulo) } : null,
         tiers: t.anime.tiers,
+        previewSeconds: t.preview?.durationSec ?? 30,
       };
     });
   const fetchFn = (url: string, init?: RequestInit) => fetch(url, init);
@@ -114,6 +120,7 @@ export function Lab() {
     seconds: 8,
     spread: false,
     normalize: true,
+    limit: true,
     separate: false,
     onFound: "stop",
   });
@@ -121,6 +128,10 @@ export function Lab() {
   const [status, setStatus] = useState<"idle" | "loading" | "playing">("idle");
   const playback = useRef<MixPlayback | null>(null);
   const bar = useRef<HTMLProgressElement>(null);
+  // As fichas do sorteio e do tocar: só o pedido mais novo mexe na tela (um antigo que resolve
+  // ou falha depois não apaga a mistura nem o estado de agora).
+  const drawn = useRef(0);
+  const played = useRef(0);
 
   useEffect(() => {
     loadData().then(setData, (e: unknown) => setError(String(e)));
@@ -130,9 +141,14 @@ export function Lab() {
   // Mudou o trecho ou o "Início": os começos se refazem, para o trecho caber na prévia.
   useEffect(() => {
     setMix((m) =>
-      m ? { ...m, offsets: startOffsets(m.songs.length, settings.seconds, settings.spread) } : m,
+      m ? { ...m, offsets: startOffsets(m.songs, settings.seconds, settings.spread) } : m,
     );
   }, [settings.seconds, settings.spread]);
+
+  // Parada ou no fim, a barra volta ao zero.
+  useEffect(() => {
+    if (status === "idle" && bar.current) bar.current.value = 0;
+  }, [status]);
 
   // A barra lê o tempo do áudio a cada quadro, só enquanto toca.
   useEffect(() => {
@@ -152,26 +168,31 @@ export function Lab() {
 
   async function draw() {
     if (!data) return;
+    const ticket = ++drawn.current;
     stop();
     setError(null);
+    setMix(null); // a mistura de antes sai já: nunca fica na tela uma que não é a do sorteio
     const picked = pickMix(pool, settings.count);
     if (!picked) {
-      setMix(null);
       setError("A régua não tem músicas de franquias diferentes que bastem: baixe a régua.");
       return;
     }
     const ids = picked.map((s) => s.trackId);
     data.resolver.prefetch(ids);
     const urls = await Promise.all(ids.map((id) => data.resolver.resolve(id)));
+    if (ticket !== drawn.current) return; // outro sorteio tomou o lugar
     if (urls.some((u) => u === null)) {
       setError("Uma das prévias não veio. Sorteie outra.");
       return;
     }
-    const n = picked.length;
+    const kept = urls as string[];
+    // Só as prévias desta mistura ficam na memória (uns 10 MB cada, decodificadas): sem isto, o
+    // cache do motor cresceria a cada sorteio, como o usePreviews faz no jogo (regra 18).
+    engine.retain(kept);
     setMix({
       songs: picked,
-      urls: urls as string[],
-      offsets: startOffsets(n, settings.seconds, settings.spread),
+      urls: kept,
+      offsets: startOffsets(picked, settings.seconds, settings.spread),
       found: picked.map(() => false),
       revealed: picked.map(() => false),
     });
@@ -179,6 +200,7 @@ export function Lab() {
 
   function play() {
     if (!mix) return;
+    const ticket = ++played.current;
     const pans = settings.separate ? spreadPans(mix.urls.length) : mix.urls.map(() => 0);
     const tracks = mix.urls.map((url, i) => ({
       url,
@@ -188,9 +210,10 @@ export function Lab() {
     }));
     setStatus("loading");
     // O playMix destrava o áudio na hora, dentro deste clique (regra 9).
-    engine.playMix(tracks, settings.seconds, { normalize: settings.normalize }).then(
+    const options = { normalize: settings.normalize, limit: settings.limit };
+    engine.playMix(tracks, settings.seconds, options).then(
       (p) => {
-        if (!p) return;
+        if (!p || ticket !== played.current) return;
         playback.current = p;
         setStatus("playing");
         void p.done.then(() => {
@@ -200,6 +223,7 @@ export function Lab() {
         });
       },
       (e: unknown) => {
+        if (ticket !== played.current) return; // a falha de um Tocar antigo
         setStatus("idle");
         setError(`O áudio falhou: ${String(e)}`);
       },
@@ -207,6 +231,7 @@ export function Lab() {
   }
 
   function stop() {
+    played.current += 1;
     engine.stop();
     playback.current = null;
     setStatus("idle");
@@ -305,7 +330,8 @@ export function Lab() {
               aria-pressed={settings.seconds === s}
               onClick={() => set({ seconds: s })}
             >
-              {s} s
+              {/* O escolhido também por texto, e não só pela cor. */}
+              {s} s{settings.seconds === s ? " ✓" : ""}
             </button>
           ))}
         </div>
@@ -324,6 +350,14 @@ export function Lab() {
             onChange={(e) => set({ normalize: e.currentTarget.checked })}
           />{" "}
           Igualar o volume (vale no próximo Tocar)
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={settings.limit}
+            onChange={(e) => set({ limit: e.currentTarget.checked })}
+          />{" "}
+          Limitador na soma (vale no próximo Tocar)
         </label>
         <label>
           <input
@@ -352,12 +386,14 @@ export function Lab() {
         <button type="button" onClick={() => void draw()}>
           Sortear outra
         </button>
+        {/* O Tocar e o Parar se trocam no mesmo lugar: o 2º clique de um toque duplo cairia no
+            outro (regra 23). */}
         {status === "idle" ? (
-          <button type="button" class="primary" disabled={!mix} onClick={play}>
+          <button type="button" class="primary" disabled={!mix} onClick={singleClick(play)}>
             Tocar
           </button>
         ) : (
-          <button type="button" class="primary" onClick={stop}>
+          <button type="button" class="primary" onClick={singleClick(stop)}>
             {status === "loading" ? "Carregando…" : "Parar"}
           </button>
         )}
@@ -417,10 +453,24 @@ function SongLine({
       <div class="lab-row">
         <strong>{hidden}</strong>
         <span class="lab-note">começa em {offset} s</span>
-        <button type="button" disabled={found} onClick={onFound}>
+        {/* aria-disabled, e não disabled: o navegador tira o foco do botão desabilitado, e ele
+            cairia no body (regra 16). */}
+        <button
+          type="button"
+          aria-disabled={found}
+          onClick={() => {
+            if (!found) onFound();
+          }}
+        >
           {found ? "Achada" : "Achei"}
         </button>
-        <button type="button" disabled={revealed} onClick={onReveal}>
+        <button
+          type="button"
+          aria-disabled={revealed}
+          onClick={() => {
+            if (!revealed) onReveal();
+          }}
+        >
           Revelar
         </button>
       </div>
@@ -440,7 +490,8 @@ function SongLine({
               ? ` · chance: música ${song.chance.musica.toFixed(2)}, anime ${song.chance.titulo.toFixed(2)}`
               : ""}
           </div>
-          {track.storeUrl && (
+          {/* A URL do catálogo que vai para um href passa pelo isAppleUrl (regra 22). */}
+          {track.storeUrl && isAppleUrl("store", track.storeUrl) && (
             <a href={track.storeUrl} target="_blank" rel="noopener noreferrer">
               Ouvir no Apple Music
             </a>

@@ -22,8 +22,9 @@ export function rmsOf(channels: readonly Float32Array[]): number {
 }
 
 /**
- * A folga da soma: n prévias tocando juntas somam até n vezes a amplitude de uma. Com 1/√n, a
- * energia da soma fica perto da de uma prévia sozinha, sem estourar no ganho mestre.
+ * A folga da soma: n prévias tocando juntas somam a energia de todas. Com 1/√n, a energia da soma
+ * fica perto da de uma prévia sozinha. O pico ainda passa (até √n vezes o de uma, com as prévias
+ * no talo): quem o segura é o limitador do motor (audio/webaudio.ts).
  */
 export function mixHeadroom(count: number): number {
   return count <= 1 ? 1 : 1 / Math.sqrt(count);

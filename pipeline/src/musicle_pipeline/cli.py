@@ -233,9 +233,14 @@ LAB_CHANCES = Path("web") / "lab-data" / "anime-chances.json"
 
 def _anime_chances(args: argparse.Namespace) -> int:
     out = (resolve(args.out) if args.out else repo_root() / LAB_CHANCES).resolve()
-    # A chance não vai para o site nem para o repositório (P240, P254): nunca em web/public.
-    if out.is_relative_to((repo_root() / "web" / "public").resolve()):
-        print(f"a chance não é publicada: {out} fica dentro de web/public", file=sys.stderr)
+    # A chance não vai para o site nem para o repositório (P240, P254): dentro do repositório, só
+    # na pasta do laboratório, que o .gitignore deixa fora do Git.
+    root = repo_root().resolve()
+    if out.is_relative_to(root) and not out.is_relative_to((root / LAB_CHANCES.parent).resolve()):
+        print(
+            f"a chance não entra no Git: {out} fica no repositório, fora de {LAB_CHANCES.parent}",
+            file=sys.stderr,
+        )
         return 1
     provider = ANIME_PROVIDERS[args.provider]()
     best = anime_chances(provider.name, provider.source(), icon_artists=_anime_icons(args.provider))

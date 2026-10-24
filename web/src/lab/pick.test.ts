@@ -8,6 +8,7 @@ function song(id: string, over: Partial<LabSong> = {}): LabSong {
     franchises: [`f${id}`],
     chance: { musica: 0.6, titulo: 0.6 },
     tiers: { musica: "facil", titulo: "facil" },
+    previewSeconds: 30,
     ...over,
   };
 }
@@ -64,9 +65,12 @@ describe("os lados e os começos", () => {
     expect(spreadPans(3).map((p) => Math.round(p * 10) / 10)).toEqual([-0.8, 0, 0.8]);
   });
 
-  it("do começo, todas no 0; espalhadas, até 12 s, sem cortar o trecho", () => {
-    expect(startOffsets(3, 8, false)).toEqual([0, 0, 0]);
-    expect(startOffsets(2, 8, true, 30, sequence([1, 0.5]))).toEqual([12, 6]);
-    expect(startOffsets(2, 30, true, 30, sequence([1]))).toEqual([0, 0]);
+  it("do começo, todas no 0; espalhadas, até 12 s, sem cortar o trecho na prévia de cada uma", () => {
+    const three = [song("1"), song("2"), song("3")];
+    expect(startOffsets(three, 8, false)).toEqual([0, 0, 0]);
+    expect(startOffsets(three.slice(0, 2), 8, true, sequence([1, 0.5]))).toEqual([12, 6]);
+    expect(startOffsets(three.slice(0, 2), 30, true, sequence([1]))).toEqual([0, 0]);
+    // Uma prévia de 20 s, com o trecho de 16: só sobram 4 s para o começo.
+    expect(startOffsets([song("4", { previewSeconds: 20 })], 16, true, sequence([1]))).toEqual([4]);
   });
 });

@@ -61,6 +61,7 @@ const START_DELAY = 0.01; // agenda o início 10 ms à frente, para a rampa come
 const VOLUME_SMOOTHING = 0.015; // a troca de volume chega em ~15 ms, sem estalo
 const MIX_RAMP = 0.3; // uma prévia que sai da mistura (ou abaixa) em 0,3 s
 const PAN_SMOOTHING = 0.05; // o lado muda em ~50 ms, sem estalo
+const LIMIT_THRESHOLD_DB = -3; // o limitador da mistura segura o pico 3 dB abaixo do máximo
 
 function apply(param: AudioParam, points: readonly GainPoint[]): void {
   for (const p of points) {
@@ -83,8 +84,8 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
   #token = 0;
   #current: Current | null = null;
   #mix: Mix | null = null;
-  /** A energia de cada prévia decodificada, calculada uma vez (a mistura iguala por ela). */
-  readonly #loudness = new WeakMap<AudioBuffer, number>();
+  /** A energia de cada trecho de cada prévia decodificada (a mistura iguala por ela). */
+  readonly #loudness = new WeakMap<AudioBuffer, Map<string, number>>();
   readonly #options: WebAudioOptions;
   /** O ganho mestre (o volume): entre o ganho de cada reprodução, o do fade, e a saída. */
   #master: GainNode | null = null;
@@ -116,7 +117,16 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     if (this.#ctx) this.#decoded(url, entry).catch(() => {}); // falha aparece só ao tocar
   }
 
-  async play(url: string, offset: number, seconds: number): Promise<Playback | null> {
+  /**
+   * O começo de toda reprodução (o play e o playMix): destrava dentro do clique (até o 1º await,
+   * o corpo roda síncrono), para o que tocava, decodifica e retoma o contexto. Null: outra ação
+   * tomou o lugar no caminho (a ficha).
+   */
+  async #ready(urls: readonly string[]): Promise<{
+    readonly ctx: AudioContext;
+    readonly token: number;
+    buffers: AudioBuffer[];
+  } | null> {
     if (this.#options.disabled) {
       throw new AudioUnavailableError("decode", "Web Audio desligado (?htmlAudio=1)");
     }
@@ -124,10 +134,18 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     this.stop();
     const token = this.#token;
     const ctx = this.#ctx as AudioContext;
-    const buffer = await this.#decoded(url, this.#entry(url));
+    const buffers = await Promise.all(urls.map((url) => this.#decoded(url, this.#entry(url))));
     if (token !== this.#token) return null; // outra ação tomou o lugar
     if (ctx.state !== "running") await ctx.resume();
     if (token !== this.#token) return null;
+    return { ctx, token, buffers };
+  }
+
+  async play(url: string, offset: number, seconds: number): Promise<Playback | null> {
+    const ready = await this.#ready([url]);
+    if (!ready) return null;
+    const { ctx, token } = ready;
+    const buffer = ready.buffers[0] as AudioBuffer;
 
     const duration = Math.max(0, Math.min(seconds, buffer.duration - offset));
     const gain = ctx.createGain();
@@ -164,33 +182,52 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     seconds: number,
     options: MixOptions = {},
   ): Promise<MixPlayback | null> {
-    if (this.#options.disabled) {
-      throw new AudioUnavailableError("decode", "Web Audio desligado (?htmlAudio=1)");
+    const ready = await this.#ready(tracks.map((t) => t.url));
+    if (!ready) return null;
+    const { ctx, buffers } = ready;
+    if (typeof ctx.createStereoPanner !== "function") {
+      // O Safari antigo (antes do 14.1) não tem o StereoPannerNode: sem ele, não há mistura.
+      throw new AudioUnavailableError("decode", "este navegador não mistura (sem StereoPanner)");
     }
-    this.unlock(); // síncrono, ainda dentro do clique
-    this.stop();
-    const token = this.#token;
-    const ctx = this.#ctx as AudioContext;
-    const buffers = await Promise.all(tracks.map((t) => this.#decoded(t.url, this.#entry(t.url))));
-    if (token !== this.#token) return null; // outra ação tomou o lugar
-    if (ctx.state !== "running") await ctx.resume();
-    if (token !== this.#token) return null;
-
-    const levels = options.normalize
-      ? mixGains(buffers.map((b) => this.#energy(b)))
-      : buffers.map(() => mixHeadroom(buffers.length));
-    const durations = tracks.map((t, i) =>
-      Math.max(0, Math.min(seconds, (buffers[i]?.duration ?? 0) - t.offset)),
+    // Um começo negativo ou que não é número faria o start lançar erro no meio das vozes.
+    const offsets = tracks.map((t) => (Number.isFinite(t.offset) ? Math.max(0, t.offset) : 0));
+    const durations = buffers.map((b, i) =>
+      Math.max(0, Math.min(seconds, b.duration - (offsets[i] ?? 0))),
     );
+    const levels = options.normalize
+      ? mixGains(buffers.map((b, i) => this.#energy(b, offsets[i] ?? 0, durations[i] ?? 0)))
+      : buffers.map(() => mixHeadroom(buffers.length));
     const length = Math.max(0, ...durations);
-    const t0 = ctx.currentTime + START_DELAY;
+
+    // A soma das vozes passa por um limitador antes do mestre: a folga de 1/√n segura a energia,
+    // mas não o pico (n prévias no talo somam até √n vezes o de uma).
+    const bus = ctx.createGain();
+    const out = this.#master ?? ctx.destination;
+    let limiter: DynamicsCompressorNode | null = null;
+    if (options.limit !== false && typeof ctx.createDynamicsCompressor === "function") {
+      limiter = ctx.createDynamicsCompressor();
+      limiter.threshold.value = LIMIT_THRESHOLD_DB;
+      limiter.knee.value = 0;
+      limiter.ratio.value = 20;
+      limiter.attack.value = 0.003;
+      limiter.release.value = 0.25;
+      bus.connect(limiter);
+      limiter.connect(out);
+    } else {
+      bus.connect(out);
+    }
+    // Primeiro todas as vozes, e só depois os starts: uma falha no meio não deixa som sem dono.
     const voices = tracks.map((track, i): Voice => {
       const level = levels[i] ?? 1;
-      const duration = durations[i] ?? 0;
       const panner = ctx.createStereoPanner();
       panner.pan.value = track.pan ?? 0;
-      panner.connect(this.#master ?? ctx.destination);
+      panner.connect(bus);
       const gain = ctx.createGain();
+      // A voz vai a mono antes do lado: numa entrada estéreo, o StereoPanner soma um canal no
+      // outro, e o "Separar" mudaria o volume, e não só o lugar.
+      gain.channelCount = 1;
+      gain.channelCountMode = "explicit";
+      gain.channelInterpretation = "speakers";
       gain.gain.value = level * (track.gain ?? 1);
       gain.connect(panner);
       const envelope = ctx.createGain();
@@ -198,13 +235,17 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
       const source = ctx.createBufferSource();
       source.buffer = buffers[i] ?? null;
       source.connect(envelope);
-      apply(envelope.gain, playbackEnvelope(t0, duration));
-      source.start(t0, track.offset, duration); // todas no mesmo t0: alinhadas
       return { source, envelope, gain, panner, level };
     });
 
     const mix: Mix = { voices, interrupted: false };
     this.#mix = mix;
+    const t0 = ctx.currentTime + START_DELAY;
+    for (const [i, voice] of voices.entries()) {
+      const duration = durations[i] ?? 0;
+      apply(voice.envelope.gain, playbackEnvelope(t0, duration));
+      voice.source.start(t0, offsets[i] ?? 0, duration); // todas no mesmo t0: alinhadas
+    }
     const live = () => this.#mix === mix;
     const elapsed = () => Math.min(Math.max(ctx.currentTime - t0, 0), length);
     const ended = voices.map(
@@ -220,6 +261,8 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     );
     // Abaixar uma prévia (o "Achei") não a para: a mistura acaba quando todas acabam.
     const done = Promise.all(ended).then((): PlaybackResult => {
+      bus.disconnect();
+      limiter?.disconnect();
       if (live()) this.#mix = null;
       return {
         requested: length,
@@ -286,15 +329,26 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     }
   }
 
-  /** A energia da prévia (core/mix.ts), lida das amostras uma vez por buffer. */
-  #energy(buffer: AudioBuffer): number {
-    let energy = this.#loudness.get(buffer);
+  /**
+   * A energia do trecho que toca (core/mix.ts): a da prévia inteira levaria a entrada, o fade da
+   * Apple e as pausas. Lida das amostras uma vez por buffer e trecho.
+   */
+  #energy(buffer: AudioBuffer, offset: number, seconds: number): number {
+    let byStretch = this.#loudness.get(buffer);
+    if (!byStretch) {
+      byStretch = new Map();
+      this.#loudness.set(buffer, byStretch);
+    }
+    const key = `${offset}:${seconds}`;
+    let energy = byStretch.get(key);
     if (energy === undefined) {
+      const from = Math.floor(offset * buffer.sampleRate);
+      const to = Math.min(buffer.length, Math.ceil((offset + seconds) * buffer.sampleRate));
       const channels = Array.from({ length: buffer.numberOfChannels }, (_, c) =>
-        buffer.getChannelData(c),
+        buffer.getChannelData(c).subarray(from, to),
       );
       energy = rmsOf(channels);
-      this.#loudness.set(buffer, energy);
+      byStretch.set(key, energy);
     }
     return energy;
   }

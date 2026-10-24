@@ -1,8 +1,10 @@
 // O sorteio do laboratório das Misturadas (M17): as músicas de uma mistura. Não é o da agenda
 // (esse vai ser do pipeline, com semente): aqui vale o Math.random, para ouvir várias seguidas.
+import type { AnimeDifficulty, AnimeMode } from "../core/daily.ts";
 
-export type LabMode = "musica" | "titulo";
-export type LabTier = "facil" | "medio" | "dificil";
+/** Os dois modos e as três faixas do Anime (core/daily.ts): um modo novo lá aparece aqui. */
+export type LabMode = AnimeMode;
+export type LabTier = AnimeDifficulty;
 
 /** Uma música do acervo do Anime, com o que a régua precisa. */
 export type LabSong = {
@@ -12,6 +14,8 @@ export type LabSong = {
   /** A chance de acertar em cada modo (o anime-chances do pipeline); null sem o arquivo. */
   readonly chance: Readonly<Record<LabMode, number>> | null;
   readonly tiers: Readonly<Record<LabMode, LabTier | null>>;
+  /** A duração da prévia, em segundos (a do catálogo; a Apple dá uns 30). */
+  readonly previewSeconds: number;
 };
 
 /**
@@ -64,15 +68,16 @@ export function spreadPans(count: number): number[] {
 
 /**
  * De onde cada música começa: todas do começo da prévia, ou cada uma num ponto diferente, até
- * 12 s, deixando tocar o trecho inteiro.
+ * 12 s, deixando tocar o trecho inteiro dentro da prévia dela.
  */
 export function startOffsets(
-  count: number,
+  songs: readonly Pick<LabSong, "previewSeconds">[],
   seconds: number,
   spread: boolean,
-  previewSeconds = 30,
   random: () => number = Math.random,
 ): number[] {
-  const room = Math.max(0, Math.min(12, previewSeconds - seconds));
-  return Array.from({ length: count }, () => (spread ? Math.round(random() * room) : 0));
+  return songs.map((song) => {
+    const room = Math.max(0, Math.min(12, song.previewSeconds - seconds));
+    return spread ? Math.round(random() * room) : 0;
+  });
 }

@@ -1,5 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { type AudioEngine, canMix } from "./engine.ts";
 import { WebAudioEngine } from "./webaudio.ts";
 
 type FakeGain = {
@@ -45,8 +46,14 @@ function param(value = 1) {
 }
 
 const node = () => ({ connect: vi.fn(), disconnect: vi.fn() });
-type MixGain = ReturnType<typeof node> & { readonly gain: ReturnType<typeof param> };
+type MixGain = ReturnType<typeof node> & {
+  readonly gain: ReturnType<typeof param>;
+  channelCount: number;
+  channelCountMode: string;
+  channelInterpretation: string;
+};
 type MixPanner = ReturnType<typeof node> & { readonly pan: ReturnType<typeof param> };
+type MixLimiter = ReturnType<typeof node> & { readonly threshold: ReturnType<typeof param> };
 type MixSource = ReturnType<typeof node> & {
   buffer: unknown;
   onended: (() => void) | null;
@@ -54,11 +61,15 @@ type MixSource = ReturnType<typeof node> & {
   readonly stop: ReturnType<typeof vi.fn>;
 };
 
+/** O nível da amostra `i` de uma prévia (10 amostras por segundo, 30 s): um número ou uma conta. */
+type Level = number | ((i: number) => number);
+
 /**
- * Um AudioContext de mentira para a mistura (M17): guarda as fontes, os ganhos e os lados; o
- * fetch devolve a URL, e a "decodificação" acha a prévia dela, de 30 s, com as amostras dadas.
+ * Um AudioContext de mentira para a mistura (M17): guarda as fontes, os ganhos, os lados e os
+ * limitadores; o fetch devolve a URL, e a "decodificação" acha a prévia dela, de 30 s, com 10
+ * amostras por segundo no nível dado. Sem o `panner` (o Safari antigo), não há StereoPanner.
  */
-function mixContexts(samples: Record<string, number> = {}) {
+function mixContexts(samples: Record<string, Level> = {}, panner = true) {
   const ctxs: MixContext[] = [];
   class MixContext {
     readonly state = "running";
@@ -66,19 +77,40 @@ function mixContexts(samples: Record<string, number> = {}) {
     readonly destination = {};
     readonly gains: MixGain[] = [];
     readonly panners: MixPanner[] = [];
+    readonly limiters: MixLimiter[] = [];
     readonly sources: MixSource[] = [];
+    readonly createStereoPanner = panner
+      ? (): MixPanner => {
+          const made = { ...node(), pan: param(0) };
+          this.panners.push(made);
+          return made;
+        }
+      : undefined;
     constructor() {
       ctxs.push(this);
     }
     createGain(): MixGain {
-      const gain = { ...node(), gain: param() };
+      const gain = {
+        ...node(),
+        gain: param(),
+        channelCount: 2,
+        channelCountMode: "max",
+        channelInterpretation: "speakers",
+      };
       this.gains.push(gain);
       return gain;
     }
-    createStereoPanner(): MixPanner {
-      const panner = { ...node(), pan: param(0) };
-      this.panners.push(panner);
-      return panner;
+    createDynamicsCompressor() {
+      const made = {
+        ...node(),
+        threshold: param(0),
+        knee: param(0),
+        ratio: param(0),
+        attack: param(0),
+        release: param(0),
+      };
+      this.limiters.push(made);
+      return made;
     }
     createBufferSource(): MixSource {
       const source = { ...node(), buffer: null, onended: null, start: vi.fn(), stop: vi.fn() };
@@ -90,10 +122,15 @@ function mixContexts(samples: Record<string, number> = {}) {
     }
     decodeAudioData(bytes: { url: string }) {
       const level = samples[bytes.url] ?? 0.1;
+      const data = Float32Array.from({ length: 300 }, (_, i) =>
+        typeof level === "function" ? level(i) : level,
+      );
       return Promise.resolve({
         duration: 30,
+        sampleRate: 10,
+        length: 300,
         numberOfChannels: 1,
-        getChannelData: () => new Float32Array(100).fill(level),
+        getChannelData: () => data,
       });
     }
   }
@@ -105,28 +142,40 @@ function mixContexts(samples: Record<string, number> = {}) {
   return ctxs;
 }
 
+type MixCtx = ReturnType<typeof mixContexts>[number];
+
+/** As peças de cada voz, pelas ligações: o lado, o ganho que liga nele e o envelope do ganho. */
+function voicesOf(ctx: MixCtx) {
+  return ctx.panners.map((panner, i) => {
+    const gain = ctx.gains.find((g) => g.connect.mock.calls[0]?.[0] === panner);
+    const envelope = ctx.gains.find((g) => g.connect.mock.calls[0]?.[0] === gain);
+    return { panner, gain, envelope, source: ctx.sources[i] };
+  });
+}
+
 describe("WebAudioEngine: a mistura das Misturadas (M17)", () => {
   const tracks = [
     { url: "a.m4a", offset: 0 },
     { url: "b.m4a", offset: 6, pan: -0.8 },
   ];
 
-  it("liga cada prévia em fonte → envelope → ganho → lado → mestre, todas no mesmo t0", async () => {
+  it("cada prévia: fonte → envelope → ganho em mono → lado → soma → limitador → mestre, no mesmo t0", async () => {
     const ctxs = mixContexts();
     const engine = new WebAudioEngine();
     const mix = await engine.playMix(tracks, 8);
     const ctx = ctxs[0];
     if (!ctx || !mix) throw new Error("a mistura não tocou");
     const master = ctx.gains[0];
-    expect(ctx.sources).toHaveLength(2);
-    for (const [i, source] of ctx.sources.entries()) {
-      const panner = ctx.panners[i];
-      const gain = panner && ctx.gains.find((g) => g.connect.mock.calls[0]?.[0] === panner);
-      const envelope = gain && ctx.gains.find((g) => g.connect.mock.calls[0]?.[0] === gain);
-      expect(source.connect).toHaveBeenCalledWith(envelope);
-      expect(panner?.connect).toHaveBeenCalledWith(master);
-      // A folga da soma: duas prévias, 1/√2 cada.
-      expect(gain?.gain.value).toBeCloseTo(1 / Math.SQRT2);
+    const limiter = ctx.limiters[0];
+    const bus = ctx.gains.find((g) => g.connect.mock.calls[0]?.[0] === limiter);
+    expect(limiter?.connect).toHaveBeenCalledWith(master);
+    expect(limiter?.threshold.value).toBe(-3);
+    for (const voice of voicesOf(ctx)) {
+      expect(voice.source?.connect).toHaveBeenCalledWith(voice.envelope);
+      expect(voice.panner.connect).toHaveBeenCalledWith(bus);
+      // Mono antes do lado: o "Separar" muda o lugar, e não o volume.
+      expect(voice.gain).toMatchObject({ channelCount: 1, channelCountMode: "explicit" });
+      expect(voice.gain?.gain.value).toBeCloseTo(1 / Math.SQRT2); // a folga da soma de duas
     }
     expect(ctx.sources[0]?.start).toHaveBeenCalledWith(mix.t0, 0, 8);
     expect(ctx.sources[1]?.start).toHaveBeenCalledWith(mix.t0, 6, 8);
@@ -134,34 +183,68 @@ describe("WebAudioEngine: a mistura das Misturadas (M17)", () => {
     expect(mix.seconds).toBe(8);
   });
 
-  it("igualar o volume dá mais ganho à prévia mais baixa", async () => {
-    const ctxs = mixContexts({ "a.m4a": 0.4, "b.m4a": 0.1 });
-    const engine = new WebAudioEngine();
-    await engine.playMix(tracks, 8, { normalize: true });
+  it("sem o limitador, a soma vai direto ao mestre", async () => {
+    const ctxs = mixContexts();
+    await new WebAudioEngine().playMix(tracks, 8, { limit: false });
     const ctx = ctxs[0];
-    const levels = ctx?.panners.map(
-      (p) => ctx.gains.find((g) => g.connect.mock.calls[0]?.[0] === p)?.gain.value ?? 0,
-    );
-    // As duas chegam à média geométrica (0,2), com a folga de 1/√2.
-    expect((levels?.[0] ?? 0) * 0.4).toBeCloseTo((levels?.[1] ?? 0) * 0.1);
-    expect((levels?.[0] ?? 0) * 0.4).toBeCloseTo(0.2 / Math.SQRT2);
+    expect(ctx?.limiters).toHaveLength(0);
+    const bus = ctx?.gains.find((g) => g.connect.mock.calls[0]?.[0] === ctx.gains[0]);
+    expect(bus).toBeDefined();
+  });
+
+  it("igualar o volume mede o trecho que toca, e não a prévia inteira", async () => {
+    // A b é quieta nos 10 s do começo e 0,1 depois; o trecho dela começa em 12 s.
+    const ctxs = mixContexts({ "a.m4a": 0.4, "b.m4a": (i) => (i < 100 ? 0.01 : 0.1) });
+    const engine = new WebAudioEngine();
+    const stretch = [
+      { url: "a.m4a", offset: 0 },
+      { url: "b.m4a", offset: 12 },
+    ];
+    await engine.playMix(stretch, 8, { normalize: true });
+    const ctx = ctxs[0];
+    const levels = ctx ? voicesOf(ctx).map((v) => v.gain?.gain.value ?? 0) : [];
+    // As duas chegam à média geométrica do trecho (0,2), com a folga de 1/√2.
+    expect((levels[0] ?? 0) * 0.4).toBeCloseTo((levels[1] ?? 0) * 0.1);
+    expect((levels[0] ?? 0) * 0.4).toBeCloseTo(0.2 / Math.SQRT2);
   });
 
   it("o setGain leva só a prévia pedida ao ganho novo, relativo ao da mistura", async () => {
     const ctxs = mixContexts();
-    const engine = new WebAudioEngine();
-    const mix = await engine.playMix(tracks, 8);
+    const mix = await new WebAudioEngine().playMix(tracks, 8);
     mix?.setGain(1, 0.25, 0.3);
     const ctx = ctxs[0];
-    const second = ctx?.gains.find((g) => g.connect.mock.calls[0]?.[0] === ctx.panners[1]);
-    const first = ctx?.gains.find((g) => g.connect.mock.calls[0]?.[0] === ctx.panners[0]);
-    expect(second?.gain.linearRampToValueAtTime).toHaveBeenCalledWith(
+    const [first, second] = ctx ? voicesOf(ctx) : [];
+    expect(second?.gain?.gain.linearRampToValueAtTime).toHaveBeenCalledWith(
       expect.closeTo(0.25 / Math.SQRT2, 9),
       expect.closeTo(5.3, 9),
     );
-    expect(first?.gain.linearRampToValueAtTime).not.toHaveBeenCalled();
+    expect(first?.gain?.gain.linearRampToValueAtTime).not.toHaveBeenCalled();
     mix?.setPan(0, 0.8);
-    expect(ctx?.panners[0]?.pan.setTargetAtTime).toHaveBeenCalledWith(0.8, 5, expect.any(Number));
+    expect(first?.panner.pan.setTargetAtTime).toHaveBeenCalledWith(0.8, 5, expect.any(Number));
+  });
+
+  it("o fim natural espera todas as prévias, solta os nós e não muda mais nada", async () => {
+    const ctxs = mixContexts();
+    const mix = await new WebAudioEngine().playMix(tracks, 8);
+    const ctx = ctxs[0];
+    if (!ctx || !mix) throw new Error("a mistura não tocou");
+    let finished = false;
+    void mix.done.then(() => {
+      finished = true;
+    });
+    ctx.sources[0]?.onended?.();
+    await Promise.resolve();
+    expect(finished).toBe(false); // uma prévia acabou, a outra ainda toca
+    ctx.sources[1]?.onended?.();
+    await expect(mix.done).resolves.toMatchObject({ interrupted: false });
+    for (const voice of voicesOf(ctx)) {
+      for (const part of [voice.source, voice.envelope, voice.gain, voice.panner]) {
+        expect(part?.disconnect).toHaveBeenCalled();
+      }
+    }
+    expect(ctx.limiters[0]?.disconnect).toHaveBeenCalled();
+    mix.setGain(0, 0);
+    expect(voicesOf(ctx)[0]?.gain?.gain.linearRampToValueAtTime).not.toHaveBeenCalled();
   });
 
   it("o stop corta todas as prévias, e o fim da mistura diz que foi interrompida", async () => {
@@ -169,30 +252,65 @@ describe("WebAudioEngine: a mistura das Misturadas (M17)", () => {
     const engine = new WebAudioEngine();
     const mix = await engine.playMix(tracks, 8);
     engine.stop();
-    const sources = ctxs[0]?.sources ?? [];
-    for (const source of sources) {
+    for (const source of ctxs[0]?.sources ?? []) {
       expect(source.stop).toHaveBeenCalled();
       source.onended?.();
     }
     await expect(mix?.done).resolves.toMatchObject({ interrupted: true });
-    // Parada, a mistura não muda mais: o setGain não mexe no ganho da prévia.
-    mix?.setGain(0, 0);
+    mix?.setGain(0, 0); // parada, a mistura não muda mais
     const ctx = ctxs[0];
-    const first = ctx?.gains.find((g) => g.connect.mock.calls[0]?.[0] === ctx.panners[0]);
-    expect(first?.gain.linearRampToValueAtTime).not.toHaveBeenCalled();
+    expect(ctx && voicesOf(ctx)[0]?.gain?.gain.linearRampToValueAtTime).not.toHaveBeenCalled();
   });
 
-  it("tocar uma prévia sozinha interrompe a mistura; um stop no meio da carga devolve null", async () => {
+  it("um começo negativo ou que não é número vira 0, em vez de o start lançar erro no meio", async () => {
+    const ctxs = mixContexts();
+    const mix = await new WebAudioEngine().playMix(
+      [
+        { url: "a.m4a", offset: -3 },
+        { url: "b.m4a", offset: Number.NaN },
+      ],
+      8,
+    );
+    for (const source of ctxs[0]?.sources ?? []) {
+      expect(source.start).toHaveBeenCalledWith(mix?.t0, 0, 8);
+    }
+  });
+
+  it("sem StereoPanner (o Safari antigo), a mistura falha como áudio indisponível, sem tocar nada", async () => {
+    const ctxs = mixContexts({}, false);
+    await expect(new WebAudioEngine().playMix(tracks, 8)).rejects.toMatchObject({
+      kind: "decode",
+    });
+    expect(ctxs[0]?.sources).toHaveLength(0);
+  });
+
+  it("a mistura e a prévia sozinha se interrompem; um stop no meio da carga devolve null", async () => {
     const ctxs = mixContexts();
     const engine = new WebAudioEngine();
-    await engine.playMix(tracks, 8);
     await engine.play("c.m4a", 0, 4);
+    await engine.playMix(tracks, 8);
     const ctx = ctxs[0];
-    expect(ctx?.sources[0]?.stop).toHaveBeenCalled();
-    expect(ctx?.sources[1]?.stop).toHaveBeenCalled();
+    expect(ctx?.sources[0]?.stop).toHaveBeenCalled(); // a sozinha, cortada pela mistura
+    await engine.play("c.m4a", 0, 4);
+    expect(ctx?.sources[1]?.stop).toHaveBeenCalled(); // e a mistura, pela sozinha
+    expect(ctx?.sources[2]?.stop).toHaveBeenCalled();
     const pending = engine.playMix(tracks, 8);
     engine.stop();
     await expect(pending).resolves.toBeNull();
+  });
+
+  it("o canMix diz quem sabe misturar", () => {
+    const plain: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      play: vi.fn(),
+      stop: vi.fn(),
+      retain: vi.fn(),
+      setVolume: vi.fn(),
+      volume: () => 1,
+    };
+    expect(canMix(new WebAudioEngine())).toBe(true);
+    expect(canMix(plain)).toBe(false);
   });
 });
 

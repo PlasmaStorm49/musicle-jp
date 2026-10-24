@@ -840,6 +840,7 @@ def test_the_lab_chances_are_the_ones_behind_the_tiers(tmp_path, capsys):
     chances_by_song = read_json(out)
     catalog = read_json(COMMITTED)
     assert set(chances_by_song) == {t["songKey"] for t in catalog["tracks"]}
+    assert list(chances_by_song) == sorted(chances_by_song)  # a saída ordenada (o dumps)
     for track in catalog["tracks"]:
         chance = {mode: Decimal(v) for mode, v in chances_by_song[track["songKey"]].items()}
         assert all(v == v.quantize(Decimal("0.0001")) and 0 <= v <= 1 for v in chance.values())
@@ -855,6 +856,12 @@ def test_the_lab_chances_are_the_ones_behind_the_tiers(tmp_path, capsys):
     public = anime_paths("fixture").public_dir / "chances.json"
     assert main(["anime-chances", "--provider", "fixture", "--out", str(public)]) == 1
     assert not public.exists()
+    # Nem numa pasta rastreada do repositório, que um `git add` levaria ao commit (P254): lá dentro,
+    # só a pasta do laboratório, que o .gitignore deixa de fora.
+    tracked = anime_paths("fixture").source.parent / "chances.json"
+    assert main(["anime-chances", "--provider", "fixture", "--out", str(tracked)]) == 1
+    assert "não entra no Git" in capsys.readouterr().err
+    assert not tracked.exists()
 
 
 def test_validation_catches_a_stale_version_and_hand_edits(tmp_path):

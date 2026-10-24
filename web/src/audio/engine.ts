@@ -50,8 +50,10 @@ export type MixTrack = {
 };
 
 export type MixOptions = {
-  /** Iguala a energia das prévias (core/mix.ts), em vez de só dar a folga da soma. */
+  /** Iguala a energia das prévias no trecho tocado (core/mix.ts), em vez de só dar a folga. */
   readonly normalize?: boolean;
+  /** Segura os picos da soma com um limitador antes do mestre (padrão: sim). */
+  readonly limit?: boolean;
 };
 
 /** A mistura tocando: o Playback de sempre, e o ganho e o lado de cada prévia, ao vivo. */
