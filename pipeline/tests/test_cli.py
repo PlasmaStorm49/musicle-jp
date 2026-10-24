@@ -122,6 +122,8 @@ def test_known_schedules_are_the_hits_and_the_anime_ones():
         ("web/public/data/schedule.json", "hits"),
         ("web/public/fixtures/anime/schedule.json", "anime"),
         ("web/public/data/anime/schedule.json", "anime"),
+        ("web/public/fixtures/anime/mixed.json", "anime-mixed"),
+        ("web/public/data/anime/mixed.json", "anime-mixed"),
     ]
 
 

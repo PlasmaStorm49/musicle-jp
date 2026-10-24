@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import math
 import os
 import subprocess
@@ -14,6 +15,7 @@ import pytest
 from musicle_pipeline.aliases import parse_aliases
 from musicle_pipeline.anime import (
     CUTS,
+    FAMOUS_CUTS,
     ICON_CHART_UNTIL,
     Anime,
     AnimeSource,
@@ -22,6 +24,7 @@ from musicle_pipeline.anime import (
     build_anime_catalog,
     chances,
     chart_artists,
+    famous_of,
     franchise_songs,
     franchises_of,
     is_icon,
@@ -862,6 +865,31 @@ def test_the_lab_chances_are_the_ones_behind_the_tiers(tmp_path, capsys):
     assert main(["anime-chances", "--provider", "fixture", "--out", str(tracked)]) == 1
     assert "não entra no Git" in capsys.readouterr().err
     assert not tracked.exists()
+
+
+def test_the_famous_mark_is_the_chance_from_the_cut_inside_the_easy_tier():
+    # A régua das Misturadas (M17): a chance a partir do FAMOUS_CUTS, e só dentro do Fácil.
+    cut = FAMOUS_CUTS["musica"]
+    easy = {"musica": "facil", "titulo": "facil"}
+    assert famous_of({"musica": cut, "titulo": cut - Decimal("0.01")}, easy) == {
+        "musica": True,
+        "titulo": False,
+    }
+    # A música rebaixada a Médio (P274) não é muito conhecida, nem com a chance alta.
+    lowered = {"musica": "medio", "titulo": "facil"}
+    assert famous_of({"musica": Decimal(1), "titulo": Decimal(1)}, lowered)["musica"] is False
+    # No catálogo, toda marca de muito conhecida está no Fácil do modo, e o validate confere.
+    catalog = read_json(COMMITTED)
+    assert all(
+        t["anime"]["tiers"][mode] == "facil"
+        for t in catalog["tracks"]
+        for mode, on in t["anime"]["famous"].items()
+        if on
+    )
+    broken = copy.deepcopy(catalog)
+    hard = next(t for t in broken["tracks"] if t["anime"]["tiers"]["musica"] != "facil")
+    hard["anime"]["famous"]["musica"] = True
+    assert any("muito conhecida no musica" in p for p in validate_anime_catalog(broken))
 
 
 def test_validation_catches_a_stale_version_and_hand_edits(tmp_path):
