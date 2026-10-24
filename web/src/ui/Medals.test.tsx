@@ -107,13 +107,14 @@ const cells = (artist: string | RegExp) => [
 ];
 
 /**
- * O texto da célula, sem o da arte (a faixa da perfeita também tem texto, mas é decorativa): o
- * nome e o como ganhar, separados por " | ".
+ * O texto que se vê, sem o da arte (a faixa da perfeita também tem texto, mas é decorativa) e sem o
+ * do leitor de tela: o nome, o como ganhar e o progresso, separados por " | ".
  */
-const cellText = (cell: Element) =>
-  [...cell.querySelectorAll(":scope > .medal-name, :scope > .medal-how")]
+const shownText = (item: Element) =>
+  [...item.querySelectorAll(":scope > .medal-name, :scope > .medal-how, :scope > .medal-progress")]
     .map((span) => span.textContent)
     .join(" | ");
+const cellText = shownText;
 
 describe("Medals (a tela, P278 e P286)", () => {
   it("o título com o foco, a sequência e o total; as gerais com o progresso", async () => {
@@ -124,14 +125,21 @@ describe("Medals (a tela, P278 e P286)", () => {
     await waitFor(() => expect(document.activeElement).toBe(title));
     expect(screen.getByText("Dias seguidos jogando: 2. O melhor: 2.")).toBeTruthy();
     expect(screen.getByText("1 de 9 medalhas")).toBeTruthy();
-    const rows = [...document.querySelectorAll(".medal-list .medal-text")].map(
-      (t) => t.textContent,
-    );
-    expect(rows).toEqual([
-      "Primeiro diárioGanha",
-      "Cinco diários2 de 5 diários",
-      "Três dias seguidos2 de 3 dias seguidos",
+    const texts = [...document.querySelectorAll(".medal-list .medal-text")];
+    // O como ganhar em todas, também na ganha, para lembrar o que a pessoa fez; o progresso só
+    // nas que faltam (o usuário, 24/10/2026).
+    expect(texts.map(shownText)).toEqual([
+      "Primeiro diário | Termine um diário no dia",
+      "Cinco diários | Termine 5 diários no dia | 2 de 5 diários",
+      "Três dias seguidos | Jogue 3 dias seguidos | 2 de 3 dias seguidos",
     ]);
+    // O "Ganha" só para o leitor de tela, que não vê a cor do desenho.
+    expect(texts.map((t) => t.querySelector(".sr-only")?.textContent ?? null)).toEqual([
+      "Ganha",
+      null,
+      null,
+    ]);
+    expect(screen.queryByText("Ganha")?.classList.contains("sr-only")).toBe(true);
     expect(document.querySelectorAll(".medal-list > li.locked")).toHaveLength(2);
   });
 
@@ -140,13 +148,14 @@ describe("Medals (a tela, P278 e P286)", () => {
     for (let i = 0; i < SUPERFAN_RIGHT; i++) save = withArtistRight(save, "t:ar:1");
     save = withSuperfanEnd(save, "t:ar:1", { done: true, perfect: false });
     setup(store({ status: "ready", list: LIST }), save);
+    // As ganhas também com o como ganhar, sem o progresso (o usuário, 24/10/2026).
     expect(cells(/^夜風/).map(cellText)).toEqual([
-      "夜明け, Yoake | Ganha",
-      "Round Robin | Ganha",
+      `夜明け, Yoake | Chegue a ${SUPERFAN_RIGHT} acertos com o artista`,
+      "Round Robin | Termine uma partida do Superfan",
       "夜風劇場, Yokaze Gekijo | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
     ]);
     expect(cells("Banda").map(cellText)).toEqual([
-      `Primeira | 1 de ${SUPERFAN_RIGHT} acertos`,
+      `Primeira | Chegue a ${SUPERFAN_RIGHT} acertos com o artista | 1 de ${SUPERFAN_RIGHT} acertos`,
       "Segunda | Termine uma partida do Superfan",
       "Terceira | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
     ]);
@@ -263,6 +272,28 @@ describe("Medals (a tela, P278 e P286)", () => {
     );
   });
 
+  it("a lista real: o como ganhar com os limites, também ao lado do progresso, sem parâmetro sem valor", () => {
+    render(
+      <Medals
+        save={withFinished(emptySave(), "2026-10-22|song", lost)}
+        date={DATE}
+        hitsDates={HITS}
+        general={MEDALS}
+        artists={store({ status: "ready", list: LIST })}
+        resolveUrl={(url) => `/${url}`}
+        favorite={null}
+        onFavorite={vi.fn()}
+      />,
+    );
+    expect(document.body.textContent).not.toMatch(/\{/);
+    const streak = [...document.querySelectorAll(".medal-list .medal-text")].find((t) =>
+      t.textContent?.startsWith(medalText("seguidos-7", "name")),
+    );
+    expect(streak && shownText(streak)).toBe(
+      `${medalText("seguidos-7", "name")} | Jogue 7 dias seguidos | 1 de 7 dias seguidos`,
+    );
+  });
+
   it("nenhum id igual a uma rota (regra 17)", () => {
     setup(store({ status: "ready", list: LIST }));
     const routes = new Set(Object.values(ROUTES).map((route) => route.slice(1)));
@@ -281,7 +312,7 @@ describe("Medals (a tela, P278 e P286)", () => {
     };
     setup(store({ status: "ready", list: noNames }));
     expect(cells("Banda").map(cellText)).toEqual([
-      `0 de ${SUPERFAN_RIGHT} acertos`,
+      `Chegue a ${SUPERFAN_RIGHT} acertos com o artista | 0 de ${SUPERFAN_RIGHT} acertos`,
       "Termine uma partida do Superfan",
       "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
     ]);
