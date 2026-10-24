@@ -39,10 +39,14 @@ ANIME = {
     "ANIME_SCHEDULE": "web/public/data/anime/schedule.json",
     "ANIME_FIXTURE_CATALOG": "web/public/fixtures/anime/catalog.json",
     "ANIME_FIXTURE_SCHEDULE": "web/public/fixtures/anime/schedule.json",
+    "ANIME_MIXED": "web/public/data/anime/mixed.json",
+    "ANIME_FIXTURE_MIXED": "web/public/fixtures/anime/mixed.json",
 }
 CATALOG = ANIME["ANIME_CATALOG"]
 SCHEDULE = ANIME["ANIME_SCHEDULE"]
 FIXTURE_SCHEDULE = ANIME["ANIME_FIXTURE_SCHEDULE"]
+MIXED = ANIME["ANIME_MIXED"]
+FIXTURE_MIXED = ANIME["ANIME_FIXTURE_MIXED"]
 NOW = f"{TODAY}T12:00:00Z"  # 09:00 em Brasília: o mesmo dia
 SNAP_ID = f"{TODAY}T120000Z"
 SNAPSHOT = f"{ANIME['ANIME_SNAPSHOTS']}/{SNAP_ID}.json"
@@ -907,3 +911,128 @@ def test_says_nothing_when_the_anime_was_not_due(tmp_path, result):
     done, _, temp = run_pr(tmp_path, hits_changes, None, anime_result=result)
     assert done.returncode == 0, done.stdout + done.stderr
     assert "**Anime" not in read(temp / "pr-body.md")
+
+
+# --- as Misturadas (M17, PR C) -------------------------------------------------------------------
+
+
+def mixed_day(catalog: JSON, number: int) -> JSON:
+    """Um dia das Misturadas: 4 rodadas de 2, 2, 2 e 3 faixas do catálogo."""
+    ids = [t["id"] for t in catalog["tracks"][:9]]
+    rounds = [
+        {"answers": ids[0:2]},
+        {"answers": ids[2:4]},
+        {"answers": ids[4:6]},
+        {"answers": ids[6:9]},
+    ]
+    return {
+        "number": number,
+        "catalogVersion": catalog["catalogVersion"],
+        "musica": copy.deepcopy(rounds),
+        "titulo": copy.deepcopy(rounds),
+    }
+
+
+def mixed_schedule(catalog: JSON, last: int, count: int = 7) -> JSON:
+    """Uma agenda das Misturadas com `count` dias até hoje + `last`."""
+    first = T + timedelta(days=last - count + 1)
+    return {
+        "schemaVersion": 1,
+        "kind": "anime-mixed",
+        "timezone": "America/Sao_Paulo",
+        "epoch": first.isoformat(),
+        "days": {
+            (first + timedelta(days=i)).isoformat(): mixed_day(catalog, i + 1) for i in range(count)
+        },
+    }
+
+
+def grown_mixed(base: JSON, catalog: JSON, days: list[str]) -> JSON:
+    new = copy.deepcopy(base)
+    count = len(new["days"])
+    for i, d in enumerate(days):
+        new["days"][d] = mixed_day(catalog, count + i + 1)
+    return new
+
+
+def main_with_mixed(ahead: int = 14, mixed_ahead: int = 6) -> dict[str, JSON]:
+    """A main com as Misturadas: a delas mais curta que a do Anime, como na estreia."""
+    main = main_files(ahead)
+    # Uma semana antes de hoje e os dias à frente: a folga é a contagem dos dias depois de hoje.
+    main[MIXED] = mixed_schedule(base_catalog(), mixed_ahead, count=mixed_ahead + 7)
+    main[FIXTURE_MIXED] = mixed_schedule(fixture_catalog(), 10)
+    return main
+
+
+def mixed_change(main: dict[str, JSON], until: int = 28) -> dict[str, JSON]:
+    """Uma semana de geração com as Misturadas: elas crescem até o fim da do Anime (P25)."""
+    changes = full_change(main, until)
+    changes[MIXED] = grown_mixed(main[MIXED], new_catalog(), new_days(main[MIXED], until))
+    changes[FIXTURE_MIXED] = grown_mixed(
+        main[FIXTURE_MIXED], fixture_catalog(), new_days(main[FIXTURE_MIXED], until)
+    )
+    return changes
+
+
+def test_the_mixed_schedules_grow_with_the_anime(tmp_path):
+    main = main_with_mixed()
+    done, _, temp = run(tmp_path, mixed_change(main), main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    text = section(temp)
+    assert f"- **Agenda das Misturadas:** 22 dia(s) novo(s), de {iso(7)} a {iso(28)}" in text
+    assert "- **Agenda fictícia das Misturadas (só desenvolvimento):** 18 dia(s) novo(s)" in text
+
+
+def test_only_the_mixed_when_the_anime_is_far(tmp_path):
+    # A estreia das Misturadas: a do Anime com 25 dias à frente, a delas com 6. O robô gera, e só a
+    # das Misturadas cresce, até o fim da do Anime, com o acervo de antes.
+    main = main_with_mixed(ahead=25, mixed_ahead=6)
+    changes = {MIXED: grown_mixed(main[MIXED], base_catalog(), new_days(main[MIXED], 25))}
+    done, _, temp = run(tmp_path, changes, main=main, fetch="failure")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert f"- **Agenda das Misturadas:** 19 dia(s) novo(s), de {iso(7)} a {iso(25)}" in section(
+        temp
+    )
+    assert f"title=chore: Anime de {TODAY} (agenda até {iso(25)})" in read(temp / "github-output")
+
+
+def test_rejects_when_the_anime_and_the_mixed_had_21_days(tmp_path):
+    main = main_with_mixed(ahead=25, mixed_ahead=21)
+    changes = {MIXED: grown_mixed(main[MIXED], base_catalog(), new_days(main[MIXED], 25))}
+    rejects(tmp_path, changes, "já tem 25 dia(s) à frente, e a das Misturadas, 21", main=main)
+
+
+def test_rejects_mixed_days_beyond_the_anime_schedule(tmp_path):
+    main = main_with_mixed(ahead=25, mixed_ahead=6)
+    changes = {MIXED: grown_mixed(main[MIXED], base_catalog(), new_days(main[MIXED], 26))}
+    rejects(tmp_path, changes, "passa do fim da agenda do Anime", main=main)
+
+
+def test_rejects_a_mixed_schedule_that_changes_an_old_day(tmp_path):
+    main = main_with_mixed()
+    changes = mixed_change(main)
+    first = min(changes[MIXED]["days"])
+    changes[MIXED]["days"][first]["number"] = 999
+    rejects(tmp_path, changes, "altera o que já existe", main=main)
+
+
+def test_rejects_a_mixed_answer_outside_the_catalog(tmp_path):
+    main = main_with_mixed()
+    changes = mixed_change(main)
+    changes[MIXED]["days"][iso(20)]["titulo"][3]["answers"][2] = "apple:tr:1"
+    rejects(tmp_path, changes, "cita faixa fora do catálogo", main=main)
+
+
+def test_rejects_a_mixed_schedule_of_another_kind(tmp_path):
+    main = main_with_mixed()
+    changes = mixed_change(main)
+    main[MIXED]["kind"] = "anime"
+    changes[MIXED]["kind"] = "anime"
+    rejects(tmp_path, changes, "altera o que já existe", main=main)
+
+
+def test_rejects_a_mixed_schedule_that_the_main_does_not_have(tmp_path):
+    main = main_with_mixed()
+    changes = mixed_change(main)
+    del main[MIXED]
+    rejects(tmp_path, changes, "a main não tem a agenda das Misturadas", main=main)

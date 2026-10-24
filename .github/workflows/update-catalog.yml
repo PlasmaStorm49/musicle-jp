@@ -44,6 +44,9 @@ env:
   ANIME_CATALOG: web/public/data/anime/catalog.json
   ANIME_SCHEDULE: web/public/data/anime/schedule.json
   ANIME_FIXTURE_SCHEDULE: web/public/fixtures/anime/schedule.json
+  # As Misturadas (M17): as agendas delas crescem com as do Anime (cada dia lê o do Anime, P25).
+  ANIME_MIXED: web/public/data/anime/mixed.json
+  ANIME_FIXTURE_MIXED: web/public/fixtures/anime/mixed.json
   # Só lido (as respostas da agenda fictícia do Anime são dele); fica fora da lista.
   ANIME_FIXTURE_CATALOG: web/public/fixtures/anime/catalog.json
 
@@ -306,6 +309,7 @@ jobs:
           log="$RUNNER_TEMP/anime.log"
           python -m musicle_pipeline build-anime --provider apple 2>&1 | tee -a "$log"
           python -m musicle_pipeline schedule-anime --provider apple --today "$TODAY" --days "$ANIME_DAYS" 2>&1 | tee -a "$log"
+          python -m musicle_pipeline schedule-mixed --provider apple --today "$TODAY" --days "$ANIME_DAYS" 2>&1 | tee -a "$log"
           python -m musicle_pipeline validate-anime --provider apple 2>&1 | tee -a "$log"
       - id: reserve
         if: steps.due.outputs.due == 'true' && steps.songs.outcome == 'failure'
@@ -325,8 +329,9 @@ jobs:
           TODAY: ${{ steps.today.outputs.today }}
         run: |
           if ! python -m musicle_pipeline schedule-anime --provider fixture --today "$TODAY" --days "$ANIME_DAYS" \
+            || ! python -m musicle_pipeline schedule-mixed --provider fixture --today "$TODAY" --days "$ANIME_DAYS" \
             || ! python -m musicle_pipeline validate-anime --provider fixture; then
-            git checkout -- "$ANIME_FIXTURE_SCHEDULE"
+            git checkout -- "$ANIME_FIXTURE_SCHEDULE" "$ANIME_FIXTURE_MIXED"
             exit 1
           fi
       - if: steps.fixture.outcome == 'failure'
@@ -505,7 +510,8 @@ jobs:
   catalog-runway:
     # Folga das agendas. Se o PR semanal ficar sem merge, a agenda acaba e o dia vira buraco para
     # sempre (P44); o aviso do deploy só sai quando há deploy. Esta tarefa fica vermelha (e o
-    # GitHub manda e-mail) quando a agenda do site ou a do Anime da main tem menos de 10 dias à
+    # GitHub manda e-mail) quando a agenda do site, a do Anime ou a das Misturadas (M17) da main tem
+    # menos de 10 dias à
     # frente. Numa semana normal, a do site tem 14 antes do merge de segunda; a do Anime, 14 ou 21
     # (ela cresce uma semana sim, outra não). Com uma semana sem merge, 7. Roda mesmo se as outras
     # falharem (é quando mais importa), depois delas, e calcula a própria data.
@@ -523,11 +529,11 @@ jobs:
         run: |
           today="$(TZ=America/Sao_Paulo date +%F)"
           short=0
-          for pair in "do site:$SCHEDULE" "do Anime:$ANIME_SCHEDULE"; do
+          for pair in "do site:$SCHEDULE" "do Anime:$ANIME_SCHEDULE" "das Misturadas:$ANIME_MIXED"; do
             label="${pair%%:*}"
             file="${pair#*:}"
-            if [ "$label" = "do Anime" ] && [ ! -f "$file" ]; then
-              echo "Agenda do Anime: ainda não existe na main." >> "$GITHUB_STEP_SUMMARY"
+            if [ "$label" != "do site" ] && [ ! -f "$file" ]; then
+              echo "Agenda $label: ainda não existe na main." >> "$GITHUB_STEP_SUMMARY"
               continue
             fi
             ahead="$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' "$file")"
