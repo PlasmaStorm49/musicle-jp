@@ -1,0 +1,54 @@
+/* O laboratório das Misturadas (M17): ferramenta de desenvolvimento, com os tokens do jogo. */
+.lab {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--sp-4);
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.lab fieldset {
+  display: grid;
+  gap: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-field);
+  padding: var(--sp-4);
+}
+
+.lab-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.lab-note {
+  color: var(--muted);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
+.lab-error {
+  color: var(--bad);
+}
+
+.lab-bar {
+  width: 100%;
+}
+
+.lab-songs {
+  display: grid;
+  gap: var(--sp-3);
+  padding-left: var(--sp-5);
+}
+
+.lab-reveal {
+  display: grid;
+  gap: var(--sp-1);
+  margin-top: var(--sp-2);
+}
+
+.lab button[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--on-primary);
+}

@@ -18,6 +18,10 @@ web/blob-report/
 web/public/fixtures/audio/
 web/public/fixtures/art/
 
+# A chance de cada música do Anime, para o laboratório das Misturadas (anime-chances, M17): o
+# repositório não guarda número (P254)
+web/lab-data/
+
 # Worktrees do Claude Code (uma pasta de trabalho por frente paralela)
 .claude/worktrees/
 

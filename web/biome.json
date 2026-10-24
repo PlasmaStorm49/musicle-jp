@@ -8,6 +8,7 @@
       "!dist",
       "!coverage",
       "!public",
+      "!lab-data",
       "!playwright-report",
       "!test-results",
       "!blob-report"

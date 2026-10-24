@@ -832,6 +832,38 @@ def test_the_tv_size_and_the_full_song_share_the_song_key():
     assert len(keys) == 1
 
 
+def test_the_lab_chances_are_the_ones_behind_the_tiers(tmp_path, capsys):
+    # O laboratório das Misturadas (M17) lê a chance de cada música: a mesma que dá as faixas do
+    # catálogo, em texto com 4 casas, fora do que é publicado.
+    out = tmp_path / "chances.json"
+    assert main(["anime-chances", "--provider", "fixture", "--out", str(out)]) == 0
+    chances_by_song = read_json(out)
+    catalog = read_json(COMMITTED)
+    assert set(chances_by_song) == {t["songKey"] for t in catalog["tracks"]}
+    assert list(chances_by_song) == sorted(chances_by_song)  # a saída ordenada (o dumps)
+    for track in catalog["tracks"]:
+        chance = {mode: Decimal(v) for mode, v in chances_by_song[track["songKey"]].items()}
+        assert all(v == v.quantize(Decimal("0.0001")) and 0 <= v <= 1 for v in chance.values())
+        # O "acertar o anime" nunca é rebaixado (P274): a faixa dele sai direto do corte.
+        easy, medium = CUTS["titulo"]
+        tier = track["anime"]["tiers"]["titulo"]
+        value = chance["titulo"]
+        assert tier == ("facil" if value >= easy else "medio" if value >= medium else "dificil")
+    assert "música(s)" in capsys.readouterr().out
+    # Gravar de novo, igual, não mexe no arquivo; e a chance nunca vai para o site.
+    assert main(["anime-chances", "--provider", "fixture", "--out", str(out)]) == 0
+    assert "sem mudanças" in capsys.readouterr().out
+    public = anime_paths("fixture").public_dir / "chances.json"
+    assert main(["anime-chances", "--provider", "fixture", "--out", str(public)]) == 1
+    assert not public.exists()
+    # Nem numa pasta rastreada do repositório, que um `git add` levaria ao commit (P254): lá dentro,
+    # só a pasta do laboratório, que o .gitignore deixa de fora.
+    tracked = anime_paths("fixture").source.parent / "chances.json"
+    assert main(["anime-chances", "--provider", "fixture", "--out", str(tracked)]) == 1
+    assert "não entra no Git" in capsys.readouterr().err
+    assert not tracked.exists()
+
+
 def test_validation_catches_a_stale_version_and_hand_edits(tmp_path):
     catalog = read_json(COMMITTED)
     catalog["franchises"][0]["name"] = "Outro nome"
