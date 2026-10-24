@@ -4,7 +4,7 @@
 // passa.
 import { dailyIds } from "./daily.ts";
 import { addDays, dayParts, isValidDate, type Weekday, weekdayOf } from "./dates.ts";
-import { animeDone, progress } from "./home.ts";
+import { animePlayed, progress } from "./home.ts";
 import { type PuzzleId, puzzleId, type Save } from "./records.ts";
 import { MODES } from "./rules.ts";
 
@@ -79,7 +79,7 @@ export function historyDay(
       ? null
       : !animeDates.has(date)
         ? "off"
-        : animeDone(save, date)
+        : animePlayed(save, date)
           ? "all"
           : "none";
   return { date, weekday: weekdayOf(date), ...dayParts(date), hits, anime };

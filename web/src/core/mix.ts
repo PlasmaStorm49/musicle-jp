@@ -2,10 +2,12 @@
 // o motor (audio/webaudio.ts) entrega as amostras e aplica os ganhos.
 
 /**
- * O quanto o igualar mexe numa prévia, para cima ou para baixo (2 = 6 dB): reforçar mais faz o
- * ruído subir junto, e abaixar mais deixa a mistura inteira baixa por causa de uma prévia quieta.
+ * O quanto o igualar mexe numa prévia, para cima ou para baixo (4 = 12 dB; era 2, e uma prévia
+ * baixa ainda sumia debaixo da outra, o usuário, 24/10/2026). Reforçar mais faz o ruído subir
+ * junto, e abaixar mais deixa a mistura inteira baixa por causa de uma prévia quieta. O pico da
+ * soma fica com o limitador do motor.
  */
-export const MAX_BOOST = 2;
+export const MAX_BOOST = 4;
 
 /** A energia média (RMS) das amostras de todos os canais; 0 sem amostras. */
 export function rmsOf(channels: readonly Float32Array[]): number {

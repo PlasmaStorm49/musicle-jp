@@ -124,7 +124,7 @@ export function MixedRoundView({
     const found = (r: MixedRoundState) => r.songs.filter((s) => s.found !== null).length;
     const hit = !!after && found(after) > found(round);
     // O erro abre o trecho seguinte: o de agora para, e o novo toca no Tocar. O acerto deixa a
-    // mistura tocando, sem a música achada (P23).
+    // mistura tocando, inteira: a achada continua nela (o usuário, 24/10/2026).
     if (!hit) engine.stop();
     dispatch(event);
     // A revelação leva o foco e se anuncia sozinha; o palpite que não muda nada não diz nada.
@@ -161,7 +161,6 @@ export function MixedRoundView({
         engine={engine}
         urls={urls}
         offsets={offsets}
-        found={round.songs.map((song) => song.found !== null)}
         separated={round.separated}
         stage={round.stage}
         explicit={explicit}
@@ -187,8 +186,6 @@ type PlayerProps = {
   readonly urls: readonly (string | null)[];
   /** De onde cada prévia começa. */
   readonly offsets: readonly number[];
-  /** As achadas saem da mistura (P23): com um fade, se tocando; fora da próxima, se paradas. */
-  readonly found: readonly boolean[];
   readonly separated: boolean;
   readonly stage: number;
   readonly explicit: boolean;
@@ -199,14 +196,14 @@ type PlayerProps = {
 
 /**
  * O player da mistura: Tocar e Parar, o Pular e a barra dos 4 trechos, como o do Desafio, com a
- * mistura no lugar da prévia sozinha. A música achada sai com um fade (P23), e o "Separar" leva
- * cada uma ao seu lado, já tocando.
+ * mistura no lugar da prévia sozinha. As músicas tocam juntas a rodada inteira, também as achadas
+ * (o usuário, 24/10/2026: só o "Separar" ajuda), e o "Separar" leva cada uma ao seu lado, já
+ * tocando.
  */
 function MixPlayer({
   engine,
   urls,
   offsets,
-  found,
   separated,
   stage,
   explicit,
@@ -217,8 +214,8 @@ function MixPlayer({
   const fillRef = useRef<HTMLDivElement>(null);
   const frame = useRef(0);
   const playButton = useRef<HTMLButtonElement>(null);
-  // A mistura tocando e quais músicas da rodada estão nela (as achadas antes ficam de fora).
-  const current = useRef<{ playback: MixPlayback; songs: readonly number[] } | null>(null);
+  // A mistura tocando, com as músicas na ordem da rodada.
+  const current = useRef<MixPlayback | null>(null);
   const playId = useRef(0);
   const alive = useRef(true);
   const pans = spreadPans(urls.length);
@@ -243,16 +240,13 @@ function MixPlayer({
     };
   }, [engine]);
 
-  // O estado da rodada que a mistura tocando precisa seguir: a achada sai (com o fade do motor,
-  // P23) e, com o "Separar", cada uma vai ao seu lado. O texto resume a lista, que é nova a cada
-  // desenho. A ficha guarda o de agora para a mistura que ainda carrega: um acerto (ou o
-  // "Separar") no "Carregando…" vale quando ela começa.
-  const foundKey = found.map((f) => (f ? "1" : "0")).join("");
-  const latest = useRef({ foundKey, separated });
-  latest.current = { foundKey, separated };
+  // O "Separar" leva a mistura tocando, cada música ao seu lado. A ficha guarda o de agora para a
+  // mistura que ainda carrega: o "Separar" no "Carregando…" vale quando ela começa.
+  const latest = useRef(separated);
+  latest.current = separated;
   useEffect(() => {
-    if (current.current) sync(current.current, foundKey, separated);
-  }, [foundKey, separated]);
+    if (current.current && separated) panApart(current.current, urls.length);
+  }, [separated, urls.length]);
 
   function play() {
     if (busy) return;
@@ -261,9 +255,9 @@ function MixPlayer({
       onAudioError(true);
       return;
     }
-    const songs = urls.flatMap((url, i) => (url !== null && !found[i] ? [i] : []));
-    const tracks = songs.map((i) => ({
-      url: urls[i] ?? "",
+    // Todas as prévias da rodada: o `busy` já garante que nenhuma falta.
+    const tracks = urls.map((url, i) => ({
+      url: url ?? "",
       offset: offsets[i] ?? 0,
       pan: separated ? (pans[i] ?? 0) : 0,
     }));
@@ -281,8 +275,8 @@ function MixPlayer({
           setStatus("idle");
           return;
         }
-        current.current = { playback, songs };
-        sync(current.current, latest.current.foundKey, latest.current.separated);
+        current.current = playback;
+        if (latest.current) panApart(playback, urls.length);
         setStatus("playing");
         const draw = () => {
           if (fillRef.current) {
@@ -364,19 +358,11 @@ function MixPlayer({
 }
 
 /**
- * Leva a mistura tocando ao estado da rodada: as achadas em silêncio e, separadas, cada uma no seu
- * lado. Repetir não muda nada (o ganho já é 0, o lado já é o mesmo).
+ * O "Separar" na mistura tocando: cada uma das `count` músicas no seu lado, na ordem da rodada.
+ * Repetir não muda nada (o lado já é o mesmo).
  */
-function sync(
-  playing: { readonly playback: MixPlayback; readonly songs: readonly number[] },
-  foundKey: string,
-  separated: boolean,
-) {
-  const sides = spreadPans(foundKey.length);
-  playing.songs.forEach((song, i) => {
-    if (foundKey[song] === "1") playing.playback.setGain(i, 0);
-    if (separated) playing.playback.setPan(i, sides[song] ?? 0);
-  });
+function panApart(playback: MixPlayback, count: number) {
+  for (const [i, pan] of spreadPans(count).entries()) playback.setPan(i, pan);
 }
 
 /** O campo, as tentativas, o "Separar" e o "Desistir". */

@@ -9,11 +9,12 @@
 // - A mistura das Misturadas (M17, playMix) toca várias prévias no mesmo t0, cada uma com o seu
 //   ganho e o seu lado; o stop() para a mistura também, com a mesma ficha.
 // - O tempo do jogo começa no 1º som da prévia (core/silence.ts): o silêncio do começo, medido
-//   uma vez ao decodificar, soma-se a todo começo pedido, e o fim encurta o mesmo tanto. O <audio>
-//   de reserva não lê as amostras e começa do 0.
+//   uma vez ao decodificar, soma-se a todo começo pedido, e o fim encurta o mesmo tanto. Na
+//   mistura, a régua é mais exigente: cada voz pula também a introdução baixa. O <audio> de
+//   reserva não lê as amostras e começa do 0.
 import { type GainPoint, playbackEnvelope, stopEnvelope } from "../core/envelope.ts";
 import { mixGains, mixHeadroom, rmsOf } from "../core/mix.ts";
-import { leadIn } from "../core/silence.ts";
+import { leadIn, MIX_ENTRY_RATIO, SILENCE_RATIO } from "../core/silence.ts";
 import { clampVolume, gainOf } from "../core/volume.ts";
 import {
   type AudioEngine,
@@ -90,8 +91,8 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
   #mix: Mix | null = null;
   /** A energia de cada trecho de cada prévia decodificada (a mistura iguala por ela). */
   readonly #loudness = new WeakMap<AudioBuffer, Map<string, number>>();
-  /** O silêncio do começo de cada prévia decodificada, em segundos. */
-  readonly #leads = new WeakMap<AudioBuffer, number>();
+  /** O silêncio do começo de cada prévia decodificada, em segundos, por régua (core/silence.ts). */
+  readonly #leads = new WeakMap<AudioBuffer, Map<number, number>>();
   readonly #options: WebAudioOptions;
   /** O ganho mestre (o volume): entre o ganho de cada reprodução, o do fade, e a saída. */
   #master: GainNode | null = null;
@@ -197,10 +198,11 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
       throw new AudioUnavailableError("decode", "este navegador não mistura (sem StereoPanner)");
     }
     // Um começo negativo ou que não é número faria o start lançar erro no meio das vozes. Cada voz
-    // começa depois do silêncio dela: os primeiros sons das prévias ficam alinhados.
+    // começa onde a música dela já engrenou (a régua da mistura): os primeiros sons ficam
+    // alinhados, e uma introdução baixa não some debaixo da outra.
     const offsets = buffers.map((b, i) => {
       const asked = tracks[i]?.offset ?? 0;
-      return this.#lead(b) + (Number.isFinite(asked) ? Math.max(0, asked) : 0);
+      return this.#lead(b, MIX_ENTRY_RATIO) + (Number.isFinite(asked) ? Math.max(0, asked) : 0);
     });
     const durations = buffers.map((b, i) =>
       Math.max(0, Math.min(seconds, b.duration - (offsets[i] ?? 0))),
@@ -364,15 +366,20 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     return energy;
   }
 
-  /** O silêncio do começo (core/silence.ts), lido das amostras uma vez por prévia. */
-  #lead(buffer: AudioBuffer): number {
-    let lead = this.#leads.get(buffer);
+  /** O silêncio do começo (core/silence.ts), lido das amostras uma vez por prévia e régua. */
+  #lead(buffer: AudioBuffer, ratio = SILENCE_RATIO): number {
+    let byRatio = this.#leads.get(buffer);
+    if (!byRatio) {
+      byRatio = new Map();
+      this.#leads.set(buffer, byRatio);
+    }
+    let lead = byRatio.get(ratio);
     if (lead === undefined) {
       const channels = Array.from({ length: buffer.numberOfChannels }, (_, c) =>
         buffer.getChannelData(c),
       );
-      lead = leadIn(channels, buffer.sampleRate);
-      this.#leads.set(buffer, lead);
+      lead = leadIn(channels, buffer.sampleRate, ratio);
+      byRatio.set(ratio, lead);
     }
     return lead;
   }
@@ -419,7 +426,9 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
       } catch {
         throw new AudioUnavailableError("decode", `não foi possível decodificar ${url}`);
       }
-      this.#lead(buffer); // já no pré-carregamento, e não no clique do Tocar
+      // Já no pré-carregamento, e não no clique do Tocar: as duas réguas.
+      this.#lead(buffer);
+      this.#lead(buffer, MIX_ENTRY_RATIO);
       return buffer;
     });
     if (!this.#cache.has(url)) this.#cache.set(url, entry);

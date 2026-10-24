@@ -3,7 +3,14 @@
 // andamento de um grupo de diários e o placar das sessões do Treino e do modo por artista. Puro:
 // lê só o que quem chama passa.
 import type { ArtistPlay } from "./artists.ts";
-import { ANIME_KEYS, type Daily, hitsDaily } from "./daily.ts";
+import {
+  ANIME_DIFFICULTIES,
+  ANIME_KEYS,
+  ANIME_MODES,
+  animeKey,
+  type Daily,
+  hitsDaily,
+} from "./daily.ts";
 import { type PracticeScore, type PracticeSession, practiceScore } from "./practice.ts";
 import { type PuzzleId, puzzleId, recordMax, recordScore, type Save } from "./records.ts";
 import { MODES } from "./rules.ts";
@@ -86,10 +93,21 @@ export function dailiesDone(save: Save, date: string): boolean {
 }
 
 /**
- * Algum dos 6 diários do Anime de hoje terminado: o ✓ da aba Anime (P247). Só pelo save, como o
- * dos Hits: a nav desenha sem o Anime carregado (ele só carrega quando a pessoa abre a categoria).
+ * O ✓ da aba Anime: ao menos um diário terminado em cada modo, o "acertar a música" e o "acertar
+ * o anime", em qualquer dificuldade (o usuário, 24/10/2026; antes, qualquer um dos 6, P247). Só
+ * pelo save, como o dos Hits: a nav desenha sem o Anime carregado (ele só carrega quando a pessoa
+ * abre a categoria).
  */
 export function animeDone(save: Save, date: string): boolean {
+  return ANIME_MODES.every((mode) =>
+    ANIME_DIFFICULTIES.some(
+      (difficulty) => save.history[puzzleId(date, animeKey(mode, difficulty))] !== undefined,
+    ),
+  );
+}
+
+/** Algum dos 6 diários do Anime do dia terminado: a marca do dia no Histórico (P277). */
+export function animePlayed(save: Save, date: string): boolean {
   return ANIME_KEYS.some((key) => save.history[puzzleId(date, key)] !== undefined);
 }
 

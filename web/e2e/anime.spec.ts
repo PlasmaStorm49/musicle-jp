@@ -31,7 +31,7 @@ async function answerWithPlayed(page: Parameters<typeof lastPlayedAnime>[0]): Pr
     .click();
 }
 
-test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, com o ✓ da aba Anime (P247)", async ({
+test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, sem o ✓ da aba Anime com um modo só", async ({
   page,
 }) => {
   await captureClipboard(page);
@@ -87,8 +87,9 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, com o ✓ da
   expect(Object.keys((JSON.parse(saved ?? "{}") as Save).history)).toEqual([
     "2026-10-08|anime-musica-facil",
   ]);
-  // Um diário do Anime terminado já põe o ✓ na aba Anime (P247), e não na dos Hits.
-  await expect(animeTab(page)).toHaveAccessibleName("Anime (já jogou hoje)");
+  // O ✓ da aba Anime pede um diário de cada modo (o usuário, 24/10/2026): com o do "acertar a
+  // música" só, ainda não. Nem na dos Hits.
+  await expect(animeTab(page)).toHaveAccessibleName("Anime");
   await expect(hitsTab(page)).toHaveAccessibleName("Hits");
 
   // A escolha do modo e a da dificuldade mostram o resultado; a Início, a linha do Anime.
@@ -167,7 +168,8 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
   expect(Object.keys((JSON.parse(saved ?? "{}") as Save).history)).toEqual([
     "2026-10-08|anime-titulo-facil",
   ]);
-  await expect(animeTab(page)).toHaveAccessibleName("Anime (já jogou hoje)");
+  // Só o "acertar o anime": sem o ✓, que pede os dois modos.
+  await expect(animeTab(page)).toHaveAccessibleName("Anime");
 });
 
 test("Anime: a ajuda do acertar o anime mostra 4 animes, nenhum de uma resposta do dia, e vale a metade do trecho", async ({

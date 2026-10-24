@@ -176,13 +176,14 @@ describe("MixedRoundView (M17)", () => {
     expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
   });
 
-  it("a música achada sai da mistura tocando, com o fade, e o som continua (P23)", async () => {
+  it("a música achada continua na mistura tocando, e o som continua (o usuário, 24/10/2026)", async () => {
     const { engine, playback } = mixEngine();
     const announce = vi.fn();
     render(<Harness engine={engine} announce={announce} />);
     await playMix();
     guess("Música 2");
-    expect(playback.setGain).toHaveBeenCalledWith(1, 0);
+    // Só o "Separar" ajuda: a achada não sai nem abaixa.
+    expect(playback.setGain).not.toHaveBeenCalled();
     expect(engine.stop).not.toHaveBeenCalled();
     expect(announce).toHaveBeenCalledWith("Achou: Música 2. Falta 1.");
     expect(screen.getByText("1 de 2 achadas")).toBeTruthy();
@@ -217,7 +218,7 @@ describe("MixedRoundView (M17)", () => {
     expect(pressed.getAttribute("aria-describedby")).toBeTruthy();
   });
 
-  it("o acerto e o Separar no Carregando… valem quando a mistura começa", async () => {
+  it("o Separar no Carregando… vale quando a mistura começa, e a achada continua nela", async () => {
     const { engine, playback } = mixEngine();
     let start: (value: typeof playback) => void = () => {};
     engine.playMix.mockImplementation(
@@ -230,9 +231,9 @@ describe("MixedRoundView (M17)", () => {
     fireEvent.click(screen.getByRole("button", { name: "Tocar 4 s" }));
     guess("Música 1");
     fireEvent.click(screen.getByRole("button", { name: "Ajuda: separar L e R" }));
-    expect(playback.setGain).not.toHaveBeenCalled();
+    expect(playback.setPan).not.toHaveBeenCalled();
     await act(async () => start(playback));
-    expect(playback.setGain).toHaveBeenCalledWith(0, 0);
+    expect(playback.setGain).not.toHaveBeenCalled();
     expect(playback.setPan).toHaveBeenCalledWith(0, -0.8);
     expect(playback.setPan).toHaveBeenCalledWith(1, 0.8);
   });
