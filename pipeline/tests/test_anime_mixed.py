@@ -1,6 +1,6 @@
 """A agenda das Misturadas (M17): as 4 rodadas de 2, 2, 2 e 3 músicas, a régua, as regras que
-nunca afrouxam, a P25 (nenhuma resposta do Anime do dia), o afrouxamento do acervo curto e o
-schedule-check do tipo novo."""
+nunca afrouxam, a P25 (nenhuma resposta do Anime do dia), o limite de novas por rodada, o
+afrouxamento do acervo curto e o schedule-check do tipo novo."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ import pytest
 from musicle_pipeline.anime import MODES
 from musicle_pipeline.anime_mixed import (
     KIND,
+    NEW_PER_ROUND,
     ROUNDS,
     WINDOW,
     _Index,
@@ -34,7 +35,7 @@ EPOCH = date(2026, 10, 8)
 VERSION = "2026-10-08.0000abcd"
 
 
-def track(n: int, tier: str, *, famous: bool = False, franchise: str | None = None) -> JSON:
+def track(n: int, tier: str, *, franchise: str | None = None) -> JSON:
     """Uma faixa sintética, só com o que as agendas leem; a mesma faixa nos dois modos."""
     return {
         "id": f"x:tr:t{n:04d}",
@@ -44,13 +45,12 @@ def track(n: int, tier: str, *, famous: bool = False, franchise: str | None = No
             "franchiseIds": [f"anime:fr:{franchise or f'f{n:04d}'}"],
             "themes": [{"anime": f"Anime {n}", "type": "OP", "sequence": 1}],
             "tiers": {"musica": tier, "titulo": tier},
-            "famous": {"musica": famous, "titulo": famous},
         },
     }
 
 
-def catalog_of(famous: int, medio: int, dificil: int, facil: int = 0) -> JSON:
-    tracks = [track(n, "facil", famous=True) for n in range(famous)]
+def catalog_of(facil: int, medio: int, dificil: int) -> JSON:
+    tracks: list[JSON] = []
     for tier, count in (("facil", facil), ("medio", medio), ("dificil", dificil)):
         for _ in range(count):  # um laço, e não uma lista: o len muda a cada faixa
             tracks.append(track(len(tracks), tier))
@@ -71,7 +71,7 @@ def both(catalog: JSON, days: int) -> tuple[JSON, JSON]:
 
 @pytest.fixture(scope="module")
 def big() -> JSON:
-    return catalog_of(famous=300, medio=200, dificil=200)
+    return catalog_of(facil=300, medio=200, dificil=200)
 
 
 def test_ten_days_keep_every_rule_without_relaxing(big):
@@ -92,8 +92,8 @@ def test_ten_days_keep_every_rule_without_relaxing(big):
                 picked = [tracks[a] for a in rnd["answers"]]
                 assert len(picked) == count, (day_str, mode, n)
                 for t in picked:
-                    if ruler == "famous":
-                        assert t["anime"]["famous"][mode], (day_str, mode, n)
+                    if ruler == "facil":
+                        assert t["anime"]["tiers"][mode] == "facil", (day_str, mode, n)
                     else:
                         assert t["anime"]["tiers"][mode] in ("medio", "dificil")
                 round_franchises = [f for t in picked for f in t["anime"]["franchiseIds"]]
@@ -134,10 +134,9 @@ def test_the_mixed_days_stop_at_the_last_anime_day(big):
 def test_the_levels_relax_the_ruler_before_the_anime_of_the_day():
     # A ordem dos afrouxamentos: a janela encolhe antes das três do acervo curto, e a P25 é a
     # última de todas, depois de a régua da P7 cair.
-    assert [level.what for level in _levels("famous", 3)] == [
+    assert [level.what for level in _levels("facil", 3)] == [
         "",
         "a franquia repete no dia",
-        "o Fácil inteiro",
         "janela de 2 dia(s)",
         "janela de 1 dia(s)",
         "a franquia repete no diário",
@@ -155,24 +154,25 @@ def test_the_levels_relax_the_ruler_before_the_anime_of_the_day():
 
 
 def test_the_window_is_the_smallest_of_each_mode_and_of_the_union():
-    # 30 muito conhecidas nos dois modos: a união dá 30 // 14 = 2 dias. Só no musica: 30 // 7 = 4
-    # no musica, e 0 no titulo, que fica com a janela mínima.
-    assert _Index(catalog_of(famous=30, medio=40, dificil=40)).window == 2
-    only = catalog_of(famous=30, medio=40, dificil=40)
+    # 30 do Fácil nos dois modos: a união dá 30 // 14 = 2 dias. Só no musica: 30 // 7 = 4 no
+    # musica, e 0 no titulo, que fica com a janela mínima.
+    assert _Index(catalog_of(facil=30, medio=40, dificil=40)).window == 2
+    only = catalog_of(facil=30, medio=40, dificil=40)
     for t in only["tracks"]:
-        t["anime"]["famous"]["titulo"] = False
+        if t["anime"]["tiers"]["titulo"] == "facil":
+            t["anime"]["tiers"]["titulo"] = "medio"
     assert _Index(only).window == 1
     assert mixed_short_pools(only) == [
-        "Misturadas: as muito conhecidas (musica 30, titulo 0) não dão 14 dias (7 por modo e 14"
-        " por dia); a janela cai para 1 dia(s)"
+        "Misturadas: o Fácil (musica 30, titulo 0) não dá 14 dias (7 por modo e 14 por dia); a"
+        " janela cai para 1 dia(s)"
     ]
-    assert mixed_short_pools(catalog_of(famous=14 * WINDOW, medio=10, dificil=10)) == []
+    assert mixed_short_pools(catalog_of(facil=14 * WINDOW, medio=10, dificil=10)) == []
 
 
 def test_a_short_pool_shrinks_the_window_over_the_days():
-    # 30 muito conhecidas (a janela de 2 dias) e o Anime do dia tirando as Fácil dele (P25): do 2º
-    # dia em diante, a janela encolhe, com registro, e as regras fixas continuam.
-    small = catalog_of(famous=30, medio=40, dificil=40)
+    # 30 do Fácil (a janela de 2 dias) e o Anime do dia tirando as Fácil dele (P25): do 2º dia em
+    # diante, a janela encolhe, com registro, e as regras fixas continuam.
+    small = catalog_of(facil=30, medio=40, dificil=40)
     anime, _ = both(small, 4)
     result = generate_mixed(small, anime, None, EPOCH, EPOCH, horizon=3)
     assert len(result.schedule["days"]) == 4
@@ -181,12 +181,11 @@ def test_a_short_pool_shrinks_the_window_over_the_days():
 
 
 def test_a_short_pool_relaxes_with_a_record_and_keeps_the_fixed_rules():
-    small = catalog_of(famous=10, medio=12, dificil=12, facil=8)
+    small = catalog_of(facil=18, medio=12, dificil=12)
     anime, _ = both(small, 3)
     result = generate_mixed(small, anime, None, EPOCH, EPOCH, horizon=2)
     assert len(result.schedule["days"]) == 3
     assert result.relaxations
-    assert any("o Fácil inteiro" in r for r in result.relaxations)
     tracks = {t["id"]: t for t in small["tracks"]}
     for day in result.schedule["days"].values():
         songs = [tracks[a]["songKey"] for _m, _n, answers in mixed_rounds(day) for a in answers]
@@ -194,6 +193,38 @@ def test_a_short_pool_relaxes_with_a_record_and_keeps_the_fixed_rules():
         for _m, _n, answers in mixed_rounds(day):
             franchises = [f for a in answers for f in tracks[a]["anime"]["franchiseIds"]]
             assert len(franchises) == len(set(franchises))  # nem a franquia da rodada
+
+
+def test_each_round_takes_at_most_one_song_that_never_came_out(big):
+    # O Anime já com 10 dias quando as Misturadas começam: as 180 respostas dele já saíram, e cada
+    # rodada leva no máximo 1 música que nunca saiu, nem no Anime nem nas Misturadas, antes do dia.
+    start = EPOCH + timedelta(days=10)
+    anime = generate_anime(big, None, EPOCH, EPOCH, horizon=15).schedule
+    result = generate_mixed(big, anime, None, start, start, horizon=5)
+    assert result.relaxations == []
+    tracks = {t["id"]: t for t in big["tracks"]}
+    seen: set[str] = set()
+    for day_str, day in sorted(anime["days"].items()):
+        if day_str < start.isoformat():
+            seen |= {tracks[a]["songKey"] for _m, _t, _n, a in _rounds(day)}
+    fresh_rounds = 0
+    for day_str, day in sorted(result.schedule["days"].items()):
+        for mode, n, answers in mixed_rounds(day):
+            fresh = [a for a in answers if tracks[a]["songKey"] not in seen]
+            assert len(fresh) <= NEW_PER_ROUND, (day_str, mode, n)
+            fresh_rounds += bool(fresh)
+        # O dia seguinte já conta o de hoje das Misturadas e o do Anime como saídos.
+        seen |= {tracks[a]["songKey"] for _m, _n, answers in mixed_rounds(day) for a in answers}
+        seen |= {tracks[a]["songKey"] for _m, _t, _n, a in _rounds(anime["days"][day_str])}
+    # As novas continuam entrando: o limite tira o excesso, e não as novas.
+    assert fresh_rounds > 0
+
+
+def test_without_any_song_that_came_out_the_round_takes_new_ones(big):
+    # O 1º dia das duas agendas: nada saiu ainda, e o limite (uma preferência) não trava a rodada.
+    _, mixed = both(big, 1)
+    rounds = list(mixed_rounds(mixed["days"]["2026-10-08"]))
+    assert [len(answers) for _m, _n, answers in rounds] == [count for _r, count in ROUNDS] * 2
 
 
 def test_the_validation_catches_counts_repeats_and_unknown_answers(big):
@@ -311,9 +342,11 @@ def test_the_schedule_mixed_command(tmp_path, monkeypatch, capsys):
     out = capsys.readouterr()
     assert "3 dia(s) novo(s) (2026-10-08 a 2026-10-10)" in out.out
     assert "a janela cai para 1 dia(s)" in out.err
+    # O que o gerador dá. Não a agenda das fixtures: ela saiu de uma régua anterior, e uma regra
+    # nova muda só os dias novos (nenhum teste a regera inteira, ME51).
     written = read_json(tmp_path / MIXED_FILE)
-    committed = read_json(FIXTURE / MIXED_FILE)
-    assert written["days"] == {d: committed["days"][d] for d in written["days"]}
+    catalog = read_json(FIXTURE / "catalog.json")
+    assert written == generate_mixed(catalog, anime, None, EPOCH, EPOCH, horizon=2).schedule
     # De novo, no mesmo dia: nada muda.
     assert main([*args, "--days", "2"]) == 0
     assert "sem mudanças" in capsys.readouterr().out
