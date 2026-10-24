@@ -3,7 +3,7 @@
 # agenda (build-anime, schedule-anime ou validate-anime): o robô não pode travar a agenda do Anime.
 # Volta o catálogo e as agendas reais do Anime e das Misturadas ao da main, tira o snapshot da
 # busca de agora (só ele, e só se não estiver na main) e gera só os dias novos das duas agendas,
-# com o acervo de antes (a das Misturadas depois da do Anime: cada dia lê o do Anime, P25). O
+# com o acervo de antes (a das Misturadas depois da do Anime: cada dia lê o do Anime, P332). O
 # molde do catalog-reserve.sh. Sem token. Testado em pipeline/tests/test_catalog_generate_scripts.py.
 #
 # Entrada (ambiente): TODAY, NOW (o nome do snapshot), ANIME_DAYS, ANIME_SNAPSHOTS, ANIME_CATALOG,

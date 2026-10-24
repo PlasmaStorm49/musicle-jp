@@ -48,7 +48,7 @@ export function mixGains(rms: readonly number[], maxBoost: number = MAX_BOOST): 
 }
 
 /**
- * O lado de cada uma de `count` músicas, ao separar (P14): espalhadas de −0,8 a 0,8, na ordem da
+ * O lado de cada uma de `count` músicas, ao separar (P327): espalhadas de −0,8 a 0,8, na ordem da
  * rodada. A 1ª fica sempre à esquerda: a música não troca de lado quando outra sai da mistura.
  */
 export function spreadPans(count: number): number[] {

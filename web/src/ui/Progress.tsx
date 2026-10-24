@@ -1,5 +1,5 @@
 // O progresso num arquivo, na tela (ME103): o "Seu progresso" do Sobre, com o exportar e o
-// importar, e o botão de guardar uma cópia, que o pop-up das medalhas grandes também usa (P25). A
+// importar, e o botão de guardar uma cópia, que o pop-up das medalhas grandes também usa (P347). A
 // conta fica em storage/transfer.ts; aqui, o arquivo baixado e o escolhido, a confirmação e os avisos.
 import { useEffect, useId, useRef, useState } from "preact/hooks";
 import type { Save } from "../core/records.ts";
@@ -58,7 +58,7 @@ function exportProgress(
   return t("progress.exported", { name });
 }
 
-/** O botão que baixa o arquivo: o "Exportar" do Sobre e o "Guardar uma cópia" do pop-up (P25). */
+/** O botão que baixa o arquivo: o "Exportar" do Sobre e o "Guardar uma cópia" do pop-up (P347). */
 export function ExportButton({
   label,
   store,
@@ -87,7 +87,7 @@ export function ExportButton({
 }
 
 /**
- * O "Guardar uma cópia" do pop-up de medalha nova (P25), com a frase do que aconteceu dentro do
+ * O "Guardar uma cópia" do pop-up de medalha nova (P347), com a frase do que aconteceu dentro do
  * pop-up: ele é modal, e a região aria-live do App, atrás dele, fica inerte. A frase vem num
  * `role="status"`, que já existe vazio, para o leitor de tela ouvir quando ela chega.
  */
@@ -128,7 +128,7 @@ type Pending = {
 };
 
 /**
- * A seção "Seu progresso" do Sobre. Importar substitui o progresso daqui (P24), depois da
+ * A seção "Seu progresso" do Sobre. Importar substitui o progresso daqui (P345), depois da
  * confirmação com o que o arquivo traz e o que sai; o andamento deste aparelho fica
  * (`replaceSave`). Sem o navegador gravando, importar não vale: avisa, e não abre o arquivo.
  */

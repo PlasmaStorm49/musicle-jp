@@ -353,7 +353,7 @@ def test_anime_reserve_restores_main_drops_the_new_snapshot_and_regrows_the_sche
     assert (repo / OLD_ANIME_SNAPSHOT).exists()
     assert "dropped=true" in text(temp / "github-output")
     assert "a busca do Anime de hoje quebrou" in done.stdout
-    # A do Anime e, depois dela, a das Misturadas (cada dia lê o do Anime, P25).
+    # A do Anime e, depois dela, a das Misturadas (cada dia lê o do Anime, P332).
     args = "--provider apple --today 2026-10-26 --days 28"
     assert text(temp / "python-args").splitlines() == [
         f"-m musicle_pipeline schedule-anime {args}",

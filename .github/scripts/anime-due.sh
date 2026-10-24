@@ -3,7 +3,7 @@
 # quando a agenda do Anime da main existe e tem menos de 21 dias depois de hoje (P237). Com a
 # geração de 28 dias, isso dá uma semana sim, outra não, e o MAL só é chamado nessas (P256). A
 # mesma regra é conferida de novo na tarefa com token (check-anime-pr.sh, SKIP_AHEAD). Sem token.
-# As Misturadas (M17) crescem junto: a agenda delas para no último dia da do Anime (P25), então
+# As Misturadas (M17) crescem junto: a agenda delas para no último dia da do Anime (P332), então
 # a geração também roda quando a das Misturadas da main tem menos de 21 dias à frente (a do
 # Anime pode estar longe, como na estreia delas). Testado em
 # pipeline/tests/test_catalog_generate_scripts.py (precisa de jq).

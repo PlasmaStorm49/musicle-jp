@@ -254,7 +254,7 @@ export const MEDALS: readonly Medal[] = [
   ),
   { id: "hits-perfeito", tier: "major", earned: (ctx) => someDay(ctx, HITS_DAY, perfectGame) },
   { id: "anime-perfeito", tier: "major", earned: (ctx) => someDay(ctx, ANIME_DAY, perfectGame) },
-  // Os 2 diários das Misturadas do mesmo dia perfeitos (P9 da conversa: os dois, e não um).
+  // Os 2 diários das Misturadas do mesmo dia perfeitos (P352: os dois, e não um).
   {
     id: "misturadas-perfeito",
     tier: "major",
@@ -266,7 +266,7 @@ export const MEDALS: readonly Medal[] = [
         }),
       ),
   },
-  // Em dias seguidos, ao menos 1 diário das Misturadas com todas as músicas achadas (P10: basta um).
+  // Em dias seguidos, ao menos 1 diário das Misturadas com todas as músicas achadas (P353: basta um).
   counted(
     "misturadas-acertos-7",
     "major",

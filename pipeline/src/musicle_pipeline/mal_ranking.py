@@ -17,9 +17,9 @@ Serve em dois lugares:
 
 O arquivo tem o nível de 0 a 9 de cada anime (`mal_level`), o mesmo que o repositório guarda
 (P254, P256), e a ordem de popularidade, uma lista de ids do mais popular ao menos (o sorteio só
-precisa da ordem). O número da posição não vai para ele (P12 do PR B), mas a ordem equivale à
-posição, porque o ranking do MAL é contínuo: aceito pelo usuário, porque o arquivo só vive no
-artefato de 1 dia da anime-mal e nunca entra no repositório:
+precisa da ordem). O número da posição não vai para ele (o usuário, 22/10/2026), mas a ordem
+equivale à posição, porque o ranking do MAL é contínuo: aceito pelo usuário, porque o arquivo só
+vive no artefato de 1 dia da anime-mal e nunca entra no repositório:
 
       {"levels": {"38000": 9, "5114": 9}, "order": [38000, 5114]}
 

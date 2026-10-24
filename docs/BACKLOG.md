@@ -2,11 +2,13 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 23/10/2026.
+Atualizado em 24/10/2026.
 
-## Próximos, na ordem combinada (22/10)
+## Próximos
 
-1. **ME107 (urgente)**: repensar a pontuação de todos os modos. O desistir do Superfan virou um erro de −5 (P290), e o esquema inteiro precisa ser revisto.
+- **O PR do robô de segunda, 26/10:** o 1º com as Misturadas crescendo junto (de 31/10 em diante) e o Anime de 13/11 em diante com a carga C3 e o limite de novas (P360). Merge no mesmo dia.
+- **ME128.** Tirar o `_REDONE_DAYS` do `cli.py`, a exceção de uma vez do 24/10 do Anime: a partir de 25/10, ela não aceita mais nada.
+- **ME129 (novo).** Os testes dos scripts do robô no Windows: o `jq` do winget escreve com CRLF, e 43 testes falham aqui (a CI passa). O ajudante dos testes passa a usar o `-b`.
 
 ## Itens para corrigir
 
@@ -57,6 +59,11 @@ Atualizado em 23/10/2026.
 - **ME116 (novo).** Um sinal do título ("sh0ut", "1st Love Story"): o nome estilizado ou genérico é mais difícil do que as fontes dizem.
 - **ME117 (novo).** Os pesos do tipo do tema no sorteio e o espaçamento da franquia continuam os provisórios do A2.
 
+**As Misturadas** (M17)
+- **ME127 (novo).** Calibrar os pontos das Misturadas e o custo do "Separar" depois de mais escuta (a régua da muito conhecida saiu, P359).
+- **ME130 (novo).** Um compressor por voz na mistura, se as pausas no meio do trecho ainda deixarem uma música sozinha (testar de ouvido, no laboratório).
+- **ME125 (novo).** As Misturadas no Histórico e nas estatísticas.
+
 **Desempenho e tamanho**
 - **S33.** A fonte mais leve: 7,5 MB a menos no `dist` e 210 kB a menos de CSS.
 - **ME18.** Medir o tempo até o 1º som no site.
@@ -77,7 +84,7 @@ Atualizado em 23/10/2026.
 
 ## Coisas novas que quero implementar
 
-- **ME103 (novo).** Guardar o progresso sem servidor: exportar e importar por um código ou um arquivo, no lugar do login. Depois do Anime.
+- **ME122 (novo).** O modo "Qual é a mais popular": tocam duas músicas, e a pessoa escolhe a mais popular. Para depois.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).
@@ -95,5 +102,6 @@ Atualizado em 23/10/2026.
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
 - **ME108 (novo).** Decidir se a lista de negação do `.claude/settings.json` passa a cobrir os gerados dos artistas e do Anime, como diz a regra 3 do `CLAUDE.md`.
+- **ME126 (novo).** Decidir se as Misturadas ganham um cartão na Início (a P226 diz um por categoria; a P333 deixou sem, por enquanto).
 - **P16.** Decidir se a URL e o repositório mudam de nome.
 - Segunda, 26/10: o PR do robô, com o merge no mesmo dia.

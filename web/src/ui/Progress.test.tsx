@@ -267,7 +267,7 @@ describe("ProgressTransfer (o Seu progresso do Sobre, ME103)", () => {
   });
 });
 
-describe("BackupAction (o Guardar uma cópia do pop-up, P25)", () => {
+describe("BackupAction (o Guardar uma cópia do pop-up, P347)", () => {
   it("baixa, e a frase fica num role=status dentro do pop-up (o aria-live do App, atrás do modal, fica inerte)", () => {
     const store = memoryStore({ [SAVE_KEY]: JSON.stringify(local) });
     const download = vi.fn();

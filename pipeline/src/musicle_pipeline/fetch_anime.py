@@ -471,7 +471,7 @@ def amq_rates(
     max_calls: int = AMQ_CALLS,
     log: Callable[[str], None] = lambda _m: None,
 ) -> dict[int, float]:
-    """A maior taxa de acerto no Anime Music Quiz de cada anime (o AnisongDB; a carga C3, P15):
+    """A maior taxa de acerto no Anime Music Quiz de cada anime (o AnisongDB; a carga C3, P335):
     a amostra das músicas com a taxa de `min_rate` a 100, sem dublagem e sem reprise, em pedidos
     de AMQ_BATCH, até um trazer menos de AMQ_FRESH músicas novas ou `max_calls` pedidos. Cada
     música conta uma vez (o `annSongId`), e cada anime vale a maior taxa das músicas dele. A
@@ -521,7 +521,7 @@ def amq_rates(
 
 
 def amq_ranks(rates: Mapping[int, float], level_of: Callable[[int], int | None]) -> dict[int, int]:
-    """A ordem da carga pelo AMQ (P21): a taxa de acerto vezes a fama do anime no MAL (o p_a da
+    """A ordem da carga pelo AMQ (P336): a taxa de acerto vezes a fama do anime no MAL (o p_a da
     P272, `anime_factor`). A taxa sozinha puxa o nicho: o AMQ toca a música do anime de nicho só
     para quem o assistiu, e quase todos acertam. A posição 1 é o maior produto; o empate sai pelo
     id. Em Decimal, como a chance."""
@@ -534,7 +534,7 @@ def amq_ranks(rates: Mapping[int, float], level_of: Callable[[int], int | None])
 
 
 def ranked_order(ranks: Mapping[int, int], tried: set[int], limit: int) -> list[int]:
-    """A ordem sem sorteio (a carga C3, P19): da posição 1 em diante, sem os já tentados, até
+    """A ordem sem sorteio (a carga C3, P336): da posição 1 em diante, sem os já tentados, até
     `limit`."""
     ordered = sorted((m for m in ranks if m not in tried), key=lambda m: (ranks[m], m))
     return ordered[:limit]
@@ -794,12 +794,12 @@ def _plan(
 ) -> tuple[list[int], Mapping[int, int]]:
     """A ordem dos animes e o ranking do MAL que dá o nível de cada um. No sorteio de sempre, os
     dois saem do mesmo ranking. Com o `draw="amq"` (a carga C3), a ordem é a dos acertos do AMQ,
-    sem sorteio (P19), e o MAL dá só o nível (P17): sem o MAL, a chance de todos cairia, e a
+    sem sorteio (P336), e o MAL dá só o nível (P335): sem o MAL, a chance de todos cairia, e a
     busca recusa."""
     if draw == "amq":
         if io.mal_file is None and io.mal is None:
             raise FetchError(
-                "a ordem pelo AMQ precisa do nível do MAL: o MAL_CLIENT_ID ou o --ranks-file (P17)"
+                "a ordem pelo AMQ precisa do nível do MAL: o MAL_CLIENT_ID ou o --ranks-file (P335)"
             )
         io.log("a ordem pelos acertos do Anime Music Quiz (AnisongDB) e a fama no MAL, sem sorteio")
         rates = amq_rates(io.post, io.sleep, log=io.log)
@@ -818,7 +818,7 @@ def _plan(
             # Vazio, todo anime da carga ficaria sem nível para sempre (os snapshots só crescem).
             if not mal_ranks:
                 raise FetchError("o ranking do MAL veio vazio: sem ele, nenhum anime teria nível")
-        # O nível já conhecido, a ordem pesa o acerto pela fama (P21): o nicho vai para o fim.
+        # O nível já conhecido, a ordem pesa o acerto pela fama (P336): o nicho vai para o fim.
         amq = amq_ranks(rates, lambda m: _mal_level_of(io, mal_ranks, m))
         order = ranked_order(amq, tried, max_anime)
         unleveled = sum(_mal_level_of(io, mal_ranks, m) is None for m in order)

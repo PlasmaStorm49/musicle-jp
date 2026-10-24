@@ -317,9 +317,9 @@ def _validate_anime(args: argparse.Namespace) -> int:
     if code:
         return code
     if args.schedule is None and not spath.exists():
-        # As Misturadas leem a agenda do Anime (P25): sem ela, não há como conferi-las.
+        # As Misturadas leem a agenda do Anime (P332): sem ela, não há como conferi-las.
         if mpath.exists():
-            return _report(mpath, ["sem a agenda do Anime ao lado (rode o schedule-anime, P25)"])
+            return _report(mpath, ["sem a agenda do Anime ao lado (rode o schedule-anime, P332)"])
         return code
     if not spath.exists():
         return _report(spath, ["arquivo ausente (rode o schedule-anime)"])
@@ -391,7 +391,7 @@ def _schedule_anime(args: argparse.Namespace) -> int:
 
 def _schedule_mixed(args: argparse.Namespace) -> int:
     """Acrescenta dias à agenda das Misturadas (M17), com o catálogo e a agenda do Anime da pasta
-    do provedor: rode depois do build-anime e do schedule-anime (P25)."""
+    do provedor: rode depois do build-anime e do schedule-anime (P332)."""
     paths = anime_paths(args.provider)
     catalog_path = paths.public_dir / "catalog.json"
     anime_path = paths.public_dir / "schedule.json"
@@ -470,7 +470,7 @@ def _schedule_check(args: argparse.Namespace) -> int:
 
 
 # O gerador de cada tipo de agenda, para regerar os dias novos (ME51). O das Misturadas (M17)
-# precisa também da agenda do Anime ao lado (P25): sai do `_generator_of`.
+# precisa também da agenda do Anime ao lado (P332): sai do `_generator_of`.
 _GENERATORS: dict[str, Generator] = {"hits": generate, "anime": generate_anime}
 # O tipo de uma agenda pelo `kind` dela; sem o campo, a dos Hits. Um `kind` desconhecido é erro:
 # cairia em silêncio no gerador dos Hits.
@@ -547,7 +547,7 @@ def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | 
     if not problems:
         generator = _generator_of(kind, path)
         if catalog_path.exists() and generator is None:
-            problems.append(f"{path}: sem a agenda do Anime ao lado, não dá para regerar (P25)")
+            problems.append(f"{path}: sem a agenda do Anime ao lado, não dá para regerar (P332)")
         elif catalog_path.exists() and generator is not None:
             problems += regenerate_problems(base, current, read_json(catalog_path), generator)
         elif args.catalog:
@@ -666,7 +666,7 @@ def _fetch_anime(args: argparse.Namespace) -> int:
         print(f"o ranking do MAL do --ranks-file: {len(mal_file.order)} anime(s)")
     client_id = "" if mal_file is not None else os.environ.get("MAL_CLIENT_ID", "").strip()
     if draw == "amq" and mal_file is None and not client_id:
-        # A carga pelos acertos do AMQ (C3): sem o nível do MAL (P17), a chance de todos cairia.
+        # A carga pelos acertos do AMQ (C3): sem o nível do MAL (P335), a chance de todos cairia.
         print(
             "--draw amq precisa do nível do MAL: a variável MAL_CLIENT_ID ou o --ranks-file",
             file=sys.stderr,
@@ -1077,7 +1077,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--days",
         type=int,
         default=HORIZON_DAYS,
-        help="dias à frente de hoje, até o último dia da agenda do Anime (P25)",
+        help="dias à frente de hoje, até o último dia da agenda do Anime (P332)",
     )
     mixed.set_defaults(func=_schedule_mixed)
 

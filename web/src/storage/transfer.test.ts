@@ -57,7 +57,7 @@ describe("exportFile (ME103)", () => {
     expect(exportFileName(TODAY)).toBe("atemusic-progresso-2026-10-23.json");
   });
 
-  it("leva o save sem o andamento (P26), com a marca e a data", () => {
+  it("leva o save sem o andamento (P346), com a marca e a data", () => {
     const data = JSON.parse(exportFile(save, TODAY));
     expect(data).toMatchObject({
       app: "atemusic",
@@ -214,7 +214,7 @@ describe("parseImport (ME103)", () => {
     expect(result.summary.dropped).toBe(true);
   });
 
-  it("o andamento de um arquivo feito à mão não passa (P26)", () => {
+  it("o andamento de um arquivo feito à mão não passa (P346)", () => {
     const result = parseImport(file(save), TODAY);
     if (!result.ok) throw new Error(result.reason);
     expect(result.save.inProgress).toEqual({});
@@ -247,7 +247,7 @@ describe("lostGames (o que a substituição tira daqui)", () => {
   });
 });
 
-describe("replaceSave (P24)", () => {
+describe("replaceSave (P345)", () => {
   it("o importado toma o lugar; o andamento daqui fica, menos o de um dia que o arquivo traz terminado", () => {
     const current: Save = {
       ...emptySave(),

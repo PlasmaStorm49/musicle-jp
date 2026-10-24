@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/PlasmaStorm49/musicle-jp/shared/schema/anime-mixed.schema.json",
   "title": "Agenda das Misturadas do musicle-jp",
-  "description": "Os 2 diários de cada dia das Misturadas (M17): acertar a música e acertar o anime, de 4 rodadas cada, com 2, 2, 2 e 3 músicas tocando juntas (P7). Usa o catálogo do Anime. Só cresce: um dia gravado nunca muda. Gerado só pelo pipeline (comando schedule-mixed).",
+  "description": "Os 2 diários de cada dia das Misturadas (M17): acertar a música e acertar o anime, de 4 rodadas cada, com 2, 2, 2 e 3 músicas tocando juntas (P325). Usa o catálogo do Anime. Só cresce: um dia gravado nunca muda. Gerado só pelo pipeline (comando schedule-mixed).",
   "type": "object",
   "additionalProperties": false,
   "required": ["schemaVersion", "kind", "timezone", "epoch", "days"],
