@@ -5,6 +5,7 @@ schedule-check do tipo novo."""
 from __future__ import annotations
 
 import copy
+from dataclasses import replace
 from datetime import date, timedelta
 
 import pytest
@@ -13,15 +14,20 @@ from musicle_pipeline.anime import MODES
 from musicle_pipeline.anime_mixed import (
     KIND,
     ROUNDS,
+    WINDOW,
+    _Index,
+    _levels,
     generate_mixed,
     mixed_rounds,
     mixed_rule_problems,
+    mixed_short_pools,
     validate_mixed_schedule,
 )
 from musicle_pipeline.anime_schedule import _rounds, generate_anime
 from musicle_pipeline.cli import main
-from musicle_pipeline.io_json import dumps
+from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
+from musicle_pipeline.paths import MIXED_FILE, anime_paths
 from musicle_pipeline.schedule import ScheduleError
 
 EPOCH = date(2026, 10, 8)
@@ -116,14 +122,69 @@ def test_the_mixed_days_stop_at_the_last_anime_day(big):
     anime = generate_anime(big, None, EPOCH, EPOCH, horizon=2).schedule
     mixed = generate_mixed(big, anime, None, EPOCH, EPOCH, horizon=20).schedule
     assert sorted(mixed["days"]) == sorted(anime["days"])  # cada dia lê o do Anime (P25)
+    later = generate_anime(big, None, EPOCH + timedelta(days=5), EPOCH, horizon=0).schedule
     with pytest.raises(ScheduleError, match="não tem o dia"):
+        generate_mixed(big, later, None, EPOCH, EPOCH, horizon=0)
+    # A agenda do Anime quebrada (o schedule-check a lê do disco): erro de agenda, e não um
+    # KeyError no meio da geração.
+    with pytest.raises(ScheduleError, match="agenda do Anime ao lado inválida"):
         generate_mixed(big, {"days": {}}, None, EPOCH, EPOCH, horizon=0)
+
+
+def test_the_levels_relax_the_ruler_before_the_anime_of_the_day():
+    # A ordem dos afrouxamentos: a janela encolhe antes das três do acervo curto, e a P25 é a
+    # última de todas, depois de a régua da P7 cair.
+    assert [level.what for level in _levels("famous", 3)] == [
+        "",
+        "a franquia repete no dia",
+        "o Fácil inteiro",
+        "janela de 2 dia(s)",
+        "janela de 1 dia(s)",
+        "a franquia repete no diário",
+        "qualquer faixa do modo",
+        "repete uma resposta do Anime do dia (P25)",
+    ]
+    assert [level.ruler for level in _levels("hard", 2)] == [
+        "hard",
+        "hard",
+        "hard",
+        "hard",
+        "any",
+        "any",
+    ]
+
+
+def test_the_window_is_the_smallest_of_each_mode_and_of_the_union():
+    # 30 muito conhecidas nos dois modos: a união dá 30 // 14 = 2 dias. Só no musica: 30 // 7 = 4
+    # no musica, e 0 no titulo, que fica com a janela mínima.
+    assert _Index(catalog_of(famous=30, medio=40, dificil=40)).window == 2
+    only = catalog_of(famous=30, medio=40, dificil=40)
+    for t in only["tracks"]:
+        t["anime"]["famous"]["titulo"] = False
+    assert _Index(only).window == 1
+    assert mixed_short_pools(only) == [
+        "Misturadas: as muito conhecidas (musica 30, titulo 0) não dão 14 dias (7 por modo e 14"
+        " por dia); a janela cai para 1 dia(s)"
+    ]
+    assert mixed_short_pools(catalog_of(famous=14 * WINDOW, medio=10, dificil=10)) == []
+
+
+def test_a_short_pool_shrinks_the_window_over_the_days():
+    # 30 muito conhecidas (a janela de 2 dias) e o Anime do dia tirando as Fácil dele (P25): do 2º
+    # dia em diante, a janela encolhe, com registro, e as regras fixas continuam.
+    small = catalog_of(famous=30, medio=40, dificil=40)
+    anime, _ = both(small, 4)
+    result = generate_mixed(small, anime, None, EPOCH, EPOCH, horizon=3)
+    assert len(result.schedule["days"]) == 4
+    assert any("janela de 1 dia(s)" in r for r in result.relaxations)
+    assert not any("P25" in r for r in result.relaxations)
 
 
 def test_a_short_pool_relaxes_with_a_record_and_keeps_the_fixed_rules():
     small = catalog_of(famous=10, medio=12, dificil=12, facil=8)
-    anime, _ = both(small, 1)
+    anime, _ = both(small, 3)
     result = generate_mixed(small, anime, None, EPOCH, EPOCH, horizon=2)
+    assert len(result.schedule["days"]) == 3
     assert result.relaxations
     assert any("o Fácil inteiro" in r for r in result.relaxations)
     tracks = {t["id"]: t for t in small["tracks"]}
@@ -165,6 +226,34 @@ def test_the_rules_error_on_this_catalog_and_warn_on_an_older_one(big):
     big2["catalogVersion"] = "2026-10-09.1111abcd"
     errors, warnings = mixed_rule_problems(same, big2)
     assert errors == [] and any("mesma franquia" in w for w in warnings)
+    # Um dia gerado com um catálogo mais novo que este: o catálogo ficou para trás.
+    big2["catalogVersion"] = "2026-10-07.2222abcd"
+    errors, _ = mixed_rule_problems(same, big2)
+    assert any("gerado com um catálogo mais novo" in e for e in errors)
+
+
+def test_a_track_out_of_the_mode_is_an_error(big):
+    _, mixed = both(big, 1)
+    out = copy.deepcopy(big)
+    answer = mixed["days"]["2026-10-08"]["titulo"][2]["answers"][0]
+    for t in out["tracks"]:
+        if t["id"] == answer:
+            t["anime"]["tiers"]["titulo"] = None
+    errors, _ = mixed_rule_problems(mixed, out)
+    assert errors == ["2026-10-08 titulo rodada 3: faixa fora do modo"]
+
+
+def test_a_future_day_that_aged_badly_warns_and_stays(big):
+    anime, _ = both(big, 4)
+    base = generate_mixed(big, anime, None, EPOCH, EPOCH, horizon=1).schedule
+    gone = copy.deepcopy(big)
+    answer = base["days"]["2026-10-09"]["musica"][0]["answers"][0]
+    for t in gone["tracks"]:
+        if t["id"] == answer:
+            t["eligible"] = {"daily": False, "reason": "sem prévia"}
+    result = generate_mixed(gone, anime, base, EPOCH + timedelta(days=1), horizon=1)
+    assert result.warnings == ["2026-10-09 musica rodada 1: resposta não é mais elegível"]
+    assert result.schedule["days"]["2026-10-09"] == base["days"]["2026-10-09"]
 
 
 def test_the_schedule_check_regenerates_the_mixed_days_with_the_anime_beside(tmp_path, big, capsys):
@@ -191,3 +280,69 @@ def test_the_schedule_check_regenerates_the_mixed_days_with_the_anime_beside(tmp
     path.write_bytes(dumps(mixed).encode("utf-8"))
     assert main(args) == 1
     assert "sem a agenda do Anime ao lado" in capsys.readouterr().out
+
+
+FIXTURE = anime_paths("fixture").public_dir
+
+
+def _copy_fixture(tmp_path, *names: str) -> None:
+    for name in names:
+        (tmp_path / name).write_bytes((FIXTURE / name).read_bytes())
+
+
+def test_the_schedule_mixed_command(tmp_path, monkeypatch, capsys):
+    paths = replace(anime_paths("fixture"), public_dir=tmp_path)
+    monkeypatch.setattr("musicle_pipeline.cli.anime_paths", lambda provider: paths)
+    args = ["schedule-mixed", "--provider", "fixture", "--today", "2026-10-08"]
+    # Sem o catálogo, e depois sem a agenda do Anime: o comando diz qual rodar.
+    assert main(args) == 1
+    assert "rode o build-anime" in capsys.readouterr().err
+    _copy_fixture(tmp_path, "catalog.json")
+    assert main(args) == 1
+    assert "rode o schedule-anime" in capsys.readouterr().err
+    # A agenda do Anime inválida é recusada antes de gerar.
+    anime = read_json(FIXTURE / "schedule.json")
+    (tmp_path / "schedule.json").write_bytes(dumps({**anime, "kind": "hits"}).encode("utf-8"))
+    assert main(args) == 1
+    assert not (tmp_path / MIXED_FILE).exists()
+    # Com as duas, grava a agenda nova: a mesma das fixtures, nos dias que o horizonte dá.
+    _copy_fixture(tmp_path, "schedule.json")
+    assert main([*args, "--epoch", "2026-10-08", "--days", "2"]) == 0
+    out = capsys.readouterr()
+    assert "3 dia(s) novo(s) (2026-10-08 a 2026-10-10)" in out.out
+    assert "a janela cai para 1 dia(s)" in out.err
+    written = read_json(tmp_path / MIXED_FILE)
+    committed = read_json(FIXTURE / MIXED_FILE)
+    assert written["days"] == {d: committed["days"][d] for d in written["days"]}
+    # De novo, no mesmo dia: nada muda.
+    assert main([*args, "--days", "2"]) == 0
+    assert "sem mudanças" in capsys.readouterr().out
+
+
+def test_the_validate_anime_command_checks_the_mixed_schedule(tmp_path, capsys):
+    _copy_fixture(tmp_path, "catalog.json", MIXED_FILE)
+    args = ["validate-anime", "--provider", "fixture", "--path", str(tmp_path / "catalog.json")]
+    # As Misturadas sem a agenda do Anime ao lado: não há como conferi-las (P25).
+    assert main(args) == 1
+    assert "sem a agenda do Anime ao lado" in capsys.readouterr().err
+    _copy_fixture(tmp_path, "schedule.json")
+    assert main(args) == 0
+    mixed = read_json(FIXTURE / MIXED_FILE)
+    # Fora da forma canônica.
+    (tmp_path / MIXED_FILE).write_text(dumps(mixed).replace("\n", "\r\n"), encoding="utf-8")
+    assert main(args) == 1
+    assert "forma canônica" in capsys.readouterr().err
+    # Uma rodada com uma música a menos.
+    broken = copy.deepcopy(mixed)
+    broken["days"]["2026-10-08"]["musica"][3]["answers"].pop()
+    (tmp_path / MIXED_FILE).write_bytes(dumps(broken).encode("utf-8"))
+    assert main(args) == 1
+    assert "rodada 4: 3 músicas, e não 2" in capsys.readouterr().err
+
+
+def test_the_schedule_check_refuses_an_unknown_kind(tmp_path, capsys):
+    anime = read_json(FIXTURE / "schedule.json")
+    path = tmp_path / "other.json"
+    path.write_bytes(dumps({**anime, "kind": "outra"}).encode("utf-8"))
+    assert main(["schedule-check", "--path", str(path), "--base", str(tmp_path / "none.json")]) == 1
+    assert "tipo desconhecido ('outra')" in capsys.readouterr().out

@@ -14,12 +14,15 @@ A regra de ouro é a das outras agendas: SÓ CRESCE (o `grow` do `schedule.py`).
 - **O afrouxamento,** com registro: o nível 0 tem tudo, com a franquia nova no dia (entre os dois
   diários), no `titulo` a franquia nova no diário (a resposta seria a mesma em duas rodadas) e a
   janela; o 1 deixa a franquia repetir no dia; o 2, nas rodadas da muito conhecida, abre para o
-  Fácil inteiro (o acervo curto); depois, a janela encolhe (K − 1, ..., 1). Os dois últimos só
-  valem no acervo curto (as fixtures, de 34 faixas; no real, nunca chegam): a franquia repete no
-  diário do `titulo`, e, sem nenhuma outra saída, uma resposta dos 6 diários do Anime do dia
-  (P25).
+  Fácil inteiro (o acervo curto); depois, a janela encolhe (K − 1, ..., 1). Os três últimos só
+  valem no acervo curto (as fixtures, de 34 faixas; no real, nunca devem chegar), nesta ordem: a
+  franquia repete no diário do `titulo`; qualquer faixa do modo (a régua da P7 cai: a rodada da
+  muito conhecida pode receber uma Média ou Difícil, e a 3, uma Fácil); e, sem nenhuma outra
+  saída, uma resposta dos 6 diários do Anime do dia (P25). A régua cai antes da P25 porque uma
+  música repetida no mesmo dia é o que a pessoa mais nota.
 - **A janela:** a música que saiu nas Misturadas nos últimos K dias fica de fora (hoje conta); K =
-  WINDOW, ou menos com acervo curto (as muito conhecidas ÷ as 14 delas por dia).
+  WINDOW, ou menos com acervo curto: as muito conhecidas de cada modo ÷ as 7 dele por dia, e a
+  união dos dois ÷ as 14 do dia, a menor das contas (a mesma música não sai nos dois modos).
 - **A preferência** (P236): o terço mais antigo das candidatas, como no Anime.
 
 Mudou o consumo do rng, a ordem, a régua ou uma regra? Só os dias novos sentem (o `schedule-check`
@@ -42,6 +45,7 @@ from musicle_pipeline.anime_schedule import (
     _outside,
     _rounds,
     _weighted,
+    validate_anime_schedule,
 )
 from musicle_pipeline.io_json import read_json
 from musicle_pipeline.models import JSON
@@ -57,9 +61,12 @@ ROUNDS = (("famous", 2), ("famous", 2), ("hard", 2), ("famous", 3))
 WINDOW = 14
 # As muito conhecidas de um dia (as rodadas 1, 2 e 4 dos dois modos): o acervo ÷ isto é a janela.
 FAMOUS_PER_DAY = sum(n for ruler, n in ROUNDS if ruler == "famous") * len(MODES)
-# Os pesos do tipo do tema (P252) de cada régua: a muito conhecida e o Fácil, os do Fácil; o Médio
-# ou o Difícil da rodada 3, os do Difícil (o encerramento vale como a abertura).
-WEIGHT_TIER = {"famous": "facil", "facil": "facil", "hard": "dificil", "any": "dificil"}
+# As muito conhecidas de cada modo num dia (as rodadas 1, 2 e 4).
+FAMOUS_PER_MODE = FAMOUS_PER_DAY // len(MODES)
+# Os pesos do tipo do tema (P252) da régua da rodada (e não a do nível que afrouxou): a muito
+# conhecida, os do Fácil; o Médio ou o Difícil da rodada 3, os do Difícil (o encerramento vale como
+# a abertura).
+WEIGHT_TIER = {"famous": "facil", "hard": "dificil"}
 HARD_TIERS = ("medio", "dificil")
 
 
@@ -99,8 +106,28 @@ class _Index:
         self.pools = {
             (m, r): _pool(ordered, m, r) for m in MODES for r in ("famous", "facil", "hard", "any")
         }
-        famous = {t["songKey"] for m in MODES for t in self.pools[m, "famous"]}
-        self.window = max(1, min(WINDOW, len(famous) // FAMOUS_PER_DAY))
+        self.window = max(1, min(WINDOW, famous_days(self.pools)))
+
+
+def famous_days(pools: Mapping[tuple[str, str], Sequence[JSON]]) -> int:
+    """Quantos dias as muito conhecidas dão sem repetir: a de cada modo (7 por dia) e a da união
+    dos dois (14 por dia), a menor. Só pela união, um modo com poucas ficaria com a janela cheia e
+    cairia no Fácil inteiro todo dia."""
+    union = {t["songKey"] for m in MODES for t in pools[m, "famous"]}
+    per_mode = [len(pools[m, "famous"]) // FAMOUS_PER_MODE for m in MODES]
+    return min(len(union) // FAMOUS_PER_DAY, *per_mode)
+
+
+def mixed_short_pools(catalog: JSON) -> list[str]:
+    """O aviso de acervo curto: as muito conhecidas não dão a janela de WINDOW dias."""
+    idx = _Index(catalog)
+    if idx.window >= WINDOW:
+        return []
+    counts = ", ".join(f"{m} {len(idx.pools[m, 'famous'])}" for m in MODES)
+    return [
+        f"Misturadas: as muito conhecidas ({counts}) não dão {WINDOW} dias ({FAMOUS_PER_MODE} por"
+        f" modo e {FAMOUS_PER_DAY} por dia); a janela cai para {idx.window} dia(s)"
+    ]
 
 
 def mixed_rounds(day: JSON) -> Iterator[tuple[str, int, list[str]]]:
@@ -156,8 +183,9 @@ class _Level:
 
 
 def _levels(ruler: str, window: int) -> list[_Level]:
-    """Os níveis, do mais firme ao mais frouxo. Os dois últimos só valem no acervo curto (as
-    fixtures, de 34 faixas): no real, nunca chegam."""
+    """Os níveis, do mais firme ao mais frouxo. Os três últimos só valem no acervo curto (as
+    fixtures, de 34 faixas; no real, nunca devem chegar): a franquia no diário do titulo, a régua
+    da P7 (qualquer faixa do modo) e, por último, a P25."""
     wide = "facil" if ruler == "famous" else ruler
     levels = [_Level("", window, ruler), _Level("a franquia repete no dia", window, ruler, False)]
     if ruler == "famous":
@@ -232,6 +260,19 @@ def _generate_day(
     return day, relaxations
 
 
+def _future_warnings(schedule: JSON, today: date, idx: _Index) -> list[str]:
+    """Dias futuros já gravados não mudam; se envelheceram mal, o jogo anula a rodada (P238)."""
+    warnings = []
+    for day_str, day in sorted(schedule["days"].items()):
+        if date.fromisoformat(day_str) < today:
+            continue
+        for mode, n, answers in mixed_rounds(day):
+            tracks = [idx.tracks.get(a) for a in answers]
+            if any(t is None or not t["eligible"]["daily"] for t in tracks):
+                warnings.append(f"{day_str} {mode} rodada {n}: resposta não é mais elegível")
+    return warnings
+
+
 def generate_mixed(
     catalog: JSON,
     anime_schedule: JSON,
@@ -241,12 +282,18 @@ def generate_mixed(
     horizon: int = HORIZON_DAYS,
 ) -> Result:
     """Acrescenta os dias que faltam até today + horizon, sem passar do último dia da agenda do
-    Anime (P25: cada dia lê as respostas dele). Nunca altera um dia existente."""
+    Anime (P25: cada dia lê as respostas dele). Nunca altera um dia existente. A agenda do Anime é
+    conferida aqui também: o schedule-check a lê do disco, sem outra conferência."""
     idx = _Index(catalog)
+    anime_problems = validate_anime_schedule(anime_schedule, catalog)
+    if anime_problems:
+        raise ScheduleError("agenda do Anime ao lado inválida:\n" + "\n".join(anime_problems))
+    warnings: list[str] = []
     if existing is not None:
         problems = validate_mixed_schedule(existing, catalog)
         if problems:
             raise ScheduleError("agenda das Misturadas existente inválida:\n" + "\n".join(problems))
+        warnings = _future_warnings(existing, today, idx)
     anime_days = anime_schedule["days"]
     if anime_days:
         horizon = min(horizon, (date.fromisoformat(max(anime_days)) - today).days)
@@ -258,6 +305,7 @@ def generate_mixed(
         epoch,
         horizon,
         lambda days, d, start: _generate_day(days, d, start, idx, anime_days),
+        warnings,
     )
 
 
@@ -334,6 +382,8 @@ def _day_rule_problems(where: str, day: JSON, tracks: Mapping[str, JSON]) -> lis
             if track["songKey"] in songs:
                 problems.append(f"{at}: música repetida no dia")
             songs.add(track["songKey"])
+            if track["anime"]["tiers"][mode] is None:
+                problems.append(f"{at}: faixa fora do modo")
             round_franchises += track["anime"]["franchiseIds"]
         if len(round_franchises) != len(set(round_franchises)):
             problems.append(f"{at}: duas músicas da mesma franquia na rodada")
@@ -341,14 +391,22 @@ def _day_rule_problems(where: str, day: JSON, tracks: Mapping[str, JSON]) -> lis
 
 
 def mixed_rule_problems(schedule: JSON, catalog: JSON) -> tuple[list[str], list[str]]:
-    """As regras da geração que nunca afrouxam, dia a dia: cada resposta elegível, nenhuma música
-    repetida nos 18 do dia e as franquias diferentes na rodada. Devolve (erros, avisos): erro nos
-    dias gerados com este catálogo (o mesmo catalogVersion); aviso nos de antes, como no Anime."""
+    """As regras da geração que nunca afrouxam, dia a dia: cada resposta elegível e do modo,
+    nenhuma música repetida nos 18 do dia e as franquias diferentes na rodada. Devolve (erros,
+    avisos): erro nos dias gerados com este catálogo (o mesmo catalogVersion); aviso nos de antes,
+    como no Anime. Um dia gerado com um catálogo de data mais nova que a deste é erro (o catálogo
+    ficou para trás)."""
     tracks = {t["id"]: t for t in catalog["tracks"]}
     version = catalog["catalogVersion"]
     errors: list[str] = []
     warnings: list[str] = []
     for where, day in sorted(schedule["days"].items()):
+        if day["catalogVersion"][:10] > version[:10]:
+            errors.append(
+                f"{where}: gerado com um catálogo mais novo ({day['catalogVersion']}) que este"
+                f" ({version})"
+            )
+            continue
         found = _day_rule_problems(where, day, tracks)
         (errors if day["catalogVersion"] == version else warnings).extend(found)
     return errors, warnings

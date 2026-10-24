@@ -214,7 +214,7 @@ def test_a_new_fixture_schedule_may_be_born_with_past_days(tmp_path, capsys):
 
 
 @pytest.mark.skipif(shutil.which("git") is None, reason="git não está no PATH")
-def test_the_default_schedule_check_covers_the_four_schedules(capsys):
+def test_the_default_schedule_check_covers_every_schedule(capsys):
     # As dos Hits continuam com o resultado de antes; as do Anime (a fictícia e, desde a carga de
     # teste, C1, a real) entram com o gerador delas.
     assert main(["schedule-check", "--base-ref", "HEAD"]) == 0
@@ -224,6 +224,8 @@ def test_the_default_schedule_check_covers_the_four_schedules(capsys):
         repo_root() / "web" / "public" / "data" / "schedule.json",
         ANIME / "schedule.json",
         anime_paths("apple").public_dir / "schedule.json",
+        # As Misturadas (M17): a fictícia; a real nasce depois da carga C3.
+        ANIME / "mixed.json",
     ):
         assert f"{path}: OK (" in out
 

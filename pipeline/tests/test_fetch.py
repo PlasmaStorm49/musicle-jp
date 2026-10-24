@@ -251,6 +251,8 @@ def test_other_commands_never_import_the_network_module(tmp_path):
         f"assert main({build_anime!r}) == 0\n"
         "assert main(['validate-anime', '--provider', 'fixture']) == 0\n"
         f"assert main({schedule_anime!r}) == 0\n"
+        # As Misturadas (M17): o horizonte não passa da agenda fictícia, e nada é gravado.
+        "assert main(['schedule-mixed', '--provider', 'fixture', '--today', '2026-10-08']) == 0\n"
         # O laboratório das Misturadas (M17): a chance de cada música, também sem rede.
         f"assert main({lab_chances!r}) == 0\n"
         # O ranking do MAL (M14, PR B) também usa a rede: só o fetch --anime o carrega.

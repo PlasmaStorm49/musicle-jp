@@ -373,7 +373,8 @@ def compare(base: JSON | None, current: JSON) -> list[str]:
     (preencheria um buraco com um dia que já passou, P44) ou cabeçalho alterado."""
     if base is None:
         return []
-    # O "kind" só existe na agenda do Anime (M14); nos Hits, falta dos dois lados.
+    # O "kind" só existe nas agendas do Anime (M14) e das Misturadas (M17); nos Hits, falta dos
+    # dois lados.
     problems = [
         f"{key} mudou: {base.get(key)!r} → {current.get(key)!r}"
         for key in ("schemaVersion", "kind", "timezone", "epoch")

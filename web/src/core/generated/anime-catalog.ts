@@ -154,7 +154,7 @@ export interface AnimeTrack {
     /**
      * Muito conhecida em cada modo, a régua das Misturadas (M17): a chance de acertar a partir do corte fixo (FAMOUS_CUTS), dentro do Fácil do modo. Só sim ou não, sem número (P240, P254).
      */
-    famous?: {
+    famous: {
       musica: boolean;
       titulo: boolean;
     };

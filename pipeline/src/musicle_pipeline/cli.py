@@ -19,6 +19,7 @@ from musicle_pipeline.anime_mixed import (
     generate_mixed,
     mixed_generator,
     mixed_rule_problems,
+    mixed_short_pools,
     validate_mixed_schedule,
 )
 from musicle_pipeline.anime_schedule import (
@@ -312,7 +313,13 @@ def _validate_anime(args: argparse.Namespace) -> int:
     code = _report(path, validate_anime_catalog(catalog, path.read_bytes()))
     # A agenda ao lado do catálogo, se existir (ou a do --schedule, que precisa existir).
     spath = resolve(args.schedule) if args.schedule else path.with_name("schedule.json")
-    if code or (args.schedule is None and not spath.exists()):
+    mpath = spath.with_name(MIXED_FILE)
+    if code:
+        return code
+    if args.schedule is None and not spath.exists():
+        # As Misturadas leem a agenda do Anime (P25): sem ela, não há como conferi-las.
+        if mpath.exists():
+            return _report(mpath, ["sem a agenda do Anime ao lado (rode o schedule-anime, P25)"])
         return code
     if not spath.exists():
         return _report(spath, ["arquivo ausente (rode o schedule-anime)"])
@@ -329,11 +336,12 @@ def _validate_anime(args: argparse.Namespace) -> int:
         print(f"aviso: {message}", file=sys.stderr)
     code = _report(spath, problems)
     # A agenda das Misturadas (M17), se existir ao lado: a estrutura e as regras que nunca afrouxam.
-    mpath = spath.with_name(MIXED_FILE)
     if code or not mpath.exists():
         return code
     mixed = read_json(mpath)
     mixed_problems = validate_mixed_schedule(mixed, catalog)
+    for message in mixed_short_pools(catalog):
+        print(f"aviso: {message}", file=sys.stderr)
     if not mixed_problems:
         errors, old = mixed_rule_problems(mixed, catalog)
         mixed_problems += errors
@@ -399,7 +407,7 @@ def _schedule_mixed(args: argparse.Namespace) -> int:
         return 1
     existing = read_json(out) if out.exists() else None
     result = generate_mixed(catalog, anime_schedule, existing, args.today, args.epoch, args.days)
-    for message in result.warnings:
+    for message in [*mixed_short_pools(catalog), *result.warnings]:
         print(f"aviso: {message}", file=sys.stderr)
     for message in result.relaxations:
         print(f"afrouxamento: {message}", file=sys.stderr)
@@ -448,7 +456,7 @@ def _schedule_check(args: argparse.Namespace) -> int:
     if args.catalog is not None and len(args.path or []) != 1:
         print("--catalog vale para uma agenda só: passe exatamente um --path", file=sys.stderr)
         return 1
-    # Com --path, o tipo sai do conteúdo (o "kind" da agenda do Anime).
+    # Com --path, o tipo sai do conteúdo (o "kind" das agendas do Anime e das Misturadas).
     targets = [(resolve(p), None) for p in args.path] if args.path else known_schedules()
     results = [
         code
@@ -464,7 +472,8 @@ def _schedule_check(args: argparse.Namespace) -> int:
 # O gerador de cada tipo de agenda, para regerar os dias novos (ME51). O das Misturadas (M17)
 # precisa também da agenda do Anime ao lado (P25): sai do `_generator_of`.
 _GENERATORS: dict[str, Generator] = {"hits": generate, "anime": generate_anime}
-# O tipo de uma agenda pelo `kind` dela; sem o campo, a dos Hits.
+# O tipo de uma agenda pelo `kind` dela; sem o campo, a dos Hits. Um `kind` desconhecido é erro:
+# cairia em silêncio no gerador dos Hits.
 _KINDS = {"anime": "anime", MIXED_KIND: MIXED_KIND}
 
 
@@ -501,8 +510,8 @@ def _is_fixture(path: Path) -> bool:
 
 def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | None:
     """0 = só cresceu, 1 = quebrou, None = a agenda não existe aqui nem na base. Despacha pelo
-    tipo (os Hits ou o Anime): o compare e o check_dates são os mesmos; o gerador que refaz os
-    dias novos, com o catálogo ao lado da agenda, é o do tipo."""
+    tipo (os Hits, o Anime ou as Misturadas): o compare e o check_dates são os mesmos; o gerador
+    que refaz os dias novos, com o catálogo ao lado da agenda, é o do tipo."""
     if args.base is not None:
         base_path = resolve(args.base)
         base = read_json(base_path) if base_path.exists() else None
@@ -519,8 +528,11 @@ def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | 
         return 1
     current = read_json(path)
     if kind is None:
-        # Pelo `kind` da agenda: um tipo novo cairia em silêncio no gerador dos Hits.
-        kind = _KINDS.get(current.get("kind"), "hits")
+        declared = current.get("kind")
+        if declared is not None and declared not in _KINDS:
+            print(f"{path}: agenda de tipo desconhecido ({declared!r}): não há gerador para ela")
+            return 1
+        kind = "hits" if declared is None else _KINDS[declared]
     redone = _redone(path, args.today)
     problems = [p for p in compare(base, current) if p not in redone]
     if args.today is not None:
