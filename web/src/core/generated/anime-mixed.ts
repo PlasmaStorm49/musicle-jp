@@ -12,7 +12,7 @@ export type MixedRounds = [MixedRound, MixedRound, MixedRound, MixedRound];
 export type TrackId = string;
 
 /**
- * Os 2 diários de cada dia das Misturadas (M17): acertar a música e acertar o anime, de 4 rodadas cada, com 2, 2, 2 e 3 músicas tocando juntas (P7). Usa o catálogo do Anime. Só cresce: um dia gravado nunca muda. Gerado só pelo pipeline (comando schedule-mixed).
+ * Os 2 diários de cada dia das Misturadas (M17): acertar a música e acertar o anime, de 4 rodadas cada, com 2, 2, 2 e 3 músicas tocando juntas (P325). Usa o catálogo do Anime. Só cresce: um dia gravado nunca muda. Gerado só pelo pipeline (comando schedule-mixed).
  */
 export interface MixedSchedule {
   schemaVersion: 1;

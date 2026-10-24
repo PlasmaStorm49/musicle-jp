@@ -485,7 +485,7 @@ export function App() {
             items={items}
             onClose={dismissNotice}
             attribution={attribution}
-            // Uma conquista grande: guardar uma cópia do progresso (ME103, P25).
+            // Uma conquista grande: guardar uma cópia do progresso (ME103, P347).
             actions={
               hasBig(items) ? (
                 <BackupAction store={saves.store} today={date} mode={saves.mode} />

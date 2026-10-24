@@ -27,7 +27,7 @@ export function exportFileName(today: string): string {
 }
 
 /**
- * O texto do arquivo: o save de sempre, sem o andamento (P26: só os jogos terminados viajam, também
+ * O texto do arquivo: o save de sempre, sem o andamento (P346: só os jogos terminados viajam, também
  * nas Misturadas), com a marca e a data do jogo (`today`, e não o relógio).
  */
 export function exportFile(save: Save, today: string): string {
@@ -126,7 +126,7 @@ export function parseImport(text: string, today: string): ImportResult {
   const exportedOn =
     typeof data.exportedOn === "string" && isValidDate(data.exportedOn) ? data.exportedOn : null;
   if (exportedOn !== null && exportedOn > today) return { ok: false, reason: "later" };
-  // O andamento não viaja (P26): um arquivo que o traga não o passa adiante. Nas Misturadas também
+  // O andamento não viaja (P346): um arquivo que o traga não o passa adiante. Nas Misturadas também
   // (v10): o arquivo de uma versão de antes não tem o campo, e a migração o cria.
   const mixedIn = isRecord(data.save.mixed) ? { mixed: { ...data.save.mixed, progress: {} } } : {};
   const read = readSave({ ...data.save, inProgress: {}, ...mixedIn });
@@ -193,8 +193,8 @@ export function lostGames(current: Save, imported: Save): number {
 }
 
 /**
- * Substituir (P24): o progresso importado toma o lugar do daqui. O andamento deste aparelho fica,
- * porque o arquivo não o traz (P26), menos o dos dias que o arquivo traz terminados.
+ * Substituir (P345): o progresso importado toma o lugar do daqui. O andamento deste aparelho fica,
+ * porque o arquivo não o traz (P346), menos o dos dias que o arquivo traz terminados.
  */
 export function replaceSave(current: Save, imported: Save): Save {
   const inProgress = Object.fromEntries(

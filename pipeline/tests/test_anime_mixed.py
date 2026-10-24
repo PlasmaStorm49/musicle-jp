@@ -1,5 +1,5 @@
 """A agenda das Misturadas (M17): as 4 rodadas de 2, 2, 2 e 3 músicas, a régua, as regras que
-nunca afrouxam, a P25 (nenhuma resposta do Anime do dia), o limite de novas por rodada, o
+nunca afrouxam, a P332 (nenhuma resposta do Anime do dia), o limite de novas por rodada, o
 afrouxamento do acervo curto e o schedule-check do tipo novo."""
 
 from __future__ import annotations
@@ -103,7 +103,7 @@ def test_ten_days_keep_every_rule_without_relaxing(big):
             if mode == "titulo":
                 assert len(diary_franchises) == len(set(diary_franchises))
         assert len(day_songs) == len(set(day_songs)) == 18, day_str
-        assert not set(day_songs) & anime_songs, day_str  # P25
+        assert not set(day_songs) & anime_songs, day_str  # P332
         # A janela de 14 dias: em 10 dias, nenhuma música volta.
         assert not set(day_songs) & seen, day_str
         seen |= set(day_songs)
@@ -121,7 +121,7 @@ def test_growing_day_by_day_gives_the_same_days(big):
 def test_the_mixed_days_stop_at_the_last_anime_day(big):
     anime = generate_anime(big, None, EPOCH, EPOCH, horizon=2).schedule
     mixed = generate_mixed(big, anime, None, EPOCH, EPOCH, horizon=20).schedule
-    assert sorted(mixed["days"]) == sorted(anime["days"])  # cada dia lê o do Anime (P25)
+    assert sorted(mixed["days"]) == sorted(anime["days"])  # cada dia lê o do Anime (P332)
     later = generate_anime(big, None, EPOCH + timedelta(days=5), EPOCH, horizon=0).schedule
     with pytest.raises(ScheduleError, match="não tem o dia"):
         generate_mixed(big, later, None, EPOCH, EPOCH, horizon=0)
@@ -132,8 +132,8 @@ def test_the_mixed_days_stop_at_the_last_anime_day(big):
 
 
 def test_the_levels_relax_the_ruler_before_the_anime_of_the_day():
-    # A ordem dos afrouxamentos: a janela encolhe antes das três do acervo curto, e a P25 é a
-    # última de todas, depois de a régua da P7 cair.
+    # A ordem dos afrouxamentos: a janela encolhe antes das três do acervo curto, e a P332 é a
+    # última de todas, depois de a régua da P325 cair.
     assert [level.what for level in _levels("facil", 3)] == [
         "",
         "a franquia repete no dia",
@@ -141,7 +141,7 @@ def test_the_levels_relax_the_ruler_before_the_anime_of_the_day():
         "janela de 1 dia(s)",
         "a franquia repete no diário",
         "qualquer faixa do modo",
-        "repete uma resposta do Anime do dia (P25)",
+        "repete uma resposta do Anime do dia (P332)",
     ]
     assert [level.ruler for level in _levels("hard", 2)] == [
         "hard",
@@ -170,14 +170,14 @@ def test_the_window_is_the_smallest_of_each_mode_and_of_the_union():
 
 
 def test_a_short_pool_shrinks_the_window_over_the_days():
-    # 30 do Fácil (a janela de 2 dias) e o Anime do dia tirando as Fácil dele (P25): do 2º dia em
+    # 30 do Fácil (a janela de 2 dias) e o Anime do dia tirando as Fácil dele (P332): do 2º dia em
     # diante, a janela encolhe, com registro, e as regras fixas continuam.
     small = catalog_of(facil=30, medio=40, dificil=40)
     anime, _ = both(small, 4)
     result = generate_mixed(small, anime, None, EPOCH, EPOCH, horizon=3)
     assert len(result.schedule["days"]) == 4
     assert any("janela de 1 dia(s)" in r for r in result.relaxations)
-    assert not any("P25" in r for r in result.relaxations)
+    assert not any("P332" in r for r in result.relaxations)
 
 
 def test_a_short_pool_relaxes_with_a_record_and_keeps_the_fixed_rules():
@@ -306,7 +306,7 @@ def test_the_schedule_check_regenerates_the_mixed_days_with_the_anime_beside(tmp
     path.write_bytes(dumps(edited).encode("utf-8"))
     assert main(args) == 1
     assert "2026-10-12: dia novo diferente do que o gerador daria" in capsys.readouterr().out
-    # Sem a agenda do Anime ao lado, não dá para regerar (P25).
+    # Sem a agenda do Anime ao lado, não dá para regerar (P332).
     (tmp_path / "schedule.json").unlink()
     path.write_bytes(dumps(mixed).encode("utf-8"))
     assert main(args) == 1
@@ -355,7 +355,7 @@ def test_the_schedule_mixed_command(tmp_path, monkeypatch, capsys):
 def test_the_validate_anime_command_checks_the_mixed_schedule(tmp_path, capsys):
     _copy_fixture(tmp_path, "catalog.json", MIXED_FILE)
     args = ["validate-anime", "--provider", "fixture", "--path", str(tmp_path / "catalog.json")]
-    # As Misturadas sem a agenda do Anime ao lado: não há como conferi-las (P25).
+    # As Misturadas sem a agenda do Anime ao lado: não há como conferi-las (P332).
     assert main(args) == 1
     assert "sem a agenda do Anime ao lado" in capsys.readouterr().err
     _copy_fixture(tmp_path, "schedule.json")

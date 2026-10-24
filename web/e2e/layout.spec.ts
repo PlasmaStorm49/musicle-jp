@@ -886,7 +886,7 @@ test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longo
   expect(new Set(tops).size, "as 4 na mesma linha").toBe(1);
   const badge = dialog.locator(".attribution");
   await expect(badge).toBeVisible();
-  // As medalhas grandes (a Superfan completa e a perfeita) pedem a cópia do progresso (P25).
+  // As medalhas grandes (a Superfan completa e a perfeita) pedem a cópia do progresso (P347).
   const backup = dialog.getByRole("button", { name: "Guardar uma cópia do progresso" });
   await expect(backup).toBeVisible();
   for (const target of [dialog, backup, dialog.getByRole("button", { name: "Ok" }), badge]) {

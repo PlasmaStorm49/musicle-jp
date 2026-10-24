@@ -148,7 +148,7 @@ const BIG_KINDS: ReadonlySet<MedalKind> = new Set(["completo", "perfeito", "gera
 
 /**
  * O aviso tem uma medalha grande: a Superfan completa ou perfeita, ou uma das gerais grandes. O
- * pop-up dele oferece guardar uma cópia do progresso (ME103, P25).
+ * pop-up dele oferece guardar uma cópia do progresso (ME103, P347).
  */
 export function hasBig(items: readonly NoticeItem[]): boolean {
   return items.some((item) => BIG_KINDS.has(item.kind));

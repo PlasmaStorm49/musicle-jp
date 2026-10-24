@@ -18,7 +18,7 @@ import type { Target } from "./types.ts";
  */
 export type AnimeTab = "anime" | `anime-${AnimeMode}` | AnimeKey;
 
-/** As abas das Misturadas (M17, P26): a escolha do modo e os 2 diários, cuja aba é a chave. */
+/** As abas das Misturadas (M17, P333): a escolha do modo e os 2 diários, cuja aba é a chave. */
 export type MixedTab = "misturadas" | MixedKey;
 
 /**

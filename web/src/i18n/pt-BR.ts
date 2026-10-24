@@ -542,7 +542,7 @@ export const ptBR = {
   "daily.misturadas-musica": "Misturadas · Música",
   "daily.misturadas-titulo": "Misturadas · Anime",
 
-  // As Misturadas (M17, P7 a P26): 2 ou 3 prévias de temas de anime tocando juntas. Dois diários,
+  // As Misturadas (M17, P325 a P333): 2 ou 3 prévias de temas de anime tocando juntas. Dois diários,
   // acertar a música e acertar o anime, de 4 rodadas, com os trechos de 4, 8, 16 e 30 s.
   "mixed.title": "Misturadas",
   "mixed.hint": "Temas de anime tocando juntos: ache todos.",
@@ -559,7 +559,7 @@ export const ptBR = {
   "mixed.questionSong": "Quais são as músicas?",
   "mixed.questionAnime": "Quais são os animes?",
   "mixed.found": "{found} de {total} achadas",
-  // O "Separar L e R" (P10, P14): o custo fica na dica, e não no botão (regra 8).
+  // O "Separar L e R" (P327): o custo fica na dica, e não no botão (regra 8).
   "mixed.separate": "Ajuda: separar L e R",
   "mixed.separateHint":
     "Cada música toca de um lado do fone. As que você achar depois valem a metade.",

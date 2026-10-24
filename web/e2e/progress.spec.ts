@@ -87,7 +87,7 @@ test("um arquivo que não é um progresso: o aviso, e nada muda", async ({ page 
   await expect(page.getByRole("dialog")).toHaveCount(0);
 });
 
-test("o pop-up de uma medalha grande oferece guardar uma cópia, que baixa o arquivo (P25)", async ({
+test("o pop-up de uma medalha grande oferece guardar uma cópia, que baixa o arquivo (P347)", async ({
   page,
 }) => {
   // As 3 do Superfan de um artista (a completa e a perfeita são grandes) e o 1º diário, de um dia

@@ -548,7 +548,7 @@ def test_amq_stops_at_the_call_limit_and_refuses_a_bad_shape():
 
 
 def test_the_amq_order_weighs_the_guess_rate_by_the_mal_fame():
-    # O viés do AMQ (P21): a música de um anime de nicho só toca para quem o assistiu, e quase
+    # O viés do AMQ (P336): a música de um anime de nicho só toca para quem o assistiu, e quase
     # todos acertam. O nicho com 100% e sem nível no MAL vai atrás do clássico com 80% e nível 9,
     # e o 6 com 95% fica entre os dois.
     rates = {1: 100.0, 2: 80.0, 3: 95.0}
@@ -679,7 +679,7 @@ def test_the_cli_draw_option(monkeypatch, tmp_path, capsys):
     monkeypatch.setattr(fa, "fetch_anime_snapshot", fake_snapshot)
     monkeypatch.setattr(fa, "cached_romanizer", lambda: lambda t: (t,))
     base = ["fetch", "--provider", "apple", "--anime", "--fetched-at", NOW]
-    # Sem o MAL, o --draw amq recusa antes da rede (P17).
+    # Sem o MAL, o --draw amq recusa antes da rede (P335).
     monkeypatch.delenv("MAL_CLIENT_ID", raising=False)
     assert main([*base, "--draw", "amq", "--out-dir", str(tmp_path / "a")]) == 1
     assert "--draw amq precisa do nível do MAL" in capsys.readouterr().err

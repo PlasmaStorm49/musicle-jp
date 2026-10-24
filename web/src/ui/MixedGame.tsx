@@ -1,6 +1,6 @@
 // Um diário das Misturadas (M17), como o Game dos diários: retoma pelos eventos salvos, grava a
 // cada evento aceito e mostra o resumo do dia. Sem as estatísticas, a sequência e o Histórico, que
-// ficam para depois (P26): o resumo tem os pontos, o compartilhar e a contagem.
+// ficam para depois (P333): o resumo tem os pontos, o compartilhar e a contagem.
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";

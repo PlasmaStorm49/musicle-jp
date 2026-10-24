@@ -965,7 +965,7 @@ def main_with_mixed(ahead: int = 14, mixed_ahead: int = 6) -> dict[str, JSON]:
 
 
 def mixed_change(main: dict[str, JSON], until: int = 28) -> dict[str, JSON]:
-    """Uma semana de geração com as Misturadas: elas crescem até o fim da do Anime (P25)."""
+    """Uma semana de geração com as Misturadas: elas crescem até o fim da do Anime (P332)."""
     changes = full_change(main, until)
     changes[MIXED] = grown_mixed(main[MIXED], new_catalog(), new_days(main[MIXED], until))
     changes[FIXTURE_MIXED] = grown_mixed(

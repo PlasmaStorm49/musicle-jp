@@ -1,24 +1,24 @@
 """A agenda das Misturadas (M17): os 2 diários de cada dia, um por modo (`musica`, acertar a
-música; `titulo`, acertar o anime), com 4 rodadas de 2, 2, 2 e 3 músicas tocando juntas (P7). Usa
-o catálogo do Anime e lê a agenda dele, ao lado (P25).
+música; `titulo`, acertar o anime), com 4 rodadas de 2, 2, 2 e 3 músicas tocando juntas (P325). Usa
+o catálogo do Anime e lê a agenda dele, ao lado (P332).
 
 A regra de ouro é a das outras agendas: SÓ CRESCE (o `grow` do `schedule.py`). Só o dia é outro:
 
 - **A ordem e a semente:** para cada modo (`musica`, `titulo`) e cada rodada (1 a 4), nessa
   ordem, o rng de "musicle-jp|anime-mixed|<data>|<modo>|<rodada>"; cada música da rodada consome
   1 número (o sorteio ponderado pelo tipo do tema, P252).
-- **A régua** (P7; o usuário, 24/10/2026): nas rodadas 1, 2 e 4, o Fácil inteiro do modo (até
-  então, só as muito conhecidas, que deixavam as Misturadas fáceis demais; a marca saiu do
-  catálogo); na 3, o Médio ou o Difícil do modo.
+- **A régua** (P325; o Fácil inteiro desde a P359): nas rodadas 1, 2 e 4, o Fácil inteiro do
+  modo (até então, só as muito conhecidas, que deixavam as Misturadas fáceis demais; a marca saiu
+  do catálogo); na 3, o Médio ou o Difícil do modo.
 - **Nunca afrouxam:** a música não repete nas 18 do dia (os dois modos); dentro da rodada, as
   músicas e as franquias são diferentes (um palpite serviria a duas).
 - **O afrouxamento,** com registro: o nível 0 tem tudo, com a franquia nova no dia (entre os dois
   diários), no `titulo` a franquia nova no diário (a resposta seria a mesma em duas rodadas) e a
   janela; o 1 deixa a franquia repetir no dia; depois, a janela encolhe (K − 1, ..., 1). Os três
   últimos só valem no acervo curto (as fixtures, de 34 faixas; no real, nunca devem chegar), nesta
-  ordem: a franquia repete no diário do `titulo`; qualquer faixa do modo (a régua da P7 cai: a
+  ordem: a franquia repete no diário do `titulo`; qualquer faixa do modo (a régua da P325 cai: a
   rodada do Fácil pode receber uma Média ou Difícil, e a 3, uma Fácil); e, sem nenhuma outra
-  saída, uma resposta dos 6 diários do Anime do dia (P25). A régua cai antes da P25 porque uma
+  saída, uma resposta dos 6 diários do Anime do dia (P332). A régua cai antes da P332 porque uma
   música repetida no mesmo dia é o que a pessoa mais nota.
 - **A janela:** a música que saiu nas Misturadas nos últimos K dias fica de fora (hoje conta); K =
   WINDOW, ou menos com acervo curto: as do Fácil de cada modo ÷ as 7 dele por dia, e a união dos
@@ -60,7 +60,7 @@ from musicle_pipeline.schedule import HORIZON_DAYS, TIMEZONE, Generator, Result,
 
 SCHEMA_VERSION = 1
 KIND = "anime-mixed"
-# As 4 rodadas (P7): a régua e quantas músicas tocam juntas.
+# As 4 rodadas (P325): a régua e quantas músicas tocam juntas.
 ROUNDS = (("facil", 2), ("facil", 2), ("hard", 2), ("facil", 3))
 # A janela, em dias, com hoje: a música volta às Misturadas depois de duas semanas.
 WINDOW = 14
@@ -153,7 +153,7 @@ def _history(days: Mapping[str, JSON], idx: _Index) -> _History:
 
 
 def _anime_songs(anime_day: JSON, idx: _Index) -> set[str]:
-    """As músicas das 18 respostas dos 6 diários do Anime do dia (P25)."""
+    """As músicas das 18 respostas dos 6 diários do Anime do dia (P332)."""
     return {
         idx.tracks[answer]["songKey"]
         for _m, _t, _n, answer in _rounds(anime_day)
@@ -193,19 +193,19 @@ class _Level:
     ruler: str
     day_franchise: bool = True  # a franquia nova no dia (entre os dois diários)
     diary_franchise: bool = True  # no titulo, a franquia nova no diário
-    avoid_anime: bool = True  # sem as respostas dos 6 diários do Anime do dia (P25)
+    avoid_anime: bool = True  # sem as respostas dos 6 diários do Anime do dia (P332)
 
 
 def _levels(ruler: str, window: int) -> list[_Level]:
     """Os níveis, do mais firme ao mais frouxo. Os três últimos só valem no acervo curto (as
     fixtures, de 34 faixas; no real, nunca devem chegar): a franquia no diário do titulo, a régua
-    da P7 (qualquer faixa do modo) e, por último, a P25."""
+    da P325 (qualquer faixa do modo) e, por último, a P332."""
     levels = [_Level("", window, ruler), _Level("a franquia repete no dia", window, ruler, False)]
     levels += [_Level(f"janela de {k} dia(s)", k, ruler, False) for k in range(window - 1, 0, -1)]
     levels.append(_Level("a franquia repete no diário", 1, ruler, False, False))
     levels.append(_Level("qualquer faixa do modo", 1, "any", False, False))
     levels.append(
-        _Level("repete uma resposta do Anime do dia (P25)", 1, "any", False, False, False)
+        _Level("repete uma resposta do Anime do dia (P332)", 1, "any", False, False, False)
     )
     return levels
 
@@ -238,8 +238,8 @@ def _generate_day(
 ) -> tuple[JSON, list[str]]:
     anime_day = anime_days.get(d.isoformat())
     if anime_day is None:
-        # Sem o dia do Anime, a P25 não teria como valer: a agenda do Anime vem antes.
-        raise ScheduleError(f"{d}: a agenda do Anime não tem o dia (gere o Anime antes, P25)")
+        # Sem o dia do Anime, a P332 não teria como valer: a agenda do Anime vem antes.
+        raise ScheduleError(f"{d}: a agenda do Anime não tem o dia (gere o Anime antes, P332)")
     history = _history(days, idx)
     seen = _seen_songs(history, anime_days, d, idx)
     used = _Used(anime_songs=_anime_songs(anime_day, idx))
@@ -299,7 +299,7 @@ def generate_mixed(
     horizon: int = HORIZON_DAYS,
 ) -> Result:
     """Acrescenta os dias que faltam até today + horizon, sem passar do último dia da agenda do
-    Anime (P25: cada dia lê as respostas dele). Nunca altera um dia existente. A agenda do Anime é
+    Anime (P332: cada dia lê as respostas dele). Nunca altera um dia existente. A agenda do Anime é
     conferida aqui também: o schedule-check a lê do disco, sem outra conferência."""
     idx = _Index(catalog)
     anime_problems = validate_anime_schedule(anime_schedule, catalog)

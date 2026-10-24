@@ -308,7 +308,7 @@ describe("noticeItems, noticeTitle e toastText (o texto dos avisos)", () => {
     ]);
   });
 
-  it("hasBig: só a Superfan completa ou perfeita e as gerais grandes pedem a cópia (ME103, P25)", () => {
+  it("hasBig: só a Superfan completa ou perfeita e as gerais grandes pedem a cópia (ME103, P347)", () => {
     const of = (...ids: string[]) => hasBig(noticeItems(ids, LIST, resolve, true));
     expect(of("diario-1", "seguidos-7")).toBe(false);
     expect(of(superfanMedalId(ARTIST, "acertos"))).toBe(false);

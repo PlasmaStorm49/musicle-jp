@@ -1,4 +1,4 @@
-// As Misturadas (M17, P26): a aba própria, com a escolha dos dois modos e os dois diários. Usa o
+// As Misturadas (M17, P333): a aba própria, com a escolha dos dois modos e os dois diários. Usa o
 // catálogo do Anime (a carga do Anime, guardada no App) e a agenda delas, que desce só quando a
 // pessoa abre a aba.
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
@@ -70,7 +70,7 @@ type Props = {
   /** O Anime do App: o catálogo e o resolvedor das prévias. */
   readonly anime: AnimeStore;
   readonly store: MixedStore;
-  /** O "hoje" do jogo: as Misturadas são sempre de hoje (sem Histórico, P26). */
+  /** O "hoje" do jogo: as Misturadas são sempre de hoje (sem Histórico, P333). */
   readonly date: string;
   readonly save: Save;
   readonly engine: AudioEngine;

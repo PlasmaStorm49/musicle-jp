@@ -245,9 +245,9 @@ fi
 if has "$ANIME_MIXED"; then
   [ -f "$ANIME_MIXED" ] || fail "a main não tem a agenda das Misturadas: o robô só a cresce, não a cria"
   check_schedule "$ANIME_MIXED" "Agenda das Misturadas" "$real_catalog" anime-mixed
-  # Cada dia das Misturadas lê as respostas do Anime do dia (P25): ela nunca passa do fim dele.
+  # Cada dia das Misturadas lê as respostas do Anime do dia (P332): ela nunca passa do fim dele.
   [[ ! "$mixed_last" > "$real_last" ]] \
-    || fail "$ANIME_MIXED: o último dia novo ($mixed_last) passa do fim da agenda do Anime ($real_last), P25"
+    || fail "$ANIME_MIXED: o último dia novo ($mixed_last) passa do fim da agenda do Anime ($real_last), P332"
 fi
 if has "$ANIME_FIXTURE_SCHEDULE"; then
   check_schedule "$ANIME_FIXTURE_SCHEDULE" "Agenda fictícia do Anime (só desenvolvimento)" "$ANIME_FIXTURE_CATALOG" anime

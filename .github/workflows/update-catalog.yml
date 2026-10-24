@@ -44,7 +44,7 @@ env:
   ANIME_CATALOG: web/public/data/anime/catalog.json
   ANIME_SCHEDULE: web/public/data/anime/schedule.json
   ANIME_FIXTURE_SCHEDULE: web/public/fixtures/anime/schedule.json
-  # As Misturadas (M17): as agendas delas crescem com as do Anime (cada dia lê o do Anime, P25).
+  # As Misturadas (M17): as agendas delas crescem com as do Anime (cada dia lê o do Anime, P332).
   ANIME_MIXED: web/public/data/anime/mixed.json
   ANIME_FIXTURE_MIXED: web/public/fixtures/anime/mixed.json
   # Só lido (as respostas da agenda fictícia do Anime são dele); fica fora da lista.
@@ -165,7 +165,7 @@ jobs:
     timeout-minutes: 5
     permissions: {}
     # O segredo fica no Environment "mal", com "Deployment branches and tags" só na main: só uma
-    # execução da main o lê, nem a de um branch que mude este arquivo (P11 do PR B). A regra
+    # execução da main o lê, nem a de um branch que mude este arquivo (o usuário, 22/10/2026). A regra
     # compara o GITHUB_REF, que no agendamento e no "gh workflow run" é a main. Um Environment
     # não pede permissão ao GITHUB_TOKEN (o pages-deploy do deploy.yml usa o dele sem
     # deployments: write). Se o "mal" não existir, o GitHub o cria vazio, e a tarefa segue sem

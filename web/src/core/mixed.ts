@@ -27,16 +27,16 @@ export function mixedIds(date: string): PuzzleId[] {
   return MIXED_KEYS.map((key) => puzzleId(date, key));
 }
 
-/** Os trechos (P24): cada erro ou pulo abre o seguinte. */
+/** Os trechos (P326): cada erro ou pulo abre o seguinte. */
 export const MIXED_STAGES: readonly number[] = [4, 8, 16, 30];
 export const MIXED_LAST_STAGE = MIXED_STAGES.length - 1;
-/** As 4 rodadas do dia (P7): 2, 2, 2 e 3 músicas. */
+/** As 4 rodadas do dia (P325): 2, 2, 2 e 3 músicas. */
 export const MIXED_ROUNDS = 4;
 /** Quantas músicas uma rodada pode ter (o schema da agenda diz o mesmo). */
 export const MIXED_MIN_SONGS = 2;
 export const MIXED_MAX_SONGS = 3;
 /**
- * A rodada difícil (P7): a 3ª, com músicas do Médio para cima (a régua `hard` do pipeline,
+ * A rodada difícil (P325): a 3ª, com músicas do Médio para cima (a régua `hard` do pipeline,
  * `anime_mixed.ROUNDS`). Mudou a ordem das réguas lá? Muda aqui também.
  */
 export const MIXED_HARD_ROUND = 2;
@@ -51,8 +51,8 @@ export function mixedRoundTag(index: number, songs: number): MixedRoundTag | nul
 }
 
 /**
- * Os pontos de uma música achada, pelo trecho em que foi achada (P12); com o "Separar" ligado
- * (P10), os da ajuda. A rodada vale a média das suas músicas, arredondada (`mixedRoundScore`):
+ * Os pontos de uma música achada, pelo trecho em que foi achada (P329); com o "Separar" ligado
+ * (P327), os da ajuda. A rodada vale a média das suas músicas, arredondada (`mixedRoundScore`):
  * achar todas no 1º trecho vale 10, e o dia, no máximo 40.
  */
 export const MIXED_POINTS: readonly number[] = [10, 7, 5, 3];
@@ -114,7 +114,7 @@ export type MixedRoundState = {
   readonly stage: number;
   /** Os palpites (certos e errados) e os pulos, na ordem. */
   readonly attempts: readonly Attempt[];
-  /** O "Separar L e R" (P14): uma vez ligado, fica. As achadas depois valem os pontos da ajuda. */
+  /** O "Separar L e R" (P327): uma vez ligado, fica. As achadas depois valem os pontos da ajuda. */
   readonly separated: boolean;
   readonly status: MixedRoundStatus;
   /** Por que foi anulada: "unavailable" (catálogo) ou o motivo do evento VOID. */
@@ -133,7 +133,7 @@ export type MixedEvent =
   | { readonly type: "GUESS"; readonly guessId: string }
   /** Abre o trecho seguinte sem palpitar (não existe no último). */
   | { readonly type: "SKIP" }
-  /** Liga o "Separar L e R" (P14). */
+  /** Liga o "Separar L e R" (P327). */
   | { readonly type: "SEPARATE" }
   /** Encerra a rodada com as que faltam. */
   | { readonly type: "GIVE_UP" }
@@ -265,7 +265,7 @@ export type ScorableMixedRound = {
 };
 
 /**
- * Os pontos da rodada (P12): a média dos pontos das músicas, no inteiro mais perto. Sem meio
+ * Os pontos da rodada (P329): a média dos pontos das músicas, no inteiro mais perto. Sem meio
  * ponto, e a rodada inteira no 1º trecho vale 10. A anulada vale 0 e fica fora do máximo.
  */
 export function mixedRoundScore(round: ScorableMixedRound): number {
