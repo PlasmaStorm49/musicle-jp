@@ -467,12 +467,15 @@ def amq_popular(
     sleep: Callable[[float], None],
     min_rate: int = AMQ_MIN_RATE,
     max_calls: int = AMQ_CALLS,
+    log: Callable[[str], None] = lambda _m: None,
 ) -> dict[int, int]:
     """Os animes das músicas mais acertadas no Anime Music Quiz (o AnisongDB; a carga C3, P15):
     a amostra das músicas com a taxa de `min_rate` a 100, sem dublagem e sem reprise, em pedidos
     de AMQ_BATCH, até um trazer menos de AMQ_FRESH músicas novas ou `max_calls` pedidos. Cada
     música conta uma vez (o `annSongId`), e cada anime vale a maior taxa das músicas dele: a
-    posição 1 é a maior, e o empate sai pelo id. A taxa fica só aqui, na memória (P254)."""
+    posição 1 é a maior, e o empate sai pelo id. A música com a taxa fora do filtro (o servidor
+    que o ignorou, um NaN) fica de fora, com aviso. A taxa fica só aqui, na memória (P254): o log
+    leva só as contagens."""
     filters = {
         "difficulty": {"start": min_rate, "end": 100},
         "song_types": ["opening", "ending", "insert"],
@@ -482,8 +485,11 @@ def amq_popular(
     body = json.dumps({"n": AMQ_BATCH, "filters": filters}).encode("utf-8")
     best: dict[int, float] = {}
     seen: set[int] = set()
+    outside: set[int] = set()  # as músicas, e não as aparições: a amostra repete
+    calls = 0
     for _ in range(max_calls):
         data = get_any(ANISONGDB_RANDOM_URL, lambda url: post(url, body, {}), sleep, 3)
+        calls += 1
         if not isinstance(data, list):
             raise FetchError("AnisongDB com forma inesperada")
         fresh = 0
@@ -492,15 +498,14 @@ def amq_popular(
                 continue
             song = item.get("annSongId")
             mal_id = (item.get("linked_ids") or {}).get("myanimelist")
-            rate = _rate(item.get("songDifficulty"))
-            if not isinstance(song, int) or song in seen:
+            if not isinstance(song, int) or isinstance(song, bool) or song in seen:
                 continue
-            if (
-                not isinstance(mal_id, int)
-                or isinstance(mal_id, bool)
-                or mal_id < 1
-                or rate is None
-            ):
+            if not isinstance(mal_id, int) or isinstance(mal_id, bool) or mal_id < 1:
+                continue
+            rate = _rate(item.get("songDifficulty"))
+            # O NaN falha nas duas comparações, e o infinito passa de 100: os dois ficam de fora.
+            if rate is None or not min_rate <= rate <= 100:
+                outside.add(song)
                 continue
             seen.add(song)
             fresh += 1
@@ -508,6 +513,9 @@ def amq_popular(
         sleep(SOURCE_PACE_SEC)
         if fresh < AMQ_FRESH:
             break
+    if outside:
+        log(f"aviso: {len(outside)} música(s) do AMQ fora do filtro da taxa, deixadas de fora")
+    log(f"o AMQ: {calls} pedido(s), {len(seen)} música(s), {len(best)} anime(s)")
     ordered = sorted(best, key=lambda m: (-best[m], m))
     return {mal_id: position for position, mal_id in enumerate(ordered, start=1)}
 
@@ -781,14 +789,27 @@ def _plan(
                 "a ordem pelo AMQ precisa do nível do MAL: o MAL_CLIENT_ID ou o --ranks-file (P17)"
             )
         io.log("a ordem pelos acertos do Anime Music Quiz (AnisongDB), sem sorteio")
-        amq = amq_popular(io.post, io.sleep)
+        amq = amq_popular(io.post, io.sleep, log=io.log)
         if not amq:
             raise FetchError("a ordem pelo AMQ veio vazia")
         mal_ranks: Mapping[int, int] = {}
-        if io.mal_file is None and io.mal is not None:
+        if io.mal_file is not None:
+            if len(io.mal_file.order) < MAL_LEVEL_SIZE:
+                io.log(
+                    f"aviso: o --ranks-file tem {len(io.mal_file.order)} anime(s), menos que os "
+                    f"{MAL_LEVEL_SIZE} da escala; os do AMQ além dele ficam sem nível"
+                )
+        elif io.mal is not None:
             io.log("o nível pelo ranking do MyAnimeList")
             mal_ranks = mal_ranking(io.mal, io.sleep, MAL_LEVEL_SIZE)
-        return ranked_order(amq, tried, max_anime), mal_ranks
+            # Vazio, todo anime da carga ficaria sem nível para sempre (os snapshots só crescem).
+            if not mal_ranks:
+                raise FetchError("o ranking do MAL veio vazio: sem ele, nenhum anime teria nível")
+        order = ranked_order(amq, tried, max_anime)
+        unleveled = sum(_mal_level_of(io, mal_ranks, m) is None for m in order)
+        if unleveled:
+            io.log(f"aviso: {unleveled} de {len(order)} anime(s) da ordem sem nível do MAL")
+        return order, mal_ranks
     if io.mal_file is not None:
         io.log("o sorteio pelo ranking do MyAnimeList (do --ranks-file)")
         ranks = top_ranks(io.mal_file.draw_ranks(), pool_size)
@@ -856,7 +877,9 @@ def fetch_anime_snapshot(
             "storefront": STOREFRONT,
             "id": snapshot_id(fetched_at),
             "fetchedAt": fetched_at,
-            "anime": list(records),
+            # Pelo AMQ, a ordem da busca é a do acerto: no snapshot, que vai para o Git, os animes
+            # saem pelo id, para a ordem não guardar o ranking (P254). No sorteio, fica a dele.
+            "anime": sorted(records, key=lambda r: r["malId"]) if draw == "amq" else list(records),
             "artists": {k: v for k, v in sorted(cache.official.items()) if k in artist_ids},
             # Só as resoluções novas: as antigas já estão nos snapshots de antes.
             "resolved": dict(sorted(new.items())),

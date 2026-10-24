@@ -532,6 +532,12 @@ def _fetch_anime(args: argparse.Namespace) -> int:
         # A lista pessoal é só da 1ª carga, com o sorteio do MAL (P253).
         print("--personal é só do sorteio do MAL (a 1ª carga), não do --draw amq", file=sys.stderr)
         return 1
+    if draw == "amq" and args.pool_size is not None:
+        # Sem sorteio, não há do que escolher: a ordem do AMQ é inteira, e o --max-anime corta.
+        print(
+            "--pool-size é do sorteio do MAL; com o --draw amq, use o --max-anime", file=sys.stderr
+        )
+        return 1
     directory = resolve(args.out_dir) if args.out_dir else anime_paths("apple").source
     tried, resolved, official = fetch_anime.tried_and_resolved(directory)
     personal: tuple[list[int], list[int]] = ([], [])

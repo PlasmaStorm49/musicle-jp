@@ -8,6 +8,7 @@ from urllib.parse import parse_qs, urlsplit
 import pytest
 
 from musicle_pipeline import fetch_anime as fa
+from musicle_pipeline import mal_ranking
 from musicle_pipeline.anime import Anime, Theme, build_anime_catalog
 from musicle_pipeline.catalog import Curation
 from musicle_pipeline.cli import main
@@ -504,17 +505,32 @@ def test_amq_ranks_each_anime_by_its_best_guess_rate(monkeypatch):
         amq_song(5, 300, 99, isDub=True),  # a dublagem fica de fora
         amq_song(6, 400, 99, isRebroadcast=True),  # e a reprise também
         amq_song(7, None, 99),  # sem o id do MAL
-        amq_song(8, 500, True),  # a taxa que não é número
+        amq_song(9, True, 99),  # o id booleano
+        amq_song(10, 0, 99),  # e o zero
+        {"linked_ids": {"myanimelist": 700}, "songDifficulty": 99},  # sem o annSongId
         amq_song(1, 600, 99),  # a música repetida conta uma vez (a 1ª vale)
+        # A taxa fora do filtro (o servidor que o ignorou), o NaN, o infinito e o que não é número.
+        amq_song(11, 800, 40),
+        amq_song(12, 900, float("nan")),
+        amq_song(13, 901, float("inf")),
+        amq_song(14, 902, True),
     ]
     web = FakeWeb(amq=[page, page])
-    ranks = fa.amq_popular(web.post, lambda _s: None)
+    logs: list[str] = []
+    ranks = fa.amq_popular(web.post, lambda _s: None, log=logs.append)
     assert ranks == {100: 1, 50: 2, 200: 3}
     assert web.amq_calls == 2
     url, body = web.posts[0]
     assert url == fa.ANISONGDB_RANDOM_URL and body["n"] == 500
-    assert body["filters"]["difficulty"] == {"start": 60, "end": 100}
-    assert body["filters"]["broadcasts"] == ["normal"]
+    assert body["filters"] == {
+        "difficulty": {"start": 60, "end": 100},
+        "song_types": ["opening", "ending", "insert"],
+        "broadcasts": ["normal"],
+        "song_categories": ["standard"],
+    }
+    assert "4 música(s) do AMQ fora do filtro" in logs[0]
+    assert logs[-1] == "o AMQ: 2 pedido(s), 4 música(s), 3 anime(s)"
+    assert not any("95" in line for line in logs)  # só as contagens no log (P254)
 
 
 def test_amq_stops_at_the_call_limit_and_refuses_a_bad_shape():
@@ -534,29 +550,107 @@ def test_the_ranked_order_has_no_draw_and_skips_the_tried():
     assert fa.ranked_order(ranks, set(), 2) == [7, 5]
 
 
-def test_the_amq_orders_and_the_mal_only_levels():
-    # O AMQ põe o 38000 em 1º; o nível vem da posição dele no MAL (o ranking falso: 3º).
-    web = FakeWeb()
-    snap = run(web, draw="amq")
-    assert web.amq_calls >= 1
-    assert snap["anime"][0]["levels"] == {"mal": fa.mal_level(3)}
+def amq_run(web: FakeWeb, logs: list[str] | None = None, **io_args) -> dict:
+    io_args.setdefault("mal", web.mal)
+    sink = logs if logs is not None else []  # e não `logs or []`: a lista vazia é falsa
+    io = fa.AnimeFetch(get=web.get, post=web.post, apple_pace=0, log=sink.append, **io_args)
+    return fa.fetch_anime_snapshot(
+        NOW, lambda t: ROMAJI.get(t, (t,)), set(), {}, {}, io, target_per_tier=1, draw="amq"
+    )
+
+
+def test_the_amq_orders_and_the_mal_only_levels(monkeypatch):
+    # O AMQ põe o 38000 em 1º, e o MAL, em 2.000º: o nível é o da posição no MAL (3), e não o da
+    # ordem (que daria 9). O MAL é pedido até a escala inteira (6.000), e não os 3.000 do sorteio.
+    sizes: list[int] = []
+
+    def ranking(get, sleep, size):
+        sizes.append(size)
+        return {38000: 2000}
+
+    monkeypatch.setattr(fa, "fetch_ranking", ranking)
+    web = FakeWeb(amq=[[amq_song(1, 38000, 83.7)]])
+    logs: list[str] = []
+    snap = amq_run(web, logs)
+    assert snap["anime"][0]["levels"] == {"mal": 3}
+    assert sizes == [6000]
     assert not any("Popular" in p.get("query", "") for _, p in web.posts)  # nem o AnimeThemes
-    # O nível do MAL pede a escala inteira, e não só os 3.000 do sorteio.
-    assert any("offset=0" in u for u in web.mal_urls)
+    # A taxa não vai para o snapshot nem para o log (P254).
+    assert "83.7" not in dumps(snap) and not any("83" in line for line in logs)
 
 
-def test_the_amq_order_needs_the_mal_level():
+def test_the_amq_with_the_ranks_file_levels_from_it():
+    web = FakeWeb()
+    mal_file = fa.RankingFile(order=(38000,), levels={38000: 6})
+    logs: list[str] = []
+    snap = amq_run(web, logs, mal=None, mal_file=mal_file)
+    assert web.mal_urls == []  # nenhum pedido ao MAL
+    assert snap["anime"][0]["levels"] == {"mal": 6}
+    # O arquivo do robô tem só os 3.000 do topo: o aviso diz que os de além ficam sem nível.
+    assert any("o --ranks-file tem 1 anime(s)" in line for line in logs)
+
+
+def test_the_amq_order_needs_the_mal_level(monkeypatch):
     web = FakeWeb()
     with pytest.raises(FetchError, match="nível do MAL"):
         run(web, with_mal=False, draw="amq")
     assert web.posts == []  # recusa antes de qualquer pedido
+    # O ranking do MAL vazio também recusa: todo anime da carga ficaria sem nível para sempre.
+    monkeypatch.setattr(fa, "fetch_ranking", lambda get, sleep, size: {})
+    with pytest.raises(FetchError, match="ranking do MAL veio vazio"):
+        amq_run(FakeWeb())
+
+
+def test_a_failing_or_empty_amq_stops_the_load():
+    # Sem cair em silêncio para o sorteio do MAL: seria outra carga.
+    web = FakeWeb()
+
+    def down(url: str, body: bytes, headers) -> bytes:
+        if url == fa.ANISONGDB_RANDOM_URL:
+            raise FetchError("fora do ar")
+        return FakeWeb.post(web, url, body, headers)
+
+    web.post = down  # type: ignore[method-assign]
+    with pytest.raises(FetchError, match="fora do ar"):
+        amq_run(web)
+    assert web.mal_urls == []
+    with pytest.raises(FetchError, match="veio vazia"):
+        amq_run(FakeWeb(amq=[[]]))
+
+
+def test_the_amq_snapshot_lists_the_anime_by_id():
+    # A ordem da busca é a do acerto (o 38000 antes do 500); no snapshot, que vai para o Git, os
+    # animes saem pelo id, para a ordem não guardar o ranking (P254).
+    web = FakeWeb(amq=[[amq_song(1, 38000, 90), amq_song(2, 500, 70)]])
+
+    def two_shows(url: str, body: bytes, headers) -> bytes:
+        if url == fa.ANIMETHEMES_URL:
+            web.posts.append((url, json.loads(body)))
+            shows = [animethemes_item(38000), animethemes_item(500)]
+            return json.dumps({"data": {"findAnimeByExternalSite": shows}}).encode()
+        return FakeWeb.post(web, url, body, headers)
+
+    web.post = two_shows  # type: ignore[method-assign]
+    io = fa.AnimeFetch(get=web.get, post=web.post, mal=web.mal, apple_pace=0)
+    snap = fa.fetch_anime_snapshot(
+        NOW,
+        lambda t: ROMAJI.get(t, (t,)),
+        set(),
+        {},
+        {},
+        io,
+        target_per_tier=99,
+        max_songs=99,
+        draw="amq",
+    )
+    assert [a["malId"] for a in snap["anime"]] == [500, 38000]
 
 
 def test_the_cli_draw_option(monkeypatch, tmp_path, capsys):
     seen: dict = {}
 
     def fake_snapshot(fetched_at, romanize, tried, resolved, official, io, **kwargs):
-        seen.update(kwargs)
+        seen.update(kwargs, mal=io.mal, mal_file=io.mal_file)
         return {
             "provider": "apple",
             "storefront": "jp",
@@ -580,13 +674,20 @@ def test_the_cli_draw_option(monkeypatch, tmp_path, capsys):
         main([*base, "--draw", "amq", "--personal", "x.xml", "--out-dir", str(tmp_path / "b")]) == 1
     )
     assert "--personal é só do sorteio do MAL" in capsys.readouterr().err
+    assert main([*base, "--draw", "amq", "--pool-size", "300", "--out-dir", str(tmp_path)]) == 1
+    assert "--pool-size é do sorteio do MAL" in capsys.readouterr().err
     assert main([*base, "--draw", "amq", "--out-dir", str(tmp_path / "c")]) == 0
-    assert seen["draw"] == "amq"
+    assert seen["draw"] == "amq" and seen["mal"] is not None
     # Sem a opção, o sorteio de sempre (o robô não a passa).
     assert main([*base, "--out-dir", str(tmp_path / "d")]) == 0
     assert seen["draw"] == "mal"
-    captured = capsys.readouterr()
-    assert SECRET not in captured.out + captured.err
+    # Com o --ranks-file, o amq dispensa a variável: o nível sai do arquivo.
+    monkeypatch.delenv("MAL_CLIENT_ID")
+    ranks = tmp_path / "ranks.json"
+    mal_ranking.write_ranks(ranks, {38000: 3})
+    args = [*base, "--draw", "amq", "--ranks-file", str(ranks), "--out-dir", str(tmp_path / "e")]
+    assert main(args) == 0
+    assert seen["draw"] == "amq" and seen["mal"] is None and seen["mal_file"] is not None
     # E a opção só vale com --anime.
     args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
     assert main([*args, "--draw", "amq"]) == 1
