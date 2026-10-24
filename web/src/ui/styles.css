@@ -2048,6 +2048,13 @@ section.void,
   text-wrap: balance;
 }
 
+/* O progresso embaixo do como ganhar, na cor do texto: é o que muda, e se lê de relance. */
+.medal-progress {
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  font-weight: 700;
+}
+
 .medal-artists {
   display: grid;
   gap: var(--sp-4);

@@ -382,11 +382,13 @@ export const ptBR = {
   "medals.feat.acertos": "{goal} acertos",
   "medals.feat.completo": "Superfan completo",
   "medals.feat.perfeito": "Superfan perfeito",
+  // O como ganhar fica também na ganha, para lembrar o que a pessoa fez (o usuário, 24/10/2026).
+  "medals.how.acertos": "Chegue a {goal} acertos com o artista",
   "medals.how.completo": "Termine uma partida do Superfan",
   // O "1 s" não quebra no meio (o espaço inseparável).
   "medals.how.perfeito": "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
+  // Só para o leitor de tela: a tela mostra a ganha pelo desenho colorido e pelo "Destacar".
   "medals.earned": "Ganha",
-  "medals.progress": "{value} de {goal}",
   "medals.progress.acertos": "{value} de {goal} acertos",
   // Os avisos de medalha nova (P279 a P281): o pequeno e o pop-up grande.
   "medals.notice.ok": "Ok",
