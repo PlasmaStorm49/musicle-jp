@@ -12,9 +12,12 @@ A regra de ouro é a das outras agendas: SÓ CRESCE (o `grow` do `schedule.py`).
   do catálogo); na 3, o Médio ou o Difícil do modo.
 - **Nunca afrouxam:** a música não repete nas 18 do dia (os dois modos); dentro da rodada, as
   músicas e as franquias são diferentes (um palpite serviria a duas).
-- **O afrouxamento,** com registro: o nível 0 tem tudo, com a franquia nova no dia (entre os dois
-  diários), no `titulo` a franquia nova no diário (a resposta seria a mesma em duas rodadas) e a
-  janela; o 1 deixa a franquia repetir no dia; depois, a janela encolhe (K − 1, ..., 1). Os três
+- **O afrouxamento,** com registro: o nível 0 tem tudo, com a franquia espaçada entre dias (a que
+  saiu nas Misturadas nos últimos mín(7, K) dias fica de fora, como no Anime, P364: as franquias
+  grandes, como Naruto e BLEACH, voltavam a cada 2 ou 3 dias), a franquia nova no dia (entre os
+  dois diários), no `titulo` a franquia nova no diário (a resposta seria a mesma em duas rodadas) e
+  a janela; o 1 tira o espaçamento; o 2 deixa a franquia repetir no dia; depois, a janela encolhe
+  (K − 1, ..., 1). Os três
   últimos só valem no acervo curto (as fixtures, de 34 faixas; no real, nunca devem chegar), nesta
   ordem: a franquia repete no diário do `titulo`; qualquer faixa do modo (a régua da P325 cai: a
   rodada do Fácil pode receber uma Média ou Difícil, e a 3, uma Fácil); e, sem nenhuma outra
@@ -44,6 +47,7 @@ from jsonschema import Draft202012Validator
 
 from musicle_pipeline.anime import MODES
 from musicle_pipeline.anime_schedule import (
+    FRANCHISE_DAYS,
     _History,
     _oldest_third,
     _outside,
@@ -140,7 +144,8 @@ def mixed_rounds(day: JSON) -> Iterator[tuple[str, int, list[str]]]:
 
 
 def _history(days: Mapping[str, JSON], idx: _Index) -> _History:
-    """O último dia em que cada música saiu nas Misturadas (a agenda anterior inteira, P236)."""
+    """O último dia em que cada música e cada franquia saíram nas Misturadas (a agenda anterior
+    inteira, P236)."""
     history = _History()
     for day_str in sorted(days):
         d = date.fromisoformat(day_str)
@@ -149,6 +154,8 @@ def _history(days: Mapping[str, JSON], idx: _Index) -> _History:
                 track = idx.tracks.get(answer)
                 if track is not None:
                     history.songs[track["songKey"]] = d
+                    for fid in track["anime"]["franchiseIds"]:
+                        history.franchises[fid] = d
     return history
 
 
@@ -191,6 +198,7 @@ class _Level:
     what: str
     window: int
     ruler: str
+    spaced: bool = True  # a franquia espaçada entre dias, como no Anime (P364)
     day_franchise: bool = True  # a franquia nova no dia (entre os dois diários)
     diary_franchise: bool = True  # no titulo, a franquia nova no diário
     avoid_anime: bool = True  # sem as respostas dos 6 diários do Anime do dia (P332)
@@ -200,12 +208,24 @@ def _levels(ruler: str, window: int) -> list[_Level]:
     """Os níveis, do mais firme ao mais frouxo. Os três últimos só valem no acervo curto (as
     fixtures, de 34 faixas; no real, nunca devem chegar): a franquia no diário do titulo, a régua
     da P325 (qualquer faixa do modo) e, por último, a P332."""
-    levels = [_Level("", window, ruler), _Level("a franquia repete no dia", window, ruler, False)]
-    levels += [_Level(f"janela de {k} dia(s)", k, ruler, False) for k in range(window - 1, 0, -1)]
-    levels.append(_Level("a franquia repete no diário", 1, ruler, False, False))
-    levels.append(_Level("qualquer faixa do modo", 1, "any", False, False))
+    loose = {"spaced": False, "day_franchise": False}
+    levels = [
+        _Level("", window, ruler),
+        _Level("sem espaçar a franquia", window, ruler, spaced=False),
+        _Level("a franquia repete no dia", window, ruler, **loose),
+    ]
+    levels += [_Level(f"janela de {k} dia(s)", k, ruler, **loose) for k in range(window - 1, 0, -1)]
+    levels.append(_Level("a franquia repete no diário", 1, ruler, diary_franchise=False, **loose))
+    levels.append(_Level("qualquer faixa do modo", 1, "any", diary_franchise=False, **loose))
     levels.append(
-        _Level("repete uma resposta do Anime do dia (P332)", 1, "any", False, False, False)
+        _Level(
+            "repete uma resposta do Anime do dia (P332)",
+            1,
+            "any",
+            diary_franchise=False,
+            avoid_anime=False,
+            **loose,
+        )
     )
     return levels
 
@@ -213,6 +233,7 @@ def _levels(ruler: str, window: int) -> list[_Level]:
 def _candidates(
     idx: _Index, mode: str, ruler: str, history: _History, d: date, used: _Used
 ) -> tuple[int, str, list[JSON]]:
+    spacing = min(FRANCHISE_DAYS, idx.window)
     for n, level in enumerate(_levels(ruler, idx.window)):
         found = []
         for track in idx.pools[mode, level.ruler]:
@@ -221,6 +242,10 @@ def _candidates(
             if track["songKey"] in used.day_songs or franchises & used.round_franchises:
                 continue
             if level.diary_franchise and mode == "titulo" and franchises & used.diary_franchises:
+                continue
+            if level.spaced and not all(
+                _outside(history.franchises.get(f), d, spacing) for f in franchises
+            ):
                 continue
             if level.day_franchise and franchises & used.day_franchises:
                 continue
