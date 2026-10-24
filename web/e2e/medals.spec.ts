@@ -85,23 +85,34 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 gerais (
     "Superfan",
     "Tá pegando fogo, bicho!!!",
   ]);
+  // O como ganhar em todas, também na ganha (o usuário, 24/10/2026), e o progresso embaixo das
+  // que se ganham aos poucos.
   await expect(rows.locator(".medal-how")).toHaveText([
-    "Ganha",
+    "Termine um diário no dia",
     /^Acerte uma rodada/,
     /^Acerte todas/,
     /^Acerte todas/,
     "Ache todas as músicas de uma rodada das Misturadas",
-    "3 de 7 dias seguidos",
+    "Jogue 7 dias seguidos",
     "Termine os 8 diários no mesmo dia",
+    "Acerte 100 rodadas no Treino",
+    "Termine 50 diários no dia",
+    "Termine ao menos 1 diário das Misturadas por dia, 15 dias seguidos",
+    "Chegue a 50 acertos com cada um de 5 artistas",
+    /^Gabarite/,
+    /^Gabarite/,
+    /^Gabarite os 2 diários das Misturadas/,
+    /^Ache todas as músicas de 1 diário das Misturadas por dia \(basta um dos dois\), 7 dias/,
+    "Termine uma partida do Superfan",
+    "Jogue 30 dias seguidos",
+  ]);
+  await expect(rows.locator(".medal-progress")).toHaveText([
+    "3 de 7 dias seguidos",
     "0 de 100 acertos no Treino",
     "3 de 50 diários",
     "0 de 15 dias seguidos",
     "0 de 5 artistas com 50 acertos",
-    /^Gabarite/,
-    /^Gabarite/,
-    /^Gabarite os 2 diários das Misturadas/,
     "0 de 7 dias seguidos",
-    "Termine uma partida do Superfan",
     "3 de 30 dias seguidos",
   ]);
   await expect(page.locator(".medal-list > li.locked")).toHaveCount(16);
@@ -406,7 +417,7 @@ test("um acerto na Livre aparece no progresso da medalha dos acertos do artista 
   await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
   await (await navLink(page, "Medalhas")).click();
   const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
-  await expect(artist.locator(".medal-how").first()).toHaveText("1 de 50 acertos");
+  await expect(artist.locator(".medal-progress")).toHaveText("1 de 50 acertos");
 });
 
 test("terminar o Superfan, com um erro: o pop-up da completa com o artista no fim da partida, e a completa ganha na tela (P285)", async ({
@@ -447,5 +458,11 @@ test("terminar o Superfan, com um erro: o pop-up da completa com o artista no fi
   await expect(end).toBeFocused();
   await (await navLink(page, "Medalhas")).click();
   const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
-  await expect(artist.locator(".medal-how")).toHaveText([/de 50 acertos$/, "Ganha", /^Termine/]);
+  // A completa, ganha, continua com o como ganhar; só a dos acertos tem o progresso.
+  await expect(artist.locator(".medal-how")).toHaveText([
+    "Chegue a 50 acertos com o artista",
+    "Termine uma partida do Superfan",
+    /^Termine perfeito/,
+  ]);
+  await expect(artist.locator(".medal-progress")).toHaveText([/de 50 acertos$/]);
 });

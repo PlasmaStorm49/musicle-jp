@@ -191,22 +191,29 @@ export function Medals({
 }
 
 /**
- * O estado de uma medalha em texto: ganha, o progresso ("7 de 10", P283) ou como ganhar. A dos
- * acertos diz a unidade ("7 de 50 acertos").
+ * O como ganhar, sempre, e embaixo o progresso enquanto falta (P283, com a unidade, P315). Na
+ * ganha, o como ganhar lembra o que a pessoa fez (o usuário, 24/10/2026): o desenho colorido e o
+ * "Destacar" já dizem que ela é ganha, e o "Ganha" fica só para o leitor de tela, que não vê a cor.
  */
-function stateText(state: MedalState, how: string, unit = false): string {
-  if (state.earned) return t("medals.earned");
-  if (state.progress)
-    return t(unit ? "medals.progress.acertos" : "medals.progress", state.progress);
-  return how;
-}
-
-/** O estado de uma geral: ganha, o progresso com a unidade (P315) ou como ganhar. */
-function generalState(state: MedalState): string {
-  const { id } = state.medal;
-  if (state.earned) return t("medals.earned");
-  if (state.progress) return medalText(id, "progress", state.progress);
-  return medalText(id, "how");
+function MedalStatus({
+  state,
+  how,
+  progress,
+}: {
+  readonly state: MedalState;
+  readonly how: string;
+  /** O texto do progresso, das que se ganham aos poucos. */
+  readonly progress: (value: { value: number; goal: number }) => string;
+}) {
+  return (
+    <>
+      {state.earned && <span class="sr-only">{t("medals.earned")}</span>}
+      <span class="medal-how">{how}</span>
+      {!state.earned && state.progress && (
+        <span class="medal-progress">{progress(state.progress)}</span>
+      )}
+    </>
+  );
 }
 
 /**
@@ -228,7 +235,13 @@ function GeneralRow({ state, ...pin }: Pin & { readonly state: MedalState }) {
       />
       <span class="medal-text">
         <span class="medal-name">{medalText(id, "name")}</span>
-        <span class="medal-how">{generalState(state)}</span>
+        {/* O limite do como ganhar ("Jogue {goal} dias seguidos") sai do progresso, também na
+            ganha. */}
+        <MedalStatus
+          state={state}
+          how={medalText(id, "how", state.progress ?? {})}
+          progress={(value) => medalText(id, "progress", value)}
+        />
       </span>
       {state.earned && <PinButton id={id} name={medalText(id, "name")} {...pin} />}
     </li>
@@ -277,8 +290,6 @@ function ArtistRow({
       </h3>
       <ul class="medal-trio">
         {row.cells.map(({ level, state }) => {
-          // A dos acertos mostra o progresso ("7 de 50 acertos"); a completa e a perfeita, como ganhar.
-          const how = level === "acertos" ? "" : t(`medals.how.${level}`);
           // O nome próprio (P300); sem ele (um índice corrompido), só o como ganhar (P301).
           const name = medalName(entry, level);
           return (
@@ -291,7 +302,13 @@ function ArtistRow({
                   <LatinName name={name.name} latin={name.latin} stacked />
                 </span>
               )}
-              <span class="medal-how">{stateText(state, how, level === "acertos")}</span>
+              {/* Só a dos acertos tem progresso ("7 de 50 acertos"). */}
+              <MedalStatus
+                state={state}
+                how={t(`medals.how.${level}`, { goal: SUPERFAN_RIGHT })}
+                progress={(value) => t("medals.progress.acertos", value)}
+              />
+
               {state.earned && (
                 <PinButton id={state.medal.id} name={spokenName(name, level, base.name)} {...pin} />
               )}
