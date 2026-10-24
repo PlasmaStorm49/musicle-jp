@@ -8,11 +8,12 @@ import re
 import sys
 from collections.abc import Callable, Mapping, Sequence
 from datetime import date
+from decimal import ROUND_HALF_EVEN, Decimal
 from pathlib import Path
 from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
-from musicle_pipeline.anime import build_anime_catalog, chart_artists
+from musicle_pipeline.anime import anime_chances, build_anime_catalog, chart_artists
 from musicle_pipeline.anime_schedule import (
     generate_anime,
     rule_problems,
@@ -218,6 +219,40 @@ def _anime_curation(provider: str) -> Curation:
     return Curation(romaji=load_cache(paths.romaji), aliases=load_aliases(paths.aliases))
 
 
+def _anime_icons(provider: str) -> frozenset[str]:
+    """O ícone pelo artista da parada (P274) é só da Apple: os animes fictícios citam as faixas
+    da parada fictícia, e toda música deles seria ícone."""
+    if provider != "apple":
+        return frozenset()
+    return chart_artists(provider, PROVIDERS[provider]().snapshots())
+
+
+# O laboratório das Misturadas (M17) lê a chance daqui: fora do Git e fora do que é publicado.
+LAB_CHANCES = Path("web") / "lab-data" / "anime-chances.json"
+
+
+def _anime_chances(args: argparse.Namespace) -> int:
+    out = (resolve(args.out) if args.out else repo_root() / LAB_CHANCES).resolve()
+    # A chance não vai para o site nem para o repositório (P240, P254): nunca em web/public.
+    if out.is_relative_to((repo_root() / "web" / "public").resolve()):
+        print(f"a chance não é publicada: {out} fica dentro de web/public", file=sys.stderr)
+        return 1
+    provider = ANIME_PROVIDERS[args.provider]()
+    best = anime_chances(provider.name, provider.source(), icon_artists=_anime_icons(args.provider))
+    four = Decimal("0.0001")
+    data = {
+        key: {
+            mode: str(value.quantize(four, rounding=ROUND_HALF_EVEN))
+            for mode, value in modes.items()
+        }
+        for key, modes in best.items()
+    }
+    changed = write_if_changed(out, dumps(data))
+    print(f"{out}: {len(data)} música(s)", end="")
+    print("" if changed else "; sem mudanças")
+    return 0
+
+
 def _build_anime(args: argparse.Namespace) -> int:
     paths = anime_paths(args.provider)
     out = (resolve(args.out) if args.out else paths.public_dir / "catalog.json").resolve()
@@ -229,13 +264,6 @@ def _build_anime(args: argparse.Namespace) -> int:
         )
         return 1
     provider = ANIME_PROVIDERS[args.provider]()
-    # O ícone pelo artista da parada (P274) é só da Apple: os animes fictícios citam as faixas
-    # da parada fictícia, e toda música deles seria ícone.
-    icons = (
-        chart_artists(args.provider, PROVIDERS[args.provider]().snapshots())
-        if args.provider == "apple"
-        else frozenset()
-    )
     notes: list[str] = []
     catalog = build_anime_catalog(
         provider.name,
@@ -243,7 +271,7 @@ def _build_anime(args: argparse.Namespace) -> int:
         provider.source(),
         _anime_curation(args.provider),
         notes,
-        icon_artists=icons,
+        icon_artists=_anime_icons(args.provider),
     )
     for message in provider.warnings:
         print(f"aviso: {message}", file=sys.stderr)
@@ -879,6 +907,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     anime.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
     anime.add_argument("--out", type=Path, help="catalog.json de saída (padrão: o do provedor)")
     anime.set_defaults(func=_build_anime)
+
+    chances = sub.add_parser(
+        "anime-chances",
+        help="grava a chance de cada música do Anime para o laboratório das Misturadas (M17)",
+    )
+    chances.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
+    chances.add_argument("--out", type=Path, help=f"JSON de saída (padrão: {LAB_CHANCES})")
+    chances.set_defaults(func=_anime_chances)
 
     check_anime = sub.add_parser(
         "validate-anime", help="confere o catálogo do Anime (e a agenda ao lado, se existir)"
