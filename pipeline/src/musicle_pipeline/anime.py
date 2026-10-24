@@ -426,6 +426,15 @@ def match_theme(
 # As faixas de dificuldade (P272 a P275).
 
 
+def anime_factor(level: int | None) -> Decimal:
+    """O p_a da chance (P272): a fama do anime pelo nível do MAL, MAL_TOP × MAL_STEP^(9 − m); sem
+    o nível, o do NO_MAL. Serve também à ordem da carga pelo AMQ (C3), que pesa o acerto do quiz
+    por ela: só o acerto puxaria o nicho, que só toca para quem o assistiu."""
+    with localcontext() as ctx:
+        ctx.prec = 28
+        return MAL_TOP * MAL_STEP ** (MAX_LEVEL - (NO_MAL if level is None else level))
+
+
 def chances(theme: Theme, anime: Anime, songs: int) -> dict[str, Decimal]:
     """A chance de acertar cada modo (P272), com os níveis de 0 a 9 de cada fonte:
 
@@ -450,7 +459,7 @@ def chances(theme: Theme, anime: Anime, songs: int) -> dict[str, Decimal]:
     with localcontext() as ctx:
         ctx.prec = 28
         p_t = (quiz + Decimal("0.5")) / 10
-        p_a = MAL_TOP * MAL_STEP ** (MAX_LEVEL - mal)
+        p_a = anime_factor(mal)
         title = (p_t * (pl + Decimal("0.5")) / 10).sqrt() if pl is not None else p_t * NO_PL_FACTOR
         rivals = 1 / (1 + (1 - p_t) * Decimal(max(songs, 1)).ln())
         return {

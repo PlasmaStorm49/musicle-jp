@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from decimal import Decimal
 from urllib.parse import parse_qs, urlsplit
 
 import pytest
@@ -517,8 +518,10 @@ def test_amq_ranks_each_anime_by_its_best_guess_rate(monkeypatch):
     ]
     web = FakeWeb(amq=[page, page])
     logs: list[str] = []
-    ranks = fa.amq_popular(web.post, lambda _s: None, log=logs.append)
-    assert ranks == {100: 1, 50: 2, 200: 3}
+    rates = fa.amq_rates(web.post, lambda _s: None, log=logs.append)
+    assert rates == {100: 95.5, 200: 90, 50: 90}
+    # Com a mesma fama no MAL, vale o acerto; o empate sai pelo id.
+    assert fa.amq_ranks(rates, lambda _m: 9) == {100: 1, 50: 2, 200: 3}
     assert web.amq_calls == 2
     url, body = web.posts[0]
     assert url == fa.ANISONGDB_RANDOM_URL and body["n"] == 500
@@ -536,12 +539,23 @@ def test_amq_ranks_each_anime_by_its_best_guess_rate(monkeypatch):
 def test_amq_stops_at_the_call_limit_and_refuses_a_bad_shape():
     pages = [[amq_song(n * 100 + i, n * 100 + i, 80) for i in range(20)] for n in range(1, 6)]
     web = FakeWeb(amq=pages)
-    ranks = fa.amq_popular(web.post, lambda _s: None, max_calls=3)
-    assert web.amq_calls == 3 and len(ranks) == 60
+    rates = fa.amq_rates(web.post, lambda _s: None, max_calls=3)
+    assert web.amq_calls == 3 and len(rates) == 60
     broken = FakeWeb()
     broken.post = lambda url, body, headers: json.dumps({"x": 1}).encode()  # type: ignore[method-assign]
     with pytest.raises(FetchError, match="forma inesperada"):
-        fa.amq_popular(broken.post, lambda _s: None)
+        fa.amq_rates(broken.post, lambda _s: None)
+
+
+def test_the_amq_order_weighs_the_guess_rate_by_the_mal_fame():
+    # O viés do AMQ (P21): a música de um anime de nicho só toca para quem o assistiu, e quase
+    # todos acertam. O nicho com 100% e sem nível no MAL vai atrás do clássico com 80% e nível 9,
+    # e o 6 com 95% fica entre os dois.
+    rates = {1: 100.0, 2: 80.0, 3: 95.0}
+    levels = {1: None, 2: 9, 3: 6}
+    assert fa.amq_ranks(rates, levels.get) == {2: 1, 3: 2, 1: 3}
+    # A fama é a mesma da chance da P272 (o p_a do "acertar o anime").
+    assert fa.anime_factor(9) == Decimal("0.92") and fa.anime_factor(None) == fa.anime_factor(1)
 
 
 def test_the_ranked_order_has_no_draw_and_skips_the_tried():

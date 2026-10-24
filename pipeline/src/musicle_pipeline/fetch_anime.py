@@ -29,6 +29,7 @@ import unicodedata
 import urllib.request
 from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
+from decimal import Decimal
 from functools import cache
 from pathlib import Path
 from typing import Literal
@@ -40,6 +41,7 @@ from musicle_pipeline.anime import (
     TIERS,
     Anime,
     Theme,
+    anime_factor,
     chances,
     is_icon,
     loose_title,
@@ -462,20 +464,19 @@ def _rate(value: object) -> float | None:
     return float(value)
 
 
-def amq_popular(
+def amq_rates(
     post: PostTransport,
     sleep: Callable[[float], None],
     min_rate: int = AMQ_MIN_RATE,
     max_calls: int = AMQ_CALLS,
     log: Callable[[str], None] = lambda _m: None,
-) -> dict[int, int]:
-    """Os animes das músicas mais acertadas no Anime Music Quiz (o AnisongDB; a carga C3, P15):
+) -> dict[int, float]:
+    """A maior taxa de acerto no Anime Music Quiz de cada anime (o AnisongDB; a carga C3, P15):
     a amostra das músicas com a taxa de `min_rate` a 100, sem dublagem e sem reprise, em pedidos
     de AMQ_BATCH, até um trazer menos de AMQ_FRESH músicas novas ou `max_calls` pedidos. Cada
-    música conta uma vez (o `annSongId`), e cada anime vale a maior taxa das músicas dele: a
-    posição 1 é a maior, e o empate sai pelo id. A música com a taxa fora do filtro (o servidor
-    que o ignorou, um NaN) fica de fora, com aviso. A taxa fica só aqui, na memória (P254): o log
-    leva só as contagens."""
+    música conta uma vez (o `annSongId`), e cada anime vale a maior taxa das músicas dele. A
+    música com a taxa fora do filtro (o servidor que o ignorou, um NaN) fica de fora, com aviso.
+    A taxa fica só na memória (P254): o log leva só as contagens."""
     filters = {
         "difficulty": {"start": min_rate, "end": 100},
         "song_types": ["opening", "ending", "insert"],
@@ -516,7 +517,19 @@ def amq_popular(
     if outside:
         log(f"aviso: {len(outside)} música(s) do AMQ fora do filtro da taxa, deixadas de fora")
     log(f"o AMQ: {calls} pedido(s), {len(seen)} música(s), {len(best)} anime(s)")
-    ordered = sorted(best, key=lambda m: (-best[m], m))
+    return best
+
+
+def amq_ranks(rates: Mapping[int, float], level_of: Callable[[int], int | None]) -> dict[int, int]:
+    """A ordem da carga pelo AMQ (P21): a taxa de acerto vezes a fama do anime no MAL (o p_a da
+    P272, `anime_factor`). A taxa sozinha puxa o nicho: o AMQ toca a música do anime de nicho só
+    para quem o assistiu, e quase todos acertam. A posição 1 é o maior produto; o empate sai pelo
+    id. Em Decimal, como a chance."""
+    score = {
+        mal_id: Decimal(str(rate)) / 100 * anime_factor(level_of(mal_id))
+        for mal_id, rate in rates.items()
+    }
+    ordered = sorted(score, key=lambda m: (-score[m], m))
     return {mal_id: position for position, mal_id in enumerate(ordered, start=1)}
 
 
@@ -788,9 +801,9 @@ def _plan(
             raise FetchError(
                 "a ordem pelo AMQ precisa do nível do MAL: o MAL_CLIENT_ID ou o --ranks-file (P17)"
             )
-        io.log("a ordem pelos acertos do Anime Music Quiz (AnisongDB), sem sorteio")
-        amq = amq_popular(io.post, io.sleep, log=io.log)
-        if not amq:
+        io.log("a ordem pelos acertos do Anime Music Quiz (AnisongDB) e a fama no MAL, sem sorteio")
+        rates = amq_rates(io.post, io.sleep, log=io.log)
+        if not rates:
             raise FetchError("a ordem pelo AMQ veio vazia")
         mal_ranks: Mapping[int, int] = {}
         if io.mal_file is not None:
@@ -805,6 +818,8 @@ def _plan(
             # Vazio, todo anime da carga ficaria sem nível para sempre (os snapshots só crescem).
             if not mal_ranks:
                 raise FetchError("o ranking do MAL veio vazio: sem ele, nenhum anime teria nível")
+        # O nível já conhecido, a ordem pesa o acerto pela fama (P21): o nicho vai para o fim.
+        amq = amq_ranks(rates, lambda m: _mal_level_of(io, mal_ranks, m))
         order = ranked_order(amq, tried, max_anime)
         unleveled = sum(_mal_level_of(io, mal_ranks, m) is None for m in order)
         if unleveled:
