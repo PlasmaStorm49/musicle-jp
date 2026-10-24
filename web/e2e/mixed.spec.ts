@@ -108,7 +108,17 @@ test("Misturadas: acertar a música, das 4 rodadas ao compartilhar, com o Separa
   const second = await lastMix(page);
   expect(second.pans).toEqual([-0.8, 0.8]);
   await guessSong(page, second.tracks[1] as AnimeTrack);
-  // Recarregar no meio da rodada retoma pelos eventos: a achada e o Separar ficam.
+  // Recarregar no meio da rodada retoma pelos eventos: a achada e o Separar ficam. O save grava
+  // num efeito, depois da pintura (regra 19): o recarregar espera os 5 eventos gravados (os 2
+  // acertos e o NEXT_ROUND da 1ª rodada, o Separar e o acerto desta).
+  await expect
+    .poll(() =>
+      page.evaluate((key) => {
+        const save = JSON.parse(localStorage.getItem(key) ?? "{}");
+        return save.mixed?.progress?.["2026-10-08|misturadas-musica"]?.events?.length ?? 0;
+      }, SAVE_KEY),
+    )
+    .toBe(5);
   await page.reload();
   await expect(page.getByText("1 de 2 achadas")).toBeVisible();
   await expect(page.getByRole("button", { name: "Separar L e R" })).toHaveAttribute(
