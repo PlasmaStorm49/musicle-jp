@@ -28,6 +28,11 @@ horizonte e a defesa do `compare`) é o `grow` de lá, e o `compare`, o `check_d
   agenda anterior inteira, então regerar os dias novos dá o mesmo resultado (ME51).
 - **O tipo do tema** (P252): o peso de cada candidata é o do tipo mais fácil entre os temas da
   faixa (a abertura, o encerramento ou a insert song), na dificuldade do diário.
+- **As novas** (o usuário, 24/10/2026, com a carga C3, que trouxe muitas músicas fáceis): o
+  diário Fácil leva no máximo `NEW_PER_DIARY` música nunca usada. Depois dela, as rodadas preferem
+  as que já saíram; sem nenhuma candidata assim, vale qualquer uma (é preferência, como a do terço
+  mais antigo, e não afrouxa com registro). O Médio e o Difícil não têm limite. A regra some
+  sozinha quando todas as novas tiverem saído.
 
 Mudou o consumo do rng, a ordem, os pesos ou uma regra? Isso muda só os dias novos (regra 13 do
 `pipeline/CLAUDE.md`): o `schedule-check` protege os gravados.
@@ -36,7 +41,7 @@ Mudou o consumo do rng, a ordem, os pesos ou uma regra? Isso muda só os dias no
 from __future__ import annotations
 
 import math
-from collections.abc import Iterator, Sequence
+from collections.abc import Container, Iterator, Sequence
 from dataclasses import dataclass, field
 from datetime import date
 from functools import cache
@@ -68,6 +73,9 @@ DAILY_PER_TIER = ROUNDS * len(MODES)
 # a janela do diário). Provisório, como os pesos: o C2 calibrou as faixas e deixou os dois para
 # depois (ME117).
 FRANCHISE_DAYS = 7
+# As músicas nunca usadas de um diário, por dificuldade (o usuário, 24/10/2026): 1 das 3 rodadas
+# do Fácil, para as muitas fáceis da carga C3 entrarem aos poucos. Sem a dificuldade, sem limite.
+NEW_PER_DIARY = {"facil": 1}
 # Os pesos do tipo do tema no sorteio (P252), inteiros. No Fácil e no Médio, a abertura 3 vezes
 # mais que o encerramento; no Difícil, a insert song rara. O `tiers_of` do anime.py já deixa a
 # insert quase só no Difícil (o fator do tipo, P272): o peso dela no Fácil e no Médio só garante
@@ -235,6 +243,13 @@ def _oldest_third(candidates: Sequence[JSON], history: _History) -> list[JSON]:
     return [t for t in ordered if last(t) <= cut]
 
 
+def _prefer_seen(candidates: Sequence[JSON], seen: Container[str]) -> list[JSON]:
+    """As candidatas que já saíram (o songKey em `seen`), ou todas, se nenhuma saiu: o limite de
+    novas é uma preferência e nunca deixa a rodada sem resposta."""
+    known = [t for t in candidates if t["songKey"] in seen]
+    return known or list(candidates)
+
+
 def theme_type(track: JSON) -> str:
     """O tipo mais fácil entre os temas da faixa (a abertura, o encerramento, a insert song)."""
     return min((theme["type"] for theme in track["anime"]["themes"]), key=THEME_TYPES.index)
@@ -267,6 +282,8 @@ def _generate_day(
             rng = seeded(f"musicle-jp|anime|{d.isoformat()}|{mode}|{tier}")
             diary_franchises: set[str] = set()
             rounds = []
+            cap = NEW_PER_DIARY.get(tier)
+            fresh = 0  # as nunca usadas que o diário já levou
             for n in range(1, ROUNDS + 1):
                 level, what, candidates = _candidates(
                     idx.pools[mode, tier],
@@ -284,7 +301,11 @@ def _generate_day(
                     relaxations.append(
                         f"{d} {mode} {tier} rodada {n}: afrouxamento nível {level} ({what})"
                     )
+                if cap is not None and fresh >= cap:
+                    candidates = _prefer_seen(candidates, history.songs)
                 answer = _weighted(rng, _oldest_third(candidates, history), tier)
+                if answer["songKey"] not in history.songs:
+                    fresh += 1
                 rounds.append({"answer": answer["id"]})
                 day_songs.add(answer["songKey"])
                 diary_franchises.update(answer["anime"]["franchiseIds"])

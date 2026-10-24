@@ -18,6 +18,7 @@ from musicle_pipeline.anime import MODES, TIERS
 from musicle_pipeline.anime_schedule import (
     DAILY_PER_TIER,
     FRANCHISE_DAYS,
+    NEW_PER_DIARY,
     WINDOWS,
     _History,
     _oldest_third,
@@ -298,6 +299,33 @@ def test_the_first_round_prefers_the_songs_that_never_came_out(start):
     used = set(answers_of(first))
     for tier in TIERS:
         assert second["musica"][tier][0]["answer"] not in used, tier
+
+
+def test_the_easy_diary_takes_at_most_one_song_that_never_came_out():
+    # 200 no Fácil: nos 21 primeiros dias, as que já saíram estão todas na janela, e o diário leva
+    # as novas (o limite é uma preferência). Do 22º em diante, as de 21 dias atrás voltam, e o
+    # diário Fácil leva no máximo 1 nova; o Médio e o Difícil não têm limite.
+    catalog = shared({"facil": 200, "medio": 200, "dificil": 220})
+    result = generate_anime(catalog, None, EPOCH, EPOCH, horizon=29)
+    assert result.relaxations == []
+    tracks = {t["id"]: t for t in catalog["tracks"]}
+    seen: set[str] = set()
+    fresh_of: dict[tuple[str, str, str], int] = {}
+    for day_str, day in sorted(result.schedule["days"].items()):
+        for mode in MODES:
+            for tier in TIERS:
+                songs = [tracks[r["answer"]]["songKey"] for r in day[mode][tier]]
+                fresh_of[day_str, mode, tier] = sum(s not in seen for s in songs)
+        seen |= {tracks[a]["songKey"] for a in answers_of(day)}
+    late = [key for key in fresh_of if key[0] >= (EPOCH + timedelta(days=21)).isoformat()]
+    assert late
+    for day_str, mode, tier in late:
+        if tier == "facil":
+            assert fresh_of[day_str, mode, tier] == NEW_PER_DIARY["facil"], (day_str, mode)
+    # Antes disso, sem candidata que já saiu fora da janela, o Fácil leva as 3 novas.
+    assert fresh_of["2026-10-09", "musica", "facil"] == 3
+    # O Médio, com a janela de 28 dias, ainda leva as 3 novas no fim do mês: sem limite.
+    assert fresh_of["2026-11-06", "musica", "medio"] == 3
 
 
 def test_the_easiest_theme_type_counts():
