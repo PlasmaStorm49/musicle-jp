@@ -57,7 +57,6 @@ const track = (n: number): AnimeTrack => ({
             },
           ],
     tiers: { musica: "facil", titulo: "facil" },
-    famous: { musica: false, titulo: false },
   },
 });
 const album = (n: number): AnimeAlbum => ({

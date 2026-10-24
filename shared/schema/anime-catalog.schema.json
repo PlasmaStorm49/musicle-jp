@@ -430,8 +430,7 @@
           "required": [
             "franchiseIds",
             "themes",
-            "tiers",
-            "famous"
+            "tiers"
           ],
           "properties": {
             "franchiseIds": {
@@ -487,23 +486,6 @@
                 },
                 "titulo": {
                   "$ref": "#/$defs/tier"
-                }
-              }
-            },
-            "famous": {
-              "description": "Muito conhecida em cada modo, a régua das Misturadas (M17): a chance de acertar a partir do corte fixo (FAMOUS_CUTS), dentro do Fácil do modo. Só sim ou não, sem número (P240, P254).",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "musica",
-                "titulo"
-              ],
-              "properties": {
-                "musica": {
-                  "type": "boolean"
-                },
-                "titulo": {
-                  "type": "boolean"
                 }
               }
             }

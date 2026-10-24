@@ -15,7 +15,6 @@ import pytest
 from musicle_pipeline.aliases import parse_aliases
 from musicle_pipeline.anime import (
     CUTS,
-    FAMOUS_CUTS,
     ICON_CHART_UNTIL,
     Anime,
     AnimeSource,
@@ -24,7 +23,6 @@ from musicle_pipeline.anime import (
     build_anime_catalog,
     chances,
     chart_artists,
-    famous_of,
     franchise_songs,
     franchises_of,
     is_icon,
@@ -867,29 +865,14 @@ def test_the_lab_chances_are_the_ones_behind_the_tiers(tmp_path, capsys):
     assert not tracked.exists()
 
 
-def test_the_famous_mark_is_the_chance_from_the_cut_inside_the_easy_tier():
-    # A régua das Misturadas (M17): a chance a partir do FAMOUS_CUTS, e só dentro do Fácil.
-    cut = FAMOUS_CUTS["musica"]
-    easy = {"musica": "facil", "titulo": "facil"}
-    assert famous_of({"musica": cut, "titulo": cut - Decimal("0.01")}, easy) == {
-        "musica": True,
-        "titulo": False,
-    }
-    # A música rebaixada a Médio (P274) não é muito conhecida, nem com a chance alta.
-    lowered = {"musica": "medio", "titulo": "facil"}
-    assert famous_of({"musica": Decimal(1), "titulo": Decimal(1)}, lowered)["musica"] is False
-    # No catálogo, toda marca de muito conhecida está no Fácil do modo, e o validate confere.
+def test_the_catalog_has_no_famous_mark_anymore():
+    # A régua das muito conhecidas saiu (o usuário, 24/10/2026): as Misturadas tiram do Fácil
+    # inteiro, e o campo, que ninguém lia, não vai mais para o arquivo público. O esquema o recusa.
     catalog = read_json(COMMITTED)
-    assert all(
-        t["anime"]["tiers"][mode] == "facil"
-        for t in catalog["tracks"]
-        for mode, on in t["anime"]["famous"].items()
-        if on
-    )
-    broken = copy.deepcopy(catalog)
-    hard = next(t for t in broken["tracks"] if t["anime"]["tiers"]["musica"] != "facil")
-    hard["anime"]["famous"]["musica"] = True
-    assert any("muito conhecida no musica" in p for p in validate_anime_catalog(broken))
+    assert all("famous" not in t["anime"] for t in catalog["tracks"])
+    marked = copy.deepcopy(catalog)
+    marked["tracks"][0]["anime"]["famous"] = {"musica": True, "titulo": False}
+    assert any("famous" in p for p in validate_anime_catalog(marked))
 
 
 def test_validation_catches_a_stale_version_and_hand_edits(tmp_path):
