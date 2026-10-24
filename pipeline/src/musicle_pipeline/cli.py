@@ -379,6 +379,23 @@ def _schedule_check(args: argparse.Namespace) -> int:
 # O gerador de cada tipo de agenda, para regerar os dias novos (ME51).
 _GENERATORS: dict[str, Generator] = {"hits": generate, "anime": generate_anime}
 
+# A exceção de uma vez à regra 4 (23/10/2026, decisão do usuário): o 24/10 da agenda real do
+# Anime, que veio da carga de teste (C1) com franquias repetidas, refeito com o catálogo grande
+# antes de chegar. Só vale com o --today antes do dia, quando ninguém pôde jogá-lo ainda.
+_REDONE_DAYS = {("web/public/data/anime/schedule.json", "2026-10-24")}
+
+
+def _redone(path: Path, today: date | None) -> set[str]:
+    """Os "dia alterado" que a exceção aceita nesta agenda, com este hoje."""
+    if today is None:
+        return set()
+    where = path.resolve()
+    return {
+        f"{day}: dia alterado"
+        for file, day in _REDONE_DAYS
+        if where == (repo_root() / file).resolve() and day > today.isoformat()
+    }
+
 
 def _is_fixture(path: Path) -> bool:
     return path.resolve().is_relative_to(provider_paths("fixture").public_dir.resolve())
@@ -405,7 +422,8 @@ def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | 
     current = read_json(path)
     if kind is None:
         kind = "anime" if current.get("kind") == "anime" else "hits"
-    problems = compare(base, current)
+    redone = _redone(path, args.today)
+    problems = [p for p in compare(base, current) if p not in redone]
     if args.today is not None:
         if base is None and _is_fixture(path):
             # A agenda fictícia nova pode nascer com dias passados (a do Anime, com as datas da
