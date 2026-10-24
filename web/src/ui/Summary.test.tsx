@@ -3,6 +3,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { animeDaily, hitsDaily } from "../core/daily.ts";
 import type { FinishedGame } from "../core/records.ts";
+import { bucketOf, DAY_MAX } from "../core/stats.ts";
 import type { AlbumRound, AnimeDay, Day, Target } from "../core/types.ts";
 import { Countdown } from "./Countdown.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
@@ -19,7 +20,7 @@ afterEach(() => {
 const roundTexts = () =>
   [...document.querySelectorAll(".summary-rounds > li > .sr-only")].map((s) => s.textContent);
 
-// 6 + 0 + 5 = 11 de 18; nenhum dado do catálogo (o resumo não tem como revelar a resposta).
+// 10 + 0 + 8 = 18 de 30; nenhum dado do catálogo (o resumo não tem como revelar a resposta).
 const GAME: FinishedGame = {
   number: 3,
   rounds: [
@@ -63,16 +64,16 @@ describe("Summary (o fim do dia)", () => {
     );
     const title = screen.getByRole("heading", { name: "Resultado do dia" });
     expect(document.activeElement).toBe(title);
-    expect(screen.getByText("11 de 18 pontos")).toBeTruthy();
+    expect(screen.getByText("18 de 30 pontos")).toBeTruthy();
     expect(roundTexts()).toEqual([
-      "Rodada 1: acertou, 6 pontos",
+      "Rodada 1: acertou, 10 pontos",
       "Rodada 2: não acertou",
-      "Rodada 3: acertou, 5 pontos",
+      "Rodada 3: acertou, 8 pontos",
     ]);
     // Na célula: a rodada, o ✓ ou o X (só desenho) e os pontos.
     const third = document.querySelectorAll(".summary-rounds > li")[2];
     expect(third?.querySelector('[aria-hidden="true"]')?.textContent).toBe("Rodada 3");
-    expect(third?.querySelector(".round-points")?.textContent).toBe("5 pontos");
+    expect(third?.querySelector(".round-points")?.textContent).toBe("8 pontos");
     expect(third?.querySelector("svg.icon-right")).not.toBeNull();
     // Sem a prévia do texto (as células já mostram o resultado); ele sai com o nome do jogo e o
     // modo.
@@ -83,7 +84,7 @@ describe("Summary (o fim do dia)", () => {
       fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
     });
     expect(writeText).toHaveBeenCalledWith(
-      "AteMusic · Normal nº 3\n11/18\n✅\n❌\n⬛✅\nhttps://x.test/",
+      "AteMusic · Normal nº 3\n18/30\n✅\n❌\n⬛✅\nhttps://x.test/",
     );
     // 12:00 em Brasília: faltam 12 h para o próximo diário.
     expect(screen.getByRole("timer").textContent).toBe("12:00:00");
@@ -125,7 +126,7 @@ describe("Summary (o fim do dia)", () => {
       fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
     });
     const [[text]] = writeText.mock.calls as unknown as [[string]];
-    expect(text.split("\n").slice(0, 2)).toEqual(["AteMusic Anime · Música · Fácil nº 3", "11/18"]);
+    expect(text.split("\n").slice(0, 2)).toEqual(["AteMusic Anime · Música · Fácil nº 3", "18/30"]);
     expect(text.endsWith("https://x.test/")).toBe(true);
     // Jogos: 1 (só o do Fácil).
     const played = [...document.querySelectorAll(".stats dd")].map((d) => d.textContent);
@@ -154,7 +155,7 @@ describe("Summary (o fim do dia)", () => {
     expect(roundTexts()[0]).toBe("Rodada 1: anulada");
   });
 
-  it("as estatísticas: 19 colunas, a de hoje em destaque e com a altura cheia (ME77)", () => {
+  it("as estatísticas: uma coluna por faixa de 3, a de hoje em destaque e com a altura cheia (ME77, ME107)", () => {
     render(
       <Summary
         game={GAME}
@@ -166,14 +167,21 @@ describe("Summary (o fim do dia)", () => {
         announce={vi.fn()}
       />,
     );
-    expect(document.querySelectorAll(".distribution > li")).toHaveLength(19);
+    const buckets = bucketOf(DAY_MAX) + 1;
+    expect(document.querySelectorAll(".distribution > li")).toHaveLength(buckets);
+    expect(
+      document.querySelector<HTMLElement>(".distribution")?.style.getPropertyValue("--buckets"),
+    ).toBe(String(buckets));
     const today = document.querySelector<HTMLElement>(".bucket.today");
-    // Hoje (11 pontos) é o único jogo: a coluna mais alta, com a contagem e a frase para o leitor.
-    expect(today?.querySelector(".bucket-label")?.textContent).toBe("11");
+    // Hoje (18 pontos, na faixa de 18 a 20) é o único jogo: a coluna mais alta, com a contagem e a
+    // frase para o leitor. O eixo mostra o começo da faixa.
+    expect(today?.querySelector(".bucket-label")?.textContent).toBe("18");
     expect(today?.querySelector<HTMLElement>(".bucket-bar")?.style.getPropertyValue("--h")).toBe(
       "100%",
     );
-    expect(today?.querySelector(".sr-only")?.textContent).toBe("11 pontos: 1 jogo, incluindo hoje");
+    expect(today?.querySelector(".sr-only")?.textContent).toBe(
+      "18 a 20 pontos: 1 jogo, incluindo hoje",
+    );
     expect(
       document
         .querySelector<HTMLElement>(".bucket:not(.today) .bucket-bar")
@@ -181,7 +189,7 @@ describe("Summary (o fim do dia)", () => {
     ).toBe("0%");
   });
 
-  it("a rodada com a ajuda (P149): acertou com ajuda, 1 ponto", () => {
+  it("a rodada com a ajuda (P149): acertou com ajuda, a metade do trecho (ME107)", () => {
     const helped: FinishedGame = {
       number: 3,
       rounds: [
@@ -201,11 +209,11 @@ describe("Summary (o fim do dia)", () => {
         announce={vi.fn()}
       />,
     );
-    expect(screen.getByText("7 de 18 pontos")).toBeTruthy();
-    expect(roundTexts()).toContain("Rodada 1: acertou com ajuda, 1 ponto");
+    expect(screen.getByText("13 de 30 pontos")).toBeTruthy();
+    expect(roundTexts()).toContain("Rodada 1: acertou com ajuda, 3 pontos");
     // Na célula também: a ajuda não some da tela.
     expect(document.querySelector(".summary-rounds .round-points")?.textContent).toBe(
-      "1 ponto · ajuda",
+      "3 pontos · ajuda",
     );
   });
 });
@@ -247,7 +255,7 @@ describe("Summary de um dia passado (o Histórico, P263)", () => {
       fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
     });
     expect(writeText).toHaveBeenCalledWith(
-      "AteMusic · Normal nº 3 (jogado depois)\n11/18\n✅\n❌\n⬛✅\nhttps://x.test/",
+      "AteMusic · Normal nº 3 (jogado depois)\n18/30\n✅\n❌\n⬛✅\nhttps://x.test/",
     );
   });
 });
@@ -313,7 +321,7 @@ describe("Countdown (P39: a virada à meia-noite de Brasília)", () => {
 });
 
 describe("ShareButton", () => {
-  const TEXT = "AteMusic · Desafio nº 1\n6/18";
+  const TEXT = "AteMusic · Desafio nº 1\n10/30";
 
   it('copiou: o botão diz "Copiado!" por 2 s, e o aria-live avisa com a frase inteira', async () => {
     vi.useFakeTimers();

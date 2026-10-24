@@ -1,6 +1,14 @@
 import { describe, expect, it } from "vitest";
 import type { FinishedGame, RoundRecord } from "./records.ts";
-import { computeStats, dayGames, streaks } from "./stats.ts";
+import {
+  BUCKET_SIZE,
+  bucketOf,
+  bucketRange,
+  computeStats,
+  DAY_MAX,
+  dayGames,
+  streaks,
+} from "./stats.ts";
 
 const won = (stage: number): RoundRecord => ({ status: "won", stage, attempts: ["right"] });
 const lost: RoundRecord = { status: "lost", stage: 0, attempts: ["wrong"] };
@@ -14,12 +22,25 @@ const days = (from: number, to: number) =>
   Array.from({ length: to - from + 1 }, (_, i) => `2026-10-${String(from + i).padStart(2, "0")}`);
 const SCHEDULE = days(8, 29);
 
+describe("as faixas da distribuição (ME107)", () => {
+  it("de 3 em 3, e o máximo do dia sozinho na última", () => {
+    expect(BUCKET_SIZE).toBe(3);
+    expect([0, 2, 3, 5].map(bucketOf)).toEqual([0, 0, 1, 1]);
+    expect(bucketRange(1)).toEqual({ from: 3, to: 5 });
+    const last = bucketOf(DAY_MAX);
+    expect(bucketRange(last)).toEqual({ from: DAY_MAX, to: DAY_MAX });
+    expect(bucketRange(last - 1).to).toBe(DAY_MAX - 1);
+    // Acima do máximo (não acontece hoje), a última faixa: a coluna e o destaque de hoje juntos.
+    expect(bucketOf(DAY_MAX + 5)).toBe(last);
+  });
+});
+
 describe("computeStats", () => {
   it("histórico vazio", () => {
     expect(computeStats({}, "song", "2026-10-08", SCHEDULE)).toEqual({
       played: 0,
       average: null,
-      distribution: new Array(19).fill(0),
+      distribution: new Array(bucketOf(DAY_MAX) + 1).fill(0),
       currentStreak: 0,
       bestStreak: 0,
     });
@@ -27,14 +48,26 @@ describe("computeStats", () => {
 
   it("média e distribuição com pontos brutos (P41)", () => {
     const history = {
-      "2026-10-08|song": game(won(0), won(1), lost), // 6 + 5 = 11
-      "2026-10-09|song": game(won(5), lost, lost), // 1
+      "2026-10-08|song": game(won(0), won(1), lost), // 10 + 8 = 18
+      "2026-10-09|song": game(won(5), lost, lost), // 3
     };
     const stats = computeStats(history, "song", "2026-10-09", SCHEDULE);
     expect(stats.played).toBe(2);
-    expect(stats.average).toBe(6);
-    expect(stats.distribution[11]).toBe(1);
-    expect(stats.distribution[1]).toBe(1);
+    expect(stats.average).toBe(10.5);
+    expect(stats.distribution[bucketOf(18)]).toBe(1);
+    expect(stats.distribution[bucketOf(3)]).toBe(1);
+  });
+
+  it("o dia com uma anulada (20 de 20) cai na faixa de 18 a 20, e o 30 na última (ME107)", () => {
+    const history = {
+      "2026-10-08|song": game(won(0), won(0), voided), // 20, com o máximo de 20
+      "2026-10-09|song": game(won(0), won(0), won(0)), // 30
+    };
+    const stats = computeStats(history, "song", "2026-10-09", SCHEDULE);
+    expect(bucketRange(bucketOf(20))).toEqual({ from: 18, to: 20 });
+    expect(stats.distribution[bucketOf(20)]).toBe(1);
+    expect(stats.distribution.at(-1)).toBe(1);
+    expect(stats.distribution.reduce((a, b) => a + b, 0)).toBe(2);
   });
 
   it("dia todo anulado conta em jogos e na sequência, mas não na média (P41)", () => {
@@ -44,7 +77,7 @@ describe("computeStats", () => {
     };
     const stats = computeStats(history, "song", "2026-10-09", SCHEDULE);
     expect(stats.played).toBe(2);
-    expect(stats.average).toBe(6);
+    expect(stats.average).toBe(10);
     expect(stats.distribution.reduce((a, b) => a + b, 0)).toBe(1);
     expect(stats.currentStreak).toBe(2);
   });
@@ -87,7 +120,7 @@ describe("computeStats", () => {
     };
     const stats = computeStats(history, "song", "2026-10-09", SCHEDULE);
     expect(stats.played).toBe(1);
-    expect(stats.average).toBe(6);
+    expect(stats.average).toBe(10);
   });
 
   it("o jogado depois (P263) fica fora de tudo: jogos, média, distribuição e sequência", () => {
@@ -97,8 +130,9 @@ describe("computeStats", () => {
       "2026-10-10|song": game(won(1), lost, lost),
     };
     const stats = computeStats(history, "song", "2026-10-10", SCHEDULE);
-    expect(stats).toMatchObject({ played: 2, average: 11.5, currentStreak: 1, bestStreak: 1 });
-    expect(stats.distribution[6]).toBe(0);
+    // 30 e 8: o jogado depois (10) fica fora da média e da faixa dele.
+    expect(stats).toMatchObject({ played: 2, average: 19, currentStreak: 1, bestStreak: 1 });
+    expect(stats.distribution[bucketOf(10)]).toBe(0);
     // Sem a marca, o mesmo dia contaria: a sequência seria de 3.
     const onTime = { ...history, "2026-10-09|song": game(won(0), lost, lost) };
     expect(computeStats(onTime, "song", "2026-10-10", SCHEDULE).currentStreak).toBe(3);
@@ -114,7 +148,7 @@ describe("computeStats", () => {
     // A agenda do Anime não tem o dia 10 (a dos Hits tem): pela dela, a sequência não quebra.
     const anime = SCHEDULE.filter((d) => d !== "2026-10-10");
     const facil = computeStats(history, "anime-musica-facil", "2026-10-11", anime);
-    expect(facil).toMatchObject({ played: 2, average: 5.5, currentStreak: 2, bestStreak: 2 });
+    expect(facil).toMatchObject({ played: 2, average: 9, currentStreak: 2, bestStreak: 2 });
     expect(computeStats(history, "anime-musica-facil", "2026-10-11", SCHEDULE).currentStreak).toBe(
       1,
     );

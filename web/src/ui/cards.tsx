@@ -33,7 +33,7 @@ export type Card = {
 };
 
 /**
- * O estado do diário: no cartão dele, com o número ("nº 1 · novo", "nº 1 · terminado, 11 de 18
+ * O estado do diário: no cartão dele, com o número ("nº 1 · novo", "nº 1 · terminado, 18 de 30
  * pontos"); `short`, na linha do cartão dos Hits na Início, sem ele (na parada real, o número
  * cresce, e a linha quebraria).
  */

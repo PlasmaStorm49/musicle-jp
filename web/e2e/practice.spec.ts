@@ -16,8 +16,8 @@ test("Treino: escolhe o modo, joga e segue nele; reiniciar pede confirmação (P
   const played = await lastPlayed(page);
   test.info().annotations.push({ type: "faixa sorteada", description: played.id });
   await option(page, albumOf(played).title).click();
-  await expect(page.getByRole("heading", { name: "Acertou! 6 de 6 pontos." })).toBeVisible();
-  await expect(page.getByText("6 pontos em 1 rodada", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
+  await expect(page.getByText("10 pontos em 1 rodada", { exact: true })).toBeVisible();
   // O acerto vai para o save (P308), e só ele: a sessão fica na memória (P50).
   const practiceRight = () =>
     page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").practiceRight, SAVE_KEY);
@@ -32,7 +32,7 @@ test("Treino: escolhe o modo, joga e segue nele; reiniciar pede confirmação (P
   // a sessão e devolvem o foco ao botão.
   const restart = page.getByRole("button", { name: "Reiniciar o Treino" });
   const dialog = page.getByRole("dialog", {
-    name: /O placar desta sessão \(6 pontos em 1 rodada\)/,
+    name: /O placar desta sessão \(10 pontos em 1 rodada\)/,
   });
   const cancel = page.getByRole("button", { name: "Cancelar" });
   await restart.click();

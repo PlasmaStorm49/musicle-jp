@@ -10,7 +10,6 @@ import {
   practiceScore,
 } from "../core/practice.ts";
 import { currentRound, type GameEvent, reduce } from "../core/reducer.ts";
-import { HELP_AFTER } from "../core/rules.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
 import { FocusedNotice } from "./FocusedNotice.tsx";
@@ -117,10 +116,7 @@ export function PracticeRun({
   const score = practiceScore(session.score, game);
   // A ajuda depois da 1ª tentativa (P149, P150), sem nunca mostrar uma resposta de hoje.
   const seed = session.practice.seed;
-  const help = useMemo<HelpSetup>(
-    () => ({ after: HELP_AFTER.practice, avoid: excluded, session: seed }),
-    [excluded, seed],
-  );
+  const help = useMemo<HelpSetup>(() => ({ avoid: excluded, session: seed }), [excluded, seed]);
 
   return (
     <div class="game practice screen">
@@ -177,6 +173,7 @@ export function ConfirmButton({
   confirm,
   ask,
   onConfirm,
+  concealed = false,
 }: {
   readonly label: string;
   /** O texto curto na tela (P210); o nome do botão continua o `label` inteiro, que começa por ele. */
@@ -187,6 +184,11 @@ export function ConfirmButton({
   /** Pergunta antes (com algo a perder); senão, confirma direto. */
   readonly ask: boolean;
   readonly onConfirm: () => void;
+  /**
+   * Fora de uso, mas no lugar: invisível, fora do Tab e do leitor de tela, sem tirar a largura da
+   * coluna dele (o cabeçalho não reflui). No estilo da própria linha, para valer também sem o CSS.
+   */
+  readonly concealed?: boolean;
 }) {
   const button = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -201,8 +203,10 @@ export function ConfirmButton({
       <button
         ref={button}
         type="button"
+        style={concealed ? { visibility: "hidden" } : undefined}
         // O 2º clique de um toque duplo num cartão de modo cai aqui (a tela já mudou).
         onClick={singleClick(() => {
+          if (concealed) return;
           if (!ask) {
             onConfirm();
             return;

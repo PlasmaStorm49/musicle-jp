@@ -53,7 +53,8 @@ describe("shareGrid", () => {
       ],
     };
     expect(shareGrid(desafio, MODE_RULES.song)).toEqual(["⬛❌⬛💡✅", "⬛⬛⬛💡❌", "⬛⬛⬛💡❌"]);
-    expect(shareText("h", desafio, MODE_RULES.song, "u").split("\n")[1]).toBe("1/18");
+    // A ajuda no trecho de 7 s vale 3 (ME107).
+    expect(shareText("h", desafio, MODE_RULES.song, "u").split("\n")[1]).toBe("3/30");
   });
 
   it("Desafio com pulos depois da ajuda (P163): o 💡 antes deles; desistir fecha com ❌", () => {
@@ -119,7 +120,7 @@ describe("shareText", () => {
   const text = shareText("AteMusic · Normal nº 1", normalGame, MODE_RULES.album, "https://x.test/");
 
   it("cabeçalho, pontos sobre o máximo, rodadas e endereço", () => {
-    expect(text).toBe("AteMusic · Normal nº 1\n5/12\n⬛✅\n❌\n⬜\nhttps://x.test/");
+    expect(text).toBe("AteMusic · Normal nº 1\n8/20\n⬛✅\n❌\n⬜\nhttps://x.test/");
   });
 
   it("nunca contém título, artista nem ID do catálogo", () => {

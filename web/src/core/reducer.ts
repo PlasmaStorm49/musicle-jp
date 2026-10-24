@@ -9,6 +9,7 @@ import {
   MODE_RULES,
   type ModeRules,
   rulesOf,
+  scoreOf,
   type Variant,
 } from "./rules.ts";
 import type { Target } from "./types.ts";
@@ -52,8 +53,8 @@ export type RoundState = {
    */
   readonly helpAt: number | null;
   /**
-   * A pessoa desistiu da rodada (o "Desistir"): custa os `giveUpPoints` das regras (−2 no
-   * Superfan, P186). O fim que a partida força (o 3º erro do Superfan, encerrar) não conta.
+   * A pessoa desistiu da rodada (o "Desistir"): no Superfan, custa uma vida (P290). O fim que a
+   * partida força (a última vida, encerrar) não conta.
    */
   readonly gaveUp: boolean;
 };
@@ -82,8 +83,8 @@ export type GameEvent =
   | { readonly type: "LISTEN_MORE" }
   | { readonly type: "SKIP" }
   /**
-   * Desistir. Com `forced`, quem encerra a rodada é a partida (o 3º erro do Superfan, encerrar), e
-   * não a pessoa: não custa os pontos de desistir (P186). A tela nunca manda `forced`.
+   * Desistir. Com `forced`, quem encerra a rodada é a partida (a última vida do Superfan,
+   * encerrar), e não a pessoa: não custa a vida do desistir (P290). A tela nunca manda `forced`.
    */
   | { readonly type: "GIVE_UP"; readonly forced?: true }
   /**
@@ -193,7 +194,7 @@ function skip(state: GameState, round: RoundState): GameState {
   // da ajuda, e a última tentativa fica para a opção (o canSkip some com o botão antes dela).
   if (!rules.skip) return state;
   const attempts = [...round.attempts, { kind: "skip" } as const];
-  // Pular a última tentativa é desistir (a tela nem oferece: canSkip): custa o mesmo (P186).
+  // Pular a última tentativa é desistir (a tela nem oferece: canSkip): conta o mesmo (P290).
   if (attempts.length >= rules.maxAttempts) {
     return withRound(state, { ...round, attempts, status: "lost", gaveUp: true });
   }
@@ -277,16 +278,11 @@ export function roundErrors(round: RoundState): number {
 }
 
 /**
- * Pontos de uma rodada, pelas regras do jogo: o acerto vale os pontos da etapa, ou os da ajuda
- * (P152, P186), cada palpite errado soma `wrongPoints` (0; −5 no Superfan, P119), e desistir soma
- * `giveUpPoints` (0; −2 no Superfan, P186). A anulada (falha de áudio) não conta, nem os erros
- * dela. Sem dizer as regras, as do Desafio, iguais às do Normal nos pontos. O total e o máximo do
- * dia ficam em records.ts (recordScore, recordMax).
+ * Pontos de uma rodada, pelas regras do jogo (`scoreOf`, ME107): o acerto vale os pontos da etapa,
+ * ou os da ajuda na etapa; errar, desistir e a anulada valem 0. Sem dizer as regras, as do
+ * Desafio, iguais às do Normal nos pontos. O total e o máximo do dia ficam em records.ts
+ * (recordScore, recordMax).
  */
 export function roundScore(round: RoundState, rules: ModeRules = MODE_RULES.song): number {
-  if (round.status === "void") return 0;
-  const errors = roundErrors(round) * rules.wrongPoints;
-  if (round.status !== "won") return errors + (round.gaveUp ? rules.giveUpPoints : 0);
-  const stage = Math.min(Math.max(round.stage, 0), rules.points.length - 1);
-  return errors + (round.help ? rules.helpPoints : (rules.points[stage] ?? 0));
+  return scoreOf(round, rules);
 }

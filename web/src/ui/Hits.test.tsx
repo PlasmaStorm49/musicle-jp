@@ -20,7 +20,7 @@ const DAY: Day = {
 };
 const DATE = "2026-10-17";
 
-// 6 + 0 + 5 = 11 de 18.
+// 10 + 0 + 8 = 18 de 30.
 const finished: FinishedGame = {
   number: 7,
   rounds: [
@@ -69,7 +69,7 @@ describe("Hits (P225)", () => {
     setup();
     const normal = card(/^Normal/);
     const full = document.getElementById(normal.getAttribute("aria-describedby") ?? "");
-    expect(full?.textContent).toContain("Cada trecho a mais vale 1 ponto a menos.");
+    expect(full?.textContent).toContain("Quanto menos você ouvir, mais vale o acerto.");
     expect(normal.contains(full ?? null)).toBe(false); // fora do link (P210)
   });
 
@@ -82,7 +82,7 @@ describe("Hits (P225)", () => {
       history: { [puzzleId(DATE, "song")]: finished },
       inProgress: { [puzzleId(DATE, "album")]: { events: [{ type: "LISTEN_MORE" }] } },
     });
-    expect(card(/^Desafio/).textContent).toContain("nº 7 · terminado, 11 de 18 pontos");
+    expect(card(/^Desafio/).textContent).toContain("nº 7 · terminado, 18 de 30 pontos");
     expect(card(/^Normal/).textContent).toContain("nº 7 · em andamento");
   });
 

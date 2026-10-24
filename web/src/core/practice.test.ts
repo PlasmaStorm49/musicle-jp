@@ -418,12 +418,12 @@ describe("jogo de uma rodada e sessão", () => {
     expect(practiceScore(zero, game)).toEqual(zero);
     const answer = game.rounds[0]?.correctOptionId ?? "";
     expect(practiceScore(zero, reduce(game, { type: "GUESS", guessId: answer }))).toEqual({
-      points: 6,
+      points: 10,
       rounds: 1,
     });
     const listened = reduce(game, { type: "LISTEN_MORE" });
     const won = reduce(listened, { type: "GUESS", guessId: answer });
-    expect(practiceScore({ points: 4, rounds: 2 }, won)).toEqual({ points: 9, rounds: 3 });
+    expect(practiceScore({ points: 4, rounds: 2 }, won)).toEqual({ points: 12, rounds: 3 });
     expect(practiceScore(zero, reduce(game, { type: "GIVE_UP" }))).toEqual({
       points: 0,
       rounds: 1,
@@ -444,7 +444,7 @@ describe("jogo de uma rodada e sessão", () => {
     const won = reduce(game, { type: "GUESS", guessId: game.rounds[0]?.correctOptionId ?? "" });
     const next = nextPracticeRound({ ...session, game: won }, index, NONE);
     expect(next.number).toBe(2);
-    expect(next.score).toEqual({ points: 6, rounds: 1 });
+    expect(next.score).toEqual({ points: 10, rounds: 1 });
     expect(next.game?.target).toBe("album");
     expect(next.game?.rounds[0]?.options).toHaveLength(4);
     expect(next.practice.cursor.position).toBe(2);

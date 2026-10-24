@@ -7,7 +7,7 @@ import { ANIME_KEYS, type Daily, hitsDaily } from "./daily.ts";
 import { type PracticeScore, type PracticeSession, practiceScore } from "./practice.ts";
 import { type PuzzleId, puzzleId, recordMax, recordScore, type Save } from "./records.ts";
 import { MODES } from "./rules.ts";
-import { superfanScore } from "./superfan.ts";
+import { superfanScore, superfanTotal } from "./superfan.ts";
 import type { Day, Target } from "./types.ts";
 
 export type DailyStatus =
@@ -132,14 +132,18 @@ export type ArtistSummary = {
 
 /**
  * O resumo da sessão do modo por artista; null antes da 1ª rodada terminada, como no Treino.
- * No Superfan, o placar da partida (com os erros da música em jogo, que contam na hora).
+ * No Superfan, o placar da partida, com o bônus das vidas quando ela terminou completa (ME107).
  */
 export function artistSummary(play: ArtistPlay | null): ArtistSummary | null {
   if (!play) return null;
   if (play.kind === "superfan") {
     const score = superfanScore(play.run);
-    return score.rounds > 0 || score.points !== 0
-      ? { artist: play.artist.name, superfan: true, score }
+    return score.rounds > 0
+      ? {
+          artist: play.artist.name,
+          superfan: true,
+          score: { ...score, points: superfanTotal(play.run) },
+        }
       : null;
   }
   const summary = practiceSummary(play.session);

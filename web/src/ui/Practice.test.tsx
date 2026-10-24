@@ -260,15 +260,15 @@ describe("Practice: a sessão", () => {
     const { session, correctTitle } = setup();
     const first = session().game?.rounds[0]?.trackId;
     fireEvent.click(screen.getByRole("button", { name: correctTitle() }));
-    expect(score()).toBe("6 pontos em 1 rodada");
+    expect(score()).toBe("10 pontos em 1 rodada");
 
     fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
     expect(screen.getByText("Rodada 2")).toBeTruthy();
     expect(session().game?.rounds[0]?.trackId).not.toBe(first);
-    expect(score()).toBe("6 pontos em 1 rodada");
+    expect(score()).toBe("10 pontos em 1 rodada");
 
     fireEvent.click(screen.getByRole("button", { name: "Não sei" }));
-    expect(score()).toBe("6 pontos em 2 rodadas");
+    expect(score()).toBe("10 pontos em 2 rodadas");
   });
 
   it("da rodada à revelação e de volta, a raiz (o palco) e o cabeçalho são os mesmos nós (ME39)", () => {
@@ -309,7 +309,7 @@ describe("Practice: a sessão", () => {
     rerender({ save: emptySave(), day: null, show: true });
     expect(title().textContent).toBe("Treino · Normal");
     expect(screen.getByText("Rodada 2")).toBeTruthy();
-    expect(score()).toBe("6 pontos em 1 rodada");
+    expect(score()).toBe("10 pontos em 1 rodada");
   });
 
   it("o acerto vai para o save uma vez só, também ao sair da aba e voltar (P308)", () => {
@@ -400,7 +400,7 @@ describe("Practice: reiniciar (P105)", () => {
     restart();
     // O nome do pop-up é o aviso; modal (showModal, e não show): o resto da tela fica inerte.
     const dialog = screen.getByRole("dialog", {
-      name: /O placar desta sessão \(6 pontos em 1 rodada\)/,
+      name: /O placar desta sessão \(10 pontos em 1 rodada\)/,
     }) as HTMLDialogElement;
     expect(showModal).toHaveBeenCalledOnce();
     // O foco vai à escolha que não perde nada.
@@ -426,7 +426,7 @@ describe("Practice: reiniciar (P105)", () => {
     screen.getByRole("button", { name: "Sim, reiniciar" }).focus();
     act(() => dialog.close());
     expect(document.activeElement).toBe(screen.getByRole("button", { name: "Reiniciar o Treino" }));
-    expect(score()).toBe("6 pontos em 1 rodada");
+    expect(score()).toBe("10 pontos em 1 rodada");
   });
 
   it("reabre mesmo quando o close não chega como evento (no painel do Claude não chegava)", () => {

@@ -149,61 +149,25 @@
       }
     },
     "2026-10-24": {
-      "catalogVersion": "2026-10-22.06c420d9",
+      "catalogVersion": "2026-10-22.cdfb973a",
       "musica": {
         "dificil": [
           {
-            "answer": "apple:tr:385705909"
-          },
-          {
-            "answer": "apple:tr:1410662473"
-          },
-          {
-            "answer": "apple:tr:317681372"
-          }
-        ],
-        "facil": [
-          {
-            "answer": "apple:tr:131944614"
-          },
-          {
-            "answer": "apple:tr:1536266749"
-          },
-          {
-            "answer": "apple:tr:1536371431"
-          }
-        ],
-        "medio": [
-          {
-            "answer": "apple:tr:1537291898"
-          },
-          {
-            "answer": "apple:tr:638086931"
-          },
-          {
             "answer": "apple:tr:638086929"
-          }
-        ]
-      },
-      "number": 3,
-      "titulo": {
-        "dificil": [
-          {
-            "answer": "apple:tr:1535613405"
           },
           {
-            "answer": "apple:tr:1537784403"
+            "answer": "apple:tr:1526095124"
           },
           {
-            "answer": "apple:tr:1554833042"
+            "answer": "apple:tr:1726312196"
           }
         ],
         "facil": [
           {
-            "answer": "apple:tr:1536140851"
+            "answer": "apple:tr:1562122319"
           },
           {
-            "answer": "apple:tr:1683295726"
+            "answer": "apple:tr:1536273244"
           },
           {
             "answer": "apple:tr:1537419724"
@@ -211,13 +175,49 @@
         ],
         "medio": [
           {
-            "answer": "apple:tr:638086930"
+            "answer": "apple:tr:1537291898"
           },
           {
-            "answer": "apple:tr:723324548"
+            "answer": "apple:tr:1804659322"
           },
           {
-            "answer": "apple:tr:1535505847"
+            "answer": "apple:tr:1754058199"
+          }
+        ]
+      },
+      "number": 3,
+      "titulo": {
+        "dificil": [
+          {
+            "answer": "apple:tr:1725058791"
+          },
+          {
+            "answer": "apple:tr:1661725722"
+          },
+          {
+            "answer": "apple:tr:1692341508"
+          }
+        ],
+        "facil": [
+          {
+            "answer": "apple:tr:1525498908"
+          },
+          {
+            "answer": "apple:tr:1815243485"
+          },
+          {
+            "answer": "apple:tr:1536371431"
+          }
+        ],
+        "medio": [
+          {
+            "answer": "apple:tr:1573852763"
+          },
+          {
+            "answer": "apple:tr:1826645213"
+          },
+          {
+            "answer": "apple:tr:1282835109"
           }
         ]
       }

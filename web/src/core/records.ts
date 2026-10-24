@@ -7,7 +7,7 @@
 import type { CatalogIndex } from "./catalog.ts";
 import type { Daily, DailyKey } from "./daily.ts";
 import { createGame, type GameEvent, type GameState, isFinished, reduce } from "./reducer.ts";
-import { HELP_POINTS, MAX_POINTS, pointsAtStage } from "./rules.ts";
+import { DAILY_SCORING, type ScorableRound, scoreOf } from "./rules.ts";
 
 /**
  * "<data>|<diário>", ex.: "2026-10-08|album" (o Normal), "2026-10-08|song" (o Desafio) ou, no
@@ -148,14 +148,14 @@ export function toFinishedGame(state: GameState, number: number, late: boolean):
   };
 }
 
-/** O bastante para pontuar uma rodada: status, etapa e a ajuda (do FinishedGame ou do jogo). */
-type ScorableRound = { readonly status: string; readonly stage: number; readonly help?: unknown };
 type Scorable = { readonly rounds: readonly ScorableRound[] };
 
-/** Pontos de uma rodada: 6 menos a etapa, ou HELP_POINTS com a ajuda (P152); errou, 0. */
+/**
+ * Pontos de uma rodada de um diário, pela mesma conta do jogo (`scoreOf`), com a pontuação dos
+ * diários: o resumo salvo não guarda as regras.
+ */
 export function roundRecordScore(round: ScorableRound): number {
-  if (round.status !== "won") return 0;
-  return round.help !== undefined && round.help !== null ? HELP_POINTS : pointsAtStage(round.stage);
+  return scoreOf(round, DAILY_SCORING);
 }
 
 /** Pontos do dia: nada derivado é gravado, então sai do status, da etapa e da ajuda. */
@@ -163,9 +163,10 @@ export function recordScore(game: Scorable): number {
   return game.rounds.reduce((sum, r) => sum + roundRecordScore(r), 0);
 }
 
-/** Máximo do dia: 6 por rodada não anulada (P27). */
+/** Máximo do dia: o acerto no 1º trecho, por rodada não anulada (P27). */
 export function recordMax(game: Scorable): number {
-  return MAX_POINTS * game.rounds.filter((r) => r.status !== "void").length;
+  const best = DAILY_SCORING.points[0] ?? 0;
+  return best * game.rounds.filter((r) => r.status !== "void").length;
 }
 
 export type Session =
