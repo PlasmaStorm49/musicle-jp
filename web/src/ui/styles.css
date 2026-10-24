@@ -460,11 +460,11 @@ button.give-up:active:not(:disabled) {
   }
 }
 
-/* O "Mais" (P265, P287): abaixo de 720 px, as Misturadas (M17), os Artistas, o Histórico e as
-   Medalhas ficam no menu dele; a partir de 720 px, as 7 abas na linha (entre 480 e 719, a coluna
-   tem 460 px úteis, e elas não cabem). Na linha, com os três ✓ e a medalha em destaque, elas
-   somam uns 620 px: a linha da nav usa a coluna larga (até 880 px), e não a do conteúdo (560).
-   Os links estão duas vezes no DOM, e cada largura mostra um conjunto. */
+/* O "Mais" (P265, P287), em todas as larguras: os Artistas, o Histórico e as Medalhas ficam no
+   menu dele, e as Misturadas (M17) também, abaixo de 720 px (entre 480 e 719, a coluna tem 460 px
+   úteis). A partir de 720 px, as Misturadas vão para a linha, que fica na coluna do conteúdo: com
+   os três ✓ e a medalha em destaque, ela tem uns 450 px. O link delas está duas vezes no DOM, e
+   cada largura mostra um. Item novo na nav entra no menu, ou num submenu. */
 .tabs .nav-inline {
   display: none;
 }
@@ -474,26 +474,29 @@ button.give-up:active:not(:disabled) {
 }
 
 @media (min-width: 720px) {
-  .tabs ul {
-    max-width: var(--column-wide);
-  }
-
   .tabs .nav-inline {
     display: list-item;
   }
 
-  .tabs .nav-more {
+  .tabs .nav-menu .nav-narrow {
     display: none;
   }
 }
 
-/* A medalha em destaque (ME118, P317), no canto direito da nav. A partir de 360 px, o link para as
-   Medalhas, com o alvo de 44 px; abaixo, sobram 28 px em 320 (os 44 menos o espaço entre as abas):
-   ela fica menor e só enfeita, e o link das Medalhas continua no Mais. */
+/* A medalha em destaque (ME118, P317): no celular, no canto direito da nav; a partir de 720 px,
+   logo depois do "Mais", perto do menu. A partir de 360 px, o link para as Medalhas, com o alvo de
+   44 px; abaixo, sobram 28 px em 320 (os 44 menos o espaço entre as abas): ela fica menor e só
+   enfeita, e o link das Medalhas continua no Mais. */
 .tabs .nav-favorite {
   display: flex;
   align-items: center;
   margin-left: auto;
+}
+
+@media (min-width: 720px) {
+  .tabs .nav-favorite {
+    margin-left: 0;
+  }
 }
 
 /* Abaixo de 360 px, a Nav desenha só o enfeite (pelo `matchMedia`, para o item sair do leitor de
@@ -696,6 +699,17 @@ main.app {
   margin: 0;
   font-size: var(--t-sm);
   line-height: var(--lh-sm);
+}
+
+/* A etiqueta da rodada difícil das Misturadas (M17), depois de "Rodada 3 de 4": o texto normal
+   sobre a tinta (o par do theme.test), sem mudar a altura da linha. */
+.round-head .round-tag {
+  display: inline-block;
+  margin-left: var(--sp-2);
+  padding: 0 var(--sp-2);
+  border-radius: var(--r-control);
+  background: var(--fill);
+  font-weight: 700;
 }
 
 /* O cabeçalho da sessão (Treino, Livre e Superfan) numa faixa: o título em cima; a rodada e o

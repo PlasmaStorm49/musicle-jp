@@ -36,6 +36,21 @@ export const MIXED_ROUNDS = 4;
 export const MIXED_MIN_SONGS = 2;
 export const MIXED_MAX_SONGS = 3;
 /**
+ * A rodada difícil (P7): a 3ª, com músicas do Médio para cima (a régua `hard` do pipeline,
+ * `anime_mixed.ROUNDS`). Mudou a ordem das réguas lá? Muda aqui também.
+ */
+export const MIXED_HARD_ROUND = 2;
+
+/** O que faz uma rodada ser difícil, para a etiqueta: músicas mais difíceis ou mais músicas. */
+export type MixedRoundTag = "hard" | "more";
+
+/** A etiqueta da rodada `index`, com `songs` músicas; null nas rodadas comuns. */
+export function mixedRoundTag(index: number, songs: number): MixedRoundTag | null {
+  if (songs > MIXED_MIN_SONGS) return "more";
+  return index === MIXED_HARD_ROUND ? "hard" : null;
+}
+
+/**
  * Os pontos de uma música achada, pelo trecho em que foi achada (P12); com o "Separar" ligado
  * (P10), os da ajuda. A rodada vale a média das suas músicas, arredondada (`mixedRoundScore`):
  * achar todas no 1º trecho vale 10, e o dia, no máximo 40.

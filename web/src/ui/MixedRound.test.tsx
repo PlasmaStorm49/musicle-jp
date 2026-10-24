@@ -205,13 +205,13 @@ describe("MixedRoundView (M17)", () => {
     const { engine, playback } = mixEngine();
     render(<Harness engine={engine} announce={vi.fn()} />);
     await playMix();
-    const separate = screen.getByRole("button", { name: "Separar L e R" });
+    const separate = screen.getByRole("button", { name: "Ajuda: separar L e R" });
     expect(separate.getAttribute("aria-pressed")).toBe("false");
     fireEvent.click(separate);
     expect(playback.setPan).toHaveBeenCalledWith(0, -0.8);
     expect(playback.setPan).toHaveBeenCalledWith(1, 0.8);
     // O mesmo nome, pressionado (o ✓ é só desenho).
-    const pressed = screen.getByRole("button", { name: "Separar L e R" });
+    const pressed = screen.getByRole("button", { name: "Ajuda: separar L e R" });
     expect(pressed.getAttribute("aria-pressed")).toBe("true");
     // A dica diz o custo; o botão, não (regra 8).
     expect(pressed.getAttribute("aria-describedby")).toBeTruthy();
@@ -229,7 +229,7 @@ describe("MixedRoundView (M17)", () => {
     render(<Harness engine={engine} announce={vi.fn()} />);
     fireEvent.click(screen.getByRole("button", { name: "Tocar 4 s" }));
     guess("Música 1");
-    fireEvent.click(screen.getByRole("button", { name: "Separar L e R" }));
+    fireEvent.click(screen.getByRole("button", { name: "Ajuda: separar L e R" }));
     expect(playback.setGain).not.toHaveBeenCalled();
     await act(async () => start(playback));
     expect(playback.setGain).toHaveBeenCalledWith(0, 0);

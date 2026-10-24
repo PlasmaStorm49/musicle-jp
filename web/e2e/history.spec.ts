@@ -223,9 +223,11 @@ test("jogar o Anime de 21/10 depois: o cartão do dia, os modos com a data, o re
   // A escolha do modo do dia passado: a data no lugar da dica, e o Histórico marcado na nav.
   await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
   await expect(main.getByText("Quarta-feira, 21/10")).toBeVisible();
-  await expect(
-    page.getByRole("navigation").getByRole("link", { name: "Histórico" }),
-  ).toHaveAttribute("aria-current", "true");
+  // O Histórico fica no Mais (M17), que leva a marca por ele.
+  await expect(page.getByRole("navigation").getByRole("button", { name: "Mais" })).toHaveAttribute(
+    "aria-current",
+    "true",
+  );
   await expect(animeTab(page)).not.toHaveAttribute("aria-current", /.*/);
   await main.getByRole("link", { name: /^Acertar a música/ }).click();
   await expect(page).toHaveURL(/#anime-musica\/2026-10-21$/);

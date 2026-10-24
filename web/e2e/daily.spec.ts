@@ -7,6 +7,7 @@ import {
   expect,
   hitsTab,
   lastPlayed,
+  navLink,
   open,
   option,
   seedHistory,
@@ -234,7 +235,8 @@ test("voltar pela aba Artistas a uma rodada aberta, com o teclado, leva o foco a
   await page.getByRole("link", { name: "Início" }).click();
   // A Início leva o foco ao título depois da pintura: espera, senão ele tira o foco da aba.
   await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeFocused();
-  await page.getByRole("navigation").getByRole("link", { name: "Artistas" }).focus();
+  // Os Artistas ficam no Mais (M17): o teclado abre o menu e entra no link.
+  await (await navLink(page, "Artistas")).focus();
   await page.keyboard.press("Enter");
   // A sessão mora no App: a rodada volta, e o foco sai do link da nav para o Tocar.
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();

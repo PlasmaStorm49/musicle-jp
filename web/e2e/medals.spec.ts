@@ -12,6 +12,7 @@ import {
   expect,
   hitsTab,
   lastPlayed,
+  navLink,
   open,
   openWithMedals,
   option,
@@ -59,7 +60,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 13 gerais e
   });
   // O padrão dos e2e: a lista real, com os avisos calados.
   await open(page, DAY, "#inicio");
-  await page.getByRole("navigation").getByRole("link", { name: "Medalhas" }).click();
+  await (await navLink(page, "Medalhas")).click();
   const title = page.getByRole("heading", { level: 1, name: "Medalhas" });
   await expect(title).toBeFocused();
   await expect(page.getByText("Dias seguidos jogando: 3. O melhor: 3.")).toBeVisible();
@@ -395,7 +396,7 @@ test("um acerto na Livre aparece no progresso da medalha dos acertos do artista 
   await field.fill(first.title);
   await page.getByRole("option").filter({ hasText: first.title }).first().click();
   await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
-  await page.getByRole("navigation").getByRole("link", { name: "Medalhas" }).click();
+  await (await navLink(page, "Medalhas")).click();
   const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
   await expect(artist.locator(".medal-how").first()).toHaveText("1 de 50 acertos");
 });
@@ -436,7 +437,7 @@ test("terminar o Superfan, com um erro: o pop-up da completa com o artista no fi
   ]);
   await big.getByRole("button", { name: "Ok" }).click();
   await expect(end).toBeFocused();
-  await page.getByRole("navigation").getByRole("link", { name: "Medalhas" }).click();
+  await (await navLink(page, "Medalhas")).click();
   const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
   await expect(artist.locator(".medal-how")).toHaveText([/de 50 acertos$/, "Ganha", /^Termine/]);
 });

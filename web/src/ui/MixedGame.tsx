@@ -14,6 +14,7 @@ import {
   mixedMax,
   mixedReducer,
   mixedRoundScore,
+  mixedRoundTag,
   mixedScore,
   mixedShareText,
   replaceMixedProgress,
@@ -162,11 +163,17 @@ function Playing({
 
   if (summary) return <MixedSummary {...props} game={summary} />;
 
+  // A rodada difícil avisa no cabeçalho (P325): músicas mais difíceis ou mais músicas juntas.
+  const tag = mixedRoundTag(game.current, trackIds(game.current).length);
+
   return (
     <div class="game mixed screen">
       <header class="round-head">
         <h1>{header(daily)}</h1>
-        <p>{t("game.round", { current: game.current + 1, total: MIXED_ROUNDS })}</p>
+        <p>
+          {t("game.round", { current: game.current + 1, total: MIXED_ROUNDS })}
+          {tag && <span class="round-tag">{t(`mixed.tag.${tag}`)}</span>}
+        </p>
       </header>
       <MixedRoundView
         game={game}
