@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import math
 import os
 import subprocess
@@ -14,6 +15,7 @@ import pytest
 from musicle_pipeline.aliases import parse_aliases
 from musicle_pipeline.anime import (
     CUTS,
+    FAMOUS_CUTS,
     ICON_CHART_UNTIL,
     Anime,
     AnimeSource,
@@ -22,6 +24,7 @@ from musicle_pipeline.anime import (
     build_anime_catalog,
     chances,
     chart_artists,
+    famous_of,
     franchise_songs,
     franchises_of,
     is_icon,
@@ -830,6 +833,63 @@ def test_the_tv_size_and_the_full_song_share_the_song_key():
     two = anime(2, themes=[replace(theme(song=5), track=tv)])
     keys = {t["songKey"] for t in build(one, two)["tracks"]}
     assert len(keys) == 1
+
+
+def test_the_lab_chances_are_the_ones_behind_the_tiers(tmp_path, capsys):
+    # O laboratório das Misturadas (M17) lê a chance de cada música: a mesma que dá as faixas do
+    # catálogo, em texto com 4 casas, fora do que é publicado.
+    out = tmp_path / "chances.json"
+    assert main(["anime-chances", "--provider", "fixture", "--out", str(out)]) == 0
+    chances_by_song = read_json(out)
+    catalog = read_json(COMMITTED)
+    assert set(chances_by_song) == {t["songKey"] for t in catalog["tracks"]}
+    assert list(chances_by_song) == sorted(chances_by_song)  # a saída ordenada (o dumps)
+    for track in catalog["tracks"]:
+        chance = {mode: Decimal(v) for mode, v in chances_by_song[track["songKey"]].items()}
+        assert all(v == v.quantize(Decimal("0.0001")) and 0 <= v <= 1 for v in chance.values())
+        # O "acertar o anime" nunca é rebaixado (P274): a faixa dele sai direto do corte.
+        easy, medium = CUTS["titulo"]
+        tier = track["anime"]["tiers"]["titulo"]
+        value = chance["titulo"]
+        assert tier == ("facil" if value >= easy else "medio" if value >= medium else "dificil")
+    assert "música(s)" in capsys.readouterr().out
+    # Gravar de novo, igual, não mexe no arquivo; e a chance nunca vai para o site.
+    assert main(["anime-chances", "--provider", "fixture", "--out", str(out)]) == 0
+    assert "sem mudanças" in capsys.readouterr().out
+    public = anime_paths("fixture").public_dir / "chances.json"
+    assert main(["anime-chances", "--provider", "fixture", "--out", str(public)]) == 1
+    assert not public.exists()
+    # Nem numa pasta rastreada do repositório, que um `git add` levaria ao commit (P254): lá dentro,
+    # só a pasta do laboratório, que o .gitignore deixa de fora.
+    tracked = anime_paths("fixture").source.parent / "chances.json"
+    assert main(["anime-chances", "--provider", "fixture", "--out", str(tracked)]) == 1
+    assert "não entra no Git" in capsys.readouterr().err
+    assert not tracked.exists()
+
+
+def test_the_famous_mark_is_the_chance_from_the_cut_inside_the_easy_tier():
+    # A régua das Misturadas (M17): a chance a partir do FAMOUS_CUTS, e só dentro do Fácil.
+    cut = FAMOUS_CUTS["musica"]
+    easy = {"musica": "facil", "titulo": "facil"}
+    assert famous_of({"musica": cut, "titulo": cut - Decimal("0.01")}, easy) == {
+        "musica": True,
+        "titulo": False,
+    }
+    # A música rebaixada a Médio (P274) não é muito conhecida, nem com a chance alta.
+    lowered = {"musica": "medio", "titulo": "facil"}
+    assert famous_of({"musica": Decimal(1), "titulo": Decimal(1)}, lowered)["musica"] is False
+    # No catálogo, toda marca de muito conhecida está no Fácil do modo, e o validate confere.
+    catalog = read_json(COMMITTED)
+    assert all(
+        t["anime"]["tiers"][mode] == "facil"
+        for t in catalog["tracks"]
+        for mode, on in t["anime"]["famous"].items()
+        if on
+    )
+    broken = copy.deepcopy(catalog)
+    hard = next(t for t in broken["tracks"] if t["anime"]["tiers"]["musica"] != "facil")
+    hard["anime"]["famous"]["musica"] = True
+    assert any("muito conhecida no musica" in p for p in validate_anime_catalog(broken))
 
 
 def test_validation_catches_a_stale_version_and_hand_edits(tmp_path):

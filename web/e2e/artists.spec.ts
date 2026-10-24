@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import type { ArtistCatalog } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
-import { expect, lastPlayed, open, test } from "./helpers.ts";
+import { expect, lastPlayed, navLink, open, test } from "./helpers.ts";
 
 /** O arquivo de um artista fictício (pipeline/fixtures/artists), para saber as músicas dele. */
 function artistFile(name: string): ArtistCatalog {
@@ -106,7 +106,7 @@ test("trocar de artista pede confirmação; a sessão segue entre as abas e some
   await expect(page.getByRole("main").getByRole("link", { name: /^Artistas/ })).toContainText(
     "Nesta sessão (青井ユウ): 0 pontos em 1 rodada",
   );
-  await page.getByRole("navigation").getByRole("link", { name: "Artistas" }).click();
+  await (await navLink(page, "Artistas")).click();
   const title = page.getByRole("heading", { level: 1 });
   await expect(title).toHaveText("青井ユウ · Aoi Yuu");
   await expect(page.getByText("0 pontos em 1 rodada", { exact: true })).toBeVisible();

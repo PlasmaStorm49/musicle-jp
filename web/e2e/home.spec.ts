@@ -1,4 +1,4 @@
-import { animeTab, expect, hitsTab, open, seedHistory, test } from "./helpers.ts";
+import { animeTab, expect, hitsTab, navLink, open, seedHistory, test } from "./helpers.ts";
 
 test("em 320 px, a Início, os Hits, o Anime e o Mais cabem numa linha, com o ✓ dos Hits e o do Anime (P225, P227, P247, P265)", async ({
   page,
@@ -99,9 +99,12 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
   // O Treino abre na escolha do modo (P105), com o foco no título.
   const practice = page.getByRole("heading", { level: 1, name: "Treino", exact: true });
   await expect(practice).toBeFocused();
-  // Os Artistas: a tela da categoria, e os Hits sem marca.
-  await nav.getByRole("link", { name: "Artistas" }).click();
-  await expect(nav.getByRole("link", { name: "Artistas" })).toHaveAttribute("aria-current", "page");
+  // Os Artistas: a tela da categoria, e os Hits sem marca. Eles ficam no Mais (M17), que leva a
+  // marca por eles.
+  const more = nav.getByRole("button", { name: "Mais" });
+  await (await navLink(page, "Artistas")).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Artistas" })).toBeVisible();
+  await expect(more).toHaveAttribute("aria-current", "true");
   await expect(hitsTab(page)).not.toHaveAttribute("aria-current");
   // O Anime (M14): o cartão da Início abre a tela dele, com a aba marcada.
   await page.getByRole("link", { name: "Início" }).click();
@@ -109,7 +112,7 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
   await cards.getByRole("link", { name: /^Anime/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
   await expect(animeTab(page)).toHaveAttribute("aria-current", "page");
-  await expect(nav.getByRole("link", { name: "Artistas" })).not.toHaveAttribute("aria-current");
+  await expect(more).not.toHaveAttribute("aria-current");
 });
 
 test("toque duplo no cartão dos Hits da Início: abre os Hits, e o 2º clique não abre um diário (regra 23)", async ({

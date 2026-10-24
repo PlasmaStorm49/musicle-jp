@@ -9,9 +9,10 @@
 # Entrada (ambiente): TODAY (calculado nesta tarefa, sem passar pelo pip), ANIME_GENERATED_TODAY
 # (o da anime-generate, que precisa bater, ME44), ANIME_FETCH (o resultado da busca), ANIME_SONGS
 # (failure quando a busca nova quebrou o acervo ou a agenda e a reserva a descartou), os caminhos
-# ANIME_SNAPSHOTS, ANIME_CATALOG, ANIME_SCHEDULE, ANIME_FIXTURE_CATALOG e ANIME_FIXTURE_SCHEDULE
-# (relativos à raiz, que é a pasta atual, um checkout da main), RUNNER_TEMP (com o artefato em
-# anime-artifact/) e GITHUB_OUTPUT.
+# ANIME_SNAPSHOTS, ANIME_CATALOG, ANIME_SCHEDULE, ANIME_FIXTURE_CATALOG, ANIME_FIXTURE_SCHEDULE,
+# ANIME_MIXED e ANIME_FIXTURE_MIXED (as agendas das Misturadas, M17; relativos à raiz, que é a
+# pasta atual, um checkout da main), RUNNER_TEMP (com o artefato em anime-artifact/) e
+# GITHUB_OUTPUT.
 # Saída: $RUNNER_TEMP/anime-section.md (a parte do Anime no corpo do PR) e, no GITHUB_OUTPUT,
 # title (o título do PR só com o Anime) e suffix (o pedaço do título quando os Hits também vêm).
 set -euo pipefail
@@ -38,11 +39,21 @@ MAX_CATALOG_BYTES=$((3 * 1024 * 1024))
 limit="$(date -ud "$TODAY + $LIMIT_DAYS days" +%F)"
 art="$RUNNER_TEMP/anime-artifact"
 
-# 1. Só se a main precisava: a agenda do Anime existe e tem menos de 21 dias depois de hoje (P237).
+# 1. Só se a main precisava: a agenda do Anime existe e ela, ou a das Misturadas (M17, que para no
+#    último dia da do Anime), tem menos de 21 dias depois de hoje (P237), como no anime-due.sh.
 [ -f "$ANIME_SCHEDULE" ] || fail "a main não tem a agenda do Anime: o robô só a cresce, não a cria (P237)"
-ahead="$(jq --arg d "$TODAY" '[.days | keys[] | select(. > $d)] | length' "$ANIME_SCHEDULE")"
-[ "$ahead" -lt "$SKIP_AHEAD" ] \
-  || fail "a agenda do Anime da main já tem $ahead dia(s) à frente; o robô só gera com menos de $SKIP_AHEAD (P237)"
+ahead_of() { jq --arg d "$TODAY" '[.days | keys[] | select(. > $d)] | length' "$1"; }
+ahead="$(ahead_of "$ANIME_SCHEDULE")"
+due=false
+[ "$ahead" -ge "$SKIP_AHEAD" ] || due=true
+mixed_note=""
+if [ -f "$ANIME_MIXED" ]; then
+  mixed_ahead="$(ahead_of "$ANIME_MIXED")"
+  [ "$mixed_ahead" -ge "$SKIP_AHEAD" ] || due=true
+  mixed_note=", e a das Misturadas, $mixed_ahead"
+fi
+[ "$due" = true ] \
+  || fail "a agenda do Anime da main já tem $ahead dia(s) à frente$mixed_note; o robô só gera com menos de $SKIP_AHEAD (P237)"
 
 # 2. O artefato: só arquivos comuns da lista fechada do Anime, no máximo um snapshot, e a lista
 #    declarada é exatamente o que veio.
@@ -58,7 +69,7 @@ done
 snapshot=""
 for path in "${changed[@]}"; do
   case "$path" in
-    "$ANIME_CATALOG" | "$ANIME_SCHEDULE" | "$ANIME_FIXTURE_SCHEDULE") ;;
+    "$ANIME_CATALOG" | "$ANIME_SCHEDULE" | "$ANIME_FIXTURE_SCHEDULE" | "$ANIME_MIXED" | "$ANIME_FIXTURE_MIXED") ;;
     "$ANIME_SNAPSHOTS"/*)
       name="${path#"$ANIME_SNAPSHOTS"/}"
       [[ "$name" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{6}Z\.json$ ]] \
@@ -83,7 +94,10 @@ has() {
 }
 new() { echo "$art/files/$1"; }
 
-has "$ANIME_SCHEDULE" || fail "o artefato do Anime não traz a agenda real (a geração sempre a cresce)"
+# A geração sempre cresce uma das duas: a do Anime ou, com ela longe (a estreia das Misturadas), a
+# das Misturadas.
+has "$ANIME_SCHEDULE" || has "$ANIME_MIXED" \
+  || fail "o artefato do Anime não traz a agenda real (a geração sempre a cresce)"
 # Cada arquivo é um JSON só: com dois documentos colados, o --slurpfile olharia só o 1º.
 for path in "${changed[@]}"; do
   jq -e -n --slurpfile x "$(new "$path")" '$x | length == 1' > /dev/null \
@@ -171,23 +185,29 @@ fi
 
 # 5. As agendas: o mesmo cabeçalho, todo dia da main igual e os dias novos em sequência, a partir
 #    do dia seguinte ao fim da agenda, ou de hoje, se esse dia já passou (P44), até hoje + 35. Os
-#    dias novos citam faixas do catálogo que os gerou, com a versão dele.
+#    dias novos citam faixas do catálogo que os gerou, com a versão dele. O `kind` diz onde estão
+#    as respostas: no Anime, uma por rodada de cada dificuldade; nas Misturadas (M17), várias por
+#    rodada.
 schedule_lines=""
 gap_lines=""
 real_last=""
+mixed_last=""
 check_schedule() {
-  local base="$1" label="$2" catalog="$3" fresh base_last first last count expected base_s first_s last_s gap
+  local base="$1" label="$2" catalog="$3" kind="$4" fresh base_last first last count expected base_s first_s last_s gap
   local -a added
   fresh="$(new "$base")"
-  jq -e -n --slurpfile b "$base" --slurpfile n "$fresh" --slurpfile c "$catalog" '
+  jq -e -n --slurpfile b "$base" --slurpfile n "$fresh" --slurpfile c "$catalog" --arg kind "$kind" '
+    def answers:
+      if $kind == "anime-mixed" then [.musica, .titulo | .[] | .answers[]]
+      else [.musica, .titulo | .facil, .medio, .dificil | .[] | .answer] end;
     $b[0] as $b | $n[0] as $n | ($c[0].tracks | map(.id)) as $ids
     | [$n.days | to_entries[] | select(.key as $k | $b.days | has($k) | not)] as $added
     | ($b | del(.days)) == ($n | del(.days))
+      and $n.kind == $kind
       and ($b.days | to_entries | all(.value == $n.days[.key]))
       and ($added | all(.key | test("\\A[0-9]{4}-[0-9]{2}-[0-9]{2}\\z")))
       and ($added | all(.value.catalogVersion == $c[0].catalogVersion))
-      and ([$added[].value | .musica, .titulo | .facil, .medio, .dificil | .[] | .answer]
-           | all(. as $a | $ids | any(. == $a)))' > /dev/null \
+      and ([$added[].value | answers[]] | all(. as $a | $ids | any(. == $a)))' > /dev/null \
     || fail "$base: a agenda nova altera o que já existe, traz data inválida ou cita faixa fora do catálogo"
   base_last="$(jq -r '.days | keys | last // empty' "$base")"
   [ -n "$base_last" ] || fail "$base: a agenda da main não tem dias (caso não suportado)"
@@ -213,12 +233,27 @@ check_schedule() {
     gap_lines+="> **Atenção ($label):** a agenda acabou ontem e o 1º dia novo é hoje: faça o merge hoje, ou o dia fica sem diário (P44)."$'\n'
   fi
   if [ "$base" = "$ANIME_SCHEDULE" ]; then real_last="$last"; fi
+  if [ "$base" = "$ANIME_MIXED" ]; then mixed_last="$last"; fi
 }
 real_catalog="$ANIME_CATALOG"
 if has "$ANIME_CATALOG"; then real_catalog="$(new "$ANIME_CATALOG")"; fi
-check_schedule "$ANIME_SCHEDULE" "Agenda do Anime" "$real_catalog"
+if has "$ANIME_SCHEDULE"; then
+  check_schedule "$ANIME_SCHEDULE" "Agenda do Anime" "$real_catalog" anime
+else
+  real_last="$(jq -r '.days | keys | last // empty' "$ANIME_SCHEDULE")"
+fi
+if has "$ANIME_MIXED"; then
+  [ -f "$ANIME_MIXED" ] || fail "a main não tem a agenda das Misturadas: o robô só a cresce, não a cria"
+  check_schedule "$ANIME_MIXED" "Agenda das Misturadas" "$real_catalog" anime-mixed
+  # Cada dia das Misturadas lê as respostas do Anime do dia (P25): ela nunca passa do fim dele.
+  [[ ! "$mixed_last" > "$real_last" ]] \
+    || fail "$ANIME_MIXED: o último dia novo ($mixed_last) passa do fim da agenda do Anime ($real_last), P25"
+fi
 if has "$ANIME_FIXTURE_SCHEDULE"; then
-  check_schedule "$ANIME_FIXTURE_SCHEDULE" "Agenda fictícia do Anime (só desenvolvimento)" "$ANIME_FIXTURE_CATALOG"
+  check_schedule "$ANIME_FIXTURE_SCHEDULE" "Agenda fictícia do Anime (só desenvolvimento)" "$ANIME_FIXTURE_CATALOG" anime
+fi
+if has "$ANIME_FIXTURE_MIXED"; then
+  check_schedule "$ANIME_FIXTURE_MIXED" "Agenda fictícia das Misturadas (só desenvolvimento)" "$ANIME_FIXTURE_CATALOG" anime-mixed
 fi
 
 # Os avisos e afrouxamentos da agenda real (acervo curto, resposta futura que deixou de ser

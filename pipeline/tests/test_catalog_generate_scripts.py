@@ -215,6 +215,8 @@ ANIME = {
     "ANIME_CATALOG": "web/public/data/anime/catalog.json",
     "ANIME_SCHEDULE": "web/public/data/anime/schedule.json",
     "ANIME_FIXTURE_SCHEDULE": "web/public/fixtures/anime/schedule.json",
+    "ANIME_MIXED": "web/public/data/anime/mixed.json",
+    "ANIME_FIXTURE_MIXED": "web/public/fixtures/anime/mixed.json",
 }
 ANIME_SNAPSHOT = f"{ANIME['ANIME_SNAPSHOTS']}/2026-10-26T091700Z.json"
 OLD_ANIME_SNAPSHOT = f"{ANIME['ANIME_SNAPSHOTS']}/2026-10-22T011811Z.json"
@@ -223,7 +225,13 @@ OLD_ANIME_SNAPSHOT = f"{ANIME['ANIME_SNAPSHOTS']}/2026-10-22T011811Z.json"
 def make_anime_repo(tmp_path: Path) -> Path:
     """A main em miniatura com os arquivos dos Hits e os do Anime, commitados."""
     repo = make_repo(tmp_path)
-    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_FIXTURE_SCHEDULE"):
+    for key in (
+        "ANIME_CATALOG",
+        "ANIME_SCHEDULE",
+        "ANIME_FIXTURE_SCHEDULE",
+        "ANIME_MIXED",
+        "ANIME_FIXTURE_MIXED",
+    ):
         dest = repo / ANIME[key]
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(f'{{"main": "{key}"}}\n'.encode())
@@ -275,7 +283,14 @@ def test_anime_collect_without_changes_says_so(tmp_path):
 
 def test_anime_collect_copies_the_closed_list_and_the_warnings(tmp_path):
     repo = make_anime_repo(tmp_path)
-    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_FIXTURE_SCHEDULE"):
+    keys = (
+        "ANIME_CATALOG",
+        "ANIME_SCHEDULE",
+        "ANIME_FIXTURE_SCHEDULE",
+        "ANIME_MIXED",
+        "ANIME_FIXTURE_MIXED",
+    )
+    for key in keys:
         (repo / ANIME[key]).write_bytes(f'{{"novo": "{key}"}}\n'.encode())
     (repo / ANIME_SNAPSHOT).write_bytes(b'{"busca": "de agora"}\n')
     (tmp_path / "runner").mkdir()
@@ -290,7 +305,6 @@ def test_anime_collect_copies_the_closed_list_and_the_warnings(tmp_path):
     assert "changed=true" in text(temp / "github-output")
     out = temp / "anime-out"
     changed = text(out / "changed.txt").split()
-    keys = ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_FIXTURE_SCHEDULE")
     assert sorted(changed) == sorted([ANIME_SNAPSHOT, *(ANIME[k] for k in keys)])
     for path in changed:
         assert (out / "files" / path).read_bytes() == (repo / path).read_bytes()
@@ -326,32 +340,27 @@ def test_anime_collect_refuses_anything_outside_the_closed_list(tmp_path, change
 
 def test_anime_reserve_restores_main_drops_the_new_snapshot_and_regrows_the_schedule(tmp_path):
     repo = make_anime_repo(tmp_path)
-    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE"):
+    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_MIXED"):
         (repo / ANIME[key]).write_bytes(b'{"quebrado": true}\n')
     (repo / ANIME_SNAPSHOT).write_bytes(b'{"busca": "que quebrou"}\n')
     (tmp_path / "runner").mkdir()
     (tmp_path / "runner" / "anime.log").write_bytes(b"aviso: da tentativa que quebrou\n")
     done, temp = run_anime(repo, tmp_path, "anime-reserve.sh")
     assert done.returncode == 0, done.stdout + done.stderr
-    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE"):
+    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_MIXED"):
         assert text(repo / ANIME[key]) == f'{{"main": "{key}"}}\n'
     assert not (repo / ANIME_SNAPSHOT).exists()
     assert (repo / OLD_ANIME_SNAPSHOT).exists()
     assert "dropped=true" in text(temp / "github-output")
     assert "a busca do Anime de hoje quebrou" in done.stdout
-    assert text(temp / "python-args").split() == [
-        "-m",
-        "musicle_pipeline",
-        "schedule-anime",
-        "--provider",
-        "apple",
-        "--today",
-        "2026-10-26",
-        "--days",
-        "28",
+    # A do Anime e, depois dela, a das Misturadas (cada dia lê o do Anime, P25).
+    args = "--provider apple --today 2026-10-26 --days 28"
+    assert text(temp / "python-args").splitlines() == [
+        f"-m musicle_pipeline schedule-anime {args}",
+        f"-m musicle_pipeline schedule-mixed {args}",
     ]
-    # Os avisos da tentativa que quebrou saem; ficam só os da agenda nova.
-    assert text(temp / "anime.log") == "aviso: teste\nafrouxamento: teste\n"
+    # Os avisos da tentativa que quebrou saem; ficam só os das agendas novas (das duas gerações).
+    assert text(temp / "anime.log") == "aviso: teste\nafrouxamento: teste\n" * 2
 
 
 def test_anime_reserve_without_a_new_snapshot(tmp_path):
@@ -389,6 +398,29 @@ def test_anime_due_measures_the_main_schedule(tmp_path, last, due, ahead):
     assert done.returncode == 0, done.stdout + done.stderr
     assert f"due={due}" in text(temp / "github-output")
     assert f"ahead={ahead}" in text(temp / "github-output")
+
+
+@needs_jq
+@pytest.mark.parametrize(
+    ("mixed_last", "due", "mixed"),
+    [
+        ("2026-10-30", "true", "4"),  # a estreia (M17): o Anime longe, as Misturadas curtas
+        ("2026-11-16", "false", "21"),  # as duas com 21 dias ou mais: espera a semana que vem
+    ],
+)
+def test_anime_due_also_measures_the_mixed_schedule(tmp_path, mixed_last, due, mixed):
+    repo = tmp_path / "repo"
+    path = repo / ANIME["ANIME_SCHEDULE"]
+    path.parent.mkdir(parents=True)
+    path.write_bytes(anime_schedule("2026-11-20"))
+    (repo / ANIME["ANIME_MIXED"]).write_bytes(anime_schedule(mixed_last))
+    done, temp = run_anime(repo, tmp_path, "anime-due.sh")
+    assert done.returncode == 0, done.stdout + done.stderr
+    output = text(temp / "github-output")
+    assert f"due={due}" in output
+    assert "ahead=25" in output
+    assert f"mixed={mixed}" in output
+    assert f"e a das Misturadas, {mixed}" in text(temp / "summary.md")
 
 
 def test_anime_due_without_the_schedule_does_nothing(tmp_path):

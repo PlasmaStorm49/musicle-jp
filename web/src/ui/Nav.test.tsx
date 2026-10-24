@@ -23,7 +23,7 @@ const toggle = () => screen.getByRole("button", { name: "Mais" });
 const menu = () => document.getElementById("nav-more-menu") as HTMLElement;
 
 describe("Nav (P225, P265, P287)", () => {
-  it("o Mais começa fechado, e o clique abre e fecha o menu com os Artistas, o Histórico e as Medalhas", () => {
+  it("o Mais começa fechado, e o clique abre e fecha o menu com as Misturadas, os Artistas, o Histórico e as Medalhas", () => {
     setup();
     expect(toggle().getAttribute("aria-expanded")).toBe("false");
     expect(toggle().getAttribute("aria-controls")).toBe("nav-more-menu");
@@ -32,7 +32,7 @@ describe("Nav (P225, P265, P287)", () => {
     expect(toggle().getAttribute("aria-expanded")).toBe("true");
     expect(menu().hidden).toBe(false);
     const links = [...menu().querySelectorAll("a")].map((a) => a.getAttribute("href"));
-    expect(links).toEqual(["#artistas", "#historico", "#medalhas"]);
+    expect(links).toEqual(["#misturadas", "#artistas", "#historico", "#medalhas"]);
     // Ao abrir, o foco fica onde estava (no botão, para quem usa o teclado).
     fireEvent.click(toggle());
     expect(menu().hidden).toBe(true);
@@ -136,6 +136,27 @@ describe("Nav (P225, P265, P287)", () => {
     expect(screen.getByRole("link", { name: /^Hits/ }).textContent).toContain("✓");
   });
 
+  it("o ✓ das Misturadas só com os dois diários delas de hoje (M17)", () => {
+    const game = { number: 1, rounds: [] };
+    const one: Save = {
+      ...emptySave(),
+      mixed: { finished: { [puzzleId(DATE, "misturadas-musica")]: game }, progress: {} },
+    };
+    setup(HOME, one);
+    const inline = () => document.querySelector(".nav-inline a[href='#misturadas']");
+    expect(inline()?.textContent).not.toContain("✓");
+    cleanup();
+    setup(HOME, {
+      ...one,
+      mixed: {
+        finished: { ...one.mixed.finished, [puzzleId(DATE, "misturadas-titulo")]: game },
+        progress: {},
+      },
+    });
+    expect(inline()?.textContent).toContain("✓");
+    expect(inline()?.textContent).toContain("(diários terminados)");
+  });
+
   it("nas Medalhas, o link delas leva o aria-current, e o Mais também", () => {
     setup({ tab: "medals", date: null });
     for (const link of screen.getAllByRole("link", { name: "Medalhas", hidden: true })) {
@@ -185,11 +206,32 @@ describe("Nav (P225, P265, P287)", () => {
     vi.unstubAllGlobals();
   });
 
-  it("os Artistas, o Histórico e as Medalhas também na linha, para as telas largas (720 px)", () => {
+  it("na linha, só as Misturadas, a partir de 720 px; no menu, elas só abaixo disso (M17)", () => {
     setup();
     const inline = [...document.querySelectorAll(".nav-inline a")].map((a) =>
       a.getAttribute("href"),
     );
-    expect(inline).toEqual(["#artistas", "#historico", "#medalhas"]);
+    expect(inline).toEqual(["#misturadas"]);
+    const narrow = [...menu().querySelectorAll(".nav-narrow a")].map((a) => a.getAttribute("href"));
+    expect(narrow).toEqual(["#misturadas"]);
   });
+
+  it.each([
+    [true, undefined],
+    [false, "true"],
+  ] as const)(
+    "nas Misturadas, com a tela larga = %s, o Mais leva o aria-current = %s (elas estão nele só na estreita)",
+    (wide, current) => {
+      vi.stubGlobal("matchMedia", (query: string) => ({
+        matches: query.includes("720") ? wide : true,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+      }));
+      setup({ tab: "misturadas-titulo", date: null });
+      expect(toggle().getAttribute("aria-current") ?? undefined).toBe(current);
+      const link = document.querySelector(".nav-inline a[href='#misturadas']");
+      expect(link?.getAttribute("aria-current")).toBe("true");
+      vi.unstubAllGlobals();
+    },
+  );
 });

@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 # Tarefa anime-generate do update-catalog.yml, depois do pipeline do Anime: só a lista fechada
 # do Anime pode ter mudado (o snapshot da busca de agora, novo; o catálogo e a agenda reais do
-# Anime; a agenda fictícia do Anime, ME109). Copia o que mudou para o artefato, com a lista
+# Anime; a agenda fictícia do Anime, ME109; e as duas agendas das Misturadas, M17, ao lado das do
+# Anime). Copia o que mudou para o artefato, com a lista
 # declarada e os avisos e afrouxamentos da agenda real, que a tarefa com token (check-anime-pr.sh)
 # confere de novo. É o molde do catalog-collect.sh, num artefato à parte (anime-out/). Sem token.
 # Testado em pipeline/tests/test_catalog_generate_scripts.py.
 #
 # Entrada (ambiente): NOW (a hora da busca em UTC, AAAA-MM-DDTHH:MM:SSZ: o nome do snapshot),
-# ANIME_SNAPSHOTS, ANIME_CATALOG, ANIME_SCHEDULE, ANIME_FIXTURE_SCHEDULE (relativos à raiz, que é a
-# pasta atual), RUNNER_TEMP (com o anime.log), GITHUB_OUTPUT e GITHUB_STEP_SUMMARY.
+# ANIME_SNAPSHOTS, ANIME_CATALOG, ANIME_SCHEDULE, ANIME_FIXTURE_SCHEDULE, ANIME_MIXED,
+# ANIME_FIXTURE_MIXED (relativos à raiz, que é a pasta atual), RUNNER_TEMP (com o anime.log),
+# GITHUB_OUTPUT e GITHUB_STEP_SUMMARY.
 # Saída: changed=true|false no GITHUB_OUTPUT e, com mudança, $RUNNER_TEMP/anime-out com files/,
 # changed.txt e avisos.txt.
 set -euo pipefail
@@ -26,6 +28,8 @@ allowed=(
   " M $ANIME_CATALOG"
   " M $ANIME_SCHEDULE"
   " M $ANIME_FIXTURE_SCHEDULE"
+  " M $ANIME_MIXED"
+  " M $ANIME_FIXTURE_MIXED"
 )
 out="$RUNNER_TEMP/anime-out"
 mkdir -p "$out/files"

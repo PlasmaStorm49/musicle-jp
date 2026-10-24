@@ -1,7 +1,9 @@
 // As medalhas (M16, ME105). Calculadas do save a cada vez, como as estatísticas: o save só
 // guarda o que não sai de outro lugar (as já avisadas, P281, e o modo por artista, P289). Toda
-// conferência usa só o que cresce (o histórico, a agenda dos Hits, os registros dos artistas),
-// para que uma medalha ganha nunca suma. O id vai para o save e nunca muda.
+// conferência usa só o que cresce (o histórico, os terminados das Misturadas, a agenda dos Hits, os
+// registros dos artistas), para que uma medalha ganha nunca suma. O id vai para o save e nunca
+// muda.
+import type { MixedGame, MixedRoundRecord } from "./mixed.ts";
 import {
   type ArtistRecord,
   type FinishedGame,
@@ -33,6 +35,17 @@ export type MedalContext = {
   readonly practiceRight: number;
   /** Os jogos de cada data, pelo diário: os `games`, juntados para as do mesmo dia (P310). */
   readonly dates: ReadonlyMap<string, ReadonlyMap<string, FinishedGame>>;
+  /**
+   * As Misturadas (ME123): os terminados de cada data até hoje, pelo diário. Elas não têm o
+   * jogado depois (não há Histórico): todo terminado é do próprio dia.
+   */
+  readonly mixed: ReadonlyMap<string, ReadonlyMap<string, MixedGame>>;
+  /**
+   * As sequências das Misturadas, sobre a agenda dos Hits, como a do topo: a melhor de dias com ao
+   * menos 1 diário delas terminado (`played`), e a de dias com ao menos 1 de todas as músicas
+   * achadas (`allFound`).
+   */
+  readonly mixedStreak: { readonly played: number; readonly allFound: number };
 };
 
 /** Quanto falta (P283): "7 de 10". */
@@ -61,6 +74,15 @@ export function medalContext(
     const day = dates.get(date) ?? new Map<string, FinishedGame>();
     dates.set(date, day.set(daily, game));
   }
+  const mixed = new Map<string, Map<string, MixedGame>>();
+  for (const [id, game] of Object.entries(save.mixed.finished)) {
+    const [date = "", key = ""] = id.split("|");
+    if (date > today) continue;
+    const day = mixed.get(date) ?? new Map<string, MixedGame>();
+    mixed.set(date, day.set(key, game));
+  }
+  const mixedDays = (test: (game: MixedGame) => boolean) =>
+    new Set([...mixed].filter(([, day]) => [...day.values()].some(test)).map(([date]) => date));
   return {
     today,
     games,
@@ -68,7 +90,43 @@ export function medalContext(
     artists: save.artists,
     practiceRight: save.practiceRight,
     dates,
+    mixed,
+    mixedStreak: {
+      played: streaks(
+        mixedDays(() => true),
+        hitsDates,
+        today,
+      ).best,
+      allFound: streaks(mixedDays(allFoundMixed), hitsDates, today).best,
+    },
   };
+}
+
+/**
+ * A rodada das Misturadas com todas as músicas achadas, em qualquer trecho e com ou sem o Separar
+ * (ME123). A anulada não acha nenhuma.
+ */
+export function allFoundRound(round: MixedRoundRecord): boolean {
+  return round.status === "done" && round.found.every((find) => find !== null);
+}
+
+/** O diário das Misturadas com todas as músicas de todas as rodadas achadas. */
+export function allFoundMixed(game: MixedGame): boolean {
+  return game.rounds.length > 0 && game.rounds.every(allFoundRound);
+}
+
+/**
+ * O diário das Misturadas perfeito (ME123): toda música achada no 1º trecho, sem o Separar. Achar
+ * no 1º trecho já quer dizer sem erro e sem pulo (os dois abrem o trecho seguinte).
+ */
+export function perfectMixed(game: MixedGame): boolean {
+  return (
+    game.rounds.length > 0 &&
+    game.rounds.every(
+      (round) =>
+        round.status === "done" && round.found.every((find) => find?.stage === 0 && !find.help),
+    )
+  );
 }
 
 /**
@@ -105,6 +163,8 @@ export const ANIME_DAY = [
   "anime-titulo-dificil",
 ] as const;
 export const WHOLE_DAY = [...HITS_DAY, ...ANIME_DAY] as const;
+/** Os 2 diários das Misturadas do mesmo dia (ME123), congelados como os outros. */
+export const MIXED_DAY = ["misturadas-musica", "misturadas-titulo"] as const;
 
 /** Numa mesma data, todos os diários de `keys` terminados, e cada um passando no `test`. */
 function someDay(
@@ -147,6 +207,9 @@ export const GENERAL_GOALS = {
   practice: 100,
   dailies: 50,
   collector: 5,
+  /** As Misturadas (ME123): dias seguidos jogando e dias seguidos com todas as músicas achadas. */
+  mixedPlayed: 15,
+  mixedAllFound: 7,
 } as const;
 
 /**
@@ -163,10 +226,26 @@ export const MEDALS: readonly Medal[] = [
   },
   { id: "hits-todos", tier: "simple", earned: (ctx) => someDay(ctx, HITS_DAY, allWon) },
   { id: "anime-todos", tier: "simple", earned: (ctx) => someDay(ctx, ANIME_DAY, allWon) },
+  // As Misturadas (ME123, o usuário, 24/10/2026): uma rodada com todas as músicas achadas.
+  {
+    id: "misturadas-rodada",
+    tier: "simple",
+    earned: (ctx) =>
+      [...ctx.mixed.values()].some((day) =>
+        [...day.values()].some((game) => game.rounds.some(allFoundRound)),
+      ),
+  },
   counted("seguidos-7", "simple", GENERAL_GOALS.streakShort, (ctx) => ctx.streak.best),
   { id: "oito-diarios", tier: "simple", earned: (ctx) => someDay(ctx, WHOLE_DAY) },
   counted("treino-100", "simple", GENERAL_GOALS.practice, (ctx) => ctx.practiceRight),
   counted("diarios-50", "simple", GENERAL_GOALS.dailies, (ctx) => ctx.games.length),
+  // Ao menos 1 diário das Misturadas terminado por dia, em dias seguidos.
+  counted(
+    "misturadas-seguidos-15",
+    "simple",
+    GENERAL_GOALS.mixedPlayed,
+    (ctx) => ctx.mixedStreak.played,
+  ),
   counted(
     "colecionador",
     "simple",
@@ -175,6 +254,25 @@ export const MEDALS: readonly Medal[] = [
   ),
   { id: "hits-perfeito", tier: "major", earned: (ctx) => someDay(ctx, HITS_DAY, perfectGame) },
   { id: "anime-perfeito", tier: "major", earned: (ctx) => someDay(ctx, ANIME_DAY, perfectGame) },
+  // Os 2 diários das Misturadas do mesmo dia perfeitos (P9 da conversa: os dois, e não um).
+  {
+    id: "misturadas-perfeito",
+    tier: "major",
+    earned: (ctx) =>
+      [...ctx.mixed.values()].some((day) =>
+        MIXED_DAY.every((key) => {
+          const game = day.get(key);
+          return game !== undefined && perfectMixed(game);
+        }),
+      ),
+  },
+  // Em dias seguidos, ao menos 1 diário das Misturadas com todas as músicas achadas (P10: basta um).
+  counted(
+    "misturadas-acertos-7",
+    "major",
+    GENERAL_GOALS.mixedAllFound,
+    (ctx) => ctx.mixedStreak.allFound,
+  ),
   {
     id: "superfan-completo",
     tier: "major",
@@ -335,6 +433,7 @@ export function noticeTab(tab: Tab): boolean {
     case "anime":
     case "anime-musica":
     case "anime-titulo":
+    case "misturadas":
     case "history":
     case "medals":
     case "about":

@@ -77,7 +77,7 @@ test("jogar o Normal de 21/10 depois: o resumo sem estatísticas, o compartilhar
     (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),
     SAVE_KEY,
   );
-  expect(saved.schemaVersion).toBe(9);
+  expect(saved.schemaVersion).toBe(10);
   expect(saved.history["2026-10-21|album"].late).toBe(true);
 
   await page.getByRole("link", { name: "Voltar ao dia" }).click();
@@ -138,18 +138,20 @@ test("o andamento de fora da janela sai na abertura, e o de dentro fica (P269)",
     SAVE_KEY,
   );
   expect(kept).toEqual(["2026-10-08|song"]);
-  // O save era v7 (P267): a limpeza da abertura o gravou já migrado para a atual (P289, P308).
+  // O save era v7 (P267): a limpeza da abertura o gravou já migrado para a atual (P289, P308 e,
+  // desde o M17, as Misturadas).
   const migrated = await page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),
     SAVE_KEY,
   );
   expect(migrated).toMatchObject({
-    schemaVersion: 9,
+    schemaVersion: 10,
     seenMedals: [],
     shelf: [],
     practiceRight: 0,
   });
   expect(migrated.artists).toEqual({});
+  expect(migrated.mixed).toEqual({ finished: {}, progress: {} });
 });
 
 test("a data fora dos 14 dias cai no calendário, e a de uma aba sem data, na Início", async ({
@@ -221,9 +223,11 @@ test("jogar o Anime de 21/10 depois: o cartão do dia, os modos com a data, o re
   // A escolha do modo do dia passado: a data no lugar da dica, e o Histórico marcado na nav.
   await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
   await expect(main.getByText("Quarta-feira, 21/10")).toBeVisible();
-  await expect(
-    page.getByRole("navigation").getByRole("link", { name: "Histórico" }),
-  ).toHaveAttribute("aria-current", "true");
+  // O Histórico fica no Mais (M17), que leva a marca por ele.
+  await expect(page.getByRole("navigation").getByRole("button", { name: "Mais" })).toHaveAttribute(
+    "aria-current",
+    "true",
+  );
   await expect(animeTab(page)).not.toHaveAttribute("aria-current", /.*/);
   await main.getByRole("link", { name: /^Acertar a música/ }).click();
   await expect(page).toHaveURL(/#anime-musica\/2026-10-21$/);

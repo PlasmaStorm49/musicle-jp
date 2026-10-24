@@ -49,7 +49,7 @@ function themeText(theme: AnimeTheme): string {
  * Os temas da faixa numa linha curta: o 1º e, se houver mais, "e mais N" (a faixa pode estar em 2
  * ou mais temas, e o nome do anime chega a uns 60 caracteres: a revelação não pode crescer).
  */
-function themesText(themes: readonly AnimeTheme[]): string {
+export function themesText(themes: readonly AnimeTheme[]): string {
   const [first, ...rest] = themes;
   if (!first) return "";
   return rest.length > 0

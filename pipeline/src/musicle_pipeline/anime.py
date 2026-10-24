@@ -92,6 +92,10 @@ CUTS = {
     "musica": (Decimal("0.271"), Decimal("0.145")),
     "titulo": (Decimal("0.25"), Decimal("0.108")),
 }
+# A régua das Misturadas (M17): a música muito conhecida tem a chance a partir deste corte, dentro
+# do Fácil do modo. Fixo, como os CUTS (P273): mudá-lo muda a marca do acervo inteiro, e só os
+# dias novos da agenda das Misturadas sentem. O laboratório (o anime-chances) mede o acervo.
+FAMOUS_CUTS = {"musica": Decimal("0.5"), "titulo": Decimal("0.5")}
 # O ícone (P274), a música que a pessoa sabe o nome mesmo sem ver o anime: as playlists e o quiz
 # no alto, ou o artista na parada dos Hits até a última antes da calibração (19/10/2026). A
 # data é fixa, para o catálogo do Anime não mudar a cada parada nova, e é a de um snapshot que
@@ -598,12 +602,13 @@ class _TrackAcc:
     uses: list[tuple[Anime, Theme]] = field(default_factory=list)
 
 
-def _song_tiers(
+def song_chances(
     provider: str, accs: Iterable[_TrackAcc], icon_artists: frozenset[str], songs: SongCounts
-) -> dict[str, dict[str, str]]:
-    """As faixas de cada música (a songKey), pela maior chance de cada modo entre todos os temas
-    de todas as faixas dela (a TV size e a completa, ou a abertura de uma temporada que é a insert
-    song de outra): a janela já as conta como uma música só (P245), e a fama é da música."""
+) -> tuple[dict[str, dict[str, Decimal]], set[str]]:
+    """A maior chance de cada modo de cada música (a songKey), entre todos os temas de todas as
+    faixas dela (a TV size e a completa, ou a abertura de uma temporada que é a insert song de
+    outra): a janela já as conta como uma música só (P245), e a fama é da música. Também as
+    músicas que são ícone (P274)."""
     best: dict[str, dict[str, Decimal]] = {}
     icons: set[str] = set()
     for acc in accs:
@@ -618,12 +623,36 @@ def _song_tiers(
                 top[mode] = max(top[mode], value)
             if is_icon(theme):
                 icons.add(key)
-    return {key: tiers_of(chance, key in icons) for key, chance in best.items()}
+    return best, icons
+
+
+def famous_of(chance: Mapping[str, Decimal], tiers: Mapping[str, str]) -> dict[str, bool]:
+    """A música muito conhecida em cada modo (a régua das Misturadas, M17): a chance a partir do
+    FAMOUS_CUTS, dentro do Fácil do modo. Vai para o catálogo só o sim ou não (P240, P254)."""
+    return {mode: tiers[mode] == "facil" and chance[mode] >= FAMOUS_CUTS[mode] for mode in MODES}
+
+
+def _song_marks(
+    provider: str, accs: Iterable[_TrackAcc], icon_artists: frozenset[str], songs: SongCounts
+) -> dict[str, tuple[dict[str, str], dict[str, bool]]]:
+    """As faixas de cada música (a songKey) e a marca de muito conhecida, pela chance dela
+    (`song_chances`)."""
+    best, icons = song_chances(provider, accs, icon_artists, songs)
+    marks = {}
+    for key, chance in best.items():
+        tiers = tiers_of(chance, key in icons)
+        marks[key] = (tiers, famous_of(chance, tiers))
+    return marks
 
 
 def _track_record(
-    provider: str, acc: _TrackAcc, album: JSON, cur: Curation, tiers: Mapping[str, str]
+    provider: str,
+    acc: _TrackAcc,
+    album: JSON,
+    cur: Curation,
+    marks: tuple[Mapping[str, str], Mapping[str, bool]],
 ) -> JSON:
+    tiers, famous = marks
     t = acc.track
     track_id = entity_id(provider, "tr", t.provider_id)
     text = track_text(t.title)
@@ -680,6 +709,7 @@ def _track_record(
                 for name, kind, sequence in themes
             ],
             "tiers": dict(tiers),
+            "famous": dict(famous),
         },
     }
 
@@ -723,17 +753,9 @@ def _stale_aliases(provider: str, tracks: Iterable[RawTrack], cur: Curation) -> 
     return [f"{k}: {eid}" for k in KINDS for eid in sorted(cur.aliases.ids(k) - known[k])]
 
 
-def build_anime_catalog(
-    provider: str,
-    storefront: str,
-    source: AnimeSource,
-    cur: Curation,
-    notes: list[str],
-    *,
-    icon_artists: frozenset[str],
-) -> JSON:
-    """O catálogo do Anime a partir de todos os snapshots. Os avisos vão para `notes`;
-    `icon_artists` são os artistas cuja música é ícone (`chart_artists`, P274)."""
+def _accumulate(source: AnimeSource) -> tuple[dict[str, _TrackAcc], dict[str, int]]:
+    """Os usos (o anime e o tema, com os níveis juntos) de cada faixa casada, e a contagem dos
+    resultados da busca."""
     if not source.snapshots:
         raise InputError("nenhum snapshot do Anime")
     accs: dict[str, _TrackAcc] = {}
@@ -746,10 +768,36 @@ def build_anime_catalog(
                 acc.uses.append((anime, replace(theme, levels=levels)))
     if not accs:
         raise InputError("nenhum tema casou com uma faixa da Apple")
+    return accs, results
+
+
+def anime_chances(
+    provider: str, source: AnimeSource, *, icon_artists: frozenset[str]
+) -> dict[str, dict[str, Decimal]]:
+    """A chance de cada música por modo (P272), a mesma que dá as faixas do catálogo. Só para o
+    laboratório das Misturadas (M17), num arquivo fora do Git: o catálogo publicado leva só a
+    faixa (P240), e o repositório não guarda número (P254)."""
+    accs, _ = _accumulate(source)
+    best, _ = song_chances(provider, accs.values(), icon_artists, franchise_songs(source.anime))
+    return best
+
+
+def build_anime_catalog(
+    provider: str,
+    storefront: str,
+    source: AnimeSource,
+    cur: Curation,
+    notes: list[str],
+    *,
+    icon_artists: frozenset[str],
+) -> JSON:
+    """O catálogo do Anime a partir de todos os snapshots. Os avisos vão para `notes`;
+    `icon_artists` são os artistas cuja música é ícone (`chart_artists`, P274)."""
+    accs, results = _accumulate(source)
     stale = _stale_aliases(provider, (a.track for a in accs.values()), cur)
     if stale:
         raise InputError("aliases.toml do Anime cita IDs sem faixa:\n" + "\n".join(stale))
-    tiers = _song_tiers(provider, accs.values(), icon_artists, franchise_songs(source.anime))
+    marks = _song_marks(provider, accs.values(), icon_artists, franchise_songs(source.anime))
     artists: dict[str, JSON] = {}
     albums: dict[str, JSON] = {}
     tracks: list[JSON] = []
@@ -759,7 +807,7 @@ def build_anime_catalog(
             artists[entity_id(provider, "ar", a.provider_id)] = artist_record(provider, a, cur)
         album = {k: v for k, v in album_record(provider, t, cur).items() if k != "similar"}
         albums[album["id"]] = album
-        tracks.append(_track_record(provider, accs[key], album, cur, tiers[song_key(provider, t)]))
+        tracks.append(_track_record(provider, accs[key], album, cur, marks[song_key(provider, t)]))
     used = {fid for t in tracks for fid in t["anime"]["franchiseIds"]}
     catalog: JSON = {
         "schemaVersion": SCHEMA_VERSION,

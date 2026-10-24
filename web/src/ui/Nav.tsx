@@ -1,11 +1,14 @@
-// A nav (P225): uma aba por categoria, 6 com as Medalhas (M16). Abaixo de 720 px (P265, P287), os
-// Artistas, o Histórico e as Medalhas ficam num "Mais ▾", porque as 6 abas não cabem numa linha (entre
-// 480 e 719 px, a coluna tem 460 px úteis); a partir de 720 px, as 6 ficam na linha. Os links do
-// "Mais" estão duas vezes no DOM, um na linha e outro no menu, e o CSS mostra um por vez (o
-// `[hidden]` vale sempre, e o menu fechado usa ele: o mesmo elemento não serve às duas larguras).
-// No canto direito, a medalha em destaque (ME118, P317), quando há uma.
+// A nav (P225): uma aba por categoria, 7 com as Medalhas (M16) e as Misturadas (M17). Na linha,
+// os jogos: a Início, os Hits, o Anime e, a partir de 720 px, as Misturadas. O resto fica num
+// "Mais ▾", em todas as larguras (P265, P287; desde o M17, também no computador, para a nav caber
+// na coluna do conteúdo): os Artistas, o Histórico e as Medalhas, e as Misturadas abaixo de 720 px
+// (entre 480 e 719 px, a coluna tem 460 px úteis). O link das Misturadas está duas vezes no DOM,
+// um na linha e outro no menu, e o CSS mostra um por vez (o `[hidden]` vale sempre, e o menu
+// fechado usa ele: o mesmo elemento não serve às duas larguras). Logo depois do "Mais", a medalha
+// em destaque (ME118, P317), quando há uma.
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { animeDone, dailiesDone } from "../core/home.ts";
+import { mixedDone } from "../core/mixed.ts";
 import type { Save } from "../core/records.ts";
 import { navCurrent, ROUTES, type Route, routeHref } from "../core/routes.ts";
 import { t } from "../i18n/t.ts";
@@ -46,6 +49,9 @@ const MENU_ID = "nav-more-menu";
 /** A largura em que a medalha em destaque vira link (P317): abaixo dela, não sobram os 44 px. */
 const FAVORITE_LINK = "(min-width: 360px)";
 
+/** A largura em que as Misturadas saem do menu e vão para a linha (o corte do CSS). */
+const WIDE = "(min-width: 720px)";
+
 export function Nav({ route, save, date, favorite = null }: Props) {
   const [open, setOpen] = useState(false);
   // Uma versão só da medalha em destaque, pela largura: abaixo de 360 px, o item inteiro sai do
@@ -68,14 +74,19 @@ export function Nav({ route, save, date, favorite = null }: Props) {
     shownFor.current = route;
     setOpen(false);
   }, [route]);
-  // A largura que passa do corte esconde o "Mais" (todas as abas na linha): o menu fecha, para não
-  // reaparecer aberto quando a janela voltar a estreitar. O corte é o do CSS, 720 px.
+  // A largura que cruza o corte leva as Misturadas da linha para o menu, ou o contrário: o menu
+  // fecha, para não reaparecer aberto com outro conteúdo. O corte é o do CSS, 720 px.
+  const [wide, setWide] = useState(() => window.matchMedia?.(WIDE).matches ?? false);
   useEffect(() => {
-    const wide = window.matchMedia?.("(min-width: 720px)");
-    if (!wide) return;
-    const close = () => setOpen(false);
-    wide.addEventListener("change", close);
-    return () => wide.removeEventListener("change", close);
+    const query = window.matchMedia?.(WIDE);
+    if (!query) return;
+    const change = () => {
+      setWide(query.matches);
+      setOpen(false);
+    };
+    setWide(query.matches);
+    query.addEventListener("change", change);
+    return () => query.removeEventListener("change", change);
   }, []);
   // Aberto, o Esc fecha (com o foco de volta ao "Mais"), e o toque fora dele também. No
   // useLayoutEffect, e não no useEffect: os ouvintes entram antes da pintura do menu aberto, e um
@@ -101,7 +112,10 @@ export function Nav({ route, save, date, favorite = null }: Props) {
   // O "Mais" leva o aria-current quando a categoria atual está nele: a pessoa vê onde está. Sempre
   // "true", e nunca "page": o botão não é a página (o link dentro dele, sim).
   const moreCurrent =
-    navCurrent(route, "artists") || navCurrent(route, "history") || navCurrent(route, "medals")
+    (!wide && navCurrent(route, "mixed")) ||
+    navCurrent(route, "artists") ||
+    navCurrent(route, "history") ||
+    navCurrent(route, "medals")
       ? "true"
       : undefined;
 
@@ -119,30 +133,49 @@ export function Nav({ route, save, date, favorite = null }: Props) {
     if (routeHref(route) === href) toggle.current?.focus();
   };
 
-  const artists = (inMenu: boolean) => (
+  // As Misturadas (M17), com o ✓ quando os dois diários de hoje terminaram, como nos Hits.
+  const mixedLink = (inMenu: boolean) => (
+    <a
+      href={ROUTES.misturadas}
+      aria-current={navCurrent(route, "mixed")}
+      onClick={inMenu ? follow(ROUTES.misturadas) : undefined}
+    >
+      <TabLabel text={t("nav.mixed")} />
+      {mixedDone(save, date) && (
+        <>
+          <span class="done-mark" aria-hidden="true">
+            {" "}
+            {t("nav.doneMark")}
+          </span>
+          <span class="sr-only">{t("nav.mixedDone")}</span>
+        </>
+      )}
+    </a>
+  );
+  // Só no menu: o link fecha o menu ao seguir (o `follow`).
+  const artists = (
     <a
       href={ROUTES.artists}
       aria-current={navCurrent(route, "artists")}
-      onClick={inMenu ? follow(ROUTES.artists) : undefined}
+      onClick={follow(ROUTES.artists)}
     >
       <TabLabel text={t("nav.artists")} />
     </a>
   );
-  const history = (inMenu: boolean) => (
+  const history = (
     <a
       href={ROUTES.history}
       aria-current={navCurrent(route, "history")}
-      onClick={inMenu ? follow(ROUTES.history) : undefined}
+      onClick={follow(ROUTES.history)}
     >
       <TabLabel text={t("nav.history")} />
     </a>
   );
-
-  const medalsLink = (inMenu: boolean) => (
+  const medalsLink = (
     <a
       href={ROUTES.medals}
       aria-current={navCurrent(route, "medals")}
-      onClick={inMenu ? follow(ROUTES.medals) : undefined}
+      onClick={follow(ROUTES.medals)}
     >
       <TabLabel text={t("nav.medals")} />
     </a>
@@ -195,10 +228,10 @@ export function Nav({ route, save, date, favorite = null }: Props) {
         </li>
         {/* Na linha, a partir de 720 px. O modo por artista fica na nav até o site ficar público
             (P117): é só tirar os dois links dele. */}
-        <li class="nav-inline">{artists(false)}</li>
-        <li class="nav-inline">{history(false)}</li>
-        <li class="nav-inline">{medalsLink(false)}</li>
-        {/* No celular, o "Mais" (P265). Ao abrir, o foco fica no botão, e o Tab entra na lista. */}
+        {/* As Misturadas na linha a partir de 720 px; abaixo, no menu. */}
+        <li class="nav-inline">{mixedLink(false)}</li>
+        {/* O "Mais" (P265), em todas as larguras. Ao abrir, o foco fica no botão, e o Tab entra na
+            lista. */}
         <li
           class="nav-more"
           ref={box}
@@ -227,9 +260,10 @@ export function Nav({ route, save, date, favorite = null }: Props) {
             </span>
           </button>
           <ul id={MENU_ID} class="nav-menu" hidden={!open}>
-            <li>{artists(true)}</li>
-            <li>{history(true)}</li>
-            <li>{medalsLink(true)}</li>
+            <li class="nav-narrow">{mixedLink(true)}</li>
+            <li>{artists}</li>
+            <li>{history}</li>
+            <li>{medalsLink}</li>
           </ul>
         </li>
         {/* A medalha em destaque (P317): a partir de 360 px, um link para as Medalhas; abaixo, não

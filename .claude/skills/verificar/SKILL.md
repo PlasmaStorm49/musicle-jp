@@ -19,6 +19,7 @@ Rode da raiz do repositório, **um comando por vez** (PowerShell 5.1: não use `
 | 8 | Web: build de produção | `npm run build --prefix web` |
 | 9 | Motor de áudio falso fora do build (nenhuma linha = passou) | `Get-ChildItem web\dist -Recurse -File \| Select-String -Pattern musicle-fake-audio -List` |
 | 9b | Lista de exemplo das medalhas fora do build (nenhuma linha = passou; os textos `medal.demo-…` ficam, o objeto não) | `Get-ChildItem web\dist -Recurse -File \| Select-String -Pattern 'id:["''`]demo-' -List` |
+| 9c | Laboratório das Misturadas fora do build (M17: precisa dar `False`, e nenhuma linha no segundo comando) | `Test-Path web\dist\lab.html` e `Get-ChildItem web\dist -Recurse -File \| Select-String -Pattern musicle-lab -List` |
 | 10 | Base do GitHub Pages no build (precisa dar `True`) | `Select-String -Path web\dist\index.html -Pattern '/musicle-jp/assets/' -Quiet` |
 | 10b | Nenhum caminho absoluto sem a base no `index.html`, em qualquer atributo, como na CI (nenhuma linha = passou) | `Select-String -Path web\dist\index.html -Pattern '="/(?!musicle-jp/)'` |
 | 10c | O favicon e o ícone de app no build (precisa dar `True` duas vezes) | `Test-Path web\dist\favicon.svg, web\dist\apple-touch-icon.png` |

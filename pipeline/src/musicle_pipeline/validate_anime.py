@@ -72,6 +72,13 @@ def _invariant_problems(data: JSON) -> list[str]:
                 problems.append(f"{tid}: franquia inexistente {fid}")
         if all(t["anime"]["tiers"][mode] is None for mode in MODES):
             problems.append(f"{tid}: sem faixa em nenhum modo")
+        # A muito conhecida (a régua das Misturadas, M17) é sempre uma do Fácil do modo.
+        famous = t["anime"].get("famous", {})
+        problems += [
+            f"{tid}: muito conhecida no {mode} sem ser do Fácil"
+            for mode in MODES
+            if famous.get(mode) and t["anime"]["tiers"][mode] != "facil"
+        ]
     problems += [f"{a}: álbum sem faixa" for a in sorted(album_ids - used_albums)]
     problems += [f"{f}: franquia sem faixa" for f in sorted(franchise_ids - used_franchises)]
     names: dict[str, list[str]] = {}

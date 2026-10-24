@@ -8,6 +8,16 @@
 // - cada gravação relê, mescla e grava: duas abas abertas não apagam um dia terminado.
 import { isValidDate } from "../core/dates.ts";
 import { isRecord } from "../core/guards.ts";
+import {
+  MIXED_LAST_STAGE,
+  MIXED_MAX_SONGS,
+  MIXED_MIN_SONGS,
+  MIXED_ROUNDS,
+  type MixedEvent,
+  type MixedFind,
+  type MixedGame,
+  type MixedProgress,
+} from "../core/mixed.ts";
 import type { ArtistRecord, FinishedGame, InProgress, Save } from "../core/records.ts";
 import { emptySave, SHELF_SIZE } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
@@ -161,6 +171,66 @@ export function isInProgress(x: unknown): x is InProgress {
 }
 
 /**
+ * "<data>|misturadas-<modo>" (v10, M17): os 2 diários das Misturadas, no campo delas. Diário novo
+ * aqui sobe a versão, como no `PUZZLE_ID`.
+ */
+const MIXED_ID = /^(\d{4}-\d{2}-\d{2})\|misturadas-(?:musica|titulo)$/;
+
+export function isMixedId(id: string): boolean {
+  const match = MIXED_ID.exec(id);
+  return match !== null && isValidDate(match[1] ?? "");
+}
+
+export function isMixedEvent(x: unknown): x is MixedEvent {
+  if (!isRecord(x)) return false;
+  switch (x.type) {
+    case "GUESS":
+      return typeof x.guessId === "string" && x.guessId.length > 0;
+    case "VOID":
+      return isNonNegativeInt(x.round) && typeof x.reason === "string";
+    case "SKIP":
+    case "SEPARATE":
+    case "GIVE_UP":
+    case "NEXT_ROUND":
+      return true;
+    default:
+      return false;
+  }
+}
+
+function isMixedFind(x: unknown): x is MixedFind | null {
+  return (
+    x === null ||
+    (isRecord(x) &&
+      isNonNegativeInt(x.stage, MIXED_LAST_STAGE) &&
+      (x.help === undefined || x.help === true))
+  );
+}
+
+/**
+ * Um diário das Misturadas terminado: as 4 rodadas, cada uma com um achado (ou null) por música.
+ * A anulada não acha nenhuma.
+ */
+export function isMixedGame(x: unknown): x is MixedGame {
+  if (!isRecord(x) || !Number.isInteger(x.number) || (x.number as number) < 1) return false;
+  if (!Array.isArray(x.rounds) || x.rounds.length !== MIXED_ROUNDS) return false;
+  return x.rounds.every(
+    (r: unknown) =>
+      isRecord(r) &&
+      (r.status === "done" || r.status === "void") &&
+      Array.isArray(r.found) &&
+      r.found.length >= MIXED_MIN_SONGS &&
+      r.found.length <= MIXED_MAX_SONGS &&
+      r.found.every(isMixedFind) &&
+      (r.status === "done" || r.found.every((f: unknown) => f === null)),
+  );
+}
+
+function isMixedProgress(x: unknown): x is MixedProgress {
+  return isRecord(x) && Array.isArray(x.events) && x.events.every(isMixedEvent);
+}
+
+/**
  * O id de uma medalha (v8): letras, números e `|`, `:`, `-`, `_` (ex.: "superfan|apple:ar:1|completo").
  * O id vai para o save e nunca muda; o desconhecido fica (pode ser de uma lista mais nova).
  */
@@ -220,20 +290,35 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
   }
   // O total do Treino (v9): fora do formato, zera e vira reparo, como o `artists` ausente.
   const practiceRight = isNonNegativeInt(data.practiceRight) ? data.practiceRight : 0;
+  // As Misturadas (v10): cada mapa ausente vira vazio, e o que não vale sai, como nos diários.
+  const mixed = isRecord(data.mixed) ? data.mixed : {};
+  const finished: Record<string, MixedGame> = {};
+  for (const [id, game] of Object.entries(isRecord(mixed.finished) ? mixed.finished : {})) {
+    if (isMixedId(id) && isMixedGame(game)) finished[id] = game;
+    else dropped = true;
+  }
+  const progress: Record<string, MixedProgress> = {};
+  for (const [id, saved] of Object.entries(isRecord(mixed.progress) ? mixed.progress : {})) {
+    if (isMixedId(id) && isMixedProgress(saved)) progress[id] = saved;
+    else dropped = true;
+  }
   dropped ||=
     seen.dropped ||
     shelf.dropped ||
     !isRecord(data.artists) ||
-    practiceRight !== data.practiceRight;
+    practiceRight !== data.practiceRight ||
+    !isRecord(mixed.finished) ||
+    !isRecord(mixed.progress);
   return {
     save: {
-      schemaVersion: 9,
+      schemaVersion: 10,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),
       shelf: shelf.ids,
       artists,
       practiceRight,
+      mixed: { finished, progress },
     },
     dropped,
   };

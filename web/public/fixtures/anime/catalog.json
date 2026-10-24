@@ -452,7 +452,7 @@
       "nameLatin": "Nana"
     }
   ],
-  "catalogVersion": "2026-10-05.0396bc77",
+  "catalogVersion": "2026-10-05.14d16bca",
   "franchises": [
     {
       "id": "anime:fr:futari_no_natsu",
@@ -581,6 +581,10 @@
     {
       "albumId": "fixture:al:al01",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:minato_monogatari"
         ],
@@ -633,6 +637,10 @@
     {
       "albumId": "fixture:al:al05",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:futari_no_natsu"
         ],
@@ -688,6 +696,10 @@
     {
       "albumId": "fixture:al:al06",
       "anime": {
+        "famous": {
+          "musica": true,
+          "titulo": true
+        },
         "franchiseIds": [
           "anime:fr:tsukimi_gakuen"
         ],
@@ -740,6 +752,10 @@
     {
       "albumId": "fixture:al:al07",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:kumo_no_ue_no_shiro"
         ],
@@ -792,6 +808,10 @@
     {
       "albumId": "fixture:al:al08",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:futari_no_natsu"
         ],
@@ -844,6 +864,10 @@
     {
       "albumId": "fixture:al:al09",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:kotonoha_signal"
         ],
@@ -895,6 +919,10 @@
     {
       "albumId": "fixture:al:al10",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:neon_samurai"
         ],
@@ -946,6 +974,10 @@
     {
       "albumId": "fixture:al:al14",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:nana_iro"
         ],
@@ -998,6 +1030,10 @@
     {
       "albumId": "fixture:al:al15",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:garasu_no_neko"
         ],
@@ -1050,6 +1086,10 @@
     {
       "albumId": "fixture:al:al16",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:luminous_heart"
         ],
@@ -1100,6 +1140,10 @@
     {
       "albumId": "fixture:al:al15",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:garasu_no_neko"
         ],
@@ -1152,6 +1196,10 @@
     {
       "albumId": "fixture:al:al17",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:nana_iro"
         ],
@@ -1204,6 +1252,10 @@
     {
       "albumId": "fixture:al:al18",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": true
+        },
         "franchiseIds": [
           "anime:fr:tsukimi_gakuen"
         ],
@@ -1256,6 +1308,10 @@
     {
       "albumId": "fixture:al:al19",
       "anime": {
+        "famous": {
+          "musica": true,
+          "titulo": true
+        },
         "franchiseIds": [
           "anime:fr:hoshizora_kaizoku"
         ],
@@ -1306,6 +1362,10 @@
     {
       "albumId": "fixture:al:al20",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:tokyo_noise"
         ],
@@ -1358,6 +1418,10 @@
     {
       "albumId": "fixture:al:al21",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": true
+        },
         "franchiseIds": [
           "anime:fr:yoru_no_gekijou"
         ],
@@ -1410,6 +1474,10 @@
     {
       "albumId": "fixture:al:al21",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:yoru_no_gekijou"
         ],
@@ -1462,6 +1530,10 @@
     {
       "albumId": "fixture:al:al10",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:neon_samurai"
         ],
@@ -1512,6 +1584,10 @@
     {
       "albumId": "fixture:al:al22",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:kotonoha_signal"
         ],
@@ -1562,6 +1638,10 @@
     {
       "albumId": "fixture:al:al14",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": true
+        },
         "franchiseIds": [
           "anime:fr:hoshizora_kaizoku"
         ],
@@ -1615,6 +1695,10 @@
     {
       "albumId": "fixture:al:al16",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:luminous_heart"
         ],
@@ -1666,6 +1750,10 @@
     {
       "albumId": "fixture:al:al24",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:luminous_heart"
         ],
@@ -1717,6 +1805,10 @@
     {
       "albumId": "fixture:al:al25",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:garasu_no_neko"
         ],
@@ -1769,6 +1861,10 @@
     {
       "albumId": "fixture:al:al26",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:kotonoha_signal"
         ],
@@ -1820,6 +1916,10 @@
     {
       "albumId": "fixture:al:al13",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:kumo_no_ue_no_shiro"
         ],
@@ -1872,6 +1972,10 @@
     {
       "albumId": "fixture:al:al27",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:tsukimi_gakuen"
         ],
@@ -1924,6 +2028,10 @@
     {
       "albumId": "fixture:al:al28",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:neon_samurai"
         ],
@@ -1975,6 +2083,10 @@
     {
       "albumId": "fixture:al:al29",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:majo_to_kissaten"
         ],
@@ -2027,6 +2139,10 @@
     {
       "albumId": "fixture:al:al02",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:minato_monogatari"
         ],
@@ -2079,6 +2195,10 @@
     {
       "albumId": "fixture:al:al30",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:yoru_no_gekijou"
         ],
@@ -2131,6 +2251,10 @@
     {
       "albumId": "fixture:al:al31",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:tokyo_noise"
         ],
@@ -2183,6 +2307,10 @@
     {
       "albumId": "fixture:al:al32",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:nana_iro"
         ],
@@ -2235,6 +2363,10 @@
     {
       "albumId": "fixture:al:al14",
       "anime": {
+        "famous": {
+          "musica": false,
+          "titulo": false
+        },
         "franchiseIds": [
           "anime:fr:hoshizora_kaizoku"
         ],
@@ -2287,6 +2419,10 @@
     {
       "albumId": "fixture:al:al33",
       "anime": {
+        "famous": {
+          "musica": true,
+          "titulo": true
+        },
         "franchiseIds": [
           "anime:fr:hoshizora_kaizoku"
         ],

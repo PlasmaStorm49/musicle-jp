@@ -25,6 +25,8 @@ import {
 } from "./helpers.ts";
 
 const DAY = "2026-10-08T12:00:00-03:00";
+/** As 3 músicas da 4ª rodada do "acertar a música" das Misturadas de 08/10 (a agenda fictícia). */
+const MIXED_ROUND_4 = ["fixture:tr:tr24", "fixture:tr:tr26", "fixture:tr:tr31"];
 /** Em 22/10, o Histórico tem os 14 dias antes, todos na agenda das fixtures (08 a 21/10). */
 const HISTORY_DAY = "2026-10-22T12:00:00-03:00";
 /** Em 16/10, a 1ª rodada do Normal é a tr10, a faixa explícita das fixtures (P31). */
@@ -220,6 +222,55 @@ for (const viewport of [
       page,
     }) => {
       await homeWorstCase(page);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("a tela das Misturadas: os dois modos (M17)", async ({ page }) => {
+      await open(page, DAY, "#misturadas");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Misturadas");
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("as Misturadas com o selo da Apple, no caso mais alto: as 3 músicas, os pulos até o último trecho, a revelação e o resumo (M17)", async ({
+      page,
+    }) => {
+      await appleCatalog(page, { artistDisplay: LONG_ARTIST });
+      await open(page, DAY, "#misturadas-musica");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+        "Misturadas · Música · nº 1",
+      );
+      for (let i = 0; i < 3; i++) {
+        await page.getByRole("button", { name: "Desistir", exact: true }).click();
+        await page.getByRole("button", { name: "Próxima rodada" }).click();
+      }
+      const play = page.getByRole("button", { name: /^Tocar/ });
+      await expect(play).toBeEnabled();
+      await overflow(page);
+      const before = await top(play);
+      // As 5 tentativas que cabem: os 3 pulos e 2 das 3 músicas, no último trecho.
+      for (let i = 0; i < 3; i++) await page.getByRole("button", { name: /^Pular/ }).click();
+      for (const id of MIXED_ROUND_4.slice(0, 2)) {
+        const track = trackById(id);
+        await page.getByRole("combobox", { name: "Quais são as músicas?" }).fill(track.title);
+        await page
+          .getByRole("option")
+          .filter({ has: page.getByText(track.title, { exact: true }) })
+          .first()
+          .click();
+      }
+      await expect(page.getByText("2 de 3 achadas")).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      expect(await top(play)).toBe(before);
+      const badge = page.getByRole("link", { name: /Apple Music/ });
+      await expect(badge).toHaveAttribute("href", PLAYLIST_URL);
+      await expect(badge).toBeInViewport({ ratio: 1 });
+      // A revelação das 3 músicas, com o artista longo.
+      await page.getByRole("button", { name: "Desistir", exact: true }).click();
+      await expect(page.getByRole("heading", { name: /^Achou 2 de 3/ })).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(badge).toBeInViewport({ ratio: 1 });
+      await page.getByRole("button", { name: "Ver resultado" }).click();
+      await expect(page.getByRole("heading", { name: "Resultado do dia" })).toBeVisible();
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
@@ -578,6 +629,9 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     ["#anime-titulo", "Acertar o anime"],
     ["#anime-musica-dificil", "Música · Difícil · nº 1"],
     ["#anime-titulo-dificil", "Anime · Difícil · nº 1"],
+    ["#misturadas", "Misturadas"],
+    ["#misturadas-musica", "Misturadas · Música · nº 1"],
+    ["#misturadas-titulo", "Misturadas · Anime · nº 1"],
     ["#sobre", "Sobre e privacidade"],
     ["#historico", "Histórico"],
   ] as const) {
@@ -587,6 +641,26 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
     expect((await overflow(page)).horizontal, hash).toBeLessThanOrEqual(0);
   }
+});
+
+test("em 320 px, a revelação das Misturadas com a nota mais longa (o Separar) não rola para o lado", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await appleCatalog(page, { artistDisplay: LONG_ARTIST });
+  await open(page, DAY, "#misturadas-musica");
+  await page.getByRole("button", { name: "Ajuda: separar L e R" }).click();
+  // A 1ª rodada de 08/10 tem a tr33.
+  const track = trackById("fixture:tr:tr33");
+  await page.getByRole("combobox", { name: "Quais são as músicas?" }).fill(track.title);
+  await page
+    .getByRole("option")
+    .filter({ has: page.getByText(track.title, { exact: true }) })
+    .first()
+    .click();
+  await page.getByRole("button", { name: "Desistir", exact: true }).click();
+  await expect(page.getByText(/separada: metade dos pontos/)).toBeVisible();
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
 test("em 320 px, o cabeçalho do diário do Anime fica numa linha: o nome do diário e a rodada", async ({
@@ -681,7 +755,7 @@ async function target(locator: Locator): Promise<{ height: number; width: number
   return { height: box?.height ?? 0, width: box?.width ?? 0 };
 }
 
-test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime e o Mais têm alvo de 44 × 44 px, como os Artistas, o Histórico e as Medalhas no menu aberto, que não rola a página para o lado (P225, P265, P287)", async ({
+test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime e o Mais têm alvo de 44 × 44 px, como as Misturadas, os Artistas, o Histórico e as Medalhas no menu aberto, que não rola a página para o lado (P225, P265, P287)", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 640 });
@@ -702,11 +776,12 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
     "Início",
     /^Hits/,
     /^Anime/,
+    "Misturadas",
     "Artistas",
     "Histórico",
     "Medalhas",
   ]);
-  for (const name of ["Artistas", "Histórico", "Medalhas"]) {
+  for (const name of ["Misturadas", "Artistas", "Histórico", "Medalhas"]) {
     const { height, width } = await target(nav.getByRole("link", { name }));
     expect(height, name).toBeGreaterThanOrEqual(44);
     expect(width, name).toBeGreaterThanOrEqual(44);
@@ -714,7 +789,7 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
-test("as Medalhas (M16) em 320 px: as 13 gerais e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
+test("as Medalhas (M16) em 320 px: as 17 gerais e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
   page,
 }) => {
   // As ganhas, com o botão: os 6 do Anime de hoje acertados (a geral de nome mais longo, em
@@ -743,7 +818,7 @@ test("as Medalhas (M16) em 320 px: as 13 gerais e o Superfan, com os botões do 
     expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(320);
   }
   await expect(page.getByRole("heading", { level: 1, name: "Medalhas" })).toBeVisible();
-  await expect(page.locator(".medal-list > li")).toHaveCount(13);
+  await expect(page.locator(".medal-list > li")).toHaveCount(17);
   await expect(page.locator(".medal-artist")).toHaveCount(5);
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
   // O nome mais longo das gerais cabe na linha, sem passar da tela.
@@ -902,10 +977,18 @@ test("a medalha em destaque na nav (ME118, P317): em 320 px, a nav numa linha no
   expect(tops, "a nav numa linha só").toBe(1);
 });
 
-test("o Mais até 719 px e as 6 abas numa linha a partir de 720 (P287)", async ({ page }) => {
-  // Os dois diários dos Hits e um do Anime de hoje terminados: os dois ✓, o caso mais largo.
+test("o Mais em todas as larguras, e as Misturadas na linha a partir de 720 (P287, M17)", async ({
+  page,
+}) => {
+  // Os dois diários dos Hits, um do Anime e os dois das Misturadas de hoje terminados: os três ✓,
+  // o caso mais largo.
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
+  const none = { status: "done", found: [null, null] } as const;
+  const mixed = {
+    number: 1,
+    rounds: [none, none, none, { status: "done", found: [null, null, null] }],
+  } as const;
   // E a medalha em destaque (P317), o caso mais largo da linha.
   await seedHistory(
     page,
@@ -915,7 +998,13 @@ test("o Mais até 719 px e as 6 abas numa linha a partir de 720 (P287)", async (
       "2026-10-08|anime-musica-facil": day,
     },
     {},
-    { shelf: ["diario-1"] },
+    {
+      shelf: ["diario-1"],
+      mixed: {
+        finished: { "2026-10-08|misturadas-musica": mixed, "2026-10-08|misturadas-titulo": mixed },
+        progress: {},
+      },
+    },
   );
   await page.setViewportSize({ width: 719, height: 800 });
   await open(page, DAY, "#inicio");
@@ -924,24 +1013,31 @@ test("o Mais até 719 px e as 6 abas numa linha a partir de 720 (P287)", async (
   await expect(more).toBeVisible();
   // A medalha em destaque é um link sem texto, com o nome no aria-label.
   await expect(nav.getByRole("link")).toHaveText(["Início", /^Hits/, /^Anime/, ""]);
-  // O menu aberto fecha ao cruzar os 720 px, e não volta aberto ao estreitar de novo.
+  // O menu aberto fecha ao cruzar os 720 px (as Misturadas mudam de lugar), e não volta aberto ao
+  // estreitar de novo.
   await more.click();
   await expect(more).toHaveAttribute("aria-expanded", "true");
   await page.setViewportSize({ width: 720, height: 800 });
-  await expect(more).toBeHidden();
+  await expect(more).toHaveAttribute("aria-expanded", "false");
+  // Em 720 px, as Misturadas na linha; o Mais continua, com os Artistas, o Histórico e as Medalhas.
   const links = nav.getByRole("link");
-  await expect(links).toHaveText([
-    "Início",
-    /^Hits/,
-    /^Anime/,
-    "Artistas",
-    "Histórico",
-    "Medalhas",
-    "",
-  ]);
+  await expect(links).toHaveText(["Início", /^Hits/, /^Anime/, /^Misturadas/, ""]);
+  await expect(more).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   const tops = await links.evaluateAll((all) => all.map((a) => a.getBoundingClientRect().top));
-  expect(new Set(tops).size, "as 6 abas na mesma linha").toBe(1);
+  expect(new Set(tops).size, "a nav numa linha só").toBe(1);
+  expect((await overflow(page)).horizontal, "sem rolar para o lado").toBeLessThanOrEqual(0);
+  // A linha na coluna do conteúdo, e a medalha em destaque alinhada com o fim do conteúdo.
+  const box = (el: Locator) => el.evaluate((e) => e.getBoundingClientRect().toJSON());
+  const row = await box(nav.locator("ul").first());
+  expect(row.width).toBeLessThanOrEqual(560);
+  const contentRight = await page
+    .locator("main.app")
+    .evaluate(
+      (e) => e.getBoundingClientRect().right - Number.parseFloat(getComputedStyle(e).paddingRight),
+    );
+  const favoriteRight = (await box(nav.locator(".nav-favorite"))).right;
+  expect(Math.abs(favoriteRight - contentRight)).toBeLessThanOrEqual(2);
   await page.setViewportSize({ width: 719, height: 800 });
   await expect(more).toHaveAttribute("aria-expanded", "false");
 });
@@ -1134,20 +1230,22 @@ test("a aba ativa em negrito não empurra as vizinhas (ME106): o Mais e o link d
     await page.evaluate(() => document.fonts.ready);
     expect(await left(more), hash).toBe(atHome);
   }
-  // Em 720 px, as 6 na linha: o link das Medalhas, o último, também não anda.
+  // Em 720 px, com as Misturadas na linha: o Mais, depois delas, também não anda quando elas
+  // viram a aba ativa.
   await page.setViewportSize({ width: 720, height: 800 });
-  const medals = nav.getByRole("link", { name: "Medalhas", exact: true });
   await page.evaluate(() => {
     window.location.hash = "#inicio";
   });
   await expect(nav.getByRole("link", { name: "Início" })).toHaveAttribute("aria-current", "page");
-  const medalsAtHome = await left(medals);
+  await page.evaluate(() => document.fonts.ready);
+  const moreAtHome = await left(more);
   await page.evaluate(() => {
-    window.location.hash = "#historico";
+    window.location.hash = "#misturadas";
   });
-  await expect(nav.getByRole("link", { name: "Histórico", exact: true })).toHaveAttribute(
+  await expect(nav.getByRole("link", { name: /^Misturadas/ })).toHaveAttribute(
     "aria-current",
     "page",
   );
-  expect(await left(medals)).toBe(medalsAtHome);
+  await page.evaluate(() => document.fonts.ready);
+  expect(await left(more)).toBe(moreAtHome);
 });
