@@ -365,33 +365,48 @@ def _one_decimal(rate: float) -> float:
 _WO = re.compile(r"\bwo\b", re.IGNORECASE)
 
 
-def _song_key(theme: SourceTheme) -> tuple[str, str]:
+def _song_key(theme: SourceTheme | Theme) -> tuple[str, str]:
     """O tipo e o título, com o "wo" como "o": "Shinzou wo Sasageyo" (AnimeThemes) e "Shinzou o
     Sasageyo" (AnisongDB) são o mesmo tema."""
     return theme.type, search_key(_WO.sub("o", theme.song))
 
 
-def merge_sources(anime: SourceAnime, quiz: Sequence[SourceTheme]) -> SourceAnime:
-    """Os temas do AnimeThemes com o nível e os artistas do AnisongDB, casados pelo tipo e pelo
-    título (a numeração das duas fontes diverge). Primeiro o título igual; depois, para o que
-    sobrou, o único do mesmo tipo com o título frouxo igual ou muito parecido (P275: "LOST IN
-    PARADISE feat. AKLO" e "LOST IN PARADISE"). O tema que só o AnisongDB tem (a insert song,
-    quase sempre) entra também."""
-    left = list(quiz)
-    partners: list[SourceTheme | None] = []
-    for t in anime.themes:
-        key = _song_key(t)
-        other = next((q for q in left if _song_key(q) == key), None)
+def _pair_themes[T: SourceTheme | Theme](
+    new: Sequence[SourceTheme], old: Sequence[T]
+) -> list[T | None]:
+    """O par de cada tema de `new` em `old` (o mesmo tema na outra fonte, ou na busca de antes),
+    em duas passadas: primeiro o mesmo tipo e o mesmo título (`_song_key`) para todos, com a
+    mesma sequência na frente (e, entre os outros, a ordem de `old`); depois, para o que sobrou,
+    o único do mesmo tipo com o título frouxo igual ou muito parecido (P275: "LOST IN PARADISE
+    feat. AKLO" e "LOST IN PARADISE"). Cada tema de `old` serve a um só."""
+    left = list(old)
+    partners: list[T | None] = []
+    for theme in new:
+        key = _song_key(theme)
+        same = [q for q in left if _song_key(q) == key]
+        other = next((q for q in same if q.sequence == theme.sequence), same[0] if same else None)
         if other is not None:
             left.remove(other)
         partners.append(other)
-    for i, t in enumerate(anime.themes):
+    for i, theme in enumerate(new):
         if partners[i] is None:
-            mine = loose_title(t.song)
-            close = [q for q in left if q.type == t.type and same_song(loose_title(q.song), mine)]
+            mine = loose_title(theme.song)
+            close = [
+                q for q in left if q.type == theme.type and same_song(loose_title(q.song), mine)
+            ]
             if len(close) == 1:
                 left.remove(close[0])
                 partners[i] = close[0]
+    return partners
+
+
+def merge_sources(anime: SourceAnime, quiz: Sequence[SourceTheme]) -> SourceAnime:
+    """Os temas do AnimeThemes com o nível e os artistas do AnisongDB, casados pelo tipo e pelo
+    título (a numeração das duas fontes diverge), pelo `_pair_themes`. O tema que só o AnisongDB
+    tem (a insert song, quase sempre) entra também."""
+    partners = _pair_themes(anime.themes, quiz)
+    paired = {id(p) for p in partners if p is not None}
+    left = [q for q in quiz if id(q) not in paired]
     themes = []
     for t, other in zip(anime.themes, partners, strict=True):
         if other is not None:
@@ -903,11 +918,90 @@ def fetch_anime_snapshot(
     mais acertados no AMQ. Para quando cada modo e faixa tem `target_per_tier` músicas, quando
     chega a `max_songs`, ou depois de `max_anime` animes tentados."""
     order, mal_ranks = _plan(io, fetched_at, tried, personal, max_anime, pool_size, draw)
+    progress = Progress(target_per_tier, max_songs)
+    # Pelo AMQ, a ordem da busca é a do acerto: no snapshot, que vai para o Git, os animes saem
+    # pelo id, para a ordem não guardar o ranking (P254). No sorteio, fica a dele. A busca que
+    # para antes do fim grava o que veio: rodar de novo continua, porque os tentados ficam de fora.
+    snapshot, _ = _collect(
+        fetched_at,
+        order,
+        mal_ranks,
+        romanize,
+        known_resolved,
+        known_official,
+        io,
+        progress,
+        by_id=draw == "amq",
+    )
+    return snapshot
+
+
+def refresh_anime_snapshot(
+    fetched_at: str,
+    romanize: Callable[[str], Sequence[str]],
+    known: Sequence[Anime],
+    known_resolved: Mapping[str, list[str]],
+    known_official: JSON,
+    io: AnimeFetch,
+) -> JSON:
+    """A nova busca dos animes já conhecidos (o --refresh, M18): o AnimeThemes e o AnisongDB de
+    novo para todos, para a temporada, os níveis e os números exatos do quiz do dia chegarem aos
+    snapshots antigos. O tema que já existia leva a faixa de antes, sem pedido à Apple
+    (`_reused`); só o tema novo passa pelo casamento. O nível do MAL é o do --ranks-file ou do
+    ranking de agora (com o MAL_CLIENT_ID); sem os dois, o de antes, porque o anime novo substitui
+    o antigo inteiro no `merge_anime`. Sem teto de animes nem de músicas: o prazo ainda vale.
+
+    A busca que para antes do fim (uma fonte fora do ar, o prazo) é um erro: o que veio fica
+    gravado, mas sem o resto. Rodar de novo refaz todos (não há o que pular). O AnisongDB fora do
+    ar também para: seguir sem ele trocaria o nível e o número do AMQ de antes por nada."""
+    by_id = {anime.mal_id: anime for anime in known}
+    mal_ranks: Mapping[int, int] = {}
+    if io.mal_file is None and io.mal is not None:
+        io.log("o nível pelo ranking do MyAnimeList")
+        mal_ranks = mal_ranking(io.mal, io.sleep, MAL_LEVEL_SIZE)
+    io.log(f"a nova busca de {len(by_id)} anime(s) já conhecido(s)")
+    unlimited = Progress(target=10**9, max_songs=10**9)  # nunca chega: todos os conhecidos entram
+    snapshot, stopped = _collect(
+        fetched_at,
+        sorted(by_id),
+        mal_ranks,
+        romanize,
+        known_resolved,
+        known_official,
+        io,
+        unlimited,
+        by_id=True,
+        known=by_id,
+    )
+    done = len(snapshot["anime"])
+    if stopped:
+        if io.save is not None:
+            io.save(snapshot)
+        raise FetchError(f"a nova busca parou antes do fim, com {done} de {len(by_id)} anime(s)")
+    if done < len(by_id):
+        io.log(f"aviso: o AnimeThemes não trouxe {len(by_id) - done} anime(s); ficam como estavam")
+    return snapshot
+
+
+def _collect(
+    fetched_at: str,
+    order: Sequence[int],
+    mal_ranks: Mapping[int, int],
+    romanize: Callable[[str], Sequence[str]],
+    known_resolved: Mapping[str, list[str]],
+    known_official: JSON,
+    io: AnimeFetch,
+    progress: Progress,
+    *,
+    by_id: bool,
+    known: Mapping[int, Anime] | None = None,
+) -> tuple[JSON, bool]:
+    """A busca na ordem dada e o snapshot dela (os animes pelo id, com o `by_id`), e se ela
+    parou antes do fim (uma fonte fora do ar, o prazo, o Ctrl+C)."""
     cache = AppleCache(
         resolved={k: list(v) for k, v in known_resolved.items()}, official=dict(known_official)
     )
     apple = AppleClient(cache, io.get, io.sleep, io.apple_pace)
-    progress = Progress(target_per_tier, max_songs)
     records: list[JSON] = []
     used_lookups: dict[str, JSON] = {}
 
@@ -923,9 +1017,7 @@ def fetch_anime_snapshot(
             "storefront": STOREFRONT,
             "id": snapshot_id(fetched_at),
             "fetchedAt": fetched_at,
-            # Pelo AMQ, a ordem da busca é a do acerto: no snapshot, que vai para o Git, os animes
-            # saem pelo id, para a ordem não guardar o ranking (P254). No sorteio, fica a dele.
-            "anime": sorted(records, key=lambda r: r["malId"]) if draw == "amq" else list(records),
+            "anime": sorted(records, key=lambda r: r["malId"]) if by_id else list(records),
             "artists": {k: v for k, v in sorted(cache.official.items()) if k in artist_ids},
             # Só as resoluções novas: as antigas já estão nos snapshots de antes.
             "resolved": dict(sorted(new.items())),
@@ -934,13 +1026,24 @@ def fetch_anime_snapshot(
 
     start = io.clock()
     try:
-        _search(
-            order, io, mal_ranks, apple, romanize, progress, records, used_lookups, start, build
+        stopped = _search(
+            order,
+            io,
+            mal_ranks,
+            apple,
+            romanize,
+            progress,
+            records,
+            used_lookups,
+            start,
+            build,
+            known,
         )
     except KeyboardInterrupt:
         # O Ctrl+C na busca longa: o que já veio fica (o anime pela metade volta a ser sorteado).
         io.log("busca interrompida; grava o que já veio")
-    return build()
+        stopped = True
+    return build(), stopped
 
 
 def _search(
@@ -954,7 +1057,11 @@ def _search(
     used_lookups: dict[str, JSON],
     start: float,
     build: Callable[[], JSON],
-) -> None:
+    known: Mapping[int, Anime] | None = None,
+) -> bool:
+    """A busca de cada anime da ordem; devolve se ela parou antes do fim. Com o `known` (o
+    --refresh), o anime já conhecido mantém o nível do MAL de antes quando não há ranking, e o
+    tema que volta, a faixa de antes."""
     stopped = False
     for batch in _batched(order, ANIMETHEMES_BATCH):
         body = json.dumps({"query": ANIMETHEMES_QUERY, "variables": {"ids": batch}}).encode()
@@ -962,6 +1069,7 @@ def _search(
             sources = parse_animethemes(_post_json(io, ANIMETHEMES_URL, body))
         except FetchError as exc:
             io.log(f"AnimeThemes falhou ({exc}); a busca para e grava o que já veio")
+            stopped = True
             break
         io.sleep(SOURCE_PACE_SEC)
         try:
@@ -969,6 +1077,12 @@ def _search(
                 _post_json(io, ANISONGDB_URL, json.dumps({"mal_ids": batch}).encode())
             )
         except FetchError as exc:
+            if known is not None:
+                # Na nova busca, seguir sem ele trocaria o nível e o número do AMQ de antes por
+                # nada: para, como no AnimeThemes.
+                io.log(f"AnisongDB indisponível ({exc}); a nova busca para e grava o que já veio")
+                stopped = True
+                break
             # O AnisongDB não tem responsável público e pode sumir: sem ele, os temas ficam sem o
             # nível do quiz (vale o das playlists, senão a regra OP/ED).
             io.log(f"AnisongDB indisponível neste lote ({exc}); seguindo sem ele")
@@ -985,9 +1099,14 @@ def _search(
             if source is None:
                 continue  # o AnimeThemes não tem o anime: nem entra no snapshot (outro sorteio)
             source = merge_sources(source, quiz.get(mal_id, []))
+            old = known.get(mal_id) if known is not None else None
             # O nível do anime é só o do MAL (P256): sem ele, a posição nas playlists do
             # AnimeThemes serve ao sorteio, mas não vira nível (o tema já tem o das playlists).
-            record = _anime_record(source, _mal_level_of(io, mal_ranks, mal_id))
+            # Na nova busca sem o ranking, fica o de antes: sem ele, o nível sumiria.
+            level = _mal_level_of(io, mal_ranks, mal_id)
+            if level is None and old is not None:
+                level = old.levels.get("mal")
+            record = _anime_record(source, level)
             anime = Anime(
                 mal_id=mal_id,
                 slug=source.slug,
@@ -999,8 +1118,19 @@ def _search(
                 themes=(),
                 season=source.season,
             )
+            # Na nova busca, o par de cada tema na de antes (os casados na frente); o tema sem par
+            # é novo e passa pelo casamento de sempre, com a Apple.
+            previous: list[Theme | None] = [None] * len(source.themes)
+            if old is not None:
+                matched_first = sorted(old.themes, key=lambda t: t.track is None)
+                previous = _pair_themes(source.themes, matched_first)
             try:
-                entries = [_theme(theme, anime, apple, romanize) for theme in source.themes]
+                entries = [
+                    _reused(theme, same)
+                    if same is not None
+                    else _theme(theme, anime, apple, romanize)
+                    for theme, same in zip(source.themes, previous, strict=True)
+                ]
             except FetchError as exc:
                 # Uma falha de rede da Apple, depois das repetições: o que já veio fica, e este
                 # anime volta a ser sorteado numa próxima busca (ele não entra no snapshot).
@@ -1020,14 +1150,42 @@ def _search(
                     progress.add(entry["theme"], anime, rivals[entry["theme"].type])
             records.append(record)
             matched = sum(t["result"] == "matched" for t in record["themes"])
-            io.log(
-                f"{source.name}: {matched} de {len(record['themes'])} tema(s) "
-                f"(no total, {len(progress.songs)} música(s))"
-            )
+            if old is not None:
+                reused = sum(entry.get("reused", False) for entry in entries)
+                io.log(
+                    f"{source.name}: {matched} de {len(record['themes'])} tema(s), {reused} com "
+                    "a busca de antes"
+                )
+            else:
+                io.log(
+                    f"{source.name}: {matched} de {len(record['themes'])} tema(s) "
+                    f"(no total, {len(progress.songs)} música(s))"
+                )
             if io.save is not None:
                 io.save(build())
         if stopped or progress.done():
             break
+    return stopped
+
+
+def _reused(theme: SourceTheme, same: Theme) -> JSON:
+    """O tema que volta na nova busca (o --refresh, M18): o resultado e a faixa de antes, sem
+    pedido à Apple, com os níveis e os números de agora, completados pelos de antes quando a
+    fonte não os trouxe. O tema casado leva os artistas de agora; o que não casou fica com os de
+    antes, para o registro bater com o resultado (ele não é buscado de novo)."""
+    before = {k: int(v) if k == "animethemes" else float(v) for k, v in same.stats.items()}
+    record = {
+        "type": theme.type,
+        "sequence": theme.sequence,
+        "song": theme.song,
+        "artists": theme.artists if same.track is not None else list(same.artists),
+        "levels": {**same.levels, **theme.levels},
+        "stats": {**before, **theme.stats},
+        "result": same.result,
+        # A resposta aparada da faixa já está no snapshot de antes: o leitor junta as de todos.
+        "track": None if same.track is None else same.track.provider_id,
+    }
+    return {"record": record, "lookup": None, "theme": None, "reused": True}
 
 
 def _theme(

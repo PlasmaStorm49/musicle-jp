@@ -151,13 +151,15 @@ class SongFacts:
 
 @dataclass(frozen=True)
 class MalFacts:
-    """Os dados do MAL de um anime, usados e descartados (P380)."""
+    """Os dados do MAL de um anime, usados e descartados (P380). Cada campo ausente é "não sei"
+    (None): os gêneros e os estúdios também, para a música sair da pergunta em vez de virar um
+    "não tem" que pode estar errado."""
 
-    genres: frozenset[str]
+    genres: frozenset[str] | None
     mean: Decimal | None
     members: int | None
     source: str | None
-    studios: frozenset[str]
+    studios: frozenset[str] | None
 
 
 def _main_use(use: tuple[Anime, Theme]) -> tuple[int, int, int, int]:
@@ -244,11 +246,11 @@ def load_mal(path: Path) -> dict[int, MalFacts]:
         if source is not None and not isinstance(source, str):
             raise InputError(f"{where}: source deveria ser um texto")
         out[int(key)] = MalFacts(
-            genres=_text_list(raw.get("genres", []), f"{where}: genres"),
+            genres=_text_list(raw["genres"], f"{where}: genres") if "genres" in raw else None,
             mean=score,
             members=members if members and members > 0 else None,
             source=source,
-            studios=_text_list(raw.get("studios", []), f"{where}: studios"),
+            studios=_text_list(raw["studios"], f"{where}: studios") if "studios" in raw else None,
         )
     return out
 
@@ -570,12 +572,12 @@ class QuizContext:
         if m is None:
             return None
         if family.id == "rotulo":
-            return param in m.genres
+            return None if m.genres is None else param in m.genres
         if family.id == "fonte":
             group = source_group(m)
             return None if group is None else group == param
         if family.id == "estudio":
-            return param in m.studios
+            return None if m.studios is None else param in m.studios
         raise ValueError(f"família sem propriedade: {family.id}")
 
     def property_pool(self, family: Family, param: object) -> tuple[list[Song], list[Song]]:
@@ -597,8 +599,8 @@ class QuizContext:
             if a.facts.anime_ids & b.facts.anime_ids:
                 return Decimal(1)
             return Decimal("0.5") if a.franchises & b.franchises else Decimal(0)
-        genres_a = a.mal.genres if a.mal else frozenset()
-        genres_b = b.mal.genres if b.mal else frozenset()
+        genres_a = a.mal.genres if a.mal and a.mal.genres is not None else frozenset()
+        genres_b = b.mal.genres if b.mal and b.mal.genres is not None else frozenset()
         if family.id == "rotulo":  # o próprio rótulo separa os dois: fica fora da conta
             genres_a, genres_b = genres_a - {param}, genres_b - {param}
         return jaccard(genres_a, genres_b)
@@ -615,11 +617,11 @@ class QuizContext:
             counts: Counter[object] = Counter()
             for song in self.songs:
                 m = song.mal
-                if family.id == "rotulo" and m:
+                if family.id == "rotulo" and m and m.genres is not None:
                     counts.update(g for g in m.genres if g not in OFF_LABELS)
                 elif family.id == "fonte" and (group := source_group(m)):
                     counts[group] += 1
-                elif family.id == "estudio" and m:
+                elif family.id == "estudio" and m and m.studios is not None:
                     counts.update(m.studios)
                 elif family.id == "ano_x" and song.facts.year is not None:
                     counts[song.facts.year] += 1

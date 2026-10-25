@@ -466,7 +466,141 @@ def test_the_cli_refuses_a_bad_ranks_file_before_the_network(monkeypatch, tmp_pa
     assert "--ranks-file:" in capsys.readouterr().err
 
 
+def quiz_page(offset: int) -> bytes:
+    """Uma página do ranking com os campos do quiz do dia (M18)."""
+    action = {"id": 1, "name": "Action"}
+    data = [
+        {
+            "node": {
+                "id": 38000,
+                "genres": [action, {"id": 10, "name": "Fantasy"}, action, {"name": ""}],
+                "mean": 8.45,
+                "num_list_users": 3_201_234,
+                "source": "manga",
+                "studios": [{"id": 1, "name": "ufotable"}],
+            },
+            "ranking": {"rank": 1},
+        },
+        # Os campos fora da forma ficam de fora: a nota NaN, os membros negativos, a fonte vazia,
+        # os gêneros que não são lista e os estúdios que não vieram ("não sei", e não "não tem").
+        {
+            "node": {
+                "id": 5114,
+                "mean": float("nan"),
+                "num_list_users": -1,
+                "source": " ",
+                "genres": "Action",
+            },
+            "ranking": {"rank": 2},
+        },
+        # Um inteiro enorme e um booleano na nota: fora, sem derrubar o ranking.
+        {"node": {"id": 9001, "mean": 10**400}, "ranking": {"rank": 3}},
+        {"node": {"id": 9002, "mean": True}, "ranking": {"rank": 4}},
+    ]
+    return json.dumps({"data": data if offset == 0 else []}).encode()
+
+
+def test_the_quiz_file_comes_from_the_same_requests(tmp_path, capsys):
+    from decimal import Decimal
+
+    from musicle_pipeline.anime_quiz import load_mal
+
+    urls: list[str] = []
+
+    def get(url: str) -> bytes:
+        urls.append(url)
+        return quiz_page(int(parse_qs(urlsplit(url).query)["offset"][0]))
+
+    ranks, quiz = tmp_path / "ranks.json", tmp_path / "quiz.json"
+    args = ["--out", str(ranks), "--quiz-out", str(quiz)]
+    code = mal_ranking.main(
+        args, environ={"MAL_CLIENT_ID": FAKE_ID}, get=get, sleep=lambda _s: None
+    )
+    assert code == 0
+    assert len(urls) == 2  # nenhum pedido a mais: os campos vão nas mesmas páginas
+    assert all(parse_qs(urlsplit(u).query)["fields"] == [mal_ranking.QUIZ_FIELDS] for u in urls)
+    # O arquivo é o que o schedule-quiz --mal-file lê.
+    found = load_mal(quiz)
+    first = found[38000]
+    assert (first.genres, first.studios) == ({"Action", "Fantasy"}, {"ufotable"})
+    assert (first.mean, first.members, first.source) == (Decimal("8.45"), 3_201_234, "manga")
+    other = found[5114]
+    assert (other.mean, other.members, other.source) == (None, None, None)
+    assert (other.genres, other.studios) == (None, None)
+    assert found[9001].mean is None and found[9002].mean is None
+    assert mal_ranking.load_ranks(ranks).order == (38000, 5114, 9001, 9002)
+    captured = capsys.readouterr()
+    assert FAKE_ID not in captured.out + captured.err + quiz.read_text(encoding="utf-8")
+
+
+def test_without_the_quiz_out_the_ranking_asks_no_fields():
+    urls: list[str] = []
+
+    def get(url: str) -> bytes:
+        urls.append(url)
+        return ranking_page(int(parse_qs(urlsplit(url).query)["offset"][0]))
+
+    mal_ranking.fetch_ranking(get, lambda _s: None, size=10)
+    assert urls and all("fields" not in parse_qs(urlsplit(u).query) for u in urls)
+
+
+def test_with_the_quiz_out_the_ranking_covers_the_whole_level_scale(tmp_path):
+    # O acervo do Anime vai além dos 3.000 do sorteio: com o --quiz-out, o padrão é 6.000.
+    limits: list[int] = []
+
+    def get(url: str) -> bytes:
+        query = parse_qs(urlsplit(url).query)
+        offset, limit = int(query["offset"][0]), int(query["limit"][0])
+        limits.append(limit)
+        page = [
+            {"node": {"id": 1 + i}, "ranking": {"rank": 1 + i}}
+            for i in range(offset, offset + limit)
+        ]
+        return json.dumps({"data": page}).encode()
+
+    args = ["--out", str(tmp_path / "r.json"), "--quiz-out", str(tmp_path / "q.json")]
+    assert (
+        mal_ranking.main(args, environ={"MAL_CLIENT_ID": FAKE_ID}, get=get, sleep=lambda _s: None)
+        == 0
+    )
+    assert sum(limits) == mal_ranking.QUIZ_SIZE == 6000
+
+
+@pytest.mark.parametrize("flag", ["--out", "--quiz-out"])
+def test_the_files_never_go_inside_the_repository(capsys, tmp_path, flag):
+    # Os números do MAL nunca vão ao repositório (P380): recusado antes de qualquer pedido.
+    inside = mal_ranking.REPO_ROOT / "pipeline" / "ranks.json"
+    args = {"--out": str(tmp_path / "r.json"), "--quiz-out": str(tmp_path / "q.json")}
+    args[flag] = str(inside)
+
+    def no_network(url: str) -> bytes:
+        raise AssertionError("não deveria buscar")
+
+    argv = [part for pair in args.items() for part in pair]
+    with pytest.raises(SystemExit):
+        mal_ranking.main(argv, environ={"MAL_CLIENT_ID": FAKE_ID}, get=no_network)
+    assert "dentro do repositório" in capsys.readouterr().err
+    assert not inside.exists()
+
+
+def test_a_failure_after_the_quiz_file_leaves_nothing(monkeypatch, tmp_path, capsys):
+    # O ranks.json é o sinal de pronto: sem ele, o arquivo do quiz também não fica.
+    def broken(path, ranks):
+        raise OSError("disco cheio")
+
+    monkeypatch.setattr(mal_ranking, "write_ranks", broken)
+    ranks, quiz = tmp_path / "ranks.json", tmp_path / "quiz.json"
+    code = mal_ranking.main(
+        ["--out", str(ranks), "--quiz-out", str(quiz)],
+        environ={"MAL_CLIENT_ID": FAKE_ID},
+        get=lambda url: quiz_page(int(parse_qs(urlsplit(url).query)["offset"][0])),
+        sleep=lambda _s: None,
+    )
+    assert code == 1 and "nada foi gravado" in capsys.readouterr().err
+    assert not ranks.exists() and not quiz.exists()
+
+
 def test_the_ranks_file_needs_anime(capsys):
     args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
     assert cli_main([*args, "--ranks-file", "x.json"]) == 1
-    assert "--ranks-file e --draw só valem com --anime" in capsys.readouterr().err
+    assert "--ranks-file, --draw e --refresh só valem com --anime" in capsys.readouterr().err

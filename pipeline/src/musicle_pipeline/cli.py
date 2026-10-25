@@ -793,11 +793,12 @@ def _fetch(args: argparse.Namespace) -> int:
         args.deadline_min,
         args.ranks_file,
         args.draw,
+        args.refresh,
     )
     if any(value is not None for value in anime_only):
         print(
             "--personal, --out-dir, --max-songs, --target-per-tier, --max-anime, --pool-size, "
-            "--deadline-min, --ranks-file e --draw só valem com --anime",
+            "--deadline-min, --ranks-file, --draw e --refresh só valem com --anime",
             file=sys.stderr,
         )
         return 1
@@ -849,6 +850,26 @@ def _fetch_anime(args: argparse.Namespace) -> int:
     from musicle_pipeline import fetch, fetch_anime, mal_ranking
 
     draw = args.draw or "mal"
+    if args.refresh:
+        # A nova busca de todos os animes já conhecidos (M18): sem sorteio nem teto.
+        conflicts = [
+            flag
+            for flag, value in (
+                ("--personal", args.personal),
+                ("--draw", args.draw),
+                ("--pool-size", args.pool_size),
+                ("--max-anime", args.max_anime),
+                ("--max-songs", args.max_songs),
+                ("--target-per-tier", args.target_per_tier),
+            )
+            if value is not None
+        ]
+        if conflicts:
+            print(
+                f"--refresh busca de novo todos os animes conhecidos: sem {', '.join(conflicts)}",
+                file=sys.stderr,
+            )
+            return 1
     if draw == "amq" and args.personal:
         # A lista pessoal é só da 1ª carga, com o sorteio do MAL (P253).
         print("--personal é só do sorteio do MAL (a 1ª carga), não do --draw amq", file=sys.stderr)
@@ -905,20 +926,29 @@ def _fetch_anime(args: argparse.Namespace) -> int:
         save=save,
     )
     try:
-        snapshot = fetch_anime.fetch_anime_snapshot(
-            args.fetched_at,
-            fetch_anime.cached_romanizer(),
-            tried,
-            resolved,
-            official,
-            io,
-            personal=personal,
-            target_per_tier=18 if args.target_per_tier is None else args.target_per_tier,
-            max_songs=70 if args.max_songs is None else args.max_songs,
-            max_anime=400 if args.max_anime is None else args.max_anime,
-            pool_size=3000 if args.pool_size is None else args.pool_size,
-            draw=draw,
-        )
+        if args.refresh:
+            from musicle_pipeline.providers.apple_anime import AppleAnimeProvider
+
+            # Os animes dos snapshots já juntos (o mais novo vale), com as faixas casadas.
+            known = AppleAnimeProvider(directory).source().anime
+            snapshot = fetch_anime.refresh_anime_snapshot(
+                args.fetched_at, fetch_anime.cached_romanizer(), known, resolved, official, io
+            )
+        else:
+            snapshot = fetch_anime.fetch_anime_snapshot(
+                args.fetched_at,
+                fetch_anime.cached_romanizer(),
+                tried,
+                resolved,
+                official,
+                io,
+                personal=personal,
+                target_per_tier=18 if args.target_per_tier is None else args.target_per_tier,
+                max_songs=70 if args.max_songs is None else args.max_songs,
+                max_anime=400 if args.max_anime is None else args.max_anime,
+                pool_size=3000 if args.pool_size is None else args.pool_size,
+                draw=draw,
+            )
     except fetch.FetchError as exc:
         # O snapshot parcial já foi gravado depois de cada anime (o `save`): rodar de novo continua.
         kept = f"o que já veio ficou em {out}" if out.exists() else "nada foi gravado"
@@ -1193,6 +1223,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--ranks-file",
         type=Path,
         help="com --anime: o ranking do MAL já baixado (o do robô); nenhum pedido ao MAL",
+    )
+    fetch.add_argument(
+        "--refresh",
+        action="store_true",
+        default=None,  # None, e não False: o _fetch confere as opções do --anime pelo None
+        help="com --anime: busca de novo todos os animes já conhecidos (a temporada e os números"
+        " do quiz do dia, M18), com a faixa de antes; sem sorteio nem teto",
     )
     fetch.add_argument(
         "--fetched-at", type=_fetched_at, required=True, help="agora em UTC: AAAA-MM-DDTHH:MM:SSZ"
