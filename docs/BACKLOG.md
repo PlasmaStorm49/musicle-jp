@@ -73,6 +73,7 @@ Atualizado em 25/10/2026.
 - **ME3.** Esconder a resposta do dia, que está no JSON público, e dividir a agenda por mês.
 - **ME17.** Dividir o catálogo real quando passar de cerca de 1 MB.
 - **ME4.** Gerar o dia no navegador quando a agenda acabar.
+- **ME133 (novo).** O save cresce com cada jogo (uns 0,9 MB por ano para quem joga os 10 diários): compactar a forma antes de 1 MB, sem perder nada. Não é urgente.
 
 **Pipeline, CI e testes**
 - **ME10.** `actionlint` ou `zizmor` na CI.
