@@ -33,6 +33,7 @@ def animethemes_item(mal_id: int = 38000) -> dict:
         "slug": "kimetsu_no_yaiba",
         "title": {"romaji": "Kimetsu no Yaiba", "english": "Demon Slayer", "native": "鬼滅の刃"},
         "year": 2019,
+        "season": "SPRING",  # o enum do GraphQL
         "synonyms": [{"text": "KnY"}, {"text": "Kimetsu no Yaiba"}],
         "series": {"nodes": [{"slug": "kimetsu_no_yaiba", "title": {"romaji": "Kimetsu"}}]},
         "resources": {
@@ -80,6 +81,7 @@ def test_parse_animethemes():
     found = fa.parse_animethemes({"data": {"findAnimeByExternalSite": [animethemes_item()]}})
     anime = found[38000]
     assert (anime.slug, anime.name, anime.year) == ("kimetsu_no_yaiba", "Kimetsu no Yaiba", 2019)
+    assert anime.season == "spring"
     assert anime.synonyms == ["Demon Slayer", "鬼滅の刃", "KnY"]
     assert anime.series == [("kimetsu_no_yaiba", "Kimetsu")]
     op, ed = anime.themes
@@ -91,6 +93,11 @@ def test_parse_animethemes():
         {"animethemes": 9},
     )
     assert (ed.artists, ed.levels) == ([], {"animethemes": 4})
+    # O número exato das playlists, ao lado do nível: o quiz do dia o mostra (M18).
+    assert (op.stats, ed.stats) == ({"animethemes": 950}, {"animethemes": 40})
+    other = {**animethemes_item(38001), "season": "MONSOON"}
+    found = fa.parse_animethemes({"data": {"findAnimeByExternalSite": [other]}})
+    assert found[38001].season is None  # outro valor fica sem temporada
     with pytest.raises(FetchError, match="erro"):
         fa.parse_animethemes({"errors": [{"message": "complexity"}]})
 
@@ -141,7 +148,23 @@ def test_parse_anisongdb_and_merge():
     # O AnimeThemes sem artista (62% das músicas) ganha os do AnisongDB; os níveis se juntam.
     assert by_song["from the edge"].artists == ["FictionJunction", "LiSA"]
     assert by_song["Gurenge"].levels == {"animethemes": 9, "anisongdb": 8}
+    assert by_song["Gurenge"].stats == {"animethemes": 950, "anisongdb": 87.0}  # e os números
     assert by_song["Kamado Tanjirou no Uta"].type == "IN"  # a insert só do AnisongDB entra
+    assert merged.season == "spring"
+
+
+def test_a_strange_amq_rate_keeps_no_number():
+    """A taxa fora de 0 a 100 fica com o nível (que satura), mas sem o número; o NaN e o infinito
+    ficam sem nenhum dos dois."""
+    base = {"linked_ids": {"myanimelist": 7}, "songType": "Opening 1", "songName": "X"}
+    items = [{**base, "songDifficulty": v} for v in (105, float("nan"), float("inf"), 72.46)]
+    found = [(q.levels, q.stats) for q in fa.parse_anisongdb(items)[7]]
+    assert found == [
+        ({"anisongdb": 9}, {}),
+        ({}, {}),
+        ({}, {}),
+        ({"anisongdb": 7}, {"anisongdb": 72.5}),
+    ]
 
 
 def test_parse_personal_list():
@@ -293,6 +316,11 @@ def test_a_full_search_with_the_mal(tmp_path):
     source = AppleAnimeProvider(tmp_path).source()
     catalog = build_anime_catalog("apple", "jp", source, Curation(), [], icon_artists=frozenset())
     assert validate_anime_catalog(catalog, dumps(catalog).encode()) == []
+    # A temporada e os números exatos voltam na leitura (o quiz do dia, M18).
+    (read,) = source.anime
+    gurenge = next(t for t in read.themes if t.song == "Gurenge")
+    assert read.season == "spring"
+    assert gurenge.stats == {"animethemes": Decimal(950), "anisongdb": Decimal("87.0")}
 
 
 def test_the_client_id_never_leaves_the_header(monkeypatch):

@@ -504,6 +504,22 @@ def test_the_snapshot_shape_is_checked():
         anime_from_dict(bad_theme, track_of, "x")
     with pytest.raises(InputError, match="slug"):
         anime_from_dict({**good, "slug": "Com Espaço"}, track_of, "x")
+    # A temporada e os números exatos do quiz do dia (M18): só os das duas fontes, nos limites.
+    assert anime_from_dict({**good, "season": "fall"}, track_of, "x").season == "fall"
+    with pytest.raises(InputError, match="season"):
+        anime_from_dict({**good, "season": "autumn"}, track_of, "x")
+    theme = {"type": "OP", "song": "x", "result": "no-match"}
+    ok = {**theme, "stats": {"anisongdb": 72.5, "animethemes": 312}}
+    (read,) = anime_from_dict({**good, "themes": [ok]}, track_of, "x").themes
+    assert read.stats == {"anisongdb": Decimal("72.5"), "animethemes": Decimal(312)}
+    for stats, message in (
+        ({"anisongdb": 120}, "de 0 a 100"),
+        ({"animethemes": 1.5}, "inteiro"),
+        ({"mal": 8.61}, "stats aceita só"),
+        ({"anisongdb": True}, "número"),
+    ):
+        with pytest.raises(InputError, match=message):
+            anime_from_dict({**good, "themes": [{**theme, "stats": stats}]}, track_of, "x")
 
 
 LOOKUP = {

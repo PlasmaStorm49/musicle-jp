@@ -15,15 +15,17 @@ As fontes (P239, P256), na ordem em que entram:
 3. a dificuldade e os artistas que faltam no AnimeThemes: o AnisongDB, pelo id do MAL;
 4. a música: a busca do artista e o lookup das músicas dele na Apple (P242).
 
-Do que vem de fora, o snapshot guarda só o que o build usa: os títulos, os artistas, as séries, o
-nível de 0 a 9 de cada fonte (P254) e as respostas aparadas da Apple das faixas escolhidas. Nada
-do MAL além do id e do nível (P256). O Client ID vai só no cabeçalho do pedido: nunca em log,
-arquivo ou mensagem de erro.
+Do que vem de fora, o snapshot guarda só o que o build e o quiz do dia usam: os títulos, os
+artistas, as séries, a temporada da estreia, o nível de 0 a 9 de cada fonte (P254), os dois
+números que o quiz mostra (a taxa do AMQ e as playlists de cada tema; o usuário, 25/10/2026) e as
+respostas aparadas da Apple das faixas escolhidas. Nada do MAL além do id e do nível (P256). O
+Client ID vai só no cabeçalho do pedido: nunca em log, arquivo ou mensagem de erro.
 """
 
 from __future__ import annotations
 
 import json
+import math
 import re
 import unicodedata
 import urllib.request
@@ -37,6 +39,7 @@ from urllib.parse import urlencode
 
 from musicle_pipeline.anime import (
     MODES,
+    SEASONS,
     THEME_TYPES,
     TIERS,
     Anime,
@@ -116,6 +119,7 @@ query AnimeByMal($ids: [Int!]) {
     slug
     title { romaji english native }
     year
+    season
     synonyms { text }
     series { nodes { slug title { romaji } } }
     resources { nodes { site externalId } }
@@ -184,6 +188,8 @@ class SourceTheme:
     song: str
     artists: list[str]
     levels: dict[str, int] = field(default_factory=dict)
+    # Os números exatos que o quiz do dia mostra (M18): a taxa do AMQ, em %, e as playlists.
+    stats: dict[str, float | int] = field(default_factory=dict)
 
 
 @dataclass
@@ -195,6 +201,7 @@ class SourceAnime:
     year: int | None
     series: list[tuple[str, str]]
     themes: list[SourceTheme]
+    season: str | None = None  # uma de SEASONS (o enum do AnimeThemes, em minúsculas)
 
 
 _SLUG = re.compile(r"[a-z0-9_-]+")
@@ -275,6 +282,7 @@ def parse_animethemes(data: object) -> dict[int, SourceAnime]:
                     song=song_title,
                     artists=artists,
                     levels={"animethemes": tracks_level(max(counts))} if counts else {},
+                    stats={"animethemes": max(counts)} if counts else {},
                 )
             )
         year = item.get("year")
@@ -287,8 +295,17 @@ def parse_animethemes(data: object) -> dict[int, SourceAnime]:
                 year=year if isinstance(year, int) else None,
                 series=series,
                 themes=themes,
+                season=_season(item.get("season")),
             )
     return found
+
+
+def _season(value: object) -> str | None:
+    """O enum do GraphQL do AnimeThemes (WINTER, SPRING, SUMMER, FALL) → uma de SEASONS; outro
+    valor fica sem temporada."""
+    if isinstance(value, str) and value.lower() in SEASONS:
+        return value.lower()
+    return None
 
 
 _SONG_TYPE = re.compile(r"(Opening|Ending)\s*(\d+)?|Insert Song", re.IGNORECASE)
@@ -316,19 +333,20 @@ def parse_anisongdb(items: object) -> dict[int, list[SourceTheme]]:
             for n in (_text(x) for x in (a.get("names") or [])[:1])
             if n
         ] or [n for n in [_text(item.get("songArtist"))] if n]
-        difficulty = item.get("songDifficulty")
-        levels = (
-            {"anisongdb": anisongdb_level(difficulty)}
-            if isinstance(difficulty, int | float) and not isinstance(difficulty, bool)
-            else {}
-        )
+        rate = _rate(item.get("songDifficulty"))
+        if rate is not None and not math.isfinite(rate):
+            rate = None  # o NaN e o infinito: nem nível, nem número
+        # A taxa fora de 0 a 100 fica com o nível (ele satura no 0 e no 9), mas sem o número.
+        exact = rate is not None and 0 <= rate <= 100
         out.setdefault(mal_id, []).append(
             SourceTheme(
                 type=kind,
                 sequence=int(match.group(2)) if match.group(2) else None,
                 song=song,
                 artists=names,
-                levels=levels,
+                levels={"anisongdb": anisongdb_level(rate)} if rate is not None else {},
+                # A taxa com 1 casa, como o AMQ mostra: o quiz do dia a exibe em % (M18).
+                stats={"anisongdb": round(rate, 1)} if exact else {},
             )
         )
     return out
@@ -373,6 +391,7 @@ def merge_sources(anime: SourceAnime, quiz: Sequence[SourceTheme]) -> SourceAnim
                 song=t.song,
                 artists=t.artists or other.artists,
                 levels={**t.levels, **other.levels},
+                stats={**t.stats, **other.stats},
             )
         themes.append(t)
     known = {_song_key(t) for t in themes}
@@ -388,6 +407,7 @@ def merge_sources(anime: SourceAnime, quiz: Sequence[SourceTheme]) -> SourceAnim
         year=anime.year,
         series=anime.series,
         themes=themes,
+        season=anime.season,
     )
 
 
@@ -847,6 +867,7 @@ def _anime_record(anime: SourceAnime, level: int | None) -> JSON:
         "name": anime.name,
         "synonyms": anime.synonyms,
         "year": anime.year,
+        "season": anime.season,
         "series": [{"slug": s, "name": n} for s, n in anime.series],
         "levels": {} if level is None else {"mal": level},
         "themes": [],
@@ -966,6 +987,7 @@ def _search(
                 series=tuple(source.series),
                 levels=record["levels"],
                 themes=(),
+                season=source.season,
             )
             try:
                 entries = [_theme(theme, anime, apple, romanize) for theme in source.themes]
@@ -1007,6 +1029,7 @@ def _theme(
         "song": theme.song,
         "artists": theme.artists,
         "levels": theme.levels,
+        "stats": theme.stats,
         "track": None,
     }
     ids = [i for name in theme.artists for i in apple.artists_for(name)]
