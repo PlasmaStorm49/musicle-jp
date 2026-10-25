@@ -28,6 +28,7 @@ declare global {
       readonly offsets: readonly number[];
       readonly pans: readonly number[];
       readonly seconds: number;
+      readonly from: number;
     }[];
   }
 }
@@ -243,12 +244,12 @@ test("Misturadas: a barra leva a mistura ao ponto do liberado, também depois do
   // A barra tem 30 s, e os 4 do 1º trecho estão liberados: o segundo 2.
   await slider.click({ position: { x: box.width * (2 / 30), y: box.height / 2 } });
   await expect.poll(mixes).toBe(2);
+  // O trecho inteiro vai ao motor (o volume se iguala por ele), e o começo, à parte.
   const mix = await page.evaluate(() => window.__musicleMixLog?.at(-1));
-  expect(mix?.seconds).toBeCloseTo(2, 0);
+  expect(mix?.offsets).toEqual(before);
+  expect(mix?.seconds).toBe(4);
+  expect(mix?.from).toBeCloseTo(2, 0);
   expect(mix?.pans).toEqual([-0.8, 0.8]);
-  for (const [i, offset] of (mix?.offsets ?? []).entries()) {
-    expect(offset).toBeCloseTo((before[i] ?? 0) + 2, 0);
-  }
   // A parte ainda fechada não toca nada.
   await slider.click({ position: { x: box.width * (20 / 30), y: box.height / 2 } });
   await page.waitForTimeout(300);

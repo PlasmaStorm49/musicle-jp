@@ -207,10 +207,15 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     const durations = buffers.map((b, i) =>
       Math.max(0, Math.min(seconds, b.duration - (offsets[i] ?? 0))),
     );
+    // O igualar mede o trecho inteiro, também quando o som começa no meio dele (a barra, P224).
     const levels = options.normalize
       ? mixGains(buffers.map((b, i) => this.#energy(b, offsets[i] ?? 0, durations[i] ?? 0)))
       : buffers.map(() => mixHeadroom(buffers.length));
-    const length = Math.max(0, ...durations);
+    const asked = options.from ?? 0;
+    const from = Number.isFinite(asked) ? Math.max(0, asked) : 0;
+    const starts = offsets.map((offset) => offset + from);
+    const plays = durations.map((duration) => Math.max(0, duration - from));
+    const length = Math.max(0, ...plays);
 
     // A soma das vozes passa por um limitador antes do mestre: a folga de 1/√n segura a energia,
     // mas não o pico (n prévias no talo somam até √n vezes o de uma).
@@ -255,9 +260,9 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     this.#mix = mix;
     const t0 = ctx.currentTime + START_DELAY;
     for (const [i, voice] of voices.entries()) {
-      const duration = durations[i] ?? 0;
+      const duration = plays[i] ?? 0;
       apply(voice.envelope.gain, playbackEnvelope(t0, duration));
-      voice.source.start(t0, offsets[i] ?? 0, duration); // todas no mesmo t0: alinhadas
+      voice.source.start(t0, starts[i] ?? 0, duration); // todas no mesmo t0: alinhadas
     }
     const live = () => this.#mix === mix;
     const elapsed = () => Math.min(Math.max(ctx.currentTime - t0, 0), length);

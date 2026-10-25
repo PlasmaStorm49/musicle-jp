@@ -57,6 +57,12 @@ export type MixOptions = {
   readonly normalize?: boolean;
   /** Segura os picos da soma com um limitador antes do mestre (padrão: sim). */
   readonly limit?: boolean;
+  /**
+   * O ponto do trecho de onde o som começa, em segundos (a barra, P224). O igualar mede o trecho
+   * inteiro, e não só o que sobra: o clique soa igual àquele momento da mistura tocada do começo.
+   * O fim não muda.
+   */
+  readonly from?: number;
 };
 
 /** A mistura tocando: o Playback de sempre, e o ganho e o lado de cada prévia, ao vivo. */
@@ -124,6 +130,8 @@ export type MixLog = {
   readonly offsets: readonly number[];
   readonly pans: readonly number[];
   readonly seconds: number;
+  /** O ponto do trecho de onde a mistura começou (`MixOptions.from`). */
+  readonly from: number;
   readonly engine: EngineName;
 };
 

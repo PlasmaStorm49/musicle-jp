@@ -171,7 +171,7 @@ describe("MixedRoundView (M17)", () => {
         { url: "audio/2.wav", offset: 0, pan: 0 },
       ],
       4,
-      { normalize: true, limit: true },
+      { normalize: true, limit: true, from: 0 },
     );
     expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
   });
@@ -228,14 +228,14 @@ describe("MixedRoundView (M17)", () => {
         key: "ArrowRight",
       });
     });
-    // Do segundo 1 ao fim do trecho de 4 s, cada uma ainda no seu lado.
+    // O trecho inteiro de 4 s, que o motor iguala, e o som do segundo 1, cada uma no seu lado.
     expect(engine.playMix).toHaveBeenLastCalledWith(
       [
-        { url: "audio/1.wav", offset: 1, pan: -0.8 },
-        { url: "audio/2.wav", offset: 1, pan: 0.8 },
+        { url: "audio/1.wav", offset: 0, pan: -0.8 },
+        { url: "audio/2.wav", offset: 0, pan: 0.8 },
       ],
-      3,
-      { normalize: true, limit: true },
+      4,
+      { normalize: true, limit: true, from: 1 },
     );
     expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
   });

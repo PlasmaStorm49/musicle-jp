@@ -250,7 +250,8 @@ function MixPlayer({
     if (current.current && separated) panApart(current.current, urls.length);
   }, [separated, urls.length]);
 
-  // Do ponto `from` da barra (P224) até o fim do liberado: a etapa e os pontos não mudam.
+  // Do ponto `from` da barra (P224) até o fim do liberado: a etapa e os pontos não mudam. O motor
+  // recebe o trecho inteiro e o ponto à parte, para igualar o volume pelo trecho inteiro.
   function play(from = 0) {
     if (busy) return;
     // O <audio> de reserva não mistura: sem o Web Audio, a rodada é anulada.
@@ -261,17 +262,17 @@ function MixPlayer({
     // Todas as prévias da rodada: o `busy` já garante que nenhuma falta.
     const tracks = urls.map((url, i) => ({
       url: url ?? "",
-      offset: (offsets[i] ?? 0) + from,
+      offset: offsets[i] ?? 0,
       pan: separated ? (pans[i] ?? 0) : 0,
     }));
     const id = ++playId.current;
     const mine = () => alive.current && playId.current === id;
-    const seconds = secondsAt(stage, MIXED_STAGES) - from;
+    const seconds = secondsAt(stage, MIXED_STAGES);
     setStatus("loading");
     current.current = null;
     // O playMix destrava o áudio na hora, dentro deste clique (regra 9).
     engine
-      .playMix(tracks, seconds, { normalize: true, limit: true })
+      .playMix(tracks, seconds, { normalize: true, limit: true, from })
       .then((playback) => {
         if (!mine()) return;
         if (!playback) {
