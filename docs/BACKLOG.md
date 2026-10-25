@@ -76,6 +76,7 @@ Atualizado em 25/10/2026.
 - **ME133 (novo).** O save cresce com cada jogo (uns 0,9 MB por ano para quem joga os 10 diários): compactar a forma antes de 1 MB, sem perder nada. Não é urgente.
 
 **Pipeline, CI e testes**
+- **ME134 (novo).** Um plano B sem o MAL para o Anime e o quiz, caso a API caia: a fonte de reserva de cada dado e o que o robô faz quando o MAL falha.
 - **ME10.** `actionlint` ou `zizmor` na CI.
 - **ME12.** A escolha da base do `schedule-check` em Python, com teste.
 - **ME15.** Um teste rápido contra o `vite preview`, para pegar caminho absoluto no código.
