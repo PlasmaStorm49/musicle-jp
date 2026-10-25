@@ -14,6 +14,7 @@ from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
 from musicle_pipeline.anime import anime_chances, build_anime_catalog, chart_artists
+from musicle_pipeline.anime_latin import latin_file, load_latin
 from musicle_pipeline.anime_mixed import KIND as MIXED_KIND
 from musicle_pipeline.anime_mixed import (
     generate_mixed,
@@ -121,7 +122,7 @@ def _build(args: argparse.Namespace) -> int:
             file=sys.stderr,
         )
     aliases = load_aliases(resolve(args.aliases) if args.aliases else paths.aliases)
-    curation = Curation(romaji=romaji, aliases=aliases)
+    curation = Curation(romaji=romaji, aliases=aliases, anime_latin=_anime_latin_of(args.provider))
     notes: list[str] = []
     catalog = build_catalog(snapshots, provider.name, provider.storefront, curation, notes)
     for message in notes:
@@ -162,9 +163,31 @@ def _validate(args: argparse.Namespace) -> int:
     return _report(spath, problems)
 
 
+def _anime_latin_of(provider: str) -> Mapping[str, str]:
+    """O latin.json do provedor, para o build e o build-artists. O robô refaz o catálogo do
+    Anime sem ele: quando o arquivo é de outra versão do catálogo, o aviso lembra de refazê-lo
+    (a saída não muda)."""
+    paths = anime_paths(provider)
+    latin = load_latin(paths.latin, provider)
+    published = paths.public_dir / "catalog.json"
+    if latin.catalog_version is not None and published.exists():
+        current = read_json(published)["catalogVersion"]
+        if current != latin.catalog_version:
+            print(
+                f"aviso: o {paths.latin} saiu do catálogo do Anime {latin.catalog_version}, e o "
+                f"publicado é o {current}: rode o anime-latin, o build e o build-artists",
+                file=sys.stderr,
+            )
+    return latin.tracks
+
+
 def _artist_curation(provider: str) -> Curation:
     paths = artist_paths(provider)
-    return Curation(romaji=load_cache(paths.romaji), aliases=load_aliases(paths.aliases))
+    return Curation(
+        romaji=load_cache(paths.romaji),
+        aliases=load_aliases(paths.aliases),
+        anime_latin=_anime_latin_of(provider),
+    )
 
 
 def _build_artists(args: argparse.Namespace) -> int:
@@ -264,6 +287,30 @@ def _anime_chances(args: argparse.Namespace) -> int:
     changed = write_if_changed(out, dumps(data))
     print(f"{out}: {len(data)} música(s)", end="")
     print("" if changed else "; sem mudanças")
+    return 0
+
+
+def _anime_latin(args: argparse.Namespace) -> int:
+    paths = anime_paths(args.provider)
+    source = resolve(args.catalog) if args.catalog else paths.public_dir / "catalog.json"
+    if not source.exists():
+        print(f"{source} não existe: rode o build-anime antes", file=sys.stderr)
+        return 1
+    catalog = read_json(source)
+    problems = validate_anime_catalog(catalog, source.read_bytes())
+    if not problems and catalog["provider"] != args.provider:
+        problems = [f"o catálogo é do provedor {catalog['provider']}, não do {args.provider}"]
+    if problems:
+        print(f"{source}: catálogo do Anime inválido", *problems, sep="\n  ", file=sys.stderr)
+        return 1
+    data, notes = latin_file(catalog)
+    for message in notes:
+        print(f"aviso: {message}", file=sys.stderr)
+    out = resolve(args.out) if args.out else paths.latin
+    changed = write_if_changed(out, dumps(data))
+    print(f"{out}: {len(data['tracks'])} título(s) do Anime", end="")
+    # Os Hits e os artistas leem este arquivo: os catálogos deles ficariam fora do "em dia".
+    print(f"; rode o build e o build-artists do {args.provider}" if changed else "; sem mudanças")
     return 0
 
 
@@ -998,6 +1045,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     anime.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
     anime.add_argument("--out", type=Path, help="catalog.json de saída (padrão: o do provedor)")
     anime.set_defaults(func=_build_anime)
+
+    latin = sub.add_parser(
+        "anime-latin",
+        help="extrai do catálogo do Anime o latino das músicas, que os Hits e os artistas leem",
+    )
+    latin.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
+    latin.add_argument("--catalog", type=Path, help="catalog.json do Anime (padrão: o publicado)")
+    latin.add_argument("--out", type=Path, help="latin.json de saída (padrão: o do provedor)")
+    latin.set_defaults(func=_anime_latin)
 
     chances = sub.add_parser(
         "anime-chances",

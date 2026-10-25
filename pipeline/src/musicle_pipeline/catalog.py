@@ -8,7 +8,8 @@ os snapshots, o cache de romaji e a curadoria manual.
 from __future__ import annotations
 
 import hashlib
-from collections.abc import Sequence
+import unicodedata as ud
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field, replace
 from datetime import date
 from decimal import ROUND_HALF_EVEN, Decimal, localcontext
@@ -23,7 +24,14 @@ from musicle_pipeline.models import (
     RawTrack,
     check_snapshots,
 )
-from musicle_pipeline.normalize import display, needs_romaji, search_keys, song_key
+from musicle_pipeline.normalize import (
+    display,
+    needs_romaji,
+    normalize,
+    search_keys,
+    song_key,
+    strip_version_suffix,
+)
 from musicle_pipeline.romaji_cache import RomajiCache, album_text, artist_text, track_text
 from musicle_pipeline.similarity import album_similar
 
@@ -34,12 +42,39 @@ MIN_PREVIEW_SEC = 16  # o trecho mais longo do jogo tem 16 s
 POPULARITY_HALF_LIFE_WEEKS = 8
 
 
+def anime_latin_key(title: str, artist_id: str) -> str:
+    """A chave de uma música no latin.json do Anime: o título inteiro normalizado e o 1º
+    artista. O título inteiro, e não o title_key: o latino do Anime de "X" não serve sozinho a
+    "X (TV Size)", que perderia o sufixo (o `Curation.anime_latin_of` o devolve)."""
+    return f"{normalize(title)}|{artist_id}"
+
+
 @dataclass(frozen=True)
 class Curation:
-    """Tudo que vem de fora dos snapshots: romaji gerado e correções manuais."""
+    """Tudo que vem de fora dos snapshots: romaji gerado, correções manuais e, nos Hits e nos
+    artistas, o latino da mesma música no Anime."""
 
     romaji: RomajiCache = field(default_factory=RomajiCache)
     aliases: Aliases = field(default_factory=Aliases)
+    # O latino feito por pessoas (o do AnimeThemes ou o manual) das músicas do Anime, pela
+    # anime_latin_key: o anime-latin o extrai do catálogo do Anime (o usuário, 24/10/2026). Entra
+    # como o latino do provedor, depois do da Apple, e na busca.
+    anime_latin: Mapping[str, str] = field(default_factory=dict)
+
+    def anime_latin_of(self, title: str, artist_id: str) -> str | None:
+        """O latino da mesma música no Anime. Com um sufixo de versão que já é latino ("X (TV
+        Size)"), o de "X" com o sufixo, para as versões da mesma música não divergirem; com kana
+        ou kanji no sufixo ("X (feat. ナナ)"), nenhum: o do Anime ficaria pela metade."""
+        found = self.anime_latin.get(anime_latin_key(title, artist_id))
+        if found is not None or not self.anime_latin:
+            return found
+        whole = ud.normalize("NFKC", title).strip()
+        base = strip_version_suffix(title)
+        suffix = whole[len(base) :] if whole.startswith(base) else ""
+        found = self.anime_latin.get(anime_latin_key(base, artist_id))
+        if found is None or not suffix or needs_romaji(suffix):
+            return None
+        return found + suffix
 
     def latin(
         self, kind: str, entity_id: str, text: str, from_provider: str | None
@@ -126,7 +161,11 @@ def album_record(provider: str, t: RawTrack, cur: Curation) -> JSON:
     shown = artist_display_of(t) if single else _joined(artists)
     album_id = entity_id(provider, "al", al.provider_id)
     text = album_text(al.title)
-    latin, source = cur.latin("albums", album_id, text, al.title_latin)
+    # O single leva também o latino da faixa no Anime: a opção do Normal (o álbum) e a revelação
+    # (a faixa) mostrariam dois nomes.
+    first = entity_id(provider, "ar", artists[0].provider_id)
+    anime = cur.anime_latin_of(text, first) if single else None
+    latin, source = cur.latin("albums", album_id, text, al.title_latin or anime)
     return {
         "id": album_id,
         "title": display(al.title),
@@ -181,7 +220,8 @@ def _track_record(
     artist_ids = [entity_id(provider, "ar", a.provider_id) for a in t.artists]
     album = albums[entity_id(provider, "al", t.album.provider_id)]
     text = track_text(t.title)
-    latin, source = cur.latin("tracks", track_id, text, t.title_latin)
+    anime = cur.anime_latin_of(text, artist_ids[0])
+    latin, source = cur.latin("tracks", track_id, text, t.title_latin or anime)
     preview = (
         None
         if t.preview_url is None
@@ -226,7 +266,9 @@ def _track_record(
             preview, album["artworkUrl"], blocked=cur.aliases.get("tracks", track_id).block
         ),
         "search": {
-            "title": search_keys(cur.search_texts("tracks", track_id, text, t.title_latin)),
+            "title": search_keys(
+                [*cur.search_texts("tracks", track_id, text, t.title_latin), anime]
+            ),
             "artist": search_keys(artist_texts),
         },
     }

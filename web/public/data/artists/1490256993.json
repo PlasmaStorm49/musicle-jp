@@ -98,7 +98,7 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9e/ab/2c/9eab2c24-8289-1bd7-548d-e6b871fcf169/195497732630.jpg/300x300bb.jpg",
       "id": "apple:al:1544083976",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2021-01-06",
       "title": "怪物 - Single",
       "titleLatin": "Kaibutsu",
@@ -111,10 +111,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/fc/2a/2a/fc2a2ae6-f971-0b82-efe7-fad4981efe68/195497842889.jpg/300x300bb.jpg",
       "id": "apple:al:1547210421",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2021-01-20",
       "title": "優しい彗星 - Single",
-      "titleLatin": "Yasashii suisei",
+      "titleLatin": "Yasashii Suisei",
       "type": "single"
     },
     {
@@ -293,7 +293,7 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/d5/fb/70/d5fb7086-9fbe-feca-215e-da448bcf4596/197189862939.jpg/300x300bb.jpg",
       "id": "apple:al:1707001460",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2023-09-29",
       "title": "勇者 - Single",
       "titleLatin": "Yuusha",
@@ -763,7 +763,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1544083979",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.9459,
       "preview": {
         "durationSec": 30,
@@ -799,7 +799,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1547210425",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.6757,
       "preview": {
         "durationSec": 30,
@@ -820,7 +820,7 @@
       "titleKeys": [
         "優しい彗星"
       ],
-      "titleLatin": "Yasashii suisei"
+      "titleLatin": "Yasashii Suisei"
     },
     {
       "albumId": "apple:al:1564444109",
@@ -1309,7 +1309,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1707001466",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.8378,
       "preview": {
         "durationSec": 30,

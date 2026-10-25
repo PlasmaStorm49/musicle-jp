@@ -7,7 +7,7 @@
       ],
       "artworkUrl": "fixtures/art/al01.svg",
       "id": "fixture:al:al01",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2024-03-01",
       "similar": [
         "fixture:al:al05",
@@ -22,7 +22,7 @@
         "fixture:al:al20"
       ],
       "title": "夜明けのメロディ - Single",
-      "titleLatin": "Yoake no merodi",
+      "titleLatin": "Yoake no Melody",
       "type": "single"
     },
     {
@@ -57,7 +57,7 @@
       ],
       "artworkUrl": "fixtures/art/al03.svg",
       "id": "fixture:al:al03",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2024-04-10",
       "similar": [
         "fixture:al:al33",
@@ -72,7 +72,7 @@
         "fixture:al:al15"
       ],
       "title": "夜明けのメロディ (TV Size) - Single",
-      "titleLatin": "Yoake no merodi (TV Size)",
+      "titleLatin": "Yoake no Melody (TV Size)",
       "type": "single"
     },
     {
@@ -108,7 +108,7 @@
       ],
       "artworkUrl": "fixtures/art/al05.svg",
       "id": "fixture:al:al05",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2025-02-14",
       "similar": [
         "fixture:al:al01",
@@ -123,7 +123,7 @@
         "fixture:al:al20"
       ],
       "title": "ふたりの約束 - Single",
-      "titleLatin": "Futari no yakusoku",
+      "titleLatin": "Futari no Yakusoku",
       "type": "single"
     },
     {
@@ -133,7 +133,7 @@
       ],
       "artworkUrl": "fixtures/art/al06.svg",
       "id": "fixture:al:al06",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2025-08-27",
       "similar": [
         "fixture:al:al14",
@@ -148,7 +148,7 @@
         "fixture:al:al33"
       ],
       "title": "坂道の向こう - Single",
-      "titleLatin": "Sakamichi no mukou",
+      "titleLatin": "Sakamichi no Mukou",
       "type": "single"
     },
     {
@@ -158,7 +158,7 @@
       ],
       "artworkUrl": "fixtures/art/al07.svg",
       "id": "fixture:al:al07",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-09-30",
       "similar": [
         "fixture:al:al26",
@@ -173,7 +173,7 @@
         "fixture:al:al33"
       ],
       "title": "秋風のワルツ - Single",
-      "titleLatin": "Akikaze no warutsu",
+      "titleLatin": "Akikaze no Waltz",
       "type": "single"
     },
     {
@@ -183,7 +183,7 @@
       ],
       "artworkUrl": "fixtures/art/al08.svg",
       "id": "fixture:al:al08",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-07-20",
       "similar": [
         "fixture:al:al10",
@@ -208,7 +208,7 @@
       ],
       "artworkUrl": "fixtures/art/al09-v2.svg",
       "id": "fixture:al:al09",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-05-13",
       "similar": [
         "fixture:al:al01",
@@ -223,7 +223,7 @@
         "fixture:al:al33"
       ],
       "title": "透明なシグナル - Single",
-      "titleLatin": "Toumei na shigunaru",
+      "titleLatin": "Toumei na Signal",
       "type": "single"
     },
     {
@@ -408,7 +408,7 @@
       ],
       "artworkUrl": "fixtures/art/al17.svg",
       "id": "fixture:al:al17",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2025-12-03",
       "similar": [
         "fixture:al:al24",
@@ -423,7 +423,7 @@
         "fixture:al:al04"
       ],
       "title": "星に願いを♪ - Single",
-      "titleLatin": "Hoshi ni negai wo",
+      "titleLatin": "Hoshi ni Negai wo",
       "type": "single"
     },
     {
@@ -483,7 +483,7 @@
       ],
       "artworkUrl": "fixtures/art/al20.svg",
       "id": "fixture:al:al20",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2024-07-07",
       "similar": [
         "fixture:al:al04",
@@ -498,7 +498,7 @@
         "fixture:al:al16"
       ],
       "title": "東京ライツ - Single",
-      "titleLatin": "Tokyo raitsu",
+      "titleLatin": "Tokyo Lights",
       "type": "single"
     },
     {
@@ -583,7 +583,7 @@
       ],
       "artworkUrl": "fixtures/art/al24.svg",
       "id": "fixture:al:al24",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-08-05",
       "similar": [
         "fixture:al:al22",
@@ -598,7 +598,7 @@
         "fixture:al:al14"
       ],
       "title": "ガラス越しの光 - Single",
-      "titleLatin": "Garasugoshi no hikari",
+      "titleLatin": "Garasugoshi no Hikari",
       "type": "single"
     },
     {
@@ -608,7 +608,7 @@
       ],
       "artworkUrl": "fixtures/art/al25.svg",
       "id": "fixture:al:al25",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2020-02-26",
       "similar": [
         "fixture:al:al13",
@@ -623,7 +623,7 @@
         "fixture:al:al10"
       ],
       "title": "猫背のブルース - Single",
-      "titleLatin": "Nekoze no Buruusu",
+      "titleLatin": "Nekoze no Blues",
       "type": "single"
     },
     {
@@ -633,7 +633,7 @@
       ],
       "artworkUrl": "fixtures/art/al26.svg",
       "id": "fixture:al:al26",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-09-09",
       "similar": [
         "fixture:al:al07",
@@ -648,7 +648,7 @@
         "fixture:al:al33"
       ],
       "title": "メモリーレーン - Single",
-      "titleLatin": "Memorii reen",
+      "titleLatin": "Memory Lane",
       "type": "single"
     },
     {
@@ -658,7 +658,7 @@
       ],
       "artworkUrl": "fixtures/art/al27.svg",
       "id": "fixture:al:al27",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-03-18",
       "similar": [
         "fixture:al:al21",
@@ -673,7 +673,7 @@
         "fixture:al:al14"
       ],
       "title": "制服とサイダー - Single",
-      "titleLatin": "Seifuku to saidaa",
+      "titleLatin": "Seifuku to Cider",
       "type": "single"
     },
     {
@@ -683,7 +683,7 @@
       ],
       "artworkUrl": "fixtures/art/al28.svg",
       "id": "fixture:al:al28",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-06-03",
       "similar": [
         "fixture:al:al27",
@@ -698,7 +698,7 @@
         "fixture:al:al14"
       ],
       "title": "ゼロ距離Love - Single",
-      "titleLatin": "Zero kyori Love",
+      "titleLatin": "Zero Kyori Love",
       "type": "single"
     },
     {
@@ -733,7 +733,7 @@
       ],
       "artworkUrl": "fixtures/art/al30.svg",
       "id": "fixture:al:al30",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2025-11-05",
       "similar": [
         "fixture:al:al31",
@@ -748,7 +748,7 @@
         "fixture:al:al04"
       ],
       "title": "真夜中の観覧車 - Single",
-      "titleLatin": "Mayonaka no kanransha",
+      "titleLatin": "Mayonaka no Kanransha",
       "type": "single"
     },
     {
@@ -758,7 +758,7 @@
       ],
       "artworkUrl": "fixtures/art/al31.svg",
       "id": "fixture:al:al31",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-08-19",
       "similar": [
         "fixture:al:al30",
@@ -773,7 +773,7 @@
         "fixture:al:al14"
       ],
       "title": "Shibuya 24時 - Single",
-      "titleLatin": "Shibuya 24 ji",
+      "titleLatin": "Shibuya 24-ji",
       "type": "single"
     },
     {
@@ -783,7 +783,7 @@
       ],
       "artworkUrl": "fixtures/art/al32.svg",
       "id": "fixture:al:al32",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-09-16",
       "similar": [
         "fixture:al:al09",
@@ -798,7 +798,7 @@
         "fixture:al:al33"
       ],
       "title": "ハローグッバイ - Single",
-      "titleLatin": "Haroo gubbai",
+      "titleLatin": "Hello Goodbye",
       "type": "single"
     },
     {
@@ -808,7 +808,7 @@
       ],
       "artworkUrl": "fixtures/art/al33.svg",
       "id": "fixture:al:al33",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-07-01",
       "similar": [
         "fixture:al:al20",
@@ -913,7 +913,7 @@
       "nameLatin": "Nana"
     }
   ],
-  "catalogVersion": "2026-10-05.04565998",
+  "catalogVersion": "2026-10-05.9836b431",
   "generatedAt": "2026-10-05T00:00:00Z",
   "provider": "fixture",
   "schemaVersion": 2,
@@ -964,7 +964,7 @@
       "explicit": false,
       "id": "fixture:tr:tr01",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.9,
       "preview": {
         "durationSec": 30,
@@ -986,7 +986,7 @@
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
       "storeUrl": null,
       "title": "夜明けのメロディ",
-      "titleLatin": "Yoake no merodi"
+      "titleLatin": "Yoake no Melody"
     },
     {
       "albumId": "fixture:al:al02",
@@ -1010,7 +1010,7 @@
       "explicit": false,
       "id": "fixture:tr:tr02",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.7667,
       "preview": {
         "durationSec": 30,
@@ -1032,7 +1032,7 @@
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
       "storeUrl": null,
       "title": "夜明けのメロディ",
-      "titleLatin": "Yoake no merodi"
+      "titleLatin": "Yoake no Melody"
     },
     {
       "albumId": "fixture:al:al03",
@@ -1056,7 +1056,7 @@
       "explicit": false,
       "id": "fixture:tr:tr03",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.4585,
       "preview": {
         "durationSec": 30,
@@ -1078,7 +1078,7 @@
       "songKey": "夜明けのめろでぃ|fixture:ar:ar01",
       "storeUrl": null,
       "title": "夜明けのメロディ (TV Size)",
-      "titleLatin": "Yoake no merodi (TV Size)"
+      "titleLatin": "Yoake no Melody (TV Size)"
     },
     {
       "albumId": "fixture:al:al04",
@@ -1149,7 +1149,7 @@
       "explicit": false,
       "id": "fixture:tr:tr05",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.9333,
       "preview": {
         "durationSec": 30,
@@ -1173,7 +1173,7 @@
       "songKey": "ふたりの約束|fixture:ar:ar02",
       "storeUrl": null,
       "title": "ふたりの約束",
-      "titleLatin": "Futari no yakusoku"
+      "titleLatin": "Futari no Yakusoku"
     },
     {
       "albumId": "fixture:al:al06",
@@ -1197,7 +1197,7 @@
       "explicit": false,
       "id": "fixture:tr:tr06",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.7007,
       "preview": {
         "durationSec": 30,
@@ -1219,7 +1219,7 @@
       "songKey": "坂道の向こう|fixture:ar:ar10",
       "storeUrl": null,
       "title": "坂道の向こう",
-      "titleLatin": "Sakamichi no mukou"
+      "titleLatin": "Sakamichi no Mukou"
     },
     {
       "albumId": "fixture:al:al07",
@@ -1243,7 +1243,7 @@
       "explicit": false,
       "id": "fixture:tr:tr07",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 1.0,
       "preview": {
         "durationSec": 30,
@@ -1266,7 +1266,7 @@
       "songKey": "秋風のわるつ|fixture:ar:ar09",
       "storeUrl": null,
       "title": "秋風のワルツ",
-      "titleLatin": "Akikaze no warutsu"
+      "titleLatin": "Akikaze no Waltz"
     },
     {
       "albumId": "fixture:al:al08",
@@ -1290,7 +1290,7 @@
       "explicit": false,
       "id": "fixture:tr:tr08",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.6,
       "preview": {
         "durationSec": 30,
@@ -1336,7 +1336,7 @@
       "explicit": false,
       "id": "fixture:tr:tr09",
       "isrc": "JPZZ02600009",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.8667,
       "preview": {
         "durationSec": 30,
@@ -1357,7 +1357,7 @@
       "songKey": "透明なしぐなる|fixture:ar:ar08",
       "storeUrl": null,
       "title": "透明なシグナル",
-      "titleLatin": "Toumei na shigunaru"
+      "titleLatin": "Toumei na Signal"
     },
     {
       "albumId": "fixture:al:al10",
@@ -1381,7 +1381,7 @@
       "explicit": true,
       "id": "fixture:tr:tr10",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.5606,
       "preview": {
         "durationSec": 30,
@@ -1598,7 +1598,7 @@
       "explicit": false,
       "id": "fixture:tr:tr15",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.6725,
       "preview": {
         "durationSec": 30,
@@ -1643,7 +1643,7 @@
       "explicit": false,
       "id": "fixture:tr:tr16",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.6447,
       "preview": {
         "durationSec": 30,
@@ -1666,7 +1666,7 @@
       "songKey": "がらすの靴|fixture:ar:ar05",
       "storeUrl": null,
       "title": "ガラスの靴",
-      "titleLatin": "Garasu no kutsu"
+      "titleLatin": "Garasu no Kutsu"
     },
     {
       "albumId": "fixture:al:al16",
@@ -1733,7 +1733,7 @@
       "explicit": false,
       "id": "fixture:tr:tr18",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.1401,
       "preview": {
         "durationSec": 30,
@@ -1755,7 +1755,7 @@
       "songKey": "あいのうた|fixture:ar:ar05",
       "storeUrl": null,
       "title": "ｱｲﾉｳﾀ",
-      "titleLatin": "Aino uta"
+      "titleLatin": "Ai no Uta"
     },
     {
       "albumId": "fixture:al:al17",
@@ -1779,7 +1779,7 @@
       "explicit": false,
       "id": "fixture:tr:tr19",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.2333,
       "preview": {
         "durationSec": 30,
@@ -1801,7 +1801,7 @@
       "songKey": "星に願いを|fixture:ar:ar04",
       "storeUrl": null,
       "title": "星に願いを♪",
-      "titleLatin": "Hoshi ni negai wo"
+      "titleLatin": "Hoshi ni Negai wo"
     },
     {
       "albumId": "fixture:al:al18",
@@ -1963,7 +1963,7 @@
       "explicit": false,
       "id": "fixture:tr:tr23",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.0917,
       "preview": {
         "durationSec": 30,
@@ -1986,7 +1986,7 @@
       "songKey": "開幕べる|fixture:ar:ar02",
       "storeUrl": null,
       "title": "開幕ベル",
-      "titleLatin": "Kaimaku beru"
+      "titleLatin": "Kaimaku Bell"
     },
     {
       "albumId": "fixture:al:al21",
@@ -2010,7 +2010,7 @@
       "explicit": false,
       "id": "fixture:tr:tr24",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.3362,
       "preview": {
         "durationSec": 30,
@@ -2033,7 +2033,7 @@
       "songKey": "かーてんこーる|fixture:ar:ar02",
       "storeUrl": null,
       "title": "カーテンコール",
-      "titleLatin": "Kaaten kooru"
+      "titleLatin": "Curtain Call"
     },
     {
       "albumId": "fixture:al:al10",
@@ -2234,7 +2234,7 @@
       "explicit": false,
       "id": "fixture:tr:tr29",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.7333,
       "preview": {
         "durationSec": 30,
@@ -2255,7 +2255,7 @@
       "songKey": "すーぱーのゔぁ|fixture:ar:ar03",
       "storeUrl": null,
       "title": "スーパーノヴァ",
-      "titleLatin": "Suupaa nova"
+      "titleLatin": "Supernova"
     },
     {
       "albumId": "fixture:al:al24",
@@ -2279,7 +2279,7 @@
       "explicit": false,
       "id": "fixture:tr:tr30",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.3,
       "preview": {
         "durationSec": 30,
@@ -2300,7 +2300,7 @@
       "songKey": "がらす越しの光|fixture:ar:ar03",
       "storeUrl": null,
       "title": "ガラス越しの光",
-      "titleLatin": "Garasugoshi no hikari"
+      "titleLatin": "Garasugoshi no Hikari"
     },
     {
       "albumId": "fixture:al:al25",
@@ -2324,7 +2324,7 @@
       "explicit": false,
       "id": "fixture:tr:tr31",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.1121,
       "preview": {
         "durationSec": 30,
@@ -2339,6 +2339,7 @@
           "がらすのねこ"
         ],
         "title": [
+          "nekozenoblues",
           "nekozenoburusu",
           "猫背のぶるーす"
         ]
@@ -2346,7 +2347,7 @@
       "songKey": "猫背のぶるーす|fixture:ar:ar05",
       "storeUrl": null,
       "title": "猫背のブルース",
-      "titleLatin": "Nekoze no Buruusu"
+      "titleLatin": "Nekoze no Blues"
     },
     {
       "albumId": "fixture:al:al26",
@@ -2370,7 +2371,7 @@
       "explicit": false,
       "id": "fixture:tr:tr32",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.9667,
       "preview": {
         "durationSec": 30,
@@ -2391,7 +2392,7 @@
       "songKey": "めもりーれーん|fixture:ar:ar08",
       "storeUrl": null,
       "title": "メモリーレーン",
-      "titleLatin": "Memorii reen"
+      "titleLatin": "Memory Lane"
     },
     {
       "albumId": "fixture:al:al13",
@@ -2415,7 +2416,7 @@
       "explicit": false,
       "id": "fixture:tr:tr33",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.0841,
       "preview": {
         "durationSec": 30,
@@ -2437,7 +2438,7 @@
       "songKey": "千年の詩|fixture:ar:ar09",
       "storeUrl": null,
       "title": "千年の詩",
-      "titleLatin": "Sen nen no shi"
+      "titleLatin": "Sennen no Shi"
     },
     {
       "albumId": "fixture:al:al27",
@@ -2461,7 +2462,7 @@
       "explicit": false,
       "id": "fixture:tr:tr34",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.3668,
       "preview": {
         "durationSec": 30,
@@ -2484,7 +2485,7 @@
       "songKey": "制服とさいだー|fixture:ar:ar10",
       "storeUrl": null,
       "title": "制服とサイダー",
-      "titleLatin": "Seifuku to saidaa"
+      "titleLatin": "Seifuku to Cider"
     },
     {
       "albumId": "fixture:al:al28",
@@ -2508,7 +2509,7 @@
       "explicit": false,
       "id": "fixture:tr:tr35",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.4,
       "preview": {
         "durationSec": 30,
@@ -2528,7 +2529,7 @@
       "songKey": "ぜろ距離love|fixture:ar:ar11",
       "storeUrl": null,
       "title": "ゼロ距離Love",
-      "titleLatin": "Zero kyori Love"
+      "titleLatin": "Zero Kyori Love"
     },
     {
       "albumId": "fixture:al:al29",
@@ -2552,7 +2553,7 @@
       "explicit": false,
       "id": "fixture:tr:tr36",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.0561,
       "preview": {
         "durationSec": 30,
@@ -2573,7 +2574,7 @@
       "songKey": "おやつの時間|fixture:ar:ar12",
       "storeUrl": null,
       "title": "おやつの時間",
-      "titleLatin": "Oyatsu no jikan"
+      "titleLatin": "Oyatsu no Jikan"
     },
     {
       "albumId": "fixture:al:al02",
@@ -2597,7 +2598,7 @@
       "explicit": false,
       "id": "fixture:tr:tr37",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.2523,
       "preview": {
         "durationSec": 30,
@@ -2642,7 +2643,7 @@
       "explicit": false,
       "id": "fixture:tr:tr38",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.028,
       "preview": {
         "durationSec": 30,
@@ -2664,7 +2665,7 @@
       "songKey": "真夜中の観覧車|fixture:ar:ar02",
       "storeUrl": null,
       "title": "真夜中の観覧車",
-      "titleLatin": "Mayonaka no kanransha"
+      "titleLatin": "Mayonaka no Kanransha"
     },
     {
       "albumId": "fixture:al:al31",
@@ -2688,7 +2689,7 @@
       "explicit": false,
       "id": "fixture:tr:tr39",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.0306,
       "preview": {
         "durationSec": 30,
@@ -2710,7 +2711,7 @@
       "songKey": "shibuya24時|fixture:ar:ar13",
       "storeUrl": null,
       "title": "Shibuya 24時",
-      "titleLatin": "Shibuya 24 ji"
+      "titleLatin": "Shibuya 24-ji"
     },
     {
       "albumId": "fixture:al:al32",
@@ -2734,7 +2735,7 @@
       "explicit": false,
       "id": "fixture:tr:tr40",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.8333,
       "preview": {
         "durationSec": 30,
@@ -2749,6 +2750,7 @@
         ],
         "title": [
           "harogubbai",
+          "hellogodbye",
           "hellogubbai",
           "はろーぐっばい"
         ]
@@ -2756,7 +2758,7 @@
       "songKey": "はろーぐっばい|fixture:ar:ar14",
       "storeUrl": null,
       "title": "ハローグッバイ",
-      "titleLatin": "Haroo gubbai"
+      "titleLatin": "Hello Goodbye"
     },
     {
       "albumId": "fixture:al:al14",
@@ -2780,7 +2782,7 @@
       "explicit": false,
       "id": "fixture:tr:tr41",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.1,
       "preview": {
         "durationSec": 30,
@@ -2801,7 +2803,7 @@
       "songKey": "ひまわり畑でつかまえて|fixture:ar:ar07",
       "storeUrl": null,
       "title": "ひまわり畑でつかまえて",
-      "titleLatin": "Himawaribatake de tsukamaete"
+      "titleLatin": "Himawaribatake de Tsukamaete"
     },
     {
       "albumId": "fixture:al:al33",
@@ -2825,7 +2827,7 @@
       "explicit": false,
       "id": "fixture:tr:tr42",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.5,
       "preview": {
         "durationSec": 30,

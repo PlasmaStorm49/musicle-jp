@@ -8,9 +8,10 @@ const index = indexCatalog(catalog);
 
 describe("optionView (música: tentativas e sugestões do Desafio)", () => {
   it("título japonês com romaji embaixo e lang ja", () => {
+    // O latino é o do Anime fictício, que vence o romaji (o usuário, 24/10/2026).
     expect(optionView(index, "fixture:tr:tr16", "song")).toMatchObject({
       title: "ガラスの靴",
-      titleLatin: "Garasu no kutsu",
+      titleLatin: "Garasu no Kutsu",
       artist: "ｶﾞﾗｽﾉﾈｺ",
       lang: "ja",
     });

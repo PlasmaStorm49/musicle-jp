@@ -507,7 +507,7 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/d6/9e/54/d69e54ca-2d82-f291-d745-9a706aa26940/19UMGIM59475.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1471459431",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2019-07-18",
       "similar": [
         "apple:al:1261937427",
@@ -522,7 +522,7 @@
         "apple:al:1706831732"
       ],
       "title": "インフェルノ - Single",
-      "titleLatin": "Inferuno",
+      "titleLatin": "Inferno",
       "type": "single"
     },
     {
@@ -1382,7 +1382,7 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/44/35/c7/4435c703-3647-654b-16a7-ab74885f71da/VEATP-43484.jpg/300x300bb.jpg",
       "id": "apple:al:1795905599",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2025-02-20",
       "similar": [
         "apple:al:1860538546",
@@ -2880,7 +2880,7 @@
       "nameLatin": "Aina The End"
     }
   ],
-  "catalogVersion": "2026-10-19.39049d6a",
+  "catalogVersion": "2026-10-19.dc992ee5",
   "generatedAt": "2026-10-19T16:27:32Z",
   "provider": "apple",
   "schemaVersion": 2,
@@ -4019,7 +4019,7 @@
       "explicit": false,
       "id": "apple:tr:1471459432",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.0459,
       "preview": {
         "durationSec": 30,
@@ -4040,7 +4040,7 @@
       "songKey": "いんふぇるの|apple:ar:962221033",
       "storeUrl": "https://music.apple.com/jp/album/%E3%82%A4%E3%83%B3%E3%83%95%E3%82%A7%E3%83%AB%E3%83%8E/1471459431?i=1471459432",
       "title": "インフェルノ",
-      "titleLatin": "Inferuno"
+      "titleLatin": "Inferno"
     },
     {
       "albumId": "apple:al:1479397582",
@@ -5727,7 +5727,7 @@
       "explicit": false,
       "id": "apple:tr:1795905600",
       "isrc": null,
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.3943,
       "preview": {
         "durationSec": 30,

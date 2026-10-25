@@ -221,6 +221,7 @@ def test_other_commands_never_import_the_network_module(tmp_path):
         "--out",
         str(tmp_path / "chances.json"),
     ]
+    anime_latin = ["anime-latin", "--provider", "fixture", "--out", str(tmp_path / "latin.json")]
     schedule_anime = ["schedule-anime", "--provider", "fixture", "--today", "2026-10-10"]
     schedule_anime += ["--epoch", "2026-10-10", "--out", str(tmp_path / "anime-schedule.json")]
     schedule = [
@@ -255,6 +256,8 @@ def test_other_commands_never_import_the_network_module(tmp_path):
         "assert main(['schedule-mixed', '--provider', 'fixture', '--today', '2026-10-08']) == 0\n"
         # O laboratório das Misturadas (M17): a chance de cada música, também sem rede.
         f"assert main({lab_chances!r}) == 0\n"
+        # O latino do Anime para os Hits e os artistas (o usuário, 24/10/2026).
+        f"assert main({anime_latin!r}) == 0\n"
         # O ranking do MAL (M14, PR B) também usa a rede: só o fetch --anime o carrega.
         "print(any(m in sys.modules for m in ('musicle_pipeline.fetch', 'musicle_pipeline.mal_ranking')))\n"
     )

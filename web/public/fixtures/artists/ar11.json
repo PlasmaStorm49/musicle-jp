@@ -20,10 +20,10 @@
       ],
       "artworkUrl": "fixtures/art/al28.svg",
       "id": "fixture:al:al28",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-06-03",
       "title": "ゼロ距離Love - Single",
-      "titleLatin": "Zero kyori Love",
+      "titleLatin": "Zero Kyori Love",
       "type": "single"
     }
   ],
@@ -54,7 +54,7 @@
       },
       "explicit": true,
       "id": "fixture:tr:tr10",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 1.0,
       "preview": {
         "durationSec": 30,
@@ -125,7 +125,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr35",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
@@ -146,7 +146,7 @@
       "titleKeys": [
         "ぜろ距離love"
       ],
-      "titleLatin": "Zero kyori Love"
+      "titleLatin": "Zero Kyori Love"
     }
   ]
 }

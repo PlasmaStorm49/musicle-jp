@@ -580,9 +580,10 @@ def _track_record(
     t = song.canonical
     track_id = entity_id(provider, "tr", t.provider_id)
     text = track_text(t.title)
-    latin, source = cur.latin("tracks", track_id, text, t.title_latin)
-    preview = preview_of(t)
     artist_ids = [entity_id(provider, "ar", a.provider_id) for a in t.artists]
+    anime = cur.anime_latin_of(text, artist_ids[0])
+    latin, source = cur.latin("tracks", track_id, text, t.title_latin or anime)
+    preview = preview_of(t)
     return {
         "id": track_id,
         "songKey": f"{song.key}|{artist_id}",
@@ -602,7 +603,9 @@ def _track_record(
             preview, album["artworkUrl"], blocked=cur.aliases.get("tracks", track_id).block
         ),
         "search": {
-            "title": search_keys(cur.search_texts("tracks", track_id, text, t.title_latin)),
+            "title": search_keys(
+                [*cur.search_texts("tracks", track_id, text, t.title_latin), anime]
+            ),
             "artist": [],
         },
         # A chave do grupo também: um cover na parada com o título sem o crédito ("新時代", de

@@ -119,6 +119,8 @@ class AnimePaths:
     romaji: Path
     source: Path  # snapshots/ (apple, só crescem) ou anime_fixture.json (fixture)
     public_dir: Path  # onde ficam o catalog.json e o schedule.json do Anime
+    # O latino das músicas do Anime, que os Hits e os artistas leem (o anime-latin o grava)
+    latin: Path
 
 
 _ANIME_SOURCES = {"fixture": "anime_fixture.json", "apple": "snapshots"}
@@ -131,6 +133,7 @@ def anime_paths(provider: str) -> AnimePaths:
         romaji=curation / "romaji.json",
         source=curation / _ANIME_SOURCES[provider],
         public_dir=repo_root() / _PUBLIC_DIRS[provider] / "anime",
+        latin=curation / "latin.json",
     )
 
 
