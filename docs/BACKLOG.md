@@ -88,7 +88,7 @@ Atualizado em 25/10/2026.
 
 ## Coisas novas que quero implementar
 
-- **M18 (em desenho).** O quiz do dia, que nasceu da ME122: uma run por dia, com duas prévias e uma pergunta de comparação que aperta a cada acerto.
+- **M18 (em andamento).** O quiz do dia (Apêndice Q do PLANO): o gerador (PR A), a tela (B), o robô (C) e os artistas parecidos (D). Decidir com o usuário: o lugar na nav e os cooldowns dos membros e das playlists.
 - **M19 (depois do M18).** Revisar e melhorar (se preciso, reconstruir) o design inteiro com a taste-skill e as Web Interface Guidelines da Vercel.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
