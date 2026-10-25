@@ -23,6 +23,19 @@ from musicle_pipeline.anime_mixed import (
     mixed_short_pools,
     validate_mixed_schedule,
 )
+from musicle_pipeline.anime_quiz import KIND as QUIZ_KIND
+from musicle_pipeline.anime_quiz import (
+    QuizContext,
+    generate_quiz,
+    load_mal,
+    quiz_regenerate_problems,
+    quiz_rule_problems,
+    read_quiz_dir,
+    read_quiz_ref,
+    song_facts,
+    validate_quiz_schedule,
+    write_quiz_dir,
+)
 from musicle_pipeline.anime_schedule import (
     generate_anime,
     rule_problems,
@@ -39,10 +52,11 @@ from musicle_pipeline.artists import (
 from musicle_pipeline.catalog import Curation, build_catalog
 from musicle_pipeline.fake_assets import generate_assets
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
-from musicle_pipeline.models import InputError
+from musicle_pipeline.models import JSON, InputError
 from musicle_pipeline.normalize import has_unassigned, needs_romaji
 from musicle_pipeline.paths import (
     MIXED_FILE,
+    QUIZ_DIR,
     anime_paths,
     apple_snapshots_dir,
     artist_paths,
@@ -361,12 +375,16 @@ def _validate_anime(args: argparse.Namespace) -> int:
     # A agenda ao lado do catálogo, se existir (ou a do --schedule, que precisa existir).
     spath = resolve(args.schedule) if args.schedule else path.with_name("schedule.json")
     mpath = spath.with_name(MIXED_FILE)
+    qdir = spath.with_name(QUIZ_DIR)
     if code:
         return code
     if args.schedule is None and not spath.exists():
-        # As Misturadas leem a agenda do Anime (P332): sem ela, não há como conferi-las.
-        if mpath.exists():
-            return _report(mpath, ["sem a agenda do Anime ao lado (rode o schedule-anime, P332)"])
+        # As Misturadas e o quiz do dia leem a agenda do Anime (P332, P378): sem ela, não há como
+        # conferi-los.
+        for orphan in (mpath, qdir):
+            if orphan.exists():
+                problem = "sem a agenda do Anime ao lado (rode o schedule-anime)"
+                code = max(code, _report(orphan, [problem]))
         return code
     if not spath.exists():
         return _report(spath, ["arquivo ausente (rode o schedule-anime)"])
@@ -383,7 +401,12 @@ def _validate_anime(args: argparse.Namespace) -> int:
         print(f"aviso: {message}", file=sys.stderr)
     code = _report(spath, problems)
     # A agenda das Misturadas (M17), se existir ao lado: a estrutura e as regras que nunca afrouxam.
-    if code or not mpath.exists():
+    if code:
+        return code
+    if not mpath.exists():
+        # O quiz do dia (M18) lê a agenda das Misturadas (P378): sem ela, não há como conferi-lo.
+        if qdir.is_dir():
+            return _report(qdir, ["sem a agenda das Misturadas ao lado (rode o schedule-mixed)"])
         return code
     mixed = read_json(mpath)
     mixed_problems = validate_mixed_schedule(mixed, catalog)
@@ -396,7 +419,11 @@ def _validate_anime(args: argparse.Namespace) -> int:
             print(f"aviso: {message} (catálogo mudou depois do dia)", file=sys.stderr)
         if dumps(mixed).encode("utf-8") != mpath.read_bytes():
             mixed_problems.append("arquivo fora da forma canônica (regere com o pipeline)")
-    return _report(mpath, mixed_problems)
+    code = _report(mpath, mixed_problems)
+    # O quiz do dia (M18), se a pasta dele existir ao lado.
+    if code or not qdir.is_dir():
+        return code
+    return _validate_quiz(qdir, catalog, spath, mpath)
 
 
 def _schedule_anime(args: argparse.Namespace) -> int:
@@ -464,6 +491,101 @@ def _schedule_mixed(args: argparse.Namespace) -> int:
     print(f"{out}: {len(result.added)} dia(s) novo(s){span}, {total} no total", end="")
     print("" if changed else "; sem mudanças")
     return 0
+
+
+def _quiz_context(
+    provider: str, catalog: JSON, anime_path: Path, mixed_path: Path, mal_file: Path | None
+) -> QuizContext:
+    """O contexto do quiz do dia (M18): os fatos dos snapshots do provedor, os dados do MAL (o
+    --mal-file; nas fixtures, os inventados do repositório; senão, nenhum, P380) e as agendas do
+    Anime e das Misturadas, conferidas antes (uma agenda quebrada viraria um KeyError no meio)."""
+    facts = song_facts(provider, ANIME_PROVIDERS[provider]().source())
+    fake = anime_paths(provider).quiz_mal
+    if mal_file is not None:
+        mal = load_mal(mal_file)
+    elif fake is not None and fake.exists():
+        mal = load_mal(fake)
+    else:
+        mal = None
+    days: list[JSON] = []
+    checks = ((anime_path, validate_anime_schedule), (mixed_path, validate_mixed_schedule))
+    for path, check in checks:
+        if not path.exists():
+            days.append({})
+            continue
+        schedule = read_json(path)
+        problems = check(schedule, catalog)
+        if problems:
+            raise ScheduleError(f"{path}: agenda inválida:\n" + "\n".join(problems))
+        days.append(schedule["days"])
+    return QuizContext(catalog, facts, mal, days[0], days[1])
+
+
+def _schedule_quiz(args: argparse.Namespace) -> int:
+    """Acrescenta dias à agenda do quiz do dia (M18), com o catálogo e as agendas do Anime e das
+    Misturadas da pasta do provedor: rode depois do schedule-mixed (o dia lê as duas, P378)."""
+    paths = anime_paths(args.provider)
+    out = (resolve(args.out_dir) if args.out_dir else paths.public_dir / QUIZ_DIR).resolve()
+    # A mesma trava do build: dentro de web/public, cada provedor só grava na pasta dele.
+    public = (repo_root() / "web" / "public").resolve()
+    if out.is_relative_to(public) and out != (paths.public_dir / QUIZ_DIR).resolve():
+        print(
+            f"o provedor {args.provider} grava em {paths.public_dir / QUIZ_DIR}, não em {out}",
+            file=sys.stderr,
+        )
+        return 1
+    catalog_path = paths.public_dir / "catalog.json"
+    needed = (
+        (catalog_path, "build-anime"),
+        (paths.public_dir / "schedule.json", "schedule-anime"),
+        (paths.public_dir / MIXED_FILE, "schedule-mixed"),
+    )
+    for path, how in needed:
+        if not path.exists():
+            return _report(path, [f"arquivo ausente (rode o {how})"])
+    catalog = read_json(catalog_path)
+    if _report(catalog_path, validate_anime_catalog(catalog, catalog_path.read_bytes())):
+        return 1
+    mal_file = resolve(args.mal_file) if args.mal_file else None
+    ctx = _quiz_context(
+        args.provider,
+        catalog,
+        paths.public_dir / "schedule.json",
+        paths.public_dir / MIXED_FILE,
+        mal_file,
+    )
+    existing, problems = read_quiz_dir(out)
+    if problems:
+        return _report(out, problems)
+    result = generate_quiz(ctx, existing, args.today, args.epoch, args.days)
+    for message in result.warnings:
+        print(f"aviso: {message}", file=sys.stderr)
+    for message in result.relaxations:
+        print(f"afrouxamento: {message}", file=sys.stderr)
+    written = write_quiz_dir(out, result.schedule)
+    span = f" ({result.added[0]} a {result.added[-1]})" if result.added else ""
+    total = len(result.schedule["days"])
+    print(f"{out}: {len(result.added)} dia(s) novo(s){span}, {total} no total", end="")
+    print(f"; {len(written)} mês(es) gravado(s)" if written else "; sem mudanças")
+    return 0
+
+
+def _validate_quiz(directory: Path, catalog: JSON, anime_path: Path, mixed_path: Path) -> int:
+    """A agenda do quiz ao lado do catálogo: os meses (o schema, o mês, a forma canônica), a
+    estrutura dos dias e as regras que a conferência consegue ver, com as agendas do Anime e das
+    Misturadas que o validate-anime conferiu."""
+    schedule, problems = read_quiz_dir(directory)
+    if schedule is None:
+        return _report(directory, problems or ["pasta sem nenhum mês"])
+    ctx = _quiz_context(catalog["provider"], catalog, anime_path, mixed_path, None)
+    if not problems:
+        problems += validate_quiz_schedule(schedule, ctx)
+    if not problems:
+        errors, old = quiz_rule_problems(schedule, ctx)
+        problems += errors
+        for message in old:
+            print(f"aviso: {message}", file=sys.stderr)
+    return _report(directory, problems)
 
 
 def _schedule(args: argparse.Namespace) -> int:
@@ -537,10 +659,69 @@ def _is_fixture(path: Path) -> bool:
     return path.resolve().is_relative_to(provider_paths("fixture").public_dir.resolve())
 
 
+def _check_quiz(path: Path, args: argparse.Namespace) -> int | None:
+    """O schedule-check do quiz do dia (M18): os meses da pasta são uma agenda só (P379). O
+    compare e o check_dates são os das outras; os dias novos são regerados com os dias de antes,
+    o catálogo, os snapshots e as agendas do Anime e das Misturadas ao lado. Sem os dados do MAL
+    (fora das fixtures), os dias das famílias dele têm conferidas só a família e a direção
+    (P380)."""
+    if args.base is not None:
+        base_dir = resolve(args.base)
+        if base_dir.exists() and not base_dir.is_dir():
+            print(f"{base_dir}: a base do quiz é uma pasta de meses, não um arquivo")
+            return 1
+        base, base_problems = read_quiz_dir(base_dir)
+        origin = str(base_dir)
+    else:
+        relative = path.relative_to(repo_root()).as_posix()
+        base, base_problems = read_quiz_ref(args.base_ref, relative)
+        origin = f"{args.base_ref}:{relative}"
+    current, problems = read_quiz_dir(path)
+    if current is None:
+        if base is None:
+            return None if not problems else _report(path, problems)
+        print(f"{path}: existe em {origin} e foi apagada (a agenda só cresce)")
+        return 1
+    problems += [f"na base: {p}" for p in base_problems]
+    problems += compare(base, current)
+    if args.today is not None:
+        if base is None and _is_fixture(path):
+            print(f"{path}: agenda fictícia nova; o --today não vale para os dias dela")
+        else:
+            problems += check_dates(base, current, args.today)
+    # Os dias novos, regerados com o catálogo ao lado (ou o do --catalog) e as agendas do Anime e
+    # das Misturadas ao lado. Sem dia novo, nada a regerar: o contexto lê todos os snapshots.
+    catalog_path = resolve(args.catalog) if args.catalog else path.parent / "catalog.json"
+    added = bool(base and base["days"]) and any(d not in base["days"] for d in current["days"])
+    if not problems and added:
+        if catalog_path.exists():
+            catalog = read_json(catalog_path)
+            sibling = (path.parent / "schedule.json", path.parent / MIXED_FILE)
+            ctx = _quiz_context(catalog["provider"], catalog, *sibling, None)
+            problems += quiz_regenerate_problems(base, current, ctx)
+        elif args.catalog:
+            problems.append(f"{catalog_path}: catálogo não encontrado")
+        else:
+            print(f"{path}: aviso: sem catalog.json ao lado, os dias novos não foram regerados")
+    if problems:
+        print(f"{path} quebra o só-acréscimo em relação a {origin}:", *problems, sep="\n  ")
+        return 1
+    kept = len(base["days"]) if base else 0
+    print(f"{path}: OK ({kept} dia(s) da base preservados, {len(current['days'])} no total)")
+    return 0
+
+
 def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | None:
     """0 = só cresceu, 1 = quebrou, None = a agenda não existe aqui nem na base. Despacha pelo
     tipo (os Hits, o Anime ou as Misturadas): o compare e o check_dates são os mesmos; o gerador
-    que refaz os dias novos, com o catálogo ao lado da agenda, é o do tipo."""
+    que refaz os dias novos, com o catálogo ao lado da agenda, é o do tipo. O quiz do dia (M18),
+    uma pasta de meses, tem a conferência própria: com --path, pela pasta (ou pelo nome, se ela
+    foi apagada) ou pela --base que é pasta."""
+    months = path.is_dir() or path.name == QUIZ_DIR
+    if args.base is not None and resolve(args.base).is_dir():
+        months = True
+    if kind == QUIZ_KIND or (kind is None and months):
+        return _check_quiz(path, args)
     if args.base is not None:
         base_path = resolve(args.base)
         base = read_json(base_path) if base_path.exists() else None
@@ -1117,6 +1298,32 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="dias à frente de hoje, até o último dia da agenda do Anime (P332)",
     )
     mixed.set_defaults(func=_schedule_mixed)
+
+    quiz = sub.add_parser(
+        "schedule-quiz",
+        help="acrescenta dias à agenda do quiz do dia (M18; nunca altera dia), depois do Anime",
+    )
+    quiz.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
+    quiz.add_argument(
+        "--today",
+        type=date.fromisoformat,
+        required=True,
+        help="data de hoje em Brasília (dia anterior a ela nunca é gerado, P44)",
+    )
+    quiz.add_argument("--epoch", type=date.fromisoformat, help="dia nº 1 (agenda nova)")
+    quiz.add_argument(
+        "--days",
+        type=int,
+        default=HORIZON_DAYS,
+        help="dias à frente de hoje, até o último dia das agendas do Anime e das Misturadas",
+    )
+    quiz.add_argument(
+        "--mal-file",
+        type=Path,
+        help="os dados do MAL (o artefato da anime-mal; nas fixtures, o padrão são os inventados)",
+    )
+    quiz.add_argument("--out-dir", type=Path, help="a pasta dos meses (padrão: a do provedor)")
+    quiz.set_defaults(func=_schedule_quiz)
 
     args = parser.parse_args(argv)
     try:

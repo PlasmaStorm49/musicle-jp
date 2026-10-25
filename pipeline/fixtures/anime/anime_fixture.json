@@ -6,6 +6,7 @@
       },
       "malId": 90001,
       "name": "Hoshizora Kaizoku",
+      "season": "spring",
       "series": [
         {
           "name": "Hoshizora Kaizoku",
@@ -28,6 +29,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Midnight Drive",
+          "stats": {
+            "animethemes": 820,
+            "anisongdb": 94.2
+          },
           "track": {
             "ref": "tr21"
           },
@@ -44,6 +49,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Kaze ni Naru",
+          "stats": {
+            "animethemes": 310,
+            "anisongdb": 83.5
+          },
           "track": {
             "ref": "tr27"
           },
@@ -58,6 +67,7 @@
       },
       "malId": 90002,
       "name": "Hoshizora Kaizoku 2nd Season",
+      "season": "winter",
       "series": [
         {
           "name": "Hoshizora Kaizoku",
@@ -79,6 +89,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Ryuusei Highway",
+          "stats": {
+            "animethemes": 405,
+            "anisongdb": 88.9
+          },
           "track": {
             "ref": "tr42"
           },
@@ -94,6 +108,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Himawaribatake de Tsukamaete",
+          "stats": {
+            "animethemes": 64,
+            "anisongdb": 57.3
+          },
           "track": {
             "ref": "tr41"
           },
@@ -108,6 +126,7 @@
       },
       "malId": 90003,
       "name": "Tsukimi Gakuen",
+      "season": "spring",
       "series": [],
       "slug": "tsukimi_gakuen",
       "synonyms": [
@@ -125,6 +144,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Sakamichi no Mukou",
+          "stats": {
+            "animethemes": 268,
+            "anisongdb": 81.2
+          },
           "track": {
             "ref": "tr06"
           },
@@ -140,6 +163,10 @@
           "result": "matched",
           "sequence": 2,
           "song": "Ichibanboshi",
+          "stats": {
+            "animethemes": 150,
+            "anisongdb": 74.6
+          },
           "track": {
             "ref": "tr20"
           },
@@ -155,6 +182,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Seifuku to Cider",
+          "stats": {
+            "animethemes": 88,
+            "anisongdb": 63.8
+          },
           "track": {
             "ref": "tr34"
           },
@@ -169,6 +200,7 @@
       },
       "malId": 90004,
       "name": "Neon Samurai",
+      "season": "summer",
       "series": [],
       "slug": "neon_samurai",
       "synonyms": [
@@ -185,6 +217,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Kyousou Riot",
+          "stats": {
+            "animethemes": 190,
+            "anisongdb": 77.1
+          },
           "track": {
             "ref": "tr10"
           },
@@ -200,6 +236,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Zero Kyori Love",
+          "stats": {
+            "animethemes": 35,
+            "anisongdb": 46.5
+          },
           "track": {
             "ref": "tr35"
           },
@@ -215,6 +255,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Live",
+          "stats": {
+            "animethemes": 12,
+            "anisongdb": 31.9
+          },
           "track": {
             "ref": "tr25"
           },
@@ -229,6 +273,7 @@
       },
       "malId": 90005,
       "name": "Kumo no Ue no Shiro",
+      "season": "fall",
       "series": [],
       "slug": "kumo_no_ue_no_shiro",
       "synonyms": [
@@ -246,6 +291,10 @@
           "result": "matched",
           "sequence": null,
           "song": "Sennen no Shi",
+          "stats": {
+            "animethemes": 120,
+            "anisongdb": 68.4
+          },
           "track": {
             "ref": "tr33"
           },
@@ -261,6 +310,10 @@
           "result": "matched",
           "sequence": null,
           "song": "Akikaze no Waltz",
+          "stats": {
+            "animethemes": 47,
+            "anisongdb": 52.7
+          },
           "track": {
             "ref": "tr07"
           },
@@ -275,6 +328,7 @@
       },
       "malId": 90006,
       "name": "Garasu no Neko",
+      "season": "winter",
       "series": [],
       "slug": "garasu_no_neko",
       "synonyms": [
@@ -291,6 +345,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Garasu no Kutsu",
+          "stats": {
+            "animethemes": 72,
+            "anisongdb": 55.0
+          },
           "track": {
             "ref": "tr16"
           },
@@ -306,6 +364,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Ai no Uta",
+          "stats": {
+            "animethemes": 28,
+            "anisongdb": 43.3
+          },
           "track": {
             "ref": "tr18"
           },
@@ -321,6 +383,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Nekoze no Blues",
+          "stats": {
+            "animethemes": 6,
+            "anisongdb": 24.8
+          },
           "track": {
             "ref": "tr31"
           },
@@ -335,6 +401,7 @@
       },
       "malId": 90007,
       "name": "Majo to Kissaten",
+      "season": "spring",
       "series": [],
       "slug": "majo_to_kissaten",
       "synonyms": [
@@ -352,6 +419,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Oyatsu no Jikan",
+          "stats": {
+            "animethemes": 41,
+            "anisongdb": 48.6
+          },
           "track": {
             "ref": "tr36"
           },
@@ -367,6 +438,10 @@
           "result": "no-preview",
           "sequence": 1,
           "song": "Pon Poko March",
+          "stats": {
+            "animethemes": 9,
+            "anisongdb": 35.2
+          },
           "track": null,
           "type": "ED"
         }
@@ -379,6 +454,7 @@
       },
       "malId": 90008,
       "name": "Yoru no Gekijou",
+      "season": "fall",
       "series": [],
       "slug": "yoru_no_gekijou",
       "synonyms": [
@@ -396,6 +472,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Kaimaku Bell",
+          "stats": {
+            "animethemes": 355,
+            "anisongdb": 85.7
+          },
           "track": {
             "ref": "tr23"
           },
@@ -411,6 +491,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Curtain Call",
+          "stats": {
+            "animethemes": 97,
+            "anisongdb": 61.4
+          },
           "track": {
             "ref": "tr24"
           },
@@ -426,6 +510,10 @@
           "result": "matched",
           "sequence": 2,
           "song": "Mayonaka no Kanransha",
+          "stats": {
+            "animethemes": 55,
+            "anisongdb": 59.9
+          },
           "track": {
             "ref": "tr38"
           },
@@ -440,6 +528,7 @@
       },
       "malId": 90009,
       "name": "Futari no Natsu",
+      "season": "summer",
       "series": [],
       "slug": "futari_no_natsu",
       "synonyms": [
@@ -457,6 +546,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Futari no Yakusoku",
+          "stats": {
+            "animethemes": 60,
+            "anisongdb": 50.8
+          },
           "track": {
             "ref": "tr05"
           },
@@ -472,6 +565,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Natsuyasumi",
+          "stats": {
+            "animethemes": 15,
+            "anisongdb": 37.4
+          },
           "track": {
             "ref": "tr08"
           },
@@ -486,6 +583,7 @@
       },
       "malId": 90010,
       "name": "Tokyo Noise",
+      "season": "fall",
       "series": [],
       "slug": "tokyo_noise",
       "synonyms": [
@@ -502,6 +600,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Tokyo Lights",
+          "stats": {
+            "animethemes": 165,
+            "anisongdb": 71.3
+          },
           "track": {
             "ref": "tr22"
           },
@@ -517,6 +619,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Shibuya 24-ji",
+          "stats": {
+            "animethemes": 22,
+            "anisongdb": 40.2
+          },
           "track": {
             "ref": "tr39"
           },
@@ -542,6 +648,7 @@
       },
       "malId": 90011,
       "name": "Kotonoha Signal",
+      "season": "spring",
       "series": [],
       "slug": "kotonoha_signal",
       "synonyms": [
@@ -558,6 +665,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Toumei na Signal",
+          "stats": {
+            "animethemes": 31,
+            "anisongdb": 44.9
+          },
           "track": {
             "ref": "tr09"
           },
@@ -573,6 +684,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Memory Lane",
+          "stats": {
+            "animethemes": 8,
+            "anisongdb": 27.6
+          },
           "track": {
             "ref": "tr32"
           },
@@ -588,6 +703,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Stay (Forever)",
+          "stats": {
+            "animethemes": 3,
+            "anisongdb": 15.3
+          },
           "track": {
             "ref": "tr26"
           },
@@ -602,6 +721,7 @@
       },
       "malId": 90012,
       "name": "Luminous Heart",
+      "season": "summer",
       "series": [],
       "slug": "luminous_heart",
       "synonyms": [
@@ -618,6 +738,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "LOVE SONG",
+          "stats": {
+            "animethemes": 18,
+            "anisongdb": 33.7
+          },
           "track": {
             "ref": "tr17"
           },
@@ -633,6 +757,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Supernova",
+          "stats": {
+            "animethemes": 5,
+            "anisongdb": 21.1
+          },
           "track": {
             "ref": "tr29"
           },
@@ -648,6 +776,10 @@
           "result": "matched",
           "sequence": 2,
           "song": "Garasugoshi no Hikari",
+          "stats": {
+            "animethemes": 2,
+            "anisongdb": 12.6
+          },
           "track": {
             "ref": "tr30"
           },
@@ -662,6 +794,7 @@
       },
       "malId": 90013,
       "name": "Minato Monogatari",
+      "season": "summer",
       "series": [],
       "slug": "minato_monogatari",
       "synonyms": [
@@ -679,6 +812,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Yoake no Melody",
+          "stats": {
+            "animethemes": 230,
+            "anisongdb": 79.8
+          },
           "track": {
             "ref": "tr01"
           },
@@ -694,6 +831,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Toudai",
+          "stats": {
+            "animethemes": 14,
+            "anisongdb": 38.8
+          },
           "track": {
             "ref": "tr37"
           },
@@ -708,6 +849,7 @@
       },
       "malId": 90014,
       "name": "Nana-iro",
+      "season": "winter",
       "series": [],
       "slug": "nana_iro",
       "synonyms": [
@@ -724,6 +866,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Hello Goodbye",
+          "stats": {
+            "animethemes": 7,
+            "anisongdb": 26.3
+          },
           "track": {
             "ref": "tr40"
           },
@@ -739,6 +885,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Kimi to",
+          "stats": {
+            "animethemes": 4,
+            "anisongdb": 18.0
+          },
           "track": {
             "ref": "tr15"
           },
@@ -754,6 +904,10 @@
           "result": "matched",
           "sequence": 1,
           "song": "Hoshi ni Negai wo",
+          "stats": {
+            "animethemes": 3,
+            "anisongdb": 10.5
+          },
           "track": {
             "ref": "tr19"
           },
@@ -768,6 +922,7 @@
       },
       "malId": 90015,
       "name": "Sora no Kanata",
+      "season": "spring",
       "series": [],
       "slug": "sora_no_kanata",
       "synonyms": [

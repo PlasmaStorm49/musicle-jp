@@ -258,6 +258,8 @@ def test_other_commands_never_import_the_network_module(tmp_path):
         f"assert main({lab_chances!r}) == 0\n"
         # O latino do Anime para os Hits e os artistas (o usuário, 24/10/2026).
         f"assert main({anime_latin!r}) == 0\n"
+        # O quiz do dia (M18): o horizonte não passa da agenda fictícia, e nada é gravado.
+        "assert main(['schedule-quiz', '--provider', 'fixture', '--today', '2026-10-08']) == 0\n"
         # O ranking do MAL (M14, PR B) também usa a rede: só o fetch --anime o carrega.
         "print(any(m in sys.modules for m in ('musicle_pipeline.fetch', 'musicle_pipeline.mal_ranking')))\n"
     )
