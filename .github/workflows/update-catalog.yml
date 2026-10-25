@@ -11,10 +11,10 @@
 # perto do token que escreve. O segredo MAL_CLIENT_ID (opcional, P256), no Environment "mal" (só
 # a main o lê), fica numa tarefa à parte, anime-mal: outra máquina, sem permissão nenhuma, sem pip
 # e só com a biblioteca padrão do Python, que entrega num artefato de 1 dia a ordem de
-# popularidade (equivale à posição no ranking, sem o número) e o nível de 0 a 9 de cada anime; o
-# artefato nunca entra no repositório (P254). Um pacote do pip
-# nunca roda na máquina que tem o segredo. Os nomes fogem de pipeline, web e e2e (checagens da
-# main).
+# popularidade (equivale à posição no ranking, sem o número), o nível de 0 a 9 de cada anime e os
+# dados do quiz do dia (M18); o artefato nunca entra no repositório (P254, P380) e é apagado logo
+# depois do uso (anime-mal-cleanup). Um pacote do pip nunca roda na máquina que tem o segredo. Os
+# nomes fogem de pipeline, web e e2e (checagens da main).
 name: Atualizar parada e agenda
 
 on:
@@ -47,6 +47,10 @@ env:
   # As Misturadas (M17): as agendas delas crescem com as do Anime (cada dia lê o do Anime, P332).
   ANIME_MIXED: web/public/data/anime/mixed.json
   ANIME_FIXTURE_MIXED: web/public/fixtures/anime/mixed.json
+  # O quiz do dia (M18): uma pasta com um arquivo por mês (P379), que cresce depois das Misturadas
+  # (cada dia lê as respostas do Anime e das Misturadas, P378). A real nasce com a tela (PR B).
+  ANIME_QUIZ: web/public/data/anime/quiz
+  ANIME_FIXTURE_QUIZ: web/public/fixtures/anime/quiz
   # Só lido (as respostas da agenda fictícia do Anime são dele); fica fora da lista.
   ANIME_FIXTURE_CATALOG: web/public/fixtures/anime/catalog.json
 
@@ -185,6 +189,10 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
+      # Com o --quiz-out, as mesmas páginas do ranking trazem os dados do quiz do dia (M18: os
+      # gêneros, a nota, os membros, a fonte e os estúdios), sem pedido a mais, e o tamanho passa a
+      # 6.000 (o acervo inteiro; o sorteio continua nos 3.000 do topo). O quiz.json é gravado antes e
+      # apagado se o ranks.json falhar: com o ranks.json, os dois estão lá.
       - id: mal
         if: steps.due.outputs.due == 'true'
         name: Baixar o ranking do MyAnimeList
@@ -193,7 +201,8 @@ jobs:
           MAL_CLIENT_ID: ${{ secrets.MAL_CLIENT_ID }}
         run: |
           mkdir -p "$RUNNER_TEMP/mal"
-          python -I -S pipeline/src/musicle_pipeline/mal_ranking.py --out "$RUNNER_TEMP/mal/ranks.json"
+          python -I -S pipeline/src/musicle_pipeline/mal_ranking.py --out "$RUNNER_TEMP/mal/ranks.json" \
+            --quiz-out "$RUNNER_TEMP/mal/quiz.json"
           if [ -f "$RUNNER_TEMP/mal/ranks.json" ]; then echo "ready=true" >> "$GITHUB_OUTPUT"; fi
       - if: steps.mal.outcome == 'failure'
         run: echo "::warning::o ranking do MAL não veio; o Anime segue com as fontes abertas"
@@ -201,7 +210,9 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: anime-mal
-          path: ${{ runner.temp }}/mal/ranks.json
+          path: |
+            ${{ runner.temp }}/mal/ranks.json
+            ${{ runner.temp }}/mal/quiz.json
           retention-days: 1
           if-no-files-found: error
 
@@ -263,6 +274,13 @@ jobs:
         with:
           name: anime-mal
           path: ${{ runner.temp }}/mal
+      # A anime-mal-cleanup apaga o artefato depois do uso: um "Re-run failed jobs" desta tarefa
+      # não o acha mais (o "Re-run all jobs" pede o ranking de novo).
+      - if: steps.due.outputs.due == 'true' && needs.anime-mal.outputs.ranks == 'true'
+        run: |
+          if [ ! -f "$RUNNER_TEMP/mal/ranks.json" ]; then
+            echo "::warning::o artefato do MAL não chegou (apagado depois de uma execução anterior? rode \"Re-run all jobs\"); o Anime segue com as fontes abertas, e o quiz, sem as perguntas do MAL"
+          fi
       # A rede do Anime (AnimeThemes, AnisongDB e a Apple), com o prazo de 12 min: ao chegar
       # nele, a busca para e grava o que já tem (estourar o timeout da tarefa a deixaria sem
       # artefato). O prazo só é conferido entre um anime e o seguinte, então o passo para de vez
@@ -318,9 +336,22 @@ jobs:
           TODAY: ${{ steps.today.outputs.today }}
           NOW: ${{ steps.today.outputs.now }}
         run: bash .github/scripts/anime-reserve.sh
-      # A agenda fictícia do Anime (ME109) cresce junto, para o npm run dev ter os diários de hoje.
-      # Só serve ao desenvolvimento: se a geração ou a validação dela falhar, ela volta à da main
-      # e o Anime real segue.
+      # O quiz do dia (M18) cresce depois do Anime e das Misturadas, com o acervo que ficou (o da
+      # busca nova ou o da reserva), e só quando a pasta real já existe na main. Com os dados do
+      # MAL do artefato (P380); se o gerador parar com eles, de novo sem eles, com o aviso no PR. Se
+      # nem assim der, a pasta volta à da main e o Anime segue: o quiz nunca o derruba.
+      - id: quiz
+        if: steps.due.outputs.due == 'true'
+        name: "Quiz do dia: os dias novos"
+        continue-on-error: true
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: bash .github/scripts/anime-quiz.sh
+      - if: steps.quiz.outcome == 'failure'
+        run: echo "::warning::o quiz do dia não cresceu nesta semana (veja o passo anterior)"
+      # A agenda fictícia do Anime (ME109) cresce junto, com a das Misturadas, para o npm run dev ter
+      # os diários de hoje. Só serve ao desenvolvimento: se a geração ou a validação dela falhar,
+      # ela volta à da main e o Anime real segue.
       - id: fixture
         if: steps.due.outputs.due == 'true'
         name: Acrescentar os dias (Anime fictício)
@@ -336,6 +367,23 @@ jobs:
           fi
       - if: steps.fixture.outcome == 'failure'
         run: echo "::warning::a agenda fictícia do Anime não cresceu (veja o passo anterior)"
+      # O quiz fictício (M18) depois, num passo à parte: como no real, uma falha só dele volta só a
+      # pasta dele à da main, e o Anime e as Misturadas fictícios seguem.
+      - id: fixture-quiz
+        if: steps.due.outputs.due == 'true'
+        name: Acrescentar os dias (quiz fictício)
+        continue-on-error: true
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: |
+          if ! python -m musicle_pipeline schedule-quiz --provider fixture --today "$TODAY" --days "$ANIME_DAYS" \
+            || ! python -m musicle_pipeline validate-anime --provider fixture; then
+            git checkout -- "$ANIME_FIXTURE_QUIZ"
+            git clean -fq -- "$ANIME_FIXTURE_QUIZ"
+            exit 1
+          fi
+      - if: steps.fixture-quiz.outcome == 'failure'
+        run: echo "::warning::a agenda fictícia do quiz não cresceu (veja o passo anterior)"
       - if: steps.due.outputs.due == 'true'
         run: python -m musicle_pipeline validate-anime --provider apple
       - if: steps.due.outputs.due == 'true'
@@ -358,6 +406,39 @@ jobs:
           path: ${{ runner.temp }}/anime-out
           retention-days: 1
           if-no-files-found: error
+
+  # O artefato da anime-mal (a ordem e o nível do MAL e os dados do quiz do dia, P254 e P380) sai
+  # logo depois do uso, sem esperar o dia da retenção (o usuário, 25/10/2026). Roda mesmo se a
+  # anime-generate falhar ou a execução for cancelada. Só a permissão de apagar artefatos, sem
+  # checkout nem pip: o gh vem na máquina do GitHub.
+  anime-mal-cleanup:
+    needs: [anime-mal, anime-generate]
+    if: ${{ always() && needs.anime-mal.outputs.ranks == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: write # apagar o artefato
+    steps:
+      - name: Apagar o artefato do MAL
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        # Fica no YAML, e não num script testado: a tarefa não faz checkout, de propósito. Numa
+        # atribuição, a falha do gh derruba o passo (o -e do shell da Action); numa substituição
+        # de processo, ela sumiria, e a tarefa ficaria verde com o artefato no ar.
+        run: |
+          out="$(gh api "repos/$GH_REPO/actions/runs/$RUN_ID/artifacts?name=anime-mal" --jq '.artifacts[].id')"
+          if [ -z "$out" ]; then
+            echo "::error::o artefato anime-mal não apareceu nesta execução: apague-o à mão (Actions, a execução, Artifacts), ou ele fica 1 dia no ar"
+            exit 1
+          fi
+          mapfile -t ids <<< "$out"
+          for id in "${ids[@]}"; do
+            [[ "$id" =~ ^[0-9]+$ ]] || { echo "::error::id de artefato estranho"; exit 1; }
+            gh api -X DELETE "repos/$GH_REPO/actions/artifacts/$id"
+          done
+          echo "O artefato do MAL (anime-mal) foi apagado." >> "$GITHUB_STEP_SUMMARY"
 
   catalog-pr:
     needs: [catalog-generate, anime-generate]
@@ -510,11 +591,11 @@ jobs:
   catalog-runway:
     # Folga das agendas. Se o PR semanal ficar sem merge, a agenda acaba e o dia vira buraco para
     # sempre (P44); o aviso do deploy só sai quando há deploy. Esta tarefa fica vermelha (e o
-    # GitHub manda e-mail) quando a agenda do site, a do Anime ou a das Misturadas (M17) da main tem
-    # menos de 10 dias à
-    # frente. Numa semana normal, a do site tem 14 antes do merge de segunda; a do Anime, 14 ou 21
-    # (ela cresce uma semana sim, outra não). Com uma semana sem merge, 7. Roda mesmo se as outras
-    # falharem (é quando mais importa), depois delas, e calcula a própria data.
+    # GitHub manda e-mail) quando a agenda do site, a do Anime, a das Misturadas (M17) ou a do quiz
+    # do dia (M18, os meses da pasta juntos) da main tem menos de 10 dias à frente. Numa semana
+    # normal, a do site tem 14 antes do merge de segunda; a do Anime, 14 ou 21 (ela cresce uma
+    # semana sim, outra não). Com uma semana sem merge, 7. Roda mesmo se as outras falharem (é
+    # quando mais importa), depois delas, e calcula a própria data.
     needs: [catalog-generate, anime-generate, catalog-pr]
     if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-24.04
@@ -529,14 +610,22 @@ jobs:
         run: |
           today="$(TZ=America/Sao_Paulo date +%F)"
           short=0
-          for pair in "do site:$SCHEDULE" "do Anime:$ANIME_SCHEDULE" "das Misturadas:$ANIME_MIXED"; do
+          for pair in "do site:$SCHEDULE" "do Anime:$ANIME_SCHEDULE" "das Misturadas:$ANIME_MIXED" \
+            "do quiz do dia:$ANIME_QUIZ"; do
             label="${pair%%:*}"
             file="${pair#*:}"
-            if [ "$label" != "do site" ] && [ ! -f "$file" ]; then
+            if [ "$label" != "do site" ] && [ ! -e "$file" ]; then
               echo "Agenda $label: ainda não existe na main." >> "$GITHUB_STEP_SUMMARY"
               continue
             fi
-            ahead="$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' "$file")"
+            # A do quiz é uma pasta com um arquivo por mês (P379): os dias de todos juntos, só dos
+            # AAAA-MM.json, como no anime-due.sh e no check-anime-pr.sh.
+            if [ -d "$file" ]; then
+              ahead="$(jq -n --arg d "$today" '[inputs | .days | keys[] | select(. > $d)] | length' \
+                "$file"/[0-9][0-9][0-9][0-9]-[0-9][0-9].json)"
+            else
+              ahead="$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' "$file")"
+            fi
             echo "Agenda $label na main: $ahead dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
             if [ "$ahead" -lt 10 ]; then
               echo "::error::a agenda $label na main só tem $ahead dia(s) à frente: faça hoje o merge do PR semanal (catalogo/...); se ele não a trouxe, veja por quê na execução"
