@@ -260,23 +260,26 @@ def test_the_mal_file_is_read_and_checked(tmp_path):
 
 
 def test_the_tier_curve_follows_the_phases():
-    """A curva das faixas (o usuário, 25/10/2026): começa no Fácil; da rodada 6 à 10 assenta no
-    Médio, sem passar dele; da 10 à 14 em diante, algumas Difíceis, com o Médio sempre a maioria;
-    o Fácil diminui e nunca some."""
+    """A curva das faixas (o usuário, 25/10/2026, revista no mesmo dia): começa no Fácil; da
+    rodada 6 em diante, as Médias entram sem tirar muito o Fácil, que fica perto da proporção
+    natural de Fácil + Médio e desce bem pouco; da 10 à 14 em diante, algumas Difíceis."""
     shares = [quiz.tier_shares(n) for n in range(1, RUN_ROUNDS + 1)]
     assert shares[0] == (85, 15, 0)
     # A reta entre os pontos, nas rodadas do meio, e o último ponto valendo dali em diante.
-    assert (shares[2], shares[7], shares[11]) == ((63, 37, 0), (25, 74, 1), (17, 77, 6))
-    assert shares[RUN_ROUNDS - 1] == (8, 72, 20)
+    assert shares[2] == (73, 27, 0)
+    assert shares[7] == (Decimal("53.5"), Decimal("45.5"), 1)
+    assert shares[11] == (Decimal("49.5"), Decimal("44.5"), 6)
+    assert shares[RUN_ROUNDS - 1] == (41, 39, 20)
     assert all(abs(sum(s) - 100) < Decimal("1e-20") for s in shares)
     for n, (easy, medium, hard) in enumerate(shares, start=1):
-        assert easy >= 8, n  # o Fácil nunca some
+        assert easy >= 41 and easy > medium, n  # o Fácil fica, um pouco à frente do Médio
         if n <= 6:
-            assert hard == 0, n  # nenhuma Difícil antes de assentar no Médio
+            assert hard == 0, n  # nenhuma Difícil antes de as Médias entrarem
         if n >= 6:
-            assert medium >= 70 and medium > easy + hard, n  # o Médio é a maioria
+            # Perto dos 56% de Fácil num pool Fácil + Médio, descendo bem pouco.
+            assert Decimal("0.51") <= easy / (easy + medium) <= Decimal("0.56"), n
         if n <= 10:
-            assert hard <= 2, n  # sem passar do Médio
+            assert hard <= 2, n
         if n >= 14:
             assert hard >= 10, n  # algumas Difíceis
     assert all(a[0] >= b[0] and a[2] <= b[2] for a, b in pairwise(shares))

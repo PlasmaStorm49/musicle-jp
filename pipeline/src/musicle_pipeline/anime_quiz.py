@@ -86,16 +86,18 @@ SPECIAL_ROUNDS = 30  # P376
 TIERS = ("facil", "medio", "dificil")
 # A curva das faixas (o usuário, 25/10/2026, no lugar da gaussiana da P375): a parte de Fácil,
 # Médio e Difícil, em %, nas rodadas de cada ponto, com a reta entre eles e o último valendo dali
-# em diante. Começa no Fácil, sem nenhuma Difícil até a rodada 6; da 6 à 10, assenta no Médio, e
-# a Difícil só começa a aparecer (2% na 10); da 10 à 14 em diante, entram algumas Difíceis, mas o
-# Médio fica sempre a maioria; o Fácil diminui e nunca some.
+# em diante. Começa no Fácil, sem nenhuma Difícil até a rodada 6. Revista no mesmo dia (o
+# usuário): acertar uma diferença pequena já é difícil com uma música fácil, então, da 6 em
+# diante, as Médias entram no pool sem tirar muito o Fácil, que fica perto da proporção natural
+# de Fácil + Médio (56% no acervo real de 25/10) e desce bem pouco, até 51% deles na 30. A
+# Difícil começa a aparecer na 10 (2%) e chega a 20% na 30.
 TIER_SHARES = (
     (1, (85, 15, 0)),
-    (6, (30, 70, 0)),
-    (10, (20, 78, 2)),
-    (14, (14, 76, 10)),
-    (20, (10, 74, 16)),
-    (30, (8, 72, 20)),
+    (6, (55, 45, 0)),
+    (10, (52, 46, 2)),
+    (14, (47, 43, 10)),
+    (20, (44, 40, 16)),
+    (30, (41, 39, 20)),
 )
 # A distância: a curva média é g(n) = piso + (início − piso) × e^(−(n−1)/DIST_TAU), e o par fica
 # entre o mínimo e BAND × o mínimo. Nas propriedades, o alvo da semelhança dos gêneros (Jaccard)
