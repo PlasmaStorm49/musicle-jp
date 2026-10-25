@@ -1,2 +1,14 @@
 # Curadoria do Anime real (M14): o mesmo formato do aliases.toml da parada.
 # block = true tira a faixa dos diários (reason "blocked", P238).
+
+# --- A nova busca do acervo (o --refresh, M18, 25/10/2026) ---
+# O AnimeThemes editou o romaji destas três depois de 24/10; o usuário ficou com os de antes.
+
+[tracks."apple:tr:1743348859"]  # THE HERO!! ～怒れる拳に火をつけろ～ (JAM Project); AnimeThemes: "Okoreru"
+latin = "THE HERO !! ~Ikareru Kobushi ni Hi o Tsukero~"
+
+[tracks."apple:tr:1538169979"]  # ルビコン (Sangatsu no Phantasia); AnimeThemes: "Rubikon"
+latin = "Rubicon"
+
+[tracks."apple:tr:1751661600"]  # レナセールセレナーデ (Momoiro Clover Z); AnimeThemes: "Renasale"
+latin = "Renacer Serenade"
