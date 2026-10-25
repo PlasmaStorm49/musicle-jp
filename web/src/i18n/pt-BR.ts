@@ -25,6 +25,8 @@ export const ptBR = {
   // O ✓ do Anime vale com qualquer um dos 6 diários de hoje terminado (P247).
   "nav.animeDone": "(já jogou hoje)",
   "nav.doneMark": "✓",
+  // A seta do "Mais", da própria fonte (a Noto Sans JP tem o ▼; o ▾ e o ⌄, não).
+  "nav.moreMark": "▼",
   // O Histórico (M15, P264) e o "Mais", que no celular junta os Artistas e o Histórico (P265).
   "nav.history": "Histórico",
   "nav.more": "Mais",
@@ -132,6 +134,11 @@ export const ptBR = {
   "home.animeHint": "Os diários dos temas de anime, iguais para todos, em três dificuldades.",
   "home.animeLine": "Hoje: {done} de {total} terminados",
   "home.animePlaying": "Hoje: em andamento",
+  "home.mixedShort": "Músicas tocando juntas",
+  "home.mixedHint":
+    "Dois diários por dia, iguais para todos: duas ou três músicas de anime tocam juntas, e você acha todas.",
+  "home.mixedLine": "Hoje: {done} de {total} terminados",
+  "home.mixedPlaying": "Hoje: em andamento",
   "home.howTitle": "Como funciona",
   // Espaço que não quebra (U+00A0) entre o número e o "s".
   "home.howClip":

@@ -62,18 +62,27 @@ const THREE_THEMES = (list: AnimeTrack["anime"]["themes"]): AnimeTrack["anime"][
 ];
 
 /**
- * A Início no caso mais alto: os dois diários dos Hits e um do Anime terminados (uma linha a mais
- * em cada cartão) e a sessão de um artista com placar. Confere as linhas, o "Tema" na tela, ao lado
+ * A Início no caso mais alto: os dois diários dos Hits, um do Anime e um das Misturadas terminados
+ * (uma linha a mais em cada cartão) e a sessão de um artista com placar, no cartão que divide a
+ * linha com o das Misturadas. Confere as linhas, o "Tema" na tela, ao lado
  * do switch (P259), e o "Sobre e privacidade" na linha do "Como funciona".
  */
 async function homeWorstCase(page: Page): Promise<void> {
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
-  await seedHistory(page, {
-    "2026-10-08|album": day,
-    "2026-10-08|song": day,
-    "2026-10-08|anime-musica-facil": day,
-  });
+  const found = { status: "done", found: [{ stage: 0 }, { stage: 0 }] } as const;
+  const three = { status: "done", found: [{ stage: 0 }, { stage: 0 }, { stage: 0 }] } as const;
+  const mixedGame = { number: 1, rounds: [found, found, found, three] };
+  await seedHistory(
+    page,
+    {
+      "2026-10-08|album": day,
+      "2026-10-08|song": day,
+      "2026-10-08|anime-musica-facil": day,
+    },
+    {},
+    { mixed: { finished: { "2026-10-08|misturadas-musica": mixedGame }, progress: {} } },
+  );
   await open(page, DAY, "#artistas");
   await page.getByRole("button", { name: /^青井ユウ/ }).click();
   await page.getByRole("button", { name: "Livre" }).click();
@@ -87,6 +96,9 @@ async function homeWorstCase(page: Page): Promise<void> {
   ]);
   await expect(cards.filter({ hasText: /^Anime/ }).locator(".tag")).toHaveText([
     "Hoje: 1 de 6 terminados",
+  ]);
+  await expect(cards.filter({ hasText: /^Misturadas/ }).locator(".tag")).toHaveText([
+    "Hoje: 1 de 2 terminados",
   ]);
   await expect(page.getByRole("heading", { level: 2, name: "Tema" })).toBeVisible();
   const about = page.getByRole("link", { name: "Sobre e privacidade" });

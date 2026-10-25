@@ -66,19 +66,24 @@ describe("Home", () => {
     expect(screen.queryAllByRole("img")).toHaveLength(0);
   });
 
-  it("um cartão-link por categoria (P226), numa coluna, na ordem da nav: os Hits, o Anime e os Artistas; e o Sobre e o Histórico no fim", () => {
+  it("um cartão-link por categoria (P226), na ordem da nav: os Hits e o Anime na linha toda, e as Misturadas e os Artistas lado a lado; e o Sobre e o Histórico no fim", () => {
     setup();
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
       "#hits",
       "#anime",
+      "#misturadas",
       "#artistas",
       "#sobre",
       "#historico",
     ]);
+    // A grade de 2 colunas: os Hits e o Anime ocupam a linha (o wide), e os outros dois dividem a
+    // de baixo (o usuário, 24/10/2026).
+    const items = [...document.querySelectorAll("ul.home-modes > li")];
+    expect(items.map((li) => li.classList.contains("wide"))).toEqual([true, true, false, false]);
     // O Histórico (P264) na linha do tema, junto com o switch.
     const history = screen.getByRole("link", { name: "Histórico" });
     expect(history.closest(".home-bottom")?.querySelector(".theme-switch")).not.toBeNull();
-    expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
+    expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(false);
     expect(screen.queryAllByRole("button")).toHaveLength(0);
   });
 
@@ -221,6 +226,45 @@ describe("Home", () => {
     const theme = screen.getByRole("heading", { name: "Tema" });
     expect(theme.classList.contains("sr-only")).toBe(false);
     expect(theme.closest("section")?.querySelector('[role="switch"]')).not.toBeNull();
+  });
+
+  it("o cartão das Misturadas: uma linha só, lida do save, como o do Anime, e nenhuma sem jogo hoje", () => {
+    const mixed = () => card(/^Misturadas/);
+    setup();
+    expect(mixed().getAttribute("href")).toBe("#misturadas");
+    expect(lines(mixed())).toEqual([]);
+    expect(mixed().textContent).toContain("Músicas tocando juntas");
+    expect(description(mixed())).toContain("tocam juntas");
+    cleanup();
+    // Em andamento, sem nenhum terminado (o andamento sem evento não conta).
+    const mixedGame = { number: 1, rounds: [] };
+    setup({
+      ...emptySave(),
+      mixed: {
+        finished: {},
+        progress: {
+          [puzzleId(DATE, "misturadas-titulo")]: { events: [{ type: "SKIP" }] },
+          [puzzleId(DATE, "misturadas-musica")]: { events: [] },
+        },
+      },
+    });
+    expect(lines(mixed())).toEqual(["Hoje: em andamento"]);
+    cleanup();
+    // Os terminados de hoje, dos 2 diários (o de outro dia não conta).
+    setup({
+      ...emptySave(),
+      mixed: {
+        finished: {
+          [puzzleId(DATE, "misturadas-musica")]: mixedGame,
+          [puzzleId("2026-10-16", "misturadas-titulo")]: mixedGame,
+        },
+        progress: {},
+      },
+    });
+    expect(lines(mixed())).toEqual(["Hoje: 1 de 2 terminados"]);
+    expect(document.querySelector(".home-card.next .mode-name")?.textContent).not.toBe(
+      "Misturadas",
+    );
   });
 
   it("o cartão do Anime não é o oliva: a Início não sabe se há diário do Anime hoje", () => {

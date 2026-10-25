@@ -12,7 +12,6 @@ import { mixedDone } from "../core/mixed.ts";
 import type { Save } from "../core/records.ts";
 import { navCurrent, ROUTES, type Route, routeHref } from "../core/routes.ts";
 import { t } from "../i18n/t.ts";
-import { Icon } from "./Icon.tsx";
 import { NavLogo } from "./Logo.tsx";
 import { MedalArt, medalWidth } from "./MedalArt.tsx";
 import type { NoticeItem } from "./MedalNotice.tsx";
@@ -255,8 +254,10 @@ export function Nav({ route, save, date, favorite = null }: Props) {
             onClick={singleClick(() => setOpen((value) => !value))}
           >
             <TabLabel text={t("nav.more")} />
+            {/* A seta é da própria fonte (o usuário, 24/10/2026): o chevron do designer, girado,
+                ficava estranho ao lado do texto. Aberto, ela gira para cima. */}
             <span class="nav-more-chevron" aria-hidden="true">
-              <Icon name="next" />
+              {t("nav.moreMark")}
             </span>
           </button>
           <ul id={MENU_ID} class="nav-menu" hidden={!open}>
