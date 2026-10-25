@@ -88,7 +88,8 @@ Atualizado em 25/10/2026.
 
 ## Coisas novas que quero implementar
 
-- **ME122 (novo).** O modo "Qual é a mais popular": tocam duas músicas, e a pessoa escolhe a mais popular. Para depois.
+- **M18 (em desenho).** O quiz do dia, que nasceu da ME122: uma run por dia, com duas prévias e uma pergunta de comparação que aperta a cada acerto.
+- **M19 (depois do M18).** Revisar e melhorar (se preciso, reconstruir) o design inteiro com a taste-skill e as Web Interface Guidelines da Vercel.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).
