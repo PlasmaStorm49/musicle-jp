@@ -17,11 +17,14 @@ import {
   loadArtistList,
   loadGameData,
   loadMixedSchedule,
+  loadQuizMonth,
   lookupFailForced,
   medalsMode,
   pickAnimeDay,
   pickDay,
   pickMixedDay,
+  pickQuizDay,
+  quizMonthOf,
   REAL_DATA_DIR,
   UnsupportedCatalogError,
 } from "./source.ts";
@@ -406,6 +409,63 @@ describe("loadMixedSchedule (M17)", () => {
     const empty = { "fixtures/anime/mixed.json": { schemaVersion: 1, kind: "anime-mixed" } };
     await expect(
       loadMixedSchedule(fakeFetch(empty), BASE, FIXTURE_DATA_DIR),
+    ).rejects.toBeInstanceOf(DataLoadError);
+  });
+});
+
+describe("loadQuizMonth (M18)", () => {
+  it("o mês de hoje do quiz do dia, na pasta do Anime, revalidando o cache", async () => {
+    const calls: { url: string; cache: string | undefined; accept?: string }[] = [];
+    const serve = fakeFetch();
+    const recording: FetchLike = (url, init) => {
+      calls.push({ url, cache: init?.cache, accept: init?.headers?.Accept });
+      return serve(url, init);
+    };
+    expect(quizMonthOf("2026-10-25")).toBe("2026-10");
+    const month = await loadQuizMonth(recording, BASE, FIXTURE_DATA_DIR, "2026-10");
+    expect(month?.kind).toBe("anime-quiz");
+    // O Accept do JSON: com o */*, o servidor de desenvolvimento devolveria a página (200) no
+    // lugar do 404 do mês sem quiz.
+    expect(calls).toEqual([
+      {
+        url: `${BASE}fixtures/anime/quiz/2026-10.json`,
+        cache: "no-cache",
+        accept: "application/json",
+      },
+    ]);
+    expect(pickQuizDay(month, "2026-10-08")?.number).toBe(1);
+    expect(pickQuizDay(month, "2026-10-07")).toBeNull();
+    expect(pickQuizDay(null, "2026-10-08")).toBeNull();
+  });
+
+  it("o mês que não existe (404) é o mês sem quiz, e não uma falha", async () => {
+    await expect(loadQuizMonth(fakeFetch(), BASE, FIXTURE_DATA_DIR, "2026-09")).resolves.toBeNull();
+  });
+
+  it("versão desconhecida, outra agenda ou outro mês no lugar pede para atualizar; sem os dias, tentar de novo", async () => {
+    const file = "fixtures/anime/quiz/2026-10.json";
+    const october = JSON.parse(readFileSync(new URL(file, PUBLIC), "utf8")) as Record<
+      string,
+      unknown
+    >;
+    const wrongs = [
+      { ...october, schemaVersion: 2 },
+      { ...october, kind: "anime-mixed" },
+      { ...october, month: "2026-11" },
+      null,
+    ];
+    for (const wrong of wrongs) {
+      await expect(
+        loadQuizMonth(fakeFetch({ [file]: wrong }), BASE, FIXTURE_DATA_DIR, "2026-10"),
+      ).rejects.toBeInstanceOf(UnsupportedCatalogError);
+    }
+    const empty = { [file]: { schemaVersion: 1, kind: "anime-quiz", month: "2026-10" } };
+    await expect(
+      loadQuizMonth(fakeFetch(empty), BASE, FIXTURE_DATA_DIR, "2026-10"),
+    ).rejects.toBeInstanceOf(DataLoadError);
+    const broken = { [file]: new Error("rede") };
+    await expect(
+      loadQuizMonth(fakeFetch(broken), BASE, FIXTURE_DATA_DIR, "2026-10"),
     ).rejects.toBeInstanceOf(DataLoadError);
   });
 });

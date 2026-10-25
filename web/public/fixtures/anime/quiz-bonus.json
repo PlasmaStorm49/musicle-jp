@@ -1,0 +1,51 @@
+{
+  "catalogVersion": "2026-10-05.0396bc77",
+  "date": "2026-10-08",
+  "kind": "anime-quiz-bonus",
+  "mal": true,
+  "rounds": [
+    {
+      "a": "fixture:tr:tr07",
+      "answer": "b",
+      "b": "fixture:tr:tr37",
+      "direction": "max",
+      "family": "ano",
+      "info": {
+        "seasons": [
+          {
+            "season": "fall",
+            "year": 2021
+          },
+          {
+            "season": "summer",
+            "year": 2024
+          }
+        ]
+      }
+    },
+    {
+      "a": "fixture:tr:tr06",
+      "answer": "b",
+      "b": "fixture:tr:tr37",
+      "direction": "nao",
+      "family": "tema",
+      "info": {
+        "themes": [
+          "OP1",
+          "ED1"
+        ]
+      }
+    },
+    {
+      "a": "fixture:tr:tr08",
+      "answer": "a",
+      "b": "fixture:tr:tr37",
+      "direction": "max",
+      "family": "nota",
+      "info": {
+        "diff": 0.52
+      }
+    }
+  ],
+  "schemaVersion": 1
+}

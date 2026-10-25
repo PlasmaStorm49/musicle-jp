@@ -18,6 +18,7 @@ import {
   type MixedGame,
   type MixedProgress,
 } from "../core/mixed.ts";
+import { QUIZ_RESULTS, type QuizEvent, type QuizGame, type QuizProgress } from "../core/quiz.ts";
 import type { ArtistRecord, FinishedGame, InProgress, Save } from "../core/records.ts";
 import { emptySave, SHELF_SIZE } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
@@ -231,6 +232,39 @@ function isMixedProgress(x: unknown): x is MixedProgress {
   return isRecord(x) && Array.isArray(x.events) && x.events.every(isMixedEvent);
 }
 
+/** "<data>|quiz" (v12, M18): o quiz do dia, no campo dele. */
+const QUIZ_ID = /^(\d{4}-\d{2}-\d{2})\|quiz$/;
+
+export function isQuizId(id: string): boolean {
+  const match = QUIZ_ID.exec(id);
+  return match !== null && isValidDate(match[1] ?? "");
+}
+
+export function isQuizEvent(x: unknown): x is QuizEvent {
+  if (!isRecord(x)) return false;
+  switch (x.type) {
+    case "CHOOSE":
+      return isNonNegativeInt(x.round) && (x.side === "a" || x.side === "b");
+    case "VOID":
+      return isNonNegativeInt(x.round);
+    case "NEXT":
+      return true;
+    default:
+      return false;
+  }
+}
+
+/** Uma run terminada: o número do dia e uma letra por rodada jogada (`QUIZ_RESULTS`). */
+export function isQuizGame(x: unknown): x is QuizGame {
+  if (!isRecord(x) || !Number.isInteger(x.number) || (x.number as number) < 1) return false;
+  if (x.late !== undefined && x.late !== true) return false;
+  return typeof x.results === "string" && QUIZ_RESULTS.test(x.results);
+}
+
+function isQuizProgress(x: unknown): x is QuizProgress {
+  return isRecord(x) && Array.isArray(x.events) && x.events.every(isQuizEvent);
+}
+
 /**
  * O id de uma medalha (v8): letras, números e `|`, `:`, `-`, `_` (ex.: "superfan|apple:ar:1|completo").
  * O id vai para o save e nunca muda; o desconhecido fica (pode ser de uma lista mais nova).
@@ -303,16 +337,30 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     if (isMixedId(id) && isMixedProgress(saved)) progress[id] = saved;
     else dropped = true;
   }
+  // O quiz do dia (v12), como as Misturadas.
+  const quiz = isRecord(data.quiz) ? data.quiz : {};
+  const quizFinished: Record<string, QuizGame> = {};
+  for (const [id, game] of Object.entries(isRecord(quiz.finished) ? quiz.finished : {})) {
+    if (isQuizId(id) && isQuizGame(game)) quizFinished[id] = game;
+    else dropped = true;
+  }
+  const quizProgress: Record<string, QuizProgress> = {};
+  for (const [id, saved] of Object.entries(isRecord(quiz.progress) ? quiz.progress : {})) {
+    if (isQuizId(id) && isQuizProgress(saved)) quizProgress[id] = saved;
+    else dropped = true;
+  }
   dropped ||=
     seen.dropped ||
     shelf.dropped ||
     !isRecord(data.artists) ||
     practiceRight !== data.practiceRight ||
     !isRecord(mixed.finished) ||
-    !isRecord(mixed.progress);
+    !isRecord(mixed.progress) ||
+    !isRecord(quiz.finished) ||
+    !isRecord(quiz.progress);
   return {
     save: {
-      schemaVersion: 11,
+      schemaVersion: 12,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),
@@ -320,6 +368,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
       artists,
       practiceRight,
       mixed: { finished, progress },
+      quiz: { finished: quizFinished, progress: quizProgress },
     },
     dropped,
   };

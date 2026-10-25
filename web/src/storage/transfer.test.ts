@@ -324,3 +324,44 @@ describe("as Misturadas no arquivo (v10, M17)", () => {
     expect(replaceSave(withMixed, done).mixed.progress).toEqual({});
   });
 });
+
+describe("o quiz do dia no arquivo (v12, M18)", () => {
+  const run = { number: 1, results: "rrw" };
+  const withQuiz: Save = {
+    ...emptySave(),
+    quiz: {
+      finished: { "2026-10-22|quiz": run },
+      progress: { "2026-10-23|quiz": { events: [{ type: "NEXT" }] } },
+    },
+  };
+
+  it("viajam só as runs terminadas, e a ida e a volta as devolvem; só elas já são um progresso", () => {
+    const data = JSON.parse(exportFile(withQuiz, TODAY));
+    expect(data.save.quiz).toEqual({ finished: withQuiz.quiz.finished, progress: {} });
+    const result = parseImport(exportFile(withQuiz, TODAY), TODAY);
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.save.quiz).toEqual({ finished: withQuiz.quiz.finished, progress: {} });
+    expect(result.summary).toMatchObject({ days: 1, dropped: false });
+  });
+
+  it("o campo estranho sai, e nem a run de depois de hoje nem o jogado depois de hoje entram", () => {
+    const finished = {
+      "2026-10-22|quiz": { ...run, extra: "x".repeat(50) },
+      "2026-10-24|quiz": run,
+      "2026-10-23|quiz": { ...run, late: true },
+    };
+    const result = parseImport(file({ ...withQuiz, quiz: { finished, progress: {} } }), TODAY);
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.save.quiz).toEqual({ finished: { "2026-10-22|quiz": run }, progress: {} });
+    expect(result.summary.dropped).toBe(true);
+  });
+
+  it("a substituição conta as runs daqui que o arquivo não tem e guarda o andamento daqui", () => {
+    const imported: Save = { ...save, inProgress: {} };
+    expect(lostGames(withQuiz, imported)).toBe(1);
+    const next = replaceSave(withQuiz, imported);
+    expect(next.quiz).toEqual({ finished: {}, progress: withQuiz.quiz.progress });
+    const done = { ...imported, quiz: { finished: { "2026-10-23|quiz": run }, progress: {} } };
+    expect(replaceSave(withQuiz, done).quiz.progress).toEqual({});
+  });
+});

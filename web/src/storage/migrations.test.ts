@@ -7,8 +7,10 @@ const V8 = { seenMedals: [], shelf: [], artists: {} };
 const V9 = { practiceRight: 0 };
 /** O que a v10 (M17) acrescenta: as Misturadas, vazias. */
 const V10 = { mixed: { finished: {}, progress: {} } };
+/** O que a v12 (M18) acrescenta: o quiz do dia, vazio. */
+const V12 = { quiz: { finished: {}, progress: {} } };
 /** Tudo o que um save de antes da v8 ganha até a atual. */
-const LATEST = { ...V8, ...V9, ...V10 };
+const LATEST = { ...V8, ...V9, ...V10, ...V12 };
 
 describe("migrate", () => {
   it("a versão atual passa sem mudança", () => {
@@ -52,7 +54,7 @@ describe("migrate", () => {
       inProgress: { "2026-10-12|song": { answerMode: "typing", events: [{ type: "SKIP" }] } },
     };
     expect(MIGRATIONS[2]?.(v2)).toEqual({ history: {}, inProgress: {} });
-    expect(migrate(v2, 2)).toEqual({ schemaVersion: 11, history: {}, inProgress: {}, ...LATEST });
+    expect(migrate(v2, 2)).toEqual({ schemaVersion: 12, history: {}, inProgress: {}, ...LATEST });
   });
 
   it("v3 → v4 guarda tudo como está: a ajuda (P149) só acrescenta", () => {
@@ -82,7 +84,7 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[3]?.(v3)).toEqual(v3);
-    expect(migrate(v3, 3)).toEqual({ ...v3, ...LATEST, schemaVersion: 11 });
+    expect(migrate(v3, 3)).toEqual({ ...v3, ...LATEST, schemaVersion: 12 });
   });
 
   it("v4 → v5 guarda tudo como está: o pulo depois da ajuda (P163) só acrescenta", () => {
@@ -111,7 +113,7 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[4]?.(v4)).toEqual(v4);
-    expect(migrate(v4, 4)).toEqual({ ...v4, ...LATEST, schemaVersion: 11 });
+    expect(migrate(v4, 4)).toEqual({ ...v4, ...LATEST, schemaVersion: 12 });
   });
 
   it("v5 → v6 guarda tudo como está: os diários do Anime (P250) só acrescentam ids", () => {
@@ -147,7 +149,7 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[5]?.(v5)).toEqual(v5);
-    expect(migrate(v5, 5)).toEqual({ ...v5, ...LATEST, schemaVersion: 11 });
+    expect(migrate(v5, 5)).toEqual({ ...v5, ...LATEST, schemaVersion: 12 });
   });
 
   it("v6 → v7 guarda tudo como está: o jogado depois (P267) só acrescenta o `late`", () => {
@@ -182,7 +184,7 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[6]?.(v6)).toEqual(v6);
-    expect(migrate(v6, 6)).toEqual({ ...v6, ...LATEST, schemaVersion: 11 });
+    expect(migrate(v6, 6)).toEqual({ ...v6, ...LATEST, schemaVersion: 12 });
   });
 
   it("v7 → v8 guarda tudo como está e acrescenta as medalhas e o modo por artista (P289)", () => {
@@ -211,7 +213,7 @@ describe("migrate", () => {
       inProgress: { "2026-10-22|anime-musica-facil": { events: [{ type: "SKIP" }] } },
     };
     expect(MIGRATIONS[7]?.(v7)).toEqual({ ...v7, ...V8 });
-    expect(migrate(v7, 7)).toEqual({ ...v7, ...LATEST, schemaVersion: 11 });
+    expect(migrate(v7, 7)).toEqual({ ...v7, ...LATEST, schemaVersion: 12 });
   });
 
   it("v8 → v9 guarda tudo como está e acrescenta os acertos do Treino, zerados (P308)", () => {
@@ -234,7 +236,7 @@ describe("migrate", () => {
       artists: { "apple:ar:1": { right: 52, done: true } },
     };
     expect(MIGRATIONS[8]?.(v8)).toEqual({ ...v8, ...V9 });
-    expect(migrate(v8, 8)).toEqual({ ...v8, ...V9, ...V10, schemaVersion: 11 });
+    expect(migrate(v8, 8)).toEqual({ ...v8, ...V9, ...V10, ...V12, schemaVersion: 12 });
   });
 
   it("v9 → v10 guarda tudo como está e acrescenta as Misturadas, vazias (M17)", () => {
@@ -258,7 +260,7 @@ describe("migrate", () => {
       practiceRight: 12,
     };
     expect(MIGRATIONS[9]?.(v9)).toEqual({ ...v9, ...V10 });
-    expect(migrate(v9, 9)).toEqual({ ...v9, ...V10, schemaVersion: 11 });
+    expect(migrate(v9, 9)).toEqual({ ...v9, ...V10, ...V12, schemaVersion: 12 });
   });
 
   it("v10 → v11 guarda tudo como está: o jogado depois nas Misturadas só acrescenta o `late`", () => {
@@ -279,12 +281,27 @@ describe("migrate", () => {
       },
     };
     expect(MIGRATIONS[10]?.(v10)).toEqual(v10);
-    expect(migrate(v10, 10)).toEqual({ ...v10, schemaVersion: 11 });
+    expect(migrate(v10, 10)).toEqual({ ...v10, ...V12, schemaVersion: 12 });
+  });
+
+  it("v11 → v12 guarda tudo como está e acrescenta o quiz do dia, vazio (M18)", () => {
+    const v11 = {
+      schemaVersion: 11,
+      history: {},
+      inProgress: {},
+      seenMedals: ["geral|primeiro"],
+      shelf: [],
+      artists: {},
+      practiceRight: 3,
+      mixed: { finished: {}, progress: { "2026-10-24|misturadas-titulo": { events: [] } } },
+    };
+    expect(MIGRATIONS[11]?.(v11)).toEqual({ ...v11, ...V12 });
+    expect(migrate(v11, 11)).toEqual({ ...v11, ...V12, schemaVersion: 12 });
   });
 
   it("v1 vai até a atual passando por todas", () => {
     expect(migrate({ schemaVersion: 1, settings: { answerMode: "typing" } }, 1)).toEqual({
-      schemaVersion: 11,
+      schemaVersion: 12,
       history: {},
       inProgress: {},
       ...LATEST,

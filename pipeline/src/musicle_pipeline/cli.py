@@ -26,6 +26,7 @@ from musicle_pipeline.anime_mixed import (
 from musicle_pipeline.anime_quiz import KIND as QUIZ_KIND
 from musicle_pipeline.anime_quiz import (
     QuizContext,
+    generate_bonus,
     generate_quiz,
     load_mal,
     quiz_regenerate_problems,
@@ -33,6 +34,7 @@ from musicle_pipeline.anime_quiz import (
     read_quiz_dir,
     read_quiz_ref,
     song_facts,
+    validate_quiz_bonus,
     validate_quiz_schedule,
     write_quiz_dir,
 )
@@ -56,6 +58,7 @@ from musicle_pipeline.models import JSON, InputError
 from musicle_pipeline.normalize import has_unassigned, needs_romaji
 from musicle_pipeline.paths import (
     MIXED_FILE,
+    QUIZ_BONUS_FILE,
     QUIZ_DIR,
     anime_paths,
     apple_snapshots_dir,
@@ -420,10 +423,19 @@ def _validate_anime(args: argparse.Namespace) -> int:
         if dumps(mixed).encode("utf-8") != mpath.read_bytes():
             mixed_problems.append("arquivo fora da forma canônica (regere com o pipeline)")
     code = _report(mpath, mixed_problems)
-    # O quiz do dia (M18), se a pasta dele existir ao lado.
+    # O quiz do dia (M18), se a pasta dele existir ao lado; e o bônus de estreia, se existir.
     if code or not qdir.is_dir():
         return code
-    return _validate_quiz(qdir, catalog, spath, mpath)
+    code = _validate_quiz(qdir, catalog, spath, mpath)
+    bonus = spath.with_name(QUIZ_BONUS_FILE)
+    if code or not bonus.exists():
+        return code
+    ctx = _quiz_context(catalog["provider"], catalog, spath, mpath, None)
+    data = read_json(bonus)
+    problems = validate_quiz_bonus(data, ctx)
+    if not problems and dumps(data).encode("utf-8") != bonus.read_bytes():
+        problems.append("arquivo fora da forma canônica (regere com o pipeline)")
+    return _report(bonus, problems)
 
 
 def _schedule_anime(args: argparse.Namespace) -> int:
@@ -567,6 +579,42 @@ def _schedule_quiz(args: argparse.Namespace) -> int:
     total = len(result.schedule["days"])
     print(f"{out}: {len(result.added)} dia(s) novo(s){span}, {total} no total", end="")
     print(f"; {len(written)} mês(es) gravado(s)" if written else "; sem mudanças")
+    return 0
+
+
+def _quiz_bonus(args: argparse.Namespace) -> int:
+    """O bônus de estreia do quiz (o usuário, 25/10/2026): as 3 rodadas de outras perguntas do dia
+    `--date`, que precisa estar na agenda do quiz (o dia diz a pergunta que o bônus não repete).
+    Grava o QUIZ_BONUS_FILE da pasta do Anime do provedor."""
+    paths = anime_paths(args.provider)
+    catalog_path = paths.public_dir / "catalog.json"
+    if not catalog_path.exists():
+        return _report(catalog_path, ["arquivo ausente (rode o build-anime)"])
+    catalog = read_json(catalog_path)
+    if _report(catalog_path, validate_anime_catalog(catalog, catalog_path.read_bytes())):
+        return 1
+    schedule, problems = read_quiz_dir(paths.public_dir / QUIZ_DIR)
+    if problems:
+        return _report(paths.public_dir / QUIZ_DIR, problems)
+    day = (schedule or {"days": {}})["days"].get(args.date.isoformat())
+    if day is None:
+        print(
+            f"{args.date}: o dia não está na agenda do quiz (rode o schedule-quiz)", file=sys.stderr
+        )
+        return 1
+    mal_file = resolve(args.mal_file) if args.mal_file else None
+    ctx = _quiz_context(
+        args.provider,
+        catalog,
+        paths.public_dir / "schedule.json",
+        paths.public_dir / MIXED_FILE,
+        mal_file,
+    )
+    bonus = generate_bonus(ctx, args.date, day["family"])
+    out = paths.public_dir / QUIZ_BONUS_FILE
+    changed = write_if_changed(out, dumps(bonus))
+    families = ", ".join(rnd["family"] for rnd in bonus["rounds"])
+    print(f"{out}: o bônus de {args.date} ({families})" + ("" if changed else "; sem mudanças"))
     return 0
 
 
@@ -1361,6 +1409,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     quiz.add_argument("--out-dir", type=Path, help="a pasta dos meses (padrão: a do provedor)")
     quiz.set_defaults(func=_schedule_quiz)
+
+    bonus = sub.add_parser(
+        "quiz-bonus",
+        help="o bônus de estreia do quiz do dia: 3 rodadas de outras perguntas (M18), uma vez",
+    )
+    bonus.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
+    bonus.add_argument(
+        "--date", type=date.fromisoformat, required=True, help="o dia da estreia, na agenda do quiz"
+    )
+    bonus.add_argument(
+        "--mal-file",
+        type=Path,
+        help="os dados do MAL (fora do repositório, P380; nas fixtures, os inventados)",
+    )
+    bonus.set_defaults(func=_quiz_bonus)
 
     args = parser.parse_args(argv)
     try:

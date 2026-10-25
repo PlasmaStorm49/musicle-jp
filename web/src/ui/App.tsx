@@ -85,6 +85,7 @@ import {
   usePracticeRecord,
 } from "./Practice.tsx";
 import { BackupAction, ProgressTransfer, type SaveMode } from "./Progress.tsx";
+import { Quiz, type QuizStore, useQuizStore } from "./Quiz.tsx";
 import { singleClickLink } from "./singleClick.ts";
 import { savedVolume } from "./volume.ts";
 
@@ -285,6 +286,9 @@ export function App() {
   // As Misturadas (M17): a agenda delas, também só quando a pessoa abre a aba; o catálogo é o do
   // Anime.
   const mixed = useMixedStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
+  // O quiz do dia (M18): o mês de hoje da agenda dele, também só quando a pessoa abre a aba; o
+  // catálogo é o do Anime.
+  const quiz = useQuizStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR, date });
   const refresh = useCallback(() => {
     const read = loadSave(saves.store);
     if (read.writable) setLatest(read.save);
@@ -469,6 +473,7 @@ export function App() {
                 artists={artists}
                 anime={anime}
                 mixed={mixed}
+                quiz={quiz}
                 onResult={onResult}
               />
             )}
@@ -529,6 +534,8 @@ type ReadyProps = {
   readonly anime: AnimeStore;
   /** A agenda das Misturadas, também guardada no App. */
   readonly mixed: MixedStore;
+  /** O mês de hoje do quiz do dia, também guardado no App. */
+  readonly quiz: QuizStore;
   /** O resultado de um diário acabou de aparecer: as medalhas novas (M16). */
   readonly onResult: () => void;
 };
@@ -551,6 +558,7 @@ function Ready({
   artists,
   anime,
   mixed,
+  quiz,
   onResult,
 }: ReadyProps) {
   const { tab } = route;
@@ -701,6 +709,22 @@ function Ready({
           engine={engine}
           resolveUrl={resolveUrl}
           announce={announce}
+        />
+      );
+    // O quiz do dia (M18): a run de hoje (o Histórico dele fica para depois).
+    case "quiz":
+      return (
+        <Quiz
+          anime={anime}
+          store={quiz}
+          date={date}
+          save={latest}
+          engine={engine}
+          resolveUrl={resolveUrl}
+          announce={announce}
+          saveStore={saves.store}
+          onSaved={onSaved}
+          shareUrl={BASE_URL}
         />
       );
     default:

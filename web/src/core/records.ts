@@ -7,13 +7,14 @@
 import type { CatalogIndex } from "./catalog.ts";
 import type { Daily, DailyKey } from "./daily.ts";
 import type { MixedKey, MixedSave } from "./mixed.ts";
+import type { QuizKey, QuizSave } from "./quiz.ts";
 import { createGame, type GameEvent, type GameState, isFinished, reduce } from "./reducer.ts";
 import { DAILY_SCORING, type ScorableRound, scoreOf } from "./rules.ts";
 
 /**
  * "<data>|<diário>", ex.: "2026-10-08|album" (o Normal), "2026-10-08|song" (o Desafio) ou, no
  * Anime (v6, P250), "2026-10-08|anime-musica-facil"; nas Misturadas (v10, M17), no campo delas,
- * "2026-10-08|misturadas-musica".
+ * "2026-10-08|misturadas-musica"; no quiz do dia (v12, M18), no campo dele, "2026-10-08|quiz".
  */
 export type PuzzleId = string;
 
@@ -72,10 +73,10 @@ export type SuperfanOutcome = { readonly done: boolean; readonly perfect: boolea
  * v5 (P163): o pulo depois da ajuda. v6 (P250): os ids dos diários do Anime. v7 (P267): a marca
  * do jogado depois, `late`. v8 (P289): as medalhas já avisadas, a estante (ME118) e o modo por
  * artista. v9 (P308): os acertos do Treino. v10 (M17): as Misturadas. v11: o jogado depois
- * nelas, pelo Histórico (storage/migrations.ts).
+ * nelas, pelo Histórico. v12 (M18): o quiz do dia (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 11;
+  readonly schemaVersion: 12;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
   /** Os ids das medalhas que esta pessoa já viu avisadas, em ordem alfabética (P281). */
@@ -94,6 +95,8 @@ export type Save = {
    * As estatísticas e a sequência do topo não as veem; as medalhas e o Histórico leem os delas.
    */
   readonly mixed: MixedSave;
+  /** O quiz do dia (M18, v12): as runs terminadas e as em andamento (P2: a run retoma). */
+  readonly quiz: QuizSave;
 };
 
 /** A estante (ME118) mostra até 3. */
@@ -101,7 +104,7 @@ export const SHELF_SIZE = 3;
 
 export function emptySave(): Save {
   return {
-    schemaVersion: 11,
+    schemaVersion: 12,
     history: {},
     inProgress: {},
     seenMedals: [],
@@ -109,10 +112,11 @@ export function emptySave(): Save {
     artists: {},
     practiceRight: 0,
     mixed: { finished: {}, progress: {} },
+    quiz: { finished: {}, progress: {} },
   };
 }
 
-export function puzzleId(date: string, key: DailyKey | MixedKey): PuzzleId {
+export function puzzleId(date: string, key: DailyKey | MixedKey | QuizKey): PuzzleId {
   return `${date}|${key}`;
 }
 
@@ -311,19 +315,22 @@ export function withSuperfanEnd(save: Save, artistId: string, outcome: SuperfanO
 
 /**
  * Limpa ao abrir o jogo os andamentos que não podem mais ser retomados: os que não estão em
- * `keep` (hoje e os dias do Histórico, P269; nas Misturadas, só hoje). Sem nada a limpar, o mesmo
- * objeto.
+ * `keep` (hoje e os dias do Histórico, P269), também nas Misturadas e no quiz. Sem nada a limpar, o
+ * mesmo objeto.
  */
 export function pruneProgress(save: Save, keep: readonly PuzzleId[]): Save {
   const kept = new Set(keep);
   const stale = (map: Readonly<Record<PuzzleId, unknown>>) =>
     Object.keys(map).some((id) => !kept.has(id));
-  if (!stale(save.inProgress) && !stale(save.mixed.progress)) return save;
+  if (!stale(save.inProgress) && !stale(save.mixed.progress) && !stale(save.quiz.progress)) {
+    return save;
+  }
   const only = <T>(map: Readonly<Record<PuzzleId, T>>) =>
     Object.fromEntries(Object.entries(map).filter(([id]) => kept.has(id)));
   return {
     ...save,
     inProgress: only(save.inProgress),
     mixed: { ...save.mixed, progress: only(save.mixed.progress) },
+    quiz: { ...save.quiz, progress: only(save.quiz.progress) },
   };
 }

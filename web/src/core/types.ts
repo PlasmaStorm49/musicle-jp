@@ -7,6 +7,8 @@ export type {
   AnimeTrack,
 } from "./generated/anime-catalog.ts";
 export type { MixedDay, MixedRound, MixedSchedule } from "./generated/anime-mixed.ts";
+export type { QuizDay, QuizInfo, QuizMonth, QuizRound } from "./generated/anime-quiz.ts";
+export type { QuizBonus, QuizBonusRound } from "./generated/anime-quiz-bonus.ts";
 export type { AnimeDay, AnimeSchedule } from "./generated/anime-schedule.ts";
 export type { ArtistAlbum, ArtistCatalog, ArtistTrack } from "./generated/artist.ts";
 export type { ArtistList, ArtistListEntry } from "./generated/artist-list.ts";

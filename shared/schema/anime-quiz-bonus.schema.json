@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PlasmaStorm49/musicle-jp/shared/schema/anime-quiz-bonus.schema.json",
+  "title": "Bônus de estreia do quiz do dia do musicle-jp",
+  "description": "As rodadas bônus do dia da estreia do quiz do dia (M18; o usuário, 25/10/2026): 3 rodadas, cada uma com uma pergunta de outro tipo, para mostrar a variedade do modo. Não contam no resultado. Um arquivo só, ao lado do catálogo do Anime. Gerado só pelo pipeline (comando quiz-bonus). O dado da revelação é o mesmo do anime-quiz.schema.json (o `info` de lá): mudou um, muda o outro.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "date", "catalogVersion", "mal", "rounds"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "anime-quiz-bonus" },
+    "date": {
+      "description": "O dia da estreia: só nele o bônus aparece.",
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "catalogVersion": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}\\.[0-9a-f]{8}$" },
+    "mal": {
+      "description": "Se os dados do MAL estavam na geração (P380).",
+      "type": "boolean"
+    },
+    "rounds": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "$ref": "#/$defs/round" }
+    }
+  },
+  "$defs": {
+    "trackId": { "type": "string", "pattern": "^[a-z]+:tr:[A-Za-z0-9_-]+$" },
+    "pair": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "info": {
+      "title": "Dado da revelação do bônus do quiz do musicle-jp",
+      "description": "O mesmo `info` do anime-quiz.schema.json, na ordem a e b (P382).",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "seasons": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["year", "season"],
+            "properties": {
+              "year": { "type": "integer", "minimum": 1900 },
+              "season": { "enum": ["winter", "spring", "summer", "fall"] }
+            }
+          }
+        },
+        "years": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": { "type": "integer", "minimum": 1900 }
+        },
+        "rates": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": { "type": "number", "minimum": 0, "maximum": 100 }
+        },
+        "playlists": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": { "type": "integer", "minimum": 1 }
+        },
+        "themes": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": { "type": "string", "pattern": "^(OP|ED|IN)[0-9]*$" }
+        },
+        "diff": { "type": "number", "minimum": 0 }
+      }
+    },
+    "round": {
+      "title": "Rodada do bônus de estreia do quiz do musicle-jp",
+      "description": "A pergunta da rodada (a família, a direção e o parâmetro, como no dia do quiz), as duas faixas, a resposta e o dado da revelação.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "direction", "a", "b", "answer"],
+      "properties": {
+        "family": {
+          "enum": ["ano", "nota", "membros", "playlists", "amq", "rotulo", "fonte", "tema"]
+        },
+        "direction": { "enum": ["max", "min", "tem", "nao"] },
+        "param": { "type": ["string", "integer"] },
+        "a": { "$ref": "#/$defs/trackId" },
+        "b": { "$ref": "#/$defs/trackId" },
+        "answer": { "enum": ["a", "b"] },
+        "info": { "$ref": "#/$defs/info" }
+      }
+    }
+  }
+}

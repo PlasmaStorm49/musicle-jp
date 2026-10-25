@@ -1,6 +1,7 @@
 // @vitest-environment happy-dom
 import { cleanup, createEvent, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { quizId } from "../core/quiz.ts";
 import { emptySave, puzzleId, type Save } from "../core/records.ts";
 import type { Route } from "../core/routes.ts";
 import { generalArt } from "./MedalArt.tsx";
@@ -23,7 +24,7 @@ const toggle = () => screen.getByRole("button", { name: "Mais" });
 const menu = () => document.getElementById("nav-more-menu") as HTMLElement;
 
 describe("Nav (P225, P265, P287)", () => {
-  it("o Mais começa fechado, e o clique abre e fecha o menu com as Misturadas, os Artistas, o Histórico e as Medalhas", () => {
+  it("o Mais começa fechado, e o clique abre e fecha o menu com as Misturadas, o Quiz, os Artistas, o Histórico e as Medalhas", () => {
     setup();
     expect(toggle().getAttribute("aria-expanded")).toBe("false");
     expect(toggle().getAttribute("aria-controls")).toBe("nav-more-menu");
@@ -32,7 +33,7 @@ describe("Nav (P225, P265, P287)", () => {
     expect(toggle().getAttribute("aria-expanded")).toBe("true");
     expect(menu().hidden).toBe(false);
     const links = [...menu().querySelectorAll("a")].map((a) => a.getAttribute("href"));
-    expect(links).toEqual(["#misturadas", "#artistas", "#historico", "#medalhas"]);
+    expect(links).toEqual(["#misturadas", "#quiz", "#artistas", "#historico", "#medalhas"]);
     // Ao abrir, o foco fica onde estava (no botão, para quem usa o teclado).
     fireEvent.click(toggle());
     expect(menu().hidden).toBe(true);
@@ -206,32 +207,48 @@ describe("Nav (P225, P265, P287)", () => {
     vi.unstubAllGlobals();
   });
 
-  it("na linha, só as Misturadas, a partir de 720 px; no menu, elas só abaixo disso (M17)", () => {
+  it("na linha, as Misturadas e o Quiz, cada um a partir do seu corte; no menu, abaixo dele (o usuário, 25/10/2026)", () => {
     setup();
     const inline = [...document.querySelectorAll(".nav-inline a")].map((a) =>
       a.getAttribute("href"),
     );
-    expect(inline).toEqual(["#misturadas"]);
+    expect(inline).toEqual(["#misturadas", "#quiz"]);
     const narrow = [...menu().querySelectorAll(".nav-narrow a")].map((a) => a.getAttribute("href"));
-    expect(narrow).toEqual(["#misturadas"]);
+    expect(narrow).toEqual(["#misturadas", "#quiz"]);
   });
 
   it.each([
-    [true, undefined],
-    [false, "true"],
+    ["misturadas-titulo", "460", true, undefined],
+    ["misturadas-titulo", "460", false, "true"],
+    ["quiz", "720", true, undefined],
+    ["quiz", "720", false, "true"],
   ] as const)(
-    "nas Misturadas, com a tela larga = %s, o Mais leva o aria-current = %s (elas estão nele só na estreita)",
-    (wide, current) => {
+    "em %s, com a largura de %s px = %s, o Mais leva o aria-current = %s (o diário está nele só abaixo do corte)",
+    (tab, cut, wide, current) => {
       vi.stubGlobal("matchMedia", (query: string) => ({
-        matches: query.includes("720") ? wide : true,
+        matches: query.includes(cut) ? wide : true,
         addEventListener: () => {},
         removeEventListener: () => {},
       }));
-      setup({ tab: "misturadas-titulo", date: null });
+      setup({ tab, date: null });
       expect(toggle().getAttribute("aria-current") ?? undefined).toBe(current);
-      const link = document.querySelector(".nav-inline a[href='#misturadas']");
-      expect(link?.getAttribute("aria-current")).toBe("true");
+      const href = tab === "quiz" ? "#quiz" : "#misturadas";
+      const link = document.querySelector(`.nav-inline a[href='${href}']`);
+      expect(link?.getAttribute("aria-current")).toBe(tab === "quiz" ? "page" : "true");
       vi.unstubAllGlobals();
     },
   );
+
+  it("o ✓ do Quiz com a run de hoje terminada (M18)", () => {
+    const done = {
+      ...emptySave(),
+      quiz: { finished: { [quizId(DATE)]: { number: 1, results: "rrw" } }, progress: {} },
+    };
+    setup(HOME, done);
+    const link = document.querySelector(".nav-inline a[href='#quiz']");
+    expect(link?.textContent).toContain("✓");
+    cleanup();
+    setup();
+    expect(document.querySelector(".nav-inline a[href='#quiz']")?.textContent).not.toContain("✓");
+  });
 });

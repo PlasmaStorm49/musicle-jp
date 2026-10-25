@@ -6,6 +6,8 @@ import type {
   AnimeSchedule,
   Catalog,
   MixedSchedule,
+  QuizBonus,
+  QuizMonth,
   Schedule,
 } from "../src/core/types.ts";
 
@@ -24,6 +26,10 @@ export const animeCatalog = readJson<AnimeCatalog>("anime/catalog.json");
 export const animeSchedule = readJson<AnimeSchedule>("anime/schedule.json");
 /** A agenda fictícia das Misturadas (M17), sobre o mesmo catálogo do Anime. */
 export const mixedSchedule = readJson<MixedSchedule>("anime/mixed.json");
+/** Outubro da agenda fictícia do quiz do dia (M18), sobre o mesmo catálogo do Anime. */
+export const quizOctober = readJson<QuizMonth>("anime/quiz/2026-10.json");
+/** O bônus de estreia fictício (o dia 08/10, o 1º da agenda fictícia do quiz). */
+export const quizBonus = readJson<QuizBonus>("anime/quiz-bonus.json");
 
 /** A 1ª parada real (web/public/data), para os testes do provedor Apple. */
 export const realCatalog = readJson<Catalog>("catalog.json", "data");

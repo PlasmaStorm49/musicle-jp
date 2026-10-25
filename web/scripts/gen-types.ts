@@ -24,6 +24,14 @@ export const SCHEMAS = [
     schema: "shared/schema/anime-mixed.schema.json",
     out: "web/src/core/generated/anime-mixed.ts",
   },
+  {
+    schema: "shared/schema/anime-quiz.schema.json",
+    out: "web/src/core/generated/anime-quiz.ts",
+  },
+  {
+    schema: "shared/schema/anime-quiz-bonus.schema.json",
+    out: "web/src/core/generated/anime-quiz-bonus.ts",
+  },
 ] as const;
 
 // Títulos dos schemas → nomes curtos. $defs genéricos ganham nomes que não escondem os
@@ -49,6 +57,13 @@ const BY_TITLE: Record<string, string> = {
   "Dia da agenda das Misturadas do musicle-jp": "MixedDay",
   "Rodadas de um diário das Misturadas do musicle-jp": "MixedRounds",
   "Rodada das Misturadas do musicle-jp": "MixedRound",
+  "Agenda do quiz do dia do musicle-jp": "QuizMonth",
+  "Dia da agenda do quiz do musicle-jp": "QuizDay",
+  "Rodada do quiz do musicle-jp": "QuizRound",
+  "Dado da revelação do quiz do musicle-jp": "QuizInfo",
+  "Bônus de estreia do quiz do dia do musicle-jp": "QuizBonus",
+  "Rodada do bônus de estreia do quiz do musicle-jp": "QuizBonusRound",
+  "Dado da revelação do bônus do quiz do musicle-jp": "QuizBonusInfo",
 };
 const BY_KEY: Record<string, string> = {
   date: "IsoDate",

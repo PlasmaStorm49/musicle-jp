@@ -114,6 +114,10 @@ def anime_quiz_schema_path() -> Path:
     return repo_root() / "shared" / "schema" / "anime-quiz.schema.json"
 
 
+def anime_quiz_bonus_schema_path() -> Path:
+    return repo_root() / "shared" / "schema" / "anime-quiz-bonus.schema.json"
+
+
 @dataclass(frozen=True)
 class AnimePaths:
     """O Anime (M14) tem curadoria, cache e pasta próprios, como o modo por artista: os ids e
@@ -168,3 +172,6 @@ def known_schedules() -> list[tuple[Path, str]]:
 MIXED_FILE = "mixed.json"
 # A agenda do quiz do dia (M18), na pasta do Anime: um arquivo por mês, AAAA-MM.json (P379).
 QUIZ_DIR = "quiz"
+# O bônus de estreia do quiz (o usuário, 25/10/2026), ao lado do catálogo do Anime, fora da pasta
+# dos meses (que só aceita os meses).
+QUIZ_BONUS_FILE = "quiz-bonus.json"

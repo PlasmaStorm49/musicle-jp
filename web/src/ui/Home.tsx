@@ -3,6 +3,7 @@ import { useEffect, useRef } from "preact/hooks";
 import { ANIME_KEYS } from "../core/daily.ts";
 import { type ArtistSummary, dailyStatus, nextDaily, progress } from "../core/home.ts";
 import { mixedIds } from "../core/mixed.ts";
+import { quizStatusOf } from "../core/quiz.ts";
 import { puzzleId, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
 import { MAX_STAGE, MODES, secondsAt } from "../core/rules.ts";
@@ -35,7 +36,6 @@ type Props = {
 function hitsCard(save: Save, day: Day | null, date: string): Card {
   return {
     tab: "hits",
-    wide: true,
     name: t("hits.title"),
     short: t("home.hitsShort"),
     hint: t("home.hitsHint"),
@@ -65,7 +65,6 @@ function animeCard(save: Save, date: string): Card {
     done > 0 ? t("home.animeLine", { done, total }) : playing > 0 ? t("home.animePlaying") : null;
   return {
     tab: "anime",
-    wide: true,
     name: t("anime.title"),
     short: t("home.animeShort"),
     hint: t("home.animeHint"),
@@ -113,11 +112,34 @@ function artistsText(summary: ArtistSummary | null): ComponentChild {
   return <WithName around={around} name={summary.artist} />;
 }
 
+/**
+ * O cartão do quiz do dia (M18), ao lado das Misturadas: uma linha só, lida do save, como o delas
+ * (a Início não carrega a agenda do quiz). A run de hoje terminada, ou em andamento; sem jogo hoje,
+ * nenhuma linha.
+ */
+function quizCard(save: Save, date: string): Card {
+  const status = quizStatusOf(save, date, 0);
+  const line =
+    status.kind === "done"
+      ? t("home.quizLine", { reached: status.reached, right: tn("quiz.right", status.right) })
+      : status.kind === "playing"
+        ? t("home.quizPlaying")
+        : null;
+  return {
+    tab: "quiz",
+    name: t("quiz.title"),
+    short: t("home.quizShort"),
+    hint: t("home.quizHint"),
+    lines: line ? [line] : [],
+  };
+}
+
 /** O cartão do modo por artista. Sai com o <li> da nav quando o site ficar público (P117). */
 function artistsCard(summary: ArtistSummary | null): Card {
   const text = artistsText(summary);
   return {
     tab: "artists",
+    wide: true,
     name: t("artists.title"),
     short: t("home.artistsShort"),
     hint: t("home.artistsHint"),
@@ -126,8 +148,8 @@ function artistsCard(summary: ArtistSummary | null): Card {
 }
 
 /**
- * A home: o nome do jogo, um cartão por categoria da nav (P226): os Hits e o Anime na linha toda,
- * e as Misturadas e os Artistas lado a lado embaixo (o usuário, 24/10/2026); como jogar
+ * A home: o nome do jogo, um cartão por categoria da nav (P226), em três linhas (o usuário,
+ * 25/10/2026): os Hits e o Anime, as Misturadas e o Quiz, e os Artistas na linha toda; como jogar
  * (recolhido) e o tema. Os Hits com o estado dos dois diários; o oliva, a ação da tela, vai neles
  * enquanto houver um diário por jogar.
  */
@@ -158,6 +180,7 @@ export function Home({ day, date, save, artists }: Props) {
             hitsCard(save, day, date),
             animeCard(save, date),
             mixedCard(save, date),
+            quizCard(save, date),
             artistsCard(artists),
           ]}
           idPrefix="home"

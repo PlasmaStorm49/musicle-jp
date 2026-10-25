@@ -69,7 +69,9 @@ const V8 = { seenMedals: [], shelf: [], artists: {} };
 const V9 = { practiceRight: 0 };
 /** E a v10 (M17): as Misturadas, vazias. */
 const V10 = { mixed: { finished: {}, progress: {} } };
-const LATEST = { ...V8, ...V9, ...V10 };
+/** E a v12 (M18): o quiz do dia, vazio. */
+const V12 = { quiz: { finished: {}, progress: {} } };
+const LATEST = { ...V8, ...V9, ...V10, ...V12 };
 
 describe("loadSave", () => {
   it("sem nada salvo: save vazio e gravável", () => {
@@ -284,14 +286,14 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v3));
     expect(loadSave(store)).toEqual({
-      save: { ...v3, ...LATEST, schemaVersion: 11 },
+      save: { ...v3, ...LATEST, schemaVersion: 12 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(11);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(12);
   });
 
   it("um save v4 de verdade, com a ajuda, chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -322,7 +324,7 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v4));
     expect(loadSave(store)).toEqual({
-      save: { ...v4, ...LATEST, schemaVersion: 11 },
+      save: { ...v4, ...LATEST, schemaVersion: 12 },
       writable: true,
       notice: null,
     });
@@ -361,13 +363,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v5));
     expect(loadSave(store)).toEqual({
-      save: { ...v5, ...LATEST, schemaVersion: 11 },
+      save: { ...v5, ...LATEST, schemaVersion: 12 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(11);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(12);
   });
 
   it("um save v6 de verdade chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -398,13 +400,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v6));
     expect(loadSave(store)).toEqual({
-      save: { ...v6, ...LATEST, schemaVersion: 11 },
+      save: { ...v6, ...LATEST, schemaVersion: 12 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(11);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(12);
   });
 
   describe("o jogado depois (v7, P267)", () => {
@@ -454,7 +456,7 @@ describe("loadSave", () => {
     // As Misturadas (v10) também: os 2 ids delas andam com a versão (a v11 só marca o jogado
     // depois nelas, pelo Histórico).
     expect({ version: SAVE_SCHEMA_VERSION, keys: DAILY_KEYS, mixed: MIXED_KEYS }).toEqual({
-      version: 11,
+      version: 12,
       mixed: ["misturadas-musica", "misturadas-titulo"],
       keys: [
         "album",
@@ -704,14 +706,14 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     };
     const store = withRaw(JSON.stringify(v7));
     expect(loadSave(store)).toEqual({
-      save: { ...v7, ...LATEST, schemaVersion: 11 },
+      save: { ...v7, ...LATEST, schemaVersion: 12 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => withArtistRight(s, "apple:ar:1"))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 11,
+      schemaVersion: 12,
       history: v7.history,
     });
   });
@@ -763,14 +765,14 @@ describe("os acertos do Treino (v9, P308)", () => {
     };
     const store = withRaw(JSON.stringify(v8));
     expect(loadSave(store)).toEqual({
-      save: { ...v8, ...V9, ...V10, schemaVersion: 11 },
+      save: { ...v8, ...V9, ...V10, ...V12, schemaVersion: 12 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, withPracticeRight)).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 11,
+      schemaVersion: 12,
       practiceRight: 1,
       artists: v8.artists,
     });
@@ -986,5 +988,51 @@ describe("openStore", () => {
     expect(persistent).toBe(false);
     store.setItem("x", "1");
     expect(store.getItem("x")).toBe("1");
+  });
+});
+
+describe("o quiz do dia no save (v12, M18)", () => {
+  it("as runs terminadas e os andamentos que valem ficam; o que não vale sai, e vira reparo", () => {
+    const quiz = {
+      finished: {
+        "2026-10-24|quiz": { number: 1, results: "rrw" },
+        "2026-10-23|quiz": { number: 2, results: "rrw", late: true },
+        "2026-10-22|quiz": { number: 3, results: "" }, // nenhuma rodada
+        "2026-10-21|quiz": { number: 4, results: "rrx" }, // letra fora
+        "2026-10-20|quiz": { number: 0, results: "r" }, // número fora
+        "2026-10-19|quiz": { number: 5, results: "r", late: false },
+        "2026-02-30|quiz": { number: 6, results: "r" }, // data impossível
+        "2026-10-18|misturadas-musica": { number: 7, results: "r" }, // id de outro jogo
+      },
+      progress: {
+        "2026-10-25|quiz": {
+          events: [
+            { type: "CHOOSE", round: 0, side: "a" },
+            { type: "NEXT" },
+            { type: "VOID", round: 1 },
+          ],
+        },
+        "2026-10-17|quiz": { events: [{ type: "CHOOSE", round: 0, side: "c" }] },
+        "2026-10-16|quiz": { events: [{ type: "VOID", round: -1 }] },
+        "2026-10-15|quiz": { events: [{ type: "PULAR" }] },
+      },
+    };
+    const store = withRaw(JSON.stringify({ ...emptySave(), quiz }));
+    const { save, notice } = loadSave(store);
+    expect(notice).toBe("repaired");
+    expect(save.quiz).toEqual({
+      finished: {
+        "2026-10-24|quiz": { number: 1, results: "rrw" },
+        "2026-10-23|quiz": { number: 2, results: "rrw", late: true },
+      },
+      progress: { "2026-10-25|quiz": quiz.progress["2026-10-25|quiz"] },
+    });
+  });
+
+  it("sem o campo do quiz numa v12, ele volta vazio, como reparo", () => {
+    const { quiz: _quiz, ...rest } = emptySave();
+    const { save, notice } = loadSave(withRaw(JSON.stringify(rest)));
+    expect(notice).toBe("repaired");
+    expect(save.quiz).toEqual({ finished: {}, progress: {} });
   });
 });

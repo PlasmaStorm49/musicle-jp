@@ -1,14 +1,16 @@
-// A nav (P225): uma aba por categoria, 7 com as Medalhas (M16) e as Misturadas (M17). Na linha,
-// os jogos: a Início, os Hits, o Anime e, a partir de 720 px, as Misturadas. O resto fica num
-// "Mais ▾", em todas as larguras (P265, P287; desde o M17, também no computador, para a nav caber
-// na coluna do conteúdo): os Artistas, o Histórico e as Medalhas, e as Misturadas abaixo de 720 px
-// (entre 480 e 719 px, a coluna tem 460 px úteis). O link das Misturadas está duas vezes no DOM,
-// um na linha e outro no menu, e o CSS mostra um por vez (o `[hidden]` vale sempre, e o menu
-// fechado usa ele: o mesmo elemento não serve às duas larguras). Logo depois do "Mais", a medalha
-// em destaque (ME118, P317), quando há uma.
-import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
+// A nav (P225): uma aba por categoria, 8 com as Medalhas (M16), as Misturadas (M17) e o quiz do
+// dia (M18). Na linha, os jogos do dia: a Início, os Hits, o Anime, as Misturadas e o Quiz (o
+// usuário, 25/10/2026: no computador, os 4 diários em cima). No celular, os que não cabem vão para
+// o "Mais", do fim para o começo: o Quiz abaixo de `QUIZ_WIDE`, as Misturadas abaixo de
+// `MIXED_WIDE`. O "Mais" fica em todas as larguras (P265, P287), com os Artistas, o Histórico e as
+// Medalhas. O link de cada diário que sai está duas vezes no DOM, um na linha e outro no menu, e o
+// CSS mostra um por vez (o `[hidden]` vale sempre, e o menu fechado usa ele: o mesmo elemento não
+// serve às duas larguras). Logo depois do "Mais", a medalha em destaque (ME118, P317), quando há
+// uma.
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { animeDone, dailiesDone } from "../core/home.ts";
 import { mixedDone } from "../core/mixed.ts";
+import { quizDone } from "../core/quiz.ts";
 import type { Save } from "../core/records.ts";
 import { navCurrent, ROUTES, type Route, routeHref } from "../core/routes.ts";
 import { t } from "../i18n/t.ts";
@@ -48,8 +50,26 @@ const MENU_ID = "nav-more-menu";
 /** A largura em que a medalha em destaque vira link (P317): abaixo dela, não sobram os 44 px. */
 const FAVORITE_LINK = "(min-width: 360px)";
 
-/** A largura em que as Misturadas saem do menu e vão para a linha (o corte do CSS). */
-const WIDE = "(min-width: 720px)";
+/** As larguras em que as Misturadas e o Quiz saem do menu e vão para a linha (os cortes do CSS). */
+const MIXED_WIDE = "(min-width: 460px)";
+const QUIZ_WIDE = "(min-width: 720px)";
+
+/** A largura cruzou o corte de `query`: o valor de agora, e a troca avisada (o menu fecha). */
+function useWide(query: string, onChange: () => void): boolean {
+  const [wide, setWide] = useState(() => window.matchMedia?.(query).matches ?? false);
+  useEffect(() => {
+    const list = window.matchMedia?.(query);
+    if (!list) return;
+    const change = () => {
+      setWide(list.matches);
+      onChange();
+    };
+    setWide(list.matches);
+    list.addEventListener("change", change);
+    return () => list.removeEventListener("change", change);
+  }, [query, onChange]);
+  return wide;
+}
 
 export function Nav({ route, save, date, favorite = null }: Props) {
   const [open, setOpen] = useState(false);
@@ -73,20 +93,11 @@ export function Nav({ route, save, date, favorite = null }: Props) {
     shownFor.current = route;
     setOpen(false);
   }, [route]);
-  // A largura que cruza o corte leva as Misturadas da linha para o menu, ou o contrário: o menu
-  // fecha, para não reaparecer aberto com outro conteúdo. O corte é o do CSS, 720 px.
-  const [wide, setWide] = useState(() => window.matchMedia?.(WIDE).matches ?? false);
-  useEffect(() => {
-    const query = window.matchMedia?.(WIDE);
-    if (!query) return;
-    const change = () => {
-      setWide(query.matches);
-      setOpen(false);
-    };
-    setWide(query.matches);
-    query.addEventListener("change", change);
-    return () => query.removeEventListener("change", change);
-  }, []);
+  // A largura que cruza um corte leva um diário da linha para o menu, ou o contrário: o menu fecha,
+  // para não reaparecer aberto com outro conteúdo. Os cortes são os do CSS.
+  const close = useCallback(() => setOpen(false), []);
+  const mixedWide = useWide(MIXED_WIDE, close);
+  const quizWide = useWide(QUIZ_WIDE, close);
   // Aberto, o Esc fecha (com o foco de volta ao "Mais"), e o toque fora dele também. No
   // useLayoutEffect, e não no useEffect: os ouvintes entram antes da pintura do menu aberto, e um
   // Esc ou um toque logo depois de abrir não escapa (o useEffect roda depois da pintura).
@@ -111,7 +122,8 @@ export function Nav({ route, save, date, favorite = null }: Props) {
   // O "Mais" leva o aria-current quando a categoria atual está nele: a pessoa vê onde está. Sempre
   // "true", e nunca "page": o botão não é a página (o link dentro dele, sim).
   const moreCurrent =
-    (!wide && navCurrent(route, "mixed")) ||
+    (!mixedWide && navCurrent(route, "mixed")) ||
+    (!quizWide && navCurrent(route, "quiz")) ||
     navCurrent(route, "artists") ||
     navCurrent(route, "history") ||
     navCurrent(route, "medals")
@@ -147,6 +159,25 @@ export function Nav({ route, save, date, favorite = null }: Props) {
             {t("nav.doneMark")}
           </span>
           <span class="sr-only">{t("nav.mixedDone")}</span>
+        </>
+      )}
+    </a>
+  );
+  // O quiz do dia (M18), com o ✓ quando a run de hoje acabou.
+  const quizLink = (inMenu: boolean) => (
+    <a
+      href={ROUTES.quiz}
+      aria-current={navCurrent(route, "quiz")}
+      onClick={inMenu ? follow(ROUTES.quiz) : undefined}
+    >
+      <TabLabel text={t("nav.quiz")} />
+      {quizDone(save, date) && (
+        <>
+          <span class="done-mark" aria-hidden="true">
+            {" "}
+            {t("nav.doneMark")}
+          </span>
+          <span class="sr-only">{t("nav.quizDone")}</span>
         </>
       )}
     </a>
@@ -225,10 +256,11 @@ export function Nav({ route, save, date, favorite = null }: Props) {
             )}
           </a>
         </li>
-        {/* Na linha, a partir de 720 px. O modo por artista fica na nav até o site ficar público
-            (P117): é só tirar os dois links dele. */}
-        {/* As Misturadas na linha a partir de 720 px; abaixo, no menu. */}
-        <li class="nav-inline">{mixedLink(false)}</li>
+        {/* O modo por artista fica na nav até o site ficar público (P117): é só tirar os links
+            dele. */}
+        {/* As Misturadas e o Quiz na linha quando cabem; abaixo do corte de cada um, no menu. */}
+        <li class="nav-inline nav-mixed">{mixedLink(false)}</li>
+        <li class="nav-inline nav-quiz">{quizLink(false)}</li>
         {/* O "Mais" (P265), em todas as larguras. Ao abrir, o foco fica no botão, e o Tab entra na
             lista. */}
         <li
@@ -261,7 +293,8 @@ export function Nav({ route, save, date, favorite = null }: Props) {
             </span>
           </button>
           <ul id={MENU_ID} class="nav-menu" hidden={!open}>
-            <li class="nav-narrow">{mixedLink(true)}</li>
+            <li class="nav-narrow nav-mixed">{mixedLink(true)}</li>
+            <li class="nav-narrow nav-quiz">{quizLink(true)}</li>
             <li>{artists}</li>
             <li>{history}</li>
             <li>{medalsLink}</li>

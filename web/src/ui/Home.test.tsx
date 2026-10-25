@@ -66,20 +66,27 @@ describe("Home", () => {
     expect(screen.queryAllByRole("img")).toHaveLength(0);
   });
 
-  it("um cartão-link por categoria (P226), na ordem da nav: os Hits e o Anime na linha toda, e as Misturadas e os Artistas lado a lado; e o Sobre e o Histórico no fim", () => {
+  it("um cartão-link por categoria (P226), na ordem da nav, em três linhas: os Hits e o Anime, as Misturadas e o Quiz, e os Artistas; e o Sobre e o Histórico no fim", () => {
     setup();
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
       "#hits",
       "#anime",
       "#misturadas",
+      "#quiz",
       "#artistas",
       "#sobre",
       "#historico",
     ]);
-    // A grade de 2 colunas: os Hits e o Anime ocupam a linha (o wide), e os outros dois dividem a
-    // de baixo (o usuário, 24/10/2026).
+    // A grade de 2 colunas: dois cartões por linha, e os Artistas ocupam a última (o wide), o
+    // usuário, 25/10/2026.
     const items = [...document.querySelectorAll("ul.home-modes > li")];
-    expect(items.map((li) => li.classList.contains("wide"))).toEqual([true, true, false, false]);
+    expect(items.map((li) => li.classList.contains("wide"))).toEqual([
+      false,
+      false,
+      false,
+      false,
+      true,
+    ]);
     // O Histórico (P264) na linha do tema, junto com o switch.
     const history = screen.getByRole("link", { name: "Histórico" });
     expect(history.closest(".home-bottom")?.querySelector(".theme-switch")).not.toBeNull();
