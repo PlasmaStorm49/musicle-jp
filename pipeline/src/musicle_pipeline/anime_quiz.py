@@ -71,7 +71,11 @@ from musicle_pipeline.anime_mixed import mixed_rounds
 from musicle_pipeline.anime_schedule import _rounds
 from musicle_pipeline.io_json import dumps, loads, read_json, write_if_changed
 from musicle_pipeline.models import JSON, InputError
-from musicle_pipeline.paths import anime_quiz_schema_path, repo_root
+from musicle_pipeline.paths import (
+    anime_quiz_bonus_schema_path,
+    anime_quiz_schema_path,
+    repo_root,
+)
 from musicle_pipeline.prng import Mulberry32, seeded
 from musicle_pipeline.schedule import HORIZON_DAYS, TIMEZONE, Result, ScheduleError, grow
 
@@ -1358,4 +1362,95 @@ def quiz_regenerate_problems(base: JSON | None, current: JSON, ctx: QuizContext)
                 f"{day_str}: dia novo diferente do que o gerador daria (editado à mão, ou o"
                 " catálogo mudou depois do schedule-quiz?)"
             )
+    return problems
+
+
+# ---------------------------------------------------------------------------------------------
+# O bônus de estreia (o usuário, 25/10/2026): no dia da estreia, 3 rodadas a mais, cada uma com
+# uma pergunta de outro tipo, para mostrar a variedade do modo (a run tem uma pergunta só, P374).
+# Não contam no resultado. Um arquivo à parte, ao lado do catálogo do Anime (QUIZ_BONUS_FILE).
+
+BONUS_KIND = "anime-quiz-bonus"
+BONUS_ROUNDS = 3
+# A ordem de preferência: uma comparação com dado (o ano, pela temporada), uma propriedade (o tema)
+# e uma do MAL (a nota); sem o MAL, ou sem par numa delas, as seguintes. Os especiais ficam fora:
+# eles são de um dia da semana (P381).
+BONUS_ORDER = ("ano", "tema", "nota", "amq", "playlists", "membros", "rotulo", "fonte")
+
+
+def generate_bonus(ctx: QuizContext, d: date, day_family: str) -> JSON:
+    """As rodadas do bônus de estreia do dia `d`: as famílias de BONUS_ORDER que o dia não usa e
+    que o acervo serve, cada uma com a direção, o parâmetro e o par de uma 1ª rodada (a mais fácil
+    da run), sem as respostas do Anime e das Misturadas do dia (P378). A semente da pergunta é
+    `musicle-jp|anime-quiz|<data>|bonus|<família>`, e a do par, a da rodada 1 do dia."""
+    excluded = ctx.excluded(d)
+    rounds: list[JSON] = []
+    for family_id in BONUS_ORDER:
+        if len(rounds) == BONUS_ROUNDS:
+            break
+        family = FAMILY_BY_ID[family_id]
+        if family_id == day_family or not _available(ctx, family, ctx.mal is not None):
+            continue
+        rng = seeded(f"musicle-jp|anime-quiz|{d.isoformat()}|bonus|{family_id}")
+        direction = DIRECTIONS[family.kind][rng.randint(2)]
+        param: object = None
+        if family.id in PARAM_FAMILIES:
+            params = ctx.params(family)
+            if not params:
+                continue
+            param = params[rng.randint(len(params))]
+        record, _ = _round(ctx, family, param, direction, d, 1, _Run(), excluded)
+        if record is None:
+            continue
+        entry: JSON = {"family": family.id, "direction": direction}
+        if param is not None:
+            entry["param"] = param
+        rounds.append({**entry, **record})
+    if len(rounds) < BONUS_ROUNDS:
+        raise ScheduleError(f"{d}: o bônus de estreia fechou só {len(rounds)} rodada(s)")
+    return {
+        "schemaVersion": SCHEMA_VERSION,
+        "kind": BONUS_KIND,
+        "date": d.isoformat(),
+        "catalogVersion": ctx.version,
+        "mal": ctx.mal is not None,
+        "rounds": rounds,
+    }
+
+
+@cache
+def _bonus_validator() -> Draft202012Validator:
+    schema = read_json(anime_quiz_bonus_schema_path())
+    Draft202012Validator.check_schema(schema)
+    return Draft202012Validator(schema)
+
+
+def validate_quiz_bonus(bonus: JSON, ctx: QuizContext) -> list[str]:
+    """O bônus de estreia: o schema, as faixas no catálogo, a direção e o parâmetro de cada
+    família, o dado da revelação e, com os fatos (nas famílias do MAL, só com os dados dele), a
+    resposta certa e o número da revelação."""
+    errors = sorted(_bonus_validator().iter_errors(bonus), key=lambda e: list(e.absolute_path))
+    if errors:
+        return [f"schema: /{'/'.join(map(str, e.absolute_path))}: {e.message}" for e in errors]
+    problems: list[str] = []
+    for n, rnd in enumerate(bonus["rounds"], start=1):
+        at = f"bônus rodada {n}"
+        family = FAMILY_BY_ID[rnd["family"]]
+        if rnd["direction"] not in DIRECTIONS[family.kind]:
+            problems.append(f"{at}: direção {rnd['direction']} não serve a {family.id}")
+        if (family.id in PARAM_FAMILIES) != ("param" in rnd):
+            problems.append(f"{at}: o parâmetro de {family.id} está errado")
+        missing = [rnd[side] for side in ("a", "b") if rnd[side] not in ctx.tracks]
+        if missing or rnd["a"] == rnd["b"]:
+            problems.append(f"{at}: faixa inexistente ou repetida")
+            continue
+        if family.needs_mal and ctx.mal is None:
+            continue  # sem os dados do MAL, só a forma (P380)
+        problem = _round_answer_problem(ctx, family, rnd, rnd)
+        if problem:
+            problems.append(f"{at}: {problem}")
+        elif rnd.get("info") != _info(family, ctx.by_id[rnd["a"]], ctx.by_id[rnd["b"]]):
+            problems.append(f"{at}: o dado da revelação não bate com os fatos")
+    if len({rnd["family"] for rnd in bonus["rounds"]}) != len(bonus["rounds"]):
+        problems.append("bônus: duas rodadas com a mesma pergunta")
     return problems

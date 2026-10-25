@@ -808,3 +808,87 @@ def test_a_deleted_quiz_folder_and_a_file_base_are_refused(tmp_path, capsys):
     lone.write_bytes(b"{}")
     assert main(["schedule-check", "--path", str(gone), "--base", str(lone)]) == 1
     assert "uma pasta de meses, não um arquivo" in capsys.readouterr().out
+
+
+# --- O bônus de estreia (o usuário, 25/10/2026) ------------------------------------------------
+
+DEBUT = date(2026, 10, 8)
+
+
+def _bonus_ctx(mal: bool = True) -> quiz.QuizContext:
+    """O contexto das fixtures publicadas, com os dados do MAL inventados ou sem eles."""
+    public = anime_paths("fixture").public_dir
+    catalog = read_json(public / "catalog.json")
+    ctx = cli._quiz_context("fixture", catalog, public / "schedule.json", public / MIXED_FILE, None)
+    if mal:
+        return ctx
+    facts = quiz.song_facts("fixture", ANIME_PROVIDERS["fixture"]().source())
+    return quiz.QuizContext(catalog, facts, None, ctx.anime_days, ctx.mixed_days)
+
+
+def test_the_debut_bonus_has_three_other_questions():
+    ctx = _bonus_ctx()
+    bonus = quiz.generate_bonus(ctx, DEBUT, "playlists")
+    assert [r["family"] for r in bonus["rounds"]] == ["ano", "tema", "nota"]
+    assert bonus["kind"] == "anime-quiz-bonus"
+    assert bonus["date"] == "2026-10-08"
+    assert bonus["mal"] is True
+    assert bonus["catalogVersion"] == ctx.version
+    assert quiz.validate_quiz_bonus(bonus, ctx) == []
+    # Determinístico: a mesma semente dá o mesmo bônus.
+    assert quiz.generate_bonus(_bonus_ctx(), DEBUT, "playlists") == bonus
+
+
+def test_the_bonus_skips_the_day_question_and_the_mal_ones_without_the_mal_data():
+    with_day = quiz.generate_bonus(_bonus_ctx(), DEBUT, "ano")
+    assert [r["family"] for r in with_day["rounds"]] == ["tema", "nota", "amq"]
+    ctx = _bonus_ctx(mal=False)
+    without = quiz.generate_bonus(ctx, DEBUT, "playlists")
+    families = [r["family"] for r in without["rounds"]]
+    assert not any(quiz.FAMILY_BY_ID[f].needs_mal for f in families)
+    assert without["mal"] is False
+    assert quiz.validate_quiz_bonus(without, ctx) == []
+
+
+@pytest.mark.parametrize(
+    ("change", "message"),
+    [
+        ("answer", "a resposta não é a da direção do dia"),
+        ("track", "faixa inexistente ou repetida"),
+        ("family", "duas rodadas com a mesma pergunta"),
+        ("direction", "não serve a ano"),
+        ("key", "schema:"),
+        ("info", "o dado da revelação não bate com os fatos"),
+    ],
+)
+def test_the_bonus_check_refuses_a_broken_round(change, message):
+    ctx = _bonus_ctx()
+    bonus = copy.deepcopy(quiz.generate_bonus(ctx, DEBUT, "playlists"))
+    first = bonus["rounds"][0]  # o ano
+    if change == "answer":
+        first["answer"] = "b" if first["answer"] == "a" else "a"
+    elif change == "track":
+        first["b"] = "fixture:tr:nao-existe"
+    elif change == "family":
+        bonus["rounds"][1] = copy.deepcopy(first)
+    elif change == "direction":
+        first["direction"] = "tem"
+    elif change == "key":
+        first["extra"] = 1
+    else:
+        first["info"]["seasons"][0]["year"] -= 1
+    problems = quiz.validate_quiz_bonus(bonus, ctx)
+    assert any(message in p for p in problems), problems
+
+
+def test_the_committed_fixture_bonus_is_the_generators_for_the_first_day():
+    public = anime_paths("fixture").public_dir
+    committed = public / "quiz-bonus.json"
+    month = read_json(public / QUIZ_DIR / "2026-10.json")
+    again = quiz.generate_bonus(_bonus_ctx(), DEBUT, month["days"]["2026-10-08"]["family"])
+    assert committed.read_bytes() == dumps(again).encode("utf-8")
+
+
+def test_the_bonus_command_needs_the_day_in_the_quiz_agenda(capsys):
+    assert main(["quiz-bonus", "--provider", "fixture", "--date", "2026-12-01"]) == 1
+    assert "o dia não está na agenda do quiz" in capsys.readouterr().err
