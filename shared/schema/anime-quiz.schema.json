@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PlasmaStorm49/musicle-jp/shared/schema/anime-quiz.schema.json",
+  "title": "Agenda do quiz do dia do musicle-jp",
+  "description": "Um mês da agenda do quiz do dia (M18, Apêndice Q do PLANO): a run de cada dia, com a pergunta (a família, a direção e o parâmetro) e os pares de prévias de temas de anime. Um arquivo por mês (AAAA-MM.json, P379); os meses juntos são uma agenda só, que só cresce: um dia gravado nunca muda. Usa o catálogo do Anime. Gerado só pelo pipeline (comando schedule-quiz).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "timezone", "epoch", "month", "days"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": {
+      "description": "Distingue a agenda do quiz das outras (o schedule-check despacha pelo tipo).",
+      "const": "anime-quiz"
+    },
+    "timezone": { "const": "America/Sao_Paulo" },
+    "epoch": { "$ref": "#/$defs/date" },
+    "month": {
+      "description": "O mês do arquivo (o nome dele, sem o .json); todos os dias são desse mês.",
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}$"
+    },
+    "days": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/date" },
+      "additionalProperties": { "$ref": "#/$defs/day" }
+    }
+  },
+  "$defs": {
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "trackId": { "type": "string", "pattern": "^[a-z]+:tr:[A-Za-z0-9_-]+$" },
+    "pair": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "info": {
+      "title": "Dado da revelação do quiz do musicle-jp",
+      "description": "O que a revelação da rodada mostra, na ordem a e b (P382). A estreia de cada uma, no ano e na temporada (a pergunta do ano); os anos (o especial do ano); a taxa de acerto no Anime Music Quiz, em %; as playlists do AnimeThemes; o tema de cada uma (o tipo do tema); a diferença entre os dois animes (a nota e os membros do MAL, nunca o número de cada um). As perguntas de propriedade do MAL não levam dado.",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "seasons": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["year", "season"],
+            "properties": {
+              "year": { "type": "integer", "minimum": 1900 },
+              "season": { "enum": ["winter", "spring", "summer", "fall"] }
+            }
+          }
+        },
+        "years": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": { "type": "integer", "minimum": 1900 }
+        },
+        "rates": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": { "type": "number", "minimum": 0, "maximum": 100 }
+        },
+        "playlists": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": { "type": "integer", "minimum": 1 }
+        },
+        "themes": {
+          "allOf": [{ "$ref": "#/$defs/pair" }],
+          "items": { "type": "string", "pattern": "^(OP|ED|IN)[0-9]*$" }
+        },
+        "diff": { "type": "number", "minimum": 0 }
+      }
+    },
+    "round": {
+      "title": "Rodada do quiz do musicle-jp",
+      "description": "As duas faixas (a toca primeiro, depois b), qual delas responde à pergunta e o dado da revelação.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["a", "b", "answer"],
+      "properties": {
+        "a": { "$ref": "#/$defs/trackId" },
+        "b": { "$ref": "#/$defs/trackId" },
+        "answer": { "enum": ["a", "b"] },
+        "info": { "$ref": "#/$defs/info" }
+      }
+    },
+    "day": {
+      "title": "Dia da agenda do quiz do musicle-jp",
+      "description": "A run do dia: a pergunta e até 50 rodadas (o especial, até 30; menos só no acervo curto das fixtures).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number", "catalogVersion", "family", "direction", "mal", "rounds"],
+      "properties": {
+        "number": { "type": "integer", "minimum": 1 },
+        "catalogVersion": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}\\.[0-9a-f]{8}$" },
+        "family": {
+          "description": "A pergunta (Apêndice Q, Q.2): as comparações ano, nota, membros, playlists e amq; as propriedades rotulo, fonte e tema; os especiais estudio e ano_x.",
+          "enum": ["ano", "nota", "membros", "playlists", "amq", "rotulo", "fonte", "tema", "estudio", "ano_x"]
+        },
+        "direction": {
+          "description": "Nas comparações, a resposta tem o maior (max) ou o menor (min) valor; nas propriedades, a resposta tem (tem) ou não tem (nao) a propriedade.",
+          "enum": ["max", "min", "tem", "nao"]
+        },
+        "param": {
+          "description": "O parâmetro da pergunta de propriedade: o rótulo do MAL, o grupo da fonte, o estúdio ou o ano. As comparações e o tipo do tema não têm.",
+          "type": ["string", "integer"]
+        },
+        "mal": {
+          "description": "Se os dados do MAL estavam na geração: com eles, as famílias do MAL podiam ser sorteadas (P380).",
+          "type": "boolean"
+        },
+        "rounds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 50,
+          "items": { "$ref": "#/$defs/round" }
+        }
+      }
+    }
+  }
+}

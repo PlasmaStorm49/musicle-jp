@@ -1,0 +1,110 @@
+{
+  "anime": {
+    "90001": {
+      "genres": ["Action", "Adventure", "Fantasy", "Shounen"],
+      "mean": 8.61,
+      "members": 2400000,
+      "source": "manga",
+      "studios": ["Estúdio Aurora"]
+    },
+    "90002": {
+      "genres": ["Action", "Adventure", "Fantasy", "Shounen"],
+      "mean": 8.74,
+      "members": 910000,
+      "source": "manga",
+      "studios": ["Estúdio Aurora"]
+    },
+    "90003": {
+      "genres": ["Comedy", "Romance", "School"],
+      "mean": 7.42,
+      "members": 380000,
+      "source": "light_novel",
+      "studios": ["Kumo Animation"]
+    },
+    "90004": {
+      "genres": ["Action", "Historical", "Samurai", "Seinen"],
+      "mean": 7.95,
+      "members": 640000,
+      "source": "original",
+      "studios": ["Estúdio Aurora"]
+    },
+    "90005": {
+      "genres": ["Adventure", "Drama", "Fantasy"],
+      "mean": 8.12,
+      "members": 520000,
+      "source": "original",
+      "studios": ["Sora Pictures"]
+    },
+    "90006": {
+      "genres": ["Comedy", "Slice of Life", "Iyashikei"],
+      "mean": 7.18,
+      "members": 150000,
+      "source": "4_koma_manga",
+      "studios": ["Kumo Animation"]
+    },
+    "90007": {
+      "genres": ["Comedy", "Fantasy", "Romance"],
+      "mean": 7.66,
+      "members": 270000,
+      "source": "light_novel",
+      "studios": ["Sora Pictures"]
+    },
+    "90008": {
+      "genres": ["Drama", "Mystery", "Psychological", "Suspense"],
+      "mean": 8.33,
+      "members": 730000,
+      "source": "manga",
+      "studios": ["Yoru Studio"]
+    },
+    "90009": {
+      "genres": ["Drama", "Romance", "School"],
+      "mean": 7.81,
+      "members": 290000,
+      "source": "visual_novel",
+      "studios": ["Kumo Animation"]
+    },
+    "90010": {
+      "genres": ["Music", "Drama", "Adult Cast"],
+      "mean": 7.53,
+      "members": 210000,
+      "source": "original",
+      "studios": ["Yoru Studio"]
+    },
+    "90011": {
+      "genres": ["Romance", "School", "Shoujo"],
+      "mean": 7.04,
+      "members": 120000,
+      "source": "manga",
+      "studios": ["Sora Pictures"]
+    },
+    "90012": {
+      "genres": ["Action", "Sci-Fi", "Mecha"],
+      "mean": 6.88,
+      "members": 95000,
+      "source": "original",
+      "studios": ["Estúdio Aurora"]
+    },
+    "90013": {
+      "genres": ["Slice of Life", "Drama"],
+      "mean": 7.29,
+      "members": 64000,
+      "source": "web_manga",
+      "studios": ["Kumo Animation"]
+    },
+    "90014": {
+      "genres": ["Comedy", "Fantasy", "Isekai", "Shounen"],
+      "mean": 6.71,
+      "members": 330000,
+      "source": "light_novel",
+      "studios": ["Sora Pictures"]
+    },
+    "90015": {
+      "genres": ["Adventure", "Sci-Fi", "Space"],
+      "mean": 8.02,
+      "members": 470000,
+      "source": "novel",
+      "studios": ["Yoru Studio"]
+    }
+  },
+  "schemaVersion": 1
+}
