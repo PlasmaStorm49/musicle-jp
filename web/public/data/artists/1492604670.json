@@ -478,10 +478,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/b0/cb/ad/b0cbad88-e4ad-d171-2bff-522798da6565/23UM1IM05243.rgb.jpg/300x300bb.jpg",
       "id": "apple:al:1708177122",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2023-10-05",
       "title": "クラクラ - Single",
-      "titleLatin": "Kurakura",
+      "titleLatin": "Kura Kura",
       "type": "single"
     },
     {
@@ -2241,7 +2241,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1636446946",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.9896,
       "preview": {
         "durationSec": 30,
@@ -2865,7 +2865,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1708177336",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.8958,
       "preview": {
         "durationSec": 30,
@@ -2886,7 +2886,7 @@
       "titleKeys": [
         "くらくら"
       ],
-      "titleLatin": "Kurakura"
+      "titleLatin": "Kura Kura"
     },
     {
       "albumId": "apple:al:1711196318",

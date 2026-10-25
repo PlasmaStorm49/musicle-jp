@@ -8,10 +8,10 @@
       ],
       "artworkUrl": "fixtures/art/al05.svg",
       "id": "fixture:al:al05",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2025-02-14",
       "title": "ふたりの約束 - Single",
-      "titleLatin": "Futari no yakusoku",
+      "titleLatin": "Futari no Yakusoku",
       "type": "single"
     },
     {
@@ -34,10 +34,10 @@
       ],
       "artworkUrl": "fixtures/art/al30.svg",
       "id": "fixture:al:al30",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2025-11-05",
       "title": "真夜中の観覧車 - Single",
-      "titleLatin": "Mayonaka no kanransha",
+      "titleLatin": "Mayonaka no Kanransha",
       "type": "single"
     }
   ],
@@ -75,7 +75,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr05",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 1.0,
       "preview": {
         "durationSec": 30,
@@ -96,7 +96,7 @@
       "titleKeys": [
         "ふたりの約束"
       ],
-      "titleLatin": "Futari no yakusoku"
+      "titleLatin": "Futari no Yakusoku"
     },
     {
       "albumId": "fixture:al:al21",
@@ -111,7 +111,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr23",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.75,
       "preview": {
         "durationSec": 30,
@@ -134,7 +134,7 @@
         "開幕べる",
         "開幕べるkaraoke"
       ],
-      "titleLatin": "Kaimaku beru"
+      "titleLatin": "Kaimaku Bell"
     },
     {
       "albumId": "fixture:al:al21",
@@ -149,7 +149,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr24",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.25,
       "preview": {
         "durationSec": 30,
@@ -171,7 +171,7 @@
       "titleKeys": [
         "かーてんこーる"
       ],
-      "titleLatin": "Kaaten kooru"
+      "titleLatin": "Curtain Call"
     },
     {
       "albumId": "fixture:al:al30",
@@ -186,7 +186,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr38",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.5,
       "preview": {
         "durationSec": 30,
@@ -207,7 +207,7 @@
       "titleKeys": [
         "真夜中の観覧車"
       ],
-      "titleLatin": "Mayonaka no kanransha"
+      "titleLatin": "Mayonaka no Kanransha"
     }
   ]
 }

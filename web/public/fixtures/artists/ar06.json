@@ -20,7 +20,7 @@
       ],
       "artworkUrl": "fixtures/art/al33.svg",
       "id": "fixture:al:al33",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2026-07-01",
       "title": "流星Highway",
       "titleLatin": "Ryuusei Highway",
@@ -89,7 +89,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr42",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.5,
       "preview": {
         "durationSec": 30,

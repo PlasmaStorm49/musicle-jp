@@ -7,10 +7,10 @@
       ],
       "artworkUrl": "fixtures/art/al01.svg",
       "id": "fixture:al:al01",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2024-03-01",
       "title": "夜明けのメロディ - Single",
-      "titleLatin": "Yoake no merodi",
+      "titleLatin": "Yoake no Melody",
       "type": "single"
     },
     {
@@ -54,7 +54,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr01",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 1.0,
       "preview": {
         "durationSec": 30,
@@ -76,7 +76,7 @@
       "titleKeys": [
         "夜明けのめろでぃ"
       ],
-      "titleLatin": "Yoake no merodi"
+      "titleLatin": "Yoake no Melody"
     },
     {
       "albumId": "fixture:al:al02",
@@ -91,7 +91,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr37",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.5,
       "preview": {
         "durationSec": 30,

@@ -8,10 +8,10 @@
       ],
       "artworkUrl": "fixtures/art/al05.svg",
       "id": "fixture:al:al05",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2025-02-14",
       "title": "ふたりの約束 - Single",
-      "titleLatin": "Futari no yakusoku",
+      "titleLatin": "Futari no Yakusoku",
       "type": "single"
     },
     {
@@ -62,7 +62,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr05",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.75,
       "preview": {
         "durationSec": 30,
@@ -83,7 +83,7 @@
       "titleKeys": [
         "ふたりの約束"
       ],
-      "titleLatin": "Futari no yakusoku"
+      "titleLatin": "Futari no Yakusoku"
     },
     {
       "albumId": "fixture:al:al14",
@@ -98,7 +98,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr15",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.5,
       "preview": {
         "durationSec": 30,
@@ -171,7 +171,7 @@
       },
       "explicit": false,
       "id": "fixture:tr:tr41",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.25,
       "preview": {
         "durationSec": 30,
@@ -192,7 +192,7 @@
       "titleKeys": [
         "ひまわり畑でつかまえて"
       ],
-      "titleLatin": "Himawaribatake de tsukamaete"
+      "titleLatin": "Himawaribatake de Tsukamaete"
     }
   ]
 }

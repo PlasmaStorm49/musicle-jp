@@ -1723,7 +1723,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1536128857",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.3596,
       "preview": {
         "durationSec": 30,
@@ -1744,7 +1744,7 @@
       "titleKeys": [
         "誰か海を"
       ],
-      "titleLatin": "Dare ka, umi wo."
+      "titleLatin": "Dare ka, Umi wo."
     },
     {
       "albumId": "apple:al:1536128856",
@@ -5855,7 +5855,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1594814706",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 1.0,
       "preview": {
         "durationSec": 30,
@@ -5867,6 +5867,7 @@
         "artist": [],
         "title": [
           "zankyosanka",
+          "zankyozanka",
           "残響散歌"
         ]
       },
@@ -5881,7 +5882,7 @@
         "残響散歌tvver",
         "残響散歌walpurgisnachtliveattokyogardentheater"
       ],
-      "titleLatin": "Zankyousanka"
+      "titleLatin": "Zankyou Zanka"
     },
     {
       "albumId": "apple:al:1594814582",
@@ -5896,7 +5897,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1594814709",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.9944,
       "preview": {
         "durationSec": 30,
@@ -5920,7 +5921,7 @@
         "朝が来るtvver",
         "朝が来るwalpurgisnachtliveattokyogardentheater"
       ],
-      "titleLatin": "Asa ga kuru"
+      "titleLatin": "Asa ga Kuru"
     },
     {
       "albumId": "apple:al:1597687739",

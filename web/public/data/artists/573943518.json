@@ -345,7 +345,7 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/04/29/8b/04298ba5-49ee-8c50-923b-fa2ae629ac01/jacket_SVWC70035B00Z_550.jpg/300x300bb.jpg",
       "id": "apple:al:1537789953",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2014-12-10",
       "title": "シルシ - Single",
       "titleLatin": "Shirushi",
@@ -397,10 +397,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/32/c8/ba/32c8babb-8ae6-a2a6-7a26-bce0c5e72849/jacket_VVCL01069B00Z_550.jpg/300x300bb.jpg",
       "id": "apple:al:1537899079",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2017-08-02",
       "title": "だってアタシのヒーロー。 - EP",
-      "titleLatin": "Da tte atashi no hiiroo.",
+      "titleLatin": "Datte Atashi no Hero.",
       "type": "ep"
     },
     {
@@ -671,10 +671,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/19/2e/b5/192eb584-d5c2-33bd-5aa1-b709f370bd70/4547366532999.jpg/300x300bb.jpg",
       "id": "apple:al:1589411362",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2021-10-18",
       "title": "明け星 - Single",
-      "titleLatin": "Ake hoshi",
+      "titleLatin": "Akeboshi",
       "type": "single"
     },
     {
@@ -3793,7 +3793,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1537789954",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.87,
       "preview": {
         "durationSec": 30,
@@ -4374,7 +4374,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1537899080",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.83,
       "preview": {
         "durationSec": 30,
@@ -4400,7 +4400,7 @@
         "だってあたしのひーろーlittledevilparadelivever",
         "だってあたしのひーろーtvver"
       ],
-      "titleLatin": "Da tte atashi no hiiroo."
+      "titleLatin": "Datte Atashi no Hero."
     },
     {
       "albumId": "apple:al:1537899079",
@@ -6695,7 +6695,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1589411366",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.995,
       "preview": {
         "durationSec": 30,
@@ -6706,6 +6706,7 @@
       "search": {
         "artist": [],
         "title": [
+          "akeboshi",
           "akehoshi",
           "明け星"
         ]
@@ -6720,7 +6721,7 @@
         "明け星thebirthlivever",
         "明け星tvver"
       ],
-      "titleLatin": "Ake hoshi"
+      "titleLatin": "Akeboshi"
     },
     {
       "albumId": "apple:al:1592247623",

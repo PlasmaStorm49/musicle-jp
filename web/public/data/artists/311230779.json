@@ -98,10 +98,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/48/f4/c1/48f4c1f1-0322-4655-cd37-c76f294ee8c9/jacket_SRCL07713B00Z_550.jpg/300x300bb.jpg",
       "id": "apple:al:1537434494",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2011-09-07",
       "title": "ハルカカナタ - EP",
-      "titleLatin": "Harukakanata",
+      "titleLatin": "Haruka Kanata",
       "type": "ep"
     },
     {
@@ -111,10 +111,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/50/0e/3d/500e3dc1-8b44-5d3c-e1d8-2d333386643d/jacket_SRCL07949B00Z_550.jpg/300x300bb.jpg",
       "id": "apple:al:1537438631",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2012-05-16",
       "title": "カスケード - Single",
-      "titleLatin": "Kasukeedo",
+      "titleLatin": "Cascade",
       "type": "single"
     },
     {
@@ -1860,7 +1860,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1537434495",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 1.0,
       "preview": {
         "durationSec": 30,
@@ -1881,7 +1881,7 @@
       "titleKeys": [
         "はるかかなた"
       ],
-      "titleLatin": "Harukakanata"
+      "titleLatin": "Haruka Kanata"
     },
     {
       "albumId": "apple:al:1537434494",
@@ -1933,7 +1933,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1537438634",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.9882,
       "preview": {
         "durationSec": 30,
@@ -1955,7 +1955,7 @@
       "titleKeys": [
         "かすけーど"
       ],
-      "titleLatin": "Kasukeedo"
+      "titleLatin": "Cascade"
     },
     {
       "albumId": "apple:al:1537438631",

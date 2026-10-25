@@ -352,10 +352,10 @@
       ],
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9f/97/0c/9f970c92-fdcb-dcca-6f91-17d0d71c87b6/199066336168.jpg/300x300bb.jpg",
       "id": "apple:al:1786972161",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "releaseDate": "2025-01-10",
       "title": "百花繚乱 - Single",
-      "titleLatin": "Hyakka ryouran",
+      "titleLatin": "Hyakka Ryouran",
       "type": "single"
     },
     {
@@ -1921,7 +1921,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1786972177",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.9444,
       "preview": {
         "durationSec": 30,
@@ -1942,7 +1942,7 @@
       "titleKeys": [
         "百花繚乱"
       ],
-      "titleLatin": "Hyakka ryouran"
+      "titleLatin": "Hyakka Ryouran"
     },
     {
       "albumId": "apple:al:1789394539",
