@@ -25,6 +25,9 @@ web/lab-data/
 # Worktrees do Claude Code (uma pasta de trabalho por frente paralela)
 .claude/worktrees/
 
+# Notas locais do usuário, fora do Git (o relatório da revisão noturna de 12/10/2026)
+docs/REVISAO-2026-10-12.md
+
 # Segredos e configuração local
 .env
 .env.*
