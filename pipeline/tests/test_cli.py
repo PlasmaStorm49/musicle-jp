@@ -124,6 +124,9 @@ def test_known_schedules_are_the_hits_and_the_anime_ones():
         ("web/public/data/anime/schedule.json", "anime"),
         ("web/public/fixtures/anime/mixed.json", "anime-mixed"),
         ("web/public/data/anime/mixed.json", "anime-mixed"),
+        # O quiz do dia (M18): uma pasta de meses (P379).
+        ("web/public/fixtures/anime/quiz", "anime-quiz"),
+        ("web/public/data/anime/quiz", "anime-quiz"),
     ]
 
 

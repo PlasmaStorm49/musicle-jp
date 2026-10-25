@@ -4,6 +4,10 @@ Como os artistas fictícios, as faixas são as da parada fictícia, citadas pelo
 "tr05"`): os mesmos títulos e as mesmas URLs, então o `fake-assets` da parada já gera o áudio e
 as capas, sem arquivo novo. Os animes, os temas e os níveis são inventados, no mesmo formato dos
 snapshots reais.
+
+Uma diferença de propósito: os temas têm as playlists exatas (`stats.animethemes`, o quiz do dia,
+M18) sem o nível delas (`levels.animethemes`). O fetch grava os dois juntos, mas o nível mudaria
+as faixas do catálogo fictício, que o dev e o e2e usam. A taxa do AMQ bate com o nível dela.
 """
 
 from __future__ import annotations

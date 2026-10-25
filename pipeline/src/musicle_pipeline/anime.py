@@ -7,8 +7,10 @@ a faixa da Apple (`match_theme`) também é puro: o `fetch --anime` o chama com 
 testes, com uma tabela.
 
 As fontes de anime (AnimeThemes, AnisongDB, MyAnimeList) só dão dados (P251): o áudio é sempre a
-prévia da Apple. Da popularidade, o snapshot guarda só o nível de 0 a 9 de cada fonte (P254), e
-do MyAnimeList, só o id e o nível (P256).
+prévia da Apple. Da popularidade, o snapshot guarda o nível de 0 a 9 de cada fonte (P254), e do
+MyAnimeList, só o id e o nível (P256). Dos temas, guarda também os dois números que o quiz do dia
+mostra (o usuário, 25/10/2026, revendo a P254 só para eles): a taxa de acerto do Anime Music
+Quiz e as playlists do AnimeThemes. Do anime, a temporada da estreia.
 """
 
 from __future__ import annotations
@@ -54,6 +56,9 @@ MAX_LEVEL = 9  # o nível de popularidade de cada fonte vai de 0 a 9 (P254)
 # AnisongDB, e as playlists do AnimeThemes).
 ANIME_LEVELS = ("mal",)
 THEME_LEVELS = ("anisongdb", "animethemes")
+# A temporada da estreia do anime, a do AnimeThemes (WINTER, SPRING, SUMMER e FALL), na ordem do
+# ano: o quiz do dia compara a estreia de duas músicas pelo ano e pela temporada (M18).
+SEASONS = ("winter", "spring", "summer", "fall")
 # O resultado da busca de cada tema, no snapshot: só o "matched" tem faixa.
 RESULTS = ("matched", "no-artist", "no-match", "ambiguous", "no-preview")
 # As faixas de dificuldade (P272 a P275, calibradas na carga grande, C2). Cada tema vira a chance
@@ -114,6 +119,9 @@ class Theme:
     levels: Mapping[str, int]
     result: str
     track: RawTrack | None  # só no "matched"
+    # Os números exatos do quiz do dia (M18): "anisongdb", a taxa de acerto do Anime Music Quiz
+    # (em %); "animethemes", as playlists que apontam para o tema. Os snapshots antigos não têm.
+    stats: Mapping[str, Decimal] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -126,6 +134,7 @@ class Anime:
     series: tuple[tuple[str, str], ...]  # (slug, nome) de cada série (franquia) do AnimeThemes
     levels: Mapping[str, int]
     themes: tuple[Theme, ...]
+    season: str | None = None  # uma de SEASONS; os snapshots antigos não têm
 
 
 @dataclass(frozen=True)
@@ -149,9 +158,10 @@ class AnimeProvider(Protocol):
 
 
 # As chaves aceitas em cada nível do snapshot: uma a mais (um "score" bruto, por exemplo) é
-# recusada, porque sem revisão humana (P238) esta é a trava da P254.
-ANIME_KEYS = {"malId", "slug", "name", "synonyms", "year", "series", "levels", "themes"}
-THEME_KEYS = {"type", "sequence", "song", "artists", "levels", "result", "track"}
+# recusada, porque sem revisão humana (P238) esta é a trava da P254. Os números exatos ficam só
+# no `stats` de cada tema, com as duas fontes e os limites conferidos (o usuário, 25/10/2026).
+ANIME_KEYS = {"malId", "slug", "name", "synonyms", "year", "season", "series", "levels", "themes"}
+THEME_KEYS = {"type", "sequence", "song", "artists", "levels", "stats", "result", "track"}
 
 
 def _closed(data: JSON, allowed: set[str], where: str) -> None:
@@ -167,6 +177,27 @@ def _levels(value: object, allowed: tuple[str, ...], where: str) -> dict[str, in
         if not isinstance(level, int) or isinstance(level, bool) or not 0 <= level <= MAX_LEVEL:
             raise InputError(f"{where}: nível {key} deveria ser um inteiro de 0 a {MAX_LEVEL}")
     return dict(value)
+
+
+def _stats(value: object, where: str) -> dict[str, Decimal]:
+    """Os números exatos de um tema: a taxa do AMQ, de 0 a 100 e com 1 casa no máximo (a do
+    fetch), e as playlists, um inteiro de 0 para cima. O texto do número vira Decimal, sem o erro
+    da base 2."""
+    if not isinstance(value, dict) or not set(value) <= set(THEME_LEVELS):
+        raise InputError(f"{where}: stats aceita só {list(THEME_LEVELS)}")
+    out: dict[str, Decimal] = {}
+    for key, number in sorted(value.items()):
+        if isinstance(number, bool) or not isinstance(number, int | float):
+            raise InputError(f"{where}: stats {key} deveria ser um número")
+        exact = Decimal(str(number))
+        if key == "anisongdb" and not (
+            exact.is_finite() and 0 <= exact <= 100 and exact == exact.quantize(Decimal("0.1"))
+        ):
+            raise InputError(f"{where}: a taxa do AMQ deveria ir de 0 a 100, com 1 casa")
+        if key == "animethemes" and (not isinstance(number, int) or number < 0):
+            raise InputError(f"{where}: as playlists deveriam ser um inteiro de 0 para cima")
+        out[key] = exact
+    return out
 
 
 def _texts(value: object, where: str) -> tuple[str, ...]:
@@ -203,6 +234,7 @@ def theme_from_dict(data: JSON, track_of: Callable[[object, str], RawTrack], whe
         levels=_levels(data.get("levels", {}), THEME_LEVELS, where),
         result=result,
         track=None if ref is None else track_of(ref, where),
+        stats=_stats(data.get("stats", {}), where),
     )
 
 
@@ -221,9 +253,14 @@ def anime_from_dict(data: JSON, track_of: Callable[[object, str], RawTrack], whe
         raise InputError(f"{where}: name vazio")
     if year is not None and (not isinstance(year, int) or isinstance(year, bool)):
         raise InputError(f"{where}: year deveria ser um inteiro ou null")
+    season = data.get("season")
+    if season is not None and season not in SEASONS:
+        raise InputError(f"{where}: season deveria ser uma de {list(SEASONS)} ou null")
     series = data.get("series", [])
+    # As chaves de cada série também são fechadas: um número a mais nela passaria pela trava.
     if not isinstance(series, list) or not all(
         isinstance(s, dict)
+        and set(s) <= {"slug", "name"}
         and isinstance(s.get("slug"), str)
         and _SLUG.fullmatch(s["slug"])
         and isinstance(s.get("name"), str)
@@ -243,6 +280,7 @@ def anime_from_dict(data: JSON, track_of: Callable[[object, str], RawTrack], whe
         series=tuple((s["slug"], display(s["name"])) for s in series),
         levels=_levels(data.get("levels", {}), ANIME_LEVELS, where),
         themes=tuple(theme_from_dict(t, track_of, where) for t in themes),
+        season=season,
     )
 
 
@@ -521,20 +559,42 @@ def joined_levels(anime: Anime) -> tuple[Mapping[str, int], ...]:
     parte, "LOST IN PARADISE" (AnisongDB). Junta o único tema do mesmo tipo com o título frouxo
     igual ou muito parecido; o nível do próprio tema vence.
     """
-    keys = [loose_title(t.song) for t in anime.themes]
     joined = []
+    for theme, other in zip(anime.themes, _partners(anime), strict=True):
+        levels = dict(theme.levels)
+        if other is not None:
+            for source, level in other.levels.items():
+                levels.setdefault(source, level)
+        joined.append(levels)
+    return tuple(joined)
+
+
+def joined_stats(anime: Anime) -> tuple[Mapping[str, Decimal], ...]:
+    """Os números exatos de cada tema (o quiz do dia, M18), completados pelos do outro registro
+    do mesmo tema, como os níveis (`joined_levels`)."""
+    joined = []
+    for theme, other in zip(anime.themes, _partners(anime), strict=True):
+        stats = dict(theme.stats)
+        if other is not None:
+            for source, number in other.stats.items():
+                stats.setdefault(source, number)
+        joined.append(stats)
+    return tuple(joined)
+
+
+def _partners(anime: Anime) -> list[Theme | None]:
+    """O outro registro de cada tema: o único do mesmo tipo com o título frouxo igual ou muito
+    parecido (P275); sem um só, nenhum."""
+    keys = [loose_title(t.song) for t in anime.themes]
+    partners: list[Theme | None] = []
     for i, theme in enumerate(anime.themes):
         others = [
             other
             for j, other in enumerate(anime.themes)
             if j != i and other.type == theme.type and same_song(keys[j], keys[i])
         ]
-        levels = dict(theme.levels)
-        if len(others) == 1:
-            for source, level in others[0].levels.items():
-                levels.setdefault(source, level)
-        joined.append(levels)
-    return tuple(joined)
+        partners.append(others[0] if len(others) == 1 else None)
+    return partners
 
 
 SongCounts = Mapping[tuple[str, str], int]  # (franquia, tipo do tema) → as músicas distintas
@@ -746,11 +806,12 @@ def _accumulate(source: AnimeSource) -> tuple[dict[str, _TrackAcc], dict[str, in
     accs: dict[str, _TrackAcc] = {}
     results: dict[str, int] = {}
     for anime in source.anime:
-        for theme, levels in zip(anime.themes, joined_levels(anime), strict=True):
+        joined = zip(anime.themes, joined_levels(anime), joined_stats(anime), strict=True)
+        for theme, levels, stats in joined:
             results[theme.result] = results.get(theme.result, 0) + 1
             if theme.track is not None:
                 acc = accs.setdefault(theme.track.provider_id, _TrackAcc(theme.track))
-                acc.uses.append((anime, replace(theme, levels=levels)))
+                acc.uses.append((anime, replace(theme, levels=levels, stats=stats)))
     if not accs:
         raise InputError("nenhum tema casou com uma faixa da Apple")
     return accs, results
