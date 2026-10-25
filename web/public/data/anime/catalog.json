@@ -20107,7 +20107,7 @@
       "nameLatin": null
     }
   ],
-  "catalogVersion": "2026-10-24.452a789c",
+  "catalogVersion": "2026-10-25.98ff82ca",
   "franchises": [
     {
       "id": "anime:fr:100_man_no_inochi_no_ue_ni_ore_wa_tatteiru",
@@ -23497,7 +23497,7 @@
       ]
     }
   ],
-  "generatedAt": "2026-10-24T02:40:28Z",
+  "generatedAt": "2026-10-25T17:47:16Z",
   "provider": "apple",
   "schemaVersion": 1,
   "snapshots": [
@@ -23516,6 +23516,10 @@
     {
       "fetchedAt": "2026-10-24T02:40:28Z",
       "id": "2026-10-24T024028Z"
+    },
+    {
+      "fetchedAt": "2026-10-25T17:47:16Z",
+      "id": "2026-10-25T174716Z"
     }
   ],
   "storefront": "jp",
@@ -32105,7 +32109,6 @@
           "石田燿子"
         ],
         "title": [
-          "shashincho",
           "shashinjo",
           "写真帖"
         ]
@@ -56528,7 +56531,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1538169979",
-      "latinSource": "provider",
+      "latinSource": "manual",
       "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
@@ -57816,8 +57819,7 @@
         ],
         "title": [
           "sh0ut",
-          "sh0utfeatchiellegemie",
-          "shøut"
+          "sh0utfeatchiellegemie"
         ]
       },
       "songKey": "sh0ut|apple:ar:912316913",
@@ -73469,11 +73471,6 @@
             "anime": "One Punch Man",
             "sequence": null,
             "type": "OP"
-          },
-          {
-            "anime": "One Punch Man",
-            "sequence": 1,
-            "type": "OP"
           }
         ],
         "tiers": {
@@ -73492,7 +73489,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1743348859",
-      "latinSource": "provider",
+      "latinSource": "manual",
       "popularity": 1.0,
       "preview": {
         "durationSec": 30,
@@ -75155,7 +75152,7 @@
           }
         ],
         "tiers": {
-          "musica": "dificil",
+          "musica": "medio",
           "titulo": "medio"
         }
       },
@@ -75170,7 +75167,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1751661600",
-      "latinSource": "provider",
+      "latinSource": "manual",
       "popularity": 0.6667,
       "preview": {
         "durationSec": 30,
