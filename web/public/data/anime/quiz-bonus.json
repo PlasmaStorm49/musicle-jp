@@ -1,0 +1,51 @@
+{
+  "catalogVersion": "2026-10-25.98ff82ca",
+  "date": "2026-10-25",
+  "kind": "anime-quiz-bonus",
+  "mal": true,
+  "rounds": [
+    {
+      "a": "apple:tr:435413360",
+      "answer": "a",
+      "b": "apple:tr:1537901887",
+      "direction": "min",
+      "family": "ano",
+      "info": {
+        "seasons": [
+          {
+            "season": "spring",
+            "year": 1989
+          },
+          {
+            "season": "fall",
+            "year": 2018
+          }
+        ]
+      }
+    },
+    {
+      "a": "apple:tr:1856749056",
+      "answer": "a",
+      "b": "apple:tr:1537461096",
+      "direction": "nao",
+      "family": "tema",
+      "info": {
+        "themes": [
+          "ED",
+          "OP"
+        ]
+      }
+    },
+    {
+      "a": "apple:tr:1838294577",
+      "answer": "a",
+      "b": "apple:tr:1537419724",
+      "direction": "min",
+      "family": "nota",
+      "info": {
+        "diff": 3.23
+      }
+    }
+  ],
+  "schemaVersion": 1
+}
