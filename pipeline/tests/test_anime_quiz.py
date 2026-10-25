@@ -820,6 +820,41 @@ def test_the_check_of_a_quiz_folder(tmp_path, capsys):
     assert "2026-10-09: dia alterado" in capsys.readouterr().out
 
 
+def test_the_redo_exception_of_the_quiz(tmp_path, capsys):
+    """A exceção à regra 4 (o usuário, 25/10/2026): os dias desde a data saem da base e são
+    conferidos como novos (o gerador e o P44); só depois do --today, e com um dia antes dela."""
+    anime = _fixture_anime(tmp_path)
+    _, grown = _fixture_quiz(anime)
+    old = copy.deepcopy(grown)  # a base com um dia futuro de outro gerador
+    rnd = old["days"]["2026-10-15"]["rounds"][0]
+    rnd["answer"] = "b" if rnd["answer"] == "a" else "a"
+    write_quiz_dir(tmp_path / "base", old)
+    write_quiz_dir(anime / QUIZ_DIR, grown)
+    args = ["schedule-check", "--path", str(anime / QUIZ_DIR), "--base", str(tmp_path / "base")]
+    assert main([*args, "--today", "2026-10-13"]) == 1
+    assert "2026-10-15: dia alterado" in capsys.readouterr().out
+    redo = [*args, "--quiz-redo-from", "2026-10-14"]
+    assert main([*redo, "--today", "2026-10-13"]) == 0
+    assert "os dias desde 2026-10-14 conferidos como novos" in capsys.readouterr().out
+    # O dia refeito tem de ser o do gerador.
+    edited = copy.deepcopy(grown)
+    edited["days"]["2026-10-15"] = old["days"]["2026-10-15"]
+    write_quiz_dir(anime / QUIZ_DIR, edited)
+    assert main([*redo, "--today", "2026-10-13"]) == 1
+    assert "2026-10-15: dia novo diferente do que o gerador daria" in capsys.readouterr().out
+    # Nunca o dia de hoje: na data, a exceção vence, e a conferência é a de sempre.
+    write_quiz_dir(anime / QUIZ_DIR, grown)
+    assert main([*redo, "--today", "2026-10-14"]) == 1
+    out = capsys.readouterr().out
+    assert "a exceção do --quiz-redo-from venceu" in out
+    assert "2026-10-15: dia alterado" in out
+    # Nem sem o --today, nem a agenda inteira.
+    assert main(redo) == 1
+    assert "precisa do --today" in capsys.readouterr().out
+    assert main([*args, "--quiz-redo-from", "2026-10-08", "--today", "2026-10-07"]) == 1
+    assert "precisa de um dia da base antes de 2026-10-08" in capsys.readouterr().out
+
+
 def test_a_deleted_quiz_folder_and_a_file_base_are_refused(tmp_path, capsys):
     anime = _fixture_anime(tmp_path)
     base, _ = _fixture_quiz(anime)

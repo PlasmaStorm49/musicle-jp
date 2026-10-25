@@ -94,7 +94,11 @@ jobs:
           # que o gerador daria com o catálogo do mesmo commit (regra inviolável 3, ME45 e ME51).
           today="$(TZ=America/Sao_Paulo date +%F)"
           echo "Comparando a agenda com: $base (hoje em Brasília: $today)"
-          python -m musicle_pipeline schedule-check --base-ref "$base" --today "$today"
+          # Exceção temporária à regra 4 (o usuário, 25/10/2026): os dias do quiz real desde 26/10,
+          # refeitos com a preferência pela abertura. Sai no PR seguinte; a partir de 26/10, ela
+          # vence sozinha, e a conferência volta a ser a de sempre.
+          python -m musicle_pipeline schedule-check --base-ref "$base" --today "$today" \
+            --quiz-redo-from 2026-10-26
 
   web:
     runs-on: ubuntu-24.04
