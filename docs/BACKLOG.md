@@ -2,13 +2,12 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 24/10/2026.
+Atualizado em 25/10/2026.
 
 ## Próximos
 
-- **O PR do robô de segunda, 26/10:** o 1º com as Misturadas crescendo junto (de 31/10 em diante) e o Anime de 13/11 em diante com a carga C3 e o limite de novas (P360). Merge no mesmo dia.
-- **ME128.** Tirar o `_REDONE_DAYS` do `cli.py`, a exceção de uma vez do 24/10 do Anime: a partir de 25/10, ela não aceita mais nada.
-- **ME129 (novo).** Os testes dos scripts do robô no Windows: o `jq` do winget escreve com CRLF, e 43 testes falham aqui (a CI passa). O ajudante dos testes passa a usar o `-b`.
+- **O PR do robô de segunda, 26/10:** o 1º com as Misturadas crescendo junto (de 31/10 em diante, com a franquia espaçada, P364) e o Anime de 13/11 em diante com a carga C3 e o limite de novas (P360). Merge no mesmo dia: a agenda das Misturadas acaba em 30/10.
+- **Depois dele, se trouxer o Anime:** o `anime-latin`, o `build` e o `build-artists` da Apple num PR à parte, para os Hits e os artistas lerem o latino das músicas novas (P372; o `build` avisa).
 
 ## Itens para corrigir
 
@@ -26,6 +25,10 @@ Atualizado em 24/10/2026.
 - **ME88.** "Song (Remix - feat. X)" vira "Song (Remix" no pipeline.
 - **ME79.** O `validate` deixa passar kanji ou kana no título latino.
 - **ME91.** A CI não acusa título que ficou sem latino.
+- **ME131 (novo).** O latino do AnimeThemes também erra ("Ikeru Hitobito", "Nemureru Honoo"): corrigir no `aliases.toml` do Anime, que leva a correção aos Hits e aos artistas.
+
+**No Anime**
+- **ME132 (novo).** "リフレインボーイ –TV size-" aparece como "Refrain Boy -English ver.-"; e o travessão curto não conta como sufixo na normalização.
 
 **No jogo**
 - **ME110 (novo).** O Treino e os Artistas não excluem as respostas do Anime de hoje (raro: pede o mesmo `songKey` nos dois catálogos). Aceito por ora, como a P248.
@@ -33,7 +36,6 @@ Atualizado em 24/10/2026.
 - **ME113 (novo).** Com o Histórico, o Treino, os Artistas e a ajuda do diário de hoje podem entregar a resposta de um dia passado ainda não jogado (excluem só as de hoje). Aceito, como a ME110.
 - **S24.** Conferir a duração real das prévias: no Superfan, uma prévia curta deixaria menos de 9 s.
 
-**No Anime**
 - **ME115 (novo).** O "Kaikai Kitan", 1ª abertura de Jujutsu Kaisen, ficou fora do acervo (o tema não casou com a Apple): investigar.
 
 **Pipeline, CI e testes**
@@ -62,7 +64,7 @@ Atualizado em 24/10/2026.
 **As Misturadas** (M17)
 - **ME127 (novo).** Calibrar os pontos das Misturadas e o custo do "Separar" depois de mais escuta (a régua da muito conhecida saiu, P359).
 - **ME130 (novo).** Um compressor por voz na mistura, se as pausas no meio do trecho ainda deixarem uma música sozinha (testar de ouvido, no laboratório).
-- **ME125 (novo).** As Misturadas no Histórico e nas estatísticas.
+- **ME125.** As Misturadas nas estatísticas (o Histórico delas entrou no PR #98).
 
 **Desempenho e tamanho**
 - **S33.** A fonte mais leve: 7,5 MB a menos no `dist` e 210 kB a menos de CSS.
@@ -71,8 +73,10 @@ Atualizado em 24/10/2026.
 - **ME3.** Esconder a resposta do dia, que está no JSON público, e dividir a agenda por mês.
 - **ME17.** Dividir o catálogo real quando passar de cerca de 1 MB.
 - **ME4.** Gerar o dia no navegador quando a agenda acabar.
+- **ME133 (novo).** O save cresce com cada jogo (uns 0,9 MB por ano para quem joga os 10 diários): compactar a forma antes de 1 MB, sem perder nada. Não é urgente.
 
 **Pipeline, CI e testes**
+- **ME134 (novo).** Um plano B sem o MAL para o Anime e o quiz, caso a API caia: a fonte de reserva de cada dado e o que o robô faz quando o MAL falha.
 - **ME10.** `actionlint` ou `zizmor` na CI.
 - **ME12.** A escolha da base do `schedule-check` em Python, com teste.
 - **ME15.** Um teste rápido contra o `vite preview`, para pegar caminho absoluto no código.
@@ -84,7 +88,8 @@ Atualizado em 24/10/2026.
 
 ## Coisas novas que quero implementar
 
-- **ME122 (novo).** O modo "Qual é a mais popular": tocam duas músicas, e a pessoa escolhe a mais popular. Para depois.
+- **M18 (em andamento).** O quiz do dia (Apêndice Q do PLANO): o gerador (PR A), a tela (B), o robô (C) e os artistas parecidos (D). Decidir com o usuário: o lugar na nav e os cooldowns dos membros e das playlists.
+- **M19 (depois do M18).** Revisar e melhorar (se preciso, reconstruir) o design inteiro com a taste-skill e as Web Interface Guidelines da Vercel.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).
@@ -101,7 +106,5 @@ Atualizado em 24/10/2026.
 **Você**
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
-- **ME108 (novo).** Decidir se a lista de negação do `.claude/settings.json` passa a cobrir os gerados dos artistas e do Anime, como diz a regra 3 do `CLAUDE.md`.
-- **ME126 (novo).** Decidir se as Misturadas ganham um cartão na Início (a P226 diz um por categoria; a P333 deixou sem, por enquanto).
 - **P16.** Decidir se a URL e o repositório mudam de nome.
 - Segunda, 26/10: o PR do robô, com o merge no mesmo dia.
