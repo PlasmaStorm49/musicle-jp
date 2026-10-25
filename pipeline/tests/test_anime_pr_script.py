@@ -41,6 +41,8 @@ ANIME = {
     "ANIME_FIXTURE_SCHEDULE": "web/public/fixtures/anime/schedule.json",
     "ANIME_MIXED": "web/public/data/anime/mixed.json",
     "ANIME_FIXTURE_MIXED": "web/public/fixtures/anime/mixed.json",
+    "ANIME_QUIZ": "web/public/data/anime/quiz",
+    "ANIME_FIXTURE_QUIZ": "web/public/fixtures/anime/quiz",
 }
 CATALOG = ANIME["ANIME_CATALOG"]
 SCHEDULE = ANIME["ANIME_SCHEDULE"]
@@ -725,10 +727,12 @@ def run_pr(
     hits_result: str = "success",
     anime_result: str = "success",
     anime_expected: bool | None = None,
+    main: dict[str, JSON] | None = None,
     **anime_setup: object,
 ) -> tuple[subprocess.CompletedProcess[str], Path, Path]:
-    """A main com os arquivos dos Hits (cópias dos de verdade) e os do Anime, os artefatos que
-    vieram e o passo inteiro. Sem `anime_expected`, o Anime é esperado quando o artefato veio."""
+    """A main com os arquivos dos Hits (cópias dos de verdade) e os do Anime (os de `main`, ou os
+    de sempre), os artefatos que vieram e o passo inteiro. Sem `anime_expected`, o Anime é
+    esperado quando o artefato veio."""
     expected = anime_changes is not None if anime_expected is None else anime_expected
     repo, temp = tmp_path / "repo", tmp_path / "runner"
     temp.mkdir(parents=True)
@@ -742,9 +746,9 @@ def run_pr(
             write(art / "files" / path, data)
         write(art / "changed.txt", "".join(f"{p}\n" for p in hits_changes))
     if anime_changes is not None:
-        setup_anime(repo, temp, anime_changes, None, **anime_setup)  # type: ignore[arg-type]
+        setup_anime(repo, temp, anime_changes, main, **anime_setup)  # type: ignore[arg-type]
     else:
-        for path, data in main_files().items():
+        for path, data in (main or main_files()).items():
             write(repo / path, data)
     env = {
         **os.environ,
@@ -1036,3 +1040,376 @@ def test_rejects_a_mixed_schedule_that_the_main_does_not_have(tmp_path):
     changes = mixed_change(main)
     del main[MIXED]
     rejects(tmp_path, changes, "a main não tem a agenda das Misturadas", main=main)
+
+
+# --- o quiz do dia (M18, PR C2) ------------------------------------------------------------------
+
+QUIZ = ANIME["ANIME_QUIZ"]
+FIXTURE_QUIZ = ANIME["ANIME_FIXTURE_QUIZ"]
+QUIZ_LINE = "o mês do quiz muda o cabeçalho ou um dia que já existe"
+
+
+def quiz_day(catalog: JSON, number: int) -> JSON:
+    """Um dia do quiz: 2 rodadas, cada uma com 2 faixas do catálogo (a e b)."""
+    ids = [t["id"] for t in catalog["tracks"][:4]]
+    return {
+        "number": number,
+        "catalogVersion": catalog["catalogVersion"],
+        "family": "ano",
+        "direction": "max",
+        "mal": False,
+        "rounds": [
+            {"a": ids[0], "b": ids[1], "answer": "a", "info": {"seasons": [SPRING_01, FALL_00]}},
+            {"a": ids[2], "b": ids[3], "answer": "b", "info": {"seasons": [FALL_00, SPRING_01]}},
+        ],
+    }
+
+
+SPRING_01 = {"season": "spring", "year": 2001}
+FALL_00 = {"season": "fall", "year": 2000}
+# A forma de um dia de cada família (o schema e o validate_quiz_schedule): a direção, o MAL, o
+# parâmetro e o dado da revelação de cada rodada (None: a rodada sem o dado).
+SHAPES: dict[str, tuple[str, bool, object, dict[str, object] | None]] = {
+    "ano": ("min", False, None, {"seasons": [SPRING_01, FALL_00]}),
+    "ano_x": ("tem", False, 2005, {"years": [2005, 2011]}),
+    "playlists": ("max", False, None, {"playlists": [15, 1067]}),
+    "amq": ("min", False, None, {"rates": [41.5, 0]}),
+    "tema": ("nao", False, None, {"themes": ["OP", "ED12"]}),
+    "nota": ("max", True, None, {"diff": 0.42}),
+    "membros": ("min", True, None, {"diff": 125000}),
+    "rotulo": ("tem", True, "Slice of Life", None),
+    "fonte": ("nao", True, "light_novel", None),
+    "estudio": ("tem", True, "Kyoto Animation", None),
+}
+
+
+def shaped(day: JSON, family: str) -> JSON:
+    """O dia com a forma da família."""
+    direction, mal, param, info = SHAPES[family]
+    new = {**copy.deepcopy(day), "family": family, "direction": direction, "mal": mal}
+    if param is not None:
+        new["param"] = param
+    for rnd in new["rounds"]:
+        rnd.pop("info")
+        if info is not None:
+            rnd["info"] = copy.deepcopy(info)
+    return new
+
+
+def quiz_folder(folder: str, catalog: JSON, last: int, count: int = 40) -> dict[str, JSON]:
+    """A agenda do quiz com `count` dias até hoje + `last`, um arquivo por mês (P379): com 40
+    dias, sempre mais de um mês."""
+    first = T + timedelta(days=last - count + 1)
+    header = {
+        "schemaVersion": 1,
+        "kind": "anime-quiz",
+        "timezone": "America/Sao_Paulo",
+        "epoch": first.isoformat(),
+    }
+    files: dict[str, JSON] = {}
+    for i in range(count):
+        d = (first + timedelta(days=i)).isoformat()
+        month = files.setdefault(f"{folder}/{d[:7]}.json", {**header, "month": d[:7], "days": {}})
+        month["days"][d] = quiz_day(catalog, i + 1)
+    return files
+
+
+def months_of(main: dict[str, JSON], folder: str) -> dict[str, JSON]:
+    return {p: m for p, m in main.items() if p.startswith(folder + "/")}
+
+
+def joined(months: dict[str, JSON]) -> JSON:
+    return {"days": {d: v for m in months.values() for d, v in m["days"].items()}}
+
+
+def grown_quiz(months: dict[str, JSON], catalog: JSON, days: list[str]) -> dict[str, JSON]:
+    """Os meses que mudam com os dias novos: o da main que cresce e os novos, com o cabeçalho
+    dos da main."""
+    folder = next(iter(months)).rsplit("/", 1)[0]
+    header = {k: v for k, v in next(iter(months.values())).items() if k not in ("days", "month")}
+    count = len(joined(months)["days"])
+    changed: dict[str, JSON] = {}
+    for i, d in enumerate(days):
+        path = f"{folder}/{d[:7]}.json"
+        if path not in changed:
+            empty = {**header, "month": d[:7], "days": {}}
+            changed[path] = copy.deepcopy(months.get(path, empty))
+        changed[path]["days"][d] = quiz_day(catalog, count + i + 1)
+    return changed
+
+
+def main_with_quiz(ahead: int = 14, mixed_ahead: int = 14, quiz_ahead: int = 6) -> dict[str, JSON]:
+    """A main com as Misturadas e o quiz: o do quiz mais curto, como na estreia dele."""
+    main = main_with_mixed(ahead, mixed_ahead)
+    main.update(quiz_folder(QUIZ, base_catalog(), quiz_ahead))
+    main.update(quiz_folder(FIXTURE_QUIZ, fixture_catalog(), 10))
+    return main
+
+
+def quiz_change(main: dict[str, JSON], until: int = 28) -> dict[str, JSON]:
+    """Uma semana de geração com o quiz: ele cresce até o fim das do Anime e das Misturadas."""
+    changes = mixed_change(main, until)
+    real, fake = months_of(main, QUIZ), months_of(main, FIXTURE_QUIZ)
+    changes.update(grown_quiz(real, new_catalog(), new_days(joined(real), until)))
+    changes.update(grown_quiz(fake, fixture_catalog(), new_days(joined(fake), until)))
+    return changes
+
+
+def month_with(changes: dict[str, JSON], day_str: str) -> JSON:
+    """O mês do artefato que tem o dia."""
+    return next(m for p, m in changes.items() if p.startswith(QUIZ + "/") and day_str in m["days"])
+
+
+def month_turn() -> tuple[int, int]:
+    """Os dias à frente de uma main do quiz que acaba 2 dias antes de um mês novo (o 1º dia de
+    mês depois de hoje + 2) e os de uma geração que passa dele: o mês da main cresce e o seguinte
+    nasce, seja qual for o hoje dos testes (o da agenda real, que anda toda semana)."""
+    start = T + timedelta(days=3)
+    turn = start if start.day == 1 else (start.replace(day=28) + timedelta(days=4)).replace(day=1)
+    return (turn - T).days - 2, max(28, (turn - T).days)
+
+
+def test_the_quiz_grows_with_the_anime_and_the_mixed(tmp_path):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    done, repo, temp = run(tmp_path, changes, main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    text = section(temp)
+    assert (
+        f"- **Agenda do quiz do dia:** 22 dia(s) novo(s), de {iso(7)} a {iso(28)}"
+        f" (a da main vai até {iso(6)})" in text
+    )
+    assert "- **Agenda fictícia do quiz do dia (só desenvolvimento):** 18 dia(s) novo(s)" in text
+    # As perguntas dos dias novos da agenda real (e só dela), para quem lê o PR.
+    assert "**As perguntas dos dias novos do quiz do dia**" in text
+    assert f"\n{iso(7)} ano max (2 rodadas)\n" in text
+    assert text.count(" ano max (2 rodadas)") == 22
+    # Só confere: os meses da main continuam como estavam, e os novos não entram na árvore.
+    for path, data in months_of(main, QUIZ).items():
+        assert read_json(repo / path) == data
+    assert not any((repo / p).exists() for p in changes if p not in main)
+
+
+def test_a_quiz_month_grows_and_the_next_one_is_born(tmp_path):
+    ahead, until = month_turn()
+    main = main_with_quiz(quiz_ahead=ahead)
+    changes = quiz_change(main, until)
+    real = months_of(changes, QUIZ)
+    assert len(real) == 2
+    assert sum(path in main for path in real) == 1  # o da main, que cresce, e o novo
+    done, _, temp = run(tmp_path, changes, main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert (
+        f"- **Agenda do quiz do dia:** {until - ahead} dia(s) novo(s),"
+        f" de {iso(ahead + 1)} a {iso(until)}" in section(temp)
+    )
+
+
+def test_only_the_quiz_when_the_anime_and_the_mixed_are_far(tmp_path):
+    # A estreia do quiz (o PR B do M18): o Anime e as Misturadas com 25 dias à frente, o quiz com
+    # 6. O robô gera, e só o quiz cresce, até o fim das duas, com o acervo de antes.
+    main = main_with_quiz(ahead=25, mixed_ahead=25, quiz_ahead=6)
+    real = months_of(main, QUIZ)
+    changes = grown_quiz(real, base_catalog(), new_days(joined(real), 25))
+    done, _, temp = run(tmp_path, changes, main=main, fetch="failure")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert f"- **Agenda do quiz do dia:** 19 dia(s) novo(s), de {iso(7)} a {iso(25)}" in section(
+        temp
+    )
+
+
+def test_rejects_when_the_anime_the_mixed_and_the_quiz_had_21_days(tmp_path):
+    main = main_with_quiz(ahead=25, mixed_ahead=25, quiz_ahead=21)
+    real = months_of(main, QUIZ)
+    changes = grown_quiz(real, base_catalog(), new_days(joined(real), 25))
+    message = "já tem 25 dia(s) à frente, e a das Misturadas, 25, e a do quiz do dia, 21"
+    rejects(tmp_path, changes, message, main=main)
+
+
+@pytest.mark.parametrize(
+    ("mixed_ahead", "until", "message"),
+    [
+        (25, 26, "passa do fim da agenda do Anime"),  # P378
+        (20, 22, "passa do fim da agenda das Misturadas"),  # a das Misturadas não cresceu
+    ],
+)
+def test_rejects_quiz_days_beyond_the_anime_or_the_mixed(tmp_path, mixed_ahead, until, message):
+    main = main_with_quiz(ahead=25, mixed_ahead=mixed_ahead, quiz_ahead=6)
+    real = months_of(main, QUIZ)
+    changes = grown_quiz(real, base_catalog(), new_days(joined(real), until))
+    rejects(tmp_path, changes, message, main=main, fetch="failure")
+
+
+def test_rejects_a_quiz_that_the_main_does_not_have(tmp_path):
+    # A agenda real do quiz nasce com a tela (PR B do M18), nunca pelo robô.
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    for path in months_of(main, QUIZ):
+        del main[path]
+    rejects(tmp_path, changes, "a main não tem a agenda do quiz do dia", main=main)
+
+
+def test_rejects_a_quiz_without_the_mixed_schedule(tmp_path):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    del main[MIXED]
+    del changes[MIXED]
+    rejects(tmp_path, changes, "o quiz do dia lê a agenda das Misturadas", main=main)
+
+
+@pytest.mark.parametrize(
+    ("path", "message"),
+    [
+        (f"{QUIZ}/2026-13.json", "mês do quiz do dia com nome fora do formato"),
+        (f"{QUIZ}/notas.json", "mês do quiz do dia com nome fora do formato"),
+        (f"{QUIZ}/velho/2026-11.json", "mês do quiz do dia fora da pasta dele"),
+        (f"{FIXTURE_QUIZ}/2026-1.json", "mês do quiz do dia com nome fora do formato"),
+    ],
+)
+def test_rejects_a_quiz_file_that_is_not_a_month(tmp_path, path, message):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    changes[path] = {"days": {}}
+    rejects(tmp_path, changes, message, main=main)
+
+
+@pytest.mark.parametrize("what", ["epoch", "month", "old day", "other month", "same"])
+def test_rejects_a_quiz_month_that_breaks_its_header_or_its_days(tmp_path, what):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    grown = month_with(changes, iso(28))
+    if what == "epoch":
+        grown["epoch"] = iso(-100)
+    elif what == "month":
+        grown["month"] = "2000-01"
+    elif what == "other month":
+        grown["days"]["2000-01-01"] = quiz_day(new_catalog(), 1)
+    else:
+        # O 1º mês da main, que nunca cresce: igual, ou com um dia antigo mudado.
+        first = min(months_of(main, QUIZ))
+        changes[first] = copy.deepcopy(main[first])
+        if what == "old day":
+            day_str = min(changes[first]["days"])
+            changes[first]["days"][day_str]["number"] = 999
+    rejects(tmp_path, changes, QUIZ_LINE, main=main)
+
+
+def test_rejects_a_new_quiz_month_before_the_last_of_main(tmp_path):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    header = {k: v for k, v in main[min(months_of(main, QUIZ))].items() if k != "days"}
+    changes[f"{QUIZ}/2000-01.json"] = {
+        **header,
+        "month": "2000-01",
+        "days": {"2000-01-01": quiz_day(new_catalog(), 1)},
+    }
+    rejects(tmp_path, changes, "o mês novo do quiz precisa vir depois do último da main", main=main)
+
+
+def test_rejects_a_quiz_answer_outside_the_catalog(tmp_path):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    month_with(changes, iso(20))["days"][iso(20)]["rounds"][1]["b"] = "apple:tr:1"
+    rejects(tmp_path, changes, "cita faixa fora do catálogo", main=main)
+
+
+def test_rejects_quiz_days_with_another_catalog_version(tmp_path):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    month_with(changes, iso(20))["days"][iso(20)]["catalogVersion"] = "2026-01-01.00000000"
+    rejects(tmp_path, changes, "cita faixa fora do catálogo", main=main)
+
+
+def test_rejects_a_gap_between_new_quiz_days(tmp_path):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    del month_with(changes, iso(15))["days"][iso(15)]
+    rejects(tmp_path, changes, "há buraco entre os dias novos", main=main)
+
+
+def test_rejects_a_quiz_month_over_the_size_cap(tmp_path):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    month_with(changes, iso(28))["padding"] = "x" * (2 * 1024 * 1024)
+    rejects(tmp_path, changes, "o mês do quiz passa de 2097152 bytes", main=main)
+
+
+def test_rejects_a_quiz_day_off_the_calendar(tmp_path):
+    # O último dia de um mês trocado por um impossível do mesmo mês: o formato, a ordem, a conta e
+    # o mês do arquivo batem, e só o calendário pega. A main acaba um dia antes do month_turn, e
+    # o último dia do mês é o 2º dia novo (o 1º tem a regra dele).
+    ahead, until = month_turn()
+    main = main_with_quiz(quiz_ahead=ahead - 1)
+    changes = quiz_change(main, until)
+    last = iso(ahead + 1)
+    month = month_with(changes, last)
+    month["days"][f"{last[:8]}32"] = month["days"].pop(last)
+    rejects(tmp_path, changes, f"dia novo fora do calendário: {last[:8]}32", main=main)
+
+
+@pytest.mark.parametrize("family", sorted(SHAPES))
+def test_accepts_a_quiz_day_of_each_family(tmp_path, family):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    month = month_with(changes, iso(20))
+    month["days"][iso(20)] = shaped(month["days"][iso(20)], family)
+    done, _, temp = run(tmp_path, changes, main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    param = SHAPES[family][2]
+    line = f"{iso(20)} {family} {SHAPES[family][0]}{'' if param is None else f' {param}'}"
+    assert f"\n{line} (2 rodadas)\n" in section(temp)
+
+
+def _no_info(day: JSON) -> None:
+    for rnd in day["rounds"]:
+        rnd.pop("info", None)
+
+
+@pytest.mark.parametrize(
+    ("family", "change"),
+    [
+        ("ano", lambda d: d.update(param="Drama")),  # a comparação não tem parâmetro
+        ("ano", lambda d: d.update(direction="tem")),
+        ("ano", lambda d: d.update(numero=1)),  # chave a mais
+        ("ano", lambda d: d["rounds"][0].update(answer="c")),
+        ("ano", lambda d: d["rounds"][0].update(b=d["rounds"][0]["a"])),
+        ("ano", lambda d: d["rounds"][0]["info"].update(diff=1)),  # dois dados
+        ("ano", lambda d: d["rounds"][0]["info"]["seasons"][0].update(month=4)),
+        ("ano", lambda d: d["rounds"][0].update(info={"years": [2001, 2000]})),  # o de outra
+        ("ano", _no_info),
+        ("nota", lambda d: d.update(mal=False)),  # a família do MAL sem o MAL
+        ("nota", lambda d: d["rounds"][0].update(info={"diff": -1})),
+        ("amq", lambda d: d["rounds"][0].update(info={"rates": [101, 2]})),
+        ("playlists", lambda d: d["rounds"][0].update(info={"playlists": [1.5, 3]})),
+        ("tema", lambda d: d["rounds"][0].update(info={"themes": ["OPX", "ED"]})),
+        ("ano_x", lambda d: d.update(param="2005")),
+        ("fonte", lambda d: d.update(param="novel_mangá")),
+        ("rotulo", lambda d: d.update(param="x" * 41)),
+        ("rotulo", lambda d: d.update(param="<b>Drama</b>")),
+        ("rotulo", lambda d: d.update(param="Drama\nveja https://x.y")),
+        ("estudio", lambda d: d.update(param="https://x.y")),
+        ("estudio", lambda d: d.update(param="")),
+        ("estudio", lambda d: d.update(rounds=d["rounds"] * 16)),  # 32: o especial vai até 30
+    ],
+)
+def test_rejects_a_quiz_day_out_of_shape(tmp_path, family, change):
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    month = month_with(changes, iso(20))
+    day = shaped(month["days"][iso(20)], family)
+    change(day)
+    month["days"][iso(20)] = day
+    rejects(tmp_path, changes, "um dia novo do quiz fora da forma", main=main)
+
+
+def test_the_quiz_months_land_in_the_tree(tmp_path):
+    # O mês que cresceu substitui o da main, e o novo entra na pasta.
+    ahead, until = month_turn()
+    main = main_with_quiz(quiz_ahead=ahead)
+    changes = quiz_change(main, until)
+    done, repo, temp = run_pr(tmp_path, None, changes, main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "**Agenda do quiz do dia:**" in read(temp / "pr-body.md")
+    assert changed_list(temp) == list(changes)
+    for path, data in changes.items():
+        assert read_json(repo / path) == data
