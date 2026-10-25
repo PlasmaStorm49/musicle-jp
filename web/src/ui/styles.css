@@ -2257,8 +2257,14 @@ dialog.medal-dialog .attribution {
   line-height: var(--lh-xs);
 }
 
-/* O lugar de cada categoria (P277): os Hits à esquerda e o Anime à direita, com a mesma largura
-   mesmo vazio, para a marca de cada uma ficar sempre no mesmo ponto. */
+/* Com as 3 marcas (os Hits, o Anime e as Misturadas), a folga cai para 1 px: em 320 px, o dia tem
+   uns 39 px, e as 3 vagas de 1 em, com 2 px, dariam 40. */
+.calendar-marks:has(> .mark-slot:nth-child(3)) {
+  gap: 1px;
+}
+
+/* O lugar de cada categoria (P277): os Hits à esquerda, o Anime no meio e as Misturadas à
+   direita, com a mesma largura mesmo vazio, para a marca de cada uma ficar sempre no mesmo ponto. */
 .mark-slot {
   display: inline-flex;
   justify-content: center;

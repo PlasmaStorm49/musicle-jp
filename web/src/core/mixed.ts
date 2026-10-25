@@ -5,7 +5,7 @@
 import { acceptedIds, type CatalogIndex, franchisesOf } from "./catalog.ts";
 import { ANIME_MODES, type AnimeMode, type DailyAnswer } from "./daily.ts";
 import type { DailyStatus } from "./home.ts";
-import { type PuzzleId, puzzleId, type Save } from "./records.ts";
+import { isLate, type PuzzleId, puzzleId, type Save } from "./records.ts";
 import type { Attempt } from "./reducer.ts";
 import type { MixedDay, TrackId } from "./types.ts";
 
@@ -294,14 +294,20 @@ export type MixedRoundRecord = {
 export type MixedGame = {
   readonly number: number;
   readonly rounds: readonly MixedRoundRecord[];
+  /**
+   * Terminado depois do dia dele, pelo Histórico (v11), como o `late` dos diários (P268): fica
+   * fora das medalhas, e o resumo diz que foi jogado depois.
+   */
+  readonly late?: true;
 };
 
 /** O andamento: só os eventos aceitos (a retomada repete todos no reducer, como nos diários). */
 export type MixedProgress = { readonly events: readonly MixedEvent[] };
 
 /**
- * As Misturadas no save (v10), à parte do `history` dos diários: as estatísticas, a sequência e as
- * medalhas leem só ele, e nada delas muda com as Misturadas (as medalhas delas são a ME123).
+ * As Misturadas no save (v10), à parte do `history` dos diários: as estatísticas e a sequência do
+ * topo não as veem. As medalhas delas (ME123) leem os terminados no dia, e o jogado depois fica
+ * fora, como nos diários (v11).
  */
 export type MixedSave = {
   readonly finished: Readonly<Record<PuzzleId, MixedGame>>;
@@ -321,8 +327,12 @@ export function mixedMax(game: { readonly rounds: readonly ScorableMixedRound[] 
   return best * game.rounds.filter((round) => round.status !== "void").length;
 }
 
-/** O jogo terminado, no formato do save. */
-export function toMixedGame(state: MixedState, number: number): MixedGame {
+/**
+ * O jogo terminado, no formato do save. `late`: terminou depois do dia dele (`isLate`), e o
+ * resumo leva a marca. Sem valor padrão de propósito: toda chamada diz qual é, como no
+ * `toFinishedGame` dos diários.
+ */
+export function toMixedGame(state: MixedState, number: number, late: boolean): MixedGame {
   if (!isMixedFinished(state)) throw new Error("toMixedGame recebeu um jogo em andamento");
   return {
     number,
@@ -331,6 +341,7 @@ export function toMixedGame(state: MixedState, number: number): MixedGame {
         ? { status: "void", found: round.songs.map(() => null) }
         : { status: "done", found: findsOf(round) },
     ),
+    ...(late ? { late: true } : {}),
   };
 }
 
@@ -344,11 +355,15 @@ export type MixedSession =
       readonly stale: boolean;
     };
 
-/** Como o diário começa: já terminado, retomado pelos eventos salvos, ou novo (o `startSession`). */
+/**
+ * Como o diário começa: já terminado, retomado pelos eventos salvos, ou novo (o `startSession`).
+ * O `today` diz se o jogo que a repetição terminou foi jogado depois do dia dele.
+ */
 export function startMixedSession(
   save: Save,
   daily: MixedDaily,
   index: CatalogIndex,
+  today: string,
 ): MixedSession {
   const done = save.mixed.finished[daily.id];
   if (done) return { kind: "finished", game: done };
@@ -364,7 +379,10 @@ export function startMixedSession(
   }
   // Salvou o último evento mas não chegou a gravar o terminado: o jogo já acabou.
   if (isMixedFinished(state) && events.length > 0) {
-    return { kind: "finished", game: toMixedGame(state, daily.number) };
+    return {
+      kind: "finished",
+      game: toMixedGame(state, daily.number, isLate(daily.date, today)),
+    };
   }
   return { kind: "playing", state, events, stale: events.length < (saved?.events.length ?? 0) };
 }
@@ -414,7 +432,7 @@ export function mixedStatusOf(save: Save, daily: MixedDaily | null): DailyStatus
       number: daily.number,
       score: mixedScore(finished),
       max: mixedMax(finished),
-      late: false,
+      late: finished.late === true,
     };
   }
   if (save.mixed.progress[daily.id]?.events.length) {

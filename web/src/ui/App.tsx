@@ -17,7 +17,6 @@ import {
   medalsOf,
   noticeTab,
 } from "../core/medals.ts";
-import { mixedIds } from "../core/mixed.ts";
 import { emptySave, favoriteOf, pruneProgress, type Save, withFavorite } from "../core/records.ts";
 import {
   isAnimeTab,
@@ -145,7 +144,7 @@ function openSaves(date: string): Storage {
   }
   // Os andamentos que ficam: os de hoje e os dos dias do Histórico (P269), dos Hits e do Anime, e
   // os das Misturadas de hoje (sem Histórico); o resto é de um dia que não se joga mais.
-  const kept = [...keptProgressIds(date), ...mixedIds(date)];
+  const kept = keptProgressIds(date);
   if (loaded.writable) updateSave(store, (s) => pruneProgress(s, kept));
   const mode: SaveMode =
     loaded.notice === "future" ? "future" : !persistent || !loaded.writable ? "memory" : "saves";
@@ -588,14 +587,16 @@ function Ready({
       />
     );
   }
-  // As Misturadas (M17): a escolha do modo e os 2 diários, sempre de hoje.
+  // As Misturadas (M17): a escolha do modo e os 2 diários, de hoje ou, pelo Histórico, de um dia
+  // passado (o usuário, 24/10/2026).
   if (isMixedTab(tab)) {
     return (
       <Mixed
         tab={tab}
         anime={anime}
         store={mixed}
-        date={date}
+        date={route.date ?? date}
+        today={date}
         save={latest}
         engine={engine}
         resolveUrl={resolveUrl}
@@ -672,6 +673,8 @@ function Ready({
           hitsDay={playDay}
           anime={anime.schedule}
           requestAnime={anime.requestSchedule}
+          mixed={mixed.load}
+          requestMixed={mixed.request}
         />
       );
     case "medals":

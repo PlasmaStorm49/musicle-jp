@@ -141,7 +141,7 @@ describe("o reducer das Misturadas", () => {
     expect(done.rounds[0]?.songs.map((s) => s.helped)).toEqual([false, true]);
     // (10 + 5) / 2 = 7,5: o inteiro mais perto, 8.
     expect(
-      toMixedGame(play(done, NEXT, GIVE_UP, NEXT, GIVE_UP, NEXT, GIVE_UP), 1).rounds[0],
+      toMixedGame(play(done, NEXT, GIVE_UP, NEXT, GIVE_UP, NEXT, GIVE_UP), 1, false).rounds[0],
     ).toEqual({
       status: "done",
       found: [{ stage: 0 }, { stage: 0, help: true }],
@@ -206,7 +206,7 @@ describe("as Misturadas no save", () => {
       ...emptySave(),
       mixed: { finished: {}, progress: { [daily.id]: { events: [...events, NEXT] } } },
     };
-    const session = startMixedSession(save, daily, index);
+    const session = startMixedSession(save, daily, index, DATE);
     expect(session.kind).toBe("playing");
     if (session.kind !== "playing") return;
     expect(session.state.current).toBe(1);
@@ -220,17 +220,37 @@ describe("as Misturadas no save", () => {
       ...emptySave(),
       mixed: { finished: {}, progress: { [daily.id]: { events: end } } },
     };
-    const session = startMixedSession(save, daily, index);
+    const session = startMixedSession(save, daily, index, DATE);
     expect(session.kind).toBe("finished");
     if (session.kind !== "finished") return;
     expect(session.game.number).toBe(daily.number);
     expect(session.game.rounds.map((r) => r.status)).toEqual(["done", "done", "done", "done"]);
   });
 
+  it("terminado depois do dia dele (pelo Histórico), o jogo leva a marca do jogado depois", () => {
+    const end: MixedEvent[] = [GIVE_UP, NEXT, GIVE_UP, NEXT, GIVE_UP, NEXT, GIVE_UP];
+    const save: Save = {
+      ...emptySave(),
+      mixed: { finished: {}, progress: { [daily.id]: { events: end } } },
+    };
+    const later = startMixedSession(save, daily, index, "2026-10-09");
+    expect(later.kind === "finished" && later.game.late).toBe(true);
+    // No dia, sem a marca.
+    const sameDay = startMixedSession(save, daily, index, DATE);
+    expect(sameDay.kind === "finished" && "late" in sameDay.game).toBe(false);
+    // O cartão diz que foi jogado depois.
+    if (later.kind !== "finished") return;
+    const done: Save = {
+      ...emptySave(),
+      mixed: { finished: { [daily.id]: later.game }, progress: {} },
+    };
+    expect(mixedStatusOf(done, daily)).toMatchObject({ kind: "done", late: true });
+  });
+
   it("o terminado volta como está", () => {
     const game: MixedGame = { number: 1, rounds: [] };
     const save: Save = { ...emptySave(), mixed: { finished: { [daily.id]: game }, progress: {} } };
-    expect(startMixedSession(save, daily, index)).toEqual({ kind: "finished", game });
+    expect(startMixedSession(save, daily, index, DATE)).toEqual({ kind: "finished", game });
   });
 
   it("o andamento mais longo vence, e o término limpa o andamento", () => {

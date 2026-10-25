@@ -125,16 +125,25 @@ for (const viewport of [
       page,
     }) => {
       // Os dois diários de 21/10 jogados depois: os dois cartões com a linha a mais. E os 3 do
-      // "acertar a música" do Anime, para a escolha da dificuldade no caso mais alto.
+      // "acertar a música" do Anime, para a escolha da dificuldade no caso mais alto, e uma das
+      // Misturadas, com o cartão delas também no dia.
       const lost = { status: "lost", stage: 0, attempts: ["wrong"] } as const;
       const late = { number: 14, rounds: [lost, lost, lost], late: true as const };
-      await seedHistory(page, {
-        "2026-10-21|album": late,
-        "2026-10-21|song": late,
-        "2026-10-21|anime-musica-facil": late,
-        "2026-10-21|anime-musica-medio": late,
-        "2026-10-21|anime-musica-dificil": late,
-      });
+      const found = { status: "done", found: [{ stage: 0 }, null] } as const;
+      const three = { status: "done", found: [{ stage: 0 }, null, null] } as const;
+      const mixedLate = { number: 14, rounds: [found, found, found, three], late: true as const };
+      await seedHistory(
+        page,
+        {
+          "2026-10-21|album": late,
+          "2026-10-21|song": late,
+          "2026-10-21|anime-musica-facil": late,
+          "2026-10-21|anime-musica-medio": late,
+          "2026-10-21|anime-musica-dificil": late,
+        },
+        {},
+        { mixed: { finished: { "2026-10-21|misturadas-musica": mixedLate }, progress: {} } },
+      );
       await open(page, HISTORY_DAY, "#historico");
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Histórico");
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
@@ -150,6 +159,9 @@ for (const viewport of [
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quarta-feira, 21/10");
       await expect(page.getByText("jogado depois")).toHaveCount(2);
       await expect(page.getByRole("main").getByRole("link", { name: /^Anime/ })).toBeVisible();
+      await expect(page.getByRole("main").getByRole("link", { name: /^Misturadas/ })).toContainText(
+        "1 de 2 terminados",
+      );
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
       // A escolha da dificuldade de um dia passado, com os 3 jogados depois.
       await page.evaluate(() => {

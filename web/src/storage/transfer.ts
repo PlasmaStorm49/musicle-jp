@@ -89,6 +89,7 @@ function cleanMixed(game: MixedGame): MixedGame {
       status: r.status,
       found: r.found.map((f) => (f ? { stage: f.stage, ...(f.help ? { help: true } : {}) } : null)),
     })),
+    ...(game.late ? { late: true } : {}),
   };
 }
 

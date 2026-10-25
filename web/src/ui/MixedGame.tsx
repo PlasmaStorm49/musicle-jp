@@ -1,6 +1,7 @@
 // Um diário das Misturadas (M17), como o Game dos diários: retoma pelos eventos salvos, grava a
-// cada evento aceito e mostra o resumo do dia. Sem as estatísticas, a sequência e o Histórico, que
-// ficam para depois (P333): o resumo tem os pontos, o compartilhar e a contagem.
+// cada evento aceito e mostra o resumo do dia. Sem as estatísticas e a sequência, que ficam para
+// depois (P333): o resumo tem os pontos, o compartilhar e a contagem; num dia passado, pelo
+// Histórico, a marca do jogado depois e a volta ao dia.
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
@@ -23,8 +24,8 @@ import {
   withMixedFinished,
   withMixedProgress,
 } from "../core/mixed.ts";
-import type { Save } from "../core/records.ts";
-import { ROUTES } from "../core/routes.ts";
+import { isLate, type Save } from "../core/records.ts";
+import { routeHref } from "../core/routes.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
@@ -54,6 +55,8 @@ type Props = {
    */
   readonly onResult?: () => void;
   readonly shareUrl: string;
+  /** O "hoje" do jogo: o diário de um dia antes dele termina como jogado depois (`isLate`). */
+  readonly today: string;
 };
 
 type Report = (status: SaveStatus, finished?: boolean) => void;
@@ -78,10 +81,13 @@ function playReducer(played: Played, event: MixedEvent): Played {
 }
 
 export function MixedGame(props: Props) {
-  const { daily, index, initialSave, store, announce, onSaved } = props;
+  const { daily, index, initialSave, store, announce, onSaved, today } = props;
   const [base] = useState(initialSave);
   const { id } = daily;
-  const session = useMemo(() => startMixedSession(base, daily, index), [base, daily, index]);
+  const session = useMemo(
+    () => startMixedSession(base, daily, index, today),
+    [base, daily, index, today],
+  );
   const start = useMemo(
     () => (session.kind === "playing" ? { game: session.state, events: session.events } : null),
     [session],
@@ -130,8 +136,9 @@ function Playing({
   report,
   ...props
 }: Props & { readonly start: Played; readonly report: Report }) {
-  const { daily, index, engine, resolver, resolveUrl, announce, store } = props;
+  const { daily, index, engine, resolver, resolveUrl, announce, store, today } = props;
   const { id, number } = daily;
+  const late = isLate(daily.date, today);
   const [played, dispatch] = useReducer(playReducer, start);
   const [summary, setSummary] = useState<MixedGameRecord | null>(null);
   const { game } = played;
@@ -142,13 +149,13 @@ function Playing({
     if (!store || played === start) return;
     if (isMixedFinished(game)) {
       report(
-        updateSave(store, (s) => withMixedFinished(s, id, toMixedGame(game, number))),
+        updateSave(store, (s) => withMixedFinished(s, id, toMixedGame(game, number, late))),
         true,
       );
     } else {
       report(updateSave(store, (s) => withMixedProgress(s, id, { events: played.events })));
     }
-  }, [store, played, start, game, id, number, report]);
+  }, [store, played, start, game, id, number, late, report]);
 
   // As prévias do diário numa consulta só; o motor guarda as da rodada e as da próxima.
   const batch = useMemo(() => daily.rounds.flat(), [daily]);
@@ -169,7 +176,7 @@ function Playing({
   }, [summary, onResult]);
 
   function next() {
-    if (isLast && isMixedFinished(game)) setSummary(toMixedGame(game, number));
+    if (isLast && isMixedFinished(game)) setSummary(toMixedGame(game, number, late));
     else dispatch({ type: "NEXT_ROUND" });
   }
 
@@ -216,10 +223,12 @@ function roundTexts(round: MixedGameRecord["rounds"][number]) {
 
 /**
  * O fim do dia, a partir do resumo salvo: os pontos, as rodadas, o compartilhar, a volta à escolha
- * do modo e a contagem do próximo diário. Relê o save: com duas abas, vale o 1º término.
+ * do modo e a contagem do próximo diário; num dia passado, a marca do jogado depois e a volta ao
+ * dia no Histórico, no lugar da contagem. Relê o save: com duas abas, vale o 1º término.
  */
 function MixedSummary({ game, ...props }: Props & { readonly game: MixedGameRecord }) {
-  const { store, daily, announce, shareUrl } = props;
+  const { store, daily, announce, shareUrl, today } = props;
+  const past = isLate(daily.date, today);
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   const saved = useMemo(
@@ -227,11 +236,12 @@ function MixedSummary({ game, ...props }: Props & { readonly game: MixedGameReco
     [store, daily.id],
   );
   const shown = saved ?? game;
-  const shareHeader = t("share.headerMixed", {
+  const plainHeader = t("share.headerMixed", {
     title: t("app.title"),
     mode: t(`mixed.shareMode.${daily.mode}`),
     number: shown.number,
   });
+  const shareHeader = shown.late ? t("share.late", { header: plainHeader }) : plainHeader;
   return (
     <div class="game mixed screen">
       <header class="round-head">
@@ -264,17 +274,33 @@ function MixedSummary({ game, ...props }: Props & { readonly game: MixedGameReco
             );
           })}
         </ol>
+        {shown.late && <p class="summary-late">{t("mixed.lateNote")}</p>}
         <ShareButton text={mixedShareText(shareHeader, shown, shareUrl)} announce={announce} />
         {/* A volta à escolha do modo, como a do Anime (P322). O 2º clique de um toque duplo no
             "Ver resultado" não segue o link (regra 23). */}
-        <a class="summary-levels" href={ROUTES.misturadas} onClick={singleClickLink}>
+        <a
+          class="summary-levels"
+          href={routeHref({ tab: "misturadas", date: past ? daily.date : null })}
+          onClick={singleClickLink}
+        >
           <span class="back-chevron" aria-hidden="true">
             <Icon name="next" />
           </span>
           <span aria-hidden="true">{t("anime.backToLevels")}</span>
           <span class="sr-only">{t("mixed.backFull")}</span>
         </a>
-        <Countdown date={daily.date} announce={announce} />
+        {past ? (
+          // Sem a contagem: num dia passado, ela já estaria zerada (como no resumo dos diários).
+          <a
+            class="summary-back"
+            href={routeHref({ tab: "history", date: daily.date })}
+            onClick={singleClickLink}
+          >
+            {t("history.backToDay")}
+          </a>
+        ) : (
+          <Countdown date={daily.date} announce={announce} />
+        )}
       </section>
     </div>
   );

@@ -1,7 +1,7 @@
 // Migrações do formato salvo: uma função por versão, de N para N+1, cada uma com um teste que
 // lê um save real da versão anterior (web/CLAUDE.md, regra 12).
 
-export const SAVE_SCHEMA_VERSION = 10;
+export const SAVE_SCHEMA_VERSION = 11;
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 
@@ -43,6 +43,12 @@ export const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // v9 → v10 (M17): as Misturadas, num campo novo, vazio: os terminados e os andamentos delas, à
   // parte dos diários. A versão sobe pelo mesmo motivo da v8 (o `sanitize` velho o jogaria fora).
   9: (data) => ({ ...data, mixed: { finished: {}, progress: {} } }),
+  // v10 → v11 (o usuário, 24/10/2026): as Misturadas no Histórico. O diário delas terminado depois
+  // do dia leva `late: true` e fica fora das medalhas, como o dos diários na v7. Nada muda no que
+  // já existe: até aqui, jogar depois era impossível nelas. A versão sobe para que uma aba com o
+  // código velho (que contaria o jogado depois nas medalhas e apagaria o andamento de um dia
+  // passado) veja "versão mais nova" e não grave.
+  10: (data) => data,
 };
 
 /** Leva um save da versão `from` até a atual. Versão sem migração conhecida: erro. */
