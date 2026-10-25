@@ -27,6 +27,12 @@ O Client ID vai só no cabeçalho `X-MAL-CLIENT-ID`, que um redirecionamento nã
 URL, na saída, no arquivo ou numa mensagem de erro (as mensagens do `main` ainda passam pelo
 `_hide`, por garantia). Um teste confere tudo isso. No robô, o ranking inteiro tem um prazo
 (`RANKING_DEADLINE_SEC`), para a tarefa nunca passar dos 5 min dela.
+
+Com o `--quiz-out`, os mesmos pedidos levam os campos do quiz do dia (M18, `QUIZ_FIELDS`), e um
+segundo arquivo sai na forma que o `schedule-quiz --mal-file` lê (o `load_mal` do pacote): os
+gêneros, a nota, os membros, a fonte e os estúdios de cada anime. São os números brutos do MAL,
+e por isso nunca vão ao repositório (P380): vivem só no artefato da anime-mal, que o robô apaga
+depois do uso, ou num arquivo fora do repositório, na carga do terminal.
 """
 
 from __future__ import annotations
@@ -68,6 +74,15 @@ _ID = re.compile(r"[1-9][0-9]{0,8}")
 # A posição no ranking de popularidade do MAL → o nível de 0 a 9 (P254): o topo de todos os
 # tempos é 9. Fica aqui, e não no fetch_anime, porque o arquivo da anime-mal já sai com o nível.
 _MAL_RANKS = (50, 150, 300, 600, 1000, 1600, 2500, 4000, 6000)
+# Os campos do quiz do dia (M18), pedidos nas mesmas páginas do ranking: nenhum pedido a mais.
+QUIZ_FIELDS = "genres,mean,num_list_users,source,studios"
+QUIZ_SCHEMA = 1  # o schemaVersion que o load_mal do pacote exige
+# Com o --quiz-out, o padrão é a escala inteira do nível (a do MAL_LEVEL_SIZE do fetch_anime): o
+# acervo do Anime vai além dos 3.000 do sorteio, que o --pool-size da busca ainda corta.
+QUIZ_SIZE = 6000
+# A raiz do repositório (este arquivo fica em pipeline/src/musicle_pipeline/): os dois arquivos
+# têm números do MAL e nunca são gravados dentro dela (P254, P380).
+REPO_ROOT = Path(__file__).resolve().parents[3]
 
 Transport = Callable[[str], bytes]
 
@@ -158,18 +173,26 @@ def fetch_ranking(
     sleep: Callable[[float], None],
     size: int = POOL_SIZE,
     expired: Callable[[], bool] = _never,
+    quiz: dict[int, dict] | None = None,
 ) -> dict[int, int]:
     """O id do MAL → a posição no ranking de popularidade, dos `size` primeiros, em páginas de
     500 e com 1 s entre os pedidos. `expired` diz se o prazo venceu (o pacote não lê o relógio:
-    quem chama o passa; o padrão é sem prazo)."""
+    quem chama o passa; o padrão é sem prazo). Com o `quiz`, os pedidos levam os campos do quiz
+    do dia, e ele recebe os dados de cada anime (`quiz_entry`)."""
     ranks: dict[int, int] = {}
     offset = 0
     while offset < size:
         if offset:
             sleep(PACE_SEC)
         limit = min(MAL_PAGE, size - offset)
-        query = urlencode({"ranking_type": "bypopularity", "limit": limit, "offset": offset})
-        data = _page(f"{MAL_RANKING_URL}?{query}", get, sleep, expired).get("data")
+        params: dict[str, object] = {
+            "ranking_type": "bypopularity",
+            "limit": limit,
+            "offset": offset,
+        }
+        if quiz is not None:
+            params["fields"] = QUIZ_FIELDS
+        data = _page(f"{MAL_RANKING_URL}?{urlencode(params)}", get, sleep, expired).get("data")
         if not isinstance(data, list) or not data:
             break
         for item in data:
@@ -180,8 +203,41 @@ def fetch_ranking(
             mal_id, rank = node.get("id"), ranking.get("rank")
             if _positive(mal_id) and mal_id < MAX_ID and _positive(rank):
                 ranks.setdefault(mal_id, rank)
+                if quiz is not None:
+                    quiz.setdefault(mal_id, quiz_entry(node))
         offset += len(data)
     return top_ranks(ranks, size)
+
+
+def _names(value: object) -> list[str]:
+    """Os nomes de uma lista do MAL (`[{"id", "name"}]`), na ordem, sem os vazios nem os
+    repetidos."""
+    names: list[str] = []
+    for item in value if isinstance(value, list) else []:
+        name = item.get("name") if isinstance(item, dict) else None
+        if isinstance(name, str) and name.strip() and name not in names:
+            names.append(name)
+    return names
+
+
+def quiz_entry(node: Mapping[str, object]) -> dict:
+    """Os dados do quiz de um anime do ranking, na forma do `load_mal` do pacote. O campo que o
+    MAL não traz, ou traz fora da forma, fica de fora: os gêneros e os estúdios ausentes são "não
+    sei" (a música sai da pergunta), e não "não tem"; a nota fora de 0 a 10 (o NaN e o infinito
+    também, porque falham na comparação) não entra."""
+    entry: dict = {}
+    for field in ("genres", "studios"):
+        if isinstance(node.get(field), list):
+            entry[field] = _names(node.get(field))
+    mean, members, source = node.get("mean"), node.get("num_list_users"), node.get("source")
+    # A faixa antes de qualquer conta: um inteiro enorme não vira float (o isfinite estouraria).
+    if type(mean) in (int, float) and 0 <= mean <= 10:
+        entry["mean"] = mean
+    if type(members) is int and members >= 0:
+        entry["members"] = members
+    if isinstance(source, str) and source.strip():
+        entry["source"] = source
+    return entry
 
 
 def _positive(value: object) -> bool:
@@ -204,6 +260,18 @@ def write_ranks(path: Path, ranks: Mapping[int, int]) -> None:
         "order": order,
     }
     text = json.dumps(data, separators=(",", ":")) + "\n"
+    _write(path, text)
+
+
+def write_quiz(path: Path, quiz: Mapping[int, dict]) -> None:
+    """Grava os dados do quiz do dia (M18) na forma que o `schedule-quiz --mal-file` lê:
+    `{"schemaVersion": 1, "anime": {"<id>": {genres, mean, members, source, studios}}}`."""
+    data = {"schemaVersion": QUIZ_SCHEMA, "anime": {str(m): quiz[m] for m in sorted(quiz)}}
+    _write(path, json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n")
+
+
+def _write(path: Path, text: str) -> None:
+    """Em UTF-8 com \\n, num arquivo temporário trocado no fim."""
     tmp = path.with_name(path.name + ".tmp")
     tmp.write_bytes(text.encode("utf-8"))
     os.replace(tmp, path)
@@ -260,11 +328,23 @@ def main(
     )
     parser.add_argument("--out", type=Path, required=True, help="o JSON de saída")
     parser.add_argument(
-        "--size", type=int, default=POOL_SIZE, help=f"quantos do topo ({POOL_SIZE})"
+        "--size",
+        type=int,
+        help=f"quantos do topo ({POOL_SIZE}; com o --quiz-out, {QUIZ_SIZE})",
+    )
+    parser.add_argument(
+        "--quiz-out",
+        type=Path,
+        help="os dados do quiz do dia (M18) de cada anime, nos mesmos pedidos; nunca no Git",
     )
     args = parser.parse_args(argv)
+    if args.size is None:
+        args.size = QUIZ_SIZE if args.quiz_out is not None else POOL_SIZE
     if args.size < 1:
         parser.error("--size precisa ser positivo")
+    for path in (p for p in (args.out, args.quiz_out) if p is not None):
+        if path.resolve().is_relative_to(REPO_ROOT):
+            parser.error(f"{path}: dentro do repositório; os números do MAL nunca vão a ele (P380)")
     client_id = environ.get("MAL_CLIENT_ID", "").strip()
     if not client_id:
         print("sem MAL_CLIENT_ID: o ranking não foi baixado (a busca segue com as fontes abertas)")
@@ -274,19 +354,31 @@ def main(
     def expired() -> bool:
         return clock() - start >= RANKING_DEADLINE_SEC
 
+    quiz: dict[int, dict] | None = {} if args.quiz_out is not None else None
+    wrote_quiz = False
     try:
         transport = get or mal_get(client_id, ROBOT_TIMEOUT_SEC)
-        ranks = fetch_ranking(transport, sleep, args.size, expired)
+        ranks = fetch_ranking(transport, sleep, args.size, expired, quiz)
         if not ranks:
             raise MalError("o ranking veio vazio")
+        # O do quiz antes: o ranks.json é o sinal de pronto (a anime-mal só segue com ele), e um
+        # erro depois do 1º apaga o do quiz, para nada ficar pela metade.
+        if quiz is not None:
+            write_quiz(args.quiz_out, {m: quiz[m] for m in ranks if m in quiz})
+            wrote_quiz = True
         write_ranks(args.out, ranks)
     except Exception as exc:  # qualquer falha: a mensagem passa pelo _hide
+        if wrote_quiz:
+            with contextlib.suppress(OSError):
+                args.quiz_out.unlink()
         print(
             f"ranking do MAL: {_hide(f'{type(exc).__name__}: {exc}', client_id)}; nada foi gravado",
             file=sys.stderr,
         )
         return 1
     print(f"{args.out.name}: {len(ranks)} anime(s) do ranking de popularidade do MAL")
+    if quiz is not None:
+        print(f"{args.quiz_out.name}: os dados do quiz do dia de {len(ranks)} anime(s)")
     return 0
 
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from decimal import Decimal
+from types import SimpleNamespace
 from urllib.parse import parse_qs, urlsplit
 
 import pytest
@@ -749,4 +750,205 @@ def test_the_cli_draw_option(monkeypatch, tmp_path, capsys):
     # E a opção só vale com --anime.
     args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
     assert main([*args, "--draw", "amq"]) == 1
-    assert "--draw só valem com --anime" in capsys.readouterr().err
+    assert "--draw e --refresh só valem com --anime" in capsys.readouterr().err
+
+
+# --- a nova busca dos animes conhecidos (o --refresh, M18) ---------------------------------------
+
+LATER = "2026-10-23T01:00:00Z"
+
+
+class RefreshWeb(FakeWeb):
+    """A nova busca: o mesmo anime, agora com um encerramento novo (Honoo), de LiSA ou sem
+    artista nenhum."""
+
+    def __init__(self, new_artist: bool = True, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.new_artist = new_artist
+
+    def post(self, url: str, body: bytes, headers) -> bytes:
+        payload = json.loads(body)
+        if url != fa.ANIMETHEMES_URL or "Popular" in payload["query"]:
+            return super().post(url, body, headers)
+        self.posts.append((url, payload))
+        item = animethemes_item()
+        lisa = {"as": None, "artist": {"slug": "lisa", "name": {"main": "LiSA", "native": None}}}
+        item["animethemes"].append(
+            {
+                "type": "ED",
+                "sequence": 2,
+                "group": None,
+                "song": {
+                    "title": {"romaji": "Honoo"},
+                    "performances": [lisa] if self.new_artist else [],
+                },
+                "animethemeentries": [{"tracksCount": 120}],
+            }
+        )
+        return json.dumps({"data": {"findAnimeByExternalSite": [item]}}).encode()
+
+
+def old_snapshot(tmp_path, name: str = "snapshots"):
+    """Um snapshot de antes da temporada e dos números (o acervo real até o M18), com o nível 2
+    do MAL, numa pasta, e o que o --refresh lê dela: os animes juntos, os artistas resolvidos e
+    os nomes oficiais."""
+    snap = run(FakeWeb())
+    for anime in snap["anime"]:
+        del anime["season"]
+        anime["levels"] = {"mal": 2}
+        for theme in anime["themes"]:
+            del theme["stats"]
+    folder = tmp_path / name
+    folder.mkdir()
+    write_if_changed(folder / f"{snap['id']}.json", dumps(snap))
+    _, resolved, official = fa.tried_and_resolved(folder)
+    return AppleAnimeProvider(folder).source().anime, resolved, official, folder
+
+
+def refresh(web: FakeWeb, known, resolved, official, **io_args) -> dict:
+    io = fa.AnimeFetch(get=web.get, post=web.post, apple_pace=0, **io_args)
+    return fa.refresh_anime_snapshot(
+        LATER, lambda t: ROMAJI.get(t, (t,)), known, resolved, official, io
+    )
+
+
+def test_the_refresh_brings_the_new_data_without_asking_the_apple_again(tmp_path):
+    known, resolved, official, folder = old_snapshot(tmp_path)
+    assert known[0].season is None  # o de antes: sem a temporada
+    # O tema novo sem artista não vai à Apple: nenhum pedido prova que os casados de antes não
+    # foram buscados de novo (sem a reutilização, o Gurenge pediria o lookup de LiSA).
+    web = RefreshWeb(new_artist=False)
+    snap = refresh(web, known, resolved, official)
+    assert web.gets == [] and snap["tracks"] == {}
+    (anime,) = snap["anime"]
+    # A temporada e os números de agora; sem o MAL, o nível de antes (o anime novo substitui o
+    # antigo inteiro, e ele sumiria).
+    assert anime["season"] == "spring" and anime["levels"] == {"mal": 2}
+    themes = {t["song"]: t for t in anime["themes"]}
+    assert (themes["Gurenge"]["result"], themes["Gurenge"]["track"]) == ("matched", "10")
+    assert themes["Gurenge"]["stats"] == {"animethemes": 950, "anisongdb": 87.0}
+    assert themes["from the edge"]["track"] == "13"
+    kamado = themes["Kamado Tanjirou no Uta"]
+    # O que não casou fica como estava, com os artistas de antes (o nome sem artista na Apple).
+    assert (kamado["result"], kamado["track"]) == ("no-artist", None)
+    assert kamado["artists"] == list(next(t for t in known[0].themes if t.type == "IN").artists)
+    assert themes["Honoo"]["result"] == "no-artist"
+    # Os dois snapshots juntos: o mais novo vale, e as faixas de antes continuam.
+    write_if_changed(folder / f"{snap['id']}.json", dumps(snap))
+    (read,) = AppleAnimeProvider(folder).source().anime
+    gurenge = next(t for t in read.themes if t.song == "Gurenge")
+    assert read.season == "spring" and gurenge.track.provider_id == "10"
+    assert gurenge.stats == {"animethemes": Decimal(950), "anisongdb": Decimal("87.0")}
+
+
+def test_the_refresh_matches_only_the_new_theme(tmp_path):
+    known, resolved, official, _ = old_snapshot(tmp_path)
+    web = RefreshWeb()
+    snap = refresh(web, known, resolved, official)
+    themes = {t["song"]: t for t in snap["anime"][0]["themes"]}
+    # O tema novo, de LiSA (já resolvida): o lookup dela, sem busca de nome, e a faixa nova.
+    assert themes["Honoo"]["track"] == "12" and set(snap["tracks"]) == {"12"}
+    assert not any("search" in g for g in web.gets)
+
+
+@pytest.mark.parametrize(
+    ("io_args", "level"),
+    [
+        ({}, 2),  # sem o MAL: o de antes
+        ({"mal_file": mal_ranking.RankingFile(order=(38000,), levels={38000: 6})}, 6),
+        ({"mal_file": mal_ranking.RankingFile(order=(1,), levels={1: 9})}, 2),  # fora do arquivo
+        ({"mal": "web"}, 9),  # o ranking de agora (o 3º do MAL falso)
+    ],
+)
+def test_the_refresh_mal_level(tmp_path, io_args, level):
+    known, resolved, official, _ = old_snapshot(tmp_path)
+    web = RefreshWeb()
+    if io_args.get("mal") == "web":
+        io_args = {"mal": web.mal}
+    snap = refresh(web, known, resolved, official, **io_args)
+    assert snap["anime"][0]["levels"] == {"mal": level}
+
+
+def test_the_refresh_stops_when_the_anisongdb_is_down(tmp_path):
+    # Seguir sem ele trocaria o nível e o número do AMQ de antes por nada: a busca para com erro.
+    known, resolved, official, _ = old_snapshot(tmp_path)
+    saved: list[dict] = []
+    io = fa.AnimeFetch(
+        get=RefreshWeb().get,
+        post=RefreshWeb(quiz_fails=True).post,
+        apple_pace=0,
+        save=saved.append,
+    )
+    with pytest.raises(FetchError, match="parou antes do fim, com 0 de 1"):
+        fa.refresh_anime_snapshot(LATER, lambda t: (t,), known, resolved, official, io)
+    assert saved and saved[-1]["anime"] == []
+
+
+def test_the_refresh_keeps_the_numbers_the_source_did_not_bring():
+    # A fonte que não trouxe o nível ou o número agora: fica o de antes.
+    track = SimpleNamespace(provider_id="10")  # o _reused só lê o id da faixa
+    old = Theme(
+        "OP", 1, "X", ("A",), {"anisongdb": 7}, "matched", track, {"anisongdb": Decimal("72.5")}
+    )
+    new = fa.SourceTheme("OP", 1, "X", ["A"], levels={"animethemes": 4}, stats={"animethemes": 40})
+    record = fa._reused(new, old)["record"]
+    assert record["levels"] == {"anisongdb": 7, "animethemes": 4}
+    assert record["stats"] == {"anisongdb": 72.5, "animethemes": 40}
+
+
+def test_the_pairing_is_the_same_as_the_sources_one():
+    """O par em duas passadas: os títulos iguais de todos antes dos parecidos, e, entre os
+    iguais, a mesma sequência (o revisor)."""
+
+    def theme(kind: str, sequence: int | None, title: str) -> fa.SourceTheme:
+        return fa.SourceTheme(kind, sequence, title, [])
+
+    old_b = theme("OP", 1, "Rubicon")
+    # A (novo, parecido com B') não rouba o par de B (igual a B'): a passada exata vem antes.
+    pairs = fa._pair_themes([theme("OP", 2, "Rubikon"), theme("OP", 1, "Rubicon")], [old_b])
+    assert pairs == [None, old_b]
+    # O mesmo título em sequências diferentes: cada um com a sua, mesmo fora da ordem.
+    ed1, ed2 = theme("ED", 1, "Song"), theme("ED", 2, "Song")
+    assert fa._pair_themes([ed1, ed2], [ed2, ed1]) == [ed1, ed2]
+
+
+def test_the_cli_refresh(monkeypatch, tmp_path, capsys):
+    _, _, _, folder = old_snapshot(tmp_path)
+    seen: dict = {}
+
+    def fake_refresh(fetched_at, romanize, known, resolved, official, io):
+        seen.update(known=[a.mal_id for a in known], resolved=resolved, mal=io.mal)
+        return {
+            "provider": "apple",
+            "storefront": "jp",
+            "id": "2026-10-23T010000Z",
+            "fetchedAt": fetched_at,
+            "anime": [{"malId": 38000, "themes": []}],
+            "artists": {},
+            "resolved": {},
+            "tracks": {},
+        }
+
+    monkeypatch.setattr(fa, "refresh_anime_snapshot", fake_refresh)
+    monkeypatch.setattr(fa, "cached_romanizer", lambda: lambda t: (t,))
+    monkeypatch.delenv("MAL_CLIENT_ID", raising=False)
+    base = ["fetch", "--provider", "apple", "--anime", "--refresh", "--fetched-at", LATER]
+    base += ["--out-dir", str(folder)]
+    # Sem sorteio nem teto: as opções deles são recusadas.
+    assert main([*base, "--max-anime", "5", "--draw", "amq"]) == 1
+    assert "sem --draw, --max-anime" in capsys.readouterr().err
+    assert main(base) == 0
+    assert seen["known"] == [38000] and seen["resolved"]["LiSA"] == ["1"] and seen["mal"] is None
+    assert (folder / "2026-10-23T010000Z.json").exists()
+    # Com o --ranks-file, o nível sai do arquivo e a variável é ignorada; sem ele, a variável.
+    # Cada chamada com uma pasta só dela: o snapshot falso da anterior não é um snapshot de verdade.
+    ranks = tmp_path / "ranks.json"
+    mal_ranking.write_ranks(ranks, {38000: 3})
+    monkeypatch.setenv("MAL_CLIENT_ID", SECRET)
+    with_file = [*base[:-1], str(old_snapshot(tmp_path, "b")[3]), "--ranks-file", str(ranks)]
+    assert main(with_file) == 0
+    assert seen["mal"] is None
+    assert main([*base[:-1], str(old_snapshot(tmp_path, "c")[3])]) == 0
+    assert seen["mal"] is not None
+    captured = capsys.readouterr()
+    assert SECRET not in captured.out + captured.err

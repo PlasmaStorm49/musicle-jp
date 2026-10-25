@@ -235,6 +235,15 @@ def test_the_mal_file_is_read_and_checked(tmp_path):
     )
     found = load_mal(path)[7]
     assert found.mean == Decimal("8.12") and found.members == 5 and found.genres == {"Action"}
+    # Sem os gêneros e os estúdios, "não sei" (None), e não "não tem": a música sai da pergunta.
+    path.write_text('{"schemaVersion": 1, "anime": {"7": {"mean": 8}}}', encoding="utf-8")
+    bare = load_mal(path)[7]
+    assert (bare.genres, bare.studios) == (None, None)
+    ctx = _context(days=1)
+    song = ctx.songs[0]
+    unknown = replace(song, mal=bare)
+    assert ctx.has(FAMILY_BY_ID["rotulo"], "Action", unknown) is None
+    assert ctx.has(FAMILY_BY_ID["estudio"], "Estúdio 0", unknown) is None
     for bad in (
         '{"schemaVersion": 2, "anime": {}}',
         '{"schemaVersion": 1, "anime": {"7": {"score": 1}}}',
