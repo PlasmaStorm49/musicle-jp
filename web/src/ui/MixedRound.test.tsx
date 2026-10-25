@@ -218,6 +218,28 @@ describe("MixedRoundView (M17)", () => {
     expect(pressed.getAttribute("aria-describedby")).toBeTruthy();
   });
 
+  it("a barra leva a mistura ao ponto do liberado, também depois do Separar (P224)", async () => {
+    const { engine } = mixEngine();
+    render(<Harness engine={engine} announce={vi.fn()} />);
+    await playMix();
+    fireEvent.click(screen.getByRole("button", { name: "Ajuda: separar L e R" }));
+    await act(async () => {
+      fireEvent.keyDown(screen.getByRole("slider", { name: "Ponto do trecho" }), {
+        key: "ArrowRight",
+      });
+    });
+    // Do segundo 1 ao fim do trecho de 4 s, cada uma ainda no seu lado.
+    expect(engine.playMix).toHaveBeenLastCalledWith(
+      [
+        { url: "audio/1.wav", offset: 1, pan: -0.8 },
+        { url: "audio/2.wav", offset: 1, pan: 0.8 },
+      ],
+      3,
+      { normalize: true, limit: true },
+    );
+    expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
+  });
+
   it("o Separar no Carregando… vale quando a mistura começa, e a achada continua nela", async () => {
     const { engine, playback } = mixEngine();
     let start: (value: typeof playback) => void = () => {};
