@@ -428,6 +428,30 @@ def test_every_day_is_valid_and_full(ctx, schedule):
         assert day["mal"] is True
 
 
+def test_the_rounds_prefer_the_openings(ctx, schedule):
+    """Uns 65% de aberturas (o usuário, 25/10/2026) num acervo com a metade delas, fora a
+    pergunta do tema, que tem uma de cada por construção."""
+    songs = {s.id: s for s in ctx.songs}
+    marks = [
+        quiz._opening(songs[rnd[side]])
+        for day in schedule["days"].values()
+        if day["family"] != "tema"
+        for rnd in day["rounds"]
+        for side in ("a", "b")
+    ]
+    assert 0.6 <= sum(marks) / len(marks) <= 0.7
+
+
+def test_without_a_song_of_the_drawn_type_any_one_serves(ctx):
+    endings = [s for s in ctx.songs if not quiz._opening(s)][:3]
+    openings = [s for s in ctx.songs if quiz._opening(s)][:3]
+    rng = seeded("musicle-jp|teste")
+    tried = quiz._candidates([*endings, *openings], True, rng)
+    assert [quiz._opening(s) for s in tried] == [True, True, True, False, False, False]
+    assert quiz._partner(endings, True, rng) in endings
+    assert quiz._partner([*endings, openings[0]], True, rng) == openings[0]
+
+
 def test_no_answer_of_the_anime_or_the_misturadas_of_the_day(ctx, schedule):
     for where, day in schedule["days"].items():
         excluded = ctx.excluded(date.fromisoformat(where))

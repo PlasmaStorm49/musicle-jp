@@ -112,6 +112,11 @@ SIM_HALF = Decimal("0.25")
 NO_TIE = Decimal("1e-9")
 # Quantas 1ªs músicas a busca de um par tenta, em cada nível de afrouxamento.
 TRIES = 40
+# A preferência pela abertura (o usuário, 25/10/2026), uns 65 a 35: cada música da rodada sorteia
+# o tipo, abertura abaixo do corte (em 32 bits) e o encerramento ou a insert song acima, e a busca
+# tenta antes as do tipo sorteado. A preferência nunca afrouxa a curva: sem par entre elas, valem
+# as outras no mesmo nível. O tipo é o do tema principal (o `label`, o que a revelação mostra).
+OPENING_CUT = int(Decimal("0.65") * 2**32)
 # Acervo curto (as fixtures): um parâmetro (um rótulo, um estúdio) entra com as músicas para a
 # run inteira ou, se o acervo é pequeno, com um quarto das músicas dele.
 SHORT_SHARE = 4
@@ -692,6 +697,26 @@ def _rotated(items: Sequence[Song], rng: Mulberry32) -> Iterable[Song]:
     return [items[(start + i) % len(items)] for i in range(min(len(items), TRIES))]
 
 
+def _opening(song: Song) -> bool:
+    return song.facts.label.startswith("OP")
+
+
+def _candidates(items: Sequence[Song], want: bool | None, rng: Mulberry32) -> list[Song]:
+    """As 1ªs músicas a tentar: as do tipo sorteado (want: abertura ou não) em roda e, depois,
+    as outras, também em roda; sem preferência (a pergunta do tema), todas juntas."""
+    if want is None:
+        return list(_rotated(items, rng))
+    preferred = [s for s in items if _opening(s) == want]
+    rest = [s for s in items if _opening(s) != want]
+    return [*_rotated(preferred, rng), *_rotated(rest, rng)]
+
+
+def _partner(partners: Sequence[Song], want: bool | None, rng: Mulberry32) -> Song:
+    """A 2ª música, uniforme entre as do tipo sorteado ou, sem nenhuma delas, entre todas."""
+    preferred = [s for s in partners if want is None or _opening(s) == want] or partners
+    return preferred[rng.randint(len(preferred))]
+
+
 def _search_compare(
     ctx: QuizContext,
     family: Family,
@@ -700,6 +725,7 @@ def _search_compare(
     excluded: frozenset[str],
     tiers: tuple[int, int] | None,
     window: tuple[Decimal, Decimal],
+    opening: tuple[bool, bool] | None,
 ) -> tuple[Song, Song] | None:
     pool = ctx.compare_pool(family.id)
     # As 1ªs na ordem do id, e não na do valor: as TRIES tentadas se espalham pelos valores (na
@@ -713,7 +739,8 @@ def _search_compare(
     ]
     keys = [v for v, _ in second]
     low, high = window
-    for a in _rotated(first, rng):
+    want_a, want_b = opening or (None, None)
+    for a in _candidates(first, want_a, rng):
         va = ctx.value(family.id, a)
         assert va is not None
         found: dict[str, Song] = {}
@@ -722,8 +749,7 @@ def _search_compare(
                 if b.key != a.key and not run.known(family, a.key, b.key):
                     found[b.id] = b
         if found:
-            partners = [found[i] for i in sorted(found)]
-            return a, partners[rng.randint(len(partners))]
+            return a, _partner([found[i] for i in sorted(found)], want_b, rng)
     return None
 
 
@@ -736,6 +762,7 @@ def _search_property(
     excluded: frozenset[str],
     tiers: tuple[int, int] | None,
     window: tuple[Decimal, Decimal],
+    opening: tuple[bool, bool] | None,
 ) -> tuple[Song, Song] | None:
     yes, no = ctx.property_pool(family, param)
     out = excluded | run.used  # nas propriedades, nenhuma música volta na run (P378)
@@ -747,12 +774,13 @@ def _search_property(
         # A distância ao ano X não depende da 1ª música: a lista sai uma vez só. As do "não" têm
         # o ano (sem ele, a música fica fora da pergunta, no `has`).
         second = [b for b in second if low <= abs(Decimal(b.facts.year or 0) - param) <= high]
-    for a in _rotated(first, rng):
+    want_a, want_b = opening or (None, None)
+    for a in _candidates(first, want_a, rng):
         partners = second
         if family.id != "ano_x":
             partners = [b for b in second if low <= ctx.similarity(family, param, a, b) <= high]
         if partners:
-            return a, partners[rng.randint(len(partners))]
+            return a, _partner(partners, want_b, rng)
     return None
 
 
@@ -821,6 +849,10 @@ def _round(
     """O par da rodada n e o nível de afrouxamento (0, nenhum); sem par, (None, -1)."""
     rng = seeded(f"musicle-jp|anime-quiz|{d.isoformat()}|{n}")
     tiers = (_tier(rng, n), _tier(rng, n))
+    # O tipo de cada música (OPENING_CUT): 2 números sempre, e a pergunta do tema não os usa,
+    # porque o par dela já é uma abertura e um encerramento.
+    opening = (rng.next_u32() < OPENING_CUT, rng.next_u32() < OPENING_CUT)
+    preference = None if family.id == "tema" else opening
     left = day_left(d)[n - 1]
     for step, (_what, width, any_tier, with_day_answers) in enumerate(STEPS):
         if with_day_answers and not ctx.short:
@@ -829,9 +861,9 @@ def _round(
         chosen = tiers if not any_tier else None
         window = _window(family, width, left)
         if family.kind == "compare":
-            pair = _search_compare(ctx, family, rng, run, out, chosen, window)
+            pair = _search_compare(ctx, family, rng, run, out, chosen, window, preference)
         else:
-            pair = _search_property(ctx, family, param, rng, run, out, chosen, window)
+            pair = _search_property(ctx, family, param, rng, run, out, chosen, window, preference)
         if pair is not None:
             return _record(ctx, family, direction, pair, rng, run), step
     return None, -1
