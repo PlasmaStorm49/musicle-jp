@@ -1,6 +1,7 @@
 """Testes dos scripts da tarefa catalog-generate (`.github/scripts/catalog-reserve.sh` e
 `catalog-collect.sh`), que antes viviam só no YAML do robô (ME52), e dos da anime-generate e da
-anime-mal (`anime-collect.sh`, `anime-reserve.sh` e `anime-due.sh`, M14, PR B).
+anime-mal (`anime-collect.sh`, `anime-reserve.sh` e `anime-due.sh`, M14, PR B; e o
+`anime-quiz.sh`, do quiz do dia, M18, PR C2).
 
 Rodam num repositório git temporário, com bash e git (o Git Bash serve no Windows). O Python do
 pipeline é trocado por um registro dos argumentos: o que se testa é o script, não o schedule.
@@ -217,9 +218,16 @@ ANIME = {
     "ANIME_FIXTURE_SCHEDULE": "web/public/fixtures/anime/schedule.json",
     "ANIME_MIXED": "web/public/data/anime/mixed.json",
     "ANIME_FIXTURE_MIXED": "web/public/fixtures/anime/mixed.json",
+    "ANIME_QUIZ": "web/public/data/anime/quiz",
+    "ANIME_FIXTURE_QUIZ": "web/public/fixtures/anime/quiz",
 }
 ANIME_SNAPSHOT = f"{ANIME['ANIME_SNAPSHOTS']}/2026-10-26T091700Z.json"
 OLD_ANIME_SNAPSHOT = f"{ANIME['ANIME_SNAPSHOTS']}/2026-10-22T011811Z.json"
+# O mês da main nas duas pastas do quiz do dia (M18, P379) e o mês seguinte, que a geração cria.
+QUIZ_MONTH = f"{ANIME['ANIME_QUIZ']}/2026-10.json"
+FIXTURE_QUIZ_MONTH = f"{ANIME['ANIME_FIXTURE_QUIZ']}/2026-10.json"
+QUIZ_NEXT = f"{ANIME['ANIME_QUIZ']}/2026-11.json"
+FIXTURE_QUIZ_NEXT = f"{ANIME['ANIME_FIXTURE_QUIZ']}/2026-11.json"
 
 
 def make_anime_repo(tmp_path: Path) -> Path:
@@ -235,6 +243,9 @@ def make_anime_repo(tmp_path: Path) -> Path:
         dest = repo / ANIME[key]
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(f'{{"main": "{key}"}}\n'.encode())
+    for month in (QUIZ_MONTH, FIXTURE_QUIZ_MONTH):
+        (repo / month).parent.mkdir(parents=True, exist_ok=True)
+        (repo / month).write_bytes(b'{"main": "quiz"}\n')
     (repo / OLD_ANIME_SNAPSHOT).parent.mkdir(parents=True, exist_ok=True)
     (repo / OLD_ANIME_SNAPSHOT).write_bytes(b'{"busca": "antiga"}\n')
     _git(repo, "add", ".")
@@ -338,6 +349,202 @@ def test_anime_collect_refuses_anything_outside_the_closed_list(tmp_path, change
     assert f"mudança fora da lista fechada do Anime: {line}" in done.stdout
 
 
+def test_anime_collect_takes_the_quiz_months_that_grew_and_the_new_ones(tmp_path):
+    # O quiz do dia (M18): o mês da main cresce e o seguinte nasce, nas duas pastas (P379).
+    repo = make_anime_repo(tmp_path)
+    months = (QUIZ_MONTH, FIXTURE_QUIZ_MONTH, QUIZ_NEXT, FIXTURE_QUIZ_NEXT)
+    for month in months:
+        (repo / month).write_bytes(f'{{"novo": "{month}"}}\n'.encode())
+    (tmp_path / "runner").mkdir()
+    (tmp_path / "runner" / "anime.log").write_bytes(b"")
+    done, temp = run_anime(repo, tmp_path, "anime-collect.sh")
+    assert done.returncode == 0, done.stdout + done.stderr
+    out = temp / "anime-out"
+    assert sorted(text(out / "changed.txt").split()) == sorted(months)
+    for month in months:
+        assert (out / "files" / month).read_bytes() == (repo / month).read_bytes()
+
+
+@pytest.mark.parametrize(
+    ("change", "line"),
+    [
+        ("mês 13", "?? web/public/data/anime/quiz/2026-13.json"),
+        ("outro nome", "?? web/public/data/anime/quiz/notas.json"),
+        ("subpasta", "?? web/public/data/anime/quiz/2026/2026-11.json"),
+        ("outra pasta", "?? web/public/data/anime/quiz-velho/2026-11.json"),
+        ("mês apagado", " D web/public/data/anime/quiz/2026-10.json"),
+    ],
+)
+def test_anime_collect_refuses_a_quiz_file_that_is_not_a_month(tmp_path, change, line):
+    repo = make_anime_repo(tmp_path)
+    path = repo / line[3:]
+    if change == "mês apagado":
+        path.unlink()
+    else:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"{}\n")
+    (tmp_path / "runner").mkdir()
+    (tmp_path / "runner" / "anime.log").write_bytes(b"")
+    done, _ = run_anime(repo, tmp_path, "anime-collect.sh")
+    assert done.returncode == 1
+    assert f"mudança fora da lista fechada do Anime: {line}" in done.stdout
+
+
+# --- O quiz do dia (M18, PR C2): anime-quiz.sh ---
+
+
+def run_quiz(
+    repo: Path, tmp_path: Path, *, fail: str = "", fail_once: str = "", mal: bool = True
+) -> tuple[subprocess.CompletedProcess[str], Path]:
+    """O anime-quiz.sh com um "Python" que registra os argumentos, grava uma linha que diz de
+    qual chamada ela veio, falha quando os argumentos têm o texto de `fail` (ou só na 1ª vez, o
+    de `fail_once`) e, no schedule-quiz que dá certo, grava o mês novo com os argumentos dele,
+    como o gerador gravaria os dias."""
+    temp = tmp_path / "runner"
+    temp.mkdir(exist_ok=True)
+    (temp / "anime.log").write_bytes(b"do Anime\n")
+    if mal:
+        (temp / "mal").mkdir(exist_ok=True)
+        (temp / "mal" / "quiz.json").write_bytes(b"{}\n")
+    fake = tmp_path / "fake-quiz-python.sh"
+    fake.write_bytes(
+        b'#!/usr/bin/env bash\necho "$@" >> "$RUNNER_TEMP/python-args"\n'
+        b'echo "afrouxamento: $3 ${10}"\n'
+        b'if [ -n "$FAKE_FAIL" ] && [[ "$*" == *"$FAKE_FAIL"* ]]; then exit 1; fi\n'
+        b'if [ -n "$FAKE_FAIL_ONCE" ] && [[ "$*" == *"$FAKE_FAIL_ONCE"* ]] \\\n'
+        b'  && [ ! -e "$RUNNER_TEMP/failed-once" ]; then : > "$RUNNER_TEMP/failed-once"; exit 1; fi\n'
+        b'if [ "$3" = schedule-quiz ]; then echo "$*" > "$ANIME_QUIZ/2026-11.json"; fi\n'
+    )
+    fake.chmod(0o755)
+    return run_anime(
+        repo,
+        tmp_path,
+        "anime-quiz.sh",
+        PYTHON=fake.as_posix(),
+        FAKE_FAIL=fail,
+        FAKE_FAIL_ONCE=fail_once,
+    )
+
+
+QUIZ_ARGS = "-m musicle_pipeline schedule-quiz --provider apple --today 2026-10-26 --days 28"
+VALIDATE_ARGS = "-m musicle_pipeline validate-anime --provider apple"
+MAL_FALLBACK = "aviso: quiz do dia: o gerador parou com os dados do MAL"
+
+
+def test_anime_quiz_without_the_real_quiz_does_nothing(tmp_path):
+    # A agenda real do quiz nasce com a tela (PR B do M18): até lá, o robô não a cria.
+    repo = make_anime_repo(tmp_path)
+    shutil.rmtree(repo / ANIME["ANIME_QUIZ"])
+    done, temp = run_quiz(repo, tmp_path)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "nada a crescer" in done.stdout
+    assert not (temp / "python-args").exists()
+    assert text(temp / "anime.log") == "do Anime\n"
+
+
+def test_anime_quiz_grows_with_the_mal_data(tmp_path):
+    repo = make_anime_repo(tmp_path)
+    done, temp = run_quiz(repo, tmp_path)
+    assert done.returncode == 0, done.stdout + done.stderr
+    with_mal = f"{QUIZ_ARGS} --mal-file {temp}/mal/quiz.json"
+    assert text(temp / "python-args").splitlines() == [with_mal, VALIDATE_ARGS]
+    # O mês que a geração gravou fica na árvore, para o anime-collect.sh levar.
+    assert text(repo / QUIZ_NEXT) == f"{with_mal}\n"
+    # Só as linhas do schedule-quiz vão ao log do Anime, depois das dele e com a marca do quiz (as
+    # do validate-anime repetem as do Anime).
+    assert (
+        text(temp / "anime.log")
+        == "do Anime\nafrouxamento: quiz do dia: schedule-quiz --mal-file\n"
+    )
+
+
+def test_anime_quiz_without_the_mal_file(tmp_path):
+    # Sem o segredo (ou com o ranking que falhou), não há quiz.json: as perguntas do MAL ficam fora.
+    repo = make_anime_repo(tmp_path)
+    done, temp = run_quiz(repo, tmp_path, mal=False)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert text(temp / "python-args").splitlines() == [QUIZ_ARGS, VALIDATE_ARGS]
+    assert text(repo / QUIZ_NEXT) == f"{QUIZ_ARGS}\n"
+    assert MAL_FALLBACK not in text(temp / "anime.log")
+
+
+def test_anime_quiz_falls_back_without_the_mal_data_and_says_so(tmp_path):
+    repo = make_anime_repo(tmp_path)
+    # O que a 1ª tentativa deixou na pasta sai antes da 2ª: o mês da main volta, e o novo é o da 2ª.
+    (repo / QUIZ_MONTH).write_bytes(b'{"da": "tentativa com o MAL"}\n')
+    (repo / QUIZ_NEXT).write_bytes(b'{"da": "tentativa com o MAL"}\n')
+    done, temp = run_quiz(repo, tmp_path, fail="--mal-file")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert text(temp / "python-args").splitlines() == [
+        f"{QUIZ_ARGS} --mal-file {temp}/mal/quiz.json",
+        QUIZ_ARGS,
+        VALIDATE_ARGS,
+    ]
+    assert text(repo / QUIZ_MONTH) == '{"main": "quiz"}\n'
+    assert text(repo / QUIZ_NEXT) == f"{QUIZ_ARGS}\n"
+    assert "cresceu sem eles" in done.stdout
+    # O aviso vai ao corpo do PR, depois das linhas da tentativa que valeu; as da que quebrou, não.
+    log = text(temp / "anime.log").splitlines()
+    assert log[:2] == ["do Anime", "afrouxamento: quiz do dia: schedule-quiz "]
+    assert log[2].startswith(MAL_FALLBACK)
+    assert len(log) == 3
+
+
+def test_anime_quiz_falls_back_when_the_check_refuses_the_mal_days(tmp_path):
+    # Com o MAL, o schedule-quiz passa e o validate-anime recusa o que ele gravou: o mês da 1ª
+    # tentativa sai, e o que fica é o da 2ª, sem o MAL.
+    repo = make_anime_repo(tmp_path)
+    done, temp = run_quiz(repo, tmp_path, fail_once="validate-anime")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert text(temp / "python-args").splitlines() == [
+        f"{QUIZ_ARGS} --mal-file {temp}/mal/quiz.json",
+        VALIDATE_ARGS,
+        QUIZ_ARGS,
+        VALIDATE_ARGS,
+    ]
+    assert text(repo / QUIZ_NEXT) == f"{QUIZ_ARGS}\n"
+    assert MAL_FALLBACK in text(temp / "anime.log")
+
+
+def test_anime_quiz_that_does_not_grow_goes_back_to_main_and_fails(tmp_path):
+    repo = make_anime_repo(tmp_path)
+    (repo / QUIZ_MONTH).write_bytes(b'{"quebrado": true}\n')
+    (repo / QUIZ_NEXT).write_bytes(b'{"quebrado": true}\n')
+    (repo / FIXTURE_QUIZ_MONTH).write_bytes(b'{"da": "geracao ficticia"}\n')
+    done, temp = run_quiz(repo, tmp_path, fail="schedule-quiz")
+    assert done.returncode == 1
+    assert "o quiz do dia não cresceu" in done.stdout
+    assert text(repo / QUIZ_MONTH) == '{"main": "quiz"}\n'
+    assert not (repo / QUIZ_NEXT).exists()
+    # A fictícia não é deste script (é do passo das fixtures): fica como estava.
+    assert text(repo / FIXTURE_QUIZ_MONTH) == '{"da": "geracao ficticia"}\n'
+    # Uma linha só: o aviso do MAL desmentiria o de que o quiz não cresceu.
+    assert text(temp / "anime.log").splitlines() == [
+        "do Anime",
+        "aviso: quiz do dia: não cresceu nesta semana (a geração ou a conferência quebrou; veja a"
+        " execução)",
+    ]
+
+
+def test_anime_collect_puts_the_quiz_lines_last(tmp_path):
+    # O corpo do PR mostra só as 50 primeiras linhas: as do quiz nunca empurram as do Anime.
+    repo = make_anime_repo(tmp_path)
+    (repo / QUIZ_NEXT).write_bytes(b'{"novo": 1}\n')
+    (tmp_path / "runner").mkdir()
+    (tmp_path / "runner" / "anime.log").write_bytes(
+        b"aviso: quiz do dia: sem os dados do MAL\nafrouxamento: quiz do dia: 2026-11-02 ano\n"
+        b"afrouxamento: nivel 1\naviso: acervo curto\naviso: quiz do dia: sem os dados do MAL\n"
+    )
+    done, temp = run_anime(repo, tmp_path, "anime-collect.sh")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert text(temp / "anime-out" / "avisos.txt").splitlines() == [
+        "aviso: acervo curto",
+        "afrouxamento: nivel 1",
+        "aviso: quiz do dia: sem os dados do MAL",
+        "afrouxamento: quiz do dia: 2026-11-02 ano",
+    ]
+
+
 def test_anime_reserve_restores_main_drops_the_new_snapshot_and_regrows_the_schedule(tmp_path):
     repo = make_anime_repo(tmp_path)
     for key in ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_MIXED"):
@@ -421,6 +628,55 @@ def test_anime_due_also_measures_the_mixed_schedule(tmp_path, mixed_last, due, m
     assert "ahead=25" in output
     assert f"mixed={mixed}" in output
     assert f"e a das Misturadas, {mixed}" in text(temp / "summary.md")
+
+
+def write_quiz(repo: Path, last: str) -> None:
+    """A pasta do quiz do dia com 40 dias até `last`, um arquivo por mês (P379)."""
+    months: dict[str, dict[str, object]] = {}
+    for d, value in json.loads(anime_schedule(last))["days"].items():
+        months.setdefault(d[:7], {})[d] = value
+    folder = repo / ANIME["ANIME_QUIZ"]
+    folder.mkdir(parents=True, exist_ok=True)
+    for month, days in months.items():
+        data = {"kind": "anime-quiz", "month": month, "days": days}
+        (folder / f"{month}.json").write_bytes(json.dumps(data).encode())
+
+
+@needs_jq
+@pytest.mark.parametrize(
+    ("quiz_last", "due", "quiz"),
+    [
+        ("2026-10-30", "true", "4"),  # a estreia (M18) ou uma semana em que o quiz não cresceu
+        ("2026-11-16", "false", "21"),  # 5 dias de outubro e 16 de novembro, os meses juntos
+    ],
+)
+def test_anime_due_also_measures_the_quiz_months_together(tmp_path, quiz_last, due, quiz):
+    repo = tmp_path / "repo"
+    path = repo / ANIME["ANIME_SCHEDULE"]
+    path.parent.mkdir(parents=True)
+    path.write_bytes(anime_schedule("2026-11-20"))
+    (repo / ANIME["ANIME_MIXED"]).write_bytes(anime_schedule("2026-11-20"))
+    write_quiz(repo, quiz_last)
+    assert len(list((repo / ANIME["ANIME_QUIZ"]).iterdir())) == 2
+    done, temp = run_anime(repo, tmp_path, "anime-due.sh")
+    assert done.returncode == 0, done.stdout + done.stderr
+    output = text(temp / "github-output")
+    assert f"due={due}" in output
+    assert "mixed=25" in output
+    assert f"quiz={quiz}" in output
+    assert f"e a das Misturadas, 25, e a do quiz do dia, {quiz}" in text(temp / "summary.md")
+
+
+@needs_jq
+def test_anime_due_refuses_a_quiz_folder_without_months(tmp_path):
+    repo = tmp_path / "repo"
+    path = repo / ANIME["ANIME_SCHEDULE"]
+    path.parent.mkdir(parents=True)
+    path.write_bytes(anime_schedule("2026-11-20"))
+    (repo / ANIME["ANIME_QUIZ"]).mkdir()
+    done, _ = run_anime(repo, tmp_path, "anime-due.sh")
+    assert done.returncode == 1
+    assert "não tem nenhum mês" in done.stdout
 
 
 def test_anime_due_without_the_schedule_does_nothing(tmp_path):
