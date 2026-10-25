@@ -218,6 +218,12 @@ def test_only_the_first_opening_or_ending_gives_the_year():
     assert (both.year, both.season, both.theme, both.amq) == (2002, 3, None, Decimal(41))
     old = Theme("ED", 1, "y", (), {"anisongdb": 4}, "matched", None)  # um snapshot antigo
     assert quiz._facts_of([(anime, old)]).amq is None
+    # Duas estreias no mesmo ano: a temporada mais cedo; se uma não tem temporada, nenhuma.
+    winter = Anime(10, "w", "W", (), 2002, (), {}, (), season="winter")
+    unknown = Anime(11, "u", "U", (), 2002, (), {}, ())
+    opening = Theme("OP", 1, "z", (), {}, "matched", None)
+    assert quiz._facts_of([(anime, first), (winter, opening)]).season == 0
+    assert quiz._facts_of([(anime, first), (unknown, opening)]).season is None
 
 
 def test_the_mal_file_is_read_and_checked(tmp_path):
@@ -250,13 +256,18 @@ def test_the_tier_curve_follows_the_phases():
     o Fácil diminui e nunca some."""
     shares = [quiz.tier_shares(n) for n in range(1, RUN_ROUNDS + 1)]
     assert shares[0] == (85, 15, 0)
+    # A reta entre os pontos, nas rodadas do meio, e o último ponto valendo dali em diante.
+    assert (shares[2], shares[7], shares[11]) == ((63, 37, 0), (25, 74, 1), (17, 77, 6))
+    assert shares[RUN_ROUNDS - 1] == (8, 72, 20)
     assert all(abs(sum(s) - 100) < Decimal("1e-20") for s in shares)
     for n, (easy, medium, hard) in enumerate(shares, start=1):
         assert easy >= 8, n  # o Fácil nunca some
+        if n <= 6:
+            assert hard == 0, n  # nenhuma Difícil antes de assentar no Médio
         if n >= 6:
-            assert medium >= 68 and medium > easy + hard, n  # o Médio é a maioria
+            assert medium >= 70 and medium > easy + hard, n  # o Médio é a maioria
         if n <= 10:
-            assert hard <= 3, n  # sem passar do Médio
+            assert hard <= 2, n  # sem passar do Médio
         if n >= 14:
             assert hard >= 10, n  # algumas Difíceis
     assert all(a[0] >= b[0] and a[2] <= b[2] for a, b in pairwise(shares))
@@ -285,6 +296,9 @@ def test_the_distance_comes_down_in_random_steps():
     """A descida de cada dia (o usuário, 25/10/2026): cada rodada guarda uma parte sorteada do que
     faltava, a descida nunca volta, umas runs descem mais rápido que outras e a média de muitos
     dias é a curva."""
+    # A média da parte guardada (a uniforme de `low` a 1) é a da curva, a menos do arredondamento.
+    low = 2 * quiz.curve(2) - 1
+    assert abs((1 + low) / 2 - quiz.curve(2)) < Decimal("1e-25")
     days = [quiz.day_left(EPOCH + timedelta(days=k)) for k in range(365)]
     for left in days:
         assert len(left) == RUN_ROUNDS and left[0] == 1
@@ -352,6 +366,25 @@ def test_a_full_run_of_each_family(ctx, family_id, param):
             assert rnd["info"]["playlists"] == [a.facts.playlists, b.facts.playlists]
 
 
+def test_a_comparison_waits_for_enough_songs_with_the_data(ctx):
+    """O acervo real antes da carga com a temporada e os números exatos: só algumas músicas têm
+    o dado, e a pergunta fica fora do pool até ter as da run inteira. As outras nunca entram."""
+    catalog = _catalog()
+    facts = _all_facts(catalog)
+    keys = [t["songKey"] for t in catalog["tracks"]]
+    few = {
+        key: replace(fact, amq=None, season=None) if i >= 40 else fact
+        for i, (key, fact) in enumerate(zip(keys, facts.values(), strict=True))
+    }
+    mixed = QuizContext(catalog, few, ctx.mal, ctx.anime_days, ctx.mixed_days)
+    amq, ano = FAMILY_BY_ID["amq"], FAMILY_BY_ID["ano"]
+    assert len(mixed.compare_pool("amq")) == 40 < mixed.need(amq)
+    assert not quiz._available(mixed, amq, True) and not quiz._available(mixed, ano, True)
+    assert quiz._available(mixed, FAMILY_BY_ID["playlists"], True)  # essa tem o dado em todas
+    with_data = {s.key for _, s in mixed.compare_pool("amq")}
+    assert with_data == set(keys[:40])
+
+
 def test_the_answers_of_the_day_only_in_the_short_acervo():
     """O último nível do afrouxamento (uma resposta do Anime ou das Misturadas do dia) só existe
     no acervo curto, o das fixtures; no real, a run para antes (P378)."""
@@ -413,6 +446,16 @@ def test_the_check_sees_a_deducible_pair_even_without_the_mal(ctx):
     found = quiz._day_rule_problems(where, ano, ctx)
     assert f"{where} rodada 3: par que a run já deixa deduzir" in found
     assert not any("rodada 1" in p or "rodada 2" in p for p in found if "deduzir" in p)
+
+
+def test_the_check_sees_a_wrong_number_in_the_reveal(ctx, schedule):
+    """A conferência compara o dado da revelação com os fatos, e não só a chave dele."""
+    where = min(w for w, day in schedule["days"].items() if "info" in day["rounds"][0])
+    day = copy.deepcopy(schedule["days"][where])
+    assert quiz._day_rule_problems(where, day, ctx) == []
+    day["rounds"][0]["info"] = {"themes": ["OP9", "ED9"]}  # nenhuma música do acervo é OP9
+    found = quiz._day_rule_problems(where, day, ctx)
+    assert found == [f"{where} rodada 1: o dado da revelação não bate com os fatos"]
 
 
 # --- o pool, o cooldown e os especiais (P381)

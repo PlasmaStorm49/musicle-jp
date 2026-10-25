@@ -31,7 +31,7 @@ import unicodedata
 import urllib.request
 from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
 from functools import cache
 from pathlib import Path
 from typing import Literal
@@ -269,10 +269,15 @@ def parse_animethemes(data: object) -> dict[int, SourceAnime]:
                 for n in (_text(names.get("main")), _text(names.get("native"))):
                     if n and n not in artists:
                         artists.append(n)
+            # A contagem que não é um inteiro de 0 para cima (um true, um negativo) fica de fora:
+            # ela iria crua para o stats, e a leitura recusaria o snapshot inteiro.
             counts = [
-                e.get("tracksCount")
+                count
                 for e in theme.get("animethemeentries") or []
-                if isinstance(e, dict) and isinstance(e.get("tracksCount"), int)
+                if isinstance(e, dict)
+                and isinstance(count := e.get("tracksCount"), int)
+                and not isinstance(count, bool)
+                and count >= 0
             ]
             sequence = theme.get("sequence")
             themes.append(
@@ -345,11 +350,16 @@ def parse_anisongdb(items: object) -> dict[int, list[SourceTheme]]:
                 song=song,
                 artists=names,
                 levels={"anisongdb": anisongdb_level(rate)} if rate is not None else {},
-                # A taxa com 1 casa, como o AMQ mostra: o quiz do dia a exibe em % (M18).
-                stats={"anisongdb": round(rate, 1)} if exact else {},
+                stats={"anisongdb": _one_decimal(rate)} if exact else {},
             )
         )
     return out
+
+
+def _one_decimal(rate: float) -> float:
+    """A taxa com 1 casa, como o AMQ mostra (o quiz do dia a exibe em %, M18): pelo texto do
+    número e em Decimal, com a metade para cima (72,25 dá 72,3), e não pelo float binário."""
+    return float(Decimal(str(rate)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP))
 
 
 _WO = re.compile(r"\bwo\b", re.IGNORECASE)

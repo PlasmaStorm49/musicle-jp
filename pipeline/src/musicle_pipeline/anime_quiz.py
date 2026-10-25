@@ -82,13 +82,13 @@ SPECIAL_ROUNDS = 30  # P376
 TIERS = ("facil", "medio", "dificil")
 # A curva das faixas (o usuário, 25/10/2026, no lugar da gaussiana da P375): a parte de Fácil,
 # Médio e Difícil, em %, nas rodadas de cada ponto, com a reta entre eles e o último valendo dali
-# em diante. Começa no Fácil; da rodada 6 à 10, assenta no Médio, sem passar dele; da 10 à 14 em
-# diante, entram algumas Difíceis, mas o Médio fica sempre a maioria; o Fácil diminui e nunca
-# some.
+# em diante. Começa no Fácil, sem nenhuma Difícil até a rodada 6; da 6 à 10, assenta no Médio, e
+# a Difícil só começa a aparecer (2% na 10); da 10 à 14 em diante, entram algumas Difíceis, mas o
+# Médio fica sempre a maioria; o Fácil diminui e nunca some.
 TIER_SHARES = (
     (1, (85, 15, 0)),
-    (6, (30, 68, 2)),
-    (10, (20, 77, 3)),
+    (6, (30, 70, 0)),
+    (10, (20, 78, 2)),
     (14, (14, 76, 10)),
     (20, (10, 74, 16)),
     (30, (8, 72, 20)),
@@ -175,7 +175,10 @@ def _facts_of(uses: Sequence[tuple[Anime, Theme]]) -> SongFacts:
         if t.type in ("OP", "ED") and (t.sequence or 1) == 1 and a.year
     ]
     year = min((y for y, _ in debut), default=None)
-    seasons = [SEASONS.index(s) for y, s in debut if y == year and s is not None]
+    # Um uso da estreia sem a temporada (um snapshot antigo) deixa a temporada sem saber: a do
+    # outro uso do mesmo ano podia ser mais tarde, e a música fica fora da pergunta do ano.
+    first = [s for y, s in debut if y == year]
+    seasons = [SEASONS.index(s) for s in first if s is not None] if None not in first else []
     # Os números exatos (o usuário, 25/10/2026): sem eles (os snapshots antigos), a música fica
     # fora da pergunta, e o nível não serve no lugar.
     amq = [t.stats["anisongdb"] for _, t in uses if "anisongdb" in t.stats]
@@ -600,10 +603,15 @@ class QuizContext:
             genres_a, genres_b = genres_a - {param}, genres_b - {param}
         return jaccard(genres_a, genres_b)
 
+    def need(self, family: Family) -> int:
+        """As músicas que uma pergunta precisa para entrar no pool: as da run inteira ou, no
+        acervo curto, um quarto das do acervo."""
+        return min(rounds_of(family), max(2, len(self.songs) // SHORT_SHARE))
+
     def params(self, family: Family) -> list[object]:
         """Os parâmetros que fecham a run (o rótulo, a fonte, o estúdio ou o ano), em ordem."""
         if family.id not in self._params:
-            need = min(rounds_of(family), max(2, len(self.songs) // SHORT_SHARE))
+            need = self.need(family)
             counts: Counter[object] = Counter()
             for song in self.songs:
                 m = song.mal
@@ -862,7 +870,9 @@ def _available(ctx: QuizContext, family: Family, mal_on: bool) -> bool:
         # dados vierem incompletos, a geração para com erro (no `_param` ou sem par na rodada 1).
         return mal_on
     if family.kind == "compare":
-        return len(ctx.compare_pool(family.id)) >= 2
+        # Com poucas músicas que têm o dado (o acervo real antes da carga com a temporada e os
+        # números exatos), a run pararia cedo: a pergunta espera o acervo crescer.
+        return len(ctx.compare_pool(family.id)) >= ctx.need(family)
     if family.id == "tema":
         yes, no = ctx.property_pool(family, None)
         return bool(yes and no)
@@ -1271,6 +1281,9 @@ def _day_rule_problems(where: str, day: JSON, ctx: QuizContext) -> list[str]:
             problem = _round_answer_problem(ctx, family, day, rnd)
             if problem:
                 problems.append(f"{at}: {problem}")
+            elif rnd.get("info") != _info(family, ctx.by_id[rnd["a"]], ctx.by_id[rnd["b"]]):
+                # O número da revelação é o dos fatos (o mesmo float que o `_info` grava).
+                problems.append(f"{at}: o dado da revelação não bate com os fatos")
     return problems
 
 

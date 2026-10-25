@@ -180,8 +180,9 @@ def _levels(value: object, allowed: tuple[str, ...], where: str) -> dict[str, in
 
 
 def _stats(value: object, where: str) -> dict[str, Decimal]:
-    """Os números exatos de um tema: a taxa do AMQ, de 0 a 100, e as playlists, um inteiro de 0
-    para cima. O texto do número vira Decimal, sem o erro da base 2."""
+    """Os números exatos de um tema: a taxa do AMQ, de 0 a 100 e com 1 casa no máximo (a do
+    fetch), e as playlists, um inteiro de 0 para cima. O texto do número vira Decimal, sem o erro
+    da base 2."""
     if not isinstance(value, dict) or not set(value) <= set(THEME_LEVELS):
         raise InputError(f"{where}: stats aceita só {list(THEME_LEVELS)}")
     out: dict[str, Decimal] = {}
@@ -189,8 +190,10 @@ def _stats(value: object, where: str) -> dict[str, Decimal]:
         if isinstance(number, bool) or not isinstance(number, int | float):
             raise InputError(f"{where}: stats {key} deveria ser um número")
         exact = Decimal(str(number))
-        if key == "anisongdb" and not (exact.is_finite() and 0 <= exact <= 100):
-            raise InputError(f"{where}: a taxa do AMQ deveria ir de 0 a 100")
+        if key == "anisongdb" and not (
+            exact.is_finite() and 0 <= exact <= 100 and exact == exact.quantize(Decimal("0.1"))
+        ):
+            raise InputError(f"{where}: a taxa do AMQ deveria ir de 0 a 100, com 1 casa")
         if key == "animethemes" and (not isinstance(number, int) or number < 0):
             raise InputError(f"{where}: as playlists deveriam ser um inteiro de 0 para cima")
         out[key] = exact
@@ -254,8 +257,10 @@ def anime_from_dict(data: JSON, track_of: Callable[[object, str], RawTrack], whe
     if season is not None and season not in SEASONS:
         raise InputError(f"{where}: season deveria ser uma de {list(SEASONS)} ou null")
     series = data.get("series", [])
+    # As chaves de cada série também são fechadas: um número a mais nela passaria pela trava.
     if not isinstance(series, list) or not all(
         isinstance(s, dict)
+        and set(s) <= {"slug", "name"}
         and isinstance(s.get("slug"), str)
         and _SLUG.fullmatch(s["slug"])
         and isinstance(s.get("name"), str)

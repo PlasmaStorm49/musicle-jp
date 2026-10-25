@@ -27,6 +27,7 @@ from musicle_pipeline.anime import (
     franchises_of,
     is_icon,
     joined_levels,
+    joined_stats,
     loose_title,
     match_theme,
     merge_anime,
@@ -336,6 +337,28 @@ def test_the_two_records_of_a_theme_join_their_levels():
     assert joined_levels(two)[0] == {"animethemes": 2}
 
 
+def test_the_two_records_of_a_theme_join_their_exact_numbers():
+    """Os números exatos do quiz do dia (M18) se juntam como os níveis: o do próprio tema vence,
+    o que falta vem do outro registro, e com dois candidatos nada se junta."""
+    pl, quiz = {"animethemes": Decimal(300)}, {"anisongdb": Decimal("81.0")}
+    show = anime(
+        themes=[
+            replace(levels(pl=9), song="LOST IN PARADISE feat. AKLO", stats=pl),
+            replace(
+                levels(quiz=8), song="LOST IN PARADISE", result="no-match", track=None, stats=quiz
+            ),
+        ]
+    )
+    assert joined_stats(show) == ({**pl, **quiz}, {**quiz, **pl})
+    own = {"animethemes": Decimal(5)}
+    show = anime(
+        themes=[replace(levels(pl=2), stats=own), replace(levels(pl=9), stats={**pl, **quiz})]
+    )
+    assert joined_stats(show)[0] == {**own, **quiz}
+    two = anime(themes=[levels(pl=2), replace(levels(), stats=pl), replace(levels(), stats=quiz)])
+    assert joined_stats(two)[0] == {}
+
+
 def test_the_rivals_are_the_distinct_songs_of_the_franchise():
     series = [("kimetsu", "Kimetsu no Yaiba")]
     first = anime(1, series=series, themes=[theme(), theme("ED")])
@@ -514,12 +537,24 @@ def test_the_snapshot_shape_is_checked():
     assert read.stats == {"anisongdb": Decimal("72.5"), "animethemes": Decimal(312)}
     for stats, message in (
         ({"anisongdb": 120}, "de 0 a 100"),
+        ({"anisongdb": float("nan")}, "de 0 a 100"),  # o json do Python aceita o NaN
+        ({"anisongdb": float("inf")}, "de 0 a 100"),
+        ({"anisongdb": 72.25}, "1 casa"),
         ({"animethemes": 1.5}, "inteiro"),
+        ({"animethemes": -1}, "inteiro"),
         ({"mal": 8.61}, "stats aceita só"),
         ({"anisongdb": True}, "número"),
+        (None, "stats aceita só"),
     ):
         with pytest.raises(InputError, match=message):
             anime_from_dict({**good, "themes": [{**theme, "stats": stats}]}, track_of, "x")
+    # Os snapshots antigos, sem os dois: o anime sem temporada, o tema sem números.
+    (bare,) = anime_from_dict({**good, "themes": [theme]}, track_of, "x").themes
+    assert bare.stats == {} and anime_from_dict(good, track_of, "x").season is None
+    # A lista fechada vale também para cada série.
+    extra = {**good, "series": [{"slug": "a", "name": "A", "score": 8.6}]}
+    with pytest.raises(InputError, match="series"):
+        anime_from_dict(extra, track_of, "x")
 
 
 LOOKUP = {

@@ -98,6 +98,19 @@ def test_parse_animethemes():
     other = {**animethemes_item(38001), "season": "MONSOON"}
     found = fa.parse_animethemes({"data": {"findAnimeByExternalSite": [other]}})
     assert found[38001].season is None  # outro valor fica sem temporada
+    # A contagem que não é um inteiro de 0 para cima fica de fora (a leitura recusaria o
+    # snapshot inteiro): sobra a válida, e sem nenhuma, nem nível nem número.
+    item = animethemes_item(38002)
+    item["animethemes"][0]["animethemeentries"] = [
+        {"tracksCount": True},
+        {"tracksCount": -4},
+        {"tracksCount": 12},
+    ]
+    item["animethemes"][2]["animethemeentries"] = [{"tracksCount": False}]
+    found = fa.parse_animethemes({"data": {"findAnimeByExternalSite": [item]}})
+    op, ed = found[38002].themes
+    assert (op.levels, op.stats) == ({"animethemes": 2}, {"animethemes": 12})
+    assert (ed.levels, ed.stats) == ({}, {})
     with pytest.raises(FetchError, match="erro"):
         fa.parse_animethemes({"errors": [{"message": "complexity"}]})
 
@@ -157,13 +170,16 @@ def test_a_strange_amq_rate_keeps_no_number():
     """A taxa fora de 0 a 100 fica com o nível (que satura), mas sem o número; o NaN e o infinito
     ficam sem nenhum dos dois."""
     base = {"linked_ids": {"myanimelist": 7}, "songType": "Opening 1", "songName": "X"}
-    items = [{**base, "songDifficulty": v} for v in (105, float("nan"), float("inf"), 72.46)]
+    values = (105, float("nan"), float("inf"), 72.46, 72.25)
+    items = [{**base, "songDifficulty": v} for v in values]
     found = [(q.levels, q.stats) for q in fa.parse_anisongdb(items)[7]]
     assert found == [
         ({"anisongdb": 9}, {}),
         ({}, {}),
         ({}, {}),
         ({"anisongdb": 7}, {"anisongdb": 72.5}),
+        # Pelo texto e em Decimal, a metade para cima: o round do float daria 72,2.
+        ({"anisongdb": 7}, {"anisongdb": 72.3}),
     ]
 
 
