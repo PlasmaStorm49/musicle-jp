@@ -724,6 +724,27 @@ def _check_quiz(path: Path, args: argparse.Namespace) -> int | None:
         relative = path.relative_to(repo_root()).as_posix()
         base, base_problems = read_quiz_ref(args.base_ref, relative)
         origin = f"{args.base_ref}:{relative}"
+    if args.quiz_redo_from is not None and base is not None and not _is_fixture(path):
+        # A exceção à regra 4 (o usuário, 25/10/2026): os dias do quiz real desde a data saem da
+        # base e são conferidos como novos (o P44 e o gerador). Só dias depois de hoje, porque o
+        # de hoje pode já ter sido jogado: a partir da data, a exceção vence sozinha, e a
+        # conferência volta a ser a de sempre.
+        if args.today is None:
+            print(f"{path}: o --quiz-redo-from precisa do --today")
+            return 1
+        if args.quiz_redo_from <= args.today:
+            print(f"{path}: a exceção do --quiz-redo-from venceu; a conferência é a de sempre")
+            args = argparse.Namespace(**{**vars(args), "quiz_redo_from": None})
+            return _check_quiz(path, args)
+        cut = args.quiz_redo_from.isoformat()
+        kept = {d: day for d, day in base["days"].items() if d < cut}
+        if not kept:
+            # Sem um dia antes do corte, os dias refeitos não seriam regerados (só se regera com
+            # base): a exceção não pode cobrir a agenda inteira.
+            print(f"{path}: o --quiz-redo-from precisa de um dia da base antes de {cut}")
+            return 1
+        base = {**base, "days": kept}
+        print(f"{path}: exceção à regra 4, os dias desde {cut} conferidos como novos")
     current, problems = read_quiz_dir(path)
     if current is None:
         if base is None:
@@ -1226,6 +1247,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--catalog",
         type=Path,
         help="catálogo para regerar os dias novos (padrão: o catalog.json ao lado da agenda)",
+    )
+    check.add_argument(
+        "--quiz-redo-from",
+        type=date.fromisoformat,
+        help="exceção à regra 4 (o usuário, 25/10/2026): os dias da agenda real do quiz desde"
+        " esta data, que tem de ser depois do --today, conferidos como novos",
     )
     check.set_defaults(func=_schedule_check)
 

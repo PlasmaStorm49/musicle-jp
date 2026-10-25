@@ -260,23 +260,26 @@ def test_the_mal_file_is_read_and_checked(tmp_path):
 
 
 def test_the_tier_curve_follows_the_phases():
-    """A curva das faixas (o usuário, 25/10/2026): começa no Fácil; da rodada 6 à 10 assenta no
-    Médio, sem passar dele; da 10 à 14 em diante, algumas Difíceis, com o Médio sempre a maioria;
-    o Fácil diminui e nunca some."""
+    """A curva das faixas (o usuário, 25/10/2026, revista no mesmo dia): começa no Fácil; da
+    rodada 6 em diante, as Médias entram sem tirar muito o Fácil, que fica perto da proporção
+    natural de Fácil + Médio e desce bem pouco; da 10 à 14 em diante, algumas Difíceis."""
     shares = [quiz.tier_shares(n) for n in range(1, RUN_ROUNDS + 1)]
     assert shares[0] == (85, 15, 0)
     # A reta entre os pontos, nas rodadas do meio, e o último ponto valendo dali em diante.
-    assert (shares[2], shares[7], shares[11]) == ((63, 37, 0), (25, 74, 1), (17, 77, 6))
-    assert shares[RUN_ROUNDS - 1] == (8, 72, 20)
+    assert shares[2] == (73, 27, 0)
+    assert shares[7] == (Decimal("53.5"), Decimal("45.5"), 1)
+    assert shares[11] == (Decimal("49.5"), Decimal("44.5"), 6)
+    assert shares[RUN_ROUNDS - 1] == (41, 39, 20)
     assert all(abs(sum(s) - 100) < Decimal("1e-20") for s in shares)
     for n, (easy, medium, hard) in enumerate(shares, start=1):
-        assert easy >= 8, n  # o Fácil nunca some
+        assert easy >= 41 and easy > medium, n  # o Fácil fica, um pouco à frente do Médio
         if n <= 6:
-            assert hard == 0, n  # nenhuma Difícil antes de assentar no Médio
+            assert hard == 0, n  # nenhuma Difícil antes de as Médias entrarem
         if n >= 6:
-            assert medium >= 70 and medium > easy + hard, n  # o Médio é a maioria
+            # Perto dos 56% de Fácil num pool Fácil + Médio, descendo bem pouco.
+            assert Decimal("0.51") <= easy / (easy + medium) <= Decimal("0.56"), n
         if n <= 10:
-            assert hard <= 2, n  # sem passar do Médio
+            assert hard <= 2, n
         if n >= 14:
             assert hard >= 10, n  # algumas Difíceis
     assert all(a[0] >= b[0] and a[2] <= b[2] for a, b in pairwise(shares))
@@ -818,6 +821,41 @@ def test_the_check_of_a_quiz_folder(tmp_path, capsys):
     write_quiz_dir(anime / QUIZ_DIR, edited)
     assert main(args) == 1
     assert "2026-10-09: dia alterado" in capsys.readouterr().out
+
+
+def test_the_redo_exception_of_the_quiz(tmp_path, capsys):
+    """A exceção à regra 4 (o usuário, 25/10/2026): os dias desde a data saem da base e são
+    conferidos como novos (o gerador e o P44); só depois do --today, e com um dia antes dela."""
+    anime = _fixture_anime(tmp_path)
+    _, grown = _fixture_quiz(anime)
+    old = copy.deepcopy(grown)  # a base com um dia futuro de outro gerador
+    rnd = old["days"]["2026-10-15"]["rounds"][0]
+    rnd["answer"] = "b" if rnd["answer"] == "a" else "a"
+    write_quiz_dir(tmp_path / "base", old)
+    write_quiz_dir(anime / QUIZ_DIR, grown)
+    args = ["schedule-check", "--path", str(anime / QUIZ_DIR), "--base", str(tmp_path / "base")]
+    assert main([*args, "--today", "2026-10-13"]) == 1
+    assert "2026-10-15: dia alterado" in capsys.readouterr().out
+    redo = [*args, "--quiz-redo-from", "2026-10-14"]
+    assert main([*redo, "--today", "2026-10-13"]) == 0
+    assert "os dias desde 2026-10-14 conferidos como novos" in capsys.readouterr().out
+    # O dia refeito tem de ser o do gerador.
+    edited = copy.deepcopy(grown)
+    edited["days"]["2026-10-15"] = old["days"]["2026-10-15"]
+    write_quiz_dir(anime / QUIZ_DIR, edited)
+    assert main([*redo, "--today", "2026-10-13"]) == 1
+    assert "2026-10-15: dia novo diferente do que o gerador daria" in capsys.readouterr().out
+    # Nunca o dia de hoje: na data, a exceção vence, e a conferência é a de sempre.
+    write_quiz_dir(anime / QUIZ_DIR, grown)
+    assert main([*redo, "--today", "2026-10-14"]) == 1
+    out = capsys.readouterr().out
+    assert "a exceção do --quiz-redo-from venceu" in out
+    assert "2026-10-15: dia alterado" in out
+    # Nem sem o --today, nem a agenda inteira.
+    assert main(redo) == 1
+    assert "precisa do --today" in capsys.readouterr().out
+    assert main([*args, "--quiz-redo-from", "2026-10-08", "--today", "2026-10-07"]) == 1
+    assert "precisa de um dia da base antes de 2026-10-08" in capsys.readouterr().out
 
 
 def test_a_deleted_quiz_folder_and_a_file_base_are_refused(tmp_path, capsys):

@@ -567,235 +567,31 @@
       "number": 2,
       "rounds": [
         {
-          "a": "apple:tr:1849573939",
-          "answer": "a",
-          "b": "apple:tr:1784858315",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
-                "year": 2015
-              },
-              {
-                "season": "winter",
-                "year": 2025
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1536482069",
-          "answer": "a",
-          "b": "apple:tr:1536460988",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
-                "year": 2007
-              },
-              {
-                "season": "winter",
-                "year": 2016
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1546689773",
+          "a": "apple:tr:1574680683",
           "answer": "b",
-          "b": "apple:tr:1536129580",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
-                "year": 2021
-              },
-              {
-                "season": "spring",
-                "year": 2015
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1821801224",
-          "answer": "b",
-          "b": "apple:tr:1039770731",
+          "b": "apple:tr:1537397539",
           "info": {
             "seasons": [
               {
                 "season": "summer",
-                "year": 2025
-              },
-              {
-                "season": "fall",
-                "year": 2015
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:569432050",
-          "answer": "a",
-          "b": "apple:tr:1483028033",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2012
-              },
-              {
-                "season": "fall",
-                "year": 2019
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1562780435",
-          "answer": "b",
-          "b": "apple:tr:1017323146",
-          "info": {
-            "seasons": [
-              {
-                "season": "spring",
                 "year": 2021
               },
               {
-                "season": "summer",
-                "year": 2015
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1397294599",
-          "answer": "b",
-          "b": "apple:tr:913408862",
-          "info": {
-            "seasons": [
-              {
                 "season": "spring",
-                "year": 2018
-              },
-              {
-                "season": "winter",
-                "year": 2010
+                "year": 2008
               }
             ]
           }
         },
         {
-          "a": "apple:tr:1801640244",
+          "a": "apple:tr:1537785430",
           "answer": "a",
-          "b": "apple:tr:960534405",
+          "b": "apple:tr:1692289314",
           "info": {
             "seasons": [
               {
-                "season": "spring",
+                "season": "fall",
                 "year": 2011
-              },
-              {
-                "season": "winter",
-                "year": 2015
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1440010537",
-          "answer": "a",
-          "b": "apple:tr:1599259865",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2018
-              },
-              {
-                "season": "winter",
-                "year": 2022
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1693743422",
-          "answer": "a",
-          "b": "apple:tr:1688972622",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 1993
-              },
-              {
-                "season": "spring",
-                "year": 1998
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1804664828",
-          "answer": "b",
-          "b": "apple:tr:1716486673",
-          "info": {
-            "seasons": [
-              {
-                "season": "summer",
-                "year": 2010
-              },
-              {
-                "season": "spring",
-                "year": 2006
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1651183709",
-          "answer": "b",
-          "b": "apple:tr:1453004696",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2022
-              },
-              {
-                "season": "winter",
-                "year": 2019
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1537923439",
-          "answer": "b",
-          "b": "apple:tr:1384766614",
-          "info": {
-            "seasons": [
-              {
-                "season": "summer",
-                "year": 2018
-              },
-              {
-                "season": "winter",
-                "year": 2015
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1839387171",
-          "answer": "b",
-          "b": "apple:tr:1694849864",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2025
               },
               {
                 "season": "summer",
@@ -805,14 +601,303 @@
           }
         },
         {
-          "a": "apple:tr:1547210425",
+          "a": "apple:tr:1536255651",
+          "answer": "a",
+          "b": "apple:tr:1440719374",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2008
+              },
+              {
+                "season": "summer",
+                "year": 2016
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1410720783",
+          "answer": "a",
+          "b": "apple:tr:1889741674",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2018
+              },
+              {
+                "season": "summer",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:721489526",
+          "answer": "a",
+          "b": "apple:tr:1531754388",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2013
+              },
+              {
+                "season": "fall",
+                "year": 2020
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:726712355",
           "answer": "b",
-          "b": "apple:tr:1486723571",
+          "b": "apple:tr:366263130",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2013
+              },
+              {
+                "season": "spring",
+                "year": 2010
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1573712972",
+          "answer": "b",
+          "b": "apple:tr:1840119825",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2021
+              },
+              {
+                "season": "fall",
+                "year": 2016
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1560625245",
+          "answer": "b",
+          "b": "apple:tr:1289533282",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2021
+              },
+              {
+                "season": "fall",
+                "year": 2017
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:972935149",
+          "answer": "a",
+          "b": "apple:tr:1266550846",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2015
+              },
+              {
+                "season": "summer",
+                "year": 2017
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1546582968",
+          "answer": "a",
+          "b": "apple:tr:1803190108",
           "info": {
             "seasons": [
               {
                 "season": "winter",
                 "year": 2021
+              },
+              {
+                "season": "spring",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1804677839",
+          "answer": "b",
+          "b": "apple:tr:1536452930",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2016
+              },
+              {
+                "season": "spring",
+                "year": 2014
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1535534551",
+          "answer": "a",
+          "b": "apple:tr:1133869639",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2014
+              },
+              {
+                "season": "summer",
+                "year": 2016
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:721489526",
+          "answer": "a",
+          "b": "apple:tr:1384766614",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2013
+              },
+              {
+                "season": "winter",
+                "year": 2015
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:563790707",
+          "answer": "a",
+          "b": "apple:tr:1033068302",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2012
+              },
+              {
+                "season": "fall",
+                "year": 2014
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1272469300",
+          "answer": "b",
+          "b": "apple:tr:1804644842",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2017
+              },
+              {
+                "season": "spring",
+                "year": 2016
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1535613405",
+          "answer": "b",
+          "b": "apple:tr:1804659322",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2007
+              },
+              {
+                "season": "fall",
+                "year": 2005
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:380602834",
+          "answer": "b",
+          "b": "apple:tr:1539086417",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2010
+              },
+              {
+                "season": "spring",
+                "year": 2009
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1738375540",
+          "answer": "a",
+          "b": "apple:tr:1838294577",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2024
+              },
+              {
+                "season": "fall",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1537780574",
+          "answer": "a",
+          "b": "apple:tr:1535633276",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2019
+              },
+              {
+                "season": "spring",
+                "year": 2020
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1517995045",
+          "answer": "b",
+          "b": "apple:tr:1486721930",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2020
               },
               {
                 "season": "fall",
@@ -822,13 +907,200 @@
           }
         },
         {
-          "a": "apple:tr:6782786764",
-          "answer": "b",
-          "b": "apple:tr:1820844012",
+          "a": "apple:tr:1537254452",
+          "answer": "a",
+          "b": "apple:tr:1069498969",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2015
+              },
+              {
+                "season": "spring",
+                "year": 2016
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1538276166",
+          "answer": "a",
+          "b": "apple:tr:1538102612",
           "info": {
             "seasons": [
               {
                 "season": "summer",
+                "year": 2018
+              },
+              {
+                "season": "winter",
+                "year": 2019
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1549097463",
+          "answer": "a",
+          "b": "apple:tr:1586797917",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2021
+              },
+              {
+                "season": "fall",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1558992945",
+          "answer": "a",
+          "b": "apple:tr:1589761552",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2021
+              },
+              {
+                "season": "fall",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1573712972",
+          "answer": "b",
+          "b": "apple:tr:1562117570",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2021
+              },
+              {
+                "season": "spring",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1537757856",
+          "answer": "b",
+          "b": "apple:tr:1272469300",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2018
+              },
+              {
+                "season": "summer",
+                "year": 2017
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1839433370",
+          "answer": "a",
+          "b": "apple:tr:1804672985",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2020
+              },
+              {
+                "season": "summer",
+                "year": 2020
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1613475860",
+          "answer": "a",
+          "b": "apple:tr:523070642",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2011
+              },
+              {
+                "season": "spring",
+                "year": 2012
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1056018590",
+          "answer": "b",
+          "b": "apple:tr:1024007124",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2015
+              },
+              {
+                "season": "summer",
+                "year": 2015
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1537253859",
+          "answer": "a",
+          "b": "apple:tr:1537451892",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2014
+              },
+              {
+                "season": "fall",
+                "year": 2014
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1017323146",
+          "answer": "b",
+          "b": "apple:tr:1384766614",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2015
+              },
+              {
+                "season": "winter",
+                "year": 2015
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1888448160",
+          "answer": "b",
+          "b": "apple:tr:1889741674",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
                 "year": 2026
               },
               {
@@ -839,14 +1111,99 @@
           }
         },
         {
-          "a": "apple:tr:1544083979",
-          "answer": "a",
-          "b": "apple:tr:1631500777",
+          "a": "apple:tr:1535534551",
+          "answer": "b",
+          "b": "apple:tr:1537263866",
           "info": {
             "seasons": [
               {
                 "season": "winter",
-                "year": 2021
+                "year": 2014
+              },
+              {
+                "season": "fall",
+                "year": 2013
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1658216983",
+          "answer": "a",
+          "b": "apple:tr:1709650344",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2023
+              },
+              {
+                "season": "fall",
+                "year": 2023
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1309418219",
+          "answer": "a",
+          "b": "apple:tr:6762765878",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2017
+              },
+              {
+                "season": "winter",
+                "year": 2018
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1538261999",
+          "answer": "b",
+          "b": "apple:tr:1446385814",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2019
+              },
+              {
+                "season": "winter",
+                "year": 2019
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1486721930",
+          "answer": "b",
+          "b": "apple:tr:1459501019",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2019
+              },
+              {
+                "season": "spring",
+                "year": 2019
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1653355298",
+          "answer": "b",
+          "b": "apple:tr:1632169995",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2022
               },
               {
                 "season": "summer",
@@ -856,205 +1213,103 @@
           }
         },
         {
-          "a": "apple:tr:1535798235",
-          "answer": "b",
-          "b": "apple:tr:1537397539",
+          "a": "apple:tr:1333849728",
+          "answer": "a",
+          "b": "apple:tr:913408862",
           "info": {
             "seasons": [
               {
-                "season": "summer",
+                "season": "spring",
                 "year": 2009
               },
               {
-                "season": "spring",
-                "year": 2008
+                "season": "winter",
+                "year": 2010
               }
             ]
           }
         },
         {
-          "a": "apple:tr:1708003672",
+          "a": "apple:tr:1441281837",
           "answer": "a",
-          "b": "apple:tr:1751871814",
+          "b": "apple:tr:1462933223",
           "info": {
             "seasons": [
               {
                 "season": "fall",
-                "year": 2023
+                "year": 2018
+              },
+              {
+                "season": "spring",
+                "year": 2019
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1537785429",
+          "answer": "a",
+          "b": "apple:tr:1469495353",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2011
               },
               {
                 "season": "summer",
-                "year": 2024
+                "year": 2012
               }
             ]
           }
         },
         {
-          "a": "apple:tr:1465220582",
+          "a": "apple:tr:1255781939",
           "answer": "b",
-          "b": "apple:tr:1289533282",
+          "b": "apple:tr:1197271760",
           "info": {
             "seasons": [
               {
-                "season": "winter",
-                "year": 2019
+                "season": "summer",
+                "year": 2017
               },
               {
-                "season": "fall",
+                "season": "winter",
                 "year": 2017
               }
             ]
           }
         },
         {
-          "a": "apple:tr:1753851098",
-          "answer": "a",
-          "b": "apple:tr:1784858315",
-          "info": {
-            "seasons": [
-              {
-                "season": "summer",
-                "year": 2024
-              },
-              {
-                "season": "winter",
-                "year": 2025
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1769352953",
-          "answer": "a",
-          "b": "apple:tr:1820844012",
+          "a": "apple:tr:408281677",
+          "answer": "b",
+          "b": "apple:tr:383584239",
           "info": {
             "seasons": [
               {
                 "season": "fall",
-                "year": 2024
+                "year": 2010
               },
               {
                 "season": "summer",
-                "year": 2025
+                "year": 2010
               }
             ]
           }
         },
         {
-          "a": "apple:tr:1537258597",
-          "answer": "a",
-          "b": "apple:tr:1537905270",
+          "a": "apple:tr:1537904606",
+          "answer": "b",
+          "b": "apple:tr:1537780574",
           "info": {
             "seasons": [
               {
-                "season": "summer",
-                "year": 2019
-              },
-              {
-                "season": "summer",
+                "season": "winter",
                 "year": 2020
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1447196876",
-          "answer": "b",
-          "b": "apple:tr:1436568464",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
-                "year": 2019
               },
               {
                 "season": "fall",
-                "year": 2018
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1453004696",
-          "answer": "b",
-          "b": "apple:tr:1538276167",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
                 "year": 2019
-              },
-              {
-                "season": "summer",
-                "year": 2018
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1849573939",
-          "answer": "b",
-          "b": "apple:tr:1536128949",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
-                "year": 2015
-              },
-              {
-                "season": "summer",
-                "year": 2014
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1536233141",
-          "answer": "a",
-          "b": "apple:tr:1535496920",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2006
-              },
-              {
-                "season": "winter",
-                "year": 2007
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1537904358",
-          "answer": "b",
-          "b": "apple:tr:1465220582",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2019
-              },
-              {
-                "season": "winter",
-                "year": 2019
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:913408862",
-          "answer": "a",
-          "b": "apple:tr:366263130",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
-                "year": 2010
-              },
-              {
-                "season": "spring",
-                "year": 2010
               }
             ]
           }
@@ -1062,7 +1317,7 @@
         {
           "a": "apple:tr:1804659322",
           "answer": "a",
-          "b": "apple:tr:1804663193",
+          "b": "apple:tr:1536140851",
           "info": {
             "seasons": [
               {
@@ -1070,310 +1325,55 @@
                 "year": 2005
               },
               {
-                "season": "winter",
+                "season": "spring",
                 "year": 2006
               }
             ]
           }
         },
         {
-          "a": "apple:tr:1537779521",
+          "a": "apple:tr:1538158588",
           "answer": "a",
-          "b": "apple:tr:1504607209",
+          "b": "apple:tr:1537898927",
           "info": {
             "seasons": [
               {
                 "season": "fall",
-                "year": 2019
-              },
-              {
-                "season": "spring",
-                "year": 2020
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1133873711",
-          "answer": "b",
-          "b": "apple:tr:1039770731",
-          "info": {
-            "seasons": [
-              {
-                "season": "summer",
                 "year": 2016
               },
               {
-                "season": "fall",
-                "year": 2015
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1313188580",
-          "answer": "b",
-          "b": "apple:tr:1535534551",
-          "info": {
-            "seasons": [
-              {
                 "season": "spring",
-                "year": 2014
-              },
-              {
-                "season": "winter",
-                "year": 2014
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1537417115",
-          "answer": "a",
-          "b": "apple:tr:366263132",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2009
-              },
-              {
-                "season": "spring",
-                "year": 2010
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1804678610",
-          "answer": "b",
-          "b": "apple:tr:1575517795",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
-                "year": 2022
-              },
-              {
-                "season": "summer",
-                "year": 2021
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1694849864",
-          "answer": "a",
-          "b": "apple:tr:1761949983",
-          "info": {
-            "seasons": [
-              {
-                "season": "summer",
-                "year": 2023
-              },
-              {
-                "season": "spring",
-                "year": 2024
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1486721930",
-          "answer": "a",
-          "b": "apple:tr:1537904606",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2019
-              },
-              {
-                "season": "winter",
-                "year": 2020
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1804644851",
-          "answer": "a",
-          "b": "apple:tr:1317172151",
-          "info": {
-            "seasons": [
-              {
-                "season": "summer",
-                "year": 2017
-              },
-              {
-                "season": "fall",
                 "year": 2017
               }
             ]
           }
         },
         {
-          "a": "apple:tr:1768190210",
+          "a": "apple:tr:1586245984",
           "answer": "a",
-          "b": "apple:tr:1840081736",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2024
-              },
-              {
-                "season": "summer",
-                "year": 2025
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1839433370",
-          "answer": "b",
-          "b": "apple:tr:1537904358",
+          "b": "apple:tr:1537461940",
           "info": {
             "seasons": [
               {
                 "season": "spring",
-                "year": 2020
+                "year": 2013
               },
               {
                 "season": "fall",
-                "year": 2019
+                "year": 2013
               }
             ]
           }
         },
         {
-          "a": "apple:tr:1769352953",
+          "a": "apple:tr:1441281837",
           "answer": "b",
-          "b": "apple:tr:1739761375",
+          "b": "apple:tr:1537923439",
           "info": {
             "seasons": [
               {
                 "season": "fall",
-                "year": 2024
-              },
-              {
-                "season": "spring",
-                "year": 2024
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1096953201",
-          "answer": "a",
-          "b": "apple:tr:1033068302",
-          "info": {
-            "seasons": [
-              {
-                "season": "summer",
-                "year": 2014
-              },
-              {
-                "season": "fall",
-                "year": 2014
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1667186842",
-          "answer": "b",
-          "b": "apple:tr:1630061094",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
-                "year": 2023
-              },
-              {
-                "season": "summer",
-                "year": 2022
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1721534652",
-          "answer": "a",
-          "b": "apple:tr:1753851098",
-          "info": {
-            "seasons": [
-              {
-                "season": "winter",
-                "year": 2024
-              },
-              {
-                "season": "summer",
-                "year": 2024
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:381471847",
-          "answer": "a",
-          "b": "apple:tr:1801640244",
-          "info": {
-            "seasons": [
-              {
-                "season": "summer",
-                "year": 2010
-              },
-              {
-                "season": "spring",
-                "year": 2011
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1752838890",
-          "answer": "a",
-          "b": "apple:tr:1795905600",
-          "info": {
-            "seasons": [
-              {
-                "season": "summer",
-                "year": 2024
-              },
-              {
-                "season": "fall",
-                "year": 2024
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1761949983",
-          "answer": "b",
-          "b": "apple:tr:1720711199",
-          "info": {
-            "seasons": [
-              {
-                "season": "spring",
-                "year": 2024
-              },
-              {
-                "season": "winter",
-                "year": 2024
-              }
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1748746531",
-          "answer": "a",
-          "b": "apple:tr:1537765137",
-          "info": {
-            "seasons": [
-              {
-                "season": "fall",
-                "year": 2017
+                "year": 2018
               },
               {
                 "season": "summer",
@@ -1383,35 +1383,35 @@
           }
         },
         {
-          "a": "apple:tr:1024007124",
+          "a": "apple:tr:1538285451",
           "answer": "a",
-          "b": "apple:tr:1121899694",
+          "b": "apple:tr:1272469300",
           "info": {
             "seasons": [
               {
-                "season": "summer",
-                "year": 2015
+                "season": "spring",
+                "year": 2017
               },
               {
-                "season": "spring",
-                "year": 2016
+                "season": "summer",
+                "year": 2017
               }
             ]
           }
         },
         {
-          "a": "apple:tr:1558992945",
-          "answer": "b",
-          "b": "apple:tr:1519539420",
+          "a": "apple:tr:1297260555",
+          "answer": "a",
+          "b": "apple:tr:1537757136",
           "info": {
             "seasons": [
               {
-                "season": "spring",
-                "year": 2021
+                "season": "fall",
+                "year": 2017
               },
               {
-                "season": "summer",
-                "year": 2020
+                "season": "spring",
+                "year": 2018
               }
             ]
           }
@@ -1426,482 +1426,295 @@
       "number": 3,
       "rounds": [
         {
-          "a": "apple:tr:1537417115",
-          "answer": "b",
-          "b": "apple:tr:1538259789",
+          "a": "apple:tr:1738873152",
+          "answer": "a",
+          "b": "apple:tr:1824084891",
           "info": {
             "rates": [
-              52.0,
-              24.0
+              48.0,
+              74.0
             ]
           }
         },
         {
-          "a": "apple:tr:1536114110",
+          "a": "apple:tr:1537391074",
           "answer": "a",
-          "b": "apple:tr:385705924",
+          "b": "apple:tr:1537249240",
           "info": {
             "rates": [
-              24.0,
-              57.0
+              34.0,
+              73.0
             ]
           }
         },
         {
-          "a": "apple:tr:396379609",
+          "a": "apple:tr:1804665583",
           "answer": "a",
-          "b": "apple:tr:1613475395",
+          "b": "apple:tr:1537905025",
           "info": {
             "rates": [
-              38.0,
-              52.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:732671788",
-          "answer": "a",
-          "b": "apple:tr:1538136703",
-          "info": {
-            "rates": [
-              44.0,
+              23.0,
               60.0
             ]
           }
         },
         {
-          "a": "apple:tr:1891246000",
-          "answer": "a",
-          "b": "apple:tr:1046777385",
-          "info": {
-            "rates": [
-              68.0,
-              76.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1721534652",
+          "a": "apple:tr:1538262061",
           "answer": "b",
-          "b": "apple:tr:472927978",
+          "b": "apple:tr:1069213103",
           "info": {
             "rates": [
-              46.0,
-              37.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1575517795",
-          "answer": "a",
-          "b": "apple:tr:1537907913",
-          "info": {
-            "rates": [
-              40.0,
-              52.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1659336142",
-          "answer": "b",
-          "b": "apple:tr:1536270876",
-          "info": {
-            "rates": [
-              44.0,
+              50.0,
               26.0
             ]
           }
         },
         {
-          "a": "apple:tr:1804640676",
+          "a": "apple:tr:1720332181",
           "answer": "b",
-          "b": "apple:tr:1128261202",
+          "b": "apple:tr:634811186",
           "info": {
             "rates": [
-              61.0,
-              47.0
+              70.0,
+              48.0
             ]
           }
         },
         {
-          "a": "apple:tr:1804659800",
-          "answer": "b",
-          "b": "apple:tr:337521818",
-          "info": {
-            "rates": [
-              32.0,
-              25.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1623357848",
-          "answer": "b",
-          "b": "apple:tr:1813364855",
-          "info": {
-            "rates": [
-              72.0,
-              62.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1503288558",
-          "answer": "b",
-          "b": "apple:tr:1536129191",
-          "info": {
-            "rates": [
-              72.0,
-              58.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1535817678",
+          "a": "apple:tr:6825000535",
           "answer": "a",
-          "b": "apple:tr:1613475543",
+          "b": "apple:tr:1658216983",
           "info": {
             "rates": [
-              24.0,
-              33.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:733755431",
-          "answer": "a",
-          "b": "apple:tr:1536307688",
-          "info": {
-            "rates": [
-              17.0,
-              23.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1101637249",
-          "answer": "b",
-          "b": "apple:tr:1605721433",
-          "info": {
-            "rates": [
-              40.0,
-              35.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1403735282",
-          "answer": "b",
-          "b": "apple:tr:1748746531",
-          "info": {
-            "rates": [
-              45.0,
-              38.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:317681376",
-          "answer": "b",
-          "b": "apple:tr:1014872203",
-          "info": {
-            "rates": [
-              53.0,
-              47.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:950594416",
-          "answer": "a",
-          "b": "apple:tr:732671788",
-          "info": {
-            "rates": [
-              40.0,
-              44.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1804657466",
-          "answer": "a",
-          "b": "apple:tr:1537796808",
-          "info": {
-            "rates": [
-              41.0,
-              47.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1403735282",
-          "answer": "b",
-          "b": "apple:tr:1453004696",
-          "info": {
-            "rates": [
-              45.0,
+              21.0,
               40.0
             ]
           }
         },
         {
-          "a": "apple:tr:1526095124",
-          "answer": "a",
-          "b": "apple:tr:1349570850",
-          "info": {
-            "rates": [
-              30.0,
-              36.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1878095294",
+          "a": "apple:tr:1140022697",
           "answer": "b",
-          "b": "apple:tr:1538286143",
+          "b": "apple:tr:1538136295",
           "info": {
             "rates": [
-              60.0,
-              56.0
+              86.0,
+              71.0
             ]
           }
         },
         {
-          "a": "apple:tr:1294628515",
-          "answer": "a",
-          "b": "apple:tr:638086930",
-          "info": {
-            "rates": [
-              29.0,
-              33.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1487539155",
-          "answer": "a",
-          "b": "apple:tr:1535534551",
-          "info": {
-            "rates": [
-              37.0,
-              40.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1537434996",
+          "a": "apple:tr:1867354081",
           "answer": "b",
-          "b": "apple:tr:1289533282",
+          "b": "apple:tr:1723078215",
           "info": {
             "rates": [
-              30.0,
-              25.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1769352953",
-          "answer": "b",
-          "b": "apple:tr:1801630233",
-          "info": {
-            "rates": [
-              45.0,
-              40.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1653355298",
-          "answer": "a",
-          "b": "apple:tr:380602834",
-          "info": {
-            "rates": [
-              31.0,
+              51.0,
               37.0
             ]
           }
         },
         {
-          "a": "apple:tr:1748963164",
-          "answer": "b",
-          "b": "apple:tr:381485800",
-          "info": {
-            "rates": [
-              51.0,
-              45.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1630061094",
-          "answer": "b",
-          "b": "apple:tr:720561352",
-          "info": {
-            "rates": [
-              60.0,
-              55.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1537522925",
-          "answer": "b",
-          "b": "apple:tr:110834140",
-          "info": {
-            "rates": [
-              21.0,
-              17.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1891254432",
+          "a": "apple:tr:1486723585",
           "answer": "a",
-          "b": "apple:tr:1804659322",
+          "b": "apple:tr:1536452261",
           "info": {
             "rates": [
-              34.0,
-              38.0
+              26.0,
+              42.0
             ]
           }
         },
         {
-          "a": "apple:tr:1735516502",
-          "answer": "a",
-          "b": "apple:tr:1747878007",
+          "a": "apple:tr:1537789955",
+          "answer": "b",
+          "b": "apple:tr:1137603161",
           "info": {
             "rates": [
-              33.0,
-              39.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1531284510",
-          "answer": "a",
-          "b": "apple:tr:1804665586",
-          "info": {
-            "rates": [
-              24.0,
+              41.0,
               27.0
             ]
           }
         },
         {
-          "a": "apple:tr:1536394648",
+          "a": "apple:tr:1504630292",
+          "answer": "b",
+          "b": "apple:tr:1558992945",
+          "info": {
+            "rates": [
+              56.0,
+              47.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1098508581",
           "answer": "a",
-          "b": "apple:tr:355827598",
+          "b": "apple:tr:1804651595",
           "info": {
             "rates": [
-              22.0,
-              25.0
+              60.0,
+              74.0
             ]
           }
         },
         {
-          "a": "apple:tr:977542524",
+          "a": "apple:tr:1537249241",
           "answer": "b",
-          "b": "apple:tr:1537522925",
+          "b": "apple:tr:1349570850",
           "info": {
             "rates": [
-              25.0,
-              21.0
+              41.0,
+              36.0
             ]
           }
         },
         {
-          "a": "apple:tr:1537451892",
+          "a": "apple:tr:1831200054",
           "answer": "a",
-          "b": "apple:tr:1803190108",
+          "b": "apple:tr:1537525522",
           "info": {
             "rates": [
-              40.0,
-              43.0
+              27.0,
+              36.0
             ]
           }
         },
         {
-          "a": "apple:tr:1537768385",
+          "a": "apple:tr:595259109",
           "answer": "b",
-          "b": "apple:tr:1358240811",
+          "b": "apple:tr:1447344522",
           "info": {
             "rates": [
-              38.0,
-              34.0
+              81.0,
+              75.0
             ]
           }
         },
         {
-          "a": "apple:tr:1708003672",
+          "a": "apple:tr:1646030817",
           "answer": "b",
-          "b": "apple:tr:1535534551",
+          "b": "apple:tr:1801640244",
           "info": {
             "rates": [
-              44.0,
-              40.0
+              60.0,
+              53.0
             ]
           }
         },
         {
-          "a": "apple:tr:434208004",
+          "a": "apple:tr:1688986835",
           "answer": "b",
-          "b": "apple:tr:1840081736",
+          "b": "apple:tr:1557831555",
           "info": {
             "rates": [
-              57.0,
+              37.0,
+              32.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1721843015",
+          "answer": "b",
+          "b": "apple:tr:1537331595",
+          "info": {
+            "rates": [
+              45.0,
+              38.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:208196653",
+          "answer": "b",
+          "b": "apple:tr:1535518784",
+          "info": {
+            "rates": [
+              30.0,
+              26.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1537252579",
+          "answer": "b",
+          "b": "apple:tr:1538285595",
+          "info": {
+            "rates": [
+              67.0,
+              64.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1831200054",
+          "answer": "b",
+          "b": "apple:tr:1172691626",
+          "info": {
+            "rates": [
+              27.0,
+              24.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1537386697",
+          "answer": "a",
+          "b": "apple:tr:1660005144",
+          "info": {
+            "rates": [
+              48.0,
               51.0
             ]
           }
         },
         {
-          "a": "apple:tr:1537564345",
+          "a": "apple:tr:1747242840",
+          "answer": "a",
+          "b": "apple:tr:366263130",
+          "info": {
+            "rates": [
+              32.0,
+              36.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1738873152",
           "answer": "b",
-          "b": "apple:tr:1535811745",
+          "b": "apple:tr:1613510184",
           "info": {
             "rates": [
-              24.0,
-              19.0
+              48.0,
+              43.0
             ]
           }
         },
         {
-          "a": "apple:tr:1839433370",
-          "answer": "a",
-          "b": "apple:tr:1033068302",
+          "a": "apple:tr:1536364228",
+          "answer": "b",
+          "b": "apple:tr:1582334935",
           "info": {
             "rates": [
-              51.0,
-              54.0
+              46.0,
+              41.0
             ]
           }
         },
         {
-          "a": "apple:tr:1747671995",
+          "a": "apple:tr:1537803903",
           "answer": "a",
-          "b": "apple:tr:1747246107",
+          "b": "apple:tr:1537745301",
           "info": {
             "rates": [
-              44.0,
-              49.0
+              47.0,
+              51.0
             ]
           }
         },
         {
-          "a": "apple:tr:720561352",
+          "a": "apple:tr:435413358",
           "answer": "a",
-          "b": "apple:tr:1068932897",
-          "info": {
-            "rates": [
-              55.0,
-              58.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1560103065",
-          "answer": "a",
-          "b": "apple:tr:1537417115",
+          "b": "apple:tr:1688972214",
           "info": {
             "rates": [
               48.0,
@@ -1910,68 +1723,255 @@
           }
         },
         {
-          "a": "apple:tr:355827598",
+          "a": "apple:tr:1535518053",
           "answer": "b",
-          "b": "apple:tr:1537258726",
+          "b": "apple:tr:1451154433",
           "info": {
             "rates": [
-              25.0,
-              20.0
+              32.0,
+              26.0
             ]
           }
         },
         {
-          "a": "apple:tr:1643873399",
-          "answer": "a",
-          "b": "apple:tr:1535820679",
-          "info": {
-            "rates": [
-              51.0,
-              56.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1660219924",
-          "answer": "a",
-          "b": "apple:tr:1688972192",
-          "info": {
-            "rates": [
-              51.0,
-              56.0
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1719242663",
+          "a": "apple:tr:1538261364",
           "answer": "b",
-          "b": "apple:tr:380602834",
+          "b": "apple:tr:1839433370",
+          "info": {
+            "rates": [
+              54.0,
+              51.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:366263130",
+          "answer": "a",
+          "b": "apple:tr:1537524740",
+          "info": {
+            "rates": [
+              36.0,
+              39.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1501652726",
+          "answer": "b",
+          "b": "apple:tr:1538286827",
+          "info": {
+            "rates": [
+              53.0,
+              50.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:6782046124",
+          "answer": "a",
+          "b": "apple:tr:1804659322",
+          "info": {
+            "rates": [
+              35.0,
+              38.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1695684207",
+          "answer": "a",
+          "b": "apple:tr:1537436997",
+          "info": {
+            "rates": [
+              28.0,
+              32.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1891049137",
+          "answer": "b",
+          "b": "apple:tr:1538261999",
+          "info": {
+            "rates": [
+              44.0,
+              38.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1541001553",
+          "answer": "b",
+          "b": "apple:tr:1574680683",
+          "info": {
+            "rates": [
+              57.0,
+              54.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1714568443",
+          "answer": "a",
+          "b": "apple:tr:1537237379",
+          "info": {
+            "rates": [
+              31.0,
+              34.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:571216110",
+          "answer": "b",
+          "b": "apple:tr:1536371431",
+          "info": {
+            "rates": [
+              71.0,
+              66.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1631500777",
+          "answer": "b",
+          "b": "apple:tr:1133860935",
+          "info": {
+            "rates": [
+              63.0,
+              59.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1446385814",
+          "answer": "b",
+          "b": "apple:tr:1754058199",
+          "info": {
+            "rates": [
+              45.0,
+              40.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1231266556",
+          "answer": "a",
+          "b": "apple:tr:1536369628",
           "info": {
             "rates": [
               40.0,
-              37.0
+              45.0
             ]
           }
         },
         {
-          "a": "apple:tr:1460234913",
+          "a": "apple:tr:1537417519",
           "answer": "b",
-          "b": "apple:tr:1822704442",
+          "b": "apple:tr:573830505",
           "info": {
             "rates": [
-              34.0,
-              28.0
+              40.0,
+              36.0
             ]
           }
         },
         {
-          "a": "apple:tr:1452471352",
+          "a": "apple:tr:1537396552",
           "answer": "b",
-          "b": "apple:tr:1582334935",
+          "b": "apple:tr:1856749056",
+          "info": {
+            "rates": [
+              54.0,
+              48.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1804678610",
+          "answer": "a",
+          "b": "apple:tr:500954626",
+          "info": {
+            "rates": [
+              30.0,
+              36.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1803190108",
+          "answer": "b",
+          "b": "apple:tr:1731959374",
+          "info": {
+            "rates": [
+              43.0,
+              39.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1838917398",
+          "answer": "b",
+          "b": "apple:tr:1863631485",
+          "info": {
+            "rates": [
+              82.0,
+              79.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1801630569",
+          "answer": "b",
+          "b": "apple:tr:1536452930",
           "info": {
             "rates": [
               47.0,
-              41.0
+              43.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:820806740",
+          "answer": "a",
+          "b": "apple:tr:1538136295",
+          "info": {
+            "rates": [
+              65.0,
+              71.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1560104544",
+          "answer": "a",
+          "b": "apple:tr:668520684",
+          "info": {
+            "rates": [
+              55.0,
+              61.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1537904702",
+          "answer": "a",
+          "b": "apple:tr:317681376",
+          "info": {
+            "rates": [
+              49.0,
+              53.0
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1738642776",
+          "answer": "b",
+          "b": "apple:tr:1588362375",
+          "info": {
+            "rates": [
+              62.0,
+              59.0
             ]
           }
         }
@@ -1985,403 +1985,403 @@
       "number": 4,
       "rounds": [
         {
-          "a": "apple:tr:1838919243",
+          "a": "apple:tr:1838294577",
+          "answer": "a",
+          "b": "apple:tr:1528934296",
+          "info": {
+            "diff": 3.23
+          }
+        },
+        {
+          "a": "apple:tr:1838294577",
+          "answer": "a",
+          "b": "apple:tr:1586967283",
+          "info": {
+            "diff": 3.82
+          }
+        },
+        {
+          "a": "apple:tr:1805797422",
           "answer": "b",
-          "b": "apple:tr:1838294577",
+          "b": "apple:tr:1536128950",
           "info": {
-            "diff": 3.17
+            "diff": 1.34
           }
         },
         {
-          "a": "apple:tr:1535625588",
-          "answer": "a",
-          "b": "apple:tr:1649508073",
-          "info": {
-            "diff": 1.51
-          }
-        },
-        {
-          "a": "apple:tr:1891246000",
-          "answer": "a",
-          "b": "apple:tr:1831200054",
-          "info": {
-            "diff": 1.31
-          }
-        },
-        {
-          "a": "apple:tr:1537237394",
+          "a": "apple:tr:1536482652",
           "answer": "b",
-          "b": "apple:tr:1562117570",
+          "b": "apple:tr:1727120886",
           "info": {
-            "diff": 1.18
+            "diff": 0.98
           }
         },
         {
-          "a": "apple:tr:1538173455",
+          "a": "apple:tr:1537518937",
           "answer": "b",
-          "b": "apple:tr:527131743",
+          "b": "apple:tr:1536110639",
           "info": {
-            "diff": 0.78
-          }
-        },
-        {
-          "a": "apple:tr:1536225772",
-          "answer": "a",
-          "b": "apple:tr:1804611254",
-          "info": {
-            "diff": 0.87
-          }
-        },
-        {
-          "a": "apple:tr:1804665586",
-          "answer": "a",
-          "b": "apple:tr:1536466358",
-          "info": {
-            "diff": 0.8
-          }
-        },
-        {
-          "a": "apple:tr:1022711221",
-          "answer": "b",
-          "b": "apple:tr:1535820679",
-          "info": {
-            "diff": 0.61
-          }
-        },
-        {
-          "a": "apple:tr:1804665575",
-          "answer": "a",
-          "b": "apple:tr:6825001052",
-          "info": {
-            "diff": 0.94
-          }
-        },
-        {
-          "a": "apple:tr:1839433370",
-          "answer": "b",
-          "b": "apple:tr:721489526",
-          "info": {
-            "diff": 0.81
-          }
-        },
-        {
-          "a": "apple:tr:1537779521",
-          "answer": "a",
-          "b": "apple:tr:1004815346",
-          "info": {
-            "diff": 1.19
-          }
-        },
-        {
-          "a": "apple:tr:1536389855",
-          "answer": "b",
-          "b": "apple:tr:1537814045",
-          "info": {
-            "diff": 0.97
-          }
-        },
-        {
-          "a": "apple:tr:1888448160",
-          "answer": "a",
-          "b": "apple:tr:1538259789",
-          "info": {
-            "diff": 0.44
-          }
-        },
-        {
-          "a": "apple:tr:1804664165",
-          "answer": "a",
-          "b": "apple:tr:1358252514",
-          "info": {
-            "diff": 0.85
-          }
-        },
-        {
-          "a": "apple:tr:820806741",
-          "answer": "b",
-          "b": "apple:tr:1804665581",
-          "info": {
-            "diff": 0.68
-          }
-        },
-        {
-          "a": "apple:tr:1630061094",
-          "answer": "b",
-          "b": "apple:tr:1562117570",
-          "info": {
-            "diff": 0.6
-          }
-        },
-        {
-          "a": "apple:tr:1473369554",
-          "answer": "a",
-          "b": "apple:tr:1804661721",
-          "info": {
-            "diff": 0.51
-          }
-        },
-        {
-          "a": "apple:tr:1535537316",
-          "answer": "a",
-          "b": "apple:tr:1475094109",
-          "info": {
-            "diff": 0.69
-          }
-        },
-        {
-          "a": "apple:tr:1679699229",
-          "answer": "a",
-          "b": "apple:tr:1754058199",
-          "info": {
-            "diff": 0.28
-          }
-        },
-        {
-          "a": "apple:tr:1535811745",
-          "answer": "a",
-          "b": "apple:tr:1862657139",
-          "info": {
-            "diff": 0.37
-          }
-        },
-        {
-          "a": "apple:tr:1884501324",
-          "answer": "a",
-          "b": "apple:tr:1560104538",
-          "info": {
-            "diff": 0.42
-          }
-        },
-        {
-          "a": "apple:tr:1563683060",
-          "answer": "a",
-          "b": "apple:tr:1535808432",
-          "info": {
-            "diff": 0.49
-          }
-        },
-        {
-          "a": "apple:tr:1537329869",
-          "answer": "a",
-          "b": "apple:tr:1537907913",
-          "info": {
-            "diff": 0.33
-          }
-        },
-        {
-          "a": "apple:tr:1486723575",
-          "answer": "a",
-          "b": "apple:tr:1820844012",
-          "info": {
-            "diff": 0.37
-          }
-        },
-        {
-          "a": "apple:tr:1826645213",
-          "answer": "a",
-          "b": "apple:tr:1440747562",
-          "info": {
-            "diff": 0.21
-          }
-        },
-        {
-          "a": "apple:tr:1485215965",
-          "answer": "b",
-          "b": "apple:tr:1784629409",
-          "info": {
-            "diff": 0.35
-          }
-        },
-        {
-          "a": "apple:tr:1535986827",
-          "answer": "b",
-          "b": "apple:tr:1492239989",
-          "info": {
-            "diff": 0.15
-          }
-        },
-        {
-          "a": "apple:tr:1804659499",
-          "answer": "b",
-          "b": "apple:tr:1292985396",
-          "info": {
-            "diff": 0.15
-          }
-        },
-        {
-          "a": "apple:tr:6805286653",
-          "answer": "b",
-          "b": "apple:tr:1589026080",
-          "info": {
-            "diff": 0.2
-          }
-        },
-        {
-          "a": "apple:tr:1735675926",
-          "answer": "b",
-          "b": "apple:tr:413610289",
-          "info": {
-            "diff": 0.16
-          }
-        },
-        {
-          "a": "apple:tr:1282835097",
-          "answer": "b",
-          "b": "apple:tr:1397294599",
-          "info": {
-            "diff": 0.16
-          }
-        },
-        {
-          "a": "apple:tr:937666307",
-          "answer": "b",
-          "b": "apple:tr:1546689891",
-          "info": {
-            "diff": 0.13
-          }
-        },
-        {
-          "a": "apple:tr:472927981",
-          "answer": "a",
-          "b": "apple:tr:1443124662",
-          "info": {
-            "diff": 0.21
+            "diff": 0.79
           }
         },
         {
           "a": "apple:tr:1840081736",
           "answer": "b",
-          "b": "apple:tr:1722405635",
+          "b": "apple:tr:1536746075",
           "info": {
-            "diff": 0.21
+            "diff": 0.93
           }
         },
         {
-          "a": "apple:tr:1531754388",
+          "a": "apple:tr:1588017689",
+          "answer": "b",
+          "b": "apple:tr:1537238779",
+          "info": {
+            "diff": 0.73
+          }
+        },
+        {
+          "a": "apple:tr:1329850526",
           "answer": "a",
-          "b": "apple:tr:1886305316",
+          "b": "apple:tr:1458473926",
           "info": {
-            "diff": 0.16
+            "diff": 0.87
           }
         },
         {
-          "a": "apple:tr:1623357848",
-          "answer": "b",
-          "b": "apple:tr:1490405001",
+          "a": "apple:tr:583838610",
+          "answer": "a",
+          "b": "apple:tr:1770905295",
           "info": {
-            "diff": 0.16
+            "diff": 1.29
           }
         },
         {
-          "a": "apple:tr:135108423",
+          "a": "apple:tr:1683300097",
+          "answer": "a",
+          "b": "apple:tr:1536371916",
+          "info": {
+            "diff": 1.16
+          }
+        },
+        {
+          "a": "apple:tr:1536366366",
           "answer": "b",
-          "b": "apple:tr:1537438634",
+          "b": "apple:tr:1660219924",
+          "info": {
+            "diff": 0.42
+          }
+        },
+        {
+          "a": "apple:tr:567942245",
+          "answer": "a",
+          "b": "apple:tr:1684164654",
+          "info": {
+            "diff": 0.67
+          }
+        },
+        {
+          "a": "apple:tr:1706781383",
+          "answer": "b",
+          "b": "apple:tr:1535518053",
+          "info": {
+            "diff": 0.72
+          }
+        },
+        {
+          "a": "apple:tr:1445990064",
+          "answer": "a",
+          "b": "apple:tr:1720311777",
+          "info": {
+            "diff": 0.41
+          }
+        },
+        {
+          "a": "apple:tr:1536394648",
+          "answer": "b",
+          "b": "apple:tr:1537803903",
+          "info": {
+            "diff": 0.55
+          }
+        },
+        {
+          "a": "apple:tr:1536746075",
+          "answer": "b",
+          "b": "apple:tr:1080909980",
+          "info": {
+            "diff": 0.46
+          }
+        },
+        {
+          "a": "apple:tr:1537803903",
+          "answer": "b",
+          "b": "apple:tr:1537904702",
+          "info": {
+            "diff": 0.54
+          }
+        },
+        {
+          "a": "apple:tr:1684164654",
+          "answer": "a",
+          "b": "apple:tr:1795905600",
+          "info": {
+            "diff": 0.53
+          }
+        },
+        {
+          "a": "apple:tr:479446156",
+          "answer": "b",
+          "b": "apple:tr:1128261202",
+          "info": {
+            "diff": 0.41
+          }
+        },
+        {
+          "a": "apple:tr:1196134082",
+          "answer": "b",
+          "b": "apple:tr:1804659595",
           "info": {
             "diff": 0.23
           }
         },
         {
-          "a": "apple:tr:1888092749",
+          "a": "apple:tr:1720713042",
           "answer": "a",
-          "b": "apple:tr:1599682066",
+          "b": "apple:tr:1537229523",
           "info": {
-            "diff": 0.24
+            "diff": 0.46
           }
         },
         {
-          "a": "apple:tr:1695870148",
+          "a": "apple:tr:396835086",
           "answer": "a",
-          "b": "apple:tr:1455935321",
+          "b": "apple:tr:1837658529",
           "info": {
-            "diff": 0.26
+            "diff": 0.33
           }
         },
         {
-          "a": "apple:tr:1804663214",
-          "answer": "b",
-          "b": "apple:tr:1024007124",
-          "info": {
-            "diff": 0.12
-          }
-        },
-        {
-          "a": "apple:tr:1750639933",
+          "a": "apple:tr:1537250251",
           "answer": "a",
-          "b": "apple:tr:1747246137",
-          "info": {
-            "diff": 0.18
-          }
-        },
-        {
-          "a": "apple:tr:1465220582",
-          "answer": "b",
-          "b": "apple:tr:1537451892",
-          "info": {
-            "diff": 0.21
-          }
-        },
-        {
-          "a": "apple:tr:1537256727",
-          "answer": "b",
-          "b": "apple:tr:1536233141",
+          "b": "apple:tr:1673669282",
           "info": {
             "diff": 0.29
           }
         },
         {
-          "a": "apple:tr:1537415833",
+          "a": "apple:tr:960534405",
           "answer": "b",
-          "b": "apple:tr:1723078215",
-          "info": {
-            "diff": 0.27
-          }
-        },
-        {
-          "a": "apple:tr:638086929",
-          "answer": "a",
-          "b": "apple:tr:1804663214",
-          "info": {
-            "diff": 0.13
-          }
-        },
-        {
-          "a": "apple:tr:1272469300",
-          "answer": "a",
-          "b": "apple:tr:1537258726",
-          "info": {
-            "diff": 0.21
-          }
-        },
-        {
-          "a": "apple:tr:1613475395",
-          "answer": "b",
-          "b": "apple:tr:732671788",
-          "info": {
-            "diff": 0.26
-          }
-        },
-        {
-          "a": "apple:tr:1537904702",
-          "answer": "b",
-          "b": "apple:tr:730824986",
-          "info": {
-            "diff": 0.18
-          }
-        },
-        {
-          "a": "apple:tr:1657316805",
-          "answer": "b",
-          "b": "apple:tr:1560102454",
+          "b": "apple:tr:1588285619",
           "info": {
             "diff": 0.24
           }
         },
         {
-          "a": "apple:tr:1804657470",
+          "a": "apple:tr:1536128857",
           "answer": "b",
-          "b": "apple:tr:1397294599",
+          "b": "apple:tr:1723078215",
+          "info": {
+            "diff": 0.35
+          }
+        },
+        {
+          "a": "apple:tr:385705924",
+          "answer": "a",
+          "b": "apple:tr:1045437112",
+          "info": {
+            "diff": 0.28
+          }
+        },
+        {
+          "a": "apple:tr:366263130",
+          "answer": "a",
+          "b": "apple:tr:1650726665",
+          "info": {
+            "diff": 0.26
+          }
+        },
+        {
+          "a": "apple:tr:1731959374",
+          "answer": "a",
+          "b": "apple:tr:1804664165",
+          "info": {
+            "diff": 0.17
+          }
+        },
+        {
+          "a": "apple:tr:1537237379",
+          "answer": "b",
+          "b": "apple:tr:1072629618",
+          "info": {
+            "diff": 0.34
+          }
+        },
+        {
+          "a": "apple:tr:1537255805",
+          "answer": "a",
+          "b": "apple:tr:1746904286",
+          "info": {
+            "diff": 0.24
+          }
+        },
+        {
+          "a": "apple:tr:563790707",
+          "answer": "a",
+          "b": "apple:tr:1588713888",
           "info": {
             "diff": 0.21
+          }
+        },
+        {
+          "a": "apple:tr:1537239924",
+          "answer": "a",
+          "b": "apple:tr:1140022699",
+          "info": {
+            "diff": 0.25
+          }
+        },
+        {
+          "a": "apple:tr:1745664499",
+          "answer": "a",
+          "b": "apple:tr:1536452930",
+          "info": {
+            "diff": 0.23
+          }
+        },
+        {
+          "a": "apple:tr:1039770731",
+          "answer": "a",
+          "b": "apple:tr:1588677746",
+          "info": {
+            "diff": 0.11
+          }
+        },
+        {
+          "a": "apple:tr:1804659322",
+          "answer": "b",
+          "b": "apple:tr:546266905",
+          "info": {
+            "diff": 0.24
+          }
+        },
+        {
+          "a": "apple:tr:972935149",
+          "answer": "b",
+          "b": "apple:tr:1783371506",
+          "info": {
+            "diff": 0.3
+          }
+        },
+        {
+          "a": "apple:tr:569432050",
+          "answer": "a",
+          "b": "apple:tr:1804644842",
+          "info": {
+            "diff": 0.24
+          }
+        },
+        {
+          "a": "apple:tr:6782046124",
+          "answer": "a",
+          "b": "apple:tr:1058782349",
+          "info": {
+            "diff": 0.11
+          }
+        },
+        {
+          "a": "apple:tr:1588677746",
+          "answer": "b",
+          "b": "apple:tr:1052989933",
+          "info": {
+            "diff": 0.11
+          }
+        },
+        {
+          "a": "apple:tr:1847217826",
+          "answer": "b",
+          "b": "apple:tr:1537265685",
+          "info": {
+            "diff": 0.29
+          }
+        },
+        {
+          "a": "apple:tr:1804665575",
+          "answer": "a",
+          "b": "apple:tr:1536461323",
+          "info": {
+            "diff": 0.3
+          }
+        },
+        {
+          "a": "apple:tr:1801630569",
+          "answer": "a",
+          "b": "apple:tr:1537417115",
+          "info": {
+            "diff": 0.17
+          }
+        },
+        {
+          "a": "apple:tr:1535818426",
+          "answer": "b",
+          "b": "apple:tr:1538160824",
+          "info": {
+            "diff": 0.19
+          }
+        },
+        {
+          "a": "apple:tr:1721860959",
+          "answer": "a",
+          "b": "apple:tr:1837658529",
+          "info": {
+            "diff": 0.21
+          }
+        },
+        {
+          "a": "apple:tr:1538276167",
+          "answer": "a",
+          "b": "apple:tr:1440720406",
+          "info": {
+            "diff": 0.27
+          }
+        },
+        {
+          "a": "apple:tr:1558992945",
+          "answer": "a",
+          "b": "apple:tr:730824986",
+          "info": {
+            "diff": 0.11
+          }
+        },
+        {
+          "a": "apple:tr:1263024640",
+          "answer": "b",
+          "b": "apple:tr:1560625245",
+          "info": {
+            "diff": 0.11
+          }
+        },
+        {
+          "a": "apple:tr:1558875124",
+          "answer": "a",
+          "b": "apple:tr:736586184",
+          "info": {
+            "diff": 0.16
+          }
+        },
+        {
+          "a": "apple:tr:1078121632",
+          "answer": "a",
+          "b": "apple:tr:991748469",
+          "info": {
+            "diff": 0.2
+          }
+        },
+        {
+          "a": "apple:tr:135108423",
+          "answer": "b",
+          "b": "apple:tr:604775968",
+          "info": {
+            "diff": 0.15
           }
         }
       ]
@@ -2394,403 +2394,403 @@
       "number": 5,
       "rounds": [
         {
-          "a": "apple:tr:1537417519",
+          "a": "apple:tr:1538258224",
           "answer": "b",
           "b": "apple:tr:1624424636",
           "info": {
-            "diff": 3400000
+            "diff": 3000000
           }
         },
         {
-          "a": "apple:tr:1784629409",
+          "a": "apple:tr:434208004",
           "answer": "a",
-          "b": "apple:tr:1536259896",
+          "b": "apple:tr:1536264080",
           "info": {
-            "diff": 1600000
+            "diff": 2600000
           }
         },
         {
-          "a": "apple:tr:1533684239",
-          "answer": "b",
-          "b": "apple:tr:1748963164",
-          "info": {
-            "diff": 2900000
-          }
-        },
-        {
-          "a": "apple:tr:1420545183",
-          "answer": "b",
-          "b": "apple:tr:743662411",
-          "info": {
-            "diff": 1700000
-          }
-        },
-        {
-          "a": "apple:tr:1052989933",
+          "a": "apple:tr:1660005144",
           "answer": "a",
-          "b": "apple:tr:672112045",
+          "b": "apple:tr:1024336457",
           "info": {
             "diff": 2500000
           }
         },
         {
-          "a": "apple:tr:1712079509",
+          "a": "apple:tr:1623357848",
           "answer": "a",
-          "b": "apple:tr:1533684239",
+          "b": "apple:tr:1536963815",
           "info": {
-            "diff": 2200000
+            "diff": 2800000
           }
         },
         {
-          "a": "apple:tr:1184259707",
+          "a": "apple:tr:1617909669",
           "answer": "b",
-          "b": "apple:tr:1633995848",
+          "b": "apple:tr:1624424636",
           "info": {
-            "diff": 820000
+            "diff": 1600000
           }
         },
         {
-          "a": "apple:tr:1263024640",
+          "a": "apple:tr:1444845551",
+          "answer": "b",
+          "b": "apple:tr:1339054160",
+          "info": {
+            "diff": 2700000
+          }
+        },
+        {
+          "a": "apple:tr:1537251751",
           "answer": "a",
-          "b": "apple:tr:1536264080",
+          "b": "apple:tr:1831200054",
           "info": {
-            "diff": 2200000
+            "diff": 2300000
           }
         },
         {
-          "a": "apple:tr:1822213518",
-          "answer": "b",
-          "b": "apple:tr:1658216983",
-          "info": {
-            "diff": 810000
-          }
-        },
-        {
-          "a": "apple:tr:1003178045",
-          "answer": "b",
-          "b": "apple:tr:975454106",
-          "info": {
-            "diff": 1200000
-          }
-        },
-        {
-          "a": "apple:tr:1538102612",
-          "answer": "b",
-          "b": "apple:tr:1560301369",
-          "info": {
-            "diff": 940000
-          }
-        },
-        {
-          "a": "apple:tr:1536376515",
-          "answer": "b",
-          "b": "apple:tr:827603896",
-          "info": {
-            "diff": 2400000
-          }
-        },
-        {
-          "a": "apple:tr:408281718",
+          "a": "apple:tr:1804644842",
           "answer": "a",
-          "b": "apple:tr:1536508601",
+          "b": "apple:tr:1536362315",
+          "info": {
+            "diff": 2600000
+          }
+        },
+        {
+          "a": "apple:tr:1728408363",
+          "answer": "a",
+          "b": "apple:tr:1537789955",
+          "info": {
+            "diff": 1600000
+          }
+        },
+        {
+          "a": "apple:tr:1863631485",
+          "answer": "a",
+          "b": "apple:tr:1537241579",
           "info": {
             "diff": 1100000
           }
         },
         {
-          "a": "apple:tr:1486723575",
+          "a": "apple:tr:1479152928",
           "answer": "b",
-          "b": "apple:tr:1820131659",
-          "info": {
-            "diff": 740000
-          }
-        },
-        {
-          "a": "apple:tr:1804665586",
-          "answer": "b",
-          "b": "apple:tr:634811186",
-          "info": {
-            "diff": 1200000
-          }
-        },
-        {
-          "a": "apple:tr:1024007124",
-          "answer": "a",
-          "b": "apple:tr:1503288558",
-          "info": {
-            "diff": 330000
-          }
-        },
-        {
-          "a": "apple:tr:1804663214",
-          "answer": "a",
-          "b": "apple:tr:110834140",
-          "info": {
-            "diff": 1700000
-          }
-        },
-        {
-          "a": "apple:tr:1747711165",
-          "answer": "b",
-          "b": "apple:tr:1546689891",
-          "info": {
-            "diff": 830000
-          }
-        },
-        {
-          "a": "apple:tr:337917981",
-          "answer": "a",
-          "b": "apple:tr:1537434617",
-          "info": {
-            "diff": 240000
-          }
-        },
-        {
-          "a": "apple:tr:1560301369",
-          "answer": "a",
-          "b": "apple:tr:1683300097",
-          "info": {
-            "diff": 870000
-          }
-        },
-        {
-          "a": "apple:tr:1889741674",
-          "answer": "a",
-          "b": "apple:tr:1732388923",
-          "info": {
-            "diff": 330000
-          }
-        },
-        {
-          "a": "apple:tr:304174028",
-          "answer": "b",
-          "b": "apple:tr:1535521860",
-          "info": {
-            "diff": 260000
-          }
-        },
-        {
-          "a": "apple:tr:1613475860",
-          "answer": "a",
-          "b": "apple:tr:604775968",
-          "info": {
-            "diff": 94000
-          }
-        },
-        {
-          "a": "apple:tr:1537904035",
-          "answer": "b",
-          "b": "apple:tr:1747243422",
-          "info": {
-            "diff": 99000
-          }
-        },
-        {
-          "a": "apple:tr:1824189859",
-          "answer": "b",
-          "b": "apple:tr:1826645213",
-          "info": {
-            "diff": 210000
-          }
-        },
-        {
-          "a": "apple:tr:1204216485",
-          "answer": "a",
-          "b": "apple:tr:1573852763",
-          "info": {
-            "diff": 210000
-          }
-        },
-        {
-          "a": "apple:tr:6825001052",
-          "answer": "b",
-          "b": "apple:tr:1804657466",
-          "info": {
-            "diff": 1300000
-          }
-        },
-        {
-          "a": "apple:tr:1554829252",
-          "answer": "b",
-          "b": "apple:tr:1891566588",
-          "info": {
-            "diff": 250000
-          }
-        },
-        {
-          "a": "apple:tr:1027247673",
-          "answer": "a",
-          "b": "apple:tr:1358252514",
-          "info": {
-            "diff": 860000
-          }
-        },
-        {
-          "a": "apple:tr:1486723571",
-          "answer": "b",
-          "b": "apple:tr:1612435091",
-          "info": {
-            "diff": 300000
-          }
-        },
-        {
-          "a": "apple:tr:1537291898",
-          "answer": "a",
-          "b": "apple:tr:1487537650",
-          "info": {
-            "diff": 210000
-          }
-        },
-        {
-          "a": "apple:tr:1128261202",
-          "answer": "a",
-          "b": "apple:tr:1747242840",
-          "info": {
-            "diff": 350000
-          }
-        },
-        {
-          "a": "apple:tr:1536257480",
-          "answer": "a",
-          "b": "apple:tr:1537238779",
-          "info": {
-            "diff": 630000
-          }
-        },
-        {
-          "a": "apple:tr:1537415833",
-          "answer": "b",
-          "b": "apple:tr:1536911610",
-          "info": {
-            "diff": 1100000
-          }
-        },
-        {
-          "a": "apple:tr:1403735282",
-          "answer": "a",
-          "b": "apple:tr:1826645213",
-          "info": {
-            "diff": 110000
-          }
-        },
-        {
-          "a": "apple:tr:1137603161",
-          "answer": "a",
-          "b": "apple:tr:1456261119",
-          "info": {
-            "diff": 950000
-          }
-        },
-        {
-          "a": "apple:tr:1470387632",
-          "answer": "a",
-          "b": "apple:tr:1537898823",
-          "info": {
-            "diff": 410000
-          }
-        },
-        {
-          "a": "apple:tr:1571865541",
-          "answer": "a",
-          "b": "apple:tr:1837658529",
-          "info": {
-            "diff": 280000
-          }
-        },
-        {
-          "a": "apple:tr:1750639933",
-          "answer": "b",
-          "b": "apple:tr:945331031",
-          "info": {
-            "diff": 270000
-          }
-        },
-        {
-          "a": "apple:tr:1465220582",
-          "answer": "b",
-          "b": "apple:tr:1537396710",
-          "info": {
-            "diff": 360000
-          }
-        },
-        {
-          "a": "apple:tr:1804663214",
-          "answer": "b",
-          "b": "apple:tr:1536128949",
-          "info": {
-            "diff": 470000
-          }
-        },
-        {
-          "a": "apple:tr:583838610",
-          "answer": "a",
-          "b": "apple:tr:1294628520",
-          "info": {
-            "diff": 670000
-          }
-        },
-        {
-          "a": "apple:tr:1344692694",
-          "answer": "b",
-          "b": "apple:tr:820806741",
+          "b": "apple:tr:1748950153",
           "info": {
             "diff": 1400000
           }
         },
         {
-          "a": "apple:tr:1197271760",
+          "a": "apple:tr:1891344118",
           "answer": "a",
-          "b": "apple:tr:1358252514",
+          "b": "apple:tr:1549097463",
           "info": {
-            "diff": 870000
+            "diff": 1400000
           }
         },
         {
-          "a": "apple:tr:1793114148",
+          "a": "apple:tr:1538137550",
           "answer": "b",
-          "b": "apple:tr:1033068302",
+          "b": "apple:tr:1801630569",
+          "info": {
+            "diff": 1600000
+          }
+        },
+        {
+          "a": "apple:tr:1804665742",
+          "answer": "b",
+          "b": "apple:tr:1459356742",
+          "info": {
+            "diff": 1300000
+          }
+        },
+        {
+          "a": "apple:tr:1440747562",
+          "answer": "a",
+          "b": "apple:tr:1721471879",
+          "info": {
+            "diff": 570000
+          }
+        },
+        {
+          "a": "apple:tr:722733980",
+          "answer": "a",
+          "b": "apple:tr:1721842999",
+          "info": {
+            "diff": 1000000
+          }
+        },
+        {
+          "a": "apple:tr:1751871814",
+          "answer": "a",
+          "b": "apple:tr:1528663197",
+          "info": {
+            "diff": 560000
+          }
+        },
+        {
+          "a": "apple:tr:1537745301",
+          "answer": "b",
+          "b": "apple:tr:1707001466",
+          "info": {
+            "diff": 1200000
+          }
+        },
+        {
+          "a": "apple:tr:1752426977",
+          "answer": "b",
+          "b": "apple:tr:1720311777",
           "info": {
             "diff": 480000
           }
         },
         {
-          "a": "apple:tr:1688986835",
+          "a": "apple:tr:1536233141",
           "answer": "b",
-          "b": "apple:tr:1589737453",
+          "b": "apple:tr:1473369554",
           "info": {
-            "diff": 830000
+            "diff": 370000
           }
         },
         {
-          "a": "apple:tr:1536100722",
-          "answer": "b",
-          "b": "apple:tr:1027247673",
-          "info": {
-            "diff": 490000
-          }
-        },
-        {
-          "a": "apple:tr:1739761375",
-          "answer": "b",
-          "b": "apple:tr:1537904035",
-          "info": {
-            "diff": 310000
-          }
-        },
-        {
-          "a": "apple:tr:1554829252",
+          "a": "apple:tr:385705924",
           "answer": "a",
-          "b": "apple:tr:1358216084",
+          "b": "apple:tr:1294628515",
           "info": {
-            "diff": 510000
+            "diff": 450000
           }
         },
         {
-          "a": "apple:tr:1648272180",
-          "answer": "b",
-          "b": "apple:tr:1259251508",
+          "a": "apple:tr:1537444998",
+          "answer": "a",
+          "b": "apple:tr:1831200054",
           "info": {
-            "diff": 910000
+            "diff": 970000
+          }
+        },
+        {
+          "a": "apple:tr:1673669282",
+          "answer": "a",
+          "b": "apple:tr:1410720783",
+          "info": {
+            "diff": 590000
+          }
+        },
+        {
+          "a": "apple:tr:380602834",
+          "answer": "a",
+          "b": "apple:tr:1754349258",
+          "info": {
+            "diff": 430000
+          }
+        },
+        {
+          "a": "apple:tr:638086931",
+          "answer": "a",
+          "b": "apple:tr:828274444",
+          "info": {
+            "diff": 1200000
+          }
+        },
+        {
+          "a": "apple:tr:567942245",
+          "answer": "b",
+          "b": "apple:tr:1588677746",
+          "info": {
+            "diff": 150000
+          }
+        },
+        {
+          "a": "apple:tr:1189895464",
+          "answer": "b",
+          "b": "apple:tr:1537258597",
+          "info": {
+            "diff": 1100000
+          }
+        },
+        {
+          "a": "apple:tr:1804662692",
+          "answer": "b",
+          "b": "apple:tr:1588677746",
+          "info": {
+            "diff": 130000
+          }
+        },
+        {
+          "a": "apple:tr:1747671995",
+          "answer": "a",
+          "b": "apple:tr:1537434617",
+          "info": {
+            "diff": 270000
+          }
+        },
+        {
+          "a": "apple:tr:1688972192",
+          "answer": "a",
+          "b": "apple:tr:975454106",
+          "info": {
+            "diff": 260000
+          }
+        },
+        {
+          "a": "apple:tr:1536108072",
+          "answer": "b",
+          "b": "apple:tr:1381613929",
+          "info": {
+            "diff": 610000
+          }
+        },
+        {
+          "a": "apple:tr:1317172061",
+          "answer": "b",
+          "b": "apple:tr:1558875124",
+          "info": {
+            "diff": 140000
+          }
+        },
+        {
+          "a": "apple:tr:1707001466",
+          "answer": "b",
+          "b": "apple:tr:937664437",
+          "info": {
+            "diff": 620000
+          }
+        },
+        {
+          "a": "apple:tr:627861882",
+          "answer": "b",
+          "b": "apple:tr:1384766614",
+          "info": {
+            "diff": 140000
+          }
+        },
+        {
+          "a": "apple:tr:1738873152",
+          "answer": "a",
+          "b": "apple:tr:6776173531",
+          "info": {
+            "diff": 350000
+          }
+        },
+        {
+          "a": "apple:tr:672112045",
+          "answer": "b",
+          "b": "apple:tr:1648272180",
+          "info": {
+            "diff": 1200000
+          }
+        },
+        {
+          "a": "apple:tr:1821760203",
+          "answer": "b",
+          "b": "apple:tr:1745635574",
+          "info": {
+            "diff": 110000
+          }
+        },
+        {
+          "a": "apple:tr:1491369450",
+          "answer": "b",
+          "b": "apple:tr:1532013076",
+          "info": {
+            "diff": 170000
+          }
+        },
+        {
+          "a": "apple:tr:1749452160",
+          "answer": "a",
+          "b": "apple:tr:1624424636",
+          "info": {
+            "diff": 170000
+          }
+        },
+        {
+          "a": "apple:tr:1537904035",
+          "answer": "a",
+          "b": "apple:tr:1226815150",
+          "info": {
+            "diff": 110000
+          }
+        },
+        {
+          "a": "apple:tr:1531754388",
+          "answer": "a",
+          "b": "apple:tr:1112836624",
+          "info": {
+            "diff": 650000
+          }
+        },
+        {
+          "a": "apple:tr:1660219924",
+          "answer": "a",
+          "b": "apple:tr:1282835097",
+          "info": {
+            "diff": 470000
+          }
+        },
+        {
+          "a": "apple:tr:1054841372",
+          "answer": "a",
+          "b": "apple:tr:1491369450",
+          "info": {
+            "diff": 190000
+          }
+        },
+        {
+          "a": "apple:tr:1593817522",
+          "answer": "b",
+          "b": "apple:tr:1501836651",
+          "info": {
+            "diff": 450000
+          }
+        },
+        {
+          "a": "apple:tr:1443165487",
+          "answer": "b",
+          "b": "apple:tr:1128261202",
+          "info": {
+            "diff": 350000
+          }
+        },
+        {
+          "a": "apple:tr:985494299",
+          "answer": "b",
+          "b": "apple:tr:1617909669",
+          "info": {
+            "diff": 790000
+          }
+        },
+        {
+          "a": "apple:tr:1384766614",
+          "answer": "a",
+          "b": "apple:tr:1837658529",
+          "info": {
+            "diff": 230000
+          }
+        },
+        {
+          "a": "apple:tr:1537249241",
+          "answer": "b",
+          "b": "apple:tr:1121899694",
+          "info": {
+            "diff": 650000
+          }
+        },
+        {
+          "a": "apple:tr:1624424636",
+          "answer": "b",
+          "b": "apple:tr:1172691626",
+          "info": {
+            "diff": 170000
+          }
+        },
+        {
+          "a": "apple:tr:1804664165",
+          "answer": "a",
+          "b": "apple:tr:1624424636",
+          "info": {
+            "diff": 150000
           }
         }
       ]
@@ -2804,42 +2804,9 @@
       "param": 2013,
       "rounds": [
         {
-          "a": "apple:tr:1891247381",
+          "a": "apple:tr:1537263866",
           "answer": "b",
-          "b": "apple:tr:1839387171",
-          "info": {
-            "years": [
-              2013,
-              2025
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1804640676",
-          "answer": "b",
-          "b": "apple:tr:1646020675",
-          "info": {
-            "years": [
-              2013,
-              2022
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1537461567",
-          "answer": "b",
-          "b": "apple:tr:1535633276",
-          "info": {
-            "years": [
-              2013,
-              2020
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1747711159",
-          "answer": "b",
-          "b": "apple:tr:1761949983",
+          "b": "apple:tr:1739761375",
           "info": {
             "years": [
               2013,
@@ -2848,42 +2815,64 @@
           }
         },
         {
-          "a": "apple:tr:1532050865",
-          "answer": "a",
-          "b": "apple:tr:730824986",
-          "info": {
-            "years": [
-              2020,
-              2013
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1579284334",
-          "answer": "a",
-          "b": "apple:tr:730903332",
-          "info": {
-            "years": [
-              2021,
-              2013
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1573852763",
-          "answer": "a",
-          "b": "apple:tr:1537251751",
-          "info": {
-            "years": [
-              2021,
-              2013
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1746904286",
+          "a": "apple:tr:604775968",
           "answer": "b",
-          "b": "apple:tr:1487537650",
+          "b": "apple:tr:1546689773",
+          "info": {
+            "years": [
+              2013,
+              2021
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1448661542",
+          "answer": "a",
+          "b": "apple:tr:1891247381",
+          "info": {
+            "years": [
+              2019,
+              2013
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1746904106",
+          "answer": "b",
+          "b": "apple:tr:1546070768",
+          "info": {
+            "years": [
+              2013,
+              2021
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:732671788",
+          "answer": "b",
+          "b": "apple:tr:1538262061",
+          "info": {
+            "years": [
+              2013,
+              2020
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1446385814",
+          "answer": "a",
+          "b": "apple:tr:634811186",
+          "info": {
+            "years": [
+              2019,
+              2013
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:730903332",
+          "answer": "b",
+          "b": "apple:tr:1747242840",
           "info": {
             "years": [
               2013,
@@ -2892,20 +2881,53 @@
           }
         },
         {
-          "a": "apple:tr:743662411",
+          "a": "apple:tr:627861882",
           "answer": "b",
-          "b": "apple:tr:1317172151",
+          "b": "apple:tr:1804676358",
           "info": {
             "years": [
               2013,
-              2017
+              2006
             ]
           }
         },
         {
-          "a": "apple:tr:1538286143",
+          "a": "apple:tr:380602834",
           "answer": "a",
-          "b": "apple:tr:722733980",
+          "b": "apple:tr:1746904286",
+          "info": {
+            "years": [
+              2010,
+              2013
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1317172151",
+          "answer": "a",
+          "b": "apple:tr:730824986",
+          "info": {
+            "years": [
+              2017,
+              2013
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1440719374",
+          "answer": "a",
+          "b": "apple:tr:1804638919",
+          "info": {
+            "years": [
+              2016,
+              2013
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1440503652",
+          "answer": "a",
+          "b": "apple:tr:666788983",
           "info": {
             "years": [
               2018,
@@ -2914,7 +2936,7 @@
           }
         },
         {
-          "a": "apple:tr:634811186",
+          "a": "apple:tr:740507020",
           "answer": "b",
           "b": "apple:tr:1128261202",
           "info": {
@@ -2925,29 +2947,18 @@
           }
         },
         {
-          "a": "apple:tr:604775968",
+          "a": "apple:tr:743662411",
           "answer": "b",
-          "b": "apple:tr:1801630569",
+          "b": "apple:tr:1804677839",
           "info": {
             "years": [
               2013,
-              2010
+              2016
             ]
           }
         },
         {
-          "a": "apple:tr:1536461323",
-          "answer": "a",
-          "b": "apple:tr:1535796674",
-          "info": {
-            "years": [
-              2016,
-              2013
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1537898823",
+          "a": "apple:tr:1748746531",
           "answer": "a",
           "b": "apple:tr:723324548",
           "info": {
@@ -2958,42 +2969,42 @@
           }
         },
         {
-          "a": "apple:tr:1537255842",
+          "a": "apple:tr:381471847",
           "answer": "a",
-          "b": "apple:tr:721489526",
+          "b": "apple:tr:722733980",
           "info": {
             "years": [
-              2016,
+              2010,
               2013
             ]
           }
         },
         {
-          "a": "apple:tr:1096953201",
-          "answer": "a",
-          "b": "apple:tr:732671788",
+          "a": "apple:tr:736586184",
+          "answer": "b",
+          "b": "apple:tr:1039770731",
           "info": {
             "years": [
-              2014,
-              2013
+              2013,
+              2015
             ]
           }
         },
         {
-          "a": "apple:tr:940347454",
-          "answer": "a",
-          "b": "apple:tr:666788983",
+          "a": "apple:tr:721489526",
+          "answer": "b",
+          "b": "apple:tr:366263130",
           "info": {
             "years": [
-              2014,
-              2013
+              2013,
+              2010
             ]
           }
         },
         {
-          "a": "apple:tr:1024007124",
+          "a": "apple:tr:1747243422",
           "answer": "a",
-          "b": "apple:tr:635819165",
+          "b": "apple:tr:1537251751",
           "info": {
             "years": [
               2015,
@@ -3002,20 +3013,9 @@
           }
         },
         {
-          "a": "apple:tr:726712355",
-          "answer": "b",
-          "b": "apple:tr:1537330468",
-          "info": {
-            "years": [
-              2013,
-              2012
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1537785552",
+          "a": "apple:tr:500954440",
           "answer": "a",
-          "b": "apple:tr:1537461940",
+          "b": "apple:tr:1804640676",
           "info": {
             "years": [
               2011,
@@ -3024,86 +3024,9 @@
           }
         },
         {
-          "a": "apple:tr:1804638919",
-          "answer": "b",
-          "b": "apple:tr:1069213103",
-          "info": {
-            "years": [
-              2013,
-              2016
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1537434617",
+          "a": "apple:tr:523070642",
           "answer": "a",
-          "b": "apple:tr:1537263866",
-          "info": {
-            "years": [
-              2011,
-              2013
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1727121864",
-          "answer": "b",
-          "b": "apple:tr:899032145",
-          "info": {
-            "years": [
-              2013,
-              2014
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:1804669135",
-          "answer": "a",
-          "b": "apple:tr:733755431",
-          "info": {
-            "years": [
-              2016,
-              2013
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:613997780",
-          "answer": "b",
-          "b": "apple:tr:1683300097",
-          "info": {
-            "years": [
-              2013,
-              2011
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:961856558",
-          "answer": "a",
-          "b": "apple:tr:732671787",
-          "info": {
-            "years": [
-              2015,
-              2013
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:740507020",
-          "answer": "b",
-          "b": "apple:tr:1674982966",
-          "info": {
-            "years": [
-              2013,
-              2016
-            ]
-          }
-        },
-        {
-          "a": "apple:tr:575818946",
-          "answer": "a",
-          "b": "apple:tr:1745664499",
+          "b": "apple:tr:1537461567",
           "info": {
             "years": [
               2012,
@@ -3112,24 +3035,101 @@
           }
         },
         {
-          "a": "apple:tr:1313188580",
-          "answer": "a",
-          "b": "apple:tr:736586184",
+          "a": "apple:tr:732671787",
+          "answer": "b",
+          "b": "apple:tr:1840119825",
           "info": {
             "years": [
-              2014,
+              2013,
+              2016
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:998902640",
+          "answer": "a",
+          "b": "apple:tr:1745664499",
+          "info": {
+            "years": [
+              2015,
               2013
             ]
           }
         },
         {
-          "a": "apple:tr:383584239",
-          "answer": "a",
-          "b": "apple:tr:1746904106",
+          "a": "apple:tr:613997780",
+          "answer": "b",
+          "b": "apple:tr:1144865530",
           "info": {
             "years": [
-              2010,
+              2013,
+              2016
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:726712355",
+          "answer": "b",
+          "b": "apple:tr:1535534551",
+          "info": {
+            "years": [
+              2013,
+              2014
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:635819165",
+          "answer": "b",
+          "b": "apple:tr:381485800",
+          "info": {
+            "years": [
+              2013,
+              2010
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1535796674",
+          "answer": "b",
+          "b": "apple:tr:1537255805",
+          "info": {
+            "years": [
+              2013,
+              2016
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:733755431",
+          "answer": "b",
+          "b": "apple:tr:1537248341",
+          "info": {
+            "years": [
+              2013,
+              2011
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1165272512",
+          "answer": "a",
+          "b": "apple:tr:1727121864",
+          "info": {
+            "years": [
+              2016,
               2013
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1586245984",
+          "answer": "b",
+          "b": "apple:tr:540652915",
+          "info": {
+            "years": [
+              2013,
+              2012
             ]
           }
         }
