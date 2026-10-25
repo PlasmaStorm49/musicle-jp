@@ -6,6 +6,7 @@ import { dailyIds } from "./daily.ts";
 import { addDays, dayParts, isValidDate, type Weekday, weekdayOf } from "./dates.ts";
 import { animePlayed, progress } from "./home.ts";
 import { MIXED_KEYS, mixedIds } from "./mixed.ts";
+import { quizId } from "./quiz.ts";
 import { type PuzzleId, puzzleId, type Save } from "./records.ts";
 import { MODES } from "./rules.ts";
 
@@ -28,12 +29,14 @@ export function inHistory(date: string, today: string, days = HISTORY_DAYS): boo
 
 /**
  * Os ids dos andamentos que a abertura do jogo guarda (P269): os de hoje e os dos dias do
- * Histórico, de todos os diários (8 por dia) e das 2 Misturadas. O resto não se retoma mais.
+ * Histórico, de todos os diários (8 por dia), das 2 Misturadas e do quiz do dia (M18; sem o
+ * Histórico dele ainda, só o de hoje terá andamento). O resto não se retoma mais.
  */
 export function keptProgressIds(today: string, days = HISTORY_DAYS): PuzzleId[] {
   return [today, ...historyDates(today, days)].flatMap((date) => [
     ...dailyIds(date),
     ...mixedIds(date),
+    quizId(date),
   ]);
 }
 

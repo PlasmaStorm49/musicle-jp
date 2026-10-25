@@ -10,6 +10,7 @@ import {
   keptProgressIds,
 } from "./history.ts";
 import { mixedIds } from "./mixed.ts";
+import { quizId } from "./quiz.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "./records.ts";
 
 const TODAY = "2026-10-22";
@@ -62,10 +63,10 @@ describe("a janela do Histórico (P260, P262)", () => {
 });
 
 describe("keptProgressIds (P269)", () => {
-  it("os 8 diários e as 2 Misturadas de hoje e dos 14 dias do Histórico: 150 ids", () => {
+  it("os 8 diários, as 2 Misturadas e o quiz de hoje e dos 14 dias do Histórico: 165 ids", () => {
     const ids = keptProgressIds(TODAY);
-    expect(ids).toHaveLength(15 * 10);
-    expect(ids.slice(0, 10)).toEqual([...dailyIds(TODAY), ...mixedIds(TODAY)]);
+    expect(ids).toHaveLength(15 * 11);
+    expect(ids.slice(0, 11)).toEqual([...dailyIds(TODAY), ...mixedIds(TODAY), quizId(TODAY)]);
     // As Misturadas de um dia passado também se retomam (o usuário, 24/10/2026).
     expect(ids).toContain(puzzleId("2026-10-08", "misturadas-titulo"));
     expect(ids).toContain(puzzleId("2026-10-08", "anime-titulo-dificil"));

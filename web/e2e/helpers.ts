@@ -82,7 +82,7 @@ export async function openWithMedals(
 
 /**
  * Grava, antes da carga, um save da versão atual só com o histórico dado (o resto vazio, ou o de
- * `extra`: o total do Treino, a estante, com a medalha em destaque, e as Misturadas). Chame
+ * `extra`: o total do Treino, a estante, com a medalha em destaque, as Misturadas e o quiz). Chame
  * antes do `open`. O tipo `Save` trava a versão: subiu a do save, o tsc acusa aqui, e não em
  * cada teste. Grava uma vez por aba (a marca no `sessionStorage`): o recarregar lê o que o jogo
  * gravou (as medalhas já avisadas, M16), e não o save do começo.
@@ -92,7 +92,7 @@ export async function seedHistory(
   page: Page,
   history: Save["history"],
   artists: Save["artists"] = {},
-  extra: Partial<Pick<Save, "practiceRight" | "shelf" | "mixed">> = {},
+  extra: Partial<Pick<Save, "practiceRight" | "shelf" | "mixed" | "quiz">> = {},
 ): Promise<void> {
   const save: Save = { ...emptySave(), history, artists, ...extra };
   // Uma marca por chamada: a 2ª chamada na mesma página também grava (a última vale).

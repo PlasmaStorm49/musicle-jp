@@ -36,9 +36,13 @@ test("pela nav, no celular: o Mais abre o Histórico, com o foco no título e a 
   await page.keyboard.press("Escape");
   await expect(page.locator("#nav-more-menu")).toBeHidden();
   await expect(more).toBeFocused();
-  // O toque fora também fecha: na dica, que não recebe o foco (só o pointerdown fecha).
+  // O toque fora também fecha: na dica, que não recebe o foco (só o pointerdown fecha). Na ponta
+  // esquerda dela: o menu aberto, com o Quiz (M18), cobre o meio.
   await more.click();
-  await page.getByRole("main").locator("header .hint").click();
+  await page
+    .getByRole("main")
+    .locator("header .hint")
+    .click({ position: { x: 2, y: 2 } });
   await expect(page.locator("#nav-more-menu")).toBeHidden();
 });
 
@@ -77,7 +81,7 @@ test("jogar o Normal de 21/10 depois: o resumo sem estatísticas, o compartilhar
     (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),
     SAVE_KEY,
   );
-  expect(saved.schemaVersion).toBe(11);
+  expect(saved.schemaVersion).toBe(12);
   expect(saved.history["2026-10-21|album"].late).toBe(true);
 
   await page.getByRole("link", { name: "Voltar ao dia" }).click();
@@ -139,19 +143,20 @@ test("o andamento de fora da janela sai na abertura, e o de dentro fica (P269)",
   );
   expect(kept).toEqual(["2026-10-08|song"]);
   // O save era v7 (P267): a limpeza da abertura o gravou já migrado para a atual (P289, P308 e,
-  // desde o M17, as Misturadas).
+  // desde o M17, as Misturadas; desde o M18, o quiz do dia).
   const migrated = await page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),
     SAVE_KEY,
   );
   expect(migrated).toMatchObject({
-    schemaVersion: 11,
+    schemaVersion: 12,
     seenMedals: [],
     shelf: [],
     practiceRight: 0,
   });
   expect(migrated.artists).toEqual({});
   expect(migrated.mixed).toEqual({ finished: {}, progress: {} });
+  expect(migrated.quiz).toEqual({ finished: {}, progress: {} });
 });
 
 test("a data fora dos 14 dias cai no calendário, e a de uma aba sem data, na Início", async ({

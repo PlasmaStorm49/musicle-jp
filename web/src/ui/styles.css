@@ -461,10 +461,13 @@ button.give-up:active:not(:disabled) {
 }
 
 /* O "Mais" (P265, P287), em todas as larguras: os Artistas, o Histórico e as Medalhas ficam no
-   menu dele, e as Misturadas (M17) também, abaixo de 720 px (entre 480 e 719, a coluna tem 460 px
-   úteis). A partir de 720 px, as Misturadas vão para a linha, que fica na coluna do conteúdo: com
-   os três ✓ e a medalha em destaque, ela tem uns 450 px. O link delas está duas vezes no DOM, e
-   cada largura mostra um. Item novo na nav entra no menu, ou num submenu. */
+   menu dele. Os 4 diários (os Hits, o Anime, as Misturadas e o Quiz, M18) ficam na linha quando
+   cabem (o usuário, 25/10/2026); no celular, os do fim vão para o menu: o Quiz abaixo de 720 px e
+   as Misturadas abaixo de 460 (os cortes do `Nav.tsx`, medidos com os ✓ e a medalha em destaque:
+   a linha com os 4 tem uns 516 px, e só cabe na coluna de 560 dos 720 px; entre 480 e 719, a
+   coluna tem 460 úteis, e a linha sem o Quiz, uns 450). O link
+   de cada um está duas vezes no DOM, e cada largura mostra um. Item novo na nav entra no menu, ou
+   num submenu. */
 .tabs .nav-inline {
   display: none;
 }
@@ -473,20 +476,30 @@ button.give-up:active:not(:disabled) {
   position: relative;
 }
 
+@media (min-width: 460px) {
+  .tabs .nav-inline.nav-mixed {
+    display: list-item;
+  }
+
+  .tabs .nav-menu .nav-narrow.nav-mixed {
+    display: none;
+  }
+}
+
 @media (min-width: 720px) {
+  .tabs .nav-inline.nav-quiz {
+    display: list-item;
+  }
+
+  .tabs .nav-menu .nav-narrow.nav-quiz {
+    display: none;
+  }
+
   /* O mesmo respiro do conteúdo (`main.app`): o logo e a medalha em destaque alinham com o começo e
      o fim da coluna. Abaixo, os 10 px fazem a nav caber numa linha em 320 px. */
   .tabs ul {
     padding: 0 max(var(--sp-4), env(safe-area-inset-right)) 0
       max(var(--sp-4), env(safe-area-inset-left));
-  }
-
-  .tabs .nav-inline {
-    display: list-item;
-  }
-
-  .tabs .nav-menu .nav-narrow {
-    display: none;
   }
 }
 
@@ -1380,6 +1393,45 @@ button.help {
   color: var(--bad);
 }
 
+/* O quiz do dia (M18), no desenho simples (a revisão de design vem depois): a pergunta embaixo do
+   título, os dois players lado a lado (a A à esquerda, a B à direita), cada um com a barra dos
+   trechos e o botão de escolher, e o Tocar e o "Ouvir mais" embaixo, para as duas. A revelação
+   usa a lista das Misturadas (`.mixed-songs`), com o dado da pergunta de cada música. */
+.quiz-question {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 700;
+}
+
+.quiz-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-3);
+}
+
+.quiz-side {
+  display: grid;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.quiz-side-name {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
+}
+
+.quiz-side.playing .quiz-side-name {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.quiz-data,
+.quiz-credit {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
 /* O "Separar" ligado fica na tela, pressionado: não some com o foco (regra 16). */
 button.help[aria-pressed="true"] {
   font-weight: 400;
@@ -1507,12 +1559,12 @@ section.void,
 }
 
 /* 5. Telas ------------------------------------------------------------------------------- */
-/* Início: o selo, o nome e a frase no centro; um cartão por categoria (P226): os Hits e o Anime
-   na linha toda, e as Misturadas e os Artistas lado a lado (o usuário, 24/10/2026); o "Como
-   funciona" recolhido; o tema num switch (P217). O espaço entre as partes é o do .screen (12 px;
-   antes, 16), e o cartão (.home .home-card) fica mais baixo que nas telas de escolha, para a
-   Início caber em 360 × 640 no caso mais alto (os dois diários dos Hits, o Anime, as Misturadas e
-   a sessão do artista, com uma linha cada). */
+/* Início: o selo, o nome e a frase no centro; um cartão por categoria (P226), em três linhas (o
+   usuário, 25/10/2026): os Hits e o Anime, as Misturadas e o Quiz, e os Artistas na linha toda; o
+   "Como funciona" recolhido; o tema num switch (P217). O espaço entre as partes é o do .screen (12
+   px; antes, 16), e o cartão (.home .home-card) fica mais baixo que nas telas de escolha, para a
+   Início caber em 360 × 640 no caso mais alto (os dois diários dos Hits, o Anime, as Misturadas, o
+   Quiz e a sessão do artista, com uma linha cada). */
 
 .home-header {
   display: grid;
@@ -1623,15 +1675,15 @@ section.void,
 }
 
 /* Os cartões da Início mais baixos que os das telas de escolha: veja o comentário da Início, no
-   começo das telas. Os Hits e o Anime na linha toda; as Misturadas e os Artistas, lado a lado. */
+   começo das telas. Dois por linha, e os Artistas na linha toda. */
 .home .home-card {
   min-height: 88px;
   padding-block: var(--sp-2);
 }
 
-/* As Misturadas e os Artistas dividem a linha, e o texto quebra mais: com a linha do estado (já
-   jogou), a dica curta sai, e a Início cabe em 360 × 640 no caso mais alto. A dica inteira continua
-   para o leitor de tela (o aria-describedby); sem a linha, no 1º uso, a curta aparece. */
+/* Os cartões que dividem a linha quebram mais o texto: com a linha do estado (já jogou), a dica
+   curta sai, e a Início cabe em 360 × 640 no caso mais alto. A dica inteira continua para o leitor
+   de tela (o aria-describedby); sem a linha, no 1º uso, a curta aparece. */
 .home .home-modes :where(li:not(.wide) .home-card:has(.tag)) .mode-hint {
   display: none;
 }
@@ -2883,17 +2935,21 @@ section.summary > h2 {
       height: 136px;
     }
 
-    /* As Misturadas (M17) ficam na coluna de sempre: a revelação delas não tem a capa grande, e o
-       resumo, as estatísticas. O Compartilhar e a volta continuam lado a lado. */
-    main.app:has(.mixed) {
+    /* As Misturadas (M17) e o quiz do dia (M18) ficam na coluna de sempre: a revelação deles não
+       tem a capa grande, e o resumo, as estatísticas. O Compartilhar e a volta das Misturadas
+       continuam lado a lado. */
+    main.app:has(.mixed),
+    main.app:has(.quiz) {
       max-width: var(--column);
     }
 
-    .reveal.mixed-reveal {
+    .reveal:is(.mixed-reveal, .quiz-reveal),
+    .summary.quiz-summary {
       grid-template-columns: minmax(0, 1fr);
     }
 
-    .reveal.mixed-reveal > * {
+    .reveal:is(.mixed-reveal, .quiz-reveal) > *,
+    .summary.quiz-summary > * {
       grid-column: 1;
     }
 

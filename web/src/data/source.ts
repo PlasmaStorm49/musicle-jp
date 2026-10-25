@@ -21,6 +21,9 @@ import type {
   Day,
   MixedDay,
   MixedSchedule,
+  QuizBonus,
+  QuizDay,
+  QuizMonth,
   Schedule,
 } from "../core/types.ts";
 
@@ -29,7 +32,7 @@ export { UnsupportedCatalogError };
 /** O mínimo de fetch que usamos; o fetch do navegador e o do Node servem. */
 export type FetchLike = (
   url: string,
-  init?: { signal?: AbortSignal; cache?: "no-cache" },
+  init?: { signal?: AbortSignal; cache?: "no-cache"; headers?: Record<string, string> },
 ) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>;
 
 /** Falha de rede ou resposta inválida: vale tentar de novo. */
@@ -50,16 +53,32 @@ export function dataDirFor(dev: boolean, search: string): string {
 
 export type GameData = { readonly index: CatalogIndex; readonly schedule: Schedule };
 
-async function getJson(fetchFn: FetchLike, url: string, signal?: AbortSignal): Promise<unknown> {
+/**
+ * Busca um JSON. Com `missing`, o 404 devolve undefined, que nenhum JSON produz (o arquivo que pode
+ * não existir: o mês do quiz do dia); sem ele, é falha, como qualquer outro erro HTTP.
+ */
+async function getJson(
+  fetchFn: FetchLike,
+  url: string,
+  signal?: AbortSignal,
+  missing = false,
+): Promise<unknown> {
   let response: Awaited<ReturnType<FetchLike>>;
   try {
     // no-cache: revalida sempre (304 quando nada mudou). Sem isso o cache do Pages (10 min)
     // poderia juntar um catálogo novo com uma agenda velha logo depois do merge semanal (ME13).
-    response = await fetchFn(url, signal ? { signal, cache: "no-cache" } : { cache: "no-cache" });
+    // O Accept do JSON: com o */* do fetch, o servidor de desenvolvimento devolve a página (200)
+    // no lugar de um arquivo que não existe, e o 404 do mês sem quiz viraria uma falha.
+    const headers = { Accept: "application/json" };
+    response = await fetchFn(
+      url,
+      signal ? { signal, cache: "no-cache", headers } : { cache: "no-cache", headers },
+    );
   } catch (error) {
     if (signal?.aborted) throw error; // cancelamento não é erro de rede
     throw new DataLoadError(`falha de rede ao buscar ${url}`);
   }
+  if (missing && response.status === 404) return undefined;
   if (!response.ok) throw new DataLoadError(`HTTP ${response.status} ao buscar ${url}`);
   try {
     return await response.json();
@@ -216,6 +235,76 @@ export async function loadMixedSchedule(
     throw new DataLoadError("agenda das Misturadas sem os dias");
   }
   return schedule as MixedSchedule;
+}
+
+const QUIZ_SCHEMA_VERSION = 1;
+/** A pasta dos meses do quiz do dia (M18, P379), dentro da do Anime: `quiz/AAAA-MM.json`. */
+export const QUIZ_DIR = "quiz/";
+
+/**
+ * Um mês da agenda do quiz do dia (M18): o navegador baixa só o mês de hoje (o Histórico do quiz
+ * fica para depois). Sem o arquivo (o mês ainda sem quiz), null: a tela avisa que não há quiz, e
+ * não pede para tentar de novo. Versão desconhecida, outra agenda ou outro mês no lugar:
+ * atualizar a página.
+ */
+export async function loadQuizMonth(
+  fetchFn: FetchLike,
+  baseUrl: string,
+  dataDir: string,
+  month: string,
+  signal?: AbortSignal,
+): Promise<QuizMonth | null> {
+  const url = animeFile(baseUrl, dataDir, `${QUIZ_DIR}${month}.json`);
+  const data = await getJson(fetchFn, url, signal, true);
+  if (data === undefined) return null;
+  if (schemaVersionOf(data) !== QUIZ_SCHEMA_VERSION || kindOf(data) !== "anime-quiz") {
+    throw new UnsupportedCatalogError(
+      `quiz do dia com schemaVersion ${String(schemaVersionOf(data))} e kind ${String(kindOf(data))}`,
+    );
+  }
+  const file = data as { month?: unknown; days?: unknown };
+  if (file.month !== month) {
+    throw new UnsupportedCatalogError(`quiz do dia de ${String(file.month)} no lugar de ${month}`);
+  }
+  const days = file.days;
+  if (typeof days !== "object" || days === null || Array.isArray(days)) {
+    throw new DataLoadError("quiz do dia sem os dias");
+  }
+  return data as QuizMonth;
+}
+
+/**
+ * O bônus de estreia do quiz (o usuário, 25/10/2026): as 3 rodadas de outras perguntas do dia da
+ * estreia, ao lado do catálogo do Anime. Sem o arquivo, null (não há bônus); versão desconhecida
+ * ou outro arquivo no lugar: atualizar a página.
+ */
+export async function loadQuizBonus(
+  fetchFn: FetchLike,
+  baseUrl: string,
+  dataDir: string,
+  signal?: AbortSignal,
+): Promise<QuizBonus | null> {
+  const data = await getJson(fetchFn, animeFile(baseUrl, dataDir, "quiz-bonus.json"), signal, true);
+  if (data === undefined) return null;
+  if (schemaVersionOf(data) !== QUIZ_SCHEMA_VERSION || kindOf(data) !== "anime-quiz-bonus") {
+    throw new UnsupportedCatalogError(
+      `bônus do quiz com schemaVersion ${String(schemaVersionOf(data))} e kind ${String(kindOf(data))}`,
+    );
+  }
+  if (!Array.isArray((data as { rounds?: unknown }).rounds)) {
+    throw new DataLoadError("bônus do quiz sem as rodadas");
+  }
+  return data as QuizBonus;
+}
+
+/** O mês do quiz de uma data: "2026-10-25" → "2026-10". */
+export function quizMonthOf(date: string): string {
+  return date.slice(0, 7);
+}
+
+/** O dia do quiz, ou null (a tela avisa): sem o mês, ou o mês sem o dia. */
+export function pickQuizDay(month: QuizMonth | null, date: string): QuizDay | null {
+  return month?.days[date] ?? null;
 }
 
 /** O catálogo do Anime, já indexado. Versão desconhecida: atualizar a página. */
