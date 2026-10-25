@@ -12,6 +12,7 @@ import {
   AudioUnavailableError,
   type EngineOptions,
   type MixEngine,
+  type MixOptions,
   type MixPlayback,
   type MixTrack,
   type Playback,
@@ -55,21 +56,28 @@ export class FakeAudioEngine implements AudioEngine, MixEngine {
   }
 
   /** A mistura (M17): registra as prévias, o começo e o lado de cada uma, e "toca" na hora. */
-  async playMix(tracks: readonly MixTrack[], seconds: number): Promise<MixPlayback | null> {
+  async playMix(
+    tracks: readonly MixTrack[],
+    seconds: number,
+    options: MixOptions = {},
+  ): Promise<MixPlayback | null> {
     const failed = tracks.find((track) => this.#options.fails?.(track.url));
     if (failed) throw new AudioUnavailableError("simulated", `falha simulada: ${failed.url}`);
+    const from = options.from ?? 0;
     this.#options.onMixed?.({
       urls: tracks.map((track) => track.url),
       offsets: tracks.map((track) => track.offset),
       pans: tracks.map((track) => track.pan ?? 0),
       seconds,
+      from,
       engine: "fake",
     });
-    const result = { requested: seconds, played: seconds, interrupted: false };
+    const played = Math.max(0, seconds - from);
+    const result = { requested: played, played, interrupted: false };
     return {
       t0: 0,
-      seconds,
-      elapsed: () => seconds,
+      seconds: played,
+      elapsed: () => played,
       done: Promise.resolve(result),
       setGain: () => {},
       setPan: () => {},

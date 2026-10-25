@@ -208,6 +208,28 @@ describe("WebAudioEngine: a mistura das Misturadas (M17)", () => {
     expect((levels[0] ?? 0) * 0.4).toBeCloseTo(0.2 / Math.SQRT2);
   });
 
+  it("do meio do trecho (a barra, P224): o igualar mede o trecho inteiro, e o fim não muda", async () => {
+    // O trecho da b (de 4 a 12 s) tem 6 s em 0,1 e os 2 do fim em 0,4 (sem introdução baixa, que a
+    // mistura pularia): medir só o que sobra do segundo 6 daria a ela o ganho da a.
+    const ctxs = mixContexts({ "a.m4a": 0.4, "b.m4a": (i) => (i < 100 ? 0.1 : 0.4) });
+    const engine = new WebAudioEngine();
+    const stretch = [
+      { url: "a.m4a", offset: 0 },
+      { url: "b.m4a", offset: 4 },
+    ];
+    const whole = await engine.playMix(stretch, 8, { normalize: true });
+    const seek = await engine.playMix(stretch, 8, { normalize: true, from: 6 });
+    const ctx = ctxs[0];
+    if (!ctx || !whole || !seek) throw new Error("a mistura não tocou");
+    const levels = ctx.gains.filter((g) => g.channelCount === 1).map((g) => g.gain.value);
+    expect(levels).toHaveLength(4);
+    expect(levels[2]).toBeCloseTo(levels[0] ?? 0);
+    expect(levels[3]).toBeCloseTo(levels[1] ?? 0);
+    expect(ctx.sources[2]?.start).toHaveBeenCalledWith(seek.t0, 6, 2);
+    expect(ctx.sources[3]?.start).toHaveBeenCalledWith(seek.t0, 10, 2);
+    expect(seek.seconds).toBe(2);
+  });
+
   it("o setGain leva só a prévia pedida ao ganho novo, relativo ao da mistura", async () => {
     const ctxs = mixContexts();
     const mix = await new WebAudioEngine().playMix(tracks, 8);

@@ -22,7 +22,7 @@ import {
   mixedReducer,
   mixedRoundScore,
 } from "../core/mixed.ts";
-import { fillFraction } from "../core/player.ts";
+import { barSeconds, fillFraction } from "../core/player.ts";
 import { secondsAt } from "../core/rules.ts";
 import { guessView, langOf, revealView } from "../core/view.ts";
 import { t, tn } from "../i18n/t.ts";
@@ -196,7 +196,8 @@ type PlayerProps = {
 
 /**
  * O player da mistura: Tocar e Parar, o Pular e a barra dos 4 trechos, como o do Desafio, com a
- * mistura no lugar da prévia sozinha. As músicas tocam juntas a rodada inteira, também as achadas
+ * mistura no lugar da prévia sozinha; a barra leva a mistura inteira ao ponto do liberado (P224).
+ * As músicas tocam juntas a rodada inteira, também as achadas
  * (o usuário, 24/10/2026: só o "Separar" ajuda), e o "Separar" leva cada uma ao seu lado, já
  * tocando.
  */
@@ -214,8 +215,9 @@ function MixPlayer({
   const fillRef = useRef<HTMLDivElement>(null);
   const frame = useRef(0);
   const playButton = useRef<HTMLButtonElement>(null);
-  // A mistura tocando, com as músicas na ordem da rodada.
+  // A mistura tocando, com as músicas na ordem da rodada, e o ponto da barra de onde ela começou.
   const current = useRef<MixPlayback | null>(null);
+  const startedAt = useRef(0);
   const playId = useRef(0);
   const alive = useRef(true);
   const pans = spreadPans(urls.length);
@@ -248,7 +250,9 @@ function MixPlayer({
     if (current.current && separated) panApart(current.current, urls.length);
   }, [separated, urls.length]);
 
-  function play() {
+  // Do ponto `from` da barra (P224) até o fim do liberado: a etapa e os pontos não mudam. O motor
+  // recebe o trecho inteiro e o ponto à parte, para igualar o volume pelo trecho inteiro.
+  function play(from = 0) {
     if (busy) return;
     // O <audio> de reserva não mistura: sem o Web Audio, a rodada é anulada.
     if (!canMix(engine)) {
@@ -268,7 +272,7 @@ function MixPlayer({
     current.current = null;
     // O playMix destrava o áudio na hora, dentro deste clique (regra 9).
     engine
-      .playMix(tracks, seconds, { normalize: true, limit: true })
+      .playMix(tracks, seconds, { normalize: true, limit: true, from })
       .then((playback) => {
         if (!mine()) return;
         if (!playback) {
@@ -276,11 +280,12 @@ function MixPlayer({
           return;
         }
         current.current = playback;
+        startedAt.current = from;
         if (latest.current) panApart(playback, urls.length);
         setStatus("playing");
         const draw = () => {
           if (fillRef.current) {
-            const width = fillFraction(playback.elapsed(), stage, MIXED_STAGES) * 100;
+            const width = fillFraction(from + playback.elapsed(), stage, MIXED_STAGES) * 100;
             fillRef.current.style.width = `${width}%`;
           }
           frame.current = requestAnimationFrame(draw);
@@ -321,10 +326,21 @@ function MixPlayer({
   }
 
   const extra = secondsAt(stage + 1, MIXED_STAGES) - secondsAt(stage, MIXED_STAGES);
+  const unlocked = secondsAt(stage, MIXED_STAGES);
+  const seek = {
+    label: t("player.seek"),
+    position: () => {
+      const playing = current.current;
+      return playing ? Math.min(startedAt.current + playing.elapsed(), unlocked) : 0;
+    },
+    valueText: (at: number) =>
+      t("player.seekValue", { at, unlocked, total: barSeconds(MIXED_STAGES) }),
+    onSeek: (seconds: number) => play(seconds),
+  };
   return (
     <section class={explicit ? "player has-explicit" : "player"}>
       {explicit && <p class="badge explicit">{t("player.explicit")}</p>}
-      <SegmentBar stage={stage} stages={MIXED_STAGES} fillRef={fillRef} />
+      <SegmentBar stage={stage} stages={MIXED_STAGES} fillRef={fillRef} seek={seek} />
       <div class="player-actions">
         {status === "playing" ? (
           <button ref={playButton} type="button" class="primary" onClick={singleClick(stop)}>
@@ -337,7 +353,7 @@ function MixPlayer({
             class="primary"
             // Ocupado: o aria-disabled, e não o disabled, que tiraria o foco do botão (ME37).
             aria-disabled={busy ? "true" : undefined}
-            onClick={singleClick(play)}
+            onClick={singleClick(() => play())}
           >
             {busy
               ? t("player.loading")

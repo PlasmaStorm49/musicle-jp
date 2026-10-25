@@ -171,7 +171,7 @@ describe("MixedRoundView (M17)", () => {
         { url: "audio/2.wav", offset: 0, pan: 0 },
       ],
       4,
-      { normalize: true, limit: true },
+      { normalize: true, limit: true, from: 0 },
     );
     expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
   });
@@ -216,6 +216,28 @@ describe("MixedRoundView (M17)", () => {
     expect(pressed.getAttribute("aria-pressed")).toBe("true");
     // A dica diz o custo; o botão, não (regra 8).
     expect(pressed.getAttribute("aria-describedby")).toBeTruthy();
+  });
+
+  it("a barra leva a mistura ao ponto do liberado, também depois do Separar (P224)", async () => {
+    const { engine } = mixEngine();
+    render(<Harness engine={engine} announce={vi.fn()} />);
+    await playMix();
+    fireEvent.click(screen.getByRole("button", { name: "Ajuda: separar L e R" }));
+    await act(async () => {
+      fireEvent.keyDown(screen.getByRole("slider", { name: "Ponto do trecho" }), {
+        key: "ArrowRight",
+      });
+    });
+    // O trecho inteiro de 4 s, que o motor iguala, e o som do segundo 1, cada uma no seu lado.
+    expect(engine.playMix).toHaveBeenLastCalledWith(
+      [
+        { url: "audio/1.wav", offset: 0, pan: -0.8 },
+        { url: "audio/2.wav", offset: 0, pan: 0.8 },
+      ],
+      4,
+      { normalize: true, limit: true, from: 1 },
+    );
+    expect(screen.getByRole("button", { name: "Parar" })).toBeTruthy();
   });
 
   it("o Separar no Carregando… vale quando a mistura começa, e a achada continua nela", async () => {

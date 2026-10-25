@@ -25,8 +25,10 @@ declare global {
   interface Window {
     __musicleMixLog?: {
       readonly urls: readonly string[];
+      readonly offsets: readonly number[];
       readonly pans: readonly number[];
       readonly seconds: number;
+      readonly from: number;
     }[];
   }
 }
@@ -225,6 +227,33 @@ test("Misturadas: acertar o anime pela franquia, e o ✓ da aba com os dois diá
   await expect(
     page.getByRole("navigation").getByRole("link", { name: /^Misturadas/ }),
   ).toContainText("✓");
+});
+
+test("Misturadas: a barra leva a mistura ao ponto do liberado, também depois do Separar, e a parte fechada não toca (P224)", async ({
+  page,
+}) => {
+  await open(page, DAY, "#misturadas-musica");
+  const mixes = () => page.evaluate(() => window.__musicleMixLog?.length ?? 0);
+  await page.getByRole("button", { name: "Tocar 4 s" }).click();
+  await expect.poll(mixes).toBe(1);
+  const before = await page.evaluate(() => window.__musicleMixLog?.at(-1)?.offsets ?? []);
+  await page.getByRole("button", { name: "Ajuda: separar L e R" }).click();
+  const slider = page.getByRole("slider", { name: "Ponto do trecho" });
+  const box = await slider.boundingBox();
+  if (!box) throw new Error("a barra não está na tela");
+  // A barra tem 30 s, e os 4 do 1º trecho estão liberados: o segundo 2.
+  await slider.click({ position: { x: box.width * (2 / 30), y: box.height / 2 } });
+  await expect.poll(mixes).toBe(2);
+  // O trecho inteiro vai ao motor (o volume se iguala por ele), e o começo, à parte.
+  const mix = await page.evaluate(() => window.__musicleMixLog?.at(-1));
+  expect(mix?.offsets).toEqual(before);
+  expect(mix?.seconds).toBe(4);
+  expect(mix?.from).toBeCloseTo(2, 0);
+  expect(mix?.pans).toEqual([-0.8, 0.8]);
+  // A parte ainda fechada não toca nada.
+  await slider.click({ position: { x: box.width * (20 / 30), y: box.height / 2 } });
+  await page.waitForTimeout(300);
+  expect(await mixes()).toBe(2);
 });
 
 test("Misturadas: a falha de áudio anula a rodada, que não conta", async ({ page }) => {
