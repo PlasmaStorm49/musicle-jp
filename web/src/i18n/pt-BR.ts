@@ -98,6 +98,7 @@ export const ptBR = {
   // O cartão do Anime na tela de um dia: o dia fora da agenda do Anime.
   "history.animeUnavailable": "Sem diário do Anime",
   "history.mixedUnavailable": "Sem diário das Misturadas",
+  "history.quizLine": "Rodada {reached}, {right}",
   "history.dayTitle": "{weekday}, {date}",
   "history.dayHint": "Jogue o que faltou. Não conta nas estatísticas.",
   "history.late": "jogado depois",
@@ -614,6 +615,7 @@ export const ptBR = {
   "quiz.title": "Quiz do dia",
   "quiz.header": "Quiz do dia · nº {number}",
   "quiz.unavailable": "Não há quiz do dia hoje.",
+  "quiz.unavailableDay": "Não há quiz do dia nesse dia.",
   "quiz.retry": "Não foi possível carregar o quiz do dia. Confira a conexão.",
   // A pergunta de cada família e direção (o rótulo e o estúdio, como o MyAnimeList os escreve).
   "quiz.q.ano.max": "Qual é a mais recente?",
@@ -675,6 +677,7 @@ export const ptBR = {
   "quiz.malCredit": "Dados do MyAnimeList",
   "quiz.summaryTitle": "Fim da run",
   "quiz.reached": "Chegou à rodada {reached}",
+  "quiz.lateNote": "Jogado depois: não conta nas medalhas.",
   "quiz.right.one": "{count} acerto",
   "quiz.right.other": "{count} acertos",
   "quiz.shareHeader": "{title} · Quiz do dia nº {number}",

@@ -24,6 +24,7 @@ import {
   withQuizProgress,
 } from "../core/quiz.ts";
 import { isLate, type Save } from "../core/records.ts";
+import { routeHref } from "../core/routes.ts";
 import type { QuizBonus } from "../core/types.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { type MessageKey, ptBR } from "../i18n/pt-BR.ts";
@@ -33,7 +34,7 @@ import { Countdown } from "./Countdown.tsx";
 import { useMixPreviews } from "./hooks.ts";
 import { QuizRoundView } from "./QuizRound.tsx";
 import { ShareButton } from "./ShareButton.tsx";
-import { singleClick } from "./singleClick.ts";
+import { singleClick, singleClickLink } from "./singleClick.ts";
 
 type Props = {
   readonly daily: QuizDaily;
@@ -245,7 +246,8 @@ function SummaryView({
   onBonus,
   ...props
 }: Props & { readonly game: QuizGameRecord; readonly onBonus: (() => void) | null }) {
-  const { store, daily, announce, shareUrl } = props;
+  const { store, daily, announce, shareUrl, today } = props;
+  const past = isLate(daily.date, today);
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   const saved = useMemo(
@@ -255,7 +257,8 @@ function SummaryView({
   const shown = saved ?? game;
   const reached = quizReached(shown);
   const right = tn("quiz.right", quizRight(shown));
-  const header = t("quiz.shareHeader", { title: t("app.title"), number: shown.number });
+  const plainHeader = t("quiz.shareHeader", { title: t("app.title"), number: shown.number });
+  const header = shown.late ? t("share.late", { header: plainHeader }) : plainHeader;
   const result = t("quiz.shareResult", { reached, right });
   return (
     <div class="game quiz screen">
@@ -269,6 +272,7 @@ function SummaryView({
         </h2>
         <p class="score">{t("quiz.reached", { reached })}</p>
         <p>{right}</p>
+        {shown.late && <p class="summary-late">{t("quiz.lateNote")}</p>}
         <ShareButton text={quizShareText(header, result, shown, shareUrl)} announce={announce} />
         {onBonus && (
           <>
@@ -287,7 +291,18 @@ function SummaryView({
             </p>
           </>
         )}
-        <Countdown date={daily.date} announce={announce} />
+        {past ? (
+          // Sem a contagem: num dia passado, ela já estaria zerada (como no das Misturadas).
+          <a
+            class="summary-back"
+            href={routeHref({ tab: "history", date: daily.date })}
+            onClick={singleClickLink}
+          >
+            {t("history.backToDay")}
+          </a>
+        ) : (
+          <Countdown date={daily.date} announce={announce} />
+        )}
       </section>
     </div>
   );

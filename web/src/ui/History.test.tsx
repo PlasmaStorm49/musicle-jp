@@ -3,6 +3,7 @@ import { cleanup, createEvent, fireEvent, render, screen } from "@testing-librar
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { animeKey } from "../core/daily.ts";
 import { historyDates } from "../core/history.ts";
+import { quizId, withQuizFinished } from "../core/quiz.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
 import type {
@@ -12,10 +13,12 @@ import type {
   Day,
   MixedDay,
   MixedSchedule,
+  QuizMonth,
 } from "../core/types.ts";
 import type { AnimeScheduleLoad } from "./Anime.tsx";
 import { History, HistoryCalendar, HistoryDayScreen } from "./History.tsx";
 import type { MixedLoad } from "./Mixed.tsx";
+import type { QuizStore } from "./Quiz.tsx";
 
 afterEach(cleanup);
 
@@ -81,6 +84,29 @@ const MIXED: MixedSchedule = {
   days: { "2026-10-20": MIXED_DAY, "2026-10-21": MIXED_DAY },
 };
 const MIXED_READY: MixedLoad = { status: "ready", schedule: MIXED };
+const QUIZ_MONTH: QuizMonth = {
+  schemaVersion: 1,
+  kind: "anime-quiz",
+  timezone: "America/Sao_Paulo",
+  epoch: PAST,
+  month: "2026-10",
+  days: {
+    [PAST]: {
+      number: 1,
+      catalogVersion: "v1",
+      family: "ano",
+      direction: "min",
+      mal: false,
+      rounds: [{ a: "fixture:tr:a", b: "fixture:tr:b", answer: "a" }],
+    },
+  },
+};
+/** O mês de outubro do quiz, o dos dias dos testes, já carregado: sem quiz, ou com o de PAST. */
+const QUIZ_EMPTY: QuizStore = {
+  month: "2026-10",
+  load: { status: "ready", month: null, bonus: null },
+  request: () => {},
+};
 const mixedFound = { status: "done", found: [{ stage: 0 }, { stage: 0 }] } as const;
 const mixedGame = { number: 2, rounds: [mixedFound, mixedFound, mixedFound, mixedFound] };
 const withMixed = (ids: readonly string[], save: Save = emptySave()): Save => ({
@@ -224,12 +250,27 @@ describe("HistoryCalendar (P260)", () => {
   });
 });
 
+/** A tela de um dia (PAST) só com o mês do quiz, sem as agendas do Anime e das Misturadas. */
+function renderQuizDay(save: Save, quizMonth: QuizMonth | null) {
+  return render(
+    <HistoryDayScreen
+      date={PAST}
+      day={DAY}
+      save={save}
+      animeSchedule={null}
+      mixedSchedule={null}
+      quizMonth={quizMonth}
+    />,
+  );
+}
+
 describe("HistoryDayScreen (P261 a P263)", () => {
   const setup = (
     save: Save = emptySave(),
     day: Day | null = DAY,
     animeSchedule: AnimeSchedule | null = null,
     mixedSchedule: MixedSchedule | null = null,
+    quizMonth: QuizMonth | null = null,
   ) =>
     render(
       <HistoryDayScreen
@@ -238,6 +279,7 @@ describe("HistoryDayScreen (P261 a P263)", () => {
         save={save}
         animeSchedule={animeSchedule}
         mixedSchedule={mixedSchedule}
+        quizMonth={quizMonth}
       />,
     );
   const card = (name: RegExp) => screen.getByRole("link", { name });
@@ -383,6 +425,7 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
         save={withMixed([puzzleId(PAST, "misturadas-titulo")])}
         animeSchedule={null}
         mixedSchedule={MIXED}
+        quizMonth={null}
       />,
     );
     const mixed = screen.getByRole("link", { name: /^Misturadas/ });
@@ -401,6 +444,7 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
         save={emptySave()}
         animeSchedule={null}
         mixedSchedule={MIXED}
+        quizMonth={null}
       />,
     );
     expect(screen.getByText("Sem diário das Misturadas")).toBeTruthy();
@@ -413,9 +457,65 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
         save={emptySave()}
         animeSchedule={null}
         mixedSchedule={null}
+        quizMonth={null}
       />,
     );
     expect(screen.queryByText(/Misturadas/)).toBeNull();
+  });
+
+  it("a tela do dia: o cartão do quiz, na linha toda, com o endereço do dia (o usuário, 26/10/2026)", () => {
+    renderQuizDay(emptySave(), QUIZ_MONTH);
+    const quiz = screen.getByRole("link", { name: /^Quiz do dia/ });
+    expect(quiz.getAttribute("href")).toBe(`#quiz/${PAST}`);
+    expect(quiz.closest("li")?.classList.contains("wide")).toBe(true);
+    expect([...quiz.querySelectorAll(".tag")].map((n) => n.textContent)).toEqual(["nº 1 · novo"]);
+    cleanup();
+    // Jogado depois: a rodada, os acertos e a marca numa linha a mais (P263).
+    const late = withQuizFinished(emptySave(), quizId(PAST), {
+      number: 1,
+      results: "rwww",
+      late: true,
+    });
+    renderQuizDay(late, QUIZ_MONTH);
+    const done = screen.getByRole("link", { name: /^Quiz do dia/ });
+    expect([...done.querySelectorAll(".tag")].map((n) => n.textContent)).toEqual([
+      "Rodada 4, 1 acerto",
+      "jogado depois",
+    ]);
+  });
+
+  it("sem o dia no mês do quiz (antes da estreia), nenhum cartão do quiz", () => {
+    renderQuizDay(emptySave(), null);
+    expect(screen.queryByRole("link", { name: /^Quiz do dia/ })).toBeNull();
+    expect(screen.queryByText(/Quiz do dia/)).toBeNull();
+  });
+
+  it("a tela do dia espera o mês do quiz, pedido uma vez", () => {
+    const request = vi.fn();
+    const props = {
+      date: PAST,
+      today: TODAY,
+      save: emptySave(),
+      hitsDates: new Set(historyDates(TODAY)),
+      hitsDay: DAY,
+      anime: { status: "ready", schedule: ANIME } as AnimeScheduleLoad,
+      requestAnime: vi.fn(),
+      mixed: MIXED_READY,
+      requestMixed: vi.fn(),
+    };
+    const idle: QuizStore = { month: null, load: { status: "idle" }, request };
+    const { rerender } = render(<History {...props} quiz={idle} />);
+    expect(screen.getByText("Carregando…")).toBeTruthy();
+    expect(request).toHaveBeenCalledWith("2026-10");
+    const ready: QuizStore = {
+      month: "2026-10",
+      load: { status: "ready", month: QUIZ_MONTH, bonus: null },
+      request,
+    };
+    rerender(<History {...props} quiz={ready} />);
+    const quiz = screen.getByRole("link", { name: /^Quiz do dia/ });
+    expect(quiz.getAttribute("href")).toBe(`#quiz/${PAST}`);
+    expect(request).toHaveBeenCalledTimes(1);
   });
 
   it("a espera: o calendário só aparece com a agenda das Misturadas também, pedida uma vez", () => {
@@ -429,6 +529,7 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
       anime: { status: "ready", schedule: ANIME } as AnimeScheduleLoad,
       requestAnime: vi.fn(),
       requestMixed,
+      quiz: QUIZ_EMPTY,
     };
     const { rerender } = render(<History {...props} mixed={{ status: "idle" }} />);
     expect(screen.getByText("Carregando…")).toBeTruthy();
@@ -455,6 +556,7 @@ describe("History: a espera da agenda do Anime (P270)", () => {
         requestAnime={requestAnime}
         mixed={MIXED_READY}
         requestMixed={vi.fn()}
+        quiz={QUIZ_EMPTY}
       />,
     );
     return requestAnime;
@@ -494,6 +596,7 @@ describe("History: a espera da agenda do Anime (P270)", () => {
       // As Misturadas de uma versão nova: fora, e o calendário fica só com os Hits.
       mixed: { status: "update" } as MixedLoad,
       requestMixed: vi.fn(),
+      quiz: QUIZ_EMPTY,
     };
     const { rerender } = render(<History {...props} anime={{ status: "retry" }} />);
     rerender(<History {...props} anime={{ status: "loading" }} />);
