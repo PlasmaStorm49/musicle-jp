@@ -7,7 +7,7 @@
     {
       "a": "fixture:tr:tr06",
       "answer": "a",
-      "b": "fixture:tr:tr37",
+      "b": "fixture:tr:tr36",
       "direction": "max",
       "family": "ano",
       "info": {
@@ -17,7 +17,7 @@
             "year": 2025
           },
           {
-            "season": "summer",
+            "season": "spring",
             "year": 2024
           }
         ]
@@ -39,11 +39,11 @@
     {
       "a": "fixture:tr:tr09",
       "answer": "b",
-      "b": "fixture:tr:tr35",
+      "b": "fixture:tr:tr36",
       "direction": "max",
       "family": "nota",
       "info": {
-        "diff": 0.91
+        "diff": 0.62
       }
     }
   ],
