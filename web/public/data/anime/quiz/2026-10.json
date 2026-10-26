@@ -3134,6 +3134,865 @@
           }
         }
       ]
+    },
+    "2026-10-31": {
+      "catalogVersion": "2026-10-26.35c43f9e",
+      "direction": "max",
+      "family": "ano",
+      "mal": true,
+      "number": 7,
+      "rounds": [
+        {
+          "a": "apple:tr:131944614",
+          "answer": "b",
+          "b": "apple:tr:1269459149",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2005
+              },
+              {
+                "season": "summer",
+                "year": 2017
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1735675926",
+          "answer": "a",
+          "b": "apple:tr:1536271840",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2024
+              },
+              {
+                "season": "fall",
+                "year": 2014
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1748746531",
+          "answer": "a",
+          "b": "apple:tr:1536140851",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2017
+              },
+              {
+                "season": "spring",
+                "year": 2006
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1047177065",
+          "answer": "b",
+          "b": "apple:tr:1546070768",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2015
+              },
+              {
+                "season": "winter",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1538285451",
+          "answer": "b",
+          "b": "apple:tr:1753851098",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2017
+              },
+              {
+                "season": "summer",
+                "year": 2024
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:523070642",
+          "answer": "b",
+          "b": "apple:tr:1451937929",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2012
+              },
+              {
+                "season": "winter",
+                "year": 2019
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:435413360",
+          "answer": "b",
+          "b": "apple:tr:6810160607",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 1989
+              },
+              {
+                "season": "spring",
+                "year": 2000
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:960534405",
+          "answer": "b",
+          "b": "apple:tr:1462933223",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2015
+              },
+              {
+                "season": "spring",
+                "year": 2019
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1535535911",
+          "answer": "b",
+          "b": "apple:tr:1586967283",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2014
+              },
+              {
+                "season": "fall",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:500954626",
+          "answer": "b",
+          "b": "apple:tr:1172691626",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2011
+              },
+              {
+                "season": "winter",
+                "year": 2015
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1777983027",
+          "answer": "a",
+          "b": "apple:tr:1629869977",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2024
+              },
+              {
+                "season": "summer",
+                "year": 2022
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1535768529",
+          "answer": "b",
+          "b": "apple:tr:1589761552",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2019
+              },
+              {
+                "season": "fall",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1471459432",
+          "answer": "b",
+          "b": "apple:tr:1589761552",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2019
+              },
+              {
+                "season": "fall",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:408281718",
+          "answer": "b",
+          "b": "apple:tr:1189895464",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2010
+              },
+              {
+                "season": "summer",
+                "year": 2014
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1804676358",
+          "answer": "a",
+          "b": "apple:tr:1804660498",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2006
+              },
+              {
+                "season": "spring",
+                "year": 2002
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1801630569",
+          "answer": "a",
+          "b": "apple:tr:1536371833",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2010
+              },
+              {
+                "season": "summer",
+                "year": 2008
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1708003672",
+          "answer": "a",
+          "b": "apple:tr:1573209696",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2023
+              },
+              {
+                "season": "summer",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1121899694",
+          "answer": "b",
+          "b": "apple:tr:1436815120",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2016
+              },
+              {
+                "season": "fall",
+                "year": 2018
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1804663193",
+          "answer": "b",
+          "b": "apple:tr:1537291898",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2006
+              },
+              {
+                "season": "summer",
+                "year": 2007
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:998902640",
+          "answer": "a",
+          "b": "apple:tr:1096953201",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2015
+              },
+              {
+                "season": "summer",
+                "year": 2014
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1804672985",
+          "answer": "b",
+          "b": "apple:tr:1573209696",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2020
+              },
+              {
+                "season": "summer",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1586784520",
+          "answer": "b",
+          "b": "apple:tr:1681043284",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2021
+              },
+              {
+                "season": "spring",
+                "year": 2023
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1538283758",
+          "answer": "a",
+          "b": "apple:tr:1440010537",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2019
+              },
+              {
+                "season": "fall",
+                "year": 2018
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1560625245",
+          "answer": "b",
+          "b": "apple:tr:1629869977",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2021
+              },
+              {
+                "season": "summer",
+                "year": 2022
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1735516502",
+          "answer": "b",
+          "b": "apple:tr:1784858315",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2024
+              },
+              {
+                "season": "winter",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:272936759",
+          "answer": "b",
+          "b": "apple:tr:1536371833",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2008
+              },
+              {
+                "season": "summer",
+                "year": 2008
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1112838203",
+          "answer": "b",
+          "b": "apple:tr:1537898927",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2016
+              },
+              {
+                "season": "spring",
+                "year": 2017
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1565324651",
+          "answer": "a",
+          "b": "apple:tr:1487537650",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2020
+              },
+              {
+                "season": "fall",
+                "year": 2019
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1172691626",
+          "answer": "a",
+          "b": "apple:tr:1537331454",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2015
+              },
+              {
+                "season": "summer",
+                "year": 2014
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1766032830",
+          "answer": "b",
+          "b": "apple:tr:1803189702",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2024
+              },
+              {
+                "season": "spring",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1684164654",
+          "answer": "b",
+          "b": "apple:tr:1708333825",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2023
+              },
+              {
+                "season": "fall",
+                "year": 2023
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1189895464",
+          "answer": "b",
+          "b": "apple:tr:1481444765",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2014
+              },
+              {
+                "season": "fall",
+                "year": 2014
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1804844463",
+          "answer": "b",
+          "b": "apple:tr:1824084891",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2025
+              },
+              {
+                "season": "summer",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1624424636",
+          "answer": "b",
+          "b": "apple:tr:1649702260",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2022
+              },
+              {
+                "season": "fall",
+                "year": 2022
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1481444765",
+          "answer": "b",
+          "b": "apple:tr:1804671342",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2014
+              },
+              {
+                "season": "spring",
+                "year": 2015
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1471459432",
+          "answer": "b",
+          "b": "apple:tr:1537779521",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2019
+              },
+              {
+                "season": "fall",
+                "year": 2019
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1104167608",
+          "answer": "a",
+          "b": "apple:tr:1056018590",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2016
+              },
+              {
+                "season": "fall",
+                "year": 2015
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:988282749",
+          "answer": "b",
+          "b": "apple:tr:1536129579",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2015
+              },
+              {
+                "season": "spring",
+                "year": 2015
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1535521860",
+          "answer": "a",
+          "b": "apple:tr:381471847",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2011
+              },
+              {
+                "season": "summer",
+                "year": 2010
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1546689773",
+          "answer": "b",
+          "b": "apple:tr:1573750699",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2021
+              },
+              {
+                "season": "summer",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1638701929",
+          "answer": "b",
+          "b": "apple:tr:1684164654",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2022
+              },
+              {
+                "season": "spring",
+                "year": 2023
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1768188136",
+          "answer": "a",
+          "b": "apple:tr:1720359467",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2024
+              },
+              {
+                "season": "winter",
+                "year": 2024
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1538285595",
+          "answer": "b",
+          "b": "apple:tr:1335910686",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2017
+              },
+              {
+                "season": "winter",
+                "year": 2018
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1891344097",
+          "answer": "a",
+          "b": "apple:tr:723324548",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2014
+              },
+              {
+                "season": "fall",
+                "year": 2013
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1537785429",
+          "answer": "b",
+          "b": "apple:tr:503822449",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2011
+              },
+              {
+                "season": "winter",
+                "year": 2012
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1605735698",
+          "answer": "a",
+          "b": "apple:tr:1575517795",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2022
+              },
+              {
+                "season": "summer",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1537898927",
+          "answer": "b",
+          "b": "apple:tr:1309418219",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2017
+              },
+              {
+                "season": "fall",
+                "year": 2017
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1683300097",
+          "answer": "b",
+          "b": "apple:tr:1537436998",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2011
+              },
+              {
+                "season": "winter",
+                "year": 2012
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:730824986",
+          "answer": "b",
+          "b": "apple:tr:864764609",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2013
+              },
+              {
+                "season": "spring",
+                "year": 2014
+              }
+            ]
+          }
+        },
+        {
+          "a": "apple:tr:1536461323",
+          "answer": "b",
+          "b": "apple:tr:1440719374",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2016
+              },
+              {
+                "season": "summer",
+                "year": 2016
+              }
+            ]
+          }
+        }
+      ]
     }
   },
   "epoch": "2026-10-25",

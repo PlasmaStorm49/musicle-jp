@@ -1,0 +1,1145 @@
+{
+  "anime": [
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 4896,
+      "name": "Umineko no Naku Koro ni",
+      "season": "summer",
+      "series": [],
+      "slug": "umineko_no_naku_koro_ni",
+      "synonyms": [
+        "Umineko: When They Cry",
+        "うみねこのなく頃に",
+        "When They Cry 3",
+        "When the Seagulls Cry",
+        "When They Cry: Seagulls"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Akiko Shikata"
+          ],
+          "levels": {
+            "animethemes": 6
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "One-winged Bird",
+          "stats": {
+            "animethemes": 142
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Jimang"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "la divina tragedia ~Makyoku~",
+          "stats": {
+            "animethemes": 41,
+            "anisongdb": 36.0
+          },
+          "track": "1893591824",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Akiko Shikata"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "no-artist",
+          "sequence": 1,
+          "song": "Katayoku no Tori",
+          "stats": {
+            "anisongdb": 53.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Marina Inoue"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Dokkyun Heart",
+          "stats": {
+            "anisongdb": 36.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2009
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 31338,
+      "name": "Hundred",
+      "season": "spring",
+      "series": [],
+      "slug": "hundred",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "D-selections"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "BLOODRED",
+          "stats": {
+            "animethemes": 34,
+            "anisongdb": 40.0
+          },
+          "track": "1112838203",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Rumi Ookubo",
+            "大久保瑠美"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "EYES ON ME",
+          "stats": {
+            "animethemes": 3,
+            "anisongdb": 16.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mao Ichimichi",
+            "Yui Makino",
+            "牧野由依",
+            "Rika Kinugawa"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "TABOOLESS",
+          "stats": {
+            "animethemes": 9,
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yuka Ootsubo",
+            "大坪由佳",
+            "Wataru Hatano"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 3,
+          "song": "Hardy Buddy",
+          "stats": {
+            "animethemes": 9,
+            "anisongdb": 28.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Kaya Okuno"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": 4,
+          "song": "Jewels Of Love",
+          "stats": {
+            "animethemes": 4,
+            "anisongdb": 15.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mayu Yoshioka"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Itsuka Anata o...",
+          "stats": {
+            "anisongdb": 17.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mayu Yoshioka",
+            "Kaya Okuno"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "My Prayer",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mayu Yoshioka"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "SAND MIRAGE",
+          "stats": {
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kaya Okuno"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "SMILE FLOWERS",
+          "stats": {
+            "anisongdb": 18.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mayu Yoshioka"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "FIREWORKS",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mayu Yoshioka"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Hold me Bite me",
+          "stats": {
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2016
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 18277,
+      "name": "Strike the Blood",
+      "season": "fall",
+      "series": [
+        {
+          "name": "Strike the Blood",
+          "slug": "strike_the_blood"
+        }
+      ],
+      "slug": "strike_the_blood",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "Kishida Kyoudan & The Akeboshi Rockets",
+            "岸田教団＆THE明星ロケッツ"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Strike the Blood",
+          "stats": {
+            "animethemes": 99,
+            "anisongdb": 41.0
+          },
+          "track": "735117930",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "ALTIMA"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Fight 4 Real",
+          "stats": {
+            "animethemes": 63,
+            "anisongdb": 35.0
+          },
+          "track": "804640795",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Yuka Iguchi",
+            "井口裕香"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Strike my soul",
+          "stats": {
+            "animethemes": 19,
+            "anisongdb": 26.0
+          },
+          "track": "777483575",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Kanon Wakeshima"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "signal",
+          "stats": {
+            "animethemes": 17,
+            "anisongdb": 23.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2013
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 25159,
+      "name": "Inou-Battle wa Nichijou-kei no Naka de",
+      "season": "fall",
+      "series": [],
+      "slug": "inou_battle_wa_nichijou_kei_no_naka_de",
+      "synonyms": [
+        "When Supernatural Battles Became Commonplace",
+        "異能バトルは日常系のなかで"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Qverktett:||"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "OVERLAPPERS",
+          "stats": {
+            "animethemes": 62,
+            "anisongdb": 43.0
+          },
+          "track": "1481444765",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Kato＊Fuku"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "You Gotta Love Me!",
+          "stats": {
+            "animethemes": 16,
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2014
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 31859,
+      "name": "Hai to Gensou no Grimgar",
+      "season": "winter",
+      "series": [],
+      "slug": "hai_to_gensou_no_grimgar",
+      "synonyms": [
+        "Grimgar of Fantasy and Ash",
+        "灰と幻想のグリムガル",
+        "Grimgal of Ashes and Illusion",
+        "Grimgal of Ashes and Fantasies",
+        "Hai to Gensou no Grimgal"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "(K)NoW_NAME"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Knew day",
+          "stats": {
+            "animethemes": 131,
+            "anisongdb": 56.0
+          },
+          "track": "1077270917",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "(K)NoW_NAME"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Harvest",
+          "stats": {
+            "animethemes": 39,
+            "anisongdb": 25.0
+          },
+          "track": "1077270358",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "AIJ"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Brave Storm",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "NIKIIE"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 3,
+          "song": "Cultivate",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Ayaka Tachibana"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Growing",
+          "stats": {
+            "anisongdb": 26.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "AIJ"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Head Wind",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ayaka Tachibana"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Nutrient",
+          "stats": {
+            "anisongdb": 26.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "NIKIIE"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "rainy tone",
+          "stats": {
+            "anisongdb": 17.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "NIKIIE"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "seeds",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ayaka Tachibana"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Stand on the Ground",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "AIJ"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Sudden Storm",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "NIKIIE"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "sun will rise",
+          "stats": {
+            "anisongdb": 22.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "AIJ"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Swelling of Buds",
+          "stats": {
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Haruka Terui"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": 2,
+          "song": "Harvest(Shihoru ver.)",
+          "stats": {
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2016
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 23775,
+      "name": "Shingeki no Kyojin Movie 1: Guren no Yumiya",
+      "season": "fall",
+      "series": [
+        {
+          "name": "Shingeki no Kyojin",
+          "slug": "shingeki_no_kyojin"
+        }
+      ],
+      "slug": "shingeki_no_kyojin_movie_1_guren_no_yumiya",
+      "synonyms": [
+        "Attack on Titan Part I: Crimson Bow and Arrow",
+        "劇場版「進撃の巨人」前編～紅蓮の弓矢～",
+        "Attack on Titan: Crimson Bow and Arrow"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Linked Horizon"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Guren no Zahyou",
+          "stats": {
+            "animethemes": 11,
+            "anisongdb": 25.0
+          },
+          "track": "1229977143",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mika Kobayashi",
+            "mpi",
+            "Mica Caldito"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "YAMANAIAME",
+          "stats": {
+            "animethemes": 12,
+            "anisongdb": 16.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mika Kobayashi"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "ətˈæk 0N tάɪtn",
+          "stats": {
+            "anisongdb": 51.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Cyua"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Vogel im Käfig",
+          "stats": {
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2014
+    },
+    {
+      "levels": {
+        "mal": 2
+      },
+      "malId": 38062,
+      "name": "Endro~!",
+      "season": "winter",
+      "series": [],
+      "slug": "endro",
+      "synonyms": [
+        "ENDRO!",
+        "えんどろ〜！",
+        "Endro!"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Yuusha Party"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Endoro~ru!",
+          "stats": {
+            "animethemes": 27,
+            "anisongdb": 36.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Inori Minase",
+            "水瀬いのり"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Wonder Caravan!",
+          "stats": {
+            "animethemes": 10,
+            "anisongdb": 35.0
+          },
+          "track": "1447581234",
+          "type": "ED"
+        }
+      ],
+      "year": 2019
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 53421,
+      "name": "Dosanko Gal wa Namara Menkoi",
+      "season": "winter",
+      "series": [],
+      "slug": "dosanko_gal_wa_namara_menkoi",
+      "synonyms": [
+        "Hokkaido Gals Are Super Adorable!",
+        "道産子ギャルはなまらめんこい"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Masayoshi Ooishi",
+            "大石昌良"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Namara Menkoi Gal",
+          "stats": {
+            "animethemes": 128,
+            "anisongdb": 51.0
+          },
+          "track": "1721298017",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Asaka",
+            "亜咲花"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Wayawayawaa!",
+          "stats": {
+            "animethemes": 58,
+            "anisongdb": 36.0
+          },
+          "track": "1879397632",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Ayane Sakura"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Mayonaka no Himawari",
+          "stats": {
+            "anisongdb": 32.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2024
+    }
+  ],
+  "artists": {
+    "1037234138": {
+      "artistName": "Mica Caldito"
+    },
+    "1057869661": {
+      "artistName": "水瀬いのり"
+    },
+    "1068756291": {
+      "artistName": "(K)NoW_NAME"
+    },
+    "1112803476": {
+      "artistName": "D-selections"
+    },
+    "1154905403": {
+      "artistName": "Asaka"
+    },
+    "339140433": {
+      "artistName": "井口裕香"
+    },
+    "409275039": {
+      "artistName": "JIMANG"
+    },
+    "415178967": {
+      "artistName": "Altima"
+    },
+    "551926304": {
+      "artistName": "Linked Horizon"
+    },
+    "572007597": {
+      "artistName": "AIJ"
+    },
+    "736621456": {
+      "artistName": "Kishida Kyodan & The Akeboshi Rockets"
+    },
+    "921453977": {
+      "artistName": "Qverktett:"
+    }
+  },
+  "fetchedAt": "2026-10-26T16:07:32Z",
+  "id": "2026-10-26T160732Z",
+  "provider": "apple",
+  "resolved": {
+    "(K)NoW_NAME": [
+      "1068756291"
+    ],
+    "AIJ": [
+      "572007597"
+    ],
+    "Haruka Terui": [],
+    "Jimang": [
+      "409275039"
+    ],
+    "Kato＊Fuku": [],
+    "Kaya Okuno": [],
+    "Mayu Yoshioka": [],
+    "Mica Caldito": [
+      "1037234138"
+    ],
+    "Qverktett:||": [
+      "921453977"
+    ],
+    "Yuusha Party": []
+  },
+  "storefront": "jp",
+  "tracks": {
+    "1077270358": {
+      "artistId": "1068756291",
+      "artistName": "(K)NoW_NAME",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music69/v4/2a/aa/17/2aaa179b-29a9-adf7-7ef2-43003108f3cd/THCS-60085.jpg/100x100bb.jpg",
+      "collectionId": "1077270355",
+      "collectionName": "「灰と幻想のグリムガル」エンディング・テーマ「Harvest」 - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6c/f2/6a/6cf26aa6-aa6d-1899-5ba1-11e4126cc7f6/mzaf_13409607768486133499.plus.aac.p.m4a",
+      "releaseDate": "2016-02-17T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1077270358",
+      "trackName": "Harvest",
+      "trackTimeMillis": 282240,
+      "trackViewUrl": "https://music.apple.com/jp/album/harvest/1077270355?i=1077270358&uo=4"
+    },
+    "1077270917": {
+      "artistId": "1068756291",
+      "artistName": "(K)NoW_NAME",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music49/v4/7e/d8/f3/7ed8f39c-9f89-db95-d6d0-074f66998ff3/THCS-60084.jpg/100x100bb.jpg",
+      "collectionId": "1077270915",
+      "collectionName": "「灰と幻想のグリムガル」オープニング・テーマ「Knew day」 - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/74/13/1d/74131d3b-7062-b7b2-a9e3-22cf99fdbc35/mzaf_6343986839776752391.plus.aac.p.m4a",
+      "releaseDate": "2016-02-17T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1077270917",
+      "trackName": "Knew day",
+      "trackTimeMillis": 234240,
+      "trackViewUrl": "https://music.apple.com/jp/album/knew-day/1077270915?i=1077270917&uo=4"
+    },
+    "1112838203": {
+      "artistId": "1112803476",
+      "artistName": "D-selections",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music60/v4/7c/f5/5e/7cf55e57-a682-d88c-22ce-fda618093871/EYCA-10951.jpg/100x100bb.jpg",
+      "collectionId": "1112838153",
+      "collectionName": "BLOODRED - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/81/c5/34/81c534cf-f8f5-119f-e040-58fedcf1b7fe/mzaf_17152112392104892318.plus.aac.p.m4a",
+      "releaseDate": "2016-05-25T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1112838203",
+      "trackName": "BLOODRED",
+      "trackTimeMillis": 246147,
+      "trackViewUrl": "https://music.apple.com/jp/album/bloodred/1112838153?i=1112838203&uo=4"
+    },
+    "1229977143": {
+      "artistId": "551926304",
+      "artistName": "Linked Horizon",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/fa/1b/64/fa1b6416-bbe0-9237-e07f-8d2ccb8325e8/PCSP_02251.jpg/100x100bb.jpg",
+      "collectionId": "1229977139",
+      "collectionName": "進撃の軌跡",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ef/ec/74/efec742c-1059-5fe8-7a9d-a57fb6f6bd28/mzaf_12145854929799703838.plus.aac.p.m4a",
+      "releaseDate": "2017-05-17T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1229977143",
+      "trackName": "紅蓮の座標",
+      "trackTimeMillis": 306480,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E7%B4%85%E8%93%AE%E3%81%AE%E5%BA%A7%E6%A8%99/1229977139?i=1229977143&uo=4"
+    },
+    "1447581234": {
+      "artistId": "1057869661",
+      "artistName": "水瀬いのり",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/dc/41/e8/dc41e80b-5624-add3-6422-b8b244fef6d0/KICM-1914.jpg/100x100bb.jpg",
+      "collectionId": "1447581233",
+      "collectionName": "Wonder Caravan! - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/41/69/34/416934c2-f3fa-2fd1-5e2a-709675cb008c/mzaf_18307277314612499544.plus.aac.p.m4a",
+      "releaseDate": "2019-01-23T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1447581234",
+      "trackName": "Wonder Caravan!",
+      "trackTimeMillis": 261129,
+      "trackViewUrl": "https://music.apple.com/jp/album/wonder-caravan/1447581233?i=1447581234&uo=4"
+    },
+    "1481444765": {
+      "artistId": "921453977",
+      "artistName": "Qverktett:",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/58/b0/63/58b06373-c7a9-480e-b8ff-be673369482c/ANTCD-A0000000297.jpg/100x100bb.jpg",
+      "collectionArtistName": "OMOTENASHI BEATS PROJECT",
+      "collectionId": "1481444484",
+      "collectionName": "SUPER OMOTENASHI BEATS vol.1 × DJ 小宮有紗",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/12/12/c5/1212c5ec-dedf-af33-62fa-0887501621c3/mzaf_17203125713486392869.plus.aac.p.m4a",
+      "releaseDate": "2019-10-02T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1481444765",
+      "trackName": "OVERLAPPERS (SUPER OMOTENASHI BEATS vol.1 ver)",
+      "trackTimeMillis": 100080,
+      "trackViewUrl": "https://music.apple.com/jp/album/overlappers-super-omotenashi-beats-vol-1-ver/1481444484?i=1481444765&uo=4"
+    },
+    "1721298017": {
+      "artistId": "908870855",
+      "artistName": "オーイシマサヨシ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/c3/c6/01/c3c601de-6114-ac92-7d06-c20b29bd8892/dj.qbqzbdje.jpg/100x100bb.jpg",
+      "collectionId": "1721297716",
+      "collectionName": "なまらめんこいギャル - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0f/6f/9d/0f6f9dad-5b70-d184-4d78-00eca7efa5be/mzaf_7763103424051800178.plus.aac.p.m4a",
+      "releaseDate": "2024-01-09T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1721298017",
+      "trackName": "なまらめんこいギャル",
+      "trackTimeMillis": 208765,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%81%AA%E3%81%BE%E3%82%89%E3%82%81%E3%82%93%E3%81%93%E3%81%84%E3%82%AE%E3%83%A3%E3%83%AB/1721297716?i=1721298017&uo=4"
+    },
+    "1879397632": {
+      "artistId": "1154905403",
+      "artistName": "亜咲花",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f5/6e/72/f56e7228-2bbf-62ee-49a2-a226d539c4b6/4570068321332_Cover.jpg/100x100bb.jpg",
+      "collectionId": "1879397631",
+      "collectionName": "わやわやわー! - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ce/74/1f/ce741f82-85ba-4dc8-03f1-056dbb48aed7/mzaf_14932756133790129402.plus.aac.p.m4a",
+      "releaseDate": "2024-01-17T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1879397632",
+      "trackName": "わやわやわー!",
+      "trackTimeMillis": 188587,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%8F%E3%82%84%E3%82%8F%E3%82%84%E3%82%8F%E3%83%BC/1879397631?i=1879397632&uo=4"
+    },
+    "1893591824": {
+      "artistId": "409275039",
+      "artistName": "じまんぐ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/70/cc/47/70cc47ca-7a87-e4b8-89f0-c1abf00c0ec1/4562207972758_Cover.jpg/100x100bb.jpg",
+      "collectionId": "1893591823",
+      "collectionName": "TVアニメ「うみねこのなく頃に」EDテーママキシ la divina tragedia～魔曲～ - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ec/57/25/ec572599-a056-64ac-8684-58e0014924d4/mzaf_18184615943169046911.plus.aac.p.m4a",
+      "releaseDate": "2009-09-16T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1893591824",
+      "trackName": "la divina tragedia ~魔曲~",
+      "trackTimeMillis": 357176,
+      "trackViewUrl": "https://music.apple.com/jp/album/la-divina-tragedia-%E9%AD%94%E6%9B%B2/1893591823?i=1893591824&uo=4"
+    },
+    "735117930": {
+      "artistId": "736621456",
+      "artistName": "岸田教団&THE明星ロケッツ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/14/fc/c8/14fcc8f4-a54d-deda-c8dd-cb8bd73f8b67/striketheblood_2400x2400.jpg/100x100bb.jpg",
+      "collectionId": "735117920",
+      "collectionName": "ストライク・ザ・ブラッド - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/55/b1/7a/55b17a63-f280-b3b2-0f6d-dd967673dae9/mzaf_6463673580882762733.plus.aac.p.m4a",
+      "releaseDate": "2013-10-30T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "735117930",
+      "trackName": "ストライク・ザ・ブラッド",
+      "trackTimeMillis": 242703,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B9%E3%83%88%E3%83%A9%E3%82%A4%E3%82%AF-%E3%82%B6-%E3%83%96%E3%83%A9%E3%83%83%E3%83%89/735117920?i=735117930&uo=4"
+    },
+    "777483575": {
+      "artistId": "339140433",
+      "artistName": "井口裕香",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/b4/85/94/b485941f-0aeb-9fd8-ad55-206a50ff3105/iguchiyuka_rainbowheart_2400x2400.jpg/100x100bb.jpg",
+      "collectionId": "777483563",
+      "collectionName": "rainbow heart ♡ rainbow dream ☆ / Strike my soul - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0c/94/fd/0c94fddd-b122-7847-c8df-9b3a8ce02641/mzaf_16444813079694327715.plus.aac.p.m4a",
+      "releaseDate": "2013-11-27T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "777483575",
+      "trackName": "Strike my soul",
+      "trackTimeMillis": 263099,
+      "trackViewUrl": "https://music.apple.com/jp/album/strike-my-soul/777483563?i=777483575&uo=4"
+    },
+    "804640795": {
+      "artistId": "415178967",
+      "artistName": "ALTIMA",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d9/c9/63/d9c9634d-6bc0-e7b2-9e1f-ab9b8565489e/altima_fight4real_2400x2400.jpg/100x100bb.jpg",
+      "collectionId": "804640792",
+      "collectionName": "Fight 4 Real - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/3e/7f/8c/3e7f8c58-f4e0-f510-2659-58f2fb9e6d57/mzaf_17730863356466128366.plus.aac.p.m4a",
+      "releaseDate": "2014-01-29T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "804640795",
+      "trackName": "Fight 4 Real",
+      "trackTimeMillis": 305389,
+      "trackViewUrl": "https://music.apple.com/jp/album/fight-4-real/804640792?i=804640795&uo=4"
+    }
+  }
+}
