@@ -14,18 +14,28 @@ import {
 } from "../core/history.ts";
 import { firstToPlay, progress, statusOf } from "../core/home.ts";
 import { mixedIds } from "../core/mixed.ts";
+import { quizId, quizStatusOf } from "../core/quiz.ts";
 import { puzzleId, type Save } from "../core/records.ts";
 import { ROUTES, routeHref } from "../core/routes.ts";
 import { MODES } from "../core/rules.ts";
-import type { AnimeDay, AnimeSchedule, Day, MixedDay, MixedSchedule } from "../core/types.ts";
-import { pickAnimeDay, pickMixedDay } from "../data/source.ts";
-import { t } from "../i18n/t.ts";
+import type {
+  AnimeDay,
+  AnimeSchedule,
+  Day,
+  MixedDay,
+  MixedSchedule,
+  QuizDay,
+  QuizMonth,
+} from "../core/types.ts";
+import { pickAnimeDay, pickMixedDay, pickQuizDay, quizMonthOf } from "../data/source.ts";
+import { t, tn } from "../i18n/t.ts";
 import type { AnimeScheduleLoad } from "./Anime.tsx";
 import { type Card, CardList, dailyCard, dailyText, progressText } from "./cards.tsx";
 import { dayTitle, longDate, weekdayName, weekdayShort } from "./dayLabel.ts";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { useHeadingFocus } from "./hooks.ts";
 import type { MixedLoad } from "./Mixed.tsx";
+import type { QuizStore } from "./Quiz.tsx";
 import { singleClickLink } from "./singleClick.ts";
 
 type HistoryProps = {
@@ -44,7 +54,31 @@ type HistoryProps = {
   /** A agenda das Misturadas, da carga guardada no App. */
   readonly mixed: MixedLoad;
   readonly requestMixed: () => void;
+  /** O mês do quiz do dia, guardado no App: só a tela de um dia o pede (o calendário não). */
+  readonly quiz: QuizStore;
 };
+
+/**
+ * Pede o mês do quiz do dia da rota uma vez por abertura do dia, como as agendas, e diz se a tela
+ * ainda espera por ele. Devolve o mês (null sem quiz no mês, ou quando ele falhou: a tela fica sem
+ * o cartão) ou "waiting".
+ */
+function useQuizMonth(quiz: QuizStore, date: string | null): QuizMonth | null | "waiting" {
+  const month = date === null ? null : quizMonthOf(date);
+  const asked = useRef<string | null>(null);
+  const mine = month !== null && quiz.month === month ? quiz.load : null;
+  useEffect(() => {
+    if (month === null || asked.current === month) return;
+    asked.current = month;
+    if (quiz.month !== month || quiz.load.status === "idle" || quiz.load.status === "retry") {
+      quiz.request(month);
+    }
+  }, [month, quiz.month, quiz.load.status, quiz.request]);
+  if (month === null) return null;
+  if (mine === null || mine.status === "idle" || mine.status === "loading") return "waiting";
+  if (mine.status === "retry" && asked.current !== month) return "waiting";
+  return mine.status === "ready" ? mine.month : null;
+}
 
 /**
  * Pede uma agenda (a do Anime ou a das Misturadas) uma vez por abertura do Histórico, e diz se a
@@ -81,10 +115,12 @@ export function History({
   requestAnime,
   mixed,
   requestMixed,
+  quiz,
 }: HistoryProps) {
   const waitingAnime = useScheduleRequest(anime.status, requestAnime);
   const waitingMixed = useScheduleRequest(mixed.status, requestMixed);
-  if (waitingAnime || waitingMixed) {
+  const quizMonth = useQuizMonth(quiz, date);
+  if (waitingAnime || waitingMixed || quizMonth === "waiting") {
     return (
       <div class="loading screen" key="history-loading">
         <FocusedNotice text={t("load.loading")} />
@@ -110,6 +146,7 @@ export function History({
       save={save}
       animeSchedule={schedule}
       mixedSchedule={mixedSchedule}
+      quizMonth={quizMonth}
     />
   );
 }
@@ -322,7 +359,40 @@ type DayProps = {
   readonly animeSchedule: AnimeSchedule | null;
   /** A agenda das Misturadas; null quando ela falhou (a tela fica sem o cartão delas). */
   readonly mixedSchedule: MixedSchedule | null;
+  /** O mês do quiz do dia; null quando ele falhou ou não existe (a tela fica sem o cartão). */
+  readonly quizMonth: QuizMonth | null;
 };
+
+/**
+ * O cartão do quiz do dia na tela de um dia (o usuário, 26/10/2026), ao lado do das Misturadas,
+ * como na Início (sem elas, na linha toda): a rodada alcançada e os acertos, o andamento ou o novo,
+ * e o link para a run daquele dia. Sem o dia no mês do quiz, o cartão não aparece (o quiz começou
+ * em 25/10/2026).
+ */
+function quizDayCard(save: Save, date: string, day: QuizDay, next: boolean, wide: boolean): Card {
+  const status = quizStatusOf(save, date, day.number);
+  const lines =
+    status.kind === "done"
+      ? [
+          t("history.quizLine", { reached: status.reached, right: tn("quiz.right", status.right) }),
+          ...(status.late ? [t("history.late")] : []),
+        ]
+      : [
+          status.kind === "playing"
+            ? t("home.statusPlaying", { number: day.number })
+            : t("home.statusNew", { number: day.number }),
+        ];
+  return {
+    tab: "quiz",
+    href: routeHref({ tab: "quiz", date }),
+    name: t("quiz.title"),
+    short: t("home.quizShort"),
+    hint: t("home.quizHint"),
+    lines,
+    next,
+    wide,
+  };
+}
 
 /**
  * O cartão do Anime na tela de um dia (P261), na linha toda: quantos dos 6 diários terminaram,
@@ -347,10 +417,17 @@ function animeDayCard(save: Save, date: string, day: AnimeDay | null, next: bool
 }
 
 /**
- * O cartão das Misturadas na tela de um dia, na linha toda, como o do Anime: quantos dos 2
- * diários terminaram, e o link para a escolha do modo daquele dia. Fora da agenda, apagado.
+ * O cartão das Misturadas na tela de um dia, na linha toda, como o do Anime, ou, com o quiz do
+ * dia, ao lado dele (como na Início, para a tela caber): quantos dos 2 diários terminaram, e o
+ * link para a escolha do modo daquele dia. Fora da agenda, apagado.
  */
-function mixedDayCard(save: Save, date: string, day: MixedDay | null, next: boolean): Card {
+function mixedDayCard(
+  save: Save,
+  date: string,
+  day: MixedDay | null,
+  next: boolean,
+  wide: boolean,
+): Card {
   const ids = mixedIds(date);
   const done = ids.filter((id) => save.mixed.finished[id] !== undefined).length;
   const playing = ids.filter(
@@ -368,7 +445,7 @@ function mixedDayCard(save: Save, date: string, day: MixedDay | null, next: bool
     ],
     next,
     off: day === null,
-    wide: true,
+    wide,
   };
 }
 
@@ -377,7 +454,14 @@ function mixedDayCard(save: Save, date: string, day: MixedDay | null, next: bool
  * ou o jogar, e os cartões do Anime e das Misturadas. O jogado depois leva a marca numa linha a
  * mais (P263). O 1º por jogar é o oliva: um dos Hits, depois o Anime, depois as Misturadas.
  */
-export function HistoryDayScreen({ date, day, save, animeSchedule, mixedSchedule }: DayProps) {
+export function HistoryDayScreen({
+  date,
+  day,
+  save,
+  animeSchedule,
+  mixedSchedule,
+  quizMonth,
+}: DayProps) {
   const heading = useHeadingFocus();
   const dailies = day ? hitsDailies(day, date) : [];
   const next = firstToPlay(save, dailies)?.key;
@@ -399,10 +483,17 @@ export function HistoryDayScreen({ date, day, save, animeSchedule, mixedSchedule
     taken ||= animeNext;
     cards.push(animeDayCard(save, date, animeDay, animeNext));
   }
+  const quizDay = pickQuizDay(quizMonth, date);
   if (mixedSchedule) {
     const mixedDay = pickMixedDay(mixedSchedule, date);
     const left = mixedIds(date).some((id) => !save.mixed.finished[id]);
-    cards.push(mixedDayCard(save, date, mixedDay, !taken && mixedDay !== null && left));
+    const mixedNext = !taken && mixedDay !== null && left;
+    taken ||= mixedNext;
+    cards.push(mixedDayCard(save, date, mixedDay, mixedNext, quizDay === null));
+  }
+  if (quizDay) {
+    const quizNext = !taken && !save.quiz.finished[quizId(date)];
+    cards.push(quizDayCard(save, date, quizDay, quizNext, mixedSchedule === null));
   }
   return (
     <div class="game practice history-day screen">

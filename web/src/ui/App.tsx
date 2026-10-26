@@ -286,9 +286,9 @@ export function App() {
   // As Misturadas (M17): a agenda delas, também só quando a pessoa abre a aba; o catálogo é o do
   // Anime.
   const mixed = useMixedStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
-  // O quiz do dia (M18): o mês de hoje da agenda dele, também só quando a pessoa abre a aba; o
+  // O quiz do dia (M18): o mês do dia na agenda dele, também só quando a pessoa abre a aba; o
   // catálogo é o do Anime.
-  const quiz = useQuizStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR, date });
+  const quiz = useQuizStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
   const refresh = useCallback(() => {
     const read = loadSave(saves.store);
     if (read.writable) setLatest(read.save);
@@ -683,6 +683,7 @@ function Ready({
           requestAnime={anime.requestSchedule}
           mixed={mixed.load}
           requestMixed={mixed.request}
+          quiz={quiz}
         />
       );
     case "medals":
@@ -711,13 +712,14 @@ function Ready({
           announce={announce}
         />
       );
-    // O quiz do dia (M18): a run de hoje (o Histórico dele fica para depois).
+    // O quiz do dia (M18): a run de hoje ou, pelo Histórico, a de um dia passado.
     case "quiz":
       return (
         <Quiz
           anime={anime}
           store={quiz}
-          date={date}
+          date={route.date ?? date}
+          today={date}
           save={latest}
           engine={engine}
           resolveUrl={resolveUrl}

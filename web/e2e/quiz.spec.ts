@@ -121,3 +121,33 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await expect(page.getByRole("heading", { name: "Fim da run" })).toBeFocused();
   await expect(page.getByText("Chegou à rodada 4", { exact: true })).toBeVisible();
 });
+
+test("Quiz do dia pelo Histórico (o usuário, 26/10/2026): a run de um dia passado, jogada depois, e a volta ao dia", async ({
+  page,
+}) => {
+  await captureClipboard(page);
+  await open(page, "2026-10-10T12:00:00-03:00", "#historico/2026-10-08");
+  const card = page.getByRole("link", { name: /^Quiz do dia/ });
+  await expect(card).toContainText("nº 1 · novo");
+  await card.click();
+  await expect(page).toHaveURL(/#quiz\/2026-10-08$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia · nº 1");
+
+  // Três erros encerram a run (P377).
+  for (const n of [0, 1, 2]) {
+    await pick(page, n, false).click();
+    const next = n < 2 ? "Próxima rodada" : "Ver resultado";
+    await page.getByRole("button", { name: next }).click();
+  }
+  await expect(page.getByRole("heading", { name: "Fim da run" })).toBeFocused();
+  await expect(page.getByText("Jogado depois: não conta nas medalhas.")).toBeVisible();
+  await page.getByRole("button", { name: "Compartilhar resultado" }).click();
+  const copied = await page.evaluate(() => window.__copied ?? "");
+  expect(copied.split("\n")[0]).toBe("AteMusic · Quiz do dia nº 1 (jogado depois)");
+
+  // Sem a contagem: a volta ao dia, onde o cartão mostra o resultado e a marca do jogado depois.
+  await page.getByRole("link", { name: "Voltar ao dia" }).click();
+  const done = page.getByRole("link", { name: /^Quiz do dia/ });
+  await expect(done).toContainText("Rodada 3, 0 acertos");
+  await expect(done).toContainText("jogado depois");
+});

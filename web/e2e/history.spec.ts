@@ -325,15 +325,21 @@ test("quem abre o Histórico baixa só a agenda do Anime; o catálogo, só com u
   await expect(page.getByRole("heading", { level: 1, name: "Histórico" })).toBeFocused();
   await page.getByRole("link", { name: /^Quarta-feira, 21 de outubro/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Quarta-feira, 21/10" })).toBeFocused();
-  // E a das Misturadas, para a marca delas (sem o catálogo).
-  expect(asked.sort()).toEqual(["/fixtures/anime/mixed.json", "/fixtures/anime/schedule.json"]);
+  // E a das Misturadas, para a marca delas, e, na tela do dia, o mês do quiz e o bônus, que vêm
+  // juntos (o usuário, 26/10/2026), sem o catálogo.
+  expect(asked.sort()).toEqual([
+    "/fixtures/anime/mixed.json",
+    "/fixtures/anime/quiz-bonus.json",
+    "/fixtures/anime/quiz/2026-10.json",
+    "/fixtures/anime/schedule.json",
+  ]);
   await page
     .getByRole("main")
     .getByRole("link", { name: /^Anime/ })
     .click();
   await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
   // A agenda já veio: só o catálogo desce.
-  expect(asked.slice(2)).toEqual(["/fixtures/anime/catalog.json"]);
+  expect(asked.slice(4)).toEqual(["/fixtures/anime/catalog.json"]);
 });
 
 test("o dia passado sem o Anime: o cartão apagado, a marca vazia e o diário que volta ao dia", async ({
