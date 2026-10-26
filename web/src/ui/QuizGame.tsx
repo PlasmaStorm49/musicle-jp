@@ -199,7 +199,7 @@ function Playing({
       <header class="round-head">
         <h1>{t("quiz.header", { number })}</h1>
         <p>
-          {t("quiz.round", { current: game.current + 1, total: game.rounds.length })}
+          {t("quiz.round", { current: game.current + 1 })}
           <span class="round-tag">{t("quiz.lives", { left })}</span>
         </p>
       </header>
@@ -267,7 +267,7 @@ function SummaryView({
         <h2 id="summary-title" ref={heading} tabIndex={-1}>
           {t("quiz.summaryTitle")}
         </h2>
-        <p class="score">{t("quiz.reached", { reached, total: daily.rounds.length })}</p>
+        <p class="score">{t("quiz.reached", { reached })}</p>
         <p>{right}</p>
         <ShareButton text={quizShareText(header, result, shown, shareUrl)} announce={announce} />
         {onBonus && (

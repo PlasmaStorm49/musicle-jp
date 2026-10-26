@@ -39,7 +39,9 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await (await navLink(page, "Quiz")).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia · nº 1");
   await expect(page.getByText("Qual está em mais playlists do AnimeThemes?")).toBeVisible();
-  await expect(page.getByText("Rodada 1 de 28")).toBeVisible();
+  // Sem o total de rodadas (o usuário, 26/10/2026): a run não é para chegar ao fim.
+  await expect(page.getByText(/^Rodada 1(?!\d)/)).toBeVisible();
+  await expect(page.getByText(/Rodada 1 de/)).toHaveCount(0);
   await expect(page.getByText("Vidas: 2")).toBeVisible();
   const play = page.getByRole("button", { name: "Tocar 3 s" });
   await expect(play).toBeFocused();
@@ -62,7 +64,7 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
   // Rodada 2: errada; a vida desce, e a run continua. O trecho voltou aos 3 s.
-  await expect(page.getByText("Rodada 2 de 28")).toBeVisible();
+  await expect(page.getByText(/^Rodada 2(?!\d)/)).toBeVisible();
   await expect(page.getByRole("button", { name: "Tocar 3 s" })).toBeVisible();
   await pick(page, 1, false).click();
   await expect(page.getByRole("heading", { name: "Errou. Vidas: 1." })).toBeFocused();
@@ -82,7 +84,7 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await page.getByRole("button", { name: "Ver resultado" }).click();
 
   await expect(page.getByRole("heading", { name: "Fim da run" })).toBeFocused();
-  await expect(page.getByText("Chegou à rodada 4 de 28")).toBeVisible();
+  await expect(page.getByText("Chegou à rodada 4", { exact: true })).toBeVisible();
   await expect(page.getByText("1 acerto", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   const copied = await page.evaluate(() => window.__copied ?? "");
@@ -117,5 +119,5 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
     await page.getByRole("button", { name: next }).click();
   }
   await expect(page.getByRole("heading", { name: "Fim da run" })).toBeFocused();
-  await expect(page.getByText("Chegou à rodada 4 de 28")).toBeVisible();
+  await expect(page.getByText("Chegou à rodada 4", { exact: true })).toBeVisible();
 });
