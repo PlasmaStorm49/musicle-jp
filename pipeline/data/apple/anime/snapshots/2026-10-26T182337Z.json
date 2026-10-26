@@ -1,0 +1,1152 @@
+{
+  "anime": [
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 48,
+      "name": ".hack//Sign",
+      "season": "spring",
+      "series": [
+        {
+          "name": ".hack",
+          "slug": "dot_hack"
+        }
+      ],
+      "slug": "hacksign",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "See-Saw"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Obsession",
+          "stats": {
+            "animethemes": 142,
+            "anisongdb": 59.0
+          },
+          "track": "532487206",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "See-Saw"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Yasashii Yoake",
+          "stats": {
+            "animethemes": 57,
+            "anisongdb": 40.0
+          },
+          "track": "532487207",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "a stray child",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "aura evil ver.",
+          "stats": {
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "aura",
+          "stats": {
+            "anisongdb": 31.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "fake wings",
+          "stats": {
+            "anisongdb": 32.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "in the land of twilight, under the moon",
+          "stats": {
+            "anisongdb": 37.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "key of the twilight",
+          "stats": {
+            "anisongdb": 34.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "open your heart~reprise",
+          "stats": {
+            "anisongdb": 27.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "the world",
+          "stats": {
+            "anisongdb": 32.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "See-Saw"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Senya Ichiya",
+          "stats": {
+            "anisongdb": 28.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "to nowhere",
+          "stats": {
+            "anisongdb": 32.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yuriko Kaida"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "warp",
+          "stats": {
+            "anisongdb": 22.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yuriko Kaida"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "das wandern",
+          "stats": {
+            "anisongdb": 16.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "fake wings bitter sweet ver.",
+          "stats": {
+            "anisongdb": 35.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Emily Bindiger"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "fake wings make decision ver.",
+          "stats": {
+            "anisongdb": 38.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2002
+    },
+    {
+      "levels": {
+        "mal": 8
+      },
+      "malId": 48561,
+      "name": "Jujutsu Kaisen 0",
+      "season": "fall",
+      "series": [
+        {
+          "name": "Jujutsu Kaisen",
+          "slug": "jujutsu_kaisen"
+        }
+      ],
+      "slug": "jujutsu_kaisen_0",
+      "synonyms": [
+        "JUJUTSU KAISEN 0",
+        "呪術廻戦 0",
+        "Sorcery Fight 0",
+        "JJK 0"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Toft Willingham",
+            "Chez",
+            "Jessica Gelinas"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Greatest Strength",
+          "stats": {
+            "animethemes": 94,
+            "anisongdb": 31.0
+          },
+          "track": "1600030837",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "King Gnu"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Sakayume",
+          "stats": {
+            "animethemes": 82,
+            "anisongdb": 39.0
+          },
+          "track": "1600395740",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "King Gnu"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "Ichizu",
+          "stats": {
+            "animethemes": 85,
+            "anisongdb": 42.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Toft Willingham"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "The Real You",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": "1600032349",
+          "type": "IN"
+        }
+      ],
+      "year": 2021
+    },
+    {
+      "levels": {
+        "mal": 8
+      },
+      "malId": 40456,
+      "name": "Kimetsu no Yaiba Movie: Mugen Ressha-hen",
+      "season": "fall",
+      "series": [
+        {
+          "name": "Kimetsu no Yaiba",
+          "slug": "kimetsu_no_yaiba"
+        }
+      ],
+      "slug": "kimetsu_no_yaiba_movie_mugen_ressha_hen",
+      "synonyms": [
+        "Demon Slayer -Kimetsu no Yaiba- The Movie: Mugen Train",
+        "鬼滅の刃 無限列車編"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "LiSA"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 5
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Homura",
+          "stats": {
+            "animethemes": 104,
+            "anisongdb": 54.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2020
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 33050,
+      "name": "Fate/stay night Movie: Heaven's Feel - III. Spring Song",
+      "season": "summer",
+      "series": [
+        {
+          "name": "Fate",
+          "slug": "fate"
+        }
+      ],
+      "slug": "fatestay_night_movie_heavens_feel_iii_spring_song",
+      "synonyms": [
+        "Fate/stay night [Heaven’s Feel] III. spring song",
+        "Fate/stay night[Heaven's Feel] ⅠⅠⅠ.spring song"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Aimer"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Haru wa Yuku",
+          "stats": {
+            "animethemes": 53,
+            "anisongdb": 41.0
+          },
+          "track": "1537258708",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Shaylee Mary"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "in early spring",
+          "stats": {
+            "anisongdb": 41.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Yuri Shinada"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "the butterfly flutters",
+          "stats": {
+            "anisongdb": 49.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Tokyo Konsei Gasshou-dan"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "and he came back again",
+          "stats": {
+            "anisongdb": 23.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Tokyo Konsei Gasshou-dan"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "I kill and I give life",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yuri Shinada"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "she holds the black holy sword",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Tokyo Konsei Gasshou-dan"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "the four rings",
+          "stats": {
+            "anisongdb": 18.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Shaylee Mary"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "you were always brilliant",
+          "stats": {
+            "anisongdb": 43.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Tokyo Konsei Gasshou-dan"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "good or evil",
+          "stats": {
+            "anisongdb": 11.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2020
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 59160,
+      "name": "Wind Breaker Season 2",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Wind Breaker",
+          "slug": "wind_breaker"
+        }
+      ],
+      "slug": "wind_breaker_season_2",
+      "synonyms": [
+        "WIND BREAKER Season 2"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "SixTONES"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "BOYZ",
+          "stats": {
+            "animethemes": 136,
+            "anisongdb": 38.0
+          },
+          "track": "1815881824",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Shytaupe"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "It's myself",
+          "stats": {
+            "animethemes": 41,
+            "anisongdb": 31.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Reina Ueda",
+            "上田麗奈"
+          ],
+          "levels": {
+            "animethemes": 0,
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Be My Side",
+          "stats": {
+            "animethemes": 0,
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Foggy-D",
+            "Zachary Fitzgerald"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Call My Name",
+          "stats": {
+            "anisongdb": 26.0
+          },
+          "track": "1750662417",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ryo Takahashi",
+            "Foggy-D",
+            "John Mambira"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Upheaval",
+          "stats": {
+            "anisongdb": 36.0
+          },
+          "track": "1750661490",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Foggy-D"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Higher I'll Go",
+          "stats": {
+            "anisongdb": 39.0
+          },
+          "track": "1737380343",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Foggy-D"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "A Starting Sign",
+          "stats": {
+            "anisongdb": 44.0
+          },
+          "track": "1750661700",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Foggy-D",
+            "Zachary Fitzgerald"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Stronger",
+          "stats": {
+            "anisongdb": 34.0
+          },
+          "track": "1746637472",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Young Kee"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Muteki",
+          "stats": {
+            "anisongdb": 48.0
+          },
+          "track": "1738178917",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ryo Takahashi",
+            "Foggy-D",
+            "Julien"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Bolt from Blue",
+          "stats": {
+            "anisongdb": 33.0
+          },
+          "track": "1818558707",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ryo Takahashi",
+            "Foggy-D",
+            "Julien",
+            "Riven"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "ambiguous",
+          "sequence": null,
+          "song": "Cover My Back",
+          "stats": {
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ryo Takahashi",
+            "Julien"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Pride Unbound",
+          "stats": {
+            "anisongdb": 30.0
+          },
+          "track": "1818558722",
+          "type": "IN"
+        }
+      ],
+      "year": 2025
+    }
+  ],
+  "artists": {
+    "1258439196": {
+      "artistName": "King Gnu"
+    },
+    "1435408936": {
+      "artistName": "Jessica Gelinas"
+    },
+    "1461436599": {
+      "artistName": "Julien"
+    },
+    "1463298287": {
+      "artistName": "Zachary Fitzgerald"
+    },
+    "1472431386": {
+      "artistName": "Riven"
+    },
+    "1509417227": {
+      "artistName": "Foggy-D"
+    },
+    "1544778414": {
+      "artistName": "Chez"
+    },
+    "1546041325": {
+      "artistName": "Shaylee Mary"
+    },
+    "1550632226": {
+      "artistName": "Riven"
+    },
+    "1576469029": {
+      "artistName": "Young Kee"
+    },
+    "1605950764": {
+      "artistName": "Chez"
+    },
+    "1808322699": {
+      "artistName": "SixTONES"
+    },
+    "1866130669": {
+      "artistName": "Young Kee"
+    },
+    "208184379": {
+      "artistName": "See-Saw"
+    },
+    "21502610": {
+      "artistName": "Julien"
+    },
+    "263074594": {
+      "artistName": "Chez"
+    },
+    "321412688": {
+      "artistName": "Riven"
+    },
+    "390454932": {
+      "artistName": "Young Kee"
+    },
+    "48599888": {
+      "artistName": "Emily Bindiger"
+    },
+    "512449675": {
+      "artistName": "Ryo Takahashi"
+    },
+    "569972619": {
+      "artistName": "Aimer"
+    },
+    "719293003": {
+      "artistName": "John Mambira"
+    }
+  },
+  "fetchedAt": "2026-10-26T18:23:37Z",
+  "id": "2026-10-26T182337Z",
+  "provider": "apple",
+  "resolved": {
+    "Chez": [
+      "263074594",
+      "1544778414",
+      "1605950764"
+    ],
+    "Emily Bindiger": [
+      "48599888"
+    ],
+    "Foggy-D": [
+      "1509417227"
+    ],
+    "Jessica Gelinas": [
+      "1435408936"
+    ],
+    "John Mambira": [
+      "719293003"
+    ],
+    "Julien": [
+      "21502610",
+      "1461436599"
+    ],
+    "Riven": [
+      "1472431386",
+      "321412688",
+      "1550632226"
+    ],
+    "Ryo Takahashi": [
+      "512449675"
+    ],
+    "See-Saw": [
+      "208184379"
+    ],
+    "Shaylee Mary": [
+      "1546041325"
+    ],
+    "Shytaupe": [],
+    "SixTONES": [
+      "1808322699"
+    ],
+    "Young Kee": [
+      "1576469029",
+      "390454932",
+      "1866130669"
+    ],
+    "Zachary Fitzgerald": [
+      "1463298287"
+    ]
+  },
+  "storefront": "jp",
+  "tracks": {
+    "1537258708": {
+      "artistId": "569972619",
+      "artistName": "Aimer",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/70/09/d2/7009d2d7-04e2-e6b3-6413-dd1d687d9cc2/4547366466317.jpg/100x100bb.jpg",
+      "collectionId": "1537258705",
+      "collectionName": "花の唄 / I beg you / 春はゆく - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1f/97/8f/1f978f4b-aeef-5d54-dbd2-dafa214b4c38/mzaf_16601551545922808909.plus.aac.p.m4a",
+      "releaseDate": "2020-03-25T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537258708",
+      "trackName": "春はゆく",
+      "trackTimeMillis": 306387,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%98%A5%E3%81%AF%E3%82%86%E3%81%8F/1537258705?i=1537258708&uo=4"
+    },
+    "1600030837": {
+      "artistId": "977896275",
+      "artistName": "堤博明、Toft Willingham、Chez、Jessica Gelinas",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/30/75/c2/3075c2b7-937e-40e9-c3a8-60e6b2d34c54/PA00093808_0_144635_jacket.jpg/100x100bb.jpg",
+      "collectionArtistName": "堤博明、照井順政、桶狭間ありさ",
+      "collectionId": "1600030582",
+      "collectionName": "『劇場版 呪術廻戦 0』オリジナル・サウンドトラック",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/43/22/98/432298f1-e49d-1882-461b-036b571a3580/mzaf_1679620415900963938.plus.aac.p.m4a",
+      "releaseDate": "2021-12-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1600030837",
+      "trackName": "Greatest Strength",
+      "trackTimeMillis": 192640,
+      "trackViewUrl": "https://music.apple.com/jp/album/greatest-strength/1600030582?i=1600030837&uo=4"
+    },
+    "1600032349": {
+      "artistId": "977896275",
+      "artistName": "堤博明、Toft Willingham",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/30/75/c2/3075c2b7-937e-40e9-c3a8-60e6b2d34c54/PA00093808_0_144635_jacket.jpg/100x100bb.jpg",
+      "collectionArtistName": "堤博明、照井順政、桶狭間ありさ",
+      "collectionId": "1600030582",
+      "collectionName": "『劇場版 呪術廻戦 0』オリジナル・サウンドトラック",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d6/56/07/d6560739-0de5-f3f1-6c0f-d6dcc91ba6fe/mzaf_6471866198825021494.plus.aac.p.m4a",
+      "releaseDate": "2021-12-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1600032349",
+      "trackName": "The Real You",
+      "trackTimeMillis": 290253,
+      "trackViewUrl": "https://music.apple.com/jp/album/the-real-you/1600030582?i=1600032349&uo=4"
+    },
+    "1600395740": {
+      "artistId": "1258439196",
+      "artistName": "King Gnu",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c6/17/d9/c617d968-ed91-81c0-8a2a-1dc4edb46110/4547366544121.jpg/100x100bb.jpg",
+      "collectionId": "1600395738",
+      "collectionName": "逆夢 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/65/2b/e5/652be5d3-f13f-3f73-7ac9-18e3c3667627/mzaf_16419599045423341030.plus.aac.p.m4a",
+      "releaseDate": "2021-12-24T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1600395740",
+      "trackName": "逆夢",
+      "trackTimeMillis": 307644,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%80%86%E5%A4%A2/1600395738?i=1600395740&uo=4"
+    },
+    "1737380343": {
+      "artistId": "512449675",
+      "artistName": "高橋諒",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/af/57/c2/af57c22c-84e3-c96f-05a0-da6c1cb3286e/4534530151407.jpg/100x100bb.jpg",
+      "collectionId": "1737380338",
+      "collectionName": "Higher I'll Go (feat. Foggy-D) - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/66/b4/76/66b476f2-b35c-f5d7-18e6-491ebbb4b6fb/mzaf_5431894757648918778.plus.aac.p.m4a",
+      "releaseDate": "2024-04-05T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1737380343",
+      "trackName": "Higher I'll Go (feat. Foggy-D)",
+      "trackTimeMillis": 202205,
+      "trackViewUrl": "https://music.apple.com/jp/album/higher-ill-go-feat-foggy-d/1737380338?i=1737380343&uo=4"
+    },
+    "1738178917": {
+      "artistId": "1576469029",
+      "artistName": "Young Kee",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1a/9a/8d/1a9a8d95-88a9-67cd-4687-bdcca9a67389/4547366679274.jpg/100x100bb.jpg",
+      "collectionId": "1738178903",
+      "collectionName": "無敵 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c2/a9/d9/c2a9d9e4-8664-c8e3-bdcb-7e7e11201fac/mzaf_11559009957811396345.plus.aac.p.m4a",
+      "releaseDate": "2024-04-05T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1738178917",
+      "trackName": "無敵",
+      "trackTimeMillis": 203200,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E7%84%A1%E6%95%B5/1738178903?i=1738178917&uo=4"
+    },
+    "1746637472": {
+      "artistId": "512449675",
+      "artistName": "高橋諒",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6f/49/f7/6f49f70a-b9ab-beca-5615-4f2325e95ddb/4534530152190.jpg/100x100bb.jpg",
+      "collectionId": "1746637157",
+      "collectionName": "Stronger (feat. Zachary Fitzgerald & Foggy-D) - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/83/5f/26/835f26c5-0c71-b5ed-8b4e-6070ab9e95a0/mzaf_3436199805653954969.plus.aac.p.m4a",
+      "releaseDate": "2024-05-31T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1746637472",
+      "trackName": "Stronger (feat. Zachary Fitzgerald & Foggy-D)",
+      "trackTimeMillis": 241314,
+      "trackViewUrl": "https://music.apple.com/jp/album/stronger-feat-zachary-fitzgerald-foggy-d/1746637157?i=1746637472&uo=4"
+    },
+    "1750661490": {
+      "artistId": "512449675",
+      "artistName": "高橋諒",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/16/d9/f1/16d9f13a-7a97-ddaf-fcf9-a1f57b6293b4/4534530152312.jpg/100x100bb.jpg",
+      "collectionId": "1750661486",
+      "collectionName": "WIND BREAKER Original Soundtrack",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b0/d7/e0/b0d7e053-06e6-37c7-515a-c9041982df1b/mzaf_7562865347274211895.plus.aac.p.m4a",
+      "releaseDate": "2024-06-19T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1750661490",
+      "trackName": "Upheaval (feat. John Mambira & Foggy-D)",
+      "trackTimeMillis": 151920,
+      "trackViewUrl": "https://music.apple.com/jp/album/upheaval-feat-john-mambira-foggy-d/1750661486?i=1750661490&uo=4"
+    },
+    "1750661700": {
+      "artistId": "512449675",
+      "artistName": "高橋諒",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/16/d9/f1/16d9f13a-7a97-ddaf-fcf9-a1f57b6293b4/4534530152312.jpg/100x100bb.jpg",
+      "collectionId": "1750661486",
+      "collectionName": "WIND BREAKER Original Soundtrack",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/86/aa/b9/86aab9b6-e255-e375-0b38-2eef8d14b993/mzaf_1570934595809490175.plus.aac.p.m4a",
+      "releaseDate": "2024-06-19T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1750661700",
+      "trackName": "A Starting Sign (feat. Foggy-D)",
+      "trackTimeMillis": 127453,
+      "trackViewUrl": "https://music.apple.com/jp/album/a-starting-sign-feat-foggy-d/1750661486?i=1750661700&uo=4"
+    },
+    "1750662417": {
+      "artistId": "512449675",
+      "artistName": "高橋諒",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/16/d9/f1/16d9f13a-7a97-ddaf-fcf9-a1f57b6293b4/4534530152312.jpg/100x100bb.jpg",
+      "collectionId": "1750661486",
+      "collectionName": "WIND BREAKER Original Soundtrack",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/21/ba/a1/21baa1cc-e032-706d-30ec-07d3330a7769/mzaf_11726300028119707807.plus.aac.p.m4a",
+      "releaseDate": "2024-06-19T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1750662417",
+      "trackName": "Call My Name (feat. Foggy-D & Zachary Fitzgerald)",
+      "trackTimeMillis": 267680,
+      "trackViewUrl": "https://music.apple.com/jp/album/call-my-name-feat-foggy-d-zachary-fitzgerald/1750661486?i=1750662417&uo=4"
+    },
+    "1815881824": {
+      "artistId": "1808322699",
+      "artistName": "SixTONES",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/27/f3/bc/27f3bcf6-e1b4-8d0e-a3e3-f061a062cc0a/4547366753370.jpg/100x100bb.jpg",
+      "collectionId": "1815881823",
+      "collectionName": "BOYZ - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/dd/4a/50/dd4a50b7-1d19-3082-5f31-38afebbfd50b/mzaf_18141661863427413393.plus.aac.p.m4a",
+      "releaseDate": "2025-06-04T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1815881824",
+      "trackName": "BOYZ",
+      "trackTimeMillis": 185387,
+      "trackViewUrl": "https://music.apple.com/jp/album/boyz/1815881823?i=1815881824&uo=4"
+    },
+    "1818558707": {
+      "artistId": "512449675",
+      "artistName": "高橋諒",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/60/18/89/601889f6-43a0-98b8-62f1-039561222862/4534530158994.jpg/100x100bb.jpg",
+      "collectionId": "1818558238",
+      "collectionName": "WIND BREAKER Season 2 Original Soundtrack",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6e/0a/e3/6e0ae301-a48f-2334-8ed3-f120a193febc/mzaf_2319811543910678183.plus.aac.p.m4a",
+      "releaseDate": "2025-06-18T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1818558707",
+      "trackName": "Bolt from Blue (feat. Foggy-D & Julien)",
+      "trackTimeMillis": 240360,
+      "trackViewUrl": "https://music.apple.com/jp/album/bolt-from-blue-feat-foggy-d-julien/1818558238?i=1818558707&uo=4"
+    },
+    "1818558722": {
+      "artistId": "512449675",
+      "artistName": "高橋諒",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/60/18/89/601889f6-43a0-98b8-62f1-039561222862/4534530158994.jpg/100x100bb.jpg",
+      "collectionId": "1818558238",
+      "collectionName": "WIND BREAKER Season 2 Original Soundtrack",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/48/d3/e2/48d3e2c8-1f0c-0977-9290-092c412075e7/mzaf_18317559810520316966.plus.aac.p.m4a",
+      "releaseDate": "2025-06-18T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1818558722",
+      "trackName": "Pride Unbound (feat. Julien)",
+      "trackTimeMillis": 198533,
+      "trackViewUrl": "https://music.apple.com/jp/album/pride-unbound-feat-julien/1818558238?i=1818558722&uo=4"
+    },
+    "532487206": {
+      "artistId": "208184379",
+      "artistName": "See-Saw",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/32/01/e0/3201e029-c091-93ad-2a89-9c3223bf7ea6/VICL-35384.jpg/100x100bb.jpg",
+      "collectionId": "532487118",
+      "collectionName": "Obsession / 優しい夜明け - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/db/f6/c5/dbf6c56a-d992-71b8-7b25-1cdd31b5cfc9/mzaf_58609173651189535.plus.aac.p.m4a",
+      "releaseDate": "2002-05-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "532487206",
+      "trackName": "Obsession",
+      "trackTimeMillis": 268600,
+      "trackViewUrl": "https://music.apple.com/jp/album/obsession/532487118?i=532487206&uo=4"
+    },
+    "532487207": {
+      "artistId": "208184379",
+      "artistName": "See-Saw",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/32/01/e0/3201e029-c091-93ad-2a89-9c3223bf7ea6/VICL-35384.jpg/100x100bb.jpg",
+      "collectionId": "532487118",
+      "collectionName": "Obsession / 優しい夜明け - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ce/26/0a/ce260acc-1d68-80c5-18a4-1931be600f90/mzaf_8845551619534230632.plus.aac.p.m4a",
+      "releaseDate": "2002-05-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "532487207",
+      "trackName": "優しい夜明け",
+      "trackTimeMillis": 308400,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E5%84%AA%E3%81%97%E3%81%84%E5%A4%9C%E6%98%8E%E3%81%91/532487118?i=532487207&uo=4"
+    }
+  }
+}

@@ -6060,6 +6060,19 @@
       "type": "ep"
     },
     {
+      "artistDisplay": "Aimer",
+      "artistIds": [
+        "apple:ar:569972619"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/70/09/d2/7009d2d7-04e2-e6b3-6413-dd1d687d9cc2/4547366466317.jpg/300x300bb.jpg",
+      "id": "apple:al:1537258705",
+      "latinSource": null,
+      "releaseDate": "2020-03-25",
+      "title": "花の唄 / I beg you / 春はゆく - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
       "artistDisplay": "足立佳奈",
       "artistIds": [
         "apple:ar:1225811964"
@@ -9002,6 +9015,19 @@
       "type": "album"
     },
     {
+      "artistDisplay": "堤博明",
+      "artistIds": [
+        "apple:ar:977896275"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/30/75/c2/3075c2b7-937e-40e9-c3a8-60e6b2d34c54/PA00093808_0_144635_jacket.jpg/300x300bb.jpg",
+      "id": "apple:al:1600030582",
+      "latinSource": null,
+      "releaseDate": "2021-12-22",
+      "title": "『劇場版 呪術廻戦 0』オリジナル・サウンドトラック",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
       "artistDisplay": "Vaundy",
       "artistIds": [
         "apple:ar:1487570516"
@@ -9024,6 +9050,19 @@
       "latinSource": null,
       "releaseDate": "2022-01-09",
       "title": "PAINT - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "King Gnu",
+      "artistIds": [
+        "apple:ar:1258439196"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c6/17/d9/c617d968-ed91-81c0-8a2a-1dc4edb46110/4547366544121.jpg/300x300bb.jpg",
+      "id": "apple:al:1600395738",
+      "latinSource": null,
+      "releaseDate": "2021-12-24",
+      "title": "逆夢 - Single",
       "titleLatin": null,
       "type": "single"
     },
@@ -11099,6 +11138,32 @@
       "type": "single"
     },
     {
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/af/57/c2/af57c22c-84e3-c96f-05a0-da6c1cb3286e/4534530151407.jpg/300x300bb.jpg",
+      "id": "apple:al:1737380338",
+      "latinSource": null,
+      "releaseDate": "2024-04-05",
+      "title": "Higher I'll Go (feat. Foggy-D) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "Young Kee",
+      "artistIds": [
+        "apple:ar:1576469029"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1a/9a/8d/1a9a8d95-88a9-67cd-4687-bdcca9a67389/4547366679274.jpg/300x300bb.jpg",
+      "id": "apple:al:1738178903",
+      "latinSource": null,
+      "releaseDate": "2024-04-05",
+      "title": "無敵 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
       "artistDisplay": "Machico",
       "artistIds": [
         "apple:ar:522263423"
@@ -11342,6 +11407,19 @@
       "latinSource": null,
       "releaseDate": "2012-04-18",
       "title": "Can Do - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6f/49/f7/6f49f70a-b9ab-beca-5615-4f2325e95ddb/4534530152190.jpg/300x300bb.jpg",
+      "id": "apple:al:1746637157",
+      "latinSource": null,
+      "releaseDate": "2024-05-31",
+      "title": "Stronger (feat. Zachary Fitzgerald & Foggy-D) - Single",
       "titleLatin": null,
       "type": "single"
     },
@@ -11630,6 +11708,19 @@
       "title": "Miracle soup - Single",
       "titleLatin": null,
       "type": "single"
+    },
+    {
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/16/d9/f1/16d9f13a-7a97-ddaf-fcf9-a1f57b6293b4/4534530152312.jpg/300x300bb.jpg",
+      "id": "apple:al:1750661486",
+      "latinSource": null,
+      "releaseDate": "2024-06-19",
+      "title": "WIND BREAKER Original Soundtrack",
+      "titleLatin": null,
+      "type": "album"
     },
     {
       "artistDisplay": "haruka nakamura",
@@ -12738,6 +12829,19 @@
       "type": "ep"
     },
     {
+      "artistDisplay": "SixTONES",
+      "artistIds": [
+        "apple:ar:1808322699"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/27/f3/bc/27f3bcf6-e1b4-8d0e-a3e3-f061a062cc0a/4547366753370.jpg/300x300bb.jpg",
+      "id": "apple:al:1815881823",
+      "latinSource": null,
+      "releaseDate": "2025-06-04",
+      "title": "BOYZ - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
       "artistDisplay": "HERO",
       "artistIds": [
         "apple:ar:437170197"
@@ -12749,6 +12853,19 @@
       "title": "「テノヒラ」 - Single",
       "titleLatin": null,
       "type": "single"
+    },
+    {
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/60/18/89/601889f6-43a0-98b8-62f1-039561222862/4534530158994.jpg/300x300bb.jpg",
+      "id": "apple:al:1818558238",
+      "latinSource": null,
+      "releaseDate": "2025-06-18",
+      "title": "WIND BREAKER Season 2 Original Soundtrack",
+      "titleLatin": null,
+      "type": "album"
     },
     {
       "artistDisplay": "GO!GO!7188",
@@ -14429,6 +14546,19 @@
       "title": "SEAPARADISEの秘宝 [通常盤]",
       "titleLatin": null,
       "type": "album"
+    },
+    {
+      "artistDisplay": "See-Saw",
+      "artistIds": [
+        "apple:ar:208184379"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/32/01/e0/3201e029-c091-93ad-2a89-9c3223bf7ea6/VICL-35384.jpg/300x300bb.jpg",
+      "id": "apple:al:532487118",
+      "latinSource": null,
+      "releaseDate": "2002-05-22",
+      "title": "Obsession / 優しい夜明け - Single",
+      "titleLatin": null,
+      "type": "single"
     },
     {
       "artistDisplay": "田村直美",
@@ -17005,6 +17135,12 @@
       "nameLatin": "Super Chorogons"
     },
     {
+      "id": "apple:ar:1576469029",
+      "latinSource": null,
+      "name": "Young Kee",
+      "nameLatin": null
+    },
+    {
       "id": "apple:ar:157819625",
       "latinSource": null,
       "name": "TOTALFAT",
@@ -17263,6 +17399,12 @@
       "nameLatin": "PINK PICKLES"
     },
     {
+      "id": "apple:ar:1808322699",
+      "latinSource": null,
+      "name": "SixTONES",
+      "nameLatin": null
+    },
+    {
       "id": "apple:ar:1818268490",
       "latinSource": null,
       "name": "PiKi",
@@ -17411,6 +17553,12 @@
       "latinSource": "provider",
       "name": "みなを",
       "nameLatin": "Minawo"
+    },
+    {
+      "id": "apple:ar:208184379",
+      "latinSource": null,
+      "name": "See-Saw",
+      "nameLatin": null
     },
     {
       "id": "apple:ar:211918923",
@@ -18769,6 +18917,12 @@
       "nameLatin": "Asami Seto"
     },
     {
+      "id": "apple:ar:512449675",
+      "latinSource": "provider",
+      "name": "高橋諒",
+      "nameLatin": "Ryo Takahashi"
+    },
+    {
       "id": "apple:ar:513127396",
       "latinSource": null,
       "name": "Cyntia",
@@ -20005,6 +20159,12 @@
       "nameLatin": "österreich"
     },
     {
+      "id": "apple:ar:977896275",
+      "latinSource": null,
+      "name": "堤博明",
+      "nameLatin": null
+    },
+    {
       "id": "apple:ar:979088450",
       "latinSource": "provider",
       "name": "大阪☆春夏秋冬",
@@ -20107,7 +20267,7 @@
       "nameLatin": null
     }
   ],
-  "catalogVersion": "2026-10-25.98ff82ca",
+  "catalogVersion": "2026-10-26.5bbaf9ae",
   "franchises": [
     {
       "id": "anime:fr:100_man_no_inochi_no_ue_ni_ore_wa_tatteiru",
@@ -20831,6 +20991,14 @@
       ]
     },
     {
+      "id": "anime:fr:dot_hack",
+      "name": ".hack",
+      "search": [
+        "hack",
+        "hackshign"
+      ]
+    },
+    {
       "id": "anime:fr:dr_stone",
       "name": "Dr. Stone",
       "search": [
@@ -20946,6 +21114,8 @@
         "fate",
         "fatestaynight",
         "fatestaynight2015",
+        "fatestaynightheavensfelispringsong",
+        "fatestaynightmovieheavensfelispringsong",
         "fatestaynightsunlimitedbladeworks2015",
         "fatestaynightsunlimitedbladeworks2ndseason",
         "fatezero",
@@ -21534,15 +21704,19 @@
       "id": "anime:fr:jujutsu_kaisen",
       "name": "Jujutsu Kaisen",
       "search": [
+        "jjk0",
         "jjk2",
         "jujutsukaisen",
+        "jujutsukaisen0",
         "jujutsukaisen2ndseason",
         "jujutsukaisenseason2",
         "jujutsukaisenseason3thecullinggamepart1",
         "jujutsukaisenshimetsukaiyuzenpen",
         "sorceryfight",
+        "sorceryfight0",
         "sorceryfight2",
         "呪術廻戦",
+        "呪術廻戦0",
         "呪術廻戦死滅回游前編",
         "呪術廻戦第2期"
       ]
@@ -21709,10 +21883,13 @@
         "demonslayerkimetsunoyaiba",
         "demonslayerkimetsunoyaibaentertainmentjistrictarc",
         "demonslayerkimetsunoyaibamugentrainarc",
+        "demonslayerkimetsunoyaibathemoviemugentrain",
         "kimetsunoyaiba",
+        "kimetsunoyaibamoviemugenresshahen",
         "kimetsunoyaibamugenresshahen",
         "kimetsunoyaibayukakuhen",
         "鬼滅の刃",
+        "鬼滅の刃無限列車編",
         "鬼滅の刃無限列車編tv",
         "鬼滅の刃遊郭編"
       ]
@@ -23300,6 +23477,14 @@
       ]
     },
     {
+      "id": "anime:fr:wind_breaker",
+      "name": "Wind Breaker",
+      "search": [
+        "windbreaker",
+        "windbreakerseason2"
+      ]
+    },
+    {
       "id": "anime:fr:witch_watch",
       "name": "Witch Watch",
       "search": [
@@ -23497,7 +23682,7 @@
       ]
     }
   ],
-  "generatedAt": "2026-10-25T17:47:16Z",
+  "generatedAt": "2026-10-26T18:23:37Z",
   "provider": "apple",
   "schemaVersion": 1,
   "snapshots": [
@@ -23520,6 +23705,10 @@
     {
       "fetchedAt": "2026-10-25T17:47:16Z",
       "id": "2026-10-25T174716Z"
+    },
+    {
+      "fetchedAt": "2026-10-26T18:23:37Z",
+      "id": "2026-10-26T182337Z"
     }
   ],
   "storefront": "jp",
@@ -49152,7 +49341,7 @@
           }
         ],
         "tiers": {
-          "musica": "facil",
+          "musica": "medio",
           "titulo": "facil"
         }
       },
@@ -50396,6 +50585,57 @@
       "storeUrl": "https://music.apple.com/jp/album/life/1537258596?i=1537258597",
       "title": "LIFE",
       "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537258705",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:fate"
+        ],
+        "themes": [
+          {
+            "anime": "Fate/stay night Movie: Heaven's Feel - III. Spring Song",
+            "sequence": null,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "medio"
+        }
+      },
+      "artistDisplay": "Aimer",
+      "artistIds": [
+        "apple:ar:569972619"
+      ],
+      "durationMs": 306387,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537258708",
+      "latinSource": "provider",
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1f/97/8f/1f978f4b-aeef-5d54-dbd2-dafa214b4c38/mzaf_16601551545922808909.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-03-25",
+      "search": {
+        "artist": [
+          "aimer"
+        ],
+        "title": [
+          "haruwayuku",
+          "春はゆく"
+        ]
+      },
+      "songKey": "春はゆく|apple:ar:569972619",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%98%A5%E3%81%AF%E3%82%86%E3%81%8F/1537258705?i=1537258708",
+      "title": "春はゆく",
+      "titleLatin": "Haru wa Yuku"
     },
     {
       "albumId": "apple:al:1537258725",
@@ -64059,6 +64299,112 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1600030582",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:jujutsu_kaisen"
+        ],
+        "themes": [
+          {
+            "anime": "Jujutsu Kaisen 0",
+            "sequence": null,
+            "type": "OP"
+          }
+        ],
+        "tiers": {
+          "musica": "medio",
+          "titulo": "facil"
+        }
+      },
+      "artistDisplay": "堤博明、Toft Willingham、Chez、Jessica Gelinas",
+      "artistIds": [
+        "apple:ar:977896275"
+      ],
+      "durationMs": 192640,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1600030837",
+      "latinSource": null,
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/43/22/98/432298f1-e49d-1882-461b-036b571a3580/mzaf_1679620415900963938.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-12-22",
+      "search": {
+        "artist": [
+          "chez",
+          "jesshicagelinas",
+          "toftwillingham",
+          "堤博明",
+          "堤博明toftwillinghamchezjesshicagelinas"
+        ],
+        "title": [
+          "greateststrength"
+        ]
+      },
+      "songKey": "greateststrength|apple:ar:977896275",
+      "storeUrl": "https://music.apple.com/jp/album/greatest-strength/1600030582?i=1600030837",
+      "title": "Greatest Strength",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1600030582",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:jujutsu_kaisen"
+        ],
+        "themes": [
+          {
+            "anime": "Jujutsu Kaisen 0",
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "堤博明、Toft Willingham",
+      "artistIds": [
+        "apple:ar:977896275"
+      ],
+      "durationMs": 290253,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1600032349",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d6/56/07/d6560739-0de5-f3f1-6c0f-d6dcc91ba6fe/mzaf_6471866198825021494.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-12-22",
+      "search": {
+        "artist": [
+          "toftwillingham",
+          "堤博明",
+          "堤博明toftwillingham"
+        ],
+        "title": [
+          "therealyo"
+        ]
+      },
+      "songKey": "therealyou|apple:ar:977896275",
+      "storeUrl": "https://music.apple.com/jp/album/the-real-you/1600030582?i=1600032349",
+      "title": "The Real You",
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1600223382",
       "anime": {
         "franchiseIds": [
@@ -64158,6 +64504,57 @@
       "storeUrl": "https://music.apple.com/jp/album/paint/1600252840?i=1600252842",
       "title": "PAINT",
       "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1600395738",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:jujutsu_kaisen"
+        ],
+        "themes": [
+          {
+            "anime": "Jujutsu Kaisen 0",
+            "sequence": 1,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "medio"
+        }
+      },
+      "artistDisplay": "King Gnu",
+      "artistIds": [
+        "apple:ar:1258439196"
+      ],
+      "durationMs": 307644,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1600395740",
+      "latinSource": "provider",
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/65/2b/e5/652be5d3-f13f-3f73-7ac9-18e3c3667627/mzaf_16419599045423341030.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-12-24",
+      "search": {
+        "artist": [
+          "kinggnu"
+        ],
+        "title": [
+          "sakayume",
+          "逆夢"
+        ]
+      },
+      "songKey": "逆夢|apple:ar:1258439196",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%80%86%E5%A4%A2/1600395738?i=1600395740",
+      "title": "逆夢",
+      "titleLatin": "Sakayume"
     },
     {
       "albumId": "apple:al:1601419193",
@@ -72850,6 +73247,110 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1737380338",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:wind_breaker"
+        ],
+        "themes": [
+          {
+            "anime": "Wind Breaker Season 2",
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "durationMs": 202205,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1737380343",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/66/b4/76/66b476f2-b35c-f5d7-18e6-491ebbb4b6fb/mzaf_5431894757648918778.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-04-05",
+      "search": {
+        "artist": [
+          "foggyd",
+          "ryotakahashi",
+          "高橋諒"
+        ],
+        "title": [
+          "higherillgo",
+          "higherillgofeatfoggyd"
+        ]
+      },
+      "songKey": "higherillgo|apple:ar:512449675",
+      "storeUrl": "https://music.apple.com/jp/album/higher-ill-go-feat-foggy-d/1737380338?i=1737380343",
+      "title": "Higher I'll Go (feat. Foggy-D)",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1738178903",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:wind_breaker"
+        ],
+        "themes": [
+          {
+            "anime": "Wind Breaker Season 2",
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "Young Kee",
+      "artistIds": [
+        "apple:ar:1576469029"
+      ],
+      "durationMs": 203200,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1738178917",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c2/a9/d9/c2a9d9e4-8664-c8e3-bdcb-7e7e11201fac/mzaf_11559009957811396345.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-04-05",
+      "search": {
+        "artist": [
+          "yongke"
+        ],
+        "title": [
+          "muteki",
+          "無敵"
+        ]
+      },
+      "songKey": "無敵|apple:ar:1576469029",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%84%A1%E6%95%B5/1738178903?i=1738178917",
+      "title": "無敵",
+      "titleLatin": "Muteki"
+    },
+    {
       "albumId": "apple:al:1738375539",
       "anime": {
         "franchiseIds": [
@@ -73862,6 +74363,60 @@
       "songKey": "theotherself|apple:ar:266646351",
       "storeUrl": "https://music.apple.com/jp/album/the-other-self/1745664221?i=1745664499",
       "title": "The Other self",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1746637157",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:wind_breaker"
+        ],
+        "themes": [
+          {
+            "anime": "Wind Breaker Season 2",
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "durationMs": 241314,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1746637472",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/83/5f/26/835f26c5-0c71-b5ed-8b4e-6070ab9e95a0/mzaf_3436199805653954969.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-05-31",
+      "search": {
+        "artist": [
+          "foggyd",
+          "ryotakahashi",
+          "zacharyfitzgerald",
+          "高橋諒"
+        ],
+        "title": [
+          "stronger",
+          "strongerfeatzacharyfitzgeraldfoggyd"
+        ]
+      },
+      "songKey": "stronger|apple:ar:512449675",
+      "storeUrl": "https://music.apple.com/jp/album/stronger-feat-zachary-fitzgerald-foggy-d/1746637157?i=1746637472",
+      "title": "Stronger (feat. Zachary Fitzgerald & Foggy-D)",
       "titleLatin": null
     },
     {
@@ -75033,6 +75588,167 @@
       "songKey": "miraclesoup|apple:ar:1526820498",
       "storeUrl": "https://music.apple.com/jp/album/miracle-soup/1750639932?i=1750639933",
       "title": "Miracle soup",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1750661486",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:wind_breaker"
+        ],
+        "themes": [
+          {
+            "anime": "Wind Breaker Season 2",
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "durationMs": 151920,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1750661490",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b0/d7/e0/b0d7e053-06e6-37c7-515a-c9041982df1b/mzaf_7562865347274211895.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-06-19",
+      "search": {
+        "artist": [
+          "foggyd",
+          "johnmanbira",
+          "ryotakahashi",
+          "高橋諒"
+        ],
+        "title": [
+          "upheaval",
+          "upheavalfeatjohnmanbirafoggyd"
+        ]
+      },
+      "songKey": "upheaval|apple:ar:512449675",
+      "storeUrl": "https://music.apple.com/jp/album/upheaval-feat-john-mambira-foggy-d/1750661486?i=1750661490",
+      "title": "Upheaval (feat. John Mambira & Foggy-D)",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1750661486",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:wind_breaker"
+        ],
+        "themes": [
+          {
+            "anime": "Wind Breaker Season 2",
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "durationMs": 127453,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1750661700",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/86/aa/b9/86aab9b6-e255-e375-0b38-2eef8d14b993/mzaf_1570934595809490175.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-06-19",
+      "search": {
+        "artist": [
+          "foggyd",
+          "ryotakahashi",
+          "高橋諒"
+        ],
+        "title": [
+          "astarchingshign",
+          "astarchingshignfeatfoggyd"
+        ]
+      },
+      "songKey": "astartingsign|apple:ar:512449675",
+      "storeUrl": "https://music.apple.com/jp/album/a-starting-sign-feat-foggy-d/1750661486?i=1750661700",
+      "title": "A Starting Sign (feat. Foggy-D)",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1750661486",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:wind_breaker"
+        ],
+        "themes": [
+          {
+            "anime": "Wind Breaker Season 2",
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "durationMs": 267680,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1750662417",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/21/ba/a1/21baa1cc-e032-706d-30ec-07d3330a7769/mzaf_11726300028119707807.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-06-19",
+      "search": {
+        "artist": [
+          "foggyd",
+          "ryotakahashi",
+          "zacharyfitzgerald",
+          "高橋諒"
+        ],
+        "title": [
+          "callmyname",
+          "callmynamefeatfoggydzacharyfitzgerald"
+        ]
+      },
+      "songKey": "callmyname|apple:ar:512449675",
+      "storeUrl": "https://music.apple.com/jp/album/call-my-name-feat-foggy-d-zachary-fitzgerald/1750661486?i=1750662417",
+      "title": "Call My Name (feat. Foggy-D & Zachary Fitzgerald)",
       "titleLatin": null
     },
     {
@@ -79820,7 +80536,7 @@
           }
         ],
         "tiers": {
-          "musica": "facil",
+          "musica": "medio",
           "titulo": "facil"
         }
       },
@@ -80682,6 +81398,56 @@
       "titleLatin": "Kanashimi-tachi wo Dakishimete"
     },
     {
+      "albumId": "apple:al:1815881823",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:wind_breaker"
+        ],
+        "themes": [
+          {
+            "anime": "Wind Breaker Season 2",
+            "sequence": null,
+            "type": "OP"
+          }
+        ],
+        "tiers": {
+          "musica": "facil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "SixTONES",
+      "artistIds": [
+        "apple:ar:1808322699"
+      ],
+      "durationMs": 185387,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1815881824",
+      "latinSource": null,
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/dd/4a/50/dd4a50b7-1d19-3082-5f31-38afebbfd50b/mzaf_18141661863427413393.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-06-04",
+      "search": {
+        "artist": [
+          "shixtones"
+        ],
+        "title": [
+          "boyz"
+        ]
+      },
+      "songKey": "boyz|apple:ar:1808322699",
+      "storeUrl": "https://music.apple.com/jp/album/boyz/1815881823?i=1815881824",
+      "title": "BOYZ",
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1817319543",
       "anime": {
         "franchiseIds": [
@@ -80731,6 +81497,113 @@
       "storeUrl": "https://music.apple.com/jp/album/%E3%83%86%E3%83%8E%E3%83%92%E3%83%A9/1817319543?i=1817319544",
       "title": "「テノヒラ」",
       "titleLatin": "Tenohira"
+    },
+    {
+      "albumId": "apple:al:1818558238",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:wind_breaker"
+        ],
+        "themes": [
+          {
+            "anime": "Wind Breaker Season 2",
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "durationMs": 240360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1818558707",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6e/0a/e3/6e0ae301-a48f-2334-8ed3-f120a193febc/mzaf_2319811543910678183.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-06-18",
+      "search": {
+        "artist": [
+          "foggyd",
+          "julien",
+          "ryotakahashi",
+          "高橋諒"
+        ],
+        "title": [
+          "boltfronblue",
+          "boltfronbluefeatfoggydjulien"
+        ]
+      },
+      "songKey": "boltfromblue|apple:ar:512449675",
+      "storeUrl": "https://music.apple.com/jp/album/bolt-from-blue-feat-foggy-d-julien/1818558238?i=1818558707",
+      "title": "Bolt from Blue (feat. Foggy-D & Julien)",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1818558238",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:wind_breaker"
+        ],
+        "themes": [
+          {
+            "anime": "Wind Breaker Season 2",
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "高橋諒",
+      "artistIds": [
+        "apple:ar:512449675"
+      ],
+      "durationMs": 198533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1818558722",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/48/d3/e2/48d3e2c8-1f0c-0977-9290-092c412075e7/mzaf_18317559810520316966.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-06-18",
+      "search": {
+        "artist": [
+          "julien",
+          "ryotakahashi",
+          "高橋諒"
+        ],
+        "title": [
+          "prideunbond",
+          "prideunbondfeatjulien"
+        ]
+      },
+      "songKey": "prideunbound|apple:ar:512449675",
+      "storeUrl": "https://music.apple.com/jp/album/pride-unbound-feat-julien/1818558238?i=1818558722",
+      "title": "Pride Unbound (feat. Julien)",
+      "titleLatin": null
     },
     {
       "albumId": "apple:al:1819467681",
@@ -88486,6 +89359,107 @@
       "storeUrl": "https://music.apple.com/jp/album/capsule/527874374?i=527874495",
       "title": "Capsule",
       "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:532487118",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:dot_hack"
+        ],
+        "themes": [
+          {
+            "anime": ".hack//Sign",
+            "sequence": null,
+            "type": "OP"
+          }
+        ],
+        "tiers": {
+          "musica": "medio",
+          "titulo": "medio"
+        }
+      },
+      "artistDisplay": "See-Saw",
+      "artistIds": [
+        "apple:ar:208184379"
+      ],
+      "durationMs": 268600,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:532487206",
+      "latinSource": null,
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/db/f6/c5/dbf6c56a-d992-71b8-7b25-1cdd31b5cfc9/mzaf_58609173651189535.plus.aac.p.m4a"
+      },
+      "releaseDate": "2002-05-22",
+      "search": {
+        "artist": [
+          "sesaw"
+        ],
+        "title": [
+          "obsesshion"
+        ]
+      },
+      "songKey": "obsession|apple:ar:208184379",
+      "storeUrl": "https://music.apple.com/jp/album/obsession/532487118?i=532487206",
+      "title": "Obsession",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:532487118",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:dot_hack"
+        ],
+        "themes": [
+          {
+            "anime": ".hack//Sign",
+            "sequence": null,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "medio",
+          "titulo": "medio"
+        }
+      },
+      "artistDisplay": "See-Saw",
+      "artistIds": [
+        "apple:ar:208184379"
+      ],
+      "durationMs": 308400,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:532487207",
+      "latinSource": "provider",
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ce/26/0a/ce260acc-1d68-80c5-18a4-1931be600f90/mzaf_8845551619534230632.plus.aac.p.m4a"
+      },
+      "releaseDate": "2002-05-22",
+      "search": {
+        "artist": [
+          "sesaw"
+        ],
+        "title": [
+          "yasashiyoake",
+          "優しい夜明け"
+        ]
+      },
+      "songKey": "優しい夜明け|apple:ar:208184379",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%84%AA%E3%81%97%E3%81%84%E5%A4%9C%E6%98%8E%E3%81%91/532487118?i=532487207",
+      "title": "優しい夜明け",
+      "titleLatin": "Yasashii Yoake"
     },
     {
       "albumId": "apple:al:538736749",
