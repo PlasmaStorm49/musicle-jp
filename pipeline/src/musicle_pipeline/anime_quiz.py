@@ -119,6 +119,10 @@ TRIES = 40
 # tenta antes as do tipo sorteado. A preferência nunca afrouxa a curva: sem par entre elas, valem
 # as outras no mesmo nível. O tipo é o do tema principal (o `label`, o que a revelação mostra).
 OPENING_CUT = int(Decimal("0.65") * 2**32)
+# E um piso (o usuário, 26/10/2026): os 65% são o mínimo, e não a média. Desde a rodada 1, as
+# aberturas da run nunca ficam abaixo de OPENING_FLOOR das músicas: quando o sorteio deixaria
+# cair, a abertura vira obrigatória (ainda uma preferência da busca: sem par, vale a outra).
+OPENING_FLOOR = (13, 20)  # 65%, em inteiros
 # Acervo curto (as fixtures): um parâmetro (um rótulo, um estúdio) entra com as músicas para a
 # run inteira ou, se o acervo é pequeno, com um quarto das músicas dele.
 SHORT_SHARE = 4
@@ -666,6 +670,28 @@ class _Run:
 
     used: set[str] = field(default_factory=set)
     parent: dict[str, str] = field(default_factory=dict)
+    songs: int = 0  # as músicas da run até aqui, para o piso de aberturas
+    openings: int = 0
+
+    def opened(self, a: Song, b: Song) -> None:
+        self.songs += 2
+        self.openings += _opening(a) + _opening(b)
+
+    def need(self) -> int:
+        """Quantas das duas músicas da rodada precisam ser aberturas (0, 1 ou 2) para a run,
+        desde a rodada 1, ficar no piso (OPENING_FLOOR) ou acima dele."""
+        num, den = OPENING_FLOOR
+        return max(0, -(-num * (self.songs + 2) // den) - self.openings)
+
+    def floor(self, drawn: tuple[bool, bool]) -> tuple[bool, bool]:
+        """O tipo que a busca tenta antes em cada música: o sorteado, com as aberturas que o piso
+        pede (uma só vai na 1ª; a busca a aceita na 2ª, pelo `_fit`)."""
+        need = self.need()
+        if need >= 2:
+            return True, True
+        if need == 1 and not any(drawn):
+            return True, drawn[1]
+        return drawn
 
     def _root(self, key: str) -> str:
         while (up := self.parent.get(key, key)) != key:
@@ -713,6 +739,24 @@ def _candidates(items: Sequence[Song], want: bool | None, rng: Mulberry32) -> li
     return [*_rotated(preferred, rng), *_rotated(rest, rng)]
 
 
+def _fit(
+    a: Song, partners: Sequence[Song], want_a: bool | None, want_b: bool | None, need: int
+) -> tuple[bool, int]:
+    """O quanto o par atende o tipo: antes, se ele alcança as aberturas que o piso pede (em
+    qualquer das duas músicas); depois, quantas das duas preferências do sorteio ele atende. A
+    busca fica com o 1º par que atende tudo, ou com o melhor, no mesmo nível de afrouxamento: a
+    curva não afrouxa pelo tipo."""
+    has_opening = any(_opening(b) for b in partners)
+    first = want_a is None or _opening(a) == want_a
+    second = want_b is None or any(_opening(b) == want_b for b in partners)
+    return _opening(a) + has_opening >= need, first + second
+
+
+def _want_b(a: Song, want_b: bool | None, need: int) -> bool | None:
+    """O tipo da 2ª música: abertura, se a 1ª não bastou para o piso; senão, o sorteado."""
+    return True if need - _opening(a) >= 1 else want_b
+
+
 def _partner(partners: Sequence[Song], want: bool | None, rng: Mulberry32) -> Song:
     """A 2ª música, uniforme entre as do tipo sorteado ou, sem nenhuma delas, entre todas."""
     preferred = [s for s in partners if want is None or _opening(s) == want] or partners
@@ -728,6 +772,7 @@ def _search_compare(
     tiers: tuple[int, int] | None,
     window: tuple[Decimal, Decimal],
     opening: tuple[bool, bool] | None,
+    need: int,
 ) -> tuple[Song, Song] | None:
     pool = ctx.compare_pool(family.id)
     # As 1ªs na ordem do id, e não na do valor: as TRIES tentadas se espalham pelos valores (na
@@ -742,6 +787,7 @@ def _search_compare(
     keys = [v for v, _ in second]
     low, high = window
     want_a, want_b = opening or (None, None)
+    best: tuple[int, Song, list[Song]] | None = None
     for a in _candidates(first, want_a, rng):
         va = ctx.value(family.id, a)
         assert va is not None
@@ -751,8 +797,16 @@ def _search_compare(
                 if b.key != a.key and not run.known(family, a.key, b.key):
                     found[b.id] = b
         if found:
-            return a, _partner([found[i] for i in sorted(found)], want_b, rng)
-    return None
+            partners = [found[i] for i in sorted(found)]
+            fit = _fit(a, partners, want_a, want_b, need)
+            if fit == (True, 2):
+                return a, _partner(partners, _want_b(a, want_b, need), rng)
+            if best is None or fit > best[0]:
+                best = (fit, a, partners)
+    if best is None:
+        return None
+    _, a, partners = best
+    return a, _partner(partners, _want_b(a, want_b, need), rng)
 
 
 def _search_property(
@@ -765,6 +819,7 @@ def _search_property(
     tiers: tuple[int, int] | None,
     window: tuple[Decimal, Decimal],
     opening: tuple[bool, bool] | None,
+    need: int,
 ) -> tuple[Song, Song] | None:
     yes, no = ctx.property_pool(family, param)
     out = excluded | run.used  # nas propriedades, nenhuma música volta na run (P378)
@@ -777,13 +832,21 @@ def _search_property(
         # o ano (sem ele, a música fica fora da pergunta, no `has`).
         second = [b for b in second if low <= abs(Decimal(b.facts.year or 0) - param) <= high]
     want_a, want_b = opening or (None, None)
+    best: tuple[int, Song, list[Song]] | None = None
     for a in _candidates(first, want_a, rng):
         partners = second
         if family.id != "ano_x":
             partners = [b for b in second if low <= ctx.similarity(family, param, a, b) <= high]
         if partners:
-            return a, _partner(partners, want_b, rng)
-    return None
+            fit = _fit(a, partners, want_a, want_b, need)
+            if fit == (True, 2):
+                return a, _partner(partners, _want_b(a, want_b, need), rng)
+            if best is None or fit > best[0]:
+                best = (fit, a, partners)
+    if best is None:
+        return None
+    _, a, partners = best
+    return a, _partner(partners, _want_b(a, want_b, need), rng)
 
 
 def _info(family: Family, a: Song, b: Song) -> JSON | None:
@@ -830,6 +893,7 @@ def _record(
     else:
         answer = a if direction == "tem" else b
     run.join(a.key, b.key)
+    run.opened(a, b)
     first, second = (a, b) if rng.randint(2) == 0 else (b, a)
     record: JSON = {"a": first.id, "b": second.id, "answer": "a" if answer is first else "b"}
     info = _info(family, first, second)
@@ -851,10 +915,11 @@ def _round(
     """O par da rodada n e o nível de afrouxamento (0, nenhum); sem par, (None, -1)."""
     rng = seeded(f"musicle-jp|anime-quiz|{d.isoformat()}|{n}")
     tiers = (_tier(rng, n), _tier(rng, n))
-    # O tipo de cada música (OPENING_CUT): 2 números sempre, e a pergunta do tema não os usa,
-    # porque o par dela já é uma abertura e um encerramento.
+    # O tipo de cada música (OPENING_CUT), com o piso da run: 2 números sempre, e a pergunta do
+    # tema não os usa, porque o par dela já é uma abertura e um encerramento.
     opening = (rng.next_u32() < OPENING_CUT, rng.next_u32() < OPENING_CUT)
-    preference = None if family.id == "tema" else opening
+    preference = None if family.id == "tema" else run.floor(opening)
+    need = 0 if family.id == "tema" else run.need()
     left = day_left(d)[n - 1]
     for step, (_what, width, any_tier, with_day_answers) in enumerate(STEPS):
         if with_day_answers and not ctx.short:
@@ -863,9 +928,11 @@ def _round(
         chosen = tiers if not any_tier else None
         window = _window(family, width, left)
         if family.kind == "compare":
-            pair = _search_compare(ctx, family, rng, run, out, chosen, window, preference)
+            pair = _search_compare(ctx, family, rng, run, out, chosen, window, preference, need)
         else:
-            pair = _search_property(ctx, family, param, rng, run, out, chosen, window, preference)
+            pair = _search_property(
+                ctx, family, param, rng, run, out, chosen, window, preference, need
+            )
         if pair is not None:
             return _record(ctx, family, direction, pair, rng, run), step
     return None, -1

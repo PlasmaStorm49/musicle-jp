@@ -431,9 +431,12 @@ def test_every_day_is_valid_and_full(ctx, schedule):
         assert day["mal"] is True
 
 
-def test_the_rounds_prefer_the_openings(ctx, schedule):
-    """Uns 65% de aberturas (o usuário, 25/10/2026) num acervo com a metade delas, fora a
-    pergunta do tema, que tem uma de cada por construção."""
+def test_the_floor_lifts_the_openings_above_the_draw(ctx, schedule):
+    """O piso (o usuário, 26/10/2026) num acervo com a metade de aberturas: as runs juntas ficam
+    acima dos 65%. Este acervo é feito para as regras, e não para o tipo: nele, abertura e
+    encerramento se alternam pelos números, e nem sempre há par de aberturas na janela (a
+    busca não afrouxa a curva pelo tipo). No acervo real de 26/10, o piso valeu em toda
+    rodada; a pergunta do tema fica fora (uma de cada)."""
     songs = {s.id: s for s in ctx.songs}
     marks = [
         quiz._opening(songs[rnd[side]])
@@ -442,7 +445,27 @@ def test_the_rounds_prefer_the_openings(ctx, schedule):
         for rnd in day["rounds"]
         for side in ("a", "b")
     ]
-    assert 0.6 <= sum(marks) / len(marks) <= 0.7
+    assert sum(marks) / len(marks) >= 0.65
+
+
+def test_the_floor_asks_only_the_openings_it_needs():
+    run = quiz._Run()
+    assert (run.need(), run.floor((False, False))) == (2, (True, True))  # 1 de 2 é 50%
+    run.songs, run.openings = 2, 2
+    assert (run.need(), run.floor((False, False))) == (1, (True, False))  # 3 de 4 bastam
+    assert run.floor((False, True)) == (False, True)  # o sorteio já deu uma
+    run.songs, run.openings = 4, 4
+    assert (run.need(), run.floor((False, False))) == (0, (False, False))  # 4 de 6 são 67%
+
+
+def test_the_floor_takes_the_opening_on_either_side(ctx):
+    """Quando a rodada pede uma abertura e a 1ª música não pode ser uma, a 2ª é: o par conta."""
+    opening = next(s for s in ctx.songs if quiz._opening(s))
+    ending = next(s for s in ctx.songs if not quiz._opening(s))
+    assert quiz._fit(ending, [opening, ending], True, False, 1) == (True, 1)
+    assert quiz._fit(ending, [ending], True, False, 1) == (False, 1)
+    assert quiz._want_b(ending, False, 1) is True
+    assert quiz._want_b(opening, False, 1) is False
 
 
 def test_without_a_song_of_the_drawn_type_any_one_serves(ctx):
