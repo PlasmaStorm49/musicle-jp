@@ -143,8 +143,9 @@ for (const viewport of [
       page,
     }) => {
       // Os dois diários de 21/10 jogados depois: os dois cartões com a linha a mais. E os 3 do
-      // "acertar a música" do Anime, para a escolha da dificuldade no caso mais alto, e uma das
-      // Misturadas, com o cartão delas também no dia.
+      // "acertar a música" do Anime, para a escolha da dificuldade no caso mais alto, uma das
+      // Misturadas, com o cartão delas também no dia, e o quiz jogado depois, ao lado delas, com
+      // as duas linhas (o usuário, 26/10/2026).
       const lost = { status: "lost", stage: 0, attempts: ["wrong"] } as const;
       const late = { number: 14, rounds: [lost, lost, lost], late: true as const };
       const found = { status: "done", found: [{ stage: 0 }, null] } as const;
@@ -160,7 +161,13 @@ for (const viewport of [
           "2026-10-21|anime-musica-dificil": late,
         },
         {},
-        { mixed: { finished: { "2026-10-21|misturadas-musica": mixedLate }, progress: {} } },
+        {
+          mixed: { finished: { "2026-10-21|misturadas-musica": mixedLate }, progress: {} },
+          quiz: {
+            finished: { "2026-10-21|quiz": { number: 14, results: "www", late: true } },
+            progress: {},
+          },
+        },
       );
       await open(page, HISTORY_DAY, "#historico");
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Histórico");
@@ -175,11 +182,14 @@ for (const viewport of [
         window.location.hash = "#historico/2026-10-21";
       });
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quarta-feira, 21/10");
-      await expect(page.getByText("jogado depois")).toHaveCount(2);
+      await expect(page.getByText("jogado depois")).toHaveCount(3);
       await expect(page.getByRole("main").getByRole("link", { name: /^Anime/ })).toBeVisible();
       await expect(page.getByRole("main").getByRole("link", { name: /^Misturadas/ })).toContainText(
         "1 de 2 terminados",
       );
+      await expect(
+        page.getByRole("main").getByRole("link", { name: /^Quiz do dia/ }),
+      ).toContainText("Rodada 3, 0 acertos");
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
       // A escolha da dificuldade de um dia passado, com os 3 jogados depois.
       await page.evaluate(() => {
