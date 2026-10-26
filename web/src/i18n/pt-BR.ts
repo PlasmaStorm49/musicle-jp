@@ -642,7 +642,8 @@ export const ptBR = {
   "quiz.source.original": "uma história original",
   "quiz.source.visual_novel": "uma visual novel",
   "quiz.source.game": "um jogo",
-  "quiz.round": "Rodada {current} de {total}",
+  // Sem o total (o usuário, 26/10/2026): a run não é para chegar ao fim.
+  "quiz.round": "Rodada {current}",
   "quiz.lives": "Vidas: {left}",
   "quiz.side.a": "Música A",
   "quiz.side.b": "Música B",
@@ -673,7 +674,7 @@ export const ptBR = {
   "quiz.diff.membros": "Diferença de membros no MyAnimeList: {diff}",
   "quiz.malCredit": "Dados do MyAnimeList",
   "quiz.summaryTitle": "Fim da run",
-  "quiz.reached": "Chegou à rodada {reached} de {total}",
+  "quiz.reached": "Chegou à rodada {reached}",
   "quiz.right.one": "{count} acerto",
   "quiz.right.other": "{count} acertos",
   "quiz.shareHeader": "{title} · Quiz do dia nº {number}",
