@@ -90,13 +90,18 @@ def shared(
     return catalog_of(tracks)
 
 
-def check_rules(schedule: JSON, catalog: JSON) -> None:
+def check_rules(schedule: JSON, catalog: JSON, shrunk_one_in: int | None = None) -> None:
     """As regras da geração, conferidas por fora, dia a dia: a faixa do diário, nenhuma música
     repetida nos 18, nenhuma franquia repetida no diário do titulo e a janela de cada
-    dificuldade, contando os usos em qualquer diário dos dois modos (P245)."""
+    dificuldade, contando os usos em qualquer diário dos dois modos (P245). Com `shrunk_one_in`,
+    a janela encolhida (o último afrouxamento do gerador, que a agenda não grava) passa em no
+    máximo 1 de cada `shrunk_one_in` respostas: a agenda fictícia versionada, que o robô cresce
+    com o acervo curto (ME109)."""
     tracks = {t["id"]: t for t in catalog["tracks"]}
     windows = {key: window_of(key[1], n) for key, n in pool_sizes(catalog).items()}
     last: dict[str, date] = {}
+    shrunk: list[tuple[str, str, str, int]] = []
+    answered = 0
     for day_str in sorted(schedule["days"]):
         d = date.fromisoformat(day_str)
         day = schedule["days"][day_str]
@@ -110,7 +115,10 @@ def check_rules(schedule: JSON, catalog: JSON) -> None:
                     assert t["anime"]["tiers"][mode] == tier, (day_str, mode, tier, t["id"])
                     previous = last.get(t["songKey"])
                     gap = None if previous is None else (d - previous).days
-                    assert gap is None or gap >= windows[mode, tier], (day_str, mode, tier, gap)
+                    answered += 1
+                    if gap is not None and gap < windows[mode, tier]:
+                        assert shrunk_one_in is not None, (day_str, mode, tier, gap)
+                        shrunk.append((day_str, mode, tier, gap))
                 if mode == "titulo":
                     franchises = [f for t in answers for f in t["anime"]["franchiseIds"]]
                     assert len(franchises) == len(set(franchises)), (day_str, tier)
@@ -118,6 +126,8 @@ def check_rules(schedule: JSON, catalog: JSON) -> None:
         assert len(songs) == len(set(songs)) == 18, day_str
         for song in songs:
             last[song] = d
+    if shrunk_one_in is not None:
+        assert len(shrunk) * shrunk_one_in <= answered, shrunk
 
 
 def answers_of(day: JSON) -> list[str]:
@@ -546,7 +556,7 @@ def test_the_fixture_schedule_is_valid_and_has_every_diary():
         for d, day in schedule["days"].items()
         if day["catalogVersion"] == catalog["catalogVersion"]
     }
-    check_rules({**schedule, "days": current}, catalog)
+    check_rules({**schedule, "days": current}, catalog, shrunk_one_in=50)
 
 
 @pytest.mark.parametrize("seed", ["1", "2"])
