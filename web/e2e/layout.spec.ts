@@ -106,8 +106,8 @@ async function homeWorstCase(page: Page): Promise<void> {
   const cards = page.getByRole("main").getByRole("link");
   await expect(cards.filter({ hasText: "Nesta sessão" })).toHaveCount(1);
   await expect(cards.filter({ hasText: /^Hits/ }).locator(".tag")).toHaveText([
-    "Normal: terminado, 0 de 30 pontos",
-    "Desafio: terminado, 0 de 30 pontos",
+    "Normal: ✓ 0 de 30 pontos",
+    "Desafio: ✓ 0 de 30 pontos",
   ]);
   await expect(cards.filter({ hasText: /^Anime/ }).locator(".tag")).toHaveText([
     "Hoje: 1 de 6 terminados",
@@ -293,9 +293,7 @@ for (const viewport of [
     }) => {
       await appleCatalog(page, { artistDisplay: LONG_ARTIST });
       await open(page, DAY, "#misturadas-musica");
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-        "Misturadas · Música · nº 1",
-      );
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Misturadas · Música");
       for (let i = 0; i < 3; i++) {
         await page.getByRole("button", { name: "Desistir", exact: true }).click();
         await page.getByRole("button", { name: "Próxima rodada" }).click();
@@ -336,7 +334,7 @@ for (const viewport of [
     }) => {
       await appleCatalog(page, { artistDisplay: LONG_ARTIST, themes: LONG_THEME });
       await open(page, DAY, "#quiz");
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia · nº 1");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia");
       const badge = page.getByRole("link", { name: /Apple Music/ });
       await expect(page.getByRole("button", { name: /^Tocar/ })).toBeVisible();
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
@@ -441,7 +439,7 @@ for (const viewport of [
       });
       await open(page, DAY, "#anime-musica");
       await expect(page.getByRole("main").getByRole("link", { name: /^Difícil/ })).toContainText(
-        "nº 1 · terminado, 0 de 30 pontos",
+        "0 de 30 pontos · Ver o resultado",
       );
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
@@ -745,10 +743,10 @@ test("em 320 px, as telas do Histórico não rolam para o lado, e os dias têm 4
   for (const [hash, title] of [
     ["#historico", "Histórico"],
     ["#historico/2026-10-21", "Quarta-feira, 21/10"],
-    ["#normal/2026-10-21", "Normal · nº 14"],
-    ["#desafio/2026-10-21", "Desafio · nº 14"],
+    ["#normal/2026-10-21", "Normal"],
+    ["#desafio/2026-10-21", "Desafio"],
     ["#anime/2026-10-21", "Anime"],
-    ["#anime-musica-dificil/2026-10-21", "Música · Difícil · nº 14"],
+    ["#anime-musica-dificil/2026-10-21", "Música · Difícil"],
   ] as const) {
     await page.evaluate((h) => {
       window.location.hash = h;
@@ -790,18 +788,18 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
   for (const [hash, title] of [
     ["#inicio", "AteMusic"],
     ["#hits", "Hits"],
-    ["#normal", "Normal · nº 1"],
-    ["#desafio", "Desafio · nº 1"],
+    ["#normal", "Normal"],
+    ["#desafio", "Desafio"],
     ["#treino", "Treino"],
     ["#artistas", "Artistas"],
     ["#anime", "Anime"],
     ["#anime-musica", "Acertar a música"],
     ["#anime-titulo", "Acertar o anime"],
-    ["#anime-musica-dificil", "Música · Difícil · nº 1"],
-    ["#anime-titulo-dificil", "Anime · Difícil · nº 1"],
+    ["#anime-musica-dificil", "Música · Difícil"],
+    ["#anime-titulo-dificil", "Anime · Difícil"],
     ["#misturadas", "Misturadas"],
-    ["#misturadas-musica", "Misturadas · Música · nº 1"],
-    ["#misturadas-titulo", "Misturadas · Anime · nº 1"],
+    ["#misturadas-musica", "Misturadas · Música"],
+    ["#misturadas-titulo", "Misturadas · Anime"],
     ["#sobre", "Sobre e privacidade"],
     ["#historico", "Histórico"],
   ] as const) {
@@ -836,12 +834,12 @@ test("em 320 px, a revelação das Misturadas com a nota mais longa (o Separar) 
 test("em 320 px, o cabeçalho do diário do Anime fica numa linha: o nome do diário e a rodada", async ({
   page,
 }) => {
-  // O nome mais longo ("Música · Difícil") com o nº de dois algarismos (21/10 é o nº 14): numa
+  // O nome mais longo ("Música · Difícil", sem o número do diário desde 28/10/2026): numa
   // linha, a rodada tem a altura da do Desafio, que cabe em 360 × 640 com pouca folga.
   await page.setViewportSize({ width: 320, height: 640 });
   await open(page, "2026-10-21T12:00:00-03:00", "#anime-musica-dificil");
   const title = page.getByRole("heading", { level: 1 });
-  await expect(title).toHaveText("Música · Difícil · nº 14");
+  await expect(title).toHaveText("Música · Difícil");
   await overflow(page);
   expect(await top(page.locator(".round-head > p"))).toBe(await top(title));
 });

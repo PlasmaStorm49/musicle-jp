@@ -280,7 +280,11 @@ function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyPro
           today={today}
           todayDailies={todayDailies}
           // Do resumo, um passo atrás: a escolha da dificuldade do modo, no dia jogado (P322).
-          back={{ href: hrefOf(animeModeTab(screen.mode), date, today) }}
+          back={{
+            href: hrefOf(animeModeTab(screen.mode), date, today),
+            label: t("anime.backToLevels"),
+            labelFull: t("anime.backToLevelsFull"),
+          }}
         />
       );
     }

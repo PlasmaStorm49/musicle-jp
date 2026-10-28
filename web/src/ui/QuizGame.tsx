@@ -31,6 +31,7 @@ import { type MessageKey, ptBR } from "../i18n/pt-BR.ts";
 import { t, tn } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { Countdown } from "./Countdown.tsx";
+import { shortDate } from "./dayLabel.ts";
 import { useMixPreviews } from "./hooks.ts";
 import { QuizRoundView } from "./QuizRound.tsx";
 import { ShareButton } from "./ShareButton.tsx";
@@ -198,7 +199,7 @@ function Playing({
   return (
     <div class="game quiz screen">
       <header class="round-head">
-        <h1>{t("quiz.header", { number })}</h1>
+        <h1>{t("quiz.title")}</h1>
         <p>
           {t("quiz.round", { current: game.current + 1 })}
           {/* Com 0 vida a run segue até o próximo erro: "Última vida" (o usuário, 27/10/2026). */}
@@ -260,13 +261,13 @@ function SummaryView({
   const shown = saved ?? game;
   const reached = quizReached(shown);
   const right = tn("quiz.right", quizRight(shown));
-  const plainHeader = t("quiz.shareHeader", { title: t("app.title"), number: shown.number });
+  const plainHeader = t("quiz.shareHeader", { title: t("app.title"), date: shortDate(daily.date) });
   const header = shown.late ? t("share.late", { header: plainHeader }) : plainHeader;
   const result = t("quiz.shareResult", { reached, right });
   return (
     <div class="game quiz screen">
       <header class="round-head">
-        <h1>{t("quiz.header", { number: shown.number })}</h1>
+        <h1>{t("quiz.title")}</h1>
       </header>
       <p class="quiz-question">{questionText(daily)}</p>
       <section class="summary quiz-summary" aria-labelledby="summary-title">

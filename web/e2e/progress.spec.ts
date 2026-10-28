@@ -66,7 +66,7 @@ test("exportar num aparelho e importar noutro: o dia jogado aparece, e o andamen
     // E o jogo já o mostra: o Normal de hoje terminado, no cartão dos Hits.
     await there.getByRole("link", { name: "Início" }).click();
     await expect(there.getByRole("main").getByRole("link", { name: /^Hits/ })).toContainText(
-      "Normal: terminado",
+      "Normal: ✓",
     );
     expect(errors).toEqual([]);
   } finally {

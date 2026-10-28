@@ -1670,6 +1670,18 @@ section.void,
   white-space: normal;
 }
 
+/* O diário terminado no cartão (o usuário, 28/10/2026): o ✓ do designer na cor do acerto, antes
+   dos pontos e do "Ver o resultado". O texto continua o normal (o --ok é só do ícone, a 3:1). */
+.tag-done {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.tag-done :where(.icon) {
+  color: var(--ok);
+}
+
 /* O diário por jogar: o oliva, a ação da tela. Dentro dele, todo texto é o on-primary. */
 .home-card.next {
   background: var(--primary);
@@ -1945,6 +1957,19 @@ section.void,
 .back-chevron {
   display: inline-flex;
   transform: rotate(180deg);
+}
+
+/* No resumo de um diário dos Hits, a seta de volta à tela deles antes do título (o usuário,
+   28/10/2026), como a da escolha da dificuldade do Anime (P323): o alvo tem 44 px, e as margens
+   negativas não deixam a linha crescer. */
+.round-title {
+  display: flex;
+  align-items: center;
+}
+
+.round-title > .back-link {
+  margin-block: calc((var(--lh-sm) - var(--h-control)) / 2);
+  margin-inline-start: calc(var(--sp-3) * -1);
 }
 
 .practice > ul.home-modes:not(:has(.artist-card)) .home-card {
@@ -2675,6 +2700,56 @@ section.summary > h2 {
   align-items: center;
   justify-self: center;
   min-height: var(--h-control);
+}
+
+/* O outro diário dos Hits por jogar (o usuário, 28/10/2026): um link com a cara do botão oliva, o
+   único da tela, com o chevron do designer, lado a lado com o Compartilhar, que perde o oliva (como
+   com o "Jogar o novo diário"): o resumo não cresce. */
+.summary-next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: var(--h-hero);
+  padding: 0 var(--sp-5);
+  border-radius: var(--r-hero);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .summary-next:hover {
+    background: var(--primary-hover);
+  }
+}
+
+.summary:has(> .summary-next) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.summary:has(> .summary-next) > * {
+  grid-column: 1 / -1;
+}
+
+.summary:has(> .summary-next) > .share {
+  grid-column: 1;
+}
+
+.summary:has(> .summary-next) > .summary-next {
+  grid-column: 2;
+  align-self: start;
+}
+
+.summary:has(> .summary-next) .share > button.primary {
+  background: var(--fill);
+  color: var(--text);
+}
+
+/* Com o novo diário na contagem, ele toma o lugar do outro diário do dia que acabou. */
+.summary:has(.countdown button.primary) > .summary-next {
+  display: none;
 }
 
 /* A cópia à mão do resultado (sem área de transferência): no escuro, com o fundo claro do ⬛. */

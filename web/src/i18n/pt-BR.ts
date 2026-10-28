@@ -126,10 +126,12 @@ export const ptBR = {
   "home.songShort": "Digite o nome da música",
   "home.practiceShort": "Rodadas sem fim",
   "home.artistsShort": "Por artista e Superfan",
-  "home.statusNew": "nº {number} · novo",
-  "home.statusPlaying": "nº {number} · em andamento",
-  "home.statusDone": "nº {number} · terminado, {score} de {max} pontos",
-  "home.statusDoneVoid": "nº {number} · terminado",
+  // O estado no cartão de um diário (o usuário, 28/10/2026): o estado e a ação, sem o número; o
+  // terminado com o ✓ verde na tela.
+  "home.statusNew": "Novo · Jogar",
+  "home.statusPlaying": "Em andamento · Continuar",
+  "home.statusDone": "{score} de {max} pontos · Ver o resultado",
+  "home.statusDoneVoid": "Terminado · Ver o resultado",
   "home.statusUnavailable": "Não há diário hoje",
   // O cartão dos Hits na Início (P226): o estado de cada diário, sem o número.
   "home.hitsShort": "Os diários e o Treino",
@@ -138,8 +140,8 @@ export const ptBR = {
   "home.hitsLine": "{mode}: {status}",
   "home.lineNew": "novo",
   "home.linePlaying": "em andamento",
-  "home.lineDone": "terminado, {score} de {max} pontos",
-  "home.lineDoneVoid": "terminado",
+  "home.lineDone": "✓ {score} de {max} pontos",
+  "home.lineDoneVoid": "✓ terminado",
   "home.practiceSession": "Nesta sessão ({mode}): {score}",
   "home.artistsHint":
     "O Desafio com as músicas de um artista: rodadas sem fim no Livre, ou a partida do Superfan.",
@@ -176,14 +178,13 @@ export const ptBR = {
   "home.about": "Sobre e privacidade",
   "home.aboutShort": "Sobre",
   // O bloco "Agora" da Início (o usuário, 27/10/2026): o próximo jogo do dia, ou tudo jogado.
-  "home.nextHits": "Hits · {mode} nº {number}",
+  "home.nextHits": "Hits · {mode}",
   "home.play": "Jogar",
   "home.continue": "Continuar",
   "home.nextLabel": "{action}: {name}",
   "home.allDone": "Tudo jogado hoje",
   "home.allDoneHint": "Os diários mudam à meia-noite, horário de Brasília.",
 
-  "game.header": "{mode} · nº {number}",
   "game.round": "Rodada {current} de {total}",
   "question.song": "Qual é a música?",
   "question.album": "Qual é o álbum?",
@@ -310,10 +311,11 @@ export const ptBR = {
   "stats.bucketRangeToday": "{from} a {to} pontos: {games}, incluindo hoje",
   "stats.none": "sem dados",
 
-  "share.header": "{title} · {mode} nº {number}",
-  // O Anime diz a categoria e o diário: "AteMusic Anime · Música · Fácil nº 1".
-  "share.headerAnime": "{title} Anime · {mode} nº {number}",
-  "share.headerMixed": "{title} Misturadas · {mode} nº {number}",
+  "share.header": "{title} · {mode} · {date}",
+  // O Anime diz a categoria e o diário: "AteMusic Anime · Música · Fácil · 28/10". Sem o número do
+  // diário, que não diz nada ao jogador: a data no lugar (o usuário, 28/10/2026).
+  "share.headerAnime": "{title} Anime · {mode} · {date}",
+  "share.headerMixed": "{title} Misturadas · {mode} · {date}",
   // O jogado depois (P263) diz que não foi no dia, para quem compara.
   "share.late": "{header} (jogado depois)",
   "share.button": "Compartilhar resultado",
@@ -554,6 +556,11 @@ export const ptBR = {
   // Do resumo de um diário, à escolha da dificuldade (P322): curto na tela, inteiro para o leitor.
   "anime.backToLevels": "Voltar",
   "anime.backToLevelsFull": "Voltar à escolha da dificuldade",
+  // No resumo de um diário dos Hits (o usuário, 28/10/2026): a volta à tela dos Hits e o outro
+  // diário do dia, se ele ainda não foi jogado.
+  "hits.back": "Voltar",
+  "hits.backFull": "Voltar à tela dos Hits",
+  "summary.playNext": "Jogar o {mode}",
   // O tema na revelação: o anime, o tipo e o número ("Kimetsu no Yaiba · OP1"). Sem número, só o
   // tipo.
   "anime.themeLine": "{anime} · {theme}",
@@ -621,13 +628,12 @@ export const ptBR = {
   // música a mais tocando junto.
   "mixed.tag.hard": "Músicas mais difíceis",
   "mixed.tag.more": "Mais músicas juntas",
-  // O modo no compartilhar ("AteMusic Misturadas · Música nº 1").
+  // O modo no compartilhar ("AteMusic Misturadas · Música · 28/10").
   "mixed.shareMode.musica": "Música",
   "mixed.shareMode.titulo": "Anime",
 
   // O quiz do dia (M18, Apêndice Q do PLANO): duas músicas de anime, uma pergunta, 2 vidas.
   "quiz.title": "Quiz do dia",
-  "quiz.header": "Quiz do dia · nº {number}",
   "quiz.unavailable": "Não há quiz do dia hoje.",
   "quiz.unavailableDay": "Não há quiz do dia nesse dia.",
   "quiz.retry": "Não foi possível carregar o quiz do dia. Confira a conexão.",
@@ -701,7 +707,7 @@ export const ptBR = {
   "quiz.lateNote": "Jogado depois: não conta nas medalhas.",
   "quiz.right.one": "{count} acerto",
   "quiz.right.other": "{count} acertos",
-  "quiz.shareHeader": "{title} · Quiz do dia nº {number}",
+  "quiz.shareHeader": "{title} · Quiz do dia · {date}",
   "quiz.shareResult": "Rodada {reached} · {right}",
   // O bônus de estreia (o usuário, 25/10/2026): 3 rodadas de outras perguntas, só no 1º dia.
   "quiz.bonusButton": "Rodadas bônus de estreia",

@@ -10,7 +10,7 @@ import { MAX_STAGE, MODES, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import { t, tAround, tn } from "../i18n/t.ts";
 import { WithName } from "./ArtistName.tsx";
-import { type Card, CardList, dailyText } from "./cards.tsx";
+import { type Card, CardList, dailyShortText } from "./cards.tsx";
 import { Icon } from "./Icon.tsx";
 import { Logo } from "./Logo.tsx";
 import { modeName } from "./modes.ts";
@@ -43,7 +43,7 @@ function hitsCard(save: Save, day: Day | null, date: string): Card {
       ? MODES.map((mode) =>
           t("home.hitsLine", {
             mode: modeName(mode),
-            status: dailyText(dailyStatus(save, day, date, mode), true),
+            status: dailyShortText(dailyStatus(save, day, date, mode)),
           }),
         )
       : [t("home.statusUnavailable")],
@@ -160,7 +160,7 @@ function nextPlay(save: Save, day: Day | null, date: string): NextPlay | null {
   const mode = nextDaily(save, day, date);
   if (mode && day) {
     return {
-      name: t("home.nextHits", { mode: modeName(mode), number: day.number }),
+      name: t("home.nextHits", { mode: modeName(mode) }),
       href: ROUTES[mode],
       playing: dailyStatus(save, day, date, mode).kind === "playing",
     };
@@ -198,7 +198,7 @@ function NextBlock({ next }: { readonly next: NextPlay | null }) {
   }
   return (
     // O 2º clique de um toque duplo cairia no Tocar do jogo que abriu (regra 23). O nome começa
-    // pela ação ("Jogar: Hits · Normal nº 1"), com as mesmas palavras da tela: o leitor de tela
+    // pela ação ("Jogar: Hits · Normal"), com as mesmas palavras da tela: o leitor de tela
     // ouve o que o link faz, e ele não se confunde com a linha do jogo, que começa pelo nome.
     <a
       class="home-next"

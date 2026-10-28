@@ -39,10 +39,15 @@ type Props = {
    */
   readonly today: string;
   /**
-   * A volta à escolha da dificuldade (o Anime, P322), ao lado do Compartilhar, na mesma linha: o
-   * resumo não cresce (P323). Os Hits não a têm.
+   * A volta, ao lado do Compartilhar, na mesma linha: o resumo não cresce (P323). No Anime, à
+   * escolha da dificuldade (P322); nos Hits, à tela deles (o usuário, 28/10/2026). O `label` na
+   * tela, e o `labelFull`, que começa por ele, para o leitor de tela.
    */
-  readonly back?: { readonly href: string } | undefined;
+  readonly back?:
+    | { readonly href: string; readonly label: string; readonly labelFull: string }
+    | undefined;
+  /** O outro diário do grupo, ainda por jogar hoje: o botão oliva para ele (os Hits). */
+  readonly next?: { readonly href: string; readonly label: string } | undefined;
 };
 
 /**
@@ -75,12 +80,13 @@ export function Summary({
   announce,
   today,
   back,
+  next,
 }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   const past = isLate(daily.date, today);
   const max = recordMax(game);
-  const header = shareHeader(daily, game.number, game.late === true);
+  const header = shareHeader(daily, game.late === true);
 
   return (
     <section class="summary" aria-labelledby="summary-title">
@@ -111,6 +117,14 @@ export function Summary({
         text={shareText(header, game, MODE_RULES[daily.target], shareUrl)}
         announce={announce}
       />
+      {next && !past && (
+        // O outro diário do dia, o único oliva, ao lado do Compartilhar: o resumo não cresce. O 2º
+        // clique de um toque duplo no "Ver resultado" não segue o link (regra 23).
+        <a class="summary-next primary" href={next.href} onClick={singleClickLink}>
+          {next.label}
+          <Icon name="next" />
+        </a>
+      )}
       {back && (
         // O nome inteiro começa pelo texto visível (P210). O 2º clique de um toque duplo no
         // "Ver resultado" não segue o link (regra 23).
@@ -118,8 +132,8 @@ export function Summary({
           <span class="back-chevron" aria-hidden="true">
             <Icon name="next" />
           </span>
-          <span aria-hidden="true">{t("anime.backToLevels")}</span>
-          <span class="sr-only">{t("anime.backToLevelsFull")}</span>
+          <span aria-hidden="true">{back.label}</span>
+          <span class="sr-only">{back.labelFull}</span>
         </a>
       )}
       {past ? (

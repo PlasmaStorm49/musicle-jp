@@ -75,15 +75,18 @@ describe("Hits (P225)", () => {
 
   it("o estado de cada diário: novo, em andamento e terminado com os pontos", () => {
     setup();
-    expect(card(/^Normal/).textContent).toContain("nº 7 · novo");
+    expect(card(/^Normal/).textContent).toContain("Novo · Jogar");
     cleanup();
     setup({
       ...emptySave(),
       history: { [puzzleId(DATE, "song")]: finished },
       inProgress: { [puzzleId(DATE, "album")]: { events: [{ type: "LISTEN_MORE" }] } },
     });
-    expect(card(/^Desafio/).textContent).toContain("nº 7 · terminado, 18 de 30 pontos");
-    expect(card(/^Normal/).textContent).toContain("nº 7 · em andamento");
+    expect(card(/^Desafio/).textContent).toContain("18 de 30 pontos · Ver o resultado");
+    // O terminado com o ✓ do designer; o em andamento, sem ele (o usuário, 28/10/2026).
+    expect(card(/^Desafio/).querySelector(".tag-done svg.icon-right")).not.toBeNull();
+    expect(card(/^Normal/).textContent).toContain("Em andamento · Continuar");
+    expect(card(/^Normal/).querySelector("svg.icon-right")).toBeNull();
   });
 
   it("o cartão oliva é o primeiro diário por jogar", () => {
@@ -119,13 +122,13 @@ describe("Hits (P225)", () => {
     expect(card(/^Treino/).textContent).toContain("Nesta sessão (Desafio): 1 ponto em 1 rodada");
   });
 
-  it('dia todo anulado: "nº 7 · terminado", sem "0 de 0 pontos"', () => {
+  it('dia todo anulado: "Terminado · Ver o resultado", sem "0 de 0 pontos"', () => {
     const voided: FinishedGame = {
       ...finished,
       rounds: finished.rounds.map(() => ({ status: "void", stage: 0, attempts: [] })),
     };
     setup({ ...emptySave(), history: { [puzzleId(DATE, "song")]: voided } });
-    expect(card(/^Desafio/).textContent).toContain("nº 7 · terminado");
+    expect(card(/^Desafio/).textContent).toContain("Terminado · Ver o resultado");
     expect(card(/^Desafio/).textContent).not.toContain("pontos");
   });
 
