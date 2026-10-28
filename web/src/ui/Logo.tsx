@@ -7,7 +7,7 @@ import selo from "./assets/logo-selo.svg";
  * vem ao lado, em texto.
  */
 export function Logo() {
-  return <img class="logo" src={selo} alt="" aria-hidden="true" width={56} height={56} />;
+  return <img class="logo" src={selo} alt="" aria-hidden="true" width={48} height={48} />;
 }
 
 /**
