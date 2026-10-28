@@ -210,6 +210,15 @@ export function option(page: Page, title: string): Locator {
   return page.locator(".option").filter({ has: exactTitle });
 }
 
+/**
+ * No quiz do dia, ouve as duas (o Tocar toca a A e, no fim dela, a B; o motor falso acaba na
+ * hora): só então a escolha destrava (o usuário, 28/10/2026).
+ */
+export async function hearBoth(page: Page): Promise<void> {
+  await page.getByRole("button", { name: /^Tocar \d+ s$/ }).click();
+  await expect(page.getByText("Ouviu as duas? Escolha a resposta")).toBeVisible();
+}
+
 /** Uma capa falsa qualquer, do fake-assets, para responder pelo host da Apple. */
 const FAKE_COVER = fileURLToPath(new URL("../public/fixtures/art/al01.svg", import.meta.url));
 
