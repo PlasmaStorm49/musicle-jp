@@ -499,7 +499,7 @@ for (const viewport of [
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
-    test("a ajuda do acertar o anime com nomes longos (como os do catálogo real): os 4 numa coluna, inteiros", async ({
+    test("a ajuda do acertar o anime com nomes longos (como os do catálogo real): os 4 na grade 2×2, em até 3 linhas (o usuário, 28/10/2026)", async ({
       page,
     }) => {
       await appleCatalog(page, { franchiseName: LONG_FRANCHISE });
@@ -509,15 +509,17 @@ for (const viewport of [
       const titles = page.locator(".help-options .item-title");
       await expect(titles).toHaveCount(4);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
-      // Numa coluna (a mesma esquerda) e com o nome inteiro, sem reticências.
+      // Duas colunas, e cada nome em até 3 linhas de 20 px; o inteiro continua no botão.
       const lefts = await page
         .locator(".help-options .option")
         .evaluateAll(
           (els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().left))).size,
         );
-      expect(lefts).toBe(1);
+      expect(lefts).toBe(2);
       for (const title of await titles.all()) {
-        expect(await title.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
+        expect(await title.evaluate((el) => el.getBoundingClientRect().height)).toBeLessThanOrEqual(
+          61,
+        );
         expect((await title.textContent())?.length).toBeGreaterThanOrEqual(50);
       }
       await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
