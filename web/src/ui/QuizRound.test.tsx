@@ -198,6 +198,29 @@ describe("QuizRoundView (M18)", () => {
     expect(screen.getByRole("button", { name: "Tocar 3 s" })).not.toBeNull();
   });
 
+  it("o 'Tocando' em texto, no lado que toca: a A e depois a B (o usuário, 27/10/2026)", async () => {
+    const { engine, plays } = quizEngine();
+    render(<Harness engine={engine} />);
+    const playing = () =>
+      [...document.querySelectorAll(".quiz-side")].map(
+        (side) => side.querySelector(".quiz-playing")?.textContent ?? "",
+      );
+    expect(playing()).toEqual(["", ""]);
+    // O nome inteiro para o leitor de tela; a letra grande só na tela.
+    const names = [...document.querySelectorAll(".quiz-side-name")];
+    expect(names.map((name) => name.querySelector(".sr-only")?.textContent)).toEqual([
+      "Música A",
+      "Música B",
+    ]);
+    expect(names[0]?.querySelector(".quiz-letter")?.getAttribute("aria-hidden")).toBe("true");
+    await click("Tocar 3 s");
+    expect(playing()).toEqual(["Tocando", ""]);
+    await ends(plays, 0);
+    expect(playing()).toEqual(["", "Tocando"]);
+    await ends(plays, 1);
+    expect(playing()).toEqual(["", ""]);
+  });
+
   it("o Parar no meio da A não deixa a B começar", async () => {
     const { engine, plays } = quizEngine();
     render(<Harness engine={engine} />);

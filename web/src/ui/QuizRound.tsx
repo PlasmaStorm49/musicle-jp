@@ -312,7 +312,16 @@ function QuizPlayers({
       <div class="quiz-pair">
         {SIDES.map((which) => (
           <div key={which} class={side === which ? "quiz-side playing" : "quiz-side"}>
-            <p class="quiz-side-name">{t(which === "a" ? "quiz.side.a" : "quiz.side.b")}</p>
+            {/* A letra grande é o ponto focal da rodada, e o "Tocando" diz em texto qual das duas
+                toca, sem depender só da cor (o usuário, 27/10/2026). O leitor de tela ouve o
+                nome inteiro, "Música A". */}
+            <p class="quiz-side-name">
+              <span class="quiz-letter" aria-hidden="true">
+                {t(which === "a" ? "quiz.letter.a" : "quiz.letter.b")}
+              </span>
+              <span class="sr-only">{t(which === "a" ? "quiz.side.a" : "quiz.side.b")}</span>
+              {side === which && <span class="quiz-playing">{t("quiz.playing")}</span>}
+            </p>
             <SegmentBar
               stage={stage}
               stages={QUIZ_STAGES}
