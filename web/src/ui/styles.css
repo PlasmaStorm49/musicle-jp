@@ -2401,11 +2401,17 @@ dialog.medal-dialog .attribution {
   background: linear-gradient(90deg, currentColor 50%, transparent 50%);
 }
 
-/* Na legenda, os cantos vazios ganham um anel fraco, para o canto de cada categoria se ver (só
-   enfeite: o nome ao lado diz a categoria). No calendário, o vazio continua vazio. */
-.calendar-legend .mark-slot:empty {
+/* Os cantos vazios ganham um anel fraco, na legenda e em cada dia: a grade 2×2 aparece inteira, e
+   o canto de cada ponto se lê sem contar com a legenda (o usuário, 28/10/2026). O anel é o
+   --border-strong, porque o --border some na tinta do dia no escuro; é só a moldura (o ponto e o
+   nome do dia dizem o que foi jogado), e por isso fica fora do PAIRS. No dia sem diário, nada. */
+.mark-slot:empty {
   border-radius: 50%;
-  box-shadow: inset 0 0 0 1px var(--border);
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+
+.calendar-day.off .mark-slot:empty {
+  box-shadow: none;
 }
 
 .calendar-legend {
