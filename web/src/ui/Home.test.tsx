@@ -95,9 +95,9 @@ describe("Home", () => {
     const next = () => document.querySelector(".home-next");
     setup();
     expect(next()?.getAttribute("href")).toBe("#normal");
-    expect(next()?.textContent).toBe("Hits · Normal nº 7Jogar");
+    expect(next()?.textContent).toBe("Hits · NormalJogar");
     // O nome começa pela ação, com as palavras da tela.
-    expect(next()?.getAttribute("aria-label")).toBe("Jogar: Hits · Normal nº 7");
+    expect(next()?.getAttribute("aria-label")).toBe("Jogar: Hits · Normal");
     cleanup();
     // O Normal terminado e o Desafio em andamento: o Desafio, com o Continuar.
     setup({
@@ -106,7 +106,7 @@ describe("Home", () => {
       inProgress: { [puzzleId(DATE, "song")]: { events: [{ type: "LISTEN_MORE" }] } },
     });
     expect(next()?.getAttribute("href")).toBe("#desafio");
-    expect(next()?.textContent).toBe("Hits · Desafio nº 7Continuar");
+    expect(next()?.textContent).toBe("Hits · DesafioContinuar");
     cleanup();
     // Os Hits terminados, ou fora da agenda: o Anime (a Início o supõe no ar).
     setup({
@@ -178,10 +178,7 @@ describe("Home", () => {
       history: { [puzzleId(DATE, "song")]: finished },
       inProgress: { [puzzleId(DATE, "album")]: { events: [{ type: "LISTEN_MORE" }] } },
     });
-    expect(lines(card(/^Hits/))).toEqual([
-      "Normal: em andamento",
-      "Desafio: terminado, 18 de 30 pontos",
-    ]);
+    expect(lines(card(/^Hits/))).toEqual(["Normal: em andamento", "Desafio: ✓ 18 de 30 pontos"]);
   });
 
   it("outra aba grava (o save relido muda): o cartão atualiza, e o foco fica onde está", () => {
@@ -193,7 +190,7 @@ describe("Home", () => {
     const done: Save = { ...emptySave(), history: { [puzzleId(DATE, "song")]: finished } };
     rerender(<Home day={DAY} date={DATE} save={done} artists={null} />);
     expect(document.activeElement).toBe(hits);
-    expect(hits.textContent).toContain("Desafio: terminado, 18 de 30 pontos");
+    expect(hits.textContent).toContain("Desafio: ✓ 18 de 30 pontos");
   });
 
   it('dia todo anulado: terminado, sem "0 de 0 pontos"', () => {
@@ -202,7 +199,7 @@ describe("Home", () => {
       rounds: finished.rounds.map(() => ({ status: "void", stage: 0, attempts: [] })),
     };
     setup({ ...emptySave(), history: { [puzzleId(DATE, "song")]: voided } });
-    expect(lines(card(/^Hits/))).toContain("Desafio: terminado");
+    expect(lines(card(/^Hits/))).toContain("Desafio: ✓ terminado");
     expect(card(/^Hits/).textContent).not.toContain("pontos");
   });
 

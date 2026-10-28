@@ -337,7 +337,7 @@ describe("HistoryDayScreen (P261 a P263)", () => {
   it("o 1º por jogar é o oliva, e o jogado depois leva a marca numa linha a mais", () => {
     setup(withGames({ [puzzleId(PAST, "album")]: { ...finished, late: true } }));
     const normal = card(/^Normal/);
-    expect(normal.textContent).toContain("terminado, 18 de 30 pontos");
+    expect(normal.textContent).toContain("18 de 30 pontos · Ver o resultado");
     expect(normal.textContent).toContain("jogado depois");
     expect(normal.classList.contains("next")).toBe(false);
     expect(card(/^Desafio/).classList.contains("next")).toBe(true);
@@ -497,7 +497,7 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
     const quiz = screen.getByRole("link", { name: /^Quiz do dia/ });
     expect(quiz.getAttribute("href")).toBe(`#quiz/${PAST}`);
     expect(quiz.closest("li")?.classList.contains("wide")).toBe(true);
-    expect([...quiz.querySelectorAll(".tag")].map((n) => n.textContent)).toEqual(["nº 1 · novo"]);
+    expect([...quiz.querySelectorAll(".tag")].map((n) => n.textContent)).toEqual(["Novo · Jogar"]);
     cleanup();
     // Jogado depois: a rodada, os acertos e a marca numa linha a mais (P263).
     const late = withQuizFinished(emptySave(), quizId(PAST), {

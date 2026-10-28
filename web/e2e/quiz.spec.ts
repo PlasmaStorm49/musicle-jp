@@ -37,7 +37,7 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await captureClipboard(page);
   await open(page, DAY, "#inicio");
   await (await navLink(page, "Quiz")).click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia");
   await expect(page.getByText("Qual está em mais playlists do AnimeThemes?")).toBeVisible();
   // Sem o total de rodadas (o usuário, 26/10/2026): a run não é para chegar ao fim.
   await expect(page.getByText(/^Rodada 1(?!\d)/)).toBeVisible();
@@ -91,7 +91,7 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   const copied = await page.evaluate(() => window.__copied ?? "");
   expect(copied.split("\n").slice(0, 3)).toEqual([
-    "AteMusic · Quiz do dia nº 1",
+    "AteMusic · Quiz do dia · 08/10",
     "Rodada 4 · 1 acerto",
     "✅❌❌❌",
   ]);
@@ -130,10 +130,10 @@ test("Quiz do dia pelo Histórico (o usuário, 26/10/2026): a run de um dia pass
   await captureClipboard(page);
   await open(page, "2026-10-10T12:00:00-03:00", "#historico/2026-10-08");
   const card = page.getByRole("link", { name: /^Quiz do dia/ });
-  await expect(card).toContainText("nº 1 · novo");
+  await expect(card).toContainText("Novo · Jogar");
   await card.click();
   await expect(page).toHaveURL(/#quiz\/2026-10-08$/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia");
 
   // Três erros encerram a run (P377).
   for (const n of [0, 1, 2]) {
@@ -145,7 +145,7 @@ test("Quiz do dia pelo Histórico (o usuário, 26/10/2026): a run de um dia pass
   await expect(page.getByText("Jogado depois: não conta nas medalhas.")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   const copied = await page.evaluate(() => window.__copied ?? "");
-  expect(copied.split("\n")[0]).toBe("AteMusic · Quiz do dia nº 1 (jogado depois)");
+  expect(copied.split("\n")[0]).toBe("AteMusic · Quiz do dia · 08/10 (jogado depois)");
 
   // Sem a contagem: a volta ao dia, onde o cartão mostra o resultado e a marca do jogado depois.
   await page.getByRole("link", { name: "Voltar ao dia" }).click();

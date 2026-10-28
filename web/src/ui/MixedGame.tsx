@@ -30,6 +30,7 @@ import type { PreviewResolver } from "../data/previews.ts";
 import { t, tn } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { Countdown } from "./Countdown.tsx";
+import { shortDate } from "./dayLabel.ts";
 import { useMixPreviews } from "./hooks.ts";
 import { Icon } from "./Icon.tsx";
 import { MixedRoundView } from "./MixedRound.tsx";
@@ -67,9 +68,9 @@ const SAVE_NOTICE = {
   unavailable: "storage.unavailable",
 } as const;
 
-/** "Misturadas · Música · nº 3". */
+/** "Misturadas · Música", sem o número do diário (o usuário, 28/10/2026). */
 function header(daily: MixedDaily): string {
-  return t("game.header", { mode: t(`daily.${daily.key}`), number: daily.number });
+  return t(`daily.${daily.key}`);
 }
 
 type Played = { readonly game: MixedState; readonly events: readonly MixedEvent[] };
@@ -239,7 +240,7 @@ function MixedSummary({ game, ...props }: Props & { readonly game: MixedGameReco
   const plainHeader = t("share.headerMixed", {
     title: t("app.title"),
     mode: t(`mixed.shareMode.${daily.mode}`),
-    number: shown.number,
+    date: shortDate(daily.date),
   });
   const shareHeader = shown.late ? t("share.late", { header: plainHeader }) : plainHeader;
   return (

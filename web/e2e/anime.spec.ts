@@ -51,10 +51,10 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, sem o ✓ da
   await main.getByRole("link", { name: /^Acertar a música/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Acertar a música" })).toBeFocused();
   const facil = main.getByRole("link", { name: /^Fácil/ });
-  await expect(facil).toContainText("nº 1 · novo");
+  await expect(facil).toContainText("Novo · Jogar");
   await facil.click();
 
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Fácil · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Fácil");
   // Dentro de um diário do Anime, a aba fica marcada, mas não é a página atual.
   await expect(animeTab(page)).toHaveAttribute("aria-current", "true");
   // O cartão some com a tela, e o foco vai ao Tocar (regra 16).
@@ -80,7 +80,7 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, sem o ✓ da
   await expect(page.getByText("18 de 30 pontos")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toBe(
-    "AteMusic Anime · Música · Fácil nº 1\n18/30\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
+    "AteMusic Anime · Música · Fácil · 08/10\n18/30\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
   );
   // O save leva o id do diário do Anime (P250).
   const saved = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
@@ -99,7 +99,7 @@ test("Anime: acertar a música no Fácil, do Tocar ao compartilhar, sem o ✓ da
   );
   await main.getByRole("link", { name: /^Acertar a música/ }).click();
   await expect(main.getByRole("link", { name: /^Fácil/ })).toContainText(
-    "nº 1 · terminado, 18 de 30 pontos",
+    "18 de 30 pontos · Ver o resultado",
   );
   await page.getByRole("link", { name: "Início" }).click();
   await expect(main.getByRole("link", { name: /^Anime/ })).toContainText("Hoje: 1 de 6 terminados");
@@ -124,7 +124,7 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
   await captureClipboard(page);
   await open(page, DAY, "#anime");
   await viaAnime(page, /^Acertar o anime/, /^Fácil/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime · Fácil · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime · Fácil");
   await expect(page.getByRole("combobox", { name: "Qual é o anime?" })).toHaveAttribute(
     "placeholder",
     "Nome do anime",
@@ -162,7 +162,7 @@ test("Anime: acertar o anime no Fácil, pelo nome e por um sinônimo, do Tocar a
   await expect(page.getByText("18 de 30 pontos")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toBe(
-    "AteMusic Anime · Anime · Fácil nº 1\n18/30\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
+    "AteMusic Anime · Anime · Fácil · 08/10\n18/30\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
   );
   const saved = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
   expect(Object.keys((JSON.parse(saved ?? "{}") as Save).history)).toEqual([
@@ -176,7 +176,7 @@ test("Anime: a ajuda do acertar o anime mostra 4 animes, nenhum de uma resposta 
   page,
 }) => {
   await open(page, DAY, "#anime-titulo-facil");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime · Fácil · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime · Fácil");
   for (let i = 0; i < 3; i++) await page.getByRole("button", { name: /^Pular/ }).click();
   await page.getByRole("button", { name: "Pedir ajuda", exact: true }).click();
   const options = page.getByRole("list", { name: "Opções da ajuda" }).getByRole("button");
@@ -266,13 +266,13 @@ test("o Anime só é baixado quando a pessoa abre a categoria (quem joga só os 
   // Trocar de aba e voltar não baixa de novo.
   await page.getByRole("link", { name: "Início" }).click();
   await viaAnime(page, /^Acertar a música/, /^Médio/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Médio · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Médio");
   expect(asked).toHaveLength(2);
 });
 
 test("Anime: recarregar no meio do diário retoma as tentativas", async ({ page }) => {
   await open(page, "2026-10-09T10:00:00-03:00", "#anime-musica-dificil");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Difícil · nº 2");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Difícil");
   await page.getByRole("button", { name: "Pular (+1 s)" }).click();
   await expect
     .poll(async () => {
@@ -294,7 +294,7 @@ test("Anime: entrar no diário com o teclado leva o foco ao Tocar (regra 16)", a
     .getByRole("link", { name: /^Difícil/ })
     .focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Difícil · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Difícil");
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
 });
 
