@@ -64,7 +64,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
   const title = page.getByRole("heading", { level: 1, name: "Medalhas" });
   await expect(title).toBeFocused();
   await expect(page.getByText("Dias seguidos jogando: 3. O melhor: 3.")).toBeVisible();
-  // As 17, nos blocos (o usuário, 28/10/2026): as gerais (com o Colecionador e o Superfan) e as de
+  // As 34, nos blocos (o usuário, 28/10/2026): as gerais (com o Colecionador e o Superfan) e as de
   // cada modo; em cada bloco, as pequenas antes das grandes. O 1º diário ganho, e o progresso das que
   // se ganham aos poucos.
   const rows = page.locator(".medal-list > li");
@@ -75,6 +75,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "Maratonista",
     "Já É de Casa",
     "Colecionador",
+    "Hora Extra",
     "Superfan",
     "Tá pegando fogo, bicho!!!",
     "Dia de Hit",
@@ -86,6 +87,22 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "DJ Residente",
     "Pode juntar mais uma",
     "Harmonia no Caos",
+    "Insert Coin",
+    "Saindo do Tutorial",
+    "Plus Ultra",
+    "Edição Especial",
+    "Sem um Arranhão",
+    "Só acaba quando acabar...",
+    "Ouvido Afiado",
+    "Três Segundos de Fama",
+    "Freguês",
+    "Enciclopédia de Anisong",
+    "Sabe-Tudo",
+    "A Resposta",
+    "Magnum Opus",
+    "Kami",
+    "Ouvido Absoluto",
+    "Ritmo Constante",
   ]);
   // O como ganhar em todas, também na ganha (o usuário, 24/10/2026), e o progresso embaixo das
   // que se ganham aos poucos.
@@ -96,6 +113,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "Termine os 8 diários no mesmo dia",
     "Termine 50 diários no dia",
     "Chegue a 50 acertos com cada um de 5 artistas",
+    "Termine os 8 diários, os 2 das Misturadas e o quiz no mesmo dia",
     "Termine uma partida do Superfan",
     "Jogue 30 dias seguidos",
     /^Acerte todas/,
@@ -107,6 +125,22 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "Termine ao menos 1 diário das Misturadas por dia, 15 dias seguidos",
     /^Gabarite os 2 diários das Misturadas/,
     /^Ache todas as músicas de 1 diário das Misturadas por dia \(basta um dos dois\), 7 dias/,
+    "Termine o quiz no dia",
+    "Chegue à rodada 10 do quiz",
+    "Chegue à rodada 25 do quiz",
+    "Chegue à rodada 15 num especial da semana",
+    "Chegue à rodada 15 do quiz sem errar",
+    "Na última vida do quiz, acerte 10 seguidas",
+    "Faça 50 pontos numa run do quiz",
+    "Numa run com 10 acertos ou mais, acerte todos em 3 s",
+    "Termine o quiz 15 dias seguidos",
+    "Acerte 300 rodadas no quiz",
+    "Chegue à rodada 15 do quiz em 6 tipos de pergunta",
+    "Termine uma run do quiz exatamente na rodada 42",
+    "Chegue à rodada 50 do quiz",
+    "Chegue à rodada 30 do quiz sem errar",
+    "Faça 120 pontos numa run do quiz",
+    "Chegue à rodada 15 do quiz 7 dias seguidos",
   ]);
   await expect(rows.locator(".medal-progress")).toHaveText([
     "3 de 7 dias seguidos",
@@ -116,19 +150,24 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "0 de 100 acertos no Treino",
     "0 de 15 dias seguidos",
     "0 de 7 dias seguidos",
+    "0 de 15 dias seguidos",
+    "0 de 300 acertos no quiz",
+    "0 de 6 tipos de pergunta",
+    "0 de 7 dias seguidos",
   ]);
-  await expect(page.locator(".medal-list > li.locked")).toHaveCount(16);
-  // As 6 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
-  await expect(rows.locator('svg[viewBox="0 8 110 132"]')).toHaveCount(6);
+  await expect(page.locator(".medal-list > li.locked")).toHaveCount(33);
+  // As 10 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
+  await expect(rows.locator('svg[viewBox="0 8 110 132"]')).toHaveCount(10);
   await expect(rows.locator("svg text")).toHaveCount(0);
   // As 3 do Superfan de cada artista das fixtures, por ganhar.
   await expect(page.locator(".medal-artist")).toHaveCount(5);
   // Um título por bloco, com a contagem dele; o dos Artistas conta as 3 de cada um.
   await expect(page.getByRole("heading", { level: 2 })).toHaveText([
-    "Gerais 1 de 8",
+    "Gerais 1 de 9",
     "Hits 0 de 3",
     "Anime 0 de 2",
     "Misturadas 0 de 4",
+    "Quiz 0 de 16",
     "Artistas 0 de 15",
   ]);
   // O nome próprio de cada uma, com o latino (P295, P300): os fictícios do ar02.
@@ -137,7 +176,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "真夜中のカーテンコール, Mayonaka no Curtain Call",
     "夜風劇場, Yokaze Gekijo",
   ]);
-  await expect(page.getByText("1 de 32 medalhas")).toBeVisible();
+  await expect(page.getByText("1 de 49 medalhas")).toBeVisible();
   // Calado: a tela fica, e o aviso não.
   await expect(page.getByRole("dialog")).toHaveCount(0);
   expect(await seenMedals(page)).toEqual([]);

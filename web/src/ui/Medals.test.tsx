@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { DEMO_MEDALS, MEDALS, SUPERFAN_RIGHT } from "../core/medals.ts";
+import { DEMO_MEDALS, MEDALS, QUIZ_GOALS, SUPERFAN_RIGHT } from "../core/medals.ts";
 import {
   emptySave,
   type Save,
@@ -348,10 +348,11 @@ describe("Medals (a tela, P278 e P286)", () => {
       const save = withFinished(emptySave(), "2026-10-22|song", lost);
       real(store({ status: "ready", list: LIST }), save);
       expect(titles()).toEqual([
-        "Gerais 1 de 8",
+        "Gerais 1 de 9",
         "Hits 0 de 3",
         "Anime 0 de 2",
         "Misturadas 0 de 4",
+        "Quiz 0 de 16",
         "Artistas 0 de 6",
       ]);
       // O nome e a contagem separados para o leitor de tela.
@@ -398,11 +399,35 @@ describe("Medals (a tela, P278 e P286)", () => {
         "medals-hits",
         "medals-anime",
         "medals-misturadas",
+        "medals-quiz",
         "medals-artistas",
       ]);
       for (const el of document.querySelectorAll("[id]")) {
         expect(routes.has(el.id), el.id).toBe(false);
       }
     });
+  });
+});
+
+describe("os textos do quiz (o usuário, 28/10/2026)", () => {
+  it("o número escrito no como ganhar é o limite do núcleo (QUIZ_GOALS)", () => {
+    const written: readonly (readonly [string, number])[] = [
+      ["quiz-rodada-10", QUIZ_GOALS.tutorial],
+      ["quiz-rodada-25", QUIZ_GOALS.plusUltra],
+      ["quiz-rodada-50", QUIZ_GOALS.opus],
+      ["quiz-especial-15", QUIZ_GOALS.special],
+      ["quiz-sem-erro-15", QUIZ_GOALS.clean],
+      ["quiz-sem-erro-30", QUIZ_GOALS.kami],
+      ["quiz-ultima-vida", QUIZ_GOALS.lastLife],
+      ["quiz-pontos-50", QUIZ_GOALS.sharp],
+      ["quiz-pontos-120", QUIZ_GOALS.absolute],
+      ["quiz-tres-segundos", QUIZ_GOALS.fast],
+      ["quiz-42", QUIZ_GOALS.answer],
+      ["quiz-perguntas-6", QUIZ_GOALS.questionRound],
+      ["quiz-rodada-15-seguidos-7", QUIZ_GOALS.steadyRound],
+    ];
+    for (const [id, goal] of written) {
+      expect(medalText(id, "how", { goal: 0 }), id).toMatch(new RegExp(`\\b${goal}\\b`));
+    }
   });
 });

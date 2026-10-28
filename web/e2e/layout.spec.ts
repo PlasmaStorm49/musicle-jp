@@ -980,7 +980,7 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
-test("as Medalhas (M16) em 320 px: as 17 da lista em blocos e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
+test("as Medalhas (M16) em 320 px: as 34 da lista em blocos e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
   page,
 }) => {
   // As ganhas, com o botão: os 6 do Anime de hoje acertados (a geral de nome mais longo, em
@@ -1009,7 +1009,7 @@ test("as Medalhas (M16) em 320 px: as 17 da lista em blocos e o Superfan, com os
     expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(320);
   }
   await expect(page.getByRole("heading", { level: 1, name: "Medalhas" })).toBeVisible();
-  await expect(page.locator(".medal-list > li")).toHaveCount(17);
+  await expect(page.locator(".medal-list > li")).toHaveCount(34);
   await expect(page.locator(".medal-artist")).toHaveCount(5);
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
   // O nome mais longo das gerais cabe na linha, sem passar da tela.
