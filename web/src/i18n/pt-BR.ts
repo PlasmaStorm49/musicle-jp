@@ -418,7 +418,7 @@ export const ptBR = {
   "medals.block.anime": "Anime",
   "medals.block.misturadas": "Misturadas",
   "medals.block.quiz": "Quiz",
-  "medals.block.superfan": "Superfan",
+  "medals.block.artistas": "Artistas",
   "medals.blockCount": "{earned} de {total}",
   // O emblema provisório das gerais, no miolo da roseta (o designer manda os de cada uma, P283).
   "medals.generalMark": "★",

@@ -344,42 +344,42 @@ describe("Medals (a tela, P278 e P286)", () => {
     const titles = () =>
       screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent?.trim());
 
-    it("um título por bloco, com a contagem, e o Superfan no fim, com as gerais dele no alto", () => {
+    it("um título por bloco, com a contagem; o Colecionador e o Superfan nas Gerais, e os Artistas no fim", () => {
       const save = withFinished(emptySave(), "2026-10-22|song", lost);
       real(store({ status: "ready", list: LIST }), save);
       expect(titles()).toEqual([
-        "Gerais 1 de 6",
+        "Gerais 1 de 8",
         "Hits 0 de 3",
         "Anime 0 de 2",
         "Misturadas 0 de 4",
-        "Superfan 0 de 8",
+        "Artistas 0 de 6",
       ]);
       // O nome e a contagem separados para o leitor de tela.
       expect(screen.getByRole("heading", { level: 2, name: "Hits 0 de 3" })).toBeTruthy();
-      const section = screen
-        .getByRole("heading", { level: 2, name: /^Superfan/ })
-        .closest("section");
-      const names = [...(section?.querySelectorAll(".medal-list .medal-name") ?? [])];
-      expect(names.map((n) => n.textContent)).toEqual([
+      const names = (name: RegExp) => [
+        ...(screen
+          .getByRole("heading", { level: 2, name })
+          .closest("section")
+          ?.querySelectorAll(".medal-list .medal-name") ?? []),
+      ];
+      expect(names(/^Gerais/).map((n) => n.textContent)).toContain(
         medalText("colecionador", "name"),
+      );
+      expect(names(/^Gerais/).map((n) => n.textContent)).toContain(
         medalText("superfan-completo", "name"),
-      ]);
-      // As gerais dele antes do 1º artista.
-      const first = section?.querySelector(".medal-list");
-      const artist = section?.querySelector(".medal-artist");
-      expect(
-        first && artist && first.compareDocumentPosition(artist) & Node.DOCUMENT_POSITION_FOLLOWING,
-      ).toBeTruthy();
+      );
+      // Os Artistas só com as 3 de cada um.
+      expect(names(/^Artistas/)).toEqual([]);
       expect(document.querySelectorAll(".medal-list > li")).toHaveLength(MEDALS.length);
     });
 
     it.each(["loading", "retry"] as const)(
-      "com a lista em %s: o Superfan sem a contagem, mas com as gerais dele, como o total do topo",
+      "com a lista em %s: os Artistas sem a contagem, como o total do topo, e as gerais todas",
       (status) => {
         real(store({ status }));
-        expect(titles().at(-1)).toBe("Superfan");
+        expect(titles().at(-1)).toBe("Artistas");
         expect(screen.queryByText(/de \d+ medalhas$/)).toBeNull();
-        // O Colecionador e o Superfan não esperam a lista dos artistas.
+        // O Colecionador e o Superfan, nas gerais, não esperam a lista dos artistas.
         expect(document.querySelectorAll(".medal-list > li")).toHaveLength(MEDALS.length);
       },
     );
@@ -388,7 +388,7 @@ describe("Medals (a tela, P278 e P286)", () => {
       real(store({ status: "ready", list: LIST }));
       // Só passa com o aria-labelledby apontando para o h2 certo.
       expect(screen.getByRole("region", { name: "Hits 0 de 3" })).toBeTruthy();
-      expect(screen.getByRole("region", { name: /^Superfan 0 de 8$/ })).toBeTruthy();
+      expect(screen.getByRole("region", { name: "Artistas 0 de 6" })).toBeTruthy();
       const routes = new Set(Object.values(ROUTES).map((route) => route.slice(1)));
       const ids = [...document.querySelectorAll("section[aria-labelledby]")].map((s) =>
         s.getAttribute("aria-labelledby"),
@@ -398,7 +398,7 @@ describe("Medals (a tela, P278 e P286)", () => {
         "medals-hits",
         "medals-anime",
         "medals-misturadas",
-        "medals-superfan",
+        "medals-artistas",
       ]);
       for (const el of document.querySelectorAll("[id]")) {
         expect(routes.has(el.id), el.id).toBe(false);

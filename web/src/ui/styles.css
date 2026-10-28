@@ -2187,8 +2187,8 @@ section.void,
   white-space: nowrap;
 }
 
-/* O Superfan no fim, separado dos blocos por um fio. */
-.medals-superfan {
+/* Os blocos separados por um fio (o usuário, 28/10/2026). */
+.medals section + section {
   border-top: 1px solid var(--hairline);
   padding-top: var(--sp-5);
 }
