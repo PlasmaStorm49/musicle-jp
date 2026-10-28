@@ -1,6 +1,6 @@
 // Uma rodada do quiz do dia (M18): os dois players, a escolha e a revelação. Não sabe de save nem
 // de agenda: quem chama (QuizGame) cuida de gravar, do cabeçalho e do que vem depois. O desenho é
-// o simples, de propósito: a revisão geral de design vem depois (o usuário, 25/10/2026).
+// o da revisão de design (M19) e do uso (o usuário, 27 e 28/10/2026).
 import { useEffect, useId, useRef, useState } from "preact/hooks";
 import { type AudioEngine, AudioUnavailableError, type Playback } from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
@@ -112,7 +112,7 @@ export function QuizRoundView({
   return (
     <>
       <QuizPlayers
-        // Uma rodada nova monta os players do zero: o trecho volta aos 3 s.
+        // Uma rodada nova monta os players do zero: o trecho volta aos 3 s, e a escolha, à trava.
         key={game.current}
         engine={engine}
         urls={urls}
@@ -146,7 +146,8 @@ type PlayersProps = {
  * Os dois players lado a lado (a A à esquerda, a B à direita), com um Tocar só: ele toca a A e,
  * quando ela acaba, a B (P384). A barra de cada um leva ao ponto do clique, como a do Player
  * (P224): na A, depois dela vem a B. O "Ouvir mais" abre o trecho seguinte (3, 7, 12 e 18 s) e
- * toca as duas de novo. O trecho fica só aqui: ouvir mais não custa nada.
+ * toca as duas de novo; o trecho liberado vai com a escolha (os pontos). A escolha vem embaixo
+ * do Tocar, travada até as duas tocarem ao menos uma vez (o usuário, 28/10/2026).
  */
 function QuizPlayers({
   engine,
@@ -160,6 +161,14 @@ function QuizPlayers({
   const [stage, setStage] = useState(0);
   const [status, setStatus] = useState<"idle" | "loading" | "playing">("idle");
   const [side, setSide] = useState<QuizSide | null>(null);
+  // As duas já tocaram (começaram) ao menos uma vez: só então a escolha vale (o usuário,
+  // 28/10/2026). Sem isso, quem vinha dos outros modos ia direto ao botão debaixo da barra.
+  const [heard, setHeard] = useState<Readonly<Record<QuizSide, boolean>>>({ a: false, b: false });
+  const ready = heard.a && heard.b;
+  // A B barrada depois da A (o som fora do gesto, no <audio> de reserva): o próximo Tocar começa
+  // por ela, dentro do gesto. Recomeçar pela A a barraria de novo, e a escolha nunca destravaria.
+  const resumeB = useRef(false);
+  const hintId = useId();
   const fills = { a: useRef<HTMLDivElement>(null), b: useRef<HTMLDivElement>(null) };
   const frame = useRef(0);
   const playButton = useRef<HTMLButtonElement>(null);
@@ -236,7 +245,9 @@ function QuizPlayers({
           return;
         }
         current.current = { side: which, playback, from };
+        if (which === "b") resumeB.current = false;
         setStatus("playing");
+        setHeard((was) => (was[which] ? was : { ...was, [which]: true }));
         const draw = () => {
           const fill = fills[which].current;
           if (fill) {
@@ -265,8 +276,11 @@ function QuizPlayers({
         setStatus("idle");
         setSide(null);
         // O som barrado fora do gesto (a B depois da A, no <audio> de reserva): a rodada
-        // continua, e o próximo clique toca (regra 9).
-        if (error instanceof AudioUnavailableError && error.kind === "blocked") return;
+        // continua, e o próximo Tocar começa pela B (regra 9).
+        if (error instanceof AudioUnavailableError && error.kind === "blocked") {
+          if (which === "b") resumeB.current = true;
+          return;
+        }
         onAudioError();
       });
   }
@@ -328,11 +342,6 @@ function QuizPlayers({
               fillRef={fills[which]}
               seek={seekOf(which)}
             />
-            {/* Escolher troca a tela (a revelação): o 2º clique de um toque duplo não pode
-                cair no botão que fica no lugar (regra 23). */}
-            <button type="button" onClick={singleClick(() => choose(which))}>
-              {t(which === "a" ? "quiz.pick.a" : "quiz.pick.b")}
-            </button>
           </div>
         ))}
       </div>
@@ -348,7 +357,7 @@ function QuizPlayers({
             class="primary"
             aria-disabled={busy ? "true" : undefined}
             onClick={singleClick(() => {
-              if (!busy) play("a", stage);
+              if (!busy) play(resumeB.current ? "b" : "a", stage);
             })}
           >
             {busy ? t("player.loading") : t("player.play", { seconds: unlocked })}
@@ -363,6 +372,29 @@ function QuizPlayers({
           </button>
         )}
         <VolumeControl engine={engine} />
+      </div>
+      {/* A escolha fica embaixo do Tocar, e não debaixo da barra, onde os outros modos têm o
+          Tocar: quem vinha deles ia direto ao "Escolher a A" (o usuário, 28/10/2026). Até as
+          duas tocarem, ela fica travada, com a dica do porquê. Escolher troca a tela (a
+          revelação): o 2º clique de um toque duplo não pode cair no botão que fica no lugar
+          (regra 23). */}
+      <div class="quiz-choices">
+        <p id={hintId} class="quiz-hint">
+          {t(ready ? "quiz.hint.ready" : "quiz.hint.listen")}
+        </p>
+        {SIDES.map((which) => (
+          <button
+            key={which}
+            type="button"
+            aria-disabled={ready ? undefined : "true"}
+            aria-describedby={hintId}
+            onClick={singleClick(() => {
+              if (ready) choose(which);
+            })}
+          >
+            {t(which === "a" ? "quiz.pick.a" : "quiz.pick.b")}
+          </button>
+        ))}
       </div>
     </section>
   );

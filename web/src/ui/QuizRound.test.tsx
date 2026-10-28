@@ -100,8 +100,12 @@ const daily: QuizDaily = {
 };
 const URLS = ["audio/1.wav", "audio/2.wav"];
 
-/** Um motor em que cada reprodução acaba quando o teste manda (`finish`), ou no Parar. */
-function quizEngine(fail?: AudioUnavailableError) {
+/**
+ * Um motor em que cada reprodução acaba quando o teste manda (`finish`), ou no Parar. Com `fail`,
+ * todo pedido falha; com o `failAt` também, só o pedido desse número (do 0).
+ */
+function quizEngine(fail?: AudioUnavailableError, failAt?: number) {
+  let calls = 0;
   const plays: {
     url: string;
     seconds: number;
@@ -117,7 +121,8 @@ function quizEngine(fail?: AudioUnavailableError) {
       for (const p of plays) p.finish({ requested: p.seconds, played: 0, interrupted: true });
     }),
     play: vi.fn(async (url: string, _offset: number, seconds: number) => {
-      if (fail) throw fail;
+      const call = calls++;
+      if (fail && (failAt === undefined || call === failAt)) throw fail;
       let finish: (result: PlaybackResult) => void = () => {};
       const done = new Promise<PlaybackResult>((resolve) => {
         finish = resolve;
@@ -182,6 +187,12 @@ async function ends(plays: ReturnType<typeof quizEngine>["plays"], n: number) {
   });
 }
 
+/** O Tocar, e a A acaba sozinha: a B começa, e a escolha destrava (o usuário, 28/10/2026). */
+async function hearBoth(plays: ReturnType<typeof quizEngine>["plays"], seconds = 3) {
+  await click(`Tocar ${seconds} s`);
+  await ends(plays, plays.length - 1);
+}
+
 describe("QuizRoundView (M18)", () => {
   it("o Tocar toca a A e, só quando ela acaba sozinha, a B (P384)", async () => {
     const { engine, plays } = quizEngine();
@@ -227,29 +238,63 @@ describe("QuizRoundView (M18)", () => {
     expect(plays).toHaveLength(1);
   });
 
-  it("escolher para o som, sem a B, e mostra a revelação", async () => {
+  it("a escolha fica travada até as duas tocarem, com a dica (o usuário, 28/10/2026)", async () => {
     const { engine, plays } = quizEngine();
     render(<Harness engine={engine} />);
-    await click("Tocar 3 s");
+    const pick = () => screen.getByRole("button", { name: "Escolher a A" });
+    expect(pick().getAttribute("aria-disabled")).toBe("true");
+    expect(screen.getByText("Ouça as duas para escolher")).not.toBeNull();
+    // A dica é a descrição dos botões, para o leitor de tela saber o porquê da trava.
+    const hint = document.querySelector(".quiz-hint");
+    expect(pick().getAttribute("aria-describedby")).toBe(hint?.id ?? "");
     await click("Escolher a A");
-    expect(plays).toHaveLength(1);
+    expect(screen.queryByRole("heading", { name: /^Acertou/ })).toBeNull();
+    // Só a A tocou: ainda travada.
+    await click("Tocar 3 s");
+    expect(pick().getAttribute("aria-disabled")).toBe("true");
+    await ends(plays, 0);
+    expect(pick().getAttribute("aria-disabled")).toBeNull();
+    expect(
+      screen.getByRole("button", { name: "Escolher a B" }).getAttribute("aria-disabled"),
+    ).toBeNull();
+    expect(screen.getByText("Ouviu as duas? Escolha a resposta")).not.toBeNull();
+  });
+
+  it("a escolha vem depois do Tocar, e não debaixo da barra (o usuário, 28/10/2026)", async () => {
+    const { engine } = quizEngine();
+    render(<Harness engine={engine} />);
+    expect(document.querySelector(".quiz-side button")).toBeNull();
+    const play = screen.getByRole("button", { name: "Tocar 3 s" });
+    const pick = screen.getByRole("button", { name: "Escolher a A" });
+    expect(play.compareDocumentPosition(pick) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("escolher para o som e mostra a revelação", async () => {
+    const { engine, plays } = quizEngine();
+    render(<Harness engine={engine} />);
+    await hearBoth(plays);
+    await click("Escolher a A");
+    expect(plays).toHaveLength(2);
+    expect(engine.stop).toHaveBeenCalled();
     // No 1º trecho (3 s), o acerto vale 4 pontos (o usuário, 28/10/2026).
     expect(screen.getByRole("heading", { name: "Acertou! 4 pontos." })).not.toBeNull();
     expect(screen.getByText("Primavera de 2020 (abr. a jun.)")).not.toBeNull();
   });
 
   it("os pontos pelo trecho: depois do Ouvir mais, o acerto vale menos (o usuário, 28/10/2026)", async () => {
-    const { engine } = quizEngine();
+    const { engine, plays } = quizEngine();
     render(<Harness engine={engine} />);
     await click("Ouvir mais (+4 s)");
     await click("Ouvir mais (+5 s)");
+    await ends(plays, plays.length - 1);
     await click("Escolher a A");
     expect(screen.getByRole("heading", { name: "Acertou! 2 pontos." })).not.toBeNull();
   });
 
   it("no acerto, a outra música fica neutra: sem o fundo e sem o X (o usuário, 27/10/2026)", async () => {
-    const { engine } = quizEngine();
+    const { engine, plays } = quizEngine();
     render(<Harness engine={engine} />);
+    await hearBoth(plays);
     await click("Escolher a A");
     const [a, b] = document.querySelectorAll(".mixed-songs > li");
     expect(a?.className).toBe("right");
@@ -263,7 +308,9 @@ describe("QuizRoundView (M18)", () => {
   it("na revelação, cada música tem o Ouvir da prévia inteira, sem a barra (o usuário, 27/10/2026)", async () => {
     const { engine, plays } = quizEngine();
     render(<Harness engine={engine} />);
+    await hearBoth(plays);
     await click("Escolher a A");
+    const heard = plays.length;
     const listen = screen.getAllByRole("button", { name: "Ouvir a prévia inteira" });
     expect(listen).toHaveLength(2);
     expect(document.querySelectorAll(".quiz-reveal .bar-seek")).toHaveLength(0);
@@ -271,15 +318,16 @@ describe("QuizRoundView (M18)", () => {
     await act(async () => {
       fireEvent.click(listen[1] as HTMLElement);
     });
-    expect(plays.map((p) => [p.url, p.seconds])).toEqual([["audio/2.wav", 30]]);
+    expect(plays.slice(heard).map((p) => [p.url, p.seconds])).toEqual([["audio/2.wav", 30]]);
     expect(screen.getByRole("button", { name: "Parar" })).not.toBeNull();
-    await ends(plays, 0);
+    await ends(plays, heard);
     expect(screen.getAllByRole("button", { name: "Ouvir a prévia inteira" })).toHaveLength(2);
   });
 
   it("no erro, a escolha leva o X e o vermelho, e a resposta o ✓", async () => {
-    const { engine } = quizEngine();
+    const { engine, plays } = quizEngine();
     render(<Harness engine={engine} />);
+    await hearBoth(plays);
     await click("Escolher a B");
     const [a, b] = document.querySelectorAll(".mixed-songs > li");
     expect(a?.className).toBe("right");
@@ -289,25 +337,27 @@ describe("QuizRoundView (M18)", () => {
   });
 
   it("o 2º erro diz 'Última vida', e não 'Vidas: 0' (P377; o usuário, 27/10/2026)", async () => {
-    const { engine } = quizEngine();
+    const { engine, plays } = quizEngine();
     const once = quizReducer(createQuizGame(daily3, index), {
       type: "CHOOSE",
       round: 0,
       side: "b",
     });
     render(<Harness engine={engine} quiz={daily3} start={quizReducer(once, { type: "NEXT" })} />);
+    await hearBoth(plays);
     await click("Escolher a B");
     expect(screen.getByRole("heading", { name: "Errou. Última vida." })).not.toBeNull();
   });
 
   it("o 3º erro encerra: 'Errou: fim da run.', e não 'Última vida' (P377)", async () => {
-    const { engine } = quizEngine();
+    const { engine, plays } = quizEngine();
     let start = createQuizGame(daily3, index);
     for (const round of [0, 1]) {
       start = quizReducer(start, { type: "CHOOSE", round, side: "b" });
       start = quizReducer(start, { type: "NEXT" });
     }
     render(<Harness engine={engine} quiz={daily3} start={start} />);
+    await hearBoth(plays);
     await click("Escolher a B");
     expect(screen.getByRole("heading", { name: "Errou: fim da run." })).not.toBeNull();
   });
@@ -332,6 +382,23 @@ describe("QuizRoundView (M18)", () => {
     await click("Tocar 3 s");
     expect(screen.queryByText(/^Rodada anulada/)).toBeNull();
     expect(screen.getByRole("button", { name: "Tocar 3 s" })).not.toBeNull();
+  });
+
+  it("a B barrada depois da A (o <audio> de reserva): o próximo Tocar começa por ela, e a escolha destrava", async () => {
+    const { engine, plays } = quizEngine(new AudioUnavailableError("blocked", "teste"), 1);
+    render(<Harness engine={engine} />);
+    const locked = () =>
+      screen.getByRole("button", { name: "Escolher a A" }).getAttribute("aria-disabled");
+    await hearBoth(plays);
+    expect(plays.map((p) => p.url)).toEqual(["audio/1.wav"]);
+    expect(locked()).toBe("true");
+    await click("Tocar 3 s");
+    expect(plays.map((p) => p.url)).toEqual(["audio/1.wav", "audio/2.wav"]);
+    expect(locked()).toBeNull();
+    // Ouvida a B, o Tocar volta a começar pela A (P384).
+    await ends(plays, 1);
+    await click("Tocar 3 s");
+    expect(plays[2]?.url).toBe("audio/1.wav");
   });
 
   it("uma música sem prévia nenhuma anula a rodada; a que ainda busca, não (regra 21)", async () => {

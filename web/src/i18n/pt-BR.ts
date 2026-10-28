@@ -680,6 +680,8 @@ export const ptBR = {
   "quiz.playing": "Tocando",
   "quiz.pick.a": "Escolher a A",
   "quiz.pick.b": "Escolher a B",
+  "quiz.hint.listen": "Ouça as duas para escolher",
+  "quiz.hint.ready": "Ouviu as duas? Escolha a resposta",
   "quiz.seek.a": "Ponto da música A",
   "quiz.seek.b": "Ponto da música B",
   "quiz.void": "Rodada anulada: não deu para tocar as músicas. Ela não tira vida.",
