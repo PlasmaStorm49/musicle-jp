@@ -169,10 +169,17 @@ export const ptBR = {
   // O switch (P217): o nome é o do estado ligado; a dica fica para o leitor de tela.
   "home.themeDark": "Tema escuro",
   "home.themeHint": "Sem escolha, o jogo segue o tema do aparelho.",
-  // O link do "Sobre e privacidade" (P243), no fim da Início, na linha do "Como funciona" (P259).
+  // O link do "Sobre e privacidade" (P243), no fim da Início, na linha do "Como funciona" (P259):
+  // na tela, só "Sobre", para a linha caber em 320 px; o nome inteiro, para o leitor de tela.
   "home.about": "Sobre e privacidade",
-  // O link do Histórico na Início (P264), na linha do tema.
-  "home.history": "Histórico",
+  "home.aboutShort": "Sobre",
+  // O bloco "Agora" da Início (o usuário, 27/10/2026): o próximo jogo do dia, ou tudo jogado.
+  "home.nextHits": "Hits · {mode} nº {number}",
+  "home.play": "Jogar",
+  "home.continue": "Continuar",
+  "home.nextLabel": "{action}: {name}",
+  "home.allDone": "Tudo jogado hoje",
+  "home.allDoneHint": "Os diários mudam à meia-noite, horário de Brasília.",
 
   "game.header": "{mode} · nº {number}",
   "game.round": "Rodada {current} de {total}",

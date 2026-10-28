@@ -1,7 +1,7 @@
 import type { ComponentChild } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { ANIME_KEYS } from "../core/daily.ts";
-import { type ArtistSummary, dailyStatus, nextDaily, progress } from "../core/home.ts";
+import { type ArtistSummary, animeDone, dailyStatus, nextDaily, progress } from "../core/home.ts";
 import { mixedIds } from "../core/mixed.ts";
 import { quizStatusOf } from "../core/quiz.ts";
 import { puzzleId, type Save } from "../core/records.ts";
@@ -30,8 +30,8 @@ type Props = {
 };
 
 /**
- * O cartão dos Hits (P226): o estado dos dois diários, uma linha cada, e o oliva quando há um por
- * jogar. Sem diário no dia, continua link (o Treino está lá dentro), com uma linha só.
+ * O cartão dos Hits (P226): o estado dos dois diários, uma linha cada. Sem diário no dia, continua
+ * link (o Treino está lá dentro), com uma linha só. O oliva saiu dele para o bloco "Agora".
  */
 function hitsCard(save: Save, day: Day | null, date: string): Card {
   return {
@@ -47,7 +47,6 @@ function hitsCard(save: Save, day: Day | null, date: string): Card {
           }),
         )
       : [t("home.statusUnavailable")],
-    next: nextDaily(save, day, date) !== null,
   };
 }
 
@@ -72,24 +71,26 @@ function animeCard(save: Save, date: string): Card {
   };
 }
 
-/**
- * O cartão das Misturadas (o usuário, 24/10/2026): ao lado dos Artistas, com uma linha só, lida do
- * save, como o do Anime (a Início não carrega a agenda delas). Os 2 diários de hoje terminados, ou
- * um em andamento; sem jogo hoje, nenhuma linha.
- */
-function mixedCard(save: Save, date: string): Card {
+/** Os 2 diários das Misturadas de hoje: os terminados e se algum está em andamento. */
+function mixedProgress(save: Save, date: string) {
   const ids = mixedIds(date);
   const done = ids.filter((id) => save.mixed.finished[id] !== undefined).length;
   const playing = ids.some(
     (id) =>
       save.mixed.finished[id] === undefined && (save.mixed.progress[id]?.events.length ?? 0) > 0,
   );
+  return { done, playing, total: ids.length };
+}
+
+/**
+ * O cartão das Misturadas (o usuário, 24/10/2026): ao lado dos Artistas, com uma linha só, lida do
+ * save, como o do Anime (a Início não carrega a agenda delas). Os 2 diários de hoje terminados, ou
+ * um em andamento; sem jogo hoje, nenhuma linha.
+ */
+function mixedCard(save: Save, date: string): Card {
+  const { done, playing, total } = mixedProgress(save, date);
   const line =
-    done > 0
-      ? t("home.mixedLine", { done, total: ids.length })
-      : playing
-        ? t("home.mixedPlaying")
-        : null;
+    done > 0 ? t("home.mixedLine", { done, total }) : playing ? t("home.mixedPlaying") : null;
   return {
     tab: "misturadas",
     name: t("mixed.title"),
@@ -147,11 +148,81 @@ function artistsCard(summary: ArtistSummary | null): Card {
   };
 }
 
+/** O jogo do bloco "Agora": o nome, o endereço e se ele já está em andamento. */
+type NextPlay = { readonly name: string; readonly href: string; readonly playing: boolean };
+
 /**
- * A home: o nome do jogo, um cartão por categoria da nav (P226), em três linhas (o usuário,
- * 25/10/2026): os Hits e o Anime, as Misturadas e o Quiz, e os Artistas na linha toda; como jogar
- * (recolhido) e o tema. Os Hits com o estado dos dois diários; o oliva, a ação da tela, vai neles
- * enquanto houver um diário por jogar.
+ * O 1º jogo do dia por jogar, na ordem da nav: os diários dos Hits (o da vez, pela agenda), o Anime
+ * (até um de cada modo, P357), as Misturadas (os 2) e o quiz. Null com tudo jogado. A Início não
+ * carrega as agendas do Anime, das Misturadas e do quiz: ela os supõe no ar, como os cartões.
+ */
+function nextPlay(save: Save, day: Day | null, date: string): NextPlay | null {
+  const mode = nextDaily(save, day, date);
+  if (mode && day) {
+    return {
+      name: t("home.nextHits", { mode: modeName(mode), number: day.number }),
+      href: ROUTES[mode],
+      playing: dailyStatus(save, day, date, mode).kind === "playing",
+    };
+  }
+  if (!animeDone(save, date)) {
+    const { playing } = progress(
+      save,
+      ANIME_KEYS.map((key) => puzzleId(date, key)),
+    );
+    return { name: t("anime.title"), href: ROUTES.anime, playing: playing > 0 };
+  }
+  const mixed = mixedProgress(save, date);
+  if (mixed.done < mixed.total) {
+    return { name: t("mixed.title"), href: ROUTES.misturadas, playing: mixed.playing };
+  }
+  const quiz = quizStatusOf(save, date, 0);
+  if (quiz.kind !== "done") {
+    return { name: t("quiz.title"), href: ROUTES.quiz, playing: quiz.kind === "playing" };
+  }
+  return null;
+}
+
+/**
+ * O bloco "Agora" (o usuário, 27/10/2026): o próximo jogo do dia, o único oliva da tela, um link
+ * grande com o Jogar (ou o Continuar). Com tudo jogado, um bloco calmo, sem ação.
+ */
+function NextBlock({ next }: { readonly next: NextPlay | null }) {
+  if (!next) {
+    return (
+      <section class="home-next done" aria-labelledby="home-next">
+        <h2 id="home-next">{t("home.allDone")}</h2>
+        <p class="home-next-hint">{t("home.allDoneHint")}</p>
+      </section>
+    );
+  }
+  return (
+    // O 2º clique de um toque duplo cairia no Tocar do jogo que abriu (regra 23). O nome começa
+    // pela ação ("Jogar: Hits · Normal nº 1"), com as mesmas palavras da tela: o leitor de tela
+    // ouve o que o link faz, e ele não se confunde com a linha do jogo, que começa pelo nome.
+    <a
+      class="home-next"
+      href={next.href}
+      aria-label={t("home.nextLabel", {
+        action: t(next.playing ? "home.continue" : "home.play"),
+        name: next.name,
+      })}
+      onClick={singleClickLink}
+    >
+      <span class="home-next-name">{next.name}</span>
+      <span class="home-next-action">
+        {t(next.playing ? "home.continue" : "home.play")}
+        <Icon name="next" />
+      </span>
+    </a>
+  );
+}
+
+/**
+ * A home (a revisão do M19, o usuário, 27/10/2026): o selo ao lado do nome, o bloco "Agora" com o
+ * próximo jogo, e os jogos em linhas compactas, um por categoria da nav (P226), com o estado de
+ * hoje; o "Como funciona" (recolhido), o Sobre e o tema numa linha só. O Histórico fica no Mais da
+ * nav. A Início cabe com folga em 360 × 640.
  */
 export function Home({ day, date, save, artists }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
@@ -171,6 +242,8 @@ export function Home({ day, date, save, artists }: Props) {
         </div>
       </header>
 
+      <NextBlock next={nextPlay(save, day, date)} />
+
       <section aria-labelledby="home-modes">
         <h2 id="home-modes" class="sr-only">
           {t("home.modesTitle")}
@@ -184,12 +257,12 @@ export function Home({ day, date, save, artists }: Props) {
             artistsCard(artists),
           ]}
           idPrefix="home"
+          single
         />
       </section>
 
-      {/* O "Como funciona" e o "Sobre e privacidade" (P243) na mesma linha: o link fica à direita
-          do "Como funciona", que tem o lado livre, e a Início não cresce (P259). Aberto, o texto do
-          "Como funciona" desce na largura toda, e o link continua na linha dele. */}
+      {/* O "Como funciona", o Sobre (P243) e o tema numa linha só: o Sobre e o tema ficam à direita
+          do "Como funciona", que tem o lado livre. Aberto, o texto dele desce na largura toda. */}
       <div class="home-more">
         {/* Recolhido: a tela cabe sem rolar, e quem quer as regras abre (P210). */}
         <details class="home-how-box">
@@ -204,19 +277,15 @@ export function Home({ day, date, save, artists }: Props) {
             <li>{t("home.howPractice")}</li>
           </ul>
         </details>
-        {/* O 2º clique de um toque duplo cairia no título do Sobre (regra 23). */}
-        <a class="home-about" href={ROUTES.about} onClick={singleClickLink}>
-          {t("home.about")}
-        </a>
-      </div>
-
-      {/* O Histórico (P264) na linha do tema, à esquerda: a Início não cresce. O 2º clique de um
-          toque duplo cairia num dia do calendário (regra 23). */}
-      <div class="home-bottom">
-        <a class="home-history" href={ROUTES.history} onClick={singleClickLink}>
-          {t("home.history")}
-        </a>
-        <ThemeSwitch />
+        <div class="home-more-end">
+          {/* "Sobre" na tela, para a linha caber em 320 px; o nome inteiro para o leitor de tela.
+              O 2º clique de um toque duplo cairia no título do Sobre (regra 23). */}
+          <a class="home-about" href={ROUTES.about} onClick={singleClickLink}>
+            <span aria-hidden="true">{t("home.aboutShort")}</span>
+            <span class="sr-only">{t("home.about")}</span>
+          </a>
+          <ThemeSwitch />
+        </div>
       </div>
     </div>
   );
@@ -227,13 +296,16 @@ export function Home({ day, date, save, artists }: Props) {
  * (provisórios, P218). Sem escolha salva, ele mostra o tema do aparelho; a troca vale na hora e
  * fica gravada. É um botão que alterna no mesmo lugar: o 2º clique de um toque duplo não pode
  * voltar o tema (singleClick, regra 23). O h2, como nas outras seções, deixa o "Tema" na
- * navegação por títulos; ele fica na tela, ao lado do switch (P259).
+ * navegação por títulos; desde a Início nova, só para o leitor de tela (o sol e a lua dizem o que
+ * o switch faz), para a linha do rodapé caber em 320 px (o usuário, 27/10/2026; antes, P259).
  */
 function ThemeSwitch() {
   const { theme, followsDevice, toggle } = useTheme();
   return (
     <section class="home-theme" aria-labelledby="home-theme">
-      <h2 id="home-theme">{t("home.themeTitle")}</h2>
+      <h2 id="home-theme" class="sr-only">
+        {t("home.themeTitle")}
+      </h2>
       <button
         type="button"
         role="switch"

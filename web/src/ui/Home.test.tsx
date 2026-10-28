@@ -39,7 +39,14 @@ function setup(
   render(<Home day={day} date={DATE} save={save} artists={artists} />);
 }
 
-const card = (name: RegExp) => screen.getByRole("link", { name });
+/** A linha de um jogo (o bloco Agora também começa pelo nome dele: fica de fora). */
+const card = (name: RegExp) => {
+  const found = screen
+    .getAllByRole("link", { name })
+    .find((link) => link.classList.contains("home-card"));
+  if (!found) throw new Error(`sem a linha ${name}`);
+  return found;
+};
 
 /** A descrição do cartão (aria-describedby): a dica inteira (P210). */
 const description = (link: HTMLElement) =>
@@ -66,32 +73,80 @@ describe("Home", () => {
     expect(screen.queryAllByRole("img")).toHaveLength(0);
   });
 
-  it("um cartão-link por categoria (P226), na ordem da nav, em três linhas: os Hits e o Anime, as Misturadas e o Quiz, e os Artistas; e o Sobre e o Histórico no fim", () => {
+  it("o bloco Agora, uma linha-link por categoria (P226), na ordem da nav, e o Sobre no fim; o Histórico fica no Mais (o usuário, 27/10/2026)", () => {
     setup();
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
+      "#normal",
       "#hits",
       "#anime",
       "#misturadas",
       "#quiz",
       "#artistas",
       "#sobre",
-      "#historico",
     ]);
-    // A grade de 2 colunas: dois cartões por linha, e os Artistas ocupam a última (o wide), o
-    // usuário, 25/10/2026.
-    const items = [...document.querySelectorAll("ul.home-modes > li")];
-    expect(items.map((li) => li.classList.contains("wide"))).toEqual([
-      false,
-      false,
-      false,
-      false,
-      true,
-    ]);
-    // O Histórico (P264) na linha do tema, junto com o switch.
-    const history = screen.getByRole("link", { name: "Histórico" });
-    expect(history.closest(".home-bottom")?.querySelector(".theme-switch")).not.toBeNull();
-    expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(false);
+    // Uma coluna só: os jogos em linhas.
+    expect(document.querySelector("ul.home-modes")?.classList.contains("single")).toBe(true);
+    // Nenhuma linha em oliva: a ação da tela é o bloco Agora.
+    expect(document.querySelector(".home-card.next")).toBeNull();
     expect(screen.queryAllByRole("button")).toHaveLength(0);
+  });
+
+  it("o bloco Agora: o próximo jogo na ordem da nav, com o Jogar ou o Continuar; com tudo jogado, sem ação", () => {
+    const next = () => document.querySelector(".home-next");
+    setup();
+    expect(next()?.getAttribute("href")).toBe("#normal");
+    expect(next()?.textContent).toBe("Hits · Normal nº 7Jogar");
+    // O nome começa pela ação, com as palavras da tela.
+    expect(next()?.getAttribute("aria-label")).toBe("Jogar: Hits · Normal nº 7");
+    cleanup();
+    // O Normal terminado e o Desafio em andamento: o Desafio, com o Continuar.
+    setup({
+      ...emptySave(),
+      history: { [puzzleId(DATE, "album")]: finished },
+      inProgress: { [puzzleId(DATE, "song")]: { events: [{ type: "LISTEN_MORE" }] } },
+    });
+    expect(next()?.getAttribute("href")).toBe("#desafio");
+    expect(next()?.textContent).toBe("Hits · Desafio nº 7Continuar");
+    cleanup();
+    // Os Hits terminados, ou fora da agenda: o Anime (a Início o supõe no ar).
+    setup({
+      ...emptySave(),
+      history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
+    });
+    expect(next()?.getAttribute("href")).toBe("#anime");
+    cleanup();
+    setup(emptySave(), null);
+    expect(next()?.getAttribute("href")).toBe("#anime");
+    cleanup();
+    // Tudo jogado: os Hits, um de cada modo do Anime (P357), as 2 Misturadas e o quiz.
+    const mixedGame = { number: 1, rounds: [] };
+    setup({
+      ...emptySave(),
+      history: {
+        [puzzleId(DATE, "album")]: finished,
+        [puzzleId(DATE, "song")]: finished,
+        [puzzleId(DATE, "anime-musica-facil")]: finished,
+        [puzzleId(DATE, "anime-titulo-dificil")]: finished,
+      },
+      mixed: {
+        finished: {
+          [puzzleId(DATE, "misturadas-musica")]: mixedGame,
+          [puzzleId(DATE, "misturadas-titulo")]: mixedGame,
+        },
+        progress: {},
+      },
+      quiz: { finished: { [`${DATE}|quiz`]: { number: 1, results: "rw" } }, progress: {} },
+    });
+    expect(next()?.tagName).toBe("SECTION");
+    expect(screen.getByRole("heading", { level: 2, name: "Tudo jogado hoje" })).toBeTruthy();
+  });
+
+  it("o toque duplo no bloco Agora não segue o link no 2º clique (regra 23)", () => {
+    setup();
+    const link = document.querySelector(".home-next") as HTMLElement;
+    const second = createEvent.click(link, { detail: 2 });
+    fireEvent(link, second);
+    expect(second.defaultPrevented).toBe(true);
   });
 
   it("a dica curta na tela e no nome do link; a inteira como descrição, fora dele (P210)", () => {
@@ -103,30 +158,6 @@ describe("Home", () => {
     // Fora do link: dentro, o leitor de tela ouviria a dica inteira duas vezes.
     expect(hits.contains(full ?? null)).toBe(false);
     expect(description(hits)).toContain("parada do Japão");
-  });
-
-  it("o cartão dos Hits é o oliva enquanto houver um diário por jogar", () => {
-    const next = () => document.querySelector(".home-card.next .mode-name")?.textContent;
-    setup();
-    expect(next()).toBe("Hits");
-    cleanup();
-    // Em andamento também conta (um evento salvo; o andamento vazio ainda é dia novo).
-    setup({
-      ...emptySave(),
-      history: { [puzzleId(DATE, "album")]: finished },
-      inProgress: { [puzzleId(DATE, "song")]: { events: [{ type: "LISTEN_MORE" }] } },
-    });
-    expect(next()).toBe("Hits");
-    cleanup();
-    // Os dois terminados, ou o dia fora da agenda: nenhum.
-    setup({
-      ...emptySave(),
-      history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
-    });
-    expect(next()).toBeUndefined();
-    cleanup();
-    setup(emptySave(), null);
-    expect(next()).toBeUndefined();
   });
 
   it('o "Como funciona" abre fechado: a tela cabe, e quem quer as regras abre (P210)', () => {
@@ -217,10 +248,12 @@ describe("Home", () => {
     expect(lines(anime())).toEqual(["Hoje: 2 de 6 terminados"]);
   });
 
-  it('o "Sobre e privacidade" (P243) na linha do "Como funciona", fora dele; o "Tema" na tela (P259)', () => {
+  it('o Sobre (P243) e o tema na linha do "Como funciona", fora dele (o usuário, 27/10/2026)', () => {
     setup();
     const about = screen.getByRole("link", { name: "Sobre e privacidade" });
     expect(about.getAttribute("href")).toBe("#sobre");
+    // Na tela, só "Sobre"; o nome inteiro, para o leitor de tela.
+    expect(about.querySelector('[aria-hidden="true"]')?.textContent).toBe("Sobre");
     const row = about.closest(".home-more");
     expect(row?.querySelector("details.home-how-box")).not.toBeNull();
     // Fora do <details>: o link aparece com ele fechado, e não fica dentro do resumo.
@@ -229,10 +262,10 @@ describe("Home", () => {
     const second = createEvent.click(about, { detail: 2 });
     fireEvent(about, second);
     expect(second.defaultPrevented).toBe(true);
-    // O "Tema" volta para a tela, ao lado do switch.
+    // O tema na mesma linha; o "Tema", só para o leitor de tela (antes, na tela, P259).
     const theme = screen.getByRole("heading", { name: "Tema" });
-    expect(theme.classList.contains("sr-only")).toBe(false);
-    expect(theme.closest("section")?.querySelector('[role="switch"]')).not.toBeNull();
+    expect(theme.classList.contains("sr-only")).toBe(true);
+    expect(theme.closest(".home-more-end")?.querySelector('[role="switch"]')).not.toBeNull();
   });
 
   it("o cartão das Misturadas: uma linha só, lida do save, como o do Anime, e nenhuma sem jogo hoje", () => {
@@ -269,17 +302,13 @@ describe("Home", () => {
       },
     });
     expect(lines(mixed())).toEqual(["Hoje: 1 de 2 terminados"]);
-    expect(document.querySelector(".home-card.next .mode-name")?.textContent).not.toBe(
-      "Misturadas",
-    );
   });
 
-  it("o cartão do Anime não é o oliva: a Início não sabe se há diário do Anime hoje", () => {
+  it("a linha do Anime continua link: a Início não sabe se há diário do Anime hoje", () => {
     setup({
       ...emptySave(),
       history: { [puzzleId(DATE, "album")]: finished, [puzzleId(DATE, "song")]: finished },
     });
-    expect(document.querySelector(".home-card.next")).toBeNull();
     expect(card(/^Anime/).classList.contains("off")).toBe(false);
   });
 

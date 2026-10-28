@@ -118,7 +118,9 @@ async function homeWorstCase(page: Page): Promise<void> {
   await expect(cards.filter({ hasText: /^Quiz do dia/ }).locator(".tag")).toHaveText([
     "Hoje: rodada 12, 11 acertos",
   ]);
-  await expect(page.getByRole("heading", { level: 2, name: "Tema" })).toBeVisible();
+  // O bloco Agora: os Hits terminados, o Anime é o próximo (o usuário, 27/10/2026).
+  await expect(page.locator(".home-next")).toHaveAttribute("href", "#anime");
+  await expect(page.getByRole("switch", { name: "Tema escuro" })).toBeVisible();
   const about = page.getByRole("link", { name: "Sobre e privacidade" });
   expect(await top(about)).toBe(await top(page.locator("details.home-how-box > summary")));
 }
@@ -1230,6 +1232,15 @@ test("a Início: o switch do tema e o Como funciona têm alvo de 44 px (P213)", 
   const { height, width } = await target(page.getByRole("switch", { name: "Tema escuro" }));
   expect(height).toBeGreaterThanOrEqual(44);
   expect(width).toBeGreaterThanOrEqual(44);
+  // Em 320 px, o resumo do "Como funciona" e o lado direito (o Sobre e o tema) cabem na mesma
+  // linha sem se cruzar (o usuário, 27/10/2026).
+  await page.setViewportSize({ width: 320, height: 640 });
+  const gap = await page.evaluate(() => {
+    const chevron = document.querySelector(".home-how-box summary svg")?.getBoundingClientRect();
+    const end = document.querySelector(".home-more-end")?.getBoundingClientRect();
+    return chevron && end ? end.left - chevron.right : -1;
+  });
+  expect(gap).toBeGreaterThanOrEqual(0);
 });
 
 test("desistir é um botão vermelho, e não um link (P220): o texto e o anel no --bad, sem sublinhado, com alvo de 44 px", async ({

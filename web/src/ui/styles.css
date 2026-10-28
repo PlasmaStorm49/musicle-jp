@@ -1570,24 +1570,25 @@ section.void,
 }
 
 /* 5. Telas ------------------------------------------------------------------------------- */
-/* Início: o selo, o nome e a frase no centro; um cartão por categoria (P226), em três linhas (o
-   usuário, 25/10/2026): os Hits e o Anime, as Misturadas e o Quiz, e os Artistas na linha toda; o
-   "Como funciona" recolhido; o tema num switch (P217). O espaço entre as partes é o do .screen (12
-   px; antes, 16), e o cartão (.home .home-card) fica mais baixo que nas telas de escolha, para a
-   Início caber em 360 × 640 no caso mais alto (os dois diários dos Hits, o Anime, as Misturadas, o
-   Quiz e a sessão do artista, com uma linha cada). */
+/* Início (a revisão do M19, o usuário, 27/10/2026): o selo ao lado do nome, no centro (o rascunho
+   A da P193); o bloco "Agora", o único oliva; os jogos em linhas compactas, uma por categoria
+   (P226), o nome à esquerda e o estado à direita; e o "Como funciona", o Sobre e o tema numa linha
+   só. O espaço entre as partes é o do .screen (12 px). No caso mais alto (todos com estado e a
+   sessão do artista), sobram uns 100 px em 360 × 640. */
 
 .home-header {
-  display: grid;
-  justify-items: center;
-  gap: var(--sp-2);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  text-align: left;
 }
 
-/* O selo do logo (P193): uma imagem, o círculo vermelho nos dois temas (P177) com o 当 vazado. */
+/* O selo do logo (P193): uma imagem, o círculo vermelho nos dois temas (P177) com o 当 vazado. Ao
+   lado do nome, 48 px (antes, 56, em cima dele). */
 .logo {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   flex: none;
 }
 
@@ -1685,33 +1686,109 @@ section.void,
   color: var(--muted);
 }
 
-/* Os cartões da Início mais baixos que os das telas de escolha: veja o comentário da Início, no
-   começo das telas. Dois por linha, e os Artistas na linha toda. */
-.home .home-card {
-  min-height: 88px;
-  padding-block: var(--sp-2);
+/* O bloco "Agora" da Início: um link grande na cor da ação, com o nome do próximo jogo e o Jogar.
+   Dentro dele, todo texto é o on-primary. Com tudo jogado, a tinta, sem ação. */
+.home-next {
+  display: grid;
+  gap: var(--sp-1);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-tile);
+  background: var(--primary);
+  color: var(--on-primary);
+  text-decoration: none;
 }
 
-/* Os cartões que dividem a linha quebram mais o texto: com a linha do estado (já jogou), a dica
-   curta sai, e a Início cabe em 360 × 640 no caso mais alto. A dica inteira continua para o leitor
-   de tela (o aria-describedby); sem a linha, no 1º uso, a curta aparece. */
-.home .home-modes :where(li:not(.wide) .home-card:has(.tag)) .mode-hint {
+@media (hover: hover) {
+  a.home-next:hover {
+    background: var(--primary-hover);
+  }
+}
+
+.home-next-name,
+.home-next h2 {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 700;
+}
+
+.home-next-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.home-next-action .icon-next {
+  height: 0.75em;
+}
+
+.home-next.done {
+  background: var(--fill);
+  color: var(--text);
+}
+
+.home-next-hint {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
+}
+
+/* Os jogos da Início em linhas: o nome à esquerda e o estado à direita, uma linha por diário (os
+   Hits têm duas). A dica curta sai da tela; a inteira continua para o leitor de tela (o
+   aria-describedby), e cada tela de escolha mostra a dela. */
+.home .home-modes {
+  gap: var(--sp-1);
+}
+
+.home .home-card {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: center;
+  align-items: center;
+  column-gap: var(--sp-3);
+  row-gap: 0;
+  min-height: var(--h-control);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-field);
+}
+
+.home .home-card :where(.mode-name) {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  font-size: var(--t-md);
+  line-height: var(--lh-md);
+  font-weight: 700;
+}
+
+.home .home-card .tag {
+  grid-column: 2;
+  justify-self: end;
+  text-align: right;
+}
+
+.home .home-card .mode-hint {
   display: none;
 }
 
-/* O "Como funciona" e o "Sobre e privacidade" numa linha só (P259): o fio de cima é da linha, e
-   o link fica à direita do resumo, por cima do lado livre dele. Aberto, o texto do "Como funciona"
-   desce na largura toda. */
+/* O "Como funciona", o Sobre e o tema numa linha só (P259; o tema desde a revisão do M19): o fio
+   de cima é da linha, e o Sobre e o tema ficam à direita do resumo, por cima do lado livre dele.
+   Aberto, o texto do "Como funciona" desce na largura toda. Em 320 px, o resumo e o lado direito
+   somam uns 283 px, dos 288: o layout.spec confere que eles não se cruzam. */
 .home-more {
   position: relative;
   border-top: 1px solid var(--hairline);
 }
 
-/* O alvo do link tem a altura da linha do "Como funciona", 44 px (P213). */
-.home-more > .home-about {
+.home-more-end {
   position: absolute;
   top: 0;
   right: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-height: var(--h-control);
+}
+
+/* O alvo do link tem a altura da linha do "Como funciona", 44 px (P213). */
+.home-more-end > .home-about {
   display: inline-flex;
   align-items: center;
   min-height: var(--h-control);
@@ -1755,29 +1832,6 @@ section.void,
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-3);
-}
-
-/* O Histórico e o tema na mesma linha (P264): o link à esquerda, e o "Tema" e o switch juntos à
-   direita. A Início não cresce. O alvo do link tem 44 px (P213). */
-.home-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-3);
-}
-
-.home-history {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--h-control);
-  font-size: var(--t-sm);
-  line-height: var(--lh-sm);
-}
-
-.home-theme h2 {
-  font-size: var(--t-sm);
-  font-weight: 400;
-  line-height: var(--lh-sm);
 }
 
 /* O switch do tema (P217): o sol, a trilha com o botão redondo e a lua. A trilha é a tinta
