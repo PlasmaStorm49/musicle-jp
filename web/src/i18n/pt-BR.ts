@@ -656,6 +656,10 @@ export const ptBR = {
   "quiz.lastLife": "Última vida",
   "quiz.side.a": "Música A",
   "quiz.side.b": "Música B",
+  // A letra grande de cada lado da rodada e o texto de qual toca (o usuário, 27/10/2026).
+  "quiz.letter.a": "A",
+  "quiz.letter.b": "B",
+  "quiz.playing": "Tocando",
   "quiz.pick.a": "Escolher a A",
   "quiz.pick.b": "Escolher a B",
   "quiz.seek.a": "Ponto da música A",

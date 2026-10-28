@@ -1393,10 +1393,12 @@ button.help {
   color: var(--bad);
 }
 
-/* O quiz do dia (M18), no desenho simples (a revisão de design vem depois): a pergunta embaixo do
-   título, os dois players lado a lado (a A à esquerda, a B à direita), cada um com a barra dos
-   trechos e o botão de escolher, e o Tocar e o "Ouvir mais" embaixo, para as duas. A revelação
-   usa a lista das Misturadas (`.mixed-songs`), com o dado da pergunta de cada música. */
+/* O quiz do dia (M18): a pergunta embaixo do título, os dois lados lado a lado (a A à esquerda, a
+   B à direita), cada um com a letra grande, a barra dos trechos e o botão de escolher, e o Tocar e
+   o "Ouvir mais" embaixo, para as duas. A letra é o ponto focal da rodada, e o "Tocando" ao lado
+   dela diz qual toca (o usuário, 27/10/2026). Sem a tinta atrás de cada lado: sobre o --fill, o
+   trilho da barra perderia os 3:1 do claro. A revelação usa a lista das Misturadas
+   (`.mixed-songs`), com o dado da pergunta de cada música. */
 .quiz-question {
   font-size: var(--t-lg);
   line-height: var(--lh-lg);
@@ -1416,13 +1418,22 @@ button.help {
 }
 
 .quiz-side-name {
-  font-size: var(--t-sm);
-  line-height: var(--lh-sm);
-  color: var(--muted);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  min-width: 0;
 }
 
-.quiz-side.playing .quiz-side-name {
-  color: var(--text);
+.quiz-letter {
+  font-size: var(--t-xl);
+  line-height: var(--lh-xl);
+  font-weight: 700;
+}
+
+.quiz-playing {
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
   font-weight: 700;
 }
 
