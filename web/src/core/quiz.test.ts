@@ -10,6 +10,7 @@ import {
   currentQuizRound,
   isMalFamily,
   isQuizFinished,
+  isSpecialFamily,
   livesLeft,
   QUIZ_LIVES,
   QUIZ_POINTS,
@@ -85,6 +86,13 @@ describe("o descritor", () => {
     expect(isMalFamily("fonte")).toBe(true);
     expect(isMalFamily("playlists")).toBe(false);
     expect(isMalFamily("nota")).toBe(true);
+  });
+
+  it("os especiais da semana (P381): no mês fictício, só os dias do ano e do estúdio, um por semana", () => {
+    const specials = Object.entries(quizOctober.days)
+      .filter(([, day]) => isSpecialFamily(day.family))
+      .map(([date, day]) => `${date} ${day.family}`);
+    expect(specials).toEqual(["2026-10-13 ano_x", "2026-10-19 estudio", "2026-10-30 ano_x"]);
   });
 });
 
