@@ -17,7 +17,7 @@ import {
 test("Normal: do Tocar ao compartilhar", async ({ page }) => {
   await captureClipboard(page);
   await open(page, "2026-10-08T12:00:00-03:00");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal");
   // Sem escolha de modo: a rodada 1 já começa, com o foco no Tocar.
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
 
@@ -54,21 +54,31 @@ test("Normal: do Tocar ao compartilhar", async ({ page }) => {
   await expect(page.getByText("18 de 30 pontos")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toBe(
-    "AteMusic · Normal nº 1\n18/30\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
+    "AteMusic · Normal · 08/10\n18/30\n✅\n❌\n⬛✅\nhttp://localhost:5173/",
   );
   // Só um diário terminado: o ✓ da aba Hits espera os dois (P227).
   await expect(hitsTab(page)).toHaveAccessibleName("Hits");
+  // O resumo leva ao Desafio, ainda por jogar, e volta aos Hits pela seta antes do título (o
+  // usuário, 28/10/2026).
+  await expect(page.getByRole("link", { name: "Jogar o Desafio" })).toHaveAttribute(
+    "href",
+    "#desafio",
+  );
+  await expect(page.getByRole("link", { name: "Voltar à tela dos Hits" })).toHaveAttribute(
+    "href",
+    "#hits",
+  );
 
   // A home mostra o dia terminado, com os pontos, no cartão dos Hits.
   await page.getByRole("link", { name: "Início" }).click();
   await expect(page.getByRole("main").getByRole("link", { name: /^Hits/ })).toContainText(
-    "Normal: terminado, 18 de 30 pontos",
+    "Normal: ✓ 18 de 30 pontos",
   );
 });
 
 test("Desafio: digita o nome da música e acerta", async ({ page }) => {
   await open(page, "2026-10-08T12:00:00-03:00", "#desafio");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Desafio · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Desafio");
   await page.getByRole("button", { name: "Tocar 1 s" }).click();
 
   const track = await lastPlayed(page);
@@ -220,7 +230,7 @@ test("entrar num diário pelos Hits, com o teclado, leva o foco ao Tocar (regra 
     .getByRole("link", { name: /^Desafio/ })
     .focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Desafio · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Desafio");
   // O cartão some com a troca de tela: o foco que se perdeu vai ao Tocar.
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
 });
@@ -245,11 +255,11 @@ test("voltar pela aba Artistas a uma rodada aberta, com o teclado, leva o foco a
 test.describe("a virada é à meia-noite de Brasília, não no fuso do navegador (Tóquio)", () => {
   test("23:30 de 15/10 em Brasília (já 16/10 em Tóquio) ainda é o dia 15", async ({ page }) => {
     await open(page, "2026-10-15T23:30:00-03:00");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal · nº 8");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal");
   });
 
   test("00:30 de 16/10 em Brasília já é o dia 16", async ({ page }) => {
     await open(page, "2026-10-16T00:30:00-03:00");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal · nº 9");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal");
   });
 });

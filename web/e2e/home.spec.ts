@@ -77,9 +77,9 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
   await expect(hits).toBeFocused();
   await expect(hitsTab(page)).toHaveAttribute("aria-current", "page");
   const normal = cards.getByRole("link", { name: /^Normal/ });
-  await expect(normal).toContainText("nº 1 · novo");
+  await expect(normal).toContainText("Novo · Jogar");
   await normal.click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal");
   // O cartão some com a tela, e o foco vai para a de destino, não para o body (regra 16).
   await expect(page.getByRole("button", { name: "Tocar 1 s" })).toBeFocused();
   // Dentro de um jogo dos Hits, a aba fica marcada, mas não é a página atual.
@@ -89,7 +89,7 @@ test("sem fragmento, o site abre na home, e cada cartão leva ao seu modo", asyn
   await page.goBack();
   await expect(hits).toBeFocused();
   await cards.getByRole("link", { name: /^Desafio/ }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Desafio · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Desafio");
   await page.getByRole("link", { name: "Início" }).click();
   await expect(title).toBeFocused();
   await hitsCard.click();

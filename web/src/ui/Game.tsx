@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
-import type { Daily } from "../core/daily.ts";
+import { type Daily, isAnimeKey } from "../core/daily.ts";
 import { answerKeysOf } from "../core/help.ts";
 import {
   type FinishedGame,
@@ -15,14 +15,17 @@ import {
   withProgress,
 } from "../core/records.ts";
 import { type GameEvent, type GameState, isFinished, reduce } from "../core/reducer.ts";
+import { ROUTES } from "../core/routes.ts";
 import { ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { PreviewResolver } from "../data/previews.ts";
 import { t } from "../i18n/t.ts";
 import { type KeyValueStore, loadSave, type SaveStatus, updateSave } from "../storage/save.ts";
 import { usePreviews } from "./hooks.ts";
+import { Icon } from "./Icon.tsx";
 import { dailyName } from "./modes.ts";
 import { type HelpSetup, RoundView } from "./RoundView.tsx";
 import { Summary } from "./Summary.tsx";
+import { singleClickLink } from "./singleClick.ts";
 
 type Props = {
   /** Qual diário (nos Hits, o Normal ou o Desafio): o id no save, as regras, o nome e as rodadas. */
@@ -63,8 +66,11 @@ type Props = {
    * medalhas novas (M16, P288). Nem ao reabrir um dia terminado, nem na revelação.
    */
   readonly onResult?: () => void;
-  /** No resumo, a volta à escolha da dificuldade (o Anime, P322); os Hits não a têm. */
-  readonly back?: { readonly href: string };
+  /**
+   * No resumo, a volta à escolha da dificuldade (o Anime, P322). Os Hits têm a deles, à tela dos
+   * Hits, montada aqui (`hitsActions`).
+   */
+  readonly back?: { readonly href: string; readonly label: string; readonly labelFull: string };
 };
 
 /**
@@ -79,8 +85,30 @@ const SAVE_NOTICE = {
   unavailable: "storage.unavailable",
 } as const;
 
+/** O nome do diário, sem o número dele (o usuário, 28/10/2026). */
 function header(daily: Daily): string {
-  return t("game.header", { mode: dailyName(daily), number: daily.number });
+  return dailyName(daily);
+}
+
+/**
+ * Nos Hits, o resumo de hoje tem a volta à tela deles, a seta antes do título, e o outro diário do
+ * dia, se ele ainda não terminou, ao lado do Compartilhar (o usuário, 28/10/2026): nenhum dos dois
+ * faz o resumo crescer, que já tinha só 6 px de folga em 360 × 640. O Anime traz a volta dele
+ * (`back`), sem o próximo; num dia passado, o resumo tem a volta ao dia.
+ */
+function hitsActions(
+  daily: Daily,
+  dailies: readonly Daily[],
+  history: Readonly<Record<string, FinishedGame>>,
+  today: string,
+) {
+  if (isAnimeKey(daily.key) || isLate(daily.date, today)) return { back: false, next: undefined };
+  const other = dailies.find((each) => each.id !== daily.id && history[each.id] === undefined);
+  const next =
+    other && !isAnimeKey(other.key)
+      ? { href: ROUTES[other.key], label: t("summary.playNext", { mode: dailyName(other) }) }
+      : undefined;
+  return { back: true, next };
 }
 
 /** O resumo do dia com tudo o que ele precisa; o histórico já inclui o jogo de hoje. */
@@ -93,10 +121,24 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
     const merged = { ...initialSave.history, ...(store ? loadSave(store).save.history : {}) };
     return { ...merged, [id]: merged[id] ?? game };
   }, [store, initialSave, id, game]);
+  const hits = hitsActions(daily, props.dailies, history, props.today);
   return (
     <div class="game screen">
       <header class="round-head">
-        <h1>{header(daily)}</h1>
+        {hits.back ? (
+          <div class="round-title">
+            {/* O 2º clique de um toque duplo no "Ver resultado" não segue o link (regra 23). */}
+            <a class="back-link" href={ROUTES.hits} onClick={singleClickLink}>
+              <span class="back-chevron" aria-hidden="true">
+                <Icon name="next" />
+              </span>
+              <span class="sr-only">{t("hits.backFull")}</span>
+            </a>
+            <h1>{header(daily)}</h1>
+          </div>
+        ) : (
+          <h1>{header(daily)}</h1>
+        )}
       </header>
       <Summary
         game={history[id] ?? game}
@@ -107,6 +149,7 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
         announce={props.announce}
         today={props.today}
         back={props.back}
+        next={hits.next}
       />
     </div>
   );

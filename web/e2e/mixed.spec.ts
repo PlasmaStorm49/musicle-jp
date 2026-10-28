@@ -80,10 +80,10 @@ test("Misturadas: acertar a música, das 4 rodadas ao compartilhar, com o Separa
   await expect(tab).toHaveAttribute("aria-current", "page");
   const main = page.getByRole("main");
   const musica = main.getByRole("link", { name: /^Acertar a música/ });
-  await expect(musica).toContainText("nº 1 · novo");
+  await expect(musica).toContainText("Novo · Jogar");
   await musica.click();
 
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Misturadas · Música · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Misturadas · Música");
   await expect(tab).toHaveAttribute("aria-current", "true");
   const play = (seconds: number) => page.getByRole("button", { name: `Tocar ${seconds} s` });
   await expect(play(4)).toBeFocused();
@@ -166,7 +166,7 @@ test("Misturadas: acertar a música, das 4 rodadas ao compartilhar, com o Separa
     .poll(() => page.evaluate(() => window.__copied))
     .toBe(
       [
-        "AteMusic Misturadas · Música nº 1",
+        "AteMusic Misturadas · Música · 08/10",
         "30/40",
         "1️⃣1️⃣",
         "❌1️⃣💡",
@@ -210,10 +210,10 @@ test("Misturadas: acertar o anime pela franquia, e o ✓ da aba com os dois diá
   await open(page, DAY, "#misturadas");
   const main = page.getByRole("main");
   await expect(main.getByRole("link", { name: /^Acertar a música/ })).toContainText(
-    "nº 1 · terminado, 0 de 40 pontos",
+    "0 de 40 pontos · Ver o resultado",
   );
   await main.getByRole("link", { name: /^Acertar o anime/ }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Misturadas · Anime · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Misturadas · Anime");
   await page.getByRole("button", { name: "Tocar 4 s" }).click();
   const mix = await lastMix(page);
   for (const track of mix.tracks) await guessAnime(page, track);

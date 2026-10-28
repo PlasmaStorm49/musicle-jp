@@ -69,7 +69,7 @@ test("jogar o Normal de 21/10 depois: o resumo sem estatísticas, o compartilhar
     .getByRole("main")
     .getByRole("link", { name: /^Normal/ })
     .click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal · nº 14");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal");
   await giveUpNormal(page);
 
   await expect(page.getByText("Jogado depois: não conta nas estatísticas.")).toBeVisible();
@@ -77,7 +77,7 @@ test("jogar o Normal de 21/10 depois: o resumo sem estatísticas, o compartilhar
   await expect(page.getByRole("timer")).toHaveCount(0);
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toMatch(
-    /^AteMusic · Normal nº 14 \(jogado depois\)\n0\/30\n/,
+    /^AteMusic · Normal · 21\/10 \(jogado depois\)\n0\/30\n/,
   );
   // O registro gravado leva a marca (P267).
   const saved = await page.evaluate(
@@ -102,7 +102,7 @@ test("jogar o Normal de 21/10 depois: o resumo sem estatísticas, o compartilhar
     .getByRole("main")
     .getByRole("link", { name: /^Normal/ })
     .click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal · nº 15");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal");
   await giveUpNormal(page);
   await expect(stat(page, "Jogos")).toHaveText("1");
   await expect(stat(page, "Sequência atual")).toHaveText("1 dia");
@@ -115,7 +115,7 @@ test("recarregar no meio de um diário passado retoma o jogo (P269)", async ({ p
   await page.getByRole("button", { name: "Próxima rodada" }).click();
   await expect(page.getByText("Rodada 2 de 3")).toBeVisible();
   await page.reload();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal · nº 14");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal");
   await expect(page.getByText("Rodada 2 de 3")).toBeVisible();
   const kept = await page.evaluate(
     (key) => Object.keys(JSON.parse(localStorage.getItem(key) ?? "{}").inProgress ?? {}),
@@ -240,14 +240,14 @@ test("jogar o Anime de 21/10 depois: o cartão do dia, os modos com a data, o re
   await main.getByRole("link", { name: /^Acertar a música/ }).click();
   await expect(page).toHaveURL(/#anime-musica\/2026-10-21$/);
   await main.getByRole("link", { name: /^Fácil/ }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Fácil · nº 14");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Música · Fácil");
   await giveUpAnime(page);
 
   await expect(page.getByText("Jogado depois: não conta nas estatísticas.")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Estatísticas" })).toHaveCount(0);
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toMatch(
-    /^AteMusic Anime · Música · Fácil nº 14 \(jogado depois\)\n0\/30\n/,
+    /^AteMusic Anime · Música · Fácil · 21\/10 \(jogado depois\)\n0\/30\n/,
   );
   const saved = await page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),
@@ -285,7 +285,7 @@ test("jogar as Misturadas de 21/10 depois: o cartão do dia, os modos com a data
   const musica = main.getByRole("link", { name: /^Acertar a música/ });
   await expect(musica).toHaveAttribute("href", "#misturadas-musica/2026-10-21");
   await musica.click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/^Misturadas · Música · nº 14$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/^Misturadas · Música$/);
   for (const next of ["Próxima rodada", "Próxima rodada", "Próxima rodada", "Ver resultado"]) {
     await page.getByRole("button", { name: "Desistir", exact: true }).click();
     await page.getByRole("button", { name: next }).click();
@@ -295,7 +295,7 @@ test("jogar as Misturadas de 21/10 depois: o cartão do dia, os modos com a data
   await expect(page.getByText("Jogado depois: não conta nas medalhas.")).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   expect(await page.evaluate(() => window.__copied)).toMatch(
-    /^AteMusic Misturadas · Música nº 14 \(jogado depois\)\n/,
+    /^AteMusic Misturadas · Música · 21\/10 \(jogado depois\)\n/,
   );
   const saved = await page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),

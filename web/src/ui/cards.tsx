@@ -7,6 +7,7 @@ import { ROUTES, type Tab } from "../core/routes.ts";
 import { MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { Target } from "../core/types.ts";
 import { t } from "../i18n/t.ts";
+import { Icon } from "./Icon.tsx";
 import { modeName } from "./modes.ts";
 import { practiceScoreText } from "./PracticeRun.tsx";
 
@@ -33,26 +34,48 @@ export type Card = {
 };
 
 /**
- * O estado do diário: no cartão dele, com o número ("nº 1 · novo", "nº 1 · terminado, 18 de 30
- * pontos"); `short`, na linha do cartão dos Hits na Início, sem ele (na parada real, o número
- * cresce, e a linha quebraria).
+ * O estado do diário numa linha curta, na linha dos Hits na Início ("novo", "✓ 18 de 30
+ * pontos").
  */
-export function dailyText(status: DailyStatus, short = false): string {
+export function dailyShortText(status: DailyStatus): string {
   switch (status.kind) {
     case "unavailable":
       return t("home.statusUnavailable");
     case "new":
-      return short ? t("home.lineNew") : t("home.statusNew", { number: status.number });
+      return t("home.lineNew");
     case "playing":
-      return short ? t("home.linePlaying") : t("home.statusPlaying", { number: status.number });
+      return t("home.linePlaying");
     case "done":
       // Dia todo anulado (P27): "terminado", sem "0 de 0 pontos".
-      if (status.max === 0) {
-        return short ? t("home.lineDoneVoid") : t("home.statusDoneVoid", { number: status.number });
-      }
-      return short
-        ? t("home.lineDone", { score: status.score, max: status.max })
-        : t("home.statusDone", { number: status.number, score: status.score, max: status.max });
+      return status.max === 0
+        ? t("home.lineDoneVoid")
+        : t("home.lineDone", { score: status.score, max: status.max });
+  }
+}
+
+/**
+ * O estado do diário no cartão dele, com a ação (o usuário, 28/10/2026): "Novo · Jogar", "Em
+ * andamento · Continuar" e, no terminado, o ✓ verde com os pontos e o "Ver o resultado". Sem o
+ * número do diário, que não diz nada ao jogador.
+ */
+export function dailyText(status: DailyStatus): ComponentChild {
+  switch (status.kind) {
+    case "unavailable":
+      return t("home.statusUnavailable");
+    case "new":
+      return t("home.statusNew");
+    case "playing":
+      return t("home.statusPlaying");
+    case "done":
+      return (
+        <span class="tag-done">
+          <Icon name="right" />
+          {/* Dia todo anulado (P27): "Terminado", sem "0 de 0 pontos". */}
+          {status.max === 0
+            ? t("home.statusDoneVoid")
+            : t("home.statusDone", { score: status.score, max: status.max })}
+        </span>
+      );
   }
 }
 

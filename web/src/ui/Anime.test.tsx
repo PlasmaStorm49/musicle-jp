@@ -366,9 +366,9 @@ describe("Anime: a escolha da dificuldade (P232)", () => {
         inProgress: { [puzzleId(DATE, "anime-musica-medio")]: { events: [{ type: "SKIP" }] } },
       },
     });
-    expect(lines(card(/^Fácil/))).toEqual(["nº 4 · terminado, 18 de 30 pontos"]);
-    expect(lines(card(/^Médio/))).toEqual(["nº 4 · em andamento"]);
-    expect(lines(card(/^Difícil/))).toEqual(["nº 4 · novo"]);
+    expect(lines(card(/^Fácil/))).toEqual(["18 de 30 pontos · Ver o resultado"]);
+    expect(lines(card(/^Médio/))).toEqual(["Em andamento · Continuar"]);
+    expect(lines(card(/^Difícil/))).toEqual(["Novo · Jogar"]);
     expect(card(/^Fácil/).textContent).toContain("Os temas mais conhecidos");
     expect(description(card(/^Fácil/))).toBe(
       "Os temas mais conhecidos. Digite o nome exato da música, em até 6 tentativas. 3 rodadas por dia.",
@@ -464,7 +464,7 @@ describe("Anime: as voltas, sem a nav (ME120, P321 e P322)", () => {
 describe("Anime: o diário", () => {
   it("o diário do acertar a música é o do Desafio: o cabeçalho com o nome dele e o campo da música", () => {
     setup("anime-musica-facil");
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Música · Fácil · nº 4");
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Música · Fácil");
     expect(screen.getByText("Rodada 1 de 3")).toBeTruthy();
     expect(screen.getByRole("combobox", { name: "Qual é a música?" })).toBeTruthy();
     // Sem o selo da Apple: o catálogo de teste não é o da Apple.
@@ -475,7 +475,7 @@ describe("Anime: o diário", () => {
     setup("anime-musica-dificil", {
       save: { ...emptySave(), history: { [puzzleId(DATE, "anime-musica-dificil")]: finished } },
     });
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Música · Difícil · nº 4");
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Música · Difícil");
     expect(screen.getByRole("heading", { name: "Resultado do dia" })).toBeTruthy();
     expect(screen.getByText("18 de 30 pontos")).toBeTruthy();
   });
@@ -491,7 +491,7 @@ describe("Anime: o diário", () => {
 
   it("o diário do acertar o anime: o cabeçalho, a pergunta do anime e o campo dos nomes de anime", () => {
     setup("anime-titulo-facil");
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Anime · Fácil · nº 4");
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Anime · Fácil");
     const field = screen.getByRole("combobox", { name: "Qual é o anime?" });
     expect(field.getAttribute("placeholder")).toBe("Nome do anime");
     expect(screen.getByText("Título em romaji, em inglês ou em japonês.")).toBeTruthy();
@@ -575,8 +575,8 @@ describe("Anime: um dia passado (o Histórico, M15)", () => {
     });
     expect(screen.getByText("Quinta-feira, 08/10")).toBeTruthy();
     expect(card(/^Fácil/).getAttribute("href")).toBe("#anime-musica-facil/2026-10-08");
-    expect(lines(card(/^Fácil/))).toEqual(["nº 4 · terminado, 18 de 30 pontos", "jogado depois"]);
-    expect(lines(card(/^Médio/))).toEqual(["nº 4 · novo"]);
+    expect(lines(card(/^Fácil/))).toEqual(["18 de 30 pontos · Ver o resultado", "jogado depois"]);
+    expect(lines(card(/^Médio/))).toEqual(["Novo · Jogar"]);
   });
 
   it("hoje, os endereços sem data e a dica de sempre", () => {

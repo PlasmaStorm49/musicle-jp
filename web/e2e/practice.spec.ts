@@ -105,7 +105,7 @@ test("o Treino continua ao trocar de aba, o cartão dele nos Hits mostra o modo,
   await expect(page.getByText("Rodada 2")).toBeVisible();
 
   await viaHits(page, /^Normal/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal · nº 1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Normal");
   // O placar da sessão fica no cartão do Treino, na tela dos Hits (P225).
   await page.getByRole("navigation").getByRole("link", { name: /^Hits/ }).click();
   const practiceCard = page.getByRole("main").getByRole("link", { name: /^Treino/ });

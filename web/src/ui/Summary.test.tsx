@@ -84,7 +84,7 @@ describe("Summary (o fim do dia)", () => {
       fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
     });
     expect(writeText).toHaveBeenCalledWith(
-      "AteMusic · Normal nº 3\n18/30\n✅\n❌\n⬛✅\nhttps://x.test/",
+      "AteMusic · Normal · 10/10\n18/30\n✅\n❌\n⬛✅\nhttps://x.test/",
     );
     // 12:00 em Brasília: faltam 12 h para o próximo diário.
     expect(screen.getByRole("timer").textContent).toBe("12:00:00");
@@ -126,11 +126,38 @@ describe("Summary (o fim do dia)", () => {
       fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
     });
     const [[text]] = writeText.mock.calls as unknown as [[string]];
-    expect(text.split("\n").slice(0, 2)).toEqual(["AteMusic Anime · Música · Fácil nº 3", "18/30"]);
+    expect(text.split("\n").slice(0, 2)).toEqual([
+      "AteMusic Anime · Música · Fácil · 10/10",
+      "18/30",
+    ]);
     expect(text.endsWith("https://x.test/")).toBe(true);
     // Jogos: 1 (só o do Fácil).
     const played = [...document.querySelectorAll(".stats dd")].map((d) => d.textContent);
     expect(played[0]).toBe("1");
+  });
+
+  it("a volta com o texto de quem chama, e o outro diário por jogar, em oliva (o usuário, 28/10/2026)", () => {
+    render(
+      <Summary
+        game={GAME}
+        daily={daily("album")}
+        history={{ [`${DATE}|album`]: GAME }}
+        scheduleDates={[DATE]}
+        shareUrl="https://x.test/"
+        today={DATE}
+        announce={vi.fn()}
+        back={{ href: "#hits", label: "Voltar", labelFull: "Voltar à tela dos Hits" }}
+        next={{ href: "#desafio", label: "Jogar o Desafio" }}
+      />,
+    );
+    const next = screen.getByRole("link", { name: "Jogar o Desafio" });
+    expect(next.getAttribute("href")).toBe("#desafio");
+    expect(next.classList.contains("primary")).toBe(true);
+    const back = screen.getByRole("link", { name: "Voltar à tela dos Hits" });
+    expect(back.getAttribute("href")).toBe("#hits");
+    // Na tela, "Voltar"; o nome inteiro, para o leitor de tela.
+    const shown = [...back.querySelectorAll('span[aria-hidden="true"]')].map((s) => s.textContent);
+    expect(shown).toContain("Voltar");
   });
 
   it('a rodada anulada: na célula, sem ícone e com "anulada" no lugar dos pontos', () => {
@@ -255,7 +282,7 @@ describe("Summary de um dia passado (o Histórico, P263)", () => {
       fireEvent.click(screen.getByRole("button", { name: "Compartilhar resultado" }));
     });
     expect(writeText).toHaveBeenCalledWith(
-      "AteMusic · Normal nº 3 (jogado depois)\n18/30\n✅\n❌\n⬛✅\nhttps://x.test/",
+      "AteMusic · Normal · 10/10 (jogado depois)\n18/30\n✅\n❌\n⬛✅\nhttps://x.test/",
     );
   });
 });
