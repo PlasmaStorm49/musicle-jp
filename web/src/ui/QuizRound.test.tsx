@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { type AudioEngine, AudioUnavailableError, type PlaybackResult } from "../audio/engine.ts";
 import { indexCatalog } from "../core/catalog.ts";
 import { looseKey, normalize } from "../core/normalize.ts";
-import { createQuizGame, type QuizDaily, quizReducer } from "../core/quiz.ts";
+import { createQuizGame, type QuizDaily, type QuizState, quizReducer } from "../core/quiz.ts";
 import type { Album, Artist, Catalog, Track } from "../core/types.ts";
 import { QuizRoundView } from "./QuizRound.tsx";
 
@@ -129,21 +129,32 @@ function quizEngine(fail?: AudioUnavailableError) {
   return { engine, plays };
 }
 
+/** Três rodadas iguais à do `daily`, para chegar à última vida. */
+const daily3: QuizDaily = {
+  ...daily,
+  rounds: [daily.rounds[0], daily.rounds[0], daily.rounds[0]].filter((r) => r !== undefined),
+};
+
 function Harness({
   engine,
   urls = URLS,
   resolved = [true, true],
   announce = () => {},
+  quiz = daily,
+  start,
 }: {
   readonly engine: AudioEngine;
   readonly urls?: readonly (string | null)[];
   readonly resolved?: readonly boolean[];
   readonly announce?: (message: string) => void;
+  readonly quiz?: QuizDaily;
+  /** O jogo de partida; sem ele, o jogo novo do `quiz`. */
+  readonly start?: QuizState;
 }) {
-  const [game, dispatch] = useReducer(quizReducer, createQuizGame(daily, index));
+  const [game, dispatch] = useReducer(quizReducer, start ?? createQuizGame(quiz, index));
   return (
     <QuizRoundView
-      daily={daily}
+      daily={quiz}
       game={game}
       dispatch={dispatch}
       index={index}
@@ -204,6 +215,54 @@ describe("QuizRoundView (M18)", () => {
     expect(plays).toHaveLength(1);
     expect(screen.getByRole("heading", { name: "Acertou!" })).not.toBeNull();
     expect(screen.getByText("Primavera de 2020 (abr. a jun.)")).not.toBeNull();
+  });
+
+  it("no acerto, a outra música fica neutra: sem o fundo e sem o X (o usuário, 27/10/2026)", async () => {
+    const { engine } = quizEngine();
+    render(<Harness engine={engine} />);
+    await click("Escolher a A");
+    const [a, b] = document.querySelectorAll(".mixed-songs > li");
+    expect(a?.className).toBe("right");
+    expect(a?.querySelector("svg.icon-right")).not.toBeNull();
+    expect(b?.className).toBe("");
+    expect(b?.querySelector("svg")).toBeNull();
+    // O nome da música fica no texto, para o leitor de tela; sem "Resposta" nem "Sua escolha".
+    expect(b?.querySelector(".mixed-note")?.textContent).toBe("Música B");
+  });
+
+  it("no erro, a escolha leva o X e o vermelho, e a resposta o ✓", async () => {
+    const { engine } = quizEngine();
+    render(<Harness engine={engine} />);
+    await click("Escolher a B");
+    const [a, b] = document.querySelectorAll(".mixed-songs > li");
+    expect(a?.className).toBe("right");
+    expect(a?.querySelector("svg.icon-right")).not.toBeNull();
+    expect(b?.className).toBe("wrong");
+    expect(b?.querySelector("svg.icon-wrong")).not.toBeNull();
+  });
+
+  it("o 2º erro diz 'Última vida', e não 'Vidas: 0' (P377; o usuário, 27/10/2026)", async () => {
+    const { engine } = quizEngine();
+    const once = quizReducer(createQuizGame(daily3, index), {
+      type: "CHOOSE",
+      round: 0,
+      side: "b",
+    });
+    render(<Harness engine={engine} quiz={daily3} start={quizReducer(once, { type: "NEXT" })} />);
+    await click("Escolher a B");
+    expect(screen.getByRole("heading", { name: "Errou. Última vida." })).not.toBeNull();
+  });
+
+  it("o 3º erro encerra: 'Errou: fim da run.', e não 'Última vida' (P377)", async () => {
+    const { engine } = quizEngine();
+    let start = createQuizGame(daily3, index);
+    for (const round of [0, 1]) {
+      start = quizReducer(start, { type: "CHOOSE", round, side: "b" });
+      start = quizReducer(start, { type: "NEXT" });
+    }
+    render(<Harness engine={engine} quiz={daily3} start={start} />);
+    await click("Escolher a B");
+    expect(screen.getByRole("heading", { name: "Errou: fim da run." })).not.toBeNull();
   });
 
   it("o Ouvir mais abre o trecho de 7 s e toca a A de novo", async () => {

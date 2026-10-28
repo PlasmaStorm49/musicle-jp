@@ -76,9 +76,11 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
   // Rodadas 3 e 4: erradas. O 3º erro encerra (P377).
+  // Sem vida sobrando, a run segue: "Última vida", e não "Vidas: 0" (o usuário, 27/10/2026).
   await pick(page, 2, false).click();
-  await expect(page.getByRole("heading", { name: "Errou. Vidas: 0." })).toBeFocused();
+  await expect(page.getByRole("heading", { name: "Errou. Última vida." })).toBeFocused();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
+  await expect(page.locator(".round-head .round-tag")).toHaveText("Última vida");
   await pick(page, 3, false).click();
   await expect(page.getByRole("heading", { name: "Errou: fim da run." })).toBeFocused();
   await page.getByRole("button", { name: "Ver resultado" }).click();

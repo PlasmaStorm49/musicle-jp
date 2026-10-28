@@ -416,13 +416,18 @@ function QuizReveal({
   useEffect(() => heading.current?.focus(), []);
   const right = round.status === "right";
   // No bônus, o erro não tira vida nem encerra nada.
+  // Sem vida sobrando, a run ainda segue até o próximo erro (P377): "Última vida", e não "Vidas:
+  // 0", que se lê como o fim (o usuário, 27/10/2026).
+  const left = livesLeft(game.errors);
   const title = right
     ? t("quiz.revealRight")
     : bonus
       ? t("quiz.bonusWrong")
       : isQuizFinished(game)
         ? t("quiz.revealEnd")
-        : t("quiz.revealWrong", { left: livesLeft(game.errors) });
+        : left === 0
+          ? t("quiz.revealWrongLast")
+          : t("quiz.revealWrong", { left });
   const diff = round.info?.diff;
   return (
     <>
@@ -437,13 +442,17 @@ function QuizReveal({
             if (!track) return null;
             const anime = track.themes[0]?.anime ?? "";
             const data = infoText(round.info, position as 0 | 1);
+            const answer = round.answer === which;
+            // O vermelho e o X só na escolha errada: a outra música, quando você acertou, não é
+            // erro seu, e fica neutra, como as opções da revelação do Normal (o usuário, 27/10/2026).
+            const missed = round.chosen === which && !answer;
             const tags = [
               t(which === "a" ? "quiz.side.a" : "quiz.side.b"),
-              ...(round.answer === which ? [t("quiz.answer")] : []),
+              ...(answer ? [t("quiz.answer")] : []),
               ...(round.chosen === which ? [t("reveal.yourPick")] : []),
             ].join(" · ");
             return (
-              <li key={which} class={round.answer === which ? "right" : "wrong"}>
+              <li key={which} class={answer ? "right" : missed ? "wrong" : undefined}>
                 {track.artworkUrl ? (
                   <img src={resolveUrl(track.artworkUrl)} alt="" width={48} height={48} />
                 ) : (
@@ -451,13 +460,15 @@ function QuizReveal({
                 )}
                 <div>
                   <p class="mixed-note">
-                    <Icon name={round.answer === which ? "right" : "wrong"} />
+                    {(answer || missed) && <Icon name={answer ? "right" : "wrong"} />}
                     <span>{tags}</span>
                   </p>
                   <ItemLabel item={track} />
                   {track.themes.length > 0 && (
                     <p class="album">
-                      <span lang={langOf(anime)}>{themesText(track.themes)}</span>
+                      {/* O tipo do tema antes do anime: o nome longo corta no fim, e o "OP"
+                          não some (o usuário, 27/10/2026). */}
+                      <span lang={langOf(anime)}>{themesText(track.themes, true)}</span>
                     </p>
                   )}
                   {data && <p class="quiz-data">{data}</p>}
