@@ -230,6 +230,23 @@ describe("QuizRoundView (M18)", () => {
     expect(b?.querySelector(".mixed-note")?.textContent).toBe("Música B");
   });
 
+  it("na revelação, cada música tem o Ouvir da prévia inteira, sem a barra (o usuário, 27/10/2026)", async () => {
+    const { engine, plays } = quizEngine();
+    render(<Harness engine={engine} />);
+    await click("Escolher a A");
+    const listen = screen.getAllByRole("button", { name: "Ouvir a prévia inteira" });
+    expect(listen).toHaveLength(2);
+    expect(document.querySelectorAll(".quiz-reveal .bar-seek")).toHaveLength(0);
+    // A B inteira: a URL dela, os 30 s da prévia.
+    await act(async () => {
+      fireEvent.click(listen[1] as HTMLElement);
+    });
+    expect(plays.map((p) => [p.url, p.seconds])).toEqual([["audio/2.wav", 30]]);
+    expect(screen.getByRole("button", { name: "Parar" })).not.toBeNull();
+    await ends(plays, 0);
+    expect(screen.getAllByRole("button", { name: "Ouvir a prévia inteira" })).toHaveLength(2);
+  });
+
   it("no erro, a escolha leva o X e o vermelho, e a resposta o ✓", async () => {
     const { engine } = quizEngine();
     render(<Harness engine={engine} />);
