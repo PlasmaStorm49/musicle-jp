@@ -20,9 +20,10 @@ export type MedalTier = "simple" | "major";
 
 /**
  * Os blocos da tela das Medalhas, na ordem dela (o usuário, 28/10/2026): as gerais, as de cada
- * modo e, no fim, o Superfan. Só a tela os usa: o aviso e o save não mudam.
+ * modo e, no fim, os Artistas, com as 3 do Superfan de cada um. Só a tela os usa: o aviso e o save
+ * não mudam.
  */
-export const MEDAL_BLOCKS = ["gerais", "hits", "anime", "misturadas", "quiz", "superfan"] as const;
+export const MEDAL_BLOCKS = ["gerais", "hits", "anime", "misturadas", "quiz", "artistas"] as const;
 export type MedalBlock = (typeof MEDAL_BLOCKS)[number];
 
 /** O que as conferências leem. */
@@ -228,7 +229,8 @@ export const GENERAL_GOALS = {
  * As gerais (P280: uma por feito; a lista do usuário, P310): as pequenas, do começo para o fim do
  * caminho, e depois as grandes. Os nomes e o como ganhar ficam no i18n (`medal.<id>.name` e
  * `.how`), e o desenho, no `ui/medalIcons.tsx`. O bloco de cada uma é o da tela (o usuário,
- * 28/10/2026): a que mistura modos fica nas gerais, e o Treino, nos Hits. A tela segue os blocos
+ * 28/10/2026): a que mistura modos fica nas gerais, também as duas dos artistas (o Colecionador e
+ * o Superfan), e o Treino, nos Hits. A tela segue os blocos
  * (`MEDAL_BLOCKS`) e, dentro de cada um, a ordem desta lista; os avisos seguem a lista inteira, e
  * mudar a ordem dela muda a ordem deles.
  */
@@ -276,7 +278,7 @@ export const MEDALS: readonly Medal[] = [
   ),
   counted(
     "colecionador",
-    "superfan",
+    "gerais",
     "simple",
     GENERAL_GOALS.collector,
     (ctx) => Object.values(ctx.artists).filter((r) => r.right >= SUPERFAN_RIGHT).length,
@@ -316,7 +318,7 @@ export const MEDALS: readonly Medal[] = [
   ),
   {
     id: "superfan-completo",
-    block: "superfan",
+    block: "gerais",
     tier: "major",
     earned: (ctx) => Object.values(ctx.artists).some((r) => r.done),
   },
@@ -346,7 +348,7 @@ export function superfanMedals(artistId: string): readonly Medal[] {
   return [
     {
       id: superfanMedalId(artistId, "acertos"),
-      block: "superfan",
+      block: "artistas",
       tier: "simple",
       earned: (ctx) => record(ctx).right >= SUPERFAN_RIGHT,
       progress: (ctx) => ({
@@ -356,13 +358,13 @@ export function superfanMedals(artistId: string): readonly Medal[] {
     },
     {
       id: superfanMedalId(artistId, "completo"),
-      block: "superfan",
+      block: "artistas",
       tier: "major",
       earned: (ctx) => !!record(ctx).done,
     },
     {
       id: superfanMedalId(artistId, "perfeito"),
-      block: "superfan",
+      block: "artistas",
       tier: "major",
       earned: (ctx) => !!record(ctx).perfect,
     },
@@ -438,7 +440,7 @@ export type MedalBlockView = {
   readonly block: MedalBlock;
   /** As gerais do bloco, na ordem da lista: as pequenas antes das grandes (P310). */
   readonly general: readonly MedalState[];
-  /** Só no do Superfan: as 3 de cada artista da lista, na ordem dela. */
+  /** Só no dos Artistas: as 3 do Superfan de cada artista da lista, na ordem dela. */
   readonly artists: readonly ArtistMedals[];
   readonly earned: number;
   readonly total: number;
@@ -457,9 +459,9 @@ const earnedCount = (states: readonly MedalState[]) =>
 
 /**
  * O quadro da tela, com os blocos na ordem de `MEDAL_BLOCKS`. O bloco sem medalha nenhuma fica
- * fora, menos o do Superfan, que mostra também a carga da lista dos artistas. As do Superfan são as
- * dos artistas da lista, na ordem dela (`artistIds`); o artista que saiu da lista some da tela, mas
- * o registro fica no save.
+ * fora, menos o dos Artistas, que mostra também a carga da lista deles. As do Superfan são as dos
+ * artistas da lista, na ordem dela (`artistIds`); o artista que saiu da lista some da tela, mas o
+ * registro fica no save.
  */
 export function medalBoard(
   save: Save,
@@ -479,10 +481,10 @@ export function medalBoard(
   }));
   const blocks = MEDAL_BLOCKS.map((block): MedalBlockView => {
     const own = states.filter((state) => state.medal.block === block);
-    const artists = block === "superfan" ? superfan : [];
+    const artists = block === "artistas" ? superfan : [];
     const all = [...own, ...artists.flatMap((row) => row.cells.map((cell) => cell.state))];
     return { block, general: own, artists, earned: earnedCount(all), total: all.length };
-  }).filter((view) => view.block === "superfan" || view.general.length > 0);
+  }).filter((view) => view.block === "artistas" || view.general.length > 0);
   return {
     streak: ctx.streak,
     earned: blocks.reduce((sum, view) => sum + view.earned, 0),

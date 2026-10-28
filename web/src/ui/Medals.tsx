@@ -1,8 +1,8 @@
 // A tela das Medalhas (M16, P278, P286): no topo, a sequência (P282) e o total; depois, os blocos
-// (o usuário, 28/10/2026: as gerais e as de cada modo, cada um com a contagem dele); no fim, o do
-// Superfan, com as gerais dele e as 3 de cada artista da lista, com o desenho dele (P296) e o nome
-// próprio de cada uma (P300). A tela rola, como a lista dos Artistas (P211). Com as capas da Apple,
-// o selo fecha a página (P170).
+// (o usuário, 28/10/2026: as gerais e as de cada modo, cada um com a contagem dele e separados por
+// um fio); no fim, o dos Artistas, com as 3 do Superfan de cada artista da lista, com o desenho dele
+// (P296) e o nome próprio de cada uma (P300). A tela rola, como a lista dos Artistas (P211). Com as
+// capas da Apple, o selo fecha a página (P170).
 import { useEffect } from "preact/hooks";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import { type MedalName, medalName, superfanArt } from "../core/medalArt.ts";
@@ -83,9 +83,9 @@ export function medalText(
   return t(`medal.${id}.${part}` as MessageKey, { right: SUPERFAN_RIGHT, ...params });
 }
 
-/** O bloco do Superfan vazio: a reserva do tipo, que o `medalBoard` nunca deixa faltar. */
-const NO_SUPERFAN: MedalBlockView = {
-  block: "superfan",
+/** O bloco dos Artistas vazio: a reserva do tipo, que o `medalBoard` nunca deixa faltar. */
+const NO_ARTISTS: MedalBlockView = {
+  block: "artistas",
   general: [],
   artists: [],
   earned: 0,
@@ -150,8 +150,8 @@ export function Medals({
     general,
     entries.map((e) => e.id),
   );
-  // O do Superfan está sempre no quadro: ele mostra também a carga e a falha da lista.
-  const superfan = board.blocks.find((view) => view.block === "superfan") ?? NO_SUPERFAN;
+  // O dos Artistas está sempre no quadro: ele mostra também a carga e a falha da lista.
+  const artistsBlock = board.blocks.find((view) => view.block === "artistas") ?? NO_ARTISTS;
   return (
     <div class="medals screen">
       <header>
@@ -169,23 +169,23 @@ export function Medals({
         )}
       </header>
       {board.blocks.map((view) =>
-        view.block === "superfan" ? null : (
+        view.block === "artistas" ? null : (
           <section key={view.block} aria-labelledby={`medals-${view.block}`}>
             <BlockTitle view={view} />
             <GeneralList states={view.general} favorite={favorite} onFavorite={onFavorite} />
           </section>
         ),
       )}
-      <section class="medals-superfan" aria-labelledby="medals-superfan">
+      <section aria-labelledby="medals-artistas">
         {/* A contagem só com a lista dos artistas, como o total do topo. */}
-        <BlockTitle view={superfan} count={list.status === "ready"} />
-        {superfan.general.length > 0 && (
-          <GeneralList states={superfan.general} favorite={favorite} onFavorite={onFavorite} />
+        <BlockTitle view={artistsBlock} count={list.status === "ready"} />
+        {artistsBlock.general.length > 0 && (
+          <GeneralList states={artistsBlock.general} favorite={favorite} onFavorite={onFavorite} />
         )}
         <p class="hint">{t("medals.superfanHint")}</p>
         {list.status === "ready" ? (
           <ul class="medal-artists">
-            {superfan.artists.map((row) => {
+            {artistsBlock.artists.map((row) => {
               const entry = byId.get(row.artistId);
               return entry ? (
                 <ArtistRow

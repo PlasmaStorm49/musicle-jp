@@ -158,7 +158,17 @@ describe("as gerais (P310)", () => {
       ]),
     );
     expect(byBlock).toEqual({
-      gerais: ["diario-1", "um-segundo", "seguidos-7", "oito-diarios", "diarios-50", "seguidos-30"],
+      // As duas dos artistas (o Colecionador e o Superfan) também ficam nas gerais.
+      gerais: [
+        "diario-1",
+        "um-segundo",
+        "seguidos-7",
+        "oito-diarios",
+        "diarios-50",
+        "colecionador",
+        "superfan-completo",
+        "seguidos-30",
+      ],
       hits: ["hits-todos", "treino-100", "hits-perfeito"],
       anime: ["anime-todos", "anime-perfeito"],
       misturadas: [
@@ -168,7 +178,7 @@ describe("as gerais (P310)", () => {
         "misturadas-acertos-7",
       ],
       quiz: [],
-      superfan: ["colecionador", "superfan-completo"],
+      artistas: [],
     });
     // Nenhuma pequena depois da 1ª grande do bloco (P310).
     for (const block of MEDAL_BLOCKS) {
@@ -177,11 +187,11 @@ describe("as gerais (P310)", () => {
       const late = firstMajor === -1 ? [] : tiers.slice(firstMajor).filter((t) => t === "simple");
       expect(late, block).toEqual([]);
     }
-    // As 3 de cada artista ficam no bloco do Superfan.
+    // As 3 do Superfan de cada artista ficam no bloco dos Artistas.
     expect(superfanMedals("apple:ar:1").map((m) => m.block)).toEqual([
-      "superfan",
-      "superfan",
-      "superfan",
+      "artistas",
+      "artistas",
+      "artistas",
     ]);
   });
 
@@ -411,21 +421,21 @@ describe("medalBoard (o que a tela mostra, P286)", () => {
     save = withArtistRight(save, "apple:ar:fora");
     const board = medalBoard(save, "2026-10-20", HITS, DEMO_MEDALS, ["apple:ar:2", ARTIST]);
     expect(board.streak).toEqual({ current: 2, best: 2 });
-    // Só os blocos com medalha, e sempre o do Superfan (o usuário, 28/10/2026).
+    // Só os blocos com medalha, e sempre o dos Artistas (o usuário, 28/10/2026).
     expect(board.blocks.map((v) => [v.block, v.earned, v.total])).toEqual([
       ["gerais", 1, 3],
-      ["superfan", 2, 6],
+      ["artistas", 2, 6],
     ]);
-    const [gerais, superfan] = board.blocks;
+    const [gerais, artists] = board.blocks;
     expect(gerais?.general.map((s) => [s.medal.id, s.earned, s.progress])).toEqual([
       ["demo-primeiro", true, null],
       ["demo-cinco", false, { value: 2, goal: 5 }],
       ["demo-sequencia", false, { value: 2, goal: 3 }],
     ]);
     expect(gerais?.artists).toEqual([]);
-    expect(superfan?.general).toEqual([]);
-    expect(superfan?.artists.map((row) => row.artistId)).toEqual(["apple:ar:2", ARTIST]);
-    expect(superfan?.artists[1]?.cells.map((c) => [c.level, c.state.earned])).toEqual([
+    expect(artists?.general).toEqual([]);
+    expect(artists?.artists.map((row) => row.artistId)).toEqual(["apple:ar:2", ARTIST]);
+    expect(artists?.artists[1]?.cells.map((c) => [c.level, c.state.earned])).toEqual([
       ["acertos", true],
       ["completo", true],
       ["perfeito", false],
@@ -434,24 +444,22 @@ describe("medalBoard (o que a tela mostra, P286)", () => {
     expect(board.earned).toBe(1 + 2);
   });
 
-  it("com as reais: os blocos na ordem da tela, sem o vazio, e as gerais do Superfan no dele", () => {
+  it("com as reais: os blocos na ordem da tela, sem o vazio, e os Artistas só com as do Superfan", () => {
     const save = withSuperfanEnd(rights(emptySave(), SUPERFAN_RIGHT), ARTIST, {
       done: true,
       perfect: false,
     });
     const board = medalBoard(save, "2026-10-20", HITS, MEDALS, [ARTIST]);
     expect(board.blocks.map((v) => [v.block, v.earned, v.total])).toEqual([
-      ["gerais", 0, 6],
+      // O Superfan completo é geral (o usuário, 28/10/2026).
+      ["gerais", 1, 8],
       ["hits", 0, 3],
       ["anime", 0, 2],
       ["misturadas", 0, 4],
-      // O Superfan completo (geral) e as 2 do artista; o total soma as 2 gerais e as 3 dele.
-      ["superfan", 3, 5],
+      // A dos acertos e a completa do artista, das 3 dele.
+      ["artistas", 2, 3],
     ]);
-    expect(board.blocks.at(-1)?.general.map((s) => s.medal.id)).toEqual([
-      "colecionador",
-      "superfan-completo",
-    ]);
+    expect(board.blocks.at(-1)?.general).toEqual([]);
     expect(board.total).toBe(MEDALS.length + 3);
   });
 });
