@@ -46,9 +46,12 @@ test("pela nav, no celular: o Mais abre o Histórico, com o foco no título e a 
   await expect(page.locator("#nav-more-menu")).toBeHidden();
 });
 
-test("pela Início: o link na linha do tema leva ao Histórico (P264)", async ({ page }) => {
+test("da Início, o Histórico fica no Mais da nav, e não no rodapé (o usuário, 27/10/2026)", async ({
+  page,
+}) => {
   await open(page, TODAY, "#inicio");
-  await page.getByRole("main").getByRole("link", { name: "Histórico" }).click();
+  await expect(page.getByRole("main").getByRole("link", { name: "Histórico" })).toHaveCount(0);
+  await (await navLink(page, "Histórico")).click();
   await expect(page.getByRole("heading", { level: 1, name: "Histórico" })).toBeFocused();
   await expect(page.locator(".calendar-days > li")).toHaveCount(14);
 });
