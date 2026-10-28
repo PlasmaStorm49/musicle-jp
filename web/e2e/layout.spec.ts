@@ -980,7 +980,7 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
-test("as Medalhas (M16) em 320 px: as 17 gerais e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
+test("as Medalhas (M16) em 320 px: as 17 da lista em blocos e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
   page,
 }) => {
   // As ganhas, com o botão: os 6 do Anime de hoje acertados (a geral de nome mais longo, em

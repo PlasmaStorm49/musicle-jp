@@ -50,7 +50,7 @@ const shelf = (page: Page) =>
 const seenMedals = (page: Page) =>
   page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").seenMedals, SAVE_KEY);
 
-test("a lista real, como no site: a aba, a tela com a sequência, as 17 gerais (com as 4 das Misturadas, ME123) e o Superfan de cada artista (P278, P282, P286, P310)", async ({
+test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista em blocos (com as 4 das Misturadas, ME123) e o Superfan de cada artista (P278, P282, P286, P310)", async ({
   page,
 }) => {
   await seedHistory(page, {
@@ -64,56 +64,58 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 gerais (
   const title = page.getByRole("heading", { level: 1, name: "Medalhas" });
   await expect(title).toBeFocused();
   await expect(page.getByText("Dias seguidos jogando: 3. O melhor: 3.")).toBeVisible();
-  // As 17, na ordem da lista: o 1º diário ganho, e o progresso das que se ganham aos poucos.
+  // As 17, nos blocos (o usuário, 28/10/2026): as gerais, as de cada modo e, no fim, as gerais do
+  // Superfan; em cada bloco, as pequenas antes das grandes. O 1º diário ganho, e o progresso das que
+  // se ganham aos poucos.
   const rows = page.locator(".medal-list > li");
   await expect(rows.locator(".medal-name")).toHaveText([
     "Primeiro Acorde",
     "Relâmpago",
-    "Dia de Hit",
-    "Pare de falar em tocar grama...",
-    "Tudo Junto e Misturado",
     "Em Chamas",
     "Maratonista",
-    "Saco de Pancadas",
     "Já É de Casa",
-    "DJ Residente",
-    "Colecionador",
+    "Tá pegando fogo, bicho!!!",
+    "Dia de Hit",
+    "Saco de Pancadas",
     "Hit Perfeito",
+    "Pare de falar em tocar grama...",
     "Sensei",
+    "Tudo Junto e Misturado",
+    "DJ Residente",
     "Pode juntar mais uma",
     "Harmonia no Caos",
+    "Colecionador",
     "Superfan",
-    "Tá pegando fogo, bicho!!!",
   ]);
   // O como ganhar em todas, também na ganha (o usuário, 24/10/2026), e o progresso embaixo das
   // que se ganham aos poucos.
   await expect(rows.locator(".medal-how")).toHaveText([
     "Termine um diário no dia",
     /^Acerte uma rodada/,
-    /^Acerte todas/,
-    /^Acerte todas/,
-    "Ache todas as músicas de uma rodada das Misturadas",
     "Jogue 7 dias seguidos",
     "Termine os 8 diários no mesmo dia",
-    "Acerte 100 rodadas no Treino",
     "Termine 50 diários no dia",
+    "Jogue 30 dias seguidos",
+    /^Acerte todas/,
+    "Acerte 100 rodadas no Treino",
+    /^Gabarite/,
+    /^Acerte todas/,
+    /^Gabarite/,
+    "Ache todas as músicas de uma rodada das Misturadas",
     "Termine ao menos 1 diário das Misturadas por dia, 15 dias seguidos",
-    "Chegue a 50 acertos com cada um de 5 artistas",
-    /^Gabarite/,
-    /^Gabarite/,
     /^Gabarite os 2 diários das Misturadas/,
     /^Ache todas as músicas de 1 diário das Misturadas por dia \(basta um dos dois\), 7 dias/,
+    "Chegue a 50 acertos com cada um de 5 artistas",
     "Termine uma partida do Superfan",
-    "Jogue 30 dias seguidos",
   ]);
   await expect(rows.locator(".medal-progress")).toHaveText([
     "3 de 7 dias seguidos",
-    "0 de 100 acertos no Treino",
     "3 de 50 diários",
-    "0 de 15 dias seguidos",
-    "0 de 5 artistas com 50 acertos",
-    "0 de 7 dias seguidos",
     "3 de 30 dias seguidos",
+    "0 de 100 acertos no Treino",
+    "0 de 15 dias seguidos",
+    "0 de 7 dias seguidos",
+    "0 de 5 artistas com 50 acertos",
   ]);
   await expect(page.locator(".medal-list > li.locked")).toHaveCount(16);
   // As 6 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
@@ -121,6 +123,14 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 gerais (
   await expect(rows.locator("svg text")).toHaveCount(0);
   // As 3 do Superfan de cada artista das fixtures, por ganhar.
   await expect(page.locator(".medal-artist")).toHaveCount(5);
+  // Um título por bloco, com a contagem dele; o do Superfan soma as 2 gerais e as 3 de cada artista.
+  await expect(page.getByRole("heading", { level: 2 })).toHaveText([
+    "Gerais 1 de 6",
+    "Hits 0 de 3",
+    "Anime 0 de 2",
+    "Misturadas 0 de 4",
+    "Superfan 0 de 17",
+  ]);
   // O nome próprio de cada uma, com o latino (P295, P300): os fictícios do ar02.
   await expect(page.locator(".medal-artist").first().locator(".medal-name")).toHaveText([
     "開幕ベル, Kaimaku Bell",

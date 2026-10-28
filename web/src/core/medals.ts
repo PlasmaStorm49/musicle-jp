@@ -18,6 +18,13 @@ import { type DayGame, dayGames, streaks } from "./stats.ts";
 /** O tamanho do aviso (P279): o pequeno, que some sozinho, ou o pop-up grande. */
 export type MedalTier = "simple" | "major";
 
+/**
+ * Os blocos da tela das Medalhas, na ordem dela (o usuário, 28/10/2026): as gerais, as de cada
+ * modo e, no fim, o Superfan. Só a tela os usa: o aviso e o save não mudam.
+ */
+export const MEDAL_BLOCKS = ["gerais", "hits", "anime", "misturadas", "quiz", "superfan"] as const;
+export type MedalBlock = (typeof MEDAL_BLOCKS)[number];
+
 /** O que as conferências leem. */
 export type MedalContext = {
   /** O "hoje" do jogo (`gameDate`). */
@@ -53,6 +60,8 @@ export type MedalProgress = { readonly value: number; readonly goal: number };
 
 export type Medal = {
   readonly id: string;
+  /** O bloco da tela em que ela aparece. */
+  readonly block: MedalBlock;
   readonly tier: MedalTier;
   readonly earned: (ctx: MedalContext) => boolean;
   /** Só nas que se ganham aos poucos. Concorda com o `earned`: ganha, o valor chega à meta. */
@@ -189,12 +198,14 @@ function someDay(
 /** Uma que se ganha aos poucos: o valor chega à meta, e o progresso mostra quanto falta. */
 function counted(
   id: string,
+  block: MedalBlock,
   tier: MedalTier,
   goal: number,
   value: (ctx: MedalContext) => number,
 ): Medal {
   return {
     id,
+    block,
     tier,
     earned: (ctx) => value(ctx) >= goal,
     progress: (ctx) => ({ value: Math.min(value(ctx), goal), goal }),
@@ -214,50 +225,78 @@ export const GENERAL_GOALS = {
 } as const;
 
 /**
- * As gerais (P280: uma por feito; a lista do usuário, P310), na ordem da tela: as pequenas, do
- * começo para o fim do caminho, e depois as grandes. Os nomes e o como ganhar ficam no i18n
- * (`medal.<id>.name` e `.how`), e o desenho, no `ui/medalIcons.tsx`.
+ * As gerais (P280: uma por feito; a lista do usuário, P310): as pequenas, do começo para o fim do
+ * caminho, e depois as grandes. Os nomes e o como ganhar ficam no i18n (`medal.<id>.name` e
+ * `.how`), e o desenho, no `ui/medalIcons.tsx`. O bloco de cada uma é o da tela (o usuário,
+ * 28/10/2026): a que mistura modos fica nas gerais, e o Treino, nos Hits. A tela segue os blocos
+ * (`MEDAL_BLOCKS`) e, dentro de cada um, a ordem desta lista; os avisos seguem a lista inteira, e
+ * mudar a ordem dela muda a ordem deles.
  */
 export const MEDALS: readonly Medal[] = [
-  { id: "diario-1", tier: "simple", earned: (ctx) => ctx.games.length >= 1 },
+  { id: "diario-1", block: "gerais", tier: "simple", earned: (ctx) => ctx.games.length >= 1 },
   {
     id: "um-segundo",
+    block: "gerais",
     tier: "simple",
     earned: (ctx) => ctx.games.some(({ game }) => game.rounds.some(perfectRound)),
   },
-  { id: "hits-todos", tier: "simple", earned: (ctx) => someDay(ctx, HITS_DAY, allWon) },
-  { id: "anime-todos", tier: "simple", earned: (ctx) => someDay(ctx, ANIME_DAY, allWon) },
+  {
+    id: "hits-todos",
+    block: "hits",
+    tier: "simple",
+    earned: (ctx) => someDay(ctx, HITS_DAY, allWon),
+  },
+  {
+    id: "anime-todos",
+    block: "anime",
+    tier: "simple",
+    earned: (ctx) => someDay(ctx, ANIME_DAY, allWon),
+  },
   // As Misturadas (ME123, o usuário, 24/10/2026): uma rodada com todas as músicas achadas.
   {
     id: "misturadas-rodada",
+    block: "misturadas",
     tier: "simple",
     earned: (ctx) =>
       [...ctx.mixed.values()].some((day) =>
         [...day.values()].some((game) => game.rounds.some(allFoundRound)),
       ),
   },
-  counted("seguidos-7", "simple", GENERAL_GOALS.streakShort, (ctx) => ctx.streak.best),
-  { id: "oito-diarios", tier: "simple", earned: (ctx) => someDay(ctx, WHOLE_DAY) },
-  counted("treino-100", "simple", GENERAL_GOALS.practice, (ctx) => ctx.practiceRight),
-  counted("diarios-50", "simple", GENERAL_GOALS.dailies, (ctx) => ctx.games.length),
+  counted("seguidos-7", "gerais", "simple", GENERAL_GOALS.streakShort, (ctx) => ctx.streak.best),
+  { id: "oito-diarios", block: "gerais", tier: "simple", earned: (ctx) => someDay(ctx, WHOLE_DAY) },
+  counted("treino-100", "hits", "simple", GENERAL_GOALS.practice, (ctx) => ctx.practiceRight),
+  counted("diarios-50", "gerais", "simple", GENERAL_GOALS.dailies, (ctx) => ctx.games.length),
   // Ao menos 1 diário das Misturadas terminado por dia, em dias seguidos.
   counted(
     "misturadas-seguidos-15",
+    "misturadas",
     "simple",
     GENERAL_GOALS.mixedPlayed,
     (ctx) => ctx.mixedStreak.played,
   ),
   counted(
     "colecionador",
+    "superfan",
     "simple",
     GENERAL_GOALS.collector,
     (ctx) => Object.values(ctx.artists).filter((r) => r.right >= SUPERFAN_RIGHT).length,
   ),
-  { id: "hits-perfeito", tier: "major", earned: (ctx) => someDay(ctx, HITS_DAY, perfectGame) },
-  { id: "anime-perfeito", tier: "major", earned: (ctx) => someDay(ctx, ANIME_DAY, perfectGame) },
+  {
+    id: "hits-perfeito",
+    block: "hits",
+    tier: "major",
+    earned: (ctx) => someDay(ctx, HITS_DAY, perfectGame),
+  },
+  {
+    id: "anime-perfeito",
+    block: "anime",
+    tier: "major",
+    earned: (ctx) => someDay(ctx, ANIME_DAY, perfectGame),
+  },
   // Os 2 diários das Misturadas do mesmo dia perfeitos (P352: os dois, e não um).
   {
     id: "misturadas-perfeito",
+    block: "misturadas",
     tier: "major",
     earned: (ctx) =>
       [...ctx.mixed.values()].some((day) =>
@@ -270,16 +309,18 @@ export const MEDALS: readonly Medal[] = [
   // Em dias seguidos, ao menos 1 diário das Misturadas com todas as músicas achadas (P353: basta um).
   counted(
     "misturadas-acertos-7",
+    "misturadas",
     "major",
     GENERAL_GOALS.mixedAllFound,
     (ctx) => ctx.mixedStreak.allFound,
   ),
   {
     id: "superfan-completo",
+    block: "superfan",
     tier: "major",
     earned: (ctx) => Object.values(ctx.artists).some((r) => r.done),
   },
-  counted("seguidos-30", "major", GENERAL_GOALS.streakLong, (ctx) => ctx.streak.best),
+  counted("seguidos-30", "gerais", "major", GENERAL_GOALS.streakLong, (ctx) => ctx.streak.best),
 ];
 
 /** Os 3 níveis do Superfan de cada artista (P280, P285). */
@@ -305,6 +346,7 @@ export function superfanMedals(artistId: string): readonly Medal[] {
   return [
     {
       id: superfanMedalId(artistId, "acertos"),
+      block: "superfan",
       tier: "simple",
       earned: (ctx) => record(ctx).right >= SUPERFAN_RIGHT,
       progress: (ctx) => ({
@@ -314,11 +356,13 @@ export function superfanMedals(artistId: string): readonly Medal[] {
     },
     {
       id: superfanMedalId(artistId, "completo"),
+      block: "superfan",
       tier: "major",
       earned: (ctx) => !!record(ctx).done,
     },
     {
       id: superfanMedalId(artistId, "perfeito"),
+      block: "superfan",
       tier: "major",
       earned: (ctx) => !!record(ctx).perfect,
     },
@@ -350,15 +394,22 @@ export function unseenMedals(save: Save, earned: readonly string[]): string[] {
  * estrutura antes da lista de verdade (P288). Os limites são fáceis, e há as dos dois tamanhos.
  */
 export const DEMO_MEDALS: readonly Medal[] = [
-  { id: "demo-primeiro", tier: "simple", earned: (ctx) => ctx.games.length >= 1 },
+  {
+    id: "demo-primeiro",
+    block: "gerais",
+    tier: "simple",
+    earned: (ctx) => ctx.games.length >= 1,
+  },
   {
     id: "demo-cinco",
+    block: "gerais",
     tier: "simple",
     earned: (ctx) => ctx.games.length >= 5,
     progress: (ctx) => ({ value: Math.min(ctx.games.length, 5), goal: 5 }),
   },
   {
     id: "demo-sequencia",
+    block: "gerais",
     tier: "major",
     earned: (ctx) => ctx.streak.best >= 3,
     progress: (ctx) => ({ value: Math.min(ctx.streak.best, 3), goal: 3 }),
@@ -382,18 +433,33 @@ export type ArtistMedals = {
   readonly cells: readonly { readonly level: SuperfanLevel; readonly state: MedalState }[];
 };
 
-/** O que a tela das Medalhas mostra (P286): a sequência, o total, as gerais e as do Superfan. */
+/** Um bloco da tela (o usuário, 28/10/2026), com a contagem dele. */
+export type MedalBlockView = {
+  readonly block: MedalBlock;
+  /** As gerais do bloco, na ordem da lista: as pequenas antes das grandes (P310). */
+  readonly general: readonly MedalState[];
+  /** Só no do Superfan: as 3 de cada artista da lista, na ordem dela. */
+  readonly artists: readonly ArtistMedals[];
+  readonly earned: number;
+  readonly total: number;
+};
+
+/** O que a tela das Medalhas mostra (P286): a sequência, o total e os blocos. */
 export type MedalBoard = {
   readonly streak: MedalContext["streak"];
   readonly earned: number;
   readonly total: number;
-  readonly general: readonly MedalState[];
-  readonly superfan: readonly ArtistMedals[];
+  readonly blocks: readonly MedalBlockView[];
 };
 
+const earnedCount = (states: readonly MedalState[]) =>
+  states.filter((state) => state.earned).length;
+
 /**
- * O quadro da tela. As do Superfan são as dos artistas da lista, na ordem dela (`artistIds`); o
- * artista que saiu da lista some da tela, mas o registro fica no save.
+ * O quadro da tela, com os blocos na ordem de `MEDAL_BLOCKS`. O bloco sem medalha nenhuma fica
+ * fora, menos o do Superfan, que mostra também a carga da lista dos artistas. As do Superfan são as
+ * dos artistas da lista, na ordem dela (`artistIds`); o artista que saiu da lista some da tela, mas
+ * o registro fica no save.
  */
 export function medalBoard(
   save: Save,
@@ -411,13 +477,17 @@ export function medalBoard(
       state: stateOf(medal, ctx),
     })),
   }));
-  const all = [...states, ...superfan.flatMap((row) => row.cells.map((cell) => cell.state))];
+  const blocks = MEDAL_BLOCKS.map((block): MedalBlockView => {
+    const own = states.filter((state) => state.medal.block === block);
+    const artists = block === "superfan" ? superfan : [];
+    const all = [...own, ...artists.flatMap((row) => row.cells.map((cell) => cell.state))];
+    return { block, general: own, artists, earned: earnedCount(all), total: all.length };
+  }).filter((view) => view.block === "superfan" || view.general.length > 0);
   return {
     streak: ctx.streak,
-    earned: all.filter((state) => state.earned).length,
-    total: all.length,
-    general: states,
-    superfan,
+    earned: blocks.reduce((sum, view) => sum + view.earned, 0),
+    total: blocks.reduce((sum, view) => sum + view.total, 0),
+    blocks,
   };
 }
 
