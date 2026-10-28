@@ -312,6 +312,8 @@ FAMILIES = (
     Family("fonte", "property", True, 5, param_cooldown=30),
     Family("tema", "property", False, 10),
 )
+# A tela marca os dias destes pelo `isSpecialFamily` (web/src/core/quiz.ts): especial novo entra
+# lá também (o usuário, 28/10/2026).
 SPECIALS = (
     Family("estudio", "property", True, 0, special=True),
     Family(

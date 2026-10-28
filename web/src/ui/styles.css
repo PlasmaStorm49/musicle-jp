@@ -717,8 +717,10 @@ main.app {
 }
 
 /* A etiqueta da rodada difícil das Misturadas (M17), depois de "Rodada 3 de 4": o texto normal
-   sobre a tinta (o par do theme.test), sem mudar a altura da linha. */
-.round-head .round-tag {
+   sobre a tinta (o par do theme.test), sem mudar a altura da linha. A do especial do quiz, ao
+   lado do título (P381; o usuário, 28/10/2026), tem a mesma forma e uma classe própria: a
+   `.round-tag` do quiz é a das vidas. */
+.round-head :is(.round-tag, .quiz-special) {
   display: inline-block;
   margin-left: var(--sp-2);
   padding: 0 var(--sp-2);
