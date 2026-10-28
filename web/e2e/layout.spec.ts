@@ -332,7 +332,7 @@ for (const viewport of [
     test("o quiz do dia com o selo da Apple: a rodada, a revelação com o artista longo e o fim da run (M18)", async ({
       page,
     }) => {
-      await appleCatalog(page, { artistDisplay: LONG_ARTIST });
+      await appleCatalog(page, { artistDisplay: LONG_ARTIST, themes: LONG_THEME });
       await open(page, DAY, "#quiz");
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia · nº 1");
       const badge = page.getByRole("link", { name: /Apple Music/ });
@@ -343,11 +343,20 @@ for (const viewport of [
       // A revelação das duas, e o fim da run pelos 3 erros: a escolha errada de cada rodada, pela
       // resposta do mês fictício.
       for (let n = 0; n < 3; n++) {
+        // Depois de 2 erros, a run segue com a "Última vida" (o usuário, 27/10/2026).
+        if (n === 2) await expect(page.locator(".round-head .round-tag")).toHaveText("Última vida");
         const wrong = QUIZ_ROUNDS[n]?.answer === "a" ? "B" : "A";
         await page.getByRole("button", { name: `Escolher a ${wrong}` }).click();
         await expect(page.getByRole("heading", { name: /^Errou/ })).toBeVisible();
         expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
         await expect(badge).toBeInViewport({ ratio: 1 });
+        if (n === 0) {
+          // O tipo do tema vem antes do anime longo: o corte cai no nome, e o "ED1" fica à vista
+          // (o usuário, 27/10/2026).
+          await expect(page.locator(".quiz-reveal .album").first()).toHaveText(
+            `ED1 · ${LONG_ANIME}`,
+          );
+        }
         if (n < 2) await page.getByRole("button", { name: "Próxima rodada" }).click();
       }
       await page.getByRole("button", { name: "Ver resultado" }).click();
@@ -370,7 +379,8 @@ for (const viewport of [
             ),
           ) as QuizMonth
         ).days[date];
-        await appleCatalog(page, { artistDisplay: LONG_ARTIST });
+        // Com o anime longo, cortado no fim da linha da revelação (o usuário, 27/10/2026).
+        await appleCatalog(page, { artistDisplay: LONG_ARTIST, themes: LONG_THEME });
         await open(page, `${date}T12:00:00-03:00`, "#quiz");
         await expect(page.getByRole("button", { name: /^Tocar/ })).toBeVisible();
         expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
