@@ -412,8 +412,14 @@ export const ptBR = {
   "medals.title": "Medalhas",
   "medals.streak": "Dias seguidos jogando: {current}. O melhor: {best}.",
   "medals.total": "{earned} de {total} medalhas",
-  "medals.general": "Gerais",
-  "medals.superfan": "Superfan",
+  // Os blocos da tela (o usuário, 28/10/2026), com a contagem de cada um.
+  "medals.block.gerais": "Gerais",
+  "medals.block.hits": "Hits",
+  "medals.block.anime": "Anime",
+  "medals.block.misturadas": "Misturadas",
+  "medals.block.quiz": "Quiz",
+  "medals.block.superfan": "Superfan",
+  "medals.blockCount": "{earned} de {total}",
   // O emblema provisório das gerais, no miolo da roseta (o designer manda os de cada uma, P283).
   "medals.generalMark": "★",
   "medals.superfanHint":
