@@ -3226,7 +3226,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1537258708",
-      "latinSource": "cutlet",
+      "latinSource": "provider",
       "popularity": 0.882,
       "preview": {
         "durationSec": 30,
@@ -3247,7 +3247,7 @@
       "titleKeys": [
         "春はゆく"
       ],
-      "titleLatin": "Haru wa yuku"
+      "titleLatin": "Haru wa Yuku"
     },
     {
       "albumId": "apple:al:1537265913",
