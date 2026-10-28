@@ -42,7 +42,8 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   // Sem o total de rodadas (o usuário, 26/10/2026): a run não é para chegar ao fim.
   await expect(page.getByText(/^Rodada 1(?!\d)/)).toBeVisible();
   await expect(page.getByText(/Rodada 1 de/)).toHaveCount(0);
-  await expect(page.getByText("Vidas: 2")).toBeVisible();
+  // As vidas contam a de agora: 3, 2 e a última (o usuário, 28/10/2026).
+  await expect(page.getByText("Vidas: 3")).toBeVisible();
   const play = page.getByRole("button", { name: "Tocar 3 s" });
   await expect(play).toBeFocused();
 
@@ -58,8 +59,9 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await expect(page.getByRole("button", { name: "Tocar 7 s" })).toBeVisible();
 
   // Rodada 1: certa.
+  // No 2º trecho (7 s, depois do Ouvir mais), o acerto vale 3 pontos (o usuário, 28/10/2026).
   await pick(page, 0, true).click();
-  await expect(page.getByRole("heading", { name: "Acertou!" })).toBeFocused();
+  await expect(page.getByRole("heading", { name: "Acertou! 3 pontos." })).toBeFocused();
   await expect(page.getByText(/^Em \d+ playlists? do AnimeThemes$/).first()).toBeVisible();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
@@ -67,12 +69,12 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await expect(page.getByText(/^Rodada 2(?!\d)/)).toBeVisible();
   await expect(page.getByRole("button", { name: "Tocar 3 s" })).toBeVisible();
   await pick(page, 1, false).click();
-  await expect(page.getByRole("heading", { name: "Errou. Vidas: 1." })).toBeFocused();
+  await expect(page.getByRole("heading", { name: "Errou. Vidas: 2." })).toBeFocused();
 
   // Recarregar retoma pelos eventos (o usuário, 25/10/2026: a run retoma): a revelação da rodada 2.
   await expect.poll(() => savedEvents(page)).toBe(3);
   await page.reload();
-  await expect(page.getByRole("heading", { name: "Errou. Vidas: 1." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Errou. Vidas: 2." })).toBeVisible();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
 
   // Rodadas 3 e 4: erradas. O 3º erro encerra (P377).
@@ -86,13 +88,14 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await page.getByRole("button", { name: "Ver resultado" }).click();
 
   await expect(page.getByRole("heading", { name: "Fim da run" })).toBeFocused();
-  await expect(page.getByText("Chegou à rodada 4", { exact: true })).toBeVisible();
-  await expect(page.getByText("1 acerto", { exact: true })).toBeVisible();
+  // O resultado: os pontos em destaque, a rodada e os acertos embaixo (o usuário, 28/10/2026).
+  await expect(page.getByText("3 pontos", { exact: true })).toBeVisible();
+  await expect(page.getByText("Chegou à rodada 4, com 1 acerto", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Compartilhar resultado" }).click();
   const copied = await page.evaluate(() => window.__copied ?? "");
   expect(copied.split("\n").slice(0, 3)).toEqual([
     "AteMusic · Quiz do dia · 08/10",
-    "Rodada 4 · 1 acerto",
+    "Rodada 4 · 3 pontos",
     "✅❌❌❌",
   ]);
   // O ✓ na aba, e a run terminada fica terminada ao voltar.
@@ -121,7 +124,7 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
     await page.getByRole("button", { name: next }).click();
   }
   await expect(page.getByRole("heading", { name: "Fim da run" })).toBeFocused();
-  await expect(page.getByText("Chegou à rodada 4", { exact: true })).toBeVisible();
+  await expect(page.getByText("Chegou à rodada 4, com 1 acerto", { exact: true })).toBeVisible();
 });
 
 test("Quiz do dia pelo Histórico (o usuário, 26/10/2026): a run de um dia passado, jogada depois, e a volta ao dia", async ({
@@ -150,6 +153,6 @@ test("Quiz do dia pelo Histórico (o usuário, 26/10/2026): a run de um dia pass
   // Sem a contagem: a volta ao dia, onde o cartão mostra o resultado e a marca do jogado depois.
   await page.getByRole("link", { name: "Voltar ao dia" }).click();
   const done = page.getByRole("link", { name: /^Quiz do dia/ });
-  await expect(done).toContainText("Rodada 3, 0 acertos");
+  await expect(done).toContainText("Rodada 3, 0 pontos");
   await expect(done).toContainText("jogado depois");
 });

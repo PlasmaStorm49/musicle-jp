@@ -454,7 +454,15 @@ function quizDayCard(save: Save, date: string, day: QuizDay, next: boolean, wide
   const lines =
     status.kind === "done"
       ? [
-          t("history.quizLine", { reached: status.reached, right: tn("quiz.right", status.right) }),
+          status.points === null
+            ? t("history.quizLine", {
+                reached: status.reached,
+                right: tn("quiz.right", status.right),
+              })
+            : t("history.quizLinePoints", {
+                reached: status.reached,
+                points: tn("count.points", status.points),
+              }),
           ...(status.late ? [t("history.late")] : []),
         ]
       : [

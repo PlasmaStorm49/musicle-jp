@@ -84,7 +84,7 @@ test("jogar o Normal de 21/10 depois: o resumo sem estatísticas, o compartilhar
     (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),
     SAVE_KEY,
   );
-  expect(saved.schemaVersion).toBe(12);
+  expect(saved.schemaVersion).toBe(13);
   expect(saved.history["2026-10-21|album"].late).toBe(true);
 
   await page.getByRole("link", { name: "Voltar ao dia" }).click();
@@ -152,7 +152,7 @@ test("o andamento de fora da janela sai na abertura, e o de dentro fica (P269)",
     SAVE_KEY,
   );
   expect(migrated).toMatchObject({
-    schemaVersion: 12,
+    schemaVersion: 13,
     seenMedals: [],
     shelf: [],
     practiceRight: 0,

@@ -12,6 +12,7 @@ import {
   isQuizFinished,
   livesLeft,
   QUIZ_LIVES,
+  QUIZ_POINTS,
   QUIZ_RESULTS,
   type QuizEvent,
   type QuizSide,
@@ -19,11 +20,14 @@ import {
   quizDaily,
   quizDone,
   quizId,
+  quizPoints,
   quizReached,
   quizReducer,
   quizRight,
+  quizRoundPoints,
   quizShareLines,
   quizShareText,
+  quizStatePoints,
   quizStatusOf,
   replaceQuizProgress,
   startQuizSession,
@@ -146,12 +150,43 @@ describe("o save", () => {
   it("o resultado: uma letra por rodada jogada, sem ids (rodada alcançada e acertos)", () => {
     const state = play("rrvwrw" + "w");
     const game = toQuizGame(state, daily.number, false);
-    expect(game).toEqual({ number: 1, results: "rrvwrww" });
+    // As escolhas sem o trecho (o andamento de antes da v13) valem como no último: 1 ponto.
+    expect(game).toEqual({ number: 1, results: "rrvwrww", points: 3 });
     expect(QUIZ_RESULTS.test(game.results)).toBe(true);
     expect(quizReached(game)).toBe(7);
     expect(quizRight(game)).toBe(3);
-    expect(toQuizGame(state, 1, true)).toEqual({ number: 1, results: "rrvwrww", late: true });
+    expect(toQuizGame(state, 1, true)).toEqual({
+      number: 1,
+      results: "rrvwrww",
+      late: true,
+      points: 3,
+    });
     expect(() => toQuizGame(play("r"), 1, false)).toThrow();
+  });
+
+  it("os pontos pelo trecho da escolha: 4, 3, 2 e 1; o erro vale 0 (o usuário, 28/10/2026)", () => {
+    let s = createQuizGame(daily, index);
+    const choose = (round: number, side: QuizSide, stage: number) => {
+      if (round > 0) s = quizReducer(s, { type: "NEXT" });
+      s = quizReducer(s, { type: "CHOOSE", round, side, stage });
+    };
+    choose(0, right(0), 0); // 3 s: 4 pontos
+    choose(1, right(1), 2); // 12 s: 2 pontos
+    choose(2, wrong(2), 0); // errou: 0
+    expect(s.rounds.slice(0, 3).map(quizRoundPoints)).toEqual([4, 2, 0]);
+    expect(quizStatePoints(s)).toBe(6);
+    expect(QUIZ_POINTS).toEqual([4, 3, 2, 1]);
+    // Um trecho fora da barra é um evento inválido: o mesmo objeto (regra 5).
+    const before = s;
+    expect(quizReducer(before, { type: "NEXT" })).not.toBe(before);
+    const atThree = quizReducer(before, { type: "NEXT" });
+    expect(quizReducer(atThree, { type: "CHOOSE", round: 3, side: "a", stage: 4 })).toBe(atThree);
+    expect(quizReducer(atThree, { type: "CHOOSE", round: 3, side: "a", stage: 1.5 })).toBe(atThree);
+  });
+
+  it("a run terminada antes dos pontos (v12) fica sem eles", () => {
+    expect(quizPoints({ points: 12 })).toBe(12);
+    expect(quizPoints({})).toBeNull();
   });
 
   it("a retomada repete os eventos salvos; a que perdeu eventos é marcada", () => {
@@ -185,7 +220,7 @@ describe("o save", () => {
     const session = startQuizSession(save, daily, index, "2026-10-09");
     expect(session).toEqual({
       kind: "finished",
-      game: { number: 1, results: "www", late: true },
+      game: { number: 1, results: "www", late: true, points: 0 },
     });
     const done = withQuizFinished(emptySave(), daily.id, { number: 1, results: "r" });
     expect(startQuizSession(done, daily, index, DATE)).toEqual({
@@ -224,6 +259,7 @@ describe("o cartão e o ✓", () => {
       number: 1,
       reached: 3,
       right: 2,
+      points: null,
       late: false,
     });
     expect(quizDone(done, DATE)).toBe(true);

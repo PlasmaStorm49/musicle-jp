@@ -18,7 +18,14 @@ import {
   type MixedGame,
   type MixedProgress,
 } from "../core/mixed.ts";
-import { QUIZ_RESULTS, type QuizEvent, type QuizGame, type QuizProgress } from "../core/quiz.ts";
+import {
+  QUIZ_LAST_STAGE,
+  QUIZ_MAX_POINTS,
+  QUIZ_RESULTS,
+  type QuizEvent,
+  type QuizGame,
+  type QuizProgress,
+} from "../core/quiz.ts";
 import type { ArtistRecord, FinishedGame, InProgress, Save } from "../core/records.ts";
 import { emptySave, SHELF_SIZE } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
@@ -244,7 +251,12 @@ export function isQuizEvent(x: unknown): x is QuizEvent {
   if (!isRecord(x)) return false;
   switch (x.type) {
     case "CHOOSE":
-      return isNonNegativeInt(x.round) && (x.side === "a" || x.side === "b");
+      // O trecho da escolha (v13); o andamento de antes não o tem.
+      return (
+        isNonNegativeInt(x.round) &&
+        (x.side === "a" || x.side === "b") &&
+        (x.stage === undefined || isNonNegativeInt(x.stage, QUIZ_LAST_STAGE))
+      );
     case "VOID":
       return isNonNegativeInt(x.round);
     case "NEXT":
@@ -254,10 +266,14 @@ export function isQuizEvent(x: unknown): x is QuizEvent {
   }
 }
 
-/** Uma run terminada: o número do dia e uma letra por rodada jogada (`QUIZ_RESULTS`). */
+/**
+ * Uma run terminada: o número do dia, uma letra por rodada jogada (`QUIZ_RESULTS`) e, desde a
+ * v13, os pontos.
+ */
 export function isQuizGame(x: unknown): x is QuizGame {
   if (!isRecord(x) || !Number.isInteger(x.number) || (x.number as number) < 1) return false;
   if (x.late !== undefined && x.late !== true) return false;
+  if (x.points !== undefined && !isNonNegativeInt(x.points, QUIZ_MAX_POINTS)) return false;
   return typeof x.results === "string" && QUIZ_RESULTS.test(x.results);
 }
 
@@ -360,7 +376,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     !isRecord(quiz.progress);
   return {
     save: {
-      schemaVersion: 12,
+      schemaVersion: 13,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),

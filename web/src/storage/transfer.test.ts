@@ -326,7 +326,8 @@ describe("as Misturadas no arquivo (v10, M17)", () => {
 });
 
 describe("o quiz do dia no arquivo (v12, M18)", () => {
-  const run = { number: 1, results: "rrw" };
+  // Com os pontos (v13): o importar os guarda (o usuário, 28/10/2026).
+  const run = { number: 1, results: "rrw", points: 7 };
   const withQuiz: Save = {
     ...emptySave(),
     quiz: {

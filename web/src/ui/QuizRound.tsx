@@ -10,7 +10,7 @@ import {
   currentQuizRound,
   isMalFamily,
   isQuizFinished,
-  livesLeft,
+  livesShown,
   QUIZ_LAST_STAGE,
   QUIZ_STAGES,
   type QuizDaily,
@@ -18,6 +18,7 @@ import {
   type QuizRoundState,
   type QuizSide,
   type QuizState,
+  quizRoundPoints,
 } from "../core/quiz.ts";
 import { secondsAt } from "../core/rules.ts";
 import type { QuizInfo } from "../core/types.ts";
@@ -118,7 +119,7 @@ export function QuizRoundView({
         resolved={resolved}
         offsets={offsets}
         explicit={explicit}
-        onChoose={(side) => dispatch({ type: "CHOOSE", round: game.current, side })}
+        onChoose={(side, stage) => dispatch({ type: "CHOOSE", round: game.current, side, stage })}
         onAudioError={() => {
           // O foco vai ao botão de seguir, e o leitor de tela ouve o porquê.
           announce(t("quiz.void"));
@@ -136,7 +137,8 @@ type PlayersProps = {
   readonly resolved: readonly boolean[];
   readonly offsets: readonly number[];
   readonly explicit: boolean;
-  readonly onChoose: (side: QuizSide) => void;
+  /** A escolha, com o trecho liberado até ela (os pontos). */
+  readonly onChoose: (side: QuizSide, stage: number) => void;
   readonly onAudioError: () => void;
 };
 
@@ -286,7 +288,8 @@ function QuizPlayers({
 
   function choose(which: QuizSide) {
     stop();
-    onChoose(which);
+    // O trecho liberado vai com a escolha: os pontos (o usuário, 28/10/2026).
+    onChoose(which, stage);
   }
 
   const unlocked = secondsAt(stage, QUIZ_STAGES);
@@ -312,14 +315,11 @@ function QuizPlayers({
       <div class="quiz-pair">
         {SIDES.map((which) => (
           <div key={which} class={side === which ? "quiz-side playing" : "quiz-side"}>
-            {/* A letra grande é o ponto focal da rodada, e o "Tocando" diz em texto qual das duas
-                toca, sem depender só da cor (o usuário, 27/10/2026). O leitor de tela ouve o
-                nome inteiro, "Música A". */}
+            {/* O nome pequeno, e o "Tocando" diz em texto qual das duas toca, sem depender só da
+                cor (o usuário, 27/10/2026). A letra grande de antes saiu: o foco da rodada é a
+                pergunta (o usuário, 28/10/2026). */}
             <p class="quiz-side-name">
-              <span class="quiz-letter" aria-hidden="true">
-                {t(which === "a" ? "quiz.letter.a" : "quiz.letter.b")}
-              </span>
-              <span class="sr-only">{t(which === "a" ? "quiz.side.a" : "quiz.side.b")}</span>
+              <span>{t(which === "a" ? "quiz.side.a" : "quiz.side.b")}</span>
               {side === which && <span class="quiz-playing">{t("quiz.playing")}</span>}
             </p>
             <SegmentBar
@@ -435,19 +435,20 @@ function QuizReveal({
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   const right = round.status === "right";
-  // No bônus, o erro não tira vida nem encerra nada.
-  // Sem vida sobrando, a run ainda segue até o próximo erro (P377): "Última vida", e não "Vidas:
-  // 0", que se lê como o fim (o usuário, 27/10/2026).
-  const left = livesLeft(game.errors);
+  // No bônus, o erro não tira vida nem encerra nada, e o acerto não tem pontos. As vidas contam a
+  // de agora: "Errou. Vidas: 2." e "Errou. Última vida." (P377; o usuário, 28/10/2026).
+  const lives = livesShown(game.errors);
   const title = right
-    ? t("quiz.revealRight")
+    ? bonus
+      ? t("quiz.revealRight")
+      : t("quiz.revealRightPoints", { points: tn("count.points", quizRoundPoints(round)) })
     : bonus
       ? t("quiz.bonusWrong")
       : isQuizFinished(game)
         ? t("quiz.revealEnd")
-        : left === 0
+        : lives === 1
           ? t("quiz.revealWrongLast")
-          : t("quiz.revealWrong", { left });
+          : t("quiz.revealWrong", { left: lives });
   const diff = round.info?.diff;
   return (
     <>

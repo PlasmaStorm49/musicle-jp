@@ -206,13 +206,10 @@ describe("QuizRoundView (M18)", () => {
         (side) => side.querySelector(".quiz-playing")?.textContent ?? "",
       );
     expect(playing()).toEqual(["", ""]);
-    // O nome inteiro para o leitor de tela; a letra grande só na tela.
+    // O nome na tela, pequeno, sem a letra grande de antes (o usuário, 28/10/2026).
     const names = [...document.querySelectorAll(".quiz-side-name")];
-    expect(names.map((name) => name.querySelector(".sr-only")?.textContent)).toEqual([
-      "Música A",
-      "Música B",
-    ]);
-    expect(names[0]?.querySelector(".quiz-letter")?.getAttribute("aria-hidden")).toBe("true");
+    expect(names.map((name) => name.textContent)).toEqual(["Música A", "Música B"]);
+    expect(document.querySelector(".quiz-letter")).toBeNull();
     await click("Tocar 3 s");
     expect(playing()).toEqual(["Tocando", ""]);
     await ends(plays, 0);
@@ -236,8 +233,18 @@ describe("QuizRoundView (M18)", () => {
     await click("Tocar 3 s");
     await click("Escolher a A");
     expect(plays).toHaveLength(1);
-    expect(screen.getByRole("heading", { name: "Acertou!" })).not.toBeNull();
+    // No 1º trecho (3 s), o acerto vale 4 pontos (o usuário, 28/10/2026).
+    expect(screen.getByRole("heading", { name: "Acertou! 4 pontos." })).not.toBeNull();
     expect(screen.getByText("Primavera de 2020 (abr. a jun.)")).not.toBeNull();
+  });
+
+  it("os pontos pelo trecho: depois do Ouvir mais, o acerto vale menos (o usuário, 28/10/2026)", async () => {
+    const { engine } = quizEngine();
+    render(<Harness engine={engine} />);
+    await click("Ouvir mais (+4 s)");
+    await click("Ouvir mais (+5 s)");
+    await click("Escolher a A");
+    expect(screen.getByRole("heading", { name: "Acertou! 2 pontos." })).not.toBeNull();
   });
 
   it("no acerto, a outra música fica neutra: sem o fundo e sem o X (o usuário, 27/10/2026)", async () => {
