@@ -21,7 +21,7 @@ Os índices são os do `document.querySelectorAll("path")` no `style-guide.svg`.
 | X do erro, ✓ do acerto e chevron do "próximo" | 33, 35 e 42 | 1865, 9881, 787 × 794; 1864, 11588, 975 × 719; 6099, 13241, 626 × 739 | `web/src/ui/assets/icons.ts` (as tentativas do Desafio) |
 
 **Como extrair:** da raiz do repositório, com o `web/node_modules` instalado, `node docs/identidade/extrair-pecas.cjs`. Com uma pasta no fim, ele grava também uma captura de conferência, `pecas.png`.
-- O caminho fica igual ao do guia, e só o `viewBox` muda, para a caixa da peça.
+- O caminho fica igual ao do guia, e só o `viewBox` muda, para a caixa da peça (no ✓, também o espelho, abaixo).
 - O `web/scripts/identity.test.ts` confere depois que as peças do site são as do guia.
 - O script não roda na CI: rode à mão quando o guia mudar.
 
@@ -36,6 +36,7 @@ Os índices são os do `document.querySelectorAll("path")` no `style-guide.svg`.
   - As de "music" andam 33,9 unidades para a esquerda: o espaço era 43,2, e a distância média entre as letras é 9,3.
   - Depois, o nome é centralizado de novo sob o 当, com 20 unidades de margem.
 - **Os ícones são a outra exceção ao arquivo SVG:** o script grava o `viewBox` e o `d` num módulo TS (`icons.ts`), e a cor sai do CSS (`currentColor`), e não do `fill` do guia, para o tema escolher.
+- **O ✓ se desenha espelhado** (P386, 27/10/2026): no desenho do guia, ele aparecia invertido no site. O script grava também um `transform` (`matrix(-1 0 0 1 4703 0)`, o espelho em volta do meio do `viewBox`), e o `Icon` o aplica no caminho, que continua o do guia. O X e o chevron não mudam.
 
 Quando o designer mandar a versão opaca oficial do selo (PD12), ela troca o favicon e o ícone de app.
 
