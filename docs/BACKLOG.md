@@ -2,7 +2,7 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 25/10/2026.
+Atualizado em 28/10/2026.
 
 ## Próximos
 
@@ -48,6 +48,8 @@ Atualizado em 25/10/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
+- **ME145 (novo).** O bônus do quiz baixado uma vez só, e não com cada mês: se só ele falhar, o calendário do Histórico perde a marca do quiz.
+- **ME146 (novo).** O quiz na linha da nav também em 390 px (o iPhone comum), apertando o espaço entre as abas abaixo de 720 (P394).
 - **S18.** "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal, no Treino.
 - **S22.** O selo da rodada no modo por artista leva à página do artista na loja.
 - **S29.** As 3 faíscas do 当 animadas no acerto.
@@ -62,6 +64,7 @@ Atualizado em 25/10/2026.
 - **ME117 (novo).** Os pesos do tipo do tema no sorteio e o espaçamento da franquia continuam os provisórios do A2.
 
 **As Misturadas** (M17)
+- **ME144 (novo).** Na revelação, o tipo do tema antes do nome do anime, como no quiz (P388): o nome longo corta o "· OP" do fim.
 - **ME127 (novo).** Calibrar os pontos das Misturadas e o custo do "Separar" depois de mais escuta (a régua da muito conhecida saiu, P359).
 - **ME130 (novo).** Um compressor por voz na mistura, se as pausas no meio do trecho ainda deixarem uma música sozinha (testar de ouvido, no laboratório).
 - **ME125.** As Misturadas nas estatísticas (o Histórico delas entrou no PR #98).
