@@ -2165,10 +2165,30 @@ section.void,
   gap: var(--sp-3);
 }
 
+/* O título de cada bloco (o usuário, 28/10/2026): o nome à esquerda e a contagem à direita. */
 .medals section > h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-2);
   margin: 0;
   font-size: var(--t-md);
   line-height: var(--lh-md);
+}
+
+.medals-count {
+  color: var(--muted);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* O Superfan no fim, separado dos blocos por um fio. */
+.medals-superfan {
+  border-top: 1px solid var(--hairline);
+  padding-top: var(--sp-5);
 }
 
 .medal-list,
