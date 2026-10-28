@@ -776,6 +776,12 @@ test("em 320 px, as telas do Histórico não rolam para o lado, e os dias têm 4
     });
     expect(inside).toBe(true);
   }
+  // O dia com diário mostra a grade inteira: os cantos vazios com o anel (o usuário, 28/10/2026).
+  const ring = await page
+    .locator("a.calendar-day .mark-slot:empty")
+    .first()
+    .evaluate((slot) => getComputedStyle(slot).boxShadow);
+  expect(ring).toContain("inset");
 });
 
 test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
