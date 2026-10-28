@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 import type { Page } from "@playwright/test";
 import type { QuizBonus, QuizMonth } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
-import { captureClipboard, expect, navLink, open, test } from "./helpers.ts";
+import { captureClipboard, expect, hearBoth, navLink, open, test } from "./helpers.ts";
 
 const DAY = "2026-10-08T12:00:00-03:00";
 const month = JSON.parse(
@@ -46,6 +46,9 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   await expect(page.getByText("Vidas: 3")).toBeVisible();
   const play = page.getByRole("button", { name: "Tocar 3 s" });
   await expect(play).toBeFocused();
+  // A escolha fica embaixo do Tocar, travada até as duas tocarem (o usuário, 28/10/2026).
+  await expect(pick(page, 0, true)).toHaveAttribute("aria-disabled", "true");
+  await expect(page.getByText("Ouça as duas para escolher")).toBeVisible();
 
   // O Tocar toca a A e, quando ela acaba, a B (P384).
   await play.click();
@@ -68,6 +71,9 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   // Rodada 2: errada; a vida desce, e a run continua. O trecho voltou aos 3 s.
   await expect(page.getByText(/^Rodada 2(?!\d)/)).toBeVisible();
   await expect(page.getByRole("button", { name: "Tocar 3 s" })).toBeVisible();
+  // A trava volta na rodada nova (o usuário, 28/10/2026).
+  await expect(pick(page, 1, false)).toHaveAttribute("aria-disabled", "true");
+  await hearBoth(page);
   await pick(page, 1, false).click();
   await expect(page.getByRole("heading", { name: "Errou. Vidas: 2." })).toBeFocused();
 
@@ -79,10 +85,12 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
 
   // Rodadas 3 e 4: erradas. O 3º erro encerra (P377).
   // Sem vida sobrando, a run segue: "Última vida", e não "Vidas: 0" (o usuário, 27/10/2026).
+  await hearBoth(page);
   await pick(page, 2, false).click();
   await expect(page.getByRole("heading", { name: "Errou. Última vida." })).toBeFocused();
   await page.getByRole("button", { name: "Próxima rodada" }).click();
   await expect(page.locator(".round-head .round-tag")).toHaveText("Última vida");
+  await hearBoth(page);
   await pick(page, 3, false).click();
   await expect(page.getByRole("heading", { name: "Errou: fim da run." })).toBeFocused();
   await page.getByRole("button", { name: "Ver resultado" }).click();
@@ -118,6 +126,7 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
     // A 1ª certa, as outras erradas: o erro do bônus não encerra nada.
     const right = n === 0;
     const side = right === (round.answer === "a") ? "A" : "B";
+    await hearBoth(page);
     await page.getByRole("button", { name: `Escolher a ${side}` }).click();
     await expect(page.getByRole("heading", { name: right ? "Acertou!" : "Errou." })).toBeFocused();
     const next = n < 2 ? "Próxima rodada bônus" : "Voltar ao resultado";
@@ -140,6 +149,7 @@ test("Quiz do dia pelo Histórico (o usuário, 26/10/2026): a run de um dia pass
 
   // Três erros encerram a run (P377).
   for (const n of [0, 1, 2]) {
+    await hearBoth(page);
     await pick(page, n, false).click();
     const next = n < 2 ? "Próxima rodada" : "Ver resultado";
     await page.getByRole("button", { name: next }).click();

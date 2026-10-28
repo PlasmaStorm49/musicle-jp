@@ -14,6 +14,7 @@ import {
   appleCatalog,
   dailyAnswer,
   expect,
+  hearBoth,
   lastPlayed,
   navLink,
   open,
@@ -346,6 +347,9 @@ for (const viewport of [
         // Depois de 2 erros, a run segue com a "Última vida" (o usuário, 27/10/2026).
         if (n === 2) await expect(page.locator(".round-head .round-tag")).toHaveText("Última vida");
         const wrong = QUIZ_ROUNDS[n]?.answer === "a" ? "B" : "A";
+        // Ouvidas as duas, a dica muda e a escolha destrava (o usuário, 28/10/2026).
+        await hearBoth(page);
+        expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
         await page.getByRole("button", { name: `Escolher a ${wrong}` }).click();
         await expect(page.getByRole("heading", { name: /^Errou/ })).toBeVisible();
         expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
@@ -380,7 +384,7 @@ for (const viewport of [
           ) as QuizMonth
         ).days[date];
         // Com o anime longo, cortado no fim da linha da revelação, e a explícita na rodada, o caso
-        // mais alto dela com a letra grande de cada lado (o usuário, 27/10/2026).
+        // mais alto dela, com a dica e a escolha embaixo do Tocar (o usuário, 28/10/2026).
         await appleCatalog(page, {
           artistDisplay: LONG_ARTIST,
           themes: LONG_THEME,
@@ -390,6 +394,7 @@ for (const viewport of [
         await expect(page.getByRole("button", { name: /^Tocar/ })).toBeVisible();
         expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
         const wrong = day?.rounds[0]?.answer === "a" ? "B" : "A";
+        await hearBoth(page);
         await page.getByRole("button", { name: `Escolher a ${wrong}` }).click();
         await expect(page.getByRole("heading", { name: /^Errou/ })).toBeVisible();
         expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
@@ -412,11 +417,13 @@ for (const viewport of [
       await open(page, DAY, "#quiz");
       await page.getByRole("button", { name: "Rodadas bônus de estreia" }).click();
       for (let n = 0; n < 2; n++) {
+        await hearBoth(page);
         await page.getByRole("button", { name: "Escolher a A" }).click();
         await page.getByRole("button", { name: "Próxima rodada bônus" }).click();
       }
       await expect(page.getByRole("button", { name: /^Tocar/ })).toBeVisible();
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await hearBoth(page);
       await page.getByRole("button", { name: "Escolher a A" }).click();
       await expect(page.getByRole("link", { name: "Dados do MyAnimeList" })).toBeVisible();
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
@@ -804,6 +811,7 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     ["#misturadas-titulo", "Misturadas · Anime"],
     ["#sobre", "Sobre e privacidade"],
     ["#historico", "Histórico"],
+    ["#quiz", "Quiz do dia"],
   ] as const) {
     await page.evaluate((h) => {
       window.location.hash = h;
@@ -811,6 +819,18 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
     expect((await overflow(page)).horizontal, hash).toBeLessThanOrEqual(0);
   }
+});
+
+test("em 320 px, a rodada do quiz com a explícita: os dois lados na largura inteira, sem rolar para o lado (o usuário, 28/10/2026)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await appleCatalog(page, { artistDisplay: LONG_ARTIST, explicit: true });
+  await open(page, DAY, "#quiz");
+  await expect(page.getByText("Conteúdo explícito")).toBeVisible();
+  const pair = await page.locator(".quiz-pair").boundingBox();
+  expect(pair?.width ?? 0).toBeGreaterThan(280);
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
 test("em 320 px, a revelação das Misturadas com a nota mais longa (o Separar) não rola para o lado", async ({
@@ -1363,6 +1383,40 @@ test("no computador (1280 px), a revelação e o resumo em duas colunas", async 
   const stats = await page.locator(".summary > .stats").boundingBox();
   // As estatísticas ao lado do resultado.
   expect((rounds?.x ?? 0) + (rounds?.width ?? 0)).toBeLessThanOrEqual(stats?.x ?? 0);
+});
+
+test("no computador (1280 px), a rodada do quiz em duas colunas: a pergunta à esquerda e os players à direita (o usuário, 28/10/2026)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await appleCatalog(page, { artistDisplay: LONG_ARTIST, explicit: true });
+  await open(page, DAY, "#quiz");
+  const play = page.getByRole("button", { name: /^Tocar/ });
+  await expect(play).toBeVisible();
+  const question = await page.locator(".quiz-question").boundingBox();
+  const player = await page.locator(".quiz-player").boundingBox();
+  expect((question?.x ?? 0) + (question?.width ?? 0)).toBeLessThanOrEqual(player?.x ?? 0);
+  // As duas no meio da mesma linha, na coluna larga.
+  const middle = (box: typeof question) => (box?.y ?? 0) + (box?.height ?? 0) / 2;
+  expect(Math.abs(middle(question) - middle(player))).toBeLessThan(2);
+  expect((await page.locator("main.app").boundingBox())?.width).toBeGreaterThan(800);
+  // A escolha embaixo do Tocar, travada até as duas tocarem.
+  const pick = page.getByRole("button", { name: "Escolher a A" });
+  const below = await pick.boundingBox();
+  const above = await play.boundingBox();
+  expect(below?.y ?? 0).toBeGreaterThan((above?.y ?? 0) + (above?.height ?? 0));
+  await expect(pick).toHaveAttribute("aria-disabled", "true");
+  const { vertical, horizontal } = await overflow(page);
+  expect(vertical).toBeLessThanOrEqual(0);
+  expect(horizontal).toBeLessThanOrEqual(0);
+  // O selo no pé da janela, e não logo abaixo das colunas.
+  const seal = await page.locator(".attribution").boundingBox();
+  expect((seal?.y ?? 0) + (seal?.height ?? 0)).toBeGreaterThan(800 - 40);
+  // A revelação volta à coluna de sempre.
+  await hearBoth(page);
+  await pick.click();
+  await expect(page.getByRole("heading", { name: /^(Acertou|Errou)/ })).toBeVisible();
+  expect((await page.locator("main.app").boundingBox())?.width).toBeLessThanOrEqual(560);
 });
 
 test("o volume (P216): a barra abre sem mudar a altura nos dois tamanhos, o trecho toca com ele e ele continua depois de recarregar", async ({
