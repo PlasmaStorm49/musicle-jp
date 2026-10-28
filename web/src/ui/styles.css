@@ -462,12 +462,13 @@ button.give-up:active:not(:disabled) {
 
 /* O "Mais" (P265, P287), em todas as larguras: os Artistas, o Histórico e as Medalhas ficam no
    menu dele. Os 4 diários (os Hits, o Anime, as Misturadas e o Quiz, M18) ficam na linha quando
-   cabem (o usuário, 25/10/2026); no celular, os do fim vão para o menu: o Quiz abaixo de 720 px e
-   as Misturadas abaixo de 460 (os cortes do `Nav.tsx`, medidos com os ✓ e a medalha em destaque:
-   a linha com os 4 tem uns 516 px, e só cabe na coluna de 560 dos 720 px; entre 480 e 719, a
-   coluna tem 460 úteis, e a linha sem o Quiz, uns 450). O link
-   de cada um está duas vezes no DOM, e cada largura mostra um. Item novo na nav entra no menu, ou
-   num submenu. */
+   cabem (o usuário, 25/10/2026); no celular, vão para o menu o Quiz abaixo de 400 px e as
+   Misturadas abaixo de 720 (os cortes do `Nav.tsx`, medidos com os ✓ e a medalha em destaque: a
+   linha com os 4 tem uns 516 px, e só cabe na coluna de 560 dos 720 px; com o Quiz e sem as
+   Misturadas, uns 390, e a nav tem os 10 px de cada lado). Abaixo de 720 só um dos dois cabe, e o
+   Quiz tem a vez (o usuário, 27/10/2026; antes, as Misturadas a partir de 460, P348). O link de
+   cada um está duas vezes no DOM, e cada largura mostra um. Item novo na nav entra no menu, ou num
+   submenu. */
 .tabs .nav-inline {
   display: none;
 }
@@ -476,22 +477,22 @@ button.give-up:active:not(:disabled) {
   position: relative;
 }
 
-@media (min-width: 460px) {
-  .tabs .nav-inline.nav-mixed {
-    display: list-item;
-  }
-
-  .tabs .nav-menu .nav-narrow.nav-mixed {
-    display: none;
-  }
-}
-
-@media (min-width: 720px) {
+@media (min-width: 400px) {
   .tabs .nav-inline.nav-quiz {
     display: list-item;
   }
 
   .tabs .nav-menu .nav-narrow.nav-quiz {
+    display: none;
+  }
+}
+
+@media (min-width: 720px) {
+  .tabs .nav-inline.nav-mixed {
+    display: list-item;
+  }
+
+  .tabs .nav-menu .nav-narrow.nav-mixed {
     display: none;
   }
 
