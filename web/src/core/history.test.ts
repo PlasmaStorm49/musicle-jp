@@ -122,6 +122,29 @@ describe("a marca de cada categoria (P260)", () => {
     expect(hasDaily(historyDay(emptySave(), D, new Set(), null))).toBe(false);
     expect(hasDaily(historyDay(emptySave(), D, hitsDates, null))).toBe(true);
   });
+
+  it("o quiz: a marca com a run terminada (também a jogada depois), sem meia marca; off fora dos meses e null sem eles (o usuário, 27/10/2026)", () => {
+    const empty = emptySave();
+    const quizDates = new Set([D]);
+    const quiz = (save: Save, date = D, dates: ReadonlySet<string> | null = quizDates) =>
+      historyDay(save, date, hitsDates, null, null, dates).quiz;
+    const done: Save = {
+      ...empty,
+      quiz: { ...empty.quiz, finished: { [quizId(D)]: { number: 1, results: "rrw", late: true } } },
+    };
+    const playing: Save = {
+      ...empty,
+      quiz: { ...empty.quiz, progress: { [quizId(D)]: { events: [] } } },
+    };
+    expect(quiz(done)).toBe("all");
+    expect(quiz(empty)).toBe("none");
+    // O andamento sem término não marca nada, como nas outras categorias.
+    expect(quiz(playing)).toBe("none");
+    expect(quiz(empty, "2026-10-20")).toBe("off");
+    expect(quiz(empty, D, null)).toBeNull();
+    // Só o quiz já abre a tela do dia.
+    expect(hasDaily(historyDay(empty, D, new Set(), null, null, quizDates))).toBe(true);
+  });
 });
 
 describe("historyDays", () => {
@@ -138,6 +161,7 @@ describe("historyDays", () => {
       hits: "none",
       anime: null,
       mixed: null,
+      quiz: null,
     });
     expect(days[7]?.weekday).toBe(4);
     expect(days.at(-1)).toMatchObject({ date: "2026-10-21", weekday: 3, day: 21 });

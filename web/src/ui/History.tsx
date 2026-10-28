@@ -10,6 +10,7 @@ import {
   HISTORY_DAYS,
   type HistoryDay,
   hasDaily,
+  historyDates,
   historyDays,
 } from "../core/history.ts";
 import { firstToPlay, progress, statusOf } from "../core/home.ts";
@@ -35,7 +36,7 @@ import { dayTitle, longDate, weekdayName, weekdayShort } from "./dayLabel.ts";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { useHeadingFocus } from "./hooks.ts";
 import type { MixedLoad } from "./Mixed.tsx";
-import type { QuizStore } from "./Quiz.tsx";
+import { type QuizLoad, type QuizStore, quizLoadOf } from "./Quiz.tsx";
 import { singleClickLink } from "./singleClick.ts";
 
 type HistoryProps = {
@@ -54,30 +55,87 @@ type HistoryProps = {
   /** A agenda das Misturadas, da carga guardada no App. */
   readonly mixed: MixedLoad;
   readonly requestMixed: () => void;
-  /** O mês do quiz do dia, guardado no App: só a tela de um dia o pede (o calendário não). */
+  /**
+   * Os meses do quiz do dia, guardados no App: o calendário pede os da janela, para a marca do
+   * quiz, e a tela de um dia, o mês dela, para o cartão (o usuário, 27/10/2026).
+   */
   readonly quiz: QuizStore;
 };
 
+/** Um mês do quiz na tela: o mês, null sem quiz nele, ou "failed" (falhou ou é de versão nova). */
+type QuizMonthView = QuizMonth | null | "failed";
+
+/** O mês ainda espera: nunca pedido, carregando, ou falhou antes de ser pedido nesta abertura. */
+function waits(load: QuizLoad, asked: boolean): boolean {
+  return load.status === "idle" || load.status === "loading" || (load.status === "retry" && !asked);
+}
+
 /**
- * Pede o mês do quiz do dia da rota uma vez por abertura do dia, como as agendas, e diz se a tela
- * ainda espera por ele. Devolve o mês (null sem quiz no mês, ou quando ele falhou: a tela fica sem
- * o cartão) ou "waiting".
+ * Pede os meses do quiz uma vez por abertura do Histórico, como as agendas, e diz se a tela ainda
+ * espera por eles. O que falhou, ainda não pedido nesta abertura, também espera: senão a tela
+ * aparece por um quadro sem ele, e o foco pula do título ao aviso e de volta. O mês de hoje vem
+ * antes: a estreia dele (o `epoch`) diz desde quando há arquivo, e o mês de antes dela não se pede
+ * (o 404 sujaria o console; o usuário, 27/10/2026). Sem o arquivo do mês de hoje, nenhum mês tem
+ * quiz: só aconteceria com a agenda do quiz acabada, e a `catalog-runway` avisa antes.
  */
-function useQuizMonth(quiz: QuizStore, date: string | null): QuizMonth | null | "waiting" {
-  const month = date === null ? null : quizMonthOf(date);
-  const asked = useRef<string | null>(null);
-  const mine = month !== null && quiz.month === month ? quiz.load : null;
+function useQuizMonths(
+  quiz: QuizStore,
+  today: string,
+  months: readonly string[],
+): ReadonlyMap<string, QuizMonthView> | "waiting" {
+  const asked = useRef(new Set<string>());
+  const base = quizMonthOf(today);
+  const baseLoad = quizLoadOf(quiz, base);
+  const first =
+    baseLoad.status === "ready" && baseLoad.month ? quizMonthOf(baseLoad.month.epoch) : null;
+  const wanted =
+    baseLoad.status === "ready"
+      ? months.filter((month) => first !== null && month >= first)
+      : [base];
+  const key = wanted.join(" ");
   useEffect(() => {
-    if (month === null || asked.current === month) return;
-    asked.current = month;
-    if (quiz.month !== month || quiz.load.status === "idle" || quiz.load.status === "retry") {
-      quiz.request(month);
+    for (const month of key ? key.split(" ") : []) {
+      if (asked.current.has(month)) continue;
+      asked.current.add(month);
+      const status = quizLoadOf(quiz, month).status;
+      if (status === "idle" || status === "retry") quiz.request(month);
     }
-  }, [month, quiz.month, quiz.load.status, quiz.request]);
-  if (month === null) return null;
-  if (mine === null || mine.status === "idle" || mine.status === "loading") return "waiting";
-  if (mine.status === "retry" && asked.current !== month) return "waiting";
-  return mine.status === "ready" ? mine.month : null;
+  }, [key, quiz]);
+  if (waits(baseLoad, asked.current.has(base))) return "waiting";
+  const views = new Map<string, QuizMonthView>();
+  for (const month of months) {
+    if (baseLoad.status !== "ready") {
+      views.set(month, "failed");
+      continue;
+    }
+    // Antes da estreia (ou sem o mês de hoje), não há quiz: nem se pede.
+    if (!wanted.includes(month)) {
+      views.set(month, null);
+      continue;
+    }
+    const load = quizLoadOf(quiz, month);
+    if (waits(load, asked.current.has(month))) return "waiting";
+    views.set(month, load.status === "ready" ? load.month : "failed");
+  }
+  return views;
+}
+
+/** Os meses que a janela do calendário cruza (1 ou 2). */
+function windowMonths(today: string): string[] {
+  return [...new Set(historyDates(today).map(quizMonthOf))];
+}
+
+/**
+ * Os dias com quiz nos meses da janela; null quando algum deles falhou: o calendário fica sem a
+ * marca do quiz, como sem a agenda do Anime.
+ */
+function quizDatesOf(views: ReadonlyMap<string, QuizMonthView>): ReadonlySet<string> | null {
+  const dates = new Set<string>();
+  for (const view of views.values()) {
+    if (view === "failed") return null;
+    for (const date of Object.keys(view?.days ?? {})) dates.add(date);
+  }
+  return dates;
 }
 
 /**
@@ -100,7 +158,8 @@ function useScheduleRequest(status: string, request: () => void): boolean {
 }
 
 /**
- * O Histórico: espera as agendas do Anime e das Misturadas (com o aviso e o foco, regra 16) e
+ * O Histórico: espera as agendas do Anime e das Misturadas e os meses do quiz (com o aviso e o
+ * foco, regra 16) e
  * mostra o calendário ou a tela de um dia. A agenda que falhar ou vier de uma versão nova fica de
  * fora, e o resto aparece. A que falhou é pedida de novo uma vez a cada abertura do Histórico (uma
  * vez só: senão, sem rede, o pedido se repetiria sem parar).
@@ -119,8 +178,12 @@ export function History({
 }: HistoryProps) {
   const waitingAnime = useScheduleRequest(anime.status, requestAnime);
   const waitingMixed = useScheduleRequest(mixed.status, requestMixed);
-  const quizMonth = useQuizMonth(quiz, date);
-  if (waitingAnime || waitingMixed || quizMonth === "waiting") {
+  const quizMonths = useQuizMonths(
+    quiz,
+    today,
+    date === null ? windowMonths(today) : [quizMonthOf(date)],
+  );
+  if (waitingAnime || waitingMixed || quizMonths === "waiting") {
     return (
       <div class="loading screen" key="history-loading">
         <FocusedNotice text={t("load.loading")} />
@@ -130,15 +193,20 @@ export function History({
   const schedule = anime.status === "ready" ? anime.schedule : null;
   const mixedSchedule = mixed.status === "ready" ? mixed.schedule : null;
   // A key remonta a tela ao trocar de dia (o Voltar do navegador): o foco volta ao título.
-  return date === null ? (
-    <HistoryCalendar
-      save={save}
-      today={today}
-      hitsDates={hitsDates}
-      animeSchedule={schedule}
-      mixedSchedule={mixedSchedule}
-    />
-  ) : (
+  if (date === null) {
+    return (
+      <HistoryCalendar
+        save={save}
+        today={today}
+        hitsDates={hitsDates}
+        animeSchedule={schedule}
+        mixedSchedule={mixedSchedule}
+        quizDates={quizDatesOf(quizMonths)}
+      />
+    );
+  }
+  const quizMonth = quizMonths.get(quizMonthOf(date)) ?? null;
+  return (
     <HistoryDayScreen
       key={date}
       date={date}
@@ -146,7 +214,7 @@ export function History({
       save={save}
       animeSchedule={schedule}
       mixedSchedule={mixedSchedule}
-      quizMonth={quizMonth}
+      quizMonth={quizMonth === "failed" ? null : quizMonth}
     />
   );
 }
@@ -175,6 +243,14 @@ const MIXED_MARK_TEXT = {
   off: "history.mixedOff",
 } as const satisfies Record<CategoryMark, string>;
 
+/** O que a marca do quiz diz: uma run por dia, sem meia marca (a terminada é o ponto cheio). */
+const QUIZ_MARK_TEXT = {
+  all: "history.quizAll",
+  some: "history.quizAll",
+  none: "history.quizNone",
+  off: "history.quizOff",
+} as const satisfies Record<CategoryMark, string>;
+
 /** O nome do dia no calendário: o dia da semana, a data e o que foi jogado, categoria a categoria. */
 function cellName(day: HistoryDay): string {
   const params = { weekday: weekdayName(day.weekday), date: longDate(day.date) };
@@ -183,80 +259,81 @@ function cellName(day: HistoryDay): string {
     t(HITS_MARK_TEXT[day.hits]),
     ...(day.anime === null ? [] : [t(ANIME_MARK_TEXT[day.anime])]),
     ...(day.mixed === null ? [] : [t(MIXED_MARK_TEXT[day.mixed])]),
+    ...(day.quiz === null ? [] : [t(QUIZ_MARK_TEXT[day.quiz])]),
   ].join(t("history.marksJoin"));
   return t("history.cellName", { ...params, marks });
 }
 
 /**
- * A marca de uma categoria (P260): o ✓ com tudo, a meia-lua com parte, nada sem nenhum. Só na
- * tela: o nome do dia diz o mesmo ao leitor de tela.
+ * A marca de uma categoria (P260), um ponto: cheio com tudo, meio cheio com parte, nada sem nenhum,
+ * fora da agenda ou sem ela (o ✓ de antes não cabia em 4, o usuário, 27/10/2026). Só na tela: o
+ * nome do dia diz o mesmo ao leitor de tela.
  */
-function Mark({ mark }: { readonly mark: CategoryMark }) {
-  if (mark === "all") return <span class="mark mark-all">{t("nav.doneMark")}</span>;
+function Mark({ mark }: { readonly mark: CategoryMark | null }) {
+  if (mark === "all") return <span class="mark mark-all" />;
   if (mark === "some") return <span class="mark mark-some" />;
-  return <span class="mark mark-none" />;
+  return null;
 }
 
+/** As 4 marcas de um dia, na ordem dos cantos: Hits, Anime, Misturadas e quiz. */
+type CornerMarks = readonly [
+  CategoryMark | null,
+  CategoryMark | null,
+  CategoryMark | null,
+  CategoryMark | null,
+];
+
 /**
- * As marcas de um dia (P277): os Hits à esquerda, o Anime no meio e as Misturadas à direita, cada
- * um no seu lugar (o vazio guarda a posição). Sem uma agenda, sem a marca dela.
+ * As marcas de um dia numa grade 2×2, cada categoria no seu canto, sempre o mesmo (P277): os Hits
+ * em cima à esquerda, o Anime em cima à direita, as Misturadas embaixo à esquerda e o quiz embaixo
+ * à direita (o usuário, 27/10/2026). O canto vazio guarda o lugar.
  */
-function DayMarks({ day }: { readonly day: HistoryDay }) {
+function Corners({ marks }: { readonly marks: CornerMarks }) {
   return (
     <span class="calendar-marks" aria-hidden="true">
-      <span class="mark-slot">{day.hits !== "off" && <Mark mark={day.hits} />}</span>
-      {day.anime !== null && (
-        <span class="mark-slot">{day.anime !== "off" && <Mark mark={day.anime} />}</span>
-      )}
-      {day.mixed !== null && (
-        <span class="mark-slot">{day.mixed !== "off" && <Mark mark={day.mixed} />}</span>
-      )}
+      {/* Os 4 cantos são fixos: o índice é a chave. */}
+      {marks.map((mark, corner) => (
+        <span key={corner} class="mark-slot">
+          <Mark mark={mark} />
+        </span>
+      ))}
     </span>
   );
 }
 
-/**
- * A legenda: com o Anime ou as Misturadas, uma linha por categoria, com o lugar de cada uma
- * (P277). As Misturadas têm 2 diários, como os Hits: a mesma meia marca.
- */
-function Legend({ anime, mixed }: { readonly anime: boolean; readonly mixed: boolean }) {
-  const pair = (
-    <>
-      <span class="calendar-legend-item">
-        <Mark mark="all" /> {t("history.legendAll")}
-      </span>
-      <span class="calendar-legend-item">
-        <Mark mark="some" /> {t("history.legendSome")}
-      </span>
-    </>
-  );
-  if (!anime && !mixed) {
-    return (
-      <p class="calendar-legend" aria-hidden="true">
-        {pair}
-      </p>
-    );
-  }
+/** Os 4 cantos da legenda: em cada um, só o ponto da categoria daquele canto. */
+const LEGEND_CORNERS: readonly CornerMarks[] = [
+  ["all", null, null, null],
+  [null, "all", null, null],
+  [null, null, "all", null],
+  [null, null, null, "all"],
+];
+
+/** A legenda: o canto de cada categoria, e o que o ponto cheio e o meio cheio dizem. */
+function Legend() {
+  const names = [
+    t("history.legendHits"),
+    t("history.legendAnime"),
+    t("history.legendMixed"),
+    t("history.legendQuiz"),
+  ];
   return (
     <div class="calendar-legends" aria-hidden="true">
       <p class="calendar-legend">
-        <span>{t("history.legendHits")}</span>
-        {pair}
-      </p>
-      {anime && (
-        <p class="calendar-legend">
-          <span>{t(mixed ? "history.legendAnimeMiddle" : "history.legendAnime")}</span>
-          <span class="calendar-legend-item">
-            <Mark mark="all" /> {t("history.legendAnimeAll")}
+        {names.map((name, index) => (
+          <span key={name} class="calendar-legend-item">
+            <Corners marks={LEGEND_CORNERS[index] ?? [null, null, null, null]} /> {name}
           </span>
-        </p>
-      )}
-      {mixed && (
-        <p class="calendar-legend">
-          <span>{t("history.legendMixed")}</span>
-          {pair}
-        </p>
-      )}
+        ))}
+      </p>
+      <p class="calendar-legend">
+        <span class="calendar-legend-item">
+          <Mark mark="all" /> {t("history.legendAll")}
+        </span>
+        <span class="calendar-legend-item">
+          <Mark mark="some" /> {t("history.legendSome")}
+        </span>
+      </p>
     </div>
   );
 }
@@ -271,6 +348,8 @@ type CalendarProps = {
   readonly animeSchedule: AnimeSchedule | null;
   /** A agenda das Misturadas; null quando ela falhou (o calendário fica sem a marca delas). */
   readonly mixedSchedule: MixedSchedule | null;
+  /** Os dias com quiz nos meses da janela; null quando algum falhou (sem a marca do quiz). */
+  readonly quizDates: ReadonlySet<string> | null;
 };
 
 /** Os dias de uma agenda, ou null sem ela. */
@@ -280,7 +359,7 @@ function datesOf(schedule: { readonly days: object } | null): ReadonlySet<string
 
 /**
  * O calendário (P260): 2 linhas de 7. Como os dias são seguidos, cada coluna tem o mesmo dia da
- * semana, que vai no cabeçalho. O dia com diário (dos Hits, do Anime ou das Misturadas) é link
+ * semana, que vai no cabeçalho. O dia com diário (dos Hits, do Anime, das Misturadas ou do quiz) é link
  * para a tela dele; o sem diário, apagado.
  */
 export function HistoryCalendar({
@@ -289,11 +368,12 @@ export function HistoryCalendar({
   hitsDates,
   animeSchedule,
   mixedSchedule,
+  quizDates,
 }: CalendarProps) {
   const heading = useHeadingFocus();
   const animeDates = useMemo(() => datesOf(animeSchedule), [animeSchedule]);
   const mixedDates = useMemo(() => datesOf(mixedSchedule), [mixedSchedule]);
-  const days = historyDays(save, today, hitsDates, animeDates, HISTORY_DAYS, mixedDates);
+  const days = historyDays(save, today, hitsDates, animeDates, HISTORY_DAYS, mixedDates, quizDates);
   return (
     <div class="game practice history screen">
       <header>
@@ -318,7 +398,7 @@ export function HistoryCalendar({
                 <span class="calendar-num" aria-hidden="true">
                   {day.day}
                 </span>
-                <DayMarks day={day} />
+                <Corners marks={[day.hits, day.anime, day.mixed, day.quiz]} />
               </>
             );
             return (
@@ -344,7 +424,7 @@ export function HistoryCalendar({
           })}
         </ol>
       </div>
-      <Legend anime={animeDates !== null} mixed={mixedDates !== null} />
+      <Legend />
     </div>
   );
 }

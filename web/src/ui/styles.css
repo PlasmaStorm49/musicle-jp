@@ -2271,7 +2271,7 @@ dialog.medal-dialog .attribution {
   align-content: center;
   gap: 2px;
   min-width: 0;
-  /* O número e a linha das marcas, com folga: acima dos 44 px do alvo (P213). */
+  /* O número e a grade das marcas, com folga: acima dos 44 px do alvo (P213). */
   min-height: calc(var(--h-control) + var(--sp-2));
   border-radius: var(--r-field);
   background: var(--fill);
@@ -2297,61 +2297,58 @@ dialog.medal-dialog .attribution {
   font-weight: 700;
 }
 
-/* As marcas, na cor do texto (o par --text sobre --fill já está no PAIRS): o ✓, a meia-lua (em
-   CSS, sem depender de um glifo da fonte) e o vazio, que guarda a altura. */
+/* As marcas, na cor do texto (o par --text sobre --fill já está no PAIRS): uma grade 2×2 de
+   pontos de 7 px, com 2 px entre eles, que cabe nos 16 px de antes (o dia continua com 44 px de
+   altura e, em 320 px, uns 39 de largura, P271). Cada categoria no seu canto, também vazio (P277;
+   o usuário, 27/10/2026): os Hits e o Anime em cima, as Misturadas e o quiz embaixo. */
 .calendar-marks {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-grid;
+  grid-template-columns: repeat(2, 7px);
+  grid-template-rows: repeat(2, 7px);
   gap: 2px;
-  min-height: var(--lh-xs);
-  font-size: var(--t-xs);
-  line-height: var(--lh-xs);
 }
 
-/* Com as 3 marcas (os Hits, o Anime e as Misturadas), a folga cai para 1 px: em 320 px, o dia tem
-   uns 39 px, e as 3 vagas de 1 em, com 2 px, dariam 40. */
-.calendar-marks:has(> .mark-slot:nth-child(3)) {
-  gap: 1px;
-}
-
-/* O lugar de cada categoria (P277): os Hits à esquerda, o Anime no meio e as Misturadas à
-   direita, com a mesma largura mesmo vazio, para a marca de cada uma ficar sempre no mesmo ponto. */
 .mark-slot {
-  display: inline-flex;
-  justify-content: center;
-  width: 1em;
+  display: block;
 }
 
+/* O ponto cheio e o meio cheio (a metade da esquerda, em CSS, sem depender de um glifo). */
 .mark {
-  display: inline-block;
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
 }
 
-.mark-some,
-.mark-none {
-  width: 0.75em;
-  height: 0.75em;
+.mark-all {
+  background: currentColor;
 }
 
 .mark-some {
   border: 1.5px solid currentColor;
-  border-radius: 50%;
   background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
+/* Na legenda, os cantos vazios ganham um anel fraco, para o canto de cada categoria se ver (só
+   enfeite: o nome ao lado diz a categoria). No calendário, o vazio continua vazio. */
+.calendar-legend .mark-slot:empty {
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 .calendar-legend {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* Em 320 px, a linha dos Hits pode quebrar: os 2 px entre as linhas, como entre as duas. */
+  /* Em 320 px, a linha dos cantos pode quebrar: os 2 px entre as linhas, como entre as duas. */
   gap: 2px var(--sp-4);
   font-size: var(--t-xs);
   line-height: var(--lh-xs);
   color: var(--muted);
 }
 
-/* Com o Anime, a legenda em duas linhas (uma por categoria), juntas: o gap da .screen as
-   separaria demais. */
+/* A legenda em duas linhas (o canto de cada categoria e o que dizem os pontos), juntas: o gap da
+   .screen as separaria demais. */
 .calendar-legends {
   display: grid;
   gap: 2px;

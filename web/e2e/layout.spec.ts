@@ -178,6 +178,9 @@ for (const viewport of [
         expect(height).toBeGreaterThanOrEqual(44);
         expect(width).toBeGreaterThanOrEqual(44);
       }
+      // As 4 marcas na grade 2×2: o quiz jogado depois, embaixo à direita (o usuário, 27/10/2026).
+      const day21 = page.getByRole("link", { name: /^Quarta-feira, 21 de outubro/ });
+      await expect(day21.locator(".mark-slot").nth(3).locator(".mark-all")).toBeVisible();
       await page.evaluate(() => {
         window.location.hash = "#historico/2026-10-21";
       });
@@ -742,6 +745,19 @@ test("em 320 px, as telas do Histórico não rolam para o lado, e os dias têm 4
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Histórico");
   for (const day of await page.locator(".calendar-day").all()) {
     expect((await target(day)).height).toBeGreaterThanOrEqual(44);
+    // A grade 2×2 das marcas cabe dentro do dia, de uns 39 px de largura (o usuário, 27/10/2026).
+    const inside = await day.evaluate((cell) => {
+      const box = cell.getBoundingClientRect();
+      const marks = cell.querySelector(".calendar-marks")?.getBoundingClientRect();
+      return (
+        marks !== undefined &&
+        marks.left >= box.left &&
+        marks.right <= box.right &&
+        marks.top >= box.top &&
+        marks.bottom <= box.bottom
+      );
+    });
+    expect(inside).toBe(true);
   }
 });
 

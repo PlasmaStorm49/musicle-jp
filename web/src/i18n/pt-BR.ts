@@ -83,18 +83,21 @@ export const ptBR = {
   "history.mixedSome": "Misturadas, 1 de 2 diários jogados",
   "history.mixedNone": "Misturadas, nenhum diário jogado",
   "history.mixedOff": "sem diário das Misturadas",
+  "history.quizAll": "Quiz do dia jogado",
+  "history.quizNone": "Quiz do dia não jogado",
+  "history.quizOff": "sem Quiz do dia",
   // Os textos de cada categoria, juntos no nome do dia.
   "history.marksJoin": "; ",
-  // A legenda das marcas, embaixo do calendário. Com o Anime, duas linhas: os Hits à esquerda e
-  // o Anime à direita, no mesmo lugar em todo dia (P277); com as Misturadas, três, e elas à
-  // direita, com o Anime no meio.
-  "history.legendAll": "os 2 diários",
+  // A legenda das marcas, embaixo do calendário, em duas linhas: o canto de cada categoria na
+  // grade 2×2, o mesmo em todo dia (P277; o usuário, 27/10/2026), e o que diz cada ponto. O cheio
+  // segue a regra do ✓ de cada uma: os 2 diários dos Hits e das Misturadas, ao menos 1 do Anime e
+  // a run do quiz terminada.
+  "history.legendHits": "Hits",
+  "history.legendAnime": "Anime",
+  "history.legendMixed": "Misturadas",
+  "history.legendQuiz": "Quiz",
+  "history.legendAll": "jogado",
   "history.legendSome": "1 dos 2",
-  "history.legendHits": "Hits, à esquerda:",
-  "history.legendAnime": "Anime, à direita:",
-  "history.legendAnimeMiddle": "Anime, no meio:",
-  "history.legendMixed": "Misturadas, à direita:",
-  "history.legendAnimeAll": "ao menos 1 diário",
   // O cartão do Anime na tela de um dia: o dia fora da agenda do Anime.
   "history.animeUnavailable": "Sem diário do Anime",
   "history.mixedUnavailable": "Sem diário das Misturadas",
