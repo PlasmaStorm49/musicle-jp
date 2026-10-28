@@ -24,6 +24,7 @@ import type { QuizInfo } from "../core/types.ts";
 import { langOf, revealView } from "../core/view.ts";
 import { t, tn } from "../i18n/t.ts";
 import { Attribution } from "./Attribution.tsx";
+import { FullPreview } from "./FullPreview.tsx";
 import { Icon } from "./Icon.tsx";
 import { ItemLabel } from "./ItemLabel.tsx";
 import { VolumeControl } from "./Player.tsx";
@@ -86,7 +87,10 @@ export function QuizRoundView({
         game={game}
         round={round}
         index={index}
+        engine={engine}
+        urls={urls}
         resolveUrl={resolveUrl}
+        announce={announce}
         nextLabel={nextLabel}
         onNext={onNext}
         bonus={bonus}
@@ -407,7 +411,10 @@ function QuizReveal({
   game,
   round,
   index,
+  engine,
+  urls,
   resolveUrl,
+  announce,
   nextLabel,
   onNext,
   bonus,
@@ -416,7 +423,11 @@ function QuizReveal({
   readonly game: QuizState;
   readonly round: QuizRoundState;
   readonly index: CatalogIndex;
+  readonly engine: AudioEngine;
+  /** O endereço da prévia da A e da B, os mesmos da rodada (null enquanto busca). */
+  readonly urls: readonly (string | null)[];
   readonly resolveUrl: (url: string) => string;
+  readonly announce: (message: string) => void;
   readonly nextLabel: string;
   readonly onNext: () => void;
   readonly bonus: boolean;
@@ -482,6 +493,15 @@ function QuizReveal({
                   )}
                   {data && <p class="quiz-data">{data}</p>}
                 </div>
+                {/* Ouvir cada uma inteira depois da escolha, só o botão, à direita da linha: a
+                    barra não caberia, e a revelação não cresce (o usuário, 27/10/2026). */}
+                <FullPreview
+                  engine={engine}
+                  url={urls[position] ?? null}
+                  preview={track.preview}
+                  announce={announce}
+                  bar={false}
+                />
               </li>
             );
           })}

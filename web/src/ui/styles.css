@@ -1305,6 +1305,12 @@ button.help {
   margin-top: 0;
 }
 
+/* Na revelação do quiz, o Ouvir de cada música fica à direita da linha, sem a barra: a linha não
+   cresce, e o texto cede a largura (o usuário, 27/10/2026). */
+.mixed-songs > li > .reveal-player {
+  flex: none;
+}
+
 .reveal-player > .bar-seek {
   flex: 1;
   min-width: 0;
