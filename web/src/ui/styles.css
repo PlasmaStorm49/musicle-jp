@@ -1003,22 +1003,24 @@ ul.options.help-options {
   padding: var(--sp-1) var(--sp-3);
 }
 
-/* No "acertar o anime", os nomes de anime numa coluna, inteiros: o nome longo (o real chega a uns
-   60 caracteres) quebra a linha, sem corte. Sem a linha do artista, a opção tem a altura do alvo
-   (44 px), e não a da linha de música. */
-ul.options.help-options.franchise {
-  grid-template-columns: minmax(0, 1fr);
-}
-
+/* No "acertar o anime", os nomes de anime na mesma grade 2×2 da ajuda dos Hits, com o espaço de
+   sempre em volta (o usuário, 28/10/2026; antes, numa coluna, e a rodada apertava as partes para
+   caber). O nome vai em até 3 linhas, em 14 px: o real chega a uns 60 caracteres, e o que passar
+   disso corta, com o nome inteiro no botão (o leitor de tela). Sem a linha do artista, a opção tem
+   a altura do alvo (44 px) com um nome curto. */
 .help-options.franchise .option {
   min-height: var(--h-control);
   align-items: center;
 }
 
-/* A rodada com essa ajuda: sem o título na tela (fica para o leitor de tela) e com as partes mais
-   juntas, para as 4 opções numa coluna caberem em 360 × 640 também com nomes longos. */
-.typing.helping.franchise {
-  gap: var(--sp-1);
+.help-options.franchise :where(.item-title) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
 }
 
 /* O campo do Desafio. A lista de sugestões flutua sobre a tela: a página não muda de altura com
