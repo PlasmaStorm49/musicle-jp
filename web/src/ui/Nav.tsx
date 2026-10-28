@@ -1,8 +1,9 @@
 // A nav (P225): uma aba por categoria, 8 com as Medalhas (M16), as Misturadas (M17) e o quiz do
 // dia (M18). Na linha, os jogos do dia: a Início, os Hits, o Anime, as Misturadas e o Quiz (o
 // usuário, 25/10/2026: no computador, os 4 diários em cima). No celular, os que não cabem vão para
-// o "Mais", do fim para o começo: o Quiz abaixo de `QUIZ_WIDE`, as Misturadas abaixo de
-// `MIXED_WIDE`. O "Mais" fica em todas as larguras (P265, P287), com os Artistas, o Histórico e as
+// o "Mais": o Quiz abaixo de `QUIZ_WIDE` e as Misturadas abaixo de `MIXED_WIDE`. Abaixo de 720 só
+// um dos dois cabe, e o Quiz tem a vez (o usuário, 27/10/2026; antes, as Misturadas a partir de 460,
+// P348). O "Mais" fica em todas as larguras (P265, P287), com os Artistas, o Histórico e as
 // Medalhas. O link de cada diário que sai está duas vezes no DOM, um na linha e outro no menu, e o
 // CSS mostra um por vez (o `[hidden]` vale sempre, e o menu fechado usa ele: o mesmo elemento não
 // serve às duas larguras). Logo depois do "Mais", a medalha em destaque (ME118, P317), quando há
@@ -51,8 +52,8 @@ const MENU_ID = "nav-more-menu";
 const FAVORITE_LINK = "(min-width: 360px)";
 
 /** As larguras em que as Misturadas e o Quiz saem do menu e vão para a linha (os cortes do CSS). */
-const MIXED_WIDE = "(min-width: 460px)";
-const QUIZ_WIDE = "(min-width: 720px)";
+const MIXED_WIDE = "(min-width: 720px)";
+const QUIZ_WIDE = "(min-width: 400px)";
 
 /** A largura cruzou o corte de `query`: o valor de agora, e a troca avisada (o menu fecha). */
 function useWide(query: string, onChange: () => void): boolean {
