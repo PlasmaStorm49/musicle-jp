@@ -1400,16 +1400,33 @@ button.help {
   color: var(--bad);
 }
 
-/* O quiz do dia (M18): a pergunta embaixo do título, os dois lados lado a lado (a A à esquerda, a
-   B à direita), cada um com a letra grande, a barra dos trechos e o botão de escolher, e o Tocar e
-   o "Ouvir mais" embaixo, para as duas. A letra é o ponto focal da rodada, e o "Tocando" ao lado
-   dela diz qual toca (o usuário, 27/10/2026). Sem a tinta atrás de cada lado: sobre o --fill, o
-   trilho da barra perderia os 3:1 do claro. A revelação usa a lista das Misturadas
-   (`.mixed-songs`), com o dado da pergunta de cada música. */
+/* O quiz do dia (M18), revisto no uso (o usuário, 28/10/2026): o cabeçalho, a pergunta no centro,
+   num bloco na tinta, os dois lados lado a lado (a A à esquerda, a B à direita), cada um com o nome
+   pequeno, o "Tocando", a barra dos trechos e o botão de escolher, e o Tocar e o "Ouvir mais"
+   embaixo, para as duas. Na rodada, 16 px entre as partes, e não os 12 do palco (os 24 do plano
+   faziam a rodada mais alta rolar em 360 × 640). Sem a tinta atrás de cada lado: sobre o --fill,
+   o trilho da barra perderia os 3:1 do claro. A revelação usa a lista das Misturadas
+   (`.mixed-songs`), com o dado da pergunta de cada música, e nela a pergunta perde o bloco (fica
+   só centralizada, em 16 px): com ele, a revelação mais alta rolava 8 px em 360 × 640. */
+.game.quiz.screen:has(> .quiz-player) {
+  gap: var(--sp-4);
+}
+
 .quiz-question {
+  padding: var(--sp-3);
+  border-radius: var(--r-tile);
+  background: var(--fill);
   font-size: var(--t-lg);
   line-height: var(--lh-lg);
   font-weight: 700;
+  text-align: center;
+}
+
+.game.quiz.screen:not(:has(> .quiz-player)) > .quiz-question {
+  padding: 0;
+  background: none;
+  font-size: var(--t-md);
+  line-height: var(--lh-md);
 }
 
 .quiz-pair {
@@ -1430,18 +1447,19 @@ button.help {
   justify-content: space-between;
   gap: var(--sp-2);
   min-width: 0;
-}
-
-.quiz-letter {
-  font-size: var(--t-xl);
-  line-height: var(--lh-xl);
-  font-weight: 700;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  color: var(--muted);
 }
 
 .quiz-playing {
-  font-size: var(--t-sm);
-  line-height: var(--lh-sm);
   font-weight: 700;
+  color: var(--text);
+}
+
+/* Os botões de escolher com a altura do Tocar (56 px): a ação da rodada. */
+.quiz-side > button {
+  min-height: var(--h-hero);
 }
 
 .quiz-data,

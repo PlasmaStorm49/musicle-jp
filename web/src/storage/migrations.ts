@@ -1,7 +1,7 @@
 // Migrações do formato salvo: uma função por versão, de N para N+1, cada uma com um teste que
 // lê um save real da versão anterior (web/CLAUDE.md, regra 12).
 
-export const SAVE_SCHEMA_VERSION = 12;
+export const SAVE_SCHEMA_VERSION = 13;
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 
@@ -53,6 +53,11 @@ export const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // (o usuário, 25/10/2026: a run retoma). A versão sobe pelo mesmo motivo da v8 (o `sanitize`
   // velho o jogaria fora).
   11: (data) => ({ ...data, quiz: { finished: {}, progress: {} } }),
+  // v12 → v13 (o usuário, 28/10/2026): os pontos do quiz. A escolha guarda o trecho (`stage`), e a
+  // run terminada, os pontos (`points`). Nada muda no que já existe: a run de antes fica sem pontos,
+  // e a escolha de antes vale como no último trecho. A versão sobe para que uma aba com o código
+  // velho (que gravaria a run sem os pontos) veja "versão mais nova" e não grave.
+  12: (data) => data,
 };
 
 /** Leva um save da versão `from` até a atual. Versão sem migração conhecida: erro. */

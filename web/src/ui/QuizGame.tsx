@@ -8,15 +8,17 @@ import {
   bonusDailies,
   createQuizGame,
   isQuizFinished,
-  livesLeft,
+  livesShown,
   type QuizDaily,
   type QuizEvent,
   type QuizGame as QuizGameRecord,
   type QuizState,
+  quizPoints,
   quizReached,
   quizReducer,
   quizRight,
   quizShareText,
+  quizStatePoints,
   replaceQuizProgress,
   startQuizSession,
   toQuizGame,
@@ -195,16 +197,21 @@ function Playing({
 
   if (summary) return <QuizSummary {...props} game={summary} />;
 
-  const left = livesLeft(game.errors);
+  const lives = livesShown(game.errors);
   return (
     <div class="game quiz screen">
       <header class="round-head">
         <h1>{t("quiz.title")}</h1>
         <p>
-          {t("quiz.round", { current: game.current + 1 })}
-          {/* Com 0 vida a run segue até o próximo erro: "Última vida" (o usuário, 27/10/2026). */}
+          {t("quiz.round", {
+            current: game.current + 1,
+            points: tn("count.points", quizStatePoints(game)),
+          })}
+          {/* As vidas contam a de agora: 3, 2 e a "Última vida" (o usuário, 28/10/2026). */}
           <span class="round-tag">
-            {left === 0 && !isQuizFinished(game) ? t("quiz.lastLife") : t("quiz.lives", { left })}
+            {lives === 1 && !isQuizFinished(game)
+              ? t("quiz.lastLife")
+              : t("quiz.lives", { left: lives })}
           </span>
         </p>
       </header>
@@ -261,9 +268,15 @@ function SummaryView({
   const shown = saved ?? game;
   const reached = quizReached(shown);
   const right = tn("quiz.right", quizRight(shown));
+  // Os pontos (v13, o usuário, 28/10/2026); a run terminada antes deles fica com os acertos.
+  const points = quizPoints(shown);
+  const pointsText = points === null ? null : tn("count.points", points);
   const plainHeader = t("quiz.shareHeader", { title: t("app.title"), date: shortDate(daily.date) });
   const header = shown.late ? t("share.late", { header: plainHeader }) : plainHeader;
-  const result = t("quiz.shareResult", { reached, right });
+  const result =
+    pointsText === null
+      ? t("quiz.shareResult", { reached, right })
+      : t("quiz.shareResultPoints", { reached, points: pointsText });
   return (
     <div class="game quiz screen">
       <header class="round-head">
@@ -274,8 +287,17 @@ function SummaryView({
         <h2 id="summary-title" ref={heading} tabIndex={-1}>
           {t("quiz.summaryTitle")}
         </h2>
-        <p class="score">{t("quiz.reached", { reached })}</p>
-        <p>{right}</p>
+        {pointsText === null ? (
+          <>
+            <p class="score">{t("quiz.reached", { reached })}</p>
+            <p>{right}</p>
+          </>
+        ) : (
+          <>
+            <p class="score">{pointsText}</p>
+            <p>{t("quiz.reachedRight", { reached, right })}</p>
+          </>
+        )}
         {shown.late && <p class="summary-late">{t("quiz.lateNote")}</p>}
         <ShareButton text={quizShareText(header, result, shown, shareUrl)} announce={announce} />
         {onBonus && (

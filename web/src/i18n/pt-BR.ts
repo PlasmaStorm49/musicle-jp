@@ -104,6 +104,8 @@ export const ptBR = {
   "history.animeUnavailable": "Sem diário do Anime",
   "history.mixedUnavailable": "Sem diário das Misturadas",
   "history.quizLine": "Rodada {reached}, {right}",
+  // Com os pontos (v13, o usuário, 28/10/2026): a run terminada antes deles fica com os acertos.
+  "history.quizLinePoints": "Rodada {reached}, {points}",
   "history.dayTitle": "{weekday}, {date}",
   "history.dayHint": "Jogue o que faltou. Não conta nas estatísticas.",
   "history.late": "jogado depois",
@@ -161,6 +163,7 @@ export const ptBR = {
   "home.quizHint":
     "Uma run por dia, igual para todos: duas músicas de anime e uma pergunta. O 3º erro encerra.",
   "home.quizLine": "Hoje: rodada {reached}, {right}",
+  "home.quizLinePoints": "Hoje: rodada {reached}, {points}",
   "home.quizPlaying": "Hoje: em andamento",
   "home.howTitle": "Como funciona",
   // Espaço que não quebra (U+00A0) entre o número e o "s".
@@ -665,15 +668,15 @@ export const ptBR = {
   "quiz.source.visual_novel": "uma visual novel",
   "quiz.source.game": "um jogo",
   // Sem o total (o usuário, 26/10/2026): a run não é para chegar ao fim.
-  "quiz.round": "Rodada {current}",
+  // A rodada e os pontos até aqui (o usuário, 28/10/2026).
+  "quiz.round": "Rodada {current} · {points}",
   "quiz.lives": "Vidas: {left}",
-  // Sem vida sobrando e a run em jogo (o 3º erro encerra, P377; o usuário, 27/10/2026).
+  // As vidas contam a de agora: 3, 2 e a última, em que o próximo erro encerra (P377; o usuário,
+  // 28/10/2026).
   "quiz.lastLife": "Última vida",
   "quiz.side.a": "Música A",
   "quiz.side.b": "Música B",
-  // A letra grande de cada lado da rodada e o texto de qual toca (o usuário, 27/10/2026).
-  "quiz.letter.a": "A",
-  "quiz.letter.b": "B",
+  // O texto de qual das duas toca, ao lado do nome dela (o usuário, 27/10/2026).
   "quiz.playing": "Tocando",
   "quiz.pick.a": "Escolher a A",
   "quiz.pick.b": "Escolher a B",
@@ -681,6 +684,7 @@ export const ptBR = {
   "quiz.seek.b": "Ponto da música B",
   "quiz.void": "Rodada anulada: não deu para tocar as músicas. Ela não tira vida.",
   "quiz.revealRight": "Acertou!",
+  "quiz.revealRightPoints": "Acertou! {points}.",
   "quiz.revealWrong": "Errou. Vidas: {left}.",
   "quiz.revealWrongLast": "Errou. Última vida.",
   "quiz.revealEnd": "Errou: fim da run.",
@@ -704,11 +708,13 @@ export const ptBR = {
   "quiz.malCredit": "Dados do MyAnimeList",
   "quiz.summaryTitle": "Fim da run",
   "quiz.reached": "Chegou à rodada {reached}",
+  "quiz.reachedRight": "Chegou à rodada {reached}, com {right}",
   "quiz.lateNote": "Jogado depois: não conta nas medalhas.",
   "quiz.right.one": "{count} acerto",
   "quiz.right.other": "{count} acertos",
   "quiz.shareHeader": "{title} · Quiz do dia · {date}",
   "quiz.shareResult": "Rodada {reached} · {right}",
+  "quiz.shareResultPoints": "Rodada {reached} · {points}",
   // O bônus de estreia (o usuário, 25/10/2026): 3 rodadas de outras perguntas, só no 1º dia.
   "quiz.bonusButton": "Rodadas bônus de estreia",
   "quiz.bonusHint":

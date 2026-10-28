@@ -122,7 +122,12 @@ function quizCard(save: Save, date: string): Card {
   const status = quizStatusOf(save, date, 0);
   const line =
     status.kind === "done"
-      ? t("home.quizLine", { reached: status.reached, right: tn("quiz.right", status.right) })
+      ? status.points === null
+        ? t("home.quizLine", { reached: status.reached, right: tn("quiz.right", status.right) })
+        : t("home.quizLinePoints", {
+            reached: status.reached,
+            points: tn("count.points", status.points),
+          })
       : status.kind === "playing"
         ? t("home.quizPlaying")
         : null;

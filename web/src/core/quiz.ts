@@ -118,7 +118,15 @@ export type QuizRoundState = QuizPair & {
   readonly status: QuizRoundStatus;
   /** O lado escolhido; null enquanto a rodada está em jogo e na anulada. */
   readonly chosen: QuizSide | null;
+  /** O trecho em que a escolha foi feita (o índice em `QUIZ_STAGES`); null sem escolha. */
+  readonly stage: number | null;
 };
+
+/**
+ * Os pontos do acerto, pelo trecho em que a pessoa escolheu: 4 com 3 s, 3 com 7 s, 2 com 12 s e 1
+ * com 18 s; o erro vale 0 (o usuário, 28/10/2026). Antes, o "Ouvir mais" não custava nada.
+ */
+export const QUIZ_POINTS: readonly number[] = [4, 3, 2, 1];
 
 export type QuizState = {
   /** O id no save ("<data>|quiz"). */
@@ -129,7 +137,16 @@ export type QuizState = {
 };
 
 export type QuizEvent =
-  | { readonly type: "CHOOSE"; readonly round: number; readonly side: QuizSide }
+  /**
+   * A escolha, com o trecho em que ela foi feita (os pontos). O andamento salvo antes dos pontos
+   * não tem o `stage`: a escolha dele vale como no último trecho (1 ponto no acerto).
+   */
+  | {
+      readonly type: "CHOOSE";
+      readonly round: number;
+      readonly side: QuizSide;
+      readonly stage?: number;
+    }
   /** Anula a rodada `round` (falha de áudio). Ignorado se não for a rodada atual. */
   | { readonly type: "VOID"; readonly round: number }
   | { readonly type: "NEXT" };
@@ -149,6 +166,7 @@ export function createQuizGame(daily: QuizDaily, index: CatalogIndex): QuizState
       ...pair,
       status: playable(index, pair.a) && playable(index, pair.b) ? "playing" : "void",
       chosen: null,
+      stage: null,
     }),
   );
   return { id: daily.id, rounds, current: 0, errors: 0 };
@@ -177,13 +195,27 @@ export function quizReducer(state: QuizState, event: QuizEvent): QuizState {
   // Uma escolha ou uma falha atrasada (o pré-carregamento de outra rodada) não mexe na em jogo.
   if (event.round !== state.current || round.status !== "playing") return state;
   if (event.type === "VOID") return withRound(state, { ...round, status: "void" });
+  const stage = event.stage ?? QUIZ_LAST_STAGE;
+  if (!Number.isInteger(stage) || stage < 0 || stage > QUIZ_LAST_STAGE) return state;
   const right = event.side === round.answer;
   const next = withRound(state, {
     ...round,
     status: right ? "right" : "wrong",
     chosen: event.side,
+    stage,
   });
   return right ? next : { ...next, errors: next.errors + 1 };
+}
+
+/** Os pontos de uma rodada: os do trecho no acerto, 0 no erro e na anulada (P2 da conversa, a). */
+export function quizRoundPoints(round: QuizRoundState): number {
+  if (round.status !== "right") return 0;
+  return QUIZ_POINTS[round.stage ?? QUIZ_LAST_STAGE] ?? 0;
+}
+
+/** Os pontos da run até aqui. */
+export function quizStatePoints(state: QuizState): number {
+  return state.rounds.reduce((sum, round) => sum + quizRoundPoints(round), 0);
 }
 
 /** A rodada em jogo. */
@@ -196,6 +228,14 @@ export function currentQuizRound(state: QuizState): QuizRoundState {
 /** As vidas que sobram: 2, 1 ou 0 (com 0, o próximo erro encerra). */
 export function livesLeft(errors: number): number {
   return Math.max(QUIZ_LIVES - errors, 0);
+}
+
+/**
+ * As vidas na tela, contando a de agora (o usuário, 28/10/2026): 3, 2, 1 (a última) e 0 no fim da
+ * run. A regra (P377) não muda: o 3º erro encerra.
+ */
+export function livesShown(errors: number): number {
+  return Math.max(QUIZ_LIVES + 1 - errors, 0);
 }
 
 // ---- o save ----
@@ -213,7 +253,12 @@ export type QuizGame = {
   readonly results: string;
   /** Terminado depois do dia dele (o Histórico, num PR seguinte): fica fora das medalhas. */
   readonly late?: true;
+  /** Os pontos da run (v13, o usuário, 28/10/2026); a run terminada antes deles não os tem. */
+  readonly points?: number;
 };
+
+/** O máximo de pontos de uma run: 4 em cada uma das até 50 rodadas. */
+export const QUIZ_MAX_POINTS = 200;
 
 /** O andamento: só os eventos aceitos (a retomada repete todos no reducer, P2). */
 export type QuizProgress = { readonly events: readonly QuizEvent[] };
@@ -242,7 +287,12 @@ export function toQuizGame(state: QuizState, number: number, late: boolean): Qui
     .slice(0, state.current + 1)
     .map((round) => (round.status === "playing" ? "v" : MARKS[round.status]))
     .join("");
-  return { number, results, ...(late ? { late: true } : {}) };
+  return { number, results, ...(late ? { late: true } : {}), points: quizStatePoints(state) };
+}
+
+/** Os pontos de uma run terminada; null na terminada antes dos pontos (v12). */
+export function quizPoints(game: Pick<QuizGame, "points">): number | null {
+  return game.points ?? null;
 }
 
 /** A rodada alcançada: a última jogada. */
@@ -336,6 +386,8 @@ export type QuizStatus =
       readonly number: number;
       readonly reached: number;
       readonly right: number;
+      /** Null na run terminada antes dos pontos (v12). */
+      readonly points: number | null;
       readonly late: boolean;
     };
 
@@ -349,6 +401,7 @@ export function quizStatusOf(save: Save, date: string, number: number | null): Q
       number: finished.number,
       reached: quizReached(finished),
       right: quizRight(finished),
+      points: quizPoints(finished),
       late: finished.late === true,
     };
   }

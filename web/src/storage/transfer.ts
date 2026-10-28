@@ -97,7 +97,12 @@ function cleanMixed(game: MixedGame): MixedGame {
 
 /** Uma run do quiz do dia só com os campos dele: um campo estranho do arquivo não entra no save. */
 function cleanQuiz(game: QuizGame): QuizGame {
-  return { number: game.number, results: game.results, ...(game.late ? { late: true } : {}) };
+  return {
+    number: game.number,
+    results: game.results,
+    ...(game.late ? { late: true } : {}),
+    ...(game.points !== undefined ? { points: game.points } : {}),
+  };
 }
 
 function cleanArtist(record: ArtistRecord): ArtistRecord {
