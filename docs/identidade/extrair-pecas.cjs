@@ -1,7 +1,8 @@
 // Extrai do style guide (docs/identidade/style-guide.svg) as peças do M12: o selo da Início, o
 // favicon, o ícone de app (PNG) e o logo empilhado sem espaço (P179), do PR B; e os ícones das
 // tentativas (o X, o ✓ e o chevron, em web/src/ui/assets/icons.ts), do PR C. Os caminhos saem
-// iguais aos do guia; só o viewBox recorta (e, no logo, um translate por grupo de letras).
+// iguais aos do guia; só o viewBox recorta (e, no logo, um translate por grupo de letras; no ✓,
+// o espelho).
 // Não roda na CI: rode à mão quando o guia mudar (por exemplo, com a versão opaca do selo, PD12),
 // da raiz do repositório, com o web/node_modules instalado:
 //   node docs/identidade/extrair-pecas.cjs [pasta-para-uma-captura-de-conferência]
@@ -156,25 +157,32 @@ const MARK = [1, 2, 3];
 
   // 5. Os ícones das tentativas do Desafio (M12, PR C): o X, o ✓ e o chevron, num módulo TS
   //    gerado. O caminho fica o do guia; a cor sai do CSS (currentColor), e não do fill fixo.
+  //    O ✓ do guia aparecia invertido na tela: ele se desenha espelhado, no próprio viewBox (o
+  //    usuário, 27/10/2026), e o caminho continua o do guia.
   const icons = [
-    ["wrong", 33, RED],
-    ["right", 35, "#54941C"],
-    ["next", 42, RED],
+    ["wrong", 33, RED, false],
+    ["right", 35, "#54941C", true],
+    ["next", 42, RED, false],
   ];
   const iconLines = [];
   const iconBoxes = {};
-  for (const [name, i, fill] of icons) {
+  const iconMirror = {};
+  for (const [name, i, fill, mirror] of icons) {
     const n = (d(i).match(/M/g) || []).length;
     if (attr(paths[i], "fill") !== fill || n !== 1) throw new Error(`path[${i}]: ${attr(paths[i], "fill")}, ${n} formas`);
     iconBoxes[i] = await box(d(i));
     const vb = viewBox(iconBoxes[i]);
-    iconLines.push(`  ${name}: {\n    viewBox: "${vb.s}",\n    d: "${d(i)}",\n  },`);
+    // O espelho em volta do meio do viewBox: x vira 2·x0 + largura − x, e o desenho fica nele.
+    iconMirror[i] = mirror ? `matrix(-1 0 0 1 ${2 * vb.x + vb.w} 0)` : null;
+    const transform = iconMirror[i] ? `\n    transform: "${iconMirror[i]}",` : "";
+    iconLines.push(`  ${name}: {\n    viewBox: "${vb.s}",\n    d: "${d(i)}",${transform}\n  },`);
   }
   const iconsTs =
     "// Gerado por docs/identidade/extrair-pecas.cjs a partir do style guide do designer (o X é o\n" +
     "// path[33], o ✓ o path[35] e o chevron o path[42]). Não edite à mão: rode o script de novo. O\n" +
-    "// web/scripts/identity.test.ts confere que os caminhos são os do guia. Fica fora do Biome de\n" +
-    "// propósito (a pasta assets/ é ignorada), e o tsc confere os tipos.\n" +
+    "// web/scripts/identity.test.ts confere que os caminhos são os do guia. O ✓ leva o espelho\n" +
+    "// (transform): no desenho do guia, ele aparecia invertido na tela (o usuário, 27/10/2026).\n" +
+    "// Fica fora do Biome de propósito (a pasta assets/ é ignorada), e o tsc confere os tipos.\n" +
     `export const ICONS = {\n${iconLines.join("\n")}\n} as const;\n\n` +
     "export type IconName = keyof typeof ICONS;\n";
   fs.writeFileSync(path.join(ROOT, "web/src/ui/assets/icons.ts"), iconsTs);
@@ -193,7 +201,10 @@ const MARK = [1, 2, 3];
         `<img src="data:image/png;base64,${fs.readFileSync(iconPng).toString("base64")}" style="margin:12px;border-radius:40px">` +
         `<br>${cell(original, "#fff", 300)}${cell(logo, "#fff", 300)}<br>` +
         icons
-          .map(([, i]) => cell(`${header(viewBox(iconBoxes[i]).s)}<path fill="#000" d="${d(i)}"/></svg>`, "#fff", 60))
+          .map(([, i]) => {
+            const transform = iconMirror[i] ? ` transform="${iconMirror[i]}"` : "";
+            return cell(`${header(viewBox(iconBoxes[i]).s)}<path fill="#000" d="${d(i)}"${transform}/></svg>`, "#fff", 60);
+          })
           .join("") +
         "</body></html>",
     );
