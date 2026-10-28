@@ -1,6 +1,8 @@
 // Todos os textos da tela ficam aqui (regra inviolável 2). Parâmetros entre chaves: {nome}.
 export const ptBR = {
   "app.title": "AteMusic",
+  // O título da aba do navegador numa tela (o usuário, 27/10/2026): "Quiz do dia · AteMusic".
+  "app.pageTitle": "{page} · AteMusic",
   "app.tagline": "Adivinhe a música japonesa do dia",
 
   "load.loading": "Carregando…",

@@ -85,6 +85,7 @@ import {
   usePracticeRecord,
 } from "./Practice.tsx";
 import { BackupAction, ProgressTransfer, type SaveMode } from "./Progress.tsx";
+import { pageTitle } from "./pageTitle.ts";
 import { Quiz, type QuizStore, useQuizStore } from "./Quiz.tsx";
 import { singleClickLink } from "./singleClick.ts";
 import { savedVolume } from "./volume.ts";
@@ -177,6 +178,10 @@ export function App() {
   const resolveUrl = useCallback((url: string) => assetUrl(BASE_URL, url), []);
   // A aba e, num dia passado do Histórico, a data dele (P261), lidas do endereço.
   const [route, setRoute] = useState<Route>(() => routeFromHash(window.location.hash, date));
+  // O título da aba do navegador acompanha a tela (o usuário, 27/10/2026).
+  useEffect(() => {
+    document.title = pageTitle(route);
+  }, [route]);
   // A última leitura do save, para o ✓ da aba Hits e o Treino. Cada diário recebe a leitura do
   // momento em que a aba abre: voltar ao Desafio terminado mostra o resultado (P39).
   const [latest, setLatest] = useState(saves.save);

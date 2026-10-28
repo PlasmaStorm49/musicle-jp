@@ -218,10 +218,11 @@ describe("Nav (P225, P265, P287)", () => {
   });
 
   it.each([
-    ["misturadas-titulo", "460", true, undefined],
-    ["misturadas-titulo", "460", false, "true"],
-    ["quiz", "720", true, undefined],
-    ["quiz", "720", false, "true"],
+    // O Quiz tem a vez abaixo de 720 (o usuário, 27/10/2026).
+    ["misturadas-titulo", "720", true, undefined],
+    ["misturadas-titulo", "720", false, "true"],
+    ["quiz", "400", true, undefined],
+    ["quiz", "400", false, "true"],
   ] as const)(
     "em %s, com a largura de %s px = %s, o Mais leva o aria-current = %s (o diário está nele só abaixo do corte)",
     (tab, cut, wide, current) => {

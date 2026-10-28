@@ -1142,7 +1142,7 @@ test("a medalha em destaque na nav (ME118, P317): em 320 px, a nav numa linha no
   expect(tops, "a nav numa linha só").toBe(1);
 });
 
-test("o Mais em todas as larguras, e os diários na linha quando cabem: as Misturadas a partir de 460 px e o Quiz a partir de 720 (P287, M17, M18)", async ({
+test("o Mais em todas as larguras, e os diários na linha quando cabem: o Quiz a partir de 400 px e as Misturadas a partir de 720 (P287, M17, M18; o usuário, 27/10/2026)", async ({
   page,
 }) => {
   // Os dois diários dos Hits, um do Anime, os dois das Misturadas e o quiz de hoje terminados: os
@@ -1172,7 +1172,7 @@ test("o Mais em todas as larguras, e os diários na linha quando cabem: as Mistu
       quiz: { finished: { "2026-10-08|quiz": { number: 1, results: "www" } }, progress: {} },
     },
   );
-  await page.setViewportSize({ width: 459, height: 800 });
+  await page.setViewportSize({ width: 399, height: 800 });
   await open(page, DAY, "#inicio");
   const nav = page.getByRole("navigation");
   const more = nav.getByRole("button", { name: "Mais" });
@@ -1189,17 +1189,18 @@ test("o Mais em todas as larguras, e os diários na linha quando cabem: as Mistu
       `sem rolar para o lado (${label})`,
     ).toBeLessThanOrEqual(0);
   };
-  await oneLine("459 px");
+  await oneLine("399 px");
   // O menu aberto fecha ao cruzar um corte (um diário muda de lugar), e não volta aberto.
   await more.click();
   await expect(more).toHaveAttribute("aria-expanded", "true");
-  await page.setViewportSize({ width: 460, height: 800 });
+  await page.setViewportSize({ width: 400, height: 800 });
   await expect(more).toHaveAttribute("aria-expanded", "false");
-  await expect(links).toHaveText(["Início", /^Hits/, /^Anime/, /^Misturadas/, ""]);
-  await oneLine("460 px");
-  // Até 719 px, a coluna tem 460 px úteis: o Quiz fica no menu.
+  // A partir de 400 px, o Quiz na linha, com o ✓ e a medalha em destaque (o caso mais largo).
+  await expect(links).toHaveText(["Início", /^Hits/, /^Anime/, /^Quiz/, ""]);
+  await oneLine("400 px");
+  // Até 719 px, só um dos dois cabe: o Quiz fica, e as Misturadas no menu.
   await page.setViewportSize({ width: 719, height: 800 });
-  await expect(links).toHaveText(["Início", /^Hits/, /^Anime/, /^Misturadas/, ""]);
+  await expect(links).toHaveText(["Início", /^Hits/, /^Anime/, /^Quiz/, ""]);
   await oneLine("719 px");
   // Em 720 px, os 4 diários na linha, na coluna do conteúdo, e a medalha em destaque alinhada com
   // o fim dele; o Mais continua, com os Artistas, o Histórico e as Medalhas.
