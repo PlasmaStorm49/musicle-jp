@@ -103,8 +103,7 @@ const QUIZ_MONTH: QuizMonth = {
 };
 /** O mês de outubro do quiz, o dos dias dos testes, já carregado: sem quiz, ou com o de PAST. */
 const QUIZ_EMPTY: QuizStore = {
-  month: "2026-10",
-  load: { status: "ready", month: null, bonus: null },
+  loads: new Map([["2026-10", { status: "ready", month: null, bonus: null }]]),
   request: () => {},
 };
 const mixedFound = { status: "done", found: [{ stage: 0 }, { stage: 0 }] } as const;
@@ -121,6 +120,7 @@ describe("HistoryCalendar (P260)", () => {
     save: Save = emptySave(),
     animeSchedule: AnimeSchedule | null = null,
     mixedSchedule: MixedSchedule | null = null,
+    quizDates: ReadonlySet<string> | null = null,
   ) =>
     render(
       <HistoryCalendar
@@ -129,8 +129,12 @@ describe("HistoryCalendar (P260)", () => {
         hitsDates={hitsDates}
         animeSchedule={animeSchedule}
         mixedSchedule={mixedSchedule}
+        quizDates={quizDates}
       />,
     );
+  /** As classes da marca de cada canto: Hits, Anime, Misturadas e quiz ("" no canto vazio). */
+  const corners = (link: HTMLElement) =>
+    [...link.querySelectorAll(".mark-slot")].map((slot) => slot.firstElementChild?.className ?? "");
 
   it("o título com o foco (regra 16) e os 14 dias, do mais antigo a ontem", () => {
     setup();
@@ -178,24 +182,24 @@ describe("HistoryCalendar (P260)", () => {
     const day19 = screen.getByRole("link", {
       name: "Segunda-feira, 19 de outubro: Hits, nenhum diário jogado",
     });
-    expect(day19.querySelector(".mark-none")).not.toBeNull();
-    expect(
-      screen.getByRole("link", { name: /^Quarta-feira, 21 de outubro/ }).querySelector(".mark-all")
-        ?.textContent,
-    ).toBe("✓");
-    expect(
-      screen.getByRole("link", { name: /^Terça-feira, 20 de outubro/ }).querySelector(".mark-some"),
-    ).not.toBeNull();
+    // Nenhum jogado: o canto fica vazio. O ponto cheio com os 2 e o meio cheio com 1.
+    expect(day19.querySelector(".mark")).toBeNull();
+    const day21 = screen.getByRole("link", { name: /^Quarta-feira, 21 de outubro/ });
+    expect(corners(day21)).toEqual(["mark mark-all", "", "", ""]);
+    const day20 = screen.getByRole("link", { name: /^Terça-feira, 20 de outubro/ });
+    expect(corners(day20)).toEqual(["mark mark-some", "", "", ""]);
   });
 
-  it("sem a agenda do Anime (falhou), só a marca dos Hits e a legenda dela", () => {
-    setup();
+  it("sem as outras agendas (falharam), os 4 cantos guardam o lugar, e só o dos Hits marca", () => {
+    setup(withGames({ [puzzleId("2026-10-21", "album")]: finished }));
     const cell = screen.getByRole("link", { name: /^Quarta-feira, 21 de outubro/ });
-    expect(cell.querySelectorAll(".mark-slot")).toHaveLength(1);
-    expect(document.querySelector(".calendar-legends")).toBeNull();
+    expect(corners(cell)).toEqual(["mark mark-some", "", "", ""]);
+    expect(cell.getAttribute("aria-label")).toBe(
+      "Quarta-feira, 21 de outubro: Hits, 1 de 2 diários jogados",
+    );
   });
 
-  it("com o Anime, as duas marcas lado a lado: os Hits à esquerda e o Anime à direita (P277)", () => {
+  it("com o Anime, os Hits em cima à esquerda e o Anime em cima à direita (P277)", () => {
     setup(
       withGames({
         [puzzleId("2026-10-21", "album")]: finished,
@@ -206,16 +210,12 @@ describe("HistoryCalendar (P260)", () => {
     const cell = screen.getByRole("link", {
       name: "Quarta-feira, 21 de outubro: Hits, 1 de 2 diários jogados; Anime, ao menos 1 diário jogado",
     });
-    const [hits, anime] = [...cell.querySelectorAll(".mark-slot")];
-    expect(hits?.querySelector(".mark-some")).not.toBeNull();
-    expect(anime?.querySelector(".mark-all")?.textContent).toBe("✓");
-    // O dia sem diário do Anime guarda o lugar dele vazio (os Hits ficam à esquerda).
+    expect(corners(cell)).toEqual(["mark mark-some", "mark mark-all", "", ""]);
+    // O dia sem diário do Anime guarda o canto dele vazio.
     const day19 = screen.getByRole("link", {
       name: "Segunda-feira, 19 de outubro: Hits, nenhum diário jogado; sem diário do Anime",
     });
-    const slots = [...day19.querySelectorAll(".mark-slot")];
-    expect(slots).toHaveLength(2);
-    expect(slots[1]?.childElementCount).toBe(0);
+    expect(corners(day19)).toEqual(["", "", "", ""]);
   });
 
   it("o dia só com o Anime também é link para a tela dele", () => {
@@ -227,12 +227,50 @@ describe("HistoryCalendar (P260)", () => {
     expect(screen.getAllByRole("link")).toHaveLength(14);
   });
 
-  it("com o Anime, a legenda em duas linhas, com o lado de cada categoria", () => {
-    setup(emptySave(), ANIME);
-    const legend = document.querySelector(".calendar-legends")?.textContent ?? "";
-    expect(legend).toContain("Hits, à esquerda:");
-    expect(legend).toContain("Anime, à direita:");
-    expect(legend).toContain("ao menos 1 diário");
+  it("a legenda: o canto de cada categoria e o que dizem os pontos (o usuário, 27/10/2026)", () => {
+    setup();
+    const [where, what] = [...document.querySelectorAll(".calendar-legends .calendar-legend")];
+    const items = [...(where?.querySelectorAll(".calendar-legend-item") ?? [])];
+    expect(items.map((item) => item.textContent?.trim())).toEqual([
+      "Hits",
+      "Anime",
+      "Misturadas",
+      "Quiz",
+    ]);
+    // Em cada uma, só o ponto do canto dela.
+    expect(items.map((item) => corners(item as HTMLElement).indexOf("mark mark-all"))).toEqual([
+      0, 1, 2, 3,
+    ]);
+    expect(what?.textContent).toContain("jogado");
+    expect(what?.textContent).toContain("1 dos 2");
+  });
+
+  it("o quiz, embaixo à direita: o ponto cheio com a run terminada; o dia só com ele é link", () => {
+    const save = withQuizFinished(emptySave(), quizId("2026-10-21"), {
+      number: 2,
+      results: "rrw",
+    });
+    // Sem os Hits em 08/10 (fora da agenda): o quiz sozinho já abre a tela do dia.
+    setup(save, null, null, new Set(["2026-10-08", "2026-10-20", "2026-10-21"]));
+    const day21 = screen.getByRole("link", {
+      name: "Quarta-feira, 21 de outubro: Hits, nenhum diário jogado; Quiz do dia jogado",
+    });
+    expect(corners(day21)).toEqual(["", "", "", "mark mark-all"]);
+    expect(
+      screen.getByRole("link", {
+        name: "Terça-feira, 20 de outubro: Hits, nenhum diário jogado; Quiz do dia não jogado",
+      }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("link", {
+        name: "Quinta-feira, 8 de outubro: sem diário dos Hits; Quiz do dia não jogado",
+      }),
+    ).toBeTruthy();
+    expect(
+      screen
+        .getByRole("link", { name: /^Segunda-feira, 19 de outubro/ })
+        .getAttribute("aria-label"),
+    ).toContain("sem Quiz do dia");
   });
 
   it("o toque duplo num dia não segue o link no 2º clique (regra 23)", () => {
@@ -372,7 +410,7 @@ describe("HistoryDayScreen (P261 a P263)", () => {
 describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
   const hitsDates = new Set(historyDates(TODAY).slice(1));
 
-  it("no calendário, a 3ª marca, à direita: os 2 diários, como nos Hits; e a legenda dela", () => {
+  it("no calendário, a marca delas embaixo à esquerda: os 2 diários, como nos Hits", () => {
     const save = withMixed([puzzleId("2026-10-20", "misturadas-musica")]);
     const both = withMixed(
       [puzzleId("2026-10-21", "misturadas-musica"), puzzleId("2026-10-21", "misturadas-titulo")],
@@ -388,6 +426,7 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
         hitsDates={hitsDates}
         animeSchedule={ANIME}
         mixedSchedule={MIXED}
+        quizDates={null}
       />,
     );
     const day = (date: string) => screen.getByRole("link", { name: new RegExp(`^.*, ${date}:`) });
@@ -395,26 +434,16 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
       [...link.querySelectorAll(".mark-slot")].map(
         (slot) => slot.firstElementChild?.className ?? "",
       );
-    // Os Hits sem jogo (nenhum), o Anime sem jogo e as Misturadas: as 2 em 21/10, 1 em 20/10.
-    expect(slots(day("21 de outubro"))).toEqual([
-      "mark mark-none",
-      "mark mark-none",
-      "mark mark-all",
-    ]);
-    expect(slots(day("20 de outubro"))).toEqual([
-      "mark mark-none",
-      "mark mark-none",
-      "mark mark-some",
-    ]);
+    // As Misturadas embaixo à esquerda (o usuário, 27/10/2026): as 2 em 21/10, 1 em 20/10; os Hits
+    // e o Anime sem jogo, com o canto vazio.
+    expect(slots(day("21 de outubro"))).toEqual(["", "", "mark mark-all", ""]);
+    expect(slots(day("20 de outubro"))).toEqual(["", "", "mark mark-some", ""]);
     expect(day("20 de outubro").getAttribute("aria-label")).toContain(
       "Misturadas, 1 de 2 diários jogados",
     );
-    // Fora da agenda das Misturadas, a vaga fica vazia.
+    // Fora da agenda das Misturadas, o canto fica vazio.
+    expect(day("19 de outubro").getAttribute("aria-label")).toContain("sem diário das Misturadas");
     expect(slots(day("19 de outubro"))[2]).toBe("");
-    expect(document.querySelector(".calendar-legends")?.textContent).toContain("Anime, no meio:");
-    expect(document.querySelector(".calendar-legends")?.textContent).toContain(
-      "Misturadas, à direita:",
-    );
   });
 
   it("a tela do dia: o cartão das Misturadas, na linha toda, com o endereço do dia", () => {
@@ -503,13 +532,12 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
       mixed: MIXED_READY,
       requestMixed: vi.fn(),
     };
-    const idle: QuizStore = { month: null, load: { status: "idle" }, request };
+    const idle: QuizStore = { loads: new Map(), request };
     const { rerender } = render(<History {...props} quiz={idle} />);
     expect(screen.getByText("Carregando…")).toBeTruthy();
     expect(request).toHaveBeenCalledWith("2026-10");
     const ready: QuizStore = {
-      month: "2026-10",
-      load: { status: "ready", month: QUIZ_MONTH, bonus: null },
+      loads: new Map([["2026-10", { status: "ready", month: QUIZ_MONTH, bonus: null }]]),
       request,
     };
     rerender(<History {...props} quiz={ready} />);
@@ -537,8 +565,103 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
     rerender(<History {...props} mixed={{ status: "retry" }} />);
     // Falhou depois de pedida: o calendário sem a marca delas.
     expect(screen.getByRole("heading", { level: 1, name: "Histórico" })).toBeTruthy();
-    expect(document.querySelector(".calendar-legends")?.textContent).not.toContain("Misturadas");
+    expect(screen.getAllByRole("link")[0]?.getAttribute("aria-label")).not.toContain("Misturadas");
     expect(requestMixed).toHaveBeenCalledTimes(1);
+  });
+
+  it("na janela de dois meses, o mês de hoje vem antes, e o de antes da estreia nem se pede (o usuário, 27/10/2026)", () => {
+    // Em 03/11, a janela vai de 20/10 a 02/11.
+    const today = "2026-11-03";
+    const november = (epoch: string): QuizMonth => ({
+      ...QUIZ_MONTH,
+      month: "2026-11",
+      epoch,
+      days: {},
+    });
+    const ready = (month: QuizMonth) => ({ status: "ready" as const, month, bonus: null });
+    const props = {
+      date: null,
+      today,
+      save: emptySave(),
+      hitsDates: new Set(historyDates(today)),
+      hitsDay: DAY,
+      anime: { status: "ready", schedule: ANIME } as AnimeScheduleLoad,
+      requestAnime: vi.fn(),
+      mixed: MIXED_READY,
+      requestMixed: vi.fn(),
+    };
+    const request = vi.fn();
+    const { rerender } = render(<History {...props} quiz={{ loads: new Map(), request }} />);
+    expect(request.mock.calls).toEqual([["2026-11"]]);
+    // A estreia em novembro: outubro nem se pede, e os dias dele ficam sem quiz.
+    rerender(
+      <History
+        {...props}
+        quiz={{ loads: new Map([["2026-11", ready(november("2026-11-01"))]]), request }}
+      />,
+    );
+    expect(request.mock.calls).toEqual([["2026-11"]]);
+    const day21 = () => screen.getByRole("link", { name: /^Quarta-feira, 21 de outubro/ });
+    expect(day21().getAttribute("aria-label")).toContain("sem Quiz do dia");
+    cleanup();
+    // A estreia em outubro: pede outubro também, e espera por ele.
+    const second = vi.fn();
+    const loads = new Map([["2026-11", ready(november("2026-10-08"))]]);
+    const view = render(<History {...props} quiz={{ loads, request: second }} />);
+    expect(second.mock.calls).toEqual([["2026-10"]]);
+    expect(screen.getByText("Carregando…")).toBeTruthy();
+    view.rerender(
+      <History
+        {...props}
+        quiz={{ loads: new Map([...loads, ["2026-10", ready(QUIZ_MONTH)]]), request: second }}
+      />,
+    );
+    expect(day21().getAttribute("aria-label")).toContain("Quiz do dia não jogado");
+    expect(second).toHaveBeenCalledTimes(1);
+  });
+
+  it("o calendário pede os meses do quiz da janela, espera por eles e marca o dia jogado (o usuário, 27/10/2026)", () => {
+    const request = vi.fn();
+    const props = {
+      date: null,
+      today: TODAY,
+      save: withQuizFinished(emptySave(), quizId(PAST), { number: 1, results: "rrw" }),
+      hitsDates: new Set(historyDates(TODAY)),
+      hitsDay: DAY,
+      anime: { status: "ready", schedule: ANIME } as AnimeScheduleLoad,
+      requestAnime: vi.fn(),
+      mixed: MIXED_READY,
+      requestMixed: vi.fn(),
+    };
+    const { rerender } = render(<History {...props} quiz={{ loads: new Map(), request }} />);
+    expect(screen.getByText("Carregando…")).toBeTruthy();
+    // A janela de 08/10 a 21/10 cruza só outubro.
+    expect(request.mock.calls).toEqual([["2026-10"]]);
+    const ready: QuizStore = {
+      loads: new Map([["2026-10", { status: "ready", month: QUIZ_MONTH, bonus: null }]]),
+      request,
+    };
+    rerender(<History {...props} quiz={ready} />);
+    const day = screen.getByRole("link", { name: /^Quarta-feira, 21 de outubro/ });
+    expect(day.getAttribute("aria-label")).toContain("Quiz do dia jogado");
+    expect(day.querySelectorAll(".mark-slot")[3]?.firstElementChild?.className).toBe(
+      "mark mark-all",
+    );
+    // O mês que falha depois de pedido: o calendário aparece, sem a marca do quiz.
+    cleanup();
+    const again = vi.fn();
+    const failing = render(<History {...props} quiz={{ loads: new Map(), request: again }} />);
+    failing.rerender(
+      <History
+        {...props}
+        quiz={{ loads: new Map([["2026-10", { status: "retry" }]]), request: again }}
+      />,
+    );
+    expect(screen.getByRole("heading", { level: 1, name: "Histórico" })).toBeTruthy();
+    expect(
+      screen.getByRole("link", { name: /^Quarta-feira, 21 de outubro/ }).getAttribute("aria-label"),
+    ).not.toContain("Quiz");
+    expect(again).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -606,7 +729,9 @@ describe("History: a espera da agenda do Anime (P270)", () => {
     expect(document.activeElement).toBe(
       screen.getByRole("heading", { level: 1, name: "Histórico" }),
     );
-    expect(document.querySelector(".calendar-legends")).toBeNull();
+    expect(screen.getAllByRole("link")[0]?.getAttribute("aria-label")).not.toMatch(
+      /Anime|Misturadas/,
+    );
   });
 
   it("com uma data, a tela do dia", () => {

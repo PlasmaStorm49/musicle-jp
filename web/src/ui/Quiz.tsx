@@ -37,16 +37,23 @@ export type QuizLoad =
     };
 
 /**
- * O mês guardado no App, como as Misturadas: trocar de aba e voltar não baixa de novo. Um mês por
- * vez: o dia passado de outro mês (a janela do Histórico cruza a virada) troca o guardado.
+ * Os meses guardados no App, como as Misturadas: trocar de aba e voltar não baixa de novo. Um mapa
+ * pelo mês: o calendário do Histórico pede os da janela de 14 dias (1 ou 2, quando ela cruza a
+ * virada), ao lado do mês do dia aberto (o usuário, 27/10/2026).
  */
 export type QuizStore = {
-  /** O mês (AAAA-MM) da carga guardada; null antes da 1ª. */
-  readonly month: string | null;
-  readonly load: QuizLoad;
-  /** Carrega o mês (de novo): ao abrir a aba, ao trocar de mês e no "Tentar de novo". */
+  /** A carga de cada mês (AAAA-MM) já pedido; o que nunca foi pedido não está no mapa. */
+  readonly loads: ReadonlyMap<string, QuizLoad>;
+  /** Carrega o mês (de novo): ao abrir a aba, no calendário e no "Tentar de novo". */
   readonly request: (month: string) => void;
 };
+
+const IDLE: QuizLoad = { status: "idle" };
+
+/** A carga de um mês: a guardada, ou "idle" se ele nunca foi pedido. */
+export function quizLoadOf(store: QuizStore, month: string): QuizLoad {
+  return store.loads.get(month) ?? IDLE;
+}
 
 export function useQuizStore({
   fetchFn,
@@ -57,35 +64,32 @@ export function useQuizStore({
   readonly baseUrl: string;
   readonly dataDir: string;
 }): QuizStore {
-  const [state, setState] = useState<{ readonly month: string | null; readonly load: QuizLoad }>({
-    month: null,
-    load: { status: "idle" },
-  });
-  // A ficha da carga: a resposta de um mês que já foi trocado por outro não vale mais.
-  const latest = useRef(0);
+  const [loads, setLoads] = useState<ReadonlyMap<string, QuizLoad>>(() => new Map());
+  // A ficha de cada mês: a resposta de um pedido que outro do mesmo mês substituiu não vale mais.
+  const latest = useRef(new Map<string, number>());
+  const ticket = useRef(0);
   const request = useCallback(
     (month: string) => {
-      const id = ++latest.current;
-      setState({ month, load: { status: "loading" } });
+      const id = ++ticket.current;
+      latest.current.set(month, id);
+      const put = (load: QuizLoad) => setLoads((old) => new Map(old).set(month, load));
+      put({ status: "loading" });
       Promise.all([
         loadQuizMonth(fetchFn, baseUrl, dataDir, month),
         loadQuizBonus(fetchFn, baseUrl, dataDir),
       ]).then(
         ([data, bonus]) => {
-          if (latest.current === id) {
-            setState({ month, load: { status: "ready", month: data, bonus } });
-          }
+          if (latest.current.get(month) === id) put({ status: "ready", month: data, bonus });
         },
         (error: unknown) => {
-          if (latest.current !== id) return;
-          const status = error instanceof UnsupportedCatalogError ? "update" : "retry";
-          setState({ month, load: { status } });
+          if (latest.current.get(month) !== id) return;
+          put({ status: error instanceof UnsupportedCatalogError ? "update" : "retry" });
         },
       );
     },
     [fetchFn, baseUrl, dataDir],
   );
-  return { month: state.month, load: state.load, request };
+  return { loads, request };
 }
 
 type Props = {
@@ -112,11 +116,12 @@ type Props = {
 export function Quiz(props: Props) {
   const { anime, store, date, today } = props;
   const wanted = quizMonthOf(date);
+  const stored = quizLoadOf(store, wanted);
   useEffect(() => {
-    if (store.month !== wanted) store.request(wanted);
-  }, [store.month, wanted, store.request]);
-  // A carga guardada só vale se for a do mês do dia; a de outro mês espera a troca.
-  const load: QuizLoad = store.month === wanted ? store.load : { status: "loading" };
+    if (stored.status === "idle") store.request(wanted);
+  }, [stored.status, wanted, store.request]);
+  // O mês nunca pedido espera o pedido do efeito, com o aviso da carga.
+  const load: QuizLoad = stored.status === "idle" ? { status: "loading" } : stored;
   const day = load.status === "ready" ? pickQuizDay(load.month, date) : null;
   useEffect(() => {
     if (day && anime.load.status === "idle") anime.request();

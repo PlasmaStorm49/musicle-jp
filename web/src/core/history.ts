@@ -42,9 +42,9 @@ export function keptProgressIds(today: string, days = HISTORY_DAYS): PuzzleId[] 
 
 /**
  * A marca de uma categoria num dia (P260): `off`, sem diário dela no dia; `none`, nenhum
- * terminado; `some`, parte (só nos Hits, com 1 dos 2); `all`, a regra do ✓ da nav (os 2 dos
- * Hits, P227; ao menos 1 dos 6 do Anime, P247). O jogado depois também marca: o Histórico diz o
- * que falta jogar. O andamento sem término não marca nada.
+ * terminado; `some`, parte (nos Hits e nas Misturadas, com 1 dos 2); `all`, a regra do ✓ da nav
+ * (os 2 dos Hits, P227; ao menos 1 dos 6 do Anime, P247; a run do quiz terminada). O jogado depois
+ * também marca: o Histórico diz o que falta jogar. O andamento sem término não marca nada.
  */
 export type CategoryMark = "off" | "none" | "some" | "all";
 
@@ -60,6 +60,12 @@ export type HistoryDay = {
   readonly anime: CategoryMark | null;
   /** Null: a agenda das Misturadas ainda não chegou (ou falhou). Os 2 diários, como nos Hits. */
   readonly mixed: CategoryMark | null;
+  /**
+   * O quiz do dia (M18): `all` com a run terminada (também a jogada depois), `none` sem ela, sem
+   * meia marca. Null: os meses do quiz ainda não chegaram (ou falharam). A 4ª marca entrou com a
+   * grade 2×2 do calendário (o usuário, 27/10/2026).
+   */
+  readonly quiz: CategoryMark | null;
 };
 
 /**
@@ -72,6 +78,7 @@ export function historyDay(
   hitsDates: ReadonlySet<string>,
   animeDates: ReadonlySet<string> | null,
   mixedDates: ReadonlySet<string> | null = null,
+  quizDates: ReadonlySet<string> | null = null,
 ): HistoryDay {
   const hitsDone = progress(
     save,
@@ -103,7 +110,15 @@ export function historyDay(
           : mixedDone > 0
             ? "some"
             : "none";
-  return { date, weekday: weekdayOf(date), ...dayParts(date), hits, anime, mixed };
+  const quiz: CategoryMark | null =
+    quizDates === null
+      ? null
+      : !quizDates.has(date)
+        ? "off"
+        : save.quiz.finished[quizId(date)] !== undefined
+          ? "all"
+          : "none";
+  return { date, weekday: weekdayOf(date), ...dayParts(date), hits, anime, mixed, quiz };
 }
 
 /** Os dias do calendário do Histórico, do mais antigo a ontem. */
@@ -114,17 +129,19 @@ export function historyDays(
   animeDates: ReadonlySet<string> | null,
   days = HISTORY_DAYS,
   mixedDates: ReadonlySet<string> | null = null,
+  quizDates: ReadonlySet<string> | null = null,
 ): HistoryDay[] {
   return historyDates(today, days).map((date) =>
-    historyDay(save, date, hitsDates, animeDates, mixedDates),
+    historyDay(save, date, hitsDates, animeDates, mixedDates, quizDates),
   );
 }
 
-/** O dia tem algum diário (dos Hits ou do Anime): só ele abre a tela do dia. */
+/** O dia tem algum diário (dos Hits, do Anime, das Misturadas ou do quiz): só ele abre a tela do dia. */
 export function hasDaily(day: HistoryDay): boolean {
   return (
     day.hits !== "off" ||
     (day.anime !== null && day.anime !== "off") ||
-    (day.mixed !== null && day.mixed !== "off")
+    (day.mixed !== null && day.mixed !== "off") ||
+    (day.quiz !== null && day.quiz !== "off")
   );
 }

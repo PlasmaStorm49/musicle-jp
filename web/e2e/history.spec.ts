@@ -252,14 +252,14 @@ test("jogar o Anime de 21/10 depois: o cartão do dia, os modos com a data, o re
   );
   expect(saved.history["2026-10-21|anime-musica-facil"].late).toBe(true);
 
-  // De volta ao dia e ao calendário: o cartão conta o terminado, e o dia ganha o ✓ do Anime.
+  // De volta ao dia e ao calendário: o cartão conta o terminado, e o dia ganha o ponto do Anime.
   await page.getByRole("link", { name: "Voltar ao dia" }).click();
   await expect(main.getByRole("link", { name: /^Anime/ })).toContainText("1 de 6 terminados");
   await page.getByRole("link", { name: "Voltar ao Histórico" }).click();
   const cell = page.getByRole("link", {
     name: "Quarta-feira, 21 de outubro: Hits, nenhum diário jogado; Anime, ao menos 1 diário jogado; Misturadas, nenhum diário jogado",
   });
-  await expect(cell.locator(".mark-slot").nth(1).locator(".mark-all")).toHaveText("✓");
+  await expect(cell.locator(".mark-slot").nth(1).locator(".mark-all")).toBeVisible();
   // O Anime de hoje continua por jogar: a aba Anime sem o ✓, e o jogado depois não conta.
   await expect(animeTab(page)).toHaveAccessibleName("Anime");
 });
@@ -373,7 +373,7 @@ test("o dia passado sem o Anime: o cartão apagado, a marca vazia e o diário qu
   );
 });
 
-test("as agendas do Anime e das Misturadas que falharam: o Histórico só com os Hits", async ({
+test("as agendas do Anime e das Misturadas que falharam: o Histórico com os Hits e o quiz", async ({
   page,
   consoleErrors,
 }) => {
@@ -381,10 +381,12 @@ test("as agendas do Anime e das Misturadas que falharam: o Histórico só com os
   await page.route("**/fixtures/anime/mixed.json", (route) => route.abort());
   await open(page, TODAY, "#historico");
   await expect(page.getByRole("heading", { level: 1, name: "Histórico" })).toBeFocused();
+  // O quiz tem os meses dele, à parte das agendas (o usuário, 27/10/2026).
   await expect(
-    page.getByRole("link", { name: "Quarta-feira, 21 de outubro: Hits, nenhum diário jogado" }),
+    page.getByRole("link", {
+      name: "Quarta-feira, 21 de outubro: Hits, nenhum diário jogado; Quiz do dia não jogado",
+    }),
   ).toBeVisible();
-  await expect(page.locator(".calendar-legends")).toHaveCount(0);
   // Os pedidos derrubados de propósito aparecem no console como erros de rede: só essas duas
   // ocorrências saem da conta, como no teste da carga do Anime que falha.
   for (let i = 0; i < 2; i++) {
