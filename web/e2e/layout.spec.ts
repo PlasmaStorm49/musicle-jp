@@ -379,8 +379,13 @@ for (const viewport of [
             ),
           ) as QuizMonth
         ).days[date];
-        // Com o anime longo, cortado no fim da linha da revelação (o usuário, 27/10/2026).
-        await appleCatalog(page, { artistDisplay: LONG_ARTIST, themes: LONG_THEME });
+        // Com o anime longo, cortado no fim da linha da revelação, e a explícita na rodada, o caso
+        // mais alto dela com a letra grande de cada lado (o usuário, 27/10/2026).
+        await appleCatalog(page, {
+          artistDisplay: LONG_ARTIST,
+          themes: LONG_THEME,
+          explicit: true,
+        });
         await open(page, `${date}T12:00:00-03:00`, "#quiz");
         await expect(page.getByRole("button", { name: /^Tocar/ })).toBeVisible();
         expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
