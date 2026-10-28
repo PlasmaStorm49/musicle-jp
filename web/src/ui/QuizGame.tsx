@@ -201,7 +201,10 @@ function Playing({
         <h1>{t("quiz.header", { number })}</h1>
         <p>
           {t("quiz.round", { current: game.current + 1 })}
-          <span class="round-tag">{t("quiz.lives", { left })}</span>
+          {/* Com 0 vida a run segue até o próximo erro: "Última vida" (o usuário, 27/10/2026). */}
+          <span class="round-tag">
+            {left === 0 && !isQuizFinished(game) ? t("quiz.lastLife") : t("quiz.lives", { left })}
+          </span>
         </p>
       </header>
       {/* A pergunta do dia, a mesma em todas as rodadas (P374), embaixo do cabeçalho. */}

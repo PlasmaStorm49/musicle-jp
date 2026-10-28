@@ -545,6 +545,8 @@ export const ptBR = {
   // O tema na revelação: o anime, o tipo e o número ("Kimetsu no Yaiba · OP1"). Sem número, só o
   // tipo.
   "anime.themeLine": "{anime} · {theme}",
+  // O tipo antes do anime, na revelação do quiz: o nome longo corta no fim (o usuário, 27/10/2026).
+  "anime.themeLineKindFirst": "{theme} · {anime}",
   "anime.theme.OP": "OP{number}",
   "anime.theme.ED": "ED{number}",
   "anime.theme.IN": "insert song",
@@ -647,6 +649,8 @@ export const ptBR = {
   // Sem o total (o usuário, 26/10/2026): a run não é para chegar ao fim.
   "quiz.round": "Rodada {current}",
   "quiz.lives": "Vidas: {left}",
+  // Sem vida sobrando e a run em jogo (o 3º erro encerra, P377; o usuário, 27/10/2026).
+  "quiz.lastLife": "Última vida",
   "quiz.side.a": "Música A",
   "quiz.side.b": "Música B",
   "quiz.pick.a": "Escolher a A",
@@ -656,6 +660,7 @@ export const ptBR = {
   "quiz.void": "Rodada anulada: não deu para tocar as músicas. Ela não tira vida.",
   "quiz.revealRight": "Acertou!",
   "quiz.revealWrong": "Errou. Vidas: {left}.",
+  "quiz.revealWrongLast": "Errou. Última vida.",
   "quiz.revealEnd": "Errou: fim da run.",
   "quiz.answer": "Resposta",
   // A revelação do dado (P382): as temporadas do Japão, com os meses (o usuário, 25/10/2026).

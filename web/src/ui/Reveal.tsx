@@ -39,22 +39,30 @@ type Props = {
   readonly note?: string;
 };
 
-/** O tema na tela: "Kimetsu no Yaiba · OP1" (sem número, só o tipo; a insert song, por extenso). */
-function themeText(theme: AnimeTheme): string {
+/**
+ * O tema na tela: "Kimetsu no Yaiba · OP1" (sem número, só o tipo; a insert song, por extenso). Com
+ * `kindFirst`, "OP1 · Kimetsu no Yaiba": o corte da linha cai no nome do anime, e não no tema.
+ */
+function themeText(theme: AnimeTheme, kindFirst: boolean): string {
   const kind = t(`anime.theme.${theme.type}`, { number: theme.sequence ?? "" });
-  return t("anime.themeLine", { anime: theme.anime, theme: kind });
+  return t(kindFirst ? "anime.themeLineKindFirst" : "anime.themeLine", {
+    anime: theme.anime,
+    theme: kind,
+  });
 }
 
 /**
  * Os temas da faixa numa linha curta: o 1º e, se houver mais, "e mais N" (a faixa pode estar em 2
- * ou mais temas, e o nome do anime chega a uns 60 caracteres: a revelação não pode crescer).
+ * ou mais temas, e o nome do anime chega a uns 60 caracteres: a revelação não pode crescer). O
+ * `kindFirst` põe o tipo do tema antes do anime: a revelação do quiz, em que o nome longo cortava
+ * o "· OP" do fim (o usuário, 27/10/2026).
  */
-export function themesText(themes: readonly AnimeTheme[]): string {
+export function themesText(themes: readonly AnimeTheme[], kindFirst = false): string {
   const [first, ...rest] = themes;
   if (!first) return "";
   return rest.length > 0
-    ? t("anime.themesMore", { theme: themeText(first), count: rest.length })
-    : themeText(first);
+    ? t("anime.themesMore", { theme: themeText(first, kindFirst), count: rest.length })
+    : themeText(first, kindFirst);
 }
 
 /**
