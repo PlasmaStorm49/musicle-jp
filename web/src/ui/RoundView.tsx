@@ -413,7 +413,7 @@ function HelpOptions({
   return (
     <ul
       ref={list}
-      // No "acertar o anime", os nomes de anime numa coluna, inteiros (um nome longo quebra a linha).
+      // No "acertar o anime", os nomes de anime na grade 2×2, em até 3 linhas (o usuário, 28/10/2026).
       class={answer === "franchise" ? "options help-options franchise" : "options help-options"}
       aria-label={t("help.listLabel")}
       aria-describedby="help-hint"
