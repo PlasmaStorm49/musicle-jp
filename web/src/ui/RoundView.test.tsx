@@ -356,6 +356,11 @@ describe("RoundView (a rodada do diário e do Treino)", () => {
     expect(result.querySelector('svg.icon-wrong[aria-hidden="true"]')).not.toBeNull();
     const correct = document.querySelector(".options.done li.correct");
     expect(correct?.querySelector('svg.icon-right[aria-hidden="true"]')).not.toBeNull();
+    // O ✓ do guia vem espelhado no próprio viewBox; o X, sem transformação (o usuário, 27/10/2026).
+    expect(correct?.querySelector("svg.icon-right path")?.getAttribute("transform")).toBe(
+      "matrix(-1 0 0 1 4703 0)",
+    );
+    expect(result.querySelector("svg.icon-wrong path")?.hasAttribute("transform")).toBe(false);
     expect(correct?.querySelector(".sr-only")?.textContent).toBe("Resposta certa");
     const wrong = document.querySelector(".options.done li.wrong");
     expect(wrong?.querySelector('svg.icon-wrong[aria-hidden="true"]')).not.toBeNull();

@@ -40,14 +40,20 @@ describe("as peças do style guide", () => {
     expect(paths(svg)).toEqual([GUIDE[index]]);
   });
 
+  // O ✓ se desenha espelhado no próprio viewBox (x vira 2 · 1864 + 975 − x), com o caminho do guia
+  // (o usuário, 27/10/2026); o X e o chevron, sem transformação.
   it.each([
-    ["wrong", 33, "1865 9881 787 794"],
-    ["right", 35, "1864 11588 975 719"],
-    ["next", 42, "6099 13241 626 739"],
+    ["wrong", 33, "1865 9881 787 794", undefined],
+    ["right", 35, "1864 11588 975 719", "matrix(-1 0 0 1 4703 0)"],
+    ["next", 42, "6099 13241 626 739", undefined],
   ] as const)(
-    "o ícone %s (assets/icons.ts) é o path[%s] do guia, no viewBox %s",
-    (name, index, box) => {
-      expect(ICONS[name]).toEqual({ viewBox: box, d: GUIDE[index]?.d });
+    "o ícone %s (assets/icons.ts) é o path[%s] do guia, no viewBox %s, com o transform %s",
+    (name, index, box, transform) => {
+      expect(ICONS[name]).toStrictEqual({
+        viewBox: box,
+        d: GUIDE[index]?.d,
+        ...(transform ? { transform } : {}),
+      });
     },
   );
 
