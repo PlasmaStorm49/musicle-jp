@@ -4,7 +4,7 @@
 // Hits, os registros dos artistas), para que uma medalha ganha nunca suma. O id vai para o save e nunca
 // muda.
 import type { MixedGame, MixedRoundRecord } from "./mixed.ts";
-import { isQuizSpecial, type QuizGame, quizReached, quizRight } from "./quiz.ts";
+import { isSpecialFamily, type QuizGame, quizReached, quizRight } from "./quiz.ts";
 import {
   type ArtistRecord,
   type FinishedGame,
@@ -433,7 +433,7 @@ export const MEDALS: readonly Medal[] = [
     earned: someRun(
       (game) =>
         game.family !== undefined &&
-        isQuizSpecial(game.family) &&
+        isSpecialFamily(game.family) &&
         quizReached(game) >= QUIZ_GOALS.special,
     ),
   },

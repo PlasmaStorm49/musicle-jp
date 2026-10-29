@@ -371,6 +371,8 @@ for (const viewport of [
     for (const [date, label] of [
       ["2026-10-09", "a nota do MAL, com a diferença e o crédito"],
       ["2026-10-11", "a pergunta do rótulo"],
+      // O especial da semana, com a etiqueta ao lado do título (P381; o usuário, 28/10/2026).
+      ["2026-10-19", "o especial do estúdio, com a etiqueta"],
     ] as const) {
       test(`o quiz do dia em ${date}: ${label}, com o selo da Apple e o artista longo (M18)`, async ({
         page,
@@ -392,6 +394,12 @@ for (const viewport of [
         });
         await open(page, `${date}T12:00:00-03:00`, "#quiz");
         await expect(page.getByRole("button", { name: /^Tocar/ })).toBeVisible();
+        await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(
+          date === "2026-10-19" ? "Quiz do dia Especial" : "Quiz do dia",
+        );
+        await expect(page.locator(".round-head .quiz-special")).toHaveCount(
+          date === "2026-10-19" ? 1 : 0,
+        );
         expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
         const wrong = day?.rounds[0]?.answer === "a" ? "B" : "A";
         await hearBoth(page);

@@ -110,14 +110,29 @@ export function isMalFamily(family: QuizFamily): boolean {
 }
 
 /**
- * Os especiais da semana (P381), de até 30 rodadas: o espelho do `SPECIALS` do
- * `pipeline/.../anime_quiz.py`. O dos artistas parecidos (P385) entra com a curadoria dele.
+ * Os especiais da semana (P381), de até 30 rodadas (P376): os `SPECIALS` do `anime_quiz.py`. A
+ * tela e o compartilhar os marcam (o usuário, 28/10/2026), e as medalhas do especial os contam
+ * (M20). Todas as famílias, para a nova (os artistas parecidos, P385) não compilar sem a decisão.
  */
-const QUIZ_SPECIALS: ReadonlySet<string> = new Set<QuizFamily>(["estudio", "ano_x"]);
+const SPECIAL: Readonly<Record<QuizFamily, boolean>> = {
+  ano: false,
+  nota: false,
+  membros: false,
+  playlists: false,
+  amq: false,
+  rotulo: false,
+  fonte: false,
+  tema: false,
+  estudio: true,
+  ano_x: true,
+};
 
-/** A família é a de um especial. Recebe texto: a do save pode ser de uma versão mais nova. */
-export function isQuizSpecial(family: string): boolean {
-  return QUIZ_SPECIALS.has(family);
+/**
+ * A família é a de um especial. Recebe texto: a agenda vem de fora, e a família da run do save
+ * (v14) pode ser de uma versão mais nova; uma família que o código não conhece não é especial.
+ */
+export function isSpecialFamily(family: string): boolean {
+  return SPECIAL[family as QuizFamily] === true;
 }
 
 // ---- o estado da run ----

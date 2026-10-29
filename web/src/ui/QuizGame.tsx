@@ -8,6 +8,7 @@ import {
   bonusDailies,
   createQuizGame,
   isQuizFinished,
+  isSpecialFamily,
   livesShown,
   type QuizDaily,
   type QuizEvent,
@@ -72,6 +73,24 @@ const SAVE_NOTICE = {
 /** A chave existe nos textos: a agenda vem de fora, e uma família ou fonte nova não quebra a tela. */
 function isKey(key: string): key is MessageKey {
   return key in ptBR;
+}
+
+/**
+ * O título da run, com a etiqueta no especial da semana (P381; o usuário, 28/10/2026). O espaço
+ * antes dela entra no nome do título para o leitor de tela: "Quiz do dia Especial".
+ */
+function QuizTitle({ daily }: { readonly daily: QuizDaily }) {
+  return (
+    <h1>
+      {t("quiz.title")}
+      {isSpecialFamily(daily.family) && (
+        <>
+          {" "}
+          <span class="quiz-special">{t("quiz.special")}</span>
+        </>
+      )}
+    </h1>
+  );
 }
 
 /** A pergunta do dia, com o parâmetro (a fonte traduzida; o rótulo e o estúdio, como vêm). */
@@ -210,7 +229,7 @@ function Playing({
   return (
     <div class="game quiz screen">
       <header class="round-head">
-        <h1>{t("quiz.title")}</h1>
+        <QuizTitle daily={daily} />
         <p>
           {t("quiz.round", {
             current: game.current + 1,
@@ -280,7 +299,10 @@ function SummaryView({
   // Os pontos (v13, o usuário, 28/10/2026); a run terminada antes deles fica com os acertos.
   const points = quizPoints(shown);
   const pointsText = points === null ? null : tn("count.points", points);
-  const plainHeader = t("quiz.shareHeader", { title: t("app.title"), date: shortDate(daily.date) });
+  const plainHeader = t(
+    isSpecialFamily(daily.family) ? "quiz.shareHeaderSpecial" : "quiz.shareHeader",
+    { title: t("app.title"), date: shortDate(daily.date) },
+  );
   const header = shown.late ? t("share.late", { header: plainHeader }) : plainHeader;
   const result =
     pointsText === null
@@ -289,7 +311,7 @@ function SummaryView({
   return (
     <div class="game quiz screen">
       <header class="round-head">
-        <h1>{t("quiz.title")}</h1>
+        <QuizTitle daily={daily} />
       </header>
       <p class="quiz-question">{questionText(daily)}</p>
       <section class="summary quiz-summary" aria-labelledby="summary-title">

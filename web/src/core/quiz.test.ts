@@ -16,7 +16,7 @@ import {
   currentQuizRound,
   isMalFamily,
   isQuizFinished,
-  isQuizSpecial,
+  isSpecialFamily,
   livesLeft,
   QUIZ_FAMILY,
   QUIZ_LIVES,
@@ -94,13 +94,20 @@ describe("o descritor", () => {
     expect(isMalFamily("playlists")).toBe(false);
     expect(isMalFamily("nota")).toBe(true);
     // Os especiais da semana (P381), como no pipeline; uma família desconhecida não é especial.
-    expect(["estudio", "ano_x", "ano", "playlists", "artistas"].map(isQuizSpecial)).toEqual([
+    expect(["estudio", "ano_x", "ano", "playlists", "artistas"].map(isSpecialFamily)).toEqual([
       true,
       true,
       false,
       false,
       false,
     ]);
+  });
+
+  it("os especiais da semana (P381): no mês fictício, só os dias do ano e do estúdio, um por semana", () => {
+    const specials = Object.entries(quizOctober.days)
+      .filter(([, day]) => isSpecialFamily(day.family))
+      .map(([date, day]) => `${date} ${day.family}`);
+    expect(specials).toEqual(["2026-10-13 ano_x", "2026-10-19 estudio", "2026-10-30 ano_x"]);
   });
 });
 
@@ -346,8 +353,8 @@ describe("a família da run no save (v14, o usuário, 28/10/2026)", () => {
     };
     const specials = block("SPECIALS");
     expect(specials.length).toBeGreaterThan(0);
-    for (const family of specials) expect(isQuizSpecial(family), family).toBe(true);
-    for (const family of block("FAMILIES")) expect(isQuizSpecial(family), family).toBe(false);
+    for (const family of specials) expect(isSpecialFamily(family), family).toBe(true);
+    for (const family of block("FAMILIES")) expect(isSpecialFamily(family), family).toBe(false);
   });
 
   it("a família fora do formato não vai ao save: a run fica, sem ela", () => {
