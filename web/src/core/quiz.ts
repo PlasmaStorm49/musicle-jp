@@ -111,8 +111,8 @@ export function isMalFamily(family: QuizFamily): boolean {
 
 /**
  * Os especiais da semana (P381), de até 30 rodadas (P376): os `SPECIALS` do `anime_quiz.py`. A
- * tela e o compartilhar os marcam (o usuário, 28/10/2026). Todas as famílias, para a nova (os
- * artistas parecidos, P385) não compilar sem a decisão.
+ * tela e o compartilhar os marcam (o usuário, 28/10/2026), e as medalhas do especial os contam
+ * (M20). Todas as famílias, para a nova (os artistas parecidos, P385) não compilar sem a decisão.
  */
 const SPECIAL: Readonly<Record<QuizFamily, boolean>> = {
   ano: false,
@@ -127,9 +127,12 @@ const SPECIAL: Readonly<Record<QuizFamily, boolean>> = {
   ano_x: true,
 };
 
-export function isSpecialFamily(family: QuizFamily): boolean {
-  // A agenda vem de fora: uma família que o código não conhece não é especial.
-  return SPECIAL[family] === true;
+/**
+ * A família é a de um especial. Recebe texto: a agenda vem de fora, e a família da run do save
+ * (v14) pode ser de uma versão mais nova; uma família que o código não conhece não é especial.
+ */
+export function isSpecialFamily(family: string): boolean {
+  return SPECIAL[family as QuizFamily] === true;
 }
 
 // ---- o estado da run ----
@@ -274,10 +277,16 @@ export type QuizGame = {
   readonly number: number;
   /** As rodadas jogadas, na ordem, uma letra por rodada (`QuizMark`). */
   readonly results: string;
-  /** Terminado depois do dia dele (o Histórico, num PR seguinte): fica fora das medalhas. */
+  /** Terminado depois do dia dele (pelo Histórico): fica fora das medalhas. */
   readonly late?: true;
   /** Os pontos da run (v13, o usuário, 28/10/2026); a run terminada antes deles não os tem. */
   readonly points?: number;
+  /**
+   * A família da pergunta do dia (v14, para as medalhas do especial e das perguntas diferentes, o
+   * usuário, 28/10/2026); a run terminada antes dela não a tem. Texto, e não `QuizFamily`: uma
+   * família nova do schema não tira a run do save.
+   */
+  readonly family?: string;
 };
 
 /** O máximo de pontos de uma run: 4 em cada uma das até 50 rodadas. */
@@ -303,14 +312,30 @@ const MARKS: Readonly<Record<Exclude<QuizRoundStatus, "playing">, QuizMark>> = {
 /** O texto das rodadas jogadas de um save: só "r", "w" e "v", de 1 a 50. */
 export const QUIZ_RESULTS = /^[rwv]{1,50}$/;
 
-/** O jogo terminado, no formato do save: as rodadas até a última jogada. */
-export function toQuizGame(state: QuizState, number: number, late: boolean): QuizGame {
+/** A família de uma run do save (v14): minúsculas e o "_" ("ano", "ano_x"), até 20. */
+export const QUIZ_FAMILY = /^[a-z_]{1,20}$/;
+
+/** O jogo terminado, no formato do save: as rodadas até a última jogada, e a família do dia. */
+export function toQuizGame(
+  state: QuizState,
+  number: number,
+  late: boolean,
+  family: string,
+): QuizGame {
   if (!isQuizFinished(state)) throw new Error("toQuizGame recebeu uma run em andamento");
   const results = state.rounds
     .slice(0, state.current + 1)
     .map((round) => (round.status === "playing" ? "v" : MARKS[round.status]))
     .join("");
-  return { number, results, ...(late ? { late: true } : {}), points: quizStatePoints(state) };
+  return {
+    number,
+    results,
+    ...(late ? { late: true } : {}),
+    points: quizStatePoints(state),
+    // Fora do formato (`QUIZ_FAMILY`), o guard do save tiraria a run inteira: sem a família, ela
+    // só deixa de contar para as medalhas que pedem a pergunta.
+    ...(QUIZ_FAMILY.test(family) ? { family } : {}),
+  };
 }
 
 /** Os pontos de uma run terminada; null na terminada antes dos pontos (v12). */
@@ -364,7 +389,7 @@ export function startQuizSession(
   if (isQuizFinished(state) && events.length > 0) {
     return {
       kind: "finished",
-      game: toQuizGame(state, daily.number, isLate(daily.date, today)),
+      game: toQuizGame(state, daily.number, isLate(daily.date, today), daily.family),
     };
   }
   return { kind: "playing", state, events, stale: events.length < (saved?.events.length ?? 0) };

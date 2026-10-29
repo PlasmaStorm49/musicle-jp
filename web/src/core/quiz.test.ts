@@ -2,7 +2,13 @@
 // anulada), o save, a retomada, o cartão e o compartilhar. Sobre a agenda fictícia de 08/10
 // (playlists, max, 28 rodadas).
 import { describe, expect, it } from "vitest";
-import { animeCatalog, quizBonus, quizOctober } from "../../test/fixtures.ts";
+import {
+  animeCatalog,
+  animeQuizPipeline,
+  quizBonus,
+  quizOctober,
+  quizSchemaText,
+} from "../../test/fixtures.ts";
 import { indexAnime } from "./catalog.ts";
 import {
   bonusDailies,
@@ -12,6 +18,7 @@ import {
   isQuizFinished,
   isSpecialFamily,
   livesLeft,
+  QUIZ_FAMILY,
   QUIZ_LIVES,
   QUIZ_POINTS,
   QUIZ_RESULTS,
@@ -86,6 +93,14 @@ describe("o descritor", () => {
     expect(isMalFamily("fonte")).toBe(true);
     expect(isMalFamily("playlists")).toBe(false);
     expect(isMalFamily("nota")).toBe(true);
+    // Os especiais da semana (P381), como no pipeline; uma família desconhecida não é especial.
+    expect(["estudio", "ano_x", "ano", "playlists", "artistas"].map(isSpecialFamily)).toEqual([
+      true,
+      true,
+      false,
+      false,
+      false,
+    ]);
   });
 
   it("os especiais da semana (P381): no mês fictício, só os dias do ano e do estúdio, um por semana", () => {
@@ -157,19 +172,21 @@ describe("o reducer", () => {
 describe("o save", () => {
   it("o resultado: uma letra por rodada jogada, sem ids (rodada alcançada e acertos)", () => {
     const state = play("rrvwrw" + "w");
-    const game = toQuizGame(state, daily.number, false);
-    // As escolhas sem o trecho (o andamento de antes da v13) valem como no último: 1 ponto.
-    expect(game).toEqual({ number: 1, results: "rrvwrww", points: 3 });
+    const game = toQuizGame(state, daily.number, false, daily.family);
+    // As escolhas sem o trecho (o andamento de antes da v13) valem como no último: 1 ponto. A
+    // família do dia vai junto (v14).
+    expect(game).toEqual({ number: 1, results: "rrvwrww", points: 3, family: daily.family });
     expect(QUIZ_RESULTS.test(game.results)).toBe(true);
     expect(quizReached(game)).toBe(7);
     expect(quizRight(game)).toBe(3);
-    expect(toQuizGame(state, 1, true)).toEqual({
+    expect(toQuizGame(state, 1, true, "ano_x")).toEqual({
       number: 1,
       results: "rrvwrww",
       late: true,
       points: 3,
+      family: "ano_x",
     });
-    expect(() => toQuizGame(play("r"), 1, false)).toThrow();
+    expect(() => toQuizGame(play("r"), 1, false, daily.family)).toThrow();
   });
 
   it("os pontos pelo trecho da escolha: 4, 3, 2 e 1; o erro vale 0 (o usuário, 28/10/2026)", () => {
@@ -228,7 +245,7 @@ describe("o save", () => {
     const session = startQuizSession(save, daily, index, "2026-10-09");
     expect(session).toEqual({
       kind: "finished",
-      game: { number: 1, results: "www", late: true, points: 0 },
+      game: { number: 1, results: "www", late: true, points: 0, family: daily.family },
     });
     const done = withQuizFinished(emptySave(), daily.id, { number: 1, results: "r" });
     expect(startQuizSession(done, daily, index, DATE)).toEqual({
@@ -306,5 +323,43 @@ describe("o bônus de estreia (o usuário, 25/10/2026)", () => {
     });
     expect(currentQuizRound(done).status).toBe("right");
     expect(isQuizFinished(done)).toBe(true);
+  });
+});
+
+describe("a família da run no save (v14, o usuário, 28/10/2026)", () => {
+  /** O enum `family` do schema, onde quer que ele esteja. */
+  const schemaFamilies = (): string[] => {
+    const found: string[] = [];
+    JSON.parse(quizSchemaText, (key, value) => {
+      if (key === "family" && Array.isArray(value?.enum)) found.push(...value.enum);
+      return value;
+    });
+    return found;
+  };
+
+  it("toda família do schema passa no formato do save: senão, a run terminada sumiria na leitura", () => {
+    const families = schemaFamilies();
+    expect(families.length).toBeGreaterThan(5);
+    for (const family of families) expect(QUIZ_FAMILY.test(family), family).toBe(true);
+  });
+
+  it("os especiais são os do pipeline (o SPECIALS do anime_quiz.py), e as outras não", () => {
+    const block = (name: string) => {
+      const start = animeQuizPipeline.indexOf(`\n${name} = (`);
+      const end = animeQuizPipeline.indexOf("\n)\n", start);
+      return [...animeQuizPipeline.slice(start, end).matchAll(/Family\(\s*"([a-z_]+)"/g)].map(
+        (m) => m[1] ?? "",
+      );
+    };
+    const specials = block("SPECIALS");
+    expect(specials.length).toBeGreaterThan(0);
+    for (const family of specials) expect(isSpecialFamily(family), family).toBe(true);
+    for (const family of block("FAMILIES")) expect(isSpecialFamily(family), family).toBe(false);
+  });
+
+  it("a família fora do formato não vai ao save: a run fica, sem ela", () => {
+    const state = play("www");
+    expect(toQuizGame(state, 1, false, "Ano X")).not.toHaveProperty("family");
+    expect(toQuizGame(state, 1, false, "ano_x")).toHaveProperty("family", "ano_x");
   });
 });

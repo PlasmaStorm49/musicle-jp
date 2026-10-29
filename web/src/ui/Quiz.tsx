@@ -106,6 +106,8 @@ type Props = {
   readonly announce: (message: string) => void;
   readonly saveStore: KeyValueStore | null;
   readonly onSaved: () => void;
+  /** O resumo da run apareceu: as medalhas novas (o `onResult` do App). */
+  readonly onResult: () => void;
   readonly shareUrl: string;
 };
 
@@ -200,6 +202,7 @@ function Ready({ month, bonus, date, today, save, ...props }: ReadyProps) {
       store={props.saveStore}
       initialSave={save}
       onSaved={props.onSaved}
+      onResult={props.onResult}
       shareUrl={props.shareUrl}
       today={today}
       bonus={bonus}

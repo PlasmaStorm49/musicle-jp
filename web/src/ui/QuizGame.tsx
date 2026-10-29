@@ -1,6 +1,6 @@
 // A run do quiz do dia (M18), como o MixedGame das Misturadas: retoma pelos eventos salvos (o
-// usuário, 25/10/2026), grava a cada evento aceito e mostra o fim da run. Sem estatísticas nem
-// medalhas, que ficam para um PR seguinte, junto com o Histórico do quiz.
+// usuário, 25/10/2026), grava a cada evento aceito e mostra o fim da run, onde avisa as medalhas
+// novas (M20). Sem estatísticas.
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
@@ -53,6 +53,8 @@ type Props = {
   readonly initialSave: Save;
   /** Avisa o App que a run terminou e foi gravada (o ✓ da aba). */
   readonly onSaved: () => void;
+  /** O resumo da run apareceu: o App reivindica as medalhas novas (como nos diários). */
+  readonly onResult?: () => void;
   readonly shareUrl: string;
   /** O "hoje" do jogo. */
   readonly today: string;
@@ -164,7 +166,7 @@ function Playing({
   ...props
 }: Props & { readonly start: Played; readonly report: Report }) {
   const { daily, index, engine, resolver, resolveUrl, store, today } = props;
-  const { id, number } = daily;
+  const { id, number, family } = daily;
   const late = isLate(daily.date, today);
   const [played, dispatch] = useReducer(playReducer, start);
   const [summary, setSummary] = useState<QuizGameRecord | null>(null);
@@ -175,13 +177,13 @@ function Playing({
     if (!store || played === start) return;
     if (isQuizFinished(game)) {
       report(
-        updateSave(store, (s) => withQuizFinished(s, id, toQuizGame(game, number, late))),
+        updateSave(store, (s) => withQuizFinished(s, id, toQuizGame(game, number, late, family))),
         true,
       );
     } else {
       report(updateSave(store, (s) => withQuizProgress(s, id, { events: played.events })));
     }
-  }, [store, played, start, game, id, number, late, report]);
+  }, [store, played, start, game, id, number, late, family, report]);
 
   // As prévias da rodada atual e da seguinte, numa consulta só: o dia inteiro teria 100 faixas,
   // e a run quase nunca chega ao fim.
@@ -202,7 +204,7 @@ function Playing({
       dispatch({ type: "NEXT" });
       return;
     }
-    const record = toQuizGame(game, number, late);
+    const record = toQuizGame(game, number, late, family);
     // A run que já nasceu terminada (todas as rodadas anuladas na montagem) não passou pelo efeito
     // do save: grava aqui, para o ✓ e o resumo ao voltar.
     if (store && played === start) {
@@ -213,6 +215,13 @@ function Playing({
     }
     setSummary(record);
   }
+
+  // As medalhas novas, depois do resumo na tela, como no `Game`: o efeito que grava o fim da run
+  // roda antes deste, e a reivindicação o encontra. Reabrir a run terminada não passa por aqui.
+  const { onResult } = props;
+  useEffect(() => {
+    if (summary) onResult?.();
+  }, [summary, onResult]);
 
   if (summary) return <QuizSummary {...props} game={summary} />;
 

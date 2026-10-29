@@ -30,6 +30,42 @@ function Flame({ ink, bg, rim }: IconColors & { readonly rim?: boolean }) {
   );
 }
 
+/** O traço de um caminho: sem preenchimento, com as pontas e os cantos redondos. */
+function line(color: string, width: number) {
+  return {
+    stroke: color,
+    "stroke-width": width,
+    fill: "none",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+  } as const;
+}
+
+/** Os louros: 5 folhas de cada lado, num arco de raio 13, viradas pela tangente. */
+function Laurel({ ink }: { readonly ink: string }) {
+  const leaves = [110, 140, 170, 200, 230].flatMap((deg) => [deg, 180 - deg]);
+  return (
+    <>
+      {leaves.map((deg) => {
+        const angle = (deg * Math.PI) / 180;
+        const x = (13 * Math.cos(angle)).toFixed(1);
+        const y = (13 * Math.sin(angle)).toFixed(1);
+        return (
+          <ellipse
+            key={deg}
+            cx={x}
+            cy={y}
+            rx="4.4"
+            ry="2"
+            transform={`rotate(${deg + 90} ${x} ${y})`}
+            fill={ink}
+          />
+        );
+      })}
+    </>
+  );
+}
+
 const ICONS: Readonly<Record<string, Icon>> = {
   // Primeiro Acorde: a colcheia, com um brilho.
   "diario-1": ({ ink }) => (
@@ -203,7 +239,6 @@ const ICONS: Readonly<Record<string, Icon>> = {
       <rect x="5.6" y="12.5" width="5.4" height="2.6" rx="0.8" fill={ink} />
     </>
   ),
-  // Superfan: o coração com a nota.
   // DJ Residente (ME123): o fone, com as duas conchas (a esquerda e a direita do Separar).
   "misturadas-seguidos-15": ({ ink, bg }) => (
     <>
@@ -243,6 +278,7 @@ const ICONS: Readonly<Record<string, Icon>> = {
       <circle cx="0" cy="6.5" r="2.2" fill={ink} />
     </>
   ),
+  // Superfan: o coração com a nota.
   "superfan-completo": ({ ink, bg }) => (
     <>
       <path d={HEART} fill={ink} />
@@ -267,6 +303,177 @@ const ICONS: Readonly<Record<string, Icon>> = {
       <circle cx="13.5" cy="-12" r="1.4" fill={c.ink} />
       <circle cx="-8" cy="-16" r="1.1" fill={c.ink} />
       <circle cx="16.5" cy="-4" r="1" fill={c.ink} />
+    </>
+  ),
+  // A Hora Extra e as do quiz (o usuário, 28/10/2026, nos quadros da conversa).
+  // Hora Extra: o relógio com um +.
+  "onze-diarios": ({ ink, bg }) => (
+    <>
+      <circle cx="-2" cy="2" r="13.5" fill={ink} />
+      <circle cx="-2" cy="2" r="10.3" fill={bg} />
+      <path d="M-2 2 V-5.5 M-2 2 L3.5 5.5" {...line(ink, 2.4)} />
+      <circle cx="10.5" cy="-10" r="6.4" fill={ink} stroke={bg} stroke-width="1.6" />
+      <path d="M10.5 -13.5 V-6.5 M7 -10 H14" {...line(bg, 2)} />
+    </>
+  ),
+  // Insert Coin: a ficha caindo na fenda.
+  "quiz-1": ({ ink, bg }) => (
+    <>
+      <rect x="-10" y="-16" width="20" height="4" rx="2" fill={ink} />
+      <circle cx="0" cy="4" r="11.5" fill={ink} />
+      <circle cx="0" cy="4" r="7.6" fill="none" stroke={bg} stroke-width="1.6" />
+      <rect x="-1.4" y="-0.5" width="2.8" height="9" rx="1.4" fill={bg} />
+    </>
+  ),
+  // Saindo do Tutorial: o selo de novato dos carros do Japão (wakaba), metade cheia.
+  "quiz-rodada-10": ({ ink, bg }) => (
+    <>
+      <path d="M0 -7 L-13 -15 L-13 3 L0 16 Z" fill={ink} />
+      <path
+        d="M0 -7 L13 -15 L13 3 L0 16 Z"
+        fill={bg}
+        stroke={ink}
+        stroke-width="1.8"
+        stroke-linejoin="round"
+      />
+    </>
+  ),
+  // Plus Ultra: três setas para cima.
+  "quiz-rodada-25": ({ ink }) => (
+    <path d="M-11 -3 L0 -14 L11 -3 M-11 5 L0 -6 L11 5 M-11 13 L0 2 L11 13" {...line(ink, 3.4)} />
+  ),
+  // Edição Especial: o ingresso com a estrela.
+  "quiz-especial-15": ({ ink, bg }) => (
+    <>
+      <path d="M-16 -10 H16 V-3 A3 3 0 0 0 16 3 V10 H-16 V3 A3 3 0 0 0 -16 -3 Z" fill={ink} />
+      <polygon
+        points="0.0,-6.4 1.8,-1.8 6.7,-1.6 2.9,1.5 4.1,6.3 0.0,3.6 -4.1,6.3 -2.9,1.5 -6.7,-1.6 -1.8,-1.8"
+        fill={bg}
+      />
+    </>
+  ),
+  // Sem um Arranhão: o escudo com um brilho.
+  "quiz-sem-erro-15": ({ ink, bg }) => (
+    <>
+      <path d="M0 -16 L13 -11 V0 C13 8 7 13 0 16 C-7 13 -13 8 -13 0 V-11 Z" fill={ink} />
+      <path d={sparkPath(0, 0, 7.5)} fill={bg} />
+    </>
+  ),
+  // Só acaba quando acabar...: o coração com o curativo.
+  "quiz-ultima-vida": ({ ink, bg }) => (
+    <>
+      <path d={HEART} fill={ink} />
+      <g transform="rotate(-35 0 -1)">
+        <rect x="-10" y="-4.3" width="20" height="6.6" rx="3.3" fill={bg} />
+        <rect x="-3.2" y="-4.3" width="6.4" height="6.6" fill={ink} opacity="0.35" />
+      </g>
+    </>
+  ),
+  // Ouvido Afiado: o sustenido (o "sharp", afiado).
+  "quiz-pontos-50": ({ ink }) => (
+    <>
+      <path d="M-4.5 -16 V15 M5 -16 V15" {...line(ink, 2.8)} />
+      <path d="M-13 -3 L13 -9 L13 -3.5 L-13 2.5 Z" fill={ink} />
+      <path d="M-13 7.5 L13 1.5 L13 7 L-13 13 Z" fill={ink} />
+    </>
+  ),
+  // Três Segundos de Fama: o cronômetro com a fatia dos primeiros segundos.
+  "quiz-tres-segundos": ({ ink, bg }) => (
+    <>
+      <rect x="-2.6" y="-16" width="5.2" height="4.5" rx="1.2" fill={ink} />
+      <circle cx="0" cy="3" r="12.5" fill={ink} />
+      <circle cx="0" cy="3" r="9.2" fill={bg} />
+      <path d="M0 3 L0 -6.2 A9.2 9.2 0 0 1 8 -1.6 Z" fill={ink} />
+    </>
+  ),
+  // Freguês: o cartão fidelidade, com os furos.
+  "quiz-seguidos-15": ({ ink, bg }) => (
+    <>
+      <rect x="-16" y="-11" width="32" height="22" rx="3" fill={ink} />
+      <rect x="-12" y="-7" width="13" height="2.6" rx="1.3" fill={bg} />
+      {[-10, -5, 0, 5].map((x) => (
+        <circle key={x} cx={x} cy="4" r="2.3" fill={bg} />
+      ))}
+      <circle cx="10" cy="4" r="2" fill="none" stroke={bg} stroke-width="1.2" />
+    </>
+  ),
+  // Enciclopédia de Anisong: o livro com a nota na capa.
+  "quiz-acertos-300": ({ ink, bg }) => (
+    <>
+      <rect x="-12" y="-15" width="25" height="28" rx="2" fill={ink} />
+      <rect x="-9" y="12" width="22" height="3.4" rx="1" fill={ink} />
+      <rect x="-9" y="11" width="21" height="2" fill={bg} />
+      <ellipse cx="-0.5" cy="3" rx="4" ry="3" transform="rotate(-22 -0.5 3)" fill={bg} />
+      <rect x="2.4" y="-9" width="2.2" height="12" fill={bg} />
+      <path d="M4.6 -9 C5.8 -6 9.6 -5.5 8.6 -1 C8.2 -3.6 6.4 -4.4 4.6 -4.8 Z" fill={bg} />
+    </>
+  ),
+  // Sabe-Tudo: o capelo.
+  "quiz-perguntas-6": ({ ink }) => (
+    <>
+      <path d="M0 -12 L17 -4 L0 4 L-17 -4 Z" fill={ink} />
+      <path d="M-10 0 V8 Q0 13.5 10 8 V0 L0 5 Z" fill={ink} />
+      <path d="M13 -2 V9" {...line(ink, 1.8)} />
+      <circle cx="13" cy="10.5" r="2.3" fill={ink} />
+    </>
+  ),
+  // A Resposta: o 42, em traços.
+  "quiz-42": ({ ink }) => (
+    <path d="M-13 -12 V1 H-3 M-5.5 -12 V12 M3 -12 H13 V0 H3 V12 H13" {...line(ink, 3.4)} />
+  ),
+  // Magnum Opus: os louros, com a colcheia no meio.
+  "quiz-rodada-50": ({ ink }) => (
+    <>
+      <Laurel ink={ink} />
+      <path d="M-4 15 Q0 12 4 15" {...line(ink, 2)} />
+      <ellipse cx="-2" cy="4" rx="3.6" ry="2.7" transform="rotate(-22 -2 4)" fill={ink} />
+      <rect x="0.8" y="-8" width="2" height="12" fill={ink} />
+      <path d="M2.8 -8 C4 -5 8 -4.5 7 0 C6.5 -2.5 4.6 -3.4 2.8 -3.8 Z" fill={ink} />
+    </>
+  ),
+  // Kami: a shimenawa, a corda sagrada dos santuários, com os papéis em zigue-zague. O torii já é
+  // o da Sensei (o usuário, 28/10/2026).
+  "quiz-sem-erro-30": ({ ink, bg }) => (
+    <>
+      <path d="M-16 -9 Q0 -1 16 -9" {...line(ink, 6)} />
+      <path
+        d="M-12.5 -5.3 L-9.5 -8.5 M-6.5 -3.8 L-3.5 -7 M-0.5 -3.4 L2.5 -6.6 M5.5 -4.2 L8.5 -7.4 M11.5 -6 L14.5 -9.2"
+        {...line(bg, 1.2)}
+      />
+      {[-9, -1, 7].map((x) => (
+        <path
+          key={x}
+          d={`M${x - 1.5} -2 H${x + 1.5} V2 H${x + 3.5} V6 H${x + 1.5} V10 H${x - 1.5} V6 H${x + 0.5} V2 H${x - 1.5} Z`}
+          fill={ink}
+        />
+      ))}
+      <path d="M-13 -5 V3 M13 -5 V3" {...line(ink, 1.6)} />
+    </>
+  ),
+  // Ouvido Absoluto: o diapasão, com o som dos dois lados.
+  "quiz-pontos-120": ({ ink }) => (
+    <>
+      <path d="M-6 -16 V-3 A6 6 0 0 0 6 -3 V-16" {...line(ink, 3.4)} />
+      <rect x="-1.7" y="3" width="3.4" height="13" rx="1.7" fill={ink} />
+      <path d="M-11 -12 Q-14.5 -7 -11 -2 M11 -12 Q14.5 -7 11 -2" {...line(ink, 2)} />
+    </>
+  ),
+  // Ritmo Constante: o metrônomo.
+  "quiz-rodada-15-seguidos-7": ({ ink, bg }) => (
+    <>
+      <path d="M-6 -15 H6 L13 13 H-13 Z" fill={ink} />
+      <path d="M-3.5 -11 H3.5 L8.5 8 H-8.5 Z" fill={bg} />
+      <path d="M0 8 L6 -11" {...line(ink, 2.4)} />
+      <rect
+        x="1.5"
+        y="-4.5"
+        width="4.8"
+        height="3.4"
+        rx="1"
+        fill={ink}
+        transform="rotate(18 3.9 -2.8)"
+      />
+      <rect x="-15" y="12" width="30" height="3.6" rx="1.2" fill={ink} />
     </>
   ),
 };

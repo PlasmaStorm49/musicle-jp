@@ -19,6 +19,7 @@ import {
   type MixedProgress,
 } from "../core/mixed.ts";
 import {
+  QUIZ_FAMILY,
   QUIZ_LAST_STAGE,
   QUIZ_MAX_POINTS,
   QUIZ_RESULTS,
@@ -267,13 +268,17 @@ export function isQuizEvent(x: unknown): x is QuizEvent {
 }
 
 /**
- * Uma run terminada: o número do dia, uma letra por rodada jogada (`QUIZ_RESULTS`) e, desde a
- * v13, os pontos.
+ * Uma run terminada: o número do dia, uma letra por rodada jogada (`QUIZ_RESULTS`), desde a v13,
+ * os pontos, e desde a v14, a família da pergunta. A família é um texto curto, sem conferir contra a
+ * lista do schema: uma família nova não tira a run do save.
  */
 export function isQuizGame(x: unknown): x is QuizGame {
   if (!isRecord(x) || !Number.isInteger(x.number) || (x.number as number) < 1) return false;
   if (x.late !== undefined && x.late !== true) return false;
   if (x.points !== undefined && !isNonNegativeInt(x.points, QUIZ_MAX_POINTS)) return false;
+  if (x.family !== undefined && !(typeof x.family === "string" && QUIZ_FAMILY.test(x.family))) {
+    return false;
+  }
   return typeof x.results === "string" && QUIZ_RESULTS.test(x.results);
 }
 
@@ -376,7 +381,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     !isRecord(quiz.progress);
   return {
     save: {
-      schemaVersion: 13,
+      schemaVersion: 14,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),

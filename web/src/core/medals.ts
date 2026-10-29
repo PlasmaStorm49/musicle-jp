@@ -1,9 +1,10 @@
 // As medalhas (M16, ME105). Calculadas do save a cada vez, como as estatísticas: o save só
 // guarda o que não sai de outro lugar (as já avisadas, P281, e o modo por artista, P289). Toda
-// conferência usa só o que cresce (o histórico, os terminados das Misturadas, a agenda dos Hits, os
-// registros dos artistas), para que uma medalha ganha nunca suma. O id vai para o save e nunca
+// conferência usa só o que cresce (o histórico, os terminados das Misturadas e do quiz, a agenda dos
+// Hits, os registros dos artistas), para que uma medalha ganha nunca suma. O id vai para o save e nunca
 // muda.
 import type { MixedGame, MixedRoundRecord } from "./mixed.ts";
+import { isSpecialFamily, type QuizGame, quizReached, quizRight } from "./quiz.ts";
 import {
   type ArtistRecord,
   type FinishedGame,
@@ -54,7 +55,26 @@ export type MedalContext = {
    * achadas (`allFound`).
    */
   readonly mixedStreak: { readonly played: number; readonly allFound: number };
+  /**
+   * O quiz do dia (o usuário, 28/10/2026): as runs terminadas até hoje, na ordem das datas. A
+   * jogada depois (pelo Histórico) fica fora, como nas Misturadas.
+   */
+  readonly quiz: readonly QuizRun[];
+  /**
+   * As sequências do quiz, sobre a agenda dos Hits, como a do topo: a melhor de dias com a run
+   * terminada (`played`), e a de dias com a rodada 15 alcançada (`steady`).
+   */
+  readonly quizStreak: { readonly played: number; readonly steady: number };
+  /**
+   * Os diários terminados no dia, de todos os modos: os dos Hits e do Anime, os das Misturadas e o
+   * quiz (o usuário, 28/10/2026). O `games` continua só com os dos Hits e do Anime: é dele que saem a
+   * sequência do topo (P282), o Relâmpago e o 1º aviso (P314).
+   */
+  readonly dailies: number;
 };
+
+/** Uma run do quiz terminada no dia, com a data. */
+export type QuizRun = { readonly date: string; readonly game: QuizGame };
 
 /** Quanto falta (P283): "7 de 10". */
 export type MedalProgress = { readonly value: number; readonly goal: number };
@@ -94,6 +114,14 @@ export function medalContext(
   }
   const mixedDays = (test: (game: MixedGame) => boolean) =>
     new Set([...mixed].filter(([, day]) => [...day.values()].some(test)).map(([date]) => date));
+  const quiz = Object.entries(save.quiz.finished)
+    .map(([id, game]): QuizRun => ({ date: id.split("|")[0] ?? "", game }))
+    // O jogado depois (pelo Histórico) fica fora, como nas Misturadas (P369).
+    .filter(({ date, game }) => date <= today && !game.late)
+    .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+  const quizDays = (test: (game: QuizGame) => boolean) =>
+    new Set(quiz.filter(({ game }) => test(game)).map(({ date }) => date));
+  const mixedCount = [...mixed.values()].reduce((sum, day) => sum + day.size, 0);
   return {
     today,
     games,
@@ -110,6 +138,20 @@ export function medalContext(
       ).best,
       allFound: streaks(mixedDays(allFoundMixed), hitsDates, today).best,
     },
+    quiz,
+    quizStreak: {
+      played: streaks(
+        quizDays(() => true),
+        hitsDates,
+        today,
+      ).best,
+      steady: streaks(
+        quizDays((game) => quizReached(game) >= QUIZ_GOALS.steadyRound),
+        hitsDates,
+        today,
+      ).best,
+    },
+    dailies: games.length + mixedCount + quiz.length,
   };
 }
 
@@ -226,6 +268,90 @@ export const GENERAL_GOALS = {
 } as const;
 
 /**
+ * Os limites do quiz do dia (o usuário, 28/10/2026), fixos como os das gerais: as rodadas, sem
+ * erro, a última vida, os pontos (um acerto vale de 1 a 4, P400), os 3 s, os dias seguidos, os
+ * acertos, os tipos de pergunta e a 42.
+ */
+export const QUIZ_GOALS = {
+  tutorial: 10,
+  plusUltra: 25,
+  opus: 50,
+  /** A rodada num especial da semana, de até 30 (P376, P381). */
+  special: 15,
+  clean: 15,
+  kami: 30,
+  lastLife: 10,
+  sharp: 50,
+  absolute: 120,
+  /** Os acertos de uma run, todos no 1º trecho (3 s). */
+  fast: 10,
+  played: 15,
+  /** Os dias seguidos chegando à rodada `steadyRound`. */
+  steadyDays: 7,
+  steadyRound: 15,
+  right: 300,
+  /**
+   * Os tipos de pergunta (a família: "a mais antiga" e "a mais recente" são um tipo só) em
+   * que a run chegou à rodada `questionRound`.
+   */
+  questions: 6,
+  questionRound: 15,
+  answer: 42,
+} as const;
+
+/** A run chegou à rodada `n` sem errar: as `n` primeiras, sem erro (a anulada não é erro). */
+export function quizClean(game: Pick<QuizGame, "results">, n: number): boolean {
+  return game.results.length >= n && !game.results.slice(0, n).includes("w");
+}
+
+/**
+ * Os acertos seguidos na última vida, depois do 2º erro, até o 3º (ou o fim). A anulada não quebra
+ * a sequência nem soma (não foi a pessoa que errou).
+ */
+export function quizLastLife(game: Pick<QuizGame, "results">): number {
+  const marks = game.results.split("v").join("");
+  const second = marks.indexOf("w", marks.indexOf("w") + 1);
+  if (marks.indexOf("w") === -1 || second === -1) return 0;
+  return /^r*/.exec(marks.slice(second + 1))?.[0].length ?? 0;
+}
+
+/**
+ * Todos os acertos da run no 1º trecho (3 s): os pontos são 4 por acerto (P400). Pela soma, porque o
+ * save não guarda o trecho de cada rodada; a run de antes dos pontos (v12) não passa.
+ */
+export function quizAllFast(game: Pick<QuizGame, "results" | "points">): boolean {
+  return game.points !== undefined && game.points === 4 * quizRight(game);
+}
+
+/** Alguma run do quiz passa no `test`. */
+function someRun(test: (game: QuizGame) => boolean): (ctx: MedalContext) => boolean {
+  return (ctx) => ctx.quiz.some(({ game }) => test(game));
+}
+
+/** Os tipos de pergunta (a família da run, v14) em que a run chegou à rodada `questionRound`. */
+function quizQuestions(ctx: MedalContext): number {
+  const families = ctx.quiz
+    .filter(({ game }) => quizReached(game) >= QUIZ_GOALS.questionRound)
+    .map(({ game }) => game.family);
+  return new Set(families.filter((family) => family !== undefined)).size;
+}
+
+/** Num mesmo dia, os 8 diários, os 2 das Misturadas e o quiz terminados (a Hora Extra). */
+function wholeDay(ctx: MedalContext): boolean {
+  const quizDates = new Set(ctx.quiz.map(({ date }) => date));
+  for (const [date, day] of ctx.dates) {
+    const mixed = ctx.mixed.get(date);
+    if (
+      quizDates.has(date) &&
+      WHOLE_DAY.every((key) => day.has(key)) &&
+      MIXED_DAY.every((key) => mixed?.has(key))
+    )
+      return true;
+  }
+  return false;
+}
+
+/**
  * As gerais (P280: uma por feito; a lista do usuário, P310): as pequenas, do começo para o fim do
  * caminho, e depois as grandes. Os nomes e o como ganhar ficam no i18n (`medal.<id>.name` e
  * `.how`), e o desenho, no `ui/medalIcons.tsx`. O bloco de cada uma é o da tela (o usuário,
@@ -235,7 +361,8 @@ export const GENERAL_GOALS = {
  * mudar a ordem dela muda a ordem deles.
  */
 export const MEDALS: readonly Medal[] = [
-  { id: "diario-1", block: "gerais", tier: "simple", earned: (ctx) => ctx.games.length >= 1 },
+  // Os diários de todos os modos, também as Misturadas e o quiz (o usuário, 28/10/2026).
+  { id: "diario-1", block: "gerais", tier: "simple", earned: (ctx) => ctx.dailies >= 1 },
   {
     id: "um-segundo",
     block: "gerais",
@@ -267,7 +394,7 @@ export const MEDALS: readonly Medal[] = [
   counted("seguidos-7", "gerais", "simple", GENERAL_GOALS.streakShort, (ctx) => ctx.streak.best),
   { id: "oito-diarios", block: "gerais", tier: "simple", earned: (ctx) => someDay(ctx, WHOLE_DAY) },
   counted("treino-100", "hits", "simple", GENERAL_GOALS.practice, (ctx) => ctx.practiceRight),
-  counted("diarios-50", "gerais", "simple", GENERAL_GOALS.dailies, (ctx) => ctx.games.length),
+  counted("diarios-50", "gerais", "simple", GENERAL_GOALS.dailies, (ctx) => ctx.dailies),
   // Ao menos 1 diário das Misturadas terminado por dia, em dias seguidos.
   counted(
     "misturadas-seguidos-15",
@@ -283,6 +410,68 @@ export const MEDALS: readonly Medal[] = [
     GENERAL_GOALS.collector,
     (ctx) => Object.values(ctx.artists).filter((r) => r.right >= SUPERFAN_RIGHT).length,
   ),
+  // A Hora Extra e as pequenas do quiz (o usuário, 28/10/2026), depois das pequenas de antes: a
+  // ordem relativa das de antes (a dos avisos) não muda.
+  { id: "onze-diarios", block: "gerais", tier: "simple", earned: wholeDay },
+  { id: "quiz-1", block: "quiz", tier: "simple", earned: (ctx) => ctx.quiz.length >= 1 },
+  {
+    id: "quiz-rodada-10",
+    block: "quiz",
+    tier: "simple",
+    earned: someRun((game) => quizReached(game) >= QUIZ_GOALS.tutorial),
+  },
+  {
+    id: "quiz-rodada-25",
+    block: "quiz",
+    tier: "simple",
+    earned: someRun((game) => quizReached(game) >= QUIZ_GOALS.plusUltra),
+  },
+  {
+    id: "quiz-especial-15",
+    block: "quiz",
+    tier: "simple",
+    earned: someRun(
+      (game) =>
+        game.family !== undefined &&
+        isSpecialFamily(game.family) &&
+        quizReached(game) >= QUIZ_GOALS.special,
+    ),
+  },
+  {
+    id: "quiz-sem-erro-15",
+    block: "quiz",
+    tier: "simple",
+    earned: someRun((game) => quizClean(game, QUIZ_GOALS.clean)),
+  },
+  {
+    id: "quiz-ultima-vida",
+    block: "quiz",
+    tier: "simple",
+    earned: someRun((game) => quizLastLife(game) >= QUIZ_GOALS.lastLife),
+  },
+  {
+    id: "quiz-pontos-50",
+    block: "quiz",
+    tier: "simple",
+    earned: someRun((game) => (game.points ?? 0) >= QUIZ_GOALS.sharp),
+  },
+  {
+    id: "quiz-tres-segundos",
+    block: "quiz",
+    tier: "simple",
+    earned: someRun((game) => quizRight(game) >= QUIZ_GOALS.fast && quizAllFast(game)),
+  },
+  counted("quiz-seguidos-15", "quiz", "simple", QUIZ_GOALS.played, (ctx) => ctx.quizStreak.played),
+  counted("quiz-acertos-300", "quiz", "simple", QUIZ_GOALS.right, (ctx) =>
+    ctx.quiz.reduce((sum, { game }) => sum + quizRight(game), 0),
+  ),
+  counted("quiz-perguntas-6", "quiz", "simple", QUIZ_GOALS.questions, quizQuestions),
+  {
+    id: "quiz-42",
+    block: "quiz",
+    tier: "simple",
+    earned: someRun((game) => quizReached(game) === QUIZ_GOALS.answer),
+  },
   {
     id: "hits-perfeito",
     block: "hits",
@@ -323,6 +512,32 @@ export const MEDALS: readonly Medal[] = [
     earned: (ctx) => Object.values(ctx.artists).some((r) => r.done),
   },
   counted("seguidos-30", "gerais", "major", GENERAL_GOALS.streakLong, (ctx) => ctx.streak.best),
+  // As grandes do quiz, depois das grandes de antes.
+  {
+    id: "quiz-rodada-50",
+    block: "quiz",
+    tier: "major",
+    earned: someRun((game) => quizReached(game) >= QUIZ_GOALS.opus),
+  },
+  {
+    id: "quiz-sem-erro-30",
+    block: "quiz",
+    tier: "major",
+    earned: someRun((game) => quizClean(game, QUIZ_GOALS.kami)),
+  },
+  {
+    id: "quiz-pontos-120",
+    block: "quiz",
+    tier: "major",
+    earned: someRun((game) => (game.points ?? 0) >= QUIZ_GOALS.absolute),
+  },
+  counted(
+    "quiz-rodada-15-seguidos-7",
+    "quiz",
+    "major",
+    QUIZ_GOALS.steadyDays,
+    (ctx) => ctx.quizStreak.steady,
+  ),
 ];
 
 /** Os 3 níveis do Superfan de cada artista (P280, P285). */

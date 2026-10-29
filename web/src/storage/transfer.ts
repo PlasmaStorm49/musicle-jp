@@ -102,6 +102,7 @@ function cleanQuiz(game: QuizGame): QuizGame {
     results: game.results,
     ...(game.late ? { late: true } : {}),
     ...(game.points !== undefined ? { points: game.points } : {}),
+    ...(game.family !== undefined ? { family: game.family } : {}),
   };
 }
 

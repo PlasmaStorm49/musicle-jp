@@ -5,7 +5,15 @@ import { readFileSync } from "node:fs";
 import type { Page } from "@playwright/test";
 import type { QuizBonus, QuizMonth } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
-import { captureClipboard, expect, hearBoth, navLink, open, test } from "./helpers.ts";
+import {
+  captureClipboard,
+  expect,
+  hearBoth,
+  navLink,
+  open,
+  openWithMedals,
+  test,
+} from "./helpers.ts";
 
 const DAY = "2026-10-08T12:00:00-03:00";
 const month = JSON.parse(
@@ -165,4 +173,33 @@ test("Quiz do dia pelo Histórico (o usuário, 26/10/2026): a run de um dia pass
   const done = page.getByRole("link", { name: /^Quiz do dia/ });
   await expect(done).toContainText("Rodada 3, 0 pontos");
   await expect(done).toContainText("jogado depois");
+});
+
+test("o fim da run avisa as medalhas novas no Ver resultado, e não nas rodadas (M20, o usuário, 28/10/2026)", async ({
+  page,
+}) => {
+  await openWithMedals(page, DAY, "#quiz", "avisos");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Quiz do dia");
+  for (const n of [0, 1, 2]) {
+    await hearBoth(page);
+    await pick(page, n, false).click();
+    // Nada no meio da run, nem na revelação (P288).
+    await expect(page.locator(".medal-toast")).toHaveCount(0);
+    await page.getByRole("button", { name: n < 2 ? "Próxima rodada" : "Ver resultado" }).click();
+  }
+  await expect(page.getByRole("heading", { name: "Fim da run" })).toBeVisible();
+  // O quiz é um diário (o Primeiro Acorde) e dá o Insert Coin: um aviso só, o pequeno.
+  await expect(page.locator(".medal-toast")).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").seenMedals, SAVE_KEY),
+    )
+    .toEqual(["diario-1", "quiz-1"]);
+  // A run gravada leva a família do dia (v14).
+  const family = await page.evaluate(
+    (key) =>
+      JSON.parse(localStorage.getItem(key) ?? "{}").quiz?.finished?.["2026-10-08|quiz"]?.family,
+    SAVE_KEY,
+  );
+  expect(family).toBe(month.days["2026-10-08"]?.family);
 });

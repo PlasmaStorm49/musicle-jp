@@ -18,6 +18,10 @@ import {
   medalsOf,
   noticeTab,
   perfectGame,
+  QUIZ_GOALS,
+  quizAllFast,
+  quizClean,
+  quizLastLife,
   SUPERFAN_RIGHT,
   superfanMedalId,
   superfanMedals,
@@ -26,6 +30,7 @@ import {
 } from "./medals.ts";
 import { MIXED_KEYS, type MixedGame, type MixedRoundRecord, withMixedFinished } from "./mixed.ts";
 import { Mulberry32 } from "./prng.ts";
+import { type QuizGame, quizId, withQuizFinished } from "./quiz.ts";
 import {
   emptySave,
   type FinishedGame,
@@ -46,6 +51,11 @@ const WON_0: RoundRecord = { status: "won", stage: 0, attempts: ["right"] };
 const WON_2: RoundRecord = { status: "won", stage: 2, attempts: ["skip", "skip", "right"] };
 const WON_HELP: RoundRecord = { status: "won", stage: 0, attempts: ["right"], help: 0 };
 const VOIDED: RoundRecord = { status: "void", stage: 0, attempts: [] };
+/** Um diário das Misturadas com todas as músicas achadas no 1º trecho. */
+const MIXED_RUN: MixedGame = {
+  number: 1,
+  rounds: [{ status: "done", found: [{ stage: 0 }, { stage: 0 }] }],
+};
 const game = (...rounds: RoundRecord[]): FinishedGame => ({ number: 1, rounds });
 /** Perfeito: as 3 em 1 s, sem ajuda (P310). */
 const perfect = game(WON_0, WON_0, WON_0);
@@ -135,9 +145,47 @@ describe("as gerais (P310)", () => {
     keys.reduce((s, key) => withFinished(s, `${date}|${key}`, result), save);
   const DAY = "2026-10-20";
 
-  it("17 (as 4 das Misturadas desde a ME123), com ids únicos e sem a barra das do Superfan; as grandes no fim da lista", () => {
+  it("34 (as 4 das Misturadas desde a ME123; a Hora Extra e as 16 do quiz desde o M20), com ids únicos e sem a barra das do Superfan; as grandes no fim da lista", () => {
     const list = MEDALS.map((m) => m.id);
-    expect(new Set(list).size).toBe(17);
+    expect(new Set(list).size).toBe(34);
+    // A ordem da lista é a dos avisos: as 17 de antes na mesma ordem relativa, as pequenas
+    // novas depois das pequenas, e as grandes novas no fim.
+    expect(list).toEqual([
+      "diario-1",
+      "um-segundo",
+      "hits-todos",
+      "anime-todos",
+      "misturadas-rodada",
+      "seguidos-7",
+      "oito-diarios",
+      "treino-100",
+      "diarios-50",
+      "misturadas-seguidos-15",
+      "colecionador",
+      "onze-diarios",
+      "quiz-1",
+      "quiz-rodada-10",
+      "quiz-rodada-25",
+      "quiz-especial-15",
+      "quiz-sem-erro-15",
+      "quiz-ultima-vida",
+      "quiz-pontos-50",
+      "quiz-tres-segundos",
+      "quiz-seguidos-15",
+      "quiz-acertos-300",
+      "quiz-perguntas-6",
+      "quiz-42",
+      "hits-perfeito",
+      "anime-perfeito",
+      "misturadas-perfeito",
+      "misturadas-acertos-7",
+      "superfan-completo",
+      "seguidos-30",
+      "quiz-rodada-50",
+      "quiz-sem-erro-30",
+      "quiz-pontos-120",
+      "quiz-rodada-15-seguidos-7",
+    ]);
     expect(list.filter((id) => id.includes("|"))).toEqual([]);
     expect(MEDALS.filter((m) => m.tier === "major").map((m) => m.id)).toEqual([
       "hits-perfeito",
@@ -146,8 +194,12 @@ describe("as gerais (P310)", () => {
       "misturadas-acertos-7",
       "superfan-completo",
       "seguidos-30",
+      "quiz-rodada-50",
+      "quiz-sem-erro-30",
+      "quiz-pontos-120",
+      "quiz-rodada-15-seguidos-7",
     ]);
-    expect(MEDALS.slice(-6).every((m) => m.tier === "major")).toBe(true);
+    expect(MEDALS.slice(-10).every((m) => m.tier === "major")).toBe(true);
   });
 
   it("os blocos da tela (o usuário, 28/10/2026): cada uma no dela, as pequenas antes das grandes", () => {
@@ -166,6 +218,7 @@ describe("as gerais (P310)", () => {
         "oito-diarios",
         "diarios-50",
         "colecionador",
+        "onze-diarios",
         "superfan-completo",
         "seguidos-30",
       ],
@@ -177,7 +230,24 @@ describe("as gerais (P310)", () => {
         "misturadas-perfeito",
         "misturadas-acertos-7",
       ],
-      quiz: [],
+      quiz: [
+        "quiz-1",
+        "quiz-rodada-10",
+        "quiz-rodada-25",
+        "quiz-especial-15",
+        "quiz-sem-erro-15",
+        "quiz-ultima-vida",
+        "quiz-pontos-50",
+        "quiz-tres-segundos",
+        "quiz-seguidos-15",
+        "quiz-acertos-300",
+        "quiz-perguntas-6",
+        "quiz-42",
+        "quiz-rodada-50",
+        "quiz-sem-erro-30",
+        "quiz-pontos-120",
+        "quiz-rodada-15-seguidos-7",
+      ],
       artistas: [],
     });
     // Nenhuma pequena depois da 1ª grande do bloco (P310).
@@ -347,6 +417,14 @@ describe("earnedMedals e unseenMedals", () => {
     for (const [i, date] of days(8, 16).entries()) {
       save = withFinished(save, `${date}|album`, lost);
       save = withArtistRight(save, ARTIST);
+      // O quiz e as Misturadas (M20): as medalhas com progresso deles também.
+      save = withQuizFinished(save, quizId(date), {
+        number: 1,
+        results: `${"r".repeat(15 + i)}www`,
+        points: 4 * (15 + i),
+        family: ["ano", "nota", "tema", "amq", "fonte", "rotulo", "playlists"][i % 7],
+      });
+      save = withMixedFinished(save, `${date}|misturadas-musica`, MIXED_RUN);
       const ctx = medalContext(save, date, HITS);
       for (const medal of medalsOf(save, GENERAL)) {
         const progress = medal.progress?.(ctx);
@@ -370,12 +448,23 @@ describe("medalha ganha nunca some", () => {
     let before = new Set<string>();
     // Os jogos possíveis: perdido, perfeito, todo acertado com ajuda e com uma rodada anulada.
     const games = [lost, perfect, helped, { number: 1, rounds: [WON_0, VOIDED, WON_0] }];
+    // As runs do quiz (M20): curta, longa e perfeita, na última vida, de especial e sem a
+    // família (de antes da v14).
+    const runs: QuizGame[] = [
+      { number: 1, results: "www" },
+      { number: 1, results: `${"r".repeat(27)}www`, points: 100, family: "tema" },
+      { number: 1, results: "r".repeat(50), points: 200, family: "ano" },
+      { number: 1, results: `rrwrw${"r".repeat(10)}w`, points: 30, family: "nota" },
+      { number: 1, results: `${"r".repeat(16)}www`, points: 64, family: "ano_x" },
+    ];
     for (let step = 0; step < 600; step++) {
       const date = `2026-10-${String(today).padStart(2, "0")}`;
       const artist = artists[random.randint(artists.length)] ?? ARTIST;
       const key = DAILY_KEYS[random.randint(DAILY_KEYS.length)] ?? "song";
       const game = games[random.randint(games.length)] ?? lost;
-      switch (random.randint(7)) {
+      const run = runs[random.randint(runs.length)] ?? { number: 1, results: "w" };
+      const mixedKey = MIXED_KEYS[random.randint(MIXED_KEYS.length)] ?? "misturadas-musica";
+      switch (random.randint(10)) {
         case 0:
         case 1:
           save = withFinished(save, `${date}|${key}`, game);
@@ -395,6 +484,16 @@ describe("medalha ganha nunca some", () => {
           break;
         case 5:
           save = withPracticeRight(save);
+          break;
+        case 6:
+          save = withQuizFinished(save, quizId(date), run);
+          break;
+        case 7:
+          // O jogado depois do quiz (pelo Histórico) não conta.
+          save = withQuizFinished(save, quizId(date), { ...run, late: true });
+          break;
+        case 8:
+          save = withMixedFinished(save, `${date}|${mixedKey}`, MIXED_RUN);
           break;
         default:
           save = withFinished(save, `${date}|${key}`, { ...game, late: true });
@@ -452,10 +551,11 @@ describe("medalBoard (o que a tela mostra, P286)", () => {
     const board = medalBoard(save, "2026-10-20", HITS, MEDALS, [ARTIST]);
     expect(board.blocks.map((v) => [v.block, v.earned, v.total])).toEqual([
       // O Superfan completo é geral (o usuário, 28/10/2026).
-      ["gerais", 1, 8],
+      ["gerais", 1, 9],
       ["hits", 0, 3],
       ["anime", 0, 2],
       ["misturadas", 0, 4],
+      ["quiz", 0, 16],
       // A dos acertos e a completa do artista, das 3 dele.
       ["artistas", 2, 3],
     ]);
@@ -630,5 +730,170 @@ describe("as das Misturadas (ME123)", () => {
   it("um terminado com data depois de hoje não conta", () => {
     const later = play(emptySave(), "2026-10-30", "misturadas-musica", allFound);
     expect(has(later, "misturadas-rodada")).toBe(false);
+  });
+});
+
+describe("as do quiz (M20, o usuário, 28/10/2026)", () => {
+  const TODAY = "2026-10-29";
+  const ctx = (save: Save, hits: readonly string[] = HITS) => medalContext(save, TODAY, hits);
+  const has = (save: Save, id: string) => earnedMedals(MEDALS, ctx(save)).includes(id);
+  const byId = (id: string) => MEDALS.find((m) => m.id === id);
+  const run = (results: string, extra: Partial<QuizGame> = {}): QuizGame => ({
+    number: 1,
+    results,
+    ...extra,
+  });
+  const play = (save: Save, date: string, game: QuizGame) =>
+    withQuizFinished(save, quizId(date), game);
+  const one = (game: QuizGame, date = "2026-10-24") => play(emptySave(), date, game);
+  /** Chega à rodada `n`: os acertos e, no fim, o 3º erro. */
+  const reach = (n: number, extra: Partial<QuizGame> = {}) => run(`${"r".repeat(n - 3)}www`, extra);
+  const noRounds = { number: 1, rounds: [] } as const;
+
+  it("Insert Coin: a run terminada no dia; a jogada depois e a de depois de hoje não contam", () => {
+    expect(has(emptySave(), "quiz-1")).toBe(false);
+    expect(has(one(run("www")), "quiz-1")).toBe(true);
+    expect(has(one(run("www", { late: true })), "quiz-1")).toBe(false);
+    expect(has(one(run("www"), "2026-10-30"), "quiz-1")).toBe(false);
+  });
+
+  it.each([
+    ["quiz-rodada-10", QUIZ_GOALS.tutorial],
+    ["quiz-rodada-25", QUIZ_GOALS.plusUltra],
+    ["quiz-rodada-50", QUIZ_GOALS.opus],
+  ])("%s: chegar à rodada %i (a anterior não basta)", (id, n) => {
+    expect(has(one(reach(n - 1)), id)).toBe(false);
+    expect(has(one(reach(n)), id)).toBe(true);
+  });
+
+  it("Edição Especial: a rodada 15 num especial; outra pergunta, ou a run sem ela (antes da v14), não", () => {
+    expect(has(one(reach(15, { family: "ano_x" })), "quiz-especial-15")).toBe(true);
+    expect(has(one(reach(15, { family: "estudio" })), "quiz-especial-15")).toBe(true);
+    expect(has(one(reach(14, { family: "ano_x" })), "quiz-especial-15")).toBe(false);
+    expect(has(one(reach(15, { family: "ano" })), "quiz-especial-15")).toBe(false);
+    expect(has(one(reach(15)), "quiz-especial-15")).toBe(false);
+  });
+
+  it("Sem um Arranhão e Kami: as 15 (e as 30) primeiras sem erro; a anulada não é erro", () => {
+    expect(quizClean(run(`${"r".repeat(14)}v`), 15)).toBe(true);
+    expect(quizClean(run(`${"r".repeat(14)}w`), 15)).toBe(false);
+    expect(quizClean(run("r".repeat(14)), 15)).toBe(false);
+    expect(has(one(run(`${"r".repeat(15)}www`)), "quiz-sem-erro-15")).toBe(true);
+    expect(has(one(run(`${"r".repeat(15)}www`)), "quiz-sem-erro-30")).toBe(false);
+    expect(has(one(run(`${"r".repeat(29)}vwww`)), "quiz-sem-erro-30")).toBe(true);
+  });
+
+  it("Só acaba quando acabar...: 10 seguidas depois do 2º erro; a anulada não quebra nem soma", () => {
+    expect(quizLastLife(run(`rrwrw${"r".repeat(10)}w`))).toBe(10);
+    expect(quizLastLife(run(`rrwrw${"r".repeat(5)}v${"r".repeat(5)}w`))).toBe(10);
+    expect(quizLastLife(run(`rrwrw${"r".repeat(9)}w`))).toBe(9);
+    // As 10 antes do 2º erro não são na última vida.
+    expect(quizLastLife(run(`${"r".repeat(10)}ww`))).toBe(0);
+    expect(quizLastLife(run("r".repeat(20)))).toBe(0);
+    expect(has(one(run(`rrwrw${"r".repeat(10)}w`)), "quiz-ultima-vida")).toBe(true);
+    expect(has(one(run(`rrwrw${"r".repeat(9)}w`)), "quiz-ultima-vida")).toBe(false);
+  });
+
+  it("Ouvido Afiado e Absoluto: 50 e 120 pontos numa run; a run sem pontos (v12) não conta", () => {
+    expect(has(one(run("rrw", { points: 49 })), "quiz-pontos-50")).toBe(false);
+    expect(has(one(run("rrw", { points: 50 })), "quiz-pontos-50")).toBe(true);
+    expect(has(one(run("rrw", { points: 119 })), "quiz-pontos-120")).toBe(false);
+    expect(has(one(run("rrw", { points: 120 })), "quiz-pontos-120")).toBe(true);
+    expect(has(one(run("r".repeat(40))), "quiz-pontos-50")).toBe(false);
+  });
+
+  it("Três Segundos de Fama: 10 acertos ou mais, todos em 3 s (4 pontos cada); sem pontos, não", () => {
+    const ten = `${"r".repeat(10)}www`;
+    expect(has(one(run(ten, { points: 40 })), "quiz-tres-segundos")).toBe(true);
+    expect(has(one(run(ten, { points: 39 })), "quiz-tres-segundos")).toBe(false);
+    const nine = run(`${"r".repeat(9)}www`, { points: 36 });
+    expect(has(one(nine), "quiz-tres-segundos")).toBe(false);
+    expect(has(one(run(ten)), "quiz-tres-segundos")).toBe(false);
+    expect(quizAllFast(run("www", { points: 0 }))).toBe(true);
+  });
+
+  it(`Freguês e Ritmo Constante: ${QUIZ_GOALS.played} dias seguidos com o quiz, e ${QUIZ_GOALS.steadyDays} chegando à rodada 15, com o progresso`, () => {
+    const hits = days(1, 29);
+    const streak = (n: number, game: QuizGame) =>
+      days(1, n).reduce((save, date) => play(save, date, game), emptySave());
+    const fregues = byId("quiz-seguidos-15");
+    expect(fregues?.progress?.(ctx(streak(14, run("www")), hits))).toEqual({
+      value: 14,
+      goal: 15,
+    });
+    expect(fregues?.earned(ctx(streak(15, run("www")), hits))).toBe(true);
+    const ritmo = byId("quiz-rodada-15-seguidos-7");
+    expect(ritmo?.earned(ctx(streak(7, reach(14)), hits))).toBe(false);
+    expect(ritmo?.earned(ctx(streak(7, reach(15)), hits))).toBe(true);
+    expect(ritmo?.progress?.(ctx(streak(6, reach(15)), hits))).toEqual({ value: 6, goal: 7 });
+  });
+
+  it("Enciclopédia de Anisong: os acertos de todas as runs somados, com o progresso", () => {
+    const full = run("r".repeat(50));
+    const five = days(1, 5).reduce((save, date) => play(save, date, full), emptySave());
+    const almost = play(five, "2026-10-06", run(`${"r".repeat(49)}w`));
+    expect(byId("quiz-acertos-300")?.progress?.(ctx(almost))).toEqual({ value: 299, goal: 300 });
+    expect(has(almost, "quiz-acertos-300")).toBe(false);
+    expect(has(play(five, "2026-10-06", full), "quiz-acertos-300")).toBe(true);
+  });
+
+  it("Sabe-Tudo: a rodada 15 em 6 perguntas diferentes; a mesma não soma, e a run sem a família não conta", () => {
+    const families = ["ano", "nota", "membros", "playlists", "amq"];
+    const five = families.reduce(
+      (save, family, i) => play(save, `2026-10-0${i + 1}`, reach(15, { family })),
+      emptySave(),
+    );
+    const medal = byId("quiz-perguntas-6");
+    expect(medal?.progress?.(ctx(five))).toEqual({ value: 5, goal: 6 });
+    const sixth = (game: QuizGame) => medal?.earned(ctx(play(five, "2026-10-07", game)));
+    expect(sixth(reach(15, { family: "ano" }))).toBe(false);
+    expect(sixth(reach(15))).toBe(false);
+    expect(sixth(reach(14, { family: "tema" }))).toBe(false);
+    expect(sixth(reach(15, { family: "tema" }))).toBe(true);
+  });
+
+  it("A Resposta: a run que acabou exatamente na rodada 42", () => {
+    expect(has(one(reach(42)), "quiz-42")).toBe(true);
+    expect(has(one(reach(41)), "quiz-42")).toBe(false);
+    expect(has(one(reach(43)), "quiz-42")).toBe(false);
+  });
+
+  it("Primeiro Acorde e Já É de Casa: as Misturadas e o quiz também são diários; o jogado depois não", () => {
+    expect(has(one(run("www")), "diario-1")).toBe(true);
+    expect(has(one(run("www", { late: true })), "diario-1")).toBe(false);
+    const mixedOnly = withMixedFinished(emptySave(), "2026-10-24|misturadas-musica", noRounds);
+    expect(has(mixedOnly, "diario-1")).toBe(true);
+    // 48 diários dos Hits, 1 das Misturadas e 1 quiz: 50.
+    const hits = days(1, 24).reduce(
+      (save, date) => withFinished(withFinished(save, `${date}|album`, lost), `${date}|song`, lost),
+      emptySave(),
+    );
+    const fifty = play(
+      withMixedFinished(hits, "2026-10-25|misturadas-musica", noRounds),
+      "2026-10-25",
+      run("www"),
+    );
+    expect(ctx(fifty).dailies).toBe(50);
+    expect(has(fifty, "diarios-50")).toBe(true);
+    // A sequência do topo e o 1º aviso continuam só com os diários dos Hits e do Anime.
+    expect(ctx(fifty).games).toHaveLength(48);
+  });
+
+  it("Hora Extra: os 8 diários, os 2 das Misturadas e o quiz no mesmo dia; faltando um, não", () => {
+    const DAY = "2026-10-24";
+    const eight = WHOLE_DAY.reduce(
+      (save, key) => withFinished(save, `${DAY}|${key}`, lost),
+      emptySave(),
+    );
+    const ten = MIXED_DAY.reduce(
+      (save, key) => withMixedFinished(save, `${DAY}|${key}`, noRounds),
+      eight,
+    );
+    expect(has(ten, "onze-diarios")).toBe(false);
+    expect(has(play(ten, DAY, run("www")), "onze-diarios")).toBe(true);
+    // O quiz de outro dia não junta.
+    expect(has(play(ten, "2026-10-25", run("www")), "onze-diarios")).toBe(false);
+    const nine = withMixedFinished(eight, `${DAY}|misturadas-musica`, noRounds);
+    expect(has(play(nine, DAY, run("www")), "onze-diarios")).toBe(false);
   });
 });

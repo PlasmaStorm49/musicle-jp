@@ -33,3 +33,15 @@ export const quizBonus = readJson<QuizBonus>("anime/quiz-bonus.json");
 
 /** A 1ª parada real (web/public/data), para os testes do provedor Apple. */
 export const realCatalog = readJson<Catalog>("catalog.json", "data");
+
+/** O schema da agenda do quiz (`shared/schema`): o enum das famílias, para o formato do save. */
+export const quizSchemaText = readFileSync(
+  new URL("../../shared/schema/anime-quiz.schema.json", import.meta.url),
+  "utf8",
+);
+
+/** O gerador do quiz no pipeline: a lista dos especiais (`SPECIALS`), para o espelho do web. */
+export const animeQuizPipeline = readFileSync(
+  new URL("../../pipeline/src/musicle_pipeline/anime_quiz.py", import.meta.url),
+  "utf8",
+);
