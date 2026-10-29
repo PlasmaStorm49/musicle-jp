@@ -491,6 +491,104 @@
       "songs": 54
     },
     {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/21/4c/49/214c4997-ca5c-e4ed-e790-63e81475c6ee/KICM-91471.jpg/300x300bb.jpg",
+      "file": "308629932.json",
+      "id": "apple:ar:308629932",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/19/63/52/mzi.drwewzvw.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.59,
+          "y": 0.33,
+          "z": 1.31
+        },
+        "flowers": {
+          "bow": "#da4839",
+          "core": "#f2c94c",
+          "d": "#c2591f",
+          "ink": "#3c2d25",
+          "l": "#f9dcae",
+          "leaf1": "#4f7d32",
+          "leaf2": "#6b9440",
+          "line": "#e9b27f",
+          "m": "#e8873a",
+          "ml": "#f3b467",
+          "ring": "#3c2d25",
+          "spark": "#e8873a",
+          "w": "#fffaf2"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "ETERNAL BLAZE"
+          },
+          "completo": {
+            "latin": null,
+            "name": "S.C. NANA NET"
+          },
+          "perfeito": {
+            "latin": "Enka",
+            "name": "演歌"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "水樹奈々"
+        }
+      },
+      "name": "水樹奈々",
+      "nameLatin": "Nana Mizuki",
+      "songs": 200
+    },
+    {
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/06/ea/35/06ea356a-7e51-df6d-3718-39b7ebdf51fe/jacket_SRCL08486B00Z_550.jpg/300x300bb.jpg",
+      "file": "424817976.json",
+      "id": "apple:ar:424817976",
+      "medals": {
+        "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/34/9f/80/349f8087-5771-4198-9aca-04ca168263a2/4988009124995.jpg/300x300bb.jpg",
+        "crop": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 1.0
+        },
+        "flowers": {
+          "bow": "#090a0e",
+          "core": "#e3c35a",
+          "d": "#1c1d21",
+          "ink": "#090a0e",
+          "l": "#ececee",
+          "leaf1": "#3f4f48",
+          "leaf2": "#56665e",
+          "line": "#9a9ca3",
+          "m": "#55575e",
+          "ml": "#c88d9f",
+          "ring": "#090a0e",
+          "spark": "#c88d9f",
+          "w": "#ffffff"
+        },
+        "names": {
+          "acertos": {
+            "latin": null,
+            "name": "5 Years 5 Wolves 5 Souls"
+          },
+          "completo": {
+            "latin": null,
+            "name": "FUN WITH A MISSION"
+          },
+          "perfeito": {
+            "latin": "Kyukyoku no Seimeitai",
+            "name": "究極の生命体"
+          }
+        },
+        "sash": {
+          "along": false,
+          "text": "MWAM"
+        }
+      },
+      "name": "MAN WITH A MISSION",
+      "nameLatin": null,
+      "songs": 130
+    },
+    {
       "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/56/bf/9c/56bf9cc9-5303-7331-970e-5b5e0e6da98e/8804775084331.jpg/300x300bb.jpg",
       "file": "1188975595.json",
       "id": "apple:ar:1188975595",
