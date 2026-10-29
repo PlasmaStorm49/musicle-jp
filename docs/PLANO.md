@@ -354,6 +354,13 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P401 | As vidas do quiz contam a de agora: "Vidas: 3", "Vidas: 2" e "Última vida"; a revelação acompanha ("Errou. Vidas: 2."). A regra (P377) não muda. Revisa a P389 (o usuário, 28/10/2026; ME152, #127) |
 | P402 | A tela do quiz revista no uso: sem as letras grandes (o "Música A" pequeno, com o "Tocando"); a pergunta centralizada num bloco na tinta; 16 px entre as partes da rodada (os 24 do pedido rolavam até 32 px em 360 × 640); os botões de escolher com 56 px. Na revelação, a pergunta fica sem o bloco, para caber. Revisa a P391 (o usuário, 28/10/2026; a P1 da conversa, a; ME147, #127). O lugar da escolha, revisto pela P403 |
 | P403 | A escolha do quiz sai de debaixo de cada barra, onde os outros modos têm o Tocar, e vira uma linha embaixo do Tocar, do "Ouvir mais" e do volume, com a dica em cima ("Ouça as duas para escolher", e depois "Ouviu as duas? Escolha a resposta"). Ela fica travada (`aria-disabled`, com o clique ignorado, e a dica no `aria-describedby`) até as duas músicas tocarem ao menos uma vez, no celular e no computador. A B barrada pelo `<audio>` de reserva depois da A faz o próximo Tocar começar por ela, dentro do gesto. Com a explícita, a pílula fica sozinha na 1ª linha (em 320 px, os lados ao lado dela passavam da borda). A partir de 960 px, a rodada vai à coluna larga (880 px), em duas colunas, no meio da altura: a pergunta em 32 px à esquerda, os players com a escolha à direita, o cabeçalho em cima e o selo no pé; a revelação e o resumo continuam na coluna de 560 px. Revisa a P402 no lugar dos botões (o usuário, 28/10/2026, entre 4 desenhos: no celular, o A com a trava do B; no computador, o D, com a trava também; ME154, #129) |
+| P404 | A tela das Medalhas em blocos, nesta ordem: as Gerais, os Hits, o Anime, as Misturadas, o Quiz e, no fim, os Artistas, só com as 3 do Superfan de cada artista. Cada bloco tem o título com a contagem ("2 de 4"), o total continua no topo, e um fio separa os blocos. O bloco sem medalha nenhuma não aparece, menos o dos Artistas. Revisa a P286 (o usuário, 28/10/2026; M20, #131 e #133) |
+| P405 | O bloco das medalhas de antes: nas Gerais, o Primeiro Acorde, o Relâmpago, o Em Chamas, o Maratonista, o Já É de Casa, o Colecionador, o Superfan e o Tá pegando fogo, bicho!!!; nos Hits, o Dia de Hit, o Saco de Pancadas e o Hit Perfeito; no Anime, as 2 dele; nas Misturadas, as 4 delas (ME123). O id e a ordem dos avisos não mudam: dentro do bloco, a ordem é a da lista (`MEDALS`) (o usuário, 28/10/2026; #131 e #133) |
+| P406 | As 16 medalhas do quiz do dia, 12 pequenas e 4 grandes (Magnum Opus, Kami, Ouvido Absoluto e Ritmo Constante), com os nomes e os feitos do Apêndice S. Os limites são fixos (`QUIZ_GOALS`), e os de pontos ficam em 50 e 120, sem calibrar pelas runs. Tudo sai do que só cresce, sem o jogado depois (P263, P369), e as sequências contam sobre a agenda dos Hits (P282). O desenho é o das gerais (P312), com um ícone por medalha; o do Kami é a shimenawa, porque o torii já é o da Sensei (o usuário, 28/10/2026; M20, #135) |
+| P407 | A Hora Extra, pequena, nas Gerais: os 8 diários, os 2 das Misturadas e o quiz terminados no mesmo dia (o usuário, 28/10/2026; #135) |
+| P408 | O Primeiro Acorde e o Já É de Casa contam todos os diários terminados no dia: os dos Hits e do Anime, os das Misturadas e o quiz. Os textos não mudam. A sequência do topo (P282), o Relâmpago e o 1º aviso (P314) continuam só com os diários dos Hits e do Anime. Revisa a P310 nas duas (o usuário, 28/10/2026; #135) |
+| P409 | O save v14: a run terminada do quiz guarda a família da pergunta do dia (`family`), para a Edição Especial e o Sabe-Tudo. É um texto curto, sem conferir contra a lista: uma família nova não tira a run do save. A 13 → 14 não muda nada; a run de antes fica sem a família e não conta para as duas (o usuário, 28/10/2026; #135) |
+| P410 | O fim da run do quiz avisa as medalhas novas no "Ver resultado", como os diários; reabrir a run terminada não avisa de novo (o plano aprovado pelo usuário, 28/10/2026; #135) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -445,6 +452,7 @@ musicle-jp/
 | M17 | Concluído (PRs 1, A, B e C; a C3 e os ajustes, de #86 a #98) | As Misturadas (Apêndice P): 2 ou 3 prévias de temas de anime tocando juntas, em 2 diários por dia (acertar a música e acertar o anime), de 4 rodadas; antes, o laboratório (P328) e, à parte, a carga C3 do Anime (P334) | Em 4 PRs: o laboratório e a mistura no Web Audio (1, #82, 23/10), a agenda e a régua da muito conhecida (A, #83, 24/10), a tela e o save v10 (B, #84, 24/10) e o robô (C, #85, 24/10). Depois, no mesmo dia: a nav menor e a rodada difícil avisada (#86), as medalhas das Misturadas (#87, ME123), o como ganhar nas Medalhas (#88), o começo no 1º som (#89), o Fácil inteiro e as novas aos poucos (#90), a carga C3 (#91), a mistura inteira e o ✓ do Anime por modo (#92) e o teto de 5 MB (#93). Depois dos docs (#94): a limpeza do robô (#95, ME128 e ME129), a franquia espaçada (#96), o cartão na Início e o ▼ do Mais (#97) e as Misturadas no Histórico, com o save v11 (#98) | Planejamento; uma worktree por frente (o laboratório, a agenda, a tela, o robô e os docs); o `revisor` e o `/code-review` no PR 1, e uma revisão no PR A |
 | M18 | Em andamento (o desenho em 25/10/2026; o PR A em 26/10) | O quiz do dia (a ME122, repensada pelo usuário; Apêndice Q, P374 a P385): uma run por dia, com 2 vidas, duas prévias de temas de anime sem nome e uma pergunta de comparação ("qual é a mais antiga?", "qual é a isekai?"), que aperta a cada acerto, até 50 rodadas (o especial, 30). As perguntas saem de um pool, com cooldown, e as do MAL usam o dado sem guardá-lo (o desenho B) | Em 4 PRs: o gerador (A), a tela (B), o robô (C) e os artistas parecidos (D) | Pesquisa com subagente (as fontes e os termos), testes das APIs (o AnimeThemes daqui; o MAL no terminal do usuário) |
 | M19 | Em fechamento: os PRs 0 a 6 (#116 a #122, de 27 e 28/10/2026), o ajuste do calendário (#124), os ajustes de uso (#125 a #127 e #129, R.5) e a documentação; a taste-skill sai quando o usuário terminar com ela | A revisão do design inteiro do jogo (Apêndice R, P386 a P403) com as skills de design avaliadas em 25/10/2026: a taste-skill (`design-taste-frontend`, art direction e um inspetor num navegador real) e as Web Interface Guidelines da Vercel (o checklist de acessibilidade, foco, formulários e tipografia). Melhorar e, se for preciso, reconstruir (o usuário, 25/10/2026). A 1ª olhada (a Início, uma rodada e uma revelação do quiz) achou 9 problemas (ME135 a ME143), e o usuário pediu mais um, o ✓ invertido: a identidade do designer fica (os tokens, o logo e a Noto Sans JP), e mudam a Início, a rodada e a revelação do quiz, o calendário, a nav e o título da aba | A revisão com as duas skills, as telas no `layout.spec` e o contraste no `theme.test.ts`, e a decisão do usuário sobre a identidade | A taste-skill instalada só no projeto, fora do Git, e apagada depois; o checklist da Vercel lido na hora, sem instalar |
+| M20 | Em andamento: o PR 1 (#131, os blocos), o ajuste dos Artistas (#133) e o PR 2 (#135, o quiz e o save v14), de 28/10/2026, e a documentação; falta o PR 3 | As medalhas (Apêndice S, P404 a P410): a tela em blocos (as Gerais, os Hits, o Anime, as Misturadas, o Quiz e os Artistas), as 16 do quiz do dia e a Hora Extra; depois, as novas dos Hits, do Anime e das Misturadas, em avaliação | Em 3 PRs: os blocos, só a tela (1); o quiz, com o save v14 e o aviso no fim da run (2); as novas das outras categorias (3). A medalha ganha nunca some, e a tela não rola para o lado em 320 px | Modo de planejamento; quadros no chat para escolher os ícones e os nomes; o subagente `revisor`; o `/verificar`; o Auto-fix dos PRs |
 
 **Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
 
@@ -593,6 +601,10 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 - ME144. Na revelação das Misturadas, a linha do anime corta o tema do fim ("· OP") quando o nome é longo, como cortava a do quiz antes da P388. A do quiz pôs o tipo antes do nome; nas Misturadas, com 3 músicas, a mesma troca vale, mas pede medir a revelação no caso mais alto (o revisor da M19, 27/10/2026).
 - ME145. O `QuizStore` baixa o bônus de estreia (`quiz-bonus.json`) junto com cada mês, e o calendário do Histórico pede até 3 meses: se só o bônus falhar, o mês fica em `retry` e o calendário perde a marca do quiz, que não usa o bônus. Carregar o bônus uma vez, à parte do mapa dos meses, ou só na aba do quiz (o revisor do PR #118, 27/10/2026).
 - ME146. O quiz na linha da nav em 390 px (o iPhone comum): hoje ele entra a partir de 400 (P394), e em 390, com o ✓ e a medalha em destaque, só cabe com o espaço entre as abas de 12 px, e não de 16, abaixo de 720 (medido em 27/10/2026). Decidir se vale apertar a nav em todas as telas.
+
+**De 28/10/2026** (as medalhas, M20, Apêndice S):
+
+- ME155. Uma cor por categoria nas medalhas (os blocos da P404), no lugar da roseta prata, da moldura gelo e das caudas oliva de todas as gerais (P312). Ficou para depois na escolha do desenho das do quiz (o usuário, 28/10/2026). Pede a paleta, conferida no contraste dos dois temas (regra 24 do `web/CLAUDE.md`).
 
 **Feitas:**
 
@@ -1673,7 +1685,7 @@ Invisível no site, como os anteriores: a lista das gerais só existe em desenvo
 
 ### O PR 3b (as gerais e o lançamento)
 
-As medalhas no ar: a aba, a tela e os avisos, com a lista real das gerais (P310). As 4 das Misturadas entraram depois, em 24/10/2026 (ME123, P351 a P353, PR #87): são 17 gerais, 6 delas grandes.
+As medalhas no ar: a aba, a tela e os avisos, com a lista real das gerais (P310). As 4 das Misturadas entraram depois, em 24/10/2026 (ME123, P351 a P353, PR #87): são 17 gerais, 6 delas grandes. Desde o M20 (Apêndice S), elas ficam em blocos (P404, P405), e o Primeiro Acorde e o Já É de Casa contam também as Misturadas e o quiz (P408).
 
 | id | Nome | Como ganhar | Tamanho | Ícone |
 |---|---|---|---|---|
@@ -2025,6 +2037,70 @@ Depois dos PRs da revisão, o usuário jogou e mandou 7 observações. O Claude 
 
 **O que ficou de fora:** o estado terminado do cartão (o ✓) não foi conferido no navegador, porque pede um jogo terminado no save; os testes cobrem o ✓ e os textos.
 
+## Apêndice S. As medalhas em blocos e as do quiz (M20)
+
+O pedido do usuário de 28/10/2026: medalhas para o quiz do dia (o Claude sugeriu, o usuário avaliou, renomeou e aprovou) e, com a lista crescendo, a tela das Medalhas em blocos. As decisões são as P404 a P410. Em 3 PRs: os blocos, só a tela (#131, com o ajuste dos Artistas no #133); as do quiz, com o save v14 (#135); e as novas dos Hits, do Anime e das Misturadas, ainda em avaliação.
+
+### S.1 Os blocos (#131 e #133)
+
+- **O núcleo** (`core/medals.ts`): cada medalha tem o `block`, um dos `MEDAL_BLOCKS` (`gerais`, `hits`, `anime`, `misturadas`, `quiz` e `artistas`); as 3 do Superfan de cada artista são do `artistas`. O `medalBoard` devolve os blocos na ordem dos `MEDAL_BLOCKS` (o `MedalBlockView`: as medalhas, as ganhas e o total), sem o bloco vazio, menos o dos Artistas, que mostra também a carga da lista deles.
+- **A tela** (`ui/Medals.tsx`): o título de cada bloco é um `h2` com o nome e a contagem (o `BlockTitle`, com o id `medals-<bloco>`, que não é igual a nenhuma rota, regra 17 do `web/CLAUDE.md`); o fio entre os blocos é o `.medals section + section`, no `--hairline`. Dentro do bloco, a ordem é a da lista, e os avisos seguem a lista inteira: o id e a ordem das medalhas de antes não mudaram.
+- **O ajuste do #133** (pedido do usuário com o #131 aberto): o Colecionador e o Superfan saíram do bloco de baixo e foram para as Gerais, e o bloco de baixo virou os Artistas (antes, "Superfan"), só com as 3 de cada artista. O fio, antes só em cima dele, passou a separar todos os blocos.
+
+### S.2 As medalhas do quiz (#135)
+
+| id | Nome | Como ganhar | Tamanho | Ícone |
+|---|---|---|---|---|
+| `onze-diarios` (Gerais) | Hora Extra | os 8 diários, os 2 das Misturadas e o quiz terminados no mesmo dia (P407) | pequena | o relógio com um + |
+| `quiz-1` | Insert Coin | o quiz terminado no dia | pequena | a ficha caindo na fenda |
+| `quiz-rodada-10` | Saindo do Tutorial | a rodada 10 | pequena | o selo de novato (初心者マーク), metade cheia |
+| `quiz-rodada-25` | Plus Ultra | a rodada 25 | pequena | as três setas para cima |
+| `quiz-especial-15` | Edição Especial | a rodada 15 num especial da semana (P381) | pequena | o ingresso com a estrela |
+| `quiz-sem-erro-15` | Sem um Arranhão | a rodada 15 sem errar | pequena | o escudo |
+| `quiz-ultima-vida` | Só acaba quando acabar... | na última vida, 10 acertos seguidos | pequena | o coração com o curativo |
+| `quiz-pontos-50` | Ouvido Afiado | 50 pontos numa run (P400) | pequena | o sustenido |
+| `quiz-tres-segundos` | Três Segundos de Fama | numa run com 10 acertos ou mais, todos em 3 s | pequena | o cronômetro |
+| `quiz-seguidos-15` | Freguês | o quiz terminado 15 dias seguidos | pequena | o cartão fidelidade furado |
+| `quiz-acertos-300` | Enciclopédia de Anisong | 300 acertos no quiz | pequena | o livro com a nota |
+| `quiz-perguntas-6` | Sabe-Tudo | a rodada 15 em 6 tipos de pergunta | pequena | o capelo |
+| `quiz-42` | A Resposta | a run terminada exatamente na rodada 42 | pequena | o "42" em traços |
+| `quiz-rodada-50` | Magnum Opus | a rodada 50 | grande | os louros com a colcheia |
+| `quiz-sem-erro-30` | Kami | a rodada 30 sem errar | grande | a shimenawa |
+| `quiz-pontos-120` | Ouvido Absoluto | 120 pontos numa run | grande | o diapasão |
+| `quiz-rodada-15-seguidos-7` | Ritmo Constante | a rodada 15 em 7 dias seguidos | grande | o metrônomo |
+
+- **As contas sobre a run** (o `results`, uma marca por rodada: `r` o acerto, `w` o erro e `v` a anulada; a rodada alcançada é o `quizReached`):
+  - sem errar até a rodada n (`quizClean`): as n primeiras marcas sem `w`; a anulada não é erro;
+  - a última vida (`quizLastLife`): os acertos seguidos depois do 2º erro; a anulada não quebra a sequência nem soma;
+  - todos em 3 s (`quizAllFast`): os pontos são 4 vezes os acertos (P400), porque o save não guarda o trecho de cada rodada; a run de antes dos pontos (v12) não passa;
+  - os tipos de pergunta (o Sabe-Tudo): as famílias das runs que chegaram à rodada 15, contadas uma vez ("a mais antiga" e "a mais recente" são um tipo só);
+  - a Edição Especial: a família de um especial, pelo `isSpecialFamily` do `core/quiz.ts`, a tabela de todas as famílias que veio com a marca do especial na tela (#134); uma família nova não compila sem a decisão.
+- **O contexto** (`MedalContext`): o `quiz`, as runs terminadas até hoje, sem o jogado depois, com a data; o `quizStreak`, as melhores sequências sobre a agenda dos Hits (a de dias com a run terminada, do Freguês, e a de dias com a rodada 15, do Ritmo Constante); e o `dailies`, o total de diários terminados no dia (P408). O `games` continua só com os dos Hits e do Anime.
+- **A ordem** (`MEDALS`): a Hora Extra e as pequenas do quiz depois das pequenas de antes, e as grandes do quiz depois das grandes de antes. A lista continua com as pequenas antes das grandes, e a ordem relativa das de antes (a dos avisos) não mudou.
+- **Os textos** (`pt-BR.ts`): o nome e o como ganhar de cada uma, e o progresso nas 4 que contam (Freguês, Enciclopédia de Anisong, Sabe-Tudo e Ritmo Constante).
+
+### S.3 O save v14 e o aviso
+
+- **O save** (P409): a `family` opcional do `QuizGame`. O `toQuizGame` a grava pelo `daily.family` (no `startQuizSession` e na tela) só quando ela passa no `QUIZ_FAMILY` (`^[a-z_]{1,20}$`); o guard do `save.ts` aceita a ausente ou a que passa; o exportar a leva (o `cleanQuiz` do `transfer.ts`). A migração 13 → 14 não muda nada: marca a chegada da família, para a aba com o código velho não gravar a run sem ela.
+- **O aviso** (P410): o `onResult` vai do App ao `Quiz` e ao `QuizGame` e dispara quando o resumo da run aparece, no "Ver resultado", como no `Game` e no `MixedGame`. Antes, o quiz não avisava medalha nenhuma.
+
+### S.4 Os testes
+
+- **O `medals.test`:** a lista das 34 e as grandes no fim; os blocos e o quadro, com os Artistas só com as do Superfan; cada medalha do quiz no limite (a run jogada depois e a de depois de hoje fora, a run sem a família ou sem os pontos, a anulada no meio das sem erro e da última vida); o Primeiro Acorde e o Já É de Casa com as Misturadas e o quiz; a Hora Extra faltando um diário; e o "a medalha ganha nunca some" também com o quiz e as Misturadas.
+- **O `quiz.test`:** a família no `toQuizGame` e no `startQuizSession`; o enum do schema contra o `QUIZ_FAMILY`; os especiais contra o `SPECIALS` do `anime_quiz.py`.
+- **Os do save:** a 13 → 14, o guard da família e o exportar e o importar com ela.
+- **O `Medals.test`:** os títulos com a contagem ("Gerais 1 de 9", "Quiz 0 de 16", "Artistas 0 de 6") e os números dos textos contra o `QUIZ_GOALS`.
+- **Os e2e:** a tela com as 34 linhas (`medals.spec`), as Medalhas em 320 px (`layout.spec`), a v14 (`history.spec`) e o aviso no "Ver resultado" do quiz, e não nas rodadas (`quiz.spec`).
+- **Os números:** no merge com a `main` do #134, 1.594 testes no `check` e 134 nos e2e de quiz, medalhas, layout e histórico; antes, o e2e completo (183). A CI do #135 passou.
+
+### S.5 Os riscos e o que ficou para depois
+
+- **Uma aba com o código v13 aberta** vê a v14 como futura e não grava até recarregar, como nas versões anteriores.
+- **As runs de antes:** sem a família (v13 e antes), não contam para a Edição Especial nem para o Sabe-Tudo; sem os pontos (v12), não ganham as de pontos nem a dos 3 s. As outras do quiz contam com elas.
+- **O 1º aviso** (P314) continua olhando só os diários dos Hits e do Anime: quem só jogou as Misturadas ou o quiz num dia anterior vê as medalhas que ganhou como novas, e não o "Você já tem N medalhas".
+- **O especial dos artistas parecidos** (P385): quando a família dele entrar no schema, o `isSpecialFamily` não compila sem a decisão; marcado como especial, ele passa a contar na Edição Especial.
+- **Para depois:** o PR 3, com as novas dos Hits, do Anime e das Misturadas (em avaliação), e a cor por categoria (ME155).
+
 ## Origem
 
 - **Musicle**, observado no navegador em 08/10/2026: `musicle.app/hitparade/jp` (3 rodadas, 4 capas, previews em `audio-ssl.itunes.apple.com`, capas em `mzstatic.com`).
@@ -2042,6 +2118,7 @@ Depois dos PRs da revisão, o usuário jogou e mandou 7 observações. O Claude 
 - **As Misturadas do M17** (23 e 24/10/2026): as respostas do usuário na conversa (P325 a P340 e P348 a P369, com a tabela do Apêndice P), a escuta no laboratório (P331), o código dos PRs #82 a #98 na `main`, lido pela IA em 24/10/2026; a simulação da rodada do robô de 26/10 com a franquia espaçada (P364); as duas agendas das Misturadas regeradas do zero na memória, para contar os afrouxamentos; a simulação da rodada do robô de 26/10, com o catálogo da C3; a medida do silêncio das duas prévias de exemplo, no navegador do Claude, no site publicado (o áudio só na memória da página); a medida do peso do catálogo do Anime (o `gzip` e o tamanho de cada campo).
 - **O Histórico do M15** (22/10/2026): o pedido do usuário de 21/10 e as respostas de 22/10 (P260 a P271); dois subagentes Explore (o save e as datas; as rotas, as telas e os dados) e um subagente Plan, todos só de leitura, que conferiram o desenho contra o código.
 - **Identidade visual do M12** (12 e 13/10/2026): o style guide do designer (SVG e PNG), analisado pelo Claude com recortes em alta resolução e a conta de contraste do WCAG; um subagente de pesquisa comparou as letras do SVG com 26 famílias para achar a Noto Sans JP; as respostas do designer (PD1 a PD13) vieram pelo usuário; o `npm view @fontsource/noto-sans-jp` e uma busca sobre o selo da Apple em fundo escuro (artists.apple.com/support/1117-apple-music-marketing-tools).
+- **As medalhas do M20** (28/10/2026, P404 a P410, Apêndice S): as respostas do usuário na conversa, sobre as sugestões do Claude; os quadros no chat com os ícones e os nomes; o código dos PRs #131, #133 e #135 na `main`, lido pela IA em 28/10/2026; a revisão do subagente `revisor` sobre o diff do #135.
 
 ### A carga de teste (PR C1, 21 e 22/10/2026)
 
