@@ -48,6 +48,7 @@ Atualizado em 28/10/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
+- **ME155 (novo).** Uma cor por categoria nas medalhas (os blocos da P404), no lugar da prata e do gelo de todas as gerais.
 - **ME145 (novo).** O bônus do quiz baixado uma vez só, e não com cada mês: se só ele falhar, o calendário do Histórico perde a marca do quiz.
 - **ME146 (novo).** O quiz na linha da nav também em 390 px (o iPhone comum), apertando o espaço entre as abas abaixo de 720 (P394).
 - **S18.** "Cada trecho a mais vale 1 ponto a menos" também no cartão do Normal, no Treino.
@@ -93,6 +94,7 @@ Atualizado em 28/10/2026.
 
 - **M18 (em andamento).** O quiz do dia (Apêndice Q do PLANO): o gerador (PR A), a tela (B), o robô (C) e os artistas parecidos (D). Decidir com o usuário: o lugar na nav e os cooldowns dos membros e das playlists.
 - **M19 (depois do M18).** Revisar e melhorar (se preciso, reconstruir) o design inteiro com a taste-skill e as Web Interface Guidelines da Vercel.
+- **M20 (em andamento).** As medalhas (Apêndice S do PLANO): os blocos e as do quiz já estão no ar (#131, #133 e #135); falta o PR 3, com as novas dos Hits, do Anime e das Misturadas, em avaliação.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
 - **ME5.** Jogar sem internet (PWA).
