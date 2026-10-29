@@ -436,6 +436,152 @@ spark = "#7d61a0"
 leaf1 = "#5f8a4e"
 leaf2 = "#7aa35f"
 
+[[artists]]
+id = "308629932"  # 水樹奈々 (Nana Mizuki; não os personagens "(CV:水樹奈々)", que são outros ids)
+# Os arranjos dos álbuns (-Aufwachen Form-, MUSEUM STYLE, -two hearts-, -classico-): a mesma música
+# da original, como o "ROCK-mode'18" da LiSA.
+same_song = [
+  ["1255783184", "1322292466"],  # TESTAMENT / TESTAMENT -Aufwachen Form-
+  ["1471075170", "1488439206"],  # METANOIA / METANOIA -Aufwachen Form-
+  ["1475607218", "1488439216"],  # FINAL COMMANDER / FINAL COMMANDER -Aufwachen Form-
+  ["489753197", "580756614"],  # Synchrogazer / Synchrogazer -Aufwachen Form-
+  ["670831289", "848048288"],  # Vitalization / Vitalization -Aufwachen Form-
+  ["377371495", "1867069401"],  # innocent starter / innocent starter -MUSEUM STYLE-
+  ["377374964", "378480350"],  # Justice to Believe / Justice to Believe(MUSEUM STYLE)
+  ["670831290", "848048295"],  # 愛の星 / 愛の星 -two hearts-
+  ["670831290", "1537508054"],  # 愛の星 / 愛の星 -two hearts- (NANA ACOUSTIC ONLINE Ver.)
+  ["377368481", "378286866"],  # refrain / refrain-classico-
+]
+# O karaokê sem a voz dela, "(without NANA)": o build já tira o "(off vocal ver.)" e o
+# "(vocalless ver.)", e não este. E a versão da abertura do anime de 革命デュアリズム (91 s, como
+# o "TV size", que o build já tira): no same_song, ela seria a canônica, pelo empate da data e o
+# id menor.
+exclude_tracks = [
+  "714634154",  # 革命デュアリズム -アニメバージョン- (o single dela)
+  "719326252",  # 革命デュアリズム -アニメバージョン- (o Type-A)
+  "377374967",  # Justice to Believe (without NANA)
+  "377374969",  # アオイイロ (without NANA)
+  "378258041",  # SECRET AMBITION (without nana)
+  "378258042",  # Heart-shaPed chant (without nana)
+  "378258043",  # Level Hi! (without nana)
+  "378266416",  # MASSIVE WONDERS (without NANA)
+  "378266417",  # Happy Dive (without NANA)
+  "378266418",  # Pray (without NANA)
+]
+# Os lados A da discografia da Wikipédia japonesa (水樹奈々の作品) que estão na loja, uma faixa de
+# cada (P172): o lookup de músicas só ordena 200 faixas dela, e 123 músicas ficam além do teto. Os
+# 3 EPs da lista (STARCAMP, TIME SPACE e WONDER QUEST) não entram: a página não diz a faixa
+# principal deles, e as músicas dos três estão dentro das 200 hoje.
+singles = [
+  "377180637",  # 想い (CD 1st)
+  "377335764",  # Heaven Knows (CD 2nd)
+  "377366260",  # The place of happiness (CD 3rd)
+  "377337894",  # LOVE&HISTORY (CD 4th)
+  "377338598",  # POWER GATE (CD 5th)
+  "377339605",  # suddenly~巡り合えて~ (CD 6th)
+  "377339606",  # Brilliant Star (CD 6th)
+  "377343699",  # New Sensation (CD 7th)
+  "377368476",  # still in the groove (CD 8th)
+  "377369738",  # パノラマ-Panorama- (CD 9th)
+  "377371495",  # innocent starter (CD 10th)
+  "377372389",  # WILD EYES (CD 11th)
+  "377372894",  # ETERNAL BLAZE (CD 12th)
+  "377373826",  # SUPER GENERATION (CD 13th)
+  "377374964",  # Justice to Believe (CD 14th)
+  "377374965",  # アオイイロ (CD 14th)
+  "378258033",  # SECRET AMBITION (CD 15th)
+  "378266319",  # MASSIVE WONDERS (CD 16th)
+  "378277092",  # Trickster (CD 18th)
+  "378278324",  # 深愛 (CD 19th)
+  "345843808",  # 夢幻 (CD 20th)
+  "347511616",  # PHANTOM MINDS (CD 21st)
+  "352343882",  # Silent Bible (CD 22nd)
+  "428876752",  # SCARLET KNIGHT (CD 23rd)
+  "428877964",  # POP MASTER (CD 24th)
+  "450111376",  # 純潔パラドックス (CD 25th)
+  "489753197",  # Synchrogazer (CD 26th)
+  "544603615",  # BRIGHT STREAM (CD 28th)
+  "670831289",  # Vitalization (CD 29th)
+  "922779907",  # 禁断のレジスタンス (CD 30th)
+  "952577505",  # エデン (CD 31st)
+  "982411352",  # Angel Blossom (CD 32nd)
+  "1016814576",  # Exterminate (CD 33rd)
+  "1128261202",  # STARTING NOW! (CD 34th)
+  "1255782538",  # Destiny’s Prelude (CD 35th)
+  "1255783184",  # TESTAMENT (CD 36th)
+  "1438487597",  # NEVER SURRENDER (CD 38th)
+  "1471075170",  # METANOIA (CD 39th)
+  "1528648896",  # FIRE SCREAM (CD 40th)
+  "1532157600",  # No Rain, No Rainbow (CD 40th)
+  "1588677746",  # Get up! Shout! (CD 41st)
+  "1736694047",  # ADRENALIZED (CD 42nd)
+  "6781641557",  # CRIMSON BULLET (CD 43rd)
+  "6803341149",  # 暁の星 (CD 44th)  [fora das 200 hoje]
+  "1382487459",  # BLUE ROSE (DL)
+  "1447948620",  # REBELLION (DL)
+  "1475607218",  # FINAL COMMANDER (DL)
+  "1480322906",  # こうもりバットはグッドな紳士 (DL)  [fora das 200 hoje]
+  "1508078987",  # おばけずかんのうた (DL)
+  "1545863993",  # Link or Chains (DL)
+  "1598308239",  # Red Breeze (DL)
+  "1615909480",  # ダブルシャッフル (DL)
+  "1707114638",  # Sugar Doughnuts (DL)
+  "1719925648",  # Turn the World (DL)
+  "1536310902",  # Preserved Roses (parceria 1st)
+  "719326250",  # 革命デュアリズム (parceria 2nd)
+]
+
+[artists.medals]
+acertos = { name = "ETERNAL BLAZE" }
+completo = { name = "S.C. NANA NET" }
+perfeito = { name = "演歌", latin = "Enka" }
+album = "378283118"  # supersonic girl
+crop = { z = 1.31, x = 0.59, y = 0.33 }
+sash = { text = "水樹奈々" }
+
+[artists.medals.flowers]  # o laranja do cabelo ao sol; o vermelho da blusa no laço; a grama nas folhas
+d = "#c2591f"
+m = "#e8873a"
+ml = "#f3b467"
+l = "#f9dcae"
+w = "#fffaf2"
+line = "#e9b27f"
+core = "#f2c94c"
+ink = "#3c2d25"
+bow = "#da4839"
+ring = "#3c2d25"
+spark = "#e8873a"
+leaf1 = "#4f7d32"
+leaf2 = "#6b9440"
+
+[[artists]]
+id = "424817976"  # MAN WITH A MISSION
+# A regravação do MAN WITH A "REMIX" MISSION (2020): a mesma música da original.
+same_song = [["426919432", "1537504815"]]  # FLY AGAIN / FLY AGAIN -Hero's Anthem-
+
+[artists.medals]
+acertos = { name = "5 Years 5 Wolves 5 Souls" }
+completo = { name = "FUN WITH A MISSION" }
+perfeito = { name = "究極の生命体", latin = "Kyukyoku no Seimeitai" }
+album = "1538279146"  # The World's On Fire
+crop = { z = 1, x = 0.5, y = 0.5 }
+sash = { text = "MWAM" }
+
+[artists.medals.flowers]  # o preto e o branco do lobo, o rosa da língua; o amarelo do olho no miolo
+d = "#1c1d21"
+m = "#55575e"
+ml = "#c88d9f"
+l = "#ececee"
+w = "#ffffff"
+line = "#9a9ca3"
+core = "#e3c35a"
+ink = "#090a0e"
+bow = "#090a0e"
+ring = "#090a0e"
+spark = "#c88d9f"
+leaf1 = "#3f4f48"
+leaf2 = "#56665e"
+
 # A seção de fora do Japão (P199, P200), pedida por amigos do usuário. A ordem dela na tela é a
 # alfabética (P201), feita pelo build: a deste arquivo não conta.
 

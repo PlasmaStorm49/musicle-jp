@@ -1,0 +1,5319 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "10-FEET",
+      "artistIds": [
+        "apple:ar:76125500",
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/66/ea/e5/66eae5ac-d496-1df1-3624-32b5a9aa83aa/00600406474186.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1442260863",
+      "latinSource": null,
+      "releaseDate": "2014-06-18",
+      "title": "6-feat 2 - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "布袋寅泰",
+      "artistIds": [
+        "apple:ar:74567332"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/ea/18/9f/ea189f52-de1c-864e-1b38-35521bf2223b/00602577684982.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1459835509",
+      "latinSource": null,
+      "releaseDate": "2019-05-29",
+      "title": "GUITARHYTHM VI",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/9c/01/ae/9c01ae13-a74f-871d-e632-463649346158/4538182891520.png/300x300bb.jpg",
+      "id": "apple:al:1519709724",
+      "latinSource": null,
+      "releaseDate": "2010-11-03",
+      "title": "WELCOME TO THE NEWWORLD",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/37/8d/4e/378d4e72-691a-27a5-2941-5cd1da24f701/4547366478822.jpg/300x300bb.jpg",
+      "id": "apple:al:1534677075",
+      "latinSource": null,
+      "releaseDate": "2020-10-29",
+      "title": "Telescope - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/fa/f9/cb/faf9cb10-f12a-2833-6b2e-49041acb4a45/4547366478204.jpg/300x300bb.jpg",
+      "id": "apple:al:1534997042",
+      "latinSource": null,
+      "releaseDate": "2015-05-20",
+      "title": "Out of Control - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/52/61/bb/5261bba8-10a1-ee6f-454a-c148d7b87c74/jacket_SRCL08684B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537452365",
+      "latinSource": null,
+      "releaseDate": "2015-02-11",
+      "title": "Seven Deadly Sins - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/61/89/17/6189176b-3354-3365-c424-80f06cc47fd6/jacket_SRCL08933B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537455213",
+      "latinSource": null,
+      "releaseDate": "2015-10-14",
+      "title": "Raise your flag - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/4c/5e/a5/4c5ea582-2521-0c1f-5b42-302b3f4332a4/jacket_SRCL08402B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537461566",
+      "latinSource": null,
+      "releaseDate": "2013-10-09",
+      "title": "database (feat. TAKUMA) - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/f7/b2/85/f7b285ac-f996-b1e8-699e-5eeba889405b/jacket_SRCL11155B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537501679",
+      "latinSource": null,
+      "releaseDate": "2019-06-05",
+      "title": "Remember Me - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/4a/aa/7a/4aaa7a84-00bd-fe8a-9766-9c2732a7ae90/jacket_SRXX01780B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537555915",
+      "latinSource": null,
+      "releaseDate": "2016-01-27",
+      "title": "Memories - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/46/99/bb/4699bb9b-38b6-ade4-bc5d-f1f1e88a949a/jacket_SRXX02124B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537737259",
+      "latinSource": null,
+      "releaseDate": "2016-12-03",
+      "title": "Hey Now - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/1e/da/41/1eda41ec-7795-96d4-db36-b5d980228f4f/jacket_SRXX02182B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537738916",
+      "latinSource": null,
+      "releaseDate": "2017-01-25",
+      "title": "Dead End in Tokyo - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/34/11/f8/3411f876-a59e-800f-b0af-3458e74ab9cc/jacket_SRXX02361B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537746311",
+      "latinSource": null,
+      "releaseDate": "2017-06-21",
+      "title": "Dead End in Tokyo European Edition - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d8/25/40/d82540e8-4ad4-61da-dc6d-c02d1fb79678/jacket_SRXX02496B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537751874",
+      "latinSource": null,
+      "releaseDate": "2017-11-01",
+      "title": "My Hero/Find You - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/0a/7c/60/0a7c60b8-7370-01d3-952a-1f202778db53/jacket_SRXX02573B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537753318",
+      "latinSource": null,
+      "releaseDate": "2018-02-02",
+      "title": "Freak It! (feat. Tokyo Ska Paradise Orchestra) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/e7/f5/1b/e7f51b89-f5fb-f63d-bdc4-a46a4c3d600f/jacket_SRXX02684B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537756977",
+      "latinSource": null,
+      "releaseDate": "2018-04-18",
+      "title": "Take Me Under / Winding Road - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/a2/93/97/a293974f-ccdb-606e-689d-1a181ec031e6/jacket_SRXX02862B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537765789",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-09-05",
+      "title": "あの鐘を鳴らすのはあなた - Single",
+      "titleLatin": "Ano kane wo narasu no wa anata",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/79/41/9c/79419c75-24cd-3256-0e78-d2cab8567510/jacket_SRXX03224B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537778499",
+      "latinSource": null,
+      "releaseDate": "2019-09-20",
+      "title": "86 Missed Calls (feat. Patrick Stump) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/06/ea/35/06ea356a-7e51-df6d-3718-39b7ebdf51fe/jacket_SRCL08486B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1538274253",
+      "latinSource": null,
+      "releaseDate": "2013-02-20",
+      "title": "Tales of Purefly",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "Zebrahead",
+      "artistIds": [
+        "apple:ar:483363"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/34/9f/80/349f8087-5771-4198-9aca-04ca168263a2/4988009124995.jpg/300x300bb.jpg",
+      "id": "apple:al:1538279146",
+      "latinSource": null,
+      "releaseDate": "2015-05-20",
+      "title": "The World's On Fire",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/cb/3b/6d/cb3b6d27-6ae7-6d81-2952-6f789a5e6a1a/jacket_SRXX02722B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1538282565",
+      "latinSource": null,
+      "releaseDate": "2018-06-06",
+      "title": "Chasing the Horizon",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/f3/cc/4e/f3cc4ecd-8886-abf8-63c4-4587570ca115/jacket_SRXX03243B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1538283595",
+      "latinSource": null,
+      "releaseDate": "2019-10-13",
+      "title": "Dark Crow - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/5d/a3/d2/5da3d2ed-aa47-da5f-31fe-04faf448b34e/jacket_SRXX03437B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1538284503",
+      "latinSource": null,
+      "releaseDate": "2012-04-04",
+      "title": "MAN WITH A \"B-SIDES & COVERS\" MISSION",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/ce/97/c0/ce97c04b-9135-9c4a-73f6-c258c9545101/jacket_SRXX03476B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1538284597",
+      "latinSource": null,
+      "releaseDate": "2020-06-25",
+      "title": "Change the World - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/05/76/a6/0576a637-22e9-c56b-5774-34f8947e2be3/4547366483550.jpg/300x300bb.jpg",
+      "id": "apple:al:1538466975",
+      "latinSource": null,
+      "releaseDate": "2020-11-29",
+      "title": "All You Need - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/c2/3d/6c/c23d6c81-1409-3477-58ef-84794a8723c8/4547366488746.jpg/300x300bb.jpg",
+      "id": "apple:al:1542952206",
+      "latinSource": null,
+      "releaseDate": "2020-12-29",
+      "title": "evergreen - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/4b/c3/14/4bc314e3-b22b-cd36-8ee4-79b5e636b1a2/4547366496598.jpg/300x300bb.jpg",
+      "id": "apple:al:1550020495",
+      "latinSource": null,
+      "releaseDate": "2021-02-10",
+      "title": "ONE WISH e.p.",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/32/ff/bd/32ffbdc1-5167-5a20-9b27-52d78b9000f4/4547366509588.jpg/300x300bb.jpg",
+      "id": "apple:al:1562859105",
+      "latinSource": null,
+      "releaseDate": "2021-04-28",
+      "title": "Perfect Clarity - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/04/ec/ec/04ecec69-c438-802b-1075-e38eaf62b185/4547366514926.jpg/300x300bb.jpg",
+      "id": "apple:al:1568337634",
+      "latinSource": null,
+      "releaseDate": "2021-05-11",
+      "title": "INTO THE DEEP - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/d6/f5/69/d6f56942-0dcf-49d0-98f7-811591b7dcf9/4547366519969.jpg/300x300bb.jpg",
+      "id": "apple:al:1573696010",
+      "latinSource": null,
+      "releaseDate": "2021-07-17",
+      "title": "Merry-Go-Round - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/5e/8f/a2/5e8fa2d6-2d2f-9a29-5811-2f4e3e3669b4/4547366538953.jpg/300x300bb.jpg",
+      "id": "apple:al:1593512991",
+      "latinSource": null,
+      "releaseDate": "2021-11-17",
+      "title": "Break and Cross the Walls Ⅰ",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/16/7c/47/167c47d1-30de-7464-d58f-1c74f00e4b38/4547366562149.jpg/300x300bb.jpg",
+      "id": "apple:al:1619056401",
+      "latinSource": null,
+      "releaseDate": "2022-04-27",
+      "title": "More Than Words - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/7f/39/61/7f39617f-ddcc-3ced-3a43-c46b8936dee4/4547366567243.jpg/300x300bb.jpg",
+      "id": "apple:al:1623770407",
+      "latinSource": null,
+      "releaseDate": "2022-05-18",
+      "title": "Break and Cross the Walls Ⅱ",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a2/78/47/a2784753-e143-f9d7-ba42-4298b11cba66/4547366609080.jpg/300x300bb.jpg",
+      "id": "apple:al:1670815231",
+      "latinSource": null,
+      "releaseDate": "2023-02-22",
+      "title": "Fantasista - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION & milet",
+      "artistIds": [
+        "apple:ar:424817976",
+        "apple:ar:880638079"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/ea/50/a1/ea50a147-5c73-a762-0650-d2a285d6fabd/4547366615807.jpg/300x300bb.jpg",
+      "id": "apple:al:1678949877",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-04-10",
+      "title": "絆ノ奇跡 / コイコガレ - EP",
+      "titleLatin": "Kizuna no kiseki/koikogare",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/23/b5/64/23b564ae-b6fd-6a7d-3537-28f958bc16d5/4547366683325.jpg/300x300bb.jpg",
+      "id": "apple:al:1741486563",
+      "latinSource": null,
+      "releaseDate": "2024-04-25",
+      "title": "I'll be there - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/e1/ab/a0e1abb6-6e83-5619-3cbd-501db830e6e9/4547366729054.jpg/300x300bb.jpg",
+      "id": "apple:al:1790803385",
+      "latinSource": null,
+      "releaseDate": "2025-01-29",
+      "title": "REACHING FOR THE SKY - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/42/76/ee/4276eef7-0cca-1510-0726-99ed2cbeb99f/4547366736908.jpg/300x300bb.jpg",
+      "id": "apple:al:1799137345",
+      "latinSource": null,
+      "releaseDate": "2025-03-12",
+      "title": "XV e.p.",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/37/17/ee/3717ee4d-1916-31e5-eba2-fad49853444a/4547366770117.jpg/300x300bb.jpg",
+      "id": "apple:al:1834126818",
+      "latinSource": null,
+      "releaseDate": "2025-08-29",
+      "title": "Against the Kings and Gods - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/f1/6e/6a/mzi.nbwuqpig.jpg/300x300bb.jpg",
+      "id": "apple:al:426895388",
+      "latinSource": null,
+      "releaseDate": "2011-03-30",
+      "title": "NEVER FXXKIN' MIND THE RULES - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/f1/6e/6a/mzi.bgsfooyn.jpg/300x300bb.jpg",
+      "id": "apple:al:426919177",
+      "latinSource": null,
+      "releaseDate": "2011-04-06",
+      "title": "NEVER FXXKIN' MIND THE RULES - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/0f/87/30/0f873037-8f26-2094-8bee-8ec8c748fa85/mzi.cybvzcrl.jpg/300x300bb.jpg",
+      "id": "apple:al:438648517",
+      "latinSource": null,
+      "releaseDate": "2011-06-08",
+      "title": "MAN WITH A MISSION",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/b2/2f/8f/mzi.ioelhgmv.jpg/300x300bb.jpg",
+      "id": "apple:al:465577238",
+      "latinSource": null,
+      "releaseDate": "2011-10-05",
+      "title": "Trick or Treat e.p.",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/0f/f6/23/0ff62373-bba5-3dca-ae82-5f38db7f347f/Jcp10274.jpg/300x300bb.jpg",
+      "id": "apple:al:514215736",
+      "latinSource": null,
+      "releaseDate": "2012-04-04",
+      "title": "distance - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/01/b1/12/01b112c5-e6c3-8d1f-983a-9134598016bf/Jcp40323.jpg/300x300bb.jpg",
+      "id": "apple:al:542279535",
+      "latinSource": null,
+      "releaseDate": "2012-07-18",
+      "title": "MASH UP THE WORLD",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/03/2b/e4/032be4e7-28a4-817a-ef85-a547699b5c10/Jcp10285.jpg/300x300bb.jpg",
+      "id": "apple:al:597398017",
+      "latinSource": null,
+      "releaseDate": "2013-02-20",
+      "title": "Emotions - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d3/25/29/d32529df-3b24-8301-fa36-7191036e3f5c/4547366846140.jpg/300x300bb.jpg",
+      "id": "apple:al:6801505692",
+      "latinSource": null,
+      "releaseDate": "2026-08-29",
+      "title": "ONE - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0d/89/25/0d8925cc-a0a5-df6e-6224-32f8377ba895/4547366851472.jpg/300x300bb.jpg",
+      "id": "apple:al:6807713789",
+      "latinSource": null,
+      "releaseDate": "2026-09-18",
+      "title": "The Animals - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/31/47/7c/31477ced-6d71-93ce-ac7d-66b69dc13cd2/4547366856347.jpg/300x300bb.jpg",
+      "id": "apple:al:6815691223",
+      "latinSource": null,
+      "releaseDate": "2026-10-11",
+      "title": "Firestarter - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION & milet",
+      "artistIds": [
+        "apple:ar:424817976",
+        "apple:ar:880638079"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f8/5e/f1/f85ef146-a533-bbd7-d918-b72cb988e1c5/4547366860597.jpg/300x300bb.jpg",
+      "id": "apple:al:6823023927",
+      "latinSource": null,
+      "releaseDate": "2026-10-28",
+      "title": "Firestarter - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music6/v4/64/30/a2/6430a2e0-0197-bffd-2a60-0ddf50e5772a/man.jpg/300x300bb.jpg",
+      "id": "apple:al:734332225",
+      "latinSource": null,
+      "releaseDate": "2012-03-14",
+      "title": "WELCOME TO THE NEWWORLD",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/4b/e0/4c/4be04c66-0648-bad1-458a-b8bec77adb53/10822200.jpg/300x300bb.jpg",
+      "id": "apple:al:799237149",
+      "latinSource": null,
+      "releaseDate": "2010-11-10",
+      "title": "Beef Chicken Pork",
+      "titleLatin": null,
+      "type": "album"
+    }
+  ],
+  "artistId": "apple:ar:424817976",
+  "artists": [
+    {
+      "id": "apple:ar:424817976",
+      "latinSource": null,
+      "name": "MAN WITH A MISSION",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:483363",
+      "latinSource": null,
+      "name": "Zebrahead",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:74567332",
+      "latinSource": "provider",
+      "name": "布袋寅泰",
+      "nameLatin": "Hotei"
+    },
+    {
+      "id": "apple:ar:76125500",
+      "latinSource": null,
+      "name": "10-FEET",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:880638079",
+      "latinSource": null,
+      "name": "milet",
+      "nameLatin": null
+    }
+  ],
+  "fetchedAt": "2026-10-29T03:12:16Z",
+  "provider": "apple",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "apple:al:1442260863",
+      "artistDisplay": "10-FEET",
+      "artistIds": [
+        "apple:ar:76125500",
+        "apple:ar:424817976"
+      ],
+      "durationMs": 198680,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1442260867",
+      "latinSource": null,
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/37/50/e9/3750e9c9-c762-dc18-cf24-3ee3899968e3/mzaf_305552875373965580.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-06-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "superstonperfeatmanwithamisshion"
+        ]
+      },
+      "songKey": "superstomper|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/super-stomper-feat-man-with-a-mission/1442260863?i=1442260867",
+      "title": "super stomper feat. MAN WITH A MISSION",
+      "titleKeys": [
+        "superstomper"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1459835509",
+      "artistDisplay": "布袋寅泰",
+      "artistIds": [
+        "apple:ar:74567332",
+        "apple:ar:424817976"
+      ],
+      "durationMs": 280440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1459835719",
+      "latinSource": null,
+      "popularity": 0.8615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ee/0e/bd/ee0ebd82-3450-3b7a-5b42-847647c29130/mzaf_7990959945908457002.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-05-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "giveittotheuniversefeatmanwithamisshion"
+        ]
+      },
+      "songKey": "giveittotheuniverse|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/give-it-to-the-universe-feat-man-with-a-mission/1459835509?i=1459835719",
+      "title": "Give It To The Universe (feat. MAN WITH A MISSION)",
+      "titleKeys": [
+        "giveittotheuniverse"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1519709724",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 275707,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1519709726",
+      "latinSource": null,
+      "popularity": 0.9154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d5/d9/76/d5d976fe-c1e1-7f4a-51a9-1a2056564bde/mzaf_16245179521716924727.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-11-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "dontloseyorself"
+        ]
+      },
+      "songKey": "dontloseyourself|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/dont-lose-yourself/1519709724?i=1519709726",
+      "title": "DON'T LOSE YOURSELF",
+      "titleKeys": [
+        "dontloseyourself",
+        "dontloseyourselffxxkinmix"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1519709724",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 229000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1519709729",
+      "latinSource": null,
+      "popularity": 0.4462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/06/b9/ff/06b9ffdb-e5a2-abb2-87c8-d1482dce0191/mzaf_13570483359280608959.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-11-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "1997"
+        ]
+      },
+      "songKey": "1997|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/1997/1519709724?i=1519709729",
+      "title": "1997",
+      "titleKeys": [
+        "1997"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1519709724",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 269493,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1519709730",
+      "latinSource": null,
+      "popularity": 0.5385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/52/42/f1/5242f179-86d4-28be-c6d5-fbb057d1f234/mzaf_7686109622357258059.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-11-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "panoramarajio"
+        ]
+      },
+      "songKey": "panoramaradio|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/panorama-radio/1519709724?i=1519709730",
+      "title": "PANORAMA RADIO",
+      "titleKeys": [
+        "panoramaradio"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1519709724",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 241467,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": true,
+      "id": "apple:tr:1519709735",
+      "latinSource": null,
+      "popularity": 0.2692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a2/00/66/a2006624-b70e-4ef2-a7db-dda9de2298b5/mzaf_4880791159146546731.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-11-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "rockinthehose"
+        ]
+      },
+      "songKey": "rockinthehouse|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/rock-in-the-house/1519709724?i=1519709735",
+      "title": "ROCK IN THE HOUSE",
+      "titleKeys": [
+        "rockinthehouse"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1519709724",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 171440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1519709886",
+      "latinSource": null,
+      "popularity": 0.3462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/1d/16/1b/1d161bd3-ec24-39b1-cf78-83787f3be4e6/mzaf_16810920242332472899.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-11-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "welcometothenewworld"
+        ]
+      },
+      "songKey": "welcometothenewworld|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/welcome-to-the-newworld/1519709724?i=1519709886",
+      "title": "WELCOME TO THE NEWWORLD",
+      "titleKeys": [
+        "welcometothenewworld"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1519709724",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 292227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1519709887",
+      "latinSource": "cutlet",
+      "popularity": 0.4,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/dd/41/92/dd41921f-9980-8edc-d546-8b9e80e52bcb/mzaf_5667206217921262316.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-11-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "moratoriamu",
+          "moratorium",
+          "もらとりあむ"
+        ]
+      },
+      "songKey": "もらとりあむ|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A2%E3%83%A9%E3%83%88%E3%83%AA%E3%82%A2%E3%83%A0/1519709724?i=1519709887",
+      "title": "モラトリアム",
+      "titleKeys": [
+        "もらとりあむ"
+      ],
+      "titleLatin": "Moratoriamu"
+    },
+    {
+      "albumId": "apple:al:1534677075",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 276056,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1534677080",
+      "latinSource": null,
+      "popularity": 0.8308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9d/05/1c/9d051c26-15e3-fb55-38b9-58a96897fcbc/mzaf_13792727979145408787.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-10-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "telescope"
+        ]
+      },
+      "songKey": "telescope|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/telescope/1534677075?i=1534677080",
+      "title": "Telescope",
+      "titleKeys": [
+        "telescope"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1534997042",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 249573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1534997920",
+      "latinSource": null,
+      "popularity": 0.1308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ea/ef/49/eaef49fc-8f0a-69b3-2cd2-b175461bbf9b/mzaf_384580487852468815.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-05-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "thecure"
+        ]
+      },
+      "songKey": "thecure|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/the-cure/1534997042?i=1534997920",
+      "title": "The Cure",
+      "titleKeys": [
+        "thecure"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537452365",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 204840,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537452458",
+      "latinSource": null,
+      "popularity": 0.6615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/54/5c/4e/545c4e49-9f9e-b8ce-40f4-e6a7b7c08ef4/mzaf_2240046628637159749.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-02-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "sevendeadlyshins"
+        ]
+      },
+      "songKey": "sevendeadlysins|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/seven-deadly-sins/1537452365?i=1537452458",
+      "title": "Seven Deadly Sins",
+      "titleKeys": [
+        "sevendeadlysins",
+        "sevendeadlysinsnorthamericatour2024kizunanokisekiinmexico"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537452365",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 268493,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537452459",
+      "latinSource": null,
+      "popularity": 0.4385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9f/f1/4c/9ff14cfe-9d31-8106-0383-f8f2d981015d/mzaf_11046390627842749290.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-02-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "jive"
+        ]
+      },
+      "songKey": "dive|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/dive/1537452365?i=1537452459",
+      "title": "Dive",
+      "titleKeys": [
+        "dive"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537452365",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 272493,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537452460",
+      "latinSource": null,
+      "popularity": 0.1385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d6/61/45/d661455c-e200-e5cb-4937-c98d3909fb7a/mzaf_4587010311473097842.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-02-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "falling"
+        ]
+      },
+      "songKey": "falling|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/falling/1537452365?i=1537452460",
+      "title": "Falling",
+      "titleKeys": [
+        "falling"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537455213",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 247000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537455214",
+      "latinSource": null,
+      "popularity": 0.9077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7b/ea/e6/7beae607-21b3-5361-c887-32476915831f/mzaf_1753185588529556831.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "raiseyorflag"
+        ]
+      },
+      "songKey": "raiseyourflag|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/raise-your-flag/1537455213?i=1537455214",
+      "title": "Raise your flag",
+      "titleKeys": [
+        "raiseyourflag",
+        "raiseyourflagtakkyuishinotwitchingacidmix"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537455213",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 253000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537455215",
+      "latinSource": null,
+      "popularity": 0.2462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/81/2b/09/812b09ef-ba46-9047-42c1-a976badfcec6/mzaf_16362562086699399400.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "stella"
+        ]
+      },
+      "songKey": "stella|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/stella/1537455213?i=1537455215",
+      "title": "STELLA",
+      "titleKeys": [
+        "stella"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537455213",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 249507,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537455756",
+      "latinSource": null,
+      "popularity": 0.1231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/bb/cc/61/bbcc6100-9c48-cc46-897f-88466e9a7450/mzaf_14048165140844174623.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-10-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "far"
+        ]
+      },
+      "songKey": "far|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/far/1537455213?i=1537455756",
+      "title": "Far",
+      "titleKeys": [
+        "far"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537461566",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 236333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537461567",
+      "latinSource": null,
+      "popularity": 0.7154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8f/d0/2a/8fd02a9f-4907-334b-529f-4858ae167889/mzaf_1315160812876137380.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "databasefeattakuma"
+        ]
+      },
+      "songKey": "database|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/database-feat-takuma/1537461566?i=1537461567",
+      "title": "database (feat. TAKUMA)",
+      "titleKeys": [
+        "database",
+        "databasefeattakuma"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537461566",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 266000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537461569",
+      "latinSource": null,
+      "popularity": 0.1462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f4/ef/c7/f4efc7f8-2d57-e2a9-9701-b5086c4eb397/mzaf_11575637540636507355.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "yorway"
+        ]
+      },
+      "songKey": "yourway|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/your-way/1537461566?i=1537461569",
+      "title": "your way",
+      "titleKeys": [
+        "yourway"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537461566",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 202160,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537461570",
+      "latinSource": null,
+      "popularity": 0.1846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/88/47/3d/88473d67-793d-ade7-2ea4-dfe1b77d4e3c/mzaf_15510461521733726163.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "grenchintedshixchiesmind"
+        ]
+      },
+      "songKey": "greentintedsixtiesmind|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/green-tinted-sixties-mind/1537461566?i=1537461570",
+      "title": "Green-Tinted Sixties Mind",
+      "titleKeys": [
+        "greentintedsixtiesmind"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537501679",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 291947,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537501884",
+      "latinSource": null,
+      "popularity": 0.9538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cd/5b/5e/cd5b5ec3-d7e4-80a6-e846-e99f1b95e139/mzaf_1069821200710209112.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-06-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "remenberme"
+        ]
+      },
+      "songKey": "rememberme|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/remember-me/1537501679?i=1537501884",
+      "title": "Remember Me",
+      "titleKeys": [
+        "rememberme",
+        "remembermestringsver"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537501679",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 239840,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537501885",
+      "latinSource": null,
+      "popularity": 0.2769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6e/2a/9c/6e2a9caf-e714-c666-2778-fddf9cb76a2b/mzaf_736137847871639459.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "leftalive"
+        ]
+      },
+      "songKey": "leftalive|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/left-alive/1537501679?i=1537501885",
+      "title": "Left Alive",
+      "titleKeys": [
+        "leftalive"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537501679",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 280600,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537501886",
+      "latinSource": "cutlet",
+      "popularity": 0.1692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/21/c3/dc/21c3dc56-7f09-a7ae-de8b-32c55d5ba941/mzaf_2069791590132139923.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-06-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "starraitoshndrome",
+          "sutaraitoshindoromu",
+          "すたーらいとしんどろーむ"
+        ]
+      },
+      "songKey": "すたーらいとしんどろーむ|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%88-%E3%82%B7%E3%83%B3%E3%83%89%E3%83%AD%E3%83%BC%E3%83%A0/1537501679?i=1537501886",
+      "title": "スターライト・シンドローム",
+      "titleKeys": [
+        "すたーらいとしんどろーむ"
+      ],
+      "titleLatin": "Sutaa raito shindoroomu"
+    },
+    {
+      "albumId": "apple:al:1537501679",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 262680,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537501887",
+      "latinSource": null,
+      "popularity": 0.4154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8a/df/fb/8adffb2c-5d68-69f0-0801-ed64e9f3a82d/mzaf_18416645471240188452.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-04-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "flyagain2019"
+        ]
+      },
+      "songKey": "flyagain2019|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/fly-again-2019/1537501679?i=1537501887",
+      "title": "FLY AGAIN 2019",
+      "titleKeys": [
+        "flyagain2019"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537555915",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 278308,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537555916",
+      "latinSource": null,
+      "popularity": 0.5077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ec/e8/a6/ece8a670-d905-0b68-3f9f-ba98f10a5c82/mzaf_17544863613178953742.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-01-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "memories"
+        ]
+      },
+      "songKey": "memories|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/memories/1537555915?i=1537555916",
+      "title": "Memories",
+      "titleKeys": [
+        "memories"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537737259",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 329414,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537737260",
+      "latinSource": null,
+      "popularity": 0.2231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/59/d3/cb/59d3cb46-803d-0934-ea7d-c0797547726f/mzaf_14824333122139458773.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-12-03",
+      "search": {
+        "artist": [],
+        "title": [
+          "heynow"
+        ]
+      },
+      "songKey": "heynow|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/hey-now/1537737259?i=1537737260",
+      "title": "Hey Now",
+      "titleKeys": [
+        "heynow"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537738916",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 221123,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537738917",
+      "latinSource": null,
+      "popularity": 0.4846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fa/c3/17/fac3176c-a62f-32ba-f8ff-4be193d69825/mzaf_8830154402898877542.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-01-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "deadenjintokyo"
+        ]
+      },
+      "songKey": "deadendintokyo|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/dead-end-in-tokyo/1537738916?i=1537738917",
+      "title": "Dead End in Tokyo",
+      "titleKeys": [
+        "deadendintokyo",
+        "deadendintokyonorthamericatour2024kizunanokisekiinmexico"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537738916",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 242485,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537738919",
+      "latinSource": null,
+      "popularity": 0.1615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b4/5f/57/b45f5799-cab6-edee-51a7-49660ba5bbdb/mzaf_12872543241248977350.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-01-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "braveitot"
+        ]
+      },
+      "songKey": "braveitout|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/brave-it-out/1537738916?i=1537738919",
+      "title": "Brave It Out",
+      "titleKeys": [
+        "braveitout"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537746311",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 254693,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537746312",
+      "latinSource": null,
+      "popularity": 0.2846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/39/32/30/3932308e-7070-735e-3d15-a7c4f70ecf1b/mzaf_14741906079310951656.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "dogdays"
+        ]
+      },
+      "songKey": "dogdays|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/dog-days/1537746311?i=1537746312",
+      "title": "Dog Days",
+      "titleKeys": [
+        "dogdays"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537751874",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 263493,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537751877",
+      "latinSource": null,
+      "popularity": 0.4231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/71/18/6d/71186dec-b63e-f03e-bc3e-bf11d5312076/mzaf_11599510162533906286.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "myhero"
+        ]
+      },
+      "songKey": "myhero|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/my-hero/1537751874?i=1537751877",
+      "title": "My Hero",
+      "titleKeys": [
+        "myhero",
+        "myheronorthamericatour2024kizunanokisekiinmexico",
+        "myherotvsize"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537751874",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 301000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537751878",
+      "latinSource": null,
+      "popularity": 0.1538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/76/69/99/76699954-09a3-59a4-60bf-94006589e5d9/mzaf_16676114764041354439.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "findyo"
+        ]
+      },
+      "songKey": "findyou|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/find-you/1537751874?i=1537751878",
+      "title": "Find You",
+      "titleKeys": [
+        "findyou"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537751874",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 199000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537751879",
+      "latinSource": null,
+      "popularity": 0.1077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/bd/0d/43/bd0d4397-883c-df84-2452-2df2eb7acbc1/mzaf_11983956506423693121.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-11-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "mrbadmoth"
+        ]
+      },
+      "songKey": "mrbadmouth|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/mr-bad-mouth/1537751874?i=1537751879",
+      "title": "Mr. Bad Mouth",
+      "titleKeys": [
+        "mrbadmouth"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537753318",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 183173,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537753319",
+      "latinSource": null,
+      "popularity": 0.4615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/9f/90/e1/9f90e1d7-f374-3daa-ca50-68c7076fabbd/mzaf_8205997728270754520.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-02-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "freakitfeattokyoskaparajiseorchestra"
+        ]
+      },
+      "songKey": "freakit|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/freak-it-feat-tokyo-ska-paradise-orchestra/1537753318?i=1537753319",
+      "title": "Freak It! (feat. Tokyo Ska Paradise Orchestra)",
+      "titleKeys": [
+        "freakit"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537756977",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 265333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537756980",
+      "latinSource": null,
+      "popularity": 0.3077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8b/ef/df/8befdf00-08f1-884a-c7ba-2cba794a1aab/mzaf_4545694300268179999.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-04-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "takemeunder"
+        ]
+      },
+      "songKey": "takemeunder|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/take-me-under/1537756977?i=1537756980",
+      "title": "Take Me Under",
+      "titleKeys": [
+        "takemeunder"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537756977",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 226240,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537756981",
+      "latinSource": null,
+      "popularity": 0.8846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/02/0b/a6/020ba63b-8135-6cef-dc06-e181963b702d/mzaf_4349490713841367640.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-04-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "winjingroad"
+        ]
+      },
+      "songKey": "windingroad|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/winding-road/1537756977?i=1537756981",
+      "title": "Winding Road",
+      "titleKeys": [
+        "windingroad"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537756977",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 246853,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537756982",
+      "latinSource": null,
+      "popularity": 0.1,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/03/23/79/032379bc-0548-d325-408c-4e5f03907586/mzaf_4131408444223070280.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-04-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "theanthem"
+        ]
+      },
+      "songKey": "theanthem|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/the-anthem/1537756977?i=1537756982",
+      "title": "The Anthem",
+      "titleKeys": [
+        "theanthem"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537765789",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 293162,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537765790",
+      "latinSource": "cutlet",
+      "popularity": 0.2923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/58/69/1c/58691c27-1ab6-c307-efcf-377078619be1/mzaf_14058629410234541632.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-09-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "anokanewonarasunowanata",
+          "あの鐘を鳴らすのはあなた"
+        ]
+      },
+      "songKey": "あの鐘を鳴らすのはあなた|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%82%E3%81%AE%E9%90%98%E3%82%92%E9%B3%B4%E3%82%89%E3%81%99%E3%81%AE%E3%81%AF%E3%81%82%E3%81%AA%E3%81%9F/1537765789?i=1537765790",
+      "title": "あの鐘を鳴らすのはあなた",
+      "titleKeys": [
+        "あの鐘を鳴らすのはあなた"
+      ],
+      "titleLatin": "Ano kane wo narasu no wa anata"
+    },
+    {
+      "albumId": "apple:al:1537778499",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 204170,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537778500",
+      "latinSource": null,
+      "popularity": 0.2077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/20/2b/bb/202bbb74-9ce8-8022-bb66-3031e76cb9e1/mzaf_5153391955190731404.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-09-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "86missedcallsfeatpatrickstsunp"
+        ]
+      },
+      "songKey": "86missedcalls|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/86-missed-calls-feat-patrick-stump/1537778499?i=1537778500",
+      "title": "86 Missed Calls (feat. Patrick Stump)",
+      "titleKeys": [
+        "86missedcalls"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 114000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274254",
+      "latinSource": null,
+      "popularity": 0.0769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e1/de/51/e1de5172-2ac9-ae6a-1544-123da27ceafe/mzaf_1702591310866531153.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "talesofpurefly"
+        ]
+      },
+      "songKey": "talesofpurefly|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/tales-of-purefly/1538274253?i=1538274254",
+      "title": "tales of purefly",
+      "titleKeys": [
+        "talesofpurefly"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 288333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274255",
+      "latinSource": null,
+      "popularity": 0.6462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/08/6d/cb/086dcb68-93e4-f3ac-b9db-5606ccdbb8e5/mzaf_12836857052643463034.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "evilsfall"
+        ]
+      },
+      "songKey": "evilsfall|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/evils-fall/1538274253?i=1538274255",
+      "title": "evils fall",
+      "titleKeys": [
+        "evilsfall"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 260493,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274256",
+      "latinSource": null,
+      "popularity": 0.9615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/76/d3/4d/76d34dc7-b7c6-95d6-c286-ad43f0c6b8e9/mzaf_8811959393385701129.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-07-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "wakemyselfagain"
+        ]
+      },
+      "songKey": "wakemyselfagain|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/wake-myself-again/1538274253?i=1538274256",
+      "title": "Wake Myself Again",
+      "titleKeys": [
+        "wakemyselfagain"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 272000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274258",
+      "latinSource": null,
+      "popularity": 0.0692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7b/72/c9/7b72c91a-e199-ef33-0658-270dabe05ecd/mzaf_17045412083440968562.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "vitamin64"
+        ]
+      },
+      "songKey": "vitamin64|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/vitamin-64/1538274253?i=1538274258",
+      "title": "vitamin 64",
+      "titleKeys": [
+        "vitamin64"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 251493,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274259",
+      "latinSource": null,
+      "popularity": 0.3385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/48/8d/11/488d1119-b2e5-d5f3-0cbf-cf70db5a16b0/mzaf_9608538498777522775.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "higher"
+        ]
+      },
+      "songKey": "higher|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/higher/1538274253?i=1538274259",
+      "title": "higher",
+      "titleKeys": [
+        "higher"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 283000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274260",
+      "latinSource": null,
+      "popularity": 0.9923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b8/bd/3f/b8bd3fe8-e235-8dd3-197b-3397c18e3607/mzaf_12263689837843577560.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "emochions"
+        ]
+      },
+      "songKey": "emotions|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/emotions/1538274253?i=1538274260",
+      "title": "Emotions",
+      "titleKeys": [
+        "emotions"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 277000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274261",
+      "latinSource": null,
+      "popularity": 0.1923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d4/dd/c4/d4ddc41b-173f-35f9-1cf7-af2eacfbdedd/mzaf_17080737158993482666.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "whateveryohadsaidwaseverything"
+        ]
+      },
+      "songKey": "whateveryouhadsaidwaseverything|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/whatever-you-had-said-was-everything/1538274253?i=1538274261",
+      "title": "whatever you had said was everything",
+      "titleKeys": [
+        "whateveryouhadsaidwaseverything"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 256000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274262",
+      "latinSource": null,
+      "popularity": 0.6846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/43/6f/c2/436fc2da-7c8d-aeb6-29c1-c76f697801f2/mzaf_2780912131028297685.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "whenmydevilrises"
+        ]
+      },
+      "songKey": "whenmydevilrises|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/when-my-devil-rises/1538274253?i=1538274262",
+      "title": "When My Devil Rises",
+      "titleKeys": [
+        "whenmydevilrises"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 241507,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274263",
+      "latinSource": null,
+      "popularity": 0.0846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/13/ee/94/13ee9422-2c6d-53c3-2608-6d8866fdf698/mzaf_922644921622593494.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "searchinglife"
+        ]
+      },
+      "songKey": "searchinglife|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/searching-life/1538274253?i=1538274263",
+      "title": "Searching life",
+      "titleKeys": [
+        "searchinglife"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 395000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": true,
+      "id": "apple:tr:1538274265",
+      "latinSource": null,
+      "popularity": 0.3,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6f/f4/5d/6ff45d73-537d-74fd-f8ef-9cfad1cfaadd/mzaf_16228502664320681537.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "babylon"
+        ]
+      },
+      "songKey": "babylon|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/babylon/1538274253?i=1538274265",
+      "title": "babylon",
+      "titleKeys": [
+        "babylon"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538274253",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 263227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538274266",
+      "latinSource": null,
+      "popularity": 0.0923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ee/db/cb/eedbcb47-f38e-a52d-3973-7e61ab80a517/mzaf_16957460074614919376.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "dancingonthemon"
+        ]
+      },
+      "songKey": "dancingonthemoon|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/dancing-on-the-moon/1538274253?i=1538274266",
+      "title": "Dancing On The Moon",
+      "titleKeys": [
+        "dancingonthemoon"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538279146",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 271000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538279147",
+      "latinSource": null,
+      "popularity": 0.3308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/57/58/4e/57584ee6-73ae-aadb-1e3f-a33a851af465/mzaf_7726423579278282313.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-02-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "survivor"
+        ]
+      },
+      "songKey": "survivor|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/survivor/1538279146?i=1538279147",
+      "title": "Survivor",
+      "titleKeys": [
+        "survivor"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538279146",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 239000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538279148",
+      "latinSource": null,
+      "popularity": 0.0462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1e/f9/cd/1ef9cd8c-f5d9-3357-a40f-73dbb3a6d0b5/mzaf_13315253636763944541.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-02-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "waichingforthemoment"
+        ]
+      },
+      "songKey": "waitingforthemoment|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/waiting-for-the-moment/1538279146?i=1538279148",
+      "title": "Waiting for the Moment",
+      "titleKeys": [
+        "waitingforthemoment"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538279146",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 263307,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538279151",
+      "latinSource": null,
+      "popularity": 0.0615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e3/7d/a2/e37da2eb-cee5-5506-24ff-3ebe8c47d6ed/mzaf_10212312341921367588.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-02-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "followers"
+        ]
+      },
+      "songKey": "followers|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/followers/1538279146?i=1538279151",
+      "title": "followers",
+      "titleKeys": [
+        "followers"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538279146",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 247000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538279152",
+      "latinSource": null,
+      "popularity": 0.1154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ff/29/1f/ff291f1e-2ece-5f65-914f-61656e45a6a9/mzaf_1215585309901909893.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-02-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "theworldsonfire"
+        ]
+      },
+      "songKey": "theworldsonfire|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/the-worlds-on-fire/1538279146?i=1538279152",
+      "title": "The World's On Fire",
+      "titleKeys": [
+        "theworldsonfire"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538279146",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 191000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538279153",
+      "latinSource": null,
+      "popularity": 0.2385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/13/78/d8/1378d899-e6d7-feb2-4c81-6c2dbbd4472c/mzaf_12669987840745213577.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-02-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "giveitaway"
+        ]
+      },
+      "songKey": "giveitaway|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/give-it-away/1538279146?i=1538279153",
+      "title": "Give it Away",
+      "titleKeys": [
+        "giveitaway"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538279146",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 208000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538279155",
+      "latinSource": null,
+      "popularity": 0.0538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a4/48/d0/a448d005-fd15-f53d-d95f-3d7a5bbde3aa/mzaf_11810724797208906417.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-02-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "mirrormirror"
+        ]
+      },
+      "songKey": "mirrormirror|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/mirror-mirror/1538279146?i=1538279155",
+      "title": "Mirror Mirror",
+      "titleKeys": [
+        "mirrormirror"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538279146",
+      "artistDisplay": "Zebrahead & MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:483363",
+        "apple:ar:424817976"
+      ],
+      "durationMs": 200293,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538279158",
+      "latinSource": null,
+      "popularity": 0.6231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ee/34/96/ee3496a2-3400-8baf-16be-4d2a57d84b2d/mzaf_7179540046724467164.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-05-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "otofcontrol"
+        ]
+      },
+      "songKey": "outofcontrol|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/out-of-control/1538279146?i=1538279158",
+      "title": "Out of Control",
+      "titleKeys": [
+        "outofcontrol"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538279146",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 283733,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538279159",
+      "latinSource": "cutlet",
+      "popularity": 0.0385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9c/ec/06/9cec068b-8362-a4d8-c64f-a048535241c9/mzaf_8800937667574376483.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-02-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "wandarando",
+          "wonderland",
+          "わんだーらんど"
+        ]
+      },
+      "songKey": "わんだーらんど|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%AF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%A9%E3%83%B3%E3%83%89/1538279146?i=1538279159",
+      "title": "ワンダーランド",
+      "titleKeys": [
+        "わんだーらんど"
+      ],
+      "titleLatin": "Wandaarando"
+    },
+    {
+      "albumId": "apple:al:1538282565",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 217969,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538282567",
+      "latinSource": null,
+      "popularity": 0.3538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d0/e9/c2/d0e9c2ef-ad0b-058a-cf35-e4a796647e62/mzaf_3972153748202555240.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-06-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "2045"
+        ]
+      },
+      "songKey": "2045|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/2045/1538282565?i=1538282567",
+      "title": "2045",
+      "titleKeys": [
+        "2045"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538282565",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 247969,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538282568",
+      "latinSource": null,
+      "popularity": 0.2308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6c/47/7f/6c477f77-d2b8-6d8f-f977-8f8909745d69/mzaf_8280971229974361651.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-06-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "brokenpeople"
+        ]
+      },
+      "songKey": "brokenpeople|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/broken-people/1538282565?i=1538282568",
+      "title": "Broken People",
+      "titleKeys": [
+        "brokenpeople"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538282565",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 261636,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538282571",
+      "latinSource": null,
+      "popularity": 0.0231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4b/5d/e5/4b5de54f-f4cc-82ec-dfc2-d6512667357a/mzaf_8387871014301681730.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-06-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "pleaseforgiveme"
+        ]
+      },
+      "songKey": "pleaseforgiveme|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/please-forgive-me/1538282565?i=1538282571",
+      "title": "Please Forgive Me",
+      "titleKeys": [
+        "pleaseforgiveme"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538282565",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 299602,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538282574",
+      "latinSource": null,
+      "popularity": 0.0308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/32/06/42/32064242-bc1c-311c-5b2e-3e81d8eff3ef/mzaf_4944022630734315913.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-06-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "breakthecontrajicchions"
+        ]
+      },
+      "songKey": "breakthecontradictions|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/break-the-contradictions/1538282565?i=1538282574",
+      "title": "Break the Contradictions",
+      "titleKeys": [
+        "breakthecontradictions"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538282565",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 257469,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538282577",
+      "latinSource": null,
+      "popularity": 0.1769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cb/ca/b9/cbcab938-88ac-5d91-615d-a42d1e669ec4/mzaf_7228522428214442779.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-06-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "chashingthehorizon"
+        ]
+      },
+      "songKey": "chasingthehorizon|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/chasing-the-horizon/1538282565?i=1538282577",
+      "title": "Chasing the Horizon",
+      "titleKeys": [
+        "chasingthehorizon"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538282565",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 251702,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538282580",
+      "latinSource": null,
+      "popularity": 0.0154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ba/e7/dc/bae7dc5b-af74-a622-5444-6fde0c7d6c3e/mzaf_5443121774480883048.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-06-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "slepwalkers"
+        ]
+      },
+      "songKey": "sleepwalkers|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/sleepwalkers/1538282565?i=1538282580",
+      "title": "Sleepwalkers",
+      "titleKeys": [
+        "sleepwalkers"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538283595",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 278200,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538283596",
+      "latinSource": null,
+      "popularity": 0.5923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/86/f1/6e/86f16e5e-26a1-05d8-71e3-aeadab4c0d27/mzaf_7536157598810414154.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-10-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "darkcrow"
+        ]
+      },
+      "songKey": "darkcrow|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/dark-crow/1538283595?i=1538283596",
+      "title": "Dark Crow",
+      "titleKeys": [
+        "darkcrow",
+        "darkcrowbreakandcrossthewallsver",
+        "darkcrownorthamericatour2024kizunanokisekiinmexico"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538283595",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976",
+        "apple:ar:880638079"
+      ],
+      "durationMs": 285800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538283598",
+      "latinSource": null,
+      "popularity": 0.2538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/00/41/c5/0041c5d1-b9d9-ef45-a042-8a51e8c873ba/mzaf_15434063538510100963.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "reiwafeatmilet"
+        ]
+      },
+      "songKey": "reiwa|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/reiwa-feat-milet/1538283595?i=1538283598",
+      "title": "Reiwa (feat. milet)",
+      "titleKeys": [
+        "reiwa"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538284503",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 206400,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538284504",
+      "latinSource": null,
+      "popularity": 0.2,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e4/7b/97/e47b9760-c5a2-16c2-236f-46ec3b5bac81/mzaf_17129615375339943426.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-04-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "thevictors"
+        ]
+      },
+      "songKey": "thevictors|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/the-victors/1538284503?i=1538284504",
+      "title": "The Victors",
+      "titleKeys": [
+        "thevictors"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538284597",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 296800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538284598",
+      "latinSource": null,
+      "popularity": 0.5231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/24/62/21/246221e7-ad55-2b46-d880-ba011a94cb30/mzaf_2060952094282162075.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-06-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "changetheworld"
+        ]
+      },
+      "songKey": "changetheworld|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/change-the-world/1538284597?i=1538284598",
+      "title": "Change the World",
+      "titleKeys": [
+        "changetheworld"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538284597",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976",
+        "apple:ar:74567332"
+      ],
+      "durationMs": 263100,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538284599",
+      "latinSource": null,
+      "popularity": 0.3154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/63/f3/f9/63f3f913-b57e-ff79-88e5-7edc693d7a29/mzaf_9871121510191767823.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-07-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "rockkingdomfeathotei"
+        ]
+      },
+      "songKey": "rockkingdom|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/rock-kingdom-feat-hotei/1538284597?i=1538284599",
+      "title": "Rock Kingdom (feat. Hotei)",
+      "titleKeys": [
+        "rockkingdom"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538284503",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 234567,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538284659",
+      "latinSource": "cutlet",
+      "popularity": 0.8462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/87/79/ce/8779ce59-f06c-e85f-f18f-dffb1be85b43/mzaf_4179469691641800317.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-04-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "wabisabiwasabi",
+          "わびさびわさび"
+        ]
+      },
+      "songKey": "わびさびわさび|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%AF%E3%83%93-%E3%82%B5%E3%83%93-%E3%83%AF%E3%82%B5%E3%83%93/1538284503?i=1538284659",
+      "title": "ワビ・サビ・ワサビ",
+      "titleKeys": [
+        "わびさびわさび"
+      ],
+      "titleLatin": "Wabi sabi wasabi"
+    },
+    {
+      "albumId": "apple:al:1538284503",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 313800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538284663",
+      "latinSource": null,
+      "popularity": 0.6385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3c/a6/3e/3ca63ede-50d1-80f6-51b2-c86b0b5b8cff/mzaf_9260642570254057234.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-10-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "chashingsunrise"
+        ]
+      },
+      "songKey": "chasingsunrise|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/chasing-sunrise/1538284503?i=1538284663",
+      "title": "Chasing Sunrise",
+      "titleKeys": [
+        "chasingsunrise"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1538466975",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 227979,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538466978",
+      "latinSource": null,
+      "popularity": 0.7923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/76/48/65/764865f9-5ada-c1cc-0fcf-25839681ca2c/mzaf_12506799865378516134.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-11-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "allyoned"
+        ]
+      },
+      "songKey": "allyouneed|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/all-you-need/1538466975?i=1538466978",
+      "title": "All You Need",
+      "titleKeys": [
+        "allyouneed"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1542952206",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 245672,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1542952211",
+      "latinSource": null,
+      "popularity": 0.8077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/52/23/35/52233596-a5a6-e4ad-0546-fe3782dc554c/mzaf_17965093868458460858.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "evergren"
+        ]
+      },
+      "songKey": "evergreen|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/evergreen/1542952206?i=1542952211",
+      "title": "evergreen",
+      "titleKeys": [
+        "evergreen"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1550020495",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 229195,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1550020796",
+      "latinSource": null,
+      "popularity": 0.7231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d6/27/30/d62730ca-58f4-e9ba-0e5c-ca3adfdbde82/mzaf_6133533567114258492.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-02-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "onewish"
+        ]
+      },
+      "songKey": "onewish|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/one-wish/1550020495?i=1550020796",
+      "title": "ONE WISH",
+      "titleKeys": [
+        "onewish"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1562859105",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 271567,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1562859108",
+      "latinSource": null,
+      "popularity": 0.8385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/89/1e/da/891eda3b-02a7-7ad5-d187-819e0895895e/mzaf_16954062925628080863.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-04-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "perfectclarich"
+        ]
+      },
+      "songKey": "perfectclarity|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/perfect-clarity/1562859105?i=1562859108",
+      "title": "Perfect Clarity",
+      "titleKeys": [
+        "perfectclarity"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1568337634",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 263733,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1568337882",
+      "latinSource": null,
+      "popularity": 0.9308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ec/1c/8c/ec1c8c5e-b810-9493-6a15-1c519ee05b9d/mzaf_2040515148166396893.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-05-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "intothedep"
+        ]
+      },
+      "songKey": "intothedeep|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/into-the-deep/1568337634?i=1568337882",
+      "title": "INTO THE DEEP",
+      "titleKeys": [
+        "intothedeep",
+        "intothedeepnorthamericatour2024kizunanokisekiinmexico"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1568337634",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 298167,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1568337890",
+      "latinSource": "manual",
+      "popularity": 0.6692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/88/f1/68/88f16809-2d3c-cdf9-2001-df887600cc31/mzaf_10672762341122875205.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-06-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "chisakimonotachi",
+          "小さきものたち"
+        ]
+      },
+      "songKey": "小さきものたち|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%B0%8F%E3%81%95%E3%81%8D%E3%82%82%E3%81%AE%E3%81%9F%E3%81%A1/1568337634?i=1568337890",
+      "title": "小さきものたち",
+      "titleKeys": [
+        "小さきものたち",
+        "小さきものたちacousticver"
+      ],
+      "titleLatin": "Chiisaki monotachi"
+    },
+    {
+      "albumId": "apple:al:1573696010",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 243810,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1573696011",
+      "latinSource": null,
+      "popularity": 0.9692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/10/cb/5d/10cb5d67-6976-be67-708f-bc37141d23c6/mzaf_2533591561421523762.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-07-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "merrygorond"
+        ]
+      },
+      "songKey": "merrygoround|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/merry-go-round/1573696010?i=1573696011",
+      "title": "Merry-Go-Round",
+      "titleKeys": [
+        "merrygoround",
+        "merrygoroundnorthamericatour2024kizunanokisekiinmexico"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1593512991",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 289602,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1593513001",
+      "latinSource": null,
+      "popularity": 0.8231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/56/a7/6c/56a76ce2-5a21-9644-be0e-945bfbe3ea65/mzaf_13365303808951011286.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-11-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "yoake"
+        ]
+      },
+      "songKey": "yoake|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/yoake/1593512991?i=1593513001",
+      "title": "yoake",
+      "titleKeys": [
+        "yoake"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1593512991",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 262669,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1593513371",
+      "latinSource": null,
+      "popularity": 0.4923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/31/f8/cd/31f8cd99-ed9b-2e45-5538-a7e599907797/mzaf_15707680950860389314.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-11-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "tfunderstruck"
+        ]
+      },
+      "songKey": "thunderstruck|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/thunderstruck/1593512991?i=1593513371",
+      "title": "Thunderstruck",
+      "titleKeys": [
+        "thunderstruck"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1593512991",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 244569,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1593513381",
+      "latinSource": null,
+      "popularity": 0.3615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4e/df/6f/4edf6fc0-f5ab-bbab-77e8-e67ae9d43ad2/mzaf_13340473442735766156.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-11-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "breakandcrossthewalls"
+        ]
+      },
+      "songKey": "breakandcrossthewalls|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/break-and-cross-the-walls/1593512991?i=1593513381",
+      "title": "Break and Cross the Walls",
+      "titleKeys": [
+        "breakandcrossthewalls"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1593512991",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 118736,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1593513385",
+      "latinSource": null,
+      "popularity": 0.2154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/82/79/eb/8279eb73-831b-3017-693a-a2cca37bd5f3/mzaf_6591728005975109776.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-11-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "betwenficchionandfricchioni"
+        ]
+      },
+      "songKey": "betweenfictionandfrictioni|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/between-fiction-and-friction-i/1593512991?i=1593513385",
+      "title": "Between fiction and friction I",
+      "titleKeys": [
+        "betweenfictionandfrictioni"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1593512991",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 149936,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1593513388",
+      "latinSource": "cutlet",
+      "popularity": 0.3231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c2/76/2d/c2762db4-7e16-4e52-e9e6-79f71a106564/mzaf_13881753895690318262.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-11-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "klaxonmark",
+          "kurakushonmaku",
+          "くらくしょんまーく"
+        ]
+      },
+      "songKey": "くらくしょんまーく|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AF%E3%83%A9%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3-%E3%83%9E%E3%83%BC%E3%82%AF/1593512991?i=1593513388",
+      "title": "クラクション・マーク",
+      "titleKeys": [
+        "くらくしょんまーく"
+      ],
+      "titleLatin": "Kurakushon maaku"
+    },
+    {
+      "albumId": "apple:al:1593512991",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 227802,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1593513395",
+      "latinSource": null,
+      "popularity": 0.3769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2b/59/76/2b597652-97ee-2414-d4e5-28bb65543ecb/mzaf_6148360516472031016.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-11-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "subliminal"
+        ]
+      },
+      "songKey": "subliminal|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/subliminal/1593512991?i=1593513395",
+      "title": "Subliminal",
+      "titleKeys": [
+        "subliminal"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1593512991",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 295342,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1593514180",
+      "latinSource": null,
+      "popularity": 0.3846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fa/69/80/fa698026-f073-8430-df0f-4abd676bbdca/mzaf_695697881497091993.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-11-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "anonymos"
+        ]
+      },
+      "songKey": "anonymous|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/anonymous/1593512991?i=1593514180",
+      "title": "Anonymous",
+      "titleKeys": [
+        "anonymous"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1619056401",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 230543,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1619056403",
+      "latinSource": null,
+      "popularity": 0.8769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f9/2c/a6/f92ca6eb-adf2-9f0a-8c2a-89888b99f71f/mzaf_3283650587127198963.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-04-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "morethanwords"
+        ]
+      },
+      "songKey": "morethanwords|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/more-than-words/1619056401?i=1619056403",
+      "title": "More Than Words",
+      "titleKeys": [
+        "morethanwords"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1623770407",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 212525,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1623770409",
+      "latinSource": null,
+      "popularity": 0.4692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/be/05/da/be05da24-e12c-cdf3-6f7a-515c9d94f459/mzaf_4662953736321870498.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-05-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "tonighttonight"
+        ]
+      },
+      "songKey": "tonighttonight|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/tonight-tonight/1623770407?i=1623770409",
+      "title": "Tonight, Tonight",
+      "titleKeys": [
+        "tonighttonight"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1623770407",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 267689,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1623770415",
+      "latinSource": null,
+      "popularity": 0.4077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ef/73/32/ef733279-c536-c1c6-b4ba-643b34d5e721/mzaf_14399059839523095541.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-05-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "bluesol"
+        ]
+      },
+      "songKey": "bluesoul|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/blue-soul/1623770407?i=1623770415",
+      "title": "blue soul",
+      "titleKeys": [
+        "bluesoul"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1623770407",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 262225,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1623770418",
+      "latinSource": null,
+      "popularity": 0.2615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/54/51/63/54516300-c6db-85ab-0d36-925148ae7b8e/mzaf_14360349645924155948.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-05-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "betwenficchionandfricchioni"
+        ]
+      },
+      "songKey": "betweenfictionandfrictionii|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/between-fiction-and-friction/1623770407?i=1623770418",
+      "title": "Between fiction and friction Ⅱ",
+      "titleKeys": [
+        "betweenfictionandfrictionii"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1623770407",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 219367,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1623770419",
+      "latinSource": null,
+      "popularity": 0.8154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d6/0c/1e/d60c1e47-f560-e9e5-64c8-934d8ba865c5/mzaf_8091071392019441223.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-05-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "blaze"
+        ]
+      },
+      "songKey": "blaze|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/blaze/1623770407?i=1623770419",
+      "title": "Blaze",
+      "titleKeys": [
+        "blaze",
+        "blazeacousticvernorthamericatour2024kizunanokisekiinmexico"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1623770407",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 276602,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1623770422",
+      "latinSource": null,
+      "popularity": 0.4538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/db/72/92/db7292e1-d3da-052e-4a87-4b2b2d3b3090/mzaf_5495347294705789516.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-05-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "rain"
+        ]
+      },
+      "songKey": "rain|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/rain/1623770407?i=1623770422",
+      "title": "Rain",
+      "titleKeys": [
+        "rain"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1623770407",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 231601,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1623770427",
+      "latinSource": null,
+      "popularity": 0.4308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/af/82/81/af8281bb-c7a1-a7d8-e247-6ffb7f97f94d/mzaf_6864567799198459310.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-05-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "thesoljiersfromthestart"
+        ]
+      },
+      "songKey": "thesoldiersfromthestart|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/the-soldiers-from-the-start/1623770407?i=1623770427",
+      "title": "The Soldiers From The Start",
+      "titleKeys": [
+        "thesoldiersfromthestart"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1670815231",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 272367,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1670815232",
+      "latinSource": null,
+      "popularity": 0.8538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/71/3b/99/713b9938-64d1-6fc6-f818-c37218dffad1/mzaf_7529070628113782870.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-02-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "fantashista"
+        ]
+      },
+      "songKey": "fantasista|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/fantasista/1670815231?i=1670815232",
+      "title": "Fantasista",
+      "titleKeys": [
+        "fantasista"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1678949877",
+      "artistDisplay": "MAN WITH A MISSION & milet",
+      "artistIds": [
+        "apple:ar:424817976",
+        "apple:ar:880638079"
+      ],
+      "durationMs": 223320,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1678949889",
+      "latinSource": "cutlet",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/66/c3/c8/66c3c8a9-846c-e4b5-9a5d-c1d961f14644/mzaf_7312965873766517511.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "kizunanokiseki",
+          "絆の奇跡"
+        ]
+      },
+      "songKey": "絆の奇跡|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%B5%86%E3%83%8E%E5%A5%87%E8%B7%A1/1678949877?i=1678949889",
+      "title": "絆ノ奇跡",
+      "titleKeys": [
+        "絆の奇跡",
+        "絆の奇跡instrumental",
+        "絆の奇跡northamericatour2024kizunanokisekiinmexico",
+        "絆の奇跡tvver"
+      ],
+      "titleLatin": "Kizuna no kiseki"
+    },
+    {
+      "albumId": "apple:al:1678949877",
+      "artistDisplay": "milet & MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:880638079",
+        "apple:ar:424817976"
+      ],
+      "durationMs": 215867,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1678949894",
+      "latinSource": "cutlet",
+      "popularity": 0.9846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a8/ae/c7/a8aec7db-8119-da3f-d8c9-1fc178c8a162/mzaf_11232565264777031517.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "koikogare",
+          "こいこがれ"
+        ]
+      },
+      "songKey": "こいこがれ|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B3%E3%82%A4%E3%82%B3%E3%82%AC%E3%83%AC/1678949877?i=1678949894",
+      "title": "コイコガレ",
+      "titleKeys": [
+        "こいこがれ",
+        "こいこがれtvver"
+      ],
+      "titleLatin": "Koikogare"
+    },
+    {
+      "albumId": "apple:al:1741486563",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 278433,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1741486572",
+      "latinSource": null,
+      "popularity": 0.9231,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/55/2f/55/552f55b7-7b84-1b87-81d8-5c95fd42d66e/mzaf_4223025469930675217.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-04-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "illbethere"
+        ]
+      },
+      "songKey": "illbethere|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/ill-be-there/1741486563?i=1741486572",
+      "title": "I'll be there",
+      "titleKeys": [
+        "illbethere"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1790803385",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 235900,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1790803386",
+      "latinSource": null,
+      "popularity": 0.5692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/43/dd/c3/43ddc3fd-c0df-db99-342d-aed5057aa4b2/mzaf_10859702022958073585.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-01-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "reachingforthesky"
+        ]
+      },
+      "songKey": "reachingforthesky|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/reaching-for-the-sky/1790803385?i=1790803386",
+      "title": "REACHING FOR THE SKY",
+      "titleKeys": [
+        "reachingforthesky"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1799137345",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 258100,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1799137347",
+      "latinSource": null,
+      "popularity": 0.5462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ae/e8/10/aee81045-69cc-8b61-7e48-ee63fbdeabe2/mzaf_9786732676174599249.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "verchigo"
+        ]
+      },
+      "songKey": "vertigo|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/vertigo/1799137345?i=1799137347",
+      "title": "Vertigo",
+      "titleKeys": [
+        "vertigo"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1799137345",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 272767,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1799137350",
+      "latinSource": null,
+      "popularity": 0.3692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0e/dc/71/0edc71ee-92b6-b4d7-86e9-62f00b2ca174/mzaf_10239468517649314278.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "circles"
+        ]
+      },
+      "songKey": "circles|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/circles/1799137345?i=1799137350",
+      "title": "Circles",
+      "titleKeys": [
+        "circles"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1799137345",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 272233,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1799137357",
+      "latinSource": null,
+      "popularity": 0.3923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f2/c4/8c/f2c48c35-fbe3-02d1-b565-764cc3e8ed00/mzaf_11441967313891534723.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-03-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "whispersofthefake"
+        ]
+      },
+      "songKey": "whispersofthefake|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/whispers-of-the-fake/1799137345?i=1799137357",
+      "title": "whispers of the fake",
+      "titleKeys": [
+        "whispersofthefake"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1834126818",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 256722,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1834126821",
+      "latinSource": null,
+      "popularity": 0.5615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/48/72/83/48728376-93e1-e345-146f-47e9012e7e10/mzaf_12518617114534825129.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-08-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "againstthekingsandgods"
+        ]
+      },
+      "songKey": "againstthekingsandgods|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/against-the-kings-and-gods/1834126818?i=1834126821",
+      "title": "Against the Kings and Gods",
+      "titleKeys": [
+        "againstthekingsandgods"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:426895388",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 191573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": true,
+      "id": "apple:tr:426895409",
+      "latinSource": null,
+      "popularity": 0.7846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview62/v4/45/a6/77/45a67742-ab80-9724-16d3-f56e78fa39dc/mzaf_643826392039403843.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-03-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "neverfxxkinmindtherules"
+        ]
+      },
+      "songKey": "neverfxxkinmindtherules|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/never-fxxkin-mind-the-rules/426895388?i=426895409",
+      "title": "NEVER FXXKIN' MIND THE RULES",
+      "titleKeys": [
+        "neverfxxkinmindtherules"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:426919177",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 250133,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:426919432",
+      "latinSource": null,
+      "popularity": 0.9769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/89/35/e4/8935e449-2a9b-f0c7-34c9-742d9fa8f7bb/mzaf_10366110834494146785.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-04-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "flyagain"
+        ]
+      },
+      "songKey": "flyagain|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/fly-again/426919177?i=426919432",
+      "title": "FLY AGAIN",
+      "titleKeys": [
+        "flyagain",
+        "flyagainherosanthem"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:438648517",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 227133,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:438648522",
+      "latinSource": null,
+      "popularity": 0.8,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5b/8d/cc/5b8dcc17-b1ba-bdb0-f114-fe6bf5b013d8/mzaf_8406067215876741232.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-06-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "danceverybody"
+        ]
+      },
+      "songKey": "danceeverybody|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/dance-everybody/438648517?i=438648522",
+      "title": "DANCE EVERYBODY",
+      "titleKeys": [
+        "danceeverybody"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:438648517",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 258653,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:438648524",
+      "latinSource": null,
+      "popularity": 0.6923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d6/fc/87/d6fc8752-49bd-7d2f-9ae5-d1f46784e172/mzaf_16291061898994344037.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-06-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "scentofyesterday"
+        ]
+      },
+      "songKey": "scentofyesterday|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/scent-of-yesterday/438648517?i=438648524",
+      "title": "SCENT OF YESTERDAY",
+      "titleKeys": [
+        "scentofyesterday"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:438648517",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 321107,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:438648529",
+      "latinSource": null,
+      "popularity": 0.7308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1a/1b/bb/1a1bbb6c-f19e-81f0-c362-0b1c37c69517/mzaf_5824868741714205176.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-06-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "rainofjuly"
+        ]
+      },
+      "songKey": "rainofjuly|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/rain-of-july/438648517?i=438648529",
+      "title": "RAIN OF JULY",
+      "titleKeys": [
+        "rainofjuly"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:438648517",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 181560,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": true,
+      "id": "apple:tr:438648531",
+      "latinSource": null,
+      "popularity": 0.6769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2e/76/ab/2e76ab09-7560-0684-9db1-1d820e7a67e8/mzaf_16784143438172724374.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-06-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "hastalavista"
+        ]
+      },
+      "songKey": "hastalavista|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/hasta-la-vista/438648517?i=438648531",
+      "title": "HASTA LA VISTA",
+      "titleKeys": [
+        "hastalavista"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:438648517",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 167973,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:438648532",
+      "latinSource": null,
+      "popularity": 0.5846,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/6d/b3/14/6db314b1-82f8-c2ad-9459-37fd1236de3a/mzaf_16346225356166301163.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-06-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "triunphoftheday"
+        ]
+      },
+      "songKey": "triumphoftheday|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/triumph-of-the-day/438648517?i=438648532",
+      "title": "TRIUMPH OF THE DAY",
+      "titleKeys": [
+        "triumphoftheday"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:438648517",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 227707,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:438648534",
+      "latinSource": null,
+      "popularity": 0.6538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e6/1d/84/e61d84e7-43fa-a379-2306-d0acd82f11d9/mzaf_6995230762244619166.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-06-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "nothingsgonachangemyway"
+        ]
+      },
+      "songKey": "nothingsgonnachangemyway|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/nothings-gonna-change-my-way/438648517?i=438648534",
+      "title": "NOTHING'S GONNA CHANGE MY WAY",
+      "titleKeys": [
+        "nothingsgonnachangemyway"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:438648517",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 284973,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:438648536",
+      "latinSource": null,
+      "popularity": 0.7077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/47/61/08/47610817-50c9-fa14-23fd-6c6852c632ea/mzaf_9293689891341783347.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-06-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "whiteworld"
+        ]
+      },
+      "songKey": "whiteworld|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/white-world/438648517?i=438648536",
+      "title": "WHITE WORLD",
+      "titleKeys": [
+        "whiteworld"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:465577238",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 287693,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:465577241",
+      "latinSource": null,
+      "popularity": 0.9,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cc/40/b1/cc40b143-8de9-4537-04c7-eb65cfdbbb9a/mzaf_1690276063157005561.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-10-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "smellsliketenspirit"
+        ]
+      },
+      "songKey": "smellsliketeenspirit|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/smells-like-teen-spirit/465577238?i=465577241",
+      "title": "Smells Like Teen Spirit",
+      "titleKeys": [
+        "smellsliketeenspirit"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:465577238",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 226400,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": true,
+      "id": "apple:tr:465577251",
+      "latinSource": null,
+      "popularity": 0.7615,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/50/2e/03/502e03bc-2fe6-730e-6b16-b0c0ac5e2969/mzaf_12830626850898172079.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-10-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "felandthink"
+        ]
+      },
+      "songKey": "feelandthink|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/feel-and-think/465577238?i=465577251",
+      "title": "Feel and Think",
+      "titleKeys": [
+        "feelandthink"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:465577238",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 211000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:465577256",
+      "latinSource": null,
+      "popularity": 0.7462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f2/eb/95/f2eb9533-8216-485d-02df-212ad52f8737/mzaf_14945255293383747929.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-10-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "trickortreat"
+        ]
+      },
+      "songKey": "trickortreat|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/trick-or-treat/465577238?i=465577256",
+      "title": "Trick or Treat",
+      "titleKeys": [
+        "trickortreat"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:514215736",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 258133,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:514215767",
+      "latinSource": null,
+      "popularity": 0.9385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d1/3e/27/d13e276f-8b04-b6de-158e-a7fba0a16ca5/mzaf_12848536774858617676.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-04-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "jistance"
+        ]
+      },
+      "songKey": "distance|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/distance/514215736?i=514215767",
+      "title": "distance",
+      "titleKeys": [
+        "distance"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:514215736",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 283200,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:514215776",
+      "latinSource": "cutlet",
+      "popularity": 0.7385,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/2c/ba/b5/2cbab5ce-a701-6bcb-c881-e614b9659b3e/mzaf_6150125111943725036.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-04-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "focusraito",
+          "fokasuraito",
+          "ふぉーかすらいと"
+        ]
+      },
+      "songKey": "ふぉーかすらいと|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%95%E3%82%A9%E3%83%BC%E3%82%AB%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%88/514215736?i=514215776",
+      "title": "フォーカスライト",
+      "titleKeys": [
+        "ふぉーかすらいと"
+      ],
+      "titleLatin": "Fookasu raito"
+    },
+    {
+      "albumId": "apple:al:542279535",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 203107,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": true,
+      "id": "apple:tr:542279536",
+      "latinSource": null,
+      "popularity": 0.7692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/21/30/c7/2130c77a-f424-d063-028d-db1b85d8abf9/mzaf_8817961233043728950.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "mashupthedj"
+        ]
+      },
+      "songKey": "mashupthedj|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/mash-up-the-dj/542279535?i=542279536",
+      "title": "Mash UP the DJ!",
+      "titleKeys": [
+        "mashupthedj"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:542279535",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 241227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:542279537",
+      "latinSource": null,
+      "popularity": 0.7538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/11/71/21/11712105-a521-d164-acdf-d2d5127a0078/mzaf_13356133830684447071.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "fromyothtodeath"
+        ]
+      },
+      "songKey": "fromyouthtodeath|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/from-youth-to-death/542279535?i=542279537",
+      "title": "FROM YOUTH TO DEATH",
+      "titleKeys": [
+        "fromyouthtodeath"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:542279535",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 260347,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:542279539",
+      "latinSource": "cutlet",
+      "popularity": 0.4769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/68/f0/77/68f077bd-b1ea-a746-b088-6c187cfa6262/mzaf_12776706321872718910.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "neutralcorner",
+          "nyutorarukona",
+          "にゅーとらるこーなー"
+        ]
+      },
+      "songKey": "にゅーとらるこーなー|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%88%E3%83%A9%E3%83%AB%E3%82%B3%E3%83%BC%E3%83%8A%E3%83%BC/542279535?i=542279539",
+      "title": "ニュートラルコーナー",
+      "titleKeys": [
+        "にゅーとらるこーなー"
+      ],
+      "titleLatin": "Nyuutoraru koonaa"
+    },
+    {
+      "albumId": "apple:al:542279535",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 220800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:542279540",
+      "latinSource": null,
+      "popularity": 0.9462,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a7/c2/72/a7c27273-8cca-a9d6-4d14-e35f65912b0d/mzaf_7511222666571329998.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "getoffofmyway"
+        ]
+      },
+      "songKey": "getoffofmyway|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/get-off-of-my-way/542279535?i=542279540",
+      "title": "Get Off of My Way",
+      "titleKeys": [
+        "getoffofmyway"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:542279535",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 271707,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:542279542",
+      "latinSource": null,
+      "popularity": 0.6308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/33/dc/c2/33dcc2d2-f4bf-62ab-2a41-8ae97013c58e/mzaf_11227411432780941806.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "bubbleoflife"
+        ]
+      },
+      "songKey": "bubbleoflife|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/bubble-of-life/542279535?i=542279542",
+      "title": "Bubble of Life",
+      "titleKeys": [
+        "bubbleoflife"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:542279535",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 227173,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:542279543",
+      "latinSource": null,
+      "popularity": 0.5154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/66/9e/f6/669ef68d-2f13-dacc-fcee-9cd884d667f0/mzaf_1877391842799684717.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-04-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "lithium"
+        ]
+      },
+      "songKey": "lithium|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/lithium/542279535?i=542279543",
+      "title": "Lithium",
+      "titleKeys": [
+        "lithium"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:542279535",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 214467,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:542279547",
+      "latinSource": null,
+      "popularity": 0.6,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9a/a2/8c/9aa28ca7-4573-1ea7-cd63-ff7e16f6d60f/mzaf_18322087057116560631.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "justlikemagic"
+        ]
+      },
+      "songKey": "justlikemagic|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/just-like-magic/542279535?i=542279547",
+      "title": "Just Like Magic",
+      "titleKeys": [
+        "justlikemagic"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:542279535",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 254733,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:542279548",
+      "latinSource": "cutlet",
+      "popularity": 0.5538,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1c/ba/04/1cba042f-d467-35e3-6b0d-d87765a72fb2/mzaf_6045583278005649274.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "jidai",
+          "時代"
+        ]
+      },
+      "songKey": "時代|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%99%82%E4%BB%A3/542279535?i=542279548",
+      "title": "時代",
+      "titleKeys": [
+        "時代"
+      ],
+      "titleLatin": "Jidai"
+    },
+    {
+      "albumId": "apple:al:542279535",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 268227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:542279650",
+      "latinSource": null,
+      "popularity": 0.7,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/88/e7/d9/88e7d9ff-9715-9138-4985-cd35c42376d0/mzaf_2608956717081415303.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "colors"
+        ]
+      },
+      "songKey": "colours|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/colours/542279535?i=542279650",
+      "title": "colours",
+      "titleKeys": [
+        "colours"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:597398017",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 210267,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:597398127",
+      "latinSource": null,
+      "popularity": 0.8923,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c2/31/9a/c2319af0-12b2-fc4a-9bdb-66dc4ed088a6/mzaf_2777467318469126651.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "takewhatsuwant"
+        ]
+      },
+      "songKey": "takewhatuwant|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/take-what-u-want/597398017?i=597398127",
+      "title": "Take What U Want",
+      "titleKeys": [
+        "takewhatuwant"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:597398017",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 332307,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:597398128",
+      "latinSource": "cutlet",
+      "popularity": 0.8692,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/24/e9/cc/24e9cc05-2248-7144-8770-c9a32faa9528/mzaf_3151225147281384048.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "akatsuki",
+          "あかつき"
+        ]
+      },
+      "songKey": "あかつき|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%AB%E3%83%84%E3%82%AD/597398017?i=597398128",
+      "title": "アカツキ",
+      "titleKeys": [
+        "あかつき"
+      ],
+      "titleLatin": "Akatsuki"
+    },
+    {
+      "albumId": "apple:al:6801505692",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 251900,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6801506177",
+      "latinSource": null,
+      "popularity": 0.6077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/22/61/22/2261222d-30c3-4a55-3ce4-e000b3970f25/mzaf_8436193498009878383.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-08-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "one"
+        ]
+      },
+      "songKey": "one|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/one/6801505692?i=6801506177",
+      "title": "ONE",
+      "titleKeys": [
+        "one"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6807713789",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 230667,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6807713791",
+      "latinSource": null,
+      "popularity": 0.5308,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/17/18/71/171871fa-04e7-2f4f-6917-c2632f540d08/mzaf_3512705555721531524.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "theanimals"
+        ]
+      },
+      "songKey": "theanimals|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/the-animals/6807713789?i=6807713791",
+      "title": "The Animals",
+      "titleKeys": [
+        "theanimals"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6815691223",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 233123,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6815691224",
+      "latinSource": null,
+      "popularity": 0.6154,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a3/52/23/a35223f7-edda-ebaf-4e17-6d6780769a21/mzaf_4970044458396585182.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-10-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "firestarter"
+        ]
+      },
+      "songKey": "firestarter|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/firestarter/6815691223?i=6815691224",
+      "title": "Firestarter",
+      "titleKeys": [
+        "firestarter"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6823023927",
+      "artistDisplay": "MAN WITH A MISSION & milet",
+      "artistIds": [
+        "apple:ar:424817976",
+        "apple:ar:880638079"
+      ],
+      "durationMs": 208900,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6823023935",
+      "latinSource": "cutlet",
+      "popularity": 0.0077,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/7a/5c/99/7a5c99d2-e631-8032-f5ec-903e1006f949/mzaf_14194258657157787031.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-10-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "kizunanokisekisawanohiroyukiremix",
+          "絆の奇跡澤野弘之remix"
+        ]
+      },
+      "songKey": "絆の奇跡澤野弘之remix|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%B5%86%E3%83%8E%E5%A5%87%E8%B7%A1-%E6%BE%A4%E9%87%8E%E5%BC%98%E4%B9%8Bremix/6823023927?i=6823023935",
+      "title": "絆ノ奇跡 澤野弘之REMIX",
+      "titleKeys": [
+        "絆の奇跡澤野弘之remix"
+      ],
+      "titleLatin": "Kizuna no kiseki Sawano Hiroyuki REMIX"
+    },
+    {
+      "albumId": "apple:al:734332225",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 134467,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:734332260",
+      "latinSource": null,
+      "popularity": 0.5769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview62/v4/61/e3/1e/61e31ed6-76ec-f25b-096f-e883d7b528c5/mzaf_1028527656043310403.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-03-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "takemehonme"
+        ]
+      },
+      "songKey": "takemehonme|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/take-me-honme/734332225?i=734332260",
+      "title": "TAKE ME HONME",
+      "titleKeys": [
+        "takemehonme"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:799237149",
+      "artistDisplay": "MAN WITH A MISSION",
+      "artistIds": [
+        "apple:ar:424817976"
+      ],
+      "durationMs": 135240,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:799237164",
+      "latinSource": null,
+      "popularity": 0.7769,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/22/5d/78/225d78d9-eae7-4369-a6a4-10bba5c0e63b/mzaf_3357936170013752682.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-11-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "takemehome"
+        ]
+      },
+      "songKey": "takemehome|apple:ar:424817976",
+      "storeUrl": "https://music.apple.com/jp/album/take-me-home/799237149?i=799237164",
+      "title": "TAKE ME HOME",
+      "titleKeys": [
+        "takemehome"
+      ],
+      "titleLatin": null
+    }
+  ]
+}

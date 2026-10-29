@@ -526,3 +526,24 @@ latin = "Kaze to watashi no monogatari"
 
 [tracks."apple:tr:1838991863"]  # 風と私の物語 (Ado); cutlet: "Kaze to watakushi no monogatari"
 latin = "Kaze to watashi no monogatari"
+
+# --- 水樹奈々 e MAN WITH A MISSION (29/10/2026): o romaji que o cutlet errou ---
+# A leitura de cada um é a do UtaTen (o campo よみ da página da música).
+
+[tracks."apple:tr:378286848"]  # 宝物 (水樹奈々); cutlet: "Houmotsu"; たからもの
+latin = "Takaramono"
+
+[tracks."apple:tr:1128261204"]  # 恋想花火 (水樹奈々); cutlet: "Koi omoe hanabi"; れんそうはなび
+latin = "Rensou hanabi"
+
+[tracks."apple:tr:1009190554"]  # 星天ギャラクシィクロス (水樹奈々); cutlet: "Seiten gyarakushikurosu"
+latin = "Seiten gyarakushii kurosu"
+
+[tracks."apple:tr:580756616"]  # 奇跡のメロディア (水樹奈々); cutlet: "Kiseki no mero dia"
+latin = "Kiseki no merodia"
+
+[tracks."apple:tr:1016814577"]  # ブランブル (水樹奈々); cutlet: "Buran buru"
+latin = "Buranburu"
+
+[tracks."apple:tr:1568337890"]  # 小さきものたち (MAN WITH A MISSION); cutlet: "Chiisa kimonotachi"
+latin = "Chiisaki monotachi"
