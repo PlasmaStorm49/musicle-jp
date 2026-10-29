@@ -643,6 +643,8 @@ export const ptBR = {
 
   // O quiz do dia (M18, Apêndice Q do PLANO): duas músicas de anime, uma pergunta, 2 vidas.
   "quiz.title": "Quiz do dia",
+  // A etiqueta do especial da semana (P381), ao lado do título (o usuário, 28/10/2026).
+  "quiz.special": "Especial",
   "quiz.unavailable": "Não há quiz do dia hoje.",
   "quiz.unavailableDay": "Não há quiz do dia nesse dia.",
   "quiz.retry": "Não foi possível carregar o quiz do dia. Confira a conexão.",
@@ -721,6 +723,7 @@ export const ptBR = {
   "quiz.right.one": "{count} acerto",
   "quiz.right.other": "{count} acertos",
   "quiz.shareHeader": "{title} · Quiz do dia · {date}",
+  "quiz.shareHeaderSpecial": "{title} · Quiz do dia · Especial · {date}",
   "quiz.shareResult": "Rodada {reached} · {right}",
   "quiz.shareResultPoints": "Rodada {reached} · {points}",
   // O bônus de estreia (o usuário, 25/10/2026): 3 rodadas de outras perguntas, só no 1º dia.

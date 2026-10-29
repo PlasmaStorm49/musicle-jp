@@ -109,6 +109,29 @@ export function isMalFamily(family: QuizFamily): boolean {
   return MAL_FAMILIES.has(family);
 }
 
+/**
+ * Os especiais da semana (P381), de até 30 rodadas (P376): os `SPECIALS` do `anime_quiz.py`. A
+ * tela e o compartilhar os marcam (o usuário, 28/10/2026). Todas as famílias, para a nova (os
+ * artistas parecidos, P385) não compilar sem a decisão.
+ */
+const SPECIAL: Readonly<Record<QuizFamily, boolean>> = {
+  ano: false,
+  nota: false,
+  membros: false,
+  playlists: false,
+  amq: false,
+  rotulo: false,
+  fonte: false,
+  tema: false,
+  estudio: true,
+  ano_x: true,
+};
+
+export function isSpecialFamily(family: QuizFamily): boolean {
+  // A agenda vem de fora: uma família que o código não conhece não é especial.
+  return SPECIAL[family] === true;
+}
+
 // ---- o estado da run ----
 
 /** "right" e "wrong": a escolha; "void": sem áudio, ou com uma faixa que saiu do catálogo. */
