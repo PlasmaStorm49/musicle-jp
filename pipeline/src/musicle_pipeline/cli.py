@@ -82,6 +82,7 @@ from musicle_pipeline.schedule import (
     Generator,
     ScheduleError,
     check_dates,
+    choose_base_ref,
     compare,
     generate,
     read_base_ref,
@@ -673,6 +674,13 @@ def _schedule_check(args: argparse.Namespace) -> int:
     if args.catalog is not None and len(args.path or []) != 1:
         print("--catalog vale para uma agenda só: passe exatamente um --path", file=sys.stderr)
         return 1
+    if args.before is not None and args.event is None:
+        print("--before vale só com --event", file=sys.stderr)
+        return 1
+    if args.event is not None:
+        # A CI passa o evento, e a base sai dele (ME12).
+        args.base_ref, reason = choose_base_ref(args.event, args.before)
+        print(f"Comparando a agenda com: {args.base_ref} ({reason})")
     # Com --path, o tipo sai do conteúdo (o "kind" das agendas do Anime e das Misturadas).
     targets = [(resolve(p), None) for p in args.path] if args.path else known_schedules()
     results = [
@@ -1238,6 +1246,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     base = check.add_mutually_exclusive_group(required=True)
     base.add_argument("--base-ref", help="revisão do git, ex.: origin/main")
     base.add_argument("--base", type=Path, help="arquivo de base (ausente = vazio)")
+    base.add_argument(
+        "--event",
+        choices=["pull_request", "push"],
+        help="evento do GitHub que rodou a CI: a revisão base sai dele (ME12)",
+    )
+    check.add_argument("--before", help="no push, o github.event.before (vazio = branch novo)")
     check.add_argument(
         "--today",
         type=date.fromisoformat,
