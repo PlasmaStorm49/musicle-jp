@@ -75,26 +75,18 @@ jobs:
       - run: python -m musicle_pipeline validate-anime --provider fixture
       - run: python -m musicle_pipeline validate-anime --provider apple
       - name: Agenda só cresceu
-        # Valores do evento entram por env, nunca direto no script (injeção de comando).
+        # A revisão base sai do evento, no Python (o choose_base_ref, ME12): no PR, o 1º pai do
+        # commit de merge de teste; no push, o before. Valores do evento entram por env, nunca
+        # direto no script (injeção de comando).
         env:
           EVENT: ${{ github.event_name }}
           BEFORE: ${{ github.event.before }}
-          CREATED: ${{ github.event.created }}
         run: |
-          if [ "$EVENT" = "pull_request" ]; then
-            # O PR roda no commit de merge de teste: o 1º pai é a base exata do que foi testado
-            # (a ponta da main pode ter andado depois).
-            base="HEAD^1"
-          elif [ "$CREATED" != "true" ] && git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
-            base="$BEFORE"
-          else
-            base="HEAD^1" # branch novo (before = 000...) ou revisão inalcançável
-          fi
           # Hoje em Brasília (P44): dia novo não pode ter passado. E os dias novos precisam ser os
           # que o gerador daria com o catálogo do mesmo commit (regra inviolável 3, ME45 e ME51).
           today="$(TZ=America/Sao_Paulo date +%F)"
-          echo "Comparando a agenda com: $base (hoje em Brasília: $today)"
-          python -m musicle_pipeline schedule-check --base-ref "$base" --today "$today"
+          echo "Hoje em Brasília: $today"
+          python -m musicle_pipeline schedule-check --event "$EVENT" --before "$BEFORE" --today "$today"
 
   web:
     runs-on: ubuntu-24.04
