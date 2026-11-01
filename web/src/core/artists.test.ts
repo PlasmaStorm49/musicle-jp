@@ -249,7 +249,7 @@ describe("artistSummary (cartão da home)", () => {
 
   it("no Superfan: o placar da partida, depois da 1ª música terminada (o erro não tira ponto, ME107)", () => {
     const run = startSuperfan(1, index, NONE);
-    const fresh: ArtistPlay = { kind: "superfan", artist: entry, run };
+    const fresh: ArtistPlay = { kind: "superfan", artist: entry, run, before: null };
     expect(artistSummary(fresh)).toBeNull();
     const game = run.session.game;
     if (!game) throw new Error("sem música");

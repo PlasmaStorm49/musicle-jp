@@ -16,6 +16,7 @@ import {
   expect,
   hearBoth,
   lastPlayed,
+  longestArtistName,
   navLink,
   open,
   openWithMedals,
@@ -233,10 +234,18 @@ for (const viewport of [
       expect(height).toBeGreaterThanOrEqual(30);
     });
 
-    test("a escolha do submodo", async ({ page }) => {
+    test("a escolha do submodo no caso mais alto: o nome mais largo e o recorde do Superfan no cartão (o usuário, 01/11/2026)", async ({
+      page,
+    }) => {
+      const best = { score: 135, song: 12 };
+      await seedHistory(page, {}, { "fixture:ar:ar02": { right: 50, done: true, best } });
+      await longestArtistName(page);
       await open(page, DAY, "#artistas");
-      await page.getByRole("button", { name: /^夜風シアター/ }).click();
+      await page.getByRole("button", { name: /^新しい学校のリーダーズ/ }).click();
       await expect(page.getByRole("button", { name: "Livre" })).toBeVisible();
+      await expect(page.locator("#artist-mode-superfan-best")).toHaveText(
+        "Recorde: 135 pontos, até a música 12",
+      );
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
@@ -249,11 +258,16 @@ for (const viewport of [
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 
-    test("o fim do Superfan no caso mais alto: a partida completa, com o bônus das vidas e os acertos", async ({
+    test("o fim do Superfan no caso mais alto: a partida completa, com o bônus das vidas, os acertos e os dois recordes batidos", async ({
       page,
     }) => {
+      // Um recorde pequeno, de antes: a partida completa passa dos dois números. O nome é o
+      // mais largo da lista real.
+      const best = { score: 0, song: 1 };
+      await seedHistory(page, {}, { "fixture:ar:ar02": { right: 1, best } });
+      await longestArtistName(page);
       await open(page, DAY, "#artistas");
-      await page.getByRole("button", { name: /^夜風シアター/ }).click();
+      await page.getByRole("button", { name: /^新しい学校のリーダーズ/ }).click();
       await page.getByRole("button", { name: "Superfan" }).click();
       const field = page.getByRole("combobox", { name: "Qual é a música?" });
       const end = page.getByRole("heading", { level: 1, name: "Fim da partida" });
@@ -273,6 +287,7 @@ for (const viewport of [
       }
       await expect(end).toBeVisible();
       await expect(page.getByText(/^Bônus de 3 vidas que sobraram/)).toBeVisible();
+      await expect(page.locator(".superfan-best")).toHaveCount(2);
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
     });
 

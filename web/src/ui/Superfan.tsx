@@ -2,12 +2,15 @@ import { useCallback, useEffect, useMemo, useRef } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import { drawPractice } from "../core/practice.ts";
+import type { SuperfanBest } from "../core/records.ts";
 import { currentRound, type GameEvent, type GameState } from "../core/reducer.ts";
 import {
+  beatenBest,
   quitSuperfan,
   SUPERFAN_HELPS,
   SUPERFAN_LIVES,
   type SuperfanRun,
+  superfanBest,
   superfanBonus,
   superfanErrors,
   superfanHelps,
@@ -31,6 +34,8 @@ import { singleClick } from "./singleClick.ts";
 type Props = {
   readonly artist: ArtistListEntry;
   readonly run: SuperfanRun;
+  /** O recorde do artista quando a partida começou: o fim diz o que ela bateu. */
+  readonly before: SuperfanBest | null;
   readonly index: CatalogIndex;
   readonly resolver: PreviewResolver;
   /** As músicas fora do sorteio: as respostas dos diários de hoje (P141). */
@@ -56,6 +61,7 @@ const points = (value: number) => tn("count.points", value);
 export function SuperfanView({
   artist,
   run,
+  before,
   index,
   resolver,
   excluded,
@@ -118,7 +124,15 @@ export function SuperfanView({
   const offset = game ? superfanOffset(seed, game.puzzleId, duration) : 0;
 
   if (run.end !== null || !game) {
-    return <SuperfanEnd artist={artist} run={run} onAgain={onAgain} onSwitch={onSwitch} />;
+    return (
+      <SuperfanEnd
+        artist={artist}
+        run={run}
+        before={before}
+        onAgain={onAgain}
+        onSwitch={onSwitch}
+      />
+    );
   }
   const score = superfanScore(run);
   const round = currentRound(game);
@@ -189,17 +203,19 @@ export function SuperfanView({
 }
 
 /**
- * O fim da partida: o motivo, o placar final (com o bônus das vidas, na partida completa) e os
- * acertos. Tela nova: o foco vai para o título.
+ * O fim da partida: o motivo, o placar final (com o bônus das vidas, na partida completa), os
+ * acertos e o recorde que ela bateu (o usuário, 01/11/2026). Tela nova: o foco vai para o título.
  */
 function SuperfanEnd({
   artist,
   run,
+  before,
   onAgain,
   onSwitch,
 }: {
   readonly artist: ArtistListEntry;
   readonly run: SuperfanRun;
+  readonly before: SuperfanBest | null;
   readonly onAgain: () => void;
   readonly onSwitch: () => void;
 }) {
@@ -207,6 +223,8 @@ function SuperfanEnd({
   useEffect(() => heading.current?.focus(), []);
   const score = superfanScore(run);
   const bonus = superfanBonus(run);
+  const best = superfanBest(run);
+  const beaten = beatenBest(before, best);
   // Sem nenhuma música sorteada (as de hoje ficaram de fora), não houve partida. Com as jogadas
   // todas anuladas (falha de áudio), houve: o placar zerado não diz isso, o número diz.
   const reason =
@@ -235,6 +253,16 @@ function SuperfanEnd({
         {score.rounds > 0 && (
           <p>
             {t("superfan.right", { right: run.right, played: tn("superfan.songs", score.rounds) })}
+          </p>
+        )}
+        {before && beaten.score && (
+          <p class="superfan-best">
+            {t("superfan.newBestScore", { points: points(before.score) })}
+          </p>
+        )}
+        {before && best && beaten.song && (
+          <p class="superfan-best">
+            {t("superfan.newBestSong", { song: best.song, previous: before.song })}
           </p>
         )}
         <div class="artists-actions">

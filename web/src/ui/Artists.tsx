@@ -13,12 +13,19 @@ import {
   pendingDailySongKeys,
   startPracticeSession,
 } from "../core/practice.ts";
-import { type Save, withArtistRight, withSuperfanEnd } from "../core/records.ts";
+import {
+  type Save,
+  type SuperfanBest,
+  withArtistRight,
+  withSuperfanBest,
+  withSuperfanEnd,
+} from "../core/records.ts";
 import { currentRound } from "../core/reducer.ts";
 import {
   SUPERFAN_LIVES,
   type SuperfanRun,
   startSuperfan,
+  superfanBest,
   superfanOutcome,
 } from "../core/superfan.ts";
 import type { ArtistList, ArtistListEntry, Day } from "../core/types.ts";
@@ -63,9 +70,14 @@ export type ArtistStoreOptions = {
   readonly resolveUrl: (url: string) => string;
   /**
    * Grava uma mudança no save (o `updateSave` do App): o modo por artista guarda só os acertos e
-   * o fim do Superfan, pelas medalhas (P289). Sem ele (os testes), nada é gravado.
+   * o fim do Superfan, pelas medalhas (P289), com o recorde. Sem ele (os testes), nada é gravado.
    */
   readonly record?: (change: (save: Save) => Save) => void;
+  /**
+   * Relê o save depois de gravar o fim de uma partida do Superfan (o `refresh` do App): a página
+   * do artista mostra o recorde novo, e o "Jogar de novo" parte dele (o usuário, 01/11/2026).
+   */
+  readonly onRunEnd?: () => void;
 };
 
 /**
@@ -112,6 +124,7 @@ export function useArtistStore({
   budget,
   resolveUrl,
   record,
+  onRunEnd,
 }: ArtistStoreOptions): ArtistStore {
   const [list, setList] = useState<ListLoad>({ status: "idle" });
   const [choosing, setChoosing] = useState<ArtistStore["choosing"]>(null);
@@ -197,9 +210,10 @@ export function useArtistStore({
     setPickedEntry(null);
   }, []);
 
-  // Cada música acertada e o fim da partida do Superfan vão para o save uma vez só (P289). A
-  // chave é o artista, o submodo, a semente da sessão e o número da rodada: voltar à aba, com a
-  // sessão guardada aqui, remonta a revelação, mas não conta de novo. A anulada não é acerto.
+  // Cada música acertada e o fim da partida do Superfan vão para o save uma vez só (P289), o fim
+  // com o recorde. A chave é o artista, o submodo, a semente da sessão e o número da rodada: voltar
+  // à aba, com a sessão guardada aqui, remonta a revelação, mas não conta de novo. A anulada não é
+  // acerto.
   const recorded = useRef(new Set<string>());
   useEffect(() => {
     if (!play || !record) return;
@@ -207,18 +221,26 @@ export function useArtistStore({
     const artistId = play.artist.id;
     const base = `${artistId}|${play.kind}|${session.practice.seed}`;
     const once = (key: string, change: (save: Save) => Save) => {
-      if (recorded.current.has(key)) return;
+      if (recorded.current.has(key)) return false;
       recorded.current.add(key);
       record(change);
+      return true;
     };
     if (session.game && currentRound(session.game).status === "won") {
       once(`${base}|${session.number}`, (save) => withArtistRight(save, artistId));
     }
     if (play.kind === "superfan" && play.run.end !== null) {
       const outcome = superfanOutcome(play.run);
-      once(`${base}|fim`, (save) => withSuperfanEnd(save, artistId, outcome));
+      const best = superfanBest(play.run);
+      const ended = once(`${base}|fim`, (save) => {
+        const done = withSuperfanEnd(save, artistId, outcome);
+        return best ? withSuperfanBest(done, artistId, best) : done;
+      });
+      // Reler o save no meio de uma rodada recriaria a exclusão das respostas de hoje (P141); no
+      // fim da partida não há rodada.
+      if (ended) onRunEnd?.();
     }
-  }, [play, record]);
+  }, [play, record, onRunEnd]);
   const cancelChoice = useCallback(() => {
     loading.current = null;
     setChoosing(null);
@@ -296,13 +318,17 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
       ),
     }));
   };
+  // O recorde do Superfan, do save: o App o relê no fim de cada partida (`onRunEnd`).
+  const bestOf = (artistId: string) => save.artists[artistId]?.best ?? null;
   const startSuperfanRun = () => {
     if (!picked) return;
     const seed = randomSeed();
+    const before = bestOf(picked.entry.id);
     store.begin(({ file, index }) => ({
       kind: "superfan",
       artist: picked.entry,
       run: startSuperfan(seed, index, excludedForArtist(file, chart, pendingSongs)),
+      before,
     }));
   };
 
@@ -312,6 +338,7 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
         <SuperfanView
           artist={play.artist}
           run={play.run}
+          before={play.before}
           index={loaded.index}
           resolver={loaded.resolver}
           excluded={excluded}
@@ -324,6 +351,7 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
               kind: "superfan",
               artist: play.artist,
               run: startSuperfan(randomSeed(), loaded.index, excluded),
+              before: bestOf(play.artist.id),
             })
           }
           onSwitch={store.restart}
@@ -346,6 +374,7 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
     return (
       <ModeChoice
         entry={picked.entry}
+        best={bestOf(picked.entry.id)}
         onFree={startFree}
         onSuperfan={startSuperfanRun}
         onBack={store.restart}
@@ -515,15 +544,18 @@ function ArtistCards({
 
 /**
  * A escolha do submodo, depois do artista (P161): o Livre (o Desafio sem fim) ou o Superfan (a
- * partida difícil, ME61). Tela nova: o foco vai para o título, o nome do artista.
+ * partida difícil, ME61), com o recorde embaixo da dica, depois da 1ª partida acabada (o usuário,
+ * 01/11/2026). Tela nova: o foco vai para o título, o nome do artista.
  */
 function ModeChoice({
   entry,
+  best,
   onFree,
   onSuperfan,
   onBack,
 }: {
   readonly entry: ArtistListEntry;
+  readonly best: SuperfanBest | null;
   readonly onFree: () => void;
   readonly onSuperfan: () => void;
   readonly onBack: () => void;
@@ -531,11 +563,20 @@ function ModeChoice({
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
   const modes = [
-    { id: "free", name: t("artists.free"), hint: t("artists.freeHint"), start: onFree },
+    {
+      id: "free",
+      name: t("artists.free"),
+      hint: t("artists.freeHint"),
+      best: null,
+      start: onFree,
+    },
     {
       id: "superfan",
       name: t("superfan.name"),
       hint: t("artists.superfanHint", { total: SUPERFAN_LIVES }),
+      best: best
+        ? t("artists.superfanBest", { points: tn("count.points", best.score), song: best.song })
+        : null,
       start: onSuperfan,
     },
   ] as const;
@@ -554,7 +595,11 @@ function ModeChoice({
               type="button"
               class="mode home-card"
               aria-labelledby={`artist-mode-${mode.id}-name`}
-              aria-describedby={`artist-mode-${mode.id}-hint`}
+              aria-describedby={
+                mode.best
+                  ? `artist-mode-${mode.id}-hint artist-mode-${mode.id}-best`
+                  : `artist-mode-${mode.id}-hint`
+              }
               // O 2º clique do toque duplo no cartão do artista cai aqui: não começa a sessão.
               onClick={singleClick(mode.start)}
             >
@@ -564,6 +609,12 @@ function ModeChoice({
               <span id={`artist-mode-${mode.id}-hint`} class="mode-hint">
                 {mode.hint}
               </span>
+              {/* O recorde é resultado: a legenda em negrito, como o placar dos cartões da Início. */}
+              {mode.best && (
+                <span id={`artist-mode-${mode.id}-best`} class="tag">
+                  {mode.best}
+                </span>
+              )}
             </button>
           </li>
         ))}
