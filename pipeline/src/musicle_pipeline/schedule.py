@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import subprocess
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
@@ -461,22 +462,46 @@ def regenerate_problems(
     return problems
 
 
+def commit_exists(ref: str) -> bool:
+    """A revisão existe no clone e é (ou aponta para) um commit."""
+    check = subprocess.run(
+        ["git", "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"],
+        cwd=repo_root(),
+        capture_output=True,
+        check=False,
+    )
+    return check.returncode == 0
+
+
+# O SHA de um commit (SHA-1 ou SHA-256). O before de um branch novo é só de zeros.
+_SHA = re.compile(r"[0-9a-f]{40}|[0-9a-f]{64}")
+
+
+def choose_base_ref(
+    event: str, before: str | None, exists: Callable[[str], bool] = commit_exists
+) -> tuple[str, str]:
+    """A revisão com que a CI compara a agenda, e o porquê (ME12; antes, no YAML). No PR, o 1º
+    pai do commit de merge de teste: a base exata do que foi testado (a ponta da main pode ter
+    andado depois). No push, o `before`, a ponta de antes do push; sem ele (branch novo, só de
+    zeros, ou fora do clone), o 1º pai."""
+    if event == "pull_request":
+        return "HEAD^1", "o 1º pai do commit de merge de teste do PR"
+    if not before or _SHA.fullmatch(before) is None or not before.strip("0"):
+        return "HEAD^1", "o 1º pai, porque o push não trouxe o before: branch novo?"
+    if not exists(before):
+        return "HEAD^1", f"o 1º pai, porque o before {before} não está no clone"
+    return before, "a ponta de antes do push"
+
+
 def read_base_ref(ref: str, path: str) -> JSON | None:
     """Lê o arquivo numa revisão do git, em bytes (sem passar por redirecionamento de shell).
 
     Ref inexistente é erro; arquivo ausente nessa revisão vale como agenda vazia.
     """
-    root = repo_root()
-    check = subprocess.run(
-        ["git", "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"],
-        cwd=root,
-        capture_output=True,
-        check=False,
-    )
-    if check.returncode != 0:
+    if not commit_exists(ref):
         raise ScheduleError(f"revisão do git inexistente: {ref}")
     shown = subprocess.run(
-        ["git", "show", f"{ref}:{path}"], cwd=root, capture_output=True, check=False
+        ["git", "show", f"{ref}:{path}"], cwd=repo_root(), capture_output=True, check=False
     )
     if shown.returncode != 0:
         return None

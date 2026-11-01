@@ -17,6 +17,8 @@ from musicle_pipeline.paths import repo_root
 from musicle_pipeline.schedule import (
     ScheduleError,
     check_dates,
+    choose_base_ref,
+    commit_exists,
     compare,
     generate,
     read_base_ref,
@@ -346,6 +348,56 @@ def test_read_base_ref_handles_missing_ref_and_missing_file():
     # Arquivo que não existe na revisão (como a agenda antes do M3): base vazia. Não cita um
     # commit pelo hash: o histórico pode ser reescrito e a CI pode clonar sem ele.
     assert read_base_ref("HEAD", "web/public/fixtures/nao-existe.json") is None
+
+
+# --- A revisão base da CI, escolhida pelo evento (ME12) ---
+
+SHA = "a" * 40
+
+
+def _never(ref: str) -> bool:
+    raise AssertionError(f"não devia procurar {ref} no clone")
+
+
+def test_choose_base_ref_on_a_pull_request_is_the_first_parent():
+    # No PR, o before (o do synchronize) não conta: a base é a do commit de merge de teste.
+    assert choose_base_ref("pull_request", SHA, _never)[0] == "HEAD^1"
+    assert choose_base_ref("pull_request", "", _never)[0] == "HEAD^1"
+
+
+def test_choose_base_ref_on_a_push_is_the_before_in_the_clone():
+    assert choose_base_ref("push", SHA, lambda ref: True) == (SHA, "a ponta de antes do push")
+    sha256 = "b" * 64
+    assert choose_base_ref("push", sha256, lambda ref: True)[0] == sha256
+
+
+def test_choose_base_ref_on_a_push_without_a_usable_before_is_the_first_parent():
+    # Branch novo (só zeros), before vazio ou ausente, e o que não é um SHA inteiro: nem vai ao
+    # git (um "--opção" viraria argumento dele).
+    for before in ("0" * 40, "", None, "main", "--output=x", SHA[:7]):
+        assert choose_base_ref("push", before, _never)[0] == "HEAD^1"
+    # Um SHA fora do clone (um checkout raso): o 1º pai, e o porquê cita o before.
+    ref, reason = choose_base_ref("push", SHA, lambda ref: False)
+    assert ref == "HEAD^1"
+    assert SHA in reason
+
+
+@pytest.mark.skipif(shutil.which("git") is None, reason="git não está no PATH")
+def test_cli_schedule_check_with_the_event(capsys):
+    root = repo_root()
+    head = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=root, capture_output=True, text=True, check=True
+    ).stdout.strip()
+    assert commit_exists(head)
+    assert not commit_exists("0" * 40)
+    # O push com um before do clone compara com ele (aqui, o HEAD: o mesmo do --base-ref HEAD).
+    path = ["--path", str(root / "web" / "public" / "fixtures" / "schedule.json")]
+    assert main(["schedule-check", "--event", "push", "--before", head, *path]) == 0
+    assert f"Comparando a agenda com: {head} (a ponta de antes do push)" in capsys.readouterr().out
+    # O --before só vale com o --event, e o --event não se junta a outra base.
+    assert main(["schedule-check", "--base-ref", "HEAD", "--before", head, *path]) == 1
+    with pytest.raises(SystemExit):
+        main(["schedule-check", "--event", "push", "--base-ref", "HEAD"])
 
 
 # --- P44 na CI (ME45) e os dias novos iguais aos do gerador (ME51) ---
