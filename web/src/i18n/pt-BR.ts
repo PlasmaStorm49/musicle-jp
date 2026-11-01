@@ -378,6 +378,9 @@ export const ptBR = {
   "artists.freeHint": "Rodadas sem fim do Desafio, com o placar da sessão.",
   "artists.superfanHint":
     "Para quem conhece tudo: trechos curtos, de um ponto sorteado da música. São {total} vidas: cada erro e cada desistir custam uma, e as que sobrarem no fim valem pontos. Na dúvida, pule ou peça ajuda.",
+  // O recorde do Superfan no cartão, depois da 1ª partida acabada (o usuário, 01/11/2026): o maior
+  // placar e a música mais longe, que podem ser de partidas diferentes.
+  "artists.superfanBest": "Recorde: {points}, até a música {song}",
   "superfan.name": "Superfan",
   "superfan.song": "Música {number}",
   "superfan.score": "Placar: {points}",
@@ -398,6 +401,9 @@ export const ptBR = {
   "superfan.right": "Acertou {right} de {played}.",
   "superfan.songs.one": "{count} música",
   "superfan.songs.other": "{count} músicas",
+  // O fim que passou do recorde de antes da partida; a 1ª partida não tem o que bater.
+  "superfan.newBestScore": "Novo recorde de pontos! O anterior era {points}.",
+  "superfan.newBestSong": "Novo recorde: chegou à música {song}. O anterior era a {previous}.",
   "superfan.again": "Jogar de novo",
   "superfan.errorNote": "Perdeu uma vida. {left}",
   "superfan.lostLives.one": "Perdeu {count} vida. {left}",

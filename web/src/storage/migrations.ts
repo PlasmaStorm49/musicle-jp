@@ -1,7 +1,7 @@
 // Migrações do formato salvo: uma função por versão, de N para N+1, cada uma com um teste que
 // lê um save real da versão anterior (web/CLAUDE.md, regra 12).
 
-export const SAVE_SCHEMA_VERSION = 14;
+export const SAVE_SCHEMA_VERSION = 15;
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 
@@ -62,6 +62,11 @@ export const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // (`family`), para as medalhas do especial e das perguntas diferentes. Nada muda no que já existe:
   // a run de antes fica sem a família. A versão sobe pelo mesmo motivo da v13.
   13: (data) => data,
+  // v14 → v15 (o usuário, 01/11/2026): o recorde do Superfan no registro do artista (`best`). Nada
+  // muda no que já existe: o recorde começa na 1ª partida acabada depois desta versão. A versão sobe
+  // para que uma aba com o código velho (que acabaria a partida sem gravar o recorde) veja "versão
+  // mais nova" e não grave.
+  14: (data) => data,
 };
 
 /** Leva um save da versão `from` até a atual. Versão sem migração conhecida: erro. */

@@ -27,7 +27,13 @@ import {
   type QuizGame,
   type QuizProgress,
 } from "../core/quiz.ts";
-import type { ArtistRecord, FinishedGame, InProgress, Save } from "../core/records.ts";
+import type {
+  ArtistRecord,
+  FinishedGame,
+  InProgress,
+  Save,
+  SuperfanBest,
+} from "../core/records.ts";
 import { emptySave, SHELF_SIZE } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
 import { HELP_OPTIONS, MAX_STAGE, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
@@ -310,13 +316,19 @@ function medalIds(x: unknown, max = Number.MAX_SAFE_INTEGER): { ids: string[]; d
   return { ids: ids.slice(0, max), dropped: ids.length !== x.length || ids.length > max };
 }
 
+/** O recorde do Superfan (v15): o placar e a música, que é a 1ª ou uma depois dela. */
+function isSuperfanBest(x: unknown): x is SuperfanBest {
+  return isRecord(x) && isNonNegativeInt(x.score) && isNonNegativeInt(x.song) && x.song > 0;
+}
+
 export function isArtistRecord(x: unknown): x is ArtistRecord {
   return (
     isRecord(x) &&
     isNonNegativeInt(x.right) &&
     (x.done === undefined || x.done === true) &&
     // A perfeita é também terminada (`withSuperfanEnd`).
-    (x.perfect === undefined || (x.perfect === true && x.done === true))
+    (x.perfect === undefined || (x.perfect === true && x.done === true)) &&
+    (x.best === undefined || isSuperfanBest(x.best))
   );
 }
 
@@ -340,9 +352,15 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
   const seen = medalIds(data.seenMedals);
   const shelf = medalIds(data.shelf, SHELF_SIZE);
   const artists: Record<string, ArtistRecord> = {};
-  for (const [id, record] of Object.entries(isRecord(data.artists) ? data.artists : {})) {
-    if (ARTIST_ID.test(id) && isArtistRecord(record)) artists[id] = record;
-    else dropped = true;
+  for (const [id, raw] of Object.entries(isRecord(data.artists) ? data.artists : {})) {
+    // O recorde fora do formato (v15) sai sozinho: o resto do registro vale as medalhas.
+    const record =
+      isRecord(raw) && raw.best !== undefined && !isSuperfanBest(raw.best)
+        ? Object.fromEntries(Object.entries(raw).filter(([field]) => field !== "best"))
+        : raw;
+    const kept = ARTIST_ID.test(id) && isArtistRecord(record);
+    if (kept) artists[id] = record;
+    if (!kept || record !== raw) dropped = true;
   }
   // O total do Treino (v9): fora do formato, zera e vira reparo, como o `artists` ausente.
   const practiceRight = isNonNegativeInt(data.practiceRight) ? data.practiceRight : 0;
@@ -381,7 +399,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     !isRecord(quiz.progress);
   return {
     save: {
-      schemaVersion: 14,
+      schemaVersion: 15,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),

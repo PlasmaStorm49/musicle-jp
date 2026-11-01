@@ -37,7 +37,7 @@ const save: Save = {
   inProgress: { "2026-10-23|song": { events: [{ type: "SKIP" }] } },
   seenMedals: ["diario-1", "superfan|apple:ar:1|completo"],
   shelf: ["diario-1"],
-  artists: { "apple:ar:1": { right: 4, done: true } },
+  artists: { "apple:ar:1": { right: 4, done: true, best: { score: 35, song: 4 } } },
   practiceRight: 12,
 };
 
@@ -149,12 +149,18 @@ describe("parseImport (ME103)", () => {
           rounds: finished.rounds.map((r) => ({ ...r, extra: 1 })),
         },
       },
-      artists: { "apple:ar:1": { right: 4, done: true, extra: true } },
+      artists: {
+        "apple:ar:1": { right: 4, done: true, best: { score: 35, song: 4, extra: 1 }, extra: true },
+      },
     };
     const result = parseImport(file(odd), TODAY);
     if (!result.ok) throw new Error(result.reason);
     expect(result.save.history["2026-10-20|album"]).toEqual(finished);
-    expect(result.save.artists["apple:ar:1"]).toEqual({ right: 4, done: true });
+    expect(result.save.artists["apple:ar:1"]).toEqual({
+      right: 4,
+      done: true,
+      best: { score: 35, song: 4 },
+    });
   });
 
   it("descarta o jogo de um dia depois de hoje e o jogado depois com a data de hoje", () => {

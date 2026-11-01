@@ -111,6 +111,7 @@ function cleanArtist(record: ArtistRecord): ArtistRecord {
     right: record.right,
     ...(record.done ? { done: true } : {}),
     ...(record.perfect ? { perfect: true } : {}),
+    ...(record.best ? { best: { score: record.best.score, song: record.best.song } } : {}),
   };
 }
 

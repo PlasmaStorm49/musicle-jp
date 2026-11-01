@@ -2671,6 +2671,12 @@ dialog.medal-dialog .attribution {
   color: var(--text);
 }
 
+/* O recorde batido (o usuário, 01/11/2026): é notícia, no texto normal e em negrito. */
+.superfan-end .superfan-best {
+  font-weight: 700;
+  color: var(--text);
+}
+
 .superfan-end .artists-actions {
   margin-top: var(--sp-3);
 }

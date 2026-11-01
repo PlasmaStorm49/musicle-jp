@@ -52,8 +52,16 @@ export type InProgress = {
 };
 
 /**
- * O que o save guarda do modo por artista (v8, P289): só o mínimo das medalhas do Superfan. A
- * partida em si continua só na memória (P116). Os três campos só crescem.
+ * O recorde do Superfan num artista (o usuário, 01/11/2026): o maior placar final de uma partida,
+ * com o bônus das vidas, e a música mais longe a que uma chegou (o "Música N" do cabeçalho). Cada
+ * número é o máximo dele, e os dois podem vir de partidas diferentes. A partida encerrada pela
+ * pessoa também conta.
+ */
+export type SuperfanBest = { readonly score: number; readonly song: number };
+
+/**
+ * O que o save guarda do modo por artista (v8, P289): o mínimo das medalhas do Superfan e o
+ * recorde. A partida em si continua só na memória (P116). Os campos só crescem.
  */
 export type ArtistRecord = {
   /** Músicas do artista acertadas no modo por artista (a Livre e o Superfan somam, P285). */
@@ -62,6 +70,11 @@ export type ArtistRecord = {
   readonly done?: true;
   /** Terminou uma perfeita: sem erro, sem ajuda e tudo no trecho de 1 s. */
   readonly perfect?: true;
+  /**
+   * O recorde do Superfan (v15, o usuário, 01/11/2026), desde a 1ª partida acabada. Guardado, e não
+   * derivado, porque a partida não vai para o save (P116).
+   */
+  readonly best?: SuperfanBest;
 };
 
 /** O fim de uma partida do Superfan, como o save o guarda (`superfanOutcome`). */
@@ -74,10 +87,10 @@ export type SuperfanOutcome = { readonly done: boolean; readonly perfect: boolea
  * do jogado depois, `late`. v8 (P289): as medalhas já avisadas, a estante (ME118) e o modo por
  * artista. v9 (P308): os acertos do Treino. v10 (M17): as Misturadas. v11: o jogado depois
  * nelas, pelo Histórico. v12 (M18): o quiz do dia. v13: os pontos do quiz. v14: a família da
- * pergunta na run do quiz (storage/migrations.ts).
+ * pergunta na run do quiz. v15: o recorde do Superfan (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 14;
+  readonly schemaVersion: 15;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
   /** Os ids das medalhas que esta pessoa já viu avisadas, em ordem alfabética (P281). */
@@ -105,7 +118,7 @@ export const SHELF_SIZE = 3;
 
 export function emptySave(): Save {
   return {
-    schemaVersion: 14,
+    schemaVersion: 15,
     history: {},
     inProgress: {},
     seenMedals: [],
@@ -312,6 +325,31 @@ export function withSuperfanEnd(save: Save, artistId: string, outcome: SuperfanO
     ...(perfect ? { perfect: true } : {}),
   };
   return { ...save, artists: { ...save.artists, [artistId]: next } };
+}
+
+/**
+ * O maior de dois recordes, número a número: o placar de um e a música do outro podem ficar
+ * juntos. Sem nenhum, null.
+ */
+export function mergeBest(
+  a: SuperfanBest | null | undefined,
+  b: SuperfanBest | null | undefined,
+): SuperfanBest | null {
+  if (!a || !b) return a ?? b ?? null;
+  return { score: Math.max(a.score, b.score), song: Math.max(a.song, b.song) };
+}
+
+/**
+ * O recorde de uma partida acabada do Superfan no do artista (o usuário, 01/11/2026): cada número
+ * só cresce. Sem nada novo, o mesmo objeto.
+ */
+export function withSuperfanBest(save: Save, artistId: string, run: SuperfanBest): Save {
+  const current = save.artists[artistId] ?? NO_ARTIST;
+  const best = mergeBest(current.best, run);
+  if (!best || (best.score === current.best?.score && best.song === current.best.song)) {
+    return save;
+  }
+  return { ...save, artists: { ...save.artists, [artistId]: { ...current, best } } };
 }
 
 /**

@@ -1,5 +1,6 @@
 // @vitest-environment happy-dom
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
+import { useState } from "preact/hooks";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { AudioEngine } from "../audio/engine.ts";
 import { PLAYLIST_URL } from "../core/apple.ts";
@@ -212,8 +213,12 @@ function setup(day: Day | null = null, net = server()) {
   // O que o modo grava no save (P289): cada mudança, aplicada em ordem por `saved`.
   const record = vi.fn<(change: (save: Save) => Save) => void>();
   const saved = () => record.mock.calls.reduce((save, [change]) => change(save), emptySave());
+  // Como o `refresh` do App: o fim da partida do Superfan relê o save, o de `saved`, que daí em
+  // diante vale no lugar do `save` dado.
+  const onRunEnd = vi.fn();
   let latest: ArtistStore | null = null;
   function Harness({ show, save, day }: HarnessProps) {
+    const [reread, setReread] = useState<Save | null>(null);
     const store = useArtistStore({
       fetchFn: net.fetchFn,
       baseUrl: BASE,
@@ -221,6 +226,10 @@ function setup(day: Day | null = null, net = server()) {
       budget,
       resolveUrl: (url) => `/${url}`,
       record,
+      onRunEnd: () => {
+        onRunEnd();
+        setReread(saved());
+      },
     });
     latest = store;
     if (!show) return null;
@@ -230,7 +239,7 @@ function setup(day: Day | null = null, net = server()) {
         chart={chart}
         day={day}
         date={DATE}
-        save={save}
+        save={reread ?? save}
         engine={engine}
         resolveUrl={(url) => `/${url}`}
         announce={announce}
@@ -253,7 +262,7 @@ function setup(day: Day | null = null, net = server()) {
     const game = session()?.game;
     return game ? currentRound(game).trackId : null;
   };
-  return { engine, net, rerender, store, session, playing, announce, record, saved };
+  return { engine, net, rerender, store, session, playing, announce, record, saved, onRunEnd };
 }
 
 const title = () => screen.getByRole("heading", { level: 1 });
@@ -1011,7 +1020,10 @@ describe("Artists: o que vai para o save (P289)", () => {
     right(store);
     fireEvent.click(screen.getByRole("button", { name: "Ver resultado" }));
     expect(screen.getByText("Todas as músicas da partida tocaram.")).toBeTruthy();
-    expect(saved().artists).toEqual({ "t:ar:2": { right: 2, done: true, perfect: true } });
+    // O recorde: 10 + 10 das músicas e o bônus das 3 vidas, na música 2.
+    expect(saved().artists).toEqual({
+      "t:ar:2": { right: 2, done: true, perfect: true, best: { score: 35, song: 2 } },
+    });
   });
 
   it("o Superfan que acaba ao perder as 3 vidas não termina; o Jogar de novo conta a partida nova à parte", async () => {
@@ -1029,16 +1041,18 @@ describe("Artists: o que vai para o save (P289)", () => {
       if (i < 2) await screen.findByRole("combobox", { name: "Qual é a música?" });
     }
     expect(screen.getByText("As 3 vidas acabaram: a partida acabou.")).toBeTruthy();
-    expect(saved().artists).toEqual({});
+    // Sem o fim; o recorde, sim: nenhum ponto, até a música 3.
+    const best = { score: 0, song: 3 };
+    expect(saved().artists).toEqual({ "t:ar:1": { right: 0, best } });
     const before = record.mock.calls.length;
     fireEvent.click(screen.getByRole("button", { name: "Jogar de novo" }));
     await screen.findByRole("combobox", { name: "Qual é a música?" });
     right(store);
     expect(record.mock.calls.length).toBe(before + 1);
-    expect(saved().artists).toEqual({ "t:ar:1": { right: 1 } });
+    expect(saved().artists).toEqual({ "t:ar:1": { right: 1, best } });
   });
 
-  it("o Superfan encerrado: só os acertos, sem o fim", async () => {
+  it("o Superfan encerrado: os acertos e o recorde, sem o fim", async () => {
     const { store, saved } = setup();
     await screen.findByRole("heading", { name: "Artistas" });
     fireEvent.click(card(/^Banda/));
@@ -1050,7 +1064,74 @@ describe("Artists: o que vai para o save (P289)", () => {
     fireEvent.click(screen.getByRole("button", { name: "Encerrar a partida" }));
     fireEvent.click(screen.getByRole("button", { name: "Sim, encerrar" }));
     await screen.findByRole("heading", { level: 1, name: "Fim da partida" });
-    expect(saved().artists).toEqual({ "t:ar:2": { right: 1 } });
+    // A encerrada conta para o recorde (o usuário, 01/11/2026): 10 pontos, até a música 2.
+    expect(saved().artists).toEqual({ "t:ar:2": { right: 1, best: { score: 10, song: 2 } } });
+  });
+
+  const best = () => document.getElementById("artist-mode-superfan-best")?.textContent;
+  const superfanCard = () => screen.getByRole("button", { name: "Superfan" });
+
+  it("a página do artista mostra o recorde do save no cartão do Superfan; sem ele, nada", async () => {
+    const { rerender } = setup();
+    const save: Save = {
+      ...emptySave(),
+      artists: { "t:ar:2": { right: 30, done: true, best: { score: 86, song: 23 } } },
+    };
+    rerender({ show: true, save, day: null });
+    await screen.findByRole("heading", { name: "Artistas" });
+    fireEvent.click(card(/^Banda/));
+    await screen.findByRole("button", { name: "Superfan" });
+    expect(best()).toBe("Recorde: 86 pontos, até a música 23");
+    // Embaixo da dica, também na descrição; o Livre não tem recorde.
+    expect(superfanCard().getAttribute("aria-describedby")).toBe(
+      "artist-mode-superfan-hint artist-mode-superfan-best",
+    );
+    expect(screen.getByRole("button", { name: "Livre" }).getAttribute("aria-describedby")).toBe(
+      "artist-mode-free-hint",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Voltar à lista" }));
+    fireEvent.click(card(/^夜風/));
+    await screen.findByRole("button", { name: "Superfan" });
+    expect(best()).toBeUndefined();
+    expect(superfanCard().getAttribute("aria-describedby")).toBe("artist-mode-superfan-hint");
+  });
+
+  it("o fim da partida relê o save: o recorde chega à página na hora, e o fim avisa o batido", async () => {
+    const { store, onRunEnd } = setup();
+    await screen.findByRole("heading", { name: "Artistas" });
+    fireEvent.click(card(/^Banda/));
+    fireEvent.click(await screen.findByRole("button", { name: "Superfan" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    // A 1ª partida, encerrada na música 1: o recorde começa, e não há o que bater.
+    fireEvent.click(screen.getByRole("button", { name: "Encerrar a partida" })); // nada a perder
+    await screen.findByRole("heading", { level: 1, name: "Fim da partida" });
+    expect(screen.queryByText(/^Novo recorde/)).toBeNull();
+    expect(onRunEnd).toHaveBeenCalledTimes(1);
+
+    // A 2ª, completa: passa dos dois números.
+    fireEvent.click(screen.getByRole("button", { name: "Jogar de novo" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    right(store);
+    fireEvent.click(screen.getByRole("button", { name: "Próxima música" }));
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    right(store);
+    fireEvent.click(screen.getByRole("button", { name: "Ver resultado" }));
+    expect(screen.getByText("Novo recorde de pontos! O anterior era 0 pontos.")).toBeTruthy();
+    expect(screen.getByText("Novo recorde: chegou à música 2. O anterior era a 1.")).toBeTruthy();
+
+    // A página lê o save relido no fim, e não o dado na montagem.
+    expect(onRunEnd).toHaveBeenCalledTimes(2);
+    fireEvent.click(screen.getByRole("button", { name: "Trocar de artista" }));
+    fireEvent.click(card(/^Banda/));
+    await screen.findByRole("button", { name: "Superfan" });
+    expect(best()).toBe("Recorde: 35 pontos, até a música 2");
+
+    // A 3ª, encerrada na música 1: não bate nada.
+    fireEvent.click(superfanCard());
+    await screen.findByRole("combobox", { name: "Qual é a música?" });
+    fireEvent.click(screen.getByRole("button", { name: "Encerrar a partida" }));
+    await screen.findByRole("heading", { level: 1, name: "Fim da partida" });
+    expect(screen.queryByText(/^Novo recorde/)).toBeNull();
   });
 });
 

@@ -234,4 +234,21 @@ test("Superfan: o trecho de 1 s sorteado na prévia, o erro que custa uma vida e
   await expect(page.getByText("Placar: 0 pontos", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Trocar de artista" }).click();
   await expect(title).toHaveText("Artistas");
+
+  // O recorde (o usuário, 01/11/2026): a encerrada conta, e o cartão do Superfan o mostra na hora
+  // e depois de recarregar, lido do save.
+  const best = page.locator("#artist-mode-superfan-best");
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await expect(best).toHaveText("Recorde: 0 pontos, até a música 1");
+  await expect
+    .poll(() =>
+      page.evaluate(
+        (key) => JSON.parse(localStorage.getItem(key) ?? "{}").artists?.["fixture:ar:ar02"]?.best,
+        SAVE_KEY,
+      ),
+    )
+    .toEqual({ score: 0, song: 1 });
+  await page.reload();
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await expect(best).toHaveText("Recorde: 0 pontos, até a música 1");
 });

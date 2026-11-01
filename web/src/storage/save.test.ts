@@ -39,7 +39,10 @@ const valid: Save = {
   inProgress: { "2026-10-09|song": { events: [{ type: "SKIP" }, { type: "GIVE_UP" }] } },
   seenMedals: ["superfan|apple:ar:1|acertos", "superfan|apple:ar:1|completo"],
   shelf: ["superfan|apple:ar:1|completo"],
-  artists: { "apple:ar:1": { right: 12, done: true }, "fixture:ar:ar01": { right: 3 } },
+  artists: {
+    "apple:ar:1": { right: 12, done: true, best: { score: 86, song: 23 } },
+    "fixture:ar:ar01": { right: 3 },
+  },
   practiceRight: 7,
   mixed: {
     finished: {
@@ -286,14 +289,14 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v3));
     expect(loadSave(store)).toEqual({
-      save: { ...v3, ...LATEST, schemaVersion: 14 },
+      save: { ...v3, ...LATEST, schemaVersion: 15 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(14);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(15);
   });
 
   it("um save v4 de verdade, com a ajuda, chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -324,7 +327,7 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v4));
     expect(loadSave(store)).toEqual({
-      save: { ...v4, ...LATEST, schemaVersion: 14 },
+      save: { ...v4, ...LATEST, schemaVersion: 15 },
       writable: true,
       notice: null,
     });
@@ -363,13 +366,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v5));
     expect(loadSave(store)).toEqual({
-      save: { ...v5, ...LATEST, schemaVersion: 14 },
+      save: { ...v5, ...LATEST, schemaVersion: 15 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(14);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(15);
   });
 
   it("um save v6 de verdade chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -400,13 +403,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v6));
     expect(loadSave(store)).toEqual({
-      save: { ...v6, ...LATEST, schemaVersion: 14 },
+      save: { ...v6, ...LATEST, schemaVersion: 15 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(14);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(15);
   });
 
   describe("o jogado depois (v7, P267)", () => {
@@ -456,7 +459,7 @@ describe("loadSave", () => {
     // As Misturadas (v10) também: os 2 ids delas andam com a versão (a v11 só marca o jogado
     // depois nelas, pelo Histórico).
     expect({ version: SAVE_SCHEMA_VERSION, keys: DAILY_KEYS, mixed: MIXED_KEYS }).toEqual({
-      version: 14,
+      version: 15,
       mixed: ["misturadas-musica", "misturadas-titulo"],
       keys: [
         "album",
@@ -656,6 +659,33 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
       { artists: { "apple:ar:1": { right: 2, done: false } } },
       { artists: {} },
     ],
+    // O recorde do Superfan (v15, o usuário, 01/11/2026), com a música da 1ª em diante: fora do
+    // formato, sai sozinho, e o resto do registro (as medalhas) fica.
+    [
+      "um recorde na música 0",
+      { artists: { "apple:ar:1": { right: 2, done: true, best: { score: 0, song: 0 } } } },
+      { artists: { "apple:ar:1": { right: 2, done: true } } },
+    ],
+    [
+      "um recorde sem o placar",
+      { artists: { "apple:ar:1": { right: 2, best: { song: 3 } } } },
+      { artists: { "apple:ar:1": { right: 2 } } },
+    ],
+    [
+      "um recorde negativo",
+      { artists: { "apple:ar:1": { right: 2, best: { score: -2, song: 3 } } } },
+      { artists: { "apple:ar:1": { right: 2 } } },
+    ],
+    [
+      "um recorde que não é objeto",
+      { artists: { "apple:ar:1": { right: 2, best: 86 } } },
+      { artists: { "apple:ar:1": { right: 2 } } },
+    ],
+    [
+      "um recorde ruim num registro ruim",
+      { artists: { "apple:ar:1": { right: -1, best: 86 } } },
+      { artists: {} },
+    ],
     ["as medalhas que não são lista", { seenMedals: "a" }, { seenMedals: [] }],
     ["as medalhas ausentes num save v8", { seenMedals: undefined }, { seenMedals: [] }],
     ["os acertos do Treino ausentes", { practiceRight: undefined }, { practiceRight: 0 }],
@@ -706,14 +736,14 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     };
     const store = withRaw(JSON.stringify(v7));
     expect(loadSave(store)).toEqual({
-      save: { ...v7, ...LATEST, schemaVersion: 14 },
+      save: { ...v7, ...LATEST, schemaVersion: 15 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => withArtistRight(s, "apple:ar:1"))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 14,
+      schemaVersion: 15,
       history: v7.history,
     });
   });
@@ -765,14 +795,14 @@ describe("os acertos do Treino (v9, P308)", () => {
     };
     const store = withRaw(JSON.stringify(v8));
     expect(loadSave(store)).toEqual({
-      save: { ...v8, ...V9, ...V10, ...V12, schemaVersion: 14 },
+      save: { ...v8, ...V9, ...V10, ...V12, schemaVersion: 15 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, withPracticeRight)).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 14,
+      schemaVersion: 15,
       practiceRight: 1,
       artists: v8.artists,
     });

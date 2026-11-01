@@ -7,6 +7,7 @@ import {
   type FinishedGame,
   favoriteOf,
   isLate,
+  mergeBest,
   pendingDayTracks,
   pruneProgress,
   puzzleId,
@@ -22,6 +23,7 @@ import {
   withPracticeRight,
   withProgress,
   withSeenMedals,
+  withSuperfanBest,
   withSuperfanEnd,
 } from "./records.ts";
 import { type GameEvent, reduce } from "./reducer.ts";
@@ -455,6 +457,30 @@ describe("as medalhas e o modo por artista no save (v8, P289)", () => {
     const perfect = withSuperfanEnd(done, ARTIST, { done: true, perfect: true });
     expect(perfect.artists[ARTIST]).toEqual({ right: 0, done: true, perfect: true });
     expect(withSuperfanEnd(perfect, ARTIST, { done: true, perfect: false })).toBe(perfect);
+  });
+
+  it("withSuperfanBest: o recorde do Superfan, cada número o máximo dele (o usuário, 01/11/2026)", () => {
+    const save = withSuperfanEnd(emptySave(), ARTIST, { done: true, perfect: false });
+    const first = withSuperfanBest(save, ARTIST, { score: 10, song: 2 });
+    // O fim marcado continua; o recorde entra ao lado.
+    expect(first.artists[ARTIST]).toEqual({ right: 0, done: true, best: { score: 10, song: 2 } });
+    // Mais longe com menos pontos: a música sobe, o placar fica.
+    const further = withSuperfanBest(first, ARTIST, { score: 4, song: 5 });
+    expect(further.artists[ARTIST]?.best).toEqual({ score: 10, song: 5 });
+    // Nada novo: o mesmo objeto, e o `updateSave` não grava.
+    expect(withSuperfanBest(further, ARTIST, { score: 10, song: 5 })).toBe(further);
+    expect(withSuperfanBest(further, ARTIST, { score: 0, song: 1 })).toBe(further);
+    // O artista sem registro começa do zero, com o recorde.
+    const other = withSuperfanBest(emptySave(), "apple:ar:2", { score: 0, song: 1 });
+    expect(other.artists["apple:ar:2"]).toEqual({ right: 0, best: { score: 0, song: 1 } });
+  });
+
+  it("mergeBest: o maior de cada número; sem nenhum, null", () => {
+    const a = { score: 35, song: 2 };
+    expect(mergeBest(undefined, null)).toBeNull();
+    expect(mergeBest(a, undefined)).toBe(a);
+    expect(mergeBest(null, a)).toBe(a);
+    expect(mergeBest(a, { score: 10, song: 7 })).toEqual({ score: 35, song: 7 });
   });
 });
 

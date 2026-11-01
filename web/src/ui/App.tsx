@@ -194,6 +194,10 @@ export function App() {
     () => lookupBudget({ now: Date.now, disabled: lookupFailForced(window.location.search) }),
     [],
   );
+  const refresh = useCallback(() => {
+    const read = loadSave(saves.store);
+    if (read.writable) setLatest(read.save);
+  }, [saves]);
   // O que o modo por artista e o Treino gravam, pelas medalhas: os acertos e o fim do Superfan
   // (P289), e os acertos do Treino (P308). Sem o `refresh`: a tela das Medalhas lê o `latest`, que
   // se relê ao trocar de aba (o `hashchange`); reler a cada acerto recriaria no meio de uma rodada a
@@ -203,7 +207,8 @@ export function App() {
     [saves],
   );
   usePracticeRecord(practice, record);
-  // O modo por artista (M13): a lista, os artistas baixados e a sessão, como a do Treino.
+  // O modo por artista (M13): a lista, os artistas baixados e a sessão, como a do Treino. O fim de
+  // uma partida do Superfan relê o save, para a página do artista mostrar o recorde novo.
   const artists = useArtistStore({
     fetchFn: FETCH,
     baseUrl: BASE_URL,
@@ -211,6 +216,7 @@ export function App() {
     budget,
     resolveUrl,
     record,
+    onRunEnd: refresh,
   });
   // Os avisos de medalha nova (M16, P288): numa tela calma (a abertura, a troca de tela, o fim de
   // uma partida do Superfan) e no resultado de um diário (o `onResult`), nunca numa rodada. O evento
@@ -294,10 +300,6 @@ export function App() {
   // O quiz do dia (M18): o mês do dia na agenda dele, também só quando a pessoa abre a aba; o
   // catálogo é o do Anime.
   const quiz = useQuizStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
-  const refresh = useCallback(() => {
-    const read = loadSave(saves.store);
-    if (read.writable) setLatest(read.save);
-  }, [saves]);
   // Escolher ou tirar a medalha em destaque (P318): grava e relê, para a nav mudar na hora.
   const chooseFavorite = useCallback(
     (id: string, on: boolean) => {

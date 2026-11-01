@@ -249,6 +249,23 @@ export async function appleArtistList(page: Page): Promise<void> {
   );
 }
 
+/**
+ * O nome mais largo da lista real, "新しい学校のリーダーズ · ATARASHII GAKKO!", no lugar do
+ * 夜風シアター (`ar02`): os nomes das fixtures são curtos (regra 25 do web).
+ */
+export async function longestArtistName(page: Page): Promise<void> {
+  await page.route("**/fixtures/artists/index.json", async (route) => {
+    const response = await route.fetch();
+    const list = (await response.json()) as ArtistList;
+    const artists = list.artists.map((a) =>
+      a.id === "fixture:ar:ar02"
+        ? { ...a, name: "新しい学校のリーダーズ", nameLatin: "ATARASHII GAKKO!" }
+        : a,
+    );
+    await route.fulfill({ response, json: { ...list, artists } });
+  });
+}
+
 /** O fim de um id ("fixture:tr:tr01" → "tr01"), para montar um endereço falso da Apple. */
 const tail = (id: string) => id.split(":").at(-1) ?? id;
 

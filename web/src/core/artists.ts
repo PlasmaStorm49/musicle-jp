@@ -3,6 +3,7 @@ import { APPLE_PROVIDER, isAppleUrl } from "./apple.ts";
 import type { CatalogIndex } from "./catalog.ts";
 import { answerAlbums, type PracticeSession } from "./practice.ts";
 import { fnv1a32 } from "./prng.ts";
+import type { SuperfanBest } from "./records.ts";
 import type { SuperfanRun } from "./superfan.ts";
 import type { ArtistCatalog, ArtistList, ArtistListEntry } from "./types.ts";
 
@@ -65,7 +66,13 @@ export type ArtistPlay =
       readonly artist: ArtistListEntry;
       readonly session: PracticeSession;
     }
-  | { readonly kind: "superfan"; readonly artist: ArtistListEntry; readonly run: SuperfanRun };
+  | {
+      readonly kind: "superfan";
+      readonly artist: ArtistListEntry;
+      readonly run: SuperfanRun;
+      /** O recorde do artista quando a partida começou: o fim diz o que ela bateu. */
+      readonly before: SuperfanBest | null;
+    };
 
 /** A chave do título de um songKey ("夜に駆ける|apple:ar:1" → "夜に駆ける"). */
 export function songTitleKey(songKey: string): string {
