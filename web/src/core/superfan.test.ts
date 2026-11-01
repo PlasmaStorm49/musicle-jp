@@ -4,11 +4,13 @@ import { indexArtist } from "./catalog.ts";
 import { currentRound, type GameEvent } from "./reducer.ts";
 import { rulesOf } from "./rules.ts";
 import {
+  beatenBest,
   LIFE_BONUS,
   quitSuperfan,
   SUPERFAN_LIVES,
   type SuperfanRun,
   startSuperfan,
+  superfanBest,
   superfanBonus,
   superfanErrors,
   superfanHelps,
@@ -406,6 +408,52 @@ describe("superfanOutcome (o que o save guarda do fim, P285 e P289)", () => {
     const run = startSuperfan(8, ar01, new Set(ar01.tracksBySong.keys()));
     expect(run.end).toBe("done");
     expect(superfanOutcome(run)).toEqual({ done: false, perfect: false });
+  });
+});
+
+describe("superfanBest e beatenBest (o recorde, o usuário, 01/11/2026)", () => {
+  it("a partida em jogo não deixa recorde; a completa leva o placar com o bônus", () => {
+    let run = startSuperfan(5, ar01, NONE);
+    expect(superfanBest(run)).toBeNull();
+    run = next(step(run, guess(answer(run))), ar01);
+    run = next(step(run, guess(answer(run))), ar01);
+    expect(run.end).toBe("done");
+    // 10 + 10 das músicas e 5 por vida que sobrou.
+    expect(superfanBest(run)).toEqual({ score: 35, song: 2 });
+  });
+
+  it("a encerrada conta, na música em que parou", () => {
+    expect(superfanBest(quitSuperfan(startSuperfan(5, ar01, NONE)))).toEqual({
+      score: 0,
+      song: 1,
+    });
+  });
+
+  it("a acabada nas vidas: a música da última vida conta", () => {
+    let run = startSuperfan(3, ar02, NONE);
+    const [w1, w2] = wrongs(run);
+    // A 1ª no trecho de 9 s (4 pontos), depois de dois erros; a 2ª, o 3º erro.
+    run = step(run, guess(w1 ?? ""), guess(w2 ?? ""), guess(answer(run)));
+    run = next(run);
+    run = next(step(run, guess(wrong(run))));
+    expect(run.end).toBe("errors");
+    expect(superfanBest(run)).toEqual({ score: 4, song: 2 });
+  });
+
+  it("sem nenhuma música (todas fora, P141): nada", () => {
+    const run = startSuperfan(8, ar01, new Set(ar01.tracksBySong.keys()));
+    expect(run.end).toBe("done");
+    expect(superfanBest(run)).toBeNull();
+  });
+
+  it("beatenBest: cada número à parte; sem recorde antes, nada", () => {
+    const before = { score: 20, song: 3 };
+    expect(beatenBest(null, { score: 35, song: 2 })).toEqual({ score: false, song: false });
+    expect(beatenBest(before, null)).toEqual({ score: false, song: false });
+    expect(beatenBest(before, { score: 35, song: 2 })).toEqual({ score: true, song: false });
+    expect(beatenBest(before, { score: 4, song: 5 })).toEqual({ score: false, song: true });
+    // Igualar não é bater.
+    expect(beatenBest(before, before)).toEqual({ score: false, song: false });
   });
 });
 

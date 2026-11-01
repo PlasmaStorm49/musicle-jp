@@ -19,7 +19,7 @@ import {
   startPracticeSession,
 } from "./practice.ts";
 import { seeded } from "./prng.ts";
-import type { SuperfanOutcome } from "./records.ts";
+import type { SuperfanBest, SuperfanOutcome } from "./records.ts";
 import { currentRound, type GameEvent, type RoundState, reduce, roundErrors } from "./reducer.ts";
 import { VARIANT_RULES } from "./rules.ts";
 
@@ -213,6 +213,25 @@ export function superfanOutcome(run: SuperfanRun): SuperfanOutcome {
       run.helps === 0 &&
       points === rounds * best,
   };
+}
+
+/**
+ * O recorde que a partida acabada deixa (o usuário, 01/11/2026): o placar final, com o bônus das
+ * vidas, e a música a que ela chegou (o "Música N", contando a da última vida e a encerrada). A
+ * encerrada pela pessoa conta. Sem nenhuma música sorteada (P141), ou com a partida em jogo, null.
+ */
+export function superfanBest(run: SuperfanRun): SuperfanBest | null {
+  if (run.end === null || run.session.number === 0) return null;
+  return { score: superfanTotal(run), song: run.session.number };
+}
+
+/** O que a partida passou do recorde de antes dela. Sem recorde antes, nada: não havia o que bater. */
+export function beatenBest(
+  before: SuperfanBest | null,
+  run: SuperfanBest | null,
+): { readonly score: boolean; readonly song: boolean } {
+  if (!before || !run) return { score: false, song: false };
+  return { score: run.score > before.score, song: run.song > before.song };
 }
 
 /**
