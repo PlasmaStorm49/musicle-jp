@@ -13,6 +13,7 @@ import {
   CHAIN_FADE,
   chainTimeline,
   drawSetlistRound,
+  leftToFind,
   SETLIST_FINAL,
   SETLIST_LIVES,
   type SetlistEvent,
@@ -21,7 +22,6 @@ import {
   setlistBest,
   setlistOffset,
   setlistStep,
-  tapsLeft,
 } from "../core/setlist.ts";
 import type { ArtistListEntry } from "../core/types.ts";
 import { optionView } from "../core/view.ts";
@@ -414,7 +414,7 @@ function SetlistListen({
 
 /**
  * Escolher e revelar: as opções numa grade de 3 colunas. Escolhendo, cada toque vale na hora (✓ ou
- * ✗); revelando, a mesma grade diz a ordem em que cada música tocou, as achadas, as que faltaram e
+ * ✗), e a rodada só passa quando a pessoa acha todas (cada erro gasta uma vida); revelando, a mesma grade diz a ordem em que cada música tocou, as achadas, as que faltaram e
  * as erradas.
  */
 function SetlistBoard({
@@ -469,7 +469,7 @@ function SetlistBoard({
         </p>
       ) : (
         <p id="setlist-pick-hint" class="hint setlist-note">
-          {tn("setlist.pick", tapsLeft(run))}
+          {tn("setlist.pick", leftToFind(run))}
         </p>
       )}
       <ul

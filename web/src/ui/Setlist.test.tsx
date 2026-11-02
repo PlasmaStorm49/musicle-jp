@@ -177,10 +177,10 @@ describe("SetlistView: ouvir uma vez só", () => {
     end();
     await waitFor(() => expect(options()).not.toBeNull());
     expect(screen.getAllByRole("button", { name: /^Música/ })).toHaveLength(3);
-    expect(screen.getByText("Quais tocaram? Faltam 2 toques.")).toBeTruthy();
+    expect(screen.getByText("Quais tocaram? Faltam 2 músicas.")).toBeTruthy();
   });
 
-  it("cada toque vale na hora; a revelação mostra a ordem e as que faltaram", async () => {
+  it("cada toque vale na hora; o erro gasta uma vida, e a rodada só passa quando acha todas", async () => {
     const { end, state, announce } = setup();
     fireEvent.click(playButton());
     await waitFor(() => expect(playButton().textContent).toBe("Tocando…"));
@@ -193,18 +193,43 @@ describe("SetlistView: ouvir uma vez só", () => {
     fireEvent.click(optionFor(first ?? ""));
     expect(announce).toHaveBeenLastCalledWith("Tocou.");
     expect(optionFor(first ?? "").closest("li")?.className).toBe("correct");
+    // O erro não fecha a rodada (o usuário, 01/11/2026): falta a 2ª música.
     fireEvent.click(optionFor(wrong));
-    // O erro gastou o último toque: a revelação, com a vida perdida.
-    await waitFor(() =>
-      expect(screen.getByText("Achou 1 de 2. Perdeu 1 vida nesta rodada.")).toBeTruthy(),
-    );
-    expect(screen.getByText("Vidas: 2")).toBeTruthy();
+    await waitFor(() => expect(screen.getByText("Vidas: 2")).toBeTruthy());
+    expect(announce).toHaveBeenLastCalledWith("Não tocou. Sobram 2 vidas.");
     expect(optionFor(wrong).closest("li")?.className).toBe("wrong");
-    expect(optionFor(second ?? "").closest("li")?.className).toBe("missed");
+    expect(screen.getByText("Quais tocaram? Falta 1 música.")).toBeTruthy();
+    fireEvent.click(optionFor(second ?? ""));
+    await waitFor(() =>
+      expect(screen.getByText("Achou 2 de 2. Perdeu 1 vida nesta rodada.")).toBeTruthy(),
+    );
     expect(optionFor(second ?? "").textContent).toContain("2ª");
     expect(document.activeElement?.className).toBe("setlist-result");
     fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
     await waitFor(() => expect(screen.getByText("Rodada 2 de 10")).toBeTruthy());
+  });
+
+  it("a última vida no meio da rodada: a revelação mostra as que faltaram, na ordem", async () => {
+    const { end, state } = setup({ ...startSetlist(1, POOL), lives: 1 });
+    fireEvent.click(playButton());
+    await waitFor(() => expect(playButton().textContent).toBe("Tocando…"));
+    end();
+    await waitFor(() => expect(options()).not.toBeNull());
+    const round = state.run.round;
+    if (!round) throw new Error("sem rodada");
+    const wrong = round.options.find((id) => !round.played.includes(id)) ?? "";
+    fireEvent.click(optionFor(wrong));
+    await waitFor(() =>
+      expect(screen.getByText("Achou 0 de 2. As 3 vidas acabaram.")).toBeTruthy(),
+    );
+    for (const [i, id] of round.played.entries()) {
+      expect(optionFor(id).closest("li")?.className).toBe("missed");
+      expect(optionFor(id).textContent).toContain(`${i + 1}ª`);
+    }
+    fireEvent.click(screen.getByRole("button", { name: "Ver resultado" }));
+    await waitFor(() =>
+      expect(screen.getByRole("heading", { name: "Fim da setlist" })).toBeTruthy(),
+    );
   });
 
   it("a sequência interrompida (a aba oculta) sorteia a rodada de novo, sem custo", async () => {
