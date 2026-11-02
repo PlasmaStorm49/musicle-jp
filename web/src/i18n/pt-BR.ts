@@ -435,6 +435,9 @@ export const ptBR = {
   "setlist.slot": "Música {number}",
   "setlist.play": "Tocar",
   "setlist.playing": "Tocando…",
+  // Na revelação, a mesma sequência de novo (o usuário, 02/11/2026); na tela, o texto curto (P210).
+  "setlist.replay": "Ouvir de novo",
+  "setlist.replayShort": "Ouvir",
   "setlist.pick.one": "Quais tocaram? Falta {count} música.",
   "setlist.pick.other": "Quais tocaram? Faltam {count} músicas.",
   "setlist.options": "As opções",

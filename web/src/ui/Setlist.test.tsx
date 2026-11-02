@@ -232,6 +232,28 @@ describe("SetlistView: ouvir uma vez só", () => {
     );
   });
 
+  it("na revelação, o Ouvir de novo toca a mesma sequência e alterna com o Parar (o usuário, 02/11/2026)", async () => {
+    const { end, state, playChain, engine } = setup();
+    fireEvent.click(playButton());
+    await waitFor(() => expect(playButton().textContent).toBe("Tocando…"));
+    end();
+    await waitFor(() => expect(options()).not.toBeNull());
+    for (const id of state.run.round?.played ?? []) fireEvent.click(optionFor(id));
+    await waitFor(() => expect(screen.getByText("Achou 2 de 2.")).toBeTruthy());
+    fireEvent.click(screen.getByRole("button", { name: "Ouvir de novo" }));
+    await waitFor(() => expect(playChain).toHaveBeenCalledTimes(2));
+    // As mesmas músicas, nos mesmos pontos e nos mesmos instantes.
+    expect(playChain.mock.calls[1]?.[0]).toEqual(playChain.mock.calls[0]?.[0]);
+    const stop = await screen.findByRole("button", { name: "Parar" });
+    fireEvent.click(stop);
+    expect(engine.stop).toHaveBeenCalled();
+    await waitFor(() => expect(screen.getByRole("button", { name: "Ouvir de novo" })).toBeTruthy());
+    // Durante os toques, continua uma vez só: o Ouvir de novo só existe na revelação.
+    fireEvent.click(screen.getByRole("button", { name: "Próxima rodada" }));
+    await waitFor(() => expect(screen.getByText("Rodada 2 de 10")).toBeTruthy());
+    expect(screen.queryByRole("button", { name: "Ouvir de novo" })).toBeNull();
+  });
+
   it("a sequência interrompida (a aba oculta) sorteia a rodada de novo, sem custo", async () => {
     const { hide, state, announce } = setup();
     const before = state.run.round;
