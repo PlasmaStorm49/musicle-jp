@@ -12,6 +12,7 @@ import {
 import { mixedIds } from "./mixed.ts";
 import { quizId } from "./quiz.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "./records.ts";
+import { royaleIds } from "./royale.ts";
 
 const TODAY = "2026-10-22";
 const game: FinishedGame = {
@@ -63,14 +64,20 @@ describe("a janela do Histórico (P260, P262)", () => {
 });
 
 describe("keptProgressIds (P269)", () => {
-  it("os 8 diários, as 2 Misturadas e o quiz de hoje e dos 14 dias do Histórico: 165 ids", () => {
+  it("os 8 diários, as 2 Misturadas e o quiz de hoje e dos 14 dias, e as 3 do Royale de hoje: 168 ids", () => {
     const ids = keptProgressIds(TODAY);
-    expect(ids).toHaveLength(15 * 11);
-    expect(ids.slice(0, 11)).toEqual([...dailyIds(TODAY), ...mixedIds(TODAY), quizId(TODAY)]);
+    expect(ids).toHaveLength(15 * 11 + 3);
+    expect(ids.slice(0, 14)).toEqual([
+      ...dailyIds(TODAY),
+      ...mixedIds(TODAY),
+      quizId(TODAY),
+      ...royaleIds(TODAY),
+    ]);
     // As Misturadas de um dia passado também se retomam (o usuário, 24/10/2026).
     expect(ids).toContain(puzzleId("2026-10-08", "misturadas-titulo"));
     expect(ids).toContain(puzzleId("2026-10-08", "anime-titulo-dificil"));
     expect(ids).not.toContain(puzzleId("2026-10-07", "album"));
+    expect(ids).not.toContain(puzzleId("2026-10-08", "anime-royale-facil"));
     expect(new Set(ids).size).toBe(ids.length);
   });
 });

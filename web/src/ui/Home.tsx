@@ -6,6 +6,7 @@ import { mixedIds } from "../core/mixed.ts";
 import { quizStatusOf } from "../core/quiz.ts";
 import { puzzleId, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
+import { ROYALE_KEYS, royaleProgress } from "../core/royale.ts";
 import { MAX_STAGE, MODES, secondsAt } from "../core/rules.ts";
 import type { Day } from "../core/types.ts";
 import { t, tAround, tn } from "../i18n/t.ts";
@@ -158,7 +159,7 @@ type NextPlay = { readonly name: string; readonly href: string; readonly playing
 
 /**
  * O 1º jogo do dia por jogar, na ordem da nav: os diários dos Hits (o da vez, pela agenda), o Anime
- * (até um de cada modo, P357), as Misturadas (os 2) e o quiz. Null com tudo jogado. A Início não
+ * (até um de cada modo, P357), o Anime Royale (as 3 dificuldades), as Misturadas (os 2) e o quiz. Null com tudo jogado. A Início não
  * carrega as agendas do Anime, das Misturadas e do quiz: ela os supõe no ar, como os cartões.
  */
 function nextPlay(save: Save, day: Day | null, date: string): NextPlay | null {
@@ -176,6 +177,10 @@ function nextPlay(save: Save, day: Day | null, date: string): NextPlay | null {
       ANIME_KEYS.map((key) => puzzleId(date, key)),
     );
     return { name: t("anime.title"), href: ROUTES.anime, playing: playing > 0 };
+  }
+  const royale = royaleProgress(save, date);
+  if (royale.done < ROYALE_KEYS.length) {
+    return { name: t("royale.title"), href: ROUTES["anime-royale"], playing: royale.playing };
   }
   const mixed = mixedProgress(save, date);
   if (mixed.done < mixed.total) {

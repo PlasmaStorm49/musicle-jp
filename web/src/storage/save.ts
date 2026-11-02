@@ -37,6 +37,12 @@ import type {
 } from "../core/records.ts";
 import { emptySave, SHELF_SIZE } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
+import {
+  ROYALE_PLAYED,
+  type RoyaleEvent,
+  type RoyaleGame,
+  type RoyaleProgress,
+} from "../core/royale.ts";
 import { HELP_OPTIONS, MAX_STAGE, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { Target } from "../core/types.ts";
 import { migrate, SAVE_SCHEMA_VERSION } from "./migrations.ts";
@@ -247,6 +253,45 @@ function isMixedProgress(x: unknown): x is MixedProgress {
   return isRecord(x) && Array.isArray(x.events) && x.events.every(isMixedEvent);
 }
 
+/**
+ * "<data>|anime-royale-<dificuldade>" (v17): as 3 dificuldades do Anime Royale, no campo dele.
+ * Dificuldade nova aqui sobe a versão, como no `PUZZLE_ID`.
+ */
+const ROYALE_ID = /^(\d{4}-\d{2}-\d{2})\|anime-royale-(?:facil|medio|dificil)$/;
+
+export function isRoyaleId(id: string): boolean {
+  const match = ROYALE_ID.exec(id);
+  return match !== null && isValidDate(match[1] ?? "");
+}
+
+export function isRoyaleEvent(x: unknown): x is RoyaleEvent {
+  if (!isRecord(x)) return false;
+  if (x.type === "PICK") return typeof x.id === "string" && x.id.length > 0;
+  return x.type === "QUIT";
+}
+
+/**
+ * Uma dificuldade do Royale terminada: as posições achadas (de 0 a 4, sem repetir) e um fim só:
+ * as 5 achadas, ou menos, com o erro que a encerrou ou com a desistência.
+ */
+export function isRoyaleGame(x: unknown): x is RoyaleGame {
+  if (!isRecord(x) || !Number.isInteger(x.number) || (x.number as number) < 1) return false;
+  if (x.wrong !== undefined && x.wrong !== true) return false;
+  if (x.quit !== undefined && x.quit !== true) return false;
+  if (!Array.isArray(x.found) || x.found.length > ROYALE_PLAYED) return false;
+  const found = x.found as unknown[];
+  const ends = Number(x.wrong === true) + Number(x.quit === true);
+  return (
+    found.every((at) => isNonNegativeInt(at, ROYALE_PLAYED - 1)) &&
+    new Set(found).size === found.length &&
+    ends === (found.length === ROYALE_PLAYED ? 0 : 1)
+  );
+}
+
+function isRoyaleProgress(x: unknown): x is RoyaleProgress {
+  return isRecord(x) && Array.isArray(x.events) && x.events.every(isRoyaleEvent);
+}
+
 /** "<data>|quiz" (v12, M18): o quiz do dia, no campo dele. */
 const QUIZ_ID = /^(\d{4}-\d{2}-\d{2})\|quiz$/;
 
@@ -402,6 +447,18 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     if (isQuizId(id) && isQuizProgress(saved)) quizProgress[id] = saved;
     else dropped = true;
   }
+  // O Anime Royale (v17), como as Misturadas.
+  const royale = isRecord(data.royale) ? data.royale : {};
+  const royaleFinished: Record<string, RoyaleGame> = {};
+  for (const [id, game] of Object.entries(isRecord(royale.finished) ? royale.finished : {})) {
+    if (isRoyaleId(id) && isRoyaleGame(game)) royaleFinished[id] = game;
+    else dropped = true;
+  }
+  const royaleProgress: Record<string, RoyaleProgress> = {};
+  for (const [id, saved] of Object.entries(isRecord(royale.progress) ? royale.progress : {})) {
+    if (isRoyaleId(id) && isRoyaleProgress(saved)) royaleProgress[id] = saved;
+    else dropped = true;
+  }
   dropped ||=
     seen.dropped ||
     shelf.dropped ||
@@ -410,10 +467,12 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     !isRecord(mixed.finished) ||
     !isRecord(mixed.progress) ||
     !isRecord(quiz.finished) ||
-    !isRecord(quiz.progress);
+    !isRecord(quiz.progress) ||
+    !isRecord(royale.finished) ||
+    !isRecord(royale.progress);
   return {
     save: {
-      schemaVersion: 16,
+      schemaVersion: 17,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),
@@ -422,6 +481,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
       practiceRight,
       mixed: { finished, progress },
       quiz: { finished: quizFinished, progress: quizProgress },
+      royale: { finished: royaleFinished, progress: royaleProgress },
     },
     dropped,
   };

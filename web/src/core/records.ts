@@ -9,6 +9,7 @@ import type { Daily, DailyKey } from "./daily.ts";
 import type { MixedKey, MixedSave } from "./mixed.ts";
 import type { QuizKey, QuizSave } from "./quiz.ts";
 import { createGame, type GameEvent, type GameState, isFinished, reduce } from "./reducer.ts";
+import type { RoyaleKey, RoyaleSave } from "./royale.ts";
 import { DAILY_SCORING, type ScorableRound, scoreOf } from "./rules.ts";
 
 /**
@@ -102,7 +103,7 @@ export type SuperfanOutcome = { readonly done: boolean; readonly perfect: boolea
  * (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 16;
+  readonly schemaVersion: 17;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
   /** Os ids das medalhas que esta pessoa já viu avisadas, em ordem alfabética (P281). */
@@ -123,6 +124,11 @@ export type Save = {
   readonly mixed: MixedSave;
   /** O quiz do dia (M18, v12): as runs terminadas e as em andamento (P2: a run retoma). */
   readonly quiz: QuizSave;
+  /**
+   * O Anime Royale (v17, o usuário, 01/11/2026): as dificuldades terminadas e as em andamento, à
+   * parte do `history`, como as Misturadas: as estatísticas e a sequência do topo não o veem.
+   */
+  readonly royale: RoyaleSave;
 };
 
 /** A estante (ME118) mostra até 3. */
@@ -130,7 +136,7 @@ export const SHELF_SIZE = 3;
 
 export function emptySave(): Save {
   return {
-    schemaVersion: 16,
+    schemaVersion: 17,
     history: {},
     inProgress: {},
     seenMedals: [],
@@ -139,10 +145,11 @@ export function emptySave(): Save {
     practiceRight: 0,
     mixed: { finished: {}, progress: {} },
     quiz: { finished: {}, progress: {} },
+    royale: { finished: {}, progress: {} },
   };
 }
 
-export function puzzleId(date: string, key: DailyKey | MixedKey | QuizKey): PuzzleId {
+export function puzzleId(date: string, key: DailyKey | MixedKey | QuizKey | RoyaleKey): PuzzleId {
   return `${date}|${key}`;
 }
 
@@ -381,16 +388,15 @@ export function withSetlistBest(save: Save, artistId: string, run: SetlistBest):
 
 /**
  * Limpa ao abrir o jogo os andamentos que não podem mais ser retomados: os que não estão em
- * `keep` (hoje e os dias do Histórico, P269), também nas Misturadas e no quiz. Sem nada a limpar, o
- * mesmo objeto.
+ * `keep` (hoje e os dias do Histórico, P269), também nas Misturadas, no quiz e no Royale. Sem
+ * nada a limpar, o mesmo objeto.
  */
 export function pruneProgress(save: Save, keep: readonly PuzzleId[]): Save {
   const kept = new Set(keep);
   const stale = (map: Readonly<Record<PuzzleId, unknown>>) =>
     Object.keys(map).some((id) => !kept.has(id));
-  if (!stale(save.inProgress) && !stale(save.mixed.progress) && !stale(save.quiz.progress)) {
-    return save;
-  }
+  const maps = [save.inProgress, save.mixed.progress, save.quiz.progress, save.royale.progress];
+  if (!maps.some(stale)) return save;
   const only = <T>(map: Readonly<Record<PuzzleId, T>>) =>
     Object.fromEntries(Object.entries(map).filter(([id]) => kept.has(id)));
   return {
@@ -398,5 +404,6 @@ export function pruneProgress(save: Save, keep: readonly PuzzleId[]): Save {
     inProgress: only(save.inProgress),
     mixed: { ...save.mixed, progress: only(save.mixed.progress) },
     quiz: { ...save.quiz, progress: only(save.quiz.progress) },
+    royale: { ...save.royale, progress: only(save.royale.progress) },
   };
 }

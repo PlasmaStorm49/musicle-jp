@@ -3401,3 +3401,257 @@ section.summary > h2 {
     }
   }
 }
+
+/* O Anime Royale (o usuário, 01/11/2026): o player dos 5 trechos, a grade 3×3 das capas, o pop-up
+   de cada uma e o resultado com as 5 que tocaram. */
+.royale-controls {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.royale-controls > .royale-play {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: var(--h-field);
+  padding: 0 var(--sp-3);
+  border-radius: var(--r-field);
+}
+
+.royale-controls > .volume {
+  flex: none;
+}
+
+/* A barra de 5 partes: cada parte um botão (o alvo de 44 px), com o número e, embaixo, o trilho
+   do trecho, que enche enquanto ele toca. */
+ol.royale-samples {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--sp-1);
+}
+
+.royale-sample {
+  position: relative;
+  width: 100%;
+  min-height: var(--h-control);
+  border-radius: var(--r-control);
+  background: var(--fill);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.royale-sample.on {
+  box-shadow: inset 0 0 0 2px var(--accent-line);
+}
+
+.royale-sample-track {
+  position: absolute;
+  right: 6px;
+  bottom: 5px;
+  left: 6px;
+  height: 4px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.royale-sample-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--bar-play);
+}
+
+/* A grade: as capas em retrato (100 × 141, as do AnimeThemes), pela altura, para caber em
+   360 × 640 com o player e o selo da Apple; com mais altura, maiores. */
+ul.royale-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-1);
+  justify-items: center;
+}
+
+.royale-cover {
+  position: relative;
+  display: block;
+  height: 92px;
+  aspect-ratio: 100 / 141;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-control);
+  background: var(--fill);
+  color: var(--text);
+}
+
+@media (min-height: 760px) {
+  .royale-cover {
+    height: 136px;
+  }
+}
+
+.royale-cover > .royale-art,
+.royale-dialog-cover > .royale-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+/* Sem a capa (o caminho fora do padrão, a imagem que não abriu): o nome do anime. */
+.royale-art-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-1);
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.royale-cover.correct {
+  box-shadow: 0 0 0 3px var(--ok);
+}
+
+.royale-cover.wrong {
+  box-shadow: 0 0 0 3px var(--bad);
+}
+
+/* O ✓ e o ✗ no canto de cima, num círculo da cor da página, legível sobre qualquer capa. */
+.royale-mark {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  display: flex;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--surface);
+  font-size: var(--t-xs);
+}
+
+.royale-cover.correct .royale-mark {
+  color: var(--ok);
+}
+
+.royale-cover.wrong .royale-mark {
+  color: var(--bad);
+}
+
+/* O pop-up: a capa grande, por cima da pequena, que aparece enquanto a grande desce. */
+dialog.royale-dialog .royale-dialog-cover {
+  width: min(220px, 60vw);
+  aspect-ratio: 460 / 650;
+  margin: 0 auto var(--sp-3);
+  border-radius: var(--r-control);
+  background-color: var(--fill);
+  background-position: center;
+  background-size: cover;
+}
+
+dialog.royale-dialog h2 {
+  margin-bottom: var(--sp-1);
+}
+
+.royale-dialog-theme {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* O resultado: os acertos e a linha do compartilhar numa linha, e as 5 que tocaram, compactas. */
+.royale-score {
+  margin: 0;
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 700;
+}
+
+.royale-share-line {
+  margin-left: var(--sp-2);
+  white-space: nowrap;
+}
+
+.royale-ending {
+  margin: 0;
+}
+
+ol.royale-played {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sp-1);
+  text-align: left;
+}
+
+.royale-summary ol.royale-played > li {
+  display: grid;
+  grid-template-columns: 31px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+ol.royale-played .royale-art {
+  display: block;
+  width: 31px;
+  height: var(--h-control);
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.royale-played-text {
+  display: grid;
+  min-width: 0;
+  font-size: var(--t-xs);
+  line-height: var(--lh-xs);
+}
+
+/* Uma linha cada, com reticências: o anime e a música longos não empurram o botão da prévia. */
+ol.royale-played .royale-played-text > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.royale-played-song {
+  font-weight: 700;
+}
+
+.royale-played-artist {
+  font-weight: 400;
+}
+
+.royale-played li.found .royale-played-anime :where(.icon) {
+  color: var(--ok);
+}
+
+.royale-played li.missed .royale-played-anime :where(.icon) {
+  color: var(--bad);
+}
+
+/* O Compartilhar, a próxima dificuldade e a volta: duas colunas. Com a próxima, o oliva é dela. */
+.royale-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-2);
+}
+
+section.summary .royale-actions:has(> .summary-next) .share > button.primary {
+  background: var(--fill);
+  color: var(--text);
+}
+
+/* Com o novo diário na contagem (depois da meia-noite), ele é o oliva, e a próxima dificuldade sai. */
+.royale-summary:has(.countdown button.primary) .summary-next {
+  display: none;
+}
+
+.royale-failed {
+  margin: 0;
+  text-align: center;
+}

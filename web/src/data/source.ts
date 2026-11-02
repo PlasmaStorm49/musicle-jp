@@ -24,6 +24,8 @@ import type {
   QuizBonus,
   QuizDay,
   QuizMonth,
+  RoyaleDay,
+  RoyaleSchedule,
   Schedule,
 } from "../core/types.ts";
 
@@ -237,6 +239,34 @@ export async function loadMixedSchedule(
   return schedule as MixedSchedule;
 }
 
+const ROYALE_SCHEDULE_SCHEMA_VERSION = 1;
+
+/**
+ * A agenda do Anime Royale (o usuário, 01/11/2026), ao lado da do Anime: as capas e as prévias
+ * são as do catálogo dele. Versão desconhecida (ou outra agenda no lugar): atualizar a página.
+ */
+export async function loadRoyaleSchedule(
+  fetchFn: FetchLike,
+  baseUrl: string,
+  dataDir: string,
+  signal?: AbortSignal,
+): Promise<RoyaleSchedule> {
+  const schedule = await getJson(fetchFn, animeFile(baseUrl, dataDir, "royale.json"), signal);
+  if (
+    schemaVersionOf(schedule) !== ROYALE_SCHEDULE_SCHEMA_VERSION ||
+    kindOf(schedule) !== "anime-royale"
+  ) {
+    throw new UnsupportedCatalogError(
+      `agenda do Royale com schemaVersion ${String(schemaVersionOf(schedule))} e kind ${String(kindOf(schedule))}`,
+    );
+  }
+  const days = (schedule as { days?: unknown }).days;
+  if (typeof days !== "object" || days === null || Array.isArray(days)) {
+    throw new DataLoadError("agenda do Royale sem os dias");
+  }
+  return schedule as RoyaleSchedule;
+}
+
 const QUIZ_SCHEMA_VERSION = 1;
 /** A pasta dos meses do quiz do dia (M18, P379), dentro da do Anime: `quiz/AAAA-MM.json`. */
 export const QUIZ_DIR = "quiz/";
@@ -386,5 +416,10 @@ export function pickAnimeDay(schedule: AnimeSchedule, date: string): AnimeDay | 
 
 /** O dia da agenda das Misturadas, ou null (a tela avisa). */
 export function pickMixedDay(schedule: MixedSchedule, date: string): MixedDay | null {
+  return schedule.days[date] ?? null;
+}
+
+/** O dia do Royale na agenda, ou null fora dela. */
+export function pickRoyaleDay(schedule: RoyaleSchedule, date: string): RoyaleDay | null {
   return schedule.days[date] ?? null;
 }

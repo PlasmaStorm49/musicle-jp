@@ -509,6 +509,31 @@ for (const viewport of [
       await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
     });
 
+    test("o Anime Royale: a escolha, a rodada com o pop-up e o resultado com o selo (o usuário, 01/11/2026)", async ({
+      page,
+    }) => {
+      // No caso mais alto: a parada real (o selo da Apple no pé e as capas do AnimeThemes).
+      await appleCatalog(page);
+      await open(page, DAY, "#anime-royale");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime Royale");
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await page
+        .getByRole("main")
+        .getByRole("link", { name: /^Fácil/ })
+        .click();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime Royale · Fácil");
+      await expect(page.getByRole("list", { name: "As capas" }).getByRole("button")).toHaveCount(9);
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+      await expect(page.getByRole("link", { name: /Apple Music/ })).toBeInViewport({ ratio: 1 });
+      await page.getByRole("list", { name: "As capas" }).getByRole("button").first().click();
+      const dialog = page.locator("dialog.royale-dialog");
+      await expect(dialog.getByRole("button", { name: "Fechar" })).toBeInViewport({ ratio: 1 });
+      await dialog.getByRole("button", { name: "Fechar" }).click();
+      await page.getByRole("button", { name: "Desistir da dificuldade" }).click();
+      await expect(page.getByRole("heading", { level: 2, name: "Resultado" })).toBeVisible();
+      expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
     test("a tela do Anime: os dois modos (P233)", async ({ page }) => {
       await open(page, DAY, "#anime");
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anime");
@@ -885,6 +910,8 @@ test("em 320 px, nenhuma tela rola para o lado", async ({ page }) => {
     ["#anime-titulo", "Acertar o anime"],
     ["#anime-musica-dificil", "Música · Difícil"],
     ["#anime-titulo-dificil", "Anime · Difícil"],
+    ["#anime-royale", "Anime Royale"],
+    ["#anime-royale-dificil", "Anime Royale · Difícil"],
     ["#misturadas", "Misturadas"],
     ["#misturadas-musica", "Misturadas · Música"],
     ["#misturadas-titulo", "Misturadas · Anime"],

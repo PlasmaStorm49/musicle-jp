@@ -20,6 +20,7 @@ import {
   ROUTES,
   routeHref,
 } from "../core/routes.ts";
+import { ROYALE_KEYS, royaleProgress } from "../core/royale.ts";
 import { MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { AnimeDay, AnimeSchedule } from "../core/types.ts";
 import {
@@ -395,6 +396,24 @@ function AnimeModes({ day, date, today, save }: ScreenProps) {
       unavailableText(date, today),
     ),
   );
+  // O Anime Royale (o usuário, 01/11/2026), o 3º cartão: só hoje (não há Histórico). A tela não
+  // carrega a agenda dele: o estado sai do save, e o cartão o supõe no ar, como a Início.
+  if (date === today) {
+    const royale = royaleProgress(save, date);
+    const total = ROYALE_KEYS.length;
+    cards.push({
+      tab: "anime-royale",
+      name: t("royale.title"),
+      short: t("royale.short"),
+      hint: t("royale.hint"),
+      // Sem o dia do Anime, também não há o do Royale: a agenda dele nunca passa da do Anime.
+      lines: day
+        ? [progressText({ done: royale.done, playing: royale.playing ? 1 : 0, total })]
+        : [unavailableText(date, today)],
+      next: day !== null && next === undefined && royale.done < total,
+      off: day === null,
+    });
+  }
   return (
     // O cabeçalho no centro, como nas outras telas de escolha (.practice).
     <div class="game practice anime screen">

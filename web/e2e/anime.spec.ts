@@ -304,9 +304,10 @@ test("dia fora da agenda do Anime: os modos avisam sem link, e o diário volta a
   // 07/10 é antes do 1º dia da agenda fictícia do Anime (08/10), que só cresce (P44).
   await open(page, "2026-10-07T12:00:00-03:00", "#anime");
   await expect(page.getByRole("heading", { level: 1, name: "Anime" })).toBeFocused();
-  // Só o link dos créditos: os dois modos avisam.
+  // Só o link dos créditos: os dois modos avisam, e o Anime Royale também (a agenda dele nunca
+  // passa da do Anime).
   await expect(page.getByRole("main").getByRole("link")).toHaveCount(1);
-  await expect(page.getByText("Não há diário hoje")).toHaveCount(2);
+  await expect(page.getByText("Não há diário hoje")).toHaveCount(3);
   await page.evaluate(() => {
     window.location.hash = "#anime-musica-facil";
   });

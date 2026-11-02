@@ -710,6 +710,9 @@ export const ptBR = {
   "daily.anime-titulo-dificil": "Anime · Difícil",
   "daily.misturadas-musica": "Misturadas · Música",
   "daily.misturadas-titulo": "Misturadas · Anime",
+  "daily.anime-royale-facil": "Anime Royale · Fácil",
+  "daily.anime-royale-medio": "Anime Royale · Médio",
+  "daily.anime-royale-dificil": "Anime Royale · Difícil",
 
   // As Misturadas (M17, P325 a P333): 2 ou 3 prévias de temas de anime tocando juntas. Dois diários,
   // acertar a música e acertar o anime, de 4 rodadas, com os trechos de 4, 8, 16 e 30 s.
@@ -757,6 +760,46 @@ export const ptBR = {
   "mixed.shareMode.musica": "Música",
   "mixed.shareMode.titulo": "Anime",
 
+  // O Anime Royale (o usuário, 01/11/2026): 5 temas tocam, e a pessoa marca as capas deles.
+  "royale.title": "Anime Royale",
+  "royale.short": "Marque as capas dos animes que tocaram",
+  "royale.hint":
+    "5 temas de anime tocam em sequência: marque, entre 9 capas, as dos animes que tocaram. Ouça quantas vezes quiser; o 1º erro encerra a dificuldade.",
+  "royale.levelsHint": "Escolha a dificuldade.",
+  "royale.statusDone": "{score} de {max} · Ver o resultado",
+  "royale.unavailable": "Não há Anime Royale hoje.",
+  "royale.retry": "Não foi possível carregar o Anime Royale. Confira a conexão.",
+  "royale.back": "Voltar ao Anime",
+  "royale.credits": "Capas e dados: AnimeThemes · Prévias: Apple Music",
+  "royale.play": "Tocar as 5",
+  "royale.playFrom": "Continuar do trecho {number}",
+  "royale.samples": "Os 5 trechos",
+  "royale.sample": "Tocar do trecho {number} até o fim",
+  "royale.samplePlaying": "Trecho {number} tocando",
+  "royale.noPreview": "Não foi possível carregar as músicas desta dificuldade. Tente mais tarde.",
+  "royale.audioError": "Não foi possível tocar. Tente de novo.",
+  "royale.pickHint": "Toque numa capa para ver o anime e o tema, e marcar.",
+  "royale.options": "As capas",
+  "royale.optionRight": "marcada, tocou",
+  "royale.optionWrong": "marcada, não tocou",
+  "royale.mark": "Marcar",
+  "royale.close": "Fechar",
+  "royale.ordinal.OP": "{number}ª abertura",
+  "royale.ordinal.ED": "{number}º encerramento",
+  "royale.ordinal.IN": "{number}ª música de inserção",
+  "royale.right": "Tocou! {left}.",
+  "royale.allFound": "Tocou! Achou as 5.",
+  "royale.wrong": "Não tocou: a dificuldade acabou.",
+  "royale.giveUp": "Desistir da dificuldade",
+  "royale.resultTitle": "Resultado",
+  "royale.result": "Achou {found} de {total}",
+  "royale.resultWrong": "O erro encerrou a dificuldade.",
+  "royale.resultQuit": "Desistiu.",
+  "royale.played": "As que tocaram",
+  "royale.backToLevels": "Voltar à escolha da dificuldade",
+  "royale.playedFound": "achada",
+  "royale.playedMissed": "não achada",
+  "share.headerRoyale": "{title} Anime Royale · {level} · {date}",
   // O quiz do dia (M18, Apêndice Q do PLANO): duas músicas de anime, uma pergunta, 2 vidas.
   "quiz.title": "Quiz do dia",
   // A etiqueta do especial da semana (P381), ao lado do título (o usuário, 28/10/2026).
@@ -859,7 +902,8 @@ export const ptBR = {
   "about.apple": "Apple Music",
   "about.appleWhat": "a parada do Japão, as capas e as prévias, cedidas pelo iTunes.",
   "about.animethemes": "AnimeThemes",
-  "about.animethemesWhat": "os animes, os temas e os sinônimos dos títulos.",
+  "about.animethemesWhat":
+    "os animes, os temas, os sinônimos dos títulos e as capas do Anime Royale.",
   "about.anisongdb": "AnisongDB",
   "about.anisongdbWhat": "a dificuldade, os artistas e as insert songs.",
   "about.mal": "MyAnimeList",
@@ -868,7 +912,7 @@ export const ptBR = {
   "about.sourceSeparator": ": ",
   "about.privacyTitle": "Privacidade",
   "about.privacy":
-    "O jogo não coleta dados pessoais e não tem servidor próprio: o progresso fica só neste navegador (no localStorage), e o arquivo exportado, só com você. O site é hospedado no GitHub Pages, que, como qualquer servidor, pode registrar os acessos. As prévias, as capas e as consultas das músicas vão direto do navegador à Apple.",
+    "O jogo não coleta dados pessoais e não tem servidor próprio: o progresso fica só neste navegador (no localStorage), e o arquivo exportado, só com você. O site é hospedado no GitHub Pages, que, como qualquer servidor, pode registrar os acessos. As prévias, as capas dos álbuns e as consultas das músicas vão direto do navegador à Apple, e as capas dos animes do Anime Royale, ao AnimeThemes.",
   // O progresso num arquivo (ME103): a seção do Sobre e o botão do pop-up das medalhas grandes.
   "progress.title": "Seu progresso",
   "progress.intro":

@@ -84,7 +84,7 @@ test("jogar o Normal de 21/10 depois: o resumo sem estatísticas, o compartilhar
     (key) => JSON.parse(localStorage.getItem(key) ?? "{}"),
     SAVE_KEY,
   );
-  expect(saved.schemaVersion).toBe(16);
+  expect(saved.schemaVersion).toBe(17);
   expect(saved.history["2026-10-21|album"].late).toBe(true);
 
   await page.getByRole("link", { name: "Voltar ao dia" }).click();
@@ -152,7 +152,7 @@ test("o andamento de fora da janela sai na abertura, e o de dentro fica (P269)",
     SAVE_KEY,
   );
   expect(migrated).toMatchObject({
-    schemaVersion: 16,
+    schemaVersion: 17,
     seenMedals: [],
     shelf: [],
     practiceRight: 0,
@@ -160,6 +160,7 @@ test("o andamento de fora da janela sai na abertura, e o de dentro fica (P269)",
   expect(migrated.artists).toEqual({});
   expect(migrated.mixed).toEqual({ finished: {}, progress: {} });
   expect(migrated.quiz).toEqual({ finished: {}, progress: {} });
+  expect(migrated.royale).toEqual({ finished: {}, progress: {} });
 });
 
 test("a data fora dos 14 dias cai no calendário, e a de uma aba sem data, na Início", async ({

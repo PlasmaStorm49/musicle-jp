@@ -5,6 +5,7 @@ import type { AudioEngine } from "../audio/engine.ts";
 import { indexAnime } from "../core/catalog.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
 import { type AnimeTab, ROUTES } from "../core/routes.ts";
+import { ROYALE_KEYS } from "../core/royale.ts";
 import type {
   AnimeAlbum,
   AnimeCatalog,
@@ -255,6 +256,8 @@ describe("Anime: a escolha do modo (P233)", () => {
     expect(screen.getAllByRole("link").map((l) => l.getAttribute("href"))).toEqual([
       "#anime-musica",
       "#anime-titulo",
+      // O Anime Royale (o usuário, 01/11/2026), o 3º cartão.
+      "#anime-royale",
       "#sobre",
     ]);
     const musica = card(/^Acertar a música/);
@@ -324,7 +327,18 @@ describe("Anime: a escolha do modo (P233)", () => {
       [puzzleId(DATE, "anime-titulo-dificil")]: finished,
     };
     setup("anime", { save: { ...emptySave(), history: both } });
+    // Os dois modos terminados: o oliva passa ao Anime Royale, e sai com as 3 dificuldades dele.
+    expect(nextCards()).toEqual(["Anime Royale"]);
+    cleanup();
+    const royale = { number: 1, found: [0, 1] };
+    const finishedRoyale = Object.fromEntries(
+      ROYALE_KEYS.map((key) => [puzzleId(DATE, key), royale]),
+    );
+    setup("anime", {
+      save: { ...emptySave(), history: both, royale: { finished: finishedRoyale, progress: {} } },
+    });
     expect(nextCards()).toEqual([]);
+    expect(lines(card(/^Anime Royale/))).toEqual(["3 de 3 terminados"]);
   });
 
   it("dia fora da agenda do Anime: os dois modos avisam, sem link", () => {
@@ -333,6 +347,7 @@ describe("Anime: a escolha do modo (P233)", () => {
     expect(offCards()).toEqual([
       { name: "Acertar a música", lines: ["Não há diário hoje"] },
       { name: "Acertar o anime", lines: ["Não há diário hoje"] },
+      { name: "Anime Royale", lines: ["Não há diário hoje"] },
     ]);
   });
 
