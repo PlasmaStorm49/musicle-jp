@@ -1064,11 +1064,11 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
-test("as Medalhas (M16) em 320 px: as 34 da lista em blocos e o Superfan, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
+test("as Medalhas (M16) em 320 px: as 34 da lista em blocos e as 6 de cada artista no carrossel, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
   page,
 }) => {
   // As ganhas, com o botão: os 6 do Anime de hoje acertados (a geral de nome mais longo, em
-  // destaque, com o "Tirar o destaque") e as 3 de um artista.
+  // destaque, com o "Tirar o destaque") e as 6 de um artista, as do Superfan e as do Setlist.
   const won = { status: "won", stage: 0, attempts: ["right"] } as const;
   const day = { number: 1, rounds: [won, won, won] };
   const anime = [
@@ -1082,13 +1082,24 @@ test("as Medalhas (M16) em 320 px: as 34 da lista em blocos e o Superfan, com os
   await seedHistory(
     page,
     Object.fromEntries(anime.map((key) => [`2026-10-08|${key}`, day])),
-    { "fixture:ar:ar02": { right: 50, done: true, perfect: true } },
+    {
+      "fixture:ar:ar02": {
+        right: 50,
+        done: true,
+        perfect: true,
+        setlist: { rounds: 10, found: 44 },
+        setlistPerfect: true,
+      },
+    },
     { shelf: ["anime-todos"] },
   );
   await page.setViewportSize({ width: 320, height: 640 });
   await open(page, DAY, "#medalhas");
   await expect(page.getByRole("button", { name: /^Tirar o destaque/ })).toBeVisible();
+  // As do carrossel fora da vista se medem depois de a faixa rolar até elas, como no Tab.
+  await expect(page.locator(".medal-artist .medal-pin")).toHaveCount(6);
   for (const button of await page.locator(".medal-pin").all()) {
+    await button.scrollIntoViewIfNeeded();
     const box = await button.boundingBox();
     expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(320);
   }

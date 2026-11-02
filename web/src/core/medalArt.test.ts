@@ -6,6 +6,8 @@ import {
   medalName,
   SASH_SPACING,
   sashLayout,
+  setlistArt,
+  setlistBaseName,
   sizedArtwork,
   superfanArt,
 } from "./medalArt.ts";
@@ -207,5 +209,41 @@ describe("sashLayout: a faixa da perfeita (P299)", () => {
       const width = text.length * 0.64 * layout.size + SASH_SPACING * (text.length - 1);
       expect(width, text).toBeLessThanOrEqual(44.001);
     }
+  });
+});
+
+describe("setlistArt e setlistBaseName: as do Setlist Royale (o usuário, 02/11/2026)", () => {
+  const SETLIST = "https://is1-ssl.mzstatic.com/image/thumb/Music1/v4/11/22/33/s.jpg/300x300bb.jpg";
+  const medals = (setlist: unknown) => ({
+    names: NAMES,
+    artworkUrl: ART,
+    flowers: FLOWERS,
+    setlist,
+  });
+
+  it("a capa do outro álbum, com o enquadramento dela, e as cores do artista", () => {
+    const e = entry(
+      medals({ name: "文化", latin: "Bunka", artworkUrl: SETLIST, crop: { z: 2, x: 0.4, y: 0.5 } }),
+    );
+    const art = setlistArt(list(e), e);
+    expect(art.image).toBe(SETLIST.replace("300x300bb", "1000x1000bb"));
+    expect(art.crop).toEqual({ z: 2, x: 0.4, y: 0.5 });
+    expect(art.flowers?.d).toBe("#123abc");
+    expect(art.name).toBe("歌手");
+    expect(setlistBaseName(e)).toEqual({ name: "文化", latin: "Bunka" });
+  });
+
+  it("sem o setlist (o índice velho), a capa do cartão, inteira, e nenhum nome", () => {
+    const e = entry(medals(undefined));
+    const art = setlistArt(list(e), e);
+    expect(art.image).toBe(CARD);
+    expect(art.crop).toEqual(CENTER);
+    expect(setlistBaseName(e)).toBeNull();
+  });
+
+  it("na lista real, a capa só do host da Apple (regra 22)", () => {
+    const e = entry(medals({ name: "Disco", latin: null, artworkUrl: "https://evil.test/x.jpg" }));
+    expect(setlistArt(list(e), e).image).toBe(CARD);
+    expect(setlistBaseName(entry(medals({ name: "  ", artworkUrl: SETLIST })))).toBeNull();
   });
 });

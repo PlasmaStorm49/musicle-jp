@@ -1,7 +1,13 @@
 // @vitest-environment happy-dom
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { DEMO_MEDALS, type Medal, SUPERFAN_RIGHT, superfanMedalId } from "../core/medals.ts";
+import {
+  DEMO_MEDALS,
+  type Medal,
+  SUPERFAN_RIGHT,
+  setlistMedalId,
+  superfanMedalId,
+} from "../core/medals.ts";
 import {
   emptySave,
   type FinishedGame,
@@ -525,5 +531,30 @@ describe("useMedalNotices: reivindicar antes de mostrar (P281, P288)", () => {
     fireEvent.click(screen.getByRole("button", { name: "fechar" }));
     claim();
     expect(shown()).toBe("nada");
+  });
+});
+
+describe("o aviso das do Setlist Royale (o usuário, 02/11/2026)", () => {
+  it("o nome próprio com o sufixo, o latino, o artista e a capa do outro álbum", () => {
+    const [live, oneTake] = noticeItems(
+      [setlistMedalId(ARTIST, "completa"), setlistMedalId(ARTIST, "perfeita")],
+      LIST,
+      resolve,
+      true,
+    );
+    expect(live).toMatchObject({
+      kind: "completo",
+      name: "文化 -\u2060Live- · Bunka -\u2060Live-, de 夜風",
+      feat: "Setlist completa",
+      art: { image: "/base/art/s1.svg" },
+    });
+    expect(oneTake?.kind).toBe("vinil");
+    // As duas são grandes: o pop-up oferece guardar uma cópia do progresso (P347).
+    expect(hasBig(oneTake ? [oneTake] : [])).toBe(true);
+  });
+
+  it("sem a lista dos artistas, só o feito", () => {
+    const [item] = noticeItems([setlistMedalId(ARTIST, "oitava")], null, resolve, true);
+    expect(item).toMatchObject({ kind: "acertos", name: "Setlist até a 8ª rodada" });
   });
 });
