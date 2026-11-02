@@ -2023,6 +2023,314 @@
           "answer": "apple:tr:1451567963"
         }
       ]
+    },
+    "2026-11-17": {
+      "album": [
+        {
+          "answer": "apple:tr:1445145789",
+          "options": [
+            "apple:al:1518843994",
+            "apple:al:1537460610",
+            "apple:al:1445145788",
+            "apple:al:1542182291"
+          ]
+        },
+        {
+          "answer": "apple:tr:1860538548",
+          "options": [
+            "apple:al:1860538546",
+            "apple:al:1771366340",
+            "apple:al:1892738151",
+            "apple:al:6792947885"
+          ]
+        },
+        {
+          "answer": "apple:tr:1894837345",
+          "options": [
+            "apple:al:1846753945",
+            "apple:al:1894837142",
+            "apple:al:1823814178",
+            "apple:al:6799944399"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-11-02.ee908f35",
+      "number": 39,
+      "song": [
+        {
+          "answer": "apple:tr:6785734870"
+        },
+        {
+          "answer": "apple:tr:1518845612"
+        },
+        {
+          "answer": "apple:tr:1451567585"
+        }
+      ]
+    },
+    "2026-11-18": {
+      "album": [
+        {
+          "answer": "apple:tr:6803798494",
+          "options": [
+            "apple:al:1794066812",
+            "apple:al:6803798492",
+            "apple:al:6818000110",
+            "apple:al:6799944399"
+          ]
+        },
+        {
+          "answer": "apple:tr:1691229801",
+          "options": [
+            "apple:al:1648108987",
+            "apple:al:1579439167",
+            "apple:al:1691229798",
+            "apple:al:1842368524"
+          ]
+        },
+        {
+          "answer": "apple:tr:1867687787",
+          "options": [
+            "apple:al:1821087726",
+            "apple:al:1840081735",
+            "apple:al:1733129984",
+            "apple:al:1867687784"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-11-02.ee908f35",
+      "number": 40,
+      "song": [
+        {
+          "answer": "apple:tr:1706832137"
+        },
+        {
+          "answer": "apple:tr:1733130377"
+        },
+        {
+          "answer": "apple:tr:1261937430"
+        }
+      ]
+    },
+    "2026-11-19": {
+      "album": [
+        {
+          "answer": "apple:tr:604748203",
+          "options": [
+            "apple:al:1451567083",
+            "apple:al:604748196",
+            "apple:al:279691838",
+            "apple:al:1518843994"
+          ]
+        },
+        {
+          "answer": "apple:tr:6817316271",
+          "options": [
+            "apple:al:1771366340",
+            "apple:al:1795905599",
+            "apple:al:6789046108",
+            "apple:al:6817316270"
+          ]
+        },
+        {
+          "answer": "apple:tr:1534620183",
+          "options": [
+            "apple:al:1623304208",
+            "apple:al:1490256978",
+            "apple:al:1534620182",
+            "apple:al:1537460610"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-11-02.ee908f35",
+      "number": 41,
+      "song": [
+        {
+          "answer": "apple:tr:1846753946"
+        },
+        {
+          "answer": "apple:tr:1451570480"
+        },
+        {
+          "answer": "apple:tr:1471459432"
+        }
+      ]
+    },
+    "2026-11-20": {
+      "album": [
+        {
+          "answer": "apple:tr:6823102262",
+          "options": [
+            "apple:al:1867354077",
+            "apple:al:6823102256",
+            "apple:al:6803148720",
+            "apple:al:6815505067"
+          ]
+        },
+        {
+          "answer": "apple:tr:6824719545",
+          "options": [
+            "apple:al:1808852878",
+            "apple:al:6824719544",
+            "apple:al:6803798492",
+            "apple:al:6823156003"
+          ]
+        },
+        {
+          "answer": "apple:tr:1606369524",
+          "options": [
+            "apple:al:1402042886",
+            "apple:al:1496731153",
+            "apple:al:1564752132",
+            "apple:al:1606368929"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-11-02.ee908f35",
+      "number": 42,
+      "song": [
+        {
+          "answer": "apple:tr:1869537742"
+        },
+        {
+          "answer": "apple:tr:1612705343"
+        },
+        {
+          "answer": "apple:tr:6820428730"
+        }
+      ]
+    },
+    "2026-11-21": {
+      "album": [
+        {
+          "answer": "apple:tr:1451577754",
+          "options": [
+            "apple:al:1451577721",
+            "apple:al:6823102256",
+            "apple:al:1838917127",
+            "apple:al:279691838"
+          ]
+        },
+        {
+          "answer": "apple:tr:6762737233",
+          "options": [
+            "apple:al:1891943324",
+            "apple:al:6824719544",
+            "apple:al:6785734869",
+            "apple:al:1894988524"
+          ]
+        },
+        {
+          "answer": "apple:tr:1795905600",
+          "options": [
+            "apple:al:1842368524",
+            "apple:al:6774039193",
+            "apple:al:1795905599",
+            "apple:al:1879524863"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-11-02.ee908f35",
+      "number": 43,
+      "song": [
+        {
+          "answer": "apple:tr:1821849522"
+        },
+        {
+          "answer": "apple:tr:1842368534"
+        },
+        {
+          "answer": "apple:tr:1585848051"
+        }
+      ]
+    },
+    "2026-11-22": {
+      "album": [
+        {
+          "answer": "apple:tr:1841344390",
+          "options": [
+            "apple:al:6817668875",
+            "apple:al:1841344389",
+            "apple:al:1794066812",
+            "apple:al:6785734869"
+          ]
+        },
+        {
+          "answer": "apple:tr:1451567627",
+          "options": [
+            "apple:al:1534620182",
+            "apple:al:1706831732",
+            "apple:al:1518843994",
+            "apple:al:1451567625"
+          ]
+        },
+        {
+          "answer": "apple:tr:1794066813",
+          "options": [
+            "apple:al:1794066812",
+            "apple:al:6799944399",
+            "apple:al:6823156003",
+            "apple:al:6793888333"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-11-02.ee908f35",
+      "number": 44,
+      "song": [
+        {
+          "answer": "apple:tr:1402042897"
+        },
+        {
+          "answer": "apple:tr:6824399888"
+        },
+        {
+          "answer": "apple:tr:6776482882"
+        }
+      ]
+    },
+    "2026-11-23": {
+      "album": [
+        {
+          "answer": "apple:tr:1681600508",
+          "options": [
+            "apple:al:1733129984",
+            "apple:al:1681600496",
+            "apple:al:1803063207",
+            "apple:al:1846753945"
+          ]
+        },
+        {
+          "answer": "apple:tr:1479397583",
+          "options": [
+            "apple:al:1479397582",
+            "apple:al:1579439167",
+            "apple:al:1445145788",
+            "apple:al:1496731153"
+          ]
+        },
+        {
+          "answer": "apple:tr:1446781794",
+          "options": [
+            "apple:al:1446781785",
+            "apple:al:1534620182",
+            "apple:al:1468137281",
+            "apple:al:1456062834"
+          ]
+        }
+      ],
+      "catalogVersion": "2026-11-02.ee908f35",
+      "number": 45,
+      "song": [
+        {
+          "answer": "apple:tr:1837658529"
+        },
+        {
+          "answer": "apple:tr:1440763351"
+        },
+        {
+          "answer": "apple:tr:6789046323"
+        }
+      ]
     }
   },
   "epoch": "2026-10-10",
