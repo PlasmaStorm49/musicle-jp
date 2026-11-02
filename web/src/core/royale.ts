@@ -104,7 +104,7 @@ export type RoyaleOption = {
   readonly anime: string;
   readonly cover: CoverPaths | null;
   readonly type: "OP" | "ED" | "IN";
-  /** A ordem do tema ("2ª abertura"); null sem número. */
+  /** O número do tema (o 2 do "Opening 2"); null sem número. */
   readonly sequence: number | null;
 };
 
