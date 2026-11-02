@@ -4,6 +4,8 @@
 #   exclude_tracks: trackId de faixa que não entra
 #   same_song: pares de trackId da mesma música com títulos que a chave não junta (o 2º vai
 #     para o grupo do 1º)
+#   section: a seção da lista, "foreign" (a de fora do Japão, P200) ou "anime" (um cartão por
+#     anime, o usuário, 02/11/2026); sem ela, a principal
 #   [artists.medals] (M16), sempre no FIM do bloco do artista (o que vier depois dele é dele):
 #     os 3 nomes, obrigatórios (P301), com o latin (o romaji, sem mácron, P297) só quando o
 #     nome tem kana, kanji ou hangul (nos 3, desde a P309); a capa das 3 (album: o collectionId
@@ -105,3 +107,21 @@ perfeito = { name = "星空", latin = "Hoshizora" }
 album = "al33"
 name = "流星Highway"
 latin = "Ryusei Highway"
+
+# A seção de anime (o usuário, 02/11/2026): o artista do anime não canta nenhuma das faixas,
+# todas de outros artistas da parada, e vem declarado no artists_fixture.json, como o
+# 物語シリーズ, dono dos álbuns de temas do Monogatari na loja.
+[[artists]]
+id = "ar90"  # 夜空物語シリーズ
+section = "anime"
+
+[artists.medals]
+acertos = { name = "坂道", latin = "Sakamichi" }
+completo = { name = "夜空物語", latin = "Yozora Monogatari" }
+perfeito = { name = "Signal" }
+album = "al09"  # 透明なシグナル - Single, a do cartão também
+
+[artists.medals.setlist]
+album = "al20"  # 東京ライツ - Single
+name = "東京ライツ"
+latin = "Tokyo Lights"

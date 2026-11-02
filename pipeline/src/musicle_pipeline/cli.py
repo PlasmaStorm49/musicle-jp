@@ -54,6 +54,7 @@ from musicle_pipeline.anime_schedule import (
     validate_anime_schedule,
 )
 from musicle_pipeline.artists import (
+    ANIME,
     INDEX,
     artist_snapshots,
     build_artists,
@@ -1214,7 +1215,8 @@ def _fetch_artists(args: argparse.Namespace, fetch: Any) -> int:
     """Um snapshot por artista do artists.toml (ou só os de --artist), substituído a cada busca.
     A falha de um artista não apaga o snapshot anterior dele, e o comando sai com 1."""
     paths = artist_paths("apple")
-    listed = [r.id for r in load_artist_list(paths.artists)]
+    rules = {r.id: r for r in load_artist_list(paths.artists)}
+    listed = list(rules)
     chosen = list(dict.fromkeys(args.artist or listed))  # sem repetir, na ordem
     unknown = [a for a in chosen if a not in listed]
     if unknown:
@@ -1223,9 +1225,14 @@ def _fetch_artists(args: argparse.Namespace, fetch: Any) -> int:
     failed = 0
     for position, artist_id in enumerate(chosen):
         try:
-            # A pausa entre os pedidos vale também de um artista para o seguinte.
+            # A pausa entre os pedidos vale também de um artista para o seguinte. O artista de
+            # um anime traz as faixas dos álbuns dele de qualquer intérprete, e as extra_tracks.
             snapshot = fetch.fetch_artist_snapshot(
-                artist_id, args.fetched_at, wait_first=position > 0
+                artist_id,
+                args.fetched_at,
+                wait_first=position > 0,
+                any_artist=rules[artist_id].section == ANIME,
+                extra_tracks=sorted(rules[artist_id].extra_tracks),
             )
         except fetch.FetchError as exc:
             print(f"fetch {artist_id}: {exc}; o snapshot anterior fica", file=sys.stderr)

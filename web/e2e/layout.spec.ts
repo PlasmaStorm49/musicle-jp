@@ -1193,7 +1193,7 @@ test("as Medalhas (M16) em 320 px: as 37 da lista em blocos e as 6 de cada artis
   }
   await expect(page.getByRole("heading", { level: 1, name: "Medalhas" })).toBeVisible();
   await expect(page.locator(".medal-list > li")).toHaveCount(37);
-  await expect(page.locator(".medal-artist")).toHaveCount(5);
+  await expect(page.locator(".medal-artist")).toHaveCount(6); // os 5 artistas e o anime fictício
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
   // O nome mais longo das gerais cabe na linha, sem passar da tela.
   const longest = page.getByText("Pare de falar em tocar grama...", { exact: true });

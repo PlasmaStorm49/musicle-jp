@@ -3,8 +3,8 @@
 Puro e determinístico, como o catálogo: lê os snapshots dos artistas (o `fetch --artists` grava)
 pelo provedor, sem rede e sem a biblioteca de romaji, e refaz tudo do zero a cada build. Cada
 artista vira um arquivo publicado com uma faixa por música (a canônica), e o índice lista os
-artistas da lista principal na ordem do artists.toml e, depois, os da seção de fora do Japão, em
-ordem alfabética (P200, P201).
+artistas da lista principal na ordem do artists.toml e, depois, os de cada seção (a de fora do
+Japão e a de anime), em ordem alfabética (P200, P201).
 
 A limpeza dos títulos daqui (karaokê, inglês, crédito "(… from …)") vale só para este modo: o
 normalize.py é o da parada, e mudá-lo mexeria nas respostas dos dias já jogados.
@@ -138,6 +138,9 @@ class ArtistRules:
     singles: frozenset[str] = frozenset()
     # A seção da lista (P200): None é a principal, dos japoneses.
     section: str | None = None
+    # trackId de músicas do anime fora dos álbuns do artista dele (só na seção "anime", o usuário,
+    # 02/11/2026): o UNDEAD do YOASOBI no Monogatari. A busca as traz pelo id.
+    extra_tracks: frozenset[str] = frozenset()
     # As medalhas do Superfan (M16): os nomes, a capa, o enquadramento, a faixa e as flores; e as
     # do Setlist Royale, no setlist delas.
     medals: MedalRules | None = None
@@ -297,8 +300,11 @@ def _medals(value: object, where: str) -> MedalRules:
 
 
 # As seções da lista de artistas, na ordem da tela, depois da principal (P200). Dentro de cada
-# uma, a ordem é alfabética (P201, section_order); na principal, a do artists.toml (P118).
-SECTIONS = ("foreign",)
+# uma, a ordem é alfabética (P201, section_order); na principal, a do artists.toml (P118). A de
+# anime (o usuário, 02/11/2026) tem um cartão por anime: o artista dele na loja (物語シリーズ),
+# com todas as faixas dos álbuns dele, de qualquer intérprete, e as extra_tracks.
+SECTIONS = ("foreign", "anime")
+ANIME = "anime"
 _RULE_KEYS = {
     "id",
     "exclude_albums",
@@ -306,6 +312,7 @@ _RULE_KEYS = {
     "same_song",
     "singles",
     "section",
+    "extra_tracks",
     "medals",
 }
 
@@ -343,6 +350,9 @@ def load_artist_list(path: Path) -> list[ArtistRules]:
         section = item.get("section")
         if section is not None and section not in SECTIONS:
             raise InputError(f"{where}: section aceita só {list(SECTIONS)}")
+        extra = _ids(item.get("extra_tracks", []), f"{where} extra_tracks")
+        if extra and section != ANIME:
+            raise InputError(f'{where}: extra_tracks só na section = "{ANIME}"')
         rules.append(
             ArtistRules(
                 id=artist_id,
@@ -351,6 +361,7 @@ def load_artist_list(path: Path) -> list[ArtistRules]:
                 same_song=tuple((a, b) for a, b in pairs),
                 singles=_ids(item.get("singles", []), f"{where} singles"),
                 section=section,
+                extra_tracks=extra,
                 medals=_medals(item["medals"], f"{where} medals") if "medals" in item else None,
             )
         )
@@ -459,6 +470,7 @@ def _stale_rules(snap: ArtistSnapshot, rules: ArtistRules) -> list[str]:
         *(f"exclude_tracks: {t}" for t in sorted(rules.exclude_tracks - tracks)),
         *(f"same_song: {t}" for t in sorted(paired - tracks)),
         *(f"singles: {t}" for t in sorted(rules.singles - tracks)),
+        *(f"extra_tracks: {t}" for t in sorted(rules.extra_tracks - tracks)),
     ]
 
 

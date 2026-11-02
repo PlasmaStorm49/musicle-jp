@@ -79,7 +79,9 @@ class AppleArtistProvider:
                 # Participação com um crédito que a chave estrita não reconheceu: a faixa veio no
                 # lookup do artista, então é dele também (o validate exige ele nos artistIds). A
                 # exibição fica a da loja: o crédito já cita o artista ("DAOKO×米津玄師"), e juntar
-                # os nomes daria "DAOKO×米津玄師 & 米津玄師".
+                # os nomes daria "DAOKO×米津玄師 & 米津玄師". No anime, a faixa de outro intérprete
+                # num álbum dele (o 君の知らない物語 do supercell no 歌物語) ou das extra_tracks:
+                # a tela mostra "supercell", e o anime fica só nos artistIds.
                 track = replace(
                     track,
                     artists=(*track.artists, chosen),

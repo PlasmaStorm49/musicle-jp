@@ -90,12 +90,14 @@ describe("artistSections (P200, P201)", () => {
   const names = (part: readonly { readonly entry: { readonly name: string } }[]) =>
     part.map((a) => a.entry.name);
 
-  it("nas fixtures: a principal na ordem do índice, e a de fora do Japão em ordem alfabética", () => {
-    const { main, foreign } = artistSections(artists.list);
+  it("nas fixtures: a principal na ordem do índice, e as seções em ordem alfabética", () => {
+    const { main, foreign, anime } = artistSections(artists.list);
     expect(names(main)).toEqual(["夜風シアター", "青井ユウ", "ミナト"]);
     expect(names(foreign)).toEqual(["Hoshizora Drive", "Re:Pulse"]);
-    // A posição é a do índice inteiro: os ids dos cartões não se repetem entre as duas.
-    expect([...main, ...foreign].map((a) => a.position)).toEqual([0, 1, 2, 3, 4]);
+    // A de anime (o usuário, 02/11/2026), depois da de fora.
+    expect(names(anime)).toEqual(["夜空物語シリーズ"]);
+    // A posição é a do índice inteiro: os ids dos cartões não se repetem entre as seções.
+    expect([...main, ...foreign, ...anime].map((a) => a.position)).toEqual([0, 1, 2, 3, 4, 5]);
   });
 
   it("na lista real: os dois artistas de fora do Japão (P199), em ordem alfabética", () => {
@@ -109,9 +111,10 @@ describe("artistSections (P200, P201)", () => {
     const [first] = artists.list.artists;
     if (!first) throw new Error("lista de fixtures vazia");
     const odd = { ...first, section: "outra" } as unknown as typeof first;
-    const { main, foreign } = artistSections({ ...artists.list, artists: [odd] });
+    const { main, foreign, anime } = artistSections({ ...artists.list, artists: [odd] });
     expect(main).toHaveLength(1);
     expect(foreign).toHaveLength(0);
+    expect(anime).toHaveLength(0);
   });
 });
 

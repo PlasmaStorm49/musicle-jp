@@ -172,6 +172,16 @@
         { "rank": 1, "ref": "tr21" },
         { "rank": 2, "ref": "tr42" }
       ]
+    },
+    "ar90": {
+      "artist": { "name": "夜空物語シリーズ", "nameLatin": "YOZORA Series" },
+      "entries": [
+        { "rank": 1, "ref": "tr09" },
+        { "rank": 2, "ref": "tr22" },
+        { "rank": 3, "ref": "tr06" },
+        { "rank": null, "ref": "tr30" },
+        { "rank": null, "ref": "tr31" }
+      ]
     }
   }
 }

@@ -1,6 +1,6 @@
 # Artistas fictícios (modo por artista, M13)
 
-Cinco artistas da parada fictícia, para o `npm run dev`, o e2e e os testes: três na lista principal e dois na seção de fora do Japão (P200). As faixas que ficam são as da parada, citadas pelo id (`"ref"` em `artists_fixture.json`): os mesmos títulos e URLs, então o `fake-assets` da parada já gera o áudio e as capas. As versões sintéticas (`trx*`, `alx*`) existem só para cair nas regras e **nunca** chegam ao arquivo publicado (um teste confere).
+Seis artistas da parada fictícia, para o `npm run dev`, o e2e e os testes: três na lista principal, dois na seção de fora do Japão (P200) e um anime na seção de anime (o usuário, 02/11/2026). As faixas que ficam são as da parada, citadas pelo id (`"ref"` em `artists_fixture.json`): os mesmos títulos e URLs, então o `fake-assets` da parada já gera o áudio e as capas. As versões sintéticas (`trx*`, `alx*`) existem só para cair nas regras e **nunca** chegam ao arquivo publicado (um teste confere).
 
 Saída: `web/public/fixtures/artists/` (o `index.json` e um arquivo por artista), gerada pelo `build-artists --provider fixture`. Romaji em `romaji.json` (gerado pelo `romanize --provider fixture --artists`), curadoria em `artists.toml` e `aliases.toml`. **Não renomeie os IDs.**
 
@@ -11,6 +11,7 @@ Saída: `web/public/fixtures/artists/` (o `index.json` e um arquivo por artista)
 | ar01 ミナト | `tr01` a `tr03` são a mesma música (a canônica é a mais antiga, `tr01`; o TV Size não entra); `trx06` com o crédito "(… from …)" é o mesmo 灯台; `trx07` sai pelo `exclude_tracks` | tr01, tr37 |
 | ar11 Re:Pulse | Seção de fora do Japão (`section = "foreign"`). No `artists.toml` vem antes do ar06, e o índice o põe depois: a seção sai em ordem alfabética (P201), pelo build | tr10, tr35, tr25 |
 | ar06 Hoshizora Drive | Seção de fora do Japão, com nome só latino (`nameLatin` nulo) | tr21, tr42 |
+| ar90 夜空物語シリーズ | Seção de anime (`section = "anime"`): nenhuma faixa credita o anime, todas são de outros artistas da parada, e o artista vem declarado no `"artist"` do `artists_fixture.json`, como o 物語シリーズ, dono dos álbuns de temas na loja. O provedor o acrescenta nos `artistIds`, e a tela mostra o intérprete | tr09, tr22, tr06, tr30, tr31 |
 
 ## As medalhas (M16)
 
@@ -23,3 +24,4 @@ Os 3 nomes de cada artista são obrigatórios (P301), com o latino nos 3 quando 
 | ar01 ミナト | 夜明け · Yoake; Dawn Collection; 港 · Minato | Só os nomes |
 | ar11 Re:Pulse | RIOT; ゼロ距離 · Zero Kyori; Re:Pulse | A faixa deitada (`along = true`) |
 | ar06 Hoshizora Drive | Midnight Drive; 流星 · Ryusei; 星空 · Hoshizora | Só os nomes; a faixa sem escolha: o nome latino longo vai deitado (P299) |
+| ar90 夜空物語シリーズ | 坂道 · Sakamichi; 夜空物語 · Yozora Monogatari; Signal | A capa do `al09` (a do cartão também); a do Setlist, o `al20` |
