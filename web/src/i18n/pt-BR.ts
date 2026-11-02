@@ -453,6 +453,8 @@ export const ptBR = {
     "Bis: toca a sequência de novo, uma vez. As opções continuam valendo. Uma por run.",
   "setlist.helpUsedName": "{name}, já usada",
   "setlist.helpUsed": "Já usada nesta run.",
+  // No dedo, o 1º toque só abre o tooltip, com esta linha embaixo (o usuário, 02/11/2026).
+  "setlist.helpTapAgain": "Toque de novo para usar.",
   "setlist.encoreFailed": "O Bis não tocou. A ajuda continua com você.",
   "setlist.options": "As opções",
   "setlist.right": "Tocou.",

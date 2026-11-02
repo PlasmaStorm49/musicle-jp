@@ -2908,6 +2908,19 @@ dialog.medal-dialog .attribution {
   opacity: 1;
 }
 
+/* No dedo, o 1º toque abre o tooltip, com o aviso de tocar de novo numa linha à parte. */
+.help-wrap.armed > .help-tip {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.help-tip-again {
+  display: block;
+  margin-top: var(--sp-1);
+  font-weight: 700;
+}
+
 .help-wrap.tip-closed > .help-tip {
   visibility: hidden;
   opacity: 0;

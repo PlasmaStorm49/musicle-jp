@@ -466,4 +466,35 @@ describe("SetlistView: as ajudas, o Espiar e o Bis (o usuário, 02/11/2026)", ()
     );
     expect(loading.state.run.helps.encore).toBe(false);
   });
+
+  it("no dedo, o 1º toque abre o tooltip com o tocar de novo, e o 2º usa; o mouse usa de uma vez (o usuário, 02/11/2026)", async () => {
+    const { state, playChain } = await picking();
+    // Os ouvintes de fora saem de um efeito: o foco na 1ª opção diz que eles já estão lá.
+    await waitFor(() =>
+      expect(document.activeElement?.classList.contains("setlist-option")).toBe(true),
+    );
+    const tap = (el: HTMLElement) => {
+      fireEvent.pointerDown(el, { pointerType: "touch" });
+      fireEvent.click(el, { detail: 1 });
+    };
+    tap(peekButton());
+    await waitFor(() => expect(peekButton().parentElement?.className).toBe("help-wrap armed"));
+    expect(state.run.helps.peek).toBe(false);
+    expect(tip("setlist-peek")?.textContent).toContain("Toque de novo para usar.");
+    // O toque fora fecha o tooltip, e o seguinte abre de novo.
+    fireEvent.pointerDown(document.body, { pointerType: "touch" });
+    await waitFor(() => expect(peekButton().parentElement?.className).toBe("help-wrap"));
+    tap(peekButton());
+    await waitFor(() => expect(peekButton().parentElement?.className).toBe("help-wrap armed"));
+    tap(peekButton());
+    await waitFor(() => expect(state.run.helps.peek).toBe(true));
+    expect(peekButton().parentElement?.className).toBe("help-wrap");
+    // A gasta, no dedo, só mostra que já foi usada.
+    tap(peekButton());
+    await waitFor(() => expect(tip("setlist-peek")?.textContent).toBe("Já usada nesta run."));
+    // O mouse toca o Bis de uma vez.
+    fireEvent.pointerDown(encoreButton(), { pointerType: "mouse" });
+    fireEvent.click(encoreButton(), { detail: 1 });
+    await waitFor(() => expect(playChain).toHaveBeenCalledTimes(2));
+  });
 });

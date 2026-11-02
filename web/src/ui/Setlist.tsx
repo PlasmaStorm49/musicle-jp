@@ -678,6 +678,10 @@ function SetlistHelps({
  * aria-disabled, que mantém o foco (ME37). O clique troca a tela quando o Espiar fecha a rodada: o
  * 2º clique de um toque duplo não conta (regra 23). Ocupada (o Bis carregando ou tocando), ela não
  * responde, e o contador já mostra o 0 quando o som começa.
+ *
+ * No dedo, sem o mouse para o tooltip, o 1º toque só o abre, com o "Toque de novo para usar", e o
+ * 2º usa a ajuda (o usuário, 02/11/2026). O dedo se sabe pelo `pointerType` do toque, e não pela
+ * tela: o mouse, o teclado e o leitor de tela (que clica sem tocar) usam de uma vez.
  */
 function HelpButton({
   id,
@@ -698,6 +702,8 @@ function HelpButton({
 }) {
   const used = spent && !busy;
   const [closed, setClosed] = useState(false);
+  const [armed, setArmed] = useState(false);
+  const touched = useRef(false);
   const wrap = useRef<HTMLSpanElement>(null);
   // O Esc fecha só o tooltip à vista (o do mouse em cima ou o do foco): o de outro botão, e o
   // Esc que fecha um pop-up, não o apagam. O mouse que entra ou sai, e o foco que chega ou sai, o
@@ -706,21 +712,45 @@ function HelpButton({
     const el = wrap.current;
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== "Escape" || !el) return;
+      setArmed(false);
       if (el.matches(":hover") || el.contains(document.activeElement)) setClosed(true);
     };
     const open = () => setClosed(false);
+    // O toque fora do botão e do tooltip fecha o aberto pelo dedo.
+    const away = (event: PointerEvent) => {
+      if (el && !el.contains(event.target as Node)) setArmed(false);
+    };
     document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", away);
     el?.addEventListener("mouseenter", open);
     el?.addEventListener("mouseleave", open);
     return () => {
       document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", away);
       el?.removeEventListener("mouseenter", open);
       el?.removeEventListener("mouseleave", open);
     };
   }, []);
+
+  function click(event: MouseEvent) {
+    const tap = touched.current;
+    touched.current = false;
+    if (tap && !armed) {
+      setArmed(true);
+      setClosed(false);
+      return;
+    }
+    // O 2º clique de um toque duplo (regra 23), menos o que usa a ajuda aberta pelo dedo.
+    if (event.detail > 1 && !armed) return;
+    setArmed(false);
+    if (!used && !busy) onUse();
+  }
   const tipId = `${id}-tip`;
   return (
-    <span ref={wrap} class={closed ? "help-wrap tip-closed" : "help-wrap"}>
+    <span
+      ref={wrap}
+      class={["help-wrap", armed && "armed", closed && "tip-closed"].filter(Boolean).join(" ")}
+    >
       <button
         type="button"
         id={id}
@@ -730,7 +760,10 @@ function HelpButton({
         aria-disabled={used || busy ? "true" : undefined}
         onFocus={() => setClosed(false)}
         onBlur={() => setClosed(false)}
-        onClick={singleClick(() => !used && !busy && onUse())}
+        onPointerDown={(event) => {
+          touched.current = event.pointerType === "touch";
+        }}
+        onClick={click}
       >
         <Icon name={icon} />
         <span class="help-count" aria-hidden="true">
@@ -739,6 +772,7 @@ function HelpButton({
       </button>
       <span id={tipId} role="tooltip" class="help-tip">
         {used ? t("setlist.helpUsed") : tip}
+        {armed && !used && !busy && <span class="help-tip-again">{t("setlist.helpTapAgain")}</span>}
       </span>
     </span>
   );
