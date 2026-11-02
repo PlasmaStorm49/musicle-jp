@@ -219,39 +219,5 @@ function speakerSlit() {
   ]);
 }
 
-// O olho (o Espiar do Setlist Royale, o usuário, 02/11/2026): as pálpebras em dois arcos que se
-// encontram nos cantos, a pupila irregular e a fenda de brilho nela.
-{
-  const lidTop = arc([50, 82], 45, 218, 322, 20);
-  const lidBottom = arc([50, 18], 45, 38, 142, 20);
-  ICONS.eye = icon([
-    stroke(lidTop, swell(9, 0.25), { seed: 61, wobble: 0.5, corner: 0.25 }),
-    stroke(lidBottom, swell(9, 0.25), { seed: 62, wobble: 0.5, corner: 0.25 }),
-    disc([50, 50], 11, 63),
-    arcSlit([50, 50], 7, 200, 262, 2),
-  ]);
-}
-
-// O bis (o Bis do Setlist Royale, tocar de novo): um arco de uns 290°, no sentido do relógio, e a
-// ponta de seta no fim dele.
-{
-  const c = [50, 54];
-  const a1 = 245;
-  const ring = arc(c, 31, -45, a1, 30);
-  const end = ring.at(-1);
-  const rad = (a1 * Math.PI) / 180;
-  const t = [-Math.sin(rad), Math.cos(rad)];
-  const n = [Math.cos(rad), Math.sin(rad)];
-  const tip = [end[0] + t[0] * 16, end[1] + t[1] * 16];
-  const out = [end[0] + n[0] * 13, end[1] + n[1] * 13];
-  const inn = [end[0] - n[0] * 13, end[1] - n[1] * 13];
-  const head = [...line(out, tip, 6), ...line(tip, inn, 6).slice(1), ...line(inn, out, 6).slice(1, -1)];
-  ICONS.encore = icon([
-    stroke(ring.slice(0, -2), swell(10, 0.15), { seed: 71, wobble: 0.5, corner: 0.25 }),
-    orient(head, 1),
-    slit(ring.slice(0, -2), swell(10, 0.15), 1, 0.2, 0.55, 2, 0.5),
-  ]);
-}
-
 writeFileSync(process.argv[2] ?? "provisional-icons.json", JSON.stringify(ICONS, null, 1));
 for (const [k, v] of Object.entries(ICONS)) console.log(`${k}: ${v.viewBox}, ${v.d.length} caracteres`);
