@@ -184,7 +184,7 @@ export type RoyaleGame = {
 export type RoyaleProgress = { readonly events: readonly RoyaleEvent[] };
 
 /**
- * O Royale no save (v17), à parte do `history` dos diários, como as Misturadas: as estatísticas e
+ * O Royale no save (v18), à parte do `history` dos diários, como as Misturadas: as estatísticas e
  * a sequência do topo não o veem.
  */
 export type RoyaleSave = {

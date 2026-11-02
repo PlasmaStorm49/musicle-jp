@@ -3,22 +3,21 @@
 // save, calcula as ganhas, tira as já avisadas e grava a união. A aba mostra só o que ela mesma
 // marcou, e a outra aba, que relê o save, encontra tudo avisado.
 import { useCallback, useState } from "preact/hooks";
-import { medalName, superfanArt } from "../core/medalArt.ts";
 import {
+  artistMedalOf,
   claimMedals,
   claimTier,
   MEDALS,
   type Medal,
   type MedalTier,
   medalsOf,
-  SUPERFAN_LEVELS,
 } from "../core/medals.ts";
 import type { ArtistList } from "../core/types.ts";
 import { t, tn } from "../i18n/t.ts";
 import { type KeyValueStore, updateSave } from "../storage/save.ts";
-import { generalArt, generalKind, type MedalKind } from "./MedalArt.tsx";
+import { artistMedalKind, generalArt, generalKind, type MedalKind } from "./MedalArt.tsx";
 import type { NoticeItem } from "./MedalNotice.tsx";
-import { medalText, superfanFeat } from "./Medals.tsx";
+import { artistArtOf, artistFeat, artistMedalName, medalText } from "./Medals.tsx";
 
 /**
  * O aviso na tela: as medalhas, o tamanho dele e se é o 1º de quem já jogava (P281). O tamanho sai
@@ -81,11 +80,10 @@ export function useMedalNotices({ store, general, silent, today, hitsDates }: Op
   return { notice, claim, dismiss };
 }
 
-const SUPERFAN_ID = /^superfan\|(.+)\|([a-z]+)$/;
-
 /**
- * O nome e o desenho de cada medalha do aviso. As do Superfan levam o nome próprio, com o latino
- * (P295, P300), e o artista: "Nightwalker, de YOASOBI". Sem o nome, o feito ("Superfan completo");
+ * O nome e o desenho de cada medalha do aviso. As de artista (do Superfan e do Setlist) levam o nome
+ * próprio, com o latino (P295, P300), e o artista: "Nightwalker, de YOASOBI", "THE BOOK -Live-, de
+ * YOASOBI". Sem o nome, o feito ("Superfan completo", "Setlist completa");
  * sem a lista dos artistas (a carga falhou), só o feito, com o monograma de reserva. O aviso
  * pequeno (`covers` falso) vai sem a capa: as telas dele não têm o selo da Apple (P298). As gerais
  * levam o desenho do tamanho delas (P312), pela lista (`general`).
@@ -100,20 +98,20 @@ export function noticeItems(
   const mark = generalArt(t("medals.generalMark"));
   const tiers = new Map(general.map((medal) => [medal.id, medal.tier]));
   return ids.map((id) => {
-    const match = SUPERFAN_ID.exec(id);
-    const level = SUPERFAN_LEVELS.find((l) => l === match?.[2]);
-    if (!match || !level) {
+    const medal = artistMedalOf(id);
+    if (!medal) {
       const text = medalText(id, "name");
       const kind = generalKind(tiers.get(id) ?? "simple");
       return { id, kind, name: text, spoken: text, feat: null, art: mark };
     }
-    const feat = superfanFeat(level);
-    const entry = list?.artists.find((a) => a.id === match[1]);
+    const kind = artistMedalKind(medal);
+    const feat = artistFeat(medal);
+    const entry = list?.artists.find((a) => a.id === medal.artistId);
     if (!list || !entry) {
-      return { id, kind: level, name: feat, spoken: feat, feat, art: { ...mark, letter: "?" } };
+      return { id, kind, name: feat, spoken: feat, feat, art: { ...mark, letter: "?" } };
     }
-    const base = superfanArt(list, entry);
-    const name = medalName(entry, level);
+    const base = artistArtOf(list, entry, medal);
+    const name = artistMedalName(entry, medal);
     const artist = base.name.trim();
     // Sem o nome do artista (um índice corrompido), sem o ", de" solto.
     const of = (text: string) => (artist ? t("medals.notice.named", { name: text, artist }) : text);
@@ -127,7 +125,7 @@ export function noticeItems(
       : (name?.name ?? feat);
     return {
       id,
-      kind: level,
+      kind,
       name: of(shown),
       spoken: name ? t("medals.notice.withFeat", { name: of(said), feat }) : of(said),
       feat: name ? feat : null,
@@ -144,10 +142,16 @@ export function noticeTitle(notice: MedalNoticeState): string {
   return count === 1 ? t("medals.notice.one") : tn("medals.notice.many", count);
 }
 
-const BIG_KINDS: ReadonlySet<MedalKind> = new Set(["completo", "perfeito", "geral-grande"]);
+const BIG_KINDS: ReadonlySet<MedalKind> = new Set([
+  "completo",
+  "perfeito",
+  "vinil",
+  "geral-grande",
+]);
 
 /**
- * O aviso tem uma medalha grande: a Superfan completa ou perfeita, ou uma das gerais grandes. O
+ * O aviso tem uma medalha grande: a Superfan completa ou perfeita, a Setlist completa ou perfeita
+ * (o gelo e o vinil), ou uma das gerais grandes. O
  * pop-up dele oferece guardar uma cópia do progresso (ME103, P347).
  */
 export function hasBig(items: readonly NoticeItem[]): boolean {

@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { artists, realArtists } from "../../test/artists.ts";
 import { ANIME_KEYS, DAILY_KEYS } from "../core/daily.ts";
-import { MEDALS, SUPERFAN_LEVELS, superfanMedalId, superfanMedals } from "../core/medals.ts";
+import {
+  MEDALS,
+  SETLIST_LEVELS,
+  SUPERFAN_LEVELS,
+  setlistMedalId,
+  setlistMedals,
+  superfanMedalId,
+  superfanMedals,
+} from "../core/medals.ts";
 import { MIXED_KEYS } from "../core/mixed.ts";
 import {
   emptySave,
@@ -75,9 +83,9 @@ const V9 = { practiceRight: 0 };
 const V10 = { mixed: { finished: {}, progress: {} } };
 /** E a v12 (M18): o quiz do dia, vazio. */
 const V12 = { quiz: { finished: {}, progress: {} } };
-/** E a v17: o Anime Royale, vazio (o usuário, 01/11/2026). */
-const V17 = { royale: { finished: {}, progress: {} } };
-const LATEST = { ...V8, ...V9, ...V10, ...V12, ...V17 };
+/** E a v18: o Anime Royale, vazio (o usuário, 01/11/2026). */
+const V18 = { royale: { finished: {}, progress: {} } };
+const LATEST = { ...V8, ...V9, ...V10, ...V12, ...V18 };
 
 describe("loadSave", () => {
   it("sem nada salvo: save vazio e gravável", () => {
@@ -292,14 +300,14 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v3));
     expect(loadSave(store)).toEqual({
-      save: { ...v3, ...LATEST, schemaVersion: 17 },
+      save: { ...v3, ...LATEST, schemaVersion: 18 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(17);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(18);
   });
 
   it("um save v4 de verdade, com a ajuda, chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -330,7 +338,7 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v4));
     expect(loadSave(store)).toEqual({
-      save: { ...v4, ...LATEST, schemaVersion: 17 },
+      save: { ...v4, ...LATEST, schemaVersion: 18 },
       writable: true,
       notice: null,
     });
@@ -369,13 +377,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v5));
     expect(loadSave(store)).toEqual({
-      save: { ...v5, ...LATEST, schemaVersion: 17 },
+      save: { ...v5, ...LATEST, schemaVersion: 18 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(17);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(18);
   });
 
   it("um save v6 de verdade chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -406,13 +414,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v6));
     expect(loadSave(store)).toEqual({
-      save: { ...v6, ...LATEST, schemaVersion: 17 },
+      save: { ...v6, ...LATEST, schemaVersion: 18 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(17);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(18);
   });
 
   describe("o jogado depois (v7, P267)", () => {
@@ -460,14 +468,14 @@ describe("loadSave", () => {
     // ids de cada dia com o dailyIds) apagaria o andamento dele a cada carga; e um id novo sem
     // versão nova seria apagado pela aba com o código velho.
     // As Misturadas (v10) também: os 2 ids delas andam com a versão (a v11 só marca o jogado
-    // depois nelas, pelo Histórico). E as 3 dificuldades do Anime Royale (v17).
+    // depois nelas, pelo Histórico). E as 3 dificuldades do Anime Royale (v18).
     expect({
       version: SAVE_SCHEMA_VERSION,
       keys: DAILY_KEYS,
       mixed: MIXED_KEYS,
       royale: ROYALE_KEYS,
     }).toEqual({
-      version: 17,
+      version: 18,
       mixed: ["misturadas-musica", "misturadas-titulo"],
       royale: ["anime-royale-facil", "anime-royale-medio", "anime-royale-dificil"],
       keys: [
@@ -647,10 +655,11 @@ describe("loadSave", () => {
 });
 
 describe("as medalhas e o modo por artista (v8, P289)", () => {
-  it("todo id de medalha do Superfan passa no guard, com o id de artista do schema", () => {
-    const ids = ["apple:ar:1489581870", "fixture:ar:ar01", "apple:ar:A-b_9"].flatMap((artist) =>
-      SUPERFAN_LEVELS.map((level) => superfanMedalId(artist, level)),
-    );
+  it("todo id de medalha do Superfan e do Setlist passa no guard, com o id de artista do schema", () => {
+    const ids = ["apple:ar:1489581870", "fixture:ar:ar01", "apple:ar:A-b_9"].flatMap((artist) => [
+      ...SUPERFAN_LEVELS.map((level) => superfanMedalId(artist, level)),
+      ...SETLIST_LEVELS.map((level) => setlistMedalId(artist, level)),
+    ]);
     const store = memoryStore();
     expect(updateSave(store, (s) => withSeenMedals(s, ids))).toBe("saved");
     expect(loadSave(store)).toMatchObject({ save: { seenMedals: [...ids].sort() }, notice: null });
@@ -715,6 +724,31 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
       { artists: { "apple:ar:1": { right: 2, best: { score: 4, song: 2 } } } },
     ],
     [
+      "um Setlist perfeito que não é true",
+      { artists: { "apple:ar:1": { right: 2, setlistPerfect: false } } },
+      { artists: {} },
+    ],
+    // O Setlist perfeito (v17) é também a setlist completa: sem ela, sai sozinho, como um recorde.
+    [
+      "um Setlist perfeito sem o recorde",
+      { artists: { "apple:ar:1": { right: 2, setlistPerfect: true } } },
+      { artists: { "apple:ar:1": { right: 2 } } },
+    ],
+    [
+      "um Setlist perfeito com a setlist incompleta",
+      {
+        artists: {
+          "apple:ar:1": { right: 2, setlist: { rounds: 9, found: 30 }, setlistPerfect: true },
+        },
+      },
+      { artists: { "apple:ar:1": { right: 2, setlist: { rounds: 9, found: 30 } } } },
+    ],
+    [
+      "um Setlist perfeito com o recorde ruim",
+      { artists: { "apple:ar:1": { right: 2, setlist: { rounds: "10" }, setlistPerfect: true } } },
+      { artists: { "apple:ar:1": { right: 2 } } },
+    ],
+    [
       "os dois recordes ruins",
       { artists: { "apple:ar:1": { right: 2, best: 86, setlist: "10" } } },
       { artists: { "apple:ar:1": { right: 2 } } },
@@ -743,6 +777,7 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     const medals = [
       ...MEDALS.map((m) => m.id),
       ...ids.flatMap((id) => superfanMedals(id).map((m) => m.id)),
+      ...ids.flatMap((id) => setlistMedals(id).map((m) => m.id)),
     ];
     updateSave(store, (s) => withSeenMedals(s, medals));
     const loaded = loadSave(store);
@@ -769,14 +804,14 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     };
     const store = withRaw(JSON.stringify(v7));
     expect(loadSave(store)).toEqual({
-      save: { ...v7, ...LATEST, schemaVersion: 17 },
+      save: { ...v7, ...LATEST, schemaVersion: 18 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => withArtistRight(s, "apple:ar:1"))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 17,
+      schemaVersion: 18,
       history: v7.history,
     });
   });
@@ -784,7 +819,10 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
   it("o maior id de artista que o guard aceita ainda dá ids de medalha que ele aceita", () => {
     const longest = `${"a".repeat(16)}:ar:${"9".repeat(64)}`;
     const store = memoryStore();
-    const ids = SUPERFAN_LEVELS.map((level) => superfanMedalId(longest, level));
+    const ids = [
+      ...SUPERFAN_LEVELS.map((level) => superfanMedalId(longest, level)),
+      ...SETLIST_LEVELS.map((level) => setlistMedalId(longest, level)),
+    ];
     updateSave(store, (s) => withSeenMedals(withArtistRight(s, longest), ids));
     expect(loadSave(store)).toMatchObject({ notice: null });
     expect(loadSave(store).save.seenMedals).toEqual([...ids].sort());
@@ -828,14 +866,14 @@ describe("os acertos do Treino (v9, P308)", () => {
     };
     const store = withRaw(JSON.stringify(v8));
     expect(loadSave(store)).toEqual({
-      save: { ...v8, ...V9, ...V10, ...V12, ...V17, schemaVersion: 17 },
+      save: { ...v8, ...V9, ...V10, ...V12, ...V18, schemaVersion: 18 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, withPracticeRight)).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 17,
+      schemaVersion: 18,
       practiceRight: 1,
       artists: v8.artists,
     });
@@ -930,7 +968,7 @@ describe("as Misturadas (v10, M17)", () => {
   });
 });
 
-describe("o Anime Royale (v17, o usuário, 01/11/2026)", () => {
+describe("o Anime Royale (v18, o usuário, 01/11/2026)", () => {
   const id = "2026-10-08|anime-royale-facil";
   const good = { number: 3, found: [4, 0, 2], wrong: true } as const;
   const saved: Save = {
@@ -981,7 +1019,7 @@ describe("o Anime Royale (v17, o usuário, 01/11/2026)", () => {
     for (const royale of [undefined, [], { finished: [] }]) {
       const result = loadSave(withRaw(JSON.stringify({ ...valid, royale })));
       expect(result.notice).toBe("repaired");
-      expect(result.save.royale).toEqual(V17.royale);
+      expect(result.save.royale).toEqual(V18.royale);
       expect(result.save.history).toEqual(valid.history);
     }
   });

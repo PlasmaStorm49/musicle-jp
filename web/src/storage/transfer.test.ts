@@ -155,7 +155,8 @@ describe("parseImport (ME103)", () => {
           right: 4,
           done: true,
           best: { score: 35, song: 4, extra: 1 },
-          setlist: { rounds: 7, found: 31, extra: 1 },
+          setlist: { rounds: 10, found: 44, extra: 1 },
+          setlistPerfect: true,
           extra: true,
         },
       },
@@ -167,7 +168,8 @@ describe("parseImport (ME103)", () => {
       right: 4,
       done: true,
       best: { score: 35, song: 4 },
-      setlist: { rounds: 7, found: 31 },
+      setlist: { rounds: 10, found: 44 },
+      setlistPerfect: true,
     });
   });
 
@@ -280,7 +282,7 @@ describe("replaceSave (P345)", () => {
   });
 });
 
-describe("o Anime Royale no arquivo (v17, o usuário, 01/11/2026)", () => {
+describe("o Anime Royale no arquivo (v18, o usuário, 01/11/2026)", () => {
   const game: RoyaleGame = { number: 2, found: [3, 0], wrong: true };
   const withRoyale: Save = {
     ...emptySave(),
@@ -309,9 +311,9 @@ describe("o Anime Royale no arquivo (v17, o usuário, 01/11/2026)", () => {
     expect(replaceSave(withRoyale, result.save).royale).toEqual(withRoyale.royale);
   });
 
-  it("um arquivo de antes do Royale (v16) entra, com o campo vazio", () => {
-    const { royale: _none, ...v16 } = { ...save, schemaVersion: 16 };
-    const result = parseImport(file(v16), TODAY);
+  it("um arquivo de antes do Royale (v17) entra, com o campo vazio", () => {
+    const { royale: _none, ...v17 } = { ...save, schemaVersion: 17 };
+    const result = parseImport(file(v17), TODAY);
     if (!result.ok) throw new Error(result.reason);
     expect(result.save.royale).toEqual({ finished: {}, progress: {} });
   });

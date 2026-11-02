@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render } from "@testing-library/preact";
 import { afterEach, describe, expect, it } from "vitest";
 import { CENTER, FLOWER_ROLES, type SuperfanArt } from "../core/medalArt.ts";
 import { MEDALS } from "../core/medals.ts";
-import { generalArt, generalKind, MedalArt, type MedalKind } from "./MedalArt.tsx";
+import { artistMedalKind, generalArt, generalKind, MedalArt, type MedalKind } from "./MedalArt.tsx";
 import { ICON_IDS } from "./medalIcons.tsx";
 
 afterEach(cleanup);
@@ -31,7 +31,7 @@ function draw(kind: MedalKind, art: Partial<SuperfanArt> = {}, earned = true) {
 const texts = (svg: SVGSVGElement) => [...svg.querySelectorAll("text")].map((t) => t.textContent);
 
 describe("MedalArt (o desenho das medalhas, M16)", () => {
-  it.each(["acertos", "completo", "perfeito", "geral", "geral-grande"] as const)(
+  it.each(["acertos", "completo", "perfeito", "vinil", "geral", "geral-grande"] as const)(
     "%s: decorativa, com a cor do artista pela classe do monograma",
     (kind) => {
       const svg = draw(kind);
@@ -45,6 +45,7 @@ describe("MedalArt (o desenho das medalhas, M16)", () => {
     ["acertos", "29.5"],
     ["completo", "32"],
     ["perfeito", "29"],
+    ["vinil", "26.4"],
     ["geral", "25"],
     ["geral-grande", "32"],
   ] as const)("%s: a capa vai até o aro (r %s); a geral fica com o anel claro", (kind, r) => {
@@ -184,5 +185,25 @@ describe("MedalArt (o desenho das medalhas, M16)", () => {
     );
     const ids = [...container.querySelectorAll("clipPath")].map((c) => c.id);
     expect(new Set(ids).size).toBe(2);
+  });
+});
+
+describe("o vinil, a perfeita do Setlist Royale (o usuário, 02/11/2026, o B5)", () => {
+  it("o disco com os 4 sulcos, a capa em 60% dele e o furo por cima", () => {
+    const svg = draw("vinil", { image: "/capa.jpg" });
+    expect(svg.getAttribute("viewBox")).toBe("0 0 92 92");
+    const grooves = [...svg.querySelectorAll('circle[fill="none"]')].map((c) =>
+      c.getAttribute("r"),
+    );
+    expect(grooves).toEqual(expect.arrayContaining(["41", "38", "35", "32"]));
+    expect(svg.querySelector("image")?.getAttribute("href")).toBe("/capa.jpg");
+    expect(svg.lastElementChild?.getAttribute("r")).toBe("1.6");
+  });
+
+  it("o desenho de cada medalha de artista: as do Setlist na roseta, no gelo e no vinil", () => {
+    expect(artistMedalKind({ family: "setlist", level: "oitava" })).toBe("acertos");
+    expect(artistMedalKind({ family: "setlist", level: "completa" })).toBe("completo");
+    expect(artistMedalKind({ family: "setlist", level: "perfeita" })).toBe("vinil");
+    expect(artistMedalKind({ family: "superfan", level: "perfeito" })).toBe("perfeito");
   });
 });

@@ -127,6 +127,7 @@ function cleanArtist(record: ArtistRecord): ArtistRecord {
     ...(record.setlist
       ? { setlist: { rounds: record.setlist.rounds, found: record.setlist.found } }
       : {}),
+    ...(record.setlistPerfect ? { setlistPerfect: true } : {}),
   };
 }
 
@@ -161,7 +162,7 @@ export function parseImport(text: string, today: string): ImportResult {
   const mixedIn = isRecord(data.save.mixed) ? { mixed: { ...data.save.mixed, progress: {} } } : {};
   // O quiz do dia (v12) também: só as runs terminadas.
   const quizIn = isRecord(data.save.quiz) ? { quiz: { ...data.save.quiz, progress: {} } } : {};
-  // O Anime Royale (v17) também.
+  // O Anime Royale (v18) também.
   const royaleIn = isRecord(data.save.royale)
     ? { royale: { ...data.save.royale, progress: {} } }
     : {};

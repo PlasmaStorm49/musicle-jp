@@ -1,7 +1,7 @@
 // Migrações do formato salvo: uma função por versão, de N para N+1, cada uma com um teste que
 // lê um save real da versão anterior (web/CLAUDE.md, regra 12).
 
-export const SAVE_SCHEMA_VERSION = 17;
+export const SAVE_SCHEMA_VERSION = 18;
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;
 
@@ -70,10 +70,14 @@ export const MIGRATIONS: Readonly<Record<number, Migration>> = {
   // v15 → v16 (o usuário, 01/11/2026): o recorde do Setlist Royale no registro do artista
   // (`setlist`). Nada muda no que já existe; a versão sobe pelo mesmo motivo da v15.
   15: (data) => data,
-  // v16 → v17 (o usuário, 01/11/2026): o Anime Royale, num campo novo, vazio: as dificuldades
+  // v16 → v17 (o usuário, 02/11/2026): o Setlist perfeito no registro do artista
+  // (`setlistPerfect`), para a medalha dele. Nada muda no que já existe; a versão sobe pelo mesmo
+  // motivo da v15.
+  16: (data) => data,
+  // v17 → v18 (o usuário, 01/11/2026): o Anime Royale, num campo novo, vazio: as dificuldades
   // terminadas e as em andamento, à parte dos diários, como as Misturadas. A versão sobe pelo mesmo
   // motivo da v8 (o `sanitize` velho o jogaria fora).
-  16: (data) => ({ ...data, royale: { finished: {}, progress: {} } }),
+  17: (data) => ({ ...data, royale: { finished: {}, progress: {} } }),
 };
 
 /** Leva um save da versão `from` até a atual. Versão sem migração conhecida: erro. */

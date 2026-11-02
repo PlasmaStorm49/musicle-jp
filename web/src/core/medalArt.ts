@@ -1,5 +1,6 @@
 // O que o desenho das medalhas do Superfan sabe de cada artista (M16, P296, P299): a capa das 3,
-// o enquadramento, as cores do buquê, a faixa e os nomes, do `medals` do índice dos artistas. O
+// o enquadramento, as cores do buquê, a faixa e os nomes, do `medals` do índice dos artistas; e as
+// do Setlist Royale, a outra capa e o nome-base, do `medals.setlist`. O
 // `loadArtistList` não confere as entradas, então tudo aqui confere o que lê: um índice velho (no
 // cache do Pages) ou corrompido cai no padrão, e a tela nunca quebra. Puro, como o resto do core;
 // a geometria do enquadramento e da faixa também fica aqui, para ser testada no Node.
@@ -124,6 +125,23 @@ export function superfanArt(list: ArtistList, entry: ArtistListEntry): SuperfanA
   };
 }
 
+/**
+ * O desenho das do Setlist Royale (o usuário, 02/11/2026): o mesmo do artista (as cores, a faixa,
+ * o monograma), com a capa de outro álbum, a do `medals.setlist`, e o enquadramento dela. Sem ela
+ * (o índice velho, no cache do Pages), a do cartão, inteira; sem nenhuma, o monograma.
+ */
+export function setlistArt(list: ArtistList, entry: ArtistListEntry): SuperfanArt {
+  const base = superfanArt(list, entry);
+  const medals: unknown = entry.medals;
+  const s = isRecord(medals) && isRecord(medals.setlist) ? medals.setlist : {};
+  const crop = cropOf(s.crop) ?? CENTER;
+  const own =
+    typeof s.artworkUrl === "string" && s.artworkUrl ? sizedArtwork(s.artworkUrl, crop.z) : null;
+  const image =
+    own && (list.provider !== APPLE_PROVIDER || isAppleUrl("artwork", own)) ? own : null;
+  return { ...base, image: image ?? cardArtwork(list, entry), crop: image ? crop : CENTER };
+}
+
 /** O nome de uma medalha, com o latino ao lado (P295; na perfeita também, desde a P309). */
 export type MedalName = { readonly name: string; readonly latin: string | null };
 
@@ -135,6 +153,18 @@ export function medalName(entry: ArtistListEntry, level: SuperfanLevel): MedalNa
   if (!isRecord(n) || typeof n.name !== "string" || !n.name.trim()) return null;
   const latin = typeof n.latin === "string" && n.latin.trim() ? n.latin.trim() : null;
   return { name: n.name.trim(), latin };
+}
+
+/**
+ * O nome-base das 3 do Setlist (o título do álbum delas), com o latino; a tela põe o sufixo de cada
+ * nível. Null quando falta (o índice velho, no cache do Pages).
+ */
+export function setlistBaseName(entry: ArtistListEntry): MedalName | null {
+  const medals: unknown = entry.medals;
+  const s = isRecord(medals) ? medals.setlist : null;
+  if (!isRecord(s) || typeof s.name !== "string" || !s.name.trim()) return null;
+  const latin = typeof s.latin === "string" && s.latin.trim() ? s.latin.trim() : null;
+  return { name: s.name.trim(), latin };
 }
 
 /**

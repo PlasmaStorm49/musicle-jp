@@ -40,6 +40,7 @@ const LIST: ArtistList = {
           completo: { name: "Round Robin", latin: null },
           perfeito: { name: "夜風劇場", latin: "Yokaze Gekijo" },
         },
+        setlist: { name: "文化", latin: "Bunka", artworkUrl: "art/s1.svg" },
       },
     },
     {
@@ -55,6 +56,7 @@ const LIST: ArtistList = {
           completo: { name: "Segunda", latin: null },
           perfeito: { name: "Terceira", latin: null },
         },
+        setlist: { name: "Disco", latin: null, artworkUrl: "art/s2.svg" },
       },
     },
   ],
@@ -125,7 +127,7 @@ describe("Medals (a tela, P278 e P286)", () => {
     const title = screen.getByRole("heading", { level: 1, name: "Medalhas" });
     await waitFor(() => expect(document.activeElement).toBe(title));
     expect(screen.getByText("Dias seguidos jogando: 2. O melhor: 2.")).toBeTruthy();
-    expect(screen.getByText("1 de 9 medalhas")).toBeTruthy();
+    expect(screen.getByText("1 de 15 medalhas")).toBeTruthy();
     const texts = [...document.querySelectorAll(".medal-list .medal-text")];
     // O como ganhar em todas, também na ganha, para lembrar o que a pessoa fez; o progresso só
     // nas que faltam (o usuário, 24/10/2026).
@@ -144,7 +146,7 @@ describe("Medals (a tela, P278 e P286)", () => {
     expect(document.querySelectorAll(".medal-list > li.locked")).toHaveLength(2);
   });
 
-  it("o Superfan: as 3 de cada artista, com o nome próprio, o estado, a capa e o monograma (P300)", () => {
+  it("as 6 de cada artista (as 3 do Superfan e as 3 do Setlist), com as ganhas na frente, o nome próprio, o estado, a capa e o monograma (P300)", () => {
     let save = withArtistRight(emptySave(), "t:ar:2");
     for (let i = 0; i < SUPERFAN_RIGHT; i++) save = withArtistRight(save, "t:ar:1");
     save = withSuperfanEnd(save, "t:ar:1", { done: true, perfect: false });
@@ -154,17 +156,27 @@ describe("Medals (a tela, P278 e P286)", () => {
       `夜明け, Yoake | Chegue a ${SUPERFAN_RIGHT} acertos com o artista`,
       "Round Robin | Termine uma partida do Superfan",
       "夜風劇場, Yokaze Gekijo | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
+      // As do Setlist: o título do álbum delas com o sufixo de cada nível, também no latino.
+      "文化 -\u2060Rehearsal-, Bunka -\u2060Rehearsal- | Chegue à 8ª rodada do Setlist Royale | 0 de 7 rodadas",
+      "文化 -\u2060Live-, Bunka -\u2060Live- | Termine as 10 rodadas do Setlist Royale",
+      "文化 -\u2060One\u00a0Take-, Bunka -\u2060One\u00a0Take- | Termine as 10 rodadas do Setlist sem perder vida",
     ]);
     expect(cells("Banda").map(cellText)).toEqual([
       `Primeira | Chegue a ${SUPERFAN_RIGHT} acertos com o artista | 1 de ${SUPERFAN_RIGHT} acertos`,
       "Segunda | Termine uma partida do Superfan",
       "Terceira | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
+      "Disco -\u2060Rehearsal- | Chegue à 8ª rodada do Setlist Royale | 0 de 7 rodadas",
+      "Disco -\u2060Live- | Termine as 10 rodadas do Setlist Royale",
+      "Disco -\u2060One\u00a0Take- | Termine as 10 rodadas do Setlist sem perder vida",
     ]);
     // O leitor de tela ouve qual é cada uma, pelo feito: o desenho é decorativo.
     expect(cells("Banda").map((c) => c.querySelector(".sr-only")?.textContent)).toEqual([
       `${SUPERFAN_RIGHT} acertos`,
       "Superfan completo",
       "Superfan perfeito",
+      "Setlist até a 8ª rodada",
+      "Setlist completa",
+      "Setlist perfeita",
     ]);
     // Nenhum rótulo de nível na tela (P300); o nome japonês com a língua dele, e o latino embaixo,
     // sem o ponto, com a pausa só para o leitor de tela (P316).
@@ -176,6 +188,9 @@ describe("Medals (a tela, P278 e P286)", () => {
     expect(name?.querySelector('[aria-hidden="true"]')).toBeNull();
     // A capa pelo resolvedor; sem capa, o monograma.
     expect(cells(/^夜風/)[0]?.querySelector("image")?.getAttribute("href")).toBe("/art/1.svg");
+    // As do Setlist com a capa do outro álbum; a perfeita no vinil, quadrado.
+    expect(cells(/^夜風/)[3]?.querySelector("image")?.getAttribute("href")).toBe("/art/s1.svg");
+    expect(cells(/^夜風/)[5]?.querySelector("svg")?.getAttribute("viewBox")).toBe("0 0 92 92");
     expect(cells("Banda")[0]?.querySelector("text")?.textContent).toBe("B");
     // Nas fixtures, sem o selo da Apple.
     expect(screen.queryByRole("link", { name: /Apple Music/ })).toBeNull();
@@ -316,6 +331,9 @@ describe("Medals (a tela, P278 e P286)", () => {
       `Chegue a ${SUPERFAN_RIGHT} acertos com o artista | 0 de ${SUPERFAN_RIGHT} acertos`,
       "Termine uma partida do Superfan",
       "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
+      "Chegue à 8ª rodada do Setlist Royale | 0 de 7 rodadas",
+      "Termine as 10 rodadas do Setlist Royale",
+      "Termine as 10 rodadas do Setlist sem perder vida",
     ]);
   });
 
@@ -354,7 +372,7 @@ describe("Medals (a tela, P278 e P286)", () => {
         "Anime 0 de 2",
         "Misturadas 0 de 4",
         "Quiz 0 de 16",
-        "Artistas 0 de 6",
+        "Artistas 0 de 12",
       ]);
       // O nome e a contagem separados para o leitor de tela.
       expect(screen.getByRole("heading", { level: 2, name: "Hits 0 de 3" })).toBeTruthy();
@@ -370,7 +388,7 @@ describe("Medals (a tela, P278 e P286)", () => {
       expect(names(/^Gerais/).map((n) => n.textContent)).toContain(
         medalText("superfan-completo", "name"),
       );
-      // Os Artistas só com as 3 de cada um.
+      // Os Artistas só com as 6 de cada um.
       expect(names(/^Artistas/)).toEqual([]);
       expect(document.querySelectorAll(".medal-list > li")).toHaveLength(MEDALS.length);
     });
@@ -390,7 +408,7 @@ describe("Medals (a tela, P278 e P286)", () => {
       real(store({ status: "ready", list: LIST }));
       // Só passa com o aria-labelledby apontando para o h2 certo.
       expect(screen.getByRole("region", { name: "Hits 0 de 3" })).toBeTruthy();
-      expect(screen.getByRole("region", { name: "Artistas 0 de 6" })).toBeTruthy();
+      expect(screen.getByRole("region", { name: "Artistas 0 de 12" })).toBeTruthy();
       const routes = new Set(Object.values(ROUTES).map((route) => route.slice(1)));
       const ids = [...document.querySelectorAll("section[aria-labelledby]")].map((s) =>
         s.getAttribute("aria-labelledby"),

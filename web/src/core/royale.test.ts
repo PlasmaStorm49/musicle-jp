@@ -123,7 +123,7 @@ describe("a partida: uma vida (o usuário, 01/11/2026)", () => {
   });
 });
 
-describe("o save do Royale (v17)", () => {
+describe("o save do Royale (v18)", () => {
   const d = daily("medio");
 
   it("retoma pelos eventos, e o andamento que já terminou vira terminado", () => {

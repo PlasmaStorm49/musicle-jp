@@ -99,5 +99,21 @@ export interface ArtistListEntry {
       leaf1: string;
       leaf2: string;
     };
+    /**
+     * As 3 medalhas do Setlist Royale (o usuário, 02/11/2026): a capa de outro álbum do arquivo do artista, que não é a das do Superfan, e o nome-base, o título desse álbum, com o latino (sem mácron) só quando ele tem kana, kanji ou hangul. A tela acrescenta o sufixo de cada nível (-Rehearsal-, -Live- e -One Take-). Obrigatório no índice novo, sem versão nova; o site o lê como opcional, como o resto do medals.
+     */
+    setlist: {
+      name: NonEmptyText;
+      latin: string | null;
+      artworkUrl: AssetUrl;
+      /**
+       * O enquadramento da capa nova, como o crop do Superfan.
+       */
+      crop?: {
+        z: number;
+        x: number;
+        y: number;
+      };
+    };
   };
 }

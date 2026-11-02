@@ -112,6 +112,17 @@ jobs:
           mixed=$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' dist/data/anime/mixed.json)
           [ "$mixed" -ge 7 ] || echo "::warning::só $mixed dia(s) de agenda das Misturadas depois de hoje ($today)"
           echo "Agenda das Misturadas: $mixed dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
+          # O Anime Royale: a mesma folga, só aviso, e só depois que a agenda real nasce (com a
+          # tela); ela para no último dia das do Anime, das Misturadas e do quiz e cresce com elas.
+          if [ -f dist/data/anime/royale.json ]; then
+            jq -e --arg d "$today" '.days | has($d)' dist/data/anime/royale.json > /dev/null \
+              || echo "::warning::a agenda do Anime Royale não tem o dia de hoje ($today)"
+            royale=$(jq --arg d "$today" '[.days | keys[] | select(. > $d)] | length' dist/data/anime/royale.json)
+            [ "$royale" -ge 7 ] || echo "::warning::só $royale dia(s) de agenda do Anime Royale depois de hoje ($today)"
+            echo "Agenda do Anime Royale: $royale dia(s) depois de hoje ($today)." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Agenda do Anime Royale: ainda não existe." >> "$GITHUB_STEP_SUMMARY"
+          fi
           du -sh dist
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
