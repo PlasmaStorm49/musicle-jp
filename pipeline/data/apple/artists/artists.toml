@@ -856,9 +856,9 @@ exclude_albums = [
 ]
 
 [artists.medals]
-acertos = { name = "staple stable" }
-completo = { name = "恋愛サーキュレーション", latin = "Renai Circulation" }
-perfeito = { name = "君の知らない物語", latin = "Kimi no Shiranai Monogatari" }
+acertos = { name = "恋愛サーキュレーション", latin = "Renai Circulation" }
+completo = { name = "ゴールデンチョコレート", latin = "Golden Chocolate" }  # o donut da Shinobu
+perfeito = { name = "蕩れ", latin = "Tore" }  # a palavra da Hitagi no fim do 化物語
 album = "1535798229"  # 歌物語 Special Edition, com a Hitagi; a do cartão também
 crop = { z = 2, x = 0.42, y = 0.32 }
 sash = { text = "物語" }

@@ -916,16 +916,16 @@
         },
         "names": {
           "acertos": {
-            "latin": null,
-            "name": "staple stable"
-          },
-          "completo": {
             "latin": "Renai Circulation",
             "name": "恋愛サーキュレーション"
           },
+          "completo": {
+            "latin": "Golden Chocolate",
+            "name": "ゴールデンチョコレート"
+          },
           "perfeito": {
-            "latin": "Kimi no Shiranai Monogatari",
-            "name": "君の知らない物語"
+            "latin": "Tore",
+            "name": "蕩れ"
           }
         },
         "sash": {
