@@ -38,6 +38,7 @@ import type {
 import { emptySave, SHELF_SIZE } from "../core/records.ts";
 import type { GameEvent } from "../core/reducer.ts";
 import { HELP_OPTIONS, MAX_STAGE, MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
+import { SETLIST_FINAL } from "../core/setlist.ts";
 import type { Target } from "../core/types.ts";
 import { migrate, SAVE_SCHEMA_VERSION } from "./migrations.ts";
 
@@ -337,16 +338,25 @@ export function isArtistRecord(x: unknown): x is ArtistRecord {
     (x.perfect === undefined || (x.perfect === true && x.done === true)) &&
     (x.best === undefined || isSuperfanBest(x.best)) &&
     (x.setlist === undefined || isSetlistBest(x.setlist)) &&
-    (x.setlistPerfect === undefined || x.setlistPerfect === true)
+    // O Setlist perfeito (v17) é também a setlist completa, como a perfeita do Superfan.
+    (x.setlistPerfect === undefined || (x.setlistPerfect === true && setlistComplete(x.setlist)))
   );
 }
 
-/** Os recordes fora do formato (v15 e v16) saem sozinhos: o resto do registro vale as medalhas. */
+function setlistComplete(x: unknown): boolean {
+  return isSetlistBest(x) && x.rounds >= SETLIST_FINAL;
+}
+
+/**
+ * Os recordes fora do formato (v15 e v16) saem sozinhos: o resto do registro vale as medalhas. O
+ * Setlist perfeito (v17) sem a setlist completa ao lado sai junto, como um recorde fora do formato.
+ */
 function withoutBadBests(raw: unknown): unknown {
   if (!isRecord(raw)) return raw;
   const bad = new Set<string>();
   if (raw.best !== undefined && !isSuperfanBest(raw.best)) bad.add("best");
   if (raw.setlist !== undefined && !isSetlistBest(raw.setlist)) bad.add("setlist");
+  if (raw.setlistPerfect === true && !setlistComplete(raw.setlist)) bad.add("setlistPerfect");
   return bad.size === 0
     ? raw
     : Object.fromEntries(Object.entries(raw).filter(([field]) => !bad.has(field)));

@@ -154,7 +154,7 @@ describe("parseImport (ME103)", () => {
           right: 4,
           done: true,
           best: { score: 35, song: 4, extra: 1 },
-          setlist: { rounds: 7, found: 31, extra: 1 },
+          setlist: { rounds: 10, found: 44, extra: 1 },
           setlistPerfect: true,
           extra: true,
         },
@@ -167,7 +167,7 @@ describe("parseImport (ME103)", () => {
       right: 4,
       done: true,
       best: { score: 35, song: 4 },
-      setlist: { rounds: 7, found: 31 },
+      setlist: { rounds: 10, found: 44 },
       setlistPerfect: true,
     });
   });

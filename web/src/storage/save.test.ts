@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { artists, realArtists } from "../../test/artists.ts";
 import { ANIME_KEYS, DAILY_KEYS } from "../core/daily.ts";
-import { MEDALS, SUPERFAN_LEVELS, superfanMedalId, superfanMedals } from "../core/medals.ts";
+import {
+  MEDALS,
+  SETLIST_LEVELS,
+  SUPERFAN_LEVELS,
+  setlistMedalId,
+  setlistMedals,
+  superfanMedalId,
+  superfanMedals,
+} from "../core/medals.ts";
 import { MIXED_KEYS } from "../core/mixed.ts";
 import {
   emptySave,
@@ -638,10 +646,11 @@ describe("loadSave", () => {
 });
 
 describe("as medalhas e o modo por artista (v8, P289)", () => {
-  it("todo id de medalha do Superfan passa no guard, com o id de artista do schema", () => {
-    const ids = ["apple:ar:1489581870", "fixture:ar:ar01", "apple:ar:A-b_9"].flatMap((artist) =>
-      SUPERFAN_LEVELS.map((level) => superfanMedalId(artist, level)),
-    );
+  it("todo id de medalha do Superfan e do Setlist passa no guard, com o id de artista do schema", () => {
+    const ids = ["apple:ar:1489581870", "fixture:ar:ar01", "apple:ar:A-b_9"].flatMap((artist) => [
+      ...SUPERFAN_LEVELS.map((level) => superfanMedalId(artist, level)),
+      ...SETLIST_LEVELS.map((level) => setlistMedalId(artist, level)),
+    ]);
     const store = memoryStore();
     expect(updateSave(store, (s) => withSeenMedals(s, ids))).toBe("saved");
     expect(loadSave(store)).toMatchObject({ save: { seenMedals: [...ids].sort() }, notice: null });
@@ -710,6 +719,26 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
       { artists: { "apple:ar:1": { right: 2, setlistPerfect: false } } },
       { artists: {} },
     ],
+    // O Setlist perfeito (v17) é também a setlist completa: sem ela, sai sozinho, como um recorde.
+    [
+      "um Setlist perfeito sem o recorde",
+      { artists: { "apple:ar:1": { right: 2, setlistPerfect: true } } },
+      { artists: { "apple:ar:1": { right: 2 } } },
+    ],
+    [
+      "um Setlist perfeito com a setlist incompleta",
+      {
+        artists: {
+          "apple:ar:1": { right: 2, setlist: { rounds: 9, found: 30 }, setlistPerfect: true },
+        },
+      },
+      { artists: { "apple:ar:1": { right: 2, setlist: { rounds: 9, found: 30 } } } },
+    ],
+    [
+      "um Setlist perfeito com o recorde ruim",
+      { artists: { "apple:ar:1": { right: 2, setlist: { rounds: "10" }, setlistPerfect: true } } },
+      { artists: { "apple:ar:1": { right: 2 } } },
+    ],
     [
       "os dois recordes ruins",
       { artists: { "apple:ar:1": { right: 2, best: 86, setlist: "10" } } },
@@ -739,6 +768,7 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     const medals = [
       ...MEDALS.map((m) => m.id),
       ...ids.flatMap((id) => superfanMedals(id).map((m) => m.id)),
+      ...ids.flatMap((id) => setlistMedals(id).map((m) => m.id)),
     ];
     updateSave(store, (s) => withSeenMedals(s, medals));
     const loaded = loadSave(store);
@@ -780,7 +810,10 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
   it("o maior id de artista que o guard aceita ainda dá ids de medalha que ele aceita", () => {
     const longest = `${"a".repeat(16)}:ar:${"9".repeat(64)}`;
     const store = memoryStore();
-    const ids = SUPERFAN_LEVELS.map((level) => superfanMedalId(longest, level));
+    const ids = [
+      ...SUPERFAN_LEVELS.map((level) => superfanMedalId(longest, level)),
+      ...SETLIST_LEVELS.map((level) => setlistMedalId(longest, level)),
+    ];
     updateSave(store, (s) => withSeenMedals(withArtistRight(s, longest), ids));
     expect(loadSave(store)).toMatchObject({ notice: null });
     expect(loadSave(store).save.seenMedals).toEqual([...ids].sort());
