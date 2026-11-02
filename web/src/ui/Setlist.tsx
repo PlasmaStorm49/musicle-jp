@@ -659,7 +659,7 @@ function SetlistHelps({
       />
       <HelpButton
         id="setlist-encore"
-        icon="encore"
+        icon="repeat"
         name={encoreName}
         tip={t("setlist.encoreTip")}
         spent={run.helps.encore}
