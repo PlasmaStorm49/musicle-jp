@@ -10,6 +10,7 @@ import os
 import shutil
 import subprocess
 import sys
+from collections import Counter
 from dataclasses import replace
 from datetime import date, timedelta
 from decimal import Decimal
@@ -376,6 +377,60 @@ def test_a_full_run_of_each_family(ctx, family_id, param):
             assert rnd["info"]["rates"] == [float(a.facts.amq), float(b.facts.amq)]
         if family_id == "playlists":
             assert rnd["info"]["playlists"] == [a.facts.playlists, b.facts.playlists]
+
+
+@pytest.mark.parametrize(("family_id", "param"), [c for c in FAMILY_CASES if c[1] is not None])
+def test_a_franchise_at_most_three_times_on_each_side(ctx, family_id, param):
+    """O limite da franquia nas perguntas com parâmetro (o usuário, 02/11/2026): a mesma franquia
+    no máximo 3 vezes do lado que tem e 3 do que não tem, na run inteira."""
+    assert ctx.capped(FAMILY_BY_ID[family_id])
+    sides: tuple[Counter[str], Counter[str]] = (Counter(), Counter())
+    for n, rnd, _step in _run_of(ctx, family_id, param):
+        answer, other = (rnd["a"], rnd["b"]) if rnd["answer"] == "a" else (rnd["b"], rnd["a"])
+        for side, track in enumerate((answer, other)):  # a direção da run é "tem"
+            sides[side].update(ctx.by_id[track].franchises)
+        assert max(sides[0].values()) <= quiz.FRANCHISE_CAP, n
+        assert max(sides[1].values()) <= quiz.FRANCHISE_CAP, n
+
+
+def test_a_parameter_of_few_franchises_stays_out(ctx):
+    """O "Martial Arts" de 01/11/2026, com 40 respostas de Naruto em 50: 60 músicas com o rótulo,
+    mas de 10 franquias só. Contando no máximo 3 de cada, ficam 30, e o rótulo não fecha a run."""
+    mal = dict(ctx.mal)
+    for mal_id in range(1002, 1032):  # as franquias f334 a f343 inteiras
+        mal[mal_id] = replace(mal[mal_id], genres=mal[mal_id].genres | {"Martial Arts"})
+    catalog = _catalog()
+    few = QuizContext(catalog, _all_facts(catalog), mal, ctx.anime_days, ctx.mixed_days)
+    rotulo = FAMILY_BY_ID["rotulo"]
+    songs = [s for s in few.songs if "Martial Arts" in s.mal.genres]
+    assert len(songs) == 60 > few.need(rotulo)  # sem o limite, entraria
+    assert len({f for s in songs for f in s.franchises}) == 10
+    assert "Martial Arts" not in few.params(rotulo)
+    assert "Action" in few.params(rotulo)
+
+
+def test_the_check_refuses_a_franchise_over_the_cap(ctx):
+    """A conferência acusa a franquia acima do limite pelo lado de cada música (a resposta e a
+    direção), sem os dados do MAL; só nos dias desde FRANCHISE_CAP_FROM."""
+    blind = QuizContext(_catalog(), _all_facts(_catalog()), None, ctx.anime_days, ctx.mixed_days)
+    pairs = [(4, 100), (5, 120), (6, 140), (7, 160)]  # 4 a 7: a franquia f334
+    where = "2026-11-10"
+    found = quiz._day_rule_problems(where, _day("rotulo", "tem", pairs), blind)
+    capped = [p for p in found if "franquia" in p]
+    assert capped == [
+        f"{where} rodada 4: a franquia anime:fr:f334 passa de 3 vezes no lado o que tem"
+    ]
+    found = quiz._day_rule_problems(where, _day("estudio", "nao", pairs), blind)
+    capped = [p for p in found if "franquia" in p]
+    assert capped == [
+        f"{where} rodada 4: a franquia anime:fr:f334 passa de 3 vezes no lado o que não tem"
+    ]
+    # Os dias de antes foram gerados sem o limite, e a comparação não tem parâmetro.
+    before = quiz._day_rule_problems("2026-11-02", _day("rotulo", "tem", pairs), blind)
+    assert not any("franquia" in p for p in before)
+    assert not any(
+        "franquia" in p for p in quiz._day_rule_problems(where, _day("ano", "max", pairs), blind)
+    )
 
 
 def test_a_comparison_waits_for_enough_songs_with_the_data(ctx):
