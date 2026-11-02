@@ -8,17 +8,22 @@
 // - O estado do contexto pode ser "suspended" ou "interrupted": testa-se !== "running".
 // - A mistura das Misturadas (M17, playMix) toca várias prévias no mesmo t0, cada uma com o seu
 //   ganho e o seu lado; o stop() para a mistura também, com a mesma ficha.
+// - A sequência emendada do Setlist Royale (playChain) usa as mesmas vozes, cada uma no seu
+//   instante: a seguinte entra antes de a anterior acabar. O stop() corta também as agendadas.
 // - O tempo do jogo começa no 1º som da prévia (core/silence.ts): o silêncio do começo, medido
 //   uma vez ao decodificar, soma-se a todo começo pedido, e o fim encurta o mesmo tanto. Na
 //   mistura, a régua é mais exigente: cada voz pula também a introdução baixa. O <audio> de
 //   reserva não lê as amostras e começa do 0.
 import { type GainPoint, playbackEnvelope, stopEnvelope } from "../core/envelope.ts";
-import { mixGains, mixHeadroom, rmsOf } from "../core/mix.ts";
-import { leadIn, MIX_ENTRY_RATIO, SILENCE_RATIO } from "../core/silence.ts";
+import { MAX_BOOST, mixGains, mixHeadroom, rmsOf } from "../core/mix.ts";
+import { leadIn, loudFrom, MIX_ENTRY_RATIO, SILENCE_RATIO } from "../core/silence.ts";
 import { clampVolume, gainOf } from "../core/volume.ts";
 import {
   type AudioEngine,
   AudioUnavailableError,
+  type ChainEngine,
+  type ChainOptions,
+  type ChainTrack,
   type EngineOptions,
   type MixEngine,
   type MixOptions,
@@ -55,7 +60,8 @@ type Voice = {
   readonly source: AudioBufferSourceNode;
   readonly envelope: GainNode;
   readonly gain: GainNode;
-  readonly panner: StereoPannerNode;
+  /** O lado (só na mistura; a sequência emendada toca no centro, em estéreo). */
+  readonly panner: StereoPannerNode | null;
   /** O ganho da mistura: o setGain é relativo a ele. */
   readonly level: number;
 };
@@ -83,7 +89,82 @@ function cut(envelope: GainNode, source: AudioBufferSourceNode, now: number): vo
   source.stop(stopAt);
 }
 
-export class WebAudioEngine implements AudioEngine, MixEngine {
+/**
+ * O barramento das vozes: a soma passa por um limitador antes do mestre. A folga segura a energia,
+ * mas não o pico (n prévias no talo somam até √n vezes o de uma).
+ */
+function voiceBus(
+  ctx: AudioContext,
+  out: AudioNode,
+  limit: boolean,
+): { readonly bus: GainNode; readonly limiter: DynamicsCompressorNode | null } {
+  const bus = ctx.createGain();
+  let limiter: DynamicsCompressorNode | null = null;
+  if (limit && typeof ctx.createDynamicsCompressor === "function") {
+    limiter = ctx.createDynamicsCompressor();
+    limiter.threshold.value = LIMIT_THRESHOLD_DB;
+    limiter.knee.value = 0;
+    limiter.ratio.value = 20;
+    limiter.attack.value = 0.003;
+    limiter.release.value = 0.25;
+    bus.connect(limiter);
+    limiter.connect(out);
+  } else {
+    bus.connect(out);
+  }
+  return { bus, limiter };
+}
+
+/** Uma voz ligada ao barramento: a fonte, o envelope, o ganho e, se `pan` vier, o lado. */
+function voiceOf(
+  ctx: AudioContext,
+  buffer: AudioBuffer | null,
+  level: number,
+  bus: AudioNode,
+  pan?: number,
+): Voice {
+  let panner: StereoPannerNode | null = null;
+  const gain = ctx.createGain();
+  if (pan !== undefined) {
+    panner = ctx.createStereoPanner();
+    panner.pan.value = pan;
+    panner.connect(bus);
+    // A voz vai a mono antes do lado: numa entrada estéreo, o StereoPanner soma um canal no
+    // outro, e o "Separar" mudaria o volume, e não só o lugar.
+    gain.channelCount = 1;
+    gain.channelCountMode = "explicit";
+    gain.channelInterpretation = "speakers";
+    gain.connect(panner);
+  } else {
+    gain.connect(bus);
+  }
+  gain.gain.value = level;
+  const envelope = ctx.createGain();
+  envelope.connect(gain);
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(envelope);
+  return { source, envelope, gain, panner, level };
+}
+
+/** Uma promessa por voz, cumprida quando ela acaba (ou é cortada), já desligada. */
+async function voicesEnded(voices: readonly Voice[]): Promise<void> {
+  await Promise.all(
+    voices.map(
+      (voice) =>
+        new Promise<void>((resolve) => {
+          voice.source.onended = () => {
+            for (const node of [voice.source, voice.envelope, voice.gain, voice.panner]) {
+              node?.disconnect();
+            }
+            resolve();
+          };
+        }),
+    ),
+  );
+}
+
+export class WebAudioEngine implements AudioEngine, MixEngine, ChainEngine {
   #ctx: AudioContext | null = null;
   readonly #cache = new Map<string, Entry>();
   #token = 0;
@@ -93,6 +174,8 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
   readonly #loudness = new WeakMap<AudioBuffer, Map<string, number>>();
   /** O silêncio do começo de cada prévia decodificada, em segundos, por régua (core/silence.ts). */
   readonly #leads = new WeakMap<AudioBuffer, Map<number, number>>();
+  /** O começo com som de cada trecho pedido na sequência emendada (core/silence.ts). */
+  readonly #louds = new WeakMap<AudioBuffer, Map<string, number>>();
   readonly #options: WebAudioOptions;
   /** O ganho mestre (o volume): entre o ganho de cada reprodução, o do fade, e a saída. */
   #master: GainNode | null = null;
@@ -217,43 +300,16 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     const plays = durations.map((duration) => Math.max(0, duration - from));
     const length = Math.max(0, ...plays);
 
-    // A soma das vozes passa por um limitador antes do mestre: a folga de 1/√n segura a energia,
-    // mas não o pico (n prévias no talo somam até √n vezes o de uma).
-    const bus = ctx.createGain();
-    const out = this.#master ?? ctx.destination;
-    let limiter: DynamicsCompressorNode | null = null;
-    if (options.limit !== false && typeof ctx.createDynamicsCompressor === "function") {
-      limiter = ctx.createDynamicsCompressor();
-      limiter.threshold.value = LIMIT_THRESHOLD_DB;
-      limiter.knee.value = 0;
-      limiter.ratio.value = 20;
-      limiter.attack.value = 0.003;
-      limiter.release.value = 0.25;
-      bus.connect(limiter);
-      limiter.connect(out);
-    } else {
-      bus.connect(out);
-    }
+    const { bus, limiter } = voiceBus(
+      ctx,
+      this.#master ?? ctx.destination,
+      options.limit !== false,
+    );
     // Primeiro todas as vozes, e só depois os starts: uma falha no meio não deixa som sem dono.
     const voices = tracks.map((track, i): Voice => {
-      const level = levels[i] ?? 1;
-      const panner = ctx.createStereoPanner();
-      panner.pan.value = track.pan ?? 0;
-      panner.connect(bus);
-      const gain = ctx.createGain();
-      // A voz vai a mono antes do lado: numa entrada estéreo, o StereoPanner soma um canal no
-      // outro, e o "Separar" mudaria o volume, e não só o lugar.
-      gain.channelCount = 1;
-      gain.channelCountMode = "explicit";
-      gain.channelInterpretation = "speakers";
-      gain.gain.value = level * (track.gain ?? 1);
-      gain.connect(panner);
-      const envelope = ctx.createGain();
-      envelope.connect(gain);
-      const source = ctx.createBufferSource();
-      source.buffer = buffers[i] ?? null;
-      source.connect(envelope);
-      return { source, envelope, gain, panner, level };
+      const voice = voiceOf(ctx, buffers[i] ?? null, levels[i] ?? 1, bus, track.pan ?? 0);
+      voice.gain.gain.value = voice.level * (track.gain ?? 1);
+      return voice;
     });
 
     const mix: Mix = { voices, interrupted: false };
@@ -266,19 +322,8 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
     }
     const live = () => this.#mix === mix;
     const elapsed = () => Math.min(Math.max(ctx.currentTime - t0, 0), length);
-    const ended = voices.map(
-      (voice) =>
-        new Promise<void>((resolve) => {
-          voice.source.onended = () => {
-            for (const node of [voice.source, voice.envelope, voice.gain, voice.panner]) {
-              node.disconnect();
-            }
-            resolve();
-          };
-        }),
-    );
     // Abaixar uma prévia (o "Achei") não a para: a mistura acaba quando todas acabam.
-    const done = Promise.all(ended).then((): PlaybackResult => {
+    const done = voicesEnded(voices).then((): PlaybackResult => {
       bus.disconnect();
       limiter?.disconnect();
       if (live()) this.#mix = null;
@@ -305,9 +350,68 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
       setPan: (index, pan) => {
         const voice = voices[index];
         if (!voice || !live()) return;
-        voice.panner.pan.setTargetAtTime(pan, ctx.currentTime, PAN_SMOOTHING);
+        voice.panner?.pan.setTargetAtTime(pan, ctx.currentTime, PAN_SMOOTHING);
       },
     };
+  }
+
+  async playChain(
+    tracks: readonly ChainTrack[],
+    options: ChainOptions = {},
+  ): Promise<Playback | null> {
+    const ready = await this.#ready(tracks.map((t) => t.url));
+    if (!ready) return null;
+    const { ctx, buffers } = ready;
+    const finite = (value: number) => (Number.isFinite(value) ? Math.max(0, value) : 0);
+    // Cada voz começa onde a música já engrenou (a régua da mistura) e, se o ponto sorteado cair
+    // numa pausa, no 1º trecho com som dali para a frente.
+    const starts = buffers.map((b, i) => {
+      const track = tracks[i];
+      const from = this.#lead(b, MIX_ENTRY_RATIO) + finite(track?.offset ?? 0);
+      return this.#loud(b, from, finite(track?.seconds ?? 0));
+    });
+    const durations = buffers.map((b, i) =>
+      Math.max(0, Math.min(finite(tracks[i]?.seconds ?? 0), b.duration - (starts[i] ?? 0))),
+    );
+    const ats = tracks.map((track) => finite(track.at));
+    // No máximo duas tocam juntas: a folga é a de duas, e não a de todas.
+    const levels = mixGains(
+      buffers.map((b, i) => this.#energy(b, starts[i] ?? 0, durations[i] ?? 0)),
+      MAX_BOOST,
+      2,
+    );
+    const length = Math.max(0, ...durations.map((d, i) => (ats[i] ?? 0) + d));
+
+    const { bus, limiter } = voiceBus(ctx, this.#master ?? ctx.destination, true);
+    const voices = buffers.map((b, i) => voiceOf(ctx, b, levels[i] ?? 1, bus));
+    const chain: Mix = { voices, interrupted: false };
+    this.#mix = chain;
+    const t0 = ctx.currentTime + START_DELAY;
+    for (const [i, voice] of voices.entries()) {
+      const at = t0 + (ats[i] ?? 0);
+      const duration = durations[i] ?? 0;
+      apply(voice.envelope.gain, playbackEnvelope(at, duration, options.fade));
+      voice.source.start(at, starts[i] ?? 0, duration);
+    }
+    this.#options.onChained?.({
+      urls: tracks.map((t) => t.url),
+      offsets: tracks.map((t) => t.offset),
+      ats,
+      seconds: durations,
+      engine: "webaudio",
+    });
+    const elapsed = () => Math.min(Math.max(ctx.currentTime - t0, 0), length);
+    const done = voicesEnded(voices).then((): PlaybackResult => {
+      bus.disconnect();
+      limiter?.disconnect();
+      if (this.#mix === chain) this.#mix = null;
+      return {
+        requested: length,
+        played: chain.interrupted ? elapsed() : Math.max(ctx.currentTime - t0, 0),
+        interrupted: chain.interrupted,
+      };
+    });
+    return { t0, seconds: length, elapsed, done };
   }
 
   stop(): void {
@@ -369,6 +473,25 @@ export class WebAudioEngine implements AudioEngine, MixEngine {
       byStretch.set(key, energy);
     }
     return energy;
+  }
+
+  /** O 1º trecho com som a partir de `from` (core/silence.ts), lido uma vez por trecho. */
+  #loud(buffer: AudioBuffer, from: number, seconds: number): number {
+    let byStretch = this.#louds.get(buffer);
+    if (!byStretch) {
+      byStretch = new Map();
+      this.#louds.set(buffer, byStretch);
+    }
+    const key = `${from}:${seconds}`;
+    let start = byStretch.get(key);
+    if (start === undefined) {
+      const channels = Array.from({ length: buffer.numberOfChannels }, (_, c) =>
+        buffer.getChannelData(c),
+      );
+      start = loudFrom(channels, buffer.sampleRate, from, seconds);
+      byStretch.set(key, start);
+    }
+    return start;
   }
 
   /** O silêncio do começo (core/silence.ts), lido das amostras uma vez por prévia e régua. */

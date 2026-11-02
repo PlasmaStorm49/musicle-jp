@@ -10,6 +10,8 @@ import { clampVolume } from "../core/volume.ts";
 import {
   type AudioEngine,
   AudioUnavailableError,
+  type ChainEngine,
+  type ChainTrack,
   type EngineOptions,
   type MixEngine,
   type MixOptions,
@@ -18,7 +20,7 @@ import {
   type Playback,
 } from "./engine.ts";
 
-export class FakeAudioEngine implements AudioEngine, MixEngine {
+export class FakeAudioEngine implements AudioEngine, MixEngine, ChainEngine {
   /** Marca que a CI procura no build: este motor não pode chegar à produção. */
   readonly kind = "musicle-fake-audio";
   readonly #options: EngineOptions;
@@ -82,5 +84,21 @@ export class FakeAudioEngine implements AudioEngine, MixEngine {
       setGain: () => {},
       setPan: () => {},
     };
+  }
+
+  /** A sequência emendada (Setlist Royale): registra as prévias e quando cada uma entra. */
+  async playChain(tracks: readonly ChainTrack[]): Promise<Playback | null> {
+    const failed = tracks.find((track) => this.#options.fails?.(track.url));
+    if (failed) throw new AudioUnavailableError("simulated", `falha simulada: ${failed.url}`);
+    this.#options.onChained?.({
+      urls: tracks.map((track) => track.url),
+      offsets: tracks.map((track) => track.offset),
+      ats: tracks.map((track) => track.at),
+      seconds: tracks.map((track) => track.seconds),
+      engine: "fake",
+    });
+    const length = Math.max(0, ...tracks.map((track) => track.at + track.seconds));
+    const result = { requested: length, played: length, interrupted: false };
+    return { t0: 0, seconds: length, elapsed: () => length, done: Promise.resolve(result) };
   }
 }

@@ -36,10 +36,15 @@ export function mixHeadroom(count: number): number {
  * O ganho de cada prévia para todas soarem com a mesma energia. O alvo é a média geométrica das
  * energias (nem a mais alta nem a mais baixa puxam sozinhas), mas a mais alta nunca abaixa mais
  * que `maxBoost` vezes; a mais baixa também não sobe mais que isso. A folga da soma vale para
- * todas, e a prévia em silêncio (energia 0) fica só com ela.
+ * todas, e a prévia em silêncio (energia 0) fica só com ela. `together` é quantas tocam ao mesmo
+ * tempo: todas, na mistura; 2, na sequência emendada do Setlist Royale.
  */
-export function mixGains(rms: readonly number[], maxBoost: number = MAX_BOOST): number[] {
-  const headroom = mixHeadroom(rms.length);
+export function mixGains(
+  rms: readonly number[],
+  maxBoost: number = MAX_BOOST,
+  together: number = rms.length,
+): number[] {
+  const headroom = mixHeadroom(together);
   const heard = rms.filter((r) => r > 0);
   if (heard.length === 0) return rms.map(() => headroom);
   const mean = Math.exp(heard.reduce((sum, r) => sum + Math.log(r), 0) / heard.length);

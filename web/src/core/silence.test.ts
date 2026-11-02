@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { leadIn, MAX_LEAD, MIX_ENTRY_RATIO, SILENCE_WINDOW } from "./silence.ts";
+import {
+  LOUD_STEP,
+  leadIn,
+  loudFrom,
+  MAX_LEAD,
+  MIX_ENTRY_RATIO,
+  SILENCE_WINDOW,
+} from "./silence.ts";
 
 const RATE = 1000; // 1000 amostras por segundo: a janela de 50 ms tem 50
 
@@ -65,5 +72,33 @@ describe("leadIn: o silêncio do começo de uma prévia", () => {
   it("a prévia mais curta que o máximo, com o som no fim, pula até ele", () => {
     const data = preview((t) => (t < 4 ? 0 : 0.3), 5);
     expect(leadIn([data], RATE)).toBeCloseTo(4 - SILENCE_WINDOW, 9);
+  });
+});
+
+describe("loudFrom: o 1º trecho com som, para o Setlist Royale", () => {
+  it("o trecho com som fica onde foi pedido", () => {
+    expect(loudFrom([preview(() => 0.3)], RATE, 7, 3)).toBe(7);
+  });
+
+  it("o trecho que cai numa pausa anda até o 1º passo em que nenhum meio segundo fica mudo", () => {
+    // Mudo de 10 a 13 s: o pedido em 8 s pegaria a pausa. Em 12,75 s, o 1º meio segundo tem só
+    // 0,25 s da pausa e passa; em 12,5 s, ele seria todo mudo.
+    const data = preview((t) => (t >= 10 && t < 13 ? 0 : 0.3));
+    expect(loudFrom([data], RATE, 8, 3)).toBeCloseTo(13 - LOUD_STEP, 9);
+  });
+
+  it("a introdução baixa (−20 dB) também não serve; a régua é a da mistura", () => {
+    const data = preview((t) => (t < 5 ? 0.03 : 0.3));
+    expect(loudFrom([data], RATE, 0, 3, MIX_ENTRY_RATIO)).toBeCloseTo(5 - LOUD_STEP, 9);
+  });
+
+  it("sem trecho com som para a frente, procura do começo; sem nenhum, fica no pedido", () => {
+    const tail = preview((t) => (t < 20 ? 0.3 : 0));
+    expect(loudFrom([tail], RATE, 22, 3)).toBe(0);
+    expect(loudFrom([preview(() => 0)], RATE, 22, 3)).toBe(22);
+  });
+
+  it("o pedido perto do fim volta até o último trecho inteiro", () => {
+    expect(loudFrom([preview(() => 0.3)], RATE, 29, 3)).toBeCloseTo(27, 9);
   });
 });

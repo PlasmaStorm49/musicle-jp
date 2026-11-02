@@ -59,3 +59,48 @@ export function leadIn(
   // energia da prévia inteira): começa no máximo.
   return limit / sampleRate;
 }
+
+/** O passo da procura de um trecho com som, em segundos. */
+export const LOUD_STEP = 0.25;
+
+/** O pedaço medido dentro do trecho, em segundos: nenhum meio segundo do trecho pode ficar mudo. */
+export const LOUD_CHUNK = 0.5;
+
+/**
+ * O 1º começo, a partir de `from` (em segundos, no buffer), de um trecho de `seconds` com som: cada
+ * meio segundo dele chega a `ratio` da energia da prévia inteira. O Setlist Royale sorteia o ponto
+ * de cada prévia, e um trecho que cai numa pausa ou num breakdown não deixa reconhecer a música.
+ * Sem nenhum para a frente, procura do começo; sem nenhum na prévia, fica em `from`.
+ */
+export function loudFrom(
+  channels: readonly Float32Array[],
+  sampleRate: number,
+  from: number,
+  seconds: number,
+  ratio: number = MIX_ENTRY_RATIO,
+): number {
+  const length = Math.max(0, ...channels.map((data) => data.length));
+  if (length === 0 || !(sampleRate > 0)) return from;
+  const whole = rms(channels, 0, length);
+  if (whole < SILENCE_FLOOR) return from;
+  const threshold = Math.max(whole * Math.min(ratio, 1), SILENCE_FLOOR);
+  const size = Math.max(1, Math.round(seconds * sampleRate));
+  const last = length - size;
+  if (last < 0) return from;
+  const step = Math.max(1, Math.round(LOUD_STEP * sampleRate));
+  const start = Math.min(Math.max(0, Math.round(from * sampleRate)), last);
+  const chunk = Math.max(1, Math.round(LOUD_CHUNK * sampleRate));
+  const heard = (at: number) => {
+    for (let part = at; part < at + size; part += chunk) {
+      if (rms(channels, part, Math.min(at + size, part + chunk)) < threshold) return false;
+    }
+    return true;
+  };
+  for (let at = start; at <= last; at += step) {
+    if (heard(at)) return at / sampleRate;
+  }
+  for (let at = 0; at < start; at += step) {
+    if (heard(at)) return at / sampleRate;
+  }
+  return from;
+}

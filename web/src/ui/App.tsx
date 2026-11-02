@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
-import type { AudioEngine, EngineOptions, MixLog, PlayLog } from "../audio/engine.ts";
+import type { AudioEngine, ChainLog, EngineOptions, MixLog, PlayLog } from "../audio/engine.ts";
 import { FakeAudioEngine } from "../audio/fake.ts";
 import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
@@ -102,6 +102,8 @@ declare global {
     __musicleAudioLog?: PlayLog[];
     /** Só em desenvolvimento, com o motor falso: cada mistura das Misturadas (M17). */
     __musicleMixLog?: MixLog[];
+    /** Só em desenvolvimento: cada sequência emendada do Setlist Royale (os dois motores). */
+    __musicleChainLog?: ChainLog[];
   }
 }
 
@@ -403,6 +405,12 @@ export function App() {
         ? (log: MixLog) => {
             window.__musicleMixLog ??= [];
             window.__musicleMixLog.push(log);
+          }
+        : undefined,
+      onChained: import.meta.env.DEV
+        ? (log: ChainLog) => {
+            window.__musicleChainLog ??= [];
+            window.__musicleChainLog.push(log);
           }
         : undefined,
     };

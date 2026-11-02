@@ -3,6 +3,7 @@ import {
   type AudioEngine,
   type AudioFailure,
   AudioUnavailableError,
+  type ChainEngine,
   type MixEngine,
   type Playback,
 } from "./engine.ts";
@@ -187,5 +188,41 @@ describe("a mistura no motor composto (M17)", () => {
     // E a prévia sozinha continua no Web Audio.
     await composite.play(A, 0, 1);
     expect(primary.play).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("a sequência emendada no motor composto (Setlist Royale)", () => {
+  const CHAIN = [
+    { url: A, offset: 0, at: 0, seconds: 3 },
+    { url: B, offset: 4, at: 2, seconds: 3 },
+  ];
+  const chaining = (playChain: ChainEngine["playChain"] = async () => playback(5)) => ({
+    ...engine(),
+    playChain: vi.fn(playChain),
+  });
+
+  it("repassa ao Web Audio e para o <audio>", async () => {
+    const primary = chaining();
+    const reserve = engine();
+    const composite = new FallbackAudioEngine(primary, reserve);
+    expect((await composite.playChain(CHAIN, { fade: 0.15 }))?.seconds).toBe(5);
+    expect(primary.playChain).toHaveBeenCalledWith(CHAIN, { fade: 0.15 });
+    expect(reserve.stop).toHaveBeenCalled();
+  });
+
+  it("sem o Web Audio, ou depois de um decode, falha de vez; a falha de rede não", async () => {
+    await expect(
+      new FallbackAudioEngine(engine(), engine()).playChain(CHAIN),
+    ).rejects.toMatchObject({ kind: "decode" });
+    const decode = chaining(failing("decode"));
+    const composite = new FallbackAudioEngine(decode, engine());
+    await expect(composite.playChain(CHAIN)).rejects.toMatchObject({ kind: "decode" });
+    await expect(composite.playChain(CHAIN)).rejects.toMatchObject({ kind: "decode" });
+    expect(decode.playChain).toHaveBeenCalledTimes(1);
+    const network = chaining(failing("network"));
+    const again = new FallbackAudioEngine(network, engine());
+    await expect(again.playChain(CHAIN)).rejects.toMatchObject({ kind: "network" });
+    await expect(again.playChain(CHAIN)).rejects.toMatchObject({ kind: "network" });
+    expect(network.playChain).toHaveBeenCalledTimes(2);
   });
 });
