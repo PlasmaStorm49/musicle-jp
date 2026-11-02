@@ -11,7 +11,10 @@ import {
   chainParts,
   chainTimeline,
   drawSetlistRound,
+  EDGE_CHANCE,
+  leftToFind,
   MIN_SOLO,
+  MIN_SONG_SEC,
   REPEAT_WEIGHTS,
   roundShape,
   SETLIST_FINAL,
@@ -23,7 +26,6 @@ import {
   setlistPool,
   setlistStep,
   startSetlist,
-  tapsLeft,
 } from "./setlist.ts";
 import type { ArtistCatalog } from "./types.ts";
 
@@ -129,15 +131,46 @@ describe("a sequência emendada: os tempos", () => {
     expect(chainLength(chainTimeline(8, 10))).toBe(15);
   });
 
-  it("o ponto da prévia deixa o trecho inteiro antes da folga do fim, sempre o mesmo", () => {
+  it("o ponto da prévia: por igual na região do meio, raro nas pontas, nunca fixo", () => {
+    // Numa prévia de 30 s, com o trecho de 4,5 s: as posições vão de 0 a 23,5 s, e a região do meio
+    // vai de 5,875 a 17,625 s. Em passos de 0,25 s, sempre o mesmo para a mesma semente.
+    const last = 30 - 4.5 - 2;
+    const middle = (o: number) => o >= last / 4 - 0.125 && o <= (3 * last) / 4 + 0.125;
+    const offsets: number[] = [];
+    for (let seed = 0; seed < 1000; seed += 1) {
+      const round = drawSetlistRound(bigPool, 1, {}, seed);
+      if (!round) throw new Error("sem rodada");
+      for (const id of round.played) {
+        const offset = setlistOffset(seed, round, id, 30, 4.5);
+        expect(offset).toBeGreaterThanOrEqual(0);
+        expect(offset).toBeLessThanOrEqual(last);
+        expect(offset * 4).toBe(Math.round(offset * 4));
+        expect(setlistOffset(seed, round, id, 30, 4.5)).toBe(offset);
+        offsets.push(offset);
+      }
+    }
+    // As pontas: 1 em cada 10 (EDGE_CHANCE), dos dois lados.
+    const edges = offsets.filter((o) => !middle(o));
+    expect(EDGE_CHANCE).toBe(0.1);
+    expect(edges.length / offsets.length).toBeGreaterThan(0.06);
+    expect(edges.length / offsets.length).toBeLessThan(0.14);
+    expect(edges.some((o) => o < last / 4)).toBe(true);
+    expect(edges.some((o) => o > (3 * last) / 4)).toBe(true);
+    // O meio por igual: a metade de dentro dele leva mais ou menos a metade dos começos do meio.
+    const inner = offsets.filter((o) => middle(o) && Math.abs(o - last / 2) <= last / 8);
+    const share = inner.length / (offsets.length - edges.length);
+    expect(share).toBeGreaterThan(0.42);
+    expect(share).toBeLessThan(0.58);
+    // Nunca fixo: a mesma música, em runs e rodadas diferentes, cai em muitos pontos.
     const round = drawSetlistRound(bigPool, 1, {}, 7);
     if (!round) throw new Error("sem rodada");
-    for (const id of round.played) {
-      const offset = setlistOffset(7, round, id, 30, 4.5);
-      expect(offset).toBeGreaterThanOrEqual(0);
-      expect(offset).toBeLessThanOrEqual(30 - 4.5 - 2);
-      expect(setlistOffset(7, round, id, 30, 4.5)).toBe(offset);
-    }
+    const id = round.played[0] ?? "";
+    const points = new Set(
+      Array.from({ length: 200 }, (_, seed) =>
+        setlistOffset(seed, { ...round, number: (seed % 10) + 1 }, id, 30, 4.5),
+      ),
+    );
+    expect(points.size).toBeGreaterThan(30);
     expect(setlistOffset(7, round, "x", 5, 4.5)).toBe(0);
   });
 });
@@ -179,18 +212,41 @@ describe("o sorteio das rodadas", () => {
     expect(again?.played).not.toEqual(a?.played);
   });
 
-  it("a música que tocou na rodada anterior volta com uns 1/4 da chance", () => {
+  it("a música que acabou de tocar quase não volta na rodada seguinte, nem como opção, e volta aos poucos", () => {
     const pool = setlistPool(small, NONE);
     const target = pool[0] ?? "";
-    let free = 0;
-    let after = 0;
-    for (let seed = 0; seed < 3000; seed += 1) {
-      if (drawSetlistRound(pool, 5, {}, seed)?.played.includes(target)) free += 1;
-      if (drawSetlistRound(pool, 5, { [target]: 4 }, seed)?.played.includes(target)) after += 1;
+    /** Em quantas de 3000 rodadas 5 ela toca e em quantas ela aparece, tendo tocado na `last`. */
+    const count = (last?: number) => {
+      let played = 0;
+      let shown = 0;
+      for (let seed = 0; seed < 3000; seed += 1) {
+        const round = drawSetlistRound(pool, 5, last ? { [target]: last } : {}, seed);
+        if (round?.played.includes(target)) played += 1;
+        if (round?.options.includes(target)) shown += 1;
+      }
+      return { played, shown };
+    };
+    expect(REPEAT_WEIGHTS).toEqual([0.1, 0.3, 0.6]);
+    const free = count();
+    const now = count(4);
+    const later = count(2);
+    expect(now.played / free.played).toBeLessThan(0.2);
+    expect(now.shown / free.shown).toBeLessThan(0.2);
+    // Duas rodadas depois, a chance já voltou mais da metade do caminho.
+    expect(later.shown / free.shown).toBeGreaterThan(0.45);
+    // Quatro rodadas depois, o peso é o cheio: a mesma rodada de quem nunca tocou.
+    expect(count(1)).toEqual(free);
+  });
+
+  it("as vinhetas (menos de 80 s, quase sempre instrumentais) ficam fora do pool", () => {
+    for (const file of realArtists.files) {
+      const index = indexArtist(file);
+      for (const id of setlistPool(index, NONE)) {
+        const ms = index.tracks.get(id)?.durationMs ?? 0;
+        expect(ms === 0 || ms >= MIN_SONG_SEC * 1000).toBe(true);
+      }
     }
-    expect(REPEAT_WEIGHTS[0]).toBe(0.25);
-    expect(after / free).toBeGreaterThan(0.15);
-    expect(after / free).toBeLessThan(0.4);
+    expect(MIN_SONG_SEC).toBe(80);
   });
 
   it("sem 2 músicas, não há rodada, e a run já acaba", () => {
@@ -232,18 +288,20 @@ describe("a run (setlistStep)", () => {
     expect(setlistStep(run, { type: "VOID", round: other })).toBe(run);
   });
 
-  it("cada toque vale na hora: o certo acha, o errado gasta uma vida e um toque", () => {
+  it("cada toque vale na hora; o errado gasta uma vida, e a rodada só passa quando acha todas", () => {
     let run = setlistStep(setlistStep(start(), { type: "PLAYED" }), { type: "HEARD" });
     const [first, second] = run.round?.played ?? [];
     run = setlistStep(run, { type: "PICK", id: first ?? "" });
     expect(run).toMatchObject({ found: 1, lives: 3, phase: "pick" });
     expect(setlistStep(run, { type: "PICK", id: first ?? "" })).toBe(run); // o mesmo de novo
     expect(setlistStep(run, { type: "PICK", id: "fora" })).toBe(run);
+    // O errado não fecha a rodada (o usuário, 01/11/2026): falta a 2ª música.
     run = wrongPick(run);
-    // Rodada 1: 2 músicas, 2 toques. O errado gastou o último: a rodada acaba, com erro, e avança.
-    expect(run).toMatchObject({ found: 1, lives: 2, phase: "reveal", cleared: 1, end: null });
-    expect(tapsLeft(run)).toBe(0);
-    expect(run.picks).not.toContain(second);
+    expect(run).toMatchObject({ found: 1, lives: 2, phase: "pick", cleared: 0 });
+    expect(leftToFind(run)).toBe(1);
+    run = setlistStep(run, { type: "PICK", id: second ?? "" });
+    expect(run).toMatchObject({ found: 2, lives: 2, phase: "reveal", cleared: 1, end: null });
+    expect(leftToFind(run)).toBe(0);
     const next = advance(run, bigPool);
     expect(next).toMatchObject({ phase: "listen", started: false, picks: [] });
     expect(next.round?.number).toBe(2);

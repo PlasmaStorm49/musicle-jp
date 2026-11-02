@@ -279,10 +279,10 @@ test("Setlist Royale: ouvir uma vez, cada toque na hora, as vidas, a setlist com
   await expect(options).toHaveCount(0);
   await expect(page.locator(".setlist-slots li")).toHaveCount(2);
 
-  // A 1ª rodada com um erro: o toque errado gasta uma vida e um toque, e a rodada avança.
+  // A 1ª rodada com um erro: ele gasta uma vida, e a rodada só passa quando acha as duas.
   const first = await playSetlistRound(page, { wrong: 1, next: false });
   expect(first).toHaveLength(2);
-  await expect(page.getByText("Achou 1 de 2. Perdeu 1 vida nesta rodada.")).toBeFocused();
+  await expect(page.getByText("Achou 2 de 2. Perdeu 1 vida nesta rodada.")).toBeFocused();
   await expect(head).toContainText("Vidas: 2");
   await expect(page.getByRole("button", { name: "Tocar", exact: true })).toHaveCount(0);
   await page.getByRole("button", { name: "Próxima rodada" }).click();
@@ -294,19 +294,19 @@ test("Setlist Royale: ouvir uma vez, cada toque na hora, as vidas, a setlist com
     const chain = await page.evaluate(() => window.__musicleChainLog?.at(-1));
     expect(chain?.ats[1]).toBeLessThan((chain?.ats[0] ?? 0) + (chain?.seconds[0] ?? 0));
     expect(played).toEqual(await chainTitles(page));
-    await page.locator(".setlist-board > button.primary").click();
+    await page.locator(".setlist-board .player-actions > button.primary").click();
   }
 
   // Na 10ª, a setlist acaba; o recorde vai ao save, e o right do artista não muda.
   await expect(title).toHaveText("Setlist completa!");
   await expect(title).toBeFocused();
-  await expect(page.getByText("10 rodadas completas, 43 músicas achadas")).toBeVisible();
+  await expect(page.getByText("10 rodadas completas, 44 músicas achadas")).toBeVisible();
   const saved = () =>
     page.evaluate(
       (key) => JSON.parse(localStorage.getItem(key) ?? "{}").artists?.["fixture:ar:ar02"],
       SAVE_KEY,
     );
-  await expect.poll(saved).toEqual({ right: 0, setlist: { rounds: 10, found: 43 } });
+  await expect.poll(saved).toEqual({ right: 0, setlist: { rounds: 10, found: 44 } });
 
   // O sem fim, na dificuldade da 10ª: 8 músicas e 12 opções. Dois erros acabam as vidas.
   await page.getByRole("button", { name: "Continuar sem fim" }).click();
@@ -323,8 +323,8 @@ test("Setlist Royale: ouvir uma vez, cada toque na hora, as vidas, a setlist com
   await page.getByRole("button", { name: "Trocar de artista" }).click();
   await page.getByRole("button", { name: /^夜風シアター/ }).click();
   const best = page.locator("#artist-mode-setlist-best");
-  await expect(best).toHaveText("Recorde: 10 rodadas, 43 músicas");
+  await expect(best).toHaveText("Recorde: 10 rodadas, 44 músicas");
   await page.reload();
   await page.getByRole("button", { name: /^夜風シアター/ }).click();
-  await expect(best).toHaveText("Recorde: 10 rodadas, 43 músicas");
+  await expect(best).toHaveText("Recorde: 10 rodadas, 44 músicas");
 });

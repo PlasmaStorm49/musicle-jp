@@ -281,23 +281,25 @@ for (const viewport of [
       await expect(options.getByRole("button")).toHaveCount(12);
       await fits("escolher");
       await expect(badge).toBeInViewport({ ratio: 1 });
-      // Revelar: um erro, as 7 achadas e a que faltou.
+      // Revelar: um erro e as 8 achadas (a rodada só passa quando acha todas).
       const played = await chainTitles(page);
       const all = await options.locator(".item-title").allTextContents();
       const wrong = all.find((title) => !played.includes(title)) ?? "";
-      for (const title of [wrong, ...played.slice(0, 7)]) {
+      for (const title of [wrong, ...played]) {
         await options.getByText(title, { exact: true }).click();
       }
       await expect(page.locator(".setlist-result")).toBeFocused();
-      await expect(options.locator("li.missed")).toHaveCount(1);
       await fits("revelar");
       await page.getByRole("button", { name: "Fechar a setlist" }).click();
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Setlist completa!");
       await expect(page.locator(".superfan-best")).toHaveCount(2);
       await fits("setlist completa");
-      // O sem fim, até as vidas acabarem: o fim, com os dois recordes batidos.
+      // O sem fim, até as vidas acabarem no meio da rodada: a revelação com as 8 que faltaram.
       await page.getByRole("button", { name: "Continuar sem fim" }).click();
-      await playSetlistRound(page, { wrong: 2 });
+      await playSetlistRound(page, { wrong: 2, next: false });
+      await expect(options.locator("li.missed")).toHaveCount(8);
+      await fits("revelar com as que faltaram");
+      await page.getByRole("button", { name: "Ver resultado" }).click();
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Fim da setlist");
       await expect(page.locator(".superfan-best")).toHaveCount(2);
       await fits("fim");
@@ -1499,6 +1501,32 @@ test("no computador (1280 px), a rodada do quiz em duas colunas: a pergunta à e
   await pick.click();
   await expect(page.getByRole("heading", { name: /^(Acertou|Errou)/ })).toBeVisible();
   expect((await page.locator("main.app").boundingBox())?.width).toBeLessThanOrEqual(560);
+});
+
+test("o volume no Setlist Royale abre dentro da tela, ao ouvir e na revelação, que cabe com o Ouvir de novo (o usuário, 02/11/2026)", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 640 });
+  await bigArtist(page);
+  await longestArtistName(page);
+  await open(page, DAY, "#artistas");
+  await page.getByRole("button", { name: /^新しい学校のリーダーズ/ }).click();
+  await page.getByRole("button", { name: "Setlist Royale" }).click();
+  const range = page.getByRole("slider", { name: "Volume" });
+  /** O painel do volume aberto, inteiro na tela (antes, ele abria fora dela, acima da página). */
+  const panelFits = async (name: string) => {
+    await page.getByRole("button", { name: /^Volume/ }).click();
+    await expect(range).toBeFocused();
+    const box = await page.locator(".volume-panel").boundingBox();
+    expect(box?.y ?? -1, name).toBeGreaterThanOrEqual(0);
+    expect((box?.x ?? -1) + (box?.width ?? 0), name).toBeLessThanOrEqual(360);
+    await page.keyboard.press("Escape");
+  };
+  await panelFits("ouvir");
+  await playSetlistRound(page, { next: false });
+  await expect(page.getByRole("button", { name: "Ouvir de novo" })).toBeVisible();
+  expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+  await panelFits("revelar");
 });
 
 test("o volume (P216): a barra abre sem mudar a altura nos dois tamanhos, o trecho toca com ele e ele continua depois de recarregar", async ({

@@ -417,8 +417,8 @@ export async function chainTitles(page: Page, file = "ar02.json"): Promise<strin
 }
 
 /**
- * Uma rodada do Setlist Royale inteira: Tocar (o motor falso acaba na hora), marcar as que tocaram
- * (ou `wrong` erradas antes) e, se `next`, seguir. Devolve os títulos que tocaram.
+ * Uma rodada do Setlist Royale inteira: Tocar (o motor falso acaba na hora), marcar `wrong` erradas
+ * e depois as que tocaram e, se `next`, seguir. Devolve os títulos que tocaram.
  */
 export async function playSetlistRound(
   page: Page,
@@ -430,14 +430,15 @@ export async function playSetlistRound(
   const played = await chainTitles(page);
   const all = await options.locator(".item-title").allTextContents();
   const wrongs = all.filter((title) => !played.includes(title)).slice(0, wrong);
-  // A 3ª vida no meio encerra a rodada: as opções ficam travadas, e os toques param.
+  // Os erros primeiro e depois todas as que tocaram: a rodada só passa quando acha todas. A 3ª
+  // vida no meio encerra a rodada: as opções ficam travadas, e os toques param.
   const result = page.locator(".setlist-result");
-  for (const title of [...wrongs, ...played].slice(0, played.length)) {
+  for (const title of [...wrongs, ...played]) {
     if ((await result.count()) > 0) break;
     await options.getByText(title, { exact: true }).click();
   }
   await expect(result).toBeVisible();
-  if (next) await page.locator(".setlist-board > button.primary").click();
+  if (next) await page.locator(".setlist-board .player-actions > button.primary").click();
   return played;
 }
 

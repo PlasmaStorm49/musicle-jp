@@ -3,7 +3,12 @@
 // vale na hora. A run é do core/setlist.ts: aqui ficam o som, o sorteio das rodadas (a tela sorteia,
 // o reducer recebe pronto) e as telas. Só o recorde vai ao save, pelo store do artista.
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
-import { type AudioEngine, AudioUnavailableError, canChain } from "../audio/engine.ts";
+import {
+  type AudioEngine,
+  AudioUnavailableError,
+  type ChainTrack,
+  canChain,
+} from "../audio/engine.ts";
 import { APPLE_PROVIDER, PLAYLIST_URL } from "../core/apple.ts";
 import type { CatalogIndex } from "../core/catalog.ts";
 import type { SetlistBest } from "../core/records.ts";
@@ -13,6 +18,7 @@ import {
   CHAIN_FADE,
   chainTimeline,
   drawSetlistRound,
+  leftToFind,
   SETLIST_FINAL,
   SETLIST_LIVES,
   type SetlistEvent,
@@ -21,7 +27,6 @@ import {
   setlistBest,
   setlistOffset,
   setlistStep,
-  tapsLeft,
 } from "../core/setlist.ts";
 import type { ArtistListEntry } from "../core/types.ts";
 import { optionView } from "../core/view.ts";
@@ -30,7 +35,7 @@ import { t, tn } from "../i18n/t.ts";
 import { ArtistName } from "./ArtistName.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
-import { useMixPreviews } from "./hooks.ts";
+import { useMixPreviews, useResolvedUrls } from "./hooks.ts";
 import { Icon } from "./Icon.tsx";
 import { VolumeControl } from "./Player.tsx";
 import { ConfirmButton } from "./PracticeRun.tsx";
@@ -204,6 +209,8 @@ export function SetlistView({
           run={run}
           round={round}
           index={index}
+          resolver={resolver}
+          engine={engine}
           announce={announce}
           dispatch={dispatch}
           nextLabel={
@@ -318,16 +325,8 @@ function SetlistListen({
       onNoChain();
       return;
     }
-    const tracks = round.played.map((id, i) => {
-      const slot = timeline[i] ?? { at: 0, seconds: 0 };
-      const duration = index.tracks.get(id)?.preview?.durationSec ?? null;
-      return {
-        url: urls[i] ?? "",
-        offset: setlistOffset(run.seed, round, id, duration, slot.seconds),
-        at: slot.at,
-        seconds: slot.seconds,
-      };
-    });
+    const tracks = chainTracksOf(run.seed, round, index, urls);
+    if (!tracks) return;
     const id = ++playId.current;
     const mine = () => alive.current && playId.current === id;
     setStatus("loading");
@@ -379,7 +378,8 @@ function SetlistListen({
         ? t("setlist.playing")
         : t("setlist.play");
   return (
-    <section class="setlist-listen">
+    // A `player` segura o painel do volume, que flutua sobre a rodada (P216).
+    <section class="player setlist-listen">
       <p class="hint setlist-note">{tn("setlist.listen", round.played.length)}</p>
       <ol class="setlist-slots" aria-label={t("setlist.slots")}>
         {round.played.map((id, i) => (
@@ -414,13 +414,16 @@ function SetlistListen({
 
 /**
  * Escolher e revelar: as opções numa grade de 3 colunas. Escolhendo, cada toque vale na hora (✓ ou
- * ✗); revelando, a mesma grade diz a ordem em que cada música tocou, as achadas, as que faltaram e
- * as erradas.
+ * ✗), e a rodada só passa quando a pessoa acha todas (cada erro gasta uma vida). Revelando, a mesma
+ * grade diz a ordem em que cada música tocou, as achadas, as que faltaram e as erradas, e dá para
+ * ouvir a sequência de novo (o usuário, 02/11/2026).
  */
 function SetlistBoard({
   run,
   round,
   index,
+  resolver,
+  engine,
   announce,
   dispatch,
   nextLabel,
@@ -429,12 +432,16 @@ function SetlistBoard({
   readonly run: SetlistRun;
   readonly round: SetlistRound;
   readonly index: CatalogIndex;
+  readonly resolver: PreviewResolver;
+  readonly engine: AudioEngine;
   readonly announce: (message: string) => void;
   readonly dispatch: (event: SetlistEvent) => void;
   readonly nextLabel: string;
   readonly onNext: () => void;
 }) {
   const reveal = run.phase === "reveal";
+  // Os endereços das que tocaram: o resolvedor já os tem, da hora de ouvir.
+  const { urls } = useResolvedUrls(resolver, round.played);
   const list = useRef<HTMLUListElement>(null);
   const result = useRef<HTMLParagraphElement>(null);
   // Escolhendo, o foco vai à 1ª opção (o Tocar sumiu); revelando, ao resultado.
@@ -459,7 +466,7 @@ function SetlistBoard({
   const found = run.picks.filter((id) => round.played.includes(id)).length;
   const lost = run.picks.length - found;
   return (
-    <section class="setlist-board">
+    <section class="player setlist-board">
       {reveal ? (
         <p ref={result} class="setlist-result" tabIndex={-1}>
           {t("setlist.found", { found, total: round.played.length })}{" "}
@@ -469,7 +476,7 @@ function SetlistBoard({
         </p>
       ) : (
         <p id="setlist-pick-hint" class="hint setlist-note">
-          {tn("setlist.pick", tapsLeft(run))}
+          {tn("setlist.pick", leftToFind(run))}
         </p>
       )}
       <ul
@@ -534,11 +541,114 @@ function SetlistBoard({
         })}
       </ul>
       {reveal && (
-        <button type="button" class="primary" onClick={singleClick(onNext)}>
-          {nextLabel}
-        </button>
+        <div class="player-actions">
+          <button type="button" class="primary" onClick={singleClick(onNext)}>
+            {nextLabel}
+          </button>
+          <Replay engine={engine} tracks={chainTracksOf(run.seed, round, index, urls)} />
+          <VolumeControl engine={engine} />
+        </div>
       )}
     </section>
+  );
+}
+
+/**
+ * A sequência da rodada, pronta para o motor: cada música no seu ponto da prévia e no seu instante.
+ * A mesma ao ouvir e ao ouvir de novo (o ponto sai da semente). Null enquanto falta um endereço.
+ */
+function chainTracksOf(
+  seed: number,
+  round: SetlistRound,
+  index: CatalogIndex,
+  urls: readonly (string | null)[],
+): ChainTrack[] | null {
+  const timeline = chainTimeline(round.played.length, round.number);
+  const tracks: ChainTrack[] = [];
+  for (const [i, id] of round.played.entries()) {
+    const url = urls[i];
+    const slot = timeline[i];
+    if (!url || !slot) return null;
+    const duration = index.tracks.get(id)?.preview?.durationSec ?? null;
+    const offset = setlistOffset(seed, round, id, duration, slot.seconds);
+    tracks.push({ url, offset, at: slot.at, seconds: slot.seconds });
+  }
+  return tracks;
+}
+
+/**
+ * O "Ouvir de novo" da revelação (o usuário, 02/11/2026): a mesma sequência, quando a rodada já
+ * acabou. Alterna com o Parar no mesmo lugar (regra 23). O motor não guardou as prévias da rodada
+ * (só as da próxima, para não ter 16 em memória): ele as baixa de novo, quase sempre do cache do
+ * navegador, e o botão fica em "Carregando…" até o som começar.
+ */
+function Replay({
+  engine,
+  tracks,
+}: {
+  readonly engine: AudioEngine;
+  readonly tracks: readonly ChainTrack[] | null;
+}) {
+  const [status, setStatus] = useState<"idle" | "loading" | "playing">("idle");
+  const playId = useRef(0);
+  const alive = useRef(true);
+  // Desmontar (a rodada seguinte, o fim) para o som.
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+      engine.stop();
+    };
+  }, [engine]);
+
+  function toggle() {
+    if (status !== "idle") {
+      playId.current += 1;
+      engine.stop();
+      setStatus("idle");
+      return;
+    }
+    if (!tracks || !canChain(engine)) return;
+    const id = ++playId.current;
+    const mine = () => alive.current && playId.current === id;
+    setStatus("loading");
+    engine
+      .playChain(tracks, { fade: CHAIN_FADE })
+      .then((playback) => {
+        if (!mine()) return;
+        if (!playback) {
+          setStatus("idle");
+          return;
+        }
+        setStatus("playing");
+        return playback.done.then(() => {
+          if (mine()) setStatus("idle");
+        });
+      })
+      .catch(() => {
+        // Na revelação, a falha não muda a run: o botão só volta.
+        if (mine()) setStatus("idle");
+      });
+  }
+
+  return (
+    <button
+      type="button"
+      class="setlist-replay"
+      aria-disabled={!tracks ? "true" : undefined}
+      onClick={singleClick(toggle)}
+    >
+      {status === "playing" ? (
+        t("player.stop")
+      ) : status === "loading" ? (
+        t("player.loading")
+      ) : (
+        <>
+          <span aria-hidden="true">{t("setlist.replayShort")}</span>
+          <span class="sr-only">{t("setlist.replay")}</span>
+        </>
+      )}
+    </button>
   );
 }
 
