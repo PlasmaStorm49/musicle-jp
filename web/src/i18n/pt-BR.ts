@@ -497,20 +497,36 @@ export const ptBR = {
   "medals.blockCount": "{earned} de {total}",
   // O emblema provisório das gerais, no miolo da roseta (o designer manda os de cada uma, P283).
   "medals.generalMark": "★",
-  "medals.superfanHint":
-    "Três por artista: acertar no modo por artista, terminar o Superfan e terminar perfeito.",
+  "medals.artistsHint":
+    "Seis por artista: as 3 do Superfan e as 3 do Setlist Royale. As ganhas vêm primeiro.",
+  // As setas do carrossel de cada artista (o usuário, 02/11/2026), só no computador.
+  "medals.shelf.prev": "Ver as medalhas anteriores de {artist}",
+  "medals.shelf.next": "Ver as próximas medalhas de {artist}",
   // O feito de uma medalha do Superfan, quando falta o nome próprio dela (P301).
   "medals.feat.acertos": "{goal} acertos",
   "medals.feat.completo": "Superfan completo",
   "medals.feat.perfeito": "Superfan perfeito",
+  // As do Setlist Royale (o usuário, 02/11/2026): o feito e o nome, o título do álbum com o sufixo.
+  // O sufixo nunca se parte: o espaço do "One Take" é o não separável, e o ⁠ (o "word joiner")
+  // prende o hífen da frente à palavra, porque o navegador quebrava a linha depois dele.
+  "medals.feat.oitava": "Setlist até a {round}ª rodada",
+  "medals.feat.completa": "Setlist completa",
+  "medals.feat.perfeita": "Setlist perfeita",
+  "medals.setlistName.oitava": "{name} -⁠Rehearsal-",
+  "medals.setlistName.completa": "{name} -⁠Live-",
+  "medals.setlistName.perfeita": "{name} -⁠One Take-",
   // O como ganhar fica também na ganha, para lembrar o que a pessoa fez (o usuário, 24/10/2026).
   "medals.how.acertos": "Chegue a {goal} acertos com o artista",
   "medals.how.completo": "Termine uma partida do Superfan",
+  "medals.how.oitava": "Chegue à {round}ª rodada do Setlist Royale",
+  "medals.how.completa": "Termine as {total} rodadas do Setlist Royale",
+  "medals.how.perfeita": "Termine as {total} rodadas do Setlist sem perder vida",
   // O "1 s" não quebra no meio (o espaço inseparável).
   "medals.how.perfeito": "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
   // Só para o leitor de tela: a tela mostra a ganha pelo desenho colorido e pelo "Destacar".
   "medals.earned": "Ganha",
   "medals.progress.acertos": "{value} de {goal} acertos",
+  "medals.progress.oitava": "{value} de {goal} rodadas",
   // Os avisos de medalha nova (P279 a P281): o pequeno e o pop-up grande.
   "medals.notice.ok": "Ok",
   "medals.notice.one": "Medalha nova!",

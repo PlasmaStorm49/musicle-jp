@@ -43,6 +43,11 @@
         "sash": {
           "along": true,
           "text": "YOASOBI"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7f/8c/90/7f8c90dd-e11f-30d5-271d-4b72eee970bd/195497666737.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "THE BOOK"
         }
       },
       "name": "YOASOBI",
@@ -92,6 +97,11 @@
         "sash": {
           "along": false,
           "text": "LiSA"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/51/b3/58/51b35899-bda2-50d2-2c00-b2b95999b3c3/4547366473681.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "LEO-NiNE"
         }
       },
       "name": "LiSA",
@@ -141,6 +151,11 @@
         "sash": {
           "along": false,
           "text": "Eve"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/95/4f/a7/954fa762-540c-afd0-50b1-2fc52d920cb1/4988004145858_cover.jpg/300x300bb.jpg",
+          "latin": "Bunka",
+          "name": "文化"
         }
       },
       "name": "Eve",
@@ -190,6 +205,11 @@
         "sash": {
           "along": false,
           "text": "Ado"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c9/3d/3e/c93d3e8a-cce6-aac8-c544-bead75a03cbc/24UMGIM62188.rgb.jpg/300x300bb.jpg",
+          "latin": "Zanmu",
+          "name": "残夢"
         }
       },
       "name": "Ado",
@@ -239,6 +259,11 @@
         "sash": {
           "along": false,
           "text": "Aimer"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/46/4a/84/464a843d-14cc-e5e2-a9d6-763eb558e104/4547366270358.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "daydream"
         }
       },
       "name": "Aimer",
@@ -288,6 +313,11 @@
         "sash": {
           "along": false,
           "text": "米津玄師"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/1b/7a/5e/1b7a5e77-b0c4-6e32-f3ee-c09c70f8378e/jacket_SRCL09571B00Z_550.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "BOOTLEG"
         }
       },
       "name": "米津玄師",
@@ -337,6 +367,11 @@
         "sash": {
           "along": true,
           "text": "UNLIMITS"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/49/63/17/4963176a-6b35-12a7-fa86-c430cc26c0a2/jacket_SRCL08080B00Z_550.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "NeON"
         }
       },
       "name": "UNLIMITS",
@@ -386,6 +421,11 @@
         "sash": {
           "along": false,
           "text": "松田聖子"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/e0/c6/ed/e0c6ed73-b169-529e-3c36-0255b4a9bd32/jacket_MHCL20147B00Z_550.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "North Wind"
         }
       },
       "name": "松田 聖子",
@@ -435,6 +475,11 @@
         "sash": {
           "along": false,
           "text": "新しい学校"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/20/62/00/2062008a-7718-1eea-5db0-9079d426e1c9/VICL-64968.jpg/300x300bb.jpg",
+          "latin": "Maenarawanai",
+          "name": "マエナラワナイ"
         }
       },
       "name": "新しい学校のリーダーズ",
@@ -484,6 +529,11 @@
         "sash": {
           "along": false,
           "text": "幾田りら"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6a/63/19/6a63198f-584f-1414-82f7-0ea6605361c2/199806619766.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "Laugh"
         }
       },
       "name": "幾田りら",
@@ -533,6 +583,11 @@
         "sash": {
           "along": false,
           "text": "水樹奈々"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/ce/5c/6e/mzi.kucwshij.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "ULTIMATE DIAMOND"
         }
       },
       "name": "水樹奈々",
@@ -582,6 +637,11 @@
         "sash": {
           "along": false,
           "text": "MWAM"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/5e/8f/a2/5e8fa2d6-2d2f-9a29-5811-2f4e3e3669b4/4547366538953.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "Break and Cross the Walls Ⅰ"
         }
       },
       "name": "MAN WITH A MISSION",
@@ -631,6 +691,11 @@
         "sash": {
           "along": false,
           "text": "볼빨간사춘기"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/9d/b5/87/9db58794-f431-59c0-2605-6a92e203015a/8804775123320.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "Puberty BookⅠ Bom"
         }
       },
       "name": "Bolbbalgan4",
@@ -681,6 +746,11 @@
         "sash": {
           "along": false,
           "text": "SOAD"
+        },
+        "setlist": {
+          "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ba/e7/84/bae7844a-4b22-eb21-51f7-68930c5d3437/888880467751.jpg/300x300bb.jpg",
+          "latin": null,
+          "name": "Toxicity"
         }
       },
       "name": "System Of A Down",

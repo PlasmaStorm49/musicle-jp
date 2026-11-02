@@ -9,6 +9,7 @@ import { hitsDailies } from "../core/daily.ts";
 import { keptProgressIds } from "../core/history.ts";
 import { artistSummary, practiceSummary } from "../core/home.ts";
 import {
+  artistMedalOf,
   DEMO_MEDALS,
   earnedMedals,
   MEDALS,
@@ -260,7 +261,7 @@ export function App() {
   // As do Superfan levam o nome e a capa do artista: o aviso pede a lista, se ela não veio, e
   // espera por ela (ou pela falha). Sem isso, ele sairia só com o nível e mudaria quando ela
   // chegasse, e o leitor de tela ouviria os dois textos.
-  const needsList = !!notice?.ids.some((id) => id.startsWith("superfan|"));
+  const needsList = !!notice?.ids.some((id) => artistMedalOf(id) !== null);
   // A medalha em destaque (ME118, P317): a 1ª da estante, só se está entre as ganhas (um id velho
   // não aparece, P320). A do Superfan também pede a lista, para o nome e as cores do artista.
   const favoriteId = favoriteOf(latest);
@@ -272,7 +273,7 @@ export function App() {
     [latest, date, hitsDates],
   );
   const favoriteEarned = favoriteId !== null && earnedIds.has(favoriteId);
-  const favoriteNeedsList = favoriteEarned && !!favoriteId?.startsWith("superfan|");
+  const favoriteNeedsList = favoriteEarned && !!favoriteId && artistMedalOf(favoriteId) !== null;
   useEffect(() => {
     if ((needsList || favoriteNeedsList) && artists.list.status === "idle") artists.loadList();
   }, [needsList, favoriteNeedsList, artists.list.status, artists.loadList]);
@@ -320,7 +321,7 @@ export function App() {
   const favorite = useMemo(() => {
     if (hitsDates === null || !favoriteEarned || favoriteId === null) return null;
     const [item] = noticeItems([favoriteId], noticeList, resolveUrl, false, GENERAL_MEDALS);
-    if (!item || (favoriteId.startsWith("superfan|") && !item.label)) return null;
+    if (!item || (artistMedalOf(favoriteId) !== null && !item.label)) return null;
     return item;
   }, [hitsDates, favoriteEarned, favoriteId, noticeList, resolveUrl]);
   useEffect(() => {

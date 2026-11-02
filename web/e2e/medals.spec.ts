@@ -9,6 +9,7 @@ import { SAVE_KEY } from "../src/storage/save.ts";
 import {
   albumOf,
   appleArtistList,
+  bigArtist,
   expect,
   hitsTab,
   lastPlayed,
@@ -16,6 +17,7 @@ import {
   open,
   openWithMedals,
   option,
+  playSetlistRound,
   seedHistory,
   test,
 } from "./helpers.ts";
@@ -159,24 +161,28 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
   // As 10 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
   await expect(rows.locator('svg[viewBox="0 8 110 132"]')).toHaveCount(10);
   await expect(rows.locator("svg text")).toHaveCount(0);
-  // As 3 do Superfan de cada artista das fixtures, por ganhar.
+  // As 6 de cada artista das fixtures (as 3 do Superfan e as 3 do Setlist Royale), por ganhar.
   await expect(page.locator(".medal-artist")).toHaveCount(5);
-  // Um título por bloco, com a contagem dele; o dos Artistas conta as 3 de cada um.
+  // Um título por bloco, com a contagem dele; o dos Artistas conta as 6 de cada um.
   await expect(page.getByRole("heading", { level: 2 })).toHaveText([
     "Gerais 1 de 9",
     "Hits 0 de 3",
     "Anime 0 de 2",
     "Misturadas 0 de 4",
     "Quiz 0 de 16",
-    "Artistas 0 de 15",
+    "Artistas 0 de 30",
   ]);
-  // O nome próprio de cada uma, com o latino (P295, P300): os fictícios do ar02.
+  // O nome próprio de cada uma, com o latino (P295, P300): os fictícios do ar02. As do Setlist: o
+  // título de outro álbum com o sufixo do nível (o usuário, 02/11/2026).
   await expect(page.locator(".medal-artist").first().locator(".medal-name")).toHaveText([
     "開幕ベル, Kaimaku Bell",
     "真夜中のカーテンコール, Mayonaka no Curtain Call",
     "夜風劇場, Yokaze Gekijo",
+    "ふたりの約束 -\u2060Rehearsal-, Futari no Yakusoku -\u2060Rehearsal-",
+    "ふたりの約束 -\u2060Live-, Futari no Yakusoku -\u2060Live-",
+    "ふたりの約束 -\u2060One\u00a0Take-, Futari no Yakusoku -\u2060One\u00a0Take-",
   ]);
-  await expect(page.getByText("1 de 49 medalhas")).toBeVisible();
+  await expect(page.getByText("1 de 64 medalhas")).toBeVisible();
   // Calado: a tela fica, e o aviso não.
   await expect(page.getByRole("dialog")).toHaveCount(0);
   expect(await seenMedals(page)).toEqual([]);
@@ -466,7 +472,7 @@ test("um acerto na Livre aparece no progresso da medalha dos acertos do artista 
   await expect(page.getByRole("heading", { name: "Acertou! 10 de 10 pontos." })).toBeVisible();
   await (await navLink(page, "Medalhas")).click();
   const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
-  await expect(artist.locator(".medal-progress")).toHaveText("1 de 50 acertos");
+  await expect(artist.locator(".medal-progress")).toHaveText(["1 de 50 acertos", "0 de 7 rodadas"]);
 });
 
 test("terminar o Superfan, com um erro: o pop-up da completa com o artista no fim da partida, e a completa ganha na tela (P285)", async ({
@@ -507,11 +513,96 @@ test("terminar o Superfan, com um erro: o pop-up da completa com o artista no fi
   await expect(end).toBeFocused();
   await (await navLink(page, "Medalhas")).click();
   const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
-  // A completa, ganha, continua com o como ganhar; só a dos acertos tem o progresso.
+  // A completa, ganha, vem na frente e continua com o como ganhar; o progresso, só nas que se
+  // ganham aos poucos.
   await expect(artist.locator(".medal-how")).toHaveText([
-    "Chegue a 50 acertos com o artista",
     "Termine uma partida do Superfan",
+    "Chegue a 50 acertos com o artista",
     /^Termine perfeito/,
+    "Chegue à 8ª rodada do Setlist Royale",
+    "Termine as 10 rodadas do Setlist Royale",
+    "Termine as 10 rodadas do Setlist sem perder vida",
   ]);
-  await expect(artist.locator(".medal-progress")).toHaveText([/de 50 acertos$/]);
+  await expect(artist.locator(".medal-progress")).toHaveText([/de 50 acertos$/, "0 de 7 rodadas"]);
+});
+
+test("chegar à 8ª rodada do Setlist Royale: o pop-up da -Rehearsal- no fim da run, e ela na frente na tela (o usuário, 02/11/2026)", async ({
+  page,
+}) => {
+  await bigArtist(page);
+  await openWithMedals(page, DAY, "#artistas");
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await page.getByRole("button", { name: "Setlist Royale" }).click();
+  // 7 rodadas sem erro e, na 8ª, os 3 erros: a run acaba lá, com a 7ª terminada.
+  for (let n = 1; n <= 7; n += 1) await playSetlistRound(page);
+  await expect(page.locator(".session-head")).toContainText("Rodada 8 de 10");
+  // Na rodada, nenhum aviso: ele espera o fim da run.
+  await playSetlistRound(page, { wrong: 3, next: false });
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("button", { name: "Ver resultado" }).click();
+  const end = page.getByRole("heading", { level: 1, name: "Fim da setlist" });
+  await expect(end).toBeVisible();
+  const big = page.getByRole("dialog", { name: "Medalha nova!" });
+  await expect(big.getByRole("listitem")).toHaveText([
+    "ふたりの約束 -\u2060Rehearsal- · Futari no Yakusoku -\u2060Rehearsal-, de 夜風シアター (Setlist até a 8ª rodada)",
+  ]);
+  await big.getByRole("button", { name: "Ok" }).click();
+  await expect(end).toBeFocused();
+  await (await navLink(page, "Medalhas")).click();
+  const artist = page.locator(".medal-artist").filter({ hasText: "夜風シアター" });
+  await expect(artist.locator(".medal-cell:not(.locked) .medal-name")).toHaveText([
+    "ふたりの約束 -\u2060Rehearsal-, Futari no Yakusoku -\u2060Rehearsal-",
+  ]);
+  await expect(artist.locator(".medal-cell").first()).not.toHaveClass(/locked/);
+});
+
+test("a setlist perfeita: as 10 rodadas sem perder vida gravam o perfeito, e o pop-up traz as 3 do Setlist, as grandes primeiro (o usuário, 02/11/2026)", async ({
+  page,
+}) => {
+  await bigArtist(page);
+  await openWithMedals(page, DAY, "#artistas");
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await page.getByRole("button", { name: "Setlist Royale" }).click();
+  for (let n = 1; n <= 10; n += 1) await playSetlistRound(page);
+  const title = page.getByRole("heading", { level: 1, name: "Setlist completa!" });
+  await expect(title).toBeVisible();
+  const saved = () =>
+    page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key) ?? "{}").artists?.["fixture:ar:ar02"],
+      SAVE_KEY,
+    );
+  await expect
+    .poll(saved)
+    .toEqual({ right: 0, setlist: { rounds: 10, found: 44 }, setlistPerfect: true });
+  // A setlist completa é calma: o pop-up vem nela, com as grandes antes da pequena (P313).
+  const big = page.getByRole("dialog", { name: "3 medalhas novas" });
+  await expect(big.getByRole("listitem")).toHaveText([
+    "ふたりの約束 -\u2060Live- · Futari no Yakusoku -\u2060Live-, de 夜風シアター (Setlist completa)",
+    "ふたりの約束 -\u2060One\u00a0Take- · Futari no Yakusoku -\u2060One\u00a0Take-, de 夜風シアター (Setlist perfeita)",
+    "ふたりの約束 -\u2060Rehearsal- · Futari no Yakusoku -\u2060Rehearsal-, de 夜風シアター (Setlist até a 8ª rodada)",
+  ]);
+  // O vinil, quadrado, entre os desenhos.
+  await expect(big.locator('.medal-notice-arts svg[viewBox="0 0 92 92"]')).toHaveCount(1);
+  await big.getByRole("button", { name: "Ok" }).click();
+  await expect(title).toBeFocused();
+});
+
+test("o carrossel de cada artista: as setas no computador andam uma vista e travam nas pontas (o usuário, 02/11/2026)", async ({
+  page,
+}) => {
+  await open(page, DAY, "#medalhas");
+  const artist = page.locator(".medal-artist").first();
+  const track = artist.locator(".medal-track");
+  const prev = artist.getByRole("button", { name: /^Ver as medalhas anteriores de/ });
+  const next = artist.getByRole("button", { name: /^Ver as próximas medalhas de/ });
+  await expect(prev).toHaveAttribute("aria-disabled", "true");
+  await expect(next).not.toHaveAttribute("aria-disabled", "true");
+  await next.click();
+  await expect.poll(() => track.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);
+  await expect(prev).not.toHaveAttribute("aria-disabled", "true");
+  // As 6 cabem em duas vistas: a 2ª chega ao fim, e a seta de seguir trava.
+  await expect(next).toHaveAttribute("aria-disabled", "true");
+  await prev.click();
+  await expect.poll(() => track.evaluate((el) => el.scrollLeft)).toBe(0);
+  await expect(prev).toHaveAttribute("aria-disabled", "true");
 });

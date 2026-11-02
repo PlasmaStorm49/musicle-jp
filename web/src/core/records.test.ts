@@ -24,6 +24,7 @@ import {
   withProgress,
   withSeenMedals,
   withSetlistBest,
+  withSetlistPerfect,
   withSuperfanBest,
   withSuperfanEnd,
 } from "./records.ts";
@@ -492,6 +493,17 @@ describe("as medalhas e o modo por artista no save (v8, P289)", () => {
     // A 1ª run, mesmo sem rodada completa, já fica (0 rodadas e 1 música).
     const other = withSetlistBest(emptySave(), "apple:ar:2", { rounds: 0, found: 1 });
     expect(other.artists["apple:ar:2"]).toEqual({ right: 0, setlist: { rounds: 0, found: 1 } });
+  });
+
+  it("withSetlistPerfect: o Setlist perfeito só cresce, ao lado do recorde (o usuário, 02/11/2026)", () => {
+    const save = withSetlistBest(emptySave(), ARTIST, { rounds: 10, found: 44 });
+    const perfect = withSetlistPerfect(save, ARTIST);
+    expect(perfect.artists[ARTIST]).toEqual({
+      right: 0,
+      setlist: { rounds: 10, found: 44 },
+      setlistPerfect: true,
+    });
+    expect(withSetlistPerfect(perfect, ARTIST)).toBe(perfect);
   });
 
   it("mergeBest: o maior de cada número; sem nenhum, null", () => {

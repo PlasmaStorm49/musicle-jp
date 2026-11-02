@@ -388,6 +388,15 @@ export function setlistStep(run: SetlistRun, event: SetlistEvent): SetlistRun {
 }
 
 /**
+ * A setlist completa sem perder vida (o usuário, 02/11/2026): a medalha perfeita. Só na tela da
+ * setlist completa, a hora de gravar: depois, no sem fim, as vidas que caírem não a tiram. Quando a
+ * ajuda do Setlist existir, a run com ajuda também não conta.
+ */
+export function setlistPerfect(run: SetlistRun): boolean {
+  return run.phase === "complete" && run.lives === SETLIST_LIVES;
+}
+
+/**
  * O recorde que a run deixa: as rodadas completas e as músicas achadas. Vale no fim e na setlist
  * completa (a pessoa pode sair dali sem continuar). Com a run em jogo, ou na run sem músicas, null.
  */

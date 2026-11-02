@@ -15,11 +15,23 @@ import {
   type SuperfanArt,
   sashLayout,
 } from "../core/medalArt.ts";
-import type { MedalTier, SuperfanLevel } from "../core/medals.ts";
+import type { ArtistMedalLevel, MedalTier, SuperfanLevel } from "../core/medals.ts";
 import { medalIcon } from "./medalIcons.tsx";
 
-/** O desenho: um dos 3 níveis do Superfan, ou uma geral, pelo tamanho do aviso dela (P312). */
-export type MedalKind = SuperfanLevel | "geral" | "geral-grande";
+/**
+ * O desenho: um dos 3 níveis do Superfan, o vinil (a perfeita do Setlist Royale) ou uma geral,
+ * pelo tamanho do aviso dela (P312).
+ */
+export type MedalKind = SuperfanLevel | "vinil" | "geral" | "geral-grande";
+
+/**
+ * O desenho de uma medalha de artista (o usuário, 02/11/2026): as do Superfan, cada uma no seu; as
+ * do Setlist, a pequena na roseta e a grande no gelo, como as do Superfan, e a perfeita no vinil.
+ */
+export function artistMedalKind(medal: ArtistMedalLevel): MedalKind {
+  if (medal.family === "superfan") return medal.level;
+  return medal.level === "oitava" ? "acertos" : medal.level === "completa" ? "completo" : "vinil";
+}
 
 type Props = {
   readonly kind: MedalKind;
@@ -54,6 +66,32 @@ const ICE = {
   tails: ["#8fcfe6", "#a9d8ea"],
   spark: "#4aa6cc",
 };
+/**
+ * O vinil da perfeita do Setlist (o usuário, 02/11/2026, o B5): o disco preto, os 4 sulcos, a capa
+ * em 60% dele e o aro oliva. Mais simples que o buquê do Superfan perfeito, de propósito.
+ */
+const VINYL = { disc: "#1f1f22", groove: "#3a3a3e", rim: "#bdbf7f" };
+const VINYL_GROOVES = [41, 38, 35, 32];
+
+function Vinyl() {
+  return (
+    <>
+      <circle cx="46" cy="46" r="44" fill={VINYL.disc} stroke={VINYL.rim} stroke-width="1.5" />
+      {VINYL_GROOVES.map((r) => (
+        <circle
+          key={r}
+          cx="46"
+          cy="46"
+          r={r}
+          fill="none"
+          stroke={VINYL.groove}
+          stroke-width="0.6"
+        />
+      ))}
+    </>
+  );
+}
+
 /** O oliva das gerais (P312): o miolo claro, a tinta do ícone e as caudas, a `--accent-line`. */
 const OLIVE = { ring: "#ecedd2", ink: "#6f7140", tail: "#969865" };
 /** O buquê lilás de sempre, por papel: o de quem não escolheu as cores. */
@@ -383,9 +421,10 @@ const VIEW: Readonly<Record<MedalKind, { box: string; w: number; h: number; miol
   completo: { box: "0 8 110 132", w: 110, h: 132, miolo: { cx: 55, cy: 66, r: 32 } },
   "geral-grande": { box: "0 8 110 132", w: 110, h: 132, miolo: { cx: 55, cy: 66, r: 32 } },
   perfeito: { box: "0 0 110 156", w: 110, h: 156, miolo: { cx: 55, cy: 56, r: 29 } },
+  vinil: { box: "0 0 92 92", w: 92, h: 92, miolo: { cx: 46, cy: 46, r: 26.4 } },
 };
 
-/** A largura do desenho para uma altura: as 4 molduras com a mesma altura na nav (P317). */
+/** A largura do desenho para uma altura: as molduras com a mesma altura na nav (P317). */
 export function medalWidth(kind: MedalKind, height: number): number {
   const view = VIEW[kind];
   return Math.round((height * view.w) / view.h);
@@ -431,15 +470,26 @@ export function MedalArt({ kind, art, earned, size, icon }: Props) {
       {kind === "completo" && <IceFrame tail={tail} />}
       {kind === "geral-grande" && <IceFrame tail={OLIVE.tail} />}
       {kind === "perfeito" && <Bouquet art={art} p={p} />}
+      {kind === "vinil" && <Vinyl />}
       {cover}
       <circle
         cx={view.miolo.cx}
         cy={view.miolo.cy}
         r={view.miolo.r}
         fill="none"
-        stroke={kind === "perfeito" ? p.ring : ice ? ICE.edge : SILVER.edge}
+        stroke={
+          kind === "perfeito"
+            ? p.ring
+            : kind === "vinil"
+              ? VINYL.groove
+              : ice
+                ? ICE.edge
+                : SILVER.edge
+        }
         stroke-width="1"
       />
+      {/* O furo do centro do disco, por cima da capa. */}
+      {kind === "vinil" && <circle cx="46" cy="46" r="1.6" fill={VINYL.disc} />}
       {ice && <IceSparks />}
       {kind === "perfeito" && (
         <>
