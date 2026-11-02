@@ -68,6 +68,7 @@ leaf2 = "#467a50"
 [artists.medals.setlist]
 album = "1542182291"  # o 1º álbum; a capa do Superfan é o THE BOOK 2
 name = "THE BOOK"
+crop = { z = 1.8, x = 0.5, y = 0.66 }
 
 [[artists]]
 id = "573943518"  # LiSA (アニメ; não a LISA do BLACKPINK)
@@ -100,6 +101,7 @@ leaf2 = "#7aa35f"
 [artists.medals.setlist]
 album = "1529543131"  # o LANDER é a capa do Superfan
 name = "LEO-NiNE"
+crop = { z = 1.4, x = 0.42, y = 0.55 }
 
 [[artists]]
 id = "1080967231"  # Eve (J-Pop; não o Eve do rap)
@@ -131,6 +133,7 @@ leaf2 = "#6a8572"
 album = "1312575491"  # o álbum da virada (2017)
 name = "文化"
 latin = "Bunka"
+crop = { z = 1.9, x = 0.52, y = 0.55 }
 
 [[artists]]
 id = "1492604670"  # Ado
@@ -162,6 +165,7 @@ leaf2 = "#3f5f4a"
 album = "1754263364"  # o 狂言 é a capa e um nome do Superfan
 name = "残夢"
 latin = "Zanmu"
+crop = { z = 1.3, x = 0.55, y = 0.5 }
 
 [[artists]]
 id = "569972619"  # Aimer
@@ -201,6 +205,7 @@ leaf2 = "#66845a"
 [artists.medals.setlist]
 album = "1538258997"  # o mais famoso (2016)
 name = "daydream"
+crop = { z = 1.8, x = 0.5, y = 0.55 }
 
 [[artists]]
 id = "530814268"  # 米津玄師 (o Hachi, 727267782, é outro artista e não entra, P123)
@@ -231,6 +236,7 @@ leaf2 = "#7aa35f"
 [artists.medals.setlist]
 album = "1538275115"  # o STRAY SHEEP é um nome do Superfan
 name = "BOOTLEG"
+crop = { z = 1.5, x = 0.49, y = 0.5 }
 
 [[artists]]
 id = "311230779"  # Unlimits (rock; ハルカカナタ, カスケード)
@@ -261,6 +267,7 @@ leaf2 = "#7aa35f"
 [artists.medals.setlist]
 album = "1537442253"  # o 夢幻シンドローム lembraria o 夢幻の宴 do Superfan
 name = "NeON"
+crop = { z = 1.3, x = 0.5, y = 0.45 }
 
 [[artists]]
 id = "76115834"  # 松田聖子 (Seiko Matsuda; não a "Seiko" 286640008)
@@ -416,6 +423,7 @@ leaf2 = "#7aa35f"
 [artists.medals.setlist]
 album = "1536760911"  # de estúdio, de 1980; as Bible são coletâneas
 name = "North Wind"
+crop = { z = 1.3, x = 0.5, y = 0.42 }
 
 [[artists]]
 id = "1231338664"  # 新しい学校のリーダーズ (ATARASHII GAKKO!; オトナブルー, Tokyo Calling)
@@ -450,6 +458,7 @@ leaf2 = "#7aa35f"
 album = "1348202579"  # o 1º álbum (2018)
 name = "マエナラワナイ"
 latin = "Maenarawanai"
+crop = { z = 1.4, x = 0.45, y = 0.55 }
 
 [[artists]]
 id = "1489581870"  # 幾田りら (Lilas Ikuta; não o "Lilas" 1704820090, de títulos em francês)
@@ -482,6 +491,7 @@ leaf2 = "#7aa35f"
 [artists.medals.setlist]
 album = "1857886408"  # o Sketch é a capa do Superfan
 name = "Laugh"
+crop = { z = 1.5, x = 0.45, y = 0.42 }
 
 [[artists]]
 id = "308629932"  # 水樹奈々 (Nana Mizuki; não os personagens "(CV:水樹奈々)", que são outros ids)
@@ -604,6 +614,7 @@ leaf2 = "#6b9440"
 [artists.medals.setlist]
 album = "345874684"  # o 1º no topo da Oricon (2009); o supersonic girl é a capa do Superfan
 name = "ULTIMATE DIAMOND"
+crop = { z = 1.35, x = 0.45, y = 0.48 }
 
 [[artists]]
 id = "424817976"  # MAN WITH A MISSION
@@ -636,6 +647,7 @@ leaf2 = "#56665e"
 [artists.medals.setlist]
 album = "1593512991"  # o 5 Years… é um nome do Superfan
 name = "Break and Cross the Walls Ⅰ"
+crop = { z = 1.3, x = 0.5, y = 0.52 }
 
 # A seção de fora do Japão (P199, P200), pedida por amigos do usuário. A ordem dela na tela é a
 # alfabética (P201), feita pelo build: a deste arquivo não conta.
@@ -722,6 +734,7 @@ leaf2 = "#7aa35f"
 [artists.medals.setlist]
 album = "1550545935"  # o Red Diary Page.1 é a capa e o RED PLANET um nome do Superfan; EP
 name = "Puberty BookⅠ Bom"
+crop = { z = 1.8, x = 0.45, y = 0.55 }
 
 [[artists]]
 id = "462715"  # System of a Down
@@ -764,3 +777,4 @@ leaf2 = "#56623d"
 [artists.medals.setlist]
 album = "1744586004"  # a edição principal, com as 14 faixas
 name = "Toxicity"
+crop = { z = 1.3, x = 0.5, y = 0.5 }
