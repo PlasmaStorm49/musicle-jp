@@ -339,6 +339,34 @@ def test_the_schedule_check_regenerates_the_royale_days_with_the_schedules_besid
     assert "sem a agenda do Anime ou a das Misturadas ao lado" in capsys.readouterr().out
 
 
+def test_the_redo_exception_opens_the_royale_days_too(tmp_path, big, capsys):
+    """A exceção à regra 4 do quiz vale também para o Royale, que lê as músicas do quiz de cada
+    dia (o usuário, 02/11/2026): os dias desde a data saem da base e são regerados."""
+    anime, mixed = sides(big, 6)
+    full = generate_royale(big, anime, mixed, None, None, EPOCH, EPOCH, horizon=5).schedule
+    old = copy.deepcopy(full)  # a base com um dia futuro de outro gerador
+    options = old["days"]["2026-10-12"]["medio"]["options"]
+    options[0], options[1] = options[1], options[0]
+    for name, data in (("catalog.json", big), ("schedule.json", anime), (MIXED_FILE, mixed)):
+        (tmp_path / name).write_bytes(dumps(data).encode("utf-8"))
+    (tmp_path / "base.json").write_bytes(dumps(old).encode("utf-8"))
+    path = tmp_path / ROYALE_FILE
+    path.write_bytes(dumps(full).encode("utf-8"))
+    args = ["schedule-check", "--path", str(path), "--base", str(tmp_path / "base.json")]
+    assert main([*args, "--today", "2026-10-10"]) == 1
+    assert "2026-10-12: dia alterado" in capsys.readouterr().out
+    redo = [*args, "--quiz-redo-from", "2026-10-11"]
+    assert main([*redo, "--today", "2026-10-10"]) == 0
+    out = capsys.readouterr().out
+    assert "os dias desde 2026-10-11 conferidos como novos" in out
+    assert "3 dia(s) da base preservados, 6 no total" in out
+    # Na data, a exceção vence, e a conferência é a de sempre.
+    assert main([*redo, "--today", "2026-10-11"]) == 1
+    out = capsys.readouterr().out
+    assert "a exceção do --quiz-redo-from venceu" in out
+    assert "2026-10-12: dia alterado" in out
+
+
 FIXTURE = anime_paths("fixture").public_dir
 
 
