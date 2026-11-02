@@ -1,7 +1,14 @@
 // @vitest-environment happy-dom
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { DEMO_MEDALS, MEDALS, QUIZ_GOALS, SUPERFAN_RIGHT } from "../core/medals.ts";
+import {
+  DEMO_MEDALS,
+  MEDALS,
+  QUIZ_GOALS,
+  ROYALE_DAY,
+  ROYALE_GOALS,
+  SUPERFAN_RIGHT,
+} from "../core/medals.ts";
 import {
   emptySave,
   type Save,
@@ -10,6 +17,7 @@ import {
   withSuperfanEnd,
 } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
+import { ROYALE_PLAYED } from "../core/royale.ts";
 import type { ArtistList, ArtistListEntry } from "../core/types.ts";
 import { ptBR } from "../i18n/pt-BR.ts";
 import type { ArtistStore } from "./Artists.tsx";
@@ -369,7 +377,7 @@ describe("Medals (a tela, P278 e P286)", () => {
       expect(titles()).toEqual([
         "Gerais 1 de 9",
         "Hits 0 de 3",
-        "Anime 0 de 2",
+        "Anime 0 de 5",
         "Misturadas 0 de 4",
         "Quiz 0 de 16",
         "Artistas 0 de 12",
@@ -447,6 +455,19 @@ describe("os textos do quiz (o usuário, 28/10/2026)", () => {
     ];
     for (const [id, goal] of written) {
       expect(medalText(id, "how", { goal: 0 }), id).toMatch(new RegExp(`\\b${goal}\\b`));
+    }
+  });
+});
+
+describe("os textos do Anime Royale (o usuário, 02/11/2026)", () => {
+  it("os números escritos no como ganhar são os do núcleo, cada um no seu lugar da frase", () => {
+    const written: readonly (readonly [string, string])[] = [
+      ["royale-ordem", `as ${ROYALE_PLAYED} na ordem`],
+      ["royale-15", `as ${ROYALE_PLAYED} nas ${ROYALE_DAY.length} dificuldades`],
+      ["royale-cour", `as ${ROYALE_PLAYED} em ao menos ${ROYALE_GOALS.courTiers} dificuldades`],
+    ];
+    for (const [id, phrase] of written) {
+      expect(medalText(id, "how", { goal: 0 }), id).toContain(phrase);
     }
   });
 });

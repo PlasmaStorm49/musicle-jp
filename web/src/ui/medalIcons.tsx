@@ -20,6 +20,19 @@ function sparkPath(x: number, y: number, s: number): string {
   return `M${x} ${y - s} Q${x + q} ${y - q} ${x + s} ${y} Q${x + q} ${y + q} ${x} ${y + s} Q${x - q} ${y + q} ${x - s} ${y} Q${x - q} ${y - q} ${x} ${y - s} Z`;
 }
 
+/** Uma estrela de 5 pontas, com a de cima para cima, de raio `r` (o de dentro, 45% dele). */
+function starPath(x: number, y: number, r: number): string {
+  const points = Array.from({ length: 10 }, (_, i) => {
+    const angle = -Math.PI / 2 + (i * Math.PI) / 5;
+    const radius = i % 2 === 0 ? r : r * 0.45;
+    return `${(x + radius * Math.cos(angle)).toFixed(2)} ${(y + radius * Math.sin(angle)).toFixed(2)}`;
+  });
+  return `M${points.join(" L")} Z`;
+}
+
+/** Os furos de um lado da fita de filme da Ordem de Exibição. */
+const FILM_HOLES = [-14.5, -9.3, -4.1, 1.1, 6.3, 11.5];
+
 /** A chama: a de fora na tinta, e a de dentro recortada no fundo. */
 function Flame({ ink, bg, rim }: IconColors & { readonly rim?: boolean }) {
   return (
@@ -421,6 +434,34 @@ const ICONS: Readonly<Record<string, Icon>> = {
   "quiz-42": ({ ink }) => (
     <path d="M-13 -12 V1 H-3 M-5.5 -12 V12 M3 -12 H13 V0 H3 V12 H13" {...line(ink, 3.4)} />
   ),
+  // Ordem de Exibição (o Anime Royale, o usuário, 02/11/2026): a fita de filme, com 1, 2 e 3
+  // pontos nos quadros, em ordem.
+  "royale-ordem": ({ ink, bg }) => (
+    <>
+      <rect x="-17" y="-11" width="34" height="22" rx="2.4" fill={ink} />
+      {FILM_HOLES.flatMap((x) => [
+        <rect key={`t${x}`} x={x} y="-9.4" width="3" height="2.6" rx="0.6" fill={bg} />,
+        <rect key={`b${x}`} x={x} y="6.8" width="3" height="2.6" rx="0.6" fill={bg} />,
+      ])}
+      <rect x="-14.5" y="-5" width="8.6" height="10" rx="1" fill={bg} />
+      <rect x="-4.3" y="-5" width="8.6" height="10" rx="1" fill={bg} />
+      <rect x="5.9" y="-5" width="8.6" height="10" rx="1" fill={bg} />
+      <circle cx="-10.2" cy="0" r="1.5" fill={ink} />
+      <circle cx="-1.8" cy="0" r="1.4" fill={ink} />
+      <circle cx="1.8" cy="0" r="1.4" fill={ink} />
+      <circle cx="7.6" cy="0" r="1.2" fill={ink} />
+      <circle cx="10.2" cy="0" r="1.2" fill={ink} />
+      <circle cx="12.8" cy="0" r="1.2" fill={ink} />
+    </>
+  ),
+  // Full Combo: as 3 estrelas, uma por dificuldade, a do meio maior.
+  "royale-15": ({ ink }) => (
+    <>
+      <path d={starPath(-10.5, 5, 7.2)} fill={ink} />
+      <path d={starPath(0, -6, 9.4)} fill={ink} />
+      <path d={starPath(10.5, 5, 7.2)} fill={ink} />
+    </>
+  ),
   // Magnum Opus: os louros, com a colcheia no meio.
   "quiz-rodada-50": ({ ink }) => (
     <>
@@ -474,6 +515,20 @@ const ICONS: Readonly<Record<string, Icon>> = {
         transform="rotate(18 3.9 -2.8)"
       />
       <rect x="-15" y="12" width="30" height="3.6" rx="1.2" fill={ink} />
+    </>
+  ),
+  // Um Cour Inteiro (o Anime Royale, o usuário, 02/11/2026): a TV da temporada, com o 12 na tela.
+  "royale-cour": ({ ink, bg }) => (
+    <>
+      <path d="M-7 -17 L0 -10 L7 -17" {...line(ink, 2.4)} />
+      <rect x="-16" y="-10" width="32" height="22" rx="4" fill={ink} />
+      <rect x="-12.6" y="-6.6" width="25.2" height="15.2" rx="2.6" fill={bg} />
+      <rect x="-11" y="12" width="4" height="3" rx="1" fill={ink} />
+      <rect x="7" y="12" width="4" height="3" rx="1" fill={ink} />
+      <path
+        d="M-5.5 -3.2 L-3.6 -4.4 V5.6 M0.8 -2.6 C1.4 -4.6 6.4 -4.8 6.4 -1.6 C6.4 0.8 2.5 2.6 0.8 5.6 H6.8"
+        {...line(ink, 2.3)}
+      />
     </>
   ),
 };
