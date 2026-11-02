@@ -159,7 +159,7 @@ describe("Medals (a tela, P278 e P286)", () => {
       // As do Setlist: o título do álbum delas com o sufixo de cada nível, também no latino.
       "文化 -\u2060Rehearsal-, Bunka -\u2060Rehearsal- | Chegue à 8ª rodada do Setlist Royale | 0 de 7 rodadas",
       "文化 -\u2060Live-, Bunka -\u2060Live- | Termine as 10 rodadas do Setlist Royale",
-      "文化 -\u2060One\u00a0Take-, Bunka -\u2060One\u00a0Take- | Termine as 10 rodadas do Setlist sem perder vida",
+      "文化 -\u2060One\u00a0Take-, Bunka -\u2060One\u00a0Take- | Termine as 10 rodadas do Setlist sem perder vida nem usar ajuda",
     ]);
     expect(cells("Banda").map(cellText)).toEqual([
       `Primeira | Chegue a ${SUPERFAN_RIGHT} acertos com o artista | 1 de ${SUPERFAN_RIGHT} acertos`,
@@ -167,7 +167,7 @@ describe("Medals (a tela, P278 e P286)", () => {
       "Terceira | Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
       "Disco -\u2060Rehearsal- | Chegue à 8ª rodada do Setlist Royale | 0 de 7 rodadas",
       "Disco -\u2060Live- | Termine as 10 rodadas do Setlist Royale",
-      "Disco -\u2060One\u00a0Take- | Termine as 10 rodadas do Setlist sem perder vida",
+      "Disco -\u2060One\u00a0Take- | Termine as 10 rodadas do Setlist sem perder vida nem usar ajuda",
     ]);
     // O leitor de tela ouve qual é cada uma, pelo feito: o desenho é decorativo.
     expect(cells("Banda").map((c) => c.querySelector(".sr-only")?.textContent)).toEqual([
@@ -333,7 +333,7 @@ describe("Medals (a tela, P278 e P286)", () => {
       "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
       "Chegue à 8ª rodada do Setlist Royale | 0 de 7 rodadas",
       "Termine as 10 rodadas do Setlist Royale",
-      "Termine as 10 rodadas do Setlist sem perder vida",
+      "Termine as 10 rodadas do Setlist sem perder vida nem usar ajuda",
     ]);
   });
 

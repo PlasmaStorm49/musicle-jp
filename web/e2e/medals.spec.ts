@@ -521,7 +521,7 @@ test("terminar o Superfan, com um erro: o pop-up da completa com o artista no fi
     /^Termine perfeito/,
     "Chegue à 8ª rodada do Setlist Royale",
     "Termine as 10 rodadas do Setlist Royale",
-    "Termine as 10 rodadas do Setlist sem perder vida",
+    "Termine as 10 rodadas do Setlist sem perder vida nem usar ajuda",
   ]);
   await expect(artist.locator(".medal-progress")).toHaveText([/de 50 acertos$/, "0 de 7 rodadas"]);
 });

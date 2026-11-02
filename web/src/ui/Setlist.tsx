@@ -26,6 +26,7 @@ import {
   type SetlistRun,
   setlistBest,
   setlistOffset,
+  setlistPeek,
   setlistStep,
 } from "../core/setlist.ts";
 import type { ArtistListEntry } from "../core/types.ts";
@@ -36,7 +37,7 @@ import { ArtistName } from "./ArtistName.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { useMixPreviews, useResolvedUrls } from "./hooks.ts";
-import { Icon } from "./Icon.tsx";
+import { type AnyIconName, Icon } from "./Icon.tsx";
 import { VolumeControl } from "./Player.tsx";
 import { ConfirmButton } from "./PracticeRun.tsx";
 import { singleClick } from "./singleClick.ts";
@@ -85,7 +86,8 @@ function doneLabel(run: SetlistRun): string {
 /**
  * A run do Setlist Royale: o cabeçalho (a rodada, as vidas e o Encerrar) e a fase. Só ela guarda e
  * pré-carrega o áudio: enquanto a pessoa ouve, só a rodada atual; depois, só a próxima, já
- * sorteada. A que tocou não toca de novo, e o motor a solta (no máximo 8 prévias em memória).
+ * sorteada, e o motor solta a que tocou (no máximo 8 prévias em memória). O Bis e o "Ouvir de
+ * novo" a baixam de novo, e ela fica ao lado da próxima até a escuta seguinte (até 16).
  */
 export function SetlistView({
   artist,
@@ -475,9 +477,19 @@ function SetlistBoard({
             : lost > 0 && tn("setlist.lostLives", lost)}
         </p>
       ) : (
-        <p id="setlist-pick-hint" class="hint setlist-note">
-          {tn("setlist.pick", leftToFind(run))}
-        </p>
+        <div class="setlist-pick-row">
+          <p id="setlist-pick-hint" class="hint setlist-note">
+            {tn("setlist.pick", leftToFind(run))}
+          </p>
+          <SetlistHelps
+            run={run}
+            index={index}
+            engine={engine}
+            tracks={chainTracksOf(run.seed, round, index, urls)}
+            announce={announce}
+            dispatch={dispatch}
+          />
+        </div>
       )}
       <ul
         ref={list}
@@ -491,20 +503,24 @@ function SetlistBoard({
           const picked = run.picks.includes(id);
           const played = round.played.indexOf(id);
           const mark = picked
-            ? played >= 0
-              ? "correct"
-              : "wrong"
+            ? played < 0
+              ? "wrong"
+              : run.peeked === id
+                ? "peeked"
+                : "correct"
             : reveal && played >= 0
               ? "missed"
               : "";
           const status =
             mark === "correct"
               ? t("setlist.orderLabel", { number: played + 1 })
-              : mark === "wrong"
-                ? t("setlist.wrongLabel")
-                : mark === "missed"
-                  ? t("setlist.missedLabel", { number: played + 1 })
-                  : "";
+              : mark === "peeked"
+                ? t("setlist.peekedLabel", { number: played + 1 })
+                : mark === "wrong"
+                  ? t("setlist.wrongLabel")
+                  : mark === "missed"
+                    ? t("setlist.missedLabel", { number: played + 1 })
+                    : "";
           return (
             <li key={id} class={mark || undefined}>
               <button
@@ -515,9 +531,9 @@ function SetlistBoard({
                 // O 2º clique do toque duplo cai na opção do lado (regra 23).
                 onClick={singleClick(() => !reveal && pick(id))}
               >
-                {mark === "correct" || mark === "wrong" ? (
+                {mark === "correct" || mark === "wrong" || mark === "peeked" ? (
                   <span class="setlist-mark" aria-hidden="true">
-                    <Icon name={mark === "correct" ? "right" : "wrong"} />
+                    <Icon name={MARK_ICON[mark]} />
                   </span>
                 ) : null}
                 <span class="item setlist-item">
@@ -550,6 +566,181 @@ function SetlistBoard({
         </div>
       )}
     </section>
+  );
+}
+
+/** O ícone de cada opção marcada: o acerto, o erro e a revelada pelo Espiar (o olho). */
+const MARK_ICON = { correct: "right", wrong: "wrong", peeked: "eye" } as const;
+
+/**
+ * As ajudas da escolha (o usuário, 02/11/2026): o Espiar revela uma das músicas que tocaram, e o
+ * Bis toca a sequência de novo, com as opções valendo. Uma de cada por run, e o sem fim não as
+ * devolve. A gasta fica no lugar, apagada e com o 0, para a linha não pular.
+ */
+function SetlistHelps({
+  run,
+  index,
+  engine,
+  tracks,
+  announce,
+  dispatch,
+}: {
+  readonly run: SetlistRun;
+  readonly index: CatalogIndex;
+  readonly engine: AudioEngine;
+  readonly tracks: readonly ChainTrack[] | null;
+  readonly announce: (message: string) => void;
+  readonly dispatch: (event: SetlistEvent) => void;
+}) {
+  const [encore, setEncore] = useState<"idle" | "loading" | "playing">("idle");
+  const playId = useRef(0);
+  const alive = useRef(true);
+  // A rodada fecha (a revelação tem o "Ouvir de novo" dela) ou a pessoa sai: o Bis para.
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+      engine.stop();
+    };
+  }, [engine]);
+
+  function peek() {
+    const id = setlistPeek(run);
+    if (!id) return;
+    const after = setlistStep(run, { type: "PEEK", id });
+    dispatch({ type: "PEEK", id });
+    // A que fecha a rodada leva o foco ao resultado, que já diz tudo (como o toque certo).
+    if (after.phase !== "pick") return;
+    announce(t("setlist.peeked", { title: optionView(index, id, "song")?.title ?? "" }));
+  }
+
+  function play() {
+    if (encore !== "idle" || run.helps.encore || !tracks || !canChain(engine)) return;
+    const id = ++playId.current;
+    const mine = () => alive.current && playId.current === id;
+    setEncore("loading");
+    engine
+      .playChain(tracks, { fade: CHAIN_FADE })
+      .then((playback) => {
+        if (!mine()) return;
+        if (!playback) {
+          setEncore("idle");
+          return;
+        }
+        // Gasta só quando o som começa: a falha antes dele devolve a ajuda.
+        dispatch({ type: "ENCORE" });
+        setEncore("playing");
+        return playback.done.then(() => {
+          if (mine()) setEncore("idle");
+        });
+      })
+      .catch(() => {
+        if (!mine()) return;
+        setEncore("idle");
+        announce(t("setlist.encoreFailed"));
+      });
+  }
+
+  const encoreName =
+    encore === "loading"
+      ? t("setlist.encoreLoading")
+      : encore === "playing"
+        ? t("setlist.encorePlaying")
+        : t("setlist.encore");
+  return (
+    <div class="setlist-helps">
+      <HelpButton
+        id="setlist-peek"
+        icon="eye"
+        name={t("setlist.peek")}
+        tip={t("setlist.peekTip")}
+        spent={run.helps.peek}
+        onUse={peek}
+      />
+      <HelpButton
+        id="setlist-encore"
+        icon="encore"
+        name={encoreName}
+        tip={t("setlist.encoreTip")}
+        spent={run.helps.encore}
+        // Sem os endereços da rodada (ainda resolvendo), ele espera, como o "Ouvir de novo".
+        busy={encore !== "idle" || !tracks}
+        onUse={play}
+      />
+    </div>
+  );
+}
+
+/**
+ * O botão de uma ajuda: o ícone, o contador (1 ou 0) e o tooltip, que aparece com o mouse em cima
+ * ou com o foco do teclado (o usuário, 02/11/2026). O tooltip continua aberto com o mouse sobre
+ * ele e fecha com o Esc (WCAG 1.4.13); o leitor de tela o ouve como descrição. Gasta, a ajuda fica
+ * aria-disabled, que mantém o foco (ME37). O clique troca a tela quando o Espiar fecha a rodada: o
+ * 2º clique de um toque duplo não conta (regra 23). Ocupada (o Bis carregando ou tocando), ela não
+ * responde, e o contador já mostra o 0 quando o som começa.
+ */
+function HelpButton({
+  id,
+  icon,
+  name,
+  tip,
+  spent,
+  busy = false,
+  onUse,
+}: {
+  readonly id: string;
+  readonly icon: AnyIconName;
+  readonly name: string;
+  readonly tip: string;
+  readonly spent: boolean;
+  readonly busy?: boolean;
+  readonly onUse: () => void;
+}) {
+  const used = spent && !busy;
+  const [closed, setClosed] = useState(false);
+  const wrap = useRef<HTMLSpanElement>(null);
+  // O Esc fecha só o tooltip à vista (o do mouse em cima ou o do foco): o de outro botão, e o
+  // Esc que fecha um pop-up, não o apagam. O mouse que entra ou sai, e o foco que chega ou sai, o
+  // liberam de novo. Não são interações: os ouvintes do mouse ficam fora do JSX.
+  useEffect(() => {
+    const el = wrap.current;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || !el) return;
+      if (el.matches(":hover") || el.contains(document.activeElement)) setClosed(true);
+    };
+    const open = () => setClosed(false);
+    document.addEventListener("keydown", onKey);
+    el?.addEventListener("mouseenter", open);
+    el?.addEventListener("mouseleave", open);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      el?.removeEventListener("mouseenter", open);
+      el?.removeEventListener("mouseleave", open);
+    };
+  }, []);
+  const tipId = `${id}-tip`;
+  return (
+    <span ref={wrap} class={closed ? "help-wrap tip-closed" : "help-wrap"}>
+      <button
+        type="button"
+        id={id}
+        class={busy ? "setlist-help busy" : "setlist-help"}
+        aria-label={used ? t("setlist.helpUsedName", { name }) : name}
+        aria-describedby={tipId}
+        aria-disabled={used || busy ? "true" : undefined}
+        onFocus={() => setClosed(false)}
+        onBlur={() => setClosed(false)}
+        onClick={singleClick(() => !used && !busy && onUse())}
+      >
+        <Icon name={icon} />
+        <span class="help-count" aria-hidden="true">
+          {spent ? 0 : 1}
+        </span>
+      </button>
+      <span id={tipId} role="tooltip" class="help-tip">
+        {used ? t("setlist.helpUsed") : tip}
+      </span>
+    </span>
   );
 }
 

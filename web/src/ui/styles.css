@@ -2806,6 +2806,122 @@ dialog.medal-dialog .attribution {
   font-weight: 700;
 }
 
+/* A linha da escolha: a dica à esquerda e as ajudas à direita (o usuário, 02/11/2026, o rabisco
+   A). Com os botões de 44 px, ela cresce 24 px; na 10ª rodada, em 360 × 640, sobravam 53. */
+.setlist-pick-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.setlist-pick-row > .setlist-note {
+  text-align: left;
+}
+
+.setlist-helps {
+  display: flex;
+  flex: none;
+  gap: var(--sp-2);
+}
+
+.help-wrap {
+  position: relative;
+  display: flex;
+}
+
+/* Redondo, com o alvo de 44 px (P213), e o ícone maior que o texto. */
+.setlist-help {
+  position: relative;
+  width: var(--h-control);
+  min-height: var(--h-control);
+  padding: 0;
+  border-radius: var(--r-pill);
+  font-size: var(--t-lg);
+}
+
+.setlist-help.busy {
+  box-shadow: inset 0 0 0 2px var(--text);
+}
+
+/* O contador, no canto de cima: as cores do tooltip (e do aviso pequeno de medalha). */
+.help-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--t-xs);
+  line-height: 1;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* O tooltip: acima do botão e alinhado à direita dele, para não sair da tela em 320 px. Aparece
+   com o mouse em cima e com o foco do teclado; o mouse pode passar a ele pela ponte (o ::before,
+   no vão de 6 px), e o Esc o fecha (WCAG 1.4.13). As cores são as do aviso pequeno de medalha. */
+.help-tip {
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  bottom: calc(100% + 6px);
+  width: max-content;
+  max-width: min(240px, calc(100vw - 2 * var(--sp-4)));
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-field);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+  text-align: left;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.help-tip::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 8px;
+}
+
+@media (hover: hover) {
+  .help-wrap:hover > .help-tip {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.setlist-help:focus-visible + .help-tip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.help-wrap.tip-closed > .help-tip {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .help-tip {
+    transition:
+      opacity 0.12s,
+      visibility 0.12s;
+  }
+}
+
 /* O "Ouvir de novo" da revelação, entre o seguir e o volume: com a largura do texto curto, e o
    seguir fica com o resto da linha. */
 .player-actions > .setlist-replay {
@@ -2879,6 +2995,14 @@ ul.setlist-options {
 /* A que tocou e ninguém marcou: o anel verde, sem o fundo do acerto. */
 .setlist-option.missed {
   box-shadow: inset 0 0 0 2px var(--ok);
+}
+
+/* A revelada pelo Espiar (o usuário, 02/11/2026): o olho no lugar do ✓ e a borda tracejada, no
+   fundo das não marcadas. Ela conta como achada, mas a tela mostra que foi ajuda. A borda é um
+   contorno por dentro: não tira largura do título nem cresce a linha da grade. */
+.setlist-option.peeked {
+  outline: 2px dashed var(--muted);
+  outline-offset: -2px;
 }
 
 .setlist-item {

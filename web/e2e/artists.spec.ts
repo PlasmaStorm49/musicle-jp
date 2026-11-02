@@ -328,3 +328,66 @@ test("Setlist Royale: ouvir uma vez, cada toque na hora, as vidas, a setlist com
   await page.getByRole("button", { name: /^夜風シアター/ }).click();
   await expect(best).toHaveText("Recorde: 10 rodadas, 44 músicas");
 });
+
+test("Setlist Royale: o Espiar e o Bis, uma de cada por run, e a setlist completa com eles não é perfeita (o usuário, 02/11/2026)", async ({
+  page,
+}) => {
+  await bigArtist(page);
+  await open(page, DAY, "#artistas");
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await page.getByRole("button", { name: "Setlist Royale" }).click();
+  const options = page.getByRole("list", { name: "As opções" });
+  const result = page.locator(".setlist-result");
+  /** Marca as que tocaram e ainda faltam (a revelada já está marcada). */
+  const pickLeft = async (played: readonly string[]) => {
+    const peeked = await options.locator("li.peeked .item-title").allTextContents();
+    for (const title of played.filter((t) => !peeked.includes(t))) {
+      if ((await result.count()) > 0) break;
+      await options.getByText(title, { exact: true }).click();
+    }
+    await expect(result).toBeVisible();
+  };
+  // Antes de ouvir, nenhuma ajuda: elas são da hora de escolher.
+  await expect(page.getByRole("button", { name: /^Espiar/ })).toHaveCount(0);
+
+  // 1ª rodada: o Espiar revela uma das que tocaram, com o olho, e fica gasto.
+  await page.getByRole("button", { name: "Tocar", exact: true }).click();
+  await expect(options).toBeVisible();
+  const first = await chainTitles(page);
+  await page.getByRole("button", { name: "Espiar" }).click();
+  await expect(options.locator("li.peeked")).toHaveCount(1);
+  expect(first).toContain(await options.locator("li.peeked .item-title").textContent());
+  await expect(page.getByText("Quais tocaram? Falta 1 música.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Espiar, já usada" })).toBeVisible();
+  await pickLeft(first);
+  await page.locator(".setlist-board .player-actions > button.primary").click();
+
+  // 2ª rodada: o Espiar continua gasto; o Bis toca a mesma sequência, e os toques valem.
+  await page.getByRole("button", { name: "Tocar", exact: true }).click();
+  await expect(options).toBeVisible();
+  await expect(page.getByRole("button", { name: "Espiar, já usada" })).toBeVisible();
+  const second = await chainTitles(page);
+  await page.getByRole("button", { name: "Bis" }).click();
+  await expect(page.getByRole("button", { name: "Bis, já usada" })).toBeVisible();
+  const chains = await page.evaluate(() => window.__musicleChainLog?.slice(-2) ?? []);
+  expect(chains).toHaveLength(2);
+  expect(chains[1]).toEqual(chains[0]);
+  await pickLeft(second);
+  await page.locator(".setlist-board .player-actions > button.primary").click();
+
+  // Até a 10ª, sem erro: a setlist completa, mas sem o perfeito no save (as ajudas o tiram).
+  for (let n = 3; n <= 10; n += 1) await playSetlistRound(page);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Setlist completa!");
+  const saved = () =>
+    page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key) ?? "{}").artists?.["fixture:ar:ar02"],
+      SAVE_KEY,
+    );
+  await expect.poll(saved).toEqual({ right: 0, setlist: { rounds: 10, found: 44 } });
+  // O sem fim não devolve as ajudas.
+  await page.getByRole("button", { name: "Continuar sem fim" }).click();
+  await page.getByRole("button", { name: "Tocar", exact: true }).click();
+  await expect(options).toBeVisible();
+  await expect(page.getByRole("button", { name: "Espiar, já usada" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Bis, já usada" })).toBeVisible();
+});
