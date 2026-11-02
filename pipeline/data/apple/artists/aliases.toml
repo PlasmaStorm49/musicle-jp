@@ -8,6 +8,15 @@
 [tracks."apple:tr:1861370949"]  # アドレナ (YOASOBI); cutlet: "Ado Rena"
 latin = "Adorena"
 
+# Kanji que o cutlet não lê (o usuário notou o feat. da Ado sem latino, 02/11/2026). As leituras
+# vêm de fonte: 蝸旋 é "らせん" (Weekly ASCII e Fashion Press, no lançamento) e 杪夏, "びょうか"
+# (o fim do verão, no dicionário).
+[tracks."apple:tr:1583882756"]  # 蝸旋 (feat. Ado) (jon-YAKITORY); cutlet: nada
+latin = "Rasen (feat. Ado)"
+
+[tracks."apple:tr:1542572223"]  # 杪夏 (Eve); cutlet: nada
+latin = "Byouka"
+
 # Parcerias com nome próprio na loja, cujo latino veio errado (a Apple deu só "Daoko"; o cutlet leu
 # os nomes dos utaite pelo kanji).
 [artists."apple:ar:547853144"]  # DAOKO×米津玄師 (打上花火)

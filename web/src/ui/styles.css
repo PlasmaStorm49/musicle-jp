@@ -2991,10 +2991,14 @@ ul.setlist-options {
 /* O texto fica longe das bordas (16 px de cada lado): os cantos de cima são do ✓ ou do ✗ e da
    ordem em que tocou, que não tiram largura do título na coluna estreita. Em cima e embaixo, só
    2 px: as 4 linhas da 10ª rodada, com o nome mais longo e o selo da Apple, cabem em 360 × 640. A
-   marcada e a revelação continuam legíveis: sem o apagado do desabilitado. */
+   marcada e a revelação continuam legíveis: sem o apagado do desabilitado. Todos os cartões têm o
+   mesmo tamanho (o usuário, 02/11/2026): a altura de uma linha de lista, que cabe o título em 2
+   linhas com o latino embaixo, e o texto no meio. Antes, o sem latino ficava com 44 px ao lado de
+   um de 62, na mesma linha da grade. */
 .setlist-option {
   position: relative;
-  min-height: var(--h-control);
+  height: var(--h-row);
+  min-height: 0;
   padding: 2px var(--sp-4);
   justify-content: center;
   text-align: center;
