@@ -129,6 +129,9 @@ class AnimePaths:
     public_dir: Path  # onde ficam o catalog.json e o schedule.json do Anime
     # O latino das músicas do Anime, que os Hits e os artistas leem (o anime-latin o grava)
     latin: Path
+    # As capas dos animes (o Anime Royale): na Apple, o fetch --anime-covers as grava; nas
+    # fixtures, escritas à mão (anime_covers.py)
+    covers: Path
     # Os dados do MAL do quiz do dia (M18): só os inventados das fixtures ficam no repositório. Os
     # reais vêm do artefato da anime-mal, pelo --mal-file, e nunca são guardados (P380): a Apple
     # fica sem caminho, para nenhum arquivo deles cair na pasta da curadoria, que vai ao Git
@@ -146,6 +149,7 @@ def anime_paths(provider: str) -> AnimePaths:
         source=curation / _ANIME_SOURCES[provider],
         public_dir=repo_root() / _PUBLIC_DIRS[provider] / "anime",
         latin=curation / "latin.json",
+        covers=curation / "covers.json",
         quiz_mal=curation / "mal_quiz.json" if provider == "fixture" else None,
     )
 

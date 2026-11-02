@@ -7,6 +7,7 @@ from functools import cache
 from jsonschema import Draft202012Validator
 
 from musicle_pipeline.anime import MODES, SCHEMA_VERSION
+from musicle_pipeline.anime_covers import cover_problems
 from musicle_pipeline.catalog import catalog_version
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.models import JSON
@@ -86,6 +87,18 @@ def _invariant_problems(data: JSON) -> list[str]:
     return problems
 
 
+def _cover_problems(provider: str, tracks: list[JSON]) -> list[str]:
+    """O caminho de cada capa no padrão do provedor (o schema aceita os dois): o da Apple é o do
+    AnimeThemes, e o das fixtures, o SVG falso (regra 5; o check-anime-pr.sh e o web repetem)."""
+    return [
+        problem
+        for t in tracks
+        for theme in t["anime"]["themes"]
+        if theme["cover"] is not None
+        for problem in cover_problems(provider, theme["cover"], f"{t['id']} ({theme['anime']})")
+    ]
+
+
 def validate_anime_catalog(data: JSON, raw: bytes | None = None) -> list[str]:
     """Problemas do catálogo do Anime; vazia quando está tudo certo. Com `raw`, confere também
     a forma canônica e o tamanho."""
@@ -96,6 +109,7 @@ def validate_anime_catalog(data: JSON, raw: bytes | None = None) -> list[str]:
         return problems  # sem a forma certa, as invariantes quebrariam com KeyError
     problems = _invariant_problems(data)
     problems += url_problems(data["provider"], data["albums"], data["tracks"])
+    problems += _cover_problems(data["provider"], data["tracks"])
     if raw is not None:
         if len(raw) > MAX_FILE_BYTES:
             problems.append(f"arquivo com {len(raw)} bytes; o teto é {MAX_FILE_BYTES}")

@@ -194,6 +194,16 @@ if has "$ANIME_CATALOG"; then
       and ($n.snapshots | last) == {id: $id, fetchedAt: $at}
       and $n.generatedAt == $at' > /dev/null \
     || fail "o catálogo novo do Anime perde ids, muda o esquema, sai dos hosts da Apple ou não bate com os snapshots"
+  # A capa de cada tema (o Anime Royale): só o caminho de um arquivo do AnimeThemes, que o web
+  # junta à base dele (vai para src). O mesmo padrão do anime_covers.py e do web (regra 5).
+  jq -e '
+    def cover($size): type == "string"
+      and test("\\Aanime/" + $size + "-cover/[A-Za-z0-9]+\\.(avif|png|jpe?g|webp)\\z");
+    .tracks | all(.anime.themes // [] | all(.cover == null
+      or ((.cover | type == "object") and (.cover | keys) == ["large", "small"]
+          and (.cover.small | cover("small")) and (.cover.large | cover("large")))))' \
+    "$(new "$ANIME_CATALOG")" > /dev/null \
+    || fail "o catálogo novo do Anime traz uma capa fora do padrão do AnimeThemes"
   catalog_line="$(jq -r -n --slurpfile b "$ANIME_CATALOG" --slurpfile n "$(new "$ANIME_CATALOG")" \
     --slurpfile s "$(new "$snapshot")" '
     ($n[0].tracks | length) as $total

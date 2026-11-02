@@ -14,6 +14,7 @@ from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
 from musicle_pipeline.anime import anime_chances, build_anime_catalog, chart_artists
+from musicle_pipeline.anime_covers import covers_file, load_covers
 from musicle_pipeline.anime_latin import latin_file, load_latin
 from musicle_pipeline.anime_mixed import KIND as MIXED_KIND
 from musicle_pipeline.anime_mixed import (
@@ -52,7 +53,7 @@ from musicle_pipeline.artists import (
     selections,
 )
 from musicle_pipeline.catalog import Curation, build_catalog
-from musicle_pipeline.fake_assets import generate_assets
+from musicle_pipeline.fake_assets import generate_anime_covers, generate_assets
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
 from musicle_pipeline.models import JSON, InputError
 from musicle_pipeline.normalize import has_unassigned, needs_romaji
@@ -351,6 +352,7 @@ def _build_anime(args: argparse.Namespace) -> int:
         _anime_curation(args.provider),
         notes,
         icon_artists=_anime_icons(args.provider),
+        covers=load_covers(paths.covers, args.provider),
     )
     for message in provider.warnings:
         print(f"aviso: {message}", file=sys.stderr)
@@ -659,11 +661,20 @@ def _schedule(args: argparse.Namespace) -> int:
 
 def _fake_assets(args: argparse.Namespace) -> int:
     catalog = read_json(resolve(args.catalog))
-    report = generate_assets(catalog, resolve(args.public))
+    public = resolve(args.public)
+    report = generate_assets(catalog, public)
     print(
         f"assets: {len(report.written)} gravado(s), {report.unchanged} sem mudança, "
         f"{len(report.removed)} órfão(s) apagado(s)"
     )
+    # As capas falsas dos animes fictícios (o Anime Royale), do catálogo fictício do Anime.
+    anime = anime_paths("fixture").public_dir / "catalog.json"
+    if anime.exists():
+        covers = generate_anime_covers(read_json(anime), public)
+        print(
+            f"capas do Anime: {len(covers.written)} gravada(s), {covers.unchanged} sem mudança, "
+            f"{len(covers.removed)} órfã(s) apagada(s)"
+        )
     return 0
 
 
@@ -855,6 +866,19 @@ def _fetch(args: argparse.Namespace) -> int:
     # Só aqui: os outros comandos nunca carregam o módulo de rede (teste em subprocesso).
     from musicle_pipeline import fetch
 
+    if args.anime_covers:
+        others = (args.personal, args.out_dir, args.max_songs, args.target_per_tier, args.max_anime)
+        others += (args.pool_size, args.deadline_min, args.ranks_file, args.draw, args.today)
+        if (
+            args.anime
+            or args.artists
+            or args.artist
+            or args.force
+            or any(value is not None for value in others)
+        ):
+            print("--anime-covers é uma busca à parte: só aceita o --refresh", file=sys.stderr)
+            return 1
+        return _fetch_anime_covers(args)
     if args.anime:
         if args.today is not None or args.artists:
             print("--anime é uma busca à parte: sem --today e sem --artists", file=sys.stderr)
@@ -913,6 +937,46 @@ def _fetch(args: argparse.Namespace) -> int:
             return 0
     write_if_changed(out, dumps(snapshot))
     print(f"{out}: {len(snapshot['rss'])} faixas na parada, {len(snapshot['missing'])} sem lookup")
+    return 0
+
+
+def _fetch_anime_covers(args: argparse.Namespace) -> int:
+    """As capas dos animes do catálogo real (o Anime Royale, o usuário, 01/11/2026): acrescenta
+    ao covers.json as que faltam, só o caminho de cada arquivo no AnimeThemes. Com o --refresh,
+    busca todas de novo e troca as que vieram (o AnimeThemes trocou uma capa, e o caminho antigo
+    não abre mais); a que não veio fica como estava."""
+    import time
+
+    from musicle_pipeline import fetch, fetch_anime
+    from musicle_pipeline.providers.apple_anime import AppleAnimeProvider
+
+    paths = anime_paths("apple")
+    known = load_covers(paths.covers, "apple")
+    # Os animes com alguma música no catálogo: os outros não aparecem em nenhum diário.
+    names = {
+        a.mal_id: a.name
+        for a in AppleAnimeProvider(paths.source).source().anime
+        if any(theme.track is not None for theme in a.themes)
+    }
+    asked = sorted(names) if args.refresh else sorted(set(names) - set(known))
+    if not asked:
+        print(f"{paths.covers}: todos os {len(names)} anime(s) já têm capa")
+        return 0
+    io = fetch_anime.AnimeFetch(sleep=time.sleep, log=print)
+    try:
+        found, missing = fetch_anime.fetch_covers(asked, io)
+    except fetch.FetchError as exc:
+        print(f"fetch --anime-covers: {exc}; nada foi gravado", file=sys.stderr)
+        return 1
+    # O --refresh troca as que vieram e guarda as outras: uma falha de lá não apaga a capa de cá.
+    covers = {**known, **found}
+    changed = write_if_changed(paths.covers, dumps(covers_file("apple", covers)))
+    for mal_id in missing:
+        print(f"sem capa no AnimeThemes: {names[mal_id]} (MAL {mal_id})")
+    print(
+        f"{paths.covers}: {len(found)} capa(s) achada(s) de {len(asked)}; "
+        f"{len(covers)} de {len(names)} anime(s) com capa" + ("" if changed else "; sem mudanças")
+    )
     return 0
 
 
@@ -1318,7 +1382,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         action="store_true",
         default=None,  # None, e não False: o _fetch confere as opções do --anime pelo None
         help="com --anime: busca de novo todos os animes já conhecidos (a temporada e os números"
-        " do quiz do dia, M18), com a faixa de antes; sem sorteio nem teto",
+        " do quiz do dia, M18), com a faixa de antes; sem sorteio nem teto. Com --anime-covers:"
+        " busca de novo todas as capas",
+    )
+    fetch.add_argument(
+        "--anime-covers",
+        action="store_true",
+        help="as capas dos animes do catálogo no AnimeThemes (o Anime Royale): só as que faltam",
     )
     fetch.add_argument(
         "--fetched-at", type=_fetched_at, required=True, help="agora em UTC: AAAA-MM-DDTHH:MM:SSZ"

@@ -45,13 +45,14 @@ const track = (n: number): AnimeTrack => ({
     themes:
       n === 1
         ? [
-            { anime: "Anime 1", type: "OP", sequence: 1 },
-            { anime: "Anime 1", type: "ED", sequence: 2 },
-            { anime: "Anime 1 Movie", type: "IN", sequence: null },
+            { anime: "Anime 1", cover: null, type: "OP", sequence: 1 },
+            { anime: "Anime 1", cover: null, type: "ED", sequence: 2 },
+            { anime: "Anime 1 Movie", cover: null, type: "IN", sequence: null },
           ]
         : [
             {
               anime: n === 4 ? "Hoshizora Kaizoku 2nd Season" : `Anime ${n}`,
+              cover: null,
               type: "OP",
               sequence: 1,
             },

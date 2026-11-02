@@ -1,0 +1,57 @@
+{
+  "covers": {
+    "90001": {
+      "large": "anime/large-cover/hoshizora_kaizoku.svg",
+      "small": "anime/small-cover/hoshizora_kaizoku.svg"
+    },
+    "90002": {
+      "large": "anime/large-cover/hoshizora_kaizoku_2nd_season.svg",
+      "small": "anime/small-cover/hoshizora_kaizoku_2nd_season.svg"
+    },
+    "90003": {
+      "large": "anime/large-cover/tsukimi_gakuen.svg",
+      "small": "anime/small-cover/tsukimi_gakuen.svg"
+    },
+    "90004": {
+      "large": "anime/large-cover/neon_samurai.svg",
+      "small": "anime/small-cover/neon_samurai.svg"
+    },
+    "90005": {
+      "large": "anime/large-cover/kumo_no_ue_no_shiro.svg",
+      "small": "anime/small-cover/kumo_no_ue_no_shiro.svg"
+    },
+    "90006": {
+      "large": "anime/large-cover/garasu_no_neko.svg",
+      "small": "anime/small-cover/garasu_no_neko.svg"
+    },
+    "90007": {
+      "large": "anime/large-cover/majo_to_kissaten.svg",
+      "small": "anime/small-cover/majo_to_kissaten.svg"
+    },
+    "90008": {
+      "large": "anime/large-cover/yoru_no_gekijou.svg",
+      "small": "anime/small-cover/yoru_no_gekijou.svg"
+    },
+    "90009": {
+      "large": "anime/large-cover/futari_no_natsu.svg",
+      "small": "anime/small-cover/futari_no_natsu.svg"
+    },
+    "90010": {
+      "large": "anime/large-cover/tokyo_noise.svg",
+      "small": "anime/small-cover/tokyo_noise.svg"
+    },
+    "90011": {
+      "large": "anime/large-cover/kotonoha_signal.svg",
+      "small": "anime/small-cover/kotonoha_signal.svg"
+    },
+    "90012": {
+      "large": "anime/large-cover/luminous_heart.svg",
+      "small": "anime/small-cover/luminous_heart.svg"
+    },
+    "90014": {
+      "large": "anime/large-cover/nana_iro.svg",
+      "small": "anime/small-cover/nana_iro.svg"
+    }
+  },
+  "provider": "fixture"
+}

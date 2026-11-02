@@ -1,0 +1,1849 @@
+{
+  "covers": {
+    "10020": {
+      "large": "anime/large-cover/81NqefkX3vR1YMZM7ha4tYbnDEWGQe9fNgVNVxAE.jpg",
+      "small": "anime/small-cover/Wn6kzxBQfI81MvZdY7JdYPiKXqf3nBQHtZ50yAsF.avif"
+    },
+    "10080": {
+      "large": "anime/large-cover/8mr1XsHko8MY7L2W2WdcUzEKMfSsV5J9EhxBkB8n.jpg",
+      "small": "anime/small-cover/VMr7rNbpMKIbgMjlapiiDeP1oZgB0DAKD5rHaDyM.avif"
+    },
+    "10087": {
+      "large": "anime/large-cover/ey5VnEXFMRS2veM8OstyuGnzSU22zlQyax6w0M44.png",
+      "small": "anime/small-cover/Eb94J275lBDfmsHo3bMKTfc3y3sc5gfUOflMlJPr.avif"
+    },
+    "10163": {
+      "large": "anime/large-cover/qH10gIz5qCArcUeQjZwsD9LDCgqCvuivc9QNifsE.jpg",
+      "small": "anime/small-cover/1UOR2bvGZycmtJGchtCDTV4JBYJfZc2mZV9em3cB.avif"
+    },
+    "10165": {
+      "large": "anime/large-cover/Bpq9Cwv9u3QfIIslkb6J2qXdB4ChAS8il6xKYHot.png",
+      "small": "anime/small-cover/MpFPqXNDR4IO0hqhMWmYgS3hUTH1VmX4ql7NFzQa.avif"
+    },
+    "10611": {
+      "large": "anime/large-cover/DRwGfyyVRKBCrOjRJmn0Q3ocfctslGzmxwzTGmIX.jpg",
+      "small": "anime/small-cover/l35jfwVbwaeina6FTv8F6Td4cfY9cj6gd5l8yhAt.avif"
+    },
+    "10620": {
+      "large": "anime/large-cover/zXaFVo0OXU1g3I4QEde5Zarjw8n7unCiYpeGvROp.png",
+      "small": "anime/small-cover/SeN883qtvO9MmhLQzbnRJfhBo4rb7BsFGkhhpf5p.avif"
+    },
+    "10793": {
+      "large": "anime/large-cover/Lg34vzuk8MvBDkPVSTIo4pKRAOSYjUuoCPaO2MlA.jpg",
+      "small": "anime/small-cover/hYTs5Z3cpUES3lQGrTtDymLrW9oSJUpI1w0AUs1f.avif"
+    },
+    "10798": {
+      "large": "anime/large-cover/MEx1Ix2No4fEEc2Qg6MZiTCYI1zwuD5uAduSIKpC.png",
+      "small": "anime/small-cover/NCX2P8AwDDzU0LwhWiBPWtFzGe5EOLykoKQ5Qivs.avif"
+    },
+    "10800": {
+      "large": "anime/large-cover/8RTxMsteZjKfARXEREEd0uy58UHQ6Nk4daEpA6MR.png",
+      "small": "anime/small-cover/O56wfXyoW9XiF80F6osmdasp5pcgBRWjNvC0lqqW.avif"
+    },
+    "11061": {
+      "large": "anime/large-cover/dSjOXdxaSFxvgAwj2tF7nHvtAeoxAakXGJmr0Qy3.png",
+      "small": "anime/small-cover/2wGHi1Me6u5i3DDfdtrdYk1S3h15XGTQdc0tBDYm.avif"
+    },
+    "11111": {
+      "large": "anime/large-cover/tJDyLt9E9QIrjRiuR2fUZCi7iXfoXkRGvBk9WSxo.png",
+      "small": "anime/small-cover/SyerHjhFl1r7AyNNrwRHDNrmaOL0uJr1yhFNfelE.avif"
+    },
+    "11285": {
+      "large": "anime/large-cover/GNiaczaXBg3PIC6pOcUnc9WDbmMkNaKipiEloJm0.jpg",
+      "small": "anime/small-cover/qfqurWFUHalCAwOUqxulNnmpAk5NxU9XchvDqei2.avif"
+    },
+    "11597": {
+      "large": "anime/large-cover/wj0X2pyNoFxmCDV89AEmM5RTF9gLYJg2pkDpuxa4.jpg",
+      "small": "anime/small-cover/PhLT4H1LsfwCQhP4rF41C0dIwFd1ku8JMjgaQ1os.avif"
+    },
+    "11617": {
+      "large": "anime/large-cover/DxkebLYR54o7BeLlhqlUcELLQQiymD4Tr8aWMclM.jpg",
+      "small": "anime/small-cover/VNvBPHeZVk6XHORWfEC9P94xINQmpJz3Q2iQqd6l.avif"
+    },
+    "11741": {
+      "large": "anime/large-cover/DFX6TZPJEGayZycuirzucE4jGV1ETNfKrPRGHfHL.jpg",
+      "small": "anime/small-cover/inX2XF2ZqHvq7toUX0Ri2FVAkIB4Be7uRIi1YK7t.avif"
+    },
+    "11757": {
+      "large": "anime/large-cover/IYdmoTRiGhAdf7rVnBdz0Fb3O2YbblCtvSMxeRu1.jpg",
+      "small": "anime/small-cover/tiGhFmdJXPdFLNeLx4hygZv3LqZIibL1UPJICWdN.avif"
+    },
+    "11759": {
+      "large": "anime/large-cover/u5kd4s58KulwZG8dnlxxMZmgOd2w2c78emgucBwe.jpg",
+      "small": "anime/small-cover/9Wt01xNjb2hcDEUQmJsEwKcl9M4KB89gqsJyCtRG.avif"
+    },
+    "11771": {
+      "large": "anime/large-cover/l4uG0yRpQT0VEB1zlLCWPgYrtPCcX5jiRWRoVR16.jpg",
+      "small": "anime/small-cover/npB6FaJrD6RGAfvvRHrHKi162GhKC7nCWdhq9XVn.avif"
+    },
+    "11843": {
+      "large": "anime/large-cover/JLYEKlXK3w0Awk51M8u7p7MNsjzfUMjLvRKbq9KT.jpg",
+      "small": "anime/small-cover/KmsqtpMTyciKH018TC6PWQIrui6vJJo4m7lpS2Et.avif"
+    },
+    "1195": {
+      "large": "anime/large-cover/ka4sYW83iJh2G7TBEgCsAbn6YXEnzZCYUf0bsAoO.png",
+      "small": "anime/small-cover/yQiNkEEQER1RgpDxsORul8FWq2T1Xh2hbkfTnz4D.avif"
+    },
+    "121": {
+      "large": "anime/large-cover/wYtPCLpg3GFYHfjP4ASfCFu8U6iSlxLhE7JuEUeU.png",
+      "small": "anime/small-cover/QwBWD148NFU8eZeat4urmXR40I14mzUUTvZuTzCv.avif"
+    },
+    "12293": {
+      "large": "anime/large-cover/iWQmTgSUCDG01dDsbW9tefjmZCAaYNvH5K7aI4mD.jpg",
+      "small": "anime/small-cover/P1g9EAXAOAp7GlBmlbUYP6aK8HHRvLRdasz4yowl.avif"
+    },
+    "12355": {
+      "large": "anime/large-cover/j54RVGooADk0UnwzekUZjZyCKjUBFYfYDbAvb7Jj.png",
+      "small": "anime/small-cover/pAOwZaitaXj1hZCD4QGWWfJiGqU0d1HoY8HjmB22.avif"
+    },
+    "13601": {
+      "large": "anime/large-cover/9f65alVDZgOnefAa0qY0ik2AF3Lkx0wMGozK6llz.jpg",
+      "small": "anime/small-cover/N0MYvNj4jPWubYxpYV4TGSSuJ730idM9ILODu88c.avif"
+    },
+    "13659": {
+      "large": "anime/large-cover/GScKb70xBfjEgI5OLpjmAwdIs0VrSRI8vjVCvM08.png",
+      "small": "anime/small-cover/Ra9KGkSVcUiECxkbAGPsMBctOBkEhgyT3pz9GWJo.avif"
+    },
+    "14199": {
+      "large": "anime/large-cover/iB1msIh2dCxM7rUYMpTq5CvyIQoB5oBwpBwktHAV.jpg",
+      "small": "anime/small-cover/sRluJTstaDb7684XRDOgHDuhkCfzFXN8cyUfvfae.avif"
+    },
+    "14345": {
+      "large": "anime/large-cover/c4F6B7djlvhMPVZLxvHiUjgemh3j0rBR1HGHafdy.jpg",
+      "small": "anime/small-cover/DnHgUpH6RushwfioalwcCuFxjzN18HVnyJlMwykN.avif"
+    },
+    "14397": {
+      "large": "anime/large-cover/fGzyQpW9C3i3mvzxcYJBylBnngwIlpZQUIi9PS5O.jpg",
+      "small": "anime/small-cover/Gt4keqQqwEz75lkXlBwnpDm76hyxNWIuVAMObS38.avif"
+    },
+    "14713": {
+      "large": "anime/large-cover/MbgnbETPOgpMAYCwFNIzk2E526jo4k2WlY7dUoox.jpg",
+      "small": "anime/small-cover/IihJ1YHDaw5zmHeeoCyiO3k2iZrTKBDFo0ltplaP.avif"
+    },
+    "14719": {
+      "large": "anime/large-cover/z506uqDHswd33hydnqxly8dhQfqL1nrs69374ieM.jpg",
+      "small": "anime/small-cover/SHtOYnoLEbisYqaHhxBvjiTMExkYFkQci6cR7PTA.avif"
+    },
+    "14741": {
+      "large": "anime/large-cover/lZ6w122hJrKU9j1diudsUgaBVbihj3TfwwlaBYax.jpg",
+      "small": "anime/small-cover/XGasYTFdZQxPuRXAeCDfy3Ppsar2Nlg7Q4oANagU.avif"
+    },
+    "14813": {
+      "large": "anime/large-cover/CONtzMu2KN34cjCsE7hDmDo8PLqlhuZknTABdVyV.jpg",
+      "small": "anime/small-cover/sezFKfIwZQX7gH4xmu3Ad6XObW9QWiSwK3bBlKx1.avif"
+    },
+    "1482": {
+      "large": "anime/large-cover/VegkSOtKkEL3f0h66wElAM7KMT7TNRMBhfbBhUM7.png",
+      "small": "anime/small-cover/iWpEjRGcg93JkWJDRrWlWsDjA4eyC0dM7y88O9Dp.avif"
+    },
+    "15051": {
+      "large": "anime/large-cover/v51jlP1ixBowhluVJPQmb7qG0OXz7CK46HQuKHjo.jpg",
+      "small": "anime/small-cover/uv5vpQN06AmDVcXs2MAjqrYgDMlLwfKgiGtqjhhW.avif"
+    },
+    "1519": {
+      "large": "anime/large-cover/oRiX2zZfJkEh9Wpa8KJEhs6NDVnIXLoE2wZNGPgw.png",
+      "small": "anime/small-cover/tIAnrpoH3GF2hv48U8VsKKJ2uQhzhkF7uX6Be9IX.avif"
+    },
+    "15225": {
+      "large": "anime/large-cover/tE4Z435SPlBIfDhsNjjLsbkoxM6F1CifsNi4q92E.jpg",
+      "small": "anime/small-cover/dgxSe5qdwZ8vhDMEWlkeytB1nx449uPMQmrCocRg.avif"
+    },
+    "1536": {
+      "large": "anime/large-cover/xwblQuSKYLLT87V15JqjAIwr5EfTIlHSqJu7DKt0.png",
+      "small": "anime/small-cover/iVdnjH9xQLENQifOZRUoXyAGAL7h9uQyIdENyDAi.avif"
+    },
+    "154": {
+      "large": "anime/large-cover/IsKrPVJ6VGnFbK3F3DYhEPNAy625mAEx1cSFCkDO.png",
+      "small": "anime/small-cover/uUAx15IrAuPChcrKBNvVasGxwv2fGvHKFd6OoQIE.avif"
+    },
+    "15583": {
+      "large": "anime/large-cover/BCSD16CxuuhIhwwxPu5vqbRFaJjleCKwQPwavco5.png",
+      "small": "anime/small-cover/UjAP9JlaMBFpws3T92KmzZC8aMWCpy6pb8dU5Wfd.avif"
+    },
+    "15687": {
+      "large": "anime/large-cover/DoFayAEhqlv4Wnq1BJ9lrp90GZKoxQxaUyf9MI9M.png",
+      "small": "anime/small-cover/xdYENbZDpGfhvEm1JX3RQvRM68bQ80dhsc2PLKFA.avif"
+    },
+    "1575": {
+      "large": "anime/large-cover/MGOwHWrW2K44gRVm50qInmfPj3h15XssXf1OCXHz.jpg",
+      "small": "anime/small-cover/SCKhGN5iNEioJMpLG2KGOUQW592wUFWv6sz3reVc.avif"
+    },
+    "15809": {
+      "large": "anime/large-cover/0v72PUyI56nj0Qs05Ht998V0KCYg6axGdRC7pQt3.jpg",
+      "small": "anime/small-cover/xCvc02HocOi94bVZzRbtOwPg2V8WNQnkS3xc9vW1.avif"
+    },
+    "16001": {
+      "large": "anime/large-cover/kBfEoHXYEXC5TK7VTAWTdjhm7mRTtPBKCLlfbv9F.png",
+      "small": "anime/small-cover/IGvNjZfV5GptHf5sFkjS4gFP1edza60yGUFWAxnp.avif"
+    },
+    "16049": {
+      "large": "anime/large-cover/1E3zI6UFWgspjDz12egknaUGYXPuNxGWtVQ1uN1k.jpg",
+      "small": "anime/small-cover/rT1ITKtCdGlgBt5VpbUlJif35lQNU9HmRrigsu60.avif"
+    },
+    "16498": {
+      "large": "anime/large-cover/mLoIEyGITkJPGCBxvjTpDyDYRM8rDb4ZuFGCKEaH.png",
+      "small": "anime/small-cover/cUnunEwN4ktLVaEsSfRSgE7NREhfRMLGXKkkuDuS.avif"
+    },
+    "16592": {
+      "large": "anime/large-cover/pK6H3SWLvwr81JfANG3eFBDpHDZSMpJht1tctGAZ.jpg",
+      "small": "anime/small-cover/AL1zPQgdS7IG1jnM97UFJZF8gNT1LCGFIV70hvlP.avif"
+    },
+    "16706": {
+      "large": "anime/large-cover/rKV3VsDihZY53nMKHnHl3lCfp53GxBFXC5407mgh.jpg",
+      "small": "anime/small-cover/ryV5oobHcMi3ybJ1pJ9mVW7fKryTdCb7DeB0nTHs.avif"
+    },
+    "16870": {
+      "large": "anime/large-cover/x8EiJTeeyF1g8qDTvbK0rOtPOSgVF6OFOU0hHENJ.jpg",
+      "small": "anime/small-cover/lIcF5gPQ1ZQeti6ru8EWfDHxggGcS1ktHqmaS7e8.avif"
+    },
+    "16894": {
+      "large": "anime/large-cover/z827Bc9FeegmiO6L6hfjnChq5XaJc8T41YHBv6Sq.jpg",
+      "small": "anime/small-cover/22qwGinOVHsbv74GxqaPRvhxZs3GWg7UMNsl49pl.avif"
+    },
+    "170": {
+      "large": "anime/large-cover/mlit8pn0I9O6dOmxv1555IG49z9wrW6Fh3NWOFhL.jpg",
+      "small": "anime/small-cover/eLcIh9kBgnG978HdaUbgJFuavWCdmfcAhbQD3K5Q.avif"
+    },
+    "17074": {
+      "large": "anime/large-cover/Vo4eamcrP1nrvL2B2Vr9V5yI7GIarPAA01qET1a4.png",
+      "small": "anime/small-cover/dL63R0aZR5cxBW5IuSaXJKUgOBWQ2xVslCvUDzIU.avif"
+    },
+    "17247": {
+      "large": "anime/large-cover/x1QfKxV4WnFeVeVYpcgbjXE5oAyFnixAqcoRmLdU.jpg",
+      "small": "anime/small-cover/TKdkMyKsxE9e96tTrfyDgfIgZQMyw0MYieUY224F.avif"
+    },
+    "17265": {
+      "large": "anime/large-cover/frgHEK7IrRfJ2x0EsHiL5IRInldiWItuYOcW9mZY.jpg",
+      "small": "anime/small-cover/044WRUCiR7ukSHzplpJvXBoLjjWlziZKpWcQba64.avif"
+    },
+    "1735": {
+      "large": "anime/large-cover/RzZH6YW4N77UI4LIppb7vG39XRaJRMVHqVJvpX7z.png",
+      "small": "anime/small-cover/NzuvEY9tfOb86g7rpOhnFUZH7aBo6ig8znAsgMLw.avif"
+    },
+    "177": {
+      "large": "anime/large-cover/zJo7g9ZGh9vgzRjnnjXmLKux5eIHZJlRo1O0MpQf.png",
+      "small": "anime/small-cover/GIsdBfb1kJ0rnvbG7f9n6ykBNuhINpGN68W710wO.avif"
+    },
+    "17895": {
+      "large": "anime/large-cover/fkTMR0BaYuJ3KRcbwXLV6A9nvEIA0LhKCNj7WUUR.jpg",
+      "small": "anime/small-cover/5GOoOGM52k0jDYVKvLuRuIiusLT5xEDag55cPNWP.avif"
+    },
+    "18153": {
+      "large": "anime/large-cover/wxcejREfHO67d908ecH9ZpWukbXsCxjx3garxeCA.png",
+      "small": "anime/small-cover/d5ZSnvPYPBfHvc300NJ1cPrebIi7BVUQtCSf3S5S.avif"
+    },
+    "18245": {
+      "large": "anime/large-cover/OBx38mOefdghqLRNnQpxMK2ixO22Mk6d69Ndts8f.jpg",
+      "small": "anime/small-cover/Xs4XUrlml4Q6oxRGfAyZL8WUrAmBlfqn2X2xkoyV.avif"
+    },
+    "18247": {
+      "large": "anime/large-cover/Bok0l9c4GrIw6f50L9I6gFW3zHc8dSsdAp9YiFjp.jpg",
+      "small": "anime/small-cover/43CJ9tiHOmMQjSaNtftNG1zOFyBPzgvvOxTZKkPf.avif"
+    },
+    "18397": {
+      "large": "anime/large-cover/WOjbMGKvx9UKt9QFohDBwpbMZJ6xCf92d7vwwSRy.png",
+      "small": "anime/small-cover/totMZrPOFxbk3uscFxGaHll3FWfcGMl2lE7vcQvK.avif"
+    },
+    "185": {
+      "large": "anime/large-cover/MU4iVxt7fAjomUMbpu9znAoTJ3tIwvrGjHzykTei.jpg",
+      "small": "anime/small-cover/Jwbhlf59POmnbA9yuBBTQZ2ueiLLGmqlZ3HO612q.avif"
+    },
+    "18507": {
+      "large": "anime/large-cover/MfMDThepmXxtzQ7d2hm3RocxMDMkWOoyJltShs3s.png",
+      "small": "anime/small-cover/GCEhKDJ57oR9SIpWlXEp5IurTpKptxfpSXG7kmfW.avif"
+    },
+    "18677": {
+      "large": "anime/large-cover/CNwsV0wK7n2fYIosNKmazfe7AraOoijq9SimwWOU.jpg",
+      "small": "anime/small-cover/jBzHk8swvHJnYmIyMh0lGcUTWw5AWdkbtpAnzooN.avif"
+    },
+    "18679": {
+      "large": "anime/large-cover/beSkQz1RH7NxlwauzcPzvkBlH9SyMwvfcZNhBs4C.png",
+      "small": "anime/small-cover/4zCEVX2hQb1ojvDWStnmuKflKefQEEvwjzBSyf4f.avif"
+    },
+    "18689": {
+      "large": "anime/large-cover/D6Wrg8On8yHTNGmBYNgPLipIRSzeVCXuPdiSGKSS.jpg",
+      "small": "anime/small-cover/iNAVSZeme84CDwWkfVtMs0nQwEhpb0AEt2S0imH6.avif"
+    },
+    "18857": {
+      "large": "anime/large-cover/E1OkWNI4ousBrEEu9XnymA1LnNfT3CgMSe3uRd3N.jpg",
+      "small": "anime/small-cover/w0snX40Js1wB0bXZjYNfcb3d3mXmGuosqhgNxGSf.avif"
+    },
+    "1887": {
+      "large": "anime/large-cover/xP1PxoHqRqyzGQd4sn1kQWtckBpEx9v7ISAv2rN3.png",
+      "small": "anime/small-cover/qsomHeyapq96IcIVo8LroZyzSvizkOcmU0pPejrn.avif"
+    },
+    "18897": {
+      "large": "anime/large-cover/wrA7oDgXLYSPw7PCLsYK2v5wQwERfREUMCXUZwS9.png",
+      "small": "anime/small-cover/nWR4ZTMGk1kNnom6zhxyRxijUJdxW6utR1EJYBoq.avif"
+    },
+    "19": {
+      "large": "anime/large-cover/DvxUp0TOUGgnuq8fEADuTSKm6S7i1wwvfWzCaAc1.jpg",
+      "small": "anime/small-cover/jSDeqAE6KGMld8MYSqzTsPGRdawGsQKb90g6OeBk.avif"
+    },
+    "19111": {
+      "large": "anime/large-cover/PYakAQiL0ciSF93rfA6coP4ksNfJAljPVahlyxWd.jpg",
+      "small": "anime/small-cover/JS2n4XrrUSl1XhNtEKdfX0T4fnthNN3gO0g47W6F.avif"
+    },
+    "19363": {
+      "large": "anime/large-cover/q9TcO1kwvowjAdayoMhXrogBjmdktbXEU6tqLyqp.png",
+      "small": "anime/small-cover/jx9KDLvvFbVTmg4VgJB2kDyUUz0Vem6JYfWH5QYs.avif"
+    },
+    "19369": {
+      "large": "anime/large-cover/9CdBwIxA7I9x36WoMiVrbxZYDb5HF3VEZqzw79Ya.jpg",
+      "small": "anime/small-cover/lgRaGLkxhrOkDzTXmrY3N36nkKscbtk668AYN02h.avif"
+    },
+    "19815": {
+      "large": "anime/large-cover/AN6drqBahLNTdWVrtMPjvsQ1x5TLq5JQ4xpfCShQ.jpg",
+      "small": "anime/small-cover/Pe5sZcucTA8tmMWkzttg3rkIsqbYGa29pXpgA3bV.avif"
+    },
+    "199": {
+      "large": "anime/large-cover/VRcLlccCMkDJXrj8qRx3Xs6GogZUK2WwaLahYKuu.jpg",
+      "small": "anime/small-cover/Mu5gSM7H9PdKSTrb4Fp1ZevAM4JT1Tsxjkj5C2nl.avif"
+    },
+    "20": {
+      "large": "anime/large-cover/DBibwSqcnZEqzxncGHrOvq8YYnaNWQ3E2p5SehoF.jpg",
+      "small": "anime/small-cover/J2cG5G1G9h9Fpdp69XnKrPH6vAbkS5aP8zO6UJgq.avif"
+    },
+    "2001": {
+      "large": "anime/large-cover/zpM65yQigQTdbG1PIIWPPuMB4QBWUEPn9LobfVex.png",
+      "small": "anime/small-cover/FOG13MnI8Iru4oWalu7lPR7qFMR8MeUtBWfeDtCp.avif"
+    },
+    "2025": {
+      "large": "anime/large-cover/3aH1EYY4F0jVppljgX1x80A0V05kbTFZRZ8jCSnb.png",
+      "small": "anime/small-cover/I03IWvTderNsc0DNhfHBf9bnAEyu9TfAjmgjpmZz.avif"
+    },
+    "205": {
+      "large": "anime/large-cover/a4khw351hTizpWJKZCEUFlNpCdBdgZODIXDG2vXB.png",
+      "small": "anime/small-cover/plOTuNlCs9AyPueolcrwyzCuQw91UD0XvpsEFWho.avif"
+    },
+    "20507": {
+      "large": "anime/large-cover/dijg7rt8OPBcmVLFaoAOtHaUv9p9JRXdmKuhcpmx.jpg",
+      "small": "anime/small-cover/eKC16kFVd8w43cnktNSZjiopdWDJZNN36hYNuMCR.avif"
+    },
+    "20583": {
+      "large": "anime/large-cover/XcpppDG8n9WuWdCn6VBIT9zfVFNN2H6FSpE6c7Ls.png",
+      "small": "anime/small-cover/XYFzXktkXIL7R2xnyFGHfl4BHSHbv9DHPwgHo7Fc.avif"
+    },
+    "20787": {
+      "large": "anime/large-cover/T8oB4ykTzvjpqnsiXwNWjcLdmVpis3oGFp9scOwj.jpg",
+      "small": "anime/small-cover/4Jo1IV6VI5VXf63iWfATAPtWm1se84boxuiIOh8d.avif"
+    },
+    "20899": {
+      "large": "anime/large-cover/3orAvd2eE88sGghOwq4fEMSFChj9ykNYklvBT9RK.jpg",
+      "small": "anime/small-cover/J58IoLHIc9WqRIckVCA9aZEW7NowRkjKBQHqH4xF.avif"
+    },
+    "21": {
+      "large": "anime/large-cover/Wt5oiJVYw1ZbaWXNua7GSg9OCYx1JKooiNU5UmSp.jpg",
+      "small": "anime/small-cover/aKraOuMXpzF1ZK2tDd5yzDhExNkhe9PUqmynQ0x3.avif"
+    },
+    "21327": {
+      "large": "anime/large-cover/RKelWGGjovVBvDKjcn9d3zJZD57r5CEJvG1D4sDB.png",
+      "small": "anime/small-cover/IUw45RmFBw7VUuRIjhhx1yibl2gxQZOaXdOxF1sW.avif"
+    },
+    "2167": {
+      "large": "anime/large-cover/oMt4DlUns5cbdpY6jWlT68o6NYdFQODxM1FblIoj.png",
+      "small": "anime/small-cover/7fU8zdkX7tiiL4mWYmXIKGqTRJr8F5xVenAKV5cb.avif"
+    },
+    "21877": {
+      "large": "anime/large-cover/csEaOpyobSOwUifBDH9cwqNy7UBj6zfxf9dnwXe7.jpg",
+      "small": "anime/small-cover/vR3d1Tu75tA0EA9TqYXKZR5IGElimGyvvob7xFKa.avif"
+    },
+    "21881": {
+      "large": "anime/large-cover/pSxv3KKyethYIM3BWSDIA2y7UcneGNKWW8LzZcMT.jpg",
+      "small": "anime/small-cover/n6Z503OUa2MwjWS12BwI4JviRwxjgiCAwDV1w8ET.avif"
+    },
+    "22043": {
+      "large": "anime/large-cover/pUTqUFWPLjDfW75apWQbgA5wsw7YxXEw5vaT3dd7.jpg",
+      "small": "anime/small-cover/0C7NY9AWPcTIAFbXDwLjHUICMxUCrZhUG455AbBH.avif"
+    },
+    "22147": {
+      "large": "anime/large-cover/NUUqE1QYfW5o4l3kHvJnyk79tVIbUFC4QzbscBDk.jpg",
+      "small": "anime/small-cover/1yMpxrmfJpyqwhGmyOhSaCa4lYMatHWlRxRjxQYt.avif"
+    },
+    "22199": {
+      "large": "anime/large-cover/aoe92BMIkcN3AUtpRQGcEHxpOqki9DFmx7z118Zq.png",
+      "small": "anime/small-cover/3t4ViZYhVa4s9gotzOWvsBW3ZtmrBgLnLUigqli5.avif"
+    },
+    "22319": {
+      "large": "anime/large-cover/lXVlVtsCoYd2kmM4QsbXWqd63eJu2rX6OXZkia0k.jpg",
+      "small": "anime/small-cover/pj7O5mkQS2soB2zNLkHfNfZhD0egRsATGkqhHhkA.avif"
+    },
+    "2246": {
+      "large": "anime/large-cover/cx5EBF3GsWnZe3KdKkznB7Bv8wW9HzIU06ZhdL4j.jpg",
+      "small": "anime/small-cover/nt9es10h3ZoWeD92zH5pVMCwBS7hZHDq9RKS6NFB.avif"
+    },
+    "225": {
+      "large": "anime/large-cover/8GsbJHAnunTBdEAggoTZfyQ0laUWP2XmSYR0nW7a.jpg",
+      "small": "anime/small-cover/9uluVUeRVK9hNTxk8WV4EObQvPIsSC6r29qah36g.avif"
+    },
+    "22535": {
+      "large": "anime/large-cover/KfrIYZi58vkaJ2grFLMQfl2azhXHOrJyem5uxz1l.jpg",
+      "small": "anime/small-cover/COkM5hGVcWqyYA6O1eV4uuXLUArcBBCqVWS2J4JM.avif"
+    },
+    "22663": {
+      "large": "anime/large-cover/yaF6khlLvHCwOBicpXEjPdjNtIQ6JuMS86XHk67O.jpg",
+      "small": "anime/small-cover/sOHtg8Xr8mhfOyeDojbkxVAU2sj1m7BdINhRuvvM.avif"
+    },
+    "227": {
+      "large": "anime/large-cover/BFb1q6bi6DAwM9RTlTHSApkknrbyJMbTFMHdqLPS.jpg",
+      "small": "anime/small-cover/OladNClosdOb4KUWV6kAtXEmejKjVRoOD82d2or6.avif"
+    },
+    "22729": {
+      "large": "anime/large-cover/uaadfjO3wj2PY7jkLDYqN18eLN2ma1DuSJ5pUzcz.jpg",
+      "small": "anime/small-cover/MykCoJXINn0YIaFcOEa6v7f9ms8wYqyboRpzCxeo.avif"
+    },
+    "22789": {
+      "large": "anime/large-cover/dKmhcyhQjh8FUWyT49n6pUfx14Llx7170QehF1ub.png",
+      "small": "anime/small-cover/7FaXR3c8ld2nWPGxQpvkg3PNcXBdMiwZziDkNGK5.avif"
+    },
+    "228": {
+      "large": "anime/large-cover/yCTJkAVChFfM6kBO9LMufbcTLz5MgBLqbXVgEjCj.jpg",
+      "small": "anime/small-cover/YZNT27kYxAKuwHIWHZRR1Zpb5SkZFnbPWo3fkzn8.avif"
+    },
+    "232": {
+      "large": "anime/large-cover/601duTfQQ1ClFzpgfBaYwsV7YQtVo2BgWQxfmLBv.png",
+      "small": "anime/small-cover/TtTYb6LpuAn9UmC6HWb7h5Z7t6xzLMO9f6dMBRv9.avif"
+    },
+    "23273": {
+      "large": "anime/large-cover/IACYfE1FmR1HtjMfiKNWiSB0uwMChbaN4mxNL29i.png",
+      "small": "anime/small-cover/bnE1MWbmTkg6hlZFgjWxQIUqICGE9ge42mXS13rs.avif"
+    },
+    "23281": {
+      "large": "anime/large-cover/zj6U9NUh6ixOeyAc4Ac8WpJcEvPnylmWFwWyCwy9.jpg",
+      "small": "anime/small-cover/ZEvD7QU8JLujXaFVHCpsaZ8SvGhwxVHB0Bi2LJ88.avif"
+    },
+    "23283": {
+      "large": "anime/large-cover/0PYyuTE9n3tnhaB4C3p4sSp8WJH3NpbTC8XrbFib.png",
+      "small": "anime/small-cover/8pKQUSAfXxKmGO0nl63xSAQYpgpK5AcKHozFfAHa.avif"
+    },
+    "23321": {
+      "large": "anime/large-cover/NpstmyLU28aYXx0eMTl27coMdb1blvfAiTx42ga5.png",
+      "small": "anime/small-cover/7JVWkmBo3dbyAEjBjbkKYFscZBtdHjDMJLhNqbNy.avif"
+    },
+    "23327": {
+      "large": "anime/large-cover/b6SibLH17BvhJRjNQNBhpG3hdFtTAR7Yjgu3k94t.jpg",
+      "small": "anime/small-cover/TvT0DMA0gtG0OycllW3zHtRpWJyD63E6mEgWmpxk.avif"
+    },
+    "23623": {
+      "large": "anime/large-cover/271VJhrjKV9dL6qy9td56P5THQMWBW5rr9pePgOV.png",
+      "small": "anime/small-cover/JhsUjTSw84eD8KC8555axvSbsnYpxdYP4A6wVadb.avif"
+    },
+    "23755": {
+      "large": "anime/large-cover/H727oJHgVtIlQwTLQLOxAtAe0nUT5F7ktBLHc8iY.jpg",
+      "small": "anime/small-cover/kYW5DswswehhDgkRP9KgQpLoYyqwZGQSJbxSKbKh.avif"
+    },
+    "23847": {
+      "large": "anime/large-cover/uKdYT139CuxBfiMS3lrUdIDG6ZIEaAbKlxyrzvLq.png",
+      "small": "anime/small-cover/3RZFYZeTDFwBAQIWqcTIlOezPRzmfOjfcjGgNAHK.avif"
+    },
+    "24415": {
+      "large": "anime/large-cover/sTNZWqMKUdh5n3mBt0St0ufzC34PSM6X13rDWBWE.jpg",
+      "small": "anime/small-cover/GbKXc2yFbyBMmlXoLeJHZuoegSL0dqzvEhKlTB5c.avif"
+    },
+    "24439": {
+      "large": "anime/large-cover/xKFjVulqjOinSfuPmM6DQvcSOZTtmYDczUk2GfUz.png",
+      "small": "anime/small-cover/XEbRHNCpsGte6LF8jumOPVcRZzNk5u6N6tBdxpck.avif"
+    },
+    "245": {
+      "large": "anime/large-cover/Pron6WAkyQeOBhnOUSmjySa5G4Vj0Lm1Hg4VQSZg.jpg",
+      "small": "anime/small-cover/TnvqRjp6Lc7Bfgpu5h9FSI9toK4aUrMSdTHGr8i7.avif"
+    },
+    "24765": {
+      "large": "anime/large-cover/nX08sV1lD0FZIfOZf4CRL0UFLWG4GzzuhIMBclIT.jpg",
+      "small": "anime/small-cover/FDbrNVEm9s3cSlFkVAvvnlcRYepX074EtwndlsyO.avif"
+    },
+    "24833": {
+      "large": "anime/large-cover/4xfko14Fs0vviH8MZ5j4m8Eixwjr7k4xB0XZvn9w.jpg",
+      "small": "anime/small-cover/iLWsaZMETUm5KAcEPF5MHKrWUhwfzI2ePBAh3CoK.avif"
+    },
+    "24997": {
+      "large": "anime/large-cover/LWzIsV6KbFyPBoecqEB1csgdYJBAdWKUeCElARa1.png",
+      "small": "anime/small-cover/lhzyZ7WlcMZ2j6pz0Jljx3FHGVEkv27lpch9NfCh.avif"
+    },
+    "25013": {
+      "large": "anime/large-cover/YfauWZd9zcWTp6tGDDe7W1vko6peWnfPx4o9jJ54.png",
+      "small": "anime/small-cover/u3fBLlwvh4rwameMfkStuBc2XPnBxew5uD3qwVCI.avif"
+    },
+    "25099": {
+      "large": "anime/large-cover/EOUQ6PVXrbcCobeTVuPo1PXLbKQjzncPP5wwwzvS.jpg",
+      "small": "anime/small-cover/VHBUQf9pWbn4KfdeteYPsF0HQZ5P7Am6oNCyDZvN.avif"
+    },
+    "25157": {
+      "large": "anime/large-cover/8Z1VsPZN27o9avZyzqXspcqRH3qWCNzCrqwk6y2m.png",
+      "small": "anime/small-cover/tC4zYnF9O3FPhzQvBJN906B2CyNso6hMcZkL5FLb.avif"
+    },
+    "25777": {
+      "large": "anime/large-cover/MqClkUopwWBJtRH5RmuKqeWvdFKfwpifVb0pHnXi.jpg",
+      "small": "anime/small-cover/mUG7ec8ceSWAEZKQd7skbjdTmNjthkAYeEFqp593.avif"
+    },
+    "26055": {
+      "large": "anime/large-cover/T3UjmfW7hDv5HdQ9oX6H0R7mltRa5nHnGCz9V7uO.jpg",
+      "small": "anime/small-cover/aaONxE8u5T81OARlA9FEHw2Eb1gMPrKQkECbiMOo.avif"
+    },
+    "26243": {
+      "large": "anime/large-cover/2NHO9WuxuwdKh6UriQGqGpNLmnBHByDGD3YwLwMO.png",
+      "small": "anime/small-cover/RdUHcsPDUvJNwGcxs6DVEvJAoctXboS6IGIrPZqM.avif"
+    },
+    "26441": {
+      "large": "anime/large-cover/6SBduljII9NbEDgshLTQWE9dEyQhN5Sko5CeKfYC.jpg",
+      "small": "anime/small-cover/OH3Ot7OINIJhSzvGrN5uEU8pjzqiDLzcbKc7U0Zh.avif"
+    },
+    "269": {
+      "large": "anime/large-cover/ZDNvEtoikjQ2NkyCzPmB3xQQvPrQnYbAUiLgmxh8.png",
+      "small": "anime/small-cover/l0WyUxXdGYc4pSs2YUWxAt5pC55QJNtUluRjeRPm.avif"
+    },
+    "2759": {
+      "large": "anime/large-cover/VrlOPlZ4xUC0NmUlo7wiz1v1ZTI4IGTdkyDWSfBJ.jpg",
+      "small": "anime/small-cover/rfuoxyRml5QS5KHFiImZueg5xgL2wohr4DNNDabP.avif"
+    },
+    "27655": {
+      "large": "anime/large-cover/HsEtU7CGaszPqmYPNWeMDgt2xofxtL1TTSfJcVU1.jpg",
+      "small": "anime/small-cover/rpWPp28CIIXhd9AfieEEghNBy2ATV7aMkDS547aK.avif"
+    },
+    "27775": {
+      "large": "anime/large-cover/U6uIC9jDQopH8X5c5mZAnggYoAKMPGwYk1ZPPCcD.jpg",
+      "small": "anime/small-cover/5iNKnUqid9OnnG6g7XAA10YPJ2UACSTtxF7mvdVs.avif"
+    },
+    "27899": {
+      "large": "anime/large-cover/9G5ybD01ULFdazG29LHPmMzuKEXEqJsyIa6fclYP.jpg",
+      "small": "anime/small-cover/QVGqbxcSnMx6PsVwunkebESkgG1tfi7HA8pjUGyk.avif"
+    },
+    "27989": {
+      "large": "anime/large-cover/UUKED4uB56ZphLoIEFoj7MqMa7hbTymEwP2mdVhm.jpg",
+      "small": "anime/small-cover/YgIfbgWvrKWIqHqSSt6RHYmYrdVbKQPKSZLMvm3O.avif"
+    },
+    "28121": {
+      "large": "anime/large-cover/njsbkhqedx38hwitXSlPhM91wb6SKNHaFGkrypt3.jpg",
+      "small": "anime/small-cover/QE5crAevXFp6JjGHAc2LjevYI8PGDnLhgyuwT6zE.avif"
+    },
+    "28171": {
+      "large": "anime/large-cover/QXYGlhKM9e9IGhcxJqIhPOdV9nnthuInWds84xiT.jpg",
+      "small": "anime/small-cover/1V8LrXPPW12oz91ZWPH2BSKbhQ3yySzseuzrWEik.avif"
+    },
+    "28223": {
+      "large": "anime/large-cover/UGKPp4SvSm46NFswsIcBDDdBwXNMRcQ2rtxkzCVA.jpg",
+      "small": "anime/small-cover/pbtRQcAkJ7lnOlPX7LplkV968NZjA8Xc25gShWwc.avif"
+    },
+    "28387": {
+      "large": "anime/large-cover/8EMktWpZbXwUDIdCJaKh90hJ95VL2kGkyGwuqLDv.png",
+      "small": "anime/small-cover/A37fQC2xXVjEwQFcZbW4MVPAsJrHWnWm0SOFvSmX.avif"
+    },
+    "28497": {
+      "large": "anime/large-cover/paSieRLrVNGCHNYAUc0KdEJPxFVLAWhIsTGco291.jpg",
+      "small": "anime/small-cover/iUIoquVLqeYzcjUGsATU2AgkaEp4xkQwiJ0iUnCs.avif"
+    },
+    "28623": {
+      "large": "anime/large-cover/WZi4nnKORAMq31TlOHZ2Lv7nVCtNynKBEPqvLDkF.jpg",
+      "small": "anime/small-cover/hGaPTVcsBIVLUulUwhtpvqceDY2BRklBxB2X0fOn.avif"
+    },
+    "28701": {
+      "large": "anime/large-cover/f4jVFnKw6IWPBVElNIjHlbmqXBB1KWoA4Em6LY2J.jpg",
+      "small": "anime/small-cover/KmELvo2EE63UaUoQ5GXnotwRfQrky9sAQplbY6QU.avif"
+    },
+    "28851": {
+      "large": "anime/large-cover/gi0guFXQYtTmQwIGB89Snzdq3W23uXJ76gIH4K6C.png",
+      "small": "anime/small-cover/LUd6TfXD6i2yToFGWkvwZjckQk5X1mB5C0sY7boJ.avif"
+    },
+    "28891": {
+      "large": "anime/large-cover/q8VesIn5mm2rlt4PJikCizvzAWBevVGUk7K3M69R.png",
+      "small": "anime/small-cover/LoGz1ouY3ycvJhTt5b9uLsbjYV6hLHPysu1RtaVH.avif"
+    },
+    "28907": {
+      "large": "anime/large-cover/8puOpcDRE2aXVWPqr7Y8oP8NjQF1FU4ycVRnHust.jpg",
+      "small": "anime/small-cover/CeuFGywCQCaWrirMbTwTHVyxJw5wyEaNhtL0ezMO.avif"
+    },
+    "28979": {
+      "large": "anime/large-cover/gYi1k6DrUDgKGC9Ww3cWoRyhnyqjNDlBqIvTlTei.jpg",
+      "small": "anime/small-cover/sHTGwawXWW5SfQvkVnELRJci2DXZsvINFPML4YkF.avif"
+    },
+    "28999": {
+      "large": "anime/large-cover/yNCwgAXoL7jVaDui9GtcaoS0AobwN5BFgR8LPCBa.jpg",
+      "small": "anime/small-cover/r6JxQj4Ve50mFFCm4BOiD4W9nUPnpxbrLuFl8Dcf.avif"
+    },
+    "2904": {
+      "large": "anime/large-cover/UrvPG5klD2tUp1R3nOjNBAVv05fNf1o0XoWjmJ4c.jpg",
+      "small": "anime/small-cover/KlkT5vq0A9oXV384X4gauoi1TOOcggQ0GCqXNgee.avif"
+    },
+    "2966": {
+      "large": "anime/large-cover/3GiInCGqFQFugywRSRbPixunL4NNTO3M6XSLX2gq.png",
+      "small": "anime/small-cover/pUv0eKMMHg8Q7hFVfeOHlhfJHhlwP87FL7XDSxXI.avif"
+    },
+    "29786": {
+      "large": "anime/large-cover/P1u8KChVL65wBNEU8NXXHpUjmgUCjtASrJfqsVWD.jpg",
+      "small": "anime/small-cover/y3vz4o3On5HLZVPdUUqeo7QPaaisTC1dCkh9VtMk.avif"
+    },
+    "29803": {
+      "large": "anime/large-cover/fbPWhD9ewuWOwk4VfyoprTtKXUFbXhLzMFiBDlEB.jpg",
+      "small": "anime/small-cover/zS9Yvu05AO5pI2cNW5Z1q86comKwqsU6WGWWp5sH.avif"
+    },
+    "30": {
+      "large": "anime/large-cover/n9L9LIzW1n1hYNvR8IMuvnU6ZpJC4xKkzuvGi8Md.jpg",
+      "small": "anime/small-cover/u6AvvzmaRjMF4ioWCgQsXQLBMRxINhW0vR6VW3O8.avif"
+    },
+    "30015": {
+      "large": "anime/large-cover/YUgrl10j3EYHMbspkr0OQdrmVcBNhij2iV2uTwwI.png",
+      "small": "anime/small-cover/R5232Wb7dOtinfsAYU9AkmSDIQLXcXmRBUIu0N8y.avif"
+    },
+    "30016": {
+      "large": "anime/large-cover/kpWox5EsbWiEM0ynMjP6spTEMT5nYh9Pwz9oePfr.jpg",
+      "small": "anime/small-cover/pCqnEF4YIaNZ4niEj3ehSb6eva9D8c3Km4e7pT9H.avif"
+    },
+    "30276": {
+      "large": "anime/large-cover/ZF8O9bo6HzfHdjT3wBPBLwHQgezVMYJtnl5k1NEO.png",
+      "small": "anime/small-cover/MUZHeVkGyiXBeBbn2h673F4nOSBw6TLEukoYEWMQ.avif"
+    },
+    "30296": {
+      "large": "anime/large-cover/g0GR7Na46wO6alV2DnyPKBG9SHeL8oUchPs2GtlU.jpg",
+      "small": "anime/small-cover/BRfnaSY2LtLQVtHlgmbk5ZSinUAtmf2wC0H5XFwv.avif"
+    },
+    "30307": {
+      "large": "anime/large-cover/ZwvsIl05qahStka1Os9wcxbkR8KwUVbktBDyMBre.png",
+      "small": "anime/small-cover/T0XoUdyp76PqC96NchNIfI0mumvXpt7X4YGnHo20.avif"
+    },
+    "30385": {
+      "large": "anime/large-cover/eKYvBt1SVg2oEfOLRlSnQXqo9RNT7vV2Fv24mQyz.png",
+      "small": "anime/small-cover/9oGEjZcXatyxdMagDuE3ccoXQovxgyKfaeUyH6W6.avif"
+    },
+    "30484": {
+      "large": "anime/large-cover/wQLKITPW1iwaME7H1fq4OaZpUtTX1MSgmNXvgLde.jpg",
+      "small": "anime/small-cover/KVvYENcgpuWLhRfdOAnEnoJtBwXq8vrSLuGQnoCf.avif"
+    },
+    "30503": {
+      "large": "anime/large-cover/J2Y8DIOHLRqx7qMUaIey61vj8aKPmFZXjm2C0ca8.jpg",
+      "small": "anime/small-cover/YmOdlDW3FHXOUFgIqYCS8QFn2Syd4cQOXdeqQYXB.avif"
+    },
+    "30544": {
+      "large": "anime/large-cover/jWpP7vXpCeU3IwYx8oOfE3mgIqW7K6Fgrsk6nUAD.jpg",
+      "small": "anime/small-cover/92gzwUHITq7acnRyWLFuPQcwiK8gaz5eRvwWhIY9.avif"
+    },
+    "30654": {
+      "large": "anime/large-cover/yuTkXGCxA2lBlYxZElqQPevte6JjREmLFcVwgyq3.jpg",
+      "small": "anime/small-cover/DcpJkp66lx6dlAoZpudqmqjyNebiS1u3XnAu0L5x.avif"
+    },
+    "30831": {
+      "large": "anime/large-cover/WxQTetHRhCmxjoMLIkCwHcB7AHdH6EYAfuVE6qTU.png",
+      "small": "anime/small-cover/278cQHdGMKAWwwXhIK7aLG5mMGzJPekxFGC8AxhC.avif"
+    },
+    "31": {
+      "large": "anime/large-cover/dDAUQ2gbJbJqVS9540qmQnI0hDA9zoRbJkzi6SBM.png",
+      "small": "anime/small-cover/OeR9x2UKOfd5sEq8YJiL6CpBGWasEjJt93nCt6jO.avif"
+    },
+    "31043": {
+      "large": "anime/large-cover/qiHWDekjW2vRG23gigem3wqYweH7KU163gFbpnaV.jpg",
+      "small": "anime/small-cover/PvpLFwqQHXSnKNafiBZDEruL73QJez8L4Vp3KGFm.avif"
+    },
+    "31174": {
+      "large": "anime/large-cover/gA7sfiu25nzk8B2oyULkqRy3xaRAeMFcIl1kekhc.jpg",
+      "small": "anime/small-cover/3U63WOuVJXJCzVDgKC9nMF5nCRlBy54MsNJujXSW.avif"
+    },
+    "31240": {
+      "large": "anime/large-cover/bnwog76jnd3YG8RZFb6m3FEJkfKRXOJBJxB2LlYO.png",
+      "small": "anime/small-cover/48ZgrDa9EqQz1WYAzeoNnnbzu5UlQG4MCAoZA9Gg.avif"
+    },
+    "31339": {
+      "large": "anime/large-cover/N13FpF0k4rFquUXygVFZdDMN5RKpCUxaAWEXhcvB.png",
+      "small": "anime/small-cover/qngvjtQ7xrh56bhzu0QvzHjrkjykG1evyKA28N06.avif"
+    },
+    "31404": {
+      "large": "anime/large-cover/9mjxO0bQ6PGgLiFeOevPTIgboT7oMI9iSin1jjEE.png",
+      "small": "anime/small-cover/XqgC77LwEWZrsJ6eoP1WLPEvilEYlvRqbqfw0vMU.avif"
+    },
+    "31478": {
+      "large": "anime/large-cover/5ZUN41JI9H8m8Di7F4OsVvVSBw05Yjn4oLL4gQSI.jpg",
+      "small": "anime/small-cover/ku3LKPBro0G5wziOSjvpWu2WA5so0XUsxCzxuDpT.avif"
+    },
+    "31737": {
+      "large": "anime/large-cover/FbgKD3xJah44zmaEAjJjbafSKS1u0xO6HeAnGshB.jpg",
+      "small": "anime/small-cover/m5olThHAVRZrUjT6JIgBBC1C5pIsZ6Nk70c5oWQZ.avif"
+    },
+    "31798": {
+      "large": "anime/large-cover/FPzr509HsuJuKrgszGxwU1gpYzJO5BnRhs7kmXM7.jpg",
+      "small": "anime/small-cover/Q3W5plpouOB08CJHhFgocDdLUSjdA3lBTcmCu57f.avif"
+    },
+    "31933": {
+      "large": "anime/large-cover/z9hzJLJfumCBrNjFJ75Ujm8Sqb2TluCPSYmjHVy7.jpg",
+      "small": "anime/small-cover/5PklBcYFmc962oWKmfKiui4NbNc7fpUZYoU77kMl.avif"
+    },
+    "31952": {
+      "large": "anime/large-cover/4azH27WFNG0aQSXPrKY81XkSZS9r3szOgxhDh9ab.png",
+      "small": "anime/small-cover/5nHXKU1Hg6O9JtKN9BJxUaKxwxqCOldL7LjEX4CK.avif"
+    },
+    "31953": {
+      "large": "anime/large-cover/xCQykWKSSA7ul4eiNItWBTA0TxeELpfij7igfQ3F.jpg",
+      "small": "anime/small-cover/m6gXjdIBVHja3II2YosWs1xjwr4LnAbTSyFhfwsd.avif"
+    },
+    "31964": {
+      "large": "anime/large-cover/ddPmvU8eKAtzdm0Pxw93fXzjrtfeS7NarOMiTety.jpg",
+      "small": "anime/small-cover/gl9b6hyGHR6wLZe1wAc73dV6tniB1WEvYR8S2Gj7.avif"
+    },
+    "31988": {
+      "large": "anime/large-cover/NOUBf7M526BCEAcrwdGtJ8CbDXS8BceDwAGtHEsO.png",
+      "small": "anime/small-cover/tHjNNRqy8x1XU6tM2SzKKikZdfdgCdmKnCCLQci3.avif"
+    },
+    "32105": {
+      "large": "anime/large-cover/mBWrXiC23gxnNjxUvBRtJV1PdsMpVYRynucKWgbi.jpg",
+      "small": "anime/small-cover/SvKT8ff51Hi2hgE2HGAwYFUn1BVPY8DIp2jxTcas.avif"
+    },
+    "32182": {
+      "large": "anime/large-cover/nY8fvsWBmeHWE0RFEJjjmrBHga024vFvA9O1padY.jpg",
+      "small": "anime/small-cover/s3MEVBebDYpnKveyYIDNjmcRAkmWVQ2yNoR1WFjx.avif"
+    },
+    "32189": {
+      "large": "anime/large-cover/NMZh4giEtAJvrBsXPiOBJFM9iooIFzj54AtewvTF.jpg",
+      "small": "anime/small-cover/IKdt9Zaoh9vS4x3Fec37UkgdNXZziPCQLsj0m9bQ.avif"
+    },
+    "32281": {
+      "large": "anime/large-cover/Qw3aiJpiNKmnhxH6HmDQhHLBGdbG2p6uvHvb2Has.png",
+      "small": "anime/small-cover/ekCXkLc9xRJX7Qu3ABqKp0SPGj37MgieeGd0QASO.avif"
+    },
+    "32615": {
+      "large": "anime/large-cover/7yr0qsv2wFLcr1JXK3uyJPm47ZJj2kP8ufInNS3M.png",
+      "small": "anime/small-cover/LMmUbnxKIUro53rDuizHunI7DJUPIq3E4MKC66fz.avif"
+    },
+    "32729": {
+      "large": "anime/large-cover/OGoRIyHp2dMTHnkopmKM6xSdIgEYOzEICfktNi25.png",
+      "small": "anime/small-cover/uWPWezmXiwtaoUx4irAESHbwsrSHoaFw9tw8Navi.avif"
+    },
+    "32867": {
+      "large": "anime/large-cover/orbx8sLJFF9ME8vnlqyDYiZxhMceyBuHJWr3OY58.jpg",
+      "small": "anime/small-cover/wjqqnONxlbzuPTlYTGnwsBKSVP9tJ1zoiHLJ7R2M.avif"
+    },
+    "32887": {
+      "large": "anime/large-cover/nZOiY8Doro2fluyNUBndEFQPV2yd8KWMZSlqC65K.jpg",
+      "small": "anime/small-cover/3gFsgMEAQoi0UeHBm6P84tDNHVMGZ0AfFdQJ6skP.avif"
+    },
+    "32901": {
+      "large": "anime/large-cover/iW3eimKcfoxXUS4tEcRWc5jcOup965L4shcKNzWI.jpg",
+      "small": "anime/small-cover/GT1RD0WUETuBTVt6JsCtcIfvmR4ixjup5mXN4H0g.avif"
+    },
+    "32935": {
+      "large": "anime/large-cover/q8nvmmdO9PXhdwOjwMc3UgphKCfhtSiozF8hhlHn.png",
+      "small": "anime/small-cover/WWVbgswgt9cIa0qRK7SkIk8rprmW0EPGUlZbBfo8.avif"
+    },
+    "32949": {
+      "large": "anime/large-cover/FcVXbCQPkEZe3O6DCrwNxCQzUVFMenteuHjnQKTG.jpg",
+      "small": "anime/small-cover/quz4byTvtQaSVhHwMW0gEzY7WqgZw44JsJbYzRe6.avif"
+    },
+    "32995": {
+      "large": "anime/large-cover/UbFlcQK3ab46Usur732oyY0RPDLRqii2FNpUUk9G.png",
+      "small": "anime/small-cover/jJV5drlEtKHGwAurPEg8QSAxqDc0xAX6qCmiMbKR.avif"
+    },
+    "32998": {
+      "large": "anime/large-cover/xHzcqQogJIC3ORUGUW6UDROqyFBf7UXHwT8dgefQ.png",
+      "small": "anime/small-cover/WA0LdIKbDOLMAEZ9VpaWe7xYpeIUtQTLmJN7PMMi.avif"
+    },
+    "33050": {
+      "large": "anime/large-cover/8HGseyjg9NbC8YGII2zmawvdeB3NDudrwuTVHuE5.jpg",
+      "small": "anime/small-cover/qUC5kf66UaKW0R4DQChiGTR99oMZNi4Tc3zMqMVx.avif"
+    },
+    "33095": {
+      "large": "anime/large-cover/bFyH4YWAnNecurPXGcdur2lb0P1cM3o5eh1sKs2J.png",
+      "small": "anime/small-cover/PUl53J6s4tjHLOKD9oQAdodNCBOcWfZdIp9a7eFu.avif"
+    },
+    "33206": {
+      "large": "anime/large-cover/m3an7i056UIb0OO6hXxMxQrUb0nXZrXV0DPma9WY.png",
+      "small": "anime/small-cover/D51U0QQb6YiAM24SvJP01CA7h6zvSmHTW8gGdPMb.avif"
+    },
+    "33352": {
+      "large": "anime/large-cover/i2QOWRsy1E3fq4oHPzWHwMRwW77DBG55ocgB2r0x.png",
+      "small": "anime/small-cover/3Lts4IylkzSjoMiRYAcfm6eqaN0qQyV8idMTjC2Z.avif"
+    },
+    "33475": {
+      "large": "anime/large-cover/RChV3dvgRWhZR62KLTzSWlI4fzFwg0OuxuB2x8QD.jpg",
+      "small": "anime/small-cover/7NaZopkBNrEwq2Oo452b6FyJqPuZCO7Rqtw5fe6H.avif"
+    },
+    "33486": {
+      "large": "anime/large-cover/Hq1LbKaIvX0Im2ZJHV8aRz117SVilrV8pc361HWt.png",
+      "small": "anime/small-cover/lGIZSA6ixgzjJ0ftgQCd5gCoz5H1ika844I5EZj3.avif"
+    },
+    "33513": {
+      "large": "anime/large-cover/xfKCE0WIe4LpGifWFf5EPWVwOdnziOuQeSvHHEvL.jpg",
+      "small": "anime/small-cover/ZHSRNQe6eMdvvsfVQRQ1UHG15rOBRiQtysMUMZYh.avif"
+    },
+    "33836": {
+      "large": "anime/large-cover/f3rWFTt2MXPnqQzkxGwV0qm4mSWPQk346ulWvUPX.jpg",
+      "small": "anime/small-cover/f2q9rBeZjEjoIhnaBgo2pEs9Rcotz6hZW50Bdy2Q.avif"
+    },
+    "34134": {
+      "large": "anime/large-cover/rjdAQFrc9168tDSZ5e6dCnVCcfXgYizW9SR7kMvc.jpg",
+      "small": "anime/small-cover/hgDBajYz88gNhJmedhSYAAbkoobrKEZBzs2yl5eN.avif"
+    },
+    "34280": {
+      "large": "anime/large-cover/s08etjDBmmi23oUpfrnlpfjIeEMFq4SyzavcUYuV.jpg",
+      "small": "anime/small-cover/TnIiyf0DXGFQVat26od6evcutiTCONiBNYCC90n7.avif"
+    },
+    "34403": {
+      "large": "anime/large-cover/ArUl6CZcEP7htYvYittXeGufZA9DH7kzRnrqAWl2.jpg",
+      "small": "anime/small-cover/voAEQXy0rCQBP0R2rfKj8dLNsdeXMrAeN7CcpOhr.avif"
+    },
+    "34542": {
+      "large": "anime/large-cover/tWkFYGJt9O3380ZCfnHr7HuVZGtOXk2QYCffNruu.jpg",
+      "small": "anime/small-cover/Yk3jHtT579avN62o1DB45yBlNzrvRYMkrZnEy59L.avif"
+    },
+    "3455": {
+      "large": "anime/large-cover/MMfhVMXdX2n2X7sBPJdwMZ1JJ3fxwsRQoTp8IsnC.jpg",
+      "small": "anime/small-cover/vvQRMvEGeDSH9Op825Jx28LFXPz9hKuCJGw1Mby4.avif"
+    },
+    "34561": {
+      "large": "anime/large-cover/5I4ROV7X4yzTVdndB8JW7SXa2h4jm8RvtC1DHbRJ.jpg",
+      "small": "anime/small-cover/V2QAGmu38EvDQKopakf1w4XEyQbsW1wEabKub9uG.avif"
+    },
+    "34572": {
+      "large": "anime/large-cover/RgewOW7Lw8i92A3JTad8vcF7fiT98qpizy3SQ28q.png",
+      "small": "anime/small-cover/OwVm15FrgfdjEp8RQd0taAGX8bLHB9WMRdXae5vd.avif"
+    },
+    "34577": {
+      "large": "anime/large-cover/LIavQqbjQbgRBIojULbChexoVpiByS0kuxNtaipC.jpg",
+      "small": "anime/small-cover/TIdvovd8buYBmbfaCRAqTA9lSi4spRw46ZXlUAGu.avif"
+    },
+    "34591": {
+      "large": "anime/large-cover/CMCzT167lVVrK1J4WFSEoxHeEUkO1YM0y17BaLVb.jpg",
+      "small": "anime/small-cover/icWQOkWFbQ9Rj8gU2NUDddisDZ3034H5LZKz4YRu.avif"
+    },
+    "34599": {
+      "large": "anime/large-cover/tcUieRlZDpPew3c9t7qGEUiTFKNIFMKaKig8FgW8.jpg",
+      "small": "anime/small-cover/qEpW62M3dOH2FmhK70Z3ekS3gIcveeI5Sy5vg2eR.avif"
+    },
+    "34798": {
+      "large": "anime/large-cover/rS19NWdVp2OgoHaquHRgrbBWENg177RmO4MeqmfA.jpg",
+      "small": "anime/small-cover/nU2FzwCtX7ctbVcm2Tx0W1UieZqDeUfkhXQV1AOm.avif"
+    },
+    "34881": {
+      "large": "anime/large-cover/AU3xkc9H1YuGu2weBbWMQ2Gr8no1w4OhqDgGGT46.jpg",
+      "small": "anime/small-cover/GKTBfzFws8RCIPeJZWGtGNcaSWrr4M1Afw3hlD1H.avif"
+    },
+    "34933": {
+      "large": "anime/large-cover/m1y1bcEmxJQWrrVfzM9jnPrf1Eh9HDk7UCRLlG4C.jpg",
+      "small": "anime/small-cover/owSVtKwl7ggZIdkpKDockLxhuSfjVyIz5VdWpHww.avif"
+    },
+    "34934": {
+      "large": "anime/large-cover/TSLWbk3LhjYfPcKHXndEywjGJvf8iownjbwHHvCk.jpg",
+      "small": "anime/small-cover/MeG8uVS7CoB9ZVvxUmTgY9Oy0ZRFkZjV6FfSVKlg.avif"
+    },
+    "35062": {
+      "large": "anime/large-cover/ruqX1DvOQeGRf6OHxNePNqxVUnBBR2W0yspZT4HT.png",
+      "small": "anime/small-cover/6xeLzBWc6PobGOLXwr6k8CQMefIM36UcNBjaU1Mo.avif"
+    },
+    "35073": {
+      "large": "anime/large-cover/MOlA339EulgSV8LZ2wPa8oHyTFSSJ2O6H4MUMVME.jpg",
+      "small": "anime/small-cover/EaeXX8teIO0jtK1tYS0tRIjNlomRZwaTGYitEJ7j.avif"
+    },
+    "35120": {
+      "large": "anime/large-cover/7Veuqjaqq9IVBhgBP2vTyTaGN27K3fTtSiYJ529g.jpg",
+      "small": "anime/small-cover/M3gpQHHfKizgYtQCkflLEYmxOzODz8RnIkknircY.avif"
+    },
+    "35198": {
+      "large": "anime/large-cover/6QhTbWRBETJuMdXjnrMn3iJG6uvd0RAFM3xPp90y.jpg",
+      "small": "anime/small-cover/oWWSMvrnVGHP3DkOr5Vd853rJ4SpItkubXiyeh8G.avif"
+    },
+    "35338": {
+      "large": "anime/large-cover/QGNSmz51hQfEoFh873Mfg4aZvxx3d9U5oKpUK1cA.jpg",
+      "small": "anime/small-cover/ddnwSoxjD5iGi4iGTItByoMDYPrtOdd0P90obuqU.avif"
+    },
+    "35413": {
+      "large": "anime/large-cover/WXMFQ0tN5wRvRoapRr9peT7OGeozu79ePH5btor7.png",
+      "small": "anime/small-cover/iWhkLzogeYkUoVN5rnH8n84oeUHMKklR57E7PlOS.avif"
+    },
+    "35466": {
+      "large": "anime/large-cover/nHp4z3Xos2S8kpMMKZ1UwJdGVy0YM64geFnUwzqB.png",
+      "small": "anime/small-cover/d0BOfZVJwc2y0Uq7B8YfWUDnk7lx9X6n39TCjuNH.avif"
+    },
+    "355": {
+      "large": "anime/large-cover/HcPjJ0KLwT74hjDVif2yx8i5ST31fACqDNJDL89P.png",
+      "small": "anime/small-cover/ClsmYCeiZAXibAJxU5ucx9fmzMyh85BeHGjoYlin.avif"
+    },
+    "35557": {
+      "large": "anime/large-cover/YPgWuWdIlW5W9FsMCq2ZOM4JPKlzBfVYhcCAkeXa.png",
+      "small": "anime/small-cover/WHPW4AeccQulfUiyFEm9dNsThcWh9rM27eyYZaxN.avif"
+    },
+    "356": {
+      "large": "anime/large-cover/G8ZwO1epSjjfs9xBOOftnvE1CtpdnlhEtyaH6Dp8.png",
+      "small": "anime/small-cover/kW5Z3vWQfWSafORxPkne9GN7ZvFLg1lVKJ60eyw6.avif"
+    },
+    "35760": {
+      "large": "anime/large-cover/w006Y54SsUkzlT8Js0dlW1IJfalH05afoWdSe4HK.jpg",
+      "small": "anime/small-cover/3QyyfTbOnmiAZtABmF9PyubV5lZCSieSjvDiXMVs.avif"
+    },
+    "35790": {
+      "large": "anime/large-cover/E3OPtzNzSw2pJYmKzBlO7kqlAhJgBS6OBIgOK136.jpg",
+      "small": "anime/small-cover/1yZxhb4q3rJOu8oVhClAQkKj0afWYY5cnAxxPbrX.avif"
+    },
+    "35849": {
+      "large": "anime/large-cover/uDeCCWbGfzZB9V3zzlH2Z1irZaFbDyv1NW9ewE0e.png",
+      "small": "anime/small-cover/3mr4dQNn1XrXvbd39QbsgmhCjrML3l0sqiI1XLLh.avif"
+    },
+    "3588": {
+      "large": "anime/large-cover/gvLyGAA92WC6RsDCQZbUkGuzsjgKK4T6BX63H2Zx.png",
+      "small": "anime/small-cover/pKLR9d7MnJYTkaksqbwx1spIdxOAy6vv96EhvNy6.avif"
+    },
+    "35946": {
+      "large": "anime/large-cover/1jBzoYwVzngFMApzm7snQZXovhJYltDAeMBk0PgB.jpg",
+      "small": "anime/small-cover/FLoJf4Ot3MjPrNsGeivMmSUmMCL3JJkDlfPWdkss.avif"
+    },
+    "35968": {
+      "large": "anime/large-cover/MegVzngYjZBACKe6kZxoxpLuLpcGQOLHEpVuwTLd.png",
+      "small": "anime/small-cover/ewc4D5s4WbmqNi1mWbB7lF0s41XP99jB6zWZ164l.avif"
+    },
+    "35972": {
+      "large": "anime/large-cover/yCzxrmJnDjr9MdmU4oajBLQa2NbajKKTyeoZkgne.jpg",
+      "small": "anime/small-cover/nvF3r7RwQJRlCZsjjfqH0e1OyP9jcURykJL65Fsl.avif"
+    },
+    "36098": {
+      "large": "anime/large-cover/z0ErqF4j2adXLTFBMuNJJJiV9mzM0gCruhkqHZUp.jpg",
+      "small": "anime/small-cover/RikZ6wMozv307LgptFPE9Yu1Y24fkFMKVDutwkL0.avif"
+    },
+    "36296": {
+      "large": "anime/large-cover/Tw4QUBI61sbtcSWZpRD4hZXXFiSfAmHnoyDqWm0l.jpg",
+      "small": "anime/small-cover/N8TP00bn6d3gm38FmFfWT7Pw1reTzM5JgXiXXtlj.avif"
+    },
+    "36456": {
+      "large": "anime/large-cover/qvOdWJ3WywDt9NPbDaj0wkD8LTZSW5ivYyfNz3Ys.png",
+      "small": "anime/small-cover/2FdO2gUTnM8cCvKdptcaUR81ZJ56BhEhvIDFIPdx.avif"
+    },
+    "36474": {
+      "large": "anime/large-cover/LKl0BaiQk0KuKq6TGZzFLoq5sOUFlCk8TYP48KKG.jpg",
+      "small": "anime/small-cover/fPKfMekWoI2uFnz4u1I31gFV2eCpqvD2CO5wAOKs.avif"
+    },
+    "36511": {
+      "large": "anime/large-cover/4AdNY7WZti1d9ZcBPOPM7LHlE1Jsoj6hS7JPcvUP.jpg",
+      "small": "anime/small-cover/KoUibdajK8sVBi63wsleu898zeYhNM2yHlqXu7tD.avif"
+    },
+    "36548": {
+      "large": "anime/large-cover/sc8q5BZehbPa6fIATVZVPkK8ovkAKL8WxbOg6V1b.jpg",
+      "small": "anime/small-cover/f993rpfzoBk8I2TjcbGNHIwQBZmou1rJA2MIMGs8.avif"
+    },
+    "36649": {
+      "large": "anime/large-cover/HNAjzYnYz8JPOsM0anmZsdZJJSkFUxG9rWrDS8DV.jpg",
+      "small": "anime/small-cover/8rZTM05OQv6PRDv9LlKPZlyJ9qoX6Pna4pWT1aMO.avif"
+    },
+    "36793": {
+      "large": "anime/large-cover/gPTb33gYJDg9hFO1qSVSzvzaMBA2D9PsCjmfOS6p.jpg",
+      "small": "anime/small-cover/6QPlRj1eq2w8SjtfZKRGsezz7r3S5sXYJXcOmvQA.avif"
+    },
+    "37055": {
+      "large": "anime/large-cover/SGMh2fXSc5t2mu7gGhpeQ3DCHZ1sJjQiUmoITrtk.jpg",
+      "small": "anime/small-cover/bBrldDxd6XAtl6SErLw4vD1nRGRucSypiDUDIofF.avif"
+    },
+    "37086": {
+      "large": "anime/large-cover/rz5wAa8X9FaPTm93tb7fz1zbWL7QR5Wgrcm49zRd.png",
+      "small": "anime/small-cover/v8jmeiuyBST995h2bA9sWPUlSGbl06znxPhO2fYm.avif"
+    },
+    "37105": {
+      "large": "anime/large-cover/wJJ5zDbd6etPhTbP4pQ9XfNBX02bE0VpHPmhWjXe.png",
+      "small": "anime/small-cover/Q30NXLCA2WK8RY5KEuGdhJHRDUNkbmsHaF7JVVNe.avif"
+    },
+    "37141": {
+      "large": "anime/large-cover/4m1mgY4JlWIkYRYf26C5BHnC2xwVGNF15a9Fkr5H.jpg",
+      "small": "anime/small-cover/R9kGZhSkpgxw7Imsd0UYeNmRiNu4Jitz5CVuXrXE.avif"
+    },
+    "3731": {
+      "large": "anime/large-cover/UPOqWw0PhQfwMgTQ1v7yhzWj1pQZCC6N6uQm5ZUj.png",
+      "small": "anime/small-cover/rtcxmsRYN0gM0gbaWo47EkiMnqMEivlOaf9eL4y8.avif"
+    },
+    "37349": {
+      "large": "anime/large-cover/rI2pmX3nRp4i7K6jVqXvGXsfcU89wLWQlf4A0kOs.jpg",
+      "small": "anime/small-cover/URhVi9QKUv2Sp79Pwc7M87UFEcKbK6GRHpCUyFvk.avif"
+    },
+    "37393": {
+      "large": "anime/large-cover/X32Yxr88ih8q88Fenvte3vTXh5bFrBFwB60Ezzcq.jpg",
+      "small": "anime/small-cover/PW87Zbez1v2smwfg4uFEWDcia6WMc5P6SEs0NbXj.avif"
+    },
+    "37430": {
+      "large": "anime/large-cover/2xOHLl0dZRWbuib5QOgcW6JKLeH4oN5CLSZAnyaR.jpg",
+      "small": "anime/small-cover/ADJ2vy6ipqHP5P2nPHzqN5qOfBrAN9aKF6oIan14.avif"
+    },
+    "37435": {
+      "large": "anime/large-cover/cDcYlhnmp957zx3DfLsH42HrFNEk3JLBQL1Waix7.jpg",
+      "small": "anime/small-cover/FPlAoH6RzE2VDfa4XM6MYppDzZBgXmKvj87YmAgS.avif"
+    },
+    "37450": {
+      "large": "anime/large-cover/8jzWp4YKV9JSdXeeTT45W1bkc78oKX7K8S3kIQmg.png",
+      "small": "anime/small-cover/CqmITceKjiZlN87XoL2bG9Z0dRMwI6QALzzHGmMr.avif"
+    },
+    "37510": {
+      "large": "anime/large-cover/qDScnPVwzBqg3h6hs9YvRcfhQgF6cKRyIrJJHzb7.jpg",
+      "small": "anime/small-cover/Bsl4bBJ3tm001GJNb5E4n0TUk84fFVjPcTUpK9Hj.avif"
+    },
+    "37520": {
+      "large": "anime/large-cover/F9UFDQG2TV0Ln2ljyHVtjARHum5NfpvGOu9qXYyz.jpg",
+      "small": "anime/small-cover/KcRYe3jajQkP2k8jBGINKumrt1GBVzE7hY6PDjT7.avif"
+    },
+    "37521": {
+      "large": "anime/large-cover/oo9llPii2BWD2J2yaPmk1ceBEmfMIxz04zg9Qv8A.jpg",
+      "small": "anime/small-cover/T8fdtPxx46VVnoTTnhrOfZGkoF7JqoHm4qY4UxVk.avif"
+    },
+    "37675": {
+      "large": "anime/large-cover/bn4PsOvRITsHJ4cu4PLZPlhXiC2p8W71Fq09X6C8.jpg",
+      "small": "anime/small-cover/UfkFp8wZjCtlTyQChM7gvJtuLKswowQY19oLYPVV.avif"
+    },
+    "37799": {
+      "large": "anime/large-cover/llTPede3UmGWiVEjmem8jy1cTi7SVn2GaEJza4Nk.png",
+      "small": "anime/small-cover/gUuQuQqfsG4PY8jlZpIYFPmgxcGZVWvnc2kFrYAC.avif"
+    },
+    "37823": {
+      "large": "anime/large-cover/EBDD9FFZR5YC3KYrfpqlIdLtpIbe6ibXoAGx48u6.jpg",
+      "small": "anime/small-cover/9QpP6LzvVKI3yQDbAPE0OkNUJBKxk0G09IHLwbgq.avif"
+    },
+    "3784": {
+      "large": "anime/large-cover/Y2lAHTrLY67wRo42NVFWzf6IICWAZAMuJsOtNO6i.jpg",
+      "small": "anime/small-cover/D9CEeRqyxp6ys3Tu7COZ2woHpApTJmsnPaQfyfNT.avif"
+    },
+    "37976": {
+      "large": "anime/large-cover/6gxb8FyEepbi2PkmQ8sA1WoFAPrMCt1pBGLHTpDu.png",
+      "small": "anime/small-cover/4Rg8ps00BLnZFTqOEYPoB27ID5UCyHdzeuvkE9rj.avif"
+    },
+    "37991": {
+      "large": "anime/large-cover/uU6OUgtqqMSvU5irUBXgfYc0OcZ7hToNSV4EwD3Z.png",
+      "small": "anime/small-cover/6QApNJGDWXiTpAhqoq3cWFeTPU8zJTjnU0QoatR4.avif"
+    },
+    "37999": {
+      "large": "anime/large-cover/IS2dVXrMZcjekzLwa1aR6eHafiZ3FY6SxA0BG28r.png",
+      "small": "anime/small-cover/T8uKiwChsZZ0kbBG3qzuI6v0u1sYskTuXp7hQDRy.avif"
+    },
+    "38000": {
+      "large": "anime/large-cover/2CTJVQ8P7jNnKzrQ6D0yoAidqeUXbnNE9q6UU6x9.jpg",
+      "small": "anime/small-cover/hjAQnmseMm7pyRJj3HxTYIsmTSfsH8ametdosuZx.avif"
+    },
+    "38101": {
+      "large": "anime/large-cover/ctpgnuSDFtmBOrR01Ovrg69PF5h5vXu1Fdf4IhuE.png",
+      "small": "anime/small-cover/LNbXNTHy0pOizLkgf5uojvWaUBGx3UogeQFIBkVZ.avif"
+    },
+    "38328": {
+      "large": "anime/large-cover/IkVxBmUiv4OTskzWoZ3NIAEEe2mxC5t9gasjtlcA.jpg",
+      "small": "anime/small-cover/p3IjmNmi0Z6K483wEVj8EEGHRuS6pPn2tpWRKmVx.avif"
+    },
+    "38408": {
+      "large": "anime/large-cover/ul4CrHSt4uLsP6izLqwopvkmyOQumZBuutkToYsm.jpg",
+      "small": "anime/small-cover/nHGkvBit4hPeYllLFqswhfmZiRpFifCuYcJnzm4n.avif"
+    },
+    "38472": {
+      "large": "anime/large-cover/qpTPDlMuNi4ORg9NGZaWhRpjvpTd6uK24QWSThPo.jpg",
+      "small": "anime/small-cover/r6O6K7fp1j6df5iFziP4lQXFCr9MQqgOtorYhH1z.avif"
+    },
+    "38524": {
+      "large": "anime/large-cover/Xj89wdKsU8KhXO800WQ40e5fJg9GSHp53vPbdWMU.jpg",
+      "small": "anime/small-cover/zussKtZIz5l8uCwvjXg4HNBfHegerjekJOfr9Sb2.avif"
+    },
+    "38555": {
+      "large": "anime/large-cover/wkgFgcGZYnhHlu39Vu28HeRSuR4MQ9xNvfnqRxb7.jpg",
+      "small": "anime/small-cover/6QNOyF0bbTIBduNC3YI21OUtjm1J26k2dfbMJkWk.avif"
+    },
+    "38573": {
+      "large": "anime/large-cover/869iog4JI3h1cUUIvyvK1CV2F4DFuMpQkEZ3CRfI.jpg",
+      "small": "anime/small-cover/D2N3Kz2f5XtBKVKXIADxCVEQ6edEKy0mdoAZ9AJH.avif"
+    },
+    "38656": {
+      "large": "anime/large-cover/S4vcIwMAPyy0mMSDupbkNwkbUOqrl4ydZsbOQZyR.png",
+      "small": "anime/small-cover/4wLODSLh7ZqL0UNVc3Gk5x8G87LqD1M8ChWolFen.avif"
+    },
+    "38659": {
+      "large": "anime/large-cover/DwvZ8g8t4h1JZENg5r2cyvkd4xOScq6bBh6jLjGQ.png",
+      "small": "anime/small-cover/8ZsWY00CWjii3nsTTCyR1XyyORfTKVjeXD7DGiLl.avif"
+    },
+    "38671": {
+      "large": "anime/large-cover/qQcEpzCFH64eRF39UEkNAWH0TOaDVcRyMPUmdRBX.jpg",
+      "small": "anime/small-cover/2f7HlThfyPkqsusltXyytqrm7uv4C7QT69K1OP6L.avif"
+    },
+    "38691": {
+      "large": "anime/large-cover/eogV8EZFVQMzsVYY10cnAEEP0i4GoUumj9ebiHCb.jpg",
+      "small": "anime/small-cover/goL3a8ysCL50TS3HU9pVNXT4VMQExEw9jflBaHjA.avif"
+    },
+    "38883": {
+      "large": "anime/large-cover/Tjeve623hQTf3tSy1Hvp4ywnJgBX4kwq4K11nA5T.png",
+      "small": "anime/small-cover/goBOvJvehZJrTjui6BThfLfFxfmulpNefEMayxYs.avif"
+    },
+    "38993": {
+      "large": "anime/large-cover/Ee2CHxxKPyZi9HFYwZ0gP10zNqHurjG5U2okJcWt.png",
+      "small": "anime/small-cover/vYLqSuSaX5R3J9SJ7sGTY35hZQgwh6kuc5HJqZZo.avif"
+    },
+    "39195": {
+      "large": "anime/large-cover/zLzyhcaEhTz2g2ZuMACUzEPXRd15otXxcotjk3l1.png",
+      "small": "anime/small-cover/V9I0G6ssabTHYLiIFQ03ZbIRr9BvA1dZpSjU1twj.avif"
+    },
+    "39196": {
+      "large": "anime/large-cover/wIrx89FjsD2I1fON4snXC7gc3bWd3NajWOxu2Xj0.png",
+      "small": "anime/small-cover/akw35wuiQihCiqUeGqHbDorJfCiw8LA0QU0wQvfl.avif"
+    },
+    "392": {
+      "large": "anime/large-cover/epusZeVlpNY12Y10vg1HWJremEhy3glKxALLtubY.png",
+      "small": "anime/small-cover/pCBdOT3fyBI6NaTKrPM7ZNpT9p3smiWFPwuyQz1b.avif"
+    },
+    "39247": {
+      "large": "anime/large-cover/jvh6Agcz37a10x9JKNNBNqM8ACvlivBd062YN28I.jpg",
+      "small": "anime/small-cover/peJnYkZ3ddY3yPRFNf19PYHtjvKBWd6wp35wdAYq.avif"
+    },
+    "39326": {
+      "large": "anime/large-cover/Uqq0rlB0NJFRwdGrULmO4UV0BGanlA7OCm96qcsy.jpg",
+      "small": "anime/small-cover/LyaVnS6zXvBp1VOBBt6sb7wir5nRFWbSzR6dTkXh.avif"
+    },
+    "39469": {
+      "large": "anime/large-cover/Z3s7ceQHtrUyOxUodMB1DY2FC9RIW7X26757tDmG.jpg",
+      "small": "anime/small-cover/NuRGT4EmONSQQpbpPzjKgkqwBPN7eTit8t49DR6L.avif"
+    },
+    "39491": {
+      "large": "anime/large-cover/4glcFJQrV9kvcpycexwjGsYCF3xcsHL1TH3y4FSr.jpg",
+      "small": "anime/small-cover/tliT6pEipxWDsNeMY72P4dxvTJbpWjq2qa7ZL7zE.avif"
+    },
+    "395": {
+      "large": "anime/large-cover/onTFlo0mfLsvHOffjTzeUI6Ehf9XlKVY22Yd6QU0.jpg",
+      "small": "anime/small-cover/18Zb18TnRpeUYykCsTeCoSo5nF9N3iC12bydLCDT.avif"
+    },
+    "39534": {
+      "large": "anime/large-cover/MGf3Ni1HWO760Iv6LlDLzYjuJbpZIdosCuFW08AX.jpg",
+      "small": "anime/small-cover/yAZHSXg1cMKBv9Kq3jTs1O9VhpvIVoAqN7v3TLEU.avif"
+    },
+    "39535": {
+      "large": "anime/large-cover/EFbnuEwjyotv5FfMEgEKU2NgDEuRGKx5HocAQmVu.png",
+      "small": "anime/small-cover/TcaKyWo6WW92xJalXi33hqNj8H0lIlF8o3PqZGDp.avif"
+    },
+    "39547": {
+      "large": "anime/large-cover/8qTxepprcX4bOepPcGoGSo7PIM6nD82FVs9bpfSR.png",
+      "small": "anime/small-cover/QxY3CraQpCLKbibfmYgkRvMJmoa3CQOSocmWHiEq.avif"
+    },
+    "39551": {
+      "large": "anime/large-cover/KMC3Ppu54nByHluy6XrljIrwmv9fAldoyw3Tlck5.jpg",
+      "small": "anime/small-cover/YIiHeJPjHBIgsAAXPRtQS42mTwyDRZTa9NaHmtEE.avif"
+    },
+    "39565": {
+      "large": "anime/large-cover/ovVT1glM33YWwPNY2x6YyDp8S474MPFDSMHhge6o.jpg",
+      "small": "anime/small-cover/jmbsCD07Otfz4jm537I0f7I663vZ7k77739e7u7n.avif"
+    },
+    "39587": {
+      "large": "anime/large-cover/fHwdKbEKCkYjyXR9m2cYziLn7am8UBVQ5zX9b5B6.jpg",
+      "small": "anime/small-cover/UovwxYWnK1X3jf20EBmdH1BW8vjp3KVN7bHLiU2u.avif"
+    },
+    "39701": {
+      "large": "anime/large-cover/aRGk9el6fJqVQmEUEmxvxwBoGwSmvAa1c3nS5Y5J.jpg",
+      "small": "anime/small-cover/IwFgi2L4LF2bwU61WuvmnZOucClQdszZB11XRj0j.avif"
+    },
+    "39792": {
+      "large": "anime/large-cover/2cJNWJ6Vybhiw4lHgtiKeWtlRbKD3E36k4e5DRy5.png",
+      "small": "anime/small-cover/U1qzPR0JbiaW0Bas3WOP7i1mdv4VWVjXaEqyQB8q.avif"
+    },
+    "39940": {
+      "large": "anime/large-cover/Ne3RESFjHD0leEALiEQJCPxpHPeZaXhUVzQdQVyJ.jpg",
+      "small": "anime/small-cover/CrYNk0v01bCDFruhR6jXHWCHGmFiA76Aetouv67Y.avif"
+    },
+    "40004": {
+      "large": "anime/large-cover/Xmiz9GUKN0xkiKB2XlGRpDsP8E1ygMQiCgRub2Y1.jpg",
+      "small": "anime/small-cover/FENj0yhyG01y1tmwf3Bca6QlHDxnhK6AK5T4tObH.avif"
+    },
+    "40052": {
+      "large": "anime/large-cover/ozo5komFRV7SrML1m6MEAxYd59BI2NaHITE7lV3z.png",
+      "small": "anime/small-cover/i0650NAM7rYdcWhpn4WuMVqdkvqhJVGymQybD726.avif"
+    },
+    "40059": {
+      "large": "anime/large-cover/OjuK4JDUryItdoZHA67nzSThbyW5LO405pxgYewc.png",
+      "small": "anime/small-cover/2AFtPPL2LgpXe547xjBZMHT7GSksEzyOF91TuHjJ.avif"
+    },
+    "40421": {
+      "large": "anime/large-cover/hHxNP36gQuS6i7sWPnVv8aJesYrqOaec0vUfrW9R.png",
+      "small": "anime/small-cover/EGR5l8Iz8V4qNS5pwstyVvpt2iwDPRrxovNK4FJB.avif"
+    },
+    "40540": {
+      "large": "anime/large-cover/FSYQZjdsz9z93Hcg8QyxzzgvVP1uQehfauibgiL9.jpg",
+      "small": "anime/small-cover/72Gh8pBLpwswjTjmLyy8iEXo4475WclkYjwfdAaR.avif"
+    },
+    "40586": {
+      "large": "anime/large-cover/b3Z4yukbAe5a6ahVlEQCZvDQ3i7HWIxgQBpYVQgi.png",
+      "small": "anime/small-cover/GzNojfMOiTWT3TcYjMibpBEDVmDtMiBCE82KjvtP.avif"
+    },
+    "40591": {
+      "large": "anime/large-cover/h0RLPV1DYQUmQ7dokdl8wcfIVXbHHs9cfTgWbRXz.jpg",
+      "small": "anime/small-cover/VekdiFC5gK0bHnxl0OEj8OfMyRmrQUBNkMmLcy0d.avif"
+    },
+    "40716": {
+      "large": "anime/large-cover/Kmvqhr0J9Mv2mbWnJxgrKb8uDy7q6ENP79zRBKDG.jpg",
+      "small": "anime/small-cover/7ze9FVgGzWSiMC6Rwlgdiknevf5K5jJZUgs8BGq0.avif"
+    },
+    "40748": {
+      "large": "anime/large-cover/ggrh8wGLhZcYLtZskZD4h41Xh7Wxt735rdzygtRw.jpg",
+      "small": "anime/small-cover/Q8KQ6VOQgaM10c6DdKVosASGUwYj5htmruZAEGYf.avif"
+    },
+    "40776": {
+      "large": "anime/large-cover/sx2dRyLkBtUMr9VSG9FWlLVaqDxICtecgZkzgzHh.png",
+      "small": "anime/small-cover/8w1WXoqeaUJ2LjzElxx7pfv4rsT7mUwZxpwpy0im.avif"
+    },
+    "40834": {
+      "large": "anime/large-cover/gWmd7bHnglVXiAao5JJhRw3fdr4tcfrhobHpkxBb.jpg",
+      "small": "anime/small-cover/lh5eTGyReH82tc5XvMpqAmR12EgavskO0pzSFuju.avif"
+    },
+    "40839": {
+      "large": "anime/large-cover/TibxJEGY0NgS1hgqmrKLFhMxoaNDZbNHzdOjaFGE.jpg",
+      "small": "anime/small-cover/HqfWNaKWBGczg9MVU542JGfswhlncH2gARC1gYw3.avif"
+    },
+    "40852": {
+      "large": "anime/large-cover/O0jMdKSG6jTtKNjwPbLa4uvcHIYW1pmCoUEWGkCw.jpg",
+      "small": "anime/small-cover/99tFJlYJ52I9Ku7moCTeotmQ7DBY52dYWYQDRcUy.avif"
+    },
+    "40935": {
+      "large": "anime/large-cover/LsdxjYlixDOWWkD0Zx98GD0rghRYYlYstdUkEfuB.png",
+      "small": "anime/small-cover/a2NeYdJnAdpGcWfLk1V43qX6SlWwSx8Z1H8Abksu.avif"
+    },
+    "40956": {
+      "large": "anime/large-cover/1WRlwaRNixHaersQimGAG5snJz3qBTjxUPhx0eVe.jpg",
+      "small": "anime/small-cover/vq1fnNSQ5CMS4U2d6nM4wRFH4VzX8DiBBpJhLvvO.avif"
+    },
+    "41006": {
+      "large": "anime/large-cover/r5z68zx2FUhLZa3MjQ5IoNUzNRiIG75gSPPTYgLb.jpg",
+      "small": "anime/small-cover/agQ5VWFjfNMTDjO9rwCLJ6xAcz71tp8fFIwreBj6.avif"
+    },
+    "41025": {
+      "large": "anime/large-cover/p9XnkaR3BtAIiDIrun2YNiGGb9GM54RtZL75bflJ.jpg",
+      "small": "anime/small-cover/nBVtOF0bGviGaizuWus0YRij2sr65fyT78QfPXkP.avif"
+    },
+    "4107": {
+      "large": "anime/large-cover/oqTPCjKfa1VlGGpborqzk9XtLPY4v6xybFk1Ssjq.jpg",
+      "small": "anime/small-cover/B3BOjZV21Jm2TTh9GWjtd2Y0tpYg3H7l4TiCFvDy.avif"
+    },
+    "41353": {
+      "large": "anime/large-cover/HyIbs0FsRUwfrUsEZnlAES3g6C0opSWwzZoumnhK.png",
+      "small": "anime/small-cover/hYqHI7OvKEh3FUMX57k3ZkkVyxOIncxNaA8LW4qj.avif"
+    },
+    "41380": {
+      "large": "anime/large-cover/2gyuQ8QtSmIRAK1BT8kiDI9ggZSEa0boTRfdVnmL.jpg",
+      "small": "anime/small-cover/eJqmOOG63X9CfdUMK0r0O4XhKB2KdPspNlbzctIG.avif"
+    },
+    "41392": {
+      "large": "anime/large-cover/4vt1JSXhkmyMLP9Ax4lftimu88a9Sz5NO4k3uo97.jpg",
+      "small": "anime/small-cover/pUuqITwIPFQCtX2f86uORjCP41D2SPX0JH1e4ATu.avif"
+    },
+    "41457": {
+      "large": "anime/large-cover/J1LW0EPPnIsHm4rMJppHyaFxy1ncliNMdlvlPfus.jpg",
+      "small": "anime/small-cover/FPc3wBiulEzQKZKFhi3UtYTqcd5y2qyhOBk3TgH0.avif"
+    },
+    "41487": {
+      "large": "anime/large-cover/G9gvqhfZnb7kZVn1h6i36XcEsCE6ikJiAVBASppt.jpg",
+      "small": "anime/small-cover/FtIwAwQBfnqwuLov5KgDGSaprhiD9GQi0ndREqBh.avif"
+    },
+    "41491": {
+      "large": "anime/large-cover/58FRrdxfAnEZTLLSohxWraaH2gl4DQUnIywKdlxE.jpg",
+      "small": "anime/small-cover/xbb1yM1EdpveSU8HpPfCKg37D1Bm9Pte37IMclRt.avif"
+    },
+    "41623": {
+      "large": "anime/large-cover/mTqGRmRlkhQ6aOJ8brvBnsxShtpYSTdAjm5CCGmB.jpg",
+      "small": "anime/small-cover/louDDC1GH6jZMU2HWiA5pYuKQOJqAxd6W6btVZSE.avif"
+    },
+    "4181": {
+      "large": "anime/large-cover/5jdrQ8SdUwxVFC2XJxnYmRkVPN4SuqBx8HgZvBai.png",
+      "small": "anime/small-cover/V1IkbF9OnQRW6tQhnnQr9jSccjjLDuj3WiRcSNqy.avif"
+    },
+    "41946": {
+      "large": "anime/large-cover/Mz0OL2NwnDMn2MOuKksCnhnIkyKDfIog9vDgBrip.jpg",
+      "small": "anime/small-cover/E1m4BgY6Th2UwRpCdXveTQznjenoKnqbdiJWikpA.avif"
+    },
+    "42203": {
+      "large": "anime/large-cover/uEYuZN8kYFi2cH5GsUmLrL7JDGqP5vaUVC1YJJc7.png",
+      "small": "anime/small-cover/nTUd9sltyXD6MkPtfLzzPR23ahZgMi0MnaASsDO4.avif"
+    },
+    "42205": {
+      "large": "anime/large-cover/GbkJhE8dwhlHFHXQdNxytEkAOsYhjvZxBcY7dM8V.png",
+      "small": "anime/small-cover/f8yIlwpXDH8LEpMvwnFNAzvR095EFK70XmgB25jW.avif"
+    },
+    "4224": {
+      "large": "anime/large-cover/01oxfXszVEMWQCoonOFGMbzp2gDshl72c5ZcrdLj.jpg",
+      "small": "anime/small-cover/7u2OeasKLonB6YY8hlNva66na71t6ReJ3GX8W2pv.avif"
+    },
+    "42249": {
+      "large": "anime/large-cover/GWrqDJGBTw6L9kXxtt98za5BHZXKOU2VRP4nf4uS.jpg",
+      "small": "anime/small-cover/CHxsfV3368S9xrk55lX9uOIkW014aLQMf9NH3Qup.avif"
+    },
+    "42310": {
+      "large": "anime/large-cover/QalPZOn9JlcjCZX9KXDay5V6XRH3dDTrYhykTdZt.jpg",
+      "small": "anime/small-cover/x4NeemCbCkbxAkYaGJ3cqqWPUEN3HfHmQdBdHdzj.avif"
+    },
+    "42590": {
+      "large": "anime/large-cover/l2SZF8klVBIsHgU4OUPGhuqsMPhBew0rmh8O450c.jpg",
+      "small": "anime/small-cover/wMEDyWuHDjk4awy6zhkQfX0rkKvULjvKBbNXviJu.avif"
+    },
+    "42897": {
+      "large": "anime/large-cover/F1mGhkllFWd1STCBH4UVluSNg0F8wGwbz2OYCJz2.jpg",
+      "small": "anime/small-cover/kszMcn0VaEVRR00B5ek72rFCSogSN8q4f3DgYIzb.avif"
+    },
+    "42963": {
+      "large": "anime/large-cover/dl96yjlqbs4WJ7yYWpxRqO5fuI7vxDXuM87AoFwE.png",
+      "small": "anime/small-cover/NBMYdaDLIkTpI2vTVsdOVRFj0PxAo7iV92ZnG8xA.avif"
+    },
+    "43299": {
+      "large": "anime/large-cover/JcOdGYXd9FRAG5oBemzRXlGlk9bo6j40etAQ2771.jpg",
+      "small": "anime/small-cover/fkxflgl4ud8mhNicQiUthE3QgV0sj5rOAygLtnaU.avif"
+    },
+    "43608": {
+      "large": "anime/large-cover/VH6tVcQe4UjmsOQWog6NyUTRhmgpGd4JyDqUnoVl.png",
+      "small": "anime/small-cover/rpsRzVwGVj7v7a8fSsid4L5HuI13Pj4Q1BKT2Eyy.avif"
+    },
+    "43814": {
+      "large": "anime/large-cover/pLX6jFHFrzVpEjXnWit1n9Ix8qF4MiCmFKiIcJxc.jpg",
+      "small": "anime/small-cover/LkD9xeuDigxH126g6PaVAJQzss6VNi9tCO0YnUTE.avif"
+    },
+    "4382": {
+      "large": "anime/large-cover/iNpedJlacnZeFEnACfq1pyqTi0R5oqs9NbsOXE1e.png",
+      "small": "anime/small-cover/zSmgu6LQ6t4q4xw2YsVI9ABR0Olqy8DQ2D3TIipD.avif"
+    },
+    "44055": {
+      "large": "anime/large-cover/BZgDS0Zm7YSEomWK2bDf7uTZl6LxnQ8LxT724GHq.jpg",
+      "small": "anime/small-cover/tZalpJDdQC5AwIAWIfV88Ne4GK5ZdHcQyQ4NUuNn.avif"
+    },
+    "44203": {
+      "large": "anime/large-cover/QJF1OXjx0du7wWdcTTKSoRdfY9QVVAShBJjl3kYA.jpg",
+      "small": "anime/small-cover/2r3eKvcm5BQMTlO2kthkGd4JGkSAFiZHoRSAwc2E.avif"
+    },
+    "4437": {
+      "large": "anime/large-cover/qHtdxiI9VykAFb7OV7zk9lug4JEomiepAbcEOenG.jpg",
+      "small": "anime/small-cover/Pqb8Fwd67CeT8U5EaOaOz1auPzqUXfRNnx406NBV.avif"
+    },
+    "44511": {
+      "large": "anime/large-cover/I56a7g5t4kDpD2lIh8GeavpQbT7GxTXbcbjOSoDb.png",
+      "small": "anime/small-cover/FvQdGZio8WuqIzNe9nvEAZLlCIcx1N0r1xaoYnYM.avif"
+    },
+    "44961": {
+      "large": "anime/large-cover/IBtijknWf8ckkGM6Pn1KyBcMYgl9GZCA5NGzCRAC.jpg",
+      "small": "anime/small-cover/15uARZT7A7arKlpB3tjJkuAdVOc2UB2PShkJHddR.avif"
+    },
+    "45576": {
+      "large": "anime/large-cover/C3ildtWRgRARZvTgVOuM1hquuSnxtgqvPqdW32aq.jpg",
+      "small": "anime/small-cover/cWTXdaaWDPbgc4QNTYBYDQvJW5tLfpDyoAG8v8nn.avif"
+    },
+    "457": {
+      "large": "anime/large-cover/jmI3gOICLozcfkKA0Hsp0eIJq3ulFoyweCdrrV69.png",
+      "small": "anime/small-cover/uCp2u2iB8glJxhIJ5CSjRij2vBhDJAEzthQXjadr.avif"
+    },
+    "46102": {
+      "large": "anime/large-cover/SiFwrqQdwngjp26MPmTu63BIjyiAtE4k007F0IMp.jpg",
+      "small": "anime/small-cover/S2pWGUNAyctDOPg3PRIFPS1EYwrjYHiqtnwmpuc8.avif"
+    },
+    "46569": {
+      "large": "anime/large-cover/OVmqp7Sk8lXXT06zpwAc4sL6Xc2h4sNMgSmuVHZH.jpg",
+      "small": "anime/small-cover/CGNLSZLwrHuIVDFJUzXRiqYbLZC9HnNZJNpkQ8yH.avif"
+    },
+    "47164": {
+      "large": "anime/large-cover/I6hOFsy32giLsr08LkKJ8zZCf6ufRHLEA8wVnNJc.jpg",
+      "small": "anime/small-cover/SwhwldmCVdROkNqSE0nAWXwXbYSCp3u4UiTeVMbo.avif"
+    },
+    "47778": {
+      "large": "anime/large-cover/7CR8r4akbywIGzE0lyM53jJaUeyi5Djl7DrLLHSO.jpg",
+      "small": "anime/small-cover/b90yegKBJBwLEhQgv68OWJQwNnOM9ccvWDthRabM.avif"
+    },
+    "47917": {
+      "large": "anime/large-cover/YpJswECL8eyNiPJIMyBDbzencxzgy1JlgwgLU7xH.png",
+      "small": "anime/small-cover/VuHzKNZMCI63ckqZx5NrWZdFomsnyxFMD9U5cwAf.avif"
+    },
+    "48": {
+      "large": "anime/large-cover/iEVWz3OowC0ox70rRo5IuSlEP1cTCdEB5BRVJp5Z.png",
+      "small": "anime/small-cover/Zwksj46Ank3Ug81fWiDRYf8GSxiMpupnsUuesaR2.avif"
+    },
+    "481": {
+      "large": "anime/large-cover/2rQVROWZsCHSyc5yR9Jc4xfWkqk4Pno6e9fzc552.png",
+      "small": "anime/small-cover/htfJhsQ1XUe5AK5VeiiNnFX9MZDdIfLLFEeU5BWn.avif"
+    },
+    "48316": {
+      "large": "anime/large-cover/0a6bFrsvYY9xi5gTwZK1aoYmJFmp6z6eJyWpqKhO.jpg",
+      "small": "anime/small-cover/8K1PBBLYVwAvlSEzHXIvDlEGf43owHWGPOmqAkGB.avif"
+    },
+    "48438": {
+      "large": "anime/large-cover/3b1JNElMHxD6QXiS6IXLZV880BbcSiW3etEnGn76.jpg",
+      "small": "anime/small-cover/cG01RnSlFP3gqBpo4ZvfO3MgY8alv3Xsci6Xf0na.avif"
+    },
+    "48561": {
+      "large": "anime/large-cover/iVRnarIG316NuEUtIv0Pc20RC6OaTjpwmy8cYtYn.jpg",
+      "small": "anime/small-cover/amh5z9p8Z3xXoiRqp9aPLHnmJEjINUcYIvRNB2cr.avif"
+    },
+    "48569": {
+      "large": "anime/large-cover/qjWCW8Ze6hA2SlQRoaZFVGE3vMl7WoXK5Ot1z6hX.jpg",
+      "small": "anime/small-cover/ALBNrlajIQIvVqILDoknXRwGsljiwasKto77kSL9.avif"
+    },
+    "48580": {
+      "large": "anime/large-cover/FPjwZzxAS8927C9Qf118CSXURc7HvDak5pb4iNoO.jpg",
+      "small": "anime/small-cover/NvUsjMYuF3i0nipoUNrElb9AQEXSnq7W6Zwdf5I4.avif"
+    },
+    "48583": {
+      "large": "anime/large-cover/fiGgK0RR0jQ7hE1sgxVEwYVkbWFffNgii0fs9bz2.jpg",
+      "small": "anime/small-cover/L18hbFqVj47VjSqfKe6pWFvqHit5nIssUYRC18r6.avif"
+    },
+    "48736": {
+      "large": "anime/large-cover/Fj6bLgEzswhRFqujLVFzmR17xZGc0frATByhY3yv.jpg",
+      "small": "anime/small-cover/hWWjwbEBX4HaKiPHmuFofAnLfdMameTuyGB7aHzW.avif"
+    },
+    "48895": {
+      "large": "anime/large-cover/bsPFQf1wzkwToqFKEWn1CIpZ0cO6BClgYCi2WbAM.jpg",
+      "small": "anime/small-cover/qglHwtOB7wfKqNjdSWxfPQ4c87y2mKeoKTyYaxQU.avif"
+    },
+    "48926": {
+      "large": "anime/large-cover/x8SidYrZ1psjd82MG2sc5FT2nVG0bU4G7unGWgOl.jpg",
+      "small": "anime/small-cover/Kb3Z4UKaF0LCGhf91cfcFneaArsNW85ijJ65li1f.avif"
+    },
+    "4898": {
+      "large": "anime/large-cover/es0iTDiQ3QPnkkJ5k7O0x1RAmzNvlRmBLul8EdLl.jpg",
+      "small": "anime/small-cover/QCJWJBG1sLJkEL82cqqvAvxmCYYmUgWNZJpkdF9d.avif"
+    },
+    "48981": {
+      "large": "anime/large-cover/o3TnMtA4xEBLHeA4lkYGjbcWuyVtqb7d3fGzIOPW.jpg",
+      "small": "anime/small-cover/9zwXBhtvEucwG6vLFuYvI8wq5AUEyJHkIL0cHcW6.avif"
+    },
+    "49154": {
+      "large": "anime/large-cover/1m7ZdwvaEWBejZxeVLOeZGVkBMjLiHN5S67ip3CW.jpg",
+      "small": "anime/small-cover/3O4ntphLaAC05yrQd6ZJfBO20evoJu9rfVmAuDjo.avif"
+    },
+    "49458": {
+      "large": "anime/large-cover/UD6qb9qEbJKLVDq62ZBUSirTkahzJHajPHAgqnOI.jpg",
+      "small": "anime/small-cover/B0q0sj1NbeaOfzQFak6tLhlvSXD0qj9udLdk4GTM.avif"
+    },
+    "49709": {
+      "large": "anime/large-cover/L6NAgAt9Phyr0PVGW3bvph0hYRlZ5RjCGBmAJUuX.png",
+      "small": "anime/small-cover/IgCRxrZDZRPGIBNGnHkDBcTfvPfOXbChFknjtIo4.avif"
+    },
+    "49782": {
+      "large": "anime/large-cover/GGrkilF55WaRP12uooevj8uH6eNDovbbDvEhLeOv.png",
+      "small": "anime/small-cover/TZGsSrFU1AtWy2Q0Qpqfqp1npfa2iBTveTviQeRV.avif"
+    },
+    "49926": {
+      "large": "anime/large-cover/zj611pKZe7lsLl8SjCj8mpNJEsY3ZmUYPEmEhwg2.jpg",
+      "small": "anime/small-cover/mBsbyGL8ABQ5BFbfLjK0OxHElmloaGymzZKU8FdO.avif"
+    },
+    "50172": {
+      "large": "anime/large-cover/M1p9hE8RRgnOcmv8Ohu5i7RrpMyxdsHSTN0XjRbe.jpg",
+      "small": "anime/small-cover/XQwYcGZM7mmSZsiDC7azX2gb0SfKD49bzLXxsw3S.avif"
+    },
+    "50205": {
+      "large": "anime/large-cover/R1poAnZIKnvNEILW0divF77LBoI103eA7IUXOUhq.jpg",
+      "small": "anime/small-cover/I9aI4UDqebgxVZhEA5NygtrzXcpaFc9pCrSaA4f1.avif"
+    },
+    "50265": {
+      "large": "anime/large-cover/s481umbdgWIWwMDPwzPgu1EZEvxKq4Zy2coxs255.png",
+      "small": "anime/small-cover/H0O2ZyW2jXJGv9jbRDJ5Kt1KPKcALru1zwPhoThc.avif"
+    },
+    "5030": {
+      "large": "anime/large-cover/jGQYpiw0knzVwhcEmmlmrEgNhvLQ8mEete2he8Q6.png",
+      "small": "anime/small-cover/YipCzOuhHZ4Il6TkgwQkuxswtPaPgJz0nkhqxyIU.avif"
+    },
+    "50380": {
+      "large": "anime/large-cover/WRywVed9lVN531sgMqsV9nUcUwyb7WBakAnbIfu2.png",
+      "small": "anime/small-cover/j4vHBDZ8CglSJO1u9GxUxll7rYWwKVxcQoJhdQks.avif"
+    },
+    "50392": {
+      "large": "anime/large-cover/1hFk8pWnngJ5c4WvYhKFbl7PghtoRl1Qba9kuZWG.jpg",
+      "small": "anime/small-cover/gVMNKpJmVvW8sJ4DANXpwA4J3j90aA0umoe2V5WX.avif"
+    },
+    "50481": {
+      "large": "anime/large-cover/8AWPzvP5KSuDaVXvutTWjBXZyesOe4N2VeIbpCim.jpg",
+      "small": "anime/small-cover/WdBVnZayBUBU2cPgG09Qb7dfqvG98oFVkch9XtP2.avif"
+    },
+    "50594": {
+      "large": "anime/large-cover/9k6HYOxuZYxEpaNJfDyueIKboNjdHGeo9b2E9uyg.jpg",
+      "small": "anime/small-cover/QskUT4weXggNQ5fw9rAZ0tOYnaWqS2CTNnfSt72Q.avif"
+    },
+    "50602": {
+      "large": "anime/large-cover/GEk8yX2qfXR4s0c6WzniZKkdjr6xg6olZyxBrinR.jpg",
+      "small": "anime/small-cover/vIfB5LCFpbqq9bGHZVASa4b6UCTe26lKGV8zzzcc.avif"
+    },
+    "50608": {
+      "large": "anime/large-cover/Zx4O6IYBlLiaUPqqVHttfQWzFOUkr1TIhLqlPAU3.jpg",
+      "small": "anime/small-cover/g2ANm4RKnUSoGC8hv33thYTkhVAa2d4XEsLGC3Mv.avif"
+    },
+    "50709": {
+      "large": "anime/large-cover/T1lOnKDgl4yWpgshTXWoxSxugkJkbqNpJCcTenno.jpg",
+      "small": "anime/small-cover/y6IFPZp4UL17cV4j12OOwDVYhijkB0oOKjjqVB0g.avif"
+    },
+    "5081": {
+      "large": "anime/large-cover/OoMI35OjrpjORDlWJvFAZzQOD0vIH1oBQClClSIU.png",
+      "small": "anime/small-cover/GCqj0nvQyP0dSyujTSelNVD27BhU1sRedCS8DWKm.avif"
+    },
+    "51009": {
+      "large": "anime/large-cover/cJED2tzLpk4nKIL3lbb4zElDnwDQKEUbizSuAFay.jpg",
+      "small": "anime/small-cover/IcTCsNYO8MH0gsM9jeZ6NDs6RI2fpoKNVhrj0Lrd.avif"
+    },
+    "5114": {
+      "large": "anime/large-cover/gfq2CHywTELCdwvhg1qbHQ5kj5uoDoxFOvJ64qcG.png",
+      "small": "anime/small-cover/WhPRDYBAcmWmFD63BndVYcCM0jvtWxXk3jdTVCAd.avif"
+    },
+    "51180": {
+      "large": "anime/large-cover/wvufCsVUpKbWKaKEMzTSoBjxBraApDYDOsDhsg42.jpg",
+      "small": "anime/small-cover/BITy3RZrxndD1MSxkv3sfqBrNzDOw4RCVkQLFfon.avif"
+    },
+    "51417": {
+      "large": "anime/large-cover/LpU9sPUT8YFgFxdigH1pYlDpjz3xH5ASaYVNeuTw.jpg",
+      "small": "anime/small-cover/1I148ZCc7J0jPqNwe8lXNTY4KVgH85xBDN44jcDT.avif"
+    },
+    "51553": {
+      "large": "anime/large-cover/ivxtaFvoBDbaOBJ6z3HZgalvtn7RaxHdoem3DrSx.jpg",
+      "small": "anime/small-cover/uEVa0BxKKywGvnpSx3lA65cbkeiq8iSF06V2l7Fq.avif"
+    },
+    "51648": {
+      "large": "anime/large-cover/XfuSaEkfEpMHm5YIwrkNC5cCb2BL4LAahAXrxNmk.jpg",
+      "small": "anime/small-cover/auRBiPDIH8dUkwDnJqKDQ2uJMIWe6XXC1dwf74AK.avif"
+    },
+    "51678": {
+      "large": "anime/large-cover/rGW6SqCnGmTB3G62k4rb1WqgchOP3U513mUM1QT1.png",
+      "small": "anime/small-cover/nNtI91osNArwjs77fr9joCGAaobMKFobfSgliUIM.avif"
+    },
+    "51916": {
+      "large": "anime/large-cover/tu0mYxKlxllmFl6ePJmBMX3YRAdDhdlzgJQa5Zfv.png",
+      "small": "anime/small-cover/OtjBTc3JtJ1bipDa7nCLBQ5Ygx3FWpj9y7NBDKwa.avif"
+    },
+    "52093": {
+      "large": "anime/large-cover/tKUzqbSwP6M8JrUwIEmCDJG0JeQ959MSvUc03Y4P.png",
+      "small": "anime/small-cover/dlBMfte8CZQN7KMIb4mdN8PrgXZM30lXd5VrvP81.avif"
+    },
+    "52196": {
+      "large": "anime/large-cover/gDUYpH6F1WiMtsmKtsm6yurkGjY93RkKwwp8SacK.jpg",
+      "small": "anime/small-cover/INuOxpvJgJOwaDRLuNYHEsrhJYPdVFdV1cjenBnL.avif"
+    },
+    "52215": {
+      "large": "anime/large-cover/aYRU3e220hSetm5QkqUtE94t8WPgfzkL5kkdXIt7.jpg",
+      "small": "anime/small-cover/mASd9Zp91QB8M0suZ84x6FAdqMEJqzu7h5ZOioYw.avif"
+    },
+    "52299": {
+      "large": "anime/large-cover/rcukcV4KIE1UnsOnSVaZkCBGqR1MpUFX7MsbWAh4.png",
+      "small": "anime/small-cover/Nw2uLq9ds2ZyGmYY5n5NGWBnPab5v4VUexFmsTum.avif"
+    },
+    "52481": {
+      "large": "anime/large-cover/hVbZzflMrgx3TzkVD6nDsR1BcdIcoZ81lIIR0Vj1.jpg",
+      "small": "anime/small-cover/bAmNW7CDdzhmZIeIyRcYYEEXpAIBRw1vcSWEWZeZ.avif"
+    },
+    "52505": {
+      "large": "anime/large-cover/cX7662g57CLzYsODSUD3vlfLQGanhujjNeFYdhcZ.jpg",
+      "small": "anime/small-cover/Mc0ZUi8LwUc39Mt3WL1rU9SWgASJlF36dR66XlQw.avif"
+    },
+    "52578": {
+      "large": "anime/large-cover/ES29NByd1jZfv4TEjhd1ZlpkEr1sqiYd40Jaso01.jpg",
+      "small": "anime/small-cover/vwcTKAhskmBEWpuPvYdMJgYnQrk0E2OzEvokmAkQ.avif"
+    },
+    "52588": {
+      "large": "anime/large-cover/VPBSBSm3RW8MhlVrnBC61Uc8ZlEOMYVywm4proQv.jpg",
+      "small": "anime/small-cover/mbB4gU4qtB35EVELf94emrqnhTN3bYaWFCX6gpai.avif"
+    },
+    "527": {
+      "large": "anime/large-cover/PyPUjidOo86Z8HcUEZNGKMBO5xAbtNSjQc2egqUg.png",
+      "small": "anime/small-cover/pVdw7ySWm6KZYXKPDNrMizp8QQmsQNmIeI26uSpT.avif"
+    },
+    "52741": {
+      "large": "anime/large-cover/A2Klm3qIeQ9haNPdQLR39eIUSOiWQPjZKBdB9CAV.jpg",
+      "small": "anime/small-cover/IhxJ8LWdasWdkc05WEkO5A2P3dQGB3nVZZEmufX7.avif"
+    },
+    "52807": {
+      "large": "anime/large-cover/LCnQOqyCFKV6MokVId8QbPpwm7vORsjHKxcKABP5.jpg",
+      "small": "anime/small-cover/Ykr6Q48xUX0tTiMDGRNF91dYDZ6Xu49sHuUTBxOh.avif"
+    },
+    "52865": {
+      "large": "anime/large-cover/YgfHcqjdSaq1KiGqLZexeDBgyWrkuQblJbz9kXw3.jpg",
+      "small": "anime/small-cover/xm58jnvXtefy3NqePLq0YrlnCYJKM0hsnqh4axFA.avif"
+    },
+    "52991": {
+      "large": "anime/large-cover/h30TFwGNgWbYB8uBi2VjoCt0FACcvq5H2KTesWLt.jpg",
+      "small": "anime/small-cover/xPc4FBadGmZBbiglJkG5OADioqbffV3nbj2fpfrZ.avif"
+    },
+    "53": {
+      "large": "anime/large-cover/fEKEjICFbQ1x6nwSe09rdSSXHmlpySoyhwVCkChy.png",
+      "small": "anime/small-cover/Ci1NcSTb0B8ObVcoXr9WyYiL2GMo2EsehqB7MiJ9.avif"
+    },
+    "53065": {
+      "large": "anime/large-cover/GSMm1pfcFJ9fAi2OvtZpqldmMv56N0EaDS5AFXyw.jpg",
+      "small": "anime/small-cover/ia3MCVrnJ3ChVbsXH200ej65fa4GZHYnmUEXXS00.avif"
+    },
+    "53407": {
+      "large": "anime/large-cover/zlhabspk3bJ83kpjI0lO8SOrxSzlIi9BKqs2rIqq.jpg",
+      "small": "anime/small-cover/BCOVXCGlrDKaHzyNka42XsBOXgtJuZOystKAJ1Zu.avif"
+    },
+    "53580": {
+      "large": "anime/large-cover/10BWyA1mfwXvq0Ge9dhvi9Wa0tte2ntzjpEYzMIK.jpg",
+      "small": "anime/small-cover/RxjBd0vJQNrCWnQqdRDvfYcI5bMTWBuCL4QsEXg1.avif"
+    },
+    "53802": {
+      "large": "anime/large-cover/3zBlaBkyLHigfJpqE4s32CCZLuBkZlf0Pwda9a5G.jpg",
+      "small": "anime/small-cover/vIikz8Du02FJsDRD2nwh51554aV1VqHZCuABBPsW.avif"
+    },
+    "53887": {
+      "large": "anime/large-cover/QiXMWQA8LOllgR3wVrsCvCEAqjmTGPMuAdKfFSSh.jpg",
+      "small": "anime/small-cover/idtRqb0R3pQWJxSIbB2kRdhkLFXiyDjjNoYUKxNA.avif"
+    },
+    "53889": {
+      "large": "anime/large-cover/PEDvwwAG6M3HXCSemLumDKkNd3ig2NdbSu2MCTGU.jpg",
+      "small": "anime/small-cover/AtoNTpNoRelG2CvgjX5uyEVvCjJbCAc625HttQeX.avif"
+    },
+    "54112": {
+      "large": "anime/large-cover/oOzyO1ZPcBI9dVwIMlXvQulWiT5gzD5BtkbNcemi.png",
+      "small": "anime/small-cover/cNnLJ3KhHMjmBN1afp8U8eacUAgi6b0lRwtCm7Wx.avif"
+    },
+    "54492": {
+      "large": "anime/large-cover/JVcAvq0bNPoZKCUXCTKGtcPHYORZpyvISqOPLjSZ.jpg",
+      "small": "anime/small-cover/2kmkl9E9eTNogst0TSkuK7ulzggkZhyMYGZSCv34.avif"
+    },
+    "54595": {
+      "large": "anime/large-cover/ySacq0xjeahVhMIRkEbvftR6YHiNMnIz5sh2zA6u.jpg",
+      "small": "anime/small-cover/UXaY07nLeNqxnie2uHKuRMaUd6vloAqyJBHEru0t.avif"
+    },
+    "54839": {
+      "large": "anime/large-cover/nmmovvvZm44KVukxLCIgFwoN89GbL65qHoXdk26h.jpg",
+      "small": "anime/small-cover/2XP3sNcnU98o9CRVCIXcoBFMYYFzI60AYjV5Yn8m.avif"
+    },
+    "54857": {
+      "large": "anime/large-cover/kYJarVncy880fMXg2zL1UyN8tM8k1S7XUuk4lrGr.jpg",
+      "small": "anime/small-cover/IA56QkhLdRzyURjWhJyrrnEMbZijxSgWdfaiwUzY.avif"
+    },
+    "54968": {
+      "large": "anime/large-cover/Guu8fMKsVyzRq1XQbZHjEhJxj07JZvd1AIxacrr2.jpg",
+      "small": "anime/small-cover/kEHtJurEJ3X9yqBoy8dUg1HIOz8vuwtjnwFkTePJ.avif"
+    },
+    "55749": {
+      "large": "anime/large-cover/0GaxXllHvMJtwgc9CbjmSX1URXfuSYxO5plMsDzd.jpg",
+      "small": "anime/small-cover/MDrCqArBdBI3xhhXKYdq8UVxVVM0qZflAtfrBrhB.avif"
+    },
+    "55791": {
+      "large": "anime/large-cover/baeEXsJWOa5SNUKKJxO5MgQ5MNPrXcpymuAJhGDH.jpg",
+      "small": "anime/small-cover/sEn346jvkqbXp6dC46TwnQWtIAt8Skm94ZrVf2qQ.avif"
+    },
+    "55813": {
+      "large": "anime/large-cover/bPG4AzHT8uT7FGudNNS1XGvhx4vNkMBpXO7fZJfk.jpg",
+      "small": "anime/small-cover/65T7bEl4fyZ6AfoBKlGYedfKwK5ccQ3tqk4Ucf2P.avif"
+    },
+    "55866": {
+      "large": "anime/large-cover/9xUaoik6qpYn02Fzpo1QAkn325KgPGiTHCYqqsud.jpg",
+      "small": "anime/small-cover/JeoL8n9bcpY3ECHg6fyK5QMn4bxeTDIYppSWJgnE.avif"
+    },
+    "55888": {
+      "large": "anime/large-cover/d0ryXXMTow5s27tQVw8cqU5pxUxAgq8rKgEf8Fw7.jpg",
+      "small": "anime/small-cover/NGKYBOmdTH2s1qbW7HTeHk4wiXfsPoN0ccVPrUMo.avif"
+    },
+    "55997": {
+      "large": "anime/large-cover/hYdprNVXQ3U259NrvBpI16CH3KRawRiovgZFiNO5.jpg",
+      "small": "anime/small-cover/ud1bJAFOFgegIzEKphnfAiNyuTPUDT7dDan5sniZ.avif"
+    },
+    "56038": {
+      "large": "anime/large-cover/VF87NWS5Y7KVjxA6zW49HjuEKb9t3AuZ0UYactIe.png",
+      "small": "anime/small-cover/Oc9JRnePT38bunEB50z798PV5WJ05SUJf617GNyG.avif"
+    },
+    "56352": {
+      "large": "anime/large-cover/pNIFkR1ru9t43dhCq9fiwbsJHrrHyYzAec0n80pO.jpg",
+      "small": "anime/small-cover/oXFaAWcDusmSeo3tHTrLw2AC7Jr48jLgb7qYhrZk.avif"
+    },
+    "56734": {
+      "large": "anime/large-cover/SyvlF5bssMbDJOEu7MkZFqdWxcKkEDLdqPqHGoKV.jpg",
+      "small": "anime/small-cover/eA06D3ntr7m4fMEWyZlNCw4yyS0CaEqdhxP5s0dT.jpg"
+    },
+    "56784": {
+      "large": "anime/large-cover/dZXxEIHBNLvl7KTf4Emd8UhbBsOOkNxhBKw7Zt9Z.jpg",
+      "small": "anime/small-cover/VdFcTxFgfNbb1xx1Wid3iRDrNkzJm6zyGeROPnnL.avif"
+    },
+    "57555": {
+      "large": "anime/large-cover/6d1hlr1SwcbRjy5wYaKNpQypNfREWd0ADrYoQwHM.png",
+      "small": "anime/small-cover/tREqvRSWPUR7ymWrbKgwVzGcMMrnqgdF4ZCoSfMR.avif"
+    },
+    "57658": {
+      "large": "anime/large-cover/a1piCTHptdINFembaXoPF19Yq8qqX1vAzHZsGZqw.jpg",
+      "small": "anime/small-cover/k4vulq80FqlPXKsilFNIbgxjTi9e7e60XsfhdleC.avif"
+    },
+    "57864": {
+      "large": "anime/large-cover/D6uqT9OqNSz697MBCsEhiFQuVEL3lwwy4UaLugK1.jpg",
+      "small": "anime/small-cover/7X3D0DZ2Ne4T5MynCf8P0BmVjWiMdzRlTk9rFj27.avif"
+    },
+    "58125": {
+      "large": "anime/large-cover/S3tgS0UhMDCvf5N4TvPUCNdJFmnpm8mo8jgQouSn.jpg",
+      "small": "anime/small-cover/PavQZBGSG4BVh4WzMHbeNUEE5cHl89Drpbph7Efk.avif"
+    },
+    "58271": {
+      "large": "anime/large-cover/WGFaQpYLpphEiWNTF6N06IR1Inw1I454mEc4I5Ko.jpg",
+      "small": "anime/small-cover/Ool5Hn3zvg5BjyHbh6JXhvpCIn8HsqQrseJocarv.avif"
+    },
+    "58390": {
+      "large": "anime/large-cover/40nACKbR2leEMdpxDhBqRSbKTgr4mywkBXgUSxIt.jpg",
+      "small": "anime/small-cover/dNhquUO0KdLQlDJ2edrtBdqbqzSzCCLFsdb3kB0t.avif"
+    },
+    "58514": {
+      "large": "anime/large-cover/5lIycE5HYuCJX8pVxe3pqja6TpWa8m2IjHG6Ifeg.jpg",
+      "small": "anime/small-cover/nMFozDsZ499Ex0DBS0LKr7PKTrtXsbtIGWqLzC8g.avif"
+    },
+    "58567": {
+      "large": "anime/large-cover/EpbBzi0JgX3nx33ztRldeUOoB7THHGJr9mizquya.png",
+      "small": "anime/small-cover/ce3tz2qN6tlE3QH2SAKU759jj6K1nXE3RzEGJcFQ.avif"
+    },
+    "58714": {
+      "large": "anime/large-cover/PimYCYLgEcwNZaFAcfp5BWMQNX8T3hpEZcwZH2Nc.jpg",
+      "small": "anime/small-cover/tvCQLDmDp5xGp8F7xAIpwLHVfaEN1CWr6Gkc1myd.avif"
+    },
+    "59": {
+      "large": "anime/large-cover/FpWlYJ25utbQCbiEjN1g91Ptg2BRDao1LnUxxOcX.jpg",
+      "small": "anime/small-cover/jKna0paP084PFhpfUczDCcSflqLu6qWOgLCrsMmx.avif"
+    },
+    "59027": {
+      "large": "anime/large-cover/hriHgTCjbfEnM3SQc0tTbA008aCUD7bEd1jqQuey.jpg",
+      "small": "anime/small-cover/0hSJXU8HNB2u4LDbEyJQqbWRthhPNiD8x95T1jUJ.avif"
+    },
+    "59135": {
+      "large": "anime/large-cover/T2Nevxclm7DoqH1cs8hAQHJYDyrUzoC6QXZM3Ld9.jpg",
+      "small": "anime/small-cover/PgNhY0cFbaPCyOpvBDXAECmP5t7sZ5URB82ipaN6.avif"
+    },
+    "59160": {
+      "large": "anime/large-cover/9Hz3b9JEP6KsnoU6buy02FrM9SfOmnsTIaYyC550.jpg",
+      "small": "anime/small-cover/ap5IKs0Nn4d7ftxOvbdsARZza0yygP9vfnn74NLQ.avif"
+    },
+    "59177": {
+      "large": "anime/large-cover/VOelWwbAolt2lJlMD4BDIeQERdvdtca82wdJyJVJ.jpg",
+      "small": "anime/small-cover/ZbnLZnYZp0X1PsTUkXAwgwBDbC8Jq4h8EW8j6UZS.avif"
+    },
+    "59459": {
+      "large": "anime/large-cover/8VVM8rsdMSDHO2dei63SItJsj7pltoSvpOHvR5yn.jpg",
+      "small": "anime/small-cover/yeD9gmPuhfWx9oVqQHVusS3P0FgPkJvv40vpEH6s.avif"
+    },
+    "59597": {
+      "large": "anime/large-cover/Uahh45QfWVwHF9XU7Ebj7Ld3Ty5yVlVWcURO1otC.jpg",
+      "small": "anime/small-cover/YDUJLTMokSi7M7ygWpiu5rTFEYT2yV0ckaF8CG8c.avif"
+    },
+    "59741": {
+      "large": "anime/large-cover/o3eUpAqVSjOBApwHzeq2TFrzHcE4zJarPfUpDJ5O.jpg",
+      "small": "anime/small-cover/B3jZmdDLhL4l1wHJRvA2swi3LvcEobOJeZc0kGp7.avif"
+    },
+    "59978": {
+      "large": "anime/large-cover/vDOYFI3qLvk7gI9JabngReNEdFN2CTTdUTVe487B.jpg",
+      "small": "anime/small-cover/k40V0W3sKuIWYGorPMIoW4MwWNGTZJrUWCC47mm0.avif"
+    },
+    "6030": {
+      "large": "anime/large-cover/iDn065Yibmsb3sj1lDjKXI2C3FIUT4fKfJjrcofm.jpg",
+      "small": "anime/small-cover/ZY9F78vwm2Y2JJi1TZRZJowPZTAmqDCgOcnutikZ.avif"
+    },
+    "60489": {
+      "large": "anime/large-cover/JmWwsR3iBf0MfNcuKYZYKB8Bx4TPgpOgPVbyJYaa.jpg",
+      "small": "anime/small-cover/0d6eRVop6m5BtEhwsSybjJUC0DKo38QmqdkVE5wa.avif"
+    },
+    "60543": {
+      "large": "anime/large-cover/312EK6N8Pgzoc5cTNI2MfdNeoWjjrzG3PFCqAaTc.jpg",
+      "small": "anime/small-cover/bDRpIuc75RpNGTkHHoKJVIAwi9dTi4OjTbj25HEt.avif"
+    },
+    "61": {
+      "large": "anime/large-cover/wKYPKjjRhNW1oVTGv1t0hnhtif8e6wsPimKHW9XO.jpg",
+      "small": "anime/small-cover/gbWNcRPbylzJg3KqGQ8VAIZ1JuMRX5ISySPBIUId.avif"
+    },
+    "61322": {
+      "large": "anime/large-cover/wrL1zeF5XNy6vO6LBhgb2FgxQkUN9OntG7nwVx9R.png",
+      "small": "anime/small-cover/ftVW708Actk3591T96TY1KX0CXDei3CeRvRSv2mq.avif"
+    },
+    "6171": {
+      "large": "anime/large-cover/6eT6YyQtU7I5SgGsgIS8GtarCoAPA0jSDKdRRxCn.png",
+      "small": "anime/small-cover/jewNJ1EUpaxOrhjwGNxolGCJdXfmjpODpKGlJHH0.avif"
+    },
+    "6213": {
+      "large": "anime/large-cover/wmZvmgbCUoXbYco5QLDfMCgqs5nJVodpWGP1Q8UD.jpg",
+      "small": "anime/small-cover/WMxtI14apKK9H0hvO5DIiGMjzI3ZYzblRGLBwBBp.avif"
+    },
+    "62513": {
+      "large": "anime/large-cover/mFXzDIreSbsqW06OiTwPmK4kgmJhar2CydKET7AH.jpg",
+      "small": "anime/small-cover/byTZ6KmnE7hoQZT3D24W94qBl6rGNPSzf978O25N.avif"
+    },
+    "62601": {
+      "large": "anime/large-cover/ruFzUrwdfEewvo9Urb7fYd2mGAWosVamwRInwPC8.jpg",
+      "small": "anime/small-cover/kNYSEMj0aZte1vKG6BBryA70fWzR93GED6QhkLVn.avif"
+    },
+    "6547": {
+      "large": "anime/large-cover/87jrHcYYj2dhrR5ToxgXhOFif0F54jq9BPfKleeF.png",
+      "small": "anime/small-cover/djaQWqpcCjDnUUDJjh3FTfT0K6TT0a7dHdA4fTMg.avif"
+    },
+    "6573": {
+      "large": "anime/large-cover/ajqJONs84rCbLBbtPZL63Lswzzkngt04thR35CHX.png",
+      "small": "anime/small-cover/gQ30Lej6tLjWdY5PJYB5sfR3RW4S0r2CtojDmiAx.avif"
+    },
+    "6702": {
+      "large": "anime/large-cover/3puVVrO22Td4dq1SFNCR1KbT6LWoaQxgUdaByDDG.png",
+      "small": "anime/small-cover/8QcZDtPyAzTWVhQYrDLEI0rVNRjFbIrNuXixRw2l.avif"
+    },
+    "6746": {
+      "large": "anime/large-cover/k5qkrZuvS66mIEjeu0stEX0HZrqLiGSVHRljeCOC.png",
+      "small": "anime/small-cover/sPCcdVXvaGSB0lr60C3iMdUBHNrOofOzTLNh1PuS.avif"
+    },
+    "6880": {
+      "large": "anime/large-cover/puzYJfJ0RGhCcMjeO73B4y738Nw3fCVwq7geeLwS.png",
+      "small": "anime/small-cover/9QOEkMmtq5JEhCxxDJdar4Ug7RorzyfwFvdJHoA8.avif"
+    },
+    "7054": {
+      "large": "anime/large-cover/jL8Iah9UJ1UDY0lC0RDW5AEEA2YFq3NdRnD0sc0Z.png",
+      "small": "anime/small-cover/yrjeL7rM8Y3INBRwXsxH9kHQpZcYNQ6LPNdyRXFf.avif"
+    },
+    "7311": {
+      "large": "anime/large-cover/NcKyZWSJ6XZlVgxF6bo7Wv4l9tgXg79mDYAIsHZt.jpg",
+      "small": "anime/small-cover/AEJKPwfcRnblHICB6UAUzeRsvuDjEm7GrXZJh33O.avif"
+    },
+    "7769": {
+      "large": "anime/large-cover/cqk3F7zlco7utZehRS56s5Cjo8DHK8fyQuzS8oU4.jpg",
+      "small": "anime/small-cover/uQx2gMdNo1bMCmw6lzrZxOuZR8fndx9g8uqZ4cHe.avif"
+    },
+    "7791": {
+      "large": "anime/large-cover/65s1qLukAVEQ3lkZccUyt3kmU6slSkWWwPTHcKTV.png",
+      "small": "anime/small-cover/yx3zry0F9QcMAauTikpqufdzG7VLx0U9Q1WmQkrp.avif"
+    },
+    "7817": {
+      "large": "anime/large-cover/BNb2nk4WWVI4X3ehHscyYBdVheEiVIQprnYnb9fg.jpg",
+      "small": "anime/small-cover/beMTWWeJ0DroSYGuwvoCevaYVOoDAiePvctCljNh.avif"
+    },
+    "8074": {
+      "large": "anime/large-cover/hoXeaJxKWD2duel4Kpk1Z6Q6sr582olGZckXs2Pg.png",
+      "small": "anime/small-cover/IDVSmaRX0btOL1ZIqifM700DDFWlOgvQSxfjpbem.avif"
+    },
+    "813": {
+      "large": "anime/large-cover/mPaZWpIpdL683kNGU2KVQOqwSBvYn9MMn68pRK3Q.png",
+      "small": "anime/small-cover/SHOLiiepCswpmgJGcgLhHk3n9gg291RU4I3e9u2q.avif"
+    },
+    "8424": {
+      "large": "anime/large-cover/ir7mEiauhhlStXd1to6Mw0USLgKDZvfBLEnOfZKL.jpg",
+      "small": "anime/small-cover/jTsiykj2Ub0UZY9Gxsg1963yZRIEy2GJABOHQRTY.avif"
+    },
+    "849": {
+      "large": "anime/large-cover/2KPT8wmxRAGxUoRKhl7kvb4Wq2iXJGPgEVY6rYCL.png",
+      "small": "anime/small-cover/cBOv1MnF1lvKj9roUJq8mZYFhoULYcn8oQAx4ysY.avif"
+    },
+    "8525": {
+      "large": "anime/large-cover/WJl7Z8COjVrh2KQD08EkqRGqPmpcD8OWgZf1qYrA.png",
+      "small": "anime/small-cover/8xa8qBytNivNAzb7X4iM6bNh4H8wwjIYF7MCBdSO.avif"
+    },
+    "853": {
+      "large": "anime/large-cover/0LVnEXWG9mfvr081try01UzKWHh4gUQKbv3jUze6.jpg",
+      "small": "anime/small-cover/pRWOJgw1XwQTKfN40eY2TStUaxVMtmETnvbJggyt.avif"
+    },
+    "8675": {
+      "large": "anime/large-cover/NKzs2H4p7U9bYhe2fudKBwQbAdjSuCn4g78xpafE.jpg",
+      "small": "anime/small-cover/ft57UCNMdhHAaRSmWNEvtz6AcNWQqrtrT94cxhQb.avif"
+    },
+    "8676": {
+      "large": "anime/large-cover/zpul3TSxjTcdfjBIuscwGaWe9QyEJ3OOVsvNVvsC.png",
+      "small": "anime/small-cover/n886pmXZ3g0JaBkKb7zAwezcwg81NYRfIhseuy1w.avif"
+    },
+    "8795": {
+      "large": "anime/large-cover/N4zBK014sMuNnfQCjP94Xv8Tnu4IwmMJBvGt3BPd.png",
+      "small": "anime/small-cover/SymuNxIL33lBf1GD3sGAzvF3Re2G6oT5IWrMctox.avif"
+    },
+    "889": {
+      "large": "anime/large-cover/HvzouQMAVfz8Ef3N8BZmqXhAyD9PYXaYssyvCvJW.png",
+      "small": "anime/small-cover/hJrZBwOdeDqszRhcdPj4ye6iBgor6BdvHg7PbJ03.avif"
+    },
+    "918": {
+      "large": "anime/large-cover/3tY3OcsdO8ooGlMonGMZyZiIE2YMPErteAZ0c4hg.png",
+      "small": "anime/small-cover/srjD80yIsZY1fckHRCC9XuerqjZyjKxyWHpjm8gR.avif"
+    },
+    "9181": {
+      "large": "anime/large-cover/HpQrYToZF4YliKRGMhLpHRpAnmt5ejlAJAE5y8w2.jpg",
+      "small": "anime/small-cover/daS2aNLJU0HpojfL3aX9yxnzZyrb9zCB9kHv0mTZ.avif"
+    },
+    "9253": {
+      "large": "anime/large-cover/F2y3VFbZpLc1q06wndCkRa02jmU8qQnhtNOAnDv0.jpg",
+      "small": "anime/small-cover/T6i3iZHGiphaFRtnnr7Zy2rRLL932Xsg6YI0a2Ih.avif"
+    },
+    "9289": {
+      "large": "anime/large-cover/6chm9TdhQo4g2JoERxhlgbVK1UO2X1Hp7JkExvZk.jpg",
+      "small": "anime/small-cover/jx9aco9u3PG9kXqRj94UgA1Exx4mcp3Q3DkOx0nJ.avif"
+    },
+    "9756": {
+      "large": "anime/large-cover/WESkI2o3AoRu1SXoI0GedyqyY43P0K6DjIa7Sbeh.jpg",
+      "small": "anime/small-cover/r0SFrJlbDzYpw2XFiCjgob44GFxvyeLB8laPQdae.avif"
+    },
+    "9919": {
+      "large": "anime/large-cover/qQ3t0ObW098mFW5Qzmzye1O2mJ0Umcb4NYlpeHUA.jpg",
+      "small": "anime/small-cover/s3Gwosw7wiwoOaPtSOxbo1tBFRVyl6EM6ZsL3gfy.avif"
+    },
+    "9969": {
+      "large": "anime/large-cover/BVX2MN9hzh9MGX4LToxsTaNwZR4g5CXE02TPOZIc.png",
+      "small": "anime/small-cover/ty3Q9Y3Yq4x9I9lLtMaThgWt5wEEYM8UpzDRCTZp.avif"
+    },
+    "9989": {
+      "large": "anime/large-cover/7V720w0ENGOSx0hZZcz8btlhApnQl2e6pRlxJt9L.png",
+      "small": "anime/small-cover/JGQ0eUgvqmG0dydBiL5waX7dEGCOpDgFQbBYSR9K.avif"
+    }
+  },
+  "provider": "apple"
+}
