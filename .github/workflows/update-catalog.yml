@@ -1,8 +1,9 @@
 # Toda segunda: busca a parada real do Japão (Apple), refaz o catálogo, acrescenta à agenda os
 # dias até hoje + 21 e abre um PR com isso. Quando a agenda do Anime da main tem menos de 21 dias
-# à frente (uma semana sim, outra não), o mesmo PR traz o Anime: umas 12 músicas novas no acervo e
-# os dias até hoje + 28 (P237). O merge desse PR, feito por uma pessoa, dispara o deploy (rotina no
-# README, "Publicação e atualização da parada e da agenda").
+# à frente (uma semana sim, outra não), o mesmo PR traz o Anime: umas 12 músicas novas no acervo,
+# com as capas dos animes delas, e os dias até hoje + 28 das agendas do Anime, das Misturadas, do
+# quiz do dia e do Anime Royale (P237). O merge desse PR, feito por uma pessoa, dispara o deploy
+# (rotina no README, "Publicação e atualização da parada e da agenda").
 #
 # Quem roda o código do pipeline (a rede e os pacotes do pip: catalog-generate e anime-generate)
 # só lê o repositório. Quem escreve (push e PR: catalog-pr) não roda o pipeline nem instala nada:
@@ -51,6 +52,13 @@ env:
   # (cada dia lê as respostas do Anime e das Misturadas, P378). A real nasce com a tela (PR B).
   ANIME_QUIZ: web/public/data/anime/quiz
   ANIME_FIXTURE_QUIZ: web/public/fixtures/anime/quiz
+  # O Anime Royale (o usuário, 01/11/2026): cresce depois do quiz (cada dia evita as respostas do
+  # Anime, das Misturadas e do quiz e não passa do último dia deles). A real nasce com a tela.
+  ANIME_ROYALE: web/public/data/anime/royale.json
+  ANIME_FIXTURE_ROYALE: web/public/fixtures/anime/royale.json
+  # As capas dos animes (o Royale mostra cada opção pela capa): só o caminho de cada arquivo no
+  # AnimeThemes, que a busca nova acrescenta e o build-anime põe no catálogo do Anime.
+  ANIME_COVERS: pipeline/data/apple/anime/covers.json
   # Só lido (as respostas da agenda fictícia do Anime são dele); fica fora da lista.
   ANIME_FIXTURE_CATALOG: web/public/fixtures/anime/catalog.json
 
@@ -313,6 +321,27 @@ jobs:
           search
       - if: steps.fetch.outcome == 'failure'
         run: echo "::warning::a busca do Anime falhou; entra o que ela gravou antes do erro, se gravou algo, e a agenda do Anime cresce com o acervo"
+      # As capas dos animes (o Anime Royale), do AnimeThemes: as que faltam, num passo à parte (o
+      # prazo é dele, e a falha não conta como a da busca no corpo do PR), e só com a busca nova
+      # gravada. O build-anime põe as capas no catálogo, que só muda com a busca nova
+      # (check-anime-pr.sh): sem ela, uma capa nova mudaria o catálogo sozinha, e o Anime ficaria de
+      # fora. Com falha, nada é gravado: o anime sem capa só fica fora do Royale, e a próxima busca
+      # pede de novo todas as que faltam. São uns poucos pedidos (100 animes por pedido).
+      - id: covers
+        if: steps.due.outputs.due == 'true'
+        name: Buscar as capas dos animes
+        continue-on-error: true
+        timeout-minutes: 3
+        env:
+          NOW: ${{ steps.today.outputs.now }}
+        run: |
+          if [ ! -e "$ANIME_SNAPSHOTS/${NOW//:/}.json" ]; then
+            echo "::notice::sem busca nova do Anime: as capas que faltam ficam para a próxima"
+            exit 0
+          fi
+          python -m musicle_pipeline fetch --provider apple --anime-covers --fetched-at "$NOW"
+      - if: steps.covers.outcome == 'failure'
+        run: echo "::warning::as capas dos animes não vieram; os animes novos ficam fora do Anime Royale até a próxima busca"
       # A busca nova passa pelo acervo e pela agenda neste passo. Se algo quebrar com ela, o passo
       # seguinte a descarta e cresce só a agenda (o molde da reserva dos Hits). O tee guarda os
       # avisos e os afrouxamentos para o corpo do PR.
@@ -349,6 +378,17 @@ jobs:
         run: bash .github/scripts/anime-quiz.sh
       - if: steps.quiz.outcome == 'failure'
         run: echo "::warning::o quiz do dia não cresceu nesta semana (veja o passo anterior)"
+      # O Anime Royale cresce depois do quiz, com o acervo que ficou, e só quando a agenda real já
+      # existe na main. Se a geração ou a conferência quebrar, ela volta à da main e o Anime segue.
+      - id: royale
+        if: steps.due.outputs.due == 'true'
+        name: "Anime Royale: os dias novos"
+        continue-on-error: true
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: bash .github/scripts/anime-royale.sh
+      - if: steps.royale.outcome == 'failure'
+        run: echo "::warning::o Anime Royale não cresceu nesta semana (veja o passo anterior)"
       # A agenda fictícia do Anime (ME109) cresce junto, com a das Misturadas, para o npm run dev ter
       # os diários de hoje. Só serve ao desenvolvimento: se a geração ou a validação dela falhar,
       # ela volta à da main e o Anime real segue.
@@ -384,6 +424,22 @@ jobs:
           fi
       - if: steps.fixture-quiz.outcome == 'failure'
         run: echo "::warning::a agenda fictícia do quiz não cresceu (veja o passo anterior)"
+      # O Royale fictício por último, também num passo à parte: uma falha só dele volta só a agenda
+      # dele à da main.
+      - id: fixture-royale
+        if: steps.due.outputs.due == 'true'
+        name: Acrescentar os dias (Anime Royale fictício)
+        continue-on-error: true
+        env:
+          TODAY: ${{ steps.today.outputs.today }}
+        run: |
+          if ! python -m musicle_pipeline schedule-royale --provider fixture --today "$TODAY" --days "$ANIME_DAYS" \
+            || ! python -m musicle_pipeline validate-anime --provider fixture; then
+            git checkout -- "$ANIME_FIXTURE_ROYALE"
+            exit 1
+          fi
+      - if: steps.fixture-royale.outcome == 'failure'
+        run: echo "::warning::a agenda fictícia do Anime Royale não cresceu (veja o passo anterior)"
       - if: steps.due.outputs.due == 'true'
         run: python -m musicle_pipeline validate-anime --provider apple
       - if: steps.due.outputs.due == 'true'
@@ -591,8 +647,9 @@ jobs:
   catalog-runway:
     # Folga das agendas. Se o PR semanal ficar sem merge, a agenda acaba e o dia vira buraco para
     # sempre (P44); o aviso do deploy só sai quando há deploy. Esta tarefa fica vermelha (e o
-    # GitHub manda e-mail) quando a agenda do site, a do Anime, a das Misturadas (M17) ou a do quiz
-    # do dia (M18, os meses da pasta juntos) da main tem menos de 10 dias à frente. Numa semana
+    # GitHub manda e-mail) quando a agenda do site, a do Anime, a das Misturadas (M17), a do quiz
+    # do dia (M18, os meses da pasta juntos) ou a do Anime Royale da main tem menos de 10 dias à
+    # frente (uma que ainda não existe na main não conta). Numa semana
     # normal, a do site tem 14 antes do merge de segunda; a do Anime, 14 ou 21 (ela cresce uma
     # semana sim, outra não). Com uma semana sem merge, 7. Roda mesmo se as outras falharem (é
     # quando mais importa), depois delas, e calcula a própria data.
@@ -611,7 +668,7 @@ jobs:
           today="$(TZ=America/Sao_Paulo date +%F)"
           short=0
           for pair in "do site:$SCHEDULE" "do Anime:$ANIME_SCHEDULE" "das Misturadas:$ANIME_MIXED" \
-            "do quiz do dia:$ANIME_QUIZ"; do
+            "do quiz do dia:$ANIME_QUIZ" "do Anime Royale:$ANIME_ROYALE"; do
             label="${pair%%:*}"
             file="${pair#*:}"
             if [ "$label" != "do site" ] && [ ! -e "$file" ]; then

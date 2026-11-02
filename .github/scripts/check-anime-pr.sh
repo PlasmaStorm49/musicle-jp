@@ -11,9 +11,10 @@
 # (failure quando a busca nova quebrou o acervo ou a agenda e a reserva a descartou), os caminhos
 # ANIME_SNAPSHOTS, ANIME_CATALOG, ANIME_SCHEDULE, ANIME_FIXTURE_CATALOG, ANIME_FIXTURE_SCHEDULE,
 # ANIME_MIXED e ANIME_FIXTURE_MIXED (as agendas das Misturadas, M17), ANIME_QUIZ e
-# ANIME_FIXTURE_QUIZ (as pastas do quiz do dia, M18, um arquivo por mês; relativos à raiz, que é a
-# pasta atual, um checkout da main), RUNNER_TEMP (com o artefato em anime-artifact/) e
-# GITHUB_OUTPUT.
+# ANIME_FIXTURE_QUIZ (as pastas do quiz do dia, M18, um arquivo por mês), ANIME_ROYALE e
+# ANIME_FIXTURE_ROYALE (as agendas do Anime Royale) e ANIME_COVERS (as capas dos animes; relativos
+# à raiz, que é a pasta atual, um checkout da main), RUNNER_TEMP (com o artefato em
+# anime-artifact/) e GITHUB_OUTPUT.
 # Saída: $RUNNER_TEMP/anime-section.md (a parte do Anime no corpo do PR) e, no GITHUB_OUTPUT,
 # title (o título do PR só com o Anime) e suffix (o pedaço do título quando os Hits também vêm).
 set -euo pipefail
@@ -25,13 +26,21 @@ fail() {
 
 # A geração só roda com menos de 21 dias à frente (anime-due.sh) e vai até hoje + 28 (--days 28
 # no workflow); o limite aqui tem folga, hoje + 35. Os tetos de tamanho: o do validate-anime para
-# o catálogo, uns 5 vezes o maior snapshot da carga de teste e uns 4 vezes o maior mês do quiz
-# (31 dias de 50 rodadas).
+# o catálogo, uns 5 vezes o maior snapshot da carga de teste, uns 4 vezes o maior mês do quiz
+# (31 dias de 50 rodadas) e uns 12 vezes as capas da 1ª carga delas (85 kB, 461 animes).
 SKIP_AHEAD=21
 LIMIT_DAYS=35
 MAX_SNAPSHOT_BYTES=$((2 * 1024 * 1024))
 MAX_CATALOG_BYTES=$((5 * 1024 * 1024))
 MAX_QUIZ_MONTH_BYTES=$((2 * 1024 * 1024))
+MAX_COVERS_BYTES=$((1024 * 1024))
+# O caminho de uma capa (o Anime Royale): só o de um arquivo do AnimeThemes, que o web junta à
+# base dele (vai para src). O mesmo padrão do anime_covers.py e do web (regra 5), no catálogo e no
+# covers.json.
+COVER_JQ='def cover($size): type == "string"
+  and test("\\Aanime/" + $size + "-cover/[A-Za-z0-9]+\\.(avif|png|jpe?g|webp)\\z");
+def cover_pair: type == "object" and keys == ["large", "small"]
+  and (.small | cover("small")) and (.large | cover("large"));'
 
 [[ "$TODAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || fail "data inválida: $TODAY"
 # O "hoje" da anime-generate vem da tarefa que roda os pacotes do pip: um pacote comprometido
@@ -43,8 +52,9 @@ limit="$(date -ud "$TODAY + $LIMIT_DAYS days" +%F)"
 art="$RUNNER_TEMP/anime-artifact"
 
 # 1. Só se a main precisava: a agenda do Anime existe e ela, a das Misturadas (M17, que para no
-#    último dia da do Anime) ou a do quiz do dia (M18, que para no último das duas) tem menos de 21
-#    dias depois de hoje (P237), como no anime-due.sh.
+#    último dia da do Anime), a do quiz do dia (M18, que para no último das duas) ou a do Anime
+#    Royale (que para no último das três) tem menos de 21 dias depois de hoje (P237), como no
+#    anime-due.sh.
 [ -f "$ANIME_SCHEDULE" ] || fail "a main não tem a agenda do Anime: o robô só a cresce, não a cria (P237)"
 ahead_of() { jq --arg d "$TODAY" '[.days | keys[] | select(. > $d)] | length' "$1"; }
 # Os meses de uma pasta do quiz (P379), pelo nome, em ordem.
@@ -66,6 +76,11 @@ if [ -d "$ANIME_QUIZ" ]; then
   [ "$quiz_ahead" -ge "$SKIP_AHEAD" ] || due=true
   mixed_note+=", e a do quiz do dia, $quiz_ahead"
 fi
+if [ -f "$ANIME_ROYALE" ]; then
+  royale_ahead="$(ahead_of "$ANIME_ROYALE")"
+  [ "$royale_ahead" -ge "$SKIP_AHEAD" ] || due=true
+  mixed_note+=", e a do Anime Royale, $royale_ahead"
+fi
 [ "$due" = true ] \
   || fail "a agenda do Anime da main já tem $ahead dia(s) à frente$mixed_note; o robô só gera com menos de $SKIP_AHEAD (P237)"
 
@@ -84,6 +99,7 @@ snapshot=""
 for path in "${changed[@]}"; do
   case "$path" in
     "$ANIME_CATALOG" | "$ANIME_SCHEDULE" | "$ANIME_FIXTURE_SCHEDULE" | "$ANIME_MIXED" | "$ANIME_FIXTURE_MIXED") ;;
+    "$ANIME_ROYALE" | "$ANIME_FIXTURE_ROYALE" | "$ANIME_COVERS") ;;
     "$ANIME_SNAPSHOTS"/*)
       name="${path#"$ANIME_SNAPSHOTS"/}"
       [[ "$name" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{6}Z\.json$ ]] \
@@ -124,8 +140,8 @@ has_months() {
 }
 
 # A geração sempre cresce uma das agendas reais: a do Anime ou, com ela longe, a das Misturadas (a
-# estreia delas) ou a do quiz do dia.
-has "$ANIME_SCHEDULE" || has "$ANIME_MIXED" || has_months "$ANIME_QUIZ" \
+# estreia delas), a do quiz do dia ou a do Anime Royale.
+has "$ANIME_SCHEDULE" || has "$ANIME_MIXED" || has_months "$ANIME_QUIZ" || has "$ANIME_ROYALE" \
   || fail "o artefato do Anime não traz a agenda real (a geração sempre a cresce)"
 # Cada arquivo é um JSON só: com dois documentos colados, o --slurpfile olharia só o 1º.
 for path in "${changed[@]}"; do
@@ -194,14 +210,8 @@ if has "$ANIME_CATALOG"; then
       and ($n.snapshots | last) == {id: $id, fetchedAt: $at}
       and $n.generatedAt == $at' > /dev/null \
     || fail "o catálogo novo do Anime perde ids, muda o esquema, sai dos hosts da Apple ou não bate com os snapshots"
-  # A capa de cada tema (o Anime Royale): só o caminho de um arquivo do AnimeThemes, que o web
-  # junta à base dele (vai para src). O mesmo padrão do anime_covers.py e do web (regra 5).
-  jq -e '
-    def cover($size): type == "string"
-      and test("\\Aanime/" + $size + "-cover/[A-Za-z0-9]+\\.(avif|png|jpe?g|webp)\\z");
-    .tracks | all(.anime.themes // [] | all(.cover == null
-      or ((.cover | type == "object") and (.cover | keys) == ["large", "small"]
-          and (.cover.small | cover("small")) and (.cover.large | cover("large")))))' \
+  # A capa de cada tema (o Anime Royale), no padrão do COVER_JQ.
+  jq -e "$COVER_JQ"' .tracks | all(.anime.themes // [] | all(.cover == null or (.cover | cover_pair)))' \
     "$(new "$ANIME_CATALOG")" > /dev/null \
     || fail "o catálogo novo do Anime traz uma capa fora do padrão do AnimeThemes"
   catalog_line="$(jq -r -n --slurpfile b "$ANIME_CATALOG" --slurpfile n "$(new "$ANIME_CATALOG")" \
@@ -222,11 +232,38 @@ else
   catalog_line="- **Busca do Anime:** não trouxe nada hoje. A agenda do Anime cresceu com o acervo de antes."
 fi
 
+# 4b. As capas dos animes (o Anime Royale): só com a busca nova, que as pede (o fetch
+#     --anime-covers roda depois dela, e o build-anime as põe no catálogo, que só muda com ela), e
+#     só acrescentadas (sem o --refresh, que é à mão): cada capa da main fica como estava. A chave
+#     é o id do MAL, e cada caminho segue o COVER_JQ. Sem o arquivo na main, a base é vazia.
+covers_line=""
+if has "$ANIME_COVERS"; then
+  [ -n "$snapshot" ] || fail "as capas dos animes mudaram sem busca nova"
+  [ "$(wc -c < "$(new "$ANIME_COVERS")")" -le "$MAX_COVERS_BYTES" ] \
+    || fail "as capas dos animes passam de $MAX_COVERS_BYTES bytes"
+  base_covers="$ANIME_COVERS"
+  if [ ! -f "$base_covers" ]; then
+    base_covers="$RUNNER_TEMP/anime-covers-empty.json"
+    printf '{"covers": {}, "provider": "apple"}\n' > "$base_covers"
+  fi
+  jq -e -n --slurpfile b "$base_covers" --slurpfile n "$(new "$ANIME_COVERS")" "$COVER_JQ"'
+    $b[0] as $b | $n[0] as $n
+    | ($n | type == "object") and ($n | keys) == ["covers", "provider"]
+      and $n.provider == "apple" and ($n.covers | type == "object")
+      and ($n.covers | to_entries | all((.key | test("\\A[1-9][0-9]*\\z")) and (.value | cover_pair)))
+      and ($b.covers | to_entries | all(.value == $n.covers[.key]))
+      and ($n.covers | length) > ($b.covers | length)' > /dev/null \
+    || fail "as capas novas dos animes saem do padrão do AnimeThemes, não têm o id do MAL na chave, mudam uma capa da main ou não crescem"
+  covers_line="$(jq -r -n --slurpfile b "$base_covers" --slurpfile n "$(new "$ANIME_COVERS")" '
+    "- **Capas dos animes (o Anime Royale):** \(($n[0].covers | length) - ($b[0].covers | length)) nova(s), \($n[0].covers | length) no total."')"
+fi
+
 # 5. As agendas: o mesmo cabeçalho, todo dia da main igual e os dias novos em sequência, a partir
 #    do dia seguinte ao fim da agenda, ou de hoje, se esse dia já passou (P44), até hoje + 35. Os
 #    dias novos citam faixas do catálogo que os gerou, com a versão dele. O `kind` diz onde estão
 #    as respostas: no Anime, uma por rodada de cada dificuldade; nas Misturadas (M17), várias por
-#    rodada; no quiz do dia (M18), as duas faixas da rodada (a e b).
+#    rodada; no quiz do dia (M18), as duas faixas da rodada (a e b); no Anime Royale, as 9 opções
+#    de cada dificuldade e as 5 que tocam (que estão entre elas, mas não se confia no gerador).
 schedule_lines=""
 gap_lines=""
 quiz_questions=""
@@ -244,6 +281,7 @@ check_schedule() {
     def answers:
       if $kind == "anime-mixed" then [.musica, .titulo | .[] | .answers[]]
       elif $kind == "anime-quiz" then [.rounds[] | .a, .b]
+      elif $kind == "anime-royale" then [.facil, .medio, .dificil | .played[], .options[]]
       else [.musica, .titulo | .facil, .medio, .dificil | .[] | .answer] end;
     $b[0] as $b | $n[0] as $n | ($c[0].tracks | map(.id)) as $ids
     | [$n.days | to_entries[] | select(.key as $k | $b.days | has($k) | not)] as $added
@@ -406,6 +444,39 @@ check_quiz() {
   [[ ! "$checked_last" > "$end" ]] \
     || fail "$dir: o último dia novo ($checked_last) passa do fim da agenda das Misturadas ($end), P378"
 }
+# O último dia da pasta do quiz com os meses que vieram no artefato: os que cresceram trazem os
+# dias da main (o check_quiz conferiu antes), e os novos vêm depois.
+quiz_final_last() {
+  local dir="$1" path
+  local -a files
+  mapfile -t files < <(months_of "$dir")
+  [ "${#files[@]}" -gt 0 ] || fail "$dir: a pasta do quiz da main não tem nenhum mês (caso não suportado)"
+  files=("${files[@]/#/$dir/}")
+  for path in "${changed[@]}"; do
+    if [ "${path%/*}" = "$dir" ]; then files+=("$(new "$path")"); fi
+  done
+  jq -r -n '[inputs | .days | keys[]] | max // empty' "${files[@]}"
+}
+# O Anime Royale (o usuário, 01/11/2026): a agenda passa pelo check_schedule, como as outras, e
+# nenhum dia novo passa do último da agenda do Anime, do da das Misturadas nem do da do quiz do dia
+# (com a pasta dele na main), que ele lê: cada dia do Royale evita as respostas delas.
+check_royale() {
+  local base="$1" label="$2" catalog="$3" anime="$4" mixed="$5" quiz="$6" end
+  [ -f "$base" ] || fail "a main não tem a agenda do Anime Royale em $base: o robô só a cresce, não a cria"
+  [ -f "$mixed" ] || fail "$base: o Anime Royale lê a agenda das Misturadas, e a main não a tem"
+  check_schedule "$base" "$label" "$catalog" anime-royale
+  end="$(final_last "$anime")"
+  [[ ! "$checked_last" > "$end" ]] \
+    || fail "$base: o último dia novo ($checked_last) passa do fim da agenda do Anime ($end)"
+  end="$(final_last "$mixed")"
+  [[ ! "$checked_last" > "$end" ]] \
+    || fail "$base: o último dia novo ($checked_last) passa do fim da agenda das Misturadas ($end)"
+  if [ -d "$quiz" ]; then
+    end="$(quiz_final_last "$quiz")"
+    [[ ! "$checked_last" > "$end" ]] \
+      || fail "$base: o último dia novo ($checked_last) passa do fim da agenda do quiz do dia ($end)"
+  fi
+}
 real_catalog="$ANIME_CATALOG"
 if has "$ANIME_CATALOG"; then real_catalog="$(new "$ANIME_CATALOG")"; fi
 if has "$ANIME_SCHEDULE"; then
@@ -423,6 +494,10 @@ fi
 if has_months "$ANIME_QUIZ"; then
   check_quiz "$ANIME_QUIZ" "Agenda do quiz do dia" "$real_catalog" "$ANIME_SCHEDULE" "$ANIME_MIXED"
 fi
+if has "$ANIME_ROYALE"; then
+  check_royale "$ANIME_ROYALE" "Agenda do Anime Royale" "$real_catalog" \
+    "$ANIME_SCHEDULE" "$ANIME_MIXED" "$ANIME_QUIZ"
+fi
 if has "$ANIME_FIXTURE_SCHEDULE"; then
   check_schedule "$ANIME_FIXTURE_SCHEDULE" "Agenda fictícia do Anime (só desenvolvimento)" "$ANIME_FIXTURE_CATALOG" anime
 fi
@@ -432,6 +507,10 @@ fi
 if has_months "$ANIME_FIXTURE_QUIZ"; then
   check_quiz "$ANIME_FIXTURE_QUIZ" "Agenda fictícia do quiz do dia (só desenvolvimento)" \
     "$ANIME_FIXTURE_CATALOG" "$ANIME_FIXTURE_SCHEDULE" "$ANIME_FIXTURE_MIXED"
+fi
+if has "$ANIME_FIXTURE_ROYALE"; then
+  check_royale "$ANIME_FIXTURE_ROYALE" "Agenda fictícia do Anime Royale (só desenvolvimento)" \
+    "$ANIME_FIXTURE_CATALOG" "$ANIME_FIXTURE_SCHEDULE" "$ANIME_FIXTURE_MIXED" "$ANIME_FIXTURE_QUIZ"
 fi
 
 # Os avisos e afrouxamentos da agenda real (acervo curto, resposta futura que deixou de ser
@@ -452,6 +531,7 @@ fi
   echo "**Anime**"
   echo
   echo "$catalog_line"
+  if [ -n "$covers_line" ]; then echo "$covers_line"; fi
   printf '%s' "$schedule_lines"
   if [ -n "$gap_lines" ]; then
     echo

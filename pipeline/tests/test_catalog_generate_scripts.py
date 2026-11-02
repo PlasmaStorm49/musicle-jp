@@ -1,7 +1,7 @@
 """Testes dos scripts da tarefa catalog-generate (`.github/scripts/catalog-reserve.sh` e
 `catalog-collect.sh`), que antes viviam só no YAML do robô (ME52), e dos da anime-generate e da
-anime-mal (`anime-collect.sh`, `anime-reserve.sh` e `anime-due.sh`, M14, PR B; e o
-`anime-quiz.sh`, do quiz do dia, M18, PR C2).
+anime-mal (`anime-collect.sh`, `anime-reserve.sh` e `anime-due.sh`, M14, PR B; o
+`anime-quiz.sh`, do quiz do dia, M18, PR C2; e o `anime-royale.sh`, do Anime Royale).
 
 Rodam num repositório git temporário, com bash e git (o Git Bash serve no Windows). O Python do
 pipeline é trocado por um registro dos argumentos: o que se testa é o script, não o schedule.
@@ -220,7 +220,21 @@ ANIME = {
     "ANIME_FIXTURE_MIXED": "web/public/fixtures/anime/mixed.json",
     "ANIME_QUIZ": "web/public/data/anime/quiz",
     "ANIME_FIXTURE_QUIZ": "web/public/fixtures/anime/quiz",
+    "ANIME_ROYALE": "web/public/data/anime/royale.json",
+    "ANIME_FIXTURE_ROYALE": "web/public/fixtures/anime/royale.json",
+    "ANIME_COVERS": "pipeline/data/apple/anime/covers.json",
 }
+# Os arquivos do Anime da main que o robô muda no lugar ( M), sem os snapshots e o quiz.
+ANIME_FILES = (
+    "ANIME_CATALOG",
+    "ANIME_SCHEDULE",
+    "ANIME_FIXTURE_SCHEDULE",
+    "ANIME_MIXED",
+    "ANIME_FIXTURE_MIXED",
+    "ANIME_ROYALE",
+    "ANIME_FIXTURE_ROYALE",
+    "ANIME_COVERS",
+)
 ANIME_SNAPSHOT = f"{ANIME['ANIME_SNAPSHOTS']}/2026-10-26T091700Z.json"
 OLD_ANIME_SNAPSHOT = f"{ANIME['ANIME_SNAPSHOTS']}/2026-10-22T011811Z.json"
 # O mês da main nas duas pastas do quiz do dia (M18, P379) e o mês seguinte, que a geração cria.
@@ -233,13 +247,7 @@ FIXTURE_QUIZ_NEXT = f"{ANIME['ANIME_FIXTURE_QUIZ']}/2026-11.json"
 def make_anime_repo(tmp_path: Path) -> Path:
     """A main em miniatura com os arquivos dos Hits e os do Anime, commitados."""
     repo = make_repo(tmp_path)
-    for key in (
-        "ANIME_CATALOG",
-        "ANIME_SCHEDULE",
-        "ANIME_FIXTURE_SCHEDULE",
-        "ANIME_MIXED",
-        "ANIME_FIXTURE_MIXED",
-    ):
+    for key in ANIME_FILES:
         dest = repo / ANIME[key]
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(f'{{"main": "{key}"}}\n'.encode())
@@ -294,13 +302,7 @@ def test_anime_collect_without_changes_says_so(tmp_path):
 
 def test_anime_collect_copies_the_closed_list_and_the_warnings(tmp_path):
     repo = make_anime_repo(tmp_path)
-    keys = (
-        "ANIME_CATALOG",
-        "ANIME_SCHEDULE",
-        "ANIME_FIXTURE_SCHEDULE",
-        "ANIME_MIXED",
-        "ANIME_FIXTURE_MIXED",
-    )
+    keys = ANIME_FILES
     for key in keys:
         (repo / ANIME[key]).write_bytes(f'{{"novo": "{key}"}}\n'.encode())
     (repo / ANIME_SNAPSHOT).write_bytes(b'{"busca": "de agora"}\n')
@@ -330,6 +332,7 @@ def test_anime_collect_copies_the_closed_list_and_the_warnings(tmp_path):
         ("outro snapshot", "?? pipeline/data/apple/anime/snapshots/2026-10-26T091800Z.json"),
         ("snapshot antigo", " M pipeline/data/apple/anime/snapshots/2026-10-22T011811Z.json"),
         ("romaji", "?? pipeline/data/apple/anime/romaji.json"),
+        ("capas apagadas", " D pipeline/data/apple/anime/covers.json"),
     ],
 )
 def test_anime_collect_refuses_anything_outside_the_closed_list(tmp_path, change, line):
@@ -340,6 +343,8 @@ def test_anime_collect_refuses_anything_outside_the_closed_list(tmp_path, change
         (repo / ANIME["ANIME_SNAPSHOTS"] / "2026-10-26T091800Z.json").write_bytes(b"{}\n")
     elif change == "snapshot antigo":
         (repo / OLD_ANIME_SNAPSHOT).write_bytes(b'{"reescrito": 1}\n')
+    elif change == "capas apagadas":
+        (repo / ANIME["ANIME_COVERS"]).unlink()
     else:
         (repo / "pipeline/data/apple/anime/romaji.json").write_bytes(b"{}\n")
     (tmp_path / "runner").mkdir()
@@ -347,6 +352,37 @@ def test_anime_collect_refuses_anything_outside_the_closed_list(tmp_path, change
     done, _ = run_anime(repo, tmp_path, "anime-collect.sh")
     assert done.returncode == 1
     assert f"mudança fora da lista fechada do Anime: {line}" in done.stdout
+
+
+def without(repo: Path, key: str) -> None:
+    """A main sem o arquivo do Anime `key` (a que ainda não o tem)."""
+    _git(repo, "rm", "-q", ANIME[key])
+    _git(repo, "commit", "-q", "-m", f"sem {key}")
+
+
+def test_anime_collect_takes_the_covers_file_that_the_main_does_not_have(tmp_path):
+    # As capas (o Anime Royale) nascem pela busca: o 1º covers.json vem novo (??).
+    repo = make_anime_repo(tmp_path)
+    without(repo, "ANIME_COVERS")
+    (repo / ANIME["ANIME_COVERS"]).write_bytes(b'{"covers": {}}\n')
+    (tmp_path / "runner").mkdir()
+    (tmp_path / "runner" / "anime.log").write_bytes(b"")
+    done, temp = run_anime(repo, tmp_path, "anime-collect.sh")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert text(temp / "anime-out" / "changed.txt") == f"{ANIME['ANIME_COVERS']}\n"
+
+
+@pytest.mark.parametrize("key", ["ANIME_ROYALE", "ANIME_FIXTURE_ROYALE"])
+def test_anime_collect_refuses_a_royale_schedule_that_the_main_does_not_have(tmp_path, key):
+    # A agenda real do Royale nasce com a tela, num PR humano: o robô só a cresce.
+    repo = make_anime_repo(tmp_path)
+    without(repo, key)
+    (repo / ANIME[key]).write_bytes(b'{"nova": true}\n')
+    (tmp_path / "runner").mkdir()
+    (tmp_path / "runner" / "anime.log").write_bytes(b"")
+    done, _ = run_anime(repo, tmp_path, "anime-collect.sh")
+    assert done.returncode == 1
+    assert f"mudança fora da lista fechada do Anime: ?? {ANIME[key]}" in done.stdout
 
 
 def test_anime_collect_takes_the_quiz_months_that_grew_and_the_new_ones(tmp_path):
@@ -545,16 +581,122 @@ def test_anime_collect_puts_the_quiz_lines_last(tmp_path):
     ]
 
 
+# --- O Anime Royale: anime-royale.sh ---
+
+
+def run_royale(
+    repo: Path, tmp_path: Path, *, fail: str = ""
+) -> tuple[subprocess.CompletedProcess[str], Path]:
+    """O anime-royale.sh com um "Python" que registra os argumentos, grava uma linha que diz de
+    qual chamada ela veio, falha quando os argumentos têm o texto de `fail` e, no schedule-royale
+    que dá certo, grava a agenda com os argumentos dele, como o gerador gravaria os dias."""
+    temp = tmp_path / "runner"
+    temp.mkdir(exist_ok=True)
+    (temp / "anime.log").write_bytes(b"do Anime\naviso: quiz do dia: do quiz\n")
+    fake = tmp_path / "fake-royale-python.sh"
+    fake.write_bytes(
+        b'#!/usr/bin/env bash\necho "$@" >> "$RUNNER_TEMP/python-args"\n'
+        b'echo "afrouxamento: $3"\necho "aviso: $3"\n'
+        b'if [ "$3" = schedule-royale ]; then echo "$*" > "$ANIME_ROYALE"; fi\n'
+        b'if [ -n "$FAKE_FAIL" ] && [[ "$*" == *"$FAKE_FAIL"* ]]; then exit 1; fi\n'
+    )
+    fake.chmod(0o755)
+    return run_anime(repo, tmp_path, "anime-royale.sh", PYTHON=fake.as_posix(), FAKE_FAIL=fail)
+
+
+ROYALE_ARGS = "-m musicle_pipeline schedule-royale --provider apple --today 2026-10-26 --days 28"
+
+
+def test_anime_royale_without_the_real_schedule_does_nothing(tmp_path):
+    # A agenda real do Royale nasce com a tela, num PR humano: até lá, o robô não a cria.
+    repo = make_anime_repo(tmp_path)
+    without(repo, "ANIME_ROYALE")
+    done, temp = run_royale(repo, tmp_path)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "nada a crescer" in done.stdout
+    assert not (temp / "python-args").exists()
+    assert not (repo / ANIME["ANIME_ROYALE"]).exists()
+
+
+def test_anime_royale_grows_and_marks_its_lines(tmp_path):
+    repo = make_anime_repo(tmp_path)
+    done, temp = run_royale(repo, tmp_path)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert text(temp / "python-args").splitlines() == [ROYALE_ARGS, VALIDATE_ARGS]
+    # A agenda que a geração gravou fica na árvore, para o anime-collect.sh levar.
+    assert text(repo / ANIME["ANIME_ROYALE"]) == f"{ROYALE_ARGS}\n"
+    # Só as linhas do schedule-royale vão ao log do Anime, depois das que já estavam e com a marca
+    # do Royale (as do validate-anime repetem as do Anime).
+    assert text(temp / "anime.log").splitlines() == [
+        "do Anime",
+        "aviso: quiz do dia: do quiz",
+        "afrouxamento: Anime Royale: schedule-royale",
+        "aviso: Anime Royale: schedule-royale",
+    ]
+
+
+@pytest.mark.parametrize("step", ["schedule-royale", "validate-anime"])
+def test_anime_royale_that_does_not_grow_goes_back_to_main_and_fails(tmp_path, step):
+    # O schedule-royale que quebra, ou o validate-anime que recusa o que ele gravou: a agenda da
+    # main volta, e o Anime segue (o passo falha sozinho).
+    repo = make_anime_repo(tmp_path)
+    (repo / ANIME["ANIME_FIXTURE_ROYALE"]).write_bytes(b'{"da": "geracao ficticia"}\n')
+    done, temp = run_royale(repo, tmp_path, fail=step)
+    assert done.returncode == 1
+    assert "o Anime Royale não cresceu" in done.stdout
+    assert text(repo / ANIME["ANIME_ROYALE"]) == '{"main": "ANIME_ROYALE"}\n'
+    # A fictícia não é deste script (é do passo das fixtures): fica como estava.
+    assert text(repo / ANIME["ANIME_FIXTURE_ROYALE"]) == '{"da": "geracao ficticia"}\n'
+    # Uma linha só, e nenhuma da tentativa que quebrou.
+    assert text(temp / "anime.log").splitlines() == [
+        "do Anime",
+        "aviso: quiz do dia: do quiz",
+        "aviso: Anime Royale: não cresceu nesta semana (a geração ou a conferência quebrou; veja a"
+        " execução)",
+    ]
+
+
+def test_anime_royale_refuses_an_odd_today(tmp_path):
+    repo = make_anime_repo(tmp_path)
+    temp = tmp_path / "runner"
+    temp.mkdir()
+    done, _ = run_anime(repo, tmp_path, "anime-royale.sh", TODAY="2026-10-26; rm -rf /")
+    assert done.returncode == 1
+    assert "data inválida" in done.stdout
+    assert not (temp / "python-args").exists()
+
+
+def test_anime_collect_puts_the_royale_lines_after_the_quiz(tmp_path):
+    # O Anime primeiro, depois o quiz do dia e, por fim, o Royale (o teto de 50 linhas do corpo).
+    repo = make_anime_repo(tmp_path)
+    (repo / ANIME["ANIME_ROYALE"]).write_bytes(b'{"novo": 1}\n')
+    (tmp_path / "runner").mkdir()
+    (tmp_path / "runner" / "anime.log").write_bytes(
+        b"afrouxamento: Anime Royale: 2026-11-20 facil (opcoes): nivel 1\n"
+        b"aviso: Anime Royale: sem a agenda do quiz\naviso: quiz do dia: sem os dados do MAL\n"
+        b"aviso: acervo curto\naviso: Anime Royale: sem a agenda do quiz\n"
+    )
+    done, temp = run_anime(repo, tmp_path, "anime-collect.sh")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert text(temp / "anime-out" / "avisos.txt").splitlines() == [
+        "aviso: acervo curto",
+        "aviso: quiz do dia: sem os dados do MAL",
+        "aviso: Anime Royale: sem a agenda do quiz",
+        "afrouxamento: Anime Royale: 2026-11-20 facil (opcoes): nivel 1",
+    ]
+
+
 def test_anime_reserve_restores_main_drops_the_new_snapshot_and_regrows_the_schedule(tmp_path):
     repo = make_anime_repo(tmp_path)
-    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_MIXED"):
+    # As capas que a busca pediu saem com ela: o catálogo da main é o das capas da main.
+    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_MIXED", "ANIME_COVERS"):
         (repo / ANIME[key]).write_bytes(b'{"quebrado": true}\n')
     (repo / ANIME_SNAPSHOT).write_bytes(b'{"busca": "que quebrou"}\n')
     (tmp_path / "runner").mkdir()
     (tmp_path / "runner" / "anime.log").write_bytes(b"aviso: da tentativa que quebrou\n")
     done, temp = run_anime(repo, tmp_path, "anime-reserve.sh")
     assert done.returncode == 0, done.stdout + done.stderr
-    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_MIXED"):
+    for key in ("ANIME_CATALOG", "ANIME_SCHEDULE", "ANIME_MIXED", "ANIME_COVERS"):
         assert text(repo / ANIME[key]) == f'{{"main": "{key}"}}\n'
     assert not (repo / ANIME_SNAPSHOT).exists()
     assert (repo / OLD_ANIME_SNAPSHOT).exists()
@@ -578,6 +720,16 @@ def test_anime_reserve_without_a_new_snapshot(tmp_path):
     assert "dropped" not in text(temp / "github-output")
     assert "sem busca nova" in done.stdout
     assert text(repo / ANIME["ANIME_SCHEDULE"]) == '{"main": "ANIME_SCHEDULE"}\n'
+
+
+def test_anime_reserve_drops_a_covers_file_that_the_main_does_not_have(tmp_path):
+    repo = make_anime_repo(tmp_path)
+    without(repo, "ANIME_COVERS")
+    (repo / ANIME["ANIME_COVERS"]).write_bytes(b'{"covers": {}}\n')
+    (repo / ANIME_SNAPSHOT).write_bytes(b'{"busca": "que quebrou"}\n')
+    done, _ = run_anime(repo, tmp_path, "anime-reserve.sh")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert not (repo / ANIME["ANIME_COVERS"]).exists()
 
 
 def anime_schedule(last: str) -> bytes:
@@ -665,6 +817,31 @@ def test_anime_due_also_measures_the_quiz_months_together(tmp_path, quiz_last, d
     assert "mixed=25" in output
     assert f"quiz={quiz}" in output
     assert f"e a das Misturadas, 25, e a do quiz do dia, {quiz}" in text(temp / "summary.md")
+
+
+@needs_jq
+@pytest.mark.parametrize(
+    ("royale_last", "due", "royale"),
+    [
+        ("2026-10-30", "true", "4"),  # a estreia do Royale, com as outras longe
+        ("2026-11-16", "false", "21"),  # todas com 21 dias ou mais: espera a semana que vem
+    ],
+)
+def test_anime_due_also_measures_the_royale_schedule(tmp_path, royale_last, due, royale):
+    repo = tmp_path / "repo"
+    path = repo / ANIME["ANIME_SCHEDULE"]
+    path.parent.mkdir(parents=True)
+    path.write_bytes(anime_schedule("2026-11-20"))
+    (repo / ANIME["ANIME_MIXED"]).write_bytes(anime_schedule("2026-11-20"))
+    write_quiz(repo, "2026-11-20")
+    (repo / ANIME["ANIME_ROYALE"]).write_bytes(anime_schedule(royale_last))
+    done, temp = run_anime(repo, tmp_path, "anime-due.sh")
+    assert done.returncode == 0, done.stdout + done.stderr
+    output = text(temp / "github-output")
+    assert f"due={due}" in output
+    assert f"royale={royale}" in output
+    summary = text(temp / "summary.md")
+    assert f"e a do quiz do dia, 25, e a do Anime Royale, {royale}" in summary
 
 
 @needs_jq

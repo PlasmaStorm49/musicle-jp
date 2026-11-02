@@ -6,14 +6,15 @@
 # As Misturadas (M17) crescem junto: a agenda delas para no último dia da do Anime (P332), então
 # a geração também roda quando a das Misturadas da main tem menos de 21 dias à frente (a do
 # Anime pode estar longe, como na estreia delas). O quiz do dia (M18) também: ele para no último
-# dia das duas (P378), e a pasta dele, um arquivo por mês (P379), conta como uma agenda só. Testado
-# em pipeline/tests/test_catalog_generate_scripts.py (precisa de jq).
+# dia das duas (P378), e a pasta dele, um arquivo por mês (P379), conta como uma agenda só. E o
+# Anime Royale (o usuário, 01/11/2026), que para no último dia das três. Testado em
+# pipeline/tests/test_catalog_generate_scripts.py (precisa de jq).
 #
-# Entrada (ambiente): TODAY (hoje em Brasília), ANIME_SCHEDULE, ANIME_MIXED e ANIME_QUIZ (relativos à
-# raiz, que é a pasta atual; sem a das Misturadas ou a do quiz na main, ela não conta),
-# GITHUB_OUTPUT e GITHUB_STEP_SUMMARY.
+# Entrada (ambiente): TODAY (hoje em Brasília), ANIME_SCHEDULE, ANIME_MIXED, ANIME_QUIZ e
+# ANIME_ROYALE (relativos à raiz, que é a pasta atual; sem a das Misturadas, a do quiz ou a do
+# Royale na main, ela não conta), GITHUB_OUTPUT e GITHUB_STEP_SUMMARY.
 # Saída: due=true|false, ahead=<dias> (os do Anime) e, com a agenda das Misturadas, mixed=<dias>,
-# e com a do quiz, quiz=<dias>, no GITHUB_OUTPUT.
+# com a do quiz, quiz=<dias>, e com a do Royale, royale=<dias>, no GITHUB_OUTPUT.
 set -euo pipefail
 
 SKIP_AHEAD=21
@@ -46,6 +47,13 @@ if [ -n "${ANIME_QUIZ:-}" ] && [ -d "$ANIME_QUIZ" ]; then
   echo "quiz=$quiz" >> "$GITHUB_OUTPUT"
   [ "$quiz" -ge "$SKIP_AHEAD" ] || short=true
   others+=", e a do quiz do dia, $quiz"
+fi
+if [ -n "${ANIME_ROYALE:-}" ] && [ -f "$ANIME_ROYALE" ]; then
+  royale="$(ahead_of "$ANIME_ROYALE")"
+  [[ "$royale" =~ ^[0-9]+$ ]] || { echo "::error::a agenda do Anime Royale da main não deu para medir"; exit 1; }
+  echo "royale=$royale" >> "$GITHUB_OUTPUT"
+  [ "$royale" -ge "$SKIP_AHEAD" ] || short=true
+  others+=", e a do Anime Royale, $royale"
 fi
 if [ "$short" = true ]; then
   echo "due=true" >> "$GITHUB_OUTPUT"

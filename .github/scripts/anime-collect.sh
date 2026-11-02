@@ -3,15 +3,17 @@
 # do Anime pode ter mudado (o snapshot da busca de agora, novo; o catálogo e a agenda reais do
 # Anime; a agenda fictícia do Anime, ME109; e as duas agendas das Misturadas, M17, ao lado das do
 # Anime; e os meses das duas agendas do quiz do dia, M18, o que cresceu e o novo, AAAA-MM.json,
-# P379). Copia o que mudou para o artefato, com a lista declarada e os avisos e afrouxamentos da
-# agenda real, que a tarefa com token (check-anime-pr.sh) confere de novo. É o molde do
-# catalog-collect.sh, num artefato à parte (anime-out/). Sem token.
+# P379; e as duas agendas do Anime Royale e as capas dos animes, que a busca nova pede, o
+# covers.json, novo se a main ainda não o tem). Copia o que mudou para o artefato, com a lista
+# declarada e os avisos e afrouxamentos da agenda real, que a tarefa com token (check-anime-pr.sh)
+# confere de novo. É o molde do catalog-collect.sh, num artefato à parte (anime-out/). Sem token.
 # Testado em pipeline/tests/test_catalog_generate_scripts.py.
 #
 # Entrada (ambiente): NOW (a hora da busca em UTC, AAAA-MM-DDTHH:MM:SSZ: o nome do snapshot),
 # ANIME_SNAPSHOTS, ANIME_CATALOG, ANIME_SCHEDULE, ANIME_FIXTURE_SCHEDULE, ANIME_MIXED,
-# ANIME_FIXTURE_MIXED, ANIME_QUIZ e ANIME_FIXTURE_QUIZ (relativos à raiz, que é a pasta atual),
-# RUNNER_TEMP (com o anime.log), GITHUB_OUTPUT e GITHUB_STEP_SUMMARY.
+# ANIME_FIXTURE_MIXED, ANIME_QUIZ, ANIME_FIXTURE_QUIZ, ANIME_ROYALE, ANIME_FIXTURE_ROYALE e
+# ANIME_COVERS (relativos à raiz, que é a pasta atual), RUNNER_TEMP (com o anime.log),
+# GITHUB_OUTPUT e GITHUB_STEP_SUMMARY.
 # Saída: changed=true|false no GITHUB_OUTPUT e, com mudança, $RUNNER_TEMP/anime-out com files/,
 # changed.txt e avisos.txt.
 set -euo pipefail
@@ -31,6 +33,10 @@ allowed=(
   " M $ANIME_FIXTURE_SCHEDULE"
   " M $ANIME_MIXED"
   " M $ANIME_FIXTURE_MIXED"
+  " M $ANIME_ROYALE"
+  " M $ANIME_FIXTURE_ROYALE"
+  " M $ANIME_COVERS"
+  "?? $ANIME_COVERS"
 )
 # Um mês do quiz do dia, novo (??) ou que cresceu ( M), direto na pasta dele.
 quiz_month() {
@@ -63,13 +69,19 @@ while IFS= read -r line; do
   echo "$path" >> "$out/changed.txt"
 done <<< "$status"
 # Os avisos antes dos afrouxamentos, sem repetir (o schedule-anime e o validate-anime repetem o
-# do acervo curto). Os do quiz do dia (com a marca do anime-quiz.sh) vão no fim: o corpo do PR
-# mostra só as 50 primeiras linhas, e as do quiz nunca empurram as do Anime para fora.
+# do acervo curto). Os do quiz do dia e, depois deles, os do Anime Royale (com a marca do
+# anime-quiz.sh e a do anime-royale.sh) vão no fim: o corpo do PR mostra só as 50 primeiras linhas,
+# e as deles nunca empurram as do Anime para fora.
 quiz="quiz do dia: "
+royale="Anime Royale: "
 {
-  grep '^aviso: ' "$RUNNER_TEMP/anime.log" | grep -v "^aviso: $quiz" | awk '!seen[$0]++' || true
-  grep '^afrouxamento: ' "$RUNNER_TEMP/anime.log" | grep -v "^afrouxamento: $quiz" | awk '!seen[$0]++' || true
-  grep "^aviso: $quiz" "$RUNNER_TEMP/anime.log" | awk '!seen[$0]++' || true
-  grep "^afrouxamento: $quiz" "$RUNNER_TEMP/anime.log" | awk '!seen[$0]++' || true
+  grep '^aviso: ' "$RUNNER_TEMP/anime.log" | grep -v -e "^aviso: $quiz" -e "^aviso: $royale" \
+    | awk '!seen[$0]++' || true
+  grep '^afrouxamento: ' "$RUNNER_TEMP/anime.log" \
+    | grep -v -e "^afrouxamento: $quiz" -e "^afrouxamento: $royale" | awk '!seen[$0]++' || true
+  for mark in "$quiz" "$royale"; do
+    grep "^aviso: $mark" "$RUNNER_TEMP/anime.log" | awk '!seen[$0]++' || true
+    grep "^afrouxamento: $mark" "$RUNNER_TEMP/anime.log" | awk '!seen[$0]++' || true
+  done
 } > "$out/avisos.txt"
 echo "changed=true" >> "$GITHUB_OUTPUT"
