@@ -23,6 +23,8 @@ import {
   quizAllFast,
   quizClean,
   quizLastLife,
+  ROYALE_DAY,
+  ROYALE_GOALS,
   SETLIST_REACH,
   SUPERFAN_RIGHT,
   setlistMedalId,
@@ -49,6 +51,7 @@ import {
   withSuperfanEnd,
 } from "./records.ts";
 import { ROUTES, type Tab } from "./routes.ts";
+import { ROYALE_KEYS, type RoyaleGame, withRoyaleFinished } from "./royale.ts";
 import { MODES } from "./rules.ts";
 
 const ARTIST = "apple:ar:1489581870";
@@ -200,9 +203,9 @@ describe("as gerais (P310)", () => {
     keys.reduce((s, key) => withFinished(s, `${date}|${key}`, result), save);
   const DAY = "2026-10-20";
 
-  it("34 (as 4 das Misturadas desde a ME123; a Hora Extra e as 16 do quiz desde o M20), com ids únicos e sem a barra das do Superfan; as grandes no fim da lista", () => {
+  it("37 (as 4 das Misturadas desde a ME123; a Hora Extra e as 16 do quiz desde o M20; as 3 do Anime Royale desde 02/11/2026), com ids únicos e sem a barra das do Superfan; as grandes no fim da lista", () => {
     const list = MEDALS.map((m) => m.id);
-    expect(new Set(list).size).toBe(34);
+    expect(new Set(list).size).toBe(37);
     // A ordem da lista é a dos avisos: as 17 de antes na mesma ordem relativa, as pequenas
     // novas depois das pequenas, e as grandes novas no fim.
     expect(list).toEqual([
@@ -230,6 +233,8 @@ describe("as gerais (P310)", () => {
       "quiz-acertos-300",
       "quiz-perguntas-6",
       "quiz-42",
+      "royale-ordem",
+      "royale-15",
       "hits-perfeito",
       "anime-perfeito",
       "misturadas-perfeito",
@@ -240,6 +245,7 @@ describe("as gerais (P310)", () => {
       "quiz-sem-erro-30",
       "quiz-pontos-120",
       "quiz-rodada-15-seguidos-7",
+      "royale-cour",
     ]);
     expect(list.filter((id) => id.includes("|"))).toEqual([]);
     expect(MEDALS.filter((m) => m.tier === "major").map((m) => m.id)).toEqual([
@@ -253,8 +259,9 @@ describe("as gerais (P310)", () => {
       "quiz-sem-erro-30",
       "quiz-pontos-120",
       "quiz-rodada-15-seguidos-7",
+      "royale-cour",
     ]);
-    expect(MEDALS.slice(-10).every((m) => m.tier === "major")).toBe(true);
+    expect(MEDALS.slice(-11).every((m) => m.tier === "major")).toBe(true);
   });
 
   it("os blocos da tela (o usuário, 28/10/2026): cada uma no dela, as pequenas antes das grandes", () => {
@@ -278,7 +285,8 @@ describe("as gerais (P310)", () => {
         "seguidos-30",
       ],
       hits: ["hits-todos", "treino-100", "hits-perfeito"],
-      anime: ["anime-todos", "anime-perfeito"],
+      // As do Anime Royale no bloco do Anime (o usuário, 02/11/2026).
+      anime: ["anime-todos", "royale-ordem", "royale-15", "anime-perfeito", "royale-cour"],
       misturadas: [
         "misturadas-rodada",
         "misturadas-seguidos-15",
@@ -325,6 +333,7 @@ describe("as gerais (P310)", () => {
     expect([...ANIME_DAY]).toEqual([...ANIME_KEYS]);
     expect([...WHOLE_DAY]).toEqual([...DAILY_KEYS]);
     expect([...MIXED_DAY]).toEqual([...MIXED_KEYS]);
+    expect([...ROYALE_DAY]).toEqual([...ROYALE_KEYS]);
   });
 
   it("perfectGame e allWon: pela forma das rodadas, e a anulada não é acerto (P45)", () => {
@@ -512,6 +521,14 @@ describe("medalha ganha nunca some", () => {
       { number: 1, results: `rrwrw${"r".repeat(10)}w`, points: 30, family: "nota" },
       { number: 1, results: `${"r".repeat(16)}www`, points: 64, family: "ano_x" },
     ];
+    // O Anime Royale (o usuário, 02/11/2026): as 5 na ordem, fora da ordem, 4 com o erro e a
+    // desistência.
+    const royaleGames: RoyaleGame[] = [
+      { number: 1, found: [0, 1, 2, 3, 4] },
+      { number: 1, found: [3, 0, 4, 1, 2] },
+      { number: 1, found: [0, 1, 2, 3], wrong: true },
+      { number: 1, found: [2], quit: true },
+    ];
     for (let step = 0; step < 600; step++) {
       const date = `2026-10-${String(today).padStart(2, "0")}`;
       const artist = artists[random.randint(artists.length)] ?? ARTIST;
@@ -519,7 +536,12 @@ describe("medalha ganha nunca some", () => {
       const game = games[random.randint(games.length)] ?? lost;
       const run = runs[random.randint(runs.length)] ?? { number: 1, results: "w" };
       const mixedKey = MIXED_KEYS[random.randint(MIXED_KEYS.length)] ?? "misturadas-musica";
-      switch (random.randint(10)) {
+      const royaleKey = ROYALE_KEYS[random.randint(ROYALE_KEYS.length)] ?? "anime-royale-facil";
+      const royaleGame = royaleGames[random.randint(royaleGames.length)] ?? {
+        number: 1,
+        found: [],
+      };
+      switch (random.randint(11)) {
         case 0:
         case 1:
           save = withFinished(save, `${date}|${key}`, game);
@@ -549,6 +571,9 @@ describe("medalha ganha nunca some", () => {
           break;
         case 8:
           save = withMixedFinished(save, `${date}|${mixedKey}`, MIXED_RUN);
+          break;
+        case 9:
+          save = withRoyaleFinished(save, `${date}|${royaleKey}`, royaleGame);
           break;
         default:
           save = withFinished(save, `${date}|${key}`, { ...game, late: true });
@@ -612,7 +637,7 @@ describe("medalBoard (o que a tela mostra, P286)", () => {
       // O Superfan completo é geral (o usuário, 28/10/2026).
       ["gerais", 1, 9],
       ["hits", 0, 3],
-      ["anime", 0, 2],
+      ["anime", 0, 5],
       ["misturadas", 0, 4],
       ["quiz", 0, 16],
       // A dos acertos e a completa do artista, das 6 dele.
@@ -646,6 +671,7 @@ describe("noticeTab: as telas calmas (P288)", () => {
         "anime",
         "anime-musica",
         "anime-titulo",
+        "anime-royale",
         "hits",
         "history",
         "home",
@@ -803,6 +829,99 @@ describe("as das Misturadas (ME123)", () => {
   it("um terminado com data depois de hoje não conta", () => {
     const later = play(emptySave(), "2026-10-30", "misturadas-musica", allFound);
     expect(has(later, "misturadas-rodada")).toBe(false);
+  });
+});
+
+describe("as do Anime Royale (o usuário, 02/11/2026)", () => {
+  const TODAY = "2026-10-29";
+  const has = (save: Save, id: string) =>
+    earnedMedals(MEDALS, medalContext(save, TODAY, HITS)).includes(id);
+  const byId = (id: string) => MEDALS.find((m) => m.id === id);
+  const ctx = (save: Save) => medalContext(save, TODAY, HITS);
+  /** As 5 marcadas na ordem em que tocaram. */
+  const IN_ORDER: RoyaleGame = { number: 1, found: [0, 1, 2, 3, 4] };
+  /** As 5 achadas, fora da ordem. */
+  const ALL_FIVE: RoyaleGame = { number: 1, found: [2, 0, 4, 1, 3] };
+  const FOUR: RoyaleGame = { number: 1, found: [0, 1, 2, 3], wrong: true };
+  const play = (save: Save, date: string, key: string, game: RoyaleGame) =>
+    withRoyaleFinished(save, `${date}|${key}`, game);
+
+  it("o contexto: os terminados por data; cada dificuldade é 1 diário no Primeiro Acorde e no Já É de Casa", () => {
+    const save = play(
+      play(emptySave(), "2026-10-24", "anime-royale-facil", FOUR),
+      "2026-10-24",
+      "anime-royale-medio",
+      ALL_FIVE,
+    );
+    expect(ctx(save).royale.get("2026-10-24")?.size).toBe(2);
+    expect(ctx(save).dailies).toBe(2);
+    expect(has(save, "diario-1")).toBe(true);
+    // A de depois de hoje não conta.
+    const later = play(emptySave(), "2026-10-30", "anime-royale-facil", IN_ORDER);
+    expect(ctx(later).dailies).toBe(0);
+    expect(has(later, "royale-ordem")).toBe(false);
+  });
+
+  it("a sequência do topo e o 1º aviso de quem já jogava continuam só com os Hits e o Anime (P282, P314)", () => {
+    // Só o Royale, em 2 dias, com duas medalhas: nem sequência, nem o texto de quem já jogava.
+    const save = play(
+      play(emptySave(), "2026-10-27", "anime-royale-facil", IN_ORDER),
+      "2026-10-28",
+      "anime-royale-medio",
+      ALL_FIVE,
+    );
+    expect(ctx(save).streak).toEqual({ current: 0, best: 0 });
+    const claim = claimMedals(save, TODAY, HITS, MEDALS);
+    expect(claim.claimed).toEqual(["diario-1", "royale-ordem"]);
+    expect(claim.first).toBe(false);
+  });
+
+  it("Ordem de Exibição: as 5 na ordem em que tocaram; fora da ordem, 4 achadas ou com o erro, não", () => {
+    expect(
+      has(play(emptySave(), "2026-10-24", "anime-royale-dificil", IN_ORDER), "royale-ordem"),
+    ).toBe(true);
+    const others: RoyaleGame[] = [
+      ALL_FIVE,
+      FOUR,
+      { number: 1, found: [1, 0, 2, 3, 4] },
+      { number: 1, found: [0, 1, 2, 3], quit: true },
+    ];
+    for (const game of others) {
+      const save = play(emptySave(), "2026-10-24", "anime-royale-facil", game);
+      expect(has(save, "royale-ordem"), JSON.stringify(game)).toBe(false);
+    }
+  });
+
+  it("Full Combo: as 5 nas 3 dificuldades no mesmo dia; 14, ou a 3ª em outro dia, não", () => {
+    const two = play(
+      play(emptySave(), "2026-10-24", "anime-royale-facil", ALL_FIVE),
+      "2026-10-24",
+      "anime-royale-medio",
+      IN_ORDER,
+    );
+    expect(has(two, "royale-15")).toBe(false);
+    expect(has(play(two, "2026-10-24", "anime-royale-dificil", FOUR), "royale-15")).toBe(false);
+    expect(has(play(two, "2026-10-25", "anime-royale-dificil", ALL_FIVE), "royale-15")).toBe(false);
+    expect(has(play(two, "2026-10-24", "anime-royale-dificil", ALL_FIVE), "royale-15")).toBe(true);
+  });
+
+  it(`Um Cour Inteiro: ${ROYALE_GOALS.cour} dias seguidos com as 5 em ${ROYALE_GOALS.courTiers} dificuldades, com o progresso`, () => {
+    const at = (n: number, keys = ["anime-royale-facil", "anime-royale-dificil"]) =>
+      days(10, 10 + n - 1).reduce(
+        (s, date) => keys.reduce((t, key) => play(t, date, key, ALL_FIVE), s),
+        emptySave(),
+      );
+    const medal = byId("royale-cour");
+    expect(medal?.tier).toBe("major");
+    expect(medal?.earned(ctx(at(11)))).toBe(false);
+    expect(medal?.progress?.(ctx(at(11)))).toEqual({ value: 11, goal: 12 });
+    expect(medal?.earned(ctx(at(12)))).toBe(true);
+    // Uma dificuldade só por dia não basta.
+    expect(medal?.earned(ctx(at(12, ["anime-royale-medio"])))).toBe(false);
+    // Um dia no meio (15/10) com só uma das duas com as 5 quebra a sequência.
+    const save = at(12);
+    const finished = { ...save.royale.finished, "2026-10-15|anime-royale-dificil": FOUR };
+    expect(medal?.earned(ctx({ ...save, royale: { ...save.royale, finished } }))).toBe(false);
   });
 });
 
