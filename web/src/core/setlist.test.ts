@@ -309,3 +309,30 @@ describe("a run (setlistStep)", () => {
     });
   });
 });
+
+describe("a revisão do Setlist Royale (01/11/2026)", () => {
+  it("a rodada sorteada de novo não traz nenhuma música da cortada, nem como opção", () => {
+    for (let seed = 0; seed < 300; seed += 1) {
+      for (const number of [1, 5, 10]) {
+        const cut = drawSetlistRound(bigPool, number, {}, seed);
+        if (!cut) throw new Error("sem rodada");
+        const again = drawSetlistRound(bigPool, number, {}, seed, 1, cut.played);
+        expect(again?.options.filter((id) => cut.played.includes(id))).toEqual([]);
+      }
+    }
+  });
+
+  it("no artista pequeno, sem outras que bastem, a cortada pode voltar (não há como evitar)", () => {
+    const pool = bigPool.slice(0, 3);
+    const cut = drawSetlistRound(pool, 1, {}, 1);
+    const again = drawSetlistRound(pool, 1, {}, 1, 1, cut?.played ?? []);
+    expect(again?.options).toHaveLength(3);
+  });
+
+  it("a run que acaba sem rodada no meio (um pool que encolheu) guarda o que fez", () => {
+    const run = clearRound(startSetlist(5, bigPool));
+    const empty = setlistStep(run, { type: "NEXT", round: null });
+    expect(empty).toMatchObject({ phase: "over", end: "empty" });
+    expect(setlistBest(empty)).toEqual({ rounds: 1, found: 2 });
+  });
+});

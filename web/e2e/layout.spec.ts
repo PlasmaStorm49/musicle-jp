@@ -12,6 +12,8 @@ import {
   albumOf,
   appleArtistList,
   appleCatalog,
+  bigArtist,
+  chainTitles,
   dailyAnswer,
   expect,
   hearBoth,
@@ -21,6 +23,7 @@ import {
   open,
   openWithMedals,
   overflow,
+  playSetlistRound,
   seedHistory,
   test,
   trackById,
@@ -234,11 +237,12 @@ for (const viewport of [
       expect(height).toBeGreaterThanOrEqual(30);
     });
 
-    test("a escolha do submodo no caso mais alto: o nome mais largo e o recorde do Superfan no cartão (o usuário, 01/11/2026)", async ({
+    test("a escolha do submodo no caso mais alto: o nome mais largo e os recordes do Superfan e do Setlist Royale nos cartões (o usuário, 01/11/2026)", async ({
       page,
     }) => {
       const best = { score: 135, song: 12 };
-      await seedHistory(page, {}, { "fixture:ar:ar02": { right: 50, done: true, best } });
+      const setlist = { rounds: 123, found: 1234 };
+      await seedHistory(page, {}, { "fixture:ar:ar02": { right: 50, done: true, best, setlist } });
       await longestArtistName(page);
       await open(page, DAY, "#artistas");
       await page.getByRole("button", { name: /^新しい学校のリーダーズ/ }).click();
@@ -246,7 +250,57 @@ for (const viewport of [
       await expect(page.locator("#artist-mode-superfan-best")).toHaveText(
         "Recorde: 135 pontos, até a música 12",
       );
+      await expect(page.locator("#artist-mode-setlist-best")).toHaveText(
+        "Recorde: 123 rodadas, 1234 músicas",
+      );
       expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+    });
+
+    test("o Setlist Royale no caso mais alto: as 8 casas, as 12 opções de título longo, a revelação, a setlist completa e o fim, com o selo da Apple e os recordes batidos", async ({
+      page,
+    }) => {
+      // Um recorde pequeno, de antes: a run passa dos dois números (as 2 linhas do recorde).
+      const setlist = { rounds: 0, found: 1 };
+      await seedHistory(page, {}, { "fixture:ar:ar02": { right: 0, setlist } });
+      await bigArtist(page);
+      await longestArtistName(page);
+      await open(page, DAY, "#artistas");
+      await page.getByRole("button", { name: /^新しい学校のリーダーズ/ }).click();
+      await page.getByRole("button", { name: "Setlist Royale" }).click();
+      for (let n = 1; n <= 9; n += 1) await playSetlistRound(page);
+      const fits = async (name: string) =>
+        expect((await overflow(page)).vertical, name).toBeLessThanOrEqual(0);
+      const badge = page.getByRole("link", { name: /Apple Music/ });
+      // A 10ª: ouvir, com as 8 casas.
+      await expect(page.locator(".setlist-slots li")).toHaveCount(8);
+      await expect(badge).toBeVisible();
+      await fits("ouvir");
+      // Escolher: as 12 opções, em 4 linhas de 3, com o selo inteiro no pé.
+      await page.getByRole("button", { name: "Tocar", exact: true }).click();
+      const options = page.getByRole("list", { name: "As opções" });
+      await expect(options.getByRole("button")).toHaveCount(12);
+      await fits("escolher");
+      await expect(badge).toBeInViewport({ ratio: 1 });
+      // Revelar: um erro, as 7 achadas e a que faltou.
+      const played = await chainTitles(page);
+      const all = await options.locator(".item-title").allTextContents();
+      const wrong = all.find((title) => !played.includes(title)) ?? "";
+      for (const title of [wrong, ...played.slice(0, 7)]) {
+        await options.getByText(title, { exact: true }).click();
+      }
+      await expect(page.locator(".setlist-result")).toBeFocused();
+      await expect(options.locator("li.missed")).toHaveCount(1);
+      await fits("revelar");
+      await page.getByRole("button", { name: "Fechar a setlist" }).click();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Setlist completa!");
+      await expect(page.locator(".superfan-best")).toHaveCount(2);
+      await fits("setlist completa");
+      // O sem fim, até as vidas acabarem: o fim, com os dois recordes batidos.
+      await page.getByRole("button", { name: "Continuar sem fim" }).click();
+      await playSetlistRound(page, { wrong: 2 });
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Fim da setlist");
+      await expect(page.locator(".superfan-best")).toHaveCount(2);
+      await fits("fim");
     });
 
     test("o fim da partida do Superfan", async ({ page }) => {
@@ -960,6 +1014,11 @@ test("em 320 px, o cabeçalho das sessões cabe: o placar e os limites quebram a
   await page.getByRole("button", { name: /^夜風シアター/ }).click();
   await page.getByRole("button", { name: "Superfan" }).click();
   await fits("Superfan");
+  await page.getByRole("button", { name: "Encerrar a partida" }).click();
+  await page.getByRole("button", { name: "Trocar de artista" }).click();
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await page.getByRole("button", { name: "Setlist Royale" }).click();
+  await fits("Setlist Royale");
 });
 
 /** A altura e a largura do alvo de toque (P213: 44 px nos dois sentidos). */

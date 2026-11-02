@@ -39,6 +39,13 @@ declare global {
       readonly offset: number;
       readonly volume?: number;
     }[];
+    /** Cada sequência emendada do Setlist Royale: as prévias e quando cada uma entra. */
+    __musicleChainLog?: {
+      readonly urls: readonly string[];
+      readonly offsets: readonly number[];
+      readonly ats: readonly number[];
+      readonly seconds: readonly number[];
+    }[];
     /** Texto "copiado" pelo Compartilhar (navigator.clipboard trocado no teste). */
     __copied?: string;
     /** O data-theme do <html> quando o #app aparece, antes do main.tsx (theme.spec.ts). */
@@ -337,6 +344,101 @@ export async function appleCatalog(
   );
   await page.route("https://itunes.apple.com/**", (route) => route.abort());
   await page.route("https://audio-ssl.itunes.apple.com/**", (route) => route.abort());
+}
+
+/** Títulos longos dos artistas reais, para a grade de 3 colunas do Setlist Royale. */
+const LONG_TITLES: readonly (readonly [string, string | null])[] = [
+  ["ロケット・トゥ・ザ・ムーン~信じた世界へ~", "Roketto tu za muun ~Shinjita sekai e~"],
+  ["Nameless Faces (feat. Lilas Ikuta)", null],
+  ["絶絶絶絶対聖域", "Zetsuzetsuzetsuzettai seiiki"],
+  ["Sailor Spark Operation!", null],
+  ["まさ毛カンナヴァーロ", "Masage kannavaaro"],
+  ["REAWAKE (feat. Felix of Stray Kids)", null],
+];
+
+/**
+ * O 夜風シアター (ar02) com `count` músicas, como um artista da parada real: o Setlist Royale
+ * precisa de 12 opções na 10ª rodada, e as fixtures têm 4. As cópias têm id, título (longo, dos
+ * artistas reais), música, álbum e prévia próprios; o provedor é o "apple" (o selo no pé), as
+ * prévias e as capas ficam num host da Apple, e o lookup falha de propósito: vale a prévia do
+ * arquivo, que o motor falso nunca baixa. Os arquivos das fixtures não mudam. Chame antes do `open`.
+ */
+export async function bigArtist(page: Page, count = 40): Promise<void> {
+  await page.route("**/fixtures/artists/ar02.json", async (route) => {
+    const response = await route.fetch();
+    const file = (await response.json()) as ArtistCatalog;
+    const audio = (id: string) => `https://audio-ssl.itunes.apple.com/e2e/${tail(id)}.m4a`;
+    const tracks = file.tracks.map((t) =>
+      t.preview ? { ...t, preview: { ...t.preview, url: audio(t.id) } } : t,
+    );
+    const albums = [...file.albums];
+    for (let n = 1; tracks.length < count; n += 1) {
+      const base = file.tracks[n % file.tracks.length];
+      const album = file.albums.find((a) => a.id === base?.albumId);
+      const [name, latin] = LONG_TITLES[n % LONG_TITLES.length] ?? ["", null];
+      if (!base || !album) throw new Error("ar02 sem faixa ou álbum");
+      const id = `fixture:tr:x${n}`;
+      const title = `${name} ${n}`;
+      albums.push({ ...album, id: `fixture:al:x${n}`, title: `${title} - Single` });
+      tracks.push({
+        ...base,
+        id,
+        albumId: `fixture:al:x${n}`,
+        title,
+        titleLatin: latin ? `${latin} ${n}` : null,
+        songKey: `${title}|${file.artistId}`,
+        titleKeys: [title.toLowerCase()],
+        search: { title: [title.toLowerCase()], artist: [] },
+        popularity: 0.5 - n / 1000,
+        preview: { url: audio(id), durationSec: 30, startSec: 0 },
+      });
+    }
+    await route.fulfill({ response, json: { ...file, provider: "apple", albums, tracks } });
+  });
+  await page.route("https://is1-ssl.mzstatic.com/**", (route) =>
+    route.fulfill({ path: FAKE_COVER, contentType: "image/svg+xml" }),
+  );
+  await page.route("https://itunes.apple.com/**", (route) => route.abort());
+  await page.route("https://audio-ssl.itunes.apple.com/**", (route) => route.abort());
+}
+
+/**
+ * Os títulos das músicas que a última sequência emendada tocou, na ordem (o __musicleChainLog do
+ * motor falso, cruzado com o arquivo do artista, que passa pelas rotas do `bigArtist`).
+ */
+export async function chainTitles(page: Page, file = "ar02.json"): Promise<string[]> {
+  return page.evaluate(async (name) => {
+    const data = (await fetch(`fixtures/artists/${name}`).then((r) => r.json())) as {
+      tracks: { title: string; preview: { url: string } | null }[];
+    };
+    const byUrl = new Map(data.tracks.map((t) => [t.preview?.url, t.title]));
+    return (window.__musicleChainLog?.at(-1)?.urls ?? []).map((url) => byUrl.get(url) ?? "");
+  }, file);
+}
+
+/**
+ * Uma rodada do Setlist Royale inteira: Tocar (o motor falso acaba na hora), marcar as que tocaram
+ * (ou `wrong` erradas antes) e, se `next`, seguir. Devolve os títulos que tocaram.
+ */
+export async function playSetlistRound(
+  page: Page,
+  { wrong = 0, next = true }: { readonly wrong?: number; readonly next?: boolean } = {},
+): Promise<string[]> {
+  await page.getByRole("button", { name: "Tocar", exact: true }).click();
+  const options = page.getByRole("list", { name: "As opções" });
+  await expect(options).toBeVisible();
+  const played = await chainTitles(page);
+  const all = await options.locator(".item-title").allTextContents();
+  const wrongs = all.filter((title) => !played.includes(title)).slice(0, wrong);
+  // A 3ª vida no meio encerra a rodada: as opções ficam travadas, e os toques param.
+  const result = page.locator(".setlist-result");
+  for (const title of [...wrongs, ...played].slice(0, played.length)) {
+    if ((await result.count()) > 0) break;
+    await options.getByText(title, { exact: true }).click();
+  }
+  await expect(result).toBeVisible();
+  if (next) await page.locator(".setlist-board > button.primary").click();
+  return played;
 }
 
 /**

@@ -70,7 +70,8 @@ export const LOUD_CHUNK = 0.5;
  * O 1º começo, a partir de `from` (em segundos, no buffer), de um trecho de `seconds` com som: cada
  * meio segundo dele chega a `ratio` da energia da prévia inteira. O Setlist Royale sorteia o ponto
  * de cada prévia, e um trecho que cai numa pausa ou num breakdown não deixa reconhecer a música.
- * Sem nenhum para a frente, procura do começo; sem nenhum na prévia, fica em `from`.
+ * Sem nenhum para a frente, procura do começo; sem nenhum na prévia, fica em `from` (ou no último
+ * começo que ainda cabe o trecho inteiro).
  */
 export function loudFrom(
   channels: readonly Float32Array[],
@@ -102,5 +103,6 @@ export function loudFrom(
   for (let at = 0; at < start; at += step) {
     if (heard(at)) return at / sampleRate;
   }
-  return from;
+  // Nenhum trecho passa: fica no pedido, mas com o trecho inteiro dentro da prévia.
+  return start / sampleRate;
 }

@@ -1,7 +1,16 @@
 import { readFileSync } from "node:fs";
 import type { ArtistCatalog } from "../src/core/types.ts";
 import { SAVE_KEY } from "../src/storage/save.ts";
-import { expect, lastPlayed, navLink, open, test } from "./helpers.ts";
+import {
+  bigArtist,
+  chainTitles,
+  expect,
+  lastPlayed,
+  navLink,
+  open,
+  playSetlistRound,
+  test,
+} from "./helpers.ts";
 
 /** O arquivo de um artista fictício (pipeline/fixtures/artists), para saber as músicas dele. */
 function artistFile(name: string): ArtistCatalog {
@@ -251,4 +260,71 @@ test("Superfan: o trecho de 1 s sorteado na prévia, o erro que custa uma vida e
   await page.reload();
   await page.getByRole("button", { name: /^夜風シアター/ }).click();
   await expect(best).toHaveText("Recorde: 0 pontos, até a música 1");
+});
+
+test("Setlist Royale: ouvir uma vez, cada toque na hora, as vidas, a setlist completa e o sem fim (o usuário, 01/11/2026)", async ({
+  page,
+}) => {
+  await bigArtist(page);
+  await open(page, DAY, "#artistas");
+  const title = page.getByRole("heading", { level: 1 });
+  const head = page.locator(".session-head");
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await page.getByRole("button", { name: "Setlist Royale" }).click();
+  await expect(title).toHaveText("夜風シアター · Yokaze Theater · Setlist Royale");
+  await expect(head).toContainText("Rodada 1 de 10");
+  await expect(head).toContainText("Vidas: 3");
+  // As opções só aparecem depois da sequência: antes, as 2 casas e o Tocar.
+  const options = page.getByRole("list", { name: "As opções" });
+  await expect(options).toHaveCount(0);
+  await expect(page.locator(".setlist-slots li")).toHaveCount(2);
+
+  // A 1ª rodada com um erro: o toque errado gasta uma vida e um toque, e a rodada avança.
+  const first = await playSetlistRound(page, { wrong: 1, next: false });
+  expect(first).toHaveLength(2);
+  await expect(page.getByText("Achou 1 de 2. Perdeu 1 vida nesta rodada.")).toBeFocused();
+  await expect(head).toContainText("Vidas: 2");
+  await expect(page.getByRole("button", { name: "Tocar", exact: true })).toHaveCount(0);
+  await page.getByRole("button", { name: "Próxima rodada" }).click();
+
+  // A sequência emendada: cada música entra antes de a anterior acabar, e o total encolhe.
+  await expect(head).toContainText("Rodada 2 de 10");
+  for (let n = 2; n <= 10; n += 1) {
+    const played = await playSetlistRound(page, { next: false });
+    const chain = await page.evaluate(() => window.__musicleChainLog?.at(-1));
+    expect(chain?.ats[1]).toBeLessThan((chain?.ats[0] ?? 0) + (chain?.seconds[0] ?? 0));
+    expect(played).toEqual(await chainTitles(page));
+    await page.locator(".setlist-board > button.primary").click();
+  }
+
+  // Na 10ª, a setlist acaba; o recorde vai ao save, e o right do artista não muda.
+  await expect(title).toHaveText("Setlist completa!");
+  await expect(title).toBeFocused();
+  await expect(page.getByText("10 rodadas completas, 43 músicas achadas")).toBeVisible();
+  const saved = () =>
+    page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key) ?? "{}").artists?.["fixture:ar:ar02"],
+      SAVE_KEY,
+    );
+  await expect.poll(saved).toEqual({ right: 0, setlist: { rounds: 10, found: 43 } });
+
+  // O sem fim, na dificuldade da 10ª: 8 músicas e 12 opções. Dois erros acabam as vidas.
+  await page.getByRole("button", { name: "Continuar sem fim" }).click();
+  await expect(head).toContainText("Rodada 11 · sem fim");
+  await expect(page.locator(".setlist-slots li")).toHaveCount(8);
+  await playSetlistRound(page, { wrong: 2, next: false });
+  await expect(options.getByRole("button")).toHaveCount(12);
+  await expect(page.getByText("Achou 0 de 8. As 3 vidas acabaram.")).toBeVisible();
+  await page.getByRole("button", { name: "Ver resultado" }).click();
+  await expect(title).toHaveText("Fim da setlist");
+  await expect(page.getByText("As 3 vidas acabaram.")).toBeVisible();
+
+  // O recorde no cartão, também depois de recarregar.
+  await page.getByRole("button", { name: "Trocar de artista" }).click();
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  const best = page.locator("#artist-mode-setlist-best");
+  await expect(best).toHaveText("Recorde: 10 rodadas, 43 músicas");
+  await page.reload();
+  await page.getByRole("button", { name: /^夜風シアター/ }).click();
+  await expect(best).toHaveText("Recorde: 10 rodadas, 43 músicas");
 });

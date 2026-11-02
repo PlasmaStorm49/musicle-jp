@@ -98,6 +98,12 @@ describe("loudFrom: o 1º trecho com som, para o Setlist Royale", () => {
     expect(loudFrom([preview(() => 0)], RATE, 22, 3)).toBe(22);
   });
 
+  it("sem nenhum trecho que passe, o pedido perto do fim ainda deixa o trecho inteiro na prévia", () => {
+    // Um estalo alto no 1º segundo e o resto baixo demais: nenhum trecho de 3 s passa na régua.
+    const burst = preview((t) => (t < 1 ? 0.3 : 0.005));
+    expect(loudFrom([burst], RATE, 29, 3)).toBeCloseTo(27, 9);
+  });
+
   it("o pedido perto do fim volta até o último trecho inteiro", () => {
     expect(loudFrom([preview(() => 0.3)], RATE, 29, 3)).toBeCloseTo(27, 9);
   });

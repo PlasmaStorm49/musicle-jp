@@ -770,6 +770,12 @@ main.app {
   grid-column: 1 / 3;
 }
 
+/* As vidas do Setlist Royale, ao lado da rodada, em negrito, como o placar. */
+.session-head > .setlist-lives {
+  grid-column: 2;
+  font-weight: 700;
+}
+
 .session-head > button {
   grid-row: 1 / 4;
   grid-column: 3;
@@ -2675,6 +2681,154 @@ dialog.medal-dialog .attribution {
 .superfan-end .superfan-best {
   font-weight: 700;
   color: var(--text);
+}
+
+/* O Setlist Royale (o usuário, 01/11/2026). As telas do fim, como as do Superfan; o resultado em
+   duas contagens, menor que o placar de pontos. */
+.setlist > header:not(.session-head) > h1 {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  font-weight: 400;
+}
+
+.setlist .superfan-end .practice-score {
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+}
+
+/* A rodada do Setlist Royale. As peças têm classes próprias: as regras não disputam com as das
+   opções marcadas dos outros modos (.options.done, .attempt), que não valem aqui. */
+.setlist-listen,
+.setlist-board {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.setlist-note,
+.setlist-result {
+  margin: 0;
+  text-align: center;
+}
+
+.setlist-result {
+  font-weight: 700;
+}
+
+/* As casas da sequência: uma por música, que acende (o anel) quando ela toca e fica no texto
+   normal depois de tocar. Só desenho: o som é o que conta. */
+.setlist-slots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+.setlist-slot {
+  display: grid;
+  place-items: center;
+  width: var(--h-compact);
+  height: var(--h-compact);
+  border-radius: var(--r-pill);
+  background: var(--fill);
+  color: var(--muted);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.setlist-slot.on {
+  box-shadow: inset 0 0 0 2px var(--text);
+  color: var(--text);
+}
+
+.setlist-slot.past {
+  color: var(--text);
+}
+
+/* As opções em linhas de até 3 (o usuário, 01/11/2026). */
+ul.setlist-options {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* O texto fica longe das bordas (16 px de cada lado): os cantos de cima são do ✓ ou do ✗ e da
+   ordem em que tocou, que não tiram largura do título na coluna estreita. Em cima e embaixo, só
+   2 px: as 4 linhas da 10ª rodada, com o nome mais longo e o selo da Apple, cabem em 360 × 640. A
+   marcada e a revelação continuam legíveis: sem o apagado do desabilitado. */
+.setlist-option {
+  position: relative;
+  min-height: var(--h-control);
+  padding: 2px var(--sp-4);
+  justify-content: center;
+  text-align: center;
+}
+
+.setlist-option[aria-disabled="true"] {
+  opacity: 1;
+}
+
+.setlist-option.correct {
+  background: var(--ok-soft);
+}
+
+.setlist-option.wrong {
+  background: var(--bad-soft);
+}
+
+/* A que tocou e ninguém marcou: o anel verde, sem o fundo do acerto. */
+.setlist-option.missed {
+  box-shadow: inset 0 0 0 2px var(--ok);
+}
+
+.setlist-item {
+  align-items: center;
+}
+
+/* O título em até 2 linhas, em 14 px, e o latino numa, embaixo. */
+.setlist-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  font-size: var(--t-sm);
+  line-height: var(--lh-sm);
+}
+
+.setlist-latin {
+  max-width: 100%;
+  font-size: var(--t-xs);
+}
+
+/* O ✓ e o ✗ no canto de cima, à esquerda (o ícone tem 1,1 vez a letra). */
+.setlist-mark {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  display: flex;
+  font-size: var(--t-xs);
+}
+
+.setlist-option.correct .setlist-mark {
+  color: var(--ok);
+}
+
+.setlist-option.wrong .setlist-mark {
+  color: var(--bad);
+}
+
+/* A ordem em que a música tocou, no canto de cima, à direita, só na revelação. */
+.setlist-order {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: var(--t-xs);
+  line-height: 1;
+  font-weight: 700;
+  color: var(--muted);
 }
 
 .superfan-end .artists-actions {

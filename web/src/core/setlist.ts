@@ -184,7 +184,9 @@ function weightOf(id: string, number: number, plays: SetlistPlays): number {
 /**
  * Sorteia a rodada `number` (de novo, com `attempt` maior): as que tocam, pelo peso de cada uma
  * (`REPEAT_WEIGHTS`), e as erradas, por igual, entre as outras da faixa, também as que tocaram
- * antes (a confusão é parte da memória). Null: o artista não tem 2 músicas.
+ * antes (a confusão é parte da memória). A rodada sorteada de novo (a interrompida, D7 do plano)
+ * deixa de fora as músicas da cortada (`avoid`), que a pessoa pode ter ouvido: nem tocam nem viram
+ * opção, se a faixa tiver outras que bastem. Null: o artista não tem 2 músicas.
  */
 export function drawSetlistRound(
   pool: readonly string[],
@@ -192,12 +194,14 @@ export function drawSetlistRound(
   plays: SetlistPlays,
   seed: number,
   attempt = 0,
+  avoid: readonly string[] = [],
 ): SetlistRound | null {
   const shape = roundShape(number, pool.length);
   if (shape.songs < 1) return null;
   const band = pool.slice(0, Math.max(bandOf(number, pool.length), shape.options));
+  const fresh = band.filter((id) => !avoid.includes(id));
   const rng = seeded(`setlist|${seed}|${number}|${attempt}`);
-  const left = [...band];
+  const left = fresh.length >= shape.options ? fresh : [...band];
   const played: string[] = [];
   for (let k = 0; k < shape.songs; k += 1) {
     const weights = left.map((id) => weightOf(id, number, plays));
@@ -352,11 +356,12 @@ export function setlistStep(run: SetlistRun, event: SetlistEvent): SetlistRun {
 
 /**
  * O recorde que a run deixa: as rodadas completas e as músicas achadas. Vale no fim e na setlist
- * completa (a pessoa pode sair dali sem continuar). Sem rodada nenhuma (a run sem músicas) ou com
- * a run em jogo, null.
+ * completa (a pessoa pode sair dali sem continuar). Com a run em jogo, ou na run sem músicas, null.
  */
 export function setlistBest(run: SetlistRun): SetlistBest | null {
-  if (run.end === "empty" || (run.end === null && run.phase !== "complete")) return null;
+  if (run.end === null && run.phase !== "complete") return null;
+  // A run vazia só não deixa recorde se não fez nada (a do artista sem músicas).
+  if (run.end === "empty" && run.cleared === 0 && run.found === 0) return null;
   return { rounds: run.cleared, found: run.found };
 }
 

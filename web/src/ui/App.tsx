@@ -238,8 +238,12 @@ export function App() {
   });
   const { claim: claimMedals, notice, dismiss: dismissNotice } = medalNotices;
   const onResult = useCallback(() => claimMedals(false), [claimMedals]);
+  // Calmo é o fim de uma partida ou de uma run (e a setlist completa), nunca uma rodada.
   const artistsCalm =
-    artists.play === null || (artists.play.kind === "superfan" && artists.play.run.end !== null);
+    artists.play === null ||
+    (artists.play.kind === "superfan" && artists.play.run.end !== null) ||
+    (artists.play.kind === "setlist" &&
+      (artists.play.run.phase === "over" || artists.play.run.phase === "complete"));
   const calm = noticeTab(route.tab) || (route.tab === "artists" && artistsCalm);
   // Trocar de tela fecha o aviso, que já foi visto: o pequeno não fica por cima do selo da Apple de
   // uma rodada (P288). A tela nova, se for calma, reivindica de novo; nos Artistas e nas Medalhas,

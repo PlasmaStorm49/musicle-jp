@@ -100,6 +100,8 @@ const PAIRS: readonly (readonly [string, string, number])[] = [
   // O latino e o artista do ItemLabel (--muted) nas linhas de acerto e erro.
   ["muted", "ok-soft", TEXT],
   ["muted", "bad-soft", TEXT],
+  // O anel da música que tocou e faltou, na revelação do Setlist Royale, sobre a tinta da opção.
+  ["ok", "fill", SHAPE],
   ["warn", "warn-soft", TEXT],
   ["border-strong", "bg", SHAPE],
   ["border-strong", "surface", SHAPE],

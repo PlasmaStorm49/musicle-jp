@@ -75,6 +75,7 @@ function store(list: ArtistStore["list"], loadList = vi.fn()): ArtistStore {
     loaded: null,
     change: vi.fn(),
     changeRun: vi.fn(),
+    changeSetlist: vi.fn(),
     restart: vi.fn(),
   };
 }
