@@ -18,6 +18,8 @@ import {
   openWithMedals,
   option,
   playSetlistRound,
+  royaleCover,
+  royaleRound,
   seedHistory,
   test,
 } from "./helpers.ts";
@@ -52,7 +54,7 @@ const shelf = (page: Page) =>
 const seenMedals = (page: Page) =>
   page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}").seenMedals, SAVE_KEY);
 
-test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista em blocos (com as 4 das Misturadas, ME123) e o Superfan de cada artista (P278, P282, P286, P310)", async ({
+test("a lista real, como no site: a aba, a tela com a sequência, as 37 da lista em blocos (com as 4 das Misturadas, ME123, e as 3 do Anime Royale) e o Superfan de cada artista (P278, P282, P286, P310)", async ({
   page,
 }) => {
   await seedHistory(page, {
@@ -66,9 +68,9 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
   const title = page.getByRole("heading", { level: 1, name: "Medalhas" });
   await expect(title).toBeFocused();
   await expect(page.getByText("Dias seguidos jogando: 3. O melhor: 3.")).toBeVisible();
-  // As 34, nos blocos (o usuário, 28/10/2026): as gerais (com o Colecionador e o Superfan) e as de
-  // cada modo; em cada bloco, as pequenas antes das grandes. O 1º diário ganho, e o progresso das que
-  // se ganham aos poucos.
+  // As 37, nos blocos (o usuário, 28/10/2026): as gerais (com o Colecionador e o Superfan) e as de
+  // cada modo, com as 3 do Anime Royale no Anime (o usuário, 02/11/2026); em cada bloco, as pequenas
+  // antes das grandes. O 1º diário ganho, e o progresso das que se ganham aos poucos.
   const rows = page.locator(".medal-list > li");
   await expect(rows.locator(".medal-name")).toHaveText([
     "Primeiro Acorde",
@@ -84,7 +86,10 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "Saco de Pancadas",
     "Hit Perfeito",
     "Pare de falar em tocar grama...",
+    "Ordem de Exibição",
+    "Full Combo",
     "Sensei",
+    "Um Cour Inteiro",
     "Tudo Junto e Misturado",
     "DJ Residente",
     "Pode juntar mais uma",
@@ -122,7 +127,10 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "Acerte 100 rodadas no Treino",
     /^Gabarite/,
     /^Acerte todas/,
+    "No Anime Royale, marque as 5 na ordem em que tocaram",
+    "Ache as 5 nas 3 dificuldades do Anime Royale no mesmo dia",
     /^Gabarite/,
+    "Ache as 5 em ao menos 2 dificuldades do Anime Royale, 12 dias seguidos",
     "Ache todas as músicas de uma rodada das Misturadas",
     "Termine ao menos 1 diário das Misturadas por dia, 15 dias seguidos",
     /^Gabarite os 2 diários das Misturadas/,
@@ -150,6 +158,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "0 de 5 artistas com 50 acertos",
     "3 de 30 dias seguidos",
     "0 de 100 acertos no Treino",
+    "0 de 12 dias seguidos",
     "0 de 15 dias seguidos",
     "0 de 7 dias seguidos",
     "0 de 15 dias seguidos",
@@ -157,9 +166,9 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "0 de 6 tipos de pergunta",
     "0 de 7 dias seguidos",
   ]);
-  await expect(page.locator(".medal-list > li.locked")).toHaveCount(33);
-  // As 10 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
-  await expect(rows.locator('svg[viewBox="0 8 110 132"]')).toHaveCount(10);
+  await expect(page.locator(".medal-list > li.locked")).toHaveCount(36);
+  // As 11 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
+  await expect(rows.locator('svg[viewBox="0 8 110 132"]')).toHaveCount(11);
   await expect(rows.locator("svg text")).toHaveCount(0);
   // As 6 de cada artista das fixtures (as 3 do Superfan e as 3 do Setlist Royale), por ganhar.
   await expect(page.locator(".medal-artist")).toHaveCount(5);
@@ -167,7 +176,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
   await expect(page.getByRole("heading", { level: 2 })).toHaveText([
     "Gerais 1 de 9",
     "Hits 0 de 3",
-    "Anime 0 de 2",
+    "Anime 0 de 5",
     "Misturadas 0 de 4",
     "Quiz 0 de 16",
     "Artistas 0 de 30",
@@ -182,7 +191,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 17 da lista
     "ふたりの約束 -\u2060Live-, Futari no Yakusoku -\u2060Live-",
     "ふたりの約束 -\u2060One\u00a0Take-, Futari no Yakusoku -\u2060One\u00a0Take-",
   ]);
-  await expect(page.getByText("1 de 64 medalhas")).toBeVisible();
+  await expect(page.getByText("1 de 67 medalhas")).toBeVisible();
   // Calado: a tela fica, e o aviso não.
   await expect(page.getByRole("dialog")).toHaveCount(0);
   expect(await seenMedals(page)).toEqual([]);
@@ -387,6 +396,20 @@ test("no Anime, o Ver resultado de um diário também avisa (o onResult do Game)
   await expect(toast(page).locator(".medal-toast-text")).toHaveText(
     "Medalha nova: Primeiro diário",
   );
+});
+
+test("no Anime Royale, as 5 marcadas na ordem em que tocaram avisam a Ordem de Exibição no resultado, e a dificuldade conta no Primeiro Acorde (o usuário, 02/11/2026)", async ({
+  page,
+}) => {
+  await openWithMedals(page, "2026-10-20T12:00:00-03:00", "#anime-royale-facil", "avisos");
+  for (const id of royaleRound("2026-10-20", "facil").played) {
+    await royaleCover(page, id).click();
+    await page.locator("dialog.royale-dialog").getByRole("button", { name: "Marcar" }).click();
+  }
+  await expect(page.locator(".royale-score")).toContainText("Achou 5 de 5");
+  // As duas de uma vez: o aviso pequeno com a contagem, e o save com as duas avisadas.
+  await expect(toast(page).locator(".medal-toast-text")).toHaveText("2 medalhas novas");
+  await expect.poll(() => seenMedals(page)).toEqual(["diario-1", "royale-ordem"]);
 });
 
 test("o jogado depois, pelo Histórico, não ganha medalha (P263)", async ({ page }) => {

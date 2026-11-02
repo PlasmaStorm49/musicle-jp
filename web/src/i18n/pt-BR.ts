@@ -659,6 +659,15 @@ export const ptBR = {
   "medal.quiz-rodada-15-seguidos-7.name": "Ritmo Constante",
   "medal.quiz-rodada-15-seguidos-7.how": "Chegue à rodada 15 do quiz {goal} dias seguidos",
   "medal.quiz-rodada-15-seguidos-7.progress": "{value} de {goal} dias seguidos",
+  // As do Anime Royale (o usuário, 02/11/2026).
+  "medal.royale-ordem.name": "Ordem de Exibição",
+  "medal.royale-ordem.how": "No Anime Royale, marque as 5 na ordem em que tocaram",
+  "medal.royale-15.name": "Full Combo",
+  "medal.royale-15.how": "Ache as 5 nas 3 dificuldades do Anime Royale no mesmo dia",
+  "medal.royale-cour.name": "Um Cour Inteiro",
+  "medal.royale-cour.how":
+    "Ache as 5 em ao menos 2 dificuldades do Anime Royale, {goal} dias seguidos",
+  "medal.royale-cour.progress": "{value} de {goal} dias seguidos",
   "medal.demo-primeiro.name": "Primeiro diário",
   "medal.demo-primeiro.how": "Termine um diário no dia",
   "medal.demo-cinco.name": "Cinco diários",

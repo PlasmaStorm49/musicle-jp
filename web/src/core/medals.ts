@@ -1,8 +1,8 @@
 // As medalhas (M16, ME105). Calculadas do save a cada vez, como as estatísticas: o save só
 // guarda o que não sai de outro lugar (as já avisadas, P281, e o modo por artista, P289). Toda
-// conferência usa só o que cresce (o histórico, os terminados das Misturadas e do quiz, a agenda dos
-// Hits, os registros dos artistas), para que uma medalha ganha nunca suma. O id vai para o save e nunca
-// muda.
+// conferência usa só o que cresce (o histórico, os terminados das Misturadas, do quiz e do Anime
+// Royale, a agenda dos Hits, os registros dos artistas), para que uma medalha ganha nunca suma. O id
+// vai para o save e nunca muda.
 import type { MixedGame, MixedRoundRecord } from "./mixed.ts";
 import { isSpecialFamily, type QuizGame, quizReached, quizRight } from "./quiz.ts";
 import {
@@ -14,6 +14,7 @@ import {
   withSeenMedals,
 } from "./records.ts";
 import type { Tab } from "./routes.ts";
+import { ROYALE_PLAYED, type RoyaleGame, royaleScore } from "./royale.ts";
 import { SETLIST_FINAL } from "./setlist.ts";
 import { type DayGame, dayGames, streaks } from "./stats.ts";
 
@@ -67,9 +68,21 @@ export type MedalContext = {
    */
   readonly quizStreak: { readonly played: number; readonly steady: number };
   /**
-   * Os diários terminados no dia, de todos os modos: os dos Hits e do Anime, os das Misturadas e o
-   * quiz (o usuário, 28/10/2026). O `games` continua só com os dos Hits e do Anime: é dele que saem a
-   * sequência do topo (P282), o Relâmpago e o 1º aviso (P314).
+   * O Anime Royale (o usuário, 02/11/2026): os terminados de cada data até hoje, pela chave da
+   * dificuldade. Ainda não há o jogado depois (o Royale não está no Histórico, ME160); quando
+   * houver, ele fica fora, como nas Misturadas (P369).
+   */
+  readonly royale: ReadonlyMap<string, ReadonlyMap<string, RoyaleGame>>;
+  /**
+   * A sequência do Um Cour Inteiro, sobre a agenda dos Hits, como as outras: a melhor de dias com
+   * as 5 achadas em ao menos `ROYALE_GOALS.courTiers` dificuldades.
+   */
+  readonly royaleStreak: number;
+  /**
+   * Os diários terminados no dia, de todos os modos: os dos Hits e do Anime, os das Misturadas, o
+   * quiz (o usuário, 28/10/2026) e cada dificuldade do Anime Royale (o usuário, 02/11/2026). O
+   * `games` continua só com os dos Hits e do Anime: é dele que saem a sequência do topo (P282), o
+   * Relâmpago e o 1º aviso (P314).
    */
   readonly dailies: number;
 };
@@ -123,6 +136,25 @@ export function medalContext(
   const quizDays = (test: (game: QuizGame) => boolean) =>
     new Set(quiz.filter(({ game }) => test(game)).map(({ date }) => date));
   const mixedCount = [...mixed.values()].reduce((sum, day) => sum + day.size, 0);
+  const royale = new Map<string, Map<string, RoyaleGame>>();
+  for (const [id, game] of Object.entries(save.royale.finished)) {
+    const [date = "", key = ""] = id.split("|");
+    if (date > today) continue;
+    const day = royale.get(date) ?? new Map<string, RoyaleGame>();
+    royale.set(date, day.set(key, game));
+  }
+  const royaleCount = [...royale.values()].reduce((sum, day) => sum + day.size, 0);
+  // As dificuldades congeladas (`ROYALE_DAY`), como no Full Combo: uma 4ª não muda o "2 de 3".
+  const perfectTiers = (day: ReadonlyMap<string, RoyaleGame>) =>
+    ROYALE_DAY.filter((key) => {
+      const game = day.get(key);
+      return game !== undefined && allFoundRoyale(game);
+    }).length;
+  const courDays = new Set(
+    [...royale]
+      .filter(([, day]) => perfectTiers(day) >= ROYALE_GOALS.courTiers)
+      .map(([date]) => date),
+  );
   return {
     today,
     games,
@@ -152,8 +184,23 @@ export function medalContext(
         today,
       ).best,
     },
-    dailies: games.length + mixedCount + quiz.length,
+    royale,
+    royaleStreak: streaks(courDays, hitsDates, today).best,
+    dailies: games.length + mixedCount + quiz.length + royaleCount,
   };
+}
+
+/** As 5 achadas numa dificuldade do Anime Royale. */
+export function allFoundRoyale(game: RoyaleGame): boolean {
+  return royaleScore(game) === ROYALE_PLAYED;
+}
+
+/**
+ * As 5 marcadas na ordem em que tocaram (a Ordem de Exibição, o usuário, 02/11/2026): o `found`
+ * guarda a posição de cada achada, na ordem das marcações.
+ */
+export function inPlayOrder(game: RoyaleGame): boolean {
+  return allFoundRoyale(game) && game.found.every((at, i) => at === i);
 }
 
 /**
@@ -219,6 +266,12 @@ export const ANIME_DAY = [
 export const WHOLE_DAY = [...HITS_DAY, ...ANIME_DAY] as const;
 /** Os 2 diários das Misturadas do mesmo dia (ME123), congelados como os outros. */
 export const MIXED_DAY = ["misturadas-musica", "misturadas-titulo"] as const;
+/** As 3 dificuldades do Anime Royale do mesmo dia (o usuário, 02/11/2026), congeladas também. */
+export const ROYALE_DAY = [
+  "anime-royale-facil",
+  "anime-royale-medio",
+  "anime-royale-dificil",
+] as const;
 
 /** Numa mesma data, todos os diários de `keys` terminados, e cada um passando no `test`. */
 function someDay(
@@ -300,6 +353,15 @@ export const QUIZ_GOALS = {
   answer: 42,
 } as const;
 
+/**
+ * Os limites do Anime Royale (o usuário, 02/11/2026), fixos como os outros: os dias seguidos do Um
+ * Cour Inteiro e quantas dificuldades com as 5 achadas cada dia pede.
+ */
+export const ROYALE_GOALS = {
+  cour: 12,
+  courTiers: 2,
+} as const;
+
 /** A run chegou à rodada `n` sem errar: as `n` primeiras, sem erro (a anulada não é erro). */
 export function quizClean(game: Pick<QuizGame, "results">, n: number): boolean {
   return game.results.length >= n && !game.results.slice(0, n).includes("w");
@@ -362,7 +424,8 @@ function wholeDay(ctx: MedalContext): boolean {
  * mudar a ordem dela muda a ordem deles.
  */
 export const MEDALS: readonly Medal[] = [
-  // Os diários de todos os modos, também as Misturadas e o quiz (o usuário, 28/10/2026).
+  // Os diários de todos os modos, também as Misturadas e o quiz (o usuário, 28/10/2026) e cada
+  // dificuldade do Anime Royale (o usuário, 02/11/2026).
   { id: "diario-1", block: "gerais", tier: "simple", earned: (ctx) => ctx.dailies >= 1 },
   {
     id: "um-segundo",
@@ -473,6 +536,26 @@ export const MEDALS: readonly Medal[] = [
     tier: "simple",
     earned: someRun((game) => quizReached(game) === QUIZ_GOALS.answer),
   },
+  // As pequenas do Anime Royale (o usuário, 02/11/2026), depois das pequenas de antes: as 5 de uma
+  // dificuldade na ordem em que tocaram, e as 15 do dia (as 5 de cada dificuldade).
+  {
+    id: "royale-ordem",
+    block: "anime",
+    tier: "simple",
+    earned: (ctx) => [...ctx.royale.values()].some((day) => [...day.values()].some(inPlayOrder)),
+  },
+  {
+    id: "royale-15",
+    block: "anime",
+    tier: "simple",
+    earned: (ctx) =>
+      [...ctx.royale.values()].some((day) =>
+        ROYALE_DAY.every((key) => {
+          const game = day.get(key);
+          return game !== undefined && allFoundRoyale(game);
+        }),
+      ),
+  },
   {
     id: "hits-perfeito",
     block: "hits",
@@ -539,6 +622,9 @@ export const MEDALS: readonly Medal[] = [
     QUIZ_GOALS.steadyDays,
     (ctx) => ctx.quizStreak.steady,
   ),
+  // A grande do Anime Royale, depois das grandes de antes: as 5 achadas em 2 dificuldades por dia,
+  // em dias seguidos.
+  counted("royale-cour", "anime", "major", ROYALE_GOALS.cour, (ctx) => ctx.royaleStreak),
 ];
 
 /** Os 3 níveis do Superfan de cada artista (P280, P285). */
@@ -805,9 +891,9 @@ export function medalBoard(
 
 /**
  * As telas calmas, onde um aviso de medalha pode aparecer sem atrapalhar (P288): a Início, os Hits,
- * as escolhas do Anime (o modo e a dificuldade, e não os diários), o Histórico, as Medalhas e o
- * Sobre. Os Artistas são calmos fora de uma partida (a lista, o submodo, o fim do Superfan), o
- * que só a tela sabe: o App junta isso. Nunca numa rodada nem numa revelação.
+ * as escolhas do Anime (o modo e a dificuldade, e não os diários; também a do Anime Royale), o
+ * Histórico, as Medalhas e o Sobre. Os Artistas são calmos fora de uma partida (a lista, o submodo,
+ * o fim do Superfan), o que só a tela sabe: o App junta isso. Nunca numa rodada nem numa revelação.
  */
 export function noticeTab(tab: Tab): boolean {
   switch (tab) {
@@ -816,6 +902,7 @@ export function noticeTab(tab: Tab): boolean {
     case "anime":
     case "anime-musica":
     case "anime-titulo":
+    case "anime-royale":
     case "misturadas":
     case "history":
     case "medals":
