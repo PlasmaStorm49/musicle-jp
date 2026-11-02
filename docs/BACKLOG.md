@@ -2,7 +2,7 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 28/10/2026.
+Atualizado em 02/11/2026.
 
 ## Próximos
 
@@ -48,6 +48,8 @@ Atualizado em 28/10/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
+- **ME157 (novo).** As setas do carrossel das Medalhas têm 28 px, abaixo dos 44 da P213: só com mouse, mas um notebook com toque as mostra. Crescer ou registrar a exceção.
+- **ME158 (novo).** A Início não mostra a run do Setlist Royale em andamento.
 - **ME155 (novo).** Uma cor por categoria nas medalhas (os blocos da P404), no lugar da prata e do gelo de todas as gerais.
 - **ME145 (novo).** O bônus do quiz baixado uma vez só, e não com cada mês: se só ele falhar, o calendário do Histórico perde a marca do quiz.
 - **ME146 (novo).** O quiz na linha da nav também em 390 px (o iPhone comum), apertando o espaço entre as abas abaixo de 720 (P394).
@@ -96,7 +98,8 @@ Atualizado em 28/10/2026.
 - **M19 (depois do M18).** Revisar e melhorar (se preciso, reconstruir) o design inteiro com a taste-skill e as Web Interface Guidelines da Vercel.
 - **M20 (em andamento).** As medalhas (Apêndice S do PLANO): os blocos e as do quiz já estão no ar (#131, #133 e #135); falta o PR 3, com as novas dos Hits, do Anime e das Misturadas, em avaliação.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
-- **ME2.** Modo royale: 6 músicas, 9 opções, sem errar.
+- **ME2.** O royale: o do modo por artista, o Setlist Royale, está no ar (M21); o do Anime, o Anime Royale, em andamento numa frente à parte.
+- **ME156 (novo).** A ajuda do Setlist Royale, com desenho próprio; com ela, a perfeita do Setlist exige a run sem ajuda.
 - **ME5.** Jogar sem internet (PWA).
 - **ME6.** O app do Claude no GitHub revisando cada PR.
 
@@ -109,6 +112,7 @@ Atualizado em 28/10/2026.
 - Conferir o logo empilhado: libera a **S34**, a imagem de compartilhamento (`og:image`).
 
 **Você**
+- **ME159 (novo).** No iPhone, jogar o Setlist Royale até a 10ª rodada e ver se a página aguenta a memória (até 8 prévias decodificadas, uns 85 MB).
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
 - **P16.** Decidir se a URL e o repositório mudam de nome.
