@@ -37,7 +37,15 @@ describe("o índice das franquias (indexAnime)", () => {
     expect(franchisesOf(index, "fixture:tr:tr42")).toEqual([HOSHIZORA]);
     expect(franchisesOf(index, "fixture:tr:tr21")).toEqual([HOSHIZORA]);
     expect(index.anime?.themesByTrack.get("fixture:tr:tr42")).toEqual([
-      { anime: "Hoshizora Kaizoku 2nd Season", type: "OP", sequence: 1 },
+      {
+        anime: "Hoshizora Kaizoku 2nd Season",
+        cover: {
+          large: "anime/large-cover/hoshizora_kaizoku_2nd_season.svg",
+          small: "anime/small-cover/hoshizora_kaizoku_2nd_season.svg",
+        },
+        type: "OP",
+        sequence: 1,
+      },
     ]);
   });
 
@@ -197,7 +205,15 @@ describe("o que a tela mostra (franchiseView, guessView, revealView)", () => {
 
   it("a revelação leva os temas da faixa; fora do Anime, nenhum", () => {
     expect(revealView(index, "fixture:tr:tr42")?.themes).toEqual([
-      { anime: "Hoshizora Kaizoku 2nd Season", type: "OP", sequence: 1 },
+      {
+        anime: "Hoshizora Kaizoku 2nd Season",
+        cover: {
+          large: "anime/large-cover/hoshizora_kaizoku_2nd_season.svg",
+          small: "anime/small-cover/hoshizora_kaizoku_2nd_season.svg",
+        },
+        type: "OP",
+        sequence: 1,
+      },
     ]);
     expect(revealView(indexCatalog(catalog), "fixture:tr:tr42")?.themes).toEqual([]);
   });

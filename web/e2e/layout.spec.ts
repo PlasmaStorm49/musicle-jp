@@ -64,14 +64,14 @@ const LONG_ANIME = "JoJo no Kimyou na Bouken Part 3: Stardust Crusaders 2nd Seas
 /** A faixa em 3 temas, o 1º com o nome longo (o real tem faixas em 2 ou mais temas). */
 /** O nome mais longo do catálogo real do C1 (61 caracteres), num tema só, como lá. */
 const LONG_THEME = (): AnimeTrack["anime"]["themes"] => [
-  { anime: LONG_ANIME, type: "ED", sequence: 1 },
+  { anime: LONG_ANIME, cover: null, type: "ED", sequence: 1 },
 ];
 /** Uma faixa em 3 temas, com um nome médio: a revelação mostra o 1º e "e mais 2". */
 const MEDIUM_ANIME = "Kimetsu no Yaiba: Yuukaku-hen";
 const THREE_THEMES = (list: AnimeTrack["anime"]["themes"]): AnimeTrack["anime"]["themes"] => [
-  { anime: MEDIUM_ANIME, type: "OP", sequence: 1 },
+  { anime: MEDIUM_ANIME, cover: null, type: "OP", sequence: 1 },
   ...list,
-  { anime: list[0].anime, type: "IN", sequence: null },
+  { anime: list[0].anime, cover: null, type: "IN", sequence: null },
 ];
 
 /**
