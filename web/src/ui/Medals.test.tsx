@@ -40,6 +40,7 @@ const LIST: ArtistList = {
           completo: { name: "Round Robin", latin: null },
           perfeito: { name: "夜風劇場", latin: "Yokaze Gekijo" },
         },
+        setlist: { name: "文化", latin: "Bunka", artworkUrl: "art/s1.svg" },
       },
     },
     {
@@ -55,6 +56,7 @@ const LIST: ArtistList = {
           completo: { name: "Segunda", latin: null },
           perfeito: { name: "Terceira", latin: null },
         },
+        setlist: { name: "Disco", latin: null, artworkUrl: "art/s2.svg" },
       },
     },
   ],

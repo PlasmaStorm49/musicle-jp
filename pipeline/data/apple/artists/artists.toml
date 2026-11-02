@@ -9,12 +9,16 @@
 #     catálogo maior que o teto: o lookup de músicas só ordena 200 faixas, e no resto o single
 #     vem antes das faixas de álbum
 #   [artists.medals] (M16), sempre no FIM do bloco do artista (o que vier depois dele é dele):
-#     os 3 nomes, obrigatórios (P301): acertos e completo com o latin (o romaji, sem mácron,
-#     P297) só quando o nome tem kana, kanji ou hangul; perfeito só com o nome (P295); a capa
-#     das 3 (album: o collectionId de um álbum do artista, P296); o enquadramento (crop: o zoom
-#     z, de 1 a 4, e o ponto x e y, de 0 a 1); a faixa da perfeita (sash: em pé, até 6
-#     caracteres, ou along = true, deitada, P299); e o [artists.medals.flowers], as 13 cores do
-#     buquê (P296). Sem a capa, o crop, a faixa ou as flores, a tela usa o padrão.
+#     os 3 nomes, obrigatórios (P301), com o latin (o romaji, sem mácron, P297) só quando o
+#     nome tem kana, kanji ou hangul (nos 3, desde a P309); a capa das 3 (album: o collectionId
+#     de um álbum do artista, P296); o enquadramento (crop: o zoom z, de 1 a 4, e o ponto x e y,
+#     de 0 a 1); a faixa da perfeita (sash: em pé, até 6 caracteres, ou along = true, deitada,
+#     P299); e o [artists.medals.flowers], as 13 cores do buquê (P296). Sem a capa, o crop, a
+#     faixa ou as flores, a tela usa o padrão.
+#   [artists.medals.setlist], obrigatório (as medalhas do Setlist Royale, 02/11/2026): o album de
+#     outra capa do artista (nunca o das do Superfan; o mais famoso ou o 1º), o name, o título
+#     dele (a tela põe o sufixo -Rehearsal-, -Live- ou -One Take-), com o latin como os nomes, e
+#     o crop, se precisar.
 
 [[artists]]
 id = "1490256993"  # YOASOBI
@@ -61,6 +65,10 @@ spark = "#3f9a5b"
 leaf1 = "#2f5e3a"
 leaf2 = "#467a50"
 
+[artists.medals.setlist]
+album = "1542182291"  # o 1º álbum; a capa do Superfan é o THE BOOK 2
+name = "THE BOOK"
+
 [[artists]]
 id = "573943518"  # LiSA (アニメ; não a LISA do BLACKPINK)
 # "ROCK-mode'18" é a regravação de 2018 de "ROCK-mode" (LiSA BEST -Way-).
@@ -89,6 +97,10 @@ spark = "#d22024"
 leaf1 = "#5f8a4e"
 leaf2 = "#7aa35f"
 
+[artists.medals.setlist]
+album = "1529543131"  # o LANDER é a capa do Superfan
+name = "LEO-NiNE"
+
 [[artists]]
 id = "1080967231"  # Eve (J-Pop; não o Eve do rap)
 
@@ -115,6 +127,11 @@ spark = "#869bac"
 leaf1 = "#4f6b5a"
 leaf2 = "#6a8572"
 
+[artists.medals.setlist]
+album = "1312575491"  # o álbum da virada (2017)
+name = "文化"
+latin = "Bunka"
+
 [[artists]]
 id = "1492604670"  # Ado
 
@@ -140,6 +157,11 @@ ring = "#0b0b10"
 spark = "#3b5fc4"
 leaf1 = "#2e4a3a"
 leaf2 = "#3f5f4a"
+
+[artists.medals.setlist]
+album = "1754263364"  # o 狂言 é a capa e um nome do Superfan
+name = "残夢"
+latin = "Zanmu"
 
 [[artists]]
 id = "569972619"  # Aimer
@@ -176,6 +198,10 @@ spark = "#9f84ad"
 leaf1 = "#4e6b45"
 leaf2 = "#66845a"
 
+[artists.medals.setlist]
+album = "1538258997"  # o mais famoso (2016)
+name = "daydream"
+
 [[artists]]
 id = "530814268"  # 米津玄師 (o Hachi, 727267782, é outro artista e não entra, P123)
 
@@ -202,6 +228,10 @@ spark = "#ca2f24"
 leaf1 = "#5f8a4e"
 leaf2 = "#7aa35f"
 
+[artists.medals.setlist]
+album = "1538275115"  # o STRAY SHEEP é um nome do Superfan
+name = "BOOTLEG"
+
 [[artists]]
 id = "311230779"  # Unlimits (rock; ハルカカナタ, カスケード)
 
@@ -227,6 +257,10 @@ ring = "#211a35"
 spark = "#d36fd0"
 leaf1 = "#5f8a4e"
 leaf2 = "#7aa35f"
+
+[artists.medals.setlist]
+album = "1537442253"  # o 夢幻シンドローム lembraria o 夢幻の宴 do Superfan
+name = "NeON"
 
 [[artists]]
 id = "76115834"  # 松田聖子 (Seiko Matsuda; não a "Seiko" 286640008)
@@ -379,6 +413,10 @@ spark = "#bf7e8d"
 leaf1 = "#5f8a4e"
 leaf2 = "#7aa35f"
 
+[artists.medals.setlist]
+album = "1536760911"  # de estúdio, de 1980; as Bible são coletâneas
+name = "North Wind"
+
 [[artists]]
 id = "1231338664"  # 新しい学校のリーダーズ (ATARASHII GAKKO!; オトナブルー, Tokyo Calling)
 # O feat. do single e o do álbum (マエナラワナイ) vêm escritos de jeitos diferentes, e o
@@ -408,6 +446,11 @@ spark = "#45a7d1"
 leaf1 = "#5f8a4e"
 leaf2 = "#7aa35f"
 
+[artists.medals.setlist]
+album = "1348202579"  # o 1º álbum (2018)
+name = "マエナラワナイ"
+latin = "Maenarawanai"
+
 [[artists]]
 id = "1489581870"  # 幾田りら (Lilas Ikuta; não o "Lilas" 1704820090, de títulos em francês)
 # A versão em inglês (英語版) do tema do 崩壊:スターレイル; a [Japanese Ver.] fica.
@@ -435,6 +478,10 @@ ring = "#261419"
 spark = "#7d61a0"
 leaf1 = "#5f8a4e"
 leaf2 = "#7aa35f"
+
+[artists.medals.setlist]
+album = "1857886408"  # o Sketch é a capa do Superfan
+name = "Laugh"
 
 [[artists]]
 id = "308629932"  # 水樹奈々 (Nana Mizuki; não os personagens "(CV:水樹奈々)", que são outros ids)
@@ -554,6 +601,10 @@ spark = "#e8873a"
 leaf1 = "#4f7d32"
 leaf2 = "#6b9440"
 
+[artists.medals.setlist]
+album = "345874684"  # o 1º no topo da Oricon (2009); o supersonic girl é a capa do Superfan
+name = "ULTIMATE DIAMOND"
+
 [[artists]]
 id = "424817976"  # MAN WITH A MISSION
 # A regravação do MAN WITH A "REMIX" MISSION (2020): a mesma música da original.
@@ -581,6 +632,10 @@ ring = "#090a0e"
 spark = "#c88d9f"
 leaf1 = "#3f4f48"
 leaf2 = "#56665e"
+
+[artists.medals.setlist]
+album = "1593512991"  # o 5 Years… é um nome do Superfan
+name = "Break and Cross the Walls Ⅰ"
 
 # A seção de fora do Japão (P199, P200), pedida por amigos do usuário. A ordem dela na tela é a
 # alfabética (P201), feita pelo build: a deste arquivo não conta.
@@ -664,6 +719,10 @@ spark = "#c9ac7c"
 leaf1 = "#5f8a4e"
 leaf2 = "#7aa35f"
 
+[artists.medals.setlist]
+album = "1550545935"  # o Red Diary Page.1 é a capa e o RED PLANET um nome do Superfan; EP
+name = "Puberty BookⅠ Bom"
+
 [[artists]]
 id = "462715"  # System of a Down
 section = "foreign"
@@ -701,3 +760,7 @@ ring = "#141110"
 spark = "#cca96d"
 leaf1 = "#3f4a2e"
 leaf2 = "#56623d"
+
+[artists.medals.setlist]
+album = "1744586004"  # a edição principal, com as 14 faixas
+name = "Toxicity"

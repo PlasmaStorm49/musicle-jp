@@ -5,12 +5,15 @@
 #   same_song: pares de trackId da mesma música com títulos que a chave não junta (o 2º vai
 #     para o grupo do 1º)
 #   [artists.medals] (M16), sempre no FIM do bloco do artista (o que vier depois dele é dele):
-#     os 3 nomes, obrigatórios (P301): acertos e completo com o latin (o romaji, sem mácron,
-#     P297) só quando o nome tem kana, kanji ou hangul; perfeito só com o nome (P295); a capa
-#     das 3 (album: o collectionId de um álbum do artista, P296); o enquadramento (crop: o zoom
-#     z, de 1 a 4, e o ponto x e y, de 0 a 1); a faixa da perfeita (sash: em pé, até 6
-#     caracteres, ou along = true, deitada, P299); e o [artists.medals.flowers], as 13 cores do
-#     buquê (P296). Sem a capa, o crop, a faixa ou as flores, a tela usa o padrão.
+#     os 3 nomes, obrigatórios (P301), com o latin (o romaji, sem mácron, P297) só quando o
+#     nome tem kana, kanji ou hangul (nos 3, desde a P309); a capa das 3 (album: o collectionId
+#     de um álbum do artista, P296); o enquadramento (crop: o zoom z, de 1 a 4, e o ponto x e y,
+#     de 0 a 1); a faixa da perfeita (sash: em pé, até 6 caracteres, ou along = true, deitada,
+#     P299); e o [artists.medals.flowers], as 13 cores do buquê (P296). Sem a capa, o crop, a
+#     faixa ou as flores, a tela usa o padrão.
+#   [artists.medals.setlist], obrigatório (as medalhas do Setlist Royale, 02/11/2026): o album de
+#     outra capa do artista (nunca o das do Superfan), o name, o título dele (a tela põe o sufixo
+#     -Rehearsal-, -Live- ou -One Take-), com o latin como os nomes, e o crop, se precisar.
 
 [[artists]]
 id = "ar02"  # 夜風シアター: karaokê, ao vivo e música só em karaokê
@@ -38,6 +41,11 @@ spark = "#4f9e97"
 leaf1 = "#5f8a4e"
 leaf2 = "#7aa35f"
 
+[artists.medals.setlist]
+album = "al05"  # ふたりの約束 - Single
+name = "ふたりの約束"
+latin = "Futari no Yakusoku"
+
 [[artists]]
 id = "ar07"  # 青井ユウ: participação (tr05, de ar02), álbum em inglês e título em romaji
 exclude_albums = ["alx03"]
@@ -48,6 +56,10 @@ acertos = { name = "Blue Diary" }
 completo = { name = "青い日記", latin = "Aoi Nikki" }
 perfeito = { name = "ユウ", latin = "Yu" }
 
+[artists.medals.setlist]
+album = "al14"
+name = "Blue Diary"
+
 [[artists]]
 id = "ar01"  # ミナト: versões do mesmo título, TV Size, crédito "(… from …)" e faixa excluída
 exclude_tracks = ["trx07"]
@@ -56,6 +68,10 @@ exclude_tracks = ["trx07"]
 acertos = { name = "夜明け", latin = "Yoake" }
 completo = { name = "Dawn Collection" }
 perfeito = { name = "港", latin = "Minato" }
+
+[artists.medals.setlist]
+album = "al02"
+name = "Dawn Collection"
 
 # A seção de fora do Japão (P200): em ordem inversa aqui, para o teste provar que é o build que
 # põe a seção em ordem alfabética (P201).
@@ -69,6 +85,10 @@ completo = { name = "ゼロ距離", latin = "Zero Kyori" }
 perfeito = { name = "Re:Pulse" }
 sash = { text = "Re:Pulse", along = true }
 
+[artists.medals.setlist]
+album = "al10"
+name = "RIOT"
+
 [[artists]]
 id = "ar06"  # Hoshizora Drive
 section = "foreign"
@@ -77,3 +97,8 @@ section = "foreign"
 acertos = { name = "Midnight Drive" }
 completo = { name = "流星", latin = "Ryusei" }
 perfeito = { name = "星空", latin = "Hoshizora" }
+
+[artists.medals.setlist]
+album = "al33"
+name = "流星Highway"
+latin = "Ryusei Highway"

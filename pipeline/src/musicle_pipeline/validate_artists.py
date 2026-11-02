@@ -109,6 +109,12 @@ def _medal_problems(entry: JSON) -> list[str]:
                 f"{entry['id']}: a medalha {lv} leva o latin só quando o nome tem kana, kanji ou "
                 "hangul (P295)"
             )
+    setlist = m["setlist"]
+    if needs_romaji(setlist["name"]) != (setlist["latin"] is not None):
+        problems.append(
+            f"{entry['id']}: o setlist leva o latin só quando o nome tem kana, kanji ou hangul "
+            "(P295)"
+        )
     sash = m.get("sash")
     if (
         sash
@@ -175,8 +181,15 @@ def validate_artist_set(files: Mapping[str, JSON]) -> list[str]:
             problems.append(f"{where}: a capa do {INDEX} não é a do álbum da música mais popular")
         # A capa das medalhas (P296) também é a de um álbum do arquivo: nunca uma URL de fora.
         medal_art = e["medals"].get("artworkUrl")
-        if medal_art is not None and medal_art not in {a["artworkUrl"] for a in data["albums"]}:
+        covers = {a["artworkUrl"] for a in data["albums"]}
+        if medal_art is not None and medal_art not in covers:
             problems.append(f"{where}: a capa das medalhas não é a de um álbum do arquivo")
+        # A do Setlist Royale também, e nunca a mesma das do Superfan (o usuário, 02/11/2026).
+        setlist_art = e["medals"]["setlist"]["artworkUrl"]
+        if setlist_art not in covers:
+            problems.append(f"{where}: a capa do setlist não é a de um álbum do arquivo")
+        if setlist_art == medal_art:
+            problems.append(f"{where}: a capa do setlist é a mesma das medalhas do Superfan")
     return problems
 
 

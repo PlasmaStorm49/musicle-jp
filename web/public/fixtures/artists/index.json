@@ -43,6 +43,11 @@
         "sash": {
           "along": false,
           "text": "夜風シアター"
+        },
+        "setlist": {
+          "artworkUrl": "fixtures/art/al05.svg",
+          "latin": "Futari no Yakusoku",
+          "name": "ふたりの約束"
         }
       },
       "name": "夜風シアター",
@@ -67,6 +72,11 @@
             "latin": "Yu",
             "name": "ユウ"
           }
+        },
+        "setlist": {
+          "artworkUrl": "fixtures/art/al14.svg",
+          "latin": null,
+          "name": "Blue Diary"
         }
       },
       "name": "青井ユウ",
@@ -91,6 +101,11 @@
             "latin": "Minato",
             "name": "港"
           }
+        },
+        "setlist": {
+          "artworkUrl": "fixtures/art/al02.svg",
+          "latin": null,
+          "name": "Dawn Collection"
         }
       },
       "name": "ミナト",
@@ -115,6 +130,11 @@
             "latin": "Hoshizora",
             "name": "星空"
           }
+        },
+        "setlist": {
+          "artworkUrl": "fixtures/art/al33.svg",
+          "latin": "Ryusei Highway",
+          "name": "流星Highway"
         }
       },
       "name": "Hoshizora Drive",
@@ -144,6 +164,11 @@
         "sash": {
           "along": true,
           "text": "Re:Pulse"
+        },
+        "setlist": {
+          "artworkUrl": "fixtures/art/al10.svg",
+          "latin": null,
+          "name": "RIOT"
         }
       },
       "name": "Re:Pulse",

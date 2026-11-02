@@ -110,6 +110,19 @@ def test_the_list():
             ),
             "a capa das medalhas",
         ),
+        # E a do Setlist Royale (o usuário, 02/11/2026): de um álbum do arquivo, e outra.
+        (
+            lambda f: f["index.json"]["artists"][0]["medals"]["setlist"].update(
+                artworkUrl="https://evil.test/x.jpg"
+            ),
+            "a capa do setlist não é a de um álbum",
+        ),
+        (
+            lambda f: f["index.json"]["artists"][0]["medals"]["setlist"].update(
+                artworkUrl=f["index.json"]["artists"][0]["medals"]["artworkUrl"]
+            ),
+            "a capa do setlist é a mesma",
+        ),
     ],
 )
 def test_the_set(change, message):
@@ -151,6 +164,12 @@ def _medals_broken(change) -> list[str]:
         (lambda m: m["names"]["perfeito"].update(latin=None), "a medalha perfeito leva o latin"),
         (lambda m: m["names"]["perfeito"].pop("latin"), "schema"),
         (lambda m: m.update(crop={"z": 9, "x": 0.5, "y": 0.5}), "schema"),
+        # O setlist (o usuário, 02/11/2026): obrigatório, com o latino pela mesma regra.
+        (lambda m: m.pop("setlist"), "schema"),
+        (lambda m: m["setlist"].update(latin=None), "o setlist leva o latin"),
+        (lambda m: m["setlist"].update(name="Futari"), "o setlist leva o latin"),
+        (lambda m: m["setlist"].update(latin="Futari no Yakūsoku"), "schema"),
+        (lambda m: m["setlist"].update(crop={"z": 0, "x": 0.5, "y": 0.5}), "schema"),
     ],
 )
 def test_the_medals_in_the_list(change, message):

@@ -138,7 +138,8 @@ class ArtistRules:
     singles: frozenset[str] = frozenset()
     # A seção da lista (P200): None é a principal, dos japoneses.
     section: str | None = None
-    # As medalhas do Superfan (M16): os nomes, a capa, o enquadramento, a faixa e as flores.
+    # As medalhas do Superfan (M16): os nomes, a capa, o enquadramento, a faixa e as flores; e as
+    # do Setlist Royale, no setlist delas.
     medals: MedalRules | None = None
 
 
@@ -160,7 +161,8 @@ FLOWER_ROLES = (
     "leaf1",
     "leaf2",
 )
-_MEDAL_KEYS = {*LEVELS, "album", "crop", "sash", "flowers"}
+_MEDAL_KEYS = {*LEVELS, "album", "crop", "sash", "flowers", "setlist"}
+_SETLIST_KEYS = {"album", "name", "latin", "crop"}
 _COLOR = re.compile(r"#[0-9a-f]{6}")
 # O latino ao lado do nome da medalha e a faixa deitada: ASCII imprimível, sem mácron (P297).
 PLAIN_LATIN = re.compile(r"[ -~]+")
@@ -178,6 +180,17 @@ class MedalName:
 
 
 @dataclass(frozen=True)
+class SetlistRules:
+    """O [artists.medals.setlist] (o usuário, 02/11/2026): a capa de outro álbum do artista e o
+    nome-base das 3 medalhas do Setlist Royale, o título desse álbum. A tela põe o sufixo de cada
+    nível (-Rehearsal-, -Live- e -One Take-)."""
+
+    album: str  # collectionId de um álbum do artista que não é o das do Superfan
+    name: MedalName
+    crop: tuple[float, float, float] | None = None
+
+
+@dataclass(frozen=True)
 class MedalRules:
     """O [artists.medals] de um artista. Os nomes podem faltar aqui: o fetch e o romanize de um
     artista novo rodam antes da escolha. Quem os exige é o build-artists (P301)."""
@@ -187,6 +200,7 @@ class MedalRules:
     crop: tuple[float, float, float] | None = None  # o zoom e o centro: z, x, y
     sash: tuple[str, bool] | None = None  # o texto da faixa e se vai deitada (P299)
     flowers: tuple[tuple[str, str], ...] = ()  # (papel, cor), na ordem de FLOWER_ROLES
+    setlist: SetlistRules | None = None  # as do Setlist Royale
 
 
 def _medal_name(value: object, where: str) -> MedalName:
@@ -206,6 +220,35 @@ def _number(value: object) -> float | None:
     return float(value) if isinstance(value, int | float) and not isinstance(value, bool) else None
 
 
+def _album(value: object, where: str) -> str:
+    if not isinstance(value, str) or not _ARTIST_ID.fullmatch(value):
+        raise InputError(f"{where}: album deveria ser o collectionId de um álbum do artista")
+    return value
+
+
+def _crop(value: object, where: str) -> tuple[float, float, float]:
+    nums = (
+        {k: _number(value[k]) for k in ("z", "x", "y")}
+        if isinstance(value, dict) and set(value) == {"z", "x", "y"}
+        else {}
+    )
+    z, x, y = (nums.get(k) for k in ("z", "x", "y"))
+    if z is None or x is None or y is None or not 1 <= z <= 4 or not 0 <= x <= 1 or not 0 <= y <= 1:
+        raise InputError(f"{where}: crop = {{ z = 1 a 4, x = 0 a 1, y = 0 a 1 }}")
+    return (z, x, y)
+
+
+def _setlist(value: object, where: str) -> SetlistRules:
+    if not isinstance(value, dict) or not set(value) <= _SETLIST_KEYS or "album" not in value:
+        raise InputError(
+            f'{where}: setlist = {{ album = "…", name = "…", latin = "…", crop = {{ … }} }} '
+            "(o album e o name são obrigatórios)"
+        )
+    name = _medal_name({k: value[k] for k in ("name", "latin") if k in value}, where)
+    crop = _crop(value["crop"], f"{where} crop") if "crop" in value else None
+    return SetlistRules(album=_album(value["album"], where), name=name, crop=crop)
+
+
 def _medals(value: object, where: str) -> MedalRules:
     if not isinstance(value, dict) or not set(value) <= _MEDAL_KEYS:
         raise InputError(
@@ -213,28 +256,8 @@ def _medals(value: object, where: str) -> MedalRules:
             "(o [artists.medals] vai no fim do artista: o que vem depois dele é dele)"
         )
     names = tuple((lv, _medal_name(value[lv], f"{where} {lv}")) for lv in LEVELS if lv in value)
-    album = value.get("album")
-    if album is not None and (not isinstance(album, str) or not _ARTIST_ID.fullmatch(album)):
-        raise InputError(f"{where}: album deveria ser o collectionId de um álbum do artista")
-    crop = None
-    if "crop" in value:
-        c = value["crop"]
-        nums = (
-            {k: _number(c[k]) for k in ("z", "x", "y")}
-            if isinstance(c, dict) and set(c) == {"z", "x", "y"}
-            else {}
-        )
-        z, x, y = (nums.get(k) for k in ("z", "x", "y"))
-        if (
-            z is None
-            or x is None
-            or y is None
-            or not 1 <= z <= 4
-            or not 0 <= x <= 1
-            or not 0 <= y <= 1
-        ):
-            raise InputError(f"{where}: crop = {{ z = 1 a 4, x = 0 a 1, y = 0 a 1 }}")
-        crop = (z, x, y)
+    album = _album(value["album"], where) if "album" in value else None
+    crop = _crop(value["crop"], where) if "crop" in value else None
     sash = None
     if "sash" in value:
         s = value["sash"]
@@ -267,7 +290,10 @@ def _medals(value: object, where: str) -> MedalRules:
                 "cada uma #rrggbb em minúsculas"
             )
         flowers = tuple((role, f[role]) for role in FLOWER_ROLES)
-    return MedalRules(names=names, album=album, crop=crop, sash=sash, flowers=flowers)
+    setlist = _setlist(value["setlist"], f"{where} setlist") if "setlist" in value else None
+    return MedalRules(
+        names=names, album=album, crop=crop, sash=sash, flowers=flowers, setlist=setlist
+    )
 
 
 # As seções da lista de artistas, na ordem da tela, depois da principal (P200). Dentro de cada
@@ -721,6 +747,41 @@ def medal_entry(provider: str, rules: ArtistRules, data: JSON) -> JSON:
         out["sash"] = {"text": m.sash[0], "along": m.sash[1]}
     if m.flowers:
         out["flowers"] = dict(m.flowers)
+    out["setlist"] = _setlist_entry(provider, rules, m, data)
+    return out
+
+
+def _setlist_entry(provider: str, rules: ArtistRules, m: MedalRules, data: JSON) -> JSON:
+    """As do Setlist Royale (o usuário, 02/11/2026), obrigatórias como os nomes (P301): a capa de
+    outro álbum do arquivo, nunca a das do Superfan, e o nome-base com o latino só quando ele tem
+    kana, kanji ou hangul."""
+    s = m.setlist
+    if s is None:
+        raise InputError(
+            f"artista {rules.id}: falta o [artists.medals.setlist] (o álbum e o nome das medalhas "
+            "do Setlist Royale) no artists.toml"
+        )
+    if s.album == m.album:
+        raise InputError(
+            f"artista {rules.id}: o álbum do setlist ({s.album}) é o mesmo das medalhas do "
+            "Superfan; as do Setlist usam outra capa"
+        )
+    if needs_romaji(s.name.name) != (s.name.latin is not None):
+        raise InputError(
+            f"artista {rules.id}: o setlist ({s.name.name}) leva o latin só quando o nome tem "
+            "kana, kanji ou hangul (P295)"
+        )
+    album_id = entity_id(provider, "al", s.album)
+    album = next((a for a in data["albums"] if a["id"] == album_id), None)
+    if album is None or not album["artworkUrl"]:
+        raise InputError(
+            f"artista {rules.id}: o álbum {s.album} do setlist não está no arquivo publicado dele, "
+            "ou está sem capa"
+        )
+    out: JSON = {"name": s.name.name, "latin": s.name.latin, "artworkUrl": album["artworkUrl"]}
+    if s.crop is not None:
+        z, x, y = s.crop
+        out["crop"] = {"z": z, "x": x, "y": y}
     return out
 
 
