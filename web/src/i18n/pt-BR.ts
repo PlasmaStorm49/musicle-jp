@@ -679,6 +679,7 @@ export const ptBR = {
   "anime.back": "Voltar ao Anime",
   // Do resumo de um diário, à escolha da dificuldade (P322): curto na tela, inteiro para o leitor.
   "anime.backToLevels": "Voltar",
+  "anime.playNext": "Jogar o {level}",
   "anime.backToLevelsFull": "Voltar à escolha da dificuldade",
   // No resumo de um diário dos Hits (o usuário, 28/10/2026): a volta à tela dos Hits e o outro
   // diário do dia, se ele ainda não foi jogado.

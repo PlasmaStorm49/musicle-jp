@@ -229,6 +229,13 @@ function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyPro
     [day, date, mode, difficulty],
   );
   const own = useMemo(() => (daily ? [daily] : []), [daily]);
+  // A próxima dificuldade do modo por jogar hoje (o usuário, 01/11/2026), para o resumo.
+  const nextLevel =
+    !past && mode && daily
+      ? modeDailies(day, date, mode).find(
+          (other) => other.id !== daily.id && statusOf(save, other).kind !== "done",
+        )
+      : undefined;
   // Num dia passado, a ajuda evita também as respostas dos 6 diários de hoje, como nos Hits: a de
   // um diário de hoje ainda não jogado podia sair entre as opções e entregá-lo. Hoje, o próprio
   // diário basta (o `avoid` dele já tem os 6 do dia).
@@ -279,6 +286,16 @@ function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyPro
           shareUrl={props.shareUrl}
           today={today}
           todayDailies={todayDailies}
+          next={
+            nextLevel
+              ? {
+                  href: hrefOf(nextLevel.key as AnimeTab, date, today),
+                  label: t("anime.playNext", {
+                    level: t(`anime.level.${levelOf(nextLevel.key)}`),
+                  }),
+                }
+              : undefined
+          }
           // Do resumo, um passo atrás: a escolha da dificuldade do modo, no dia jogado (P322).
           back={{
             href: hrefOf(animeModeTab(screen.mode), date, today),
@@ -291,6 +308,11 @@ function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyPro
     default:
       return screen satisfies never;
   }
+}
+
+/** A dificuldade de um diário do Anime, pela chave ("anime-musica-medio" → "medio"). */
+function levelOf(key: string): AnimeDifficulty {
+  return ANIME_DIFFICULTIES.find((difficulty) => key.endsWith(`-${difficulty}`)) ?? "facil";
 }
 
 /** O endereço de uma aba do Anime no dia jogado: com a data, num dia passado (P261). */

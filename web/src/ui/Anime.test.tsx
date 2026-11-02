@@ -439,7 +439,17 @@ describe("Anime: as voltas, sem a nav (ME120, P321 e P322)", () => {
   });
 
   it("o resumo de um diário volta à escolha da dificuldade do modo, com o nome inteiro (P210)", () => {
-    setup("anime-musica-facil", { save: finished(DATE) });
+    // As 3 dificuldades do modo terminadas: o resumo tem o Voltar, ao lado do Compartilhar.
+    const all = {
+      ...emptySave(),
+      history: Object.fromEntries(
+        ["facil", "medio", "dificil"].map((level) => [
+          `${DATE}|anime-musica-${level}`,
+          { number: 4, rounds: [LOST, LOST, LOST] },
+        ]),
+      ),
+    };
+    setup("anime-musica-facil", { save: all });
     expect(screen.getByRole("heading", { name: "Resultado do dia" })).toBeTruthy();
     const back = screen.getByRole("link", { name: "Voltar à escolha da dificuldade" });
     expect(back.getAttribute("href")).toBe("#anime-musica");
@@ -447,6 +457,16 @@ describe("Anime: as voltas, sem a nav (ME120, P321 e P322)", () => {
     expect(back.querySelector('span[aria-hidden="true"]:not(.back-chevron)')?.textContent).toBe(
       "Voltar",
     );
+    expect(screen.queryByRole("link", { name: /^Jogar o / })).toBeNull();
+  });
+
+  it("com outra dificuldade por jogar hoje, o resumo a oferece, e a volta vira a seta antes do título (o usuário, 01/11/2026)", () => {
+    setup("anime-musica-facil", { save: finished(DATE) });
+    const next = screen.getByRole("link", { name: "Jogar o Médio" });
+    expect(next.getAttribute("href")).toBe("#anime-musica-medio");
+    const back = screen.getByRole("link", { name: "Voltar à escolha da dificuldade" });
+    expect(back.getAttribute("href")).toBe("#anime-musica");
+    expect(back.closest(".round-title")).not.toBeNull();
   });
 
   it("num dia passado, as duas voltas ficam no mesmo dia", () => {
