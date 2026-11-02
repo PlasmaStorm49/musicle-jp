@@ -300,8 +300,9 @@ function isQuizProgress(x: unknown): x is QuizProgress {
 const MEDAL_ID = /^[a-z0-9][A-Za-z0-9|:_-]{0,119}$/;
 /**
  * O id de um artista, como o `artistId` do schema da lista ("apple:ar:1490256993"), com limite:
- * o maior (16 + 4 + 64) ainda dá um id de medalha (`superfan|<artista>|perfeito`) que cabe no
- * `MEDAL_ID`. Sem isso, o save gravaria uma medalha que a leitura seguinte descartaria.
+ * o maior (16 + 4 + 64) ainda dá um id de medalha (`superfan|<artista>|perfeito`, ou o do Setlist,
+ * `setlist|<artista>|perfeita`, com 101) que cabe no `MEDAL_ID`. Sem isso, o save gravaria uma
+ * medalha que a leitura seguinte descartaria.
  */
 export const ARTIST_ID = /^[a-z]{1,16}:ar:[A-Za-z0-9_-]{1,64}$/;
 
@@ -335,7 +336,8 @@ export function isArtistRecord(x: unknown): x is ArtistRecord {
     // A perfeita é também terminada (`withSuperfanEnd`).
     (x.perfect === undefined || (x.perfect === true && x.done === true)) &&
     (x.best === undefined || isSuperfanBest(x.best)) &&
-    (x.setlist === undefined || isSetlistBest(x.setlist))
+    (x.setlist === undefined || isSetlistBest(x.setlist)) &&
+    (x.setlistPerfect === undefined || x.setlistPerfect === true)
   );
 }
 
@@ -413,7 +415,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     !isRecord(quiz.progress);
   return {
     save: {
-      schemaVersion: 16,
+      schemaVersion: 17,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),

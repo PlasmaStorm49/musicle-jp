@@ -23,6 +23,7 @@ import {
   type SetlistRun,
   setlistBest,
   setlistOffset,
+  setlistPerfect,
   setlistPool,
   setlistStep,
   startSetlist,
@@ -336,6 +337,9 @@ describe("a run (setlistStep)", () => {
     }
     run = setlistStep(run, { type: "NEXT", round: null });
     expect(run.phase).toBe("complete");
+    // Sem perder vida: a perfeita (o usuário, 02/11/2026). Só na tela da setlist completa.
+    expect(setlistPerfect(run)).toBe(true);
+    expect(setlistPerfect({ ...run, lives: SETLIST_LIVES - 1 })).toBe(false);
     const total = SETLIST_ROUNDS.reduce((sum, r) => sum + r.songs, 0);
     expect(setlistBest(run)).toEqual({ rounds: 10, found: total });
     expect(setlistStep(run, { type: "QUIT" })).toBe(run);

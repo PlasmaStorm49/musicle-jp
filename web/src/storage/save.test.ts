@@ -289,14 +289,14 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v3));
     expect(loadSave(store)).toEqual({
-      save: { ...v3, ...LATEST, schemaVersion: 16 },
+      save: { ...v3, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(16);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(17);
   });
 
   it("um save v4 de verdade, com a ajuda, chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -327,7 +327,7 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v4));
     expect(loadSave(store)).toEqual({
-      save: { ...v4, ...LATEST, schemaVersion: 16 },
+      save: { ...v4, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
@@ -366,13 +366,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v5));
     expect(loadSave(store)).toEqual({
-      save: { ...v5, ...LATEST, schemaVersion: 16 },
+      save: { ...v5, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(16);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(17);
   });
 
   it("um save v6 de verdade chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -403,13 +403,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v6));
     expect(loadSave(store)).toEqual({
-      save: { ...v6, ...LATEST, schemaVersion: 16 },
+      save: { ...v6, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(16);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(17);
   });
 
   describe("o jogado depois (v7, P267)", () => {
@@ -459,7 +459,7 @@ describe("loadSave", () => {
     // As Misturadas (v10) também: os 2 ids delas andam com a versão (a v11 só marca o jogado
     // depois nelas, pelo Histórico).
     expect({ version: SAVE_SCHEMA_VERSION, keys: DAILY_KEYS, mixed: MIXED_KEYS }).toEqual({
-      version: 16,
+      version: 17,
       mixed: ["misturadas-musica", "misturadas-titulo"],
       keys: [
         "album",
@@ -706,6 +706,11 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
       { artists: { "apple:ar:1": { right: 2, best: { score: 4, song: 2 } } } },
     ],
     [
+      "um Setlist perfeito que não é true",
+      { artists: { "apple:ar:1": { right: 2, setlistPerfect: false } } },
+      { artists: {} },
+    ],
+    [
       "os dois recordes ruins",
       { artists: { "apple:ar:1": { right: 2, best: 86, setlist: "10" } } },
       { artists: { "apple:ar:1": { right: 2 } } },
@@ -760,14 +765,14 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     };
     const store = withRaw(JSON.stringify(v7));
     expect(loadSave(store)).toEqual({
-      save: { ...v7, ...LATEST, schemaVersion: 16 },
+      save: { ...v7, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => withArtistRight(s, "apple:ar:1"))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 16,
+      schemaVersion: 17,
       history: v7.history,
     });
   });
@@ -819,14 +824,14 @@ describe("os acertos do Treino (v9, P308)", () => {
     };
     const store = withRaw(JSON.stringify(v8));
     expect(loadSave(store)).toEqual({
-      save: { ...v8, ...V9, ...V10, ...V12, schemaVersion: 16 },
+      save: { ...v8, ...V9, ...V10, ...V12, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, withPracticeRight)).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 16,
+      schemaVersion: 17,
       practiceRight: 1,
       artists: v8.artists,
     });
