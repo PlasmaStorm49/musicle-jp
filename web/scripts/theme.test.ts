@@ -121,6 +121,11 @@ const PAIRS: readonly (readonly [string, string, number])[] = [
   // As estatísticas sem caixa (PR D3): as colunas da distribuição sobre o fundo.
   ["bucket", "bg", SHAPE],
   ["bucket-today", "bg", SHAPE],
+  // O nome e o tema sobre a capa desfocada do pop-up do Anime Royale (a vitrine, o usuário,
+  // 02/11/2026): o pior caso, uma capa toda branca sob o véu, é o --cover-floor (o teste do véu,
+  // abaixo, confere a conta).
+  ["on-cover", "cover-floor", TEXT],
+  ["on-cover-muted", "cover-floor", TEXT],
 ];
 
 describe.each([
@@ -141,6 +146,15 @@ describe("os blocos do tema", () => {
     for (const name of darkForced.keys()) {
       if (name !== "color-scheme") expect(root.has(name), name).toBe(true);
     }
+  });
+
+  it("o véu da capa do Royale deixa uma capa toda branca no máximo tão clara quanto o --cover-floor", () => {
+    // O preto com transparência sobre o branco: o que sobra de cada canal é 255 × (1 − alfa).
+    const scrim = light.get("--cover-scrim")?.match(/^rgb\(0 0 0 \/ (0\.\d+)\)$/);
+    expect(scrim, "--cover-scrim é um preto com transparência").not.toBeNull();
+    const left = Math.round(255 * (1 - Number(scrim?.[1])));
+    const floor = Number.parseInt(hex(light, "cover-floor").slice(1, 3), 16);
+    expect(left).toBeLessThanOrEqual(floor);
   });
 
   it("no escuro, o ⬛ ganha fundo claro com texto escuro", () => {

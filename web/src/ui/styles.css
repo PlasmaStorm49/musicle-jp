@@ -49,6 +49,13 @@
   /* O ⬛ da prévia e da cópia à mão do compartilhar some no escuro: lá ele ganha um fundo claro. */
   --emoji-bg: transparent;
   --emoji-text: #000000;
+  /* O texto sobre a capa desfocada do pop-up do Anime Royale (a vitrine, o usuário, 02/11/2026),
+     o mesmo nos dois temas: o véu escurece a capa, e o pior caso, uma capa toda branca sob ele, é
+     o --cover-floor, que é também o fundo antes de a capa chegar. */
+  --cover-scrim: rgb(0 0 0 / 0.65);
+  --cover-floor: #595959;
+  --on-cover: #ffffff;
+  --on-cover-muted: #d7d8dc;
 
   /* Espaço (base 4), tipo (5 tamanhos, cada um com a sua altura de linha), alturas, raios (o canto do botão do guia é 25% da altura,
      o do selo quadrado 21%) e movimento. */
@@ -3556,37 +3563,68 @@ ol.royale-samples {
   background: var(--bar-play);
 }
 
-/* A grade: as capas em retrato (100 × 141, as do AnimeThemes), pela altura, para caber em
-   360 × 640 com o player e o selo da Apple; com mais altura, maiores. */
+/* A grade, a vitrine (o usuário, 02/11/2026): cada célula ocupa a coluna inteira, com a capa
+   inteira no meio, em retrato (100 × 141, as do AnimeThemes), sobre ela mesma desfocada e
+   escurecida, que enche os lados com as cores dela. A altura cabe em 360 × 640 com o player e o
+   selo da Apple; com mais altura, maior. */
 ul.royale-options {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--sp-1);
-  justify-items: center;
+  gap: var(--sp-2);
 }
 
 .royale-cover {
   position: relative;
   display: block;
-  height: 92px;
-  aspect-ratio: 100 / 141;
+  width: 100%;
+  height: 88px;
   padding: 0;
   border: 0;
-  border-radius: var(--r-control);
+  border-radius: var(--r-media);
   background: var(--fill);
   color: var(--text);
 }
 
 @media (min-height: 760px) {
   .royale-cover {
-    height: 136px;
+    height: 132px;
   }
 }
 
-.royale-cover > .royale-art,
+/* O recorte do desfoque fica num quadro de dentro, e não no botão: o anel do foco e o do acerto
+   continuam inteiros (regra 25). */
+.royale-cover-frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+  overflow: clip;
+}
+
+.royale-backdrop {
+  position: absolute;
+  background-position: center;
+  background-size: cover;
+}
+
+.royale-cover-frame > .royale-backdrop {
+  inset: -14px;
+  filter: blur(9px) brightness(0.55) saturate(1.25);
+}
+
+.royale-cover-frame > .royale-art {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: auto;
+  aspect-ratio: 100 / 141;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
 .royale-dialog-cover > .royale-art {
   display: block;
   width: 100%;
@@ -3605,6 +3643,13 @@ ul.royale-options {
   line-height: var(--lh-xs);
   text-align: center;
   overflow-wrap: anywhere;
+}
+
+/* Na grade, o nome enche a célula. */
+.royale-cover-frame > .royale-art-name {
+  display: flex;
+  width: 100%;
+  aspect-ratio: auto;
 }
 
 .royale-cover.correct {
@@ -3635,24 +3680,119 @@ ul.royale-options {
   color: var(--bad);
 }
 
-/* O pop-up: a capa grande, por cima da pequena, que aparece enquanto a grande desce. */
-dialog.royale-dialog .royale-dialog-cover {
-  width: min(220px, 60vw);
+/* O pop-up, a folha da vitrine (o usuário, 02/11/2026): sobe de baixo, sem esconder a grade. No
+   alto, a capa grande ao lado do anime e do tema, sobre a capa desfocada e o véu (o texto nos
+   tokens --on-cover, com o contraste do pior caso no theme.test); embaixo, os botões numa linha. */
+dialog.royale-dialog {
+  width: 100%;
+  max-width: min(var(--column), 100%);
+  max-height: 100%;
+  margin: auto auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-tile) var(--r-tile) 0 0;
+  background: var(--surface);
+  color: var(--text);
+}
+
+dialog.royale-dialog::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog.royale-dialog[open] {
+    animation: royale-sheet-up var(--dur-2) var(--ease);
+  }
+}
+
+@keyframes royale-sheet-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--sp-5));
+  }
+}
+
+.royale-sheet-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-4) var(--sp-4);
+  border-radius: inherit;
+  background: var(--cover-floor);
+  color: var(--on-cover);
+  overflow: clip;
+}
+
+.royale-sheet-hero > .royale-backdrop {
+  inset: -30px;
+  filter: blur(22px) saturate(1.3);
+}
+
+.royale-sheet-hero > .royale-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--cover-scrim);
+}
+
+/* A capa grande, por cima da pequena, que aparece enquanto a grande desce. */
+.royale-sheet-hero > .royale-dialog-cover {
+  position: relative;
+  width: 124px;
   aspect-ratio: 460 / 650;
-  margin: 0 auto var(--sp-3);
   border-radius: var(--r-control);
   background-color: var(--fill);
   background-position: center;
   background-size: cover;
 }
 
-dialog.royale-dialog h2 {
-  margin-bottom: var(--sp-1);
+.royale-sheet-info {
+  position: relative;
+  display: grid;
+  gap: var(--sp-1);
+  padding-bottom: var(--sp-1);
+}
+
+dialog.royale-dialog .royale-sheet-info h2 {
+  margin: 0;
+  font-size: var(--t-lg);
+  line-height: var(--lh-lg);
+  overflow-wrap: break-word;
+}
+
+/* O nome longo ("Otome Game no Hametsu Flag…") desce um tamanho, para não passar da capa. */
+dialog.royale-dialog .royale-sheet-info h2.long {
+  font-size: var(--t-md);
+  line-height: var(--lh-md);
 }
 
 .royale-dialog-theme {
   margin: 0;
-  color: var(--muted);
+  color: var(--on-cover-muted);
+}
+
+.royale-sheet-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-4) calc(var(--sp-5) + env(safe-area-inset-bottom));
+}
+
+/* Na capa já marcada (ou com a dificuldade acabada), só o Fechar, na linha inteira. */
+.royale-sheet-actions > :only-child {
+  grid-column: 1 / -1;
+}
+
+dialog.royale-dialog .royale-sheet-actions > button {
+  min-height: var(--h-field);
+  border-radius: var(--r-field);
+}
+
+/* No escuro, a tinta é a cor da folha: o Fechar pega a tinta pressionada, para aparecer. */
+dialog.royale-dialog .royale-sheet-actions > button:not(.primary) {
+  background: var(--fill-press);
 }
 
 /* O resultado: os acertos e a linha do compartilhar numa linha, e as 5 que tocaram, compactas. */
