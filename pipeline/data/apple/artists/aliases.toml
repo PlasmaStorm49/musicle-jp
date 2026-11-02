@@ -8,6 +8,15 @@
 [tracks."apple:tr:1861370949"]  # アドレナ (YOASOBI); cutlet: "Ado Rena"
 latin = "Adorena"
 
+# Kanji que o cutlet não lê (o usuário notou o feat. da Ado sem latino, 02/11/2026). As leituras
+# vêm de fonte: 蝸旋 é "らせん" (Weekly ASCII e Fashion Press, no lançamento) e 杪夏, "びょうか"
+# (o fim do verão, no dicionário).
+[tracks."apple:tr:1583882756"]  # 蝸旋 (feat. Ado) (jon-YAKITORY); cutlet: nada
+latin = "Rasen (feat. Ado)"
+
+[tracks."apple:tr:1542572223"]  # 杪夏 (Eve); cutlet: nada
+latin = "Byouka"
+
 # Parcerias com nome próprio na loja, cujo latino veio errado (a Apple deu só "Daoko"; o cutlet leu
 # os nomes dos utaite pelo kanji).
 [artists."apple:ar:547853144"]  # DAOKO×米津玄師 (打上花火)
@@ -547,3 +556,51 @@ latin = "Buranburu"
 
 [tracks."apple:tr:1568337890"]  # 小さきものたち (MAN WITH A MISSION); cutlet: "Chiisa kimonotachi"
 latin = "Chiisaki monotachi"
+
+# --- Monogatari Series, a seção de anime (02/11/2026): as leituras do título da música, como o
+# AnimeThemes as escreve, e o nome em inglês conhecido na busca, como o "Masage Cannavaro" ---
+
+[tracks."apple:tr:1535798236"]  # 二言目 (Nisemonogatari OP1, ふたことめ); cutlet: "Nigonme"
+latin = "Futakotome"
+
+[tracks."apple:tr:1535636927"]  # 白金ディスコ (Nisemonogatari OP3, プラチナディスコ); cutlet: "Hakkin disuko"
+latin = "Purachina disuko"
+aliases = ["Platinum Disco"]
+
+[tracks."apple:tr:1535788055"]  # もうそう☆えくすぷれす; cutlet: "Mou sou e kusupu resu"
+latin = "Mousou ekusupuresu"
+aliases = ["Mousou Express"]
+
+[tracks."apple:tr:1537811236"]  # 夕立方程式; cutlet: "Yuudachi houtei shiki"
+latin = "Yuudachi houteishiki"
+
+[tracks."apple:tr:1535798233"]  # 恋愛サーキュレーション; o cutlet acerta a leitura
+aliases = ["Renai Circulation"]
+
+[tracks."apple:tr:1535798252"]  # snowdrop -春奈るな×河野マリナver.-; cutlet: "Haruna Runa Kouno Marina"
+latin = "snowdrop -Luna Haruna×Marina Kawano ver.-"
+
+[albums."apple:al:1535636925"]  # 偽物語 第四巻/つきひフェニックス(上) - Single
+latin = "Nisemonogatari dai yon kan/Tsukihi fenikkusu (jou)"
+
+[albums."apple:al:1535784814"]  # 猫物語 黒 - Single; cutlet: "Neko monogatari kuro"
+latin = "Nekomonogatari kuro"
+
+[albums."apple:al:1535787609"]  # 猫物語(白) - Single; cutlet: "Neko monogatari (shiro)"
+latin = "Nekomonogatari (shiro)"
+
+[albums."apple:al:1535787855"]  # 傾物語 - Single; cutlet: "Kei monogatari"
+latin = "Kabukimonogatari"
+
+[albums."apple:al:1535788053"]  # もうそう☆えくすぷれす - Single; cutlet: "Mou sou e kusupu resu"
+latin = "Mousou ekusupuresu"
+
+[albums."apple:al:1535798229"]  # 歌物語 Special Edition; cutlet: "Uta monogatari Special Edition"
+latin = "Utamonogatari Special Edition"
+
+[albums."apple:al:1537811231"]  # 歌物語2 -〈物語〉シリーズ主題歌集-; o cutlet partiu o 〈…〉
+latin = "Utamonogatari 2 -〈Monogatari〉 shiriizu shudaikashuu-"
+
+# 河野マリナ: o 河野 dela se lê かわの (o AnimeThemes e a loja US escrevem "Marina Kawano").
+[artists."apple:ar:574753757"]  # 河野 マリナ; cutlet: "Kouno Marina"
+latin = "Marina Kawano"

@@ -33,6 +33,7 @@ test("Artistas: a lista na ordem, a busca só pelo título e um ciclo sem repeti
     "ミナト · Minato",
     "Hoshizora Drive",
     "Re:Pulse",
+    "夜空物語シリーズ · YOZORA Series",
   ]);
   await expect(page.locator(".home-modes .mode-hint")).toHaveText([
     "4 músicas",
@@ -40,22 +41,27 @@ test("Artistas: a lista na ordem, a busca só pelo título e um ciclo sem repeti
     "2 músicas",
     "2 músicas",
     "3 músicas",
+    "5 músicas",
   ]);
   // A seção de fora do Japão (P200), embaixo, com o título dela e em ordem alfabética (P201): no
   // artists.toml das fixtures, o Re:Pulse vem antes.
   const foreign = page.getByRole("region", { name: "De fora do Japão" });
   await expect(foreign.getByRole("heading", { level: 2 })).toHaveText("De fora do Japão");
   await expect(foreign.locator(".mode-name")).toHaveText(["Hoshizora Drive", "Re:Pulse"]);
+  // A seção de anime (o usuário, 02/11/2026), depois da de fora: um cartão por anime.
+  const anime = page.getByRole("region", { name: "Animes" });
+  await expect(anime.getByRole("heading", { level: 2 })).toHaveText("Animes");
+  await expect(anime.locator(".mode-name")).toHaveText(["夜空物語シリーズ · YOZORA Series"]);
   // A capa de cada um (P168), carregada de verdade (as capas falsas do fake-assets).
   const covers = page.locator(".artist-card img.artist-cover");
-  await expect(covers).toHaveCount(5);
+  await expect(covers).toHaveCount(6);
   await expect
     .poll(() =>
       covers.evaluateAll(
         (imgs) => imgs.filter((i) => (i as HTMLImageElement).naturalWidth > 0).length,
       ),
     )
-    .toBe(5);
+    .toBe(6);
 
   await page.getByRole("button", { name: /^夜風シアター/ }).click();
   // A escolha do submodo (P161): o Livre é o Desafio sem fim.

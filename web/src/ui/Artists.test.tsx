@@ -382,6 +382,32 @@ describe("Artists: a lista (P147)", () => {
     expect(region.compareDocumentPosition(badge) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
+  it("a seção de anime (o usuário, 02/11/2026): depois da de fora, e o selo depois dela", async () => {
+    const net = server();
+    const index = FILES["index.json"] as ArtistList;
+    const [yokaze, banda] = index.artists;
+    net.replaced.set("index.json", {
+      ...index,
+      provider: "apple",
+      artists: [
+        { ...banda, section: "foreign" },
+        { ...yokaze, section: "anime" },
+      ],
+    });
+    setup(null, net);
+    await screen.findByRole("heading", { level: 1, name: "Artistas" });
+    const foreign = screen.getByRole("region", { name: "De fora do Japão" });
+    const anime = screen.getByRole("region", { name: "Animes" });
+    expect(screen.getByRole("heading", { level: 2, name: "Animes" })).toBeTruthy();
+    expect(anime.contains(card(/^夜風/))).toBe(true);
+    expect(anime.contains(card(/^Banda/))).toBe(false);
+    expect(foreign.compareDocumentPosition(anime) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // Sem artista na lista principal, ela não desenha nada antes das seções.
+    expect(document.querySelectorAll("ul.home-modes")).toHaveLength(2);
+    const badge = screen.getByRole("link", { name: /Apple Music/ });
+    expect(anime.compareDocumentPosition(badge) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
   it("sem artista de fora do Japão, uma lista só, sem o título da seção", async () => {
     setup();
     await screen.findByRole("heading", { level: 1, name: "Artistas" });

@@ -48,8 +48,16 @@ class FakeArtistApple:
     """O lookup da Apple para um artista: músicas (com uma participação), álbuns (com uma
     coletânea de outro artista) e as músicas de cada álbum (com a faixa de um convidado)."""
 
-    def __init__(self, albums: int = 2, head: dict | None = None, songs: list | None = None):
+    def __init__(
+        self,
+        albums: int = 2,
+        head: dict | None = None,
+        songs: list | None = None,
+        extra: dict | None = None,
+    ):
         self.urls: list[str] = []
+        # As faixas que o lookup pelo id devolve (as extra_tracks de um anime).
+        self.extra = extra or {}
         self.albums = [900 + i for i in range(albums)]
         self.head = head if head is not None else artist(77, "LiSA")
         self.songs = (
@@ -78,6 +86,8 @@ class FakeArtistApple:
                 results.append({"wrapperType": "collection", "collectionId": int(a)})
                 results.append(song(int(a) * 10, int(a)))
                 results.append(song(int(a) * 10 + 1, int(a), artist=56, name="Convidado"))
+        elif any(i in self.extra for i in ids):
+            results = [self.extra[i] for i in ids if i in self.extra]
         else:
             names = {"77": "LiSA", "55": "Outro", "56": "Convidado"}
             results = [artist(int(i), names.get(i, "X")) for i in ids]
@@ -112,6 +122,31 @@ def test_artist_snapshot_joins_songs_and_albums():
     assert any("entity=album&limit=200" in u for u in apple.urls)
 
 
+def test_anime_snapshot_keeps_every_track_of_its_albums_and_the_extra_tracks():
+    # A seção de anime (o usuário, 02/11/2026): o artista do anime (物語シリーズ) é o dono dos
+    # álbuns, mas parte das faixas é de outro intérprete (o supercell no 歌物語), e uma música do
+    # anime fica fora dos álbuns dele (o UNDEAD do YOASOBI).
+    undead = song(5000, 700, artist=57, name="YOASOBI")
+    apple, waits = FakeArtistApple(extra={"5000": undead}), []
+    snap = fetch.fetch_artist_snapshot(
+        ARTIST, NOW, transport=apple, sleep=waits.append, any_artist=True, extra_tracks=["5000"]
+    )
+    assert sorted(snap["tracks"]) == ["1", "2", "3", "5000", "9000", "9001", "9010", "9011"]
+    assert snap["songs"] == ["1", "2", "3"]  # as extra_tracks não ganham posição
+    assert snap["albums"] == ["900", "901"]  # a coletânea de outro artista continua de fora
+    assert set(snap["artists"]) == {"55", "56", "57", "77"}
+    # Uma pausa a mais: o lote das extra_tracks.
+    assert waits == [fetch.PACE_SEC] * 4
+
+
+def test_refuses_an_extra_track_the_lookup_did_not_bring():
+    apple = FakeArtistApple(extra={"5000": song(5000, 700, artist=57, name="YOASOBI")})
+    with pytest.raises(fetch.FetchError, match=r"extra_tracks \['5001'\]"):
+        fetch.fetch_artist_snapshot(
+            ARTIST, NOW, transport=apple, sleep=lambda _s: None, extra_tracks=["5000", "5001"]
+        )
+
+
 def test_album_songs_come_in_batches(monkeypatch):
     monkeypatch.setattr(fetch, "ALBUM_BATCH", 2)
     apple = FakeArtistApple(albums=5)
@@ -139,6 +174,8 @@ def test_refuses_an_artist_without_songs():
 def test_refuses_an_odd_id():
     with pytest.raises(fetch.FetchError, match="inválido"):
         fetch.fetch_artist_snapshot("7&x=1", NOW, transport=FakeArtistApple())
+    with pytest.raises(fetch.FetchError, match="faixa inválido"):
+        fetch.fetch_artist_snapshot(ARTIST, NOW, transport=FakeArtistApple(), extra_tracks=["9x"])
 
 
 # --- CLI ---
@@ -169,7 +206,7 @@ def run(*extra: str) -> int:
 def test_cli_writes_one_snapshot_per_artist(artists_dir, monkeypatch):
     calls = []
 
-    def fake(artist_id, fetched_at, wait_first=False):
+    def fake(artist_id, fetched_at, wait_first=False, **_k):
         calls.append(artist_id)
         return {
             "artistId": artist_id,
@@ -187,12 +224,33 @@ def test_cli_writes_one_snapshot_per_artist(artists_dir, monkeypatch):
     assert calls[-1] == "88"
 
 
+def test_cli_passes_the_anime_rules(artists_dir, monkeypatch):
+    # Só o artista da seção de anime busca as faixas de qualquer intérprete e as extra_tracks.
+    artists_dir.artists.write_text(
+        f'[[artists]]\nid = "{ARTIST}"\n\n'
+        '[[artists]]\nid = "88"\nsection = "anime"\nextra_tracks = ["9", "10"]\n',
+        encoding="utf-8",
+    )
+    calls = {}
+
+    def fake(artist_id, fetched_at, wait_first=False, **kwargs):
+        calls[artist_id] = kwargs
+        return {"tracks": {"1": {}}, "albums": [], "songs": ["1"]}
+
+    monkeypatch.setattr(fetch, "fetch_artist_snapshot", fake)
+    assert run() == 0
+    assert calls == {
+        ARTIST: {"any_artist": False, "extra_tracks": []},
+        "88": {"any_artist": True, "extra_tracks": ["10", "9"]},
+    }
+
+
 def test_cli_keeps_the_old_snapshot_when_one_artist_fails(artists_dir, monkeypatch, capsys):
     old = artists_dir.source / "88.json"
     old.parent.mkdir(parents=True)
     old.write_bytes(dumps({"tracks": {"1": {}}}).encode("utf-8"))
 
-    def fake(artist_id, fetched_at, wait_first=False):
+    def fake(artist_id, fetched_at, wait_first=False, **_k):
         if artist_id == "88":
             raise fetch.FetchError("falha de rede")
         return {"tracks": {"1": {}}, "albums": [], "songs": ["1"]}
@@ -251,7 +309,7 @@ def test_waits_before_the_first_request_when_asked():
 def test_cli_pauses_between_artists(artists_dir, monkeypatch):
     seen = []
 
-    def fake(artist_id, fetched_at, wait_first=False):
+    def fake(artist_id, fetched_at, wait_first=False, **_k):
         seen.append(wait_first)
         return {"tracks": {"1": {}}, "albums": [], "songs": ["1"]}
 
@@ -271,7 +329,7 @@ def test_cli_warns_at_the_limit_and_does_not_repeat_artists(artists_dir, monkeyp
     calls = []
     full = {"tracks": {"1": {}}, "albums": [], "songs": [str(i) for i in range(fetch.ARTIST_LIMIT)]}
 
-    def fake(artist_id, fetched_at, wait_first=False):
+    def fake(artist_id, fetched_at, wait_first=False, **_k):
         calls.append(artist_id)
         return full
 

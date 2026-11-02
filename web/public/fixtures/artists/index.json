@@ -175,6 +175,37 @@
       "nameLatin": null,
       "section": "foreign",
       "songs": 3
+    },
+    {
+      "artworkUrl": "fixtures/art/al09-v2.svg",
+      "file": "ar90.json",
+      "id": "fixture:ar:ar90",
+      "medals": {
+        "artworkUrl": "fixtures/art/al09-v2.svg",
+        "names": {
+          "acertos": {
+            "latin": "Sakamichi",
+            "name": "坂道"
+          },
+          "completo": {
+            "latin": "Yozora Monogatari",
+            "name": "夜空物語"
+          },
+          "perfeito": {
+            "latin": null,
+            "name": "Signal"
+          }
+        },
+        "setlist": {
+          "artworkUrl": "fixtures/art/al20.svg",
+          "latin": "Tokyo Lights",
+          "name": "東京ライツ"
+        }
+      },
+      "name": "夜空物語シリーズ",
+      "nameLatin": "YOZORA Series",
+      "section": "anime",
+      "songs": 5
     }
   ],
   "provider": "fixture",

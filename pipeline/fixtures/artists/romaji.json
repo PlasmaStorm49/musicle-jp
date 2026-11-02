@@ -11,6 +11,10 @@
       "Kaaten kooru",
       "Curtain call"
     ],
+    "ガラス越しの光": [
+      "Garasugoshi no hikari",
+      "Glassgoshi no hikari"
+    ],
     "ゼロ距離Love": [
       "Zero kyori Love"
     ],
@@ -20,9 +24,16 @@
     "君​と❤️": [
       "Kimi to"
     ],
+    "坂道の向こう": [
+      "Sakamichi no mukou"
+    ],
     "夜明けのメロディ": [
       "Yoake no merodi",
       "Yoake no melody"
+    ],
+    "夜空物語シリーズ": [
+      "Yozora monogatari shiriizu",
+      "Yozora monogatari series"
     ],
     "夜風シアター": [
       "Yokaze shiataa",
@@ -30,6 +41,17 @@
     ],
     "夜風劇場": [
       "Yokaze gekijou"
+    ],
+    "月見坂46": [
+      "Tsukimi saka 46"
+    ],
+    "東京ノイズ": [
+      "Tokyo noizu",
+      "Tokyo noise"
+    ],
+    "東京ライツ": [
+      "Tokyo raitsu",
+      "Tokyo right"
     ],
     "流星Highway": [
       "Ryuusei Highway"
@@ -40,8 +62,15 @@
     "狂騒Riot": [
       "Kyousou Riot"
     ],
+    "猫背のブルース": [
+      "Nekoze no Buruusu"
+    ],
     "真夜中の観覧車": [
       "Mayonaka no kanransha"
+    ],
+    "透明なシグナル": [
+      "Toumei na shigunaru",
+      "Toumei na signal"
     ],
     "開幕ベル": [
       "Kaimaku beru",
@@ -52,6 +81,10 @@
     ],
     "風になる (feat. ナナ)": [
       "Kaze ni naru (feat. Nana)"
+    ],
+    "ｶﾞﾗｽﾉﾈｺ": [
+      "Garasu no neko",
+      "Glass no neko"
     ]
   },
   "versions": {

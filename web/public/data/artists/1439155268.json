@@ -1,0 +1,1859 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/3f/99/f1/3f99f18c-82e5-b6dc-c613-9bcac3ca04a8/jacket_ANXX00344B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535636925",
+      "latinSource": "manual",
+      "releaseDate": "2012-07-25",
+      "title": "偽物語 第四巻/つきひフェニックス(上) - Single",
+      "titleLatin": "Nisemonogatari dai yon kan/Tsukihi fenikkusu (jou)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/31/54/c4/3154c49d-cad5-45dc-ef47-9f48534f70fd/jacket_ANXX00418B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535784814",
+      "latinSource": "manual",
+      "releaseDate": "2013-06-05",
+      "title": "猫物語 黒 - Single",
+      "titleLatin": "Nekomonogatari kuro",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/c5/70/5f/c5705f01-aac5-2ff2-389c-4b97f91d3ebc/jacket_ANXX00507B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535787609",
+      "latinSource": "manual",
+      "releaseDate": "2014-01-22",
+      "title": "猫物語(白) - Single",
+      "titleLatin": "Nekomonogatari (shiro)",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/89/91/e4/8991e405-64e2-d756-9f7f-3e115b8e8c2c/jacket_ANXX00523B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535787855",
+      "latinSource": "manual",
+      "releaseDate": "2014-03-26",
+      "title": "傾物語 - Single",
+      "titleLatin": "Kabukimonogatari",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/bc/e0/3f/bce03fa9-32ae-2e64-20fb-e6b8834ed8f4/jacket_ANXX00536B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535788053",
+      "latinSource": "manual",
+      "releaseDate": "2014-07-23",
+      "title": "もうそう☆えくすぷれす - Single",
+      "titleLatin": "Mousou ekusupuresu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/13/a1/53/13a1530a-ccba-3356-9d4b-a999b9590fde/jacket_ANXX00580B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535789172",
+      "latinSource": "cutlet",
+      "releaseDate": "2014-12-24",
+      "title": "木枯らしセンティメント - Single",
+      "titleLatin": "Kogarashi sentimento",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/4a/b2/cf/4ab2cf27-4b37-db47-e00d-6af7baa94b3e/jacket_ANXX00609B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535789272",
+      "latinSource": "cutlet",
+      "releaseDate": "2015-05-07",
+      "title": "オレンジミント - Single",
+      "titleLatin": "Orenji minto",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/0f/17/b6/0f17b664-9804-ad36-46a7-0167ba5f6cba/jacket_ANXX00686B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535791287",
+      "latinSource": null,
+      "releaseDate": "2015-01-01",
+      "title": "decent black - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/63/92/00/63920001-e586-db90-4347-df4789ebf884/jacket_ANXX00691B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535791614",
+      "latinSource": null,
+      "releaseDate": "2015-01-01",
+      "title": "mathemagics - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/55/3f/f1/553ff15f-c6f5-9a37-cec0-5b7f5b0137e6/jacket_ANXX00880B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1535798229",
+      "latinSource": "manual",
+      "releaseDate": "2010-01-27",
+      "title": "歌物語 Special Edition",
+      "titleLatin": "Utamonogatari Special Edition",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ad/d1/55/add155f7-e20c-fa59-9023-cc2e6377e4d5/jacket_SVWC70405B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1537811231",
+      "latinSource": "manual",
+      "releaseDate": "2015-01-01",
+      "title": "歌物語2 -〈物語〉シリーズ主題歌集-",
+      "titleLatin": "Utamonogatari 2 -〈Monogatari〉 shiriizu shudaikashuu-",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993",
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4f/b3/fb/4fb3fb99-7c8b-f028-8683-6128f3e20caf/198588375464.jpg/300x300bb.jpg",
+      "id": "apple:al:1752838718",
+      "latinSource": null,
+      "releaseDate": "2024-07-01",
+      "title": "UNDEAD - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/42/e8/27/42e82720-5175-a5b3-f8d1-4cc29e001724/4534530165626.jpg/300x300bb.jpg",
+      "id": "apple:al:6781660757",
+      "latinSource": null,
+      "releaseDate": "2026-07-01",
+      "title": "icecream° - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b0/be/3c/b0be3cbd-24d4-f450-1d24-d0b8f795ad43/4534530165664.jpg/300x300bb.jpg",
+      "id": "apple:al:6781661028",
+      "latinSource": null,
+      "releaseDate": "2026-07-01",
+      "title": "caramel ribbon cursetard - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b0/ab/c3/b0abc3c9-b9dd-bbfc-18b5-6e8288773b2d/4534530165657.jpg/300x300bb.jpg",
+      "id": "apple:al:6781661984",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-07-01",
+      "title": "万死のテーマ - Single",
+      "titleLatin": "Banshi no teema",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/46/1d/45/461d4555-d33f-8985-ec8d-4e2aa7e175b4/4534530165619.jpg/300x300bb.jpg",
+      "id": "apple:al:6781662092",
+      "latinSource": null,
+      "releaseDate": "2026-07-01",
+      "title": "Suicidal Tendency - Single",
+      "titleLatin": null,
+      "type": "single"
+    }
+  ],
+  "artistId": "apple:ar:1439155268",
+  "artists": [
+    {
+      "id": "apple:ar:1439155268",
+      "latinSource": "provider",
+      "name": "物語シリーズ",
+      "nameLatin": "MONOGATARI Series"
+    },
+    {
+      "id": "apple:ar:1439333025",
+      "latinSource": null,
+      "name": "princess a la mode",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1490256993",
+      "latinSource": null,
+      "name": "YOASOBI",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:548139430",
+      "latinSource": null,
+      "name": "ClariS",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:570031182",
+      "latinSource": "provider",
+      "name": "春奈るな",
+      "nameLatin": "Luna Haruna"
+    },
+    {
+      "id": "apple:ar:574753757",
+      "latinSource": "manual",
+      "name": "河野 マリナ",
+      "nameLatin": "Marina Kawano"
+    },
+    {
+      "id": "apple:ar:631665100",
+      "latinSource": null,
+      "name": "supercell",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:887648645",
+      "latinSource": null,
+      "name": "TrySail",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:952661002",
+      "latinSource": "provider",
+      "name": "瀧川 ありさ",
+      "nameLatin": "Arisa Takigawa"
+    }
+  ],
+  "fetchedAt": "2026-11-02T18:50:12Z",
+  "provider": "apple",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "apple:al:1535636925",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 255573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535636927",
+      "latinSource": "manual",
+      "popularity": 0.9773,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/f9/a5/eb/f9a5eb2b-e902-5be9-c4da-b27f936cdb08/mzaf_10754547637952471817.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "hakkinjisco",
+          "hakkinjisuko",
+          "plachinumjisco",
+          "purachinajisuko",
+          "白金でぃすこ"
+        ]
+      },
+      "songKey": "白金でぃすこ|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%99%BD%E9%87%91%E3%83%87%E3%82%A3%E3%82%B9%E3%82%B3/1535636925?i=1535636927",
+      "title": "白金ディスコ",
+      "titleKeys": [
+        "白金でぃすこ"
+      ],
+      "titleLatin": "Purachina disuko"
+    },
+    {
+      "albumId": "apple:al:1535784814",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 269187,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535784815",
+      "latinSource": null,
+      "popularity": 0.6136,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/9c/e0/25/9ce025ca-da2d-d053-3272-b83bc71db9d0/mzaf_10910233934286611886.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-06-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "perfectslunbers"
+        ]
+      },
+      "songKey": "perfectslumbers|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/perfect-slumbers/1535784814?i=1535784815",
+      "title": "perfect slumbers",
+      "titleKeys": [
+        "perfectslumbers"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535787609",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 279280,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535787612",
+      "latinSource": null,
+      "popularity": 0.8409,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/b2/cd/af/b2cdafea-7a60-5e3f-939a-d25e37ad93b8/mzaf_17105618459653934177.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-01-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "chocolateinsomnia"
+        ]
+      },
+      "songKey": "chocolateinsomnia|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/chocolate-insomnia/1535787609?i=1535787612",
+      "title": "chocolate insomnia",
+      "titleKeys": [
+        "chocolateinsomnia"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535787855",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 250760,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535787856",
+      "latinSource": null,
+      "popularity": 0.6364,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/2c/cd/73/2ccd730c-764f-80e1-b8b4-cb47bbebcd04/mzaf_16366002413551238633.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-03-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "happybite"
+        ]
+      },
+      "songKey": "happybite|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/happy-bite/1535787855?i=1535787856",
+      "title": "happy bite",
+      "titleKeys": [
+        "happybite"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535788053",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 265400,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535788055",
+      "latinSource": "manual",
+      "popularity": 0.9318,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/fb/ac/fd/fbacfd6e-4452-f6ac-c09e-a9fd53bc3f0d/mzaf_10948050313145723197.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-07-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "mosoekusupuresu",
+          "mosoexpress",
+          "もうそうえくすぷれす"
+        ]
+      },
+      "songKey": "もうそうえくすぷれす|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%82%E3%81%86%E3%81%9D%E3%81%86-%E3%81%88%E3%81%8F%E3%81%99%E3%81%B7%E3%82%8C%E3%81%99/1535788053?i=1535788055",
+      "title": "もうそう☆えくすぷれす",
+      "titleKeys": [
+        "もうそうえくすぷれす"
+      ],
+      "titleLatin": "Mousou ekusupuresu"
+    },
+    {
+      "albumId": "apple:al:1535789172",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 275973,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535789173",
+      "latinSource": "cutlet",
+      "popularity": 0.8182,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/06/48/e1/0648e128-74d0-c910-ed0e-c3a76697b6b1/mzaf_8051803489168050195.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-12-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "kogarashisenchiment",
+          "kogarashisenchimento",
+          "木枯らしせんてぃめんと"
+        ]
+      },
+      "songKey": "木枯らしせんてぃめんと|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%9C%A8%E6%9E%AF%E3%82%89%E3%81%97%E3%82%BB%E3%83%B3%E3%83%86%E3%82%A3%E3%83%A1%E3%83%B3%E3%83%88/1535789172?i=1535789173",
+      "title": "木枯らしセンティメント",
+      "titleKeys": [
+        "木枯らしせんてぃめんと"
+      ],
+      "titleLatin": "Kogarashi sentimento"
+    },
+    {
+      "albumId": "apple:al:1535789272",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 275667,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535789273",
+      "latinSource": "cutlet",
+      "popularity": 0.7955,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/6c/93/6f/6c936fd5-62db-9298-6338-61a4f97c4874/mzaf_7911045086677997261.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-05-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "orangemint",
+          "orenjiminto",
+          "おれんじみんと"
+        ]
+      },
+      "songKey": "おれんじみんと|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AA%E3%83%AC%E3%83%B3%E3%82%B8%E3%83%9F%E3%83%B3%E3%83%88/1535789272?i=1535789273",
+      "title": "オレンジミント",
+      "titleKeys": [
+        "おれんじみんと"
+      ],
+      "titleLatin": "Orenji minto"
+    },
+    {
+      "albumId": "apple:al:1535791287",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 275907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535791288",
+      "latinSource": null,
+      "popularity": 0.6591,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/79/45/e4/7945e4fa-bd33-d600-8cae-f798352c6f56/mzaf_8747557076497831265.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "decentblack"
+        ]
+      },
+      "songKey": "decentblack|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/decent-black/1535791287?i=1535791288",
+      "title": "decent black",
+      "titleKeys": [
+        "decentblack"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535791614",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 245800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535791615",
+      "latinSource": null,
+      "popularity": 0.7045,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/40/31/6d/40316df7-65bf-6e3d-a5e0-4d42a76e06fc/mzaf_12469878712040518190.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "mathemagics"
+        ]
+      },
+      "songKey": "mathemagics|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/mathemagics/1535791614?i=1535791615",
+      "title": "mathemagics",
+      "titleKeys": [
+        "mathemagics"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 275267,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798230",
+      "latinSource": null,
+      "popularity": 0.9545,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/36/73/38/367338bf-a8b5-b3b1-b466-2f0b225892dc/mzaf_9065139468494214671.plus.aac.p.m4a"
+      },
+      "releaseDate": "2009-09-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "staplestable"
+        ]
+      },
+      "songKey": "staplestable|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/staple-stable/1535798229?i=1535798230",
+      "title": "staple stable",
+      "titleKeys": [
+        "staplestable"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 246827,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798231",
+      "latinSource": "cutlet",
+      "popularity": 0.8864,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d0/e7/9f/d0e79fdb-bdc6-df0b-4245-910eae9baec2/mzaf_10114291593968579794.plus.aac.p.m4a"
+      },
+      "releaseDate": "2008-10-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "kaerimichi",
+          "帰り道"
+        ]
+      },
+      "songKey": "帰り道|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%B8%B0%E3%82%8A%E9%81%93/1535798229?i=1535798231",
+      "title": "帰り道",
+      "titleKeys": [
+        "帰り道"
+      ],
+      "titleLatin": "Kaerimichi"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 257307,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798232",
+      "latinSource": null,
+      "popularity": 0.75,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/04/3e/67/043e675f-3f7b-381a-c3ee-17e360251d13/mzaf_17243232386086263222.plus.aac.p.m4a"
+      },
+      "releaseDate": "2009-11-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "anbivalentworld"
+        ]
+      },
+      "songKey": "ambivalentworld|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/ambivalent-world/1535798229?i=1535798232",
+      "title": "ambivalent world",
+      "titleKeys": [
+        "ambivalentworld"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 255040,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798233",
+      "latinSource": "cutlet",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fc/e2/bf/fce2bf61-98a5-6818-13eb-d34539718192/mzaf_15847795743843901893.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-01-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "renaicirculachion",
+          "renaisakyureshon",
+          "恋愛さーきゅれーしょん"
+        ]
+      },
+      "songKey": "恋愛さーきゅれーしょん|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%8B%E6%84%9B%E3%82%B5%E3%83%BC%E3%82%AD%E3%83%A5%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/1535798229?i=1535798233",
+      "title": "恋愛サーキュレーション",
+      "titleKeys": [
+        "恋愛さーきゅれーしょん"
+      ],
+      "titleLatin": "Ren'ai saakyureeshon"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 271147,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798234",
+      "latinSource": null,
+      "popularity": 0.9091,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/24/76/51/247651bf-871b-5934-7173-6b88d91acdfc/mzaf_15299642970911891784.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-02-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "sugarswetnightmare"
+        ]
+      },
+      "songKey": "sugarsweetnightmare|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/sugar-sweet-nightmare/1535798229?i=1535798234",
+      "title": "sugar sweet nightmare",
+      "titleKeys": [
+        "sugarsweetnightmare"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "supercell",
+      "artistIds": [
+        "apple:ar:631665100",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 344053,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798235",
+      "latinSource": "provider",
+      "popularity": 0.2727,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d5/d2/fd/d5d2fdc1-6cbc-ab03-549c-761b6528fef1/mzaf_10686198469131241686.plus.aac.p.m4a"
+      },
+      "releaseDate": "2009-08-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "kiminoshiranaimonogatari",
+          "君の知らない物語"
+        ]
+      },
+      "songKey": "君の知らない物語|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%90%9B%E3%81%AE%E7%9F%A5%E3%82%89%E3%81%AA%E3%81%84%E7%89%A9%E8%AA%9E/1535798229?i=1535798235",
+      "title": "君の知らない物語",
+      "titleKeys": [
+        "君の知らない物語"
+      ],
+      "titleLatin": "Kimi no Shiranai Monogatari"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 265827,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798236",
+      "latinSource": "manual",
+      "popularity": 0.8636,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/79/3d/4a/793d4ae4-9b86-eab4-db8d-4f70ae2dbded/mzaf_3800947185502261475.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-05-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "futakotome",
+          "nigonme",
+          "二言目"
+        ]
+      },
+      "songKey": "二言目|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%BA%8C%E8%A8%80%E7%9B%AE/1535798229?i=1535798236",
+      "title": "二言目",
+      "titleKeys": [
+        "二言目"
+      ],
+      "titleLatin": "Futakotome"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 255467,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798237",
+      "latinSource": null,
+      "popularity": 0.7727,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/92/e0/15/92e0153d-ea1b-ea65-5aa1-09cb4bc9cfd0/mzaf_14936252712092738330.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-04-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "marshmallowjuschice"
+        ]
+      },
+      "songKey": "marshmallowjustice|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/marshmallow-justice/1535798229?i=1535798237",
+      "title": "marshmallow justice",
+      "titleKeys": [
+        "marshmallowjustice"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "ClariS",
+      "artistIds": [
+        "apple:ar:548139430",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 261413,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798239",
+      "latinSource": "provider",
+      "popularity": 0.25,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d4/ad/f8/d4adf839-a016-0b7a-dc46-fca42a732350/mzaf_4496140481223966401.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-02-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "naishonohanashi",
+          "ないしょの話"
+        ]
+      },
+      "songKey": "ないしょの話|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8A%E3%82%A4%E3%82%B7%E3%83%A7%E3%81%AE%E8%A9%B1/1535798229?i=1535798239",
+      "title": "ナイショの話",
+      "titleKeys": [
+        "ないしょの話"
+      ],
+      "titleLatin": "Naisho no Hanashi"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "河野 マリナ",
+      "artistIds": [
+        "apple:ar:574753757",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 277773,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798241",
+      "latinSource": "cutlet",
+      "popularity": 0.1818,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4c/84/4d/4c844dff-da84-a510-ad92-874462324cb9/mzaf_15787892345994954410.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-12-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "kierudaydream",
+          "消えるdaydream"
+        ]
+      },
+      "songKey": "消えるdaydream|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B6%88%E3%81%88%E3%82%8Bdaydream/1535798229?i=1535798241",
+      "title": "消えるdaydream",
+      "titleKeys": [
+        "消えるdaydream"
+      ],
+      "titleLatin": "Kieru daydream"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "春奈るな",
+      "artistIds": [
+        "apple:ar:570031182",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 252720,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798244",
+      "latinSource": "provider",
+      "popularity": 0.2273,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/02/2f/2b/022f2b70-7214-7b37-2867-d10378e0950f/mzaf_16099420715973776662.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-07-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "aiwotae",
+          "あいをうたえ"
+        ]
+      },
+      "songKey": "あいをうたえ|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%A4%E3%83%B2%E3%82%A6%E3%82%BF%E3%82%A8/1535798229?i=1535798244",
+      "title": "アイヲウタエ",
+      "titleKeys": [
+        "あいをうたえ"
+      ],
+      "titleLatin": "Ai wo Utae"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 263893,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798245",
+      "latinSource": null,
+      "popularity": 0.6818,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fd/d8/8d/fdd88ddb-f819-5756-2585-206083a469f6/mzaf_5909418127464367274.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-09-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "thelastdayofmyadolescence"
+        ]
+      },
+      "songKey": "thelastdayofmyadolescence|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/the-last-day-of-my-adolescence/1535798229?i=1535798245",
+      "title": "the last day of my adolescence",
+      "titleKeys": [
+        "thelastdayofmyadolescence"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "河野 マリナ",
+      "artistIds": [
+        "apple:ar:574753757",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 272947,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798246",
+      "latinSource": "cutlet",
+      "popularity": 0.3182,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2c/64/0f/2c640f2b-45c8-45f3-5065-e0a974134b87/mzaf_10948057978168987873.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-10-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "hanakonshirushi",
+          "花痕shirushi"
+        ]
+      },
+      "songKey": "花痕shirushi|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%8A%B1%E7%97%95-shirushi/1535798229?i=1535798246",
+      "title": "花痕 -shirushi-",
+      "titleKeys": [
+        "花痕shirushi"
+      ],
+      "titleLatin": "Hanakon -shirushi-"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 204907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798248",
+      "latinSource": null,
+      "popularity": 0.4091,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/80/26/6a/80266ae1-4e23-df0e-852e-a737a9ece066/mzaf_5291459368230886361.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-01-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "whitelies"
+        ]
+      },
+      "songKey": "whitelies|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/white-lies/1535798229?i=1535798248",
+      "title": "white lies",
+      "titleKeys": [
+        "whitelies"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "河野 マリナ",
+      "artistIds": [
+        "apple:ar:574753757",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 249560,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798249",
+      "latinSource": "cutlet",
+      "popularity": 0.2045,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/50/fc/61/50fc615d-58fc-f5fd-5eb7-aad98a6a746d/mzaf_4827532082666418081.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "sonokoewoboeteru",
+          "その声を覚えてる"
+        ]
+      },
+      "songKey": "その声を覚えてる|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%9D%E3%81%AE%E5%A3%B0%E3%82%92%E8%A6%9A%E3%81%88%E3%81%A6%E3%82%8B/1535798229?i=1535798249",
+      "title": "その声を覚えてる",
+      "titleKeys": [
+        "その声を覚えてる"
+      ],
+      "titleLatin": "Sono koe wo oboeteru"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 276480,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798250",
+      "latinSource": null,
+      "popularity": 0.5455,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/17/b8/0f/17b80ff7-b98f-cd22-0cde-84895ad0d2a4/mzaf_6923287123082669533.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-01-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "fastlove"
+        ]
+      },
+      "songKey": "fastlove|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/fast-love/1535798229?i=1535798250",
+      "title": "fast love",
+      "titleKeys": [
+        "fastlove"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "春奈るな",
+      "artistIds": [
+        "apple:ar:570031182",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 309093,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798252",
+      "latinSource": "manual",
+      "popularity": 0.0682,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/74/3c/6a/743c6ac9-2276-8b24-aa23-12b8bd666112/mzaf_17358533405773168636.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-01-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "snowdropharunarunakonomarinaver",
+          "snowdroplunaharunamarinakawanover",
+          "snowdrop春奈るな河野まりなver"
+        ]
+      },
+      "songKey": "snowdrop春奈るな河野まりなver|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/snowdrop-%E6%98%A5%E5%A5%88%E3%82%8B%E3%81%AA-%E6%B2%B3%E9%87%8E%E3%83%9E%E3%83%AA%E3%83%8Aver/1535798229?i=1535798252",
+      "title": "snowdrop -春奈るな×河野マリナver.-",
+      "titleKeys": [
+        "snowdrop春奈るな河野まりなver"
+      ],
+      "titleLatin": "snowdrop -Luna Haruna×Marina Kawano ver.-"
+    },
+    {
+      "albumId": "apple:al:1535798229",
+      "artistDisplay": "princess a la mode",
+      "artistIds": [
+        "apple:ar:1439333025",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 240027,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1535798253",
+      "latinSource": null,
+      "popularity": 0.2955,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/09/13/2b/09132b50-1ae4-a5d2-148f-1bb1c1f9e5e5/mzaf_14091794071097819074.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "wickedprince"
+        ]
+      },
+      "songKey": "wickedprince|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/wicked-prince/1535798229?i=1535798253",
+      "title": "wicked prince",
+      "titleKeys": [
+        "wickedprince",
+        "wickedprinceinstrumental"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "ClariS",
+      "artistIds": [
+        "apple:ar:548139430",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 266280,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811233",
+      "latinSource": null,
+      "popularity": 0.1136,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c1/a6/bc/c1a6bce8-5b5e-0828-8abb-971cecd38932/mzaf_12582402651819785396.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "border"
+        ]
+      },
+      "songKey": "border|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/border/1537811231?i=1537811233",
+      "title": "border",
+      "titleKeys": [
+        "border"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 280733,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811236",
+      "latinSource": "manual",
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/03/ed/21/03ed215b-736d-3e3a-93ee-13d5a3501459/mzaf_331216858802963267.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "yudachihoteishiki",
+          "夕立方程式"
+        ]
+      },
+      "songKey": "夕立方程式|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%A4%95%E7%AB%8B%E6%96%B9%E7%A8%8B%E5%BC%8F/1537811231?i=1537811236",
+      "title": "夕立方程式",
+      "titleKeys": [
+        "夕立方程式"
+      ],
+      "titleLatin": "Yuudachi houteishiki"
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 244467,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811237",
+      "latinSource": null,
+      "popularity": 0.4318,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f5/97/30/f5973077-656c-d0c1-9176-1dc12cbc2481/mzaf_14736886271434577991.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "meinschatz"
+        ]
+      },
+      "songKey": "meinschatz|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/mein-schatz/1537811231?i=1537811237",
+      "title": "mein schatz",
+      "titleKeys": [
+        "meinschatz"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "瀧川 ありさ",
+      "artistIds": [
+        "apple:ar:952661002",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 238053,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811238",
+      "latinSource": "cutlet",
+      "popularity": 0.0909,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d5/90/0b/d5900b77-448a-7f73-c1ef-a7a2907d2e48/mzaf_4251046768093051248.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-11-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "sayonaranoyukue",
+          "さよならのゆくえ"
+        ]
+      },
+      "songKey": "さよならのゆくえ|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%95%E3%82%88%E3%81%AA%E3%82%89%E3%81%AE%E3%82%86%E3%81%8F%E3%81%88/1537811231?i=1537811238",
+      "title": "さよならのゆくえ",
+      "titleKeys": [
+        "さよならのゆくえ"
+      ],
+      "titleLatin": "Sayonara no yukue"
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 268853,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811239",
+      "latinSource": null,
+      "popularity": 0.5227,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b1/97/47/b19747f3-611a-bc04-2a5b-cd6dba443d6b/mzaf_6794115402687252537.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "terminalterminal"
+        ]
+      },
+      "songKey": "terminalterminal|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/terminal-terminal/1537811231?i=1537811239",
+      "title": "terminal terminal",
+      "titleKeys": [
+        "terminalterminal"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 282440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811240",
+      "latinSource": null,
+      "popularity": 0.5682,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/51/46/e9/5146e972-dca2-0fa2-4f8f-cf1302c64bbb/mzaf_18231069310091484612.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "dreamydatedrive"
+        ]
+      },
+      "songKey": "dreamydatedrive|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/dreamy-date-drive/1537811231?i=1537811240",
+      "title": "dreamy date drive",
+      "titleKeys": [
+        "dreamydatedrive"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 231120,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811241",
+      "latinSource": null,
+      "popularity": 0.7273,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/09/a7/7d/09a77df2-9024-5e4d-eaa3-eaaf559d8325/mzaf_1837529441364766356.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "darkcherrymystery"
+        ]
+      },
+      "songKey": "darkcherrymystery|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/dark-cherry-mystery/1537811231?i=1537811241",
+      "title": "dark cherry mystery",
+      "titleKeys": [
+        "darkcherrymystery"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "ClariS",
+      "artistIds": [
+        "apple:ar:548139430",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 250520,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811242",
+      "latinSource": null,
+      "popularity": 0.0455,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3a/d5/15/3ad5158a-9130-d61f-862e-8302d6fd9cc6/mzaf_14392300062373710935.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-09-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "shiori"
+        ]
+      },
+      "songKey": "shiori|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/shiori/1537811231?i=1537811242",
+      "title": "SHIORI",
+      "titleKeys": [
+        "shiori"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 226173,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811243",
+      "latinSource": null,
+      "popularity": 0.4773,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/21/b5/f4/21b5f417-af00-ed9a-c1c5-f1d2b0cbf47e/mzaf_6869925018162341350.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "07734"
+        ]
+      },
+      "songKey": "07734|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/07734/1537811231?i=1537811243",
+      "title": "07734",
+      "titleKeys": [
+        "07734"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "TrySail",
+      "artistIds": [
+        "apple:ar:887648645",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 267187,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811245",
+      "latinSource": null,
+      "popularity": 0.1591,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/76/9e/d7/769ed7fa-fc3b-5014-1669-0195d3c0bc40/mzaf_14902717016096778817.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "azure"
+        ]
+      },
+      "songKey": "azure|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/azure/1537811231?i=1537811245",
+      "title": "azure",
+      "titleKeys": [
+        "azure"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "TrySail",
+      "artistIds": [
+        "apple:ar:887648645",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 266707,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811246",
+      "latinSource": null,
+      "popularity": 0.1364,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/67/6b/6c/676b6c8b-5679-859b-928e-9712a56e04b1/mzaf_11485065435446865989.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "whiz"
+        ]
+      },
+      "songKey": "whiz|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/whiz/1537811231?i=1537811246",
+      "title": "whiz",
+      "titleKeys": [
+        "whiz"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1537811231",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 352533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1537811247",
+      "latinSource": null,
+      "popularity": 0.3864,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/6e/83/2d/6e832d5a-ea62-6a0c-6828-00d5366ba9f8/mzaf_12815703438410516598.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "etoilettoiejichionlebleu"
+        ]
+      },
+      "songKey": "etoileettoieditionlebleu|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/etoile-et-toi-edition-le-bleu/1537811231?i=1537811247",
+      "title": "etoile et toi [edition le bleu]",
+      "titleKeys": [
+        "etoileettoieditionleblanc",
+        "etoileettoieditionlebleu"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1752838718",
+      "artistDisplay": "YOASOBI",
+      "artistIds": [
+        "apple:ar:1490256993",
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 182702,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1752838890",
+      "latinSource": null,
+      "popularity": 0.0227,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/33/cb/1e/33cb1e97-5bfc-39cb-3152-78fa5a3442f1/mzaf_10845217300211652825.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-07-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "undead"
+        ]
+      },
+      "songKey": "undead|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/undead/1752838718?i=1752838890",
+      "title": "UNDEAD",
+      "titleKeys": [
+        "undead"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6781660757",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 251040,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6781660758",
+      "latinSource": null,
+      "popularity": 0.4545,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/27/53/b7/2753b791-68dc-c0c4-0d1a-97ae86e9e7fc/mzaf_14275251774369898523.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-07-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "icecream"
+        ]
+      },
+      "songKey": "icecream|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/icecream/6781660757?i=6781660758",
+      "title": "icecream°",
+      "titleKeys": [
+        "icecream"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6781661028",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 188787,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6781661050",
+      "latinSource": null,
+      "popularity": 0.5909,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/42/16/07/42160767-9f6b-fe01-e676-3547c9004fdf/mzaf_7216290066318459845.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-07-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "caramelribboncursetard"
+        ]
+      },
+      "songKey": "caramelribboncursetard|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/caramel-ribbon-cursetard/6781661028?i=6781661050",
+      "title": "caramel ribbon cursetard",
+      "titleKeys": [
+        "caramelribboncursetard"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6781661984",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 175187,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6781661986",
+      "latinSource": "cutlet",
+      "popularity": 0.3636,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9b/2a/81/9b2a81f8-1fb6-9a1c-0fd7-88bad79eac36/mzaf_8344919242927502347.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-07-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "banshinotema",
+          "banshinotheme",
+          "万死のてーま"
+        ]
+      },
+      "songKey": "万死のてーま|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/%E4%B8%87%E6%AD%BB%E3%81%AE%E3%83%86%E3%83%BC%E3%83%9E/6781661984?i=6781661986",
+      "title": "万死のテーマ",
+      "titleKeys": [
+        "万死のてーま"
+      ],
+      "titleLatin": "Banshi no teema"
+    },
+    {
+      "albumId": "apple:al:6781662092",
+      "artistDisplay": "物語シリーズ",
+      "artistIds": [
+        "apple:ar:1439155268"
+      ],
+      "durationMs": 171907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6781662095",
+      "latinSource": null,
+      "popularity": 0.3409,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a6/fc/5f/a6fc5f90-7968-9d37-9701-7a255c9a5c89/mzaf_5985353358476384071.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-07-01",
+      "search": {
+        "artist": [],
+        "title": [
+          "suicidaltendench"
+        ]
+      },
+      "songKey": "suicidaltendency|apple:ar:1439155268",
+      "storeUrl": "https://music.apple.com/jp/album/suicidal-tendency/6781662092?i=6781662095",
+      "title": "Suicidal Tendency",
+      "titleKeys": [
+        "suicidaltendency"
+      ],
+      "titleLatin": null
+    }
+  ]
+}

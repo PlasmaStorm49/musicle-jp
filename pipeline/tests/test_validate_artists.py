@@ -8,7 +8,7 @@ import shutil
 
 import pytest
 
-from musicle_pipeline.artists import FLOWER_ROLES, LEVELS
+from musicle_pipeline.artists import FLOWER_ROLES, LEVELS, SECTIONS
 from musicle_pipeline.io_json import dumps, read_json
 from musicle_pipeline.paths import REPO_ROOT, artist_list_schema_path, artist_paths
 from musicle_pipeline.validate_artists import (
@@ -196,6 +196,12 @@ def test_the_medal_keys_match_the_schema():
     assert tuple(medals["names"]["required"]) == LEVELS
     assert tuple(medals["flowers"]["required"]) == FLOWER_ROLES
     assert list(medals["flowers"]["properties"]) == list(FLOWER_ROLES)
+
+
+def test_the_sections_match_the_schema():
+    # As seções (P200 e a de anime, o usuário, 02/11/2026), na ordem da tela, dos dois lados.
+    schema = read_json(artist_list_schema_path())
+    assert tuple(schema["$defs"]["entry"]["properties"]["section"]["enum"]) == SECTIONS
 
 
 def test_the_sash_limits_are_the_same_in_the_web():

@@ -1,0 +1,309 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "月見坂46",
+      "artistIds": [
+        "fixture:ar:ar10",
+        "fixture:ar:ar90"
+      ],
+      "artworkUrl": "fixtures/art/al06.svg",
+      "id": "fixture:al:al06",
+      "latinSource": "provider",
+      "releaseDate": "2025-08-27",
+      "title": "坂道の向こう - Single",
+      "titleLatin": "Sakamichi no Mukou",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "KOTONOHA",
+      "artistIds": [
+        "fixture:ar:ar08",
+        "fixture:ar:ar90"
+      ],
+      "artworkUrl": "fixtures/art/al09-v2.svg",
+      "id": "fixture:al:al09",
+      "latinSource": "provider",
+      "releaseDate": "2026-05-13",
+      "title": "透明なシグナル - Single",
+      "titleLatin": "Toumei na Signal",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "東京ノイズ",
+      "artistIds": [
+        "fixture:ar:ar13",
+        "fixture:ar:ar90"
+      ],
+      "artworkUrl": "fixtures/art/al20.svg",
+      "id": "fixture:al:al20",
+      "latinSource": "provider",
+      "releaseDate": "2024-07-07",
+      "title": "東京ライツ - Single",
+      "titleLatin": "Tokyo Lights",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ＬＵＭＩＮＡ",
+      "artistIds": [
+        "fixture:ar:ar03",
+        "fixture:ar:ar90"
+      ],
+      "artworkUrl": "fixtures/art/al24.svg",
+      "id": "fixture:al:al24",
+      "latinSource": "provider",
+      "releaseDate": "2026-08-05",
+      "title": "ガラス越しの光 - Single",
+      "titleLatin": "Garasugoshi no Hikari",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ｶﾞﾗｽﾉﾈｺ",
+      "artistIds": [
+        "fixture:ar:ar05",
+        "fixture:ar:ar90"
+      ],
+      "artworkUrl": "fixtures/art/al25.svg",
+      "id": "fixture:al:al25",
+      "latinSource": "provider",
+      "releaseDate": "2020-02-26",
+      "title": "猫背のブルース - Single",
+      "titleLatin": "Nekoze no Blues",
+      "type": "single"
+    }
+  ],
+  "artistId": "fixture:ar:ar90",
+  "artists": [
+    {
+      "id": "fixture:ar:ar03",
+      "latinSource": null,
+      "name": "ＬＵＭＩＮＡ",
+      "nameLatin": null
+    },
+    {
+      "id": "fixture:ar:ar05",
+      "latinSource": "provider",
+      "name": "ｶﾞﾗｽﾉﾈｺ",
+      "nameLatin": "Garasu no Neko"
+    },
+    {
+      "id": "fixture:ar:ar08",
+      "latinSource": null,
+      "name": "KOTONOHA",
+      "nameLatin": null
+    },
+    {
+      "id": "fixture:ar:ar10",
+      "latinSource": "provider",
+      "name": "月見坂46",
+      "nameLatin": "Tsukimizaka46"
+    },
+    {
+      "id": "fixture:ar:ar13",
+      "latinSource": "provider",
+      "name": "東京ノイズ",
+      "nameLatin": "Tōkyō Noise"
+    },
+    {
+      "id": "fixture:ar:ar90",
+      "latinSource": "provider",
+      "name": "夜空物語シリーズ",
+      "nameLatin": "YOZORA Series"
+    }
+  ],
+  "fetchedAt": "2026-10-05T12:00:00Z",
+  "provider": "fixture",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "fixture:al:al06",
+      "artistDisplay": "月見坂46",
+      "artistIds": [
+        "fixture:ar:ar10",
+        "fixture:ar:ar90"
+      ],
+      "durationMs": 271000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr06",
+      "latinSource": "provider",
+      "popularity": 0.6,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr06.wav"
+      },
+      "releaseDate": "2025-08-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "sakamichinomuko",
+          "坂道の向こう"
+        ]
+      },
+      "songKey": "坂道の向こう|fixture:ar:ar90",
+      "storeUrl": null,
+      "title": "坂道の向こう",
+      "titleKeys": [
+        "坂道の向こう"
+      ],
+      "titleLatin": "Sakamichi no Mukou"
+    },
+    {
+      "albumId": "fixture:al:al09",
+      "artistDisplay": "KOTONOHA",
+      "artistIds": [
+        "fixture:ar:ar08",
+        "fixture:ar:ar90"
+      ],
+      "durationMs": 243000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr09",
+      "latinSource": "provider",
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr09-v2.wav"
+      },
+      "releaseDate": "2026-05-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "tomeinashignal",
+          "tomeinashigunaru",
+          "透明なしぐなる"
+        ]
+      },
+      "songKey": "透明なしぐなる|fixture:ar:ar90",
+      "storeUrl": null,
+      "title": "透明なシグナル",
+      "titleKeys": [
+        "透明なしぐなる"
+      ],
+      "titleLatin": "Toumei na Signal"
+    },
+    {
+      "albumId": "fixture:al:al20",
+      "artistDisplay": "東京ノイズ",
+      "artistIds": [
+        "fixture:ar:ar13",
+        "fixture:ar:ar90"
+      ],
+      "durationMs": 236000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr22",
+      "latinSource": "provider",
+      "popularity": 0.8,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr22.wav"
+      },
+      "releaseDate": "2024-07-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "tokyolights",
+          "tokyoraitsu",
+          "tokyoright",
+          "東京らいつ"
+        ]
+      },
+      "songKey": "東京らいつ|fixture:ar:ar90",
+      "storeUrl": null,
+      "title": "東京ライツ",
+      "titleKeys": [
+        "東京らいつ"
+      ],
+      "titleLatin": "Tōkyō Lights"
+    },
+    {
+      "albumId": "fixture:al:al24",
+      "artistDisplay": "ＬＵＭＩＮＡ",
+      "artistIds": [
+        "fixture:ar:ar03",
+        "fixture:ar:ar90"
+      ],
+      "durationMs": 239000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr30",
+      "latinSource": "provider",
+      "popularity": 0.2,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr30.wav"
+      },
+      "releaseDate": "2026-08-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "garasugoshinohikari",
+          "glassgoshinohikari",
+          "がらす越しの光"
+        ]
+      },
+      "songKey": "がらす越しの光|fixture:ar:ar90",
+      "storeUrl": null,
+      "title": "ガラス越しの光",
+      "titleKeys": [
+        "がらす越しの光"
+      ],
+      "titleLatin": "Garasugoshi no Hikari"
+    },
+    {
+      "albumId": "fixture:al:al25",
+      "artistDisplay": "ｶﾞﾗｽﾉﾈｺ",
+      "artistIds": [
+        "fixture:ar:ar05",
+        "fixture:ar:ar90"
+      ],
+      "durationMs": 267000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "fixture:tr:tr31",
+      "latinSource": "provider",
+      "popularity": 0.4,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "fixtures/audio/tr31.wav"
+      },
+      "releaseDate": "2020-02-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "nekozenoblues",
+          "nekozenoburusu",
+          "猫背のぶるーす"
+        ]
+      },
+      "songKey": "猫背のぶるーす|fixture:ar:ar90",
+      "storeUrl": null,
+      "title": "猫背のブルース",
+      "titleKeys": [
+        "猫背のぶるーす"
+      ],
+      "titleLatin": "Nekoze no Blues"
+    }
+  ]
+}

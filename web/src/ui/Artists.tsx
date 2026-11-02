@@ -529,7 +529,8 @@ function Choosing({
 
 /**
  * A lista dos artistas, com a capa de cada um (P168): a principal, na ordem do artists.toml, e,
- * embaixo, a seção de fora do Japão, com o título dela (P200). Tela nova: o foco vai para o título
+ * embaixo, a seção de fora do Japão (P200) e a de anime (o usuário, 02/11/2026), cada uma com o
+ * título dela. Tela nova: o foco vai para o título
  * da página. Na lista real, o selo da Apple fecha a página (P170), com o link da playlist da parada
  * (P169).
  */
@@ -544,7 +545,7 @@ function ArtistChoice({
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => heading.current?.focus(), []);
-  const { main, foreign } = artistSections(list);
+  const { main, foreign, anime } = artistSections(list);
   const cards = { list, resolveUrl, onChoose };
   return (
     <div class="game practice artists screen">
@@ -563,6 +564,12 @@ function ArtistChoice({
         <section aria-labelledby="artists-foreign">
           <h2 id="artists-foreign">{t("artists.foreign")}</h2>
           <ArtistCards artists={foreign} {...cards} />
+        </section>
+      )}
+      {anime.length > 0 && (
+        <section aria-labelledby="artists-anime">
+          <h2 id="artists-anime">{t("artists.anime")}</h2>
+          <ArtistCards artists={anime} {...cards} />
         </section>
       )}
       {list.provider === APPLE_PROVIDER && <Attribution href={PLAYLIST_URL} />}

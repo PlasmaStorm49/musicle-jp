@@ -170,8 +170,9 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 37 da lista
   // As 11 grandes na moldura gelo, e todas com o ícone delas (nenhuma com a marca de reserva).
   await expect(rows.locator('svg[viewBox="0 8 110 132"]')).toHaveCount(11);
   await expect(rows.locator("svg text")).toHaveCount(0);
-  // As 6 de cada artista das fixtures (as 3 do Superfan e as 3 do Setlist Royale), por ganhar.
-  await expect(page.locator(".medal-artist")).toHaveCount(5);
+  // As 6 de cada artista das fixtures (as 3 do Superfan e as 3 do Setlist Royale), por ganhar: os
+  // 5 artistas e o anime fictício.
+  await expect(page.locator(".medal-artist")).toHaveCount(6);
   // Um título por bloco, com a contagem dele; o dos Artistas conta as 6 de cada um.
   await expect(page.getByRole("heading", { level: 2 })).toHaveText([
     "Gerais 1 de 9",
@@ -179,7 +180,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 37 da lista
     "Anime 0 de 5",
     "Misturadas 0 de 4",
     "Quiz 0 de 16",
-    "Artistas 0 de 30",
+    "Artistas 0 de 36",
   ]);
   // O nome próprio de cada uma, com o latino (P295, P300): os fictícios do ar02. As do Setlist: o
   // título de outro álbum com o sufixo do nível (o usuário, 02/11/2026).
@@ -191,7 +192,7 @@ test("a lista real, como no site: a aba, a tela com a sequência, as 37 da lista
     "ふたりの約束 -\u2060Live-, Futari no Yakusoku -\u2060Live-",
     "ふたりの約束 -\u2060One\u00a0Take-, Futari no Yakusoku -\u2060One\u00a0Take-",
   ]);
-  await expect(page.getByText("1 de 67 medalhas")).toBeVisible();
+  await expect(page.getByText("1 de 73 medalhas")).toBeVisible();
   // Calado: a tela fica, e o aviso não.
   await expect(page.getByRole("dialog")).toHaveCount(0);
   expect(await seenMedals(page)).toEqual([]);
