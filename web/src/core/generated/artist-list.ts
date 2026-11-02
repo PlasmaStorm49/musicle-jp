@@ -32,9 +32,9 @@ export interface ArtistListEntry {
    */
   artworkUrl: AssetUrl | null;
   /**
-   * A seção da lista (P200): ausente na principal, dos artistas japoneses; "foreign" na de fora do Japão. Campo só de acréscimo, sem versão nova: o site antigo o ignora e mostra todos numa lista só.
+   * A seção da lista (P200): ausente na principal, dos artistas japoneses; "foreign" na de fora do Japão; "anime" na de anime, com um cartão por anime (o usuário, 02/11/2026). Campo só de acréscimo, sem versão nova: o site antigo o ignora e mostra todos numa lista só, e o que não conhece a seção de anime põe o anime na principal.
    */
-  section?: "foreign";
+  section?: "foreign" | "anime";
   /**
    * As 3 medalhas do Superfan do artista (M16), escolhidas à mão no artists.toml: os nomes (P295, obrigatórios pela P301), a capa das 3 (P296: a de um álbum do arquivo dele), o enquadramento, a faixa da perfeita (P299) e as cores do buquê (P296). Sem a capa, o enquadramento, a faixa ou as flores, a tela usa o padrão. Obrigatório no índice novo, sem versão nova; o site o lê como opcional, porque o índice velho, no cache do Pages, vem sem ele.
    */

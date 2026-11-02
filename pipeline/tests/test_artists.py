@@ -287,6 +287,10 @@ def test_curation_excludes_and_joins():
 def test_curation_that_cites_an_unknown_id_is_an_error():
     with pytest.raises(InputError, match="exclude_tracks: 404"):
         pick(snap((1, track("1", "光"))), ArtistRules("77", exclude_tracks=frozenset({"404"})))
+    # A extra_tracks que a busca não trouxe também (a seção de anime, o usuário, 02/11/2026).
+    with pytest.raises(InputError, match="extra_tracks: 404"):
+        rules = ArtistRules("77", section="anime", extra_tracks=frozenset({"404"}))
+        pick(snap((1, track("1", "光"))), rules)
 
 
 def test_the_order_and_the_cap(monkeypatch):
@@ -487,6 +491,38 @@ def test_the_foreign_section_comes_last_in_alphabetical_order():
     assert validate_artist_list(index) == []
 
 
+def test_the_anime_section_comes_after_the_foreign_one():
+    # A seção de anime (o usuário, 02/11/2026): depois da de fora, também em ordem alfabética, e
+    # a ordem do artists.toml não conta.
+    provider = FakeProvider(
+        {
+            "1": _named("1", "物語シリーズ", "MONOGATARI Series"),
+            "2": _named("2", "ミナト", "Minato"),
+            "3": _named("3", "Arctic Monkeys"),
+            "4": _named("4", "Bakemono Anime"),
+        }
+    )
+    rules = [
+        named_rules("1", setlist_album="als1", section="anime"),
+        named_rules("2", setlist_album="als2"),
+        named_rules("3", setlist_album="als3", section="foreign"),
+        named_rules("4", setlist_album="als4", section="anime"),
+    ]
+    index = build_artists(provider, rules, Curation(), [])["index.json"]
+    order = [(e["file"], e.get("section")) for e in index["artists"]]
+    assert order == [
+        ("2.json", None),
+        ("3.json", "foreign"),
+        ("4.json", "anime"),
+        ("1.json", "anime"),  # pelo latino, MONOGATARI Series
+    ]
+    assert validate_artist_list(index) == []
+    # A seção de anime antes da de fora é recusada.
+    main, foreign, *anime = index["artists"]
+    problems = validate_artist_list({**index, "artists": [main, *anime, foreign]})
+    assert any("fora de ordem" in p for p in problems)
+
+
 def test_the_list_out_of_order_is_refused():
     provider = FakeProvider({"1": _named("1", "B"), "2": _named("2", "A"), "3": _named("3", "C")})
     rules = [
@@ -514,16 +550,18 @@ def test_load_artist_list(tmp_path: Path):
     path.write_text(
         '[[artists]]\nid = "2"\nexclude_albums = ["9"]\nsame_song = [["1", "3"]]\n'
         'singles = ["4", "5"]\n\n'
-        '[[artists]]\nid = "1"\nsection = "foreign"\n',
+        '[[artists]]\nid = "1"\nsection = "foreign"\n\n'
+        '[[artists]]\nid = "3"\nsection = "anime"\nextra_tracks = ["6"]\n',
         encoding="utf-8",
     )
     rules = load_artist_list(path)
-    assert [r.id for r in rules] == ["2", "1"]  # a ordem do arquivo é a da tela
+    assert [r.id for r in rules] == ["2", "1", "3"]  # a ordem do arquivo é a da tela
     assert rules[0].exclude_albums == {"9"}
     assert rules[0].same_song == (("1", "3"),)
     assert rules[0].singles == {"4", "5"}
     assert rules[1].singles == frozenset()
-    assert (rules[0].section, rules[1].section) == (None, "foreign")
+    assert [r.section for r in rules] == [None, "foreign", "anime"]
+    assert (rules[1].extra_tracks, rules[2].extra_tracks) == (frozenset(), {"6"})
 
 
 @pytest.mark.parametrize(
@@ -538,6 +576,9 @@ def test_load_artist_list(tmp_path: Path):
         ('[[artists]]\nid = "1"\nsingles = "4"\n', "singles"),
         ('[[artists]]\nid = "1"\nsection = "abroad"\n', "section aceita"),
         ('[[artists]]\nid = "1"\nsection = 1\n', "section aceita"),
+        ('[[artists]]\nid = "1"\nextra_tracks = ["9"]\n', 'só na section = "anime"'),
+        ('[[artists]]\nid = "1"\nsection = "foreign"\nextra_tracks = ["9"]\n', "só na section"),
+        ('[[artists]]\nid = "1"\nsection = "anime"\nextra_tracks = "9"\n', "lista de ids"),
         ("[[artists]\n", "TOML inválido"),
     ],
 )

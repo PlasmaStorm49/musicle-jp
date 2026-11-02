@@ -294,14 +294,18 @@ def fetch_artist_snapshot(
     tries: int = 3,
     pace: float = PACE_SEC,
     wait_first: bool = False,
+    any_artist: bool = False,
+    extra_tracks: Sequence[str] = (),
 ) -> JSON:
     """Todas as faixas conhecidas de um artista (M13), aparadas. Levanta FetchError.
 
     1. o lookup de músicas do artista: a ordem dá a prioridade das músicas e traz as
        participações (faixa de outro artista principal com ele no crédito);
     2. os álbuns dele (só os com o artistId dele: coletânea de vários artistas fica de fora);
-    3. as músicas desses álbuns, em lotes (só as faixas do próprio artista);
-    4. o lookup dos artistas das faixas, para o nome latino oficial.
+    3. as músicas desses álbuns, em lotes (só as faixas do próprio artista; com `any_artist`, as
+       de qualquer intérprete: o artista de um anime, na seção de anime, o usuário, 02/11/2026);
+    4. as `extra_tracks` (só no anime), pelo id, de qualquer artista;
+    5. o lookup dos artistas das faixas, para o nome latino oficial.
     """
     transport = transport or http_get  # procurado na hora: os testes trocam o http_get
     if sleep is None:
@@ -310,6 +314,9 @@ def fetch_artist_snapshot(
         sleep = time.sleep
     if not re.fullmatch(r"[0-9]+", artist_id):
         raise FetchError(f"id de artista inválido: {artist_id!r}")
+    odd = [t for t in extra_tracks if not re.fullmatch(r"[0-9]+", t)]
+    if odd:
+        raise FetchError(f"id de faixa inválido nas extra_tracks: {odd!r}")
 
     def lookup(ids: Sequence[str], entity: str | None = None) -> list[JSON]:
         url = _lookup_url(ids, entity, ARTIST_LIMIT if entity else None)
@@ -357,9 +364,19 @@ def fetch_artist_snapshot(
             if (
                 found is not None
                 and found["collectionId"] in batch
-                and found["artistId"] == artist_id
+                and (any_artist or found["artistId"] == artist_id)
             ):
                 tracks.setdefault(found["trackId"], found)
+
+    for batch in _batches(extra_tracks):
+        sleep(pace)
+        for result in lookup(batch):
+            found = _song(result)
+            if found is not None and found["trackId"] in batch:
+                tracks.setdefault(found["trackId"], found)
+    missing = sorted(set(extra_tracks) - set(tracks))
+    if missing:
+        raise FetchError(f"o lookup de {artist_id} não trouxe as extra_tracks {missing}")
 
     artists: JSON = {}
     for batch in _batches(sorted({t["artistId"] for t in tracks.values()} | {artist_id})):

@@ -24,20 +24,25 @@ export function cardArtwork(list: ArtistList, entry: ArtistListEntry): string | 
 export type ListedArtist = { readonly entry: ArtistListEntry; readonly position: number };
 
 /**
- * A lista dividida pela seção (P200): a principal, dos japoneses, e a de fora do Japão, cada uma
- * na ordem do índice (o pipeline já põe a seção em ordem alfabética, P201). Um valor que este
- * código não conhece fica na principal: o `loadArtistList` não confere as entradas.
+ * A lista dividida pela seção (P200): a principal, dos japoneses, a de fora do Japão e a de anime
+ * (o usuário, 02/11/2026), cada uma na ordem do índice (o pipeline já põe as seções em ordem
+ * alfabética, P201). Um valor que este código não conhece fica na principal: o `loadArtistList`
+ * não confere as entradas.
  */
 export function artistSections(list: ArtistList): {
   readonly main: readonly ListedArtist[];
   readonly foreign: readonly ListedArtist[];
+  readonly anime: readonly ListedArtist[];
 } {
   const main: ListedArtist[] = [];
   const foreign: ListedArtist[] = [];
+  const anime: ListedArtist[] = [];
   list.artists.forEach((entry, position) => {
-    (entry.section === "foreign" ? foreign : main).push({ entry, position });
+    const section =
+      entry.section === "foreign" ? foreign : entry.section === "anime" ? anime : main;
+    section.push({ entry, position });
   });
-  return { main, foreign };
+  return { main, foreign, anime };
 }
 
 /** Quantas cores tem o monograma (as classes .monogram-0 a .monogram-7 do CSS). */

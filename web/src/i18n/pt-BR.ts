@@ -359,6 +359,9 @@ export const ptBR = {
   "artists.title": "Artistas",
   // O título da seção dos artistas de fora do Japão, embaixo da lista principal (P200).
   "artists.foreign": "De fora do Japão",
+  // O título da seção de anime, depois da de fora: um cartão por anime, com todas as músicas dele
+  // (o usuário, 02/11/2026).
+  "artists.anime": "Animes",
   "artists.chooseHint":
     "Escolha o artista e depois o modo: ouça o trecho e digite o nome exato da música.",
   "artists.chooseShort": "Escolha o artista e depois o modo.",
