@@ -23,6 +23,7 @@ import {
   withPracticeRight,
   withProgress,
   withSeenMedals,
+  withSetlistBest,
   withSuperfanBest,
   withSuperfanEnd,
 } from "./records.ts";
@@ -473,6 +474,24 @@ describe("as medalhas e o modo por artista no save (v8, P289)", () => {
     // O artista sem registro começa do zero, com o recorde.
     const other = withSuperfanBest(emptySave(), "apple:ar:2", { score: 0, song: 1 });
     expect(other.artists["apple:ar:2"]).toEqual({ right: 0, best: { score: 0, song: 1 } });
+  });
+
+  it("withSetlistBest: o recorde do Setlist Royale, cada número o máximo dele, sem mexer no right", () => {
+    const save = withSuperfanBest(emptySave(), ARTIST, { score: 10, song: 2 });
+    const first = withSetlistBest(save, ARTIST, { rounds: 3, found: 9 });
+    expect(first.artists[ARTIST]).toEqual({
+      right: 0,
+      best: { score: 10, song: 2 },
+      setlist: { rounds: 3, found: 9 },
+    });
+    // Mais rodadas com menos músicas: as rodadas sobem, as músicas ficam.
+    const further = withSetlistBest(first, ARTIST, { rounds: 5, found: 8 });
+    expect(further.artists[ARTIST]?.setlist).toEqual({ rounds: 5, found: 9 });
+    expect(withSetlistBest(further, ARTIST, { rounds: 5, found: 9 })).toBe(further);
+    expect(withSetlistBest(further, ARTIST, { rounds: 0, found: 1 })).toBe(further);
+    // A 1ª run, mesmo sem rodada completa, já fica (0 rodadas e 1 música).
+    const other = withSetlistBest(emptySave(), "apple:ar:2", { rounds: 0, found: 1 });
+    expect(other.artists["apple:ar:2"]).toEqual({ right: 0, setlist: { rounds: 0, found: 1 } });
   });
 
   it("mergeBest: o maior de cada número; sem nenhum, null", () => {

@@ -32,6 +32,7 @@ import type {
   FinishedGame,
   InProgress,
   Save,
+  SetlistBest,
   SuperfanBest,
 } from "../core/records.ts";
 import { emptySave, SHELF_SIZE } from "../core/records.ts";
@@ -321,6 +322,11 @@ function isSuperfanBest(x: unknown): x is SuperfanBest {
   return isRecord(x) && isNonNegativeInt(x.score) && isNonNegativeInt(x.song) && x.song > 0;
 }
 
+/** O recorde do Setlist Royale (v16): as rodadas completas e as músicas achadas. */
+function isSetlistBest(x: unknown): x is SetlistBest {
+  return isRecord(x) && isNonNegativeInt(x.rounds) && isNonNegativeInt(x.found);
+}
+
 export function isArtistRecord(x: unknown): x is ArtistRecord {
   return (
     isRecord(x) &&
@@ -328,8 +334,20 @@ export function isArtistRecord(x: unknown): x is ArtistRecord {
     (x.done === undefined || x.done === true) &&
     // A perfeita é também terminada (`withSuperfanEnd`).
     (x.perfect === undefined || (x.perfect === true && x.done === true)) &&
-    (x.best === undefined || isSuperfanBest(x.best))
+    (x.best === undefined || isSuperfanBest(x.best)) &&
+    (x.setlist === undefined || isSetlistBest(x.setlist))
   );
+}
+
+/** Os recordes fora do formato (v15 e v16) saem sozinhos: o resto do registro vale as medalhas. */
+function withoutBadBests(raw: unknown): unknown {
+  if (!isRecord(raw)) return raw;
+  const bad = new Set<string>();
+  if (raw.best !== undefined && !isSuperfanBest(raw.best)) bad.add("best");
+  if (raw.setlist !== undefined && !isSetlistBest(raw.setlist)) bad.add("setlist");
+  return bad.size === 0
+    ? raw
+    : Object.fromEntries(Object.entries(raw).filter(([field]) => !bad.has(field)));
 }
 
 /**
@@ -353,11 +371,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
   const shelf = medalIds(data.shelf, SHELF_SIZE);
   const artists: Record<string, ArtistRecord> = {};
   for (const [id, raw] of Object.entries(isRecord(data.artists) ? data.artists : {})) {
-    // O recorde fora do formato (v15) sai sozinho: o resto do registro vale as medalhas.
-    const record =
-      isRecord(raw) && raw.best !== undefined && !isSuperfanBest(raw.best)
-        ? Object.fromEntries(Object.entries(raw).filter(([field]) => field !== "best"))
-        : raw;
+    const record = withoutBadBests(raw);
     const kept = ARTIST_ID.test(id) && isArtistRecord(record);
     if (kept) artists[id] = record;
     if (!kept || record !== raw) dropped = true;
@@ -399,7 +413,7 @@ function sanitize(data: Record<string, unknown>): { save: Save; dropped: boolean
     !isRecord(quiz.progress);
   return {
     save: {
-      schemaVersion: 15,
+      schemaVersion: 16,
       history,
       inProgress,
       seenMedals: seen.ids.sort(),

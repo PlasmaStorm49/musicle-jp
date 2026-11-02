@@ -150,7 +150,13 @@ describe("parseImport (ME103)", () => {
         },
       },
       artists: {
-        "apple:ar:1": { right: 4, done: true, best: { score: 35, song: 4, extra: 1 }, extra: true },
+        "apple:ar:1": {
+          right: 4,
+          done: true,
+          best: { score: 35, song: 4, extra: 1 },
+          setlist: { rounds: 7, found: 31, extra: 1 },
+          extra: true,
+        },
       },
     };
     const result = parseImport(file(odd), TODAY);
@@ -160,6 +166,7 @@ describe("parseImport (ME103)", () => {
       right: 4,
       done: true,
       best: { score: 35, song: 4 },
+      setlist: { rounds: 7, found: 31 },
     });
   });
 
