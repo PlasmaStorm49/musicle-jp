@@ -10,6 +10,7 @@ from musicle_pipeline.io_json import read_json
 from musicle_pipeline.paths import (
     anime_catalog_schema_path,
     anime_mixed_schema_path,
+    anime_royale_schema_path,
     anime_schedule_schema_path,
     artist_list_schema_path,
     artist_schema_path,
@@ -40,7 +41,11 @@ def test_the_schema_is_valid_and_copies_the_catalog(path):
 
 @pytest.mark.parametrize(
     ("path", "kind"),
-    [(anime_schedule_schema_path, "anime"), (anime_mixed_schema_path, "anime-mixed")],
+    [
+        (anime_schedule_schema_path, "anime"),
+        (anime_mixed_schema_path, "anime-mixed"),
+        (anime_royale_schema_path, "anime-royale"),
+    ],
 )
 def test_the_anime_schedules_copy_the_schedule(path, kind):
     # As agendas do Anime (M14) e das Misturadas (M17): a data, o id da faixa, o número e a versão

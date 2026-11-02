@@ -25,6 +25,10 @@ export const SCHEMAS = [
     out: "web/src/core/generated/anime-mixed.ts",
   },
   {
+    schema: "shared/schema/anime-royale.schema.json",
+    out: "web/src/core/generated/anime-royale.ts",
+  },
+  {
     schema: "shared/schema/anime-quiz.schema.json",
     out: "web/src/core/generated/anime-quiz.ts",
   },
@@ -57,6 +61,9 @@ const BY_TITLE: Record<string, string> = {
   "Dia da agenda das Misturadas do musicle-jp": "MixedDay",
   "Rodadas de um diário das Misturadas do musicle-jp": "MixedRounds",
   "Rodada das Misturadas do musicle-jp": "MixedRound",
+  "Agenda do Anime Royale do musicle-jp": "RoyaleSchedule",
+  "Dia da agenda do Anime Royale do musicle-jp": "RoyaleDay",
+  "Rodada do Anime Royale do musicle-jp": "RoyaleRound",
   "Agenda do quiz do dia do musicle-jp": "QuizMonth",
   "Dia da agenda do quiz do musicle-jp": "QuizDay",
   "Rodada do quiz do musicle-jp": "QuizRound",

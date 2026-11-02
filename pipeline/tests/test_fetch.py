@@ -260,6 +260,8 @@ def test_other_commands_never_import_the_network_module(tmp_path):
         f"assert main({anime_latin!r}) == 0\n"
         # O quiz do dia (M18): o horizonte não passa da agenda fictícia, e nada é gravado.
         "assert main(['schedule-quiz', '--provider', 'fixture', '--today', '2026-10-08']) == 0\n"
+        # O Anime Royale (o usuário, 01/11/2026): o horizonte não passa das agendas fictícias.
+        "assert main(['schedule-royale', '--provider', 'fixture', '--today', '2026-10-08']) == 0\n"
         # O ranking do MAL (M14, PR B) também usa a rede: só o fetch --anime o carrega.
         "print(any(m in sys.modules for m in ('musicle_pipeline.fetch', 'musicle_pipeline.mal_ranking')))\n"
     )
