@@ -11,6 +11,7 @@ import {
   chainParts,
   chainTimeline,
   drawSetlistRound,
+  EDGE_CHANCE,
   leftToFind,
   MIN_SOLO,
   MIN_SONG_SEC,
@@ -130,28 +131,46 @@ describe("a sequência emendada: os tempos", () => {
     expect(chainLength(chainTimeline(8, 10))).toBe(15);
   });
 
-  it("o ponto da prévia fica perto do meio (a voz), com o trecho inteiro antes da folga do fim", () => {
-    // Numa prévia de 30 s, com o trecho de 4,5 s: as posições vão de 0 a 23,5 s, e o começo sai
-    // da metade do meio (de 5,875 a 17,625 s), em passos de 0,25 s, sempre o mesmo.
+  it("o ponto da prévia: por igual na região do meio, raro nas pontas, nunca fixo", () => {
+    // Numa prévia de 30 s, com o trecho de 4,5 s: as posições vão de 0 a 23,5 s, e a região do meio
+    // vai de 5,875 a 17,625 s. Em passos de 0,25 s, sempre o mesmo para a mesma semente.
     const last = 30 - 4.5 - 2;
+    const middle = (o: number) => o >= last / 4 - 0.125 && o <= (3 * last) / 4 + 0.125;
     const offsets: number[] = [];
-    for (let seed = 0; seed < 400; seed += 1) {
+    for (let seed = 0; seed < 1000; seed += 1) {
       const round = drawSetlistRound(bigPool, 1, {}, seed);
       if (!round) throw new Error("sem rodada");
       for (const id of round.played) {
         const offset = setlistOffset(seed, round, id, 30, 4.5);
-        expect(offset).toBeGreaterThanOrEqual(last / 4 - 0.125);
-        expect(offset).toBeLessThanOrEqual((3 * last) / 4 + 0.125);
+        expect(offset).toBeGreaterThanOrEqual(0);
+        expect(offset).toBeLessThanOrEqual(last);
         expect(offset * 4).toBe(Math.round(offset * 4));
         expect(setlistOffset(seed, round, id, 30, 4.5)).toBe(offset);
         offsets.push(offset);
       }
     }
-    // Mais perto do centro: a metade do meio da faixa leva bem mais da metade dos começos.
-    const central = offsets.filter((o) => Math.abs(o - last / 2) <= last / 8).length;
-    expect(central / offsets.length).toBeGreaterThan(0.65);
+    // As pontas: 1 em cada 10 (EDGE_CHANCE), dos dois lados.
+    const edges = offsets.filter((o) => !middle(o));
+    expect(EDGE_CHANCE).toBe(0.1);
+    expect(edges.length / offsets.length).toBeGreaterThan(0.06);
+    expect(edges.length / offsets.length).toBeLessThan(0.14);
+    expect(edges.some((o) => o < last / 4)).toBe(true);
+    expect(edges.some((o) => o > (3 * last) / 4)).toBe(true);
+    // O meio por igual: a metade de dentro dele leva mais ou menos a metade dos começos do meio.
+    const inner = offsets.filter((o) => middle(o) && Math.abs(o - last / 2) <= last / 8);
+    const share = inner.length / (offsets.length - edges.length);
+    expect(share).toBeGreaterThan(0.42);
+    expect(share).toBeLessThan(0.58);
+    // Nunca fixo: a mesma música, em runs e rodadas diferentes, cai em muitos pontos.
     const round = drawSetlistRound(bigPool, 1, {}, 7);
     if (!round) throw new Error("sem rodada");
+    const id = round.played[0] ?? "";
+    const points = new Set(
+      Array.from({ length: 200 }, (_, seed) =>
+        setlistOffset(seed, { ...round, number: (seed % 10) + 1 }, id, 30, 4.5),
+      ),
+    );
+    expect(points.size).toBeGreaterThan(30);
     expect(setlistOffset(7, round, "x", 5, 4.5)).toBe(0);
   });
 });

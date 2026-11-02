@@ -63,6 +63,11 @@ export const REPEAT_WEIGHTS: readonly number[] = [0.1, 0.3, 0.6];
  * System of a Down (de 103 a 118 s) ficam.
  */
 export const MIN_SONG_SEC = 80;
+/**
+ * A chance de o trecho sair perto do começo ou do fim da prévia, fora da região do meio: raro, mas
+ * acontece (o usuário, 01/11/2026). 1 em cada 10.
+ */
+export const EDGE_CHANCE = 0.1;
 /** A prévia da Apple tem 30 s; vale quando o catálogo não diz a duração. */
 const PREVIEW_SEC = 30;
 /** Folga no fim da prévia, por causa do fade dela. */
@@ -232,11 +237,12 @@ export function drawSetlistRound(
 }
 
 /**
- * Onde o trecho de `seconds` começa na prévia: perto do meio, onde a voz quase sempre está (a
- * introdução e o fim da prévia são mais vezes instrumentais; o usuário, 01/11/2026). O começo sai
- * da metade do meio das posições que ainda deixam o trecho inteiro antes da folga do fim, com mais
- * chance no centro (a soma de dois sorteios), em passos de 0,25 s. O motor ainda anda até um
- * trecho com som (core/silence.ts).
+ * Onde o trecho de `seconds` começa na prévia (o usuário, 01/11/2026). As posições vão do 0 à
+ * última que ainda deixa o trecho inteiro antes da folga do fim. Quase sempre o começo sai, com
+ * chance igual, da metade do meio delas, onde a voz quase sempre está (a introdução e o fim da
+ * prévia são mais vezes instrumentais); de vez em quando (`EDGE_CHANCE`), de um dos quartos das
+ * pontas. Nunca um ponto fixo: a pessoa tem de lembrar da música, e não de um trecho decorado. Em
+ * passos de 0,25 s. O motor ainda anda até um trecho com som (core/silence.ts).
  */
 export function setlistOffset(
   seed: number,
@@ -248,8 +254,15 @@ export function setlistOffset(
   const last = (previewSec ?? PREVIEW_SEC) - seconds - END_MARGIN_SEC;
   if (last <= 0) return 0;
   const rng = seeded(`setlist|${seed}|${round.number}|${round.attempt}|${id}`);
-  const spread = rng.random() + rng.random() - 1; // de −1 a 1, mais perto do 0
-  return Math.round((last / 2 + (spread * last) / 4) * 4) / 4;
+  const edge = rng.random() < EDGE_CHANCE;
+  const u = rng.random();
+  // O meio: de 1/4 a 3/4 das posições. As pontas: o 1º quarto ou o último, metade da chance cada.
+  const at = !edge
+    ? last / 4 + (u * last) / 2
+    : u < 0.5
+      ? (u * 2 * last) / 4
+      : (3 * last) / 4 + ((u - 0.5) * 2 * last) / 4;
+  return Math.round(at * 4) / 4;
 }
 
 /**
