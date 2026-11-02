@@ -292,7 +292,19 @@ export type SetlistRun = {
   /** A pessoa escolheu continuar depois da 10ª. */
   readonly endless: boolean;
   readonly end: SetlistEnd | null;
+  /** As ajudas já usadas: uma de cada por run, e o sem fim não as devolve (o usuário, 02/11/2026). */
+  readonly helps: SetlistHelps;
+  /** A música da rodada que o Espiar revelou: a tela a marca com o olho. */
+  readonly peeked: string | null;
 };
+
+/**
+ * As duas ajudas do Setlist (o usuário, 02/11/2026): o Espiar revela uma das músicas que tocaram,
+ * sorteada, e o Bis toca a sequência de novo. `true` é a já usada.
+ */
+export type SetlistHelps = { readonly peek: boolean; readonly encore: boolean };
+
+const NO_HELPS: SetlistHelps = { peek: false, encore: false };
 
 export type SetlistEvent =
   | { readonly type: "PLAYED" }
@@ -301,7 +313,11 @@ export type SetlistEvent =
   | { readonly type: "PICK"; readonly id: string }
   | { readonly type: "NEXT"; readonly round: SetlistRound | null }
   | { readonly type: "CONTINUE"; readonly round: SetlistRound | null }
-  | { readonly type: "QUIT" };
+  | { readonly type: "QUIT" }
+  /** O Espiar: a música já sorteada (`setlistPeek`), como um toque certo. */
+  | { readonly type: "PEEK"; readonly id: string }
+  /** O Bis: a sequência começou a tocar de novo. */
+  | { readonly type: "ENCORE" };
 
 /** A run começa na 1ª rodada; sem músicas, já acaba. */
 export function startSetlist(seed: number, pool: readonly string[]): SetlistRun {
@@ -318,6 +334,8 @@ export function startSetlist(seed: number, pool: readonly string[]): SetlistRun 
     plays: {},
     endless: false,
     end: round ? null : "empty",
+    helps: NO_HELPS,
+    peeked: null,
   };
 }
 
@@ -335,7 +353,26 @@ export function nextNumber(run: SetlistRun): number {
 /** Entra na rodada sorteada, se ela for a de número `number`; senão, a run acaba sem músicas. */
 function enter(run: SetlistRun, round: SetlistRound | null, endless: boolean): SetlistRun {
   if (!round) return { ...run, phase: "over", end: "empty", endless };
-  return { ...run, round, phase: "listen", started: false, picks: [], endless };
+  return { ...run, round, phase: "listen", started: false, picks: [], endless, peeked: null };
+}
+
+/**
+ * A música que o Espiar revela, entre as que tocaram e ainda faltam: sorteada fora do reducer (regra
+ * 5 do web), sempre a mesma para a mesma rodada. Null fora da escolha ou com o Espiar já usado.
+ */
+export function setlistPeek(run: SetlistRun): string | null {
+  const round = run.round;
+  if (!round || run.phase !== "pick" || run.helps.peek) return null;
+  const left = round.played.filter((id) => !run.picks.includes(id));
+  if (left.length === 0) return null;
+  const rng = seeded(`setlist|${run.seed}|${round.number}|${round.attempt}|espiar`);
+  return left[Math.floor(rng.random() * left.length)] ?? null;
+}
+
+/** Um acerto na rodada (o toque certo ou o Espiar): a rodada fecha quando não falta nenhuma. */
+function found(run: SetlistRun, id: string, change: Partial<SetlistRun> = {}): SetlistRun {
+  const after = { ...run, ...change, picks: [...run.picks, id], found: run.found + 1 };
+  return leftToFind(after) === 0 ? { ...after, phase: "reveal", cleared: run.cleared + 1 } : after;
 }
 
 /** Aplica um evento à run. O inválido devolve o mesmo objeto (regra 5 do web). */
@@ -361,16 +398,21 @@ export function setlistStep(run: SetlistRun, event: SetlistEvent): SetlistRun {
       // só passa quando ela acha todas (o usuário, 01/11/2026, jogando).
       if (run.phase !== "pick") return run;
       if (!round.options.includes(event.id) || run.picks.includes(event.id)) return run;
-      const right = round.played.includes(event.id);
-      const lives = right ? run.lives : run.lives - 1;
+      if (round.played.includes(event.id)) return found(run, event.id);
+      const lives = run.lives - 1;
       const picks = [...run.picks, event.id];
-      const found = run.found + (right ? 1 : 0);
-      if (lives === 0) return { ...run, picks, lives, found, phase: "reveal", end: "errors" };
-      const after = { ...run, picks, lives, found };
-      return leftToFind(after) === 0
-        ? { ...after, phase: "reveal", cleared: run.cleared + 1 }
-        : after;
+      if (lives === 0) return { ...run, picks, lives, phase: "reveal", end: "errors" };
+      return { ...run, picks, lives };
     }
+    case "PEEK":
+      // A revelada conta como achada, na rodada e no recorde (o usuário, 02/11/2026).
+      if (run.phase !== "pick" || run.helps.peek) return run;
+      if (!round.played.includes(event.id) || run.picks.includes(event.id)) return run;
+      return found(run, event.id, { helps: { ...run.helps, peek: true }, peeked: event.id });
+    case "ENCORE":
+      // As opções continuam valendo enquanto o Bis toca (o usuário, 02/11/2026).
+      if (run.phase !== "pick" || run.helps.encore) return run;
+      return { ...run, helps: { ...run.helps, encore: true } };
     case "NEXT":
       if (run.phase !== "reveal") return run;
       if (run.end) return { ...run, phase: "over" };
@@ -388,12 +430,13 @@ export function setlistStep(run: SetlistRun, event: SetlistEvent): SetlistRun {
 }
 
 /**
- * A setlist completa sem perder vida (o usuário, 02/11/2026): a medalha perfeita. Só na tela da
- * setlist completa, a hora de gravar: depois, no sem fim, as vidas que caírem não a tiram. Quando a
- * ajuda do Setlist existir, a run com ajuda também não conta.
+ * A setlist completa sem perder vida e sem ajuda (o usuário, 02/11/2026): a medalha perfeita. Só na
+ * tela da setlist completa, a hora de gravar: depois, no sem fim, as vidas que caírem não a tiram.
  */
 export function setlistPerfect(run: SetlistRun): boolean {
-  return run.phase === "complete" && run.lives === SETLIST_LIVES;
+  return (
+    run.phase === "complete" && run.lives === SETLIST_LIVES && !run.helps.peek && !run.helps.encore
+  );
 }
 
 /**

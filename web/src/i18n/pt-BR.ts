@@ -440,6 +440,22 @@ export const ptBR = {
   "setlist.replayShort": "Ouvir",
   "setlist.pick.one": "Quais tocaram? Falta {count} música.",
   "setlist.pick.other": "Quais tocaram? Faltam {count} músicas.",
+  // As ajudas (o usuário, 02/11/2026): uma de cada por run. O tooltip diz o que cada uma faz; o
+  // nome vai para o leitor de tela, e o tooltip, como descrição.
+  "setlist.peek": "Espiar",
+  "setlist.peekTip": "Espiar: revela uma das músicas que tocaram. Uma por run.",
+  "setlist.peeked": "Espiou: {title}.",
+  "setlist.peekedLabel": "revelada pela ajuda, tocou em {number}º lugar",
+  "setlist.encore": "Bis",
+  "setlist.encoreLoading": "Bis, carregando…",
+  "setlist.encorePlaying": "Bis, tocando…",
+  "setlist.encoreTip":
+    "Bis: toca a sequência de novo, uma vez. As opções continuam valendo. Uma por run.",
+  "setlist.helpUsedName": "{name}, já usada",
+  "setlist.helpUsed": "Já usada nesta run.",
+  // No dedo, o 1º toque só abre o tooltip, com esta linha embaixo (o usuário, 02/11/2026).
+  "setlist.helpTapAgain": "Toque de novo para usar.",
+  "setlist.encoreFailed": "O Bis não tocou. A ajuda continua com você.",
   "setlist.options": "As opções",
   "setlist.right": "Tocou.",
   "setlist.wrong": "Não tocou. {left}",
@@ -520,7 +536,7 @@ export const ptBR = {
   "medals.how.completo": "Termine uma partida do Superfan",
   "medals.how.oitava": "Chegue à {round}ª rodada do Setlist Royale",
   "medals.how.completa": "Termine as {total} rodadas do Setlist Royale",
-  "medals.how.perfeita": "Termine as {total} rodadas do Setlist sem perder vida",
+  "medals.how.perfeita": "Termine as {total} rodadas do Setlist sem perder vida nem usar ajuda",
   // O "1 s" não quebra no meio (o espaço inseparável).
   "medals.how.perfeito": "Termine perfeito: sem erro, sem ajuda, tudo em 1 s",
   // Só para o leitor de tela: a tela mostra a ganha pelo desenho colorido e pelo "Destacar".

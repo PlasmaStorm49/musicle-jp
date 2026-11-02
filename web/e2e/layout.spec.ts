@@ -1091,6 +1091,67 @@ test("a nav: o selo é a Início (P205), e em 320 px a Início, os Hits, o Anime
   expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
+test("as ajudas do Setlist Royale em 320 px: os dois tooltips, abertos com o mouse, ficam inteiros na tela (o usuário, 02/11/2026)", async ({
+  page,
+}) => {
+  await bigArtist(page);
+  await longestArtistName(page);
+  await page.setViewportSize({ width: 320, height: 640 });
+  await open(page, DAY, "#artistas");
+  await page.getByRole("button", { name: /^新しい学校のリーダーズ/ }).click();
+  await page.getByRole("button", { name: "Setlist Royale" }).click();
+  await page.getByRole("button", { name: "Tocar", exact: true }).click();
+  await expect(page.getByRole("list", { name: "As opções" })).toBeVisible();
+  for (const [name, tip] of [
+    ["Espiar", "#setlist-peek-tip"],
+    ["Bis", "#setlist-encore-tip"],
+  ] as const) {
+    const button = page.getByRole("button", { name, exact: true });
+    // O alvo de 44 px (P213).
+    const target = await button.boundingBox();
+    expect(target?.width).toBeGreaterThanOrEqual(44);
+    expect(target?.height).toBeGreaterThanOrEqual(44);
+    await button.hover();
+    await expect(page.locator(tip)).toBeVisible();
+    const box = await page.locator(tip).boundingBox();
+    expect(box?.x ?? -1).toBeGreaterThanOrEqual(0);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(320);
+    expect(box?.y ?? -1).toBeGreaterThanOrEqual(0);
+  }
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
+});
+
+test.describe("as ajudas do Setlist Royale no dedo (hasTouch)", () => {
+  test.use({ hasTouch: true, viewport: { width: 360, height: 640 } });
+
+  test("o 1º toque abre o tooltip, inteiro na tela, com o tocar de novo, e o 2º usa a ajuda (o usuário, 02/11/2026)", async ({
+    page,
+  }) => {
+    await bigArtist(page);
+    await longestArtistName(page);
+    await open(page, DAY, "#artistas");
+    await page.getByRole("button", { name: /^新しい学校のリーダーズ/ }).tap();
+    await page.getByRole("button", { name: "Setlist Royale" }).tap();
+    await page.getByRole("button", { name: "Tocar", exact: true }).tap();
+    const options = page.getByRole("list", { name: "As opções" });
+    await expect(options).toBeVisible();
+    const peek = page.getByRole("button", { name: "Espiar", exact: true });
+    await peek.tap();
+    const tip = page.locator("#setlist-peek-tip");
+    await expect(tip).toBeVisible();
+    await expect(tip).toContainText("Toque de novo para usar.");
+    const box = await tip.boundingBox();
+    expect(box?.x ?? -1).toBeGreaterThanOrEqual(0);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(360);
+    expect(box?.y ?? -1).toBeGreaterThanOrEqual(0);
+    await expect(options.locator("li.peeked")).toHaveCount(0);
+    await peek.tap();
+    await expect(options.locator("li.peeked")).toHaveCount(1);
+    await expect(page.getByRole("button", { name: "Espiar, já usada" })).toBeVisible();
+    expect((await overflow(page)).vertical).toBeLessThanOrEqual(0);
+  });
+});
+
 test("as Medalhas (M16) em 320 px: as 34 da lista em blocos e as 6 de cada artista no carrossel, com os botões do destaque, sem rolar para o lado (P286, P310, P318)", async ({
   page,
 }) => {

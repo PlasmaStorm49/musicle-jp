@@ -599,8 +599,9 @@ export function setlistMedalId(artistId: string, level: SetlistLevel): string {
 
 /**
  * As 3 do Setlist Royale do artista: `oitava`, por chegar à 8ª rodada, com o progresso; `completa`,
- * por terminar a 10ª; `perfeita`, por terminar a 10ª sem perder vida (o `setlistPerfect`, v17). As
- * duas últimas são grandes. Saem do recorde: quem já terminou a 10ª ganha a grande na hora.
+ * por terminar a 10ª; `perfeita`, por terminar a 10ª sem perder vida nem usar ajuda (o
+ * `setlistPerfect`, v17). As duas últimas são grandes. Saem do recorde: quem já terminou a 10ª
+ * ganha a grande na hora.
  */
 export function setlistMedals(artistId: string): readonly Medal[] {
   const record = (ctx: MedalContext) => ctx.artists[artistId] ?? NO_ARTIST;

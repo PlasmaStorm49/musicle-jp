@@ -249,7 +249,7 @@ export function useArtistStore({
       const best = setlistBest(play.run);
       const moment = play.run.end !== null ? "fim" : "completa";
       const key = `${artistId}|setlist|${play.run.seed}|${moment}`;
-      // A perfeita (v17) vai junto, na setlist completa sem perder vida.
+      // A perfeita (v17) vai junto, na setlist completa sem perder vida nem usar ajuda.
       const perfect = setlistPerfect(play.run);
       const change = (save: Save) => {
         const kept = best ? withSetlistBest(save, artistId, best) : save;

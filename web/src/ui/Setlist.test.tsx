@@ -6,6 +6,7 @@ import {
   type AudioEngine,
   AudioUnavailableError,
   type ChainEngine,
+  type Playback,
   type PlaybackResult,
 } from "../audio/engine.ts";
 import { indexArtist } from "../core/catalog.ts";
@@ -338,5 +339,162 @@ describe("SetlistView: a setlist completa", () => {
     // O artista de 14 músicas: 12 opções e 8 que tocam, como na 10ª.
     expect(state.run.round?.options).toHaveLength(12);
     expect(state.run.round?.played).toHaveLength(8);
+  });
+});
+
+describe("SetlistView: as ajudas, o Espiar e o Bis (o usuário, 02/11/2026)", () => {
+  /** A tela na escolha da 1ª rodada: tocada e ouvida até o fim. */
+  async function picking() {
+    const setlist = setup();
+    fireEvent.click(playButton());
+    await waitFor(() => expect(playButton().textContent).toBe("Tocando…"));
+    setlist.end();
+    await waitFor(() => expect(options()).not.toBeNull());
+    return setlist;
+  }
+  const peekButton = () => screen.getByRole("button", { name: /^Espiar/ });
+  const encoreButton = () => screen.getByRole("button", { name: /^Bis/ });
+  const tip = (id: string) => document.getElementById(`${id}-tip`);
+
+  it("só na escolha, com o contador e o tooltip como descrição; o Esc fecha o tooltip", async () => {
+    const { end } = setup();
+    expect(screen.queryByRole("button", { name: /^Espiar/ })).toBeNull();
+    fireEvent.click(playButton());
+    await waitFor(() => expect(playButton().textContent).toBe("Tocando…"));
+    expect(screen.queryByRole("button", { name: /^Bis/ })).toBeNull();
+    // A escolha: os dois, com 1 cada.
+    end();
+    await waitFor(() => expect(options()).not.toBeNull());
+    expect(peekButton().getAttribute("aria-describedby")).toBe("setlist-peek-tip");
+    expect(tip("setlist-peek")?.textContent).toBe(
+      "Espiar: revela uma das músicas que tocaram. Uma por run.",
+    );
+    expect(tip("setlist-encore")?.getAttribute("role")).toBe("tooltip");
+    expect(peekButton().textContent).toBe("1");
+    expect(encoreButton().textContent).toBe("1");
+    const wrap = peekButton().parentElement;
+    // Os ouvintes do Esc e do mouse saem de um efeito, que o Preact roda depois da pintura: o
+    // foco na 1ª opção, efeito da mesma tela, diz que eles já estão lá.
+    await waitFor(() =>
+      expect(document.activeElement?.classList.contains("setlist-option")).toBe(true),
+    );
+    // O Esc fecha só o tooltip à vista (o do foco): o do Bis fica como está.
+    peekButton().focus();
+    fireEvent.keyDown(peekButton(), { key: "Escape" });
+    await waitFor(() => expect(wrap?.className).toBe("help-wrap tip-closed"));
+    expect(encoreButton().parentElement?.className).toBe("help-wrap");
+    fireEvent.mouseLeave(wrap as HTMLElement);
+    await waitFor(() => expect(wrap?.className).toBe("help-wrap"));
+  });
+
+  it("o Espiar revela uma das que tocaram, com o olho, conta como achada e fica gasto", async () => {
+    const { state, announce } = await picking();
+    fireEvent.click(peekButton());
+    const id = state.run.peeked ?? "";
+    expect(state.run.round?.played).toContain(id);
+    expect(state.run.helps.peek).toBe(true);
+    expect(announce).toHaveBeenLastCalledWith(`Espiou: ${INDEX.tracks.get(id)?.title}.`);
+    await waitFor(() => expect(optionFor(id).closest("li")?.className).toBe("peeked"));
+    expect(optionFor(id).querySelector(".icon-eye")).not.toBeNull();
+    expect(screen.getByText("Quais tocaram? Falta 1 música.")).toBeTruthy();
+    expect(peekButton().getAttribute("aria-label")).toBe("Espiar, já usada");
+    expect(peekButton().getAttribute("aria-disabled")).toBe("true");
+    expect(peekButton().textContent).toBe("0");
+    expect(tip("setlist-peek")?.textContent).toBe("Já usada nesta run.");
+    // A outra fecha a rodada; a revelação mantém o olho, com a ordem em que ela tocou.
+    const other = state.run.round?.played.find((p) => p !== id) ?? "";
+    fireEvent.click(optionFor(other));
+    await waitFor(() => expect(screen.getByText("Achou 2 de 2.")).toBeTruthy());
+    expect(optionFor(id).closest("li")?.className).toBe("peeked");
+    expect(optionFor(id).textContent).toMatch(/ª/);
+  });
+
+  it("o Bis toca a mesma sequência, gasta quando o som começa, e as opções continuam valendo", async () => {
+    const { state, playChain, end, announce } = await picking();
+    fireEvent.click(encoreButton());
+    await waitFor(() => expect(encoreButton().getAttribute("aria-label")).toBe("Bis, tocando…"));
+    expect(playChain).toHaveBeenCalledTimes(2);
+    expect(playChain.mock.calls[1]?.[0]).toEqual(playChain.mock.calls[0]?.[0]);
+    expect(state.run.helps.encore).toBe(true);
+    expect(encoreButton().textContent).toBe("0");
+    // Tocando, o toque vale na hora.
+    fireEvent.click(optionFor(state.run.round?.played[0] ?? ""));
+    expect(announce).toHaveBeenLastCalledWith("Tocou.");
+    end();
+    await waitFor(() => expect(encoreButton().getAttribute("aria-label")).toBe("Bis, já usada"));
+    fireEvent.click(encoreButton());
+    expect(playChain).toHaveBeenCalledTimes(2);
+  });
+
+  it("a falha antes do som devolve o Bis, com o aviso", async () => {
+    const { state, playChain, fail, announce } = await picking();
+    fail("network");
+    fireEvent.click(encoreButton());
+    await waitFor(() => expect(playChain).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(encoreButton().getAttribute("aria-label")).toBe("Bis"));
+    expect(announce).toHaveBeenLastCalledWith("O Bis não tocou. A ajuda continua com você.");
+    expect(state.run.helps.encore).toBe(false);
+    expect(encoreButton().getAttribute("aria-disabled")).toBeNull();
+    expect(encoreButton().textContent).toBe("1");
+  });
+
+  it("a rodada que fecha com o Bis tocando para o som; a que fecha com ele carregando não o gasta", async () => {
+    // Tocando: a última que faltava fecha a rodada, e o motor para.
+    const playing = await picking();
+    fireEvent.click(encoreButton());
+    await waitFor(() => expect(encoreButton().getAttribute("aria-label")).toBe("Bis, tocando…"));
+    const stops = vi.mocked(playing.engine.stop).mock.calls.length;
+    for (const id of playing.state.run.round?.played ?? []) fireEvent.click(optionFor(id));
+    await waitFor(() => expect(screen.getByText("Achou 2 de 2.")).toBeTruthy());
+    expect(vi.mocked(playing.engine.stop).mock.calls.length).toBeGreaterThan(stops);
+    cleanup();
+    // Carregando: o som que chegaria depois do fim da rodada não gasta a ajuda.
+    const loading = await picking();
+    let start: (playback: Playback) => void = () => {};
+    loading.playChain.mockImplementationOnce(
+      () =>
+        new Promise<Playback>((resolve) => {
+          start = resolve;
+        }),
+    );
+    fireEvent.click(encoreButton());
+    await waitFor(() => expect(encoreButton().getAttribute("aria-label")).toBe("Bis, carregando…"));
+    for (const id of loading.state.run.round?.played ?? []) fireEvent.click(optionFor(id));
+    await waitFor(() => expect(screen.getByText("Achou 2 de 2.")).toBeTruthy());
+    await act(() =>
+      start({ t0: 0, seconds: 1, elapsed: () => 0, done: new Promise<PlaybackResult>(() => {}) }),
+    );
+    expect(loading.state.run.helps.encore).toBe(false);
+  });
+
+  it("no dedo, o 1º toque abre o tooltip com o tocar de novo, e o 2º usa; o mouse usa de uma vez (o usuário, 02/11/2026)", async () => {
+    const { state, playChain } = await picking();
+    // Os ouvintes de fora saem de um efeito: o foco na 1ª opção diz que eles já estão lá.
+    await waitFor(() =>
+      expect(document.activeElement?.classList.contains("setlist-option")).toBe(true),
+    );
+    const tap = (el: HTMLElement) => {
+      fireEvent.pointerDown(el, { pointerType: "touch" });
+      fireEvent.click(el, { detail: 1 });
+    };
+    tap(peekButton());
+    await waitFor(() => expect(peekButton().parentElement?.className).toBe("help-wrap armed"));
+    expect(state.run.helps.peek).toBe(false);
+    expect(tip("setlist-peek")?.textContent).toContain("Toque de novo para usar.");
+    // O toque fora fecha o tooltip, e o seguinte abre de novo.
+    fireEvent.pointerDown(document.body, { pointerType: "touch" });
+    await waitFor(() => expect(peekButton().parentElement?.className).toBe("help-wrap"));
+    tap(peekButton());
+    await waitFor(() => expect(peekButton().parentElement?.className).toBe("help-wrap armed"));
+    tap(peekButton());
+    await waitFor(() => expect(state.run.helps.peek).toBe(true));
+    expect(peekButton().parentElement?.className).toBe("help-wrap");
+    // A gasta, no dedo, só mostra que já foi usada.
+    tap(peekButton());
+    await waitFor(() => expect(tip("setlist-peek")?.textContent).toBe("Já usada nesta run."));
+    // O mouse toca o Bis de uma vez.
+    fireEvent.pointerDown(encoreButton(), { pointerType: "mouse" });
+    fireEvent.click(encoreButton(), { detail: 1 });
+    await waitFor(() => expect(playChain).toHaveBeenCalledTimes(2));
   });
 });

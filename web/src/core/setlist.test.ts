@@ -23,6 +23,7 @@ import {
   type SetlistRun,
   setlistBest,
   setlistOffset,
+  setlistPeek,
   setlistPerfect,
   setlistPool,
   setlistStep,
@@ -396,5 +397,81 @@ describe("a revisão do Setlist Royale (01/11/2026)", () => {
     const empty = setlistStep(run, { type: "NEXT", round: null });
     expect(empty).toMatchObject({ phase: "over", end: "empty" });
     expect(setlistBest(empty)).toEqual({ rounds: 1, found: 2 });
+  });
+});
+
+describe("as ajudas: o Espiar e o Bis, uma de cada por run (o usuário, 02/11/2026)", () => {
+  /** A run na escolha da rodada atual: ouvida, sem toque. */
+  const picking = (run: SetlistRun) =>
+    setlistStep(setlistStep(run, { type: "PLAYED" }), { type: "HEARD" });
+
+  it("o Espiar revela uma das que faltam, sempre a mesma, e conta como achada", () => {
+    const run = picking(startSetlist(5, bigPool));
+    expect(run.helps).toEqual({ peek: false, encore: false });
+    const id = setlistPeek(run);
+    expect(run.round?.played).toContain(id);
+    expect(setlistPeek(run)).toBe(id);
+    const peeked = setlistStep(run, { type: "PEEK", id: id ?? "" });
+    expect(peeked).toMatchObject({ found: 1, peeked: id, helps: { peek: true, encore: false } });
+    expect(peeked.picks).toEqual([id]);
+    expect(leftToFind(peeked)).toBe(1);
+    // Uma por run: nem outra vez nem outro sorteio.
+    expect(setlistPeek(peeked)).toBeNull();
+    const other = run.round?.played.find((p) => p !== id) ?? "";
+    expect(setlistStep(peeked, { type: "PEEK", id: other })).toBe(peeked);
+  });
+
+  it("o Espiar só vale na escolha, com uma das que tocaram e ainda faltam", () => {
+    const listen = startSetlist(5, bigPool);
+    const played = listen.round?.played[0] ?? "";
+    expect(setlistPeek(listen)).toBeNull();
+    expect(setlistStep(listen, { type: "PEEK", id: played })).toBe(listen);
+    const run = picking(listen);
+    const wrong = run.round?.options.find((o) => !run.round?.played.includes(o)) ?? "";
+    expect(setlistStep(run, { type: "PEEK", id: wrong })).toBe(run);
+    const picked = setlistStep(run, { type: "PICK", id: played });
+    expect(setlistStep(picked, { type: "PEEK", id: played })).toBe(picked);
+    // A que falta é a outra.
+    expect(setlistPeek(picked)).toBe(run.round?.played[1]);
+  });
+
+  it("o Espiar na última que faltava fecha a rodada, como o toque certo", () => {
+    let run = picking(startSetlist(5, bigPool));
+    const [first] = run.round?.played ?? [];
+    run = setlistStep(run, { type: "PICK", id: first ?? "" });
+    run = setlistStep(run, { type: "PEEK", id: setlistPeek(run) ?? "" });
+    expect(run).toMatchObject({ phase: "reveal", cleared: 1, found: 2, lives: SETLIST_LIVES });
+    // A rodada seguinte não traz a revelada, mas a ajuda continua gasta.
+    run = advance(run, bigPool);
+    expect(run).toMatchObject({ peeked: null, helps: { peek: true, encore: false } });
+  });
+
+  it("o Bis vale uma vez, só na escolha, e não mexe nos toques", () => {
+    const listen = startSetlist(5, bigPool);
+    expect(setlistStep(listen, { type: "ENCORE" })).toBe(listen);
+    const run = picking(listen);
+    const encore = setlistStep(run, { type: "ENCORE" });
+    expect(encore).toMatchObject({ helps: { peek: false, encore: true }, picks: [], found: 0 });
+    expect(setlistStep(encore, { type: "ENCORE" })).toBe(encore);
+    // As opções continuam valendo enquanto ele toca.
+    const id = run.round?.played[0] ?? "";
+    expect(setlistStep(encore, { type: "PICK", id })).toMatchObject({ found: 1 });
+  });
+
+  it("as ajudas não voltam no sem fim, e qualquer uma tira a perfeita", () => {
+    let run = startSetlist(5, bigPool);
+    for (let n = 1; n <= SETLIST_FINAL; n += 1) {
+      run = clearRound(run);
+      if (n < SETLIST_FINAL) run = advance(run, bigPool);
+    }
+    run = setlistStep(run, { type: "NEXT", round: null });
+    expect(setlistPerfect(run)).toBe(true);
+    expect(setlistPerfect({ ...run, helps: { peek: true, encore: false } })).toBe(false);
+    expect(setlistPerfect({ ...run, helps: { peek: false, encore: true } })).toBe(false);
+    const used = { ...run, helps: { peek: true, encore: true } };
+    const endless = picking(advance(used, bigPool));
+    expect(endless).toMatchObject({ endless: true, helps: { peek: true, encore: true } });
+    expect(setlistPeek(endless)).toBeNull();
+    expect(setlistStep(endless, { type: "ENCORE" })).toBe(endless);
   });
 });
