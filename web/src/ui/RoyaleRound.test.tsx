@@ -251,7 +251,7 @@ describe("a rodada do Anime Royale (o usuário, 01/11/2026)", () => {
   it("o pop-up leva o foco ao Marcar e, ao fechar, devolve à capa; o 2º clique de um toque duplo não abre outra", async () => {
     const { engine } = royaleEngine();
     render(<Harness engine={engine} />);
-    const cover = screen.getByRole("button", { name: "Anime 6, 1ª abertura" });
+    const cover = screen.getByRole("button", { name: "Anime 6, Opening 1" });
     await act(async () => {
       fireEvent.click(cover, { detail: 2 });
     });
@@ -277,19 +277,17 @@ describe("a rodada do Anime Royale (o usuário, 01/11/2026)", () => {
     expect(screen.getByText("Toque numa capa para ver o anime e o tema, e marcar.")).toBeTruthy();
     // Uma capa certa: o pop-up mostra o anime e o tema, sem a música nem o artista.
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Anime 2, 1º encerramento" }));
+      fireEvent.click(screen.getByRole("button", { name: "Anime 2, Ending 1" }));
     });
     const dialog = document.querySelector("dialog.royale-dialog");
     expect(dialog?.querySelector("h2")?.textContent).toBe("Anime 2");
-    expect(dialog?.textContent).toContain("1º encerramento");
+    expect(dialog?.textContent).toContain("Ending 1");
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: "Marcar" }));
     });
     expect(document.querySelector("dialog.royale-dialog")).toBeNull();
     expect(said.at(-1)).toBe("Tocou! Faltam 4.");
-    expect(
-      screen.getByRole("button", { name: "Anime 2, 1º encerramento (marcada, tocou)" }),
-    ).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Anime 2, Ending 1 (marcada, tocou)" })).toBeTruthy();
     // A marcada abre o pop-up de novo, sem o Marcar.
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: /^Anime 2,/ }));
@@ -300,7 +298,7 @@ describe("a rodada do Anime Royale (o usuário, 01/11/2026)", () => {
     });
     // Uma errada: a dificuldade acaba.
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Anime 7, 1ª abertura" }));
+      fireEvent.click(screen.getByRole("button", { name: "Anime 7, Opening 1" }));
     });
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: "Marcar" }));

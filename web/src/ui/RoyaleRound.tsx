@@ -27,11 +27,13 @@ import { Icon } from "./Icon.tsx";
 import { VolumeControl } from "./Player.tsx";
 import { singleClick } from "./singleClick.ts";
 
-/** "2ª abertura" ou, sem número, "Abertura". */
+/**
+ * "Opening 2" ou, sem número, "Opening": os nomes em inglês, como no quiz (o usuário,
+ * 02/11/2026).
+ */
 export function themeText(option: Pick<RoyaleOption, "type" | "sequence">): string {
-  return option.sequence === null
-    ? t(`quiz.theme.${option.type}`)
-    : t(`royale.ordinal.${option.type}`, { number: option.sequence });
+  const kind = t(`quiz.theme.${option.type}`);
+  return option.sequence === null ? kind : t("quiz.themeNumber", { kind, number: option.sequence });
 }
 
 /**

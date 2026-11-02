@@ -124,7 +124,7 @@ test("Quiz do dia: as duas prévias em sequência, as vidas, a retomada, o fim p
   // O bônus de estreia (o usuário, 25/10/2026): 08/10 é o 1º dia da agenda fictícia, e o botão
   // aparece no fim da run. As 3 rodadas têm cada uma a sua pergunta e não contam no resultado.
   await page.getByRole("button", { name: "Rodadas bônus de estreia" }).click();
-  const questions = ["Qual é a mais recente?", "Qual é o encerramento?", /MyAnimeList\?$/];
+  const questions = ["Qual é a mais recente?", "Qual é o ending?", /MyAnimeList\?$/];
   for (const [n, round] of bonus.rounds.entries()) {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       `Bônus de estreia · ${n + 1} de 3`,

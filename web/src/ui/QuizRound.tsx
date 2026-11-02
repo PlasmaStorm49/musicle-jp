@@ -405,7 +405,7 @@ function formatNumber(value: number): string {
   return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 }).format(value);
 }
 
-/** "OP2" → "Abertura 2"; "ED" → "Encerramento"; "IN" → "Música de inserção". */
+/** "OP2" → "Opening 2"; "ED" → "Ending"; "IN" → "Insert Song". */
 function themeLabel(label: string): string {
   const match = /^(OP|ED|IN)(\d*)$/.exec(label);
   if (!match) return label;
