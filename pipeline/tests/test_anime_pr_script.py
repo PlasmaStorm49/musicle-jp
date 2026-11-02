@@ -1,5 +1,6 @@
 """Testes da conferência do Anime na tarefa catalog-pr (`.github/scripts/check-anime-pr.sh`) e
-do passo que junta os Hits e o Anime no mesmo PR (`catalog-pr.sh`), M14, PR B.
+do passo que junta os Hits e o Anime no mesmo PR (`catalog-pr.sh`), M14, PR B; e, depois, as
+Misturadas (M17), o quiz do dia (M18), o Anime Royale e as capas dos animes.
 
 Os dois rodam com o token de escrita por perto e só usam jq e coreutils. As agendas do Anime
 destes testes são montadas em relação ao "hoje" deles (o dos testes dos Hits), sem copiar a
@@ -43,6 +44,9 @@ ANIME = {
     "ANIME_FIXTURE_MIXED": "web/public/fixtures/anime/mixed.json",
     "ANIME_QUIZ": "web/public/data/anime/quiz",
     "ANIME_FIXTURE_QUIZ": "web/public/fixtures/anime/quiz",
+    "ANIME_ROYALE": "web/public/data/anime/royale.json",
+    "ANIME_FIXTURE_ROYALE": "web/public/fixtures/anime/royale.json",
+    "ANIME_COVERS": "pipeline/data/apple/anime/covers.json",
 }
 CATALOG = ANIME["ANIME_CATALOG"]
 SCHEDULE = ANIME["ANIME_SCHEDULE"]
@@ -1431,3 +1435,314 @@ def test_the_quiz_months_land_in_the_tree(tmp_path):
     assert changed_list(temp) == list(changes)
     for path, data in changes.items():
         assert read_json(repo / path) == data
+
+
+# --- o Anime Royale ------------------------------------------------------------------------------
+
+ROYALE = ANIME["ANIME_ROYALE"]
+FIXTURE_ROYALE = ANIME["ANIME_FIXTURE_ROYALE"]
+
+
+def royale_day(catalog: JSON, number: int) -> JSON:
+    """Um dia do Royale: em cada dificuldade, 5 que tocam entre 9 opções do catálogo."""
+    ids = [t["id"] for t in catalog["tracks"][:9]]
+    rnd = {"played": ids[:5], "options": ids}
+    return {
+        "number": number,
+        "catalogVersion": catalog["catalogVersion"],
+        **{tier: copy.deepcopy(rnd) for tier in TIERS},
+    }
+
+
+def royale_schedule(catalog: JSON, last: int, count: int = 7) -> JSON:
+    """Uma agenda do Royale com `count` dias até hoje + `last`."""
+    first = T + timedelta(days=last - count + 1)
+    return {
+        "schemaVersion": 1,
+        "kind": "anime-royale",
+        "timezone": "America/Sao_Paulo",
+        "epoch": first.isoformat(),
+        "days": {
+            (first + timedelta(days=i)).isoformat(): royale_day(catalog, i + 1)
+            for i in range(count)
+        },
+    }
+
+
+def grown_royale(base: JSON, catalog: JSON, days: list[str]) -> JSON:
+    new = copy.deepcopy(base)
+    count = len(new["days"])
+    for i, d in enumerate(days):
+        new["days"][d] = royale_day(catalog, count + i + 1)
+    return new
+
+
+def main_with_royale(
+    ahead: int = 14, mixed_ahead: int = 14, quiz_ahead: int = 14, royale_ahead: int = 6
+) -> dict[str, JSON]:
+    """A main com as Misturadas, o quiz e o Royale: o do Royale mais curto, como na estreia dele."""
+    main = main_with_quiz(ahead, mixed_ahead, quiz_ahead)
+    main[ROYALE] = royale_schedule(base_catalog(), royale_ahead, count=royale_ahead + 7)
+    main[FIXTURE_ROYALE] = royale_schedule(fixture_catalog(), 10)
+    return main
+
+
+def royale_change(main: dict[str, JSON], until: int = 28) -> dict[str, JSON]:
+    """Uma semana de geração com o Royale: ele cresce até o fim das outras três."""
+    changes = quiz_change(main, until)
+    changes[ROYALE] = grown_royale(main[ROYALE], new_catalog(), new_days(main[ROYALE], until))
+    changes[FIXTURE_ROYALE] = grown_royale(
+        main[FIXTURE_ROYALE], fixture_catalog(), new_days(main[FIXTURE_ROYALE], until)
+    )
+    return changes
+
+
+def only_royale(main: dict[str, JSON], until: int) -> dict[str, JSON]:
+    """Só o Royale cresce, com o acervo de antes (as outras agendas longe)."""
+    return {ROYALE: grown_royale(main[ROYALE], base_catalog(), new_days(main[ROYALE], until))}
+
+
+def test_the_royale_grows_with_the_other_anime_schedules(tmp_path):
+    main = main_with_royale()
+    done, repo, temp = run(tmp_path, royale_change(main), main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    text = section(temp)
+    assert (
+        f"- **Agenda do Anime Royale:** 22 dia(s) novo(s), de {iso(7)} a {iso(28)}"
+        f" (a da main vai até {iso(6)})" in text
+    )
+    assert "- **Agenda fictícia do Anime Royale (só desenvolvimento):** 18 dia(s) novo(s)" in text
+    # Só confere: a agenda da main continua como estava.
+    assert read_json(repo / ROYALE) == main[ROYALE]
+
+
+def test_only_the_royale_when_the_others_are_far(tmp_path):
+    # A estreia do Royale: as outras três com 25 dias à frente, a dele com 6. O robô gera, e só o
+    # Royale cresce, até o fim delas, com o acervo de antes.
+    main = main_with_royale(ahead=25, mixed_ahead=25, quiz_ahead=25, royale_ahead=6)
+    done, _, temp = run(tmp_path, only_royale(main, 25), main=main, fetch="failure")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert f"- **Agenda do Anime Royale:** 19 dia(s) novo(s), de {iso(7)} a {iso(25)}" in section(
+        temp
+    )
+    assert f"title=chore: Anime de {TODAY} (agenda até {iso(25)})" in read(temp / "github-output")
+
+
+def test_rejects_when_the_four_schedules_had_21_days(tmp_path):
+    main = main_with_royale(ahead=25, mixed_ahead=25, quiz_ahead=25, royale_ahead=21)
+    message = (
+        "já tem 25 dia(s) à frente, e a das Misturadas, 25, e a do quiz do dia, 25,"
+        " e a do Anime Royale, 21"
+    )
+    rejects(tmp_path, only_royale(main, 25), message, main=main)
+
+
+@pytest.mark.parametrize(
+    ("mixed_ahead", "quiz_ahead", "until", "message"),
+    [
+        (25, 25, 26, "passa do fim da agenda do Anime (" + iso(25)),
+        (20, 25, 22, "passa do fim da agenda das Misturadas (" + iso(20)),  # elas não cresceram
+        (25, 20, 22, "passa do fim da agenda do quiz do dia (" + iso(20)),  # ele não cresceu
+    ],
+)
+def test_rejects_royale_days_beyond_the_schedules_it_reads(
+    tmp_path, mixed_ahead, quiz_ahead, until, message
+):
+    main = main_with_royale(ahead=25, mixed_ahead=mixed_ahead, quiz_ahead=quiz_ahead)
+    rejects(tmp_path, only_royale(main, until), message, main=main, fetch="failure")
+
+
+def test_the_royale_stops_at_the_quiz_that_grew_with_it(tmp_path):
+    # O fim do quiz é o dos meses que vieram no artefato, e não o da main.
+    main = main_with_royale(ahead=14, mixed_ahead=14, quiz_ahead=10, royale_ahead=6)
+    changes = royale_change(main, 28)
+    done, _, temp = run(tmp_path, changes, main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert f"- **Agenda do Anime Royale:** 22 dia(s) novo(s), de {iso(7)} a {iso(28)}" in section(
+        temp
+    )
+
+
+def test_the_royale_without_the_quiz_stops_at_the_anime_and_the_mixed(tmp_path):
+    # Sem a agenda real do quiz na main, o Royale não a lê (o gerador avisa), e o fim é o das outras.
+    main = main_with_royale(ahead=25, mixed_ahead=25, royale_ahead=6)
+    for path in months_of(main, QUIZ):
+        del main[path]
+    done, _, temp = run(tmp_path, only_royale(main, 25), main=main, fetch="failure")
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "- **Agenda do Anime Royale:** 19 dia(s) novo(s)" in section(temp)
+
+
+def test_rejects_a_royale_that_the_main_does_not_have(tmp_path):
+    # A agenda real do Royale nasce com a tela, nunca pelo robô.
+    main = main_with_royale()
+    changes = royale_change(main)
+    del main[ROYALE]
+    rejects(tmp_path, changes, "a main não tem a agenda do Anime Royale", main=main)
+
+
+def test_rejects_a_royale_without_the_mixed_schedule(tmp_path):
+    main = main_with_royale()
+    changes = royale_change(main)
+    del main[MIXED]
+    del changes[MIXED]
+    for path in months_of(changes, QUIZ):
+        del changes[path]
+    rejects(tmp_path, changes, "o Anime Royale lê a agenda das Misturadas", main=main)
+
+
+@pytest.mark.parametrize("field", ["played", "options"])
+def test_rejects_a_royale_answer_outside_the_catalog(tmp_path, field):
+    main = main_with_royale()
+    changes = royale_change(main)
+    changes[ROYALE]["days"][iso(20)]["medio"][field][2] = "apple:tr:1"
+    rejects(tmp_path, changes, "cita faixa fora do catálogo", main=main)
+
+
+def test_rejects_a_royale_day_without_a_difficulty(tmp_path):
+    main = main_with_royale()
+    changes = royale_change(main)
+    del changes[ROYALE]["days"][iso(20)]["dificil"]
+    rejects(tmp_path, changes, "cita faixa fora do catálogo", main=main)
+
+
+def test_rejects_royale_days_with_another_catalog_version(tmp_path):
+    main = main_with_royale()
+    changes = royale_change(main)
+    changes[ROYALE]["days"][iso(20)]["catalogVersion"] = "2026-01-01.00000000"
+    rejects(tmp_path, changes, "cita faixa fora do catálogo", main=main)
+
+
+@pytest.mark.parametrize("what", ["old day", "epoch", "kind"])
+def test_rejects_a_royale_that_breaks_its_header_or_an_old_day(tmp_path, what):
+    main = main_with_royale()
+    changes = royale_change(main)
+    if what == "old day":
+        changes[ROYALE]["days"][min(changes[ROYALE]["days"])]["number"] = 999
+    elif what == "epoch":
+        changes[ROYALE]["epoch"] = iso(-100)
+    else:
+        # O mesmo cabeçalho na main e no artefato, mas o tipo de outra agenda.
+        main[ROYALE]["kind"] = "anime"
+        changes[ROYALE]["kind"] = "anime"
+    rejects(tmp_path, changes, "altera o que já existe", main=main)
+
+
+def test_rejects_a_gap_between_new_royale_days(tmp_path):
+    main = main_with_royale()
+    changes = royale_change(main)
+    del changes[ROYALE]["days"][iso(15)]
+    rejects(tmp_path, changes, "há buraco entre os dias novos", main=main)
+
+
+def test_the_royale_lands_in_the_tree(tmp_path):
+    main = main_with_royale()
+    changes = royale_change(main)
+    done, repo, temp = run_pr(tmp_path, None, changes, main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "**Agenda do Anime Royale:**" in read(temp / "pr-body.md")
+    assert changed_list(temp) == list(changes)
+    for path, data in changes.items():
+        assert read_json(repo / path) == data
+
+
+# --- as capas dos animes (o Anime Royale) --------------------------------------------------------
+
+COVERS = ANIME["ANIME_COVERS"]
+
+
+def covers(count: int) -> JSON:
+    """O covers.json com as capas dos animes 1 a `count` (a chave é o id do MAL)."""
+    return {
+        "covers": {
+            str(i): {
+                "large": f"anime/large-cover/L{i}.jpg",
+                "small": f"anime/small-cover/S{i}.avif",
+            }
+            for i in range(1, count + 1)
+        },
+        "provider": "apple",
+    }
+
+
+def with_covers(count: int = 2) -> dict[str, JSON]:
+    main = main_files()
+    main[COVERS] = covers(count)
+    return main
+
+
+def test_new_covers_come_with_the_search(tmp_path):
+    main = with_covers(2)
+    changes = full_change(main)
+    changes[COVERS] = covers(3)
+    done, _, temp = run(tmp_path, changes, main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "- **Capas dos animes (o Anime Royale):** 1 nova(s), 3 no total." in section(temp)
+
+
+def test_the_first_covers_file_comes_with_the_search(tmp_path):
+    # Sem o covers.json na main, a base é vazia.
+    changes = full_change()
+    changes[COVERS] = covers(2)
+    done, _, temp = run(tmp_path, changes)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert "- **Capas dos animes (o Anime Royale):** 2 nova(s), 2 no total." in section(temp)
+
+
+def test_rejects_covers_without_a_search(tmp_path):
+    # Sem a busca nova, o catálogo não muda, e uma capa nova o deixaria fora do "em dia".
+    main = with_covers(2)
+    changes = schedules_only(main)
+    changes[COVERS] = covers(3)
+    rejects(
+        tmp_path, changes, "as capas dos animes mudaram sem busca nova", main=main, fetch="failure"
+    )
+
+
+def _cover(i: int) -> dict[str, str]:
+    return {"large": f"anime/large-cover/L{i}.jpg", "small": f"anime/small-cover/S{i}.avif"}
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        lambda c: c["covers"]["1"].update(large="anime/large-cover/Outra.jpg"),  # muda a da main
+        lambda c: c["covers"].pop("1"),  # some uma da main
+        lambda c: c["covers"].pop("3"),  # igual à da main: não cresce
+        lambda c: c["covers"].update({"03": _cover(3)}),  # a chave não é o id do MAL
+        lambda c: c["covers"].update({"0": _cover(3)}),
+        lambda c: c["covers"].update({"abc": _cover(3)}),
+        lambda c: c["covers"]["3"].update(large="https://evil.test/a.png"),
+        lambda c: c["covers"]["3"].update(small="anime/small-cover/../../a.avif"),
+        lambda c: c["covers"]["3"].update(small="anime/large-cover/a.avif"),  # o tamanho trocado
+        lambda c: c["covers"]["3"].update(large="anime/large-cover/a.svg"),
+        lambda c: c["covers"]["3"].update(large="anime/large-cover/a.png\n"),
+        lambda c: c["covers"]["3"].update(extra="anime/large-cover/a.png"),
+        lambda c: c["covers"]["3"].pop("large"),
+        lambda c: c["covers"].update({"4": "anime/large-cover/a.png"}),
+        lambda c: c.update(provider="fixture"),
+        lambda c: c.update(notas="x"),
+    ],
+)
+def test_rejects_covers_out_of_shape(tmp_path, change):
+    main = with_covers(2)
+    changes = full_change(main)
+    changes[COVERS] = covers(3)
+    change(changes[COVERS])
+    rejects(tmp_path, changes, "as capas novas dos animes saem do padrão", main=main)
+
+
+def test_rejects_covers_over_the_size_cap(tmp_path):
+    main = with_covers(2)
+    changes = full_change(main)
+    changes[COVERS] = {**covers(3), "padding": "x" * (1024 * 1024)}
+    rejects(tmp_path, changes, "as capas dos animes passam de 1048576 bytes", main=main)
+
+
+def test_the_covers_land_in_the_tree(tmp_path):
+    main = with_covers(2)
+    changes = full_change(main)
+    changes[COVERS] = covers(3)
+    done, repo, _ = run_pr(tmp_path, None, changes, main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert read_json(repo / COVERS) == covers(3)

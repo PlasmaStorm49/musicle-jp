@@ -2,12 +2,13 @@
 # Tarefa anime-generate do update-catalog.yml, quando a busca nova do Anime quebrou o acervo ou a
 # agenda (build-anime, schedule-anime ou validate-anime): o robô não pode travar a agenda do Anime.
 # Volta o catálogo e as agendas reais do Anime e das Misturadas ao da main, tira o snapshot da
-# busca de agora (só ele, e só se não estiver na main) e gera só os dias novos das duas agendas,
-# com o acervo de antes (a das Misturadas depois da do Anime: cada dia lê o do Anime, P332). O
-# molde do catalog-reserve.sh. Sem token. Testado em pipeline/tests/test_catalog_generate_scripts.py.
+# busca de agora (só ele, e só se não estiver na main) e as capas que ela pediu, e gera só os dias
+# novos das duas agendas, com o acervo de antes (a das Misturadas depois da do Anime: cada dia lê o
+# do Anime, P332). O molde do catalog-reserve.sh. Sem token. Testado em
+# pipeline/tests/test_catalog_generate_scripts.py.
 #
 # Entrada (ambiente): TODAY, NOW (o nome do snapshot), ANIME_DAYS, ANIME_SNAPSHOTS, ANIME_CATALOG,
-# ANIME_SCHEDULE, ANIME_MIXED (relativos à raiz, que é a pasta atual), RUNNER_TEMP e
+# ANIME_SCHEDULE, ANIME_MIXED, ANIME_COVERS (relativos à raiz, que é a pasta atual), RUNNER_TEMP e
 # GITHUB_OUTPUT; PYTHON (opcional, padrão python: os testes trocam).
 # Saída: dropped=true no GITHUB_OUTPUT quando o snapshot de agora saiu, e o log da agenda nova em
 # $RUNNER_TEMP/anime.log (os avisos da tentativa que quebrou não valem mais).
@@ -25,6 +26,13 @@ if [ -f "$snapshot" ] && ! git ls-files --error-unmatch -- "$snapshot" > /dev/nu
   echo "::warning::a busca do Anime de hoje quebrou o acervo ou a agenda (veja o passo anterior); o PR traz só a agenda do Anime"
 else
   echo "::warning::o Anime quebrou sem busca nova (veja o passo anterior; erro no código?); o PR traz só a agenda do Anime"
+fi
+# As capas saem com a busca: o catálogo da main é o das capas da main (o build-anime põe as do
+# covers.json em cada tema, e o teste "em dia" do catálogo do Anime lê os dois juntos).
+if git ls-files --error-unmatch -- "$ANIME_COVERS" > /dev/null 2>&1; then
+  git checkout -- "$ANIME_COVERS"
+else
+  rm -f -- "$ANIME_COVERS"
 fi
 : > "$RUNNER_TEMP/anime.log"
 "$python" -m musicle_pipeline schedule-anime --provider apple --today "$TODAY" --days "$ANIME_DAYS" 2>&1 \
