@@ -35,6 +35,17 @@ export function themeText(option: Pick<RoyaleOption, "type" | "sequence">): stri
 }
 
 /**
+ * A capa como fundo, pelo caminho já conferido do `coverUrl`: o desfoque da vitrine (o usuário,
+ * 02/11/2026) e a pequena por baixo da grande no pop-up.
+ */
+function coverBackground(url: string | null, resolveUrl: (url: string) => string) {
+  return url ? { backgroundImage: `url("${resolveUrl(url)}")` } : undefined;
+}
+
+/** O nome com mais letras que isto desce um tamanho no pop-up (o "Otome Game no Hametsu…" tem 79). */
+const LONG_NAME = 40;
+
+/**
  * A capa de uma opção, a pequena ou a grande; sem o caminho conferido, ou se ela não abrir, um
  * cartão com o nome do anime (o usuário, 01/11/2026). O nome vai no rótulo de quem a usa.
  */
@@ -331,6 +342,7 @@ function RoyaleBoard({ daily, state, dispatch, index, resolveUrl, announce }: Pr
         {options.map((option) => {
           const mark = markOf(state, option.id);
           const label = `${option.anime}, ${themeText(option)}`;
+          const background = coverBackground(coverUrl(provider, option.cover, "small"), resolveUrl);
           return (
             <li key={option.id}>
               <button
@@ -346,12 +358,17 @@ function RoyaleBoard({ daily, state, dispatch, index, resolveUrl, announce }: Pr
                 // O 2º clique do toque duplo cai na capa do lado (regra 23).
                 onClick={singleClick(() => setOpen(option))}
               >
-                <CoverArt
-                  option={option}
-                  size="small"
-                  provider={provider}
-                  resolveUrl={resolveUrl}
-                />
+                <span class="royale-cover-frame">
+                  {background && (
+                    <span class="royale-backdrop" style={background} aria-hidden="true" />
+                  )}
+                  <CoverArt
+                    option={option}
+                    size="small"
+                    provider={provider}
+                    resolveUrl={resolveUrl}
+                  />
+                </span>
                 {(mark === "correct" || mark === "wrong") && (
                   <span class="royale-mark" aria-hidden="true">
                     <Icon name={mark === "correct" ? "right" : "wrong"} />
@@ -378,9 +395,11 @@ function RoyaleBoard({ daily, state, dispatch, index, resolveUrl, announce }: Pr
 }
 
 /**
- * O pop-up de uma capa (o desenho do pop-up das medalhas): a capa grande, que desce só agora, por
- * cima da pequena, o anime e o tipo do tema, sem o nome da música nem o artista (o usuário,
- * 01/11/2026). O foco vai ao "Marcar" (ou ao "Fechar") e, ao fechar, volta à capa da grade.
+ * O pop-up de uma capa, a folha da vitrine, que sobe de baixo sem esconder a grade (o usuário,
+ * 02/11/2026): a capa grande, que desce só agora, por cima da pequena, ao lado do anime e do tipo do
+ * tema, sem o nome da música nem o artista (o usuário, 01/11/2026), sobre a capa desfocada; e os
+ * botões numa linha, o "Fechar" e o "Marcar". O foco vai ao "Marcar" (ou ao "Fechar") e, ao fechar,
+ * volta à capa da grade.
  */
 function CoverDialog({
   option,
@@ -415,11 +434,12 @@ function CoverDialog({
     };
     // Só ao abrir e ao fechar: a capa do pop-up não muda enquanto ele está aberto.
   }, []);
-  const small = coverUrl(provider, option.cover, "small");
+  // A pequena, que já veio com a grade: o desfoque e o fundo enquanto a grande desce.
+  const background = coverBackground(coverUrl(provider, option.cover, "small"), resolveUrl);
   return (
     <dialog
       ref={dialog}
-      class="medal-dialog royale-dialog"
+      class="royale-dialog"
       aria-labelledby={titleId}
       aria-describedby={themeId}
       onKeyDown={(event) => {
@@ -432,26 +452,29 @@ function CoverDialog({
         onClose();
       }}
     >
-      <div
-        class="royale-dialog-cover"
-        // A pequena por baixo, enquanto a grande desce (o mesmo caminho conferido).
-        style={small ? { backgroundImage: `url("${resolveUrl(small)}")` } : undefined}
-      >
-        <CoverArt option={option} size="large" provider={provider} resolveUrl={resolveUrl} />
+      <div class="royale-sheet-hero">
+        {background && <span class="royale-backdrop" style={background} aria-hidden="true" />}
+        <div class="royale-dialog-cover" style={background}>
+          <CoverArt option={option} size="large" provider={provider} resolveUrl={resolveUrl} />
+        </div>
+        <div class="royale-sheet-info">
+          <h2 id={titleId} class={option.anime.length > LONG_NAME ? "long" : undefined}>
+            {option.anime}
+          </h2>
+          <p id={themeId} class="royale-dialog-theme">
+            {themeText(option)}
+          </p>
+        </div>
       </div>
-      <h2 id={titleId}>{option.anime}</h2>
-      <p id={themeId} class="royale-dialog-theme">
-        {themeText(option)}
-      </p>
-      <div class="medal-dialog-actions">
+      <div class="royale-sheet-actions">
+        <button ref={canMark ? undefined : first} type="button" onClick={singleClick(onClose)}>
+          {t("royale.close")}
+        </button>
         {canMark && (
           <button ref={first} type="button" class="primary" onClick={singleClick(onMark)}>
             {t("royale.mark")}
           </button>
         )}
-        <button ref={canMark ? undefined : first} type="button" onClick={singleClick(onClose)}>
-          {t("royale.close")}
-        </button>
       </div>
     </dialog>
   );
