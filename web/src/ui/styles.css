@@ -2201,7 +2201,7 @@ section.void,
 
 .medal-list,
 .medal-artists,
-.medal-trio {
+.medal-track {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -2307,18 +2307,110 @@ section.void,
   overflow-wrap: anywhere;
 }
 
-.medal-trio {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: start;
+/* O nome do artista e, no computador, as setas do carrossel à direita. */
+.medal-artist-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--sp-2);
+  min-width: 0;
 }
 
-/* A 1ª linha tem a altura da maior (a perfeita, 66 × 94 px, o LEVEL_SIZE do Medals.tsx): as 3
-   ficam alinhadas por baixo, com os textos embaixo, de qualquer tamanho. */
+/* As setas só com mouse: no toque, a rolagem lateral basta, e elas tirariam espaço do nome. */
+.shelf-arrows {
+  display: none;
+  flex: none;
+  gap: var(--sp-1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shelf-arrows {
+    display: flex;
+  }
+}
+
+.shelf-arrow {
+  width: var(--h-compact);
+  min-height: var(--h-compact);
+  padding: 0;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+}
+
+/* A seta de voltar é a de seguir espelhada (o botão é redondo: só o ícone muda). */
+.shelf-arrow.prev {
+  transform: scaleX(-1);
+}
+
+/* O carrossel de cada artista (o usuário, 02/11/2026): as 6 medalhas lado a lado, 3 por vista e a
+   ponta da 4ª aparecendo, com o encaixe em cada uma. A barra de rolagem fica escondida (as setas e
+   o toque a substituem), sem o overflow: hidden, que cortaria o foco (regra 25); a folga em volta
+   deixa o anel do foco dentro da faixa. O degradê é uma máscara: a cor dela não aparece, só a
+   transparência, e ele fica só no lado que tem mais. Duas travas contra a página rolar para o
+   lado: o contain: inline-size tira a largura das 6 do tamanho mínimo da faixa (sem ele, em
+   360 px, a soma delas alargava a caixa do artista e a tela), e o position: relative prende os
+   textos do leitor de tela (o .sr-only, absoluto) dentro dela. O degradê ocupa 9% da faixa, a
+   ponta da 4ª com o espaço antes dela (0,3 de uma coluna de 1/3,3): proporcional, ele não apaga
+   a borda da 3ª em 320 px. */
+.medal-track {
+  --shelf-fade: 9%;
+  position: relative;
+  contain: inline-size;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 2 * var(--sp-2)) / 3.3);
+  align-items: start;
+  gap: var(--sp-2);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 6px;
+  scrollbar-width: none;
+  padding: var(--sp-2) 6px;
+  margin: calc(-1 * var(--sp-2)) -6px;
+}
+
+.medal-track::-webkit-scrollbar {
+  display: none;
+}
+
+.medal-shelf:not(.at-end) > .medal-track {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    var(--text) calc(100% - var(--shelf-fade)),
+    transparent
+  );
+  mask-image: linear-gradient(to right, var(--text) calc(100% - var(--shelf-fade)), transparent);
+}
+
+.medal-shelf:not(.at-start, .at-end) > .medal-track {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    var(--text) var(--shelf-fade),
+    var(--text) calc(100% - var(--shelf-fade)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    var(--text) var(--shelf-fade),
+    var(--text) calc(100% - var(--shelf-fade)),
+    transparent
+  );
+}
+
+.medal-shelf.at-end:not(.at-start) > .medal-track {
+  -webkit-mask-image: linear-gradient(to right, transparent, var(--text) var(--shelf-fade));
+  mask-image: linear-gradient(to right, transparent, var(--text) var(--shelf-fade));
+}
+
+/* A 1ª linha tem a altura da maior (a perfeita do Superfan, 66 × 94 px; o vinil tem 72 × 72; o
+   KIND_SIZE do Medals.tsx): as 6 ficam alinhadas por baixo, com os textos embaixo. */
 .medal-cell {
   display: grid;
   grid-template-rows: 94px auto auto;
+  scroll-snap-align: start;
   justify-items: center;
   gap: 2px;
   text-align: center;

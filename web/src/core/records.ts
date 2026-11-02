@@ -86,6 +86,11 @@ export type ArtistRecord = {
    * no `right`: cada rodada vale até 8, e a conta das medalhas incharia.
    */
   readonly setlist?: SetlistBest;
+  /**
+   * Terminou a 10ª rodada de uma run do Setlist Royale sem perder vida nem pedir ajuda (v17, o
+   * usuário, 02/11/2026): a medalha perfeita dele. Só cresce, como o `perfect` do Superfan.
+   */
+  readonly setlistPerfect?: true;
 };
 
 /** O fim de uma partida do Superfan, como o save o guarda (`superfanOutcome`). */
@@ -98,11 +103,11 @@ export type SuperfanOutcome = { readonly done: boolean; readonly perfect: boolea
  * do jogado depois, `late`. v8 (P289): as medalhas já avisadas, a estante (ME118) e o modo por
  * artista. v9 (P308): os acertos do Treino. v10 (M17): as Misturadas. v11: o jogado depois
  * nelas, pelo Histórico. v12 (M18): o quiz do dia. v13: os pontos do quiz. v14: a família da
- * pergunta na run do quiz. v15: o recorde do Superfan. v16: o recorde do Setlist Royale
- * (storage/migrations.ts).
+ * pergunta na run do quiz. v15: o recorde do Superfan. v16: o recorde do Setlist Royale. v17:
+ * o Setlist perfeito (storage/migrations.ts).
  */
 export type Save = {
-  readonly schemaVersion: 16;
+  readonly schemaVersion: 17;
   readonly history: Readonly<Record<PuzzleId, FinishedGame>>;
   readonly inProgress: Readonly<Record<PuzzleId, InProgress>>;
   /** Os ids das medalhas que esta pessoa já viu avisadas, em ordem alfabética (P281). */
@@ -130,7 +135,7 @@ export const SHELF_SIZE = 3;
 
 export function emptySave(): Save {
   return {
-    schemaVersion: 16,
+    schemaVersion: 17,
     history: {},
     inProgress: {},
     seenMedals: [],
@@ -377,6 +382,16 @@ export function withSetlistBest(save: Save, artistId: string, run: SetlistBest):
     : run;
   if (before && setlist.rounds === before.rounds && setlist.found === before.found) return save;
   return { ...save, artists: { ...save.artists, [artistId]: { ...current, setlist } } };
+}
+
+/** O Setlist perfeito do artista (v17): só cresce. Já marcado, o mesmo objeto. */
+export function withSetlistPerfect(save: Save, artistId: string): Save {
+  const current = save.artists[artistId] ?? NO_ARTIST;
+  if (current.setlistPerfect) return save;
+  return {
+    ...save,
+    artists: { ...save.artists, [artistId]: { ...current, setlistPerfect: true } },
+  };
 }
 
 /**

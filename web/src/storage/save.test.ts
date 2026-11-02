@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { artists, realArtists } from "../../test/artists.ts";
 import { ANIME_KEYS, DAILY_KEYS } from "../core/daily.ts";
-import { MEDALS, SUPERFAN_LEVELS, superfanMedalId, superfanMedals } from "../core/medals.ts";
+import {
+  MEDALS,
+  SETLIST_LEVELS,
+  SUPERFAN_LEVELS,
+  setlistMedalId,
+  setlistMedals,
+  superfanMedalId,
+  superfanMedals,
+} from "../core/medals.ts";
 import { MIXED_KEYS } from "../core/mixed.ts";
 import {
   emptySave,
@@ -289,14 +297,14 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v3));
     expect(loadSave(store)).toEqual({
-      save: { ...v3, ...LATEST, schemaVersion: 16 },
+      save: { ...v3, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     // A 1ª gravação já sai na versão atual.
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(16);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(17);
   });
 
   it("um save v4 de verdade, com a ajuda, chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -327,7 +335,7 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v4));
     expect(loadSave(store)).toEqual({
-      save: { ...v4, ...LATEST, schemaVersion: 16 },
+      save: { ...v4, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
@@ -366,13 +374,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v5));
     expect(loadSave(store)).toEqual({
-      save: { ...v5, ...LATEST, schemaVersion: 16 },
+      save: { ...v5, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(16);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(17);
   });
 
   it("um save v6 de verdade chega à atual sem aviso, sem cópia e sem perder nada", () => {
@@ -403,13 +411,13 @@ describe("loadSave", () => {
     };
     const store = withRaw(JSON.stringify(v6));
     expect(loadSave(store)).toEqual({
-      save: { ...v6, ...LATEST, schemaVersion: 16 },
+      save: { ...v6, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => ({ ...s, inProgress: {} }))).toBe("saved");
-    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(16);
+    expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}").schemaVersion).toBe(17);
   });
 
   describe("o jogado depois (v7, P267)", () => {
@@ -459,7 +467,7 @@ describe("loadSave", () => {
     // As Misturadas (v10) também: os 2 ids delas andam com a versão (a v11 só marca o jogado
     // depois nelas, pelo Histórico).
     expect({ version: SAVE_SCHEMA_VERSION, keys: DAILY_KEYS, mixed: MIXED_KEYS }).toEqual({
-      version: 16,
+      version: 17,
       mixed: ["misturadas-musica", "misturadas-titulo"],
       keys: [
         "album",
@@ -638,10 +646,11 @@ describe("loadSave", () => {
 });
 
 describe("as medalhas e o modo por artista (v8, P289)", () => {
-  it("todo id de medalha do Superfan passa no guard, com o id de artista do schema", () => {
-    const ids = ["apple:ar:1489581870", "fixture:ar:ar01", "apple:ar:A-b_9"].flatMap((artist) =>
-      SUPERFAN_LEVELS.map((level) => superfanMedalId(artist, level)),
-    );
+  it("todo id de medalha do Superfan e do Setlist passa no guard, com o id de artista do schema", () => {
+    const ids = ["apple:ar:1489581870", "fixture:ar:ar01", "apple:ar:A-b_9"].flatMap((artist) => [
+      ...SUPERFAN_LEVELS.map((level) => superfanMedalId(artist, level)),
+      ...SETLIST_LEVELS.map((level) => setlistMedalId(artist, level)),
+    ]);
     const store = memoryStore();
     expect(updateSave(store, (s) => withSeenMedals(s, ids))).toBe("saved");
     expect(loadSave(store)).toMatchObject({ save: { seenMedals: [...ids].sort() }, notice: null });
@@ -706,6 +715,31 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
       { artists: { "apple:ar:1": { right: 2, best: { score: 4, song: 2 } } } },
     ],
     [
+      "um Setlist perfeito que não é true",
+      { artists: { "apple:ar:1": { right: 2, setlistPerfect: false } } },
+      { artists: {} },
+    ],
+    // O Setlist perfeito (v17) é também a setlist completa: sem ela, sai sozinho, como um recorde.
+    [
+      "um Setlist perfeito sem o recorde",
+      { artists: { "apple:ar:1": { right: 2, setlistPerfect: true } } },
+      { artists: { "apple:ar:1": { right: 2 } } },
+    ],
+    [
+      "um Setlist perfeito com a setlist incompleta",
+      {
+        artists: {
+          "apple:ar:1": { right: 2, setlist: { rounds: 9, found: 30 }, setlistPerfect: true },
+        },
+      },
+      { artists: { "apple:ar:1": { right: 2, setlist: { rounds: 9, found: 30 } } } },
+    ],
+    [
+      "um Setlist perfeito com o recorde ruim",
+      { artists: { "apple:ar:1": { right: 2, setlist: { rounds: "10" }, setlistPerfect: true } } },
+      { artists: { "apple:ar:1": { right: 2 } } },
+    ],
+    [
       "os dois recordes ruins",
       { artists: { "apple:ar:1": { right: 2, best: 86, setlist: "10" } } },
       { artists: { "apple:ar:1": { right: 2 } } },
@@ -734,6 +768,7 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     const medals = [
       ...MEDALS.map((m) => m.id),
       ...ids.flatMap((id) => superfanMedals(id).map((m) => m.id)),
+      ...ids.flatMap((id) => setlistMedals(id).map((m) => m.id)),
     ];
     updateSave(store, (s) => withSeenMedals(s, medals));
     const loaded = loadSave(store);
@@ -760,14 +795,14 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
     };
     const store = withRaw(JSON.stringify(v7));
     expect(loadSave(store)).toEqual({
-      save: { ...v7, ...LATEST, schemaVersion: 16 },
+      save: { ...v7, ...LATEST, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, (s) => withArtistRight(s, "apple:ar:1"))).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 16,
+      schemaVersion: 17,
       history: v7.history,
     });
   });
@@ -775,7 +810,10 @@ describe("as medalhas e o modo por artista (v8, P289)", () => {
   it("o maior id de artista que o guard aceita ainda dá ids de medalha que ele aceita", () => {
     const longest = `${"a".repeat(16)}:ar:${"9".repeat(64)}`;
     const store = memoryStore();
-    const ids = SUPERFAN_LEVELS.map((level) => superfanMedalId(longest, level));
+    const ids = [
+      ...SUPERFAN_LEVELS.map((level) => superfanMedalId(longest, level)),
+      ...SETLIST_LEVELS.map((level) => setlistMedalId(longest, level)),
+    ];
     updateSave(store, (s) => withSeenMedals(withArtistRight(s, longest), ids));
     expect(loadSave(store)).toMatchObject({ notice: null });
     expect(loadSave(store).save.seenMedals).toEqual([...ids].sort());
@@ -819,14 +857,14 @@ describe("os acertos do Treino (v9, P308)", () => {
     };
     const store = withRaw(JSON.stringify(v8));
     expect(loadSave(store)).toEqual({
-      save: { ...v8, ...V9, ...V10, ...V12, schemaVersion: 16 },
+      save: { ...v8, ...V9, ...V10, ...V12, schemaVersion: 17 },
       writable: true,
       notice: null,
     });
     expect(store.getItem(CORRUPT_KEY)).toBeNull();
     expect(updateSave(store, withPracticeRight)).toBe("saved");
     expect(JSON.parse(store.getItem(SAVE_KEY) ?? "{}")).toMatchObject({
-      schemaVersion: 16,
+      schemaVersion: 17,
       practiceRight: 1,
       artists: v8.artists,
     });

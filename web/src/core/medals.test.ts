@@ -3,6 +3,7 @@ import { ANIME_KEYS, DAILY_KEYS } from "./daily.ts";
 import {
   ANIME_DAY,
   allWon,
+  artistMedalOf,
   claimMedals,
   claimTier,
   DEMO_MEDALS,
@@ -22,7 +23,10 @@ import {
   quizAllFast,
   quizClean,
   quizLastLife,
+  SETLIST_REACH,
   SUPERFAN_RIGHT,
+  setlistMedalId,
+  setlistMedals,
   superfanMedalId,
   superfanMedals,
   unseenMedals,
@@ -40,6 +44,8 @@ import {
   withFinished,
   withPracticeRight,
   withSeenMedals,
+  withSetlistBest,
+  withSetlistPerfect,
   withSuperfanEnd,
 } from "./records.ts";
 import { ROUTES, type Tab } from "./routes.ts";
@@ -127,9 +133,58 @@ describe("as 3 do Superfan de cada artista (P285)", () => {
 
   it("sem registro do artista, nenhuma medalha dele entra na conta (a lista não é preciso)", () => {
     expect(medalsOf(emptySave(), [])).toEqual([]);
-    expect(medalsOf(rights(emptySave(), 1), []).map((m) => m.id)).toEqual(
-      superfanMedals(ARTIST).map((m) => m.id),
-    );
+    // As 6 dele: as 3 do Superfan e as 3 do Setlist Royale (o usuário, 02/11/2026).
+    expect(medalsOf(rights(emptySave(), 1), []).map((m) => m.id)).toEqual([
+      ...superfanMedals(ARTIST).map((m) => m.id),
+      ...setlistMedals(ARTIST).map((m) => m.id),
+    ]);
+  });
+});
+
+describe("as 3 do Setlist Royale de cada artista (o usuário, 02/11/2026)", () => {
+  const [oitava, completa, perfeita] = setlistMedals(ARTIST);
+  const ctx = (save: Save) => medalContext(save, "2026-10-20", HITS);
+  const run = (rounds: number, found = rounds * 3) =>
+    withSetlistBest(emptySave(), ARTIST, { rounds, found });
+
+  it("os ids e os tamanhos do aviso: a da 8ª rodada é a pequena", () => {
+    expect([oitava, completa, perfeita].map((m) => [m?.id, m?.tier])).toEqual([
+      [`setlist|${ARTIST}|oitava`, "simple"],
+      [`setlist|${ARTIST}|completa`, "major"],
+      [`setlist|${ARTIST}|perfeita`, "major"],
+    ]);
+    expect(setlistMedalId(ARTIST, "completa")).toBe(completa?.id);
+  });
+
+  it(`chegar à 8ª é terminar a ${SETLIST_REACH}ª, com o progresso até lá; a completa na 10ª`, () => {
+    expect(oitava?.earned(ctx(run(SETLIST_REACH - 1)))).toBe(false);
+    expect(oitava?.progress?.(ctx(run(3)))).toEqual({ value: 3, goal: SETLIST_REACH });
+    expect(oitava?.earned(ctx(run(SETLIST_REACH)))).toBe(true);
+    expect(oitava?.progress?.(ctx(run(12)))).toEqual({ value: SETLIST_REACH, goal: SETLIST_REACH });
+    expect(completa?.earned(ctx(run(9)))).toBe(false);
+    // Quem já terminou a 10ª antes delas ganha a grande na hora, pelo recorde.
+    expect(earned(run(10), "2026-10-20", [])).toEqual([oitava?.id, completa?.id]);
+  });
+
+  it("a perfeita só com o Setlist perfeito (v17)", () => {
+    expect(perfeita?.earned(ctx(run(10)))).toBe(false);
+    expect(perfeita?.earned(ctx(withSetlistPerfect(run(10), ARTIST)))).toBe(true);
+  });
+
+  it("artistMedalOf lê os ids das duas famílias e recusa o resto", () => {
+    expect(artistMedalOf(`setlist|${ARTIST}|perfeita`)).toEqual({
+      family: "setlist",
+      level: "perfeita",
+      artistId: ARTIST,
+    });
+    expect(artistMedalOf(`superfan|${ARTIST}|acertos`)).toEqual({
+      family: "superfan",
+      level: "acertos",
+      artistId: ARTIST,
+    });
+    expect(artistMedalOf(`setlist|${ARTIST}|acertos`)).toBeNull();
+    expect(artistMedalOf("colecionador")).toBeNull();
+    expect(artistMedalOf("setlist||completa")).toBeNull();
   });
 });
 
@@ -523,7 +578,7 @@ describe("medalBoard (o que a tela mostra, P286)", () => {
     // Só os blocos com medalha, e sempre o dos Artistas (o usuário, 28/10/2026).
     expect(board.blocks.map((v) => [v.block, v.earned, v.total])).toEqual([
       ["gerais", 1, 3],
-      ["artistas", 2, 6],
+      ["artistas", 2, 12],
     ]);
     const [gerais, artists] = board.blocks;
     expect(gerais?.general.map((s) => [s.medal.id, s.earned, s.progress])).toEqual([
@@ -534,16 +589,20 @@ describe("medalBoard (o que a tela mostra, P286)", () => {
     expect(gerais?.artists).toEqual([]);
     expect(artists?.general).toEqual([]);
     expect(artists?.artists.map((row) => row.artistId)).toEqual(["apple:ar:2", ARTIST]);
+    // As 6, com as ganhas na frente, cada grupo na ordem fixa (o usuário, 02/11/2026).
     expect(artists?.artists[1]?.cells.map((c) => [c.level, c.state.earned])).toEqual([
       ["acertos", true],
       ["completo", true],
       ["perfeito", false],
+      ["oitava", false],
+      ["completa", false],
+      ["perfeita", false],
     ]);
-    expect(board.total).toBe(3 + 2 * 3);
+    expect(board.total).toBe(3 + 2 * 6);
     expect(board.earned).toBe(1 + 2);
   });
 
-  it("com as reais: os blocos na ordem da tela, sem o vazio, e os Artistas só com as do Superfan", () => {
+  it("com as reais: os blocos na ordem da tela, sem o vazio, e os Artistas com as 6 de cada um", () => {
     const save = withSuperfanEnd(rights(emptySave(), SUPERFAN_RIGHT), ARTIST, {
       done: true,
       perfect: false,
@@ -556,11 +615,25 @@ describe("medalBoard (o que a tela mostra, P286)", () => {
       ["anime", 0, 2],
       ["misturadas", 0, 4],
       ["quiz", 0, 16],
-      // A dos acertos e a completa do artista, das 3 dele.
-      ["artistas", 2, 3],
+      // A dos acertos e a completa do artista, das 6 dele.
+      ["artistas", 2, 6],
     ]);
     expect(board.blocks.at(-1)?.general).toEqual([]);
-    expect(board.total).toBe(MEDALS.length + 3);
+    expect(board.total).toBe(MEDALS.length + 6);
+  });
+
+  it("as ganhas na frente: a do Setlist ganha passa as do Superfan que faltam (o usuário, 02/11/2026)", () => {
+    const save = withSetlistBest(emptySave(), ARTIST, { rounds: 10, found: 44 });
+    const board = medalBoard(save, "2026-10-20", HITS, [], [ARTIST]);
+    const cells = board.blocks.at(-1)?.artists[0]?.cells ?? [];
+    expect(cells.map((c) => `${c.family}|${c.level}`)).toEqual([
+      "setlist|oitava",
+      "setlist|completa",
+      "superfan|acertos",
+      "superfan|completo",
+      "superfan|perfeito",
+      "setlist|perfeita",
+    ]);
   });
 });
 

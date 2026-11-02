@@ -14,6 +14,7 @@ import {
   withSeenMedals,
 } from "./records.ts";
 import type { Tab } from "./routes.ts";
+import { SETLIST_FINAL } from "./setlist.ts";
 import { type DayGame, dayGames, streaks } from "./stats.ts";
 
 /** O tamanho do aviso (P279): o pequeno, que some sozinho, ou o pop-up grande. */
@@ -586,13 +587,96 @@ export function superfanMedals(artistId: string): readonly Medal[] {
   ];
 }
 
+/** Os 3 níveis do Setlist Royale de cada artista (o usuário, 02/11/2026). */
+export const SETLIST_LEVELS = ["oitava", "completa", "perfeita"] as const;
+export type SetlistLevel = (typeof SETLIST_LEVELS)[number];
+/** Rodadas completas para chegar à 8ª, a pequena (o usuário, 02/11/2026: chegar é terminar a 7ª). */
+export const SETLIST_REACH = 7;
+
+export function setlistMedalId(artistId: string, level: SetlistLevel): string {
+  return `setlist|${artistId}|${level}`;
+}
+
 /**
- * As medalhas que o save pode ter ganho: as gerais e as do Superfan de cada artista que já tem
- * registro (sem registro, nenhuma delas está ganha). Não depende da lista dos artistas, que só
- * carrega quando a pessoa abre a aba deles.
+ * As 3 do Setlist Royale do artista: `oitava`, por chegar à 8ª rodada, com o progresso; `completa`,
+ * por terminar a 10ª; `perfeita`, por terminar a 10ª sem perder vida (o `setlistPerfect`, v17). As
+ * duas últimas são grandes. Saem do recorde: quem já terminou a 10ª ganha a grande na hora.
+ */
+export function setlistMedals(artistId: string): readonly Medal[] {
+  const record = (ctx: MedalContext) => ctx.artists[artistId] ?? NO_ARTIST;
+  const rounds = (ctx: MedalContext) => record(ctx).setlist?.rounds ?? 0;
+  return [
+    {
+      id: setlistMedalId(artistId, "oitava"),
+      block: "artistas",
+      tier: "simple",
+      earned: (ctx) => rounds(ctx) >= SETLIST_REACH,
+      progress: (ctx) => ({ value: Math.min(rounds(ctx), SETLIST_REACH), goal: SETLIST_REACH }),
+    },
+    {
+      id: setlistMedalId(artistId, "completa"),
+      block: "artistas",
+      tier: "major",
+      earned: (ctx) => rounds(ctx) >= SETLIST_FINAL,
+    },
+    {
+      id: setlistMedalId(artistId, "perfeita"),
+      block: "artistas",
+      tier: "major",
+      earned: (ctx) => !!record(ctx).setlistPerfect,
+    },
+  ];
+}
+
+/** O nível de uma medalha de artista: o modo dela (a família) e o feito. */
+export type ArtistMedalLevel =
+  | { readonly family: "superfan"; readonly level: SuperfanLevel }
+  | { readonly family: "setlist"; readonly level: SetlistLevel };
+
+const ARTIST_MEDAL_ID = /^(superfan|setlist)\|(.+)\|([a-z]+)$/;
+
+/**
+ * O que um id de medalha de artista diz: a família, o artista e o nível. Null para as gerais e
+ * para um id que não é de nenhum nível conhecido. O único lugar que lê esses ids.
+ */
+export function artistMedalOf(
+  id: string,
+): (ArtistMedalLevel & { readonly artistId: string }) | null {
+  const m = ARTIST_MEDAL_ID.exec(id);
+  if (!m) return null;
+  const [, family, artistId = "", level] = m;
+  if (family === "superfan") {
+    const found = SUPERFAN_LEVELS.find((lv) => lv === level);
+    return found ? { family, level: found, artistId } : null;
+  }
+  const found = SETLIST_LEVELS.find((lv) => lv === level);
+  return found ? { family: "setlist", level: found, artistId } : null;
+}
+
+/** As 6 de um artista: as 3 do Superfan e as 3 do Setlist, cada uma com o seu nível. */
+function artistMedals(artistId: string): readonly (ArtistMedalLevel & { medal: Medal })[] {
+  return [
+    ...superfanMedals(artistId).map((medal, i) => ({
+      family: "superfan" as const,
+      level: SUPERFAN_LEVELS[i] ?? "acertos",
+      medal,
+    })),
+    ...setlistMedals(artistId).map((medal, i) => ({
+      family: "setlist" as const,
+      level: SETLIST_LEVELS[i] ?? "oitava",
+      medal,
+    })),
+  ];
+}
+
+/**
+ * As medalhas que o save pode ter ganho: as gerais e as de cada artista que já tem registro (as do
+ * Superfan e as do Setlist; sem registro, nenhuma delas está ganha). Não depende da lista dos
+ * artistas, que só carrega quando a pessoa abre a aba deles.
  */
 export function medalsOf(save: Save, general: readonly Medal[] = MEDALS): readonly Medal[] {
-  return [...general, ...Object.keys(save.artists).sort().flatMap(superfanMedals)];
+  const artists = Object.keys(save.artists).sort();
+  return [...general, ...artists.flatMap((id) => artistMedals(id).map((cell) => cell.medal))];
 }
 
 /** Os ids das ganhas, na ordem da lista. */
@@ -644,10 +728,16 @@ function stateOf(medal: Medal, ctx: MedalContext): MedalState {
   return { medal, earned: medal.earned(ctx), progress: medal.progress?.(ctx) ?? null };
 }
 
-/** O Superfan de um artista na tela: as 3 dele, na ordem dos níveis, cada uma com o nível. */
+/** Uma medalha de artista na tela: o nível dela e o estado. */
+export type ArtistMedalCell = ArtistMedalLevel & { readonly state: MedalState };
+
+/**
+ * As medalhas de um artista na tela: as 6 (as 3 do Superfan e as 3 do Setlist), com as ganhas na
+ * frente (o usuário, 02/11/2026), cada grupo na ordem fixa.
+ */
 export type ArtistMedals = {
   readonly artistId: string;
-  readonly cells: readonly { readonly level: SuperfanLevel; readonly state: MedalState }[];
+  readonly cells: readonly ArtistMedalCell[];
 };
 
 /** Um bloco da tela (o usuário, 28/10/2026), com a contagem dele. */
@@ -655,7 +745,7 @@ export type MedalBlockView = {
   readonly block: MedalBlock;
   /** As gerais do bloco, na ordem da lista: as pequenas antes das grandes (P310). */
   readonly general: readonly MedalState[];
-  /** Só no dos Artistas: as 3 do Superfan de cada artista da lista, na ordem dela. */
+  /** Só no dos Artistas: as 6 de cada artista da lista, na ordem dela. */
   readonly artists: readonly ArtistMedals[];
   readonly earned: number;
   readonly total: number;
@@ -674,7 +764,7 @@ const earnedCount = (states: readonly MedalState[]) =>
 
 /**
  * O quadro da tela, com os blocos na ordem de `MEDAL_BLOCKS`. O bloco sem medalha nenhuma fica
- * fora, menos o dos Artistas, que mostra também a carga da lista deles. As do Superfan são as dos
+ * fora, menos o dos Artistas, que mostra também a carga da lista deles. As de artista são as dos
  * artistas da lista, na ordem dela (`artistIds`); o artista que saiu da lista some da tela, mas o
  * registro fica no save.
  */
@@ -687,16 +777,20 @@ export function medalBoard(
 ): MedalBoard {
   const ctx = medalContext(save, today, hitsDates);
   const states = general.map((medal) => stateOf(medal, ctx));
-  const superfan = artistIds.map((artistId) => ({
-    artistId,
-    cells: superfanMedals(artistId).map((medal, i) => ({
-      level: SUPERFAN_LEVELS[i] ?? "acertos",
-      state: stateOf(medal, ctx),
-    })),
-  }));
+  const rows = artistIds.map((artistId): ArtistMedals => {
+    const cells = artistMedals(artistId).map(
+      ({ medal, ...level }): ArtistMedalCell => ({ ...level, state: stateOf(medal, ctx) }),
+    );
+    // As ganhas na frente, sem mudar a ordem dentro de cada grupo.
+    const sorted = [
+      ...cells.filter((c) => c.state.earned),
+      ...cells.filter((c) => !c.state.earned),
+    ];
+    return { artistId, cells: sorted };
+  });
   const blocks = MEDAL_BLOCKS.map((block): MedalBlockView => {
     const own = states.filter((state) => state.medal.block === block);
-    const artists = block === "artistas" ? superfan : [];
+    const artists = block === "artistas" ? rows : [];
     const all = [...own, ...artists.flatMap((row) => row.cells.map((cell) => cell.state))];
     return { block, general: own, artists, earned: earnedCount(all), total: all.length };
   }).filter((view) => view.block === "artistas" || view.general.length > 0);

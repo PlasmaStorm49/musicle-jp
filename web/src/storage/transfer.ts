@@ -115,6 +115,7 @@ function cleanArtist(record: ArtistRecord): ArtistRecord {
     ...(record.setlist
       ? { setlist: { rounds: record.setlist.rounds, found: record.setlist.found } }
       : {}),
+    ...(record.setlistPerfect ? { setlistPerfect: true } : {}),
   };
 }
 

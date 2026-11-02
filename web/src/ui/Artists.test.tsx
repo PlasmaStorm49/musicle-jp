@@ -111,6 +111,7 @@ const FILES: Record<string, unknown> = {
             completo: { name: "Round Robin", latin: null },
             perfeito: { name: "夜風劇場", latin: null },
           },
+          setlist: { name: "文化", latin: "Bunka", artworkUrl: "fixtures/art/al2.svg" },
         },
       },
       // Sem capa: o monograma (P171).
@@ -127,6 +128,7 @@ const FILES: Record<string, unknown> = {
             completo: { name: "Round Robin", latin: null },
             perfeito: { name: "夜風劇場", latin: null },
           },
+          setlist: { name: "Disco", latin: null, artworkUrl: "fixtures/art/al5.svg" },
         },
       },
     ],

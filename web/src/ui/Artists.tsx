@@ -19,6 +19,7 @@ import {
   type SuperfanBest,
   withArtistRight,
   withSetlistBest,
+  withSetlistPerfect,
   withSuperfanBest,
   withSuperfanEnd,
 } from "../core/records.ts";
@@ -27,6 +28,7 @@ import {
   SETLIST_LIVES,
   type SetlistRun,
   setlistBest,
+  setlistPerfect,
   setlistPool,
   startSetlist,
 } from "../core/setlist.ts";
@@ -247,7 +249,13 @@ export function useArtistStore({
       const best = setlistBest(play.run);
       const moment = play.run.end !== null ? "fim" : "completa";
       const key = `${artistId}|setlist|${play.run.seed}|${moment}`;
-      if (best && once(key, (save) => withSetlistBest(save, artistId, best))) onRunEnd?.();
+      // A perfeita (v17) vai junto, na setlist completa sem perder vida.
+      const perfect = setlistPerfect(play.run);
+      const change = (save: Save) => {
+        const kept = best ? withSetlistBest(save, artistId, best) : save;
+        return perfect ? withSetlistPerfect(kept, artistId) : kept;
+      };
+      if (best && once(key, change)) onRunEnd?.();
       return;
     }
     const session = play.kind === "free" ? play.session : play.run.session;
