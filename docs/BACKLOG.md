@@ -48,6 +48,7 @@ Atualizado em 02/11/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
+- **ME162 (novo).** A capa pequena do Anime Royale (100 px) fica um pouco borrada no celular: usar a grande na grade (até 540 KB cada) ou deixar como está.
 - **ME157 (novo).** As setas do carrossel das Medalhas têm 28 px, abaixo dos 44 da P213: só com mouse, mas um notebook com toque as mostra. Crescer ou registrar a exceção.
 - **ME158 (novo).** A Início não mostra a run do Setlist Royale em andamento.
 - **ME155 (novo).** Uma cor por categoria nas medalhas (os blocos da P404), no lugar da prata e do gelo de todas as gerais.
@@ -98,7 +99,8 @@ Atualizado em 02/11/2026.
 - **M19 (depois do M18).** Revisar e melhorar (se preciso, reconstruir) o design inteiro com a taste-skill e as Web Interface Guidelines da Vercel.
 - **M20 (em andamento).** As medalhas (Apêndice S do PLANO): os blocos e as do quiz já estão no ar (#131, #133 e #135); falta o PR 3, com as novas dos Hits, do Anime e das Misturadas, em avaliação.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
-- **ME2.** O royale: o do modo por artista, o Setlist Royale, está no ar (M21); o do Anime, o Anime Royale, em andamento numa frente à parte.
+- **ME160 (novo).** O Anime Royale no Histórico: a marca no calendário e as dificuldades de um dia passado, jogadas depois.
+- **ME161 (novo).** As medalhas do Anime Royale.
 - **ME156 (novo).** A ajuda do Setlist Royale, com desenho próprio; com ela, a perfeita do Setlist exige a run sem ajuda.
 - **ME5.** Jogar sem internet (PWA).
 - **ME6.** O app do Claude no GitHub revisando cada PR.
@@ -112,6 +114,7 @@ Atualizado em 02/11/2026.
 - Conferir o logo empilhado: libera a **S34**, a imagem de compartilhamento (`og:image`).
 
 **Você**
+- **ME163 (novo).** No iPhone, jogar uma dificuldade do Anime Royale e ouvir os 5 trechos em sequência e o clique na barra, também com `?htmlAudio=1`.
 - **ME159 (novo).** No iPhone, jogar o Setlist Royale até a 10ª rodada e ver se a página aguenta a memória (até 8 prévias decodificadas, uns 85 MB).
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
