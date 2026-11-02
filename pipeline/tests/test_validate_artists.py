@@ -123,6 +123,13 @@ def test_the_list():
             ),
             "a capa do setlist é a mesma",
         ),
+        # Sem a capa delas (o ar07), as do Superfan mostram a do cartão: o setlist não a repete.
+        (
+            lambda f: f["index.json"]["artists"][1]["medals"]["setlist"].update(
+                artworkUrl=f["index.json"]["artists"][1]["artworkUrl"]
+            ),
+            "a capa do setlist é a mesma",
+        ),
     ],
 )
 def test_the_set(change, message):

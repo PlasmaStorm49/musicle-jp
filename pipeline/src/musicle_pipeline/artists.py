@@ -747,24 +747,23 @@ def medal_entry(provider: str, rules: ArtistRules, data: JSON) -> JSON:
         out["sash"] = {"text": m.sash[0], "along": m.sash[1]}
     if m.flowers:
         out["flowers"] = dict(m.flowers)
-    out["setlist"] = _setlist_entry(provider, rules, m, data)
+    # A capa que as do Superfan mostram: a do álbum delas ou, sem ele, a do cartão (P296).
+    superfan_art = out.get("artworkUrl") or card_artwork(data)
+    out["setlist"] = _setlist_entry(provider, rules, m, data, superfan_art)
     return out
 
 
-def _setlist_entry(provider: str, rules: ArtistRules, m: MedalRules, data: JSON) -> JSON:
+def _setlist_entry(
+    provider: str, rules: ArtistRules, m: MedalRules, data: JSON, superfan_art: str | None
+) -> JSON:
     """As do Setlist Royale (o usuário, 02/11/2026), obrigatórias como os nomes (P301): a capa de
-    outro álbum do arquivo, nunca a das do Superfan, e o nome-base com o latino só quando ele tem
-    kana, kanji ou hangul."""
+    outro álbum do arquivo, nunca a que as do Superfan mostram, e o nome-base com o latino só quando
+    ele tem kana, kanji ou hangul."""
     s = m.setlist
     if s is None:
         raise InputError(
             f"artista {rules.id}: falta o [artists.medals.setlist] (o álbum e o nome das medalhas "
             "do Setlist Royale) no artists.toml"
-        )
-    if s.album == m.album:
-        raise InputError(
-            f"artista {rules.id}: o álbum do setlist ({s.album}) é o mesmo das medalhas do "
-            "Superfan; as do Setlist usam outra capa"
         )
     if needs_romaji(s.name.name) != (s.name.latin is not None):
         raise InputError(
@@ -777,6 +776,11 @@ def _setlist_entry(provider: str, rules: ArtistRules, m: MedalRules, data: JSON)
         raise InputError(
             f"artista {rules.id}: o álbum {s.album} do setlist não está no arquivo publicado dele, "
             "ou está sem capa"
+        )
+    if album["artworkUrl"] == superfan_art:
+        raise InputError(
+            f"artista {rules.id}: a capa do álbum do setlist ({s.album}) é a mesma das medalhas "
+            "do Superfan (a do álbum delas ou, sem ele, a do cartão); as do Setlist usam outra"
         )
     out: JSON = {"name": s.name.name, "latin": s.name.latin, "artworkUrl": album["artworkUrl"]}
     if s.crop is not None:

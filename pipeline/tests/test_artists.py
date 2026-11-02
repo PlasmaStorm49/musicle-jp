@@ -46,8 +46,9 @@ NAMED = MedalRules(
 )
 
 
-def named_rules(artist_id: str, setlist_album: str = "al1", **kw) -> ArtistRules:
-    """As regras com as medalhas que o build exige, com o setlist num álbum do artista."""
+def named_rules(artist_id: str, setlist_album: str, **kw) -> ArtistRules:
+    """As regras com as medalhas que o build exige, com o setlist num álbum do artista que não é o
+    do cartão (a capa das do Superfan, sem o álbum delas)."""
     setlist = SetlistRules(album=setlist_album, name=MedalName("Disco"))
     return ArtistRules(artist_id, medals=replace(NAMED, setlist=setlist), **kw)
 
@@ -71,7 +72,8 @@ def track(
             title=album,
             type=kind,
             release_date=date,
-            artwork_url="fixtures/art/x.svg",
+            # Uma capa por álbum: as do Setlist comparam a capa com a das do Superfan.
+            artwork_url=f"fixtures/art/{album_id or f'al{tid}'}.svg",
         ),
         duration_ms=200000,
         explicit=False,
@@ -422,13 +424,18 @@ def test_build_artists_lists_in_order_and_warns_about_romaji_twins():
         {
             "77": snap((1, track("1", "Kimi")), (2, track("2", "きみ"))),
             "55": ArtistSnapshot(
-                OTHER, "2026-10-12T15:00:00Z", (ArtistEntry(1, track("5", "光", by=(OTHER,))),)
+                OTHER,
+                "2026-10-12T15:00:00Z",
+                (
+                    ArtistEntry(1, track("5", "光", by=(OTHER,))),
+                    ArtistEntry(2, track("6", "影", by=(OTHER,))),
+                ),
             ),
         }
     )
     cur = Curation(aliases=parse_aliases('[tracks."fixture:tr:2"]\naliases = ["kimi"]\n', "t"))
     notes: list[str] = []
-    rules = [named_rules("77"), named_rules("55", setlist_album="al5")]
+    rules = [named_rules("77", setlist_album="al2"), named_rules("55", setlist_album="al6")]
     files = build_artists(provider, rules, cur, notes)
     assert list(files) == ["index.json", "77.json", "55.json"]
     assert [e["file"] for e in files["index.json"]["artists"]] == ["77.json", "55.json"]
@@ -437,9 +444,15 @@ def test_build_artists_lists_in_order_and_warns_about_romaji_twins():
 
 
 def _named(artist_id: str, name: str, latin: str | None = None) -> ArtistSnapshot:
+    """Um artista com 2 álbuns: o do cartão (alt<id>) e o do setlist (als<id>)."""
     who = RawArtist(artist_id, name, latin)
     return ArtistSnapshot(
-        who, "2026-10-12T15:00:00Z", (ArtistEntry(1, track(f"t{artist_id}", "光", by=(who,))),)
+        who,
+        "2026-10-12T15:00:00Z",
+        (
+            ArtistEntry(1, track(f"t{artist_id}", "光", by=(who,))),
+            ArtistEntry(2, track(f"s{artist_id}", "影", by=(who,))),
+        ),
     )
 
 
@@ -456,11 +469,11 @@ def test_the_foreign_section_comes_last_in_alphabetical_order():
         }
     )
     rules = [
-        named_rules("1", setlist_album="alt1", section="foreign"),
-        named_rules("2", setlist_album="alt2"),
-        named_rules("3", setlist_album="alt3", section="foreign"),
-        named_rules("4", setlist_album="alt4", section="foreign"),
-        named_rules("5", setlist_album="alt5"),
+        named_rules("1", setlist_album="als1", section="foreign"),
+        named_rules("2", setlist_album="als2"),
+        named_rules("3", setlist_album="als3", section="foreign"),
+        named_rules("4", setlist_album="als4", section="foreign"),
+        named_rules("5", setlist_album="als5"),
     ]
     index = build_artists(provider, rules, Curation(), [])["index.json"]
     order = [(e["file"], e.get("section")) for e in index["artists"]]
@@ -477,9 +490,9 @@ def test_the_foreign_section_comes_last_in_alphabetical_order():
 def test_the_list_out_of_order_is_refused():
     provider = FakeProvider({"1": _named("1", "B"), "2": _named("2", "A"), "3": _named("3", "C")})
     rules = [
-        named_rules("1", setlist_album="alt1", section="foreign"),
-        named_rules("2", setlist_album="alt2", section="foreign"),
-        named_rules("3", setlist_album="alt3"),
+        named_rules("1", setlist_album="als1", section="foreign"),
+        named_rules("2", setlist_album="als2", section="foreign"),
+        named_rules("3", setlist_album="als3"),
     ]
     index = build_artists(provider, rules, Curation(), [])["index.json"]
     main, first, second = index["artists"]
@@ -681,15 +694,15 @@ def test_build_artists_writes_the_medals():
         "sash": {"text": "テスト", "along": False},
         "flowers": dict.fromkeys(FLOWER_ROLES, "#123456"),
         # As do Setlist Royale, com a capa do álbum da 1ª música (o al1), outra que a das do
-        # Superfan (o usuário, 02/11/2026).
+        # Superfan; com o álbum delas, a do cartão serve (o usuário, 02/11/2026).
         "setlist": {
             "name": "光の歌",
             "latin": "Hikari no Uta",
-            "artworkUrl": "fixtures/art/x.svg",
+            "artworkUrl": "fixtures/art/al1.svg",
             "crop": {"z": 2, "x": 0.5, "y": 0.5},
         },
     }
-    assert entry["artworkUrl"] == "fixtures/art/x.svg"  # o cartão segue com a dele
+    assert entry["artworkUrl"] == "fixtures/art/al1.svg"  # o cartão segue com a dele
     assert validate_artist_list(files["index.json"]) == []
 
 
@@ -745,8 +758,11 @@ def test_build_artists_requires_the_setlist_on_another_album_of_the_file():
     with pytest.raises(InputError, match=r"falta o \[artists.medals.setlist\]"):
         build(replace(NAMED, setlist=None))
     same = replace(NAMED, album="900", setlist=SetlistRules("900", MedalName("Disco")))
-    with pytest.raises(InputError, match="é o mesmo das medalhas do Superfan"):
+    with pytest.raises(InputError, match="é a mesma das medalhas do Superfan"):
         build(same)
+    # Sem o álbum delas, as do Superfan mostram a capa do cartão (a do al1): o setlist não a repete.
+    with pytest.raises(InputError, match="é a mesma das medalhas do Superfan"):
+        build(NAMED)
     with pytest.raises(InputError, match="o álbum 404 do setlist"):
         build(replace(NAMED, setlist=SetlistRules("404", MedalName("Disco"))))
     with pytest.raises(InputError, match=r"o setlist .* leva o latin só quando"):

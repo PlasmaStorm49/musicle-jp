@@ -12,7 +12,8 @@
 #     P299); e o [artists.medals.flowers], as 13 cores do buquê (P296). Sem a capa, o crop, a
 #     faixa ou as flores, a tela usa o padrão.
 #   [artists.medals.setlist], obrigatório (as medalhas do Setlist Royale, 02/11/2026): o album de
-#     outra capa do artista (nunca o das do Superfan), o name, o título dele (a tela põe o sufixo
+#     outra capa do artista (nunca a das do Superfan: a do album delas ou, sem ele, a do cartão), o
+#     name, o título dele (a tela põe o sufixo
 #     -Rehearsal-, -Live- ou -One Take-), com o latin como os nomes, e o crop, se precisar.
 
 [[artists]]
@@ -57,8 +58,9 @@ completo = { name = "青い日記", latin = "Aoi Nikki" }
 perfeito = { name = "ユウ", latin = "Yu" }
 
 [artists.medals.setlist]
-album = "al14"
-name = "Blue Diary"
+album = "al05"  # ふたりの約束 - Single (o al14 é o do cartão, a capa das do Superfan)
+name = "ふたりの約束"
+latin = "Futari no Yakusoku"
 
 [[artists]]
 id = "ar01"  # ミナト: versões do mesmo título, TV Size, crédito "(… from …)" e faixa excluída
@@ -86,8 +88,9 @@ perfeito = { name = "Re:Pulse" }
 sash = { text = "Re:Pulse", along = true }
 
 [artists.medals.setlist]
-album = "al10"
-name = "RIOT"
+album = "al28"  # ゼロ距離Love - Single (o al10 é o do cartão, a capa das do Superfan)
+name = "ゼロ距離Love"
+latin = "Zero Kyori Love"
 
 [[artists]]
 id = "ar06"  # Hoshizora Drive

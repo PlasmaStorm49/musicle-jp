@@ -74,9 +74,9 @@
           }
         },
         "setlist": {
-          "artworkUrl": "fixtures/art/al14.svg",
-          "latin": null,
-          "name": "Blue Diary"
+          "artworkUrl": "fixtures/art/al05.svg",
+          "latin": "Futari no Yakusoku",
+          "name": "ふたりの約束"
         }
       },
       "name": "青井ユウ",
@@ -166,9 +166,9 @@
           "text": "Re:Pulse"
         },
         "setlist": {
-          "artworkUrl": "fixtures/art/al10.svg",
-          "latin": null,
-          "name": "RIOT"
+          "artworkUrl": "fixtures/art/al28.svg",
+          "latin": "Zero Kyori Love",
+          "name": "ゼロ距離Love"
         }
       },
       "name": "Re:Pulse",

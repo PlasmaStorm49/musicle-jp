@@ -184,11 +184,12 @@ def validate_artist_set(files: Mapping[str, JSON]) -> list[str]:
         covers = {a["artworkUrl"] for a in data["albums"]}
         if medal_art is not None and medal_art not in covers:
             problems.append(f"{where}: a capa das medalhas não é a de um álbum do arquivo")
-        # A do Setlist Royale também, e nunca a mesma das do Superfan (o usuário, 02/11/2026).
+        # A do Setlist Royale também, e nunca a que as do Superfan mostram: a delas ou, sem ela, a
+        # do cartão (o usuário, 02/11/2026).
         setlist_art = e["medals"]["setlist"]["artworkUrl"]
         if setlist_art not in covers:
             problems.append(f"{where}: a capa do setlist não é a de um álbum do arquivo")
-        if setlist_art == medal_art:
+        if setlist_art == (medal_art or e["artworkUrl"]):
             problems.append(f"{where}: a capa do setlist é a mesma das medalhas do Superfan")
     return problems
 
