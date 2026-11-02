@@ -2714,6 +2714,13 @@ dialog.medal-dialog .attribution {
   font-weight: 700;
 }
 
+/* O "Ouvir de novo" da revelação, entre o seguir e o volume: com a largura do texto curto, e o
+   seguir fica com o resto da linha. */
+.player-actions > .setlist-replay {
+  flex: none;
+  padding: 0 var(--sp-4);
+}
+
 /* As casas da sequência: uma por música, que acende (o anel) quando ela toca e fica no texto
    normal depois de tocar. Só desenho: o som é o que conta. */
 .setlist-slots {

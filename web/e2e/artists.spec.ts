@@ -294,7 +294,7 @@ test("Setlist Royale: ouvir uma vez, cada toque na hora, as vidas, a setlist com
     const chain = await page.evaluate(() => window.__musicleChainLog?.at(-1));
     expect(chain?.ats[1]).toBeLessThan((chain?.ats[0] ?? 0) + (chain?.seconds[0] ?? 0));
     expect(played).toEqual(await chainTitles(page));
-    await page.locator(".setlist-board > button.primary").click();
+    await page.locator(".setlist-board .player-actions > button.primary").click();
   }
 
   // Na 10ª, a setlist acaba; o recorde vai ao save, e o right do artista não muda.

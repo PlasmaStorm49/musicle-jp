@@ -438,7 +438,7 @@ export async function playSetlistRound(
     await options.getByText(title, { exact: true }).click();
   }
   await expect(result).toBeVisible();
-  if (next) await page.locator(".setlist-board > button.primary").click();
+  if (next) await page.locator(".setlist-board .player-actions > button.primary").click();
   return played;
 }
 
