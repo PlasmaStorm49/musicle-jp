@@ -127,6 +127,9 @@ def test_known_schedules_are_the_hits_and_the_anime_ones():
         # O quiz do dia (M18): uma pasta de meses (P379).
         ("web/public/fixtures/anime/quiz", "anime-quiz"),
         ("web/public/data/anime/quiz", "anime-quiz"),
+        # O Anime Royale (o usuário, 01/11/2026).
+        ("web/public/fixtures/anime/royale.json", "anime-royale"),
+        ("web/public/data/anime/royale.json", "anime-royale"),
     ]
 
 

@@ -52,6 +52,7 @@ from musicle_pipeline.anime import (
     same_song,
     tiers_of,
 )
+from musicle_pipeline.anime_covers import SIZES, Cover, path_problem
 from musicle_pipeline.fetch import (
     MAX_BYTES,
     PACE_SEC,
@@ -133,6 +134,19 @@ query AnimeByMal($ids: [Int!]) {
   }
 }
 """
+
+# As capas de cada anime (o Anime Royale, o usuário, 01/11/2026): só o caminho dos arquivos, que
+# o covers.json guarda (anime_covers.py). Uma query à parte, para buscar as capas dos animes já
+# conhecidos sem refazer a busca deles.
+COVERS_QUERY = """
+query AnimeCovers($ids: [Int!]) {
+  findAnimeByExternalSite(site: MAL, id: $ids) {
+    resources { nodes { site externalId } }
+    images { nodes { facet path } }
+  }
+}
+"""
+_FACETS = {"SMALL_COVER": "small", "LARGE_COVER": "large"}
 
 PostTransport = Callable[[str, bytes, Mapping[str, str]], bytes]
 
@@ -216,25 +230,9 @@ def _text(value: object) -> str | None:
 def parse_animethemes(data: object) -> dict[int, SourceAnime]:
     """A resposta do findAnimeByExternalSite → os animes pelo id do MAL. Os temas de um grupo
     ("HD Remaster", "English Version") repetem a música e ficam de fora."""
-    if not isinstance(data, dict):
-        raise FetchError("AnimeThemes com forma inesperada")
-    errors = data.get("errors")
-    if errors:
-        raise FetchError(f"AnimeThemes devolveu erro: {str(errors)[:200]}")
-    items = (data.get("data") or {}).get("findAnimeByExternalSite")
-    if not isinstance(items, list):
-        raise FetchError("AnimeThemes com forma inesperada")
     found: dict[int, SourceAnime] = {}
-    for item in items:
-        if not isinstance(item, dict):
-            continue
-        mal = [
-            r.get("externalId")
-            for r in (item.get("resources") or {}).get("nodes") or []
-            if isinstance(r, dict)
-            and r.get("site") == "MAL"
-            and isinstance(r.get("externalId"), int)
-        ]
+    for item in _animethemes_items(data):
+        mal = _mal_ids(item)
         slug = item.get("slug")
         title = item.get("title") or {}
         name = _text(title.get("romaji"))
@@ -303,6 +301,59 @@ def parse_animethemes(data: object) -> dict[int, SourceAnime]:
                 season=_season(item.get("season")),
             )
     return found
+
+
+def _animethemes_items(data: object) -> list[JSON]:
+    """Os animes da resposta do findAnimeByExternalSite. Os erros do GraphQL vêm com HTTP 200."""
+    if not isinstance(data, dict):
+        raise FetchError("AnimeThemes com forma inesperada")
+    errors = data.get("errors")
+    if errors:
+        raise FetchError(f"AnimeThemes devolveu erro: {str(errors)[:200]}")
+    items = (data.get("data") or {}).get("findAnimeByExternalSite")
+    if not isinstance(items, list):
+        raise FetchError("AnimeThemes com forma inesperada")
+    return [item for item in items if isinstance(item, dict)]
+
+
+def _mal_ids(item: JSON) -> list[int]:
+    return [
+        r.get("externalId")
+        for r in (item.get("resources") or {}).get("nodes") or []
+        if isinstance(r, dict) and r.get("site") == "MAL" and isinstance(r.get("externalId"), int)
+    ]
+
+
+def parse_covers(data: object) -> dict[int, Cover | None]:
+    """A resposta da COVERS_QUERY → a capa de cada id do MAL: a 1ª de cada faceta. None quando o
+    anime veio sem as duas ou com um caminho fora do padrão (ele fica fora do Royale)."""
+    found: dict[int, Cover | None] = {}
+    for item in _animethemes_items(data):
+        paths: dict[str, str] = {}
+        for node in (item.get("images") or {}).get("nodes") or []:
+            if isinstance(node, dict) and node.get("facet") in _FACETS:
+                paths.setdefault(_FACETS[node["facet"]], node.get("path"))
+        good = set(paths) == set(SIZES) and all(
+            path_problem("apple", size, paths[size]) is None for size in SIZES
+        )
+        cover = Cover(small=paths["small"], large=paths["large"]) if good else None
+        for mal_id in _mal_ids(item):
+            if found.get(mal_id) is None:
+                found[mal_id] = cover
+    return found
+
+
+def fetch_covers(mal_ids: Sequence[int], io: AnimeFetch) -> tuple[dict[int, Cover], list[int]]:
+    """As capas dos animes `mal_ids` no AnimeThemes, em lotes, com a pausa das fontes de anime.
+    Devolve as achadas e, em ordem, os ids sem capa (o anime que não veio ou veio sem as duas)."""
+    found: dict[int, Cover] = {}
+    for number, batch in enumerate(_batched(sorted(mal_ids), ANIMETHEMES_BATCH)):
+        if number:
+            io.sleep(SOURCE_PACE_SEC)
+        body = json.dumps({"query": COVERS_QUERY, "variables": {"ids": batch}}).encode()
+        covers = parse_covers(_post_json(io, ANIMETHEMES_URL, body))
+        found.update({m: cover for m in batch if (cover := covers.get(m)) is not None})
+    return found, [m for m in sorted(mal_ids) if m not in found]
 
 
 def _season(value: object) -> str | None:

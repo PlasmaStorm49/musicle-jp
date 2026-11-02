@@ -449,12 +449,39 @@
                 "additionalProperties": false,
                 "required": [
                   "anime",
+                  "cover",
                   "type",
                   "sequence"
                 ],
                 "properties": {
                   "anime": {
                     "$ref": "#/$defs/text"
+                  },
+                  "cover": {
+                    "description": "A capa do anime no AnimeThemes (o Anime Royale): o caminho da pequena (a grade) e o da grande (o pop-up), relativos ao host, que o web monta. Null: o anime sem capa, que fica fora do Royale.",
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "small",
+                          "large"
+                        ],
+                        "properties": {
+                          "small": {
+                            "type": "string",
+                            "pattern": "^anime/small-cover/[A-Za-z0-9_]+\\.(avif|png|jpg|jpeg|webp|svg)$"
+                          },
+                          "large": {
+                            "type": "string",
+                            "pattern": "^anime/large-cover/[A-Za-z0-9_]+\\.(avif|png|jpg|jpeg|webp|svg)$"
+                          }
+                        }
+                      }
+                    ]
                   },
                   "type": {
                     "enum": [

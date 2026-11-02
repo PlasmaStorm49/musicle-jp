@@ -110,6 +110,10 @@ def anime_mixed_schema_path() -> Path:
     return repo_root() / "shared" / "schema" / "anime-mixed.schema.json"
 
 
+def anime_royale_schema_path() -> Path:
+    return repo_root() / "shared" / "schema" / "anime-royale.schema.json"
+
+
 def anime_quiz_schema_path() -> Path:
     return repo_root() / "shared" / "schema" / "anime-quiz.schema.json"
 
@@ -129,6 +133,9 @@ class AnimePaths:
     public_dir: Path  # onde ficam o catalog.json e o schedule.json do Anime
     # O latino das músicas do Anime, que os Hits e os artistas leem (o anime-latin o grava)
     latin: Path
+    # As capas dos animes (o Anime Royale): na Apple, o fetch --anime-covers as grava; nas
+    # fixtures, escritas à mão (anime_covers.py)
+    covers: Path
     # Os dados do MAL do quiz do dia (M18): só os inventados das fixtures ficam no repositório. Os
     # reais vêm do artefato da anime-mal, pelo --mal-file, e nunca são guardados (P380): a Apple
     # fica sem caminho, para nenhum arquivo deles cair na pasta da curadoria, que vai ao Git
@@ -146,6 +153,7 @@ def anime_paths(provider: str) -> AnimePaths:
         source=curation / _ANIME_SOURCES[provider],
         public_dir=repo_root() / _PUBLIC_DIRS[provider] / "anime",
         latin=curation / "latin.json",
+        covers=curation / "covers.json",
         quiz_mal=curation / "mal_quiz.json" if provider == "fixture" else None,
     )
 
@@ -158,18 +166,22 @@ def apple_snapshots_dir() -> Path:
 def known_schedules() -> list[tuple[Path, str]]:
     """As agendas publicadas, existam ou não, com o tipo de cada uma: as dos Hits ("hits", a
     fictícia e a real), as do Anime ("anime", M14), as das Misturadas ("anime-mixed", M17, ao
-    lado das do Anime) e as do quiz do dia ("anime-quiz", M18: uma pasta com um arquivo por mês,
-    P379). O schedule-check padrão confere as oito, cada uma com o gerador do tipo dela, e uma que
-    existia na base e sumiu também é erro."""
+    lado das do Anime), as do quiz do dia ("anime-quiz", M18: uma pasta com um arquivo por mês,
+    P379) e as do Anime Royale ("anime-royale"). O schedule-check padrão confere as dez, cada uma
+    com o gerador do tipo dela, e uma que existia na base e sumiu também é erro."""
     hits = [(repo_root() / d / "schedule.json", "hits") for d in _PUBLIC_DIRS.values()]
     anime = [(anime_paths(p).public_dir / "schedule.json", "anime") for p in _PUBLIC_DIRS]
     mixed = [(anime_paths(p).public_dir / MIXED_FILE, "anime-mixed") for p in _PUBLIC_DIRS]
     quiz = [(anime_paths(p).public_dir / QUIZ_DIR, "anime-quiz") for p in _PUBLIC_DIRS]
-    return hits + anime + mixed + quiz
+    royale = [(anime_paths(p).public_dir / ROYALE_FILE, "anime-royale") for p in _PUBLIC_DIRS]
+    return hits + anime + mixed + quiz + royale
 
 
 # A agenda das Misturadas (M17), ao lado do catálogo e da agenda do Anime, que ela usa.
 MIXED_FILE = "mixed.json"
+# A agenda do Anime Royale (o usuário, 01/11/2026), ao lado das do Anime, das Misturadas e do quiz,
+# que ela lê.
+ROYALE_FILE = "royale.json"
 # A agenda do quiz do dia (M18), na pasta do Anime: um arquivo por mês, AAAA-MM.json (P379).
 QUIZ_DIR = "quiz"
 # O bônus de estreia do quiz (o usuário, 25/10/2026), ao lado do catálogo do Anime, fora da pasta

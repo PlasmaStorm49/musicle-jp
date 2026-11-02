@@ -25,6 +25,7 @@ from difflib import SequenceMatcher
 from typing import Protocol
 
 from musicle_pipeline.aliases import KINDS
+from musicle_pipeline.anime_covers import Cover
 from musicle_pipeline.artists import (
     artist_base_title,
     artist_title_key,
@@ -698,6 +699,7 @@ def _track_record(
     album: JSON,
     cur: Curation,
     tiers: Mapping[str, str],
+    covers: Mapping[int, Cover],
 ) -> JSON:
     t = acc.track
     track_id = entity_id(provider, "tr", t.provider_id)
@@ -720,9 +722,22 @@ def _track_record(
         artist_texts.append(artist_text(t.artist_display))
     # Os nomes do AnimeThemes, em latino ("Kenshi Yonezu"), também acham a faixa.
     artist_texts += [n for _, theme in acc.uses for n in theme.artists]
+    # A capa vem pelo id do MAL, porque o nome do anime se repete (Fairy Tail, Shaman King): ela
+    # separa os dois, e o Royale reconhece o mesmo anime por ela.
     themes = sorted(
-        {(anime.name, theme.type, theme.sequence or 0) for anime, theme in acc.uses},
-        key=lambda x: (THEME_TYPES.index(x[1]), x[2], x[0]),
+        {
+            (anime.name, theme.type, theme.sequence or 0, covers.get(anime.mal_id))
+            for anime, theme in acc.uses
+        },
+        # No empate (dois animes do mesmo nome), o com capa antes: o 1º tema é o que o Royale
+        # mostra.
+        key=lambda x: (
+            THEME_TYPES.index(x[1]),
+            x[2],
+            x[0],
+            x[3] is None,
+            x[3].large if x[3] else "",
+        ),
     )
     return {
         "id": track_id,
@@ -751,8 +766,13 @@ def _track_record(
                 {franchise_id(slug) for anime, _ in acc.uses for slug, _ in franchises_of(anime)}
             ),
             "themes": [
-                {"anime": name, "type": kind, "sequence": sequence or None}
-                for name, kind, sequence in themes
+                {
+                    "anime": name,
+                    "cover": cover.record() if cover else None,
+                    "type": kind,
+                    "sequence": sequence or None,
+                }
+                for name, kind, sequence, cover in themes
             ],
             "tiers": dict(tiers),
         },
@@ -836,9 +856,11 @@ def build_anime_catalog(
     notes: list[str],
     *,
     icon_artists: frozenset[str],
+    covers: Mapping[int, Cover] | None = None,
 ) -> JSON:
     """O catálogo do Anime a partir de todos os snapshots. Os avisos vão para `notes`;
-    `icon_artists` são os artistas cuja música é ícone (`chart_artists`, P274)."""
+    `icon_artists` são os artistas cuja música é ícone (`chart_artists`, P274); `covers`, a capa
+    de cada anime pelo id do MAL (o covers.json; o anime sem ela tem o `cover` null)."""
     accs, results = _accumulate(source)
     stale = _stale_aliases(provider, (a.track for a in accs.values()), cur)
     if stale:
@@ -853,7 +875,8 @@ def build_anime_catalog(
             artists[entity_id(provider, "ar", a.provider_id)] = artist_record(provider, a, cur)
         album = {k: v for k, v in album_record(provider, t, cur).items() if k != "similar"}
         albums[album["id"]] = album
-        tracks.append(_track_record(provider, accs[key], album, cur, marks[song_key(provider, t)]))
+        mark = marks[song_key(provider, t)]
+        tracks.append(_track_record(provider, accs[key], album, cur, mark, covers or {}))
     used = {fid for t in tracks for fid in t["anime"]["franchiseIds"]}
     catalog: JSON = {
         "schemaVersion": SCHEMA_VERSION,
@@ -870,6 +893,11 @@ def build_anime_catalog(
     catalog["catalogVersion"] = catalog_version(catalog, source.snapshots[-1][1][:10])
     summary = ", ".join(f"{k} {results[k]}" for k in RESULTS if k in results)
     notes.append(f"{len(tracks)} faixa(s) de {len(source.anime)} anime(s); temas: {summary}")
+    if covers is not None:
+        bare = {a.mal_id for acc in accs.values() for a, _ in acc.uses if a.mal_id not in covers}
+        if bare:
+            # Fora do Royale até o fetch --anime-covers: o aviso vai ao corpo do PR do robô.
+            notes.append(f"{len(bare)} anime(s) com música e sem capa (fora do Royale)")
     notes.extend(
         f"{mode}: " + ", ".join(f"{tier} {n}" for tier, n in counts.items())
         for mode, counts in tier_counts(catalog).items()

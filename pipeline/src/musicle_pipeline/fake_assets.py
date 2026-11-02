@@ -33,6 +33,7 @@ AMPLITUDE = 0.3 * 32767
 NOTES = tuple(440 * 2 ** ((m - 69) / 12) for m in (60, 62, 64, 67, 69, 72, 74, 76, 79, 81))
 
 _SAFE_URL = re.compile(r"fixtures/(audio|art)/[A-Za-z0-9_-]+\.(wav|svg)")
+_SAFE_COVER = re.compile(r"fixtures/anime/(small|large)-cover/[a-z0-9_]+\.svg")
 
 
 @cache
@@ -127,16 +128,68 @@ def generate_assets(catalog: JSON, public: Path) -> Report:
             wanted[_target(public, al["artworkUrl"])] = svg_text(al).encode("utf-8")
 
     report = Report()
+    # O comando é dono destas pastas: apaga o que o catálogo não cita mais.
+    _write(wanted, (("audio", ".wav"), ("art", ".svg")), public, report)
+    return report
+
+
+def _write(
+    wanted: dict[Path, bytes], folders: tuple[tuple[str, str], ...], public: Path, report: Report
+) -> None:
     for path, data in sorted(wanted.items()):
         if write_bytes_if_changed(path, data):
             report.written.append(path)
         else:
             report.unchanged += 1
-    # O comando é dono destas pastas: apaga o que o catálogo não cita mais.
-    for folder, suffix in (("audio", ".wav"), ("art", ".svg")):
+    for folder, suffix in folders:
         directory = public / "fixtures" / folder
         for orphan in sorted(directory.glob(f"*{suffix}")) if directory.is_dir() else ():
             if orphan.resolve() not in wanted:
                 orphan.unlink()
                 report.removed.append(orphan)
+
+
+# As capas falsas dos animes fictícios (o Anime Royale): em retrato, como as do AnimeThemes.
+_COVER_FOLDERS = (("anime/small-cover", ".svg"), ("anime/large-cover", ".svg"))
+_COVER_SIZES = {"small": (100, 141), "large": (460, 650)}
+
+
+def cover_svg(name: str, slug: str, size: str) -> str:
+    """A capa falsa de um anime: a cor sai do slug, e o nome fica embaixo. As duas têm o mesmo
+    desenho, em tamanhos diferentes."""
+    width, height = _COVER_SIZES[size]
+    text = _clean_text(name)
+    font = 44 if len(name) <= 12 else max(20, 44 * 12 // len(name))
+    fonts = "'Noto Sans JP', 'Yu Gothic', Meiryo, sans-serif"
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+        'viewBox="0 0 460 650">\n'
+        f'  <rect width="460" height="650" fill="{_color(slug)}"/>\n'
+        '  <polygon points="230,120 360,330 100,330" fill="none" stroke="#ffffff" '
+        'stroke-opacity="0.2" stroke-width="36"/>\n'
+        f'  <text x="230" y="560" font-family="{fonts}" font-size="{font}" fill="#ffffff" '
+        f'text-anchor="middle">{text}</text>\n'
+        "</svg>\n"
+    )
+
+
+def generate_anime_covers(catalog: JSON, public: Path) -> Report:
+    """As capas falsas que o catálogo fictício do Anime cita, em fixtures/anime/; apaga as que ele
+    não cita mais."""
+    if catalog["provider"] != "fixture":
+        raise InputError("as capas falsas são só do provedor fixture")
+    wanted: dict[Path, bytes] = {}
+    for t in catalog["tracks"]:
+        for theme in t["anime"]["themes"]:
+            for size, path in (theme["cover"] or {}).items():
+                url = f"fixtures/{path}"
+                match = _SAFE_COVER.fullmatch(url)
+                if match is None or match.group(1) != size:
+                    raise InputError(
+                        f"capa fora do padrão fixtures/anime/<tamanho>-cover/: {url!r}"
+                    )
+                slug = path.rsplit("/", 1)[1].removesuffix(".svg")
+                wanted[(public / url).resolve()] = cover_svg(theme["anime"], slug, size).encode()
+    report = Report()
+    _write(wanted, _COVER_FOLDERS, public, report)
     return report

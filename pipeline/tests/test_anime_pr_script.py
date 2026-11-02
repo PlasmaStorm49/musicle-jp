@@ -530,6 +530,24 @@ def test_rejects_urls_outside_the_apple_hosts(tmp_path, where, url):
     rejects(tmp_path, changes, "hosts da Apple")
 
 
+@pytest.mark.parametrize(
+    "cover",
+    [
+        {"small": "anime/small-cover/a.avif", "large": "https://evil.test/a.png"},
+        {"small": "anime/small-cover/../../a.avif", "large": "anime/large-cover/a.png"},
+        {"small": "anime/large-cover/a.avif", "large": "anime/large-cover/a.png"},
+        {"small": "anime/small-cover/a.avif", "large": "anime/large-cover/a.svg"},
+        {"small": "anime/small-cover/a.avif"},
+        {"small": "anime/small-cover/a.avif", "large": "anime/large-cover/a.png\n"},
+        "anime/large-cover/a.png",
+    ],
+)
+def test_rejects_a_cover_out_of_the_animethemes_pattern(tmp_path, cover):
+    changes = full_change()
+    changes[CATALOG]["tracks"][0]["anime"]["themes"][0]["cover"] = cover
+    rejects(tmp_path, changes, "capa fora do padrão")
+
+
 def test_rejects_another_schema_version(tmp_path):
     changes = full_change()
     changes[CATALOG]["schemaVersion"] = 2

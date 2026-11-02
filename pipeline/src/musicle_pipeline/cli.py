@@ -14,6 +14,7 @@ from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
 from musicle_pipeline.anime import anime_chances, build_anime_catalog, chart_artists
+from musicle_pipeline.anime_covers import covers_file, load_covers
 from musicle_pipeline.anime_latin import latin_file, load_latin
 from musicle_pipeline.anime_mixed import KIND as MIXED_KIND
 from musicle_pipeline.anime_mixed import (
@@ -38,6 +39,14 @@ from musicle_pipeline.anime_quiz import (
     validate_quiz_schedule,
     write_quiz_dir,
 )
+from musicle_pipeline.anime_royale import KIND as ROYALE_KIND
+from musicle_pipeline.anime_royale import (
+    generate_royale,
+    royale_generator,
+    royale_rule_problems,
+    royale_short_pools,
+    validate_royale_schedule,
+)
 from musicle_pipeline.anime_schedule import (
     generate_anime,
     rule_problems,
@@ -52,7 +61,7 @@ from musicle_pipeline.artists import (
     selections,
 )
 from musicle_pipeline.catalog import Curation, build_catalog
-from musicle_pipeline.fake_assets import generate_assets
+from musicle_pipeline.fake_assets import generate_anime_covers, generate_assets
 from musicle_pipeline.io_json import dumps, read_json, write_if_changed
 from musicle_pipeline.models import JSON, InputError
 from musicle_pipeline.normalize import has_unassigned, needs_romaji
@@ -60,6 +69,7 @@ from musicle_pipeline.paths import (
     MIXED_FILE,
     QUIZ_BONUS_FILE,
     QUIZ_DIR,
+    ROYALE_FILE,
     anime_paths,
     apple_snapshots_dir,
     artist_paths,
@@ -351,6 +361,7 @@ def _build_anime(args: argparse.Namespace) -> int:
         _anime_curation(args.provider),
         notes,
         icon_artists=_anime_icons(args.provider),
+        covers=load_covers(paths.covers, args.provider),
     )
     for message in provider.warnings:
         print(f"aviso: {message}", file=sys.stderr)
@@ -380,12 +391,13 @@ def _validate_anime(args: argparse.Namespace) -> int:
     spath = resolve(args.schedule) if args.schedule else path.with_name("schedule.json")
     mpath = spath.with_name(MIXED_FILE)
     qdir = spath.with_name(QUIZ_DIR)
+    rpath = spath.with_name(ROYALE_FILE)
     if code:
         return code
     if args.schedule is None and not spath.exists():
-        # As Misturadas e o quiz do dia leem a agenda do Anime (P332, P378): sem ela, não há como
-        # conferi-los.
-        for orphan in (mpath, qdir):
+        # As Misturadas, o quiz do dia e o Royale leem a agenda do Anime (P332, P378): sem ela,
+        # não há como conferi-los.
+        for orphan in (mpath, qdir, rpath):
             if orphan.exists():
                 problem = "sem a agenda do Anime ao lado (rode o schedule-anime)"
                 code = max(code, _report(orphan, [problem]))
@@ -408,9 +420,12 @@ def _validate_anime(args: argparse.Namespace) -> int:
     if code:
         return code
     if not mpath.exists():
-        # O quiz do dia (M18) lê a agenda das Misturadas (P378): sem ela, não há como conferi-lo.
-        if qdir.is_dir():
-            return _report(qdir, ["sem a agenda das Misturadas ao lado (rode o schedule-mixed)"])
+        # O quiz do dia (M18) e o Royale leem a agenda das Misturadas (P378): sem ela, não há
+        # como conferi-los.
+        for orphan in (qdir, rpath):
+            if orphan.exists():
+                problem = "sem a agenda das Misturadas ao lado (rode o schedule-mixed)"
+                code = max(code, _report(orphan, [problem]))
         return code
     mixed = read_json(mpath)
     mixed_problems = validate_mixed_schedule(mixed, catalog)
@@ -424,6 +439,9 @@ def _validate_anime(args: argparse.Namespace) -> int:
         if dumps(mixed).encode("utf-8") != mpath.read_bytes():
             mixed_problems.append("arquivo fora da forma canônica (regere com o pipeline)")
     code = _report(mpath, mixed_problems)
+    # O Anime Royale, se existir ao lado: a estrutura e as regras que nunca afrouxam.
+    if not code and rpath.exists():
+        code = _validate_royale(rpath, catalog)
     # O quiz do dia (M18), se a pasta dele existir ao lado; e o bônus de estreia, se existir.
     if code or not qdir.is_dir():
         return code
@@ -437,6 +455,23 @@ def _validate_anime(args: argparse.Namespace) -> int:
     if not problems and dumps(data).encode("utf-8") != bonus.read_bytes():
         problems.append("arquivo fora da forma canônica (regere com o pipeline)")
     return _report(bonus, problems)
+
+
+def _validate_royale(path: Path, catalog: JSON) -> int:
+    """A agenda do Anime Royale ao lado do catálogo: a estrutura, as regras que nunca afrouxam e a
+    forma canônica (o "não passa do fim" das agendas ao lado é do gerador e do robô)."""
+    royale = read_json(path)
+    problems = validate_royale_schedule(royale, catalog)
+    for message in royale_short_pools(catalog):
+        print(f"aviso: {message}", file=sys.stderr)
+    if not problems:
+        errors, old = royale_rule_problems(royale, catalog)
+        problems += errors
+        for message in old:
+            print(f"aviso: {message} (catálogo mudou depois do dia)", file=sys.stderr)
+        if dumps(royale).encode("utf-8") != path.read_bytes():
+            problems.append("arquivo fora da forma canônica (regere com o pipeline)")
+    return _report(path, problems)
 
 
 def _schedule_anime(args: argparse.Namespace) -> int:
@@ -495,6 +530,59 @@ def _schedule_mixed(args: argparse.Namespace) -> int:
     existing = read_json(out) if out.exists() else None
     result = generate_mixed(catalog, anime_schedule, existing, args.today, args.epoch, args.days)
     for message in [*mixed_short_pools(catalog), *result.warnings]:
+        print(f"aviso: {message}", file=sys.stderr)
+    for message in result.relaxations:
+        print(f"afrouxamento: {message}", file=sys.stderr)
+    changed = write_if_changed(out, dumps(result.schedule))
+    span = f" ({result.added[0]} a {result.added[-1]})" if result.added else ""
+    total = len(result.schedule["days"])
+    print(f"{out}: {len(result.added)} dia(s) novo(s){span}, {total} no total", end="")
+    print("" if changed else "; sem mudanças")
+    return 0
+
+
+def _schedule_royale(args: argparse.Namespace) -> int:
+    """Acrescenta dias à agenda do Anime Royale (o usuário, 01/11/2026), com o catálogo e as
+    agendas do Anime, das Misturadas e do quiz da pasta do provedor: rode depois do schedule-quiz
+    (o Royale evita as respostas dos três e não passa do último dia deles)."""
+    paths = anime_paths(args.provider)
+    catalog_path = paths.public_dir / "catalog.json"
+    anime_path = paths.public_dir / "schedule.json"
+    mixed_path = paths.public_dir / MIXED_FILE
+    out = paths.public_dir / ROYALE_FILE
+    needed = (
+        (catalog_path, "build-anime"),
+        (anime_path, "schedule-anime"),
+        (mixed_path, "schedule-mixed"),
+    )
+    for path, how in needed:
+        if not path.exists():
+            return _report(path, [f"arquivo ausente (rode o {how})"])
+    catalog = read_json(catalog_path)
+    if _report(catalog_path, validate_anime_catalog(catalog, catalog_path.read_bytes())):
+        return 1
+    if catalog["provider"] != args.provider:
+        print(
+            f"{catalog_path}: o catálogo é do provedor {catalog['provider']!r}, "
+            f"não {args.provider!r}",
+            file=sys.stderr,
+        )
+        return 1
+    quiz, problems = read_quiz_dir(paths.public_dir / QUIZ_DIR)
+    if problems:
+        return _report(paths.public_dir / QUIZ_DIR, problems)
+    existing = read_json(out) if out.exists() else None
+    result = generate_royale(
+        catalog,
+        read_json(anime_path),
+        read_json(mixed_path),
+        quiz,
+        existing,
+        args.today,
+        args.epoch,
+        args.days,
+    )
+    for message in [*royale_short_pools(catalog), *result.warnings]:
         print(f"aviso: {message}", file=sys.stderr)
     for message in result.relaxations:
         print(f"afrouxamento: {message}", file=sys.stderr)
@@ -659,11 +747,20 @@ def _schedule(args: argparse.Namespace) -> int:
 
 def _fake_assets(args: argparse.Namespace) -> int:
     catalog = read_json(resolve(args.catalog))
-    report = generate_assets(catalog, resolve(args.public))
+    public = resolve(args.public)
+    report = generate_assets(catalog, public)
     print(
         f"assets: {len(report.written)} gravado(s), {report.unchanged} sem mudança, "
         f"{len(report.removed)} órfão(s) apagado(s)"
     )
+    # As capas falsas dos animes fictícios (o Anime Royale), do catálogo fictício do Anime.
+    anime = anime_paths("fixture").public_dir / "catalog.json"
+    if anime.exists():
+        covers = generate_anime_covers(read_json(anime), public)
+        print(
+            f"capas do Anime: {len(covers.written)} gravada(s), {covers.unchanged} sem mudança, "
+            f"{len(covers.removed)} órfã(s) apagada(s)"
+        )
     return 0
 
 
@@ -699,12 +796,20 @@ def _schedule_check(args: argparse.Namespace) -> int:
 _GENERATORS: dict[str, Generator] = {"hits": generate, "anime": generate_anime}
 # O tipo de uma agenda pelo `kind` dela; sem o campo, a dos Hits. Um `kind` desconhecido é erro:
 # cairia em silêncio no gerador dos Hits.
-_KINDS = {"anime": "anime", MIXED_KIND: MIXED_KIND}
+_KINDS = {"anime": "anime", MIXED_KIND: MIXED_KIND, ROYALE_KIND: ROYALE_KIND}
 
 
 def _generator_of(kind: str, path: Path) -> Generator | None:
-    """O gerador do tipo; o das Misturadas lê a agenda do Anime ao lado (a do mesmo commit), e
-    sem ela não há como regerar."""
+    """O gerador do tipo; o das Misturadas lê a agenda do Anime ao lado (a do mesmo commit), e o
+    do Royale, as do Anime, das Misturadas e do quiz; sem elas, não há como regerar."""
+    if kind == ROYALE_KIND:
+        anime, mixed = path.with_name("schedule.json"), path.with_name(MIXED_FILE)
+        if not anime.exists() or not mixed.exists():
+            return None
+        quiz, problems = read_quiz_dir(path.with_name(QUIZ_DIR))
+        if problems:
+            return None  # o quiz quebrado aparece na conferência dele; aqui, não dá para regerar
+        return royale_generator(read_json(anime), read_json(mixed), quiz)
     if kind != MIXED_KIND:
         return _GENERATORS[kind]
     sibling = path.with_name("schedule.json")
@@ -833,7 +938,13 @@ def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | 
     if not problems:
         generator = _generator_of(kind, path)
         if catalog_path.exists() and generator is None:
-            problems.append(f"{path}: sem a agenda do Anime ao lado, não dá para regerar (P332)")
+            beside = (
+                "sem a agenda do Anime ao lado, não dá para regerar (P332)"
+                if kind == MIXED_KIND
+                else "sem a agenda do Anime ou a das Misturadas ao lado, ou com o quiz ao lado"
+                " quebrado, não dá para regerar"
+            )
+            problems.append(f"{path}: {beside}")
         elif catalog_path.exists() and generator is not None:
             problems += regenerate_problems(base, current, read_json(catalog_path), generator)
         elif args.catalog:
@@ -855,6 +966,19 @@ def _fetch(args: argparse.Namespace) -> int:
     # Só aqui: os outros comandos nunca carregam o módulo de rede (teste em subprocesso).
     from musicle_pipeline import fetch
 
+    if args.anime_covers:
+        others = (args.personal, args.out_dir, args.max_songs, args.target_per_tier, args.max_anime)
+        others += (args.pool_size, args.deadline_min, args.ranks_file, args.draw, args.today)
+        if (
+            args.anime
+            or args.artists
+            or args.artist
+            or args.force
+            or any(value is not None for value in others)
+        ):
+            print("--anime-covers é uma busca à parte: só aceita o --refresh", file=sys.stderr)
+            return 1
+        return _fetch_anime_covers(args)
     if args.anime:
         if args.today is not None or args.artists:
             print("--anime é uma busca à parte: sem --today e sem --artists", file=sys.stderr)
@@ -913,6 +1037,46 @@ def _fetch(args: argparse.Namespace) -> int:
             return 0
     write_if_changed(out, dumps(snapshot))
     print(f"{out}: {len(snapshot['rss'])} faixas na parada, {len(snapshot['missing'])} sem lookup")
+    return 0
+
+
+def _fetch_anime_covers(args: argparse.Namespace) -> int:
+    """As capas dos animes do catálogo real (o Anime Royale, o usuário, 01/11/2026): acrescenta
+    ao covers.json as que faltam, só o caminho de cada arquivo no AnimeThemes. Com o --refresh,
+    busca todas de novo e troca as que vieram (o AnimeThemes trocou uma capa, e o caminho antigo
+    não abre mais); a que não veio fica como estava."""
+    import time
+
+    from musicle_pipeline import fetch, fetch_anime
+    from musicle_pipeline.providers.apple_anime import AppleAnimeProvider
+
+    paths = anime_paths("apple")
+    known = load_covers(paths.covers, "apple")
+    # Os animes com alguma música no catálogo: os outros não aparecem em nenhum diário.
+    names = {
+        a.mal_id: a.name
+        for a in AppleAnimeProvider(paths.source).source().anime
+        if any(theme.track is not None for theme in a.themes)
+    }
+    asked = sorted(names) if args.refresh else sorted(set(names) - set(known))
+    if not asked:
+        print(f"{paths.covers}: todos os {len(names)} anime(s) já têm capa")
+        return 0
+    io = fetch_anime.AnimeFetch(sleep=time.sleep, log=print)
+    try:
+        found, missing = fetch_anime.fetch_covers(asked, io)
+    except fetch.FetchError as exc:
+        print(f"fetch --anime-covers: {exc}; nada foi gravado", file=sys.stderr)
+        return 1
+    # O --refresh troca as que vieram e guarda as outras: uma falha de lá não apaga a capa de cá.
+    covers = {**known, **found}
+    changed = write_if_changed(paths.covers, dumps(covers_file("apple", covers)))
+    for mal_id in missing:
+        print(f"sem capa no AnimeThemes: {names[mal_id]} (MAL {mal_id})")
+    print(
+        f"{paths.covers}: {len(found)} capa(s) achada(s) de {len(asked)}; "
+        f"{len(covers)} de {len(names)} anime(s) com capa" + ("" if changed else "; sem mudanças")
+    )
     return 0
 
 
@@ -1318,7 +1482,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         action="store_true",
         default=None,  # None, e não False: o _fetch confere as opções do --anime pelo None
         help="com --anime: busca de novo todos os animes já conhecidos (a temporada e os números"
-        " do quiz do dia, M18), com a faixa de antes; sem sorteio nem teto",
+        " do quiz do dia, M18), com a faixa de antes; sem sorteio nem teto. Com --anime-covers:"
+        " busca de novo todas as capas",
+    )
+    fetch.add_argument(
+        "--anime-covers",
+        action="store_true",
+        help="as capas dos animes do catálogo no AnimeThemes (o Anime Royale): só as que faltam",
     )
     fetch.add_argument(
         "--fetched-at", type=_fetched_at, required=True, help="agora em UTC: AAAA-MM-DDTHH:MM:SSZ"
@@ -1424,6 +1594,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="dias à frente de hoje, até o último dia da agenda do Anime (P332)",
     )
     mixed.set_defaults(func=_schedule_mixed)
+
+    royale = sub.add_parser(
+        "schedule-royale",
+        help="acrescenta dias à agenda do Anime Royale (nunca altera dia), depois do quiz",
+    )
+    royale.add_argument("--provider", choices=sorted(ANIME_PROVIDERS), required=True)
+    royale.add_argument(
+        "--today",
+        type=date.fromisoformat,
+        required=True,
+        help="data de hoje em Brasília (dia anterior a ela nunca é gerado, P44)",
+    )
+    royale.add_argument("--epoch", type=date.fromisoformat, help="diário nº 1 (agenda nova)")
+    royale.add_argument(
+        "--days",
+        type=int,
+        default=HORIZON_DAYS,
+        help="dias à frente de hoje, até o último dia das agendas do Anime, das Misturadas e do"
+        " quiz",
+    )
+    royale.set_defaults(func=_schedule_royale)
 
     quiz = sub.add_parser(
         "schedule-quiz",

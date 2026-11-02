@@ -17,6 +17,8 @@ web/blob-report/
 # Gerados localmente pelo comando fake-assets
 web/public/fixtures/audio/
 web/public/fixtures/art/
+web/public/fixtures/anime/small-cover/
+web/public/fixtures/anime/large-cover/
 
 # A chance de cada música do Anime, para o laboratório das Misturadas (anime-chances, M17): o
 # repositório não guarda número (P254)

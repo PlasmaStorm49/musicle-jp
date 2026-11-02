@@ -138,11 +138,25 @@ export interface AnimeTrack {
     themes: [
       {
         anime: NonEmptyText;
+        /**
+         * A capa do anime no AnimeThemes (o Anime Royale): o caminho da pequena (a grade) e o da grande (o pop-up), relativos ao host, que o web monta. Null: o anime sem capa, que fica fora do Royale.
+         */
+        cover: null | {
+          small: string;
+          large: string;
+        };
         type: "OP" | "ED" | "IN";
         sequence: number | null;
       },
       ...{
         anime: NonEmptyText;
+        /**
+         * A capa do anime no AnimeThemes (o Anime Royale): o caminho da pequena (a grade) e o da grande (o pop-up), relativos ao host, que o web monta. Null: o anime sem capa, que fica fora do Royale.
+         */
+        cover: null | {
+          small: string;
+          large: string;
+        };
         type: "OP" | "ED" | "IN";
         sequence: number | null;
       }[]
