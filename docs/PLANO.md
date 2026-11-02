@@ -361,6 +361,20 @@ Jogo web em que o jogador ouve um trecho de música popular japonesa e adivinha 
 | P408 | O Primeiro Acorde e o Já É de Casa contam todos os diários terminados no dia: os dos Hits e do Anime, os das Misturadas e o quiz. Os textos não mudam. A sequência do topo (P282), o Relâmpago e o 1º aviso (P314) continuam só com os diários dos Hits e do Anime. Revisa a P310 nas duas (o usuário, 28/10/2026; #135) |
 | P409 | O save v14: a run terminada do quiz guarda a família da pergunta do dia (`family`), para a Edição Especial e o Sabe-Tudo. É um texto curto, sem conferir contra a lista: uma família nova não tira a run do save. A 13 → 14 não muda nada; a run de antes fica sem a família e não conta para as duas (o usuário, 28/10/2026; #135) |
 | P410 | O fim da run do quiz avisa as medalhas novas no "Ver resultado", como os diários; reabrir a run terminada não avisa de novo (o plano aprovado pelo usuário, 28/10/2026; #135) |
+| P411 | O recorde do Superfan na página do artista: no cartão do Superfan, abaixo da dica, o maior placar e a música mais longe ("Recorde: 35 pontos, até a música 2"), e nada sem recorde; no fim da partida, o aviso do recorde batido, menos na 1ª partida. A partida encerrada conta, a música mais longe inclui a da última vida perdida, e cada número é um máximo próprio, de partidas diferentes se for o caso. O save v15 guarda o recorde (`best`), porque a partida não vai ao save (P116) (o usuário, 01/11/2026; M21, #139) |
+| P412 | O Setlist Royale (o nome, escolhido pelo usuário) é o 3º submodo do artista, ao lado do Livre e do Superfan, e o piloto do royale (ME2) antes do Anime: a cada rodada, músicas do artista tocam emendadas, uma vez só, a seguinte entrando antes de a anterior acabar, e nunca três juntas; depois, a pessoa marca as que tocaram, e cada toque vale na hora. Em poucos PRs, com a documentação só no fim (o usuário, 01/11/2026; M21, #140) |
+| P413 | As 10 rodadas: as opções crescem uma por rodada, de 3 a 12, sem saltos, e as 12 só aparecem na 10ª (o usuário recusou a curva que pulava de 6 para 9 opções); as músicas vão de 2 a 8 (2, 2, 3, 3, 4, 4, 5, 6, 7 e 8). Na 10ª, a tela "Setlist completa!" diz que acabou e oferece continuar sem fim, na dificuldade da 10ª. As opções ficam numa grade de até 3 colunas, e a última linha pode ficar incompleta (o usuário, 01/11/2026; #140) |
+| P414 | As 3 vidas: cada opção errada gasta uma, e a rodada só passa quando a pessoa acha todas as que tocaram; o 3º erro encerra a run. Revisa o #140, em que a rodada tinha um toque por música e o erro gastava um deles (o usuário, 01/11/2026, jogando; #141) |
+| P415 | O tempo de cada música: o total (junto, sozinha e junto) cai aos poucos, de 4,5 s na 1ª rodada a 3 s na 10ª, com o junto e o sozinha encolhendo na mesma proporção; nenhuma música toca sozinha menos de 1 s (o usuário, 01/11/2026; #140) |
+| P416 | O trecho de cada música sai da região do meio da prévia, onde a voz quase sempre está: o começo tem chance igual na metade do meio das posições, e 1 em cada 10 sai de um dos quartos das pontas. Nunca é fixo (a semente da run, a rodada e a música entram no sorteio): a pessoa tem de lembrar da música, e não de um trecho decorado. As faixas de menos de 80 s (as vinhetas e as introduções de álbum, quase sempre instrumentais) ficam fora (o usuário, 01/11/2026, jogando; #141) |
+| P417 | A música que acabou de tocar quase não volta, nem tocando nem como opção: o peso é 0,1 na rodada seguinte, 0,3 na outra e 0,6 na 3ª, e depois volta ao cheio. No acervo curto ela ainda pode voltar. Revisa o #140, que valia só para tocar, com 1/4 e 1/2 (o usuário, 01/11/2026, jogando; #141) |
+| P418 | As certas e as erradas saem da mesma faixa de popularidade, para a pessoa não acertar só pensando "essa eu conheço": a faixa abre em linha reta das 20 mais populares, na 1ª rodada, ao catálogo inteiro, na 10ª. As respostas dos diários de hoje ficam de fora (P141), também como opção errada. A sequência interrompida (a aba oculta, uma falha, a saída da aba) sorteia a rodada de novo, sem custo e sem as músicas da cortada (o plano aprovado pelo usuário, 01/11/2026; #140) |
+| P419 | O recorde do Setlist por artista, no save v16: as rodadas completas e as músicas achadas, no cartão do submodo. A run não vai ao save (P116), e as achadas não entram nos acertos do artista nem na medalha dos 50 acertos (o plano aprovado pelo usuário, 01/11/2026; #140) |
+| P420 | Na revelação, o "Ouvir de novo" toca a mesma sequência (as mesmas músicas, nos mesmos pontos e nos mesmos instantes), quando a rodada acaba e quando a última vida cai; durante os toques, continua uma vez só (o usuário, 02/11/2026; #142) |
+| P421 | As 3 medalhas do Setlist de cada artista: a pequena, chegar à 8ª rodada (terminar a 7ª); a grande, terminar a 10ª; e a perfeita, grande, terminar a 10ª sem perder vida e sem ajuda. A ajuda do Setlist virá depois, com desenho próprio (ME156); até lá, o "sem ajuda" vale sempre. Quem já tinha terminado a 10ª ganha a grande pelo recorde; a perfeita vale daqui para a frente, com o save v17 (`setlistPerfect`) (o usuário, 02/11/2026; M21, #144) |
+| P422 | O nome das 3: o título de outro álbum do artista, com um sufixo por nível, "-Rehearsal-", "-Live-" e "-One Take-" ("THE BOOK -Live-"): a gravação de uma vez só tem mais respeito que o ao vivo. O latino vai à mão quando o título tem kana, kanji ou hangul, como no Superfan (P297) (o usuário, 02/11/2026; #144) |
+| P423 | A capa das 3 é a de outro álbum do artista, de preferência o mais famoso ou o 1º, e nunca a capa nem os títulos das do Superfan (a do álbum delas ou, sem ele, a do cartão). A pequena e a grande usam a roseta e o gelo de sempre com essa capa; a perfeita é um vinil (o rabisco B5: a capa em 60% do disco, 4 sulcos e o aro oliva), mais simples que o buquê da perfeita do Superfan (o usuário, 02/11/2026, entre rabiscos com capas reais; #144) |
+| P424 | Na caixa de cada artista das Medalhas, as 6 (as 3 do Superfan e as 3 do Setlist) ficam num carrossel: 3 por vista, a ponta da 4ª sumindo num degradê, setas no computador, a rolagem lateral no celular e as ganhas na frente, cada grupo na ordem fixa. Só nos Artistas, por enquanto. Revisa a P404, que deixava nos Artistas só as 3 do Superfan (o usuário, 02/11/2026; #144) |
 
 **Recomendações da ajuda, a confirmar** (implementadas assim; o usuário decide):
 
@@ -453,6 +467,7 @@ musicle-jp/
 | M18 | Em andamento (o desenho em 25/10/2026; o PR A em 26/10) | O quiz do dia (a ME122, repensada pelo usuário; Apêndice Q, P374 a P385): uma run por dia, com 2 vidas, duas prévias de temas de anime sem nome e uma pergunta de comparação ("qual é a mais antiga?", "qual é a isekai?"), que aperta a cada acerto, até 50 rodadas (o especial, 30). As perguntas saem de um pool, com cooldown, e as do MAL usam o dado sem guardá-lo (o desenho B) | Em 4 PRs: o gerador (A), a tela (B), o robô (C) e os artistas parecidos (D) | Pesquisa com subagente (as fontes e os termos), testes das APIs (o AnimeThemes daqui; o MAL no terminal do usuário) |
 | M19 | Em fechamento: os PRs 0 a 6 (#116 a #122, de 27 e 28/10/2026), o ajuste do calendário (#124), os ajustes de uso (#125 a #127 e #129, R.5) e a documentação; a taste-skill sai quando o usuário terminar com ela | A revisão do design inteiro do jogo (Apêndice R, P386 a P403) com as skills de design avaliadas em 25/10/2026: a taste-skill (`design-taste-frontend`, art direction e um inspetor num navegador real) e as Web Interface Guidelines da Vercel (o checklist de acessibilidade, foco, formulários e tipografia). Melhorar e, se for preciso, reconstruir (o usuário, 25/10/2026). A 1ª olhada (a Início, uma rodada e uma revelação do quiz) achou 9 problemas (ME135 a ME143), e o usuário pediu mais um, o ✓ invertido: a identidade do designer fica (os tokens, o logo e a Noto Sans JP), e mudam a Início, a rodada e a revelação do quiz, o calendário, a nav e o título da aba | A revisão com as duas skills, as telas no `layout.spec` e o contraste no `theme.test.ts`, e a decisão do usuário sobre a identidade | A taste-skill instalada só no projeto, fora do Git, e apagada depois; o checklist da Vercel lido na hora, sem instalar |
 | M20 | Em andamento: o PR 1 (#131, os blocos), o ajuste dos Artistas (#133) e o PR 2 (#135, o quiz e o save v14), de 28/10/2026, e a documentação; falta o PR 3 | As medalhas (Apêndice S, P404 a P410): a tela em blocos (as Gerais, os Hits, o Anime, as Misturadas, o Quiz e os Artistas), as 16 do quiz do dia e a Hora Extra; depois, as novas dos Hits, do Anime e das Misturadas, em avaliação | Em 3 PRs: os blocos, só a tela (1); o quiz, com o save v14 e o aviso no fim da run (2); as novas das outras categorias (3). A medalha ganha nunca some, e a tela não rola para o lado em 320 px | Modo de planejamento; quadros no chat para escolher os ícones e os nomes; o subagente `revisor`; o `/verificar`; o Auto-fix dos PRs |
+| M21 | Concluído (PRs #139 a #142 e #144, de 01 e 02/11/2026); a ajuda do Setlist fica para depois (ME156) | Os recordes do artista e o Setlist Royale (Apêndice T, P411 a P424): o recorde do Superfan; o Setlist Royale, o 3º submodo do artista e o piloto do royale (ME2), com o recorde dele; e as 3 medalhas do Setlist de cada artista, num carrossel com as do Superfan | O recorde do Superfan (#139, save v15); o Setlist (#140, v16); os ajustes depois das primeiras partidas (#141); o volume e o "Ouvir de novo" (#142); as medalhas e o carrossel (#144, v17). As telas do Setlist cabem sem rolar em 375 × 667 e 360 × 640, e as Medalhas não rolam para o lado em 320 px | Modo de planejamento; rabiscos das medalhas no chat, com capas reais; o subagente `revisor`; o `/verificar`; o navegador do Claude com a parada real e o `__musicleChainLog` |
 
 **Checkup de 11/10/2026** (entre o M11 e o M12): seis subagentes em paralelo conferiram o site publicado, os dados reais, o pipeline, a operação, o jogo e a documentação. As correções entraram em três PRs: #12 (pipeline e robô), #13 (jogo) e #14 (documentação). Resumo e números em `docs/HISTORICO.md`.
 
@@ -504,7 +519,7 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 
 **Melhorias futuras**
 
-- ME2. Modo royale (6 músicas, 9 opções, sem errar).
+- ME2. Modo royale (6 músicas, 9 opções, sem errar). O piloto, no modo por artista, é o Setlist Royale (M21, P412 a P420), com regras próprias: até 8 músicas e 12 opções, e 3 vidas. O do Anime, o Anime Royale, está em andamento numa frente à parte (#143, #145 e #146).
 - ME3. Ofuscar a agenda e dividir por mês quando passar de 200 KB.
 - ME4. Gerar o dia no navegador quando a agenda não cobrir a data.
 - ME5. PWA offline.
@@ -606,8 +621,16 @@ A lista para ler, por tipo (corrigir, analisar, novo e esperando alguém), fica 
 
 - ME155. Uma cor por categoria nas medalhas (os blocos da P404), no lugar da roseta prata, da moldura gelo e das caudas oliva de todas as gerais (P312). Ficou para depois na escolha do desenho das do quiz (o usuário, 28/10/2026). Pede a paleta, conferida no contraste dos dois temas (regra 24 do `web/CLAUDE.md`).
 
+**De 01 e 02/11/2026** (os recordes do artista e o Setlist Royale, M21, Apêndice T):
+
+- ME156. A ajuda do Setlist Royale, com desenho próprio (o usuário, 02/11/2026). Com ela, a perfeita do Setlist (P421) passa a exigir também a run sem ajuda: o `setlistPerfect` (`core/setlist.ts`) ganha a conta das ajudas.
+- ME157. As setas do carrossel das Medalhas (P424) têm 28 px (o `--h-compact`), abaixo dos 44 px da P213. Só aparecem com mouse (`(hover: hover) and (pointer: fine)`), e a rolagem lateral e o Tab fazem o mesmo papel; num notebook com tela de toque, elas aparecem e também recebem o toque. Decidir se crescem ou se ficam como exceção (o revisor do #144, 02/11/2026).
+- ME158. A Início não mostra uma linha da run do Setlist em andamento (ficou fora do #140).
+- ME159. Medir no iPhone a memória do Setlist: o motor guarda só a rodada que toca e, depois, a próxima, até 8 prévias decodificadas, uns 85 MB (#140). O "Ouvir de novo" (P420) baixa as prévias de novo, quase sempre do cache do navegador; sem ele, demora de 1 a 3 s na 10ª rodada (#142).
+
 **Feitas:**
 
+- Em 01 e 02/11/2026, no M21 (Apêndice T): a 1ª parte da ME2, o royale no modo por artista (o Setlist Royale, P412 a P424, PRs #140 a #142 e #144). A ME2 continua aberta para o Anime.
 - Em 28/10/2026, nos ajustes de uso do M19 (Apêndice R.5): ME147 a ME154 (as observações do usuário, P396 a P403, PRs #125 a #127 e #129).
 - Em 27 e 28/10/2026, na revisão de design do M19 (Apêndice R): ME135 a ME143 (os achados da 1ª olhada, P386 a P395, PRs #116 a #122) e a marca do quiz no calendário do Histórico (P390), que ficara de fora no PR #112.
 - Em 25/10/2026, no PR de documentação: ME108 (a lista de negação do `.claude/settings.json` com os gerados dos artistas, do Anime e o `latin.json`, P373).
@@ -2101,6 +2124,67 @@ O pedido do usuário de 28/10/2026: medalhas para o quiz do dia (o Claude sugeri
 - **O especial dos artistas parecidos** (P385): quando a família dele entrar no schema, o `isSpecialFamily` não compila sem a decisão; marcado como especial, ele passa a contar na Edição Especial.
 - **Para depois:** o PR 3, com as novas dos Hits, do Anime e das Misturadas (em avaliação), e a cor por categoria (ME155).
 
+## Apêndice T. Os recordes do artista e o Setlist Royale (M21)
+
+O pedido do usuário de 01/11/2026: um modo royale no artista, antes de levá-lo ao Anime (ME2), em poucos PRs e com a documentação só no fim. No mesmo dia, antes dele, o recorde do Superfan. As decisões são as P411 a P424, em 5 PRs: #139, #140, #141, #142 e #144.
+
+### T.1 O recorde do Superfan (#139)
+
+- **O save v15:** o `best: { score, song }` no registro do artista, gravado pelo `withSuperfanBest` junto com o fim do Superfan, uma vez por partida. O `mergeBest` mescla pelo máximo, número a número, e o App relê o save no fim da partida (`onRunEnd`): reler no meio de uma rodada refaria a exclusão das respostas de hoje (P141). O guard tira só o recorde fora do formato e guarda o resto do registro, e o exportar o leva.
+- **A tela:** a linha "Recorde: …" no cartão do Superfan, no `aria-describedby` dele; no fim da partida, "Novo recorde de pontos!" e "Novo recorde: chegou à música N", com o recorde de antes.
+- **A limitação aceita:** com duas abas, se a outra bater o recorde durante a partida, o aviso do fim pode citar o recorde antigo. O save fica certo.
+
+### T.2 A run (`core/setlist.ts`, #140 e #141)
+
+- **A curva** (`SETLIST_ROUNDS`, P413): num artista curto (os das fixtures têm de 2 a 4 músicas), o `roundShape` limita as opções ao total e deixa sempre uma errada; sem 2 músicas, não há rodada.
+- **O tempo** (`chainParts` e `chainTimeline`, P415): a música do meio toca junto, sozinha e junto; a 1ª e a última têm um junto só, para todas ficarem sozinhas o mesmo tempo; a seguinte entra quando a anterior acaba o sozinha dela, e assim nunca tocam três juntas. As constantes, ajustáveis de ouvido: `FIRST_SPAN` (4,5 s), `LAST_SPAN` (3 s), `MIN_SOLO` (1 s) e `CHAIN_FADE` (0,15 s, a rampa de cada voz).
+- **O sorteio** (`drawSetlistRound`, fora do reducer): o pool (`setlistPool`: sem as respostas de hoje e sem as faixas de menos de 80 s, `MIN_SONG_SEC`), a faixa de popularidade (`bandOf`, das `BAND_START` mais populares, 20, ao catálogo inteiro, P418), os pesos de repetição (`REPEAT_WEIGHTS`, P417) e o ponto de cada música (`setlistOffset`, com o `EDGE_CHANCE`, P416), que é o mesmo para a mesma semente, rodada e música.
+- **O reducer** (`setlistStep`): os eventos `PLAYED`, `HEARD`, `VOID`, `PICK`, `NEXT`, `CONTINUE` e `QUIT`; a rodada sorteada vem pronta no evento, e o evento inválido devolve o mesmo objeto. É a 2ª exceção declarada da regra 5 do `web/CLAUDE.md`, depois das Misturadas. As fases são `listen`, `pick`, `reveal`, `complete` e `over`, e o fim, `errors`, `quit` ou `empty`.
+- **O recorde** (`setlistBest` e `withSetlistBest`, P419) vai ao save quando a run acaba ou a setlist fica completa.
+
+### T.3 O áudio (#140)
+
+- **O `playChain`** do Web Audio: cada voz começa no seu `at` (`source.start(t0 + at, offset, segundos)`), com a rampa. Ele reaproveita as vozes e o limitador do `playMix` (o `voiceBus`, o `voiceOf` e o `voicesEnded`), extraídos sem mudar a mistura. A folga é a de duas juntas (o `together` do `mixGains`), e o `loudFrom` (`core/silence.ts`) leva o começo para fora de uma pausa ou de um breakdown.
+- **Os motores:** o composto repassa ao Web Audio (o `ChainEngine`, com o `canChain`); sem ele (o `<audio>` de reserva), o Setlist não roda, e a tela diz que este navegador não toca as prévias emendadas. O falso registra cada sequência no `window.__musicleChainLog` (as URLs, os `ats` e os segundos), só em DEV, como o `__musicleMixLog`.
+- **A memória:** o cache do motor guarda só a rodada que toca e, depois que ela acaba, só a próxima (ME159).
+
+### T.4 A tela (`ui/Setlist.tsx`, #140 a #142)
+
+- **A escolha do submodo** ganha o 3º cartão, com o recorde do Setlist (P419).
+- **A rodada:** as casas numeradas, acesas enquanto a música delas toca (`activeSlots`); o Tocar, uma vez só; e as opções numa grade de até 3 colunas, com o ✓ ou o ✗ na hora.
+- **A revelação** mostra a ordem em que cada música tocou e, quando a última vida cai no meio da rodada, as que faltaram. Na linha do "Próxima rodada", o "Ouvir de novo" (P420), que alterna com o Parar no mesmo lugar (regra 23); na tela, o texto curto "Ouvir", e o nome inteiro vai para o leitor de tela (P210).
+- **O volume** (#142): a rodada e a revelação têm a `.player`, que segura a posição do painel dele (P216). Sem ela, o painel abria fora da tela.
+- **O fim:** a "Setlist completa!", com o "Continuar sem fim", e o "Fim da setlist", com o motivo. As duas são telas calmas para os avisos de medalha (o `artistsCalm` do `App`).
+
+### T.5 As medalhas do Setlist e o carrossel (#144)
+
+| id | Como ganhar | Tamanho | Nome | Desenho |
+|---|---|---|---|---|
+| `setlist\|<artista>\|oitava` | chegar à 8ª rodada (o recorde com 7 rodadas ou mais), com o progresso "N de 7 rodadas" | pequena | "<título> -Rehearsal-" | a roseta |
+| `setlist\|<artista>\|completa` | terminar a 10ª (o recorde com 10 ou mais) | grande | "<título> -Live-" | o gelo |
+| `setlist\|<artista>\|perfeita` | terminar a 10ª sem perder vida (o `setlistPerfect`) | grande | "<título> -One Take-" | o vinil |
+
+- **Os 14 álbuns** (P423), no `[artists.medals.setlist]` do `artists.toml` real: THE BOOK (YOASOBI), LEO-NiNE (LiSA), 文化 · Bunka (Eve), 残夢 · Zanmu (Ado), daydream (Aimer), BOOTLEG (米津玄師), NeON (UNLIMITS), North Wind (松田聖子), マエナラワナイ · Maenarawanai (新しい学校のリーダーズ), Laugh (幾田りら), ULTIMATE DIAMOND (水樹奈々), Break and Cross the Walls Ⅰ (MAN WITH A MISSION), Puberty BookⅠ Bom (Bolbbalgan4) e Toxicity (System Of A Down). Os dois do plano que repetiam o álbum das do Superfan (o do 水樹奈々 e o do Bolbbalgan4) foram trocados no build. Todos ficaram bem com o enquadramento do centro, sem `crop`.
+- **O pipeline:** o `[artists.medals.setlist]` (o `album`, o `name`, o `latin` e o `crop`) é obrigatório no `build-artists`, como os nomes (P301). O build e o `validate-artists` recusam a capa igual à que as do Superfan mostram (a do álbum delas ou, sem ele, a do cartão) e conferem o latino pela regra dos nomes. O schema da lista ganhou o `medals.setlist`, sem subir a versão: é um acréscimo, e o site lê o `medals` como opcional.
+- **O núcleo** (`core/medals.ts`): o `setlistMedals`, com o `SETLIST_REACH` (7); o `artistMedalOf`, o leitor dos ids das duas famílias, que tomou o lugar dos `startsWith("superfan|")` do `App` e do aviso; o `medalsOf` com as 6 de cada artista; e o `medalBoard`, com cada célula levando a família, o nível e o estado, e as ganhas na frente.
+- **O desenho:** o `setlistArt` e o `setlistBaseName` (`core/medalArt.ts`, com a capa só do host da Apple, regra 22 do `web/CLAUDE.md`) e o kind `vinil` do `MedalArt` (as cores no componente, regra 24), que entra entre as grandes do pop-up (o "Guardar uma cópia", P347).
+- **O save v17:** o `setlistPerfect`, gravado com o recorde. O guard só o aceita com a setlist completa ao lado, como a perfeita do Superfan, que exige a terminada; sem ela, ele sai sozinho, e o resto do registro fica.
+- **O carrossel** (`ui/Medals.tsx`, o `useShelf` e o `ArtistRow`; o `.medal-track` do CSS): uma grade em coluna, cada medalha com 1/3,3 da largura, o encaixe em cada uma e a barra de rolagem escondida, sem o `overflow: hidden` (regra 25). O degradê é uma máscara de 9% da faixa, só no lado que tem mais. As setas ficam `aria-disabled` nas pontas e usam o `singleClick`. Duas travas contra a página rolar para o lado, achadas no navegador: o `contain: inline-size` (a soma das 6 alargava a caixa do artista em 360 px) e o `position: relative` (os `.sr-only`, absolutos, fugiam da faixa).
+- **Os textos:** o sufixo nunca se parte (o word joiner, U+2060, depois do hífen, e o espaço não separável no "One Take"), e os números das regras (a 8ª, as 10) vêm do núcleo.
+
+### T.6 Os testes e os números
+
+- **Os unitários:** a curva, o tempo, o sorteio e o reducer (`setlist.test`); as migrações 14 → 15, 15 → 16 e 16 → 17, os guards e o exportar; as 3 medalhas, o `artistMedalOf` e as ganhas na frente (`medals.test`); o `setlistArt` e o vinil; a tela das Medalhas com as 6 e o aviso de uma do Setlist.
+- **Os e2e:** a run inteira, com o erro, a setlist completa e o sem fim (`artists.spec`); a run até a 8ª, a run perfeita e as setas do carrossel (`medals.spec`); a rodada no caso mais alto, o volume e as Medalhas em 320 px, com os botões do destaque de dentro do carrossel (`layout.spec`). Os ajudantes `bigArtist` (o ar02 com 40 músicas e títulos longos reais, por rota), `playSetlistRound` e `chainTitles` ficam no `e2e/helpers.ts`.
+- **Os números**, no #144: o `/verificar` inteiro, com o e2e completo (191), antes dos ajustes da revisão; depois deles e do merge da `main`, 1.688 testes no `check`, 1.005 no pipeline e os 130 e2e das Medalhas, do layout e dos Artistas.
+
+### T.7 Os riscos e o que ficou para depois
+
+- **O ouvido:** os tempos foram conferidos pelo `__musicleChainLog` e pelo usuário jogando; as constantes ficam no `core/setlist.ts`.
+- **A memória no iPhone** e o "Ouvir de novo" sem o cache do navegador (ME159).
+- **Uma aba com o código v16 aberta** vê a v17 como futura e não grava até recarregar, como nas versões anteriores.
+- **Para depois:** a ajuda do Setlist (ME156), as setas do carrossel (ME157) e a run na Início (ME158). O carrossel fica só nos Artistas (P424).
+
 ## Origem
 
 - **Musicle**, observado no navegador em 08/10/2026: `musicle.app/hitparade/jp` (3 rodadas, 4 capas, previews em `audio-ssl.itunes.apple.com`, capas em `mzstatic.com`).
@@ -2119,6 +2203,7 @@ O pedido do usuário de 28/10/2026: medalhas para o quiz do dia (o Claude sugeri
 - **O Histórico do M15** (22/10/2026): o pedido do usuário de 21/10 e as respostas de 22/10 (P260 a P271); dois subagentes Explore (o save e as datas; as rotas, as telas e os dados) e um subagente Plan, todos só de leitura, que conferiram o desenho contra o código.
 - **Identidade visual do M12** (12 e 13/10/2026): o style guide do designer (SVG e PNG), analisado pelo Claude com recortes em alta resolução e a conta de contraste do WCAG; um subagente de pesquisa comparou as letras do SVG com 26 famílias para achar a Noto Sans JP; as respostas do designer (PD1 a PD13) vieram pelo usuário; o `npm view @fontsource/noto-sans-jp` e uma busca sobre o selo da Apple em fundo escuro (artists.apple.com/support/1117-apple-music-marketing-tools).
 - **As medalhas do M20** (28/10/2026, P404 a P410, Apêndice S): as respostas do usuário na conversa, sobre as sugestões do Claude; os quadros no chat com os ícones e os nomes; o código dos PRs #131, #133 e #135 na `main`, lido pela IA em 28/10/2026; a revisão do subagente `revisor` sobre o diff do #135.
+- **Os recordes do artista e o Setlist Royale do M21** (01 e 02/11/2026, P411 a P424, Apêndice T): as respostas do usuário na conversa e as observações dele jogando; os rabiscos das medalhas no chat, com capas reais da Apple; o código dos PRs #139 a #142 e #144 na `main`, lido pela IA em 02/11/2026; a conferência no navegador do Claude com a parada real (o `__musicleChainLog`, as 14 capas e o carrossel em 320, 360 e 1024 px); as revisões do subagente `revisor` sobre os diffs do #139, do #140 e do #144.
 
 ### A carga de teste (PR C1, 21 e 22/10/2026)
 
