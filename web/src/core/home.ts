@@ -153,7 +153,8 @@ export type ArtistSummary = {
  * No Superfan, o placar da partida, com o bônus das vidas quando ela terminou completa (ME107).
  */
 export function artistSummary(play: ArtistPlay | null): ArtistSummary | null {
-  if (!play) return null;
+  // O Setlist Royale não tem placar em pontos: o cartão da Início fica com a linha de sempre.
+  if (!play || play.kind === "setlist") return null;
   if (play.kind === "superfan") {
     const score = superfanScore(play.run);
     return score.rounds > 0

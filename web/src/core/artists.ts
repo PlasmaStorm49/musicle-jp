@@ -3,7 +3,8 @@ import { APPLE_PROVIDER, isAppleUrl } from "./apple.ts";
 import type { CatalogIndex } from "./catalog.ts";
 import { answerAlbums, type PracticeSession } from "./practice.ts";
 import { fnv1a32 } from "./prng.ts";
-import type { SuperfanBest } from "./records.ts";
+import type { SetlistBest, SuperfanBest } from "./records.ts";
+import type { SetlistRun } from "./setlist.ts";
 import type { SuperfanRun } from "./superfan.ts";
 import type { ArtistCatalog, ArtistList, ArtistListEntry } from "./types.ts";
 
@@ -57,8 +58,8 @@ export function monogram(entry: ArtistListEntry): {
 
 /**
  * A sessão do modo por artista: o artista escolhido e o submodo (P161). A Livre é o Desafio em
- * rodadas sem fim (P125); a do Superfan é uma partida (ME61). Como o Treino, só na memória
- * (P116): recarregar a página volta à lista.
+ * rodadas sem fim (P125); a do Superfan é uma partida (ME61); a do Setlist Royale, uma run (o
+ * usuário, 01/11/2026). Como o Treino, só na memória (P116): recarregar a página volta à lista.
  */
 export type ArtistPlay =
   | {
@@ -72,6 +73,15 @@ export type ArtistPlay =
       readonly run: SuperfanRun;
       /** O recorde do artista quando a partida começou: o fim diz o que ela bateu. */
       readonly before: SuperfanBest | null;
+    }
+  | {
+      readonly kind: "setlist";
+      readonly artist: ArtistListEntry;
+      readonly run: SetlistRun;
+      /** As músicas da run, da mais popular para a menos, montadas no começo (`setlistPool`). */
+      readonly pool: readonly string[];
+      /** O recorde do artista quando a run começou: o fim diz o que ela bateu. */
+      readonly before: SetlistBest | null;
     };
 
 /** A chave do título de um songKey ("夜に駆ける|apple:ar:1" → "夜に駆ける"). */

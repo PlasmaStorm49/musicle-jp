@@ -60,4 +60,9 @@ describe("mixGains: todas com a mesma energia, com a folga", () => {
     expect(mixGains([0.3, 0])[1]).toBeCloseTo(mixHeadroom(2));
     expect(mixGains([0, 0])).toEqual([mixHeadroom(2), mixHeadroom(2)]);
   });
+
+  it("na sequência emendada, a folga é a das que tocam juntas (2), e não a de todas", () => {
+    const gains = mixGains([0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2], MAX_BOOST, 2);
+    for (const gain of gains) expect(gain).toBeCloseTo(mixHeadroom(2));
+  });
 });

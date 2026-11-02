@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
-import type { AudioEngine, EngineOptions, MixLog, PlayLog } from "../audio/engine.ts";
+import type { AudioEngine, ChainLog, EngineOptions, MixLog, PlayLog } from "../audio/engine.ts";
 import { FakeAudioEngine } from "../audio/fake.ts";
 import { FallbackAudioEngine } from "../audio/fallback.ts";
 import { HtmlAudioEngine } from "../audio/htmlaudio.ts";
@@ -102,6 +102,8 @@ declare global {
     __musicleAudioLog?: PlayLog[];
     /** Só em desenvolvimento, com o motor falso: cada mistura das Misturadas (M17). */
     __musicleMixLog?: MixLog[];
+    /** Só em desenvolvimento: cada sequência emendada do Setlist Royale (os dois motores). */
+    __musicleChainLog?: ChainLog[];
   }
 }
 
@@ -236,8 +238,12 @@ export function App() {
   });
   const { claim: claimMedals, notice, dismiss: dismissNotice } = medalNotices;
   const onResult = useCallback(() => claimMedals(false), [claimMedals]);
+  // Calmo é o fim de uma partida ou de uma run (e a setlist completa), nunca uma rodada.
   const artistsCalm =
-    artists.play === null || (artists.play.kind === "superfan" && artists.play.run.end !== null);
+    artists.play === null ||
+    (artists.play.kind === "superfan" && artists.play.run.end !== null) ||
+    (artists.play.kind === "setlist" &&
+      (artists.play.run.phase === "over" || artists.play.run.phase === "complete"));
   const calm = noticeTab(route.tab) || (route.tab === "artists" && artistsCalm);
   // Trocar de tela fecha o aviso, que já foi visto: o pequeno não fica por cima do selo da Apple de
   // uma rodada (P288). A tela nova, se for calma, reivindica de novo; nos Artistas e nas Medalhas,
@@ -403,6 +409,12 @@ export function App() {
         ? (log: MixLog) => {
             window.__musicleMixLog ??= [];
             window.__musicleMixLog.push(log);
+          }
+        : undefined,
+      onChained: import.meta.env.DEV
+        ? (log: ChainLog) => {
+            window.__musicleChainLog ??= [];
+            window.__musicleChainLog.push(log);
           }
         : undefined,
     };

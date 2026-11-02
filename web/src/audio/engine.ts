@@ -92,6 +92,36 @@ export function canMix(engine: AudioEngine): engine is AudioEngine & MixEngine {
 }
 
 /**
+ * Uma prévia da sequência emendada do Setlist Royale: de onde ela começa, quando entra (contado do
+ * começo da sequência) e quanto toca. A seguinte entra antes de esta acabar.
+ */
+export type ChainTrack = {
+  readonly url: string;
+  /** O ponto da prévia, do 1º som. O Web Audio ainda pula um trecho baixo (core/silence.ts). */
+  readonly offset: number;
+  readonly at: number;
+  readonly seconds: number;
+};
+
+export type ChainOptions = {
+  /** A rampa de entrada e de saída de cada voz, em segundos (padrão: a de 10 ms). */
+  readonly fade?: number;
+};
+
+/**
+ * O motor que toca a sequência emendada: o Web Audio, o composto (que repassa a ele) e o falso dos
+ * e2e. À parte do MixEngine, como ele: o <audio> não toca duas prévias ao mesmo tempo.
+ */
+export interface ChainEngine {
+  /** Toca as prévias, cada uma no seu `at`. Null: outra ação tomou o lugar. */
+  playChain(tracks: readonly ChainTrack[], options?: ChainOptions): Promise<Playback | null>;
+}
+
+export function canChain(engine: AudioEngine): engine is AudioEngine & ChainEngine {
+  return typeof (engine as Partial<ChainEngine>).playChain === "function";
+}
+
+/**
  * Por que o áudio falhou. O motor composto (fallback.ts) decide a reserva por isto:
  * - network: rede ou CORS (o fetch do Web Audio exige CORS; o <audio> não);
  * - http: o servidor respondeu com erro (404, 403);
@@ -135,6 +165,15 @@ export type MixLog = {
   readonly engine: EngineName;
 };
 
+/** Uma sequência emendada tocada (o Setlist Royale): o e2e acha as respostas por ela. */
+export type ChainLog = {
+  readonly urls: readonly string[];
+  readonly offsets: readonly number[];
+  readonly ats: readonly number[];
+  readonly seconds: readonly number[];
+  readonly engine: EngineName;
+};
+
 export type EngineOptions = {
   /** Só em desenvolvimento (?failAudio=): força falha de áudio nas URLs desta faixa. */
   readonly fails?: (url: string) => boolean;
@@ -142,6 +181,8 @@ export type EngineOptions = {
   readonly onPlayed?: (log: PlayLog) => void;
   /** Avisado a cada mistura que começa (só o motor falso, em DEV: window.__musicleMixLog). */
   readonly onMixed?: (log: MixLog) => void;
+  /** Avisado a cada sequência emendada que começa (em DEV: window.__musicleChainLog). */
+  readonly onChained?: (log: ChainLog) => void;
   /** O volume inicial, de 0 a 1 (o salvo no aparelho, storage/volume.ts). */
   readonly volume?: number;
 };

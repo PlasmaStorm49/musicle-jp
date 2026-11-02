@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { type AudioEngine, canMix } from "./engine.ts";
+import { type AudioEngine, canChain, canMix } from "./engine.ts";
 import { WebAudioEngine } from "./webaudio.ts";
 
 type FakeGain = {
@@ -333,6 +333,107 @@ describe("WebAudioEngine: a mistura das Misturadas (M17)", () => {
     };
     expect(canMix(new WebAudioEngine())).toBe(true);
     expect(canMix(plain)).toBe(false);
+  });
+});
+
+describe("WebAudioEngine: a sequência emendada do Setlist Royale", () => {
+  const chain = [
+    { url: "a.m4a", offset: 0, at: 0, seconds: 3 },
+    { url: "b.m4a", offset: 6, at: 2, seconds: 3 },
+    { url: "c.m4a", offset: 10, at: 4, seconds: 3 },
+  ];
+
+  /** As peças de cada voz da sequência (sem lado): o ganho liga no barramento, e o envelope nele. */
+  function chainVoicesOf(ctx: MixCtx) {
+    const bus = ctx.gains.find((g) => g.connect.mock.calls[0]?.[0] === ctx.limiters[0]);
+    const gains = ctx.gains.filter((g) => g.connect.mock.calls[0]?.[0] === bus);
+    return gains.map((gain, i) => ({
+      gain,
+      envelope: ctx.gains.find((g) => g.connect.mock.calls[0]?.[0] === gain),
+      source: ctx.sources[i],
+    }));
+  }
+
+  it("cada voz entra no seu instante, sem lado, com a folga de duas e a rampa pedida", async () => {
+    const ctxs = mixContexts();
+    const chained: unknown[] = [];
+    const engine = new WebAudioEngine({ onChained: (log) => chained.push(log) });
+    const playing = await engine.playChain(chain, { fade: 0.15 });
+    const ctx = ctxs[0];
+    if (!ctx || !playing) throw new Error("a sequência não tocou");
+    expect(ctx.panners).toHaveLength(0);
+    const voices = chainVoicesOf(ctx);
+    expect(voices).toHaveLength(3);
+    for (const [i, voice] of voices.entries()) {
+      const track = chain[i];
+      if (!track) throw new Error("voz a mais");
+      expect(voice.source?.start).toHaveBeenCalledWith(playing.t0 + track.at, track.offset, 3);
+      expect(voice.gain.gain.value).toBeCloseTo(1 / Math.SQRT2); // no máximo duas juntas
+      expect(voice.envelope?.gain.linearRampToValueAtTime).toHaveBeenCalledWith(
+        1,
+        expect.closeTo(playing.t0 + track.at + 0.15, 9),
+      );
+    }
+    expect(playing.seconds).toBe(7); // a última entra em 4 s e toca 3
+    expect(chained).toEqual([
+      {
+        urls: ["a.m4a", "b.m4a", "c.m4a"],
+        offsets: [0, 6, 10],
+        ats: [0, 2, 4],
+        seconds: [3, 3, 3],
+        engine: "webaudio",
+      },
+    ]);
+  });
+
+  it("o trecho que cai numa pausa avança até o 1º trecho com som", async () => {
+    // A b fica muda de 6 a 12 s; o ponto pedido (6 s) cai na pausa e anda, de 0,3 em 0,3 s (o
+    // passo de 0,25 s em 10 amostras por segundo), até 11,7 s: o 1º meio segundo só tem 0,3 s mudo.
+    const ctxs = mixContexts({ "b.m4a": (i) => (i >= 60 && i < 120 ? 0 : 0.1) });
+    const playing = await new WebAudioEngine().playChain(chain);
+    expect(ctxs[0]?.sources[1]?.start).toHaveBeenCalledWith(
+      expect.closeTo((playing?.t0 ?? 0) + 2, 9),
+      expect.closeTo(11.7, 9),
+      3,
+    );
+  });
+
+  it("o stop corta todas as vozes, também as que ainda não entraram", async () => {
+    const ctxs = mixContexts();
+    const engine = new WebAudioEngine();
+    const playing = await engine.playChain(chain);
+    engine.stop();
+    for (const source of ctxs[0]?.sources ?? []) {
+      expect(source.stop).toHaveBeenCalled();
+      source.onended?.();
+    }
+    await expect(playing?.done).resolves.toMatchObject({ interrupted: true });
+  });
+
+  it("o fim natural espera a última voz; um stop no meio da carga devolve null", async () => {
+    const ctxs = mixContexts();
+    const engine = new WebAudioEngine();
+    const playing = await engine.playChain(chain);
+    for (const source of ctxs[0]?.sources ?? []) source.onended?.();
+    await expect(playing?.done).resolves.toMatchObject({ interrupted: false, requested: 7 });
+    expect(ctxs[0]?.limiters[0]?.disconnect).toHaveBeenCalled();
+    const pending = engine.playChain(chain);
+    engine.stop();
+    await expect(pending).resolves.toBeNull();
+  });
+
+  it("o canChain diz quem toca a sequência", () => {
+    const plain: AudioEngine = {
+      unlock: vi.fn(),
+      preload: vi.fn(),
+      play: vi.fn(),
+      stop: vi.fn(),
+      retain: vi.fn(),
+      setVolume: vi.fn(),
+      volume: () => 1,
+    };
+    expect(canChain(new WebAudioEngine())).toBe(true);
+    expect(canChain(plain)).toBe(false);
   });
 });
 

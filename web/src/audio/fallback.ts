@@ -7,10 +7,15 @@
 //   cada prévia nova tenta o Web Audio uma vez (falha rápida) e vai para o <audio>;
 // - blocked e simulated (?failAudio=): não troca; a falha segue para a tela.
 // A mistura das Misturadas (M17, playMix) é só do Web Audio: o <audio> não toca duas prévias no
-// mesmo instante. Depois de um decode, ela falha de vez, e a tela anula a rodada.
+// mesmo instante. Depois de um decode, ela falha de vez, e a tela anula a rodada. A sequência
+// emendada do Setlist Royale (playChain) também.
 import {
   type AudioEngine,
   AudioUnavailableError,
+  type ChainEngine,
+  type ChainOptions,
+  type ChainTrack,
+  canChain,
   canMix,
   type MixEngine,
   type MixOptions,
@@ -22,7 +27,7 @@ import {
 const SESSION_WIDE = new Set(["decode"]);
 const THIS_URL = new Set(["network", "http"]);
 
-export class FallbackAudioEngine implements AudioEngine, MixEngine {
+export class FallbackAudioEngine implements AudioEngine, MixEngine, ChainEngine {
   readonly #primary: AudioEngine;
   readonly #reserve: AudioEngine;
   #reserveOnly = false;
@@ -92,11 +97,29 @@ export class FallbackAudioEngine implements AudioEngine, MixEngine {
     try {
       return await this.#primary.playMix(tracks, seconds, options);
     } catch (error) {
-      // O navegador não decodifica: daqui em diante, as prévias sozinhas vão para o <audio>.
-      if (error instanceof AudioUnavailableError && SESSION_WIDE.has(error.kind)) {
-        this.#reserveOnly = true;
-      }
+      this.#markSessionWide(error);
       throw error;
+    }
+  }
+
+  async playChain(tracks: readonly ChainTrack[], options?: ChainOptions): Promise<Playback | null> {
+    this.#token += 1;
+    this.#reserve.stop();
+    if (this.#reserveOnly || !canChain(this.#primary)) {
+      throw new AudioUnavailableError("decode", "a sequência emendada precisa do Web Audio");
+    }
+    try {
+      return await this.#primary.playChain(tracks, options);
+    } catch (error) {
+      this.#markSessionWide(error);
+      throw error;
+    }
+  }
+
+  /** O navegador não decodifica: daqui em diante, as prévias sozinhas vão para o <audio>. */
+  #markSessionWide(error: unknown): void {
+    if (error instanceof AudioUnavailableError && SESSION_WIDE.has(error.kind)) {
+      this.#reserveOnly = true;
     }
   }
 

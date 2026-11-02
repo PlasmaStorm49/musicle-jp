@@ -973,7 +973,12 @@ describe("Artists: o que vai para o save (P289)", () => {
   /** Acerta a música em jogo pelo campo, sem tocar (o trecho de 1 s, o máximo de pontos). */
   const right = (store: () => ArtistStore) => {
     const play = store().play;
-    const session = play?.kind === "free" ? play.session : play?.run.session;
+    const session =
+      play?.kind === "free"
+        ? play.session
+        : play?.kind === "superfan"
+          ? play.run.session
+          : undefined;
     const game = session?.game;
     const answer = game ? currentRound(game).trackId : "";
     fireEvent.input(field(), { target: { value: `Música ${answer.split(":").at(-1)}` } });

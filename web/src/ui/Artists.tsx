@@ -15,12 +15,21 @@ import {
 } from "../core/practice.ts";
 import {
   type Save,
+  type SetlistBest,
   type SuperfanBest,
   withArtistRight,
+  withSetlistBest,
   withSuperfanBest,
   withSuperfanEnd,
 } from "../core/records.ts";
 import { currentRound } from "../core/reducer.ts";
+import {
+  SETLIST_LIVES,
+  type SetlistRun,
+  setlistBest,
+  setlistPool,
+  startSetlist,
+} from "../core/setlist.ts";
 import {
   SUPERFAN_LIVES,
   type SuperfanRun,
@@ -48,6 +57,7 @@ import { ArtistName, WithName } from "./ArtistName.tsx";
 import { Attribution } from "./Attribution.tsx";
 import { FocusedNotice, UpdateNotice } from "./FocusedNotice.tsx";
 import { PracticeRun, type RunTexts, randomSeed } from "./PracticeRun.tsx";
+import { SetlistView } from "./Setlist.tsx";
 import { SuperfanView } from "./Superfan.tsx";
 import { singleClick } from "./singleClick.ts";
 
@@ -109,6 +119,8 @@ export type ArtistStore = {
   readonly change: (change: (session: PracticeSession) => PracticeSession) => void;
   /** Mudança sobre a partida do Superfan de agora. */
   readonly changeRun: (change: (run: SuperfanRun) => SuperfanRun) => void;
+  /** Mudança sobre a run do Setlist Royale de agora. */
+  readonly changeSetlist: (change: (run: SetlistRun) => SetlistRun) => void;
   /** "Trocar de artista" (ou voltar da escolha do submodo): volta à lista (P127). */
   readonly restart: () => void;
 };
@@ -205,6 +217,13 @@ export function useArtistStore({
       ),
     [],
   );
+  const changeSetlist = useCallback<ArtistStore["changeSetlist"]>(
+    (update) =>
+      setPlay((current) =>
+        current?.kind === "setlist" ? { ...current, run: update(current.run) } : current,
+      ),
+    [],
+  );
   const restart = useCallback(() => {
     setPlay(null);
     setPickedEntry(null);
@@ -213,19 +232,26 @@ export function useArtistStore({
   // Cada música acertada e o fim da partida do Superfan vão para o save uma vez só (P289), o fim
   // com o recorde. A chave é o artista, o submodo, a semente da sessão e o número da rodada: voltar
   // à aba, com a sessão guardada aqui, remonta a revelação, mas não conta de novo. A anulada não é
-  // acerto.
+  // acerto. Do Setlist Royale, só o recorde, no fim e na setlist completa (a pessoa pode sair dali).
   const recorded = useRef(new Set<string>());
   useEffect(() => {
     if (!play || !record) return;
-    const session = play.kind === "free" ? play.session : play.run.session;
     const artistId = play.artist.id;
-    const base = `${artistId}|${play.kind}|${session.practice.seed}`;
     const once = (key: string, change: (save: Save) => Save) => {
       if (recorded.current.has(key)) return false;
       recorded.current.add(key);
       record(change);
       return true;
     };
+    if (play.kind === "setlist") {
+      const best = setlistBest(play.run);
+      const moment = play.run.end !== null ? "fim" : "completa";
+      const key = `${artistId}|setlist|${play.run.seed}|${moment}`;
+      if (best && once(key, (save) => withSetlistBest(save, artistId, best))) onRunEnd?.();
+      return;
+    }
+    const session = play.kind === "free" ? play.session : play.run.session;
+    const base = `${artistId}|${play.kind}|${session.practice.seed}`;
     if (session.game && currentRound(session.game).status === "won") {
       once(`${base}|${session.number}`, (save) => withArtistRight(save, artistId));
     }
@@ -262,6 +288,7 @@ export function useArtistStore({
     loaded,
     change,
     changeRun,
+    changeSetlist,
     restart,
   };
 }
@@ -318,8 +345,22 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
       ),
     }));
   };
-  // O recorde do Superfan, do save: o App o relê no fim de cada partida (`onRunEnd`).
+  // Os recordes, do save: o App o relê no fim de cada partida e de cada run (`onRunEnd`).
   const bestOf = (artistId: string) => save.artists[artistId]?.best ?? null;
+  const setlistOf = (artistId: string) => save.artists[artistId]?.setlist ?? null;
+  const newSetlist = (artist: ArtistListEntry, pool: readonly string[]): ArtistPlay => ({
+    kind: "setlist",
+    artist,
+    run: startSetlist(randomSeed(), pool),
+    pool,
+    before: setlistOf(artist.id),
+  });
+  const startSetlistRun = () => {
+    if (!picked) return;
+    store.begin(({ file, index }) =>
+      newSetlist(picked.entry, setlistPool(index, excludedForArtist(file, chart, pendingSongs))),
+    );
+  };
   const startSuperfanRun = () => {
     if (!picked) return;
     const seed = randomSeed();
@@ -333,6 +374,24 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
   };
 
   if (play && loaded) {
+    if (play.kind === "setlist") {
+      return (
+        <SetlistView
+          artist={play.artist}
+          run={play.run}
+          pool={play.pool}
+          before={play.before}
+          index={loaded.index}
+          resolver={loaded.resolver}
+          engine={engine}
+          announce={announce}
+          onChange={store.changeSetlist}
+          // A run nova monta o pool de novo: um diário que terminou libera as músicas dele.
+          onAgain={() => store.replay(newSetlist(play.artist, setlistPool(loaded.index, excluded)))}
+          onSwitch={store.restart}
+        />
+      );
+    }
     if (play.kind === "superfan") {
       return (
         <SuperfanView
@@ -375,8 +434,10 @@ export function Artists({ store, chart, day, date, save, engine, resolveUrl, ann
       <ModeChoice
         entry={picked.entry}
         best={bestOf(picked.entry.id)}
+        setlist={setlistOf(picked.entry.id)}
         onFree={startFree}
         onSuperfan={startSuperfanRun}
+        onSetlist={startSetlistRun}
         onBack={store.restart}
       />
     );
@@ -543,21 +604,26 @@ function ArtistCards({
 }
 
 /**
- * A escolha do submodo, depois do artista (P161): o Livre (o Desafio sem fim) ou o Superfan (a
- * partida difícil, ME61), com o recorde embaixo da dica, depois da 1ª partida acabada (o usuário,
- * 01/11/2026). Tela nova: o foco vai para o título, o nome do artista.
+ * A escolha do submodo, depois do artista (P161): o Livre (o Desafio sem fim), o Superfan (a
+ * partida difícil, ME61) ou o Setlist Royale (as músicas emendadas, o usuário, 01/11/2026), com o
+ * recorde embaixo da dica, depois da 1ª partida ou run acabada. Tela nova: o foco vai para o
+ * título, o nome do artista.
  */
 function ModeChoice({
   entry,
   best,
+  setlist,
   onFree,
   onSuperfan,
+  onSetlist,
   onBack,
 }: {
   readonly entry: ArtistListEntry;
   readonly best: SuperfanBest | null;
+  readonly setlist: SetlistBest | null;
   readonly onFree: () => void;
   readonly onSuperfan: () => void;
+  readonly onSetlist: () => void;
   readonly onBack: () => void;
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
@@ -578,6 +644,18 @@ function ModeChoice({
         ? t("artists.superfanBest", { points: tn("count.points", best.score), song: best.song })
         : null,
       start: onSuperfan,
+    },
+    {
+      id: "setlist",
+      name: t("setlist.name"),
+      hint: t("artists.setlistHint", { total: SETLIST_LIVES }),
+      best: setlist
+        ? t("artists.setlistBest", {
+            rounds: tn("setlist.rounds", setlist.rounds),
+            found: tn("setlist.songs", setlist.found),
+          })
+        : null,
+      start: onSetlist,
     },
   ] as const;
   return (
