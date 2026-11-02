@@ -71,6 +71,11 @@ type Props = {
    * Hits, montada aqui (`hitsActions`).
    */
   readonly back?: { readonly href: string; readonly label: string; readonly labelFull: string };
+  /**
+   * No resumo de hoje do Anime, a próxima dificuldade do modo por jogar (o usuário, 01/11/2026),
+   * ao lado do Compartilhar, como o outro diário dos Hits; a volta vira a seta antes do título.
+   */
+  readonly next?: { readonly href: string; readonly label: string };
 };
 
 /**
@@ -94,7 +99,8 @@ function header(daily: Daily): string {
  * Nos Hits, o resumo de hoje tem a volta à tela deles, a seta antes do título, e o outro diário do
  * dia, se ele ainda não terminou, ao lado do Compartilhar (o usuário, 28/10/2026): nenhum dos dois
  * faz o resumo crescer, que já tinha só 6 px de folga em 360 × 640. O Anime traz a volta dele
- * (`back`), sem o próximo; num dia passado, o resumo tem a volta ao dia.
+ * (`back`) e, hoje, a próxima dificuldade (`next`, o usuário, 01/11/2026): com ela, a volta vira a
+ * seta antes do título, como nos Hits; num dia passado, o resumo tem a volta ao dia.
  */
 function hitsActions(
   daily: Daily,
@@ -122,17 +128,24 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
     return { ...merged, [id]: merged[id] ?? game };
   }, [store, initialSave, id, game]);
   const hits = hitsActions(daily, props.dailies, history, props.today);
+  // A próxima dificuldade do Anime, só hoje: com ela, a volta sai do resumo e vira a seta.
+  const animeNext = isLate(daily.date, props.today) ? undefined : props.next;
+  const titleBack = hits.back
+    ? { href: ROUTES.hits, label: t("hits.backFull") }
+    : animeNext && props.back
+      ? { href: props.back.href, label: props.back.labelFull }
+      : null;
   return (
     <div class="game screen">
       <header class="round-head">
-        {hits.back ? (
+        {titleBack ? (
           <div class="round-title">
             {/* O 2º clique de um toque duplo no "Ver resultado" não segue o link (regra 23). */}
-            <a class="back-link" href={ROUTES.hits} onClick={singleClickLink}>
+            <a class="back-link" href={titleBack.href} onClick={singleClickLink}>
               <span class="back-chevron" aria-hidden="true">
                 <Icon name="next" />
               </span>
-              <span class="sr-only">{t("hits.backFull")}</span>
+              <span class="sr-only">{titleBack.label}</span>
             </a>
             <h1>{header(daily)}</h1>
           </div>
@@ -148,8 +161,8 @@ function DaySummary({ game, ...props }: Props & { readonly game: FinishedGame })
         shareUrl={props.shareUrl}
         announce={props.announce}
         today={props.today}
-        back={props.back}
-        next={hits.next}
+        back={animeNext ? undefined : props.back}
+        next={hits.next ?? animeNext}
       />
     </div>
   );

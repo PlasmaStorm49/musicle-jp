@@ -3,6 +3,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { test as base, expect, type Locator, type Page } from "@playwright/test";
+import { ANIMETHEMES_COVER_BASE } from "../src/core/covers.ts";
 import type { AnimeDifficulty, AnimeMode } from "../src/core/daily.ts";
 import { emptySave, type Save } from "../src/core/records.ts";
 import type {
@@ -13,6 +14,7 @@ import type {
   ArtistCatalog,
   ArtistList,
   Catalog,
+  RoyaleSchedule,
   Schedule,
   Target,
   Track,
@@ -30,6 +32,7 @@ const schedule = fixture<Schedule>("schedule.json");
 /** O Anime fictício (M14): as faixas são as da parada fictícia (o mesmo áudio sintético). */
 const animeCatalog = fixture<AnimeCatalog>("anime/catalog.json");
 const animeSchedule = fixture<AnimeSchedule>("anime/schedule.json");
+const royaleSchedule = fixture<RoyaleSchedule>("anime/royale.json");
 
 declare global {
   interface Window {
@@ -99,7 +102,7 @@ export async function seedHistory(
   page: Page,
   history: Save["history"],
   artists: Save["artists"] = {},
-  extra: Partial<Pick<Save, "practiceRight" | "shelf" | "mixed" | "quiz">> = {},
+  extra: Partial<Pick<Save, "practiceRight" | "shelf" | "mixed" | "quiz" | "royale">> = {},
 ): Promise<void> {
   const save: Save = { ...emptySave(), history, artists, ...extra };
   // Uma marca por chamada: a 2ª chamada na mesma página também grava (a última vale).
@@ -172,6 +175,26 @@ export function animeAnswer(
     );
   }
   return answer;
+}
+
+/** As 5 que tocam e as 9 capas de uma dificuldade do Anime Royale, lidas da agenda falsa dele. */
+export function royaleRound(
+  date: string,
+  tier: AnimeDifficulty,
+): { readonly played: readonly string[]; readonly options: readonly string[] } {
+  const round = royaleSchedule.days[date]?.[tier];
+  if (!round) throw new Error(`a agenda do Royale não tem ${tier} em ${date}`);
+  return round;
+}
+
+/** A capa de uma faixa na grade do Royale: o botão, pelo nome do anime do 1º tema. */
+export function royaleCover(page: Page, id: string): Locator {
+  const anime = animeCatalog.tracks.find((t) => t.id === id)?.anime.themes[0]?.anime;
+  if (!anime) throw new Error(`a faixa ${id} não está no catálogo do Anime`);
+  const name = anime.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return page.getByRole("list", { name: "As capas" }).getByRole("button", {
+    name: new RegExp(`^${name}, `),
+  });
 }
 
 /** A faixa que acabou de "tocar" (último registro do __musicleAudioLog). */
@@ -332,14 +355,36 @@ export async function appleCatalog(
       "franchises" in data
         ? {
             franchises: data.franchises.map((f) => ({ ...f, name: franchiseName(f.name) })),
+            // As capas no formato do AnimeThemes (o Anime Royale), respondidas do disco abaixo.
             tracks: tracks.map((t) =>
-              "anime" in t ? { ...t, anime: { ...t.anime, themes: themes(t.anime.themes) } } : t,
+              "anime" in t
+                ? {
+                    ...t,
+                    anime: {
+                      ...t.anime,
+                      themes: themes(t.anime.themes).map((theme) =>
+                        theme.cover
+                          ? {
+                              ...theme,
+                              cover: {
+                                small: `anime/small-cover/e2e${tail(t.id)}.png`,
+                                large: `anime/large-cover/e2e${tail(t.id)}.png`,
+                              },
+                            }
+                          : theme,
+                      ),
+                    },
+                  }
+                : t,
             ),
           }
         : { tracks };
     await route.fulfill({ response, json: { ...data, provider: "apple", albums, ...anime } });
   });
   await page.route("https://is1-ssl.mzstatic.com/**", (route) =>
+    route.fulfill({ path: FAKE_COVER, contentType: "image/svg+xml" }),
+  );
+  await page.route(`${ANIMETHEMES_COVER_BASE}**`, (route) =>
     route.fulfill({ path: FAKE_COVER, contentType: "image/svg+xml" }),
   );
   await page.route("https://itunes.apple.com/**", (route) => route.abort());

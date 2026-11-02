@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ArtistSummary } from "../core/home.ts";
 import { emptySave, type FinishedGame, puzzleId, type Save } from "../core/records.ts";
 import { ROUTES } from "../core/routes.ts";
+import { ROYALE_KEYS } from "../core/royale.ts";
 import type { AlbumRound, Day } from "../core/types.ts";
 import { THEME_KEY } from "../storage/theme.ts";
 import { Home } from "./Home.tsx";
@@ -118,15 +119,25 @@ describe("Home", () => {
     setup(emptySave(), null);
     expect(next()?.getAttribute("href")).toBe("#anime");
     cleanup();
-    // Tudo jogado: os Hits, um de cada modo do Anime (P357), as 2 Misturadas e o quiz.
+    // O Anime terminado (um de cada modo, P357): o Anime Royale (o usuário, 01/11/2026).
+    const animeDone = {
+      [puzzleId(DATE, "album")]: finished,
+      [puzzleId(DATE, "song")]: finished,
+      [puzzleId(DATE, "anime-musica-facil")]: finished,
+      [puzzleId(DATE, "anime-titulo-dificil")]: finished,
+    };
+    setup({ ...emptySave(), history: animeDone });
+    expect(next()?.getAttribute("href")).toBe("#anime-royale");
+    cleanup();
+    // Tudo jogado: os Hits, um de cada modo do Anime, as 3 do Royale, as 2 Misturadas e o quiz.
     const mixedGame = { number: 1, rounds: [] };
+    const royaleGame = { number: 1, found: [0, 1, 2, 3, 4] };
     setup({
       ...emptySave(),
-      history: {
-        [puzzleId(DATE, "album")]: finished,
-        [puzzleId(DATE, "song")]: finished,
-        [puzzleId(DATE, "anime-musica-facil")]: finished,
-        [puzzleId(DATE, "anime-titulo-dificil")]: finished,
+      history: animeDone,
+      royale: {
+        finished: Object.fromEntries(ROYALE_KEYS.map((key) => [puzzleId(DATE, key), royaleGame])),
+        progress: {},
       },
       mixed: {
         finished: {

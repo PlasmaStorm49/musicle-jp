@@ -6,12 +6,14 @@ import {
   categoryOf,
   isAnimeTab,
   isMixedTab,
+  isRoyaleTab,
   navCurrent,
   ROUTES,
   type Route,
   routeCategory,
   routeFromHash,
   routeHref,
+  royaleScreen,
   type Tab,
   tabFromHash,
   todayHref,
@@ -87,10 +89,31 @@ describe("categoryOf (a aba marcada na nav, P225)", () => {
     expect(categoryOf(tab)).toBe(category);
   });
 
-  it("todas as abas do Anime, e só elas, ficam na categoria Anime", () => {
+  it("todas as abas do Anime e do Royale, e só elas, ficam na categoria Anime", () => {
     for (const tab of Object.keys(ROUTES) as Tab[]) {
-      expect(categoryOf(tab) === "anime", tab).toBe(isAnimeTab(tab));
+      expect(categoryOf(tab) === "anime", tab).toBe(isAnimeTab(tab) || isRoyaleTab(tab));
+      // As do Royale têm a tela delas: nunca caem na do Anime (que mostraria os modos).
+      expect(isAnimeTab(tab) && isRoyaleTab(tab), tab).toBe(false);
     }
+  });
+
+  it("o Royale (o usuário, 01/11/2026): a escolha e as 3 dificuldades, sem data", () => {
+    expect(royaleScreen("anime-royale")).toEqual({ kind: "levels" });
+    expect(royaleScreen("anime-royale-medio")).toEqual({
+      kind: "round",
+      tier: "medio",
+      key: "anime-royale-medio",
+    });
+    expect(routeFromHash("#anime-royale-facil", "2026-10-22")).toEqual({
+      tab: "anime-royale-facil",
+      date: null,
+    });
+    // Sem Histórico: com a data, a home (regra 17).
+    expect(routeFromHash("#anime-royale-facil/2026-10-20", "2026-10-22")).toEqual({
+      tab: "home",
+      date: null,
+    });
+    expect(navCurrent({ tab: "anime-royale", date: null }, "anime")).toBe("true");
   });
 
   it("as das Misturadas (M17), e só elas, ficam na categoria delas; com a data, o Histórico", () => {

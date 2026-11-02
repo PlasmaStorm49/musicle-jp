@@ -102,6 +102,8 @@ const PAIRS: readonly (readonly [string, string, number])[] = [
   ["muted", "bad-soft", TEXT],
   // O anel da música que tocou e faltou, na revelação do Setlist Royale, sobre a tinta da opção.
   ["ok", "fill", SHAPE],
+  // O trecho que toca, na barra de 5 partes do Anime Royale (o usuário, 01/11/2026).
+  ["bar-play", "fill", SHAPE],
   ["warn", "warn-soft", TEXT],
   ["border-strong", "bg", SHAPE],
   ["border-strong", "surface", SHAPE],

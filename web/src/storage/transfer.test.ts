@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { MixedGame } from "../core/mixed.ts";
 import { emptySave, type FinishedGame, type Save } from "../core/records.ts";
+import type { RoyaleGame } from "../core/royale.ts";
 import { SAVE_SCHEMA_VERSION } from "./migrations.ts";
 import { readSave } from "./save.ts";
 import {
@@ -278,6 +279,43 @@ describe("replaceSave (P345)", () => {
     expect(next.history).toEqual(imported.history);
     expect(next.practiceRight).toBe(12);
     expect(next.inProgress).toEqual({ "2026-10-23|song": { events: [{ type: "SKIP" }] } });
+  });
+});
+
+describe("o Anime Royale no arquivo (v18, o usuário, 01/11/2026)", () => {
+  const game: RoyaleGame = { number: 2, found: [3, 0], wrong: true };
+  const withRoyale: Save = {
+    ...emptySave(),
+    royale: {
+      finished: { "2026-10-22|anime-royale-medio": game },
+      progress: { "2026-10-23|anime-royale-facil": { events: [{ type: "QUIT" }] } },
+    },
+  };
+
+  it("viajam só os terminados; o de depois de hoje sai; a substituição guarda o andamento daqui", () => {
+    const data = JSON.parse(exportFile(withRoyale, TODAY));
+    expect(data.save.royale).toEqual({ finished: withRoyale.royale.finished, progress: {} });
+    const result = parseImport(exportFile(withRoyale, TODAY), TODAY);
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.save.royale).toEqual({ finished: withRoyale.royale.finished, progress: {} });
+    expect(result.summary).toMatchObject({ days: 1, dropped: false });
+    const later = { ...withRoyale.royale.finished, "2026-10-24|anime-royale-facil": game };
+    const late = parseImport(
+      file({ ...withRoyale, royale: { ...withRoyale.royale, finished: later } }),
+      TODAY,
+    );
+    if (!late.ok) throw new Error(late.reason);
+    expect(late.save.royale.finished).toEqual(withRoyale.royale.finished);
+    expect(late.summary.dropped).toBe(true);
+    expect(lostGames(withRoyale, { ...save, inProgress: {} })).toBe(1);
+    expect(replaceSave(withRoyale, result.save).royale).toEqual(withRoyale.royale);
+  });
+
+  it("um arquivo de antes do Royale (v17) entra, com o campo vazio", () => {
+    const { royale: _none, ...v17 } = { ...save, schemaVersion: 17 };
+    const result = parseImport(file(v17), TODAY);
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.save.royale).toEqual({ finished: {}, progress: {} });
   });
 });
 

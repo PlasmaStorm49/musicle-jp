@@ -22,6 +22,7 @@ import { emptySave, favoriteOf, pruneProgress, type Save, withFavorite } from ".
 import {
   isAnimeTab,
   isMixedTab,
+  isRoyaleTab,
   ROUTES,
   type Route,
   routeFromHash,
@@ -88,6 +89,7 @@ import {
 import { BackupAction, ProgressTransfer, type SaveMode } from "./Progress.tsx";
 import { pageTitle } from "./pageTitle.ts";
 import { Quiz, type QuizStore, useQuizStore } from "./Quiz.tsx";
+import { Royale, type RoyaleStore, useRoyaleStore } from "./Royale.tsx";
 import { singleClickLink } from "./singleClick.ts";
 import { savedVolume } from "./volume.ts";
 
@@ -304,6 +306,9 @@ export function App() {
   // As Misturadas (M17): a agenda delas, também só quando a pessoa abre a aba; o catálogo é o do
   // Anime.
   const mixed = useMixedStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
+  // O Anime Royale (o usuário, 01/11/2026): a agenda dele, também só quando a pessoa abre uma das
+  // telas; o catálogo é o do Anime.
+  const royale = useRoyaleStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
   // O quiz do dia (M18): o mês do dia na agenda dele, também só quando a pessoa abre a aba; o
   // catálogo é o do Anime.
   const quiz = useQuizStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
@@ -493,6 +498,7 @@ export function App() {
                 artists={artists}
                 anime={anime}
                 mixed={mixed}
+                royale={royale}
                 quiz={quiz}
                 onResult={onResult}
               />
@@ -554,6 +560,8 @@ type ReadyProps = {
   readonly anime: AnimeStore;
   /** A agenda das Misturadas, também guardada no App. */
   readonly mixed: MixedStore;
+  /** A agenda do Anime Royale, também guardada no App. */
+  readonly royale: RoyaleStore;
   /** O mês de hoje do quiz do dia, também guardado no App. */
   readonly quiz: QuizStore;
   /** O resultado de um diário acabou de aparecer: as medalhas novas (M16). */
@@ -578,6 +586,7 @@ function Ready({
   artists,
   anime,
   mixed,
+  royale,
   quiz,
   onResult,
 }: ReadyProps) {
@@ -603,6 +612,25 @@ function Ready({
         tab={tab}
         store={anime}
         date={route.date ?? date}
+        today={date}
+        save={latest}
+        engine={engine}
+        resolveUrl={resolveUrl}
+        announce={announce}
+        saveStore={saves.store}
+        onSaved={onSaved}
+        onResult={onResult}
+        shareUrl={BASE_URL}
+      />
+    );
+  }
+  // O Anime Royale (o usuário, 01/11/2026): a escolha da dificuldade e as 3, só de hoje.
+  if (isRoyaleTab(tab)) {
+    return (
+      <Royale
+        tab={tab}
+        anime={anime}
+        store={royale}
         today={date}
         save={latest}
         engine={engine}

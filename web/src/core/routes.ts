@@ -10,6 +10,7 @@ import {
 } from "./daily.ts";
 import { inHistory } from "./history.ts";
 import type { MixedKey } from "./mixed.ts";
+import { ROYALE_TIERS, type RoyaleKey, royaleKey } from "./royale.ts";
 import type { Target } from "./types.ts";
 
 /**
@@ -17,6 +18,12 @@ import type { Target } from "./types.ts";
  * modo e os 6 diários, cuja aba é a chave do diário ("anime-musica-facil").
  */
 export type AnimeTab = "anime" | `anime-${AnimeMode}` | AnimeKey;
+
+/**
+ * As abas do Anime Royale (o usuário, 01/11/2026), na categoria Anime: a escolha da dificuldade e
+ * as 3 dificuldades, cuja aba é a chave ("anime-royale-facil"). Sem data: não há Histórico.
+ */
+export type RoyaleTab = "anime-royale" | RoyaleKey;
 
 /** As abas das Misturadas (M17, P333): a escolha do modo e os 2 diários, cuja aba é a chave. */
 export type MixedTab = "misturadas" | MixedKey;
@@ -33,6 +40,7 @@ export type Tab =
   | "practice"
   | "artists"
   | AnimeTab
+  | RoyaleTab
   | "about"
   | "history"
   | "medals"
@@ -56,6 +64,10 @@ export const ROUTES: Readonly<Record<Tab, string>> = {
   "anime-titulo-facil": "#anime-titulo-facil",
   "anime-titulo-medio": "#anime-titulo-medio",
   "anime-titulo-dificil": "#anime-titulo-dificil",
+  "anime-royale": "#anime-royale",
+  "anime-royale-facil": "#anime-royale-facil",
+  "anime-royale-medio": "#anime-royale-medio",
+  "anime-royale-dificil": "#anime-royale-dificil",
   about: "#sobre",
   history: "#historico",
   medals: "#medalhas",
@@ -81,9 +93,17 @@ export type Category =
   | "history"
   | "medals";
 
-/** A aba é do Anime: a tela da categoria, a da dificuldade ou um diário. */
+/**
+ * A aba é do Anime: a tela da categoria, a da dificuldade ou um diário. As do Royale também
+ * começam com "anime-", mas têm a tela delas (`isRoyaleTab`).
+ */
 export function isAnimeTab(tab: Tab): tab is AnimeTab {
-  return tab === "anime" || tab.startsWith("anime-");
+  return (tab === "anime" || tab.startsWith("anime-")) && !isRoyaleTab(tab);
+}
+
+/** A aba é do Anime Royale: a escolha da dificuldade ou uma dificuldade. */
+export function isRoyaleTab(tab: Tab): tab is RoyaleTab {
+  return tab === "anime-royale" || tab.startsWith("anime-royale-");
 }
 
 /** A aba é das Misturadas: a escolha do modo ou um diário. Sem data: elas não têm Histórico. */
@@ -93,7 +113,7 @@ export function isMixedTab(tab: Tab): tab is MixedTab {
 
 /** A categoria de uma aba: a da nav que fica marcada. */
 export function categoryOf(tab: Tab): Category {
-  if (isAnimeTab(tab)) return "anime";
+  if (isAnimeTab(tab) || isRoyaleTab(tab)) return "anime";
   if (isMixedTab(tab)) return "mixed";
   switch (tab) {
     case "home":
@@ -135,6 +155,17 @@ export function animeScreen(tab: AnimeTab): AnimeScreen {
   const difficulty = ANIME_DIFFICULTIES.find((d) => d === difficultyPart);
   if (!difficulty) return { kind: "levels", mode };
   return { kind: "daily", mode, difficulty, key: animeKey(mode, difficulty) };
+}
+
+/** A tela de uma aba do Royale: a escolha da dificuldade ou uma dificuldade. */
+export type RoyaleScreen =
+  | { readonly kind: "levels" }
+  | { readonly kind: "round"; readonly tier: AnimeDifficulty; readonly key: RoyaleKey };
+
+/** "anime-royale" → as dificuldades; "anime-royale-facil" → a dificuldade. */
+export function royaleScreen(tab: RoyaleTab): RoyaleScreen {
+  const tier = ROYALE_TIERS.find((t) => tab === royaleKey(t));
+  return tier ? { kind: "round", tier, key: royaleKey(tier) } : { kind: "levels" };
 }
 
 /** A aba da escolha da dificuldade de um modo do Anime. */

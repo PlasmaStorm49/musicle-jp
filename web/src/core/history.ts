@@ -8,6 +8,7 @@ import { animePlayed, progress } from "./home.ts";
 import { MIXED_KEYS, mixedIds } from "./mixed.ts";
 import { quizId } from "./quiz.ts";
 import { type PuzzleId, puzzleId, type Save } from "./records.ts";
+import { royaleIds } from "./royale.ts";
 import { MODES } from "./rules.ts";
 
 /** Quantos dias o Histórico mostra, e até quando um diário se joga depois (P262). */
@@ -37,6 +38,8 @@ export function keptProgressIds(today: string, days = HISTORY_DAYS): PuzzleId[] 
     ...dailyIds(date),
     ...mixedIds(date),
     quizId(date),
+    // O Royale, só hoje: não há Histórico dele (o usuário, 01/11/2026).
+    ...(date === today ? royaleIds(date) : []),
   ]);
 }
 

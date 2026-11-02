@@ -6,6 +6,7 @@ import { isRecord } from "../core/guards.ts";
 import type { MixedGame } from "../core/mixed.ts";
 import type { QuizGame } from "../core/quiz.ts";
 import type { ArtistRecord, FinishedGame, Save } from "../core/records.ts";
+import type { RoyaleGame } from "../core/royale.ts";
 import { readSave } from "./save.ts";
 
 /**
@@ -35,12 +36,13 @@ export function exportFile(save: Save, today: string): string {
   const { inProgress: _kept, ...rest } = save;
   const mixed = { finished: save.mixed.finished, progress: {} };
   const quiz = { finished: save.quiz.finished, progress: {} };
+  const royale = { finished: save.royale.finished, progress: {} };
   return JSON.stringify({
     app: TRANSFER_APP,
     kind: TRANSFER_KIND,
     format: TRANSFER_FORMAT,
     exportedOn: today,
-    save: { ...rest, mixed, quiz },
+    save: { ...rest, mixed, quiz, royale },
   });
 }
 
@@ -92,6 +94,16 @@ function cleanMixed(game: MixedGame): MixedGame {
       found: r.found.map((f) => (f ? { stage: f.stage, ...(f.help ? { help: true } : {}) } : null)),
     })),
     ...(game.late ? { late: true } : {}),
+  };
+}
+
+/** Uma dificuldade do Anime Royale só com os campos dela. */
+function cleanRoyale(game: RoyaleGame): RoyaleGame {
+  return {
+    number: game.number,
+    found: [...game.found],
+    ...(game.wrong ? { wrong: true } : {}),
+    ...(game.quit ? { quit: true } : {}),
   };
 }
 
@@ -150,7 +162,11 @@ export function parseImport(text: string, today: string): ImportResult {
   const mixedIn = isRecord(data.save.mixed) ? { mixed: { ...data.save.mixed, progress: {} } } : {};
   // O quiz do dia (v12) também: só as runs terminadas.
   const quizIn = isRecord(data.save.quiz) ? { quiz: { ...data.save.quiz, progress: {} } } : {};
-  const read = readSave({ ...data.save, inProgress: {}, ...mixedIn, ...quizIn });
+  // O Anime Royale (v18) também.
+  const royaleIn = isRecord(data.save.royale)
+    ? { royale: { ...data.save.royale, progress: {} } }
+    : {};
+  const read = readSave({ ...data.save, inProgress: {}, ...mixedIn, ...quizIn, ...royaleIn });
   if (read.kind === "future") return { ok: false, reason: "future" };
   if (read.kind === "invalid") return { ok: false, reason: "format" };
 
@@ -177,6 +193,12 @@ export function parseImport(text: string, today: string): ImportResult {
     if (date > today || (game.late && date >= today)) dropped = true;
     else quizFinished[id] = cleanQuiz(game);
   }
+  // O Anime Royale não tem o jogado depois (não há Histórico): vale só a regra do futuro.
+  const royaleFinished: Record<string, RoyaleGame> = {};
+  for (const [id, game] of Object.entries(read.save.royale.finished)) {
+    if ((id.split("|")[0] ?? "") > today) dropped = true;
+    else royaleFinished[id] = cleanRoyale(game);
+  }
   const artists = Object.fromEntries(
     Object.entries(read.save.artists).map(([id, record]) => [id, cleanArtist(record)]),
   );
@@ -187,20 +209,25 @@ export function parseImport(text: string, today: string): ImportResult {
     artists,
     mixed: { finished, progress: {} },
     quiz: { finished: quizFinished, progress: {} },
+    royale: { finished: royaleFinished, progress: {} },
   };
   const empty =
     Object.keys(history).length === 0 &&
     Object.keys(finished).length === 0 &&
     Object.keys(quizFinished).length === 0 &&
+    Object.keys(royaleFinished).length === 0 &&
     save.seenMedals.length === 0 &&
     save.shelf.length === 0 &&
     Object.keys(artists).length === 0 &&
     save.practiceRight === 0;
   if (empty) return { ok: false, reason: "empty" };
   const days = new Set(
-    [...Object.keys(history), ...Object.keys(finished), ...Object.keys(quizFinished)].map(
-      (id) => id.split("|")[0],
-    ),
+    [
+      ...Object.keys(history),
+      ...Object.keys(finished),
+      ...Object.keys(quizFinished),
+      ...Object.keys(royaleFinished),
+    ].map((id) => id.split("|")[0]),
   ).size;
   return {
     ok: true,
@@ -222,7 +249,8 @@ export function lostGames(current: Save, imported: Save): number {
   return (
     lost(current.history, imported.history) +
     lost(current.mixed.finished, imported.mixed.finished) +
-    lost(current.quiz.finished, imported.quiz.finished)
+    lost(current.quiz.finished, imported.quiz.finished) +
+    lost(current.royale.finished, imported.royale.finished)
   );
 }
 
@@ -244,10 +272,16 @@ export function replaceSave(current: Save, imported: Save): Save {
       ([id]) => imported.quiz.finished[id] === undefined,
     ),
   );
+  const royaleProgress = Object.fromEntries(
+    Object.entries(current.royale.progress).filter(
+      ([id]) => imported.royale.finished[id] === undefined,
+    ),
+  );
   return {
     ...imported,
     inProgress,
     mixed: { ...imported.mixed, progress },
     quiz: { ...imported.quiz, progress: quizProgress },
+    royale: { ...imported.royale, progress: royaleProgress },
   };
 }

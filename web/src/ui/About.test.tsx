@@ -42,7 +42,7 @@ describe("About (o Sobre e privacidade, P243)", () => {
     // A hospedagem, sem afirmar o que não dá para confirmar: o GitHub Pages pode registrar acessos.
     expect(text).toContain("O site é hospedado no GitHub Pages");
     expect(text).toContain(
-      "As prévias, as capas e as consultas das músicas vão direto do navegador à Apple.",
+      "As prévias, as capas dos álbuns e as consultas das músicas vão direto do navegador à Apple, e as capas dos animes do Anime Royale, ao AnimeThemes.",
     );
   });
 

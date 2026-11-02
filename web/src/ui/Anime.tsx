@@ -20,6 +20,7 @@ import {
   ROUTES,
   routeHref,
 } from "../core/routes.ts";
+import { ROYALE_KEYS, royaleProgress } from "../core/royale.ts";
 import { MODE_RULES, ROUNDS_PER_DAY } from "../core/rules.ts";
 import type { AnimeDay, AnimeSchedule } from "../core/types.ts";
 import {
@@ -229,6 +230,13 @@ function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyPro
     [day, date, mode, difficulty],
   );
   const own = useMemo(() => (daily ? [daily] : []), [daily]);
+  // A próxima dificuldade do modo por jogar hoje (o usuário, 01/11/2026), para o resumo.
+  const nextLevel =
+    !past && mode && daily
+      ? modeDailies(day, date, mode).find(
+          (other) => other.id !== daily.id && statusOf(save, other).kind !== "done",
+        )
+      : undefined;
   // Num dia passado, a ajuda evita também as respostas dos 6 diários de hoje, como nos Hits: a de
   // um diário de hoje ainda não jogado podia sair entre as opções e entregá-lo. Hoje, o próprio
   // diário basta (o `avoid` dele já tem os 6 do dia).
@@ -279,6 +287,16 @@ function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyPro
           shareUrl={props.shareUrl}
           today={today}
           todayDailies={todayDailies}
+          next={
+            nextLevel
+              ? {
+                  href: hrefOf(nextLevel.key as AnimeTab, date, today),
+                  label: t("anime.playNext", {
+                    level: t(`anime.level.${levelOf(nextLevel.key)}`),
+                  }),
+                }
+              : undefined
+          }
           // Do resumo, um passo atrás: a escolha da dificuldade do modo, no dia jogado (P322).
           back={{
             href: hrefOf(animeModeTab(screen.mode), date, today),
@@ -291,6 +309,11 @@ function Ready({ screen, data, resolver, date, today, save, ...props }: ReadyPro
     default:
       return screen satisfies never;
   }
+}
+
+/** A dificuldade de um diário do Anime, pela chave ("anime-musica-medio" → "medio"). */
+function levelOf(key: string): AnimeDifficulty {
+  return ANIME_DIFFICULTIES.find((difficulty) => key.endsWith(`-${difficulty}`)) ?? "facil";
 }
 
 /** O endereço de uma aba do Anime no dia jogado: com a data, num dia passado (P261). */
@@ -373,6 +396,24 @@ function AnimeModes({ day, date, today, save }: ScreenProps) {
       unavailableText(date, today),
     ),
   );
+  // O Anime Royale (o usuário, 01/11/2026), o 3º cartão: só hoje (não há Histórico). A tela não
+  // carrega a agenda dele: o estado sai do save, e o cartão o supõe no ar, como a Início.
+  if (date === today) {
+    const royale = royaleProgress(save, date);
+    const total = ROYALE_KEYS.length;
+    cards.push({
+      tab: "anime-royale",
+      name: t("royale.title"),
+      short: t("royale.short"),
+      hint: t("royale.hint"),
+      // Sem o dia do Anime, também não há o do Royale: a agenda dele nunca passa da do Anime.
+      lines: day
+        ? [progressText({ done: royale.done, playing: royale.playing ? 1 : 0, total })]
+        : [unavailableText(date, today)],
+      next: day !== null && next === undefined && royale.done < total,
+      off: day === null,
+    });
+  }
   return (
     // O cabeçalho no centro, como nas outras telas de escolha (.practice).
     <div class="game practice anime screen">
