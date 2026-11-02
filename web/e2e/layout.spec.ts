@@ -281,23 +281,25 @@ for (const viewport of [
       await expect(options.getByRole("button")).toHaveCount(12);
       await fits("escolher");
       await expect(badge).toBeInViewport({ ratio: 1 });
-      // Revelar: um erro, as 7 achadas e a que faltou.
+      // Revelar: um erro e as 8 achadas (a rodada só passa quando acha todas).
       const played = await chainTitles(page);
       const all = await options.locator(".item-title").allTextContents();
       const wrong = all.find((title) => !played.includes(title)) ?? "";
-      for (const title of [wrong, ...played.slice(0, 7)]) {
+      for (const title of [wrong, ...played]) {
         await options.getByText(title, { exact: true }).click();
       }
       await expect(page.locator(".setlist-result")).toBeFocused();
-      await expect(options.locator("li.missed")).toHaveCount(1);
       await fits("revelar");
       await page.getByRole("button", { name: "Fechar a setlist" }).click();
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Setlist completa!");
       await expect(page.locator(".superfan-best")).toHaveCount(2);
       await fits("setlist completa");
-      // O sem fim, até as vidas acabarem: o fim, com os dois recordes batidos.
+      // O sem fim, até as vidas acabarem no meio da rodada: a revelação com as 8 que faltaram.
       await page.getByRole("button", { name: "Continuar sem fim" }).click();
-      await playSetlistRound(page, { wrong: 2 });
+      await playSetlistRound(page, { wrong: 2, next: false });
+      await expect(options.locator("li.missed")).toHaveCount(8);
+      await fits("revelar com as que faltaram");
+      await page.getByRole("button", { name: "Ver resultado" }).click();
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Fim da setlist");
       await expect(page.locator(".superfan-best")).toHaveCount(2);
       await fits("fim");

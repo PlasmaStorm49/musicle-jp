@@ -1,7 +1,8 @@
 // Setlist Royale (o usuário, 01/11/2026): o 3º submodo do artista. A cada rodada, músicas do
 // artista tocam emendadas, uma vez só: a seguinte entra antes de a anterior acabar, e nunca tocam
-// três juntas. Depois, a pessoa marca as que tocaram entre as opções, e cada toque vale na hora.
-// A run tem 3 vidas (cada opção errada gasta uma) e 10 rodadas; na 10ª, a setlist acaba, e a
+// três juntas. Depois, a pessoa marca as que tocaram entre as opções, e cada toque vale na hora;
+// a rodada só passa quando ela acha todas. A run tem 3 vidas (cada opção errada gasta uma) e 10
+// rodadas; na 10ª, a setlist acaba, e a
 // pessoa pode continuar sem fim, na dificuldade dela. Puro: a semente e o sorteio vêm da tela, e
 // os eventos trazem a rodada já sorteada (regra 5 do web). A run não é salva (P116); só o recorde
 // vai ao save (`setlistBest`).
@@ -50,10 +51,18 @@ export const CHAIN_FADE = 0.15;
 /** Na 1ª rodada, as músicas saem das mais populares; a faixa abre até o catálogo inteiro na 10ª. */
 export const BAND_START = 20;
 /**
- * O peso da música que tocou, nas rodadas seguintes: 1/4 na seguinte e 1/2 na outra; depois,
- * volta ao cheio. Ela pode tocar de novo (o usuário, 01/11/2026), mas com chance menor.
+ * O peso da música que acabou de tocar, nas rodadas seguintes, para tocar de novo e para virar
+ * opção: 0,1 na seguinte, 0,3 na outra e 0,6 na 3ª; depois, volta ao cheio. Pouca chance logo
+ * depois, e a chance volta ao normal em poucas rodadas (o usuário, 01/11/2026, jogando).
  */
-export const REPEAT_WEIGHTS: readonly number[] = [0.25, 0.5];
+export const REPEAT_WEIGHTS: readonly number[] = [0.1, 0.3, 0.6];
+/**
+ * A faixa mais curta que entra (em segundos): as vinhetas e as introduções de álbum, quase sempre
+ * instrumentais, ficam de fora (o usuário, 01/11/2026). Nos artistas reais, 8 faixas, como o
+ * "ognanje" do Eve (45 s) e o "Open α Door" da Aimer (77 s); as músicas curtas de verdade do
+ * System of a Down (de 103 a 118 s) ficam.
+ */
+export const MIN_SONG_SEC = 80;
 /** A prévia da Apple tem 30 s; vale quando o catálogo não diz a duração. */
 const PREVIEW_SEC = 30;
 /** Folga no fim da prévia, por causa do fade dela. */
@@ -139,7 +148,8 @@ const byPopularity = (a: PlayableTrack, b: PlayableTrack) =>
 
 /**
  * As músicas da run, da mais popular para a menos: uma faixa por música (o saco do Desafio), com
- * prévia, sem as que entregariam um diário de hoje (P141), nem nas opções erradas, porque o
+ * prévia e com ao menos `MIN_SONG_SEC` (sem as vinhetas instrumentais), sem as que entregariam um
+ * diário de hoje (P141), nem nas opções erradas, porque o
  * título na tela já entregaria a resposta. Duas com o mesmo título (normalizado) ficam só na
  * mais popular: as opções nunca repetem um nome.
  */
@@ -151,6 +161,7 @@ export function setlistPool(index: CatalogIndex, excluded: ReadonlySet<string>):
       return track ? [track] : [];
     })
     .filter((t) => t.preview && !excluded.has(t.songKey) && !blocked.has(t.albumId))
+    .filter((t) => !t.durationMs || t.durationMs >= MIN_SONG_SEC * 1000)
     .sort(byPopularity);
   const titles = new Set<string>();
   const pool: string[] = [];
@@ -182,9 +193,9 @@ function weightOf(id: string, number: number, plays: SetlistPlays): number {
 }
 
 /**
- * Sorteia a rodada `number` (de novo, com `attempt` maior): as que tocam, pelo peso de cada uma
- * (`REPEAT_WEIGHTS`), e as erradas, por igual, entre as outras da faixa, também as que tocaram
- * antes (a confusão é parte da memória). A rodada sorteada de novo (a interrompida, D7 do plano)
+ * Sorteia a rodada `number` (de novo, com `attempt` maior): as que tocam e as erradas, entre as
+ * da faixa, pelo peso de cada uma: a que acabou de tocar quase não volta, nem como opção
+ * (`REPEAT_WEIGHTS`). A rodada sorteada de novo (a interrompida, D7 do plano)
  * deixa de fora as músicas da cortada (`avoid`), que a pessoa pode ter ouvido: nem tocam nem viram
  * opção, se a faixa tiver outras que bastem. Null: o artista não tem 2 músicas.
  */
@@ -202,8 +213,8 @@ export function drawSetlistRound(
   const fresh = band.filter((id) => !avoid.includes(id));
   const rng = seeded(`setlist|${seed}|${number}|${attempt}`);
   const left = fresh.length >= shape.options ? fresh : [...band];
-  const played: string[] = [];
-  for (let k = 0; k < shape.songs; k += 1) {
+  // Uma por vez, pelo peso de cada uma: primeiro as que tocam, depois as erradas.
+  const take = () => {
     const weights = left.map((id) => weightOf(id, number, plays));
     let ticket = rng.random() * weights.reduce((sum, w) => sum + w, 0);
     let at = weights.findIndex((w) => {
@@ -211,17 +222,21 @@ export function drawSetlistRound(
       return ticket < 0;
     });
     if (at < 0) at = left.length - 1; // o arredondamento na ponta
-    played.push(...left.splice(at, 1));
-  }
-  rng.shuffle(left);
-  const options = [...played, ...left.slice(0, shape.options - shape.songs)];
+    return left.splice(at, 1);
+  };
+  const played = Array.from({ length: shape.songs }, take).flat();
+  const wrong = Array.from({ length: shape.options - shape.songs }, take).flat();
+  const options = [...played, ...wrong];
   rng.shuffle(options);
   return { number, attempt, played, options };
 }
 
 /**
- * Onde o trecho de `seconds` começa na prévia: um segundo sorteado que ainda deixa o trecho
- * inteiro antes da folga do fim. O motor ainda anda até um trecho com som (core/silence.ts).
+ * Onde o trecho de `seconds` começa na prévia: perto do meio, onde a voz quase sempre está (a
+ * introdução e o fim da prévia são mais vezes instrumentais; o usuário, 01/11/2026). O começo sai
+ * da metade do meio das posições que ainda deixam o trecho inteiro antes da folga do fim, com mais
+ * chance no centro (a soma de dois sorteios), em passos de 0,25 s. O motor ainda anda até um
+ * trecho com som (core/silence.ts).
  */
 export function setlistOffset(
   seed: number,
@@ -230,9 +245,11 @@ export function setlistOffset(
   previewSec: number | null,
   seconds: number,
 ): number {
-  const last = Math.floor((previewSec ?? PREVIEW_SEC) - seconds - END_MARGIN_SEC);
+  const last = (previewSec ?? PREVIEW_SEC) - seconds - END_MARGIN_SEC;
   if (last <= 0) return 0;
-  return seeded(`setlist|${seed}|${round.number}|${round.attempt}|${id}`).randint(last + 1);
+  const rng = seeded(`setlist|${seed}|${round.number}|${round.attempt}|${id}`);
+  const spread = rng.random() + rng.random() - 1; // de −1 a 1, mais perto do 0
+  return Math.round((last / 2 + (spread * last) / 4) * 4) / 4;
 }
 
 /**
@@ -251,10 +268,10 @@ export type SetlistRun = {
   readonly phase: SetlistPhase;
   /** A sequência já começou a tocar: o Tocar não volta (uma vez só). */
   readonly started: boolean;
-  /** Os toques da rodada, na ordem. */
+  /** Os toques da rodada, na ordem: os certos e os errados. */
   readonly picks: readonly string[];
   readonly lives: number;
-  /** Rodadas completas: todos os toques dados com vida. */
+  /** Rodadas completas: todas as músicas achadas com vida. */
   readonly cleared: number;
   /** Músicas achadas na run. */
   readonly found: number;
@@ -291,9 +308,10 @@ export function startSetlist(seed: number, pool: readonly string[]): SetlistRun 
   };
 }
 
-/** Os toques que faltam na rodada: tantos quantas tocaram, menos os dados. */
-export function tapsLeft(run: SetlistRun): number {
-  return Math.max(0, (run.round?.played.length ?? 0) - run.picks.length);
+/** As músicas da rodada que ainda faltam achar. */
+export function leftToFind(run: SetlistRun): number {
+  const played = run.round?.played ?? [];
+  return played.filter((id) => !run.picks.includes(id)).length;
 }
 
 /** A rodada que vem depois da atual (o número; o sorteio é da tela). */
@@ -326,17 +344,19 @@ export function setlistStep(run: SetlistRun, event: SetlistEvent): SetlistRun {
       if (run.phase !== "listen" || event.round.number !== round.number) return run;
       return { ...run, round: event.round, started: false, picks: [] };
     case "PICK": {
-      if (run.phase !== "pick" || tapsLeft(run) === 0) return run;
+      // Errar não encerra a rodada: a pessoa segue tocando, cada erro gasta uma vida, e a rodada
+      // só passa quando ela acha todas (o usuário, 01/11/2026, jogando).
+      if (run.phase !== "pick") return run;
       if (!round.options.includes(event.id) || run.picks.includes(event.id)) return run;
       const right = round.played.includes(event.id);
       const lives = right ? run.lives : run.lives - 1;
       const picks = [...run.picks, event.id];
       const found = run.found + (right ? 1 : 0);
       if (lives === 0) return { ...run, picks, lives, found, phase: "reveal", end: "errors" };
-      const over = picks.length === round.played.length;
-      return over
-        ? { ...run, picks, lives, found, phase: "reveal", cleared: run.cleared + 1 }
-        : { ...run, picks, lives, found };
+      const after = { ...run, picks, lives, found };
+      return leftToFind(after) === 0
+        ? { ...after, phase: "reveal", cleared: run.cleared + 1 }
+        : after;
     }
     case "NEXT":
       if (run.phase !== "reveal") return run;
