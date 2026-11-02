@@ -100,11 +100,10 @@ describe("artistSections (P200, P201)", () => {
     expect([...main, ...foreign, ...anime].map((a) => a.position)).toEqual([0, 1, 2, 3, 4, 5]);
   });
 
-  it("na lista real: os dois artistas de fora do Japão (P199), em ordem alfabética", () => {
-    expect(names(artistSections(realArtists.list).foreign)).toEqual([
-      "Bolbbalgan4",
-      "System Of A Down",
-    ]);
+  it("na lista real: os artistas de fora do Japão (P199) em ordem alfabética, e o anime", () => {
+    const { foreign, anime } = artistSections(realArtists.list);
+    expect(names(foreign)).toEqual(["Arctic Monkeys", "Bolbbalgan4", "System Of A Down"]);
+    expect(names(anime)).toEqual(["物語シリーズ"]);
   });
 
   it("uma seção que este código não conhece fica na principal", () => {

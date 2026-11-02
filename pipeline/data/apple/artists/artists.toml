@@ -8,6 +8,10 @@
 #   singles: um trackId de cada música lançada como single (lado A), P172. Só para artista com
 #     catálogo maior que o teto: o lookup de músicas só ordena 200 faixas, e no resto o single
 #     vem antes das faixas de álbum
+#   section: a seção da lista, "foreign" (a de fora do Japão, P200) ou "anime" (um cartão por
+#     anime, o usuário, 02/11/2026); sem ela, a principal
+#   extra_tracks: só no anime, trackId de música dele fora dos álbuns do artista dele (a busca
+#     as traz pelo id)
 #   [artists.medals] (M16), sempre no FIM do bloco do artista (o que vier depois dele é dele):
 #     os 3 nomes, obrigatórios (P301), com o latin (o romaji, sem mácron, P297) só quando o
 #     nome tem kana, kanji ou hangul (nos 3, desde a P309); a capa das 3 (album: o collectionId
@@ -764,3 +768,104 @@ leaf2 = "#56623d"
 [artists.medals.setlist]
 album = "1744586004"  # a edição principal, com as 14 faixas
 name = "Toxicity"
+
+[[artists]]
+id = "62820413"  # Arctic Monkeys
+section = "foreign"
+exclude_tracks = [
+  # Um single do Daflag Diola (rap francês), num álbum que a loja põe na lista do Arctic Monkeys.
+  "6820620436",  # Fais ce qui te plaît (feat. Cléo Makrich, Mr PÔ, El Zahn & Billion Boy)
+]
+
+[artists.medals]
+acertos = { name = "Do I Wanna Know?" }
+completo = { name = "R U Mine?" }
+perfeito = { name = "505" }
+album = "663097964"  # AM
+crop = { z = 1.3, x = 0.5, y = 0.5 }
+sash = { text = "AM" }
+
+[artists.medals.flowers]  # o preto e o branco da onda sonora do AM
+d = "#1a1e20"
+m = "#4a4f52"
+ml = "#8a8f91"
+l = "#c8cbcc"
+w = "#f4f4f2"
+line = "#9a9ea0"
+core = "#f4f4f2"
+ink = "#0e1214"
+bow = "#0e1214"
+ring = "#0e1214"
+spark = "#c8cbcc"
+leaf1 = "#2c3a33"
+leaf2 = "#3e5046"
+
+[artists.medals.setlist]
+album = "251126923"  # Favourite Worst Nightmare, o 2º álbum (o AM é a capa das do Superfan)
+name = "Favourite Worst Nightmare"
+crop = { z = 1.4, x = 0.55, y = 0.55 }
+
+# A seção de anime (o usuário, 02/11/2026): um cartão por anime, com todas as músicas dele. O id
+# é o do artista do anime na loja, o dono dos álbuns de temas; a busca guarda as faixas desses
+# álbuns de qualquer intérprete, e as extra_tracks trazem as que ficam fora deles. A ordem dela
+# na tela também é a alfabética, feita pelo build.
+
+[[artists]]
+id = "1439155268"  # 物語シリーズ (MONOGATARI Series)
+section = "anime"
+# UNDEAD (YOASOBI), o tema de encerramento da Off & Monster Season, num single do YOASOBI.
+extra_tracks = ["1752838890"]
+same_song = [
+  # O tema do 傷物語 nas duas edições do 歌物語2 (a canônica é a de id menor, a "le bleu").
+  ["1537811247", "1537811248"],  # etoile et toi [edition le bleu] / [edition le blanc]
+]
+# A trilha instrumental (劇伴音楽集 e Original Soundtracks): os temas que ela também traz já
+# estão nos singles e no 歌物語.
+exclude_albums = [
+  "1535796444",  # 傾物語 劇伴音楽集
+  "1535796480",  # 囮物語 劇伴音楽集
+  "1535796727",  # 猫物語(白) 劇伴音楽集
+  "1535797014",  # 鬼物語 劇伴音楽集
+  "1535797053",  # 花物語 劇伴音楽集
+  "1535797266",  # 恋物語 劇伴音楽集
+  "1535797362",  # 猫物語(黒) 劇伴音楽集
+  "1535798017",  # 偽物語 劇伴音楽集
+  "1535798104",  # 憑物語 劇伴音楽集 - Single
+  "1535798407",  # 終物語 劇伴音楽集
+  "1535798439",  # 傷物語 劇伴音楽集 - Single
+  "1535798702",  # 化物語 劇伴音楽集
+  "1537801372",  # 偽物語&猫物語(黒) Original Soundtracks
+  "1537803812",  # 〈物語〉シリーズ セカンドシーズン Original Soundtracks
+  "6781662113",  # 続・終物語 劇伴音楽集
+  "6781662737",  # 憑物語 劇伴音楽集Ⅱ
+  "6781672701",  # 終物語 劇伴音楽集Ⅱ
+]
+
+[artists.medals]
+acertos = { name = "staple stable" }
+completo = { name = "恋愛サーキュレーション", latin = "Renai Circulation" }
+perfeito = { name = "君の知らない物語", latin = "Kimi no Shiranai Monogatari" }
+album = "1535798229"  # 歌物語 Special Edition, com a Hitagi; a do cartão também
+crop = { z = 2, x = 0.42, y = 0.32 }
+sash = { text = "物語" }
+
+[artists.medals.flowers]  # o rosa do fundo, o amarelo da roupa; o turquesa do cabelo no laço e nas folhas
+d = "#b8394f"
+m = "#e15a6e"
+ml = "#ec8796"
+l = "#f6c2c9"
+w = "#fdf0f1"
+line = "#c94a5e"
+core = "#f6e38a"
+ink = "#3d3a3f"
+bow = "#3fb7c0"
+ring = "#3fb7c0"
+spark = "#f6e38a"
+leaf1 = "#2a8f98"
+leaf2 = "#4cc3c9"
+
+[artists.medals.setlist]
+album = "1537811231"  # 歌物語2, com a Shinobu
+name = "歌物語2"
+latin = "Utamonogatari 2"
+crop = { z = 1.6, x = 0.47, y = 0.35 }
