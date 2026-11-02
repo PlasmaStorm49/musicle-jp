@@ -3549,7 +3549,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1542572223",
-      "latinSource": null,
+      "latinSource": "manual",
       "popularity": 0.3871,
       "preview": {
         "durationSec": 30,
@@ -3560,6 +3560,7 @@
       "search": {
         "artist": [],
         "title": [
+          "byoka",
           "杪夏"
         ]
       },
@@ -3569,7 +3570,7 @@
       "titleKeys": [
         "杪夏"
       ],
-      "titleLatin": null
+      "titleLatin": "Byouka"
     },
     {
       "albumId": "apple:al:1549612261",

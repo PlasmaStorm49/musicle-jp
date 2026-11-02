@@ -1844,7 +1844,7 @@
       },
       "explicit": false,
       "id": "apple:tr:1583882756",
-      "latinSource": null,
+      "latinSource": "manual",
       "popularity": 0.7812,
       "preview": {
         "durationSec": 30,
@@ -1855,6 +1855,7 @@
       "search": {
         "artist": [],
         "title": [
+          "rasenfeatado",
           "蝸旋featado"
         ]
       },
@@ -1864,7 +1865,7 @@
       "titleKeys": [
         "蝸旋"
       ],
-      "titleLatin": null
+      "titleLatin": "Rasen (feat. Ado)"
     },
     {
       "albumId": "apple:al:1590781509",
