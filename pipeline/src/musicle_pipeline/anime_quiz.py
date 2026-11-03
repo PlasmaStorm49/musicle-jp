@@ -136,7 +136,7 @@ OFF_LABELS = frozenset({"Ecchi", "Erotica", "Hentai", "Gore"})
 # Nunca afrouxa. O acervo curto (as fixtures, de 13 franquias) fica fora: não fecharia uma run.
 FRANCHISE_CAP = 3
 # A conferência do limite vale a partir deste dia: os de antes foram gerados sem ele.
-FRANCHISE_CAP_FROM = "2026-11-03"
+FRANCHISE_CAP_FROM = "2026-11-04"
 # As fontes do MAL em grupos (o `source`): o mangá, a light novel, a novel, o original, a visual
 # novel e o jogo. As outras ("other", "mixed_media"...) ficam fora da pergunta.
 SOURCE_GROUPS = {
