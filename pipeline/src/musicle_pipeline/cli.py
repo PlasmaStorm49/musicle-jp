@@ -821,6 +821,30 @@ def _is_fixture(path: Path) -> bool:
     return path.resolve().is_relative_to(provider_paths("fixture").public_dir.resolve())
 
 
+def _redo_base(path: Path, base: JSON, args: argparse.Namespace) -> JSON | None:
+    """A exceção à regra 4 (o usuário, 25/10/2026): os dias do quiz real desde o
+    --quiz-redo-from saem da base e são conferidos como novos (o P44 e o gerador). Vale também
+    para o Anime Royale real (o usuário, 02/11/2026), que lê as músicas do quiz de cada dia: os
+    dois são refeitos juntos. Só dias depois de hoje, porque o de hoje pode já ter sido jogado: a
+    partir da data, a exceção vence sozinha, e a conferência volta a ser a de sempre. Devolve a
+    base sem os dias refeitos, ou None, com o erro já impresso."""
+    if args.today is None:
+        print(f"{path}: o --quiz-redo-from precisa do --today")
+        return None
+    if args.quiz_redo_from <= args.today:
+        print(f"{path}: a exceção do --quiz-redo-from venceu; a conferência é a de sempre")
+        return base
+    cut = args.quiz_redo_from.isoformat()
+    kept = {d: day for d, day in base["days"].items() if d < cut}
+    if not kept:
+        # Sem um dia antes do corte, os dias refeitos não seriam regerados (só se regera com
+        # base): a exceção não pode cobrir a agenda inteira.
+        print(f"{path}: o --quiz-redo-from precisa de um dia da base antes de {cut}")
+        return None
+    print(f"{path}: exceção à regra 4, os dias desde {cut} conferidos como novos")
+    return {**base, "days": kept}
+
+
 def _check_quiz(path: Path, args: argparse.Namespace) -> int | None:
     """O schedule-check do quiz do dia (M18): os meses da pasta são uma agenda só (P379). O
     compare e o check_dates são os das outras; os dias novos são regerados com os dias de antes,
@@ -839,26 +863,10 @@ def _check_quiz(path: Path, args: argparse.Namespace) -> int | None:
         base, base_problems = read_quiz_ref(args.base_ref, relative)
         origin = f"{args.base_ref}:{relative}"
     if args.quiz_redo_from is not None and base is not None and not _is_fixture(path):
-        # A exceção à regra 4 (o usuário, 25/10/2026): os dias do quiz real desde a data saem da
-        # base e são conferidos como novos (o P44 e o gerador). Só dias depois de hoje, porque o
-        # de hoje pode já ter sido jogado: a partir da data, a exceção vence sozinha, e a
-        # conferência volta a ser a de sempre.
-        if args.today is None:
-            print(f"{path}: o --quiz-redo-from precisa do --today")
+        redone = _redo_base(path, base, args)
+        if redone is None:
             return 1
-        if args.quiz_redo_from <= args.today:
-            print(f"{path}: a exceção do --quiz-redo-from venceu; a conferência é a de sempre")
-            args = argparse.Namespace(**{**vars(args), "quiz_redo_from": None})
-            return _check_quiz(path, args)
-        cut = args.quiz_redo_from.isoformat()
-        kept = {d: day for d, day in base["days"].items() if d < cut}
-        if not kept:
-            # Sem um dia antes do corte, os dias refeitos não seriam regerados (só se regera com
-            # base): a exceção não pode cobrir a agenda inteira.
-            print(f"{path}: o --quiz-redo-from precisa de um dia da base antes de {cut}")
-            return 1
-        base = {**base, "days": kept}
-        print(f"{path}: exceção à regra 4, os dias desde {cut} conferidos como novos")
+        base = redone
     current, problems = read_quiz_dir(path)
     if current is None:
         if base is None:
@@ -926,6 +934,11 @@ def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | 
             print(f"{path}: agenda de tipo desconhecido ({declared!r}): não há gerador para ela")
             return 1
         kind = "hits" if declared is None else _KINDS[declared]
+    redo = args.quiz_redo_from is not None and kind == ROYALE_KIND and not _is_fixture(path)
+    if redo and base is not None:
+        base = _redo_base(path, base, args)
+        if base is None:
+            return 1
     problems = compare(base, current)
     if args.today is not None:
         if base is None and _is_fixture(path):
@@ -1436,8 +1449,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     check.add_argument(
         "--quiz-redo-from",
         type=date.fromisoformat,
-        help="exceção à regra 4 (o usuário, 25/10/2026): os dias da agenda real do quiz desde"
-        " esta data, que tem de ser depois do --today, conferidos como novos",
+        help="exceção à regra 4 (o usuário, 25/10/2026): os dias da agenda real do quiz e da do"
+        " Anime Royale, que lê o quiz, desde esta data, que tem de ser depois do --today,"
+        " conferidos como novos",
     )
     check.set_defaults(func=_schedule_check)
 

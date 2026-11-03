@@ -27,8 +27,8 @@ para a conferência.
   revelação mostrou (P382): o par de duas músicas já reveladas, quando ela mostra o valor de cada
   uma (o ano, a taxa do AMQ, as playlists), ou de duas do mesmo grupo de pares ligados, quando
   mostra só a diferença (a nota, os membros). Isso cobre o par repetido e a ordem transitiva. Nas
-  propriedades, nenhuma música repetida na run. Em todas, nenhuma resposta do Anime ou das
-  Misturadas do dia.
+  propriedades, nenhuma música repetida na run e, nas de parâmetro, a mesma franquia no máximo
+  FRANCHISE_CAP vezes a cada lado. Em todas, nenhuma resposta do Anime ou das Misturadas do dia.
 - **O afrouxamento,** com registro: a distância alargada, qualquer faixa, qualquer distância e,
   só no acervo curto (as fixtures, de 34 faixas), as respostas do Anime e das Misturadas do dia.
   Sem par nenhum, a run para naquela rodada.
@@ -128,6 +128,15 @@ OPENING_FLOOR = (13, 20)  # 65%, em inteiros
 SHORT_SHARE = 4
 # Os rótulos do MAL que nunca viram pergunta (Q.2 do Apêndice Q).
 OFF_LABELS = frozenset({"Ecchi", "Erotica", "Hentai", "Gore"})
+# A franquia na run das perguntas com parâmetro (o rótulo, a fonte, o estúdio e o ano X; o
+# usuário, 02/11/2026): a propriedade é do anime, e a franquia que se repete entrega a resposta.
+# No "Martial Arts" de 01/11/2026, 40 das 50 respostas eram de Naruto e 7 de Dragon Ball. A mesma
+# franquia vai no máximo FRANCHISE_CAP vezes a cada lado da run (o que tem e o que não tem), e o
+# parâmetro só entra se, contando no máximo FRANCHISE_CAP músicas de cada franquia, fecha a run.
+# Nunca afrouxa. O acervo curto (as fixtures, de 13 franquias) fica fora: não fecharia uma run.
+FRANCHISE_CAP = 3
+# A conferência do limite vale a partir deste dia: os de antes foram gerados sem ele.
+FRANCHISE_CAP_FROM = "2026-11-04"
 # As fontes do MAL em grupos (o `source`): o mangá, a light novel, a novel, o original, a visual
 # novel e o jogo. As outras ("other", "mixed_media"...) ficam fora da pergunta.
 SOURCE_GROUPS = {
@@ -505,6 +514,20 @@ def source_group(mal: MalFacts | None) -> str | None:
     return SOURCE_GROUPS.get(mal.source or "") if mal else None
 
 
+def _song_params(family: Family, song: Song) -> list[object]:
+    """Os parâmetros da família que a música tem (os rótulos, a fonte, os estúdios ou o ano)."""
+    m = song.mal
+    if family.id == "rotulo" and m and m.genres is not None:
+        return [g for g in m.genres if g not in OFF_LABELS]
+    if family.id == "fonte" and (group := source_group(m)):
+        return [group]
+    if family.id == "estudio" and m and m.studios is not None:
+        return list(m.studios)
+    if family.id == "ano_x" and song.facts.year is not None:
+        return [song.facts.year]
+    return []
+
+
 class QuizContext:
     """O acervo, os fatos, os dados do MAL (ou None) e as agendas do Anime e das Misturadas: tudo
     o que a geração e a conferência de um dia leem."""
@@ -627,21 +650,24 @@ class QuizContext:
         acervo curto, um quarto das do acervo."""
         return min(rounds_of(family), max(2, len(self.songs) // SHORT_SHARE))
 
+    def capped(self, family: Family) -> bool:
+        """Se a run da família tem o limite da franquia (FRANCHISE_CAP)."""
+        return family.id in PARAM_FAMILIES and not self.short
+
     def params(self, family: Family) -> list[object]:
-        """Os parâmetros que fecham a run (o rótulo, a fonte, o estúdio ou o ano), em ordem."""
+        """Os parâmetros que fecham a run (o rótulo, a fonte, o estúdio ou o ano), em ordem. Com o
+        limite da franquia, cada uma conta no máximo FRANCHISE_CAP músicas."""
         if family.id not in self._params:
             need = self.need(family)
-            counts: Counter[object] = Counter()
+            per: Counter[tuple[object, str]] = Counter()
             for song in self.songs:
-                m = song.mal
-                if family.id == "rotulo" and m and m.genres is not None:
-                    counts.update(g for g in m.genres if g not in OFF_LABELS)
-                elif family.id == "fonte" and (group := source_group(m)):
-                    counts[group] += 1
-                elif family.id == "estudio" and m and m.studios is not None:
-                    counts.update(m.studios)
-                elif family.id == "ano_x" and song.facts.year is not None:
-                    counts[song.facts.year] += 1
+                # A franquia de menor id: só 2 músicas do acervo real (02/11/2026) têm duas.
+                franchise = min(song.franchises, default=song.key)
+                per.update((p, franchise) for p in _song_params(family, song))
+            cap = FRANCHISE_CAP if self.capped(family) else None
+            counts: Counter[object] = Counter()
+            for (p, _franchise), n in per.items():
+                counts[p] += n if cap is None else min(n, cap)
             self._params[family.id] = sorted((p for p, n in counts.items() if n >= need), key=str)
         return self._params[family.id]
 
@@ -674,10 +700,21 @@ class _Run:
     parent: dict[str, str] = field(default_factory=dict)
     songs: int = 0  # as músicas da run até aqui, para o piso de aberturas
     openings: int = 0
+    # As franquias de cada lado das propriedades (o que tem e o que não tem), para o limite.
+    sides: tuple[Counter[str], Counter[str]] = field(default_factory=lambda: (Counter(), Counter()))
 
     def opened(self, a: Song, b: Song) -> None:
         self.songs += 2
         self.openings += _opening(a) + _opening(b)
+
+    def room(self, song: Song, side: int) -> bool:
+        """Se a música ainda cabe no lado (0, o que tem; 1, o que não tem): nenhuma franquia dela
+        já saiu FRANCHISE_CAP vezes ali."""
+        return all(self.sides[side][f] < FRANCHISE_CAP for f in song.franchises)
+
+    def placed(self, yes: Song, no: Song) -> None:
+        self.sides[0].update(yes.franchises)
+        self.sides[1].update(no.franchises)
 
     def need(self) -> int:
         """Quantas das duas músicas da rodada precisam ser aberturas (0, 1 ou 2) para a run,
@@ -825,8 +862,21 @@ def _search_property(
 ) -> tuple[Song, Song] | None:
     yes, no = ctx.property_pool(family, param)
     out = excluded | run.used  # nas propriedades, nenhuma música volta na run (P378)
-    first = [s for s in yes if s.key not in out and (tiers is None or s.tier == tiers[0])]
-    second = [s for s in no if s.key not in out and (tiers is None or s.tier == tiers[1])]
+    capped = ctx.capped(family)
+    first = [
+        s
+        for s in yes
+        if s.key not in out
+        and (tiers is None or s.tier == tiers[0])
+        and (not capped or run.room(s, 0))
+    ]
+    second = [
+        s
+        for s in no
+        if s.key not in out
+        and (tiers is None or s.tier == tiers[1])
+        and (not capped or run.room(s, 1))
+    ]
     low, high = window
     if family.id == "ano_x":
         assert isinstance(param, int)
@@ -894,6 +944,7 @@ def _record(
         answer = high if direction == "max" else low
     else:
         answer = a if direction == "tem" else b
+        run.placed(a, b)
     run.join(a.key, b.key)
     run.opened(a, b)
     first, second = (a, b) if rng.randint(2) == 0 else (b, a)
@@ -1361,6 +1412,23 @@ def _round_answer_problem(ctx: QuizContext, family: Family, day: JSON, rnd: JSON
     return None
 
 
+def _cap_problems(
+    at: str, day: JSON, rnd: JSON, ctx: QuizContext, sides: tuple[Counter[str], Counter[str]]
+) -> list[str]:
+    """O limite da franquia (FRANCHISE_CAP) depois da rodada, com as franquias do catálogo."""
+    answer, other = (rnd["a"], rnd["b"]) if rnd["answer"] == "a" else (rnd["b"], rnd["a"])
+    yes, no = (answer, other) if day["direction"] == "tem" else (other, answer)
+    problems: list[str] = []
+    for side, (track, name) in enumerate(((yes, "o que tem"), (no, "o que não tem"))):
+        for franchise in ctx.tracks[track]["anime"]["franchiseIds"]:
+            sides[side][franchise] += 1
+            if sides[side][franchise] == FRANCHISE_CAP + 1:
+                problems.append(
+                    f"{at}: a franquia {franchise} passa de {FRANCHISE_CAP} vezes no lado {name}"
+                )
+    return problems
+
+
 def _day_rule_problems(where: str, day: JSON, ctx: QuizContext) -> list[str]:
     family = FAMILY_BY_ID[day["family"]]
     problems: list[str] = []
@@ -1370,6 +1438,10 @@ def _day_rule_problems(where: str, day: JSON, ctx: QuizContext) -> list[str]:
     except ScheduleError:
         excluded = frozenset()  # sem as agendas ao lado: a regra não tem como ser conferida
     run = _Run()
+    # O limite da franquia: o lado de cada música sai da resposta e da direção, e por isso vale
+    # também sem os dados do MAL (a CI nunca regera os dias das famílias dele, P380).
+    capped = ctx.capped(family) and where >= FRANCHISE_CAP_FROM
+    sides: tuple[Counter[str], Counter[str]] = (Counter(), Counter())
     for n, rnd in enumerate(day["rounds"], start=1):
         at = f"{where} rodada {n}"
         keys = [ctx.tracks[t]["songKey"] for t in (rnd["a"], rnd["b"]) if t in ctx.tracks]
@@ -1383,6 +1455,8 @@ def _day_rule_problems(where: str, day: JSON, ctx: QuizContext) -> list[str]:
             problems.append(f"{at}: música repetida na run")
         if family.kind == "compare" and run.known(family, *keys):
             problems.append(f"{at}: par que a run já deixa deduzir")
+        if capped:
+            problems += _cap_problems(at, day, rnd, ctx, sides)
         run.join(*keys)
         if excluded & pair:
             problems.append(f"{at}: música de uma resposta do Anime ou das Misturadas do dia")
