@@ -2,12 +2,13 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 02/11/2026.
+Atualizado em 03/11/2026.
 
 ## Próximos
 
-- **O PR do robô de segunda, 26/10:** o 1º com as Misturadas crescendo junto (de 31/10 em diante, com a franquia espaçada, P364) e o Anime de 13/11 em diante com a carga C3 e o limite de novas (P360). Merge no mesmo dia: a agenda das Misturadas acaba em 30/10.
+- **O PR do robô de segunda, 09/11:** merge no mesmo dia (P276). A agenda da `main` vai até 23/11.
 - **Depois dele, se trouxer o Anime:** o `anime-latin`, o `build` e o `build-artists` da Apple num PR à parte, para os Hits e os artistas lerem o latino das músicas novas (P372; o `build` avisa).
+- **A exceção à regra 4 sai do `ci.yml`:** o `--quiz-redo-from 2026-11-04` (P439) já venceu e não faz nada, mas fica no workflow até o PR que o tira (o commit está pronto na branch `quiz-franquias-ci`).
 
 ## Itens para corrigir
 
@@ -25,6 +26,7 @@ Atualizado em 02/11/2026.
 - **ME88.** "Song (Remix - feat. X)" vira "Song (Remix" no pipeline.
 - **ME79.** O `validate` deixa passar kanji ou kana no título latino.
 - **ME91.** A CI não acusa título que ficou sem latino.
+- **ME167 (novo).** O romaji de 永遠語り～El Ragna～ (水樹奈々): as fontes divergem; confirmar a leitura antes de corrigir.
 - **ME131 (novo).** O latino do AnimeThemes também erra ("Ikeru Hitobito", "Nemureru Honoo"): corrigir no `aliases.toml` do Anime, que leva a correção aos Hits e aos artistas.
 
 **No Anime**
@@ -48,6 +50,7 @@ Atualizado em 02/11/2026.
 ## Melhorias para analisar viabilidade
 
 **Jogo e tela**
+- **ME166 (novo).** As ajudas do Setlist sem tooltip no celular: rever com você se o nome do botão basta.
 - **ME162 (novo).** A capa pequena do Anime Royale (100 px) fica um pouco borrada no celular: usar a grande na grade (até 540 KB cada) ou deixar como está.
 - **ME157 (novo).** As setas do carrossel das Medalhas têm 28 px, abaixo dos 44 da P213: só com mouse, mas um notebook com toque as mostra. Crescer ou registrar a exceção.
 - **ME158 (novo).** A Início não mostra a run do Setlist Royale em andamento.
@@ -84,8 +87,8 @@ Atualizado em 02/11/2026.
 
 **Pipeline, CI e testes**
 - **ME134 (novo).** Um plano B sem o MAL para o Anime e o quiz, caso a API caia: a fonte de reserva de cada dado e o que o robô faz quando o MAL falha.
+- **ME164 (novo).** Registrar os dados dos jogos num servidor (o Cloudflare Workers com o D1, de graça), num marco próprio e com o texto de privacidade revisto. Não decidido.
 - **ME10.** `actionlint` ou `zizmor` na CI.
-- **ME12.** A escolha da base do `schedule-check` em Python, com teste.
 - **ME15.** Um teste rápido contra o `vite preview`, para pegar caminho absoluto no código.
 - **ME39.** Testes de componente do `Game` e do `App`.
 - **ME69.** Teste de tela do "Pedir ajuda" sumindo depois da 3ª ajuda do Superfan.
@@ -95,13 +98,10 @@ Atualizado em 02/11/2026.
 
 ## Coisas novas que quero implementar
 
-- **M18 (em andamento).** O quiz do dia (Apêndice Q do PLANO): o gerador (PR A), a tela (B), o robô (C) e os artistas parecidos (D). Decidir com o usuário: o lugar na nav e os cooldowns dos membros e das playlists.
-- **M19 (depois do M18).** Revisar e melhorar (se preciso, reconstruir) o design inteiro com a taste-skill e as Web Interface Guidelines da Vercel.
-- **M20 (em andamento).** As medalhas (Apêndice S do PLANO): os blocos e as do quiz já estão no ar (#131, #133 e #135); falta o PR 3, com as novas dos Hits, do Anime e das Misturadas, em avaliação.
+- **M18 (o que falta).** O quiz do dia (Apêndice Q do PLANO) está no ar; faltam os artistas parecidos (o PR D, com a run mais curta da P451 e a curadoria dos grupos) e as estatísticas do quiz (o B2).
+- **M20 (o que falta).** As medalhas (Apêndice S do PLANO): os blocos, as do quiz e as do Anime Royale já estão no ar; falta o PR 3, com as novas dos Hits, do Anime e das Misturadas, em avaliação.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME160 (novo).** O Anime Royale no Histórico: a marca no calendário e as dificuldades de um dia passado, jogadas depois.
-- **ME161 (novo).** As medalhas do Anime Royale.
-- **ME156 (novo).** A ajuda do Setlist Royale, com desenho próprio; com ela, a perfeita do Setlist exige a run sem ajuda.
 - **ME5.** Jogar sem internet (PWA).
 - **ME6.** O app do Claude no GitHub revisando cada PR.
 
@@ -114,9 +114,10 @@ Atualizado em 02/11/2026.
 - Conferir o logo empilhado: libera a **S34**, a imagem de compartilhamento (`og:image`).
 
 **Você**
+- **ME165 (novo).** No iPhone, jogar o quiz com `?htmlAudio=1` e ver se a prévia B toca depois da A.
+- Avisar quando terminar com a taste-skill: o M19 fecha com a limpeza dela (Apêndice R.4).
 - **ME163 (novo).** No iPhone, jogar uma dificuldade do Anime Royale e ouvir os 5 trechos em sequência e o clique na barra, também com `?htmlAudio=1`.
 - **ME159 (novo).** No iPhone, jogar o Setlist Royale até a 10ª rodada e ver se a página aguenta a memória (até 8 prévias decodificadas, uns 85 MB).
 - **ME100 (novo).** No iPhone, ver se o `<audio>` de reserva obedece ao volume e ao mudo (abrir com `?htmlAudio=1`).
 - **ME82.** Permitir baixar o selo branco da Apple, para o tema escuro.
 - **P16.** Decidir se a URL e o repositório mudam de nome.
-- Segunda, 26/10: o PR do robô, com o merge no mesmo dia.
