@@ -820,7 +820,7 @@
       ]
     },
     "2026-11-03": {
-      "catalogVersion": "2026-10-26.4390b62f",
+      "catalogVersion": "2026-10-26.5bbaf9ae",
       "direction": "nao",
       "family": "fonte",
       "mal": true,
@@ -998,9 +998,9 @@
           "b": "apple:tr:1485215965"
         },
         {
-          "a": "apple:tr:1440720406",
+          "a": "apple:tr:1535176912",
           "answer": "b",
-          "b": "apple:tr:1827167899"
+          "b": "apple:tr:1586797917"
         },
         {
           "a": "apple:tr:743662411",
@@ -1008,19 +1008,19 @@
           "b": "apple:tr:1822213518"
         },
         {
-          "a": "apple:tr:1536460988",
+          "a": "apple:tr:1562858841",
           "answer": "a",
-          "b": "apple:tr:1537789410"
+          "b": "apple:tr:1537796808"
         },
         {
-          "a": "apple:tr:1586797917",
+          "a": "apple:tr:1827167899",
+          "answer": "a",
+          "b": "apple:tr:1747246107"
+        },
+        {
+          "a": "apple:tr:1586784520",
           "answer": "a",
           "b": "apple:tr:1536129191"
-        },
-        {
-          "a": "apple:tr:1167937298",
-          "answer": "a",
-          "b": "apple:tr:1538261999"
         },
         {
           "a": "apple:tr:1535548884",
@@ -1043,12 +1043,12 @@
           "b": "apple:tr:1538285595"
         },
         {
-          "a": "apple:tr:1333849728",
+          "a": "apple:tr:1683455956",
           "answer": "a",
-          "b": "apple:tr:1721843015"
+          "b": "apple:tr:1537461940"
         },
         {
-          "a": "apple:tr:1683455956",
+          "a": "apple:tr:208196653",
           "answer": "a",
           "b": "apple:tr:1536128415"
         },
@@ -1063,9 +1063,9 @@
           "b": "apple:tr:1826489294"
         },
         {
-          "a": "apple:tr:208196653",
+          "a": "apple:tr:1532013076",
           "answer": "a",
-          "b": "apple:tr:1537461940"
+          "b": "apple:tr:1721843015"
         },
         {
           "a": "apple:tr:1535633276",
@@ -1073,9 +1073,9 @@
           "b": "apple:tr:1204216485"
         },
         {
-          "a": "apple:tr:1735516502",
+          "a": "apple:tr:547115325",
           "answer": "a",
-          "b": "apple:tr:1747246107"
+          "b": "apple:tr:1538261999"
         }
       ]
     },
