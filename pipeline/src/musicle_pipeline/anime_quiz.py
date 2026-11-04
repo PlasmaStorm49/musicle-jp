@@ -29,6 +29,9 @@ para a conferência.
   mostra só a diferença (a nota, os membros). Isso cobre o par repetido e a ordem transitiva. Nas
   propriedades, nenhuma música repetida na run e, nas de parâmetro, a mesma franquia no máximo
   FRANCHISE_CAP vezes a cada lado. Em todas, nenhuma resposta do Anime ou das Misturadas do dia.
+- **A preferência pela série que não acabou de sair** (SERIES_GAP): a busca tenta antes a música
+  nova de uma série fora das últimas rodadas, depois a nova de uma série recente e, por último, a
+  que já saiu. Não afrouxa a curva nem tem registro.
 - **O afrouxamento,** com registro: a distância alargada, qualquer faixa, qualquer distância e,
   só no acervo curto (as fixtures, de 34 faixas), as respostas do Anime e das Misturadas do dia.
   Sem par nenhum, a run para naquela rodada.
@@ -48,7 +51,7 @@ import re
 import subprocess
 from bisect import bisect_left, bisect_right
 from collections import Counter
-from collections.abc import Iterable, Mapping, Sequence
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from datetime import date
 from decimal import ROUND_HALF_UP, Decimal, localcontext
@@ -137,6 +140,15 @@ OFF_LABELS = frozenset({"Ecchi", "Erotica", "Hentai", "Gore"})
 FRANCHISE_CAP = 3
 # A conferência do limite vale a partir deste dia: os de antes foram gerados sem ele.
 FRANCHISE_CAP_FROM = "2026-11-04"
+# A série que volta (o usuário, 04/11/2026): pode voltar na run, mas de preferência com outra
+# música e com pelo menos SERIES_GAP rodadas de intervalo. Em todas as famílias, a busca tenta
+# antes as músicas novas de uma série que não saiu nas últimas SERIES_GAP rodadas, depois as novas
+# de uma série recente e, por último (só nas comparações: nas propriedades, a música nunca volta,
+# P378), as que já saíram. É preferência, como a da abertura: vem depois do piso de aberturas e
+# antes do tipo sorteado, e nunca afrouxa a curva (a faixa e a distância). Sem registro e sem
+# conferência: a música repetida e a série seguida continuam possíveis, só raras.
+SERIES_GAP = 3
+STALE_LEVELS = 3  # os níveis do `_Run.stale`: 0, 1 e 2
 # As fontes do MAL em grupos (o `source`): o mangá, a light novel, a novel, o original, a visual
 # novel e o jogo. As outras ("other", "mixed_media"...) ficam fora da pergunta.
 SOURCE_GROUPS = {
@@ -702,10 +714,23 @@ class _Run:
     openings: int = 0
     # As franquias de cada lado das propriedades (o que tem e o que não tem), para o limite.
     sides: tuple[Counter[str], Counter[str]] = field(default_factory=lambda: (Counter(), Counter()))
+    # A última rodada em que cada franquia saiu, para o intervalo (SERIES_GAP).
+    last: dict[str, int] = field(default_factory=dict)
 
     def opened(self, a: Song, b: Song) -> None:
+        n = self.songs // 2 + 1  # a rodada do par
+        for franchise in a.franchises | b.franchises:
+            self.last[franchise] = n
         self.songs += 2
         self.openings += _opening(a) + _opening(b)
+
+    def stale(self, song: Song) -> int:
+        """O quanto a música é repetida na rodada que vem (STALE_LEVELS): 0, nova e de uma série
+        fora das últimas SERIES_GAP rodadas; 1, nova, de uma série recente; 2, já saiu na run."""
+        if song.key in self.used:
+            return 2
+        n = self.songs // 2 + 1
+        return int(any(n - self.last.get(f, -SERIES_GAP) <= SERIES_GAP for f in song.franchises))
 
     def room(self, song: Song, side: int) -> bool:
         """Se a música ainda cabe no lado (0, o que tem; 1, o que não tem): nenhuma franquia dela
@@ -757,7 +782,9 @@ class _Run:
 def _rotated(items: Sequence[Song], rng: Mulberry32) -> Iterable[Song]:
     """As candidatas a partir de uma sorteada, em roda, até TRIES delas: um número do rng. A
     lista já vem sem as que a regra recusa, para o limite não se gastar com elas. O limite segura
-    o tempo da busca: sem par nas primeiras, o nível seguinte de afrouxamento resolve."""
+    o tempo da busca: sem par nas primeiras, o nível seguinte de afrouxamento resolve. Vale por
+    grupo do `_candidates` (o `stale` e o tipo, até 6 grupos): medido no acervo real (04/11/2026),
+    nas famílias sem o MAL, a run inteira continua abaixo de 1 s."""
     if not items:
         return []
     start = rng.randint(len(items))
@@ -768,14 +795,32 @@ def _opening(song: Song) -> bool:
     return song.facts.label.startswith("OP")
 
 
-def _candidates(items: Sequence[Song], want: bool | None, rng: Mulberry32) -> list[Song]:
-    """As 1ªs músicas a tentar: as do tipo sorteado (want: abertura ou não) em roda e, depois,
-    as outras, também em roda; sem preferência (a pergunta do tema), todas juntas."""
-    if want is None:
-        return list(_rotated(items, rng))
-    preferred = [s for s in items if _opening(s) == want]
-    rest = [s for s in items if _opening(s) != want]
-    return [*_rotated(preferred, rng), *_rotated(rest, rng)]
+def _by_stale(items: Sequence[Song], run: _Run) -> list[tuple[int, list[Song]]]:
+    """As músicas em grupos pelo `_Run.stale`, da mais nova para a repetida, sem os vazios; cada
+    grupo na ordem que veio."""
+    levels = [run.stale(s) for s in items]
+    groups = [
+        (lvl, [s for s, x in zip(items, levels, strict=True) if x == lvl])
+        for lvl in range(STALE_LEVELS)
+    ]
+    return [(lvl, group) for lvl, group in groups if group]
+
+
+def _candidates(
+    items: Sequence[Song], want: bool | None, rng: Mulberry32, run: _Run | None = None
+) -> list[Song]:
+    """As 1ªs músicas a tentar, em grupos pelo `_Run.stale` (SERIES_GAP) e, em cada grupo, as do
+    tipo sorteado (want: abertura ou não) em roda e, depois, as outras, também em roda; sem
+    preferência de tipo (a pergunta do tema), todas as do grupo juntas."""
+    groups = _by_stale(items, run) if run is not None else [(0, list(items))]
+    tried: list[Song] = []
+    for _level, group in groups:
+        if want is None:
+            tried += _rotated(group, rng)
+            continue
+        tried += _rotated([s for s in group if _opening(s) == want], rng)
+        tried += _rotated([s for s in group if _opening(s) != want], rng)
+    return tried
 
 
 def _fit(
@@ -802,6 +847,36 @@ def _partner(partners: Sequence[Song], want: bool | None, rng: Mulberry32) -> So
     return preferred[rng.randint(len(preferred))]
 
 
+def _best_pair(
+    run: _Run,
+    first: Sequence[Song],
+    partners_of: Callable[[Song], list[Song]],
+    rng: Mulberry32,
+    opening: tuple[bool, bool] | None,
+    need: int,
+) -> tuple[Song, Song] | None:
+    """O par da rodada, no mesmo nível de afrouxamento: as 1ªs músicas em roda (`_candidates`) e,
+    para cada uma, as 2ªs que a família aceita (`partners_of`), em grupos pelo `_Run.stale`. A
+    ordem do que o par atende: o piso de aberturas, a música e a série novas (SERIES_GAP: a pior
+    das duas e, no empate, a soma) e o tipo sorteado. Fica com o 1º par que atende tudo ou, sem
+    ele, com o melhor."""
+    want_a, want_b = opening or (None, None)
+    best: tuple[tuple[bool, int, int, int], Song, list[Song]] | None = None
+    for a in _candidates(first, want_a, rng, run):
+        stale_a = run.stale(a)
+        for stale_b, group in _by_stale(partners_of(a), run):
+            floor, wanted = _fit(a, group, want_a, want_b, need)
+            key = (floor, -max(stale_a, stale_b), -(stale_a + stale_b), wanted)
+            if key == (True, 0, 0, 2):
+                return a, _partner(group, _want_b(a, want_b, need), rng)
+            if best is None or key > best[0]:
+                best = (key, a, group)
+    if best is None:
+        return None
+    _, a, group = best
+    return a, _partner(group, _want_b(a, want_b, need), rng)
+
+
 def _search_compare(
     ctx: QuizContext,
     family: Family,
@@ -825,9 +900,8 @@ def _search_compare(
     ]
     keys = [v for v, _ in second]
     low, high = window
-    want_a, want_b = opening or (None, None)
-    best: tuple[int, Song, list[Song]] | None = None
-    for a in _candidates(first, want_a, rng):
+
+    def partners_of(a: Song) -> list[Song]:
         va = ctx.value(family.id, a)
         assert va is not None
         found: dict[str, Song] = {}
@@ -835,17 +909,9 @@ def _search_compare(
             for _, b in second[bisect_left(keys, lo) : bisect_right(keys, hi)]:
                 if b.key != a.key and not run.known(family, a.key, b.key):
                     found[b.id] = b
-        if found:
-            partners = [found[i] for i in sorted(found)]
-            fit = _fit(a, partners, want_a, want_b, need)
-            if fit == (True, 2):
-                return a, _partner(partners, _want_b(a, want_b, need), rng)
-            if best is None or fit > best[0]:
-                best = (fit, a, partners)
-    if best is None:
-        return None
-    _, a, partners = best
-    return a, _partner(partners, _want_b(a, want_b, need), rng)
+        return [found[i] for i in sorted(found)]
+
+    return _best_pair(run, first, partners_of, rng, opening, need)
 
 
 def _search_property(
@@ -883,22 +949,13 @@ def _search_property(
         # A distância ao ano X não depende da 1ª música: a lista sai uma vez só. As do "não" têm
         # o ano (sem ele, a música fica fora da pergunta, no `has`).
         second = [b for b in second if low <= abs(Decimal(b.facts.year or 0) - param) <= high]
-    want_a, want_b = opening or (None, None)
-    best: tuple[int, Song, list[Song]] | None = None
-    for a in _candidates(first, want_a, rng):
-        partners = second
-        if family.id != "ano_x":
-            partners = [b for b in second if low <= ctx.similarity(family, param, a, b) <= high]
-        if partners:
-            fit = _fit(a, partners, want_a, want_b, need)
-            if fit == (True, 2):
-                return a, _partner(partners, _want_b(a, want_b, need), rng)
-            if best is None or fit > best[0]:
-                best = (fit, a, partners)
-    if best is None:
-        return None
-    _, a, partners = best
-    return a, _partner(partners, _want_b(a, want_b, need), rng)
+
+    def partners_of(a: Song) -> list[Song]:
+        if family.id == "ano_x":
+            return second
+        return [b for b in second if low <= ctx.similarity(family, param, a, b) <= high]
+
+    return _best_pair(run, first, partners_of, rng, opening, need)
 
 
 def _info(family: Family, a: Song, b: Song) -> JSON | None:
