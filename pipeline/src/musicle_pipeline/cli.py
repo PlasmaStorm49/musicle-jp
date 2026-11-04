@@ -798,6 +798,10 @@ _GENERATORS: dict[str, Generator] = {"hits": generate, "anime": generate_anime}
 # O tipo de uma agenda pelo `kind` dela; sem o campo, a dos Hits. Um `kind` desconhecido é erro:
 # cairia em silêncio no gerador dos Hits.
 _KINDS = {"anime": "anime", MIXED_KIND: MIXED_KIND, ROYALE_KIND: ROYALE_KIND}
+# As agendas reais que a exceção do --quiz-redo-from abre, além do quiz: o Royale, que lê o quiz
+# (o usuário, 02/11/2026), e o Anime e as Misturadas (o usuário, 04/11/2026), que mudam com as
+# faixas do catálogo do Anime e que o quiz e o Royale leem: as quatro são refeitas juntas.
+_REDO_KINDS = frozenset({"anime", MIXED_KIND, ROYALE_KIND})
 
 
 def _generator_of(kind: str, path: Path) -> Generator | None:
@@ -824,10 +828,11 @@ def _is_fixture(path: Path) -> bool:
 def _redo_base(path: Path, base: JSON, args: argparse.Namespace) -> JSON | None:
     """A exceção à regra 4 (o usuário, 25/10/2026): os dias do quiz real desde o
     --quiz-redo-from saem da base e são conferidos como novos (o P44 e o gerador). Vale também
-    para o Anime Royale real (o usuário, 02/11/2026), que lê as músicas do quiz de cada dia: os
-    dois são refeitos juntos. Só dias depois de hoje, porque o de hoje pode já ter sido jogado: a
-    partir da data, a exceção vence sozinha, e a conferência volta a ser a de sempre. Devolve a
-    base sem os dias refeitos, ou None, com o erro já impresso."""
+    para o Anime Royale real (o usuário, 02/11/2026), que lê as músicas do quiz de cada dia, e
+    para a agenda real do Anime e a das Misturadas (o usuário, 04/11/2026), que o quiz e o Royale
+    leem (`_REDO_KINDS`): as quatro são refeitas juntas. Só dias depois de hoje, porque o de hoje
+    pode já ter sido jogado: a partir da data, a exceção vence sozinha, e a conferência volta a ser
+    a de sempre. Devolve a base sem os dias refeitos, ou None, com o erro já impresso."""
     if args.today is None:
         print(f"{path}: o --quiz-redo-from precisa do --today")
         return None
@@ -934,7 +939,7 @@ def _check_one(path: Path, kind: str | None, args: argparse.Namespace) -> int | 
             print(f"{path}: agenda de tipo desconhecido ({declared!r}): não há gerador para ela")
             return 1
         kind = "hits" if declared is None else _KINDS[declared]
-    redo = args.quiz_redo_from is not None and kind == ROYALE_KIND and not _is_fixture(path)
+    redo = args.quiz_redo_from is not None and kind in _REDO_KINDS and not _is_fixture(path)
     if redo and base is not None:
         base = _redo_base(path, base, args)
         if base is None:
@@ -1449,9 +1454,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     check.add_argument(
         "--quiz-redo-from",
         type=date.fromisoformat,
-        help="exceção à regra 4 (o usuário, 25/10/2026): os dias da agenda real do quiz e da do"
-        " Anime Royale, que lê o quiz, desde esta data, que tem de ser depois do --today,"
-        " conferidos como novos",
+        help="exceção à regra 4 (o usuário, 25/10/2026): os dias das agendas reais do quiz, do"
+        " Anime Royale, do Anime e das Misturadas desde esta data, que tem de ser depois do"
+        " --today, conferidos como novos",
     )
     check.set_defaults(func=_schedule_check)
 
