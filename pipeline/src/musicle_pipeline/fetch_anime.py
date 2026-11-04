@@ -1057,13 +1057,15 @@ def fetch_anime_snapshot(
     pool_size: int = POOL_SIZE,
     draw: Draw = "mal",
     selection: Selection | None = None,
+    closed: frozenset[str] = frozenset(),
 ) -> JSON:
     """Um snapshot novo do Anime, sorteado entre os `pool_size` mais populares (um número menor
     puxa o sorteio para o topo, e o Fácil cresce), ou, com o `draw="amq"`, na ordem dos animes
     mais acertados no AMQ. Para quando cada modo e faixa tem `target_per_tier` músicas, quando
     chega a `max_songs`, ou depois de `max_anime` animes tentados. Com a `selection` (a busca
     seletiva, P465 e P466), só os temas do `select_themes` vão à Apple, e o anime de uma franquia
-    que já chegou ao teto fica todo "skipped"."""
+    que já chegou ao teto fica todo "skipped". O anime das franquias `closed` (as limitadas no
+    aliases.toml do Anime, P467) fica todo "skipped" em qualquer busca."""
     order, mal_ranks = _plan(io, fetched_at, tried, personal, max_anime, pool_size, draw)
     progress = Progress(target_per_tier, max_songs)
     # Pelo AMQ, a ordem da busca é a do acerto: no snapshot, que vai para o Git, os animes saem
@@ -1080,6 +1082,7 @@ def fetch_anime_snapshot(
         progress,
         by_id=draw == "amq",
         selection=selection,
+        closed=closed,
     )
     return snapshot
 
@@ -1144,6 +1147,7 @@ def _collect(
     by_id: bool,
     known: Mapping[int, Anime] | None = None,
     selection: Selection | None = None,
+    closed: frozenset[str] = frozenset(),
 ) -> tuple[JSON, bool]:
     """A busca na ordem dada e o snapshot dela (os animes pelo id, com o `by_id`), e se ela
     parou antes do fim (uma fonte fora do ar, o prazo, o Ctrl+C)."""
@@ -1188,6 +1192,7 @@ def _collect(
             build,
             known,
             selection,
+            closed,
         )
     except KeyboardInterrupt:
         # O Ctrl+C na busca longa: o que já veio fica (o anime pela metade volta a ser sorteado).
@@ -1209,6 +1214,7 @@ def _search(
     build: Callable[[], JSON],
     known: Mapping[int, Anime] | None = None,
     selection: Selection | None = None,
+    closed: frozenset[str] = frozenset(),
 ) -> bool:
     """A busca de cada anime da ordem; devolve se ela parou antes do fim. Com o `known` (o
     --refresh), o anime já conhecido mantém o nível do MAL de antes quando não há ranking, e o
@@ -1282,7 +1288,11 @@ def _search(
             wanted = set(range(len(pairs)))
             ending: int | None = None
             franchise = main_franchise(anime)
-            if selection is not None:
+            if franchise in closed:
+                # A franquia gigante limitada no aliases.toml (P467): nada dela vai à Apple.
+                io.log(f"{source.name}: pulado, a franquia {franchise} está limitada")
+                wanted = set()
+            elif selection is not None:
                 full = selection.full(franchise)
                 if full is not None:
                     io.log(f"{source.name}: pulado, a franquia já tem {full} música(s)")

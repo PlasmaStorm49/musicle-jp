@@ -984,3 +984,23 @@ def test_validation_catches_a_stale_version_and_hand_edits(tmp_path):
     assert any("catalogVersion" in p for p in problems)
     raw = COMMITTED.read_bytes().replace(b"\n", b"\r\n")
     assert any("canônica" in p for p in validate_anime_catalog(read_json(COMMITTED), raw))
+
+
+def test_the_keep_of_a_franchise_leaves_only_its_best_known_songs():
+    """A franquia limitada no aliases.toml (P467) leva só as `keep` músicas de maior chance; as
+    outras franquias não mudam."""
+    songs = [(9, "A"), (3, "B"), (6, "C")]
+    themes = [
+        replace(theme(song=q), song=title, track=DISCOGRAPHY[i])
+        for i, (q, title) in enumerate(songs)
+    ]
+    other = anime(2, themes=[replace(theme(song=1), song="D", track=DISCOGRAPHY[3])])
+    cur = Curation(aliases=parse_aliases('[franchises."anime_1"]\nkeep = 2\n'))
+    notes: list[str] = []
+    catalog = build(anime(1, show=8, themes=themes), other, cur=cur, notes=notes)
+    assert {t["id"] for t in catalog["tracks"]} == {"apple:tr:1", "apple:tr:3", "apple:tr:4"}
+    assert "anime_1: 3 música(s); ficam as 2 (P467)" in notes
+    assert validate_anime_catalog(catalog) == []
+    unknown = Curation(aliases=parse_aliases('[franchises."outra"]\nkeep = 1\n'))
+    with pytest.raises(InputError, match="limita franquia sem anime: outra"):
+        build(anime(1, themes=[theme(song=5)]), cur=unknown)

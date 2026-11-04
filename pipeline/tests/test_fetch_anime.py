@@ -11,9 +11,15 @@ import pytest
 
 from musicle_pipeline import fetch_anime as fa
 from musicle_pipeline import mal_ranking
-from musicle_pipeline.anime import Anime, Theme, build_anime_catalog, franchise_songs
+from musicle_pipeline.anime import (
+    Anime,
+    Theme,
+    build_anime_catalog,
+    franchise_songs,
+    kept_franchises,
+)
 from musicle_pipeline.catalog import Curation
-from musicle_pipeline.cli import main
+from musicle_pipeline.cli import _anime_curation, main
 from musicle_pipeline.fetch import FetchError
 from musicle_pipeline.io_json import dumps, write_if_changed
 from musicle_pipeline.providers.apple_anime import AppleAnimeProvider
@@ -1118,3 +1124,20 @@ def test_the_cli_selective_option(monkeypatch, tmp_path, capsys):
     assert seen["selection"].franchise_songs == {}
     assert main([*base[:-1], "--out-dir", str(tmp_path / "outra")]) == 0
     assert seen["selection"] is None
+    # As franquias limitadas no aliases.toml do Anime real vão à busca (P467).
+    assert seen["closed"] == frozenset(kept_franchises(_anime_curation("apple")))
+    assert "meitantei_conan" in seen["closed"]
+
+
+def test_a_kept_franchise_is_skipped_in_any_search():
+    """A franquia limitada no aliases.toml (P467) não vai à Apple, com ou sem a busca seletiva."""
+    web = FakeWeb()
+    logs: list[str] = []
+    io = fa.AnimeFetch(get=web.get, post=web.post, mal=web.mal, apple_pace=0, log=logs.append)
+    closed = frozenset({"kimetsu_no_yaiba"})
+    snap = fa.fetch_anime_snapshot(
+        NOW, lambda t: (t,), set(), {}, {}, io, target_per_tier=1, closed=closed
+    )
+    assert {t["result"] for t in snap["anime"][0]["themes"]} == {"skipped"}
+    assert web.gets == []
+    assert any("a franquia kimetsu_no_yaiba está limitada" in m for m in logs)

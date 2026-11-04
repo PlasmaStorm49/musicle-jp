@@ -13,7 +13,12 @@ from pathlib import Path
 from typing import Any
 
 from musicle_pipeline.aliases import load_aliases
-from musicle_pipeline.anime import anime_chances, build_anime_catalog, chart_artists
+from musicle_pipeline.anime import (
+    anime_chances,
+    build_anime_catalog,
+    chart_artists,
+    kept_franchises,
+)
 from musicle_pipeline.anime_covers import covers_file, load_covers
 from musicle_pipeline.anime_latin import latin_file, load_latin
 from musicle_pipeline.anime_mixed import KIND as MIXED_KIND
@@ -1218,6 +1223,8 @@ def _fetch_anime(args: argparse.Namespace) -> int:
                 pool_size=3000 if args.pool_size is None else args.pool_size,
                 draw=draw,
                 selection=selection,
+                # As franquias limitadas no aliases.toml do Anime (P467): a busca as pula.
+                closed=frozenset(kept_franchises(_anime_curation("apple"))),
             )
     except fetch.FetchError as exc:
         # O snapshot parcial já foi gravado depois de cada anime (o `save`): rodar de novo continua.

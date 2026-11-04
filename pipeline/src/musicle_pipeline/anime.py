@@ -889,6 +889,44 @@ def anime_chances(
     return best
 
 
+def kept_franchises(cur: Curation) -> dict[str, int]:
+    """As franquias gigantes do aliases.toml do Anime e quantas músicas cada uma leva (P467)."""
+    entries = cur.aliases.entries.get("franchises", {})
+    return {slug: entry.keep for slug, entry in sorted(entries.items()) if entry.keep is not None}
+
+
+def _over_the_keep(
+    provider: str,
+    source: AnimeSource,
+    accs: Iterable[_TrackAcc],
+    cur: Curation,
+    notes: list[str],
+) -> set[str]:
+    """As músicas (songKey) que ficam fora do catálogo pelo `keep` da franquia (P467): de cada
+    franquia limitada (a principal do anime, `main_franchise`, a mesma que a busca pula), ficam as
+    `keep` de maior chance no acertar o anime (no empate, no acertar a música, e a chave). A
+    chance é a sem o limite: ele só escolhe quem fica. Uma música que a agenda já cita não pode
+    sair: o validate-anime recusa a resposta sem faixa."""
+    keeps = kept_franchises(cur)
+    known = {main_franchise(anime) for anime in source.anime}
+    unknown = sorted(set(keeps) - known)
+    if unknown:
+        raise InputError("aliases.toml do Anime limita franquia sem anime: " + ", ".join(unknown))
+    accs = list(accs)
+    best, _ = song_chances(provider, accs, frozenset(), franchise_songs(source.anime))
+    dropped: set[str] = set()
+    for slug, keep in keeps.items():
+        keys = {
+            song_key(provider, acc.track)
+            for acc in accs
+            if any(main_franchise(anime) == slug for anime, _ in acc.uses)
+        }
+        ranked = sorted(keys, key=lambda k: (-best[k]["titulo"], -best[k]["musica"], k))
+        dropped.update(ranked[keep:])
+        notes.append(f"{slug}: {len(ranked)} música(s); ficam as {min(keep, len(ranked))} (P467)")
+    return dropped
+
+
 def build_anime_catalog(
     provider: str,
     storefront: str,
@@ -907,11 +945,14 @@ def build_anime_catalog(
     if stale:
         raise InputError("aliases.toml do Anime cita IDs sem faixa:\n" + "\n".join(stale))
     marks = _song_marks(provider, accs.values(), icon_artists, franchise_songs(source.anime))
+    dropped = _over_the_keep(provider, source, accs.values(), cur, notes)
     artists: dict[str, JSON] = {}
     albums: dict[str, JSON] = {}
     tracks: list[JSON] = []
     for key in sorted(accs):
         t = accs[key].track
+        if song_key(provider, t) in dropped:
+            continue
         for a in t.artists:
             artists[entity_id(provider, "ar", a.provider_id)] = artist_record(provider, a, cur)
         album = {k: v for k, v in album_record(provider, t, cur).items() if k != "similar"}
