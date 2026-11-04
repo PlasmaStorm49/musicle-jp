@@ -1065,7 +1065,8 @@ def fetch_anime_snapshot(
     chega a `max_songs`, ou depois de `max_anime` animes tentados. Com a `selection` (a busca
     seletiva, P465 e P466), só os temas do `select_themes` vão à Apple, e o anime de uma franquia
     que já chegou ao teto fica todo "skipped". O anime das franquias `closed` (as limitadas no
-    aliases.toml do Anime, P467) fica todo "skipped" em qualquer busca."""
+    aliases.toml do Anime, P467) fica todo "skipped" em qualquer busca nova (o --refresh não as
+    pula: o build corta o que sobrar)."""
     order, mal_ranks = _plan(io, fetched_at, tried, personal, max_anime, pool_size, draw)
     progress = Progress(target_per_tier, max_songs)
     # Pelo AMQ, a ordem da busca é a do acerto: no snapshot, que vai para o Git, os animes saem
@@ -1351,7 +1352,8 @@ def _reused(theme: SourceTheme, same: Theme) -> JSON:
     """O tema que volta na nova busca (o --refresh, M18): o resultado e a faixa de antes, sem
     pedido à Apple, com os níveis e os números de agora, completados pelos de antes quando a
     fonte não os trouxe. O tema casado leva os artistas de agora; o que não casou fica com os de
-    antes, para o registro bater com o resultado (ele não é buscado de novo)."""
+    antes, para o registro bater com o resultado (ele não é buscado de novo). O "skipped" da busca
+    seletiva também fica como estava (P465): a nova busca não o procura na Apple."""
     before = {k: int(v) if k == "animethemes" else float(v) for k, v in same.stats.items()}
     record = {
         "type": theme.type,

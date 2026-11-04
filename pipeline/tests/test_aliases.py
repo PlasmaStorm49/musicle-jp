@@ -94,3 +94,9 @@ def test_the_franchise_keep_of_the_anime():
             parse_aliases(f'[franchises."x"]\nkeep = {bad}\n')
     with pytest.raises(InputError, match="chave desconhecida"):
         parse_aliases('[franchises."x"]\nblock = true\n')
+
+
+def test_only_the_anime_limits_franchises(fixture_snapshots):
+    """Nos Hits, a seção das franquias seria ignorada em silêncio: o build recusa (P467)."""
+    with pytest.raises(InputError, match="só o Anime limita franquias"):
+        _build(fixture_snapshots, "[franchises.'x']\nkeep = 1")

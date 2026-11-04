@@ -11,6 +11,7 @@ import pytest
 
 from musicle_pipeline import fetch_anime as fa
 from musicle_pipeline import mal_ranking
+from musicle_pipeline.aliases import load_aliases
 from musicle_pipeline.anime import (
     Anime,
     Theme,
@@ -19,9 +20,10 @@ from musicle_pipeline.anime import (
     kept_franchises,
 )
 from musicle_pipeline.catalog import Curation
-from musicle_pipeline.cli import _anime_curation, main
+from musicle_pipeline.cli import main
 from musicle_pipeline.fetch import FetchError
 from musicle_pipeline.io_json import dumps, write_if_changed
+from musicle_pipeline.paths import anime_paths
 from musicle_pipeline.providers.apple_anime import AppleAnimeProvider
 from musicle_pipeline.validate_anime import validate_anime_catalog
 
@@ -1125,8 +1127,8 @@ def test_the_cli_selective_option(monkeypatch, tmp_path, capsys):
     assert main([*base[:-1], "--out-dir", str(tmp_path / "outra")]) == 0
     assert seen["selection"] is None
     # As franquias limitadas no aliases.toml do Anime real vão à busca (P467).
-    assert seen["closed"] == frozenset(kept_franchises(_anime_curation("apple")))
-    assert "meitantei_conan" in seen["closed"]
+    real = Curation(aliases=load_aliases(anime_paths("apple").aliases))
+    assert seen["closed"] == frozenset(kept_franchises(real))
 
 
 def test_a_kept_franchise_is_skipped_in_any_search():
@@ -1141,3 +1143,19 @@ def test_a_kept_franchise_is_skipped_in_any_search():
     assert {t["result"] for t in snap["anime"][0]["themes"]} == {"skipped"}
     assert web.gets == []
     assert any("a franquia kimetsu_no_yaiba está limitada" in m for m in logs)
+
+
+def test_the_refresh_keeps_a_skipped_theme_without_asking_the_apple(tmp_path):
+    """O --refresh mantém o "skipped" da busca seletiva (P465): o tema não vai à Apple."""
+    snap = selective(FakeWeb(), fa.Selection({}))
+    folder = tmp_path / "seletiva"
+    folder.mkdir()
+    write_if_changed(folder / f"{snap['id']}.json", dumps(snap))
+    _, resolved, official = fa.tried_and_resolved(folder)
+    known = AppleAnimeProvider(folder).source().anime
+    web = FakeWeb()
+    again = refresh(web, known, resolved, official)
+    results = {t["song"]: t["result"] for t in again["anime"][0]["themes"]}
+    assert results["from the edge"] == "skipped"
+    assert results["Kamado Tanjirou no Uta"] == "skipped"
+    assert not any("search" in g for g in web.gets)

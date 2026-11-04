@@ -1004,3 +1004,22 @@ def test_the_keep_of_a_franchise_leaves_only_its_best_known_songs():
     unknown = Curation(aliases=parse_aliases('[franchises."outra"]\nkeep = 1\n'))
     with pytest.raises(InputError, match="limita franquia sem anime: outra"):
         build(anime(1, themes=[theme(song=5)]), cur=unknown)
+
+
+def test_the_keep_spares_a_crossover_song_and_a_small_franchise():
+    """A música que também é tema de outra franquia principal fica e não conta no limite (P467);
+    com o keep acima do total, nada sai."""
+    shared = replace(theme(song=1), song="A", track=DISCOGRAPHY[0])
+    mine = [shared, replace(theme(song=9), song="B", track=DISCOGRAPHY[1])]
+    mine += [replace(theme(song=6), song="C", track=DISCOGRAPHY[2])]
+    crossover = anime(2, themes=[shared])
+    cur = Curation(aliases=parse_aliases('[franchises."anime_1"]\nkeep = 1\n'))
+    notes: list[str] = []
+    catalog = build(anime(1, show=8, themes=mine), crossover, cur=cur, notes=notes)
+    assert {t["id"] for t in catalog["tracks"]} == {"apple:tr:1", "apple:tr:2"}
+    assert "anime_1: 2 música(s); ficam as 1 (P467)" in notes
+    roomy = Curation(aliases=parse_aliases('[franchises."anime_1"]\nkeep = 5\n'))
+    notes = []
+    catalog = build(anime(1, show=8, themes=mine), cur=roomy, notes=notes)
+    assert len(catalog["tracks"]) == 3
+    assert "anime_1: 3 música(s); ficam as 3 (P467)" in notes

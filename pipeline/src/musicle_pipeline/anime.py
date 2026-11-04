@@ -905,8 +905,10 @@ def _over_the_keep(
     """As músicas (songKey) que ficam fora do catálogo pelo `keep` da franquia (P467): de cada
     franquia limitada (a principal do anime, `main_franchise`, a mesma que a busca pula), ficam as
     `keep` de maior chance no acertar o anime (no empate, no acertar a música, e a chave). A
-    chance é a sem o limite: ele só escolhe quem fica. Uma música que a agenda já cita não pode
-    sair: o validate-anime recusa a resposta sem faixa."""
+    chance é a sem o limite: ele só escolhe quem fica. A música que também é tema de um anime de
+    outra franquia principal (um crossover) nunca sai: ela não conta no limite. O build não lê as
+    agendas: se uma música que uma agenda já cita sair do limite, o validate-anime recusa a
+    resposta sem faixa, e o `keep` precisa subir."""
     keeps = kept_franchises(cur)
     known = {main_franchise(anime) for anime in source.anime}
     unknown = sorted(set(keeps) - known)
@@ -916,11 +918,15 @@ def _over_the_keep(
     best, _ = song_chances(provider, accs, frozenset(), franchise_songs(source.anime))
     dropped: set[str] = set()
     for slug, keep in keeps.items():
-        keys = {
-            song_key(provider, acc.track)
-            for acc in accs
-            if any(main_franchise(anime) == slug for anime, _ in acc.uses)
-        }
+        # Por música (a songKey junta a TV size e a completa): a de algum uso fora da franquia fica.
+        inside: set[str] = set()
+        outside: set[str] = set()
+        for acc in accs:
+            for anime, _ in acc.uses:
+                (inside if main_franchise(anime) == slug else outside).add(
+                    song_key(provider, acc.track)
+                )
+        keys = inside - outside
         ranked = sorted(keys, key=lambda k: (-best[k]["titulo"], -best[k]["musica"], k))
         dropped.update(ranked[keep:])
         notes.append(f"{slug}: {len(ranked)} música(s); ficam as {min(keep, len(ranked))} (P467)")

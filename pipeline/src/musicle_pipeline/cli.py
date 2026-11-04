@@ -1183,6 +1183,13 @@ def _fetch_anime(args: argparse.Namespace) -> int:
         # o Ctrl+C, o PC), rodar de novo continua, porque os animes já tentados ficam de fora.
         write_if_changed(out, dumps(partial))
 
+    # As franquias limitadas no aliases.toml do Anime (P467): a busca nova as pula.
+    try:
+        aliases = load_aliases(anime_paths("apple").aliases)
+    except InputError as exc:
+        print(f"fetch --anime: {exc}; nada foi buscado", file=sys.stderr)
+        return 1
+    closed = frozenset(kept_franchises(Curation(aliases=aliases)))
     io = fetch_anime.AnimeFetch(
         mal=fetch_anime.mal_get(client_id) if client_id else None,
         mal_file=mal_file,
@@ -1223,8 +1230,7 @@ def _fetch_anime(args: argparse.Namespace) -> int:
                 pool_size=3000 if args.pool_size is None else args.pool_size,
                 draw=draw,
                 selection=selection,
-                # As franquias limitadas no aliases.toml do Anime (P467): a busca as pula.
-                closed=frozenset(kept_franchises(_anime_curation("apple"))),
+                closed=closed,
             )
     except fetch.FetchError as exc:
         # O snapshot parcial já foi gravado depois de cada anime (o `save`): rodar de novo continua.
