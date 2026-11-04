@@ -603,4 +603,7 @@ def test_a_failure_after_the_quiz_file_leaves_nothing(monkeypatch, tmp_path, cap
 def test_the_ranks_file_needs_anime(capsys):
     args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
     assert cli_main([*args, "--ranks-file", "x.json"]) == 1
-    assert "--ranks-file, --draw e --refresh só valem com --anime" in capsys.readouterr().err
+    assert (
+        "--ranks-file, --draw, --refresh e --selective só valem com --anime"
+        in capsys.readouterr().err
+    )

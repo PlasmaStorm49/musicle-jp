@@ -12,3 +12,10 @@ latin = "Rubicon"
 
 [tracks."apple:tr:1751661600"]  # レナセールセレナーデ (Momoiro Clover Z); AnimeThemes: "Renasale"
 latin = "Renacer Serenade"
+
+# --- As franquias gigantes (P467, a carga C4, 04/11/2026) ---
+# O catálogo leva só as `keep` músicas de maior chance da franquia, e a busca pula os animes dela.
+# Detective Conan trouxe 39 aberturas de uma vez na C4: ninguém conhece todas (o usuário).
+
+[franchises."meitantei_conan"]
+keep = 10

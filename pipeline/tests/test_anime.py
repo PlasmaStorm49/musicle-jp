@@ -23,6 +23,7 @@ from musicle_pipeline.anime import (
     build_anime_catalog,
     chances,
     chart_artists,
+    endings_factor,
     franchise_songs,
     franchises_of,
     is_icon,
@@ -218,32 +219,81 @@ def levels(**values: int) -> Theme:
     return replace(theme(), levels={names[k]: v for k, v in values.items()})
 
 
+def quiz_weighted(p_t: float) -> float:
+    """O p_q da P461, em float: o acerto do AMQ com o peso maior, igual na mediana (0,35)."""
+    return min(1.0, p_t**1.15 * 0.35**-0.15)
+
+
 def test_the_chance_of_guessing_the_anime_is_the_product():
-    # p_a × p_t × o fator do tipo (P272): MAL 9 = 0,92; quiz 9 = 0,95.
-    assert chances(theme(song=9), anime(show=9), 1)["titulo"] == Decimal("0.874")
-    assert chances(theme("ED", song=9), anime(show=9), 1)["titulo"] == Decimal("0.6992")
+    # p_a × p_q × o fator do tipo (P272, P461): MAL 9 = 0,92; quiz 9 = 0,95, que passa de 1 com o
+    # peso maior e fica em 1.
+    def titulo(kind: str, show: int | None = 9, songs: int = 1, **values: int) -> float:
+        picked = replace(levels(**values), type=kind)
+        return float(chances(picked, anime(show=show), songs)["titulo"])
+
+    assert chances(theme(song=9), anime(show=9), 1)["titulo"] == Decimal("0.92")
+    assert chances(theme("ED", song=9), anime(show=9), 1)["titulo"] == Decimal("0.736")
+    # Na mediana do acervo (quiz 3, p_t 0,35), o peso maior não muda nada; acima, sobe; abaixo,
+    # desce.
+    assert titulo("OP", quiz=3) == pytest.approx(0.92 * 0.35, rel=1e-12)
+    assert titulo("OP", quiz=7) == pytest.approx(0.92 * quiz_weighted(0.75), rel=1e-12)
+    assert titulo("OP", quiz=7) > 0.92 * 0.75
+    assert titulo("OP", quiz=1) < 0.92 * 0.15
     # A insert com quiz 7+ conta como abertura; a outra leva o fator 0,15.
-    assert chances(theme("IN", song=9), anime(show=9), 1)["titulo"] == Decimal("0.874")
-    assert chances(theme("IN", song=6), anime(show=9), 1)["titulo"] == Decimal("0.0897")
+    assert chances(theme("IN", song=9), anime(show=9), 1)["titulo"] == Decimal("0.92")
+    assert titulo("IN", quiz=6) == pytest.approx(0.92 * quiz_weighted(0.65) * 0.15, rel=1e-12)
     # Sem o quiz, o estimado pelas playlists (pl 9 → 7,4); sem nada, quiz 2 e MAL 1.
-    assert chances(levels(pl=9), anime(show=9), 1)["titulo"] == Decimal("0.7268")
+    assert titulo("OP", pl=9) == pytest.approx(0.92 * quiz_weighted(0.79), rel=1e-12)
     # A insert sem o quiz e com pl 9 também conta como abertura (o estimado é 7,4).
-    insert = replace(levels(pl=9), type="IN")
-    assert chances(insert, anime(show=9), 1)["titulo"] == Decimal("0.7268")
-    assert chances(theme(), anime(), 1)["titulo"] == Decimal("0.0385875968")  # 0,92 × 0,8⁸ × 0,25
-    # A concorrência é só do acertar a música.
-    alone = chances(theme(song=2), anime(show=5), 1)["titulo"]
-    assert chances(theme(song=2), anime(show=5), 21)["titulo"] == alone
+    assert titulo("IN", pl=9) == titulo("OP", pl=9)
+    assert titulo("OP", show=None) == pytest.approx(0.92 * 0.8**8 * quiz_weighted(0.25), rel=1e-12)
+    # A concorrência do acertar a música não entra aqui: a abertura é a mesma com 21 da franquia.
+    assert titulo("OP", show=5, songs=21, quiz=2) == titulo("OP", show=5, songs=1, quiz=2)
+    # A ED leva o fator das muitas EDs da franquia (P463), e só ele.
+    assert titulo("ED", songs=3, quiz=2) == titulo("ED", songs=1, quiz=2)
+    assert titulo("ED", songs=58, quiz=2) == pytest.approx(
+        titulo("ED", songs=1, quiz=2) / (1 + 0.35 * math.log(58 / 3)), rel=1e-12
+    )
+
+
+def test_the_endings_factor_grows_with_the_endings_and_the_obscurity():
+    # Até 3 EDs na franquia, nada (P463).
+    assert endings_factor(0, 9) == endings_factor(3, 0) == Decimal(1)
+    # Naruto (58 EDs, MAL 9): a força 0,35.
+    assert float(endings_factor(58, 9)) == pytest.approx(1 / (1 + 0.35 * math.log(58 / 3)))
+    # Um anime do MAL 7 com 8 EDs: a força 0,35 + 2 × 0,25.
+    assert float(endings_factor(8, 7)) == pytest.approx(1 / (1 + 0.85 * math.log(8 / 3)))
+    # Com as mesmas 6 EDs, o anime menos conhecido perde mais; com a mesma fama, quem tem mais EDs.
+    assert endings_factor(6, 5) < endings_factor(6, 9) < 1
+    assert endings_factor(30, 9) < endings_factor(10, 9)
 
 
 def test_the_chance_of_guessing_the_song_is_the_product():
-    # √(p_t × p_pl) × p_a^0,4 × o fator do tipo × a concorrência (P272), conferido em float.
-    def musica(kind: str, songs: int, **values: int) -> float:
-        return float(chances(replace(levels(**values), type=kind), anime(show=9), songs)["musica"])
+    # p_t^0,55 × p_pl^0,45 × p_a^0,4 × o fator do tipo × a concorrência (P272, P461), conferido
+    # em float.
+    def musica(kind: str, songs: int, show: int = 9, **values: int) -> float:
+        picked = replace(levels(**values), type=kind)
+        return float(chances(picked, anime(show=show), songs)["musica"])
 
     assert musica("OP", 1, quiz=7, pl=7) == pytest.approx(0.75 * 0.92**0.4, rel=1e-12)
-    assert musica("OP", 1, quiz=7) == pytest.approx(0.75 * 0.8 * 0.92**0.4, rel=1e-12)  # sem pl
+    # O quiz pesa um pouco mais que as playlists.
+    assert musica("OP", 1, quiz=9, pl=1) == pytest.approx(
+        0.95**0.55 * 0.15**0.45 * 0.92**0.4, rel=1e-12
+    )
+    assert musica("OP", 1, quiz=9, pl=1) > musica("OP", 1, quiz=1, pl=9)
+    # Sem o pl, o p_q com o desconto.
+    assert musica("OP", 1, quiz=7) == pytest.approx(
+        quiz_weighted(0.75) * 0.8 * 0.92**0.4, rel=1e-12
+    )
     assert musica("ED", 1, quiz=7, pl=7) == pytest.approx(0.75 * 0.92**0.4 * 0.8, rel=1e-12)
+    # Na ED, a menor entre a concorrência e o fator das muitas EDs (P463): a muito conhecida de
+    # Naruto perde pelas EDs; a pouco conhecida com 5 EDs, pela concorrência, como antes.
+    assert musica("ED", 58, quiz=9, pl=9) / musica("ED", 1, quiz=9, pl=9) == pytest.approx(
+        float(endings_factor(58, 9)), rel=1e-12
+    )
+    assert musica("ED", 5, quiz=2, pl=2) / musica("ED", 1, quiz=2, pl=2) == pytest.approx(
+        1 / (1 + 0.75 * math.log(5)), rel=1e-12
+    )
     # No acertar a música, a insert com quiz alto continua insert (o fator 0,3).
     assert musica("IN", 1, quiz=9, pl=9) == pytest.approx(0.95 * 0.92**0.4 * 0.3, rel=1e-12)
     # 21 músicas do mesmo tipo: a pouco conhecida (quiz 2) perde muito mais que a famosa (quiz 9).
@@ -842,7 +892,8 @@ def test_the_song_name_is_easier_than_the_anime_only_for_an_icon():
 
 
 def test_many_endings_of_the_franchise_make_the_name_harder():
-    # Quiz 5 e pl 5 no MAL 9: o nome dá 0,43 sozinho (Fácil) e 0,18 entre 21 encerramentos.
+    # Quiz 5 e pl 5 no MAL 9: o nome dá 0,43 sozinho (Fácil) e 0,18 entre 21 encerramentos. O
+    # anime também (P463): 0,43 sozinho e 0,26 entre eles, mesmo no MAL 9.
     ending = replace(levels(quiz=5, pl=5), type="ED")
     (t,) = build(anime(1, show=9, themes=[ending]))["tracks"]
     assert t["anime"]["tiers"] == {"musica": "facil", "titulo": "facil"}
@@ -850,7 +901,7 @@ def test_many_endings_of_the_franchise_make_the_name_harder():
         replace(theme("ED", result="no-match"), song=f"Ending {i}", track=None) for i in range(20)
     ]
     (t,) = build(anime(1, show=9, themes=[ending, *others]))["tracks"]
-    assert t["anime"]["tiers"] == {"musica": "medio", "titulo": "facil"}
+    assert t["anime"]["tiers"] == {"musica": "medio", "titulo": "medio"}
 
 
 def test_the_build_joins_the_levels_of_the_two_sources():
@@ -933,3 +984,42 @@ def test_validation_catches_a_stale_version_and_hand_edits(tmp_path):
     assert any("catalogVersion" in p for p in problems)
     raw = COMMITTED.read_bytes().replace(b"\n", b"\r\n")
     assert any("canônica" in p for p in validate_anime_catalog(read_json(COMMITTED), raw))
+
+
+def test_the_keep_of_a_franchise_leaves_only_its_best_known_songs():
+    """A franquia limitada no aliases.toml (P467) leva só as `keep` músicas de maior chance; as
+    outras franquias não mudam."""
+    songs = [(9, "A"), (3, "B"), (6, "C")]
+    themes = [
+        replace(theme(song=q), song=title, track=DISCOGRAPHY[i])
+        for i, (q, title) in enumerate(songs)
+    ]
+    other = anime(2, themes=[replace(theme(song=1), song="D", track=DISCOGRAPHY[3])])
+    cur = Curation(aliases=parse_aliases('[franchises."anime_1"]\nkeep = 2\n'))
+    notes: list[str] = []
+    catalog = build(anime(1, show=8, themes=themes), other, cur=cur, notes=notes)
+    assert {t["id"] for t in catalog["tracks"]} == {"apple:tr:1", "apple:tr:3", "apple:tr:4"}
+    assert "anime_1: 3 música(s); ficam as 2 (P467)" in notes
+    assert validate_anime_catalog(catalog) == []
+    unknown = Curation(aliases=parse_aliases('[franchises."outra"]\nkeep = 1\n'))
+    with pytest.raises(InputError, match="limita franquia sem anime: outra"):
+        build(anime(1, themes=[theme(song=5)]), cur=unknown)
+
+
+def test_the_keep_spares_a_crossover_song_and_a_small_franchise():
+    """A música que também é tema de outra franquia principal fica e não conta no limite (P467);
+    com o keep acima do total, nada sai."""
+    shared = replace(theme(song=1), song="A", track=DISCOGRAPHY[0])
+    mine = [shared, replace(theme(song=9), song="B", track=DISCOGRAPHY[1])]
+    mine += [replace(theme(song=6), song="C", track=DISCOGRAPHY[2])]
+    crossover = anime(2, themes=[shared])
+    cur = Curation(aliases=parse_aliases('[franchises."anime_1"]\nkeep = 1\n'))
+    notes: list[str] = []
+    catalog = build(anime(1, show=8, themes=mine), crossover, cur=cur, notes=notes)
+    assert {t["id"] for t in catalog["tracks"]} == {"apple:tr:1", "apple:tr:2"}
+    assert "anime_1: 2 música(s); ficam as 1 (P467)" in notes
+    roomy = Curation(aliases=parse_aliases('[franchises."anime_1"]\nkeep = 5\n'))
+    notes = []
+    catalog = build(anime(1, show=8, themes=mine), cur=roomy, notes=notes)
+    assert len(catalog["tracks"]) == 3
+    assert "anime_1: 3 música(s); ficam as 3 (P467)" in notes

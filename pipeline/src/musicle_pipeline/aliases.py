@@ -12,6 +12,11 @@ Formato (por ID do catálogo):
 
 Busca só existe para músicas (o Desafio, P100): faixa e artista aceitam `aliases` (o do artista
 entra na busca das faixas dele); álbum, só `latin`.
+
+Só no Anime, a franquia gigante fica com as suas músicas mais conhecidas (P467):
+
+    [franchises."meitantei_conan"]
+    keep = 10                    # o catálogo leva só as 10 de maior chance; a busca a pula
 """
 
 from __future__ import annotations
@@ -24,11 +29,14 @@ from typing import Any
 
 from musicle_pipeline.models import InputError
 
-KINDS = ("tracks", "albums", "artists")
+KINDS = ("tracks", "albums", "artists")  # as entidades do catálogo, que a curadoria cita pelo ID
+# As seções do arquivo: as entidades e, só no Anime, as franquias limitadas (P467).
+SECTIONS = (*KINDS, "franchises")
 _ALLOWED_KEYS = {
     "tracks": {"latin", "aliases", "block"},
     "albums": {"latin"},
     "artists": {"latin", "aliases"},
+    "franchises": {"keep"},  # só o Anime a lê (P467); a franquia é o slug, sem o "anime:fr:"
 }
 
 
@@ -37,6 +45,7 @@ class Alias:
     latin: str | None = None
     aliases: tuple[str, ...] = ()
     block: bool = False
+    keep: int | None = None
 
 
 _EMPTY = Alias()
@@ -68,7 +77,14 @@ def _parse_entry(kind: str, entity_id: str, raw: Any, where: str) -> Alias:
         raise InputError(f"{where}: [{kind}.{entity_id!r}] aliases deveria ser lista de textos")
     if not isinstance(block, bool):
         raise InputError(f"{where}: [{kind}.{entity_id!r}] block deveria ser true ou false")
-    return Alias(latin=latin.strip() if latin else None, aliases=tuple(aliases), block=block)
+    keep = raw.get("keep")
+    if kind == "franchises" and (isinstance(keep, bool) or not isinstance(keep, int) or keep < 1):
+        raise InputError(
+            f"{where}: [{kind}.{entity_id!r}] keep deveria ser um inteiro de 1 para cima"
+        )
+    return Alias(
+        latin=latin.strip() if latin else None, aliases=tuple(aliases), block=block, keep=keep
+    )
 
 
 def parse_aliases(text: str, where: str = "aliases.toml") -> Aliases:
@@ -76,15 +92,15 @@ def parse_aliases(text: str, where: str = "aliases.toml") -> Aliases:
         data = tomllib.loads(text)
     except tomllib.TOMLDecodeError as exc:
         raise InputError(f"{where}: TOML inválido: {exc}") from None
-    unknown = set(data) - set(KINDS)
+    unknown = set(data) - set(SECTIONS)
     if unknown:
-        raise InputError(f"{where}: seção desconhecida: {sorted(unknown)} (use {list(KINDS)})")
+        raise InputError(f"{where}: seção desconhecida: {sorted(unknown)} (use {list(SECTIONS)})")
     return Aliases(
         {
             kind: {
                 eid: _parse_entry(kind, eid, raw, where) for eid, raw in data.get(kind, {}).items()
             }
-            for kind in KINDS
+            for kind in SECTIONS
         }
     )
 
