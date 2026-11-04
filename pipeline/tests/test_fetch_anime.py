@@ -11,7 +11,7 @@ import pytest
 
 from musicle_pipeline import fetch_anime as fa
 from musicle_pipeline import mal_ranking
-from musicle_pipeline.anime import Anime, Theme, build_anime_catalog
+from musicle_pipeline.anime import Anime, Theme, build_anime_catalog, franchise_songs
 from musicle_pipeline.catalog import Curation
 from musicle_pipeline.cli import main
 from musicle_pipeline.fetch import FetchError
@@ -751,7 +751,7 @@ def test_the_cli_draw_option(monkeypatch, tmp_path, capsys):
     # E a opção só vale com --anime.
     args = ["fetch", "--provider", "apple", "--fetched-at", NOW, "--today", "2026-10-22"]
     assert main([*args, "--draw", "amq"]) == 1
-    assert "--draw e --refresh só valem com --anime" in capsys.readouterr().err
+    assert "--draw, --refresh e --selective só valem com --anime" in capsys.readouterr().err
 
 
 # --- a nova busca dos animes conhecidos (o --refresh, M18) ---------------------------------------
@@ -953,3 +953,135 @@ def test_the_cli_refresh(monkeypatch, tmp_path, capsys):
     assert seen["mal"] is not None
     captured = capsys.readouterr()
     assert SECRET not in captured.out + captured.err
+
+
+# --- a busca seletiva (a carga C4, P464 a P466) ---------------------------------------------------
+
+
+def source_theme(kind: str, sequence: int | None = None, **levels: int) -> fa.SourceTheme:
+    return fa.SourceTheme(kind, sequence, f"{kind} {sequence}", [], dict(levels))
+
+
+def test_select_themes_keeps_the_openings_one_ending_and_the_insert_that_is_an_opening():
+    themes = [
+        source_theme("OP", 1),
+        source_theme("ED", 1, anisongdb=3, animethemes=5),
+        source_theme("ED", 2, anisongdb=6),
+        source_theme("ED", 3, anisongdb=6),  # empata com a ED2 no quiz: vence a menor sequência
+        source_theme("IN", None, anisongdb=7),  # conta como abertura
+        source_theme("IN", None, anisongdb=6),
+        source_theme("IN", None, animethemes=9),  # o quiz estimado pelas playlists: 7,4
+        source_theme("IN"),
+        source_theme("OP", 2),
+    ]
+    assert fa.select_themes(themes) == {0, 2, 4, 6, 8}
+    # No empate do quiz, as playlists; sem nenhum nível, a 1ª da fonte.
+    tied = [
+        source_theme("ED", 1, anisongdb=5, animethemes=3),
+        source_theme("ED", 2, anisongdb=5, animethemes=7),
+    ]
+    assert fa.select_themes(tied) == {1}
+    assert fa.select_themes([source_theme("ED", 2), source_theme("ED", 1)]) == {1}
+    assert fa.select_themes([source_theme("IN")]) == set()
+
+
+def selective(web: FakeWeb, selection: fa.Selection, logs: list[str] | None = None) -> dict:
+    io = fa.AnimeFetch(
+        get=web.get,
+        post=web.post,
+        mal=web.mal,
+        apple_pace=0,
+        log=(logs.append if logs is not None else lambda _m: None),
+    )
+    return fa.fetch_anime_snapshot(
+        NOW,
+        lambda t: ROMAJI.get(t, (t,)),
+        set(),
+        {},
+        {},
+        io,
+        target_per_tier=1,
+        selection=selection,
+    )
+
+
+def test_the_selective_search_skips_themes_without_asking_the_apple(tmp_path):
+    web = FakeWeb()
+    selection = fa.Selection({})
+    snap = selective(web, selection)
+    results = {t["song"]: (t["result"], t["track"]) for t in snap["anime"][0]["themes"]}
+    # A abertura e o único encerramento vão à Apple; a insert de quiz 3 fica de fora (P465).
+    assert results == {
+        "Gurenge": ("matched", "10"),
+        "from the edge": ("matched", "13"),
+        "Kamado Tanjirou no Uta": ("skipped", None),
+    }
+    assert "Go Shiina" not in snap["resolved"]
+    assert not any("Go+Shiina" in g or "Go%20Shiina" in g for g in web.gets)
+    # A busca soma as músicas que achou na franquia.
+    assert len(selection.franchise_songs["kimetsu_no_yaiba"]) == 2
+    # O "skipped" é lido, fica sem faixa e conta nas músicas da franquia (P463).
+    write_if_changed(tmp_path / f"{snap['id']}.json", dumps(snap))
+    source = AppleAnimeProvider(tmp_path).source()
+    assert franchise_songs(source.anime)["kimetsu_no_yaiba", "IN"] == 1
+    catalog = build_anime_catalog("apple", "jp", source, Curation(), [], icon_artists=frozenset())
+    assert validate_anime_catalog(catalog, dumps(catalog).encode()) == []
+    assert {t["id"] for t in catalog["tracks"]} == {"apple:tr:10", "apple:tr:13"}
+
+
+def test_the_selective_search_skips_the_anime_of_a_big_franchise():
+    web = FakeWeb()
+    logs: list[str] = []
+    full = fa.Selection({"kimetsu_no_yaiba": {f"song{i}" for i in range(10)}})
+    snap = selective(web, full, logs)
+    (anime,) = snap["anime"]  # fica no snapshot: o sorteio não o pega de novo
+    assert {t["result"] for t in anime["themes"]} == {"skipped"}
+    assert web.gets == [] and snap["tracks"] == {}
+    assert any("pulado, a franquia já tem 10 música(s)" in m for m in logs)
+    # Com 9, ainda entra, e a franquia passa do teto com o que a busca acha.
+    almost = fa.Selection({"kimetsu_no_yaiba": {f"song{i}" for i in range(9)}})
+    assert almost.full("kimetsu_no_yaiba") is None
+    selective(FakeWeb(), almost)
+    assert almost.full("kimetsu_no_yaiba") == 11
+
+
+def test_known_franchise_songs_counts_the_matched_songs(tmp_path):
+    known, _, _, _ = old_snapshot(tmp_path)
+    songs = fa.known_franchise_songs(known)
+    assert songs == {"kimetsu_no_yaiba": {"gurenge", "fromthedge"}}
+
+
+def test_the_cli_selective_option(monkeypatch, tmp_path, capsys):
+    seen: dict = {}
+
+    def fake_snapshot(fetched_at, romanize, tried, resolved, official, io, **kwargs):
+        seen.update(kwargs)
+        return {
+            "provider": "apple",
+            "storefront": "jp",
+            "id": "2026-10-23T010000Z",
+            "fetchedAt": fetched_at,
+            "anime": [{"malId": 1, "themes": []}],
+            "artists": {},
+            "resolved": {},
+            "tracks": {},
+        }
+
+    _, _, _, folder = old_snapshot(tmp_path)  # antes do monkeypatch: ele usa a busca de verdade
+    monkeypatch.setattr(fa, "fetch_anime_snapshot", fake_snapshot)
+    monkeypatch.setattr(fa, "cached_romanizer", lambda: lambda t: (t,))
+    monkeypatch.setenv("MAL_CLIENT_ID", SECRET)
+    base = ["fetch", "--provider", "apple", "--anime", "--fetched-at", LATER, "--selective"]
+    # Não vale com o --refresh nem com o --draw amq.
+    assert main([*base, "--refresh", "--out-dir", str(folder)]) == 1
+    assert "sem --selective" in capsys.readouterr().err
+    assert main([*base, "--draw", "amq", "--out-dir", str(folder)]) == 1
+    assert "--selective é do sorteio do MAL" in capsys.readouterr().err
+    # Com os snapshots da pasta, a seleção começa com as músicas de cada franquia.
+    assert main([*base, "--out-dir", str(folder)]) == 0
+    assert seen["selection"].franchise_songs == {"kimetsu_no_yaiba": {"gurenge", "fromthedge"}}
+    # Pasta vazia: a seleção começa vazia; sem a opção, nenhuma seleção.
+    assert main([*base, "--out-dir", str(tmp_path / "vazia")]) == 0
+    assert seen["selection"].franchise_songs == {}
+    assert main([*base[:-1], "--out-dir", str(tmp_path / "outra")]) == 0
+    assert seen["selection"] is None

@@ -60,8 +60,10 @@ THEME_LEVELS = ("anisongdb", "animethemes")
 # A temporada da estreia do anime, a do AnimeThemes (WINTER, SPRING, SUMMER e FALL), na ordem do
 # ano: o quiz do dia compara a estreia de duas músicas pelo ano e pela temporada (M18).
 SEASONS = ("winter", "spring", "summer", "fall")
-# O resultado da busca de cada tema, no snapshot: só o "matched" tem faixa.
-RESULTS = ("matched", "no-artist", "no-match", "ambiguous", "no-preview")
+# O resultado da busca de cada tema, no snapshot: só o "matched" tem faixa. O "skipped" é o tema
+# que a busca seletiva (a carga C4, P465) não procurou na Apple: fica sem faixa, como o
+# "no-match", e conta nas músicas da franquia (a concorrência e as muitas EDs, P463).
+RESULTS = ("matched", "no-artist", "no-match", "ambiguous", "no-preview", "skipped")
 # As faixas de dificuldade (P272 a P275, calibradas na carga grande, C2). Cada tema vira a chance
 # de acertar cada modo, um produto de fatores entre 0 e 1 (a conta está no `chances`).
 # Sem o quiz, o quiz médio dos temas do C2 que têm os dois níveis, por nível das playlists

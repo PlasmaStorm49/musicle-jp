@@ -983,6 +983,7 @@ def _fetch(args: argparse.Namespace) -> int:
     if args.anime_covers:
         others = (args.personal, args.out_dir, args.max_songs, args.target_per_tier, args.max_anime)
         others += (args.pool_size, args.deadline_min, args.ranks_file, args.draw, args.today)
+        others += (args.selective,)
         if (
             args.anime
             or args.artists
@@ -1009,11 +1010,12 @@ def _fetch(args: argparse.Namespace) -> int:
         args.ranks_file,
         args.draw,
         args.refresh,
+        args.selective,
     )
     if any(value is not None for value in anime_only):
         print(
             "--personal, --out-dir, --max-songs, --target-per-tier, --max-anime, --pool-size, "
-            "--deadline-min, --ranks-file, --draw e --refresh só valem com --anime",
+            "--deadline-min, --ranks-file, --draw, --refresh e --selective só valem com --anime",
             file=sys.stderr,
         )
         return 1
@@ -1116,6 +1118,7 @@ def _fetch_anime(args: argparse.Namespace) -> int:
                 ("--max-anime", args.max_anime),
                 ("--max-songs", args.max_songs),
                 ("--target-per-tier", args.target_per_tier),
+                ("--selective", args.selective),
             )
             if value is not None
         ]
@@ -1125,6 +1128,10 @@ def _fetch_anime(args: argparse.Namespace) -> int:
                 file=sys.stderr,
             )
             return 1
+    if draw == "amq" and args.selective:
+        # A busca seletiva (a carga C4, P464) é do sorteio do MAL, que pega o meio do ranking.
+        print("--selective é do sorteio do MAL, não do --draw amq", file=sys.stderr)
+        return 1
     if draw == "amq" and args.personal:
         # A lista pessoal é só da 1ª carga, com o sorteio do MAL (P253).
         print("--personal é só do sorteio do MAL (a 1ª carga), não do --draw amq", file=sys.stderr)
@@ -1190,6 +1197,13 @@ def _fetch_anime(args: argparse.Namespace) -> int:
                 args.fetched_at, fetch_anime.cached_romanizer(), known, resolved, official, io
             )
         else:
+            selection = None
+            if args.selective:
+                # As músicas de cada franquia no acervo de antes (P466): só com snapshots na pasta.
+                from musicle_pipeline.providers.apple_anime import AppleAnimeProvider
+
+                known = AppleAnimeProvider(directory).source().anime if tried else ()
+                selection = fetch_anime.Selection(fetch_anime.known_franchise_songs(known))
             snapshot = fetch_anime.fetch_anime_snapshot(
                 args.fetched_at,
                 fetch_anime.cached_romanizer(),
@@ -1203,6 +1217,7 @@ def _fetch_anime(args: argparse.Namespace) -> int:
                 max_anime=400 if args.max_anime is None else args.max_anime,
                 pool_size=3000 if args.pool_size is None else args.pool_size,
                 draw=draw,
+                selection=selection,
             )
     except fetch.FetchError as exc:
         # O snapshot parcial já foi gravado depois de cada anime (o `save`): rodar de novo continua.
@@ -1492,6 +1507,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     fetch.add_argument(
         "--deadline-min", type=float, help="com --anime: para e grava depois de N minutos"
+    )
+    fetch.add_argument(
+        "--selective",
+        action="store_true",
+        default=None,  # None, e não False: o _fetch confere as opções do --anime pelo None
+        help="com --anime (o sorteio do MAL): só as OPs, uma ED e a IN que conta como abertura, e "
+        "nada das franquias com 10 ou mais músicas (a carga C4)",
     )
     fetch.add_argument(
         "--ranks-file",
