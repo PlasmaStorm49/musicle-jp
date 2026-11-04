@@ -30,6 +30,7 @@ from musicle_pipeline.anime_quiz import (
     STEPS,
     MalFacts,
     QuizContext,
+    Song,
     SongFacts,
     distance_bounds,
     generate_quiz,
@@ -171,15 +172,17 @@ def schedule(ctx: QuizContext) -> JSON:
     return generate_quiz(ctx, None, EPOCH, EPOCH, horizon=27).schedule
 
 
-def _run_of(ctx: QuizContext, family_id: str, param: object) -> list[tuple[int, JSON, int]]:
-    """A run inteira de uma família no epoch, sem o sorteio da pergunta do dia: (a rodada, o par
+def _run_of(
+    ctx: QuizContext, family_id: str, param: object, d: date = EPOCH
+) -> list[tuple[int, JSON, int]]:
+    """A run inteira de uma família no dia d (o epoch, sem ele), sem o sorteio da pergunta do dia: (a rodada, o par
     e o nível de afrouxamento) de cada rodada."""
     family = FAMILY_BY_ID[family_id]
     direction = quiz.DIRECTIONS[family.kind][0]
-    run, excluded = quiz._Run(), ctx.excluded(EPOCH)
+    run, excluded = quiz._Run(), ctx.excluded(d)
     rounds = []
     for n in range(1, quiz.rounds_of(family) + 1):
-        record, step = quiz._round(ctx, family, param, direction, EPOCH, n, run, excluded)
+        record, step = quiz._round(ctx, family, param, direction, d, n, run, excluded)
         if record is None:
             break
         rounds.append((n, record, step))
@@ -391,6 +394,107 @@ def test_a_franchise_at_most_three_times_on_each_side(ctx, family_id, param):
             sides[side].update(ctx.by_id[track].franchises)
         assert max(sides[0].values()) <= quiz.FRANCHISE_CAP, n
         assert max(sides[1].values()) <= quiz.FRANCHISE_CAP, n
+
+
+def _repeats(ctx: QuizContext, rounds: list[tuple[int, JSON, int]]) -> tuple[int, int]:
+    """(as músicas que voltam na run, as músicas novas de uma série que saiu nas últimas
+    SERIES_GAP rodadas): a música repetida conta só na 1ª conta."""
+    seen: set[str] = set()
+    last: dict[str, int] = {}
+    songs = series = 0
+    for n, rnd, _step in rounds:
+        pair = [ctx.by_id[rnd["a"]], ctx.by_id[rnd["b"]]]
+        for song in pair:
+            if song.key in seen:
+                songs += 1
+            elif any(n - last.get(f, -quiz.SERIES_GAP) <= quiz.SERIES_GAP for f in song.franchises):
+                series += 1
+        seen |= {s.key for s in pair}
+        last |= dict.fromkeys(pair[0].franchises | pair[1].franchises, n)
+    return songs, series
+
+
+def _fresh_run(ctx: QuizContext) -> tuple[quiz._Run, Song, Song]:
+    """Uma run com a rodada 1 jogada: (a run, as duas músicas dela, de séries diferentes)."""
+    x = ctx.songs[0]
+    y = next(s for s in ctx.songs if not s.franchises & x.franchises)
+    run = quiz._Run()
+    run.join(x.key, y.key)
+    run.opened(x, y)
+    return run, x, y
+
+
+def test_stale_ranks_the_new_song_of_a_distant_series_first(ctx):
+    """A série que volta (o usuário, 04/11/2026): 0, a música nova de uma série fora das últimas
+    SERIES_GAP rodadas; 1, a nova de uma série recente; 2, a que já saiu na run."""
+    assert {quiz._Run().stale(s) for s in ctx.songs} == {0}  # a run vazia
+    run, a, b = _fresh_run(ctx)
+    same = next(s for s in ctx.songs if s.key != a.key and s.franchises & a.franchises)
+    other = next(s for s in ctx.songs if not s.franchises & (a.franchises | b.franchises))
+    assert (run.stale(a), run.stale(same), run.stale(other)) == (2, 1, 0)
+    filler = [s for s in ctx.songs if not s.franchises & a.franchises]
+    for i in range(quiz.SERIES_GAP):  # as rodadas 2 a SERIES_GAP + 1
+        # A série saiu na rodada 1: recente até a rodada 1 + SERIES_GAP, nova na seguinte.
+        assert run.stale(same) == 1, i
+        run.opened(filler[2 * i], filler[2 * i + 1])
+    assert run.stale(same) == 0  # SERIES_GAP rodadas de intervalo: a série já é distante
+    assert run.stale(a) == 2  # e a música que saiu continua a última opção
+
+
+def test_the_candidates_come_by_staleness_then_by_type(ctx):
+    run, a, b = _fresh_run(ctx)
+    recent = a.franchises | b.franchises
+    near = [s for s in ctx.songs if s.key not in run.used and s.franchises & recent][:10]
+    fresh = [s for s in ctx.songs if not s.franchises & recent][:20]
+    tried = quiz._candidates([*near, a, *fresh], True, seeded("musicle-jp|teste"), run)
+    levels = [run.stale(s) for s in tried]
+    assert set(levels) == {0, 1, 2} and levels == sorted(levels)  # a que já saiu, por último
+    for level in (0, 1, 2):
+        types = [quiz._opening(s) for s in tried if run.stale(s) == level]
+        assert types == sorted(types, reverse=True)  # e, em cada nível, as aberturas antes
+
+
+def test_the_pair_keeps_the_floor_then_the_freshness_then_the_type(ctx):
+    """A ordem do que o par atende: o piso de aberturas, a música e a série novas e o tipo
+    sorteado."""
+    run, x, y = _fresh_run(ctx)
+    recent = x.franchises | y.franchises
+    fresh = [s for s in ctx.songs if not s.franchises & recent]
+    near = [s for s in ctx.songs if s.key not in run.used and s.franchises & recent]
+    a = next(s for s in fresh if not quiz._opening(s))
+    new_ending = next(s for s in fresh if s is not a and not quiz._opening(s))
+    near_opening = next(s for s in near if quiz._opening(s))
+    near_ending = next(s for s in near if not quiz._opening(s))
+    used_opening = next(s for s in (x, y) if quiz._opening(s))
+
+    def pair(partners: list[Song], opening: tuple[bool, bool], need: int) -> tuple[Song, Song]:
+        found = quiz._best_pair(run, [a], lambda _a: partners, seeded("t"), opening, need)
+        assert found is not None
+        return found
+
+    # A frescura vence o tipo sorteado (uma abertura na 2ª).
+    assert pair([new_ending, near_opening], (False, True), 0) == (a, new_ending)
+    # O piso vence a frescura: a rodada pede uma abertura, e a 1ª é um encerramento.
+    assert pair([new_ending, near_opening], (False, False), 1) == (a, near_opening)
+    # A música nova de uma série recente vence a que já saiu, mesmo do tipo sorteado.
+    assert pair([used_opening, near_ending], (False, True), 0) == (a, near_ending)
+
+
+@pytest.mark.parametrize(("family_id", "param"), FAMILY_CASES)
+def test_the_series_gap_cuts_the_repeats(ctx, family_id, param, monkeypatch):
+    """A preferência diminui a música repetida e a série que volta logo, sem proibir nenhuma das
+    duas. A conta é de 3 dias juntos, contra as mesmas runs sem ela (todo `stale` 0): a busca é
+    gulosa, e uma run só poderia, por acaso, ter uma repetição a mais."""
+    days = [EPOCH + timedelta(days=i) for i in range(3)]
+    with_gap = [_run_of(ctx, family_id, param, d) for d in days]
+    monkeypatch.setattr(quiz._Run, "stale", lambda _self, _song: 0)
+    without = [_run_of(ctx, family_id, param, d) for d in days]
+    full = quiz.rounds_of(FAMILY_BY_ID[family_id])
+    assert all(len(r) == full for r in with_gap + without)  # a preferência não encurta a run
+    songs, series = map(sum, zip(*(_repeats(ctx, r) for r in with_gap), strict=True))
+    songs_before, series_before = map(sum, zip(*(_repeats(ctx, r) for r in without), strict=True))
+    assert songs <= songs_before and series <= series_before
+    assert songs + series < songs_before + series_before
 
 
 def test_a_parameter_of_few_franchises_stays_out(ctx):
