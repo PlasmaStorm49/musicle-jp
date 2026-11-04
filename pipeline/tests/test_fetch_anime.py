@@ -454,7 +454,8 @@ def test_an_empty_romanization_does_not_stop_the_matching():
 
 def test_the_progress_counts_the_rivals_of_the_anime():
     # A faixa aproximada da busca leva a concorrência, como o build: o encerramento de quiz 5 e
-    # pl 5 num anime do MAL 9 dá o nome no Fácil sozinho (0,43) e no Médio entre 21 (0,18).
+    # pl 5 num anime do MAL 9 dá o nome no Fácil sozinho (0,43) e no Médio entre 21 (0,18), e o
+    # anime também, pelas muitas EDs (P463): 0,43 sozinho e 0,26 entre elas.
     (track,) = fa._raw_tracks([fa._song(song(10, "紅蓮華"))], {}).values()
     ending = Theme(
         "ED", 1, "Gurenge", ("LiSA",), {"anisongdb": 5, "animethemes": 5}, "matched", track
@@ -465,7 +466,7 @@ def test_the_progress_counts_the_rivals_of_the_anime():
     assert alone.counts["musica"]["facil"] == 1 and alone.counts["titulo"]["facil"] == 1
     many = fa.Progress(target=1, max_songs=99)
     many.add(ending, show, 21)
-    assert many.counts["musica"]["medio"] == 1 and many.counts["titulo"]["facil"] == 1
+    assert many.counts["musica"]["medio"] == 1 and many.counts["titulo"]["medio"] == 1
 
 
 def test_the_anime_options_need_anime(capsys):
