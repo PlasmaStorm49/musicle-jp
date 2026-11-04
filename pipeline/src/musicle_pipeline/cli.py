@@ -1512,8 +1512,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--selective",
         action="store_true",
         default=None,  # None, e não False: o _fetch confere as opções do --anime pelo None
-        help="com --anime (o sorteio do MAL): só as OPs, uma ED e a IN que conta como abertura, e "
-        "nada das franquias com 10 ou mais músicas (a carga C4)",
+        help="com --anime (o sorteio do MAL): só as OPs, a IN que conta como abertura e uma ED "
+        "conhecida (quiz 5+, no máximo 1 para cada 4 OPs achadas), e nada das franquias com 10 ou "
+        "mais músicas (a carga C4)",
     )
     fetch.add_argument(
         "--ranks-file",

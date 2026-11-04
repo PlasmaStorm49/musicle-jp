@@ -962,10 +962,10 @@ def source_theme(kind: str, sequence: int | None = None, **levels: int) -> fa.So
     return fa.SourceTheme(kind, sequence, f"{kind} {sequence}", [], dict(levels))
 
 
-def test_select_themes_keeps_the_openings_one_ending_and_the_insert_that_is_an_opening():
+def test_select_themes_keeps_the_openings_and_one_known_ending():
     themes = [
         source_theme("OP", 1),
-        source_theme("ED", 1, anisongdb=3, animethemes=5),
+        source_theme("ED", 1, anisongdb=3, animethemes=5),  # quiz abaixo de 5: nunca vai
         source_theme("ED", 2, anisongdb=6),
         source_theme("ED", 3, anisongdb=6),  # empata com a ED2 no quiz: vence a menor sequência
         source_theme("IN", None, anisongdb=7),  # conta como abertura
@@ -974,15 +974,32 @@ def test_select_themes_keeps_the_openings_one_ending_and_the_insert_that_is_an_o
         source_theme("IN"),
         source_theme("OP", 2),
     ]
-    assert fa.select_themes(themes) == {0, 2, 4, 6, 8}
-    # No empate do quiz, as playlists; sem nenhum nível, a 1ª da fonte.
+    assert fa.select_themes(themes) == ({0, 4, 6, 8}, 2)
+    # No empate do quiz, as playlists.
     tied = [
         source_theme("ED", 1, anisongdb=5, animethemes=3),
         source_theme("ED", 2, anisongdb=5, animethemes=7),
     ]
-    assert fa.select_themes(tied) == {1}
-    assert fa.select_themes([source_theme("ED", 2), source_theme("ED", 1)]) == {1}
-    assert fa.select_themes([source_theme("IN")]) == set()
+    assert fa.select_themes(tied) == (set(), 1)
+    # O quiz estimado pelas playlists também vale: o pl 7 dá 5,2; o pl 6, 4,3.
+    assert fa.select_themes([source_theme("ED", 1, animethemes=7)]) == (set(), 0)
+    assert fa.select_themes([source_theme("ED", 1, animethemes=6)]) == (set(), None)
+    # Sem nenhum nível, nada.
+    assert fa.select_themes([source_theme("ED", 2), source_theme("IN")]) == (set(), None)
+
+
+def test_the_ending_lock_keeps_four_openings_for_each_ending():
+    selection = fa.Selection({})
+    opening = Theme("OP", 1, "A", (), {}, "matched", None)
+    ending = Theme("ED", 1, "B", (), {}, "matched", None)
+    for _ in range(3):
+        selection.add("x", opening)
+    assert not selection.ending_allowed()
+    selection.add("x", opening)
+    assert selection.ending_allowed()
+    selection.add("x", ending)
+    assert not selection.ending_allowed()  # a 2ª ED pede 8 aberturas
+    assert (selection.openings, selection.endings) == (4, 1)
 
 
 def selective(web: FakeWeb, selection: fa.Selection, logs: list[str] | None = None) -> dict:
@@ -1010,23 +1027,39 @@ def test_the_selective_search_skips_themes_without_asking_the_apple(tmp_path):
     selection = fa.Selection({})
     snap = selective(web, selection)
     results = {t["song"]: (t["result"], t["track"]) for t in snap["anime"][0]["themes"]}
-    # A abertura e o único encerramento vão à Apple; a insert de quiz 3 fica de fora (P465).
+    # A abertura vai à Apple; o encerramento (quiz 6) esbarra na trava, com uma abertura só; a
+    # insert de quiz 3 fica de fora (P465).
     assert results == {
         "Gurenge": ("matched", "10"),
-        "from the edge": ("matched", "13"),
+        "from the edge": ("skipped", None),
         "Kamado Tanjirou no Uta": ("skipped", None),
     }
-    assert "Go Shiina" not in snap["resolved"]
-    assert not any("Go+Shiina" in g or "Go%20Shiina" in g for g in web.gets)
-    # A busca soma as músicas que achou na franquia.
-    assert len(selection.franchise_songs["kimetsu_no_yaiba"]) == 2
+    assert "Go Shiina" not in snap["resolved"] and "FictionJunction" not in snap["resolved"]
+    assert sum(1 for g in web.gets if "search" in g) == 1  # só o LiSA
+    # A busca soma as músicas que achou na franquia e na conta da trava.
+    assert selection.franchise_songs["kimetsu_no_yaiba"] == {"gurenge"}
+    assert (selection.openings, selection.endings) == (1, 0)
     # O "skipped" é lido, fica sem faixa e conta nas músicas da franquia (P463).
     write_if_changed(tmp_path / f"{snap['id']}.json", dumps(snap))
     source = AppleAnimeProvider(tmp_path).source()
-    assert franchise_songs(source.anime)["kimetsu_no_yaiba", "IN"] == 1
+    songs = franchise_songs(source.anime)
+    assert (songs["kimetsu_no_yaiba", "ED"], songs["kimetsu_no_yaiba", "IN"]) == (1, 1)
     catalog = build_anime_catalog("apple", "jp", source, Curation(), [], icon_artists=frozenset())
     assert validate_anime_catalog(catalog, dumps(catalog).encode()) == []
-    assert {t["id"] for t in catalog["tracks"]} == {"apple:tr:10", "apple:tr:13"}
+    assert {t["id"] for t in catalog["tracks"]} == {"apple:tr:10"}
+
+
+def test_the_selective_search_takes_the_ending_when_the_lock_allows():
+    # Com 3 aberturas já achadas na busca, a de Kimetsu é a 4ª, e a ED passa pela trava.
+    selection = fa.Selection({}, openings=3)
+    snap = selective(FakeWeb(), selection)
+    results = {t["song"]: t["result"] for t in snap["anime"][0]["themes"]}
+    assert results == {
+        "Gurenge": "matched",
+        "from the edge": "matched",
+        "Kamado Tanjirou no Uta": "skipped",
+    }
+    assert (selection.openings, selection.endings) == (4, 1)
 
 
 def test_the_selective_search_skips_the_anime_of_a_big_franchise():
@@ -1038,11 +1071,11 @@ def test_the_selective_search_skips_the_anime_of_a_big_franchise():
     assert {t["result"] for t in anime["themes"]} == {"skipped"}
     assert web.gets == [] and snap["tracks"] == {}
     assert any("pulado, a franquia já tem 10 música(s)" in m for m in logs)
-    # Com 9, ainda entra, e a franquia passa do teto com o que a busca acha.
+    # Com 9, ainda entra, e a franquia chega ao teto com o que a busca acha.
     almost = fa.Selection({"kimetsu_no_yaiba": {f"song{i}" for i in range(9)}})
     assert almost.full("kimetsu_no_yaiba") is None
     selective(FakeWeb(), almost)
-    assert almost.full("kimetsu_no_yaiba") == 11
+    assert almost.full("kimetsu_no_yaiba") == 10
 
 
 def test_known_franchise_songs_counts_the_matched_songs(tmp_path):

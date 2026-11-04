@@ -840,23 +840,41 @@ class Progress:
 # A busca seletiva (a carga C4, P465 e P466): o anime novo cuja franquia já tem este tanto de
 # músicas no acervo fica de fora inteiro (todos os temas "skipped").
 SELECTIVE_FRANCHISE_CAP = 10
+# O encerramento da busca seletiva (P465; o usuário, 04/11/2026: das novas, pelo menos 80% de
+# aberturas, porque o Médio e o Difícil já têm EDs demais): só o de quiz a partir deste (uns
+# 50% de acerto no AMQ), e só enquanto as EDs achadas na busca forem no máximo 1 para cada
+# SELECTIVE_OPENINGS_PER_ENDING aberturas achadas.
+SELECTIVE_ENDING_QUIZ = 5
+SELECTIVE_OPENINGS_PER_ENDING = 4
 
 
 @dataclass
 class Selection:
     """A busca seletiva: as músicas casadas de cada franquia (a principal, `main_franchise`), as do
-    acervo de antes e as que a busca acha, e o teto que pula o anime inteiro."""
+    acervo de antes e as que a busca acha, o teto que pula o anime inteiro, e as aberturas e os
+    encerramentos que a busca achou, para a trava das EDs."""
 
     franchise_songs: dict[str, set[str]]
     cap: int = SELECTIVE_FRANCHISE_CAP
+    openings: int = 0
+    endings: int = 0
 
     def full(self, franchise: str) -> int | None:
         """As músicas da franquia, se ela já chegou ao teto; senão, None."""
         songs = len(self.franchise_songs.get(franchise, ()))
         return songs if songs >= self.cap else None
 
-    def add(self, franchise: str, song: str) -> None:
-        self.franchise_songs.setdefault(franchise, set()).add(loose_title(song))
+    def ending_allowed(self) -> bool:
+        """Se mais uma ED achada ainda deixa 1 para cada SELECTIVE_OPENINGS_PER_ENDING aberturas."""
+        return (self.endings + 1) * SELECTIVE_OPENINGS_PER_ENDING <= self.openings
+
+    def add(self, franchise: str, theme: Theme) -> None:
+        """Uma música achada pela busca: na franquia e na conta da trava."""
+        self.franchise_songs.setdefault(franchise, set()).add(loose_title(theme.song))
+        if theme.type == "OP":
+            self.openings += 1
+        elif theme.type == "ED":
+            self.endings += 1
 
 
 def known_franchise_songs(known: Iterable[Anime]) -> dict[str, set[str]]:
@@ -878,30 +896,35 @@ def _quiz_of(theme: SourceTheme) -> Decimal | None:
     return None
 
 
-def select_themes(themes: Sequence[SourceTheme]) -> set[int]:
-    """Os temas que a busca seletiva procura na Apple (P465), pela posição: todas as aberturas, a
-    insert que conta como abertura (o quiz a partir de IN_AS_OPENING_QUIZ, como na chance) e um
-    encerramento só, o mais acertado no AMQ (depois, o das playlists, a menor sequência e a ordem
-    da fonte). O resto fica "skipped"."""
+def select_themes(themes: Sequence[SourceTheme]) -> tuple[set[int], int | None]:
+    """Os temas que a busca seletiva procura na Apple (P465), pela posição: todas as aberturas e a
+    insert que conta como abertura (o quiz a partir de IN_AS_OPENING_QUIZ, como na chance); e, à
+    parte, o encerramento candidato, um só, o mais acertado no AMQ entre os de quiz a partir de
+    SELECTIVE_ENDING_QUIZ (no empate, o das playlists, a menor sequência e a ordem da fonte), que
+    a busca ainda passa pela trava. O resto fica "skipped"."""
 
-    def as_opening(theme: SourceTheme) -> bool:
+    def at_least(theme: SourceTheme, level: int) -> bool:
         quiz = _quiz_of(theme)
-        return theme.type == "IN" and quiz is not None and quiz >= IN_AS_OPENING_QUIZ
+        return quiz is not None and quiz >= level
 
-    def rank(i: int) -> tuple[int, int, int, int]:
+    def rank(i: int) -> tuple[Decimal, int, int, int]:
         t = themes[i]
         return (
-            -t.levels.get("anisongdb", -1),
+            -(_quiz_of(t) or Decimal(0)),
             -t.levels.get("animethemes", -1),
             t.sequence if t.sequence is not None else 0,
             i,
         )
 
-    chosen = {i for i, t in enumerate(themes) if t.type == "OP" or as_opening(t)}
-    endings = [i for i, t in enumerate(themes) if t.type == "ED"]
-    if endings:
-        chosen.add(min(endings, key=rank))
-    return chosen
+    chosen = {
+        i
+        for i, t in enumerate(themes)
+        if t.type == "OP" or (t.type == "IN" and at_least(t, IN_AS_OPENING_QUIZ))
+    }
+    endings = [
+        i for i, t in enumerate(themes) if t.type == "ED" and at_least(t, SELECTIVE_ENDING_QUIZ)
+    ]
+    return chosen, (min(endings, key=rank) if endings else None)
 
 
 @dataclass
@@ -1253,8 +1276,11 @@ def _search(
                 matched_first = sorted(old.themes, key=lambda t: t.track is None)
                 previous = _pair_themes(source.themes, matched_first)
             # A busca seletiva (P465, P466): só os temas escolhidos vão à Apple, e nenhum se a
-            # franquia já chegou ao teto.
-            wanted = set(range(len(source.themes)))
+            # franquia já chegou ao teto; o encerramento candidato vai depois das aberturas do
+            # anime, se a trava das EDs deixar.
+            pairs = list(zip(source.themes, previous, strict=True))
+            wanted = set(range(len(pairs)))
+            ending: int | None = None
             franchise = main_franchise(anime)
             if selection is not None:
                 full = selection.full(franchise)
@@ -1262,16 +1288,18 @@ def _search(
                     io.log(f"{source.name}: pulado, a franquia já tem {full} música(s)")
                     wanted = set()
                 else:
-                    wanted = select_themes(source.themes)
+                    wanted, ending = select_themes(source.themes)
             try:
-                entries = [
-                    _reused(theme, same)
-                    if same is not None
-                    else _theme(theme, anime, apple, romanize)
-                    if i in wanted
-                    else _skipped(theme)
-                    for i, (theme, same) in enumerate(zip(source.themes, previous, strict=True))
-                ]
+                found = {i: _fetch_theme(*pairs[i], anime, apple, romanize) for i in sorted(wanted)}
+                if selection is not None:
+                    for entry in found.values():
+                        if entry["theme"] is not None:
+                            selection.add(franchise, entry["theme"])
+                    if ending is not None and selection.ending_allowed():
+                        found[ending] = _fetch_theme(*pairs[ending], anime, apple, romanize)
+                        if found[ending]["theme"] is not None:
+                            selection.add(franchise, found[ending]["theme"])
+                entries = [found.get(i) or _skipped(theme) for i, (theme, _) in enumerate(pairs)]
             except FetchError as exc:
                 # Uma falha de rede da Apple, depois das repetições: o que já veio fica, e este
                 # anime volta a ser sorteado numa próxima busca (ele não entra no snapshot).
@@ -1289,8 +1317,6 @@ def _search(
                 if entry["lookup"] is not None:
                     used_lookups[entry["lookup"]["trackId"]] = entry["lookup"]
                     progress.add(entry["theme"], anime, rivals[entry["theme"].type])
-                    if selection is not None:
-                        selection.add(franchise, entry["theme"].song)
             records.append(record)
             matched = sum(t["result"] == "matched" for t in record["themes"])
             if old is not None:
@@ -1341,6 +1367,19 @@ def _base_record(theme: SourceTheme) -> JSON:
         "stats": theme.stats,
         "track": None,
     }
+
+
+def _fetch_theme(
+    theme: SourceTheme,
+    same: Theme | None,
+    anime: Anime,
+    apple: AppleClient,
+    romanize: Callable[[str], Sequence[str]],
+) -> JSON:
+    """O tema que vai à busca: o de antes, na nova busca (`_reused`), ou o casamento com a Apple."""
+    if same is not None:
+        return _reused(theme, same)
+    return _theme(theme, anime, apple, romanize)
 
 
 def _skipped(theme: SourceTheme) -> JSON:
