@@ -60,8 +60,10 @@ THEME_LEVELS = ("anisongdb", "animethemes")
 # A temporada da estreia do anime, a do AnimeThemes (WINTER, SPRING, SUMMER e FALL), na ordem do
 # ano: o quiz do dia compara a estreia de duas músicas pelo ano e pela temporada (M18).
 SEASONS = ("winter", "spring", "summer", "fall")
-# O resultado da busca de cada tema, no snapshot: só o "matched" tem faixa.
-RESULTS = ("matched", "no-artist", "no-match", "ambiguous", "no-preview")
+# O resultado da busca de cada tema, no snapshot: só o "matched" tem faixa. O "skipped" é o tema
+# que a busca seletiva (a carga C4, P465) não procurou na Apple: fica sem faixa, como o
+# "no-match", e conta nas músicas da franquia (a concorrência e as muitas EDs, P463).
+RESULTS = ("matched", "no-artist", "no-match", "ambiguous", "no-preview", "skipped")
 # As faixas de dificuldade (P272 a P275, calibradas na carga grande, C2). Cada tema vira a chance
 # de acertar cada modo, um produto de fatores entre 0 e 1 (a conta está no `chances`).
 # Sem o quiz, o quiz médio dos temas do C2 que têm os dois níveis, por nível das playlists
@@ -89,14 +91,30 @@ IN_AS_OPENING_QUIZ = 7
 # fama do anime entra com este expoente (pesa menos que a do tema).
 NO_PL_FACTOR = Decimal("0.8")
 ANIME_EXPONENT = Decimal("0.4")
-# Os cortes fixos (P273): Fácil a partir do 1º, Médio a partir do 2º. São constantes de
-# propósito: recalcular os quantis a cada build mudaria a faixa das músicas conforme o acervo
-# cresce. Vieram dos quantis da chance na carga do C2, antes do teto da P274 (o Fácil com 25%
-# das músicas; o Médio até 58% no "acertar o anime" e até 55% no "acertar a música"), num
-# número redondo logo abaixo do valor do quantil, para as músicas empatadas nele ficarem juntas.
+# O peso do acerto do Anime Music Quiz, um pouco maior (P461): o p_t entra como
+# p_t^QUIZ_EXPONENT × QUIZ_PIVOT^(1 − QUIZ_EXPONENT), que não muda o tema na mediana do acervo
+# (QUIZ_PIVOT, a de 03/11/2026), sobe o mais acertado e desce o menos, e nunca passa de 1. No
+# "acertar a música", a média geométrica do quiz e das playlists pesa QUIZ_WEIGHT no quiz.
+QUIZ_EXPONENT = Decimal("1.15")
+QUIZ_PIVOT = Decimal("0.35")
+QUIZ_WEIGHT = Decimal("0.55")
+# As muitas EDs da franquia (P463): lembrar a ED26 de Naruto é difícil, por mais famoso que ele
+# seja, e as EDs de um anime pouco conhecido somem ainda mais rápido. Com mais de ENDINGS_FREE
+# EDs na franquia, a ED leva 1 / (1 + k × ln(n / ENDINGS_FREE)), com a força k crescendo
+# ENDINGS_STEP a cada nível do MAL abaixo do 9 (que tem ENDINGS_TOP).
+ENDINGS_FREE = 3
+ENDINGS_TOP = Decimal("0.35")
+ENDINGS_STEP = Decimal("0.25")
+# Os cortes fixos (P273, subidos na P462): Fácil a partir do 1º, Médio a partir do 2º. São
+# constantes de propósito: recalcular os quantis a cada build mudaria a faixa das músicas
+# conforme o acervo cresce. Os do Médio vieram dos quantis da chance na carga do C2, num número
+# redondo logo abaixo do valor do quantil, para as músicas empatadas nele ficarem juntas. Os do
+# Fácil subiram para o topo do Médio pegar mais músicas (o usuário, 03/11/2026): no "acertar o
+# anime", 0,29 fica entre os patamares de 0,283 e 0,292 da chance; no "acertar a música", 0,32
+# fica logo abaixo de FLY HIGH!! (Haikyuu!! Second Season OP2, 0,322).
 CUTS = {
-    "musica": (Decimal("0.271"), Decimal("0.145")),
-    "titulo": (Decimal("0.25"), Decimal("0.108")),
+    "musica": (Decimal("0.32"), Decimal("0.145")),
+    "titulo": (Decimal("0.29"), Decimal("0.108")),
 }
 # O ícone (P274), a música que a pessoa sabe o nome mesmo sem ver o anime: as playlists e o quiz
 # no alto, ou o artista na parada dos Hits até a última antes da calibração (19/10/2026). A
@@ -474,16 +492,31 @@ def anime_factor(level: int | None) -> Decimal:
         return MAL_TOP * MAL_STEP ** (MAX_LEVEL - (NO_MAL if level is None else level))
 
 
+def endings_factor(endings: int, mal: int) -> Decimal:
+    """O fator das muitas EDs da franquia (P463): 1 até ENDINGS_FREE EDs; depois,
+    1 / (1 + k × ln(n / ENDINGS_FREE)), com k = ENDINGS_TOP + ENDINGS_STEP × (9 − m). Naruto (58
+    EDs, MAL 9) leva × 0,49; um anime do MAL 7 com 8 EDs, × 0,54."""
+    if endings <= ENDINGS_FREE:
+        return Decimal(1)
+    with localcontext() as ctx:
+        ctx.prec = 28
+        strength = ENDINGS_TOP + ENDINGS_STEP * (MAX_LEVEL - mal)
+        return 1 / (1 + strength * (Decimal(endings) / ENDINGS_FREE).ln())
+
+
 def chances(theme: Theme, anime: Anime, songs: int) -> dict[str, Decimal]:
     """A chance de acertar cada modo (P272), com os níveis de 0 a 9 de cada fonte:
 
     - p_t = (quiz + 0,5) / 10, a taxa de acerto do Anime Music Quiz (sem o quiz, o estimado pelas
-      playlists, `QUIZ_FROM_PL`); p_pl = (pl + 0,5) / 10, as playlists do AnimeThemes;
-      p_a = MAL_TOP × MAL_STEP^(9 − m), o MyAnimeList;
-    - acertar o anime: p_a × p_t × o fator do tipo;
-    - acertar a música: √(p_t × p_pl) × p_a^ANIME_EXPONENT × o fator do tipo × a concorrência,
-      1 / (1 + (1 − p_t) × ln n), com n = `songs`, as músicas do mesmo tipo na franquia (a 21ª
-      ED de BLEACH quase ninguém sabe o nome); a muito conhecida (p_t alto) sofre menos.
+      playlists, `QUIZ_FROM_PL`), e p_q, ele com o peso maior (P461): mín(1, p_t^1,15 × 0,35^−0,15);
+      p_pl = (pl + 0,5) / 10, as playlists do AnimeThemes; p_a = MAL_TOP × MAL_STEP^(9 − m), o
+      MyAnimeList;
+    - acertar o anime: p_a × p_q × o fator do tipo × o das muitas EDs (só a ED, P463);
+    - acertar a música: p_t^0,55 × p_pl^0,45 (sem o pl, p_q × NO_PL_FACTOR) × p_a^ANIME_EXPONENT ×
+      o fator do tipo × a concorrência, 1 / (1 + (1 − p_t) × ln n), com n = `songs`, as músicas do
+      mesmo tipo na franquia (a 21ª ED de BLEACH quase ninguém sabe o nome); a muito conhecida
+      (p_t alto) sofre menos. Na ED, vale a menor entre a concorrência e o fator das muitas EDs:
+      ela nunca fica mais fácil que sem ele.
 
     Em Decimal (aritmética em software, regra 8): o mesmo resultado em qualquer sistema.
     """
@@ -498,12 +531,20 @@ def chances(theme: Theme, anime: Anime, songs: int) -> dict[str, Decimal]:
     with localcontext() as ctx:
         ctx.prec = 28
         p_t = (quiz + Decimal("0.5")) / 10
+        p_q = min(Decimal(1), p_t**QUIZ_EXPONENT * QUIZ_PIVOT ** (1 - QUIZ_EXPONENT))
         p_a = anime_factor(mal)
-        title = (p_t * (pl + Decimal("0.5")) / 10).sqrt() if pl is not None else p_t * NO_PL_FACTOR
+        if pl is not None:
+            title = p_t**QUIZ_WEIGHT * ((pl + Decimal("0.5")) / 10) ** (1 - QUIZ_WEIGHT)
+        else:
+            title = p_q * NO_PL_FACTOR
         rivals = 1 / (1 + (1 - p_t) * Decimal(max(songs, 1)).ln())
+        endings = endings_factor(songs, mal) if theme.type == "ED" else Decimal(1)
         return {
-            "musica": title * p_a**ANIME_EXPONENT * TYPE_FACTOR["musica"][theme.type] * rivals,
-            "titulo": p_a * p_t * TYPE_FACTOR["titulo"][show_type],
+            "musica": title
+            * p_a**ANIME_EXPONENT
+            * TYPE_FACTOR["musica"][theme.type]
+            * min(rivals, endings),
+            "titulo": p_a * p_q * TYPE_FACTOR["titulo"][show_type] * endings,
         }
 
 
@@ -848,6 +889,50 @@ def anime_chances(
     return best
 
 
+def kept_franchises(cur: Curation) -> dict[str, int]:
+    """As franquias gigantes do aliases.toml do Anime e quantas músicas cada uma leva (P467)."""
+    entries = cur.aliases.entries.get("franchises", {})
+    return {slug: entry.keep for slug, entry in sorted(entries.items()) if entry.keep is not None}
+
+
+def _over_the_keep(
+    provider: str,
+    source: AnimeSource,
+    accs: Iterable[_TrackAcc],
+    cur: Curation,
+    notes: list[str],
+) -> set[str]:
+    """As músicas (songKey) que ficam fora do catálogo pelo `keep` da franquia (P467): de cada
+    franquia limitada (a principal do anime, `main_franchise`, a mesma que a busca pula), ficam as
+    `keep` de maior chance no acertar o anime (no empate, no acertar a música, e a chave). A
+    chance é a sem o limite: ele só escolhe quem fica. A música que também é tema de um anime de
+    outra franquia principal (um crossover) nunca sai: ela não conta no limite. O build não lê as
+    agendas: se uma música que uma agenda já cita sair do limite, o validate-anime recusa a
+    resposta sem faixa, e o `keep` precisa subir."""
+    keeps = kept_franchises(cur)
+    known = {main_franchise(anime) for anime in source.anime}
+    unknown = sorted(set(keeps) - known)
+    if unknown:
+        raise InputError("aliases.toml do Anime limita franquia sem anime: " + ", ".join(unknown))
+    accs = list(accs)
+    best, _ = song_chances(provider, accs, frozenset(), franchise_songs(source.anime))
+    dropped: set[str] = set()
+    for slug, keep in keeps.items():
+        # Por música (a songKey junta a TV size e a completa): a de algum uso fora da franquia fica.
+        inside: set[str] = set()
+        outside: set[str] = set()
+        for acc in accs:
+            for anime, _ in acc.uses:
+                (inside if main_franchise(anime) == slug else outside).add(
+                    song_key(provider, acc.track)
+                )
+        keys = inside - outside
+        ranked = sorted(keys, key=lambda k: (-best[k]["titulo"], -best[k]["musica"], k))
+        dropped.update(ranked[keep:])
+        notes.append(f"{slug}: {len(ranked)} música(s); ficam as {min(keep, len(ranked))} (P467)")
+    return dropped
+
+
 def build_anime_catalog(
     provider: str,
     storefront: str,
@@ -866,11 +951,14 @@ def build_anime_catalog(
     if stale:
         raise InputError("aliases.toml do Anime cita IDs sem faixa:\n" + "\n".join(stale))
     marks = _song_marks(provider, accs.values(), icon_artists, franchise_songs(source.anime))
+    dropped = _over_the_keep(provider, source, accs.values(), cur, notes)
     artists: dict[str, JSON] = {}
     albums: dict[str, JSON] = {}
     tracks: list[JSON] = []
     for key in sorted(accs):
         t = accs[key].track
+        if song_key(provider, t) in dropped:
+            continue
         for a in t.artists:
             artists[entity_id(provider, "ar", a.provider_id)] = artist_record(provider, a, cur)
         album = {k: v for k, v in album_record(provider, t, cur).items() if k != "similar"}

@@ -336,6 +336,11 @@ def build_catalog(
     track_ids = {entity_id(provider, "tr", pid) for pid in tracks}
     existing = {"tracks": track_ids, "albums": set(albums), "artists": set(artists)}
     stale = [f"{k}: {eid}" for k in KINDS for eid in sorted(cur.aliases.ids(k) - existing[k])]
+    # A franquia limitada é só do Anime (P467): aqui ela seria ignorada em silêncio.
+    stale += [
+        f"franchises: {slug} (só o Anime limita franquias)"
+        for slug in sorted(cur.aliases.ids("franchises"))
+    ]
     if stale:
         raise InputError("aliases.toml cita IDs que não existem no catálogo:\n" + "\n".join(stale))
 

@@ -83,3 +83,20 @@ def test_artist_and_album_curation(fixture_snapshots):
 def test_alias_for_unknown_id_is_an_error(fixture_snapshots):
     with pytest.raises(InputError, match="fixture:tr:tr99"):
         _build(fixture_snapshots, "[tracks.'fixture:tr:tr99']\nblock = true")
+
+
+def test_the_franchise_keep_of_the_anime():
+    """Só o Anime lê o `keep` da franquia (P467); ele é um inteiro de 1 para cima."""
+    aliases = parse_aliases('[franchises."meitantei_conan"]\nkeep = 10\n')
+    assert aliases.get("franchises", "meitantei_conan").keep == 10
+    for bad in ("0", "true", '"10"'):
+        with pytest.raises(InputError, match="keep deveria ser um inteiro"):
+            parse_aliases(f'[franchises."x"]\nkeep = {bad}\n')
+    with pytest.raises(InputError, match="chave desconhecida"):
+        parse_aliases('[franchises."x"]\nblock = true\n')
+
+
+def test_only_the_anime_limits_franchises(fixture_snapshots):
+    """Nos Hits, a seção das franquias seria ignorada em silêncio: o build recusa (P467)."""
+    with pytest.raises(InputError, match="só o Anime limita franquias"):
+        _build(fixture_snapshots, "[franchises.'x']\nkeep = 1")

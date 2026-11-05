@@ -1,0 +1,3135 @@
+{
+  "anime": [
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 4214,
+      "name": "Rosario to Vampire Capu2",
+      "season": "fall",
+      "series": [
+        {
+          "name": "Rosario to Vampire",
+          "slug": "rosario_to_vampire"
+        }
+      ],
+      "slug": "rosario_to_vampire_capu2",
+      "synonyms": [
+        "Rosario + Vampire Capu2",
+        "ロザリオとバンパイア Capu2",
+        "Rosario + Vampire Season 2",
+        "Rosario and Vampire Capu2"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Nana Mizuki",
+            "水樹奈々"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "DISCOTHEQUE",
+          "stats": {
+            "animethemes": 152,
+            "anisongdb": 52.0
+          },
+          "track": "378277094",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Nana Mizuki",
+            "水樹奈々"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Trinity Cross",
+          "stats": {
+            "animethemes": 30,
+            "anisongdb": 23.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Nana Mizuki"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "COSMIC LOVE",
+          "stats": {
+            "anisongdb": 53.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Nana Mizuki"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Akai Jounetsu",
+          "stats": {
+            "anisongdb": 33.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Nana Mizuki"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Anata ni Kapucchu!",
+          "stats": {
+            "anisongdb": 22.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Nana Mizuki"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "DESIRE-Jounetsu-",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Takehito Koyasu"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Hyakuman-kai no Je t'aime de",
+          "stats": {
+            "anisongdb": 16.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kimiko Koyama"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Majokko? Onnanoko",
+          "stats": {
+            "anisongdb": 17.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Saeko Chiba"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Orange no Kaerimichi",
+          "stats": {
+            "anisongdb": 11.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Chiwa Saito"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Positive☆Rock 'n' Roll",
+          "stats": {
+            "anisongdb": 11.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Rie Kugimiya"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "SAY YES!",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "The Capucchu"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Shalala -Watashi ni Kureta Mono-",
+          "stats": {
+            "anisongdb": 16.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Chiwa Saito"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Shiroi Honoo",
+          "stats": {
+            "anisongdb": 15.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Rie Kugimiya"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Slow Motion",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Rie Kugimiya"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Snowstorm",
+          "stats": {
+            "anisongdb": 22.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Misato Fukuen"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Toki ni Ai wa",
+          "stats": {
+            "anisongdb": 12.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "The Capucchu"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Toki no Kawa o Koete",
+          "stats": {
+            "anisongdb": 15.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Misato Fukuen"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Yafu nano ni...",
+          "stats": {
+            "anisongdb": 13.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2008
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 34626,
+      "name": "Kono Subarashii Sekai ni Shukufuku wo! 2: Kono Subarashii Geijutsu ni Shukufuku wo!",
+      "season": "summer",
+      "series": [
+        {
+          "name": "Kono Subarashii Sekai ni Shukufuku wo!",
+          "slug": "konosuba"
+        }
+      ],
+      "slug": "kono_subarashii_sekai_ni_shukufuku_wo_2_kono_subarashii_geijutsu_ni_shukufuku_wo",
+      "synonyms": [
+        "KONOSUBA -God's blessing on this wonderful world! 2: God's Blessings on These Wonderful Works of Art!",
+        "この素晴らしい世界に祝福を！ 2 この素晴らしい芸術に祝福を!",
+        "KonoSuba: God's Blessing on This Wonderful World! 2 - God's Blessing on This Wonderful Art!",
+        "Kono Subarashii Sekai ni Shukufuku wo! 2 OVA",
+        "KonoSuba 2 OVA"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Machico"
+          ],
+          "levels": {
+            "animethemes": 3
+          },
+          "result": "ambiguous",
+          "sequence": null,
+          "song": "TOMORROW",
+          "stats": {
+            "animethemes": 30
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Ai Kayano",
+            "茅野愛衣",
+            "Rie Takahashi",
+            "高橋李依",
+            "Sora Amamiya",
+            "雨宮天"
+          ],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Ouchi ni Kaeritai",
+          "stats": {
+            "animethemes": 9
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2017
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 55701,
+      "name": "Kimetsu no Yaiba: Hashira Geiko-hen",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Kimetsu no Yaiba",
+          "slug": "kimetsu_no_yaiba"
+        }
+      ],
+      "slug": "kimetsu_no_yaiba_hashira_geiko_hen",
+      "synonyms": [
+        "Demon Slayer: Kimetsu no Yaiba Hashira Training Arc",
+        "鬼滅の刃 柱稽古編"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "MY FIRST STORY",
+            "HYDE"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Mugen",
+          "stats": {
+            "animethemes": 286,
+            "anisongdb": 44.0
+          },
+          "track": "1742203699",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "MY FIRST STORY",
+            "HYDE"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Tokoshie",
+          "stats": {
+            "animethemes": 122,
+            "anisongdb": 48.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2024
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 39292,
+      "name": "Princess Connect! Re:Dive",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Princess Connect! Re:Dive",
+          "slug": "princess_connect_redive"
+        }
+      ],
+      "slug": "princess_connect_redive",
+      "synonyms": [
+        "Priconne"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Mao Ichimichi",
+            "Miku Itou",
+            "伊藤美来"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 5
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Lost Princess",
+          "stats": {
+            "animethemes": 64,
+            "anisongdb": 50.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Mao Ichimichi",
+            "Miku Itou",
+            "伊藤美来"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 1,
+          "song": "Soredemo Tomo ni Aruiteiku",
+          "stats": {
+            "animethemes": 15,
+            "anisongdb": 26.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mao Ichimichi",
+            "Miku Itou",
+            "伊藤美来"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "Connecting Happy!!",
+          "stats": {
+            "animethemes": 3,
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2020
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 59192,
+      "name": "Kimetsu no Yaiba Movie: Mugen Jou-hen Part 1 - Akaza Sairai",
+      "season": "summer",
+      "series": [
+        {
+          "name": "Kimetsu no Yaiba",
+          "slug": "kimetsu_no_yaiba"
+        }
+      ],
+      "slug": "kimetsu_no_yaiba_movie_mugen_jouhen_part_1_akaza_sairai",
+      "synonyms": [
+        "Demon Slayer: Kimetsu no Yaiba - The Movie: Infinity Castle - Part 1: Akaza Returns",
+        "劇場版「鬼滅の刃」無限城編 第一章 猗窩座再来"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Aimer"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Taiyou ga Noboranai Sekai",
+          "stats": {
+            "animethemes": 14,
+            "anisongdb": 34.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "LiSA"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Zankoku na Yoru ni Kagayake",
+          "stats": {
+            "animethemes": 14,
+            "anisongdb": 34.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2025
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 18277,
+      "name": "Strike the Blood",
+      "season": "fall",
+      "series": [
+        {
+          "name": "Strike the Blood",
+          "slug": "strike_the_blood"
+        }
+      ],
+      "slug": "strike_the_blood",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "Kishida Kyoudan & The Akeboshi Rockets",
+            "岸田教団＆THE明星ロケッツ"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Strike the Blood",
+          "stats": {
+            "animethemes": 99,
+            "anisongdb": 41.0
+          },
+          "track": "735117930",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "ALTIMA"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Fight 4 Real",
+          "stats": {
+            "animethemes": 63,
+            "anisongdb": 35.0
+          },
+          "track": "804640795",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Yuka Iguchi",
+            "井口裕香"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 1,
+          "song": "Strike my soul",
+          "stats": {
+            "animethemes": 19,
+            "anisongdb": 26.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Kanon Wakeshima"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "signal",
+          "stats": {
+            "animethemes": 17,
+            "anisongdb": 23.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2013
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 31442,
+      "name": "Musaigen no Phantom World",
+      "season": "winter",
+      "series": [],
+      "slug": "musaigen_no_phantom_world",
+      "synonyms": [
+        "Myriad Colors Phantom World",
+        "無彩限のファントム・ワールド"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "SCREEN mode"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Naked Dive",
+          "stats": {
+            "animethemes": 115,
+            "anisongdb": 58.0
+          },
+          "track": "1077655346",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Azusa Tadokoro",
+            "田所あずさ"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Junshin Always",
+          "stats": {
+            "animethemes": 35,
+            "anisongdb": 32.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2016
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 32828,
+      "name": "Amaama to Inazuma",
+      "season": "summer",
+      "series": [],
+      "slug": "amaama_to_inazuma",
+      "synonyms": [
+        "Sweetness & Lightning",
+        "甘々と稲妻",
+        "sweetness & lightning",
+        "Sweetness and Lightning"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "MimimemeMIMI"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Harebare Fanfare",
+          "stats": {
+            "animethemes": 52,
+            "anisongdb": 46.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Brian the Sun"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Maybe",
+          "stats": {
+            "animethemes": 34,
+            "anisongdb": 26.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Rina Endou"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Same no Uta",
+          "stats": {
+            "anisongdb": 57.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Rikako Yamaguchi"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Magic Magigirl",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2016
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 57,
+      "name": "Beck",
+      "season": "fall",
+      "series": [],
+      "slug": "beck",
+      "synonyms": [
+        "Beck: Mongolian Chop Squad",
+        "BECK"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "BEAT CRUSADERS"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Hit in the USA",
+          "stats": {
+            "animethemes": 265,
+            "anisongdb": 64.0
+          },
+          "track": "1536099860",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Mark Gardener"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 1,
+          "song": "My World Down",
+          "stats": {
+            "animethemes": 42,
+            "anisongdb": 31.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "BEAT CRUSADERS"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "Moon on the Water",
+          "stats": {
+            "animethemes": 54,
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "BECK (MONGOLIAN CHOP SQUAD)"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 3,
+          "song": "Slip Out",
+          "stats": {
+            "animethemes": 22,
+            "anisongdb": 38.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "BECK (MONGOLIAN CHOP SQUAD)"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "slip out",
+          "stats": {
+            "anisongdb": 45.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mark Gardener"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "My World Down",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kazuya Hirabayashi",
+            "TATSUZO"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "brainstorm(BIG MUFF)",
+          "stats": {
+            "anisongdb": 34.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "LAST DINOSAUR",
+          "stats": {
+            "anisongdb": 48.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kazuya Hirabayashi"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "FACE",
+          "stats": {
+            "anisongdb": 43.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Tarou Katou"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "FOLLOW ME",
+          "stats": {
+            "anisongdb": 42.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mio Saeki"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Genki o Dashite",
+          "stats": {
+            "anisongdb": 16.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "miya38"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "GYMNASIUM",
+          "stats": {
+            "anisongdb": 40.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kazuya Hirabayashi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "I've Got A Feeling",
+          "stats": {
+            "anisongdb": 39.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "miya38"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "JOURNEY",
+          "stats": {
+            "anisongdb": 41.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kazuya Hirabayashi",
+            "TATSUZO"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "like a Foojin",
+          "stats": {
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "miya38"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Lost Melody",
+          "stats": {
+            "anisongdb": 18.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "miya38"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "LOVE DISCHORD",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kazuya Hirabayashi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "MOON ON THE WATER",
+          "stats": {
+            "anisongdb": 33.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "TATSUZO"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "RELOADED",
+          "stats": {
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Sowelu"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "SLY",
+          "stats": {
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kazuya Hirabayashi",
+            "TATSUZO"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "SPICE OF LIFE",
+          "stats": {
+            "anisongdb": 34.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kazuya Hirabayashi"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Youkai Ningen Bem",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "he"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "further shore",
+          "stats": {
+            "anisongdb": 33.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "he"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "empty",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "he"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "in sights",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "BALLOONS"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "The biggest number",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "BALLOONS"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Is this really the way it is",
+          "stats": {
+            "anisongdb": 35.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "BALLOONS"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "einige Dinge die ich Weiss",
+          "stats": {
+            "anisongdb": 36.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "BEAT CRUSADERS"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "50¢ WISDOM",
+          "stats": {
+            "anisongdb": 49.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "BEAT CRUSADERS"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "LAST-MINUTE",
+          "stats": {
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "BEAT CRUSADERS"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Damnation",
+          "stats": {
+            "anisongdb": 45.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yuko Nagai"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Katakoi Shigure Machi",
+          "stats": {
+            "anisongdb": 18.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Sachiko Shiina"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Nakimushi Kaikyou",
+          "stats": {
+            "anisongdb": 18.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Sachiko Shiina"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Tsushima Kaikyou",
+          "stats": {
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Gymnopedie"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Koijikake no Waltz",
+          "stats": {
+            "anisongdb": 13.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "I've ~ Remix by GMS"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Disitegration",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "GOOFY'S HOLIDAY"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "PIECE OF TEARS",
+          "stats": {
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "YeLLOW Generation"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Hadaka no Ousama",
+          "stats": {
+            "anisongdb": 18.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ijiwarukei All Stars"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Dengeki",
+          "stats": {
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "NEW ROTEeKA"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "A・I・Ki・Ta",
+          "stats": {
+            "anisongdb": 26.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "HILL a.k.a HILL THE IQ"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "WALK THIS WAY",
+          "stats": {
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "ЯOTTENGR∀FFTY"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Kousei",
+          "stats": {
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Gary Stringer"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "I call you love",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Rookie Jet",
+          "stats": {
+            "anisongdb": 46.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "the pillows"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Advice",
+          "stats": {
+            "anisongdb": 50.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "THE HIGH-LOWS"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Fujimi no Erekiman",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Maria Solheim"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Richard",
+          "stats": {
+            "anisongdb": 14.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kazuya Hirabayashi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Don't you mess with me",
+          "stats": {
+            "anisongdb": 37.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "TYPHOON 24"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "why everybody is singin' a love song",
+          "stats": {
+            "anisongdb": 52.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "BOYS NIGHT OUT"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Got Punched In The Nose For Sticking My Face In Other People's Business",
+          "stats": {
+            "anisongdb": 31.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mio Saeki"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "17's Heart",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Mio Saeki"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Koi no Kimochi",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2004
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 23277,
+      "name": "Saenai Heroine no Sodatekata",
+      "season": "winter",
+      "series": [
+        {
+          "name": "Saenai Heroine no Sodatekata",
+          "slug": "saenai_heroine_no_sodatekata"
+        }
+      ],
+      "slug": "saenai_heroine_no_sodatekata",
+      "synonyms": [
+        "Saekano: How to Raise a Boring Girlfriend",
+        "冴えない彼女の育てかた",
+        "Saenai Kanojo no Sodate-kata"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Luna Haruna"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Kimi-iro Signal",
+          "stats": {
+            "animethemes": 106,
+            "anisongdb": 49.0
+          },
+          "track": "1537253153",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Miku Sawai"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Colorful.",
+          "stats": {
+            "animethemes": 67,
+            "anisongdb": 43.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Saori Onishi"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Blooming Lily",
+          "stats": {
+            "anisongdb": 27.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Sayuri Yahagi"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Cherish you",
+          "stats": {
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kiyono Yasuno"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "M♭",
+          "stats": {
+            "anisongdb": 28.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Sayuri Yahagi"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Sora-iro Days",
+          "stats": {
+            "anisongdb": 51.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2015
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 20785,
+      "name": "Mahouka Koukou no Rettousei",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Mahouka Koukou no Rettousei",
+          "slug": "mahouka"
+        }
+      ],
+      "slug": "mahouka_koukou_no_rettousei",
+      "synonyms": [
+        "The Irregular at Magic High School",
+        "魔法科高校の劣等生",
+        "The irregular at magic high school"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "LiSA"
+          ],
+          "levels": {
+            "animethemes": 7,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Rising Hope",
+          "stats": {
+            "animethemes": 202,
+            "anisongdb": 58.0
+          },
+          "track": "1537788873",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "GARNiDELiA"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "grilletto",
+          "stats": {
+            "animethemes": 106,
+            "anisongdb": 51.0
+          },
+          "track": "1536128400",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "ELISA"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 1,
+          "song": "Millenario",
+          "stats": {
+            "animethemes": 21,
+            "anisongdb": 27.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Rei Yasuda"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "Mirror",
+          "stats": {
+            "animethemes": 61,
+            "anisongdb": 41.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Lotus Juice"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "code break",
+          "stats": {
+            "anisongdb": 44.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Suzi Kim"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Silhouette of a Ballerina",
+          "stats": {
+            "anisongdb": 36.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "IGOR"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Fraud",
+          "stats": {
+            "anisongdb": 40.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "IGOR"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Métaphore",
+          "stats": {
+            "anisongdb": 41.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Jennifer Skidmore"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Vespertine Bloom",
+          "stats": {
+            "anisongdb": 27.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2014
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 15315,
+      "name": "Mondaiji-tachi ga Isekai kara Kuru Sou Desu yo?",
+      "season": "winter",
+      "series": [],
+      "slug": "mondaiji_tachi_ga_isekai_kara_kuru_sou_desu_yo",
+      "synonyms": [
+        "Problem Children Are Coming From Another World, Aren't They?",
+        "問題児たちが異世界から来るそうですよ?"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Iori Nomizu",
+            "野水伊織"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Black † White",
+          "stats": {
+            "animethemes": 141,
+            "anisongdb": 53.0
+          },
+          "track": "592659467",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Kaori Sadohara"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": 1,
+          "song": "To Be Continued?",
+          "stats": {
+            "animethemes": 65,
+            "anisongdb": 42.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "Boku-tachi no Seiza",
+          "stats": {
+            "animethemes": 9
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yukio Yamagata",
+            "Kaori Sadohara"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Beauty as the Beast",
+          "stats": {
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Sarah Emi Bridcutt"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Scarlet",
+          "stats": {
+            "anisongdb": 31.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2013
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 37786,
+      "name": "Yagate Kimi ni Naru",
+      "season": "fall",
+      "series": [],
+      "slug": "yagate_kimi_ni_naru",
+      "synonyms": [
+        "Bloom Into You",
+        "やがて君になる",
+        "Eventually, I Will Become You"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Riko Azuna"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Kimi ni Furete",
+          "stats": {
+            "animethemes": 98,
+            "anisongdb": 44.0
+          },
+          "track": "1441380200",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Yuuki Takada",
+            "Minako Kotobuki"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 1,
+          "song": "hectopascal",
+          "stats": {
+            "animethemes": 76,
+            "anisongdb": 39.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yuuki Takada",
+            "Minako Kotobuki"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "Suki, Igai no Kotoba de",
+          "stats": {
+            "animethemes": 11,
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Riko Azuna"
+          ],
+          "levels": {
+            "animethemes": 0,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "rise",
+          "stats": {
+            "animethemes": 0,
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "James Forest & the East Road"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Big White Ship",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Katrina Stone",
+            "Benj Heard"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Together Forever",
+          "stats": {
+            "anisongdb": 23.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2018
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 52211,
+      "name": "Mashle",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Mashle",
+          "slug": "mashle"
+        }
+      ],
+      "slug": "mashle",
+      "synonyms": [
+        "MASHLE: MAGIC AND MUSCLES",
+        "マッシュル-MASHLE-",
+        "Mashle: Magic and Muscles"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Taiiku Okazaki"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 5
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Knock Out",
+          "stats": {
+            "animethemes": 126,
+            "anisongdb": 54.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Philosophy no Dance"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Shuu Cream Funk",
+          "stats": {
+            "animethemes": 114,
+            "anisongdb": 54.0
+          },
+          "track": "1678700595",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "King Marino"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Block Walk Talk",
+          "stats": {
+            "anisongdb": 44.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "DxshMusic"
+          ],
+          "levels": {
+            "anisongdb": 4
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Hazardous Reaction",
+          "stats": {
+            "anisongdb": 41.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Rocco808"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "THE IRON FIST",
+          "stats": {
+            "anisongdb": 34.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Rocco808"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Serious Steel",
+          "stats": {
+            "anisongdb": 36.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2023
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 40902,
+      "name": "Shokugeki no Souma: Gou no Sara",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Shokugeki no Souma",
+          "slug": "shokugeki_no_souma"
+        }
+      ],
+      "slug": "shokugeki_no_souma_gou_no_sara",
+      "synonyms": [
+        "Food Wars! The Fifth Plate",
+        "食戟のソーマ 豪ノ皿"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "nano.RIPE"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Last Chapter",
+          "stats": {
+            "animethemes": 62,
+            "anisongdb": 48.0
+          },
+          "track": "1747240730",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Mai Fuchigami",
+            "渕上舞"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Crossing Road",
+          "stats": {
+            "animethemes": 35,
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "nano.RIPE"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Snow Drop",
+          "stats": {
+            "anisongdb": 51.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2020
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 21405,
+      "name": "Bokura wa Minna Kawaisou",
+      "season": "spring",
+      "series": [],
+      "slug": "bokura_wa_minna_kawaisou",
+      "synonyms": [
+        "The Kawai Complex Guide to Manors and Hostel Behavior",
+        "僕らはみんな河合荘"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "fhána"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Itsuka no, Ikutsuka no Kimi to no Sekai",
+          "stats": {
+            "animethemes": 75,
+            "anisongdb": 37.0
+          },
+          "track": "1520139713",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Kana Hanazawa",
+            "花澤香菜",
+            "Hisako Kanemoto"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "My Sweet Shelter",
+          "stats": {
+            "animethemes": 27,
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Rina Satoh"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Konchuu-tachi mo Shukufuku Suru Mori no Wedding",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2014
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 3457,
+      "name": "Vampire Knight",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Vampire Knight",
+          "slug": "vampire_knight"
+        }
+      ],
+      "slug": "vampire_knight",
+      "synonyms": [
+        "Vampire Kishi"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "ON/OFF"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Futatsu no Kodou to Akai Tsumi",
+          "stats": {
+            "animethemes": 75,
+            "anisongdb": 47.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Kanon Wakeshima"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "still doll",
+          "stats": {
+            "animethemes": 32,
+            "anisongdb": 33.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2008
+    },
+    {
+      "levels": {
+        "mal": 5
+      },
+      "malId": 49930,
+      "name": "Genjitsu Shugi Yuusha no Oukoku Saikenki 2nd Season",
+      "season": "winter",
+      "series": [
+        {
+          "name": "Genjitsu Shugi Yuusha no Oukoku Saikenki",
+          "slug": "genjitsu_shugi_yuusha_no_oukoku_saikenki"
+        }
+      ],
+      "slug": "genjitsu_shugi_yuusha_no_oukoku_saikenki_2nd_season",
+      "synonyms": [
+        "How a Realist Hero Rebuilt the Kingdom Part 2",
+        "現実主義勇者の王国再建記 第二部",
+        "How a Realist Hero Rebuilt the Kingdom",
+        "Genjitsu Shugi Yuusha no Oukoku Saikenki Part 2"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Inori Minase",
+            "水瀬いのり"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "REAL-EYES",
+          "stats": {
+            "animethemes": 28,
+            "anisongdb": 35.0
+          },
+          "track": "1600645668",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Aimi"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "LIGHTS",
+          "stats": {
+            "animethemes": 17,
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2022
+    },
+    {
+      "levels": {
+        "mal": 7
+      },
+      "malId": 51179,
+      "name": "Mushoku Tensei II: Isekai Ittara Honki Dasu",
+      "season": "summer",
+      "series": [
+        {
+          "name": "Mushoku Tensei",
+          "slug": "mushoku_tensei"
+        }
+      ],
+      "slug": "mushoku_tensei_ii_isekai_ittara_honki_dasu",
+      "synonyms": [
+        "Mushoku Tensei: Jobless Reincarnation Season 2",
+        "無職転生 Ⅱ ～異世界行ったら本気だす～",
+        "Jobless Reincarnation: I Will Seriously Try If I Go To Another World"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "LONGMAN"
+          ],
+          "levels": {
+            "animethemes": 8,
+            "anisongdb": 5
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "spiral",
+          "stats": {
+            "animethemes": 376,
+            "anisongdb": 54.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Yuiko Oohara",
+            "大原ゆい子"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 1,
+          "song": "Musubime",
+          "stats": {
+            "animethemes": 112,
+            "anisongdb": 39.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Ai Kayano",
+            "茅野愛衣"
+          ],
+          "levels": {
+            "animethemes": 3
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "Hanasakimi",
+          "stats": {
+            "animethemes": 30
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Ai Kayano"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "Hanaemi",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2023
+    },
+    {
+      "levels": {
+        "mal": 6
+      },
+      "malId": 28977,
+      "name": "Gintama°",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Gintama",
+          "slug": "gintama"
+        }
+      ],
+      "slug": "gintama_2015",
+      "synonyms": [
+        "Gintama Season 4",
+        "銀魂°",
+        "Gintama' (2015)",
+        "Gintama 3rd season"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "BLUE ENCOUNT"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 1,
+          "song": "DAYxDAY",
+          "stats": {
+            "animethemes": 125,
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "CHiCO",
+            "HoneyWorks"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "Pride Kakumei",
+          "stats": {
+            "animethemes": 175,
+            "anisongdb": 34.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "OKAMOTO'S"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 3,
+          "song": "Beautiful Days",
+          "stats": {
+            "animethemes": 82,
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "DOES"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 4,
+          "song": "Know Know Know",
+          "stats": {
+            "animethemes": 130,
+            "anisongdb": 34.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "NEGOTO"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 1,
+          "song": "DESTINY",
+          "stats": {
+            "animethemes": 51,
+            "anisongdb": 23.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Aqua Timez"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 2,
+          "song": "Saigomade II",
+          "stats": {
+            "animethemes": 48,
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "THREE LIGHTS DOWN KINGS"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 2
+          },
+          "result": "skipped",
+          "sequence": 3,
+          "song": "Glorious Days",
+          "stats": {
+            "animethemes": 79,
+            "anisongdb": 26.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Swimy"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 3
+          },
+          "result": "skipped",
+          "sequence": 4,
+          "song": "Acchi Muite",
+          "stats": {
+            "animethemes": 77,
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Kabukichou Gasshou-dan"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "skipped",
+          "sequence": null,
+          "song": "Nagaresagyou de Takeoff",
+          "stats": {
+            "anisongdb": 11.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2015
+    }
+  ],
+  "artists": {
+    "1057869661": {
+      "artistName": "水瀬いのり"
+    },
+    "1062216254": {
+      "artistName": "Philosophy no Dance"
+    },
+    "1438721351": {
+      "artistName": "Riko Azuna"
+    },
+    "303179157": {
+      "artistName": "nano.RIPE"
+    },
+    "308629932": {
+      "artistName": "Nana Mizuki"
+    },
+    "415178967": {
+      "artistName": "Altima"
+    },
+    "416516653": {
+      "artistName": "Iori Nomizu"
+    },
+    "449080818": {
+      "artistName": "GARNiDELiA"
+    },
+    "516817774": {
+      "artistName": "fhána"
+    },
+    "570031182": {
+      "artistName": "Luna Haruna"
+    },
+    "573943518": {
+      "artistName": "LiSA"
+    },
+    "632715363": {
+      "artistName": "MY FIRST STORY"
+    },
+    "736621456": {
+      "artistName": "Kishida Kyodan & The Akeboshi Rockets"
+    },
+    "740504839": {
+      "artistName": "SCREEN mode"
+    }
+  },
+  "fetchedAt": "2026-11-04T15:46:31Z",
+  "id": "2026-11-04T154631Z",
+  "provider": "apple",
+  "resolved": {
+    "MY FIRST STORY": [
+      "632715363"
+    ],
+    "MimimemeMIMI": [],
+    "Philosophy no Dance": [
+      "1062216254"
+    ]
+  },
+  "storefront": "jp",
+  "tracks": {
+    "1077655346": {
+      "artistId": "740504839",
+      "artistName": "SCREEN mode",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music69/v4/bc/e5/7c/bce57cd7-1a1e-747b-5cd4-c322fde0ca4d/LACM-14439.jpg/100x100bb.jpg",
+      "collectionId": "1077655343",
+      "collectionName": "Naked Dive - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/Music49/v4/36/05/d7/3605d7d1-a1e1-7079-aaeb-185d7ce77255/mzaf_8679900207842031161.plus.aac.p.m4a",
+      "releaseDate": "2016-01-27T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1077655346",
+      "trackName": "Naked Dive",
+      "trackTimeMillis": 287667,
+      "trackViewUrl": "https://music.apple.com/jp/album/naked-dive/1077655343?i=1077655346&uo=4"
+    },
+    "1441380200": {
+      "artistId": "1438721351",
+      "artistName": "安月名莉子",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/fd/9b/31/fd9b3174-2e38-5abf-7551-e490fbe40df3/JK_ZMCZ-12648.jpg/100x100bb.jpg",
+      "collectionId": "1441380199",
+      "collectionName": "TVアニメ「やがて君になる」オープニングテーマ「君にふれて」 - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview128/v4/7d/1c/e3/7d1ce3db-c491-32a1-51bc-ff215f200695/mzaf_3666989819850651864.plus.aac.p.m4a",
+      "releaseDate": "2018-11-28T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1441380200",
+      "trackName": "君にふれて",
+      "trackTimeMillis": 252200,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E5%90%9B%E3%81%AB%E3%81%B5%E3%82%8C%E3%81%A6/1441380199?i=1441380200&uo=4"
+    },
+    "1520139713": {
+      "artistId": "516817774",
+      "artistName": "fhána",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/69/e6/c2/69e6c223-8cc5-df16-2a8a-3855bca9b070/859755938492_cover.jpg/100x100bb.jpg",
+      "collectionId": "1520139706",
+      "collectionName": "いつかの、いくつかのきみとのせかい - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b5/41/6c/b5416c21-f3a0-caab-977a-64bfcc09a664/mzaf_2856574593066010849.plus.aac.p.m4a",
+      "releaseDate": "2014-04-30T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1520139713",
+      "trackName": "いつかの、いくつかのきみとのせかい",
+      "trackTimeMillis": 246000,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%81%84%E3%81%A4%E3%81%8B%E3%81%AE-%E3%81%84%E3%81%8F%E3%81%A4%E3%81%8B%E3%81%AE%E3%81%8D%E3%81%BF%E3%81%A8%E3%81%AE%E3%81%9B%E3%81%8B%E3%81%84/1520139706?i=1520139713&uo=4"
+    },
+    "1536099860": {
+      "artistId": "262240184",
+      "artistName": "BEAT CRUSADERS",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a2/60/ff/a260ffcc-3dad-9ad4-c99c-f393effd5d77/jacket_DFCL01167B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1536099859",
+      "collectionName": "HIT IN THE USA - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/0b/f5/45/0bf54533-8c5f-843e-2dc6-6e4f94455f9c/mzaf_8345296315787828335.plus.aac.p.m4a",
+      "releaseDate": "2004-10-20T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536099860",
+      "trackName": "HIT IN THE USA",
+      "trackTimeMillis": 179293,
+      "trackViewUrl": "https://music.apple.com/jp/album/hit-in-the-usa/1536099859?i=1536099860&uo=4"
+    },
+    "1536128400": {
+      "artistId": "449080818",
+      "artistName": "GARNiDELiA",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/ed/50/6e/ed506e56-1d98-054a-3eb1-decd51963bd8/jacket_DFCL02076B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1536128399",
+      "collectionName": "grilletto - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5d/cd/2a/5dcd2a33-d462-f03f-a466-692dfca47e0a/mzaf_14232257817686713392.plus.aac.p.m4a",
+      "releaseDate": "2014-07-30T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1536128400",
+      "trackName": "grilletto",
+      "trackTimeMillis": 247893,
+      "trackViewUrl": "https://music.apple.com/jp/album/grilletto/1536128399?i=1536128400&uo=4"
+    },
+    "1537253153": {
+      "artistId": "570031182",
+      "artistName": "春奈るな",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/67/b2/96/67b2965a-f6ab-b837-9a79-40c18554de76/jacket_SECL01634B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1537253152",
+      "collectionName": "君色シグナル - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/33/1b/34331ba2-c844-e1a8-fcbc-fa391008dd8e/mzaf_8607788568944813521.plus.aac.p.m4a",
+      "releaseDate": "2015-01-28T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537253153",
+      "trackName": "君色シグナル",
+      "trackTimeMillis": 285187,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E5%90%9B%E8%89%B2%E3%82%B7%E3%82%B0%E3%83%8A%E3%83%AB/1537253152?i=1537253153&uo=4"
+    },
+    "1537788873": {
+      "artistId": "573943518",
+      "artistName": "LiSA",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/c5/1b/ae/c51bae20-91f8-4979-1ba6-42880b87dbb0/jacket_SVWC70005B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1537788872",
+      "collectionName": "Rising Hope - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5a/a9/21/5aa9211a-4f7c-96c1-3501-c1e3d49d752c/mzaf_17249924019822395231.plus.aac.p.m4a",
+      "releaseDate": "2014-05-07T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1537788873",
+      "trackName": "Rising Hope",
+      "trackTimeMillis": 252213,
+      "trackViewUrl": "https://music.apple.com/jp/album/rising-hope/1537788872?i=1537788873&uo=4"
+    },
+    "1600645668": {
+      "artistId": "1057869661",
+      "artistName": "水瀬いのり",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/55/9d/9d/559d9dab-afdc-aa46-24d0-3d4e5a1151c1/NOPA-2803.jpg/100x100bb.jpg",
+      "collectionId": "1600645665",
+      "collectionName": "REAL-EYES - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/86/da/45/86da455b-ff7f-7589-8666-680cdab791ed/mzaf_1019734941418643759.plus.aac.p.m4a",
+      "releaseDate": "2022-01-09T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1600645668",
+      "trackName": "REAL-EYES",
+      "trackTimeMillis": 247599,
+      "trackViewUrl": "https://music.apple.com/jp/album/real-eyes/1600645665?i=1600645668&uo=4"
+    },
+    "1678700595": {
+      "artistId": "1062216254",
+      "artistName": "フィロソフィーのダンス",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/e3/fa/0e/e3fa0edd-cb16-74f5-ab94-7c42b1b23d0e/4547366615708.jpg/100x100bb.jpg",
+      "collectionId": "1678700593",
+      "collectionName": "シュークリーム・ファンク - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/34/ac/39/34ac3966-06b7-6869-14c2-69335070cd5c/mzaf_10708564164673228304.plus.aac.p.m4a",
+      "releaseDate": "2023-04-08T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1678700595",
+      "trackName": "シュークリーム・ファンク",
+      "trackTimeMillis": 215399,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%A5%E3%83%BC%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A0-%E3%83%95%E3%82%A1%E3%83%B3%E3%82%AF/1678700593?i=1678700595&uo=4"
+    },
+    "1742203699": {
+      "artistId": "632715363",
+      "artistName": "MY FIRST STORY & HYDE",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/68/20/bc/6820bcd8-6d2c-2a73-08ff-2d5bff9a5bd4/4547366683356.jpg/100x100bb.jpg",
+      "collectionId": "1742203657",
+      "collectionName": "夢幻 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1b/33/38/1b333810-3d0b-360e-4add-d0854d642931/mzaf_4459120395971724554.plus.aac.p.m4a",
+      "releaseDate": "2024-05-13T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1742203699",
+      "trackName": "夢幻",
+      "trackTimeMillis": 241156,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E5%A4%A2%E5%B9%BB/1742203657?i=1742203699&uo=4"
+    },
+    "1747240730": {
+      "artistId": "303179157",
+      "artistName": "nano.RIPE",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/14/67/43/14674360-969b-01f9-5198-85b1a7895e94/4562409333234.jpg/100x100bb.jpg",
+      "collectionId": "1747240397",
+      "collectionName": "ラストチャプター - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b3/07/43/b30743ce-0d5b-0c70-29a0-db96ccd7d553/mzaf_12400987007970069438.plus.aac.p.m4a",
+      "releaseDate": "2020-04-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1747240730",
+      "trackName": "ラストチャプター",
+      "trackTimeMillis": 266080,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%82%B9%E3%83%88%E3%83%81%E3%83%A3%E3%83%97%E3%82%BF%E3%83%BC/1747240397?i=1747240730&uo=4"
+    },
+    "378277094": {
+      "artistId": "308629932",
+      "artistName": "水樹奈々",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/13/77/f8/mzi.zwtkqjnd.jpg/100x100bb.jpg",
+      "collectionId": "378277090",
+      "collectionName": "Trickster - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c0/6c/a3/c06ca347-7425-1d66-c763-00c79a1febc4/mzaf_16703660624856291546.plus.aac.p.m4a",
+      "releaseDate": "2008-10-01T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "378277094",
+      "trackName": "DISCOTHEQUE",
+      "trackTimeMillis": 239347,
+      "trackViewUrl": "https://music.apple.com/jp/album/discotheque/378277090?i=378277094&uo=4"
+    },
+    "592659467": {
+      "artistId": "416516653",
+      "artistName": "野水 いおり",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/4d/be/73/4dbe7324-e824-023c-735f-ccb3ed925081/VTCL-35142.jpg/100x100bb.jpg",
+      "collectionId": "592659173",
+      "collectionName": "Black † White",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/23/34/c6/2334c631-17fd-1428-b313-a85393ae92ec/mzaf_4469578717894816615.plus.aac.p.m4a",
+      "releaseDate": "2013-01-30T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "592659467",
+      "trackName": "Black † White",
+      "trackTimeMillis": 271297,
+      "trackViewUrl": "https://music.apple.com/jp/album/black-white/592659173?i=592659467&uo=4"
+    },
+    "735117930": {
+      "artistId": "736621456",
+      "artistName": "岸田教団&THE明星ロケッツ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/14/fc/c8/14fcc8f4-a54d-deda-c8dd-cb8bd73f8b67/striketheblood_2400x2400.jpg/100x100bb.jpg",
+      "collectionId": "735117920",
+      "collectionName": "ストライク・ザ・ブラッド - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/55/b1/7a/55b17a63-f280-b3b2-0f6d-dd967673dae9/mzaf_6463673580882762733.plus.aac.p.m4a",
+      "releaseDate": "2013-10-30T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "735117930",
+      "trackName": "ストライク・ザ・ブラッド",
+      "trackTimeMillis": 242703,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B9%E3%83%88%E3%83%A9%E3%82%A4%E3%82%AF-%E3%82%B6-%E3%83%96%E3%83%A9%E3%83%83%E3%83%89/735117920?i=735117930&uo=4"
+    },
+    "804640795": {
+      "artistId": "415178967",
+      "artistName": "ALTIMA",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d9/c9/63/d9c9634d-6bc0-e7b2-9e1f-ab9b8565489e/altima_fight4real_2400x2400.jpg/100x100bb.jpg",
+      "collectionId": "804640792",
+      "collectionName": "Fight 4 Real - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/3e/7f/8c/3e7f8c58-f4e0-f510-2659-58f2fb9e6d57/mzaf_17730863356466128366.plus.aac.p.m4a",
+      "releaseDate": "2014-01-29T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "804640795",
+      "trackName": "Fight 4 Real",
+      "trackTimeMillis": 305389,
+      "trackViewUrl": "https://music.apple.com/jp/album/fight-4-real/804640792?i=804640795&uo=4"
+    }
+  }
+}
