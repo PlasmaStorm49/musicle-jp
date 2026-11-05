@@ -2,7 +2,7 @@
 
 O que falta fazer, numa linha por item, para ler rápido. O código (ME = melhoria, S = sugestão, P = decisão) leva ao detalhe no [`PLANO.md`](PLANO.md), seção 7. Item novo entra aqui e lá; o que fica pronto sai daqui e vai para as "Feitas" do PLANO.
 
-Atualizado em 03/11/2026.
+Atualizado em 05/11/2026.
 
 ## Próximos
 
@@ -65,7 +65,9 @@ Atualizado em 03/11/2026.
 - **ME66.** No modo por artista, o sorteio tira mais álbuns do que precisa (o lado seguro).
 - **ME38.** Ligar no pipeline os álbuns do mesmo lançamento (pede mudança de esquema).
 
-**As faixas do Anime** (a calibração do C2, P272 a P275)
+**As faixas do Anime** (a calibração do C2, P272 a P275, revista na C4, P461 a P467)
+- **ME168 (novo).** O robô busca todos os temas do anime sorteado: decidir se passa a ser seletivo (P465).
+- **ME169 (novo).** A cota por tipo do tema no sorteio das agendas: medir depois de umas semanas com a C4.
 - **ME114 (novo).** O MAL da franquia no "acertar o anime": a 2ª temporada de um anime conhecido fica difícil demais.
 - **ME116 (novo).** Um sinal do título ("sh0ut", "1st Love Story"): o nome estilizado ou genérico é mais difícil do que as fontes dizem.
 - **ME117 (novo).** Os pesos do tipo do tema no sorteio e o espaçamento da franquia continuam os provisórios do A2.
