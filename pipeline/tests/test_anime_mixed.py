@@ -365,6 +365,40 @@ def test_the_schedule_check_regenerates_the_mixed_days_with_the_anime_beside(tmp
     assert "sem a agenda do Anime ao lado" in capsys.readouterr().out
 
 
+def test_the_redo_exception_opens_the_anime_and_the_mixed_days(tmp_path, big, capsys):
+    """A exceção à regra 4 do --quiz-redo-from vale também para a agenda real do Anime e a das
+    Misturadas (o usuário, 04/11/2026): os dias desde a data saem da base e são regerados. Na
+    data, ela vence, e a conferência volta a ser a de sempre."""
+    anime, mixed = both(big, 6)
+    old_anime = copy.deepcopy(anime)  # as bases com um dia futuro de outro gerador
+    answers = old_anime["days"]["2026-10-12"]["musica"]["facil"]
+    answers[0], answers[1] = answers[1], answers[0]
+    old_mixed = copy.deepcopy(mixed)
+    rnd = old_mixed["days"]["2026-10-12"]["musica"][0]["answers"]
+    rnd[0], rnd[1] = rnd[1], rnd[0]
+    (tmp_path / "catalog.json").write_bytes(dumps(big).encode("utf-8"))
+    for name, data, base in (
+        ("schedule.json", anime, old_anime),
+        ("mixed.json", mixed, old_mixed),
+    ):
+        (tmp_path / name).write_bytes(dumps(data).encode("utf-8"))
+        (tmp_path / f"base-{name}").write_bytes(dumps(base).encode("utf-8"))
+    for name in ("schedule.json", "mixed.json"):
+        args = ["schedule-check", "--path", str(tmp_path / name)]
+        args += ["--base", str(tmp_path / f"base-{name}")]
+        assert main([*args, "--today", "2026-10-10"]) == 1, name
+        assert "2026-10-12: dia alterado" in capsys.readouterr().out
+        redo = [*args, "--quiz-redo-from", "2026-10-11"]
+        assert main([*redo, "--today", "2026-10-10"]) == 0, name
+        out = capsys.readouterr().out
+        assert "os dias desde 2026-10-11 conferidos como novos" in out
+        assert "3 dia(s) da base preservados, 6 no total" in out
+        assert main([*redo, "--today", "2026-10-11"]) == 1, name
+        out = capsys.readouterr().out
+        assert "a exceção do --quiz-redo-from venceu" in out
+        assert "2026-10-12: dia alterado" in out
+
+
 FIXTURE = anime_paths("fixture").public_dir
 
 

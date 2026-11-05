@@ -264,48 +264,78 @@ def test_the_mal_file_is_read_and_checked(tmp_path):
 
 
 def test_the_tier_curve_follows_the_phases():
-    """A curva das faixas (o usuário, 25/10/2026, revista no mesmo dia): começa no Fácil; da
-    rodada 6 em diante, as Médias entram sem tirar muito o Fácil, que fica perto da proporção
-    natural de Fácil + Médio e desce bem pouco; da 10 à 14 em diante, algumas Difíceis."""
+    """A curva das faixas (o usuário, 25/10/2026, revista em 04/11/2026): o desafio fica mais na
+    diferença do que em reconhecer a música. Começa quase toda no Fácil, que desce devagar e fica
+    sempre à frente; as Médias entram cedo; a Difícil começa na 7, chega a 2% na 12 e para em 12%."""
     shares = [quiz.tier_shares(n) for n in range(1, RUN_ROUNDS + 1)]
-    assert shares[0] == (85, 15, 0)
+    assert shares[0] == (95, 5, 0)
     # A reta entre os pontos, nas rodadas do meio, e o último ponto valendo dali em diante.
-    assert shares[2] == (73, 27, 0)
-    assert shares[7] == (Decimal("53.5"), Decimal("45.5"), 1)
-    assert shares[11] == (Decimal("49.5"), Decimal("44.5"), 6)
-    assert shares[RUN_ROUNDS - 1] == (41, 39, 20)
+    assert shares[2] == (Decimal("89.8"), Decimal("10.2"), 0)
+    assert shares[11] == (72, 26, 2)
+    assert shares[15] == (Decimal("67.5"), Decimal("28.5"), 4)
+    assert shares[39] == shares[RUN_ROUNDS - 1] == (54, 34, 12)
     assert all(abs(sum(s) - 100) < Decimal("1e-20") for s in shares)
     for n, (easy, medium, hard) in enumerate(shares, start=1):
-        assert easy >= 41 and easy > medium, n  # o Fácil fica, um pouco à frente do Médio
+        assert easy >= 54 and easy > medium + hard, n  # o Fácil fica sempre na frente
         if n <= 6:
             assert hard == 0, n  # nenhuma Difícil antes de as Médias entrarem
-        if n >= 6:
-            # Perto dos 56% de Fácil num pool Fácil + Médio, descendo bem pouco.
-            assert Decimal("0.51") <= easy / (easy + medium) <= Decimal("0.56"), n
-        if n <= 10:
+        if n <= 12:
             assert hard <= 2, n
-        if n >= 14:
-            assert hard >= 10, n  # algumas Difíceis
+        assert hard <= 12, n
     assert all(a[0] >= b[0] and a[2] <= b[2] for a, b in pairwise(shares))
     first, second = tier_cuts(1)
-    assert (first, second) == (int(Decimal("0.85") * 2**32), 2**32)
+    assert (first, second) == (int(Decimal("0.95") * 2**32), 2**32)
 
 
 def test_the_distance_shrinks_to_the_floor():
     # O ano conta em temporadas: 40 são 10 anos, de 10 a 30 anos na 1ª rodada.
-    assert distance_bounds("ano", quiz.curve(1)) == (Decimal(40), Decimal(120))
-    # Nos valores inteiros, o mínimo arredonda: na curva média, a diferença de 1 ano (4
-    # temporadas) chega na rodada 15, e a de 1 temporada (o mesmo ano), da 26 em diante.
-    assert distance_bounds("ano", quiz.curve(14))[0] == 5
-    assert distance_bounds("ano", quiz.curve(15))[0] == 4
-    assert distance_bounds("ano", quiz.curve(25))[0] == 2
-    assert distance_bounds("ano", quiz.curve(26))[0] == 1
-    low, high = distance_bounds("ano", quiz.curve(RUN_ROUNDS))
-    assert low == 1 and Decimal(3) < high < Decimal("3.03")
-    low, high = distance_bounds("nota", quiz.curve(RUN_ROUNDS))  # a nota não arredonda
-    assert Decimal("0.10") < low < Decimal("0.11") and high == low * 3
-    low, _ = distance_bounds("membros", quiz.curve(1))  # as razões, na escala do logaritmo
+    assert distance_bounds("ano", quiz.curve(1), 1) == (Decimal(40), Decimal(120))
+    # Nos valores inteiros, o mínimo arredonda: na curva média (DIST_TAU de 6,5, o usuário,
+    # 04/11/2026), a diferença de 1 ano (4 temporadas) chega na rodada 17, e a de 1 temporada (o
+    # mesmo ano), da 30 em diante.
+    assert distance_bounds("ano", quiz.curve(16), 16)[0] == 5
+    assert distance_bounds("ano", quiz.curve(17), 17)[0] == 4
+    assert distance_bounds("ano", quiz.curve(29), 29)[0] == 2
+    assert distance_bounds("ano", quiz.curve(30), 30)[0] == 1
+    low, high = distance_bounds("ano", quiz.curve(RUN_ROUNDS), RUN_ROUNDS)
+    assert low == 1 and Decimal(2) < high < Decimal("2.05")  # a faixa do fim, BAND_END
+    # A nota não arredonda, e o piso desceu para 0,08 (o usuário, 04/11/2026).
+    low, high = distance_bounds("nota", quiz.curve(RUN_ROUNDS), RUN_ROUNDS)
+    assert Decimal("0.08") < low < Decimal("0.082") and high == low * 2
+    low, _ = distance_bounds("membros", quiz.curve(1), 1)  # as razões, na escala do logaritmo
     assert low == Decimal(10).ln()
+    # Os membros no fim: de 1,15x a 1,15^1,5 ≈ 1,23x (BAND_END_LOG), e não mais até 2,2x.
+    low, high = distance_bounds("membros", quiz.curve(RUN_ROUNDS), RUN_ROUNDS)
+    assert Decimal("1.15") < low.exp() < Decimal("1.16")
+    assert Decimal("1.23") < high.exp() < Decimal("1.24")
+
+
+def test_the_band_holds_then_tightens():
+    """A faixa por rodada (o usuário, 04/11/2026): igual à de antes (3) até a rodada 10, para as
+    diferenças grandes do começo continuarem possíveis; daí, a reta até a rodada 20, e o fim
+    dali em diante: 2, ou 1,5 nas razões (no logaritmo, a faixa eleva a razão)."""
+    for family_id in ("ano", "nota", "amq", "ano_x"):
+        assert [quiz.band_of(family_id, n) for n in (1, 10, 15, 20, 50)] == [3, 3, 2.5, 2, 2]
+    for family_id in ("membros", "playlists"):
+        bands = [quiz.band_of(family_id, n) for n in (1, 10, 15, 20, 50)]
+        assert bands == [3, 3, Decimal("2.25"), Decimal("1.5"), Decimal("1.5")]
+    for family_id in ("ano", "membros"):
+        bands = [quiz.band_of(family_id, n) for n in range(1, RUN_ROUNDS + 1)]
+        assert all(a >= b for a, b in pairwise(bands))
+    # O começo não muda: a mesma faixa de antes (3).
+    for n in range(1, quiz.BAND_HOLD + 1):
+        low, high = distance_bounds("nota", Decimal("0.5"), n)  # sem o arredondamento do ano
+        assert high == low * 3, n
+
+
+def test_the_opening_share_comes_down_along_the_run():
+    """A curva das aberturas (o usuário, 04/11/2026): 90% até a rodada 5, a reta até 70% na 30 e
+    70% dali em diante; o encerramento é mais um degrau de dificuldade."""
+    shares = [Decimal(quiz.opening_cut(n)) / 2**32 for n in range(1, RUN_ROUNDS + 1)]
+    expected = {1: "0.90", 5: "0.90", 10: "0.85", 15: "0.81", 20: "0.77", 30: "0.70", 50: "0.70"}
+    for n, share in expected.items():
+        assert abs(shares[n - 1] - Decimal(share)) < Decimal("1e-9"), n
+    assert all(a >= b for a, b in pairwise(shares))
 
 
 def test_the_distance_comes_down_in_random_steps():
@@ -323,10 +353,10 @@ def test_the_distance_comes_down_in_random_steps():
         mean = sum(left[n - 1] for left in days) / len(days)
         assert abs(mean / quiz.curve(n) - 1) < Decimal("0.1"), n
     sixth = sorted(left[5] for left in days)
-    assert sixth[0] < Decimal("0.3") and sixth[-1] > Decimal("0.55")  # depressa e devagar
+    assert sixth[0] < Decimal("0.4") and sixth[-1] > Decimal("0.6")  # depressa e devagar
     fast = min(days, key=lambda left: left[11])
     slow = max(days, key=lambda left: left[11])
-    assert distance_bounds("ano", fast[11])[0] < distance_bounds("ano", slow[11])[0]
+    assert distance_bounds("ano", fast[11], 12)[0] < distance_bounds("ano", slow[11], 12)[0]
 
 
 def test_round_sig_reads_like_the_screen():
@@ -366,7 +396,7 @@ def test_a_full_run_of_each_family(ctx, family_id, param):
         joined = [g for g in groups if g & pair]
         groups = [g for g in groups if not g & pair] + [pair.union(*joined)]
         if family.kind == "compare" and step == 0:
-            low, high = distance_bounds(family_id, quiz.day_left(EPOCH)[n - 1])
+            low, high = distance_bounds(family_id, quiz.day_left(EPOCH)[n - 1], n)
             assert low <= abs(ctx.value(family_id, a) - ctx.value(family_id, b)) <= high, n
         if family_id == "nota":
             assert Decimal(str(rnd["info"]["diff"])) == abs(a.mal.mean - b.mal.mean)  # exata
@@ -591,10 +621,10 @@ def test_every_day_is_valid_and_full(ctx, schedule):
 
 
 def test_the_floor_lifts_the_openings_above_the_draw(ctx, schedule):
-    """O piso (o usuário, 26/10/2026) num acervo com a metade de aberturas: as runs juntas ficam
-    acima dos 65%. Este acervo é feito para as regras, e não para o tipo: nele, abertura e
-    encerramento se alternam pelos números, e nem sempre há par de aberturas na janela (a
-    busca não afrouxa a curva pelo tipo). No acervo real de 26/10, o piso valeu em toda
+    """O piso (o usuário, 26/10/2026; 70% desde 04/11/2026) num acervo com a metade de
+    aberturas: as runs juntas ficam acima dele. Este acervo é feito para as regras, e não para o
+    tipo: nele, abertura e encerramento se alternam pelos números, e nem sempre há par de
+    aberturas na janela (a busca não afrouxa a curva pelo tipo). No acervo real de 26/10, o piso valeu em toda
     rodada; a pergunta do tema fica fora (uma de cada)."""
     songs = {s.id: s for s in ctx.songs}
     marks = [
@@ -604,7 +634,7 @@ def test_the_floor_lifts_the_openings_above_the_draw(ctx, schedule):
         for rnd in day["rounds"]
         for side in ("a", "b")
     ]
-    assert sum(marks) / len(marks) >= 0.65
+    assert sum(marks) / len(marks) >= 0.70
 
 
 def test_the_floor_asks_only_the_openings_it_needs():
@@ -614,7 +644,9 @@ def test_the_floor_asks_only_the_openings_it_needs():
     assert (run.need(), run.floor((False, False))) == (1, (True, False))  # 3 de 4 bastam
     assert run.floor((False, True)) == (False, True)  # o sorteio já deu uma
     run.songs, run.openings = 4, 4
-    assert (run.need(), run.floor((False, False))) == (0, (False, False))  # 4 de 6 são 67%
+    assert (run.need(), run.floor((False, False))) == (1, (True, False))  # 5 de 6: 70% de 6 é 4,2
+    run.songs, run.openings = 6, 6
+    assert (run.need(), run.floor((False, False))) == (0, (False, False))  # 6 de 8 são 75%
 
 
 def test_the_floor_takes_the_opening_on_either_side(ctx):

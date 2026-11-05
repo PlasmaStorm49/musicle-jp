@@ -18,9 +18,11 @@ para a conferência.
   cada rodada dependem só do acervo: um afrouxamento consome mais.
 - **As duas camadas** (P375): a faixa de cada música (a do "acertar o anime") sai da parte de
   Fácil, Médio e Difícil de cada rodada (`TIER_SHARES`), e a distância do par fica entre o mínimo
-  e 3 × o mínimo (nas comparações) ou numa faixa em volta do alvo da semelhança dos gêneros (nas
-  propriedades). A distância desce em degraus sorteados, e a curva g(n) é a média deles: umas
-  runs descem mais rápido, outras mais devagar. Nas famílias de valor inteiro, o mínimo arredonda
+  e a faixa da rodada (`band_of`: 3 até a 10, e daí apertando) × o mínimo (nas comparações) ou
+  numa faixa em volta do alvo da semelhança dos gêneros (nas propriedades). O tipo de cada música
+  (abertura ou não) segue a curva `OPENING_SHARES`, com o piso da run em `OPENING_FLOOR`. A
+  distância desce em degraus sorteados, e a curva g(n) é a média deles: umas runs descem mais
+  rápido, outras mais devagar. Nas famílias de valor inteiro, o mínimo arredonda
   para o inteiro mais perto: sem isso, a diferença de 1 (o piso) nunca chegaria. Toda conta da
   curva é em `Decimal` (a regra 8 do pipeline): a mesma em Windows e em Linux.
 - **As regras de um dia** (P378): nas comparações, nada que a run já deixe deduzir, com o que a
@@ -94,38 +96,53 @@ TIERS = ("facil", "medio", "dificil")
 # diante, as Médias entram no pool sem tirar muito o Fácil, que fica perto da proporção natural
 # de Fácil + Médio (56% no acervo real de 25/10) e desce bem pouco, até 51% deles na 30. A
 # Difícil começa a aparecer na 10 (2%) e chega a 20% na 30.
+# Revista de novo (o usuário, 04/11/2026): o desafio fica mais na diferença do que em reconhecer a
+# música. O Fácil começa em 95% e desce devagar até 54% na 40; as Médias entram cedo, e a Difícil
+# começa na 7, chega a 2% na 12 e para em 12%.
 TIER_SHARES = (
-    (1, (85, 15, 0)),
-    (6, (55, 45, 0)),
-    (10, (52, 46, 2)),
-    (14, (47, 43, 10)),
-    (20, (44, 40, 16)),
-    (30, (41, 39, 20)),
+    (1, (95, 5, 0)),
+    (6, (82, 18, 0)),
+    (12, (72, 26, 2)),
+    (20, (63, 31, 6)),
+    (30, (57, 33, 10)),
+    (40, (54, 34, 12)),
 )
 # A distância: a curva média é g(n) = piso + (início − piso) × e^(−(n−1)/DIST_TAU), e o par fica
-# entre o mínimo e BAND × o mínimo. Nas propriedades, o alvo da semelhança dos gêneros (Jaccard)
-# é SIM_TOP × (1 − o que falta), com SIM_HALF de folga para cada lado.
-DIST_TAU = Decimal("5.6")
+# entre o mínimo e a faixa (`band_of`) × o mínimo. Nas propriedades, o alvo da semelhança dos
+# gêneros (Jaccard) é SIM_TOP × (1 − o que falta), com SIM_HALF de folga para cada lado. A descida
+# ficou um pouco mais lenta (o usuário, 04/11/2026; era 5,6): chega perto do piso pela rodada 25,
+# e não pela 20, e o aperto da diferença acompanha mais da run.
+DIST_TAU = Decimal("6.5")
 # A descida de cada dia (o usuário, 25/10/2026): cada rodada guarda, do que faltava descer, uma
-# parte sorteada de 2 × e^(−1/DIST_TAU) − 1 (uns 67%) a 100%, pela semente
+# parte sorteada de 2 × e^(−1/DIST_TAU) − 1 (uns 71%) a 100%, pela semente
 # "musicle-jp|anime-quiz|<data>|descida". A média dessa parte é e^(−1/DIST_TAU): a de muitos dias
 # é a curva g(n), e cada run desce no seu passo, umas rodadas mais, outras nada.
+# A faixa por rodada (o usuário, 04/11/2026): BAND até a rodada BAND_HOLD, para as diferenças
+# grandes do começo continuarem possíveis, e daí encolhendo em reta até BAND_END na rodada
+# BAND_TIGHT. Nas razões (os membros e as playlists), a conta é no logaritmo, e a faixa eleva a
+# razão: 2 faria do piso de 1,15x um teto de 1,32x, e por isso elas fecham em BAND_END_LOG.
 BAND = Decimal(3)
+BAND_HOLD = 10
+BAND_TIGHT = 20
+BAND_END = Decimal(2)
+BAND_END_LOG = Decimal("1.5")
 SIM_TOP = Decimal("0.6")
 SIM_HALF = Decimal("0.25")
 # A distância mínima de "qualquer distância": só tira o empate (os dois com o mesmo valor).
 NO_TIE = Decimal("1e-9")
 # Quantas 1ªs músicas a busca de um par tenta, em cada nível de afrouxamento.
 TRIES = 40
-# A preferência pela abertura (o usuário, 25/10/2026), uns 65 a 35: cada música da rodada sorteia
-# o tipo, abertura abaixo do corte (em 32 bits) e o encerramento ou a insert song acima, e a busca
-# tenta antes as do tipo sorteado. A preferência nunca afrouxa a curva: sem par entre elas, valem
-# as outras no mesmo nível. O tipo é o do tema principal (o `label`, o que a revelação mostra).
-OPENING_CUT = int(Decimal("0.65") * 2**32)
-# E um piso (o usuário, 26/10/2026): os 65% são o mínimo, e não a média. Desde a rodada 1, as
-# aberturas da run nunca ficam abaixo de OPENING_FLOOR das músicas: quando o sorteio deixaria
-# cair, a abertura vira obrigatória (ainda uma preferência da busca: sem par, vale a outra).
-OPENING_FLOOR = (13, 20)  # 65%, em inteiros
+# A preferência pela abertura (o usuário, 25/10/2026): cada música da rodada sorteia o tipo,
+# abertura abaixo do corte (em 32 bits) e o encerramento ou a insert song acima, e a busca tenta
+# antes as do tipo sorteado. A preferência nunca afrouxa a curva: sem par entre elas, valem as
+# outras no mesmo nível. O tipo é o do tema principal (o `label`, o que a revelação mostra). Era
+# 65% em toda a run; virou uma curva por rodada (o usuário, 04/11/2026), em %, com a reta entre os
+# pontos: quase só aberturas no começo, e o encerramento como mais um degrau de dificuldade.
+OPENING_SHARES = ((1, 90), (5, 90), (10, 85), (20, 77), (30, 70))
+# E um piso (o usuário, 26/10/2026; 65% até 04/11/2026): desde a rodada 1, as aberturas da run
+# nunca ficam abaixo de OPENING_FLOOR das músicas: quando o sorteio deixaria cair, a abertura vira
+# obrigatória (ainda uma preferência da busca: sem par, vale a outra).
+OPENING_FLOOR = (7, 10)  # 70%, em inteiros
 # Acervo curto (as fixtures): um parâmetro (um rótulo, um estúdio) entra com as músicas para a
 # run inteira ou, se o acervo é pequeno, com um quarto das músicas dele.
 SHORT_SHARE = 4
@@ -313,22 +330,24 @@ class Family:
 # As distâncias de cada comparação: o ano em temporadas (40 são 10 anos; o piso, 1 temporada, é
 # o verão e o outono do mesmo ano); a taxa do AMQ em pontos percentuais; as playlists e os
 # membros pela razão (o logaritmo). Os valores do AMQ e das playlists são um primeiro chute (o
-# usuário, 25/10/2026): calibrar com a carga que traz os números exatos.
+# usuário, 25/10/2026): calibrar com a carga que traz os números exatos. Os pisos desceram (o
+# usuário, 04/11/2026), para o fim da run ser de diferença pequena: a nota de 0,10 para 0,08, os
+# membros de 1,3x para 1,15x, as playlists de 1,25x para 1,15x e o AMQ de 2 para 1,5 ponto.
 FAMILIES = (
     Family("ano", "compare", False, 5, start=Decimal(40), floor=Decimal(1), whole=True),
-    Family("nota", "compare", True, 5, start=Decimal(2), floor=Decimal("0.10"), diff_only=True),
+    Family("nota", "compare", True, 5, start=Decimal(2), floor=Decimal("0.08"), diff_only=True),
     Family(
         "membros",
         "compare",
         True,
         5,
         start=Decimal(10),
-        floor=Decimal("1.3"),
+        floor=Decimal("1.15"),
         log=True,
         diff_only=True,
     ),
-    Family("playlists", "compare", False, 10, start=Decimal(8), floor=Decimal("1.25"), log=True),
-    Family("amq", "compare", False, 5, start=Decimal(25), floor=Decimal(2)),
+    Family("playlists", "compare", False, 10, start=Decimal(8), floor=Decimal("1.15"), log=True),
+    Family("amq", "compare", False, 5, start=Decimal(25), floor=Decimal("1.5")),
     Family("rotulo", "property", True, 3, param_cooldown=60),
     Family("fonte", "property", True, 5, param_cooldown=30),
     Family("tema", "property", False, 10),
@@ -390,6 +409,24 @@ def tier_shares(n: int) -> tuple[Decimal, Decimal, Decimal]:
 
 
 @cache
+def opening_cut(n: int) -> int:
+    """O corte do sorteio do tipo na rodada n, sobre um número de 32 bits do rng (abaixo dele,
+    abertura): a reta entre os pontos de OPENING_SHARES; antes do 1º, o 1º; depois do último, o
+    último."""
+    with localcontext() as ctx:
+        ctx.prec = 28
+        share = Decimal(OPENING_SHARES[-1][1])
+        for (n0, s0), (n1, s1) in pairwise(OPENING_SHARES):
+            if n <= n0:
+                share = Decimal(s0)
+                break
+            if n <= n1:
+                share = s0 + (Decimal(s1) - s0) * Decimal(n - n0) / Decimal(n1 - n0)
+                break
+        return int(share * Decimal(2**32) / 100)
+
+
+@cache
 def tier_cuts(n: int) -> tuple[int, int]:
     """Os limites do sorteio da faixa da rodada n, sobre um número de 32 bits do rng: abaixo do
     1º, Fácil; abaixo do 2º, Médio; o resto, Difícil."""
@@ -436,10 +473,24 @@ def day_left(d: date) -> tuple[Decimal, ...]:
 
 
 @cache
-def distance_bounds(family_id: str, left: Decimal) -> tuple[Decimal, Decimal]:
-    """O mínimo e o máximo da distância do par quando falta `left` da descida (nas razões, na
-    escala do logaritmo). Nos valores inteiros, o mínimo arredonda para o inteiro mais perto: a
-    descida só chega perto do piso, e a diferença de 1 ficaria sempre de fora."""
+def band_of(family_id: str, n: int) -> Decimal:
+    """A faixa da distância na rodada n: BAND até BAND_HOLD, a reta até o fim (BAND_END, ou
+    BAND_END_LOG nas razões) em BAND_TIGHT e o fim dali em diante."""
+    end = BAND_END_LOG if FAMILY_BY_ID[family_id].log else BAND_END
+    if n <= BAND_HOLD:
+        return BAND
+    if n >= BAND_TIGHT:
+        return end
+    with localcontext() as ctx:
+        ctx.prec = 28
+        return BAND + (end - BAND) * Decimal(n - BAND_HOLD) / Decimal(BAND_TIGHT - BAND_HOLD)
+
+
+@cache
+def distance_bounds(family_id: str, left: Decimal, n: int) -> tuple[Decimal, Decimal]:
+    """O mínimo e o máximo da distância do par na rodada n, quando falta `left` da descida (nas
+    razões, na escala do logaritmo). Nos valores inteiros, o mínimo arredonda para o inteiro mais
+    perto: a descida só chega perto do piso, e a diferença de 1 ficaria sempre de fora."""
     family = FAMILY_BY_ID[family_id]
     start, floor = family.start, family.floor
     if family.log:
@@ -447,7 +498,7 @@ def distance_bounds(family_id: str, left: Decimal) -> tuple[Decimal, Decimal]:
     with localcontext() as ctx:
         ctx.prec = 28
         low = floor + (start - floor) * left
-        high = low * BAND
+        high = low * band_of(family_id, n)
         if family.whole:
             low = low.quantize(Decimal(1), rounding=ROUND_HALF_UP)
         return low, high
@@ -476,13 +527,13 @@ STEPS = (
 )
 
 
-def _window(family: Family, width: str, left: Decimal) -> tuple[Decimal, Decimal]:
-    """A faixa aceita quando falta `left` da descida: a diferença do valor (nas comparações e no
-    ano X) ou a semelhança dos gêneros (nas outras propriedades)."""
+def _window(family: Family, width: str, left: Decimal, n: int) -> tuple[Decimal, Decimal]:
+    """A faixa aceita na rodada n, quando falta `left` da descida: a diferença do valor (nas
+    comparações e no ano X) ou a semelhança dos gêneros (nas outras propriedades)."""
     if family.kind == "compare" or family.id == "ano_x":
         if width == "any":
             return NO_TIE, Decimal("Infinity")
-        low, high = distance_bounds(family.id, left)
+        low, high = distance_bounds(family.id, left, n)
         return (low / 2, high * 2) if width == "wide" else (low, high)
     if width == "any":
         return Decimal(-1), Decimal(2)
@@ -1025,9 +1076,10 @@ def _round(
     """O par da rodada n e o nível de afrouxamento (0, nenhum); sem par, (None, -1)."""
     rng = seeded(f"musicle-jp|anime-quiz|{d.isoformat()}|{n}")
     tiers = (_tier(rng, n), _tier(rng, n))
-    # O tipo de cada música (OPENING_CUT), com o piso da run: 2 números sempre, e a pergunta do
+    # O tipo de cada música (`opening_cut`), com o piso da run: 2 números sempre, e a pergunta do
     # tema não os usa, porque o par dela já é uma abertura e um encerramento.
-    opening = (rng.next_u32() < OPENING_CUT, rng.next_u32() < OPENING_CUT)
+    cut = opening_cut(n)
+    opening = (rng.next_u32() < cut, rng.next_u32() < cut)
     preference = None if family.id == "tema" else run.floor(opening)
     need = 0 if family.id == "tema" else run.need()
     left = day_left(d)[n - 1]
@@ -1036,7 +1088,7 @@ def _round(
             break  # no acervo real, a run para antes de usar uma resposta do dia (P378)
         out = frozenset() if with_day_answers else excluded
         chosen = tiers if not any_tier else None
-        window = _window(family, width, left)
+        window = _window(family, width, left, n)
         if family.kind == "compare":
             pair = _search_compare(ctx, family, rng, run, out, chosen, window, preference, need)
         else:
