@@ -107,6 +107,19 @@ TIER_SHARES = (
     (30, (57, 33, 10)),
     (40, (54, 34, 12)),
 )
+# As perguntas sem número (o rótulo, a fonte, o estúdio e o tema; o usuário, 07/11/2026): nelas, a
+# diferença não aperta como uma nota ou uma temporada (só a semelhança dos gêneros, ou a mesma
+# franquia, no tema), e o que pesa é reconhecer o anime. A curva começa igual à de cima e fica
+# mais dura do meio para o fim, um pouco além da de 25/10 (41/39/20). Vale só para os dias novos:
+# os já gerados não são refeitos (sem exceção à regra 4).
+RECOGNITION_FAMILIES = frozenset({"rotulo", "fonte", "estudio", "tema"})
+RECOGNITION_TIER_SHARES = (
+    (1, (95, 5, 0)),
+    (6, (75, 25, 0)),
+    (12, (58, 36, 6)),
+    (20, (46, 38, 16)),
+    (30, (40, 38, 22)),
+)
 # A distância: a curva média é g(n) = piso + (início − piso) × e^(−(n−1)/DIST_TAU), e o par fica
 # entre o mínimo e a faixa (`band_of`) × o mínimo. Nas propriedades, o alvo da semelhança dos
 # gêneros (Jaccard) é SIM_TOP × (1 − o que falta), com SIM_HALF de folga para cada lado. A descida
@@ -389,12 +402,14 @@ def _decay(n: int, tau: Decimal) -> Decimal:
 
 
 @cache
-def tier_shares(n: int) -> tuple[Decimal, Decimal, Decimal]:
+def tier_shares(n: int, recognition: bool = False) -> tuple[Decimal, Decimal, Decimal]:
     """A parte (em %) de Fácil, Médio e Difícil na rodada n: a reta entre os pontos de
-    TIER_SHARES; antes do 1º, o 1º; depois do último, o último."""
+    TIER_SHARES (ou de RECOGNITION_TIER_SHARES, nas perguntas sem número); antes do 1º, o 1º;
+    depois do último, o último."""
+    table = RECOGNITION_TIER_SHARES if recognition else TIER_SHARES
     with localcontext() as ctx:
         ctx.prec = 28
-        for (n0, s0), (n1, s1) in pairwise(TIER_SHARES):
+        for (n0, s0), (n1, s1) in pairwise(table):
             if n <= n0:
                 break
             if n <= n1:
@@ -403,7 +418,7 @@ def tier_shares(n: int) -> tuple[Decimal, Decimal, Decimal]:
                 a, b, c = (Decimal(x) + (Decimal(y) - Decimal(x)) * t for x, y in pairs)
                 return a, b, c
         else:
-            s0 = TIER_SHARES[-1][1]
+            s0 = table[-1][1]
         a, b, c = (Decimal(x) for x in s0)
         return a, b, c
 
@@ -427,19 +442,19 @@ def opening_cut(n: int) -> int:
 
 
 @cache
-def tier_cuts(n: int) -> tuple[int, int]:
+def tier_cuts(n: int, recognition: bool = False) -> tuple[int, int]:
     """Os limites do sorteio da faixa da rodada n, sobre um número de 32 bits do rng: abaixo do
     1º, Fácil; abaixo do 2º, Médio; o resto, Difícil."""
-    easy, medium, _ = tier_shares(n)
+    easy, medium, _ = tier_shares(n, recognition)
     with localcontext() as ctx:
         ctx.prec = 28
         span = Decimal(2**32) / 100
         return int(easy * span), int((easy + medium) * span)
 
 
-def _tier(rng: Mulberry32, n: int) -> int:
+def _tier(rng: Mulberry32, n: int, recognition: bool) -> int:
     u = rng.next_u32()
-    first, second = tier_cuts(n)
+    first, second = tier_cuts(n, recognition)
     return 0 if u < first else 1 if u < second else 2
 
 
@@ -1075,7 +1090,8 @@ def _round(
 ) -> tuple[JSON | None, int]:
     """O par da rodada n e o nível de afrouxamento (0, nenhum); sem par, (None, -1)."""
     rng = seeded(f"musicle-jp|anime-quiz|{d.isoformat()}|{n}")
-    tiers = (_tier(rng, n), _tier(rng, n))
+    recognition = family.id in RECOGNITION_FAMILIES
+    tiers = (_tier(rng, n, recognition), _tier(rng, n, recognition))
     # O tipo de cada música (`opening_cut`), com o piso da run: 2 números sempre, e a pergunta do
     # tema não os usa, porque o par dela já é uma abertura e um encerramento.
     cut = opening_cut(n)

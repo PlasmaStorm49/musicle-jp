@@ -287,6 +287,33 @@ def test_the_tier_curve_follows_the_phases():
     assert (first, second) == (int(Decimal("0.95") * 2**32), 2**32)
 
 
+def test_the_families_without_a_number_get_a_harder_tier_curve():
+    """As perguntas sem número (o rótulo, a fonte, o estúdio e o tema; o usuário, 07/11/2026):
+    a mesma 1ª rodada, e daí uma curva mais dura, que chega a 40/38/22 na 30."""
+    assert {"rotulo", "fonte", "estudio", "tema"} == quiz.RECOGNITION_FAMILIES
+    hard = [quiz.tier_shares(n, True) for n in range(1, RUN_ROUNDS + 1)]
+    easy = [quiz.tier_shares(n) for n in range(1, RUN_ROUNDS + 1)]
+    assert hard[0] == easy[0] == (95, 5, 0)
+    assert hard[11] == (58, 36, 6)
+    assert hard[29] == hard[RUN_ROUNDS - 1] == (40, 38, 22)
+    assert all(abs(sum(s) - 100) < Decimal("1e-20") for s in hard)
+    assert all(a[0] >= b[0] and a[2] <= b[2] for a, b in pairwise(hard))
+    for n in range(2, RUN_ROUNDS + 1):
+        assert hard[n - 1][0] < easy[n - 1][0], n  # menos Fácil desde a 2ª rodada
+    assert tier_cuts(30, True) == (int(Decimal("0.40") * 2**32), int(Decimal("0.78") * 2**32))
+
+
+def test_the_harder_curve_reaches_the_runs_without_a_number(ctx):
+    """Nas runs de rótulo e de tema, as Difíceis aparecem mais que na curva das comparações:
+    da rodada 20 em diante, perto dos 16 a 22% da curva (o acervo sintético afrouxa pouco)."""
+    for family_id, param in (("rotulo", "Action"), ("tema", None)):
+        rounds = _run_of(ctx, family_id, param)
+        tiers = [
+            ctx.by_id[rnd[side]].tier for n, rnd, _ in rounds if n >= 20 for side in ("a", "b")
+        ]
+        assert tiers.count(2) / len(tiers) >= 0.12, family_id
+
+
 def test_the_distance_shrinks_to_the_floor():
     # O ano conta em temporadas: 40 são 10 anos, de 10 a 30 anos na 1ª rodada.
     assert distance_bounds("ano", quiz.curve(1), 1) == (Decimal(40), Decimal(120))
