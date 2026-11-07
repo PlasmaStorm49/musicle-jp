@@ -34,8 +34,8 @@ export type NoticeItem = {
   readonly art: SuperfanArt;
 };
 
-/** Quanto tempo o aviso pequeno fica na tela. */
-export const TOAST_MS = 5000;
+/** Quanto tempo o aviso pequeno fica na tela: 10 s (o usuário, 07/11/2026; antes, 5 s, sumia rápido). */
+export const TOAST_MS = 10000;
 /** Até quantas medalhas o aviso desenha; o resto fica só no texto. */
 export const SHOWN = 4;
 /** Até quantos nomes o pop-up lista; o resto vira "e mais N" (P313). A tela das Medalhas tem todas. */

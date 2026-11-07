@@ -521,6 +521,21 @@ button.give-up:active:not(:disabled) {
   margin-left: auto;
 }
 
+/* A medalha de 52 px (o usuário, 07/11/2026; antes, 36): o link guarda a altura da linha, os 44 px,
+   e ela sai do topo dele e transborda 8 px para baixo, para dentro do respiro do `main.app` (o
+   `--sp-2`), sem crescer a nav (P317). */
+.tabs .nav-favorite-link {
+  height: var(--h-control);
+  align-items: flex-start;
+  /* Sem o respiro das abas: o alvo continua com os 44 px de largura (o `min-width`), e a medalha,
+     no máximo 44 (`FAVORITE_MAX_WIDTH`), não alarga a linha; com ele, ela quebrava em 400 px. */
+  padding: 0;
+}
+
+.tabs .nav-favorite-link svg {
+  flex: none;
+}
+
 /* Abaixo de 360 px, a Nav desenha só o enfeite (pelo `matchMedia`, para o item sair do leitor de
    tela): sem o alvo do link, ele não precisa dos 44 px. */
 .tabs .nav-favorite-small {
@@ -1671,6 +1686,90 @@ section.void,
 .home-header p {
   font-size: var(--t-sm);
   color: var(--muted);
+}
+
+/* A medalha em destaque na Início (o usuário, 07/11/2026), grande e com a capa, no lugar da da nav.
+   No celular, no cabeçalho: o logo e o nome à esquerda, a medalha à direita, sem a legenda (o nome
+   fica no aria-label do link). A altura é a do desenho, e a largura sai do viewBox. */
+.home-header.with-favorite {
+  justify-content: flex-start;
+}
+
+.home-favorite {
+  display: flex;
+  flex: none;
+  margin-left: auto;
+  color: inherit;
+  text-decoration: none;
+}
+
+.home-favorite svg {
+  width: auto;
+  height: 72px;
+}
+
+/* Abaixo de 400 px, 72 px: o "AteMusic" cabe em 320 ao lado da mais larga (o vinil). */
+@media (min-width: 400px) {
+  .home-favorite svg {
+    height: 96px;
+  }
+}
+
+.home-favorite-caption {
+  display: none;
+}
+
+/* A partir de 1100 px, na margem ao lado da coluna, com 200 px (o `HOME_FAVORITE_HEIGHT` do
+   HomeFavorite.tsx) e o nome e o feito embaixo. A coluna tem 560 px (a partir de 720), e o
+   cabeçalho acaba 16 px antes dela: em 1100, a margem dele tem 291 px, contra os 48 do respiro e os
+   200 dela, e sobram 43, mais que a barra de rolagem clássica (uns 17). Em 1024 não sobrava nada.
+   O cabeçalho volta ao centro, e ela sai do fluxo dele, presa ao topo. */
+@media (min-width: 1100px) {
+  .home-header {
+    position: relative;
+  }
+
+  .home-header.with-favorite {
+    justify-content: center;
+  }
+
+  .home-favorite {
+    position: absolute;
+    top: 0;
+    left: calc(100% + var(--sp-7));
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-2);
+    width: 200px;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .home-favorite svg {
+    height: 200px;
+  }
+
+  .home-favorite-caption {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .home-favorite-name {
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+  }
+
+  .home-favorite-name .latin-below {
+    font-size: var(--t-sm);
+    font-weight: 400;
+  }
+
+  .home-favorite-feat {
+    font-size: var(--t-sm);
+    color: var(--muted);
+  }
 }
 
 /* Os cartões dos jogos (Início, Hits, Treino, submodo): a tinta, o canto do selo quadrado (21%).

@@ -187,6 +187,16 @@ describe("Nav (P225, P265, P287)", () => {
     expect(link.hasAttribute("aria-current")).toBe(false);
     // O desenho do tamanho dela, com o ícone; só o link, sem o enfeite de 320 px.
     expect(link.querySelector("svg")?.getAttribute("viewBox")).toBe("0 8 110 132");
+    // 52 px de altura, transbordando o link de 44 (o usuário, 07/11/2026; antes, 36).
+    expect(link.querySelector("svg")?.getAttribute("height")).toBe("52");
+    cleanup();
+    // O vinil (1:1), o mais largo, fica com a largura do alvo: 44 × 44.
+    setup(HOME, emptySave(), { ...favorite, id: "setlist|t:ar:1|perfeita", kind: "vinil" });
+    const vinyl = document.querySelector(".nav-favorite-link svg");
+    expect(vinyl?.getAttribute("width")).toBe("44");
+    expect(vinyl?.getAttribute("height")).toBe("44");
+    cleanup();
+    setup(HOME, emptySave(), favorite);
     expect(document.querySelector(".nav-favorite-small")).toBeNull();
     // O último item da nav, depois do Mais.
     expect(document.querySelector("nav.tabs > ul > li:last-child")?.classList).toContain(

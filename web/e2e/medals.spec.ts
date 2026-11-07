@@ -219,9 +219,8 @@ test("a medalha em destaque (ME118): destacar nas Medalhas, ver na nav das outra
 }) => {
   await seedHistory(page, { "2026-10-22|album": day });
   await open(page, DAY, "#medalhas");
-  const favorite = page.getByRole("link", {
-    name: "Medalha em destaque: Primeiro Acorde. Ver as medalhas",
-  });
+  const favoriteName = "Medalha em destaque: Primeiro Acorde. Ver as medalhas";
+  const favorite = page.getByRole("link", { name: favoriteName });
   await expect(favorite).toHaveCount(0);
   await page.getByRole("button", { name: "Destacar (Primeiro Acorde)" }).click();
   await expect(favorite).toBeVisible();
@@ -230,9 +229,11 @@ test("a medalha em destaque (ME118): destacar nas Medalhas, ver na nav das outra
     page.getByRole("button", { name: "Tirar o destaque (Primeiro Acorde)" }),
   ).toBeFocused();
   await expect.poll(() => shelf(page)).toEqual(["diario-1"]);
-  // Em outra tela e numa rodada, no canto da nav; o toque leva às Medalhas.
+  // Na Início, grande, na tela, e não na nav (o usuário, 07/11/2026); numa rodada, no canto da
+  // nav; o toque leva às Medalhas.
   await page.getByRole("navigation").getByRole("link", { name: "Início" }).click();
-  await expect(favorite).toBeVisible();
+  await expect(page.locator("main").getByRole("link", { name: favoriteName })).toBeVisible();
+  await expect(page.locator(".nav-favorite")).toHaveCount(0);
   await page.evaluate(() => {
     window.location.hash = "#desafio";
   });
@@ -249,7 +250,7 @@ test("a medalha em destaque (ME118): destacar nas Medalhas, ver na nav das outra
   await expect(page.getByRole("button", { name: "Destacar (Primeiro Acorde)" })).toBeFocused();
 });
 
-test("a do Superfan em destaque: o nome e as cores do artista, sem a capa da Apple (P319)", async ({
+test("a do Superfan em destaque, com a capa: grande na Início, com o nome e o feito, e na nav das outras telas (o usuário, 07/11/2026, no lugar da P319)", async ({
   page,
 }) => {
   await appleArtistList(page);
@@ -263,10 +264,17 @@ test("a do Superfan em destaque: o nome e as cores do artista, sem a capa da App
   const favorite = page.getByRole("link", {
     name: "Medalha em destaque: 開幕ベル, Kaimaku Bell, de 夜風シアター (50 acertos). Ver as medalhas",
   });
+  // Na Início, uma vez só, na tela: com a capa no miolo, e não o monograma.
+  await expect(favorite).toHaveCount(1);
   await expect(favorite).toBeVisible();
-  // O monograma no miolo, e nenhuma capa: a nav não tem o selo da Apple.
-  await expect(favorite.locator("image")).toHaveCount(0);
-  await expect(favorite.locator("text")).toHaveCount(1);
+  await expect(favorite).toHaveClass(/home-favorite/);
+  await expect(favorite.locator("image")).toHaveAttribute("href", /mzstatic\.com/);
+  await expect(favorite.locator("text")).toHaveCount(0);
+  // Nos Hits, na nav, também com a capa.
+  await page.getByRole("navigation").getByRole("link", { name: /^Hits/ }).click();
+  await expect(page.locator(".home-favorite")).toHaveCount(0);
+  await expect(favorite).toHaveClass(/nav-favorite-link/);
+  await expect(favorite.locator("image")).toHaveAttribute("href", /mzstatic\.com/);
 });
 
 test("a do Superfan de um artista que não está na lista não aparece, nem com o monograma de reserva (P320)", async ({
@@ -292,7 +300,7 @@ test("uma medalha em destaque que não está entre as ganhas não aparece (P320)
   await open(page, DAY, "#inicio");
   await expect(page.getByRole("heading", { level: 1, name: "AteMusic" })).toBeVisible();
   await settle(page);
-  await expect(page.locator(".nav-favorite")).toHaveCount(0);
+  await expect(page.locator(".nav-favorite, .home-favorite")).toHaveCount(0);
 });
 
 test("o Saco de Pancadas: o 100º acerto do Treino avisa na tela calma seguinte, e não na rodada (P288, P308)", async ({
@@ -345,6 +353,8 @@ test("quem já jogava: um aviso só, o grande, com o total; o Ok fecha, devolve 
 test("no meio de um diário, o aviso espera: nada na rodada nem na revelação, e o pequeno no Ver resultado (P288)", async ({
   page,
 }) => {
+  // Um diário inteiro e os 10 s do aviso: perto dos 30 s do limite de cada teste.
+  test.slow();
   // A medalha já estava ganha (o diário de ontem), mas a abertura caiu num diário: ela espera.
   await seedHistory(page, { "2026-10-21|song": day });
   await openWithMedals(page, DAY, "#normal");
@@ -365,8 +375,9 @@ test("no meio de um diário, o aviso espera: nada na rodada nem na revelação, 
   await expect(toast(page)).toHaveAttribute("aria-hidden", "true");
   await expect(page.locator(".sr-only[aria-live]")).toHaveText("Medalha nova: Primeiro diário");
   await expect(page.locator("#summary-title")).toBeFocused();
-  // Ele some sozinho, depois de 5 s.
-  await expect(toast(page)).toBeHidden({ timeout: 10_000 });
+  // Ele some sozinho, depois de 10 s (o `TOAST_MS` do MedalNotice.tsx, o usuário, 07/11/2026),
+  // com 5 s de folga.
+  await expect(toast(page)).toBeHidden({ timeout: 15_000 });
 });
 
 test("reabrir um diário terminado não avisa: a medalha que falta espera a tela calma (P288)", async ({

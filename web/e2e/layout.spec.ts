@@ -31,6 +31,11 @@ import {
 } from "./helpers.ts";
 
 const DAY = "2026-10-08T12:00:00-03:00";
+/** A medalha em destaque mais larga, o vinil da perfeita do Setlist (1:1), e o recorde que a dá. */
+const VINYL = "setlist|fixture:ar:ar02|perfeita";
+const VINYL_ARTIST = {
+  "fixture:ar:ar02": { right: 0, setlist: { rounds: 10, found: 44 }, setlistPerfect: true },
+} as const;
 /** As rodadas do quiz fictício de 08/10 (M18): a resposta de cada uma. */
 const QUIZ_ROUNDS =
   (
@@ -1201,7 +1206,7 @@ test("as Medalhas (M16) em 320 px: as 37 da lista em blocos e as 6 de cada artis
   expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(320);
 });
 
-// Um teste por tamanho: o aviso some em 5 s, e medir os dois na mesma página dependeria da pressa.
+// Um teste por tamanho: o aviso some em 10 s, e medir os dois na mesma página dependeria da pressa.
 for (const viewport of [
   { width: 320, height: 640 },
   { width: 375, height: 667 },
@@ -1277,8 +1282,9 @@ test("o pop-up de medalha (M16) em 320 px: 4 medalhas numa linha, os nomes longo
 test("a medalha em destaque na nav (ME118, P317): em 320 px, a nav numa linha no caso mais largo, com o enfeite; a partir de 360 px, o link com alvo de 44 × 44", async ({
   page,
 }) => {
-  // Os dois ✓ e o Mais marcado (o caso mais largo), e a medalha do 1º diário em destaque. A linha
-  // é a mesma quando o centro de cada item é o mesmo: o enfeite, menor, fica centrado nela.
+  // Os dois ✓ e o Mais marcado (o caso mais largo), e em destaque a medalha mais larga, o vinil da
+  // perfeita do Setlist (1:1, 52 px desde 07/11/2026). A linha é a mesma quando o centro de cada
+  // item é o mesmo: o enfeite, menor, fica centrado nela.
   const lost = { status: "lost", stage: 0, attempts: [] } as const;
   const day = { number: 1, rounds: [lost, lost, lost] };
   await seedHistory(
@@ -1288,8 +1294,8 @@ test("a medalha em destaque na nav (ME118, P317): em 320 px, a nav numa linha no
       "2026-10-08|song": day,
       "2026-10-08|anime-musica-medio": day,
     },
-    {},
-    { shelf: ["diario-1"] },
+    VINYL_ARTIST,
+    { shelf: [VINYL] },
   );
   await page.setViewportSize({ width: 320, height: 640 });
   await open(page, "2026-10-08T12:00:00-03:00", "#historico");
@@ -1340,6 +1346,8 @@ test("a medalha em destaque na nav (ME118, P317): em 320 px, a nav numa linha no
   const { height, width } = await target(link);
   expect(height).toBeGreaterThanOrEqual(44);
   expect(width).toBeGreaterThanOrEqual(44);
+  // A medalha de 52 px transborda o link sem crescer a nav (P317; o usuário, 07/11/2026).
+  expect((await nav.boundingBox())?.height).toBe(44);
   const tops = await nav
     .locator(":is(a, button):visible")
     .evaluateAll(
@@ -1363,7 +1371,8 @@ test("o Mais em todas as larguras, e os diários na linha quando cabem: o Quiz a
     number: 1,
     rounds: [none, none, none, { status: "done", found: [null, null, null] }],
   } as const;
-  // E a medalha em destaque (P317), o caso mais largo da linha.
+  // E a medalha em destaque (P317) mais larga, o vinil, o caso mais largo da linha. Nos Hits: na
+  // Início, a medalha fica na tela, e não na nav (o usuário, 07/11/2026).
   await seedHistory(
     page,
     {
@@ -1371,9 +1380,9 @@ test("o Mais em todas as larguras, e os diários na linha quando cabem: o Quiz a
       "2026-10-08|song": day,
       "2026-10-08|anime-musica-facil": day,
     },
-    {},
+    VINYL_ARTIST,
     {
-      shelf: ["diario-1"],
+      shelf: [VINYL],
       mixed: {
         finished: { "2026-10-08|misturadas-musica": mixed, "2026-10-08|misturadas-titulo": mixed },
         progress: {},
@@ -1382,7 +1391,7 @@ test("o Mais em todas as larguras, e os diários na linha quando cabem: o Quiz a
     },
   );
   await page.setViewportSize({ width: 399, height: 800 });
-  await open(page, DAY, "#inicio");
+  await open(page, DAY, "#hits");
   const nav = page.getByRole("navigation");
   const more = nav.getByRole("button", { name: "Mais" });
   const links = nav.getByRole("link");
@@ -1429,6 +1438,68 @@ test("o Mais em todas as larguras, e os diários na linha quando cabem: o Quiz a
     );
   const favoriteRight = (await box(nav.locator(".nav-favorite"))).right;
   expect(Math.abs(favoriteRight - contentRight)).toBeLessThanOrEqual(2);
+});
+
+test("a Início com a medalha em destaque (o usuário, 07/11/2026): no cabeçalho, ao lado do nome, sem rolar de 320 a 1099 px; na margem, com o nome, a partir de 1100 px", async ({
+  page,
+}) => {
+  // A mais larga (o vinil), com a capa no host da Apple, como na parada real; e o caso mais alto
+  // da Início: os cartões com estado (os diários de hoje jogados).
+  const lost = { status: "lost", stage: 0, attempts: [] } as const;
+  const day = { number: 1, rounds: [lost, lost, lost] };
+  await appleArtistList(page);
+  await seedHistory(
+    page,
+    {
+      "2026-10-08|album": day,
+      "2026-10-08|song": day,
+      "2026-10-08|anime-musica-facil": day,
+    },
+    VINYL_ARTIST,
+    {
+      shelf: [VINYL],
+      quiz: { finished: { "2026-10-08|quiz": { number: 1, results: "www" } }, progress: {} },
+    },
+  );
+  await page.setViewportSize({ width: 320, height: 640 });
+  await open(page, DAY, "#inicio");
+  const favorite = page.locator("main .home-favorite");
+  await expect(favorite).toBeVisible();
+  await expect(favorite.locator("image")).toHaveAttribute("href", /mzstatic\.com/);
+  // Uma vez só: na Início, a nav fica sem ela.
+  await expect(page.locator(".nav-favorite")).toHaveCount(0);
+  const box = (el: Locator) => el.evaluate((e) => e.getBoundingClientRect().toJSON());
+  for (const viewport of [
+    { width: 320, height: 640 },
+    { width: 360, height: 640 },
+    { width: 375, height: 667 },
+    // A partir de 400, com 96 px; até 1099, ainda no cabeçalho.
+    { width: 400, height: 800 },
+    { width: 1099, height: 800 },
+  ]) {
+    await page.setViewportSize(viewport);
+    const where = `${viewport.width} × ${viewport.height}`;
+    const fits = await overflow(page);
+    expect(fits.horizontal, `sem rolar para o lado (${where})`).toBeLessThanOrEqual(0);
+    expect(fits.vertical, `cabe sem rolar (${where})`).toBeLessThanOrEqual(0);
+    // Na linha do cabeçalho, à direita do nome e da frase, sem cobri-los, e sem a legenda.
+    const name = await box(page.locator(".home-header > div"));
+    const medal = await box(favorite);
+    expect(medal.left, `ao lado do nome (${where})`).toBeGreaterThanOrEqual(name.right);
+    expect(medal.right).toBeLessThanOrEqual(viewport.width);
+    await expect(favorite.locator(".home-favorite-caption")).toBeHidden();
+  }
+  // A partir de 1100 px, na margem: fora da coluna, inteira na tela com folga para a barra de
+  // rolagem clássica (uns 17 px), e com o nome e o feito.
+  await page.setViewportSize({ width: 1100, height: 768 });
+  const column = await box(page.locator(".home"));
+  const side = await box(favorite);
+  expect(side.left).toBeGreaterThanOrEqual(column.right);
+  expect(side.right).toBeLessThanOrEqual(1100 - 20);
+  expect(side.bottom).toBeLessThanOrEqual(768);
+  await expect(favorite.locator(".home-favorite-caption")).toBeVisible();
+  await expect(favorite.locator(".home-favorite-caption")).toContainText(", de 夜風シアター");
+  expect((await overflow(page)).horizontal).toBeLessThanOrEqual(0);
 });
 
 test("a Início: o switch do tema e o Como funciona têm alvo de 44 px (P213)", async ({ page }) => {
