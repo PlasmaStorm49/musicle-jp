@@ -26,7 +26,7 @@ type Props = {
   readonly save: Save;
   /** O "hoje" do jogo. */
   readonly date: string;
-  /** A medalha em destaque (P317), já com o nome e o desenho sem a capa (P319); null sem ela. */
+  /** A medalha em destaque (P317), já com o nome e o desenho, com a capa; null sem ela. */
   readonly favorite?: NoticeItem | null;
 };
 
@@ -42,8 +42,19 @@ function TabLabel({ text }: { readonly text: string }) {
   );
 }
 
-/** A altura da medalha em destaque na nav: o link tem o alvo de 44 px; o enfeite, abaixo de 360. */
-const FAVORITE_HEIGHT = { link: 36, small: 28 } as const;
+/**
+ * A altura da medalha em destaque na nav. O link tem o alvo de 44 px na linha, e a de 52 px
+ * transborda para baixo dele, para dentro do respiro do conteúdo, sem crescer a nav (P317; o
+ * usuário, 07/11/2026: antes, 36). O enfeite, abaixo de 360 px, cabe na linha.
+ */
+const FAVORITE_HEIGHT = { link: 52, small: 28 } as const;
+
+/**
+ * A largura máxima da medalha no link: a do alvo, 44 px. Só o vinil (1:1) passa dela com 52 de
+ * altura, e encolhe para 44 × 44. O link, sem o respiro das abas, fica com os 44, e a linha com o
+ * Quiz cabe em 400 px; com o vinil de 52, ela quebrava até 419.
+ */
+const FAVORITE_MAX_WIDTH = 44;
 
 // O id do menu, para o aria-controls: nenhum id igual a uma rota (regra 17).
 const MENU_ID = "nav-more-menu";
@@ -316,7 +327,10 @@ export function Nav({ route, save, date, favorite = null }: Props) {
                   kind={favorite.kind}
                   art={favorite.art}
                   earned
-                  size={medalWidth(favorite.kind, FAVORITE_HEIGHT.link)}
+                  size={Math.min(
+                    medalWidth(favorite.kind, FAVORITE_HEIGHT.link),
+                    FAVORITE_MAX_WIDTH,
+                  )}
                   icon={favorite.id}
                 />
               </a>

@@ -8,6 +8,8 @@ import { ROYALE_KEYS } from "../core/royale.ts";
 import type { AlbumRound, Day } from "../core/types.ts";
 import { THEME_KEY } from "../storage/theme.ts";
 import { Home } from "./Home.tsx";
+import { generalArt } from "./MedalArt.tsx";
+import type { NoticeItem } from "./MedalNotice.tsx";
 
 afterEach(cleanup);
 
@@ -532,5 +534,53 @@ describe("Home: o switch de tema (P176, P191, P217)", () => {
     });
     expect(contents()).toEqual(["#ffffff", "#000000"]);
     expect(root.dataset.theme).toBeUndefined();
+  });
+});
+
+describe("Home: a medalha em destaque (o usuário, 07/11/2026)", () => {
+  // Uma do Superfan, com a capa e o nome próprio, no formato do `noticeItems`.
+  const favorite: NoticeItem = {
+    id: "superfan|t:ar:1|perfeito",
+    kind: "perfeito",
+    name: "Yoru · Yoru, de Banda",
+    spoken: "Yoru, Yoru, de Banda (Superfan perfeito)",
+    feat: "Superfan perfeito",
+    label: { name: "Yoru", latin: "Yoru", artist: "Banda" },
+    art: { ...generalArt("B"), image: "art/1.svg", name: "Banda" },
+  };
+
+  it("sem ela, o cabeçalho de sempre, sem o link", () => {
+    setup();
+    expect(document.querySelector(".home-favorite")).toBeNull();
+    expect(document.querySelector(".home-header")?.classList).not.toContain("with-favorite");
+  });
+
+  it("com ela, no cabeçalho: um link só para as Medalhas, com a capa, e a legenda fora do leitor de tela", () => {
+    render(<Home day={DAY} date={DATE} save={emptySave()} artists={null} favorite={favorite} />);
+    const link = screen.getByRole("link", {
+      name: "Medalha em destaque: Yoru, Yoru, de Banda (Superfan perfeito). Ver as medalhas",
+    });
+    expect(link.getAttribute("href")).toBe(ROUTES.medals);
+    expect(link.closest("header")?.classList).toContain("with-favorite");
+    expect(link.querySelector("image")?.getAttribute("href")).toBe("art/1.svg");
+    const caption = link.querySelector(".home-favorite-caption");
+    expect(caption?.getAttribute("aria-hidden")).toBe("true");
+    expect(caption?.textContent).toContain("Superfan perfeito, de Banda");
+    // O foco ao abrir continua no título (regra 16).
+    expect(document.activeElement).toBe(screen.getByRole("heading", { level: 1 }));
+  });
+
+  it("uma geral: a legenda é só o nome", () => {
+    const general: NoticeItem = {
+      id: "diario-1",
+      kind: "geral",
+      name: "Primeiro diário",
+      spoken: "Primeiro diário",
+      feat: null,
+      art: generalArt("★"),
+    };
+    render(<Home day={DAY} date={DATE} save={emptySave()} artists={null} favorite={general} />);
+    const caption = document.querySelector(".home-favorite-caption");
+    expect(caption?.textContent).toBe("Primeiro diário");
   });
 });
