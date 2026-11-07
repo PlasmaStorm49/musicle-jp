@@ -67,7 +67,7 @@ import { Game } from "./Game.tsx";
 import { History } from "./History.tsx";
 import { Hits } from "./Hits.tsx";
 import { Home } from "./Home.tsx";
-import { MedalDialog, MedalToast, SHOWN } from "./MedalNotice.tsx";
+import { MedalDialog, MedalToast, type NoticeItem, SHOWN } from "./MedalNotice.tsx";
 import { Medals } from "./Medals.tsx";
 import { Mixed, type MixedStore, useMixedStore } from "./Mixed.tsx";
 import {
@@ -320,12 +320,13 @@ export function App() {
     },
     [saves, refresh],
   );
-  // O desenho sem a capa (P319), como no aviso pequeno: a nav não tem o selo da Apple. A do Superfan
-  // espera a lista, e sem o nome dela (o artista saiu da lista) não aparece (P320).
+  // O desenho com a capa, como na tela das Medalhas (o usuário, 05/11/2026, no lugar da P319: o
+  // monograma tirava o espírito da medalha). A do Superfan espera a lista, e sem o nome dela (o
+  // artista saiu da lista) não aparece (P320).
   // Só depois da agenda: as da sequência dependem dela, e assim todas aparecem juntas.
   const favorite = useMemo(() => {
     if (hitsDates === null || !favoriteEarned || favoriteId === null) return null;
-    const [item] = noticeItems([favoriteId], noticeList, resolveUrl, false, GENERAL_MEDALS);
+    const [item] = noticeItems([favoriteId], noticeList, resolveUrl, true, GENERAL_MEDALS);
     if (!item || (artistMedalOf(favoriteId) !== null && !item.label)) return null;
     return item;
   }, [hitsDates, favoriteEarned, favoriteId, noticeList, resolveUrl]);
@@ -437,7 +438,13 @@ export function App() {
 
   return (
     <>
-      <Nav route={route} save={latest} date={date} favorite={favorite} />
+      {/* Na Início pronta, a medalha em destaque fica só na tela, grande (o usuário, 07/11/2026). */}
+      <Nav
+        route={route}
+        save={latest}
+        date={date}
+        favorite={route.tab === "home" && load.status === "ready" ? null : favorite}
+      />
       <main class="app">
         <p class="sr-only" aria-live="polite">
           {message}
@@ -493,6 +500,7 @@ export function App() {
                 latest={latest}
                 onSaved={refresh}
                 onFavorite={chooseFavorite}
+                favorite={favorite}
                 practice={practice}
                 onPractice={setPractice}
                 artists={artists}
@@ -551,6 +559,8 @@ type ReadyProps = {
   readonly onSaved: () => void;
   /** Escolher ou tirar a medalha em destaque (P318). */
   readonly onFavorite: (id: string, on: boolean) => void;
+  /** A medalha em destaque, com o desenho e a capa; na Início, ela fica grande, e não na nav. */
+  readonly favorite: NoticeItem | null;
   /** A sessão do Treino, guardada no App. */
   readonly practice: PracticeSession | null;
   readonly onPractice: PracticeSessionSetter;
@@ -581,6 +591,7 @@ function Ready({
   latest,
   onSaved,
   onFavorite,
+  favorite,
   practice,
   onPractice,
   artists,
@@ -668,7 +679,15 @@ function Ready({
   switch (tab) {
     case "home":
       // Antes da agenda: sem o dia de hoje, a home avisa no cartão e o Treino continua.
-      return <Home day={day} date={date} save={latest} artists={artistSummary(artists.play)} />;
+      return (
+        <Home
+          day={day}
+          date={date}
+          save={latest}
+          artists={artistSummary(artists.play)}
+          favorite={favorite}
+        />
+      );
     case "hits":
       return <Hits day={day} date={date} save={latest} practice={practiceSummary(practice)} />;
     case "song":
