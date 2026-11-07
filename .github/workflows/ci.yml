@@ -86,12 +86,7 @@ jobs:
           # que o gerador daria com o catálogo do mesmo commit (regra inviolável 3, ME45 e ME51).
           today="$(TZ=America/Sao_Paulo date +%F)"
           echo "Hoje em Brasília: $today"
-          # Exceção temporária à regra 4 (o usuário, 04/11/2026): os dias reais do Anime, das
-          # Misturadas, do quiz e do Anime Royale desde 06/11, refeitos com o catálogo novo do
-          # Anime (#162) e as curvas novas do quiz. Sai no PR seguinte; a partir de 06/11, ela vence
-          # sozinha, e a conferência volta a ser a de sempre.
-          python -m musicle_pipeline schedule-check --event "$EVENT" --before "$BEFORE" --today "$today" \
-            --quiz-redo-from 2026-11-06
+          python -m musicle_pipeline schedule-check --event "$EVENT" --before "$BEFORE" --today "$today"
 
   web:
     runs-on: ubuntu-24.04
