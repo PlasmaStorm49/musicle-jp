@@ -12,8 +12,10 @@ import type { Day } from "../core/types.ts";
 import { t, tAround, tn } from "../i18n/t.ts";
 import { WithName } from "./ArtistName.tsx";
 import { type Card, CardList, dailyShortText } from "./cards.tsx";
+import { HomeFavorite } from "./HomeFavorite.tsx";
 import { Icon } from "./Icon.tsx";
 import { Logo } from "./Logo.tsx";
+import type { NoticeItem } from "./MedalNotice.tsx";
 import { modeName } from "./modes.ts";
 import { practiceScoreText } from "./PracticeRun.tsx";
 import { singleClick, singleClickLink } from "./singleClick.ts";
@@ -28,6 +30,8 @@ type Props = {
   readonly save: Save;
   /** O artista e o placar da sessão do modo por artista; null antes da 1ª rodada. */
   readonly artists: ArtistSummary | null;
+  /** A medalha em destaque, grande nesta tela (e não na nav); null sem ela. */
+  readonly favorite?: NoticeItem | null;
 };
 
 /**
@@ -234,7 +238,7 @@ function NextBlock({ next }: { readonly next: NextPlay | null }) {
  * hoje; o "Como funciona" (recolhido), o Sobre e o tema numa linha só. O Histórico fica no Mais da
  * nav. A Início cabe com folga em 360 × 640.
  */
-export function Home({ day, date, save, artists }: Props) {
+export function Home({ day, date, save, artists, favorite = null }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   // Tela nova: o foco vai para o título (regra 16), como no resumo do dia. Só ao montar: o save
   // relido (outra aba gravou) muda os cartões, mas não pode tirar o foco de onde ele está.
@@ -242,7 +246,7 @@ export function Home({ day, date, save, artists }: Props) {
 
   return (
     <div class="home screen">
-      <header class="home-header">
+      <header class={favorite ? "home-header with-favorite" : "home-header"}>
         <Logo />
         <div>
           <h1 ref={heading} tabIndex={-1}>
@@ -250,6 +254,7 @@ export function Home({ day, date, save, artists }: Props) {
           </h1>
           <p>{t("app.tagline")}</p>
         </div>
+        {favorite && <HomeFavorite item={favorite} />}
       </header>
 
       <NextBlock next={nextPlay(save, day, date)} />
