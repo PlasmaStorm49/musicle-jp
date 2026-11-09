@@ -1,0 +1,864 @@
+{
+  "anime": [
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 40416,
+      "name": "Date A Bullet: Dead or Bullet",
+      "season": "summer",
+      "series": [
+        {
+          "name": "Date A Live",
+          "slug": "date_a_live"
+        }
+      ],
+      "slug": "date_a_bullet_dead_or_bullet",
+      "synonyms": [
+        "Date A Bullet: Dead or Bullet & Nightmare or Queen",
+        "デート・ア・バレット デッド・オア・バレット"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Spotlight Kids"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Infermata",
+          "stats": {
+            "animethemes": 35,
+            "anisongdb": 36.0
+          },
+          "track": "1527206974",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Luiza"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Only wish",
+          "stats": {
+            "animethemes": 19,
+            "anisongdb": 22.0
+          },
+          "track": "1527206975",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "RinamooN"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Precious",
+          "stats": {
+            "anisongdb": 22.0
+          },
+          "track": "1540202520",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Remi"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Dance with Bullets",
+          "stats": {
+            "anisongdb": 27.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Shirahamazaka Koukou Gasshou-bu Doukoukai"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Hymn for Diva",
+          "stats": {
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2020
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 56923,
+      "name": "Lv2 kara Cheat datta Motoyuusha Kouho no Mattari Isekai Life",
+      "season": "spring",
+      "series": [],
+      "slug": "lv2_kara_cheat_datta_motoyuusha_kouho_no_mattari_isekai_life",
+      "synonyms": [
+        "Chillin' in Another World with Level 2 Super Cheat Powers",
+        "Lv2からチートだった元勇者候補のまったり異世界ライフ",
+        "Lv2 Cheat"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "DIALOGUE+"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Utopia Gaku Gairon",
+          "stats": {
+            "animethemes": 32,
+            "anisongdb": 30.0
+          },
+          "track": "1735883579",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Rie Kugimiya",
+            "釘宮理恵"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 5
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Danna-sama to no Love Love Love Song",
+          "stats": {
+            "animethemes": 118,
+            "anisongdb": 57.0
+          },
+          "track": null,
+          "type": "OP"
+        }
+      ],
+      "year": 2024
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 7338,
+      "name": "Darker than Black: Kuro no Keiyakusha Gaiden",
+      "season": "winter",
+      "series": [
+        {
+          "name": "Darker than Black",
+          "slug": "darker_than_black"
+        }
+      ],
+      "slug": "darker_than_black_kuro_no_keiyakusha_gaiden",
+      "synonyms": [
+        "Darker than Black: Origins",
+        "DARKER THAN BLACK -黒の契約者- 外伝",
+        "Darker than Black: Ryuusei no Gemini Specials",
+        "Darker than BLACK 2 OVA"
+      ],
+      "themes": [
+        {
+          "artists": [],
+          "levels": {
+            "animethemes": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Can you fly",
+          "stats": {
+            "animethemes": 15
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yasushi Ishii"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "DARKER THAN BLACK",
+          "stats": {
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yasushi Ishii"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Gekkou Bosatsu no Namida",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2010
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 60852,
+      "name": "Koori no Jouheki",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Koori no Jouheki",
+          "slug": "koori_no_jouheki"
+        }
+      ],
+      "slug": "koori_no_jouheki",
+      "synonyms": [
+        "The Ramparts of Ice",
+        "氷の城壁"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Novelbright"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Toumei",
+          "stats": {
+            "animethemes": 62,
+            "anisongdb": 30.0
+          },
+          "track": "1886087635",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Polkadot Stingray"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Sakasama",
+          "stats": {
+            "animethemes": 67,
+            "anisongdb": 33.0
+          },
+          "track": "1887829212",
+          "type": "ED"
+        }
+      ],
+      "year": 2026
+    },
+    {
+      "levels": {
+        "mal": 2
+      },
+      "malId": 696,
+      "name": "Tenchi Muyou!",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Tenchi Muyou!",
+          "slug": "tenchi_muyou"
+        }
+      ],
+      "slug": "tenchi_muyou",
+      "synonyms": [
+        "Tenchi Muyo! Tenchi Universe",
+        "天地無用！"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "SONIA"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Tenchi Muyo!",
+          "stats": {
+            "animethemes": 47,
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Ai Orikasa"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "Ginga de Chokuritsu Hokou",
+          "stats": {
+            "animethemes": 12,
+            "anisongdb": 18.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yumi Takada"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": 2,
+          "song": "Ginga de Chokuritsu Hokou",
+          "stats": {
+            "animethemes": 12,
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Ai Orikasa"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Koi wa Chigai Houken",
+          "stats": {
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yumi Takada"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Ginga ni Imasokari",
+          "stats": {
+            "anisongdb": 14.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yuko Kobayashi"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Photon, Proton, Synchrotron",
+          "stats": {
+            "anisongdb": 15.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ai Orikasa"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Renai no Jikuu",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": "1801584060",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yuri Amano",
+            "Yuuko Mizutani"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Ai no Ejiki",
+          "stats": {
+            "anisongdb": 22.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ai Orikasa"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Towa ni Towa ni Hoshi no Yume",
+          "stats": {
+            "anisongdb": 15.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Etsuko Kozakura",
+            "Yuuko Mizutani"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Nemureru Engawa no Bijo",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 1995
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 13331,
+      "name": "Jormungand: Perfect Order",
+      "season": "fall",
+      "series": [
+        {
+          "name": "Jormungand",
+          "slug": "jormungand"
+        }
+      ],
+      "slug": "jormungand_perfect_order",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "Maon Kurosaki"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "UNDER/SHAFT",
+          "stats": {
+            "animethemes": 54,
+            "anisongdb": 27.0
+          },
+          "track": "1804633082",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Nagi Yanagi",
+            "やなぎなぎ"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Laterality",
+          "stats": {
+            "animethemes": 10,
+            "anisongdb": 24.0
+          },
+          "track": "1804635088",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Nagi Yanagi",
+            "やなぎなぎ"
+          ],
+          "levels": {
+            "animethemes": 0,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Shinjitsu no Hane",
+          "stats": {
+            "animethemes": 2,
+            "anisongdb": 21.0
+          },
+          "track": "1804635089",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Caoli Cano"
+          ],
+          "levels": {
+            "animethemes": 0,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 3,
+          "song": "Niji Koukai",
+          "stats": {
+            "animethemes": 1,
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "IGOR"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "L'ambition mélodique",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": "1801579887",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "SANTA"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Time to attack",
+          "stats": {
+            "anisongdb": 31.0
+          },
+          "track": "1801583267",
+          "type": "IN"
+        }
+      ],
+      "year": 2012
+    }
+  ],
+  "artists": {
+    "1022677279": {
+      "artistName": "Novelbright"
+    },
+    "1090230944": {
+      "artistName": "Polkadot Stingray"
+    },
+    "1364703480": {
+      "artistName": "IGOR"
+    },
+    "1480492827": {
+      "artistName": "DIALOGUE+"
+    },
+    "1484179275": {
+      "artistName": "Yuko Kobayashi"
+    },
+    "1526309569": {
+      "artistName": "Luiza"
+    },
+    "1538750872": {
+      "artistName": "RinamooN"
+    },
+    "1827335031": {
+      "artistName": "Spotlight Kids"
+    },
+    "1828024019": {
+      "artistName": "SANTA"
+    },
+    "30949544": {
+      "artistName": "IGOR"
+    },
+    "379033299": {
+      "artistName": "Ai Orikasa"
+    },
+    "391325535": {
+      "artistName": "Maon Kurosaki"
+    },
+    "455141734": {
+      "artistName": "やなぎなぎ"
+    },
+    "90292214": {
+      "artistName": "SONIA"
+    }
+  },
+  "fetchedAt": "2026-11-09T19:48:02Z",
+  "id": "2026-11-09T194802Z",
+  "provider": "apple",
+  "resolved": {
+    "Ai Orikasa": [
+      "379033299"
+    ],
+    "Etsuko Kozakura": [],
+    "IGOR": [
+      "30949544",
+      "1364703480"
+    ],
+    "Luiza": [
+      "1526309569"
+    ],
+    "Polkadot Stingray": [
+      "1090230944"
+    ],
+    "RinamooN": [
+      "1538750872"
+    ],
+    "SANTA": [
+      "1828024019"
+    ],
+    "SONIA": [
+      "90292214"
+    ],
+    "Spotlight Kids": [
+      "1827335031"
+    ],
+    "Yuko Kobayashi": [
+      "1484179275"
+    ],
+    "Yumi Takada": [],
+    "Yuuko Mizutani": []
+  },
+  "storefront": "jp",
+  "tracks": {
+    "1527206974": {
+      "artistId": "1827335031",
+      "artistName": "Spotlight Kids",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/f8/b1/82/f8b182ba-345e-7fe9-262b-078334abdcab/COKM-42948.jpg/100x100bb.jpg",
+      "collectionArtistName": "Spotlight Kids & Luiza",
+      "collectionId": "1527206973",
+      "collectionName": "「デート・ア・バレット デッド・オア・バレット」主題歌 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/93/bc/ba/93bcba3b-148c-565e-af43-3175ce25819e/mzaf_11031871691969957268.plus.aac.p.m4a",
+      "releaseDate": "2020-08-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1527206974",
+      "trackName": "Infermata",
+      "trackTimeMillis": 96289,
+      "trackViewUrl": "https://music.apple.com/jp/album/infermata/1527206973?i=1527206974&uo=4"
+    },
+    "1527206975": {
+      "artistId": "1526309569",
+      "artistName": "Luiza",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/f8/b1/82/f8b182ba-345e-7fe9-262b-078334abdcab/COKM-42948.jpg/100x100bb.jpg",
+      "collectionArtistName": "Spotlight Kids & Luiza",
+      "collectionId": "1527206973",
+      "collectionName": "「デート・ア・バレット デッド・オア・バレット」主題歌 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/4a/21/e1/4a21e195-0657-47f2-9cc7-abbf031a4a2c/mzaf_16737403664062192582.plus.aac.p.m4a",
+      "releaseDate": "2020-08-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1527206975",
+      "trackName": "Only wish",
+      "trackTimeMillis": 220482,
+      "trackViewUrl": "https://music.apple.com/jp/album/only-wish/1527206973?i=1527206975&uo=4"
+    },
+    "1540202520": {
+      "artistId": "1538750872",
+      "artistName": "RinamooN",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/d8/2b/32/d82b32f1-a5d6-9678-350b-b8f0088560c9/COKM-43063.jpg/100x100bb.jpg",
+      "collectionArtistName": "RinamooN & 坂部 剛",
+      "collectionId": "1540202519",
+      "collectionName": "「デート・ア・バレット」後編エンディング・テーマ & BGM",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ec/d4/e4/ecd4e47a-dbd6-d23d-6ca1-8e0f9b00103b/mzaf_11095975250711053512.plus.aac.p.m4a",
+      "releaseDate": "2020-11-20T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1540202520",
+      "trackName": "Precious",
+      "trackTimeMillis": 271652,
+      "trackViewUrl": "https://music.apple.com/jp/album/precious/1540202519?i=1540202520&uo=4"
+    },
+    "1735883579": {
+      "artistId": "1480492827",
+      "artistName": "DIALOGUE+",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/23/7b/97/237b976a-34b6-c8ff-a5a9-324b9359876d/PCCG_02354_A.jpg/100x100bb.jpg",
+      "collectionId": "1735883578",
+      "collectionName": "ユートピア学概論 - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1f/ce/f3/1fcef30b-35bf-2a9e-0e9e-67639773968d/mzaf_7873747094731140576.plus.aac.p.m4a",
+      "releaseDate": "2024-04-09T07:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1735883579",
+      "trackName": "ユートピア学概論",
+      "trackTimeMillis": 247053,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%A6%E3%83%BC%E3%83%88%E3%83%94%E3%82%A2%E5%AD%A6%E6%A6%82%E8%AB%96/1735883578?i=1735883579&uo=4"
+    },
+    "1801579887": {
+      "artistId": "30949544",
+      "artistName": "IGOR",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/85/36/e6/8536e6c9-fc55-b82b-ebe0-5899da25febf/5021732644770.jpg/100x100bb.jpg",
+      "collectionArtistName": "岩崎琢",
+      "collectionId": "1801579886",
+      "collectionName": "ヨルムンガンド PERFECT ORDER オリジナルサウンドトラック",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/41/9f/41/419f41f8-3ccd-3963-f3ce-0170e561d9ac/mzaf_6359985308330318962.plus.aac.p.m4a",
+      "releaseDate": "2012-06-27T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1801579887",
+      "trackName": "L'ambition melodique",
+      "trackTimeMillis": 215760,
+      "trackViewUrl": "https://music.apple.com/jp/album/lambition-melodique/1801579886?i=1801579887&uo=4"
+    },
+    "1801583267": {
+      "artistId": "1828024019",
+      "artistName": "SANTA",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d7/b6/ae/d7b6aebe-708e-363c-a86a-a3a4142b070f/5021732644213.jpg/100x100bb.jpg",
+      "collectionArtistName": "岩崎琢",
+      "collectionId": "1801582679",
+      "collectionName": "ヨルムンガンド オリジナルサウンドトラック",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d7/3d/36/d73d36a0-685f-7570-72d3-fbc229df0339/mzaf_2320313601352090955.plus.aac.p.m4a",
+      "releaseDate": "2012-06-27T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1801583267",
+      "trackName": "Time to attack",
+      "trackTimeMillis": 212333,
+      "trackViewUrl": "https://music.apple.com/jp/album/time-to-attack/1801582679?i=1801583267&uo=4"
+    },
+    "1801584060": {
+      "artistId": "379033299",
+      "artistName": "折笠愛",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fe/af/6e/feaf6e32-6ba8-abfd-94d4-bff4588a4ce4/5021732645456.jpg/100x100bb.jpg",
+      "collectionId": "1801583938",
+      "collectionName": "ROOM SERVICE",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ea/df/57/eadf57ff-a123-3313-fe02-b812ae55fbb0/mzaf_10979603031920485029.plus.aac.p.m4a",
+      "releaseDate": "1996-12-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1801584060",
+      "trackName": "恋愛の時空",
+      "trackTimeMillis": 327160,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%81%8B%E6%84%9B%E3%81%AE%E6%99%82%E7%A9%BA/1801583938?i=1801584060&uo=4"
+    },
+    "1804633082": {
+      "artistId": "391325535",
+      "artistName": "黒崎真音",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c8/51/69/c8516928-aea0-22f1-c120-5c29228d0189/5021732645395.jpg/100x100bb.jpg",
+      "collectionId": "1804632736",
+      "collectionName": "VERTICAL HORIZON",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/93/f2/0a/93f20a7c-eb3e-f939-2479-e3b68a66ff01/mzaf_4383437013964571480.plus.aac.p.m4a",
+      "releaseDate": "2012-01-17T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1804633082",
+      "trackName": "UNDER/SHAFT",
+      "trackTimeMillis": 228653,
+      "trackViewUrl": "https://music.apple.com/jp/album/under-shaft/1804632736?i=1804633082&uo=4"
+    },
+    "1804635088": {
+      "artistId": "455141734",
+      "artistName": "やなぎなぎ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/23/dc/5a/23dc5a02-3ba9-3cc8-2906-5f107fed968d/5021732644602.jpg/100x100bb.jpg",
+      "collectionId": "1804635086",
+      "collectionName": "ラテラリティ - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/93/17/84/931784da-5ff3-32fa-4cef-bfed38eb5855/mzaf_15997454381827330549.plus.aac.p.m4a",
+      "releaseDate": "2012-11-07T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1804635088",
+      "trackName": "ラテラリティ",
+      "trackTimeMillis": 269227,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%83%86%E3%83%A9%E3%83%AA%E3%83%86%E3%82%A3/1804635086?i=1804635088&uo=4"
+    },
+    "1804635089": {
+      "artistId": "455141734",
+      "artistName": "やなぎなぎ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/23/dc/5a/23dc5a02-3ba9-3cc8-2906-5f107fed968d/5021732644602.jpg/100x100bb.jpg",
+      "collectionId": "1804635086",
+      "collectionName": "ラテラリティ - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9a/c7/9a/9ac79aa6-f749-399b-7c3f-38e6dbae6685/mzaf_10774437636336112730.plus.aac.p.m4a",
+      "releaseDate": "2012-11-07T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1804635089",
+      "trackName": "真実の羽根",
+      "trackTimeMillis": 300107,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E7%9C%9F%E5%AE%9F%E3%81%AE%E7%BE%BD%E6%A0%B9/1804635086?i=1804635089&uo=4"
+    },
+    "1886087635": {
+      "artistId": "1022677279",
+      "artistName": "Novelbright",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ab/ae/ec/abaeecee-2f9f-e592-a611-c651cf257ba7/26UMGIM22696.rgb.jpg/100x100bb.jpg",
+      "collectionId": "1886087626",
+      "collectionName": "PYRAMID",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/15/06/e9/1506e916-1197-f827-2f15-81c3b01cf3ff/mzaf_1656077387332112316.plus.aac.p.m4a",
+      "releaseDate": "2026-03-30T07:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1886087635",
+      "trackName": "透明",
+      "trackTimeMillis": 196307,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%80%8F%E6%98%8E/1886087626?i=1886087635&uo=4"
+    },
+    "1887829212": {
+      "artistId": "1090230944",
+      "artistName": "ポルカドットスティングレイ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b0/81/b3/b081b35a-3f4e-8f88-ead0-d5ef591a577c/26UMGIM19854.rgb.jpg/100x100bb.jpg",
+      "collectionId": "1887829211",
+      "collectionName": "逆様 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/98/4d/ee/984dee7d-8c4c-4fcc-2f56-d37f85f0efbf/mzaf_14206498146704380523.plus.aac.p.m4a",
+      "releaseDate": "2026-04-08T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1887829212",
+      "trackName": "逆様",
+      "trackTimeMillis": 171000,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%80%86%E6%A7%98/1887829211?i=1887829212&uo=4"
+    }
+  }
+}
