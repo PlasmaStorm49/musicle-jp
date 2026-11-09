@@ -4656,6 +4656,19 @@
       "type": "ep"
     },
     {
+      "artistDisplay": "Luiza",
+      "artistIds": [
+        "apple:ar:1526309569"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/f8/b1/82/f8b182ba-345e-7fe9-262b-078334abdcab/COKM-42948.jpg/300x300bb.jpg",
+      "id": "apple:al:1527206973",
+      "latinSource": null,
+      "releaseDate": "2020-08-21",
+      "title": "「デート・ア・バレット デッド・オア・バレット」主題歌 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
       "artistDisplay": "the peggies",
       "artistIds": [
         "apple:ar:1081292904"
@@ -10017,6 +10030,19 @@
       "type": "album"
     },
     {
+      "artistDisplay": "RinamooN",
+      "artistIds": [
+        "apple:ar:1538750872"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/d8/2b/32/d82b32f1-a5d6-9678-350b-b8f0088560c9/COKM-43063.jpg/300x300bb.jpg",
+      "id": "apple:al:1540202519",
+      "latinSource": null,
+      "releaseDate": "2020-11-20",
+      "title": "「デート・ア・バレット」後編エンディング・テーマ & BGM",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
       "artistDisplay": "Rosa Walton",
       "artistIds": [
         "apple:ar:1098722439"
@@ -14352,6 +14378,19 @@
       "type": "album"
     },
     {
+      "artistDisplay": "DIALOGUE+",
+      "artistIds": [
+        "apple:ar:1480492827"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/23/7b/97/237b976a-34b6-c8ff-a5a9-324b9359876d/PCCG_02354_A.jpg/300x300bb.jpg",
+      "id": "apple:al:1735883578",
+      "latinSource": null,
+      "releaseDate": "2024-04-09",
+      "title": "ユートピア学概論 - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
       "artistDisplay": "来栖りん",
       "artistIds": [
         "apple:ar:1473553463"
@@ -15810,6 +15849,45 @@
       "type": "ep"
     },
     {
+      "artistDisplay": "IGOR",
+      "artistIds": [
+        "apple:ar:30949544"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/85/36/e6/8536e6c9-fc55-b82b-ebe0-5899da25febf/5021732644770.jpg/300x300bb.jpg",
+      "id": "apple:al:1801579886",
+      "latinSource": null,
+      "releaseDate": "2012-06-27",
+      "title": "ヨルムンガンド PERFECT ORDER オリジナルサウンドトラック",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "SANTA",
+      "artistIds": [
+        "apple:ar:1828024019"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d7/b6/ae/d7b6aebe-708e-363c-a86a-a3a4142b070f/5021732644213.jpg/300x300bb.jpg",
+      "id": "apple:al:1801582679",
+      "latinSource": null,
+      "releaseDate": "2012-06-27",
+      "title": "ヨルムンガンド オリジナルサウンドトラック",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "折笠愛",
+      "artistIds": [
+        "apple:ar:379033299"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fe/af/6e/feaf6e32-6ba8-abfd-94d4-bff4588a4ce4/5021732645456.jpg/300x300bb.jpg",
+      "id": "apple:al:1801583938",
+      "latinSource": null,
+      "releaseDate": "1996-12-21",
+      "title": "ROOM SERVICE",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
       "artistDisplay": "Minutes Til Midnight",
       "artistIds": [
         "apple:ar:167882762"
@@ -16084,6 +16162,19 @@
       "type": "ep"
     },
     {
+      "artistDisplay": "黒崎真音",
+      "artistIds": [
+        "apple:ar:391325535"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c8/51/69/c8516928-aea0-22f1-c120-5c29228d0189/5021732645395.jpg/300x300bb.jpg",
+      "id": "apple:al:1804632736",
+      "latinSource": null,
+      "releaseDate": "2012-01-17",
+      "title": "VERTICAL HORIZON",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
       "artistDisplay": "Gero",
       "artistIds": [
         "apple:ar:870568455"
@@ -16093,6 +16184,19 @@
       "latinSource": null,
       "releaseDate": "2014-01-29",
       "title": "～Outgrow～ - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "やなぎなぎ",
+      "artistIds": [
+        "apple:ar:455141734"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/23/dc/5a/23dc5a02-3ba9-3cc8-2906-5f107fed968d/5021732644602.jpg/300x300bb.jpg",
+      "id": "apple:al:1804635086",
+      "latinSource": null,
+      "releaseDate": "2012-11-07",
+      "title": "ラテラリティ - EP",
       "titleLatin": null,
       "type": "ep"
     },
@@ -17699,6 +17803,19 @@
       "type": "compilation"
     },
     {
+      "artistDisplay": "Novelbright",
+      "artistIds": [
+        "apple:ar:1022677279"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ab/ae/ec/abaeecee-2f9f-e592-a611-c651cf257ba7/26UMGIM22696.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1886087626",
+      "latinSource": null,
+      "releaseDate": "2026-03-30",
+      "title": "PYRAMID",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
       "artistDisplay": "時速36km",
       "artistIds": [
         "apple:ar:1407801918"
@@ -17734,6 +17851,19 @@
       "latinSource": null,
       "releaseDate": "2022-11-23",
       "title": "ちゅ、多様性。 - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "ポルカドットスティングレイ",
+      "artistIds": [
+        "apple:ar:1090230944"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b0/81/b3/b081b35a-3f4e-8f88-ead0-d5ef591a577c/26UMGIM19854.rgb.jpg/300x300bb.jpg",
+      "id": "apple:al:1887829211",
+      "latinSource": null,
+      "releaseDate": "2026-04-08",
+      "title": "逆様 - Single",
       "titleLatin": null,
       "type": "single"
     },
@@ -21378,6 +21508,12 @@
       "nameLatin": "Meychan"
     },
     {
+      "id": "apple:ar:1090230944",
+      "latinSource": "provider",
+      "name": "ポルカドットスティングレイ",
+      "nameLatin": "Polkadot Stingray"
+    },
+    {
       "id": "apple:ar:1091488099",
       "latinSource": null,
       "name": "SNoW",
@@ -22374,6 +22510,12 @@
       "nameLatin": null
     },
     {
+      "id": "apple:ar:1526309569",
+      "latinSource": null,
+      "name": "Luiza",
+      "nameLatin": null
+    },
+    {
       "id": "apple:ar:1526319335",
       "latinSource": null,
       "name": "TREASURE",
@@ -22425,6 +22567,12 @@
       "id": "apple:ar:1536748907",
       "latinSource": null,
       "name": "LMYK",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1538750872",
+      "latinSource": null,
+      "name": "RinamooN",
       "nameLatin": null
     },
     {
@@ -22845,6 +22993,18 @@
       "id": "apple:ar:1825068009",
       "latinSource": null,
       "name": "Ray",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1827335031",
+      "latinSource": null,
+      "name": "Spotlight Kids",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:1828024019",
+      "latinSource": null,
+      "name": "SANTA",
       "nameLatin": null
     },
     {
@@ -23730,6 +23890,12 @@
       "nameLatin": null
     },
     {
+      "id": "apple:ar:30949544",
+      "latinSource": null,
+      "name": "IGOR",
+      "nameLatin": null
+    },
+    {
       "id": "apple:ar:309659861",
       "latinSource": "provider",
       "name": "黒猫チェルシー",
@@ -24100,6 +24266,12 @@
       "latinSource": null,
       "name": "MOKA",
       "nameLatin": null
+    },
+    {
+      "id": "apple:ar:379033299",
+      "latinSource": "provider",
+      "name": "折笠愛",
+      "nameLatin": "Ai Orikasa"
     },
     {
       "id": "apple:ar:380274242",
@@ -26202,7 +26374,7 @@
       "nameLatin": null
     }
   ],
-  "catalogVersion": "2026-11-04.90ba9d3d",
+  "catalogVersion": "2026-11-09.3503e96f",
   "franchises": [
     {
       "id": "anime:fr:100_man_no_inochi_no_ue_ni_ore_wa_tatteiru",
@@ -27218,12 +27390,17 @@
       "search": [
         "darkerthanblack",
         "darkerthanblack2ndseason",
+        "darkerthanblack2ova",
         "darkerthanblackgeminiofthemeteor",
         "darkerthanblackkuronokeiyakusha",
+        "darkerthanblackkuronokeiyakushagaiden",
+        "darkerthanblackorigins",
         "darkerthanblackryuseinogemini",
+        "darkerthanblackryuseinogeminispecials",
         "darkerthanblacksecondseason",
         "darkerthanblack流星の双子",
         "darkerthanblack黒の契約者",
+        "darkerthanblack黒の契約者外伝",
         "dtb",
         "dtb2"
       ]
@@ -27249,6 +27426,8 @@
       "search": [
         "dal3",
         "dal4",
+        "dateabulletdeadorbullet",
+        "dateabulletdeadorbulletnightmareorquen",
         "datealive",
         "datealive2",
         "datealive3",
@@ -27258,7 +27437,8 @@
         "datealivei",
         "datealiveiv",
         "datealiveseason5",
-        "datealivev"
+        "datealivev",
+        "でーとあばれっとでっどおあばれっと"
       ]
     },
     {
@@ -28706,7 +28886,8 @@
       "id": "anime:fr:jormungand",
       "name": "Jormungand",
       "search": [
-        "jormungand"
+        "jormungand",
+        "jormungandperfectorder"
       ]
     },
     {
@@ -29280,6 +29461,15 @@
       ]
     },
     {
+      "id": "anime:fr:koori_no_jouheki",
+      "name": "Koori no Jouheki",
+      "search": [
+        "korinojoheki",
+        "theranpartsofice",
+        "氷の城壁"
+      ]
+    },
+    {
       "id": "anime:fr:kore_wa_zombie_desu_ka",
       "name": "Kore wa Zombie desu ka?",
       "search": [
@@ -29461,6 +29651,16 @@
       "name": "Lucky☆Star",
       "search": [
         "luckystar"
+      ]
+    },
+    {
+      "id": "anime:fr:lv2_kara_cheat_datta_motoyuusha_kouho_no_mattari_isekai_life",
+      "name": "Lv2 kara Cheat datta Motoyuusha Kouho no Mattari Isekai Life",
+      "search": [
+        "chillininanotherworldwithlevel2supercheatpowers",
+        "lv2cheat",
+        "lv2karacheatdattamotoyushakohonomattarisekailife",
+        "lv2からちーとだった元勇者候補のまったり異世界らいふ"
       ]
     },
     {
@@ -31491,6 +31691,15 @@
       ]
     },
     {
+      "id": "anime:fr:tenchi_muyou",
+      "name": "Tenchi Muyou!",
+      "search": [
+        "tenchimuyo",
+        "tenchimuyotenchiuniverse",
+        "天地無用"
+      ]
+    },
+    {
       "id": "anime:fr:tengoku_daimakyou",
       "name": "Tengoku Daimakyou",
       "search": [
@@ -32296,7 +32505,7 @@
       ]
     }
   ],
-  "generatedAt": "2026-11-04T16:54:33Z",
+  "generatedAt": "2026-11-09T19:48:02Z",
   "provider": "apple",
   "schemaVersion": 1,
   "snapshots": [
@@ -32335,6 +32544,10 @@
     {
       "fetchedAt": "2026-11-04T16:54:33Z",
       "id": "2026-11-04T165433Z"
+    },
+    {
+      "fetchedAt": "2026-11-09T19:48:02Z",
+      "id": "2026-11-09T194802Z"
     }
   ],
   "storefront": "jp",
@@ -55539,6 +55752,114 @@
       "titleLatin": "Bokura dake no Shudaika"
     },
     {
+      "albumId": "apple:al:1527206973",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:date_a_live"
+        ],
+        "themes": [
+          {
+            "anime": "Date A Bullet: Dead or Bullet",
+            "cover": {
+              "large": "anime/large-cover/h6tNQXyGxpBurJhABALyDNSgv60gzUO8IWQmenYY.jpg",
+              "small": "anime/small-cover/UTaKldQ44AONh1EkxQw1g3Ai4itXiRug2wewBu2k.avif"
+            },
+            "sequence": null,
+            "type": "OP"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "Spotlight Kids",
+      "artistIds": [
+        "apple:ar:1827335031"
+      ],
+      "durationMs": 96289,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1527206974",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/93/bc/ba/93bcba3b-148c-565e-af43-3175ce25819e/mzaf_11031871691969957268.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-21",
+      "search": {
+        "artist": [
+          "spotlightkids"
+        ],
+        "title": [
+          "infermata"
+        ]
+      },
+      "songKey": "infermata|apple:ar:1827335031",
+      "storeUrl": "https://music.apple.com/jp/album/infermata/1527206973?i=1527206974",
+      "title": "Infermata",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1527206973",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:date_a_live"
+        ],
+        "themes": [
+          {
+            "anime": "Date A Bullet: Dead or Bullet",
+            "cover": {
+              "large": "anime/large-cover/h6tNQXyGxpBurJhABALyDNSgv60gzUO8IWQmenYY.jpg",
+              "small": "anime/small-cover/UTaKldQ44AONh1EkxQw1g3Ai4itXiRug2wewBu2k.avif"
+            },
+            "sequence": null,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "Luiza",
+      "artistIds": [
+        "apple:ar:1526309569"
+      ],
+      "durationMs": 220482,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1527206975",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/4a/21/e1/4a21e195-0657-47f2-9cc7-abbf031a4a2c/mzaf_16737403664062192582.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-08-21",
+      "search": {
+        "artist": [
+          "luiza"
+        ],
+        "title": [
+          "onlywish"
+        ]
+      },
+      "songKey": "onlywish|apple:ar:1526309569",
+      "storeUrl": "https://music.apple.com/jp/album/only-wish/1527206973?i=1527206975",
+      "title": "Only wish",
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1527283753",
       "anime": {
         "franchiseIds": [
@@ -67102,7 +67423,7 @@
         ],
         "tiers": {
           "musica": "dificil",
-          "titulo": "medio"
+          "titulo": "dificil"
         }
       },
       "artistDisplay": "Rie fu",
@@ -67117,7 +67438,7 @@
       "explicit": false,
       "id": "apple:tr:1537229545",
       "latinSource": "provider",
-      "popularity": 0.6667,
+      "popularity": 0.3333,
       "preview": {
         "durationSec": 30,
         "startSec": 0,
@@ -79928,6 +80249,60 @@
       "songKey": "mydearest|apple:ar:631665100",
       "storeUrl": "https://music.apple.com/jp/album/my-dearest/1539323018?i=1539323019",
       "title": "My Dearest",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1540202519",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:date_a_live"
+        ],
+        "themes": [
+          {
+            "anime": "Date A Bullet: Dead or Bullet",
+            "cover": {
+              "large": "anime/large-cover/h6tNQXyGxpBurJhABALyDNSgv60gzUO8IWQmenYY.jpg",
+              "small": "anime/small-cover/UTaKldQ44AONh1EkxQw1g3Ai4itXiRug2wewBu2k.avif"
+            },
+            "sequence": 2,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "RinamooN",
+      "artistIds": [
+        "apple:ar:1538750872"
+      ],
+      "durationMs": 271652,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1540202520",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ec/d4/e4/ecd4e47a-dbd6-d23d-6ca1-8e0f9b00103b/mzaf_11095975250711053512.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-11-20",
+      "search": {
+        "artist": [
+          "rinamon"
+        ],
+        "title": [
+          "precios"
+        ]
+      },
+      "songKey": "precious|apple:ar:1538750872",
+      "storeUrl": "https://music.apple.com/jp/album/precious/1540202519?i=1540202520",
+      "title": "Precious",
       "titleLatin": null
     },
     {
@@ -100518,6 +100893,61 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1735883578",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:lv2_kara_cheat_datta_motoyuusha_kouho_no_mattari_isekai_life"
+        ],
+        "themes": [
+          {
+            "anime": "Lv2 kara Cheat datta Motoyuusha Kouho no Mattari Isekai Life",
+            "cover": {
+              "large": "anime/large-cover/R0Lwzh6HSiOvgfDb9P79jsPgovDi7jsAgKfiAybn.jpg",
+              "small": "anime/small-cover/L93D48AHoMMqU4D1hzqTf0HgAm6AlCHXaxurFarH.avif"
+            },
+            "sequence": null,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "DIALOGUE+",
+      "artistIds": [
+        "apple:ar:1480492827"
+      ],
+      "durationMs": 247053,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1735883579",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1f/ce/f3/1fcef30b-35bf-2a9e-0e9e-67639773968d/mzaf_7873747094731140576.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-04-09",
+      "search": {
+        "artist": [
+          "jialogue"
+        ],
+        "title": [
+          "utopiagakugairon",
+          "ゆーとぴあ学概論"
+        ]
+      },
+      "songKey": "ゆーとぴあ学概論|apple:ar:1480492827",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A6%E3%83%BC%E3%83%88%E3%83%94%E3%82%A2%E5%AD%A6%E6%A6%82%E8%AB%96/1735883578?i=1735883579",
+      "title": "ユートピア学概論",
+      "titleLatin": "Utopia Gaku Gairon"
+    },
+    {
       "albumId": "apple:al:1737148295",
       "anime": {
         "franchiseIds": [
@@ -107401,6 +107831,170 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1801579886",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:jormungand"
+        ],
+        "themes": [
+          {
+            "anime": "Jormungand: Perfect Order",
+            "cover": {
+              "large": "anime/large-cover/YkW7Wjf8MRXc6lGzT8aT1WCuHhyRpZZIRUzAshy3.png",
+              "small": "anime/small-cover/Mv3FUAl67etQwxkUJrchMI4SvRwt7vhmTFmfO18N.avif"
+            },
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "IGOR",
+      "artistIds": [
+        "apple:ar:30949544"
+      ],
+      "durationMs": 215760,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1801579887",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/41/9f/41/419f41f8-3ccd-3963-f3ce-0170e561d9ac/mzaf_6359985308330318962.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-06-27",
+      "search": {
+        "artist": [
+          "igor"
+        ],
+        "title": [
+          "lanbichionmelojique"
+        ]
+      },
+      "songKey": "lambitionmelodique|apple:ar:30949544",
+      "storeUrl": "https://music.apple.com/jp/album/lambition-melodique/1801579886?i=1801579887",
+      "title": "L'ambition melodique",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1801582679",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:jormungand"
+        ],
+        "themes": [
+          {
+            "anime": "Jormungand: Perfect Order",
+            "cover": {
+              "large": "anime/large-cover/YkW7Wjf8MRXc6lGzT8aT1WCuHhyRpZZIRUzAshy3.png",
+              "small": "anime/small-cover/Mv3FUAl67etQwxkUJrchMI4SvRwt7vhmTFmfO18N.avif"
+            },
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "SANTA",
+      "artistIds": [
+        "apple:ar:1828024019"
+      ],
+      "durationMs": 212333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1801583267",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d7/3d/36/d73d36a0-685f-7570-72d3-fbc229df0339/mzaf_2320313601352090955.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-06-27",
+      "search": {
+        "artist": [
+          "santa"
+        ],
+        "title": [
+          "chimetoattack"
+        ]
+      },
+      "songKey": "timetoattack|apple:ar:1828024019",
+      "storeUrl": "https://music.apple.com/jp/album/time-to-attack/1801582679?i=1801583267",
+      "title": "Time to attack",
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1801583938",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:tenchi_muyou"
+        ],
+        "themes": [
+          {
+            "anime": "Tenchi Muyou!",
+            "cover": {
+              "large": "anime/large-cover/lvfpiNZQudAbG2uYShughnxs64YzRoReAAKuGlnb.jpg",
+              "small": "anime/small-cover/WMepMEVoSCPNXHJK1hp2a7I83RXufIBiCIaFznSd.avif"
+            },
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "折笠愛",
+      "artistIds": [
+        "apple:ar:379033299"
+      ],
+      "durationMs": 327160,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1801584060",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ea/df/57/eadf57ff-a123-3313-fe02-b812ae55fbb0/mzaf_10979603031920485029.plus.aac.p.m4a"
+      },
+      "releaseDate": "1996-12-21",
+      "search": {
+        "artist": [
+          "aiorikasa",
+          "折笠愛"
+        ],
+        "title": [
+          "renainojiku",
+          "恋愛の時空"
+        ]
+      },
+      "songKey": "恋愛の時空|apple:ar:379033299",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%8B%E6%84%9B%E3%81%AE%E6%99%82%E7%A9%BA/1801583938?i=1801584060",
+      "title": "恋愛の時空",
+      "titleLatin": "Renai no Jikuu"
+    },
+    {
       "albumId": "apple:al:1801627587",
       "anime": {
         "franchiseIds": [
@@ -108573,6 +109167,61 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1804632736",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:jormungand"
+        ],
+        "themes": [
+          {
+            "anime": "Jormungand: Perfect Order",
+            "cover": {
+              "large": "anime/large-cover/YkW7Wjf8MRXc6lGzT8aT1WCuHhyRpZZIRUzAshy3.png",
+              "small": "anime/small-cover/Mv3FUAl67etQwxkUJrchMI4SvRwt7vhmTFmfO18N.avif"
+            },
+            "sequence": null,
+            "type": "OP"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "黒崎真音",
+      "artistIds": [
+        "apple:ar:391325535"
+      ],
+      "durationMs": 228653,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1804633082",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/93/f2/0a/93f20a7c-eb3e-f939-2479-e3b68a66ff01/mzaf_4383437013964571480.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-01-17",
+      "search": {
+        "artist": [
+          "maonkurosaki",
+          "黒崎真音"
+        ],
+        "title": [
+          "undershaft"
+        ]
+      },
+      "songKey": "undershaft|apple:ar:391325535",
+      "storeUrl": "https://music.apple.com/jp/album/under-shaft/1804632736?i=1804633082",
+      "title": "UNDER/SHAFT",
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1804633789",
       "anime": {
         "franchiseIds": [
@@ -108625,6 +109274,118 @@
       "storeUrl": "https://music.apple.com/jp/album/outgrow/1804633789?i=1804633972",
       "title": "～Outgrow～",
       "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1804635086",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:jormungand"
+        ],
+        "themes": [
+          {
+            "anime": "Jormungand: Perfect Order",
+            "cover": {
+              "large": "anime/large-cover/YkW7Wjf8MRXc6lGzT8aT1WCuHhyRpZZIRUzAshy3.png",
+              "small": "anime/small-cover/Mv3FUAl67etQwxkUJrchMI4SvRwt7vhmTFmfO18N.avif"
+            },
+            "sequence": 1,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "やなぎなぎ",
+      "artistIds": [
+        "apple:ar:455141734"
+      ],
+      "durationMs": 269227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1804635088",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/93/17/84/931784da-5ff3-32fa-4cef-bfed38eb5855/mzaf_15997454381827330549.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-11-07",
+      "search": {
+        "artist": [
+          "nagiyanagi",
+          "やなぎなぎ"
+        ],
+        "title": [
+          "lateralich",
+          "らてらりてぃ"
+        ]
+      },
+      "songKey": "らてらりてぃ|apple:ar:455141734",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%A9%E3%83%86%E3%83%A9%E3%83%AA%E3%83%86%E3%82%A3/1804635086?i=1804635088",
+      "title": "ラテラリティ",
+      "titleLatin": "Laterality"
+    },
+    {
+      "albumId": "apple:al:1804635086",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:jormungand"
+        ],
+        "themes": [
+          {
+            "anime": "Jormungand: Perfect Order",
+            "cover": {
+              "large": "anime/large-cover/YkW7Wjf8MRXc6lGzT8aT1WCuHhyRpZZIRUzAshy3.png",
+              "small": "anime/small-cover/Mv3FUAl67etQwxkUJrchMI4SvRwt7vhmTFmfO18N.avif"
+            },
+            "sequence": 2,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "やなぎなぎ",
+      "artistIds": [
+        "apple:ar:455141734"
+      ],
+      "durationMs": 300107,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1804635089",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9a/c7/9a/9ac79aa6-f749-399b-7c3f-38e6dbae6685/mzaf_10774437636336112730.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-11-07",
+      "search": {
+        "artist": [
+          "nagiyanagi",
+          "やなぎなぎ"
+        ],
+        "title": [
+          "shinjitsunohane",
+          "真実の羽根"
+        ]
+      },
+      "songKey": "真実の羽根|apple:ar:455141734",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%9C%9F%E5%AE%9F%E3%81%AE%E7%BE%BD%E6%A0%B9/1804635086?i=1804635089",
+      "title": "真実の羽根",
+      "titleLatin": "Shinjitsu no Hane"
     },
     {
       "albumId": "apple:al:1804635715",
@@ -117142,6 +117903,61 @@
       "titleLatin": "Shigyou no Bell"
     },
     {
+      "albumId": "apple:al:1886087626",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:koori_no_jouheki"
+        ],
+        "themes": [
+          {
+            "anime": "Koori no Jouheki",
+            "cover": {
+              "large": "anime/large-cover/SAj4Kgk1k7WDEaRXS6TePs5oPPuIV3wcq6HppsJv.jpg",
+              "small": "anime/small-cover/CrhHNnacTJJJ2tJNjSDrSs2nxc2d8CiLkhfGiaGJ.avif"
+            },
+            "sequence": null,
+            "type": "OP"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "Novelbright",
+      "artistIds": [
+        "apple:ar:1022677279"
+      ],
+      "durationMs": 196307,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1886087635",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/15/06/e9/1506e916-1197-f827-2f15-81c3b01cf3ff/mzaf_1656077387332112316.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-03-30",
+      "search": {
+        "artist": [
+          "novelbright"
+        ],
+        "title": [
+          "tomei",
+          "透明"
+        ]
+      },
+      "songKey": "透明|apple:ar:1022677279",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%80%8F%E6%98%8E/1886087626?i=1886087635",
+      "title": "透明",
+      "titleLatin": "Toumei"
+    },
+    {
       "albumId": "apple:al:1886305095",
       "anime": {
         "franchiseIds": [
@@ -117307,6 +118123,62 @@
       "storeUrl": "https://music.apple.com/jp/album/%E3%81%A1%E3%82%85-%E5%A4%9A%E6%A7%98%E6%80%A7/1887736832?i=1887736833",
       "title": "ちゅ、多様性。",
       "titleLatin": "Chu, Tayousei."
+    },
+    {
+      "albumId": "apple:al:1887829211",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:koori_no_jouheki"
+        ],
+        "themes": [
+          {
+            "anime": "Koori no Jouheki",
+            "cover": {
+              "large": "anime/large-cover/SAj4Kgk1k7WDEaRXS6TePs5oPPuIV3wcq6HppsJv.jpg",
+              "small": "anime/small-cover/CrhHNnacTJJJ2tJNjSDrSs2nxc2d8CiLkhfGiaGJ.avif"
+            },
+            "sequence": null,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "ポルカドットスティングレイ",
+      "artistIds": [
+        "apple:ar:1090230944"
+      ],
+      "durationMs": 171000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1887829212",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/98/4d/ee/984dee7d-8c4c-4fcc-2f56-d37f85f0efbf/mzaf_14206498146704380523.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-04-08",
+      "search": {
+        "artist": [
+          "polkadotschingray",
+          "ぽるかどっとすてぃんぐれい"
+        ],
+        "title": [
+          "sakasama",
+          "逆様"
+        ]
+      },
+      "songKey": "逆様|apple:ar:1090230944",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%80%86%E6%A7%98/1887829211?i=1887829212",
+      "title": "逆様",
+      "titleLatin": "Sakasama"
     },
     {
       "albumId": "apple:al:1888092298",

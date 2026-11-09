@@ -1,0 +1,935 @@
+{
+  "days": {
+    "2026-12-01": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "direction": "nao",
+      "family": "rotulo",
+      "mal": true,
+      "number": 55,
+      "param": "Comedy",
+      "rounds": [
+        {
+          "a": "fixture:tr:tr17",
+          "answer": "a",
+          "b": "fixture:tr:tr36"
+        },
+        {
+          "a": "fixture:tr:tr40",
+          "answer": "b",
+          "b": "fixture:tr:tr42"
+        },
+        {
+          "a": "fixture:tr:tr01",
+          "answer": "a",
+          "b": "fixture:tr:tr16"
+        },
+        {
+          "a": "fixture:tr:tr20",
+          "answer": "b",
+          "b": "fixture:tr:tr39"
+        },
+        {
+          "a": "fixture:tr:tr06",
+          "answer": "b",
+          "b": "fixture:tr:tr10"
+        },
+        {
+          "a": "fixture:tr:tr19",
+          "answer": "b",
+          "b": "fixture:tr:tr05"
+        },
+        {
+          "a": "fixture:tr:tr33",
+          "answer": "a",
+          "b": "fixture:tr:tr31"
+        },
+        {
+          "a": "fixture:tr:tr34",
+          "answer": "b",
+          "b": "fixture:tr:tr21"
+        },
+        {
+          "a": "fixture:tr:tr09",
+          "answer": "a",
+          "b": "fixture:tr:tr15"
+        },
+        {
+          "a": "fixture:tr:tr23",
+          "answer": "a",
+          "b": "fixture:tr:tr18"
+        }
+      ]
+    },
+    "2026-12-02": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "direction": "tem",
+      "family": "fonte",
+      "mal": true,
+      "number": 56,
+      "param": "manga",
+      "rounds": [
+        {
+          "a": "fixture:tr:tr06",
+          "answer": "b",
+          "b": "fixture:tr:tr21"
+        },
+        {
+          "a": "fixture:tr:tr05",
+          "answer": "b",
+          "b": "fixture:tr:tr09"
+        },
+        {
+          "a": "fixture:tr:tr33",
+          "answer": "b",
+          "b": "fixture:tr:tr01"
+        },
+        {
+          "a": "fixture:tr:tr16",
+          "answer": "a",
+          "b": "fixture:tr:tr17"
+        },
+        {
+          "a": "fixture:tr:tr36",
+          "answer": "b",
+          "b": "fixture:tr:tr38"
+        },
+        {
+          "a": "fixture:tr:tr22",
+          "answer": "b",
+          "b": "fixture:tr:tr42"
+        },
+        {
+          "a": "fixture:tr:tr20",
+          "answer": "b",
+          "b": "fixture:tr:tr32"
+        },
+        {
+          "a": "fixture:tr:tr40",
+          "answer": "b",
+          "b": "fixture:tr:tr18"
+        },
+        {
+          "a": "fixture:tr:tr23",
+          "answer": "a",
+          "b": "fixture:tr:tr10"
+        },
+        {
+          "a": "fixture:tr:tr37",
+          "answer": "a",
+          "b": "fixture:tr:tr08"
+        },
+        {
+          "a": "fixture:tr:tr41",
+          "answer": "a",
+          "b": "fixture:tr:tr34"
+        },
+        {
+          "a": "fixture:tr:tr31",
+          "answer": "a",
+          "b": "fixture:tr:tr39"
+        },
+        {
+          "a": "fixture:tr:tr29",
+          "answer": "b",
+          "b": "fixture:tr:tr26"
+        },
+        {
+          "a": "fixture:tr:tr25",
+          "answer": "b",
+          "b": "fixture:tr:tr24"
+        },
+        {
+          "a": "fixture:tr:tr27",
+          "answer": "a",
+          "b": "fixture:tr:tr19"
+        }
+      ]
+    },
+    "2026-12-03": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "direction": "min",
+      "family": "amq",
+      "mal": true,
+      "number": 57,
+      "rounds": [
+        {
+          "a": "fixture:tr:tr10",
+          "answer": "b",
+          "b": "fixture:tr:tr22",
+          "info": {
+            "rates": [
+              77.1,
+              71.3
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr37",
+          "answer": "a",
+          "b": "fixture:tr:tr36",
+          "info": {
+            "rates": [
+              38.8,
+              48.6
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr42",
+          "answer": "b",
+          "b": "fixture:tr:tr38",
+          "info": {
+            "rates": [
+              88.9,
+              59.9
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr05",
+          "answer": "b",
+          "b": "fixture:tr:tr09",
+          "info": {
+            "rates": [
+              50.8,
+              44.9
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr40",
+          "answer": "a",
+          "b": "fixture:tr:tr33",
+          "info": {
+            "rates": [
+              26.3,
+              68.4
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr01",
+          "answer": "a",
+          "b": "fixture:tr:tr06",
+          "info": {
+            "rates": [
+              79.8,
+              81.2
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr16",
+          "answer": "a",
+          "b": "fixture:tr:tr21",
+          "info": {
+            "rates": [
+              55.0,
+              94.2
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr17",
+          "answer": "a",
+          "b": "fixture:tr:tr23",
+          "info": {
+            "rates": [
+              33.7,
+              85.7
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr39",
+          "answer": "b",
+          "b": "fixture:tr:tr19",
+          "info": {
+            "rates": [
+              40.2,
+              10.5
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr35",
+          "answer": "a",
+          "b": "fixture:tr:tr20",
+          "info": {
+            "rates": [
+              46.5,
+              74.6
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr27",
+          "answer": "b",
+          "b": "fixture:tr:tr18",
+          "info": {
+            "rates": [
+              83.5,
+              43.3
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr20",
+          "answer": "b",
+          "b": "fixture:tr:tr07",
+          "info": {
+            "rates": [
+              74.6,
+              52.7
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr30",
+          "answer": "a",
+          "b": "fixture:tr:tr08",
+          "info": {
+            "rates": [
+              12.6,
+              37.4
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr25",
+          "answer": "a",
+          "b": "fixture:tr:tr24",
+          "info": {
+            "rates": [
+              31.9,
+              61.4
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr32",
+          "answer": "b",
+          "b": "fixture:tr:tr15",
+          "info": {
+            "rates": [
+              27.6,
+              18.0
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr31",
+          "answer": "a",
+          "b": "fixture:tr:tr34",
+          "info": {
+            "rates": [
+              24.8,
+              63.8
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr41",
+          "answer": "b",
+          "b": "fixture:tr:tr29",
+          "info": {
+            "rates": [
+              57.3,
+              21.1
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr20",
+          "answer": "b",
+          "b": "fixture:tr:tr26",
+          "info": {
+            "rates": [
+              74.6,
+              15.3
+            ]
+          }
+        }
+      ]
+    },
+    "2026-12-04": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "direction": "max",
+      "family": "ano",
+      "mal": true,
+      "number": 58,
+      "rounds": [
+        {
+          "a": "fixture:tr:tr33",
+          "answer": "b",
+          "b": "fixture:tr:tr40",
+          "info": {
+            "seasons": [
+              {
+                "season": "fall",
+                "year": 2021
+              },
+              {
+                "season": "winter",
+                "year": 2026
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr05",
+          "answer": "b",
+          "b": "fixture:tr:tr09",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2025
+              },
+              {
+                "season": "spring",
+                "year": 2026
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr16",
+          "answer": "b",
+          "b": "fixture:tr:tr10",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2023
+              },
+              {
+                "season": "summer",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr21",
+          "answer": "b",
+          "b": "fixture:tr:tr22",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2019
+              },
+              {
+                "season": "fall",
+                "year": 2024
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr06",
+          "answer": "b",
+          "b": "fixture:tr:tr23",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2025
+              },
+              {
+                "season": "fall",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr36",
+          "answer": "b",
+          "b": "fixture:tr:tr01",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2024
+              },
+              {
+                "season": "summer",
+                "year": 2024
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr17",
+          "answer": "a",
+          "b": "fixture:tr:tr15",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2026
+              },
+              {
+                "season": "winter",
+                "year": 2026
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr42",
+          "answer": "a",
+          "b": "fixture:tr:tr35",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2026
+              },
+              {
+                "season": "summer",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr08",
+          "answer": "a",
+          "b": "fixture:tr:tr18",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2025
+              },
+              {
+                "season": "winter",
+                "year": 2023
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr37",
+          "answer": "b",
+          "b": "fixture:tr:tr39",
+          "info": {
+            "seasons": [
+              {
+                "season": "summer",
+                "year": 2024
+              },
+              {
+                "season": "fall",
+                "year": 2024
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr32",
+          "answer": "a",
+          "b": "fixture:tr:tr07",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2026
+              },
+              {
+                "season": "fall",
+                "year": 2021
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr41",
+          "answer": "a",
+          "b": "fixture:tr:tr24",
+          "info": {
+            "seasons": [
+              {
+                "season": "winter",
+                "year": 2026
+              },
+              {
+                "season": "fall",
+                "year": 2025
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr34",
+          "answer": "b",
+          "b": "fixture:tr:tr29",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2025
+              },
+              {
+                "season": "summer",
+                "year": 2026
+              }
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr27",
+          "answer": "b",
+          "b": "fixture:tr:tr16",
+          "info": {
+            "seasons": [
+              {
+                "season": "spring",
+                "year": 2019
+              },
+              {
+                "season": "winter",
+                "year": 2023
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "2026-12-05": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "direction": "nao",
+      "family": "estudio",
+      "mal": true,
+      "number": 59,
+      "param": "Sora Pictures",
+      "rounds": [
+        {
+          "a": "fixture:tr:tr42",
+          "answer": "a",
+          "b": "fixture:tr:tr36"
+        },
+        {
+          "a": "fixture:tr:tr23",
+          "answer": "a",
+          "b": "fixture:tr:tr40"
+        },
+        {
+          "a": "fixture:tr:tr09",
+          "answer": "b",
+          "b": "fixture:tr:tr39"
+        },
+        {
+          "a": "fixture:tr:tr07",
+          "answer": "b",
+          "b": "fixture:tr:tr20"
+        },
+        {
+          "a": "fixture:tr:tr17",
+          "answer": "a",
+          "b": "fixture:tr:tr33"
+        },
+        {
+          "a": "fixture:tr:tr16",
+          "answer": "a",
+          "b": "fixture:tr:tr15"
+        },
+        {
+          "a": "fixture:tr:tr26",
+          "answer": "b",
+          "b": "fixture:tr:tr01"
+        },
+        {
+          "a": "fixture:tr:tr32",
+          "answer": "b",
+          "b": "fixture:tr:tr21"
+        },
+        {
+          "a": "fixture:tr:tr22",
+          "answer": "a",
+          "b": "fixture:tr:tr19"
+        }
+      ]
+    },
+    "2026-12-06": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "direction": "nao",
+      "family": "rotulo",
+      "mal": true,
+      "number": 60,
+      "param": "Drama",
+      "rounds": [
+        {
+          "a": "fixture:tr:tr33",
+          "answer": "b",
+          "b": "fixture:tr:tr42"
+        },
+        {
+          "a": "fixture:tr:tr20",
+          "answer": "a",
+          "b": "fixture:tr:tr01"
+        },
+        {
+          "a": "fixture:tr:tr09",
+          "answer": "a",
+          "b": "fixture:tr:tr39"
+        },
+        {
+          "a": "fixture:tr:tr17",
+          "answer": "a",
+          "b": "fixture:tr:tr08"
+        },
+        {
+          "a": "fixture:tr:tr36",
+          "answer": "a",
+          "b": "fixture:tr:tr23"
+        },
+        {
+          "a": "fixture:tr:tr10",
+          "answer": "a",
+          "b": "fixture:tr:tr37"
+        },
+        {
+          "a": "fixture:tr:tr40",
+          "answer": "a",
+          "b": "fixture:tr:tr22"
+        },
+        {
+          "a": "fixture:tr:tr21",
+          "answer": "a",
+          "b": "fixture:tr:tr05"
+        },
+        {
+          "a": "fixture:tr:tr06",
+          "answer": "a",
+          "b": "fixture:tr:tr38"
+        },
+        {
+          "a": "fixture:tr:tr07",
+          "answer": "b",
+          "b": "fixture:tr:tr32"
+        },
+        {
+          "a": "fixture:tr:tr16",
+          "answer": "a",
+          "b": "fixture:tr:tr24"
+        }
+      ]
+    },
+    "2026-12-07": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "direction": "max",
+      "family": "playlists",
+      "mal": true,
+      "number": 61,
+      "rounds": [
+        {
+          "a": "fixture:tr:tr16",
+          "answer": "a",
+          "b": "fixture:tr:tr05",
+          "info": {
+            "playlists": [
+              72,
+              60
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr17",
+          "answer": "b",
+          "b": "fixture:tr:tr21",
+          "info": {
+            "playlists": [
+              18,
+              820
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr33",
+          "answer": "b",
+          "b": "fixture:tr:tr20",
+          "info": {
+            "playlists": [
+              120,
+              150
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr09",
+          "answer": "b",
+          "b": "fixture:tr:tr38",
+          "info": {
+            "playlists": [
+              31,
+              55
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr22",
+          "answer": "a",
+          "b": "fixture:tr:tr36",
+          "info": {
+            "playlists": [
+              165,
+              41
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr19",
+          "answer": "b",
+          "b": "fixture:tr:tr42",
+          "info": {
+            "playlists": [
+              3,
+              405
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr01",
+          "answer": "a",
+          "b": "fixture:tr:tr10",
+          "info": {
+            "playlists": [
+              230,
+              190
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr23",
+          "answer": "a",
+          "b": "fixture:tr:tr06",
+          "info": {
+            "playlists": [
+              355,
+              268
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr08",
+          "answer": "a",
+          "b": "fixture:tr:tr29",
+          "info": {
+            "playlists": [
+              15,
+              5
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr40",
+          "answer": "b",
+          "b": "fixture:tr:tr18",
+          "info": {
+            "playlists": [
+              7,
+              28
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr41",
+          "answer": "b",
+          "b": "fixture:tr:tr27",
+          "info": {
+            "playlists": [
+              64,
+              310
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr33",
+          "answer": "a",
+          "b": "fixture:tr:tr35",
+          "info": {
+            "playlists": [
+              120,
+              35
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr34",
+          "answer": "a",
+          "b": "fixture:tr:tr32",
+          "info": {
+            "playlists": [
+              88,
+              8
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr15",
+          "answer": "b",
+          "b": "fixture:tr:tr39",
+          "info": {
+            "playlists": [
+              4,
+              22
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr30",
+          "answer": "b",
+          "b": "fixture:tr:tr31",
+          "info": {
+            "playlists": [
+              2,
+              6
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr24",
+          "answer": "a",
+          "b": "fixture:tr:tr37",
+          "info": {
+            "playlists": [
+              97,
+              14
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr07",
+          "answer": "a",
+          "b": "fixture:tr:tr25",
+          "info": {
+            "playlists": [
+              47,
+              12
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr33",
+          "answer": "a",
+          "b": "fixture:tr:tr26",
+          "info": {
+            "playlists": [
+              120,
+              3
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "epoch": "2026-10-08",
+  "kind": "anime-quiz",
+  "month": "2026-12",
+  "schemaVersion": 1,
+  "timezone": "America/Sao_Paulo"
+}

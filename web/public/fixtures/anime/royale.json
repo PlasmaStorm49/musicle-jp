@@ -3007,6 +3007,902 @@
         ]
       },
       "number": 47
+    },
+    "2026-11-24": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr19",
+          "fixture:tr:tr34",
+          "fixture:tr:tr23",
+          "fixture:tr:tr26",
+          "fixture:tr:tr29",
+          "fixture:tr:tr41",
+          "fixture:tr:tr27",
+          "fixture:tr:tr25",
+          "fixture:tr:tr08"
+        ],
+        "played": [
+          "fixture:tr:tr25",
+          "fixture:tr:tr23",
+          "fixture:tr:tr34",
+          "fixture:tr:tr19",
+          "fixture:tr:tr41"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr21",
+          "fixture:tr:tr15",
+          "fixture:tr:tr39",
+          "fixture:tr:tr33",
+          "fixture:tr:tr38",
+          "fixture:tr:tr18",
+          "fixture:tr:tr09",
+          "fixture:tr:tr17",
+          "fixture:tr:tr10"
+        ],
+        "played": [
+          "fixture:tr:tr10",
+          "fixture:tr:tr38",
+          "fixture:tr:tr15",
+          "fixture:tr:tr09",
+          "fixture:tr:tr18"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr05",
+          "fixture:tr:tr22",
+          "fixture:tr:tr42",
+          "fixture:tr:tr40",
+          "fixture:tr:tr30",
+          "fixture:tr:tr36",
+          "fixture:tr:tr16",
+          "fixture:tr:tr32",
+          "fixture:tr:tr20"
+        ],
+        "played": [
+          "fixture:tr:tr05",
+          "fixture:tr:tr16",
+          "fixture:tr:tr30",
+          "fixture:tr:tr36",
+          "fixture:tr:tr20"
+        ]
+      },
+      "number": 48
+    },
+    "2026-11-25": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr16",
+          "fixture:tr:tr24",
+          "fixture:tr:tr17",
+          "fixture:tr:tr34",
+          "fixture:tr:tr21",
+          "fixture:tr:tr42",
+          "fixture:tr:tr36",
+          "fixture:tr:tr32",
+          "fixture:tr:tr10"
+        ],
+        "played": [
+          "fixture:tr:tr24",
+          "fixture:tr:tr32",
+          "fixture:tr:tr36",
+          "fixture:tr:tr42",
+          "fixture:tr:tr16"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr27",
+          "fixture:tr:tr07",
+          "fixture:tr:tr39",
+          "fixture:tr:tr06",
+          "fixture:tr:tr30",
+          "fixture:tr:tr38",
+          "fixture:tr:tr08",
+          "fixture:tr:tr40",
+          "fixture:tr:tr35"
+        ],
+        "played": [
+          "fixture:tr:tr27",
+          "fixture:tr:tr39",
+          "fixture:tr:tr06",
+          "fixture:tr:tr07",
+          "fixture:tr:tr40"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr19",
+          "fixture:tr:tr26",
+          "fixture:tr:tr31",
+          "fixture:tr:tr33",
+          "fixture:tr:tr22",
+          "fixture:tr:tr20",
+          "fixture:tr:tr05",
+          "fixture:tr:tr29",
+          "fixture:tr:tr41"
+        ],
+        "played": [
+          "fixture:tr:tr33",
+          "fixture:tr:tr22",
+          "fixture:tr:tr31",
+          "fixture:tr:tr29",
+          "fixture:tr:tr26"
+        ]
+      },
+      "number": 49
+    },
+    "2026-11-26": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr06",
+          "fixture:tr:tr24",
+          "fixture:tr:tr21",
+          "fixture:tr:tr40",
+          "fixture:tr:tr42",
+          "fixture:tr:tr07",
+          "fixture:tr:tr22",
+          "fixture:tr:tr29",
+          "fixture:tr:tr35"
+        ],
+        "played": [
+          "fixture:tr:tr42",
+          "fixture:tr:tr40",
+          "fixture:tr:tr24",
+          "fixture:tr:tr21",
+          "fixture:tr:tr29"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr38",
+          "fixture:tr:tr10",
+          "fixture:tr:tr34",
+          "fixture:tr:tr15",
+          "fixture:tr:tr39",
+          "fixture:tr:tr30",
+          "fixture:tr:tr05",
+          "fixture:tr:tr18",
+          "fixture:tr:tr09"
+        ],
+        "played": [
+          "fixture:tr:tr15",
+          "fixture:tr:tr30",
+          "fixture:tr:tr09",
+          "fixture:tr:tr34",
+          "fixture:tr:tr10"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr33",
+          "fixture:tr:tr36",
+          "fixture:tr:tr20",
+          "fixture:tr:tr23",
+          "fixture:tr:tr08",
+          "fixture:tr:tr32",
+          "fixture:tr:tr17",
+          "fixture:tr:tr16",
+          "fixture:tr:tr41"
+        ],
+        "played": [
+          "fixture:tr:tr23",
+          "fixture:tr:tr17",
+          "fixture:tr:tr20",
+          "fixture:tr:tr41",
+          "fixture:tr:tr08"
+        ]
+      },
+      "number": 50
+    },
+    "2026-11-27": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr08",
+          "fixture:tr:tr24",
+          "fixture:tr:tr32",
+          "fixture:tr:tr34",
+          "fixture:tr:tr07",
+          "fixture:tr:tr35",
+          "fixture:tr:tr21",
+          "fixture:tr:tr30",
+          "fixture:tr:tr18"
+        ],
+        "played": [
+          "fixture:tr:tr35",
+          "fixture:tr:tr18",
+          "fixture:tr:tr30",
+          "fixture:tr:tr21",
+          "fixture:tr:tr32"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr25",
+          "fixture:tr:tr36",
+          "fixture:tr:tr19",
+          "fixture:tr:tr05",
+          "fixture:tr:tr27",
+          "fixture:tr:tr38",
+          "fixture:tr:tr26",
+          "fixture:tr:tr39",
+          "fixture:tr:tr31"
+        ],
+        "played": [
+          "fixture:tr:tr31",
+          "fixture:tr:tr19",
+          "fixture:tr:tr27",
+          "fixture:tr:tr05",
+          "fixture:tr:tr38"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr10",
+          "fixture:tr:tr23",
+          "fixture:tr:tr17",
+          "fixture:tr:tr09",
+          "fixture:tr:tr40",
+          "fixture:tr:tr16",
+          "fixture:tr:tr33",
+          "fixture:tr:tr42",
+          "fixture:tr:tr06"
+        ],
+        "played": [
+          "fixture:tr:tr16",
+          "fixture:tr:tr09",
+          "fixture:tr:tr42",
+          "fixture:tr:tr10",
+          "fixture:tr:tr06"
+        ]
+      },
+      "number": 51
+    },
+    "2026-11-28": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr18",
+          "fixture:tr:tr09",
+          "fixture:tr:tr30",
+          "fixture:tr:tr10",
+          "fixture:tr:tr38",
+          "fixture:tr:tr07",
+          "fixture:tr:tr08",
+          "fixture:tr:tr19",
+          "fixture:tr:tr20"
+        ],
+        "played": [
+          "fixture:tr:tr20",
+          "fixture:tr:tr19",
+          "fixture:tr:tr07",
+          "fixture:tr:tr09",
+          "fixture:tr:tr18"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr36",
+          "fixture:tr:tr22",
+          "fixture:tr:tr21",
+          "fixture:tr:tr17",
+          "fixture:tr:tr16",
+          "fixture:tr:tr40",
+          "fixture:tr:tr23",
+          "fixture:tr:tr41",
+          "fixture:tr:tr33"
+        ],
+        "played": [
+          "fixture:tr:tr23",
+          "fixture:tr:tr36",
+          "fixture:tr:tr33",
+          "fixture:tr:tr41",
+          "fixture:tr:tr17"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr24",
+          "fixture:tr:tr26",
+          "fixture:tr:tr39",
+          "fixture:tr:tr31",
+          "fixture:tr:tr27",
+          "fixture:tr:tr34",
+          "fixture:tr:tr25",
+          "fixture:tr:tr29",
+          "fixture:tr:tr15"
+        ],
+        "played": [
+          "fixture:tr:tr26",
+          "fixture:tr:tr34",
+          "fixture:tr:tr15",
+          "fixture:tr:tr29",
+          "fixture:tr:tr25"
+        ]
+      },
+      "number": 52
+    },
+    "2026-11-29": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr26",
+          "fixture:tr:tr29",
+          "fixture:tr:tr31",
+          "fixture:tr:tr34",
+          "fixture:tr:tr07",
+          "fixture:tr:tr36",
+          "fixture:tr:tr42",
+          "fixture:tr:tr38",
+          "fixture:tr:tr19"
+        ],
+        "played": [
+          "fixture:tr:tr42",
+          "fixture:tr:tr38",
+          "fixture:tr:tr07",
+          "fixture:tr:tr29",
+          "fixture:tr:tr36"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr21",
+          "fixture:tr:tr35",
+          "fixture:tr:tr09",
+          "fixture:tr:tr24",
+          "fixture:tr:tr15",
+          "fixture:tr:tr18",
+          "fixture:tr:tr08",
+          "fixture:tr:tr22",
+          "fixture:tr:tr17"
+        ],
+        "played": [
+          "fixture:tr:tr24",
+          "fixture:tr:tr35",
+          "fixture:tr:tr08",
+          "fixture:tr:tr22",
+          "fixture:tr:tr21"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr40",
+          "fixture:tr:tr30",
+          "fixture:tr:tr05",
+          "fixture:tr:tr10",
+          "fixture:tr:tr39",
+          "fixture:tr:tr06",
+          "fixture:tr:tr32",
+          "fixture:tr:tr27",
+          "fixture:tr:tr16"
+        ],
+        "played": [
+          "fixture:tr:tr16",
+          "fixture:tr:tr10",
+          "fixture:tr:tr40",
+          "fixture:tr:tr32",
+          "fixture:tr:tr30"
+        ]
+      },
+      "number": 53
+    },
+    "2026-11-30": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr24",
+          "fixture:tr:tr07",
+          "fixture:tr:tr30",
+          "fixture:tr:tr08",
+          "fixture:tr:tr06",
+          "fixture:tr:tr40",
+          "fixture:tr:tr27",
+          "fixture:tr:tr35",
+          "fixture:tr:tr16"
+        ],
+        "played": [
+          "fixture:tr:tr30",
+          "fixture:tr:tr06",
+          "fixture:tr:tr27",
+          "fixture:tr:tr35",
+          "fixture:tr:tr16"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr36",
+          "fixture:tr:tr23",
+          "fixture:tr:tr33",
+          "fixture:tr:tr25",
+          "fixture:tr:tr31",
+          "fixture:tr:tr22",
+          "fixture:tr:tr20",
+          "fixture:tr:tr21",
+          "fixture:tr:tr09"
+        ],
+        "played": [
+          "fixture:tr:tr33",
+          "fixture:tr:tr23",
+          "fixture:tr:tr20",
+          "fixture:tr:tr09",
+          "fixture:tr:tr25"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr17",
+          "fixture:tr:tr26",
+          "fixture:tr:tr10",
+          "fixture:tr:tr05",
+          "fixture:tr:tr34",
+          "fixture:tr:tr18",
+          "fixture:tr:tr39",
+          "fixture:tr:tr38",
+          "fixture:tr:tr19"
+        ],
+        "played": [
+          "fixture:tr:tr39",
+          "fixture:tr:tr18",
+          "fixture:tr:tr17",
+          "fixture:tr:tr05",
+          "fixture:tr:tr19"
+        ]
+      },
+      "number": 54
+    },
+    "2026-12-01": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr08",
+          "fixture:tr:tr34",
+          "fixture:tr:tr21",
+          "fixture:tr:tr09",
+          "fixture:tr:tr19",
+          "fixture:tr:tr18",
+          "fixture:tr:tr23",
+          "fixture:tr:tr25",
+          "fixture:tr:tr29"
+        ],
+        "played": [
+          "fixture:tr:tr34",
+          "fixture:tr:tr08",
+          "fixture:tr:tr21",
+          "fixture:tr:tr29",
+          "fixture:tr:tr09"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr40",
+          "fixture:tr:tr05",
+          "fixture:tr:tr10",
+          "fixture:tr:tr41",
+          "fixture:tr:tr07",
+          "fixture:tr:tr36",
+          "fixture:tr:tr22",
+          "fixture:tr:tr30",
+          "fixture:tr:tr32"
+        ],
+        "played": [
+          "fixture:tr:tr40",
+          "fixture:tr:tr22",
+          "fixture:tr:tr41",
+          "fixture:tr:tr32",
+          "fixture:tr:tr10"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr35",
+          "fixture:tr:tr33",
+          "fixture:tr:tr15",
+          "fixture:tr:tr38",
+          "fixture:tr:tr31",
+          "fixture:tr:tr17",
+          "fixture:tr:tr39",
+          "fixture:tr:tr42",
+          "fixture:tr:tr26"
+        ],
+        "played": [
+          "fixture:tr:tr42",
+          "fixture:tr:tr26",
+          "fixture:tr:tr15",
+          "fixture:tr:tr38",
+          "fixture:tr:tr31"
+        ]
+      },
+      "number": 55
+    },
+    "2026-12-02": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr30",
+          "fixture:tr:tr27",
+          "fixture:tr:tr22",
+          "fixture:tr:tr34",
+          "fixture:tr:tr40",
+          "fixture:tr:tr31",
+          "fixture:tr:tr25",
+          "fixture:tr:tr07",
+          "fixture:tr:tr24"
+        ],
+        "played": [
+          "fixture:tr:tr25",
+          "fixture:tr:tr30",
+          "fixture:tr:tr24",
+          "fixture:tr:tr07",
+          "fixture:tr:tr40"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr36",
+          "fixture:tr:tr32",
+          "fixture:tr:tr05",
+          "fixture:tr:tr17",
+          "fixture:tr:tr19",
+          "fixture:tr:tr23",
+          "fixture:tr:tr20",
+          "fixture:tr:tr35",
+          "fixture:tr:tr16"
+        ],
+        "played": [
+          "fixture:tr:tr35",
+          "fixture:tr:tr23",
+          "fixture:tr:tr20",
+          "fixture:tr:tr19",
+          "fixture:tr:tr36"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr42",
+          "fixture:tr:tr39",
+          "fixture:tr:tr09",
+          "fixture:tr:tr06",
+          "fixture:tr:tr08",
+          "fixture:tr:tr18",
+          "fixture:tr:tr33",
+          "fixture:tr:tr21",
+          "fixture:tr:tr38"
+        ],
+        "played": [
+          "fixture:tr:tr06",
+          "fixture:tr:tr33",
+          "fixture:tr:tr42",
+          "fixture:tr:tr39",
+          "fixture:tr:tr18"
+        ]
+      },
+      "number": 56
+    },
+    "2026-12-03": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr27",
+          "fixture:tr:tr07",
+          "fixture:tr:tr19",
+          "fixture:tr:tr34",
+          "fixture:tr:tr18",
+          "fixture:tr:tr26",
+          "fixture:tr:tr39",
+          "fixture:tr:tr35",
+          "fixture:tr:tr30"
+        ],
+        "played": [
+          "fixture:tr:tr07",
+          "fixture:tr:tr27",
+          "fixture:tr:tr30",
+          "fixture:tr:tr35",
+          "fixture:tr:tr26"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr16",
+          "fixture:tr:tr17",
+          "fixture:tr:tr09",
+          "fixture:tr:tr21",
+          "fixture:tr:tr20",
+          "fixture:tr:tr22",
+          "fixture:tr:tr38",
+          "fixture:tr:tr10",
+          "fixture:tr:tr15"
+        ],
+        "played": [
+          "fixture:tr:tr38",
+          "fixture:tr:tr21",
+          "fixture:tr:tr15",
+          "fixture:tr:tr16",
+          "fixture:tr:tr09"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr29",
+          "fixture:tr:tr06",
+          "fixture:tr:tr36",
+          "fixture:tr:tr31",
+          "fixture:tr:tr32",
+          "fixture:tr:tr24",
+          "fixture:tr:tr05",
+          "fixture:tr:tr41",
+          "fixture:tr:tr25"
+        ],
+        "played": [
+          "fixture:tr:tr32",
+          "fixture:tr:tr31",
+          "fixture:tr:tr05",
+          "fixture:tr:tr24",
+          "fixture:tr:tr36"
+        ]
+      },
+      "number": 57
+    },
+    "2026-12-04": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr18",
+          "fixture:tr:tr30",
+          "fixture:tr:tr39",
+          "fixture:tr:tr15",
+          "fixture:tr:tr38",
+          "fixture:tr:tr34",
+          "fixture:tr:tr33",
+          "fixture:tr:tr09",
+          "fixture:tr:tr08"
+        ],
+        "played": [
+          "fixture:tr:tr33",
+          "fixture:tr:tr08",
+          "fixture:tr:tr18",
+          "fixture:tr:tr38",
+          "fixture:tr:tr34"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr17",
+          "fixture:tr:tr23",
+          "fixture:tr:tr22",
+          "fixture:tr:tr42",
+          "fixture:tr:tr10",
+          "fixture:tr:tr05",
+          "fixture:tr:tr20",
+          "fixture:tr:tr40",
+          "fixture:tr:tr16"
+        ],
+        "played": [
+          "fixture:tr:tr10",
+          "fixture:tr:tr20",
+          "fixture:tr:tr42",
+          "fixture:tr:tr23",
+          "fixture:tr:tr40"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr29",
+          "fixture:tr:tr41",
+          "fixture:tr:tr06",
+          "fixture:tr:tr07",
+          "fixture:tr:tr32",
+          "fixture:tr:tr31",
+          "fixture:tr:tr36",
+          "fixture:tr:tr19",
+          "fixture:tr:tr35"
+        ],
+        "played": [
+          "fixture:tr:tr06",
+          "fixture:tr:tr41",
+          "fixture:tr:tr19",
+          "fixture:tr:tr29",
+          "fixture:tr:tr07"
+        ]
+      },
+      "number": 58
+    },
+    "2026-12-05": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr26",
+          "fixture:tr:tr30",
+          "fixture:tr:tr19",
+          "fixture:tr:tr07",
+          "fixture:tr:tr23",
+          "fixture:tr:tr27",
+          "fixture:tr:tr20",
+          "fixture:tr:tr31",
+          "fixture:tr:tr10"
+        ],
+        "played": [
+          "fixture:tr:tr30",
+          "fixture:tr:tr27",
+          "fixture:tr:tr26",
+          "fixture:tr:tr07",
+          "fixture:tr:tr10"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr36",
+          "fixture:tr:tr42",
+          "fixture:tr:tr16",
+          "fixture:tr:tr06",
+          "fixture:tr:tr33",
+          "fixture:tr:tr05",
+          "fixture:tr:tr38",
+          "fixture:tr:tr17",
+          "fixture:tr:tr22"
+        ],
+        "played": [
+          "fixture:tr:tr36",
+          "fixture:tr:tr05",
+          "fixture:tr:tr22",
+          "fixture:tr:tr16",
+          "fixture:tr:tr17"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr41",
+          "fixture:tr:tr09",
+          "fixture:tr:tr18",
+          "fixture:tr:tr35",
+          "fixture:tr:tr24",
+          "fixture:tr:tr08",
+          "fixture:tr:tr39",
+          "fixture:tr:tr15",
+          "fixture:tr:tr21"
+        ],
+        "played": [
+          "fixture:tr:tr09",
+          "fixture:tr:tr24",
+          "fixture:tr:tr15",
+          "fixture:tr:tr35",
+          "fixture:tr:tr39"
+        ]
+      },
+      "number": 59
+    },
+    "2026-12-06": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr32",
+          "fixture:tr:tr18",
+          "fixture:tr:tr30",
+          "fixture:tr:tr07",
+          "fixture:tr:tr39",
+          "fixture:tr:tr35",
+          "fixture:tr:tr34",
+          "fixture:tr:tr15",
+          "fixture:tr:tr41"
+        ],
+        "played": [
+          "fixture:tr:tr41",
+          "fixture:tr:tr30",
+          "fixture:tr:tr18",
+          "fixture:tr:tr32",
+          "fixture:tr:tr15"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr06",
+          "fixture:tr:tr36",
+          "fixture:tr:tr38",
+          "fixture:tr:tr21",
+          "fixture:tr:tr31",
+          "fixture:tr:tr05",
+          "fixture:tr:tr40",
+          "fixture:tr:tr10",
+          "fixture:tr:tr33"
+        ],
+        "played": [
+          "fixture:tr:tr38",
+          "fixture:tr:tr06",
+          "fixture:tr:tr31",
+          "fixture:tr:tr21",
+          "fixture:tr:tr33"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr25",
+          "fixture:tr:tr19",
+          "fixture:tr:tr09",
+          "fixture:tr:tr08",
+          "fixture:tr:tr42",
+          "fixture:tr:tr24",
+          "fixture:tr:tr29",
+          "fixture:tr:tr16",
+          "fixture:tr:tr20"
+        ],
+        "played": [
+          "fixture:tr:tr42",
+          "fixture:tr:tr25",
+          "fixture:tr:tr20",
+          "fixture:tr:tr29",
+          "fixture:tr:tr08"
+        ]
+      },
+      "number": 60
+    },
+    "2026-12-07": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "dificil": {
+        "options": [
+          "fixture:tr:tr38",
+          "fixture:tr:tr07",
+          "fixture:tr:tr32",
+          "fixture:tr:tr34",
+          "fixture:tr:tr15",
+          "fixture:tr:tr08",
+          "fixture:tr:tr18",
+          "fixture:tr:tr30",
+          "fixture:tr:tr27"
+        ],
+        "played": [
+          "fixture:tr:tr18",
+          "fixture:tr:tr34",
+          "fixture:tr:tr27",
+          "fixture:tr:tr38",
+          "fixture:tr:tr30"
+        ]
+      },
+      "facil": {
+        "options": [
+          "fixture:tr:tr42",
+          "fixture:tr:tr22",
+          "fixture:tr:tr26",
+          "fixture:tr:tr24",
+          "fixture:tr:tr33",
+          "fixture:tr:tr10",
+          "fixture:tr:tr29",
+          "fixture:tr:tr05",
+          "fixture:tr:tr36"
+        ],
+        "played": [
+          "fixture:tr:tr10",
+          "fixture:tr:tr36",
+          "fixture:tr:tr24",
+          "fixture:tr:tr26",
+          "fixture:tr:tr05"
+        ]
+      },
+      "medio": {
+        "options": [
+          "fixture:tr:tr17",
+          "fixture:tr:tr40",
+          "fixture:tr:tr39",
+          "fixture:tr:tr21",
+          "fixture:tr:tr16",
+          "fixture:tr:tr23",
+          "fixture:tr:tr35",
+          "fixture:tr:tr09",
+          "fixture:tr:tr06"
+        ],
+        "played": [
+          "fixture:tr:tr17",
+          "fixture:tr:tr39",
+          "fixture:tr:tr16",
+          "fixture:tr:tr23",
+          "fixture:tr:tr40"
+        ]
+      },
+      "number": 61
     }
   },
   "epoch": "2026-10-08",

@@ -2725,6 +2725,818 @@
           ]
         }
       ]
+    },
+    "2026-11-24": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr01",
+            "fixture:tr:tr21"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr34",
+            "fixture:tr:tr33"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr30",
+            "fixture:tr:tr39"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr24",
+            "fixture:tr:tr10",
+            "fixture:tr:tr40"
+          ]
+        }
+      ],
+      "number": 48,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr41",
+            "fixture:tr:tr26"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr17",
+            "fixture:tr:tr18"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr37",
+            "fixture:tr:tr25"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr09",
+            "fixture:tr:tr29",
+            "fixture:tr:tr36"
+          ]
+        }
+      ]
+    },
+    "2026-11-25": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr23",
+            "fixture:tr:tr20"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr42",
+            "fixture:tr:tr22"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr32",
+            "fixture:tr:tr07"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr06",
+            "fixture:tr:tr27",
+            "fixture:tr:tr35"
+          ]
+        }
+      ],
+      "number": 49,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr38",
+            "fixture:tr:tr41"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr05",
+            "fixture:tr:tr31"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr19",
+            "fixture:tr:tr29"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr25",
+            "fixture:tr:tr36",
+            "fixture:tr:tr17"
+          ]
+        }
+      ]
+    },
+    "2026-11-26": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr01",
+            "fixture:tr:tr33"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr10",
+            "fixture:tr:tr21"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr40",
+            "fixture:tr:tr18"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr24",
+            "fixture:tr:tr34",
+            "fixture:tr:tr27"
+          ]
+        }
+      ],
+      "number": 50,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr06",
+            "fixture:tr:tr09"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr26",
+            "fixture:tr:tr39"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr30",
+            "fixture:tr:tr31"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr17",
+            "fixture:tr:tr16",
+            "fixture:tr:tr36"
+          ]
+        }
+      ]
+    },
+    "2026-11-27": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr42",
+            "fixture:tr:tr22"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr23",
+            "fixture:tr:tr20"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr15",
+            "fixture:tr:tr29"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr10",
+            "fixture:tr:tr34",
+            "fixture:tr:tr32"
+          ]
+        }
+      ],
+      "number": 51,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr41",
+            "fixture:tr:tr38"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr19",
+            "fixture:tr:tr07"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr18",
+            "fixture:tr:tr25"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr16",
+            "fixture:tr:tr06",
+            "fixture:tr:tr36"
+          ]
+        }
+      ]
+    },
+    "2026-11-28": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr33",
+            "fixture:tr:tr01"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr21",
+            "fixture:tr:tr24"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr39",
+            "fixture:tr:tr09"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr06",
+            "fixture:tr:tr27",
+            "fixture:tr:tr40"
+          ]
+        }
+      ],
+      "number": 52,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr20",
+            "fixture:tr:tr38"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr17",
+            "fixture:tr:tr08"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr18",
+            "fixture:tr:tr26"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr29",
+            "fixture:tr:tr22",
+            "fixture:tr:tr10"
+          ]
+        }
+      ]
+    },
+    "2026-11-29": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr42",
+            "fixture:tr:tr23"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr34",
+            "fixture:tr:tr10"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr37",
+            "fixture:tr:tr05"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr22",
+            "fixture:tr:tr06",
+            "fixture:tr:tr31"
+          ]
+        }
+      ],
+      "number": 53,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr41",
+            "fixture:tr:tr16"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr30",
+            "fixture:tr:tr25"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr07",
+            "fixture:tr:tr15"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr26",
+            "fixture:tr:tr18",
+            "fixture:tr:tr33"
+          ]
+        }
+      ]
+    },
+    "2026-11-30": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr21",
+            "fixture:tr:tr01"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr20",
+            "fixture:tr:tr24"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr39",
+            "fixture:tr:tr17"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr33",
+            "fixture:tr:tr27",
+            "fixture:tr:tr34"
+          ]
+        }
+      ],
+      "number": 54,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr38",
+            "fixture:tr:tr19"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr35",
+            "fixture:tr:tr40"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr31",
+            "fixture:tr:tr29"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr18",
+            "fixture:tr:tr08",
+            "fixture:tr:tr09"
+          ]
+        }
+      ]
+    },
+    "2026-12-01": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr42",
+            "fixture:tr:tr10"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr22",
+            "fixture:tr:tr23"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr05",
+            "fixture:tr:tr16"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr06",
+            "fixture:tr:tr24",
+            "fixture:tr:tr15"
+          ]
+        }
+      ],
+      "number": 55,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr41",
+            "fixture:tr:tr07"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr25",
+            "fixture:tr:tr37"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr30",
+            "fixture:tr:tr26"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr31",
+            "fixture:tr:tr09",
+            "fixture:tr:tr33"
+          ]
+        }
+      ]
+    },
+    "2026-12-02": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr01",
+            "fixture:tr:tr34"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr21",
+            "fixture:tr:tr33"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr35",
+            "fixture:tr:tr17"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr20",
+            "fixture:tr:tr27",
+            "fixture:tr:tr40"
+          ]
+        }
+      ],
+      "number": 56,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr38",
+            "fixture:tr:tr41"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr08",
+            "fixture:tr:tr39"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr18",
+            "fixture:tr:tr19"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr31",
+            "fixture:tr:tr22",
+            "fixture:tr:tr32"
+          ]
+        }
+      ]
+    },
+    "2026-12-03": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr06",
+            "fixture:tr:tr23"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr42",
+            "fixture:tr:tr10"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr15",
+            "fixture:tr:tr37"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr22",
+            "fixture:tr:tr24",
+            "fixture:tr:tr27"
+          ]
+        }
+      ],
+      "number": 57,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr30",
+            "fixture:tr:tr16"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr25",
+            "fixture:tr:tr07"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr32",
+            "fixture:tr:tr29"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr18",
+            "fixture:tr:tr20",
+            "fixture:tr:tr33"
+          ]
+        }
+      ]
+    },
+    "2026-12-04": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr01",
+            "fixture:tr:tr21"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr20",
+            "fixture:tr:tr33"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr08",
+            "fixture:tr:tr17"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr24",
+            "fixture:tr:tr34",
+            "fixture:tr:tr31"
+          ]
+        }
+      ],
+      "number": 58,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr41",
+            "fixture:tr:tr38"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr39",
+            "fixture:tr:tr09"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr19",
+            "fixture:tr:tr25"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr18",
+            "fixture:tr:tr40",
+            "fixture:tr:tr05"
+          ]
+        }
+      ]
+    },
+    "2026-12-05": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr23",
+            "fixture:tr:tr06"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr27",
+            "fixture:tr:tr10"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr30",
+            "fixture:tr:tr07"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr22",
+            "fixture:tr:tr42",
+            "fixture:tr:tr15"
+          ]
+        }
+      ],
+      "number": 59,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr41",
+            "fixture:tr:tr35"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr16",
+            "fixture:tr:tr29"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr26",
+            "fixture:tr:tr05"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr40",
+            "fixture:tr:tr33",
+            "fixture:tr:tr17"
+          ]
+        }
+      ]
+    },
+    "2026-12-06": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr34",
+            "fixture:tr:tr01"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr21",
+            "fixture:tr:tr24"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr39",
+            "fixture:tr:tr18"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr33",
+            "fixture:tr:tr20",
+            "fixture:tr:tr27"
+          ]
+        }
+      ],
+      "number": 60,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr38",
+            "fixture:tr:tr31"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr08",
+            "fixture:tr:tr09"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr25",
+            "fixture:tr:tr15"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr17",
+            "fixture:tr:tr32",
+            "fixture:tr:tr16"
+          ]
+        }
+      ]
+    },
+    "2026-12-07": {
+      "catalogVersion": "2026-10-05.268bd5cb",
+      "musica": [
+        {
+          "answers": [
+            "fixture:tr:tr42",
+            "fixture:tr:tr10"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr22",
+            "fixture:tr:tr06"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr37",
+            "fixture:tr:tr07"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr23",
+            "fixture:tr:tr34",
+            "fixture:tr:tr19"
+          ]
+        }
+      ],
+      "number": 61,
+      "titulo": [
+        {
+          "answers": [
+            "fixture:tr:tr41",
+            "fixture:tr:tr40"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr30",
+            "fixture:tr:tr16"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr32",
+            "fixture:tr:tr35"
+          ]
+        },
+        {
+          "answers": [
+            "fixture:tr:tr31",
+            "fixture:tr:tr38",
+            "fixture:tr:tr27"
+          ]
+        }
+      ]
     }
   },
   "epoch": "2026-10-08",
