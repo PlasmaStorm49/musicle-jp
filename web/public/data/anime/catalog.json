@@ -989,6 +989,19 @@
       "type": "single"
     },
     {
+      "artistDisplay": "TeddyLoid feat.ボンジュール鈴木",
+      "artistIds": [
+        "apple:ar:376334342"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music30/v4/a9/80/a5/a980a540-fc87-16f6-57a5-1f95970d4a65/VEATP-33555.jpg/300x300bb.jpg",
+      "id": "apple:al:1122401667",
+      "latinSource": null,
+      "releaseDate": "2016-06-22",
+      "title": "Pipo Password (feat. ボンジュール鈴木) - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
       "artistDisplay": "水樹奈々",
       "artistIds": [
         "apple:ar:308629932"
@@ -4240,6 +4253,19 @@
       "type": "single"
     },
     {
+      "artistDisplay": "麻生夏子",
+      "artistIds": [
+        "apple:ar:318782688"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/ae/df/75/aedf7501-af0e-3c62-006d-7576441438af/081207_J.jpg/300x300bb.jpg",
+      "id": "apple:al:1496310090",
+      "latinSource": null,
+      "releaseDate": "2011-03-09",
+      "title": "恋愛向上committee - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
       "artistDisplay": "伊藤美来",
       "artistIds": [
         "apple:ar:1084662565"
@@ -4472,6 +4498,19 @@
       "title": "ID - Single",
       "titleLatin": null,
       "type": "single"
+    },
+    {
+      "artistDisplay": "fhána",
+      "artistIds": [
+        "apple:ar:516817774"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/3a/e7/22/3ae722c7-990d-782f-58f8-735056f1ba2b/4571374911200_cover.jpg/300x300bb.jpg",
+      "id": "apple:al:1519945047",
+      "latinSource": null,
+      "releaseDate": "2013-08-21",
+      "title": "ケセラセラ - EP",
+      "titleLatin": null,
+      "type": "ep"
     },
     {
       "artistDisplay": "fhána",
@@ -9926,6 +9965,19 @@
       "type": "single"
     },
     {
+      "artistDisplay": "春奈るな",
+      "artistIds": [
+        "apple:ar:570031182"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/53/45/6d/53456d2a-3d44-cf78-0924-e476bdee3e43/jacket_VVXX00483B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1538287218",
+      "latinSource": null,
+      "releaseDate": "2019-10-23",
+      "title": "glory days",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
       "artistDisplay": "ポルノグラフィティ",
       "artistIds": [
         "apple:ar:546978158"
@@ -9937,6 +9989,19 @@
       "title": "サウダージ - EP",
       "titleLatin": null,
       "type": "ep"
+    },
+    {
+      "artistDisplay": "加藤登紀子",
+      "artistIds": [
+        "apple:ar:76122580"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/7d/84/77/7d8477e8-c23e-5e83-bd9f-17c616cd32bf/jacket_MHXX01910B00Z_550.jpg/300x300bb.jpg",
+      "id": "apple:al:1538894819",
+      "latinSource": null,
+      "releaseDate": "1970-01-01",
+      "title": "加藤 登紀子 GOLDEN SELECTION",
+      "titleLatin": null,
+      "type": "album"
     },
     {
       "artistDisplay": "梶原岳人",
@@ -12112,6 +12177,19 @@
       "type": "single"
     },
     {
+      "artistDisplay": "青葉りんご & 伊ヶ崎綾香",
+      "artistIds": [
+        "apple:ar:534097595"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/08/88/36/08883665-6b1b-36ee-873f-ae76b233b646/bigup13390803.jpg/300x300bb.jpg",
+      "id": "apple:al:1632579501",
+      "latinSource": null,
+      "releaseDate": "2022-07-19",
+      "title": "恋愛☆洗セーション - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
       "artistDisplay": "sumika",
       "artistIds": [
         "apple:ar:586120102"
@@ -13061,6 +13139,32 @@
       "title": "innocent arrogance - Single",
       "titleLatin": null,
       "type": "single"
+    },
+    {
+      "artistDisplay": "オーイシマサヨシ",
+      "artistIds": [
+        "apple:ar:908870855"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/20/d5/8c/20d58c40-1feb-5c99-31fd-875668e14584/PCSP_04838_A.jpg/300x300bb.jpg",
+      "id": "apple:al:1677726809",
+      "latinSource": null,
+      "releaseDate": "2023-04-07",
+      "title": "死んだ! - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "久保ユリカ",
+      "artistIds": [
+        "apple:ar:613929353"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4a/d8/7b/4ad87b4d-fae7-e7ff-963f-9c0dfee5f597/PCCG_02238_A.jpg/300x300bb.jpg",
+      "id": "apple:al:1677736086",
+      "latinSource": null,
+      "releaseDate": "2023-04-07",
+      "title": "可愛くって意地悪しちゃう - EP",
+      "titleLatin": null,
+      "type": "ep"
     },
     {
       "artistDisplay": "月詠み",
@@ -17190,6 +17294,19 @@
       "type": "single"
     },
     {
+      "artistDisplay": "丁",
+      "artistIds": [
+        "apple:ar:1463173192"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/42/44/48/42444803-6190-dd4b-7b2d-b246b284ccdd/4540774745760.png/300x300bb.jpg",
+      "id": "apple:al:1837131918",
+      "latinSource": null,
+      "releaseDate": "2025-10-04",
+      "title": "閃より雷や、更りや高き - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
       "artistDisplay": "河辺千恵子",
       "artistIds": [
         "apple:ar:78993940"
@@ -17399,6 +17516,19 @@
       "type": "single"
     },
     {
+      "artistDisplay": "Nowlu",
+      "artistIds": [
+        "apple:ar:1616530162"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f3/68/52/f3685212-6e4d-5836-2b5d-a602fdc1012d/4540774746514.jpg/300x300bb.jpg",
+      "id": "apple:al:1842021022",
+      "latinSource": null,
+      "releaseDate": "2025-10-11",
+      "title": "シロガラス - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
       "artistDisplay": "ワンリパブリック",
       "artistIds": [
         "apple:ar:260414340"
@@ -17490,6 +17620,19 @@
       "type": "album"
     },
     {
+      "artistDisplay": "milktub",
+      "artistIds": [
+        "apple:ar:207756365"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5c/c0/d3/5cc0d315-369b-55c8-0795-131ced9ceb62/4540774407859.png/300x300bb.jpg",
+      "id": "apple:al:1856739164",
+      "latinSource": null,
+      "releaseDate": "2011-03-09",
+      "title": "月曜はキライ - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
       "artistDisplay": "StylipS",
       "artistIds": [
         "apple:ar:497916266"
@@ -17527,6 +17670,19 @@
       "title": "TVアニメ『終末なにしてますか?忙しいですか?救ってもらっていいですか?』オリジナルサウンドトラック「青い記憶」",
       "titleLatin": null,
       "type": "album"
+    },
+    {
+      "artistDisplay": "milktub",
+      "artistIds": [
+        "apple:ar:207756365"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/81/a7/68/81a768ba-8875-e86e-9fa2-c326f45b596f/4540774141159.png/300x300bb.jpg",
+      "id": "apple:al:1857515856",
+      "latinSource": null,
+      "releaseDate": "2013-07-31",
+      "title": "有頂天人生 - EP",
+      "titleLatin": null,
+      "type": "ep"
     },
     {
       "artistDisplay": "King Gnu",
@@ -17616,6 +17772,19 @@
       "latinSource": null,
       "releaseDate": "2013-02-27",
       "title": "ココロコネクト カコランダム オリジナルサウンドトラック",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "tofubeats",
+      "artistIds": [
+        "apple:ar:305391189"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/69/b8/8a69b83c-9095-3036-3adb-76647252330c/4580305821945.png/300x300bb.jpg",
+      "id": "apple:al:1872331193",
+      "latinSource": null,
+      "releaseDate": "2026-02-01",
+      "title": "TVアニメ『正反対な君と僕』オリジナル・サウンドトラック",
       "titleLatin": null,
       "type": "album"
     },
@@ -22134,6 +22303,12 @@
       "nameLatin": null
     },
     {
+      "id": "apple:ar:1463173192",
+      "latinSource": "provider",
+      "name": "丁",
+      "nameLatin": "Tei"
+    },
+    {
       "id": "apple:ar:1464116465",
       "latinSource": null,
       "name": "Study",
@@ -22572,6 +22747,12 @@
       "nameLatin": null
     },
     {
+      "id": "apple:ar:1616530162",
+      "latinSource": null,
+      "name": "Nowlu",
+      "nameLatin": null
+    },
+    {
       "id": "apple:ar:1618727976",
       "latinSource": "provider",
       "name": "ワルシャワ・フィルハーモニック・オーケストラ&クワイヤ",
@@ -22995,6 +23176,12 @@
       "id": "apple:ar:207624745",
       "latinSource": null,
       "name": "ZEN-LA-ROCK",
+      "nameLatin": null
+    },
+    {
+      "id": "apple:ar:207756365",
+      "latinSource": null,
+      "name": "milktub",
       "nameLatin": null
     },
     {
@@ -23688,6 +23875,12 @@
       "nameLatin": null
     },
     {
+      "id": "apple:ar:305391189",
+      "latinSource": null,
+      "name": "tofubeats",
+      "nameLatin": null
+    },
+    {
       "id": "apple:ar:305773949",
       "latinSource": "provider",
       "name": "YURI!!! on ICE",
@@ -24076,6 +24269,12 @@
       "latinSource": "provider",
       "name": "ステレオポニー",
       "nameLatin": "Stereopony"
+    },
+    {
+      "id": "apple:ar:376334342",
+      "latinSource": null,
+      "name": "TeddyLoid",
+      "nameLatin": null
     },
     {
       "id": "apple:ar:376334413",
@@ -24744,6 +24943,12 @@
       "nameLatin": "Sambomaster"
     },
     {
+      "id": "apple:ar:534097595",
+      "latinSource": "provider",
+      "name": "青葉りんご",
+      "nameLatin": "Ringo Aoba"
+    },
+    {
       "id": "apple:ar:537914196",
       "latinSource": "provider",
       "name": "福原 遥",
@@ -25060,6 +25265,12 @@
       "latinSource": null,
       "name": "CURIO",
       "nameLatin": null
+    },
+    {
+      "id": "apple:ar:613929353",
+      "latinSource": "provider",
+      "name": "久保ユリカ",
+      "nameLatin": "Yurika Kubo"
     },
     {
       "id": "apple:ar:614950481",
@@ -25576,6 +25787,12 @@
       "latinSource": "provider",
       "name": "井上陽水",
       "nameLatin": "Yosui Inoue"
+    },
+    {
+      "id": "apple:ar:76122580",
+      "latinSource": "provider",
+      "name": "加藤登紀子",
+      "nameLatin": "Tokiko Kato"
     },
     {
       "id": "apple:ar:76836153",
@@ -26202,7 +26419,7 @@
       "nameLatin": null
     }
   ],
-  "catalogVersion": "2026-11-04.90ba9d3d",
+  "catalogVersion": "2026-11-16.7d8e5819",
   "franchises": [
     {
       "id": "anime:fr:100_man_no_inochi_no_ue_ni_ore_wa_tatteiru",
@@ -26511,6 +26728,15 @@
       ]
     },
     {
+      "id": "anime:fr:ashita_no_joe",
+      "name": "Ashita no Joe",
+      "search": [
+        "ashitanojoe",
+        "rockyjoe",
+        "tomorrowsjoe"
+      ]
+    },
+    {
       "id": "anime:fr:assassins_pride",
       "name": "Assassins Pride",
       "search": [
@@ -26542,15 +26768,21 @@
       "search": [
         "bakandtestsummonthebeasts",
         "bakandtestsummonthebeasts2",
+        "bakandtestsummonthebeastsmatsuri",
+        "bakandtestsummonthebeastsova",
         "bakatest",
         "bakatest2",
         "bakatotesttoshokanju",
         "bakatotesttoshokanju2",
+        "bakatotesttoshokanjumatsuri",
         "bakatotesttoshokanjuni",
+        "bakatotesttoshokanjuova",
         "theijiotthetestsandthesummonedcreatsures",
         "theijiotthetestsandthesummonedcreatsures2",
+        "theijiotthetestsandthesummonedcreatsuresova",
         "ばかとてすとと召喚獣",
-        "ばかとてすとと召喚獣にっ"
+        "ばかとてすとと召喚獣にっ",
+        "ばかとてすとと召喚獣祭"
       ]
     },
     {
@@ -26691,14 +26923,18 @@
       "search": [
         "bleach",
         "bleachsenenkessenhen",
+        "bleachsenenkessenhenkashintan",
         "bleachsenenkessenhenketsubetsutan",
         "bleachsenenkessenhensokokutan",
         "bleachthosandyearblodwar",
         "bleachthosandyearblodwararc",
+        "bleachthosandyearblodwarpart4",
+        "bleachthosandyearblodwarthecalamich",
         "bleachthosandyearblodwartheconflict",
         "bleachthosandyearblodwartheseparachion",
         "bleach千年血戦篇",
         "bleach千年血戦篇相剋譚",
+        "bleach千年血戦篇禍進譚",
         "bleach千年血戦篇訣別譚"
       ]
     },
@@ -29884,6 +30120,15 @@
       ]
     },
     {
+      "id": "anime:fr:mugen_gacha",
+      "name": "Shinjiteita Nakama-tachi ni Dungeon Okuchi de Korosarekaketa ga Gift \"Mugen Gacha\" de Level 9999 no Nakama-tachi wo Te ni Irete Moto Party Member to Sekai ni Fukushuu & \"Zamaa!\" Shimasu!",
+      "search": [
+        "mygiftlvl9999unlimitedgachabackstabbejinabackwaterzungeonimotforrevenge",
+        "shinjiteitanakamatachinizungeonokuchidekorosarekaketagagiftmugengachadelevel9999nonakamatachiwoteniretemotoparchmenbertosekainifukushuzamashimasu",
+        "信じていた仲間達にだんじょん奥地で殺されかけたがぎふと無限がちゃでれべる9999の仲間達を手に入れて元ぱーてぃーめんばーと世界に復讐ざまぁします"
+      ]
+    },
+    {
       "id": "anime:fr:munou_na_nana",
       "name": "Munou na Nana",
       "search": [
@@ -30427,6 +30672,13 @@
       ]
     },
     {
+      "id": "anime:fr:overflow",
+      "name": "Overflow",
+      "search": [
+        "overflow"
+      ]
+    },
+    {
       "id": "anime:fr:overlord",
       "name": "Overlord",
       "search": [
@@ -30715,13 +30967,17 @@
       "search": [
         "saekanohowtoraiseaboringgirlfriend",
         "saekanohowtoraiseaboringgirlfriendepisode0",
+        "saekanohowtoraiseaboringgirlfriendmovie",
+        "saekanothemoviefinale",
         "saenaiheroinenosodatekata",
         "saenaiheroinenosodatekataepisode0",
+        "saenaiheroinenosodatekatafine",
         "saenaiheroinenosodatekataflatepisode0",
         "saenaiheroinenosodatekatakoitojunjonoservicekai",
         "saenaiheroinenosodatekataspecial",
         "saenaikanojonosodatekata",
-        "冴えない彼女の育てかた"
+        "冴えない彼女の育てかた",
+        "冴えない彼女の育てかたfine"
       ]
     },
     {
@@ -30842,6 +31098,15 @@
       "name": "School Rumble",
       "search": [
         "scholrunble"
+      ]
+    },
+    {
+      "id": "anime:fr:seihantai_na_kimi_to_boku",
+      "name": "Seihantai na Kimi to Boku",
+      "search": [
+        "seihantainakimitoboku",
+        "yoanjiarepolaropposhites",
+        "正反対な君と僕"
       ]
     },
     {
@@ -31815,6 +32080,24 @@
       ]
     },
     {
+      "id": "anime:fr:uchouten_kazoku",
+      "name": "Uchouten Kazoku",
+      "search": [
+        "theccentricfamily",
+        "uchotenkazoku",
+        "有頂天家族"
+      ]
+    },
+    {
+      "id": "anime:fr:uchuu_patrol_luluco",
+      "name": "Uchuu Patrol Luluco",
+      "search": [
+        "spacepatrolluluco",
+        "uchupatrolluluco",
+        "宇宙ぱとろーるるる子"
+      ]
+    },
+    {
       "id": "anime:fr:un_go",
       "name": "UN-GO",
       "search": [
@@ -32190,6 +32473,16 @@
       ]
     },
     {
+      "id": "anime:fr:yuusha_ga_shinda",
+      "name": "Yuusha ga Shinda!",
+      "search": [
+        "theheroisdead",
+        "thelegendaryheroisdead",
+        "yushagashinda",
+        "勇者が死んだ"
+      ]
+    },
+    {
       "id": "anime:fr:yuusha_kei_ni_shosu_choubatsu_yuusha_9004tai_keimu_kiroku",
       "name": "Yuusha Kei ni Shosu: Choubatsu Yuusha 9004-tai Keimu Kiroku",
       "search": [
@@ -32296,7 +32589,7 @@
       ]
     }
   ],
-  "generatedAt": "2026-11-04T16:54:33Z",
+  "generatedAt": "2026-11-16T19:36:04Z",
   "provider": "apple",
   "schemaVersion": 1,
   "snapshots": [
@@ -32335,6 +32628,10 @@
     {
       "fetchedAt": "2026-11-04T16:54:33Z",
       "id": "2026-11-04T165433Z"
+    },
+    {
+      "fetchedAt": "2026-11-16T19:36:04Z",
+      "id": "2026-11-16T193604Z"
     }
   ],
   "storefront": "jp",
@@ -37136,6 +37433,63 @@
       "storeUrl": "https://music.apple.com/jp/album/valkyrie-%E6%88%A6%E4%B9%99%E5%A5%B3/1121899477?i=1121899694",
       "title": "Valkyrie-戦乙女-",
       "titleLatin": "Valkyrie -Ikusa Otome-"
+    },
+    {
+      "albumId": "apple:al:1122401667",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:uchuu_patrol_luluco"
+        ],
+        "themes": [
+          {
+            "anime": "Uchuu Patrol Luluco",
+            "cover": {
+              "large": "anime/large-cover/w6nud2odYFkEJZi9bQsPQP4VDYWfPPkPh5Dx4U2d.jpg",
+              "small": "anime/small-cover/n1lrYdrMBxf6XRBrzrhBICXQy8kCIP20kciuHcGG.avif"
+            },
+            "sequence": 1,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "TeddyLoid feat.ボンジュール鈴木",
+      "artistIds": [
+        "apple:ar:376334342"
+      ],
+      "durationMs": 265000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1122401670",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d3/09/04/d309049b-1d45-ca39-ea83-c258a80f6767/mzaf_15676039965946276363.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-06-22",
+      "search": {
+        "artist": [
+          "bonjorsuzuki",
+          "teddyloid",
+          "teddyloidfeatぼんじゅーる鈴木"
+        ],
+        "title": [
+          "pipopassword",
+          "pipopasswordfeatぼんじゅーる鈴木"
+        ]
+      },
+      "songKey": "pipopassword|apple:ar:376334342",
+      "storeUrl": "https://music.apple.com/jp/album/pipo-password-feat-%E3%83%9C%E3%83%B3%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E9%88%B4%E6%9C%A8/1122401667?i=1122401670",
+      "title": "Pipo Password (feat. ボンジュール鈴木)",
+      "titleLatin": "Pipo Password"
     },
     {
       "albumId": "apple:al:1128261142",
@@ -53530,6 +53884,62 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1496310090",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:bakatest"
+        ],
+        "themes": [
+          {
+            "anime": "Baka to Test to Shoukanjuu: Matsuri",
+            "cover": {
+              "large": "anime/large-cover/Makaxo9IudjxQgxckyLdyct8gCZsmSNdmTuhtpke.jpg",
+              "small": "anime/small-cover/4ZjUO6JPx68SltmJgoLLfNqIH8uZW2meYPI5Nuoz.avif"
+            },
+            "sequence": null,
+            "type": "OP"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "麻生夏子",
+      "artistIds": [
+        "apple:ar:318782688"
+      ],
+      "durationMs": 245253,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1496310093",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/25/46/e8/2546e89c-88a6-ebde-9e47-c8a9a8ab76cf/mzaf_17783267475450069999.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-03-09",
+      "search": {
+        "artist": [
+          "natsukoaso",
+          "麻生夏子"
+        ],
+        "title": [
+          "renaikojocommitte",
+          "恋愛向上committe"
+        ]
+      },
+      "songKey": "恋愛向上committee|apple:ar:318782688",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%8B%E6%84%9B%E5%90%91%E4%B8%8Acommittee/1496310090?i=1496310093",
+      "title": "恋愛向上committee",
+      "titleLatin": "Renai Koujou committee"
+    },
+    {
       "albumId": "apple:al:1496309462",
       "anime": {
         "franchiseIds": [
@@ -54691,6 +55101,61 @@
       "storeUrl": "https://music.apple.com/jp/album/id/1519539398?i=1519539420",
       "title": "ID",
       "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1519945047",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:uchouten_kazoku"
+        ],
+        "themes": [
+          {
+            "anime": "Uchouten Kazoku",
+            "cover": {
+              "large": "anime/large-cover/27kpDiKqEpy8H9lKt4Na2VL0oXzop1gatxMOsm9L.jpg",
+              "small": "anime/small-cover/2OjRQDoX7D9gasYPp4CEJjsIzMNAleIFqd8HLzY9.avif"
+            },
+            "sequence": 1,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "fhána",
+      "artistIds": [
+        "apple:ar:516817774"
+      ],
+      "durationMs": 298000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1519945048",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/94/8a/9f/948a9ff1-b01f-3853-4d87-6b7f02a0793b/mzaf_14306698352631595526.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-08-21",
+      "search": {
+        "artist": [
+          "fhana"
+        ],
+        "title": [
+          "queserasera",
+          "けせらせら"
+        ]
+      },
+      "songKey": "けせらせら|apple:ar:516817774",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B1%E3%82%BB%E3%83%A9%E3%82%BB%E3%83%A9/1519945047?i=1519945048",
+      "title": "ケセラセラ",
+      "titleLatin": "Qué Será, Será"
     },
     {
       "albumId": "apple:al:1520139706",
@@ -79490,6 +79955,61 @@
       "titleLatin": "Niji no Kanata ni"
     },
     {
+      "albumId": "apple:al:1538287218",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:saenai_heroine_no_sodatekata"
+        ],
+        "themes": [
+          {
+            "anime": "Saenai Heroine no Sodatekata Fine",
+            "cover": {
+              "large": "anime/large-cover/7FtMFgbGvXsbXhLCjR5jSG4MNuLkGyi3N9OO9xbz.png",
+              "small": "anime/small-cover/SVvcoQh0YUkar1OlHWrXF2JU2EtInhvhL6xnkYtG.avif"
+            },
+            "sequence": null,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "春奈るな",
+      "artistIds": [
+        "apple:ar:570031182"
+      ],
+      "durationMs": 293400,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538287219",
+      "latinSource": null,
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/0e/e8/0f/0ee80f89-bbc3-7cc6-809d-21b2cc4f1876/mzaf_17436640561186040965.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-10-23",
+      "search": {
+        "artist": [
+          "lunaharuna",
+          "春奈るな"
+        ],
+        "title": [
+          "glorydays"
+        ]
+      },
+      "songKey": "glorydays|apple:ar:570031182",
+      "storeUrl": "https://music.apple.com/jp/album/glory-days/1538287218?i=1538287219",
+      "title": "glory days",
+      "titleLatin": null
+    },
+    {
       "albumId": "apple:al:1538303080",
       "anime": {
         "franchiseIds": [
@@ -79544,6 +80064,62 @@
       "storeUrl": "https://music.apple.com/jp/album/%E3%82%B5%E3%82%A6%E3%83%80%E3%83%BC%E3%82%B8/1538303080?i=1538303081",
       "title": "サウダージ",
       "titleLatin": "Saudade"
+    },
+    {
+      "albumId": "apple:al:1538894819",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:ashita_no_joe"
+        ],
+        "themes": [
+          {
+            "anime": "Ashita no Joe",
+            "cover": {
+              "large": "anime/large-cover/uwKSbKeLOo1zgpnvNfvXD8tEAXKyi1AEIsRsjv0d.jpg",
+              "small": "anime/small-cover/zT30RZjg9XU2lQTyG1I6nkKm2ZVL1oSp5FsJRPEV.avif"
+            },
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "加藤登紀子",
+      "artistIds": [
+        "apple:ar:76122580"
+      ],
+      "durationMs": 196000,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1538894822",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/95/fb/80/95fb8079-d07c-199a-8894-d8a56a3571dc/mzaf_9636252676549430652.plus.aac.p.m4a"
+      },
+      "releaseDate": "1970-01-01",
+      "search": {
+        "artist": [
+          "tokikokato",
+          "加藤登紀子"
+        ],
+        "title": [
+          "shiretokoryojo",
+          "知床旅情"
+        ]
+      },
+      "songKey": "知床旅情|apple:ar:76122580",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%9F%A5%E5%BA%8A%E6%97%85%E6%83%85/1538894819?i=1538894822",
+      "title": "知床旅情",
+      "titleLatin": "Shiretoko Ryojou"
     },
     {
       "albumId": "apple:al:1538895266",
@@ -90374,6 +90950,64 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1632579501",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:overflow"
+        ],
+        "themes": [
+          {
+            "anime": "Overflow",
+            "cover": {
+              "large": "anime/large-cover/GvuXSpF2F2B1rhbFz2jjEMnhMAGtNMgNkZmfkM0t.png",
+              "small": "anime/small-cover/ZCnRXvC7isYagfAJX2CQMK777NZcPatyJydw3nPn.avif"
+            },
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "青葉りんご & 伊ヶ崎綾香",
+      "artistIds": [
+        "apple:ar:534097595"
+      ],
+      "durationMs": 248059,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1632579503",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/34/91/3a/34913a0f-af39-b1a1-e1ef-15ca4f4613c9/mzaf_10535659738139877367.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-07-19",
+      "search": {
+        "artist": [
+          "ayakaigasaki",
+          "ringoaoba",
+          "青葉りんご",
+          "青葉りんご伊ゖ崎綾香"
+        ],
+        "title": [
+          "renaisensachion",
+          "恋愛洗せーしょん"
+        ]
+      },
+      "songKey": "恋愛洗せーしょん|apple:ar:534097595",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%8B%E6%84%9B-%E6%B4%97%E3%82%BB%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/1632579501?i=1632579503",
+      "title": "恋愛☆洗セーション",
+      "titleLatin": "Renai☆Sensation"
+    },
+    {
       "albumId": "apple:al:1633409414",
       "anime": {
         "franchiseIds": [
@@ -94743,6 +95377,119 @@
       "storeUrl": "https://music.apple.com/jp/album/innocent-arrogance/1677276383?i=1677276384",
       "title": "innocent arrogance",
       "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1677726809",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:yuusha_ga_shinda"
+        ],
+        "themes": [
+          {
+            "anime": "Yuusha ga Shinda!",
+            "cover": {
+              "large": "anime/large-cover/fM1ZVqXuHaUgScHDl8PRGsdlJm87CrNei0DJHH65.jpg",
+              "small": "anime/small-cover/u5jNjEBoywuUdxmZdBCWFuzO9jzvmWJKW3AY0Aqp.avif"
+            },
+            "sequence": null,
+            "type": "OP"
+          }
+        ],
+        "tiers": {
+          "musica": "medio",
+          "titulo": "medio"
+        }
+      },
+      "artistDisplay": "オーイシマサヨシ",
+      "artistIds": [
+        "apple:ar:908870855"
+      ],
+      "durationMs": 220928,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1677726810",
+      "latinSource": "provider",
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/9b/3f/f6/9b3ff6d8-a3aa-15e1-2399-d7892768d1fe/mzaf_3210536647528060945.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-07",
+      "search": {
+        "artist": [
+          "masayoshioishi",
+          "おーいしまさよし",
+          "大石昌良"
+        ],
+        "title": [
+          "shinda",
+          "死んだ"
+        ]
+      },
+      "songKey": "死んだ|apple:ar:908870855",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%AD%BB%E3%82%93%E3%81%A0/1677726809?i=1677726810",
+      "title": "死んだ!",
+      "titleLatin": "Shinda!"
+    },
+    {
+      "albumId": "apple:al:1677736086",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:yuusha_ga_shinda"
+        ],
+        "themes": [
+          {
+            "anime": "Yuusha ga Shinda!",
+            "cover": {
+              "large": "anime/large-cover/fM1ZVqXuHaUgScHDl8PRGsdlJm87CrNei0DJHH65.jpg",
+              "small": "anime/small-cover/u5jNjEBoywuUdxmZdBCWFuzO9jzvmWJKW3AY0Aqp.avif"
+            },
+            "sequence": null,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "久保ユリカ",
+      "artistIds": [
+        "apple:ar:613929353"
+      ],
+      "durationMs": 236800,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1677736088",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/19/6b/07/196b0737-3ebd-c8d1-8f6a-c19a1677ddef/mzaf_2452809682643120409.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-07",
+      "search": {
+        "artist": [
+          "yurikakubo",
+          "久保ゆりか"
+        ],
+        "title": [
+          "kawaikutteijiwarushichau",
+          "可愛くって意地悪しちゃう"
+        ]
+      },
+      "songKey": "可愛くって意地悪しちゃう|apple:ar:613929353",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%8F%AF%E6%84%9B%E3%81%8F%E3%81%A3%E3%81%A6%E6%84%8F%E5%9C%B0%E6%82%AA%E3%81%97%E3%81%A1%E3%82%83%E3%81%86/1677736086?i=1677736088",
+      "title": "可愛くって意地悪しちゃう",
+      "titleLatin": "Kawaikutte Ijiwaru Shichau"
     },
     {
       "albumId": "apple:al:1678038438",
@@ -114752,6 +115499,62 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1837131918",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:mugen_gacha"
+        ],
+        "themes": [
+          {
+            "anime": "Shinjiteita Nakama-tachi ni Dungeon Okuchi de Korosarekaketa ga Gift \"Mugen Gacha\" de Level 9999 no Nakama-tachi wo Te ni Irete Moto Party Member to Sekai ni Fukushuu & \"Zamaa!\" Shimasu!",
+            "cover": {
+              "large": "anime/large-cover/k24AtKZMRRJduYvedY9f4KZixjMmCtFxtBsK4bmp.jpg",
+              "small": "anime/small-cover/4XwUabUFSSFOMImmcLigjpU2CI6vqxNokLDO9cyQ.avif"
+            },
+            "sequence": null,
+            "type": "OP"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "丁",
+      "artistIds": [
+        "apple:ar:1463173192"
+      ],
+      "durationMs": 282067,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1837131919",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8f/08/ab/8f08ab1a-54a1-4226-4889-cb224f5a6ade/mzaf_12520277894207039957.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-10-04",
+      "search": {
+        "artist": [
+          "tei",
+          "丁"
+        ],
+        "title": [
+          "hirayoriraiyasarariyatakaki",
+          "閃より雷や更りや高き"
+        ]
+      },
+      "songKey": "閃より雷や更りや高き|apple:ar:1463173192",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%96%83%E3%82%88%E3%82%8A%E9%9B%B7%E3%82%84-%E6%9B%B4%E3%82%8A%E3%82%84%E9%AB%98%E3%81%8D/1837131918?i=1837131919",
+      "title": "閃より雷や、更りや高き",
+      "titleLatin": "Hira-yori Raiya, Sara-riya Takaki"
+    },
+    {
       "albumId": "apple:al:1837312386",
       "anime": {
         "franchiseIds": [
@@ -115639,6 +116442,61 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1842021022",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:mugen_gacha"
+        ],
+        "themes": [
+          {
+            "anime": "Shinjiteita Nakama-tachi ni Dungeon Okuchi de Korosarekaketa ga Gift \"Mugen Gacha\" de Level 9999 no Nakama-tachi wo Te ni Irete Moto Party Member to Sekai ni Fukushuu & \"Zamaa!\" Shimasu!",
+            "cover": {
+              "large": "anime/large-cover/k24AtKZMRRJduYvedY9f4KZixjMmCtFxtBsK4bmp.jpg",
+              "small": "anime/small-cover/4XwUabUFSSFOMImmcLigjpU2CI6vqxNokLDO9cyQ.avif"
+            },
+            "sequence": null,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "Nowlu",
+      "artistIds": [
+        "apple:ar:1616530162"
+      ],
+      "durationMs": 200526,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1842021203",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ca/d1/8c/cad18c13-8b89-6948-73e0-470e6fb71a58/mzaf_16335978978018306980.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-10-11",
+      "search": {
+        "artist": [
+          "nowlu"
+        ],
+        "title": [
+          "shirogarasu",
+          "しろがらす"
+        ]
+      },
+      "songKey": "しろがらす|apple:ar:1616530162",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%AD%E3%82%AC%E3%83%A9%E3%82%B9/1842021022?i=1842021203",
+      "title": "シロガラス",
+      "titleLatin": "Shirogarasu"
+    },
+    {
       "albumId": "apple:al:1842987733",
       "anime": {
         "franchiseIds": [
@@ -116020,6 +116878,61 @@
       "titleLatin": null
     },
     {
+      "albumId": "apple:al:1856739164",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:bakatest"
+        ],
+        "themes": [
+          {
+            "anime": "Baka to Test to Shoukanjuu: Matsuri",
+            "cover": {
+              "large": "anime/large-cover/Makaxo9IudjxQgxckyLdyct8gCZsmSNdmTuhtpke.jpg",
+              "small": "anime/small-cover/4ZjUO6JPx68SltmJgoLLfNqIH8uZW2meYPI5Nuoz.avif"
+            },
+            "sequence": null,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "milktub",
+      "artistIds": [
+        "apple:ar:207756365"
+      ],
+      "durationMs": 251360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1856739165",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e4/d2/b4/e4d2b4e7-8edc-f067-7aea-164cfc14ff04/mzaf_15594739175929231043.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-03-09",
+      "search": {
+        "artist": [
+          "milktsub"
+        ],
+        "title": [
+          "getsuyowakirai",
+          "月曜はきらい"
+        ]
+      },
+      "songKey": "月曜はきらい|apple:ar:207756365",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%9C%88%E6%9B%9C%E3%81%AF%E3%82%AD%E3%83%A9%E3%82%A4/1856739164?i=1856739165",
+      "title": "月曜はキライ",
+      "titleLatin": "Getsuyou wa Kirai"
+    },
+    {
       "albumId": "apple:al:1856749053",
       "anime": {
         "franchiseIds": [
@@ -116183,6 +117096,70 @@
       "storeUrl": "https://music.apple.com/jp/album/scarborough-fair/1856773755?i=1856773763",
       "title": "Scarborough Fair",
       "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1857515856",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:uchouten_kazoku"
+        ],
+        "themes": [
+          {
+            "anime": "Uchouten Kazoku",
+            "cover": {
+              "large": "anime/large-cover/27kpDiKqEpy8H9lKt4Na2VL0oXzop1gatxMOsm9L.jpg",
+              "small": "anime/small-cover/2OjRQDoX7D9gasYPp4CEJjsIzMNAleIFqd8HLzY9.avif"
+            },
+            "sequence": null,
+            "type": "OP"
+          },
+          {
+            "anime": "Uchouten Kazoku",
+            "cover": {
+              "large": "anime/large-cover/27kpDiKqEpy8H9lKt4Na2VL0oXzop1gatxMOsm9L.jpg",
+              "small": "anime/small-cover/2OjRQDoX7D9gasYPp4CEJjsIzMNAleIFqd8HLzY9.avif"
+            },
+            "sequence": 2,
+            "type": "ED"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "milktub",
+      "artistIds": [
+        "apple:ar:207756365"
+      ],
+      "durationMs": 251093,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1857515857",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a7/c8/6c/a7c86c14-083f-ebd7-bba3-6887c12b2666/mzaf_13808893533943813619.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-07-31",
+      "search": {
+        "artist": [
+          "milktsub"
+        ],
+        "title": [
+          "uchotenjinsei",
+          "有頂天人生"
+        ]
+      },
+      "songKey": "有頂天人生|apple:ar:207756365",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%9C%89%E9%A0%82%E5%A4%A9%E4%BA%BA%E7%94%9F/1857515856?i=1857515857",
+      "title": "有頂天人生",
+      "titleLatin": "Uchouten Jinsei"
     },
     {
       "albumId": "apple:al:1860538546",
@@ -116726,6 +117703,62 @@
       "storeUrl": "https://music.apple.com/jp/album/%E3%82%AD%E3%83%9F%E3%83%AA%E3%82%BA%E3%83%A0/1869013071?i=1869013072",
       "title": "キミリズム",
       "titleLatin": "Kimi Rhythm"
+    },
+    {
+      "albumId": "apple:al:1872331193",
+      "anime": {
+        "franchiseIds": [
+          "anime:fr:seihantai_na_kimi_to_boku"
+        ],
+        "themes": [
+          {
+            "anime": "Seihantai na Kimi to Boku",
+            "cover": {
+              "large": "anime/large-cover/u0UrCA5vxC6wvn4XIKJdosznrbL3Oy2Fb41Oz7v0.jpg",
+              "small": "anime/small-cover/BAY7wJgBDVIyAgbRi2NmXaDCx9zaVQOqfYjPMgEB.avif"
+            },
+            "sequence": null,
+            "type": "IN"
+          }
+        ],
+        "tiers": {
+          "musica": "dificil",
+          "titulo": "dificil"
+        }
+      },
+      "artistDisplay": "tofubeats",
+      "artistIds": [
+        "apple:ar:305391189"
+      ],
+      "durationMs": 95534,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1872331264",
+      "latinSource": "provider",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/34/26/45/34264500-4cab-fad7-d2ca-bbe30879849c/mzaf_4838339284036094931.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-02-01",
+      "search": {
+        "artist": [
+          "tofubeats",
+          "yukimashiro"
+        ],
+        "title": [
+          "kitanomajotoyechi",
+          "北の魔女といえてぃfeat雪ましろ町田匡"
+        ]
+      },
+      "songKey": "北の魔女といえてぃ|apple:ar:305391189",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%8C%97%E3%81%AE%E9%AD%94%E5%A5%B3%E3%81%A8%E3%82%A4%E3%82%A8%E3%83%86%E3%82%A3-feat-%E9%9B%AA%E3%81%BE%E3%81%97%E3%82%8D-%E7%94%BA%E7%94%B0-%E5%8C%A1/1872331193?i=1872331264",
+      "title": "北の魔女とイエティ (feat. 雪ましろ & 町田 匡)",
+      "titleLatin": "Kita no Majo to Yeti"
     },
     {
       "albumId": "apple:al:1878095288",

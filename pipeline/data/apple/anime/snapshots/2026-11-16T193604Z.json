@@ -1,0 +1,1501 @@
+{
+  "anime": [
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 31904,
+      "name": "Big Order (TV)",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Big Order",
+          "slug": "big_order"
+        }
+      ],
+      "slug": "big_order_tv",
+      "synonyms": [
+        "Big Order",
+        "ビッグオーダー"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Yousei Teikoku"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "DISORDER",
+          "stats": {
+            "animethemes": 66,
+            "anisongdb": 40.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Aki Hata"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Kobore Sekai Oware",
+          "stats": {
+            "animethemes": 16,
+            "anisongdb": 21.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yui Mugino"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "Order Hatsudou!",
+          "stats": {
+            "anisongdb": 23.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Evan Call"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Order Doushi no Tatakai",
+          "stats": {
+            "anisongdb": 16.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Evan Call"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Koan Roku-ka",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2016
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 36885,
+      "name": "Saenai Heroine no Sodatekata Fine",
+      "season": "fall",
+      "series": [
+        {
+          "name": "Saenai Heroine no Sodatekata",
+          "slug": "saenai_heroine_no_sodatekata"
+        }
+      ],
+      "slug": "saenai_heroine_no_sodatekata_fine",
+      "synonyms": [
+        "Saekano the Movie: Finale",
+        "冴えない彼女の育てかた Fine",
+        "Saekano: How to Raise a Boring Girlfriend Movie"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "icy tail"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "icy tail YO!",
+          "stats": {
+            "animethemes": 15,
+            "anisongdb": 26.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Luna Haruna"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "glory days",
+          "stats": {
+            "animethemes": 9,
+            "anisongdb": 26.0
+          },
+          "track": "1538287219",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Ai Kayano",
+            "Saori Onishi"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "DREAM TEAM TRIANGLE",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Kiyono Yasuno"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "ULTIMATE♭",
+          "stats": {
+            "anisongdb": 27.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2019
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 60636,
+      "name": "BLEACH: Sennen Kessen-hen - Kashin-tan",
+      "season": "summer",
+      "series": [
+        {
+          "name": "BLEACH",
+          "slug": "bleach"
+        }
+      ],
+      "slug": "bleach_sennen_kessenhen_kashintan",
+      "synonyms": [
+        "BLEACH: Thousand-Year Blood War - The Calamity",
+        "BLEACH 千年血戦篇-禍進譚-",
+        "BLEACH: Thousand-Year Blood War Part 4"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "jo0ji"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "I-BULL",
+          "stats": {
+            "animethemes": 65,
+            "anisongdb": 48.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "9Lana"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "Rasen",
+          "stats": {
+            "animethemes": 36,
+            "anisongdb": 41.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "9Lana"
+          ],
+          "levels": {
+            "animethemes": 2
+          },
+          "result": "ambiguous",
+          "sequence": 2,
+          "song": "Rasen -Acoustic Ver.-",
+          "stats": {
+            "animethemes": 11
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2026
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 32681,
+      "name": "Uchuu Patrol Luluco",
+      "season": "spring",
+      "series": [],
+      "slug": "uchuu_patrol_luluco",
+      "synonyms": [
+        "Space Patrol Luluco",
+        "宇宙パトロールルル子"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Fujirokkyu (Kari)"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Cry Max do Heijitsu",
+          "stats": {
+            "animethemes": 52,
+            "anisongdb": 48.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "TeddyLoid",
+            "Bonjour Suzuki"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Pipo Password",
+          "stats": {
+            "animethemes": 66,
+            "anisongdb": 43.0
+          },
+          "track": "1122401670",
+          "type": "ED"
+        },
+        {
+          "artists": [],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "no-artist",
+          "sequence": 2,
+          "song": "Cry Max do Heijitsu",
+          "stats": {
+            "animethemes": 6
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Mika Kobayashi",
+            "David Whitaker"
+          ],
+          "levels": {
+            "anisongdb": 5
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Before my body is dry",
+          "stats": {
+            "anisongdb": 54.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Bonjour Suzuki"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "Pipo Password Luluco on SILENT PLANET Remix",
+          "stats": {
+            "anisongdb": 37.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2016
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 60371,
+      "name": "Seihantai na Kimi to Boku",
+      "season": "winter",
+      "series": [
+        {
+          "name": "Seihantai na Kimi to Boku",
+          "slug": "seihantai_na_kimi_to_boku"
+        }
+      ],
+      "slug": "seihantai_na_kimi_to_boku",
+      "synonyms": [
+        "You and I Are Polar Opposites",
+        "正反対な君と僕"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Noa"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Megane wo Hazushite",
+          "stats": {
+            "animethemes": 190,
+            "anisongdb": 48.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "PAS TASTA",
+            "Eriko Hashimoto"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Pure feat. Eriko Hashimoto",
+          "stats": {
+            "animethemes": 67,
+            "anisongdb": 41.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "tofubeats",
+            "Yuki Mashiro"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Kita no Majo to Yeti",
+          "stats": {
+            "anisongdb": 14.0
+          },
+          "track": "1872331264",
+          "type": "IN"
+        }
+      ],
+      "year": 2026
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 7,
+      "name": "Witch Hunter Robin",
+      "season": "summer",
+      "series": [],
+      "slug": "witch_hunter_robin",
+      "synonyms": [
+        "Witch Hunter ROBIN"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Bana"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Shell",
+          "stats": {
+            "animethemes": 84,
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Bana"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "half pain",
+          "stats": {
+            "animethemes": 13,
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "CHINO"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "Shell guitar ver.",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2002
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 16353,
+      "name": "Love Lab",
+      "season": "summer",
+      "series": [],
+      "slug": "love_lab",
+      "synonyms": [
+        "Renai Lab"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Ayane Sakura",
+            "佐倉綾音",
+            "Inori Minase",
+            "水瀬いのり",
+            "Manami Numakura",
+            "You Taichi"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Love Shitai!",
+          "stats": {
+            "animethemes": 34,
+            "anisongdb": 38.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Ayane Sakura",
+            "佐倉綾音",
+            "Inori Minase",
+            "水瀬いのり",
+            "Manami Numakura",
+            "You Taichi"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Best FriendS",
+          "stats": {
+            "animethemes": 15,
+            "anisongdb": 34.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Taiten Kusunoki"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Nete mo Samete mo Lingerie",
+          "stats": {
+            "anisongdb": 39.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2013
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 60303,
+      "name": "Shinjiteita Nakama-tachi ni Dungeon Okuchi de Korosarekaketa ga Gift \"Mugen Gacha\" de Level 9999 no Nakama-tachi wo Te ni Irete Moto Party Member to Sekai ni Fukushuu & \"Zamaa!\" Shimasu!",
+      "season": "fall",
+      "series": [],
+      "slug": "mugen_gacha",
+      "synonyms": [
+        "My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeon, I'm Out for Revenge!",
+        "信じていた仲間達にダンジョン奥地で殺されかけたがギフト『無限ガチャ』でレベル9999の仲間達を手に入れて元パーティーメンバーと世界に復讐＆『ざまぁ！』します！",
+        "Shinjiteita Nakamatachi ni Dungeon Okuchi de Korosarekaketa ga Gift \"Mugen Gacha\" de Level 9999 no Nakamatachi wo Te ni Irete Moto Party Member to Sekai ni Fukushuu & \"Zamaa!\" Shimasu!"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Tei"
+          ],
+          "levels": {
+            "animethemes": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Hira-yori Raiya, Sara-riya Takaki",
+          "stats": {
+            "animethemes": 36
+          },
+          "track": "1837131919",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Nowlu"
+          ],
+          "levels": {
+            "animethemes": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Shirogarasu",
+          "stats": {
+            "animethemes": 20
+          },
+          "track": "1842021203",
+          "type": "ED"
+        }
+      ],
+      "year": 2025
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 17909,
+      "name": "Uchouten Kazoku",
+      "season": "summer",
+      "series": [
+        {
+          "name": "Uchouten Kazoku",
+          "slug": "uchouten_kazoku"
+        }
+      ],
+      "slug": "uchouten_kazoku",
+      "synonyms": [
+        "The Eccentric Family",
+        "有頂天家族"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "milktub"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Uchouten Jinsei",
+          "stats": {
+            "animethemes": 52,
+            "anisongdb": 37.0
+          },
+          "track": "1857515857",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "fhána"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Qué Será, Será",
+          "stats": {
+            "animethemes": 24,
+            "anisongdb": 29.0
+          },
+          "track": "1519945048",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "milktub"
+          ],
+          "levels": {
+            "animethemes": 0
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Uchouten Jinsei",
+          "stats": {
+            "animethemes": 2
+          },
+          "track": "1857515857",
+          "type": "ED"
+        }
+      ],
+      "year": 2013
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 2402,
+      "name": "Ashita no Joe",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Ashita no Joe",
+          "slug": "ashita_no_joe"
+        }
+      ],
+      "slug": "ashita_no_joe",
+      "synonyms": [
+        "Tomorrow's Joe",
+        "Rocky Joe"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Isao Bitou"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 4
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Ashita no Joe",
+          "stats": {
+            "animethemes": 67,
+            "anisongdb": 40.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Asao Koike"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 4
+          },
+          "result": "no-artist",
+          "sequence": 1,
+          "song": "Joe no Komoriuta",
+          "stats": {
+            "animethemes": 22,
+            "anisongdb": 42.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yuuki Hide"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "no-artist",
+          "sequence": 2,
+          "song": "Rikiishi Toru no Theme",
+          "stats": {
+            "animethemes": 45,
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Keiko Fuji"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Keiko no Yume wa Yoru Hiraku",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Tokiko Kato"
+          ],
+          "levels": {
+            "anisongdb": 0
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Shiretoko Ryojou",
+          "stats": {
+            "anisongdb": 3.0
+          },
+          "track": "1538894822",
+          "type": "IN"
+        }
+      ],
+      "year": 1970
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 38619,
+      "name": "Joshikousei no Mudazukai",
+      "season": "summer",
+      "series": [],
+      "slug": "joshikousei_no_mudazukai",
+      "synonyms": [
+        "Wasteful Days of High School Girls",
+        "女子高生の無駄づかい"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Aki Toyosaki",
+            "豊崎愛生",
+            "Haruka Tomatsu",
+            "戸松遥",
+            "Chinatsu Akasaki"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Wa! Moon! dass! cry!",
+          "stats": {
+            "animethemes": 85,
+            "anisongdb": 46.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Aki Toyosaki",
+            "豊崎愛生",
+            "Haruka Tomatsu",
+            "戸松遥",
+            "Chinatsu Akasaki"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "Seishun no Reverb",
+          "stats": {
+            "animethemes": 18,
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Aki Toyosaki",
+            "豊崎愛生"
+          ],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "Saitama Joshi Koutou Gakkou Kouka",
+          "stats": {
+            "animethemes": 3
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "GUMI"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Secret Sequence",
+          "stats": {
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "GUMI"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "little bunny",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Haruka Tomatsu"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "16:20",
+          "stats": {
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2019
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 40746,
+      "name": "Overflow",
+      "season": "winter",
+      "series": [],
+      "slug": "overflow",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "Uzuho"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 3
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Overlove",
+          "stats": {
+            "animethemes": 6,
+            "anisongdb": 30.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Ringo Aoba",
+            "Ayaka Igasaki"
+          ],
+          "levels": {
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Renai☆Sensation",
+          "stats": {
+            "anisongdb": 36.0
+          },
+          "track": "1632579503",
+          "type": "IN"
+        }
+      ],
+      "year": 2020
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 9471,
+      "name": "Baka to Test to Shoukanjuu: Matsuri",
+      "season": "winter",
+      "series": [
+        {
+          "name": "Baka to Test to Shoukanjuu",
+          "slug": "bakatest"
+        }
+      ],
+      "slug": "baka_to_test_to_shoukanjuu_matsuri",
+      "synonyms": [
+        "Baka and Test - Summon the Beasts: Matsuri",
+        "バカとテストと召喚獣 ～祭～",
+        "Baka to Test to Shoukanjuu OVA",
+        "Baka to Test to Shokanju OVA",
+        "The Idiot, the Tests, and the Summoned Creatures OVA",
+        "Baka and Test: Summon the Beasts OVA"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Natsuko Aso"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Renai Koujou committee",
+          "stats": {
+            "animethemes": 51,
+            "anisongdb": 33.0
+          },
+          "track": "1496310093",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "milktub"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Getsuyou wa Kirai",
+          "stats": {
+            "animethemes": 23,
+            "anisongdb": 27.0
+          },
+          "track": "1856739165",
+          "type": "ED"
+        }
+      ],
+      "year": 2011
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 51706,
+      "name": "Yuusha ga Shinda!",
+      "season": "spring",
+      "series": [],
+      "slug": "yuusha_ga_shinda",
+      "synonyms": [
+        "The Legendary Hero is Dead!",
+        "勇者が死んだ！",
+        "The Hero Is Dead!"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Masayoshi Ooishi",
+            "大石昌良"
+          ],
+          "levels": {
+            "animethemes": 6,
+            "anisongdb": 6
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Shinda!",
+          "stats": {
+            "animethemes": 145,
+            "anisongdb": 61.0
+          },
+          "track": "1677726810",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Yurika Kubo",
+            "久保ユリカ"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Kawaikutte Ijiwaru Shichau",
+          "stats": {
+            "animethemes": 22,
+            "anisongdb": 27.0
+          },
+          "track": "1677736088",
+          "type": "ED"
+        }
+      ],
+      "year": 2023
+    }
+  ],
+  "artists": {
+    "1410625186": {
+      "artistName": "Bana"
+    },
+    "1446671827": {
+      "artistName": "CHiNO"
+    },
+    "1452011826": {
+      "artistName": "Chino"
+    },
+    "1463173192": {
+      "artistName": "Tei"
+    },
+    "1470334859": {
+      "artistName": "GUMI"
+    },
+    "1481003646": {
+      "artistName": "Noa"
+    },
+    "1506171674": {
+      "artistName": "Bana"
+    },
+    "1574918206": {
+      "artistName": "Yui Mugino"
+    },
+    "1575942934": {
+      "artistName": "Noa"
+    },
+    "1599045399": {
+      "artistName": "AKIHATA"
+    },
+    "1601951727": {
+      "artistName": "9Lana"
+    },
+    "1603013989": {
+      "artistName": "PAS TASTA"
+    },
+    "1616530162": {
+      "artistName": "Nowlu"
+    },
+    "1621784490": {
+      "artistName": "Evan Call"
+    },
+    "1721402990": {
+      "artistName": "9Lana"
+    },
+    "1776431612": {
+      "artistName": "9Lana"
+    },
+    "1778145502": {
+      "artistName": "TeddyLoid"
+    },
+    "1833499263": {
+      "artistName": "Bana"
+    },
+    "1872329810": {
+      "artistName": "Yuki Mashiro"
+    },
+    "207756365": {
+      "artistName": "milktub"
+    },
+    "305391189": {
+      "artistName": "tofubeats"
+    },
+    "318782688": {
+      "artistName": "Natsuko Aso"
+    },
+    "357208205": {
+      "artistName": "Eriko Hashimoto"
+    },
+    "376334342": {
+      "artistName": "TeddyLoid"
+    },
+    "406470856": {
+      "artistName": "GUMI"
+    },
+    "481044752": {
+      "artistName": "Chino"
+    },
+    "511924499": {
+      "artistName": "Yui Mugino"
+    },
+    "516817774": {
+      "artistName": "fhána"
+    },
+    "534097595": {
+      "artistName": "Ringo Aoba"
+    },
+    "570031182": {
+      "artistName": "Luna Haruna"
+    },
+    "613929353": {
+      "artistName": "Yurika Kubo"
+    },
+    "659812727": {
+      "artistName": "Noa"
+    },
+    "76122580": {
+      "artistName": "Tokiko Kato"
+    },
+    "904515081": {
+      "artistName": "Evan Call"
+    },
+    "924345355": {
+      "artistName": "Bonjour Suzuki"
+    }
+  },
+  "fetchedAt": "2026-11-16T19:36:04Z",
+  "id": "2026-11-16T193604Z",
+  "provider": "apple",
+  "resolved": {
+    "9Lana": [
+      "1721402990",
+      "1601951727",
+      "1776431612"
+    ],
+    "Aki Hata": [
+      "1599045399"
+    ],
+    "Asao Koike": [],
+    "Ayaka Igasaki": [],
+    "Bana": [
+      "1506171674",
+      "1410625186",
+      "1833499263"
+    ],
+    "Bonjour Suzuki": [
+      "924345355"
+    ],
+    "CHINO": [
+      "1452011826",
+      "481044752",
+      "1446671827"
+    ],
+    "Eriko Hashimoto": [
+      "357208205"
+    ],
+    "Evan Call": [
+      "904515081",
+      "1621784490"
+    ],
+    "Fujirokkyu (Kari)": [],
+    "GUMI": [
+      "406470856",
+      "1470334859"
+    ],
+    "Isao Bitou": [],
+    "Keiko Fuji": [],
+    "Noa": [
+      "659812727",
+      "1481003646",
+      "1575942934"
+    ],
+    "Nowlu": [
+      "1616530162"
+    ],
+    "PAS TASTA": [
+      "1603013989"
+    ],
+    "Ringo Aoba": [
+      "534097595"
+    ],
+    "Saori Onishi": [],
+    "Taiten Kusunoki": [],
+    "TeddyLoid": [
+      "376334342",
+      "1778145502"
+    ],
+    "Tei": [
+      "1463173192"
+    ],
+    "Tokiko Kato": [
+      "76122580"
+    ],
+    "Uzuho": [],
+    "Yui Mugino": [
+      "511924499",
+      "1574918206"
+    ],
+    "Yuki Mashiro": [
+      "1872329810"
+    ],
+    "Yuuki Hide": [],
+    "icy tail": [],
+    "milktub": [
+      "207756365"
+    ],
+    "tofubeats": [
+      "305391189"
+    ]
+  },
+  "storefront": "jp",
+  "tracks": {
+    "1122401670": {
+      "artistId": "376334342",
+      "artistName": "TeddyLoid feat.ボンジュール鈴木",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music30/v4/a9/80/a5/a980a540-fc87-16f6-57a5-1f95970d4a65/VEATP-33555.jpg/100x100bb.jpg",
+      "collectionId": "1122401667",
+      "collectionName": "Pipo Password (feat. ボンジュール鈴木) - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d3/09/04/d309049b-1d45-ca39-ea83-c258a80f6767/mzaf_15676039965946276363.plus.aac.p.m4a",
+      "releaseDate": "2016-06-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1122401670",
+      "trackName": "Pipo Password (feat. ボンジュール鈴木)",
+      "trackTimeMillis": 265000,
+      "trackViewUrl": "https://music.apple.com/jp/album/pipo-password-feat-%E3%83%9C%E3%83%B3%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E9%88%B4%E6%9C%A8/1122401667?i=1122401670&uo=4"
+    },
+    "1496310093": {
+      "artistId": "318782688",
+      "artistName": "麻生夏子",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/ae/df/75/aedf7501-af0e-3c62-006d-7576441438af/081207_J.jpg/100x100bb.jpg",
+      "collectionId": "1496310090",
+      "collectionName": "恋愛向上committee - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/25/46/e8/2546e89c-88a6-ebde-9e47-c8a9a8ab76cf/mzaf_17783267475450069999.plus.aac.p.m4a",
+      "releaseDate": "2011-03-09T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1496310093",
+      "trackName": "恋愛向上committee",
+      "trackTimeMillis": 245253,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%81%8B%E6%84%9B%E5%90%91%E4%B8%8Acommittee/1496310090?i=1496310093&uo=4"
+    },
+    "1519945048": {
+      "artistId": "516817774",
+      "artistName": "fhána",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/3a/e7/22/3ae722c7-990d-782f-58f8-735056f1ba2b/4571374911200_cover.jpg/100x100bb.jpg",
+      "collectionId": "1519945047",
+      "collectionName": "ケセラセラ - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/94/8a/9f/948a9ff1-b01f-3853-4d87-6b7f02a0793b/mzaf_14306698352631595526.plus.aac.p.m4a",
+      "releaseDate": "2013-08-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1519945048",
+      "trackName": "ケセラセラ",
+      "trackTimeMillis": 298000,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B1%E3%82%BB%E3%83%A9%E3%82%BB%E3%83%A9/1519945047?i=1519945048&uo=4"
+    },
+    "1538287219": {
+      "artistId": "570031182",
+      "artistName": "春奈るな",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/53/45/6d/53456d2a-3d44-cf78-0924-e476bdee3e43/jacket_VVXX00483B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1538287218",
+      "collectionName": "glory days",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/0e/e8/0f/0ee80f89-bbc3-7cc6-809d-21b2cc4f1876/mzaf_17436640561186040965.plus.aac.p.m4a",
+      "releaseDate": "2019-10-23T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1538287219",
+      "trackName": "glory days",
+      "trackTimeMillis": 293400,
+      "trackViewUrl": "https://music.apple.com/jp/album/glory-days/1538287218?i=1538287219&uo=4"
+    },
+    "1538894822": {
+      "artistId": "76122580",
+      "artistName": "加藤登紀子",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/7d/84/77/7d8477e8-c23e-5e83-bd9f-17c616cd32bf/jacket_MHXX01910B00Z_550.jpg/100x100bb.jpg",
+      "collectionId": "1538894819",
+      "collectionName": "加藤 登紀子 GOLDEN SELECTION",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/95/fb/80/95fb8079-d07c-199a-8894-d8a56a3571dc/mzaf_9636252676549430652.plus.aac.p.m4a",
+      "releaseDate": "1970-01-01T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1538894822",
+      "trackName": "知床旅情",
+      "trackTimeMillis": 196000,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E7%9F%A5%E5%BA%8A%E6%97%85%E6%83%85/1538894819?i=1538894822&uo=4"
+    },
+    "1632579503": {
+      "artistId": "534097595",
+      "artistName": "青葉りんご & 伊ヶ崎綾香",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/08/88/36/08883665-6b1b-36ee-873f-ae76b233b646/bigup13390803.jpg/100x100bb.jpg",
+      "collectionId": "1632579501",
+      "collectionName": "恋愛☆洗セーション - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/34/91/3a/34913a0f-af39-b1a1-e1ef-15ca4f4613c9/mzaf_10535659738139877367.plus.aac.p.m4a",
+      "releaseDate": "2022-07-19T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1632579503",
+      "trackName": "恋愛☆洗セーション",
+      "trackTimeMillis": 248059,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%81%8B%E6%84%9B-%E6%B4%97%E3%82%BB%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/1632579501?i=1632579503&uo=4"
+    },
+    "1677726810": {
+      "artistId": "908870855",
+      "artistName": "オーイシマサヨシ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/20/d5/8c/20d58c40-1feb-5c99-31fd-875668e14584/PCSP_04838_A.jpg/100x100bb.jpg",
+      "collectionId": "1677726809",
+      "collectionName": "死んだ! - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/9b/3f/f6/9b3ff6d8-a3aa-15e1-2399-d7892768d1fe/mzaf_3210536647528060945.plus.aac.p.m4a",
+      "releaseDate": "2023-04-07T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1677726810",
+      "trackName": "死んだ!",
+      "trackTimeMillis": 220928,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%AD%BB%E3%82%93%E3%81%A0/1677726809?i=1677726810&uo=4"
+    },
+    "1677736088": {
+      "artistId": "613929353",
+      "artistName": "久保ユリカ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/4a/d8/7b/4ad87b4d-fae7-e7ff-963f-9c0dfee5f597/PCCG_02238_A.jpg/100x100bb.jpg",
+      "collectionId": "1677736086",
+      "collectionName": "可愛くって意地悪しちゃう - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/19/6b/07/196b0737-3ebd-c8d1-8f6a-c19a1677ddef/mzaf_2452809682643120409.plus.aac.p.m4a",
+      "releaseDate": "2023-04-07T07:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1677736088",
+      "trackName": "可愛くって意地悪しちゃう",
+      "trackTimeMillis": 236800,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E5%8F%AF%E6%84%9B%E3%81%8F%E3%81%A3%E3%81%A6%E6%84%8F%E5%9C%B0%E6%82%AA%E3%81%97%E3%81%A1%E3%82%83%E3%81%86/1677736086?i=1677736088&uo=4"
+    },
+    "1837131919": {
+      "artistId": "1463173192",
+      "artistName": "丁",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/42/44/48/42444803-6190-dd4b-7b2d-b246b284ccdd/4540774745760.png/100x100bb.jpg",
+      "collectionId": "1837131918",
+      "collectionName": "閃より雷や、更りや高き - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8f/08/ab/8f08ab1a-54a1-4226-4889-cb224f5a6ade/mzaf_12520277894207039957.plus.aac.p.m4a",
+      "releaseDate": "2025-10-04T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1837131919",
+      "trackName": "閃より雷や、更りや高き",
+      "trackTimeMillis": 282067,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%96%83%E3%82%88%E3%82%8A%E9%9B%B7%E3%82%84-%E6%9B%B4%E3%82%8A%E3%82%84%E9%AB%98%E3%81%8D/1837131918?i=1837131919&uo=4"
+    },
+    "1842021203": {
+      "artistId": "1616530162",
+      "artistName": "Nowlu",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f3/68/52/f3685212-6e4d-5836-2b5d-a602fdc1012d/4540774746514.jpg/100x100bb.jpg",
+      "collectionId": "1842021022",
+      "collectionName": "シロガラス - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ca/d1/8c/cad18c13-8b89-6948-73e0-470e6fb71a58/mzaf_16335978978018306980.plus.aac.p.m4a",
+      "releaseDate": "2025-10-11T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1842021203",
+      "trackName": "シロガラス",
+      "trackTimeMillis": 200526,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%AD%E3%82%AC%E3%83%A9%E3%82%B9/1842021022?i=1842021203&uo=4"
+    },
+    "1856739165": {
+      "artistId": "207756365",
+      "artistName": "milktub",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5c/c0/d3/5cc0d315-369b-55c8-0795-131ced9ceb62/4540774407859.png/100x100bb.jpg",
+      "collectionId": "1856739164",
+      "collectionName": "月曜はキライ - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e4/d2/b4/e4d2b4e7-8edc-f067-7aea-164cfc14ff04/mzaf_15594739175929231043.plus.aac.p.m4a",
+      "releaseDate": "2011-03-09T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1856739165",
+      "trackName": "月曜はキライ",
+      "trackTimeMillis": 251360,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%9C%88%E6%9B%9C%E3%81%AF%E3%82%AD%E3%83%A9%E3%82%A4/1856739164?i=1856739165&uo=4"
+    },
+    "1857515857": {
+      "artistId": "207756365",
+      "artistName": "milktub",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/81/a7/68/81a768ba-8875-e86e-9fa2-c326f45b596f/4540774141159.png/100x100bb.jpg",
+      "collectionId": "1857515856",
+      "collectionName": "有頂天人生 - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a7/c8/6c/a7c86c14-083f-ebd7-bba3-6887c12b2666/mzaf_13808893533943813619.plus.aac.p.m4a",
+      "releaseDate": "2013-07-31T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1857515857",
+      "trackName": "有頂天人生",
+      "trackTimeMillis": 251093,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%9C%89%E9%A0%82%E5%A4%A9%E4%BA%BA%E7%94%9F/1857515856?i=1857515857&uo=4"
+    },
+    "1872331264": {
+      "artistId": "305391189",
+      "artistName": "tofubeats",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/69/b8/8a69b83c-9095-3036-3adb-76647252330c/4580305821945.png/100x100bb.jpg",
+      "collectionId": "1872331193",
+      "collectionName": "TVアニメ『正反対な君と僕』オリジナル・サウンドトラック",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/34/26/45/34264500-4cab-fad7-d2ca-bbe30879849c/mzaf_4838339284036094931.plus.aac.p.m4a",
+      "releaseDate": "2026-02-01T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1872331264",
+      "trackName": "北の魔女とイエティ (feat. 雪ましろ & 町田 匡)",
+      "trackTimeMillis": 95534,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E5%8C%97%E3%81%AE%E9%AD%94%E5%A5%B3%E3%81%A8%E3%82%A4%E3%82%A8%E3%83%86%E3%82%A3-feat-%E9%9B%AA%E3%81%BE%E3%81%97%E3%82%8D-%E7%94%BA%E7%94%B0-%E5%8C%A1/1872331193?i=1872331264&uo=4"
+    }
+  }
+}
