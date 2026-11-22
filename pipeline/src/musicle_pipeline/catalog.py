@@ -341,6 +341,7 @@ def build_catalog(
         f"franchises: {slug} (só o Anime limita franquias)"
         for slug in sorted(cur.aliases.ids("franchises"))
     ]
+    stale += [f"anime: {slug} (só o Anime tem animes)" for slug in sorted(cur.aliases.ids("anime"))]
     if stale:
         raise InputError("aliases.toml cita IDs que não existem no catálogo:\n" + "\n".join(stale))
 

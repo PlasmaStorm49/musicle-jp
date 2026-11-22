@@ -1006,6 +1006,33 @@ def test_the_keep_of_a_franchise_leaves_only_its_best_known_songs():
         build(anime(1, themes=[theme(song=5)]), cur=unknown)
 
 
+def test_a_standalone_anime_leaves_the_series():
+    """O `[anime."<slug>"] standalone = true` (o usuário, 18/11/2026): o spin-off que o
+    AnimeThemes põe na série de outro vira a própria franquia, e a busca da série não o acha."""
+    series = [("amagami_ss", "Amagami SS")]
+    main_show = anime(1, series=series, themes=[theme(song=5)])
+    spin_off = replace(
+        anime(2, series=series),
+        slug="seiren",
+        name="Seiren",
+        synonyms=(),
+        themes=(replace(theme(song=4), song="B", track=DISCOGRAPHY[1]),),
+    )
+    joined = build(main_show, spin_off)
+    assert {t["anime"]["franchiseIds"][0] for t in joined["tracks"]} == {"anime:fr:amagami_ss"}
+    cur = Curation(aliases=parse_aliases('[anime."seiren"]\nstandalone = true\n'))
+    apart = build(main_show, spin_off, cur=cur)
+    by_track = {t["id"]: t["anime"]["franchiseIds"] for t in apart["tracks"]}
+    assert by_track == {"apple:tr:1": ["anime:fr:amagami_ss"], "apple:tr:2": ["anime:fr:seiren"]}
+    franchises = {f["id"]: f for f in apart["franchises"]}
+    assert franchises["anime:fr:seiren"]["name"] == "Seiren"
+    assert "seiren" not in franchises["anime:fr:amagami_ss"]["search"]
+    assert validate_anime_catalog(apart) == []
+    unknown = Curation(aliases=parse_aliases('[anime."outro"]\nstandalone = true\n'))
+    with pytest.raises(InputError, match="cita anime que não existe: outro"):
+        build(main_show, cur=unknown)
+
+
 def test_the_keep_spares_a_crossover_song_and_a_small_franchise():
     """A música que também é tema de outra franquia principal fica e não conta no limite (P467);
     com o keep acima do total, nada sai."""

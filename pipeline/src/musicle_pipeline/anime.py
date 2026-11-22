@@ -878,12 +878,33 @@ def _accumulate(source: AnimeSource) -> tuple[dict[str, _TrackAcc], dict[str, in
     return accs, results
 
 
+def standalone_anime(source: AnimeSource, cur: Curation) -> AnimeSource:
+    """Os animes do `[anime."<slug>"] standalone = true` do aliases.toml sem a série do
+    AnimeThemes: a franquia vira o próprio anime (o usuário, 18/11/2026: Seiren, um spin-off na
+    série de Amagami SS, aceitava "Amagami SS" como resposta)."""
+    alone = cur.aliases.ids("anime")
+    unknown = sorted(alone - {a.slug for a in source.anime})
+    if unknown:
+        raise InputError("aliases.toml do Anime cita anime que não existe: " + ", ".join(unknown))
+    if not alone:
+        return source
+    return replace(
+        source, anime=tuple(replace(a, series=()) if a.slug in alone else a for a in source.anime)
+    )
+
+
 def anime_chances(
-    provider: str, source: AnimeSource, *, icon_artists: frozenset[str]
+    provider: str,
+    source: AnimeSource,
+    *,
+    icon_artists: frozenset[str],
+    cur: Curation | None = None,
 ) -> dict[str, dict[str, Decimal]]:
     """A chance de cada música por modo (P272), a mesma que dá as faixas do catálogo. Só para o
     laboratório das Misturadas (M17), num arquivo fora do Git: o catálogo publicado leva só a
     faixa (P240), e o repositório não guarda número (P254)."""
+    if cur is not None:
+        source = standalone_anime(source, cur)
     accs, _ = _accumulate(source)
     best, _ = song_chances(provider, accs.values(), icon_artists, franchise_songs(source.anime))
     return best
@@ -946,6 +967,7 @@ def build_anime_catalog(
     """O catálogo do Anime a partir de todos os snapshots. Os avisos vão para `notes`;
     `icon_artists` são os artistas cuja música é ícone (`chart_artists`, P274); `covers`, a capa
     de cada anime pelo id do MAL (o covers.json; o anime sem ela tem o `cover` null)."""
+    source = standalone_anime(source, cur)
     accs, results = _accumulate(source)
     stale = _stale_aliases(provider, (a.track for a in accs.values()), cur)
     if stale:

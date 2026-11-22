@@ -309,7 +309,12 @@ def _anime_chances(args: argparse.Namespace) -> int:
         )
         return 1
     provider = ANIME_PROVIDERS[args.provider]()
-    best = anime_chances(provider.name, provider.source(), icon_artists=_anime_icons(args.provider))
+    best = anime_chances(
+        provider.name,
+        provider.source(),
+        icon_artists=_anime_icons(args.provider),
+        cur=_anime_curation(args.provider),
+    )
     four = Decimal("0.0001")
     data = {
         key: {
