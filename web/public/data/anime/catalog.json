@@ -26419,7 +26419,7 @@
       "nameLatin": null
     }
   ],
-  "catalogVersion": "2026-11-16.7d8e5819",
+  "catalogVersion": "2026-11-16.1d38f121",
   "franchises": [
     {
       "id": "anime:fr:100_man_no_inochi_no_ue_ni_ore_wa_tatteiru",
@@ -26597,8 +26597,7 @@
       "id": "anime:fr:amagami_ss",
       "name": "Amagami SS",
       "search": [
-        "amagamiss",
-        "seiren"
+        "amagamiss"
       ]
     },
     {
@@ -31148,6 +31147,13 @@
         "seireitsukainobladedance",
         "seireitsukainokenbu",
         "精霊使いの剣舞ぶれいどだんす"
+      ]
+    },
+    {
+      "id": "anime:fr:seiren",
+      "name": "Seiren",
+      "search": [
+        "seiren"
       ]
     },
     {
@@ -40385,7 +40391,7 @@
       "albumId": "apple:al:1204216399",
       "anime": {
         "franchiseIds": [
-          "anime:fr:amagami_ss"
+          "anime:fr:seiren"
         ],
         "themes": [
           {
@@ -40441,7 +40447,7 @@
       "albumId": "apple:al:1204216399",
       "anime": {
         "franchiseIds": [
-          "anime:fr:amagami_ss"
+          "anime:fr:seiren"
         ],
         "themes": [
           {
@@ -40497,7 +40503,7 @@
       "albumId": "apple:al:1204680340",
       "anime": {
         "franchiseIds": [
-          "anime:fr:amagami_ss"
+          "anime:fr:seiren"
         ],
         "themes": [
           {
@@ -42597,8 +42603,8 @@
       ],
       "durationMs": 232680,
       "eligible": {
-        "daily": true,
-        "reason": null
+        "daily": false,
+        "reason": "blocked"
       },
       "explicit": false,
       "id": "apple:tr:129251823",
@@ -123344,7 +123350,7 @@
           }
         ],
         "tiers": {
-          "musica": "dificil",
+          "musica": "medio",
           "titulo": "medio"
         }
       },

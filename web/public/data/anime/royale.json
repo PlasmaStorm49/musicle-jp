@@ -1409,33 +1409,33 @@
       "number": 22
     },
     "2026-11-24": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1631262368",
-          "apple:tr:1891280342",
-          "apple:tr:1673669282",
-          "apple:tr:1537264540",
-          "apple:tr:385700725",
+          "apple:tr:1645233449",
+          "apple:tr:1891272362",
+          "apple:tr:1673669291",
+          "apple:tr:1538285597",
+          "apple:tr:378042255",
           "apple:tr:383584239",
           "apple:tr:6825000535",
           "apple:tr:1068883857",
-          "apple:tr:1731959374"
+          "apple:tr:1538281853"
         ],
         "played": [
           "apple:tr:1068883857",
-          "apple:tr:1673669282",
-          "apple:tr:1891280342",
-          "apple:tr:1631262368",
+          "apple:tr:1673669291",
+          "apple:tr:1891272362",
+          "apple:tr:1645233449",
           "apple:tr:383584239"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1537433534",
+          "apple:tr:1537451763",
           "apple:tr:1027364574",
           "apple:tr:1757958797",
-          "apple:tr:1648654054",
+          "apple:tr:1649702260",
           "apple:tr:726712355",
           "apple:tr:1537331454",
           "apple:tr:1536260306",
@@ -1473,1281 +1473,1281 @@
       "number": 23
     },
     "2026-11-25": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1568292079",
-          "apple:tr:1688520966",
-          "apple:tr:1455814069",
-          "apple:tr:1749472223",
-          "apple:tr:404731596",
-          "apple:tr:1804659800",
-          "apple:tr:585171042",
-          "apple:tr:105548623",
-          "apple:tr:1537736965"
+          "apple:tr:1565324651",
+          "apple:tr:1691117493",
+          "apple:tr:1335884583",
+          "apple:tr:1723299795",
+          "apple:tr:6762746207",
+          "apple:tr:1804663193",
+          "apple:tr:638086929",
+          "apple:tr:1058782353",
+          "apple:tr:1537448398"
         ],
         "played": [
-          "apple:tr:1688520966",
-          "apple:tr:105548623",
-          "apple:tr:585171042",
-          "apple:tr:1804659800",
-          "apple:tr:1568292079"
+          "apple:tr:1691117493",
+          "apple:tr:1058782353",
+          "apple:tr:638086929",
+          "apple:tr:1804663193",
+          "apple:tr:1565324651"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1748950153",
-          "apple:tr:1566508411",
-          "apple:tr:6769320805",
-          "apple:tr:1538279412",
-          "apple:tr:1546070706",
-          "apple:tr:726712355",
-          "apple:tr:1535528830",
-          "apple:tr:1536266749",
-          "apple:tr:569043145"
+          "apple:tr:1743376807",
+          "apple:tr:1538280039",
+          "apple:tr:672112045",
+          "apple:tr:1537785429",
+          "apple:tr:1544694170",
+          "apple:tr:940347454",
+          "apple:tr:1517995045",
+          "apple:tr:1536116908",
+          "apple:tr:563790707"
         ],
         "played": [
-          "apple:tr:1748950153",
-          "apple:tr:6769320805",
-          "apple:tr:1538279412",
-          "apple:tr:1566508411",
-          "apple:tr:1536266749"
+          "apple:tr:1743376807",
+          "apple:tr:672112045",
+          "apple:tr:1537785429",
+          "apple:tr:1538280039",
+          "apple:tr:1536116908"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1563848523",
-          "apple:tr:1470387479",
-          "apple:tr:1801634900",
-          "apple:tr:1537756981",
-          "apple:tr:1748746652",
-          "apple:tr:1520139713",
-          "apple:tr:1028416619",
+          "apple:tr:1563664866",
+          "apple:tr:1465714080",
+          "apple:tr:1801640244",
+          "apple:tr:1537461940",
+          "apple:tr:1748963339",
+          "apple:tr:1517761602",
+          "apple:tr:1017212714",
           "apple:tr:1053779340",
           "apple:tr:730903332"
         ],
         "played": [
-          "apple:tr:1537756981",
-          "apple:tr:1748746652",
-          "apple:tr:1801634900",
+          "apple:tr:1537461940",
+          "apple:tr:1748963339",
+          "apple:tr:1801640244",
           "apple:tr:1053779340",
-          "apple:tr:1470387479"
+          "apple:tr:1465714080"
         ]
       },
       "number": 24
     },
     "2026-11-26": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:76098588",
-          "apple:tr:1752800466",
-          "apple:tr:1158809645",
-          "apple:tr:638086930",
-          "apple:tr:6802575125",
-          "apple:tr:1174220038",
-          "apple:tr:1804665586",
-          "apple:tr:1884501576",
-          "apple:tr:1645233449"
+          "apple:tr:945331031",
+          "apple:tr:1801630233",
+          "apple:tr:1169309396",
+          "apple:tr:6762746207",
+          "apple:tr:6810161036",
+          "apple:tr:1144865530",
+          "apple:tr:1804676662",
+          "apple:tr:1891566588",
+          "apple:tr:1657316198"
         ],
         "played": [
-          "apple:tr:6802575125",
-          "apple:tr:638086930",
-          "apple:tr:1752800466",
-          "apple:tr:1158809645",
-          "apple:tr:1884501576"
+          "apple:tr:6810161036",
+          "apple:tr:6762746207",
+          "apple:tr:1801630233",
+          "apple:tr:1169309396",
+          "apple:tr:1891566588"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1582334935",
+          "apple:tr:1616853923",
+          "apple:tr:1537907913",
+          "apple:tr:1827167899",
           "apple:tr:1537785430",
+          "apple:tr:1837312387",
           "apple:tr:1804661721",
-          "apple:tr:1537461567",
-          "apple:tr:1804671342",
-          "apple:tr:1766032830",
-          "apple:tr:1077270917",
-          "apple:tr:1523974306",
-          "apple:tr:1536140851"
+          "apple:tr:1098508581",
+          "apple:tr:1525498908",
+          "apple:tr:1536310072"
         ],
         "played": [
-          "apple:tr:1537461567",
-          "apple:tr:1766032830",
-          "apple:tr:1536140851",
+          "apple:tr:1537785430",
           "apple:tr:1804661721",
-          "apple:tr:1537785430"
+          "apple:tr:1536310072",
+          "apple:tr:1827167899",
+          "apple:tr:1537907913"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1727120886",
-          "apple:tr:1748746652",
+          "apple:tr:1727121251",
+          "apple:tr:1748963339",
           "apple:tr:1823007409",
           "apple:tr:1821656927",
-          "apple:tr:1142091896",
+          "apple:tr:1148645148",
           "apple:tr:1605721434",
           "apple:tr:1537251504",
-          "apple:tr:1443083013",
-          "apple:tr:569432050"
+          "apple:tr:1444397105",
+          "apple:tr:567942245"
         ],
         "played": [
           "apple:tr:1821656927",
           "apple:tr:1537251504",
           "apple:tr:1823007409",
-          "apple:tr:569432050",
-          "apple:tr:1142091896"
+          "apple:tr:567942245",
+          "apple:tr:1148645148"
         ]
       },
       "number": 25
     },
     "2026-11-27": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1537253413",
-          "apple:tr:1746905761",
-          "apple:tr:435413281",
-          "apple:tr:1717562362",
-          "apple:tr:1536228471",
+          "apple:tr:1537329869",
+          "apple:tr:1747320329",
+          "apple:tr:425095880",
+          "apple:tr:1783371506",
+          "apple:tr:1536257480",
           "apple:tr:1004815346",
-          "apple:tr:1750639933",
-          "apple:tr:1891003959",
-          "apple:tr:1095921215"
+          "apple:tr:1752800466",
+          "apple:tr:1842021203",
+          "apple:tr:1122401670"
         ],
         "played": [
           "apple:tr:1004815346",
-          "apple:tr:1095921215",
-          "apple:tr:1891003959",
-          "apple:tr:1750639933",
-          "apple:tr:435413281"
+          "apple:tr:1122401670",
+          "apple:tr:1842021203",
+          "apple:tr:1752800466",
+          "apple:tr:425095880"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1535627791",
-          "apple:tr:263227838",
-          "apple:tr:1469518211",
+          "apple:tr:1536260306",
+          "apple:tr:340327759",
+          "apple:tr:1471459432",
           "apple:tr:131944614",
-          "apple:tr:1549097463",
-          "apple:tr:1501836651",
-          "apple:tr:1537241579",
-          "apple:tr:1804672985",
-          "apple:tr:1617909669"
+          "apple:tr:1588017689",
+          "apple:tr:1472333776",
+          "apple:tr:1537252579",
+          "apple:tr:1822722663",
+          "apple:tr:1658961985"
         ],
         "played": [
-          "apple:tr:1617909669",
-          "apple:tr:1469518211",
-          "apple:tr:1549097463",
+          "apple:tr:1658961985",
+          "apple:tr:1471459432",
+          "apple:tr:1588017689",
           "apple:tr:131944614",
-          "apple:tr:1501836651"
+          "apple:tr:1472333776"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1559709916",
-          "apple:tr:1867354081",
-          "apple:tr:1520176888",
-          "apple:tr:1537386678",
-          "apple:tr:1891581160",
+          "apple:tr:1559852558",
+          "apple:tr:1749227045",
+          "apple:tr:1531284503",
+          "apple:tr:1537404374",
+          "apple:tr:271715920",
           "apple:tr:1600645668",
-          "apple:tr:1839433370",
+          "apple:tr:1847222366",
           "apple:tr:991227539",
-          "apple:tr:1196134082"
+          "apple:tr:1208934584"
         ],
         "played": [
           "apple:tr:1600645668",
-          "apple:tr:1537386678",
+          "apple:tr:1537404374",
           "apple:tr:991227539",
-          "apple:tr:1559709916",
-          "apple:tr:1196134082"
+          "apple:tr:1559852558",
+          "apple:tr:1208934584"
         ]
       },
       "number": 26
     },
     "2026-11-28": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1538895267",
-          "apple:tr:1536264188",
-          "apple:tr:1483028034",
-          "apple:tr:1693770352",
-          "apple:tr:1537522925",
-          "apple:tr:1348203258",
-          "apple:tr:1536108893",
-          "apple:tr:1637816557",
+          "apple:tr:1558065412",
+          "apple:tr:1536264080",
+          "apple:tr:1496310093",
+          "apple:tr:1681043284",
+          "apple:tr:1537904358",
+          "apple:tr:1333849728",
+          "apple:tr:1519945048",
+          "apple:tr:1659608875",
           "apple:tr:1474784362"
         ],
         "played": [
           "apple:tr:1474784362",
-          "apple:tr:1637816557",
-          "apple:tr:1348203258",
-          "apple:tr:1536264188",
-          "apple:tr:1538895267"
+          "apple:tr:1659608875",
+          "apple:tr:1333849728",
+          "apple:tr:1536264080",
+          "apple:tr:1558065412"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1536376515",
-          "apple:tr:1891247381",
-          "apple:tr:899032145",
+          "apple:tr:1536362315",
+          "apple:tr:263227838",
+          "apple:tr:838213289",
           "apple:tr:1538134397",
-          "apple:tr:1644656901",
-          "apple:tr:845152930",
-          "apple:tr:1738375540",
+          "apple:tr:1606345338",
+          "apple:tr:74963378",
+          "apple:tr:1702823583",
           "apple:tr:988282749",
-          "apple:tr:1536368164"
+          "apple:tr:1536255651"
         ],
         "played": [
-          "apple:tr:1738375540",
-          "apple:tr:1536376515",
-          "apple:tr:1536368164",
+          "apple:tr:1702823583",
+          "apple:tr:1536362315",
+          "apple:tr:1536255651",
           "apple:tr:988282749",
           "apple:tr:1538134397"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1674982966",
+          "apple:tr:1804594308",
           "apple:tr:1477217716",
-          "apple:tr:1891581160",
-          "apple:tr:1537438886",
-          "apple:tr:339700145",
-          "apple:tr:527131743",
-          "apple:tr:1354852404",
-          "apple:tr:524306430",
-          "apple:tr:1777983027"
+          "apple:tr:1866862252",
+          "apple:tr:1537417115",
+          "apple:tr:298258668",
+          "apple:tr:523070642",
+          "apple:tr:1363865514",
+          "apple:tr:454667919",
+          "apple:tr:1769352953"
         ],
         "played": [
           "apple:tr:1477217716",
-          "apple:tr:527131743",
-          "apple:tr:1777983027",
-          "apple:tr:524306430",
-          "apple:tr:1354852404"
+          "apple:tr:523070642",
+          "apple:tr:1769352953",
+          "apple:tr:454667919",
+          "apple:tr:1363865514"
         ]
       },
       "number": 27
     },
     "2026-11-29": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1747246137",
-          "apple:tr:1721472407",
-          "apple:tr:472927916",
-          "apple:tr:1801630233",
-          "apple:tr:1358252514",
-          "apple:tr:6770849503",
-          "apple:tr:1443165487",
-          "apple:tr:1228945676",
-          "apple:tr:1397312916"
+          "apple:tr:1717562362",
+          "apple:tr:1720359467",
+          "apple:tr:472927914",
+          "apple:tr:1787564099",
+          "apple:tr:1410662473",
+          "apple:tr:6786531455",
+          "apple:tr:1451154433",
+          "apple:tr:1274853733",
+          "apple:tr:1455814069"
         ],
         "played": [
-          "apple:tr:1443165487",
-          "apple:tr:1228945676",
-          "apple:tr:1358252514",
-          "apple:tr:1721472407",
-          "apple:tr:6770849503"
+          "apple:tr:1451154433",
+          "apple:tr:1274853733",
+          "apple:tr:1410662473",
+          "apple:tr:1720359467",
+          "apple:tr:6786531455"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1537770377",
-          "apple:tr:571216110",
-          "apple:tr:1458473926",
-          "apple:tr:1444894516",
-          "apple:tr:1536260306",
           "apple:tr:1537330665",
-          "apple:tr:1317172061",
-          "apple:tr:1046777385",
-          "apple:tr:1538101566"
+          "apple:tr:408281677",
+          "apple:tr:1456591730",
+          "apple:tr:1440010537",
+          "apple:tr:1536271840",
+          "apple:tr:1536466358",
+          "apple:tr:1329850526",
+          "apple:tr:1077263357",
+          "apple:tr:1537461567"
         ],
         "played": [
-          "apple:tr:1444894516",
-          "apple:tr:571216110",
-          "apple:tr:1317172061",
-          "apple:tr:1046777385",
-          "apple:tr:1537770377"
+          "apple:tr:1440010537",
+          "apple:tr:408281677",
+          "apple:tr:1329850526",
+          "apple:tr:1077263357",
+          "apple:tr:1537330665"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1313188581",
-          "apple:tr:1658228978",
-          "apple:tr:1045842569",
-          "apple:tr:1600395740",
-          "apple:tr:1638701929",
+          "apple:tr:1294670929",
+          "apple:tr:1660219924",
+          "apple:tr:1036794788",
+          "apple:tr:1608854055",
+          "apple:tr:1658686229",
           "apple:tr:1440580725",
-          "apple:tr:1690736863",
-          "apple:tr:1537535339",
-          "apple:tr:1608854055"
+          "apple:tr:1707331779",
+          "apple:tr:1537791346",
+          "apple:tr:1615915071"
         ],
         "played": [
+          "apple:tr:1615915071",
           "apple:tr:1608854055",
-          "apple:tr:1600395740",
-          "apple:tr:1313188581",
-          "apple:tr:1690736863",
-          "apple:tr:1658228978"
+          "apple:tr:1294670929",
+          "apple:tr:1707331779",
+          "apple:tr:1660219924"
         ]
       },
       "number": 28
     },
     "2026-11-30": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1804665588",
-          "apple:tr:1439049080",
-          "apple:tr:1804663193",
-          "apple:tr:1691117493",
-          "apple:tr:1535808432",
-          "apple:tr:1749452160",
-          "apple:tr:1213823363",
-          "apple:tr:1818558722",
-          "apple:tr:1605735698"
+          "apple:tr:1793114148",
+          "apple:tr:1487539163",
+          "apple:tr:1803535982",
+          "apple:tr:1657316198",
+          "apple:tr:1535817678",
+          "apple:tr:1747242840",
+          "apple:tr:1255812032",
+          "apple:tr:1804676662",
+          "apple:tr:1573209696"
         ],
         "played": [
-          "apple:tr:1804663193",
-          "apple:tr:1535808432",
-          "apple:tr:1213823363",
-          "apple:tr:1818558722",
-          "apple:tr:1605735698"
+          "apple:tr:1803535982",
+          "apple:tr:1535817678",
+          "apple:tr:1255812032",
+          "apple:tr:1804676662",
+          "apple:tr:1573209696"
         ]
       },
       "facil": {
         "options": [
+          "apple:tr:1801627765",
+          "apple:tr:1804659825",
+          "apple:tr:301551883",
+          "apple:tr:666788984",
           "apple:tr:1748751675",
-          "apple:tr:1822722663",
-          "apple:tr:491251782",
-          "apple:tr:732671787",
-          "apple:tr:1745664227",
-          "apple:tr:1624424636",
-          "apple:tr:1743376807",
-          "apple:tr:1537461096",
-          "apple:tr:1536112858"
+          "apple:tr:1631262560",
+          "apple:tr:1707001466",
+          "apple:tr:1537751877",
+          "apple:tr:1536307628"
         ],
         "played": [
-          "apple:tr:491251782",
-          "apple:tr:1822722663",
-          "apple:tr:1743376807",
-          "apple:tr:1536112858",
-          "apple:tr:732671787"
+          "apple:tr:301551883",
+          "apple:tr:1804659825",
+          "apple:tr:1707001466",
+          "apple:tr:1536307628",
+          "apple:tr:666788984"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1748963339",
-          "apple:tr:1751661600",
-          "apple:tr:1608854055",
-          "apple:tr:1448974955",
-          "apple:tr:1594814709",
-          "apple:tr:1787471129",
-          "apple:tr:1098475108",
-          "apple:tr:1677276384",
-          "apple:tr:1677246396"
+          "apple:tr:1748942976",
+          "apple:tr:1751871814",
+          "apple:tr:1537757856",
+          "apple:tr:1453004696",
+          "apple:tr:1747710463",
+          "apple:tr:1785122582",
+          "apple:tr:1112838203",
+          "apple:tr:1678038439",
+          "apple:tr:1660005144"
         ],
         "played": [
-          "apple:tr:1098475108",
-          "apple:tr:1787471129",
-          "apple:tr:1748963339",
-          "apple:tr:1448974955",
-          "apple:tr:1677246396"
+          "apple:tr:1112838203",
+          "apple:tr:1785122582",
+          "apple:tr:1748942976",
+          "apple:tr:1453004696",
+          "apple:tr:1660005144"
         ]
       },
       "number": 29
     },
     "2026-12-01": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1535484288",
-          "apple:tr:1466903142",
-          "apple:tr:1397312916",
-          "apple:tr:1536389855",
-          "apple:tr:378042255",
-          "apple:tr:383584239",
-          "apple:tr:1838928917",
+          "apple:tr:1501652726",
+          "apple:tr:1455935321",
+          "apple:tr:1387424555",
+          "apple:tr:1536264188",
+          "apple:tr:408787441",
+          "apple:tr:337521818",
+          "apple:tr:1804678685",
           "apple:tr:912667314",
-          "apple:tr:1530931847"
+          "apple:tr:1496310093"
         ],
         "played": [
-          "apple:tr:1466903142",
-          "apple:tr:1535484288",
-          "apple:tr:1397312916",
-          "apple:tr:1530931847",
-          "apple:tr:1536389855"
+          "apple:tr:1455935321",
+          "apple:tr:1501652726",
+          "apple:tr:1387424555",
+          "apple:tr:1496310093",
+          "apple:tr:1536264188"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1804672985",
-          "apple:tr:1133253628",
-          "apple:tr:1536128415",
-          "apple:tr:1321817018",
-          "apple:tr:1130222050",
-          "apple:tr:1838294577",
-          "apple:tr:1538173455",
-          "apple:tr:1606345338",
-          "apple:tr:1588713888"
+          "apple:tr:1804671342",
+          "apple:tr:1098508581",
+          "apple:tr:1536129579",
+          "apple:tr:1443322529",
+          "apple:tr:1082993319",
+          "apple:tr:1827167899",
+          "apple:tr:1537739010",
+          "apple:tr:1631262560",
+          "apple:tr:1555448454"
         ],
         "played": [
-          "apple:tr:1804672985",
-          "apple:tr:1538173455",
-          "apple:tr:1321817018",
-          "apple:tr:1588713888",
-          "apple:tr:1536128415"
+          "apple:tr:1804671342",
+          "apple:tr:1537739010",
+          "apple:tr:1443322529",
+          "apple:tr:1555448454",
+          "apple:tr:1536129579"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1748963164",
+          "apple:tr:1643873399",
           "apple:tr:311757467",
-          "apple:tr:1472477314",
-          "apple:tr:434208004",
-          "apple:tr:1156806070",
-          "apple:tr:1539084824",
-          "apple:tr:350125171",
+          "apple:tr:1483028033",
+          "apple:tr:426884619",
+          "apple:tr:1167937298",
+          "apple:tr:1547553444",
+          "apple:tr:1820844012",
           "apple:tr:872398792",
-          "apple:tr:1536128857"
+          "apple:tr:1536233141"
         ],
         "played": [
           "apple:tr:872398792",
-          "apple:tr:1536128857",
-          "apple:tr:1472477314",
-          "apple:tr:434208004",
-          "apple:tr:1156806070"
+          "apple:tr:1536233141",
+          "apple:tr:1483028033",
+          "apple:tr:426884619",
+          "apple:tr:1167937298"
         ]
       },
       "number": 30
     },
     "2026-12-02": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
           "apple:tr:337867681",
           "apple:tr:1078121632",
-          "apple:tr:1571865541",
-          "apple:tr:1677736088",
-          "apple:tr:1825365845",
-          "apple:tr:1880606186",
-          "apple:tr:1628716139",
-          "apple:tr:1172691626",
-          "apple:tr:1535613405"
+          "apple:tr:1581044578",
+          "apple:tr:1685596554",
+          "apple:tr:1822955588",
+          "apple:tr:1884501576",
+          "apple:tr:1586246286",
+          "apple:tr:1158809645",
+          "apple:tr:1535521860"
         ],
         "played": [
-          "apple:tr:1628716139",
+          "apple:tr:1586246286",
           "apple:tr:337867681",
-          "apple:tr:1535613405",
-          "apple:tr:1172691626",
-          "apple:tr:1825365845"
+          "apple:tr:1535521860",
+          "apple:tr:1158809645",
+          "apple:tr:1822955588"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1167314535",
-          "apple:tr:1647132944",
-          "apple:tr:1046777385",
-          "apple:tr:1523974306",
-          "apple:tr:1562858841",
+          "apple:tr:1297260555",
           "apple:tr:1614941068",
-          "apple:tr:1613475395",
-          "apple:tr:828274444",
+          "apple:tr:1052989933",
+          "apple:tr:1503288558",
+          "apple:tr:1573359701",
+          "apple:tr:1650726430",
+          "apple:tr:1649702260",
+          "apple:tr:799341902",
           "apple:tr:1456261118"
         ],
         "played": [
-          "apple:tr:828274444",
-          "apple:tr:1614941068",
-          "apple:tr:1613475395",
-          "apple:tr:1562858841",
-          "apple:tr:1167314535"
+          "apple:tr:799341902",
+          "apple:tr:1650726430",
+          "apple:tr:1649702260",
+          "apple:tr:1573359701",
+          "apple:tr:1297260555"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:730903332",
-          "apple:tr:1839130615",
-          "apple:tr:1077655346",
-          "apple:tr:1497262873",
-          "apple:tr:1294670929",
-          "apple:tr:1558875123",
-          "apple:tr:1811949787",
-          "apple:tr:1615909480",
-          "apple:tr:1586756084"
+          "apple:tr:743662411",
+          "apple:tr:1848046462",
+          "apple:tr:1074617730",
+          "apple:tr:1501652179",
+          "apple:tr:1304973654",
+          "apple:tr:1558875124",
+          "apple:tr:1822254657",
+          "apple:tr:1537745301",
+          "apple:tr:1590994600"
         ],
         "played": [
-          "apple:tr:1497262873",
-          "apple:tr:1811949787",
-          "apple:tr:730903332",
-          "apple:tr:1839130615",
-          "apple:tr:1558875123"
+          "apple:tr:1501652179",
+          "apple:tr:1822254657",
+          "apple:tr:743662411",
+          "apple:tr:1848046462",
+          "apple:tr:1558875124"
         ]
       },
       "number": 31
     },
     "2026-12-03": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1475478408",
-          "apple:tr:1537420032",
-          "apple:tr:1685596554",
-          "apple:tr:1720716135",
-          "apple:tr:1538285914",
-          "apple:tr:1691117493",
-          "apple:tr:472927981",
-          "apple:tr:1804665753",
-          "apple:tr:1726312196"
+          "apple:tr:1466903142",
+          "apple:tr:1537329869",
+          "apple:tr:1659608875",
+          "apple:tr:1693770352",
+          "apple:tr:1541001548",
+          "apple:tr:1673685246",
+          "apple:tr:463699321",
+          "apple:tr:1804659800",
+          "apple:tr:1692341508"
         ],
         "played": [
-          "apple:tr:1537420032",
-          "apple:tr:1475478408",
-          "apple:tr:1726312196",
-          "apple:tr:1804665753",
-          "apple:tr:1691117493"
+          "apple:tr:1537329869",
+          "apple:tr:1466903142",
+          "apple:tr:1692341508",
+          "apple:tr:1804659800",
+          "apple:tr:1673685246"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1479152928",
+          "apple:tr:1469518211",
           "apple:tr:1537331607",
-          "apple:tr:1536382006",
-          "apple:tr:1538171490",
-          "apple:tr:1538134397",
+          "apple:tr:1536266749",
+          "apple:tr:1538285595",
+          "apple:tr:1538173455",
           "apple:tr:1537331454",
-          "apple:tr:301551883",
-          "apple:tr:1536363700",
-          "apple:tr:1544694170"
+          "apple:tr:396835086",
+          "apple:tr:1536362315",
+          "apple:tr:1548308058"
         ],
         "played": [
-          "apple:tr:301551883",
-          "apple:tr:1538171490",
-          "apple:tr:1544694170",
-          "apple:tr:1479152928",
-          "apple:tr:1536382006"
+          "apple:tr:396835086",
+          "apple:tr:1538285595",
+          "apple:tr:1548308058",
+          "apple:tr:1469518211",
+          "apple:tr:1536266749"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1537438886",
-          "apple:tr:1468249535",
-          "apple:tr:1737175490",
-          "apple:tr:1804630368",
-          "apple:tr:1804633972",
-          "apple:tr:1558875124",
-          "apple:tr:1148645148",
-          "apple:tr:6795001591",
-          "apple:tr:1801634900"
+          "apple:tr:1537535339",
+          "apple:tr:1473369554",
+          "apple:tr:1745639968",
+          "apple:tr:1804644842",
+          "apple:tr:1804660263",
+          "apple:tr:1549794632",
+          "apple:tr:1165273120",
+          "apple:tr:6810160607",
+          "apple:tr:1801640464"
         ],
         "played": [
-          "apple:tr:1804633972",
-          "apple:tr:1804630368",
-          "apple:tr:1148645148",
-          "apple:tr:1558875124",
-          "apple:tr:1737175490"
+          "apple:tr:1804660263",
+          "apple:tr:1804644842",
+          "apple:tr:1165273120",
+          "apple:tr:1549794632",
+          "apple:tr:1745639968"
         ]
       },
       "number": 32
     },
     "2026-12-04": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1538150430",
-          "apple:tr:1747243666",
-          "apple:tr:6762746207",
-          "apple:tr:1519539420",
-          "apple:tr:540652915",
-          "apple:tr:1538281853",
-          "apple:tr:1891250090",
-          "apple:tr:1534588175",
-          "apple:tr:1492239989"
+          "apple:tr:1537789410",
+          "apple:tr:1804674434",
+          "apple:tr:408281706",
+          "apple:tr:1487539163",
+          "apple:tr:472927916",
+          "apple:tr:1537900345",
+          "apple:tr:1880606186",
+          "apple:tr:1536458222",
+          "apple:tr:1490405001"
         ],
         "played": [
-          "apple:tr:1891250090",
-          "apple:tr:1492239989",
-          "apple:tr:1538150430",
-          "apple:tr:540652915",
-          "apple:tr:1538281853"
+          "apple:tr:1880606186",
+          "apple:tr:1490405001",
+          "apple:tr:1537789410",
+          "apple:tr:472927916",
+          "apple:tr:1537900345"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1537786096",
-          "apple:tr:1548308058",
-          "apple:tr:1614941068",
-          "apple:tr:838213289",
-          "apple:tr:1329621039",
-          "apple:tr:1266550846",
-          "apple:tr:1537780574",
+          "apple:tr:1538274927",
+          "apple:tr:1549097463",
+          "apple:tr:1649702260",
+          "apple:tr:74963378",
+          "apple:tr:1436176364",
+          "apple:tr:1317172061",
+          "apple:tr:1537524740",
           "apple:tr:546266905",
-          "apple:tr:1537452458"
+          "apple:tr:1538136703"
         ],
         "played": [
-          "apple:tr:1329621039",
-          "apple:tr:1537780574",
-          "apple:tr:838213289",
-          "apple:tr:1548308058",
+          "apple:tr:1436176364",
+          "apple:tr:1537524740",
+          "apple:tr:74963378",
+          "apple:tr:1549097463",
           "apple:tr:546266905"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1481444765",
-          "apple:tr:1535809131",
-          "apple:tr:1547752621",
-          "apple:tr:1537259894",
-          "apple:tr:1659366177",
-          "apple:tr:1783463123",
-          "apple:tr:1536259905",
-          "apple:tr:1537417115",
-          "apple:tr:1821760203"
+          "apple:tr:1474784361",
+          "apple:tr:1535818246",
+          "apple:tr:1547553444",
+          "apple:tr:1537386678",
+          "apple:tr:1677726810",
+          "apple:tr:1795905600",
+          "apple:tr:1536275176",
+          "apple:tr:1537435433",
+          "apple:tr:1822213525"
         ],
         "played": [
-          "apple:tr:1547752621",
-          "apple:tr:1535809131",
-          "apple:tr:1537417115",
-          "apple:tr:1481444765",
-          "apple:tr:1537259894"
+          "apple:tr:1547553444",
+          "apple:tr:1535818246",
+          "apple:tr:1537435433",
+          "apple:tr:1474784361",
+          "apple:tr:1537386678"
         ]
       },
       "number": 33
     },
     "2026-12-05": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1536229675",
-          "apple:tr:1554829214",
-          "apple:tr:1571865541",
-          "apple:tr:1404868308",
-          "apple:tr:1537055928",
-          "apple:tr:1558608947",
-          "apple:tr:1536963849",
-          "apple:tr:1751658055",
-          "apple:tr:1490510611"
+          "apple:tr:1536114110",
+          "apple:tr:1549545979",
+          "apple:tr:1568292079",
+          "apple:tr:1358252514",
+          "apple:tr:1536746228",
+          "apple:tr:1554829252",
+          "apple:tr:1536371833",
+          "apple:tr:1804644851",
+          "apple:tr:1487539163"
         ],
         "played": [
-          "apple:tr:1554829214",
-          "apple:tr:1558608947",
-          "apple:tr:1536229675",
-          "apple:tr:1404868308",
-          "apple:tr:1490510611"
+          "apple:tr:1549545979",
+          "apple:tr:1554829252",
+          "apple:tr:1536114110",
+          "apple:tr:1358252514",
+          "apple:tr:1487539163"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:799341902",
+          "apple:tr:736586184",
           "apple:tr:996892107",
-          "apple:tr:1537330665",
-          "apple:tr:1047177065",
-          "apple:tr:1587259902",
-          "apple:tr:1536129579",
-          "apple:tr:1801627765",
-          "apple:tr:1263776648",
-          "apple:tr:1482354021"
+          "apple:tr:1538171490",
+          "apple:tr:1052989933",
+          "apple:tr:1616853923",
+          "apple:tr:1536312236",
+          "apple:tr:1817319544",
+          "apple:tr:1273026035",
+          "apple:tr:1534682707"
         ],
         "played": [
-          "apple:tr:799341902",
-          "apple:tr:1536129579",
-          "apple:tr:1482354021",
-          "apple:tr:1537330665",
-          "apple:tr:1263776648"
+          "apple:tr:736586184",
+          "apple:tr:1536312236",
+          "apple:tr:1534682707",
+          "apple:tr:1538171490",
+          "apple:tr:1273026035"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:944111268",
-          "apple:tr:1480492829",
-          "apple:tr:1535534551",
-          "apple:tr:6791060389",
-          "apple:tr:1692528426",
-          "apple:tr:1537251504",
+          "apple:tr:820806741",
+          "apple:tr:1483587895",
+          "apple:tr:1535550260",
+          "apple:tr:6810160607",
+          "apple:tr:1692289427",
+          "apple:tr:1537255478",
           "apple:tr:1028416927",
           "apple:tr:1536274140",
-          "apple:tr:897450664"
+          "apple:tr:934667023"
         ],
         "played": [
-          "apple:tr:1480492829",
-          "apple:tr:1692528426",
+          "apple:tr:1483587895",
+          "apple:tr:1692289427",
           "apple:tr:1536274140",
-          "apple:tr:6791060389",
+          "apple:tr:6810160607",
           "apple:tr:1028416927"
         ]
       },
       "number": 34
     },
     "2026-12-06": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1204216485",
-          "apple:tr:1537236702",
-          "apple:tr:1891344119",
-          "apple:tr:1455935321",
-          "apple:tr:743662415",
-          "apple:tr:1804665588",
-          "apple:tr:1804660825",
-          "apple:tr:1661725722",
-          "apple:tr:6811918500"
+          "apple:tr:1204216484",
+          "apple:tr:1536914007",
+          "apple:tr:1886349450",
+          "apple:tr:1456261119",
+          "apple:tr:687715592",
+          "apple:tr:1856753468",
+          "apple:tr:1804665586",
+          "apple:tr:1653250485",
+          "apple:tr:6782786764"
         ],
         "played": [
-          "apple:tr:6811918500",
-          "apple:tr:1891344119",
-          "apple:tr:1537236702",
-          "apple:tr:1204216485",
-          "apple:tr:1661725722"
+          "apple:tr:6782786764",
+          "apple:tr:1886349450",
+          "apple:tr:1536914007",
+          "apple:tr:1204216484",
+          "apple:tr:1653250485"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1534682707",
-          "apple:tr:1804672985",
-          "apple:tr:1692289314",
-          "apple:tr:1273026035",
-          "apple:tr:1535496920",
+          "apple:tr:1503288558",
+          "apple:tr:1822722663",
+          "apple:tr:1624424636",
+          "apple:tr:1317172061",
+          "apple:tr:1523974306",
           "apple:tr:1140022697",
-          "apple:tr:726712355",
-          "apple:tr:1536482652",
-          "apple:tr:1538276166"
+          "apple:tr:6769320805",
+          "apple:tr:1536382006",
+          "apple:tr:1537331608"
         ],
         "played": [
-          "apple:tr:1692289314",
-          "apple:tr:1534682707",
-          "apple:tr:1535496920",
-          "apple:tr:1273026035",
-          "apple:tr:1538276166"
+          "apple:tr:1624424636",
+          "apple:tr:1503288558",
+          "apple:tr:1523974306",
+          "apple:tr:1317172061",
+          "apple:tr:1537331608"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1112838203",
-          "apple:tr:1559709916",
-          "apple:tr:1369835725",
-          "apple:tr:1487539150",
-          "apple:tr:573130123",
-          "apple:tr:1538158588",
+          "apple:tr:1121899694",
+          "apple:tr:1562117577",
+          "apple:tr:1384766614",
+          "apple:tr:1499916714",
+          "apple:tr:569432050",
+          "apple:tr:1653355298",
           "apple:tr:368865465",
-          "apple:tr:1537420177",
-          "apple:tr:1537900898"
+          "apple:tr:1537448961",
+          "apple:tr:1537904035"
         ],
         "played": [
-          "apple:tr:573130123",
-          "apple:tr:1112838203",
-          "apple:tr:1537900898",
+          "apple:tr:569432050",
+          "apple:tr:1121899694",
+          "apple:tr:1537904035",
           "apple:tr:368865465",
-          "apple:tr:1487539150"
+          "apple:tr:1499916714"
         ]
       },
       "number": 35
     },
     "2026-12-07": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:6810161036",
+          "apple:tr:6776173531",
           "apple:tr:1387424555",
           "apple:tr:435413356",
-          "apple:tr:1489576297",
-          "apple:tr:1749472223",
-          "apple:tr:1538895267",
-          "apple:tr:1634197979",
-          "apple:tr:1822955588",
-          "apple:tr:1536272179"
+          "apple:tr:1486723571",
+          "apple:tr:1804653450",
+          "apple:tr:1537814466",
+          "apple:tr:1613513391",
+          "apple:tr:1815881824",
+          "apple:tr:1536108893"
         ],
         "played": [
-          "apple:tr:1634197979",
-          "apple:tr:1489576297",
-          "apple:tr:1536272179",
-          "apple:tr:6810161036",
-          "apple:tr:1822955588"
+          "apple:tr:1613513391",
+          "apple:tr:1486723571",
+          "apple:tr:1536108893",
+          "apple:tr:6776173531",
+          "apple:tr:1815881824"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:975454106",
-          "apple:tr:1538283596",
-          "apple:tr:367317178",
-          "apple:tr:396835086",
-          "apple:tr:1594814706",
-          "apple:tr:1537239924",
-          "apple:tr:1546061848",
-          "apple:tr:1535550465",
-          "apple:tr:74963378"
+          "apple:tr:988282749",
+          "apple:tr:1546689773",
+          "apple:tr:272936759",
+          "apple:tr:1891247381",
+          "apple:tr:1711647905",
+          "apple:tr:1537248451",
+          "apple:tr:1582334935",
+          "apple:tr:1536128415",
+          "apple:tr:627861882"
         ],
         "played": [
-          "apple:tr:1537239924",
-          "apple:tr:74963378",
-          "apple:tr:396835086",
-          "apple:tr:367317178",
-          "apple:tr:1535550465"
+          "apple:tr:1537248451",
+          "apple:tr:627861882",
+          "apple:tr:1891247381",
+          "apple:tr:272936759",
+          "apple:tr:1536128415"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1823815962",
-          "apple:tr:1544238894",
-          "apple:tr:685299246",
-          "apple:tr:1535550260",
-          "apple:tr:1801640244",
-          "apple:tr:1536267895",
-          "apple:tr:378277094",
-          "apple:tr:1520176888",
-          "apple:tr:1472477314"
+          "apple:tr:1822747728",
+          "apple:tr:1539084824",
+          "apple:tr:635819165",
+          "apple:tr:1534697667",
+          "apple:tr:1803189702",
+          "apple:tr:1536259905",
+          "apple:tr:1811111124",
+          "apple:tr:1499916802",
+          "apple:tr:1464517655"
         ],
         "played": [
-          "apple:tr:1823815962",
-          "apple:tr:685299246",
-          "apple:tr:1801640244",
-          "apple:tr:1536267895",
-          "apple:tr:1544238894"
+          "apple:tr:1822747728",
+          "apple:tr:635819165",
+          "apple:tr:1803189702",
+          "apple:tr:1536259905",
+          "apple:tr:1539084824"
         ]
       },
       "number": 36
     },
     "2026-12-08": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1483028034",
-          "apple:tr:1857515857",
-          "apple:tr:1886349450",
-          "apple:tr:1750639933",
-          "apple:tr:1804664165",
-          "apple:tr:687715592",
+          "apple:tr:1455935321",
+          "apple:tr:1803535982",
+          "apple:tr:1805952773",
+          "apple:tr:1752800466",
+          "apple:tr:1804659499",
+          "apple:tr:6825001052",
           "apple:tr:1804678685",
-          "apple:tr:1720713042",
-          "apple:tr:1722405635"
+          "apple:tr:1726309586",
+          "apple:tr:1726312196"
         ],
         "played": [
-          "apple:tr:1804664165",
-          "apple:tr:687715592",
-          "apple:tr:1720713042",
+          "apple:tr:1804659499",
+          "apple:tr:6825001052",
+          "apple:tr:1726309586",
           "apple:tr:1804678685",
-          "apple:tr:1722405635"
+          "apple:tr:1726312196"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1837312387",
-          "apple:tr:1536115701",
-          "apple:tr:1537230152",
-          "apple:tr:732671787",
-          "apple:tr:1599259865",
-          "apple:tr:937664437",
-          "apple:tr:1721842999",
+          "apple:tr:1838960991",
+          "apple:tr:1535625588",
+          "apple:tr:1537255805",
+          "apple:tr:627861882",
+          "apple:tr:1588713888",
+          "apple:tr:969897525",
+          "apple:tr:1648654054",
           "apple:tr:1047177065",
-          "apple:tr:1266550846"
+          "apple:tr:1299650985"
         ],
         "played": [
-          "apple:tr:1837312387",
-          "apple:tr:1599259865",
-          "apple:tr:937664437",
-          "apple:tr:1536115701",
-          "apple:tr:1537230152"
+          "apple:tr:1838960991",
+          "apple:tr:1588713888",
+          "apple:tr:969897525",
+          "apple:tr:1535625588",
+          "apple:tr:1537255805"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1581055332",
-          "apple:tr:1536129580",
-          "apple:tr:1462933223",
-          "apple:tr:1369835725",
+          "apple:tr:1588672225",
+          "apple:tr:1536118742",
+          "apple:tr:1440725000",
+          "apple:tr:1349098318",
           "apple:tr:1783463123",
-          "apple:tr:1638701929",
-          "apple:tr:1536209106",
-          "apple:tr:1661654543",
-          "apple:tr:1536103554"
+          "apple:tr:1650726665",
+          "apple:tr:1536103554",
+          "apple:tr:1677726810",
+          "apple:tr:1535617938"
         ],
         "played": [
-          "apple:tr:1638701929",
-          "apple:tr:1536129580",
+          "apple:tr:1650726665",
+          "apple:tr:1536118742",
           "apple:tr:1783463123",
-          "apple:tr:1581055332",
-          "apple:tr:1661654543"
+          "apple:tr:1588672225",
+          "apple:tr:1677726810"
         ]
       },
       "number": 37
     },
     "2026-12-09": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1586245984",
-          "apple:tr:1471086992",
-          "apple:tr:1837131919",
-          "apple:tr:1537438634",
-          "apple:tr:1537511284",
+          "apple:tr:1613475860",
+          "apple:tr:1344693163",
+          "apple:tr:1856753468",
+          "apple:tr:1537502246",
+          "apple:tr:1537420032",
           "apple:tr:404731596",
-          "apple:tr:1058782353",
-          "apple:tr:1803535982",
-          "apple:tr:1445990077"
+          "apple:tr:1054841372",
+          "apple:tr:1804665576",
+          "apple:tr:1537899857"
         ],
         "played": [
           "apple:tr:404731596",
-          "apple:tr:1586245984",
-          "apple:tr:1537438634",
-          "apple:tr:1058782353",
-          "apple:tr:1537511284"
+          "apple:tr:1613475860",
+          "apple:tr:1537502246",
+          "apple:tr:1054841372",
+          "apple:tr:1537420032"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1536116908",
-          "apple:tr:1538285451",
-          "apple:tr:1444845551",
+          "apple:tr:1536257542",
+          "apple:tr:1538173455",
+          "apple:tr:1447344522",
           "apple:tr:1024336457",
-          "apple:tr:1588017689",
-          "apple:tr:1649702260",
-          "apple:tr:1537237394",
-          "apple:tr:1128654728",
-          "apple:tr:1536369628"
+          "apple:tr:1558995370",
+          "apple:tr:1745664452",
+          "apple:tr:1537433534",
+          "apple:tr:1112836624",
+          "apple:tr:1536372805"
         ],
         "played": [
-          "apple:tr:1538285451",
-          "apple:tr:1128654728",
-          "apple:tr:1536369628",
+          "apple:tr:1538173455",
+          "apple:tr:1112836624",
+          "apple:tr:1536372805",
           "apple:tr:1024336457",
-          "apple:tr:1588017689"
+          "apple:tr:1558995370"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1546582968",
-          "apple:tr:1783489424",
-          "apple:tr:408281718",
+          "apple:tr:1538285560",
+          "apple:tr:1774428719",
+          "apple:tr:408787427",
           "apple:tr:1112813961",
-          "apple:tr:1436568464",
-          "apple:tr:417756483",
-          "apple:tr:1650726548",
-          "apple:tr:1747711165",
-          "apple:tr:1536364228"
+          "apple:tr:1440725000",
+          "apple:tr:423766416",
+          "apple:tr:1801640464",
+          "apple:tr:1747710804",
+          "apple:tr:1536633404"
         ],
         "played": [
-          "apple:tr:1747711165",
-          "apple:tr:417756483",
+          "apple:tr:1747710804",
+          "apple:tr:423766416",
           "apple:tr:1112813961",
-          "apple:tr:1783489424",
-          "apple:tr:408281718"
+          "apple:tr:1774428719",
+          "apple:tr:408787427"
         ]
       },
       "number": 38
     },
     "2026-12-10": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1410662473",
+          "apple:tr:1387424555",
           "apple:tr:1535615354",
-          "apple:tr:1818558722",
-          "apple:tr:1536392051",
-          "apple:tr:1439049080",
-          "apple:tr:1536101730",
-          "apple:tr:1752426977",
-          "apple:tr:1830459216",
-          "apple:tr:1537239930"
+          "apple:tr:1880606186",
+          "apple:tr:1536357563",
+          "apple:tr:1367041194",
+          "apple:tr:1535811745",
+          "apple:tr:1769341680",
+          "apple:tr:1856739165",
+          "apple:tr:1537253413"
         ],
         "played": [
           "apple:tr:1535615354",
-          "apple:tr:1439049080",
-          "apple:tr:1536101730",
-          "apple:tr:1752426977",
-          "apple:tr:1537239930"
+          "apple:tr:1367041194",
+          "apple:tr:1535811745",
+          "apple:tr:1769341680",
+          "apple:tr:1537253413"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1130222050",
-          "apple:tr:571216110",
+          "apple:tr:1133869639",
+          "apple:tr:546266905",
           "apple:tr:1648654054",
-          "apple:tr:1650726430",
-          "apple:tr:864764609",
-          "apple:tr:1848248144",
-          "apple:tr:1536103707",
-          "apple:tr:1165272512",
-          "apple:tr:1538136703"
+          "apple:tr:1599259865",
+          "apple:tr:838213289",
+          "apple:tr:301551883",
+          "apple:tr:1536129357",
+          "apple:tr:1321817018",
+          "apple:tr:1538284600"
         ],
         "played": [
-          "apple:tr:1538136703",
-          "apple:tr:864764609",
-          "apple:tr:1536103707",
-          "apple:tr:1165272512",
-          "apple:tr:1650726430"
+          "apple:tr:1538284600",
+          "apple:tr:838213289",
+          "apple:tr:1536129357",
+          "apple:tr:1321817018",
+          "apple:tr:1599259865"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1562090605",
-          "apple:tr:1523598100",
-          "apple:tr:1369835725",
-          "apple:tr:1537251751",
+          "apple:tr:1560625245",
+          "apple:tr:1497262873",
+          "apple:tr:1444282564",
+          "apple:tr:1537249926",
           "apple:tr:1068441208",
-          "apple:tr:730903332",
-          "apple:tr:1753840462",
-          "apple:tr:401832345",
-          "apple:tr:1633995848"
+          "apple:tr:635819165",
+          "apple:tr:1751661600",
+          "apple:tr:398118228",
+          "apple:tr:1632169995"
         ],
         "played": [
-          "apple:tr:1753840462",
-          "apple:tr:1537251751",
-          "apple:tr:1633995848",
-          "apple:tr:401832345",
-          "apple:tr:1562090605"
+          "apple:tr:1751661600",
+          "apple:tr:1537249926",
+          "apple:tr:1632169995",
+          "apple:tr:398118228",
+          "apple:tr:1560625245"
         ]
       },
       "number": 39
     },
     "2026-12-11": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1891254432",
-          "apple:tr:1681043284",
+          "apple:tr:1891344119",
+          "apple:tr:1685596554",
           "apple:tr:1065724231",
-          "apple:tr:1804665583",
-          "apple:tr:1768190210",
-          "apple:tr:1652476613",
-          "apple:tr:1535484288",
-          "apple:tr:1738178917",
-          "apple:tr:1137878647"
+          "apple:tr:1804665577",
+          "apple:tr:1753670534",
+          "apple:tr:1659774293",
+          "apple:tr:1535613405",
+          "apple:tr:1738866782",
+          "apple:tr:1138619009"
         ],
         "played": [
-          "apple:tr:1804665583",
-          "apple:tr:1652476613",
-          "apple:tr:1768190210",
+          "apple:tr:1804665577",
+          "apple:tr:1659774293",
+          "apple:tr:1753670534",
           "apple:tr:1065724231",
-          "apple:tr:1681043284"
+          "apple:tr:1685596554"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1536385879",
-          "apple:tr:899032145",
-          "apple:tr:1475094109",
-          "apple:tr:1539086414",
-          "apple:tr:1363865504",
-          "apple:tr:1537263866",
-          "apple:tr:1436176364",
+          "apple:tr:1536382006",
+          "apple:tr:683161859",
+          "apple:tr:1479152928",
+          "apple:tr:1568442751",
+          "apple:tr:1440719374",
+          "apple:tr:1537241579",
           "apple:tr:1313188576",
-          "apple:tr:1538136295"
+          "apple:tr:1281822198",
+          "apple:tr:1538101566"
         ],
         "played": [
-          "apple:tr:1538136295",
-          "apple:tr:1436176364",
+          "apple:tr:1538101566",
           "apple:tr:1313188576",
-          "apple:tr:1537263866",
-          "apple:tr:899032145"
+          "apple:tr:1281822198",
+          "apple:tr:1537241579",
+          "apple:tr:683161859"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1753887555",
-          "apple:tr:1485215965",
-          "apple:tr:1069498969",
-          "apple:tr:1678038439",
-          "apple:tr:1560633691",
-          "apple:tr:1826645213",
-          "apple:tr:1586967283",
-          "apple:tr:1537434996",
-          "apple:tr:1594814709"
+          "apple:tr:1753851098",
+          "apple:tr:1486721930",
+          "apple:tr:1074598478",
+          "apple:tr:1668082074",
+          "apple:tr:1678574607",
+          "apple:tr:1820406422",
+          "apple:tr:1575517795",
+          "apple:tr:1537417115",
+          "apple:tr:1586784520"
         ],
         "played": [
-          "apple:tr:1678038439",
-          "apple:tr:1586967283",
-          "apple:tr:1753887555",
-          "apple:tr:1537434996",
-          "apple:tr:1826645213"
+          "apple:tr:1668082074",
+          "apple:tr:1575517795",
+          "apple:tr:1753851098",
+          "apple:tr:1537417115",
+          "apple:tr:1820406422"
         ]
       },
       "number": 40
     },
     "2026-12-12": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
           "apple:tr:1017602925",
-          "apple:tr:337521818",
-          "apple:tr:1731959374",
-          "apple:tr:355827598",
-          "apple:tr:1537898927",
-          "apple:tr:1492239989",
-          "apple:tr:1804642303",
-          "apple:tr:1538303081",
+          "apple:tr:337922696",
+          "apple:tr:1723299795",
+          "apple:tr:403460557",
+          "apple:tr:1535994431",
+          "apple:tr:1536367112",
+          "apple:tr:1804653450",
+          "apple:tr:1537398485",
           "apple:tr:583838610"
         ],
         "played": [
           "apple:tr:583838610",
-          "apple:tr:355827598",
-          "apple:tr:1731959374",
-          "apple:tr:1804642303",
+          "apple:tr:403460557",
+          "apple:tr:1723299795",
+          "apple:tr:1804653450",
           "apple:tr:1017602925"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1538101566",
-          "apple:tr:1536376515",
-          "apple:tr:1745664499",
-          "apple:tr:1600252842",
-          "apple:tr:1536268997",
-          "apple:tr:1582334675",
-          "apple:tr:1329850526",
-          "apple:tr:1548308058",
-          "apple:tr:1255781939"
+          "apple:tr:1537751877",
+          "apple:tr:1536362315",
+          "apple:tr:1743348859",
+          "apple:tr:1550230067",
+          "apple:tr:1536115701",
+          "apple:tr:1586797917",
+          "apple:tr:1266550846",
+          "apple:tr:1544083979",
+          "apple:tr:1208912296"
         ],
         "played": [
-          "apple:tr:1255781939",
-          "apple:tr:1536268997",
-          "apple:tr:1538101566",
-          "apple:tr:1600252842",
-          "apple:tr:1329850526"
+          "apple:tr:1208912296",
+          "apple:tr:1536115701",
+          "apple:tr:1537751877",
+          "apple:tr:1550230067",
+          "apple:tr:1266550846"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1558992945",
-          "apple:tr:451930972",
-          "apple:tr:1657159810",
+          "apple:tr:1561702740",
+          "apple:tr:434208004",
+          "apple:tr:1651183709",
           "apple:tr:934667023",
-          "apple:tr:1538285560",
-          "apple:tr:1517761602",
-          "apple:tr:735117930",
-          "apple:tr:1342943461",
-          "apple:tr:1537434617"
+          "apple:tr:1546582968",
+          "apple:tr:1485215965",
+          "apple:tr:743662411",
+          "apple:tr:1313188577",
+          "apple:tr:1537448961"
         ],
         "played": [
-          "apple:tr:451930972",
+          "apple:tr:434208004",
           "apple:tr:934667023",
-          "apple:tr:1517761602",
-          "apple:tr:1657159810",
-          "apple:tr:1342943461"
+          "apple:tr:1485215965",
+          "apple:tr:1651183709",
+          "apple:tr:1313188577"
         ]
       },
       "number": 41
     },
     "2026-12-13": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1636647501",
-          "apple:tr:1803535982",
-          "apple:tr:1751243381",
-          "apple:tr:1891566588",
+          "apple:tr:1673663566",
+          "apple:tr:1804665585",
+          "apple:tr:1752838890",
+          "apple:tr:505103478",
           "apple:tr:1742896218",
-          "apple:tr:1344692690",
-          "apple:tr:317672499",
-          "apple:tr:1537397268",
-          "apple:tr:1537765137"
+          "apple:tr:1358216069",
+          "apple:tr:317681372",
+          "apple:tr:1537438634",
+          "apple:tr:1538283394"
         ],
         "played": [
-          "apple:tr:1537397268",
-          "apple:tr:317672499",
-          "apple:tr:1344692690",
-          "apple:tr:1803535982",
-          "apple:tr:1537765137"
+          "apple:tr:1537438634",
+          "apple:tr:317681372",
+          "apple:tr:1358216069",
+          "apple:tr:1804665585",
+          "apple:tr:1538283394"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:340327759",
-          "apple:tr:1107861535",
-          "apple:tr:845152930",
-          "apple:tr:799341902",
+          "apple:tr:491251782",
+          "apple:tr:1098508581",
+          "apple:tr:899032145",
+          "apple:tr:864764609",
           "apple:tr:1525498908",
+          "apple:tr:1536272040",
+          "apple:tr:1538265329",
           "apple:tr:1536256935",
-          "apple:tr:1537451763",
-          "apple:tr:1536110639",
           "apple:tr:890355478"
         ],
         "played": [
-          "apple:tr:1536110639",
-          "apple:tr:1525498908",
           "apple:tr:1536256935",
-          "apple:tr:340327759",
+          "apple:tr:1525498908",
+          "apple:tr:1536272040",
+          "apple:tr:491251782",
           "apple:tr:890355478"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:1128261202",
-          "apple:tr:1612435091",
-          "apple:tr:6769312886",
-          "apple:tr:1588672225",
+          "apple:tr:1133404547",
+          "apple:tr:1608120436",
+          "apple:tr:6795001591",
+          "apple:tr:1586756084",
           "apple:tr:604775968",
-          "apple:tr:735117930",
-          "apple:tr:1536209106",
-          "apple:tr:1537238779",
-          "apple:tr:1707331779"
+          "apple:tr:743662411",
+          "apple:tr:1536118052",
+          "apple:tr:1538261999",
+          "apple:tr:1705665722"
         ],
         "played": [
-          "apple:tr:1588672225",
-          "apple:tr:1707331779",
-          "apple:tr:1612435091",
+          "apple:tr:1586756084",
+          "apple:tr:1705665722",
+          "apple:tr:1608120436",
           "apple:tr:604775968",
-          "apple:tr:1536209106"
+          "apple:tr:1536118052"
         ]
       },
       "number": 42
     },
     "2026-12-14": {
-      "catalogVersion": "2026-11-16.7d8e5819",
+      "catalogVersion": "2026-11-16.1d38f121",
       "dificil": {
         "options": [
-          "apple:tr:1804642303",
-          "apple:tr:425095880",
-          "apple:tr:1536458525",
-          "apple:tr:6762746207",
+          "apple:tr:1787564099",
+          "apple:tr:6770849503",
+          "apple:tr:1536392051",
+          "apple:tr:638086931",
           "apple:tr:921452864",
-          "apple:tr:1139965536",
-          "apple:tr:1537398484",
-          "apple:tr:6776173531",
-          "apple:tr:1804659499"
+          "apple:tr:1144865530",
+          "apple:tr:1537264540",
+          "apple:tr:6763455198",
+          "apple:tr:1804644851"
         ],
         "played": [
-          "apple:tr:1139965536",
-          "apple:tr:1536458525",
+          "apple:tr:1144865530",
+          "apple:tr:1536392051",
           "apple:tr:921452864",
-          "apple:tr:6776173531",
-          "apple:tr:1537398484"
+          "apple:tr:6763455198",
+          "apple:tr:1537264540"
         ]
       },
       "facil": {
         "options": [
-          "apple:tr:1475472336",
-          "apple:tr:1539323019",
-          "apple:tr:1616853923",
-          "apple:tr:1837312387",
-          "apple:tr:1046777385",
-          "apple:tr:1537252592",
-          "apple:tr:1537524740",
-          "apple:tr:1743348859",
-          "apple:tr:1745664227"
+          "apple:tr:1525236534",
+          "apple:tr:1538173455",
+          "apple:tr:1538285451",
+          "apple:tr:1757958797",
+          "apple:tr:1047177065",
+          "apple:tr:1537241312",
+          "apple:tr:1537381961",
+          "apple:tr:1678949889",
+          "apple:tr:1723078323"
         ],
         "played": [
-          "apple:tr:1475472336",
-          "apple:tr:1537252592",
-          "apple:tr:1537524740",
-          "apple:tr:1743348859",
-          "apple:tr:1616853923"
+          "apple:tr:1525236534",
+          "apple:tr:1537241312",
+          "apple:tr:1537381961",
+          "apple:tr:1678949889",
+          "apple:tr:1538285451"
         ]
       },
       "medio": {
         "options": [
-          "apple:tr:416507462",
-          "apple:tr:1748942976",
-          "apple:tr:368865465",
-          "apple:tr:1535490832",
-          "apple:tr:1544238894",
-          "apple:tr:1644634313",
-          "apple:tr:1535550260",
-          "apple:tr:1537905014",
-          "apple:tr:1397294599"
+          "apple:tr:408281718",
+          "apple:tr:1747710463",
+          "apple:tr:1815243485",
+          "apple:tr:1535633276",
+          "apple:tr:1537249241",
+          "apple:tr:1649708178",
+          "apple:tr:1535534551",
+          "apple:tr:1537745301",
+          "apple:tr:1410720783"
         ],
         "played": [
-          "apple:tr:1535550260",
-          "apple:tr:1537905014",
-          "apple:tr:416507462",
-          "apple:tr:1397294599",
-          "apple:tr:1748942976"
+          "apple:tr:1535534551",
+          "apple:tr:1537745301",
+          "apple:tr:408281718",
+          "apple:tr:1410720783",
+          "apple:tr:1747710463"
         ]
       },
       "number": 43

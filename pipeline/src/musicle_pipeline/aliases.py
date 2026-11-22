@@ -17,6 +17,12 @@ Só no Anime, a franquia gigante fica com as suas músicas mais conhecidas (P467
 
     [franchises."meitantei_conan"]
     keep = 10                    # o catálogo leva só as 10 de maior chance; a busca a pula
+
+E o anime que o AnimeThemes põe na série de outro (um spin-off) pode virar a própria franquia
+(o usuário, 18/11/2026: Seiren estava na série de Amagami SS, e "Amagami SS" valia por ele):
+
+    [anime."seiren"]             # o slug do anime no AnimeThemes
+    standalone = true            # a franquia é o próprio anime, sem a série
 """
 
 from __future__ import annotations
@@ -30,13 +36,15 @@ from typing import Any
 from musicle_pipeline.models import InputError
 
 KINDS = ("tracks", "albums", "artists")  # as entidades do catálogo, que a curadoria cita pelo ID
-# As seções do arquivo: as entidades e, só no Anime, as franquias limitadas (P467).
-SECTIONS = (*KINDS, "franchises")
+# As seções do arquivo: as entidades e, só no Anime, as franquias limitadas (P467) e os animes
+# fora da série do AnimeThemes (o usuário, 18/11/2026).
+SECTIONS = (*KINDS, "franchises", "anime")
 _ALLOWED_KEYS = {
     "tracks": {"latin", "aliases", "block"},
     "albums": {"latin"},
     "artists": {"latin", "aliases"},
     "franchises": {"keep"},  # só o Anime a lê (P467); a franquia é o slug, sem o "anime:fr:"
+    "anime": {"standalone"},  # só o Anime a lê; o anime é o slug do AnimeThemes
 }
 
 
@@ -46,6 +54,7 @@ class Alias:
     aliases: tuple[str, ...] = ()
     block: bool = False
     keep: int | None = None
+    standalone: bool = False
 
 
 _EMPTY = Alias()
@@ -82,8 +91,15 @@ def _parse_entry(kind: str, entity_id: str, raw: Any, where: str) -> Alias:
         raise InputError(
             f"{where}: [{kind}.{entity_id!r}] keep deveria ser um inteiro de 1 para cima"
         )
+    standalone = raw.get("standalone", False)
+    if kind == "anime" and standalone is not True:
+        raise InputError(f"{where}: [{kind}.{entity_id!r}] standalone deveria ser true")
     return Alias(
-        latin=latin.strip() if latin else None, aliases=tuple(aliases), block=block, keep=keep
+        latin=latin.strip() if latin else None,
+        aliases=tuple(aliases),
+        block=block,
+        keep=keep,
+        standalone=standalone,
     )
 
 

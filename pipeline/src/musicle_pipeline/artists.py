@@ -881,7 +881,9 @@ def _stale_aliases(
     stale = [f"{k}: {eid}" for k in KINDS for eid in sorted(cur.aliases.ids(k) - known[k])]
     # A franquia limitada é só do Anime (P467): aqui ela seria ignorada em silêncio.
     franchises = sorted(cur.aliases.ids("franchises"))
-    return stale + [f"franchises: {slug} (só o Anime limita franquias)" for slug in franchises]
+    stale += [f"franchises: {slug} (só o Anime limita franquias)" for slug in franchises]
+    anime = sorted(cur.aliases.ids("anime"))
+    return stale + [f"anime: {slug} (só o Anime tem animes)" for slug in anime]
 
 
 def build_artists(

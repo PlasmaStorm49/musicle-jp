@@ -3593,6 +3593,17 @@ section.summary > h2 {
   }
 }
 
+/* Com o "reduzir movimento" no toque, a troca vira um cross-fade (como o iOS com o "Preferir
+   cross-fade"; a ideia é do design:reduced-motion do Astryx, da Meta): só a opacidade, sem
+   deslocar nada, nos mesmos 200 ms. Com mouse ou teclado, a troca continua imediata. */
+@media (prefers-reduced-motion: reduce) and (pointer: coarse) {
+  .screen,
+  .medal-toast,
+  dialog.royale-dialog[open] {
+    animation: enter var(--dur-2) var(--ease);
+  }
+}
+
 @keyframes enter {
   from {
     opacity: 0;

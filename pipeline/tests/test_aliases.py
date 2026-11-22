@@ -100,3 +100,22 @@ def test_only_the_anime_limits_franchises(fixture_snapshots):
     """Nos Hits, a seção das franquias seria ignorada em silêncio: o build recusa (P467)."""
     with pytest.raises(InputError, match="só o Anime limita franquias"):
         _build(fixture_snapshots, "[franchises.'x']\nkeep = 1")
+
+
+def test_the_standalone_anime():
+    """O anime fora da série do AnimeThemes (o usuário, 18/11/2026): só `standalone = true`."""
+    aliases = parse_aliases('[anime."seiren"]\nstandalone = true\n')
+    assert aliases.get("anime", "seiren").standalone is True
+    for bad in ("false", "1", '"sim"'):
+        with pytest.raises(InputError, match="standalone deveria ser true"):
+            parse_aliases(f'[anime."x"]\nstandalone = {bad}\n')
+    with pytest.raises(InputError, match="chave desconhecida"):
+        parse_aliases('[anime."x"]\nkeep = 1\n')
+    with pytest.raises(InputError, match="chave desconhecida"):
+        parse_aliases('[tracks."x"]\nstandalone = true\n')
+
+
+def test_only_the_anime_has_standalone_anime(fixture_snapshots):
+    """Nos Hits, a seção dos animes seria ignorada em silêncio: o build recusa."""
+    with pytest.raises(InputError, match="só o Anime tem animes"):
+        _build(fixture_snapshots, "[anime.'x']\nstandalone = true")
