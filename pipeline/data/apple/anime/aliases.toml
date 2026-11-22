@@ -19,3 +19,17 @@ latin = "Renacer Serenade"
 
 [franchises."meitantei_conan"]
 keep = 10
+
+# --- Os animes fora da série do AnimeThemes (o usuário, 18/11/2026) ---
+# Seiren é um spin-off que o AnimeThemes põe na série de Amagami SS: "Amagami SS" acertava os
+# temas de Seiren. Ele vira a própria franquia.
+
+[anime."seiren"]
+standalone = true
+
+# --- As faixas bloqueadas (P238) ---
+# A regravação de 2005 de WE GOTTA POWER confundia os jogadores (o usuário, 18/11/2026): sai de
+# todo dia novo, e as rodadas já gravadas que a citam são anuladas.
+
+[tracks."apple:tr:129251823"]  # WE GOTTA POWER(2005Ver.) (影山ヒロノブ), Dragon Ball Z OP2
+block = true
