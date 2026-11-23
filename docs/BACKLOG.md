@@ -100,7 +100,7 @@ Atualizado em 05/11/2026.
 
 ## Coisas novas que quero implementar
 
-- **M18 (o que falta).** O quiz do dia (Apêndice Q do PLANO) está no ar; faltam os artistas parecidos (o PR D, com a run mais curta da P451 e a curadoria dos grupos) e as estatísticas do quiz (o B2).
+- **M18 (o que falta).** O quiz do dia (Apêndice Q do PLANO) está no ar; faltam as estatísticas do quiz (o B2). Os artistas parecidos (o PR D) saíram do plano (P468).
 - **M20 (o que falta).** As medalhas (Apêndice S do PLANO): os blocos, as do quiz e as do Anime Royale já estão no ar; falta o PR 3, com as novas dos Hits, do Anime e das Misturadas, em avaliação.
 - **ME112 (novo).** O menu com submenus no celular: cada categoria da nav abre o seu (os Hits, o Anime), além do "Mais ▾" do M15.
 - **ME160 (novo).** O Anime Royale no Histórico: a marca no calendário e as dificuldades de um dia passado, jogadas depois.

@@ -112,7 +112,7 @@ export function isMalFamily(family: QuizFamily): boolean {
 /**
  * Os especiais da semana (P381), de até 30 rodadas (P376): os `SPECIALS` do `anime_quiz.py`. A
  * tela e o compartilhar os marcam (o usuário, 28/10/2026), e as medalhas do especial os contam
- * (M20). Todas as famílias, para a nova (os artistas parecidos, P385) não compilar sem a decisão.
+ * (M20). Todas as famílias, para uma nova não compilar sem a decisão.
  */
 const SPECIAL: Readonly<Record<QuizFamily, boolean>> = {
   ano: false,
