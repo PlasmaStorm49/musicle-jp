@@ -1193,5 +1193,10 @@ def test_the_committed_fixture_bonus_is_the_generators_for_the_first_day():
 
 
 def test_the_bonus_command_needs_the_day_in_the_quiz_agenda(capsys):
-    assert main(["quiz-bonus", "--provider", "fixture", "--date", "2026-12-01"]) == 1
+    # O dia seguinte ao último da agenda fictícia: o robô a cresce toda semana, e uma data fixa
+    # acabaria dentro dela.
+    months = sorted((anime_paths("fixture").public_dir / QUIZ_DIR).glob("*.json"))
+    last = max(read_json(months[-1])["days"])
+    after = (date.fromisoformat(last) + timedelta(days=1)).isoformat()
+    assert main(["quiz-bonus", "--provider", "fixture", "--date", after]) == 1
     assert "o dia não está na agenda do quiz" in capsys.readouterr().err
