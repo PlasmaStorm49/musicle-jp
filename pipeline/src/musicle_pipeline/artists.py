@@ -305,6 +305,11 @@ def _medals(value: object, where: str) -> MedalRules:
 # com todas as faixas dos álbuns dele, de qualquer intérprete, e as extra_tracks.
 SECTIONS = ("foreign", "anime")
 ANIME = "anime"
+# Os artistas só do quiz do dia (o especial dos artistas parecidos, M18; o usuário, 22/11/2026):
+# a busca, a curadoria e o arquivo são os do modo por artista, mas eles ficam fora da lista da tela
+# (no `quizOnly` do índice) e sem medalhas. As extra_tracks trazem as músicas que eles cantam como
+# personagem ("(CV:...)"), que a Apple credita a outro artista (contam, o usuário, 22/11/2026).
+QUIZ = "quiz"
 _RULE_KEYS = {
     "id",
     "exclude_albums",
@@ -348,11 +353,13 @@ def load_artist_list(path: Path) -> list[ArtistRules]:
         ):
             raise InputError(f"{where}: same_song deveria ser uma lista de pares de trackId")
         section = item.get("section")
-        if section is not None and section not in SECTIONS:
-            raise InputError(f"{where}: section aceita só {list(SECTIONS)}")
+        if section is not None and section not in (*SECTIONS, QUIZ):
+            raise InputError(f"{where}: section aceita só {[*SECTIONS, QUIZ]}")
         extra = _ids(item.get("extra_tracks", []), f"{where} extra_tracks")
-        if extra and section != ANIME:
-            raise InputError(f'{where}: extra_tracks só na section = "{ANIME}"')
+        if extra and section not in (ANIME, QUIZ):
+            raise InputError(f'{where}: extra_tracks só na section = "{ANIME}" ou "{QUIZ}"')
+        if section == QUIZ and "medals" in item:
+            raise InputError(f"{where}: o artista só do quiz não tem medalhas")
         rules.append(
             ArtistRules(
                 id=artist_id,
@@ -802,10 +809,13 @@ def _setlist_entry(
 
 
 def build_artist_list(
-    provider: str, storefront: str, files: Sequence[tuple[str, JSON, str | None, JSON]]
+    provider: str,
+    storefront: str,
+    files: Sequence[tuple[str, JSON, str | None, JSON]],
+    quiz_only: Sequence[tuple[str, JSON]] = (),
 ) -> JSON:
     """O índice: os artistas recebidos (na ordem do artists.toml), com a seção e as medalhas de
-    cada um."""
+    cada um; e, à parte, os só do quiz (`quizOnly`), pelo id, fora da lista da tela."""
     entries = []
     for name, data, section, medals in files:
         me = next((a for a in data["artists"] if a["id"] == data["artistId"]), None)
@@ -823,12 +833,15 @@ def build_artist_list(
                 "medals": medals,
             }
         )
-    return {
+    index: JSON = {
         "schemaVersion": SCHEMA_VERSION,
         "provider": provider,
         "storefront": storefront,
         "artists": list_order(entries),
     }
+    if quiz_only:
+        index["quizOnly"] = [{"id": data["artistId"], "file": name} for name, data in quiz_only]
+    return index
 
 
 def _duplicate_notes(data: JSON) -> list[str]:
@@ -899,12 +912,17 @@ def build_artists(
     if stale:
         raise InputError("aliases.toml cita IDs que nenhum artista tem:\n" + "\n".join(stale))
     files: list[tuple[str, JSON, str | None, JSON]] = []
+    quiz_only: list[tuple[str, JSON]] = []
     for r, snap, songs in selections(provider.name, snapshots, cur, notes):
         if not songs:
             raise InputError(f"artista {r.id}: nenhuma música tocável")
         data = build_artist_file(provider.name, provider.storefront, snap, songs, cur)
         notes.extend(_duplicate_notes(data))
+        if r.section == QUIZ:
+            quiz_only.append((file_name(r), data))
+            continue
         medals = medal_entry(provider.name, r, data)
         files.append((file_name(r), data, r.section, medals))
-    index = build_artist_list(provider.name, provider.storefront, files)
-    return {INDEX: index, **{name: data for name, data, _, _ in files}}
+    index = build_artist_list(provider.name, provider.storefront, files, quiz_only)
+    published = {name: data for name, data, _, _ in files}
+    return {INDEX: index, **published, **dict(quiz_only)}

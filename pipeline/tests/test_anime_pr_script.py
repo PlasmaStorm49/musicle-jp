@@ -1102,7 +1102,11 @@ SHAPES: dict[str, tuple[str, bool, object, dict[str, object] | None]] = {
     "rotulo": ("tem", True, "Slice of Life", None),
     "fonte": ("nao", True, "light_novel", None),
     "estudio": ("tem", True, "Kyoto Animation", None),
+    # Os artistas parecidos (M18): o nome do artista, e o grupo e os artistas no dia.
+    "artistas": ("nao", False, "Nana Mizuki", None),
 }
+# O grupo e os artistas, só do dia dos artistas parecidos.
+ARTIST_DAY = {"group": "mizuki-mayn", "artists": ["apple:ar:308629932", "apple:ar:301384362"]}
 
 
 def shaped(day: JSON, family: str) -> JSON:
@@ -1111,6 +1115,8 @@ def shaped(day: JSON, family: str) -> JSON:
     new = {**copy.deepcopy(day), "family": family, "direction": direction, "mal": mal}
     if param is not None:
         new["param"] = param
+    if family == "artistas":
+        new.update(copy.deepcopy(ARTIST_DAY))
     for rnd in new["rounds"]:
         rnd.pop("info")
         if info is not None:
@@ -1382,6 +1388,19 @@ def test_accepts_a_quiz_day_of_each_family(tmp_path, family):
     assert f"\n{line} (2 rodadas)\n" in section(temp)
 
 
+def test_accepts_an_artists_day_with_tracks_outside_the_anime(tmp_path):
+    # Os artistas parecidos (M18) citam faixas dos arquivos do modo por artista: o script não as
+    # procura no catálogo do Anime (o schedule-check regera o dia com os arquivos ao lado).
+    main = main_with_quiz()
+    changes = quiz_change(main)
+    month = month_with(changes, iso(20))
+    day = shaped(month["days"][iso(20)], "artistas")
+    day["rounds"][0]["a"] = "apple:tr:999999"
+    month["days"][iso(20)] = day
+    done, _, _ = run(tmp_path, changes, main=main)
+    assert done.returncode == 0, done.stdout + done.stderr
+
+
 def _no_info(day: JSON) -> None:
     for rnd in day["rounds"]:
         rnd.pop("info", None)
@@ -1412,6 +1431,16 @@ def _no_info(day: JSON) -> None:
         ("estudio", lambda d: d.update(param="https://x.y")),
         ("estudio", lambda d: d.update(param="")),
         ("estudio", lambda d: d.update(rounds=d["rounds"] * 16)),  # 32: o especial vai até 30
+        ("estudio", lambda d: d.update(group="mizuki-mayn")),  # só os artistas têm o grupo
+        ("artistas", lambda d: d.pop("group")),
+        ("artistas", lambda d: d.update(group="Mizuki_Mayn")),
+        ("artistas", lambda d: d.update(artists=["apple:ar:308629932"])),
+        ("artistas", lambda d: d.update(artists=["apple:ar:1", "apple:ar:1"])),
+        ("artistas", lambda d: d.update(artists=["https://x.y", "apple:ar:1"])),
+        ("artistas", lambda d: d.update(param="<b>Nana</b>")),
+        ("artistas", lambda d: d.update(direction="max")),
+        ("artistas", lambda d: d["rounds"][0].update(info={"years": [2001, 2000]})),
+        ("artistas", lambda d: d.update(rounds=d["rounds"] * 16)),
     ],
 )
 def test_rejects_a_quiz_day_out_of_shape(tmp_path, family, change):

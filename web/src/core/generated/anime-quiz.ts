@@ -35,7 +35,7 @@ export interface QuizDay {
   number: number;
   catalogVersion: string;
   /**
-   * A pergunta (Apêndice Q, Q.2): as comparações ano, nota, membros, playlists e amq; as propriedades rotulo, fonte e tema; os especiais estudio e ano_x.
+   * A pergunta (Apêndice Q, Q.2): as comparações ano, nota, membros, playlists e amq; as propriedades rotulo, fonte e tema; os especiais estudio, ano_x e artistas (os artistas parecidos, o usuário, 22/11/2026).
    */
   family:
     | "ano"
@@ -47,15 +47,26 @@ export interface QuizDay {
     | "fonte"
     | "tema"
     | "estudio"
-    | "ano_x";
+    | "ano_x"
+    | "artistas";
   /**
    * Nas comparações, a resposta tem o maior (max) ou o menor (min) valor; nas propriedades, a resposta tem (tem) ou não tem (nao) a propriedade.
    */
   direction: "max" | "min" | "tem" | "nao";
   /**
-   * O parâmetro da pergunta de propriedade: o rótulo do MAL, o grupo da fonte, o estúdio ou o ano. As comparações e o tipo do tema não têm.
+   * O parâmetro da pergunta de propriedade: o rótulo do MAL, o grupo da fonte, o estúdio, o ano ou, nos artistas parecidos, o nome do artista da pergunta. As comparações e o tipo do tema não têm.
    */
   param?: string | number;
+  /**
+   * Só nos artistas parecidos: o grupo curado (o quiz_artists.toml), que roda em ciclo.
+   */
+  group?: string;
+  /**
+   * Só nos artistas parecidos: os artistas do grupo, o da pergunta primeiro. A tela baixa o arquivo de cada um (o do modo por artista, <id>.json), onde estão as músicas que não são do Anime.
+   *
+   * @minItems 2
+   */
+  artists?: [string, string, ...string[]];
   /**
    * Se os dados do MAL estavam na geração: com eles, as famílias do MAL podiam ser sorteadas (P380).
    */

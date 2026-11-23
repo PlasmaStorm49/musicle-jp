@@ -1,0 +1,8 @@
+# Os grupos do especial dos artistas parecidos do quiz do dia (M18; o usuário, 22/11/2026), nas
+# fixtures: dois artistas da parada fictícia que estão no modo por artista (artists/artists.toml).
+# Cada grupo: o id (minúsculas, números e hífen) e os ids dos artistas, sem o prefixo do provedor.
+# O acervo curto das fixtures pede só FLOOR_SHORT músicas de cada um (anime_quiz_artists.py).
+
+[[groups]]
+id = "yokaze-aoi"
+artists = ["ar02", "ar07"]

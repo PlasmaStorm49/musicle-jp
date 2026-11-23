@@ -73,6 +73,13 @@ from musicle_pipeline.anime import (
     song_key,
 )
 from musicle_pipeline.anime_mixed import mixed_rounds
+from musicle_pipeline.anime_quiz_artists import (
+    FLOOR,
+    FLOOR_SHORT,
+    ArtistGroup,
+    ArtistSong,
+    artist_tracks,
+)
 from musicle_pipeline.anime_schedule import _rounds
 from musicle_pipeline.io_json import dumps, loads, read_json, write_if_changed
 from musicle_pipeline.models import JSON, InputError
@@ -379,11 +386,16 @@ SPECIALS = (
         floor=Decimal(1),
         whole=True,
     ),
+    # Os artistas parecidos (S62; o usuário, 22/11/2026): "a de [artista]", entre os artistas de
+    # um grupo curado (anime_quiz_artists.py). O parâmetro é o nome do artista da pergunta, e o
+    # dia leva também o grupo e os artistas (`group`, `artists`).
+    Family("artistas", "property", False, 0, special=True),
 )
 FAMILY_BY_ID = {f.id: f for f in (*FAMILIES, *SPECIALS)}
-# As que têm parâmetro: o rótulo, a fonte, o estúdio e o ano (o tema não tem: é a abertura ou o
-# encerramento, pela direção).
-PARAM_FAMILIES = frozenset({"rotulo", "fonte", "estudio", "ano_x"})
+ARTISTS = "artistas"
+# As que têm parâmetro: o rótulo, a fonte, o estúdio, o ano e o artista (o tema não tem: é a
+# abertura ou o encerramento, pela direção).
+PARAM_FAMILIES = frozenset({"rotulo", "fonte", "estudio", "ano_x", ARTISTS})
 
 
 def rounds_of(family: Family) -> int:
@@ -617,6 +629,7 @@ class QuizContext:
         mal: Mapping[int, MalFacts] | None,
         anime_days: Mapping[str, JSON],
         mixed_days: Mapping[str, JSON],
+        artist_groups: Sequence[ArtistGroup] = (),
     ) -> None:
         if "franchises" not in catalog:
             raise ScheduleError("o catálogo não é o do Anime (falta franchises)")
@@ -625,6 +638,9 @@ class QuizContext:
         self.mal = mal
         self.anime_days = anime_days
         self.mixed_days = mixed_days
+        self.artist_groups = list(artist_groups)
+        # As faixas dos grupos (as do Anime e as dos arquivos do modo por artista) → a songKey.
+        self.artist_keys = artist_tracks(self.artist_groups)
         songs: list[Song] = []
         seen: set[str] = set()
         for track in sorted(catalog["tracks"], key=lambda t: t["id"]):
@@ -729,12 +745,27 @@ class QuizContext:
         return min(rounds_of(family), max(2, len(self.songs) // SHORT_SHARE))
 
     def capped(self, family: Family) -> bool:
-        """Se a run da família tem o limite da franquia (FRANCHISE_CAP)."""
-        return family.id in PARAM_FAMILIES and not self.short
+        """Se a run da família tem o limite da franquia (FRANCHISE_CAP). Os artistas parecidos
+        não: a música pode não ser do Anime, e o artista é o que a pergunta já entrega."""
+        return family.id in PARAM_FAMILIES and family.id != ARTISTS and not self.short
+
+    def ready_groups(self) -> list[ArtistGroup]:
+        """Os grupos dos artistas parecidos com o piso de músicas em cada artista, pelo id."""
+        floor = FLOOR_SHORT if self.short else FLOOR
+        ready = [g for g in self.artist_groups if all(len(s.songs) >= floor for s in g.sides)]
+        return sorted(ready, key=lambda g: g.id)
+
+    def key_of(self, track_id: str) -> str | None:
+        """A songKey de uma faixa do Anime ou de um grupo dos artistas parecidos."""
+        track = self.tracks.get(track_id)
+        return track["songKey"] if track is not None else self.artist_keys.get(track_id)
 
     def params(self, family: Family) -> list[object]:
         """Os parâmetros que fecham a run (o rótulo, a fonte, o estúdio ou o ano), em ordem. Com o
-        limite da franquia, cada uma conta no máximo FRANCHISE_CAP músicas."""
+        limite da franquia, cada uma conta no máximo FRANCHISE_CAP músicas. Nos artistas
+        parecidos, os grupos que fecham o piso."""
+        if family.id == ARTISTS:
+            return [g.id for g in self.ready_groups()]
         if family.id not in self._params:
             need = self.need(family)
             per: Counter[tuple[object, str]] = Counter()
@@ -1125,6 +1156,7 @@ class _History:
     family: dict[str, date] = field(default_factory=dict)  # o último dia de cada família
     param: dict[tuple[str, object], date] = field(default_factory=dict)  # e de cada parâmetro
     last_special: str | None = None  # a família do especial mais recente
+    group: dict[str, date] = field(default_factory=dict)  # o último dia de cada grupo de artistas
 
 
 def _history(days: Mapping[str, JSON], d: date) -> _History:
@@ -1137,6 +1169,8 @@ def _history(days: Mapping[str, JSON], d: date) -> _History:
         history.family[day["family"]] = when
         if "param" in day:
             history.param[day["family"], day["param"]] = when
+        if "group" in day:
+            history.group[day["group"]] = when
         if FAMILY_BY_ID[day["family"]].special:
             history.last_special = day["family"]
     return history
@@ -1202,17 +1236,41 @@ def _param(ctx: QuizContext, family: Family, history: _History, d: date, rng: Mu
     return _pick(rng, ready)
 
 
+def _debut(ctx: QuizContext, family: Family, history: _History) -> bool:
+    """A prioridade da estreia (o usuário, 22/11/2026): os artistas parecidos com um grupo que
+    nunca saiu vêm antes do sorteio dos especiais, até todos os grupos saírem uma vez. Um grupo
+    novo no quiz_artists.toml estreia do mesmo jeito. O estúdio e o ano seguem o sorteio."""
+    return family.id == ARTISTS and any(g not in history.group for g in ctx.params(family))
+
+
+def _artist_group(ctx: QuizContext, history: _History, rng: Mulberry32) -> tuple[ArtistGroup, int]:
+    """O grupo do dia, em ciclo (o que nunca saiu, senão o parado há mais tempo), e o artista da
+    pergunta, sorteado no grupo: dois números do rng."""
+    groups = ctx.ready_groups()
+    last = {g.id: history.group.get(g.id) for g in groups}
+    fresh = [g for g in groups if last[g.id] is None]
+    if not fresh:
+        oldest = min(v for v in last.values() if v is not None)
+        fresh = [g for g in groups if last[g.id] == oldest]
+    group = fresh[rng.randint(len(fresh))]
+    return group, rng.randint(len(group.sides))
+
+
 def _choose(
     ctx: QuizContext, days: Mapping[str, JSON], d: date, mal_on: bool
-) -> tuple[Family, str, object]:
-    """A família, a direção e o parâmetro do dia (o parâmetro, None quando não há, ou quando a
-    conferência não tem os dados do MAL)."""
+) -> tuple[Family, str, object, JSON]:
+    """A família, a direção, o parâmetro do dia (None quando não há, ou quando a conferência não
+    tem os dados do MAL) e os campos a mais do dia (nos artistas parecidos, o grupo e os
+    artistas)."""
     rng = seeded(f"musicle-jp|anime-quiz|{d.isoformat()}|dia")
     history = _history(days, d)
     family: Family | None = None
     if d.weekday() == special_weekday(d):
         specials = [s for s in SPECIALS if _available(ctx, s, mal_on)]
-        if len(specials) > 1:
+        debut = [s for s in specials if _debut(ctx, s, history)]
+        if debut:
+            specials = debut
+        elif len(specials) > 1:
             specials = [s for s in specials if s.id != history.last_special]
         if specials:
             family = specials[rng.randint(len(specials))]
@@ -1224,9 +1282,53 @@ def _choose(
         family = ready[rng.randint(len(ready))]
     direction = DIRECTIONS[family.kind][rng.randint(2)]
     param: object = None
-    if family.id in PARAM_FAMILIES and not (family.needs_mal and ctx.mal is None):
+    extra: JSON = {}
+    if family.id == ARTISTS:
+        group, asked = _artist_group(ctx, history, rng)
+        side = group.sides[asked]
+        param = side.name
+        others = [s.id for s in group.sides if s is not side]
+        extra = {"group": group.id, "artists": [side.id, *others]}
+    elif family.id in PARAM_FAMILIES and not (family.needs_mal and ctx.mal is None):
         param = _param(ctx, family, history, d, rng)
-    return family, direction, param
+    return family, direction, param, extra
+
+
+def _artist_pools(ctx: QuizContext, day: JSON) -> tuple[list[ArtistSong], list[ArtistSong]]:
+    """(as músicas do artista da pergunta, as do resto do grupo), na ordem do pool."""
+    group = next((g for g in ctx.artist_groups if g.id == day["group"]), None)
+    if group is None:
+        raise ScheduleError(f"grupo de artistas desconhecido: {day['group']}")
+    asked, *others = day["artists"]
+    mine = group.side(asked)
+    rest = [group.side(a) for a in others]
+    if mine is None or any(s is None for s in rest):
+        raise ScheduleError(f"grupo {group.id}: os artistas do dia não são os do grupo")
+    return list(mine.songs), [s for side in rest if side for s in side.songs]
+
+
+def _artist_rounds(ctx: QuizContext, day: JSON, d: date, excluded: frozenset[str]) -> list[JSON]:
+    """As rodadas dos artistas parecidos: em cada uma, uma música do artista da pergunta contra uma
+    do resto do grupo, sem repetir música na run e sem as respostas do Anime e das Misturadas do
+    dia (P378). Sem a curva das faixas: as músicas de fora do Anime não têm nível, e o desafio é
+    reconhecer a voz. A run acaba no total do lado menor, até SPECIAL_ROUNDS (P451). Cada rodada
+    usa a semente dela: um número para cada lado e um para a ordem."""
+    every_mine, every_rest = _artist_pools(ctx, day)
+    mine = [s for s in every_mine if s.key not in excluded]
+    rest = [s for s in every_rest if s.key not in excluded]
+    if ctx.short and not (mine and rest):
+        # Só no acervo curto (as fixtures), como o último nível de STEPS: as respostas do dia.
+        mine, rest = list(every_mine), list(every_rest)
+    total = min(len(mine), len(rest), SPECIAL_ROUNDS)
+    rounds: list[JSON] = []
+    for n in range(1, total + 1):
+        rng = seeded(f"musicle-jp|anime-quiz|{d.isoformat()}|{n}")
+        yes = mine.pop(rng.randint(len(mine)))
+        no = rest.pop(rng.randint(len(rest)))
+        answer = yes if day["direction"] == "tem" else no
+        first, second = (yes, no) if rng.randint(2) == 0 else (no, yes)
+        rounds.append({"a": first.id, "b": second.id, "answer": "a" if answer is first else "b"})
+    return rounds
 
 
 def _generate_day(
@@ -1236,7 +1338,7 @@ def _generate_day(
     ctx: QuizContext,
     mal_on: bool,
 ) -> tuple[JSON, list[str]]:
-    family, direction, param = _choose(ctx, days, d, mal_on)
+    family, direction, param, extra = _choose(ctx, days, d, mal_on)
     day: JSON = {
         "number": (d - epoch).days + 1,
         "catalogVersion": ctx.version,
@@ -1245,10 +1347,17 @@ def _generate_day(
     }
     if param is not None:
         day["param"] = param
+    day.update(extra)
     day["mal"] = mal_on
     if family.needs_mal and ctx.mal is None:
         return day, []  # a conferência sem os dados do MAL para aqui (P380)
     excluded = ctx.excluded(d)
+    if family.id == ARTISTS:
+        rounds_found = _artist_rounds(ctx, day, d, excluded)
+        if not rounds_found:
+            raise ScheduleError(f"{d}: nenhum par possível para a pergunta {family.id}")
+        day["rounds"] = rounds_found
+        return day, []
     run = _Run()
     rounds: list[JSON] = []
     steps: Counter[int] = Counter()
@@ -1278,6 +1387,8 @@ def _future_warnings(schedule: JSON, today: date, ctx: QuizContext) -> list[str]
     for day_str, day in sorted(schedule["days"].items()):
         if date.fromisoformat(day_str) < today:
             continue
+        if day["family"] == ARTISTS:
+            continue  # as faixas dos arquivos do modo por artista não estão no catálogo do Anime
         for n, rnd in enumerate(day["rounds"], start=1):
             tracks = [ctx.tracks.get(rnd[side]) for side in ("a", "b")]
             if any(t is None or not t["eligible"]["daily"] for t in tracks):
@@ -1494,6 +1605,14 @@ def validate_quiz_schedule(schedule: JSON, ctx: QuizContext) -> list[str]:
             problems.append(f"{where}: {family.id} não tem parâmetro")
         if family.id == "ano_x" and has_param and not isinstance(day["param"], int):
             problems.append(f"{where}: o ano do especial deveria ser um inteiro")
+        extra = {"group", "artists"} & set(day)
+        if family.id == ARTISTS:
+            if extra != {"group", "artists"}:
+                problems.append(f"{where}: os artistas parecidos precisam do grupo e dos artistas")
+            elif has_param and not isinstance(day["param"], str):
+                problems.append(f"{where}: o artista do especial deveria ser um texto")
+        elif extra:
+            problems.append(f"{where}: só os artistas parecidos têm o grupo e os artistas")
         if family.id in ("rotulo", "fonte", "estudio") and has_param:
             if not isinstance(day["param"], str):
                 problems.append(f"{where}: o parâmetro de {family.id} deveria ser um texto")
@@ -1504,7 +1623,9 @@ def validate_quiz_schedule(schedule: JSON, ctx: QuizContext) -> list[str]:
         for n, rnd in enumerate(day["rounds"], start=1):
             at = f"{where} rodada {n}"
             for side in ("a", "b"):
-                if rnd[side] not in ctx.tracks:
+                # Nos artistas parecidos, a faixa pode ser de um arquivo do modo por artista.
+                known = ctx.key_of(rnd[side]) if family.id == ARTISTS else ctx.tracks.get(rnd[side])
+                if known is None:
                     problems.append(f"{at}: faixa inexistente {rnd[side]}")
             if rnd["a"] == rnd["b"]:
                 problems.append(f"{at}: as duas faixas são a mesma")
@@ -1517,6 +1638,8 @@ def validate_quiz_schedule(schedule: JSON, ctx: QuizContext) -> list[str]:
 
 def _round_answer_problem(ctx: QuizContext, family: Family, day: JSON, rnd: JSON) -> str | None:
     """Se a resposta da rodada não confere com os fatos (as famílias que a conferência conhece)."""
+    if family.id == ARTISTS:
+        return _artist_answer_problem(ctx, day, rnd)
     a, b = ctx.by_id.get(rnd["a"]), ctx.by_id.get(rnd["b"])
     if a is None or b is None:
         return "faixa fora do acervo do quiz"
@@ -1537,6 +1660,27 @@ def _round_answer_problem(ctx: QuizContext, family: Family, day: JSON, rnd: JSON
     return None
 
 
+def _artist_answer_problem(ctx: QuizContext, day: JSON, rnd: JSON) -> str | None:
+    """Nos artistas parecidos: uma faixa é do artista da pergunta, a outra do resto do grupo, e a
+    resposta é a da direção."""
+    group = next((g for g in ctx.artist_groups if g.id == day["group"]), None)
+    if group is None:
+        return f"grupo de artistas desconhecido: {day['group']}"
+    asked, *others = day["artists"]
+    sides = [group.side(a) for a in (asked, *others)]
+    if any(s is None for s in sides) or len(sides) != len(group.sides):
+        return f"grupo {group.id}: os artistas do dia não são os do grupo"
+    # Todas as faixas conhecidas de cada um, e não só o pool de hoje: o dia gravado continua
+    # valendo quando uma música sai do pool (o teto, a popularidade, uma nova no Anime).
+    ids = [{s.id for s in (side.known or side.songs)} for side in sides if side is not None]
+    mine, rest = ids[0], set().union(*ids[1:])
+    answer, other = (rnd["a"], rnd["b"]) if rnd["answer"] == "a" else (rnd["b"], rnd["a"])
+    yes, no = (answer, other) if day["direction"] == "tem" else (other, answer)
+    if yes not in mine or no not in rest:
+        return "o par não tem uma música do artista da pergunta e uma do resto do grupo"
+    return None
+
+
 def _cap_problems(
     at: str, day: JSON, rnd: JSON, ctx: QuizContext, sides: tuple[Counter[str], Counter[str]]
 ) -> list[str]:
@@ -1554,6 +1698,15 @@ def _cap_problems(
     return problems
 
 
+def _pair_ids(rnd: JSON) -> tuple[str, str]:
+    return rnd["a"], rnd["b"]
+
+
+def _anime_key(ctx: QuizContext, track_id: str) -> str | None:
+    track = ctx.tracks.get(track_id)
+    return track["songKey"] if track is not None else None
+
+
 def _day_rule_problems(where: str, day: JSON, ctx: QuizContext) -> list[str]:
     family = FAMILY_BY_ID[day["family"]]
     problems: list[str] = []
@@ -1569,7 +1722,10 @@ def _day_rule_problems(where: str, day: JSON, ctx: QuizContext) -> list[str]:
     sides: tuple[Counter[str], Counter[str]] = (Counter(), Counter())
     for n, rnd in enumerate(day["rounds"], start=1):
         at = f"{where} rodada {n}"
-        keys = [ctx.tracks[t]["songKey"] for t in (rnd["a"], rnd["b"]) if t in ctx.tracks]
+        found = [
+            ctx.key_of(t) if family.id == ARTISTS else _anime_key(ctx, t) for t in _pair_ids(rnd)
+        ]
+        keys = [k for k in found if k is not None]
         if len(keys) != 2:
             continue  # a validação estrutural já acusa
         pair = frozenset(keys)
@@ -1589,6 +1745,9 @@ def _day_rule_problems(where: str, day: JSON, ctx: QuizContext) -> list[str]:
             problem = _round_answer_problem(ctx, family, day, rnd)
             if problem:
                 problems.append(f"{at}: {problem}")
+            elif family.id == ARTISTS:
+                if "info" in rnd:
+                    problems.append(f"{at}: os artistas parecidos não têm dado da revelação")
             elif rnd.get("info") != _info(family, ctx.by_id[rnd["a"]], ctx.by_id[rnd["b"]]):
                 # O número da revelação é o dos fatos (o mesmo float que o `_info` grava).
                 problems.append(f"{at}: o dado da revelação não bate com os fatos")

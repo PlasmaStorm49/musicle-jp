@@ -133,10 +133,19 @@ def validate_artist_list(data: JSON, raw: bytes | None = None) -> list[str]:
     problems = _schema_problems("list", data)
     if problems:
         return problems
+    quiz_only = data.get("quizOnly", [])
     ids = [e["id"] for e in data["artists"]]
     files = [e["file"] for e in data["artists"]]
-    if len(set(ids)) != len(ids) or len(set(files)) != len(files):
+    every = [*ids, *(e["id"] for e in quiz_only)]
+    every_file = [*files, *(e["file"] for e in quiz_only)]
+    if len(set(every)) != len(every) or len(set(every_file)) != len(every_file):
         problems.append("artista ou arquivo repetido na lista")
+    for e in quiz_only:
+        # O quiz monta o caminho pelo id, como a lista (M18).
+        if e["file"] != e["id"].rsplit(":", 1)[-1] + ".json":
+            problems.append(f"{e['id']}: o arquivo deveria ser {e['id'].rsplit(':', 1)[-1]}.json")
+        if e["file"] == INDEX:
+            problems.append(f"um artista não pode usar o nome {INDEX}")
     if INDEX in files:
         problems.append(f"um artista não pode usar o nome {INDEX}")
     # A principal primeiro, e cada seção depois, em ordem alfabética (P200, P201).
@@ -158,8 +167,18 @@ def validate_artist_set(files: Mapping[str, JSON]) -> list[str]:
     if index is None:
         return [f"{INDEX} ausente"]
     problems: list[str] = []
-    listed = {e["file"] for e in index["artists"]}
+    quiz_only = index.get("quizOnly", [])
+    listed = {e["file"] for e in index["artists"]} | {e["file"] for e in quiz_only}
     problems += [f"{n}: arquivo fora do {INDEX}" for n in sorted(set(files) - listed - {INDEX})]
+    # Os só do quiz (M18): o arquivo existe, é do artista e do mesmo provedor, fora da lista.
+    for e in quiz_only:
+        data = files.get(e["file"])
+        if data is None:
+            problems.append(f"{e['file']}: no quizOnly do {INDEX}, mas não existe")
+        elif data["artistId"] != e["id"]:
+            problems.append(f"{e['file']}: artistId {data['artistId']} e o {INDEX} diz {e['id']}")
+        elif data["provider"] != index["provider"] or data["storefront"] != index["storefront"]:
+            problems.append(f"{e['file']}: provider/storefront diferentes do {INDEX}")
     for e in index["artists"]:
         data = files.get(e["file"])
         if data is None:

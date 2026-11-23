@@ -140,6 +140,9 @@ class AnimePaths:
     # reais vêm do artefato da anime-mal, pelo --mal-file, e nunca são guardados (P380): a Apple
     # fica sem caminho, para nenhum arquivo deles cair na pasta da curadoria, que vai ao Git
     quiz_mal: Path | None
+    # Os grupos do especial dos artistas parecidos do quiz (M18; o usuário, 22/11/2026), escritos à
+    # mão: os ids do modo por artista de cada grupo. Sem o arquivo, o especial não sai.
+    quiz_artists: Path | None = None
 
 
 _ANIME_SOURCES = {"fixture": "anime_fixture.json", "apple": "snapshots"}
@@ -155,6 +158,7 @@ def anime_paths(provider: str) -> AnimePaths:
         latin=curation / "latin.json",
         covers=curation / "covers.json",
         quiz_mal=curation / "mal_quiz.json" if provider == "fixture" else None,
+        quiz_artists=curation / "quiz_artists.toml",
     )
 
 
