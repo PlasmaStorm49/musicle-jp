@@ -36,7 +36,7 @@ import { dayTitle, longDate, weekdayName, weekdayShort } from "./dayLabel.ts";
 import { FocusedNotice } from "./FocusedNotice.tsx";
 import { useHeadingFocus } from "./hooks.ts";
 import type { MixedLoad } from "./Mixed.tsx";
-import { type QuizLoad, type QuizStore, quizLoadOf } from "./Quiz.tsx";
+import { type QuizLoad, type QuizMonths, quizLoadOf } from "./Quiz.tsx";
 import { singleClickLink } from "./singleClick.ts";
 
 type HistoryProps = {
@@ -59,7 +59,7 @@ type HistoryProps = {
    * Os meses do quiz do dia, guardados no App: o calendário pede os da janela, para a marca do
    * quiz, e a tela de um dia, o mês dela, para o cartão (o usuário, 27/10/2026).
    */
-  readonly quiz: QuizStore;
+  readonly quiz: QuizMonths;
 };
 
 /** Um mês do quiz na tela: o mês, null sem quiz nele, ou "failed" (falhou ou é de versão nova). */
@@ -79,7 +79,7 @@ function waits(load: QuizLoad, asked: boolean): boolean {
  * quiz: só aconteceria com a agenda do quiz acabada, e a `catalog-runway` avisa antes.
  */
 function useQuizMonths(
-  quiz: QuizStore,
+  quiz: QuizMonths,
   today: string,
   months: readonly string[],
 ): ReadonlyMap<string, QuizMonthView> | "waiting" {

@@ -5,6 +5,7 @@ import {
   indexAnime,
   indexArtist,
   indexCatalog,
+  mergeIndexes,
   SUPPORTED_ANIME_SCHEMA_VERSION,
   SUPPORTED_ARTIST_SCHEMA_VERSION,
   UnsupportedCatalogError,
@@ -158,7 +159,7 @@ export async function loadArtist(
   fetchFn: FetchLike,
   baseUrl: string,
   dataDir: string,
-  entry: ArtistListEntry,
+  entry: Pick<ArtistListEntry, "id" | "file">,
   signal?: AbortSignal,
 ): Promise<ArtistData> {
   if (!ARTIST_FILE.test(entry.file)) {
@@ -174,6 +175,28 @@ export async function loadArtist(
     throw new DataLoadError(`${url} é do artista ${file.artistId}, e não de ${entry.id}`);
   }
   return { file, index: indexArtist(file) };
+}
+
+/**
+ * Os arquivos dos artistas de um dia dos artistas parecidos do quiz (M18), juntos num índice: as
+ * músicas deles que não são do Anime. O arquivo de cada um tem o nome do id ("apple:ar:123" →
+ * "123.json"), como na lista; os só do quiz ficam fora da lista, no `quizOnly` do índice.
+ */
+export async function loadQuizArtists(
+  fetchFn: FetchLike,
+  baseUrl: string,
+  dataDir: string,
+  ids: readonly string[],
+): Promise<CatalogIndex> {
+  const loaded = await Promise.all(
+    ids.map((id) => {
+      const file = `${id.slice(id.lastIndexOf(":") + 1)}.json`;
+      return loadArtist(fetchFn, baseUrl, dataDir, { id, file });
+    }),
+  );
+  const [first, ...rest] = loaded.map((data) => data.index);
+  if (!first) throw new DataLoadError("dia dos artistas parecidos sem os artistas");
+  return mergeIndexes(first, rest);
 }
 
 /** O catálogo e a agenda do Anime (M14), numa subpasta dos dados, como os artistas. */

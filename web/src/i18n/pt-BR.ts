@@ -869,6 +869,9 @@ export const ptBR = {
   "quiz.q.estudio.nao": "Qual não é de um anime do estúdio {param}?",
   "quiz.q.ano_x.tem": "Qual é de um anime de {param}?",
   "quiz.q.ano_x.nao": "Qual não é de um anime de {param}?",
+  // Os artistas parecidos (M18; o usuário, 22/11/2026): o parâmetro é o nome do artista.
+  "quiz.q.artistas.tem": "Qual é de {param}?",
+  "quiz.q.artistas.nao": "Qual não é de {param}?",
   "quiz.source.manga": "um mangá",
   "quiz.source.light_novel": "uma light novel",
   "quiz.source.novel": "um romance",

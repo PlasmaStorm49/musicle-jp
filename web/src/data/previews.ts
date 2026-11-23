@@ -30,6 +30,29 @@ export function catalogResolver(
   return { peek, resolve: async (trackId) => peek(trackId), prefetch: () => {} };
 }
 
+/**
+ * Dois resolvedores como um (o especial dos artistas parecidos do quiz, M18): a faixa do índice
+ * `first` vai ao `primary` (o do Anime, que já pode ter o endereço), e a outra, ao `secondary` (o
+ * dos arquivos dos artistas).
+ */
+export function splitResolver(
+  first: CatalogIndex,
+  primary: PreviewResolver,
+  secondary: PreviewResolver,
+): PreviewResolver {
+  const pick = (trackId: string) => (first.tracks.has(trackId) ? primary : secondary);
+  return {
+    peek: (trackId) => pick(trackId).peek(trackId),
+    resolve: (trackId) => pick(trackId).resolve(trackId),
+    prefetch: (trackIds) => {
+      const mine = trackIds.filter((id) => first.tracks.has(id));
+      const rest = trackIds.filter((id) => !first.tracks.has(id));
+      if (mine.length > 0) primary.prefetch(mine);
+      if (rest.length > 0) secondary.prefetch(rest);
+    },
+  };
+}
+
 /** Sem resposta em 3 s: vale a reserva (o jogador está esperando o "Tocar"). */
 export const LOOKUP_TIMEOUT_MS = 3000;
 /** Consultas por minuto, abaixo do limite da Apple (cerca de 20 por IP). */

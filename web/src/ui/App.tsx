@@ -311,7 +311,13 @@ export function App() {
   const royale = useRoyaleStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
   // O quiz do dia (M18): o mês do dia na agenda dele, também só quando a pessoa abre a aba; o
   // catálogo é o do Anime.
-  const quiz = useQuizStore({ fetchFn: FETCH, baseUrl: BASE_URL, dataDir: DATA_DIR });
+  const quiz = useQuizStore({
+    fetchFn: FETCH,
+    baseUrl: BASE_URL,
+    dataDir: DATA_DIR,
+    budget,
+    resolveUrl,
+  });
   // Escolher ou tirar a medalha em destaque (P318): grava e relê, para a nav mudar na hora.
   const chooseFavorite = useCallback(
     (id: string, on: boolean) => {

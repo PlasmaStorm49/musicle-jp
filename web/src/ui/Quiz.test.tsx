@@ -1,6 +1,7 @@
 // @vitest-environment happy-dom
 import { act, cleanup, render } from "@testing-library/preact";
 import { afterEach, describe, expect, it } from "vitest";
+import { lookupBudget } from "../data/previews.ts";
 import type { FetchLike } from "../data/source.ts";
 import { type QuizStore, quizLoadOf, useQuizStore } from "./Quiz.tsx";
 
@@ -45,7 +46,13 @@ function setup() {
   const { fetchFn, pending } = controlledFetch();
   const seen: { store: QuizStore | null } = { store: null };
   function Probe() {
-    seen.store = useQuizStore({ fetchFn, baseUrl: "http://localhost/", dataDir: "fixtures/" });
+    seen.store = useQuizStore({
+      fetchFn,
+      baseUrl: "http://localhost/",
+      dataDir: "fixtures/",
+      budget: lookupBudget({ now: () => 0 }),
+      resolveUrl: (url) => url,
+    });
     return null;
   }
   render(<Probe />);
@@ -92,6 +99,44 @@ describe("useQuizStore: os meses num mapa (o usuário, 27/10/2026)", () => {
     // A falha do 1º pedido chega por último e é ignorada.
     await settle(() => pending[0]?.reject(new Error("rede")));
     expect(quizLoadOf(store(), "2026-10").status).toBe("ready");
+  });
+
+  it("os artistas parecidos (M18): os arquivos do grupo num índice, com o resolvedor", async () => {
+    const { store, pending } = setup();
+    const ids = ["fixture:ar:ar02", "fixture:ar:ar07"];
+    act(() => store().requestArtists(ids));
+    expect(store().artists.get(ids.join(","))?.status).toBe("loading");
+    expect(pending.map((p) => p.url)).toEqual([
+      "http://localhost/fixtures/artists/ar02.json",
+      "http://localhost/fixtures/artists/ar07.json",
+    ]);
+    const file = (artist: string, track: string): Reply => ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        schemaVersion: 1,
+        provider: "fixture",
+        storefront: "jp",
+        artistId: `fixture:ar:${artist}`,
+        fetchedAt: "2026-11-22T00:00:00Z",
+        artists: [],
+        albums: [],
+        tracks: [{ id: `fixture:tr:${track}`, songKey: track, preview: { url: `${track}.wav` } }],
+      }),
+    });
+    await settle(() => pending[0]?.resolve(file("ar02", "t1")));
+    await settle(() => pending[1]?.resolve(file("ar07", "t2")));
+    const load = store().artists.get(ids.join(","));
+    if (load?.status !== "ready") throw new Error("os artistas não carregaram");
+    expect([...load.index.tracks.keys()].sort()).toEqual(["fixture:tr:t1", "fixture:tr:t2"]);
+    expect(load.resolver.peek("fixture:tr:t2")).toBe("t2.wav");
+  });
+
+  it("a falha de rede nos artistas deixa o grupo em retry", async () => {
+    const { store, pending } = setup();
+    act(() => store().requestArtists(["fixture:ar:ar02"]));
+    await settle(() => pending[0]?.reject(new Error("rede")));
+    expect(store().artists.get("fixture:ar:ar02")?.status).toBe("retry");
   });
 
   it("a falha de rede deixa o mês em retry, e só ele", async () => {

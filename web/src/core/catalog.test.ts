@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { animeCatalog, catalog } from "../../test/fixtures.ts";
-import { acceptedIds, indexAnime, indexCatalog, UnsupportedCatalogError } from "./catalog.ts";
+import {
+  acceptedIds,
+  indexAnime,
+  indexCatalog,
+  mergeIndexes,
+  UnsupportedCatalogError,
+} from "./catalog.ts";
 import type { Album, AnimeCatalog, Catalog } from "./types.ts";
 
 const index = indexCatalog(catalog);
@@ -48,6 +54,26 @@ describe("indexAnime (M14)", () => {
   it.each([0, 2])("recusa versão de schema desconhecida (%i)", (version) => {
     const other = { ...animeCatalog, schemaVersion: version } as unknown as AnimeCatalog;
     expect(() => indexAnime(other)).toThrow(UnsupportedCatalogError);
+  });
+});
+
+describe("mergeIndexes (os artistas parecidos do quiz, M18)", () => {
+  it("junta as faixas, os álbuns e os artistas; o 1º vence no mesmo id e fica com o Anime", () => {
+    const anime = indexAnime(animeCatalog as AnimeCatalog);
+    const first = catalog.tracks[0];
+    if (!first) throw new Error("catálogo vazio");
+    const renamed: Catalog = { ...catalog, tracks: [{ ...first, title: "Outro título" }] };
+    const extra = indexCatalog(renamed);
+    const merged = mergeIndexes(anime, [extra, index]);
+    expect(merged.catalog).toBe(anime.catalog);
+    expect(merged.anime).toBe(anime.anime);
+    for (const id of [...anime.tracks.keys(), ...index.tracks.keys()]) {
+      expect(merged.tracks.has(id)).toBe(true);
+    }
+    // O do Anime vence; entre os de fora, o que vem antes na lista.
+    const expected = anime.tracks.get(first.id) ?? extra.tracks.get(first.id);
+    expect(merged.tracks.get(first.id)).toBe(expected);
+    expect(merged.albums.size).toBeGreaterThanOrEqual(anime.albums.size);
   });
 });
 

@@ -3,14 +3,22 @@
 // na agenda do quiz, que desce só quando a pessoa abre a aba.
 import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import type { AudioEngine } from "../audio/engine.ts";
-import type { CatalogIndex } from "../core/catalog.ts";
-import { quizDaily } from "../core/quiz.ts";
+import { APPLE_PROVIDER } from "../core/apple.ts";
+import { type CatalogIndex, mergeIndexes } from "../core/catalog.ts";
+import { quizArtistsOf, quizDaily } from "../core/quiz.ts";
 import type { Save } from "../core/records.ts";
 import { routeHref } from "../core/routes.ts";
 import type { QuizBonus, QuizMonth } from "../core/types.ts";
-import type { PreviewResolver } from "../data/previews.ts";
+import {
+  appleResolver,
+  catalogResolver,
+  type LookupBudget,
+  type PreviewResolver,
+  splitResolver,
+} from "../data/previews.ts";
 import {
   type FetchLike,
+  loadQuizArtists,
   loadQuizBonus,
   loadQuizMonth,
   pickQuizDay,
@@ -37,6 +45,14 @@ export type QuizLoad =
     };
 
 /**
+ * Os arquivos dos artistas de um dia dos artistas parecidos (M18): as músicas deles que não são do
+ * Anime, juntas num índice, com o resolvedor das prévias delas.
+ */
+export type QuizArtistsLoad =
+  | { readonly status: "idle" | "loading" | "retry" | "update" }
+  | { readonly status: "ready"; readonly index: CatalogIndex; readonly resolver: PreviewResolver };
+
+/**
  * Os meses guardados no App, como as Misturadas: trocar de aba e voltar não baixa de novo. Um mapa
  * pelo mês: o calendário do Histórico pede os da janela de 14 dias (1 ou 2, quando ela cruza a
  * virada), ao lado do mês do dia aberto (o usuário, 27/10/2026).
@@ -46,24 +62,69 @@ export type QuizStore = {
   readonly loads: ReadonlyMap<string, QuizLoad>;
   /** Carrega o mês (de novo): ao abrir a aba, no calendário e no "Tentar de novo". */
   readonly request: (month: string) => void;
+  /** A carga dos artistas de cada grupo já pedido, pelos ids juntos (`artistsKey`). */
+  readonly artists: ReadonlyMap<string, QuizArtistsLoad>;
+  /** Carrega (de novo) os arquivos dos artistas de um dia dos artistas parecidos. */
+  readonly requestArtists: (ids: readonly string[]) => void;
 };
 
+/** Só os meses (o Histórico, que não joga a run): sem os artistas. */
+export type QuizMonths = Pick<QuizStore, "loads" | "request">;
+
 const IDLE: QuizLoad = { status: "idle" };
+const ARTISTS_IDLE: QuizArtistsLoad = { status: "idle" };
 
 /** A carga de um mês: a guardada, ou "idle" se ele nunca foi pedido. */
-export function quizLoadOf(store: QuizStore, month: string): QuizLoad {
+export function quizLoadOf(store: QuizMonths, month: string): QuizLoad {
   return store.loads.get(month) ?? IDLE;
 }
+
+const artistsKey = (ids: readonly string[]) => ids.join(",");
 
 export function useQuizStore({
   fetchFn,
   baseUrl,
   dataDir,
+  budget,
+  resolveUrl,
 }: {
   readonly fetchFn: FetchLike;
   readonly baseUrl: string;
   readonly dataDir: string;
+  /** O orçamento do lookup da sessão (P142), o mesmo de todos os resolvedores. */
+  readonly budget: LookupBudget;
+  readonly resolveUrl: (url: string) => string;
 }): QuizStore {
+  const [artists, setArtists] = useState<ReadonlyMap<string, QuizArtistsLoad>>(() => new Map());
+  // A ficha de cada grupo, como a dos meses: a resposta de um pedido substituído não vale.
+  const latestArtists = useRef(new Map<string, number>());
+  const artistsTicket = useRef(0);
+  const requestArtists = useCallback(
+    (ids: readonly string[]) => {
+      const key = artistsKey(ids);
+      const id = ++artistsTicket.current;
+      latestArtists.current.set(key, id);
+      const put = (load: QuizArtistsLoad) => {
+        if (latestArtists.current.get(key) === id) {
+          setArtists((old) => new Map(old).set(key, load));
+        }
+      };
+      put({ status: "loading" });
+      loadQuizArtists(fetchFn, baseUrl, dataDir, ids).then(
+        (index) => {
+          // Fixtures: o endereço do arquivo. Artistas reais: o lookup da Apple, com a reserva.
+          const resolver =
+            index.catalog.provider === APPLE_PROVIDER
+              ? appleResolver({ index, fetchFn, budget })
+              : catalogResolver(index, resolveUrl);
+          put({ status: "ready", index, resolver });
+        },
+        (error: unknown) =>
+          put({ status: error instanceof UnsupportedCatalogError ? "update" : "retry" }),
+      );
+    },
+    [fetchFn, baseUrl, dataDir, budget, resolveUrl],
+  );
   const [loads, setLoads] = useState<ReadonlyMap<string, QuizLoad>>(() => new Map());
   // A ficha de cada mês: a resposta de um pedido que outro do mesmo mês substituiu não vale mais.
   const latest = useRef(new Map<string, number>());
@@ -89,7 +150,7 @@ export function useQuizStore({
     },
     [fetchFn, baseUrl, dataDir],
   );
-  return { loads, request };
+  return { loads, request, artists, requestArtists };
 }
 
 type Props = {
@@ -128,10 +189,18 @@ export function Quiz(props: Props) {
   useEffect(() => {
     if (day && anime.load.status === "idle") anime.request();
   }, [day, anime.load.status, anime.request]);
+  // Os artistas parecidos (M18): os arquivos dos artistas do grupo, só no dia deles.
+  const artistIds = useMemo(() => (day ? quizArtistsOf(day) : []), [day]);
+  const extra: QuizArtistsLoad | null =
+    artistIds.length > 0 ? (store.artists.get(artistsKey(artistIds)) ?? ARTISTS_IDLE) : null;
+  useEffect(() => {
+    if (extra?.status === "idle") store.requestArtists(artistIds);
+  }, [extra?.status, artistIds, store.requestArtists]);
   const retry = useCallback(() => {
     if (anime.load.status === "retry") anime.request();
     if (load.status === "retry") store.request(wanted);
-  }, [anime, store, load.status, wanted]);
+    if (extra?.status === "retry") store.requestArtists(artistIds);
+  }, [anime, store, load.status, wanted, extra?.status, artistIds]);
 
   if (load.status === "ready" && !day) {
     return (
@@ -146,7 +215,7 @@ export function Quiz(props: Props) {
       </section>
     );
   }
-  const statuses = [anime.load.status, load.status];
+  const statuses = [anime.load.status, load.status, extra?.status ?? "ready"];
   if (statuses.includes("update")) return <UpdateNotice />;
   if (statuses.includes("retry")) {
     return (
@@ -158,7 +227,11 @@ export function Quiz(props: Props) {
       </section>
     );
   }
-  if (anime.load.status !== "ready" || load.status !== "ready") {
+  if (
+    anime.load.status !== "ready" ||
+    load.status !== "ready" ||
+    (extra && extra.status !== "ready")
+  ) {
     // Com o foco: depois do "Tentar de novo", o botão sumiu (regra 16).
     return (
       <div class="loading screen" key="quiz-loading">
@@ -174,6 +247,7 @@ export function Quiz(props: Props) {
       bonus={load.bonus}
       index={data.index}
       resolver={resolver}
+      extra={extra?.status === "ready" ? extra : null}
     />
   );
 }
@@ -183,20 +257,31 @@ type ReadyProps = Props & {
   readonly bonus: QuizBonus | null;
   readonly index: CatalogIndex;
   readonly resolver: PreviewResolver;
+  /** Os artistas do dia dos artistas parecidos, já carregados; null nos outros dias. */
+  readonly extra: { readonly index: CatalogIndex; readonly resolver: PreviewResolver } | null;
 };
 
-function Ready({ month, bonus, date, today, save, ...props }: ReadyProps) {
+function Ready({ month, bonus, date, today, save, extra, ...props }: ReadyProps) {
   const day = pickQuizDay(month, date);
   const daily = useMemo(() => (day ? quizDaily(day, date) : null), [day, date]);
+  // No dia dos artistas parecidos, o índice e as prévias juntam o Anime e os arquivos deles.
+  const index = useMemo(
+    () => (extra ? mergeIndexes(props.index, [extra.index]) : props.index),
+    [extra, props.index],
+  );
+  const resolver = useMemo(
+    () => (extra ? splitResolver(props.index, props.resolver, extra.resolver) : props.resolver),
+    [extra, props.index, props.resolver],
+  );
   if (!daily) return null; // o Quiz já avisou: sem o dia, não chega aqui
   return (
     // key: a run monta do zero ao trocar de dia, com o save daquele momento.
     <QuizGame
       key={daily.id}
       daily={daily}
-      index={props.index}
+      index={index}
       engine={props.engine}
-      resolver={props.resolver}
+      resolver={resolver}
       resolveUrl={props.resolveUrl}
       announce={props.announce}
       store={props.saveStore}
