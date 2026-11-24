@@ -1255,93 +1255,93 @@
       "family": "ano_x",
       "mal": true,
       "number": 64,
-      "param": 2026,
+      "param": 2025,
       "rounds": [
         {
-          "a": "fixture:tr:tr09",
+          "a": "fixture:tr:tr05",
           "answer": "a",
           "b": "fixture:tr:tr01",
           "info": {
             "years": [
-              2026,
+              2025,
               2024
             ]
           }
         },
         {
-          "a": "fixture:tr:tr10",
+          "a": "fixture:tr:tr17",
           "answer": "b",
-          "b": "fixture:tr:tr42",
-          "info": {
-            "years": [
-              2025,
-              2026
-            ]
-          }
-        },
-        {
-          "a": "fixture:tr:tr23",
-          "answer": "b",
-          "b": "fixture:tr:tr17",
-          "info": {
-            "years": [
-              2025,
-              2026
-            ]
-          }
-        },
-        {
-          "a": "fixture:tr:tr40",
-          "answer": "a",
-          "b": "fixture:tr:tr16",
+          "b": "fixture:tr:tr23",
           "info": {
             "years": [
               2026,
-              2023
-            ]
-          }
-        },
-        {
-          "a": "fixture:tr:tr32",
-          "answer": "a",
-          "b": "fixture:tr:tr22",
-          "info": {
-            "years": [
-              2026,
-              2024
+              2025
             ]
           }
         },
         {
           "a": "fixture:tr:tr33",
           "answer": "b",
-          "b": "fixture:tr:tr41",
+          "b": "fixture:tr:tr06",
           "info": {
             "years": [
               2021,
-              2026
+              2025
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr10",
+          "answer": "a",
+          "b": "fixture:tr:tr21",
+          "info": {
+            "years": [
+              2025,
+              2019
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr08",
+          "answer": "a",
+          "b": "fixture:tr:tr22",
+          "info": {
+            "years": [
+              2025,
+              2024
             ]
           }
         },
         {
           "a": "fixture:tr:tr36",
           "answer": "b",
-          "b": "fixture:tr:tr29",
+          "b": "fixture:tr:tr24",
           "info": {
             "years": [
               2024,
-              2026
+              2025
             ]
           }
         },
         {
-          "a": "fixture:tr:tr05",
+          "a": "fixture:tr:tr40",
           "answer": "b",
-          "b": "fixture:tr:tr15",
+          "b": "fixture:tr:tr34",
           "info": {
             "years": [
-              2025,
-              2026
+              2026,
+              2025
+            ]
+          }
+        },
+        {
+          "a": "fixture:tr:tr09",
+          "answer": "b",
+          "b": "fixture:tr:tr35",
+          "info": {
+            "years": [
+              2026,
+              2025
             ]
           }
         }
@@ -2778,62 +2778,32 @@
       ]
     },
     "2026-12-18": {
+      "artists": [
+        "fixture:ar:ar02",
+        "fixture:ar:ar07"
+      ],
       "catalogVersion": "2026-10-05.268bd5cb",
       "direction": "tem",
-      "family": "estudio",
+      "family": "artistas",
+      "group": "yokaze-aoi",
       "mal": true,
       "number": 72,
-      "param": "Estúdio Aurora",
+      "param": "Yokaze Theater",
       "rounds": [
         {
-          "a": "fixture:tr:tr10",
+          "a": "fixture:tr:tr23",
           "answer": "a",
-          "b": "fixture:tr:tr40"
+          "b": "fixture:tr:tr27"
         },
         {
-          "a": "fixture:tr:tr21",
+          "a": "fixture:tr:tr24",
           "answer": "a",
-          "b": "fixture:tr:tr32"
-        },
-        {
-          "a": "fixture:tr:tr38",
-          "answer": "b",
-          "b": "fixture:tr:tr17"
-        },
-        {
-          "a": "fixture:tr:tr34",
-          "answer": "b",
-          "b": "fixture:tr:tr42"
-        },
-        {
-          "a": "fixture:tr:tr33",
-          "answer": "b",
-          "b": "fixture:tr:tr25"
-        },
-        {
-          "a": "fixture:tr:tr01",
-          "answer": "b",
-          "b": "fixture:tr:tr35"
-        },
-        {
-          "a": "fixture:tr:tr30",
-          "answer": "a",
-          "b": "fixture:tr:tr16"
-        },
-        {
-          "a": "fixture:tr:tr20",
-          "answer": "b",
           "b": "fixture:tr:tr41"
         },
         {
-          "a": "fixture:tr:tr27",
-          "answer": "a",
-          "b": "fixture:tr:tr22"
-        },
-        {
-          "a": "fixture:tr:tr29",
-          "answer": "a",
-          "b": "fixture:tr:tr36"
+          "a": "fixture:tr:tr15",
+          "answer": "b",
+          "b": "fixture:tr:tr38"
         }
       ]
     },

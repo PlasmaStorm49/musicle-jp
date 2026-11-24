@@ -4705,100 +4705,32 @@
       ]
     },
     "2026-11-24": {
+      "artists": [
+        "fixture:ar:ar07",
+        "fixture:ar:ar02"
+      ],
       "catalogVersion": "2026-10-05.268bd5cb",
       "direction": "tem",
-      "family": "ano_x",
+      "family": "artistas",
+      "group": "yokaze-aoi",
       "mal": true,
       "number": 48,
-      "param": 2025,
+      "param": "Aoi Yuu",
       "rounds": [
         {
-          "a": "fixture:tr:tr10",
+          "a": "fixture:tr:tr27",
           "answer": "a",
-          "b": "fixture:tr:tr16",
-          "info": {
-            "years": [
-              2025,
-              2023
-            ]
-          }
+          "b": "fixture:tr:tr23"
         },
         {
-          "a": "fixture:tr:tr05",
+          "a": "fixture:tr:tr38",
+          "answer": "b",
+          "b": "fixture:tr:tr15"
+        },
+        {
+          "a": "fixture:tr:tr41",
           "answer": "a",
-          "b": "fixture:tr:tr21",
-          "info": {
-            "years": [
-              2025,
-              2019
-            ]
-          }
-        },
-        {
-          "a": "fixture:tr:tr40",
-          "answer": "b",
-          "b": "fixture:tr:tr23",
-          "info": {
-            "years": [
-              2026,
-              2025
-            ]
-          }
-        },
-        {
-          "a": "fixture:tr:tr32",
-          "answer": "b",
-          "b": "fixture:tr:tr06",
-          "info": {
-            "years": [
-              2026,
-              2025
-            ]
-          }
-        },
-        {
-          "a": "fixture:tr:tr22",
-          "answer": "b",
-          "b": "fixture:tr:tr35",
-          "info": {
-            "years": [
-              2024,
-              2025
-            ]
-          }
-        },
-        {
-          "a": "fixture:tr:tr08",
-          "answer": "a",
-          "b": "fixture:tr:tr01",
-          "info": {
-            "years": [
-              2025,
-              2024
-            ]
-          }
-        },
-        {
-          "a": "fixture:tr:tr36",
-          "answer": "b",
-          "b": "fixture:tr:tr24",
-          "info": {
-            "years": [
-              2024,
-              2025
-            ]
-          }
-        },
-        {
-          "a": "fixture:tr:tr17",
-          "answer": "b",
-          "b": "fixture:tr:tr34",
-          "info": {
-            "years": [
-              2026,
-              2025
-            ]
-          }
+          "b": "fixture:tr:tr24"
         }
       ]
     },

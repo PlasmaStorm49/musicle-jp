@@ -883,3 +883,50 @@ album = "1537811231"  # 歌物語2, com a Shinobu
 name = "歌物語2"
 latin = "Utamonogatari 2"
 crop = { z = 1.6, x = 0.47, y = 0.35 }
+
+# Os artistas só do quiz do dia (o especial dos artistas parecidos, M18; o usuário, 22/11/2026):
+# fora da lista da tela e sem medalhas (section = "quiz"). Os grupos ficam no
+# pipeline/data/apple/anime/quiz_artists.toml.
+
+[[artists]]
+id = "301384362"  # May'n (com a Nana Mizuki)
+section = "quiz"
+# As regravações do álbum de regravações (a mesma música da original, que já está no arquivo),
+# o karaokê sem a voz dela ("without May'n") e o corte da TV (também o "<TV size>", que o
+# build não reconhece).
+exclude_tracks = [
+  "1586967737",  # オレンジ<TV size>
+  "1629572390",  # あはっててっぺんっ<TV size>
+  "1037972219",  # ヤマイダレdarlin’ 【TV-EDIT】
+  "1339054167",  # You(without May'n)
+  "1339054168",  # Another(without May'n)
+  "1339054169",  # モンスター(without May'n)
+  "1415579746",  # 天使よ故郷を聞け(without May'n)
+  "1415579747",  # HOME(without May'n)
+  "1415579748",  # このままじゃ、だめなんだ。このままじゃ、いやなんだ。(without May'n)
+  "311756659",  # キミシニタモウコトナカレ (without May'n)
+  "311756660",  # M-Revolution (without May'n)
+  "381471850",  # Ready Go!( Without May'n)
+  "381471852",  # アネモネ(without May'n)
+  "394331055",  # シンジテミル(without May'n)
+  "394331062",  # My Lovely Thing (Without May'n)
+  "433837168",  # Scarlet Ballet (Without May'n)
+  "433837170",  # Smile:D (Without May'n)
+  "475252528",  # Brain Diver (Without May'n)
+  "475252609",  # このままで…(without May'n)
+  "699621159",  # ViViD -TV-EDIT-
+  "1825040155",  # キミシニタモウコトナカレ (Re-Recording)
+  "1825040164",  # Scarlet Ballet (Re-Recording)
+  "1825040347",  # ViViD (Re-Recording)
+  "1825040353",  # シンジテミル (Re-Recording)
+  "1825040354",  # Belief (Re-Recording)
+  "1825040368",  # May'n☆Space(Re-Recording)
+  "1825040371",  # You (Re-Recording)
+  "1825040372",  # graphite/diamond (Re-Recording)
+  "1825040375",  # 今日に恋色 (Re-Recording)
+  "1825040742",  # Brain Diver (Re-Recording)
+  "1825040748",  # Chase the world (Re-Recording)
+  "1825040751",  # アオゾラ (Re-Recording)
+  "1825040760",  # Ready Go! (Re-Recording)
+  "1825040887",  # Phonic Nation (Re-Recording)
+]
