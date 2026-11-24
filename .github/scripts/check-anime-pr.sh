@@ -280,7 +280,9 @@ check_schedule() {
   jq -e -n --slurpfile b "$base" --slurpfile n "$fresh" --slurpfile c "$catalog" --arg kind "$kind" '
     def answers:
       if $kind == "anime-mixed" then [.musica, .titulo | .[] | .answers[]]
-      elif $kind == "anime-quiz" then [.rounds[] | .a, .b]
+      # Os artistas parecidos (M18) citam faixas dos arquivos do modo por artista, fora do
+      # catálogo do Anime: o schedule-check regera esses dias com os arquivos ao lado.
+      elif $kind == "anime-quiz" then (if .family == "artistas" then [] else [.rounds[] | .a, .b] end)
       elif $kind == "anime-royale" then [.facil, .medio, .dificil | .played[], .options[]]
       else [.musica, .titulo | .facil, .medio, .dificil | .[] | .answer] end;
     $b[0] as $b | $n[0] as $n | ($c[0].tracks | map(.id)) as $ids
@@ -410,19 +412,25 @@ check_quiz() {
     def day_ok:
       . as $d | .family as $f
       | type == "object"
-        and (keys - ["catalogVersion", "direction", "family", "mal", "number", "param", "rounds"]) == []
+        and (keys - ["artists", "catalogVersion", "direction", "family", "group", "mal", "number", "param", "rounds"]) == []
+        and (if $f == "artistas" then
+               ($d.group | type == "string" and test("\\A[a-z0-9]+(-[a-z0-9]+)*\\z"))
+               and ($d.artists | type == "array" and length >= 2 and length <= 10
+                    and (unique | length) == length
+                    and all(type == "string" and test("\\A[a-z]+:ar:[A-Za-z0-9_-]+\\z")))
+             else ($d | has("group") or has("artists") | not) end)
         and (["catalogVersion", "direction", "family", "mal", "number", "rounds"] | all(. as $k | $d | has($k)))
         and ($d.number | int_in(1; 100000)) and ($d.mal | type == "boolean")
         and (if ($f | IN("ano", "nota", "membros", "playlists", "amq")) then ($d.direction | IN("max", "min"))
-             elif ($f | IN("rotulo", "fonte", "tema", "estudio", "ano_x")) then ($d.direction | IN("tem", "nao"))
+             elif ($f | IN("rotulo", "fonte", "tema", "estudio", "ano_x", "artistas")) then ($d.direction | IN("tem", "nao"))
              else false end)
         and (if ($f | IN("nota", "membros", "rotulo", "fonte", "estudio")) then $d.mal == true else true end)
         and (if $f == "ano_x" then ($d.param | int_in(1900; 2100))
              elif $f == "fonte" then ($d.param | IN("manga", "light_novel", "novel", "original", "visual_novel", "game"))
-             elif ($f | IN("rotulo", "estudio")) then ($d.param | short_text)
+             elif ($f | IN("rotulo", "estudio", "artistas")) then ($d.param | short_text)
              else ($d | has("param") | not) end)
         and ($d.rounds | type == "array" and length >= 1
-             and length <= (if ($f | IN("estudio", "ano_x")) then 30 else 50 end)
+             and length <= (if ($f | IN("estudio", "ano_x", "artistas")) then 30 else 50 end)
              and all(round_ok($f)));
     $b[0] as $b | $n[0] as $n
     | [$n.days | to_entries[] | select(.key as $k | $b.days | has($k) | not) | .value] | all(day_ok)' \

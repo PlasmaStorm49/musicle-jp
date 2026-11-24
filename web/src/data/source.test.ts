@@ -17,6 +17,7 @@ import {
   loadArtistList,
   loadGameData,
   loadMixedSchedule,
+  loadQuizArtists,
   loadQuizMonth,
   lookupFailForced,
   medalsMode,
@@ -109,6 +110,43 @@ describe("loadGameData", () => {
     await expect(
       loadGameData(aborting, BASE, FIXTURE_DATA_DIR, controller.signal),
     ).rejects.not.toBeInstanceOf(DataLoadError);
+  });
+});
+
+describe("loadQuizArtists (os artistas parecidos do quiz, M18)", () => {
+  it("junta os arquivos dos artistas pelo id, o 1º vencendo no mesmo id", async () => {
+    const calls: string[] = [];
+    const serve = fakeFetch();
+    const recording: FetchLike = (url, init) => {
+      calls.push(url);
+      return serve(url, init);
+    };
+    const ids = ["fixture:ar:ar02", "fixture:ar:ar07"];
+    const index = await loadQuizArtists(recording, BASE, FIXTURE_DATA_DIR, ids);
+    expect(calls.map((u) => u.replace(BASE, ""))).toEqual([
+      "fixtures/artists/ar02.json",
+      "fixtures/artists/ar07.json",
+    ]);
+    const files = await Promise.all(
+      ids.map((id) =>
+        loadArtist(fakeFetch(), BASE, FIXTURE_DATA_DIR, { id, file: `${id.slice(11)}.json` }),
+      ),
+    );
+    const every = new Set(files.flatMap((f) => f.file.tracks.map((t) => t.id)));
+    expect(new Set(index.tracks.keys())).toEqual(every);
+    expect(index.tracks.get(files[0]?.file.tracks[0]?.id ?? "")).toEqual(files[0]?.file.tracks[0]);
+  });
+
+  it("o arquivo de outro artista, ou sem os artistas, é falha", async () => {
+    await expect(loadQuizArtists(fakeFetch(), BASE, FIXTURE_DATA_DIR, [])).rejects.toBeInstanceOf(
+      DataLoadError,
+    );
+    const wrong = {
+      "fixtures/artists/ar02.json": { schemaVersion: 1, artistId: "fixture:ar:ar07" },
+    };
+    await expect(
+      loadQuizArtists(fakeFetch(wrong), BASE, FIXTURE_DATA_DIR, ["fixture:ar:ar02"]),
+    ).rejects.toBeInstanceOf(DataLoadError);
   });
 });
 

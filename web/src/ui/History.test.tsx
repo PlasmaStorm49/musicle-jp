@@ -18,7 +18,7 @@ import type {
 import type { AnimeScheduleLoad } from "./Anime.tsx";
 import { History, HistoryCalendar, HistoryDayScreen } from "./History.tsx";
 import type { MixedLoad } from "./Mixed.tsx";
-import type { QuizStore } from "./Quiz.tsx";
+import type { QuizMonths } from "./Quiz.tsx";
 
 afterEach(cleanup);
 
@@ -102,7 +102,7 @@ const QUIZ_MONTH: QuizMonth = {
   },
 };
 /** O mês de outubro do quiz, o dos dias dos testes, já carregado: sem quiz, ou com o de PAST. */
-const QUIZ_EMPTY: QuizStore = {
+const QUIZ_EMPTY: QuizMonths = {
   loads: new Map([["2026-10", { status: "ready", month: null, bonus: null }]]),
   request: () => {},
 };
@@ -532,11 +532,11 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
       mixed: MIXED_READY,
       requestMixed: vi.fn(),
     };
-    const idle: QuizStore = { loads: new Map(), request };
+    const idle: QuizMonths = { loads: new Map(), request };
     const { rerender } = render(<History {...props} quiz={idle} />);
     expect(screen.getByText("Carregando…")).toBeTruthy();
     expect(request).toHaveBeenCalledWith("2026-10");
-    const ready: QuizStore = {
+    const ready: QuizMonths = {
       loads: new Map([["2026-10", { status: "ready", month: QUIZ_MONTH, bonus: null }]]),
       request,
     };
@@ -637,7 +637,7 @@ describe("As Misturadas no Histórico (o usuário, 24/10/2026)", () => {
     expect(screen.getByText("Carregando…")).toBeTruthy();
     // A janela de 08/10 a 21/10 cruza só outubro.
     expect(request.mock.calls).toEqual([["2026-10"]]);
-    const ready: QuizStore = {
+    const ready: QuizMonths = {
       loads: new Map([["2026-10", { status: "ready", month: QUIZ_MONTH, bonus: null }]]),
       request,
     };

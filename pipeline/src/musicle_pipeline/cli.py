@@ -44,6 +44,7 @@ from musicle_pipeline.anime_quiz import (
     validate_quiz_schedule,
     write_quiz_dir,
 )
+from musicle_pipeline.anime_quiz_artists import load_artist_groups
 from musicle_pipeline.anime_royale import KIND as ROYALE_KIND
 from musicle_pipeline.anime_royale import (
     generate_royale,
@@ -630,7 +631,12 @@ def _quiz_context(
         if problems:
             raise ScheduleError(f"{path}: agenda inválida:\n" + "\n".join(problems))
         days.append(schedule["days"])
-    return QuizContext(catalog, facts, mal, days[0], days[1])
+    # Os artistas parecidos (M18): os grupos da curadoria e os arquivos publicados do modo por
+    # artista do mesmo provedor. Sem o quiz_artists.toml, o especial não sai.
+    groups = load_artist_groups(
+        provider, anime_paths(provider).quiz_artists, artist_paths(provider).public_dir, catalog
+    )
+    return QuizContext(catalog, facts, mal, days[0], days[1], groups)
 
 
 def _schedule_quiz(args: argparse.Namespace) -> int:

@@ -33,7 +33,7 @@ from musicle_pipeline.models import (
     RawTrack,
 )
 from musicle_pipeline.normalize import title_key
-from musicle_pipeline.validate_artists import validate_artist_list
+from musicle_pipeline.validate_artists import validate_artist_list, validate_artist_set
 
 ME = RawArtist("77", "テスト歌手", "Tesuto Kashu")
 OTHER = RawArtist("55", "他の歌手", "Hoka")
@@ -521,6 +521,39 @@ def test_the_anime_section_comes_after_the_foreign_one():
     main, foreign, *anime = index["artists"]
     problems = validate_artist_list({**index, "artists": [main, *anime, foreign]})
     assert any("fora de ordem" in p for p in problems)
+
+
+def test_the_quiz_section_stays_out_of_the_list():
+    # Os artistas só do quiz (M18; o usuário, 22/11/2026): o arquivo é publicado, sem medalhas, e
+    # o índice os leva no quizOnly, fora da lista da tela.
+    provider = FakeProvider({"1": _named("1", "ミナト", "Minato"), "2": _named("2", "May'n")})
+    rules = [named_rules("1", setlist_album="als1"), ArtistRules(id="2", section="quiz")]
+    files = build_artists(provider, rules, Curation(), [])
+    index = files["index.json"]
+    assert [e["file"] for e in index["artists"]] == ["1.json"]
+    assert index["quizOnly"] == [{"id": "fixture:ar:2", "file": "2.json"}]
+    assert "2.json" in files
+    assert validate_artist_list(index) == []
+    assert validate_artist_set(files) == []
+    # O arquivo de fora das duas listas, ou a lista sem o arquivo, é recusado.
+    without = {k: v for k, v in files.items() if k != "2.json"}
+    assert any("não existe" in p for p in validate_artist_set(without))
+    hidden = {**files, "index.json": {k: v for k, v in index.items() if k != "quizOnly"}}
+    assert any("fora do index.json" in p for p in validate_artist_set(hidden))
+
+
+def test_the_quiz_section_refuses_medals_and_takes_extra_tracks(tmp_path: Path):
+    path = tmp_path / "artists.toml"
+    path.write_text(
+        '[[artists]]\nid = "1"\nsection = "quiz"\nextra_tracks = ["9"]\n', encoding="utf-8"
+    )
+    assert load_artist_list(path)[0].extra_tracks == frozenset({"9"})
+    path.write_text(
+        '[[artists]]\nid = "1"\nsection = "quiz"\n\n[artists.medals]\nalbum = "a"\n',
+        encoding="utf-8",
+    )
+    with pytest.raises(InputError, match="não tem medalhas"):
+        load_artist_list(path)
 
 
 def test_the_list_out_of_order_is_refused():

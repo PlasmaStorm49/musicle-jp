@@ -17,6 +17,21 @@ export interface ArtistList {
    * @minItems 1
    */
   artists: [ArtistListEntry, ...ArtistListEntry[]];
+  /**
+   * Os artistas só do quiz do dia (o especial dos artistas parecidos, M18; o usuário, 22/11/2026): a section = "quiz" do artists.toml. O arquivo de cada um fica na mesma pasta, mas fora da lista da tela. Campo só de acréscimo, sem versão nova: o site antigo o ignora.
+   *
+   * @minItems 1
+   */
+  quizOnly?: [
+    {
+      id: ArtistId;
+      file: string;
+    },
+    ...{
+      id: ArtistId;
+      file: string;
+    }[]
+  ];
 }
 export interface ArtistListEntry {
   id: ArtistId;

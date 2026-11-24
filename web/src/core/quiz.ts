@@ -112,7 +112,8 @@ export function isMalFamily(family: QuizFamily): boolean {
 /**
  * Os especiais da semana (P381), de até 30 rodadas (P376): os `SPECIALS` do `anime_quiz.py`. A
  * tela e o compartilhar os marcam (o usuário, 28/10/2026), e as medalhas do especial os contam
- * (M20). Todas as famílias, para a nova (os artistas parecidos, P385) não compilar sem a decisão.
+ * (M20). Todas as famílias, para uma nova não compilar sem a decisão. Os artistas parecidos (o
+ * usuário, 22/11/2026) são especiais e contam na Edição Especial.
  */
 const SPECIAL: Readonly<Record<QuizFamily, boolean>> = {
   ano: false,
@@ -125,7 +126,16 @@ const SPECIAL: Readonly<Record<QuizFamily, boolean>> = {
   tema: false,
   estudio: true,
   ano_x: true,
+  artistas: true,
 };
+
+/**
+ * Os artistas do grupo de um dia dos artistas parecidos (M18), o da pergunta primeiro: a tela
+ * baixa o arquivo de cada um, com as músicas que não são do Anime. Nos outros dias, nenhum.
+ */
+export function quizArtistsOf(day: QuizDay): readonly string[] {
+  return day.family === "artistas" ? (day.artists ?? []) : [];
+}
 
 /**
  * A família é a de um especial. Recebe texto: a agenda vem de fora, e a família da run do save

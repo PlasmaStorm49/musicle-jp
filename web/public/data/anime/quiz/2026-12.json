@@ -1,0 +1,938 @@
+{
+  "days": {
+    "2026-12-01": {
+      "catalogVersion": "2026-11-23.b34be84a",
+      "direction": "nao",
+      "family": "rotulo",
+      "mal": true,
+      "number": 38,
+      "param": "Romance",
+      "rounds": [
+        {
+          "a": "apple:tr:1537904702",
+          "answer": "a",
+          "b": "apple:tr:1804678386"
+        },
+        {
+          "a": "apple:tr:1022711221",
+          "answer": "a",
+          "b": "apple:tr:799341902"
+        },
+        {
+          "a": "apple:tr:1273026035",
+          "answer": "a",
+          "b": "apple:tr:1558995370"
+        },
+        {
+          "a": "apple:tr:373945197",
+          "answer": "b",
+          "b": "apple:tr:838213290"
+        },
+        {
+          "a": "apple:tr:1537239924",
+          "answer": "a",
+          "b": "apple:tr:546266905"
+        },
+        {
+          "a": "apple:tr:1638692847",
+          "answer": "a",
+          "b": "apple:tr:1804630368"
+        },
+        {
+          "a": "apple:tr:1702823583",
+          "answer": "a",
+          "b": "apple:tr:627861882"
+        },
+        {
+          "a": "apple:tr:1140022697",
+          "answer": "a",
+          "b": "apple:tr:301551883"
+        },
+        {
+          "a": "apple:tr:1536452261",
+          "answer": "a",
+          "b": "apple:tr:1537331608"
+        },
+        {
+          "a": "apple:tr:1537788873",
+          "answer": "b",
+          "b": "apple:tr:1537797723"
+        },
+        {
+          "a": "apple:tr:500954440",
+          "answer": "b",
+          "b": "apple:tr:838213289"
+        },
+        {
+          "a": "apple:tr:1491369450",
+          "answer": "a",
+          "b": "apple:tr:1537898823"
+        },
+        {
+          "a": "apple:tr:1047177065",
+          "answer": "a",
+          "b": "apple:tr:1536272040"
+        },
+        {
+          "a": "apple:tr:396379609",
+          "answer": "b",
+          "b": "apple:tr:1661654543"
+        },
+        {
+          "a": "apple:tr:1537433534",
+          "answer": "a",
+          "b": "apple:tr:1748942976"
+        },
+        {
+          "a": "apple:tr:339700127",
+          "answer": "b",
+          "b": "apple:tr:1860538548"
+        },
+        {
+          "a": "apple:tr:1457282214",
+          "answer": "a",
+          "b": "apple:tr:1052989933"
+        },
+        {
+          "a": "apple:tr:1867354081",
+          "answer": "a",
+          "b": "apple:tr:1537900345"
+        },
+        {
+          "a": "apple:tr:1804653450",
+          "answer": "b",
+          "b": "apple:tr:1082993319"
+        },
+        {
+          "a": "apple:tr:1726116705",
+          "answer": "a",
+          "b": "apple:tr:304174028"
+        },
+        {
+          "a": "apple:tr:1475472336",
+          "answer": "a",
+          "b": "apple:tr:1046777385"
+        },
+        {
+          "a": "apple:tr:1309418219",
+          "answer": "b",
+          "b": "apple:tr:1537240985"
+        },
+        {
+          "a": "apple:tr:720561352",
+          "answer": "b",
+          "b": "apple:tr:828274444"
+        },
+        {
+          "a": "apple:tr:208115143",
+          "answer": "b",
+          "b": "apple:tr:1536110639"
+        },
+        {
+          "a": "apple:tr:1504630292",
+          "answer": "b",
+          "b": "apple:tr:325522751"
+        },
+        {
+          "a": "apple:tr:1587259902",
+          "answer": "a",
+          "b": "apple:tr:1747710805"
+        },
+        {
+          "a": "apple:tr:1537461096",
+          "answer": "b",
+          "b": "apple:tr:944111268"
+        },
+        {
+          "a": "apple:tr:1536112858",
+          "answer": "a",
+          "b": "apple:tr:1358216053"
+        },
+        {
+          "a": "apple:tr:1373074462",
+          "answer": "b",
+          "b": "apple:tr:1536963900"
+        },
+        {
+          "a": "apple:tr:1536385396",
+          "answer": "a",
+          "b": "apple:tr:1576302599"
+        },
+        {
+          "a": "apple:tr:1683455956",
+          "answer": "b",
+          "b": "apple:tr:585171042"
+        },
+        {
+          "a": "apple:tr:1537899857",
+          "answer": "b",
+          "b": "apple:tr:1555448454"
+        },
+        {
+          "a": "apple:tr:1536367112",
+          "answer": "a",
+          "b": "apple:tr:1535798235"
+        },
+        {
+          "a": "apple:tr:1886349450",
+          "answer": "b",
+          "b": "apple:tr:1113388900"
+        },
+        {
+          "a": "apple:tr:1838980561",
+          "answer": "a",
+          "b": "apple:tr:1565324669"
+        },
+        {
+          "a": "apple:tr:1537250251",
+          "answer": "b",
+          "b": "apple:tr:1783489424"
+        },
+        {
+          "a": "apple:tr:1589737454",
+          "answer": "a",
+          "b": "apple:tr:1804644842"
+        },
+        {
+          "a": "apple:tr:1826490742",
+          "answer": "a",
+          "b": "apple:tr:1313188575"
+        },
+        {
+          "a": "apple:tr:1441380200",
+          "answer": "a",
+          "b": "apple:tr:575818946"
+        },
+        {
+          "a": "apple:tr:477643678",
+          "answer": "a",
+          "b": "apple:tr:1208934584"
+        },
+        {
+          "a": "apple:tr:1536272106",
+          "answer": "b",
+          "b": "apple:tr:1536099860"
+        },
+        {
+          "a": "apple:tr:1038704276",
+          "answer": "a",
+          "b": "apple:tr:937664437"
+        },
+        {
+          "a": "apple:tr:416507462",
+          "answer": "b",
+          "b": "apple:tr:1539086414"
+        },
+        {
+          "a": "apple:tr:1767597926",
+          "answer": "a",
+          "b": "apple:tr:1457680450"
+        },
+        {
+          "a": "apple:tr:1804638919",
+          "answer": "b",
+          "b": "apple:tr:503822449"
+        },
+        {
+          "a": "apple:tr:1586784520",
+          "answer": "a",
+          "b": "apple:tr:1535548884"
+        },
+        {
+          "a": "apple:tr:1616853923",
+          "answer": "b",
+          "b": "apple:tr:1856753468"
+        },
+        {
+          "a": "apple:tr:1804659825",
+          "answer": "b",
+          "b": "apple:tr:1536357551"
+        },
+        {
+          "a": "apple:tr:732671787",
+          "answer": "b",
+          "b": "apple:tr:1206181462"
+        },
+        {
+          "a": "apple:tr:960534405",
+          "answer": "a",
+          "b": "apple:tr:1465699392"
+        }
+      ]
+    },
+    "2026-12-02": {
+      "catalogVersion": "2026-11-23.b34be84a",
+      "direction": "max",
+      "family": "membros",
+      "mal": true,
+      "number": 39,
+      "rounds": [
+        {
+          "a": "apple:tr:1624424636",
+          "answer": "b",
+          "b": "apple:tr:1538258224",
+          "info": {
+            "diff": 3000000
+          }
+        },
+        {
+          "a": "apple:tr:1491369450",
+          "answer": "b",
+          "b": "apple:tr:1536362315",
+          "info": {
+            "diff": 2800000
+          }
+        },
+        {
+          "a": "apple:tr:1133860935",
+          "answer": "a",
+          "b": "apple:tr:1753840462",
+          "info": {
+            "diff": 1100000
+          }
+        },
+        {
+          "a": "apple:tr:1133869639",
+          "answer": "b",
+          "b": "apple:tr:1456261118",
+          "info": {
+            "diff": 2300000
+          }
+        },
+        {
+          "a": "apple:tr:1537240985",
+          "answer": "b",
+          "b": "apple:tr:666788983",
+          "info": {
+            "diff": 3700000
+          }
+        },
+        {
+          "a": "apple:tr:1537250251",
+          "answer": "a",
+          "b": "apple:tr:1443322529",
+          "info": {
+            "diff": 2600000
+          }
+        },
+        {
+          "a": "apple:tr:1255781939",
+          "answer": "b",
+          "b": "apple:tr:1537248451",
+          "info": {
+            "diff": 2300000
+          }
+        },
+        {
+          "a": "apple:tr:1199322863",
+          "answer": "b",
+          "b": "apple:tr:1535535911",
+          "info": {
+            "diff": 2400000
+          }
+        },
+        {
+          "a": "apple:tr:1786972177",
+          "answer": "b",
+          "b": "apple:tr:1537239924",
+          "info": {
+            "diff": 1700000
+          }
+        },
+        {
+          "a": "apple:tr:1536272040",
+          "answer": "a",
+          "b": "apple:tr:1573359701",
+          "info": {
+            "diff": 1500000
+          }
+        },
+        {
+          "a": "apple:tr:1839130615",
+          "answer": "b",
+          "b": "apple:tr:1738642776",
+          "info": {
+            "diff": 1800000
+          }
+        },
+        {
+          "a": "apple:tr:1536312236",
+          "answer": "a",
+          "b": "apple:tr:503822449",
+          "info": {
+            "diff": 1900000
+          }
+        },
+        {
+          "a": "apple:tr:1804660361",
+          "answer": "b",
+          "b": "apple:tr:1537330665",
+          "info": {
+            "diff": 870000
+          }
+        },
+        {
+          "a": "apple:tr:683161859",
+          "answer": "a",
+          "b": "apple:tr:6769320805",
+          "info": {
+            "diff": 2500000
+          }
+        },
+        {
+          "a": "apple:tr:1536371431",
+          "answer": "a",
+          "b": "apple:tr:1444282564",
+          "info": {
+            "diff": 720000
+          }
+        },
+        {
+          "a": "apple:tr:1611515236",
+          "answer": "a",
+          "b": "apple:tr:736586184",
+          "info": {
+            "diff": 2000000
+          }
+        },
+        {
+          "a": "apple:tr:1536268997",
+          "answer": "a",
+          "b": "apple:tr:1349570850",
+          "info": {
+            "diff": 930000
+          }
+        },
+        {
+          "a": "apple:tr:1536110639",
+          "answer": "b",
+          "b": "apple:tr:1706781383",
+          "info": {
+            "diff": 940000
+          }
+        },
+        {
+          "a": "apple:tr:1804665581",
+          "answer": "a",
+          "b": "apple:tr:1562858841",
+          "info": {
+            "diff": 610000
+          }
+        },
+        {
+          "a": "apple:tr:1297260555",
+          "answer": "a",
+          "b": "apple:tr:1535809131",
+          "info": {
+            "diff": 380000
+          }
+        },
+        {
+          "a": "apple:tr:1457282214",
+          "answer": "b",
+          "b": "apple:tr:1343078356",
+          "info": {
+            "diff": 170000
+          }
+        },
+        {
+          "a": "apple:tr:1537237394",
+          "answer": "a",
+          "b": "apple:tr:1437780155",
+          "info": {
+            "diff": 830000
+          }
+        },
+        {
+          "a": "apple:tr:6762765878",
+          "answer": "a",
+          "b": "apple:tr:1536458525",
+          "info": {
+            "diff": 150000
+          }
+        },
+        {
+          "a": "apple:tr:1688986835",
+          "answer": "a",
+          "b": "apple:tr:1538102612",
+          "info": {
+            "diff": 460000
+          }
+        },
+        {
+          "a": "apple:tr:74963378",
+          "answer": "b",
+          "b": "apple:tr:1534682707",
+          "info": {
+            "diff": 260000
+          }
+        },
+        {
+          "a": "apple:tr:1536128400",
+          "answer": "a",
+          "b": "apple:tr:317681422",
+          "info": {
+            "diff": 250000
+          }
+        },
+        {
+          "a": "apple:tr:1051165120",
+          "answer": "b",
+          "b": "apple:tr:1860538548",
+          "info": {
+            "diff": 130000
+          }
+        },
+        {
+          "a": "apple:tr:1537252579",
+          "answer": "b",
+          "b": "apple:tr:263227838",
+          "info": {
+            "diff": 610000
+          }
+        },
+        {
+          "a": "apple:tr:1842987736",
+          "answer": "a",
+          "b": "apple:tr:317574176",
+          "info": {
+            "diff": 180000
+          }
+        },
+        {
+          "a": "apple:tr:1644816114",
+          "answer": "a",
+          "b": "apple:tr:1536270702",
+          "info": {
+            "diff": 260000
+          }
+        },
+        {
+          "a": "apple:tr:1045853101",
+          "answer": "a",
+          "b": "apple:tr:1436825394",
+          "info": {
+            "diff": 530000
+          }
+        },
+        {
+          "a": "apple:tr:1678746632",
+          "answer": "b",
+          "b": "apple:tr:1537251751",
+          "info": {
+            "diff": 100000
+          }
+        },
+        {
+          "a": "apple:tr:960534405",
+          "answer": "b",
+          "b": "apple:tr:1831200054",
+          "info": {
+            "diff": 490000
+          }
+        },
+        {
+          "a": "apple:tr:1804638585",
+          "answer": "b",
+          "b": "apple:tr:1537241312",
+          "info": {
+            "diff": 310000
+          }
+        },
+        {
+          "a": "apple:tr:1637814147",
+          "answer": "b",
+          "b": "apple:tr:1723299795",
+          "info": {
+            "diff": 39000
+          }
+        },
+        {
+          "a": "apple:tr:1536259370",
+          "answer": "a",
+          "b": "apple:tr:1743376807",
+          "info": {
+            "diff": 350000
+          }
+        },
+        {
+          "a": "apple:tr:1836469553",
+          "answer": "b",
+          "b": "apple:tr:1629869977",
+          "info": {
+            "diff": 58000
+          }
+        },
+        {
+          "a": "apple:tr:1536367112",
+          "answer": "b",
+          "b": "apple:tr:1891247381",
+          "info": {
+            "diff": 72000
+          }
+        },
+        {
+          "a": "apple:tr:1616853923",
+          "answer": "b",
+          "b": "apple:tr:1313188575",
+          "info": {
+            "diff": 190000
+          }
+        },
+        {
+          "a": "apple:tr:1498022230",
+          "answer": "b",
+          "b": "apple:tr:1554829828",
+          "info": {
+            "diff": 480000
+          }
+        },
+        {
+          "a": "apple:tr:1535811729",
+          "answer": "a",
+          "b": "apple:tr:988780591",
+          "info": {
+            "diff": 310000
+          }
+        },
+        {
+          "a": "apple:tr:1605713094",
+          "answer": "a",
+          "b": "apple:tr:1160081889",
+          "info": {
+            "diff": 580000
+          }
+        },
+        {
+          "a": "apple:tr:1738375540",
+          "answer": "a",
+          "b": "apple:tr:970322190",
+          "info": {
+            "diff": 100000
+          }
+        },
+        {
+          "a": "apple:tr:1804663886",
+          "answer": "a",
+          "b": "apple:tr:1537253153",
+          "info": {
+            "diff": 140000
+          }
+        },
+        {
+          "a": "apple:tr:1820406422",
+          "answer": "b",
+          "b": "apple:tr:1824084891",
+          "info": {
+            "diff": 43000
+          }
+        },
+        {
+          "a": "apple:tr:546266905",
+          "answer": "b",
+          "b": "apple:tr:1558995370",
+          "info": {
+            "diff": 150000
+          }
+        },
+        {
+          "a": "apple:tr:1538284600",
+          "answer": "b",
+          "b": "apple:tr:1027247429",
+          "info": {
+            "diff": 170000
+          }
+        },
+        {
+          "a": "apple:tr:1804676358",
+          "answer": "b",
+          "b": "apple:tr:1538171490",
+          "info": {
+            "diff": 210000
+          }
+        },
+        {
+          "a": "apple:tr:1535536515",
+          "answer": "b",
+          "b": "apple:tr:1650726430",
+          "info": {
+            "diff": 140000
+          }
+        },
+        {
+          "a": "apple:tr:1538136703",
+          "answer": "a",
+          "b": "apple:tr:1869013072",
+          "info": {
+            "diff": 170000
+          }
+        }
+      ]
+    },
+    "2026-12-03": {
+      "catalogVersion": "2026-11-23.b34be84a",
+      "direction": "nao",
+      "family": "fonte",
+      "mal": true,
+      "number": 40,
+      "param": "manga",
+      "rounds": [
+        {
+          "a": "apple:tr:1537250251",
+          "answer": "a",
+          "b": "apple:tr:1544694170"
+        },
+        {
+          "a": "apple:tr:828274444",
+          "answer": "b",
+          "b": "apple:tr:1766032830"
+        },
+        {
+          "a": "apple:tr:1537785552",
+          "answer": "a",
+          "b": "apple:tr:1745664227"
+        },
+        {
+          "a": "apple:tr:1536963900",
+          "answer": "a",
+          "b": "apple:tr:1535535212"
+        },
+        {
+          "a": "apple:tr:1804666991",
+          "answer": "b",
+          "b": "apple:tr:1649702260"
+        },
+        {
+          "a": "apple:tr:1165272512",
+          "answer": "b",
+          "b": "apple:tr:1614941068"
+        },
+        {
+          "a": "apple:tr:820806740",
+          "answer": "a",
+          "b": "apple:tr:1444397105"
+        },
+        {
+          "a": "apple:tr:1164024081",
+          "answer": "b",
+          "b": "apple:tr:1384766614"
+        },
+        {
+          "a": "apple:tr:378277094",
+          "answer": "b",
+          "b": "apple:tr:1536128415"
+        },
+        {
+          "a": "apple:tr:730824986",
+          "answer": "a",
+          "b": "apple:tr:435413358"
+        },
+        {
+          "a": "apple:tr:1537770377",
+          "answer": "b",
+          "b": "apple:tr:1491298429"
+        },
+        {
+          "a": "apple:tr:1537252579",
+          "answer": "a",
+          "b": "apple:tr:1106360647"
+        },
+        {
+          "a": "apple:tr:1738866208",
+          "answer": "b",
+          "b": "apple:tr:1264669693"
+        },
+        {
+          "a": "apple:tr:1538280039",
+          "answer": "b",
+          "b": "apple:tr:1027364574"
+        },
+        {
+          "a": "apple:tr:1046777385",
+          "answer": "a",
+          "b": "apple:tr:1272469300"
+        },
+        {
+          "a": "apple:tr:1192132909",
+          "answer": "b",
+          "b": "apple:tr:1804671342"
+        },
+        {
+          "a": "apple:tr:1525236534",
+          "answer": "b",
+          "b": "apple:tr:668520684"
+        },
+        {
+          "a": "apple:tr:571216110",
+          "answer": "a",
+          "b": "apple:tr:1801630569"
+        },
+        {
+          "a": "apple:tr:1838919243",
+          "answer": "b",
+          "b": "apple:tr:1536260306"
+        },
+        {
+          "a": "apple:tr:595259109",
+          "answer": "b",
+          "b": "apple:tr:416516656"
+        },
+        {
+          "a": "apple:tr:1738642776",
+          "answer": "b",
+          "b": "apple:tr:1538261999"
+        },
+        {
+          "a": "apple:tr:1294628515",
+          "answer": "b",
+          "b": "apple:tr:373945197"
+        },
+        {
+          "a": "apple:tr:1605713094",
+          "answer": "b",
+          "b": "apple:tr:1547752621"
+        },
+        {
+          "a": "apple:tr:1448974955",
+          "answer": "a",
+          "b": "apple:tr:1536451889"
+        },
+        {
+          "a": "apple:tr:304174028",
+          "answer": "a",
+          "b": "apple:tr:1767597926"
+        },
+        {
+          "a": "apple:tr:1660182617",
+          "answer": "a",
+          "b": "apple:tr:1617909669"
+        },
+        {
+          "a": "apple:tr:1684164654",
+          "answer": "b",
+          "b": "apple:tr:576675807"
+        },
+        {
+          "a": "apple:tr:1804659499",
+          "answer": "b",
+          "b": "apple:tr:337867681"
+        },
+        {
+          "a": "apple:tr:1822254657",
+          "answer": "b",
+          "b": "apple:tr:1504630292"
+        },
+        {
+          "a": "apple:tr:1799905006",
+          "answer": "b",
+          "b": "apple:tr:1537521417"
+        },
+        {
+          "a": "apple:tr:1613475395",
+          "answer": "b",
+          "b": "apple:tr:1768188136"
+        },
+        {
+          "a": "apple:tr:1727121864",
+          "answer": "a",
+          "b": "apple:tr:1535811729"
+        },
+        {
+          "a": "apple:tr:1538261364",
+          "answer": "b",
+          "b": "apple:tr:969906388"
+        },
+        {
+          "a": "apple:tr:1801479976",
+          "answer": "a",
+          "b": "apple:tr:996892107"
+        },
+        {
+          "a": "apple:tr:1228962621",
+          "answer": "b",
+          "b": "apple:tr:1537387889"
+        },
+        {
+          "a": "apple:tr:479446156",
+          "answer": "b",
+          "b": "apple:tr:736586184"
+        },
+        {
+          "a": "apple:tr:1536362315",
+          "answer": "b",
+          "b": "apple:tr:1537900345"
+        },
+        {
+          "a": "apple:tr:1849573939",
+          "answer": "b",
+          "b": "apple:tr:1720711199"
+        },
+        {
+          "a": "apple:tr:326269052",
+          "answer": "a",
+          "b": "apple:tr:1537768385"
+        },
+        {
+          "a": "apple:tr:683161859",
+          "answer": "b",
+          "b": "apple:tr:1538274927"
+        },
+        {
+          "a": "apple:tr:1536017193",
+          "answer": "b",
+          "b": "apple:tr:1550230067"
+        },
+        {
+          "a": "apple:tr:563790707",
+          "answer": "b",
+          "b": "apple:tr:1804677839"
+        },
+        {
+          "a": "apple:tr:1555448454",
+          "answer": "a",
+          "b": "apple:tr:1707001466"
+        },
+        {
+          "a": "apple:tr:1558875124",
+          "answer": "b",
+          "b": "apple:tr:1130222050"
+        },
+        {
+          "a": "apple:tr:1692289314",
+          "answer": "b",
+          "b": "apple:tr:726712355"
+        },
+        {
+          "a": "apple:tr:1535627791",
+          "answer": "b",
+          "b": "apple:tr:1537252592"
+        },
+        {
+          "a": "apple:tr:1539133583",
+          "answer": "b",
+          "b": "apple:tr:1650726665"
+        },
+        {
+          "a": "apple:tr:1537785962",
+          "answer": "a",
+          "b": "apple:tr:1208912296"
+        },
+        {
+          "a": "apple:tr:1440720406",
+          "answer": "a",
+          "b": "apple:tr:1726309586"
+        },
+        {
+          "a": "apple:tr:1027316508",
+          "answer": "a",
+          "b": "apple:tr:1536963815"
+        }
+      ]
+    }
+  },
+  "epoch": "2026-10-25",
+  "kind": "anime-quiz",
+  "month": "2026-12",
+  "schemaVersion": 1,
+  "timezone": "America/Sao_Paulo"
+}

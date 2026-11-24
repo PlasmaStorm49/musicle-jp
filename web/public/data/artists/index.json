@@ -950,6 +950,12 @@
     }
   ],
   "provider": "apple",
+  "quizOnly": [
+    {
+      "file": "301384362.json",
+      "id": "apple:ar:301384362"
+    }
+  ],
   "schemaVersion": 1,
   "storefront": "jp"
 }

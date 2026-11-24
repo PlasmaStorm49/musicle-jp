@@ -1,0 +1,971 @@
+{
+  "anime": [
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 12113,
+      "name": "Berserk: Ougon Jidai-hen II - Doldrey Kouryaku",
+      "season": "spring",
+      "series": [
+        {
+          "name": "Berserk",
+          "slug": "berserk"
+        }
+      ],
+      "slug": "berserk_ougon_jidai_hen_ii_doldrey_kouryaku",
+      "synonyms": [
+        "Berserk: The Golden Age Arc II - The Battle for Doldrey",
+        "ベルセルク 黄金時代篇Ⅱ ドルドレイ攻略",
+        "Berserk Movie",
+        "Berserk Saga"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Susumu Hirasawa"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 5
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Aria",
+          "stats": {
+            "animethemes": 3,
+            "anisongdb": 57.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [],
+          "levels": {
+            "animethemes": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Suite 'Blood and Guts'",
+          "stats": {
+            "animethemes": 3
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Our Special Choir"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Griffith's Dream",
+          "stats": {
+            "anisongdb": 15.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Our Special Choir"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "After the Battle",
+          "stats": {
+            "anisongdb": 16.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Our Special Choir"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "More Death and Silence",
+          "stats": {
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Our Special Choir"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "My Brother",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Our Special Choir"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Hundred Years War",
+          "stats": {
+            "anisongdb": 23.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2012
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 6164,
+      "name": "Aoi Hana",
+      "season": "summer",
+      "series": [],
+      "slug": "aoi_hana",
+      "synonyms": [
+        "Sweet Blue Flowers",
+        "青い花",
+        "Aoihana",
+        "Blue Flower"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Kukikodan"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Aoi Hana",
+          "stats": {
+            "animethemes": 27,
+            "anisongdb": 24.0
+          },
+          "track": "325522751",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Ceui"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 2
+          },
+          "result": "ambiguous",
+          "sequence": null,
+          "song": "Centifolia",
+          "stats": {
+            "animethemes": 6,
+            "anisongdb": 23.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "kukikodan"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Kanashimi Shiran Kao",
+          "stats": {
+            "anisongdb": 22.0
+          },
+          "track": "325522763",
+          "type": "IN"
+        }
+      ],
+      "year": 2009
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 36027,
+      "name": "Ousama Game The Animation",
+      "season": "fall",
+      "series": [],
+      "slug": "ousama_game_the_animation",
+      "synonyms": [
+        "King's Game",
+        "王様ゲーム The Animation",
+        "Ou-sama Game"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "coldrain"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "FEED THE FIRE",
+          "stats": {
+            "animethemes": 95,
+            "anisongdb": 46.0
+          },
+          "track": "1264669693",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Pile"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Lost Paradise",
+          "stats": {
+            "animethemes": 16,
+            "anisongdb": 24.0
+          },
+          "track": "1313781411",
+          "type": "ED"
+        }
+      ],
+      "year": 2017
+    },
+    {
+      "levels": {
+        "mal": 4
+      },
+      "malId": 26443,
+      "name": "Triage X",
+      "season": "spring",
+      "series": [],
+      "slug": "triage_x",
+      "synonyms": [],
+      "themes": [
+        {
+          "artists": [
+            "Saeko Zougou",
+            "Nagareda Project"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "triage",
+          "stats": {
+            "animethemes": 12,
+            "anisongdb": 26.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Kazutomi Yamamoto"
+          ],
+          "levels": {
+            "animethemes": 0,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": null,
+          "song": "Soleil More",
+          "stats": {
+            "animethemes": 2,
+            "anisongdb": 20.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Nagareda Project"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": 2,
+          "song": "triage",
+          "stats": {
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Amina Satou"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Big Bang LOVE!!",
+          "stats": {
+            "anisongdb": 17.0
+          },
+          "track": null,
+          "type": "IN"
+        }
+      ],
+      "year": 2015
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 3297,
+      "name": "Aria The Origination",
+      "season": "winter",
+      "series": [
+        {
+          "name": "Aria",
+          "slug": "aria"
+        }
+      ],
+      "slug": "aria_the_origination",
+      "synonyms": [
+        "ARIA The ORIGINATION"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "Yui Makino",
+            "牧野由依"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Spirale",
+          "stats": {
+            "animethemes": 42,
+            "anisongdb": 33.0
+          },
+          "track": "270869484",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "AKINO Arai"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Kin no Nami Sen no Nami",
+          "stats": {
+            "animethemes": 20,
+            "anisongdb": 24.0
+          },
+          "track": "275397249",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Yui Makino",
+            "牧野由依"
+          ],
+          "levels": {
+            "animethemes": 1,
+            "anisongdb": 5
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Undine",
+          "stats": {
+            "animethemes": 5,
+            "anisongdb": 52.0
+          },
+          "track": "208174110",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Eri Kawai"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Barcarolle",
+          "stats": {
+            "anisongdb": 29.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Ryou Hirohashi"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": null,
+          "song": "Lumis Eterne",
+          "stats": {
+            "anisongdb": 22.0
+          },
+          "track": null,
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yui Makino"
+          ],
+          "levels": {
+            "anisongdb": 1
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Yokogao -acoustic version-",
+          "stats": {
+            "anisongdb": 19.0
+          },
+          "track": "270869488",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Yui Makino"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Yokogao",
+          "stats": {
+            "anisongdb": 20.0
+          },
+          "track": "1526093129",
+          "type": "IN"
+        },
+        {
+          "artists": [
+            "Akino Arai"
+          ],
+          "levels": {
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": null,
+          "song": "Torikago no Yume",
+          "stats": {
+            "anisongdb": 27.0
+          },
+          "track": "275397254",
+          "type": "IN"
+        }
+      ],
+      "year": 2008
+    },
+    {
+      "levels": {
+        "mal": 3
+      },
+      "malId": 135,
+      "name": "Hikaru no Go",
+      "season": "fall",
+      "series": [
+        {
+          "name": "Hikaru no Go",
+          "slug": "hikaru_no_go"
+        }
+      ],
+      "slug": "hikaru_no_go",
+      "synonyms": [
+        "Hikaru's Go"
+      ],
+      "themes": [
+        {
+          "artists": [
+            "dream"
+          ],
+          "levels": {
+            "animethemes": 5,
+            "anisongdb": 4
+          },
+          "result": "matched",
+          "sequence": 1,
+          "song": "Get Over",
+          "stats": {
+            "animethemes": 75,
+            "anisongdb": 41.0
+          },
+          "track": "209167662",
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "HΛL"
+          ],
+          "levels": {
+            "animethemes": 4,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 2,
+          "song": "I'll Be the One",
+          "stats": {
+            "animethemes": 41,
+            "anisongdb": 27.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Nana Katase"
+          ],
+          "levels": {
+            "animethemes": 3,
+            "anisongdb": 2
+          },
+          "result": "no-artist",
+          "sequence": 3,
+          "song": "Fantasy",
+          "stats": {
+            "animethemes": 30,
+            "anisongdb": 24.0
+          },
+          "track": null,
+          "type": "OP"
+        },
+        {
+          "artists": [
+            "Kids Alive"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "no-match",
+          "sequence": 1,
+          "song": "Bokura no Bouken",
+          "stats": {
+            "animethemes": 18,
+            "anisongdb": 25.0
+          },
+          "track": null,
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "Alisa Mizuki"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 2,
+          "song": "Hitomi no Chikara",
+          "stats": {
+            "animethemes": 18,
+            "anisongdb": 23.0
+          },
+          "track": "1174210252",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "dream"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 3,
+          "song": "Sincerely ~ever dream~",
+          "stats": {
+            "animethemes": 11,
+            "anisongdb": 25.0
+          },
+          "track": "209167813",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "shela"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 2
+          },
+          "result": "matched",
+          "sequence": 4,
+          "song": "Days",
+          "stats": {
+            "animethemes": 14,
+            "anisongdb": 25.0
+          },
+          "track": "1637814147",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "dream"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 3
+          },
+          "result": "matched",
+          "sequence": 5,
+          "song": "Music is My Thing",
+          "stats": {
+            "animethemes": 18,
+            "anisongdb": 30.0
+          },
+          "track": "209165070",
+          "type": "ED"
+        },
+        {
+          "artists": [
+            "dream"
+          ],
+          "levels": {
+            "animethemes": 2,
+            "anisongdb": 3
+          },
+          "result": "no-match",
+          "sequence": 6,
+          "song": "Get Over ~Special Mix~",
+          "stats": {
+            "animethemes": 10,
+            "anisongdb": 36.0
+          },
+          "track": null,
+          "type": "ED"
+        }
+      ],
+      "year": 2001
+    }
+  ],
+  "artists": {
+    "110729881": {
+      "artistName": "Kids Alive"
+    },
+    "1637867267": {
+      "artistName": "Shela"
+    },
+    "17058963": {
+      "artistName": "dream"
+    },
+    "185985476": {
+      "artistName": "HΛL"
+    },
+    "266718980": {
+      "artistName": "Pile"
+    },
+    "272541124": {
+      "artistName": "Alisa Mizuki"
+    },
+    "273375215": {
+      "artistName": "Ryo Hirohashi"
+    },
+    "294914748": {
+      "artistName": "coldrain"
+    },
+    "311757352": {
+      "artistName": "Akino Arai"
+    },
+    "607756721": {
+      "artistName": "Amina Sato"
+    },
+    "738421282": {
+      "artistName": "Yui Makino"
+    },
+    "94764413": {
+      "artistName": "Kukikodan"
+    }
+  },
+  "fetchedAt": "2026-11-23T21:22:08Z",
+  "id": "2026-11-23T212208Z",
+  "provider": "apple",
+  "resolved": {
+    "Alisa Mizuki": [
+      "272541124"
+    ],
+    "Amina Satou": [
+      "607756721"
+    ],
+    "HΛL": [
+      "185985476"
+    ],
+    "Kids Alive": [
+      "110729881"
+    ],
+    "Kukikodan": [
+      "94764413"
+    ],
+    "Nagareda Project": [],
+    "Nana Katase": [],
+    "Ryou Hirohashi": [
+      "273375215"
+    ],
+    "Saeko Zougou": [],
+    "dream": [
+      "17058963"
+    ],
+    "kukikodan": [
+      "94764413"
+    ]
+  },
+  "storefront": "jp",
+  "tracks": {
+    "1174210252": {
+      "artistId": "272541124",
+      "artistName": "観月ありさ",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music71/v4/07/36/62/0736623d-7944-042d-8a51-5e42fb8ae35f/ANTCD-20339.jpg/100x100bb.jpg",
+      "collectionId": "1174210084",
+      "collectionName": "VINGT-CINQ ANS",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview71/v4/5c/ae/56/5cae56b5-9d94-6cfa-81a8-e4a280ec3975/mzaf_6281415483283341485.plus.aac.p.m4a",
+      "releaseDate": "2002-02-06T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1174210252",
+      "trackName": "ヒトミノチカラ",
+      "trackTimeMillis": 268613,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%83%92%E3%83%88%E3%83%9F%E3%83%8E%E3%83%81%E3%82%AB%E3%83%A9/1174210084?i=1174210252&uo=4"
+    },
+    "1264669693": {
+      "artistId": "294914748",
+      "artistName": "coldrain",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/b9/01/e8/b901e893-2c3d-7826-89dc-15fe156a38fb/190295753337.jpg/100x100bb.jpg",
+      "collectionId": "1264669010",
+      "collectionName": "FATELESS",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b3/7a/38/b37a3896-7e04-aea1-a68e-2b3aef9387f5/mzaf_4861296258507366071.plus.aac.p.m4a",
+      "releaseDate": "2017-09-21T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1264669693",
+      "trackName": "FEED THE FIRE",
+      "trackTimeMillis": 235894,
+      "trackViewUrl": "https://music.apple.com/jp/album/feed-the-fire/1264669010?i=1264669693&uo=4"
+    },
+    "1313781411": {
+      "artistId": "266718980",
+      "artistName": "Pile",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/b3/40/54/b3405457-3cf6-6342-3bb2-c23d7f0407f0/VICL-37338.jpg/100x100bb.jpg",
+      "collectionId": "1313781069",
+      "collectionName": "Lost Paradise - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/01/fa/b2/01fab253-6fe1-0460-79fd-1c955c9215df/mzaf_2029234509162175080.plus.aac.p.m4a",
+      "releaseDate": "2017-11-29T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1313781411",
+      "trackName": "Lost Paradise",
+      "trackTimeMillis": 265600,
+      "trackViewUrl": "https://music.apple.com/jp/album/lost-paradise/1313781069?i=1313781411&uo=4"
+    },
+    "1526093129": {
+      "artistId": "738421282",
+      "artistName": "牧野由依",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/46/a2/c0/46a2c037-77bb-31de-3541-8666e6380bd7/VTCL-60036.jpg/100x100bb.jpg",
+      "collectionId": "1526093124",
+      "collectionName": "マキノユイ。",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/90/0a/f4/900af46c-75c1-b6f9-290d-ce13f3f5d2f8/mzaf_18356961760464585332.plus.aac.p.m4a",
+      "releaseDate": "2008-03-26T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1526093129",
+      "trackName": "横顔",
+      "trackTimeMillis": 290749,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%A8%AA%E9%A1%94/1526093124?i=1526093129&uo=4"
+    },
+    "1637814147": {
+      "artistId": "1637867267",
+      "artistName": "shela",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/e8/51/cb/e851cb1f-2832-b02b-66cb-286799f3009a/ANTCD-A0000007956.jpg/100x100bb.jpg",
+      "collectionId": "1637814145",
+      "collectionName": "Himawari - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/e1/51/eb/e151eb7f-826e-2b11-07ee-019c30f63614/mzaf_12951592981358923829.plus.aac.p.m4a",
+      "releaseDate": "2002-09-19T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "1637814147",
+      "trackName": "Days",
+      "trackTimeMillis": 265233,
+      "trackViewUrl": "https://music.apple.com/jp/album/days/1637814145?i=1637814147&uo=4"
+    },
+    "208174110": {
+      "artistId": "738421282",
+      "artistName": "牧野由依",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/21/a7/31/mzi.udnvzjvh.jpg/100x100bb.jpg",
+      "collectionId": "208174055",
+      "collectionName": "『ARIA The ANIMATION』オープニングテーマ「ウンディーネ」- Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/84/ef/10/84ef1014-f3a4-5bef-45ba-1ab8afbd54b9/mzaf_17013170318750508770.plus.aac.p.m4a",
+      "releaseDate": "2005-10-24T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "208174110",
+      "trackName": "ウンディーネ",
+      "trackTimeMillis": 345335,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%A6%E3%83%B3%E3%83%87%E3%82%A3%E3%83%BC%E3%83%8D/208174055?i=208174110&uo=4"
+    },
+    "209165070": {
+      "artistId": "17058963",
+      "artistName": "dream",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/00/bf/50/00bf5024-457b-e624-dd40-8737f576ec1b/mzi.lifedrdg.jpg/100x100bb.jpg",
+      "collectionId": "209164447",
+      "collectionName": "7th Anniversary Best",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/17/c0/06/17c006d3-1986-7457-ebeb-2c0ac95bb024/mzaf_11701006295725373289.plus.aac.p.m4a",
+      "releaseDate": "2007-01-01T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "209165070",
+      "trackName": "MUSIC IS MY THING",
+      "trackTimeMillis": 271547,
+      "trackViewUrl": "https://music.apple.com/jp/album/music-is-my-thing/209164447?i=209165070&uo=4"
+    },
+    "209167662": {
+      "artistId": "17058963",
+      "artistName": "dream",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/00/bf/50/00bf5024-457b-e624-dd40-8737f576ec1b/mzi.lifedrdg.jpg/100x100bb.jpg",
+      "collectionId": "209164447",
+      "collectionName": "7th Anniversary Best",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f3/1e/1f/f31e1f42-1a3f-6d6d-ce27-cecb52ae127c/mzaf_1685888145071382763.plus.aac.p.m4a",
+      "releaseDate": "2007-01-01T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "209167662",
+      "trackName": "Get Over",
+      "trackTimeMillis": 313533,
+      "trackViewUrl": "https://music.apple.com/jp/album/get-over/209164447?i=209167662&uo=4"
+    },
+    "209167813": {
+      "artistId": "17058963",
+      "artistName": "dream",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/00/bf/50/00bf5024-457b-e624-dd40-8737f576ec1b/mzi.lifedrdg.jpg/100x100bb.jpg",
+      "collectionId": "209164447",
+      "collectionName": "7th Anniversary Best",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5e/6b/f9/5e6bf9c5-edd3-6b9e-7bdb-f035700ed4b8/mzaf_6312065743356898306.plus.aac.p.m4a",
+      "releaseDate": "2007-01-01T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "209167813",
+      "trackName": "SINCERELY ~ever dream~",
+      "trackTimeMillis": 309573,
+      "trackViewUrl": "https://music.apple.com/jp/album/sincerely-ever-dream/209164447?i=209167813&uo=4"
+    },
+    "270869484": {
+      "artistId": "738421282",
+      "artistName": "牧野由依",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/72/83/2f/mzi.jhnjxczd.jpg/100x100bb.jpg",
+      "collectionId": "270869483",
+      "collectionName": "テレビ東京系アニメーション「ARIA The ORIGINATION」OPテーマ スピラーレ - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/cf/4d/f1/cf4df1d6-39d5-5bee-3615-2711c37d4a8a/mzaf_9495573685371486801.plus.aac.p.m4a",
+      "releaseDate": "2008-01-16T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "270869484",
+      "trackName": "スピラーレ",
+      "trackTimeMillis": 338943,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E3%82%B9%E3%83%94%E3%83%A9%E3%83%BC%E3%83%AC/270869483?i=270869484&uo=4"
+    },
+    "270869488": {
+      "artistId": "738421282",
+      "artistName": "牧野由依",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/72/83/2f/mzi.jhnjxczd.jpg/100x100bb.jpg",
+      "collectionId": "270869483",
+      "collectionName": "テレビ東京系アニメーション「ARIA The ORIGINATION」OPテーマ スピラーレ - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/e6/9a/7a/e69a7aac-9760-1c22-531d-d4de4a2ec517/mzaf_18193701314985728980.plus.aac.p.m4a",
+      "releaseDate": "2008-01-16T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "270869488",
+      "trackName": "横顔-acoustic version-",
+      "trackTimeMillis": 290633,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%A8%AA%E9%A1%94-acoustic-version/270869483?i=270869488&uo=4"
+    },
+    "275397249": {
+      "artistId": "311757352",
+      "artistName": "新居昭乃",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/cc/5e/a1/mzi.jsidbxxm.jpg/100x100bb.jpg",
+      "collectionId": "275397199",
+      "collectionName": "「ARIA The ORIGINATION」エンディングテーマ  金の波 千の波 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/2e/67/ab/2e67abd5-8175-afeb-40bc-b9e9ed623351/mzaf_15554072176248558812.plus.aac.p.m4a",
+      "releaseDate": "2008-03-19T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "275397249",
+      "trackName": "金の波 千の波",
+      "trackTimeMillis": 309637,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%87%91%E3%81%AE%E6%B3%A2-%E5%8D%83%E3%81%AE%E6%B3%A2/275397199?i=275397249&uo=4"
+    },
+    "275397254": {
+      "artistId": "311757352",
+      "artistName": "新居昭乃",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/cc/5e/a1/mzi.jsidbxxm.jpg/100x100bb.jpg",
+      "collectionId": "275397199",
+      "collectionName": "「ARIA The ORIGINATION」エンディングテーマ  金の波 千の波 - Single",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/47/7b/47/477b4722-7923-dc83-5c92-b6d16ce4ff7d/mzaf_13087046411423310961.plus.aac.p.m4a",
+      "releaseDate": "2008-03-19T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "275397254",
+      "trackName": "鳥かごの夢",
+      "trackTimeMillis": 270323,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%B3%A5%E3%81%8B%E3%81%94%E3%81%AE%E5%A4%A2/275397199?i=275397254&uo=4"
+    },
+    "325522751": {
+      "artistId": "94764413",
+      "artistName": "空気公団",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/b5/b5/ad/mzi.hlwknrdd.jpg/100x100bb.jpg",
+      "collectionId": "325522736",
+      "collectionName": "青い花 - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview71/v4/69/a6/cb/69a6cb28-ced5-186f-9c7e-a116485213b3/mzaf_7756231302329227532.plus.aac.p.m4a",
+      "releaseDate": "2009-07-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "325522751",
+      "trackName": "青い花",
+      "trackTimeMillis": 178847,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E9%9D%92%E3%81%84%E8%8A%B1/325522736?i=325522751&uo=4"
+    },
+    "325522763": {
+      "artistId": "94764413",
+      "artistName": "空気公団",
+      "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/Music/b5/b5/ad/mzi.hlwknrdd.jpg/100x100bb.jpg",
+      "collectionId": "325522736",
+      "collectionName": "青い花 - EP",
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/Music2/v4/ba/e1/01/bae10131-fc49-b950-661a-387b7847c241/mzaf_6520633130877309078.plus.aac.p.m4a",
+      "releaseDate": "2009-07-22T12:00:00Z",
+      "trackExplicitness": "notExplicit",
+      "trackId": "325522763",
+      "trackName": "悲しみ知らん顔",
+      "trackTimeMillis": 214756,
+      "trackViewUrl": "https://music.apple.com/jp/album/%E6%82%B2%E3%81%97%E3%81%BF%E7%9F%A5%E3%82%89%E3%82%93%E9%A1%94/325522736?i=325522763&uo=4"
+    }
+  }
+}

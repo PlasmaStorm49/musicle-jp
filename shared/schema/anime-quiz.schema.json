@@ -95,16 +95,40 @@
         "number": { "type": "integer", "minimum": 1 },
         "catalogVersion": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}\\.[0-9a-f]{8}$" },
         "family": {
-          "description": "A pergunta (Apêndice Q, Q.2): as comparações ano, nota, membros, playlists e amq; as propriedades rotulo, fonte e tema; os especiais estudio e ano_x.",
-          "enum": ["ano", "nota", "membros", "playlists", "amq", "rotulo", "fonte", "tema", "estudio", "ano_x"]
+          "description": "A pergunta (Apêndice Q, Q.2): as comparações ano, nota, membros, playlists e amq; as propriedades rotulo, fonte e tema; os especiais estudio, ano_x e artistas (os artistas parecidos, o usuário, 22/11/2026).",
+          "enum": [
+            "ano",
+            "nota",
+            "membros",
+            "playlists",
+            "amq",
+            "rotulo",
+            "fonte",
+            "tema",
+            "estudio",
+            "ano_x",
+            "artistas"
+          ]
         },
         "direction": {
           "description": "Nas comparações, a resposta tem o maior (max) ou o menor (min) valor; nas propriedades, a resposta tem (tem) ou não tem (nao) a propriedade.",
           "enum": ["max", "min", "tem", "nao"]
         },
         "param": {
-          "description": "O parâmetro da pergunta de propriedade: o rótulo do MAL, o grupo da fonte, o estúdio ou o ano. As comparações e o tipo do tema não têm.",
+          "description": "O parâmetro da pergunta de propriedade: o rótulo do MAL, o grupo da fonte, o estúdio, o ano ou, nos artistas parecidos, o nome do artista da pergunta. As comparações e o tipo do tema não têm.",
           "type": ["string", "integer"]
+        },
+        "group": {
+          "description": "Só nos artistas parecidos: o grupo curado (o quiz_artists.toml), que roda em ciclo.",
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "artists": {
+          "description": "Só nos artistas parecidos: os artistas do grupo, o da pergunta primeiro. A tela baixa o arquivo de cada um (o do modo por artista, <id>.json), onde estão as músicas que não são do Anime.",
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z]+:ar:[A-Za-z0-9_-]+$" }
         },
         "mal": {
           "description": "Se os dados do MAL estavam na geração: com eles, as famílias do MAL podiam ser sorteadas (P380).",

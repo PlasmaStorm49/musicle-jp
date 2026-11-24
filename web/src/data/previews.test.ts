@@ -8,6 +8,8 @@ import {
   LOOKUP_QUOTA,
   LOOKUP_TIMEOUT_MS,
   lookupBudget,
+  type PreviewResolver,
+  splitResolver,
 } from "./previews.ts";
 import type { FetchLike } from "./source.ts";
 
@@ -71,6 +73,29 @@ describe("catalogResolver (fixtures)", () => {
     expect(resolver.peek(id)).toBe(expected);
     await expect(resolver.resolve(id)).resolves.toBe(expected);
     expect(resolver.peek("fixture:tr:nao-existe")).toBeNull();
+  });
+});
+
+describe("splitResolver (os artistas parecidos do quiz, M18)", () => {
+  it("manda a faixa do 1º índice ao 1º resolvedor e a outra ao 2º, também no lote", async () => {
+    const first = indexCatalog(catalog);
+    const inFirst = catalog.tracks[0]?.id ?? "";
+    const calls: string[][] = [];
+    const tag = (name: string): PreviewResolver => ({
+      peek: (id) => `${name}:${id}`,
+      resolve: async (id) => `${name}:${id}`,
+      prefetch: (ids) => calls.push([name, ...ids]),
+    });
+    const resolver = splitResolver(first, tag("anime"), tag("artistas"));
+    expect(resolver.peek(inFirst)).toBe(`anime:${inFirst}`);
+    await expect(resolver.resolve("x:tr:fora")).resolves.toBe("artistas:x:tr:fora");
+    resolver.prefetch([inFirst, "x:tr:fora"]);
+    expect(calls).toEqual([
+      ["anime", inFirst],
+      ["artistas", "x:tr:fora"],
+    ]);
+    resolver.prefetch([inFirst]);
+    expect(calls).toHaveLength(3); // o lado vazio não pede nada
   });
 });
 

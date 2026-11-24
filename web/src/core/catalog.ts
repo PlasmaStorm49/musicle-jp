@@ -91,6 +91,27 @@ export function indexAnime(file: AnimeCatalog): CatalogIndex {
   };
 }
 
+/**
+ * Um índice com as faixas, os álbuns e os artistas de outros juntos (o especial dos artistas
+ * parecidos do quiz, M18: o catálogo do Anime e os arquivos dos artistas do grupo). O catálogo e o
+ * Anime são os do primeiro, e ele vence quando o mesmo id está nos dois.
+ */
+export function mergeIndexes(base: CatalogIndex, extras: readonly CatalogIndex[]): CatalogIndex {
+  const join = <V>(pick: (index: CatalogIndex) => ReadonlyMap<string, V>): Map<string, V> => {
+    const out = new Map<string, V>();
+    for (const index of [...extras].reverse()) for (const [k, v] of pick(index)) out.set(k, v);
+    for (const [k, v] of pick(base)) out.set(k, v);
+    return out;
+  };
+  return {
+    ...base,
+    tracks: join((i) => i.tracks),
+    albums: join((i) => i.albums),
+    artists: join((i) => i.artists),
+    tracksBySong: join((i) => i.tracksBySong),
+  };
+}
+
 /** As franquias de uma faixa do Anime (P234); fora do Anime, nenhuma. */
 export function franchisesOf(index: CatalogIndex, trackId: string): readonly string[] {
   return index.anime?.franchisesByTrack.get(trackId) ?? [];

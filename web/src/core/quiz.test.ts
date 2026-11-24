@@ -25,6 +25,7 @@ import {
   type QuizEvent,
   type QuizSide,
   type QuizState,
+  quizArtistsOf,
   quizDaily,
   quizDone,
   quizId,
@@ -93,14 +94,26 @@ describe("o descritor", () => {
     expect(isMalFamily("fonte")).toBe(true);
     expect(isMalFamily("playlists")).toBe(false);
     expect(isMalFamily("nota")).toBe(true);
-    // Os especiais da semana (P381), como no pipeline; uma família desconhecida não é especial.
-    expect(["estudio", "ano_x", "ano", "playlists", "artistas"].map(isSpecialFamily)).toEqual([
-      true,
-      true,
-      false,
-      false,
-      false,
-    ]);
+    // Os especiais da semana (P381), como no pipeline, com os artistas parecidos (o usuário,
+    // 22/11/2026); uma família desconhecida não é especial.
+    expect(
+      ["estudio", "ano_x", "artistas", "ano", "playlists", "desconhecida"].map(isSpecialFamily),
+    ).toEqual([true, true, true, false, false, false]);
+  });
+
+  it("os artistas do dia dos artistas parecidos, o da pergunta primeiro; nos outros, nenhum", () => {
+    const fonte = quizOctober.days["2026-10-18"] as QuizDay;
+    expect(quizArtistsOf(fonte)).toEqual([]);
+    const artistas: QuizDay = {
+      ...fonte,
+      family: "artistas",
+      direction: "tem",
+      param: "Yokaze Theater",
+      group: "yokaze-aoi",
+      artists: ["fixture:ar:ar02", "fixture:ar:ar07"],
+    };
+    expect(quizArtistsOf(artistas)).toEqual(["fixture:ar:ar02", "fixture:ar:ar07"]);
+    expect(quizDaily(artistas, "2026-10-18")).toMatchObject({ param: "Yokaze Theater" });
   });
 
   it("os especiais da semana (P381): no mês fictício, só os dias do ano e do estúdio, um por semana", () => {
