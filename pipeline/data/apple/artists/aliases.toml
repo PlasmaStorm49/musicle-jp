@@ -25,6 +25,11 @@ latin = "DAOKO×Kenshi Yonezu"
 [artists."apple:ar:614405787"]  # os 14 utaite de ワールドドミネイション (Eve)
 latin = "Amatsuki/Aho no Sakata./Araki/Eve/un:c/Uratanuki/Sakou Tomohisa (Shounen T)/Shima/Senra/Sou/Soraru/nqrse/Mafumafu/luz"
 
+# O nome da pergunta do quiz (os artistas parecidos, M18), na ordem ocidental, como o da Apple
+# para a Nana Mizuki e a Yui Ogura; o cutlet deu "Tamura Yukari".
+[artists."apple:ar:270043493"]  # 田村ゆかり
+latin = "Yukari Tamura"
+
 # --- Unlimits e Seiko Matsuda (12/10/2026): o romaji que o cutlet errou ---
 
 [tracks."apple:tr:1482898813"]  # 月アカリサイレース (Unlimits); cutlet: "Gatsu akarisaireesu"

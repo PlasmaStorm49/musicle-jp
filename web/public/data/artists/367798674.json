@@ -1,0 +1,5413 @@
+{
+  "albums": [
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music30/v4/79/50/a5/7950a5f5-2c6c-43f0-02d2-71572b1fa724/mzm.rotqhrno.jpg/300x300bb.jpg",
+      "id": "apple:al:1024006927",
+      "latinSource": null,
+      "releaseDate": "2015-08-12",
+      "title": "Honey Come!! - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music18/v4/74/69/ce/7469cefa-2046-4359-bb44-9f7938c914db/KICM-91667-1400.jpg/300x300bb.jpg",
+      "id": "apple:al:1107866045",
+      "latinSource": "cutlet",
+      "releaseDate": "2016-05-18",
+      "title": "ハイタッチ☆メモリー - EP",
+      "titleLatin": "Hai tatchi memorii",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music71/v4/ce/e8/81/cee881dd-7c0e-ef6a-1be1-2fa3a6a3f7b3/KICM-1725-1400.jpg/300x300bb.jpg",
+      "id": "apple:al:1166426400",
+      "latinSource": null,
+      "releaseDate": "2016-11-02",
+      "title": "Future Strike - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music127/v4/3d/73/2f/3d732f0a-b258-c467-e451-696a74df8c97/KIZC-395_1400_72.jpg/300x300bb.jpg",
+      "id": "apple:al:1245581749",
+      "latinSource": null,
+      "releaseDate": "2017-06-21",
+      "title": "Y&K",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/e6/c1/dc/e6c1dc3e-b308-f2c6-cfc5-efae74a074ff/KIZC-386_1400_72.jpg/300x300bb.jpg",
+      "id": "apple:al:1258021943",
+      "latinSource": null,
+      "releaseDate": "2017-07-26",
+      "title": "Cherry Passport",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "アルタイル・トルテ(美山椿芽(CV.石原夏織)",
+      "artistIds": [
+        "apple:ar:367798677"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/cf/4a/70/cf4a7033-d797-dd72-176a-afea1897f034/AVCD-93804.jpg/300x300bb.jpg",
+      "id": "apple:al:1332986655",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-01-24",
+      "title": "スクールガールストライカーズ ~トゥインクルメロディーズ~ Melody Collection",
+      "titleLatin": "Sukuurugaarusutoraikaazu~ tuinkuru merodiizu~ Melody Collection",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "三澤紗千香・小倉唯",
+      "artistIds": [
+        "apple:ar:546269905",
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/b4/08/3a/b4083aea-46bd-4f47-4e63-dc05a1e33baa/gurimoa2.jpg/300x300bb.jpg",
+      "id": "apple:al:1346368100",
+      "latinSource": null,
+      "releaseDate": "2018-02-28",
+      "title": "Picture Re:Cord Project♪ 〜Chant Collection〜 - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/ec/8c/ec/ec8cec69-a8a9-cf82-461c-1b2f8057018d/KICM-91834.jpg/300x300bb.jpg",
+      "id": "apple:al:1353252616",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-03-14",
+      "title": "白く咲く花 - EP",
+      "titleLatin": "Shiroku saku hana",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "キュアエトワール(CV.小倉唯)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/5b/57/88/5b57880e-d4ac-72b9-d255-2f49e3a0b2e4/MJSS-09221_1.jpg/300x300bb.jpg",
+      "id": "apple:al:1404840324",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-05-23",
+      "title": "「HUGっと!プリキュア」キャラクターシングル - EP",
+      "titleLatin": "\"HUG to! Purikyua\" kyarakutaa shinguru",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/27/ca/b7/27cab7b2-a322-8409-1481-5d7128de89a6/KICM-91856.jpg/300x300bb.jpg",
+      "id": "apple:al:1405462446",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-07-25",
+      "title": "永遠少年 - EP",
+      "titleLatin": "Eien shounen",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "薬師寺さあや(CV:本泉莉奈)",
+      "artistIds": [
+        "apple:ar:1084630555"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/94/fb/53/94fb53d1-932f-3cbe-67a5-64817f41d118/MJSA-01247.jpg/300x300bb.jpg",
+      "id": "apple:al:1424102412",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-07-04",
+      "title": "「HUGっと!プリキュア」ボーカルアルバム パワフル♥エール",
+      "titleLatin": "\"HUG to! Purikyua\" bookaru arubamu pawafuru eeru",
+      "type": "compilation"
+    },
+    {
+      "artistDisplay": "キュアエール(CV.引坂理絵)、キュアアンジュ(CV.本泉莉奈)、キュアエトワール(CV.小倉唯)、キュアマシェリ(CV.田村奈央)、キュアアムール(CV.田村ゆかり)",
+      "artistIds": [
+        "apple:ar:1404840325",
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/9a/ee/18/9aee18e6-a247-c3ac-3e47-32ac32599e1a/MJSS-09224.jpg/300x300bb.jpg",
+      "id": "apple:al:1439291621",
+      "latinSource": "cutlet",
+      "releaseDate": "2018-08-22",
+      "title": "「HUGっと!プリキュア」後期主題歌シングル - EP",
+      "titleLatin": "\"HUG to! Purikyua\" kouki shudaika shinguru",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/db/7c/2e/db7c2e54-4d3d-ab20-a77d-f07e109cb15d/KIZC-504.jpg/300x300bb.jpg",
+      "id": "apple:al:1451478217",
+      "latinSource": "cutlet",
+      "releaseDate": "2019-02-20",
+      "title": "ホップ ステップ アップル",
+      "titleLatin": "Hoppu suteppu appuru",
+      "type": "album"
+    },
+    {
+      "artistDisplay": "TWIN-CRUE l MIRROR-CREW(ライラ:CV小倉唯、ユウユ:CV水瀬いのり、ジェリコ:CV加隈亜衣)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/c1/f7/80/c1f7805e-475d-25cd-15ec-b41b170304bb/EYCA-12085.jpg/300x300bb.jpg",
+      "id": "apple:al:1453004051",
+      "latinSource": "cutlet",
+      "releaseDate": "2019-02-27",
+      "title": "トリカゴ スクラップマーチ キャラクターソング UNIT2「終末世界ボールルーム」 - Single",
+      "titleLatin": "Tori kago sukurappu maachi kyarakutaa songu UNIT2 \"shuumatsu sekai booru ruumu\"",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/34/42/b9/3442b976-f8ed-632f-a1e6-afddf1a240bf/KICM-91987.jpg/300x300bb.jpg",
+      "id": "apple:al:1482998886",
+      "latinSource": null,
+      "releaseDate": "2019-10-30",
+      "title": "Destiny - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/3f/5c/2a/3f5c2a93-7155-66de-d8db-813b83fbfa65/KICM-92030-1400.jpg/300x300bb.jpg",
+      "id": "apple:al:1496566751",
+      "latinSource": null,
+      "releaseDate": "2020-02-12",
+      "title": "I・LOVE・YOU!! - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/00/60/45/0060456a-b26f-9251-9972-e0c9c5e44a37/KICM-92048.jpg/300x300bb.jpg",
+      "id": "apple:al:1515419554",
+      "latinSource": "cutlet",
+      "releaseDate": "2020-06-10",
+      "title": "ハピネス*センセーション - EP",
+      "titleLatin": "Hapinesu* senseeshon",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/22/e9/85/22e98563-6ed8-1615-1f78-94260bb543ef/NOPA-2449.jpg/300x300bb.jpg",
+      "id": "apple:al:1542552523",
+      "latinSource": null,
+      "releaseDate": "2020-12-09",
+      "title": "Very Merry Happy Christmas - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/25/32/80/253280c0-1dbb-16f6-7a3a-7c2076728bbf/NOPA-2448.jpg/300x300bb.jpg",
+      "id": "apple:al:1553718205",
+      "latinSource": null,
+      "releaseDate": "2021-02-24",
+      "title": "Clear Morning - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/42/f7/86/42f786b6-9751-7caf-ae60-ccdc640df15c/KICM-92078.jpg/300x300bb.jpg",
+      "id": "apple:al:1558980087",
+      "latinSource": null,
+      "releaseDate": "2021-03-31",
+      "title": "Clear Morning - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/3e/d3/b2/3ed3b219-46ee-582f-3f72-e4eaf54cfc30/NOPA-2450.jpg/300x300bb.jpg",
+      "id": "apple:al:1568983207",
+      "latinSource": "cutlet",
+      "releaseDate": "2021-06-09",
+      "title": "ハートフォレスト - Single",
+      "titleLatin": "Haato foresuto",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/8a/31/7f/8a317f69-1218-f1a3-4acc-f07fcb48b8bf/KICM-92096.jpg/300x300bb.jpg",
+      "id": "apple:al:1576150860",
+      "latinSource": null,
+      "releaseDate": "2021-08-11",
+      "title": "Fightin★Pose - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/b3/99/01/b3990186-db91-b560-6b0c-c3892891f662/KIZC-657.jpg/300x300bb.jpg",
+      "id": "apple:al:1608111695",
+      "latinSource": null,
+      "releaseDate": "2022-02-16",
+      "title": "Tarte",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "甘瓜みるき with はにたん (cv. 相良茉優,小倉 唯)",
+      "artistIds": [
+        "apple:ar:1522670936"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/30/fb/84/30fb8489-f1e2-d38c-70c6-e0bcedb40e26/ANTCD-A0000006516.jpg/300x300bb.jpg",
+      "id": "apple:al:1613936560",
+      "latinSource": "cutlet",
+      "releaseDate": "2022-03-25",
+      "title": "TVアニメ『ワッチャプリマジ!』キャラクターソングミニアルバム PUMPING WACCHA! 01",
+      "titleLatin": "TV anime \"watchapurimaji!\" kyarakutaa songu mini arubamu PUMPING WACCHA! 01",
+      "type": "compilation"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/94/a5/22/94a52209-5fe7-1c93-6426-d8dfbe8edf5b/COKM-44201.jpg/300x300bb.jpg",
+      "id": "apple:al:1658447095",
+      "latinSource": null,
+      "releaseDate": "2022-12-21",
+      "title": "Love∞Vision - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "東坂 ミオ (CV. 小倉 唯)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/84/bf/46/84bf4665-616a-2977-5d1d-e31be3ab41de/ANTCD-A0000009457.jpg/300x300bb.jpg",
+      "id": "apple:al:1677271174",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-03-29",
+      "title": "マジカル☆アイデンティファイ ～3・2・1の魔法～ - Single",
+      "titleLatin": "Majikaru aidentifai~3 2 1 no mahou~",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "星北 ヒナノ,西条 リリア,東坂 ミオ,南曜 スバル (CV. 土屋 李央,鈴木 杏奈,小倉 唯,日向 未南)",
+      "artistIds": [
+        "apple:ar:1677270936",
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/fe/3e/ab/fe3eabdd-c1c2-aa6a-5f5c-927f065b7f02/ANTCD-A0000009723.jpg/300x300bb.jpg",
+      "id": "apple:al:1677311341",
+      "latinSource": null,
+      "releaseDate": "2023-03-29",
+      "title": "Starlight challenge - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/ab/cc/09/abcc09c0-7cb7-6776-4bf8-4cf8666229d3/COCC-18109.jpg/300x300bb.jpg",
+      "id": "apple:al:1680632842",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-04-19",
+      "title": "秘密♡Melody (わたゆり盤) - EP",
+      "titleLatin": "Himitsu Melody (wata Yuri ban)",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e6/29/76/e6297612-243a-02c9-dd49-0c49b51a81c4/COKM-44313.jpg/300x300bb.jpg",
+      "id": "apple:al:1680850332",
+      "latinSource": "cutlet",
+      "releaseDate": "2023-04-19",
+      "title": "秘密♡Melody - EP",
+      "titleLatin": "Himitsu Melody",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/7a/f3/5e/7af35eec-36b8-cff5-9d5c-8a368dd713cd/COKM-44601.jpg/300x300bb.jpg",
+      "id": "apple:al:1714567033",
+      "latinSource": null,
+      "releaseDate": "2023-11-22",
+      "title": "Empty//Princess. - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/13/1d/ff/131dfff9-654a-ff95-0f2c-c7f1bc8882c3/COKM-44835.jpg/300x300bb.jpg",
+      "id": "apple:al:1738377824",
+      "latinSource": "cutlet",
+      "releaseDate": "2024-04-10",
+      "title": "君色のキセキ - EP",
+      "titleLatin": "Kimi iro no kiseki",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/70/2d/5c/702d5c97-729c-5ddb-704c-ac69620c591c/COKM-45298.jpg/300x300bb.jpg",
+      "id": "apple:al:1760483233",
+      "latinSource": null,
+      "releaseDate": "2024-08-26",
+      "title": "Wind of Bloom - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ca/71/72/ca71725b-f6cd-f807-93b2-c983d79535e2/COKM-45254.jpg/300x300bb.jpg",
+      "id": "apple:al:1765443515",
+      "latinSource": null,
+      "releaseDate": "2024-09-18",
+      "title": "Bloomy",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1b/06/a7/1b06a739-3987-096f-13d8-e6d040187ca3/COCC-18279.jpg/300x300bb.jpg",
+      "id": "apple:al:1804266946",
+      "latinSource": null,
+      "releaseDate": "2025-04-23",
+      "title": "So☆Lucky - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/73/32/bd/7332bd10-6f7c-69e1-4e89-4d7b1bbc4406/COKM-45805.jpg/300x300bb.jpg",
+      "id": "apple:al:1831650830",
+      "latinSource": null,
+      "releaseDate": "2025-08-15",
+      "title": "Magic♡Happy - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cc/86/f3/cc86f3c2-155e-b7d2-59c1-093e3ec64578/dj.lseztrtr.jpg/300x300bb.jpg",
+      "id": "apple:al:1837321575",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-09-17",
+      "title": "治癒治癒ちゅっ♡ - Single",
+      "titleLatin": "Chiyu chiyu chu",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cb/0e/ca/cb0ecaf5-007a-b777-2dc1-96e348646447/COKM-45911.jpg/300x300bb.jpg",
+      "id": "apple:al:1843028050",
+      "latinSource": "cutlet",
+      "releaseDate": "2025-10-15",
+      "title": "きょんきょん♡らぶぽーしょん - Single",
+      "titleLatin": "Kyo n kyo n rabupo- sho n",
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2c/da/80/2cda8004-40db-34bd-b61a-8e686648d430/COZX-2202.jpg/300x300bb.jpg",
+      "id": "apple:al:1852205553",
+      "latinSource": null,
+      "releaseDate": "2025-11-25",
+      "title": "Labo-Ratory",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2e/cc/69/2ecc6940-1454-ecea-7b36-846faa19e467/COZC-2304.jpg/300x300bb.jpg",
+      "id": "apple:al:1872007865",
+      "latinSource": "cutlet",
+      "releaseDate": "2026-02-11",
+      "title": "チョコレート・メモリアル - EP",
+      "titleLatin": "Chokoreeto memoriaru",
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/f7/5b/c3/mzi.jcndmjgd.jpg/300x300bb.jpg",
+      "id": "apple:al:460889848",
+      "latinSource": null,
+      "releaseDate": "2011-09-21",
+      "title": "Puppy",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/31/22/41/3122419f-e326-5ea3-4067-e2c7bb6b5301/KICM-91397-600.jpg/300x300bb.jpg",
+      "id": "apple:al:540652914",
+      "latinSource": null,
+      "releaseDate": "2012-07-18",
+      "title": "Raise - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/d4/ed/03/d4ed03a5-959c-9dd2-9086-595ea9d1d149/KICM-1442.jpg/300x300bb.jpg",
+      "id": "apple:al:634811183",
+      "latinSource": null,
+      "releaseDate": "2013-05-08",
+      "title": "Baby Sweet Berry Love - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/18/46/1d/18461d40-8c18-8400-1cc8-0f321bda27e4/COKM-46600.jpg/300x300bb.jpg",
+      "id": "apple:al:6781515559",
+      "latinSource": null,
+      "releaseDate": "2026-07-07",
+      "title": "Q.E.D. - Single",
+      "titleLatin": null,
+      "type": "single"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/05/dc/8c/05dc8cfd-cf58-20d7-b755-7ceb7f0c4261/COZC-2333.jpg/300x300bb.jpg",
+      "id": "apple:al:6786976682",
+      "latinSource": null,
+      "releaseDate": "2026-07-22",
+      "title": "Q.E.D. - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/c8/a5/9a/c8a59ae2-e37c-003e-7d4c-d0e9396fe12c/KIZC-219.jpg/300x300bb.jpg",
+      "id": "apple:al:718819632",
+      "latinSource": null,
+      "releaseDate": "2013-10-23",
+      "title": "Bunny",
+      "titleLatin": null,
+      "type": "album"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/57/37/54/573754c8-1a00-4f38-1a8c-d8d8d8a41ec1/KICM91493.jpg/300x300bb.jpg",
+      "id": "apple:al:794218142",
+      "latinSource": null,
+      "releaseDate": "2014-01-29",
+      "title": "Charming Do! - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/36/67/2f/36672fd7-f603-e0e5-11c1-64c78f89f024/KICM-91526-1400.jpg/300x300bb.jpg",
+      "id": "apple:al:898992914",
+      "latinSource": null,
+      "releaseDate": "2014-08-13",
+      "title": "Tinkling Smile - EP",
+      "titleLatin": null,
+      "type": "ep"
+    },
+    {
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "artworkUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music3/v4/b4/07/a8/b407a88e-5ce2-3f72-ef0c-c26660059624/KIZC-276-1400.jpg/300x300bb.jpg",
+      "id": "apple:al:974423857",
+      "latinSource": null,
+      "releaseDate": "2015-03-25",
+      "title": "Strawberry JAM",
+      "titleLatin": null,
+      "type": "album"
+    }
+  ],
+  "artistId": "apple:ar:367798674",
+  "artists": [
+    {
+      "id": "apple:ar:1084630555",
+      "latinSource": "cutlet",
+      "name": "薬師寺さあや(CV:本泉莉奈)",
+      "nameLatin": "Yakushiji saa ya (CV: Honsen Rina)"
+    },
+    {
+      "id": "apple:ar:1404840325",
+      "latinSource": "cutlet",
+      "name": "キュアエール(CV.引坂理絵)",
+      "nameLatin": "Kyua eeru (CV. in Saka Rie)"
+    },
+    {
+      "id": "apple:ar:1522670936",
+      "latinSource": "provider",
+      "name": "甘瓜みるき with はにたん (cv. 相良茉優,小倉 唯)",
+      "nameLatin": "Mayu Sagara"
+    },
+    {
+      "id": "apple:ar:1677270936",
+      "latinSource": "provider",
+      "name": "星北 ヒナノ,西条 リリア,東坂 ミオ,南曜 スバル (CV. 土屋 李央,鈴木 杏奈,小倉 唯,日向 未南)",
+      "nameLatin": "Rio Tsuchiya"
+    },
+    {
+      "id": "apple:ar:367798674",
+      "latinSource": "provider",
+      "name": "小倉 唯",
+      "nameLatin": "Yui Ogura"
+    },
+    {
+      "id": "apple:ar:367798677",
+      "latinSource": "cutlet",
+      "name": "アルタイル・トルテ(美山椿芽(CV.石原夏織)",
+      "nameLatin": "Arutairu torute (Miyama Tsubaki me (CV. Ishihara natsuori)"
+    },
+    {
+      "id": "apple:ar:546269905",
+      "latinSource": "provider",
+      "name": "三澤紗千香・小倉唯",
+      "nameLatin": "Sachika Misawa"
+    }
+  ],
+  "fetchedAt": "2026-11-24T06:05:27Z",
+  "provider": "apple",
+  "schemaVersion": 1,
+  "storefront": "jp",
+  "tracks": [
+    {
+      "albumId": "apple:al:1024006927",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 247987,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1024007124",
+      "latinSource": null,
+      "popularity": 0.9848,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7d/5c/ae/7d5cae96-77e3-35bc-c7e8-094ee6dcdc4e/mzaf_773536164870506864.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "honeycome"
+        ]
+      },
+      "songKey": "honeycome|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/honey-come/1024006927?i=1024007124",
+      "title": "Honey Come!!",
+      "titleKeys": [
+        "honeycome"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1024006927",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 211093,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1024007125",
+      "latinSource": "cutlet",
+      "popularity": 0.9167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/5d/0c/5f/5d0c5fba-6e51-c58c-e882-617c1da2e498/mzaf_1328364652719382490.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "garisshueiji",
+          "girlishage",
+          "がーりっしゅえいじ"
+        ]
+      },
+      "songKey": "がーりっしゅえいじ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AC%E3%83%BC%E3%83%AA%E3%83%83%E3%82%B7%E3%83%A5%E3%82%A8%E3%82%A4%E3%82%B8/1024006927?i=1024007125",
+      "title": "ガーリッシュエイジ",
+      "titleKeys": [
+        "がーりっしゅえいじ"
+      ],
+      "titleLatin": "Gaarisshu eiji"
+    },
+    {
+      "albumId": "apple:al:1107866045",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 254405,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1107866069",
+      "latinSource": "cutlet",
+      "popularity": 0.9394,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1c/1c/79/1c1c79c5-2633-30d4-64e0-1ac236569bb1/mzaf_14118319396614222767.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-05-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "haitatchimemori",
+          "hightochmemory",
+          "はいたっちめもりー"
+        ]
+      },
+      "songKey": "はいたっちめもりー|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8F%E3%82%A4%E3%82%BF%E3%83%83%E3%83%81-%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%BC/1107866045?i=1107866069",
+      "title": "ハイタッチ☆メモリー",
+      "titleKeys": [
+        "はいたっちめもりー"
+      ],
+      "titleLatin": "Hai tatchi memorii"
+    },
+    {
+      "albumId": "apple:al:1107866045",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 262919,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1107866070",
+      "latinSource": null,
+      "popularity": 0.8712,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d0/15/e3/d015e386-e47d-3d25-4dcb-446049df8b8b/mzaf_13000801149989952058.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-05-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "tobealive"
+        ]
+      },
+      "songKey": "tobealive|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/to-be-alive/1107866045?i=1107866070",
+      "title": "TO BE ALIVE",
+      "titleKeys": [
+        "tobealive"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1166426400",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 261768,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1166427331",
+      "latinSource": null,
+      "popularity": 0.9924,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a5/16/06/a51606a9-0571-cf94-1b15-726c12cbfdc1/mzaf_5513600090153927358.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-11-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "futsurestrike"
+        ]
+      },
+      "songKey": "futurestrike|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/future-strike/1166426400?i=1166427331",
+      "title": "Future Strike",
+      "titleKeys": [
+        "futurestrike"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1166426400",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 244450,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1166427332",
+      "latinSource": null,
+      "popularity": 0.7955,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ea/39/7f/ea397f32-9ea9-db3f-0505-47aef763abb8/mzaf_11660832366952964870.plus.aac.p.m4a"
+      },
+      "releaseDate": "2016-11-02",
+      "search": {
+        "artist": [],
+        "title": [
+          "wintertale"
+        ]
+      },
+      "songKey": "wintertale|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/winter-tale/1166426400?i=1166427332",
+      "title": "winter tale",
+      "titleKeys": [
+        "wintertale"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 239733,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581751",
+      "latinSource": null,
+      "popularity": 0.2424,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/d1/92/97/d19297c3-58fd-82a9-27bc-458e3203cce5/mzaf_4774803668411875753.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-05-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "orsteadyboy"
+        ]
+      },
+      "songKey": "oursteadyboy|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/our-steady-boy/1245581749?i=1245581751",
+      "title": "Our Steady Boy",
+      "titleKeys": [
+        "oursteadyboy"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 244240,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581752",
+      "latinSource": "cutlet",
+      "popularity": 0.1212,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/de/aa/34/deaa347a-3970-8ff9-1e63-2e251e012e7a/mzaf_4137665754590150313.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-09-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "futari",
+          "ふたり"
+        ]
+      },
+      "songKey": "ふたり|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%B5%E3%81%9F%E3%82%8A/1245581749?i=1245581752",
+      "title": "ふたり",
+      "titleKeys": [
+        "ふたり"
+      ],
+      "titleLatin": "Futari"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 259333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581753",
+      "latinSource": null,
+      "popularity": 0.1515,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/40/cc/e3/40cce3e1-baa6-c5bd-e27b-39ff6fff461f/mzaf_7218607561092204860.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-07-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "vivividparch"
+        ]
+      },
+      "songKey": "vivividparty|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/vivivid-party/1245581749?i=1245581753",
+      "title": "VIVIVID PARTY!",
+      "titleKeys": [
+        "vivividparty"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 243467,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581755",
+      "latinSource": "cutlet",
+      "popularity": 0.0606,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/a0/5d/cd/a05dcd2c-6541-0181-02c8-cdaf2f41ca39/mzaf_7033666129361959786.plus.aac.p.m4a"
+      },
+      "releaseDate": "2010-11-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "heartbeatgatomaranai",
+          "heartbeatが止まらないっ"
+        ]
+      },
+      "songKey": "heartbeatが止まらないっ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/heartbeat%E3%81%8C%E6%AD%A2%E3%81%BE%E3%82%89%E3%81%AA%E3%81%84%E3%81%A3/1245581749?i=1245581755",
+      "title": "HEARTBEATが止まらないっ!",
+      "titleKeys": [
+        "heartbeatが止まらないっ"
+      ],
+      "titleLatin": "HEARTBEAT ga tomaranai !"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 230920,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581756",
+      "latinSource": null,
+      "popularity": 0.1061,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/23/4b/25/234b25f1-a300-49fe-bc11-1d2a5a704c23/mzaf_8198029127032982013.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-04-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "shochingsmile"
+        ]
+      },
+      "songKey": "shootingsmile|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/shooting-smile/1245581749?i=1245581756",
+      "title": "Shooting☆Smile",
+      "titleKeys": [
+        "shootingsmile"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 282760,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581757",
+      "latinSource": "cutlet",
+      "popularity": 0.1818,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/7f/b1/0e/7fb10ea0-9286-88ec-6295-ee79fbb47e2c/mzaf_661308466642522387.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-03-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "kiminoyell",
+          "君のyell"
+        ]
+      },
+      "songKey": "君のyell|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%90%9B%E3%81%AEyell/1245581749?i=1245581757",
+      "title": "君のYELL",
+      "titleKeys": [
+        "君のyell"
+      ],
+      "titleLatin": "Kimi no YELL"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 265293,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581758",
+      "latinSource": "cutlet",
+      "popularity": 0.2197,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/46/c8/97/46c89787-1ace-446c-1c16-63605b8cf1a2/mzaf_8503017296699491775.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-10-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "eika",
+          "うぇぃかっ"
+        ]
+      },
+      "songKey": "うぇぃかっ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A6%E3%82%A7%E3%82%A3%E3%82%AB%E3%83%83/1245581749?i=1245581758",
+      "title": "ウェィカッ!!",
+      "titleKeys": [
+        "うぇぃかっ"
+      ],
+      "titleLatin": "Eika!!!"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 236933,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581759",
+      "latinSource": null,
+      "popularity": 0.1364,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/55/44/30/554430e5-3252-7b98-d33a-f70ab47d7a58/mzaf_5436509192584016395.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-03-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "shinyblue"
+        ]
+      },
+      "songKey": "shinyblue|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/shiny-blue/1245581749?i=1245581759",
+      "title": "Shiny Blue",
+      "titleKeys": [
+        "shinyblue"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 226333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581760",
+      "latinSource": null,
+      "popularity": 0.2045,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/57/7c/79/577c7907-f113-4d53-731f-299f658b237d/mzaf_6846623126037246296.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-04-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "luckyzucky"
+        ]
+      },
+      "songKey": "luckyducky|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/lucky-ducky/1245581749?i=1245581760",
+      "title": "LUCKY DUCKY!!",
+      "titleKeys": [
+        "luckyducky"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 245907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581762",
+      "latinSource": null,
+      "popularity": 0.1591,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/1d/b2/76/1db27696-01a0-84e3-5e0b-0133ffe185af/mzaf_2525730852519089061.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "neoshignalife"
+        ]
+      },
+      "songKey": "neosignalife|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/neo-signalife/1245581749?i=1245581762",
+      "title": "NEO SIGNALIFE",
+      "titleKeys": [
+        "neosignalife"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 230973,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581763",
+      "latinSource": null,
+      "popularity": 0.3485,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/2b/c4/4c/2bc44c18-d659-3914-397a-155c59418820/mzaf_5759156287374604916.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "ringringrainbow"
+        ]
+      },
+      "songKey": "ringringrainbow|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/ring-ring-rainbow/1245581749?i=1245581763",
+      "title": "Ring Ring Rainbow!!",
+      "titleKeys": [
+        "ringringrainbow"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 295440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581764",
+      "latinSource": null,
+      "popularity": 0.303,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/90/9e/f4/909ef407-0295-8122-2dab-eb61125187d1/mzaf_1060599873297021515.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "promiseyo"
+        ]
+      },
+      "songKey": "promiseyou|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/promise-you/1245581749?i=1245581764",
+      "title": "Promise You!!",
+      "titleKeys": [
+        "promiseyou"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 298413,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581765",
+      "latinSource": null,
+      "popularity": 0.5606,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/7d/11/55/7d11550f-fa18-2910-a2ce-30b1329c3edb/mzaf_6936224945747262951.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "banbichios"
+        ]
+      },
+      "songKey": "bambitious|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/b-ambitious/1245581749?i=1245581765",
+      "title": "B Ambitious!",
+      "titleKeys": [
+        "bambitious"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 279773,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581767",
+      "latinSource": "cutlet",
+      "popularity": 0.0985,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/73/d5/b8/73d5b8b6-265e-2172-3d6f-e98d0358dc54/mzaf_167547300778145037.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-09-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "koinobateiku",
+          "koinovertake",
+          "恋のおーばーていく"
+        ]
+      },
+      "songKey": "恋のおーばーていく|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%8B%E3%81%AE%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%86%E3%82%A4%E3%82%AF/1245581749?i=1245581767",
+      "title": "恋のオーバーテイク",
+      "titleKeys": [
+        "恋のおーばーていく"
+      ],
+      "titleLatin": "Koi no oobaa teiku"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 243680,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581768",
+      "latinSource": null,
+      "popularity": 0.1894,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/83/75/16/8375168c-ab9e-e0b9-9276-a06e1f3d6a2c/mzaf_2607205667405719657.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-09-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "puppylove"
+        ]
+      },
+      "songKey": "puppylove|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/puppy-love/1245581749?i=1245581768",
+      "title": "PUPPY LOVE!!",
+      "titleKeys": [
+        "puppylove"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 211733,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581769",
+      "latinSource": "cutlet",
+      "popularity": 0.1288,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/6d/b3/f0/6db3f082-e560-def1-d1eb-1614c4af5b18/mzaf_6076310583547228850.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-04-06",
+      "search": {
+        "artist": [],
+        "title": [
+          "cuethefutsureqnotema",
+          "cuethefutsureqnotheme",
+          "cuethefutsureqのてーま"
+        ]
+      },
+      "songKey": "cuethefutureqのてーま|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/cue-the-future-q-%E3%81%AE%E3%83%86%E3%83%BC%E3%83%9E/1245581749?i=1245581769",
+      "title": "CUE The Future ~「Q」のテーマ~",
+      "titleKeys": [
+        "cuethefutureqのてーま"
+      ],
+      "titleLatin": "CUE The Future ~ \"Q\" no teema~"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 245640,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581770",
+      "latinSource": "cutlet",
+      "popularity": 0.0152,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/0e/b6/e8/0eb6e871-a076-d315-c5e2-c2111e394700/mzaf_6444306305068665147.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "kimigasekaidesekaiwakimide",
+          "君が世界で世界は君で"
+        ]
+      },
+      "songKey": "君が世界で世界は君で|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%90%9B%E3%81%8C%E4%B8%96%E7%95%8C%E3%81%A7%E4%B8%96%E7%95%8C%E3%81%AF%E5%90%9B%E3%81%A7/1245581749?i=1245581770",
+      "title": "君が世界で世界は君で",
+      "titleKeys": [
+        "君が世界で世界は君で"
+      ],
+      "titleLatin": "Kimi ga sekai de sekai wa kimi de"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 284880,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581892",
+      "latinSource": "cutlet",
+      "popularity": 0.0227,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/6f/22/fc/6f22fce5-bf27-7ac2-c46a-dcad2ec84cfa/mzaf_323465077820050914.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "tsubasaninaruyo",
+          "翼になるよ"
+        ]
+      },
+      "songKey": "翼になるよ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%BF%BC%E3%81%AB%E3%81%AA%E3%82%8B%E3%82%88/1245581749?i=1245581892",
+      "title": "翼になるよ",
+      "titleKeys": [
+        "翼になるよ"
+      ],
+      "titleLatin": "Tsubasa ni naru yo"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 300573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581893",
+      "latinSource": null,
+      "popularity": 0.0833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/f4/8c/12/f48c127b-2509-321d-9804-f83500a86754/mzaf_8597223863371425423.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "marble"
+        ]
+      },
+      "songKey": "marble|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/marble/1245581749?i=1245581893",
+      "title": "marble",
+      "titleKeys": [
+        "marble"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 311573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581894",
+      "latinSource": null,
+      "popularity": 0.0379,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/b9/c4/f6/b9c4f647-1624-ba02-33de-47342450b160/mzaf_3434038731728266505.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "junpinbunyflash"
+        ]
+      },
+      "songKey": "jumpinbunnyflash|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/jumpin-bunny-flash/1245581749?i=1245581894",
+      "title": "Jumpin' Bunny Flash!!",
+      "titleKeys": [
+        "jumpinbunnyflash"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 269147,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581897",
+      "latinSource": "cutlet",
+      "popularity": 0.197,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/89/a8/23/89a823b2-93f2-8d73-8009-161f114e9f4f/mzaf_7542486530135257493.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "hoshifuruyorunohappirinku",
+          "hoshifuruyorunohappyrink",
+          "星降る夜のはっぴーりんく"
+        ]
+      },
+      "songKey": "星降る夜のはっぴーりんく|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%98%9F%E9%99%8D%E3%82%8B%E5%A4%9C%E3%81%AE%E3%83%8F%E3%83%83%E3%83%94%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%AF/1245581749?i=1245581897",
+      "title": "星降る夜のハッピーリンク",
+      "titleKeys": [
+        "星降る夜のはっぴーりんく"
+      ],
+      "titleLatin": "Hoshi furu yoru no happii rinku"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 239280,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581899",
+      "latinSource": "cutlet",
+      "popularity": 0.1439,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/5d/2f/0f/5d2f0fb4-fb37-54e9-e8e0-6c1f482024b8/mzaf_431679855516358696.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "koisurustall",
+          "koisurusutoru",
+          "恋するすとーる"
+        ]
+      },
+      "songKey": "恋するすとーる|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%8B%E3%81%99%E3%82%8B%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB/1245581749?i=1245581899",
+      "title": "恋するストール",
+      "titleKeys": [
+        "恋するすとーる"
+      ],
+      "titleLatin": "Koi suru sutooru"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 311240,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581901",
+      "latinSource": "cutlet",
+      "popularity": 0.0076,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/e4/c3/2b/e4c32b4a-20b1-0a5f-8ce2-acb266cbcff3/mzaf_8376428461227500212.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-01-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "orionkaranomessage",
+          "orionkaranomesseji",
+          "おりおんからのめっせーじ"
+        ]
+      },
+      "songKey": "おりおんからのめっせーじ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AA%E3%83%AA%E3%82%AA%E3%83%B3%E3%81%8B%E3%82%89%E3%81%AE%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8/1245581749?i=1245581901",
+      "title": "オリオンからのメッセージ",
+      "titleKeys": [
+        "おりおんからのめっせーじ"
+      ],
+      "titleLatin": "Orion kara no messeeji"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 232427,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581908",
+      "latinSource": null,
+      "popularity": 0.0455,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/cd/79/46/cd7946d1-ab40-687a-84d9-9f77913ae697/mzaf_8809436145037968225.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-08-05",
+      "search": {
+        "artist": [],
+        "title": [
+          "callingcalling"
+        ]
+      },
+      "songKey": "callingcalling|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/calling-calling/1245581749?i=1245581908",
+      "title": "Calling Calling",
+      "titleKeys": [
+        "callingcalling"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 227773,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581910",
+      "latinSource": "cutlet",
+      "popularity": 0.1667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/c7/0c/83/c70c83ff-2008-d37f-8c95-f17100fc3a3f/mzaf_8666079099964859307.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "baisokulovestraight",
+          "baisokurabusutoreto",
+          "倍速らぶすとれーと"
+        ]
+      },
+      "songKey": "倍速らぶすとれーと|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%80%8D%E9%80%9F-%E3%83%A9%E3%83%96%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%83%88/1245581749?i=1245581910",
+      "title": "倍速∞ラブストレート",
+      "titleKeys": [
+        "倍速らぶすとれーと"
+      ],
+      "titleLatin": "Baisoku rabu sutoreeto"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 322440,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581911",
+      "latinSource": "cutlet",
+      "popularity": 0.2652,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/bb/81/8c/bb818c8b-9970-5937-f042-10638b8588ae/mzaf_4583287816140504741.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-06-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "canaria",
+          "kanaria",
+          "かなりあ"
+        ]
+      },
+      "songKey": "かなりあ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AB%E3%83%8A%E3%83%AA%E3%82%A2/1245581749?i=1245581911",
+      "title": "カナリア",
+      "titleKeys": [
+        "かなりあ"
+      ],
+      "titleLatin": "Kanaria"
+    },
+    {
+      "albumId": "apple:al:1245581749",
+      "artistDisplay": "ゆいかおり(小倉 唯&石原夏織)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 256320,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1245581912",
+      "latinSource": null,
+      "popularity": 0.1742,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/94/52/3d/94523d44-28e0-2fd4-4af1-5a2751bcb3d5/mzaf_8980162277443862948.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-11-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "rainyday"
+        ]
+      },
+      "songKey": "rainyday|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/rainy-day/1245581749?i=1245581912",
+      "title": "Rainy Day",
+      "titleKeys": [
+        "rainyday"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1258021943",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 299457,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1258021945",
+      "latinSource": "cutlet",
+      "popularity": 0.7879,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/66/80/ff/6680ffd8-2095-c287-cc76-59d45a03bb8e/mzaf_14517979367421615535.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "plachinapassport",
+          "purachinapasupoto",
+          "ぷらちなぱすぽーと"
+        ]
+      },
+      "songKey": "ぷらちなぱすぽーと|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%97%E3%83%A9%E3%83%81%E3%83%8A-%E3%83%91%E3%82%B9%E3%83%9D%E3%83%BC%E3%83%88/1258021943?i=1258021945",
+      "title": "プラチナ・パスポート",
+      "titleKeys": [
+        "ぷらちなぱすぽーと"
+      ],
+      "titleLatin": "Purachina pasupooto"
+    },
+    {
+      "albumId": "apple:al:1258021943",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 264239,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1258021947",
+      "latinSource": null,
+      "popularity": 0.6136,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/49/60/13/49601308-7e51-8260-151f-01b19a454127/mzaf_3521612718958108362.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "babybabybaby"
+        ]
+      },
+      "songKey": "babybabybaby|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/baby-baby-baby/1258021943?i=1258021947",
+      "title": "Baby、 Baby、 Baby",
+      "titleKeys": [
+        "babybabybaby"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1258021943",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 201382,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1258021949",
+      "latinSource": "cutlet",
+      "popularity": 0.5455,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ec/30/8a/ec308aed-4fa2-1ca0-4cce-948fdbba0cbe/mzaf_13022012916619358963.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "akogarecollecchion",
+          "あこがれcollecchion"
+        ]
+      },
+      "songKey": "あこがれcollection|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%B3%E3%82%AC%E3%83%ACcollection/1258021943?i=1258021949",
+      "title": "アコガレCollection!",
+      "titleKeys": [
+        "あこがれcollection"
+      ],
+      "titleLatin": "Akogare Collection!"
+    },
+    {
+      "albumId": "apple:al:1258021943",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 239718,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1258021950",
+      "latinSource": "cutlet",
+      "popularity": 0.7576,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ef/32/50/ef325049-e925-ff90-0c46-73fa3ca373fc/mzaf_7876397391380264980.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "enjoi",
+          "enjoy",
+          "えんじょい"
+        ]
+      },
+      "songKey": "えんじょい|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%A7%E3%82%A4/1258021943?i=1258021950",
+      "title": "エンジョイ!",
+      "titleKeys": [
+        "えんじょい"
+      ],
+      "titleLatin": "Enjoi!"
+    },
+    {
+      "albumId": "apple:al:1258021943",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 255776,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1258021951",
+      "latinSource": null,
+      "popularity": 0.8258,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2c/dd/a1/2cdda12d-a5dc-cb96-e30e-d778e4b27316/mzaf_4336627247440051643.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "dear"
+        ]
+      },
+      "songKey": "dear|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/dear/1258021943?i=1258021951",
+      "title": "Dear",
+      "titleKeys": [
+        "dear"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1258021943",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 368399,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1258021952",
+      "latinSource": null,
+      "popularity": 0.4697,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/46/df/bb/46dfbb42-fa97-0181-6b93-5bbbda458c95/mzaf_5161946464628524949.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "tomorrow"
+        ]
+      },
+      "songKey": "tomorrow|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/tomorrow/1258021943?i=1258021952",
+      "title": "Tomorrow",
+      "titleKeys": [
+        "tomorrow"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1258021943",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 236395,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1258021954",
+      "latinSource": "cutlet",
+      "popularity": 0.8939,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ac/f2/11/acf211d9-8daa-c5bc-7304-8d483efe0fd7/mzaf_8768488110413380160.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "dokidokilabyrinth",
+          "dokidokirabirinsu",
+          "どきどきらびりんす"
+        ]
+      },
+      "songKey": "どきどきらびりんす|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%89%E3%82%AD%E3%83%89%E3%82%AD%E3%83%A9%E3%83%93%E3%83%AA%E3%83%B3%E3%82%B9/1258021943?i=1258021954",
+      "title": "ドキドキラビリンス",
+      "titleKeys": [
+        "どきどきらびりんす"
+      ],
+      "titleLatin": "Dokidoki rabirinsu"
+    },
+    {
+      "albumId": "apple:al:1258021943",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 224106,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1258021955",
+      "latinSource": null,
+      "popularity": 0.6515,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c9/f2/5d/c9f25d1c-296e-6257-06f3-02193c836100/mzaf_18343340164018762063.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "merrydecherry"
+        ]
+      },
+      "songKey": "merrydecherry|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/merry-de-cherry/1258021943?i=1258021955",
+      "title": "Merry de Cherry",
+      "titleKeys": [
+        "merrydecherry"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1258021943",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 229271,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1258021956",
+      "latinSource": "cutlet",
+      "popularity": 0.4848,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/83/0e/6d/830e6d48-27bf-7b27-0cd5-e5fb6df72fae/mzaf_8862571351701279015.plus.aac.p.m4a"
+      },
+      "releaseDate": "2017-07-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "eburideihappidei",
+          "everydayhappyday",
+          "えぶりでいはっぴーでい"
+        ]
+      },
+      "songKey": "えぶりでいはっぴーでい|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A8%E3%83%96%E3%83%AA%E3%83%87%E3%82%A4-%E3%83%8F%E3%83%83%E3%83%94%E3%83%BC%E3%83%87%E3%82%A4/1258021943?i=1258021956",
+      "title": "エブリデイ☆ハッピーデイ",
+      "titleKeys": [
+        "えぶりでいはっぴーでい"
+      ],
+      "titleLatin": "Eburi dei happii dei"
+    },
+    {
+      "albumId": "apple:al:1332986655",
+      "artistDisplay": "アルタイル・トルテ(美山椿芽(CV.石原夏織), 夜木沼伊緒(CV.沢城みゆき), 澄原サトカ(CV.日高里菜), 菜森まな(CV.小倉唯), 沙島悠水(CV.花澤香菜))",
+      "artistIds": [
+        "apple:ar:367798677",
+        "apple:ar:367798674"
+      ],
+      "durationMs": 271267,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1332986674",
+      "latinSource": null,
+      "popularity": 0.6288,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview118/v4/7d/69/b8/7d69b8ff-c262-68bb-6072-e23dfeb9d525/mzaf_1972730312385252260.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-01-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "draglight"
+        ]
+      },
+      "songKey": "draglight|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/draglight/1332986655?i=1332986674",
+      "title": "Draglight",
+      "titleKeys": [
+        "draglight"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1346368100",
+      "artistDisplay": "三澤紗千香・小倉唯",
+      "artistIds": [
+        "apple:ar:546269905",
+        "apple:ar:367798674"
+      ],
+      "durationMs": 248390,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1346368106",
+      "latinSource": "cutlet",
+      "popularity": 0.3636,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/69/7c/eb/697ceb09-118b-e9ba-7ef3-e46f97703366/mzaf_14478632741171187237.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-02-28",
+      "search": {
+        "artist": [],
+        "title": [
+          "daisukinowaltz",
+          "daisukinowarutsu",
+          "だいすきのわるつ"
+        ]
+      },
+      "songKey": "だいすきのわるつ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%A0%E3%81%84%E3%81%99%E3%81%8D%E3%81%AE%E3%83%AF%E3%83%AB%E3%83%84/1346368100?i=1346368106",
+      "title": "だいすきのワルツ",
+      "titleKeys": [
+        "だいすきのわるつ"
+      ],
+      "titleLatin": "Daisuki no warutsu"
+    },
+    {
+      "albumId": "apple:al:1353252616",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 293427,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1353252618",
+      "latinSource": "cutlet",
+      "popularity": 0.8864,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d8/14/67/d814679b-0ccb-8227-c9af-25eae396f09e/mzaf_10391071314038069053.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "shirokusakuhana",
+          "白く咲く花"
+        ]
+      },
+      "songKey": "白く咲く花|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%99%BD%E3%81%8F%E5%92%B2%E3%81%8F%E8%8A%B1/1353252616?i=1353252618",
+      "title": "白く咲く花",
+      "titleKeys": [
+        "白く咲く花"
+      ],
+      "titleLatin": "Shiroku saku hana"
+    },
+    {
+      "albumId": "apple:al:1353252616",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 244507,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1353252619",
+      "latinSource": "cutlet",
+      "popularity": 0.7121,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/5e/21/44/5e2144b4-7079-fa62-f318-5da03ba472c8/mzaf_11728480896794515853.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "zuttofutaride",
+          "ずっとふたりで"
+        ]
+      },
+      "songKey": "ずっとふたりで|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%9A%E3%81%A3%E3%81%A8%E3%81%B5%E3%81%9F%E3%82%8A%E3%81%A7/1353252616?i=1353252619",
+      "title": "ずっとふたりで",
+      "titleKeys": [
+        "ずっとふたりで"
+      ],
+      "titleLatin": "Zutto futari de"
+    },
+    {
+      "albumId": "apple:al:1353252616",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 339160,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1353252620",
+      "latinSource": "cutlet",
+      "popularity": 0.7273,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/a6/01/e1/a601e14f-8f72-9f2b-b320-cf97587a9459/mzaf_14712838322931178532.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-03-14",
+      "search": {
+        "artist": [],
+        "title": [
+          "kakegaenonaishunkan",
+          "かけがえのない瞬間"
+        ]
+      },
+      "songKey": "かけがえのない瞬間|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8B%E3%81%91%E3%81%8C%E3%81%88%E3%81%AE%E3%81%AA%E3%81%84%E7%9E%AC%E9%96%93/1353252616?i=1353252620",
+      "title": "かけがえのない瞬間",
+      "titleKeys": [
+        "かけがえのない瞬間"
+      ],
+      "titleLatin": "Kakegae no nai shunkan"
+    },
+    {
+      "albumId": "apple:al:1404840324",
+      "artistDisplay": "キュアエトワール(CV.小倉唯)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 246920,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1404840333",
+      "latinSource": "cutlet",
+      "popularity": 0.6212,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/82/66/a5/8266a50e-f88b-4ac2-cc5c-79a7410323aa/mzaf_4048805887914655800.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-05-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "moichidoanosoranosakie",
+          "もう一度あの空の先へ"
+        ]
+      },
+      "songKey": "もう一度あの空の先へ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%82%E3%81%86%E4%B8%80%E5%BA%A6-%E3%81%82%E3%81%AE%E7%A9%BA%E3%81%AE%E5%85%88%E3%81%B8/1404840324?i=1404840333",
+      "title": "もう一度、あの空の先へ",
+      "titleKeys": [
+        "もう一度あの空の先へ"
+      ],
+      "titleLatin": "Mou ichi do, ano sora no saki e"
+    },
+    {
+      "albumId": "apple:al:1405462446",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 292373,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1405462450",
+      "latinSource": "cutlet",
+      "popularity": 0.9242,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/16/e2/ce/16e2ced0-06a4-2912-6e18-fd48f8ac1101/mzaf_14074650489204018991.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-07-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "eienshonen",
+          "永遠少年"
+        ]
+      },
+      "songKey": "永遠少年|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B0%B8%E9%81%A0%E5%B0%91%E5%B9%B4/1405462446?i=1405462450",
+      "title": "永遠少年",
+      "titleKeys": [
+        "永遠少年"
+      ],
+      "titleLatin": "Eien shounen"
+    },
+    {
+      "albumId": "apple:al:1405462446",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 226493,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1405462841",
+      "latinSource": null,
+      "popularity": 0.7197,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/61/7c/a7/617ca7b0-375e-f85d-03cf-8391f2d28c55/mzaf_13863462208692230103.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-07-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "lovemeloveme"
+        ]
+      },
+      "songKey": "lovemeloveme|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/love-me-love-me/1405462446?i=1405462841",
+      "title": "Love Me × Love Me",
+      "titleKeys": [
+        "lovemeloveme"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1424102412",
+      "artistDisplay": "薬師寺さあや(CV:本泉莉奈)、輝木ほまれ(CV:小倉 唯)",
+      "artistIds": [
+        "apple:ar:1084630555",
+        "apple:ar:367798674"
+      ],
+      "durationMs": 257720,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1424102420",
+      "latinSource": "cutlet",
+      "popularity": 0.4545,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/dc/03/18/dc031830-6625-1f3a-130c-1979ffd0316e/mzaf_18386642896949733647.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-07-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "tomodachitoiukiseki",
+          "ともだちという奇跡"
+        ]
+      },
+      "songKey": "ともだちという奇跡|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%88%E3%83%A2%E3%83%80%E3%83%81%E3%81%A8%E3%81%84%E3%81%86%E5%A5%87%E8%B7%A1/1424102412?i=1424102420",
+      "title": "トモダチという奇跡",
+      "titleKeys": [
+        "ともだちという奇跡"
+      ],
+      "titleLatin": "Tomodachi to iu kiseki"
+    },
+    {
+      "albumId": "apple:al:1424102412",
+      "artistDisplay": "キュアエール(CV:引坂理絵)、キュアアンジュ(CV:本泉莉奈)、キュアエトワール(CV:小倉 唯)",
+      "artistIds": [
+        "apple:ar:1084630555",
+        "apple:ar:367798674"
+      ],
+      "durationMs": 249213,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1424102436",
+      "latinSource": "cutlet",
+      "popularity": 0.4015,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c0/97/53/c09753b9-53af-4fd1-32ae-6cb61910d98f/mzaf_18206206809036526405.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-07-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "zuttoarucoconi",
+          "zuttoarukokoni",
+          "zutto在るここに"
+        ]
+      },
+      "songKey": "zutto在るここに|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/zutto-%E5%9C%A8%E3%82%8B-%E3%82%B3%E3%82%B3%E3%81%AB/1424102412?i=1424102436",
+      "title": "ZUTTO 在る ココに",
+      "titleKeys": [
+        "zutto在るここに"
+      ],
+      "titleLatin": "ZUTTO aru koko ni"
+    },
+    {
+      "albumId": "apple:al:1424102412",
+      "artistDisplay": "キュアエール(CV.引坂理絵)、キュアアンジュ(CV.本泉莉奈)、キュアエトワール(CV.小倉 唯)、キュアマシェリ(CV:田村奈央)、キュアアムール(CV:田村ゆかり)",
+      "artistIds": [
+        "apple:ar:1084630555",
+        "apple:ar:1404840325",
+        "apple:ar:367798674"
+      ],
+      "durationMs": 231227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1424102437",
+      "latinSource": "cutlet",
+      "popularity": 0.75,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/76/db/a8/76dba8ec-8135-4de4-3dc8-cdec68f9f294/mzaf_5288773240183213500.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-07-04",
+      "search": {
+        "artist": [],
+        "title": [
+          "fugtomiraidorima5precurever",
+          "fugtomiraidreamer5precurever",
+          "fugっと未来どりーまー5precurever"
+        ]
+      },
+      "songKey": "hugっと未来どりーまー|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/hug%E3%81%A3%E3%81%A8-%E6%9C%AA%E6%9D%A5-%E3%83%89%E3%83%AA%E3%83%BC%E3%83%9E%E3%83%BC-5-precure-ver/1424102412?i=1424102437",
+      "title": "HUGっと! 未来☆ドリーマー (5 PRECURE ver.)",
+      "titleKeys": [
+        "hugっと未来どりーまー"
+      ],
+      "titleLatin": "HUG to! mirai doriimaa (5 PRECURE ver.)"
+    },
+    {
+      "albumId": "apple:al:1439291621",
+      "artistDisplay": "キュアエール(CV.引坂理絵)、キュアアンジュ(CV.本泉莉奈)、キュアエトワール(CV.小倉唯)、キュアマシェリ(CV.田村奈央)、キュアアムール(CV.田村ゆかり)",
+      "artistIds": [
+        "apple:ar:1404840325",
+        "apple:ar:367798674"
+      ],
+      "durationMs": 267573,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1439291627",
+      "latinSource": "cutlet",
+      "popularity": 0.9697,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/05/f8/2f/05f82fa4-07ff-39a1-962a-2b11440db15d/mzaf_5792560255700754046.plus.aac.p.m4a"
+      },
+      "releaseDate": "2018-08-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "fugtoyellforyo",
+          "fugっとyellforyo"
+        ]
+      },
+      "songKey": "hugっとyellforyou|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/hug%E3%81%A3%E3%81%A8-yell-for-you/1439291621?i=1439291627",
+      "title": "HUGっと! YELL FOR YOU",
+      "titleKeys": [
+        "hugっとyellforyou",
+        "hugっとyellforyouおりじなるめろでぃー入りからおけ"
+      ],
+      "titleLatin": "HUG to! YELL FOR YOU"
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 270128,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478218",
+      "latinSource": "cutlet",
+      "popularity": 0.6894,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/9b/4c/25/9b4c25a3-afc2-f465-b1f2-cd7f50c60764/mzaf_4796827327420501454.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "applegirl",
+          "appurugaru",
+          "あっぷるがーる"
+        ]
+      },
+      "songKey": "あっぷるがーる|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%83%83%E3%83%97%E3%83%AB-%E3%82%AC%E3%83%BC%E3%83%AB/1451478217?i=1451478218",
+      "title": "アップル・ガール",
+      "titleKeys": [
+        "あっぷるがーる"
+      ],
+      "titleLatin": "Appuru gaaru"
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 231592,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478219",
+      "latinSource": null,
+      "popularity": 0.697,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/5f/a0/ec/5fa0ec9b-2ae2-3a16-26ad-415c7fa2f092/mzaf_7103947407469961692.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "hopstepjunp"
+        ]
+      },
+      "songKey": "hopstepjump|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/hop-step-jump/1451478217?i=1451478219",
+      "title": "Hop Step Jump!",
+      "titleKeys": [
+        "hopstepjump"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 259940,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478221",
+      "latinSource": "cutlet",
+      "popularity": 0.3409,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c0/11/81/c01181c7-573c-7ecd-8122-568be5c2fb25/mzaf_10908678398278803246.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "kimigasukidesu",
+          "君が好きです"
+        ]
+      },
+      "songKey": "君が好きです|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%90%9B%E3%81%8C%E5%A5%BD%E3%81%8D%E3%81%A7%E3%81%99/1451478217?i=1451478221",
+      "title": "君が好きです",
+      "titleKeys": [
+        "君が好きです"
+      ],
+      "titleLatin": "Kimi ga suki desu"
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 204150,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478223",
+      "latinSource": "cutlet",
+      "popularity": 0.4167,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/cf/a0/d8/cfa0d849-ea14-92a6-425d-b461d90a197e/mzaf_11607589226597276757.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "amenomoriwausotsuki",
+          "雨の森はうそつき"
+        ]
+      },
+      "songKey": "雨の森はうそつき|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E9%9B%A8%E3%81%AE%E6%A3%AE%E3%81%AF%E3%82%A6%E3%82%BD%E3%81%A4%E3%81%8D/1451478217?i=1451478223",
+      "title": "雨の森はウソつき",
+      "titleKeys": [
+        "雨の森はうそつき"
+      ],
+      "titleLatin": "Ame no mori wa usotsuki"
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 257684,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478224",
+      "latinSource": null,
+      "popularity": 0.4394,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/e3/95/26/e395267e-f97a-bf18-cc5a-f6073fbfdf4a/mzaf_4721208517461116304.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "hopefuldays"
+        ]
+      },
+      "songKey": "hopefuldays|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/hopeful-days/1451478217?i=1451478224",
+      "title": "Hopeful Days",
+      "titleKeys": [
+        "hopefuldays"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 204247,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478226",
+      "latinSource": null,
+      "popularity": 0.3258,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ff/a5/24/ffa52499-d91b-56c8-6520-cb2b4b1a1c0e/mzaf_7343170916813225195.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "brandnewroad"
+        ]
+      },
+      "songKey": "brandnewroad|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/brand-new-road/1451478217?i=1451478226",
+      "title": "Brand-New-Road",
+      "titleKeys": [
+        "brandnewroad"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 247618,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478227",
+      "latinSource": null,
+      "popularity": 0.3939,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7e/f6/26/7ef626d8-10b5-dd1a-fb70-8123839a7121/mzaf_16020399701245899260.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "faraway"
+        ]
+      },
+      "songKey": "faraway|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/faraway/1451478217?i=1451478227",
+      "title": "FARAWAY",
+      "titleKeys": [
+        "faraway"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 338605,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478228",
+      "latinSource": "cutlet",
+      "popularity": 0.447,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/84/9b/53/849b5350-97db-0289-cd10-f64d80d31c28/mzaf_11064198217619354196.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "chocolat",
+          "shokora",
+          "しょこら"
+        ]
+      },
+      "songKey": "しょこら|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%A7%E3%82%B3%E3%83%A9/1451478217?i=1451478228",
+      "title": "ショコラ",
+      "titleKeys": [
+        "しょこら"
+      ],
+      "titleLatin": "Shokora"
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 263989,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478229",
+      "latinSource": "cutlet",
+      "popularity": 0.4773,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/80/bc/81/80bc8131-7f14-be4c-86f6-09dbdc675d5e/mzaf_7646374997961595919.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "peanuts",
+          "pinattsu",
+          "ぴーなっつ"
+        ]
+      },
+      "songKey": "ぴーなっつ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%94%E3%83%BC%E3%83%8A%E3%83%83%E3%83%84/1451478217?i=1451478229",
+      "title": "ピーナッツ!",
+      "titleKeys": [
+        "ぴーなっつ"
+      ],
+      "titleLatin": "Piinattsu!"
+    },
+    {
+      "albumId": "apple:al:1451478217",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 305927,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1451478230",
+      "latinSource": null,
+      "popularity": 0.3712,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/df/1a/89/df1a8999-d2ef-8b2b-1b34-47001e9fbf26/mzaf_2889729250336070945.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-20",
+      "search": {
+        "artist": [],
+        "title": [
+          "reflect"
+        ]
+      },
+      "songKey": "reflect|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/reflect/1451478217?i=1451478230",
+      "title": "Reflect",
+      "titleKeys": [
+        "reflect"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1453004051",
+      "artistDisplay": "TWIN-CRUE l MIRROR-CREW(ライラ:CV小倉唯、ユウユ:CV水瀬いのり、ジェリコ:CV加隈亜衣)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 248013,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1453004056",
+      "latinSource": "cutlet",
+      "popularity": 0.3788,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ec/50/ab/ec50abec-1439-61f6-a3e4-98f6179f0ebb/mzaf_2103685683978946769.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-02-27",
+      "search": {
+        "artist": [],
+        "title": [
+          "shumatsusekaiballrom",
+          "shumatsusekaiborurumu",
+          "終末世界ぼーるるーむ"
+        ]
+      },
+      "songKey": "終末世界ぼーるるーむ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%B5%82%E6%9C%AB%E4%B8%96%E7%95%8C%E3%83%9C%E3%83%BC%E3%83%AB%E3%83%AB%E3%83%BC%E3%83%A0/1453004051?i=1453004056",
+      "title": "終末世界ボールルーム",
+      "titleKeys": [
+        "終末世界ぼーるるーむ"
+      ],
+      "titleLatin": "Shuumatsu sekai booru ruumu"
+    },
+    {
+      "albumId": "apple:al:1482998886",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 271698,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1482998887",
+      "latinSource": null,
+      "popularity": 0.9015,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/f4/11/62/f411628a-a32c-8c63-4e6f-4883a6bc9105/mzaf_1578715268622424588.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-10-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "deschiny"
+        ]
+      },
+      "songKey": "destiny|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/destiny/1482998886?i=1482998887",
+      "title": "Destiny",
+      "titleKeys": [
+        "destiny"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1482998886",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 325146,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1482998888",
+      "latinSource": "cutlet",
+      "popularity": 0.7727,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/fa/6b/e6/fa6be63a-e698-4737-dced-2b6cd18daae7/mzaf_13372042204074803892.plus.aac.p.m4a"
+      },
+      "releaseDate": "2019-10-30",
+      "search": {
+        "artist": [],
+        "title": [
+          "akairibbon",
+          "akairibon",
+          "赤いりぼん"
+        ]
+      },
+      "songKey": "赤いりぼん|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%B5%A4%E3%81%84%E3%83%AA%E3%83%9C%E3%83%B3/1482998886?i=1482998888",
+      "title": "赤いリボン",
+      "titleKeys": [
+        "赤いりぼん"
+      ],
+      "titleLatin": "Akai ribon"
+    },
+    {
+      "albumId": "apple:al:1496566751",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 251934,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1496566752",
+      "latinSource": null,
+      "popularity": 0.8485,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/dc/81/cf/dc81cf6f-733c-ba31-0a6b-a6263f5c6966/mzaf_15125495953831469245.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "iloveyo"
+        ]
+      },
+      "songKey": "iloveyou|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/i-love-you/1496566751?i=1496566752",
+      "title": "I・LOVE・YOU!!",
+      "titleKeys": [
+        "iloveyou"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1496566751",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 213589,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1496566753",
+      "latinSource": "cutlet",
+      "popularity": 0.7424,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/98/a4/72/98a47235-0a4f-bcd7-22c7-6a48ca70718f/mzaf_181854337868835846.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-02-12",
+      "search": {
+        "artist": [],
+        "title": [
+          "barentainkissu",
+          "valenchinekiss",
+          "ばれんたいんきっす"
+        ]
+      },
+      "songKey": "ばれんたいんきっす|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%90%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%B3-%E3%82%AD%E3%83%83%E3%82%B9/1496566751?i=1496566753",
+      "title": "バレンタイン・キッス",
+      "titleKeys": [
+        "ばれんたいんきっす"
+      ],
+      "titleLatin": "Barentain kissu"
+    },
+    {
+      "albumId": "apple:al:1515419554",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 209122,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1515419555",
+      "latinSource": "cutlet",
+      "popularity": 0.8333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/53/67/ee/5367eebf-5572-2313-5738-2e9cd097cac0/mzaf_9966507934805723374.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-06-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "hapinesusenseshon",
+          "happinesssensachion",
+          "はぴねすせんせーしょん"
+        ]
+      },
+      "songKey": "はぴねすせんせーしょん|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8F%E3%83%94%E3%83%8D%E3%82%B9-%E3%82%BB%E3%83%B3%E3%82%BB%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/1515419554?i=1515419555",
+      "title": "ハピネス*センセーション",
+      "titleKeys": [
+        "はぴねすせんせーしょん"
+      ],
+      "titleLatin": "Hapinesu* senseeshon"
+    },
+    {
+      "albumId": "apple:al:1515419554",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 246708,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1515419826",
+      "latinSource": null,
+      "popularity": 0.6742,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7f/31/25/7f312519-2173-5b06-cfe3-dc4a58782c90/mzaf_15234990309726639164.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-06-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "lokme"
+        ]
+      },
+      "songKey": "lookme|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/look-me/1515419554?i=1515419826",
+      "title": "Look@Me♡",
+      "titleKeys": [
+        "lookme"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1542552523",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 238841,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1542552525",
+      "latinSource": null,
+      "popularity": 0.803,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c8/b5/33/c8b53309-2ad9-c12f-63f8-471324485125/mzaf_10377460410880822889.plus.aac.p.m4a"
+      },
+      "releaseDate": "2020-12-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "verymerryhappychristmas"
+        ]
+      },
+      "songKey": "verymerryhappychristmas|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/very-merry-happy-christmas/1542552523?i=1542552525",
+      "title": "Very Merry Happy Christmas",
+      "titleKeys": [
+        "verymerryhappychristmas"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1553718205",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 277941,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1553718206",
+      "latinSource": null,
+      "popularity": 0.9318,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/07/73/72/0773721f-a763-abed-4666-873bbf5032e1/mzaf_2146468115458305954.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-02-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "clearmorning"
+        ]
+      },
+      "songKey": "clearmorning|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/clear-morning/1553718205?i=1553718206",
+      "title": "Clear Morning",
+      "titleKeys": [
+        "clearmorning"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1558980087",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 222014,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1558980091",
+      "latinSource": null,
+      "popularity": 0.6667,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/30/59/2a/30592a13-3834-3e53-0c24-c58661e4704c/mzaf_1121369828533144690.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-03-31",
+      "search": {
+        "artist": [],
+        "title": [
+          "pyuapurely"
+        ]
+      },
+      "songKey": "pyuapurely|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/pyua-purely/1558980087?i=1558980091",
+      "title": "pyua purely",
+      "titleKeys": [
+        "pyuapurely"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1568983207",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 264894,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1568983208",
+      "latinSource": "cutlet",
+      "popularity": 0.7803,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/9f/97/2c/9f972c42-b190-dbd5-6c66-6354069a00c6/mzaf_6615709464489636625.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-06-09",
+      "search": {
+        "artist": [],
+        "title": [
+          "hatoforesuto",
+          "heartforest",
+          "はーとふぉれすと"
+        ]
+      },
+      "songKey": "はーとふぉれすと|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%8F%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AC%E3%82%B9%E3%83%88/1568983207?i=1568983208",
+      "title": "ハートフォレスト",
+      "titleKeys": [
+        "はーとふぉれすと"
+      ],
+      "titleLatin": "Haato foresuto"
+    },
+    {
+      "albumId": "apple:al:1576150860",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 228469,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1576150862",
+      "latinSource": null,
+      "popularity": 0.947,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/02/9f/a4/029fa4e2-84a4-d61e-efd9-aea09581f310/mzaf_1570364318924210515.plus.aac.p.m4a"
+      },
+      "releaseDate": "2021-08-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "fighchinpose"
+        ]
+      },
+      "songKey": "fightinpose|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/fightin-pose/1576150860?i=1576150862",
+      "title": "Fightin★Pose",
+      "titleKeys": [
+        "fightinpose"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1608111695",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 241347,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1608111879",
+      "latinSource": null,
+      "popularity": 0.5909,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/a3/d6/e9/a3d6e9d8-c8ff-d240-f8f1-c21b8508c174/mzaf_3425421480645987566.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-02-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "tatatarte"
+        ]
+      },
+      "songKey": "tatatarte|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/ta-ta-tarte/1608111695?i=1608111879",
+      "title": "ta・ta・tarte♪",
+      "titleKeys": [
+        "tatatarte"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1608111695",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 237653,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1608111883",
+      "latinSource": null,
+      "popularity": 0.3561,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/bf/0f/ce/bf0fce90-3fad-5672-9334-51fd12ce711f/mzaf_16538694358406044862.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-02-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "prisnbeat"
+        ]
+      },
+      "songKey": "prismbeat|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/prism-beat/1608111695?i=1608111883",
+      "title": "PRISM BEAT",
+      "titleKeys": [
+        "prismbeat"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1608111695",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 263547,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1608111886",
+      "latinSource": "cutlet",
+      "popularity": 0.2576,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/b8/7b/f0/b87bf0e4-f9d9-0660-193c-3f6dda3a9267/mzaf_8203646613317827023.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-02-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "itsukushimicanpanula",
+          "itsukushimikanpanyura",
+          "慈しみかんぱにゅら"
+        ]
+      },
+      "songKey": "慈しみかんぱにゅら|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%85%88%E3%81%97%E3%81%BF%E3%82%AB%E3%83%B3%E3%83%91%E3%83%8B%E3%83%A5%E3%83%A9/1608111695?i=1608111886",
+      "title": "慈しみカンパニュラ",
+      "titleKeys": [
+        "慈しみかんぱにゅら"
+      ],
+      "titleLatin": "Itsukushimi kanpanyura"
+    },
+    {
+      "albumId": "apple:al:1608111695",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 195040,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1608111889",
+      "latinSource": null,
+      "popularity": 0.2879,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/3c/be/94/3cbe9452-7db6-8d6b-80a3-0f0d52735313/mzaf_17080674308190864868.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-02-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "wish"
+        ]
+      },
+      "songKey": "wish|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/wish/1608111695?i=1608111889",
+      "title": "Wish",
+      "titleKeys": [
+        "wish"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1608111695",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 201360,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1608111891",
+      "latinSource": null,
+      "popularity": 0.25,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/57/04/f4/5704f44c-f911-67a1-c867-28440759c273/mzaf_4220902885830462073.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-02-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "ciaociaoafternon"
+        ]
+      },
+      "songKey": "ciaociaoafternoon|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/ciaociao-afternoon/1608111695?i=1608111891",
+      "title": "CiaoCiao Afternoon",
+      "titleKeys": [
+        "ciaociaoafternoon"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1608111695",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 267347,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1608111892",
+      "latinSource": "cutlet",
+      "popularity": 0.2955,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/c4/a6/2d/c4a62d99-f461-0918-6bf9-a062b101aaa0/mzaf_4873122092345393732.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-02-16",
+      "search": {
+        "artist": [],
+        "title": [
+          "sakurairorabbinesu",
+          "sakurairorabinesu",
+          "桜色らびねす"
+        ]
+      },
+      "songKey": "桜色らびねす|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%A1%9C%E8%89%B2%E3%83%A9%E3%83%93%E3%83%8D%E3%82%B9/1608111695?i=1608111892",
+      "title": "桜色ラビネス",
+      "titleKeys": [
+        "桜色らびねす"
+      ],
+      "titleLatin": "Sakurairo rabi Nesu"
+    },
+    {
+      "albumId": "apple:al:1613936560",
+      "artistDisplay": "甘瓜みるきwithはにたん(cv.相良茉優、cv.小倉 唯)",
+      "artistIds": [
+        "apple:ar:1522670936",
+        "apple:ar:367798674"
+      ],
+      "durationMs": 204760,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1613936565",
+      "latinSource": "cutlet",
+      "popularity": 0.8409,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4e/56/f3/4e56f3a6-bd5a-c106-c3e3-f7ef8efca064/mzaf_7559779308198690763.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-03-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "iwanai",
+          "いわない"
+        ]
+      },
+      "songKey": "いわない|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A4%E3%83%AF%E3%83%8A%E3%82%A4/1613936560?i=1613936565",
+      "title": "イワナイ",
+      "titleKeys": [
+        "いわない"
+      ],
+      "titleLatin": "Iwa nai"
+    },
+    {
+      "albumId": "apple:al:1658447095",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 228979,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1658447097",
+      "latinSource": null,
+      "popularity": 0.6364,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/b9/33/13/b933134a-9475-ff32-7946-8fb318fbaa6c/mzaf_7857953643536509755.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-12-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "lovevishion"
+        ]
+      },
+      "songKey": "lovevision|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/love-vision/1658447095?i=1658447097",
+      "title": "Love∞Vision",
+      "titleKeys": [
+        "lovevision"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1658447095",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 262378,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1658447098",
+      "latinSource": null,
+      "popularity": 0.5303,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/e1/c6/28/e1c62886-7f61-f8d5-2576-e1e42e43a8d7/mzaf_16679928406104212584.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-12-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "dramachic"
+        ]
+      },
+      "songKey": "dramatic|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/dramatic/1658447095?i=1658447098",
+      "title": "Dramatic!",
+      "titleKeys": [
+        "dramatic"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1658447095",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 202735,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1658447099",
+      "latinSource": null,
+      "popularity": 0.5833,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/64/31/39/643139e1-3898-86f8-8adc-519f4a9e9f0d/mzaf_15785593923222002348.plus.aac.p.m4a"
+      },
+      "releaseDate": "2022-12-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "precios"
+        ]
+      },
+      "songKey": "precious|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/precious/1658447095?i=1658447099",
+      "title": "Precious.",
+      "titleKeys": [
+        "precious"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1677271174",
+      "artistDisplay": "東坂 ミオ (CV. 小倉 唯)",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 251832,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1677271175",
+      "latinSource": "cutlet",
+      "popularity": 0.5682,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/a8/a7/26/a8a72690-4907-fa5f-71f6-4e454f5a7679/mzaf_4105660761690645875.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-03-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "magicalidenchify321nomaho",
+          "majikaruaidenchifai321nomaho",
+          "まじかるあいでんてぃふぁい321の魔法"
+        ]
+      },
+      "songKey": "まじかるあいでんてぃふぁい321の魔法|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%9E%E3%82%B8%E3%82%AB%E3%83%AB-%E3%82%A2%E3%82%A4%E3%83%87%E3%83%B3%E3%83%86%E3%82%A3%E3%83%95%E3%82%A1%E3%82%A4-3-2-1%E3%81%AE%E9%AD%94%E6%B3%95/1677271174?i=1677271175",
+      "title": "マジカル☆アイデンティファイ ～3・2・1の魔法～",
+      "titleKeys": [
+        "まじかるあいでんてぃふぁい321の魔法"
+      ],
+      "titleLatin": "Majikaru aidentifai~3 2 1 no mahou~"
+    },
+    {
+      "albumId": "apple:al:1677311341",
+      "artistDisplay": "星北 ヒナノ,西条 リリア,東坂 ミオ,南曜 スバル (CV. 土屋 李央,鈴木 杏奈,小倉 唯,日向 未南)",
+      "artistIds": [
+        "apple:ar:1677270936",
+        "apple:ar:367798674"
+      ],
+      "durationMs": 272100,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1677311344",
+      "latinSource": null,
+      "popularity": 0.6591,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/f4/6e/69/f46e6996-62fc-cdb6-2a5c-3d61bc72bcc2/mzaf_8214583883332429227.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-03-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "starlightchallenge"
+        ]
+      },
+      "songKey": "starlightchallenge|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/starlight-challenge/1677311341?i=1677311344",
+      "title": "Starlight challenge",
+      "titleKeys": [
+        "starlightchallenge"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1680632842",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 251067,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1680632843",
+      "latinSource": "cutlet",
+      "popularity": 0.8636,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/3b/55/89/3b558920-942d-7fac-80ab-854ec411ffd4/mzaf_80182756916105850.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "himitsumelody",
+          "秘密melody"
+        ]
+      },
+      "songKey": "秘密melody|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E7%A7%98%E5%AF%86-melody/1680632842?i=1680632843",
+      "title": "秘密♡Melody",
+      "titleKeys": [
+        "秘密melody"
+      ],
+      "titleLatin": "Himitsu Melody"
+    },
+    {
+      "albumId": "apple:al:1680850332",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 216494,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1680850334",
+      "latinSource": null,
+      "popularity": 0.5379,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/db/d7/1c/dbd71c30-d93b-4248-ed51-e1b340212095/mzaf_4100551194453574697.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "caramelribbon"
+        ]
+      },
+      "songKey": "caramelribbon|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/caramel-ribbon/1680850332?i=1680850334",
+      "title": "Caramel Ribbon...",
+      "titleKeys": [
+        "caramelribbon"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1680850332",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 257819,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1680850335",
+      "latinSource": null,
+      "popularity": 0.5227,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b0/14/e2/b014e209-1597-b247-3e2d-cd32a6fc0f7c/mzaf_16586135597064451202.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-04-19",
+      "search": {
+        "artist": [],
+        "title": [
+          "wherever"
+        ]
+      },
+      "songKey": "wherever|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/wherever/1680850332?i=1680850335",
+      "title": "Wherever",
+      "titleKeys": [
+        "wherever"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1714567033",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 204379,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1714567034",
+      "latinSource": null,
+      "popularity": 0.6818,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/dd/47/e0/dd47e048-48b4-084e-dd63-07308c938824/mzaf_1909329125444470834.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-11-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "enpchprincess"
+        ]
+      },
+      "songKey": "emptyprincess|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/empty-princess/1714567033?i=1714567034",
+      "title": "Empty//Princess.",
+      "titleKeys": [
+        "emptyprincess"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1714567033",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 227250,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1714567035",
+      "latinSource": "cutlet",
+      "popularity": 0.553,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5a/c0/bd/5ac0bdad-e464-83e2-3462-0dbfe64acc3e/mzaf_17133282427525620755.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-11-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "tokimekiwekend",
+          "ときめきwekend"
+        ]
+      },
+      "songKey": "ときめきweekend|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%88%E3%82%AD%E3%83%A1%E3%82%ADweekend/1714567033?i=1714567035",
+      "title": "トキメキWeekend!",
+      "titleKeys": [
+        "ときめきweekend"
+      ],
+      "titleLatin": "Tokimeki Weekend!"
+    },
+    {
+      "albumId": "apple:al:1714567033",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 271124,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1714567036",
+      "latinSource": "cutlet",
+      "popularity": 0.5152,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/15/b3/cc/15b3cc98-4d67-5e97-8635-1c05457dea35/mzaf_15263179101127519655.plus.aac.p.m4a"
+      },
+      "releaseDate": "2023-11-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "asteria",
+          "asuteria",
+          "あすてりあ"
+        ]
+      },
+      "songKey": "あすてりあ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%A2%E3%82%B9%E3%83%86%E3%83%AA%E3%82%A2/1714567033?i=1714567036",
+      "title": "アステリア",
+      "titleKeys": [
+        "あすてりあ"
+      ],
+      "titleLatin": "Asuteria"
+    },
+    {
+      "albumId": "apple:al:1738377824",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 252748,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1738377825",
+      "latinSource": "cutlet",
+      "popularity": 0.8106,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/56/bb/b2/56bbb2ca-4e43-a78d-7acb-2361a6611b71/mzaf_7259784718595402518.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-04-10",
+      "search": {
+        "artist": [],
+        "title": [
+          "kimironokiseki",
+          "君色のきせき"
+        ]
+      },
+      "songKey": "君色のきせき|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%90%9B%E8%89%B2%E3%81%AE%E3%82%AD%E3%82%BB%E3%82%AD/1738377824?i=1738377825",
+      "title": "君色のキセキ",
+      "titleKeys": [
+        "君色のきせき"
+      ],
+      "titleLatin": "Kimi iro no kiseki"
+    },
+    {
+      "albumId": "apple:al:1738377824",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 260501,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1738377826",
+      "latinSource": "cutlet",
+      "popularity": 0.4091,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/47/2f/0a/472f0a84-b758-00d7-27a7-eb0b4ca1d1c1/mzaf_7259319900627541675.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-04-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "kokorotelepathy",
+          "kokoroterepashi",
+          "こころてれぱしー"
+        ]
+      },
+      "songKey": "こころてれぱしー|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B3%E3%82%B3%E3%83%AD%E3%83%86%E3%83%AC%E3%83%91%E3%82%B7%E3%83%BC/1738377824?i=1738377826",
+      "title": "ココロテレパシー",
+      "titleKeys": [
+        "こころてれぱしー"
+      ],
+      "titleLatin": "Kokoro terepashii"
+    },
+    {
+      "albumId": "apple:al:1738377824",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 197754,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1738378007",
+      "latinSource": null,
+      "popularity": 0.4621,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/dd/93/be/dd93be18-fdcb-890e-6e2b-9c421b7137ac/mzaf_6912619047267854111.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-04-24",
+      "search": {
+        "artist": [],
+        "title": [
+          "wildkitch"
+        ]
+      },
+      "songKey": "wildkitty|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/wild-kitty/1738377824?i=1738378007",
+      "title": "Wild☆Kitty",
+      "titleKeys": [
+        "wildkitty"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1760483233",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 236322,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1760483234",
+      "latinSource": null,
+      "popularity": 0.2121,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/78/47/f9/7847f9dc-7fd7-c534-c146-53897bb77cdf/mzaf_8354855350357101955.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-08-26",
+      "search": {
+        "artist": [],
+        "title": [
+          "windofblom"
+        ]
+      },
+      "songKey": "windofbloom|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/wind-of-bloom/1760483233?i=1760483234",
+      "title": "Wind of Bloom",
+      "titleKeys": [
+        "windofbloom"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1765443515",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 180333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1765443517",
+      "latinSource": "cutlet",
+      "popularity": 0.2273,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9e/5e/54/9e5e54c3-d5f4-55be-a75e-2a1edfd5aed6/mzaf_17903864681879697371.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "hanauranaisuruno",
+          "花占いするの"
+        ]
+      },
+      "songKey": "花占いするの|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E8%8A%B1%E5%8D%A0%E3%81%84%E3%81%99%E3%82%8B%E3%81%AE/1765443515?i=1765443517",
+      "title": "花占いするの♡",
+      "titleKeys": [
+        "花占いするの"
+      ],
+      "titleLatin": "Hana uranai suru no"
+    },
+    {
+      "albumId": "apple:al:1765443515",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 233840,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1765443518",
+      "latinSource": "cutlet",
+      "popularity": 0.053,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/94/45/63/944563a3-d517-c71f-598b-7ae959107c54/mzaf_15592548627453094573.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "koinobyoshin",
+          "恋の秒針"
+        ]
+      },
+      "songKey": "恋の秒針|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%81%8B%E3%81%AE%E7%A7%92%E9%87%9D/1765443515?i=1765443518",
+      "title": "恋の秒針",
+      "titleKeys": [
+        "恋の秒針"
+      ],
+      "titleLatin": "Koi no byoushin"
+    },
+    {
+      "albumId": "apple:al:1765443515",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 183213,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1765443520",
+      "latinSource": "cutlet",
+      "popularity": 0.0682,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/00/55/15/00551554-637a-087c-e161-3cfa762b48a9/mzaf_8856864909849898602.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "stachice",
+          "sutachisu",
+          "すたーちす"
+        ]
+      },
+      "songKey": "すたーちす|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%81%E3%82%B9/1765443515?i=1765443520",
+      "title": "スターチス",
+      "titleKeys": [
+        "すたーちす"
+      ],
+      "titleLatin": "Sutaachisu"
+    },
+    {
+      "albumId": "apple:al:1765443515",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 237373,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1765443523",
+      "latinSource": null,
+      "popularity": 0.1136,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4f/72/c6/4f72c6a8-74f6-60ed-c531-192d74e20889/mzaf_18279033735439457092.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "lovelyhappilyshinydays"
+        ]
+      },
+      "songKey": "lovelyhappilyshinydays|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/lovely-happily-shiny-days/1765443515?i=1765443523",
+      "title": "Lovely Happily Shiny Days",
+      "titleKeys": [
+        "lovelyhappilyshinydays"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1765443515",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 235067,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1765443524",
+      "latinSource": null,
+      "popularity": 0.0303,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ea/13/19/ea13197f-a385-1771-87cc-04e4f08e72fc/mzaf_5367386773965685023.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "oneonly"
+        ]
+      },
+      "songKey": "oneonly|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/one-only/1765443515?i=1765443524",
+      "title": "One & Only",
+      "titleKeys": [
+        "oneonly"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1765443515",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 260547,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1765443525",
+      "latinSource": "cutlet",
+      "popularity": 0.0758,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3a/fe/9f/3afe9f1c-1db4-29a3-945c-682c8ee6a041/mzaf_13305221312735499275.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "senchimentalmessage",
+          "senchimentarumesseji",
+          "せんちめんたるめっせーじ"
+        ]
+      },
+      "songKey": "せんちめんたるめっせーじ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%BB%E3%83%B3%E3%83%81%E3%83%A1%E3%83%B3%E3%82%BF%E3%83%AB%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8/1765443515?i=1765443525",
+      "title": "センチメンタルメッセージ",
+      "titleKeys": [
+        "せんちめんたるめっせーじ"
+      ],
+      "titleLatin": "Senchimentaru messeeji"
+    },
+    {
+      "albumId": "apple:al:1765443515",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 176877,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1765443528",
+      "latinSource": "cutlet",
+      "popularity": 0.0909,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f9/3b/6d/f93b6d57-3676-75fd-ff5b-3742b1c43744/mzaf_13491077684762003150.plus.aac.p.m4a"
+      },
+      "releaseDate": "2024-09-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "wakuwakushanporinse",
+          "wakuwakushanpurinsu",
+          "わくわくしゃんぷーりんす"
+        ]
+      },
+      "songKey": "わくわくしゃんぷーりんす|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%8F%E3%81%8F%E3%82%8F%E3%81%8F%E3%82%B7%E3%83%A3%E3%83%B3%E3%83%97%E3%83%BC-%E3%83%AA%E3%83%B3%E3%82%B9/1765443515?i=1765443528",
+      "title": "わくわくシャンプー&リンス",
+      "titleKeys": [
+        "わくわくしゃんぷーりんす"
+      ],
+      "titleLatin": "Wakuwaku shanpuu& rinsu"
+    },
+    {
+      "albumId": "apple:al:1804266946",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 193280,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1804266947",
+      "latinSource": null,
+      "popularity": 0.7348,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2f/4b/5a/2f4b5a12-f73e-c16c-792e-8b180cd8621b/mzaf_610432635908716499.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "solucky"
+        ]
+      },
+      "songKey": "solucky|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/so-lucky/1804266946?i=1804266947",
+      "title": "So☆Lucky",
+      "titleKeys": [
+        "solucky"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1804266946",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 206973,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1804266948",
+      "latinSource": "cutlet",
+      "popularity": 0.3182,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/90/64/56/90645657-7a20-32a1-13eb-07ae8353aaa5/mzaf_13843736036748165735.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-04-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "suitopachi",
+          "すうぃとぱーてぃー"
+        ]
+      },
+      "songKey": "すうぃとぱーてぃー|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%99%E3%81%86%E3%81%83-%E3%81%A8-%E3%81%B1%E3%83%BC%E3%81%A6%E3%81%83%E3%83%BC/1804266946?i=1804266948",
+      "title": "すうぃ〜と♡ぱーてぃー",
+      "titleKeys": [
+        "すうぃとぱーてぃー"
+      ],
+      "titleLatin": "Suui to pa- ti-"
+    },
+    {
+      "albumId": "apple:al:1831650830",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 229684,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1831650831",
+      "latinSource": null,
+      "popularity": 0.3864,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/da/03/fa/da03fa38-968e-931d-ee8c-421c5c35f770/mzaf_1642122753879688817.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-08-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "magichappy"
+        ]
+      },
+      "songKey": "magichappy|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/magic-happy/1831650830?i=1831650831",
+      "title": "Magic♡Happy",
+      "titleKeys": [
+        "magichappy"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1837321575",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 194414,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1837321576",
+      "latinSource": "cutlet",
+      "popularity": 0.4318,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/69/31/2c/69312ca8-ccdf-05e9-df52-0002e4c88142/mzaf_8339975433770362885.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-09-17",
+      "search": {
+        "artist": [],
+        "title": [
+          "chiyuchiyuchu",
+          "治癒治癒ちゅっ"
+        ]
+      },
+      "songKey": "治癒治癒ちゅっ|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B2%BB%E7%99%92%E6%B2%BB%E7%99%92%E3%81%A1%E3%82%85%E3%81%A3/1837321575?i=1837321576",
+      "title": "治癒治癒ちゅっ♡",
+      "titleKeys": [
+        "治癒治癒ちゅっ"
+      ],
+      "titleLatin": "Chiyu chiyu chu"
+    },
+    {
+      "albumId": "apple:al:1843028050",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 184036,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1843028052",
+      "latinSource": "cutlet",
+      "popularity": 0.3333,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b0/37/c9/b037c9ee-b281-684f-cec8-ed754afe3711/mzaf_1329151117165330734.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-10-15",
+      "search": {
+        "artist": [],
+        "title": [
+          "kyonkyonloveposhon",
+          "kyonkyonrabuposhon",
+          "きょんきょんらぶぽーしょん"
+        ]
+      },
+      "songKey": "きょんきょんらぶぽーしょん|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8D%E3%82%87%E3%82%93%E3%81%8D%E3%82%87%E3%82%93-%E3%82%89%E3%81%B6%E3%81%BD%E3%83%BC%E3%81%97%E3%82%87%E3%82%93/1843028050?i=1843028052",
+      "title": "きょんきょん♡らぶぽーしょん",
+      "titleKeys": [
+        "きょんきょんらぶぽーしょん"
+      ],
+      "titleLatin": "Kyo n kyo n rabupo- sho n"
+    },
+    {
+      "albumId": "apple:al:1852205553",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 266307,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1852205556",
+      "latinSource": null,
+      "popularity": 0.2727,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/66/3a/12/663a12ff-84c9-e6b3-ba88-4f1ec11a1dae/mzaf_1004593950539615539.plus.aac.p.m4a"
+      },
+      "releaseDate": "2025-11-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "truepath"
+        ]
+      },
+      "songKey": "truepath|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/true-path/1852205553?i=1852205556",
+      "title": "True Path",
+      "titleKeys": [
+        "truepath"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:1872007865",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 240267,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1872007866",
+      "latinSource": "cutlet",
+      "popularity": 0.2803,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/57/ae/f1/57aef114-5652-f604-2771-c4fcf82c2b57/mzaf_16868730873969463298.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-02-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "chocolatememorial",
+          "chokoretomemoriaru",
+          "ちょこれーとめもりある"
+        ]
+      },
+      "songKey": "ちょこれーとめもりある|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%81%E3%83%A7%E3%82%B3%E3%83%AC%E3%83%BC%E3%83%88-%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%A2%E3%83%AB/1872007865?i=1872007866",
+      "title": "チョコレート・メモリアル",
+      "titleKeys": [
+        "ちょこれーとめもりある"
+      ],
+      "titleLatin": "Chokoreeto memoriaru"
+    },
+    {
+      "albumId": "apple:al:1872007865",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 204333,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:1872007867",
+      "latinSource": "cutlet",
+      "popularity": 0.2348,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e2/5a/6b/e25a6be4-772a-1799-4807-e41d10de38fb/mzaf_16477973580180432852.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-02-11",
+      "search": {
+        "artist": [],
+        "title": [
+          "toshishitanotokonoko",
+          "年下の男の子"
+        ]
+      },
+      "songKey": "年下の男の子|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E5%B9%B4%E4%B8%8B%E3%81%AE%E7%94%B7%E3%81%AE%E5%AD%90/1872007865?i=1872007867",
+      "title": "年下の男の子",
+      "titleKeys": [
+        "年下の男の子"
+      ],
+      "titleLatin": "Toshishita no otokonoko"
+    },
+    {
+      "albumId": "apple:al:460889848",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 245053,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:460889871",
+      "latinSource": "cutlet",
+      "popularity": 0.7045,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/Music/v4/eb/81/3d/eb813df1-f5d3-4a9b-1a2a-2ce24bc309cd/mzaf_906692475295648207.plus.aac.p.m4a"
+      },
+      "releaseDate": "2011-09-21",
+      "search": {
+        "artist": [],
+        "title": [
+          "kyukyucurioshich",
+          "きゅっきゅっcurioshich"
+        ]
+      },
+      "songKey": "きゅっきゅっcuriosity|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%AD%E3%83%A5%E3%83%83-%E3%82%AD%E3%83%A5%E3%83%83-curiosity/460889848?i=460889871",
+      "title": "キュッ!キュッ!CURIOSITY!!",
+      "titleKeys": [
+        "きゅっきゅっcuriosity"
+      ],
+      "titleLatin": "Kyu!! kyu!!CURIOSITY!!"
+    },
+    {
+      "albumId": "apple:al:540652914",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 271987,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:540652915",
+      "latinSource": null,
+      "popularity": 0.9773,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/26/98/8a/26988a79-0849-0c49-c5b3-b52fa7670c6e/mzaf_10148541329982180860.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "raise"
+        ]
+      },
+      "songKey": "raise|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/raise/540652914?i=540652915",
+      "title": "Raise",
+      "titleKeys": [
+        "raise"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:540652914",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 242907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:540652917",
+      "latinSource": null,
+      "popularity": 0.7652,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/8f/d3/cc/8fd3cc05-de96-2d0d-464b-31c6fe305298/mzaf_11552682895736432340.plus.aac.p.m4a"
+      },
+      "releaseDate": "2012-07-18",
+      "search": {
+        "artist": [],
+        "title": [
+          "pondefighching"
+        ]
+      },
+      "songKey": "pondefighting|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/pon-de-fighting/540652914?i=540652917",
+      "title": "PON de Fighting!",
+      "titleKeys": [
+        "pondefighting"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:634811183",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 246520,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:634811186",
+      "latinSource": null,
+      "popularity": 1.0,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/73/2d/20/732d20e0-c1dd-7848-d4b8-820f8c488c72/mzaf_7641222015504471455.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-05-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "babyswetberrylove"
+        ]
+      },
+      "songKey": "babysweetberrylove|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/baby-sweet-berry-love/634811183?i=634811186",
+      "title": "Baby Sweet Berry Love",
+      "titleKeys": [
+        "babysweetberrylove"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:634811183",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 220373,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:634811187",
+      "latinSource": "cutlet",
+      "popularity": 0.8561,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/00/d9/db/00d9dbff-92d9-608b-1bb2-204e85ce5311/mzaf_16353594542999568902.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-05-08",
+      "search": {
+        "artist": [],
+        "title": [
+          "onegaibewithyo",
+          "おねがいbewithyo"
+        ]
+      },
+      "songKey": "おねがいbewithyou|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%8A%E3%81%AD%E3%81%8C%E3%81%84be-with-you/634811183?i=634811187",
+      "title": "おねがいBe with you",
+      "titleKeys": [
+        "おねがいbewithyou"
+      ],
+      "titleLatin": "Onegai Be with you"
+    },
+    {
+      "albumId": "apple:al:6781515559",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 198227,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6781515560",
+      "latinSource": null,
+      "popularity": 0.6439,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a6/11/57/a611576f-639d-ca2c-8bc4-e2a2bf1915f9/mzaf_11419014009493188254.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-07-07",
+      "search": {
+        "artist": [],
+        "title": [
+          "qed"
+        ]
+      },
+      "songKey": "qed|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/q-e-d/6781515559?i=6781515560",
+      "title": "Q.E.D.",
+      "titleKeys": [
+        "qed"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:6786976682",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 194920,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:6786977105",
+      "latinSource": "cutlet",
+      "popularity": 0.3106,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/78/9b/02/789b0291-6fbe-7377-a039-50a91d099fea/mzaf_3804577372562663157.plus.aac.p.m4a"
+      },
+      "releaseDate": "2026-07-22",
+      "search": {
+        "artist": [],
+        "title": [
+          "homatsumameido",
+          "homatsumermaid",
+          "泡沫まーめいど"
+        ]
+      },
+      "songKey": "泡沫まーめいど|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E6%B3%A1%E6%B2%AB%E3%83%9E%E3%83%BC%E3%83%A1%E3%82%A4%E3%83%89/6786976682?i=6786977105",
+      "title": "泡沫マーメイド",
+      "titleKeys": [
+        "泡沫まーめいど"
+      ],
+      "titleLatin": "Houmatsu maameido"
+    },
+    {
+      "albumId": "apple:al:718819632",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 263347,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:718819702",
+      "latinSource": null,
+      "popularity": 0.5985,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview71/v4/d9/97/ac/d997ace8-87da-ed33-358e-01dc966b52e6/mzaf_2517491570591505729.plus.aac.p.m4a"
+      },
+      "releaseDate": "2013-10-23",
+      "search": {
+        "artist": [],
+        "title": [
+          "inwonderfulwonder"
+        ]
+      },
+      "songKey": "inwonderfulwonder|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/in-wonderful-wonder/718819632?i=718819702",
+      "title": "in Wonderful Wonder",
+      "titleKeys": [
+        "inwonderfulwonder"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:794218142",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 242907,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:794218145",
+      "latinSource": null,
+      "popularity": 0.9621,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ad/85/86/ad858638-b436-a922-cce4-2c79ada3c989/mzaf_285352037281911873.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-01-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "charmingdo"
+        ]
+      },
+      "songKey": "charmingdo|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/charming-do/794218142?i=794218145",
+      "title": "Charming Do!",
+      "titleKeys": [
+        "charmingdo"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:794218142",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 191213,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:794218146",
+      "latinSource": "cutlet",
+      "popularity": 0.8788,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/36/09/ef/3609ef1c-4217-f6fe-cf88-26967b48cf34/mzaf_16716842760377367189.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-01-29",
+      "search": {
+        "artist": [],
+        "title": [
+          "pandorachocolat",
+          "pandorashokora",
+          "ぱんどらしょこら"
+        ]
+      },
+      "songKey": "ぱんどらしょこら|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%83%91%E3%83%B3%E3%83%89%E3%83%A9-%E3%82%B7%E3%83%A7%E3%82%B3%E3%83%A9/794218142?i=794218146",
+      "title": "パンドラ♡ショコラ",
+      "titleKeys": [
+        "ぱんどらしょこら"
+      ],
+      "titleLatin": "Pandora shokora"
+    },
+    {
+      "albumId": "apple:al:898992914",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 225187,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:898992915",
+      "latinSource": null,
+      "popularity": 0.9545,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/04/f9/32/04f932dd-19d4-ada4-f56c-280686e880db/mzaf_9131182840500667054.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-08-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "chinklingsmile"
+        ]
+      },
+      "songKey": "tinklingsmile|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/tinkling-smile/898992914?i=898992915",
+      "title": "Tinkling Smile",
+      "titleKeys": [
+        "tinklingsmile"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:898992914",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 253587,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:898992916",
+      "latinSource": null,
+      "popularity": 0.8182,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a8/55/29/a855290c-96fd-7fa5-5961-afa03b9e1409/mzaf_17209225743098121602.plus.aac.p.m4a"
+      },
+      "releaseDate": "2014-08-13",
+      "search": {
+        "artist": [],
+        "title": [
+          "thx"
+        ]
+      },
+      "songKey": "thx|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/thx/898992914?i=898992916",
+      "title": "thx!!",
+      "titleKeys": [
+        "thx"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:974423857",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 246320,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:974423858",
+      "latinSource": null,
+      "popularity": 0.6061,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/13/7e/28/137e2861-ad6f-85d7-7f88-5eb9345afe46/mzaf_11748673290904769918.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-03-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "funfunmerryjam"
+        ]
+      },
+      "songKey": "funfunmerryjam|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/fun-fun-merry-jam/974423857?i=974423858",
+      "title": "FUN FUN MERRY JAM",
+      "titleKeys": [
+        "funfunmerryjam"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:974423857",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 203253,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:974423860",
+      "latinSource": "cutlet",
+      "popularity": 0.5,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/b7/be/b2/b7beb210-a0f5-2a00-8817-2dc546f13592/mzaf_17167403366597090753.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-03-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "itsudattecallme",
+          "いつだってcallme"
+        ]
+      },
+      "songKey": "いつだってcallme|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%81%84%E3%81%A4%E3%81%A0%E3%81%A3%E3%81%A6call-me/974423857?i=974423860",
+      "title": "いつだってCall Me!",
+      "titleKeys": [
+        "いつだってcallme"
+      ],
+      "titleLatin": "Itsu da tte Call Me!"
+    },
+    {
+      "albumId": "apple:al:974423857",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 250920,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:974423861",
+      "latinSource": null,
+      "popularity": 0.4924,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/dd/2b/d7/dd2bd734-b449-fd57-b482-0f9c92a45848/mzaf_14451245096001355072.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-03-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "alovelyteabreak"
+        ]
+      },
+      "songKey": "alovelyteabreak|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/a-lovely-tea-break/974423857?i=974423861",
+      "title": "A Lovely Tea Break",
+      "titleKeys": [
+        "alovelyteabreak"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:974423857",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 211894,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:974423865",
+      "latinSource": null,
+      "popularity": 0.5758,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/e7/0a/0a/e70a0a1c-ad35-cc68-1fd1-9040443341e8/mzaf_14189931653168490100.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-03-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "getover"
+        ]
+      },
+      "songKey": "getover|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/get-over/974423857?i=974423865",
+      "title": "Get over",
+      "titleKeys": [
+        "getover"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:974423857",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 291973,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:974423867",
+      "latinSource": "cutlet",
+      "popularity": 0.4242,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/86/3a/2e/863a2e4f-dcd6-516e-a12c-c437b0c8c482/mzaf_13963117796153664688.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-03-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "shugahatoeiku",
+          "しゅがーはーとえいく"
+        ]
+      },
+      "songKey": "しゅがーはーとえいく|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/%E3%82%B7%E3%83%A5%E3%82%AC%E3%83%BC%E3%83%8F%E3%83%BC%E3%83%88%E3%82%A8%E3%82%A4%E3%82%AF/974423857?i=974423867",
+      "title": "シュガーハートエイク",
+      "titleKeys": [
+        "しゅがーはーとえいく"
+      ],
+      "titleLatin": "Shugaahaatoeiku"
+    },
+    {
+      "albumId": "apple:al:974423857",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 228133,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:974423882",
+      "latinSource": null,
+      "popularity": 0.9091,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/89/59/63/895963d6-db87-e539-034c-71137a9c60de/mzaf_13642462987852614321.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-03-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "happystrawberry"
+        ]
+      },
+      "songKey": "happystrawberry|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/happy-strawberry/974423857?i=974423882",
+      "title": "Happy Strawberry",
+      "titleKeys": [
+        "happystrawberry"
+      ],
+      "titleLatin": null
+    },
+    {
+      "albumId": "apple:al:974423857",
+      "artistDisplay": "小倉 唯",
+      "artistIds": [
+        "apple:ar:367798674"
+      ],
+      "durationMs": 313533,
+      "eligible": {
+        "daily": true,
+        "reason": null
+      },
+      "explicit": false,
+      "id": "apple:tr:974424965",
+      "latinSource": null,
+      "popularity": 0.5076,
+      "preview": {
+        "durationSec": 30,
+        "startSec": 0,
+        "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/0c/6e/11/0c6e113a-ae8d-169e-1351-87a7ac562bea/mzaf_6447950691137715737.plus.aac.p.m4a"
+      },
+      "releaseDate": "2015-03-25",
+      "search": {
+        "artist": [],
+        "title": [
+          "shingalingaharmony"
+        ]
+      },
+      "songKey": "singalingaharmony|apple:ar:367798674",
+      "storeUrl": "https://music.apple.com/jp/album/sing-a-ling-a-harmony/974423857?i=974424965",
+      "title": "Sing-a-ling-a-Harmony",
+      "titleKeys": [
+        "singalingaharmony"
+      ],
+      "titleLatin": null
+    }
+  ]
+}
