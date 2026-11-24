@@ -930,3 +930,23 @@ exclude_tracks = [
   "1825040760",  # Ready Go! (Re-Recording)
   "1825040887",  # Phonic Nation (Re-Recording)
 ]
+
+[[artists]]
+id = "270043493"  # 田村ゆかり (Yukari Tamura, com a Yui Ogura)
+section = "quiz"
+# A versão de outra música (o quiz é de voz: a mesma música não pode valer duas).
+exclude_tracks = [
+  "1322883420",  # 恋歌姫 ~蜜月夜バージョン~
+]
+
+[[artists]]
+id = "367798674"  # 小倉 唯 (Yui Ogura, com a Yukari Tamura)
+section = "quiz"
+# O instrumental e as versões de outras músicas (o quiz é de voz).
+exclude_tracks = [
+  "1245581913",  # ハツコイメイズ*Sugar time ver.
+  "1449959340",  # キミとともだち(One For All, All For One ver.)
+  "1515419827",  # 瞳の国のアリス - Dance Music Edition-
+  "1613936569",  # イワナイ inst.
+  "1717581742",  # トキメキ・まぁ~メイド -Theater ver.-
+]

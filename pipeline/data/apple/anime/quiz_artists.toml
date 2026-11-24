@@ -1,8 +1,12 @@
 # Os grupos do especial dos artistas parecidos do quiz do dia (M18; o usuário, 22/11/2026). Cada
 # grupo: o id (minúsculas, números e hífen) e os ids da Apple dos artistas, que precisam estar no
 # modo por artista (artists/artists.toml; os só do quiz, com section = "quiz"). Um grupo novo
-# estreia no especial seguinte (a prioridade da estreia). Yukari Tamura e Yui Ogura entram depois.
+# estreia no especial seguinte (a prioridade da estreia).
 
 [[groups]]
 id = "mizuki-mayn"
 artists = ["308629932", "301384362"]  # Nana Mizuki e May'n
+
+[[groups]]
+id = "tamura-ogura"
+artists = ["270043493", "367798674"]  # Yukari Tamura e Yui Ogura
